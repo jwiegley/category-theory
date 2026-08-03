@@ -1,0 +1,391 @@
+[
+  {
+    "id": "riehl:1.5:cor14",
+    "classification": "ABSENT",
+    "aliases": [
+      "basepoint independence of the fundamental group",
+      "pi_1(X,x) iso pi_1(X,x')",
+      "any two automorphism groups of a connected groupoid are isomorphic",
+      "Aut(x) ≅ Aut(y) in a connected groupoid",
+      "fundamental groupoid Pi_1 X / BG delooping of a group",
+      "an equivalence between one-object categories is an isomorphism of groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'fundamental group' -g '*.v' . — 1 hit, Construction/Groupoid.v:58, prose in the background essay ('the fundamental groupoid π₁(X, A) on a set A of base points'), no definition",
+      "rg -i 'pi_1|π₁' -g '*.v' . — only the same Construction/Groupoid.v comment; no π₁ definition",
+      "rg -i 'basepoint|base point' -g '*.v' . — 10 hits, all comments (Instance/Coq/Par.v pointed-set prose, Structure/Premonoidal/Freyd.v, Construction/Groupoid.v)",
+      "rg -i 'path.connected|topological space|homotopy' -g '*.v' . — no category of spaces in-tree; 'homotopy' occurs only in Structure/Factorization.v prose about model categories",
+      "rg -i 'connected' -g '*.v' . — no Connected predicate on categories; hits are 'connected by an isomorphism' prose and Instance/FinSet/Pushout.v connected-components of a finite graph",
+      "rg -i 'automorphism|\\bAut\\b' -g '*.v' . — 10 hits, all prose (Structure/Monoidal/Balanced.v's twist is a natural automorphism of Id, Construction/Indexed.v's central-automorphism countermodel); no Aut(x) group construction",
+      "rg -i 'one-object|delooping|BG\\b' -g '*.v' . — Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY to a one-object bicategory (Monoidal_OneObject_Bicategory); there is no group-to-one-object-category functor B(−), and Structure/Group.v only defines GroupObject internal to a CartesianMonoidal C",
+      "rg -n 'Groupoid' -g '*.v' . — Construction/Groupoid.v defines only the CORE `Groupoid (C : Category) : Category` (objects of C, isomorphisms as morphisms); there is no Groupoid predicate and no connected-groupoid notion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. My own searches before opening the coverage file: `rg -in 'fundamental group|pi_1|homotopy|topolog|path-connected' -g '*.v'` -> the ONLY 'fundamental group' hit in the tree is Construction/Groupoid.v:58, a prose line in the background essay; no category of spaces, no Pi_1, no pi_1. `rg -in 'delooping|one-object|BG\\b' -g '*.v'` -> Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY to a one-object BICATEGORY; there is no B(-) : Group -> Cat and Structure/Group.v:109 has only `GroupObject` internal to a cartesian monoidal C. `rg -n 'Groupoid'` -> Construction/Groupoid.v:103 `Groupoid (C : Category) : Category` is the CORE construction only; no Groupoid predicate, no connectedness predicate (`rg -i 'connected'` hits are Instance/FinSet/Pushout.v components and prose). ABSENT is right and is NOT OUT_OF_SCOPE: the categorical kernel (a connected groupoid is equivalent to any of its automorphism groups; an equivalence between one-object categories is an isomorphism) is perfectly formalizable here -- the library simply has no topology and no delooping. Negative log spot-checked: `rg -i 'orbit'` = 0 hits, `rg -in 'fundamental group'` = 1 hit at the cited Construction/Groupoid.v:58, both accurate."
+    }
+  },
+  {
+    "id": "riehl:1.5:remark15",
+    "classification": "ABSENT",
+    "aliases": [
+      "one leg of an equivalence is canonical, the quasi-inverse needs choice",
+      "the inverse equivalences are not natural",
+      "naturality of the inclusion iota : pi_1 => Pi_1",
+      "axiom of choice in the construction of a quasi-inverse",
+      "anafunctor / non-canonical inverse equivalence",
+      "parallel functors Top_*^pc ⟶ Cat"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'axiom of choice' -g '*.v' . — hits are prose only: Theory/Equivalence.v:102-117 ('That every fully faithful, essentially surjective functor is an equivalence is logically equivalent to the axiom of choice … Makkai repaired this with anafunctors'), Theory/Equivalence/FullFaithful.v:59-61. No assertion.",
+      "rg -n 'EssentiallySurjective' -g '*.v' . — Theory/Equivalence.v:141 defines the split, choice-carrying class {eso_obj; eso_iso}; Theory/Equivalence/FullFaithful.v:67 builds ff_eso_inverse FROM those choices. The choice-dependence is thus structurally visible but nothing ASSERTS that the inverse fails to be natural or that one leg is canonical while the other is not.",
+      "rg -i 'not natural|non-natural|unnatural' -g '*.v' . — Construction/Funny/*.v's 'unnatural transformation hom ⟦-,-⟧' is about the funny tensor, unrelated; no statement about non-naturality of quasi-inverses",
+      "rg -i 'canonical' -g '*.v' . — 'canonical invertible globular square' (DoubleCategory/Companion.v), 'canonical monic' (SAFT); nothing about canonicity of one leg of an equivalence",
+      "rg -i 'fundamental group|pi_1|Top' -g '*.v' . — the remark's carrier example (π₁ and Π₁ as parallel functors on based path-connected spaces) has no in-tree counterpart; there is no category of topological spaces"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass; I reached ABSENT before reading the record. The remark's carrier (pi_1 and Pi_1 as parallel functors on based path-connected spaces) has no in-tree subject. The record's most valuable observation is verified: the choice-dependence of a quasi-inverse IS structurally visible in-tree -- Theory/Equivalence.v:141 `Class EssentiallySurjective` is the split, data-carrying {eso_obj; eso_iso} form and Theory/Equivalence/FullFaithful.v:67 `ff_eso_inverse` builds the inverse FROM those choices -- and Theory/Equivalence.v:102-117 discusses the AC-equivalence and Makkai's anafunctors in prose. But nothing ASSERTS the asymmetry (one leg canonical, the inverse not natural), so ABSENT stands rather than PARTIAL: prose in a header is not a formalized statement under the frozen definitions."
+    }
+  },
+  {
+    "id": "riehl:1.5:def16",
+    "classification": "ABSENT",
+    "aliases": [
+      "skeletal category",
+      "Skeletal predicate / one object per isomorphism class",
+      "skeleton skC of a category",
+      "sk : Cat -> Cat",
+      "isomorphic objects are equal",
+      "skeletal thin category (poset)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'Skeletal' -g '*.v' . — 35 hits; every one outside Test/ is a COMMENT (Instance/FinSet.v:20,53,90,98 'the skeleton of the category of finite sets'; Instance/Poset.v:19-21,72 'nLab characterizes a poset as exactly a skeletal thin category'; Instance/Two.v:86-88; Theory/Equivalence.v:92-100; Theory/Lawvere/PROP.v:59,101,147; Structure/Discrete.v:19). No Class/Definition named Skeletal exists.",
+      "rg -i 'skeleton of|skC|sk C|isomorphism class' -g '*.v' . — 5 hits, all prose; Instance/Cat.v:33 'natural-isomorphism classes of functors' is about Cat's hom-setoid, not a skeleton",
+      "rg -n 'Skeleton|skeleton' -g '*.v' . — no construction takes a category to a skeletal one; Construction/Quotient.v quotients only HOM-SETS by a Prop-valued hom-congruence (id_cast/hom_cast kit + identity-on-objects projection), never objects, so it cannot express skC",
+      "Nearest in-tree assertions, deliberately NOT cited as evidence because neither defines skeletality: (a) Test/Poset.v:102 `poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~> y) -> (y ~> x) -> x = y` and Test/Poset.v:150 `poset_two_skeletal` — per-instance regression lemmas for two toy thin categories, stated as antisymmetry rather than as a property of iso classes; (b) Structure/Discrete.v:28 `Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id`, which its own header calls 'the discrete *and* skeletal characterization' but which defines DISCRETENESS, not skeletality.",
+      "rg -n 'FinSet' -g '*.v' . — Instance/FinSet.v is named 'the skeletal category of finite sets' but is simply a category of natural numbers and functions on Fin; there is no in-tree category of actual finite sets and no theorem asserting FinSet is a skeleton of one"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. `rg -il 'skelet' -g '*.v'` returns 29 files; I opened every non-Test hit and every one is a COMMENT (Theory/Equivalence.v:92-100, Instance/FinSet.v:15/20/48/53/90/98, Instance/Poset.v:19-21/72, Instance/Two.v:86-88, Theory/Lawvere/PROP.v:59/101/147, Structure/Discrete.v:19). There is no `Skeletal` class/definition and no skeleton construction anywhere. I independently checked the two near-misses the record already disclosed and agree with its refusal to cite them: Test/Poset.v:102 `poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~> y) -> (y ~> x) -> x = y` and Test/Poset.v:150 `poset_two_skeletal` are per-instance ANTISYMMETRY lemmas for two toy thin categories (each proved by `exact (..._antisym ...)`), not a predicate on categories; Structure/Discrete.v:28 `Discrete` defines discreteness, which its own header at line 19 calls 'the discrete *and* skeletal characterization' -- an entangled statement, not a definition of skeletality. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.5:remark17",
+    "classification": "ABSENT",
+    "aliases": [
+      "skeleton as a full subcategory on chosen representatives",
+      "the inclusion skC -> C is an equivalence",
+      "sk is not functorial / only a pseudofunctor",
+      "an equivalence between skeletal categories is an isomorphism of categories",
+      "C ≃ D iff sk C ≅ sk D"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'Skeletal|skeleton' -g '*.v' . — as recorded for riehl:1.5:def16, prose only; with no skC in-tree none of this remark's four clauses can be stated",
+      "rg -n 'Subcategory' -g '*.v' . — Construction/Subcategory.v supplies full subcategories and Theory/Equivalence/FullFaithful.v:160 `FF_ESO_Equivalence` supplies the 'full + faithful + eso ⇒ equivalence' step the remark invokes, but there is no chosen-representatives subcategory of a given C to apply them to",
+      "rg -i 'pseudofunctor' -g '*.v' . — Theory/Bicategory/Pseudofunctor.v and Construction/Indexed.v exist, but nothing states that sk(−) is a pseudofunctor or that it fails to be a strict functor CAT ⟶ CAT",
+      "rg -n 'IsomorphismOfCategories|isomorphism of categories|strict.*iso.*categor' -g '*.v' . — Cat's hom-setoid IS natural isomorphism (Instance/Cat.v:33), so an ISO in Cat already means an equivalence (Theory/Equivalence.v:163 Equivalence_to_Cat_Iso); the remark's 'equivalence between skeletal categories is an ISOMORPHISM (on the nose)' has no in-tree vocabulary to be stated in, and Instance/StrictCat/*.v (strict equality of functors) carries no skeletality statement",
+      "rg -i 'equivalent if and only if|iff their skeletons' -g '*.v' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. With no skC in-tree (see def16) none of the four clauses has a subject. I verified the record's supporting pointers: Theory/Equivalence/FullFaithful.v:160 `FF_ESO_Equivalence` exists (the full+faithful+eso => equivalence step the remark invokes) and Construction/Subcategory.v supplies full subcategories, but there is no chosen-representatives subcategory to apply them to. `rg -i 'pseudofunctor'` -> Theory/Bicategory/Pseudofunctor.v and Construction/Indexed.v exist but say nothing about sk(-). `rg -i 'equivalent if and only if|iff their skeletons'` -> 0 hits (re-run, confirmed). The record's point that Cat's hom-setoid IS natural isomorphism (Instance/Cat.v:33), so an iso in Cat already means an equivalence and the remark's on-the-nose 'isomorphism of categories' has no in-tree vocabulary, is correct and is a real obstruction to stating clause 3."
+    }
+  },
+  {
+    "id": "riehl:1.5:example18",
+    "classification": "ABSENT",
+    "aliases": [
+      "skeleton of a connected groupoid is its automorphism group",
+      "skeleton of a preorder is a poset / posetal reflection",
+      "skeleton of finite-dimensional vector spaces is the category of matrices Mat_k",
+      "Vect_k^fd ≃ Mat_k",
+      "skeleton of the groupoid of finite sets and bijections is ⊔_n S_n"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "clause (i): rg -i 'connected|automorphism|groupoid' -g '*.v' . — no Connected predicate, no Aut(x) group, no Groupoid predicate (Construction/Groupoid.v defines only the core of a category); nothing to state",
+      "clause (ii): rg -n 'Proset|Poset' -g '*.v' . — Instance/Proset.v:33 `Proset {A R} (P : PreOrder R) : Category` and Instance/Poset.v:116 `Poset {C} (R) (PreOrder) (Antisymmetric) : Category` both BUILD a category from a given order; there is no posetal-reflection construction taking a preorder to its poset quotient and no theorem relating the two",
+      "clause (iii): rg -i 'Vect|vector space|matrix|matrices|Mat_k' -g '*.v' . — no category of vector spaces and no category of matrices exist in-tree; all 'matrix' hits are prose (Structure/Abelian.v:120 biproduct matrix calculus, Theory/Profunctor.v:64 'a matrix of sets')",
+      "clause (iv): rg -i 'symmetric group|S_n|Fin_iso|bijection' -g '*.v' . — no groupoid of finite sets and bijections; Structure/Monoidal/Braided.v:64 mentions S_n only in prose about braid groups; Theory/Multicategory.v's symmetric action is indexed by a Type-valued `tperm` witness, not by a symmetric group object",
+      "rg -i 'Skeletal|skeleton' -g '*.v' . — no skeleton construction at all, so no clause of this example has a subject"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass on all four clauses. (i) no Connected predicate, no Aut(x), no Groupoid predicate. (ii) I verified Instance/Proset.v:33 `Proset {A R} (P : PreOrder R) : Category` and Instance/Poset.v:116 `Definition Poset {C} `{R} `(P : PreOrder C R) `{Antisymmetric ...} : Category := Proset P` both BUILD a category from a given order; neither is a posetal reflection and no theorem relates them, so 'the skeleton of a preorder is a poset' is unstated. (iii) `rg -i 'vect|matrix|matrices'` -> no category of vector spaces and no category of matrices; all hits are prose (the Vect^fd ~ Mat example is even named in Theory/Equivalence.v:87-89 as motivation, but only as prose). (iv) no groupoid of finite sets and bijections; Theory/Multicategory's symmetric action is indexed by the Type-valued `tperm` witness, not S_n. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.5:example19",
+    "classification": "ABSENT",
+    "aliases": [
+      "action groupoid X//G / translation groupoid",
+      "orbit-stabilizer theorem |G| = |O_x| · |G_x|",
+      "G-set as a functor BG -> Set",
+      "orbits as connected components, stabilizers as automorphism groups",
+      "categorification of orbit-stabilizer"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'orbit' -g '*.v' . — 0 hits",
+      "rg -i 'stabilizer' -g '*.v' . — 1 hit, Instance/ZX.v:137, a bibliography line ('stabilizer quantum mechanics'), unrelated",
+      "rg -i 'action groupoid|translation groupoid|//G' -g '*.v' . — 0 hits",
+      "rg -i 'group action|G-set|MonoidAction' -g '*.v' . — 0 relevant hits; Structure/Group.v defines only `GroupObject` internal to a CartesianMonoidal category (mappend/mempty/inverse with the two inverse laws), with no action on an object and no delooping BG",
+      "rg -i 'connected component|pi_0|π₀' -g '*.v' . — only Instance/FinSet/Pushout.v's connected-components computation on a finite coequalizer, not a categorical π₀",
+      "rg -i 'Skeletal|skeleton' -g '*.v' . — no skeleton construction, which this example's entire argument runs through"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. I re-ran the decisive greps: `rg -i 'orbit' -g '*.v' .` = 0 hits (exact count verified); `rg -i 'stabilizer'` = 1 hit, Instance/ZX.v:137, a bibliography line about stabilizer quantum mechanics; `rg -i 'action groupoid|translation groupoid'` = 0 hits. Caution for future passes: a naive `rg -i 'G-set'` appears to hit Structure/Closed.v:52 and Theory/Lawvere/Sets.v, but those are substring matches inside 'underlyin(g-set) functor' -- there is genuinely no G-set construction. Structure/Group.v defines only `GroupObject` internal to a cartesian monoidal category, with no action. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.5:remark-equivalence-invariance",
+    "classification": "PARTIAL",
+    "aliases": [
+      "equivalence-invariance of categorical properties",
+      "principle of equivalence / 'evil' definitions",
+      "an equivalence reflects isomorphisms (conservativity)",
+      "equivalence-invariance of local smallness / of being a groupoid",
+      "C ≃ D implies C^op ≃ D^op",
+      "product of equivalences is an equivalence"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 456,
+        "symbol": "equivalence_reflects_isos",
+        "intree_statement": "Section EquivalenceLimit. Context {C D : Category}. Context {F : C ⟶ D}. Context (E : @EquivalenceOfCategories C D F). … Definition equivalence_reflects_isos : ReflectsIsos F := ff_reflects_isos (HF := Equivalence_Full E) (HfF := Equivalence_Faithful E).  [with Class ReflectsIsos {C D} (F : C ⟶ D) := { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }, Structure/Limit/Preservation.v:243]"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* to := fmap[F] (to X); from := fmap (from X) *)"
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 524,
+        "symbol": "EquivalenceOfCategories_op",
+        "intree_statement": "Definition EquivalenceOfCategories_op {C D : Category} {F : C ⟶ D} (E : @EquivalenceOfCategories C D F) : @EquivalenceOfCategories (C^op) (D^op) (F^op) := @Build_EquivalenceOfCategories (C^op) (D^op) (F^op) ((@quasi_inverse C D F E)^op) (equivalence_counit_op E) (equivalence_unit_op E)."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+      }
+    ],
+    "statement_record": {
+      "book": "Guiding principle (unnumbered): categorically-defined notions are invariant under equivalence. Bulleted claims: (1) an arrow of C is an isomorphism iff its image under an equivalence C ⟶ D is; (2) objects of C are isomorphic iff their images under an equivalence are; (3) a category equivalent to a locally small category is locally small; (4) a category equivalent to a groupoid is a groupoid; (5) C ≃ D implies C^op ≃ D^op; (6) a product of categories is equivalent to the product of any pair of equivalent categories. A definition failing equivalence-invariance is 'evil'; isomorphism-of-objects-as-equality and discreteness are the examples given.",
+      "intree": "Claim (1): both directions are proven — `fobj_iso : Proper (Isomorphism ==> Isomorphism) (fobj[F])` for any functor gives preservation, and `equivalence_reflects_isos : ReflectsIsos F` (via `ff_reflects_isos`, since every equivalence is Full and Faithful by `Equivalence_Full`/`Equivalence_Faithful`) gives reflection. Claim (2): `fobj_iso` forward, `FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y` backward. Claim (5): `EquivalenceOfCategories_op`. Claims (3), (4), (6) are unstated. The general principle itself is stated only in prose (Theory/Equivalence.v:88-100, 'Equivalence is instead exactly the sameness categorical language respects … the properties it does not preserve are the ones the principle of equivalence brands \"evil\"'); Structure/Discrete.v:19-22 likewise records in prose that its own `Discrete` predicate (object EQUALITY, not iso) 'violates the principle of equivalence'.",
+      "strength_comparison": "same for claims (1), (2) and (5); intree-weaker overall: claims (3), (4) and (6) have no in-tree counterpart, and the 'evil'/equivalence-invariance principle is documented but never asserted. Note also that claim (1)'s reflection direction is derived from Full+Faithful, where the in-tree `Full` is the split, choice-carrying form (a chosen section `prefmap` with `fmap_sur`) rather than bare surjectivity of the hom-map — constructively a stronger hypothesis than the book's, classically the same."
+    },
+    "gap": "Three of the six bulleted claims are absent. (a) 'equivalent to a locally small category ⇒ locally small': the library has NO smallness or local-smallness predicate on categories (`rg -i 'locally small' -g '*.v'` returns 4 comment-only hits, in Functor/Hom.v, Functor/Representable.v, Structure/Complete.v, Construction/Enriched.v); universe polymorphism makes every in-tree category locally small by construction, so the claim would first need a size predicate to be stated. (b) 'equivalent to a groupoid ⇒ groupoid': there is no Groupoid PREDICATE — Construction/Groupoid.v defines only the core construction `Groupoid (C : Category) : Category` — so the claim cannot be stated. (c) 'product of a pair of categories is equivalent to the product of any pair of equivalent categories': `Functor/Construction/Product.v:34 ProductFunctor` builds F ∏⟶ G : C ∏ J ⟶ D ∏ K and `Instance/Cat/Cartesian.v:39 Cat_Cartesian` makes Cat cartesian, but no lemma says a product of two equivalences is an equivalence (grep over every file mentioning `EquivalenceOfCategories` finds no product construction). Additionally, the equivalence-invariance PRINCIPLE is never stated as a meta-theorem — only its instances (`Transported_Monoidal` in Theory/Equivalence/Monoidal.v:928, `Transported_Adjunction` in Theory/Equivalence/Adjunction.v:105, `equivalence_preserves_limits`/`equivalence_creates_limits`).",
+    "negative_search_log": [
+      "rg -i 'locally small|LocallySmall|essentially small' -g '*.v' . — 4 hits, all comments; no predicate",
+      "rg -n 'Groupoid' -g '*.v' . — only Construction/Groupoid.v's core construction; no `Class Groupoid` / `IsGroupoid` predicate",
+      "rg -n 'EquivalenceOfCategories' -g '*.v' -l . — 18 files; none constructs an equivalence of product categories from a pair of equivalences",
+      "rg -i \"\\bevil\\b|principle of equivalence\" -g '*.v' . — Theory/Equivalence.v:92,96 and Structure/Discrete.v:20, prose only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, and the classifier beat my blind pass on one point. My own pre-read search found claims (1) and (2) (fobj_iso / FullyFaithful / ff_reflects_isos + Equivalence_Full/Faithful) but MISSED claim (5): my `rg -i 'Equivalence.*op|op.*Equivalence'` was truncated at head -20 and I concluded no op-transport existed. The record is right. I have now opened and verified all four evidence sites at the cited lines: Theory/Equivalence/Limit.v:456 `Definition equivalence_reflects_isos : ReflectsIsos F := ff_reflects_isos (HF := Equivalence_Full E) (HfF := Equivalence_Faithful E)`; Theory/Functor.v:227 `Program Instance fobj_iso ... : Proper (Isomorphism ==> Isomorphism) (fobj[F])` with to := fmap (to X); Theory/Functor.v:355 `Lemma FullyFaithful ... : forall x y, F x ~= F y -> x ~= y`; Theory/Equivalence/Limit.v:524 `EquivalenceOfCategories_op ... : @EquivalenceOfCategories (C^op) (D^op) (F^op)` built from equivalence_counit_op (:502) and equivalence_unit_op (:513) via Isomorphism_Opposite -- quotes are verbatim-accurate, all files are registered in _CoqProject (Theory/Equivalence/Limit.v at _CoqProject:441, Theory/Functor.v at :443). The three absent claims are independently confirmed absent: `rg -i 'locally small|LocallySmall'` = comment-only in Functor/Hom.v, Functor/Representable.v, Structure/Complete.v, Construction/Enriched.v (no size predicate exists -- universe polymorphism carries size in the levels {o h p}, never in a class); no Groupoid PREDICATE (only the core construction); and I re-verified Functor/Construction/Product.v:34 `ProductFunctor` and Instance/Cat/Cartesian.v:39 `Cat_Cartesian` exist but no lemma turns a pair of equivalences into an equivalence of products. The strength_comparison is honest, including its unprompted flag that the in-tree `Full` is the split choice-carrying form (chosen `prefmap` section + `fmap_sur`) rather than bare hom-surjectivity."
+    }
+  },
+  {
+    "id": "riehl:1.5:def-essentially-small",
+    "classification": "ABSENT",
+    "aliases": [
+      "essentially small category",
+      "equivalent to a small category",
+      "skeleton is small",
+      "essentially discrete category",
+      "equivalent to a discrete category",
+      "EssentiallySmall / EssentiallyDiscrete class"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'essentially small|EssentiallySmall|essentially discrete|EssentiallyDiscrete' -g '*.v' . — 0 hits",
+      "rg -i '\\bsmall\\b' -g '*.v' . — ~30 hits, all comments or the SAFT/GAFT use of 'a small Type of indices' for solution sets and subobject indexings (Adjunction/GAFT.v:154 `SolutionSet`, Adjunction/SAFT.v:94,113); no smallness predicate ON A CATEGORY exists — `Category` is universe-polymorphic in {o h p} and size is carried by the universe levels, never by a class",
+      "rg -i 'Skeletal|skeleton' -g '*.v' . — prose only (see riehl:1.5:def16), so the 'equivalently, its skeleton is small' reformulation also has no subject",
+      "rg -n 'Discrete' -g '*.v' . — Structure/Discrete.v:28 `Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` and Instance/Discrete.v:65 `DiscreteCat_Discrete` prove a concrete category discrete, but 'essentially discrete' (equivalent to a discrete category) is never defined; Structure/Discrete.v's own header notes that its predicate uses object EQUALITY and so 'violates the principle of equivalence', i.e. it is precisely the un-repaired notion Riehl calls evil",
+      "rg -n 'EquivalenceOfCategories' -g '*.v' . — no definition of the form `∃ D, Small D * EquivalenceOfCategories …`"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. `rg -in 'essentially small|essentially_small|essentially discrete|EssentiallyDiscrete'` = 0 hits (re-run by me directly, confirmed). There is no smallness predicate on categories at all -- `Category` is universe-polymorphic in {o h p} and size is carried by universe levels, so 'equivalent to a small category' cannot even be stated without first adding one; note this makes the item ABSENT, not OUT_OF_SCOPE, since a size predicate is constructible here. I verified Structure/Discrete.v:28 `Definition Discrete (C : Category) := forall x y (f : x ~> y), exists H : x = y, f ~= rew H in id` and Instance/Discrete.v:65 `DiscreteCat_Discrete`, so DISCRETE exists but ESSENTIALLY DISCRETE does not. The record's observation is sharp and I confirm it from the source: Structure/Discrete.v:19-22 says its own predicate uses object EQUALITY and thereby 'violates the principle of equivalence' -- i.e. the library carries exactly the un-repaired notion Riehl calls evil, and not the repair this item defines."
+    }
+  },
+  {
+    "id": "riehl:1.5:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "natural transformations as functors C × 2 → D",
+      "cylinder / homotopy presentation of a natural transformation",
+      "restriction along i_0, i_1 : C ⟶ C × 2",
+      "walking arrow 2 as an interval object",
+      "Nat(F,G) ≅ {H : C ∏ _2 ⟶ D | H ∘ i_0 = F, H ∘ i_1 = G}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n '_2' -g '*.v' . — the walking arrow `_2 : Category` exists (Instance/Two.v:134, objects TwoX/TwoY with the single non-identity TwoXY) but is used only in Construction/Funny/Comparison.v (a non-faithfulness witness for the funny tensor) and Instance/Two/Monoidal.v (cartesian structure); no functor category or product category over it is ever formed",
+      "rg -i 'walking arrow|interval category|cylinder' -g '*.v' . — Instance/Two.v:7,18 and Construction/Arrow.v:28,106 are comments; Instance/Two.v:18 says in prose 'a functor 2 ⟶ C is exactly a choice of one morphism of C, and the functor category [2, C] is the arrow category of C', but Construction/Arrow.v:110 defines `Arrow {C} : Category := (Id[C] ↓ Id[C])` as a comma category and NO comparison theorem `Arrow C ≅ [_2, C]` is proven",
+      "rg -n 'i_0|i_1|inclusion.*Two|Pick_Two' -g '*.v' . — Instance/Two/Discrete.v:111 `Pick_Two {C} (a b : C)` is a functor out of the DISCRETE two-object category (picking two objects, no arrow), not the walking arrow, and there are no inclusions C ⟶ C ∏ _2",
+      "The nearest general fact, deliberately not cited as evidence because it mentions neither _2 nor the restriction condition: Instance/Cat/Cartesian/Closed.v:47 `Cat_Closed : @Closed Cat Cat_Cartesian` with `exp_iso` giving Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]). With A := _2 this is one leg of a derivation of the exercise, but the missing leg ('a functor out of _2 is exactly a morphism, and the two endpoint restrictions are its domain and codomain') is prose-only in Instance/Two.v.",
+      "rg -i 'Nat\\(|natural transformation.*biject|bijection.*natural transformation' -g '*.v' . — no hom-set-level characterization of natural transformations by functors out of a product"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. The walking arrow exists (Instance/Two.v:134 `_2 : Category`, objects TwoX/TwoY, single non-identity TwoXY), but I searched specifically for the exercise's shape and found nothing: `rg -n '(prod|∏) _2|_2 (∏|prod)|\\[_2'` -> no product category C ∏ _2 and no functor category [_2, D] is ever formed anywhere in the tree; there are no inclusions i_0/i_1 : C -> C ∏ _2 (Instance/Two/Discrete.v:111 `Pick_Two {C} (a b : C)` -- verified -- goes out of the DISCRETE two-object category, not the walking arrow). The record's honest note that Construction/Arrow.v:110 `Arrow {C} := (Id[C] ↓ Id[C])` is a comma category and that Construction/Arrow.v:106-112 EXPLICITLY discloses 'no formal comparison with a functor category over the walking arrow [_2] ... is developed in-tree' is verbatim accurate -- good in-tree hygiene, and it independently corroborates ABSENT. One inaccuracy in the negative log, not affecting the verdict: it says `_2` 'is used only in Construction/Funny/Comparison.v and Instance/Two/Monoidal.v'; it is also used in Theory/Metacategory/ArrowsOnly.v:429/508/523 (`Two_iso_2 : Category_from_Metacategory Two ≅ _2`) and throughout Construction/Enriched/Two.v (`Enriched _2 Two_Monoidal`). Neither forms a product or functor category over _2, so ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:1.5:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "Segal's category Gamma",
+      "Gamma ≃ Fin_*^op",
+      "category of finite pointed sets",
+      "Gamma-spaces / special Gamma-space presheaves",
+      "morphisms into the power set with disjoint images"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'Segal' -g '*.v' . — 0 hits",
+      "rg -i 'finite pointed|Fin_\\*|pointed set' -g '*.v' . — 5 hits, all comments: Instance/Coq/Par.v:34-36 ('This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps'), Instance/Coq/ParE.v:116-118, Construction/Slice.v:82 ('pointed sets are the coslice of Set under the singleton'). No category of pointed sets is constructed, and none of these is stated as a theorem.",
+      "rg -i 'power set|powerset|disjoint.*image' -g '*.v' . — no power-set construction on the in-tree FinSet or Sets that could carry Γ's hom-sets (Structure/Topos.v's `Pow a := Ω ^ a` is an internal power OBJECT, not a Γ-style hom description)",
+      "rg -n 'FinSet' -g '*.v' . — Instance/FinSet.v is skeletal finite sets and functions, with coproducts, products, exponentials, pushouts and a classifier; nothing about pointed structure, and no opposite-category equivalence statement",
+      "rg -i 'presheaf|presheaves' -g '*.v' . — presheaves exist generically ([C^op, Sets]) but the exercise's deduction ('the functors of Example 1.3.2(xi) define presheaves on Γ') has no subject"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent blind pass. `rg -i 'segal'` = 0 hits (re-run, confirmed). No category of pointed sets is constructed: the five 'pointed set' hits (Instance/Coq/Par.v:34-36, Instance/Coq/ParE.v:116, Construction/Slice.v:82) are all prose, and Instance/Coq/Par.v:34 is careful to say its claim ('equivalent (not isomorphic) to the category of pointed sets') is a remark, not a theorem. No Gamma, no power-set hom description, no opposite-category equivalence. ABSENT confirmed. The record's point that Structure/Topos.v's `Pow a := Ω ^ a` is an internal power OBJECT and cannot carry Gamma's hom-sets is correct."
+    }
+  },
+  {
+    "id": "riehl:1.5:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "transporting a morphism along isomorphisms",
+      "f' = v ∘ f ∘ u⁻¹",
+      "the four commutativity conditions are equivalent",
+      "conjugating a commuting square by isomorphisms on both edges",
+      "to-square transposes to from-square",
+      "unique morphism making the transport square commute"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Monoidal.v",
+        "line": 99,
+        "symbol": "iso_from_natural",
+        "intree_statement": "Lemma iso_from_natural {x y x' y' : A} (i : x ≅ y) (j : x' ≅ y') (f : x ~> x') (g : y ~> y') (H : g ∘ to i ≈ to j ∘ f) : f ∘ from i ≈ from j ∘ g."
+      },
+      {
+        "file": "Structure/Premonoidal.v",
+        "line": 171,
+        "symbol": "premon_square_from",
+        "intree_statement": "Lemma premon_square_from {a b c d : C} (i : a ≅ b) (j : c ≅ d) (f : a ~> c) (g : b ~> d) : g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g."
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 215,
+        "symbol": "iso_conj_from",
+        "intree_statement": "Lemma iso_conj_from {x y : bi0cell} {A A' Bb Bb' : bicat x y} (i : A ≅[bicat x y] Bb) (i' : A' ≅[bicat x y] Bb') (η : Bb ~> Bb') (θ : A ~> A') : η ∘∘ to i ≈ to i' ∘∘ θ → from i' ∘∘ η ≈ θ ∘∘ from i."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.5.iii: prove Lemma 1.5.10 — for f : a → b and isomorphisms u : a ≅ a', v : b ≅ b' there is a UNIQUE f' : a' → b' making any one, equivalently all four, of the displayed squares (built from u or u⁻¹ and v or v⁻¹) commute, and explicitly f' = v ∘ f ∘ u⁻¹.",
+      "intree": "`iso_from_natural (i : x ≅ y) (j : x' ≅ y') (f : x ~> x') (g : y ~> y') : g ∘ to i ≈ to j ∘ f → f ∘ from i ≈ from j ∘ g` — instantiated at i := u, j := v, f := f, g := f' this is exactly 'square (1) f' ∘ u ≈ v ∘ f implies square (4) f ∘ u⁻¹ ≈ v⁻¹ ∘ f''; applying it again at iso_sym gives the converse. `premon_square_from` is the same statement re-proved verbatim in Structure/Premonoidal.v, and `iso_conj_from` is its 2-cell analogue in a bicategory. The conjugated formula itself appears only as an inline definition — Theory/Equivalence/FullFaithful.v:71 `fmap := fun d d' g => prefmap (from (eso_iso d') ∘ g ∘ to (eso_iso d))` — never as a named lemma with an existence/uniqueness statement.",
+      "strength_comparison": "intree-weaker: only the transposition between one PAIR of the four squares is proven (and only as a structure-specific helper, twice), never the four-way equivalence as such; and neither the existence claim f' := v ∘ f ∘ u⁻¹ nor the UNIQUENESS of f' is stated anywhere."
+    },
+    "gap": "Missing (a) the existence/uniqueness statement itself: no in-tree lemma of the form `∀ (f : a ~> b) (u : a ≅ a') (v : b ≅ b'), Unique (fun f' : a' ~> b' => f' ∘ to u ≈ to v ∘ f)`, nor the explicit formula f' = to v ∘ f ∘ from u as a named definition; the conjugation is only ever written inline (Theory/Equivalence/FullFaithful.v:71,102-103). (b) the full four-way equivalence: `iso_from_natural`/`premon_square_from` prove only the implication square(1) ⇒ square(4) for a to/from pair, and the remaining two squares (those mixing u with v⁻¹ and u⁻¹ with v) are never mentioned. (c) placement: the general fact lives in two structure-specific files (Theory/Equivalence/Monoidal.v, Structure/Premonoidal.v) rather than in Theory/Isomorphism.v, which carries no such lemma (its iso algebra stops at `comp_inverse_unique`, `iso_to_monic`, `iso_from_epic`, `Monic_Retraction_Iso`).",
+    "negative_search_log": [
+      "rg -i 'conjugat' -g '*.v' . — 18 hits; the general-purpose ones are Structure/Premonoidal.v:166-171 and Theory/Bicategory/Adjunction.v:213-215; the rest are braiding/unitor-specific (Structure/Monoidal/Braided/Proofs.v `braid_conjugate_left/right`)",
+      "rg -n 'iso_transport|hom_transport|morphism_transport|iso_conj' -g '*.v' . — only Theory/Bicategory/Adjunction.v:215 `iso_conj_from` and Construction/PROP/Universal.v:134 `ap_iso_transport` (a monoidal-comparison cast, unrelated)",
+      "rg -n '^(Lemma|Definition|Program Definition|Corollary)' Theory/Isomorphism.v — no transport-along-isomorphisms lemma; the file stops at iso_id/iso_sym/iso_compose, the setoid instances, mono/epi consequences and `comp_inverse_unique`",
+      "rg -i 'Unique \\(fun' -g '*.v' . — the `Unique` combinator is used for universal properties (Structure/UniversalProperty.v:177 `univ_property_unique_up_to_unique_iso`) but never for the transported morphism f'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, with the gap slightly UNDERSTATED. I found premon_square_from independently before reading the record and reached PARTIAL for the same reason. All three evidence sites verified verbatim at the cited lines: Theory/Equivalence/Monoidal.v:99 `iso_from_natural`, Structure/Premonoidal.v:171 `premon_square_from`, Theory/Bicategory/Adjunction.v:215 `iso_conj_from`; all three files are registered in _CoqProject. Two refinements to the record's point (c) about placement, found while confirming: (1) `iso_from_natural` is not merely in a structure-specific file, it is nested inside `Module MonoidalTransportSpine` (opened Theory/Equivalence/Monoidal.v:80, closed :287) and only `Import`ed locally at :289, so a downstream consumer must write `MonoidalTransportSpine.iso_from_natural` or import the module explicitly -- it is not available as a general-purpose lemma; (2) `premon_square_from` sits inside `Section Premonoidal` under `Context {C : Category}` + `Context `{@Binoidal C}`, and although the Binoidal hypothesis is unused (so section discharge should generalize over C alone) I could not confirm the discharged type by compilation -- no coq/rocq binary is on PATH in this sandbox, the toolchain requires `nix develop`. The substantive gap the record names -- no existence/uniqueness statement, no named `f' := to v ∘ f ∘ from u`, only the square(1)=>square(4) implication of the four-way equivalence -- is confirmed; Theory/Isomorphism.v carries no such lemma (its algebra stops at iso_id/iso_sym/iso_compose, the setoid instances, iso_to_monic/iso_from_epic/Monic_Retraction_Iso and comp_inverse_unique)."
+    }
+  },
+  {
+    "id": "riehl:1.5:exiv",
+    "classification": "PRESENT",
+    "aliases": [
+      "fully faithful functors reflect isomorphisms",
+      "conservative functor",
+      "fully faithful functors create isomorphisms (F x ≅ F y implies x ≅ y)",
+      "ReflectsIsos / IsIsomorphism (fmap f) -> IsIsomorphism f",
+      "functors preserve isomorphisms (the converse, Lemma 1.3.8)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 335,
+        "symbol": "ff_reflects_isos",
+        "intree_statement": "Section FullyFaithful. Context {C D : Category}. Context {F : C ⟶ D}. Context `{HF : @Full C D F}. Context `{HfF : @Faithful C D F}. … Definition ff_reflects_isos : ReflectsIsos F := @Build_ReflectsIsos C D F (fun x y f I => @Build_IsIsomorphism C x y f (ff_iso_inverse f I) (ff_iso_inverse_right f I) (ff_iso_inverse_left f I)).  [Class ReflectsIsos {C D} (F : C ⟶ D) := { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }, Structure/Limit/Preservation.v:243]"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* to := fmap[F] (to X); from := fmap (from X); inverse laws by fmap_comp + iso_to_from/iso_from_to *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.5.iv: show that a full and faithful functor F : C ⟶ D both REFLECTS isomorphisms — if f is a morphism of C with Ff invertible in D then f is invertible in C — and CREATES isomorphisms — if Fx ≅ Fy in D then x ≅ y in C. By Lemma 1.3.8 the converse implications hold for any functor.",
+      "intree": "Part (i): `ff_reflects_isos : ReflectsIsos F` under Context `{Full F} `{Faithful F}, i.e. `∀ {x y} (f : x ~> y), IsIsomorphism (fmap[F] f) → IsIsomorphism f`, with the inverse produced as `ff_iso_inverse f I := prefmap (two_sided_inverse I)` and the two inverse laws proven at Theory/Equivalence/Limit.v:313 and :324. Part (ii): `FullyFaithful `(F : C ⟶ D) `{Full F} `{Faithful F} : ∀ x y, F x ≅ F y → x ≅ y`. Converse (Lemma 1.3.8): `fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])`, which is exactly 'any functor sends isomorphic objects to isomorphic objects, carrying an iso f to fmap f'.",
+      "strength_comparison": "same — both halves are proven at full generality, in setoid form (inverse laws up to ≈), with the converse also available. One hypothesis-strength caveat, noted rather than counted against it: the in-tree `Full` (Theory/Functor.v:331) is the split, choice-carrying form — a chosen section `prefmap` with `fmap_sur : fmap[F] (prefmap g) ≈ g` — rather than a bare surjectivity proposition on hom-sets, so constructively the hypothesis is slightly stronger than the book's (classically equivalent). This is the library's uniform house style for surjectivity, and both proofs genuinely need the chosen preimage."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PRESENT by independent blind pass; I located both halves before reading the record. Part (i), reflection: Theory/Equivalence/Limit.v:335 `Definition ff_reflects_isos : ReflectsIsos F`, under `Context `{HF : @Full C D F}` + `Context `{HfF : @Faithful C D F}`, with the inverse `ff_iso_inverse f I := prefmap (two_sided_inverse I)` (:309) and the two inverse laws at :313 `ff_iso_inverse_right` and :324 `ff_iso_inverse_left`, each proved by `apply fmap_inj; rewrite fmap_comp, fmap_sur, fmap_id`. The target class is Structure/Limit/Preservation.v:243 `Class ReflectsIsos ... := { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) -> IsIsomorphism f }` -- exactly Riehl's clause (i), morphism level, no special case. Part (ii), creation: Theory/Functor.v:355 `Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : forall x y, F x ~= F y -> x ~= y` -- exactly clause (ii), object level. Converse (Riehl's Lemma 1.3.8): Theory/Functor.v:227 `fobj_iso` at object level and, additionally (not cited by the record but a genuine strengthening), Construction/Reflective/Idempotent.v:70 `fmap_IsIsomorphism {C D} (F : C ⟶ D) {x y} (f : x ~> y) (Hf : IsIsomorphism f) : IsIsomorphism (fmap[F] f)` gives the MORPHISM-level converse, so both directions of both clauses are in-tree. All three cited files registered in _CoqProject (:441, :443). Hunted for the usual failure modes and found none: no same-name-weaker statement, no special-case-only restriction (both are stated for arbitrary C, D, F), no dual-assumed-but-absent, no definition-without-API. The strength_comparison's `Full`-is-split caveat is accurate and correctly not counted against the verdict. See problems[] for a naming defect in the Theory/Functor.v comment that introduces `FullyFaithful` -- it does not affect this verdict."
+    }
+  }
+]

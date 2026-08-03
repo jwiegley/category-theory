@@ -1,0 +1,1041 @@
+{
+  "book": "maclane",
+  "range": {"pdf_start": 218, "pdf_end": 239},
+  "pages": [
+    {
+      "pdf_page": 218,
+      "book_page": "211",
+      "empty": false,
+      "items": ["maclane:IX.1:def1", "maclane:IX.1:def2", "maclane:IX.1:remark1"],
+      "notes": "Ch IX opener + chapter motivation prose (skipped) + start of IX.1 Filtered Limits. Bottom terminology note on 'cofiltered' is historical/terminological, skipped."
+    },
+    {
+      "pdf_page": 219,
+      "book_page": "212",
+      "empty": false,
+      "items": ["maclane:IX.1:def3", "maclane:IX.1:thm1", "maclane:IX.1:prop2"],
+      "notes": "Prop 2 statement here; its proof runs onto pdf 220."
+    },
+    {
+      "pdf_page": 220,
+      "book_page": "213",
+      "empty": false,
+      "items": ["maclane:IX.1:remark2", "maclane:IX.1:cor3"],
+      "notes": "Continuation of Prop 2 proof; Cor 3 statement here, proof runs onto pdf 221."
+    },
+    {
+      "pdf_page": 221,
+      "book_page": "214",
+      "empty": false,
+      "items": ["maclane:IX.1:ex1", "maclane:IX.1:ex2", "maclane:IX.2:remark1"],
+      "notes": "End of Cor 3 proof (free product); IX.1 Exercises 1-2; start of IX.2 Interchange of Limits with eq (2) (colim-colim interchange)."
+    },
+    {
+      "pdf_page": 222,
+      "book_page": "215",
+      "empty": false,
+      "items": ["maclane:IX.2:construction1", "maclane:IX.2:thm1"],
+      "notes": "IX.2 remark1 (limits-commute dual) continues from 221; canonical map kappa (eq 3, diagram 4); Theorem 1 statement, proof runs onto 223."
+    },
+    {
+      "pdf_page": 223,
+      "book_page": "216",
+      "empty": false,
+      "items": ["maclane:IX.2:ex1", "maclane:IX.2:ex2", "maclane:IX.2:ex3", "maclane:IX.2:ex4"],
+      "notes": "Continuation/end of Theorem 1 proof; IX.2 Exercises 1-4 (Ex 2 defines pseudo-filtered category)."
+    },
+    {
+      "pdf_page": 224,
+      "book_page": "217",
+      "empty": false,
+      "items": ["maclane:IX.3:def1", "maclane:IX.3:def2", "maclane:IX.3:construction1", "maclane:IX.3:thm1"],
+      "notes": "IX.3 Final Functors: final functor + final subcategory definitions, canonical map h (eq 1), Theorem 1 statement; proof runs onto 225."
+    },
+    {
+      "pdf_page": 225,
+      "book_page": "218",
+      "empty": false,
+      "items": ["maclane:IX.3:remark1", "maclane:IX.3:ex1", "maclane:IX.3:ex2", "maclane:IX.3:ex3", "maclane:IX.3:ex4", "maclane:IX.3:ex5", "maclane:IX.4:def1"],
+      "notes": "End of IX.3 Thm 1 proof; dual (initial) remark; IX.3 Exercises 1-5; start of IX.4 Diagonal Naturality with the dinatural-transformation definition (hexagon 1)."
+    },
+    {
+      "pdf_page": 226,
+      "book_page": "219",
+      "empty": false,
+      "items": ["maclane:IX.4:def2", "maclane:IX.4:def3"],
+      "notes": "IX.4 def1 (dinatural) discussion continues from 225; dummy-functor definition; the three types of dinatural transformations, incl. wedge/extranatural (diagrams 2,3,4)."
+    },
+    {
+      "pdf_page": 227,
+      "book_page": "220",
+      "empty": false,
+      "items": ["maclane:IX.4:construction1", "maclane:IX.4:construction2", "maclane:IX.4:construction3", "maclane:IX.4:construction4"],
+      "notes": "Worked examples of each dinatural type: Euclid self-duality, evaluation, parametrized-adjunction counit; the identity-as-dinatural example starts at the bottom and runs onto 228."
+    },
+    {
+      "pdf_page": 228,
+      "book_page": "221",
+      "empty": false,
+      "items": ["maclane:IX.4:def4", "maclane:IX.4:remark1", "maclane:IX.4:prop1"],
+      "notes": "construction4 (identity dinatural) continues from 227; combined multi-variable natural-transformation definition; composition-with-naturals remark; Proposition 1 statement begins here and its conclusion runs onto pdf 229 (owned by range B, which creates no separate item for the conclusion)."
+    },
+    {
+      "pdf_page": 229,
+      "book_page": "222",
+      "empty": false,
+      "items": [
+        "maclane:IX.4:ex1",
+        "maclane:IX.4:ex2",
+        "maclane:IX.4:ex3",
+        "maclane:IX.4:ex4",
+        "maclane:IX.4:ex5",
+        "maclane:IX.4:ex6",
+        "maclane:IX.5:def1"
+      ],
+      "notes": "Top of page completes the conclusion of Proposition 1 of IX.4 (item owned by range A, starts on PDF 228) — no item created here. Then the six exercises of IX.4, then the section header '5. Ends' with the boxed Definition of an end."
+    },
+    {
+      "pdf_page": 230,
+      "book_page": "223",
+      "empty": false,
+      "items": ["maclane:IX.5:remark1"],
+      "notes": "Continuation of the IX.5 end Definition (universal property, 'ending/universal wedge' terminology, integral notation e = int_c S(c,c)) — folded into def1, no separate item. New: the end-of-hom identity Nat(U,V) = int_c hom(Uc,Vc), eqn (2)."
+    },
+    {
+      "pdf_page": 231,
+      "book_page": "224",
+      "empty": false,
+      "items": [
+        "maclane:IX.5:construction1",
+        "maclane:IX.5:prop1",
+        "maclane:IX.5:cor2"
+      ],
+      "notes": "Subdivision category C-section and functor S-section built in prose; Proposition 1 (end = limit of S-section, eqn 3); Corollary 2 (existence of ends)."
+    },
+    {
+      "pdf_page": 232,
+      "book_page": "225",
+      "empty": false,
+      "items": [
+        "maclane:IX.5:prop3",
+        "maclane:IX.5:def2",
+        "maclane:IX.5:remark2"
+      ],
+      "notes": "Proposition 3 (every limit is an end); prose definition of preserve/create an end; hom-functor continuity eqns (4),(5). No Exercises block for IX.5 — text flows straight into section 6."
+    },
+    {
+      "pdf_page": 233,
+      "book_page": "226",
+      "empty": false,
+      "items": [
+        "maclane:IX.6:def1",
+        "maclane:IX.6:remark1",
+        "maclane:IX.6:def2"
+      ],
+      "notes": "Section header '6. Coends' with prose definition of coend; module tensor product as a coend (example identity); prose definition of the tensor product of functors T box_P S (continues to PDF 234)."
+    },
+    {
+      "pdf_page": 234,
+      "book_page": "227",
+      "empty": false,
+      "items": [
+        "maclane:IX.6:remark2",
+        "maclane:IX.6:ex1",
+        "maclane:IX.6:ex2",
+        "maclane:IX.6:ex3",
+        "maclane:IX.6:ex4",
+        "maclane:IX.6:ex5"
+      ],
+      "notes": "Top completes def2 ('an object of B'). Geometric realization of a simplicial set as a coend (eqn 1); then the five exercises of IX.6."
+    },
+    {
+      "pdf_page": 235,
+      "book_page": "228",
+      "empty": false,
+      "items": [
+        "maclane:IX.7:prop1",
+        "maclane:IX.7:thm2"
+      ],
+      "notes": "Section header '7. Ends with Parameters'; Proposition 1 (end/limit of a natural transformation, functoriality of ends, eqns 1-2); Theorem 2 (Parameter Theorem, eqn 3)."
+    },
+    {
+      "pdf_page": 236,
+      "book_page": "229",
+      "empty": false,
+      "items": [
+        "maclane:IX.7:thm3",
+        "maclane:IX.7:ex1",
+        "maclane:IX.7:ex2",
+        "maclane:IX.7:ex3",
+        "maclane:IX.7:ex4"
+      ],
+      "notes": "Top: completion of Theorem 2 proof and the transpose functor T-section : C^op x C -> X^P via the standard Cat adjunction (scaffolding, no separate item). Theorem 3 (Parameter Theorem continued); then the four exercises of IX.7."
+    },
+    {
+      "pdf_page": 237,
+      "book_page": "230",
+      "empty": false,
+      "items": ["maclane:IX.8:prop1"],
+      "notes": "Section header '8. Iterated Ends and Limits'; unnumbered Proposition (Fubini: double end = iterated end). Proof continues onto PDF 238."
+    },
+    {
+      "pdf_page": 238,
+      "book_page": "231",
+      "empty": false,
+      "items": [
+        "maclane:IX.8:cor1",
+        "maclane:IX.8:remark1"
+      ],
+      "notes": "Top: completion of the Proposition's proof. Unnumbered Corollary (interchange of iterated ends); the specialization to interchange of iterated limits/colimits (recorded as remark1)."
+    },
+    {
+      "pdf_page": 239,
+      "book_page": "232",
+      "empty": true,
+      "items": [],
+      "notes": "Chapter-final 'Notes.' block (historical prose: Chevalley, Eilenberg-Kelly extranatural transformations, Dubuc-Street, Ulmer/Clark tensor product of functors, Yoneda 1960 for ends, Day-Kelly 1969) — explicitly not inventoriable. Remainder of page blank."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:IX.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "directed preorder",
+      "statement_summary": "A preorder P is directed when any two elements p,q have a common upper bound r (p<=r and q<=r), r not required unique; equivalently every finite subset (including the empty one, so P is nonempty) has an upper bound. Also called a directed set.",
+      "book_section": "IX.1",
+      "book_page": "211",
+      "pdf_pages": [218],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "filtered category",
+      "statement_summary": "A category J is filtered when J is nonempty and: (a) for any two objects j,j' there is an object k with arrows j->k and j'->k; (b) for any two parallel arrows u,v: i->j there is an arrow w: j->k with wu=wv. Generalizes 'directed preorder' from posets to categories.",
+      "book_section": "IX.1",
+      "book_page": "211",
+      "pdf_pages": [218],
+      "cross_refs": ["maclane:IX.1:def1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "finite diagrams have cocones in a filtered category",
+      "statement_summary": "Consequence of the filtered axioms: condition (a) makes a two-object discrete diagram the base of a cocone and (b) makes a parallel pair the base of a cocone, so every finite diagram in a filtered category J is the base of at least one cocone with some vertex k in J.",
+      "book_section": "IX.1",
+      "book_page": "211",
+      "pdf_pages": [218],
+      "cross_refs": ["maclane:IX.1:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "filtered colimit",
+      "statement_summary": "A filtered colimit is, by definition, a colimit of a functor F: J->C whose domain category J is filtered (generalizing colimits over directed preorders).",
+      "book_section": "IX.1",
+      "book_page": "212",
+      "pdf_pages": [219],
+      "cross_refs": ["maclane:IX.1:def2"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.1:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "coproducts from finite coproducts and directed colimits",
+      "statement_summary": "A category C that has finite coproducts and colimits over all small directed preorders has all small coproducts. (Proof: index the poset J+ of finite subsets of the index set J, take a finite coproduct over each subset, and realize the desired coproduct as the directed colimit of these over J+.)",
+      "book_section": "IX.1",
+      "book_page": "212",
+      "pdf_pages": [219],
+      "cross_refs": ["maclane:V.2:thm1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:prop2",
+      "kind": "proposition",
+      "number": "2",
+      "name": "forgetful Grp->Set creates filtered colimits",
+      "statement_summary": "The forgetful functor Grp->Set creates filtered colimits: for a filtered diagram of groups, the colimit of the underlying sets carries a unique group structure making the injections group homomorphisms, and this group is the colimit in Grp. The argument uses only that J is filtered.",
+      "book_section": "IX.1",
+      "book_page": "212",
+      "pdf_pages": [219, 220],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "creation of filtered colimits generalizes to algebras of a type",
+      "statement_summary": "The proof of Proposition 2 (and Corollary 3) is not restricted to Grp: it applies to Alg_tau, the category of algebras of any fixed operator-and-identity type tau (as in V.6). Thus the forgetful functor Alg_tau->Set creates filtered colimits, and Alg_tau has all small colimits.",
+      "book_section": "IX.1",
+      "book_page": "213",
+      "pdf_pages": [220],
+      "cross_refs": ["maclane:IX.1:prop2", "maclane:IX.1:cor3", "maclane:V.6"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:cor3",
+      "kind": "corollary",
+      "number": "3",
+      "name": "Grp is cocomplete",
+      "statement_summary": "Grp has all small colimits. (The one-element group is initial; two groups have a coproduct, the free product G*H, verified via the solution-set/adjoint-functor route with G->G*H monic; coequalizers exist as quotient groups H->H/N; Proposition 2 gives filtered colimits; Theorem 1 then yields all small coproducts, hence all small colimits.)",
+      "book_section": "IX.1",
+      "book_page": "213",
+      "pdf_pages": [220, 221],
+      "cross_refs": ["maclane:IX.1:thm1", "maclane:IX.1:prop2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "adjoint-functor-theorem proof that Grp is cocomplete",
+      "statement_summary": "Exercise: use the adjoint functor theorem to prove in one step that Grp has all small colimits.",
+      "book_section": "IX.1",
+      "book_page": "214",
+      "pdf_pages": [221],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.1:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "Alg_tau is cocomplete",
+      "statement_summary": "Exercise: prove that Alg_tau, as described in V.6, has all small colimits; in particular describe its initial object and determine when it is empty.",
+      "book_section": "IX.1",
+      "book_page": "214",
+      "pdf_pages": [221],
+      "cross_refs": ["maclane:V.6"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "iterated colimits commute (and dually iterated limits)",
+      "statement_summary": "For a bifunctor F: P x J -> X with X cocomplete, forming Colim_j F(p,j) is functorial in p (colimiting cones natural in p, by Thm V.3.1) and iterated colimits interchange via a canonical iso: Colim_p Colim_j F(p,j) ~= Colim_j Colim_p F(p,j) (proved in section 8). Dually, iterated limits commute. Limits need NOT commute with colimits.",
+      "book_section": "IX.2",
+      "book_page": "214",
+      "pdf_pages": [221, 222],
+      "cross_refs": ["maclane:V.3:thm1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "canonical map colim-lim -> lim-colim",
+      "statement_summary": "For F: P x J -> X, whenever all four iterated (co)limits exist there is a canonical arrow kappa: Colim_j Lim_p F(p,j) -> Lim_p Colim_j F(p,j), built from the limiting cones v and colimiting cones mu by their universal properties (diagram 4). It need not be an isomorphism (counterexample: P,J both the discrete 2-object category in Set, where the domain is a 2-fold and codomain a 4-fold disjoint union; it IS iso in Ab).",
+      "book_section": "IX.2",
+      "book_page": "215",
+      "pdf_pages": [222],
+      "cross_refs": [],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.2:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "finite limits commute with filtered colimits in Set",
+      "statement_summary": "If P is finite and J is small and filtered, then for every bifunctor F: P x J -> Set the canonical arrow kappa: Colim_j Lim_p F(p,j) -> Lim_p Colim_j F(p,j) is an isomorphism; i.e. finite limits commute with filtered colimits in Set. (Proof constructs a two-sided inverse using the finite-diagram-has-a-cocone property of filtered J.)",
+      "book_section": "IX.2",
+      "book_page": "215",
+      "pdf_pages": [222, 223],
+      "cross_refs": ["maclane:IX.2:construction1", "maclane:IX.1:remark1"],
+      "flags": ["text says 'as in (iv)', apparently a typo for diagram (4)/(3)"]
+    },
+    {
+      "id": "maclane:IX.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "naturality of the canonical map kappa",
+      "statement_summary": "Exercise: show that the canonical map kappa of (3) is natural for arrows sigma: F => F' in the functor category X^{P x J}.",
+      "book_section": "IX.2",
+      "book_page": "216",
+      "pdf_pages": [223],
+      "cross_refs": ["maclane:IX.2:construction1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.2:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "pseudo-filtered categories (Verdier)",
+      "statement_summary": "Exercise (Verdier), which also DEFINES 'pseudo-filtered': J is pseudo-filtered if it satisfies condition (b) for filtered categories plus (a'): any two arrows i->j, i->j' with common domain embed in a commutative diamond. Prove J is filtered iff it is connected and pseudo-filtered, and that J is pseudo-filtered iff each of its connected components is filtered.",
+      "book_section": "IX.2",
+      "book_page": "216",
+      "pdf_pages": [223],
+      "cross_refs": ["maclane:IX.1:def2"],
+      "flags": ["defines pseudo-filtered category inside the exercise"]
+    },
+    {
+      "id": "maclane:IX.2:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "coproducts commute with pullback in Set",
+      "statement_summary": "Exercise: in Set, show that coproducts commute with pullback.",
+      "book_section": "IX.2",
+      "book_page": "216",
+      "pdf_pages": [223],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.2:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "pseudo-filtered colimits commute with pullbacks in Set",
+      "statement_summary": "Exercise: using Exercises 2 and 3, show that pseudo-filtered colimits commute with pullbacks in Set.",
+      "book_section": "IX.2",
+      "book_page": "216",
+      "pdf_pages": [223],
+      "cross_refs": ["maclane:IX.2:ex2", "maclane:IX.2:ex3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "final functor",
+      "statement_summary": "A functor L: J' -> J is final if for every object k in J the comma category (k \\downarrow L) is nonempty and connected: there exist j' in J' and an arrow k -> Lj', and any two such arrows are joined by a finite zig-zag of commuting triangles under k. (Classical term: cofinal.)",
+      "book_section": "IX.3",
+      "book_page": "217",
+      "pdf_pages": [224],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "final subcategory",
+      "statement_summary": "A subcategory is final when its inclusion functor is final; e.g. for J a linear order, J' subset of J is final iff every k in J has some j' in J' with k <= j'.",
+      "book_section": "IX.3",
+      "book_page": "217",
+      "pdf_pages": [224],
+      "cross_refs": ["maclane:IX.3:def1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "canonical comparison colim FL -> colim F",
+      "statement_summary": "For L: J' -> J and F: J -> X there is a canonical map h: Colim FL -> Colim F, defined when both colimits exist as the unique arrow with h . mu'_{j'} = mu_{Lj'} for all j' in J', where mu, mu' are the colimiting cones.",
+      "book_section": "IX.3",
+      "book_page": "217",
+      "pdf_pages": [224],
+      "cross_refs": [],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.3:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "final functors preserve and detect colimits",
+      "statement_summary": "If L: J' -> J is final and F: J -> X is a functor such that x = Colim FL exists, then Colim F also exists and the canonical map h: Colim FL -> Colim F is an isomorphism. Thus colimits may be computed over final subcategories. (Finality is necessary, cf. Exercise 5.)",
+      "book_section": "IX.3",
+      "book_page": "217",
+      "pdf_pages": [224, 225],
+      "cross_refs": ["maclane:IX.3:def1", "maclane:IX.3:construction1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "dual notion: initial functors and limits",
+      "statement_summary": "The dual of a final functor is an 'initial' functor; the dual of Theorem 1 states that limits may be computed over initial subcategories (limits are unchanged along initial functors). The finality/initiality hypothesis is necessary.",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": ["maclane:IX.3:thm1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "one-object inclusion is final iff terminal",
+      "statement_summary": "Exercise: for j in J, the inclusion of the one-object discrete subcategory {j} -> J is final iff j is a terminal object of J; interpret the consequence for colimits and terminal objects.",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": ["maclane:IX.3:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "composite of final functors is final",
+      "statement_summary": "Exercise: prove that a composite of final functors is final.",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": ["maclane:IX.3:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "full functor into a filtered category with nonempty commas is final",
+      "statement_summary": "Exercise: if J is filtered, L: J' -> J is full, and each comma category (k \\downarrow L) is nonempty (for k in J), prove that L is final.",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": ["maclane:IX.3:def1", "maclane:IX.1:def2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "colimit of a covariant hom-functor is a point",
+      "statement_summary": "Exercise: for the covariant hom-functor J(k,-): J -> Set, use the Yoneda Lemma to show that Colim J(k,-) is the one-point set.",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "converse: comparison-iso for all X implies final",
+      "statement_summary": "Exercise (converse of Theorem 1): let L: J' -> J with J', J having small colimits, such that for every cocomplete X and every F the canonical map Colim FL -> Colim F is an isomorphism; prove L must be final (hint: take F = J(k,-), X = Set, and Exercise 4).",
+      "book_section": "IX.3",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": ["maclane:IX.3:thm1", "maclane:IX.3:ex4"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "dinatural transformation",
+      "statement_summary": "For functors S,T: C^op x C -> B, a dinatural transformation alpha: S => T assigns to each object c an arrow alpha_c: S(c,c) -> T(c,c) such that for every f: c -> c' the hexagon commutes: T(1,f) . alpha_c . S(f,1) = T(f,1) . alpha_{c'} . S(1,f) as arrows S(c',c) -> T(c,c'). Every ordinary natural transformation restricts to a dinatural one on the diagonal (alpha_c = tau_{c,c}). A dummy special case (S dummy in 2nd, T dummy in 1st variable) yields a 'natural transformation of a contravariant functor to a covariant functor' (square 2).",
+      "book_section": "IX.4",
+      "book_page": "218",
+      "pdf_pages": [225],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "dummy (constant-in-a-variable) functor",
+      "statement_summary": "A functor T: C^op x C -> B is dummy in a variable if it factors through the projection deleting that variable (so it is essentially a one-variable functor); dummy in both variables means constant at an object b in B (T(c,c') = b and T(f,f') = 1_b for all arrows).",
+      "book_section": "IX.4",
+      "book_page": "219",
+      "pdf_pages": [226],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "wedge / extranatural transformation",
+      "statement_summary": "When T = b is constant, a dinatural transformation alpha: S => b (components alpha_c: S(c,c) -> b with alpha_c . S(f,1) = alpha_{c'} . S(1,f) for f: c -> c', square 3) is called an extranatural / supernatural transformation, or a wedge, from S to b. Dually a wedge beta: b => T has components beta_c: b -> T(c,c) satisfying T(1,f) . beta_c = T(f,1) . beta_{c'} (square 4).",
+      "book_section": "IX.4",
+      "book_page": "219",
+      "pdf_pages": [226],
+      "cross_refs": ["maclane:IX.4:def1", "maclane:IX.4:def2"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.4:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "Euclid: natural self-duality as a dinatural transformation",
+      "statement_summary": "Illustrative example (type-2 dinatural): the category Euclid of Euclidean spaces (real vector spaces with a bilinear symmetric positive-definite inner product) and inner-product-preserving linear maps, with forgetful U: Euclid -> Vct_R and dual *: Euclid^op -> Vct_R; the canonical maps kappa_E: E -> E* are the components of a dinatural transformation kappa: U => * expressing that each Euclidean space is naturally isomorphic to its dual.",
+      "book_section": "IX.4",
+      "book_page": "220",
+      "pdf_pages": [227],
+      "cross_refs": ["maclane:IX.4:def1"],
+      "flags": ["illustrative-example", "unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.4:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "evaluation is an extranatural transformation",
+      "statement_summary": "For a fixed set A, evaluation V_X: hom(X,A) x X -> A, <h,x> |-> h x, gives the components of an extranatural transformation (wedge) V: hom(-,A) x (-) => A from the bifunctor hom(-,A) x (-): Set^op x Set -> Set to A; it is also natural in the parameter A.",
+      "book_section": "IX.4",
+      "book_page": "220",
+      "pdf_pages": [227],
+      "cross_refs": ["maclane:IX.4:def3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.4:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "counit of a parametrized adjunction is extranatural in the parameter",
+      "statement_summary": "For an adjunction with parameter (natural bijection A(F(x,p),a) ~= X(x,G(p,a)) natural in x,p,a; F: X x P -> A, G: P^op x A -> X; Thm IV.7.3), setting x = G(p,a) yields the counit components eps_{<p,a>}: F(G(p,a),p) -> a, which are natural in a and dinatural (extranatural) in the parameter p. Evaluation is the special case.",
+      "book_section": "IX.4",
+      "book_page": "220",
+      "pdf_pages": [227],
+      "cross_refs": ["maclane:IX.4:def3", "maclane:IV.7:thm3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.4:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "identity arrows form a dinatural transformation",
+      "statement_summary": "In any category C the identities 1_c in hom(c,c), regarded as arrows 1_c: * -> hom(c,c) from the one-point set, are the components of a dinatural (extranatural, dual type) transformation 1: * => hom(-,-) from the constant functor * to the hom-bifunctor hom(-,-): C^op x C -> Set; the wedge condition is exactly f . 1_c = 1_{c'} . f.",
+      "book_section": "IX.4",
+      "book_page": "220",
+      "pdf_pages": [227, 228],
+      "cross_refs": ["maclane:IX.4:def3"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.4:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "combined multi-variable (di)natural transformation",
+      "statement_summary": "Unifying natural and dinatural transformations: for S: C^op x C x A -> B and T: A x D^op x D -> B, a natural transformation gamma: S => T assigns to each triple (c,a,d) an arrow gamma(c,a,d): S(c,c,a) -> T(a,d,d) that is (i) natural in a (fixed c,d), (ii) dinatural in c (fixed a,d), (iii) dinatural in d (fixed c,a). Naturality in a product argument may be replaced by separate naturality in each factor. All three types are jointly called 'natural transformations'.",
+      "book_section": "IX.4",
+      "book_page": "221",
+      "pdf_pages": [228],
+      "cross_refs": ["maclane:IX.4:def1", "maclane:IX.4:def3"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:IX.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "dinatural transformations compose with genuinely natural ones",
+      "statement_summary": "The composite of two dinatural transformations need not be dinatural, but any dinatural alpha: S => T may be composed on either side with transformations sigma: S' => S and tau: T => T' that are natural in both arguments, and the componentwise composite tau_c . alpha_c . sigma_c: S'(c,c) -> T'(c,c) is again dinatural, S' => T'.",
+      "book_section": "IX.4",
+      "book_page": "221",
+      "pdf_pages": [228],
+      "cross_refs": ["maclane:IX.4:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "diagonal composite of natural/dinatural families is natural",
+      "statement_summary": "Given functors R: C -> B, S: C x C^op x C -> B, T: C -> B and families of arrows rho(c,d): R(c) -> S(c,d,d) and sigma(d,c): S(d,d,c) -> T(c), each natural in c and dinatural in d, the assignment c |-> [ R(c) --rho(c,c)--> S(c,c,c) --sigma(c,c)--> T(c) ] (the diagonal composite) is a natural transformation R => T.",
+      "book_section": "IX.4",
+      "book_page": "221",
+      "pdf_pages": [228, 229],
+      "cross_refs": ["maclane:IX.4:def4"],
+      "flags": ["continues onto pdf 229; conclusion on printed 222"]
+    },
+    {
+      "id": "maclane:IX.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "unit of a parametrized adjunction is dinatural",
+      "statement_summary": "Show the unit eta_x : x -> G(p, F(x,p)) of an adjunction with a parameter p is dinatural in p, and that this dinaturality is equivalent to naturality of the parametrized adjunction in p; then dualize.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": ["maclane:IV.7:ex2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "triangle identities for a parametrized adjunction",
+      "statement_summary": "Formulate the triangular (triangle) identities for an adjunction with a parameter.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "dinaturality by separation of arguments",
+      "statement_summary": "For S : (CxD)^op x C x D -> B and a family beta_{c,d} : S(c,d,c,d) -> b, show beta : S =.> b (dinatural to a constant b) is dinatural iff it is dinatural in c for each fixed d and dinatural in d for each fixed c; state the dual.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "composition rule for more factors",
+      "statement_summary": "Extend the composition rule of Proposition 1 (composite of two dinatural transformations along a middle variable) to S : C x C^op x C x C^op x C -> B, and to any odd number of factors C.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "dinatural transformations need not compose",
+      "statement_summary": "For S : C^op x C -> B and objects b, b', show that dinatural transformations b =.> S and S =.> b' do not in general have a well-defined composite b -> b'.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.4:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "general composition of many-variable natural transformations",
+      "statement_summary": "Extending Exercises 3 and 4, find a general rule for composing natural/dinatural transformations in many variables.",
+      "book_section": "IX.4",
+      "book_page": "222",
+      "pdf_pages": [229],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "end of a functor",
+      "statement_summary": "An end of S : C^op x C -> X is a universal wedge (dinatural transformation) <e, omega> from the constant e to S: omega : e =.> S such that every wedge beta : x =.> S factors uniquely as beta_a = omega_a . h through a unique h : x -> e. omega is the ending/universal wedge with components omega_c; the object e is written as the integral int_c S(c,c), the end of S.",
+      "book_section": "IX.5",
+      "book_page": "222",
+      "pdf_pages": [229, 230],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "set of natural transformations is an end of hom",
+      "statement_summary": "For functors U, V : C -> X, hom_X(U-,V-) : C^op x C -> Set is a functor and a wedge from a set Y to it is exactly a Y-indexed natural family; hence the set of natural transformations equals the end Nat(U,V) = int_c hom_X(Uc,Vc) (eqn 2).",
+      "book_section": "IX.5",
+      "book_page": "223",
+      "pdf_pages": [230],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "subdivision category C-section and functor S-section",
+      "statement_summary": "The subdivision category of C: objects are symbols c-section (for objects c) and f-section (for arrows f), with, for each f : b -> c, two non-identity arrows b-section -> f-section <- c-section (only compositions with an identity factor exist). Each S : C^op x C -> X yields a functor S-section on this category with S-section(c-section)=S(c,c), S-section(f-section)=S(b,c), legs S(b,f) and S(f,c); cones over S-section correspond exactly to wedges over S.",
+      "book_section": "IX.5",
+      "book_page": "224",
+      "pdf_pages": [231],
+      "cross_refs": [],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:IX.5:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "end equals the limit of S-section (ends reduce to limits)",
+      "statement_summary": "For S : C^op x C -> X with associated S-section on the subdivision category, there is an isomorphism int_c S(c,c) = Lim[S-section] (eqn 3): if either the end or the limit exists, so does the other, and the comparison arrow theta carrying the ending wedge to the limiting cone is an isomorphism.",
+      "book_section": "IX.5",
+      "book_page": "224",
+      "pdf_pages": [231],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:cor2",
+      "kind": "corollary",
+      "number": "2",
+      "name": "existence of ends in a small-complete category",
+      "statement_summary": "If X is small-complete and C is small, then every functor S : C^op x C -> X has an end in X.",
+      "book_section": "IX.5",
+      "book_page": "224",
+      "pdf_pages": [231],
+      "cross_refs": ["maclane:IX.5:prop1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:prop3",
+      "kind": "proposition",
+      "number": "3",
+      "name": "every limit is an end",
+      "statement_summary": "For T : C -> X let S = T . Q be the composite with Q : C^op x C -> C the second projection <c,c'> |-> c'. Then <e, tau : e =.> T> is a limit of T iff <e, tau : e =.> S> is an end of S; equivalently int_c Tc = Lim T (the end over a functor ignoring its first variable is the limit).",
+      "book_section": "IX.5",
+      "book_page": "225",
+      "pdf_pages": [232],
+      "cross_refs": ["maclane:IX.5:prop1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "preservation and creation of an end by a functor",
+      "statement_summary": "A functor H : X -> Y preserves the end of S : C^op x C -> X when omega : e =.> S being an end implies H.omega : He =.> HS is an end (H int_c S(c,c) = int_c HS(c,c)); H creates the end of S when every wedge v : y =.> HS lifts to a unique wedge omega : e =.> S with H.omega = v and that omega is an end of S.",
+      "book_section": "IX.5",
+      "book_page": "225",
+      "pdf_pages": [232],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.5:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "hom-functors preserve and reverse ends",
+      "statement_summary": "Hom-functors are continuous with respect to ends: for each object x, X(x, int_c S(c,c)) = int_c X(x, S(c,c)) (covariant hom preserves ends, eqn 4) and X(int^c S(c,c), x) = int_c X(S(c,c), x) (contravariant hom sends a coend to an end, eqn 5).",
+      "book_section": "IX.5",
+      "book_page": "225",
+      "pdf_pages": [232],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "coend of a functor",
+      "statement_summary": "A coend of S : C^op x C -> X is a universal wedge <d, zeta> from S to the constant d: zeta : S =.> d couniversal among dinatural transformations from S to constants. The object d (unique up to iso when it exists) is written with the integral int^c S(c,c) (bound variable as superscript). Dual to the end.",
+      "book_section": "IX.6",
+      "book_page": "226",
+      "pdf_pages": [233],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "tensor product of modules is a coend",
+      "statement_summary": "Viewing a ring R as a one-object Ab-category, a left R-module as an additive functor R -> Ab and a right R-module as an additive functor R^op -> Ab, the bifunctor A tensor B : R^op x R -> Ab has coend int^R A tensor B = A tensor_R B, the usual tensor product over R (M is the coend iff M is A tensor B modulo all ar tensor b - a tensor rb).",
+      "book_section": "IX.6",
+      "book_page": "226",
+      "pdf_pages": [233],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "tensor product of functors (coend)",
+      "statement_summary": "For a monoidal category (B, box) and functors T : P^op -> B and S : P -> B, their tensor product is defined as the coend T box_P S = int^P (Tp) box (Sp), an object of B (extending the module tensor product to any monoidal base).",
+      "book_section": "IX.6",
+      "book_page": "226",
+      "pdf_pages": [233, 234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "geometric realization of a simplicial set is a coend",
+      "statement_summary": "With Delta : SimplexCat -> Top realizing each ordinal n+1 as the n-dimensional affine simplex and a simplicial set S : SimplexCat^op -> Set, the assignment (n,m) |-> Sn . Delta m (copower) is a functor SimplexCat^op x SimplexCat -> Top whose coend int^n (Sn) . Delta n is the geometric realization of S (eqn 1).",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "set of wedges from a point is the end",
+      "statement_summary": "For S : C^op x C -> Set, prove the set Wedge(*, S) of all wedges omega : * =.> S from the one-point set is an end of S, with ending wedge omega |-> omega_c(*) in S(c,c); compare with the explicit description of a limit in Set as a set of cones.",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "ends from products and equalizers",
+      "statement_summary": "Show directly (without using limits) that a category X with all small products and all equalizers has all small ends (mirroring the products-plus-equalizers construction of limits).",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "twisted arrow category and reduction of ends to limits",
+      "statement_summary": "Let the twisted arrow category of C have objects the arrows f : a -> b and morphisms <h,k> : f -> f' given by h : a' -> a (note the twist) and k : b -> b' with f' = k f h, and let K map it to C^op x C. For any S : C^op x C -> B, prove cones e -> SK correspond to wedges e =.> S, giving another proof of the reduction of ends to limits (Proposition 5.1).",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": ["maclane:IX.5:prop1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "free module as a coend",
+      "statement_summary": "With Fin the skeletal category of finite nonempty ordinals and all functions, X^(-) : Fin^op -> Set (n |-> X^n) and R_1 : Fin -> R-Mod (n |-> R^n; a function f : n -> m sends basis vector a_j to a_{f(j)}, i.e. b_i = sum of a_j over the fiber f^{-1}(i)), show the free R-module on a set X is the coend int^n X^n . R_(n), recovering the description of elements as finite formal sums sum x_i a_i.",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.6:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "functor tensor product over a cocomplete category",
+      "statement_summary": "If D is cocomplete, functors S : C^op -> Set and T : C -> D have a tensor product defined as the coend int^c (Sc) . (Tc) (copower); show it is a functor D^C x Set^{C^op} -> D.",
+      "book_section": "IX.6",
+      "book_page": "227",
+      "pdf_pages": [234],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "end of a natural transformation (functoriality of ends)",
+      "statement_summary": "Given gamma : S =.> S' between functors S, S' : C^op x C -> X both with ends <e,omega>, <e',omega'>, there is a unique arrow g = int_c gamma_{c,c} : e -> e' with omega'_c . g = gamma_{c,c} . omega_c for every c (eqn 1); moreover the composition rule int_c (gamma' . gamma)_{c,c} = (int_c gamma'_{c,c}) . (int_c gamma_{c,c}) holds, so taking ends is functorial.",
+      "book_section": "IX.7",
+      "book_page": "228",
+      "pdf_pages": [235],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "Parameter Theorem for ends and limits",
+      "statement_summary": "If T : P x C^op x C -> X is a functor such that T(p,-,-) has an end omega_p : int_c T(p,c,c) =.> T(p,-,-) for each object p in P (eqn 3), then there is a unique functor U : P -> X with object function Up = int_c T(p,c,c) such that each wedge component (omega_p)_c : Up -> T(p,c,c) is natural in p; written U = int_c T(-,c,c).",
+      "book_section": "IX.7",
+      "book_page": "228",
+      "pdf_pages": [235],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:thm3",
+      "kind": "theorem",
+      "number": "3",
+      "name": "Parameter Theorem continued (parametrized end is an end in X^P)",
+      "statement_summary": "Under the hypotheses of Theorem 2, let T-section : C^op x C -> X^P be the transpose of T (T-section(f,f') = T(-,f,f')). Then the functor U = int_c T(-,c,c) is the end of T-section in the functor category X^P, with universal wedge omega-section whose components satisfy (omega-section_c)_p = (omega_p)_c for all p and c.",
+      "book_section": "IX.7",
+      "book_page": "229",
+      "pdf_pages": [236],
+      "cross_refs": ["maclane:V.3:thm1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "limit that is not a pointwise limit",
+      "statement_summary": "(Dubuc.) Construct a functor category X^P and a functor T : C -> X^P having a limit that is not a pointwise limit (suggestion: take C = 2).",
+      "book_section": "IX.7",
+      "book_page": "229",
+      "pdf_pages": [236],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "parameter theorem for coends",
+      "statement_summary": "State and prove the parameter theorem for coends (dual of Theorems 2-3).",
+      "book_section": "IX.7",
+      "book_page": "229",
+      "pdf_pages": [236],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Lim is a functor",
+      "statement_summary": "If X is small-complete and C is small, use Proposition 1 to prove that Lim : X^C -> X is a functor.",
+      "book_section": "IX.7",
+      "book_page": "229",
+      "pdf_pages": [236],
+      "cross_refs": ["maclane:V.2:ex3"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.7:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "inclusion of discrete subcategory creates ends and coends",
+      "statement_summary": "For any categories X and P, show the functor X^P -> X^{|P|} induced by including the discrete subcategory |P| creates ends and coends.",
+      "book_section": "IX.7",
+      "book_page": "229",
+      "pdf_pages": [236],
+      "cross_refs": ["maclane:V.3:thm2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:IX.8:prop1",
+      "kind": "proposition",
+      "number": null,
+      "name": "Fubini: double end equals iterated end",
+      "statement_summary": "For S : P^op x P x C^op x C -> X such that the inner end int_c S(p,q,c,c) exists for all pairs <p,q> (a bifunctor P^op x P -> X), and S regarded as a bifunctor on (PxC), there is an isomorphism int_{<p,c>} S(p,p,c,c) = int_p int_c S(p,p,c,c): the double end exists iff the iterated end does, and the comparison theta is an isomorphism. Requires the inner end for all pairs <p,q>, not just p=q.",
+      "book_section": "IX.8",
+      "book_page": "230",
+      "pdf_pages": [237, 238],
+      "cross_refs": ["maclane:IX.7:thm2"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:IX.8:cor1",
+      "kind": "corollary",
+      "number": null,
+      "name": "interchange of iterated ends (Fubini)",
+      "statement_summary": "For S : P^op x P x C^op x C -> X such that the ends int_c S(p,q,c,c) and int_p S(p,p,b,c) exist for all p,q,b,c, the two iterated ends are isomorphic: int_p int_c S(p,p,c,c) = int_c int_p S(p,p,c,c); one exists iff the other does and theta is the unique comparison isomorphism.",
+      "book_section": "IX.8",
+      "book_page": "231",
+      "pdf_pages": [238],
+      "cross_refs": ["maclane:IX.8:prop1"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:IX.8:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "interchange of iterated limits and colimits",
+      "statement_summary": "Specializing the Fubini corollary to a functor F : P x C -> X with P, C small and X complete gives the interchange of iterated limits Lim_p Lim_c F(p,c) = Lim_{<p,c>} F(p,c) = Lim_c Lim_p F(p,c), with the dual formula for colimits.",
+      "book_section": "IX.8",
+      "book_page": "231",
+      "pdf_pages": [238],
+      "cross_refs": ["maclane:IX.5:prop3"],
+      "flags": []
+    }
+  ]
+}

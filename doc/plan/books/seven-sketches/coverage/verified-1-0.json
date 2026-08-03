@@ -1,0 +1,562 @@
+[
+  {
+    "id": "7sketches:1.1:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "order-preserving function / monotone map (MonotoneMap, mono_le, Proper (le ==> le))",
+      "metric-preserving function / isometry / Lawvere metric space (category enriched over [0,∞] with ≥ and +)",
+      "addition-preserving function / monoid homomorphism / additive map (CMonHom, cmon_map_plus, Preadditive)",
+      "real numbers R (Coq.Reals, Rdefinitions, R_scope)",
+      "structure-preserving map / functor / homomorphism"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 175,
+        "symbol": "MonotoneMap",
+        "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) }."
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 58,
+        "symbol": "CMonHom",
+        "intree_statement": "Record CMonHom (M N : CMonObject) := { cmon_map :> SetoidMorphism (cmon_setoid M) (cmon_setoid N); cmon_map_zero : cmon_map (cmon_zero M) ≈ cmon_zero N; cmon_map_plus : ∀ a b, cmon_map (cmon_plus M a b) ≈ cmon_plus N (cmon_map a) (cmon_map b) }."
+      }
+    ],
+    "statement_record": {
+      "book": "For a function f : R -> R define order-preserving (x ≤ y implies f x ≤ f y), metric-preserving (|x - y| = |f x - f y|), and addition-preserving (f (x + y) = f x + f y); for each of the three properties separately exhibit an f that has it and an f that does not.",
+      "intree": "MonotoneMap: 'mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y)'; CMonHom: 'cmon_map_plus : ∀ a b, cmon_map (cmon_plus M a b) ≈ cmon_plus N (cmon_map a) (cmon_map b)'.",
+      "strength_comparison": "intree-weaker: two of the three preservation properties are defined in general form (order-preservation between arbitrary decidable preorders; addition-preservation between arbitrary commutative monoids), but neither is instantiated at R, metric-preservation is not defined at all, and no separating examples/counterexamples are constructed."
+    },
+    "gap": "Three distinct shortfalls. (1) The reals do not exist in the library: grep over all *.v for 'ZArith|Coq.Reals|QArith|Z_scope|BinInt' returns zero hits, so there is no R (nor Z, nor Q) to state any of the three properties over. (2) Metric-preservation has no counterpart: metric spaces appear only in prose (Instance/Poset.v:75, Theory/Profunctor.v:100, Construction/Enriched.v:74 describe a Lawvere metric space as a category enriched over the non-negative extended reals under ≥ and +), and no such enrichment is ever built — Construction/Enriched/Two.v builds the V = 2 case only. (3) The exercise's actual demand — an f with each property and an f without it, so that the three notions are shown independent — is nowhere discharged; no order-preserving-but-not-additive (or similar) witness is constructed for any concrete order or monoid.",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'monotone' . -- 14 hits, all Instance/{Proset,Poset,Two}.v prose plus Construction/Enriched/Two.v's MonotoneMap (the cited assertion)",
+      "grep -rn --include=*.v 'ZArith|Coq.Reals|QArith|Z_scope|BinInt' . -- 0 hits",
+      "grep -rni --include=*.v 'metric space|Lawvere metric|isometry|isometric' . -- prose/comment hits only (Instance/Poset.v:75, Theory/Profunctor.v:100, Construction/Enriched.v:74, Theory/Algebra/SpecialCommutativeFrobenius.v:21 'special/isometric law' which is unrelated)",
+      "grep -rni --include=*.v 'order-preserving|order preserving' . -- Instance/FinSet/{Classifier,Pushout}.v (rank/unrank codecs) and Instance/Lambda/Ren.v (order-preserving embeddings of de Bruijn renamings); none about R"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same classification independently. Cited evidence verified verbatim at the exact lines: Construction/Enriched/Two.v:175-178 (Record MonotoneMap with mono_le) and Instance/CMon.v:58-64 (Record CMonHom with cmon_map_plus). The record's phrase 'arbitrary decidable preorders' is accurate: TwoPreorder (Construction/Enriched/Two.v:60-66) does carry tpre_dec. Negative claims reproduced: rg 'Coq.Reals|ZArith|QArith|BinInt|Z_scope' over all *.v = 0 hits, so R (and Z) genuinely do not exist; metric-preservation appears only as bibliographic prose about Lawvere metric spaces (Instance/Poset.v:75-77, Construction/Enriched.v:69-74). One evidence omission worth carrying to Phase E (does not change PARTIAL): order-preservation also exists in a more central in-tree form than MonotoneMap - a functor Proset P -> Proset Q (Instance/Proset.v:33, hom := R) IS exactly a monotone map, which the record does not cite."
+    }
+  },
+  {
+    "id": "7sketches:1.1.1:construction-systems",
+    "classification": "PARTIAL",
+    "aliases": [
+      "partition of a set / set of blocks / parts",
+      "equivalence relation on a set / setoid (carrier + Equivalence)",
+      "quotient set / set of equivalence classes / connected components",
+      "partial equivalence relation (PER: symmetric + transitive, no reflexivity)",
+      "boolean observation / characteristic map into B / connectivity predicate"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 363,
+        "symbol": "components_resp",
+        "intree_statement": "Lemma components_resp {X : Type} (h : Fin.t N → X) (edges : list (Fin.t N * Fin.t N)) (l : Fin.t N → Fin.t N) : (∀ e, In e edges → h (fst e) = h (snd e)) → (∀ p, h (l p) = h p) → ∀ p, h (components edges l p) = h p."
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 328,
+        "symbol": "components_edge_eq",
+        "intree_statement": "Lemma components_edge_eq (edges : list (Fin.t N * Fin.t N)) (l : Fin.t N → Fin.t N) (e : Fin.t N * Fin.t N) : In e edges → components edges l (fst e) = components edges l (snd e)."
+      }
+    ],
+    "statement_record": {
+      "book": "On a three-element set a 'system' is a choice of which points are connected, connectedness being required symmetric and transitive; equivalently a partition into connected blocks, of which there are exactly five. The observation Phi sends a system to true iff dot and star are connected in it, i.e. Phi : Systems -> B.",
+      "intree": "components_edge_eq: 'In e edges → components edges l (fst e) = components edges l (snd e)'; components_resp: any h identifying the endpoints of every edge satisfies 'h (components edges l p) = h p'.",
+      "strength_comparison": "intree-weaker: the in-tree pair says exactly that the union-find labeling `components` computes the LEAST equivalence relation on a finite carrier containing a given list of connections (edge_eq = it contains them; resp = nothing further is identified), which is precisely a 'system presented by its connections' together with its closure. But it is a construction on a given edge list, not a type of systems, and the two distinctive facts of the book item — the count five and the observation Phi — are absent."
+    },
+    "gap": "Three things are missing. (1) There is no first-class notion of a partition of a set anywhere in the tree: grep -rni 'partition' over all *.v returns only Theory/Coq/List.v:391 'Definition partition {a} (p : a → bool) : list a → list a * list a', a list filter, plus its lemma in Theory/Coq/List/Proofs.v:436. Consequently there is no type of the systems on a fixed set, and no object over which the chapter's order and observation could be defined. (2) The enumeration — exactly five systems on a three-element set — is nowhere counted; no Bell numbers, no partition enumeration. (3) The observation Phi (a boolean-valued map on systems detecting connectedness of two fixed points) has no counterpart. Also, systems in the book are only symmetric + transitive, and partial equivalence relations without reflexivity are not formalized at all (`Setoid` in Lib always carries a full Equivalence).",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'partition' . -- 4 hits, all the list-filter Theory/Coq/List.v:391 and its proof",
+      "grep -rni --include=*.v 'partial equivalence|\\bPER\\b' . -- no hits for the notion (only `proper`/`Proper` token noise)",
+      "grep -rni --include=*.v 'equivalence relation' . -- ~30 hits, all setoid prose plus the two generated-equivalence constructions (Instance/Sets/Pushout.v, Instance/FinSet/Pushout.v) cited above"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED but borderline. Cited lemmas verified verbatim at Instance/FinSet/Pushout.v:328-331 (components_edge_eq) and :363-368 (components_resp). My blind search independently found only the same two generated-equivalence engines (Instance/Sets/Pushout.v pushout_eq, Instance/FinSet/Pushout.v components) plus Theory/Coq/List.v:391's list-filter 'partition'; no type of partitions, no five-element count, no Phi. The overlap the record credits is instrumental (an edge-list closure living inside a pushout construction), not a formalization of 'system', so an ABSENT reading would also be defensible - the gap text says exactly this, so the record stands as written. Also independently confirmed: Lib/Setoid.v:32's Setoid always carries a full Equivalence, so the book's reflexivity-free symmetric+transitive systems (PERs) have no in-tree notion."
+    }
+  },
+  {
+    "id": "7sketches:1.1.1:construction-join",
+    "classification": "PARTIAL",
+    "aliases": [
+      "transitive closure / reflexive-symmetric-transitive closure (clos_trans, clos_refl_sym_trans, multi)",
+      "least / finest equivalence relation generated by a relation",
+      "join of two equivalence relations / join of partitions",
+      "pushout of quotients / coequalizer of a span of surjections",
+      "connected components of the union graph"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 185,
+        "symbol": "Sets_HasPushouts",
+        "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; pullback_commutes := _; ump_pullbacks := _ |} |}. — where the apex equivalence is `Inductive pushout_eq` (line 51) with constructors po_inl_cong, po_inr_cong, po_glue, po_sym, po_trans."
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 363,
+        "symbol": "components_resp",
+        "intree_statement": "Lemma components_resp {X : Type} (h : Fin.t N → X) (edges : list (Fin.t N * Fin.t N)) (l : Fin.t N → Fin.t N) : (∀ e, In e edges → h (fst e) = h (snd e)) → (∀ p, h (l p) = h p) → ∀ p, h (components edges l p) = h p."
+      }
+    ],
+    "statement_record": {
+      "book": "For systems A and B on the same points, the join A ∨ B connects x and y whenever a finite chain x — z1 — ... — zn — y exists with each link a connection of A or of B; equivalently the join is the transitive closure of the union of the two connection relations.",
+      "intree": "Sets_HasPushouts builds the pushout apex as (B ⊔ C) modulo `pushout_eq`, the inductively generated equivalence with a glue constructor plus po_sym and po_trans — 'the smallest equivalence relation containing ... the glue identifications inl (f a) ~ inr (g a)'; FinSet's `components` union-find fold computes the same closure on a finite carrier, with components_resp asserting its leastness.",
+      "strength_comparison": "intree-weaker: the transitive(-symmetric) closure of a union of relations is genuinely formalized and, in FinSet, computed — and the pushout of X/P ← X → X/Q is exactly the join of the two partitions — but the closure is only ever taken of the GLUE relation of a span across a disjoint union, never of the union of two relations on one fixed set, and no join operation on relations, partitions or systems is defined."
+    },
+    "gap": "There is no join operation on relations or partitions of a fixed set. The generated-equivalence machinery exists in two places (Instance/Sets/Pushout.v's `pushout_eq`, an inductive closure with po_glue/po_sym/po_trans; Instance/FinSet/Pushout.v's `components` union-find fold with components_edge_eq/components_resp), but it is packaged only as the apex of a pushout along a span, so recovering the book's join requires the (unformalized) partition/surjection correspondence to present each system as a quotient map. Specifically missing: the statement that the closure of the union of two equivalence relations is again an equivalence relation; the finite-chain (path) characterization of the closure the book gives; and any notion of connection relation on a fixed point set.",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'transitive closure|clos_trans|clos_refl' . -- Instance/Lambda/Multi.v (reflexive-transitive closure of a reduction Step) and Lib/TList.v:55 (wf_clos_trans for well-foundedness); neither is a closure of a union of relations",
+      "grep -rni --include=*.v 'partition' . -- only the list filter Theory/Coq/List.v:391",
+      "grep -rni --include=*.v 'lattice' . -- 12 hits, all prose/bibliography (Instance/Poset.v, Construction/FAlg.v, Structure/Limit.v); no lattice structure is defined"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Sets_HasPushouts at Instance/Sets/Pushout.v:185 with Inductive pushout_eq at :51 and exactly the quoted constructors po_inl_cong / po_inr_cong / po_glue / po_sym / po_trans; components_resp at :363. The strength_comparison's mathematical claim - the pushout of X/P <- X -> X/Q is the join of the two partitions - is correct. Blind search reproduced the negatives: no closure of a union of two relations on one fixed carrier, no join operation on relations/partitions, and every 'lattice' hit in the tree is prose or bibliography (Instance/Poset.v, Construction/FAlg.v, Structure/Limit.v)."
+    }
+  },
+  {
+    "id": "7sketches:1.1.1:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "compute the join of two partitions / merge blocks",
+      "transitive closure of the union of two connection relations",
+      "connected components of a finite graph (union-find)",
+      "pushout apex in FinSet / counted equivalence classes",
+      "coequalizer of two surjections out of a six-element set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 513,
+        "symbol": "FinSet_HasPushouts",
+        "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }. — po_apex := fin_countP po_isrep, the count of the classes of the equivalence generated by the span, computed by the union-find labeling."
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 328,
+        "symbol": "components_edge_eq",
+        "intree_statement": "Lemma components_edge_eq (edges : list (Fin.t N * Fin.t N)) (l : Fin.t N → Fin.t N) (e : Fin.t N * Fin.t N) : In e edges → components edges l (fst e) = components edges l (snd e)."
+      }
+    ],
+    "statement_record": {
+      "book": "Two displayed partitions of the six-element set {11,12,13,21,22,23} are given; compute their join, i.e. the transitive closure of the union of the two connection relations.",
+      "intree": "FinSet_HasPushouts: the pushout of a span of finite sets has apex `po_apex f g := fin_countP po_isrep`, obtained by folding `components` over the span's edge list and counting the resulting classes — a closed-form computation on Fin.t.",
+      "strength_comparison": "intree-weaker: the library carries a genuinely COMPUTING engine for exactly this operation (union-find closure over a finite carrier, then a count of classes via fin_countP), and the pushout of 6/P ← 6 → 6/Q is the join 6/(P ∨ Q); but nothing in-tree exposes it as a join of partitions, and unlike its sibling FinSet files (Product.v, Closed.v, Topos.v, all of which carry `Example ... := eq_refl`) Instance/FinSet/Pushout.v contains no Example at all, so no concrete join is ever evaluated."
+    },
+    "gap": "No worked computation and no partition vocabulary. Concretely: (a) there is no type of partitions, so the two input partitions of the exercise cannot be written down (they would have to be encoded by hand as two surjections out of 6, which the tree never does); (b) grep 'Example' over Instance/FinSet/Pushout.v returns zero hits, so unlike the other computing FinSet satellites the pushout apex is never reduced on a closed input; (c) the bridge from a surjection presentation (Example 1.26's partition-as-surjection) to the join is not formalized, so the identification 'pushout of the two quotient maps = join of the partitions' is not available in-tree.",
+    "negative_search_log": [
+      "grep -n 'Example' Instance/FinSet/Pushout.v -- 0 hits",
+      "grep -rni --include=*.v 'partition' . -- only Theory/Coq/List.v:391 list filter",
+      "grep -rni --include=*.v 'join of|least upper bound' . -- Instance/Poset.v:51 prose only ('a coproduct is a join')"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "FinSet_HasPushouts verified at Instance/FinSet/Pushout.v:513. The record's distinctive contrast is exactly right and I re-measured it: grep -c '^Example' gives Instance/FinSet/Pushout.v = 0 against FinSet.v = 3, FinSet/Product.v = 3, FinSet/Closed.v = 4, FinSet/Topos.v = 6, FinSet/Classifier.v = 1 - so the computing engine for this exercise exists but is never reduced on a closed input, while every sibling FinSet satellite does carry eq_refl Examples."
+    }
+  },
+  {
+    "id": "7sketches:1.1.2:construction-order",
+    "classification": "PARTIAL",
+    "aliases": [
+      "refinement / coarser-than order on partitions; inclusion of connection relations",
+      "Hasse diagram of a finite poset",
+      "least upper bound = join = supremum",
+      "coproduct in a thin (posetal) category / Cocartesian structure",
+      "preorder as a category (Proset, Poset), subobject factorization preorder (sub_le)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  — read through 'Notation \"'Cocartesian' C\" := (@Cartesian (C^op))' (Structure/Cocartesian.v:115) this is the coproduct UMP: inl : x ~> x + y and inr : y ~> x + y give A ≤ A∨B and B ≤ A∨B, and merge (Structure/Cocartesian.v:131) : (y ~> x) → (z ~> x) → (y + z ~> x) gives A∨B ≤ C from A ≤ C and B ≤ C, uniquely."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }.  (Props is thin — 'equiv := fun f g => True' — hence a preorder ordered by entailment, in which the coproduct is literally the least upper bound.)"
+      }
+    ],
+    "statement_record": {
+      "book": "Systems on a fixed point set are ordered by A ≤ B iff every pair connected in A is connected in B; the five three-point systems form a Hasse diagram from the discrete to the fully connected system. Relative to this order the join defined earlier is exactly the least upper bound: A ≤ A∨B, B ≤ A∨B, and A∨B ≤ C whenever A ≤ C and B ≤ C.",
+      "intree": "The coproduct UMP (ump_products read in C^op) supplies precisely the three lub clauses, with inl/inr the two 'A ≤ A∨B' arrows and merge the mediating 'A∨B ≤ C'; Props_Cocartesian instantiates this in a genuine preorder (propositions under entailment), where the join is disjunction.",
+      "strength_comparison": "intree-stronger on the lub half (the UMP is uniqueness-carrying and holds in any category, not just thin ones), but intree-weaker overall: the ordered objects are arbitrary objects of a category, never partitions/systems, and the collapse 'coproduct in a poset = least upper bound' is asserted only in prose."
+    },
+    "gap": "Two clauses of the item are missing entirely. (1) The order being defined — inclusion of connection relations on a fixed point set — has no in-tree counterpart, because there are no partitions/systems (grep 'partition' finds only a list filter). Nothing in the tree orders quotients of a set; the only in-tree factorization preorder is on SUBobjects (Theory/Subobject.v:59 `sub_le`), i.e. subsets, not quotients. (2) The dictionary entry 'a coproduct in a poset is the join, and the limit over a subset is its greatest lower bound' appears ONLY as a comment (Instance/Poset.v:51) and is never proven; correspondingly `Proset` (Instance/Proset.v:33) and `Poset` carry no Cartesian/Cocartesian instance, so the only in-tree thin category with joins is Props. Hasse diagrams are nowhere formalized (grep -i 'hasse' returns 0 hits).",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'hasse|coarser' . -- 0 hits",
+      "grep -rni --include=*.v 'least upper bound|upper bound|supremum|infimum|greatest lower' . -- 1 hit, Instance/Poset.v:51, a comment",
+      "grep -rn --include=*.v 'Cocartesian|Cartesian' Instance/Proset.v Instance/Poset.v -- 0 structure instances (prose only)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: ump_products at Structure/Cartesian.v:136-137; the Cocartesian notation at Structure/Cocartesian.v:115-118; merge at :131 and inl/inr at :142-143; Props_Cocartesian at Instance/Props.v:80 quoted verbatim. Negatives independently reproduced: 'hasse' = 0 hits; the ONLY hit in the whole tree for the family 'least upper bound|upper bound|supremum|infimum|greatest lower' is the Instance/Poset.v:51 comment; rg 'Cocartesian|Cartesian' Instance/Proset.v Instance/Poset.v = 0. I also enumerated every @Cocartesian instance in the tree (Props, Sets, Coq, FinSet, Rel, Cat, AST, Par, ParE, Algs) and Props is indeed the only THIN one, so 'the only in-tree thin category with joins is Props' holds. Additional gap datum for Phase E: the 'join = colimit of a discrete pair' half is missing too - Structure/Limit/Cartesian.v carries only Cartesian_Limit (line 39) and there is no Cocartesian/Colimit counterpart anywhere (0 hits); see problems[] for the stale pointer this exposes."
+    }
+  },
+  {
+    "id": "7sketches:1.1.2:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "partitions of a two-element and four-element set; the 15 partitions of a 4-set (Bell number B4)",
+      "partition lattice / lattice of equivalence relations; Hasse diagram",
+      "join is the least upper bound: A ≤ A∨B, B ≤ A∨B, and A∨B ≤ C for every common upper bound C",
+      "coproduct UMP / copairing (merge, inl_merge, inr_merge)",
+      "enumeration of set partitions"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 175,
+        "symbol": "inl_merge / inr_merge",
+        "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f.  Lemma inr_merge (line 182) : f ▽ g ∘ inr ≈ g.  With `inl : x ~> x + y`, `inr : y ~> x + y` (lines 142-143) and `merge : (y ~> x) → (z ~> x) → (y + z ~> x)` (line 131), these are exactly the exercise's parts (4) and (6): A ≤ A∨B, B ≤ A∨B, and A∨B ≤ C for any common upper bound C."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  — dualized by 'Notation \"'Cocartesian' C\" := (@Cartesian (C^op))', the uniqueness half of the lub property."
+      }
+    ],
+    "statement_record": {
+      "book": "(1) List all partitions of a two-element set, order them by coarseness, draw the Hasse diagram. (2) Same for a four-element set, obtaining 15 partitions. Then for two chosen partitions A, B of the 4-set: (3) compute A∨B; (4) verify A ≤ A∨B and B ≤ A∨B; (5) find all common upper bounds C; (6) check A∨B ≤ C for each.",
+      "intree": "inl_merge/inr_merge plus merge and ump_products state, for arbitrary objects of a cocartesian category, exactly the three lub laws the exercise asks to verify: 'f ▽ g ∘ inl ≈ f', 'f ▽ g ∘ inr ≈ g', and the existence-and-uniqueness of the mediator out of x + y.",
+      "strength_comparison": "intree-stronger in generality for parts (4) and (6) (the laws hold in any cocartesian category, with a uniqueness clause the exercise does not ask for), but intree-weaker where the exercise is concrete: nothing enumerates or orders the partitions of a finite set."
+    },
+    "gap": "Everything concrete is missing. There are no partitions of any set (grep 'partition' finds only Theory/Coq/List.v:391's list filter), hence no enumeration (2 partitions of a 2-set, 15 of a 4-set), no coarseness order on them, and no partition lattice; Hasse diagrams are not formalized (grep -i 'hasse' = 0 hits); and no concrete join computation is exhibited (Instance/FinSet/Pushout.v, which owns the computing closure engine, contains no Example). What survives is only the generic coproduct-as-lub laws, and even the identification of a coproduct in a poset with a join is prose-only (Instance/Poset.v:51) — no in-tree Proset/Poset instance carries a Cocartesian structure.",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'hasse' . -- 0 hits",
+      "grep -rni --include=*.v 'partition' . -- only the list filter",
+      "grep -rni --include=*.v 'Bell number|enumerate.*partition' . -- 0 hits",
+      "grep -rn --include=*.v 'Cocartesian' Instance/Proset.v Instance/Poset.v -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: inl_merge at Structure/Cocartesian.v:175 (proved by apply (@exl_fork _ O)) and inr_merge at :182 (apply (@exr_fork _ O)), with merge at :131 and inl/inr at :142-143; ump_products at Structure/Cartesian.v:136. All negatives reproduced blind (hasse 0, partition = list filter only, no Cocartesian on Proset/Poset). Classification and gap both honest: the generic lub laws are in force, everything concrete (enumeration, coarseness order, partition lattice) is not."
+    }
+  },
+  {
+    "id": "7sketches:1.1.2:ex7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "join in the boolean preorder B = {false ≤ true}",
+      "disjunction / orb / logical or as least upper bound",
+      "coproduct in the walking arrow 2 (Instance/Two.v, _2)",
+      "coproduct in the poset of truth values (Props_Cocartesian, product_obj := or)",
+      "bottom element / initial object as the unit of join (false ∨ p = p)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }.  (Props: obj := Prop, hom := Basics.impl, homset trivial — a preorder of truth values under entailment, in which the join is disjunction.)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 375,
+        "symbol": "coprod_zero_l",
+        "intree_statement": "#[export] Program Instance coprod_zero_l {x : C} : 0 + x ≅ x := { to := zero ▽ id; from := inr }.  With Props_Initial (Instance/Props.v:61, terminal_obj := False) this gives false ∨ p ≅ p, i.e. the exercise's false ∨ false = false and false ∨ true = true."
+      }
+    ],
+    "statement_record": {
+      "book": "Using false ≤ true on B = {true, false}, where A ∨ B denotes the least element above both, compute true ∨ false, false ∨ true, true ∨ true, false ∨ false.",
+      "intree": "Props_Cocartesian: 'product_obj := or' — the join in the entailment preorder of propositions is disjunction, with or_introl/or_intror the two 'p ≤ p ∨ q' arrows and case analysis the mediator; coprod_zero_l : 0 + x ≅ x gives the bottom as the unit of the join.",
+      "strength_comparison": "intree-weaker: the join of truth values is present as a coproduct in a preorder of truth values, but that preorder is Prop (constructively not the two-element order), the three of the four asked values that need idempotence or a top are not derivable from what is in force, and the in-tree two-element order carries only the meet."
+    },
+    "gap": "The two-element boolean order itself is in-tree — `_2` (Instance/Two.v:129, objects TwoX, TwoY with a single non-identity arrow TwoXY, i.e. false ≤ true) — but it carries ONLY the meet: Instance/Two/Monoidal.v supplies `Two_Cartesian` (line 80, via `two_meet`, line 37) and `Two_Terminal` (line 98) and nothing else; there is no `Cocartesian _2` and no `Initial _2`, so joins in B specifically are unavailable, and Instance/Two/Monoidal.v's monoidal structure is the CARTESIAN one (`Two_Monoidal := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal`, line 105). Furthermore idempotence of the join (true ∨ true = true, i.e. x + x ≅ x) is not asserted anywhere and is false for general coproducts, so it does not follow from the generic Cocartesian API; and none of the four values the exercise asks for is evaluated in-tree.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Cocartesian|Initial' Instance/Two.v Instance/Two/Monoidal.v Instance/Two/Discrete.v -- 0 instances (one prose mention of 'coproduct' in Two/Discrete.v:24)",
+      "grep -rni --include=*.v 'orb|bool.*join|boolean preorder' . -- no join-on-bool definition; bool appears only as decision procedures (fin_eqb, fin_of_bool)",
+      "grep -rni --include=*.v 'idempotent.*coproduct|x + x' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, but the strength_comparison contains a factual miscount that must NOT be carried into Phase E verbatim. It says 'the three of the four asked values that need idempotence or a top are not derivable from what is in force'; in fact only ONE of the four needs idempotence. With Props_Initial (Instance/Props.v:61) in scope, coprod_zero_l : 0 + x = x (Structure/Cocartesian.v:375) and its sibling coprod_zero_r : x + 0 = x (Structure/Cocartesian.v:384, which I verified exists and the record does not mention) give false v false (x := 0), false v true (x := 1) and true v false (x := 1); only true v true (x + x = x) is unavailable, exactly as the gap field itself says. The rest is accurate: rg 'Cocartesian|Initial' over Instance/Two.v, Instance/Two/Monoidal.v, Instance/Two/Discrete.v = 0 hits, so _2 really carries only two_meet (:37), Two_Cartesian (:80), Two_Terminal (:98), Two_Monoidal (:105). Minor citation drift: _2 is 'Program Definition _2' at Instance/Two.v:133, not :129 (TwoObj is at :103)."
+    }
+  },
+  {
+    "id": "7sketches:1.1.2:eq8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "lax preservation of joins / sub-preservation: Phi(A) ∨ Phi(B) ≤ Phi(A ∨ B)",
+      "canonical comparison morphism F a + F b → F (a + b) (fmap inl ▽ fmap inr)",
+      "lax monoidal structure map lax_ap : F x ⨂ F y ~> F (x ⨂ y)",
+      "failure to preserve colimits / non-cocontinuous functor (PreservesColimit, PreservesAllColimits)",
+      "generative effect; monotone map that is not join-preserving"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor (lax_ap)",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂)); lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y); ... } — the tensor comparison pointing in exactly the book's direction, F x ⨂ F y → F (x ⨂ y)."
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 175,
+        "symbol": "MonotoneMap",
+        "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) } — the order-preservation hypothesis of the display."
+      }
+    ],
+    "statement_record": {
+      "book": "The order-preserving observation Phi from systems to B satisfies the one-sided inequality Phi(A) ∨ Phi(B) ≤ Phi(A ∨ B) for all A, B; the inequality can be strict (two systems with Phi(A) = Phi(B) = false but Phi(A ∨ B) = true), and such strictness is the generative effect: an order-preserving map need not preserve joins.",
+      "intree": "lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y), a field of Class LaxMonoidalFunctor; MonotoneMap's mono_le : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y).",
+      "strength_comparison": "intree-weaker on both halves. The comparison has the right direction but is POSTULATED as class data for a monoidal structure a functor is equipped with, whereas the book's inequality is DERIVED for every order-preserving map from the universal property of the join; and no witness of strictness (a functor whose comparison is not invertible / a monotone map failing to preserve a join) exists in-tree."
+    },
+    "gap": "The derivation and the strictness witness are both missing. (1) Nothing in the tree constructs the canonical comparison `fmap inl ▽ fmap inr : F a + F b ~> F (a + b)` that ANY functor into a cocartesian category carries — grep for 'fmap inl' over all *.v returns zero hits — so the inequality is never obtained from the join's UMP; the closest in-force statement, `CartesianFunctor` (Functor/Structure/Cartesian.v:49), goes the other way and demands the comparison be an ISOMORPHISM (`fobj_prod_iso {x y} : F (x × y) ≅ F x × F y`), i.e. preservation, which is exactly what the book says fails. (2) There is no cocartesian monoidal structure in-tree to instantiate lax_ap at the join: only `Cartesian_Monoidal` exists (Structure/Monoidal/Cartesian.v), used by Instance/Two/Monoidal.v and Theory/Lawvere/PROP.v; grep 'Cocartesian_Monoidal' returns 0 hits. (3) Strictness/the generative effect is expressible (Structure/Limit/Preservation.v:196 defines PreservesColimit, :233 PreservesAllColimits, as data to be supplied) but never exhibited: no in-tree functor is shown to fail colimit preservation, and no order-preserving map is shown to fail join preservation.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'fmap inl|(fmap inl)|fmap exl ▽' . -- 0 hits",
+      "grep -rn --include=*.v 'Cocartesian_Monoidal' . -- 0 hits",
+      "grep -rni --include=*.v 'generative effect' . -- 0 hits",
+      "grep -rni --include=*.v 'canonical comparison|comparison map|comparison morphism' . -- comment-level hits only (Functor/Structure/{Cartesian,Terminal,Monoidal,Constant}.v, Functor/Structure/Cartesian/Closed.v), all describing isos or supplied structure"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, with two corrections to the gap's framing, both of which SHARPEN it rather than contradict it. (a) The record says 'the closest in-force statement, CartesianFunctor (Functor/Structure/Cartesian.v:49), goes the other way' - but the dual IS in-tree and the record never mentions it: Notation \"'CocartesianFunctor' F\" := (@CartesianFunctor _ _ (F^op) _ _) at Functor/Structure/Cartesian.v:127-133, whose to fobj_prod_iso unfolds to precisely the book's comparison F x + F y ~> F (x + y). So join-PRESERVATION is formalized; what is genuinely missing is the LAX (non-invertible) comparison and the derivation of the one-sided inequality from the coproduct UMP. (b) The negative-log line \"grep 'generative effect' -- 0 hits\" is true only because the phrase is split across a line break: Instance/Poset.v:96-100 explicitly cites \"Fong and Spivak's Seven Sketches in Compositionality (2018) - 'Generative Effects: Orders and Galois Connections'\" and states that it \"takes a generative / effect to be an observation that does not preserve joins, detected by a Galois connection\". The library thus already names this exact book item in prose while formalizing none of it - directly usable provenance for the issue. Verified as cited: LaxMonoidalFunctor at Functor/Structure/Monoidal.v:110 with lax_ap at :117; 'fmap inl' 0 hits; 'Cocartesian_Monoidal' 0 hits; PreservesColimit at Structure/Limit/Preservation.v:196 (PreservesAllColimits is at :232, the cited :233 being its body line)."
+    }
+  },
+  {
+    "id": "7sketches:1.2.1:def-subset",
+    "classification": "PARTIAL",
+    "aliases": [
+      "set as a setoid / Bishop set (SetoidObject: carrier + equivalence relation)",
+      "subset / subobject / monomorphism up to iso (SubObj, sub_le)",
+      "empty set / initial object (Sets_Initial, FinSet_Initial)",
+      "comprehension {y ∈ Y | P y} / subset cut out by a predicate / characteristic map into Ω",
+      "membership x ∈ X; extensionality (a set is determined by its elements)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}. — the subsets of x correspond bijectively to the predicates on x, the backward map being pullback of `truth` along h (comprehension)."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u). — with `sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }` (line 59), the ⊆ relation between subsets of a common ambient object, and mutual inclusion is equality."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 265,
+        "symbol": "Sets_Initial",
+        "intree_statement": "#[export] Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }. — the empty set as the initial object of Sets (unique map out of it, by False elimination)."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 188,
+        "symbol": "fin_select_sat",
+        "intree_statement": "Lemma fin_select_sat {n : nat} (P : Fin.t n → bool) (k : Fin.t (fin_countP P)) : P (fin_select P k) = true. — with `fin_countP P` the number of elements satisfying P and `fin_select` the order-preserving inclusion, this is comprehension {i | P i} realized concretely and computably, injective by fin_select_inj (line 229)."
+      }
+    ],
+    "statement_record": {
+      "book": "A set is informally a collection of elements, with membership x ∈ X; a set is determined by its elements alone ({h,h,1,h,1} = {h,1}). X ⊆ Y when every element of X is an element of Y. The empty set has no elements and is a subset of every set. For a property P on Y, the comprehension {y ∈ Y | P(y)} is the subset of elements satisfying P. 'Set' itself is left undefined.",
+      "intree": "classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets (comprehension, as a bijection between subsets and predicates); sub_le / sub_equiv_iff_mutual (the ⊆ preorder on subobjects and its induced equality); Sets_Initial (empty set); fin_select_sat (the computable subset cut out by a decidable predicate).",
+      "strength_comparison": "intree-stronger where it overlaps (comprehension is a proven bijection with predicates, in any topos-like C, not a mere notation), but intree-weaker in kind: subsets are monos up to isomorphism rather than collections of elements, so ⊆ and comprehension are stated at the mono level, and the book's element-level clauses (membership as a relation, extensionality, ∅ ⊆ X) have no counterpart."
+    },
+    "gap": "Three element-level clauses are absent. (1) Extensionality: a set is a setoid (Instance/Sets.v:113, `Record SetoidObject := { carrier :> Type; is_setoid :> Setoid carrier }`), so 'a set is determined by its elements alone' — and hence the book's {h,h,1,h,1} = {h,1} remark — has no counterpart; setoid carriers are types, and there is no notion of a duplicate-free listing. (2) Membership is typing (x : carrier X), not a relation, so ⊆ exists only between SUBOBJECTS of a fixed ambient object (Theory/Subobject.v:59 `sub_le`), never between two sets; there is no elementwise ∀ x, x ∈ X → x ∈ Y. Instance/Ens.v does make Ensembles (predicates T → Prop) into objects, but its morphisms are membership preservation-AND-reflection (A = f⁻¹ B), not inclusions, so it does not supply ⊆ either. (3) 'The empty set is a subset of every set' is not stated: the unique map 0 → x from Sets_Initial is never shown monic, and no `SubObj x` is built from the initial object.",
+    "negative_search_log": [
+      "grep -rni --include=*.v 'comprehension' . -- 0 hits for the notion (only 'a curated subset of the development' style prose)",
+      "grep -rni --include=*.v 'extensional|funext' . -- funext-avoidance notes only; no set extensionality principle",
+      "grep -rn --include=*.v 'Monic (@one|zero.*Monic|initial.*monic' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence items verified at their exact cited lines: Structure/SubobjectClassifier.v:187 (classifier_classifies), Theory/Subobject.v:93-94 (sub_equiv_iff_mutual) with sub_le at :59, Instance/Sets.v:265 (Sets_Initial), Instance/FinSet/Classifier.v:188 (fin_select_sat, with fin_select_inj at :229). SetoidObject is at Instance/Sets.v:113 as cited. Negatives reproduced blind: 'comprehension' = 0 hits; and there really is no 'the initial object is monic' / 'the empty set is a subobject' statement anywhere - the only Monic-versus-zero hit in the tree is Structure/Abelian.v:171, an unrelated kernel characterization. The record is also right that Instance/Ens.v supplies membership as a relation but not inclusion (its homs are membership preservation AND reflection, A = f^-1 B); the record acknowledges this itself."
+    }
+  },
+  {
+    "id": "7sketches:1.2.1:example9",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the n-th ordinal / canonical n-element set / Fin.t n / skeletal FinSet objects",
+      "empty set (initial object, 0) and one-element set (terminal object, 1)",
+      "B = booleans / two-element set / object of truth values Ω = 2",
+      "natural numbers N (nat, the ordinal ω in Instance/Omega.v)",
+      "integers Z and reals R (Coq.ZArith, Coq.Reals)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet.v",
+        "line": 116,
+        "symbol": "FinSet",
+        "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); id := fun _ i => i; compose := fun _ _ _ f g i => f (g i) |}. — the objects ARE the natural numbers, with n standing for the canonical n-element set Fin.t n: exactly the book's n-th ordinal, for every n."
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x m _ b => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}. — the two-element set of booleans (with fin_true := Fin.F1, fin_false := Fin.FS Fin.F1, lines 310-311) as the object of truth values, i.e. the book's B."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 223,
+        "symbol": "FinSet_Initial",
+        "intree_statement": "#[export] Instance FinSet_Initial : Initial FinSet := @Build_Terminal (FinSet^op) 0%nat (fun x (v : Fin.t 0) => Fin.case0 (fun _ => Fin.t x) v) (fun x f g i => Fin.case0 (fun j => f j = g j) i). — the ordinal 0 is the empty set."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 236,
+        "symbol": "FinSet_Terminal",
+        "intree_statement": "#[export] Instance FinSet_Terminal : @Terminal FinSet := @Build_Terminal FinSet 1%nat (fun x (_ : Fin.t x) => Fin.F1) (fun x f g i => eq_trans (fin1_unique (f i)) (eq_sym (fin1_unique (g i)))). — the ordinal 1 is the one-element set {1} (`fin1_unique (j : Fin.t 1) : j = Fin.F1`, line 229)."
+      }
+    ],
+    "statement_record": {
+      "book": "Fixes notation for the standard sets: the empty set; the one-element set {1}; B = {true, false}; N with 0 ∈ N; for each n ∈ N the n-th ordinal, the n-element set {1,...,n} (0-bar empty, 5-bar = {1,2,3,4,5}); Z; and R.",
+      "intree": "FinSet: 'obj := nat; hom := fun m n => Fin.t m → Fin.t n' (the ordinals, indexed by all of N); FinSet_Initial at 0 and FinSet_Terminal at 1 (empty and singleton); FinSet_Classifier with 'Ω := 2%nat' (the booleans). Sets_Initial/Sets_Terminal (Instance/Sets.v:265/248) give the same two in the setoid model.",
+      "strength_comparison": "intree-stronger for the finite part: the ordinals are not merely named but form a skeletal category whose object equality is decidable and whose structure computes (Pow 2 = 4 by eq_refl); intree-absent for Z and R."
+    },
+    "gap": "The two infinite non-ordinal sets of the example do not exist in the library. Grep over every *.v for 'ZArith|Coq.Reals|QArith|Z_scope|BinInt' returns zero hits, so there is no Z and no R — 'the integers' and 'non-negative reals' appear only in bibliographic prose (Structure/Monoidal/Traced.v:71, Construction/Enriched.v:74, Construction/Karoubi.v:87). N is present only as an index/object type: `nat` as the objects of FinSet, and the ordinal ω as a category (Instance/Omega.v:72, `Omega` over the Type-valued order `le_t`); it is never presented as a set in the book's sense (no set of naturals as an object of Sets, no 0 ∈ N statement).",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'ZArith|Coq.Reals|QArith|Z_scope|BinInt' . -- 0 hits",
+      "grep -rni --include=*.v 'the integers|real numbers' . -- 1 prose hit (Structure/Monoidal/Traced.v:71)",
+      "grep -rn --include=*.v 'Inductive|Program Definition' Instance/Omega.v -- le_t and Omega only: N as an ordered index category, not as a set"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence items verified verbatim: FinSet at Instance/FinSet.v:116 (obj := nat, hom := Fin.t m -> Fin.t n), FinSet_Initial :223, FinSet_Terminal :236 with fin1_unique at :229, FinSet_Classifier with Omega := 2 at :353-356 and fin_true/fin_false at :310-311. Z/R absence independently confirmed (0 hits for Coq.Reals|ZArith|QArith|BinInt|Z_scope). One honest refinement to the gap's 'no set of naturals as an object of Sets': the discrete setoid on N does exist - 'Program Instance nat_setoid : Setoid nat' at Lib/Datatypes.v:353 - but rg shows it is referenced nowhere else in the tree, so it is indeed never packaged as a SetoidObject. The claim is literally true; the fact that the ingredient is one line away is worth recording in the issue."
+    }
+  },
+  {
+    "id": "7sketches:1.2.1:ex10",
+    "classification": "ABSENT",
+    "aliases": [
+      "integers Z / ZArith / BinInt / Z.le",
+      "comprehension over Z: {n ∈ Z | n ≥ 0}, {n ∈ Z | n ≥ 1}, {n ∈ Z | 1 < n < 2}",
+      "N as the non-negative integers / non-negative part of an ordered ring",
+      "empty comprehension / a predicate with no witnesses cuts out the empty set",
+      "decidable subset of an ordered set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'ZArith|Coq.Reals|QArith|Z_scope|BinInt' . -- 0 hits: the integers do not exist anywhere in the library, so none of the three questions can even be stated",
+      "grep -rni --include=*.v 'the integers|integer' . -- prose only: Structure/Monoidal/Traced.v:71 ('the construction of the integers from the natural numbers', a bibliographic remark), Structure/Limit.v:51 ('the p-adic integers')",
+      "grep -rni --include=*.v 'nonneg|non-negative|positive integer' . -- 3 hits, all prose about the non-negative extended reals as an enriching base (Construction/Enriched.v:74, Construction/Karoubi.v:87)",
+      "grep -rni --include=*.v 'comprehension' . -- 0 hits for the notion",
+      "grep -rni --include=*.v 'Z\\.le|n >= 0|le 0 n' . -- 0 hits",
+      "grep -rni --include=*.v 'partition' . -- (checked while classifying the neighbouring items) only Theory/Coq/List.v:391's list filter, confirming there is no set-level comprehension layer either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT confirmed by an independent blind search that reached the same conclusion before I opened the coverage file: rg 'Coq.Reals|ZArith|QArith|BinInt|Z_scope' over every *.v returns 0 hits, so Z does not exist in the library and none of the three questions can be stated at all. Schema-compliant for ABSENT (evidence [] plus a negative_search_log of aliases actually run; statement_record/gap null is permitted). No counterpart was missed: the nearest comprehension machinery (Instance/FinSet/Classifier.v's fin_countP/fin_select) is over Fin.t and cannot express a predicate on the integers."
+    }
+  },
+  {
+    "id": "7sketches:1.2.1:def-setops",
+    "classification": "PARTIAL",
+    "aliases": [
+      "union X1 ∪ X2 and intersection X1 ∩ X2 of subsets of a common set",
+      "indexed union ⋃_n X_n and indexed intersection ⋂_n X_n over a family of subsets",
+      "cartesian product X × Y / set of ordered pairs (Cartesian, product_obj)",
+      "disjoint union X + Y / tagged sum / coproduct (Cocartesian, Sets_Cocartesian)",
+      "join and meet of subobjects; unit law ∅ ∪ X = X"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cocartesian.v",
+        "line": 28,
+        "symbol": "Sets_Cocartesian",
+        "intree_statement": "#[export] Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type; is_setoid := {| equiv := fun z w => match z with inl z => match w with inl w => z ≈ w | inr _ => False end | inr z => match w with inl _ => False | inr w => z ≈ w end end |} |}; fork := ...; exl := inl; exr := inr }. — the disjoint union, with elements of different summands NEVER identified (the cross cases reduce to False): exactly the book's tagging."
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "#[export] Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type; is_setoid := {| equiv := fun z w => fst z ≈ fst w * (snd z ≈ snd w) |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fst; exr := snd }. — the set of ordered pairs (x, y), with componentwise equivalence."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 250,
+        "symbol": "FinSet_Cocartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; fork := fun x y z f g p => match fin_split p with inl a => f a | inr b => g b end; exl := fun x y => Fin.L y; exr := fun x y => Fin.R x |}. — the computing disjoint union on the ordinals; dually FinSet_Cartesian (Instance/FinSet/Product.v:105) has 'product_obj := fun m n => (m * n)%nat'."
+      }
+    ],
+    "statement_record": {
+      "book": "For subsets X1, X2 ⊆ Y: their union (elements of X1 together with those of X2, with ∅ ∪ X = X) and intersection (elements in both). For a family X_n ⊆ Y indexed by n ∈ N: the indexed union (elements in at least one X_n) and indexed intersection (elements in every X_n). For sets X, Y: the product X × Y of ordered pairs; and the disjoint union X + Y realized as tagged pairs (x,1), (y,2), keeping common elements apart.",
+      "intree": "Sets_Cocartesian: carrier := carrier x + carrier y with cross-summand equivalence False (the tagged disjoint union); Sets_Cartesian: carrier := carrier x * carrier y with componentwise ≈ (ordered pairs); FinSet versions computing as m + n and m * n.",
+      "strength_comparison": "same for the two clauses that are present (product and disjoint union are given with their full universal properties, in two models, one of them computing); intree-absent for the union/intersection clauses."
+    },
+    "gap": "Neither union nor intersection of subsets exists, in any form. (1) grep -i 'union' over all *.v yields only DISJOINT unions (coproducts: Structure/Cocartesian.v:68, Instance/Cat/Cocartesian.v:16), the union-find labeling of Instance/FinSet/Pushout.v, and Lib/FMapExt.v:821's right-biased map update — no union of two subsets of a common set. (2) grep -i 'intersect' yields only prose: Structure/Pullback.v:94 says the pullback of two subobjects is 'the intersection of subobjects' and Structure/Factorization.v:70 mentions E ∩ M as a class intersection; neither is a definition, and the subobject preorder (Theory/Subobject.v:59 `sub_le`) is given with no meets or joins, so there is no lattice of subsets of an object. (3) The N-indexed union/intersection of a family of subsets has no counterpart; `iprod`/`iprod_proj`/`iprod_ump` (Structure/Limit/Product.v, used in Theory/WeaklyInitial.v) is an indexed PRODUCT of a family of objects — a limit of a discrete diagram — not an indexed union of subsets of a fixed set, and no indexed coproduct is defined at all. (4) The unit law ∅ ∪ X = X survives only in the dual coproduct form `coprod_zero_l : 0 + x ≅ x` (Structure/Cocartesian.v:375).",
+    "negative_search_log": [
+      "grep -rni --include=*.v '\\bunion\\b' . (excluding 'disjoint union' / 'union-find') -- 6 hits, all coproduct prose or Lib/FMapExt.v map update",
+      "grep -rni --include=*.v 'intersect' . -- 3 hits, all comments (Structure/Pullback.v:94, Structure/Factorization.v:70, Construction/Groupoid.v:59)",
+      "grep -rn --include=*.v 'iprod|icoprod|indexed product|indexed coproduct' . -- iprod only (Structure/Limit/Product.v via Theory/WeaklyInitial.v); no indexed coproduct, no indexed union",
+      "grep -rn --include=*.v 'sub_join|sub_meet|SubObj.*lattice' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified verbatim: Sets_Cocartesian at Instance/Sets/Cocartesian.v:28 (including the cross-summand False that IS the book's tagging) and Sets_Cartesian at Instance/Sets/Cartesian.v:32; FinSet_Cocartesian at Instance/FinSet.v:250 and FinSet_Cartesian at Instance/FinSet/Product.v:105. Negatives independently reproduced: no union or intersection of subsets anywhere; Theory/Subobject.v carries only sub_le / sub_le_refl / sub_le_trans / sub_le_unique / sub_equiv_iff_mutual, i.e. no meets or joins on SubObj; and Structure/Limit/Product.v defines only iprod / iprod_proj / iprod_ump / limit_is_indexed_product - there is no indexed coproduct (icoprod = 0 hits). One nuance for the issue text: Coq.Sets.Ensembles IS imported by Instance/Ens.v and Instance/Rel.v, so stdlib Union/Intersection/Included are in scope there, but grep shows neither file ever uses them (Rel.v uses only Singleton/In). The record's 'in any form' is therefore accurate about the library never defining or using them, and is worth phrasing that way rather than as 'unavailable'."
+    }
+  },
+  {
+    "id": "7sketches:1.2.1:ex11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the eight subsets of a three-element set / powerset cardinality 2^n / power object Pow",
+      "cardinality of a product |A × B| = |A| · |B|",
+      "cardinality of a disjoint union |A + B| = |A| + |B|",
+      "union of two subsets of a common ambient set (tagging versus merging)",
+      "counting elements of a finite set / skeletal FinSet arithmetic"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 52,
+        "symbol": "FinSet_Pow_two",
+        "intree_statement": "Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl.  (Also FinSet_Pow_zero : Pow 0 = 1, line 54.  Pow a := Ω ^ a with Ω = 2 and FinSet_Closed's 'exponent_obj := fun m n => (n ^ m)%nat', so the set of subsets of an n-element set is the 2^n-element set, by computation.)"
+      },
+      {
+        "file": "Instance/FinSet/Product.v",
+        "line": 105,
+        "symbol": "FinSet_Cartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cartesian : @Cartesian FinSet := {| product_obj := fun m n => (m * n)%nat; fork := fun x y z f g i => fin_pair (f i) (g i); exl := fun y z p => fst (fin_unpair p); exr := fun y z p => snd (fin_unpair p) |}. — the product of an m- and an n-element set is the (m·n)-element set, with the pairing codec computing (Example fin_pair_computes, line 53)."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 250,
+        "symbol": "FinSet_Cocartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; ... exl := fun x y => Fin.L y; exr := fun x y => Fin.R x |}. — the disjoint union of an m- and an n-element set is the (m+n)-element set (Example merge_computes, line 291)."
+      }
+    ],
+    "statement_record": {
+      "book": "With A = {h, 1} and B = {1, 2, 3}: (1) write out all eight subsets of B; (2) pick two nonempty subsets of B and write out their union; (3) write out the six elements of A × B; (4) write out the five elements of the disjoint union A + B; (5) regarding A and B as subsets of {h,1,2,3}, write out the four elements of their union. The contrast between (4) and (5) is the point.",
+      "intree": "FinSet_Pow_two : Pow 2 = 4 := eq_refl (subsets counted as 2^n); FinSet_Cartesian's product_obj := m * n (six for 2 × 3); FinSet_Cocartesian's product_obj := m + n (five for 2 + 3).",
+      "strength_comparison": "intree-stronger for parts (1), (3) and (4) in kind — the counts are not merely enumerated but hold definitionally on the skeletal objects and reduce by eq_refl — yet intree-weaker in instantiation (only Pow 2 = 4 and Pow 0 = 1 are asserted, never Pow 3 = 8, nor 2 * 3 = 6, nor 2 + 3 = 5), and parts (2) and (5) have no counterpart at all."
+    },
+    "gap": "Parts (2) and (5) — the union of two subsets of a common ambient set, and the deliberate contrast between merging and tagging that is the exercise's whole point — have no in-tree counterpart: there is no union of subsets anywhere (grep -i 'union' finds only coproducts/disjoint unions, the union-find labeling, and a map update; grep -i 'intersect' finds only comments), and the subobject preorder Theory/Subobject.v:59 has no joins. For parts (1), (3), (4) the arithmetic is definitional in skeletal FinSet but the exercise's own instances are never evaluated: the in-tree Examples assert Pow 2 = 4 and Pow 0 = 1 only, not Pow 3 = 8, and no Example computes 2 * 3 or 2 + 3 at the object level. Also nothing in-tree enumerates the elements of a powerset (fin_tabulate/fin_apply codec elements are never listed).",
+    "negative_search_log": [
+      "grep -rni --include=*.v '\\bunion\\b' . -- coproduct prose, union-find, FMapExt update only; no subset union",
+      "grep -rn --include=*.v 'Pow ' Instance/FinSet/Topos.v -- FinSet_Pow_two (=4) and FinSet_Pow_zero (=1) only; no Pow 3",
+      "grep -rn --include=*.v 'Example' Instance/FinSet/Pushout.v -- 0 hits (no worked finite computations there)",
+      "grep -rni --include=*.v 'powerset|power set' . -- 0 hits (the notion appears only as the power object Pow in Structure/Topos.v:129)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: FinSet_Pow_two at Instance/FinSet/Topos.v:52 and FinSet_Pow_zero at :54, both genuine eq_refl Examples; FinSet_Cartesian product_obj := m * n (Instance/FinSet/Product.v:105, with Example fin_pair_computes at :53) and FinSet_Cocartesian product_obj := m + n (Instance/FinSet.v:250, with Example merge_computes at :291). Independently confirmed that Instance/FinSet/Topos.v's six Examples do NOT include Pow 3 = 8, and that no union-of-subsets counterpart exists, so parts (2) and (5) - the merging-versus-tagging contrast that is the exercise's whole point - are genuinely uncovered. Classification and gap both honest."
+    }
+  }
+]

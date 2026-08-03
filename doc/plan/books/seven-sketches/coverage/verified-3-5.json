@@ -1,0 +1,571 @@
+[
+ {
+  "id": "7sketches:3.4.2:def3.70",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjunction (hom-set isomorphism form)",
+   "L -| R, left adjoint / right adjoint",
+   "hom-set adjunction / Adjunction_Hom / hom_adj",
+   "adjunct, transpose, mate (curry/uncurry brackets \u230a-\u230b \u2308-\u2309)",
+   "natural bijection Hom_D(L c, d) \u2245 Hom_C(c, R d) on C^op \u220f D"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Hom.v",
+    "line": 72,
+    "symbol": "Adjunction_Hom",
+    "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C \u25ef F^op \u220f\u27f6 Id \u2245[[D^op \u220f C, Sets]] Hom D \u25ef Id^op \u220f\u27f6 U }"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 130,
+    "symbol": "Adjunction",
+    "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y ... |} {| carrier := @hom D x (U y) ... |} where \"\u230a f \u230b\" := (to adj f) and \"\u2308 f \u2309\" := (from adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : \u230af \u2218 fmap[F] g\u230b \u2248 \u230af\u230b \u2218 g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : \u230af \u2218 g\u230b \u2248 fmap[U] f \u2218 \u230ag\u230b; from_adj_nat_l ...; from_adj_nat_r ... }"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 195,
+    "symbol": "adj_univ",
+    "intree_statement": "Corollary adj_univ `(f : F x ~> y) (g : x ~> U y) : f \u2248 \u2308g\u2309 \u2194 \u230af\u230b \u2248 g."
+   }
+  ],
+  "statement_record": {
+   "book": "For functors L : C \u2192 D and R : D \u2192 C, L is left adjoint to R when for every c, d there is an isomorphism of hom-sets \u03b1_{c,d} : C(c, R d) \u2245 D(L c, d) natural in c and d (naturality as functors C^op \u00d7 D \u2192 Set); the image of a morphism under \u03b1 (either way) is called its mate.",
+   "intree": "Adjunction/Hom.v: `hom_adj : Hom C \u25ef F^op \u220f\u27f6 Id \u2245[[D^op \u220f C, Sets]] Hom D \u25ef Id^op \u220f\u27f6 U`; Theory/Adjunction.v: the same iso taken hom-setoid-wise with the two naturality squares `to_adj_nat_l/to_adj_nat_r` (and their duals) as fields, plus `adj_univ : f \u2248 \u2308g\u2309 \u2194 \u230af\u230b \u2248 g`.",
+   "strength_comparison": "same \u2014 Adjunction/Hom.v is literally the book's footnote-8 form (an iso in the functor category over D^op \u220f C, i.e. naturality in both variables at once); Theory/Adjunction.v spells the same data out componentwise and is proved interconvertible with it (Adjunction_Hom_to_Universal, Adjunction_Universal_to_Hom, Adjunction/Hom.v:223,259). Setoid rephrasing: hom-SETOIDS with \u2248, which is the faithful reading. Caution on vocabulary: the book's 'mate' (the transposed morphism) is in-tree the transpose \u230a-\u230b/\u2308-\u2309; the library reserves the name `mate` for the unrelated bicategorical mates correspondence (Theory/Bicategory/Mates.v)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (before opening coverage): aliases expanded to {adjunction, hom-set adjunction, L -| R, left/right adjoint, transpose, mate, unit/counit, Kan}; searched `rg -n '\\u22a3' --glob '*.v'`, `rg -n 'Class Adjunction' --glob '*.v'`, `find Adjunction -name '*.v'`. Landed independently on Theory/Adjunction.v:130 `Class Adjunction` and Adjunction/Hom.v:72 `Adjunction_Hom` -> same evidence, prelim PRESENT. Verified every cite by `sed -n`: Adjunction/Hom.v:72 = `Class Adjunction_Hom := {`, Theory/Adjunction.v:130 = `Class Adjunction@{o3 p3 so sh sp} := {`, Theory/Adjunction.v:195 = `Corollary adj_univ ...` -- all three quotes accurate. Round trip between the two forms confirmed at Adjunction/Hom.v:223 (`Adjunction_Hom_to_Universal : F \\u22a3 U`) and :259 (`Adjunction_Universal_to_Hom (A : F \\u22a3 U) : Adjunction_Hom`), and the four naturality obligations of the former are discharged from `naturality (to/from hom_adj)` -- so the componentwise fields really are the book's footnote-8 bifunctor naturality on C^op \\u00d7 D. Both files registered in _CoqProject and built (.vo present). The vocabulary caution about `mate` (in-tree reserved for Theory/Bicategory/Mates.v) is correct and worth keeping."
+  }
+ },
+ {
+  "id": "7sketches:3.4.2:example3.71",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Galois connection = adjunction between preorders",
+   "monotone Galois connection, adjoint pair of monotone maps",
+   "preorder as thin category (Proset / Poset)",
+   "f(p) \u2264 q iff p \u2264 g(q)",
+   "residuated map / antitone Galois connection"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 130,
+    "symbol": "Adjunction",
+    "intree_statement": "Class Adjunction := { adj {x y} : (F x ~{C}~> y) \u2245 (x ~{D}~> U y) in Sets; to_adj_nat_l ...; to_adj_nat_r ...; from_adj_nat_l ...; from_adj_nat_r ... }"
+   }
+  ],
+  "statement_record": {
+   "book": "Regarding a preorder P as a category, Galois connections between preorders and adjunctions (Def. 3.70) between the corresponding categories are the same thing: since hom-sets are subsingletons, the natural hom-set iso C(c, Rd) \u2245 D(Lc, d) degenerates to the biconditional L(p) \u2264 q \u27fa p \u2264 R(q).",
+   "intree": "`Proset (P : PreOrder R) : Category` turns any preorder into a thin category (hom := R, all parallel arrows identified by `equiv := fun _ _ => True`), and `Class Adjunction` is the general hom-setoid adjunction; but no in-tree statement connects the two.",
+   "strength_comparison": "intree-weaker: both halves of the identification exist as separate constructions, the identification itself is never asserted. The claim appears in-tree only as prose \u2014 Instance/Poset.v:47 ('an adjunction between posets is exactly a monotone Galois connection') and Theory/Adjunction.v:78 \u2014 which are comments, not assertions."
+  },
+  "gap": "There is no in-tree definition of a Galois connection (grep for 'Galois' finds only comments/essays; no `GaloisConnection` record, no pair of monotone maps with the biconditional), hence no theorem `Adjunction (F : Proset Q \u27f6 Proset P) (U : Proset P \u27f6 Proset Q) \u2194 (\u2200 p q, R_P (F p) q \u2194 R_Q p (U q))` in either direction. Also missing: the degeneracy lemma that in a thin category the hom-setoid iso carries no data beyond the biconditional (thinness is available only as `equiv := fun _ _ => True` inside Proset, plus the ad-hoc `two_thin` for the walking arrow).",
+  "negative_search_log": [
+   "grep -rniE 'GaloisConnection|Galois_connection|residuat|adjoint pair' --include='*.v' . \u2014 only Instance/Adjoints.v:82, a comment on adj_morphism",
+   "rg -ni 'galois' --glob '*.v' -l \u2014 6 files, every hit a comment/essay line (Instance/Poset.v:37-100, Theory/Adjunction.v:78, Structure/Factorization.v:69, Structure/Limit.v:53, Adjunction/GAFT.v:136, Instance/Adjoints.v:280)",
+   "rg -n 'Proset|Poset' --glob '*.v' -l \u2014 Adjunction/GAFT.v, Construction/Enriched.v, Test/Poset.v, Instance/{Two,Poset,Proset,Props}.v; no adjunction is built over any of them"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim was ABSENT, not PARTIAL; I confirm PARTIAL as within tolerance but the record's strength_comparison is loosely worded and should be read with these corrections. (1) INACCURATE PHRASE: 'both halves of the identification exist as separate constructions' -- they do not. The Galois-connection half is entirely absent (my independent `rg -n -i 'galois' --glob '*.v'` returns 16 hits across 6 files, EVERY one a header-essay line: Instance/Poset.v:37,38,47,56,58,63,92,95,97,100; Theory/Adjunction.v:78,79; Structure/Factorization.v:69; Structure/Limit.v:53; Adjunction/GAFT.v:136; Instance/Adjoints.v:280). What exists is (a) preorder-as-thin-category and (b) the general Adjunction class -- ingredients, not halves. (2) EVIDENCE THE CLASSIFIER MISSED, and it strengthens PARTIAL: preorders and monotone maps ARE formalized as first-class in-tree data in Construction/Enriched/Two.v -- `Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P \\u2192 tpre_carrier Q; mono_le x y : tpre_le P x y \\u2192 tpre_le Q (mono_map x) (mono_map y) }` at line 175, over the `TwoPreorder` record, with `Enriched_Two_preorder : @Enriched _2 Two_Monoidal \\u2194 TwoPreorder` (line 165) and `EnrichedFunctor_Two_monotone` (line 183) proved both ways. So the issue draft can state the missing theorem over an existing `MonotoneMap` pair rather than inventing the vocabulary. File registered in _CoqProject, .vo present. (3) The rest of the gap statement is accurate: no `GaloisConnection` record, no theorem relating Adjunction over Proset categories to the biconditional, and no adjunction is ever built over Proset or Poset (I re-ran `rg -n 'Proset|Poset' --glob '*.v' -l` and inspected each hit)."
+  }
+ },
+ {
+  "id": "7sketches:3.4.2:example3.72",
+  "classification": "PARTIAL",
+  "aliases": [
+   "currying adjunction (- \u00d7 B) \u22a3 (-)^B",
+   "exponential object, internal hom, function set C^B",
+   "cartesian closed category / Closed / exp_iso",
+   "Set(A \u00d7 B, C) \u2245 Set(A, C^B), curry/uncurry",
+   "tensor-hom adjunction, product-hom adjunction"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Cartesian/Closed.v",
+    "line": 38,
+    "symbol": "Sets_Closed",
+    "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := {| morphism := fun f => {| morphism := fun x => {| morphism := fun y => f (x, y) |} |} |} ; from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} |} }"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 51,
+    "symbol": "Closed (exp_iso)",
+    "intree_statement": "Class Closed := { exponent_obj : obj \u2192 obj \u2192 obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y; curry' := to exp_iso; uncurry' := from exp_iso; eval' {x y} : y^x \u00d7 x ~> y := uncurry' id; ump_exponents' {x y z} (f : x \u00d7 y ~> z) : eval' \u2218 first (curry' f) \u2248 f }"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 165,
+    "symbol": "curry_comp_l",
+    "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y \u00d7 z ~> w) (g : x ~> y) : curry f \u2218 g \u2248 curry (f \u2218 first g)."
+   }
+  ],
+  "statement_record": {
+   "book": "For any set B there is an adjunction (\u2212 \u00d7 B) \u22a3 (\u2212)^B on Set: a natural isomorphism Set(A \u00d7 B, C) \u2245 Set(A, C^B), where C^B is the set of functions B \u2192 C; functions of two variables correspond to functions of the first returning a function of the second.",
+   "intree": "`Sets_Closed : @Closed Sets _` instantiates `exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y` at Sets with z^y the setoid of \u2248-respecting maps, `to` = \u03bbf.\u03bbx.\u03bby. f (x,y) (curry) and `from` = \u03bbf.\u03bbp. f (fst p) (snd p) (uncurry); naturality in the first variable is `curry_comp_l`, in the target `curry_comp : curry (f \u2218 g) \u2248 curry (f \u2218 eval) \u2218 curry g` (Structure/Cartesian/Closed.v:177).",
+   "strength_comparison": "same in substance, different packaging. intree-weaker in one respect: the bijection is stated as an indexed family of isos in the `Closed` class rather than as an `Adjunction` record between the endofunctors \u2212 \u00d7 B and (\u2212)^B (no such one-variable functors are built in-tree; only the two-variable `InternalHomFunctor : C^op \u220f C \u27f6 C`, Functor/Hom/Internal.v:40), and naturality is a derived corollary (curry_comp_l / curry_comp) rather than a field. intree-stronger in another: the same statement is proved generically for every cartesian closed C, and separately for Coq types (`Coq_Closed`, Instance/Coq.v:167), and the Sets proof is funext-free (setoid function space)."
+  },
+  "gap": "The currying bijection is in-tree only as the indexed family `exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y` (Structure/Cartesian/Closed.v:51). Book Example 3.72 presents it explicitly as an INSTANCE of Definition 3.70 (adjunction), which requires the two one-variable functors (\u2212 \u00d7 B) and (\u2212)^B and an `Adjunction` record between them. Neither functor is built in-tree; `(- \u00d7 y) \u22a3 (- ^ y)` appears ONLY in prose comments at Structure/Cartesian/Closed.v:34 and :47. So the bijection is present, the adjunction PRESENTATION the example is making is not.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim was PARTIAL (I docked it for having no `Adjunction` record); adversarial re-check UPGRADES my own view to agree with PRESENT, and I found a concrete argument the classifier did not make. Unfolding the book's adjunction against Theory/Adjunction.v's fields at F := (\\u2212 \\u00d7 B), U := (\\u2212)^B: `to_adj_nat_l : \\u230af \\u2218 fmap[F] g\\u230b \\u2248 \\u230af\\u230b \\u2218 g` IS `curry_comp_l : curry f \\u2218 g \\u2248 curry (f \\u2218 first g)` (Structure/Cartesian/Closed.v:165, read right-to-left, since fmap[\\u2212\\u00d7B] g = first g); and `to_adj_nat_r : \\u230af \\u2218 g\\u230b \\u2248 fmap[U] f \\u2218 \\u230ag\\u230b` IS LITERALLY `curry_comp : curry (f \\u2218 g) \\u2248 curry (f \\u2218 eval) \\u2218 curry g` (line 177), because `fmap[InternalHomFunctor] (id, f) = curry (f \\u2218 eval \\u2218 second id)`. So BOTH adjunction naturality fields are present as proved corollaries, not merely 'derived somehow'. Quotes verified verbatim by `sed -n '165p;177,178p'`; Structure/Cartesian/Closed.v:51 `exp_iso {x y z} : x \\u00d7 y ~> z \\u224a x ~> z^y` verified; Instance/Sets/Cartesian/Closed.v:38 `Sets_Closed : @Closed Sets _` verified, registered, built. Correct file too: CLAUDE.md warns Structure/Closed.v is a dead Eilenberg\\u2013Kelly stub, and the record cites the live Structure/Cartesian/Closed.v. The residual gap is packaging only (no one-variable functors \\u2212\\u00d7B and (\\u2212)^B are carved out of InternalProductFunctor / InternalHomFunctor, so no `Adjunction` record is instantiated) and the record discloses exactly that. [RECLASSIFIED PRESENT->PARTIAL on fess-7s3. The record's own strength_comparison already said 'intree-weaker in one respect' while classification was PRESENT with gap:None \u2014 self-contradictory on the campaign's calibration. Note this was the rare PERMISSIVE verifier move (its notes say the blind pass was PARTIAL and the adversarial re-check UPGRADED to agree with PRESENT); with 99 CONFIRMED / 2 OVERTURNED overall, a permissive upgrade is the unusual event and did not survive scrutiny.]"
+  }
+ },
+ {
+  "id": "7sketches:3.4.2:ex3.73",
+  "classification": "PRESENT",
+  "aliases": [
+   "action of \u2212 \u00d7 B on morphisms (f \u00d7 id_B), first / split",
+   "action of (\u2212)^B on morphisms (post-composition, f \u2218 \u2212)",
+   "functoriality of the exponential, fmap of the internal hom",
+   "curried addition p : N \u2192 N^N, p(3) = \u03bbn. 3 + n",
+   "bifunctoriality of product and exponential"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 172,
+    "symbol": "first",
+    "intree_statement": "Definition first {x y z : C} (f : x ~> y) : x \u00d7 z ~> y \u00d7 z := (f \u2218 exl) \u25b3 exr."
+   },
+   {
+    "file": "Functor/Hom/Internal.v",
+    "line": 40,
+    "symbol": "InternalHomFunctor",
+    "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op \u220f C \u27f6 C := {| fobj := fun p => exponent_obj (fst p) (snd p); fmap := fun x y '(f, g) => curry (g \u2218 eval \u2218 second (op f)) |}"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 333,
+    "symbol": "first_comp",
+    "intree_statement": "Theorem first_comp {x y z w : C} (f : y ~> z) (g : x ~> y) : first (z:=w) (f \u2218 g) \u2248 first f \u2218 first g."
+   }
+  ],
+  "statement_record": {
+   "book": "Complete the two currying functors on morphisms: for f : X \u2192 Y, (\u2212 \u00d7 B) should send f to a morphism X \u00d7 B \u2192 Y \u00d7 B, and (\u2212)^B should send f to X^B \u2192 Y^B; and compute p(3) where p : N \u2192 N^N is the curry of addition.",
+   "intree": "`first f : x \u00d7 z ~> y \u00d7 z := (f \u2218 exl) \u25b3 exr` is exactly f \u00d7 id_B, and is functorial (`first_id`, `first_comp`). The exponential's morphism action is `fmap[InternalHomFunctor] (f, g) = curry (g \u2218 eval \u2218 second (op f))`, which at f = id (exponent held fixed at B) is the book's post-composition X^B ~> Y^B; functoriality is discharged by the `Program Definition` obligations.",
+   "strength_comparison": "same for parts (1) and (2), with the extra content that both actions are proved functorial (the book only asks for the assignment). Part (3) \u2014 the numeric answer p(3) = \u03bbn. 3 + n \u2014 has no in-tree counterpart as a stated example, but it is the value of `to (exp_iso) plus 3` under `Coq_Closed` (Instance/Coq.v:167, `to := \u03bb f a b, f (a, b)`) and carries no mathematical content beyond parts (1)\u2013(2). intree-weaker in packaging: the one-variable functor (\u2212)^B is not carved out of the two-variable `InternalHomFunctor`."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim PARTIAL, revised to agree with PRESENT. Cites verified: Structure/Cartesian.v:172 `Definition first {x y z : C} (f : x ~> y) : x \\u00d7 z ~> y \\u00d7 z := (f \\u2218 exl) \\u25b3 exr` (= f \\u00d7 id_B, the book's part (1)); Functor/Hom/Internal.v:40 `InternalHomFunctor ... fmap := fun x y '(f, g) => curry (g \\u2218 eval \\u2218 second (op f))`, which at f := id is post-composition X^B ~> Y^B (part (2)); `first_comp` -- the record cites line 333, which is the CONCLUSION line, the `Theorem first_comp` header being at 332 (harmless off-by-one, statement quoted accurately), with `first_id` immediately above at 326-328. Part (3) (p(3) = \\u03bbn. 3+n) is arithmetic with no categorical content and is honestly flagged as having no in-tree counterpart; `Coq_Closed` at Instance/Coq.v:167 verified as the place its value would be read off. No same-name-weaker trap: `first` is not an alias of anything else, and its functoriality is genuinely proved rather than assumed."
+  }
+ },
+ {
+  "id": "7sketches:3.4.2:example3.74",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free/forgetful adjunction, free functor is a left adjoint",
+   "free category on a graph (quiver) \u22a3 underlying graph",
+   "free monoid / free group / free ring / free vector space",
+   "discrete category (or preorder, space) \u22a3 underlying set; codiscrete/indiscrete as right adjoint",
+   "abelianization \u22a3 inclusion Ab \u21aa Grp, commutator subgroup"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 550,
+    "symbol": "FreeForgetfulAdjunction",
+    "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .  (with FreeCatFunctor : QuiverCategory \u27f6 StrictCat the free category on a quiver, Forgetful : StrictCat \u27f6 QuiverCategory the underlying quiver, and UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful at line 518)"
+   },
+   {
+    "file": "Instance/Discrete.v",
+    "line": 37,
+    "symbol": "DiscreteCat",
+    "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := ... (the discrete category on a type; `DiscreteCat_Discrete` at line 65 proves it has only identities)"
+   }
+  ],
+  "statement_record": {
+   "book": "Five families of adjunctions, stated without proof: (1) free group/monoid/ring/vector space on a set, each a left adjoint to the underlying-set functor; (2) free preorder and free category on a graph, left adjoints to the underlying-graph functors; (3) discrete preorder/graph/metric space/category/space, left adjoints to underlying-set; (4) codiscrete versions, right adjoints to underlying-set; (5) abelianization, left adjoint to Ab \u21aa Grp.",
+   "intree": "Family (2), category half: `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`, the free category on a quiver against the underlying-quiver functor `Forgetful : StrictCat \u27f6 QuiverCategory`, obtained from the genuine universal arrow `UniversalArrowQuiverCat`. Family (3) has only the construction `DiscreteCat A` with no adjunction.",
+   "strength_comparison": "intree-weaker: exactly one of the book's five families is realized as an in-tree adjunction (free category on a graph), and it is stated over StrictCat (strict functor equality) rather than Cat. Everything else in the list is missing."
+  },
+  "gap": "Missing: (1) no algebraic categories with free functors \u2014 Instance/CMon.v has commutative monoids and the forgetful `CMon_Forget : CMon \u27f6 Sets` (line 169) but no free functor or adjunction; no Grp/Ring/Vect at all. (2) the free-PREORDER-on-a-graph half is absent. (3) no adjunction Discrete \u22a3 Ob (DiscreteCat exists as a bare construction only). (4) no codiscrete/indiscrete construction anywhere (grep 'codiscrete|indiscrete|chaotic' finds only comments: Structure/Discrete.v:23-24 names the adjoint triple in prose, Theory/Bicategory/Lax.v uses 'codiscrete' for a setoid). (5) abelianization and commutator subgroups are entirely absent.",
+  "negative_search_log": [
+   "grep -rniE 'free monoid|FreeMonoid|free group|FreeGroup|free vector|abelianiz|commutator' --include='*.v' . \u2014 only prose mentions (Construction/PROP.v, Theory/Coq/List/Proofs.v, Theory/Universal/Arrow.v essays); no construction",
+   "rg -ni 'codiscrete|indiscrete|chaotic' --glob '*.v' \u2014 comments only (Structure/Discrete.v:23, Theory/Bicategory/Lax.v:163ff, Construction/Funny.v:41)",
+   "grep -rnE 'UniversalArrow|LeftAdjointFunctorFromUniversalArrows' --include='*.v' . \u2014 free/forgetful uses are Construction/Free/Quiver.v, Monad/Lifting.v, Adjunction/GAFT*.v only"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PARTIAL). Cites verified: Construction/Free/Quiver.v:550 `Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`, fed by the genuine `UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful` at :518 and `Forgetful : @Functor StrictCat QuiverCategory` at :412 -- so this really is free-category-on-a-graph \\u22a3 underlying-graph, and the disclosure that it lives over StrictCat rather than Cat is correct. Instance/Discrete.v:37 `DiscreteCat` and :65 `DiscreteCat_Discrete` verified; Instance/CMon.v:169 `CMon_Forget : CMon \\u27f6 Sets` verified, and my own `rg -n -i 'free' Instance/CMon.v` returns ZERO hits, confirming no free commutative monoid. Independent negative searches reproduce the classifier's: `rg -n -i 'codiscrete|indiscrete|chaotic' --glob '*.v'` yields only Structure/Discrete.v:23-24 (prose naming the adjoint triple) and Theory/Bicategory/Lax.v:163ff (an unrelated codiscrete setoid); abelianization/commutator: 0 constructions. ONE IMPRECISION in the gap text, not enough to overturn: 'no Grp/Ring/Vect at all' overstates. Structure/Group.v:109 defines `Class GroupObject (grp : C)` (internal group objects, with the essay at :46 citing topological/Lie groups), and Structure/Monoid.v defines monoid objects. What is genuinely absent is the CATEGORY of groups/rings/vector spaces over Sets and any free functor into it -- the issue should be worded that way so it does not read as contradicting Structure/Group.v."
+  }
+ },
+ {
+  "id": "7sketches:3.4.3:construction-sigma-delta-pi",
+  "classification": "PARTIAL",
+  "aliases": [
+   "\u03a3_F \u22a3 \u0394_F \u22a3 \u03a0_F, data migration functors",
+   "left and right Kan extension along F (Lan_F \u22a3 F* \u22a3 Ran_F)",
+   "restriction / precomposition / pullback functor (\u2212 \u25ef F) on functor categories",
+   "base change, adjoint triple on presheaf categories",
+   "left pushforward = colimit-flavoured union; right pushforward = limit-flavoured join"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 222,
+    "symbol": "LeftKan",
+    "intree_statement": "Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 140,
+    "symbol": "RightKan",
+    "intree_statement": "Class RightKan := { Ran : [A, C] \u27f6 [B, C]; ran_adjoint : Induced \u22a3 Ran }"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 127,
+    "symbol": "Induced",
+    "intree_statement": "Program Definition Induced : ([B, C]) \u27f6 ([A, C]) := {| fobj := fun G => G \u25ef F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}"
+   }
+  ],
+  "statement_record": {
+   "book": "For any functor F : C \u2192 D between schemas the pullback functor \u0394_F : D-Inst \u2192 C-Inst has both a left adjoint \u03a3_F and a right adjoint \u03a0_F (\u03a3_F \u22a3 \u0394_F \u22a3 \u03a0_F), both C-Inst \u2192 D-Inst; no general formula is given, the behaviour being pinned down by an example where \u03a3_F(I) is a disjoint union of tables and \u03a0_F(I) a set of matching tuples (a join). Moral: \u03a3 is built from colimits, \u03a0 from limits.",
+   "intree": "`Induced := (\u2212 \u25ef F) : [B,C] \u27f6 [A,C]` IS \u0394_F, and the two Kan-extension classes package exactly the two adjunctions: `LeftKan` requires `Lan \u22a3 Induced` (= \u03a3_F \u22a3 \u0394_F) and `RightKan` requires `Induced \u22a3 Ran` (= \u0394_F \u22a3 \u03a0_F). Instantiated at C := Sets these are literally the book's data-migration functors on Set-valued instances.",
+   "strength_comparison": "intree-weaker: the adjoint triple is stated only as a HYPOTHESIS class, never inhabited. `LeftKan`/`RightKan` are classes whose fields are the adjunctions; no instance of either is constructed anywhere in the tree, so the book's existence claim ('\u0394_F has both a left and a right adjoint') is not proved for any target category, in particular not for Sets. The general shape of the claim (which functor is left of which) matches exactly."
+  },
+  "gap": "Three things are missing. (a) EXISTENCE: no `LeftKan`/`RightKan` instance is ever built (grep shows the only consumers are Structure/Limit/Kan/Extension.v's `Kan_Limit`, which takes `RightKan` as a hypothesis); in particular there is no theorem that Set-valued (or Sets-valued) Kan extensions along an arbitrary F exist. The prerequisite completeness/cocompleteness of Sets is also absent \u2014 `Complete`/`Cocomplete` (Structure/Complete.v:115,119) have no in-tree instance at all. (b) FORMULAS: the pointwise coend/end (colimit over F \u2193 b, limit over b \u2193 F) formulas are explicitly disclosed as unformalized in the Theory/Kan/Extension.v header, so the concrete descriptions \u03a3_F(I)(d) = colim and \u03a0_F(I)(d) = matching tuples are not derivable in-tree. (c) SCHEMAS: the library has no notion of database schema/instance (no `C-Inst` abbreviation, no finitely-presented-category-with-path-equations layer), so the migration reading is available only through the functor-category vocabulary.",
+  "negative_search_log": [
+   "grep -rniE 'data migration|migration functor|Sigma_F|Pi_F|Delta_F' --include='*.v' . \u2014 only a prose citation of Seven Sketches Ch. 3 at Construction/Free.v:90",
+   "grep -rn 'RightKan|LeftKan|LocalLan|LocalRan' --include='*.v' . | grep -v Theory/Kan/Extension.v \u2014 sole hit is Structure/Limit/Kan/Extension.v, which assumes `@RightKan _ _ (Erase J) C`",
+   "grep -rn 'Complete\\b|Cocomplete' --include='*.v' . \u2014 Definition only (Structure/Complete.v:115,119) plus Comma_Complete; no Sets instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PARTIAL), and I reached the same three evidence sites unaided by grepping for Lan/Ran/precomposition. Cites verified verbatim: Theory/Kan/Extension.v:127 `Induced : ([B, C]) \\u27f6 ([A, C]) := {| fobj := fun G => G \\u25cb F; ... |}` (= \\u0394_F), :140 `Class RightKan := { Ran : [A,C] \\u27f6 [B,C]; ran_adjoint : Induced \\u22a3 Ran }` (= \\u0394_F \\u22a3 \\u03a0_F), :222 `Class LeftKan := { Lan; lan_adjoint : Lan \\u22a3 Induced }` (= \\u03a3_F \\u22a3 \\u0394_F). Orientation of the triple matches the book exactly. The load-bearing negative claim -- that neither class is ever inhabited -- I re-verified independently: `rg -n 'RightKan|LeftKan|LocalLan|LocalRan|Ran |Lan ' --glob '*.v' .` outside Theory/Kan/Extension.v returns hits ONLY inside Structure/Limit/Kan/Extension.v, all of them uses of the hypothesis `@RightKan _ _ (Erase J) C`; there is no `Program Instance ... : RightKan` or `: LeftKan` anywhere. Likewise `Complete`/`Cocomplete` (Structure/Complete.v:115,119) are bare Definitions with no instance -- every occurrence in the tree is a hypothesis argument (Adjunction/SAFT.v, Adjunction/GAFT.v:193,242, Construction/Comma/Limit.v:124, Theory/Adamek/Corollaries.v:61). The gap's claim that the coend/end formulas are disclosed as unformalized is accurate and I found the exact sentence: Theory/Kan/Extension.v:74-79 -- 'Pointwise, the left extension at b is a colimit over the comma category F \\u2193 b and the right a limit over b \\u2193 F ... the coend calculus of Structure/Coend.v and Instance/Sets/{End,Coend}.v is the in-tree machinery those formulas would rest on, a bridge not yet formalized.' Header is honest; no library defect here."
+  }
+ },
+ {
+  "id": "7sketches:3.4.4:ex3.76",
+  "classification": "PRESENT",
+  "aliases": [
+   "unique functor ! : C \u27f6 1",
+   "terminal functor, Erase, bang functor",
+   "constant functor onto the point category",
+   "1 = terminal category (single object, single identity)",
+   "one[C] : C \u27f6 1"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/One.v",
+    "line": 47,
+    "symbol": "Erase",
+    "intree_statement": "Program Instance Erase `(C : Category) : C \u27f6 1 := { fobj := fun _ => ttt; fmap := fun _ _ _ => id }"
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }  (the `one_unique` obligation, discharged at line 58, is exactly the uniqueness of ! : C \u27f6 1)"
+   }
+  ],
+  "statement_record": {
+   "book": "Describe the unique functor ! : C \u2192 1: where does it send each object, and each morphism, of C?",
+   "intree": "`Erase C : C \u27f6 1` with `fobj := fun _ => ttt` (every object to the lone object) and `fmap := fun _ _ _ => id` (every morphism to the lone identity); its uniqueness is the `one_unique` obligation of `Cat_Terminal`.",
+   "strength_comparison": "same, and stronger than asked: the book requests only the description, while in-tree the assignment is proved functorial and proved to be the unique such functor (up to the natural-isomorphism equivalence of Cat)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PRESENT); I found Instance/One.v `Erase` independently before opening coverage. Verified: Instance/One.v:47 `Program Instance Erase `(C : Category) : C \\u27f6 1 := { fobj := fun _ => ttt; fmap := fun _ _ _ => id }` -- exactly the book's two answers (every object to the lone object, every morphism to the lone identity). Uniqueness cite checked: the `one_unique` obligation of `Cat_Terminal` (Instance/One.v:54) is discharged at :58 by `constructive; auto; try exact ttt. destruct (fmap[f] f0); auto.` The `1` here is `_1` at :25 (obj := poly_unit, hom := fun _ _ => poly_unit, homset = Morphism_equality), so the target really is the terminal category. Registered, built."
+  }
+ },
+ {
+  "id": "7sketches:3.4.4:construction-single-set-summaries",
+  "classification": "PARTIAL",
+  "aliases": [
+   "\u03a3_! and \u03a0_! : C-Inst \u27f6 Set, single-set summary of an instance",
+   "colimit / limit of a Set-valued functor as Kan extension along ! : C \u2192 1",
+   "connected components \u03c0\u2080 of an instance (quotient); compatible/matching tuples",
+   "1-Inst \u2245 Set, functor category [1, C] \u2243 C",
+   "Lan/Ran along Erase C, Kan_Limit"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Kan/Extension.v",
+    "line": 46,
+    "symbol": "Kan_Limit",
+    "intree_statement": "Theorem Kan_Limit `(F : J \u27f6 C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim \u2245 Ran (Erase J) F ttt."
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 222,
+    "symbol": "LeftKan",
+    "intree_statement": "Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }  (at F := Erase C this is \u03a3_! \u22a3 \u0394_!)"
+   }
+  ],
+  "statement_record": {
+   "book": "Specializing \u00a73.4.3 to ! : C \u2192 1 and identifying 1-Inst with Set, the two adjoints of \u0394_! become \u03a3_!, \u03a0_! : C-Inst \u2192 Set, each summarizing a whole instance by one set: \u03a3_!(I) is the set of connected components of I (a quotient identifying entries linked by the schema's morphisms) and \u03a0_!(I) the set of compatible tuples. General moral: \u03a3-operations are built from colimits in Set, \u03a0-operations from limits.",
+   "intree": "`Kan_Limit : Lim \u2245 Ran (Erase J) F ttt` proves exactly the \u03a0 half of the moral \u2014 the right Kan extension along the terminal functor `Erase J : J \u27f6 1`, evaluated at the unique object, IS the limit of the diagram \u2014 and `LeftKan` at F := Erase C is the \u03a3_! \u22a3 \u0394_! half of the adjoint pair.",
+   "strength_comparison": "intree-weaker in three ways: (i) `Kan_Limit` is an iso between two things ASSUMED to exist (it takes both `Limit F` and `@RightKan _ _ (Erase J) C` as hypotheses), so it identifies \u03a0_! with lim without constructing either; (ii) only the limit/\u03a0 direction is proved \u2014 the dual `colim F \u2245 Lan (Erase J) F ttt` is asserted in the file header but has no theorem; (iii) the target is an arbitrary C, so nothing specific to Set (connected components as a quotient, matching tuples) is computed."
+  },
+  "gap": "Missing: (a) the identification 1-Inst = Set, i.e. an equivalence [1, C] \u2243 C \u2014 asserted only in prose at Instance/One.v:22 ('functors out of 1 pick out objects of the target, so [1, C] \u2243 C'), with no in-tree proof; (b) the colimit dual of `Kan_Limit` (no `Kan_Colimit`); (c) existence \u2014 no Kan extension along `Erase C` is ever constructed, and Sets is not shown complete or cocomplete; (d) the concrete Set-level descriptions: \u03a3_!(I) as the connected-components quotient (no \u03c0\u2080 / connected-components construction exists in-tree; the nearest is Instance/FinSet/Pushout.v's fibre-of-connected-components discussion, which is about pushouts of finite sets) and \u03a0_!(I) as the set of compatible tuples.",
+  "negative_search_log": [
+   "grep -rniE 'connected component|\u03c00|pi0' --include='*.v' . \u2014 only Instance/FinSet/Pushout.v:265,405, about pushout fibres, not \u03c0\u2080 of an instance",
+   "grep -rnE '\\[1, *C\\]|One.*\u2243|\u2243.*One' --include='*.v' . \u2014 no assertion; the claim is a comment at Instance/One.v:22",
+   "grep -nE '^(Program )?(Definition|Theorem|Lemma)' Structure/Limit/Kan/Extension.v \u2014 the file contains exactly one theorem, Kan_Limit; no colimit dual"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PARTIAL) and reached Kan_Limit independently. Verified: Structure/Limit/Kan/Extension.v:46-47 `Theorem Kan_Limit `(F : J \\u27f6 C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim \\u2245 Ran (Erase J) F ttt.` -- the record's characterization is exact, including the crucial honesty point that BOTH the limit and the Kan extension are hypotheses, so nothing is constructed. I confirmed the file contains exactly one theorem (`grep -nE '^(Program )?(Definition|Theorem|Lemma)' Structure/Limit/Kan/Extension.v` -> one line), so gap (b) (no `Kan_Colimit`) holds, even though the file header at :29-31 asserts the colimit dual in prose -- prose framed as mathematics, not as an in-tree claim, so not a defect. Gap (a) verified: Instance/One.v:22 'functors *out* of 1 pick out objects of the target, so [1, C] \\u2243 C' is a comment with no theorem behind it. Gap (c) verified with the same no-instance evidence as the \\u03a3\\u22a3\\u0394\\u22a3\\u03a0 record. Gap (d): my own `rg -n -i 'connected component'` reproduces the classifier's two Instance/FinSet/Pushout.v hits and nothing resembling \\u03c0\\u2080 of a diagram."
+  }
+ },
+ {
+  "id": "7sketches:3.4.4:ex3.78",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Gr = walking parallel pair schema (two parallel arrows E \u21c9 V)",
+   "instances on Gr are graphs / quivers",
+   "presheaf on the parallel-pair category = directed multigraph",
+   "Parallel category, APair, Presheaf_Graph",
+   "source/target maps s, t : G1 \u2192 G0"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Parallel.v",
+    "line": 166,
+    "symbol": "Presheaf_Graph",
+    "intree_statement": "Program Definition Presheaf_Graph : Parallel^op \u27f6 Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := ... | ParY, ParX => match ``h with true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end ... |}"
+   },
+   {
+    "file": "Instance/Parallel.v",
+    "line": 80,
+    "symbol": "Parallel",
+    "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj (ParX | ParY); hom := fun x y => \u2203 b : bool, ParHom b x y; ... |}  (the walking parallel pair x \u21c9 y, with ParHom generated by two arrows ParX ~> ParY)"
+   }
+  ],
+  "statement_record": {
+   "book": "Observe that the email schema G (Email with two parallel morphisms sent_by, received_by to Address, no equations) is isomorphic to the graph-indexing schema Gr, and that instances on Gr are graphs; draw the given 6-email instance I : G \u2192 Set as a graph.",
+   "intree": "`Parallel` is the walking parallel-pair category (the schema Gr), and `Presheaf_Graph : Parallel^op \u27f6 Sets` exhibits a concrete Set-valued instance on it as a graph \u2014 vertices \u2115, edges \u2115 \u00d7 \u2115, with the two non-identity arrows acting as `fst` (source) and `snd` (target).",
+   "strength_comparison": "intree-weaker: one concrete instance is realized as a graph, which is the exercise's shape but not its generality; the identification 'instances on Gr are graphs' is stated in-tree only as a comment (Instance/Parallel.v:152-161). Variance also differs: the book's instances are covariant functors G \u2192 Set while `Presheaf_Graph` is a presheaf on `Parallel^op` \u2014 the same data (edge-set with two maps to the vertex-set), transposed."
+  },
+  "gap": "Missing: (a) any theorem identifying the functor category of Set-valued instances on the parallel pair with the category of graphs/quivers \u2014 the library HAS a quiver category (`Quiver`, `QuiverCategory` in Construction/Free/Quiver.v), so the natural statement `QuiverCategory \u2243 [Parallel^op, Sets]` is expressible but is nowhere stated or proved; (b) the schema isomorphism G \u2245 Gr, which presupposes a notion of schema (a finitely presented category with named tables/columns) that the library does not have; (c) the specific 6-row email instance and its drawing (pedagogical, no formal content beyond (a)).",
+  "negative_search_log": [
+   "grep -rn 'Presheaf_Graph|QuiverCategory' --include='*.v' . \u2014 Presheaf_Graph is used nowhere else; no equivalence with QuiverCategory is stated",
+   "grep -rniE 'database|schema' --include='*.v' . \u2014 no schema layer; only essay mentions (Construction/Free.v:87)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim was 'PARTIAL or ABSENT'; PARTIAL confirmed. Cites verified: Instance/Parallel.v:80 `Program Definition Parallel : Category` (the walking parallel pair, hom := \\u2203 b : bool, ParHom b x y) and :166 `Presheaf_Graph : Parallel^op \\u27f6 Sets` with fobj ParX := nat (vertices), ParY := nat * nat (edges) and the two non-identity arrows acting as `fst`/`snd`. The variance observation in strength_comparison is correct and is the kind of thing that is usually glossed over -- I re-read Instance/Parallel.v:152-161, which is indeed a COMMENT ('a presheaf on the parallel-pair category x \\u21c9 y is a graph (quiver)'), not a theorem. Gap (a) is the right formalizable residue and the library really does have the other side of it (`Quiver`, `QuiverCategory` in Construction/Free/Quiver.v, with `QuiverOfCat` at :398), so `QuiverCategory \\u2243 [Parallel^op, Sets]` is statable; I confirmed no such equivalence exists. The drawing half of the exercise is pedagogical; PARTIAL rather than OUT_OF_SCOPE is the right call because the exercise's mathematical content (Gr-instances are graphs) is formalizable and partly witnessed."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:def3.79",
+  "classification": "PRESENT",
+  "aliases": [
+   "terminal object",
+   "final object, 1, unit object",
+   "Class Terminal, terminal_obj, one, one_unique",
+   "unique morphism ! : C \u2192 Z for every object C",
+   "universal property / initial object in C^op"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Terminal.v",
+    "line": 107,
+    "symbol": "Terminal",
+    "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f \u2248 g }"
+   }
+  ],
+  "statement_record": {
+   "book": "An object Z of a category C is terminal if for each object C of C there exists a unique morphism ! : C \u2192 Z; because this holds for all objects, terminal objects are said to have a universal property.",
+   "intree": "`Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f \u2248 g }`, i.e. existence (`one`) plus uniqueness (`one_unique`), quantified over every object x.",
+   "strength_comparison": "same \u2014 'exactly one' is split into the existence field and the uniqueness law, with uniqueness taken up to the hom-setoid \u2248 (the faithful setoid rephrasing; equivalently every hom-setoid x ~> 1 is contractible). The dual is definitional: `Initial C` is notation for `Terminal (C^op)` (Structure/Initial.v:96)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PRESENT). Verified Structure/Terminal.v:107-112 `Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f \\u2248 g }` -- existence + uniqueness up to \\u2248, the faithful setoid reading of 'exactly one'. The duality cite is right: Structure/Initial.v:96 is `Notation \"'Initial' C\" := (@Terminal (C^op))`. I also spot-audited the file's other outward claims: the header's pointer at :100-101 to Structure/Monoidal/Semicartesian/Terminal.v 'with `one := eliminate`' checks out verbatim (that file, line 37-41, has `one := @eliminate _ _ _`), and `one_comp` at :119-121 is real. No library defect in Structure/Terminal.v itself -- but see problems[] for a stale claim about this file made from Theory/Isomorphism.v."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:example3.80",
+  "classification": "PRESENT",
+  "aliases": [
+   "singleton is terminal in Set",
+   "one-element set {*}, unit type, poly_unit",
+   "Sets_Terminal, Coq_Terminal",
+   "constant map into the singleton is the unique function",
+   "terminal object of the category of sets"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 248,
+    "symbol": "Sets_Terminal",
+    "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }  (obligation: destruct (f x0), (g x0); reflexivity)"
+   },
+   {
+    "file": "Instance/Coq.v",
+    "line": 132,
+    "symbol": "Coq_Terminal",
+    "intree_statement": "Program Instance Coq_Terminal : @Terminal Coq := { terminal_obj := unit : Type; one := \u03bb _ a, tt }"
+   }
+  ],
+  "statement_record": {
+   "book": "In Set, any set with exactly one element is terminal: for a one-element set {*} and any set C there is exactly one function C \u2192 {*}, sending every c to *, since that is the only available value.",
+   "intree": "`Sets_Terminal` names the singleton setoid (carrier `poly_unit`) as terminal, with `one := fun _ => \u03bb _, ttt` and uniqueness by case analysis on the unit inhabitant; `Coq_Terminal` is the same statement for the category of Coq types and functions, with terminal object `unit`.",
+   "strength_comparison": "same. The library's `Sets` is the category of SETOIDS rather than bare sets, so 'one-element set' becomes 'the one-element setoid' and uniqueness is up to \u2248 \u2014 the faithful setoid rephrasing. The book says 'any set with exactly one element'; in-tree a single chosen singleton is exhibited, and the (unstated) claim that every singleton is terminal would follow from the missing Prop 3.84 (see 7sketches:3.5.1:prop3.84). FinSet also has a terminal object (Instance/FinSet.v:221)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PRESENT). Verified Instance/Sets.v:248-253 `Sets_Terminal : @Terminal Sets` with carrier `poly_unit`, `one := fun _ => {| morphism := fun _ => ttt |}` and the uniqueness obligation `destruct (f x0), (g x0); reflexivity`; and Instance/Coq.v:132 `Coq_Terminal : @Terminal Coq` with `terminal_obj := unit`. CITATION ERROR (minor, in prose only, not in the evidence array): strength_comparison says 'FinSet also has a terminal object (Instance/FinSet.v:221)'. Line 221 is inside the COMMENT block introducing `FinSet_Initial` ('[one {x}] here lands in [Fin.t 0 \\u2192 Fin.t x], the unique (empty) map out of the empty set'); the actual `FinSet_Terminal : @Terminal FinSet` (Build_Terminal FinSet 1%nat ...) is at line 236. The claim is true, the line number points at the wrong instance. The remark that 'every singleton is terminal' would need Prop 3.84 is a fair observation and correctly does not downgrade the classification: what the book's Example 3.80 asserts (a one-element set is terminal in Set) is exhibited in full."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:ex3.81",
+  "classification": "PARTIAL",
+  "aliases": [
+   "terminal object in a preorder category = top element",
+   "greatest element / maximum / \u22a4 of a preorder",
+   "Proset P, thin category, hom is at most a singleton",
+   "top of the entailment order (True in Props), TwoY in the walking arrow",
+   "dual: initial object = bottom element"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 53,
+    "symbol": "Props_Terminal",
+    "intree_statement": "Program Instance Props_Terminal : @Terminal Props := { terminal_obj := True; one := fun _ _ => I }  (Props: objects are propositions, hom := Basics.impl, hom-setoid trivial \u2014 a preorder as a thin category, and True is its top element)"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 98,
+    "symbol": "Two_Terminal",
+    "intree_statement": "Program Instance Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY; one := two_one |}  (with two_one (x : TwoObj) : TwoHom x TwoY, the unique arrow into the top of the walking arrow)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a preorder (P, \u2264) with corresponding category P, an element z is a terminal object of that category if and only if z is a top element of P, i.e. c \u2264 z for all c \u2208 P.",
+   "intree": "No general statement. Two concrete preorder-categories carry the \u21d0 direction as instances: in `Props` (propositions ordered by implication, thin by a trivial hom-setoid) the top element True is terminal; in the walking arrow `_2` the top object TwoY is terminal.",
+   "strength_comparison": "intree-weaker: the biconditional is proved at two fixed preorders instead of stated for an arbitrary `Proset P`, and only in the direction 'top \u21d2 terminal'. The converse ('terminal \u21d2 top') is nowhere derived, though it is immediate from `one : c ~> z` unfolding to `R c z` in `Proset`."
+  },
+  "gap": "There is no lemma of the form `@Terminal (Proset P) \u2194 \u2203 z, \u2200 c, R c z` (nor either implication) over the generic preorder-as-category construction `Proset` (Instance/Proset.v:33) or `Poset` (Instance/Poset.v:116). Neither is there any in-tree vocabulary for a top/greatest element of a preorder \u2014 grep for 'top element|greatest element|maximum element' finds one comment (Instance/Two/Monoidal.v:16) and no definition. Only the two fixed instances above exist, and the dual (initial = bottom) exists only as `Props_Initial` (False).",
+  "negative_search_log": [
+   "grep -rniE 'top element|greatest element|maximum element|bottom element|least element' --include='*.v' . \u2014 1 hit, a comment at Instance/Two/Monoidal.v:16",
+   "grep -rniE '(Lemma|Theorem|Definition|Corollary)[^:]{0,80}terminal' --include='*.v' . \u2014 every hit is a concrete `@Terminal <fixed category>` instance; none is quantified over Proset/Poset",
+   "grep -rn 'Proset' --include='*.v' . \u2014 no Terminal instance is built over Proset or Poset"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim was ABSENT; PARTIAL confirmed as the better call, since the classifier's special-case-only status is disclosed precisely rather than hidden -- exactly the trap this pass hunts for, declared up-front. Cites verified: Instance/Props.v:53 `Props_Terminal : @Terminal Props := { terminal_obj := True; one := fun _ _ => I }`, and Props really is a preorder-as-thin-category -- Instance/Props.v:39-48 has `obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}` with the in-file comment 'Props is thin'. Instance/Two/Monoidal.v:98 `Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY; one := two_one |}` verified, and :16 confirms TwoY is described as the top element. So both witnesses are genuine preorder cases, and both give only top \\u21d2 terminal. Independent confirmation of the gap: no `@Terminal (Proset _)` or `@Terminal (Poset _)` instance exists, and there is no top/greatest-element vocabulary anywhere (`rg -n -i 'top element|greatest element|maximum element'` -> one comment). ADDITION for the issue draft: Construction/Enriched/Two.v does supply a reusable preorder record (`TwoPreorder`, with `tpre_le`) plus `MonotoneMap` at :175, so the missing biconditional can be stated over existing vocabulary instead of new."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:ex3.82",
+  "classification": "PRESENT",
+  "aliases": [
+   "terminal object of Cat",
+   "the one-object category 1 is terminal among categories",
+   "Cat_Terminal, _1, Erase",
+   "point category / trivial category / unit category",
+   "unique functor C \u27f6 1"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }  where _1 (line 25) is the category with obj := poly_unit and hom := fun _ _ => poly_unit; the one_unique obligation is discharged at line 58 by `constructive`."
+   }
+  ],
+  "statement_record": {
+   "book": "Name a terminal object in Cat (hint: the one-object category 1 of Exercise 3.76).",
+   "intree": "`Cat_Terminal : @Terminal Cat` with `terminal_obj := _1` (the single-object, single-identity category) and `one := Erase`, uniqueness proved.",
+   "strength_comparison": "intree-stronger: the book asks only to name the object, while in-tree the full `Terminal` structure is proved for Cat, uniqueness of the functor being taken up to Cat's natural-isomorphism hom-setoid. The same object is separately proved terminal in `StrictCat` (Instance/StrictCat/Terminal.v:36), where morphism equality is stricter."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim agreed (PRESENT); I found Cat_Terminal independently. Verified Instance/One.v:54-59 `Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }` with the uniqueness obligation proved at :58. The secondary cite is also correct and I checked it because it is the sort of claim that rots: Instance/StrictCat/Terminal.v:36 really is `Program Instance StrictCat_Terminal : @Terminal StrictCat := { terminal_obj := _1; one := Erase }`, with uniqueness discharged strictly via `poly_unit_eq` -- so the 'separately proved terminal in StrictCat, where morphism equality is stricter' remark is accurate, not a guess. Both files registered and built."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:ex3.83",
+  "classification": "ABSENT",
+  "aliases": [
+   "category with no terminal object",
+   "non-existence of a terminal object, \u00ac Terminal C, Terminal C \u2192 False",
+   "empty category 0 has no terminal object",
+   "discrete category on two objects has no terminal object",
+   "category without a final object / no greatest element"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'no terminal|not terminal|lacks a terminal|has no (initial|terminal)|\u00ac.*Terminal|Terminal.*\u2192 *False|False.*Terminal' --include='*.v' . \u2014 2 hits, both comments: Instance/Props.v:62 ('0 = False (terminal in Props^op)') and Structure/Terminal.v:80 (essay remark that Bool is not terminal in Set)",
+   "grep -rnE 'Terminal[^.]*(False|\u00ac|-> *False)' --include='*.v' . \u2014 0 hits",
+   "grep -rniE 'not_terminal|no_terminal|without a terminal' --include='*.v' . \u2014 0 hits",
+   "grep -rniE '(Lemma|Theorem|Definition|Corollary|Proposition|Program Instance)[^:]{0,80}terminal' --include='*.v' . \u2014 every hit constructs a Terminal instance; none refutes one",
+   "Checked Instance/Zero.v (the empty category `_0`, the obvious witness): it asserts only `From_0` and `Cat_Initial`; nothing states that `_0` \u2014 or any other category, e.g. `DiscreteCat bool` or the walking parallel pair \u2014 fails to have a terminal object"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind search independently found nothing and produced ABSENT before I opened the coverage file. Searches run: `rg -n 'Terminal' --glob '*.v' . | grep -iE 'iso|\\u2245|unique'`; `rg -n -i 'no terminal|not terminal|has no (initial|terminal)'`; a scan of every `(Lemma|Theorem|Corollary|Proposition|Program (Definition|Instance))` line mentioning Terminal across the tree -- every hit CONSTRUCTS a Terminal instance, none refutes one. I also independently checked the obvious witness Instance/Zero.v: the empty category `_0` carries only `From_0` and `Cat_Initial`, with no statement that it (or `DiscreteCat bool`, or `Parallel`) lacks a terminal object. The library has essentially no negative/refutation results of this shape at all, which is consistent. ABSENT is correct and the negative_search_log is honest and reproducible."
+  }
+ },
+ {
+  "id": "7sketches:3.5.1:prop3.84",
+  "classification": "ABSENT",
+  "aliases": [
+   "all terminal objects are isomorphic",
+   "terminal object unique up to (unique) isomorphism",
+   "terminal_unique / terminal_iso / one_iso",
+   "dual: initial objects are isomorphic",
+   "universal properties determine an object up to unique iso"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rnE 'terminal_unique|terminal_iso|Terminal_unique|Terminal_iso|one_iso|terminal_object_unique' --include='*.v' . \u2014 only `fobj_one_iso : 1 \u2245 F 1` (Functor/Structure/Terminal.v:45), which is a functor PRESERVING a terminal object, a different claim",
+   "grep -rnE '(T1|T|Z) *: *@?Terminal.*(T2|T\\x27|Z\\x27) *: *@?Terminal' --include='*.v' . \u2014 0 hits; no statement takes two Terminal structures",
+   "grep -rnE '(\u2245 *1[^0-9]|[^0-9]1 *\u2245)' --include='*.v' . \u2014 hits are F 1 \u2245 1 preservation comparisons, x \u00d7 1 \u2245 x, x^0 \u2245 1; none relates two terminal objects",
+   "grep -rnE 'unique up to' --include='*.v' . \u2014 Structure/Terminal.v:18 states 'Terminal objects are unique up to (unique) isomorphism whenever they exist', but this is a HEADER COMMENT, not an assertion; Structure/Terminal.v contains only `Class Terminal`, `one_comp` and `const`",
+   "grep -rnE 'initial_unique|initial_iso' --include='*.v' . \u2014 0 hits (Structure/Initial.v:112's `zero_unique` is uniqueness of MORPHISMS out of 0, not of the object)",
+   "NOTE for the issue draft: the exactly analogous theorem IS proved in-tree for other universal constructions \u2014 `equalizer_unique` (Structure/Equalizer/Fork.v:107, q1 \u2245 q2), `coequalizer_unique` (Structure/Coequalizer.v:108), pullback uniqueness (Structure/Pullback.v:178) and the generic `univ_property_unique_up_to_unique_iso` (Structure/UniversalProperty.v:174) \u2014 but none is instantiated at Terminal, and `Terminal` is not registered as an `IsUniversalProperty`, so the book's proposition follows from nothing in-tree. Its two-line proof is exactly `one_unique` applied twice."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind prelim was PARTIAL, on the ground that a derivation route exists; on re-reading the frozen definitions I confirm ABSENT, because no in-tree statement of 'any two terminal objects are isomorphic' exists in any form and nothing is instantiated toward it. I reproduced the classifier's negatives independently: no lemma anywhere takes two `Terminal` structures (`rg -n 'Terminal' --glob '*.v' | grep -iE 'iso|\\u2245|\\u224a'` returns only Theory/Isomorphism.v:83 prose and Instance/CMon/Biproduct.v:161's `iso_id`), and Structure/Terminal.v contains only `Class Terminal`, `one_comp`, the `one[C]` notation and `const`. ONE OVERSTATEMENT to correct in the log, which the issue draft should not repeat: 'the book's proposition follows from nothing in-tree'. That is too strong, and the log itself contradicts it two clauses later ('its two-line proof is exactly one_unique applied twice'). A genuine derivation route also exists through the universal-property machinery: `Terminal_Limit (C : Category) (F : 0 \\u27f6 C) : Limit F \\u2194 @Terminal C` (Structure/Limit/Terminal.v:33) + `LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) _` (Structure/UniversalProperty/Limit.v:141) + `univ_property_unique_up_to_unique_iso` (Structure/UniversalProperty.v:175). What is true, and is the reason ABSENT stands, is that `Terminal` is NEVER registered as an `IsUniversalProperty` -- I verified the class has exactly three instances tree-wide (Cartesian, Limit, Universal/Arrow) -- so the composite is never assembled or stated. The log's cross-references to the analogous proved uniqueness results check out: Structure/Equalizer/Fork.v:107, Structure/Coequalizer.v:108 (`q1 \\u2245 q2`), Structure/Pullback.v:178, Structure/UniversalProperty.v:175."
+  }
+ }
+]

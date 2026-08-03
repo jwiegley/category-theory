@@ -1,0 +1,30 @@
+[
+ {
+  "id": "7sketches:2.5.1:remark81",
+  "classification": "OUT_OF_SCOPE",
+  "aliases": [],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": "Pure exposition \u2014 terminology and a forward-pointing reading of an equation already recorded as Definition 2.79/(2.80)",
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Minted and classified by the main session after reading PDF pages 81 and 84 as images to confirm both are genuine numbered Remark environments that range agent B had declined to record. Both are exposition; OUT_OF_SCOPE is the correct classification and no issue is warranted. Recorded so the chapter's item roster matches the book's own count and the number accounting closes."
+  }
+ },
+ {
+  "id": "7sketches:2.5.2:remark95",
+  "classification": "OUT_OF_SCOPE",
+  "aliases": [],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": "Pure motivational prose (a quantale personified as a 'navigator'); the only mathematical content is the correspondence to the monoidal product and joins, i.e. the quantale axioms already inventoried",
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Minted and classified by the main session after reading PDF pages 81 and 84 as images to confirm both are genuine numbered Remark environments that range agent B had declined to record. Both are exposition; OUT_OF_SCOPE is the correct classification and no issue is warranted. Recorded so the chapter's item roster matches the book's own count and the number accounting closes."
+  }
+ }
+]

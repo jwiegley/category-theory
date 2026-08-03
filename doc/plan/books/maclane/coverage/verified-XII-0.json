@@ -1,0 +1,253 @@
+[
+  {
+    "id": "maclane:XII.1:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "internal category",
+      "category object in E",
+      "category object in a finitely complete category",
+      "InternalCategory / CatObject (typeclass encoding: C0, C1, s/d0, t/d1, i, gamma over a pullback)",
+      "double category (= category internal to Cat)",
+      "monoid object (one-object internal category, C0 = terminal)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'internal categor|category object|category in Grp|group object|InternalCat|CatObject' --include=*.v . -> only header-ESSAY prose (Theory/DoubleCategory.v:115-116 'a double category is precisely a category internal to Cat'; Construction/Enriched.v:83-87 'Enrichment is not the same as an internal category ... an internal category packs all objects and morphisms into two K-objects with structure maps'); the phrases 'product-category objects'/'cospan-category object' are unrelated compounds. No definition, class, record, or instance of an internal category.",
+      "grep -rniE '(Definition|Class|Record|Program|Instance|Inductive|Fixpoint|Notation).*(CatObject|InternalCat|InternalFunctor|InternalDiagram|CObject)' --include=*.v . -> 0 hits.",
+      "grep -rniE 'composable|pullback of|C_0|C_1|d0|d1|src *:|tgt *:|source *:|target *:' over Structure/ Theory/ Construction/ -> no category-object record (C0/C1 object-of-objects/object-of-arrows with s,t,i and pullback composition gamma). Only Theory/Metacategory.v holds a *Set-level arrows-only* metacategory whose FromArrows (Theory/Metacategory.v:84) builds an ordinary Category from a finite table of composable pairs (a metacategory interpreted in sets, NOT a category object in a general finitely complete E).",
+      "find . -iname '*.v' with name *internal*/*simplic*/*nerve*/*graph*/*delta*/*simplex* -> only Functor/Hom/Internal.v (internal-HOM functor), Functor/Product/Internal.v (internal-product functor), and the Hypergraph/*Cospan* files; no internal-category file.",
+      "NEAR-MISS (NOT a match): Structure/Monoid.v:124 'Class MonoidObject (mon : C)' is exactly the ONE-OBJECT special case (C0 = terminal, so C1 x_{C0} C1 = C1 x C1) but has no object-of-objects C0, no source/target d0,d1, and no pullback composition; it is a strictly simpler, differently-shaped structure. Theory/DoubleCategory.v axiomatizes the E = Cat special case directly (not built as 'internal to Cat'). GroupObject (Structure/Group.v:112) is the internal-group, not internal-category, notion. None of these formalize the general category-object-in-E definition (C0, C1, i, d0, d1, gamma with pullback composition and the four axioms)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind whole-tree search independently reached ABSENT. No category object in a general finitely complete E anywhere: no C0/C1 object-of-objects/object-of-arrows record, no d0/d1/i/gamma structure maps, no pullback composition (rg for object-of-objects/object-of-arrows/InternalCat/CatObject/CategoryObject definitions = 0 hits). Confirmed near-misses are genuinely not matches: Structure/Monoid.v:124 'Class MonoidObject (mon : C)' (the one-object case, differently shaped, no C0/d0/d1/pullback); Structure/Group.v GroupObject (an internal GROUP, never instantiated in Instance/); Theory/Metacategory.v = Mac Lane I.1 arrows-only over a fixed numeric FMap base, not internal to a general E. STRENGTHENING: the in-tree Theory/DoubleCategory.v is a PSEUDO (weak) double category, so it is not even the strict E=Cat internal category the essay (line 116) names; correctly excluded. COVERAGE-NIT: the log cites 'FromArrows (Theory/Metacategory.v:84)' but line 84 is a prose mention; the actual Program Definition FromArrows is line 261 (substance correct, verdict unaffected)."
+    }
+  },
+  {
+    "id": "maclane:XII.1:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "internal category in Set is a small category",
+      "category object in Set = ordinary small category",
+      "Set-internal category unfolds to Category",
+      "a category is a metacategory interpreted in Sets",
+      "Cat(Set)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def1 (internal category), which is ABSENT: with no notion of 'category object in E' there is no in-tree 'internal category in Set' to identify with an ordinary small category, so the bridge itself cannot be stated.",
+      "grep -rniE 'internal categor|category object' --include=*.v . -> only header-essay prose (Construction/Enriched.v:83-87; Theory/DoubleCategory.v:115-116). No lemma/iso equating a Set-category-object with a small Category.",
+      "NEAR-MISS (NOT a match): Theory/Metacategory.v realizes the RELATED slogan 'a category is a metacategory interpreted in sets' from the OTHER (arrows-only, single-set) presentation: FromArrows (Theory/Metacategory.v:84) turns a finite table of composable pairs into a Category whose objects are the identity arrows. This is the II.1 metagraph/metacategory route and is Mac Lane XII.5 material, NOT the XII.1 category-object-in-Set unfolding (no C0, C1, i, d0, d1, gamma). No statement of the form 'a category object in Set is the same as a small category' exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. With no internal-category notion there is no 'category object in Set = ordinary small category' bridge. Metacategory.v's FromArrows (actual def line 261) is the arrows-only presentation (Mac Lane I.1 / XII.5 single-set categories), a different route with no C0/C1/i/d0/d1/gamma. COVERAGE-NIT: the log labels the metagraph/metacategory route 'II.1' — Metacategory.v's own header attributes it to Mac Lane I.1; XII.5 is the correct 'single-set categories' reference. Inconsequential to ABSENT."
+    }
+  },
+  {
+    "id": "maclane:XII.1:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "category object in Grp equals group object in Cat",
+      "interchange of internal structures (X-objects in Y-objects = Y-objects in X-objects)",
+      "internal category in Grp",
+      "group object in Cat",
+      "commuting internalizations / Eckmann-Hilton interchange of structures"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def1 (internal category in Grp), which is ABSENT; therefore the equivalence 'category object in Grp = group object in Cat' and the general interchange principle cannot be stated in-tree.",
+      "grep -rniE 'category in Grp|group object|interchange of structure|X-object.*Y-object' --include=*.v . -> group objects exist as an internal notion (Structure/Group.v), but no 'category object in Grp', no 'group object in Cat' instance, and no interchange-of-internalizations statement.",
+      "grep -rniE 'GroupObject|group object' --include=*.v Instance/ -> 0 hits; GroupObject is never instantiated at Cat (nor anywhere in Instance/).",
+      "NEAR-MISS (NOT a match): the two INGREDIENTS partly exist -- GroupObject (Structure/Group.v:112, a group object in any cartesian monoidal category) and Cat's cartesian structure (Instance/Cat/Cartesian.v:39 'Cat_Cartesian'), so the type '@GroupObject Cat Cat_Cartesian ...' (group object in Cat) is EXPRESSIBLE. But (a) it is not instantiated, and (b) the content of the remark -- its EQUALITY with an internal category in Grp, and the general interchange principle -- is unformalizable without internal categories. Structure/Group.v:72 notes in prose only that 'a group object in Grp is an abelian group' (Eckmann-Hilton), a different fact and prose-only."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. GroupObject (Structure/Group.v) plus Cat_Cartesian (Instance/Cat/Cartesian.v:39, verified) make the TYPE 'group object in Cat' expressible, but it is never instantiated (0 GroupObject hits in Instance/, verified) and the remark's content — its EQUALITY with an internal category in Grp plus the general interchange-of-structures principle — is unformalizable without internal categories. Eckmann-Hilton appears in-tree only in semiadditive/abelian/monoid convolution contexts, unrelated to this interchange."
+    }
+  },
+  {
+    "id": "maclane:XII.1:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "internal functor",
+      "functor between category objects",
+      "morphism of internal categories (f0, f1 commuting with i, d0, d1, gamma)",
+      "InternalFunctor",
+      "double functor (E = Cat special case)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def1 (internal category), which is ABSENT; a morphism of category objects cannot be defined without the objects.",
+      "grep -rniE 'internal functor' --include=*.v . -> only Functor/Structure/Monoidal/* 'HypergraphFunctor' and Theory/Coq/Monoid.v prose; no internal-functor definition.",
+      "grep -rniE '(Definition|Class|Record|Program|Instance).*InternalFunctor' --include=*.v . -> 0 hits.",
+      "NEAR-MISS (NOT a match): the ordinary Functor class (Theory/Functor.v) and monoid-object homomorphisms (Theory/Algebra/Monoid/Hom.v) exist, but neither is a pair (f0: C0->D0, f1: C1->D1) of E-maps commuting with the internal structure maps of two category objects."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No internal functor (a pair f0:C0->D0, f1:C1->D1 of E-maps commuting with i,d0,d1,gamma) exists; rg for InternalFunctor/'internal functor' definitions = 0 hits. Depends on the absent internal-category notion."
+    }
+  },
+  {
+    "id": "maclane:XII.1:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "internal natural transformation",
+      "natural transformation between internal functors",
+      "2-cell of internal categories",
+      "InternalTransformation",
+      "internal transformation (component map C0 -> D1 over d0/d1)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def1/def2 (internal categories and internal functors), both ABSENT; and Mac Lane himself only ASSERTS this notion (flagged 'sketched-only' in the inventory) without writing the diagrams.",
+      "grep -rniE 'internal natural|internal transform|internal.*2-cell' --include=*.v . -> 0 hits.",
+      "grep -rniE '(Definition|Class|Record).*Internal.*(Transform|Nat)' --include=*.v . -> 0 hits.",
+      "NEAR-MISS (NOT a match): ordinary natural transformations (Theory/Natural/Transformation.v) exist, but there is no internal (component-map C0 -> D1 over the domain/codomain structure) version because internal categories/functors are not present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. Mac Lane only asserts this notion (inventory flag 'sketched-only'); rg for internal natural/internal transform = 0 hits. Depends on the absent internal-category/functor notions."
+    }
+  },
+  {
+    "id": "maclane:XII.1:def4",
+    "classification": "ABSENT",
+    "aliases": [
+      "left C-object",
+      "internal diagram",
+      "internal base-valued functor / internal presheaf",
+      "internal action (mu: C1 x_{C0} H -> H over d0 with unit + associativity)",
+      "internal C-set / discrete opfibration over an internal category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def1 (internal category C), which is ABSENT; the action map mu: C1 x_{C0} H -> H over d0, and the unit/associativity laws, presuppose the internal category C.",
+      "grep -rniE 'internal diagram|left C-object|C-object|internal presheaf|base-valued functor|action map' --include=*.v . -> 0 definitional hits.",
+      "grep -rniE '(Definition|Class|Record).*(InternalDiagram|LeftCObject|CObject|InternalPresheaf)' --include=*.v . -> 0 hits.",
+      "NEAR-MISS (NOT a match): Mac Lane notes that when E = Set a left C-object IS exactly a Set-valued functor on C, and ordinary copresheaves C -> Sets (Theory/Functor.v into Instance/Sets.v) ARE present in full; but the library has no internal categories, so the general internal-diagram structure (an object pi: H -> C0 with an action over the pullback) is absent. The present E = Set incarnation is an ordinary functor, not presented as an internal diagram."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No left C-object / internal diagram (object pi:H->C0 with action mu:C1 x_{C0} H -> H over d0, unit + associativity); rg for InternalDiagram/internal presheaf/base-valued functor = 0 hits. The E=Set incarnation would be an ordinary copresheaf (present) but is not presented as an internal diagram, and the general structure is absent for want of internal categories. The Profunctor.v 'left action' hit is profunctor composition, unrelated."
+    }
+  },
+  {
+    "id": "maclane:XII.1:def5",
+    "classification": "ABSENT",
+    "aliases": [
+      "morphism of left C-objects",
+      "internal natural transformation of internal diagrams",
+      "map of internal diagrams (phi over C0 commuting with the two action maps)",
+      "morphism of internal presheaves",
+      "2-cell in the category of C-objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on maclane:XII.1:def4 (left C-object), which is ABSENT; a map over C0 commuting with the two action maps mu cannot be defined without internal diagrams.",
+      "grep -rniE 'morphism of.*C-object|map of internal diagram|internal.*natural.*diagram' --include=*.v . -> 0 hits.",
+      "NEAR-MISS (NOT a match): in the E = Set case Mac Lane identifies a morphism of left C-objects with an ordinary natural transformation of Set-valued functors, and natural transformations (Theory/Natural/Transformation.v) are present in full; but the general internal (phi over C0 compatible with the action maps) notion is absent for want of internal categories/diagrams."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No morphism of left C-objects (phi over C0 commuting with the two action maps); rg = 0 hits. Depends on the absent left-C-object notion."
+    }
+  },
+  {
+    "id": "maclane:XII.2:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "nerve of a category",
+      "simplicial set of a small category (N C)_n = Cat([n], C)",
+      "iterated-pullback strings of composable arrows C_n = C1 x_{C0} ... x_{C0} C1",
+      "face and degeneracy operators (di, sj) / simplicial object",
+      "Delta / simplex category, simplicial set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bnerve\\b|simplicial|Simplex|SimplicialSet|augmented simplicial' --include=*.v . -> only header-ESSAY mentions: Theory/Kan/Extension.v:36,91-93 ('nerve and realization' as a motivating example), Instance/FinSet.v:86-89 (presheaves on FinSet are augmented symmetric simplicial sets, 'the simplex category Delta embedding into FinSet' -- Delta is NOT constructed), Structure/Coend.v:113 (geometric realization of a simplicial set as a coend, essay), Construction/Enriched.v:72 (K = sSet as an enrichment base, essay), Comonad/Coalgebra.v:100 / Comonad/Core.v:103 (simplicial bar resolution, essay). No construction.",
+      "grep -rniE '(Definition|Class|Record|Program|Instance|Inductive|Fixpoint|Notation).*(Nerve|Simplic|Simplex|Delta)' --include=*.v . -> 0 relevant hits; every 'delta' identifier found is a comonoid/Frobenius comultiplication (scfa_delta, frob_delta, canonical_tensor_delta, unfold_delta, ccomon_delta), unrelated to the simplex category.",
+      "grep -rniE 'SimplicialObject|cosimplicial|face_map|degeneracy|coface|codegener|face operator' --include=*.v . -> no face/degeneracy operators, no simplicial object type.",
+      "find . -iname '*.v' with name *simplic*/*nerve*/*delta*/*simplex* -> none.",
+      "NEAR-MISS (NOT a match): specific small index categories exist -- Instance/Omega.v (the ordinal omega), Instance/Two.v (the walking arrow [1], called 'the 1-simplex' in its essay), Instance/Parallel.v (the walking parallel pair) -- and Structure/Pullback.v provides pullbacks; but there is no simplex category Delta, no simplicial-set/simplicial-object functor category, and no nerve functor assembling C0, C1, C2 = C1 x_{C0} C1, ... with faces/degeneracies."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No simplex category Delta, no simplicial set/object type, no nerve construction; rg for Nerve/Simplic/Simplex/SimplicialObject/face/degeneracy definitions = 0 hits. Verified Instance/Omega.v is the single ordinal omega (obj:=nat, hom:=le_t) — a poset, NOT Delta (finite nonempty ordinals + monotone maps). Every in-tree 'Delta' is the diagonal functor or a context variable. Only nLab-pointer essays mention nerve/simplicial (Kan/Extension.v:36,91; Coend.v:113; FinSet.v:87 states Delta embeds into FinSet as a mathematical fact, never constructing it)."
+    }
+  },
+  {
+    "id": "maclane:XII.2:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "nerve of an internal category is a simplicial object",
+      "internal nerve",
+      "simplicial object in E from a category object in E",
+      "Delta^op -> E from an internal category",
+      "simplicial object (functor Delta^op -> E)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on BOTH maclane:XII.2:construction1 (nerve) and maclane:XII.1:def1 (internal category), each ABSENT; with neither a nerve nor a category object in E, the internal nerve (a simplicial object in E) cannot be formed.",
+      "grep -rniE 'simplicial object|nerve.*internal|simplicial.*in E' --include=*.v . -> 0 hits (only the essay 'simplicial bar resolution' in Comonad/*).",
+      "grep -rniE '(Definition|Class|Record).*Simplicial' --include=*.v . -> 0 hits.",
+      "NEAR-MISS: none. No simplicial-object type exists at all (in Sets or in a general E)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No simplicial-object type in Sets or in a general E (rg = 0 hits); depends on both the absent nerve construction and the absent internal-category notion."
+    }
+  },
+  {
+    "id": "maclane:XII.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "verify the simplicial identities for the nerve",
+      "face/degeneracy identities (di dj = dj-1 di, etc.)",
+      "simplicial-identity laws",
+      "simplicial object axioms check",
+      "coherence of the nerve's face and degeneracy operators"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Exercise CONTENT = proving the seven simplicial identities for the nerve's face operators di and degeneracy operators sj. Depends on maclane:XII.2:construction1 (the nerve), which is ABSENT; there is no nerve, no face/degeneracy operators, and no simplicial-identity statements in-tree.",
+      "grep -rniE 'simplicial identit|face.*degenerac|d_i.*d_j|s_i.*s_j' --include=*.v . -> 0 hits.",
+      "grep -rniE 'face_map|degeneracy|coface|codegeneracy' --include=*.v . -> 0 definitional hits.",
+      "NEAR-MISS: none. The identities cannot be stated absent the face/degeneracy operators, which do not exist."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT. No face/degeneracy operators and no simplicial identities in-tree (rg for simplicial identit / face.*degenerac = 0 hits); the exercise content is unstatable without the absent nerve of construction1."
+    }
+  }
+]

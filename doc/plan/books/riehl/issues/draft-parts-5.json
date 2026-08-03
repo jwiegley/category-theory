@@ -1,0 +1,8 @@
+{
+ "Riehl 5.1: The self-adjoint exponential S^(−) and its continuation monad (double power set, double dual)|riehl:5.1:example4": "catalogue row + clauses (vii)-(viii): the self-adjoint exponential and the continuation/double-dual monads",
+ "Riehl 5.1/5.2: The Giry monad on measurable spaces, and its Kleisli category of Markov kernels|riehl:5.1:example5": "clause (iv): the Giry monad on measurable spaces",
+ "Riehl 5.1: The maybe monad on Sets — its Kleisli category of partial functions, its pointed-set algebras, and monadicity|riehl:5.2:example6": "clause (i): algebras of the maybe monad are pointed sets",
+ "Riehl 5.1/5.2: The writer monad of a monoid object and the state monad of the currying adjunction|riehl:5.2:example11": "clause (iii): the state monad and its Kleisli category",
+ "Riehl 5.1/5.5: The free-category monad on quivers, and the monadicity of Cat over Quiver|riehl:5.5:example7": "clause (iv): U : Cat -> Quiver is monadic, and the factorization through reflexive quivers",
+ "Riehl 5.6: Cocompleteness of a monadic category reduces to coequalizers — coproducts of algebras as coequalizers of free algebras|riehl:5.6:construction-free-product": "the general reduction: cocompleteness of a monadic category from coequalizers of free algebras"
+}

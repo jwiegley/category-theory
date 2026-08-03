@@ -1,0 +1,259 @@
+[
+  {
+    "id": "7sketches:5.4.3:def-behavior",
+    "classification": "PARTIAL",
+    "aliases": [
+      "behavior / behaviour of a diagram",
+      "denotational semantics of a string diagram as a relation",
+      "graph of a function (or linear map) viewed as a relation",
+      "black-boxing functor (Baez-Fong) into Rel",
+      "Relation_Functor / graph embedding Set -> Rel",
+      "B(g) as a subset of R^m x R^n"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 167,
+        "symbol": "Relation_Functor",
+        "intree_statement": "Program Instance Relation_Functor : Coq ⟶ Rel := { fobj := fun x => x; fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y }  (* the graph { (x,y) | f x = y } of a map, functorially: identity-on-objects and faithful *)"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}  (* a morphism A ~> B IS a subset of A × B, curried *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a signal flow graph g : m -> n over a rig R, the behavior B(g) is a subset of R^m x R^n, namely the graph {(x, S(g)(x)) : x in R^m} of the linear map determined by the matrix semantics S(g) of Theorem 5.53; e.g. the copy icon has behavior {(x,(x,x)) : x in R}. This shifts the semantics of diagrams from matrices to relations.",
+      "intree": "Relation_Functor : Coq ⟶ Rel with fmap f = { (x,y) | f x = y }, into Rel whose hom A B is A → Ensemble B (a subset of A × B).",
+      "strength_comparison": "intree-weaker: the DEFINITIONAL core — 'the behavior of a map is its graph, a relation, and this assignment is functorial' — is present in full generality (any Coq function between any two types), but nothing in-tree supplies S(g). There is no rig/semiring class, no matrix category Mat(R), no signal-flow-graph syntax, and no semantics functor from any diagram PROP into Rel; Rel itself is only a bare Category in-tree (no monoidal/PROP structure), so 'behavior of a diagram' cannot even be typed."
+    },
+    "gap": "Missing: (i) any rig/semiring algebraic structure (grep for semiring/Rig finds only prose in Theory/Algebra.v:25); (ii) the matrix prop Mat(R) and the matrix semantics S(g) that the definition consumes; (iii) signal flow graphs themselves (only a bibliographic mention of Bonchi–Sobociński–Zanasi in Construction/ColouredPROP.v:34); (iv) any behavior/black-box functor landing in Rel — Construction/Cospan/BlackBox.v discusses ⬛ : DecoratedCospanCat F ⟶ Rel only in prose and builds solely the trivial forget_decoration : DecoratedCospanCat F ⟶ CospanCat C. What survives is exactly the generic graph-of-a-function-as-a-relation functor.",
+    "negative_search_log": [
+      "grep -rn \"signal flow|SignalFlow|SFG\" --include='*.v' . -> 1 hit, a citation comment (Construction/ColouredPROP.v:34)",
+      "grep -rn \"semiring|Semiring|Rig |Rig)|: Rig\" --include='*.v' . -> only prose at Theory/Algebra.v:25 (RightKan hits are substring noise)",
+      "grep -rn \"Definition Mat|Mat :|MatCat|Matrix\" --include='*.v' . -> 0 hits",
+      "grep -rni \"behaviour|behavior\" --include='*.v' . -> comments only (BlackBox.v, Sheaf.v, DecoratedCospan.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass, run BEFORE opening the coverage file. Commands: `rg -l -i \"signal.?flow|SFG\" -g '*.v' .` -> 5 hits, every one a prose comment (Construction/DecoratedCospan.v:90, Structure/Monoidal/HypergraphFunctor.v:43, Structure/Monoidal/Symmetric.v:62, Construction/ColouredPROP.v:34, Construction/DecoratedCospan/Symmetric.v:46); `rg -n -i \"behaviou?r\" -g '*.v' .` -> 12 files, each hit opened and confirmed to be a comment (BlackBox.v:33/238, DecoratedCospan.v:92, Sheaf.v:91, Displayed.v:124, PROP/Instance.v:65, PROP/Presentation/Universal.v:557, ColouredPROP/UnitBridge.v:323/380, Test/Issue138.v:33/47/164, Test/HypergraphPROPResolution.v:89/91, Comonad/Core.v:121, Equivalence/Limit.v:261, ColouredPROP/Presentation/Universal.v:592); `rg -n -i \"\\brig\\b|semiring|matrix|matrices|\\bMat\\b\" -g '*.v' .` -> no rig/semiring class and no Mat(R) anywhere (only prose in Theory/Algebra.v:25 and matrix-calculus prose in Structure/Abelian.v:120 / Structure/Semiadditive.v:99). I independently landed on the same nearest counterpart, Relation_Functor, and on PARTIAL-or-ABSENT. Evidence verified at the cited lines: Instance/Rel.v:45 IS `Program Definition Rel : Category := {|` and Instance/Rel.v:167 IS `Program Instance Relation_Functor : Coq ⟶ Rel := {`; both quotes accurate; the file is registered at _CoqProject:225 and compiled (Instance/Rel.vo present). strength_comparison is honest and the gap is precise. CALIBRATION NOTE: this classification sits at the generous edge of PARTIAL -- the item's own subject (signal flow graphs, the matrix semantics S(g), the rig R) is wholly absent, and what survives is only the generic 'graph of a function is a relation, functorially'. Because the gap field says exactly that, PARTIAL is defensible and the downstream issue is identical under either label, so I do not overturn. Log inaccuracy, non-material: the record's `signal flow` grep used a literal space and reports 1 hit; the hyphenated spelling adds 4 more files, all prose."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:def-transposed-relation",
+    "classification": "ABSENT",
+    "aliases": [
+      "transposed relation / converse relation R† = {(y,x) : (x,y) in R}",
+      "opposite or reverse of a relation; relational inverse",
+      "dagger structure on Rel; dagger category; Rel ≅ Rel^op self-duality",
+      "mirror image g^op of a generator/icon",
+      "transpose (mate) of a morphism in a compact closed category",
+      "flip / swap of a binary relation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn \"converse|Converse|dagger|Dagger\" --include='*.v' . -> 40 hits, ALL prose: the only relation-level one is Instance/Rel.v:36-43, which describes the converse R† and then states 'None of that extra structure is built here; this file constructs the bare category, its initial object ... and the wide embedding Coq ⟶ Rel'. A comment is not admissible evidence.",
+      "grep -rn \"Class Dagger|dagger :\" --include='*.v' . -> 0 hits (no dagger class anywhere)",
+      "grep -rn \"op_relation|rel_op|Rel_op|converse\\b\" --include='*.v' . -> no definition; only prose",
+      "grep -rn \"Rel\\^op|(Rel)\\^op\" --include='*.v' . -> 2 hits, both comments in Instance/Rel.v (the Initial-as-Terminal remark); no self-duality functor is constructed",
+      "read Structure/Monoidal/CompactClosed.v (Class CompactClosed, lines 139-167): supplies dual, cc_unit, cc_counit, snake_left, snake_right ONLY — no transpose/mate of a morphism is defined, and there is no CompactClosed (or SymmetricMonoidal, or even Monoidal) instance on Rel, so the abstract route to a converse is unavailable too",
+      "grep -rn \"Op_Sig|Sig_op|Flip_Sig|Mirror|mirror\" --include='*.v' . -> no reversal operation on signatures/generators; 'mirror' hits are unrelated prose about mirror-image lemmas"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees and found nothing further. Commands: `rg -n -i \"converse|dagger|transpos\" -g '*.v' .` -> the ONLY relation-level hit is the Instance/Rel.v header, lines 36-41, which describes the converse R† as an involution witnessing `Rel ≅ Rel^op` and then states 'None of that extra structure is built here; this file constructs the bare category, its initial object ... and the wide embedding Coq ⟶ Rel' -- verified verbatim at those lines. Every other `transpos*` hit is adjunction-transpose prose (Adjunction/Compose.v, Adjunction/Continuity.v, Adjunction/Hom.v), unrelated. `rg -n -i \"Rel ≅ Rel\\^op|self-dual|Rel\\^op\" -g '*.v' .` -> 2 comment hits in Instance/Rel.v (:38, :86), no functor built. `rg -n \"Op_Sig|Sig_op|opposite.*[Ss]ignature|mirror\" -g '*.v' .` -> no reversal operation on signatures/generators. `rg -n \"@Monoidal Rel|Monoidal Rel\"` -> 0 hits, so the compact-closed / mate route to a transpose is unavailable too, as the record's CompactClosed check says. ABSENT is correct; the negative log is accurate."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:ex5.77",
+    "classification": "ABSENT",
+    "aliases": [
+      "behavior of the reversed addition icon (converse of {((x,y), x+y)})",
+      "behavior of the reversed copy icon (converse of {(x,(x,x))}), i.e. {((x,x), x)}",
+      "cocopy / comultiplication relation; Frobenius comultiplication in Rel",
+      "opposite of the copy-discard comonoid generators",
+      "codiagonal / addition relation as a span",
+      "mirrored generator semantics"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise needs two ingredients, neither of which exists in-tree. (1) The converse of a relation: grep -rn \"converse|dagger\" --include='*.v' . -> prose only, and Instance/Rel.v:39 explicitly disclaims building the dagger. (2) Semantics for the addition and copy generators as relations: grep -rn \"Rel_Monoidal|Rel_Cartesian|Rel_Symmetric|Rel_Tensor\" --include='*.v' . -> the ONLY hit is Instance/Rel.v:97, inside the commented-out block (lines 96-157), so Rel carries no copy/discard, comonoid, or Frobenius structure to reverse.",
+      "grep -rn \"CopyDiscard|Markov\" --include='*.v' Instance/ -> 1 comment hit (Instance/Coq/Comonad/Env.v:85); no concrete copy/discard instance on Rel or on any relation category",
+      "grep -rn \"Comonoid\\b\" --include='*.v' Theory/Algebra/*.v -> the abstract CommutativeComonoid class exists (Theory/Algebra/CommutativeComonoid.v:49) with ccomon_delta/ccomon_epsilon, but it is never instantiated on Rel, and the exercise's content is the elementwise COMPUTATION of two specific converse relations, which has no in-tree counterpart",
+      "grep -rn \"signal flow|SignalFlow|SFG\" --include='*.v' . -> 1 citation comment only; the icons (addition, copy, zero, discard, scalar) are nowhere defined"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Both prerequisites independently confirmed missing. (1) No converse of a relation exists in-tree (see my note on def-transposed-relation). (2) Rel carries no copy/discard, comonoid or Frobenius structure: I verified the comment-block boundaries by line number -- `(*` opens at Instance/Rel.v:96 and `*)` closes at Instance/Rel.v:157, so Rel_Cartesian (:97), Rel_Cocartesian (:127) and Rel_Closed (:146) all sit inside it and are inadmissible exactly as the record says. Theory/Algebra/CommutativeComonoid.v:49 `Class CommutativeComonoid (X : C) : Type := {` exists as cited (ccomon_delta at :81) but is never instantiated on Rel. No addition/copy/zero/discard/scalar generators anywhere. ABSENT correct."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:def-relation-composition",
+    "classification": "PRESENT",
+    "aliases": [
+      "composition of relations / relational composite B1 ; B2",
+      "existential-witness composite {(x,z) : ∃ y, (x,y) ∈ B1 ∧ (y,z) ∈ B2}",
+      "category Rel of sets and binary relations",
+      "composition in Rel agrees with matrix multiplication on graphs of linear maps",
+      "span composition by pullback (generalized relational composition)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}  (* plus the discharged obligations: compose respects ≈, and the identity/associativity laws *)"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 167,
+        "symbol": "Relation_Functor",
+        "intree_statement": "Program Instance Relation_Functor : Coq ⟶ Rel := { fobj := fun x => x; fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y }  (* functoriality is exactly the book's check that the composite of the graphs is the graph of the composite *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given relations B1 ⊆ R^m x R^n and B2 ⊆ R^n x R^p, their composite B1 ; B2 ⊆ R^m x R^p is {(x,z) : ∃ y ∈ R^n with (x,y) ∈ B1 and (y,z) ∈ B2}; this is adopted as the general definition of composing behaviors, and it restricts to matrix multiplication on graphs of linear maps.",
+      "intree": "compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type, with the category laws (id_left, id_right, assoc, compose_respects) discharged; the graph embedding Relation_Functor : Coq ⟶ Rel is a functor, so graph(f ∘ g) ≈ graph(f) ∘ graph(g).",
+      "strength_comparison": "same (intree-stronger in generality): the existential-witness composite is the book's formula verbatim, stated for relations between ARBITRARY sets rather than only between the R^n, so R^m/R^n/R^p are instances; the setoid rephrasing (hom-equivalence is pointwise ↔, not equality of subsets) is faithful. The only mismatch with the book's motivating remark is that the 'restricts to composition of the denoted maps' clause is witnessed for plain functions (Relation_Functor) rather than for R-linear maps, since no rig or matrix layer exists in-tree."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "I independently classified this PRESENT before opening the coverage file, from the same evidence. Verified at the cited line: Instance/Rel.v:45-54 gives `compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type`, which is the book's existential-witness formula verbatim, with the diagrammatic-order convention spelled out at Instance/Rel.v:33-35 ('compose f g applies g first, then f'), so f ∘ g is the book's g;f. The hom-setoid is pointwise ↔ (Instance/Rel.v:48-49) -- a faithful setoid rephrasing -- and the composition comes with its full API for free, since it IS the category's composition: compose_respects, id_left, id_right and assoc are the discharged obligations at :62-81. No same-name-weaker-statement (nothing else in-tree is called a relational composite), no definition-without-API, no special-case-only defect: the in-tree form quantifies over arbitrary Coq types, so R^m/R^n/R^p are instances. The book's motivating clause -- that this restricts to matrix multiplication on graphs -- is witnessed in the general form by Relation_Functor's fmap_comp obligation (Instance/Rel.v:170-175), for plain functions rather than R-linear maps, and the record says precisely that. File registered at _CoqProject:225 and compiled. CONFIRMED."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:def5.79",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Rel_R, the prop of R-relations",
+      "category of relations Rel; REL",
+      "prop with objects ℕ and morphisms subsets of R^m x R^n",
+      "symmetric monoidal category of relations (Rel with the cartesian-product tensor)",
+      "Mat(R) as the sub-prop of graphs of linear maps",
+      "spans/corelations as a relation prop"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}  (* arbitrary relations as morphisms, diagonal identity, relational composition, laws discharged with no axioms *)"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 167,
+        "symbol": "Relation_Functor",
+        "intree_statement": "Program Instance Relation_Functor : Coq ⟶ Rel := { fobj := fun x => x; fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y }  (* the wide, faithful, identity-on-objects embedding of maps as graphs — the analogue of Mat(R) ⊆ Rel_R *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a rig R, Rel_R is the prop whose objects are the natural numbers, whose morphisms m -> n are arbitrary subsets B ⊆ R^m x R^n, composed by the relational-composition rule (5.78), with monoidal product given by the product of subsets; it contains Mat(R) as the sub-prop of graphs of linear maps.",
+      "intree": "Rel : Category with hom A B := A → Ensemble B, id := Singleton (the diagonal), compose the existential-witness relational composite; Relation_Functor : Coq ⟶ Rel embeds maps as their graphs (identity on objects, faithful).",
+      "strength_comparison": "intree-weaker: the UNDERLYING CATEGORY of Rel_R (arbitrary relations, diagonal identities, relational composition, and the wide subcategory of graphs) is present and axiom-free, but the PROP structure the definition asserts is entirely missing — Rel has no monoidal, braided, symmetric or strict structure in-tree, its objects are arbitrary Coq types rather than the naturals with ⊗ = +, and it is not registered as an instance of Construction/PROP.v's Class PROP. There is also no rig R, so 'R-relations' is only reachable by reading R^n as an arbitrary object."
+    },
+    "gap": "Rel is a bare Category. Missing for Rel_R: (i) a monoidal product on Rel — the only candidate, Rel_Cartesian, is inside the commented-out block Instance/Rel.v:96-157, and grep finds no @Monoidal Rel anywhere; (ii) hence no SymmetricMonoidal/StrictMonoidal structure and no PROP instance (the only three PROP instances in the tree are FreePROP, PresentedPROP and Lawvere_PROP); (iii) the object correspondence prop_of_nat : nat -> obj Rel (n ↦ R^n) with prop_tensor_plus; (iv) any rig R and hence the R-indexing; (v) the identification of Mat(R) as a sub-prop — only the generic graph embedding of Coq functions exists.",
+    "negative_search_log": [
+      "grep -rn \"@Monoidal Rel|Monoidal Rel\" --include='*.v' . -> 0 hits",
+      "grep -rn \"Rel_Monoidal|Rel_Cartesian|Rel_Symmetric|Rel_Tensor\" --include='*.v' . -> only Instance/Rel.v:97, inside the commented-out region",
+      "grep -rn \"prop_of_nat :=\" --include='*.v' . -> 2 real instances (Construction/PROP/Instance.v:93 FreePROP, Theory/Lawvere/PROP.v:184 Lawvere_PROP); none is a relation prop"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL for the same reason: Instance/Rel.v supplies the underlying category of Rel_R (arbitrary relations, diagonal identity, relational composition, laws) but nothing of the prop packaging. Gap claims re-verified independently: `rg -n \"@Monoidal Rel|Monoidal Rel\" -g '*.v' .` -> 0 hits; the only Rel_Cartesian is Instance/Rel.v:97, inside the comment block that runs 96-157 (boundaries checked by line number); Rel's objects are `@obj Coq` (Instance/Rel.v:46), i.e. arbitrary types, not ℕ with ⊗ = +; no file outside Instance/Rel.v even imports Category.Instance.Rel, so no downstream file adds structure to it. LOG INACCURACY, non-material (does not change the verdict): the record's `prop_of_nat :=` grep and its parenthetical 'the only three PROP instances in the tree are FreePROP, PresentedPROP and Lawvere_PROP' both undercount. The pattern misses PresentedPROP because Construction/PROP/Presentation.v:317 aligns the field as `prop_of_nat    :=`; and `rg -n \": PROP\\b\" -g '*.v' .` turns up two further inhabitants, Construction/ColouredPROP/UnitBridge.v:344 `Definition RepeatPROP : PROP` and :197 `Definition ColouredPROP_unit_to_PROP (Q : ColouredPROP unit) : PROP`. None of the five is a relation prop, so the conclusion is untouched. PARTIAL CONFIRMED."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:ex5.80",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoidal product of relations B + C ⊆ R^(m+p) x R^(n+q)",
+      "tensor/parallel composition of two relations",
+      "product of subsets; {((x,x'),(y,y')) : (x,y) ∈ B, (x',y') ∈ C}",
+      "bimap / ⨂ on morphisms of Rel",
+      "cartesian or monoidal structure on the category of relations",
+      "disjoint-union tensor on a relation prop"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn \"Rel_Monoidal|Rel_Cartesian|Rel_Symmetric|Rel_Tensor\" --include='*.v' . -> the single hit Instance/Rel.v:97 ('Program Instance Rel_Cartesian : @Cartesian Rel') lies inside the commented-out block spanning lines 96-157, so no tensor of relations is defined anywhere; commented code is not admissible evidence",
+      "grep -rn \"@Monoidal Rel|Monoidal Rel\" --include='*.v' . -> 0 hits: Rel carries no monoidal structure, so bimap/⨂ on relations does not typecheck in-tree",
+      "grep -rn \"Span.*Monoidal|Monoidal.*Span\" --include='*.v' . -> 0 hits (Construction/Span/Category.v builds SpanCat as a bare category only), so the span presentation of relations gives no tensor either",
+      "grep -rn \"semiring|Semiring|Rig |: Rig\" --include='*.v' . -> no rig, so R^(m+p) has no in-tree meaning",
+      "grep -rn \"prop_of_nat :=\" --include='*.v' . -> no relation PROP exists whose monoidal product could be the one asked for"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: Rel has no tensor of any kind, so `B + C` cannot even be typed in-tree. Independently verified the two load-bearing negatives. (a) The comment block in Instance/Rel.v opens at line 96 and closes at line 157, so the sole Rel_Cartesian hit (:97) is inadmissible, exactly as the record states. (b) 'Construction/Span/Category.v builds SpanCat as a bare category only' is accurate: Construction/Span/ contains only Category.v, whose sole construction is `Program Definition SpanCat : Category := {|` at line 522, with no Monoidal/Symmetric anywhere in the file -- so the span presentation supplies no tensor either. No rig, hence no R^(m+p). ABSENT correct."
+    }
+  },
+  {
+    "id": "7sketches:5.4.3:def-sfg-plus",
+    "classification": "PARTIAL",
+    "aliases": [
+      "SFG_R^+ := Free(G_R ⊔ G_R^op), the prop of non-simplified signal flow graphs",
+      "free prop on a signature; FreePROP",
+      "disjoint union / sum of signatures (Sum_Sig, G ⊔ G^op)",
+      "universal property of the free prop; interpretation functor determined by a valuation on generators",
+      "semantics functor SFG_R^+ -> Rel_R",
+      "mirror-image generators / reversed icons"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 603,
+        "symbol": "interp_unique",
+        "intree_statement": "Theorem interp_unique : ∀ m n (t : Term S m n), fmap[G] t ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t).  (* for any strict symmetric monoidal G : FreeCat S ⟶ P agreeing with the valuation v on generators — the uniqueness half of the free-prop universal property *)"
+      },
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 174,
+        "symbol": "InterpF",
+        "intree_statement": "Definition InterpF : FreeCat S ⟶ P := Build_Functor (FreeCat S) P (@prop_of_nat P) (fun m n t => interp P S v t) (fun m n s t Hst => interp_sound P S v Hst) InterpF_fmap_id (fun m n p f g => InterpF_fmap_comp f g)  (* existence half: any valuation of the generators in a PROP P extends to a functor out of the free PROP; InterpF_Symmetric upgrades it to strict symmetric monoidal *)"
+      },
+      {
+        "file": "Construction/PROP/Tietze.v",
+        "line": 338,
+        "symbol": "interp_copair_inl",
+        "intree_statement": "Lemma interp_copair_inl {S T : Signature} {P : PROP} (v : Valuation P S) (w : Valuation P T) {m n : nat} (t : Term S m n) : interp P (Sum_Sig S T) (copair_val v w) (T_map sig_inl t) ≈ interp P S v t.  (* with interp_copair_inr at line 351: semantics for Free(S ⊔ T) is exactly a pair of valuations, one per summand — the Free(G ⊔ G^op) shape *)"
+      },
+      {
+        "file": "Construction/PROP/Instance.v",
+        "line": 82,
+        "symbol": "FreePROP",
+        "intree_statement": "Definition FreePROP : PROP := {| prop_cat := FreeCat S; prop_strict := FreeCat_Strict S; prop_symmetric := FreeCat_Symmetric S; prop_monoidal_coherence := eq_refl; prop_of_nat := fun n : nat => n; prop_unit_zero := eq_refl; prop_tensor_plus := fun m n => eq_refl |}"
+      }
+    ],
+    "statement_record": {
+      "book": "Writing G_R^op := {g^op : g ∈ G_R} for the mirror images of the signal-flow generators, define the prop SFG_R^+ := Free(G_R ⊔ G_R^op); its morphisms are the (non-simplified) signal flow graphs. Since each mirrored generator was assigned the transposed relation of (5.76), the free-prop universal property determines the behavior of every non-simplified signal flow graph, i.e. a prop functor SFG_R^+ -> Rel_R.",
+      "intree": "FreePROP S : PROP for any Signature S, with Sum_Sig S T := fun m n => sum (S m n) (T m n) for the disjoint union; a valuation v of the generators in any PROP P yields InterpF : FreeCat S ⟶ P (strict symmetric monoidal via InterpF_Symmetric), unique among such functors by interp_unique, and for a sum signature the valuation is precisely a copairing (interp_copair_inl/inr).",
+      "strength_comparison": "intree-weaker only in instantiation: the general construction the definition invokes — the free PROP on a disjoint union of signatures, plus the existence-and-uniqueness universal property that 'specifies the behavior of every non-simplified signal flow graph' — is in-tree at full strength (the uniqueness theorem carries a strict-symmetric-monoidal competitor and an arbitrary object family, needing no coherence hypothesis). What is absent is every ingredient specific to this item: G_R, the mirror operation on signatures/generators, and the target Rel_R."
+    },
+    "gap": "Missing: (i) the signal-flow generator signature G_R (addition, zero, copy, discard, scalar) — grep finds no signal-flow generators, only a citation comment at Construction/ColouredPROP.v:34; (ii) the mirror-image operation on a signature (nothing like Op_Sig : Signature -> Signature, fun m n => S n m, exists — grep for Op_Sig/Sig_op/Flip_Sig returns 0 hits), so G_R ⊔ G_R^op cannot even be written, although Sum_Sig would supply the ⊔ once G_R^op existed; (iii) the target: Rel is not a PROP in-tree (no monoidal structure), so the valuation into which the mirrored generators' transposed relations would be placed has no home, and the transposed relation itself is undefined (see 7sketches:5.4.3:def-transposed-relation); hence no behavior functor SFG_R^+ -> Rel_R.",
+    "negative_search_log": [
+      "grep -rn \"Op_Sig|Sig_op|Flip_Sig|Mirror|mirror\" --include='*.v' . -> no signature-reversal operation; hits are unrelated prose",
+      "grep -rn \"signal flow|SignalFlow|SFG\" --include='*.v' . -> 1 hit, the bibliography comment at Construction/ColouredPROP.v:34",
+      "grep -rn \"prop_of_nat :=\" --include='*.v' . -> only FreePROP, PresentedPROP and Lawvere_PROP; no Rel_R to receive the semantics"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found the same generic machinery -- Sum_Sig at Construction/PROP/Signature.v:79 (`Definition Sum_Sig (S T : Signature) : Signature := fun m n => sum (S m n) (T m n)`), FreePROP, and the interp universal property -- and reached PARTIAL. All four cited locations verified exactly: Construction/PROP/Universal.v:603 is `Theorem interp_unique : ∀ m n (t : Term S m n), fmap[G] t ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t).` (quote exact); :174 is `Definition InterpF : FreeCat S ⟶ P :=`; InterpF_Symmetric is at :525 as asserted; Construction/PROP/Tietze.v:338 is `Lemma interp_copair_inl` with :351 the inr twin and :328 copair_val; Construction/PROP/Instance.v:82 is `Definition FreePROP : PROP := {|` with the eq_refl fields as quoted. All four files are registered (_CoqProject:83, :96, :98, :102) and compiled (.vo present). ONE HONESTY REFINEMENT the record omits, insufficient to overturn: interp_unique lives in Section Universal under `Context {HP : HomEqProp P}` and `Context {OD : @ObjDecEq P}` (Universal.v:147-148) and, in Section Uniqueness, under SG : StrictMonoidalFunctor, HB : SymmetricStrict G SG, Hobj and Hgen (:566-571). So the record's 'needing no coherence hypothesis' is true only of the Hobj family -- which is what the file's own comment at :597-602 claims -- and not of the side conditions on P. Both side conditions are supplied for FreeCat S in Construction/PROP/Instance.v, so the machinery really is usable at the shape the book invokes. Also re-verified `rg -n \"Op_Sig|Sig_op|Flip_Sig\" -g '*.v' .` -> 0 hits: no arity-reversing operation on signatures, so G_R ⊔ G_R^op is unwritable even though Sum_Sig would supply the ⊔. PARTIAL CONFIRMED."
+    }
+  }
+]

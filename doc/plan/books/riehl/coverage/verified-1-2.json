@@ -1,0 +1,474 @@
+[
+  {
+    "id": "riehl:1.2:remark4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "isomorphisms are defined representably",
+      "f iso iff postcomposition f_* : C(c,x) -> C(c,y) is a bijection for every c",
+      "Yoneda embedding reflects isomorphisms / conservative functor",
+      "ReflectsIsos / Conservative / fully faithful reflects isos",
+      "Curried_Hom, [Hom A,-], hom-functor iso",
+      "local smallness not needed (hom-setoid + universe polymorphism)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 335,
+        "symbol": "ff_reflects_isos",
+        "intree_statement": "Section FullyFaithful. Context {F : C ⟶ D}. Context `{HF : @Full C D F}. Context `{HfF : @Faithful C D F}. ... Definition ff_reflects_isos : ReflectsIsos F := @Build_ReflectsIsos C D F (fun x y f I => @Build_IsIsomorphism C x y f (ff_iso_inverse f I) (ff_iso_inverse_right f I) (ff_iso_inverse_left f I))   [with Class ReflectsIsos F := { reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }, Structure/Limit/Preservation.v:243]"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "#[export] Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* every functor — in particular [Hom c,─] — carries isomorphisms to isomorphisms; the ⇒ direction of the representable characterization *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).   (* with #[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C) at line 85, and Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] at line 60, whose fmap at x is g ↦ f ∘ g, i.e. f_* *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 1.2.3 says isomorphisms in a locally small category are defined REPRESENTABLY in terms of isomorphisms in Set: f : x → y is an isomorphism iff for every object c the postcomposition function f_* : C(c,x) → C(c,y) is an isomorphism in Set (dually for f^*). The proof needs no local-smallness hypothesis; smallness is only invoked where genuinely needed.",
+      "intree": "Definition ff_reflects_isos : ReflectsIsos F  (under Full F, Faithful F), together with Yoneda_Full / Yoneda_Faithful for Curried_Hom C : C^op ⟶ [C, Sets] and Proper (Isomorphism ==> Isomorphism) (fobj[F]).",
+      "strength_comparison": "intree-weaker: the library never states the biconditional 'f is an isomorphism ⟺ for every c the Sets-map f_* = fmap[[Hom c,─]] f is invertible'. The two halves exist only as separate general facts — functors preserve isos (fobj_iso) and fully faithful functors reflect them (ff_reflects_isos) — and neither is instantiated at the Yoneda embedding, whose full-faithfulness is proved (Yoneda_Full/Yoneda_Faithful) but never composed with ff_reflects_isos. Also, ff_reflects_isos needs an iso in the FUNCTOR category [C,Sets] (a natural iso), not the book's weaker componentwise hypothesis 'f_* is bijective at each c'; the componentwise-to-natural step is not in tree. The foundational half of the remark fares better: the library is 'locally small by construction' (every Category carries homset : ∀ x y, Setoid (x ~> y)) and is universe-polymorphic in {o h p}, so the size caveat Riehl waves away is handled structurally rather than by hypothesis — but that is architecture, not an asserted theorem. The nearest in-tree assertion in exactly the book's shape is Construction/Localization.v:129 WLocal, which does state 'IsIsomorphism (fmap[[Hom ─,x]] w)' for the precomposition map — the packaging Riehl asks for, applied to a different question."
+    },
+    "gap": "No in-tree statement of the representable characterization of isomorphisms itself: nothing asserts 'IsIsomorphism f ↔ ∀ c, IsIsomorphism (fmap[[Hom c,─]] f)' (nor its f^*/precomposition dual). Only the general preservation lemma (fobj_iso) and the general reflection lemma (ff_reflects_isos, which assumes a natural iso rather than componentwise bijections) exist, and they are never instantiated at Curried_Hom despite Yoneda_Full/Yoneda_Faithful being available.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'conservative|reflects_iso|ReflectsIsos|reflect.*isomorph' . — only Structure/Limit/Preservation.v:243 (class), Theory/Equivalence/Limit.v:335,456, and monadicity/Lawvere consumers",
+      "grep -rn --include=*.v -i 'postcompos|precompos|post-compos|pre-compos' . — 3 hits, none a mono/epi/iso characterization",
+      "grep -rn --include=*.v 'fmap_iso|Functor_Iso|preserves.*iso|fobj_iso' . — only fobj_iso and fmap_iso_of_eq"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same place independently: aliases 'representable', 'ReflectsIsos', 'conservative', 'Curried_Hom', 'postcompos/precompos', plus a scan of Functor/Hom.v, Functor/Hom/Yoneda.v, Functor/Representable.v and Structure/UniversalProperty.v turned up no biconditional 'IsIsomorphism f <-> forall c, IsIsomorphism (fmap[[Hom c,-]] f)'. Cited evidence verified in place: Theory/Equivalence/Limit.v:335 is exactly 'Definition ff_reflects_isos : ReflectsIsos F'; Theory/Functor.v:227 is 'Program Instance fobj_iso ... Proper (Isomorphism ==> Isomorphism) (fobj[F])'; Functor/Hom.v:85/96 are Yoneda_Faithful/Yoneda_Full on Curried_Hom (line 60); Structure/Limit/Preservation.v:243 is the ReflectsIsos class; Construction/Localization.v:129 WLocal does state IsIsomorphism (fmap[[Hom -,x]] w). All files are in _CoqProject. ONE OVERSTATEMENT in strength_comparison, not material to the verdict or the gap: 'the componentwise-to-natural step is not in tree' is too strong -- Instance/Fun.v:255 Functor_Setoid_Nat_Iso (with equiv_iso/iso_equiv at :305,:308) is precisely the pointwise-iso <-> natural-iso packaging, so that step IS available (it does require the naturality side condition, which the transformation in question supplies). The gap as written ('the biconditional is never stated, and fobj_iso/ff_reflects_isos are never instantiated at Curried_Hom') is accurate and survives."
+    }
+  },
+  {
+    "id": "riehl:1.2:def7",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphism / monic / mono / left-cancellable",
+      "epimorphism / epic / epi / right-cancellable",
+      "Monic, Epic (Coq class names)",
+      "MonoClass / EpiClass (morphism-class encoding)",
+      "mono in C = epi in C^op (duality)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }."
+      }
+    ],
+    "statement_record": {
+      "book": "f : x → y is (i) a monomorphism if fh = fk implies h = k for every parallel pair h,k : w → x (left cancellable); (ii) an epimorphism if hf = kf implies h = k for every parallel pair h,k : y → z (right cancellable). A monomorphism in C is exactly an epimorphism in C^op and conversely.",
+      "intree": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }.  Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.",
+      "strength_comparison": "same — the setoid rephrasing (≈ for =) is faithful, and the object quantifier ∀ z is exactly the book's 'for every parallel pair h,k : w → x'. One nuance: the book's duality clause (mono in C = epi in C^op) holds DEFINITIONALLY here — unfolding Monic in C^op yields the body of Epic verbatim, since Opposite reverses ∘ and hom — and the file records it in prose ('This is exactly `Monic f` in `C^op`'), but no lemma or Definition asserts the interchange, so nothing in the environment states it. Vocabulary is also present: Theory/Morphisms/Classes.v:31,35 package the two as MonoClass/EpiClass, and Theory/Morphisms.v:125 defines Bimorphic f := (Epic f * Monic f)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently found Theory/Morphisms.v:104 Epic and :116 Monic before opening the coverage file; quotes are verbatim-accurate at those lines, file is registered in _CoqProject:462. Checked the duality clause the record flags: unfolding @Monic (C^op) y x f gives, after Opposite reverses hom and compose, literally the body of @Epic C x y f, so the book's 'a monomorphism in C is exactly an epimorphism in C^op' is definitionally true here and the Theory/Morphisms.v:102 comment asserting it is CORRECT (not a defect) -- but, as the record honestly says, no constant in the environment states the interchange. Also confirmed the supporting vocabulary: Bimorphic at :125, MonoClass/EpiClass at Theory/Morphisms/Classes.v:31,35. PRESENT is right; the missing duality lemma is a one-line convenience, not a substantive gap."
+    }
+  },
+  {
+    "id": "riehl:1.2:lem-mono-epi-representable",
+    "classification": "PRESENT",
+    "aliases": [
+      "mono iff postcomposition is injective on hom-sets",
+      "epi iff precomposition is injective on hom-sets",
+      "representable characterization of monomorphisms",
+      "f_* injective / f^* injective / injective (Lib/Setoid.v class)",
+      "Curried_Hom / [Hom c,─] fmap = post-composition"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }.  (* literally: for every object z, the map (f ∘ −) : hom z x → hom z y is injective up to ≈ *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.  (* for every object z, the map (− ∘ f) : hom y z → hom x z is injective up to ≈ *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}.  (* supplies f_* and f^* as honest Sets-morphisms between hom-setoids *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered pair of dual restatements of Definition 1.2.7: f : x → y is a monomorphism iff for every object c the postcomposition function f_* : C(c,x) → C(c,y) is an injection; f is an epimorphism iff for every c the precomposition f^* : C(y,c) → C(x,c) is an injection. (Compare Lemma 1.2.3, where bijections characterize isomorphisms.)",
+      "intree": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }; Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.",
+      "strength_comparison": "same — these are the book's representable clauses with 'injective' unfolded elementwise, which in this setoid library is exactly Lib/Setoid.v:117's Class injective (f x ≈ f y → x ≈ y) applied to the hom-setoids hom z x → hom z y. Both quantify over the probe object, and the induced map is precisely the fmap of Curried_Hom, so no strength is lost. Caveat worth recording for the verifier: the library never writes the bridge lemma 'Monic f ↔ ∀ c, injective (fmap[[Hom c,─]] f)', so the identification is definitional (by unfolding) rather than asserted; the analogous ISO-level packaging through the hom-functor DOES exist elsewhere in tree (Construction/Localization.v:129 WLocal := ∀ a b w, W a b w → IsIsomorphism (fmap[[Hom ─,x]] w)). Consequently this item's evidence necessarily overlaps riehl:1.2:def7's — in this library the definition and its representable reformulation are the same text."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached the identical conclusion and for the identical reason: `Monic f` is *definitionally* 'for every probe object z, (f o -) : hom z x -> hom z y is injective up to ~~', and `Epic f` is the precomposition dual, so the book's unnumbered representable reformulation is true by unfolding. Verified Lib/Setoid.v:117 Class injective and :121 Class surjective (the latter is SPLIT surjectivity, a chosen preimage -- relevant to items 8/1.2.v, not here). Curried_Hom at Functor/Hom.v:60 does supply f_* and f^* as genuine Sets-morphisms between hom-setoids, as quoted. The record's own caveat -- that the bridge lemma 'Monic f <-> forall c, injective (fmap[[Hom c,-]] f)' is never written -- is accurate and appropriately does not downgrade the verdict, since the two sides are convertible rather than merely equivalent."
+    }
+  },
+  {
+    "id": "riehl:1.2:example8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monos in Set are the injections",
+      "epis in Set are the surjections",
+      "injectivity_is_monic / surjectivity_is_epic",
+      "Sets (setoid model of Set), FinSet",
+      "Ens (Bourbaki-name category of sets)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 369,
+        "symbol": "injectivity_is_monic",
+        "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.   (* proved both ways; the hard direction probes f with two constant maps out of the singleton unit_setoid_object *)"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 335,
+        "symbol": "finset_monic_iff_injective",
+        "intree_statement": "Lemma finset_monic_iff_injective {m n : nat} (f : m ~{FinSet}~> n) : (∀ a b : Fin.t m, f a = f b → a = b) ↔ Monic f.   (* the same clause in the skeletal finite model, where it is used to build the classifier *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In Set a function f : X → Y is a monomorphism iff it is injective, and an epimorphism iff it is surjective; monos and epis are thus the categorical analogues of injections and surjections (though in general concrete categories the correspondence fails in both directions).",
+      "intree": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.  —  the companion Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}} (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h is written down at Instance/Sets.v:429 but its proof script ENDS IN `Abort.` (line 476), so the constant never enters the environment.",
+      "strength_comparison": "intree-weaker: only the mono/injection half is a theorem. The epi/surjection half is stated and then abandoned — the file's own header (Instance/Sets.v:101) records why: 'the reverse direction of [surjectivity_is_epic] needs a truth-value object one universe up, so that lemma never enters the environment'. Note this costs BOTH directions, not just the classical one: because the whole biconditional is a single Aborted Lemma, even the easy forward implication (surjective → epic), whose script is complete inside the aborted proof, is unavailable as a named result. Instance/Sets/Image.v:113 Sets_Image_epi_epic proves only that the canonical image projection is epic, not the general characterization. The book's coda about the correspondence failing in general concrete categories (its forward reference to Exercises 1.6.iv, 1.6.v) has no in-tree counterpart either."
+    },
+    "gap": "The epimorphism half of the example — 'f is an epimorphism in Set iff f is surjective' — is not available in either direction: Instance/Sets.v:429 surjectivity_is_epic ends in `Abort.` at line 476, documented as a predicativity/size obstruction (the truth-value object needed for the classical argument lives one universe above the objects being compared; the cross-universe substitutes live in Instance/Sets/Classifier.v). No other category in tree — FinSet, Ens, Coq, Props — carries an epi ⟺ surjective statement either.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'surject|Surject' . — the only epi-related hits are the Aborted Instance/Sets.v:429 and prose",
+      "grep -rn --include=*.v -i 'epic|surject' Instance/FinSet/ — 0 hits",
+      "grep -rn --include=*.v 'Epic' . restricted to Lemma/Theorem/Definition/Instance lines — no characterization lemma anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, and the record is exactly right about the sharpest fact here, which I found independently: Instance/Sets.v:429 surjectivity_is_epic ends in `Abort.` at line 476 (verified: `grep -n '^Abort\\.' Instance/Sets.v` returns exactly 476), so NEITHER direction of 'epi in Sets <-> surjective' is in the environment, including the forward implication whose script is complete inside the abandoned proof. injectivity_is_monic at :369 is a genuine two-way iff (I read the whole proof; the hard direction probes with two constant maps out of unit_setoid_object). finset_monic_iff_injective at Instance/FinSet/Classifier.v:335 is real and is consumed by the classifier at :385. Instance/Sets/Image.v:113 Sets_Image_epi_epic is, as the record says, only the canonical image projection. Independent negative checks: no Monic/Epic occurrences at all in Instance/Ens.v, Instance/Props.v, Instance/Coq.v; no epi/surjectivity statement in Instance/FinSet/. SEE problems[] -- confirming this record surfaced a real header/code contradiction in Instance/Sets.v."
+    }
+  },
+  {
+    "id": "riehl:1.2:example9",
+    "classification": "PRESENT",
+    "aliases": [
+      "section / retraction / one-sided inverse",
+      "split monomorphism / split epimorphism",
+      "retract of an object",
+      "Section, Retraction, SplitMono, SplitEpi (Coq class names)",
+      "sections are monic, retractions are epic; isos are monic and epic"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 179,
+        "symbol": "sections_are_monic",
+        "intree_statement": "Lemma sections_are_monic : Section f → Monic f.   (* Variables x y : C. Variable f : x ~> y. *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 162,
+        "symbol": "retractions_are_epic",
+        "intree_statement": "Lemma retractions_are_epic : Retraction f → Epic f."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 264,
+        "symbol": "iso_to_monic",
+        "intree_statement": "#[export] Program Instance iso_to_monic {C : Category} {x y} (iso : @Isomorphism C x y) : Monic iso.   (* with iso_to_epic : Epic iso at line 286, and iso_from_monic / iso_from_epic for the inverse *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 70,
+        "symbol": "Retraction",
+        "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.   (* dually Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id } at line 56; Definition SplitEpi `(f : x ~> y) := Retraction f and Definition SplitMono `(f : x ~> y) := Section f at lines 126-127 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given x --s--> y --r--> x with rs = id_x: s is a section (right inverse) of r, r is a retraction (left inverse) of s, and x is a retract of y. Such an s is always a monomorphism and such an r is always an epimorphism; to record the one-sided inverse one calls s a split monomorphism and r a split epimorphism. Consequently an isomorphism is necessarily both monic and epic, though the converse fails (Exercise 1.2.iv).",
+      "intree": "Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }.  Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.  Lemma sections_are_monic : Section f → Monic f.  Lemma retractions_are_epic : Retraction f → Epic f.  Program Instance iso_to_monic ... : Monic iso; iso_to_epic ... : Epic iso.",
+      "strength_comparison": "same, with one presentational shift and one omission. Presentation: the library indexes the classes by the SPLITTING morphism rather than by the pair — a value of `Section f` records that f itself is split monic, its field `section` being the accompanying retraction — and Theory/Morphisms.v:230,241 supply flip_Section / flip_Retraction to move between the two readings, which is exactly Riehl's 'r is a retraction of s and s is a section of r'. Omission: the object-level noun 'x is a RETRACT of y' is never defined as such (only split_idem_retract, the splitting object of a split idempotent, at Theory/Morphisms.v:86). Additionally, Theory/Morphisms/Classes.v:51,58,87,95 restate the whole inclusion diagram Iso ⊆ SplitMono ⊆ Mono, Iso ⊆ SplitEpi ⊆ Epi as split_mono_in_mono / split_epi_in_epi / iso_in_mono / iso_in_epi. The book's closing caveat ('the converse fails in general') is unwitnessed in tree — see riehl:1.2:exiv — though Theory/Isomorphism.v:392,412 give the standard partial converses Monic_Retraction_Iso and Epic_Section_Iso."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently found the same cluster before reading the coverage file: Theory/Morphisms.v:56 Section, :70 Retraction, :126/:127 SplitEpi/SplitMono, :162 retractions_are_epic, :179 sections_are_monic, :230/:241 flip_Section/flip_Retraction; Theory/Isomorphism.v:264 iso_to_monic, :286 iso_to_epic, :275/:376 the from-side duals; Theory/Morphisms/Classes.v:51,58,87,95 split_mono_in_mono / split_epi_in_epi / iso_in_mono / iso_in_epi (all four line numbers verified exactly). All quotes accurate; all files in _CoqProject. The two disclosed omissions are real and correctly judged non-fatal: the object-level noun 'x is a retract of y' is never a definition (it appears only in prose at Construction/Karoubi/Universal.v:47,104 and Theory/Orthogonality.v:147), and the 'converse fails' caveat is unwitnessed (it is exiv's business). PRESENT stands."
+    }
+  },
+  {
+    "id": "riehl:1.2:remark10",
+    "classification": "ABSENT",
+    "aliases": [
+      "axiom of choice",
+      "every epimorphism in Set splits / epis in Set are split epis",
+      "choice function / section of a surjection",
+      "indexed family of non-empty fibers, p^{-1}(i)",
+      "AC as a categorical statement / Retraction of a surjection in Sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'axiom of choice' . — 5 hits, all prose in Theory/Equivalence.v (skeletality and the classical equivalence characterization), none about epis splitting",
+      "grep -rn --include=*.v -i 'every epi.*split|epis.*split|epimorphisms split' . — 0 hits",
+      "grep -rn --include=*.v -i 'choice function|AC_|functional_choice|Epsilon|classic' . — no choice principle used or discussed for epis; docs/AXIOMS.md lists only dependent_choice / unique_choice among stdlib axioms of the instance layers",
+      "grep -rn --include=*.v 'Retraction|SplitEpi' . — outside Theory/Morphisms.v, Theory/Isomorphism.v and Theory/Morphisms/Classes.v there are exactly two hits (Construction/Karoubi/Universal.v:127, Structure/Factorization/StrongEpi.v:114), neither about Sets or choice",
+      "grep -rn --include=*.v -i 'surject|Surject' Instance/ — the only Sets-level surjectivity results are the Aborted surjectivity_is_epic and bijective_is_iso, which consumes a SPLIT surjectivity witness (Lib/Setoid.v:121 Class surjective := { surj {y} : { x & f x ≈ y} }) rather than deriving one"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass found nothing either: no statement that epimorphisms in Sets split, no choice principle applied to epis, no Projective-object notion. Checked the record's negative log and found ONE ATTRIBUTION ERROR that does not affect the verdict: 'axiom of choice' has 5 hits as claimed, but they are NOT all in Theory/Equivalence.v -- the actual set is Theory/Equivalence.v:95,105,108, Structure/Factorization.v:112 ('fillers rest on the axiom of choice', about OFS fillers) and Structure/Topos.v:82 (LEM/AC need not hold in a topos). None is about epis splitting, so ABSENT is correct. Also independently confirmed the record's sharpest observation: Lib/Setoid.v:121 `surjective` is SPLIT surjectivity (a chosen preimage, `{ x & f x ~~ y }`), which is why Instance/Sets.v:398 bijective_is_iso needs no choice -- the library systematically encodes the choice as data, so Riehl's remark has no in-tree hook at all."
+    }
+  },
+  {
+    "id": "riehl:1.2:lem11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monomorphisms are closed under composition",
+      "epimorphisms are closed under composition",
+      "cancellation: gf monic implies f monic; gf epic implies g epic",
+      "monic_compose / epi_compose",
+      "left/right cancellation property of monos and epis"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 212,
+        "symbol": "monic_compose",
+        "intree_statement": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 201,
+        "symbol": "epi_compose",
+        "intree_statement": "Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Epic f → Epic g → Epic (f ∘ g)."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 1.2.11: (i) if f : x → y and g : y → z are monomorphisms then so is gf; (ii) if gf is a monomorphism then f is a monomorphism. Dually: (i') if f and g are epimorphisms then so is gf; (ii') if gf is an epimorphism then g is an epimorphism.",
+      "intree": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g).  Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Epic f → Epic g → Epic (f ∘ g).",
+      "strength_comparison": "intree-weaker: only clauses (i) and (i') — closure under composition — are formalized. Neither cancellation clause exists for plain monos or epis. The only cancellation result in the family is Structure/Factorization/StrongEpi.v:62 strong_epi_cancel : StrongEpi (f ∘ g) → StrongEpi f, whose proof does derive 'Epic (f ∘ g) → Epic f' inline (StrongEpi.v:68-74) but never exposes it as a reusable lemma — and that is the (ii')-shaped statement for the LEFT factor of a strong epi, which is Riehl's (ii') read in the library's composition order. Note the argument-order convention: in this library f ∘ g means 'g then f', so Riehl's gf is the library's f ∘ g, and Riehl's (ii) 'f is monic' corresponds to the library's right factor g being monic while (ii') 'g is epic' corresponds to the library's left factor f being epic."
+    },
+    "gap": "Both cancellation clauses are missing: nothing in tree asserts 'Monic (f ∘ g) → Monic g' (Riehl (ii)) or 'Epic (f ∘ g) → Epic f' (Riehl (ii')). Only the composition-closure halves (i)/(i') are proved. The dual-derivation route the lemma advertises is also unused — monic_compose and epi_compose are each proved directly rather than one from the other via C^op.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Monic (.*∘.*) →|Epic (.*∘.*) →|→ Monic (|→ Epic (' . — only monic_compose and epi_compose",
+      "grep -rn --include=*.v -i 'cancel' . filtered to Lemma/Theorem/Definition — 25 hits, all iso-cancellation/braiding/additive helpers plus strong_epi_cancel; none for plain Monic/Epic",
+      "grep -rn --include=*.v 'Monic|Epic' . filtered to declaration lines — full inventory of Monic/Epic assertions in the tree inspected; no cancellation lemma present"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind search independently found only monic_compose (Theory/Morphisms.v:212) and epi_compose (:201), with no cancellation clause for plain monos/epis anywhere (`rg 'Monic \\(.*o.*\\)|Epic \\(.*o.*\\)'` over the whole tree yields only these two declarations plus a local `assert (Hepi : Epic (pi1 o pi2))` in Structure/Regular/Factorization.v:259). I VERIFIED the record's most checkable claim by reading the proof: Structure/Factorization/StrongEpi.v:62 strong_epi_cancel does derive Epic f from Epic (f o g) inline at lines 68-76 and never exposes it, exactly as stated. The composition-order reconciliation in strength_comparison is also correct (Riehl's gf is the library's f o g; his (ii) is 'Monic (f o g) -> Monic g', his (ii') is 'Epic (f o g) -> Epic f'). Gap statement is precise and honest."
+    }
+  },
+  {
+    "id": "riehl:1.2:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "over-slice C/c as the opposite of the under-slice (c/(C^op))^op",
+      "slice category / over category / comma (Id ↓ Δc)",
+      "coslice / under category / (Δc ↓ Id)",
+      "Slice, Coslice (Coq names); C ̸ c, c ̸co C notations",
+      "duality principle, (C^op)^op = C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 123,
+        "symbol": "Slice",
+        "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x; ... |}."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 126,
+        "symbol": "op_invol",
+        "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C.   (* the definitional involutivity of duality the exercise's construction rides on *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.2.i: defining C/c to be (c/(C^op))^op, deduce the statement of Exercise 1.1.iii(ii) (the over-slice is a category) from that of 1.1.iii(i) (the under-slice is a category) — i.e. obtain the over-slice by duality from the under-slice. A footnote observes the two are isomorphic categories rather than literally equal.",
+      "intree": "Program Definition Slice `(C : Category) `(c : C) : Category := ... ; Program Definition Coslice `(C : Category) `(c : C) : Category := ... ; Lemma op_invol {C : Category} : (C^op)^op = C.",
+      "strength_comparison": "intree-weaker: the exercise's CONCLUSION holds (both C/c and c/C are constructed as categories, each further shown isomorphic in Cat to its comma presentation — Comma_Slice at Construction/Slice.v:140 and Comma_Coslice at :181), but its METHOD, which is the whole point, is absent. Slice and Coslice are two independent Program Definitions with duplicated proof obligations; neither is defined as, nor related to, the opposite of the other over C^op. The library does have the duality machinery to do it — op_invol, and Construction/Comma.v:254 even applies exactly this idiom elsewhere (Definition Cocomma ... := @Comma (B^op) (A^op) (C^op) (T^op) (S^op)) — so the omission is a missed instance of an established in-tree pattern, not a foundational obstacle."
+    },
+    "gap": "No in-tree relation between the slice and the coslice: nothing states Slice C c ≅[Cat] (Coslice (C^op) c)^op (nor the footnote's weaker 'isomorphic, not equal' form), and the over-slice is not derived by duality from the under-slice — both are built from scratch with their own obligations.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Coslice|Slice' . filtered for '^op|Opposite' — 0 hits",
+      "grep -rn --include=*.v 'Comma' . filtered for '^op|Opposite' — only Construction/Comma.v:249,255 (Cocomma), which is the comma of opposite functors, not the opposite of a comma",
+      "ls Construction/Slice/ — only Pullback.v; no duality file"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. My blind pass reached the same finding: Construction/Slice.v:123 Slice and :169 Coslice are two independent Program Definitions with separately discharged obligations (I read both), each related only to its comma presentation (Comma_Slice :140, Comma_Coslice :181); nothing states Slice C c ~= (Coslice (C^op) c)^op. op_invol at Construction/Opposite.v:126 verified. The record's most useful observation checks out and I found it independently too: Construction/Comma.v:254 Cocomma := @Comma (B^op) (A^op) (C^op) (T^op) (S^op) applies exactly the idiom the exercise asks for, elsewhere -- so this is a missed instance of an established in-tree pattern. PARTIAL (rather than ABSENT) is defensible under the frozen definition since the exercise's CONCLUSION, that the over-slice is a category, is fully in tree; only its method is not."
+    }
+  },
+  {
+    "id": "riehl:1.2:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monomorphisms form a subcategory",
+      "epimorphisms form a wide subcategory",
+      "closure of monos/epis under composition and identities",
+      "Subcategory record (sobj/shom/scomp/sid), Wide",
+      "prove Lemma 1.2.11 by duality"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 212,
+        "symbol": "monic_compose",
+        "intree_statement": "Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Monic f → Monic g → Monic (f ∘ g).   (* exactly the `scomp` field a Subcategory of monos needs *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 201,
+        "symbol": "epi_compose",
+        "intree_statement": "Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} : Epic f → Epic g → Epic (f ∘ g)."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 135,
+        "symbol": "id_monic",
+        "intree_statement": "Corollary id_monic : ∀ x, Monic (id (x:=x)).   (* the `sid` field; Corollary id_epic : ∀ x, Epic (id (x:=x)) at line 142 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.2.ii: prove Lemma 1.2.11 by proving either (i) or (i') and either (ii) or (ii') and deducing the rest by duality; conclude that the monomorphisms of any category define a subcategory of it, and dually that the epimorphisms define a subcategory.",
+      "intree": "Definition monic_compose : Monic f → Monic g → Monic (f ∘ g); Definition epi_compose : Epic f → Epic g → Epic (f ∘ g); Corollary id_monic : ∀ x, Monic (id (x:=x)); Corollary id_epic : ∀ x, Epic (id (x:=x)).  The target structure exists: Construction/Subcategory.v:31 Record Subcategory := { sobj : C → Type; shom {x y} : sobj x → sobj y → (x ~> y) → Type; scomp ... : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid {x} (ox : sobj x) : shom ox ox (@id C x) }.",
+      "strength_comparison": "intree-weaker on both halves of the exercise. (a) The Lemma 1.2.11 half: only the composition clauses (i)/(i') are proved; the cancellation clauses (ii)/(ii') are absent (see riehl:1.2:lem11), and the two composition lemmas are proved directly rather than one from the other by duality, so the exercise's actual method is unexercised. (b) The subcategory conclusion: every ingredient is present — monic_compose is literally the `scomp` field and id_monic literally the `sid` field of Construction/Subcategory.v's Record Subcategory, with sobj := fun _ => True making it wide (Definition Wide : Type := ∀ x : C, sobj S x, line 93) — but the assembly is never performed. Grepping the whole tree for Subcategory instances turns up Sheaves_sub, Models_sub, MLocal_Subcategory, C_W and op_subcategory; none is the mono or epi subcategory. Note also that the two classes ARE packaged as morphism classes (Theory/Morphisms/Classes.v:31,35 MonoClass/EpiClass) and consumed as factorization classes (Structure/Abelian.v:441 Abelian_OFS : OFS EpiClass MonoClass), so the library uses them as classes of maps without ever exhibiting either as a category."
+    },
+    "gap": "No in-tree Subcategory instance for monomorphisms or for epimorphisms: the closure data (monic_compose/epi_compose, id_monic/id_epic) exists but is never assembled into a `Subcategory C` value, so the exercise's conclusion — that monos, resp. epis, form a (wide) subcategory — is never asserted. In addition the cancellation clauses (ii)/(ii') of Lemma 1.2.11, which this exercise is also asked to prove, are missing entirely, and neither composition lemma is obtained from its dual.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Subcategory' . excluding Construction/Subcategory.v, filtered to definition lines — Sheaves_sub, Models_sub, op_subcategory, C_W, MLocal_Subcategory only",
+      "grep -rn --include=*.v 'MonoClass|EpiClass|SplitEpiClass|SplitMonoClass|IsoClass' . — all uses are as factorization/orthogonality classes (Instance/Sets/Image.v, Structure/Abelian.v, Structure/Regular/Factorization.v), never as a Subcategory",
+      "grep -rn --include=*.v -i 'wide subcategory|Wide_|WideSubcategory' . — the wide subcategories built in tree are Centre, Thunk, Det, CorelCat; no mono/epi one"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Independently verified every closure ingredient (monic_compose :212, epi_compose :201, id_monic :135, id_epic :142) and the target Record Subcategory at Construction/Subcategory.v:31 with scomp/sid fields matching them field-for-field, plus Wide at :93 -- and independently confirmed no mono/epi Subcategory value is ever built. TWO IMPRECISIONS, neither affecting the verdict: (a) the strength_comparison's enumeration of in-tree Subcategory instances ('Sheaves_sub, Models_sub, MLocal_Subcategory, C_W, op_subcategory') is INCOMPLETE -- it omits Monad/Thunkable.v:264 ThunkableSub, Structure/Binoidal/Central.v:233 CentralSub and Structure/Monoidal/CopyDiscard/Deterministic.v:575 DeterministicSub, though the third negative-log line does name Thunk/Centre/Det, and none of them is the mono or epi subcategory, so the conclusion is unchanged; (b) 'sobj := fun _ => True' should read `poly_unit`, which is what all three wide instances actually use. Gap statement is accurate."
+    }
+  },
+  {
+    "id": "riehl:1.2:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "monomorphisms in Field",
+      "category of fields and field homomorphisms",
+      "every field homomorphism is injective / is monic",
+      "Field, Fld, CRing, Ring as a category instance",
+      "algebraic-structure categories (Group, Ring, R-Mod)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ — the concrete categories in tree are Sets, Coq, Ens, FinSet, Cat, Fun, CMon, Poset, Proset, Rel, Props, Two, Zero, One, Omega, Roof, Parallel, Discrete, Shapes, Lambda, ZX, Comp, AST, Adj, Adjoints, Cones, Fact, StrictCat; there is no Field, Ring, Group or Module category",
+      "grep -rn --include=*.v -iE 'field homomorphism|category of fields|Field :' . — one hit, Theory/Lawvere.v:91, and it is prose noting that 'the category of fields has no products and is not of this form'",
+      "grep -rn --include=*.v 'Program Definition.*: Category|Definition.*: Category :=|Program Instance.*: Category' Instance/ — full enumeration of category instances inspected; no algebraic category beyond CMon (commutative monoids)",
+      "grep -rn --include=*.v -iE 'category of rings|CRing|commutative ring' . — one prose hit in Construction/Localization.v:67"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent search: `rg '\\bField\\b'` over all .v files returns only Structure/Premonoidal.v:188 ('Field orientations', record fields) and two bibliographic hits in Theory/Algebra/Frobenius.v; `rg '\\bRing\\b'` returns nothing at all. The only algebraic category in tree is Instance/CMon.v (commutative monoids); there is no Field, Ring, Group or Module category, so the exercise cannot even be stated. Theory/Lawvere.v:91 does contain the prose the record cites ('the category of fields has no products and is not of this form'), verified verbatim. ABSENT is correct."
+    }
+  },
+  {
+    "id": "riehl:1.2:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "Z → Q is monic and epic in Ring but not an isomorphism",
+      "bimorphism that is not an isomorphism",
+      "monic + epic does not imply iso",
+      "Bimorphic (Coq name), balanced category",
+      "no ring homomorphisms Q → Z"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ and grep -rn --include=*.v 'Program Definition.*: Category|Definition.*: Category :=' Instance/ — no Ring category exists in tree, so the concrete counterexample cannot even be stated",
+      "grep -rn --include=*.v -iE 'category of rings|CRing|commutative ring' . — one prose hit (Construction/Localization.v:67)",
+      "grep -rn --include=*.v -i 'rational|Qmake' . — no rationals anywhere",
+      "grep -rn --include=*.v 'Bimorphic' . — 3 hits, all in Theory/Morphisms.v: the definition at line 125 and two Hint Unfold declarations; no theorem about bimorphisms, and in particular no in-tree witness (not even in a poset or the walking arrow _2, where every morphism is trivially both monic and epic) that a bimorphism can fail to be an isomorphism",
+      "grep -rn --include=*.v -i 'not an isomorphism|converse fails|need not be' . — Theory/Isomorphism.v:261 says 'The converse fails in general' but only in a comment, pointing to the positive partial converses Monic_Retraction_Iso (line 392) and Epic_Section_Iso (line 412)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by independent search: no Ring category exists (see exiii), no rationals, and `rg 'Bimorphic'` yields exactly the three hits the record names (Theory/Morphisms.v:125 definition plus two Hint Unfold), with no theorem about bimorphisms. I also verified the record's honest counterweight: Theory/Isomorphism.v:261 asserts 'The converse fails in general' only in a comment, and the in-tree positive results are the partial converses Monic_Retraction_Iso (:392) and Epic_Section_Iso (:412), which I read. Nothing witnesses a bimorphism that is not an isomorphism. ABSENT is correct."
+    }
+  },
+  {
+    "id": "riehl:1.2:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "split epi iff postcomposition f_* : C(c,x) → C(c,y) is surjective",
+      "split mono iff precomposition f^* : C(y,c) → C(x,c) is surjective",
+      "representable characterization of retractions/sections",
+      "lifting property: every g : c → y factors through f",
+      "Retraction / Section / SplitEpi / SplitMono"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 70,
+        "symbol": "Retraction",
+        "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.   (* with Definition SplitEpi `(f : x ~> y) := Retraction f at line 126: precisely the c = y instance of the book's condition, the chosen preimage of id_y under f_* *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 56,
+        "symbol": "Section",
+        "intree_statement": "Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }.   (* with Definition SplitMono `(f : x ~> y) := Section f at line 127: the c = x instance of the dual condition *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.2.v: (i) show f : x → y is a split epimorphism in C iff for every object c the postcomposition function f_* : C(c,x) → C(c,y) is surjective; (ii) argue by duality that f is a split monomorphism iff for every c the precomposition f^* : C(y,c) → C(x,c) is surjective.",
+      "intree": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.  Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }.",
+      "strength_comparison": "intree-weaker: only the single probe object c = y (resp. c = x) is present. The classes assert exactly the book's condition instantiated at the identity — a chosen r with f ∘ r ≈ id is precisely a preimage of id_y under f_* — which is the crux of the exercise, but the ∀c form and the biconditional are never stated, so the easy generalization (given r, every g : c → y lifts as r ∘ g) is not available as a lemma. The library does know how to phrase such a condition: Construction/Localization.v:136 WLocal_surj states split-surjectivity of a precomposition map, `{ q : b ~> x & q ∘ w ≈ p }` for every p, for a different (locality) hypothesis; and Lib/Setoid.v:121 Class surjective := { surj {y} : { x & f x ≈ y} } is the split-surjectivity predicate that the book's 'surjective' would become here. Neither is connected to Retraction/Section. The duality half (ii) is likewise proved-by-symmetry in the book but written out independently in tree (Section and Retraction are separate classes, bridged only by flip_Section/flip_Retraction at Theory/Morphisms.v:230,241)."
+    },
+    "gap": "No in-tree statement of the representable characterization: nothing asserts 'Retraction f ↔ ∀ c (g : c ~> y), { h : c ~> x & f ∘ h ≈ g }' (the surjectivity of f_* at every object c), nor its dual for Section and f^*. Only the c = y / c = x instance — the existence of the one-sided inverse — is formalized, as the definition of the classes themselves.",
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Retraction|SplitEpi' . excluding Theory/Morphisms.v, Theory/Isomorphism.v, Theory/Morphisms/Classes.v — exactly two hits (Construction/Karoubi/Universal.v:127, Structure/Factorization/StrongEpi.v:114 'Retraction f → StrongEpi f'), neither a hom-set characterization",
+      "grep -rn --include=*.v -i 'postcompos|precompos' . — 3 hits (Theory/Coend/Fubini.v, Structure/SubobjectClassifier.v, Structure/Limit/Weighted.v), none about split epis",
+      "grep -n 'Lemma|Theorem|Definition|Class' Theory/Orthogonality.v — Orthogonal, iso_ortho_left/right, ortho_left_compose, ortho_left_retract; the lifting vocabulary exists but is never specialized to 'lift along a split epi'",
+      "grep -rn --include=*.v -i 'surject' . — the split-surjectivity class (Lib/Setoid.v:121) and WLocal_surj are the only chosen-preimage statements, neither tied to Retraction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, though this is the batch's closest call between PARTIAL and ABSENT and I record why I did not overturn. My blind pass classified it ABSENT on the ground that the item IS the characterization, and only the definition of the term being characterized is in tree; the classifier reads the same facts as PARTIAL on the ground that Retraction/Section are literally the c = y / c = x instance of the book's condition (a chosen preimage of id under f_*), which is the crux. Both readings fit the frozen definition, the evidence quotes are accurate (Theory/Morphisms.v:56, :70, :126, :127 all verified), the gap is stated precisely and correctly, and both classifications route to a Phase-E issue, so the difference is not load-bearing -- I defer to the classifier. Independently verified the supporting citations: Construction/Localization.v:136 WLocal_surj really is `{ q : b ~> x & q o w ~~ p }` (split-surjectivity of a precomposition map, for a different hypothesis), Lib/Setoid.v:121 surjective is the split predicate, and Theory/Orthogonality.v declares Orthogonal (:43), iso_ortho_left (:53), iso_ortho_right (:80), ortho_left_compose (:108), ortho_left_retract (:152) -- lifting vocabulary never specialized to split epis, as claimed. One off-by-two in a negative-log line: Structure/Factorization/StrongEpi.v's 'Retraction f -> StrongEpi f' is split_epi_strong at :116, not :114."
+    }
+  }
+]

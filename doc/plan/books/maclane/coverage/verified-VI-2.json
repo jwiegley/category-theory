@@ -1,0 +1,238 @@
+[
+  {
+    "id": "maclane:VI.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "restriction of an adjunction to a full subcategory containing the free objects",
+      "resolution of a monad / adjunction defining a monad (F_B, G_B, phi_B)",
+      "one monad arises from many adjunctions",
+      "full subcategory FX of free objects",
+      "restricted adjunction X -> B for FX-subset-B-subset-A"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'restrict.*adjunction|adjunction.*restrict|Sub.*Adjunction|Adjunction.*Sub' --include=*.v .  -> 0 hits for a construction restricting a given adjunction along a full-subcategory inclusion (only Reflective/Localization subcategory adjunctions, which build a NEW adjoint to an inclusion, not a restriction of an existing F |- U).",
+      "Read Construction/Subcategory.v in full: provides Subcategory (sobj/shom/scomp/sid), Sub category, faithful Incl, Full, Replete, Wide -- the raw full-subcategory infrastructure EXISTS, but there is NO lemma taking an adjunction F |- U and a full subcategory B with every F x in B and producing F_B |- G_B, nor the 'defines the same monad' conclusion.",
+      "grep -rin 'same monad|defines.*monad' --include=*.v .  -> the 'one monad, many adjunctions' phenomenon is witnessed ONLY by the two extreme resolutions (Kleisli_Monad_agrees in Monad/Kleisli/Adjunction.v:157 and EM_Monad_agrees in Monad/Eilenberg/Moore/Adjunction.v:219, both proving a DIFFERENT adjunction induces the same T); the general subcategory-restriction construction of VI.5 is not present.",
+      "grep -rin 'full subcategory of free' --include=*.v .  -> only prose remarks (Monad/Kleisli.v:29, Monad/Eilenberg/Moore.v:35) noting C_T is the full subcategory of free algebras; no construction realizing the restriction."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. Independently confirmed Construction/Subcategory.v carries only Sub/Incl/Full/Wide infrastructure and NO adjunction-restriction lemma (rg over the file for 'adjunc|F_B|G_B|restrict' returned nothing). The general VI.5 construction (restrict a GIVEN adjunction to a full subcategory B >= {Fx}, yielding an adjunction that defines the same monad) has no in-tree realization; the two concrete resolutions (Kleisli, EM) are each built directly rather than obtained by this restriction, and 'full subcategory of free algebras' occurs only as prose. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:thm1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Kleisli category of a monad",
+      "Kleisli free/forgetful adjunction (initial resolution)",
+      "C_T / X_T with F_T |- G_T",
+      "bind category of a monad",
+      "kleisli_compose / <=< "
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Kleisli.v",
+        "line": 38,
+        "symbol": "Kleisli",
+        "intree_statement": "Program Definition Kleisli : Category := {| obj := C; hom := fun x y => x ~> M y; homset := fun x y => @homset C x (M y); id := @ret C M _; compose := fun x y z f g => join ∘ fmap[M] f ∘ g |}. (objects = obj C; a Kleisli arrow x~>y is a C-arrow x ~> M y; id = ret = eta; g♯o f♯ = mu_z o T g o f)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 52,
+        "symbol": "Kleisli_Free",
+        "intree_statement": "Program Definition Kleisli_Free : C ⟶ Kleisli := {| fobj := fun x => x; fmap := fun x y f => ret ∘ f |}. (F_T: identity on objects, k |-> (eta_y o k)♯)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 75,
+        "symbol": "Kleisli_Forget",
+        "intree_statement": "Program Definition Kleisli_Forget : Kleisli ⟶ C := {| fobj := fun x => M x; fmap := fun x y f => join ∘ fmap[M] f |}. (G_T: x |-> T x, f♯ |-> mu_y o T f; so G_T F_T x = T x)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 125,
+        "symbol": "Kleisli_Adjunction",
+        "intree_statement": "Program Definition Kleisli_Adjunction : Kleisli_Free ⊣ Kleisli_Forget := @Build_Adjunction' Kleisli C Kleisli_Free Kleisli_Forget Kleisli_adj_iso _ _. (transpose f♯ <-> f is the identity map on the shared setoid x ~> M y)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 132,
+        "symbol": "Kleisli_unit_agrees",
+        "intree_statement": "Lemma Kleisli_unit_agrees {x : C} : @unit _ _ _ _ Kleisli_Adjunction x ≈ ret[M]. Proof. reflexivity. Qed. (adjunction unit = eta)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 139,
+        "symbol": "Kleisli_counit_agrees",
+        "intree_statement": "Lemma Kleisli_counit_agrees {x : C} : @counit _ _ _ _ Kleisli_Adjunction x ≈ id[M x]. (counit at y_T is (1_{Ty})♯)"
+      },
+      {
+        "file": "Monad/Kleisli/Adjunction.v",
+        "line": 157,
+        "symbol": "Kleisli_Monad_agrees",
+        "intree_statement": "Theorem Kleisli_Monad_agrees : Kleisli_Forget ◯ Kleisli_Free ≈ M. (the induced monad's endofunctor U_M o F_M is M, with identity iso components; Kleisli_join_agrees at line 146 gives its multiplication = join = mu)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad <T,eta,mu> in X the Kleisli category X_T has an object x_T per x, an arrow f♯:x_T->y_T per X-arrow f:x->Ty, composition g♯ o f♯ = (mu_z o Tg o f)♯; functors F_T:X->X_T (k|->(eta_y o k)♯) and G_T:X_T->X (f♯|->mu_y o Tf, G_T F_T x = Tx) form an adjunction F_T|-G_T whose induced monad is the original, with unit eta and counit (1_{Ty})♯.",
+      "intree": "Kleisli (Monad/Kleisli.v:38) has obj=C, hom x y = x ~> M y, id=ret, compose = join o fmap f o g; Kleisli_Free/Kleisli_Forget/Kleisli_Adjunction (Monad/Kleisli/Adjunction.v) give F_M |- U_M with F_M x = x, U_M x = M x; Kleisli_unit_agrees (unit=ret), Kleisli_counit_agrees (counit=id[M x]), Kleisli_Monad_agrees (U_M o F_M = M) and Kleisli_join_agrees (mu=join) recover the original monad.",
+      "strength_comparison": "same -- faithful setoid rephrasing (hom-setoids with ≈ for =). The library uses the join/mu presentation compose = mu_z o T f o g, definitionally Mac Lane's (mu_z o Tg o f)♯; objects x_T = obj C, F_T = Kleisli_Free, G_T = Kleisli_Forget, counit (1_{Ty})♯ = id[M y], and 'induced monad is the original' is Kleisli_Monad_agrees + Kleisli_unit_agrees + Kleisli_join_agrees. No missing hypotheses or weakening."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "PRESENT confirmed independently. All 8 cited symbols verified at their EXACT line numbers by reading both files: Kleisli (Kleisli.v:38), Kleisli_Free (:52), Kleisli_Forget (:75), Kleisli_Adjunction (:125), Kleisli_unit_agrees (:132), Kleisli_counit_agrees (:139), Kleisli_Monad_agrees (:157), plus the referenced Kleisli_join_agrees (:146). Both files registered in _CoqProject (lines 263-264). strength_comparison 'same' is honest: the compose direction checks out (library's outer arrow f = Mac Lane's g in g♯∘f♯ = mu_z∘Tg∘f), F_T fmap = ret∘f = eta_y∘k, G_T fmap = join∘fmap = mu_y∘Tf with G_T F_T x = M x, counit = id[M x] = (1_{Ty})♯, and the induced-monad-is-original claim is faithfully decomposed into endofunctor (Monad_agrees), unit (unit_agrees), and multiplication (join_agrees). Kleisli is proved a genuine Category (obligations discharged) and Kleisli_Adjunction assembled via Build_Adjunction'. No library defect: the 'C_T is the full subcategory of free algebras' remarks in the Kleisli.v/Eilenberg-Moore.v headers are true background-essay math facts with 'see also' pointers, not false claims that an embedding functor is built."}
+  },
+  {
+    "id": "maclane:VI.5:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kleisli comparison functor L : X_T -> A",
+      "comparison of an adjunction with the Kleisli resolution",
+      "unique functor from the initial resolution into any resolution",
+      "L with G o L = G_T and L o F_T = F",
+      "canonical functor out of the Kleisli category into A"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'Kleisli ⟶|⟶ .*Kleisli|Kleisli_[A-Z]' --include=*.v .  -> the only functors OUT of Kleisli are Kleisli_Forget (Kleisli->C) and the premonoidal Kleisli_Pure/Kleisli_Tensor_* (C->Kleisli); NO functor L : Kleisli -> A for an arbitrary adjunction F |- U defining the monad.",
+      "grep -rin 'comparison' --include=*.v Monad Comonad  -> the ONLY comparison functor in the tree is the Eilenberg-Moore K, EM_Comparison (Monad/Comparison.v:186), which goes A -> X^T (the OPPOSITE direction to the Kleisli comparison L : X_T -> A required here). FOUND-related-but-insufficient: EM_Comparison is VI.3:thm1's deliverable, not the Kleisli L of VI.5:thm2.",
+      "grep -rin 'Kleisli.*EilenbergMoore|EilenbergMoore.*Kleisli|Kleisli_to_EM' --include=*.v .  -> 0 hits: not even the special case L:X_T->X^T (Kleisli-into-Eilenberg-Moore, embedding the free algebras) is constructed.",
+      "The initiality of the Kleisli resolution -- which is what makes L exist and be unique -- appears only as PROSE in comments (Theory/Monad.v:46, Monad/Adjunction.v:35, Monad/Eilenberg/Moore/Adjunction.v:48, Comonad/Duality.v:76), with no Coq statement."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. Independently confirmed the only functors with Kleisli as domain are Kleisli_Forget (Kleisli->C); a broad rg for 'Kleisli.*Comparison|Comparison.*Kleisli|Kleisli.*Universal' returned zero hits (exit 1). The tree's sole comparison functor is EM_Comparison : A -> X^T (Monad/Comparison.v:186), the OPPOSITE direction and VI.3:thm1's deliverable. No Kleisli->A (nor the special case Kleisli->EilenbergMoore) exists; initiality of the Kleisli resolution is prose-only. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of adjunctions/resolutions defining a fixed monad",
+      "Kleisli initial object among resolutions",
+      "Eilenberg-Moore terminal object among resolutions",
+      "maps of adjunctions that are the identity on X",
+      "initial and terminal adjunction inducing T (X_T ->L A ->K X^T)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'Resolutions|ResolutionCategory|Monad_Resolution|category.*resolution|adjunctions.*inducing|adjunctions.*defin' --include=*.v .  -> NO category whose objects are the adjunctions defining a fixed monad; every 'resolution' hit is prose in a comment/header (Theory/Monad.v:46, Comonad/Duality.v:69-84, Monad/Adjunction.v:35).",
+      "grep -rin 'morphism of adjunction|map of adjunction|adjunction morphism|MorphismOfAdjunction' --include=*.v .  -> 0 hits: the arrow notion of the resolution category (a map of adjunctions that is the identity on X) is not formalized. Instance/Adjoints.v's 'adj_morphism' is an ADJUNCTION-AS-MORPHISM between categories (obj := Category, Instance/Adjoints.v:134-135), a different category entirely.",
+      "grep -rin 'Kleisli.*initial|initial.*Kleisli|Kleisli_Initial|EM.*terminal' --include=*.v .  -> the 'Kleisli initial / Eilenberg-Moore terminal' claims appear ONLY as prose (Theory/Monad.v:46-47 'among the adjunctions inducing a given monad the first is initial, the second terminal'; Comonad/Duality.v:74-84); no Initial/Terminal instance in a category of resolutions is proved.",
+      "FOUND-related-but-insufficient: EM_Comparison (Monad/Comparison.v:186) with EM_Comparison_Forget (U^T o K = U) and EM_Comparison_Free (K o F = F^T) is the canonical map A -> X^T into the EM resolution -- scaffolding for the 'terminal' leg -- but its UNIQUENESS among maps of adjunctions is not proved, the Kleisli comparison L is absent (VI.5:thm2), and neither the resolution category nor initiality/terminality is formalized. The universal-property content of the theorem has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. Independently verified Instance/Adjoints.v builds 'Adjoints : Category' with obj := Category and hom := adj_morphism (lines 133-136) -- categories-with-adjunctions-as-arrows, NOT the category of resolutions of a fixed monad. Broad rg for 'Kleisli.*Initial|Initial.*Kleisli|ResolutionCat|Resolutions|Monad_Resolution' returned zero hits (exit 1). The 'Kleisli initial / EM terminal among resolutions' claim exists only as prose (Theory/Monad.v, Comonad/Duality.v). No resolution category, no map-of-adjunctions arrow notion, no initiality/terminality theorem. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kleisli comparison functor L and its uniqueness",
+      "image of X_T under L = full subcategory FX",
+      "essential image of the Kleisli comparison",
+      "L : X_T -> A landing in the free objects Fx",
+      "construction+uniqueness of the initial-resolution comparison"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This exercise's content is exactly VI.5:thm2's L (construct it, prove uniqueness) plus the claim that its image is the full subcategory FX on {Fx}. Since L itself is absent (see VI.5:thm2 log: only EM_Comparison K:A->X^T exists, no functor Kleisli->A), the image characterization has nothing to attach to.",
+      "grep -rin 'image of.*functor|essential.*image|full subcategory.*Fx|image of.*Kleisli' --include=*.v Monad Comonad Construction  -> 0 hits for the image of the Kleisli comparison as the full subcategory of free objects.",
+      "grep -rin 'Kleisli ⟶' / 'Kleisli_[A-Z]' --include=*.v .  -> no comparison functor L out of Kleisli into an arbitrary A exists to take an image of."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. This exercise is the construction+uniqueness of the Kleisli comparison L (VI.5:thm2, confirmed absent) plus its image = full subcategory FX. With L absent there is nothing to take an image of; my broad sweep for any Kleisli comparison / essential-image-of-free-objects returned zero hits. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kleisli category equivalent to the free objects, X_T ≃ FX",
+      "restriction of L is an equivalence of categories",
+      "Kleisli ≃ full subcategory of free algebras in Eilenberg-Moore",
+      "equivalence onto the essential image of the Kleisli comparison",
+      "free-algebra subcategory equivalence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'Kleisli.*Equivalence|EquivalenceOfCategories.*Kleisli|Kleisli.*equivalent|equivalent.*free' --include=*.v .  -> 0 hits: no equivalence X_T -> FX is formalized (the equivalence needs L of ex1/thm2, which is absent).",
+      "The claim 'C_T is the full subcategory of free algebras inside the Eilenberg-Moore category' occurs only as PROSE in the header of Monad/Kleisli.v:29 (and Monad/Eilenberg/Moore.v:35); it is stated, not proved -- there is no functor Kleisli -> EilenbergMoore, no essential-surjectivity/full-faithful proof onto the free algebras.",
+      "Read Monad/Thunkable.v:245-260: the only Subcategory-of-Kleisli development is the WIDE subcategory Thunk of thunkable morphisms (Fuehrmann), unrelated to the equivalence with the free-object subcategory FX.",
+      "grep -rin 'essentially surjective' --include=*.v Monad Comonad  -> hits are for Reflective/Idempotent and Karoubi, none about Kleisli-vs-free-objects."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. No equivalence X_T -> FX is formalized (it depends on the absent L). The 'C_T is the full subcategory of free algebras inside EM' statement is prose-only in the Kleisli.v/Eilenberg-Moore.v headers; no functor Kleisli->EilenbergMoore and no full-faithful/ess-surjective proof onto the free algebras exists in the tree (independently confirmed via the broad Kleisli/EilenbergMoore sweep). Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "the equivalence X_T -> FX need not be an isomorphism",
+      "constant monad T(S)=1 (one-point set) on Set",
+      "left adjoint F not bijective on objects",
+      "one-point-set / terminal-valued monad counterexample",
+      "non-injective-on-objects resolution"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'constant monad|terminal monad|trivial monad|Terminal.*Monad|Monad.*Terminal|one.point.*monad|fun _ => 1|codiscrete' --include=*.v Monad Instance .  -> NO monad on Set/Coq sending every object to the terminal (one-point) object is constructed. ConstT_Monad (Monad/Transformer.v:194) is the constant monad TRANSFORMER (K M ignores M, giving back K), not the suggested S |-> 1 monad. Monad/Strong.v:145 notes 'There is no identity monad on an abstract category in the library yet.'",
+      "This exercise builds on ex2's equivalence X_T -> FX (absent) and then exhibits a specific counterexample adjunction with F not bijective on objects to show the equivalence is not an isomorphism. Neither the equivalence nor the counterexample is in the tree.",
+      "grep -rin 'not.*isomorphism.*equivalence|equivalence.*not.*iso' --include=*.v Monad Comonad  -> 0 relevant hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. Independently confirmed ConstT_Monad (Monad/Transformer.v:188-198) is the constant monad TRANSFORMER -- ConstT K M = K on objects, ignoring M, with ret/join taken from K -- not the S|->1 (one-point) monad the exercise suggests. The exercise depends on ex2's absent equivalence X_T->FX and a specific non-injective-on-objects counterexample, neither present. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "existence of the category of all adjunctions defining a monad",
+      "size / foundational question about the resolution category",
+      "is the class of resolutions of a monad small/legitimate",
+      "large category of monad resolutions",
+      "smallness of the collection of adjunctions inducing T"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise asks a size/foundational question about the category posited in Theorem 3 (the category of ALL adjunctions defining a fixed monad). That category is not formalized at all (see VI.5:thm3 log), so there is no in-tree object whose existence or size is analyzed.",
+      "grep -rin 'Resolutions|category.*resolution|adjunctions.*inducing' --include=*.v .  -> only prose comments; no formal category, hence no smallness/universe analysis of it.",
+      "Not OUT_OF_SCOPE: the library is universe-polymorphic ({o h p}) and could in principle express such a (large) category and its universe placement; the item is simply not developed."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT (not OUT_OF_SCOPE). The exercise is a size/foundational question about the resolution category of VI.5:thm3, which is itself absent, so there is no in-tree object to analyze. The classifier correctly declined OUT_OF_SCOPE per the frozen rule (the library is universe-polymorphic and could express such a large category); it is simply not developed. Negative_search_log accurate."}
+  },
+  {
+    "id": "maclane:VI.5:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "composing with an identity-monad adjunction preserves the induced monad",
+      "monad induced by a composite of adjunctions",
+      "second adjunction with RL = I_B, eta' = 1, R eps' L = 1 (identity monad)",
+      "adjunction composition and its induced monad",
+      "trivial (identity-monad) resolution factor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'composite.*monad|monad.*composite|Adjunction_Compose.*Monad|induced.*composite' --include=*.v .  -> NO lemma relating the monad induced by a composite adjunction to the induced monads of its factors. Monad/Compose.v is the composite of two MONADS via a Beck distributive law (M o N), not the induced monad of a composite ADJUNCTION.",
+      "FOUND-related-but-insufficient (proof ingredients present, statement absent): Adjunction_Compose (Adjunction/Compose.v:173) gives (F' o F) |- (U o U'); Adjunction_Compose_unit/_counit (lines 216/224) give the whiskering formulas; Adjunction_Monad / Adjunction_Induced_Monad (Monad/Adjunction.v:48, Monad/Comparison.v:123) give the induced monad. But the specific proposition -- if the second adjunction B<->A defines the identity monad on B then the composite X<->A defines the SAME monad T as the first -- is neither stated nor proved.",
+      "grep -rin 'identity monad' --include=*.v .  -> only the Top-over-Set discrete example prose and Theory/Coq/Monad.v's Identity FP monad; no abstract 'adjunction defining the identity monad' used as a composition factor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: ABSENT. Independently confirmed the composition infrastructure exists (Adjunction_Compose at Adjunction/Compose.v:173 with unit/counit corollaries; Adjunction_Monad / Adjunction_Induced_Monad) but NO lemma relates the induced monad of a composite adjunction to its factors; a final rg for 'same monad|preserves.*monad|induced monad.*compos' found no such statement (only unrelated essay prose in Monad/Adjunction.v). Monad/Compose.v is the distributive-law composite of two monads, not this. The specific ex5 proposition (compose with an identity-monad adjunction preserves the induced monad T) is not stated or proved. Negative_search_log accurate."}
+  }
+]

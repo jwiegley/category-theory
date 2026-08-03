@@ -1,0 +1,429 @@
+[
+  {
+    "id": "riehl:4.6:prop14",
+    "classification": "ABSENT",
+    "aliases": [
+      "limits and colimits in a reflective subcategory",
+      "the inclusion of a reflective subcategory creates limits",
+      "colimits in a localization: apply the reflector L to the colimit computed in C",
+      "a reflective subcategory of a (co)complete category is (co)complete (Reflective + Complete/Cocomplete)",
+      "dual: a coreflective subcategory creates colimits and inherits limits via the coreflector"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'creates limits' --glob '*.v' -> 0 files; rg -i 'creates all limits' -> 0 files. The library has NO CreatesLimits notion for a general functor: rg -n 'Creates|creates' --glob '*.v' returns only [CreatesUSplitCoequalizers] (Monad/Monadicity/Beck.v:164, coequalizers of U-split pairs) and [equivalence_creates_limits]/[equivalence_creates_colimits] (Theory/Equivalence/Limit.v:486,582, along an equivalence). Clause (i) is not even statable without new vocabulary.",
+      "rg -i 'reflective.*colimit' --glob '*.v' -> 0 hits; rg -i 'colimit.*reflective' -> 0 hits.",
+      "rg -n -i 'limit|colimit|complete' over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v, Construction/Localization/Universal.v and Construction/Subcategory.v -> 0 hits in all five files: the entire reflective/localization development never mentions limits or colimits.",
+      "rg -n 'Complete|Cocomplete' --glob '*.v' -> the only consumers of the completeness vocabulary of Structure/Complete.v:115,119 are Adjunction/GAFT.v:193, Adjunction/SAFT.v:145ff, Construction/Comma/Limit.v:245 ([Comma_Complete]) and Theory/Adamek/Corollaries.v:61; none concerns a subcategory or a reflector.",
+      "rg -n 'Reflective' --glob '*.v' -l -> only Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v, Construction/Localization/Universal.v plus four files mentioning them in prose; there is no concrete Reflective instance anywhere either.",
+      "Both INGREDIENTS of the book's clause (ii) proof exist in-tree but are never assembled into the claim: [left_adjoint_preserves_colimits] (Adjunction/Continuity.v:223, PreservesAllColimits F for any F ⊣ U) and [reflective_counit_iso] (Construction/Reflective.v:92, L∘Incl ≅ id). No definition or lemma anywhere transports a colimit of C into the subcategory, and nothing states that the inclusion creates limits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-4-9.json) reached the same verdict independently. Aliases expanded: 'reflective subcategory limits', 'creates limits', 'reflector colimit', 'Reflective + Complete'. Verified negatives at the cited locations: rg -n -i 'limit|colimit|complete' over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v, Construction/Localization/Universal.v and Construction/Subcategory.v returns 0 hits (re-run, exact). rg 'Creates|creates' --glob '*.v' yields only Monad/Monadicity/Beck.v + Monad/Monadicity/BeckObjects.v:396 (em_forget_creates_split, U-split coequalizers), Theory/Equivalence/Limit.v:486/582 (equivalence_creates_(co)limits) and Construction/Comma/Limit.v:33 prose: there is no general CreatesLimits vocabulary, so clause (i) is not statable. Both ingredients the classifier names exist and are correctly cited: left_adjoint_preserves_colimits at Adjunction/Continuity.v:223 and reflective_counit_iso at Construction/Reflective.v:92; I additionally found reflection_retract (Construction/Localization/Universal.v:126, Refl o Iota ~= Id[Su]), which is the OTHER half of the book's clause-(ii) proof and is likewise never combined into the claim. No statement anywhere asserts that D has the colimits C admits. Ingredients-without-the-conclusion is ABSENT, not PARTIAL, under the frozen definitions. All four reflective/localization files are registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:4.6:cor15",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cat is complete and cocomplete",
+      "Complete Cat / Cocomplete Cat (Structure/Complete.v)",
+      "limits of small categories computed pointwise; products, equalizers of categories",
+      "colimits of categories via the homotopy-category reflector ho on simplicial sets",
+      "Cat has products, coproducts, terminal (1) and initial (0) objects"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x) ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := ...; exr := ... }"
+      },
+      {
+        "file": "Instance/Cat/Cocartesian.v",
+        "line": 40,
+        "symbol": "Cat_Cocartesian",
+        "intree_statement": "Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := fun _ _ _ F G => {| fobj := fun x => match x with Datatypes.inl x => F x | Datatypes.inr x => G x end ; ... |} }"
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 54,
+        "symbol": "Cat_Terminal",
+        "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1;  (* the terminal category 1 *) one := Erase  (* the unique functor ! : C ⟶ 1 *) }"
+      },
+      {
+        "file": "Instance/Zero.v",
+        "line": 44,
+        "symbol": "Cat_Initial",
+        "intree_statement": "Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; one := From_0 }"
+      }
+    ],
+    "statement_record": {
+      "book": "Corollary 4.6.15: the category Cat of small categories is complete and cocomplete — limits are computed pointwise in Set, and colimits are obtained by applying the homotopy-category reflector ho to the colimit of the corresponding simplicial sets, using that Cat is a reflective subcategory of Set^{Δ^op} (Example 4.6.13(vi)) together with Proposition 4.6.14.",
+      "intree": "Program Instance Cat_Cartesian : @Cartesian Cat (binary products, the product category); Program Instance Cat_Cocartesian : @Cocartesian Cat (binary coproducts, the disjoint-union category); Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }; Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; one := From_0 }",
+      "strength_comparison": "intree-weaker: only the FINITE product/coproduct fragment of (co)completeness is instantiated at Cat — binary products, binary coproducts, the terminal category 1 and the initial category 0. Neither `Complete Cat` nor `Cocomplete Cat` is ever asserted, there are no equalizers/coequalizers and no small (co)products in Cat, and the book's proof route (Cat reflective in simplicial sets, colimits via ho) has no in-tree counterpart at all."
+    },
+    "gap": "`Complete`/`Cocomplete` (Structure/Complete.v:115,119: ∀ D (F : D ⟶ C), Limit F / Colimit F) is never instantiated at Cat — rg -n 'Complete|Cocomplete' --glob '*.v' finds them only as HYPOTHESES in Adjunction/GAFT.v, Adjunction/SAFT.v, Construction/Comma/Limit.v and Theory/Adamek/Corollaries.v. Inside Cat only the four finite (co)limits above are built: rg -n -i 'limit|colimit|equalizer' Instance/Cat.v Instance/Cat/*.v -> 0 hits, so Cat has no equalizers, no coequalizers, no pullbacks, no small products or coproducts, and neither completeness nor cocompleteness follows from what is present. The book's proof route is also entirely absent: no simplicial sets (rg -i 'simplicial set' -> 5 files, all header prose), no Δ category, no nerve functor (rg -i 'nerve' -> 2 hits, both prose in Theory/Kan/Extension.v), no ho, and no Reflective instance anywhere (see riehl:4.6:prop14).",
+    "negative_search_log": [
+      "rg -n 'Complete Cat|Cocomplete Cat|@Complete Cat|@Cocomplete Cat' --glob '*.v' -> 0 hits (the two textual matches for 'Complete Categories' are Lambek paper citations in Structure/Initial.v:67 and Construction/FAlg.v:28).",
+      "rg -n -i 'limit|colimit|equalizer' Instance/Cat.v Instance/Cat/*.v -> 0 hits.",
+      "rg -li 'cocomplete' --glob '*.v' -> 9 files; the only non-prose use is Theory/Adamek/Corollaries.v:61 as a hypothesis."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT (no Complete/Cocomplete instance exists for Cat, and I confirmed rg 'Complete|Cocomplete' finds the vocabulary only as HYPOTHESES in Adjunction/GAFT.v:193, Adjunction/SAFT.v:145ff, Construction/Comma/Limit.v:246 and Theory/Adamek/Corollaries.v:61). I do NOT overturn: binary products, binary coproducts, 1 and 0 in Cat are a genuine proper fragment of (co)completeness, so PARTIAL is within the frozen definition, and the record's gap field states the shortfall precisely and honestly (no equalizers, no coequalizers, no small (co)products, no simplicial sets / nerve / ho, no Reflective instance). Every cited location verified EXACTLY: Instance/Cat/Cartesian.v:39 Cat_Cartesian, Instance/Cat/Cocartesian.v:40 Cat_Cocartesian, Instance/One.v:54 Cat_Terminal, Instance/Zero.v:44 Cat_Initial; the quoted bodies match the source, and all four files are in _CoqProject. Independently re-verified: no category 3 exists in-tree, no nerve functor (rg -i 'nerve' -> Theory/Kan/Extension.v prose only), no simplicial-set category, and Cat is never given HasPullbacks. Caveat recorded for the issue writer: the fragment is thin enough that a reader could mistake PARTIAL for 'most of Cat's completeness is done' -- it is four finite (co)limits and nothing else."
+    }
+  },
+  {
+    "id": "riehl:4.6:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "left/right adjoint to the unique functor ! : C ⟶ 1",
+      "Erase / one[C] / the terminal witness of Cat (Instance/One.v)",
+      "initial object as a left adjoint to the terminal functor",
+      "terminal object as a right adjoint to the terminal functor (Δ ⊣ lim at J = 0)",
+      "universal arrow from ! ; coreflection onto the point"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Erase' --glob '*.v' -> 21 hits in 5 files (Instance/One.v:47,56; Instance/StrictCat/Terminal.v:21,32,38; Instance/One/Diagonal.v:22; Structure/Limit/Kan/Extension.v:24-143; Instance/Cat.v prose). [Erase] is the unique functor C ⟶ 1 and the witness of Cat_Terminal; it never appears on either side of a `⊣`.",
+      "rg -n '⊣' --glob '*.v' | grep -i 'erase|_1|One|terminal' -> no adjunction whose left or right leg is the functor to the terminal category.",
+      "rg -i 'terminal category|to the terminal|unique functor' --glob '*.v' -> 29 hits, all definitional or header prose; none asserts an adjunction.",
+      "rg -i 'initial object.*adjoint|adjoint.*initial object|terminal object.*adjoint|adjoint.*terminal object' --glob '*.v' -> 4 hits, all comment prose (Adjunction/GAFT.v:172, Structure/Initial.v:50, Instance/Comp.v:211, Construction/Comma.v:96).",
+      "Nearest in-tree facts, neither of which is the item: [Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C] (Structure/Limit/Terminal.v:33) identifies a terminal object with the limit of the EMPTY diagram, not with a right adjoint to ! ; and [AdjunctionFromUniversalArrows] (Theory/Universal/Arrow.v:214) with [GAFT_from_initials] (Adjunction/GAFT.v:180) would yield the characterization if instantiated at U := Erase C, but rg -n 'GAFT_from_initials' finds instantiations only in Adjunction/GAFT/Examples.v, at the product functor.",
+      "rg -n 'Diagonal' --glob '*.v' -> Functor/Diagonal.v and Adjunction/Diagonal/Product.v only; the J = 0 case of Δ ⊣ lim (which is exactly this exercise) is not among them."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. I independently read Instance/One.v in full: Erase (line 47) is the unique functor C -> 1 and the witness of Cat_Terminal (line 54); it never appears on either side of a Coq '⊣'. rg '⊣' --glob '*.v' filtered for erase/one/terminal returns no adjunction. The classifier's two 'nearest facts' check out at the cited lines: Terminal_Limit at Structure/Limit/Terminal.v:33 and AdjunctionFromUniversalArrows at Theory/Universal/Arrow.v:214, with GAFT_from_initials at Adjunction/GAFT.v:180 (exact). Neither is instantiated at U := Erase C. I also checked Instance/One/Diagonal.v (Diagonal_Unique, line 33), the only other place Erase meets the diagonal machinery -- it states the constant-diagram factorization, not an adjunction. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "units and counits of colim ⊣ Δ ⊣ lim",
+      "the counit of Δ ⊣ lim is the limit cone; the unit of colim ⊣ Δ is the colimiting cocone",
+      "unit/counit of the diagonal (constant-diagram) adjunction",
+      "unit and counit of Diagonal_Product_Adjunction (the binary case: unit = id △ id, counit = (exl, exr))",
+      "canonical maps c ~> lim Δ(c) and colim Δ(c) ~> c"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The general adjunctions Δ ⊣ lim and colim ⊣ Δ for an arbitrary shape J do not exist in-tree: rg -i 'colim' --glob '*.v' (excluding 'colimit') finds the sandwich `colim ⊣ Δ ⊣ lim` only as PROSE, in Instance/Fun.v:70 and Functor/Diagonal.v:28. rg -i 'limit functor|LimitFunctor' -> 0 hits, so there is no lim : [J,C] ⟶ C to take a unit or counit of.",
+      "The one in-tree instance is [Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)] (Adjunction/Diagonal/Product.v:36), given purely in hom-set form (to := fun f => fst f △ snd f; from := fun f => (exl ∘ f, exr ∘ f)). No lemma anywhere computes, names or characterizes its unit or counit; rg -n 'Diagonal_Product_Adjunction' --glob '*.v' -> 5 hits (its definition, two uses in Adjunction/GAFT/Examples.v:117,126, two prose mentions).",
+      "rg -n -i 'unit|counit' Structure/Cone.v Structure/Limit.v Functor/Diagonal.v -> 1 hit, and it is the word 'unit' meaning the Coq unit type in a prose line (Structure/Limit.v:99). Nothing identifies a limit cone with a counit or a colimiting cocone with a unit.",
+      "rg -n 'counit' --glob '*.v' | grep -i 'cone|limit' -> only Theory/Equivalence/Limit.v:502-529 ([equivalence_counit_op]), which is about transporting limits along an equivalence, not about the diagonal adjunctions.",
+      "Structure/Cone.v defines [ACone c F] as a leg family with coherence (line 24) rather than as a natural transformation Δ(c) ⟹ F, so even the definitional bridge that would make the counit/unit description a one-liner is not stated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Verified independently that the general adjunctions colim -| Delta -| lim do not exist in-tree: the phrase appears only as prose at Functor/Diagonal.v:28-30 and Instance/Fun.v:70, and there is no limit FUNCTOR [J,C] -> C at all (Limit is a per-diagram Class, Structure/Limit.v:113), so 'the unit/counit of Delta -| lim' has no referent. The one in-tree instance is Diagonal_Product_Adjunction (Adjunction/Diagonal/Product.v:36); I read the whole file -- it is given purely in hom-set form (to := fst f △ snd f, from := (exl o f, exr o f)) and NOTHING computes or names its unit or counit, confirming the classifier. Note the borderline: unit/counit are derivable generically from Theory/Adjunction.v for that one binary instance, but the exercise asks for the J-indexed limit/colimit adjunctions and their descriptions, neither of which exists, so ABSENT rather than PARTIAL. The ACone claim is also exact: Structure/Cone.v:24 defines ACone as a leg family with coherence, not as a natural transformation Delta(c) => F."
+    }
+  },
+  {
+    "id": "riehl:4.6:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical comparison map for a preserved limit",
+      "F(lim G) ~> lim (F ◯ G), the comparison induced by the image cone",
+      "product comparison φ : F (x × y) ~> F x × F y (CartesianFunctor / fobj_prod_iso)",
+      "terminal comparison 1 ≅ F 1 (TerminalFunctor / fobj_one_iso)",
+      "dual: the colimit comparison colim (F ◯ G) ~> F(colim G) for a left adjoint"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Cartesian.v",
+        "line": 49,
+        "symbol": "CartesianFunctor",
+        "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; prod_in := fun x y => from (@fobj_prod_iso x y); prod_out := fun x y => to (@fobj_prod_iso x y); fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _; fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) : fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g }"
+      },
+      {
+        "file": "Functor/Structure/Terminal.v",
+        "line": 43,
+        "symbol": "TerminalFunctor",
+        "intree_statement": "Class TerminalFunctor := { fobj_one_iso : 1 ≅ F 1; fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ @one _ _ (F X) }"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4.6.iii: when the relevant (co)limits exist in both categories connected by an adjunction (for instance those of Corollaries 4.6.4, 4.6.5, 4.6.6), use the canonical comparison lemma to describe EXPLICITLY the comparison map that Theorem 4.6.2 (RAPL/LAPC) shows to be an isomorphism.",
+      "intree": "Class CartesianFunctor := { fobj_prod_iso {x y} : F (x × y) ≅ F x × F y; ... fmap_exl : fmap exl ≈ exl ∘ prod_out; fmap_exr : fmap exr ≈ exr ∘ prod_out; fmap_fork (f g) : fmap (f △ g) ≈ prod_in ∘ fmap f △ fmap g }, together with Class TerminalFunctor := { fobj_one_iso : 1 ≅ F 1; fmap_one : fmap one ≈ to fobj_one_iso ∘ one }",
+      "strength_comparison": "intree-weaker: the explicit comparison map is present only for BINARY PRODUCTS and the TERMINAL object, and only as an assumed class field about an arbitrary functor (its invertibility is a hypothesis, not a conclusion drawn from an adjunction). There is no canonical comparison map F(lim G) ~> lim (F ◯ G) for a general diagram shape, and the in-tree RAPL never constructs or mentions one."
+    },
+    "gap": "(a) No general comparison map exists: rg -n -i 'comparison' --glob '*.v' finds explicit comparison maps only for products/terminal (Functor/Structure/Cartesian.v, Functor/Structure/Terminal.v, Functor/Structure/Constant.v:44) and for factorizations (Structure/Factorization.v:168); nothing assembles `limit_med (limit_is_alimit L') (fmap_cone L)` (the ingredients exist — [fmap_cone] Theory/Equivalence/Limit.v:283, [limit_med] Structure/Limit/Preservation.v:74) into the canonical map F(lim G) ~> lim (F ◯ G). (b) In-tree RAPL is stated apex-directly — [rapl_is_alimit : IsALimit (U ◯ G) (U L)] (Adjunction/Continuity.v:183) — so it never produces a comparison morphism into a pre-existing limit and never says such a morphism is invertible. (c) No lemma says a right adjoint is a CartesianFunctor or a TerminalFunctor: rg -n 'CartesianFunctor' --glob '*.v' | grep Instance -> only To_Cayley_CartesianFunctor / From_Cayley_CartesianFunctor (Construction/Cayley.v:322,326). (d) The concrete cases the exercise points at (4.6.4 tensor over direct sums, 4.6.6 free group on a disjoint union) have no in-tree model.",
+    "negative_search_log": [
+      "rg -n -i 'comparison' --glob '*.v' -> no general limit/colimit comparison map.",
+      "rg -n 'CartesianFunctor' --glob '*.v' | grep -c 'Instance' -> 2, both in Construction/Cayley.v; no adjoint is shown to be one."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT. I do NOT overturn, on this ground: CartesianFunctor's prod_out IS the canonical comparison map in the binary-product case -- the class fields fmap_exl : fmap exl ~ exl o prod_out and fmap_exr : fmap exr ~ exr o prod_out pin it down as fmap exl △ fmap exr, exactly Riehl's canonical map, and in the right direction F(x×y) -> Fx × Fy. That is a genuine fragment, so PARTIAL is within the frozen definition, and the strength_comparison discloses the decisive weakness itself (it is ASSUMED class data about an arbitrary functor, not a map derived from an adjunction). Evidence verified exactly: Class CartesianFunctor at Functor/Structure/Cartesian.v:49 (quote matches, including prod_in/prod_out and the three laws) and Class TerminalFunctor at Functor/Structure/Terminal.v:43 (quote matches); both files are in _CoqProject. Gap sub-claims verified: fmap_cone is exactly at Theory/Equivalence/Limit.v:283, limit_med at Structure/Limit/Preservation.v:74, rapl_is_alimit at Adjunction/Continuity.v:183 (apex-direct, produces no comparison morphism), and the only CartesianFunctor instances are the two Cayley ones (Construction/Cayley.v) -- no adjoint is shown to be one. I also cross-checked the book side against inventory-4.json: cor4 (tensor over direct sums) and cor6 (free group on a disjoint union) are as the record describes, and neither has an in-tree model."
+    }
+  },
+  {
+    "id": "riehl:4.6:exiv",
+    "classification": "PRESENT",
+    "aliases": [
+      "RAPL: right adjoints preserve limits",
+      "continuity of a right adjoint (PreservesAllLimits U for F ⊣ U)",
+      "LAPC dual: left adjoints preserve colimits",
+      "proof via the square Δ ⊣ lim on each side and the induced adjunction F_* ⊣ G_* on functor categories",
+      "the characterization of limit preservation (Exercise 3.4.i)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.  (in the section Context {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U); PreservesAllLimits U := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G U)"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 183,
+        "symbol": "rapl_is_alimit",
+        "intree_statement": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump.  (for any J, any G : J ⟶ C and any Limit G, the image cone with legs fmap[U] (limit_leg L x) is a limit of U ◯ G)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4.6.iv: if G : D ⟶ C has a left adjoint F and both D and C admit all J-indexed limits, argue from the displayed square of adjunctions (F ⊣ G upstairs, F_* ⊣ G_* on the functor categories, Δ ⊣ lim on each side, Propositions 4.6.1, 4.3.4, 4.3.6) that G preserves J-indexed limits.",
+      "intree": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G, resting on rapl_is_alimit : IsALimit (U ◯ G) (U L) for the right adjoint U of any A : F ⊣ U.",
+      "strength_comparison": "intree-stronger: the in-tree result assumes only that the limit of G exists in C (it CONSTRUCTS the limit of U ◯ G at apex U L rather than requiring D to admit J-limits), places no size restriction on J, and concludes PreservesAllLimits for every shape at once. The PROOF route differs from the one the exercise prescribes — the in-tree argument transposes a competing cone across the hom-set adjunction directly (rapl_transposed_cone, Adjunction/Continuity.v:126), since neither Δ ⊣ lim nor the induced adjunction on functor categories exists in-tree — but the mathematical content of the exercise (right adjoints preserve limits) is fully in force."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (I independently classified this PRESENT: the exercise's mathematical content is RAPL, which is fully in force in-tree). Evidence verified exactly: right_adjoint_preserves_limits at Adjunction/Continuity.v:202 and rapl_is_alimit at Adjunction/Continuity.v:183; PreservesAllLimits U unfolds to forall J G, PreservesLimit G U (Structure/Limit/Preservation.v:229), so the quoted type is faithful. The 'intree-stronger' judgment is honest and I checked its two components: the in-tree result needs only a Limit of G in C (it CONSTRUCTS the limit of U o G at apex U L) rather than the exercise's hypothesis that both C and D admit all J-limits, and it quantifies over every shape J with no size restriction. The disclosure that the PROOF route differs (rapl_transposed_cone at Continuity.v:126, a direct hom-set transposition) is accurate and correctly notes that neither Delta -| lim nor the induced adjunction on functor categories exists in-tree. Adjunction/Continuity.v is in _CoqProject. No same-name-weaker-statement here: PreservesLimit is the real cone-level universal property via IsALimit, not an apex-only surrogate."
+    }
+  },
+  {
+    "id": "riehl:4.6:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "limits commute with limits",
+      "interchange / Fubini theorem for limits",
+      "lim_J lim_K F ≅ lim_K lim_J F as functors C^{J×K} ⟶ C",
+      "iterated limits; lim is a right adjoint hence continuous",
+      "ends commute with ends (the End/Coend analogue)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'limits commute' --glob '*.v' -> 0 files. rg -i 'commute with limits' -> 2 hits (Adjunction/Continuity.v:24 and Theory/Adjunction.v:446), both quoting the Wikipedia phrase 'continuous (i.e. commutes with limits)' inside a header comment, not a statement.",
+      "rg -i 'interchange of limits' -> 0 hits; rg -i 'iterated limit|limit of limits|lim.*lim' -> no statement (all hits are accessor names such as limit_med/limit_leg).",
+      "There is no limit FUNCTOR in the tree at all: rg -i 'limit functor|LimitFunctor' --glob '*.v' -> 0 hits; [Limit F] is a per-diagram class (Structure/Limit.v:113), so the natural isomorphism of limit functors that the exercise asks for is not statable without new vocabulary.",
+      "rg -n 'Construction/Product' + 'Limit' -> no lemma about limits of a J ∏ K-indexed diagram; rg -n -i 'commute|interchange|Fubini' --glob '*.v' | grep -i 'limit|colimit' -> only Adjunction/Continuity.v/Theory/Adjunction.v prose and the *_med_commutes accessors.",
+      "NEAREST, and NOT a counterpart: [coend_fubini] (Theory/Coend/Fubini.v:449) proves ∫^{(c,d)} H ≅ ∫^c ∫^d H — an interchange for COENDS (the colimit side), only for Sets-valued integrands, and in the 'single versus iterated' rather than the 'swap the two shapes' form; the file's own header records that the abstract interchange over a general cocomplete target is deferred (ledger 6). Its limit-side dual (ends) is not proved."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Independently confirmed: no 'limits commute with limits' statement, no interchange for limits, and -- the decisive point the classifier makes -- no limit FUNCTOR exists (Limit is a per-diagram Class at Structure/Limit.v:113), so the natural isomorphism of limit functors the exercise asks for is not statable without new vocabulary. There is likewise no pointwise-(co)limits-in-a-functor-category theorem (Instance/Fun.v:27-28 and 101-104 describe pointwise inheritance only as prose). The 'NEAREST, and NOT a counterpart' note on coend_fubini is accurate: Theory/Coend/Fubini.v:449 proves the Sets-valued coend interchange in the single-versus-iterated form, on the colimit side, and its end-side dual is not proved. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "f is monic iff the square with both parallel legs id_x and both other legs f is a pullback",
+      "the kernel pair of a monomorphism is the diagonal (identity) pair",
+      "right adjoints preserve monomorphisms",
+      "left adjoints preserve epimorphisms",
+      "limit-preserving / continuous functors preserve monos"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'preserves monomorphisms|preserves mono|preserve.*mono|reflects mono|preserves epi' --glob '*.v' -> 0 statements (the only textual hits are about monoidal-functor structure preservation in Construction/Cospan/* and Structure/Monoidal/HypergraphFunctor.v).",
+      "rg -n 'Monic' --glob '*.v' | grep -i 'functor|fmap|adjoint' -> only Theory/Adjunction.v:312 [adj_monic : Faithful F → Monic f → ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h], a different claim (the TRANSPOSE of a monic is monic when F is faithful), plus Beck/monadicity uses of Epic (fmap[U] ...).",
+      "rg -n 'IsPullback' --glob '*.v' -> 24 hits. The only identity-legged square is [is_pullback_along_id (m : y ~> x) : IsPullback id m y m id] (Theory/Subobject/Functor.v:127) — the pullback of an IDENTITY along m, not the pullback of f along itself with both legs id, and it involves no monicity hypothesis or conclusion.",
+      "rg -i 'kernel pair' --glob '*.v' -> Structure/Regular.v:46 defines [kernel_pair] as the pullback of f along itself, but no lemma anywhere relates it to Monic; rg -n -i 'monic.*pullback|pullback.*monic' -> only [monic_pullback_stable] (Theory/Morphisms/Stability.v:226: monos are STABLE under pullback), which is a different fact.",
+      "Both halves are therefore absent. The ingredients exist and are never combined: Monic (Theory/Morphisms.v:116), Epic (Theory/Morphisms.v:104), IsPullback (Theory/Morphisms/Stability.v:53), right_adjoint_preserves_limits (Adjunction/Continuity.v:202), left_adjoint_preserves_colimits (Adjunction/Continuity.v:223)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on both halves. Verified: Monic at Theory/Morphisms.v:116 and Epic at :104; IsPullback at Theory/Morphisms/Stability.v:53; kernel_pair at Structure/Regular.v:46; monic_pullback_stable at Theory/Morphisms/Stability.v:226 (monos are STABLE under pullback -- a different fact, correctly distinguished). is_pullback_along_id is exactly at Theory/Subobject/Functor.v:127 and is the pullback of an IDENTITY along m, with no monicity hypothesis or conclusion, so it is not the exercise's square. Theory/Adjunction.v:311 adj_monic is, as the record says, a different claim about the TRANSPOSE under a faithful F. No lemma anywhere says a right adjoint (or a limit-preserving functor) preserves monos, or that a left adjoint preserves epis. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cat is not locally cartesian closed",
+      "locally cartesian closed category (LCCC); every slice is cartesian closed",
+      "dependent product Π_f as a right adjoint to the pullback functor f* (Σ_f ⊣ f* ⊣ Π_f)",
+      "slice category Cat/C and base change Δ_{d^1} : Cat/3 ⟶ Cat/2",
+      "the walking arrow 2 and the free composable pair 3; pullback along d^1 fails to preserve pushouts"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'locally cartesian closed|LCCC' --glob '*.v' -> 4 files, ALL header prose: Structure/Pullback.v:126, Construction/Slice/Pullback.v:36, Instance/Sets.v:97, and Instance/Cat.v:129 — the last of which states in a COMMENT that 'Cat is not locally cartesian closed'. A comment is not an in-tree assertion. There is no LCCC class, predicate or instance anywhere.",
+      "rg -i 'dependent product|Pi_f|Π_f' --glob '*.v' -> 0 definitions; the right adjoint Π_f is only named in prose (Structure/Pullback.v:128, Construction/Slice.v:91, Construction/Slice/Pullback.v:37), so 'locally cartesian closed' is not even statable.",
+      "No slice of Cat is ever formed: rg -n 'Slice' --glob '*.v' -> 7 files, none instantiating [Slice] at Cat. [Star_Functor] (Construction/Slice/Pullback.v:67) is the pullback functor f* for a category with chosen pullbacks, and Cat is never given HasPullbacks (rg -n 'HasPullbacks' | grep -i cat -> 0 hits).",
+      "The index shapes are missing: there is no category 3 (the free composable pair) in the tree — rg -i '_3\\b|Three' --glob '*.v' -> no category definition; Instance/Two.v is the walking arrow 2 and Instance/Two/Discrete.v the discrete two-object category, and no functor d^1 : 2 ⟶ 3 exists.",
+      "Cat also has no colimits beyond binary coproducts (rg -n -i 'limit|colimit|equalizer' Instance/Cat.v Instance/Cat/*.v -> 0 hits), so the pushout the exercise asks one to compute cannot even be formed, let alone shown not to be preserved."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. One LOG INACCURACY, immaterial to the verdict: the classifier's rg for 'locally cartesian closed' lists 4 files including Instance/Cat.v:129 and omits Construction/Slice.v:91,97 -- my own rg for the same phrase does NOT match Instance/Cat.v, because there the phrase is line-wrapped ('not locally cartesian\\n closed'). I checked by hand: the prose IS at Instance/Cat.v:129 exactly as cited ('though Cat is not locally cartesian closed (Wikipedia, \"Category of small categories\")'), so the substantive claim -- the only in-tree mention is a comment, and comments are not assertions -- holds. Independently verified: no LCCC class/predicate/instance; no dependent product Pi_f (prose only at Structure/Pullback.v:128, Construction/Slice.v:91, Construction/Slice/Pullback.v:37); Cat is never given HasPullbacks; and there is no 3-object category and no d^1 : 2 -> 3, so the counterexample cannot even be set up. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "two-variable adjunction / adjunction of two variables",
+      "the left adjoint F : A ∏ B ⟶ C preserves colimits in each variable separately",
+      "tensor-hom in two variables: F(A,-) and F(-,B) are left adjoints",
+      "parametrized (partial) adjoint; F(A,-) ⊣ G(A,-)",
+      "⊗ is cocontinuous in each variable in a (closed) monoidal category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'two-variable adjunction|two variable adjunction|adjunction of two variables' --glob '*.v' -> 0 hits. The notion is entirely absent from the library.",
+      "rg -i 'parametrized|parameterised|in each variable|separately in each' --glob '*.v' -> 15 hits, all about bifunctor functoriality (Functor/Bifunctor.v:18,126), premonoidal/funny-tensor separateness (Structure/Premonoidal.v:106, Instance/StrictCat/Premonoid.v:28) or record parameterisation; none concerns adjoints.",
+      "The nearest structure is [ClosedMonoidal] (Structure/Monoidal/Closed.v:46), which packages the tensor-hom transposition as a hom-setoid iso FIELD, `exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z`, NOT as an `Adjunction`; consequently even the one-variable statement '(- ⨂ y) is a left adjoint, hence cocontinuous' cannot be obtained by applying [left_adjoint_preserves_colimits] without first building the adjunction, and no file does so.",
+      "rg -n 'PreservesColimit|PreservesAllColimits' --glob '*.v' outside Structure/Limit/Preservation.v and Adjunction/Continuity.v -> only Theory/Equivalence/Limit.v:432-436 and Adámek prose; nothing about a tensor or a bifunctor.",
+      "rg -n -i 'colimit' Structure/Monoidal/Closed.v Structure/Cartesian/Closed.v -> 0 hits. There is also no counterexample showing failure of colimit preservation on the product category A ∏ B, and no statement of the corresponding preservation properties for the two right adjoints G : A^op ∏ C ⟶ B and H : B^op ∏ C ⟶ A."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Independently confirmed that two-variable adjunctions are entirely absent. The record's key observation is exact and I re-verified it: ClosedMonoidal (Structure/Monoidal/Closed.v:46) packages tensor-hom as the hom-setoid iso FIELD exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z (line 56), NOT as an Adjunction, so even the one-variable consequence '(- ⨂ y) is cocontinuous' cannot be had by applying left_adjoint_preserves_colimits without first building the adjunction, and no file does. Also confirmed 0 hits for 'colimit' in Structure/Monoidal/Closed.v and Structure/Cartesian/Closed.v, so neither the per-variable preservation, nor the counterexample on A ∏ B, nor the two right-adjoint variants exists. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exix",
+    "classification": "PARTIAL",
+    "aliases": [
+      "G faithful iff every counit component is an epimorphism",
+      "G full iff every counit component is a split monomorphism",
+      "G fully faithful iff the counit is an isomorphism (the counit-iso criterion)",
+      "dual: F faithful/full/fully faithful iff the unit components are mono/split epi/iso",
+      "reflective_counit_iso / reflective_counit_IsIso; equivalence_counit_iso"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective.v",
+        "line": 92,
+        "symbol": "reflective_counit_iso",
+        "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x.  (the counit of reflector ⊣ Incl is invertible at every object, with inverse the unit lifted into the subcategory by fullness)"
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 4.6.11, to be proved in Exercise 4.6.ix: for an adjunction F ⊣ G : C ⇄ D with counit ε and unit η — (i) G is faithful iff every component of ε is an epimorphism; (ii) G is full iff every component of ε is a split monomorphism; (iii) G is full and faithful iff ε is an isomorphism; dually (i') F faithful iff every η component is a monomorphism, (ii') F full iff every η component is a split epimorphism, (iii') F full and faithful iff η is an isomorphism.",
+      "intree": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x",
+      "strength_comparison": "intree-weaker: only the FORWARD direction of ONE of the six clauses (G fully faithful ⇒ ε iso), and only in the special case where the right adjoint is a full-subcategory inclusion Incl C S — with fullness supplied as subcategory DATA (reflective_full : Full C S) rather than as `Full G`, and faithfulness automatic. Nothing is stated for a general right adjoint G, none of the epimorphism/split-monomorphism clauses appears, no converse is proved, and the entire dual (unit) half is missing."
+    },
+    "gap": "Five of the six clauses have no in-tree counterpart and the sixth only one direction in a special case. Specifically: (a) nothing links faithfulness of a right adjoint to the counit being EPI, or fullness to the counit being a SPLIT MONO — rg -n 'Epic|SplitMono|Section ' --glob '*.v' | grep -i counit -> 0 hits; (b) the converse of clause (iii) (ε iso ⇒ G fully faithful) is nowhere proved; (c) the whole dual half about the unit and the LEFT adjoint is absent — rg -n 'Full|Faithful' --glob '*.v' | grep -i unit -> 0 statements; (d) the one available instance is tied to Subcategory/Incl, not to an arbitrary adjunction F ⊣ G. Two nearby results do NOT supply any clause: [unit_at_local_iso] (Construction/Localization.v:184) shows the unit of the SAME reflection is invertible at objects of the subcategory (a statement about the reflection, not about full faithfulness of the reflector, which is generally not fully faithful), and [equivalence_counit_iso]/[equivalence_unit_iso] (Theory/Equivalence.v:202,205) assume an equivalence outright.",
+    "negative_search_log": [
+      "rg -n 'Epic|SplitMono|Section ' --glob '*.v' | grep -i counit -> 0 hits.",
+      "rg -n 'Full|Faithful' --glob '*.v' | grep -i unit -> 0 statements (only Monad/Lifting.v:300 header prose 'The unit, through the fully faithful comparison').",
+      "rg -n -i 'counit.*iso|iso.*counit' --glob '*.v' -> the only assertions are reflective_counit_iso / reflective_counit_IsIso (Construction/Reflective.v:92, Construction/Reflective/Idempotent.v:175), reflection_counit_is_iso (Construction/Localization/Universal.v:110, the same fact repackaged) and equivalence_counit_iso (Theory/Equivalence.v:202)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same single piece of evidence. Verified reflective_counit_iso at Construction/Reflective.v:92 (quote exact, file in _CoqProject) and confirmed the strength_comparison's two subtle claims by reading Construction/Subcategory.v: (a) fullness enters as subcategory DATA (Full at line 69, Full_Implies_Full_Functor at line 74), not as `Full G`; (b) faithfulness of Incl really is automatic, because Sub's homset equiv is `1 f ≈ `1 g on the underlying C-morphism (line 54) while Incl is first projection (line 59). So the in-tree content is the FORWARD direction of clause (iii) only, for G = a full subcategory inclusion -- a special-case-only fragment, correctly labelled. I re-ran the two decisive negatives myself: nothing anywhere links a counit component to Epic or to a split mono, and there is no unit-side (left-adjoint) statement. The 'nearby results that do NOT supply a clause' are correctly cited: unit_at_local_iso at Construction/Localization.v:184 and equivalence_counit_iso / equivalence_unit_iso at Theory/Equivalence.v:202/205 (both exact)."
+    }
+  },
+  {
+    "id": "riehl:4.6:exx",
+    "classification": "PARTIAL",
+    "aliases": [
+      "ηL = Lη and both are isomorphisms (idempotency of the reflection monad)",
+      "essential image of a reflective inclusion; c ≅ an object of D iff η_c is an isomorphism",
+      "local objects for the class of maps inverted by L (W-local objects, WLocal)",
+      "reflective localization: the reflector inverts W and the local objects are the fixed points",
+      "M-local / fixed-point objects of an idempotent monad (ret x invertible)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 139,
+        "symbol": "join_iso_fmap_ret",
+        "intree_statement": "Definition join_iso_fmap_ret (x : C) (Hj : IsIsomorphism (@join C M _ x)) : fmap[M] (@ret C M _ x) ≈ @ret C M _ (M x).  (for the reflection monad M := Incl C S ◯ reflector R this is exactly Lη = ηL)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 103,
+        "symbol": "join_iso_ret_iso",
+        "intree_statement": "Definition join_iso_ret_iso (x : C) (Hj : IsIsomorphism (@join C M _ x)) : IsIsomorphism (@ret C M _ (M x)).  (its hypothesis is discharged for a reflection by Reflective_IdempotentMonad, Construction/Reflective/Idempotent.v:198, so ηL is invertible)"
+      },
+      {
+        "file": "Construction/Localization.v",
+        "line": 184,
+        "symbol": "unit_at_local_iso",
+        "intree_statement": "Lemma unit_at_local_iso {C : Category} {W : MorphismClass C} (R : Reflective (C_W W)) (s : Sub C (C_W W)) : IsIsomorphism (@Category.Theory.Adjunction.unit (Sub C (C_W W)) C (reflector R) (Incl C (C_W W)) (reflective_adj R) (Incl C (C_W W) s))"
+      },
+      {
+        "file": "Construction/Localization.v",
+        "line": 241,
+        "symbol": "reflector_inverts_W",
+        "intree_statement": "Theorem reflector_inverts_W {a b : C} (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w).  (Refl := reflector R for R : Reflective (C_W W), the full subcategory of W-local objects)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4.6.x: for a reflective subcategory inclusion D ⟶ C with reflector L, show (i) ηL = Lη and that these natural transformations are isomorphisms; (ii) an object c of C lies in the essential image of the inclusion iff η_c is an isomorphism; (iii) the essential image consists exactly of the objects that are LOCAL for the class of morphisms inverted by L — i.e. such that C(b,c) ⟶ C(a,c) is an isomorphism for every f : a ⟶ b with Lf invertible — which explains the name 'localization'.",
+      "intree": "join_iso_fmap_ret : IsIsomorphism (join x) → fmap[M] (ret x) ≈ ret (M x); join_iso_ret_iso : IsIsomorphism (join x) → IsIsomorphism (ret (M x)); unit_at_local_iso (R : Reflective (C_W W)) (s : Sub C (C_W W)) : IsIsomorphism (unit ... (Incl C (C_W W) s)); reflector_inverts_W (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w)",
+      "strength_comparison": "intree-weaker in three distinct ways. Clause (i) is obtainable but only by routing through the induced monad M := Incl ◯ reflector (Reflective_IdempotentMonad, Construction/Reflective/Idempotent.v:198) and is stated OBJECT-WISE under the hypothesis `IsIsomorphism (join x)`, never as an equality or invertibility of natural transformations. Clause (ii) has no counterpart at all, because the library has no notion of ESSENTIAL IMAGE. Clause (iii) is INVERTED relative to the book: Construction/Localization.v DEFINES C_W W as the full subcategory of W-local objects (WLocal, line 129) and HYPOTHESIZES its reflectivity (`Context (R : Reflective (C_W W))`), so the identification of the essential image with the local objects is assumed away rather than proved; only the two easy consequences (η invertible at local objects; L inverts W) are established."
+    },
+    "gap": "(a) rg -i 'essential image' --glob '*.v' -> 0 hits: the notion does not exist, so clause (ii) is not statable. The closest is [MLocal_Subcategory] (Construction/Reflective/Idempotent.v:224), which DEFINES the subcategory of an idempotent monad as {x | IsIsomorphism (ret x)} and shows it full reflective ([Idempotent_Reflective], line 345) — but nothing identifies that subcategory with a GIVEN reflective D, which is precisely the content of (ii). (b) Neither converse is proved: η_c invertible ⇒ c isomorphic to an object of D, and c W-local ⇒ c in the essential image. (c) Clause (i) has no natural-transformation-level form: there is no `η L ≈ L η` as an equation of transformations and no bundled Isomorphism witness; only the per-object monad lemmas above. (d) [reflector_inverts_W] gives 'L inverts W' but not the converse ('L f invertible ⇒ f ∈ W'), which the book's phrase 'the class of morphisms inverted by L' presupposes when it forms the local objects.",
+    "negative_search_log": [
+      "rg -i 'essential image' --glob '*.v' -> 0 hits; rg -i 'ess_image|EssImage' -> 0 hits (only EssentiallySurjective, a different notion, Theory/Equivalence.v:141).",
+      "rg -n -i 'colimit|limit' Construction/Localization.v Construction/Localization/Universal.v Construction/Reflective.v Construction/Reflective/Idempotent.v -> 0 hits.",
+      "rg -n 'WLocal' --glob '*.v' -> Construction/Localization.v:129,136,147,165 and Universal.v; the locality predicate is defined and used, but never proved equal to (or to characterize) the essential image of a reflective inclusion."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same four pieces of evidence, all verified exact: join_iso_fmap_ret at Construction/Reflective/Idempotent.v:139 (fmap[M] (ret x) ≈ ret (M x) -- for M := Incl o reflector this IS L eta = eta L), join_iso_ret_iso at :103, unit_at_local_iso at Construction/Localization.v:184, reflector_inverts_W at :241; and the hypothesis-discharger Reflective_IdempotentMonad at Idempotent.v:198 is real. The three-way strength_comparison is honest and, on clause (iii), unusually careful: Construction/Localization.v DEFINES C_W W by the precomposition-iso condition (WLocal, line 129) and HYPOTHESIZES its reflectivity (Context (R : Reflective (C_W W)), line 231), so the essential-image = local-objects identification is assumed, not proved -- I read both files and confirm. Gap sub-claims verified: 'essential image' has 0 hits tree-wide; MLocal_Subcategory (Idempotent.v:224) defines the subcategory by IsIsomorphism (ret x) and Idempotent_Reflective (:345) makes it reflective, but nothing identifies it with a GIVEN reflective D; and clause (i) exists only object-wise under `IsIsomorphism (join x)`, with no transformation-level eta L ≈ L eta. PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:4.6:exxi",
+    "classification": "ABSENT",
+    "aliases": [
+      "reflective subcategory inclusions need not create colimits",
+      "counterexample: a colimit computed in D differs from the colimit computed in C",
+      "creation of colimits by a right adjoint / by a fully faithful inclusion",
+      "abelianization, sheafification or torsion-free reflection as a counterexample",
+      "colimits in a reflective subcategory are only reflected, not created"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'creates|create' --glob '*.v' | grep -i colimit -> only [equivalence_creates_colimits] (Theory/Equivalence/Limit.v:582), which is about an EQUIVALENCE (which does create them). There is no CreatesColimits notion for a general functor, so 'does not create colimits' is not statable.",
+      "rg -i 'counterexample|does not create|need not create' --glob '*.v' -> 5 hits, all header prose about unrelated matters (Adjunction/GAFT.v:121 Mac Lane's large-product example, Structure/Terminal.v:79, Structure/Monoidal.v:74, Construction/Funny/Bifunctor.v:26, Construction/Indexed.v:59); none concerns reflective subcategories.",
+      "rg -n -i 'colimit' over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v, Construction/Localization/Universal.v -> 0 hits in all four files.",
+      "No concrete reflective inclusion exists in-tree to serve as a counterexample: rg -n 'Reflective' --glob '*.v' -l -> the four development files above plus five prose mentions (Adjunction/GAFT.v:132, Theory/Sheaf/Category.v:23, Theory/Monad.v:71, Theory/Equivalence.v:133, Construction/Karoubi.v:109); there is no `Reflective` INSTANCE for any concrete pair of categories, and no sheafification, abelianization or torsion-subgroup reflector."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Verified the two load-bearing negatives myself. (1) There is no CreatesColimits notion for a general functor -- the only 'creates' + colimit hit is equivalence_creates_colimits (Theory/Equivalence/Limit.v:582), about an equivalence -- so 'does not create colimits' is not even statable. (2) The counterexample has no possible witness: rg 'Reflective' finds exactly the four development files, and the ONLY Reflective inhabitant in the tree is Idempotent_Reflective (Construction/Reflective/Idempotent.v:345), which is parametric over an abstract IdempotentMonad; rg 'IdempotentMonad' shows NO concrete instance anywhere, so the classifier's phrase 'no Reflective INSTANCE for any concrete pair of categories' is exactly right. No sheafification/abelianization/torsion reflector exists. ABSENT stands."
+    }
+  }
+]

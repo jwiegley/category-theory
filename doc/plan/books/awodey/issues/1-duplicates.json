@@ -1,0 +1,62 @@
+[
+  {
+    "item_id": "awodey:1.4:construction-structured-sets",
+    "issue": 226,
+    "append_block": "### Also covered by\n\n**Awodey, *Category Theory* 2nd ed. (Oxford Logic Guides 52), §1.4 (Examples of categories), printed pp. 6–7 (PDF pp. 15–16)** — item `awodey:1.4:construction-structured-sets`.\n\nAwodey gives the same roster of concrete categories of structured sets and structure-preserving maps: groups & homomorphisms, vector spaces & linear maps, graphs & graph homomorphisms, ℝ & continuous maps, open subsets of ℝ & continuous maps, topological spaces & continuous maps, manifolds & smooth maps, ℕ & recursive functions, and posets & monotone maps. In-tree only graphs (`QuiverCategory`, `Construction/Free/Quiver.v:358`) and monoids (`Mon`/`CMon`) are realized; the algebraic/topological members are the same obligations this roster issue tracks (cf. the dedicated issues #255 Grp, #256 Ab, #257 Rng, #258 R-Mod/Vect, #259 Top). New fringe this section adds that no in-tree issue targets: manifolds & smooth maps and ℕ & recursive functions (recorded here; not worth a separate issue)."
+  },
+  {
+    "item_id": "awodey:1.4:construction-mat",
+    "issue": 221,
+    "append_block": "### Also covered by\n\n**Awodey §1.4, printed p. 8 (PDF p. 17)** — item `awodey:1.4:construction-mat`.\n\nAwodey's version: the category of finite sets with an arrow `A → B` an `|A|×|B|` matrix of **natural numbers**, composition = matrix multiplication, identities = identity matrices (arrows are not functions). This is the `K = ℕ` (rig/semiring) instance of the matrix category `Matr_K` this issue tracks; classification ABSENT (no in-tree category of finite sets and ℕ-matrices — the 'matrix' hits are the general biproduct-hom calculus, not a concrete `Mat`). New aspect vs a field-`K` statement: the base is the semiring ℕ, so if this issue is phrased over a field, extending the scalars to a rig/semiring is the only increment."
+  },
+  {
+    "item_id": "awodey:1.4:construction-monoid-cat",
+    "issue": 220,
+    "append_block": "### Also covered by\n\n**Awodey §1.4, printed pp. 12–13 (PDF pp. 21–22)** — item `awodey:1.4:construction-monoid-cat`.\n\nAwodey states a monoid is a one-object category (arrows = elements, identity = unit, composition = the operation), the same delooping `B(-)` this issue tracks. In-tree only ad-hoc single-monoid deloopings exist (`ListMon`, `Construction/Funny/Comparison.v:81`; `_1`, `Instance/One.v:25`); there is no generic `B(-) : Mon ⟶ Cat`. New aspects Awodey adds: the **converse** (for any object `C`, `Hom_C(C,C)` is a monoid under composition) and the correspondence **monoid homomorphism = functor between one-object categories** — neither is packaged in-tree; fold these into the delooping issue's scope."
+  },
+  {
+    "item_id": "awodey:1.5:def-group-hom",
+    "issue": 255,
+    "append_block": "### Also covered by\n\n**Awodey §1.5, printed p. 14 (PDF p. 23)** — item `awodey:1.5:def-group-hom`.\n\nAwodey defines a group homomorphism as a homomorphism of the underlying monoids, noting it necessarily preserves inverses (`h(g⁻¹) = h(g)⁻¹`). Defining group homomorphisms and proving this closure is exactly the morphism half of building the category `Grp` this issue tracks. In-tree there is no `GroupHom` (0 hits) and the preserves-inverses lemma is unproven; only the internal `MonoidHom` (`Theory/Algebra/Monoid/Hom.v:34`) exists, over a monoid-object class distinct from the one `GroupObject` (`Structure/Group.v:109`) builds on. New aspect: the automatic preservation of inverses should be a delivered lemma of the `Grp` construction."
+  },
+  {
+    "item_id": "awodey:1.5:remark7",
+    "issue": 263,
+    "append_block": "### Also covered by\n\n**Awodey §1.5, Remark 1.7, printed p. 15 (PDF p. 24)** — item `awodey:1.5:remark7`.\n\nAwodey observes the naive notion of concrete category is defective and refines it: arrows `f, g : C → D` should be determined by their composites with generalized elements `x : T → C` from a test object `T` (`fx = gx` for all `x` implies `f = g`), a category being *concrete* when this holds for `T` a terminal object (a separator/generator). Same 'concrete category' obligation this issue tracks; classification ABSENT — in-tree there is no separator/generator/well-pointedness notion (the `WellPointed` class at `Instance/Fun.v:240` is a well-pointed *endofunctor*, a false friend). New aspect Awodey adds: the generator/test-object (well-pointed) refinement of concreteness, to fold into the concrete-categories issue."
+  },
+  {
+    "item_id": "awodey:1.6:example8",
+    "issue": 261,
+    "append_block": "### Also covered by\n\n**Awodey §1.6, Example 1.8, printed p. 19 (PDF p. 28)** — item `awodey:1.6:example8`.\n\nAwodey's `Sets_*` has pointed sets `(A,a)` as objects and basepoint-preserving maps `f(a)=b` as morphisms, and is stated isomorphic to the coslice `1\\Sets` (Sets under a singleton), since `a : 1 → A` corresponds to `a ∈ A`. Same category-of-pointed-sets obligation this issue tracks. In-tree only `Instance/Coq/Par.v` (the option-Kleisli category, *equivalent but not isomorphic* to pointed sets, over Coq Types via partial maps) and the generic `Coslice` (`Construction/Slice.v:169`, making `1\\Sets` expressible) exist; neither the literal `Sets_*` nor the iso `Sets_* ≅ 1\\Sets` is built. New aspect: Awodey's explicit identification `Sets_* ≅ 1\\Sets`."
+  },
+  {
+    "item_id": "awodey:1.7:construction-free-monoid",
+    "issue": 296,
+    "append_block": "### Also covered by\n\n**Awodey §1.7, printed pp. 19–21 (PDF pp. 28–30)** — item `awodey:1.7:construction-free-monoid`.\n\nAwodey's free monoid `A*` / `M(A)` (finite words, concatenation, empty word, generator insertion `i : A → A*`) characterized by its UMP against `|-| : Mon → Sets`, with the consequence that the free monoid on a one-element set is `(ℕ, +)`. This is the free-monoid-and-UMP obligation this issue tracks. In-tree the free-monoid *data* exists only as lists (`Theory/Coq/List.v`, ops-only, monoid laws unproven) and as the one-object case of `FreeOnQuiver` (`Construction/Free/Quiver.v:431`, UMP at the Quiv/StrictCat level); `A*` is never assembled as an object of `Mon(Sets)` with a monoid-level UMP, and the Set↔Mon free/forgetful adjunction is prose-only. New aspect: the `(ℕ,+)`-as-free-monoid-on-one-generator consequence."
+  },
+  {
+    "item_id": "awodey:1.7:prop9",
+    "issue": 296,
+    "append_block": "### Also covered by\n\n**Awodey §1.7, Proposition 1.9, printed p. 21 (PDF p. 30)** — item `awodey:1.7:prop9`.\n\nProposition 1.9 proves the word monoid `(A*, *)` satisfies the free-monoid UMP: given `f : A → |N|`, the fold `f̄(a₁…aᵢ) = f(a₁)*…*f(aᵢ)` (empty word ↦ unit) is the *unique* monoid homomorphism `M(A) → N` agreeing with `f` on generators. This is the UMP content of 'the free monoid and its universal property'. In-tree the structurally identical universal property is proven one level up (`UniversalArrowQuiverCat`, `Construction/Free/Quiver.v:518`, free category on a quiver), but its one-object (monoid) specialisation — fold as the unique monoid hom — is not carried out, and `Foldable` (`Theory/Coq/Foldable.v:30`) states fold-as-UMP only in prose over an ops-only class."
+  },
+  {
+    "item_id": "awodey:1.7:prop10",
+    "issue": 296,
+    "append_block": "### Also covered by\n\n**Awodey §1.7, Proposition 1.10, printed p. 22 (PDF p. 31)** — item `awodey:1.7:prop10`.\n\nProposition 1.10 proves the free monoid is unique up to a unique isomorphism: if `M` (with `i : A → |M|`) and `N` (with `j : A → |N|`) both have the free-monoid UMP on `A`, there is a unique iso `h : M ≅ N` with `|h|∘i = j`, via the mutually inverse homomorphisms their UMPs induce. This is the uniqueness half of the free-monoid UMP this issue tracks. In-tree the general principle (a universal arrow / initial object is unique up to unique iso — `Theory/Universal/Arrow.v`; `zero_unique`, `Structure/Initial.v:111`) is proven but never instantiated for the free monoid, because `A*` is not exhibited as an in-tree universal arrow along `Mon → Sets`."
+  },
+  {
+    "item_id": "awodey:1.8:def11",
+    "issue": 253,
+    "append_block": "### Also covered by\n\n**Awodey §1.8, Definition 1.11, printed p. 27 (PDF p. 36)** — item `awodey:1.8:def11`.\n\nDefinition 1.11 (small vs large: `C` is small iff both its objects `C₀` and arrows `C₁` are sets), with the consequences that finite categories and `Sets_fin` are small, `Pos`/`Groups`/`Sets` are large, and `Cat` is large hence not an object of itself. Same size-vocabulary obligation this issue tracks. In-tree there is no `Small`/`Large` predicate; size is carried by the universe parameters `{o h p}` of `Class Category` (`Theory/Category.v:111`), and 'Cat not an object of itself' is realised structurally as a universe inconsistency (`Instance/Cat.v`). New aspect: an explicit classifying predicate (`C` is `U`-small iff `o, h ≤ U`) has no in-tree symbol."
+  },
+  {
+    "item_id": "awodey:1.8:def12",
+    "issue": 253,
+    "append_block": "### Also covered by\n\n**Awodey §1.8, Definition 1.12, printed p. 28 (PDF p. 37)** — item `awodey:1.8:def12`.\n\nDefinition 1.12 (locally small: every `Hom_C(X,Y)` is a set), with the note that every small category is locally small. Same size-vocabulary obligation. In-tree local smallness is built into `Class Category` by fiat — `homset : ∀ X Y, Setoid (X ~> Y)` at `Theory/Category.v:116` forces every category to have hom-sets at a fixed universe `h` — so there is no `LocallySmall` predicate and a non-locally-small category is inexpressible. New aspect: the classifying predicate itself (as distinct from its universally-holding content, the `homset` field) has no in-tree symbol."
+  },
+  {
+    "item_id": "awodey:1:ex2",
+    "issue": 262,
+    "append_block": "### Also covered by\n\n**Awodey §1.9 (Exercises), Exercise 2, printed p. 29 (PDF p. 38)** — item `awodey:1:ex2`.\n\nExercise 2 asks which hold: (a) `Rel ≅ Rel^op`; (b) `Sets ≅ Sets^op`; (c) for a fixed set `X`, the powerset poset `P(X) ≅ P(X)^op`. Part (a) — self-duality of `Rel` via relation converse (the dagger) — is exactly the `Rel`/converse obligation this issue tracks; classification ABSENT, and in-tree the dagger self-duality of `Rel` is explicitly noted as *not built* (`Instance/Rel.v:36–42`). New aspects Awodey adds: (b) the determination that `Sets` is **not** self-dual (a non-isomorphism, awkward to formalize); and (c) the self-duality `P(X) ≅ P(X)^op` via complement `A ↦ X\\A` (a clean, small increment on the powerset poset). Record both here; the `Rel ≅ Rel^op` converse is the principal formalizable content and belongs to this issue."
+  }
+]

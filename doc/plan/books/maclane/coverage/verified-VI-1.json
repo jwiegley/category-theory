@@ -1,0 +1,220 @@
+[
+  {
+    "id": "maclane:VI.3:thm1",
+    "classification": "PRESENT",
+    "aliases": ["comparison functor", "Eilenberg-Moore comparison functor K", "canonical functor to the category of algebras", "K : A -> X^T", "EM_Comparison", "monadic comparison"],
+    "evidence": [
+      {"file": "Monad/Comparison.v", "line": 186, "symbol": "EM_Comparison",
+       "intree_statement": "Definition EM_Comparison : C ⟶ @EilenbergMoore D (U ◯ F) Adjunction_Induced_Monad := Build_Functor ... (fun c => (U c; EM_Comparison_Algebra c)) (fun c c' h => EM_Comparison_fmap h) ... — the comparison functor from an adjunction F ⊣ U into the Eilenberg–Moore category of its induced monad."},
+      {"file": "Monad/Comparison.v", "line": 151, "symbol": "EM_Comparison_Algebra",
+       "intree_statement": "Definition EM_Comparison_Algebra (c : C) : TAlgebra Adjunction_Induced_Monad (U c) := Build_TAlgebra ... (fmap[U] (@counit _ _ _ _ A c)) ... — K sends c to the algebra ⟨U c, U ε_c⟩ (Mac Lane's ⟨Ga, Gε_a⟩)."},
+      {"file": "Monad/Comparison.v", "line": 171, "symbol": "EM_Comparison_fmap",
+       "intree_statement": "Definition EM_Comparison_fmap {c c'} (h : c ~> c') : TAlgebraHom ... (fmap[U] h) ... — K acts on arrows as U h (Mac Lane's K f = G f)."},
+      {"file": "Monad/Comparison.v", "line": 198, "symbol": "EM_Comparison_Forget",
+       "intree_statement": "Theorem EM_Comparison_Forget : EM_Forget (Adjunction_Induced_Monad) ◯ EM_Comparison ≈ U. — G^T ∘ K = G, with identity iso components."},
+      {"file": "Monad/Comparison.v", "line": 260, "symbol": "EM_Comparison_Free",
+       "intree_statement": "Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free (Adjunction_Induced_Monad). — K ∘ F = F^T, via identity-underlying isomorphisms."},
+      {"file": "Monad/Comparison.v", "line": 123, "symbol": "Adjunction_Induced_Monad",
+       "intree_statement": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := Build_Monad ... (ret = η) ... (join = fmap[U] (counit A (F x)) = U ε F) — the monad T = ⟨GF,η,GεF⟩ that K compares against."}
+    ],
+    "statement_record": {
+      "book": "For an adjunction ⟨F,G,η,ε⟩:X⇀A defining the monad T=⟨GF,η,GεF⟩ in X, there is a UNIQUE functor K:A→X^T with G^T∘K=G and K∘F=F^T; explicitly K a=⟨Ga,Gε_a⟩, K f=Gf.",
+      "intree": "EM_Comparison : C ⟶ EilenbergMoore (U◯F) (Adjunction_Induced_Monad A), with EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U, EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free, object action c ↦ ⟨U c, U ε_c⟩ (EM_Comparison_Algebra) and arrow action h ↦ U h (EM_Comparison_fmap).",
+      "strength_comparison": "same on the construction and both defining identities (library uses the mirror-image convention F:D⟶C left adjoint / U:C⟶D right adjoint, so D=Mac Lane's X, C=Mac Lane's A, U=G; the explicit formula K a=⟨Ua,Uε_a⟩ and K f=Uf matches verbatim). intree-weaker in one respect: the UNIQUENESS half of Mac Lane's Theorem 1 (K is the unique functor with those two properties) is not separately proven in-tree — only the explicit K and the two commuting identities (the 'both triangle theorems') are established."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently landed on Monad/Comparison.v: EM_Comparison (l.186), EM_Comparison_Forget (l.198, G^T∘K≈G), EM_Comparison_Free (l.260, K∘F≈F^T), object action c↦⟨Uc,Uε_c⟩ (l.151), arrow action Uh (l.171). All six evidence line numbers and quotes verified accurate against the file. Convention mirror (D=X, C=A, U=G) confirmed, so K a=⟨Ua,Uε_a⟩ matches ⟨Ga,Gε_a⟩ verbatim. The disclosed uniqueness gap is real and correctly flagged: grep for uniq/unique in Monad/Comparison.v returns nothing, and Beck.v's uniqueness hits concern create_coeq, not the comparison functor. PRESENT is defensible — the construction plus both defining identities are the theorem's substance — but downstream consumers should note K's uniqueness clause is genuinely unproven in-tree."}
+  },
+  {
+    "id": "maclane:VI.3:def1",
+    "classification": "PRESENT",
+    "aliases": ["monadic functor", "tripleable functor", "monadic adjunction", "Monadic", "comparison is an equivalence", "comparison is an isomorphism"],
+    "evidence": [
+      {"file": "Monad/Comparison.v", "line": 273, "symbol": "Monadic",
+       "intree_statement": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A). — U is monadic when it has a left adjoint whose Eilenberg–Moore comparison functor is an equivalence of categories."},
+      {"file": "Monad/Monadicity/Examples.v", "line": 155, "symbol": "Identity_Monadic",
+       "intree_statement": "Definition Identity_Monadic {C : Category} : Monadic Id[C] := (Id[C]; (Adjunction_Id; identity_monadic)). — a concrete inhabitant of the Monadic predicate (the identity functor)."}
+    ],
+    "statement_record": {
+      "book": "A right adjoint G is monadic (tripleable) when the comparison functor K:A→X^T is an isomorphism of categories; some authors (Barr–Wells) require only that K be an equivalence of categories.",
+      "intree": "Monadic U := ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).",
+      "strength_comparison": "intree matches the Barr–Wells 'equivalence of categories' reading that the item itself explicitly records. intree-weaker than Mac Lane's PRIMARY definition (K an isomorphism of categories on-the-nose): the library asks only that EM_Comparison be an equivalence, never an iso — but this is exactly the alternative the definition sanctions, and it is the standard modern convention. The predicate is inhabited (Identity_Monadic)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Monadic verified verbatim at Monad/Comparison.v:273 (uses EquivalenceOfCategories — the Barr–Wells variant the item explicitly sanctions). Identity_Monadic verified at Monad/Monadicity/Examples.v:155-156 as a genuine inhabitant (Adjunction_Id; identity_monadic, the latter at l.145). The primary 'isomorphism of categories' reading is not formalized, but the equivalence reading is one of the two the item records, so this is a faithful formalization. strength_comparison is honest."}
+  },
+  {
+    "id": "maclane:VI.3:remark1",
+    "classification": "ABSENT",
+    "aliases": ["discrete topology adjunction", "Top forgetful to Set", "identity monad from an adjunction", "non-monadic adjunction", "discrete-space functor D ⊣ U", "comparison functor equals G"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'topolog|discrete space' --include=*.v .  → only prose hits: Instance/Cat.v:89 and Theory/Monad.v:34 cite the TITLE of Godement's 'Topologie algébrique et théorie des faisceaux'; there is NO category Top of topological spaces and NO discrete-topology functor D:Set→Top in the tree.",
+      "ls Instance/ | grep -iE 'top|space|discrete space'  → Instance/Discrete.v is the DISCRETE CATEGORY on a type (objects, only identity arrows), unrelated to discrete topological spaces; no Top instance.",
+      "grep -rln -i 'identity monad|Id_Monad|IdentityMonad' --include=*.v .  → the identity monad exists only as Adjunction_Induced_Monad Adjunction_Id (Monad/Monadicity/Examples.v), i.e. induced by the IDENTITY adjunction Id ⊣ Id, not by a discrete-space adjunction.",
+      "grep -rn -i 'not monadic|non-monadic|counterexample|faithful.*not' --include=*.v .  → no non-monadic adjunction witness anywhere; the sole in-tree identity-monad adjunction (Adjunction_Id) is proven MONADIC (identity_monadic, Monad/Monadicity/Examples.v:145), the exact OPPOSITE of this remark's point (an adjunction inducing the identity monad whose comparison functor is G and is not an equivalence).",
+      "The identity-monad COMPONENT (its algebras are essentially the base category; every structure map is id) is present abstractly (Monad/Monadicity/Examples.v identity_alg_id/identity_alg_hom_commutes), but the remark's actual content — a specific Top⇀Set adjunction exhibiting non-monadicity — has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently found no Instance/Top.v and no discrete-topology functor (ls Instance/ | grep top/space/compact → none). Confirmed Instance/Discrete.v is the discrete CATEGORY, not discrete spaces. The 'Top' string hits are comment mentions of Godement's book title and example-category prose. The identity monad exists only via Id⊣Id (Examples.v), proven MONADIC — the opposite of this remark's non-monadic point. No counterpart missed; ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:construction1",
+    "classification": "ABSENT",
+    "aliases": ["free semigroup functor", "free semigroup on a set", "category of semigroups Smgrp", "adjunction Set ⇀ Smgrp", "nonempty words FX = ⨆ X^n", "forgetful Smgrp→Set left adjoint"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'semigroup|Smgrp' --include=*.v .  → Theory/Category/Semi.v = SEMIGROUPOID/semicategory (a category without identities), NOT a category of semigroups; Theory/Coq/Semigroup.v = an ops-only Haskell-style Semigroup typeclass (Class Semigroup with mappend, law in prose only); Construction/Cayley.v, Lib/NETList.v, Monoidal/Relevance.v — none define a category Smgrp of semigroups nor a free-semigroup functor.",
+      "grep -rln -i 'free semigroup' --include=*.v .  → 0 hits.",
+      "ls Instance/ | grep -iE 'semigroup|smgrp'  → none. There is Instance/CMon.v (COMMUTATIVE monoids) but no category of semigroups and no free-semigroup left adjoint.",
+      "The general 'monad defined by an adjunction' + free/forgetful adjunction machinery exists (Monad/Comparison.v Adjunction_Induced_Monad; Monad/Eilenberg/Moore/Adjunction.v EM_Free ⊣ EM_Forget), but this SPECIFIC construction (WX = nonempty words, FX = ⟨WX, juxtaposition⟩, η_X x = ⟨x⟩ universal to G:Smgrp→Set, counit ε_S removes brackets) is not instantiated: no Smgrp, no WX object, no ε_S."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed Theory/Category/Semi.v is a semigroupoid/semicategory (verified header: 'Semigroupoid (semicategory) ... a category without identity morphisms'), and Theory/Coq/Semigroup.v an ops-only typeclass — neither is a category Smgrp of semigroups. Mon(C) (Theory/Algebra/Monoid/Hom.v:83) is the category of INTERNAL monoids carrying only a forgetful functor Mon_Forget (l.93); grep found no free left adjoint to Mon_Forget and no free-monoid/free-abelian/free-ring adjunction anywhere (the 'free group' hits are historical prose in Theory/Universal/Arrow.v). Even the free-monoid adjunction Set⇀Mon is absent, a fortiori the free-semigroup one. ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:prop1",
+    "classification": "PARTIAL",
+    "aliases": ["word monad W", "free semigroup monad", "free monoid monad", "list monad", "WX = ⨆ X^n with singleton unit and bracket-erasing multiplication", "flatten/concat as μ"],
+    "evidence": [
+      {"file": "Theory/Coq/List.v", "line": 113, "symbol": "list_Monad",
+       "intree_statement": "Instance list_Monad : Monad list := { ret := λ _ x, [x]; bind := λ _ _ x f, flatten (map f x) }. — unit η = singleton x ↦ [x]; the free-monoid list monad's operations."},
+      {"file": "Theory/Coq/List.v", "line": 84, "symbol": "flatten",
+       "intree_statement": "Fixpoint flatten (xs : list (list A)) : list A := match xs with nil => nil | cons x xs' => app x (flatten xs') end. — the multiplication μ: 'concatenates a list-of-lists into a single list by repeated app, i.e. the monad multiplication μ : list (list A) → list A of the free-monoid monad' (Mac Lane's 'erase the outer brackets')."},
+      {"file": "Theory/Coq/List/Proofs.v", "line": 1047, "symbol": "list_Functor",
+       "intree_statement": "Program Definition list_Functor : IsFunctor list_Functor := { a_fmap := list_Functor }. — 'list is a genuine endofunctor on Coq, with fmap = List.map' (the three functor obligations discharged by induction), so the underlying endofunctor W is categorical."}
+    ],
+    "statement_record": {
+      "book": "The monad on Set induced by the free-semigroup adjunction is W=⟨W,η,μ⟩ with WX=⨆_{n≥1}X^n (nonempty words), unit η_X(x)=⟨x⟩ (one-letter word), and multiplication μ_X erasing the outer brackets of a word-of-words (concatenation).",
+      "intree": "list_Monad on Coq's list functor: ret x = [x], join = flatten (concatenation of a list-of-lists), fmap = map; list_Functor : IsFunctor certifies list is a genuine endofunctor Coq ⟶ Coq. Header comment identifies it as 'the monad induced by the free-monoid ... construction' with 'join = flatten'.",
+      "strength_comparison": "intree-weaker on three axes: (1) OBJECT — the in-tree list monad is the FREE-MONOID monad list X = ⨆_{n≥0} X^n (includes the EMPTY word []), whereas Prop 1's W is the FREE-SEMIGROUP monad ⨆_{n≥1} X^n (nonempty words only); (2) LAWS — list_Monad is an instance of the ops-only Haskell-style Monad class (Theory/Coq/Monad.v:28-30 states 'the laws are NOT recorded as fields'); the categorical monad laws (μ∘Fμ=μ∘μF, unit laws) are NOT proven for list, and there is no @Monad Coq list — the IsMonad bridge (Theory/Coq/Monad/Proofs.v) is discharged only for Identity/arrow/Compose, not list; (3) PROVENANCE — it is not derived from a free-semigroup adjunction (no Smgrp). The unit (singleton) and multiplication (flatten) maps and the endofunctor match."
+    },
+    "gap": "The proposition's actual assertion — that this data forms a MONAD — is unproven: only the ops (ret=singleton, join=flatten) and the underlying endofunctor are in-tree, never the categorical monad structure or its laws (no @Monad Coq list). Moreover the in-tree monad is the free-MONOID (⨆_{n≥0}) monad, not Prop 1's free-SEMIGROUP (⨆_{n≥1}) monad, and it is not obtained from the Set⇀Smgrp adjunction (which is itself absent).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Evidence verified: list_Monad Theory/Coq/List.v:113, flatten l.84, list_Functor:IsFunctor Theory/Coq/List/Proofs.v:1047 — all line numbers and quotes accurate (the slightly self-referential 'a_fmap := list_Functor' is verbatim). Load-bearing honesty claims independently verified: (a) Theory/Coq/Monad.v Monad class is ops-only — comment at l.28-30 reads 'the laws are NOT recorded as fields here; Monad carries only the operations'; (b) NO lawful list monad exists — IsMonad instances are ONLY Identity_IsMonad/arrow_IsMonad/Compose_IsMonad (Theory/Coq/Monad/Proofs.v:57/63/90), no list_IsMonad, and no @Monad Coq list is built. BORDERLINE call: the in-tree object is the free-MONOID (not free-semigroup) monad, on Coq (not Sets), and the Proposition's own core claim (that W is a monad) is unproven; strict 'this exact result' semantics would read ABSENT. I retain PARTIAL because the singleton unit + flatten multiplication + certified list endofunctor genuinely exist as a close structural relative and every gap is stated precisely — the more informative and honest of the two defensible calls."}
+  },
+  {
+    "id": "maclane:VI.4:prop2",
+    "classification": "ABSENT",
+    "aliases": ["W-algebras", "algebras for the word monad", "set with an n-ary operation v_n for each n", "Eilenberg-Moore algebras of the list/word monad", "compatibility law v_k ∘ (v_{n₁}×…×v_{n_k}) = v_{n₁+…+n_k}"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'TAlgebra|EilenbergMoore' --include=*.v Monad/Algebra.v Monad/Eilenberg/Moore.v  → the GENERIC Eilenberg–Moore machinery exists (Monad/Algebra.v:24 Class TAlgebra, TAlgebraHom; Monad/Eilenberg/Moore.v:44 EilenbergMoore category), but it is the abstract T-algebra definition (that is item maclane:VI.2:def1), NOT the specific characterization of W-algebras.",
+      "grep -rln -i 'word monad|list monad|n-ary operation|nary' --include=*.v .  → no in-tree development of W-algebras as sets carrying a family of n-ary operations v_n with the concatenation-compatibility law; the list monad (Theory/Coq/List.v) is ops-only and its Eilenberg–Moore algebras are described in PROSE only ('Its Eilenberg-Moore algebras are ...'), never formalized.",
+      "grep -rln -i 'semigroup|Smgrp' --include=*.v .  → no category whose objects are characterized as W-algebras; no v_n operation family anywhere.",
+      "There is no categorical W monad instance (see maclane:VI.4:prop1), so its category of algebras cannot be — and is not — formed."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: only the generic TAlgebra/EilenbergMoore machinery exists (= VI.2:def1); no W-algebra-as-family-of-n-ary-operations development, no v_n operations, no concatenation-compatibility law anywhere. Since no categorical W monad is built (prop1), its algebra category is not formed. ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:cor1",
+    "classification": "ABSENT",
+    "aliases": ["W-algebras are semigroups", "associative binary operation determines the iterated operations", "v_{n+1} = v_n ∘ (v₂ × 1)", "semigroup = W-algebra", "iterated multiplication"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'semigroup|Smgrp' --include=*.v .  → Theory/Category/Semi.v is a semicategory, Theory/Coq/Semigroup.v is an ops-only typeclass; neither expresses 'a W-algebra ⟨S,v₁,v₂,…⟩ is exactly an associative binary operation with its iterated powers'.",
+      "grep -rn -i 'associative binary|iterated (product|multiplication)|v2|v_2' --include=*.v .  → no formalization of the reduction of the n-ary-operation family to a single associative binary v₂ with v_{n+1}=v_n∘(v₂×1).",
+      "This corollary depends on the (absent) W-algebra characterization of maclane:VI.4:prop2 and on a category of semigroups (absent); no in-tree counterpart exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Depends on the absent prop2 characterization and an absent Smgrp category. Independently confirmed no in-tree reduction of an n-ary-operation family to a single associative binary v₂ with iterated powers v_{n+1}=v_n∘(v₂×1). ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:remark1",
+    "classification": "ABSENT",
+    "aliases": ["Smgrp is monadic over Set", "forgetful Smgrp→Set is monadic", "comparison functor K:Smgrp→Set^W is an isomorphism", "semigroups are the algebras of the word monad", "tripleability of semigroups"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'semigroup|Smgrp' --include=*.v .  → no category Smgrp of semigroups exists, so 'the forgetful Smgrp→Set is monadic / K:Smgrp→Set^W is an isomorphism' cannot be — and is not — stated.",
+      "grep -rn 'Definition Monadic' Monad/Comparison.v  → the GENERAL Monadic predicate exists (Monad/Comparison.v:273) and is inhabited only by Identity_Monadic (Monad/Monadicity/Examples.v:155); there is no proof that any concrete algebraic forgetful functor (semigroups, monoids, groups, …) is monadic.",
+      "grep -rln -i 'monadic|tripleable' --include=*.v .  → monadicity theory is present in the ABSTRACT (Beck's theorem engine, Crude monadicity), but no concrete instance for semigroups; the specific isomorphism K:Smgrp→Set^W has no counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "No Smgrp, so no K:Smgrp→Set^W isomorphism can be stated. Independently confirmed the general Monadic predicate is inhabited ONLY by Identity_Monadic; no concrete algebraic forgetful functor is proven monadic in-tree. Note: the prose 'Its Eilenberg-Moore algebras are exactly the monoids' in Theory/Coq/List.v is a true background remark about the free-monoid monad, NOT a formalized theorem and NOT a stale/false claim — so it is not a library defect. ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["monoid monad W0", "free monoid monad", "list monad (with empty word)", "forgetful Mon→Set induced monad", "W0-algebras are monoids", "operations v0 (unit) and v_n (n-fold product)"],
+    "evidence": [
+      {"file": "Theory/Coq/List.v", "line": 113, "symbol": "list_Monad",
+       "intree_statement": "Instance list_Monad : Monad list := { ret := λ _ x, [x]; bind := λ _ _ x f, flatten (map f x) }. — the free-monoid monad's operations (unit = singleton)."},
+      {"file": "Theory/Coq/List.v", "line": 84, "symbol": "flatten",
+       "intree_statement": "Fixpoint flatten : list (list A) → list A ... — the multiplication μ (concatenation), 'the free-monoid monad's join'."},
+      {"file": "Theory/Coq/List/Proofs.v", "line": 1047, "symbol": "list_Functor",
+       "intree_statement": "Program Definition list_Functor : IsFunctor list_Functor := ... — list is a genuine endofunctor on Coq; header (List/Proofs.v:16-21) cites free-monoid: 'the list type is the underlying set of the free monoid on A, with app as ... and [] as its unit'."}
+    ],
+    "statement_record": {
+      "book": "For the monad W₀ on Set defined by the forgetful Mon→Set (the free-monoid monad, W₀X = ⨆_{n≥0} X^n), show a W₀-algebra is a set M with a string v₀,v₁,… of n-ary operations where v₀:*→M is the monoid unit and v_n is the n-fold product.",
+      "intree": "list_Monad on Coq: the free-MONOID monad list X = ⨆_{n≥0} X^n (empty word [] included), ret = singleton, join = flatten (concatenation); list is a certified endofunctor on Coq (list_Functor : IsFunctor).",
+      "strength_comparison": "The W₀ monad OBJECT matches exactly (free monoid = all finite lists, incl. the empty word — the correct object for this exercise, unlike Prop 1's free semigroup). intree-weaker: (1) list_Monad is the ops-only Haskell-style class (laws in prose, not fields); the categorical monad laws are unproven and no @Monad Coq list is built (the IsMonad bridge covers only Identity/arrow/Compose). (2) The exercise's DELIVERABLE — that W₀-algebras are exactly monoids, presented as a family v₀ (nullary unit), v₁=id, v_n (n-fold product) — is entirely absent: there is no category Mon and no W₀-algebra characterization."
+    },
+    "gap": "The underlying free-monoid monad W₀ is present only as ops (singleton unit + flatten multiplication + certified list endofunctor), never as a lawful categorical monad. The exercise's actual content — the characterization of W₀-algebras as monoids via operations v₀,v₁,…,v_n — is not formalized (no Mon category, no Eilenberg–Moore algebra characterization of the list monad).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Evidence verified (list_Monad l.113, flatten l.84, list_Functor:IsFunctor l.1047). Here the free-monoid list monad object (list WITH the empty word) genuinely MATCHES W₀ — a materially stronger PARTIAL than prop1, and the classifier honestly flags exactly this ('the correct object for this exercise, unlike Prop 1's free semigroup'). Gaps independently verified: lawfulness unproven (no list_IsMonad, IsMonad only Identity/arrow/Compose), and the W₀-algebra=monoid deliverable absent (no Mon category of ordinary monoids — Mon(C) is internal monoids, and no algebra characterization of the list monad). PARTIAL retained."}
+  },
+  {
+    "id": "maclane:VI.4:ex2",
+    "classification": "ABSENT",
+    "aliases": ["free R-module monad T_R on Set", "free module functor R-Mod→Set left adjoint", "finitely supported functions X→R", "free vector space monad", "R-Mod as algebras", "linear-combination operations"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln -i 'R-Mod|RMod|R-module|Module|VectorSpace|Vect' --include=*.v Instance/  → hits are Instance/Comp.v, Instance/ZX.v, Instance/Lambda/* only; on inspection ('grep -i R-module/category of module/left module') these are Coq Module keywords / Lambda-calculus substitution and ZX prose — NO category R-Mod of modules or vector spaces exists.",
+      "grep -rnE 'Definition (Rng|Ring|CRng|Ab)|Instance (Rng|Ring|CRng|Ab)|category.*Ring' --include=*.v .  → no ring category, hence no ring R over which to take a free R-module monad.",
+      "grep -rln -i 'finitely supported|finite support|free module|free vector space' --include=*.v .  → 0 relevant hits; no finitely-supported-function functor T_R X, no η/μ for it.",
+      "The abstract additive/abelian spine exists (Structure/Abelian.v, Instance/CMon.v = commutative monoids), but 'R-Mod' and 'Ab' appear there only as PROSE motivating examples (Structure/Abelian.v:68), never as constructed categories; no free-R-module adjunction and no monad T_R."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: no R-Mod category, no ring category, no free-R-module monad, no finitely-supported-function functor. CMon (commutative monoids) and Structure/Abelian.v (abstract abelian-category CLASS) do not supply R-modules or a free-module adjunction. ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:ex3",
+    "classification": "ABSENT",
+    "aliases": ["polynomial-ring monad", "free commutative ring monad", "forgetful CRng→Set adjunction", "TX = ℤ[x : x∈X] polynomials in indeterminates", "category of commutative rings CRng"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE 'Definition (CRng|Ring|Rng)|Instance (CRng|Ring|Rng)|category.*[Cc]ommutative ring' --include=*.v .  → no category CRng (or Ring/Rng) of commutative rings in the tree; the tree-wide word-boundary search returned only false positives (ordering/covering/string).",
+      "grep -rln -i 'polynomial|polynomial ring' --include=*.v .  → hits (Theory/Adamek/Corollaries.v, Instance/Coq/Lists.v, Structure/Monoidal/Braided.v) are POLYNOMIAL FUNCTORS (initial-algebra theory) and tensor prose, NOT the polynomial-ring monad TX = ℤ[X].",
+      "No forgetful functor CRng→Set, no free-commutative-ring left adjoint, and no polynomial-ring endofunctor exist; the entire construction has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: no CRng/Ring/Rng category, no forgetful CRng→Set, no polynomial-ring monad. The 'polynomial' hits are polynomial FUNCTORS (initial-algebra theory), unrelated to the polynomial-ring monad TX=ℤ[X]. ABSENT stands."}
+  },
+  {
+    "id": "maclane:VI.4:ex4",
+    "classification": "ABSENT",
+    "aliases": ["tensor-algebra monad on Ab", "forgetful Rng→Ab adjunction", "T with X^n replaced by n-fold tensor power and ⨆ by direct sum", "rings as algebras of the tensor-algebra monad", "category Ab of abelian groups", "category Rng of rings"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'Definition.*abelian|Instance.*abelian|category Ab' --include=*.v .  → Structure/Abelian.v defines the ABSTRACT abelian-category class (abelian_* are its field accessors); 'the category Ab of abelian groups' appears only as prose (Structure/Abelian.v:68). No concrete category Ab of abelian groups is constructed.",
+      "grep -rnE 'Definition (Rng|Ring)|Instance (Rng|Ring)|category.*[Rr]ing' --include=*.v .  → no category Rng of rings.",
+      "grep -rln -i 'tensor algebra|tensor power|direct sum monad' --include=*.v .  → 0 relevant hits; the tensor-algebra endofunctor (⨁_n A^{⊗n}) on abelian groups, its unit/multiplication, and the Rng→T-Alg comparison isomorphism are all absent.",
+      "The forgetful Ab⇀Rng adjunction, the tensor-algebra monad T, and its algebra category have no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed: no concrete category Ab of abelian groups (Structure/Abelian.v is the abstract abelian-category CLASS; 'Ab' is prose), no Rng category, no tensor-algebra monad (⨁_n A^{⊗n}), no Rng→T-Alg comparison. ABSENT stands."}
+  }
+]

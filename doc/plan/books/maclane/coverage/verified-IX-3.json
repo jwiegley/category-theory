@@ -1,0 +1,352 @@
+[
+ {
+  "id": "maclane:IX.4:construction1",
+  "classification": "ABSENT",
+  "aliases": [
+   "Euclidean space self-duality dinatural transformation",
+   "kappa : U => * (forgetful to dual) dinatural",
+   "V naturally isomorphic to V* (inner-product / Riesz duality)",
+   "category Euclid of Euclidean spaces, inner-product-preserving maps",
+   "type-2 dinatural transformation example"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'euclid' -e 'inner product' -e 'dual space' -e 'double dual' --include=*.v . -> only PROSE hits: Theory/Natural/Transformation.v:48 (double dual of a vector space is natural), Construction/Opposite.v:51 (double dual natural where single dual is not), Structure/Monoidal/StarAutonomous.v:29, Theory/Kan/Extension.v:90 -- none construct a Euclidean-space category nor the single-dual dinatural",
+   "no in-tree category of Euclidean/inner-product spaces (no 'Euclid', no bilinear/symmetric/positive-definite form) anywhere in Instance/",
+   "grep -rn 'Dinatural' --include=*.v . | grep -v comment/def-file -> 0 hits: the Dinatural class (Theory/Dinatural.v:51) is DEFINED but never instantiated, so no self-duality dinatural instance exists",
+   "grep -rn -e 'Build_Wedge' -e 'Build_Dinatural' --include=*.v . -> Wedge/Cowedge instances only in Instance/Sets/End.v, Instance/Sets/Coend.v, Theory/Coend/Yoneda.v, Theory/Coend/Fubini.v, Construction/Day.v; none is the Euclid example"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search independently confirms ABSENT. My grep for 'euclid|euclidean|inner product|self-dual' returned only unrelated self-duality prose (Frobenius, Rel, CompactClosed) and no Euclidean-space category. Spot-checked the classifier's cited prose hit Theory/Natural/Transformation.v:46-52: it is the classic 'a vector space is isomorphic to its dual but not naturally; naturally isomorphic to its DOUBLE dual' motivating discussion (an ordinary natural transformation), not the single-dual E->E* dinatural on a category Euclid. Corroborating fact for every IX.4 example ABSENT: the Dinatural class (Theory/Dinatural.v) has 0 instances tree-wide and is imported by no file (grep for 'Category.Theory.Dinatural' = 0 importers)."
+  }
+ },
+ {
+  "id": "maclane:IX.4:construction2",
+  "classification": "ABSENT",
+  "aliases": [
+   "evaluation is an extranatural transformation / wedge",
+   "eval : hom(X,A) x X -> A, V : hom(-,A) x (-) => A",
+   "counit of the product-exponential adjunction as a dinatural",
+   "co-unit eval y^x x x ~> y",
+   "type-3 extranatural (wedge to a constant) example"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 75,
+    "symbol": "eval",
+    "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.  (* the counit of the exponential adjunction; ump_exponents : eval ∘ first (curry f) ≈ f *)"
+   },
+   {
+    "file": "Structure/Wedge.v",
+    "line": 38,
+    "symbol": "Wedge",
+    "intree_statement": "Class Wedge `(F : C^op ∏ C ⟶ D) := { wedge_obj : D; wedge_map {x} : wedge_obj ~{D}~> F (x, x); ump_wedges {x y} (f : x ~> y) : bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map }"
+   }
+  ],
+  "statement_record": {
+   "book": "For a fixed set A, evaluation V_X : hom(X,A) x X -> A, <h,x> |-> h x, gives the components of an extranatural transformation (wedge) V : hom(-,A) x (-) => A from the bifunctor hom(-,A) x (-): Set^op x Set -> Set to the constant A; it is also natural in the parameter A.",
+   "intree": "eval {x y} : y^x × x ~> y := uncurry id (Structure/Cartesian/Closed.v:75) -- the evaluation/counit morphism exists; the Wedge class (Structure/Wedge.v:38) exists as abstract machinery.",
+   "strength_comparison": "intree-weaker: the evaluation morphism (== the exponential counit, and in Set y^x ≅ hom(x,y) so this IS Mac Lane's V_X) is present, but it is never assembled as a Wedge / extranatural transformation. The bifunctor hom(-,A) x (-) : Set^op x Set -> Set is not set up, the wedge/extranaturality law (dinaturality in X) is neither stated nor proved, and naturality in the parameter A is not packaged either. The Dinatural class is never instantiated (0 non-comment hits)."
+  },
+  "gap": "Only the evaluation morphism (eval := uncurry id, the exponential counit) exists. Missing: (i) the mixed-variance bifunctor S(X,Y) = hom(X,A) x Y : Set^op x Set -> Set; (ii) the proof that eval satisfies the wedge/extranaturality condition (bimap[S] id f ∘ eval_X ≈ bimap[S] (op f) id ∘ eval_Y), i.e. a `Wedge`/`Dinatural` instance witnessing extranaturality; (iii) the naturality in the parameter A. eval is never connected to Structure/Wedge or Theory/Dinatural.",
+  "negative_search_log": [
+   "grep -rn -i -e 'eval.*extranatural' -e 'eval.*wedge' -e 'evaluation.*dinatural' -e 'eval.*natural' --include=*.v . -> 0 hits linking eval to a wedge / (di/extra)naturality",
+   "grep -rn 'Dinatural' --include=*.v . | grep non-comment -> 0 instances",
+   "grep -rn -i -e 'extranatural' -e 'supernatural' --include=*.v . -> only prose in Structure/Wedge.v:17 and Structure/End.v:16 headers",
+   "QA audit: rg -n 'extranatural|Wedge' Structure/Cartesian/Closed.v -> 0 hits; eval has no wedge law stated anywhere"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Both evidence citations verified exact: Structure/Cartesian/Closed.v:75 reads verbatim 'Definition eval {x y} : y^x × x ~> y := uncurry id.' (marked as the exponential counit), and Structure/Wedge.v:38 is the Wedge class. The PARTIAL is on the GENEROUS end -- the substantive content of IX.4 (the extranaturality/wedge condition) is entirely absent; only the underlying component morphism exists, and it exists for an unrelated reason (CCC exponential counit), never linked to Structure/Wedge or Theory/Dinatural. But under the frozen definition PARTIAL = 'some of the item exists + gap stated precisely,' and the eval morphism genuinely IS the would-be component of Mac Lane's V (in Set, y^x ≅ hom(x,y)), so real reusable material exists and the gap is stated with full precision and honesty (it explicitly says the extranatural transformation is never assembled). Not over-claiming: any downstream reader correctly understands the entire wedge/extranaturality/parameter-naturality remains to be built. Confirmed as PARTIAL. || RECLASSIFIED PARTIAL -> ABSENT on QA audit (decision 5.1), to agree with ledger.tsv. The Phase-D verifier confirmed PARTIAL under the phrasing 'some of the item exists + gap stated precisely', and itself flagged that call as 'on the GENEROUS end'. The GOVERNING rule is schemas.md's boundary rule: PARTIAL requires a PROVED statement covering part of the item. Neither item has one -- eval (Structure/Cartesian/Closed.v:75) is a bare Definition whose only Qed'd fact, ump_exponents, is the exponential UMP, a different statement; and for construction4 the Hom bifunctor is the SETTING of the claim, not part of it. NOTE the reason given in #570's body ('the Wedge/Cowedge classes have zero instances tree-wide') is FALSE and has been corrected: Instance/Sets/End.v:102 and Structure/Coend.v:172 both call Build_Wedge. The conclusion stands on the rule, not on that claim."
+  }
+ },
+ {
+  "id": "maclane:IX.4:construction3",
+  "classification": "ABSENT",
+  "aliases": [
+   "counit of a parametrized adjunction extranatural in the parameter",
+   "adjunction with a parameter, natural bijection A(F(x,p),a) ≅ X(x,G(p,a))",
+   "two-variable / bifunctor adjunction counit eps_{<p,a>}",
+   "parametrized counit natural in a, dinatural (extranatural) in p",
+   "Theorem IV.7.3 parametrized adjoint"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'parametr' -e 'with a parameter' --include=*.v . -> only 'parametricity'/'parametrically polymorphic' (Reynolds) in Theory/Functor.v:88, Theory/Natural/Transformation.v:87,99, Instance/Fun.v:95,97; NO parametrized adjunction",
+   "grep -rn -i -e 'two-variable adjunction' -e 'bifunctor adjunction' -e 'F(x,p)' -e 'F (x, p)' -e 'hom-set.*parameter' --include=*.v . -> 0 hits",
+   "ordinary (non-parametrized) adjunctions exist (Theory/Adjunction.v, with unit/counit and triangle identities), but the family of adjunctions indexed by a parameter category P, and the extranaturality of the counit in p, has no in-tree counterpart",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; no Wedge/Cowedge instance is a parametrized-adjunction counit"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. My grep for 'parameteri[sz]ed|parametri[sz]ed|adjunction with parameter|bifunctor adjunction|two.variable adjunction' returned only unrelated uses ('parameterised' spans/PROPs/comonads; Reynolds parametricity) -- no parametrized adjunction anywhere. Ordinary adjunctions (Theory/Adjunction.v) have no parameter category P and no extranaturality-in-p statement. Not OUT_OF_SCOPE: parametrized adjunctions are entirely formalizable here (the library has adjunctions, product categories, opposite categories); they are simply not built. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:construction4",
+  "classification": "ABSENT",
+  "aliases": [
+   "identities 1_c form a dinatural / extranatural transformation",
+   "wedge 1 : Delta* => hom(-,-) from the one-point set to the hom-bifunctor",
+   "unit wedge of the hom-functor (f . 1_c = 1_{c'} . f)",
+   "identity-as-dinatural (dual-type) example",
+   "extranatural transformation * => Hom(-,-) : C^op x C -> Set"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom.v",
+    "line": 49,
+    "symbol": "Hom",
+    "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| ... |}  (* the hom-functor Hom(-,-) : C^op ∏ C ⟶ Sets, comment at line 13 *)"
+   },
+   {
+    "file": "Structure/Wedge.v",
+    "line": 61,
+    "symbol": "Cowedge / Wedge",
+    "intree_statement": "Definition Cowedge `(F : C^op ∏ C ⟶ D) := @Wedge (C^op) (D^op) (F^op).  (* wedge/cowedge data classes; a wedge Δw ⇒ F with legs w ~> F(x,x) and the extranaturality condition ump_wedges *)"
+   }
+  ],
+  "statement_record": {
+   "book": "In any category C the identities 1_c in hom(c,c), regarded as arrows 1_c : * -> hom(c,c) from the one-point set, are the components of a dinatural (extranatural, dual type) transformation 1 : * => hom(-,-) from the constant functor * to the hom-bifunctor hom(-,-): C^op x C -> Set; the wedge condition is exactly f . 1_c = 1_{c'} . f.",
+   "intree": "Hom : C^op ∏ C ⟶ Sets (Functor/Hom.v:49) is the exact target bifunctor; the Wedge/Cowedge classes (Structure/Wedge.v:38,61) provide the wedge notion. The identity legs (id in each hom-set) exist trivially.",
+   "strength_comparison": "intree-weaker: both the mixed-variance target functor Hom(-,-) : C^op ∏ C ⟶ Sets and the legs (identities) exist, but the specific dinatural/wedge `1 : Δ* ⇒ Hom` is never assembled and its (trivial) wedge law f∘id ≈ id∘f is never stated as a `Wedge`/`Dinatural` instance. The Dinatural class is never instantiated anywhere."
+  },
+  "gap": "The exact target hom-bifunctor Hom : C^op ∏ C ⟶ Sets (Functor/Hom.v:49) and the leg family (identity morphisms) both exist, and the Wedge/Dinatural machinery exists, but nobody constructs the wedge whose apex is the terminal/one-point object and whose legs are the identities, nor proves its extranaturality condition. No `Wedge (Hom C)` / `Dinatural`-of-constant-into-Hom instance is built.",
+  "negative_search_log": [
+   "grep -rn -i -e 'identity.*wedge' -e 'unit.*wedge' -e 'Nat.*end' -e 'end.*hom' --include=*.v . -> Theory/Coend/Yoneda.v hom-weighted (co)end reductions (C(c,-)-based, NOT the identity-to-Hom wedge), no identity-as-wedge",
+   "grep -rn 'Dinatural' non-comment -> 0 instances of the Dinatural class",
+   "grep -rn -e 'Build_Wedge' --include=*.v . -> Wedge instances only in Instance/Sets/End.v (universal end wedge), none is the identity/hom unit wedge",
+   "QA audit: rg -n 'extranatural|Wedge' Structure/Cartesian/Closed.v -> 0 hits; eval has no wedge law stated anywhere"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Both evidence citations verified exact: Functor/Hom.v:49 is 'Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {|' (the EXACT target bifunctor, contravariant-in-1st/covariant-in-2nd per its header), and Structure/Wedge.v:61 is the Cowedge definition. I independently ruled out the identity wedge hiding in the profunctor identity laws: Id_Profunctor C := Hom C (Theory/Profunctor.v:132) and the profunctor unit laws (prof_unit_left_iso/right_iso, Construction/Profunctor/Laws.v:236,395) are natural ISOS 'prof_id ∘ P ≅ P' via co-Yoneda, NOT the wedge `Δ* ⇒ Hom` with terminal apex and identity legs. No Wedge (Hom C) instance exists. Like construction2, this PARTIAL is generous (the extranaturality substance is absent), but the target functor is EXACTLY right and reusable and the identity legs are trivially present, so real material exists and the gap is stated precisely and honestly. Confirmed as PARTIAL. || RECLASSIFIED PARTIAL -> ABSENT on QA audit (decision 5.1), to agree with ledger.tsv. The Phase-D verifier confirmed PARTIAL under the phrasing 'some of the item exists + gap stated precisely', and itself flagged that call as 'on the GENEROUS end'. The GOVERNING rule is schemas.md's boundary rule: PARTIAL requires a PROVED statement covering part of the item. Neither item has one -- eval (Structure/Cartesian/Closed.v:75) is a bare Definition whose only Qed'd fact, ump_exponents, is the exponential UMP, a different statement; and for construction4 the Hom bifunctor is the SETTING of the claim, not part of it. NOTE the reason given in #570's body ('the Wedge/Cowedge classes have zero instances tree-wide') is FALSE and has been corrected: Instance/Sets/End.v:102 and Structure/Coend.v:172 both call Build_Wedge. The conclusion stands on the rule, not on that claim."
+  }
+ },
+ {
+  "id": "maclane:IX.4:def4",
+  "classification": "ABSENT",
+  "aliases": [
+   "combined multi-variable natural/dinatural transformation",
+   "transformation natural in some variables, dinatural in others",
+   "gamma : S => T for S : C^op x C x A -> B, T : A x D^op x D -> B",
+   "many-variable (extra)natural transformation, mixed variance",
+   "generalized natural transformation subsuming dinatural"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'multivariable' -e 'multi-variable' -e 'three.variable' --include=*.v . -> only prose (Construction/Product.v:50 'applies verbatim to multivariable', Structure/Premonoidal.v:96) -- no multi-variable transformation definition",
+   "Theory/Dinatural.v:51 defines Dinatural ONLY for two mixed-variance functors F,G : C^op ∏ C ⟶ D (strictly 2-variable, single dinatural slot); Theory/Natural/Transformation.v defines ordinary natural transformations. The two constituent notions exist SEPARATELY, but there is no unified transformation that is natural in one variable and dinatural in two others over 3+-variable functors S : C^op x C x A -> B, T : A x D^op x D -> B",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; no transformation class mixing naturality and dinaturality across several variables"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. My grep for 'multi.variable|combined.*natural|many.variable' found only unrelated prose (Premonoidal, CompactClosed's Kelly citation). The two constituent notions exist strictly separately: Natural/Transform (Theory/Natural/Transformation.v) and the 2-variable-single-slot Dinatural (Theory/Dinatural.v, F,G : C^op ∏ C ⟶ D). There is no unified class over 3+-variable functors mixing per-slot naturality and dinaturality. Verified Dinatural is confined to exactly one contravariant/covariant pair. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:remark1",
+  "classification": "ABSENT",
+  "aliases": [
+   "dinatural composes with genuinely natural transformations on either side",
+   "whiskering a dinatural by natural transformations preserves dinaturality",
+   "tau . alpha . sigma dinatural when sigma, tau natural in both arguments",
+   "pre/post-composition of a dinatural by a natural transformation",
+   "closure of dinaturals under natural whiskering"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'dinat.*comp' -e 'comp.*dinat' -e 'whisker.*dinat' -e 'dinat.*whisker' --include=*.v . -> only Theory/Dinatural.v:47-48 header PROSE ('Dinatural transformations do NOT compose in general ... no identity/composition structure is provided here') and unrelated hits (Traced sliding, Representable)",
+   "Theory/Dinatural.v provides Dinatural data + component setoid ONLY -- no composition operation of any kind, in particular no lemma that whiskering a Dinatural by ordinary Natural transformations on either side yields a Dinatural",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; the class is never composed with Natural transformations"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. I read Theory/Dinatural.v in full: it provides ONLY the Dinatural class (data + dinaturality hexagon) and its component setoid (Dinatural_Setoid); it deliberately supplies no identity/composition structure, and there is no lemma that whiskering a Dinatural by ordinary Natural transformations on either side yields a Dinatural. My grep for 'dinatural.*compos|compos.*dinatural|whisker.*dinatural' found only the file's own header prose. The specific closure result of remark1 (tau . alpha . sigma dinatural when sigma, tau natural) is not formalized. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:prop1",
+  "classification": "ABSENT",
+  "aliases": [
+   "diagonal composite of natural-and-dinatural families is natural",
+   "rho(c,c) then sigma(c,c) is a natural transformation R => T",
+   "composite of dinaturals along a middle variable via the diagonal",
+   "Yoneda-style composition rule for (di)natural families",
+   "R => S(-,d,d) and S(d,d,-) => T compose on the diagonal"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'diagonal composite' --include=*.v . -> only Structure/Semiadditive.v:100 (sum of diagonal composites of a biproduct matrix) and Structure/Premonoidal.v -- unrelated to dinatural composition",
+   "grep -rn -i -e 'dinat.*comp' -e 'comp.*dinat' --include=*.v . -> only Theory/Dinatural.v header prose; no theorem",
+   "no functor S : C x C^op x C -> B (three-variable) nor a composition theorem producing a Natural transformation from natural-in-c/dinatural-in-d families; Dinatural class never instantiated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. My grep for 'diagonal.*natural|diagonal composite|dinat.*comp' surfaced only the monoidal-diagonal 'diagonal_natural' lemmas (Structure/Group/Proofs.v, Structure/Monoidal/Collapse.v -- about the copy map Δ, unrelated) and Semiadditive's biproduct-matrix 'diagonal composite' (unrelated). There is no three-variable functor S : C x C^op x C -> B and no theorem producing a Natural transformation R => T from natural-in-c/dinatural-in-d families. Proposition 1's composition result is not formalized. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex1",
+  "classification": "ABSENT",
+  "aliases": [
+   "unit of a parametrized adjunction is dinatural in the parameter",
+   "eta_x : x -> G(p, F(x,p)) dinatural in p",
+   "dinaturality of unit equivalent to naturality of parametrized adjunction",
+   "adjunction with a parameter, unit extranatural",
+   "dual of construction3 for the unit"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'parametr' -e 'with a parameter' -e 'F(x,p)' --include=*.v . -> no parametrized adjunction (only Reynolds parametricity)",
+   "ordinary adjunction unit exists (Theory/Adjunction.v, `unit`/`counit`, triangle identities) but there is no parameter category P, no family of adjunctions, and no dinaturality-in-p statement",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; the unit of any adjunction is never exhibited as dinatural"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. This exercise presupposes the parametrized adjunction of construction3, which I independently verified does not exist in-tree (no 'adjunction with a parameter'; only Reynolds parametricity). Ordinary adjunction units exist (Theory/Adjunction.v) but no P-indexed family and no dinaturality-in-p statement. Not OUT_OF_SCOPE (fully formalizable). ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex2",
+  "classification": "ABSENT",
+  "aliases": [
+   "triangle identities for an adjunction with a parameter",
+   "parametrized triangular identities / zig-zag with parameter p",
+   "counit-unit coherence for a two-variable adjunction",
+   "triangle laws for F : X x P -> A, G : P^op x A -> X",
+   "parametrized zig-zag equations"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'triangle' --include=*.v Theory/Adjunction.v -> ordinary triangle (zig-zag) identities only: counit_fmap_unit ε ∘ fmap[F] η ≈ id, fmap_counit_unit (Theory/Adjunction.v:21,49)",
+   "grep -rn -i -e 'parametr' -e 'with a parameter' --include=*.v . -> no parametrized adjunction, hence no parametrized triangle identities",
+   "the triangle identities are formalized ONLY for a single ordinary adjunction, never for a P-indexed family / two-variable adjunction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. Depends on the (absent) parametrized adjunction of construction3. Ordinary zig-zag/triangle identities exist only for a single adjunction (Theory/Adjunction.v); no P-indexed / two-variable adjunction and hence no parametrized triangle identities. My parametrized-adjunction searches returned nothing. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex3",
+  "classification": "ABSENT",
+  "aliases": [
+   "dinaturality by separation of arguments",
+   "jointly dinatural iff dinatural in c for each d and in d for each c",
+   "beta : S(c,d,c,d) => b wedge separation over C x D",
+   "dinaturality in a product variable factors into each factor",
+   "separate vs joint extranaturality"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i -e 'multi-variable' -e 'three.variable' -e 'separation' -e 'jointly' --include=*.v . -> no multi-variable dinaturality statement",
+   "Theory/Dinatural.v (and Structure/Wedge.v) provide only single-slot dinaturality over C^op ∏ C ⟶ D; there is no functor S : (CxD)^op x C x D -> B nor any lemma equating joint dinaturality with per-factor dinaturality",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; no 'dinatural in each argument separately' API"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. Theory/Dinatural.v and Structure/Wedge.v provide only single-slot dinaturality over C^op ∏ C ⟶ D. There is no functor S : (CxD)^op x C x D -> B and no lemma equating joint dinaturality with per-factor dinaturality (the content of ex3). My searches for multi-variable/separation dinaturality found nothing. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex4",
+  "classification": "ABSENT",
+  "aliases": [
+   "composition rule for more factors (odd number of C)",
+   "extend Proposition 1 to S : C x C^op x C x C^op x C -> B",
+   "iterated diagonal composition of dinaturals",
+   "many-slot dinatural composition along middle variables",
+   "generalized Yoneda composition, 2n+1 factors"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "this exercise extends prop1 (maclane:IX.4:prop1), which is itself ABSENT (no diagonal-composite-of-(di)natural-families theorem in-tree)",
+   "grep -rn -i -e 'diagonal composite' -e 'dinat.*comp' --include=*.v . -> only Semiadditive/Premonoidal (unrelated) and Dinatural.v header prose",
+   "no multi-factor functor C^op ∏ C ∏ ... nor any iterated dinatural composition; Dinatural never instantiated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. ex4 extends Proposition 1 (prop1), which I independently verified is absent (no dinatural-composition theorem). There is no multi-factor functor over several C/C^op slots and no iterated dinatural composition anywhere. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex5",
+  "classification": "ABSENT",
+  "aliases": [
+   "dinatural transformations need not compose",
+   "b => S and S => b' have no well-defined composite b -> b'",
+   "failure of composition of dinaturals / wedges",
+   "counterexample to dinatural composition",
+   "non-composability of extranatural transformations"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "Theory/Dinatural.v:47-48 STATES the fact in a header comment ('Dinatural transformations do NOT compose in general (the composite of two dinaturals need not be dinatural), which is why no identity/composition structure is provided here') -- but this is prose justification, NOT a formalized proof or counterexample",
+   "grep -rn -i -e 'dinat.*comp' -e 'not.*compose' -e 'counterexample' --include=*.v . -> no lemma/example demonstrating the non-composability (no wedge b => S, no wedge S => b', no proof their composite is ill-defined)",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; the class carries only data + component setoid, deliberately no composition, but the exercise's content (exhibiting the failure) is not formalized"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. I read Theory/Dinatural.v:47-48 directly: the non-composability is stated as HEADER PROSE ('Dinatural transformations do NOT compose in general ... which is why no identity/composition structure is provided here'), which is why the class deliberately carries no composition. But ex5 asks to SHOW/exhibit the failure (a specific b => S, S => b' with no well-defined composite), and that demonstration is not formalized (no such lemma or counterexample). A prose remark motivating an omission is not a formalization of the exercise's content. ABSENT stands."
+  }
+ },
+ {
+  "id": "maclane:IX.4:ex6",
+  "classification": "ABSENT",
+  "aliases": [
+   "general composition rule for many-variable natural transformations",
+   "unified composition law for mixed natural/dinatural transformations",
+   "generalizing Exercises 3 and 4",
+   "calculus of composing (extra)natural transformations in many variables",
+   "graphical/string-diagram composition of dinaturals"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "depends on the multi-variable combined transformation (maclane:IX.4:def4, ABSENT) and the composition rules (ex3, ex4, prop1, all ABSENT)",
+   "grep -rn -i -e 'multi-variable' -e 'compose.*natural' -e 'dinat.*comp' --include=*.v . -> no general composition framework for many-variable (di)natural transformations",
+   "grep -rn 'Dinatural' non-comment -> 0 instances; the library has no calculus for composing mixed natural/dinatural transformations in several variables"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search confirms ABSENT. ex6 depends on def4 (combined multi-variable transformation), ex3, ex4, and prop1 -- all independently verified ABSENT in this batch. There is no general calculus for composing mixed natural/dinatural transformations in several variables. ABSENT stands."
+  }
+ }
+]

@@ -1,0 +1,216 @@
+[
+  {
+    "id": "awodey:1.3:def1",
+    "classification": "PRESENT",
+    "aliases": ["category", "Category (typeclass)", "E-category / setoid-enriched category", "Definition 1.1 (objects, arrows, dom/cod, composition, identity, associativity, unit laws)", "metacategory made concrete"],
+    "evidence": [
+      {"file": "Theory/Category.v", "line": 111, "symbol": "Category",
+       "intree_statement": "Class Category := { obj : Type; hom : obj -> obj -> uhom; homset : forall X Y, Setoid (X ~> Y); id {x} : x ~> x; compose {x y z} (f: y ~> z)(g : x ~> y) : x ~> z; compose_respects; id_left : id ∘ f ≈ f; id_right : f ∘ id ≈ f; comp_assoc : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym }"}
+    ],
+    "statement_record": {
+      "book": "A category consists of objects and arrows; each arrow has a domain and codomain, composable arrows have a composite, each object has an identity, and composition is associative with the identities as two-sided units.",
+      "intree": "Class Category := { obj; hom : obj→obj→uhom; homset : ∀ X Y, Setoid (X ~> Y); id {x}: x ~> x; compose {x y z}(f:y~>z)(g:x~>y): x ~> z; id_left : id ∘ f ≈ f; id_right : f ∘ id ≈ f; comp_assoc : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym }",
+      "strength_comparison": "same — the only departures are faithful presentational choices: hom-sets are setoids so morphism equality is a chosen ≈ instead of Coq's = (the standard E-category / setoid rephrasing the task deems faithful), and comp_assoc_sym is a redundant mirror of associativity kept so that C^op^op = C holds definitionally. dom/cod are derived (dom f := x, cod f := y)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently located Theory/Category.v:111 Class Category and I read the full class body (lines 111-137): obj, hom (into uhom), homset (Setoid), id, compose, compose_respects, id_left, id_right, comp_assoc, plus comp_assoc_sym. Quote accurate; dom/cod really are derived fields (dom {x y} f := x; cod := y, lines 127-128). Faithful setoid rephrasing. File registered in _CoqProject and compiled (.vo present)."}
+  },
+  {
+    "id": "awodey:1.4:construction-sets",
+    "classification": "PARTIAL",
+    "aliases": ["Sets", "category of sets and functions", "Set", "Sets_fin / FinSet (finite sets)", "category of setoids (Bishop sets)", "Coq / Ens (types-and-functions, Ensembles)", "wide subcategory by arrow (fibre-cardinality) restriction"],
+    "evidence": [
+      {"file": "Instance/Sets.v", "line": 188, "symbol": "Sets",
+       "intree_statement": "Program Definition Sets : Category := {| obj := SetoidObject; hom := λ x y, SetoidMorphism x y; homset := SetoidMorphism_Setoid; id := setoid_morphism_id; compose := setoid_morphism_compose |}"},
+      {"file": "Instance/FinSet.v", "line": 116, "symbol": "FinSet",
+       "intree_statement": "Program Definition FinSet : Category (\"the skeleton of the category of finite sets: the objects are the natural numbers\" — objects = cardinalities, morphisms = functions)"},
+      {"file": "Instance/Coq.v", "line": 120, "symbol": "Coq",
+       "intree_statement": "Program Instance Coq : Category (bare Coq types and functions, the classical Set analogue)"},
+      {"file": "Instance/Ens.v", "line": 34, "symbol": "Ens",
+       "intree_statement": "Program Definition Ens : Category (sets-as-Ensembles and functions)"}
+    ],
+    "statement_record": {
+      "book": "The category Sets of all sets and functions, and Sets_fin of finite sets; plus arrow-restricted categories of sets: finite sets with injective functions, and sets with functions whose fibres f⁻¹(b) are all size ≤ 2, all finite, or all infinite.",
+      "intree": "Program Definition Sets : Category (setoids and setoid maps); Program Definition FinSet : Category (skeletal finite sets, objects = naturals); also Coq (types+functions) and Ens (Ensembles).",
+      "strength_comparison": "intree-weaker: the two principal categories are present — Sets as the category of setoids (the zero-axiom constructive Set; the bare-type variant Coq and the Ensembles variant Ens also exist), and Sets_fin as the skeletal FinSet (equivalent to finite-sets-and-functions). The four arrow-restricted subcategories of Awodey's remark are not constructed."
+    },
+    "gap": "The preimage/injective-restricted arrow subcategories are absent: (i) finite sets with only injective functions, and (ii) sets with functions whose fibres are all ≤ 2 / all finite / all infinite. Only the ambient Sets (Instance/Sets.v; Coq, Ens) and the skeletal FinSet (Instance/FinSet.v) are in-tree. FinSet is a skeleton (objects = naturals) rather than the non-skeletal Sets_fin, but the two are equivalent.",
+    "negative_search_log": [
+      "grep -rn 'injective function.*categor|fibre|fiber.*<= 2|preimage.*restrict' — no arrow-restricted-set category found",
+      "enumerated all '<name> : Category' definitions in the tree: Sets, FinSet, Coq, Ens present; no restricted-arrow set category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independently confirmed all four Category defs at the cited lines: Sets (Instance/Sets.v:188 Program Definition Sets@{o so} : Category), FinSet (Instance/FinSet.v:116, header 'skeletal category of finite sets, objects are the natural numbers'), Coq (Instance/Coq.v:120 Program Instance Coq : Category), Ens (Instance/Ens.v:34 Program Definition Ens : Category) — all registered/compiled. Independently confirmed the preimage/injective-restricted arrow subcategories are ABSENT: my own grep for injective/fibre-size-restricted subcategories returned only unrelated pushout-connected-component and coend fibre-equivalence hits. PARTIAL with the stated gap is correct and honest."}
+  },
+  {
+    "id": "awodey:1.4:construction-structured-sets",
+    "classification": "PARTIAL",
+    "aliases": ["concrete category of structured sets", "structure-preserving maps", "Grp / category of groups & homomorphisms", "Vect / vector spaces & linear maps", "Graphs / quivers & graph homomorphisms", "Top / topological spaces & continuous maps", "Mon / monoids", "Pos / posets & monotone maps"],
+    "evidence": [
+      {"file": "Construction/Free/Quiver.v", "line": 358, "symbol": "QuiverCategory",
+       "intree_statement": "#[export] Instance QuiverCategory : Category (header: \"Quivers and their homomorphisms form the category QuiverCategory\"; Quiver = vertices/edges with source/target, QuiverHomomorphism = graph homomorphism)"},
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 83, "symbol": "Mon",
+       "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := λ X Y, { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |}"},
+      {"file": "Instance/CMon.v", "line": 140, "symbol": "CMon",
+       "intree_statement": "Program Definition CMon : Category (commutative monoids over setoids and monoid homomorphisms)"}
+    ],
+    "statement_record": {
+      "book": "Concrete categories whose objects are structured sets and whose arrows are structure-preserving functions: groups & homomorphisms; vector spaces & linear maps; graphs & graph homomorphisms; ℝ & continuous maps; open subsets of ℝ & continuous maps; topological spaces & continuous maps; manifolds & smooth maps; ℕ & recursive functions; posets & monotone maps.",
+      "intree": "QuiverCategory (directed graphs & graph homomorphisms); Mon (monoids & monoid homomorphisms, over any base C); CMon (commutative monoids). The pattern 'sigma-packaged structured objects + structure-preserving morphisms + forgetful functor' is the shared shape (cf. Construction/Subcategory.v).",
+      "strength_comparison": "intree-weaker: the general 'concrete category of structured sets' pattern is realized, and exactly one of Awodey's nine named examples — graphs & graph homomorphisms — is present in full as QuiverCategory. Monoids/commutative monoids (Mon, CMon) further witness the pattern (though monoids are Awodey's separate §1.4 entry). None of groups & homomorphisms, vector spaces & linear maps, ℝ / open-subsets-of-ℝ / topological-spaces & continuous maps, manifolds & smooth maps, or ℕ & recursive functions has an in-tree category, and there is no Pos (posets & monotone maps) category."
+    },
+    "gap": "Of Awodey's nine structured-set examples, only graphs & graph homomorphisms (QuiverCategory) is in-tree. Absent as categories: groups & homomorphisms (only an internal GroupObject class in Structure/Group.v, not a concrete Grp); vector spaces & linear maps; ℝ, open subsets of ℝ, topological spaces & continuous maps; manifolds & smooth maps; ℕ & recursive functions; posets & monotone maps (see construction-pos). The library has no topology/analysis/linear-algebra layer.",
+    "negative_search_log": [
+      "grep -rn 'category of groups|category of vector|category of topological|category of graphs|VectorSpace|LinearMap|continuous map|recursive function|smooth map|manifold' — only prose mentions (enrichment-base examples), no such category",
+      "grep -rn 'Program Definition Grp|Definition Grp|Groups : Category|Vect|Top ' — no concrete Grp/Vect/Top category; Structure/Group.v defines Class GroupObject (a group OBJECT internal to a cartesian-monoidal category), not the category of groups"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified QuiverCategory (Construction/Free/Quiver.v:358 #[export] Instance QuiverCategory : Category, header 'Quivers and their homomorphisms form the category [QuiverCategory] (the Quiv of the literature)'), Mon (Theory/Algebra/Monoid/Hom.v:83 Program Definition Mon : Category), CMon (Instance/CMon.v) — all registered/compiled. PARTIAL is correct; vector spaces / topological spaces / manifolds / ℝ / continuous / recursive functions are genuinely absent (my blind grep corroborates: prose-only). COVERAGE OMISSION (does not change the classification): the record missed Instance/Comp.v `Algs : Category` (line 151; obj := OpAlgebra S — the category of op-algebras of an ARBITRARY algebraic signature with homomorphisms; a general concrete-structured-sets witness) and its `GroupOp`/`GroupEq`/`Group` presentation (Comp.v:298/358/382). Important caveat preserving the gap's accuracy: `Group := Algebra GroupOp GroupEq` (Comp.v:382) is only the predicate/type of equational algebras — NO category over equational (law-satisfying) algebras is assembled, and `Algs` is over op-algebras (operations, no laws) — so the record's 'no concrete Grp' stays true. The core gap (no topology/analysis/linear-algebra layer; none of the specific named examples beyond graphs) is unchanged, so PARTIAL stands."}
+  },
+  {
+    "id": "awodey:1.4:def-poset",
+    "classification": "PRESENT",
+    "aliases": ["poset", "partially ordered set", "antisymmetric preorder", "monotone map / monotone function", "order-preserving map"],
+    "evidence": [
+      {"file": "Instance/Poset.v", "line": 116, "symbol": "Poset",
+       "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P"},
+      {"file": "Construction/Enriched/Two.v", "line": 175, "symbol": "MonotoneMap",
+       "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) }"},
+      {"file": "Construction/Enriched/Two.v", "line": 183, "symbol": "EnrichedFunctor_Two_monotone",
+       "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 ... ↔ MonotoneMap P Q (a functor between the order categories is exactly a monotone map)"}
+    ],
+    "statement_record": {
+      "book": "A poset is a set A with a relation ≤ that is reflexive, transitive, and antisymmetric. An arrow of posets is a monotone function m: a ≤ a' implies m(a) ≤ m(a').",
+      "intree": "Definition Poset {C} `{R:relation C} `(P:PreOrder R) `{Antisymmetric C eq eq_equiv R} : Category := Proset P; Record MonotoneMap := { mono_map; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x)(mono_map y) }",
+      "strength_comparison": "same — a poset is exactly a PreOrder (reflexive+transitive) together with Antisymmetric (w.r.t. Leibniz eq), matching Awodey verbatim; the monotone-map condition mono_le is exactly 'a ≤ a' ⇒ m a ≤ m a''. Presentational note: MonotoneMap is stated over TwoPreorder (a decidable preorder packaged for enrichment over the arrow category 2); monotone maps between arbitrary posets are equally realized as functors between the induced thin categories (Poset P), the two identified by EnrichedFunctor_Two_monotone."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read Instance/Poset.v:116 directly: Poset {C} (P : PreOrder R) (Antisymmetric ... R) := Proset P — precisely reflexive+transitive (PreOrder) + antisymmetric, matching Awodey. Read Construction/Enriched/Two.v:175 (Record MonotoneMap: mono_map + mono_le, the exact monotonicity condition) and :183 (EnrichedFunctor_Two_monotone, functor↔monotone-map bijection). strength_comparison is honest about MonotoneMap being over TwoPreorder (decidable preorders) and about monotone-maps-between-posets = functors between thin categories. Faithful categorical/setoid rephrasing. PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:1.4:construction-pos",
+    "classification": "PARTIAL",
+    "aliases": ["Pos", "category of posets", "posets and monotone maps", "Ord (category of preorders)", "order category"],
+    "evidence": [
+      {"file": "Instance/Poset.v", "line": 116, "symbol": "Poset",
+       "intree_statement": "Definition Poset ... : Category := Proset P (each poset IS a thin category; the objects of a would-be Pos). Header line 22 references '[Pos], the category of posets ... whose morphisms are monotone maps' but no such object is defined."},
+      {"file": "Construction/Enriched/Two.v", "line": 175, "symbol": "MonotoneMap",
+       "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map; mono_le ... } (the arrows of a would-be Pos; identity/composition of monotone maps obtainable via functor Id/Compose)"},
+      {"file": "Instance/Cat.v", "line": 142, "symbol": "Cat",
+       "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; ... } — Pos would be the full subcategory of Cat on skeletal thin categories (Construction/Subcategory.v provides full subcategories), but is not carved out."}
+    ],
+    "statement_record": {
+      "book": "Posets and monotone functions form a category Pos: identity functions are monotone and composites of monotone functions are monotone.",
+      "intree": "No `Pos : Category` object. Ingredients only: Poset (posets as thin categories), MonotoneMap (monotone maps), Id/Compose (functors — hence monotone identities and monotone composites), Cat + Construction/Subcategory.v (in which Pos would be the full subcategory on skeletal thin categories).",
+      "strength_comparison": "intree-weaker: the category Pos is never assembled. `[Pos]` (Instance/Poset.v:22) and `[Ord]` (Instance/Proset.v:19) appear only as aspirational comment references. All constituents exist — objects (posets as thin categories), arrows (MonotoneMap; equivalently functors between thin categories), and the closure facts that identities and composites of monotone maps are monotone (the identity and composite functors) — but no `Pos : Category` bundles them."
+    },
+    "gap": "No `Pos`/`Ord` category (objects = posets, arrows = monotone maps) is defined; the names occur only in comments. Constructible from in-tree parts — posets-as-thin-categories (Instance/Poset.v), monotone maps (MonotoneMap, or functors between thin categories), monotone identity/composition (functor Id/Compose in Theory/Functor.v), and full subcategories of Cat (Construction/Subcategory.v) — but the bundling is absent.",
+    "negative_search_log": [
+      "grep -rn 'Definition Pos|Definition Ord|Pos : Category|Ord : Category|Posets : Category|Preorders : Category|category of posets|category of preordered' — 0 category definitions; only comment references '[Pos]' (Instance/Poset.v:22) and '[Ord]' (Instance/Proset.v:19)",
+      "enumerated all '<name> : Category' definitions in the tree — no Pos/Ord/Posets/Preorders; only specific posets Poset_nat, Poset_two, LessThanEqualTo_Category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My independent blind pass initially leaned ABSENT on a strict 'is the category Pos assembled?' reading, and I exhaustively confirmed no `Pos`/`Ord` category exists (whole-tree grep: only the dangling comment refs [Pos] at Instance/Poset.v:21 and [Ord] at Instance/Proset.v:19, plus unrelated stdlib `Pos` in Lib/MapDecide.v). On review I CONFIRM the classifier's PARTIAL as the better call: under the frozen definition, 'some of the item exists' genuinely holds — objects (posets as thin categories, Instance/Poset.v:116), arrows (MonotoneMap / functors between thin cats), AND the item's stated closure content ('identity functions are monotone and composites of monotone functions are monotone') are realized by functor Id/Compose — and the gap (no bundling into a single Pos : Category) is stated precisely. Minor: the [Pos] token is on Poset.v line 21 (sentence spans 21-22), not 22 as the record's evidence/log say; [Ord] at Proset.v:19 is correct. Both dangling pointers are surfaced in problems[]."}
+  },
+  {
+    "id": "awodey:1.4:construction-rel",
+    "classification": "PRESENT",
+    "aliases": ["Rel", "category of relations", "sets and binary relations", "dagger category of relations", "relational composition (relative product)"],
+    "evidence": [
+      {"file": "Instance/Rel.v", "line": 45, "symbol": "Rel",
+       "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := ... equiv f g := ∀ x y, f x y ↔ g x y; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b) |}"}
+    ],
+    "statement_record": {
+      "book": "Objects are sets; an arrow A→B is a relation R ⊆ A×B; identity is the diagonal; composition is the relative product S∘R = {(a,c) | ∃b. (a,b)∈R ∧ (b,c)∈S}. Arrows are not functions.",
+      "intree": "Program Definition Rel : Category with obj := Coq types, hom A B := A → Ensemble B (curried relation), id := Singleton (diagonal), compose f g a b := ∃ e, In (g a) e ∧ In (f e) b.",
+      "strength_comparison": "same — objects are Coq types (sets), a morphism is a curried binary relation A → Ensemble B (≡ A → B → Prop), identity is the diagonal (Singleton), composition is the existential-witness relative product, and hom-equality is pointwise ↔. The category laws are proved axiom-free."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read Instance/Rel.v:45 in full: obj := @obj Coq (Coq types), hom A B := A → Ensemble B (curried relation), homset := pointwise ↔, id := Singleton (the diagonal Δ), compose := existential-witness relative product ∃ e, In (g a) e ∧ In (f e) b. Quote accurate; all six category-law obligations discharged (Qed) with no axioms. Registered/compiled. Faithful — note Awodey leaves 'Rel is a category' as Exercise 1, whereas here it is proven directly (if anything, stronger). PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:1.4:construction-mat",
+    "classification": "ABSENT",
+    "aliases": ["Mat", "matrix category", "finite sets and natural-number matrices", "category of ℕ-matrices with matrix multiplication", "Mat(ℕ) / biproduct (additive) completion of the rig ℕ", "free biproduct/additive category on one object"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'matrix|Matrix' — only prose: Functor/Hom/Yoneda.v, Theory/Profunctor.v, Instance/ZX.v, Structure/{Semiadditive,Bicartesian,Abelian,Preadditive}.v; these describe the general biproduct-hom-as-matrix calculus in additive categories, not a concrete category of finite sets and ℕ-valued matrices",
+      "grep -rn 'Mat : Category|Definition Mat|MatN|Matrix.*Category|biproduct completion|additive completion|free biproduct|matrices form' — 0 hits",
+      "enumerated all '<name> : Category' definitions in the tree — no Mat/Matrix category (closest are CMon (comm. monoids) and FinSet (the PROP for comm. monoids, whose arrows are functions, not matrices))"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search corroborates ABSENT: no category of finite sets and ℕ-matrices. All 'matrix' hits are prose (Functor/Hom/Yoneda.v, Theory/Profunctor.v:54/64/68, Theory/Equivalence.v:87 which explicitly names 'the small category of natural numbers and matrices' only as a well-known EXAMPLE, Instance/ZX.v) describing the biproduct-hom-as-matrix calculus, not a concrete Mat category. I additionally checked Instance/Shapes.v `Vectors` (which advertises 'lengths as objects') — it is vectors-over-a-fixed-carrier (Naperian functors / tries), NOT ℕ-matrices, so it is not a counterexample. negative_search_log accurate."}
+  },
+  {
+    "id": "awodey:1.4:construction-finite",
+    "classification": "PRESENT",
+    "aliases": ["finite categories 0, 1, 2, 3", "empty category 0", "terminal / point category 1", "interval / walking-arrow category 2", "ordinal 3 / linear order a→b→c with composite a→c", "walking parallel pair (loop remark)"],
+    "evidence": [
+      {"file": "Instance/Zero.v", "line": 28, "symbol": "_0",
+       "intree_statement": "Program Definition _0 : Category := {| obj := Empty_set; hom := fun _ _ => Empty_set; homset := Morphism_equality |} (Notation \"0\")"},
+      {"file": "Instance/One.v", "line": 25, "symbol": "_1",
+       "intree_statement": "Program Definition _1 : Category := {| obj := poly_unit; hom := fun _ _ => poly_unit; id := fun _ => ttt; compose := ... ttt |} (Notation \"1\")"},
+      {"file": "Instance/Two.v", "line": 134, "symbol": "_2",
+       "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; ... |} with the single non-identity arrow TwoXY : TwoX ~> TwoY and no arrow TwoY ~> TwoX"},
+      {"file": "Theory/Metacategory.v", "line": 413, "symbol": "Three",
+       "intree_statement": "Definition Three : Category := FromArrows ThreeArrows; ThreeArrows (line 396) has identities 0,1,2 and non-identity arrows 3,4,5 with (3,4)+=>5, i.e. composite 5 = 3∘4 — the linear order 2→1→0 with composite 2→0 (Awodey's a→b→c, a→c)"},
+      {"file": "Instance/Parallel.v", "line": 80, "symbol": "Parallel",
+       "intree_statement": "Program Definition Parallel : Category (the walking parallel pair f,g : ParX ⇉ ParY — Awodey's contrasting example whose free-on-a-loop version would generate infinitely many arrows)"}
+    ],
+    "statement_record": {
+      "book": "The small finite categories 1 (one object, only its identity), 2 (two objects, one non-identity arrow), 3 (a→b, b→c and the composite a→c), 0 (empty); with the remark that a finite specification with loops (e.g. a parallel pair) generates infinitely many arrows unless cut by equations.",
+      "intree": "_0 (obj := Empty_set), _1 (obj := poly_unit, one identity arrow), _2 (TwoObj with single TwoXY : TwoX~>TwoY), Three := FromArrows ThreeArrows (metacategory table with composite 5 = 3∘4 over objects 0,1,2); Parallel = the walking parallel pair.",
+      "strength_comparison": "same — 0, 1, 2 are direct one-file constructions; 3 is the ordinal-3 linear order presented arrows-only via a metacategory (Three), the required composite a→c witnessed by the (3,4)+=>5 table entry (ThreeArrows_card_3 confirms three objects), and Instance/Parallel.v realizes Awodey's loop/parallel-pair remark. All are compiled members of _CoqProject."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified every witness at the cited line and confirmed each is a real Category: _0 (Instance/Zero.v:28, obj Empty_set, initial in Cat), _1 (Instance/One.v:25, obj poly_unit, terminal in Cat), _2 (Instance/Two.v:134 Program Definition _2 : Category, one non-identity arrow TwoXY), Three (Theory/Metacategory.v:413 Definition Three := FromArrows ThreeArrows), Parallel (Instance/Parallel.v:80). All registered in _CoqProject and compiled (.vo present). Read the ThreeArrows table (Metacategory.v:396-411): identities 0/1/2, generating arrows 3 and 4, and composite 5 via the (3,4)+=>5 entry — the length-3 chain = Awodey's a→b→c with a→c (the record's '2→1→0' is a labeling-direction detail; the chain-with-composite structure is what matters and is correct). Confirmed ThreeArrows_card_3 is GENUINELY PROVEN (Qed at Metacategory.v:525, not admitted/aborted — the only Aborts in the file, lines 430/436/442, are unrelated auxiliary counting lemmas), so the '3 objects' citation is sound. PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:1.4:def2",
+    "classification": "PRESENT",
+    "aliases": ["functor", "Functor (typeclass)", "Definition 1.2", "object+arrow map preserving identities and composition (fmap)", "homomorphism of categories"],
+    "evidence": [
+      {"file": "Theory/Functor.v", "line": 96, "symbol": "Functor",
+       "intree_statement": "Class Functor {C D} := { fobj : C → D; fmap {x y}(f : x ~> y) : fobj x ~> fobj y; fmap_respects; fmap_id : fmap (@id C x) ≈ id; fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g }"}
+    ],
+    "statement_record": {
+      "book": "A functor F : C → D sends objects to objects and arrows to arrows such that F(f:A→B):F(A)→F(B), F(g∘f)=F(g)∘F(f), and F(1_A)=1_{F(A)}.",
+      "intree": "Class Functor := { fobj : C→D; fmap {x y}(f:x~>y) : fobj x ~> fobj y; fmap_id : fmap id ≈ id; fmap_comp : fmap (f∘g) ≈ fmap f ∘ fmap g; fmap_respects }",
+      "strength_comparison": "same — fobj/fmap with fmap_id and fmap_comp reproduce Awodey exactly (≈ replacing = per the setoid convention). The extra field fmap_respects is only the congruence of fmap for ≈, which is automatic/invisible in Awodey's set-theoretic reading."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read Theory/Functor.v:96 Class Functor directly (lines 96-108): fobj : C → D; fmap {x y}(f : x ~> y) : fobj x ~> fobj y; fmap_respects (setoid congruence); fmap_id : fmap id ≈ id; fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g. Quote accurate; fmap_respects is exactly the ≈-congruence that is invisible in Awodey's set reading. Faithful. Registered/compiled. PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:1.4:construction-cat",
+    "classification": "PRESENT",
+    "aliases": ["Cat", "category of categories and functors", "category of small categories", "StrictCat (strict 1-category of categories)", "Ho(Cat) / 2-category truncation"],
+    "evidence": [
+      {"file": "Instance/Cat.v", "line": 142, "symbol": "Cat",
+       "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc }"},
+      {"file": "Instance/StrictCat.v", "line": 56, "symbol": "StrictCat",
+       "intree_statement": "Instance StrictCat : Category (the strict 1-category of categories: functor equality is on-the-nose, matching the textbook bare-name Cat — see Instance/Cat.v header on issue #138)"}
+    ],
+    "statement_record": {
+      "book": "Functors compose associatively and each category C has an identity functor 1_C, so categories and functors form a category Cat.",
+      "intree": "Instance Cat : Category := { obj := Category; hom := @Functor; id := @Id; compose := @Compose; id_left; id_right; comp_assoc }; and Instance StrictCat : Category.",
+      "strength_comparison": "same — objects are categories, morphisms are functors, identity is the identity functor Id, composition is functor composition Compose, with the category laws (fun_equiv_id_left/right, fun_equiv_comp_assoc). Instance/Cat.v takes hom-equivalence to be natural isomorphism (so its isomorphisms are equivalences of categories, i.e. Ho(Cat)); Instance/StrictCat.v is the on-the-nose strict 1-category matching Awodey's Cat exactly. Both realize the construction; size is handled by universe polymorphism (Cat sits strictly above its objects, so it is not an object of itself)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Cat (Instance/Cat.v:142 Instance Cat : Category — obj := Category, hom := @Functor, id := @Id, compose := @Compose) and StrictCat (Instance/StrictCat.v:56 Instance StrictCat : Category); both registered/compiled. strength_comparison is honest: Cat uses natural-isomorphism hom-equivalence (Ho(Cat)) while StrictCat is the on-the-nose strict 1-category matching Awodey; the size point (Cat above its objects via universe polymorphism, not an object of itself) is stated in the Cat.v header I read. PRESENT confirmed."}
+  }
+]

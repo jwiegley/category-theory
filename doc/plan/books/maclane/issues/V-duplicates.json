@@ -1,0 +1,17 @@
+[
+  {
+    "item_id": "maclane:V.1:ex8",
+    "issue": 329,
+    "append_block": "### Also covered by\n\nMacLane V.1 Exercise 8 (book p. 112, PDF p. 121; item `maclane:V.1:ex8`): **Set is cocomplete** — the category of sets has colimits of all small diagrams.\n\nThis is the same mathematical obligation as this issue's `Sets_Cocomplete : @Cocomplete Sets` goal; the draft already names Mac Lane's Exercise V.1.8 as the forward pointer it discharges. NEW aspect from §V.1: none beyond the existing scope — V.1.8 states cocompleteness of Set in full generality (**all** small colimits, `@Cocomplete Sets`), so ensure the deliverable is the general small-colimit witness (the indexed-sum-quotient construction), not only the ω-chain-union reading. Verified PARTIAL against the tree: `Structure/Complete.v:119` (`Cocomplete`) has no concrete witness, and Sets has only binary coproducts and no coequalizers (`Instance/Sets/Cocartesian.v:28`, `rg 'qualizer' Instance/` → 0 hits)."
+  },
+  {
+    "item_id": "maclane:V.2:ex3",
+    "issue": 353,
+    "append_block": "### Also covered by\n\nMacLane V.2 Exercise 3 (book p. 114, PDF p. 123; item `maclane:V.2:ex3`): **Lim and Colim as functors** `C^J ⟶ C` — every natural transformation of diagrams `β : F ⟹ F'` determines a unique arrow `Lim β` (resp. `Colim β`) making the evident square with the limiting cones commute, so over a complete (resp. cocomplete) `C` taking limits (resp. colimits) is a functor on the diagram category.\n\nThis issue already builds the limit and colimit functors `Lim[J], Colim[J] : [J, C] ⟶ C` (object part the apex, arrow part the mediating morphism) as the adjoints of the diagonal. NEW aspect from §V.2: state explicitly the exercise's functoriality-in-the-diagram form — `Lim β` as the arrow part applied to a natural transformation `β`, with its defining commuting square and uniqueness — so that Exercise V.2.3 is visibly discharged by the arrow part of `Lim[J]`/`Colim[J]` rather than left implicit."
+  },
+  {
+    "item_id": "maclane:V.4:ex4",
+    "issue": 239,
+    "append_block": "### Also covered by\n\nMacLane V.4 Exercise 4 (book p. 118, PDF p. 127; item `maclane:V.4:ex4`): **X × − on Set preserves all colimits** — for any set X the functor `X × − : Set ⟶ Set` preserves all small colimits.\n\nThis follows immediately once this issue's currying adjunction `(− × X) ⊣ (−)^X` is in place at `Sets`: `X × −` is then a left adjoint, and left adjoints preserve colimits by the in-tree `left_adjoint_preserves_colimits` (`Adjunction/Continuity.v:223`, PRESENT). NEW aspect from §V.4: add the one-line corollary — instantiate `left_adjoint_preserves_colimits` at the Sets currying adjunction (up to the symmetry of `×`) to obtain a `PreservesColimit` / `PreservesAllColimits` witness for `X × −`, which is otherwise never produced (verified PARTIAL: no tensor/exponential adjunction is currently instantiated, so no such preservation witness exists)."
+  }
+]

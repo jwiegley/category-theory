@@ -1,0 +1,281 @@
+[
+  {
+    "id": "maclane:IV.1:construction1",
+    "classification": "ABSENT",
+    "aliases": ["free vector space functor", "Vct_K / Vect / Vec category", "free module on a set", "Free ⊣ Forgetful for vector spaces", "linear extension on a basis / insertion of generators"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ln --glob '*.v' -i 'vector|Vect' -- hits are prose/essay mentions only (Structure/Abelian.v:69, Theory/Functor.v:68, Theory/Natural/Transformation.v:45, Instance/ZX.v linear-map completeness prose); no vector-space category",
+      "rg -n --glob '*.v' -i 'vector space|Vect_|Vct|linear map|free module' -- 10 hits, all inside comment essays; none defines a category of vector spaces or a free functor into one",
+      "rg -ln --glob '*.v' -i 'free vector|free abelian|free group|basis' -- hits (Theory/Universal/Arrow.v:39,45; Structure/Terminal.v:34) are historical-essay prose only",
+      "rg -ln --glob '*.v' -i 'R-Mod|module|abelian group|ring' -- no module/vector-space instance category anywhere; ls Instance/ confirms no Vect/Mod/Grp/Ab instance (algebraic instances present are CMon, FinSet, Sets, Coq, etc.)"
+    ],
+    "out_of_scope_reason": null,
+    "notes": "The general machinery this example instantiates IS in-tree (universal arrows assembling into free ⊣ forgetful adjunctions, Theory/Universal/Arrow.v; concrete witness FreeForgetfulAdjunction for quivers, Construction/Free/Quiver.v), but the item's own content — the category Vct_K and the free-vector-space adjunction Vct_K(V X, W) ≅ Set(X, U W) — has no counterpart.",
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:construction2",
+    "classification": "PRESENT",
+    "aliases": ["free category on a graph", "path category of a quiver", "Free ⊣ Forgetful Cat/Grph", "Quiv free-forgetful adjunction", "FreeCatFunctor / underlying quiver"],
+    "evidence": [
+      {"file": "Construction/Free/Quiver.v", "line": 550, "symbol": "FreeForgetfulAdjunction",
+       "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ ."},
+      {"file": "Construction/Free/Quiver.v", "line": 546, "symbol": "FreeCatFunctor",
+       "intree_statement": "Definition FreeCatFunctor : @Functor QuiverCategory StrictCat := (LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _ ))."},
+      {"file": "Construction/Free/Quiver.v", "line": 412, "symbol": "Forgetful",
+       "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory."},
+      {"file": "Construction/Free/Quiver.v", "line": 518, "symbol": "UniversalArrowQuiverCat",
+       "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful. — via universal_arrow_from_UMP with FreeOnQuiver, UnitQuiverCatAdjunction, and InducedFunctor as the unique factorization"}
+    ],
+    "statement_record": {
+      "book": "The free-category functor Grph -> Cat and the forgetful U : Cat -> Grph satisfy Cat(FG, B) ≅ Grph(G, UB), because each graph morphism G -> UB extends to a unique functor FG -> B.",
+      "intree": "FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, with FreeCatFunctor : QuiverCategory ⟶ StrictCat built from the universal arrows UnitQuiverCatAdjunction, whose UMP is exactly the unique extension of a quiver homomorphism G ⇨ U(C) to a functor FreeOnQuiver G ⟶ C (InducedFunctor, with uniqueness proved).",
+      "strength_comparison": "same — MacLane's Grph is QuiverCategory (quivers with edge setoids), his Cat is StrictCat, and the adjunction is assembled from precisely the book's unique-extension property; the setoid-enriched edges are the library's standard faithful rephrasing"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:construction3",
+    "classification": "PRESENT",
+    "aliases": ["currying bijection", "exponential adjunction (- × T) ⊣ hom(T,-)", "cartesian closed structure of Set/Sets", "exp_iso / curry / uncurry", "product-hom adjunction"],
+    "evidence": [
+      {"file": "Structure/Cartesian/Closed.v", "line": 51, "symbol": "exp_iso",
+       "intree_statement": "Class Closed := { ... exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' ... uncurry' ... eval' {x y} : y^x × x ~> y := uncurry' id; ump_exponents' : eval' ∘ first (curry' f) ≈ f }"},
+      {"file": "Instance/Sets/Cartesian/Closed.v", "line": 38, "symbol": "Sets_Closed",
+       "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ — the exponential z^y is the setoid SetoidMorphism y z; header: \"The CCC adjunction (- × y) ⊣ (- ^ y) is witnessed by [exp_iso], the bijection Hom(x × y, z) ≅ Hom(x, z^y)\""},
+      {"file": "Structure/Cartesian/Closed.v", "line": 165, "symbol": "curry_comp_l",
+       "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g). — naturality of the bijection in the first variable"},
+      {"file": "Structure/Cartesian/Closed.v", "line": 177, "symbol": "curry_comp",
+       "intree_statement": "Corollary curry_comp {x y z w : C} (f : z ~> w) (g : x × y ~> z) : curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g. — naturality in the codomain variable"}
+    ],
+    "statement_record": {
+      "book": "In Set, a two-variable function g : S × T -> R corresponds to φ(g) : S -> hom(T,R), giving hom(S × T, R) ≅ hom(S, hom(T,R)) natural in S, T, R; fixing T yields the adjunction form hom(FS, R) ≅ hom(S, GR) for F = (- × T), G = hom(T,-).",
+      "intree": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y (Closed class), instantiated for the category of setoids by Sets_Closed with curry = λx.λy. f (x,y) and uncurry its inverse; naturality in x (curry_comp_l) and in z (curry_comp, uncurry_comp_r) proved as substitution corollaries; also Coq_Closed for Coq types (Instance/Coq.v:167) and the general ClosedMonoidal reading.",
+      "strength_comparison": "same — the bijection and its naturality in S and R (the two variables the adjunction form quantifies over) are present with T fixed, exactly MacLane's adjunction reading; naturality/functoriality in the middle variable T is present only as iso-respect (exp_respects_iso) rather than a stated trifunctor naturality, and the data is packaged as the Closed class's iso family rather than as a literal Adjunction term — a presentation difference, since the hom-form Adjunction field IS such an iso family"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:construction4",
+    "classification": "PARTIAL",
+    "aliases": ["tensor-hom adjunction", "hom(A ⊗ B, C) ≅ hom(A, hom(B,C)) for modules", "monoidal closed category", "internal hom right adjoint to - ⊗ y", "SymMonClosed / ClosedMonoidal"],
+    "evidence": [
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 109, "symbol": "SymMonClosed",
+       "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj; exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; ... ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }"},
+      {"file": "Structure/Monoidal/Closed.v", "line": 56, "symbol": "exp_iso (ClosedMonoidal)",
+       "intree_statement": "Class ClosedMonoidal := { closed_is_cartesian : @CartesianMonoidal C; ... exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; ... } — header: \"The tensor-hom adjunction (- ⨂ y) ⊣ (y ⇒ -)\""}
+    ],
+    "statement_record": {
+      "book": "For modules A, B, C over a commutative ring K there is an isomorphism hom(A ⊗_K B, C) ≅ hom(A, hom_K(B, C)) natural in all three arguments.",
+      "intree": "The abstract tensor-hom adjunction exp_iso : x ⨂ y ~> z ≊ x ~> y ⇒ z exists at the right generality (SymMonClosed, over a genuine symmetric monoidal base with the cartesian requirement dropped; also ClosedMonoidal in the cartesian-monoidal case), with the transpose UMP ump_exponents'.",
+      "strength_comparison": "intree-weaker: only the parametric shape of the tensor-hom adjunction is formalized; the book's item is the concrete module instance, and no category of K-modules (or of abelian groups with ⊗) exists in-tree, so the statement is never instantiated at a non-cartesian tensor"
+    },
+    "gap": "No category R-Mod (or Ab with ⊗_Z) is formalized, hence no concrete tensor-hom isomorphism for modules; SymMonClosed has no in-tree non-cartesian instance witnessing this construction (searched: rg -i 'R-Mod|module|tensor product' — module hits are prose; rg 'SymMonClosed' — defined and consumed only by the star-autonomous development). Naturality is packaged as the per-object iso plus UMP rather than a stated three-variable naturality.",
+    "negative_search_log": [
+      "rg -ln --glob '*.v' -i 'R-Mod|module' -- all hits are comment prose (Structure/Abelian.v, Theory/Profunctor.v, ...), no module category",
+      "rg -n 'SymMonClosed' --glob '*.v' -- defined in Structure/Monoidal/StarAutonomous.v only; no concrete instance",
+      "ls Instance/ -- no Mod/Ab/Vect instance directory"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:def1",
+    "classification": "PRESENT",
+    "aliases": ["adjunction (hom-set definition)", "adjoint pair F ⊣ G via natural bijection", "hom-isomorphism form / Adjunction_Hom", "natural isomorphism of hom-bifunctors D^op × C -> Set", "adjunction naturality squares (display (2))"],
+    "evidence": [
+      {"file": "Theory/Adjunction.v", "line": 130, "symbol": "Adjunction",
+       "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := hom C (F x) y |} {| carrier := hom D x (U y) |}; to_adj_nat_l : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g; to_adj_nat_r : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋; from_adj_nat_l; from_adj_nat_r }"},
+      {"file": "Adjunction/Hom.v", "line": 72, "symbol": "Adjunction_Hom",
+       "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U } — a natural isomorphism of the two hom-bifunctors in the functor category [D^op ∏ C, Sets]"},
+      {"file": "Adjunction/Hom.v", "line": 223, "symbol": "Adjunction_Hom_to_Universal",
+       "intree_statement": "Program Definition Adjunction_Hom_to_Universal : F ⊣ U — plus Adjunction_Universal_to_Hom (line 259): the two presentations are interconvertible"}
+    ],
+    "statement_record": {
+      "book": "An adjunction from X to A is a triple <F, G, φ> with F : X -> A, G : A -> X and bijections φ_{x,a} : A(Fx, a) ≅ X(x, Ga) natural in x and a; both sides are bifunctors X^op × A -> Set, naturality being the two squares of display (2); hom-sets are assumed small, else Set is replaced by a larger Ens.",
+      "intree": "Class Adjunction: a family of isomorphisms adj {x y} : (F x ~{C}~> y) ≊ (x ~{D}~> U y) in Sets with the four naturality equations for both transposes; equivalently Class Adjunction_Hom: a single natural isomorphism of hom-bifunctors in [D^op ∏ C, Sets], with the conversions proved both ways.",
+      "strength_comparison": "same — bijections of hom-sets become isomorphisms of hom-setoids (the library's faithful setoid rephrasing); the bifunctor packaging of display (2) is literally Adjunction_Hom; MacLane's small/Ens size caveat is handled by universe polymorphism (adj lands in Sets at caller-chosen universes o3 p3, and an Ens instance exists at Instance/Ens.v)"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:def2",
+    "classification": "PRESENT",
+    "aliases": ["adjuncts / transposes", "left adjunct and right adjunct (leftAdjunct/rightAdjunct)", "arrows-only description of adjunction, displays (3)-(4)", "left adjoint / right adjoint terminology", "⌊-⌋ and ⌈-⌉ transpose naturality laws"],
+    "evidence": [
+      {"file": "Theory/Adjunction.v", "line": 141, "symbol": "to_adj_nat_l / to_adj_nat_r",
+       "intree_statement": "to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g;  to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋ — MacLane's display (3): φ(f ∘ Fh) = φ(f) ∘ h and φ(k ∘ f) = Gk ∘ φ(f)"},
+      {"file": "Theory/Adjunction.v", "line": 150, "symbol": "from_adj_nat_l / from_adj_nat_r",
+       "intree_statement": "from_adj_nat_l : ⌈f ∘ g⌉ ≈ ⌈f⌉ ∘ fmap[F] g;  from_adj_nat_r : ⌈fmap[U] f ∘ g⌉ ≈ f ∘ ⌈g⌉ — MacLane's display (4) for φ⁻¹"},
+      {"file": "Theory/Adjunction.v", "line": 357, "symbol": "F ⊣ G notation",
+       "intree_statement": "Notation \"F ⊣ G\" := (@Adjunction _ _ F G); header line 13-14: \"An adjunction F ⊣ U between F : D ⟶ C (the left adjoint) and U : C ⟶ D (the right adjoint)\""}
+    ],
+    "statement_record": {
+      "book": "Hom-set-free description: a bijection f ↦ φ(f) from arrows Fx -> a to arrows x -> Ga subject to φ(k∘f) = Gk∘φ(f) and φ(f∘Fh) = φ(f)∘h (display (3)); equivalently φ⁻¹ natural, φ⁻¹(g∘h) = φ⁻¹(g)∘Fh and φ⁻¹(Gk∘g) = k∘φ⁻¹(g) (display (4)). F is a left adjoint for G, G a right adjoint for F.",
+      "intree": "The transposes ⌊-⌋ := to adj and ⌈-⌉ := from adj with exactly the four arrows-only laws to_adj_nat_l/to_adj_nat_r (display (3)) and from_adj_nat_l/from_adj_nat_r (display (4)), the latter kept as fields precisely so both directions are primitive; left/right-adjoint terminology and the ⊣ notation.",
+      "strength_comparison": "same — the four displayed equations are the class's four naturality fields verbatim (up to ≈ for =), and Build_Adjunction' proves the book's remark that the φ⁻¹ laws are derivable from the φ laws"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:thm1",
+    "classification": "PRESENT",
+    "aliases": ["unit and counit of an adjunction", "η = φ(1) universal arrow, ε = φ⁻¹(1)", "triangle identities / zig-zag identities (display (8))", "φf = Gf ∘ η and φ⁻¹g = ε ∘ Fg (displays (6),(7))", "unit/counit naturality"],
+    "evidence": [
+      {"file": "Theory/Adjunction.v", "line": 214, "symbol": "unit / counit",
+       "intree_statement": "Definition unit {x : D} : x ~> U (F x) := ⌊id⌋.  Definition counit {x : C} : F (U x) ~> x := ⌈id⌉."},
+      {"file": "Theory/Adjunction.v", "line": 264, "symbol": "to_adj_unit / from_adj_counit",
+       "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : ⌊f⌋ ≈ fmap[U] f ∘ η  (display (6));  Corollary from_adj_counit {x y} (f : x ~> U y) : ⌈f⌉ ≈ ε ∘ fmap[F] f  (display (7))"},
+      {"file": "Theory/Adjunction.v", "line": 280, "symbol": "counit_fmap_unit / fmap_counit_unit",
+       "intree_statement": "Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x].  Corollary fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x]. — the identity composites of display (8)"},
+      {"file": "Adjunction/Natural/Transformation/Universal.v", "line": 84, "symbol": "Adjunction_to_Transform",
+       "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U — packages η and ε as genuine natural transformations Id ⟹ U ◯ F and F ◯ U ⟹ Id (naturality obligations discharged from adj naturality)"},
+      {"file": "Theory/Adjunction.v", "line": 195, "symbol": "adj_univ",
+       "intree_statement": "Corollary adj_univ `(f : F x ~> y) (g : x ~> U y) : f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g — with to_adj_unit this is the unique factorization g ≈ fmap[U] f ∘ η through η, i.e. η's universality"}
+    ],
+    "statement_record": {
+      "book": "Every adjunction <F,G,φ> determines a unit η : I -> GF with η_x = φ(1) a universal arrow from x to G and φ(f) = Gf ∘ η_x, and a counit ε : FG -> I with ε_a = φ⁻¹(1) universal from F to a and φ⁻¹(g) = ε_a ∘ Fg; both composites Gε∘ηG and εF∘Fη are identities.",
+      "intree": "unit := ⌊id⌋ and counit := ⌈id⌉ with naturality (unit_comp/counit_comp componentwise; Adjunction_to_Transform as bundled natural transformations), the transpose formulas to_adj_unit (φf = Gf∘η) and from_adj_counit (φ⁻¹g = ε∘Fg), and the triangle identities counit_fmap_unit / fmap_counit_unit.",
+      "strength_comparison": "same — every clause has a named in-tree counterpart; the one presentational difference is that η_x's universality is carried by the transposition-iso API (adj_univ + to_adj_unit give existence and uniqueness of the factorization) rather than packaged as a literal UniversalArrow instance, an equivalent formulation"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:thm2",
+    "classification": "PARTIAL",
+    "aliases": ["equivalent determinations of an adjunction", "adjunction from unit universal arrows / from counit couniversal arrows", "unit-counit ⇔ hom-set equivalence", "triangular identities determine the adjunction", "AdjunctionFromUniversalArrows / Adjunction_from_Transform"],
+    "evidence": [
+      {"file": "Adjunction/Natural/Transformation/Universal.v", "line": 42, "symbol": "Adjunction_from_Transform",
+       "intree_statement": "Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U — clause (v) ⇒ adjunction; Adjunction_to_Transform (line 84) is the converse, so the unit/counit data with the two triangle identities completely determines the hom-form"},
+      {"file": "Adjunction/Natural/Transformation.v", "line": 35, "symbol": "Adjunction_Transform",
+       "intree_statement": "Class Adjunction_Transform := { unit : Id ⟹ U ◯ F; counit : F ◯ U ⟹ Id; counit_fmap_unit {X} : transform[counit] (F X) ∘ fmap[F] (transform[unit] X) ≈ id; fmap_counit_unit {X} : ... ≈ id } — exactly the data list (v) with the triangular identities (9)"},
+      {"file": "Theory/Universal/Arrow.v", "line": 185, "symbol": "LeftAdjointFunctorFromUniversalArrows",
+       "intree_statement": "Definition LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Functor C D — clause (ii): the functor U alone plus a universal arrow at each object determines the left adjoint's object AND arrow function (fmap is the unique factorization)"},
+      {"file": "Theory/Universal/Arrow.v", "line": 214, "symbol": "AdjunctionFromUniversalArrows",
+       "intree_statement": "Definition AdjunctionFromUniversalArrows (H: forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U — with φ recovered as fmap[U] g ∘ arrow, i.e. the book's φf = Gf ∘ η_x"},
+      {"file": "Adjunction/Hom.v", "line": 154, "symbol": "Adjunction_Hom_to_Transform / Adjunction_Transform_to_Hom / Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom",
+       "intree_statement": "The four conversions closing the triangle between the hom-bifunctor form, the unit/counit form, and the hom-setoid form (lines 154, 161, 223, 259)"},
+      {"file": "Theory/Adjunction.v", "line": 404, "symbol": "left_adjoint_iso",
+       "intree_statement": "Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F' — the 'completely determined (up to natural isomorphism)' content"}
+    ],
+    "statement_record": {
+      "book": "An adjunction <F,G,φ> is completely determined by any of five data lists: (i) F, G, η with each η_x universal; (ii) G alone with objects F₀x and universal arrows η_x : x -> GF₀x; (iii) F, G, ε with each ε_a universal from F; (iv) F alone with objects G₀a and universal arrows ε_a : FG₀a -> a; (v) F, G, η, ε with both triangular identities (9).",
+      "intree": "Clause (v) ⇔ hom-form: Adjunction_from_Transform / Adjunction_to_Transform (plus the Adjunction_Hom conversions). Clause (ii) ⇒ full adjunction: universal_arrow_from_UMP + LeftAdjointFunctorFromUniversalArrows + AdjunctionFromUniversalArrows, including the unique determination of F's arrow function. Determination up to iso: left_adjoint_iso / right_adjoint_iso.",
+      "strength_comparison": "intree-weaker: the unit-side and unit/counit-side determinations are complete with all round trips, but the counit-side clauses (iii)/(iv) have no explicit in-tree statement — there is no dual RightAdjointFunctorFromCouniversalArrows assembly (rg 'RightAdjoint|couniversal' → 0 hits); they are mechanically derivable via Adjunction/Opposite.v (Opposite_Adjunction, line 34, with the involution Opposite_Adjunction_invol) but nowhere recorded; clause (i) as a separate statement (η with both functors given) is subsumed by (ii) + left_adjoint_iso rather than stated"
+    },
+    "gap": "Clauses (iii) and (iv) — determination by the counit alone / by F plus couniversal arrows ε_a : F G₀ a ~> a — are not stated in-tree (only obtainable by manually dualizing the universal-arrow assembly through Adjunction/Opposite.v); clause (i) is not separated from clause (ii).",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'RightAdjoint' -- 0 hits (no counit-side assembly)",
+      "rg -n --glob '*.v' -i 'couniversal|CoUniversal' -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:construction5",
+    "classification": "PARTIAL",
+    "aliases": ["product right adjoint to diagonal Δ ⊣ ×", "coproduct left adjoint to diagonal (+) ⊣ Δ", "Diagonal_Product_Adjunction", "limits as adjoints of the constant/diagonal functor", "C(c,a) × C(c,b) ≅ C(c, a×b)"],
+    "evidence": [
+      {"file": "Adjunction/Diagonal/Product.v", "line": 36, "symbol": "Diagonal_Product_Adjunction",
+       "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |}; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} } — the bijection (Δx ~> p) ≅ (x ~> fst p × snd p), with φ⁻¹ f = (pf, qf) exactly as in the book"},
+      {"file": "Adjunction/GAFT/Examples.v", "line": 108, "symbol": "diagonal_product_via_gaft",
+       "intree_statement": "Definition diagonal_product_via_gaft : { F : C ⟶ C ∏ C & F ⊣ InternalProductFunctor C } := GAFT_from_initials ... — reconstructs the adjunction from the universal arrows δ = id △ id (Theorem 2 (ii)/(iv) applied, as the book prescribes), with diagonal_product_via_gaft_is_diagonal (line 121) : projT1 ... ≈ Diagonal_Product C"}
+    ],
+    "statement_record": {
+      "book": "If C has binary products, product becomes a functor C × C -> C right adjoint to the diagonal Δ, with φ : C(c,a) × C(c,b) ≅ C(c, a×b), counit the projection pair and φ⁻¹ f = <pf, qf>; dually binary coproducts give a functor left adjoint to Δ; all other limits similarly become adjoints when they always exist.",
+      "intree": "Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) in hom-form with transposes literally the pairing and the projection-splitting; plus the GAFT reconstruction from the diagonal universal arrows with the reflector proven ≅ Δ.",
+      "strength_comparison": "intree-weaker: the product half is present at full strength (and derived twice, directly and via universal arrows), but the dual coproduct half (+) ⊣ Δ is not constructed — Adjunction/GAFT/Examples.v's header explicitly notes feeding Δ to GAFT 'would instead reconstruct the coproduct adjunction [(+) ⊣ Δ]' without doing so — and the closing generalization (limits/colimits as adjoints of Δ : C -> C^J) exists only as prose (Structure/Limit.v line 80-81, Theory/Kan/Extension.v header)"
+    },
+    "gap": "No in-tree coproduct-diagonal adjunction instance ((+) ⊣ Δ; rg -i 'coproduct' Adjunction/ finds only the prose mention), and no general Colim ⊣ Δ ⊣ Lim adjunction over C^J (limits exist via Structure/Limit.v but are not assembled into a functor adjoint to the diagonal; only preservation theorems in Adjunction/Continuity.v exist at that level).",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'coproduct' Adjunction/ Functor/ -- no coproduct adjunction; Functor/Coproduct.v is the codiagonal out of the coproduct CATEGORY, a different thing (its header says so)",
+      "rg -n --glob '*.v' -i 'Lim.*⊣|⊣.*Lim|Limit_Adjunction|Colimit_Adjunction' -- 0 adjunction instances; only Adjunction/Continuity.v preservation results"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:cor1",
+    "classification": "PRESENT",
+    "aliases": ["uniqueness of left adjoints up to natural isomorphism", "uniqueness of adjoints", "left_adjoint_iso / right_adjoint_iso", "adjoint_unique (bicategorical)", "two adjoints of the same functor are naturally isomorphic"],
+    "evidence": [
+      {"file": "Theory/Adjunction.v", "line": 404, "symbol": "left_adjoint_iso",
+       "intree_statement": "Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F'. — where ≈ on functors is Functor_Setoid's { iso : ∀ x, F x ≅ G x & naturality }, i.e. natural isomorphism (Theory/Functor.v line 148)"},
+      {"file": "Theory/Adjunction.v", "line": 364, "symbol": "right_adjoint_iso",
+       "intree_statement": "Theorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) : F ⊣ G → F ⊣ G' → G ≈ G'. — the dual, also in-tree"}
+    ],
+    "statement_record": {
+      "book": "Any two left adjoints F and F' of the same functor G are naturally isomorphic: the two universal units give a unique isomorphism θ_x : Fx ≅ F'x compatible with the units, and θ is natural.",
+      "intree": "left_adjoint_iso : F ⊣ G → F' ⊣ G → F ≈ F', with F ≈ F' unfolding to a family of isomorphisms θ_x : F x ≅ F' x together with the naturality condition; the components are built exactly as the book's transposes of the two units.",
+      "strength_comparison": "same — the headline claim is verbatim (and the dual for right adjoints is also present, plus a bicategorical generalization adjoint_unique in Theory/Bicategory/Adjunction.v); the book's side remark that θ is the UNIQUE iso compatible with the two units is not recorded as a separate uniqueness statement, but the constructed θ is that iso"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:cor2",
+    "classification": "PARTIAL",
+    "aliases": ["left adjoint exists iff X(x, G-) representable for every x", "adjoint functor via universal arrows from every object", "representability criterion for adjunctions", "AdjunctionFromUniversalArrows / GAFT_from_initials", "Representable / IsUniversalProperty"],
+    "evidence": [
+      {"file": "Theory/Universal/Arrow.v", "line": 214, "symbol": "AdjunctionFromUniversalArrows",
+       "intree_statement": "Definition AdjunctionFromUniversalArrows (H: forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U — a universal arrow to U from every object yields a left adjoint: the ⇐ direction at full strength"},
+      {"file": "Structure/UniversalProperty/Universal/Arrow.v", "line": 61, "symbol": "UniversalArrowIsUniversalProperty",
+       "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _. — with repr_functor := (Curried_Hom C c) ◯ U, i.e. a universal arrow at a IS a representation φ : D(a, -) ≅ C(c, U -) of the functor X(x, G-), the bridge between the book's two phrasings"},
+      {"file": "Adjunction/GAFT.v", "line": 181, "symbol": "GAFT_from_initials",
+       "intree_statement": "(H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U } — the same ⇐ direction packaged from comma-initial objects"},
+      {"file": "Theory/Profunctor/Adjunction.v", "line": 70, "symbol": "representable_adjunction",
+       "intree_statement": "Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) — a genuine iff, but with BOTH functors given (global two-sided representability), not the pointwise criterion of the corollary"}
+    ],
+    "statement_record": {
+      "book": "G : A -> X has a left adjoint if and only if for each x the functor X(x, G-) : A -> Set is representable; a choice of representations φ_x makes F₀ the object function of a left adjoint with adjunction φ. Equivalently: iff there is a universal arrow to G from every x.",
+      "intree": "The ⇐ direction is complete: pointwise representations (= universal arrows, by UniversalArrowIsUniversalProperty) at every object assemble into the left adjoint functor and the full adjunction (LeftAdjointFunctorFromUniversalArrows, AdjunctionFromUniversalArrows, GAFT_from_initials). The ⇒ direction (a given F ⊣ G yields a UniversalArrow c G / representation of X(c, G-) at every c) is not recorded as a statement.",
+      "strength_comparison": "intree-weaker: the corollary is an iff and only the substantive ⇐ implication is stated; the easy ⇒ implication is derivable in a line from adj_univ + to_adj_unit (η_c with the unique-factorization property) but no in-tree lemma constructs a UniversalArrow or a pointwise representation from an adjunction (the only UniversalArrow constructions are diagonal_UA and lift_universal_arrow, both from bespoke UMPs); representable_adjunction is a different (two-sided, both-functors-given) representability iff"
+    },
+    "gap": "The forward direction 'G has a left adjoint ⇒ each X(x,G-) is representable / a universal arrow exists at every x' is unstated (rg ': *A?UniversalArrow' finds no construction from an adjunction), so the corollary's iff is not assembled anywhere even though both halves' ingredients exist.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' ': *A?UniversalArrow| AUniversalArrow' -- constructions only in GAFT/Examples.v (diagonal_UA), Monad/Lifting.v (lift_universal_arrow), neither from a bare adjunction",
+      "rg -n --glob '*.v' 'HasLeftAdjoint|has_left_adjoint|IsLeftAdjoint|IsRightAdjoint' -- 0 hits (no iff-packaged existence predicate)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.1:thm3",
+    "classification": "ABSENT",
+    "aliases": ["additive functor", "adjoints of additive functors are additive", "Ab-category / Ab-enriched functor adjunction", "adjunction bijection is a group isomorphism", "enriched adjunction (Ab / CMon)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'AdditiveFunctor|Additive.*Functor|additive_functor' -- 0 hits",
+      "rg -n --glob '*.v' -i 'additive' -- hits only Structure/{Additive,Abelian,Preadditive,Semiadditive}.v and prose: additive CATEGORIES exist (Class Additive, Structure/Additive.v:34; Class Preadditive, Structure/Preadditive.v:34) but no additive-functor notion",
+      "rg -n --glob '*.v' -i 'PreadditiveFunctor|preserves.*add|additive.*adjoint|adjoint.*additive' -- 0 hits",
+      "rg -n --glob '*.v' -i 'enriched adjunction|EnrichedAdjunction' -- 0 hits (Construction/Enriched/ has V-functors and V-natural transformations but no V-adjunctions)",
+      "rg -n --glob '*.v' -i 'Ab-categor|Ab-enriched|AbCategory' -- only prose cross-references (Construction/Enriched.v:107, Structure/Preadditive.v:22)",
+      "rg -n -i 'functor' Structure/Semiadditive.v Structure/Additive.v Structure/Biproduct.v -- no functor-level additivity transfer anywhere in the additive spine"
+    ],
+    "out_of_scope_reason": null,
+    "notes": "The ingredients on the category side exist (Preadditive/Additive enrichment, hom-monoids with addition_scope), so the theorem is formalizable, but neither 'additive functor' nor the transfer theorem 'a left/right adjoint of an additive functor is additive, and φ is a homomorphism of hom-groups' has any counterpart.",
+    "verifier": null
+  }
+]

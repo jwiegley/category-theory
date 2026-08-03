@@ -1,0 +1,2072 @@
+{
+  "book": "maclane",
+  "range": {
+    "pdf_start": 64,
+    "pdf_end": 87
+  },
+  "pages": [
+    {
+      "pdf_page": 64,
+      "book_page": "55",
+      "empty": false,
+      "items": [
+        "maclane:III.1:def1"
+      ],
+      "notes": "Chapter III opener; motivational intro paragraph (not inventoried); section III.1 Universal Arrows begins; recap of free category on a graph as motivation."
+    },
+    {
+      "pdf_page": 65,
+      "book_page": "56",
+      "empty": false,
+      "items": [
+        "maclane:III.1:remark1",
+        "maclane:III.1:construction1",
+        "maclane:III.1:remark2",
+        "maclane:III.1:construction2",
+        "maclane:III.1:construction3"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 66,
+      "book_page": "57",
+      "empty": false,
+      "items": [
+        "maclane:III.1:def2",
+        "maclane:III.1:construction4",
+        "maclane:III.1:construction5"
+      ],
+      "notes": "Metric-completion example concludes at top; universal elements introduced."
+    },
+    {
+      "pdf_page": 67,
+      "book_page": "58",
+      "empty": false,
+      "items": [
+        "maclane:III.1:construction6",
+        "maclane:III.1:remark3",
+        "maclane:III.1:def3",
+        "maclane:III.1:construction7"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 68,
+      "book_page": "59",
+      "empty": false,
+      "items": [
+        "maclane:III.1:remark4",
+        "maclane:III.1:ex1",
+        "maclane:III.1:ex2",
+        "maclane:III.1:ex3",
+        "maclane:III.1:ex4",
+        "maclane:III.1:ex5",
+        "maclane:III.1:ex6",
+        "maclane:III.1:ex7",
+        "maclane:III.2:prop1"
+      ],
+      "notes": "Section III.1 exercises 1-7; terminology note ('universal arrow to/from S' rather than 'couniversal') skipped as non-mathematical; section III.2 The Yoneda Lemma begins."
+    },
+    {
+      "pdf_page": 69,
+      "book_page": "60",
+      "empty": false,
+      "items": [
+        "maclane:III.2:def1",
+        "maclane:III.2:prop2"
+      ],
+      "notes": "Proof of Proposition 1 concludes here (naturality square, display (2))."
+    },
+    {
+      "pdf_page": 70,
+      "book_page": "61",
+      "empty": false,
+      "items": [
+        "maclane:III.2:lem1",
+        "maclane:III.2:cor1",
+        "maclane:III.2:lem2",
+        "maclane:III.2:construction1"
+      ],
+      "notes": "Opening paragraph recapping that universal arrow / universal element / representable functor mutually subsume (content of prop1+prop2) not separately inventoried."
+    },
+    {
+      "pdf_page": 71,
+      "book_page": "62",
+      "empty": false,
+      "items": [
+        "maclane:III.2:remark1",
+        "maclane:III.2:ex1",
+        "maclane:III.2:ex2",
+        "maclane:III.2:ex3",
+        "maclane:III.2:ex4",
+        "maclane:III.3:def1"
+      ],
+      "notes": "Dual Yoneda functor Y' completes the construction item started on PDF 70; section III.2 exercises 1-4; section III.3 Coproducts and Colimits begins."
+    },
+    {
+      "pdf_page": 72,
+      "book_page": "63",
+      "empty": false,
+      "items": [
+        "maclane:III.3:construction1",
+        "maclane:III.3:remark1"
+      ],
+      "notes": "Coproduct definition from PDF 71 concludes (uniqueness up to iso, notation a\u2294b = a+b, hom bijection (2))."
+    },
+    {
+      "pdf_page": 73,
+      "book_page": "64",
+      "empty": false,
+      "items": [
+        "maclane:III.3:def2",
+        "maclane:III.3:def3",
+        "maclane:III.3:def4",
+        "maclane:III.3:def5",
+        "maclane:III.3:construction2"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 74,
+      "book_page": "65",
+      "empty": false,
+      "items": [
+        "maclane:III.3:remark2",
+        "maclane:III.3:def6"
+      ],
+      "notes": "Coequalizer-as-universal-arrow construction (started PDF 73) concludes; pushout definition starts at page bottom."
+    },
+    {
+      "pdf_page": 75,
+      "book_page": "66",
+      "empty": false,
+      "items": [
+        "maclane:III.3:construction3",
+        "maclane:III.3:remark3",
+        "maclane:III.3:def7"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 76,
+      "book_page": "67",
+      "empty": false,
+      "items": [
+        "maclane:III.3:def8",
+        "maclane:III.3:def9",
+        "maclane:III.3:remark4"
+      ],
+      "notes": "remark4 (nested-union colimit example) continues onto PDF 77; the section III.3 Exercises block sits at the top of PDF 77 (printed 68), OUTSIDE this range - it belongs to the agent owning PDF 77+."
+    },
+    {
+      "pdf_page": 77,
+      "book_page": "68",
+      "empty": false,
+      "items": [
+        "maclane:III.3:remark4",
+        "maclane:III.3:ex1",
+        "maclane:III.3:ex2",
+        "maclane:III.3:ex3",
+        "maclane:III.3:ex4",
+        "maclane:III.3:ex5",
+        "maclane:III.3:ex6",
+        "maclane:III.3:ex7",
+        "maclane:III.4:def1"
+      ],
+      "notes": "Top of page finishes the union-of-nested-sets colimit example that starts on PDF 76 (printed 67); that example belongs to the agent owning PDF 64-76. Section III.4 begins mid-page."
+    },
+    {
+      "pdf_page": 78,
+      "book_page": "69",
+      "empty": false,
+      "items": [
+        "maclane:III.4:remark1",
+        "maclane:III.4:remark2",
+        "maclane:III.4:def2",
+        "maclane:III.4:def3"
+      ],
+      "notes": "Displayed equations (1)-(4) of section III.4 are on this page; all legible."
+    },
+    {
+      "pdf_page": 79,
+      "book_page": "70",
+      "empty": false,
+      "items": [
+        "maclane:III.4:remark3",
+        "maclane:III.4:def4",
+        "maclane:III.4:def5",
+        "maclane:III.4:remark4"
+      ],
+      "notes": "Top of page continues maclane:III.4:def3 (indexed products) from PDF 78."
+    },
+    {
+      "pdf_page": 80,
+      "book_page": "71",
+      "empty": false,
+      "items": [
+        "maclane:III.4:def6",
+        "maclane:III.4:def7",
+        "maclane:III.4:remark5",
+        "maclane:III.4:def8",
+        "maclane:III.4:remark6"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 81,
+      "book_page": "72",
+      "empty": false,
+      "items": [
+        "maclane:III.4:ex1",
+        "maclane:III.4:ex2",
+        "maclane:III.4:ex3",
+        "maclane:III.4:ex4",
+        "maclane:III.4:ex5",
+        "maclane:III.4:ex6",
+        "maclane:III.4:ex7",
+        "maclane:III.4:ex8",
+        "maclane:III.4:ex9",
+        "maclane:III.4:ex10",
+        "maclane:III.5:def1"
+      ],
+      "notes": "Section III.5 begins at bottom of page."
+    },
+    {
+      "pdf_page": 82,
+      "book_page": "73",
+      "empty": false,
+      "items": [
+        "maclane:III.5:def2",
+        "maclane:III.5:prop1",
+        "maclane:III.5:remark1"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 83,
+      "book_page": "74",
+      "empty": false,
+      "items": [
+        "maclane:III.5:def3",
+        "maclane:III.5:remark2",
+        "maclane:III.5:ex1",
+        "maclane:III.5:ex2",
+        "maclane:III.5:ex3",
+        "maclane:III.5:ex4",
+        "maclane:III.5:ex5"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 84,
+      "book_page": "75",
+      "empty": false,
+      "items": [
+        "maclane:III.6:def1",
+        "maclane:III.6:def2",
+        "maclane:III.6:remark1",
+        "maclane:III.6:prop1"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 85,
+      "book_page": "76",
+      "empty": false,
+      "items": [
+        "maclane:III.6:remark2",
+        "maclane:III.6:ex1",
+        "maclane:III.6:ex2",
+        "maclane:III.6:ex3",
+        "maclane:III.6:ex4",
+        "maclane:III.7:thm1",
+        "maclane:III.7:construction1"
+      ],
+      "notes": "Proof of III.6 Proposition 1 concludes at top; section III.7 begins mid-page."
+    },
+    {
+      "pdf_page": 86,
+      "book_page": "77",
+      "empty": false,
+      "items": [
+        "maclane:III.7:remark1",
+        "maclane:III.7:def1"
+      ],
+      "notes": "Proof of III.7 Theorem 1 concludes here; the unnumbered end-of-chapter 'Notes.' block (historical prose on Yoneda) begins at page bottom and is not inventoried per campaign rules."
+    },
+    {
+      "pdf_page": 87,
+      "book_page": "78",
+      "empty": true,
+      "items": [],
+      "notes": "Entirely the continuation of the chapter-end 'Notes.' historical block (history of universal arrows, limits, Kan/Freyd terminology); nothing inventoriable."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:III.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "universal arrow from an object to a functor",
+      "statement_summary": "Given a functor S : D -> C and an object c of C, a universal arrow from c to S is a pair <r, u> with r an object of D and u : c -> S r such that for every object d of D and every arrow f : c -> S d there exists a unique f' : r -> d with S f' o u = f (every arrow c -> S d factors uniquely through u).",
+      "book_section": "III.1",
+      "book_page": "55",
+      "pdf_pages": [
+        64
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:III.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "universal arrow as initial object of a comma category",
+      "statement_summary": "u : c -> S r is universal from c to S exactly when <r, u> is an initial object of the comma category (c downarrow S) (objects: arrows c -> S d). Hence a universal arrow is unique up to isomorphism in (c downarrow S), and the object r is unique up to isomorphism in D.",
+      "book_section": "III.1",
+      "book_page": "56",
+      "pdf_pages": [
+        65
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "free vector space on a set as a universal arrow",
+      "statement_summary": "For U : Vect_K -> Set the forgetful functor and X a set, the vector space V_X of formal K-linear combinations of X together with the insertion-of-basis map j : X -> U(V_X) is a universal arrow from X to U: every function f : X -> U(W) extends to a unique linear map f' : V_X -> W with U f' o j = f.",
+      "book_section": "III.1",
+      "book_page": "56",
+      "pdf_pages": [
+        65
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "free algebraic constructions as universal arrows",
+      "statement_summary": "The graph morphism P : G -> U C into the free category on a graph (Theorem II.7.1, U : Cat -> Grph) is a universal arrow; likewise the generator insertions for the free monoid on a set, the free group, the free R-module over a ring R, and the polynomial algebra over a commutative ring are universal arrows to the respective forgetful functors.",
+      "book_section": "III.1",
+      "book_page": "56",
+      "pdf_pages": [
+        65
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "field of quotients as a universal arrow (and a non-existence example)",
+      "statement_summary": "For an integral domain D, the pair <Q(D), j : D -> Q(D)> (field of quotients with its embedding) is a universal arrow from D to the forgetful functor Fld -> Dom_m, where Dom_m has integral domains with only monomorphisms as arrows. Contrast: over Dom (all homomorphisms of domains) no universal arrow from Z to Fld -> Dom exists, since the maps Z -> Z_p for each prime p cannot all factor through a single field.",
+      "book_section": "III.1",
+      "book_page": "56",
+      "pdf_pages": [
+        65
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "metric-space completion as a universal arrow",
+      "statement_summary": "With Met the category of metric spaces and metric-preserving functions (necessarily injective), and complete metric spaces the full subcategory, the completion X-bar of a metric space X gives an arrow X -> X-bar that is a universal arrow from X to the evident forgetful (inclusion) functor from complete metric spaces to Met. The uniqueness of universal arrows gives uniqueness of the completion up to a unique isomorphism.",
+      "book_section": "III.1",
+      "book_page": "56",
+      "pdf_pages": [
+        65,
+        66
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "universal element of a set-valued functor",
+      "statement_summary": "For a category D and a functor H : D -> Set, a universal element of H is a pair <r, e> with r an object of D and e in H r such that for every pair <d, x> with x in H d there is a unique arrow f : r -> d of D with (H f) e = x.",
+      "book_section": "III.1",
+      "book_page": "57",
+      "pdf_pages": [
+        66
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.1:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "quotient set by an equivalence relation as a universal element",
+      "statement_summary": "For an equivalence relation E on a set S, the pair <S/E, p> (p : S -> S/E the projection onto equivalence classes) is a universal element of the functor H : Set -> Set sending each set X to the set of all functions f : S -> X with f s = f s' whenever s E s' (E-respecting functions factor uniquely through p).",
+      "book_section": "III.1",
+      "book_page": "57",
+      "pdf_pages": [
+        66
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "quotient group as a universal element",
+      "statement_summary": "For N a normal subgroup of a group G, the pair <G/N, p> (p : G -> G/N the coset projection) is a universal element of the functor H : Grp -> Set assigning to each group G' the set of homomorphisms f : G -> G' with f N = 1 (killing N): every such f factors as f = f' o p for a unique f'. All other properties of quotient groups (e.g. the isomorphism theorems) follow from this one universality without further mention of cosets.",
+      "book_section": "III.1",
+      "book_page": "57",
+      "pdf_pages": [
+        66,
+        67
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:construction6",
+      "kind": "construction",
+      "number": null,
+      "name": "tensor product of vector spaces as a universal element",
+      "statement_summary": "For vector spaces V, V' over a field K, the tensor product V (x) V' together with the bilinear map (x) : V x V' -> V (x) V' is a universal element of the functor H = Bilin(V, V'; -) : Vect_K -> Set assigning to W the set of bilinear functions V x V' -> W. The same holds over a commutative ring with K-modules.",
+      "book_section": "III.1",
+      "book_page": "58",
+      "pdf_pages": [
+        67
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "universal elements and universal arrows subsume each other",
+      "statement_summary": "If * is a one-point set, any element e in H r corresponds to an arrow e : * -> H r in Ens, and a universal element <r, e> of H : D -> Set is exactly a universal arrow from * to H. Conversely, when C has small hom-sets, <r, u : c -> S r> is a universal arrow from c to S : D -> C if and only if <r, u in C(c, S r)> is a universal element of the functor H = C(c, S -) : D -> Set (acting by d |-> C(c, S d), h |-> C(c, S h)).",
+      "book_section": "III.1",
+      "book_page": "58",
+      "pdf_pages": [
+        67
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1",
+        "maclane:III.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "universal arrow from a functor to an object (couniversal arrow)",
+      "statement_summary": "Dual notion: given S : D -> C and an object c of C, a universal arrow from S to c is a pair <r, v> with r an object of D and v : S r -> c such that for every pair <d, f> with f : S d -> c there is a unique f' : d -> r with f = v o S f'.",
+      "book_section": "III.1",
+      "book_page": "58",
+      "pdf_pages": [
+        67
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.1:construction7",
+      "kind": "construction",
+      "number": null,
+      "name": "diagonal functor and product projections as a universal arrow",
+      "statement_summary": "The diagonal functor Delta : C -> C x C is defined by Delta c = <c, c>. The product projections p : a x b -> a, q : a x b -> b (in Grp, Set, Cat, ...) form the pair <p, q> = a universal arrow from Delta to the object <a, b> of C x C: any f : c -> a, g : c -> b give a unique h : c -> a x b with p h = f, q h = g, i.e. <f, g> : Delta c -> <a, b> factors through <p, q>.",
+      "book_section": "III.1",
+      "book_page": "58",
+      "pdf_pages": [
+        67
+      ],
+      "cross_refs": [
+        "maclane:III.1:def3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.1:remark4",
+      "kind": "remark",
+      "number": null,
+      "name": "kernels as universals",
+      "statement_summary": "The kernel of a homomorphism (in Ab, Grp, Rng, R-Mod, ...) is a universal - more exactly, a universal (arrow) for a suitable contravariant functor. The functor in question is not spelled out in the text.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def3"
+      ],
+      "flags": [
+        "statement-sketchy-in-book"
+      ]
+    },
+    {
+      "id": "maclane:III.1:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "familiar constructions as universal arrows",
+      "statement_summary": "Interpret each of the following as a universal arrow: (a) the integral group ring of a group (better, of a monoid); (b) the tensor algebra of a vector space; (c) the exterior algebra of a vector space.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "universal element of the contravariant power-set functor",
+      "statement_summary": "Find a universal element for the contravariant power-set functor P : Set^op -> Set.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "universal arrows to four forgetful functors",
+      "statement_summary": "From any given object, find universal arrows to each of the forgetful functors: Ab -> Grp, Rng -> Ab (forget the multiplication), Top -> Set, and Set_* -> Set (pointed sets to sets).",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "group isomorphism theorems from universality of projections",
+      "statement_summary": "Using only the universality of the quotient projections, prove: (a) for normal subgroups M, N of G with M contained in N, (G/M)/(N/M) is isomorphic to G/N (third isomorphism theorem); (b) for subgroups S and N of G with N normal and SN their join, SN/N is isomorphic to S/(S meet N) (second isomorphism theorem). Derive isomorphism theorems by universality.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:construction5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "quotient modules by universality",
+      "statement_summary": "Show that the quotient K-module A/S (S a submodule of A) has a description by universality, and derive the module isomorphism theorems from it.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "ring quotients by universality",
+      "statement_summary": "Describe the quotient of a ring by a two-sided ideal by universality.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.1:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "polynomial ring as a universal construction",
+      "statement_summary": "Show that the construction of the polynomial ring K[x] in an indeterminate x over a commutative ring K is a universal construction.",
+      "book_section": "III.1",
+      "book_page": "59",
+      "pdf_pages": [
+        68
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "universal arrows via natural hom-set bijections",
+      "statement_summary": "For a functor S : D -> C, a pair <r, u : c -> S r> is universal from c to S if and only if the function sending each f' : r -> d to S f' o u is a bijection of hom-sets D(r, d) = C(c, S d), and this bijection is natural in d. Conversely, given objects r and c, any natural isomorphism D(r, -) = C(c, S -) is determined in this way by a unique arrow u : c -> S r such that <r, u> is universal from c to S.",
+      "book_section": "III.2",
+      "book_page": "59",
+      "pdf_pages": [
+        68,
+        69
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "representation of a functor; representable functor",
+      "statement_summary": "Let D have small hom-sets. A representation of a functor K : D -> Set is a pair <r, psi> with r an object of D and psi : D(r, -) = K a natural isomorphism. The object r is the representing object; K is representable when such a representation exists. Up to isomorphism a representable functor is just a covariant hom-functor D(r, -).",
+      "book_section": "III.2",
+      "book_page": "60",
+      "pdf_pages": [
+        69
+      ],
+      "cross_refs": [
+        "maclane:III.2:prop1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:III.2:prop2",
+      "kind": "proposition",
+      "number": "2",
+      "name": "representations correspond to universal arrows from a point",
+      "statement_summary": "Let * be a one-point set and D have small hom-sets. If <r, u : * -> K r> is a universal arrow from * to K : D -> Set, then the function psi which for each object d sends f' : r -> d to K(f')(u *) in K d is a representation of K; and every representation of K is obtained in this way from exactly one such universal arrow. (Via Set(*, X) = X: representations of K are equivalent to universal elements of K.)",
+      "book_section": "III.2",
+      "book_page": "60",
+      "pdf_pages": [
+        69
+      ],
+      "cross_refs": [
+        "maclane:III.2:def1",
+        "maclane:III.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "the Yoneda Lemma",
+      "statement_summary": "If K : D -> Set is a functor and r an object of D (D a category with small hom-sets), there is a bijection y : Nat(D(r, -), K) = K r which sends each natural transformation alpha : D(r, -) -> K to alpha_r(1_r), the image of the identity of r under the r-component of alpha.",
+      "book_section": "III.2",
+      "book_page": "61",
+      "pdf_pages": [
+        70
+      ],
+      "cross_refs": [
+        "maclane:III.2:prop1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:III.2:cor1",
+      "kind": "corollary",
+      "number": null,
+      "name": "natural transformations between hom-functors",
+      "statement_summary": "For objects r, s of D, each natural transformation D(r, -) -> D(s, -) has the form D(h, -) for a unique arrow h : s -> r.",
+      "book_section": "III.2",
+      "book_page": "61",
+      "pdf_pages": [
+        70
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:III.2:lem2",
+      "kind": "lemma",
+      "number": null,
+      "name": "naturality of the Yoneda bijection (addendum)",
+      "statement_summary": "The Yoneda bijection is natural in both K and r: regard both sides as functors on Set^D x D, with codomain the evaluation functor E : <K, r> |-> K r and domain the functor N : <K, r> |-> Nat(D(r, -), K) (on arrows <F : K -> K', f : r -> r'> by Nat(D(f, -), F)); then y is a natural isomorphism y : N = E between the functors E, N : Set^D x D -> Set.",
+      "book_section": "III.2",
+      "book_page": "61",
+      "pdf_pages": [
+        70
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:III.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the Yoneda functor and its dual (full and faithful embedding)",
+      "statement_summary": "The object function r |-> D(r, -) and arrow function (f : s -> r) |-> D(f, -) : D(r, -) -> D(s, -) define a full and faithful functor Y : D^op -> Set^D, the Yoneda functor. Its dual Y' : D -> Set^(D^op) (also faithful, sending f : s -> r to D(-, f) : D(-, s) -> D(-, r)) is the covariant version. Fullness and faithfulness follow from the corollary to the Yoneda Lemma. D must have small hom-sets for these to be defined.",
+      "book_section": "III.2",
+      "book_page": "61",
+      "pdf_pages": [
+        70,
+        71
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1",
+        "maclane:III.2:cor1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Yoneda for large categories via an enlarged Ens",
+      "statement_summary": "For D larger than allowed by small hom-sets, the Yoneda lemmas remain valid with Set replaced by any category Ens of sets for which Ens(X, Y) is the set of all functions X -> Y, provided the hom-sets of D are objects of Ens; the meaning of naturality is not altered by further enlargement of Ens (pointer to Exercise III.2.4).",
+      "book_section": "III.2",
+      "book_page": "62",
+      "pdf_pages": [
+        71
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1",
+        "maclane:III.2:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "arrows between representing objects",
+      "statement_summary": "If K, K' : D -> Set have representations <r, psi> and <r', psi'> respectively, prove that to each natural transformation tau : K -> K' there is a unique arrow h : r' -> r of D with tau o psi = psi' o D(h, -) : D(r, -) -> K'.",
+      "book_section": "III.2",
+      "book_page": "62",
+      "pdf_pages": [
+        71
+      ],
+      "cross_refs": [
+        "maclane:III.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "dual (contravariant) Yoneda Lemma",
+      "statement_summary": "State the dual of the Yoneda Lemma, with D replaced by D^op (i.e. the bijection Nat(D(-, r), K) = K r for contravariant K : D^op -> Set).",
+      "book_section": "III.2",
+      "book_page": "62",
+      "pdf_pages": [
+        71
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Kan's coyoneda lemma via the category of elements",
+      "statement_summary": "(Kan; the coyoneda lemma.) For K : D -> Set, let (* down K) be the category of elements (objects: elements x in K d), Q : (* down K) -> D the projection sending x in K d to d, and for each a in D let a also denote the constant (diagonal) functor (* down K) -> D at value a. Establish a natural isomorphism Nat(K, D(a, -)) = Nat(a, Q) (natural transformations from K to the representable at a correspond to natural transformations from the constant functor a to the projection Q).",
+      "book_section": "III.2",
+      "book_page": "62",
+      "pdf_pages": [
+        71
+      ],
+      "cross_refs": [
+        "maclane:III.2:lem1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.2:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "naturality unchanged by enlarging the codomain",
+      "statement_summary": "Let E be a full subcategory of E' with inclusion J : E -> E'. For functors K, L : D -> E, prove Nat(K, L) = Nat(J K, J L).",
+      "book_section": "III.2",
+      "book_page": "62",
+      "pdf_pages": [
+        71
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "coproduct (binary): coproduct diagram, injections, coproduct object",
+      "statement_summary": "For the diagonal functor Delta : C -> C x C (Delta c = <c, c>, Delta f = <f, f>), a coproduct diagram is a universal arrow from an object <a, b> of C x C to Delta: an object c with injections i : a -> c, j : b -> c such that for every pair f : a -> d, g : b -> d there is a unique h : c -> d with f = h o i and g = h o j. The object c, unique up to isomorphism, is written a u b or a + b (the coproduct object); the assignment <f, g> |-> h is a bijection C(a, d) x C(b, d) = C(a u b, d) natural in d, with inverse h |-> <h i, h j>. Injections need not be injective functions.",
+      "book_section": "III.3",
+      "book_page": "62",
+      "pdf_pages": [
+        71,
+        72
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "coproduct as a bifunctor",
+      "statement_summary": "If every pair of objects of C has a coproduct, then choosing a coproduct diagram for each pair makes u : C x C -> C a bifunctor, with h u k : a u b -> a' u b' for h : a -> a', k : b -> b' defined as the unique arrow with (h u k) o i = i' o h and (h u k) o j = j' o k.",
+      "book_section": "III.3",
+      "book_page": "63",
+      "pdf_pages": [
+        72
+      ],
+      "cross_refs": [
+        "maclane:III.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "coproducts in familiar categories",
+      "statement_summary": "Concrete coproducts: disjoint union of sets (Set) and of spaces (Top); wedge product joining at base points (Top_*); direct sum A (+) B (Ab, R-Mod); free product (Grp); tensor product R (x) S (CRng). In a preorder P regarded as a category, the coproduct of a and b is exactly a least upper bound a v b (a <= a v b, b <= a v b, and a <= c, b <= c imply a v b <= c).",
+      "book_section": "III.3",
+      "book_page": "63",
+      "pdf_pages": [
+        72
+      ],
+      "cross_refs": [
+        "maclane:III.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "infinite (X-indexed) coproduct",
+      "statement_summary": "For any set X regarded as a discrete category, the functor category C^X has as objects X-indexed families a = {a_x}; the diagonal Delta : C -> C^X sends c to the constant family. An X-fold coproduct diagram is a universal arrow from a family a to Delta: an object u_x a_x with injections i_x : a_x -> u_x a_x such that the assignment f |-> {f o i_x | x in X} is a bijection C(u_x a_x, c) = Prod_{x in X} C(a_x, c), natural in c. In Set: X-fold disjoint union.",
+      "book_section": "III.3",
+      "book_page": "64",
+      "pdf_pages": [
+        73
+      ],
+      "cross_refs": [
+        "maclane:III.3:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "copower",
+      "statement_summary": "When all factors of an X-indexed coproduct are equal (a_x = b for all x), the coproduct u_x b is the copower X . b, satisfying C(X . b, c) = C(b, c)^X naturally in c. In Set, the copower X . Y is the cartesian product X x Y.",
+      "book_section": "III.3",
+      "book_page": "64",
+      "pdf_pages": [
+        73
+      ],
+      "cross_refs": [
+        "maclane:III.3:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "cokernel (in a category with a null object)",
+      "statement_summary": "Suppose C has a null object z, so any two objects b, c have a zero arrow 0 : b -> z -> c. The cokernel of f : a -> b is an arrow u : b -> e with (i) u o f = 0 : a -> e, and (ii) whenever h : b -> c has h o f = 0, then h = h' o u for a unique h' : e -> c. In Ab, the cokernel of f : A -> B is the projection B -> B/fA; in many categories cokernels are quotient objects. In categories without a null object cokernels are unavailable, motivating coequalizers.",
+      "book_section": "III.3",
+      "book_page": "64",
+      "pdf_pages": [
+        73
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "coequalizer of a parallel pair",
+      "statement_summary": "Given a parallel pair f, g : a -> b in C, a coequalizer of <f, g> is an arrow u : b -> e (or the pair <e, u>) with (i) u o f = u o g, and (ii) whenever h : b -> c has h o f = h o g, then h = h' o u for a unique h' : e -> c.",
+      "book_section": "III.3",
+      "book_page": "64",
+      "pdf_pages": [
+        73
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "coequalizer as a universal arrow (parallel-pair category)",
+      "statement_summary": "Let the parallel-pair category (two objects, exactly two non-identity arrows from the first to the second) be denoted . => . ; an object of the functor category C^(=>) is a parallel pair <f, g> : a -> b in C, and an arrow <f, g> -> <f', g'> is a pair <h, k> making both the f-square and the g-square commute (k f = f' h, k g = g' h). The diagonal Delta : C -> C^(=>) sends c to <1_c, 1_c> and r to <r, r>. An arrow h : b -> c with h f = h g is the same as an arrow <f, g> -> Delta c, so a coequalizer <e, u> of <f, g> is exactly a universal arrow from the object <f, g> to Delta. Coequalizers of an arbitrary set of maps a -> b are defined the same way.",
+      "book_section": "III.3",
+      "book_page": "64",
+      "pdf_pages": [
+        73,
+        74
+      ],
+      "cross_refs": [
+        "maclane:III.3:def5",
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.3:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "coequalizers in Ab, Set, Top",
+      "statement_summary": "In Ab, the coequalizer of homomorphisms f, g : A -> B is the projection B -> B/(f - g)A onto the quotient by the image of the difference homomorphism. In Set, the coequalizer of f, g : X -> Y is the projection p : Y -> Y/E onto the quotient by the least equivalence relation E on Y containing all pairs <f x, g x> for x in X. The same construction with the quotient topology gives coequalizers in Top.",
+      "book_section": "III.3",
+      "book_page": "65",
+      "pdf_pages": [
+        74
+      ],
+      "cross_refs": [
+        "maclane:III.3:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "pushout of a span; fibered sum",
+      "statement_summary": "Given f : a -> b and g : a -> c with common domain, a pushout of <f, g> is a commutative square u f = v g (u : b -> r, v : c -> r) such that for every other commutative square h f = k g built on f, g there is a unique t : r -> s with t u = h and t v = k. The vertex r, unique up to a unique isomorphism, is written b u_a c (coproduct 'over a'), called the fibered sum or (vertex of) a cocartesian square.",
+      "book_section": "III.3",
+      "book_page": "65",
+      "pdf_pages": [
+        74,
+        75
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "pushout as a universal arrow (span-shape category)",
+      "statement_summary": "Let . <- . -> . denote the span-shape category. An object of C^(.<-.->.) is a pair of arrows with common domain; Delta c = <1_c, 1_c> is the object function of a diagonal functor Delta : C -> C^(.<-.->.). A commutative square h f = k g is exactly an arrow <f, g> -> Delta s in this functor category, and the pushout of <f, g> is the universal such arrow.",
+      "book_section": "III.3",
+      "book_page": "66",
+      "pdf_pages": [
+        75
+      ],
+      "cross_refs": [
+        "maclane:III.3:def6",
+        "maclane:III.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:III.3:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "pushouts in Set, Top, Grp; amalgamated products",
+      "statement_summary": "In Set the pushout of <f, g> always exists: the disjoint union b u c with the elements f x and g x identified for each x in a. A similar construction gives pushouts in Top (including adjunction spaces). Pushouts exist in Grp; in particular if f and g are monic in Grp, the pushout-square arrows u and v are also monic, and the vertex r is the amalgamated product of b and c.",
+      "book_section": "III.3",
+      "book_page": "66",
+      "pdf_pages": [
+        75
+      ],
+      "cross_refs": [
+        "maclane:III.3:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:def7",
+      "kind": "definition",
+      "number": null,
+      "name": "cokernel pair",
+      "statement_summary": "Given f : a -> b in C, the cokernel pair of f is the pushout of f with f: an object r with a parallel pair u, v : b -> r (common domain b) satisfying u f = v f, such that for any parallel pair h, k : b -> s with h f = k f there is a unique t : r -> s with t u = h and t v = k.",
+      "book_section": "III.3",
+      "book_page": "66",
+      "pdf_pages": [
+        75
+      ],
+      "cross_refs": [
+        "maclane:III.3:def6"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:def8",
+      "kind": "definition",
+      "number": null,
+      "name": "colimit of a functor (via the diagonal functor)",
+      "statement_summary": "For categories C and J (J the index category, usually small, often finite), the diagonal functor Delta : C -> C^J sends c to the constant functor Delta c (value c on objects, 1_c on arrows) and f : c -> c' to the constant natural transformation. A colimit ('direct limit', 'inductive limit') diagram for F : J -> C is a universal arrow <r, u> from the object F of C^J to Delta: an object r = Colim F (Lim-> F) of C together with a natural transformation u : F -> Delta r universal among natural transformations tau : F -> Delta c. Concretely tau consists of components tau_i : F i -> c with tau_j o F u = tau_i for every arrow u : i -> j of J.",
+      "book_section": "III.3",
+      "book_page": "67",
+      "pdf_pages": [
+        76
+      ],
+      "cross_refs": [
+        "maclane:III.1:def1",
+        "maclane:III.3:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:def9",
+      "kind": "definition",
+      "number": null,
+      "name": "cone from a base to a vertex; limiting (universal) cone",
+      "statement_summary": "A natural transformation tau : F -> Delta c, written tau : F -> c omitting Delta, is a cone from the base F : J -> C to the vertex c (all triangles tau_j o F u = tau_i commute). In this language a colimit of F consists of an object Colim F and a cone mu : F -> Colim F from the base F which is universal: for any cone tau : F -> c there is a unique arrow t' : Colim F -> c with tau_i = t' o mu_i for every i in J; mu is the limiting cone (or universal cone) from F.",
+      "book_section": "III.3",
+      "book_page": "67",
+      "pdf_pages": [
+        76
+      ],
+      "cross_refs": [
+        "maclane:III.3:def8"
+      ],
+      "flags": [
+        "unnumbered",
+        "in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.3:remark4",
+      "kind": "remark",
+      "number": null,
+      "name": "unions of nested chains as colimits; Set is small-cocomplete (preview)",
+      "statement_summary": "For J = omega = {0 -> 1 -> 2 -> ...} and F : omega -> Set sending every arrow to an inclusion (a nested sequence F_0 in F_1 in F_2 in ...), the union U of all F_n with the cone of inclusion maps F_n -> U is Colim F. The same interpretation of unions as colimits applies in Grp, Ab, and other familiar categories. Forward pointer (to be proved; Exercise V.1.8): for J small, any F : J -> Set has a colimit.",
+      "book_section": "III.3",
+      "book_page": "67",
+      "pdf_pages": [
+        76,
+        77
+      ],
+      "cross_refs": [
+        "maclane:III.3:def8",
+        "maclane:III.3:def9"
+      ],
+      "flags": [
+        "continues-past-range-boundary"
+      ]
+    },
+    {
+      "id": "maclane:III.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "tensor product as coproduct of commutative rings",
+      "statement_summary": "In the category of commutative rings, show that the diagram R -> R (x) S <- S, with maps sending r to r(x)1 and s to 1(x)s, is a coproduct diagram.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "binary coproducts + coequalizers give pushouts",
+      "statement_summary": "Prove that a category with binary coproducts and coequalizers has pushouts (the pushout of a span obtained by coequalizing the two composites into the coproduct); apply this to Set, Grp, and Top.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "coequalizers in the matrix category",
+      "statement_summary": "In the category Matr_K of matrices over a field K (from section I.2), describe the coequalizer of two parallel m x n matrices A and B, viewed as two arrows n -> m.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "coproducts in Cat, Mon, Grph",
+      "statement_summary": "Describe coproducts, showing that they exist, in the category of small categories Cat, the category of monoids Mon, and the category of graphs Grph.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "quotient by an equivalence relation as a coequalizer",
+      "statement_summary": "For an equivalence relation E on a set X, show that the usual quotient set X/E of equivalence classes can be described by a coequalizer in Set (of the two projections from E to X).",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "coproduct existence via representability",
+      "statement_summary": "Show that objects a and b have a coproduct in C if and only if the functor sending c to the cartesian product of hom-sets C(a,c) x C(b,c), as a functor C -> Set, is representable.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.3:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "abelian group as colimit of finitely generated subgroups",
+      "statement_summary": "For an abelian group A, with J_A the inclusion-ordered preorder of all finitely generated subgroups of A, show that A is the colimit of the evident functor J_A -> Ab; generalize.",
+      "book_section": "III.3",
+      "book_page": "68",
+      "pdf_pages": [
+        77
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "limit of a functor (limiting cone, inverse limit)",
+      "statement_summary": "For categories C, J and the diagonal functor Delta : C -> C^J, a limit of F : J -> C is a universal arrow from Delta to F: an object Lim F of C together with a natural transformation v : Delta(Lim F) -> F (the limiting cone, components v_i) such that every cone tau : Delta c -> F (a family tau_i : c -> F_i with F_u compose tau_i = tau_j for each u : i -> j) factors as tau_i = v_i compose t for a unique t : c -> Lim F. A natural transformation Delta c -> F is called a cone to the base F from the vertex c. Also called limit object, inverse limit, projective limit.",
+      "book_section": "III.4",
+      "book_page": "68",
+      "pdf_pages": [
+        77,
+        78
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "uniqueness of limits up to isomorphism",
+      "statement_summary": "As with any universal arrow, the limit object Lim F and its limiting cone v : Delta(Lim F) -> F are determined by F uniquely up to isomorphism in C.",
+      "book_section": "III.4",
+      "book_page": "69",
+      "pdf_pages": [
+        78
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "hom-set characterization of limits and colimits (equations (2),(3))",
+      "statement_summary": "When the relevant (co)limits exist there are isomorphisms natural in c: C(c, Lim F) is isomorphic to Nat(Delta c, F) = Cone(c, F), and Cone(F, c) = Nat(F, Delta c) is isomorphic to C(Colim F, c); i.e. the limit represents the cone functor and the colimit corepresents the cocone functor.",
+      "book_section": "III.4",
+      "book_page": "69",
+      "pdf_pages": [
+        78
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "binary product",
+      "statement_summary": "For the discrete category J = {1,2}, a functor is a pair of objects (a,b) and its limit is the product a x b with projection arrows p, q; the universal property is equivalent to a bijection C(c, a x b) iso C(c,a) x C(c,b) natural in c, sending h to (ph, qh); conversely given f : c -> a and g : c -> b there is a unique h = (f,g) : c -> a x b with ph = f, qh = g, the arrow with components f and g. Exists in Cat, Grp, Top, Mon; in a preorder a product is a greatest lower bound.",
+      "book_section": "III.4",
+      "book_page": "69",
+      "pdf_pages": [
+        78
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "indexed (infinite) product over a set",
+      "statement_summary": "For a set J viewed as a discrete category, a functor is a J-indexed family of objects a_j, a cone with vertex c is a J-indexed family f_j : c -> a_j, and a universal cone consists of the product object Prod_j a_j with projections p_j, universal: every family f_j factors as f_j = p_j compose f for a unique f : c -> Prod_j a_j (the map with components f_j). Equivalently a bijection Prod_j C(c, a_j) iso C(c, Prod_j a_j) natural in c, the left product taken in Set (small hom-sets assumed).",
+      "book_section": "III.4",
+      "book_page": "69",
+      "pdf_pages": [
+        78,
+        79
+      ],
+      "cross_refs": [
+        "maclane:III.4:def2"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "hom-functor preserves products",
+      "statement_summary": "The covariant hom-functor C(c,-) carries products existing in C to products in Set (forward pointer to section V.4); products over any small index set exist in Set, Top, and Grp, where they are the familiar cartesian/direct products.",
+      "book_section": "III.4",
+      "book_page": "70",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "maclane:III.4:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "power of an object",
+      "statement_summary": "The product of a constant J-indexed family (a_j = b for all j) is called a power and written b^J; it satisfies C(c,b)^J iso C(c, b^J) naturally in c, where the left power is taken in Set (b^J in Set being the set of all functions J -> b).",
+      "book_section": "III.4",
+      "book_page": "70",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "maclane:III.4:def3"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "equalizer (difference kernel)",
+      "statement_summary": "For J the parallel-pair category, a functor is a pair f, g : b -> a and a limit object is an equalizer: an arrow e : d -> b with fe = ge, universal in that any h : c -> b with fh = gh factors as h = e compose h' for a unique h' : c -> d. In Set the equalizer always exists as the subset {x in b | fx = gx} with its inclusion; in Top the same with subspace topology; in Ab it is the kernel of the difference homomorphism f - g. Equalizers of any set of parallel arrows b -> a are described similarly.",
+      "book_section": "III.4",
+      "book_page": "70",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:remark4",
+      "kind": "remark",
+      "number": null,
+      "name": "equalizers are monic",
+      "statement_summary": "Any equalizer arrow e is necessarily a monomorphism.",
+      "book_section": "III.4",
+      "book_page": "70",
+      "pdf_pages": [
+        79
+      ],
+      "cross_refs": [
+        "maclane:III.4:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "pullback (fibered product, cartesian square)",
+      "statement_summary": "For J the cospan shape, a functor is a pair f : b -> a, g : d -> a with common codomain; a cone from vertex c is a pair of arrows h : c -> b, k : c -> d making the square commute (fh = gk); a universal such cone is a commutative square with vertex the pullback b x_a d and projections p, q, such that any commuting square over the cospan factors through it by a unique r : c -> b x_a d with h = pr, k = qr. The universal square is called a pullback square or cartesian square; the vertex is the pullback, fibered product, or product over a. Origin: induced fiber maps in Top.",
+      "book_section": "III.4",
+      "book_page": "71",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:def7",
+      "kind": "definition",
+      "number": null,
+      "name": "kernel pair",
+      "statement_summary": "The kernel pair of an arrow f : a -> b, when it exists, is the pullback of f along itself: an object d with arrows p, q : d -> a satisfying fp = fq, such that any pair h, k : c -> a with fh = fk can be written h = pr, k = qr for a unique r : c -> d.",
+      "book_section": "III.4",
+      "book_page": "71",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:remark5",
+      "kind": "remark",
+      "number": null,
+      "name": "terminal object as limit of the empty functor",
+      "statement_summary": "For J = 0 the empty category there is exactly one functor 0 -> C and a cone over it is just an object of C; hence a limit of the empty functor is exactly a terminal object t of C (every object has a unique arrow to t).",
+      "book_section": "III.4",
+      "book_page": "71",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:def8",
+      "kind": "definition",
+      "number": null,
+      "name": "diagram of graph shape and its limit",
+      "statement_summary": "With U C the underlying graph of a category C, a diagram in C of shape a graph G is a graph morphism D : G -> UC; a cone mu : c -> D is a function assigning to each object i of G an arrow mu_i : c -> D_i such that D h compose mu_i = mu_j for every graph arrow h : i -> j (a natural transformation from the constant, using composition in C but not in the domain); a limit for the diagram D is a universal such cone.",
+      "book_section": "III.4",
+      "book_page": "71",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.4:remark6",
+      "kind": "remark",
+      "number": null,
+      "name": "graph-shaped limits reduce to functor limits via the free category",
+      "statement_summary": "Diagram-shaped limits give nothing essentially new: with FG the free category generated by the graph G and P : G -> U(FG) the universal diagram, every diagram D : G -> UC factors uniquely as D = U D' compose P for a functor D' : FG -> C, and limits (and limiting cones) for D' correspond exactly to those for D.",
+      "book_section": "III.4",
+      "book_page": "71",
+      "pdf_pages": [
+        80
+      ],
+      "cross_refs": [
+        "maclane:III.4:def8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "pullbacks in Set and Top",
+      "statement_summary": "Show that in Set the pullback of f : X -> Z and g : Y -> Z is the set of pairs (x,y) with x in X, y in Y and fx = gy (with the evident projections); describe pullbacks in Top.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "cartesian products are categorical products in Set and Top",
+      "statement_summary": "Show that the usual cartesian product over an index set J, with its projections, is a categorical product in Set and in Top.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "limits over a category with an initial object",
+      "statement_summary": "If the index category J has an initial object s, prove that every functor F : J -> C has a limit, namely F(s); dualize (terminal object gives colimits by evaluation).",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "epi iff identity square is a pushout",
+      "statement_summary": "In any category, prove that f : a -> b is an epimorphism if and only if the square with f twice out of a and identity arrows into b (the cokernel-pair square with both legs the identity) is a pushout.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "monos are stable under pullback",
+      "statement_summary": "In a pullback square over the cospan f : b -> a <- d : g (display (8)), show that f monic implies the opposite projection q monic.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "kernel pair in Set is the induced equivalence relation",
+      "statement_summary": "In Set, show that the kernel pair of f : X -> Y is given by the equivalence relation E = {(x,x') | fx = fx'}, with the two projection maps E -> X.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "kernel pairs via products and equalizers",
+      "statement_summary": "If C has finite products and equalizers, show that the kernel pair of f : a -> b is given by p1 e, p2 e, where p1, p2 are the projections of a x a and e is the equalizer of f p1, f p2 : a x a -> b (cf. Exercise 6); dualize.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def7",
+        "maclane:III.4:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "pullback pasting lemma",
+      "statement_summary": "For two side-by-side commutative squares: (a) if both squares are pullbacks then the outer rectangle (with composite top and bottom edges) is a pullback; (b) if the outer rectangle and the right-hand square are pullbacks, so is the left-hand square.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex9",
+      "kind": "exercise",
+      "number": "9",
+      "name": "equalizers via products and pullbacks",
+      "statement_summary": "Show that the equalizer of f, g : b -> a may be constructed as the pullback of the two arrows (1_b, f) : b -> b x a and (1_b, g) : b -> b x a.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def5",
+        "maclane:III.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.4:ex10",
+      "kind": "exercise",
+      "number": "10",
+      "name": "pullbacks + terminal give finite products and equalizers",
+      "statement_summary": "If C has pullbacks and a terminal object, prove that C has all finite products and all equalizers.",
+      "book_section": "III.4",
+      "book_page": "72",
+      "pdf_pages": [
+        81
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6",
+        "maclane:III.4:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "category with finite products",
+      "statement_summary": "A category C has finite products when every finite list of objects c_1, ..., c_n admits a product diagram: a product object c_1 x ... x c_n with n projections p_i having the usual universal property; in particular (n = 0) C has a product of no objects, i.e. a terminal object t, and (n = 2) binary products.",
+      "book_section": "III.5",
+      "book_page": "72",
+      "pdf_pages": [
+        81,
+        82
+      ],
+      "cross_refs": [
+        "maclane:III.4:def3"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.5:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "diagonal map",
+      "statement_summary": "For each object c the diagonal map delta_c : c -> c x c is defined by p1 delta_c = 1_c = p2 delta_c; the family delta is a natural transformation from the identity to the (binary product) functor.",
+      "book_section": "III.5",
+      "book_page": "73",
+      "pdf_pages": [
+        82
+      ],
+      "cross_refs": [
+        "maclane:III.4:def2"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.5:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "terminal + binary products imply all finite products; canonical associator and unitors",
+      "statement_summary": "If C has a terminal object t and a chosen binary product diagram for every pair of objects, then C has all finite products; the chosen products make x a bifunctor C x C -> C (with f1 x f2 defined by p_i (f1 x f2) = f_i p_i). For any three objects there is an isomorphism alpha_{a,b,c} : a x (b x c) iso (a x b) x c natural in a, b, c, and for any a isomorphisms lambda_a : t x a iso a and rho_a : a x t iso a natural in a; all arise by uniqueness of universals from iterated products and are called canonical. Proof: iterate binary products; dual result holds for finite coproducts (initial object as empty coproduct).",
+      "book_section": "III.5",
+      "book_page": "73",
+      "pdf_pages": [
+        82
+      ],
+      "cross_refs": [
+        "maclane:III.5:def1",
+        "maclane:III.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "finite coproducts dually; matrix calculus coproduct-to-product",
+      "statement_summary": "Dually a coproduct of no factors is an initial object; a coproduct diagram for m objects consists of injections i_j, and any map f from the coproduct a_1 + ... + a_m to c is uniquely determined by its m cocomponents f i_j. If C has both finite products and finite coproducts, arrows from a coproduct a_1 + ... + a_m to a product b_1 x ... x b_n are uniquely determined by the m x n matrix of arrows f_jk = p_k f i_j; in finite-dimensional vector spaces (where finite coproduct coincides with finite product) this is exactly the classical matrix of a linear transformation relative to bases.",
+      "book_section": "III.5",
+      "book_page": "73",
+      "pdf_pages": [
+        82,
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.5:prop1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "null object and zero arrow",
+      "statement_summary": "A null object z of C is an object that is both initial and terminal; when C has one, the zero arrow 0 : a -> b between any two objects is the composite a -> z -> b of the unique arrows through z.",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.5:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "canonical arrow from finite coproduct to finite product",
+      "statement_summary": "If C has a null object plus finite products and finite coproducts, there is a canonical arrow a_1 + ... + a_n -> a_1 x ... x a_n given by the identity n x n matrix (identities on the diagonal, zero arrows elsewhere); it may be an isomorphism (Ab, R-Mod: biproducts), a proper monic (pointed topological spaces, pointed sets), or a proper epi (Grp).",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.5:def3",
+        "maclane:III.5:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "naturality of the diagonal",
+      "statement_summary": "Prove that the diagonal delta_c : c -> c x c is natural in c.",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.5:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "coherence of the canonical maps (pentagon and triangle diagrams)",
+      "statement_summary": "In any category with finite products, prove that the diagrams built from the canonical alpha, rho, lambda of Proposition 1 always commute: the pentagon relating the two ways of reassociating a x (b x (c x d)) to ((a x b) x c) x d via instances of alpha and 1 x alpha, alpha x 1; and the two triangle diagrams relating alpha with lambda on t x (b x c) -> (t x b) x c and with lambda, rho on a x (t x c) -> (a x t) x c.",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.5:prop1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Cat has pullbacks; comma categories as pullbacks in Cat",
+      "statement_summary": "(a) Prove that Cat has pullbacks (cf. Exercise II.6.5). (b) Show that the comma categories (b down C) and (C down a) arise as pullbacks in Cat (of the appropriate arrow-category and slice projections).",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Cat has small coproducts",
+      "statement_summary": "Prove that Cat has all small coproducts.",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.5:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "pointwise products in functor categories",
+      "statement_summary": "If B has (finite) products, show that any functor category B^C also has (finite) products, calculated pointwise.",
+      "book_section": "III.5",
+      "book_page": "74",
+      "pdf_pages": [
+        83
+      ],
+      "cross_refs": [
+        "maclane:III.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "monoid in a category",
+      "statement_summary": "In a category C with finite products and terminal object t, a monoid is a triple (c, mu : c x c -> c, eta : t -> c) such that the associativity square commutes (mu compose (1 x mu) equals mu compose (mu x 1) modulo the canonical associativity isomorphism alpha of III.5 Proposition 1) and the two unit diagrams commute (mu compose (eta x 1) = lambda and mu compose (1 x eta) = rho on t x c and c x t).",
+      "book_section": "III.6",
+      "book_page": "75",
+      "pdf_pages": [
+        84
+      ],
+      "cross_refs": [
+        "maclane:III.5:prop1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "group in a category",
+      "statement_summary": "A group in C (with finite products and terminal t) is a monoid (c, mu, eta) together with an arrow zeta : c -> c (right inverse) making the diagram commute: mu compose (1 x zeta) compose delta_c equals eta composed with the unique arrow c -> t, where delta_c is the diagonal.",
+      "book_section": "III.6",
+      "book_page": "75",
+      "pdf_pages": [
+        84
+      ],
+      "cross_refs": [
+        "maclane:III.6:def1",
+        "maclane:III.5:def2"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    },
+    {
+      "id": "maclane:III.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "internalization of arbitrary algebraic structures",
+      "statement_summary": "By similar commutative diagrams one may define rings in C, lattices in C, and generally internalize any type of algebraic system defined by (finitary) operations and equational identities between them.",
+      "book_section": "III.6",
+      "book_page": "75",
+      "pdf_pages": [
+        84
+      ],
+      "cross_refs": [
+        "maclane:III.6:def1",
+        "maclane:III.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "group objects via representable functors",
+      "statement_summary": "If C has finite products, an object c is a group (respectively a monoid) in C if and only if the contravariant hom-functor C(-,c) : C^op -> Set is a group (respectively a monoid) in the functor category Set^(C^op). Proof: a multiplication mu on c induces one on C(-,c) via the natural isomorphism C(-,c) x C(-,c) iso C(-, c x c) followed by mu_*; conversely the Yoneda lemma produces a unique mu from any natural multiplication, and a diagram chase (using how alpha commutes with the threefold projections) shows associativity transfers both ways; remainder left as an exercise.",
+      "book_section": "III.6",
+      "book_page": "75",
+      "pdf_pages": [
+        84,
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:def1",
+        "maclane:III.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "group objects over a base without finite products",
+      "statement_summary": "Since Set^(C^op) always has finite products (pointwise, Exercise III.5.5), one can define objects c of C such that C(-,c) is a group in that functor category even when C itself lacks finite products (the author notes no real use of this added generality).",
+      "book_section": "III.6",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:prop1",
+        "maclane:III.5:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "category of monoids in C",
+      "statement_summary": "With C having finite products and terminal t: describe the category of monoids in C (morphisms = arrows commuting with multiplication and unit), and show it has finite products.",
+      "book_section": "III.6",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "category of groups in C has finite products",
+      "statement_summary": "Show that the category of groups in C (C with finite products and terminal object) has finite products.",
+      "book_section": "III.6",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "pointwise group objects in Set^B",
+      "statement_summary": "Show that a functor T : B -> Set is a group in Set^B if and only if each Tb (for b an object of B) is an ordinary group and each Tf (for f an arrow of B) is a morphism of groups.",
+      "book_section": "III.6",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.6:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "groups in Grp are abelian groups",
+      "statement_summary": "(a) For an abelian group A in Set, show its multiplication A x A -> A, unit 1 -> A, and inverse A -> A are all group morphisms (A x A with the direct product structure), so A with these structure maps is a group in Grp. (b) Prove conversely that every group in Grp has this form (the Eckmann-Hilton-style characterization).",
+      "book_section": "III.6",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.7:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "every set-valued functor is a canonical colimit of representables",
+      "statement_summary": "Any functor K : D -> Set from a small category D can be represented, canonically, as a colimit of a diagram of representable functors D(d,-). Proof: take as index the category of elements J = 1 down K; the functor M : J^op -> Set^D sends each object (d,x) to D(d,-) and each arrow f to the induced natural transformation f* : D(d',-) -> D(d,-); the Yoneda bijections y^{-1} : K(d) -> Nat(D(d,-), K) applied to each x yield a cone from the base M to K, shown colimiting: any cone to a vertex L : D -> Set has components y^{-1}z for elements z in L(d) (Yoneda), and setting theta_d(x) = z defines the unique mediating natural transformation theta : K -> L (naturality of theta from naturality of y^{-1}).",
+      "book_section": "III.7",
+      "book_page": "76",
+      "pdf_pages": [
+        85,
+        86
+      ],
+      "cross_refs": [
+        "maclane:III.7:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:III.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "category of elements of a set-valued functor",
+      "statement_summary": "For K : D -> Set, the category of elements of K is the comma category 1 down K (per II.6.(3)): objects are pairs (d, x) with d an object of D and x an element of K(d); arrows f : (d,x) -> (d',x') are the arrows f : d -> d' of D with K(f)(x) = x'. Used as the diagram shape for expressing K as a colimit of representables.",
+      "book_section": "III.7",
+      "book_page": "76",
+      "pdf_pages": [
+        85
+      ],
+      "cross_refs": [
+        "maclane:III.7:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "defined-inside-proof"
+      ]
+    },
+    {
+      "id": "maclane:III.7:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "dual: contravariant set-valued functors as colimits of representables",
+      "statement_summary": "A dual argument shows that any contravariant functor D^op -> Set (D small) can be represented as a colimit of a diagram of contravariant representable functors hom(-,d).",
+      "book_section": "III.7",
+      "book_page": "77",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "maclane:III.7:thm1"
+      ],
+      "flags": [
+        "dual-statement-in-prose"
+      ]
+    },
+    {
+      "id": "maclane:III.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "presheaf and the presheaf category",
+      "statement_summary": "For C a small category, a contravariant functor F : C^op -> Set is called a presheaf (intuition: C the open sets of a space, F(U) the smooth functions on U, inclusions V in U giving restriction maps F(U) -> F(V)); the functor category Set^(C^op) of all presheaves is written C-hat. Presheaves with a matching property are sheaves (forward reference to Mac Lane-Moerdijk 1992).",
+      "book_section": "III.7",
+      "book_page": "77",
+      "pdf_pages": [
+        86
+      ],
+      "cross_refs": [
+        "maclane:III.7:remark1"
+      ],
+      "flags": [
+        "unnumbered-prose-definition"
+      ]
+    }
+  ]
+}

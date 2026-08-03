@@ -1,0 +1,462 @@
+[
+ {
+  "id": "riehl:4.6:prop1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "completeness iff the diagonal functor has a right adjoint",
+   "colim ⊣ Δ ⊣ lim",
+   "constant diagram functor / Diagonal / Δ[J] : C ⟶ [J, C]",
+   "limit functor lim : [J,C] ⟶ C (Lim, LimitFunctor)",
+   "cocompleteness iff Δ has a left adjoint (dual form)",
+   "limit as right Kan extension along J ⟶ 1"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Diagonal/Product.v",
+    "line": 36,
+    "symbol": "Diagonal_Product_Adjunction",
+    "intree_statement": "#[export] Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }."
+   },
+   {
+    "file": "Structure/Cone/Const.v",
+    "line": 53,
+    "symbol": "Cone_Natural_Transform",
+    "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F."
+   },
+   {
+    "file": "Structure/Limit/Kan/Extension.v",
+    "line": 46,
+    "symbol": "Kan_Limit",
+    "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt."
+   }
+  ],
+  "statement_record": {
+   "book": "For small J, C admits all J-indexed limits iff the constant-diagram functor Δ : C ⟶ C^J has a right adjoint, and all J-indexed colimits iff Δ has a left adjoint; the adjoints are lim and colim, so colim ⊣ Δ ⊣ lim. Proof by C^J(Δ c, F) ≅ cones over F with summit c, plus parametrized representability to make the chosen objects functorial.",
+   "intree": "Δ[J] : C ⟶ [J, C] is defined (Functor/Diagonal.v:33, `Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C]`); the hom-set identification underlying the proof is `Cone_Natural_Transform : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F`; the adjunction itself is instantiated ONLY in the binary/discrete case as `Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C)` (through C ∏ C, not [2, C]); and `Kan_Limit : Lim ≅ Ran (Erase J) F ttt` identifies an existing limit with the value of the right adjoint of the restriction functor along J ⟶ 1.",
+   "strength_comparison": "intree-weaker: the biconditional is never stated. No limit or colimit FUNCTOR [J, C] ⟶ C is constructed, no `Δ ⊣ lim` (or `colim ⊣ Δ`) adjunction exists for general J, and neither direction of 'C is J-complete ⟺ Δ has a right adjoint' is proved. What is in-tree is (a) the general Δ, (b) the cone/natural-transformation bijection that is the first half of Riehl's proof, (c) the adjunction for the two-object discrete shape only, and (d) an agreement theorem between a limit already assumed to exist and a right Kan extension already assumed to exist."
+  },
+  "gap": "Missing (i) the limit/colimit functor lim, colim : [J, C] ⟶ C assembled from a chosen limit for every diagram (Riehl's use of parametrized representability plus choice), (ii) the adjunctions Δ ⊣ lim and colim ⊣ Δ for a general index category J, and (iii) both directions of the equivalence between J-(co)completeness and existence of the adjoint. Only the J = 2-discrete instance (Δ ⊣ ×) exists, and it is presented as C ⟶ C ∏ C rather than C ⟶ [J, C]. Note also the dual (+) ⊣ Δ is not instantiated anywhere.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" \"Δ ⊣\\|⊣ Δ\\|Diagonal.*⊣\\|⊣.*Diagonal\\|Lim ⊣\\|⊣ Lim\\|LimitFunctor\\|limit_functor\\|colimit_functor\" . — the only real ⊣ hits are Adjunction/Diagonal/Product.v; all others are header prose (Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24)",
+   "grep -rn --include=\"*.v\" \"\\[J, C\\] ⟶\\|⟶ \\[J, C\\]\" . — no functor out of a functor category into C",
+   "grep -rn --include=\"*.v\" -i \"has a right adjoint\\|admits a right adjoint\" . — all matches are comments"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same three constants independently (rg for 'Δ ⊣|⊣ Δ|Diagonal|LimitFunctor'): Functor/Diagonal.v:33 `Diagonal {C} (J : Category) : C ⟶ [J, C]` (general J, verified), Structure/Cone/Const.v:53 `Cone_Natural_Transform` (verified at the cited line), Adjunction/Diagonal/Product.v:36 `Diagonal_Product_Adjunction` (verified). All three files are in _CoqProject. PARTIAL is right and the gap direction is right, BUT the gap text understates one near neighbour and I record the correction here rather than overwrite Phase C: Theory/Kan/Extension.v:140 `Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }` and :222 `Class LeftKan := { Lan; lan_adjoint : Lan ⊣ Induced }`, where `Induced : [B,C] ⟶ [A,C]` is precomposition (Theory/Kan/Extension.v:127). Instantiated at F := Erase J : J ⟶ 1 (Instance/One.v:47) these ARE 'the constant-diagram functor has a right adjoint' / 'has a left adjoint' for a GENERAL index category J — i.e. Riehl's colim ⊣ Δ ⊣ lim — read through [1,C] instead of C. So the record's 'no `Δ ⊣ lim` ... adjunction exists for general J' is too strong as written. What genuinely blocks the identification is that the equivalence [1,C] ≃ C is NOT formalized: it appears only as header prose at Instance/One.v:22 ('functors *out* of 1 pick out objects of the target, so [1, C] ≃ C'), with no in-tree functor, iso or Equivalence witnessing it. Combined with Structure/Limit/Kan/Extension.v:46 `Kan_Limit : Lim ≅ Ran (Erase J) F ttt` (verified at the cited line; a two-sided-hypothesis agreement theorem), the honest gap is: (a) the missing [1,C] ≃ C bridge that would turn `ran_adjoint`/`lan_adjoint` into Δ ⊣ lim / colim ⊣ Δ, (b) no lim/colim FUNCTOR assembled from a chosen limit per diagram, and (c) NEITHER direction of the biconditional with Complete/Cocomplete (Structure/Complete.v:114/118 define these as bare ∀-of-Limit data with no adjoint characterization). Confirmed independently that no coproduct-side dual of Diagonal_Product_Adjunction exists ((+) ⊣ Δ absent)."
+  }
+ },
+ {
+  "id": "riehl:4.6:thm2",
+  "classification": "PRESENT",
+  "aliases": [
+   "RAPL / right adjoints preserve limits",
+   "LAPC / left adjoints preserve colimits",
+   "adjoints are continuous / cocontinuous",
+   "PreservesAllLimits, PreservesLimit, right_adjoint_preserves_limits",
+   "PreservesAllColimits, left_adjoint_preserves_colimits"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 202,
+    "symbol": "right_adjoint_preserves_limits",
+    "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.   (* in Section RAPL, Context (A : F ⊣ U) with F : D ⟶ C, U : C ⟶ D; PreservesAllLimits U := ∀ J (G : J ⟶ C), PreservesLimit G U *)"
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 223,
+    "symbol": "left_adjoint_preserves_colimits",
+    "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 183,
+    "symbol": "rapl_is_alimit",
+    "intree_statement": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := @Build_IsALimit J D (U ◯ G) (U L) rapl_acone rapl_ump.   (* with rapl_leg x := fmap[U] (limit_leg (limit_is_alimit L) x) and rapl_ump : ∃! u : vertex_obj[N] ~> U L, ∀ x : J, rapl_leg x ∘ u ≈ cone_leg N x *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Right adjoints preserve limits and left adjoints preserve colimits, with no size restriction on the indexing category. Proof by transposing a competing cone across the adjunction: C^J(Δ c, GK) ≅ D^J(Δ Fc, K) ≅ D(Fc, lim K) ≅ C(c, G lim K).",
+   "intree": "`right_adjoint_preserves_limits : PreservesAllLimits U` for any `A : F ⊣ U` and `left_adjoint_preserves_colimits (A : F ⊣ U) : PreservesAllColimits F`, both quantified over EVERY index category J with no smallness or finiteness hypothesis. The per-diagram core `rapl_is_alimit : IsALimit (U ◯ G) (U L)` builds the image cone with legs `fmap[U] (limit_leg L x)` and proves its universal property, exactly Riehl's transposition argument (`rapl_transposed_cone`, `rapl_med`, `rapl_med_unique` transposing along ⌈-⌉/⌊-⌋).",
+   "strength_comparison": "same — both dual clauses proved, over an arbitrary index category, and at the honest cone level (the image cone is the fmap-image of the limit legs, not merely an abstract apex). LAPC is obtained by duality through Opposite_Adjunction, matching the book's remark that the dual is immediate."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Adjunction/Continuity.v first (rg -l 'RAPL|LAPC|preserves.*limit') and read it end to end. All three cited lines verified verbatim: :202 `right_adjoint_preserves_limits : PreservesAllLimits U`, :223 `left_adjoint_preserves_colimits ... : PreservesAllColimits F`, :183 `rapl_is_alimit : IsALimit (U ◯ G) (U L)`. File is in _CoqProject. Both dual clauses, arbitrary J, no smallness/finiteness hypothesis — matches the book. ADVERSARIAL CHECK on the 'honest cone level' phrase in strength_comparison, since CLAUDE.md warns the in-tree `PreservesLimit` is apex-only: `Class PreservesLimit G F := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }` (Structure/Limit/Preservation.v:48, verified) pins the APEX only — the IsALimit carries its own cone, so the typed top-level statement does not by itself say the fmap-image cone is universal. The claim nonetheless SURVIVES, because the classifier cited the right constant: `rapl_is_alimit` is built from `rapl_acone` whose legs are literally `fmap[U] (limit_leg (limit_is_alimit L) x)` (Adjunction/Continuity.v:97-107), so the image-cone universal property is genuinely proved. Corroborating constant the record does not cite: Construction/Comma/Limit.v:264 `right_adjoint_PreservesImageLimit {F U} (A : F ⊣ U) : @PreservesImageLimit C D U`, proved by `exact (rapl_ump A G L N)`, i.e. the cone-level form of RAPL for every right adjoint, against `PreservesImageLimit` at Construction/Comma/Limit.v:110. PRESENT stands, and is if anything under-evidenced rather than over-claimed."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor3",
+  "classification": "ABSENT",
+  "aliases": [
+   "inverse image preserves unions and intersections",
+   "preimage f^{-1} : PB ⟶ PA, direct image f_* : PA ⟶ PB",
+   "power-set poset / powerset lattice as a category",
+   "existential/universal image adjunction ∃_f ⊣ f* ⊣ ∀_f",
+   "Galois connection between power sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"power set\\|powerset\\|preimage\\|inverse image\\|direct image\\|Galois\" . — 'preimage' hits are only Full/EssentiallySurjective chosen-preimage machinery (Theory/Functor.v:332 prefmap, Theory/Equivalence*.v); 'Galois' appears only in header prose (Theory/Adjunction.v:78, Instance/Poset.v:47); 'power set' only in Structure/Topos.v:75 prose about Pow a := Ω^a",
+   "grep -rn --include=\"*.v\" -i \"subset\\|f⁻¹\\|union\\|intersection\" . — Instance/Ens.v is the only subset-indexed category (objects Ensembles, morphisms functions with A = f⁻¹(B)); it defines no image/preimage functor and no adjunction",
+   "grep -rn --include=\"*.v\" -i \"poset\\|preorder\\|Proset\" Instance/ — Instance/Proset.v and Instance/Poset.v build the thin category of a preorder/poset, but no power-set poset instance and no monotone-map adjunction between two of them",
+   "grep -rn --include=\"*.v\" \"Definition \\|Lemma \\|Theorem \\|Program \\|Instance \\|Class \" Instance/Ens.v — only `Ens` and `EnsT T` categories, nothing functorial",
+   "grep -n \"Definition \\|Lemma \\|Program \" Theory/Subobject/Functor.v — the nearest relative is `Sub : C^op ⟶ Sets` by pullback reindexing (line 180), i.e. f* alone; no left/right adjoint ∃_f / ∀_f is constructed"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass ran rg -i 'power set|powerset|inverse image|direct image|preimage' and rg -i 'Galois' over the whole tree before opening the coverage file; every 'preimage' hit is the Full/eso chosen-preimage machinery (Theory/Functor.v:332 `prefmap`, Theory/Equivalence/FullFaithful.v), and 'Galois' is header prose only. Independently checked the two candidate homes the classifier did not: Instance/Props.v (lines 39-94) supplies Props with Terminal/Initial/Cartesian/Cocartesian/Closed but no image or preimage functor and no adjunction; Instance/Sets/Image.v supplies `Sets_Image`/`Sets_Image_Factorization` (an epi-mono factorization of a single map), not a direct-image functor between power-set posets. Instance/Poset.v and Instance/Proset.v build only the thin category of a (pre)order. No f_* ⊣ f^{-1} anywhere. ABSENT stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor4",
+  "classification": "ABSENT",
+  "aliases": [
+   "tensor distributes over direct sums",
+   "U ⊗ (V ⊕ W) ≅ (U ⊗ V) ⊕ (U ⊗ W)",
+   "Vect_k / category of vector spaces / k-Vect",
+   "tensor-hom adjunction U ⊗ − ⊣ Hom(U, −)",
+   "left adjoint preserves coproducts, applied to ⊗"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"vector space\\|Vect\\|module\\|R-Mod\\|bimodule\\|direct sum\" . — every hit is header prose (Theory/Functor.v:68, Theory/Profunctor.v:21 'bimodule' as a synonym for profunctor, Theory/Kan/Extension.v:89) or Coq Module syntax; no category of vector spaces or modules exists",
+   "grep -rIn --include=\"*.v\" -E \"(Program )?(Definition|Instance|Class|Record|Inductive) +(Vect|Mod|Ring|Ab)\\b\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -i \"distribut\" . — the only distributivity isos are cartesian (Structure/BiCCC.v prod_coprod_l/prod_coprod_r, Structure/Distributive.v); none is stated for a non-cartesian monoidal ⊗",
+   "grep -n \"Class \\|Definition \\|Corollary \" Structure/Monoidal/Closed.v Structure/Monoidal/StarAutonomous.v — `ClosedMonoidal` (bundling CartesianMonoidal) and `SymMonClosed` supply the tensor-hom transpose `exp_iso` as a hom-setoid iso, but neither is packaged as an `Adjunction`, and no theorem says x ⨂ − preserves coproducts/colimits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: rg -i 'Vect|vector space|module|bimodule' -l returned only files whose hits are header prose or Coq's `Module` keyword; `ls Instance/` shows the complete instance roster (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX) — there is no Vect and no Mod. The only distributivity isos in the tree are cartesian (Structure/BiCCC.v `prod_coprod_l`/`prod_coprod_r`), never for a non-cartesian ⨂, and no theorem says x ⨂ − preserves coproducts. ABSENT stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "distributive law A × (B + C) ≅ (A×B) + (A×C)",
+   "(B × C)^A ≅ B^A × C^A",
+   "A^{B+C} ≅ A^B × A^C",
+   "categorified high-school algebra / rig category / BiCCC",
+   "cardinal arithmetic, cardinality functor |−| : Set_iso ⟶ Card"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 90,
+    "symbol": "prod_coprod_r",
+    "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }.   (* Context `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} *)"
+   },
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 134,
+    "symbol": "exp_coprod",
+    "intree_statement": "#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 310,
+    "symbol": "exp_prod_r",
+    "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }."
+   }
+  ],
+  "statement_record": {
+   "book": "Six claims. Set-level: A × (B + C) ≅ (A×B) + (A×C), (B×C)^A ≅ B^A × C^A, A^{B+C} ≅ A^B × A^C, each because A × − and A^{(−)} are adjoints. Cardinal-level: the corresponding equations α(β+γ) = αβ+αγ, (βγ)^α = β^α γ^α, α^{β+γ} = α^β α^γ, obtained by pushing the natural isomorphisms through the cardinality functor |−| : Set_iso ⟶ Card into the discrete category of cardinals.",
+   "intree": "All three set-level isomorphisms are proved, and proved in greater generality — for an arbitrary bicartesian closed category rather than Set: `prod_coprod_r : x × (y + z) ≅ x × y + x × z`, `exp_prod_r : (y × z)^x ≅ y^x × z^x`, `exp_coprod : x^(y + z) ≅ x^y × x^z`. They instantiate at Sets (Sets_Cartesian / Sets_Cocartesian / Sets_Closed) and at Coq (Coq_Cartesian / Coq_Cocartesian / Coq_Closed). Theory/Algebra.v collects them as an index of categorified high-school algebra, but does so with anonymous `Goal … auto. Qed.` statements, so the named instances above are the real assertions. No cardinal arithmetic exists.",
+   "strength_comparison": "intree-stronger for the three set-level clauses (any bicartesian closed category, not just Set), but the isos are proved directly from the product/coproduct/exponential UMPs rather than derived from adjointness as Riehl does; intree-absent for the three cardinal-arithmetic clauses."
+  },
+  "gap": "The three CARDINAL-level equations are entirely absent: there is no category Card of cardinals, no cardinality functor |−| : Set_iso ⟶ Card, and no machinery for converting a natural isomorphism in Sets into an identity in a discrete category. Additionally, the in-tree isos are not derived from the adjunctions (A × − ⊣ (−)^A, and A^{(−)} : Set^op ⟶ Set self-adjoint), so the third clause A^{B+C} ≅ A^B × A^C is not exhibited as 'a mutual right adjoint carries coproducts to products' — the mutual self-adjointness of A^{(−)} on Set^op is nowhere stated.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"cardinal\\|cardinality\" . — only prose (e.g. Theory/Equivalence.v on Cantor); no Card category, no |−| functor",
+   "grep -rIn --include=\"*.v\" -E \"(Definition|Instance|Class|Record) +(Card|Cardinal)\\b\" . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All three cited evidence lines verified verbatim: Structure/BiCCC.v:90 `prod_coprod_r : x × (y + z) ≅ x × y + x × z`, Structure/BiCCC.v:134 `exp_coprod : x^(y + z) ≅ x^y × x^z`, Structure/Cartesian/Closed.v:310 `exp_prod_r : (y × z)^x ≅ y^x × z^x`. Both files are in _CoqProject. Independently confirmed the instantiation claim the record makes: Instance/Sets/Cartesian.v:32 `Sets_Cartesian`, Instance/Sets/Cocartesian.v:28 `Sets_Cocartesian`, Instance/Sets/Cartesian/Closed.v:38 `Sets_Closed`, and Instance/Coq.v:141/167/199 `Coq_Cartesian`/`Coq_Closed`/`Coq_Cocartesian` all exist, so all three isos really do land at Set-like categories. Also verified the record's characterization of Theory/Algebra.v: lines 79-87 are literally anonymous `Goal ∀ x y z : C, … auto. Qed.` statements (x × (y+z) ≅ (x×y)+(x×z) at :79, x^(y+z) ≅ x^y × x^z at :86, (x×y)^z ≅ x^z × y^z at :87), so they are compiled corroboration but not named, reusable constants — the record is right to lean on the BiCCC/CCC instances instead. Cardinal half independently searched (rg -i 'cardinal|cardinality'): nothing but prose. PARTIAL stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor6",
+  "classification": "ABSENT",
+  "aliases": [
+   "free group on a disjoint union is a free product",
+   "F(X ⊔ Y) ≅ F(X) * F(Y)",
+   "free-group functor Set ⟶ Group, left adjoint to the forgetful functor",
+   "free product = coproduct in Grp",
+   "left adjoints preserve coproducts, applied to the free functor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"free group\\|free product\\|Grp\" . — all hits are header prose (Theory/Universal/Arrow.v:45, Structure/Cocartesian.v:44/53/68 'free product of groups' as a motivating example, Construction/Funny.v:113 free product in Mon, Construction/Groupoid.v:62)",
+   "grep -rIn --include=\"*.v\" -E \"(Program )?(Definition|Instance|Class|Record|Inductive) +(Grp|Group|FreeGroup)\\b\" . — the single hit is Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq`, a universal-algebra TYPE of group structures inside Andrej Bauer's variety development; there is no CATEGORY of groups (the category `Algs`, Instance/Comp.v:151, is built on `OpAlgebra` — the equation-free layer — and the variety layer `Algebra S E` has no category at all)",
+   "CORRECTED BY PHASE D — Instance/Comp.v DOES contain a free algebra on arbitrary generators: `Section FreeAlg` (Instance/Comp.v:83-133) defines `Free : OpAlgebra S` on a generating type X (:92, carrier the inductive term `Tree`), with universal property `induced_hom : AlgHom Free A` (:108) and uniqueness `from_free_unique` (:116, spending functional_extensionality). `Algs_Initial` (:209) is its X := False case. What is genuinely absent is the layer above: `Free` is never packaged as a FUNCTOR out of Coq/Sets, there is no free ⊣ forgetful adjunction, and the construction never reaches the variety layer where groups live",
+   "DECISIVE for this corollary: `Algs` has NO coproducts — `Algs_Cocartesian` exists only as a commented-out sketch at Instance/Comp.v:224-233 — so 'the free object on a disjoint union is the coproduct of the free objects' has no in-tree target even at the OpAlgebra level (`Algs_Terminal` :159, `Algs_Cartesian` :169 and `Algs_Initial` :209 are the live structure; `Algs_Closed` :189 is likewise commented out)",
+   "grep -rn --include=\"*.v\" \"Definition \\|Program Definition \" Construction/Free.v — Construction/Free.v builds the free CATEGORY on a quiver, not a free group; no forgetful/free adjunction to any algebraic category is instantiated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT stands — there is no category of groups, no free-group functor, no free product, and (decisively) no coproduct in ANY category of algebras: `Algs_Cocartesian` in Instance/Comp.v is COMMENTED OUT (the block at Instance/Comp.v:224-233 is inside (* … *)), so the free-object-preserves-coproducts statement has no target. HOWEVER the Phase-C negative_search_log contained a factual error which I have CORRECTED in place (classification unchanged, so no phase_c_classification is set): it asserted Instance/Comp.v has 'no free-algebra-on-generators' and 'only ... the initial algebra on NO generators'. In fact Instance/Comp.v:83-133 is `Section FreeAlg` with an arbitrary generating type X, defining `Free : OpAlgebra S` (:92, carrier the inductive `Tree` of terms over X), the induced homomorphism `induced_hom : AlgHom Free A` (:108) and its uniqueness `from_free_unique` (:116, which spends functional_extensionality — flagged in an in-file jww comment). `Algs_Initial` (:209) is then the X := False case. What is genuinely missing is everything above that: `Free` is never made a FUNCTOR Coq ⟶ Algs, there is no free ⊣ forgetful adjunction, the variety layer `Algebra S E` (Instance/Comp.v:268; `Group := Algebra GroupOp GroupEq` at :382) has no category at all, and Algs has no coproducts. Also verified Instance/Comp.v's header claim that Algs has terminal + binary products + initial: `Algs_Terminal` (:159), `Algs_Cartesian` (:169) and `Algs_Initial` (:209) are all live (only `Algs_Closed` at :189 is commented out) — so no library defect there."
+  }
+ },
+ {
+  "id": "riehl:4.6:def7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "left exact functor = preserves finite limits",
+   "right exact functor = preserves finite colimits",
+   "LeftExact / RightExact / Exact functor",
+   "flat functor, lex functor, finite-limit-preserving functor",
+   "PreservesLimit / PreservesColimit restricted to finite shapes"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 48,
+    "symbol": "PreservesLimit",
+    "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }."
+   },
+   {
+    "file": "Functor/Structure/Cartesian.v",
+    "line": 49,
+    "symbol": "CartesianFunctor",
+    "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; …; fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; fmap_exr …; fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) : fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g }."
+   },
+   {
+    "file": "Functor/Structure/Terminal.v",
+    "line": 43,
+    "symbol": "TerminalFunctor",
+    "intree_statement": "Class TerminalFunctor := { fobj_one_iso : 1 ≅ F 1; fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ @one _ _ (F X) }."
+   }
+  ],
+  "statement_record": {
+   "book": "A functor is RIGHT EXACT if it preserves finite colimits and LEFT EXACT if it preserves finite limits, stated for arbitrary functors, not only between abelian categories.",
+   "intree": "There is a general preservation vocabulary — `Class PreservesLimit G F` (per-diagram), `PreservesAllLimits F := ∀ J G, PreservesLimit G F`, and the dual `PreservesColimit`/`PreservesAllColimits` — and separate finite-shape preservation classes `CartesianFunctor` (binary products, via the comparison iso F(x × y) ≅ F x × F y) and `TerminalFunctor` (1 ≅ F 1). Neither the word 'exact' nor a finite-shape quantifier appears anywhere.",
+   "strength_comparison": "intree-weaker on the definition itself: nothing in-tree names left/right exactness, and there is no way to quantify over FINITE diagram shapes (no finite-category predicate exists). The available quantifiers are 'this one diagram' (PreservesLimit) or 'every diagram' (PreservesAllLimits, strictly stronger than left exactness); the intermediate finite class the book defines is missing."
+  },
+  "gap": "No `LeftExact`/`RightExact` definition and no notion of a FINITE index category, so 'preserves finite limits' cannot be stated. Piecewise finite-limit preservation exists only for terminal objects (TerminalFunctor) and binary products (CartesianFunctor); there is no equalizer- or pullback-preserving functor class, and no assembly of these into left exactness. Dually there is nothing at all on the colimit side (no cocartesian/initial-preserving functor class), so right exactness has not even a piecewise counterpart.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"left exact\\|right exact\\|LeftExact\\|RightExact\\|exact sequence\" . — 0 definition hits; 'left-exact' occurs only in Theory/Sheaf.v:83/112 header prose about Grothendieck toposes",
+   "grep -rn --include=\"*.v\" -i \"finite category\\|FiniteCat\\|preserves finite\\|PreservesFiniteLimits\" . — 0 hits; 'finite limits' occurs only in headers (Structure/Topos.v:20, Structure/Regular.v:30, Structure/Pullback.v:98)",
+   "grep -rn --include=\"*.v\" \"Class \\|Record \" Functor/Structure/*.v — the complete list of structure-preserving functor classes is CartesianFunctor, TerminalFunctor, ConstantFunctor, MonoidalFunctor, LaxMonoidalFunctor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All three cited lines verified: Structure/Limit/Preservation.v:48 `Class PreservesLimit`, Functor/Structure/Cartesian.v:49 `Class CartesianFunctor`, Functor/Structure/Terminal.v:43 `Class TerminalFunctor`; all in _CoqProject. My blind pass reached the same conclusion independently: rg -i 'LeftExact|RightExact|left exact|right exact|finite limit|finitely complete|Lex' finds no definition anywhere, and there is no finite-category predicate, so 'preserves finite (co)limits' is literally unstatable in the current vocabulary. Two refinements of the record's negative log, neither changing the verdict: (1) `ls -R Functor/Structure/` gives the exact roster — Cartesian.v, Cartesian/Closed.v (a ClosedFunctor class the log omits), Constant.v, Terminal.v, Monoidal.v and Monoidal/{Braided,Compose,Hypergraph,Id,Pure,Strict}.v — confirming there is NO cocartesian-, initial-, equalizer- or pullback-preserving functor class, hence right exactness has not even a piecewise counterpart. (2) BOUNDARY CALL: this record sits on the PARTIAL/ABSENT line. The item is a DEFINITION, and no half of it exists under any name; the cited constants are ambient preservation vocabulary rather than a partial formalization of exactness. I leave PARTIAL (the gap statement is precise and honest, and either verdict files the same issue), but Phase E should treat this as a definitional gap to be introduced from scratch — a finite-shape predicate plus LeftExact/RightExact — not as an existing development to be finished."
+  }
+ },
+ {
+  "id": "riehl:4.6:prop8",
+  "classification": "ABSENT",
+  "aliases": [
+   "left exact iff preserves finite direct sums and kernels",
+   "left exact functor preserves short exact sequences 0 → A → A' → A''",
+   "additive functor preserving kernels",
+   "equalizer of f, g is the kernel of f − g in an abelian category",
+   "exactness of a functor between abelian categories"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"left exact\\|exact sequence\\|LeftExact\" . — no definition; Structure/Abelian.v:70 mentions exact sequences only in the historical header essay",
+   "grep -rn --include=\"*.v\" -i \"additive functor\\|preserves biproduct\\|AdditiveFunctor\\|preserve.*direct sum\" . — 0 hits; no functor-level condition on biproducts exists anywhere",
+   "grep -n \"Definition \\|Lemma \\|Theorem \\|Class \\|Program \" Structure/Abelian.v — the abelian development is entirely object-and-morphism level (monic_iff_kernel_pzero, abelian_image_*, image_mediator_epic, abelian_epi_mono_factorization, Abelian_OFS); no functor between abelian categories is ever considered",
+   "grep -rn --include=\"*.v\" \"psub\\|pneg\" Structure/*.v — Structure/Additive.v defines difference `psub`, but no lemma identifies the equalizer of f, g with the kernel of f − g (Structure/Equalizer.v:56-58 states the 'difference kernel' fact only in a comment)",
+   "grep -n \"Class \\|Record \" Structure/Biproduct.v — Biproduct/HasBiproducts are object-level records; nothing bridges biproduct preservation to product/coproduct or limit preservation"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently confirmed the strongest part of the negative claim: rg over Structure/{Abelian,Additive,Preadditive,Semiadditive,Biproduct,Kernel}.v for 'Functor' or '⟶' returns NOTHING outside comments — the entire additive/abelian spine is object-and-morphism level, so no functor between abelian categories is ever considered, let alone a left exact one. Also verified the record's subsidiary claim about the difference kernel: Structure/Additive.v:143 defines `psub`, but the equalizer-of-(f,g) = kernel-of-(f−g) fact appears ONLY as header prose (Structure/Equalizer.v:56-60, 'the older algebraic name difference kernel records the additive case'); the in-tree specialization runs the other way (Structure/Kernel.v defines `IsKernel` as `IsEqualizer` against `zero_mor`). No 'additive functor' / 'preserves biproducts' notion exists. ABSENT stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor9",
+  "classification": "PARTIAL",
+  "aliases": [
+   "adjoints between abelian categories are exact",
+   "left adjoint is right exact, right adjoint is left exact",
+   "adjoint functors are additive / preserve finite direct sums",
+   "RAPL/LAPC specialized to finite (co)limits",
+   "additivity of adjoints"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 202,
+    "symbol": "right_adjoint_preserves_limits",
+    "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.   (* for any A : F ⊣ U — gives left exactness a fortiori *)"
+   },
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 223,
+    "symbol": "left_adjoint_preserves_colimits",
+    "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G.   (* gives right exactness a fortiori *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For any adjoint pair between abelian categories, the left adjoint is right exact (preserves finite colimits), the right adjoint is left exact (preserves finite limits), and BOTH functors are additive, i.e. preserve finite direct sums (a finite direct sum being simultaneously a finite limit and a finite colimit).",
+   "intree": "The two exactness clauses hold a fortiori and unconditionally: `right_adjoint_preserves_limits : PreservesAllLimits U` and `left_adjoint_preserves_colimits : PreservesAllColimits F` for every adjunction F ⊣ U, over arbitrary index categories and with no abelian hypothesis. The additivity clause has no counterpart: `Biproduct`/`HasBiproducts` (Structure/Biproduct.v) are object-level records with their own product/coproduct UMP fields, and nothing connects them to `PreservesLimit`/`PreservesColimit` or defines an additive functor.",
+   "strength_comparison": "intree-stronger for the two exactness clauses (all shapes, any categories, no abelian hypothesis); intree-absent for the additivity clause, and the statement is never expressed in the abelian/exactness vocabulary."
+  },
+  "gap": "Two things are missing. (1) The additivity conclusion: there is no definition of an additive functor, no notion of a functor preserving biproducts, and no bridge from a category's Biproduct record to a discrete-shape limit/colimit — so 'both adjoints preserve finite direct sums' is neither stated nor derivable from what is in-tree without new glue. (2) The exactness vocabulary itself is missing (see riehl:4.6:def7): 'right exact'/'left exact' are undefined, so the corollary can only be read as the unrestricted RAPL/LAPC and never as a statement about abelian categories.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"additive functor\\|preserves biproduct\\|AdditiveFunctor\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -i \"left exact\\|right exact\" . — 0 definition hits",
+   "grep -n \"Class \\|Record \\|Lemma \\|Theorem \" Structure/Biproduct.v Structure/Additive.v Structure/Semiadditive.v — no functor appears in any of these files"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Both cited lines are the same verified Adjunction/Continuity.v:202/223 constants as riehl:4.6:thm2. PARTIAL is the right call and the split is honest: the two exactness clauses do hold a fortiori (all shapes, no abelian hypothesis) while the additivity clause has no counterpart — independently confirmed that Structure/Biproduct.v contains no functor and that nothing bridges a `Biproduct`/`HasBiproducts` record to a discrete-shape `PreservesLimit`/`PreservesColimit`, so 'both adjoints preserve finite direct sums' is not derivable in-tree without new glue. One nuance worth carrying into Phase E: because 'left/right exact' is undefined (riehl:4.6:def7), the exactness clauses are present only under a RE-READING of the corollary as unrestricted RAPL/LAPC; the corollary as Riehl states it — a statement about functors between ABELIAN categories — is not expressible, and this record should be filed jointly with def7, not separately."
+  }
+ },
+ {
+  "id": "riehl:4.6:cor10",
+  "classification": "ABSENT",
+  "aliases": [
+   "M ⊗_S − : S-Mod ⟶ R-Mod is right exact",
+   "tensoring with a bimodule preserves finite colimits",
+   "tensor-hom adjunction M ⊗_S − ⊣ Hom_R(M, −)",
+   "R-S bimodule, category of modules over a ring",
+   "left adjoint between abelian categories is right exact"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"bimodule\\|R-Mod\\|module\" . — 'bimodule' appears only as the Bénabou synonym for a profunctor (Theory/Profunctor.v:21/58, Theory/Bicategory.v:57/83, Theory/DoubleCategory.v:96) and in Comonad/Coalgebra.v:99 prose about extension of scalars; 'Module' otherwise matches Coq's Module keyword",
+   "grep -rIn --include=\"*.v\" -E \"(Program )?(Definition|Instance|Class|Record|Inductive) +(Mod|Ring|Rng|Vect)\\b\" . — 0 hits; there is no category of rings or modules in the tree",
+   "grep -rn --include=\"*.v\" -i \"right exact\" . — 0 hits",
+   "grep -rn --include=\"*.v\" -i \"extension of scalars\\|restriction of scalars\" . — only Construction/ColouredPROP/BaseChange.v, which reuses the NAME for colour base change of coloured PROPs; it is not a module-theoretic adjunction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees on every leg: no ring, no module, no bimodule category (`ls Instance/` roster has none; every 'bimodule' hit is the Bénabou synonym for a profunctor), no tensor-hom adjunction packaged as an `Adjunction`, and 'right exact' is undefined. Confirmed the record's caution about Construction/ColouredPROP/BaseChange.v: its 'restriction of scalars' (:40, :150) is colour base change for coloured PROPs and has nothing to do with modules. ABSENT stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:lem11",
+  "classification": "PARTIAL",
+  "aliases": [
+   "G faithful iff counit is epic; G full iff counit is split monic; G full and faithful iff counit is iso",
+   "F faithful iff unit is monic; F full iff unit is split epic; F full and faithful iff unit is iso",
+   "fully faithful right adjoint has invertible counit",
+   "counit iso / unit iso characterization of adjoint embeddings",
+   "reflective subcategory counit isomorphism"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Reflective.v",
+    "line": 92,
+    "symbol": "reflective_counit_iso",
+    "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x.   (* with `to` the counit ε_x of reflective_adj R and `from` the fullness-lifted unit *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For F ⊣ G : C ⇄ D with counit ε and unit η, six biconditionals: (i) G faithful ⟺ every ε_d is epic; (ii) G full ⟺ every ε_d is a split monomorphism; (iii) G full and faithful ⟺ ε is an isomorphism; and dually (i) F faithful ⟺ every η_c is monic; (ii) F full ⟺ every η_c is a split epimorphism; (iii) F full and faithful ⟺ η is an isomorphism.",
+   "intree": "Only one implication, in one special case: for a FULL reflective subcategory (so that the right adjoint is the inclusion Incl C S, full by `reflective_full` and faithful definitionally), `reflective_counit_iso` proves the counit component ε_x : reflector R (Incl C S x) ~> x is an isomorphism. That is the ⟹ half of clause (iii) restricted to subcategory inclusions. Nothing states any of the five other clauses, and no converse is proved.",
+   "strength_comparison": "intree-weaker: one direction of one of six clauses, and only for a full-subcategory inclusion rather than an arbitrary right adjoint G. The epimorphism / split-monomorphism / monomorphism / split-epimorphism characterizations have no in-tree counterpart at all, even though `Epic`, `Monic`, `SplitMono := Section`, `SplitEpi := Retraction` all exist in Theory/Morphisms.v."
+  },
+  "gap": "Missing: all six biconditionals for a general adjunction F ⊣ G. Specifically (a) no lemma relates Faithful/Full of an adjoint to any property of ε or η; (b) the epi / split-mono / mono / split-epi clauses are entirely absent although the morphism classes exist (Theory/Morphisms.v:104 Epic, :126 SplitEpi, :127 SplitMono); (c) every converse direction is missing. The only near neighbour beyond `reflective_counit_iso` is `AdjointEquivalence` (Theory/Equivalence/Adjoint.v:69), which ASSUMES both unit and counit are isomorphisms and derives an equivalence — strictly stronger hypotheses than clause (iii), which needs only ε invertible.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" \"Faithful\" . | grep -i \"counit\\|unit\\|epi\\|mono\" — 0 relevant hits (only Mon_Forget_Faithful / Comon_Forget_Faithful prose)",
+   "grep -rn --include=\"*.v\" \"Monic (\\|Epic (\\|Monic \\|Epic \" . | grep -i \"unit\\|counit\\|η\\|ε\\|adj\" — only Theory/Adjunction.v:312 `adj_monic` (Faithful F → Monic f → ⌊f⌋ is monic), a different statement",
+   "grep -rn --include=\"*.v\" \"SplitMono\\|SplitEpi\" . — defined in Theory/Morphisms.v and used in Theory/Morphisms/Classes.v, Monad/Monadicity/*, Structure/Factorization/StrongEpi.v; never in connection with an adjunction unit or counit",
+   "grep -rn --include=\"*.v\" -i \"fully faithful\\|full and faithful\" . — hits concern equivalences, Yoneda, Karoubi, the Grothendieck round trip and Monad/Lifting.v's comparison functor; none characterizes fullness/faithfulness by unit or counit"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Cited evidence verified: Construction/Reflective.v:92-94 `reflective_counit_iso (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x`, whose `to` is the counit and whose `from` is the fullness-lifted unit. My blind pass ran the same hunt from the other direction (rg 'counit.*Epi|unit.*Mono|SplitMono|SplitEpi' and rg -i 'adjoint.*full|full.*adjoint|faithful.*adjoint') and likewise found no lemma anywhere relating Full/Faithful of an adjoint to any property of η or ε — even though the morphism classes exist and were verified at the cited lines (Theory/Morphisms.v:104 `Class Epic`, :126 `SplitEpi := Retraction`, :127 `SplitMono := Section`). The record's AdjointEquivalence remark is accurate: Theory/Equivalence/Adjoint.v:69 `Class AdjointEquivalence` ASSUMES both `adj_equiv_unit_iso` and `adj_equiv_counit_iso`, so it is strictly stronger hypotheses than clause (iii). One further near neighbour the record omits, on the DUAL (unit) side: Construction/Localization.v:184 `unit_at_local_iso` — the reflection unit at a W-local object is an isomorphism. Like `reflective_counit_iso` it is the ⟹ half of clause (iii) specialized to a full-subcategory inclusion, so it widens the near-neighbour set without changing the verdict: still one direction of one of six clauses, only for inclusions. PARTIAL stands."
+  }
+ },
+ {
+  "id": "riehl:4.6:def12",
+  "classification": "PRESENT",
+  "aliases": [
+   "reflective subcategory",
+   "reflector / localization / left adjoint to a full inclusion",
+   "coreflective subcategory (inclusion has a right adjoint)",
+   "reflection unit η_c : c → Lc, counit iso ε_d : Ld ≅ d",
+   "idempotent monad / localization functor"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Reflective.v",
+    "line": 60,
+    "symbol": "Reflective",
+    "intree_statement": "Record Reflective {C : Category} (S : Subcategory C) := { reflective_full : Construction.Subcategory.Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }."
+   },
+   {
+    "file": "Construction/Reflective.v",
+    "line": 92,
+    "symbol": "reflective_counit_iso",
+    "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x."
+   },
+   {
+    "file": "Construction/Localization.v",
+    "line": 241,
+    "symbol": "reflector_inverts_W",
+    "intree_statement": "Theorem reflector_inverts_W {a b : C} (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w).   (* Refl := reflector R for a Reflective (C_W W), the full subcategory of W-local objects *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A reflective subcategory of C is a full subcategory D whose inclusion D ↪ C admits a LEFT adjoint L, the reflector or localization. Identifying D with its image, the unit components are η_c : c → Lc and, by Lemma 4.6.11(iii), the counit components ε_d : Ld → d are isomorphisms — every object of a reflective subcategory is naturally isomorphic to its reflection. The dual notion, coreflective subcategory (inclusion has a right adjoint), is named in the surrounding prose.",
+   "intree": "`Record Reflective (S : Subcategory C)` bundles exactly the book's three data: fullness of the subcategory (`reflective_full`), the reflector `reflector : C ⟶ Sub C S`, and the adjunction `reflective_adj : reflector ⊣ Incl C S`. The counit-iso consequence Riehl derives from 4.6.11(iii) is proved as `reflective_counit_iso : reflector R (Incl C S x) ≅[Sub C S] x`, with the counit as the forward map and the fullness-lifted unit as its inverse. The dual is `Coreflective S := @Reflective (C^op) (op_subcategory S)` (Construction/Reflective.v:85). The 'localization' reading is made a theorem in Construction/Localization.v: the reflector onto the full subcategory of W-local objects inverts every W-morphism (`reflector_inverts_W`), with the universal property in Construction/Localization/Universal.v.",
+   "strength_comparison": "same — the definition matches clause for clause (full subcategory, left adjoint to the inclusion, named reflector), the counit-iso remark is proved rather than assumed, and the coreflective dual is present. The in-tree version does NOT identify D with its image (Sub C S is a genuine subcategory construction rather than a suppressed inclusion), which is a presentational difference only; if anything it is more explicit than the book."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All three cited lines verified verbatim: Construction/Reflective.v:60 `Record Reflective {C} (S : Subcategory C) := { reflective_full; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }`, :92 `reflective_counit_iso`, and Construction/Localization.v:241 `Theorem reflector_inverts_W`. Both files are in _CoqProject. The coreflective dual is real and not merely named: Construction/Reflective.v:85-86 `Definition Coreflective {C} (S : Subcategory C) : Type := @Reflective (C^op) (op_subcategory S)` over `op_subcategory` (:76). Structural check that the record is not a definition-without-API: the `Reflective` record is genuinely consumed downstream — Construction/Reflective/Idempotent.v:166 and :345 (`Idempotent_Reflective`, the reflective ⟺ idempotent-monad correspondence), Construction/Localization.v:185/231, and Construction/Localization/Universal.v:76 (the universal property). Blind pass reached exactly these files. PRESENT stands; the 'same' strength verdict is honest, and the Sub-C-S-versus-suppressed-inclusion difference really is presentational."
+  }
+ },
+ {
+  "id": "riehl:4.6:example13",
+  "classification": "ABSENT",
+  "aliases": [
+   "cHaus ↪ Top with Stone-Čech compactification β as reflector",
+   "Ab ↪ Group with abelianization G/[G,G]; CRing ↪ Ring",
+   "torsion-free abelian groups Ab_tf ↪ Ab, A/TA",
+   "extension of scalars T ⊗_R − ⊣ restriction φ*; ring epimorphism; localization R → R[S^{-1}]",
+   "Shv_X ↪ Set^{O(X)^op} with sheafification; Cat ↪ sSet with nerve N and homotopy category ho ⊣ N"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "Clause (i): grep -rn --include=\"*.v\" -i \"Stone\\|compactification\\|cHaus\\|Top\\b\" . — no category Top, no compact Hausdorff spaces; 'Stone' matches only 'Rosetta Stone' (Theory/Category.v:86) and the Stone duality remark in Theory/Equivalence.v:120; 'compactification' appears once, in Theory/Universal/Arrow.v:45 history prose",
+   "Clause (ii): grep -rn --include=\"*.v\" -i \"abelianization\\|Grp\\|CRing\" . — 'abelianization' occurs once as an example in Construction/Localization.v:106 prose; no category of groups or rings exists (see riehl:4.6:cor6 log)",
+   "Clause (iii): grep -rn --include=\"*.v\" -i \"torsion\" . — 0 hits",
+   "Clause (iv): grep -rn --include=\"*.v\" -i \"extension of scalars\\|restriction of scalars\\|ring epimorphism\" . — Construction/ColouredPROP/BaseChange.v reuses the phrase for coloured-PROP base change only; there are no modules, no rings, and no localization R → R[S^{-1}]",
+   "Clause (v): grep -rn --include=\"*.v\" -i \"sheafification\" . — 6 hits, ALL declaring it a deferral; Theory/Sheaf/Category.v:50-52 states 'Sheafification (the left adjoint to [Sheaves_Incl], exhibiting [Sheaves C] as a reflective subcategory of presheaves) is a named deferral: LEDGER ENTRY 1.' The file supplies only the full subcategory `Sheaves`, its fully faithful inclusion (Sheaves_Full/Sheaves_Faithful) and `sheaf_iso_closed` — no reflector, so no reflectivity claim exists",
+   "Clause (vi): grep -rn --include=\"*.v\" -i \"nerve\\|simplicial\\|sSet\\|homotopy category\" . — all hits are header prose (Theory/Kan/Extension.v:36/91, Construction/Enriched.v:72, Instance/StrictCat.v:36, Construction/Localization.v:76/97); there is no simplicial-set category, no nerve functor, and no ho ⊣ N adjunction",
+   "grep -rn --include=\"*.v\" \"Reflective \" . — the only inhabitant of the Reflective record in the whole tree is Construction/Reflective/Idempotent.v:345 `Idempotent_Reflective : Reflective MLocal_Subcategory`, built generically from an idempotent monad; none of Riehl's six examples is instantiated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently drew a blank on all six clauses (rg -i 'sheafification|stone|abelianization|torsion|nerve|homotopy category|free product|restriction of scalars|extension of scalars' over the tree returns header prose only). Spot-verified the two clauses where something plausibly exists. Clause (v): Theory/Sheaf/Category.v really does supply only the full subcategory and its embedding — `Sheaves_Incl` (:84), `Sheaves_Full` (:94), `Sheaves_Faithful` (:103), `sheaf_iso_closed` (:119) — while :49-52 states in terms 'Sheafification (the left adjoint to [Sheaves_Incl], exhibiting [Sheaves C] as a reflective subcategory of presheaves) is a named deferral: LEDGER ENTRY 1.' No reflector, so no reflectivity claim; and the same header (:30-48) independently discloses that the inherited `Sheaf` predicate is per-leg and vacuous beyond subsingleton fibres, so even the subcategory is weaker than Riehl's. Clause (vi): no simplicial set category and no nerve functor exist. Also re-ran the record's closing check: `rg 'Reflective '` over the tree shows the ONLY constructed inhabitant of the record is Construction/Reflective/Idempotent.v:345 `Idempotent_Reflective`; every other occurrence is the record definition, the Coreflective dual, or a `Context (R : Reflective …)` hypothesis (Construction/Localization.v:231, Construction/Localization/Universal.v:76, Construction/Reflective/Idempotent.v:166). None of Riehl's six examples is instantiated. ABSENT stands."
+  }
+ }
+]

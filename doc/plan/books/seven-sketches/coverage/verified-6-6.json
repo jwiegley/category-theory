@@ -1,0 +1,489 @@
+[
+ {
+  "id": "7sketches:6.4.3:ex6.84",
+  "classification": "PARTIAL",
+  "aliases": [
+   "decorated cospan (Fong)",
+   "Circ-decorated cospan / morphism of Cospan_Circ",
+   "DecoratedCospanArrow / dc_decoration",
+   "decoration of the apex: an element of F(N) for a lax monoidal F",
+   "C-circuit (V, A, s, t, l) = edge-labelled directed multigraph with terminals"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/DecoratedCospan.v",
+    "line": 120,
+    "symbol": "DecoratedCospanArrow",
+    "intree_statement": "Record DecoratedCospanArrow (X Y : C) : Type := { dc_cospan : CospanArrow X Y; dc_decoration : @I D _ ~{D}~> F (cospan_apex dc_cospan) }"
+   },
+   {
+    "file": "Construction/DecoratedCospan/Category.v",
+    "line": 264,
+    "symbol": "DecoratedCospanCat",
+    "intree_statement": "Program Definition DecoratedCospanCat : Category := {| obj := @obj C; hom := fun X Y => DecoratedCospanArrow X Y; homset := fun X Y => DecoratedCospanArrow_Setoid; id := fun X => dec_cospan_id id_decoration X; compose := fun X Y Z g f => dec_cospan_compose HP LM cospan_merge g f; ... |}"
+   }
+  ],
+  "statement_record": {
+   "book": "The morphisms of Cospan_Circ are Circ-decorated cospans in the sense of Definition 6.75, so the displayed picture (6.83) is a cospan together with a decoration, which is a C-circuit (V, A, s, t, l) lying in Circ(2); state that circuit (V = 2, one edge e with s(e)=1, t(e)=2, l(e)=battery).",
+   "intree": "Record DecoratedCospanArrow (X Y : C) : Type := { dc_cospan : CospanArrow X Y; dc_decoration : @I D _ ~{D}~> F (cospan_apex dc_cospan) }; DecoratedCospanCat has hom := fun X Y => DecoratedCospanArrow X Y",
+   "strength_comparison": "intree-weaker: the exercise's PREMISE (a morphism of a decorated-cospan category is exactly a cospan plus a decoration of its apex, taken as a generalized element I ~> F(apex) of the lax monoidal decoration functor F) is in-tree in full generality, but the exercise's actual CONTENT — naming the particular decoration as an object of Circ(2) — is not statable: no `Circ` (labelled-graph / electrical-circuit) decoration functor exists in the tree."
+  },
+  "gap": "There is no in-tree `Circ`: nothing in the tree constructs the lax monoidal functor FinSet -> Set sending a finite set t to the set of electric circuits with t terminals, nor the underlying data of a C-circuit (V, A, s, t, l) — an edge-labelled directed multigraph together with a map from the terminal set into V. `Construction/Free/Quiver.v` supplies an unlabelled quiver (directed multigraph: nodes, edges, source, target) but no edge labelling and no terminal map, and it is never used as a decoration. Consequently `DecoratedCospanCat` has no concrete decoration instance at all (Construction/DecoratedCospan/Category.v:339-373 records this explicitly: 'Once a concrete application — Baez–Fong circuits, Markov processes — is formalised, the corresponding coherence-class instance is the bulk of the work'), and the exercise's answer cannot be written down or checked.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'circuit' . -- 27 hits, ALL prose/essay references (Construction/DecoratedCospan.v:89, DecoratedCospan/Category.v:104,340,371, DecoratedCospan/Hypergraph.v:151,242, Construction/Cospan/BlackBox.v:19,64, Instance/ZX.v:120); no Coq definition",
+   "grep -rn --include='*.v' -i 'battery|resistor|lightbulb' . -- only Construction/PROP/Signature.v:40 (a comment sketching a hypothetical signature) and DecoratedCospan/Hypergraph.v:152,243-245 (prose); no definitions",
+   "grep -rn --include='*.v' -i 'labelled graph|labeled graph|multigraph' . -- 2 hits, both comments (Instance/ZX.v:172, Construction/Free/Quiver.v:21)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass ran first and found the same two artefacts: `find . -iname '*cospan*'` -> Construction/DecoratedCospan.v + Construction/DecoratedCospan/{Category,Monoidal,Braided,Symmetric,Hypergraph}.v; `rg -in 'circuit|battery|resistor|lightbulb' -tcoq` -> prose only (DecoratedCospan.v:89 'Applications: electrical circuits (Baez-Fong)'). My own preliminary verdict was ABSENT-leaning; I accept PARTIAL as defensible because the exercise itself states its premise ('morphisms of Cospan_Circ ARE Circ-decorated cospans') and that premise is in-tree in full generality. Evidence re-read and exact: DecoratedCospan.v:120-123 is verbatim the quoted Record; DecoratedCospan/Category.v:264-275 is verbatim the quoted Program Definition (hom := DecoratedCospanArrow, compose := dec_cospan_compose). Gap independently re-verified: `rg -n 'DecCospan_Coherent' -tcoq` returns 20 hits and EVERY use site is a `Context` hypothesis (BlackBox.v:175, DecoratedCospan/{Symmetric.v:84,Hypergraph.v:121,Braided.v:82,Monoidal.v:87}); the only defining occurrence is `Class DecCospan_Coherent` at DecoratedCospan/Category.v:113 -- so no decoration whatsoever discharges it, exactly as the gap says. Both cited files are registered in _CoqProject (lines 124, 125). CAVEAT for the issue writer, not a defect in this record: the credited evidence is the content of Definition 6.75, a separate item, so the Phase-E issue for ex6.84 must not re-file def6.75's coverage -- the same double-counting the classifier itself refuses at prop6.101."
+  }
+ },
+ {
+  "id": "7sketches:6.4.3:ex6.86",
+  "classification": "PARTIAL",
+  "aliases": [
+   "composition of decorated cospans",
+   "cospan composition by pushout, apex N +_B M",
+   "dec_cospan_compose / cospan_compose / cospan_compose_apex",
+   "Cospan_Circ composite of two circuits",
+   "gluing circuits along a shared interface"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/DecoratedCospan.v",
+    "line": 303,
+    "symbol": "dec_cospan_compose",
+    "intree_statement": "Definition dec_cospan_compose {X Y Z : C} (g : DecoratedCospanArrow Y Z) (f : DecoratedCospanArrow X Y) : DecoratedCospanArrow X Z := {| dc_cospan := cospan_compose HP (dc_cospan g) (dc_cospan f); dc_decoration := dec_compose_decoration g f |}"
+   },
+   {
+    "file": "Construction/Cospan/Category.v",
+    "line": 135,
+    "symbol": "cospan_compose",
+    "intree_statement": "Definition cospan_compose {X Y Z : C} (g : CospanArrow Y Z) (f : CospanArrow X Y) : CospanArrow X Z := let P := pushout (cospan_in2 f) (cospan_in1 g) in {| cospan_apex := pushout_apex P; cospan_in1 := pushout_in1 P ∘ cospan_in1 f; cospan_in2 := pushout_in2 P ∘ cospan_in2 g |}"
+   },
+   {
+    "file": "Construction/DecoratedCospan.v",
+    "line": 291,
+    "symbol": "dec_compose_decoration",
+    "intree_statement": "Definition dec_compose_decoration {X Y Z} (g : DecoratedCospanArrow Y Z) (f : DecoratedCospanArrow X Y) : @I D _ ~{D}~> F (cospan_apex (cospan_compose HP (dc_cospan g) (dc_cospan f))) := fmap[F] (pushout_in1 P ▽ pushout_in2 P) ∘ fmap[F] (cospan_merge N M) ∘ lax_ap[F] ∘ bimap (dc_decoration f) (dc_decoration g) ∘ from (@unit_left D _ (@I D _))"
+   }
+  ],
+  "statement_record": {
+   "book": "Express the two decorated circuits drawn in Eq. (6.73) (the 2-ohm/3-farad/1-ohm/1-henry circuit with interface A, N, B, and the 5-ohm/8-ohm circuit with interface B, M, C) as actual morphisms of Cospan_Circ, compute their composite by the composition rule, and check the result agrees with the picture (6.74), whose apex is the pushout N +_B M.",
+   "intree": "dec_cospan_compose g f = {| dc_cospan := cospan_compose HP (dc_cospan g) (dc_cospan f); dc_decoration := dec_compose_decoration g f |}, with cospan_apex (cospan_compose HP g f) = pushout_apex (pushout (cospan_in2 f) (cospan_in1 g)) (cospan_compose_apex, by reflexivity)",
+   "strength_comparison": "intree-weaker: the composition RULE the exercise applies is fully in-tree and general — the underlying cospan composes by the pushout of the shared interface, and the decoration is transported by the lax monoidal structure map of F followed by the pushout copairing — but the exercise's concrete instance (Circ-decorated circuits with resistors/capacitors/inductors) cannot be written, so nothing is actually computed or checked."
+  },
+  "gap": "The general composition law is present; the specific computation is impossible because there is no in-tree `Circ` decoration functor (see ex6.84), and no concrete `DecCospan_Coherent` instance exists at all — the four coherence fields are packaged as an opaque hypothesis class (Construction/DecoratedCospan/Category.v:113 `Class DecCospan_Coherent`) that no in-tree decoration discharges. There is also no worked example anywhere in the tree of composing two decorated cospans at concrete data.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All three quotes re-read at the cited lines and exact: DecoratedCospan.v:303-308 (dec_cospan_compose), DecoratedCospan.v:291-301 (dec_compose_decoration, including the fmap[F](pushout_in1 P >< pushout_in2 P) o fmap[F](cospan_merge N M) o lax_ap[F] o bimap ... o from unit_left chain), Construction/Cospan/Category.v:135ff (cospan_compose by pushout of cospan_in2 f against cospan_in1 g). I additionally confirmed the apex identification the record leans on: Cospan/Category.v:535-539 `cospan_compose_apex ... = pushout_apex (pushout ...)` is proved by `reflexivity`, so the book's apex N +_B M is definitional in-tree. PARTIAL is honest: the general composition RULE is present and the record's strength_comparison says so plainly while stating that nothing is computed at the exercise's data. Gap re-verified as for ex6.84 (no DecCospan_Coherent instance exists; no worked composition of two decorated cospans at concrete data anywhere -- `rg -n 'dec_cospan_compose' -tcoq` shows only the definition and its generic laws)."
+  }
+ },
+ {
+  "id": "7sketches:6.4.3:ex6.88",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cup and cap / unit and counit of a self-dual object",
+   "coevaluation eta : I -> X (x) X, evaluation epsilon : X (x) X -> I",
+   "compact closed / Hypergraph_CompactClosed, cc_unit / cc_counit",
+   "closed circuit = endomorphism of the monoidal unit (scalar)",
+   "the cospans 0 -> 1 <- 2 and 2 -> 1 <- 0 with singleton apex"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/CompactClosed.v",
+    "line": 303,
+    "symbol": "Hypergraph_CompactClosed",
+    "intree_statement": "Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {| dual := fun X => X; cc_unit := fun X => hcc_unit X (F := scfa X); cc_counit := fun X => hcc_counit X (F := scfa X); snake_left := hypergraph_snake_left; snake_right := hypergraph_snake_right |} (with cc_unit X : I ~> dual X ⨂ X, cc_counit X : X ⨂ dual X ~> I from Class CompactClosed, line 139)"
+   },
+   {
+    "file": "Construction/Cospan/Hypergraph.v",
+    "line": 124,
+    "symbol": "cospan_scfa_eta / cospan_scfa_delta",
+    "intree_statement": "Definition cospan_scfa_eta (X : C) : CospanArrow Cospan_unit_obj X := Build_CospanArrow X zero id[X].  Definition cospan_scfa_delta (X : C) : CospanArrow X (X + X) := Build_CospanArrow X id[X] (id[X] ▽ id[X])."
+   },
+   {
+    "file": "Construction/DecoratedCospan/Hypergraph.v",
+    "line": 205,
+    "symbol": "DecoratedCospan_Hypergraph",
+    "intree_statement": "Program Definition DecoratedCospan_Hypergraph : @Hypergraph DC DCSMC := {| ... |}"
+   }
+  ],
+  "statement_record": {
+   "book": "For the open circuit x : 2 -> 2 of (6.87), define eta : 0 -> 2 and epsilon : 2 -> 0 as the cospans 0 -> 1 <- 2 and 2 -> 1 <- 0 with singleton apex, each decorated by the empty circuit in Circ(1); compute the composite eta ; x ; epsilon, a morphism 0 -> 0 — such morphisms are called closed circuits.",
+   "intree": "cc_unit X : I ~> dual X ⨂ X and cc_counit X : X ⨂ dual X ~> I with dual X := X, cc_unit X := scfa_delta ∘ scfa_eta and cc_counit X := scfa_epsilon ∘ scfa_mu, satisfying both snake identities (Hypergraph_CompactClosed); in CospanCat these unfold to cospan_scfa_delta ∘ cospan_scfa_eta, whose apex is X with legs zero and the codiagonal id ▽ id",
+   "strength_comparison": "intree-weaker: the exercise's structural content — that a hypergraph (decorated-)cospan category has cups and caps, and that they are exactly delta∘eta and epsilon∘mu of the per-object special commutative Frobenius algebra, with the snake identities proved — is fully in-tree and in fact STRONGER than the book asks (the book only exhibits the two cospans; the library proves both zig-zags). What is missing is the exercise's own instance: no Circ decoration, so the composite eta ; x ; epsilon is never formed, and 'closed circuit' (an endomorphism of the monoidal unit) has no in-tree name — there is no scalar/End(I) vocabulary anywhere in the tree."
+  },
+  "gap": "Three specific things are missing. (1) The `Circ` decoration functor (see ex6.84), hence neither x nor the 'empty circuit in Circ(1)' decoration on eta and epsilon exists. (2) The book's eta : 0 -> 2 with SINGLETON apex is the composite cospan_scfa_delta ∘ cospan_scfa_eta at X = 1 — the library defines both factors and proves the compact-closed laws, but never records the composite in the book's explicit 0 -> 1 <- 2 form, and no concrete instantiation at FinSet's object 1 appears. (3) 'Closed circuit' = endomorphism of the monoidal unit I: the tree has no notion of scalar / End(I) (grep -rn --include='*.v' -i 'scalar' . returns only restriction-of-scalars and unrelated hits).",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "The strongest record in the batch, and its unusual 'intree-STRONGER than the book asks' claim checks out. Structure/Monoidal/CompactClosed.v:303-310 is verbatim the quoted Program Instance (dual := fun X => X, cc_unit := hcc_unit, cc_counit := hcc_counit, snake_left/snake_right supplied), and the class it inhabits at line 139-160 does carry BOTH zig-zags as fields -- so the library really does prove more than the exercise exhibits. Construction/Cospan/Hypergraph.v:124-125 and 131-132 are verbatim (cospan_scfa_eta := Build_CospanArrow X zero id[X]; cospan_scfa_delta := Build_CospanArrow X id[X] (id[X] >< id[X])). DecoratedCospan/Hypergraph.v:205-215 is verbatim. All three files registered (_CoqProject 363, 78, 129). Independently verified the third gap clause: `rg -in '\\bscalar' -tcoq` returns 8 hits, all restriction/extension-of-scalars or unrelated (Comonad/Coalgebra.v:99, SpecialCommutativeFrobenius.v:27, ColouredPROP/BaseChange*.v, Funny*.v) -- there is indeed no End(I)/scalar notion, so 'closed circuit' has no in-tree name. No Admitted anywhere in the cospan/decorated-cospan files."
+  }
+ },
+ {
+  "id": "7sketches:6.5.1:def6.91",
+  "classification": "PRESENT",
+  "aliases": [
+   "operad (typed / coloured operad)",
+   "multicategory (Lambek)",
+   "symmetric multicategory",
+   "Class Multicategory / mobj / mhom / mcomp / mid",
+   "substitution o_i, single-slot composition, circle-i composition"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory.v",
+    "line": 317,
+    "symbol": "Multicategory",
+    "intree_statement": "Class Multicategory : Type := { mobj : Type; mhom : list mobj → mobj → Type; mhomset (Γ : list mobj) (c : mobj) : Setoid (mhom Γ c); mcast {Γ Γ' c} (e : Γ = Γ') : mhom Γ c → mhom Γ' c; ...; mid (a : mobj) : mhom [a] a; mcomp {Γ1 Γ2 Δ : list mobj} {b c : mobj} : mhom (Γ1 ++ b :: Γ2) c → mhom Δ b → mhom (Γ1 ++ Δ ++ Γ2) c; ... }"
+   },
+   {
+    "file": "Theory/Multicategory.v",
+    "line": 358,
+    "symbol": "mcomp_id_left / mcomp_id_right / mcomp_assoc_nested / mcomp_assoc_disjoint",
+    "intree_statement": "mcomp_id_left {Δ b} (g : mhom Δ b) : mcast (splice_eq_unit_left Δ) (mcomp (Γ1:=[]) (Γ2:=[]) (mid b) g) ≈ g;  mcomp_id_right {Γ1 Γ2 a c} (f : mhom (Γ1 ++ a :: Γ2) c) : mcast (splice_eq_unit_right Γ1 Γ2 a) (mcomp f (mid a)) ≈ f;  mcomp_assoc_nested ... : mcomp (mcast e1 (mcomp f g)) h ≈ mcast e2 (mcomp f (mcomp g h));  mcomp_assoc_disjoint ... : mcomp (mcast d1 (mcomp f g)) h ≈ mcast d4 (mcomp (mcast d3 (mcomp (mcast d2 f) h)) g)"
+   }
+  ],
+  "statement_record": {
+   "book": "Rough Definition 6.91: to specify an operad O one gives (i) a collection T of types; (ii) for each tuple (t1,...,tn,t) a set O(t1,...,tn;t) of operations; (iii) for each i a substitution function o_i : O(s1,...,sm;t_i) x O(t1,...,tn;t) -> O(t1,...,t_{i-1},s1,...,sm,t_{i+1},...,tn;t); (iv) for each type t an identity id_t in O(t;t); subject to (unstated) generalized identity and associativity laws. Footnote 7: types = colours/objects, operations = morphisms, substitution = composition, operads = multicategories.",
+   "intree": "Class Multicategory := { mobj : Type; mhom : list mobj → mobj → Type; mid (a : mobj) : mhom [a] a; mcomp {Γ1 Γ2 Δ b c} : mhom (Γ1 ++ b :: Γ2) c → mhom Δ b → mhom (Γ1 ++ Δ ++ Γ2) c; ... } with mcomp_id_left, mcomp_id_right, mcomp_assoc_nested, mcomp_assoc_disjoint",
+   "strength_comparison": "same on all four clauses, plus intree-stronger in two respects and one caveat. (a) Clause-by-clause: mobj is the type collection T; mhom Γ c is O(t1,...,tn;t) (as a SETOID, the library's faithful rephrasing of 'set'); mcomp is o_i with the slot addressed by an explicit zipper (Γ1, b, Γ2) rather than a numeral, and its output boundary Γ1 ++ Δ ++ Γ2 is literally the book's t1,...,t_{i-1},s1,...,sm,t_{i+1},...,tn; mid is id_t. (b) intree-stronger: the book leaves the identity and associativity laws UNSTATED; the library states and requires them all (both associativity shapes, nested and disjoint), together with a boundary-cast field mcast carrying groupoid laws (a type-theoretic necessity: the two sides of each law have propositionally but not definitionally equal source lists). (c) intree-stronger as a definition, hence a caveat on models: the class ALSO requires a symmetric-group action msym indexed by a Type-valued permutation witness tperm, with msym_id, msym_compose and mcomp_equivariant — i.e. it is a SYMMETRIC multicategory, whereas Definition 6.91 asks for no symmetry, so a plain non-symmetric coloured operad is not directly an instance. The file discloses a further SCOPE limit (Theory/Multicategory.v:76-93): the action is required only on tperm WITNESSES and is not forced to descend to the symmetric group, and equivariance is required only in the independent-block form."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass reached PRESENT independently before opening the coverage file, on the same evidence (`rg -in 'operad' -l -tcoq` -> the six Theory/Multicategory*.v files; `rg -n 'Class Multicategory' -A 60`). Theory/Multicategory.v:317-350 is verbatim the quoted class (mobj/mhom/mhomset/mcast/mid/mcomp with the zipper signature mhom (G1 ++ b :: G2) c -> mhom D b -> mhom (G1 ++ D ++ G2) c), and 358-377 verbatim for mcomp_id_left/mcomp_id_right/mcomp_assoc_nested. The strength_comparison's two disclosures are both accurate and load-bearing, and I checked the second against the source rather than taking it on trust: the SCOPE note really is at Theory/Multicategory.v:76-93 and really does say the msym action is an action of tperm WITNESSES that is not forced to descend to the symmetric group ('the swap involution ... is not derivable from the class'). The class is therefore symmetric-but-witness-indexed, i.e. simultaneously stronger than Rough Definition 6.91 (which asks for no symmetry) and weaker than the textbook symmetric notion -- the record says exactly this. File registered (_CoqProject:451); no Admitted in Theory/Multicategory.v or any Theory/Multicategory/*.v."
+  }
+ },
+ {
+  "id": "7sketches:6.5.1:example6.92",
+  "classification": "ABSENT",
+  "aliases": [
+   "context-free grammar",
+   "production rule / syntactic category / nonterminal",
+   "free operad on a signature",
+   "free multicategory / free coloured operad",
+   "grammars present free operads, as graphs present free categories"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -iE 'context.?free|grammar|production rule|syntactic categor' . -- 9 hits, every one incidental prose: Solver/Denote.v:21 ('the [Term] grammar'), Instance/Lambda/Ty.v:10 and Value.v:15,21 (the object-language term grammar), Instance/Lambda.v:94 and Construction/Quotient.v:18,151,215 ('syntactic category' in the ordinary categorical sense), Structure/Monoidal/Symmetric.v:91 (Coecke's 'grammar'). No definition of a context-free grammar, alphabet, nonterminal or production rule anywhere.",
+   "grep -rn --include='*.v' -iE 'free (operad|multicategor)|FreeOperad|FreeMulti' . -- 0 hits. There is no free construction at the operad/multicategory level in the tree.",
+   "grep -rn --include='*.v' -il 'multicategor|operad' . -- 17 files; the six Theory/Multicategory*.v files carry the whole development (class, functors, operads, endomorphism operad, representable multicategory, algebras) and none of them constructs a free operad or a presentation of one; the remaining 11 are prose mentions.",
+   "Adjacency noted, deliberately NOT counted as partial coverage: Construction/PROP/Free.v and Construction/ColouredPROP/Free.v build free (coloured) PROPs on a signature with universal properties, and Construction/PROP/Presentation.v presents PROPs by generators and equations. These are the 'signature presents a free structure' pattern one level up (symmetric monoidal categories, not operads); neither the operad-level free construction nor any grammar-to-operad correspondence exists."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind searches, run before reading the record, reproduce it: `rg -in 'grammar|context-free|context free' -tcoq` returns only Solver/Denote.v:21, Structure/Monoidal/Symmetric.v:91 and the Instance/Lambda term-grammar comments -- no alphabet, nonterminal or production rule; and `rg -n 'Free.*[Mm]ulticategor|[Mm]ulticategor.*Free|FreeOperad' -tcoq` returns 0 hits, so there is no free construction at the operad level at all. The record's fourth log entry (free PROPs and PROP presentations exist one level up but are deliberately not credited) is the right call: Construction/PROP/Free.v and Construction/ColouredPROP/Free.v are about symmetric monoidal categories, not operads, and there is no grammar-to-operad correspondence anywhere. ABSENT stands."
+  }
+ },
+ {
+  "id": "7sketches:6.5.2:example6.93",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the operad Set",
+   "operad of sets and multi-argument functions",
+   "endomorphism operad End(X) / EndOperad",
+   "representable multicategory of (Set, 1, x)",
+   "cartesian monoidal Sets as a multicategory"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Endomorphism.v",
+    "line": 1052,
+    "symbol": "EndOperad",
+    "intree_statement": "Definition EndOperad : Multicategory := {| mobj := poly_unit; mhom := End_hom; mhomset := λ Γ _, @homset C (pow (length Γ)) X; mcast := @End_mcast; mid := End_mid; mcomp := @End_mcomp; msym := @End_msym; ... |}  (with End_hom Γ _ := pow (length Γ) ~{C}~> X at line 420, End_mid a := exl, and End_mcomp f g := f ∘ pow_cast _ ∘ graft (length Γ1) (length Δ) (length Γ2) g ∘ pow_cast _ at line 429)"
+   },
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 763,
+    "symbol": "Fold_Multicategory",
+    "intree_statement": "Program Definition Fold_Multicategory : Multicategory := {| mobj := A; mhom := fun Γ c => tfold ob Γ ~{C}~> ob c; mid := fun a => to (@unit_right C _ (ob a)); mcomp := fun Γ1 Γ2 Δ b c f g => f ∘ msplice ob Γ1 (Γ2:=Γ2) g; msym := fun Γ Δ c p f => f ∘ perm_arrow ob p |}  (over Context `{S : @SymmetricMonoidal C} and Context (luip : ∀ (Γ Δ : list A) (p q : Γ = Δ), p = q))"
+   }
+  ],
+  "statement_record": {
+   "book": "The operad Set: (i) types are sets X; (ii) operations of arity (X1,...,Xn;Y) are the functions X1 x ... x Xn -> Y; (iii) substitution g o_i f plugs f(w1,...,wm) into the ith argument of g; (iv) id_X is the identity function. This is the target operad in which algebras are taken (Definition 6.99).",
+   "intree": "EndOperad : Multicategory with mobj := poly_unit, End_hom Γ _ := pow (length Γ) ~{C}~> X, End_mid a := exl, End_mcomp f g := f ∘ pow_cast _ ∘ graft (length Γ1) (length Δ) (length Γ2) g ∘ pow_cast _ — instantiable at C := Sets, giving one type X, the operations X^n -> X, and substitution by grafting g into the ith factor",
+   "strength_comparison": "intree-weaker in exactly one dimension, faithful in the rest. EndOperad realizes clauses (ii)-(iv) verbatim for a SINGLE type: operations are the multi-argument morphisms out of the n-fold cartesian power, substitution `graft` is the book's o_i (plugging an m-ary map into the ith slot with identities elsewhere), and End_mid := exl is the identity map out of the 1-fold power. What is weaker is clause (i): mobj := poly_unit, so there is exactly ONE type, whereas the book's Set has all sets as types and heterogeneous arities (X1,...,Xn;Y). EndOperad is therefore the classical End(X), the one-object full sub-operad of the book's Set at a chosen carrier — the operad in which one-coloured algebras land, not the many-coloured operad in which Cospan-algebras (Def 6.99, Ex 6.100, Prop 6.101) must land."
+  },
+  "gap": "The many-coloured operad Set (types = all sets, operations of arity (X1,...,Xn;Y) = functions X1 x ... x Xn -> Y) is never constructed. The generic recipe that would build it, `Fold_Multicategory` / `RepresentableMulticategory` over a symmetric monoidal base, exists and `Sets` does carry the required cartesian symmetric monoidal structure (`CC_SymmetricMonoidal`, Structure/Monoidal/Internal/Product.v:314), but the recipe additionally demands `luip : ∀ (Γ Δ : list A) (p q : Γ = Δ), p = q` — uniqueness of equality proofs on lists of objects — which is NOT available for `obj Sets` (setoid objects carry no decidable equality; the file discharges luip by Hedberg only for colour types with a decider, as in ColouredPROP_Multicategory). Moreover `grep -rn --include='*.v' 'RepresentableMulticategory|Fold_Multicategory' .` shows NO use of either outside Theory/Multicategory/Representable.v, so no instance of any kind is built. Consequence: the target operad of Definition 6.99 is missing, which is what blocks def6.99, example6.100 and prop6.101 below.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independently reached PARTIAL on the same reasoning before opening the file. Evidence exact: Endomorphism.v:1052-1072 is verbatim the quoted EndOperad record (mobj := poly_unit), and I checked the two supporting definitions the quote parenthesises -- End_hom at line 420-421 is `pow (length G) ~{C}~> X`, End_mid at 427 is `exl`, End_mcomp at 429-434 is the graft-with-pow_cast composite. So clause (i) really is collapsed to one type and clauses (ii)-(iv) really are faithful, exactly as stated. The luip obstruction is real and I verified both ends of it: Representable.v:863-866 takes `luip : forall (G D : list C) (p q : G = D), p = q` as an explicit argument, and the only discharge route in the file is `list_uip_of_dec` (879-882) from an element DECIDER, which obj Sets (setoid objects) does not have. CC_SymmetricMonoidal is where the record says it is (Structure/Monoidal/Internal/Product.v:314, registered at _CoqProject:349), so the base structure is not the blocker -- luip is. Also re-ran the record's decisive negative myself: no use of RepresentableMulticategory or Fold_Multicategory exists outside Representable.v."
+  }
+ },
+ {
+  "id": "7sketches:6.5.2:example6.94",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the operad Cospan of finite-set cospans",
+   "operations = cospans a1 + ... + an -> p <- b, substitution by pushout",
+   "wiring diagram / nesting of circles",
+   "the symmetric monoidal category (Cospan_FinSet, 0, +)",
+   "Cospan_SymmetricMonoidal / CospanCat FinSet"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Cospan/Symmetric.v",
+    "line": 398,
+    "symbol": "Cospan_SymmetricMonoidal",
+    "intree_statement": "#[export] Program Instance Cospan_SymmetricMonoidal : @SymmetricMonoidal (CospanCat C HP) := {| symmetric_is_braided := Cospan_BraidedMonoidal |}  (over Cospan_Monoidal, Construction/Cospan/Hypergraph.v:1973: I := Cospan_unit_obj (the initial object 0), tensor := Cospan_Bifunctor HP (the coproduct +), unitors and associator lifted from coprod_zero_l/coprod_zero_r/coprod_assoc)"
+   },
+   {
+    "file": "Construction/Cospan/Category.v",
+    "line": 135,
+    "symbol": "cospan_compose",
+    "intree_statement": "Definition cospan_compose {X Y Z : C} (g : CospanArrow Y Z) (f : CospanArrow X Y) : CospanArrow X Z := let P := pushout (cospan_in2 f) (cospan_in1 g) in {| cospan_apex := pushout_apex P; cospan_in1 := pushout_in1 P ∘ cospan_in1 f; cospan_in2 := pushout_in2 P ∘ cospan_in2 g |}"
+   },
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 513,
+    "symbol": "FinSet_HasPushouts",
+    "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }  (FinSet has obj := nat, Instance/FinSet.v:117, so CospanCat FinSet is universe-legal — docs/INHABITATION.md:62-78)"
+   }
+  ],
+  "statement_record": {
+   "book": "The operad Cospan: (i) types are natural numbers a in N; (ii) an operation of arity (a1,...,an;b) is a cospan a1 + ... + an -> p <- b of finite sets; (iii) substitution is defined by pushout; (iv) id_a is the identity cospan a -> a <- a. This is the operadic analogue of the symmetric monoidal category (Cospan_FinSet, 0, +); operations are drawn as wiring diagrams and substitution is nesting one diagram inside a circle of another.",
+   "intree": "Cospan_SymmetricMonoidal : @SymmetricMonoidal (CospanCat C HP) with I := the initial object and tensor := the coproduct, over CospanCat C HP whose morphisms are cospans (apex + two legs) composed by pushout; instantiable at C := FinSet by FinSet_HasPushouts",
+   "strength_comparison": "intree-weaker: the book's own gloss — 'the operadic analogue of the symmetric monoidal category (Cospan_FinSet, 0, +)' — is exactly what IS in-tree, at full strength and over an arbitrary base with pushouts, an initial object and coproducts, and witnessed at FinSet. The operad itself is not: no multicategory whose operations of arity (a1,...,an;b) are cospans a1+...+an -> p <- b is ever formed. Note the shapes agree on the nose: a Fold_Multicategory multimorphism Γ -> c over (CospanCat FinSet, 0, +) is a morphism tfold Γ ~> c, i.e. a cospan (a1 + ... + an) -> p <- b, and its mcomp is the book's o_i — so the missing step is an instantiation, not new mathematics."
+  },
+  "gap": "Two things are missing. (1) The operad/multicategory Cospan is never instantiated: `grep -rn --include='*.v' 'RepresentableMulticategory|Fold_Multicategory' .` finds no use outside Theory/Multicategory/Representable.v. This particular instance is NOT blocked by the `luip` hypothesis that blocks the operad Set — `obj (CospanCat FinSet) = obj FinSet = nat` has decidable equality, so `list_uip_of_dec Nat.eq_dec` discharges it — it simply has not been written. (2) There is no wiring-diagram graphical language at all (`grep -rn --include='*.v' -i 'wiring diagram' .` returns 0 hits), so the reading of an operation as nested circles with ports, and of substitution as insertion of one diagram into another, has no in-tree counterpart.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, and the gap's sharpest claim -- that this instance is NOT luip-blocked -- is correct, which I checked rather than assumed: Cospan/Category.v:560-561 gives `CospanCat := {| obj := @obj C; ... |}`, and Instance/FinSet.v:117 gives `obj := nat`, so obj (CospanCat FinSet) = nat and `list_uip_of_dec Nat.eq_dec` would discharge luip. The remaining ingredients are all present too: Cospan_SymmetricMonoidal at Cospan/Symmetric.v:398-401 (verbatim), Cospan_Monoidal at Cospan/Hypergraph.v:1973-1979 with I := Cospan_unit_obj and tensor := Cospan_Bifunctor (the record's parenthetical, verified), FinSet_HasPushouts at Instance/FinSet/Pushout.v:513-519 (verbatim), plus FinSet_Initial (Instance/FinSet.v:223) and FinSet_Cocartesian (Instance/FinSet.v:250) which Cospan_Monoidal additionally requires -- so 'it simply has not been written' is accurate, not optimistic. Second gap clause independently re-run: `rg -in 'wiring.?diagram' -tcoq` returns 0 hits. All files registered (_CoqProject 79, 74, 198)."
+  }
+ },
+ {
+  "id": "7sketches:6.5.2:ex6.96",
+  "classification": "PARTIAL",
+  "aliases": [
+   "substitution g o_1 f in the operad Cospan",
+   "single-slot composition mcomp / msplice",
+   "cospan composition by pushout in FinSet",
+   "wiring diagram nesting",
+   "arity of a substituted operation"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 763,
+    "symbol": "Fold_Multicategory (mcomp field)",
+    "intree_statement": "Program Definition Fold_Multicategory : Multicategory := {| mobj := A; mhom := fun Γ c => tfold ob Γ ~{C}~> ob c; ...; mcomp := fun Γ1 Γ2 Δ b c f g => f ∘ msplice ob Γ1 (Γ2:=Γ2) g; ... |} — i.e. substituting g into the b-slot of f : mhom (Γ1 ++ b :: Γ2) c yields mhom (Γ1 ++ Δ ++ Γ2) c, the arity the exercise asks for"
+   },
+   {
+    "file": "Construction/Cospan/Category.v",
+    "line": 535,
+    "symbol": "cospan_compose_apex",
+    "intree_statement": "Lemma cospan_compose_apex {X Y Z : C} (g : CospanArrow Y Z) (f : CospanArrow X Y) : cospan_apex (cospan_compose HP g f) = pushout_apex (pushout (cospan_in2 f) (cospan_in1 g)). Proof. reflexivity. Qed."
+   }
+  ],
+  "statement_record": {
+   "book": "Four parts on the operad Cospan: draw a given cospan f in Cospan(2,2;2) as a wiring diagram with two inner circles inside an outer circle; draw the wiring diagram of a cospan g in Cospan(2,2,2;0); compute the substituted cospan g o_1 f and state its arity; draw g o_1 f and observe it is the nesting of f's diagram into g's first inner circle.",
+   "intree": "mcomp {Γ1 Γ2 Δ b c} : mhom (Γ1 ++ b :: Γ2) c → mhom Δ b → mhom (Γ1 ++ Δ ++ Γ2) c, realized in Fold_Multicategory as f ∘ msplice ob Γ1 g; at the cospan level cospan_apex (cospan_compose HP g f) = pushout_apex (pushout (cospan_in2 f) (cospan_in1 g))",
+   "strength_comparison": "intree-weaker: the arity bookkeeping the exercise's part (3) asks for is exactly the library's zipper signature (splicing Δ into the b-slot of Γ1 ++ b :: Γ2 gives Γ1 ++ Δ ++ Γ2, so for g of arity (2,2,2;0) and f of arity (2,2;2) the substituted arity is (2,2,2,2;0)), and the pushout rule that computes the new apex is proved; but neither the operad Cospan (see example6.94) nor any graphical wiring-diagram language exists, so parts (1), (2) and (4) — which are entirely about drawing and reading diagrams — have no in-tree counterpart, and part (3) is never carried out at the exercise's data."
+  },
+  "gap": "The operad Cospan is not instantiated (see example6.94), so `mcomp` cannot be applied at the exercise's operations; and there is no wiring-diagram formalism (`grep -rn --include='*.v' -i 'wiring diagram' .` returns 0 hits; no notion of an inner/outer circle, port, or nesting), so the graphical parts (1), (2) and (4) — including the exercise's punchline that substitution IS nesting — are entirely unrepresented. No concrete substitution computation appears anywhere in the tree.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Both quotes exact (Representable.v:763-771 for the Fold_Multicategory mcomp field; Cospan/Category.v:535-539 for cospan_compose_apex, proved by `reflexivity`). The arity arithmetic the record performs for part (3) is right: splicing D into the b-slot of G1 ++ b :: G2 yields G1 ++ D ++ G2, so g of arity (2,2,2;0) with f of arity (2,2;2) substituted at slot 1 gives (2,2,2,2;0). PARTIAL is the honest reading -- part (3)'s bookkeeping and pushout rule are in-tree generically, parts (1)/(2)/(4) are purely graphical and `rg -in 'wiring.?diagram' -tcoq` returns 0 hits (re-run by me). Note the graphical parts are NOT OUT_OF_SCOPE: a wiring-diagram language is formalizable in principle (the library already formalizes ZX diagrams in Instance/ZX.v), it just does not exist here, so PARTIAL rather than OUT_OF_SCOPE is the correct call under the frozen definitions."
+  }
+ },
+ {
+  "id": "7sketches:6.5.2:def6.97",
+  "classification": "PRESENT",
+  "aliases": [
+   "the operad underlying a symmetric monoidal category",
+   "representable multicategory",
+   "O_C with operations C1 (x) ... (x) Cn -> D",
+   "Fold_Multicategory / RepresentableMulticategory",
+   "multicategory of a monoidal category (Hermida / Leinster)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 763,
+    "symbol": "Fold_Multicategory",
+    "intree_statement": "Program Definition Fold_Multicategory : Multicategory := {| mobj := A; mhom := fun Γ c => tfold ob Γ ~{C}~> ob c; mhomset := fun Γ c => @homset C (tfold ob Γ) (ob c); mcast := fun Γ Γ' c e => mhcast e; mid := fun a => to (@unit_right C _ (ob a)); mcomp := fun Γ1 Γ2 Δ b c f g => f ∘ msplice ob Γ1 (Γ2:=Γ2) g; msym := fun Γ Δ c p f => f ∘ perm_arrow ob p |} — all thirteen Multicategory obligations discharged (mcomp_id_left/right, mcomp_assoc_nested, mcomp_assoc_disjoint, msym_id, msym_compose, mcomp_equivariant)"
+   },
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 863,
+    "symbol": "RepresentableMulticategory",
+    "intree_statement": "Definition RepresentableMulticategory (C : Category) `{S : @SymmetricMonoidal C} (luip : ∀ (Γ Δ : list C) (p q : Γ = Δ), p = q) : Multicategory := Fold_Multicategory (fun x : C => x) luip"
+   },
+   {
+    "file": "Theory/Multicategory/Representable.v",
+    "line": 903,
+    "symbol": "ColouredPROP_Multicategory",
+    "intree_statement": "Definition ColouredPROP_Multicategory {Colour : Type} (Q : ColouredPROP Colour) (Cdec : ∀ x y : Colour, {x = y} + {x ≠ y}) : Multicategory := @Fold_Multicategory (cprop_cat Q) (cprop_symmetric Q) Colour (@wire Colour Q) (list_uip_of_dec Cdec)"
+   }
+  ],
+  "statement_record": {
+   "book": "For any symmetric monoidal category (C, I, (x)) there is an operad O_C, the operad underlying C: (i) types are Ob(C); (ii) operations of arity (C1,...,Cn;D) are the morphisms C1 (x) ... (x) Cn -> D; (iii) substitution f o_i g := f o (id,...,id,g,id,...,id); (iv) id_a is the identity morphism of C. This generalizes Example 6.93 (C = Set, x) and Example 6.94 (C = Cospan_FinSet, +).",
+   "intree": "Fold_Multicategory : Multicategory with mobj := A, mhom Γ c := tfold ob Γ ~{C}~> ob c, mid a := to unit_right, mcomp f g := f ∘ msplice ob Γ1 g, msym p f := f ∘ perm_arrow ob p — over Context `{S : @SymmetricMonoidal C} and luip; specialized at ob := identity as RepresentableMulticategory C luip",
+   "strength_comparison": "same on all four clauses, with one extra hypothesis. (i) mobj := obj C; (ii) mhom Γ c := tfold Γ ~> c where tfold is the right-nested tensor fold fold_right (fun a acc => a ⨂ acc) I, so an operation of arity (C1,...,Cn;D) is a morphism C1 ⨂ (... ⨂ (Cn ⨂ I)) ~> D — the book's C1 (x) ... (x) Cn -> D up to the unit-padded bracketing, which is the standard setoid-library presentation; (iii) mcomp f g := f ∘ msplice Γ1 g, and msplice tensors g with identities on the untouched blocks through the concatenation coherence isomorphism tfold(Γ ++ Δ) ≅ tfold Γ ⨂ tfold Δ — literally the book's f o (id,...,id,g,id,...,id); (iv) mid a := to unit_right : a ⨂ I ~> a, the identity morphism modulo the fold's trailing unit. intree-weaker in one respect: the construction takes an EXTRA hypothesis luip : ∀ (Γ Δ : list A) (p q : Γ = Δ), p = q (uniqueness of equality proofs on lists of objects), which the book of course does not need. This is a disclosed foundational artifact of the Multicategory class — mcast_id is quantified over an arbitrary loop e : Γ = Γ and transport along such a loop is trivial exactly when parallel list equalities are equal (Theory/Multicategory.v:30-43, Representable.v:854-866) — and it is discharged axiom-free by Hedberg whenever objects have decidable equality (list_uip_of_dec, used by ColouredPROP_Multicategory). It is nonetheless a real restriction: it is precisely what prevents the recipe from producing the operad Set of Example 6.93, whose object type has no decider (see that item). intree-stronger: the construction additionally builds and verifies the symmetric-group action (perm_arrow from the braiding, msym_id/msym_compose/mcomp_equivariant), which 6.97 does not mention."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; I reached the same conclusion blind. All three quotes verbatim at their cited lines (Representable.v:763-771 Fold_Multicategory, 863-866 RepresentableMulticategory, 903-907 ColouredPROP_Multicategory), and I confirmed the '13 obligations discharged' claim by reading the obligation block at 772-850: mcast_respects, mcast_id, mcast_trans, mcomp_respects, mcomp_id_left, mcomp_id_right, mcomp_assoc_nested, mcomp_assoc_disjoint, msym_respects, msym_id, msym_compose, mcomp_equivariant are each closed with Qed -- no Admitted in the file. Clause-by-clause the match is genuine: mcomp := f o msplice ob G1 g IS the book's f o (id,...,id,g,id,...,id), and mid := to unit_right is the identity modulo the fold's trailing unit, both of which the record discloses rather than glosses over. I considered overturning to PARTIAL on the extra `luip` hypothesis, and decided against: it is a foundational artefact of the Type-level boundary casts (the class quantifies mcast_id over an ARBITRARY loop), it is disclosed in the record's own strength_comparison including the fact that it is what blocks Example 6.93, and it is discharged axiom-free by Hedberg for any object type with a decider. Under the frozen definition ('setoid rephrasing ... is faithful'; the library HAS universe polymorphism, so foundational bookkeeping is not by itself a gap) this is PRESENT."
+  }
+ },
+ {
+  "id": "7sketches:6.5.3:def6.98",
+  "classification": "PRESENT",
+  "aliases": [
+   "operad functor",
+   "morphism of operads / multifunctor",
+   "map of coloured operads",
+   "MultiFunctor / mf_obj / mf_map",
+   "functor of multicategories preserving composition and identities"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Functor.v",
+    "line": 254,
+    "symbol": "MultiFunctor",
+    "intree_statement": "Class MultiFunctor (M N : Multicategory) : Type := { mf_obj : @mobj M → @mobj N; mf_map {Γ : list (@mobj M)} {c : @mobj M} : mhom Γ c → mhom (map mf_obj Γ) (mf_obj c); mf_map_respects {Γ c} : Proper (equiv ==> equiv) (@mf_map Γ c); mf_id (a : @mobj M) : mf_map (mid a) ≈ mid (mf_obj a); mf_comp {Γ1 Γ2 Δ b c} (f : mhom (Γ1 ++ b :: Γ2) c) (g : mhom Δ b) (ez ...) (es ...) : mf_map (mcomp f g) ≈ mcast es (mcomp (mcast ez (mf_map f)) (mf_map g)); mf_sym {Γ Δ c} (p : tperm Γ Δ) (f : mhom Γ c) : mf_map (msym p f) ≈ msym (perm_map mf_obj p) (mf_map f) }"
+   },
+   {
+    "file": "Theory/Multicategory/Functor.v",
+    "line": 388,
+    "symbol": "MultiId / MultiCompose / MultiCompose_assoc",
+    "intree_statement": "Program Definition MultiId (M : Multicategory) : MultiFunctor M M; Program Definition MultiCompose {M N O : Multicategory} : MultiFunctor N O → MultiFunctor M N → MultiFunctor M O; Lemma MultiCompose_id_left / MultiCompose_id_right / MultiCompose_assoc (line 498) — operad functors compose and the composition is unital and associative up to mf_equiv"
+   }
+  ],
+  "statement_record": {
+   "book": "Rough Definition 6.98: given operads O and P with type collections T and U, to specify an operad functor F : O -> P one gives (i) a function f : T -> U on types; (ii) for every arity (t1,...,tn;t) of O a function F : O(t1,...,tn;t) -> P(f(t1),...,f(tn);f(t)), such that composition (substitution) and identities are preserved.",
+   "intree": "Class MultiFunctor (M N : Multicategory) := { mf_obj : mobj M → mobj N; mf_map {Γ c} : mhom Γ c → mhom (map mf_obj Γ) (mf_obj c); mf_id (a) : mf_map (mid a) ≈ mid (mf_obj a); mf_comp ... : mf_map (mcomp f g) ≈ mcast es (mcomp (mcast ez (mf_map f)) (mf_map g)); mf_sym ... }",
+   "strength_comparison": "same on both clauses and both laws, with one added field. (i) mf_obj is the book's f : T -> U; (ii) mf_map has type mhom Γ c → mhom (map mf_obj Γ) (mf_obj c), which for Γ = [t1,...,tn] is exactly O(t1,...,tn;t) -> P(f(t1),...,f(tn);f(t)); preservation of identities is mf_id and preservation of substitution is mf_comp (stated over ANY proofs of the two boundary equations, so it is not tied to a canonical normalization — the casts are the type-theoretic bookkeeping for map mf_obj distributing over ++ and ::). intree-stronger: mf_map_respects (the map respects the hom-setoid equivalence, which in the book's Set-valued reading is automatic) and mf_sym (preservation of the symmetric-group action) are additional fields the book does not require, matching the fact that the in-tree Multicategory class is symmetric (see def6.91)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed, reached independently blind. Functor.v:254-286 is verbatim the quoted class; the type of mf_map is `mhom G c -> mhom (map mf_obj G) (mf_obj c)`, which for G = [t1,...,tn] is literally the book's O(t1,...,tn;t) -> P(f t1,...,f tn; f t), and mf_id/mf_comp are the two required preservation laws. I verified the second evidence item's line numbers too: MultiId at 388, MultiCompose at 429, MultiCompose_assoc at 498-505 (all Qed). The two added fields (mf_map_respects, mf_sym) are correctly labelled intree-stronger and follow from the class being symmetric. File registered (_CoqProject:452); no Admitted."
+  }
+ },
+ {
+  "id": "7sketches:6.5.3:def6.99",
+  "classification": "PARTIAL",
+  "aliases": [
+   "algebra for an operad",
+   "O-algebra = operad functor O -> Set",
+   "OperadAlgebra / OperadAction / alg_act",
+   "representation of an operad / operad action on a set",
+   "coloured operad algebra, fillers for each type"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Multicategory/Algebra.v",
+    "line": 228,
+    "symbol": "Build_OperadAlgebra",
+    "intree_statement": "Program Definition Build_OperadAlgebra (α : OperadAction) : OperadAlgebra O X := {| mf_obj := oalg_obj; mf_map := λ Γ c f, oact α (length (map oalg_obj Γ)) (mtarget_cast (operad_obj_contr O c) (mcast (oalg_ctx Γ) f)) |}  (from OperadAction, line 152: { oact (n : nat) : ohom O n → (pow X n ~> X); oact_id : oact 1 (oid O) ≈ exl; oact_comp ... : oact (i + (n + j)) (ocomp O f g) ≈ oact (i + S j) f ∘ graft X i n j (oact n g); oact_sym ... })"
+   },
+   {
+    "file": "Theory/Multicategory/Algebra.v",
+    "line": 112,
+    "symbol": "OperadAlgebra",
+    "intree_statement": "Definition OperadAlgebra (O : Operad) {C : Category} `{@Cartesian C} `{@Terminal C} (X : C) : Type := MultiFunctor (operad_multi O) (EndOperad X)"
+   },
+   {
+    "file": "Theory/Multicategory/Algebra.v",
+    "line": 523,
+    "symbol": "Comm_algebra_to_CMon",
+    "intree_statement": "Program Definition Comm_algebra_to_CMon : CMonObject := {| cmon_setoid := X; cmon_zero := comm_eps ttt; cmon_plus := λ a b, comm_mu (a, (b, ttt)) |}  (over Context (A : OperadAlgebra Comm X) with X : Sets — algebras of the terminal operad in Sets are commutative monoids)"
+   },
+   {
+    "file": "Theory/Multicategory/Algebra.v",
+    "line": 417,
+    "symbol": "OperadAlgebras",
+    "intree_statement": "Program Definition OperadAlgebras (O : Operad) (C : Category) `{@Cartesian C} `{@Terminal C} : Category := {| obj := ∃ X : C, OperadAlgebra O X; hom := λ x y, OperadAlgebraHom O (`2 x) (`2 y); ... |}"
+   }
+  ],
+  "statement_record": {
+   "book": "An algebra for an operad O is an operad functor F : O -> Set into the operad Set of Example 6.93. Reading: each type t of O is a box, F(t) is the set of fillers for that box, and each operation f in O(t1,...,tn;t) is sent to a function F(f) : F(t1) x ... x F(tn) -> F(t) assembling n fillers into one.",
+   "intree": "Definition OperadAlgebra (O : Operad) {C} `{@Cartesian C} `{@Terminal C} (X : C) : Type := MultiFunctor (operad_multi O) (EndOperad X), constructible from an OperadAction whose oact n : ohom O n → (pow X n ~> X)",
+   "strength_comparison": "intree-weaker on two counts, faithful in shape. The library's definition IS 'an algebra is an operad functor into an endomorphism-style operad', and the action reading is exactly the book's: oact n sends an n-ary operation to a map X^n -> X, i.e. an assembly of n fillers into one, with oact_id, oact_comp (substitution goes to grafting) and oact_sym as the functor laws. Weaker: (1) the SOURCE must be a one-coloured Operad — `Operad` is a Multicategory together with `operad_one : IsOperad`, forcing mobj ≅ poly_unit (Theory/Multicategory/Operad.v:72-83) — so a genuinely coloured operad like Cospan has no in-tree algebras; (2) the TARGET is EndOperad X, the endomorphism operad of a SINGLE object X of a cartesian category, not the many-coloured operad Set of Example 6.93 (which is not in the tree — see example6.93). The book's 'F(t) is the set of fillers for the box t', varying with t, therefore collapses to a single carrier X."
+  },
+  "gap": "The coloured case of Definition 6.99 is absent. An algebra is defined only for a ONE-COLOURED operad (`Operad`, whose colour type is propositionally poly_unit) and only into `EndOperad X` for a single chosen carrier X in a cartesian category with a terminal object. The book's definition quantifies over a coloured operad O and lands in the many-coloured operad Set, assigning a possibly DIFFERENT set F(t) to each type t; there is no in-tree operad Set (example6.93) and hence no in-tree notion of a coloured-operad algebra. This is exactly what makes example6.100 (Circ : Cospan -> Set) and prop6.101 (Cospan-algebras vs hypergraph props) inexpressible, since Cospan has N as its type collection.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; my blind pass flagged the same two-fold restriction before I opened the record. Every quote is exact: Algebra.v:112-114 defines OperadAlgebra := MultiFunctor (operad_multi O) (EndOperad X); OperadAction at 152-170 has oact n : ohom O n -> (pow X n ~> X) with oact_id/oact_comp/oact_sym as quoted; Build_OperadAlgebra at 228-234, OperadAlgebras at 417-424, Comm_algebra_to_CMon at 523-527. The decisive restriction is verified at its source: Theory/Multicategory/Operad.v:72-78 really does define `IsOperad M := @mobj M = poly_unit` and `Record Operad := { operad_multi; operad_one : IsOperad operad_multi }`, so the SOURCE is forced one-coloured; and EndOperad's mobj is poly_unit, so the TARGET is a single carrier. Both legs of the gap therefore hold. The record is also right that this is what makes example6.100 and prop6.101 inexpressible -- Cospan's type collection is N."
+  }
+ },
+ {
+  "id": "7sketches:6.5.3:example6.100",
+  "classification": "ABSENT",
+  "aliases": [
+   "Circ as a Cospan-algebra",
+   "operad algebra Circ : Cospan -> Set",
+   "electric circuits with t terminals as fillers",
+   "wiring diagram acting on circuits",
+   "Circ(2) x Circ(2) x Circ(2) -> Circ(0)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'circuit' . -- 27 hits, every one a prose/essay reference (Construction/DecoratedCospan.v:89 'Applications: electrical circuits (Baez–Fong)', DecoratedCospan/Category.v:104,340,371, DecoratedCospan/Hypergraph.v:151,242, Cospan/BlackBox.v:19,64, Instance/ZX.v:120,151,171, Instance/Lambda.v:117, Construction/PROP/Signature.v:39). No `Circ` object, functor or type is defined anywhere.",
+   "grep -rn --include='*.v' -E '\\bCirc\\b' . -- 2 hits, both inside comments in Construction/Cospan/BlackBox.v (naming Baez–Fong's black-box functor ♭ : Circ → LagRel as motivation for a construction that is itself not built at Circ).",
+   "grep -rn --include='*.v' 'RepresentableMulticategory|Fold_Multicategory|ColouredPROP_Multicategory|EndOperad|OperadAlgebra' . | grep -v '^./Theory/Multicategory' -- 0 hits: no operad, endomorphism operad or operad algebra is ever instantiated outside the Theory/Multicategory development itself.",
+   "Structurally blocked upstream, and recorded here for the issue writer: the operad Cospan does not exist (example6.94), the operad Set does not exist (example6.93), coloured-operad algebras are not definable (def6.99, which covers only one-coloured operads acting on a single carrier), and Circ does not exist (ex6.84). All four are prerequisites for this example, so nothing of it survives.",
+   "Adjacency noted, NOT counted as coverage: the tree develops the OTHER route to the same mathematics — Fong's decorated cospans (Construction/DecoratedCospan*.v) with the hypergraph upgrade DecoratedCospan_Hypergraph — but that is the content of Definition 6.75 / Theorem 6.77, a different item, and it is never instantiated at Circ either."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; my blind searches independently found nothing. I re-ran the record's own negatives and they hold exactly: `rg -in 'circuit' -tcoq | wc -l` = 27, all prose; `rg -n '\\bCirc\\b' -tcoq` = 2 hits, both comments in Construction/Cospan/BlackBox.v:19,64 naming Baez-Fong's black-box functor as motivation; and no use of RepresentableMulticategory / Fold_Multicategory / EndOperad / OperadAlgebra exists outside Theory/Multicategory. The record's decision NOT to credit the decorated-cospan route (which is Definition 6.75 / Theorem 6.77 material) is methodologically right and keeps this item from double-counting."
+  }
+ },
+ {
+  "id": "7sketches:6.5.3:prop6.101",
+  "classification": "ABSENT",
+  "aliases": [
+   "Cospan-algebras are equivalent to hypergraph props",
+   "equivalence between operad functors Cospan -> Set and hypergraph PROPs",
+   "algebras of the cospan operad",
+   "hypergraph category with object monoid (N, 0, +)",
+   "operad of cobordisms / varying the operad"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'RepresentableMulticategory|Fold_Multicategory|EndOperad|OperadAlgebra' . | grep -v '^./Theory/Multicategory' -- 0 hits. Neither the operad Cospan nor any algebra over it exists, so the left-hand side of the claimed equivalence is not even expressible (and coloured-operad algebras are not definable at all: def6.99).",
+   "grep -rn --include='*.v' -i 'hypergraph prop|HypergraphPROP|hypergraph_prop' . -- 20 hits, all in Construction/PROP.v (Class HypergraphPROP at line 230), Test/HypergraphPROPResolution.v, Instance/ZX.v and ColouredPROP.v. The RIGHT-hand side of the equivalence is therefore defined in-tree — but that is the separate item 7sketches:6.3.3:def-hypergraph-prop, and Test/HypergraphPROPResolution.v:90 records that HypergraphPROP itself 'has no in-tree witness yet (see docs/INHABITATION.md)'.",
+   "grep -rn --include='*.v' -iE 'equivalen.*(operad|multicategor)|(operad|multicategor).*equivalen' . -- no theorem relating operad algebras to any categorical structure; the only equivalence-of-presentations results in the multicategory development are the two-sided operad round trip (Theory/Multicategory/Operad.v:164 operad_roundtrip / operad_roundtrip_inv) and the Comm example (Theory/Multicategory/Algebra.v:523 Comm_algebra_to_CMon), neither of which bears on this claim.",
+   "grep -rn --include='*.v' -i 'cobordism' . -- prose only (Structure/Monoidal/CompactClosed.v:99); the 'vary the operad' remark has no counterpart.",
+   "Classified ABSENT rather than PARTIAL deliberately: the item IS the equivalence, and neither the equivalence nor its Cospan-algebra side exists. Crediting the HypergraphPROP class here would double-count coverage that belongs to the hypergraph-prop item in section 6.3.3."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed. The right-hand side of the equivalence does exist -- I found `Class HypergraphPROP` at Construction/PROP.v:230-236 (bundling a PROP with a Hypergraph structure on its underlying symmetric monoidal category) in my blind pass -- but the left-hand side (algebras of the operad Cospan) is not merely missing, it is not expressible: coloured-operad algebras are undefined in-tree (def6.99) and the operad Cospan is never built (example6.94). No theorem anywhere relates operad algebras to a categorical structure. The record's explicit refusal to credit HypergraphPROP here (it belongs to 7sketches:6.3.3:def-hypergraph-prop) is correct. One factual footnote on the record's own negative_search_log entry 2: it quotes Test/HypergraphPROPResolution.v:90 saying HypergraphPROP 'has no in-tree witness yet (see docs/INHABITATION.md)' -- the no-witness fact is true, but that cross-reference is dangling in the library itself (see problems[])."
+  }
+ }
+]

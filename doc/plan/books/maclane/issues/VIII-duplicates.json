@@ -1,0 +1,12 @@
+[
+  {
+    "item_id": "maclane:VIII.2:def1",
+    "issue": 264,
+    "append_block": "### Also covered by\n\n**MacLane VIII.2** — Ab-category (book p. 194, PDF p. 202, item `maclane:VIII.2:def1`).\n\n§VIII.2 restates the Ab-category of §I.8 (each hom-set an abelian group with bilinear composition; the group zero is an absorbing zero arrow) as the base for additive categories and biproducts. The mathematical obligation is identical to this issue's: the library still has no standalone Ab-enriched class — `Structure/Preadditive.v:34` is only CMon-enriched (\"additive inverses are deliberately not demanded\"), and the abelian-group hom-structure (`pneg` + `padd_pneg`) is available only bundled inside `Structure/Additive.v:34`, which also mandates a zero object and all binary biproducts that a bare Ab-category does not carry.\n\nNew aspect surfaced by the §VIII.2 pass (fold into this issue's work): `Construction/Enriched.v:107` misdescribes `Preadditive` as \"the hand-built Ab-enriched example\" — it is CMon-enriched, not Ab-enriched. When the standalone Ab-enriched class is introduced, correct that comment (and any similar wording in the `Preadditive`/`Additive` headers)."
+  },
+  {
+    "item_id": "maclane:VIII.2:def4",
+    "issue": 264,
+    "append_block": "### Also covered by\n\n**MacLane VIII.2** — additive functor (book p. 197, PDF p. 205, item `maclane:VIII.2:def4`).\n\n§VIII.2 reuses the additive functor of §I.8: a functor `T` between Ab-categories with `T(f + f') = Tf + Tf'` (whence `T0 = 0`). The obligation is the same as this issue's — the search for §VIII.2 confirmed there is still no additive-functor notion in-tree (no `AdditiveFunctor`, no `fmap`-over-`padd` law), and the Enriched framework does not supply one (`Construction/Enriched.v:107` treats `Preadditive` as a hand-built example, not an instance of the `Enriched` class, so no additive functor arises from it).\n\nNew aspect surfaced by the §VIII.2 pass: the biproduct-preservation characterization of additive functors (Prop VIII.2.4 — `T` additive ⟺ `T` preserves binary biproducts/products/coproducts) demands strictly more than this definition and is filed as a separate increment issue (item `maclane:VIII.2:prop4`) that depends on this one."
+  }
+]

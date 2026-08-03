@@ -1,0 +1,333 @@
+[
+  {
+    "id": "riehl:E.5:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "abelian category",
+      "Class Abelian / AbelianCategory",
+      "additive category with kernels and cokernels (Freyd/Borceux axiomatization)",
+      "normal monomorphism / conormal epimorphism (normal_mono, normal_epi)",
+      "pre-abelian category; Grothendieck AB1-AB2",
+      "zero object + kernels as equalizers with the zero map"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 137,
+        "symbol": "Abelian",
+        "intree_statement": "Class Abelian (C : Category) := { abelian_additive : @Additive C; abelian_kernels : @HasKernels C (@additive_zero C abelian_additive); abelian_cokernels : @HasCokernels C (@additive_zero C abelian_additive); (* Every monomorphism is normal: a kernel of its chosen cokernel. *) abelian_monic_normal {x y : C} (f : x ~> y) : Monic f → IsKernel (`1 (`2 (cokernel f))) f; (* Every epimorphism is conormal: a cokernel of its chosen kernel. *) abelian_epic_normal {x y : C} (f : x ~> y) : Epic f → IsCokernel (`1 (`2 (kernel f))) f }"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 63,
+        "symbol": "HasKernels / HasCokernels (over IsKernel, IsCokernel)",
+        "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i.  Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e.  Class HasKernels := { kernel {x y : C} (f : x ~> y) : ∃ (k : C) (i : k ~> x), IsKernel f i }.  Class HasCokernels := { cokernel {x y : C} (f : x ~> y) : ∃ (q : C) (e : y ~> q), IsCokernel f e }"
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 42,
+        "symbol": "Biproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { biproduct_obj : C; bi_inl : x ~> biproduct_obj; bi_inr : y ~> biproduct_obj; bi_exl : biproduct_obj ~> x; bi_exr : biproduct_obj ~> y; bi_exl_inl : bi_exl ∘ bi_inl ≈ id; bi_exr_inr : bi_exr ∘ bi_inr ≈ id; bi_exl_inr : bi_exl ∘ bi_inr ≈ zero_mor; bi_exr_inl : bi_exr ∘ bi_inl ≈ zero_mor; bi_is_product : ∀ (z : C) (f : z ~> x) (g : z ~> y), ∃! h : z ~> biproduct_obj, (bi_exl ∘ h ≈ f) ∧ (bi_exr ∘ h ≈ g); bi_is_coproduct : ∀ (z : C) (f : x ~> z) (g : y ~> z), ∃! h : biproduct_obj ~> z, (h ∘ bi_inl ≈ f) ∧ (h ∘ bi_inr ≈ g) }"
+      }
+    ],
+    "statement_record": {
+      "book": "An abelian category is a category satisfying four axioms: (a) it has a zero object (simultaneously initial and terminal); (b) it has all binary products and all binary coproducts; (c) every morphism has a kernel and a cokernel, the kernel (cokernel) of f being the equalizer (coequalizer) of f with the zero map; (d) every monomorphism is a kernel of some map and every epimorphism is a cokernel of some map.",
+      "intree": "Class Abelian (C : Category) := { abelian_additive : @Additive C; abelian_kernels : @HasKernels C (@additive_zero C abelian_additive); abelian_cokernels : @HasCokernels C (@additive_zero C abelian_additive); abelian_monic_normal {x y} (f : x ~> y) : Monic f → IsKernel (`1 (`2 (cokernel f))) f; abelian_epic_normal {x y} (f : x ~> y) : Epic f → IsCokernel (`1 (`2 (kernel f))) f } — where Additive bundles ZeroObject + Preadditive (padd/pzero, bilinear composition) + HasBiproducts + pneg with padd_pneg, and IsKernel f i := IsEqualizer f zero_mor k i.",
+      "strength_comparison": "intree-stronger (as a definition it demands strictly more data, so a priori fewer instances): clause (a) matches exactly (@ZeroObject C is Terminal + Initial with a coincidence iso), clause (c) matches exactly and literally as the equalizer/coequalizer against zero_mor, clause (d) matches exactly (both normality directions, pinned at the CHOSEN cokernel/kernel, which Structure/Kernel.v's kernel_of_any_cokernel shows costs no generality). Clause (b) is strengthened from 'binary products and binary coproducts' to HasBiproducts (a single object that is simultaneously product and coproduct with the delta relations), and the class additionally carries the whole Ab-enrichment (Preadditive's padd/pzero with bilinear composition, plus Additive's pneg and padd_pneg) as ASSUMED FIELDS — exactly the structure Riehl derives from (a)-(d) in her unnumbered remark. Classically the two axiomatizations pick out the same categories; in-tree that equivalence is not proved."
+    },
+    "gap": "The four axioms are all present, but under the Freyd/Borceux axiomatization rather than Riehl's minimal one: (1) `abelian_additive : @Additive C` assumes the abelian-group hom-enrichment (padd, pzero, pneg, bilinearity) as data, whereas Riehl's Definition E.5.1 assumes none of it; (2) `additive_biproducts : HasBiproducts` assumes products and coproducts already coincide, whereas Riehl assumes only that both exist. There is no in-tree theorem taking Riehl's (a)-(d) to the additive structure (see riehl:E.5:remark-ab-enrichment and riehl:E.5:def-biproduct), so a user holding exactly Riehl's hypotheses cannot build the in-tree `Abelian` instance. There is also no concrete `Abelian` instance anywhere in-tree (grep -rln 'Abelian' --include='*.v' returns only Structure/Abelian.v and files citing it in prose; no Ab, no R-Mod, no ring — Instance/CMon.v is only the semiadditive witness), so the class is inhabited only parametrically.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass (run before opening coverage-E-3.json): searched `rg -i 'abelian'` over *.v, read Structure/Abelian.v in full, Structure/Additive.v in full, Structure/Semiadditive.v, Structure/Biproduct.v, Structure/Kernel.v. Found the same evidence: Structure/Abelian.v:137 `Class Abelian` (verified verbatim at that line: abelian_additive/abelian_kernels/abelian_cokernels/abelian_monic_normal/abelian_epic_normal), Structure/Kernel.v:53,58,63,69 (IsKernel := IsEqualizer f zero_mor; HasKernels/HasCokernels), Structure/Biproduct.v:42 Record Biproduct. All three cited line numbers are exact and all quotes are accurate. My own preliminary lean was PRESENT (the Freyd/Borceux axiomatization is the standard equivalent presentation of Riehl's (a)-(d), and the enrichment gap is separately inventoried as riehl:E.5:remark-ab-enrichment, so PARTIAL risks double-counting). I do NOT overturn: under the frozen definition PRESENT requires the statement to match 'up to presentation', and the difference here is not presentational but a strictly larger data requirement (Preadditive+pneg+HasBiproducts assumed) whose equivalence with Riehl's axioms is a real theorem that is nowhere proved in-tree; the classifier states that gap precisely and cross-references the two records that own it, which is the honest handling. Independently verified the gap's factual claims: `rg 'Abelian' -g '*.v'` outside Structure/Abelian.v returns only prose citations (Adjunction/GAFT.v:75, Structure/{Factorization.v:94-95,Closed.v:61,Complete.v:66,Kernel.v:44,157,175,Equalizer.v:85}, Instance/Fun.v:50, Construction/Comma.v:94) — no `Abelian` instance exists; docs/INHABITATION.md:57 independently records 'no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses'. Structure/Abelian.v is registered in _CoqProject:287 (Additive:288, Biproduct:293, Preadditive:294, Kernel:324, Semiadditive:375, ZeroObject:383). No same-name-weaker-statement, no special-case-only, both normality directions genuinely present (not dual-assumed)."
+    }
+  },
+  {
+    "id": "riehl:E.5:def-biproduct",
+    "classification": "PARTIAL",
+    "aliases": [
+      "biproduct",
+      "direct sum",
+      "Biproduct record / HasBiproducts",
+      "canonical comparison map x + y ~> x × y (can_comparison)",
+      "semiadditive category: finite products and coproducts coincide",
+      "cartesian_biproduct / cartesian_has_biproducts"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 227,
+        "symbol": "cartesian_biproduct",
+        "intree_statement": "Context {C : Category}. Context `{Z : @ZeroObject C}. Context `{P : @Preadditive C}. Context `{H : @Cartesian C}. … Definition cartesian_biproduct (x y : C) : Biproduct x y := {| biproduct_obj := x × y; bi_inl := id △ zero_mor; bi_inr := zero_mor △ id; bi_exl := exl; bi_exr := exr; bi_exl_inl := exl_fork id zero_mor; bi_exr_inr := exr_fork zero_mor id; bi_exl_inr := exl_fork zero_mor id; bi_exr_inl := exr_fork id zero_mor; bi_is_product := cartesian_bi_is_product x y; bi_is_coproduct := cartesian_bi_is_coproduct x y |}"
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 42,
+        "symbol": "Biproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { biproduct_obj : C; bi_inl : x ~> biproduct_obj; bi_inr : y ~> biproduct_obj; bi_exl : biproduct_obj ~> x; bi_exr : biproduct_obj ~> y; bi_exl_inl : bi_exl ∘ bi_inl ≈ id; bi_exr_inr : bi_exr ∘ bi_inr ≈ id; bi_exl_inr : bi_exl ∘ bi_inr ≈ zero_mor; bi_exr_inl : bi_exr ∘ bi_inl ≈ zero_mor; bi_is_product : ∀ (z : C) (f : z ~> x) (g : z ~> y), ∃! h : z ~> biproduct_obj, (bi_exl ∘ h ≈ f) ∧ (bi_exr ∘ h ≈ g); bi_is_coproduct : ∀ (z : C) (f : x ~> z) (g : y ~> z), ∃! h : biproduct_obj ~> z, (h ∘ bi_inl ≈ f) ∧ (h ∘ bi_inr ≈ g) }"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 299,
+        "symbol": "exl_can_inl / exr_can_inl / exl_can_inr / exr_can_inr",
+        "intree_statement": "Definition can_comparison (x y : C) : x + y ~{C}~> x × y := (id △ zero_mor) ▽ (zero_mor △ id).  Lemma exl_can_inl {x y : C} : exl ∘ can_comparison x y ∘ inl ≈ id.  Lemma exr_can_inl {x y : C} : exr ∘ can_comparison x y ∘ inl ≈ zero_mor.  Lemma exl_can_inr {x y : C} : exl ∘ can_comparison x y ∘ inr ≈ zero_mor.  Lemma exr_can_inr {x y : C} : exr ∘ can_comparison x y ∘ inr ≈ id."
+      }
+    ],
+    "statement_record": {
+      "book": "In an abelian category finite products and finite coproducts coincide: the canonical comparison map from the coproduct to the product (identities on matching summands, zero maps off the diagonal) is an isomorphism, and the common object is called the biproduct or direct sum.",
+      "intree": "The notion is the record `Biproduct x y` (one object carrying injections and projections with bi_exl ∘ bi_inl ≈ id, bi_exr ∘ bi_inr ≈ id, the mixed composites ≈ zero_mor, and BOTH universal properties bi_is_product and bi_is_coproduct). The comparison map itself is `can_comparison (x y : C) : x + y ~> x × y := (id △ zero_mor) ▽ (zero_mor △ id)` with its four matrix-entry lemmas, and the coincidence claim is proved only in the form `cartesian_biproduct (x y : C) : Biproduct x y` with biproduct_obj := x × y, under a Preadditive (CMon-enrichment) hypothesis rather than under Riehl's abelian axioms.",
+      "strength_comparison": "intree-weaker: the biproduct object and the comparison morphism are both in-tree, and the coincidence IS proved — but from a hypothesis Riehl does not have (an assumed Preadditive enrichment) instead of from the abelian axioms, and in the 'every product is also a coproduct' form rather than as invertibility of can_comparison. Nothing in-tree asserts `IsIsomorphism (can_comparison x y)`; in Structure/Semiadditive.v that is a section HYPOTHESIS (`Context (E : ∀ x y : C, IsIsomorphism (can_comparison x y))`, line 324), and Structure/Abelian.v sidesteps the question entirely by assuming `additive_biproducts : HasBiproducts` in the class."
+    },
+    "gap": "Riehl's claim — that in an abelian category the canonical comparison coproduct → product is an isomorphism — is never stated or proved in-tree. What exists is (i) the biproduct notion, (ii) the comparison morphism `can_comparison` with its four matrix entries, (iii) `cartesian_biproduct`, which derives the coincidence from an ASSUMED Preadditive enrichment plus Cartesian structure, and (iv) the reverse direction, where invertibility of `can_comparison` is a section hypothesis (Structure/Semiadditive.v:324). Missing: a lemma `Abelian C → ∀ x y, IsIsomorphism (can_comparison x y)` (or, from Riehl's axioms directly, that binary products and coproducts in an abelian category coincide), and the corollary that `cartesian_biproduct` plus Cocartesian structure makes the comparison invertible. The in-tree `Abelian` class assumes HasBiproducts outright, so the claim is not even available as a derived fact for its instances.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass reached the same PARTIAL independently, with the same gap: the notion is fully present (Structure/Biproduct.v:42 Record Biproduct with BOTH universal properties and the four delta relations, :84 HasBiproducts, plus bi_pair/bi_copair/bimap/bi_diag/bi_codiag API), the comparison map is present (Structure/Semiadditive.v:288 `can_comparison := (id △ zero_mor) ▽ (zero_mor △ id)` with its four matrix entries at :299,305,311,317), and the coincidence is derived only as `cartesian_biproduct` (:227) from an ASSUMED Preadditive enrichment + Cartesian. Verified the decisive point at the source: Structure/Semiadditive.v:323-324 is literally `(* Semiadditivity hypothesis: the canonical comparison is invertible. *) Context (E : ∀ x y : C, IsIsomorphism (can_comparison x y)).` — invertibility is a section hypothesis, never a conclusion, and `can_inv` (:326) is defined as its two_sided_inverse. `rg 'IsIsomorphism (can_comparison' -g '*.v'` finds no lemma form anywhere. Every cited line number and quote checks out. Note in the classifier's favour, and not held against it: `cartesian_bi_is_coproduct` (:192) does show x × y with injections id△0, 0△id is a coproduct, so the coincidence content is essentially there for preadditive categories — but the mediating iso is never identified with `can_comparison`, and Riehl's hypotheses (no assumed enrichment) are not the ones used, so 'intree-weaker' is honest."
+    }
+  },
+  {
+    "id": "riehl:E.5:remark-ab-enrichment",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ab-enriched category",
+      "preadditive category (Class Preadditive) / additive category (Class Additive)",
+      "hom-sets are abelian groups, composition is bilinear (padd, pzero, pneg, compose_padd_left/right)",
+      "semiadditivity / Eckmann-Hilton (bicartesian_preadditive, biproduct_addition)",
+      "enrichment over (Ab, ⊗_Z, Z) — Enriched class over a monoidal base",
+      "canonical addition ∇ ∘ (f ⊕ g) ∘ Δ"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 573,
+        "symbol": "bicartesian_preadditive",
+        "intree_statement": "Context {C : Category}. Context `{Z : @ZeroObject C}. Context `{HC : @Cartesian C}. Context `{HD : @Cocartesian C}. Context (E : ∀ x y : C, IsIsomorphism (can_comparison x y)). … Definition bicartesian_preadditive : Preadditive C := {| padd := @conv; pzero := @zero_mor C Z; padd_respects := @conv_respects; padd_assoc := @conv_assoc; padd_comm := @conv_comm; padd_zero_left := @conv_zero_left; compose_padd_left := @conv_compose_left; compose_padd_right := @conv_compose_right; compose_pzero_left := @zero_mor_right C Z; compose_pzero_right := @zero_mor_left C Z |}   (* conv f g := (f ▽ g) ∘ can_inv ∘ (id △ id) *)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 130,
+        "symbol": "biproduct_addition",
+        "intree_statement": "Theorem biproduct_addition {x y : C} (B : Biproduct x x) (B' : Biproduct y y) (f g : x ~> y) : padd f g ≈ bi_copair B' id id ∘ bimap B B' f g ∘ bi_pair B id id."
+      },
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 34,
+        "symbol": "Preadditive (with Additive, Structure/Additive.v:34)",
+        "intree_statement": "Class Preadditive (C : Category) := { padd {x y : C} : (x ~> y) -> (x ~> y) -> (x ~> y); pzero {x y : C} : x ~> y; padd_respects; padd_assoc; padd_comm; padd_zero_left {x y} (f : x ~> y) : padd pzero f ≈ f; compose_padd_left {x y z} (h : y ~> z) (f g : x ~> y) : h ∘ padd f g ≈ padd (h ∘ f) (h ∘ g); compose_padd_right {x y z} (f g : y ~> z) (h : x ~> y) : padd f g ∘ h ≈ padd (f ∘ h) (g ∘ h); compose_pzero_left; compose_pzero_right }.  Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg {x y : C} : (x ~> y) -> (x ~> y); pneg_respects; padd_pneg {x y : C} (f : x ~> y) : padd f (pneg f) ≈ pzero }"
+      }
+    ],
+    "statement_record": {
+      "book": "The axioms of Definition E.5.1 imply that every hom-set of an abelian category canonically carries an abelian-group structure whose identity is the zero map and for which composition is bilinear; equivalently, an abelian category is canonically enriched over (Ab, ⊗_Z, Z). The addition is derived from the limit/colimit axioms, not assumed.",
+      "intree": "The TARGET structure is `Class Preadditive` (each hom-setoid a commutative monoid under padd/pzero with composition bilinear on both sides) upgraded by `Class Additive`'s `pneg` and `padd_pneg : padd f (pneg f) ≈ pzero` to abelian groups. The DERIVATION in-tree is `bicartesian_preadditive : Preadditive C`, which under ZeroObject + Cartesian + Cocartesian + the hypothesis `E : ∀ x y, IsIsomorphism (can_comparison x y)` produces the enrichment by convolution `conv f g := (f ▽ g) ∘ can_inv ∘ (id △ id)`; `biproduct_addition` records that this addition is the canonical one, f + g ≈ ∇ ∘ (f ⊕ g) ∘ Δ.",
+      "strength_comparison": "intree-weaker in two independent ways. (1) Level: the derivation reaches only COMMUTATIVE-MONOID enrichment (Preadditive is explicitly 'precisely enrichment in commutative monoids (CMon-enrichment)', Structure/Preadditive.v:20-21); the additive inverse `pneg` is an AXIOM of `Class Additive`, never derived from kernels/cokernels/normality, so Riehl's abelian-GROUP conclusion is not obtained. (2) Hypotheses: the derivation is conditional on the comparison x + y → x × y being invertible, which under Riehl's axioms is a theorem but in-tree is an assumed `Context`. Consequently the implication Riehl asserts, `Abelian C → Preadditive C` (let alone `→ Additive C`), has no in-tree statement at all — Structure/Abelian.v takes the enrichment as an input field instead."
+    },
+    "gap": "Missing: (a) any statement of the form `Abelian C → Additive C` (or from Riehl's axioms (a)-(d) to the hom-group structure) — the in-tree `Abelian` class assumes `abelian_additive : @Additive C`, so the remark's implication is inverted into a hypothesis; (b) the derivation of ADDITIVE INVERSES: `bicartesian_preadditive` yields only CMon-enrichment, and `pneg`/`padd_pneg` are primitive fields of `Class Additive` (Structure/Additive.v:41,46) — the classical argument producing -id from the kernel of the codiagonal is absent; (c) the invertibility of `can_comparison` that `bicartesian_preadditive` requires (Structure/Semiadditive.v:324) is unproved in the abelian setting; (d) the enrichment is hand-built as a class of hom-setoid operations rather than exhibited as an instance of `Class Enriched` over an Ab monoidal base — there is no `Ab` category in-tree at all (Instance/ has CMon but no Ab, no ring, no module category), so 'canonically Ab-enriched' cannot currently be stated in the library's own enriched vocabulary.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass independently reached PARTIAL with the same two-axis gap (level: CMon not Ab; hypotheses: comparison-invertibility assumed). Verified: `Definition bicartesian_preadditive : Preadditive C` is at Structure/Semiadditive.v:573 (grep-confirmed exact line) inside the section whose Context includes `E : ∀ x y, IsIsomorphism (can_comparison x y)` (:324) — so the derivation is conditional exactly as stated; Structure/Preadditive.v:14-22 itself discloses 'A preadditive category in the classical sense is a category enriched in abelian groups ... this class is precisely enrichment in commutative monoids (CMon-enrichment)'; Structure/Additive.v:41,46 confirm `pneg` and `padd_pneg` are primitive FIELDS, never derived; Structure/Semiadditive.v:130 `biproduct_addition` is verbatim as quoted. Claim (d) of the gap verified independently: `ls Instance/` = Adj Adjoints AST Cat CMon Comp Cones Coq Discrete Ens Fact FinSet Fun Lambda Omega One Parallel Poset Props Proset Rel Roof Sets Shapes StrictCat Two Zero ZX — no Ab, no Mod, no Ring (`rg 'Class Ring|Record Ring'` = 0 hits), so 'canonically Ab-enriched' is not statable in the library's Construction/Enriched vocabulary. No overturn: the classifier resisted the tempting over-credit of counting Structure/Additive.v as the conclusion of the remark when it is in fact its hypothesis."
+    }
+  },
+  {
+    "id": "riehl:E.5:def-image",
+    "classification": "PARTIAL",
+    "aliases": [
+      "image of a morphism",
+      "abelian_image / abelian_image_obj (kernel of the cokernel)",
+      "coimage = cokernel of the kernel",
+      "canonical coimage-to-image comparison is an isomorphism",
+      "image factorization / epi-mono factorization",
+      "Instance/Sets/Image.v, Regular_OFS image"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 268,
+        "symbol": "abelian_image_is (with abelian_image_obj, abelian_image)",
+        "intree_statement": "Definition abelian_image_obj {x y : C} (f : x ~> y) : C := abelian_kernel_obj (abelian_coker f).  Definition abelian_image {x y : C} (f : x ~> y) : abelian_image_obj f ~> y := abelian_kernel (abelian_coker f).  Definition abelian_image_is {x y : C} (f : x ~> y) : IsKernel (abelian_coker f) (abelian_image f) := abelian_kernel_is (abelian_coker f)."
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 371,
+        "symbol": "abelian_epi_mono_factorization",
+        "intree_statement": "Theorem abelian_epi_mono_factorization {x y : C} (f : x ~> y) : ∃ (i : C) (e : x ~> i) (m : i ~> y), (Epic e) ∧ (Monic m) ∧ (m ∘ e ≈ f).  (* witnessed by abelian_image_obj f, abelian_image_med f, abelian_image f *)"
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 353,
+        "symbol": "image_mediator_epic (with abelian_image_monic, line 272)",
+        "intree_statement": "Lemma image_mediator_epic {x y : C} (f : x ~> y) : Epic (abelian_image_med f).  Lemma abelian_image_monic {x y : C} (f : x ~> y) : Monic (abelian_image f)."
+      }
+    ],
+    "statement_record": {
+      "book": "The image of a morphism in an abelian category is defined to be the kernel of its cokernel, or equivalently the cokernel of its kernel; in an abelian category these two objects are always isomorphic, so the definition is unambiguous.",
+      "intree": "`abelian_image_obj f := abelian_kernel_obj (abelian_coker f)` with `abelian_image_is f : IsKernel (abelian_coker f) (abelian_image f)`; the accompanying API gives the mediator `abelian_image_med f` with `abelian_image f ∘ abelian_image_med f ≈ f` (abelian_image_med_comm), `abelian_image_monic`, `image_mediator_epic`, and hence `abelian_epi_mono_factorization`.",
+      "strength_comparison": "intree-weaker: the kernel-of-cokernel half of the definition is present verbatim (and with a stronger working API than Riehl states here — monicity of the inclusion, epicity of the mediator, and the epi-mono factorization are all proved), but the COIMAGE half is entirely absent and so is the asserted isomorphism between the two. The word 'coimage' occurs in the library exactly once, in a prose comment at Structure/Abelian.v:90, with no definition behind it."
+    },
+    "gap": "Only one of Riehl's two equivalent descriptions is formalized. Missing: (1) a definition of the coimage `coker (ker f)` (grep -rni 'coimage' --include='*.v' returns a single hit, the comment Structure/Abelian.v:90); (2) the canonical comparison morphism coim f → im f; (3) the claim that it is an isomorphism, i.e. that the two descriptions agree — which is the content that makes Riehl's definition well posed and is the standard characterization of abelian among pre-abelian categories. Note the in-tree epi-mono factorization is derived from the ker-coker side alone (via image_mediator_epic), so nothing in-tree currently NEEDS the coimage; supplying it is pure gap-filling.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass independently reached PARTIAL with exactly this gap. Verified each cited location: Structure/Abelian.v:261-270 (`abelian_image_obj := abelian_kernel_obj (abelian_coker f)`, `abelian_image`, `abelian_image_is`), :272 abelian_image_monic, :277-288 abelian_image_med/_comm, :353 image_mediator_epic, :371 abelian_epi_mono_factorization — all quotes accurate. Independently ran `rg -i 'coimage' -g '*.v'`: exactly ONE hit, Structure/Abelian.v:90, a prose comment ('the canonical comparison from the coimage to the image ... is an isomorphism'), with no definition behind it — the classifier's claim is exact. Considered and rejected two rival credits: Structure/Regular/Factorization.v:132-156 (image_obj/image_epi/image_mor as coequalizer of the kernel pair) and Instance/Sets/Image.v are genuine images but in the regular/Sets setting, not the kernel-of-cokernel one, and neither supplies the coimage or the comparison; counting them would have been a special-case-only over-credit. I deliberately did NOT raise Structure/Abelian.v:88-92 as a library defect: that sentence is background mathematics about abelian categories in a clearly-marked essay block, and the in-tree citations it does make ([abelian_epi_mono_factorization], [abelian_image_obj]) are both accurate."
+    }
+  },
+  {
+    "id": "riehl:E.5:def-exact-sequence",
+    "classification": "ABSENT",
+    "aliases": [
+      "exact sequence",
+      "exact at an object / exactness (ker f_n = im f_{n+1} as subobjects)",
+      "short exact sequence",
+      "IsExact / Exact / exact_at",
+      "chain complex, homology, differential d ∘ d = 0",
+      "kernel-image comparison as a subobject equality"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'exact sequence' --include='*.v' . — 2 hits, BOTH prose comments (Structure/Coend.v:63 citing Yoneda's paper title; Structure/Abelian.v:70 in the background essay). No definition.",
+      "grep -rni 'short exact' --include='*.v' . — 0 hits.",
+      "grep -rn 'IsExact' --include='*.v' . — 0 hits; grep -rn 'ShortExact' — 0 hits; grep -rn 'exact_at' — 0 hits.",
+      "grep -rni 'exactness' --include='*.v' . — 2 hits, both prose in Structure/Abelian.v (lines 94, 118).",
+      "grep -rni 'chain complex|homolog|derived functor' --include='*.v' . — hits only in background essays (Construction/Enriched.v:47,71; Theory/Functor.v:35; Theory/Category.v:74; Construction/Localization.v:58,78-80; Comonad/Core.v:104). No chain-complex object, no differential, no homology.",
+      "grep -rni 'kernel equals image|im(f)' --include='*.v' . — 0 hits.",
+      "Checked the pieces that WOULD be needed: Theory/Subobject.v supplies the subobject setoid and its factorization preorder, Structure/Kernel.v supplies IsKernel, and Structure/Abelian.v:261-270 supplies abelian_image — but no file combines them into an exactness predicate. grep -rln 'Abelian' --include='*.v' . returns only Structure/Abelian.v plus files mentioning it in prose (Instance/Fun.v, Construction/Comma.v, Structure/{Closed,Kernel,Equalizer,Complete,Factorization}.v, Adjunction/GAFT.v)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind search, run before reading the coverage file, found the same nothing: `rg -i 'exact sequence|ExactSequence|short exact|chain complex|homolog'` over *.v yields only background-essay prose (Structure/Abelian.v:70,94,118; Structure/Coend.v:63 citing Yoneda's paper title; Theory/{Sheaf,Category,Functor,Equivalence,Kan/Extension}.v; Construction/{Localization,Enriched}.v; Comonad/{Core,Coalgebra}.v) and no definition; `rg 'IsExact|ShortExact|exact_at|exactness'` finds only the two Abelian.v prose hits. Also searched aliases the classifier did not log — 'im f', 'image_eq_kernel', 'ker.*=.*im', 'resolution', 'derived functor' — all negative or prose-only. The log's constructive observation is accurate: Theory/Subobject.v (the subobject setoid with the factorization preorder and equivalence-iff-mutual-factorization) plus Structure/Kernel.v's IsKernel plus Structure/Abelian.v's abelian_image are exactly the ingredients, and nothing combines them. ABSENT (not OUT_OF_SCOPE) is right — the library is universe-polymorphic and has every prerequisite."
+    }
+  },
+  {
+    "id": "riehl:E.5:remark-five-lemma",
+    "classification": "ABSENT",
+    "aliases": [
+      "five lemma",
+      "short five lemma",
+      "snake lemma / nine lemma / four lemma",
+      "diagram lemma proved by universal properties (element-free diagram chase)",
+      "map between exact sequences is an isomorphism"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'five lemma' --include='*.v' . — 0 hits; 'five_lemma' — 0; 'FiveLemma' — 0; 'short_five' — 0.",
+      "grep -rni 'snake lemma|nine lemma|four lemma' --include='*.v' . — 0 hits. ('snake' has 35 hits but every one is the snake/zigzag identity of compact-closed and Frobenius structures: Structure/Monoidal/CompactClosed.v:32-39, Structure/Monoidal/Traced.v:60, Theory/Algebra/Frobenius.v:78 — an unrelated use of the word.)",
+      "grep -rni 'diagram chase' --include='*.v' . — 4 hits, all prose in Structure/Abelian.v (lines 51, 114) and neighbours, describing the argument style of image_mediator_epic; no lemma about ladders of exact sequences.",
+      "grep -rni 'exact sequence' --include='*.v' . — 2 prose hits only (see riehl:E.5:def-exact-sequence); with no exactness predicate in the library the five lemma is not even statable.",
+      "Read Structure/Abelian.v in full: its derived results are monic_iff_kernel_pzero, epic_iff_cokernel_pzero, the image API, image_mediator_epic, abelian_epi_mono_factorization, abelian_epic_strong, abelian_epi_mono_ortho, Abelian_OFS — no lemma about commuting ladders or about detecting isomorphisms from outer vertical maps."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search: `rg -i 'five lemma|five_lemma|FiveLemma|short five'` over *.v and *.md = 0 hits in any .v file (the only 'five' hits in .v are unrelated counts of fields/laws in Monad/Graded.v, Test/FullIssue118.v, Instance/Comp.v, etc.); 'snake lemma'/'nine lemma'/'four lemma' = 0. Independently confirmed the classifier's snake disambiguation is exact: `rg -c -i snake` gives 35 hits total, distributed Structure/Monoidal/CompactClosed.v:21, Structure/Monoidal/Collapse.v:12, Structure/Monoidal/Traced.v:1, Theory/Algebra/Frobenius.v:1 — all the compact-closed/Frobenius zigzag identity, none homological. Also verified by reading Structure/Abelian.v end to end that its derived results are exactly the eight listed in the log and contain no ladder/vertical-map lemma. ONE IMMATERIAL IMPRECISION in the negative log, recorded but not grounds for overturn: 'diagram chase — 4 hits, all prose in Structure/Abelian.v (lines 51, 114)' — the actual exact-phrase hits are Structure/Abelian.v:51 and :112 (line 114 is the continuation of the same sentence) plus 'diagram chases' at Structure/Coend.v:101; the substance (prose only, no ladder lemma) is unaffected."
+    }
+  },
+  {
+    "id": "riehl:E.5:def-exact-functor",
+    "classification": "ABSENT",
+    "aliases": [
+      "exact functor",
+      "left exact / right exact functor",
+      "preserves finite limits / finite colimits (lex, rex)",
+      "PreservesLimit / PreservesColimit / PreservesAllLimits",
+      "preserves exact sequences / preserves kernels and cokernels",
+      "additive functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'exact functor' --include='*.v' . — 0 hits; 'ExactFunctor' — 0; 'LeftExact' — 0; 'RightExact' — 0.",
+      "grep -rni 'left exact|right exact|left-exact|right-exact' --include='*.v' . — 2 hits, both prose in Theory/Sheaf.v (lines 83, 112) describing Grothendieck toposes as left-exact localizations; no definition.",
+      "grep -rn 'PreservesFiniteLimits|preserves_finite' --include='*.v' . — 0 hits.",
+      "grep -rni 'finite limits|finitely complete|finite colimits' --include='*.v' . — hits are prose only (Structure/Topos.v:20-21,58; Structure/Regular.v:17,30,62; Structure/Pullback.v:272; Construction/Cospan/{Symmetric,Hypergraph}.v). No `FiniteLimits` class: finite-limit-hood is spelled out ad hoc as Terminal + Cartesian + pullbacks (e.g. Structure/Topos.v), never packaged, and never as a preservation condition.",
+      "grep -rni 'additive functor|preserves kernels|preserves cokernels' --include='*.v' . — 0 hits.",
+      "Nearest in-tree structure, deliberately NOT counted as evidence: Structure/Limit/Preservation.v has `Class PreservesLimit`, `Definition PreservesColimit`, `PreservesAllLimits`, `PreservesAllColimits`, and Adjunction/Continuity.v has RAPL/LAPC. These express preservation of a given (or of all) limits/colimits — a different and, for 'all', strictly stronger condition than Riehl's finiteness-restricted one — and there is no exact-sequence notion for the 'preserves exact sequences' clause, so neither the definition nor the asserted equivalence has an in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search reached the same verdict: `rg -i 'exact functor|left exact|right exact|LeftExact|RightExact|preserves finite limits|PreservesFiniteLimits'` = 0 hits; the hyphenated form `rg -i 'left.exact|right.exact'` returns exactly the 2 prose hits the classifier logged, Theory/Sheaf.v:83 and :112 ('a reflective, left-exact localization', 'a left-exact left adjoint'), both descriptive of Grothendieck toposes and neither a definition — I confirmed those two line numbers directly. `rg -i 'additive functor|preserves kernels|preserves cokernels'` = 0. Independently checked the nearest structure the classifier declined to count: Structure/Limit/Preservation.v:48 `Class PreservesLimit`, :196 `PreservesColimit`, :229/:232 PreservesAllLimits/PreservesAllColimits, plus Adjunction/Continuity.v's RAPL/LAPC — the refusal to count these is correct, since none is finiteness-restricted, there is no packaged finite-limit notion, and the 'preserves exact sequences' clause is not statable without riehl:E.5:def-exact-sequence. Declining to award PARTIAL on generic preservation vocabulary is the honest call, not an under-credit."
+    }
+  },
+  {
+    "id": "riehl:E.5:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Freyd-Mitchell embedding theorem",
+      "full embedding theorem",
+      "every small abelian category embeds in R-Mod",
+      "exact fully faithful functor into a module category",
+      "Mitchell embedding / Freyd 'Abelian Categories' Thm 7.34",
+      "category of left R-modules"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'mitchell' --include='*.v' . — 2 hits, both prose: Structure/Abelian.v:109 (the background essay citing 'The Freyd-Mitchell embedding (Freyd, \"Abelian Categories\", Thm 7.34, 1964)') and Structure/Topos.v:84 (the unrelated Mitchell-Bénabou language). Comments, not assertions.",
+      "grep -rni 'embedding theorem' --include='*.v' . — 1 hit, Structure/Closed.v:74, about Laplaza's coherence/embedding theorem for closed categories; unrelated.",
+      "grep -rni 'R-Mod|RMod|left R-module' --include='*.v' . — 6 hits for 'R-Mod', all prose (Structure/Abelian.v:69,111; Structure/Monoid.v:69; Theory/Equivalence.v:79; plus two false positives on 'per-module'/'real-number-mod'); 'RMod' and 'left R-module' both 0.",
+      "grep -rli 'Class Ring|Record Ring|Ring :' --include='*.v' . — 0 hits. There is no ring in the library, hence no module category to embed into: ls Instance/ shows Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no Ab, no Mod, no Ring.",
+      "grep -rni 'fully faithful exact' --include='*.v' . — 0 hits. The library has Full/Faithful (Theory/Functor.v) and the full-subcategory machinery (Construction/Subcategory.v), but no functor into modules and no smallness hypothesis machinery of the kind the theorem needs.",
+      "No exactness predicate exists either (see riehl:E.5:def-exact-sequence and riehl:E.5:def-exact-functor), so the theorem's conclusion — an EXACT fully faithful embedding — is not currently statable."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search independently: `rg -i 'Freyd.?Mitchell|Mitchell|embedding theorem'` over *.v — Structure/Abelian.v:109 (background essay, 'The Freyd-Mitchell embedding (Freyd, \"Abelian Categories\", Thm 7.34, 1964) places every small abelian category ... inside R-Mod for some ring R'), Structure/Topos.v:84 (the unrelated Mitchell-Bénabou language), Structure/Closed.v:74 (Laplaza, unrelated). Verified every remaining log claim myself: `rg 'R-Mod' -g '*.v'` = 3 real hits, all prose (Structure/Abelian.v:69,111; Theory/Equivalence.v:79) — the classifier's '6 hits ... plus two false positives' is a slight overcount of its own grep but the conclusion (all prose, none a definition) is exactly right; `rg 'Class Ring|Record Ring|Ring :'` = 0 hits; `ls Instance/` matches the logged list verbatim, with no Ab/Mod/Ring. The conclusion is also over-determined: with no exactness predicate (riehl:E.5:def-exact-sequence) and no module category, the theorem's conclusion is not currently statable. Consistent with the independent MacLane VIII audit (doc/plan/books/maclane/issues/VIII-drafts.md:1489), which reached ABSENT on the same theorem by the same evidence."
+    }
+  },
+  {
+    "id": "riehl:E.5:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monomorphism detected by left cancellation against zero (monic_iff_kernel_pzero)",
+      "epimorphism detected by right cancellation against zero (epic_iff_cokernel_pzero)",
+      "balanced category: mono + epi implies iso",
+      "strong_epi_mono_is_iso / abelian_epic_strong",
+      "short five lemma",
+      "vanishing test / zero-cancellation criterion"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Abelian.v",
+        "line": 170,
+        "symbol": "monic_iff_kernel_pzero",
+        "intree_statement": "Lemma monic_iff_kernel_pzero {x y : C} (f : x ~> y) : Monic f ↔ (∀ (z : C) (u : z ~> x), f ∘ u ≈ zero_mor → u ≈ zero_mor)."
+      },
+      {
+        "file": "Structure/Abelian.v",
+        "line": 200,
+        "symbol": "epic_iff_cokernel_pzero",
+        "intree_statement": "Lemma epic_iff_cokernel_pzero {x y : C} (f : x ~> y) : Epic f ↔ (∀ (z : C) (u : y ~> z), u ∘ f ≈ zero_mor → u ≈ zero_mor)."
+      },
+      {
+        "file": "Structure/Factorization/StrongEpi.v",
+        "line": 154,
+        "symbol": "strong_epi_mono_is_iso (with abelian_epic_strong, Structure/Abelian.v:422)",
+        "intree_statement": "Lemma strong_epi_mono_is_iso {C : Category} {x y : C} (f : x ~> y) : StrongEpi f → Monic f → IsIsomorphism f.  Lemma abelian_epic_strong {x y : C} (f : x ~> y) : Epic f → StrongEpi f."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise E.5.i, in an arbitrary abelian category: (i) if f satisfies 'f ∘ g = 0 implies g = 0' then f is a monomorphism, and dually for epimorphisms; (ii) a morphism that is both a monomorphism and an epimorphism is an isomorphism (the category is balanced); (iii) the short five lemma — in a commutative ladder of two short exact sequences with vertical maps a, b, c, if a and c are both monic, both epic, or both isomorphisms then so is b.",
+      "intree": "Part (i) is `monic_iff_kernel_pzero : Monic f ↔ (∀ z (u : z ~> x), f ∘ u ≈ zero_mor → u ≈ zero_mor)` and its dual `epic_iff_cokernel_pzero : Epic f ↔ (∀ z (u : y ~> z), u ∘ f ≈ zero_mor → u ≈ zero_mor)`, both in the `Context {A : @Abelian C}` section. Part (ii) is not stated, but follows in one step from `abelian_epic_strong : Epic f → StrongEpi f` and `strong_epi_mono_is_iso : StrongEpi f → Monic f → IsIsomorphism f`. Part (iii) has no in-tree counterpart.",
+      "strength_comparison": "mixed. Part (i): intree-stronger — Riehl asks only for the implication (zero-cancellation ⇒ monic), the in-tree lemmas are biconditionals, in exactly the abelian setting, and are the workhorses of the file. Part (ii): the content is available but only as a two-lemma composite, never asserted as 'Abelian C → mono ∧ epi → iso'; note the route runs through normality (epi ⇒ conormal ⇒ regular epi ⇒ strong epi), which is faithful to the intended proof. Part (iii): absent."
+    },
+    "gap": "Part (iii), the short five lemma, is entirely missing and is not currently statable: the library has no exact-sequence predicate (see riehl:E.5:def-exact-sequence — grep for 'exact sequence'/'short exact'/'IsExact' finds only prose), so neither the two short exact rows nor the commuting ladder can be expressed. Part (ii) is not stated as a lemma: the balancedness of an abelian category must be assembled by the reader from `abelian_epic_strong` (Structure/Abelian.v:422) and `strong_epi_mono_is_iso` (Structure/Factorization/StrongEpi.v:154); grep for 'balanced' finds only the unrelated balanced-monoidal development (Structure/Monoidal/Balanced.v). Part (i) is fully present and stronger than asked.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, and the per-part split is exactly what my blind pass found. Part (i): verified verbatim at Structure/Abelian.v:170-171 and :200-201 — both are genuine biconditionals inside `Context {A : @Abelian C}`, so 'intree-stronger' is accurate, not a same-name-weaker-statement. Part (ii): verified Structure/Factorization/StrongEpi.v:154-155 `strong_epi_mono_is_iso : StrongEpi f → Monic f → IsIsomorphism f` (proof reads the lifting of the identity square, sound) and Structure/Abelian.v:422-428 `abelian_epic_strong : Epic f → StrongEpi f` (via cokernel_regular_epi ∘ regular_epi_strong); the composite balancedness statement is genuinely NOT asserted anywhere — I independently confirmed `rg -i balanced -g '*.v'` returns only Structure/Monoidal/Balanced.v and its symmetric-monoidal neighbours, and that Theory/Morphisms.v:125 `Definition Bimorphic f := (Epic f * Monic f)` is a bare definition with no theorem attached (its only other occurrences are the two Hint Unfold lines :149 and :224). So the classifier's 'available only as a two-lemma composite' is precisely right — a nearby trap it did not fall into would have been to call part (ii) PRESENT on the strength of the two ingredients. Part (iii) short five lemma: independently ABSENT, not statable without an exactness predicate. Overall PARTIAL with the per-part accounting in `gap` is the correct handling of a multi-part exercise."
+    }
+  }
+]

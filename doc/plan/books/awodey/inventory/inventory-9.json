@@ -1,0 +1,1852 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 222,
+    "pdf_end": 273
+  },
+  "pages": [
+    {
+      "pdf_page": 222,
+      "book_page": "213",
+      "empty": false,
+      "items": [
+        "awodey:9.1:construction-free-monoid-adjunction"
+      ],
+      "notes": "Chapter 9 title page + motivational prose (skipped as non-mathematical) + start of 9.1; recalls the free-monoid UMP setup U(M), F(X), i_X : X -> UF(X)."
+    },
+    {
+      "pdf_page": 223,
+      "book_page": "214",
+      "empty": false,
+      "items": [
+        "awodey:9.1:construction-free-monoid-adjunction",
+        "awodey:9.1:def1"
+      ],
+      "notes": "Free-monoid UMP diagram, the map phi(g) = U(g) o i_X, displayed iso (9.1) (equation counter, not an item number), the two-way rule; then Definition 9.1 (preliminary) begins."
+    },
+    {
+      "pdf_page": 224,
+      "book_page": "215",
+      "empty": false,
+      "items": [
+        "awodey:9.1:def1"
+      ],
+      "notes": "Remainder of Definition 9.1: unit eta : 1_C => U o F with UMP (*), terminology block (left/right adjoint, unit, F -| U), prose comparison with equivalence of categories (motivational, not recorded separately)."
+    },
+    {
+      "pdf_page": 225,
+      "book_page": "216",
+      "empty": false,
+      "items": [
+        "awodey:9.1:example2"
+      ],
+      "notes": "Derives from Definition 9.1 the hom-bijection phi : Hom_D(FC,D) ~= Hom_C(C,UD), displayed equation (9.2), and its two-way rule; NOT recorded as a separate item because it is exactly the content of Proposition 9.4 (1 => 2), which is inventoried. Example 9.2 (diagonal functor) begins."
+    },
+    {
+      "pdf_page": 226,
+      "book_page": "217",
+      "empty": false,
+      "items": [
+        "awodey:9.1:example2",
+        "awodey:9.1:example3"
+      ],
+      "notes": "Completion of Example 9.2 (unit = diagonal, verification, conclusion 'Delta has a right adjoint iff C has binary products'); Example 9.3 (Pos / CPos, free cocompletion) begins."
+    },
+    {
+      "pdf_page": 227,
+      "book_page": "218",
+      "empty": false,
+      "items": [
+        "awodey:9.1:example3",
+        "awodey:9.2:prop4"
+      ],
+      "notes": "End of Example 9.3 (Low(P), lower sets, left to the reader); section 9.2 heading; Proposition 9.4 begins."
+    },
+    {
+      "pdf_page": 228,
+      "book_page": "219",
+      "empty": false,
+      "items": [
+        "awodey:9.2:prop4"
+      ],
+      "notes": "Proposition 9.4 statement part 2 + relating formulas + proof (1 implies 2): naturality in C and in D."
+    },
+    {
+      "pdf_page": 229,
+      "book_page": "220",
+      "empty": false,
+      "items": [
+        "awodey:9.2:prop4"
+      ],
+      "notes": "Proof of Proposition 9.4 continued: naturality computation in D; (2 implies 1) begins, displayed adjoint schema (9.3) (equation counter)."
+    },
+    {
+      "pdf_page": 230,
+      "book_page": "221",
+      "empty": false,
+      "items": [
+        "awodey:9.2:prop4"
+      ],
+      "notes": "Proof of Proposition 9.4 concluded: psi(f o h) = psi(f) o F(h), definition eta_C = phi(1_FC), verification of the UMP."
+    },
+    {
+      "pdf_page": 231,
+      "book_page": "222",
+      "empty": false,
+      "items": [
+        "awodey:9.2:cor5"
+      ],
+      "notes": "Corollary 9.5 (counit form) statement begins."
+    },
+    {
+      "pdf_page": 232,
+      "book_page": "223",
+      "empty": false,
+      "items": [
+        "awodey:9.2:cor5",
+        "awodey:9.2:def6",
+        "awodey:9.3:example7"
+      ],
+      "notes": "End of Corollary 9.5 (relating equations, proof 'Duality'); Definition 9.6 ('official') appears BEFORE the 9.3 heading and is therefore filed under section 9.2; then section 9.3 heading and Example 9.7 begins."
+    },
+    {
+      "pdf_page": 233,
+      "book_page": "224",
+      "empty": false,
+      "items": [
+        "awodey:9.3:example7",
+        "awodey:9.3:example8"
+      ],
+      "notes": "Completion of Example 9.7 (- x A -| (-)^A, exponential UMP recovered); Example 9.8 (! : C -> 1 and terminal objects)."
+    },
+    {
+      "pdf_page": 234,
+      "book_page": "225",
+      "empty": false,
+      "items": [
+        "awodey:9.3:prop9",
+        "awodey:9.3:construction-coproduct-diagonal",
+        "awodey:9.3:construction-limit-colimit-adjoints"
+      ],
+      "notes": "Proposition 9.9 with proof; then unnumbered prose developing + -| Delta and the passage C x C ~= C^2 leading to the general diagonal functor."
+    },
+    {
+      "pdf_page": 235,
+      "book_page": "226",
+      "empty": false,
+      "items": [
+        "awodey:9.3:construction-limit-colimit-adjoints",
+        "awodey:9.3:example10"
+      ],
+      "notes": "colim -| Delta -| lim for Delta : C -> C^J (general proof left as an exercise); Example 9.10 (polynomial rings) begins, displayed expression (9.4) is an equation number."
+    },
+    {
+      "pdf_page": 236,
+      "book_page": "227",
+      "empty": false,
+      "items": [
+        "awodey:9.3:example10",
+        "awodey:9.4:def-order-adjoint-galois"
+      ],
+      "notes": "End of Example 9.10 (Rings_*, [x] -| U, unit eta : R -> R[x]); section 9.4 heading, preorder/poset and order-adjoint definition in prose begins."
+    },
+    {
+      "pdf_page": 237,
+      "book_page": "228",
+      "empty": false,
+      "items": [
+        "awodey:9.4:def-order-adjoint-galois",
+        "awodey:9.4:example11",
+        "awodey:9.4:example12"
+      ],
+      "notes": "Bicondition Fa <= x iff a <= Ux, unit/counit as least/greatest elements, term 'Galois connection'; Example 9.11 (interior); Example 9.12 (powerset image/preimage) begins."
+    },
+    {
+      "pdf_page": 238,
+      "book_page": "229",
+      "empty": false,
+      "items": [
+        "awodey:9.4:example12",
+        "awodey:9.4:example13"
+      ],
+      "notes": "End of Example 9.12 (f_* right adjoint to f^{-1}, continuous-map variant on opens); Example 9.13 (meets/joins/Heyting implication/0/1 as adjoints) begins."
+    },
+    {
+      "pdf_page": 239,
+      "book_page": "230",
+      "empty": false,
+      "items": [
+        "awodey:9.4:example13",
+        "awodey:9.5:construction-quantifiers-adjoints"
+      ],
+      "notes": "End of Example 9.13 (negation, contraposition rule, classical rule ~~p |- p); section 9.5 heading; Form(x-bar) preorder and the weakening operation * introduced."
+    },
+    {
+      "pdf_page": 240,
+      "book_page": "231",
+      "empty": false,
+      "items": [
+        "awodey:9.5:construction-quantifiers-adjoints"
+      ],
+      "notes": "* -| forall, then exists -| * -| forall, unit = forall-elimination, counit = exists-introduction, functoriality of the quantifiers, sample derived laws."
+    },
+    {
+      "pdf_page": 241,
+      "book_page": "232",
+      "empty": false,
+      "items": [
+        "awodey:9.5:construction-geometric-quantifiers"
+      ],
+      "notes": "Geometric interpretation begins: extensions [phi]^M, * = pi^{-1}, exists = im(pi)."
+    },
+    {
+      "pdf_page": 242,
+      "book_page": "233",
+      "empty": false,
+      "items": [
+        "awodey:9.5:construction-geometric-quantifiers"
+      ],
+      "notes": "Figure 9.1 'Quantifiers as adjoints' only \u2014 an illustration belonging to the spanning geometric-interpretation item; no independent statement. The figure's inline labels render as missing-glyph boxes in the page image (draft PDF font artifact), but the surrounding text supplies the content."
+    },
+    {
+      "pdf_page": 243,
+      "book_page": "234",
+      "empty": false,
+      "items": [
+        "awodey:9.5:construction-geometric-quantifiers",
+        "awodey:9.6:remark-adjoint-strings"
+      ],
+      "notes": "End of geometric interpretation (im(pi) -| pi^{-1}; forall = pi_*); section 9.6 RAPL heading; strings-of-adjoints discussion begins."
+    },
+    {
+      "pdf_page": 244,
+      "book_page": "235",
+      "empty": false,
+      "items": [
+        "awodey:9.6:remark-adjoint-strings",
+        "awodey:9.6:prop14"
+      ],
+      "notes": "Four-adjoint string V -| F -| U -| R between Cat and Sets; Proposition 9.14 (RAPL) with proof; the binary-product unwinding of the proof begins in the last lines."
+    },
+    {
+      "pdf_page": 245,
+      "book_page": "236",
+      "empty": false,
+      "items": [
+        "awodey:9.6:prop14",
+        "awodey:9.6:remark-rapl-distributivity"
+      ],
+      "notes": "Binary-product unwinding of the RAPL argument (folded into Proposition 9.14); then the distributivity and logical consequences of RAPL."
+    },
+    {
+      "pdf_page": 246,
+      "book_page": "237",
+      "empty": false,
+      "items": [
+        "awodey:9.6:remark-adjoint-existence-tests",
+        "awodey:9.6:example15",
+        "awodey:9.6:prop16"
+      ],
+      "notes": "RAPL as an existence/non-existence test (Pos, free monoids); Example 9.15 (presheaves as free cocompletion); Proposition 9.16 (UMP of the Yoneda embedding) statement, displayed equation (9.5) is an equation number."
+    },
+    {
+      "pdf_page": 247,
+      "book_page": "238",
+      "empty": false,
+      "items": [
+        "awodey:9.6:prop16"
+      ],
+      "notes": "Proof of Proposition 9.16: construction of F_! -| F^* via the canonical colimit of representables and F^*(E)(C) = Hom_E(FC,E). The proof concludes on PDF 248 (outside this range); Corollary 9.17 STARTS on PDF 248 and is therefore not recorded here."
+    },
+    {
+      "pdf_page": 248,
+      "book_page": "239",
+      "empty": false,
+      "items": [
+        "awodey:9.6:prop16",
+        "awodey:9.6:cor17"
+      ],
+      "notes": "Top of page finishes the proof of the previous agent's proposition (the Sets^Cop cocompletion/left-Kan proposition, printed 238); Corollary 9.17 starts here."
+    },
+    {
+      "pdf_page": 249,
+      "book_page": "240",
+      "empty": false,
+      "items": [
+        "awodey:9.6:cor17",
+        "awodey:9.6:remark-kan-extensions"
+      ],
+      "notes": "Mostly the proof of Corollary 9.17."
+    },
+    {
+      "pdf_page": 250,
+      "book_page": "241",
+      "empty": false,
+      "items": [
+        "awodey:9.6:cor17",
+        "awodey:9.6:remark-every-functor-has-adjoint",
+        "awodey:9.7:construction-change-of-base"
+      ],
+      "notes": "End of the proof of Cor 9.17; the 'every functor has an adjoint' paragraph precedes the section heading and so is counted in 9.6; section 9.7 heading appears lower on the page."
+    },
+    {
+      "pdf_page": 251,
+      "book_page": "242",
+      "empty": false,
+      "items": [
+        "awodey:9.7:construction-change-of-base",
+        "awodey:9.7:construction-sum-delta-product"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 252,
+      "book_page": "243",
+      "empty": false,
+      "items": [
+        "awodey:9.7:construction-change-of-base",
+        "awodey:9.7:remark-slice-indexed-reindexing",
+        "awodey:9.7:prop18"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 253,
+      "book_page": "244",
+      "empty": false,
+      "items": [
+        "awodey:9.7:prop18",
+        "awodey:9.7:construction-slice-adjoints-explicit"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 254,
+      "book_page": "245",
+      "empty": false,
+      "items": [
+        "awodey:9.7:construction-slice-adjoints-explicit",
+        "awodey:9.7:construction-product-exponential-factorization"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 255,
+      "book_page": "246",
+      "empty": false,
+      "items": [
+        "awodey:9.7:def19",
+        "awodey:9.7:prop20"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 256,
+      "book_page": "247",
+      "empty": false,
+      "items": [
+        "awodey:9.7:prop20",
+        "awodey:9.7:remark21",
+        "awodey:9.7:example22",
+        "awodey:9.7:lem23"
+      ],
+      "notes": "Top of page completes the proof of Proposition 9.20 (the relative-product Pi_F built as a pullback of p^F along the transpose of 1_F)."
+    },
+    {
+      "pdf_page": 257,
+      "book_page": "248",
+      "empty": false,
+      "items": [
+        "awodey:9.7:lem23",
+        "awodey:9.7:construction-y-over-P"
+      ],
+      "notes": "Proof of Lemma 9.23."
+    },
+    {
+      "pdf_page": 258,
+      "book_page": "249",
+      "empty": false,
+      "items": [
+        "awodey:9.7:lem23",
+        "awodey:9.7:construction-y-over-P",
+        "awodey:9.7:cor24",
+        "awodey:9.7:example25",
+        "awodey:9.7:lem26"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 259,
+      "book_page": "250",
+      "empty": false,
+      "items": [
+        "awodey:9.7:cor27",
+        "awodey:9.8:remark-left-adjoint-representable",
+        "awodey:9.8:thm28"
+      ],
+      "notes": "Corollary 9.27 sits above the 9.8 heading, so it is filed in 9.7. Also contains an aside that Fib itself lacks only a terminal object to be locally cartesian closed (not separately inventoried; subsumed by Remark 9.21)."
+    },
+    {
+      "pdf_page": 260,
+      "book_page": "251",
+      "empty": false,
+      "items": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:lem29"
+      ],
+      "notes": "Also carries the diagram and 'briefly' gloss of the solution set condition of Theorem 9.28."
+    },
+    {
+      "pdf_page": 261,
+      "book_page": "252",
+      "empty": false,
+      "items": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:lem29"
+      ],
+      "notes": "Proof text only: end of the proof of Lemma 9.29 (equation (9.6), the joint equalizer argument) and the start of the proof of Theorem 9.28. Equation (9.6) is a displayed-equation number, not an item number. [merge] No item STARTS on this page; carries spanning item(s) under the all-pages listing rule."
+    },
+    {
+      "pdf_page": 262,
+      "book_page": "253",
+      "empty": false,
+      "items": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:construction-comma-x-u",
+        "awodey:9.8:remark30"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 263,
+      "book_page": "254",
+      "empty": false,
+      "items": [
+        "awodey:9.8:remark30",
+        "awodey:9.8:cor31",
+        "awodey:9.8:example32",
+        "awodey:9.8:cor33"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 264,
+      "book_page": "255",
+      "empty": false,
+      "items": [
+        "awodey:9.8:cor33",
+        "awodey:9.8:prop34",
+        "awodey:9.8:remark35"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 265,
+      "book_page": "256",
+      "empty": false,
+      "items": [
+        "awodey:9.8:remark35",
+        "awodey:9.8:def-equational-theory",
+        "awodey:9.8:prop36",
+        "awodey:9.8:example37"
+      ],
+      "notes": "Top of page finishes Remark 9.35 (the SAFT conclusion)."
+    },
+    {
+      "pdf_page": 266,
+      "book_page": "257",
+      "empty": false,
+      "items": [
+        "awodey:9.8:example37"
+      ],
+      "notes": "Continuation of Example 9.37 only (T-algebra homomorphism diagram, the forgetful functor creating limits, the generated subalgebra <h(X)>). [merge] No item STARTS on this page; carries spanning item(s) under the all-pages listing rule."
+    },
+    {
+      "pdf_page": 267,
+      "book_page": "258",
+      "empty": false,
+      "items": [
+        "awodey:9.8:example37",
+        "awodey:9.8:def38"
+      ],
+      "notes": "Also completes Example 9.37 (cardinality bound, solution set, existence of the free functor F : Sets -> T-Alg, and the observation that F(empty) is initial and is a natural numbers object)."
+    },
+    {
+      "pdf_page": 268,
+      "book_page": "259",
+      "empty": false,
+      "items": [
+        "awodey:9.8:remark-nno-recursion",
+        "awodey:9.8:example39"
+      ],
+      "notes": ""
+    },
+    {
+      "pdf_page": 269,
+      "book_page": "260",
+      "empty": false,
+      "items": [
+        "awodey:9.8:example39"
+      ],
+      "notes": "Continuation of Example 9.39 (parts 2 and 3: multiplication; the endofunctor-iteration example using that discrete N is an NNO in Cat). [merge] No item STARTS on this page; carries spanning item(s) under the all-pages listing rule."
+    },
+    {
+      "pdf_page": 270,
+      "book_page": "261",
+      "empty": false,
+      "items": [
+        "awodey:9.8:example39"
+      ],
+      "notes": "Continuation of Example 9.39 part 3 only (transposed recursion equations, f-bar(n,C) = F^(n)(C)); rest of page blank. Last page of section 9.8. [merge] No item STARTS on this page; carries spanning item(s) under the all-pages listing rule."
+    },
+    {
+      "pdf_page": 271,
+      "book_page": "262",
+      "empty": false,
+      "items": [
+        "awodey:9:ex1",
+        "awodey:9:ex2",
+        "awodey:9:ex3",
+        "awodey:9:ex4",
+        "awodey:9:ex5",
+        "awodey:9:ex6"
+      ],
+      "notes": "Section 9.9 Exercises begins."
+    },
+    {
+      "pdf_page": 272,
+      "book_page": "263",
+      "empty": false,
+      "items": [
+        "awodey:9:ex7",
+        "awodey:9:ex8"
+      ],
+      "notes": "Exercise 8 parts (a)-(f) begin here; (f) runs onto the next page."
+    },
+    {
+      "pdf_page": 273,
+      "book_page": "264",
+      "empty": false,
+      "items": [
+        "awodey:9:ex8",
+        "awodey:9:ex9",
+        "awodey:9:ex10"
+      ],
+      "notes": "Exercise 8(f) (Lawvere's hyperdoctrine diagram) completes at the top. Last page of chapter 9."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:9.1:construction-free-monoid-adjunction",
+      "kind": "construction",
+      "number": null,
+      "name": "free monoid / underlying set: the motivating adjunction",
+      "statement_summary": "Recalls the universal mapping property of free monoids as the paradigm of an adjunction: the underlying-set functor U : Mon -> Sets, the free-monoid functor F : Sets -> Mon, and the insertion of generators i_X : X -> UF(X), with the UMP that for every monoid M and every function f : X -> U(M) there is a UNIQUE monoid homomorphism g : F(X) -> M satisfying U(g) o i_X = f. Defining phi(g) = U(g) o i_X, the UMP says exactly that phi : Hom_Mon(F(X),M) -> Hom_Sets(X,U(M)) is a bijection; this is displayed as the two-way inference rule (arrow F(X) -> M above, arrow X -> U(M) below).",
+      "book_section": "9.1",
+      "book_page": "213-214",
+      "pdf_pages": [
+        222,
+        223
+      ],
+      "cross_refs": [
+        "awodey:9.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.1:def1",
+      "kind": "definition",
+      "number": "9.1",
+      "name": "adjunction (preliminary, unit form)",
+      "statement_summary": "An adjunction between categories C and D consists of functors F : C -> D and U : D -> C together with a natural transformation eta : 1_C => U o F (the unit) satisfying the UMP of the unit: for every object C of C, every object D of D and every arrow f : C -> U(D) there is a UNIQUE arrow g : F(C) -> D with f = U(g) o eta_C. Terminology fixed here: F is the left adjoint, U the right adjoint, eta the unit, written F -| U. Awodey flags it as 'preliminary' (asymmetric, only half the picture) and notes that F -| U generalizes equivalence of categories, being a property of specific functors rather than of the pair of categories.",
+      "book_section": "9.1",
+      "book_page": "214-215",
+      "pdf_pages": [
+        223,
+        224
+      ],
+      "cross_refs": [
+        "awodey:9.1:construction-free-monoid-adjunction",
+        "awodey:9.2:prop4",
+        "awodey:9.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.1:example2",
+      "kind": "example",
+      "number": "9.2",
+      "name": "diagonal functor and binary products (Delta -| x)",
+      "statement_summary": "The diagonal functor Delta : C -> C x C, Delta(C) = (C,C) on objects and Delta(f : C -> C') = (f,f) on arrows. A right adjoint R : C x C -> C would require a bijection Hom_C(C, R(X,Y)) ~= Hom_{C x C}(Delta C, (X,Y)) ~= Hom_C(C,X) x Hom_C(C,Y), forcing R(X,Y) ~= X x Y. The unit is taken to be the diagonal arrow eta_C = <1_C, 1_C> : C -> C x C, and the UMP is verified by the computation (f_1 x f_2) o eta_C = <f_1 pi_1, f_2 pi_2> eta_C = <f_1, f_2> = f for the unique factorization f = <f_1,f_2> of any f : C -> X x Y. Conclusion: Delta has a right adjoint if and only if C has binary products, and then Delta -| x.",
+      "book_section": "9.1",
+      "book_page": "216-217",
+      "pdf_pages": [
+        225,
+        226
+      ],
+      "cross_refs": [
+        "awodey:9.1:def1",
+        "awodey:9.3:construction-coproduct-diagonal",
+        "awodey:9.3:construction-limit-colimit-adjoints"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.1:example3",
+      "kind": "example",
+      "number": "9.3",
+      "name": "free cocompletion of a poset by lower sets",
+      "statement_summary": "Let Pos be posets and monotone maps, and CPos the category of cocomplete posets (every set-indexed family (c_i)_{i in I} has a join \\/_i c_i) and cocontinuous maps (monotone maps preserving all such joins), with the evident forgetful functor U : CPos -> Pos. A left adjoint F -| U amounts to a monotone eta : P -> UF(P) such that for every cocomplete poset C and monotone f : P -> U(C) there is a UNIQUE cocontinuous f-bar : F(P) -> C with f = U(f-bar) o eta_P; F(P) is then a 'free cocompletion' of P and eta a best approximation of P by a cocomplete poset. Awodey asserts (verification left to the reader) that this always exists, namely the poset Low(P) = { U subset P : p' <= p in U implies p' in U } of lower (downward-closed) sets.",
+      "book_section": "9.1",
+      "book_page": "217-218",
+      "pdf_pages": [
+        226,
+        227
+      ],
+      "cross_refs": [
+        "awodey:9.1:def1",
+        "awodey:9.6:example15"
+      ],
+      "flags": [
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:9.2:prop4",
+      "kind": "proposition",
+      "number": "9.4",
+      "name": "unit definition equals hom-set definition of adjunction",
+      "statement_summary": "Given categories C, D and functors F : C -> D, U : D -> C, the following are equivalent: (1) F is left adjoint to U in the unit sense, i.e. there is a natural transformation eta : 1_C => U o F with the UMP of the unit (for all C, D and f : C -> U(D) a unique g : FC -> D with f = U(g) o eta_C); (2) for all C in C and D in D there is an isomorphism phi : Hom_D(FC, D) ~= Hom_C(C, UD) NATURAL in both C and D. Moreover the two are related by phi(g) = U(g) o eta_C and eta_C = phi(1_{FC}). Proof: (1 => 2) naturality in C is checked against precomposition h* and (Fh)* for h : C' -> C, naturality in D against postcomposition g_* and U(g)_*; (2 => 1) naturality of phi in D means phi(g o f) = U(g) o phi(f) and in C means psi(f o h) = psi(f) o F(h) for psi = phi^{-1}; one then DEFINES eta_C = phi(1_{FC}) and derives phi(g) = U(g) o eta_C, which gives the UMP since phi is bijective.",
+      "book_section": "9.2",
+      "book_page": "218-221",
+      "pdf_pages": [
+        227,
+        228,
+        229,
+        230
+      ],
+      "cross_refs": [
+        "awodey:9.1:def1",
+        "awodey:9.2:cor5",
+        "awodey:9.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.2:cor5",
+      "kind": "corollary",
+      "number": "9.5",
+      "name": "counit form of the hom-set adjunction (dual of 9.4)",
+      "statement_summary": "Dual of Proposition 9.4, obtained because condition (2) there is symmetric in F and U while condition (1) is not. For functors F : C -> D, U : D -> C the following are equivalent: (1) there is an isomorphism phi : Hom_D(FC,D) ~= Hom_C(C,UD) natural in C and D; (2) there is a natural transformation epsilon : F o U => 1_D (the counit) with the UMP: for all C, D and every g : F(C) -> D there is a UNIQUE f : C -> U(D) with g = epsilon_D o F(f). The two are related by psi(f) = epsilon_D o F(f) and epsilon_D = psi(1_{UD}), where psi = phi^{-1}. Proof: duality.",
+      "book_section": "9.2",
+      "book_page": "222-223",
+      "pdf_pages": [
+        231,
+        232
+      ],
+      "cross_refs": [
+        "awodey:9.2:prop4",
+        "awodey:9.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.2:def6",
+      "kind": "definition",
+      "number": "9.6",
+      "name": "adjunction (official, hom-set definition)",
+      "statement_summary": "The official definition adopted for the rest of the book: an adjunction consists of functors F : C -> D and U : D -> C together with a natural isomorphism phi : Hom_D(FC,D) ~= Hom_C(C,UD) (with inverse psi), natural in both arguments. This formulation is symmetric in F and U. The unit eta : 1_C => U o F and counit epsilon : F o U => 1_D are then DETERMINED by eta_C = phi(1_{FC}) and epsilon_D = psi(1_{UD}). Note on placement: this definition sits on printed p.223 immediately BEFORE the section 9.3 heading, so it belongs to section 9.2.",
+      "book_section": "9.2",
+      "book_page": "223",
+      "pdf_pages": [
+        232
+      ],
+      "cross_refs": [
+        "awodey:9.2:prop4",
+        "awodey:9.2:cor5",
+        "awodey:9.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.3:example7",
+      "kind": "example",
+      "number": "9.7",
+      "name": "product functor left adjoint to exponential (- x A -| (-)^A)",
+      "statement_summary": "Let C have binary products and fix A in C; consider the product functor - x A : C -> C, X |-> X x A on objects and (h : X -> Y) |-> (h x 1_A : X x A -> Y x A) on arrows. Seeking a right adjoint U with natural bijection between arrows X x A -> Y and arrows X -> U(Y), one tries U(Y) = Y^A on objects and U(g : Y -> Z) = g^A : Y^A -> Z^A on arrows; putting X = U(Y) and transposing 1_{Y^A} yields the counit epsilon : Y^A x A -> Y (evaluation). The adjunction condition is then exactly: for every f : X x A -> Y there is a unique f-bar : X -> Y^A with f = epsilon o (f-bar x 1_A) \u2014 precisely the UMP of the exponential. Hence - x A -| (-)^A, i.e. exponentials are exactly right adjoints to the product functors.",
+      "book_section": "9.3",
+      "book_page": "223-224",
+      "pdf_pages": [
+        232,
+        233
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6",
+        "awodey:9.6:remark-rapl-distributivity"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.3:example8",
+      "kind": "example",
+      "number": "9.8",
+      "name": "terminal object as right adjoint to the functor into 1",
+      "statement_summary": "For any category C consider the unique functor ! : C -> 1 into the terminal category. A right adjoint would be a functor U : 1 -> C, i.e. an object U(*), such that for every C in C there is a bijective correspondence between arrows !C -> * (of which there is exactly one) and arrows C -> U(*). Hence U(*) must be a terminal object, and ! has a right adjoint if and only if C has a terminal object. Awodey leaves the dual question (a left adjoint to ! corresponds to an initial object) to the reader.",
+      "book_section": "9.3",
+      "book_page": "224",
+      "pdf_pages": [
+        233
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6",
+        "awodey:9.3:prop9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.3:prop9",
+      "kind": "proposition",
+      "number": "9.9",
+      "name": "uniqueness of adjoints up to isomorphism",
+      "statement_summary": "Adjoints are unique up to isomorphism: given a functor F : C -> D and two right adjoints U, V : D -> C with F -| U and F -| V, one has U ~= V. Proof: for all D in D and C in C, Hom_C(C, UD) ~= Hom_D(FC, D) ~= Hom_C(C, VD) naturally in C (by the two adjunctions), so UD ~= VD by the Yoneda lemma, and this isomorphism is natural in D, again by adjointness. Awodey draws the methodological consequence that 'being left/right adjoint to a given functor' characterizes a functor uniquely up to isomorphism, in the manner of a universal mapping property.",
+      "book_section": "9.3",
+      "book_page": "225",
+      "pdf_pages": [
+        234
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.3:construction-coproduct-diagonal",
+      "kind": "construction",
+      "number": null,
+      "name": "binary coproduct as left adjoint to the diagonal (+ -| Delta)",
+      "statement_summary": "Unnumbered prose development dual to Example 9.2: a left adjoint L to the diagonal Delta : C -> C x C would have to satisfy the two-way rule with arrows L(X,Y) -> C above and arrows (X,Y) -> (C,C) below, i.e. Hom_C(L(X,Y), C) ~= Hom_C(X,C) x Hom_C(Y,C); hence L(X,Y) can only be the binary coproduct X + Y. Therefore Delta has a left adjoint if and only if C has binary coproducts, and then + -| Delta (so + -| Delta -| x when both exist).",
+      "book_section": "9.3",
+      "book_page": "225",
+      "pdf_pages": [
+        234
+      ],
+      "cross_refs": [
+        "awodey:9.1:example2",
+        "awodey:9.3:prop9"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.3:construction-limit-colimit-adjoints",
+      "kind": "construction",
+      "number": null,
+      "name": "limits and colimits as adjoints to the constant-diagram functor (colim -| Delta -| lim)",
+      "statement_summary": "Unnumbered prose development generalizing Example 9.2 and the coproduct case: noting C x C ~= C^2 for the discrete two-object category 2, with Delta(C) the constant C-valued functor, replace 2 by an arbitrary SMALL index category J and consider the constant-diagram (diagonal) functor Delta : C -> C^J with Delta(C)(j) = C for all j in J. Then Delta has a left adjoint colim and a right adjoint lim, colim -| Delta -| lim, with the left (resp. right) adjoint existing if and only if C has all colimits (resp. all limits) of type J. Consequently every particular limit and colimit met earlier \u2014 products, pullbacks, coequalizers, etc. \u2014 is an instance of an adjoint. Awodey leaves the proof of the general fact as an exercise and asks the reader to identify the units and counits of these adjunctions.",
+      "book_section": "9.3",
+      "book_page": "225-226",
+      "pdf_pages": [
+        234,
+        235
+      ],
+      "cross_refs": [
+        "awodey:9.1:example2",
+        "awodey:9.3:construction-coproduct-diagonal",
+        "awodey:9.6:prop14"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "proof-left-as-exercise"
+      ]
+    },
+    {
+      "id": "awodey:9.3:example10",
+      "kind": "example",
+      "number": "9.10",
+      "name": "polynomial ring R[x] as free pointed ring",
+      "statement_summary": "Polynomial rings as an adjoint. For a commutative ring R, the ring R[x] of polynomials in one indeterminate carries an evident homomorphism eta : R -> R[x] sending r to the constant polynomial, with the UMP: for every ring A, every homomorphism alpha : R -> A and every element a in A there is a UNIQUE homomorphism a* : R[x] -> A with a*(x) = a and a* o eta = alpha, given by formal evaluation a*(r_0 + r_1 x + ... + r_n x^n) = alpha(r_0) + alpha(r_1)a + ... + alpha(r_n)a^n. Categorically: let Rings_* be the category of POINTED rings, objects (A,a) with a in A, arrows homomorphisms h : A -> B with h(a) = b; the forgetful functor U : Rings_* -> Rings, U(A,a) = A, has as left adjoint the functor [x] : Rings -> Rings_*, [x](R) = (R[x], x), which 'adjoins an indeterminate', with unit eta : R -> R[x]. This characterizes R[x] without appeal to formal polynomial expressions.",
+      "book_section": "9.3",
+      "book_page": "226-227",
+      "pdf_pages": [
+        235,
+        236
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6",
+        "awodey:9.1:construction-free-monoid-adjunction"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.4:def-order-adjoint-galois",
+      "kind": "definition",
+      "number": null,
+      "name": "order adjoint / Galois connection between preorders",
+      "statement_summary": "In-prose definition opening section 9.4. A PREORDERED SET is a category with at most one arrow x -> y between any two objects; a poset is a skeletal preorder; the induced order is x <= y iff there exists an arrow x -> y. For preorders P and Q, an adjunction F -| U with F : P -> Q, U : Q -> P reduces to a pair of order-preserving (monotone) maps satisfying the two-way rule or 'bicondition' Fa <= x if and only if a <= Ux (the hom-set iso Q(Fa,x) ~= P(a,Ux) being a bi-implication of propositions). Consequently the unit at p in P is the fact p <= UFp, and UFp is LEAST among all x with p <= Ux; dually the counit at q is FUq <= q with FUq GREATEST among all y with Fy <= q. Such a set-up on preordered sets is called a GALOIS CONNECTION.",
+      "book_section": "9.4",
+      "book_page": "227-228",
+      "pdf_pages": [
+        236,
+        237
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "in-prose-definition"
+      ]
+    },
+    {
+      "id": "awodey:9.4:example11",
+      "kind": "example",
+      "number": "9.11",
+      "name": "interior operation right adjoint to inclusion of opens",
+      "statement_summary": "For a topological space X, let O(X) be the poset of open subsets and P(X) the poset of all subsets, with inc : O(X) -> P(X) the inclusion and int : P(X) -> O(X) the interior operation. For every subset A and open U the bicondition U subset A iff U subset int(A) is valid, so inc -| int: interior is RIGHT adjoint to the inclusion of opens among all subsets. The counit is the inclusion int(A) subset A, valid for all subsets A. The dual case of closed subsets and the closure operation (closure LEFT adjoint to the inclusion of closed sets) is noted.",
+      "book_section": "9.4",
+      "book_page": "228",
+      "pdf_pages": [
+        237
+      ],
+      "cross_refs": [
+        "awodey:9.4:def-order-adjoint-galois"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.4:example12",
+      "kind": "example",
+      "number": "9.12",
+      "name": "image / inverse image / dual image adjoint triple on powersets",
+      "statement_summary": "Every function f : A -> B induces an adjunction on powersets between the direct image operation im(f) : P(A) -> P(B) and the inverse image f^{-1} : P(B) -> P(A): im(f) -| f^{-1}, witnessed by the bicondition im(f)(U) subset V iff U subset f^{-1}(V), valid for all U subset A, V subset B. Moreover f^{-1} itself has a RIGHT adjoint f_* : P(A) -> P(B) given by f_*(U) = { b in B : f^{-1}(b) subset U } (verification left to the reader), yielding the adjoint triple im(f) -| f^{-1} -| f_*. If f is continuous, f^{-1} restricts to opens as f^{-1} : O(B) -> O(A); then the left adjoint im(f) need not exist on opens, but the right adjoint f_* still does.",
+      "book_section": "9.4",
+      "book_page": "228-229",
+      "pdf_pages": [
+        237,
+        238
+      ],
+      "cross_refs": [
+        "awodey:9.4:def-order-adjoint-galois",
+        "awodey:9.5:construction-geometric-quantifiers"
+      ],
+      "flags": [
+        "proof-left-to-reader"
+      ]
+    },
+    {
+      "id": "awodey:9.4:example13",
+      "kind": "example",
+      "number": "9.13",
+      "name": "Heyting algebra structure as adjoint (two-way) rules",
+      "statement_summary": "In a preorder P all the propositional structure is given by adjoint two-way rules: binary MEETS by r <= p /\\ q iff (r <= p and r <= q); binary JOINS by p \\/ q <= r iff (p <= r and q <= r); HEYTING IMPLICATION as an exponential by p /\\ q <= r iff p <= q => r; and initial/terminal objects by 0 <= p and p <= 1 for all p. Hence the notion of Heyting algebra can be formulated entirely in terms of adjoints, and \u2014 together with reflexivity and transitivity of entailment p |- q \u2014 these 'adjoint rules of inference' form a complete sequent calculus equivalent to intuitionistic propositional logic. Defining negation by ~p = (p => 0/bottom) yields the derived contraposition rule: from q |- ~p infer p |- ~q. Adding the rule ~~p |- p yields classical propositional calculus.",
+      "book_section": "9.4",
+      "book_page": "229-230",
+      "pdf_pages": [
+        238,
+        239
+      ],
+      "cross_refs": [
+        "awodey:9.4:def-order-adjoint-galois",
+        "awodey:9.3:example7",
+        "awodey:9.6:remark-rapl-distributivity"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.5:construction-quantifiers-adjoints",
+      "kind": "construction",
+      "number": null,
+      "name": "quantifiers as adjoints to weakening (Lawvere): exists -| * -| forall",
+      "statement_summary": "Unnumbered development (attributed to Lawvere) of the quantifiers as adjoint functors. For a first-order language L and a list x-bar = x_1,...,x_n of DISTINCT variables, Form(x-bar) is the set of formulas with at most those variables free, preordered by first-order entailment phi(x-bar) |- psi(x-bar). For y not in x-bar there is a trivial weakening (dummy-variable) operation * : Form(x-bar) -> Form(x-bar,y), which is a functor since it preserves entailment. Claim: * -| forall_y, i.e. the two-way rule *phi(x-bar) |- psi(x-bar,y) in Form(x-bar,y) iff phi(x-bar) |- forall y. psi(x-bar,y) in Form(x-bar) \u2014 the usual universal introduction/elimination rules, with the variable side-conditions automatically encoded by the typing of the two preorders. Dually exists_y -| *, via exists y. psi(x-bar,y) |- phi(x-bar) iff psi(x-bar,y) |- phi(x-bar). So exists -| * -| forall. The unit of * -| forall is forall-elimination forall y. psi |- psi, the counit of exists -| * is existential introduction psi |- exists y. psi; monotonicity (functoriality) of exists_y and forall_y follows from these rules, as do standard laws such as forall x. psi |- exists y. psi and exists y forall x. psi(x,y) |- forall x exists y. psi(x,y). Taken as primitive, the adjoint rules give a complete deduction system for quantificational logic.",
+      "book_section": "9.5",
+      "book_page": "230-231",
+      "pdf_pages": [
+        239,
+        240
+      ],
+      "cross_refs": [
+        "awodey:9.4:def-order-adjoint-galois",
+        "awodey:9.4:example13",
+        "awodey:9.5:construction-geometric-quantifiers"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.5:construction-geometric-quantifiers",
+      "kind": "construction",
+      "number": null,
+      "name": "geometric interpretation: exists = image, * = pullback, forall = dual image along a projection",
+      "statement_summary": "Unnumbered development giving the semantic reading of exists -| * -| forall. For an L-structure M, a formula phi(x) with one free variable denotes the subset [phi(x)]^M = { m in M : M |= phi(m) } subset M, and generally psi(x_1,...,x_n) denotes a subset of M^n (e.g. [x = y] is the diagonal in M x M). With pi : M x M -> M the first projection: the weakening operation on extensions is inverse image, *[phi(x)] = { (m_1,m_2) : M |= phi(m_1) } = pi^{-1}([phi(x)]), so * = pi^{-1} : P(M) -> P(M x M); the existential quantifier is direct image, exists[psi(x,y)] = { m : for some y, M |= psi(m,y) } = im(pi)[psi], so exists = im(pi) : P(M x M) -> P(M); and the universal quantifier is the dual image, forall[psi(x,y)] = { m : pi^{-1}{m} subset [psi] } = pi_*([psi]), so forall = pi_*. Hence the powerset adjoint triple im(pi) -| pi^{-1} -| pi_* of Example 9.12 instantiates exists -| * -| forall: existential quantification is image along a projection and universal quantification is the right adjoint to pullback along it. Figure 9.1 illustrates the two adjunctions on subsets.",
+      "book_section": "9.5",
+      "book_page": "232-234",
+      "pdf_pages": [
+        241,
+        242,
+        243
+      ],
+      "cross_refs": [
+        "awodey:9.5:construction-quantifiers-adjoints",
+        "awodey:9.4:example12"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.6:remark-adjoint-strings",
+      "kind": "remark",
+      "number": null,
+      "name": "strings of adjoints; the four adjoints between Cat and Sets",
+      "statement_summary": "Opening remark of section 9.6 with formalizable content: adjoints frequently occur in strings, e.g. the triple exists -| * -| forall of the previous section, and a string of FOUR adjoints between Cat and Sets, V -| F -| U -| R, where U : Cat -> Sets is the forgetful functor sending a category to its set of objects, U(C) = C_0 (the other three functors are named but not described in the text). This motivates the question of when a given functor has an adjoint at all and the search for necessary conditions that show such strings must stop.",
+      "book_section": "9.6",
+      "book_page": "234-235",
+      "pdf_pages": [
+        243,
+        244
+      ],
+      "cross_refs": [
+        "awodey:9.5:construction-quantifiers-adjoints",
+        "awodey:9.6:prop14"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "awodey:9.6:prop14",
+      "kind": "proposition",
+      "number": "9.14",
+      "name": "RAPL: right adjoints preserve limits (and left adjoints preserve colimits)",
+      "statement_summary": "Right adjoints preserve limits ('RAPL'), and dually left adjoints preserve colimits. Precisely: given an adjunction F -| U with F : C -> D, U : D -> C, and a diagram D : J -> D whose limit lim D_j exists in D, one has U(lim D_j) ~= lim (U D_j). Proof: for any X in C, Hom_C(X, U(lim D_j)) ~= Hom_D(FX, lim D_j) ~= lim Hom_D(FX, D_j) ~= lim Hom_C(X, U D_j) ~= Hom_C(X, lim U D_j), naturally in X, whence the isomorphism by Yoneda; the colimit statement follows by duality. Awodey then unwinds the argument concretely for binary products: given A x B in D and f : X -> UA, g : X -> UB in C, the required mediating arrow into U(A x B) is obtained by adjoint transposition as <f,g> = transpose of <f-bar, g-bar>, using naturality of the adjunction isomorphism.",
+      "book_section": "9.6",
+      "book_page": "235-236",
+      "pdf_pages": [
+        244,
+        245
+      ],
+      "cross_refs": [
+        "awodey:9.2:def6",
+        "awodey:9.3:construction-limit-colimit-adjoints",
+        "awodey:9.6:remark-rapl-distributivity",
+        "awodey:9.6:remark-adjoint-existence-tests"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.6:remark-rapl-distributivity",
+      "kind": "remark",
+      "number": null,
+      "name": "consequences of RAPL: distributivity laws and non-existence of adjoints",
+      "statement_summary": "Formalizable consequences drawn from Proposition 9.14. Since - x A is a LEFT adjoint (to (-)^A) it preserves colimits, which yields the distributivity law (colim_i X_i) x A ~= colim_i (X_i x A) \u2014 exactly the law needed earlier to prove that Sets^{C^op} has exponentials. In the propositional calculus / any Heyting algebra one gets immediately p => (a /\\ b) -||- (p => a) /\\ (p => b) and (a \\/ b) /\\ p -||- (a /\\ p) \\/ (b /\\ p). For quantifiers: forall x (phi(x) /\\ psi(x)) -||- forall x phi(x) /\\ forall x psi(x) (forall being a right adjoint preserves meets) and exists x (phi(x) \\/ psi(x)) -||- exists x phi(x) \\/ exists x psi(x) (exists being a left adjoint preserves joins). Contrapositively, since the meet law FAILS for exists x, the existential quantifier cannot be a right adjoint to any operation, and since the join law fails for forall x, the universal quantifier cannot be a left adjoint.",
+      "book_section": "9.6",
+      "book_page": "236",
+      "pdf_pages": [
+        245
+      ],
+      "cross_refs": [
+        "awodey:9.6:prop14",
+        "awodey:9.3:example7",
+        "awodey:9.4:example13",
+        "awodey:9.5:construction-quantifiers-adjoints"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "awodey:9.6:remark-adjoint-existence-tests",
+      "kind": "remark",
+      "number": null,
+      "name": "RAPL as a test for (non-)existence of adjoints and for preservation",
+      "statement_summary": "Methodological remark with concrete formalizable instances. RAPL is used in two directions: to show a functor has NO adjoint (it fails to preserve the relevant (co)limits), and to show a functor preserves ALL (co)limits (by exhibiting an adjoint on the other side). Instances: the forgetful functor U : Pos -> Sets has a left adjoint, hence it preserves limits, so limits of posets are computed as limits of the underlying sets. Dually, the free -| forgetful adjunction for monoids immediately gives F(A) + F(B) ~= F(A + B): the coproduct of free monoids is the free monoid on the coproduct of the generating sets (previously an 'exercise by hand').",
+      "book_section": "9.6",
+      "book_page": "237",
+      "pdf_pages": [
+        246
+      ],
+      "cross_refs": [
+        "awodey:9.6:prop14",
+        "awodey:9.1:construction-free-monoid-adjunction"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "awodey:9.6:example15",
+      "kind": "example",
+      "number": "9.15",
+      "name": "presheaf category as the free cocompletion",
+      "statement_summary": "For a SMALL category C, a contravariant functor P : C^op -> Sets is called a PRESHEAF on C, and the functor category Sets^{C^op} is the CATEGORY OF PRESHEAVES on C, written C-hat. This category is cocomplete, and Awodey presents it as the 'free cocompletion' of C \u2014 a universal mapping property made precise in the following Proposition 9.16, and continuing the preservation-of-(co)limits theme of section 9.6.",
+      "book_section": "9.6",
+      "book_page": "237",
+      "pdf_pages": [
+        246
+      ],
+      "cross_refs": [
+        "awodey:9.6:prop16",
+        "awodey:9.1:example3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.6:prop16",
+      "kind": "proposition",
+      "number": "9.16",
+      "name": "universal property of the Yoneda embedding (free cocompletion; left Kan extension along y)",
+      "statement_summary": "For any small category C the Yoneda embedding y : C -> Sets^{C^op} has the following universal mapping property: given any COCOMPLETE category E and any functor F : C -> E, there is a COLIMIT-PRESERVING functor F_! : Sets^{C^op} -> E with F_! o y ~= F; moreover, up to natural isomorphism F_! is the UNIQUE cocontinuous functor with this property. Proof: construct an adjunction F_! -| F^* between Sets^{C^op} and E, so that F_! automatically preserves all colimits. For F_!, write each presheaf P as the canonical colimit of representables P ~= colim_{j in J} y C_j indexed by the category of elements J = int_C P (Proposition 8.10 of the previous chapter) and set F_!(P) = colim_{j in J} F C_j, the colimit taken in the cocomplete E (action on arrows left to the reader); this value is forced up to isomorphism by cocontinuity plus F_! o y ~= F. For the right adjoint set F^*(E)(C) = Hom_E(FC, E), a presheaf on C since E is locally small. The adjunction Hom_{C-hat}(P, F^*E) ~= Hom_E(F_! P, E) is verified by moving the colimit out of the first argument of the hom-functor into a limit and back. Finally F_!(yC) = colim_{j in J} F C_j ~= FC because the category of elements of a representable yC has a terminal object, namely 1_C in Hom_C(C,C).",
+      "book_section": "9.6",
+      "book_page": "237-239",
+      "pdf_pages": [
+        246,
+        247,
+        248
+      ],
+      "cross_refs": [
+        "awodey:9.6:example15",
+        "awodey:9.6:prop14",
+        "awodey:9.1:example3"
+      ],
+      "flags": [
+        "spans-outside-owned-range"
+      ]
+    },
+    {
+      "id": "awodey:9.6:cor17",
+      "kind": "corollary",
+      "number": "9.17",
+      "name": "precomposition functor has both adjoints (Kan extensions along a functor)",
+      "statement_summary": "For a functor f : C -> D between small categories, the precomposition (restriction) functor f* : Sets^(D^op) -> Sets^(C^op), defined by f*(Q)(C) = Q(fC), has both a left adjoint f_! and a right adjoint f_*, giving f_! -| f* -| f_*. Moreover the left adjoint commutes with the Yoneda embeddings up to natural isomorphism: f_! o y_C =~ y_D o f. Proof: apply the preceding proposition to F = y_D o f (which yields f_! -| F* with F* =~ f*), then apply it again to f* o y_D : D -> Sets^(C^op), showing (f* o y_D)_! =~ f* because f* preserves colimits, so f_* = (f* o y_D)*.",
+      "book_section": "9.6",
+      "book_page": "239",
+      "pdf_pages": [
+        248,
+        249,
+        250
+      ],
+      "cross_refs": [
+        "awodey:9.6:remark-kan-extensions",
+        "awodey:9.7:construction-change-of-base"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.6:remark-kan-extensions",
+      "kind": "remark",
+      "number": null,
+      "name": "f_! and f_* are the left and right Kan extensions along f",
+      "statement_summary": "The two adjoints f_! -| f* -| f_* produced by Corollary 9.17 are, in the standard terminology, the left and right Kan extensions along f: f_! is left Kan extension (Lan_f) and f_* is right Kan extension (Ran_f) of a presheaf on C to a presheaf on D.",
+      "book_section": "9.6",
+      "book_page": "240",
+      "pdf_pages": [
+        249
+      ],
+      "cross_refs": [
+        "awodey:9.6:cor17"
+      ],
+      "flags": [
+        "unnumbered",
+        "terminology-identification"
+      ]
+    },
+    {
+      "id": "awodey:9.6:remark-every-functor-has-adjoint",
+      "kind": "remark",
+      "number": null,
+      "name": "every functor has an adjoint into the free cocompletion",
+      "statement_summary": "Reading Corollary 9.17 backwards: for any functor f : C -> D of small categories the composite f* o y_D : D -> C-hat = Sets^(C^op) is an adjoint to f, so in this sense every functor has an adjoint. The caveat is that its values lie in the free cocompletion C-hat (presheaves, the 'ideal elements') rather than in C itself; the honest adjoint on C exists only when these values happen to be representable.",
+      "book_section": "9.6",
+      "book_page": "241",
+      "pdf_pages": [
+        250
+      ],
+      "cross_refs": [
+        "awodey:9.6:cor17",
+        "awodey:9.8:thm28"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:9.7:construction-change-of-base",
+      "kind": "construction",
+      "number": null,
+      "name": "change of base for indexed families of sets (Sigma_alpha -| alpha* -| Pi_alpha)",
+      "statement_summary": "For a function alpha : J -> I between sets, viewed as a functor of discrete categories, Corollary 9.17 supplies a triple of adjoints alpha_! -| alpha* -| alpha_* between Sets^J and Sets^I. Explicitly, an object of Sets^I is an I-indexed family (A_i)_{i in I}; reindexing is alpha*(A) = A o alpha = (A_{alpha(j)})_{j in J}; the left and right adjoints are the generalized sum and product along alpha, written Sigma_alpha -| alpha* -| Pi_alpha, given fibrewise on a J-indexed family (B_j) by (Sigma_alpha B)_i = sum over {j : alpha(j) = i} of B_j and (Pi_alpha B)_i = product over {j : alpha(j) = i} of B_j; i.e. sum/product over the fibre of alpha above i.",
+      "book_section": "9.7",
+      "book_page": "241",
+      "pdf_pages": [
+        250,
+        251,
+        252
+      ],
+      "cross_refs": [
+        "awodey:9.6:cor17",
+        "awodey:9.7:construction-sum-delta-product",
+        "awodey:9.7:prop18"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.7:construction-sum-delta-product",
+      "kind": "construction",
+      "number": null,
+      "name": "Sigma -| Delta -| Pi for J-indexed families of sets",
+      "statement_summary": "Special case I = 1 of change of base: for the unique map !_J : J -> 1, the reindexing functor (!_J)* : Sets -> Sets^J is the constant-family (diagonal) functor Delta(A)(j) = A, whose left and right adjoints are the disjoint sum Sigma(B) = sum_{j in J} B_j and the cartesian product Pi(B) = product_{j in J} B_j, giving Sigma -| Delta -| Pi. This is read off from the familiar transposition rules (a family of maps theta_j : B_j -> A corresponds to one map sum_j B_j -> A; a family theta_j : A -> B_j corresponds to one map A -> product_j B_j), and by uniqueness of adjoints (!_J)_! =~ Sigma and (!_J)_* =~ Pi.",
+      "book_section": "9.7",
+      "book_page": "242",
+      "pdf_pages": [
+        251
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-change-of-base"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.7:remark-slice-indexed-reindexing",
+      "kind": "remark",
+      "number": null,
+      "name": "the equivalence Sets^J =~= Sets/J respects reindexing",
+      "statement_summary": "Recalling the equivalence Sets^J =~= Sets/J (a family (A_j)_{j in J} maps to its indexing projection p : sum_j A_j -> J, and a map pi : A -> J maps to the fibre family (pi^{-1}(j))_j), it is asserted that this equivalence is compatible with reindexing: for any alpha : J -> I the square relating alpha^sharp (pullback along alpha, Sets/I -> Sets/J) to alpha* (reindexing, Sets^I -> Sets^J) through the two equivalences commutes up to natural isomorphism.",
+      "book_section": "9.7",
+      "book_page": "243",
+      "pdf_pages": [
+        252
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-change-of-base",
+        "awodey:9.7:prop18"
+      ],
+      "flags": [
+        "unnumbered",
+        "recalled-from-earlier-chapter"
+      ]
+    },
+    {
+      "id": "awodey:9.7:prop18",
+      "kind": "proposition",
+      "number": "9.18",
+      "name": "pullback along a function of sets has both adjoints",
+      "statement_summary": "For any function alpha : J -> I of sets, the pullback functor alpha^sharp : Sets/I -> Sets/J between slice categories has both a left adjoint alpha_L and a right adjoint alpha_sharp, i.e. alpha_L -| alpha^sharp -| alpha_sharp. Consequently alpha^sharp preserves all limits and all colimits (being simultaneously a right and a left adjoint). Obtained by transporting the triple Sigma_alpha -| alpha* -| Pi_alpha on indexed families across the equivalences Sets^J =~= Sets/J and Sets^I =~= Sets/I.",
+      "book_section": "9.7",
+      "book_page": "243",
+      "pdf_pages": [
+        252,
+        253
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-change-of-base",
+        "awodey:9.7:construction-slice-adjoints-explicit",
+        "awodey:9.7:def19"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:construction-slice-adjoints-explicit",
+      "kind": "construction",
+      "number": null,
+      "name": "explicit description of the adjoints to pullback on slices of Sets",
+      "statement_summary": "Explicit computation of the two adjoints of Proposition 9.18. The left adjoint is post-composition: alpha_L(pi : A -> J) = (alpha o pi : A -> I); i.e. composition along alpha is left adjoint to pullback along alpha (verifiable directly). The right adjoint alpha_sharp : Sets/J -> Sets/I sends pi : A -> J to the object over I whose fibre over i is the set of partial sections of pi over the fibre of alpha, namely (alpha_sharp A)_i = { s : alpha^{-1}(i) -> A | pi o s equals the canonical inclusion alpha^{-1}(i) into J }. Henceforth these change-of-base adjoints along alpha : J -> I are written Sigma_alpha -| alpha* -| Pi_alpha.",
+      "book_section": "9.7",
+      "book_page": "244",
+      "pdf_pages": [
+        253,
+        254
+      ],
+      "cross_refs": [
+        "awodey:9.7:prop18"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.7:construction-product-exponential-factorization",
+      "kind": "construction",
+      "number": null,
+      "name": "product-exponential adjunction factored through Sets/J",
+      "statement_summary": "In the case I = 1 the change-of-base adjoints take the form Sigma_J -| J* -| Pi_J between Sets/J and Sets, with Sigma_J(pi : A -> J) = A, J*(A) = (p_1 : J x A -> J), and Pi_J(pi : A -> J) = { s : J -> A | pi o s = 1_J } (the set of sections). Hence Sigma_J J*(A) = J x A and Pi_J J*(A) = A^J, so the cartesian-product-vs-exponential adjunction (J x (-)) -| (-)^J on Sets factors as the composite of the adjunctions Sigma_J -| J* and J* -| Pi_J through the slice category Sets/J.",
+      "book_section": "9.7",
+      "book_page": "245",
+      "pdf_pages": [
+        254
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-slice-adjoints-explicit",
+        "awodey:9.7:def19",
+        "awodey:9.7:prop20"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.7:def19",
+      "kind": "definition",
+      "number": "9.19",
+      "name": "locally cartesian closed category",
+      "statement_summary": "A category E is locally cartesian closed if E has a terminal object and, for every arrow f : A -> B in E, the composition functor Sigma_f : E/A -> E/B has a right adjoint f* (pullback along f) which in turn has a right adjoint Pi_f, i.e. there is a triple of adjunctions Sigma_f -| f* -| Pi_f for every arrow f of E.",
+      "book_section": "9.7",
+      "book_page": "246",
+      "pdf_pages": [
+        255
+      ],
+      "cross_refs": [
+        "awodey:9.7:prop18",
+        "awodey:9.7:prop20",
+        "awodey:9.7:remark21"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:prop20",
+      "kind": "proposition",
+      "number": "9.20",
+      "name": "locally cartesian closed iff all slices are cartesian closed",
+      "statement_summary": "For any category E with a terminal object, the following are equivalent: (1) E is locally cartesian closed in the sense of Definition 9.19; (2) every slice category E/A of E is cartesian closed. Forward direction: with a terminal object, products and exponentials in E are built as A x B = Sigma_B B* A and B^A = Pi_B B* A, so E is cartesian closed, and since a slice of a slice is a slice, every slice is again locally cartesian closed hence cartesian closed. Converse: if every slice is cartesian closed then E has pullbacks (binary products in a slice), and the relative product Pi_f : E/A -> E/B along f : A -> B is constructed inside F = E/B by taking, for p : X -> F in F/F, the object Pi_F(p) as the pullback of p^F : X^F -> F^F along the exponential transpose of the composite 1 x F =~ F -> F (the identity); the required natural bijection between arrows Y -> Pi_F(p) and arrows F* Y -> p is left to the reader.",
+      "book_section": "9.7",
+      "book_page": "246",
+      "pdf_pages": [
+        255,
+        256
+      ],
+      "cross_refs": [
+        "awodey:9.7:def19"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:remark21",
+      "kind": "remark",
+      "number": "9.21",
+      "name": "the terminal-object clause in the definition of locally cartesian closed",
+      "statement_summary": "Some authors omit the requirement of a terminal object from the definition of a locally cartesian closed category. Including it is exactly what makes every locally cartesian closed category itself cartesian closed (via E =~= E/1); without it, a category can satisfy the slicewise condition without being cartesian closed.",
+      "book_section": "9.7",
+      "book_page": "247",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "awodey:9.7:def19",
+        "awodey:9.7:prop20",
+        "awodey:9.7:cor27"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:example22",
+      "kind": "example",
+      "number": "9.22",
+      "name": "presheaf categories are locally cartesian closed",
+      "statement_summary": "For any small category C, the presheaf category Sets^(C^op) is locally cartesian closed. This is asserted here as an example and derived from Lemma 9.23 (every slice of a presheaf category is again equivalent to a presheaf category, hence cartesian closed), yielding Corollary 9.24.",
+      "book_section": "9.7",
+      "book_page": "247",
+      "pdf_pages": [
+        256
+      ],
+      "cross_refs": [
+        "awodey:9.7:lem23",
+        "awodey:9.7:cor24",
+        "awodey:9.7:prop20"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:lem23",
+      "kind": "lemma",
+      "number": "9.23",
+      "name": "a slice of a presheaf category is a presheaf category",
+      "statement_summary": "For any presheaf P in Sets^(C^op) over a small category C, there is a small category D and an equivalence of categories Sets^(D^op) =~= Sets^(C^op)/P. Moreover there is a functor p : D -> C such that the triangle formed by that equivalence, the left-adjoint p_! : Sets^(D^op) -> Sets^(C^op) of Corollary 9.17, and the domain/composition functor Sigma_P : Sets^(C^op)/P -> Sets^(C^op) commutes up to natural isomorphism. Proof takes D to be the category of elements of P (integral of P over C) and p its indexing projection.",
+      "book_section": "9.7",
+      "book_page": "247",
+      "pdf_pages": [
+        256,
+        257,
+        258
+      ],
+      "cross_refs": [
+        "awodey:9.7:example22",
+        "awodey:9.7:cor24",
+        "awodey:9.6:cor17",
+        "awodey:9.7:construction-y-over-P"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:construction-y-over-P",
+      "kind": "construction",
+      "number": null,
+      "name": "the category of elements presented as y/P, and the comparison functor Phi",
+      "statement_summary": "In the proof of Lemma 9.23: by the Yoneda lemma the category of elements of a presheaf P on C is isomorphic to the category written y/P, whose objects are pairs (C, x) with C an object of C and x : yC -> P an arrow of presheaves, and whose arrows are the arrows of the slice over P between such objects; by Yoneda every such arrow is yh for a unique h : C -> D in C, and it satisfies P(h)(x') = x. Letting I : y/P -> Sets^(C^op)/P be the evident full and faithful inclusion, one defines a functor Phi : Sets^(C^op)/P -> Sets^((y/P)^op) by Phi(q)(C, x) = Hom_{C-hat/P}(x, q); equivalently Phi(q) = I*(yq), the restriction along I of the Yoneda embedding of the slice. Phi is claimed (exercise) to be an equivalence of categories.",
+      "book_section": "9.7",
+      "book_page": "248",
+      "pdf_pages": [
+        257,
+        258
+      ],
+      "cross_refs": [
+        "awodey:9.7:lem23"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "proof-internal"
+      ]
+    },
+    {
+      "id": "awodey:9.7:cor24",
+      "kind": "corollary",
+      "number": "9.24",
+      "name": "presheaf categories are locally cartesian closed",
+      "statement_summary": "For any small category C, the presheaf category Sets^(C^op) is locally cartesian closed. Follows from Lemma 9.23 (each slice Sets^(C^op)/P is equivalent to a presheaf category, hence cartesian closed) together with Proposition 9.20.",
+      "book_section": "9.7",
+      "book_page": "249",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "awodey:9.7:lem23",
+        "awodey:9.7:prop20",
+        "awodey:9.7:example22"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:example25",
+      "kind": "example",
+      "number": "9.25",
+      "name": "fibrations of posets and the category Fib",
+      "statement_summary": "Defines: a monotone map of posets f : X -> P is a fibration if it has the unique lifting property that for every x in X and every p' <= f(x) in P there is a unique x' <= x in X with f(x') = p'. One says x lies over p = f(x) and p' lifts to the unique x' <= x over it. It is observed that every identity map of a poset is a fibration and that fibrations compose; Fib is then defined as the (non-full) subcategory of posets whose arrows are the fibrations.",
+      "book_section": "9.7",
+      "book_page": "249",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "awodey:9.7:lem26",
+        "awodey:9.7:cor27"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:lem26",
+      "kind": "lemma",
+      "number": "9.26",
+      "name": "Fib/P is cartesian closed",
+      "statement_summary": "For any poset P, the slice category Fib/P (poset fibrations over P) is cartesian closed. Proof: Fib/P is equivalent to the presheaf category Sets^(P^op). One direction sends a fibration q : Q -> P to the presheaf Phi(q)(p) = q^{-1}(p) (the fibre), whose action on an arrow p' <= p is determined by the unique lifting property; the other sends a presheaf Q : P^op -> Sets to the indexing projection pi from its category of elements down to P. These are quasi-inverse.",
+      "book_section": "9.7",
+      "book_page": "249",
+      "pdf_pages": [
+        258
+      ],
+      "cross_refs": [
+        "awodey:9.7:example25",
+        "awodey:9.7:cor27",
+        "awodey:9.7:cor24"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.7:cor27",
+      "kind": "corollary",
+      "number": "9.27",
+      "name": "Fib/P is locally cartesian closed",
+      "statement_summary": "For any poset P, the slice category Fib/P is locally cartesian closed. (Fib itself satisfies the slicewise condition but is only 'almost' locally cartesian closed because it lacks a terminal object; slicing repairs this, since a slice of a slice is a slice. The example motivates the common convention of defining locally cartesian closed without requiring a terminal object.)",
+      "book_section": "9.7",
+      "book_page": "250",
+      "pdf_pages": [
+        259
+      ],
+      "cross_refs": [
+        "awodey:9.7:lem26",
+        "awodey:9.7:prop20",
+        "awodey:9.7:remark21"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:remark-left-adjoint-representable",
+      "kind": "remark",
+      "number": null,
+      "name": "a Sets-valued functor with a left adjoint is representable",
+      "statement_summary": "Motivating observation for the adjoint functor theorem: if U : C -> Sets has a left adjoint F -| U, then U is representable, U =~ Hom(F1, -), because U(C) =~ Hom(1, UC) =~ Hom(F1, C) naturally in C. Representability is therefore a necessary condition on Sets-valued functors having left adjoints; preservation of limits is the corresponding necessary condition that makes sense for functors into an arbitrary target category.",
+      "book_section": "9.8",
+      "book_page": "250",
+      "pdf_pages": [
+        259
+      ],
+      "cross_refs": [
+        "awodey:9.8:cor33",
+        "awodey:9.8:thm28"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:9.8:thm28",
+      "kind": "theorem",
+      "number": "9.28",
+      "name": "Freyd's General Adjoint Functor Theorem (AFT)",
+      "statement_summary": "Let C be locally small and complete, X any category, and U : C -> X a functor. Then the following are equivalent: (1) U has a left adjoint; (2) U preserves all limits and, for each object X of X, U satisfies the Solution Set Condition: there exists a SET of objects (C_i)_{i in I} of C such that for every object C of C and every arrow f : X -> UC there exist an index i in I and arrows phi : X -> UC_i and f-bar : C_i -> C with f = U(f-bar) o phi; briefly, every arrow X -> UC factors through some object of the solution set. Proof: (1)=>(2) take {FX} as solution set, factoring f through the unit eta : X -> UFX by the transpose of f. (2)=>(1) form the comma category (X|U) and apply Lemma 9.29 to it, checking that (X|U) is locally small (since C is), satisfies the solution set condition of the lemma (from the theorem's condition), and is complete (products and equalizers exist there because U preserves them); an initial object of (X|U) for each X is exactly the value FX of a left adjoint with its unit.",
+      "book_section": "9.8",
+      "book_page": "250",
+      "pdf_pages": [
+        259,
+        260,
+        261,
+        262
+      ],
+      "cross_refs": [
+        "awodey:9.8:lem29",
+        "awodey:9.8:construction-comma-x-u",
+        "awodey:9.8:remark30",
+        "awodey:9.8:cor31",
+        "awodey:9.8:remark35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:lem29",
+      "kind": "lemma",
+      "number": "9.29",
+      "name": "initial object from a weakly initial solution set (Freyd's initial object lemma)",
+      "statement_summary": "Let D be locally small and complete. Then the following are equivalent: (1) D has an initial object; (2) D satisfies the Solution Set Condition: there is a SET of objects (D_i)_{i in I} of D such that every object D of D admits an arrow D_i -> D for some i in I. Proof of (2)=>(1): form W = product over i in I of D_i, which is weakly initial (an arrow W -> D exists for every D via a projection followed by the given arrow); then take V >-> W the joint equalizer h of all endomorphisms d : W -> W (a set, since D is locally small), realized as the equalizer of the diagonal Delta and the tuple <d> into the W-indexed product over all d : W -> W. Then d o h = h for every endomorphism d of W. V is still weakly initial; and given f, g : V -> D, taking their equalizer e : U -> V and a map s : W -> U (weak initiality of W) one obtains from h e s h = h and monicity of h and e that e is split epi and iso, hence f = g. So V is initial. (1)=>(2) is trivial: {0} is a solution set.",
+      "book_section": "9.8",
+      "book_page": "251",
+      "pdf_pages": [
+        260,
+        261
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:construction-comma-x-u",
+      "kind": "construction",
+      "number": null,
+      "name": "the comma category (X|U) and the initial-object criterion for a left adjoint",
+      "statement_summary": "For a functor U : C -> X and an object X of X, the comma category (X|U) is constructed: its objects are pairs (C, f) with C in C and f : X -> UC; its arrows g : (C, f) -> (C', f') are arrows g : C -> C' of C with f' = U(g) o f. It is then stated that U has a left adjoint F if and only if for every object X of X the category (X|U) has an initial object, which is exactly the pair (FX, eta : X -> UFX) with the universal mapping property of the unit of the adjunction.",
+      "book_section": "9.8",
+      "book_page": "253",
+      "pdf_pages": [
+        262
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:lem29"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:9.8:remark30",
+      "kind": "remark",
+      "number": "9.30",
+      "name": "scope and sharpness of the adjoint functor theorem",
+      "statement_summary": "Three observations about Theorem 9.28: (1) the theorem simply does not apply when C is not complete \u2014 such a functor may still have an adjoint, but the AFT will not detect it; (2) it is essential that the solution set be a genuine SET, and that C have all set-indexed limits; (3) if C is itself small as well as complete, the solution set condition can be dropped entirely (the whole class of objects is then a set), which yields Corollary 9.31.",
+      "book_section": "9.8",
+      "book_page": "253",
+      "pdf_pages": [
+        262,
+        263
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:cor31",
+        "awodey:9.8:prop34"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:cor31",
+      "kind": "corollary",
+      "number": "9.31",
+      "name": "AFT for small complete categories",
+      "statement_summary": "If C is a small and complete category and U : C -> X is a functor that preserves all limits, then U has a left adjoint. (The solution set condition is automatic because the objects of C already form a set.)",
+      "book_section": "9.8",
+      "book_page": "254",
+      "pdf_pages": [
+        263
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:remark30",
+        "awodey:9.8:prop34",
+        "awodey:9.8:example32"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:example32",
+      "kind": "example",
+      "number": "9.32",
+      "name": "adjoints between complete posets (cocontinuous monotone maps)",
+      "statement_summary": "For complete posets P and Q, a monotone function f : P -> Q has a right adjoint g : Q -> P if and only if f is cocontinuous, i.e. f(join of p_i) = join of f(p_i) for every set-indexed family (p_i)_{i in I} in P \u2014 an instance of the dual formulation of the AFT (a complete poset is a small complete category). The right adjoint is given explicitly by g(q) = join of { x in P : f(x) <= q }; the verification that p <= g(q) iff f(p) <= q is carried out in both directions using cocontinuity.",
+      "book_section": "9.8",
+      "book_page": "254",
+      "pdf_pages": [
+        263
+      ],
+      "cross_refs": [
+        "awodey:9.8:cor31",
+        "awodey:9.8:thm28"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:cor33",
+      "kind": "corollary",
+      "number": "9.33",
+      "name": "representability criterion for Sets-valued functors on small complete categories",
+      "statement_summary": "If C is a small and complete category then for any functor U : C -> Sets the following are equivalent: (1) U preserves all limits; (2) U has a left adjoint; (3) U is representable. Proof is immediate from Corollary 9.31 together with the observation that a left adjoint F -| U yields U =~ Hom(F1, -).",
+      "book_section": "9.8",
+      "book_page": "254",
+      "pdf_pages": [
+        263,
+        264
+      ],
+      "cross_refs": [
+        "awodey:9.8:cor31",
+        "awodey:9.8:remark-left-adjoint-representable",
+        "awodey:9.8:prop34"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:prop34",
+      "kind": "proposition",
+      "number": "9.34",
+      "name": "a small complete category is a preorder (Freyd)",
+      "statement_summary": "If C is small and complete, then C is a preorder (every hom-set has at most one element). Proof by cardinality: suppose Hom(C, D) has at least 2 elements; for any set J form the J-indexed product of copies of D, which exists by completeness, and use Hom(C, product over J of D) =~ product over J of Hom(C,D) =~ Hom(C,D)^J, whose cardinality is at least 2^{|J|} = |P(J)|; but the set of arrows C_1 of C bounds all these hom-sets, so taking J = C_1 contradicts Cantor. This shows Corollaries 9.31 and 9.33 are weaker than they appear.",
+      "book_section": "9.8",
+      "book_page": "255",
+      "pdf_pages": [
+        264
+      ],
+      "cross_refs": [
+        "awodey:9.8:cor31",
+        "awodey:9.8:cor33",
+        "awodey:9.8:remark35"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:remark35",
+      "kind": "remark",
+      "number": "9.35",
+      "name": "Special Adjoint Functor Theorem (SAFT)",
+      "statement_summary": "An important special case of the AFT in which the domain category satisfies conditions that eliminate the solution set condition entirely. Let A be locally small and complete and suppose: (1) A is well powered \u2014 every object A has at most a SET of subobjects S >-> A; and (2) A has a cogenerating set \u2014 a set of objects {A_i : i in I} such that for any objects A, X and any distinct parallel arrows x, y : X -> A there is some s : A -> A_i with s o x /= s o y (the family separates parallel arrows). Then any functor U : A -> X that preserves limits necessarily has a left adjoint. This is the Special Adjoint Functor Theorem, also due to Freyd; the proof is referred to Mac Lane V.8.",
+      "book_section": "9.8",
+      "book_page": "255",
+      "pdf_pages": [
+        264,
+        265
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:prop34"
+      ],
+      "flags": [
+        "proof-omitted-reference-to-maclane"
+      ]
+    },
+    {
+      "id": "awodey:9.8:def-equational-theory",
+      "kind": "definition",
+      "number": null,
+      "name": "(finitary) equational theory T, T-algebra, T-Alg, and the forgetful functor",
+      "statement_summary": "Defined in running prose: a finitary equational theory T consists of finitely many operation symbols, each of some finite arity (0-ary operations being constant symbols), together with a set of equations between terms built from those operations and variables (e.g. groups: a constant u, a unary inverse, a binary product, and equations such as g . u = g; fields are NOT equational because x /= 0 is required for inverses). A T-algebra is a set equipped with operations of the corresponding arities satisfying the equations of T; a homomorphism of T-algebras h : A -> B is a function on underlying sets preserving all the operations. T-Alg denotes the category of all T-algebras and their homomorphisms, with the evident forgetful functor U : T-Alg -> Sets.",
+      "book_section": "9.8",
+      "book_page": "256",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "awodey:9.8:prop36",
+        "awodey:9.8:example37"
+      ],
+      "flags": [
+        "unnumbered",
+        "definition-in-prose"
+      ]
+    },
+    {
+      "id": "awodey:9.8:prop36",
+      "kind": "proposition",
+      "number": "9.36",
+      "name": "existence of free algebras for an equational theory",
+      "statement_summary": "For any (finitary) equational theory T, the forgetful functor U : T-Alg -> Sets has a left adjoint, the 'free algebra' functor F : Sets -> T-Alg. Stated here as an application of the adjoint functor theorem; the general proof is referred to Mac Lane chapter V, with Example 9.37 carrying out the argument in a representative special case.",
+      "book_section": "9.8",
+      "book_page": "256",
+      "pdf_pages": [
+        265
+      ],
+      "cross_refs": [
+        "awodey:9.8:def-equational-theory",
+        "awodey:9.8:example37",
+        "awodey:9.8:thm28",
+        "awodey:9:ex9"
+      ],
+      "flags": [
+        "proof-omitted-reference-to-maclane"
+      ]
+    },
+    {
+      "id": "awodey:9.8:example37",
+      "kind": "example",
+      "number": "9.37",
+      "name": "free algebras for the theory of one constant and one unary operation",
+      "statement_summary": "Worked application of the AFT for the theory T with one constant and one unary operation and no axioms. A T-algebra is a set M with structure 1 -a-> M -f-> M; a homomorphism phi : (M,a,f) -> (N,b,g) satisfies phi a = b and phi f = g phi. The forgetful functor U : T-Alg -> Sets creates all limits (as for algebras of any theory), so T-Alg is complete and U preserves limits; only the solution set condition remains. Given a set X and a function h : X -> M, the subalgebra generated by the image is <h(X)> = { f^n(z) : n in N, z = a or z = h(x) for some x in X }; it contains a, is closed under f, and its inclusion i : <h(X)> -> M is a T-algebra homomorphism through which h factors as h = i o h'. Its cardinality is bounded independently of h and M by kappa = (|X| + 1) x |N|. Taking one representative of each isomorphism class of T-algebras of cardinality at most kappa gives a solution set for X, so by the AFT the free functor F : Sets -> T-Alg exists; a similar argument works for any equational theory. Finally F(empty set) is initial in T-Alg (left adjoints preserve colimits) and is a natural numbers object.",
+      "book_section": "9.8",
+      "book_page": "256",
+      "pdf_pages": [
+        265,
+        266,
+        267
+      ],
+      "cross_refs": [
+        "awodey:9.8:prop36",
+        "awodey:9.8:thm28",
+        "awodey:9.8:def38",
+        "awodey:9.8:def-equational-theory"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:def38",
+      "kind": "definition",
+      "number": "9.38",
+      "name": "natural numbers object (NNO)",
+      "statement_summary": "Let C be a category with terminal object 1. A natural numbers object in C is a structure 1 -0-> N -s-> N that is initial among all such structures: given any 1 -a-> X -f-> X in C there is a UNIQUE arrow phi : N -> X with phi o 0 = a and phi o s = f o phi (both squares/triangles commute).",
+      "book_section": "9.8",
+      "book_page": "258",
+      "pdf_pages": [
+        267
+      ],
+      "cross_refs": [
+        "awodey:9.8:example37",
+        "awodey:9.8:remark-nno-recursion",
+        "awodey:9.8:example39",
+        "awodey:9:ex10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9.8:remark-nno-recursion",
+      "kind": "remark",
+      "number": null,
+      "name": "the NNO universal property is primitive recursion; N is the NNO in Sets",
+      "statement_summary": "The universal mapping property of a natural numbers object says exactly that the object supports definitions by recursion: given a starting point a : 1 -> X and an operation f on X, the unique phi : N -> X satisfies phi(0) = a and phi(s(n)) = f(phi(n)). It is asserted that the set N of natural numbers with 0 and the successor function s(n) = n + 1 is an NNO in Sets, and that any NNO in Sets is isomorphic to it; hence the categorical characterization of N is equivalent to the Peano axioms in Sets, while the NNO notion still makes sense in categories where the Peano axioms do not.",
+      "book_section": "9.8",
+      "book_page": "259",
+      "pdf_pages": [
+        268
+      ],
+      "cross_refs": [
+        "awodey:9.8:def38",
+        "awodey:9.8:example39"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:9.8:example39",
+      "kind": "example",
+      "number": "9.39",
+      "name": "recursive definitions from an NNO: addition, multiplication, functor iteration",
+      "statement_summary": "Three worked examples of recursion via the NNO universal property. (1) For an NNO (N, 0, s) in any category C and any point a : 1 -> N, the structure 1 -a-> N -s-> N induces a unique f_a : N -> N with f_a(0) = a and f_a(s n) = s(f_a n); f_a(n) = a + n, recovering the recursion equations a + 0 = a and a + s n = s(a + n). (2) Taking the arrow a + (-) : N -> N together with 0 : 1 -> N gives a unique g_a : N -> N with g_a(0) = 0 and g_a(s n) = a + g_a(n); g_a(n) = a . n, recovering a . 0 = 0 and a . (s n) = a + a . n. (3) For a category C with an endofunctor F : C -> C, form 1 -id-> C^C -F^C-> C^C (where id is the transpose of the identity functor composed with the iso 1 x C =~ C); using that the DISCRETE category N is an NNO in Cat, there is a unique functor f : N -> C^C making the square commute, whose transpose f-bar : N x C -> C satisfies f-bar(0, C) = C and f-bar(s n, C) = F(f-bar(n, C)), so f-bar(n, C) = F^(n)(C), the n-th iterate of F.",
+      "book_section": "9.8",
+      "book_page": "259",
+      "pdf_pages": [
+        268,
+        269,
+        270
+      ],
+      "cross_refs": [
+        "awodey:9.8:def38",
+        "awodey:9.8:remark-nno-recursion"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex1",
+      "kind": "exercise",
+      "number": "9.9.1",
+      "name": "hom-set adjunction implies the preliminary (unit) definition",
+      "statement_summary": "Complete the proof that the hom-set definition of adjunction is equivalent to the preliminary (universal-arrow) one, by showing that the family eta_C : C -> UFC defined by eta_C = phi(1_{FC}) (the transpose of the identity on FC under the natural bijection phi) is a natural transformation and has the required universal mapping property.",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex2",
+      "kind": "exercise",
+      "number": "9.9.2",
+      "name": "every monoid is a quotient of a free monoid",
+      "statement_summary": "Show that every monoid M admits a surjection F(X) -> M from a free monoid, by considering the counit of the free-monoid-forgetful adjunction (taking X to be the underlying set of M).",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [
+        "awodey:9:ex9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex3",
+      "kind": "exercise",
+      "number": "9.9.3",
+      "name": "adjoints of the diagonal functor: products, coproducts, limits, colimits",
+      "statement_summary": "Let 2 be a two-element set and Delta : C -> C^2 the diagonal functor for a category C (the exponential transpose of the first product projection C x 2 -> C). Show that Delta has a right (respectively left) adjoint if and only if C has binary products (respectively binary coproducts). Then, with C = Sets and 2 replaced by an arbitrary small category J, determine both the left and the right adjoint of Delta : Sets -> Sets^J (hint: Sets is complete and cocomplete), i.e. colimit -| Delta -| limit.",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-sum-delta-product"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex4",
+      "kind": "exercise",
+      "number": "9.9.4",
+      "name": "direct image is left adjoint to inverse image",
+      "statement_summary": "Given a function f : A -> B between sets, show that the direct image operation im(f) : P(A) -> P(B) on powersets is left adjoint to the inverse image operation f^{-1} : P(B) -> P(A) (as monotone maps of posets), i.e. im(f)(S) is contained in T iff S is contained in f^{-1}(T).",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [
+        "awodey:9:ex8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex5",
+      "kind": "exercise",
+      "number": "9.9.5",
+      "name": "the contravariant powerset functor is self-adjoint",
+      "statement_summary": "Show that the contravariant powerset functor P : Sets^op -> Sets is self-adjoint, i.e. P (viewed as a functor Sets^op -> Sets) is left adjoint to its own opposite P^op : Sets -> Sets^op, so that Hom_Sets(A, P(B)) =~ Hom_Sets(B, P(A)) naturally (both being relations between A and B).",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex6",
+      "kind": "exercise",
+      "number": "9.9.6",
+      "name": "adjoints of the forgetful functor from a slice category (starred)",
+      "statement_summary": "Starred exercise. Given an object C of a category C, determine when the evident forgetful (domain) functor U : C/C -> C from the slice category has a right adjoint, and when it has a left adjoint.",
+      "book_section": "9.9",
+      "book_page": "262",
+      "pdf_pages": [
+        271
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-product-exponential-factorization"
+      ],
+      "flags": [
+        "starred-exercise"
+      ]
+    },
+    {
+      "id": "awodey:9:ex7",
+      "kind": "exercise",
+      "number": "9.9.7",
+      "name": "conjunction is left adjoint to implication in the poset of propositions",
+      "statement_summary": "Let P be the category of propositions, i.e. the preorder category of propositional calculus over countably many propositional variables p, q, r, ... with a unique arrow p -> q iff p entails q. Show that for any fixed object p the operation (-) and p is a functor P -> P, and that this functor has a right adjoint (implication p => (-)). Identify the counit of that adjunction (modus ponens), and determine when (-) and p has a left adjoint.",
+      "book_section": "9.9",
+      "book_page": "263",
+      "pdf_pages": [
+        272
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex8",
+      "kind": "exercise",
+      "number": "9.9.8",
+      "name": "Yoneda for indexed sets, change of base, and Lawvere's hyperdoctrine diagram",
+      "statement_summary": "Six-part exercise on indexed sets and slices. (a) For a set I, describe explicitly the Yoneda embedding y : I -> Sets^I of I (as a discrete category) into I-indexed sets. (b) For a function f : J -> I between sets, prove directly that the change-of-base square commutes up to natural isomorphism, i.e. f_! o y_J =~ y_I o f. (c) Describe the result of composing this Yoneda embedding with the equivalence Sets^I =~= Sets/I. (d) Explain what commutativity of the change-of-base square means in terms of the slice categories Sets/I and Sets/J. (e) Show that the inclusion i : P(I) -> Sets/I, sending a subset U of I to its inclusion function i(U) : U -> I, is a functor and that it has a left adjoint sigma : Sets/I -> P(I) (image). (f) Lawvere's Hyperdoctrine Diagram: for a function f : I -> J in Sets, consider the diagram of functors relating Sets/I and Sets/J (with Sigma_f -| f* -| Pi_f, f* being pullback) and P(I) and P(J) (with exists_f -| f^{-1} -| forall_f, f^{-1} being inverse image), connected vertically by sigma_I -| i_I and sigma_J -| i_J; determine which of the many possible squares commute.",
+      "book_section": "9.9",
+      "book_page": "263",
+      "pdf_pages": [
+        272,
+        273
+      ],
+      "cross_refs": [
+        "awodey:9.7:construction-change-of-base",
+        "awodey:9.7:prop18",
+        "awodey:9:ex4"
+      ],
+      "flags": [
+        "multi-part-exercise",
+        "book-typo-in-diagram"
+      ]
+    },
+    {
+      "id": "awodey:9:ex9",
+      "kind": "exercise",
+      "number": "9.9.9",
+      "name": "free monoids and free categories via the AFT",
+      "statement_summary": "Use the adjoint functor theorem to prove the following existence facts, which were established in chapter 1 by explicit constructions: (a) free monoids on sets exist (the forgetful functor Mon -> Sets has a left adjoint); (b) free categories on graphs exist (the forgetful functor Cat -> Graphs has a left adjoint).",
+      "book_section": "9.9",
+      "book_page": "264",
+      "pdf_pages": [
+        273
+      ],
+      "cross_refs": [
+        "awodey:9.8:thm28",
+        "awodey:9.8:prop36",
+        "awodey:9:ex2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:9:ex10",
+      "kind": "exercise",
+      "number": "9.9.10",
+      "name": "exponentiation on a natural numbers object in a CCC",
+      "statement_summary": "Let 1 -> N -> N be a natural numbers object in a cartesian closed category C. Show how to define the exponentiation operation m^n as an arrow N x N -> N (by recursion, using the exponential transpose and the NNO universal property).",
+      "book_section": "9.9",
+      "book_page": "264",
+      "pdf_pages": [
+        273
+      ],
+      "cross_refs": [
+        "awodey:9.8:def38",
+        "awodey:9.8:example39"
+      ],
+      "flags": []
+    }
+  ]
+}

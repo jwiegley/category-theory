@@ -1,0 +1,214 @@
+[
+  {
+    "id": "maclane:I.3:ex1",
+    "classification": "ABSENT",
+    "aliases": ["field of quotients", "fraction field / field of fractions functor", "Frac", "integral domain", "Lie algebra of a Lie group", "Lie functor"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il --glob '*.v' 'field of quotients|fraction field|integral domain|Lie group|Lie algebra' -- 3 files, all background-essay prose: Theory/Universal/Arrow.v:44-45 (lists 'field of quotients of an integral domain' among historical examples of universal arrows), Theory/Lawvere.v:87 (Lie algebras listed among algebraic theories in an essay), Structure/Group.v:46,93 (Lie groups mentioned in the group-object essay); no formalization at any hit",
+      "rg -in --glob '*.v' '\\bFrac\\b|quotient field' -- 0 hits",
+      "rg -in --glob '*.v' 'CRng|\\bRng\\b|commutative ring|category of rings' -- prose-only hit in Construction/Localization.v (reflective-localization essay); no category of rings/integral domains in-tree",
+      "Construction/Localization.v checked: it is orthogonal-subcategory localization of categories, not ring localization"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search found the identical prose-only hits (Theory/Universal/Arrow.v:44-45, Structure/Group.v:93, Theory/Lawvere.v:87) and nothing more: no integral domains, fields, Lie groups, or Lie algebras are formalized in-tree."}
+  },
+  {
+    "id": "maclane:I.3:ex2",
+    "classification": "PARTIAL",
+    "aliases": ["terminal category 1 / point category", "interval category 2 / walking arrow", "ordinal 3 / walking composable pair", "arrow category [2,C] / Arr(C) / C^2", "functor category exponent / Cat cartesian closed"],
+    "evidence": [
+      {"file": "Instance/One.v", "line": 25, "symbol": "_1",
+       "intree_statement": "Program Definition _1@{o h p} : Category@{o h p} := {| obj := poly_unit@{o}; hom := fun _ _ => poly_unit@{h}; ... |}  (header, lines 21-22: \"Dually, functors *out* of 1 pick out objects of the target, so [1, C] ≃ C\" — prose only)"},
+      {"file": "Instance/Two.v", "line": 134, "symbol": "_2",
+       "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; ... |}  (header, lines 18-21: \"2 is the 'walking arrow': a functor 2 ⟶ C is exactly a choice of one morphism of C ... the functor category [2, C] is the arrow category of C\" — prose only; the file's only formal functor out of _2 is the single example _2_as_Set, line 174)"},
+      {"file": "Construction/Arrow.v", "line": 110, "symbol": "Arrow",
+       "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).  (header, lines 104-108: \"The [2, C] equivalence of the header, by contrast, remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree\")"},
+      {"file": "Theory/Metacategory.v", "line": 413, "symbol": "Three",
+       "intree_statement": "Definition Three : Category := FromArrows ThreeArrows.  (ThreeArrows, line 396: the explicit composition table with three identity arrows 0,1,2, two composable non-identity arrows 3,4, and their composite 5 — exactly the ordinal 3 / walking composable pair; built and registered, _CoqProject:458. The only attempted functor out of it, FromThree {C} (c : C) : Three ⟶ C, is a commented-out fragment, lines 532-560)"},
+      {"file": "Instance/Two/Discrete.v", "line": 111, "symbol": "Pick_Two",
+       "intree_statement": "Program Definition Pick_Two {C : Category} (a b : C) : Two_Discrete ⟶ C := ...  (\"A functor Two_Discrete ⟶ C is exactly a choice of two objects of C\" — the discrete-pair analogue, again as a constructor, not a bijection theorem)"}
+    ],
+    "statement_record": {
+      "book": "Functors 1 -> C, 2 -> C, and 3 -> C correspond respectively to objects, arrows, and composable pairs of arrows in C.",
+      "intree": "All three shape categories exist: 1 (Instance/One.v `_1`), 2 (Instance/Two.v `_2`), and 3 (Theory/Metacategory.v:413 `Three := FromArrows ThreeArrows`, the walking composable pair), and the arrow category exists as the comma `Arrow {C} := (Id[C] ↓ Id[C])` (Construction/Arrow.v:110); but the 1- and 2-correspondences are asserted only in file-header prose, Construction/Arrow.v:104-108 explicitly discloses that no formal [2,C] comparison is developed, and no functor out of Three is developed at all.",
+      "strength_comparison": "intree-weaker: none of the three correspondences is a formal theorem — no [1,C] ≃ C statement (Instance/One.v proves only the dual, Cat_Terminal for functors INTO 1); the arrow-category-as-[2,C] comparison is explicitly documentation-level (Construction/Arrow.v:104-108); and although the category 3 exists (Theory/Metacategory.v:413), no functor out of it is developed (FromThree is a commented-out fragment, lines 532-560) and no functors-3⟶C-are-composable-pairs statement exists"
+    },
+    "gap": "No formal statement of any of the three bijections. (1) 'functors 1 ⟶ C ↔ objects of C' is header prose in Instance/One.v; only the dual (Erase : C ⟶ 1 unique, Cat_Terminal) is proven. (2) 'functors 2 ⟶ C ↔ arrows of C' is header prose in Instance/Two.v; the arrow category exists only as the comma (Id ↓ Id), and Construction/Arrow.v:104-108 states the [2,C] comparison 'remains documentation-level'. (3) The ordinal-3 category exists as `Three := FromArrows ThreeArrows` (Theory/Metacategory.v:413, built), but carries no correspondence result: the only attempted functor out of it, FromThree, is a commented-out constant-functor fragment (lines 532-560).",
+    "negative_search_log": [
+      "rg -n --glob '*.v' '_1 ⟶|\\[_1,|_2 ⟶|\\[_2,|Fun _1|Fun _2' -- only _2_as_Set (Instance/Two.v:174), Two_from_Two (Theory/Metacategory/ArrowsOnly.v:508, an iso bridge between _2 and the arrows-only metacategory Two, not a [2,C] statement), StrictCat premonoid unit uses; no correspondence theorem",
+      "rg -n --glob '*.v' 'ThreeObj|ThreeHom|Triangle|Three' -- Theory/Metacategory.v:396,413 (ThreeArrows / Three — the walking composable pair, CORRECTING the Phase-C log which reported no three-object ordinal category) and Theory/Metacategory/ArrowsOnly.v:352 (a second arrows-only Three); no functor out of either is developed (FromThree commented out, Theory/Metacategory.v:532-560); 'Triangle' hits are monoidal triangle coherence",
+      "ls Instance/ -- shapes present: Zero, One, Two, Two/Discrete, Parallel, Roof, Omega; no Instance/Three.v (the ordinal 3 lives only in the Metacategory development)",
+      "rg -n --glob '*.v' '≅\\[Cat\\]' -- no iso of Cat involving _1 or _2 as an exponent/functor-category comparison"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Classification PARTIAL stands, but the Phase-C record wrongly asserted 'the category 3 (walking composable pair) does not exist in-tree at all': blind search found Three := FromArrows ThreeArrows at Theory/Metacategory.v:413 (built, _CoqProject:458), whose ThreeArrows table (line 396) is exactly the ordinal 3 — three identities, arrows 3 and 4 composable, composite 5. Evidence, statement_record, gap, and negative_search_log corrected accordingly. The substantive gap is unchanged and if anything sharpened: all three shapes exist, yet none of the three functor-correspondences is formalized (Construction/Arrow.v:104-108 discloses the [2,C] one as documentation-level; FromThree is commented out)."}
+  },
+  {
+    "id": "maclane:I.3:ex3",
+    "classification": "PARTIAL",
+    "aliases": ["monotone map / monotone function between preorders", "Proset/Poset functor", "delooping of a monoid/group (one-object category)", "group homomorphism as functor", "permutation representation / G-set / group action functor", "matrix representation / Matr_K"],
+    "evidence": [
+      {"file": "Construction/Enriched/Two.v", "line": 183, "symbol": "EnrichedFunctor_Two_monotone",
+       "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q.  (with Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) }, line 175)"},
+      {"file": "Construction/Enriched/Two.v", "line": 165, "symbol": "Enriched_Two_preorder",
+       "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder."},
+      {"file": "Instance/Proset.v", "line": 33, "symbol": "Proset",
+       "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; ... |}  (preorders as thin categories; the header's promised category [Ord] of prosets and monotone maps does not exist in-tree)"}
+    ],
+    "statement_record": {
+      "book": "Interpret 'functor' between special categories: (a) a functor between two preorders is a monotone function; (b) a functor between two groups (one-object categories) is a group morphism; (c) for a group G, a functor G -> Set is a permutation representation and a functor G -> Matr_K is a matrix representation.",
+      "intree": "Part (a) only, in enriched rephrasing: EnrichedFunctor_Two_monotone proves that functors enriched in the walking arrow 2 between 2-enrichments of preorders are exactly the monotone maps (Construction/Enriched/Two.v:183-187), alongside Enriched_Two_preorder identifying 2-enriched categories with preorders; ordinary thin categories of preorders exist as Instance/Proset.v.",
+      "strength_comparison": "intree-weaker: (a) is carried at the 2-enriched level rather than as 'an ordinary functor between two Proset categories is a monotone function' (the identification of the two presentations is proven for categories, Enriched_Two_preorder, but the ordinary-functor version of the morphism leg is not stated); (b) and (c) have no counterpart — the library has no general delooping of a monoid or group into a one-object category, hence no functors-are-homomorphisms statement, no permutation representations, and no matrix category Matr_K"
+    },
+    "gap": "Parts (b) and (c) entirely: no general construction of a one-object category from a monoid/group (searched deloop|one-object|Monoid.*Category — only Theory/Bicategory/OneObject.v, which deloops a monoidal CATEGORY into a one-object bicategory, one dimension up; Structure/Monoid.v / Theory/Algebra/Monoid.v are internal monoid objects, not deloopings; the one-object category ListMon in Construction/Funny/Comparison.v:81, the free monoid on bool with list-concatenation composition, is a bespoke discriminating model for the funny tensor, not a general delooping, and carries no homomorphism correspondence), no statement that functors between one-object categories are monoid/group morphisms, no permutation-representation reading of functors G ⟶ Sets, and no matrix category Matr_K. Part (a) is present only in the enriched formulation, not as a theorem about ordinary functors between thin preorder categories.",
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'permutation representation|matrix representation' -- 0 hits",
+      "rg -in --glob '*.v' 'Matr\\b|matrix categor' -- 0 hits",
+      "rg -n --glob '*.v' 'Definition.*Monoid.*: Category|Instance.*Monoid.*: Category|Category := .*Monoid' -- no general monoid-to-category delooping (hits are monoidal-functor and StrictCat premonoid files)",
+      "rg -in --glob '*.v' 'category with one object|single-object|one-object' -- nearest hits: Construction/Funny/Comparison.v:81 ListMon (free monoid on bool as an ad hoc one-object category, no homomorphism correspondence), Theory/Bicategory/OneObject.v (monoidal category delooped to a one-object BIcategory)",
+      "rg -n --glob '*.v' '\\bOrd\\b' -- only the prose pointer in Instance/Proset.v:19; no category of preorders with monotone maps",
+      "rg -n --glob '*.v' '\\bPos\\b' -- only the prose pointer in Instance/Poset.v:21"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agreed on all three legs and verified the cited theorems at their exact lines (EnrichedFunctor_Two_monotone Construction/Enriched/Two.v:183, Enriched_Two_preorder :165, MonotoneMap :175, Proset Instance/Proset.v:33; all files in _CoqProject). One refinement folded into gap/log: ListMon (Construction/Funny/Comparison.v:81) is a literal one-object category built from a free monoid, so the 'no delooping' claim holds only as a statement about a GENERAL delooping with a homomorphism correspondence — which is what the exercise needs; classification unaffected."}
+  },
+  {
+    "id": "maclane:I.3:ex4",
+    "classification": "ABSENT",
+    "aliases": ["center of a group Z(G)", "no center functor Grp -> Ab", "non-functoriality of the center", "symmetric groups S2/S3 retract argument", "centre (group-theoretic, NOT premonoidal/Drinfeld centre)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'center of|centre of|Z\\(G\\)' -- hits only Structure/Premonoidal.v, Structure/Binoidal/Central.v, Structure/Premonoidal/Centre.v, Structure/Premonoidal/Freyd.v, Structure/Monoidal/Drinfeld.v: all the centre of a (pre)monoidal CATEGORY, a different concept; no group-center content",
+      "rg -in --glob '*.v' '\\bGrp\\b|category of groups' -- prose only (Structure/Group.v and Structure/Complete.v background essays); there is no category-of-groups instance in-tree, so the non-existence statement has no substrate",
+      "rg -in --glob '*.v' 'symmetric group|\\bS3\\b|\\bS2\\b' -- hits (Construction/Cayley.v, Instance/ZX.v, Construction/ColouredPROP/Interp.v, ...) are Cayley-essay prose and wire-permutation/braid machinery of PROPs, not the symmetric groups S2/S3 as groups; the hint's S2 -> S3 -> S2 retract argument is nowhere formalized",
+      "Structure/Group.v read in full: defines internal GroupObject in a cartesian monoidal category only; no category of groups, no center construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: 'center'/'centre' hits are the premonoidal centre (Binoidal/Central, Premonoidal/Centre) and the Drinfeld monoidal centre — categorical centres, not group centers; no Grp category exists (Structure/Group.v is group OBJECTS internal to a cartesian monoidal category), so neither the functor nor its refutation has a substrate."}
+  },
+  {
+    "id": "maclane:I.3:ex5",
+    "classification": "ABSENT",
+    "aliases": ["two distinct functors Grp -> Grp with identity object function", "functors agreeing on objects", "identity-on-objects functor", "functor not determined by object function"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' '\\bGrp\\b|category of groups' -- prose only (Structure/Group.v, Structure/Complete.v essays); no category of groups in-tree, so the exercise's ambient category is missing",
+      "rg -in --glob '*.v' 'two different functors|distinct functors|same fobj' -- 0 hits",
+      "rg -in --glob '*.v' 'same object function|identity object function|agree on objects' -- 1 hit, Construction/Funny/StrictEq.v:21, a strict-equality extensionality lemma for functors out of the funny tensor (functors agreeing on objects AND generators are equal) — unrelated to exhibiting two distinct functors with equal object part",
+      "rg -in --glob '*.v' 'identity.on.objects' -- hits are Freyd/Kleisli premonoidal identity-on-objects functor machinery (Structure/Premonoidal/Freyd.v etc.), a definitional device, not this exercise's content"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed; the Construction/Funny/StrictEq.v:21 hit was spot-checked and is as described (agreement on objects AND generating steps forces strict equality of functors out of C □ D — orthogonal to this exercise). No Grp category in-tree."}
+  },
+  {
+    "id": "maclane:I.4:def1",
+    "classification": "PRESENT",
+    "aliases": ["natural transformation", "Transform", "⟹", "naturality square", "morphism of functors", "components transform/naturality"],
+    "evidence": [
+      {"file": "Theory/Natural/Transformation.v", "line": 113, "symbol": "Transform",
+       "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }.  (F G : C ⟶ D in section context; Notation \"F ⟹ G\" := (@Transform _ _ F G), line 160)"},
+      {"file": "Theory/Natural/Transformation.v", "line": 129, "symbol": "Build_Transform'",
+       "intree_statement": "Definition Build_Transform' (transform' : forall x, F x ~> G x) (natural : forall x y (f : x ~> y), fmap[G] f ∘ transform' x ≈ transform' y ∘ fmap[F] f) : Transform.  (derives naturality_sym by symmetry, witnessing the extra field carries no content)"},
+      {"file": "Theory/Natural/Transformation.v", "line": 139, "symbol": "Transform_Setoid",
+       "intree_statement": "Program Instance Transform_Setoid : Setoid Transform := {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x) |}."}
+    ],
+    "statement_record": {
+      "book": "Given functors S, T : C -> B, a natural transformation tau : S -> T assigns to each object c an arrow tau_c : Sc -> Tc of B (the components) such that every f : c -> c' makes the square commute: tau_{c'} . Sf = Tf . tau_c.",
+      "intree": "Class Transform over F G : C ⟶ D: a component `transform {x} : F x ~> G x` per object with the naturality square `fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f` for every f : x ~> y (Theory/Natural/Transformation.v:113-123).",
+      "strength_comparison": "same (setoid rephrasing: the square commutes up to hom-setoid ≈ rather than =; the in-tree class additionally carries the derivable field naturality_sym so duality holds definitionally, shown contentless by Build_Transform')"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same primary evidence; all cited line numbers verified exactly (Class Transform :113, Build_Transform' :129, Transform_Setoid :139, ⟹ notation :160), quotes accurate, file in _CoqProject. The naturality_sym field is honestly disclosed as derivable (file header lines 106-111) and matches the library-wide built-in-duality design, so strength_comparison 'same' is fair."}
+  },
+  {
+    "id": "maclane:I.4:def2",
+    "classification": "PRESENT",
+    "aliases": ["natural isomorphism", "natural equivalence", "iso in the functor category [C,D]", "F ≅[Fun] G", "componentwise/pointwise invertible natural transformation", "Functor_Setoid_Nat_Iso"],
+    "evidence": [
+      {"file": "Instance/Fun.v", "line": 255, "symbol": "Functor_Setoid_Nat_Iso",
+       "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G ↔ F ≈ G.  (header, lines 248-253: \"Isomorphisms in [C, D] are exactly natural isomorphisms, and a natural transformation is invertible iff each of its components is invertible in D. ... an iso in [C, D] yields a family of componentwise isomorphisms F x ≅ G x (the forward direction builds it), and conversely such a family assembles into a natural isomorphism.\")"},
+      {"file": "Theory/Functor.v", "line": 148, "symbol": "Functor_Setoid",
+       "intree_statement": "Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := { equiv := fun F G => { iso : ∀ x : C, F x ≅ G x & ∀ (x y : C) (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } }.  (the componentwise-iso-with-naturality family that Functor_Setoid_Nat_Iso equates with iso in [C,D])"}
+    ],
+    "statement_record": {
+      "book": "A natural transformation tau : S -> T with every component tau_c invertible is a natural isomorphism, written tau : S iso T; the inverses (tau_c)^{-1} are the components of a natural isomorphism tau^{-1} : T -> S.",
+      "intree": "Natural isomorphism is isomorphism in the functor category [C, D], and Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G proves it equivalent to a family of componentwise isomorphisms F x ≅ G x natural in x (conjugation form); the reverse direction of the theorem assembles a componentwise-invertible family into the natural isomorphism, with the inverse transformation built from the components' `from` directions (Instance/Fun.v:255-299).",
+      "strength_comparison": "same (the book's 'components invertible ⟹ the inverses form tau^{-1}' is the constructed content of the reverse direction; naturality of the componentwise family is stated in the equivalent conjugation form fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x))"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass converged on the same evidence; verified Functor_Setoid_Nat_Iso at Instance/Fun.v:255 (the reverse direction, lines 272-299, indeed builds the inverse Transform from the componentwise `from` isos and proves its naturality, which is exactly the book's tau^{-1} claim) and Functor_Setoid at Theory/Functor.v:148 with accurate quote. Both files in _CoqProject."}
+  },
+  {
+    "id": "maclane:I.4:construction1",
+    "classification": "ABSENT",
+    "aliases": ["determinant as natural transformation", "det : GL_n -> (-)^* (units)", "general linear group functor GL_n", "group of units functor", "CRng -> Grp"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'determinant|\\bGL\\b|GL_n' -- only variable-name false positives (Construction/Karoubi.v:138, Theory/Metacategory.v:289+ destructure variables named `gl`/`gr`); no determinant or general-linear-group content",
+      "rg -in --glob '*.v' 'Matr\\b|matrix categor' -- 0 hits",
+      "rg -in --glob '*.v' 'CRng|\\bRng\\b|commutative ring|category of rings' -- prose-only (Construction/Localization.v essay); no category of commutative rings in-tree",
+      "rg -in --glob '*.v' 'group of units|unit group' -- 0 hits",
+      "rg -in --glob '*.v' '\\bGrp\\b|category of groups' -- prose only (Structure/Group.v, Structure/Complete.v essays); neither source nor target category of the book's natural transformation exists in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed on every leg: no CRng, no Grp, no GL_n, no determinant; the only 'matrix' hits are the biproduct matrix-calculus essays (Structure/Abelian.v, Semiadditive.v) and profunctor prose, none of which touch this construction."}
+  },
+  {
+    "id": "maclane:I.4:construction2",
+    "classification": "ABSENT",
+    "aliases": ["abelianization", "factor-commutator group G/[G,G]", "commutator subgroup functor", "projection Id_Grp => abelianization natural", "Grp -> Ab reflector"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in --glob '*.v' 'abelianization|commutator|factor-commutator' -- 1 hit, Construction/Localization.v:106, background-essay prose ('abelianizations, completions and idempotent reflections are all instances' of reflective localization); no formalization",
+      "rg -in --glob '*.v' '\\bGrp\\b|category of groups' -- prose only; no category of groups in-tree (Structure/Group.v is internal group objects in a cartesian monoidal category, with no category of group objects and no abelianization)",
+      "rg -in --glob '*.v' '\\bAb\\b' -- prose only (Structure/Abelian.v, Structure/Preadditive.v etc. cite Ab as motivation for abelian/preadditive CATEGORY structure; Instance/CMon.v is commutative monoids, which lack inverses)",
+      "rg -in --glob '*.v' 'quotient group' -- 0 hits",
+      "Note: the general fact that a reflection unit is a natural transformation Id ⟹ R exists abstractly (Construction/Reflective.v), but nothing of this construction's concrete content (Grp, [G,G], the projection) exists, so the item itself has no counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: 'abelianization/commutator' surfaces only in the Construction/Localization.v essay; no Grp, no Ab, no quotient groups. The record's own note about the abstract reflective-subcategory unit is the right nearest analog and correctly not counted as evidence for the concrete item."}
+  },
+  {
+    "id": "maclane:I.4:construction3",
+    "classification": "PARTIAL",
+    "aliases": ["character group D(G) = hom(G, R/Z)", "double character group / double dual natural map", "evaluation into the double dual tau_G : G -> DD(G)", "dualizing object / star-autonomous double dual", "contravariant hom functor into R/Z", "Pontryagin duality (finite abelian groups)"],
+    "evidence": [
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 229, "symbol": "dual",
+       "intree_statement": "Program Definition dual (d : C) : C^op ⟶ C := ...  (\"The dual (linear-negation) functor (- ⇒ d) : C^op ⟶ C\", header line 197 — the abstract form of D contravariant)"},
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 252, "symbol": "double_dual",
+       "intree_statement": "Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op.  (the double-dual endofunctor: DD covariant, as in the book)"},
+      {"file": "Structure/Monoidal/StarAutonomous.v", "line": 269, "symbol": "star_double_dual / star_natural",
+       "intree_statement": "star_double_dual {x : C} : x ≅ double_dual dualizer x;  star_natural {a b : C} (f : a ~> b) : to (star_double_dual (x:=b)) ∘ f << a ~~> double_dual dualizer b >> fmap[double_dual dualizer] f ∘ to (star_double_dual (x:=a))  (fields of Class StarAutonomous: the double-dual isomorphism together with its naturality)"},
+      {"file": "Theory/Natural/Transformation.v", "line": 44, "symbol": "(header essay)",
+       "intree_statement": "\"...a finite-dimensional vector space L is isomorphic to its dual, but no isomorphism can be exhibited until a basis is chosen ... whereas the isomorphism of L with its double dual is given 'simultaneously' for all such spaces...\"  (the book's parallel double-dual example, discussed as motivating prose only)"}
+    ],
+    "statement_record": {
+      "book": "In Ab, D(G) = hom(G, R/Z) sends f : G' -> G to Df : DG -> DG' (contravariant, so D is not a functor Ab -> Ab), but DD and Id are functors Ab -> Ab and tau_G : G -> D(D(G)), (tau_G g)t = t(g), is a natural transformation Id -> DD; for finite G each tau_G is an isomorphism, so on Ab_f tau is a natural isomorphism.",
+      "intree": "Only the abstract skeleton, over a general symmetric monoidal closed category with a dualizing object: the contravariant dual functor `dual (d) : C^op ⟶ C`, the covariant `double_dual (d) : C ⟶ C := dual d ◯ (dual d)^op`, and the class field `star_double_dual : x ≅ double_dual dualizer x` with naturality `star_natural` (Structure/Monoidal/StarAutonomous.v).",
+      "strength_comparison": "intree-weaker: the double-dual isomorphism-with-naturality is POSITED as class data rather than constructed as the canonical evaluation map and proven natural/iso (the file's header discloses this deviation: 'a sufficient axiomatization would pin star_double_dual to the canonical map'); there is no category Ab of abelian groups, no character-group functor hom(-, R/Z), no finiteness argument; and per docs/INHABITATION.md the StarAutonomous class is 'doubly uninhabited — even the base SymMonClosed has no instance', so no concrete model witnesses the pattern"
+    },
+    "gap": "The concrete construction is entirely missing: no category Ab (or Ab_f) of (finite) abelian groups, no character group D(G) = hom(G, R/Z), no evaluation map (tau_G g)t = t(g), and no proof that tau is iso on finite groups. What exists is the abstract dualization apparatus (contravariant dual functor, double-dual endofunctor, natural double-dual iso) in Structure/Monoidal/StarAutonomous.v, where the natural iso is class data, not a constructed canonical map, and the class has no in-tree instance (docs/INHABITATION.md line 59). The book's motivating examples appear only as background prose (Theory/Natural/Transformation.v:44-54).",
+    "negative_search_log": [
+      "rg -il --glob '*.v' 'character group|double.dual|DoubleDual|double_dual' -- formal hits only in Structure/Monoidal/StarAutonomous.v (abstract); Theory/Natural/Transformation.v, Theory/Kan/Extension.v, Construction/Opposite.v hits are essay prose",
+      "rg -in --glob '*.v' '\\bAb\\b' -- prose only; Instance/CMon.v (commutative monoids) is the closest concrete category and has no inverses, characters, or duality",
+      "rg -in 'autonomous' docs/INHABITATION.md -- 'StarAutonomous ... doubly uninhabited — even the base SymMonClosed has no instance'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same unique in-tree counterpart and leaned ABSENT-with-note, but PARTIAL is sustainable under the frozen definition: the item's mathematical skeleton (contravariant D, covariant DD = D ∘ D^op, natural iso into the double dual) genuinely exists abstractly, and the record's strength_comparison/gap disclose every weakening precisely (iso posited as class data per the header's own deviation note at lines 71-79; class doubly uninhabited per docs/INHABITATION.md:59; no Ab, no characters, no finiteness). All cited lines verified: dual :229, double_dual :252, star_double_dual :269-270, star_natural :273-276, header dual-functor heading :197. This sits at the generous edge of PARTIAL; the honest gap statement is what keeps it there."}
+  }
+]

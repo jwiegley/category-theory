@@ -1,0 +1,463 @@
+[
+  {
+    "id": "awodey:8.4:cor5",
+    "classification": "PRESENT",
+    "aliases": [
+      "Yoneda reflects isomorphisms",
+      "fully faithful functor reflects isos / conservative functor",
+      "FullyFaithful",
+      "Yoneda_Full + Yoneda_Faithful (Curried_Hom / Curried_CoHom)",
+      "ReflectsIsos / ff_reflects_isos",
+      "yA ≅ yB → A ≅ B"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).   (* prefmap := fun c d f => f c id, with fmap_sur discharged *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)."
+      }
+    ],
+    "statement_record": {
+      "book": "For objects A, B of a locally small C, if yA ≅ yB in Sets^(C^op) then A ≅ B; because any full and faithful functor reflects isomorphisms and y is full and faithful (Thm 8.3).",
+      "intree": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y.  together with  Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  and  Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).",
+      "strength_comparison": "same — the corollary IS the composition of the two in-tree assertions, and both are exported instances, so `FullyFaithful (Curried_Hom C)` (resp. at C^op, giving the contravariant embedding Curried_CoHom C := Curried_Hom C^op, C ⟶ [C^op, Sets]) is the corollary verbatim. The library never names this composite instance, but the mathematical content — the reflection lemma and the full+faithful data for y — is entirely in-tree. Independent second route: Theory/Equivalence/Limit.v:335 `ff_reflects_isos : ReflectsIsos F` gives the morphism-level (conservativity) form. Applied use of exactly this technique: Structure/UniversalProperty.v:112 `univ_property_unique` builds an iso c ≅ v in C by transporting an iso of representables back through `Yoneda_Embedding'`."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v -il 'yoneda' . — 27 files; read Functor/Hom.v, Functor/Hom/Yoneda.v, Structure/UniversalProperty.v",
+      "grep -rn --include=*.v -i 'reflects.*iso|reflect_iso|conservative' . — found Theory/Functor.v:355 and Theory/Equivalence/Limit.v:335",
+      "grep -rn --include=*.v 'FullyFaithful' . — Theory/Functor.v:355, Test/FullIssue118.v:91 (regression witness), Instance/Cat.v (iso-level record)",
+      "no named lemma of the shape 'Presheaves [Hom ─,A] ≅ [Hom ─,B] → A ≅ B' exists; Functor/Hom/Yoneda.v:76 states it only in the header comment"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same classification independently. Verified at the exact cited lines: Theory/Functor.v:355 `Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y.`; Functor/Hom.v:85 Yoneda_Faithful, :96 Yoneda_Full, both `#[export] Instance` on `Curried_Hom C`. Crucially the contravariant embedding Awodey uses is in-tree as `Curried_CoHom C := Curried_Hom C^op : C ⟶ [C^op, Sets]` (Functor/Hom.v:147), so the instances apply at C^op and `FullyFaithful (Curried_CoHom C)` IS the corollary with no extra work. Cross-check of the classifier's applied-use pointer: Structure/UniversalProperty.v:112 `univ_property_unique` really does build the iso by inverting `Yoneda_Embedding'` twice (lines 119-121) — the technique is exercised, not just available. Also confirmed the classifier's honest negative: the composite is stated only in the Functor/Hom/Yoneda.v header (lines 74-77, \"[Hom ─,A] ≅ [Hom ─,B] exactly when A ≅ B\"), never as code. All cited files are registered in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:8.4:example-ccc-exponential-law",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential law (A^B)^C ≅ A^(B×C)",
+      "exp_prod_l / exp_prod / curry-of-curry",
+      "iterated exponential, currying isomorphism",
+      "z^(x × y) ≅ (z^y)^x",
+      "Hom(X × C, A^B) ≅ Hom(X, A^(B×C))"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 257,
+        "symbol": "exp_prod_l",
+        "intree_statement": "#[export] Program Instance exp_prod_l {x y z : C} : z^(x × y) ≅ (z^y)^x := { to := curry (curry (eval ∘ to prod_assoc)); from := curry (uncurry eval ∘ from prod_assoc) }.  (* in Section with Context {C : Category} `{@Cartesian C} `{@Closed C _} *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In any cartesian closed category, (A^B)^C ≅ A^(B×C), obtained from Cor 8.5 by exhibiting Hom(X,(A^B)^C) ≅ Hom(X, A^(B×C)) naturally in X via the exponential adjunction twice plus associativity/symmetry of ×.",
+      "intree": "z^(x × y) ≅ (z^y)^x, an Isomorphism in C built from curry/uncurry and the product associator prod_assoc, with both round trips proved.",
+      "strength_comparison": "same statement (take z := A, y := B, x := C: A^(C×B) ≅ (A^B)^C; Awodey writes A^(B×C), the difference being the symmetry of × which is in-tree as `prod_comm` in Structure/Cartesian.v, and Awodey's own derivation uses that same symmetry step). Difference is only in the PROOF ROUTE: in-tree it is proved directly from the exponential transpose and the associator rather than through the Yoneda technique; the hypotheses are the same (Cartesian + Closed, i.e. a CCC). The companion `exp_swap : (z^y)^x ≅ (z^x)^y` (Structure/Cartesian/Closed.v:339) supplies the argument-order variant."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same evidence. Structure/Cartesian/Closed.v:257-259 verified verbatim: `#[export] Program Instance exp_prod_l {x y z : C} : z^(x × y) ≅ (z^y)^x`, inside `Context {C : Category} `{@Cartesian C} `{@Closed C _}` — exactly a CCC. The strength_comparison's appeal to `prod_comm` is accurate: it is at Structure/Cartesian.v:479 (and `prod_assoc` at :485), so the B×C vs C×B reordering is genuinely in-tree; `exp_swap` is at Structure/Cartesian/Closed.v:338 (record's prose says 339 — off by one, harmless). ADDITIONAL corroborating evidence the classifier did not cite: Theory/Algebra.v:88 discharges `Goal ∀ x y z : C, x^(y × z) ≅ (x^y)^z. auto. Qed.` under a BiCCC context — the law is not merely constructible, it is a proved goal in Awodey's own orientation. Proof route differs (direct curry/associator rather than Yoneda), which is presentation, not strength."
+    }
+  },
+  {
+    "id": "awodey:8.4:prop6",
+    "classification": "PRESENT",
+    "aliases": [
+      "distributive category",
+      "A × (B + C) ≅ (A × B) + (A × C)",
+      "prod_coprod_r / prod_coprod_l / distr_prod_coprod",
+      "BiCCC is distributive",
+      "product functor preserves coproducts (left adjoint)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 90,
+        "symbol": "prod_coprod_r",
+        "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }.  (* Section BiCCC: Context {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} *)"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 257,
+        "symbol": "BiCCC_Distributive",
+        "intree_statement": "#[export] Program Instance BiCCC_Distributive {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} : @Distributive C _ _ _."
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 46,
+        "symbol": "prod_coprod_l",
+        "intree_statement": "#[export] Program Instance prod_coprod_l {x y z : C} : (y + z) × x ≅ y × x + z × x := { to := uncurry (curry inl ▽ curry inr); from := first inl ▽ first inr }."
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 8.6: if a cartesian closed category C has binary coproducts then C is distributive: A × (B + C) ≅ (A × B) + (A × C). Proved by the co-representable Yoneda technique using the exponential adjunction and hom-out-of-a-coproduct.",
+      "intree": "prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z, derived under exactly Cartesian + Cocartesian + Closed; BiCCC_Distributive packages it (with prod_zero_r) as the Distributive class of Structure/Distributive.v.",
+      "strength_comparison": "same — same hypotheses (CCC with binary coproducts; the `Initial` instance is required only by the extra nullary field of the `Distributive` class, not by prod_coprod_r itself) and the same conclusion, with the canonical comparison map `second inl ▽ second inr` shown invertible. The in-tree proof is the elementary curry/uncurry argument rather than the Yoneda argument, and the file header states the same reason Awodey gives (× x has a right adjoint hence preserves coproducts). In-tree is marginally stronger in that both orientations are proved (prod_coprod_l gives the mirror form)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same. Verified Structure/BiCCC.v:90-96 `#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z` with `to`/`from` as quoted, in the section `Context {C : Category} `{@Cartesian C} `{@Cocartesian C} `{@Closed C _}` — precisely Awodey's hypotheses (CCC + binary coproducts). BiCCC_Distributive verified at :257 (the extra `@Initial C` is needed only for the class's nullary field `distr_zero`, as the record says). Structure/Distributive.v:44-48 confirms the `Distributive` class shape. ADDITIONAL corroboration not cited by the classifier: Theory/Algebra.v:80 proves `Goal ∀ x y z : C, x × (y + z) ≅ (x × y) + (x × z). auto. Qed.` — Awodey's statement verbatim. No same-name-weaker-statement risk: the canonical comparison map is the one Awodey names and both round trips are proved."
+    }
+  },
+  {
+    "id": "awodey:8.4:remark-yoneda-propositional-calculus",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda in the propositional calculus",
+      "interderivable formulas / mutual entailment",
+      "poset (preorder / proset / thin category) case of Yoneda",
+      "principal down-set / lower set of a formula",
+      "Props (propositions ordered by implication), Proset, Poset",
+      "θ ⊢ φ ⟺ θ ⊢ ψ for all θ implies φ ⊣⊢ ψ"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y.   (* the general corollary the remark specializes; C may be any category, thin ones included *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).   (* with Yoneda_Faithful at line 85; both hold for an arbitrary C, hence for Props and for any Proset *)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 39,
+        "symbol": "Props",
+        "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}.   (* the thin category of formulas and entailments in which the remark's criterion would be stated *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A logical instance of the Yoneda technique: in the propositional calculus, to show φ and ψ interderivable it suffices to show that for EVERY formula θ, θ ⊢ φ iff θ ⊢ ψ — i.e. the poset case of Cor 8.5, objects with pointwise-equivalent representable down-sets are isomorphic.",
+      "intree": "No in-tree statement of the criterion. What exists is the general reflection lemma `FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y` with `Yoneda_Full`/`Yoneda_Faithful` for `Curried_Hom C` at arbitrary C, plus the thin categories themselves: `Props` (Instance/Props.v:39, propositions and implications, hom-setoid trivial so P ~> Q is inhabited exactly when P entails Q) and `Proset` (Instance/Proset.v:33, the thin category of any PreOrder).",
+      "strength_comparison": "intree-weaker: the general theorem is present and applies verbatim to Props/Proset, but the specialization is never stated. In particular nothing in-tree records the step that makes the remark useful in a thin category — that a natural transformation between representables IS just a pointwise family of entailments (naturality being automatic when hom-setoids are trivial), so that 'for all θ, θ ⊢ φ ↔ θ ⊢ ψ' already yields yφ ≅ yψ and hence φ ≅ ψ."
+    },
+    "gap": "No in-tree lemma of the form `(∀ θ : Props, (θ ~> φ) ↔ (θ ~> ψ)) → φ ≅ ψ` (nor its Proset/Poset analogue). Instance/Props.v proves only the bicartesian-closed structure of Props and contains no Yoneda-flavoured result; Instance/Proset.v and Instance/Poset.v likewise. The bridging observation (in a thin category, a pointwise family of arrows is automatically natural, so a pointwise hom-equivalence gives a natural iso of representables) is not formalized anywhere.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -il 'preorder|proset|entail' . — Instance/Proset.v, Instance/Poset.v, Instance/Props.v, Test/Poset.v, Theory/Category.v (hom_preorder); read each, none states the criterion",
+      "grep -rn --include=*.v -i 'down.set|downset|lower set|principal' . — only Construction/Slice.v:80 (comment: slice of a poset is the principal down-set); no lower-set construction",
+      "grep -rn --include=*.v -i 'interderiv|equideriv|bi-implication|mutual.*entail|antisymm' . — no hit stating interderivability",
+      "grep -rn --include=*.v 'Props\\b' . — Instance/Props.v only; the category is not consumed anywhere else in the tree",
+      "grep -rn --include=*.v -i 'thin' . — only prose comments (Instance/Proset.v, Instance/Props.v, Theory/Category.v:279)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass independently landed between ABSENT and PARTIAL; the classifier's PARTIAL is the better call and its gap statement is exactly right. Verified Instance/Props.v:39 `Program Definition Props : Category` with `hom := Basics.impl` and a trivial hom-setoid (so P ~> Q inhabited iff P entails Q, and P ≅ Q iff interderivable), and Instance/Proset.v:33 `Proset`. Independently re-ran the negative searches: no in-tree lemma of the shape `(∀ θ, (θ ~> φ) ↔ (θ ~> ψ)) → φ ≅ ψ`, no down-set/lower-set construction, and `Props` is indeed consumed nowhere else in the tree. The bridging fact the classifier names (in a thin category naturality is automatic, so a pointwise hom-equivalence already gives a natural iso of representables) is genuinely unformalized — confirmed by inspecting Instance/Props.v, Instance/Proset.v and Instance/Poset.v end to end."
+    }
+  },
+  {
+    "id": "awodey:8.4:remark-ideal-elements",
+    "classification": "PRESENT",
+    "aliases": [
+      "presheaves extend C by ideal elements",
+      "construct an arrow by constructing a natural transformation of representables",
+      "Yoneda_Embedding : Nat(yA, yB) ≅ (A ~> B)",
+      "Yoneda_Embedding' (hom-set bijection in Sets)",
+      "unique h with ϑ = y h; prefmap / fmap_sur"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 231,
+        "symbol": "Yoneda_Embedding",
+        "intree_statement": "#[export] Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.   (* ≊ is isomorphism of the two setoids in Sets: the setoid of natural transformations yA ⟹ yB and the hom-setoid A ~> B *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 109,
+        "symbol": "Yoneda_Embedding'",
+        "intree_statement": "Corollary Yoneda_Embedding' (C: Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; proper_morphism := fmap_respects _ _ |}.   (* fmap[y] is itself the bijection, so ϑ determines a unique h with y h = ϑ *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Methodological consequence of Thm 8.3: to construct an arrow h : A → B in a locally small C it suffices to construct a natural transformation ϑ : yA → yB in Sets^(C^op), since then there is a UNIQUE h with ϑ = y h. This is useful because the presheaf category has far more structure than C (complete, cocomplete, cartesian closed — established in 8.5–8.7), so presheaves extend C by 'ideal elements'.",
+      "intree": "Yoneda_Embedding : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B — a setoid isomorphism (hence a bijection with the ≈-uniqueness the setoid setting affords) between natural transformations of representables and morphisms A ~> B; equivalently Yoneda_Embedding', which exhibits fmap[Curried_Hom C] itself as an isomorphism in Sets.",
+      "strength_comparison": "same for the remark's own assertion (existence AND uniqueness of the h inducing a given ϑ), stated as an iso of hom-setoids rather than a bijection of sets — the faithful setoid rephrasing. Two honest caveats: (i) uniqueness is up to the hom-setoid's ≈, which is the library's notion of equality of morphisms throughout; (ii) the remark's MOTIVATION — that presheaf categories are complete, cocomplete and cartesian closed — is forward-referenced to 8.5–8.7 and is largely NOT in-tree (see awodey:8.5:prop7, awodey:8.6:cor9 in this batch: no `Complete`/`Cocomplete` instance and no closed structure exists for any functor category); Instance/Fun.v:101-105 records that inheritance only as a header comment."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass preliminarily leaned PARTIAL (because the remark's motivating clause cites presheaf completeness/cocompleteness/CCC, none of which is in-tree); on review I accept PRESENT. The remark's OPERATIVE assertion is exactly Thm 8.3 restated — for every ϑ : yA ⟹ yB there is a unique h with ϑ = y h — and that is Yoneda_Embedding, verified at Functor/Hom/Yoneda.v:231-232 `#[export] Program Instance Yoneda_Embedding `(C : Category) : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B` (with `Presheaves {U C} := [U^op, C]`, Theory/Sheaf.v:127, so the ambient category is the presheaf category as Awodey requires), and Yoneda_Embedding' at Functor/Hom.v:109. The motivating clause is a forward reference to 8.5-8.7, which this batch classifies separately (awodey:8.5:prop7 PARTIAL, awodey:8.6:cor9 ABSENT) — charging the same gap here would double-count it, and the classifier disclosed it explicitly in strength_comparison caveat (ii). Verified that caveat's own pointer: Instance/Fun.v:101-106 really does record pointwise inheritance only as an nLab-cited header comment."
+    }
+  },
+  {
+    "id": "awodey:8.5:def-complete",
+    "classification": "PRESENT",
+    "aliases": [
+      "complete category / has all small limits",
+      "Complete",
+      "limit as universal arrow from a constant functor Δ E → F",
+      "terminal cone / universal cone",
+      "cone = natural transformation Δ(N) ⟹ F"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Complete.v",
+        "line": 115,
+        "symbol": "Complete",
+        "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }."
+      },
+      {
+        "file": "Structure/Cone/Const.v",
+        "line": 53,
+        "symbol": "Cone_Natural_Transform",
+        "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F."
+      }
+    ],
+    "statement_record": {
+      "book": "E is complete if for every small J and every F : J → E there is a limit L together with a cone η : ΔL → F in E^J which is universal among arrows ΔE → F out of constant functors; thus a cone with vertex E is exactly an arrow ΔE → F in E^J.",
+      "intree": "Complete {C} := ∀ (D : Category) (F : D ⟶ C), Limit F, where Limit F is a cone with the universal property `∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x, φ_x ∘ u ≈ ψ_x`; and Cone_Natural_Transform proves Δ[J](N) ⟹ F ↔ Cone[N] F, so the cone presentation and Awodey's Δ presentation are interchangeable in-tree.",
+      "strength_comparison": "same. Two presentation differences, both bridged in-tree: (i) cones are primitive (apex + coherent leg family, Structure/Cone.v:24/51) rather than defined as arrows out of Δ, but Cone_Natural_Transform (and Cone_Comma / Instance/Cones/Comma.v's functorial `Cones F ≅[Cat] (Δ ↓ =(F))`) identify the two; (ii) smallness of J is not an explicit hypothesis — the definition quantifies over ∀ (D : Category) and the size discipline is carried by universe polymorphism, which the file header (Structure/Complete.v:27-37) documents explicitly and which is exercised in practice (Adjunction/SAFT.v records that instantiating Complete forces the diagram category's hom universe to match C's). So this is the universe-polymorphic rendering of 'all small limits', not the inconsistent all-diagrams reading."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same. Structure/Complete.v:115 `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.` verified; Structure/Limit.v:113 `Class Limit` with `ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, ...` verified verbatim. The record's key claim — that Awodey's Δ-presentation is bridged in-tree — checks out twice over: Structure/Cone/Const.v:53 `Cone_Natural_Transform : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F` and, at category level, Instance/Cones/Comma.v `Cones_Comma : Cones F ≅[Cat] (Δ ↓ =(F))` (a Cat-isomorphism, not merely an equivalence). The smallness treatment is honest and matches the frozen guidance that universe polymorphism makes size a PRESENT/PARTIAL matter rather than OUT_OF_SCOPE: Structure/Complete.v:27-37 documents the universe-polymorphic stand-in, and Adjunction/SAFT.v:82 records the constraint being exercised in practice."
+    }
+  },
+  {
+    "id": "awodey:8.5:construction-constant-functor",
+    "classification": "PRESENT",
+    "aliases": [
+      "constant functor Δ : E ⟶ E^J",
+      "diagonal functor",
+      "Diagonal / Δ[J](c) / Δ(c)",
+      "exponential transpose of the projection E × J → E",
+      "constant diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "#[export] Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }."
+      },
+      {
+        "file": "Structure/Cone/Const.v",
+        "line": 53,
+        "symbol": "Cone_Natural_Transform",
+        "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F.   (* the packaging property the construction is introduced for *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Δ : E ⟶ E^J, the constant/diagonal functor: on objects E ↦ the functor constant at E (every arrow of J to 1_E), on arrows f : E → E' ↦ the natural transformation all of whose components are f. Awodey defines it as the exponential transpose of the projection E × J → E; it packages cones over F : J → E as arrows ΔE → F.",
+      "intree": "Diagonal {C} (J : Category) : C ⟶ [J, C] with fobj x := the functor constant at x sending every J-arrow to id[x], and fmap f := the natural transformation whose component at every j is f; notations Δ[J](c), Δ(c), Δ := @Diagonal.",
+      "strength_comparison": "same on objects, arrows and functoriality. The only difference is the definitional route: Awodey obtains Δ as the exponential transpose of the projection E × J → E, whereas in-tree it is written down directly (the transpose route is nevertheless available, since Instance/Cat/Cartesian/Closed.v:45 `Cat_Closed` gives exp_iso : (A × B ⟶ C) ≅ (A ⟶ [B, C]), but the identification of Δ with that transpose is not stated). The binary case is reconciled by Diagonal_Product (Functor/Diagonal.v:46) and the constant-diagram factorization by Instance/One/Diagonal.v:33 `Diagonal_Unique : Δ[J](d) ≈[Cat] Δ(d) ∘[Cat] one`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same symbol first. Functor/Diagonal.v:33-39 verified verbatim: `Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C]` with `fobj x := {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}` and `fmap f := {| transform := fun _ => f |}` — object action, arrow action and constancy on J-arrows all exactly as Awodey states; notations Δ[J](c)/Δ(c)/=(c) at lines 50-57. Cross-checked both of the record's secondary pointers: Instance/One/Diagonal.v:33 `Corollary Diagonal_Unique` exists, and `Cat_Closed` exists in Instance/Cat/Cartesian/Closed.v — at line 47, not the :45 the record's prose gives (a two-line drift in a prose mention, not in the evidence array; not worth an issue). The exponential-transpose route really is unstated in-tree, as the record admits, so the only divergence is definitional presentation."
+    }
+  },
+  {
+    "id": "awodey:8.5:prop7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presheaf categories are complete",
+      "limits in functor categories are computed pointwise/objectwise",
+      "evaluation functor ev_C preserves limits",
+      "Complete [C^op, Sets] / Fun_Complete / Presheaves_Complete",
+      "(lim F_i)(C) = lim (F_i C)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).   (* product functor built as (F × G) c := fobj[F] c × fobj[G] c, fmap := split (fmap[F] f) (fmap[G] f), with the UMP discharged componentwise from D's *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 8.7: for any locally small C, Sets^(C^op) is complete, and for every object C the evaluation functor ev_C : Sets^(C^op) → Sets preserves ALL limits; concretely (lim_{i∈J} F_i)(C) = lim_{i∈J}(F_i C) (equation 8.2), the limit being DEFINED pointwise.",
+      "intree": "Only the binary-product instance of pointwise computation: Functor_Category_Cartesian (C D) (Cartesian D) : Cartesian (Fun C D), with (F × G) c = F c × G c and the universal property inherited objectwise. There is no `Complete` instance for any functor category, none for Sets, no evaluation functor [C,D] ⟶ D, and no preservation statement.",
+      "strength_comparison": "intree-weaker: the general theorem is absent and only the J = (discrete two-object) shape of 'limits in [C,D] are pointwise' is proved. Note also that the in-tree instance is stated for an arbitrary target D (any Cartesian D), which is more general in the target than Awodey's D = Sets, but far weaker in the limit shape. Instance/Fun.v:101-105 records the general pointwise-inheritance principle only as a header comment, explicitly citing nLab — it is not proved."
+    },
+    "gap": "Three of the proposition's clauses are missing. (1) COMPLETENESS: no inhabitant of `@Complete C` exists anywhere in the tree for a functor/presheaf category — indeed no `Complete` instance exists at all (grep shows `@Complete` only as a HYPOTHESIS in Construction/Comma/Limit.v, Adjunction/GAFT.v, Adjunction/SAFT.v); in particular `Complete Sets` is not proved either, so even the base case being lifted is unavailable. (2) POINTWISE LIMITS in general shape: only binary products (Instance/Fun/Cartesian.v); there is no `Instance/Fun/Limit.v`, no construction of `Limit F` in `[C, D]` from limits in D, and no proof of equation (8.2). (3) EVALUATION: no functor ev_C : [C,D] ⟶ D is defined (the CCC evaluation `eval : [B,C] × B ⟶ C` exists only as `uncurry id` derived from Instance/Cat/Cartesian/Closed.v:45 `Cat_Closed`, and is never fixed in its second argument), and no `PreservesLimit`/`PreservesAllLimits` instance is supplied for it, although the vocabulary exists (Structure/Limit/Preservation.v:48,229).",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'Fun_Complete|Presheaves_Complete|Sets_Complete' . — 0 hits",
+      "grep -rn --include=*.v '@Complete|: Complete|Complete C|Complete D' . — all hits are hypotheses (Construction/Comma/Limit.v:124,246,273; Adjunction/GAFT.v:193,242; Adjunction/SAFT.v:145,184,198,241,275); no instance",
+      "grep -rln --include=*.v 'Limit' . — 45 files; none concerns functor categories or presheaves (Instance/Fun/ contains only Cartesian.v)",
+      "grep -rn --include=*.v -i 'pointwise|objectwise|componentwise' . | grep -i 'limit|colimit' — Instance/Fun.v:27,101-102 and Structure/Complete.v:57 are COMMENTS only",
+      "grep -rn --include=*.v -i 'evaluation functor|ev_C' . — Instance/Cat/Cartesian/Closed.v:34 (comment) and Construction/Free.v (unrelated free-category evaluation)",
+      "grep -rn --include=*.v 'HasProducts|HasIndexedProducts|HasLimits|HasEqualizers|HasPullbacks' . — no instance for Sets or for any functor category (Sets has only HasPushouts, Instance/Sets/Pushout.v:185)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached the same conclusion and hesitated between ABSENT and PARTIAL; PARTIAL is defensible because a genuine (if minimal) shape-instance of 'limits in [C,D] are pointwise' is proved, and the record's gap is stated with unusual precision. Verified the evidence exactly: Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).` with the product built as `fun c => fobj[F] c × fobj[G] c` and `Cartesian.split (fmap[F] f) (fmap[G] f)` (lines 115-119) — pointwise, UMP componentwise. Independently re-ran every negative: `@Complete` occurs ONLY as a hypothesis (Construction/Comma/Limit.v:124,246,273; Adjunction/GAFT.v:193,242; Adjunction/SAFT.v:145,184,198,241,275) — there is no `Complete` inhabitant anywhere, so `Complete Sets` is missing too; Instance/Fun/ contains only Cartesian.v; no functor `[C,D] ⟶ D` exists in the tree. SCOPING WARNING for Phase E: the surviving fragment is thin enough that the downstream issue should be scoped as a from-scratch build (Sets completeness + pointwise limits + the evaluation functor + its preservation), not as an extension of Instance/Fun/Cartesian.v."
+    }
+  },
+  {
+    "id": "awodey:8.6:def-cocomplete",
+    "classification": "PRESENT",
+    "aliases": [
+      "cocomplete category / has all small colimits",
+      "Cocomplete",
+      "dual of complete; C cocomplete iff C^op complete",
+      "colimit as universal cocone / initial cocone",
+      "Colimit F := Limit (F^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Complete.v",
+        "line": 119,
+        "symbol": "Cocomplete",
+        "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.   (* with Colimit `(F : J ⟶ C) := Limit (F^op), Structure/Limit.v:158 *)"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ ... }.   (* the universal property that Colimit inherits at F^op; Cocone F := Cone (F^op), Structure/Cone.v:71 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A category is cocomplete when it possesses all small colimits — every functor from a small index category into it has a colimit; stated as the formal dual of completeness.",
+      "intree": "Cocomplete {C} := ∀ (D : Category) (F : D ⟶ C), Colimit F, with Colimit F := Limit (F^op) — i.e. cocompleteness IS completeness read in the opposite category, exactly the dual Awodey names.",
+      "strength_comparison": "same, with the same universe-polymorphic rendering of smallness as for Complete (the header of Structure/Complete.v documents it). The duality is definitional here, not merely asserted: because the library builds duality into its definitions (C^op^op = C by reflexivity), Colimit/Cocone are literal op-readings of Limit/Cone, and the definition is load-bearing — Theory/Adamek/Corollaries.v:59 `adamek_cocomplete` consumes `@Cocomplete C` to supply the ω-chain colimit. No concrete category is proved cocomplete in-tree, but that is a question about instances, not about the definition this item states."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same. Structure/Complete.v:119 `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.` verified, with `Colimit `(F : J ⟶ C) := Limit (F^op)` at Structure/Limit.v:158 and `Cocone `(F : J ⟶ C) := Cone (F^op)` at Structure/Cone.v:72 (record says 71 — off by one, harmless). The record's load-bearing claim checks out: Theory/Adamek/Corollaries.v:59 `Corollary adamek_cocomplete` really does consume `@Cocomplete C`, so the definition is used, not decorative. The record is also correct and commendably explicit that no concrete category is proved cocomplete in-tree, which is an instance question and does not affect this definitional item."
+    }
+  },
+  {
+    "id": "awodey:8.6:prop8",
+    "classification": "ABSENT",
+    "aliases": [
+      "colimits in functor categories are computed pointwise",
+      "D^C is cocomplete when D is",
+      "ev_C : D^C ⟶ D preserves colimits",
+      "colim_j (A_j C) ≅ (colim_j A_j)(C)",
+      "Fun_Cocomplete / Functor_Category_Cocartesian / pointwise coproducts of functors"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Cocomplete' . — only Structure/Complete.v:119 (the definition) and Theory/Adamek/Corollaries.v:51,61 (a hypothesis); no functor-category instance",
+      "grep -rn --include=*.v -i 'Fun_Cocomplete|Functor_Category_Cocartesian|Presheaf_Cocomplete|Sets_Cocomplete' . — 0 hits",
+      "grep -rn --include=*.v 'Cocartesian (@Fun|Cocartesian (Fun|@Cocartesian (\\[' . — 0 hits; ls Instance/Fun/ shows only Cartesian.v, so not even pointwise binary COproducts on [C,D] exist",
+      "grep -rn --include=*.v -i 'colimit' . | grep -i 'functor categ|\\[C, D\\]|presheaf|pointwise|objectwise' — Instance/Fun.v:27,102, Construction/Comma.v:252 and Structure/Complete.v:57 are all COMMENTS; no assertion",
+      "grep -rn --include=*.v -i 'PreservesColimit' . — Structure/Limit/Preservation.v:196 (definition), Adjunction/Continuity.v (left adjoints), Theory/Equivalence/Limit.v:432, Theory/Adamek*.v; no evaluation functor and no functor-category instance",
+      "grep -rn --include=*.v -i 'evaluation functor|ev_C' . — no functor [C,D] ⟶ D is defined in-tree at all, so the statement's subject does not exist",
+      "grep -rln --include=*.v 'Colimit' . — 20 files, all about chains/Adámek, coequalizers, comma categories, equivalences; none about functor categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found nothing and reached ABSENT. Re-ran the decisive negatives myself: `ls Instance/Fun/` yields only Cartesian.v (so not even pointwise binary COproducts on [C,D] exist); no `Cocartesian` instance targets `@Fun`; `Cocomplete` appears only at Structure/Complete.v:119 (definition) and Theory/Adamek/Corollaries.v:51,61 (hypothesis); and no functor `[C,D] ⟶ D` is defined anywhere, so the proposition's subject (ev_C) is genuinely absent. The preservation VOCABULARY does exist (Structure/Limit/Preservation.v:196 `PreservesColimit`, :232 `PreservesAllColimits`), which is a dependency note for Phase E, not evidence. The only in-tree trace is prose: Instance/Fun.v:101-106 states the pointwise-inheritance principle as an nLab citation."
+    }
+  },
+  {
+    "id": "awodey:8.6:cor9",
+    "classification": "ABSENT",
+    "aliases": [
+      "presheaf categories are cocomplete",
+      "Cocomplete (Presheaves C) / Cocomplete [C^op, Sets]",
+      "colimits of presheaves computed pointwise",
+      "Sets is cocomplete (the base case being lifted)",
+      "colimits in Sets^(C^op)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Cocomplete' . — Structure/Complete.v:119 (definition) and Theory/Adamek/Corollaries.v:51,61 (hypothesis) only; no instance for Presheaves, for Sets, or for any concrete category",
+      "grep -rn --include=*.v -i 'Sets_Cocomplete|Presheaf.*[Cc]ocomplete|Cocomplete Sets' . — 0 hits",
+      "grep -rn --include=*.v 'Presheaves\\b' . — Theory/Sheaf.v:127 `Definition Presheaves {U C : Category} := [U^op, C]` and its consumers in Theory/Sheaf/Category.v; none asserts any (co)completeness",
+      "grep -rn --include=*.v 'Colimit|Limit' Instance/Sets.v Instance/Sets/*.v — no hit; Sets carries only Cartesian/Cocartesian, HasPushouts (Instance/Sets/Pushout.v:185), the end (Instance/Sets/End.v) and the coend (Instance/Sets/Coend.v), never assembled into cocompleteness",
+      "ls Instance/Fun/ — only Cartesian.v; there is no colimit or cocompleteness development for functor categories to specialize to D = Sets",
+      "grep -rn --include=*.v -i 'colimits.*pointwise|pointwise colimit' . — Instance/Fun.v:102 comment only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: ABSENT. Confirmed there is no `Cocomplete` inhabitant for presheaves, for Sets, or for any concrete category. Sets carries only piecemeal colimit-adjacent structure — `Sets_Initial`/`Sets_Cocartesian`, HasPushouts (Instance/Sets/Pushout.v), and the coend of Instance/Sets/Coend.v — and none of it is assembled into cocompleteness or connected to Structure/Limit.v's `Colimit`; Instance/Sets.v:108-111 itself describes the 'working completeness of Sets' as built only piecewise (products, exponentials, pushouts, Cauchy completeness). Since the corollary is a specialization of the ABSENT prop8 to a base case that is itself unproved, ABSENT is right, and Phase E should treat cor9 as strictly downstream of both prop8 and a Sets-cocompleteness prerequisite."
+    }
+  },
+  {
+    "id": "awodey:8.6:prop10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "density theorem / every presheaf is a colimit of representables",
+      "co-Yoneda lemma / ninja Yoneda / coend formula P ≅ ∫^c P c × y c",
+      "category of elements ∫P and its projection to C",
+      "colim_{(x,C) ∈ ∫P} y C ≅ P",
+      "coyoneda_reduction / prof_unit_left_iso / Yoneda density"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.   (* for P : C ⇸ D = C^op ∏ D ⟶ Sets; unfolds to the NATURAL isomorphism ∫^m Hom_C(−, m) × P(m, −) ≅ P in the functor category, i.e. the co-Yoneda density formula, with naturality supplied by lu_natural_form *)"
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 174,
+        "symbol": "coyoneda_reduction",
+        "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.   (* YoI (x, y) = (x ~{C}~> c) * F y, so this is ∫^x C(x,c) × F x ≅ F c; funext-free, over the inductive setoid-quotient coend of Instance/Sets/Coend.v *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 8.10: for any small C and any presheaf P ∈ Sets^(C^op), P is a colimit of representables: with J := the category of elements of P and A : J → C the projection, colim_J (y ∘ A) ≅ P. The proof takes the cocone component at (x,C) to be x : yC → P under the Yoneda correspondence and verifies the universal property.",
+      "intree": "The same content in COEND form. prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P is the natural isomorphism ∫^m C(−,m) × P(m,−) ≅ P in the functor category (specializing at D = 1 this is exactly P ≅ ∫^m P(m) × y(m) for a presheaf); coyoneda_reduction gives the same reduction pointwise in Sets, ∫^x C(x,c) × F x ≅ F c, for F : C ⟶ Sets and each c.",
+      "strength_comparison": "intree-weaker in PRESENTATION and in the missing bridge: the coend ∫^m P m × y m IS the colimit Awodey names, but in-tree there is no proof that a coend is a colimit (Structure/Coend.v defines Coend F := @End (C^op)(D^op)(F^op) and Instance/Sets/Coend.v builds the apex as an inductive setoid quotient by the dinaturality relation; neither is connected to Structure/Limit.v's Colimit class), and there is no category of elements to serve as the index J. On the other side, prof_unit_left_iso is genuinely natural (an iso in [C^op ∏ D, Sets]) and axiom-free, so the naturality Awodey's cocone argument establishes is present in the coend rendering."
+    },
+    "gap": "Two specific pieces are missing. (1) The CATEGORY OF ELEMENTS ∫P of a Sets-valued presheaf, and its projection functor ∫P ⟶ C, are not constructed anywhere: Construction/Grothendieck.v builds the total category of a Displayed/IndexedCat (a pseudofunctor-lite into Cat), not of a presheaf, and grep for 'category of elements'/'Elements' finds nothing. (2) The statement is never given in COLIMIT form: no `Colimit (Curried_CoHom C ◯ A)` is exhibited and no in-tree lemma identifies a coend with a colimit, so 'P is a colimit of representables' — as opposed to 'P is a coend of representables' — is not asserted. Additionally coyoneda_reduction is stated only pointwise in Sets (naturality in c is not proved there); the natural form exists only through the profunctor unitor, and the specialization of that unitor to an ordinary presheaf (D = 1) is not spelled out.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -i 'density|dense\\b|colimit of representable' . — only codensity-monad prose in Theory/Kan/Extension.v; no density theorem",
+      "grep -rn --include=*.v -i 'category of elements|Elements\\b' . — no construction (hits are unrelated: Theory/Metacategory.v M.elements, prose about 'global elements')",
+      "grep -rn --include=*.v 'Colimit' . — no hit relating a coend to a Colimit, and none about presheaves"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass found only `coyoneda_reduction` and classified PARTIAL; the classifier found a STRONGER second witness that I missed, and I verified it: Construction/Profunctor/Laws.v:236 `Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P`, built from `lu_iso_family` with naturality discharged by `lu_natural_form` (:217) — so it is a genuine iso in the functor category, not a pointwise family. Unfolding `prof_compose` (∫^d P(c,d) × Q(d,e)) with `prof_id := Hom C` gives (c,e) ↦ ∫^m C(c,m) × P(m,e); at D = 1 that is ∫^m C(c,m) × P(m) ≅ P(c), i.e. the density formula naturally in c — the classifier's reading is correct. Also verified Theory/Coend/Yoneda.v:174 `coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c` with `YoI (x,y) = (x ~{C}~> c) * F y`, funext-free. Both gap legs re-verified independently: grep for Colimit inside Structure/Coend.v, Structure/End.v and Instance/Sets/Coend.v returns ZERO hits, so no coend-is-a-colimit bridge exists; and no category of elements ∫P (nor its projection to C) is constructed anywhere — Construction/Grothendieck.v works from Displayed/IndexedCat data, not from a Sets-valued presheaf. PARTIAL with these two gaps is exactly right."
+    }
+  }
+]

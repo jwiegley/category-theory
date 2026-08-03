@@ -1,0 +1,525 @@
+[
+ {
+  "id": "7sketches:6.2.2:def6.11",
+  "classification": "PRESENT",
+  "aliases": [
+   "coproduct",
+   "copairing / case analysis / [f, g]",
+   "Cocartesian (this library: Cartesian read in C^op)",
+   "merge / ▽ / either / sum type",
+   "inl, inr injections; universal property of the coproduct",
+   "dual: product, fork/pairing ⟨f, g⟩"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 136,
+    "symbol": "ump_products",
+    "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  — this Class field IS the coproduct UMP of Definition 6.11, because Structure/Cocartesian.v:110 sets `Cocartesian C := @Cartesian (C^op)`; read in C^op it says h ≈ f ▽ g iff h ∘ inl ≈ f and h ∘ inr ≈ g, i.e. the copairing is the unique morphism making both triangles commute."
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 175,
+    "symbol": "inl_merge",
+    "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f."
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 182,
+    "symbol": "inr_merge",
+    "intree_statement": "Lemma inr_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inr ≈ g."
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 196,
+    "symbol": "merge_inv",
+    "intree_statement": "Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).  (extensionality/uniqueness half of the UMP)"
+   }
+  ],
+  "statement_record": {
+   "book": "A coproduct of A and B is an object A + B with injections ι_A : A → A + B, ι_B : B → A + B such that for every T and every pair f : A → T, g : B → T there is a unique [f, g] : A + B → T with ι_A ; [f, g] = f and ι_B ; [f, g] = g; [f, g] is the copairing.",
+   "intree": "`Notation \"'Cocartesian' C\" := (@Cartesian (C^op))` with `Coprod := @product_obj`, `merge f g := @fork _ O _ _ _ f g` (notation `f ▽ g`), `inl := @exl`, `inr := @exr`; the UMP is `ump_products ... : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)` read in C^op, with the two triangles surfacing as `f ▽ g ∘ inl ≈ f` and `f ▽ g ∘ inr ≈ g` and uniqueness as `merge_inv`.",
+   "strength_comparison": "same — setoid rephrasing (≈ instead of =, and a biconditional UMP instead of an existence-plus-uniqueness statement) is faithful. The library obtains the coproduct by duality rather than as a primitive class, but the full API the book item needs (object, both injections, copairing, both triangles, uniqueness) is present."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass landed on PRESENT independently (searched: `Cocartesian`, `merge`, `copairing`, `inl/inr`, `coproduct`, `▽` across all *.v). Every cited line verified by hand: Structure/Cartesian.v:136 IS the `ump_products` class field with exactly the quoted biconditional; Structure/Cocartesian.v:175 inl_merge, :182 inr_merge, :196 merge_inv all match verbatim. Same-name-weaker check: `merge_inv` alone would be only extensionality between two copairings, NOT the uniqueness clause of Def 6.11 — the record correctly leads with `ump_products`, which read in C^op gives `h ≈ f ▽ g ↔ (h ∘ inl ≈ f) * (h ∘ inr ≈ g)`, the full UMP. Definition-without-API check: object (`Coprod`, :125), both injections (:142-143), copairing (:131) and both triangles are all present. Structure/Cartesian.v and Structure/Cocartesian.v are both registered in _CoqProject. One citation nit: the in-prose reference \"Structure/Cocartesian.v:110 sets `Cocartesian C := @Cartesian (C^op)`\" is off by 5 — the Notation is at line 115; line 110 is header prose. Evidence line fields are exact."
+  }
+ },
+ {
+  "id": "7sketches:6.2.2:ex6.13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "join / least upper bound / supremum / lub / ∨",
+   "coproduct in a thin (posetal) category",
+   "Proset / Poset / preorder as a category",
+   "Props (propositions ordered by implication), Heyting prealgebra",
+   "dual: product in a preorder is the meet / greatest lower bound"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 80,
+    "symbol": "Props_Cocartesian",
+    "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }.  `Props` (Instance/Props.v:39) is the THIN category of propositions with `hom := Basics.impl` and `equiv f g := True`, i.e. the preorder of propositions under entailment; the instance therefore asserts that in that preorder the coproduct is ∨ — the join."
+   }
+  ],
+  "statement_record": {
+   "book": "In a preorder regarded as a category, coproducts coincide with joins (least upper bounds).",
+   "intree": "`Props_Cocartesian : @Cocartesian Props` — in the thin category Props (P ~> Q := P → Q, all parallel arrows identified), the coproduct object of P and Q is `or`, with injections `or_introl`/`or_intror` and copairing by case analysis.",
+   "strength_comparison": "intree-weaker: the identification is instantiated in exactly ONE preorder (Props) and is phrased as \"the coproduct object is ∨\", not as \"the coproduct is the least upper bound\". The library has no order-theoretic vocabulary at all — grep over all *.v finds no definition of join/lub/supremum/lattice/semilattice (every occurrence of \"lattice\"/\"Heyting\"/\"join\" in that sense is prose in a file header) — and although Instance/Proset.v:33 builds the thin category of an arbitrary preorder, no Cocartesian (or Initial/Terminal) instance is ever supplied for it."
+  },
+  "gap": "The general theorem is absent: there is no in-tree notion of least upper bound / join, and no lemma saying that a coproduct in a thin category is exactly an upper bound that factors through every upper bound. What exists is one worked preorder (Props, entailment order) whose coproduct is computed to be ∨. Instance/Proset.v (preorder ⇒ thin category) carries no Cocartesian instance — searched `Proset_(Cocartesian|Cartesian|Initial|Terminal)`, 0 hits.",
+  "negative_search_log": [
+   "grep -rniE --include='*.v' 'least upper bound|greatest lower bound|supremum|infimum|\\blub\\b' . — 1 hit, a prose comment at Instance/Poset.v:51",
+   "grep -rniE --include='*.v' 'lattice|Heyting|Boolean algebra' . — 23 hits, ALL prose in file headers; no lattice/join structure is defined",
+   "grep -rnE --include='*.v' 'Proset_(Cocartesian|Cartesian|Initial|Terminal)|Poset_(Cocartesian|Initial)' . — 0 hits",
+   "grep -rnE --include='*.v' 'Two_Cocartesian|Two_Initial' . — 0 hits (Instance/Two/Monoidal.v:80 has only Two_Cartesian)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass leaned ABSENT; PARTIAL is defensible and I do not overturn, because the record's own strength_comparison and gap state the special-case-only situation precisely (which is exactly the trap I was hunting for, and it is disclosed rather than hidden). Independently reproduced every negative search: no join/lub/supremum/lattice/semilattice structure is DEFINED anywhere (only prose, e.g. Instance/Poset.v:51 \"a coproduct is a join (Structure/Cocartesian.v)\" — verified at that exact line); Instance/Proset.v:33 builds the thin category of an arbitrary preorder and carries no Cartesian/Cocartesian/Initial/Terminal instance; `Two_Cocartesian`/`Two_Initial` — 0 hits, only `Two_Cartesian` at Instance/Two/Monoidal.v:80 (verified). Evidence verified: Instance/Props.v:39 `Program Definition Props` (thin: hom := Basics.impl, equiv := True) and :80 `Props_Cocartesian` with product_obj := or — a genuine preorder whose coproduct is the join. So one instance exists, general theorem does not. Instance/Props.v is in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:6.2.2:example6.14",
+  "classification": "PRESENT",
+  "aliases": [
+   "coproduct in Set / FinSet is the disjoint union",
+   "sum type / Datatypes.sum / disjoint union",
+   "Sets_Cocartesian, FinSet_Cocartesian, Coq_Cocartesian",
+   "inclusions as coproduct injections; copairing by cases",
+   "skeletal FinSet: m + n on objects, Fin.L / Fin.R"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Cocartesian.v",
+    "line": 28,
+    "symbol": "Sets_Cocartesian",
+    "intree_statement": "Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := {| equiv := fun z w => match z with inl z => match w with inl w => z ≈ w | inr _ => False end | inr z => match w with inl _ => False | inr w => z ≈ w end end ... |} |} ; ... }.  The coproduct carrier is the sum type with cross-summand pairs identified with False, i.e. the disjoint union; the injections are Datatypes.inl / Datatypes.inr and the copairing is the case-split map."
+   },
+   {
+    "file": "Instance/FinSet.v",
+    "line": 250,
+    "symbol": "FinSet_Cocartesian",
+    "intree_statement": "Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; fork := fun x y z (f : Fin.t y → Fin.t x) (g : Fin.t z → Fin.t x) p => match fin_split p with Datatypes.inl a => f a | Datatypes.inr b => g b end; exl := fun x y => Fin.L y; exr := fun x y => Fin.R x |}.  On skeletal FinSet the disjoint union of an m-element and an n-element set is the (m+n)-element set, with Fin.L/Fin.R the two inclusions and the copairing computed by `fin_split` — exactly the book's \"every element is of exactly one of these two forms\"."
+   }
+  ],
+  "statement_record": {
+   "book": "In FinSet and in Set the coproduct of A and B is their disjoint union with the two inclusions as injections; the copairing [f, g] is computed by cases according to which summand an element comes from.",
+   "intree": "Two instances. `Sets_Cocartesian` gives the setoid disjoint union (sum-type carrier, cross-summand equivalence = False) with the constructors as injections; `FinSet_Cocartesian` gives the skeletal version, object part `(m + n)%nat`, injections `Fin.L`/`Fin.R`, copairing dispatching through `fin_split`.",
+   "strength_comparison": "same, and slightly stronger on the FinSet clause: the skeletal copairing computes by eq_refl on closed inputs (Instance/FinSet.v:291 `merge_computes`). Note the library's `Sets` is the category of SETOIDS rather than bare sets, so the \"same summand and equivalent there\" clause replaces raw equality — the faithful setoid rephrasing. The bare-Type reading is additionally available as `Coq_Cocartesian` in Instance/Coq.v."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found the same two instances plus `Coq_Cocartesian` (Instance/Coq.v:199), which the record also names. Verified Instance/Sets/Cocartesian.v:28 `Sets_Cocartesian` (sum-type carrier, cross-summand equivalence literally `False`, injections Datatypes.inl/inr, copairing the case-split) and Instance/FinSet.v:250 `FinSet_Cocartesian` ((m+n)%nat, Fin.L/Fin.R, fin_split dispatch). The \"slightly stronger\" claim is honest: Instance/FinSet.v:291 `merge_computes` is a real `Example ... = eq_refl` (verified at that line). The setoid caveat is correctly disclosed. Both files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:6.2.2:ex6.16",
+  "classification": "PRESENT",
+  "aliases": [
+   "compute a copairing on a disjoint union",
+   "merge / ▽ evaluated at concrete elements",
+   "case analysis on inl/inr; either f g",
+   "FinSet copairing computes (merge_computes)",
+   "worked example of [f, g](x)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet.v",
+    "line": 291,
+    "symbol": "merge_computes",
+    "intree_statement": "Example merge_computes : @merge FinSet FinSet_Cocartesian 2%nat 1%nat 2%nat (fun _ : Fin.t 1 => Fin.FS Fin.F1) (fun i : Fin.t 2 => i) (Fin.FS Fin.F1) = Fin.F1 := eq_refl.  A copairing of two concretely different component functions, evaluated at a concrete element of the disjoint union, certified by eq_refl; the components are deliberately chosen to DISAGREE at the routed value so the Example certifies routing, not merely reduction."
+   },
+   {
+    "file": "Instance/FinSet.v",
+    "line": 296,
+    "symbol": "merge_computes_inl",
+    "intree_statement": "Example merge_computes_inl : @merge FinSet FinSet_Cocartesian 2%nat 1%nat 2%nat (fun _ : Fin.t 1 => Fin.FS Fin.F1) (fun i : Fin.t 2 => i) Fin.F1 = Fin.FS Fin.F1 := eq_refl.  The companion left-summand evaluation: the same copairing routed through the Fin.L image."
+   }
+  ],
+  "statement_record": {
+   "book": "For T the 26-letter alphabet, A and B the two fruit-name sets, f taking first letters and g taking last letters, write out [f, g](x) for all eight elements of A ⊔ B.",
+   "intree": "`merge_computes` / `merge_computes_inl`: the copairing `f ▽ g` of two concrete functions between finite sets, evaluated at concrete elements of both summands of the disjoint union, holding by `eq_refl`.",
+   "strength_comparison": "same in mathematical content — the exercise is nothing but \"the copairing routes each element to the component of its own summand\", which is `Sets_Cocartesian`/`FinSet_Cocartesian`'s defining match and is certified by these two computing Examples. intree-weaker only in presentation: the in-tree witnesses use 3 elements rather than the book's 8, and no letter/alphabet dressing is present."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Matches my blind lean. Both Examples verified verbatim at Instance/FinSet.v:291 and :296, and their surrounding comment (lines 283-290) confirms the components are chosen to DISAGREE at the routed value, so the eq_refl certifies routing rather than mere reduction, exactly as the record claims. Noted for the record: a stricter reading would call this PARTIAL (or fold it into def6.11) since the in-tree witnesses are 3-element, not the book's 8-element alphabet drill; the record's strength_comparison already says precisely that, so PRESENT is honestly qualified rather than overclaimed. No issue should be filed either way."
+  }
+ },
+ {
+  "id": "7sketches:6.2.2:ex6.17",
+  "classification": "PRESENT",
+  "aliases": [
+   "coproduct beta/eta laws",
+   "copairing fusion: [f, g] ; h = [f;h, g;h]",
+   "inl_merge / inr_merge / merge_comp / merge_inl_inr",
+   "either fusion, case-of-constructor",
+   "dual: exl_fork, exr_fork, fork_comp, fork_exl_exr"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 200,
+    "symbol": "merge_comp",
+    "intree_statement": "Corollary merge_comp {x y z w : C} (f : y ~> z) (h : w ~> z) (g : z ~> x) : (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h.  (identity (3): post-composition distributes over copairing, i.e. [f;h, g;h] = [f, g] ; h in diagrammatic order)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 189,
+    "symbol": "merge_inl_inr",
+    "intree_statement": "Corollary merge_inl_inr {x y : C} : inl ▽ inr ≈ @id C (x + y).  (identity (4), the eta law)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 175,
+    "symbol": "inl_merge",
+    "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f.  (identity (1))"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 182,
+    "symbol": "inr_merge",
+    "intree_statement": "Lemma inr_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inr ≈ g.  (identity (2))"
+   }
+  ],
+  "statement_record": {
+   "book": "For f : A → C, g : B → C, h : C → D in a category with coproducts: (1) ι_A ; [f,g] = f; (2) ι_B ; [f,g] = g; (3) [f,g] ; h = [f;h, g;h]; (4) [ι_A, ι_B] = id_{A+B}.",
+   "intree": "`inl_merge : f ▽ g ∘ inl ≈ f`; `inr_merge : f ▽ g ∘ inr ≈ g`; `merge_comp : (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h`; `merge_inl_inr : inl ▽ inr ≈ id`.",
+   "strength_comparison": "same — all four identities are proved, each in the whole-category generality of the book (any C with the Cocartesian structure), modulo the switch from the book's diagrammatic order (;) to the library's applicative order (∘) and from = to ≈."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass matched all four identities to the same four constants before reading the coverage file. Verified verbatim: Structure/Cocartesian.v:175 inl_merge (id 1), :182 inr_merge (id 2), :200 `merge_comp : (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h` (id 3 — the diagrammatic [f,g];h = [f;h,g;h] under the library's applicative order, correctly reoriented in the record), :189 merge_inl_inr (id 4). All four hold at the book's full generality (arbitrary C with the Cocartesian structure), each proved by one-line appeal to the Cartesian original in C^op."
+  }
+ },
+ {
+  "id": "7sketches:6.2.2:ex6.18",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cocartesian monoidal category / coproduct-and-initial monoidal structure",
+   "Cocartesian_Monoidal (dual of Cartesian_Monoidal / CC_Monoidal / CC_SymmetricMonoidal)",
+   "coproduct bifunctor + : C ∏ C ⟶ C (dual of InternalProductFunctor)",
+   "unitors A + 0 ≅ A, 0 + A ≅ A (coprod_zero_r / coprod_zero_l)",
+   "associator coprod_assoc, symmetry coprod_comm / paws",
+   "cover / bimap on coproducts"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 399,
+    "symbol": "coprod_assoc",
+    "intree_statement": "Program Instance coprod_assoc {x y z : C} : (x + y) + z ≅ x + (y + z) := { to := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr); from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr) }.  (part (3), the associator, built from the coproduct UMP and proved invertible)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 393,
+    "symbol": "coprod_comm",
+    "intree_statement": "Program Instance coprod_comm {x y : C} : x + y ≅ y + x := { to := paws; from := paws }.  (part (3), the symmetry, proved invertible; `paws_invol : paws ∘ paws ≈ id` at line 279)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 375,
+    "symbol": "coprod_zero_l",
+    "intree_statement": "Program Instance coprod_zero_l {x : C} : 0 + x ≅ x := { to := zero ▽ id; from := inr }.  (part (2), left unitor, under `Context `{I : @Initial C}`)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 384,
+    "symbol": "coprod_zero_r",
+    "intree_statement": "Program Instance coprod_zero_r {x : C} : x + 0 ≅ x := { to := id ▽ zero; from := inl }.  (part (2), right unitor)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 291,
+    "symbol": "cover_comp",
+    "intree_statement": "Theorem cover_comp {x y z w v u : C} (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) : cover f g ∘ cover h i ≈ cover (f ∘ h) (g ∘ i).  With `cover_id : cover (id[x]) (id[y]) ≈ id[x + y]` (line 285) and `cover f g := (inl ∘ f) ▽ (inr ∘ g)` (line 151), this is part (1): the action of + on morphisms together with both functor laws."
+   }
+  ],
+  "statement_record": {
+   "book": "If C has all binary coproducts and an initial object then (C, +, 0) is symmetric monoidal (Definition 4.45): (1) + extends to a functor C × C → C, describe its action on morphisms; (2) build isomorphisms A + 0 → A and 0 + A → A from the universal properties; (3) write down the associator (A+B)+C → A+(B+C) and the symmetry A+B → B+A and check they are isomorphisms. Coherence axioms are not verified.",
+   "intree": "All three data are present as separate results in Structure/Cocartesian.v: `cover f g := (inl ∘ f) ▽ (inr ∘ g)` with `cover_id`/`cover_comp` (the morphism action and its functor laws), `coprod_zero_l : 0 + x ≅ x` and `coprod_zero_r : x + 0 ≅ x`, `coprod_assoc : (x + y) + z ≅ x + (y + z)`, `coprod_comm : x + y ≅ y + x` — all four packaged as `Isomorphism` instances, so invertibility is proved.",
+   "strength_comparison": "intree-weaker at the packaging level: every piece of data the exercise asks for is proved, but nothing assembles (C, +, 0) into a `Monoidal` (Structure/Monoidal.v:127) or `SymmetricMonoidal` object. The library's cartesian mirror IS assembled — `CC_Monoidal`, `CC_SymmetricMonoidal` (Structure/Monoidal/Internal/Product.v:54, 314), surfaced as `Cartesian_Monoidal` (Structure/Monoidal/Cartesian.v:49) — and there is no coproduct counterpart; nor is + packaged as a bifunctor `C ∏ C ⟶ C` (only `InternalProductFunctor`, Functor/Product/Internal.v:33). Instance/FinSet.v:31-33 says so explicitly of its own coproduct-induced monoidal structure: \"That monoidal assembly, and the [PROP] instance riding on it, need the coherence machinery and are not yet built\"."
+  },
+  "gap": "Missing: (a) a `Cocartesian_Monoidal : @Monoidal C` (and its Braided/Symmetric upgrades) dual to `CC_Monoidal`/`CC_SymmetricMonoidal`; (b) the coproduct as an actual bifunctor object `C ∏ C ⟶ C` (only the morphism action `cover` plus `cover_id`/`cover_comp` exist, not a `Functor` record); (c) naturality of the four isos as monoidal-structure fields. Searched `Cocartesian_Monoidal|CocartesianMonoidal|cocartesian_monoidal` over all *.v — 0 hits; the only monoidal structures built out of coproducts in-tree live on Cospan(C)/DecoratedCospan(C) (Construction/Cospan/Symmetric.v, Construction/DecoratedCospan/Monoidal.v), not on C itself. Note the exercise itself stops short of the coherence axioms, so the missing part is the packaging, not additional mathematics.",
+  "negative_search_log": [
+   "grep -rnE --include='*.v' 'Cocartesian_Monoidal|CocartesianMonoidal|cocartesian_monoidal' . — 0 hits",
+   "grep -rn --include='*.v' 'Cocartesian' . | grep Monoidal — only Construction/DecoratedCospan/Monoidal.v (monoidal structure on decorated cospans, not on C)",
+   "grep -rnE --include='*.v' 'InternalCoproduct|C ∏ C ⟶ C' . — the only internal bifunctor is InternalProductFunctor (Functor/Product/Internal.v:33)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind pass reached PARTIAL with the same gap. All cited lines verified: Structure/Cocartesian.v:399 coprod_assoc, :393 coprod_comm, :375 coprod_zero_l, :384 coprod_zero_r (all genuine `Isomorphism` instances, so invertibility really is proved), :291 cover_comp, :285 cover_id, :151 cover. Dual-assumed-but-absent check performed and CONFIRMS the gap: the derivation `@Monoidal_op (C^op) (@CC_Monoidal (C^op) H_Coc H_Init) : @Monoidal C` is available in principle (Construction/Opposite/Monoidal.v:92 `Monoidal_op`) but is nowhere written; `Cocartesian_Monoidal|CocartesianMonoidal` — 0 hits reproduced. Cross-check of the record's comparison citations: Structure/Monoidal/Internal/Product.v:54 CC_Monoidal ✓ and :314 CC_SymmetricMonoidal ✓; Structure/Monoidal/Cartesian.v:49 Cartesian_Monoidal ✓; Functor/Product/Internal.v:33 InternalProductFunctor ✓. Two in-prose line refs drift: `Class Monoidal` is at Structure/Monoidal.v:125 (cited 127) and the quoted FinSet header sentence (\"That monoidal assembly, and the [PROP] instance riding on it, need the coherence machinery and are not yet built\") is at Instance/FinSet.v:29-31 (cited 31-33) — the quote text itself is verbatim correct and directly corroborates the gap. Also checked and deliberately NOT counted as counter-evidence: Functor/Coproduct.v's `CoproductFunctor : C ∐ C ⟶ C` is the codiagonal out of the coproduct CATEGORY (its own header disclaims the connection, and it does not use the `@Cocartesian C` hypothesis), and Theory/Lawvere/PROP.v:112/120 apply `Cartesian_Monoidal`/`CC_SymmetricMonoidal` to `law_cat T` (= FinSet^op on the base), which is still cartesian-on-that-category, not a cocartesian monoidal on C."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:def6.19",
+  "classification": "PRESENT",
+  "aliases": [
+   "pushout / fibered coproduct / X +_A Y",
+   "colimit of a span",
+   "IsPushout, HasPushouts, pushout_ump",
+   "pushout square, cobase change, pushout of a morphism along another",
+   "dual: pullback / fibre product"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Pushout.v",
+    "line": 72,
+    "symbol": "pushout_ump",
+    "intree_statement": "Lemma pushout_ump {x y z : C} {f : x ~> y} {g : x ~> z} (P : IsPushout f g) (Q : C) (q1 : y ~> Q) (q2 : z ~> Q) (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2."
+   },
+   {
+    "file": "Structure/Pushout.v",
+    "line": 63,
+    "symbol": "pushout_commutes",
+    "intree_statement": "Lemma pushout_commutes {x y z : C} {f : x ~> y} {g : x ~> z} (P : IsPushout f g) : pushout_in1 P ∘ f ≈ pushout_in2 P ∘ g.  (clause (a), the commuting square = the book's display 6.20)"
+   },
+   {
+    "file": "Structure/Pushout.v",
+    "line": 148,
+    "symbol": "HasPushouts",
+    "intree_statement": "Class HasPushouts (C : Category) : Type := { pushout : forall {x y z : C} (f : x ~> y) (g : x ~> z), IsPushout f g }.  (a chosen pushout for every span, the quantified form of \"C has all pushouts\")"
+   },
+   {
+    "file": "Structure/Pushout.v",
+    "line": 128,
+    "symbol": "pushout_med_eq",
+    "intree_statement": "Lemma pushout_med_eq ... (u v : pushout_apex P ~> Q) : u ∘ pushout_in1 P ≈ q1 -> u ∘ pushout_in2 P ≈ q2 -> v ∘ pushout_in1 P ≈ q1 -> v ∘ pushout_in2 P ≈ q2 -> u ≈ v.  (the usable form of clause (b)'s uniqueness — two mediators agreeing on both legs coincide)"
+   }
+  ],
+  "statement_record": {
+   "book": "For f : A → X and g : A → Y with common domain, the pushout X +_A Y is the colimit of the span: an object with ι_X : X → X +_A Y, ι_Y : Y → X +_A Y such that (a) f ; ι_X = g ; ι_Y and (b) for every T with x : X → T, y : Y → T satisfying f ; x = g ; y there is a unique t with ι_X ; t = x and ι_Y ; t = y. Such a square is a pushout square; ι_X is the pushout of g along f.",
+   "intree": "`IsPushout f g := @Pullback (C^op) y z x f g` with covariant accessors `pushout_apex`, `pushout_in1`, `pushout_in2`, and the two asserted clauses `pushout_commutes : pushout_in1 P ∘ f ≈ pushout_in2 P ∘ g` and `pushout_ump : ∃! u, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2` from any competing cocone with `q1 ∘ f ≈ q2 ∘ g`; plus `pushout_med`/`pushout_med_in1`/`pushout_med_in2`/`pushout_med_unique`/`pushout_med_eq` and the chosen-pushout class `HasPushouts`.",
+   "strength_comparison": "same. The book's alternative reading \"the pushout is the colimit of the span\" is also named in-tree (`Pushout_Limit {C} (F : Span C) := Colimit F`, Structure/Pullback/Limit.v:60) but that is only a definitional alias — the explicit two-way bridge between the colimit form and the UMP form is proved for pullbacks only (`Pullback_to_Universal` / `Pullback_from_Universal`, same file), not restated on the pushout side. The book's naming of ι_X as \"the pushout of g along f\" is used in-tree (Theory/Morphisms/Stability.v:399 `ortho_left_cobase_change`) but not defined as a standalone notion."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT with the same file. All four evidence lines verified verbatim: Structure/Pushout.v:63 pushout_commutes (clause (a)), :72 pushout_ump (clause (b), a genuine ∃! over both leg equations), :128 pushout_med_eq, :148 `Class HasPushouts`. Also present and not cited: pushout_apex/:51, pushout_in1/:55, pushout_in2/:59, pushout_med/:84, pushout_med_in1/in2/unique — the full accessor API, so this is not a definition-without-API case. Verified the record's honest side-note: Structure/Pullback/Limit.v:60 `Definition Pushout_Limit {C} (F : Span C) := Colimit F` exists exactly as quoted, and the two-way UMP↔limit bridge (`Pullback_to_Universal`:68 / `Pullback_from_Universal`:113) is indeed proved on the pullback side only. Theory/Morphisms/Stability.v:399 `ortho_left_cobase_change` verified. All files in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:example6.22",
+  "classification": "ABSENT",
+  "aliases": [
+   "pushout in a preorder is the join",
+   "pushout = coproduct in a thin/posetal category",
+   "colimit of a span in a preorder; B ∨ C",
+   "Proset / Poset / Props pushouts",
+   "dual: pullback in a preorder is the meet"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rnE --include='*.v' 'HasPushouts' . — the only instances in the whole tree are Instance/FinSet/Pushout.v:513 (FinSet_HasPushouts) and Instance/Sets/Pushout.v:185 (Sets_HasPushouts); no thin/posetal category is ever given pushouts",
+   "grep -rnE --include='*.v' 'IsPushout' . — all uses are in Structure/Pushout.v, Theory/Morphisms/Stability.v, Construction/Cospan/{Double,Hypergraph}.v; none concerns preorders",
+   "grep -rnE --include='*.v' 'Proset_(Cocartesian|Cartesian|Initial|Terminal)|Poset_(Cocartesian|Initial)' . — 0 hits",
+   "grep -rniE --include='*.v' 'least upper bound|supremum|\\blub\\b' . — 1 hit, prose only (Instance/Poset.v:51); no join/lub is defined anywhere",
+   "grep -rniE --include='*.v' 'pushout' Instance/Poset.v Instance/Proset.v Instance/Props.v Instance/Two.v — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Reproduced the decisive negative: `HasPushouts` has exactly two instances in the whole tree — Instance/FinSet/Pushout.v:513 and Instance/Sets/Pushout.v:185 — neither a thin/posetal category; and no join/lub notion is defined anywhere. Additionally checked (beyond the record's log) Instance/Roof.v and Instance/Two.v: both merely mention the span/cospan SHAPE for pushouts, with no preorder pushout content. Nothing my search found was missed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:example6.23",
+  "classification": "PARTIAL",
+  "aliases": [
+   "pushout along an isomorphism",
+   "a square with two invertible parallel sides is a pushout square",
+   "isos are stable under pushout / cobase change",
+   "pushout along an identity; unitor of cospan composition",
+   "dual: iso_pullback_stable, pullback along an isomorphism"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Cospan/Double.v",
+    "line": 285,
+    "symbol": "luni_map_in1",
+    "intree_statement": "Lemma luni_map_in1 : luni_map ∘ pushout_in1 PL ≈ id, where `PL : IsPushout (cospan_in2 h) (cospan_in1 (cospan_id b))` (line 275) is the pushout of `cospan_in2 h : b ~> cospan_apex h` along the IDENTITY `id[b]`, and `luni_map := pushout_med PL luni_comm : pushout_apex PL ~> cospan_apex h` (line 282). Together with `luni_map_in2 : luni_map ∘ pushout_in2 PL ≈ cospan_in2 h` (line 288) this gives the leg-compatible comparison map."
+   },
+   {
+    "file": "Construction/Cospan/Double.v",
+    "line": 327,
+    "symbol": "Cospan_dunit_left_from_to",
+    "intree_statement": "Lemma Cospan_dunit_left_from_to : pushout_in1 PL ∘ luni_map ≈ id.  With luni_map_in1 this asserts `pushout_apex PL ≅ cospan_apex h`: the pushout of f along an identity is (canonically isomorphic to) the codomain of f — the degenerate i = id case of Example 6.23. (Mirrored on the right by `runi_map_in1` / `Cospan_dunit_right_from_to`, lines 347 / 389.)"
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 264,
+    "symbol": "iso_pullback_stable",
+    "intree_statement": "Lemma iso_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : IsIsomorphism m) (P : Pullback f m) : IsIsomorphism (pullback_fst f m P).  Instantiated at C^op — where `IsPushout f g := @Pullback (C^op) ...` — this yields the invertibility half of Example 6.23: the pushout of an isomorphism along any morphism is again an isomorphism. It is only ever stated in the pullback direction; no pushout restatement exists."
+   }
+  ],
+  "statement_record": {
+   "book": "For f : A → X and isomorphisms i : A → A', j : X → X', put f' := i⁻¹ ; f ; j. Then the square with sides f, i, j, f' is a pushout square, so X' is a pushout X +_A A'; the mediator out of any competing cocone (x, a) with f ; x = i ; a is forced to be j⁻¹ ; x, which is checked to commute and be unique.",
+   "intree": "No general lemma. The nearest assertions are (i) the identity case inside the cospans double category: `luni_map_in1` + `Cospan_dunit_left_from_to` exhibit `pushout_apex PL ≅ cospan_apex h` for `PL` the CHOSEN pushout of `cospan_in2 h` along `id[b]`; and (ii) the dual invertibility statement `iso_pullback_stable`, which at C^op says a pushout of an isomorphism is an isomorphism.",
+   "strength_comparison": "intree-weaker in three separate ways. (1) Direction of the claim: the book CONSTRUCTS a pushout square out of two isos with no ambient existence hypothesis; both in-tree results instead ASSUME a pushout exists (a `HasPushouts C` context, or a given `Pullback`) and then compare it to something. (2) Generality: the Cospan/Double witnesses cover only i = id, not an arbitrary isomorphism, and only for spans whose legs are cospan legs. (3) `iso_pullback_stable` is a strictly weaker consequence — it concludes that a morphism is invertible, not that a square is universal, and Example 6.23 implies it but not conversely."
+  },
+  "gap": "There is no in-tree lemma of the form \"given f : A → X and isomorphisms i : A → A', j : X → X', the square (f, i, j, i⁻¹;f;j) is a pushout square\" (nor its pullback dual). Searched `iso_pushout|pushout_iso|pushout along|isomorphism.*pushout square` over all *.v — 0 hits. What exists is only the degenerate identity case, derived from an assumed chosen pushout in Construction/Cospan/Double.v's unitor section, plus the dual invertibility lemma `iso_pullback_stable`.",
+  "negative_search_log": [
+   "grep -rniE --include='*.v' 'iso_pushout|pushout_iso|pushout along|isomorphism.*pushout square' . — 0 hits",
+   "grep -rniE --include='*.v' 'along an iso|along the iso' . — 3 hits, all prose (Theory/Isomorphism.v:107, Construction/Opposite.v:96, Monad/Monadicity/Beck.v:113 — the last is transport of a COEQUALIZER along an iso, a different statement)",
+   "grep -rnE --include='*.v' 'IsPushout' . — enumerated all 40 occurrences; none builds a pushout out of isomorphisms"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass landed on ABSENT; I do not overturn, because the two cited witnesses are real and are genuinely a special case of the item, and the record's strength_comparison already enumerates all three weaknesses (assumed-vs-constructed pushout, i = id only, invertibility-vs-universality) rather than papering over them. Verified: Construction/Cospan/Double.v:275 `PL : IsPushout (cospan_in2 h) (cospan_in1 (cospan_id b))` (and `cospan_in1 (cospan_id b)` is indeed the identity — luni_comm at :278 closes by `simpl; cat`), :282 luni_map, :285 luni_map_in1, :288 luni_map_in2, :327 Cospan_dunit_left_from_to, with the right-hand mirror at :347/:389 — together `pushout_apex PL ≅ cospan_apex h`, the i = id case. Checked the duality claim myself: Theory/Morphisms/Stability.v:264 `iso_pullback_stable` instantiated at C^op (where `IsPushout f g := @Pullback (C^op) y z x f g`, Structure/Pushout.v:47) does yield \"the pushout leg opposite an iso leg is an iso\", i.e. the invertibility half of 6.23 — modulo the field swap in `IsIsomorphism` between C and C^op, which is trivial but is a conversion, not an identity. Reproduced 0 hits for `iso_pushout|pushout_iso|pushout along|isomorphism.*pushout square`, and verified the three `along an iso` hits are prose (Theory/Isomorphism.v:107, Construction/Opposite.v:96, Monad/Monadicity/Beck.v:113 — the last is coequalizer transport, a different statement, as the record says)."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:ex6.24",
+  "classification": "ABSENT",
+  "aliases": [
+   "discrete category Disc_S / DiscreteCat A",
+   "pushouts in a discrete category",
+   "initial object of a discrete category (exists iff S is a singleton)",
+   "identity-only category; codiscrete/indiscrete dual",
+   "Structure/Discrete.v Discrete predicate"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -nE '(Program )?(Instance|Definition|Theorem|Lemma|Corollary|Class|Record) ' Instance/Discrete.v — the file contains exactly three items: `DiscreteCat` (line 37), `DiscreteCat_Functor` (52) and `DiscreteCat_Discrete` (65); no Initial, no Terminal, no pushouts",
+   "cat Structure/Discrete.v — the whole file is the single predicate `Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id`; no limit/colimit content",
+   "grep -rnE --include='*.v' 'DiscreteCat.*(Initial|Pushout)|(Initial|Pushout).*DiscreteCat' . — 0 hits",
+   "grep -rnE --include='*.v' 'DiscreteCat' . — all uses are as a diagram shape for indexed (co)products in Structure/Limit/Product.v and Theory/WeaklyInitial.v; none asks about pushouts in it or about its initial object",
+   "grep -rnE --include='*.v' 'HasPushouts' . — only FinSet and Sets instances exist"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT. Verified the file inventory claim exactly: Instance/Discrete.v contains precisely `DiscreteCat` (:37), `DiscreteCat_Functor` (:52) and `DiscreteCat_Discrete` (:65) and nothing else; Structure/Discrete.v is the single predicate at :28. Reproduced: every in-tree use of `DiscreteCat` is as a diagram SHAPE for indexed (co)products (Structure/Limit/Product.v, Theory/WeaklyInitial.v, Adjunction/GAFT.v:249, Adjunction/SAFT.v:146) — none asks about its pushouts or its initial object; and the two `HasPushouts` instances are FinSet and Sets only. Nothing missed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:example6.25",
+  "classification": "PRESENT",
+  "aliases": [
+   "pushout in FinSet / Set as a quotient of the disjoint union",
+   "equivalence relation generated by f(a) ~ g(a); reflexive-symmetric-transitive closure",
+   "connected components of X ⊔ Y",
+   "FinSet_HasPushouts, Sets_HasPushouts, pushout_eq",
+   "union-find labelling / interconnection reading"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 513,
+    "symbol": "FinSet_HasPushouts",
+    "intree_statement": "Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }.  Here `po_apex := fin_countP po_isrep` (line 406) is the NUMBER OF CONNECTED COMPONENTS of the graph on the coproduct `y + z` whose edges are `po_edges := map (fun i => (po_src i, po_dst i)) (all_fin x)` with `po_src i := fin_join (inl (f i))`, `po_dst i := fin_join (inr (g i))` (lines 390-395), and the injections `po_in1 i := po_cls (fin_join (inl i))`, `po_in2 j := po_cls (fin_join (inr j))` (425-427) are the class maps of the coproduct injections. That is exactly the book's \"disjoint union modulo the equivalence generated by f(a) ~ g(a)\" / \"connected components of X ⊔ Y\"."
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 185,
+    "symbol": "Sets_HasPushouts",
+    "intree_statement": "Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; ... |} |}.  The apex carrier is `Datatypes.sum (carrier B) (carrier C)` equipped with `pushout_eq` (line 51), the inductively GENERATED equivalence whose constructors are exactly `po_inl_cong`, `po_inr_cong`, `po_glue : pushout_eq (inl (f a)) (inr (g a))`, `po_sym`, `po_trans` — the literal \"reflexive, symmetric, transitive closure of f(a) ~ g(a) on the disjoint union\"."
+   },
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 498,
+    "symbol": "po_commutes",
+    "intree_statement": "Lemma po_commutes (i : Fin.t x) : po_in1 (f i) = po_in2 (g i).  The glueing clause: each element i of A does identify f(i) in X with g(i) in Y inside the apex."
+   }
+  ],
+  "statement_record": {
+   "book": "FinSet has all pushouts: the pushout of f : A → X and g : A → Y is the set of equivalence classes of X ⊔ Y under the equivalence relation generated by f(a) ~ g(a) for a ∈ A; equivalently the set of connected components of X ⊔ Y with a connection for each a ∈ A.",
+   "intree": "`FinSet_HasPushouts : HasPushouts FinSet` with apex `po_apex = fin_countP po_isrep`, the count of connected components of the graph on `y + z` with one edge `(inl (f i), inr (g i))` per i, computed by a union-find labelling (`components`/`po_lab`), the injections being the class maps of the coproduct injections. Companion: `Sets_HasPushouts : HasPushouts Sets` with the apex the sum-type carrier under the inductively generated equivalence `pushout_eq` (glue constructor `po_glue`, plus symmetry/transitivity/congruences).",
+   "strength_comparison": "same, and on the FinSet side intree-stronger in one respect: the skeletal presentation forces the apex to be a natural number, so the construction actually COMPUTES the number of equivalence classes (the file header, line 26-34, states precisely this: \"What is required here is the connected-components computation ... which this file performs by a union-find labeling\"). The Sets version realizes the book's \"equivalence relation generated by\" clause literally, and is funext-free because the equivalence is carried by the setoid rather than by a quotient type."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT with the same two files. Every structural line verified in Instance/FinSet/Pushout.v: po_src :390, po_dst :392, po_edges :395-396, po_isrep :402, po_apex := fin_countP po_isrep :406, po_cls :420, po_in1 :425 (= po_cls (fin_join (Datatypes.inl i))), po_in2 :427, apex_cover :459, po_commutes :498, FinSet_HasPushouts :513 — all exactly as quoted. Instance/Sets/Pushout.v: `Inductive pushout_eq` at :51 with constructors po_inl_cong / po_inr_cong / po_glue / po_sym / po_trans (reflexivity derived, `pushout_eq_refl`), and `Sets_HasPushouts` at :185 — the literal \"equivalence generated by f(a) ~ g(a) on the disjoint union\". The header quote at lines 26-34 about the union-find connected-components computation is accurate. Both files in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:ex6.26",
+  "classification": "PRESENT",
+  "aliases": [
+   "compute a pushout of finite sets",
+   "connected components of a concrete span 4 → 5, 4 → 3",
+   "FinSet_HasPushouts / po_apex evaluated",
+   "quotient of a disjoint union by generated identifications",
+   "worked pushout example"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 513,
+    "symbol": "FinSet_HasPushouts",
+    "intree_statement": "Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }.  Applied to any concrete span of finite sets (e.g. f : 4 ~> 5, g : 4 ~> 3) this DELIVERS the answer the exercise asks for: `po_apex f g := fin_countP po_isrep` is a closed natural number computed by structural recursion (union-find labelling over `po_edges`), and `po_in1`/`po_in2` are the computable class maps, so the pushout of a concrete span reduces."
+   },
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 459,
+    "symbol": "apex_cover",
+    "intree_statement": "Lemma apex_cover (k : Fin.t po_apex) : (∃ b, k = po_in1 b) ∨ (∃ c, k = po_in2 c).  Every element of the computed apex is the class of an element of X or of Y — the \"check the answer against the connected-components description\" content of the exercise."
+   }
+  ],
+  "statement_record": {
+   "book": "Compute the pushout of a pictured f : 4-element set → 5-element set and g : 4-element set → 3-element set, and check the answer against the connected-components description of Example 6.25.",
+   "intree": "`FinSet_HasPushouts` computes the pushout of an arbitrary span of finite sets: the apex is `fin_countP po_isrep`, the number of connected components of the coproduct graph, and both injections are computable class maps; `apex_cover` certifies that every apex element is the class of an element of one of the two sets.",
+   "strength_comparison": "intree-stronger in generality (an arbitrary span of finite sets, not one pictured span) but intree-weaker in presentation: unlike the coproduct side, which records computing acceptance tests (`fin_split_computes`, `merge_computes`, `merge_computes_inl` in Instance/FinSet.v), Instance/FinSet/Pushout.v records NO worked numeric Example — grep for `Example` in that file returns 0 hits. The mathematical content of the exercise is nevertheless fully covered, since the general construction is definitionally the connected-components recipe the exercise asks the reader to apply."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Matches my blind lean. Verified `apex_cover` at Instance/FinSet/Pushout.v:459 with exactly the quoted statement, and `FinSet_HasPushouts` at :513. Independently reproduced the record's self-disclosed weakness: `grep -nE 'Example|Compute' Instance/FinSet/Pushout.v` returns no `Example` at all (the only `eq_refl` hits are at :147-148 inside `fin_rank`), so unlike the coproduct side there is no worked numeric acceptance test — the record says so explicitly instead of implying one exists, which is why I confirm rather than downgrade. The apex IS a closed computable nat (`fin_countP po_isrep` over a structural union-find fold), so a concrete span does reduce."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:example6.27",
+  "classification": "ABSENT",
+  "aliases": [
+   "pushout over the initial object is the coproduct (X +_0 Y ≅ X + Y)",
+   "coproduct as a pushout of the span X ← 0 → Y",
+   "dual: product as a pullback over the terminal object",
+   "IsPushout of (zero : 0 ~> X) and (zero : 0 ~> Y)",
+   "initial-object span / Cocartesian from HasPushouts + Initial"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE --include='*.v' 'pushout.*(initial|zero object)|coproduct is (a|the) pushout' . — 1 hit, Construction/DecoratedCospan.v:31, and it is prose in a file header ('pushouts and a chosen coproduct/initial structure'), asserting nothing",
+   "grep -rniE --include='*.v' 'pushout' . | grep -i 'initial|coproduct' — the only substantive hits are Construction/Cospan/Bridging.v:34 (a COMMENT noting the cospan tensor 'builds its legs from the binary coproduct [+], i.e. the pushout over the initial object') and Construction/Cospan/Hypergraph.v:489-707 ('the pushout of two covers IS the coproduct of pushouts' — a different statement, about compatibility of the two operations, not about pushouts over 0)",
+   "grep -rnE --include='*.v' 'Pushout.*Coprod|Coprod.*Pushout' . — 2 hits, both the section markers Begin/End of PushoutCoproductCompat in Construction/Cospan/Hypergraph.v",
+   "grep -rnE --include='*.v' 'IsPushout' . — all 40 occurrences reviewed; none instantiates a span whose apex is the initial object",
+   "grep -nE '(Program )?(Instance|Definition|Theorem|Lemma|Corollary|Class|Record) ' Structure/Pushout.v Structure/Cocartesian.v Structure/Initial.v — no result relating the coproduct to a pushout; likewise the dual (product as a pullback over 1) is absent from Structure/Pullback.v"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached ABSENT, and found the decisive corroboration the record does not cite: the DUAL statement (product as a pullback over the terminal object) is present in-tree only as a `jww (2017-06-01): TODO` block quoting Wikipedia at Structure/Pullback.v:254-265, i.e. explicitly unproved — so neither direction of the pushout/coproduct-over-0 correspondence exists. Reproduced all of the record's negatives: the only substantive hits linking pushouts to coproducts are Construction/Cospan/Bridging.v:34 (a comment, \"the pushout over the initial object\", asserting nothing) and Construction/Cospan/Hypergraph.v:489-707 (pushout-of-covers ≅ coproduct-of-pushouts, a different compatibility statement, verified by reading the section). No `IsPushout` occurrence instantiates a span whose apex is the initial object."
+  }
+ }
+]

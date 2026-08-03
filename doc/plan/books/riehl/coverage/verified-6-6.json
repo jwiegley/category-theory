@@ -1,0 +1,326 @@
+[
+  {
+    "id": "riehl:6.5:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "limit as right Kan extension along the unique functor to 1 (Ran_! F)",
+      "colimit as left Kan extension along ! : C -> 1 (Lan_! F)",
+      "Kan_Limit / Kan_Colimit",
+      "Erase J : J ⟶ 1, terminal functor, Instance/One",
+      "constant functor Δ(d) = d ◯ !, cones as natural transformations Δ(d) ◯ ! ⟹ F"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt."
+      }
+    ],
+    "statement_record": {
+      "book": "Lan_! F along ! : C -> 1 defines the colimit of F and Ran_! F defines the limit of F, one existing if and only if the other does; the unit η : F ⟹ Δ(Lan_! F) is the colimit cone, because composing d : 1 -> D with ! is the constant functor at d, so cones under F with nadir d correspond to maps Lan_! F -> d.",
+      "intree": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.",
+      "strength_comparison": "intree-weaker: only the limit/Ran half, only as an isomorphism of apex objects under the assumption that BOTH a Limit and a RightKan already exist (no existence transfer in either direction), and the Kan hypothesis is the GLOBAL RightKan — a right adjoint to (− ◯ Erase J) on all of [J,C], i.e. J-completeness of C — rather than Riehl's local Ran of the single functor F, even though LocalRightKan is defined in Theory/Kan/Extension.v:154."
+    },
+    "gap": "Three distinct shortfalls. (a) The colimit/left-Kan half is entirely absent: `Lan` occurs only in Theory/Kan/Extension.v (rg -n 'Lan ' --glob '*.v'), there is no `Kan_Colimit` anywhere in the tree, and the only file under Structure/Limit/Kan/ is Extension.v containing Kan_Limit alone. (b) The biconditional existence claim ('one exists if and only if the other does') is not proved: Kan_Limit takes both `Limit F` and `RightKan (Erase J)` as hypotheses and produces an iso; neither `Limit F -> RightKan` nor `LocalRightKan F -> Limit F` is stated. (c) The identification of the universal (co)cone with the Kan unit/counit is not stated as such — the theorem compares only the apex objects, the cone being built inside the proof.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the SAME class (PARTIAL) and the same single piece of evidence before opening the coverage file. Confirmed at source: Structure/Limit/Kan/Extension.v:46-47 reads verbatim `Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.` and closes with Qed at :148; the file IS registered in _CoqProject (line 330). Every gap clause independently re-verified: (a) `grep -rnw 'Lan|LocalLan|LeftKan'` over all *.v returns hits ONLY inside Theory/Kan/Extension.v, `ls Structure/Limit/Kan/` shows Extension.v alone, and no Kan_Colimit exists; (b) both `Limit F` and `RightKan (Erase J)` are hypotheses and no existence-transfer lemma in either direction exists; (c) reading the proof confirms the cone is built internally (`given (cone : Cone F)` at :49) and only the apex objects are compared. The strength_comparison's extra observation — that the hypothesis is the GLOBAL RightKan (Theory/Kan/Extension.v:140) rather than the LocalRightKan of :154, i.e. strictly stronger than Riehl needs — is accurate and is the sharpest honest criticism available."
+    }
+  },
+  {
+    "id": "riehl:6.5:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjunctions as Kan extensions; (G, η) is a left Kan extension of 1_C along F",
+      "(F, ε) is a right Kan extension of 1_D along G",
+      "absolute Kan extension / absolute left Kan extension",
+      "F ⊣ G iff Lan_F 1_C exists and is preserved by F (converse direction)",
+      "Ran_G Id, Lan_F Id, Kan extension of the identity functor",
+      "codensity monad of a right adjoint; adjoint functor as Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n \"LocalRightKan|LocalLeftKan|RightKan|LeftKan|LocalRan|LocalLan|ran_transform|lan_transform\" --glob '*.v' — the ONLY hit outside Theory/Kan/Extension.v (where the classes are defined) is Structure/Limit/Kan/Extension.v:46 (Kan_Limit). No Kan extension of an identity functor is ever formed, and no adjunction is ever derived from or identified with a Kan extension.",
+      "rg -n -i 'absolute' --glob '*.v' — 11 hits, all about absolute COLIMITS (Structure/Coequalizer/Split.v 'split coequalizers are absolute', Monad/Monadicity/BeckObjects.v, Construction/Karoubi.v) and unrelated prose (Instance/Coq/Comonad/Store.v 'repositions the store absolutely'). rg -ci 'absolute Kan' / 'absolute left Kan' --glob '*.v' — 0 files.",
+      "rg -n -i 'adjunction.*kan|kan.*adjunction' --glob '*.v' — 2 hits, both comments (Structure/Limit/Kan/Extension.v:132 'the naturality of the Kan adjunction'; Structure/Coend.v:112 'Theory/Kan/Extension.v instead builds through an adjunction'). No assertion.",
+      "rg -n 'Ran Id|Lan Id|Ran_G|Lan_y|is a left Kan|is a right Kan' --glob '*.v' — 0 hits.",
+      "rg -n -i 'kan' Adjunction/ Theory/Adjunction.v Theory/Adjunction/ — hits are exclusively bibliographic prose citing Kan's 1958 'Adjoint Functors' (Theory/Adjunction.v:27,32,47,97; Adjunction/GAFT.v:77,89,90,133). Nothing states Prop 6.5.2 in either direction.",
+      "Theory/Kan/Extension.v itself flags the content as unproven: its header (lines 69-74) says 'a functor has a left adjoint precisely when the right Kan extension of the identity along it exists and is preserved by it' as MOTIVATION, and the one theorem that would supply half of the machinery, `left_adjoints_preserve` (line 386), ends in `Abort.` with three `admit`s, so it is not in the environment. The proved neighbour `left_adjoint_impl` (line 328) is Riehl 4.3.1's hom-level statement [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H) — a tool used in Riehl's proof, not the claim of 6.5.2."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Re-ran the decisive searches: `grep -rn 'LocalRightKan|LocalLeftKan|RightKan|LeftKan|LocalRan|LocalLan|ran_transform|lan_transform|ran_adjoint|lan_adjoint'` over all *.v puts every hit in Theory/Kan/Extension.v except the Kan_Limit proof in Structure/Limit/Kan/Extension.v — no Kan extension of an identity functor is ever formed and no adjunction is ever derived from one. `grep -rn -i absolute` over all *.v yields only split-coequalizer/Karoubi/Store hits, so there is no notion of an ABSOLUTE Kan extension, which part (i) needs. Verified the aborted-proof claim at source: Theory/Kan/Extension.v:386 `Theorem left_adjoints_preserve` ends `Abort.` at :438 with three `admit`s (:433,:434,:437), so nothing enters the environment; `left_adjoint_impl` (:328, Qed at :374) is Riehl 4.3.1's hom-level lemma, a tool in Riehl's proof and not the claim. One imprecision, immaterial to the verdict: the log says the ONLY hit outside Theory/Kan/Extension.v is Structure/Limit/Kan/Extension.v:46 — there are ~9 hits in that file (:46,:50,:64,:70,:86,:92,:93,:142,:146), all inside the Kan_Limit proof."
+    }
+  },
+  {
+    "id": "riehl:6.5:eq3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "F c ≅ lim (c/C -> C -> D), limit over the coslice / under category",
+      "F is a pointwise right Kan extension of itself along the identity (F ≅ Ran_{id} F)",
+      "end formula ∫_x [C(c,x), F x] ≅ F c (Yoneda reduction)",
+      "limit over the comma category (=(c) ↓ Id[C]); Coslice C c",
+      "cones over the coslice diagram = natural transformations C(c,-) ⟹ F"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.  (with C : Category, F : C ⟶ Sets, c : C, and YoE : C^op ∏ C ⟶ Sets defined at line 186 by YoE (x,y) = SetoidMorphism (C(c,x)) (F y); Sets_End_obj YoE is the setoid of wedge-compatible families, i.e. exactly the set of cones over the coslice diagram c/C -> C -> Sets.)"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 182,
+        "symbol": "Covariant_Yoneda_Lemma",
+        "intree_statement": "Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) : ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; ... }  — the Sets consequence Riehl draws from (6.5.3) ('for F : C -> Set the limit formula directly reproves the Yoneda lemma')."
+      }
+    ],
+    "statement_record": {
+      "book": "For F : C -> D, F c ≅ lim (c/C -> C -> D): F is (isomorphic to) the right Kan extension of itself along id_C (Exercise 6.1.i), that extension is automatically pointwise (Def 6.3.5), so the limit formula of Theorem 6.3.7 applies, giving F c as the limit of F composed with the projection out of the coslice under c.",
+      "intree": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c, where Sets_End_obj YoE = { s : ∀ x, [C(c,x), F x] & ∀ x y (f : x ~> y), fmap[F] f (s x k) ≈ s y (f ∘ k) } (Instance/Sets/End.v:59, end_family, instantiated at YoE).",
+      "strength_comparison": "intree-weaker: the codomain is fixed to Sets (Riehl allows any D), the formula is presented as an END rather than as a limit over the coslice c/C (the two carriers coincide element-for-element — a compatible family for YoE is precisely a cone over the coslice diagram — but the coslice-indexed diagram is never formed and no `Limit` instance is produced), and the whole Kan-extension framing (F ≅ Ran_{id} F, pointwiseness, Theorem 6.3.7) is missing."
+    },
+    "gap": "Missing: (i) the statement for a general codomain D with the relevant limits — the in-tree formula exists only for D = Sets, via the concrete funext-free end of Instance/Sets/End.v; (ii) the coslice-indexed diagram itself — `Coslice` exists (Construction/Slice.v:169, with Comma_Coslice at :181) but nothing forms the composite c/C -> C -> D nor asserts F c is its limit (rg -n 'Coslice|coslice' --glob '*.v' finds no limit statement); (iii) the Kan-extension reading — no `Ran` of a functor along `Id` anywhere (see the prop2 negative log), so 'F is a pointwise right Kan extension of itself along the identity' is unstated; (iv) pointwiseness (Riehl Def 6.3.5) is not defined in-tree (rg -i 'pointwise' --glob '*.v' returns only comments).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT; on inspection the classifier's PARTIAL is the better call and I CONFIRM it, because the cited evidence is a genuine special case rather than a neighbouring notion. Verified: Theory/Coend/Yoneda.v:297 is `Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.`; YoE is defined at :186 as (x,y) ↦ SetoidMorphism (C(c,x)) (F y); and I checked by hand that the wedge law instantiated at YoE (see ye_from_family's obligation, :252-261) reduces, after the unit laws, to `fmap[F] f (s x k) ≈ s y (f ∘ k)` — which is EXACTLY the cone condition over the coslice diagram c/C → C → Sets, so the record's element-for-element identification is correct and not hand-waved. Instance/Sets/End.v:59 `end_family` confirmed verbatim. Gap clauses re-verified: `Coslice` is at Construction/Slice.v:169 with `Comma_Coslice` at :181, and nothing forms the composite or asserts a Limit over it; no `Ran` is ever applied to `Id`. Two nits that do not move the verdict: (1) gap clause (iv) says `rg -i 'pointwise'` returns only comments — in fact `pointwise_relation` (stdlib) appears as code at Lib/MapDecide.v:608, though the substantive claim (no pointwise-Kan predicate in-tree) is true; (2) the second evidence item, Covariant_Yoneda_Lemma at Functor/Hom/Yoneda.v:182 (line confirmed), belongs to the prose Riehl attaches to Prop 6.5.4 rather than to (6.5.3) itself — supporting, not misleading."
+    }
+  },
+  {
+    "id": "riehl:6.5:prop4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda lemma as an equalizer formula",
+      "F c = eq( ∏_{f : c -> x} F x ⇉ ∏_{c -> x -> y} F y )",
+      "end as an equalizer of two products; ∫_x [C(c,x), F x]",
+      "limits as equalizers of products (Riehl 3.5.11 / Mac Lane V.2.1)",
+      "wedge / dinaturality condition, Sets_End, end_family"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.  (F : C ⟶ Sets, c : C; YoE (x,y) = [C(c,x), F y].)"
+      },
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 59,
+        "symbol": "end_family",
+        "intree_statement": "Definition end_family : Type := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] ((@id (C^op) x, f) : (x, x) ~{C^op ∏ C}~> (x, y)) (s x) ≈ fmap[F] ((op f, @id C y) : (y, y) ~{C^op ∏ C}~> (x, y)) (s y) }.  — the end carrier is literally the subobject of the product ∀x. F(x,x) cut out by the equality of the two parallel maps, i.e. the equalizer of Riehl's parallel pair."
+      }
+    ],
+    "statement_record": {
+      "book": "For a small diagram F : C -> D valued in a category with products and equalizers, F c is the equalizer of the parallel pair ∏_{x, f : c -> x} F x ⇉ ∏_{c -> x -> y} F y, one map reindexing by the composite c -> x -> y, the other projecting at c -> x and applying F to x -> y; proof by applying Theorem 3.5.11 (limits as equalizers of products) to the formula (6.5.3).",
+      "intree": "yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c, with Sets_End_obj YoE the setoid { s : ∀ x, [C(c,x), F x] & wedge condition } and the wedge condition (end_family, Instance/Sets/End.v:59) being exactly the equality of the two composites Riehl equalizes.",
+      "strength_comparison": "intree-weaker: only D = Sets; the equalizer is realized as a Σ-type subsetoid rather than exhibited as an `Equalizer`/`IsEqualizer` of an explicitly formed parallel pair between two products; and the two products (indexed by hom-sets and by composable pairs) are never constructed as objects."
+    },
+    "gap": "(i) Generality: Riehl states it for any F : C -> D with D having products and equalizers; in-tree only the Sets case exists, through the concrete end construction. (ii) The equalizer diagram is never exhibited: no `Equalizer`, `IsEqualizer` (Structure/Equalizer/Fork.v) or `iprod` (Structure/Limit/Product.v) instance witnesses Sets_End_obj as the equalizer of the two displayed maps; the hom-indexed and composable-pair-indexed products are not formed. (iii) The engine theorem the proof uses, Riehl 3.5.11 'limits are equalizers of products', is NOT in tree — Structure/Complete.v:52 cites it in prose only ('a category with all small products and equalizers of parallel pairs has all small limits ... Mac Lane Theorem V.2.1; Riehl Theorem 3.4.12') and Structure/Complete.v contains only the two Definitions `Complete`/`Cocomplete` (lines 115, 119). (iv) The book's antecedent formula (6.5.3) is itself only PARTIAL in-tree, so the derivation chain is not reproduced.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass hovered between ABSENT and PARTIAL; the record's PARTIAL is honest and I CONFIRM. The load-bearing claim — that Instance/Sets/End.v:59's `end_family` is literally a Σ-type carving the equalizer out of the product ∀x. F(x,x) — is verified verbatim at source, and instantiating it at YoE gives ∀x. [C(c,x), F x] ≅ ∏_{f : c → x} F x, i.e. Riehl's hom-indexed product, with the wedge law as her parallel pair. Crucially I re-checked the strongest claim in the gap, that Riehl 3.5.11 is NOT in tree: `grep -n '^(Definition|Theorem|Lemma|Program|Class|Instance)' Structure/Complete.v` returns EXACTLY two lines, `Complete` at :115 and `Cocomplete` at :119 — the reduction of limits to products+equalizers appears only as header prose at :51-56 (citing Mac Lane V.2.1 and 'Riehl 3.4.12', the first-edition number). `Complete_HasEqualizers` lives in Adjunction/GAFT.v, not here, so the record is right. `IsEqualizer` (Structure/Equalizer/Fork.v:52) and `iprod` (Structure/Limit/Product.v) both exist and are indeed never connected to the end."
+    }
+  },
+  {
+    "id": "riehl:6.5:eq5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "F c ≅ colim (C/c -> C -> D), colimit over the slice / over category",
+      "F is a pointwise left Kan extension of itself along the identity (F ≅ Lan_{id} F)",
+      "coend formula ∫^x C(x,c) × F x ≅ F c (co-Yoneda / ninja Yoneda reduction)",
+      "Slice C c, comma (Id[C] ↓ =(c))",
+      "density formula, colimit over the category of elements"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 174,
+        "symbol": "coyoneda_reduction",
+        "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.  (F : C ⟶ Sets, c : C; YoI : C^op ∏ C ⟶ Sets at line 77 sends (x,y) to the product setoid (x ~{C}~> c) * F y, so coend_obj (SetsCoend YoI) = ∫^x C(x,c) × F x.)"
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 75,
+        "symbol": "coend_eq",
+        "intree_statement": "Inductive coend_eq : coend_sum -> coend_sum -> Type := | ce_point : ∀ (x : C) (a b : F (x,x)), a ≈ b -> coend_eq (ci x a) (ci x b) | ce_glue : ∀ (x y : C) (f : x ~{C}~> y) (a : F (y,x)), coend_eq (ci x (bimap[F] (op f) id a)) (ci y (bimap[F] id f a)) | ce_sym ... | ce_trans ...  — instantiated at YoI, coend_sum is the coproduct ∐_{g : x ~> c} F x and ce_glue identifies (x, g ∘ f, a) with (y, g, fmap[F] f a), which is exactly the slice-category reindexing that Riehl's colimit over C/c quotients by."
+      }
+    ],
+    "statement_record": {
+      "book": "Dual to (6.5.3): any F : C -> D is a pointwise LEFT Kan extension of itself along id_C, so Theorem 6.3.7's colimit formula gives F c ≅ colim (C/c -> C -> D), the colimit of F composed with the projection out of the slice over c.",
+      "intree": "coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c, where SetsCoend YoI is the coproduct ∐_x (C(x,c) × F x) modulo the congruence generated by ce_glue.",
+      "strength_comparison": "intree-weaker: only D = Sets; the formula is presented as a COEND (a concrete setoid quotient) rather than as a colimit over the slice C/c — the carriers coincide element-for-element, but the slice-indexed diagram is never formed and no `Colimit` instance is produced; the Lan-along-identity framing and pointwiseness are absent."
+    },
+    "gap": "Missing: (i) general codomain D with the required colimits (only Sets, via the concrete funext-free coend); (ii) the slice-indexed diagram C/c -> C -> D and the assertion that F c is its colimit — `Slice` exists (Construction/Slice.v) but no colimit over it is ever formed; (iii) 'F is a pointwise left Kan extension of itself along id' — `Lan` is used only inside Theory/Kan/Extension.v and never applied to Id (see the prop2 negative log), and pointwiseness is not defined in-tree; (iv) the large-C case of Riehl's footnote 9 (colimit of a large diagram) is not addressed.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same evidence. Verified: Theory/Coend/Yoneda.v:174 `Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.`, with YoI at :77 sending (x,y) to the product setoid (x ~{C}~> c) * F y, so the left side is genuinely ∫^x C(x,c) × F x. Instance/Sets/Coend.v:75 is `Inductive coend_eq` exactly as quoted (coend_sum at :69). I checked the record's key unfolding by hand: at YoI, `bimap[YoI] (op f) id (g,u) = (g ∘ f, u)` and `bimap[YoI] id f (g,u) = (g, fmap[F] f u)`, so ce_glue does identify (x, g∘f, u) with (y, g, fmap f u) — precisely the slice-category reindexing, as claimed. Gap clauses hold: Slice exists (Construction/Slice.v:123) with no colimit ever formed over it, `Lan` never leaves its defining file, and there is no pointwiseness predicate."
+    }
+  },
+  {
+    "id": "riehl:6.5:prop6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coYoneda lemma as a coequalizer formula",
+      "F c = coeq( ∐_{y -> x -> c} F y ⇉ ∐_{x -> c} F x )",
+      "coend as a coequalizer of two coproducts; ∫^x C(x,c) × F x",
+      "ninja co-Yoneda / density formula",
+      "colimits as coequalizers of coproducts (dual of Riehl 3.5.11)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 174,
+        "symbol": "coyoneda_reduction",
+        "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.  (YoI (x,y) = (x ~{C}~> c) * F y, so the left side is ∫^x C(x,c) × F x.)"
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Definition SetsCoend : Coend F. (built as @Build_Coend C Sets F coend_apex_setoid coend_inj_mor coend_apex_cowedge _, where coend_apex_setoid (line 93) carries coend_sum = ∐_{x : C} F(x,x) (line 69) under the congruence coend_eq generated by ce_glue — i.e. the coequalizer presentation of the coend, with the universal property proved.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a small diagram F : C -> D valued in a category with coproducts and coequalizers, F c is the coequalizer of the parallel pair ∐_{y -> x -> c} F y ⇉ ∐_{x -> c} F x, one map reindexing a composable pair by its composite y -> c, the other applying F to y -> x and landing in the component x -> c; proof by applying Theorem 3.5.11 to (6.5.5).",
+      "intree": "coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c, with SetsCoend YoI the coproduct ∐_{g : x ~> c} F x modulo the congruence whose generating relation ce_glue identifies (x, g ∘ f, a) with (y, g, fmap[F] f a) — precisely Riehl's two maps.",
+      "strength_comparison": "intree-weaker: only D = Sets; the coequalizer is realized as an inductive setoid quotient rather than exhibited as a `Coequalizer`/`IsCoequalizer` of an explicitly formed parallel pair between two coproducts; the two coproducts are never constructed as objects."
+    },
+    "gap": "(i) Generality: Riehl's statement is for any D with coproducts and coequalizers; in-tree only D = Sets. (ii) The coequalizer diagram is never exhibited — Structure/Coequalizer.v's `IsCoequalizer` and Structure/Cocartesian.v's coproducts are in tree but nothing connects them to the coend, so the parallel pair and its two coproducts are not formed. (iii) The dual of Riehl 3.5.11 ('colimits are coequalizers of coproducts') is not proved in-tree — Structure/Complete.v cites the limit form in prose only and defines nothing beyond `Complete`/`Cocomplete`. (iv) The antecedent formula (6.5.5) is itself only PARTIAL in-tree.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same evidence. Verified Theory/Coend/Yoneda.v:174 and Instance/Sets/Coend.v:163 `Definition SetsCoend : Coend F.` built by `@Build_Coend C Sets F coend_apex_setoid coend_inj_mor coend_apex_cowedge _` with the mediator's uniqueness discharged, so the universal property really is proved. The coequalizer-presentation reading is fair: coend_apex_setoid (:93) carries coend_sum = ∐_x F(x,x) under the ce_glue-generated congruence. Gap clauses re-verified independently: `IsCoequalizer` is a real record at Structure/Coequalizer.v:52 and is never connected to the coend; Structure/Complete.v contains only `Complete`/`Cocomplete` so the dual of Riehl 3.5.11 is genuinely absent. All cited files are in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:6.5:thm7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "density theorem; every presheaf is a canonical colimit of representables",
+      "co-Yoneda / ninja Yoneda / density formula F ≅ ∫^x F x · y(x)",
+      "colimit over the category of elements ∫F (el F), Grothendieck construction on a Sets-valued functor",
+      "F = colim( (∫F)^op -> C^op -> Set^C ) and the dual for presheaves",
+      "canonical diagram of representables over a presheaf"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 174,
+        "symbol": "coyoneda_reduction",
+        "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.  (F : C ⟶ Sets, YoI (x,y) = (x ~{C}~> c) * F y; instantiating C := D^op turns this into the presheaf form F c ≅ ∫^x F x × D(c,x), the density formula.)"
+      },
+      {
+        "file": "Instance/Sets/Coend.v",
+        "line": 163,
+        "symbol": "SetsCoend",
+        "intree_statement": "Definition SetsCoend : Coend F. — the coend that realizes the density formula is the coproduct ∐_x F(x,x) modulo the dinaturality congruence, with its universal property proved (coend_apex_cowedge, coend_mediator, uniqueness), so the colimit-of-representables presentation exists objectwise and axiom-free."
+      }
+    ],
+    "statement_record": {
+      "book": "For any locally small C, every F : C -> Set is the colimit of the diagram (∫F)^op -> C^op -> Set^C given by the projection out of the opposite category of elements followed by the covariant Yoneda embedding; dually every F : C^op -> Set is the colimit of ∫F -> C -> Set^{C^op}. The diagram takes values in the representable functors.",
+      "intree": "coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c, for each fixed object c, with YoI (x,y) = C(x,c) × F y.",
+      "strength_comparison": "intree-weaker: this is the OBJECTWISE (pointwise) coend form of the density theorem, for a fixed c. It is not stated as a colimit in the functor category [C, Sets], is not shown natural in c, and its indexing is by the coend's own quotient rather than by the category of elements."
+    },
+    "gap": "Four precise shortfalls. (i) No category of elements: rg -n 'Elements|category of elements' --glob '*.v' finds only Construction/Grothendieck.v:108, a header COMMENT ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); no `Elements F` construction, projection, or diagram exists. (ii) The diagram (∫F)^op -> C^op -> Set^C of representables is never formed, and no `Colimit` instance in the functor category is produced — the statement 'F is a colimit of representables' is nowhere asserted (rg -i 'colimit of representab|canonical colimit|density' --glob '*.v' — 0 mathematical hits; the only 'density' hits are the word 'codensity' in Theory/Kan/Extension.v's header). (iii) Naturality in c of coyoneda_reduction is not proved, so no iso in [C, Sets] follows (contrast Construction/Day.v, which does prove pointwise-plus-naturality isos such as lu_iso, showing the machinery exists but is not applied here). (iv) Riehl's footnote handling of a non-small C via Theorem 6.3.7 and the large-diagram colimit (6.5.5) has no counterpart.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT (no category of elements, no colimit of representables); after checking the evidence I CONFIRM PARTIAL, because the tree contains and NAMES the coend form of exactly this theorem: Structure/Coend.v:102-104 says 'Its basic reduction is the co-Yoneda, or \"ninja Yoneda\", lemma — every functor is a coend of representables, ∫^{c'} C(c', c) · F c' ≅ F c — proven in Sets in Theory/Coend/Yoneda.v', and that proof (coyoneda_reduction, :174) is real and axiom-free. I also checked the record's re-indexing claim: taking C := D^op turns YoI(x,y) into D(c,x) × F y, giving the presheaf form F c ≅ ∫^x F x × D(c,x) — correct. The four gap clauses all hold on my own searches: no `Elements`/category-of-elements construction exists (Construction/Grothendieck.v:108 is header prose only, 'recovers the category of elements el(F)'); no colimit-of-representables statement anywhere; the Section in Theory/Coend/Yoneda.v fixes `c` (:71) so naturality in c is genuinely unproved; and there is no large-C treatment. This is the most aggressive of the six PARTIALs, but the strength_comparison discloses the objectwise/no-naturality/no-elements weakening explicitly, so it is honest."
+    }
+  },
+  {
+    "id": "riehl:6.5:def-dense-subcategory",
+    "classification": "ABSENT",
+    "aliases": [
+      "dense subcategory",
+      "dense functor / densely generating subcategory",
+      "adequate subcategory (Isbell's original term)",
+      "colimit-dense subcategory; every object is a colimit of a diagram in the subcategory",
+      "codense subcategory (dual), dense generator",
+      "representables form a dense subcategory of Set^{C^op}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -iE 'dense|density' . — 7 hits, ALL in Theory/Kan/Extension.v (lines 35, 39, 83, 85, 103, 105, 108) and all occurrences of the word 'codensity' in that file's bibliographic header (codensity monad, Leinster's ultrafilter paper, Kmett's Codensity type). Not one hit is the notion 'dense subcategory', and none is an assertion.",
+      "rg -ci --glob '*.v' 'dense' / 'density' / 'Dense' / 'codense' — 1 file each (Theory/Kan/Extension.v, as above); 'colimit of representables' — 0 files; 'canonical colimit' — 0 files; 'adequate subcategory' — 0 files; 'small projective' — 0 files.",
+      "rg -n -i 'Isbell|adequate' --glob '*.v' — 2 hits, neither relevant: Structure/Topos.v:53 ('spaces adequate for sheaf cohomology') and Instance/Cat.v:104 ('J. R. Isbell's review').",
+      "Construction/Subcategory.v exists (full/wide subcategories, used by Construction/Reflective.v, Theory/Sheaf/Category.v) but carries no density predicate; rg -n -i 'generator|cogenerator' --glob '*.v' | grep -i 'dense\\|adequate' — 0 hits, so the `Cogenerator` of Adjunction/SAFT.v is not a dense-generator surrogate.",
+      "Also searched for the concept the definition is made precise by (see riehl:6.5:thm8): 'Lan y', 'Lan_y', 'along the Yoneda' — 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My own `grep -rn -i 'dense' --include='*.v'` over the whole tree returns exactly ONE hit — Theory/Kan/Extension.v:85, the word 'codense' inside the bibliographic header — and adding 'density' brings in only the six 'codensity' occurrences the record lists. No `Dense` predicate, no dense generator, no 'adequate subcategory'. Spot-checked the two Isbell/adequate red herrings and both are as logged: Structure/Topos.v:53 'spaces adequate for sheaf cohomology' and Instance/Cat.v:104 'J. R. Isbell's review'. Construction/Subcategory.v does exist but carries no density predicate. One cosmetic slip: the log calls all 7 hits occurrences of 'codensity', but :85 is 'codense'; immaterial."
+    }
+  },
+  {
+    "id": "riehl:6.5:thm8",
+    "classification": "ABSENT",
+    "aliases": [
+      "the Yoneda embedding is dense; id_{Set^{C^op}} = Lan_y y",
+      "left Kan extension of the Yoneda embedding along itself",
+      "Lan_y y ≅ Id with identity 2-cell",
+      "density comonad / density monad of the Yoneda embedding",
+      "comma category y/F ≅ category of elements ∫F (Riehl Lemma 2.4.7)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Lan ' --glob '*.v' — every hit is inside Theory/Kan/Extension.v (the class field `Lan`, `LocalLan`, the Arguments lines, and the Aborted `left_adjoints_preserve`). `Lan` is never applied to any concrete functor anywhere in the tree, in particular never to a Yoneda embedding.",
+      "rg -ci --glob '*.v' 'Lan y' / 'Lan_y' / 'along the Yoneda' / 'along Yoneda' — 0 files. The only textual mention of Kan extension along Yoneda is Theory/Kan/Extension.v:90-92, a header COMMENT about geometric realization and the nerve.",
+      "rg -n 'Yoneda_Embedding|Yoneda_Lemma|Covariant_Yoneda|Curried_CoHom' --glob '*.v' — the Yoneda embedding FUNCTOR does exist (Functor/Hom.v:146, `Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets]`, notation [Hom ─,A]) and its full-faithfulness is proved (Functor/Hom/Yoneda.v:231, `Yoneda_Embedding : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B`), but no Kan extension along it, and no statement that the identity of the presheaf category is such an extension.",
+      "rg -n -i 'dense|density' --glob '*.v' — as logged for riehl:6.5:def-dense-subcategory, only 'codensity' in a bibliographic header.",
+      "rg -n 'Elements|category of elements' --glob '*.v' — the comma-vs-elements identification (Riehl Lemma 2.4.7) that the proof needs is absent; Construction/Grothendieck.v:108 mentions el(F) only in prose, and Construction/Comma.v provides no y/F ≅ ∫F comparison."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Re-verified the two halves of the log. The Yoneda embedding really does exist — Functor/Hom.v:146 `Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.` with the notation [Hom ─,A] at :149, and full-faithfulness at Functor/Hom/Yoneda.v:231 `Yoneda_Embedding : ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B` — so the ingredients are present, but `Lan` is never applied to it or to anything else (grep -rnw over all *.v puts every `Lan` hit inside Theory/Kan/Extension.v). No identity-is-a-Kan-extension statement, no density comonad, and no comma-vs-elements comparison y/F ≅ ∫F (Riehl 2.4.7) anywhere in Construction/Comma.v."
+    }
+  },
+  {
+    "id": "riehl:6.5:prop9",
+    "classification": "ABSENT",
+    "aliases": [
+      "nerve and realization adjunction; Lan_y F ⊣ R with R e := E(F−, e)",
+      "left Kan extension along the Yoneda embedding is a left adjoint",
+      "restricted Yoneda functor / singular functor as right adjoint",
+      "every adjunction out of a presheaf category into a locally small cocomplete category arises as Lan_y of its restriction",
+      "free cocompletion universal property of Set^{C^op}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ci --glob '*.v' 'nerve' / 'Lan_y' / 'Lan y' / 'singular functor' — 0 files each. rg -n -i 'nerve|realization|restricted yoneda' --glob '*.v' — the only Kan-relevant hits are COMMENTS: Theory/Kan/Extension.v:36 (nLab 'nerve+and+realization' URL) and :90-93 (prose on geometric realization as Lan along Yoneda). Structure/Coend.v:113 likewise mentions geometric realization as a coend, in prose.",
+      "rg -n 'Lan ' --glob '*.v' — `Lan` never leaves Theory/Kan/Extension.v, so no adjunction is ever built from a left Kan extension.",
+      "rg -n -i 'cocompletion|free cocomplete|presheaf category' --glob '*.v' — Construction/Day.v:110-111 and Theory/Sheaf.v:117 mention 'free (monoidal) cocompletion' in headers only; no universal property of the presheaf category is stated. Theory/Sheaf.v:127 defines `Presheaves {U C} := [U^op, C]` (a notation-level definition, not an assertion).",
+      "rg -n '^(Theorem|Lemma|Definition|Program Definition|Corollary)' Theory/Profunctor/Adjunction.v — the nearest in-tree adjunction-characterization is `representable_adjunction` ((F ⊣ U) ↔ (Repr_left F ≅ Repr_right U)), which is about profunctor representability, not about left adjoints defined on a presheaf category.",
+      "Adjunction/GAFT.v and Adjunction/SAFT.v construct left adjoints from solution sets / cogenerators, never from Lan along Yoneda; Construction/Reflective.v and Construction/Localization.v likewise. rg -n -i 'kan' Adjunction/ — only bibliographic citations of Kan 1958.",
+      "The converse half (every such adjunction arises this way) needs Riehl Lemma 6.3.2 ('a left adjoint preserves the left Kan extension'); the in-tree attempt at that statement, `left_adjoints_preserve` (Theory/Kan/Extension.v:386), ends in `Abort.` with three `admit`s and is therefore not in the environment."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Re-verified each leg: `grep -rn -i 'nerve|realization|restricted yoneda|cocompletion'` over all *.v yields only header prose (Theory/Kan/Extension.v:36 nLab URL and :90-93 on geometric realization; Construction/Day.v:111 and Theory/Sheaf.v:117 'free (monoidal) cocompletion'; Instance/Fun.v:63) — no universal property of a presheaf category is stated. `Presheaves` at Theory/Sheaf.v:127 is a bare abbreviation. The nearest in-tree adjunction-characterization is real but off-target: Theory/Profunctor/Adjunction.v:70 `representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U)`, verified at source, which is about profunctor representability, not left adjoints out of presheaf categories. The converse half's prerequisite, Riehl 6.3.2, is exactly the Aborted `left_adjoints_preserve` (Theory/Kan/Extension.v:386-438), re-confirmed."
+    }
+  }
+]

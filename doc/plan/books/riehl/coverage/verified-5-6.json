@@ -1,0 +1,294 @@
+[
+  {
+    "id": "riehl:5.6:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monadic functor is conservative",
+      "reflects isomorphisms / ReflectsIsos",
+      "U^T : C^T -> C reflects isomorphisms (em_forget_reflects_isos)",
+      "Monadic U -> ReflectsIsos U",
+      "creates_split_reflects_isos (conservativity from Beck creation)",
+      "dual: comonadic functors reflect isomorphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 177,
+        "symbol": "em_forget_reflects_isos",
+        "intree_statement": "Section BeckObjects. Context {D : Category}. Context (T : D ⟶ D). Context `{H : @Monad D T}. ... #[export] Instance em_forget_reflects_isos : ReflectsIsos (EM_Forget T)."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 264,
+        "symbol": "creates_split_reflects_isos",
+        "intree_statement": "Lemma creates_split_reflects_isos {C D : Category} (U : C ⟶ D) (CR : CreatesUSplitCoequalizers U) : ReflectsIsos U."
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 456,
+        "symbol": "equivalence_reflects_isos",
+        "intree_statement": "Context {C D : Category}. Context {F : C ⟶ D}. Context (E : @EquivalenceOfCategories C D F). ... Definition equivalence_reflects_isos : ReflectsIsos F := ff_reflects_isos (HF := Equivalence_Full E) (HfF := Equivalence_Faithful E)."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 5.6.1: a monadic functor U : A -> C reflects isomorphisms (is conservative). Proof: transport along the comparison equivalence to U^T : C^T -> C, and observe that if a T-algebra map f has an inverse of its underlying morphism in C, that inverse satisfies the algebra square and is therefore itself a T-algebra map.",
+      "intree": "em_forget_reflects_isos : ReflectsIsos (EM_Forget T), for every monad T on every base D — proved exactly by Riehl's argument (em_iso_inverse_commutes, BeckObjects.v:143, conjugates the algebra square with the inverse on both sides). Additionally creates_split_reflects_isos : CreatesUSplitCoequalizers U -> ReflectsIsos U for an arbitrary U, and equivalence_reflects_isos : ReflectsIsos F for any equivalence F.",
+      "strength_comparison": "intree-weaker: the book asserts conservativity of an ARBITRARY monadic U; in-tree the conclusion is available only at U = U^T (EM_Forget), for a U satisfying Beck's creation hypothesis, and for equivalences. `Monadic` is defined (Monad/Comparison.v:273, `Monadic U := ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)`) and the identification U^T ◯ K ≈ U is proved (EM_Comparison_Forget, Monad/Comparison.v:198), yet no lemma glues them: ReflectsIsos is nowhere shown stable under composition or transportable along `≈` of functors."
+    },
+    "gap": "No in-tree theorem of the form `Monadic U -> ReflectsIsos U`. The three ingredients Riehl's proof needs all exist separately (em_forget_reflects_isos; equivalence_reflects_isos; EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U at Monad/Comparison.v:198), but the two structural transport lemmas required to assemble them are missing: (a) ReflectsIsos of a composite G ◯ F from ReflectsIsos G and ReflectsIsos F (or from ReflectsIsos of the composite plus fullness/faithfulness of one leg), and (b) transport of ReflectsIsos along a natural isomorphism of functors. Consequently the general lemma is not derivable off the shelf, only its specialization at the Eilenberg-Moore forgetful functor.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"reflects_isos|ReflectsIso|reflect_iso|conservative\" — every ReflectsIsos witness in the tree enumerated: Beck.v:264/304, BeckObjects.v:177, Equivalence/Limit.v:335/456; the remaining hits are Context hypotheses (Monad/Lifting.v:497, Theory/Lawvere/Monad.v:89) or the unrelated ColouredPROP `c_conservative` (linear-wire signatures)",
+      "rg -n --glob '*.v' \"Monadic|EM_Comparison\" — `Monadic` occurs only at Monad/Comparison.v:273 (definition) and Monad/Lifting.v:526/529 (adjoint lifting); never as the hypothesis of a conservativity statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL independently. My own searches (rg -w ReflectsIsos; rg -w Monadic; rg -i 'conservative') enumerated exactly the same witness set: Structure/Limit/Preservation.v:243 (class), Monad/Monadicity/BeckObjects.v:177 (em_forget_reflects_isos), Monad/Monadicity/Beck.v:264/304, Theory/Equivalence/Limit.v:335/456; the rest are Context hypotheses (Monad/Lifting.v:497, Theory/Lawvere/Monad.v:89). Cited lines verified verbatim: BeckObjects.v:177 is exactly '#[export] Instance em_forget_reflects_isos : ReflectsIsos (EM_Forget T)'; Beck.v:264-265 is the CreatesUSplitCoequalizers -> ReflectsIsos lemma; Equivalence/Limit.v:456 is the equivalence witness; Monad/Comparison.v:198 is 'Theorem EM_Comparison_Forget : EM_Forget ... EM_Comparison ~= U' and :273 is the Monadic definition. All five files are registered in _CoqProject (lines 227/257/268/269/327/441). The gap statement is honest and is independently corroborated by the library's own disclosure at Monad/Monadicity/Beck.v:106-111, which states that transporting the Eilenberg-Moore statement along the comparison equivalence K 'is deliberately left to a later development ... pure plumbing along [EquivalenceOfCategories]' -- i.e. the tree itself records the missing step. MINOR ARTIFACT INACCURACY (does not affect the verdict): the negative_search_log claims 'Monadic occurs only at Monad/Comparison.v:273 and Monad/Lifting.v:526/529'; rg -w Monadic also returns Monad/Monadicity/Examples.v:155 (Identity_Monadic : Monadic Id[C], a witness) and prose at Comparison.v:37, Lifting.v:77, Theory/Equivalence.v:126. None is a conservativity statement, so the conclusion stands."
+    }
+  },
+  {
+    "id": "riehl:5.6:def-conservative",
+    "classification": "PRESENT",
+    "aliases": [
+      "conservative functor",
+      "reflects isomorphisms",
+      "ReflectsIsos class",
+      "isomorphism-reflecting functor",
+      "F f iso implies f iso"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 243,
+        "symbol": "ReflectsIsos",
+        "intree_statement": "Class ReflectsIsos {C D : Category} (F : C ⟶ D) := { reflects_iso {x y : C} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }."
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 335,
+        "symbol": "ff_reflects_isos",
+        "intree_statement": "Context {C D : Category}. Context {F : C ⟶ D}. Context `{HF : @Full C D F}. Context `{HfF : @Faithful C D F}. ... Definition ff_reflects_isos : ReflectsIsos F := @Build_ReflectsIsos C D F (fun x y f I => @Build_IsIsomorphism C x y f (ff_iso_inverse f I) (ff_iso_inverse_right f I) (ff_iso_inverse_left f I))."
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered one-line definition after Lemma 5.6.1: a functor is conservative when it reflects isomorphisms.",
+      "intree": "Class ReflectsIsos {C D : Category} (F : C ⟶ D) := { reflects_iso {x y : C} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }.",
+      "strength_comparison": "same — the in-tree class is literally 'F f invertible implies f invertible', stated with the two-sided-inverse predicate IsIsomorphism of Theory/Isomorphism.v (the setoid rendering: inverse laws up to ≈). The file's own header at Preservation.v:237 names it 'a conservative functor'. The notion is genuinely in force, not merely declared: fully faithful functors are proved conservative (ff_reflects_isos), and it is consumed as a hypothesis by the crude monadicity theorem (Monad/Monadicity/Crude.v:115) and by the adjoint lifting theorem (Monad/Lifting.v:497)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PRESENT with the same primary evidence. Structure/Limit/Preservation.v:243-246 reads verbatim 'Class ReflectsIsos {C D : Category} (F : C ⟶ D) := { reflects_iso {x y : C} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }', which is literally Riehl's one-line definition; the file's own comment at line 237 opens '(* A conservative functor: any morphism whose image under F is invertible is itself invertible' -- the cited line number is exact. ff_reflects_isos at Theory/Equivalence/Limit.v:335 verified. Definition-without-required-API check: NEGATIVE -- the class is genuinely in force, consumed as a hypothesis at Monad/Monadicity/Crude.v:115 and Monad/Lifting.v:497 and Theory/Lawvere/Monad.v:89, inhabited at BeckObjects.v:177, Beck.v:304, Equivalence/Limit.v:335/456. Both cited files are in _CoqProject (327, 441)."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor2",
+    "classification": "ABSENT",
+    "aliases": [
+      "continuous bijection of compact Hausdorff spaces is a homeomorphism",
+      "cHaus / CompHaus / compact Hausdorff spaces",
+      "Top (category of topological spaces)",
+      "ultrafilter monad algebras",
+      "U : cHaus -> Set is monadic (Manes)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"compact hausdorff|cHaus|Stone|ultrafilter|beta compactification|Stone-Cech\" — 0 assertions; the only hits are bibliographic prose in file headers (Theory/Monad.v:65 'the algebras of the ultrafilter monad are exactly the compact ...', Theory/Kan/Extension.v:39,86, Theory/Equivalence.v:120-122)",
+      "rg -n --glob '*.v' -i \"homeomorph\" — 0 hits anywhere in the tree",
+      "rg -n --glob '*.v' -i \"topolog|continuous map|open set\" — 0 mathematical hits; every match is a citation or an analogy in a header essay (Structure/Pullback.v:103, Structure/Limit.v:50, Structure/Group.v:46, ...)",
+      "ls Instance/ (all .v files enumerated) — Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is no category of topological spaces and no cHaus, so the corollary has no object to be about",
+      "rg -n --glob '*.v' -i \"reflects_isos|conservative\" — the tree's only conservativity witnesses are at EM_Forget, at fully faithful functors, and at equivalences; none over a topological category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT before opening the coverage file. Re-ran the decisive searches: rg -i 'homeomorph' returns ZERO hits tree-wide; rg -i 'ultrafilter|compact hausdorff' returns only bibliographic prose (Theory/Monad.v:65-66 citing Manes, Theory/Kan/Extension.v:39 citing Leinster, Theory/Universal/Arrow.v:40/46, Theory/Equivalence.v) plus the unrelated Structure/Monoidal/CompactClosed.v; rg -i 'topolog' returns only header-essay citations. ls Instance/ confirms the concrete-instance layer is Adj/Adjoints/AST/Cat/CMon/Comp/Cones/Coq/Discrete/Ens/Fact/FinSet/Fun/Lambda/Omega/One/Parallel/Poset/Props/Proset/Rel/Roof/Sets/Shapes/StrictCat/Two/Zero/ZX -- there is no Top and no cHaus, so the corollary has no carrier. Not OUT_OF_SCOPE: a topological-space category is perfectly formalizable in this setting, it simply does not exist yet."
+    }
+  },
+  {
+    "id": "riehl:5.6:remark3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone-Cech compactification beta X",
+      "every compact Hausdorff space is a quotient of beta(UX)",
+      "canonical presentation of an algebra by free algebras (Prop 5.4.2)",
+      "free algebra coequalizer presentation",
+      "cHaus monadic over Set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"Stone|beta compactification|Stone-Cech|compactification\" — no assertion; only header prose (Theory/Universal/Arrow.v:40 mentions 'the Stone-Cech compactification in the 1930s' as history, Theory/Equivalence.v:120-122 as a duality example, Structure/Monoidal.v:58 is the unrelated 'Rosetta Stone' paper)",
+      "rg -n --glob '*.v' -i \"compact hausdorff|cHaus|ultrafilter\" — prose only (see riehl:5.6:cor2 log)",
+      "ls Instance/ — no topological category exists, so the remark's carrier (cHaus and its Stone-Cech left adjoint) is absent outright",
+      "NOTE on the general engine the remark invokes: the categorical half — Riehl's Proposition 5.4.2, that every algebra is canonically presented by free algebras — IS in-tree as canonical_split (Monad/Monadicity/BeckObjects.v:75, the split coequalizer mu_a, T alpha => alpha) with canonical_reflexive at line 99. That is a cross-referenced tool, not this remark's own claim; the remark's content (the Stone-Cech quotient presentation of a compact Hausdorff space, and the resulting proof of Corollary 5.6.2) has no counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. rg -i 'stone|cech|čech|compactification' returns only history prose (Theory/Universal/Arrow.v:40/46, Theory/Equivalence.v). The log's honest NOTE is accurate and I verified both cited constants exist at the stated lines: canonical_split at Monad/Monadicity/BeckObjects.v:75 ('Definition canonical_split {a : D} (α : TAlgebra T a) : SplitCoequalizer (@join D T H a) (fmap[T] (t_alg[α]))') and canonical_reflexive at :99 -- so the cross-referenced engine (Riehl 5.4.2) really is in-tree while this remark's own Stone-Cech-quotient content is not. Correctly kept as ABSENT rather than PARTIAL, since the general presentation lemma is a different (cross-referenced) item."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "bijective homomorphism is an isomorphism",
+      "the inverse of a bijective group homomorphism is a homomorphism",
+      "underlying-set functor of an algebraic category is conservative",
+      "ReflectsIsos (ev1 T) for a Lawvere theory",
+      "CMon_Forget / forgetful functor reflects isos",
+      "bijective_is_iso in Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 177,
+        "symbol": "em_forget_reflects_isos",
+        "intree_statement": "Context {D : Category}. Context (T : D ⟶ D). Context `{H : @Monad D T}. ... #[export] Instance em_forget_reflects_isos : ReflectsIsos (EM_Forget T)."
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 143,
+        "symbol": "em_iso_inverse_commutes",
+        "intree_statement": "Lemma em_iso_inverse_commutes {x y : EilenbergMoore T} (h : x ~{EilenbergMoore T}~> y) (I : IsIsomorphism (t_alg_hom[h])) : @two_sided_inverse D _ _ _ I ∘ t_alg[`2 y] ≈ t_alg[`2 x] ∘ fmap[T] (@two_sided_inverse D _ _ _ I)."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 400,
+        "symbol": "bijective_is_iso",
+        "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h."
+      }
+    ],
+    "statement_record": {
+      "book": "Corollary 5.6.4: any bijective homomorphism in a category of models for an algebraic theory (Definition 5.5.5) is an isomorphism — e.g. the inverse function of a bijective group homomorphism is again a homomorphism. (The following prose adds the contrapositive: Top and Poset are not monadic over Set.)",
+      "intree": "em_forget_reflects_isos : ReflectsIsos (EM_Forget T) — a T-algebra homomorphism whose underlying morphism is invertible is itself invertible — with the substantive step isolated as em_iso_inverse_commutes: the inverse arrow satisfies the algebra square, i.e. the inverse is again a homomorphism. Separately, bijective_is_iso converts 'injective + surjective' into an isomorphism of Sets.",
+      "strength_comparison": "intree-weaker: proved for T-algebras of an arbitrary monad on an arbitrary base, NOT for the library's own notion of 'category of models for an algebraic theory'. Watch the same-name-but-weaker trap: `ReflectsIsos (ev1 T)` DOES appear in Theory/Lawvere/Monad.v:89 and looks like this corollary, but it is a `Context` hypothesis fed INTO Lawvere_crude_monadicity, not a theorem — the library assumes exactly this corollary's content rather than proving it. Also, the book's 'bijective' is bridged to 'underlying isomorphism' only in Sets (bijective_is_iso), and no such bridge exists for the Lawvere model categories."
+    },
+    "gap": "The corollary holds in-tree only in the monad-algebra formulation. Missing: (a) the statement for Lawvere-theory models — `ReflectsIsos (ev1 T)` for `ev1 : Models T Sets ⟶ Sets` (Theory/Lawvere/Sets.v:83) is an assumed Context hypothesis at Theory/Lawvere/Monad.v:89, never discharged (contrast ev1_Faithful at Sets.v:105, which IS proved, under the reachability hypothesis); (b) any concrete algebraic instance — Instance/CMon.v defines the category CMon and CMon_Forget : CMon ⟶ Sets (line 169) but proves nothing about reflection of isomorphisms, and the tree has no Grp, Ring, or Ab (rg -w 'Ring' returns 0 hits); (c) the contrapositive half of the surrounding prose (Top and Poset are not monadic over Set) is unreachable, there being no Top in-tree — Instance/Poset.v exists but is never compared to Sets by a monadicity statement.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"bijective|injective.*surjective\" — the only bijective-implies-iso assertion is Instance/Sets.v:400 (Sets), plus Functor/Hom.v:115 which applies it; nothing for an algebraic category",
+      "rg -n --glob '*.v' -i \"Isomorphism|iso\" Instance/CMon.v — 0 hits; CMon has no conservativity or bijective-homomorphism lemma",
+      "rg -n --glob '*.v' -w \"Ring\" — 0 hits; no category of rings or groups exists as a concrete instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT and the classifier said PARTIAL; on review PARTIAL is the better call under the frozen definition and I do not overturn -- em_forget_reflects_isos IS the corollary's mathematical content in the monad-algebra formulation (a homomorphism whose underlying arrow is invertible is invertible, with the substantive 'the inverse is again a homomorphism' step isolated at BeckObjects.v:143, whose statement I verified verbatim), and the gap field states precisely what is missing. The strength_comparison's same-name-weaker warning is CORRECT and I confirmed it independently: Theory/Lawvere/Monad.v:89 is 'Context (refl : ReflectsIsos (ev1 T))' -- an ASSUMED hypothesis feeding Lawvere_crude_monadicity at :91, never discharged; contrast ev1_Faithful at Theory/Lawvere/Sets.v:105, which is a real Theorem. Negative claims re-verified by me: rg -w 'Ring' returns ZERO hits tree-wide; Instance/CMon.v contains only cmon_* / CMon / CMon_Forget (line 169) and no isomorphism or conservativity lemma; Instance/Sets.v:400 bijective_is_iso confirmed verbatim (and Defined, so it computes). Both evidence files are in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:5.6:thm5",
+    "classification": "ABSENT",
+    "aliases": [
+      "monadic functors create limits",
+      "U^T : C^T -> C creates limits",
+      "limits in the Eilenberg-Moore category / limits of algebras computed on underlying objects",
+      "algebras for a monad on a complete category are complete",
+      "CreatesLimits / CreatesColimits class",
+      "monadic functor creates colimits preserved by T and T^2"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' \"Creates\" — the ONLY creation class in the tree is CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164), used at Beck.v:188/265/296 and discharged at Beck.v:911 (monadic_creates, at EM_Forget). It creates coequalizers of U-split pairs, never limits or general colimits",
+      "rg -n --glob '*.v' -i \"creates.?limit|CreatesLimit|create_limit\" — 3 hits, all `equivalence_creates_limits` (Theory/Equivalence/Limit.v:58 header, :486 definition, :584 the colimit dual). That is Riehl's Lemma 3.4.6 — the TOOL Theorem 5.6.5's proof reduces along — not the theorem itself",
+      "rg -n --glob '*.v' -i \"creat\" -l — 17 files; the only creation-of-limits developments are Theory/Equivalence/Limit.v (equivalences create limits and colimits) and Construction/Comma/Limit.v (comma_proj2 : =(d) ↓ U ⟶ C creates limits, header line 33). Neither is a statement about a monadic or algebra-forgetful functor",
+      "rg -n --glob '*.v' -i \"limit\" Monad/ Comonad/ — every hit is a Require line or header prose (Monad/Lifting.v:22, Beck.v:21/54-57, BeckObjects.v:15, Crude.v:20/44-47). There is no Cone, Limit, Colimit, or product construction anywhere in the monad or comonad tree",
+      "rg -n --glob '*.v' '^(Definition|Lemma|Theorem|Class|Record|Instance|Program)' Monad/Eilenberg/Moore.v Monad/Eilenberg/Moore/Adjunction.v — the full inventory of the Eilenberg-Moore development is EilenbergMoore, EM_Forget, EM_Free, EM_extend/EM_restrict, EM_adj_iso, EM_Adjunction, EM_unit/counit/join_agrees, EM_Monad_agrees. No limit or cone structure at all",
+      "rg -n --glob '*.v' -i \"algebra.*limit|limit.*algebra\" — only initial-algebra / Adamek prose (Structure/Limit.v:112, Theory/Adamek.v:24, Construction/Chain.v:21, Structure/Initial.v:60), which is the colimit-side fixpoint story, not creation of limits by a monadic functor",
+      "rg -n --glob '*.v' -i \"lift.*limit|limit.*lift\" — only Beck.v:54-57 prose about lifting COLIMITING COCONES in the definition of CreatesUSplitCoequalizers",
+      "NOTE: Structure/Complete.v:57-59 asserts in PROSE that 'monadic functors create limits, so algebras for a monad on a complete category are again complete', citing nLab. It is an unformalized background claim in a header essay with no corresponding in-tree constant — the classic comment-not-assertion trap"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and every decisive negative re-verified. rg -i 'creates' tree-wide yields exactly two creation developments: CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164, discharged at :911 as monadic_creates for EM_Forget -- coequalizers of U-split pairs ONLY), and equivalence_creates_limits/colimits (Theory/Equivalence/Limit.v:486/582), which is Riehl's Lemma 3.4.6, the TOOL this theorem's proof reduces along, not the theorem. rg -i 'limit' over Monad/ and Comonad/ returns only Require lines and header prose (Beck.v:54-57, Crude.v:44-47) -- there is no Cone/Limit/Colimit construction anywhere in the monad tree, and the full Eilenberg-Moore inventory (Monad/Eilenberg/Moore.v has exactly one top-level Program Definition, EilenbergMoore at line 44) contains no limit structure. On the log's final NOTE about Structure/Complete.v:57-59: I read the passage and it is a nLab-cited BACKGROUND-ESSAY claim about mathematics in general ('presheaf categories inherit ... and monadic functors create limits, so algebras for a monad on a complete category are again complete (nLab, \"complete category\")'), NOT an assertion that the library contains it. It is therefore not a library defect and should not be filed as one, though the classifier is right that no in-tree constant corresponds."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor6",
+    "classification": "ABSENT",
+    "aliases": [
+      "reflective subcategory inclusion creates limits",
+      "a reflective subcategory of a complete category is complete",
+      "limits in a reflective subcategory are computed in the ambient category",
+      "reflective subcategory inclusions are monadic (Prop 5.3.3) + creation of limits",
+      "localization / orthogonal subcategory creates limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"limit|complete\" Construction/Reflective.v Construction/Reflective/Idempotent.v Construction/Subcategory.v — 0 hits. The whole reflective-subcategory development is limit-free",
+      "rg -n --glob '*.v' -i \"limit|complete\" Construction/Localization.v Construction/Localization/Universal.v — 0 hits",
+      "rg -n --glob '*.v' -i \"reflective.*complete|complete.*reflective\" — 0 hits",
+      "rg -n --glob '*.v' -i \"closed under limits|inherits limits|limits in the subcategory|subcategory.*limit|limit.*subcategory\" — 0 hits",
+      "rg -n --glob '*.v' \"Creates\" and rg -i \"creates.?limit\" — as logged for riehl:5.6:thm5, creation of limits exists only for equivalences and for the comma projection; nothing for a subcategory inclusion",
+      "CONTEXT (present but not this claim): the Reflective record (Construction/Reflective.v:60), reflective_counit_iso (:92), and the reflective <=> idempotent-monad correspondence with the Eilenberg-Moore equivalence (Construction/Reflective/Idempotent.v: Reflective_IdempotentMonad :198, Idempotent_Reflective :345, idem_G :411) all exist — i.e. the tree has the monadicity side of Riehl 5.3.3 in its idempotent-monad form — but nothing whatsoever about limits, so the corollary is unstated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. I re-ran the decisive command myself: rg -i 'limit|complete' over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Subcategory.v, Construction/Localization.v and Construction/Localization/Universal.v returns ZERO hits -- the entire reflective/localization development is limit-free. The log's CONTEXT paragraph is accurate: Reflective at Construction/Reflective.v:60, reflective_counit_iso at :92, Reflective_IdempotentMonad at Idempotent.v:198, Idempotent_Reflective at :345, idem_G at :411 all exist, so the monadicity side of Riehl 5.3.3 is present in idempotent-monad form while the limit conclusion is entirely unstated. Correctly ABSENT rather than PARTIAL: not one clause of 'creates limits / a reflective subcategory of a complete category is complete' appears."
+    }
+  },
+  {
+    "id": "riehl:5.6:cor7",
+    "classification": "ABSENT",
+    "aliases": [
+      "a category monadic over Set is complete",
+      "limits created by the forgetful functor to Set",
+      "Complete Sets / Sets is complete",
+      "algebras over a complete category are complete",
+      "Structure/Complete.v `Complete` instance"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' \"Complete\\b\" Instance/ — exactly ONE hit, Instance/ZX.v:141, a paper title ('A Complete Axiomatisation of ...'). There is NO inhabitant of Structure/Complete.v's `Complete` anywhere in Instance/; in particular Sets is never proved complete, so even the hypothesis of this corollary's proof is unavailable",
+      "rg -n --glob '*.v' -i \"Complete Sets|Sets_Complete|Sets.*Complete\" — only Instance/Sets/Karoubi.v (Sets_IdempotentsSplit, i.e. CAUCHY completeness — idempotents split), an unrelated notion",
+      "rg -n --glob '*.v' \"Complete\\b\" — `Complete` occurs only as a HYPOTHESIS: Adjunction/GAFT.v:242 (comp : @Complete C), Adjunction/SAFT.v:145/184/241/253/275, Construction/Comma/Limit.v (Comma_Complete lifts a given completeness along the comma construction). It is never established for any concrete category",
+      "rg -n --glob '*.v' -i \"monadic over\" — 2 hits, both header prose: Theory/Lawvere/Monad.v:57 ('so [Models T Sets] is monadic over [Sets]', describing a hypothesis-scoped result) and Theory/Lawvere.v:93 (history of Lawvere's theorem). Neither draws a completeness conclusion",
+      "creation-of-limits searches as logged for riehl:5.6:thm5 (rg 'Creates', rg -i 'creates.?limit|CreatesLimit|create_limit', rg -i 'limit' Monad/) — the premise Theorem 5.6.5 supplies is itself absent, so both inputs to this corollary are missing"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Independently verified the strongest claim in the log: rg 'Complete\\b' over Instance/ returns exactly ONE hit, Instance/ZX.v:141, and it is a paper title. Tree-wide, Structure/Complete.v's Complete appears ONLY as a hypothesis (Adjunction/GAFT.v:242, Adjunction/SAFT.v:145/184/241/253/275, Construction/Comma/Limit.v:124/246/273) -- no concrete category is ever proved complete, so even Riehl's Theorem 3.2.4 input (Set is complete) is unavailable, and the Theorem 5.6.5 input is absent per the previous record. The near-miss Instance/Sets/Karoubi.v:101 Sets_IdempotentsSplit is Cauchy completeness (idempotent splitting), a different notion, correctly excluded."
+    }
+  },
+  {
+    "id": "riehl:5.6:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "p-adic integers Z_p",
+      "inverse limit of the tower Z/p^n",
+      "omega^op-indexed limit in Ring",
+      "profinite / projective limit of rings",
+      "underlying-set functor Ring -> Set creates the limit; componentwise ring structure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i \"p-adic|padic\" — 1 hit, Structure/Limit.v:52, inside the file's history essay ('the p-adic integers arise as the inverse limit of the rings Z/p^nZ under remainder maps'). Prose, not an assertion",
+      "rg -n --glob '*.v' -i \"inverse limit|profinite|Z/p|tower\" — all hits are the same Structure/Limit.v:50-68 header paragraph plus unrelated uses of 'tower' (Structure/Monoidal.v:116, the braided/symmetric tower of structures)",
+      "rg -n --glob '*.v' -w \"Ring\" — 0 hits. There is no category of rings; ls Instance/ shows the only concrete algebraic category is Instance/CMon.v (commutative monoids over setoids)",
+      "rg -n --glob '*.v' '^(Definition|Program Definition|Theorem|Lemma)' Instance/Omega.v — Omega (the ordinal omega as a category, line 72) and omega_step exist, and Construction/Chain.v/Instance/Omega.v give Cochain by duality, but no omega^op-indexed limit is ever computed, in Sets or anywhere else",
+      "rg -n --glob '*.v' -i \"Limit|Cone\" Instance/Sets/*.v Instance/FinSet/*.v — the Sets/FinSet instance layer supplies End, Coend, Pushout, Cartesian, Cocartesian, Image, Classifier, Karoubi, Streams; no general limit of a tower and no created-limit example"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. rg -i 'p-adic|padic' returns exactly one hit, Structure/Limit.v:52, inside the file's history essay ('the p-adic integers arise as the inverse limit of the rings Z/pⁿZ under remainder maps') -- prose citing Encyclopedia of Mathematics, not an assertion, and therefore not a library defect. rg -w 'Ring' returns ZERO hits so there is no category of rings to take the tower in. Instance/Omega.v:72 'Program Definition Omega@{o h p} : Category' confirmed to exist, but no ω^op-indexed limit is ever computed anywhere. ABSENT is right."
+    }
+  }
+]

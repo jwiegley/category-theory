@@ -1,0 +1,462 @@
+[
+  {
+    "id": "7sketches:7.2.1:remark-topos-properties",
+    "classification": "PARTIAL",
+    "aliases": [
+      "topos is Set-like: limits, colimits, cartesian closed, epi-mono factorization, subobject classifier",
+      "ElementaryTopos class / topos axioms",
+      "Complete + Cocomplete + Closed + Factorization + SubobjectClassifier",
+      "finitely complete and cocomplete cartesian closed category with Ω",
+      "Lawvere-Tierney axioms for a topos"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Any topos E enjoys five Set-like properties, asserted without proof: (i) it has all limits, (ii) it has all colimits, (iii) it is cartesian closed, (iv) every morphism has an epi-mono factorization, (v) it has a subobject classifier true : 1 → Ω. Since Set is a topos, all five hold for Set.",
+      "intree": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }.",
+      "strength_comparison": "intree-weaker: three of the five clauses are in force, and two are absent. (iii) cartesian closure and (v) the subobject classifier are carried as class fields (with the classification theorem classifier_classifies : SubObj x ≅ (x ~> Ω) and a computable witness FinSet_Topos), so they are present but as AXIOMS of the in-tree class rather than as derived properties — which matches the standard elementary-topos definition and is not a defect. (i) 'all limits' is only partly in force: finite-limit data is carried explicitly as terminal object + binary products + pullbacks, and the file header discloses that the reduction of pullbacks to products and equalizers is deliberately not formalized, so there is no finite-completeness (let alone Complete) theorem for a topos, and no equalizer field. (ii) all colimits and (iv) epi-mono factorization in a topos have NO in-tree counterpart at all: ElementaryTopos has no cocartesian/initial/colimit field, there is no `Complete`/`Cocomplete` instance for any topos, and the only OFS instances are Regular_OFS (regular categories) and Abelian_OFS (abelian categories), neither derived from ElementaryTopos."
+    },
+    "gap": "Two of the five asserted properties are missing for a topos: (a) COLIMITS — ElementaryTopos carries no initial object, coproducts or colimits, and there is no theorem that an elementary topos is (finitely) cocomplete; (b) EPI-MONO FACTORIZATION in a topos — there is no instance `OFS EpiClass MonoClass` derived from ElementaryTopos, nor a `Regular C` instance derived from it (`Structure/Regular.v` has no instances at all in-tree). Additionally (c) the LIMITS clause is only partly in force: the class stipulates terminal + binary products + pullbacks and the header states that no reduction to general finite limits is formalized, so 'has all limits' is not available as a theorem. Clauses (iii) and (v) are fully in force.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and by the same route. Confirmed at the cited locations: Structure/Topos.v:112 Class ElementaryTopos has exactly the five fields quoted (terminal, cartesian, pullbacks, closed, classifier) — no initial/cocartesian/colimit and no factorization field; Structure/SubobjectClassifier.v:187 classifier_classifies is verbatim; Instance/FinSet/Topos.v:38 FinSet_Topos is verbatim. Independent negative checks I ran: `rg ElementaryTopos` over the whole tree returns exactly 7 hits (Structure/Topos.v x3, Construction/Slice.v:114 prose, Instance/FinSet/Topos.v:38) — nothing derives limits, colimits or a factorization FROM ElementaryTopos; Structure/Complete.v:115/119 define Complete/Cocomplete but no instance exists for any topos (`rg Sets_Complete|Cocomplete Sets` = 0 hits); the only OFS instances in the tree are Structure/Abelian.v:441 (Abelian_OFS) and Structure/Regular/Factorization.v:282 (Regular_OFS), and `rg` for a `Regular C` INSTANCE returns none at all (only Structure/Regular.v:66 Class Regular and Structure/Regular/Factorization.v:125 `Context (R : Regular C)`), so the classifier's claim is exact. ADDITIONAL GAP the classifier did not state, worth carrying into the issue: the remark's own corollary 'since Set is a topos, all five hold for Set' is ALSO unavailable in-tree — there is no `ElementaryTopos Sets` instance (`rg 'ElementaryTopos Sets|Sets_Topos'` = 0 hits); Instance/Sets/Classifier.v supplies deliberately cross-universe classifier THEOREMS rather than an instance, so FinSet_Topos is the sole in-tree topos witness. Classification unchanged."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:prop7.3",
+    "classification": "PRESENT",
+    "aliases": [
+      "pasting law for pullbacks",
+      "two-pullback lemma / composition and cancellation of pullback squares",
+      "pullback_paste / pullback_unpaste",
+      "IsPullback outer rectangle iff left square",
+      "pullback pasting (dual: pushout pasting)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 106,
+        "symbol": "pullback_paste",
+        "intree_statement": "Lemma pullback_paste (HQ : IsPullback h m Q q1 q2) (HP : IsPullback k q1 P p1 p2) : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 160,
+        "symbol": "pullback_unpaste",
+        "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 55,
+        "symbol": "IsPullback",
+        "intree_statement": "Record IsPullback {C} {x y z : C} (f : x ~> z) (g : y ~> z) (P : C) (p1 : P ~> x) (p2 : P ~> y) := { is_pullback_commutes : f ∘ p1 ≈ g ∘ p2; is_pullback_ump : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> P, p1 ∘ u ≈ q1 ∧ p2 ∘ u ≈ q2 }."
+      }
+    ],
+    "statement_record": {
+      "book": "Given a commutative diagram of two adjacent squares over composable rows, with the right-hand square a pullback: the left-hand square is a pullback if and only if the outer rectangle is a pullback.",
+      "intree": "pullback_paste : IsPullback h m Q q1 q2 → IsPullback k q1 P p1 p2 → IsPullback (h ∘ k) m P p1 (q2 ∘ p2);  pullback_unpaste : IsPullback h m Q q1 q2 → k ∘ p1 ≈ q1 ∘ p2 → IsPullback (h ∘ k) m P p1 (q2 ∘ p2) → IsPullback k q1 P p1 p2.",
+      "strength_comparison": "same. Both directions of the iff are proved, each with the right-hand square as hypothesis, exactly as stated. The extra hypothesis `Hcomm : k ∘ p1 ≈ q1 ∘ p2` in pullback_unpaste is not a weakening: the book supplies commutativity of BOTH squares as part of 'a commutative diagram', while the in-tree apex-pinned predicate cannot recover the left square's commutation from the outer rectangle alone (the file comment says so explicitly). The in-tree file header also records that an earlier draft transposed the two squares and that the proved statements are the standard pasting law."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same two lemmas before reading the coverage file. Verified verbatim: Theory/Morphisms/Stability.v:106 pullback_paste and :160 pullback_unpaste, both Qed, both in a Section whose context fixes exactly the two-adjacent-squares data (lines 96-102). The strength_comparison's defence of the extra hypothesis Hcomm is corroborated by the in-file comment at lines 155-159 ('The left square's commutativity is data the outer rectangle cannot recover'), and the header at lines 83-94 independently records the transposed-draft erratum the record cites. Minor citation drift only: IsPullback is cited at line 55, the Record actually opens at line 53 (55 is its first field is_pullback_commutes); not material."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.4",
+    "classification": "PRESENT",
+    "aliases": [
+      "prove the pullback pasting law from the definition of limit",
+      "pullback_paste proof",
+      "pullback_unpaste proof",
+      "two-pullback lemma proof via the universal property",
+      "cancellation law for pullbacks"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 106,
+        "symbol": "pullback_paste",
+        "intree_statement": "Lemma pullback_paste (HQ : IsPullback h m Q q1 q2) (HP : IsPullback k q1 P p1 p2) : IsPullback (h ∘ k) m P p1 (q2 ∘ p2). Proof. ... Qed. (proved directly from is_pullback_ump: mediate into the right-hand square, then into the left, and identify the two mediators by uniqueness)"
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 160,
+        "symbol": "pullback_unpaste",
+        "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2. Proof. ... Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 7.4: prove Proposition 7.3 (the pullback pasting law) directly from the definition of limit given in Section 3.4.2.",
+      "intree": "Both directions are proved with Qed, entirely from the universal property `is_pullback_ump` (existence + uniqueness of the mediator) — no appeal to any pre-cooked pasting machinery.",
+      "strength_comparison": "same. The in-tree proofs discharge exactly what the exercise asks: each direction is built by chaining the mediating morphisms supplied by the universal property and identifying them via its uniqueness clause. The in-tree universal property is the apex-pinned pullback UMP rather than the general `Limit` of a cospan diagram (Structure/Pullback/Limit.v reconciles the two), which is a presentational difference only."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same evidence as prop7.3, which my blind pass located first. I checked the claim that the proofs use nothing but the universal property: both proof bodies (lines 110-153 and 165-210) call only is_pullback_ump / is_pullback_commutes, unique_property, uniqueness and the category laws — no pre-cooked pasting machinery, so the exercise's 'prove it directly' is genuinely discharged. I also verified the record's cross-pointer is NOT stale: Structure/Pullback/Limit.v exists, is registered in _CoqProject, and does reconcile the two presentations (Pullback_Limit at line 54, Pullback_to_Universal at 68, Pullback_from_Universal at 113), so the 'apex-pinned UMP vs. general Limit' difference really is presentational."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:def7.5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monomorphism / epimorphism",
+      "Monic / Epic classes",
+      "mono as pullback of f against itself along identities (kernel pair is the diagonal)",
+      "epi as pushout of f against itself along identities (cokernel pair)",
+      "left-cancellable / right-cancellable morphism"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 7.5: f : A → B is a monomorphism when the square with corners A, A, A, B whose two legs out of the apex are id_A and whose two legs into B are f is a PULLBACK; dually, f is an epimorphism when the corresponding square with corners A, B, B, B and legs f, f, id_B, id_B is a PUSHOUT. Informally, monos behave like injections and epis like surjections.",
+      "intree": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }.  Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.",
+      "strength_comparison": "intree-weaker on the presentation, same in extension. The two NOTIONS defined by the item are both in-tree, under the standard cancellation definition (and each is explicitly recorded as the other's C^op dual in the file comments, matching the book's dualization). What is NOT in-tree is the book's actual definiens: the equivalence 'Monic f ↔ IsPullback f f x id id' (and dually 'Epic f ↔ IsPushout f f y id id') is nowhere stated or proved, even though both IsPullback (Theory/Morphisms/Stability.v) and IsPushout (Structure/Pushout.v) exist and the proof is short. The closest in-tree relative, is_pullback_along_id : IsPullback id m y m id, is a DIFFERENT square (identity horizontals, m on both verticals — see ex7.7 part 2) that is a pullback for every m, monic or not."
+    },
+    "gap": "The pullback/pushout characterization that IS Definition 7.5 is absent. Searched `IsPullback f f`, `IsPullback ... id id`, `monic_iff`, `epic_iff`, `kernel_pair` + `Monic`: no lemma relates `Monic f` to the square being a pullback, and no lemma relates `Epic f` to the corresponding pushout. In-tree, `kernel_pair f` (Structure/Regular.v) is the pullback of f along itself but is never shown to be the diagonal exactly when f is monic. Only the cancellation definitions are available.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass independently landed on PARTIAL with the identical gap. Verified Theory/Morphisms.v:104 Epic and :116 Monic quoted verbatim (cancellation form, with the C^op duality recorded in their own comments at lines 102 and 114). Independent negative searches confirming the book's definiens is absent: `rg 'Monic.*IsPullback|IsPullback.*Monic|monic_iff|epic_iff'` returns only Structure/Abelian.v:170 monic_iff_kernel_pzero (an additive zero-morphism test, unrelated) and Instance/FinSet/Classifier.v:335 finset_monic_iff_injective; `rg kernel_pair` shows Structure/Regular.v:46 defines the pullback of f along itself but nothing ever identifies it with the diagonal exactly when f is monic. The record's warning that is_pullback_along_id is a DIFFERENT square is correct: Theory/Subobject/Functor.v:127 states IsPullback id m y m id (identity horizontals, m on both verticals) and holds for every m, monic or not. Classification unchanged."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.6",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphisms in Set are the injections",
+      "injectivity_is_monic",
+      "Monic f ↔ injective f in Sets",
+      "monos in the category of setoids",
+      "finset_monic_iff_injective"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 369,
+        "symbol": "injectivity_is_monic",
+        "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 7.6: show that in Set the monomorphisms are exactly the injective functions — (1) monomorphism ⇒ injective, (2) injective ⇒ monomorphism.",
+      "intree": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.",
+      "strength_comparison": "same. Both directions are proved with Qed; the hard direction (Monic ⇒ injective) probes f with two constant maps out of the singleton setoid `unit_setoid_object`, which is exactly the book's argument with a one-element set. Injectivity is phrased setoid-wise (f x ≈ f y → x ≈ y), the faithful rephrasing for this library's Sets = setoids. A second, decidable witness for skeletal finite sets exists at Instance/FinSet/Classifier.v:335, `finset_monic_iff_injective : (∀ a b : Fin.t m, f a = f b → a = b) ↔ Monic f`. Note the DUAL statement is deliberately not in force: `surjectivity_is_epic` (Instance/Sets.v:431) proves only surjective ⇒ epic and abandons the converse (its file comment records that it never enters the environment) — but the book's exercise here asks only about monos."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Instance/Sets.v:369 injectivity_is_monic first; statement quoted verbatim and the iff is Qed at line 396. I read the proof: the Monic-to-injective direction really does probe with two constant maps out of unit_setoid_object (lines 379-394), as the record says. The second witness is real too: Instance/FinSet/Classifier.v:335 finset_monic_iff_injective : (forall a b : Fin.t m, f a = f b -> a = b) <-> Monic f, Qed. The record's caveat about the dual is verified rather than merely repeated: surjectivity_is_epic (Instance/Sets.v:429) ends in `Abort.` at line 476, so NEITHER direction of the epi characterization enters the environment — see problems[] for the header line that overstates this. The book's exercise asks only about monos, so the caveat does not touch the classification."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.7",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphisms are stable under pullback / base change",
+      "iso_pullback_stable",
+      "the square with identity legs is a pullback",
+      "is_pullback_along_id",
+      "pullback of an iso is an iso; trivial pullback square"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 264,
+        "symbol": "iso_pullback_stable",
+        "intree_statement": "Lemma iso_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : IsIsomorphism m) (P : Pullback f m) : IsIsomorphism (pullback_fst f m P)."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 127,
+        "symbol": "is_pullback_along_id",
+        "intree_statement": "Lemma is_pullback_along_id {x y : C} (m : y ~> x) : IsPullback id m y m id."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 7.7: (1) the pullback of an isomorphism i : B' → B along an arbitrary f : A → B is again an isomorphism (the induced i' : A' → A is iso); (2) for any map f : A → B the square whose two vertical legs are identities and whose two horizontal legs are f is a pullback.",
+      "intree": "(1) iso_pullback_stable : IsIsomorphism m → ∀ (P : Pullback f m), IsIsomorphism (pullback_fst f m P).  (2) is_pullback_along_id {x y} (m : y ~> x) : IsPullback id m y m id — the square with `id` on both horizontals and m on both verticals.",
+      "strength_comparison": "same, both clauses. (1) matches literally: m is the iso being pulled back along an arbitrary f, and pullback_fst is the induced map opposite it; the inverse is built as the mediator of the cone (id, m⁻¹ ∘ f), exactly the intended proof. (2) is the book's square reflected across its diagonal (in-tree: identity HORIZONTALS with m on both verticals; book: identity VERTICALS with f on both horizontals) — the same square read with the two projections named in the other order, since IsPullback f g P p1 p2 and IsPullback g f P p2 p1 are interderivable by swapping the two conjuncts of the UMP. Both are stated for an arbitrary morphism, no extra hypotheses."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both clauses located in my blind pass. Theory/Morphisms/Stability.v:264 iso_pullback_stable verbatim, Qed, with the inverse built as the mediator of the cone (id, m-inverse composed with f) exactly as the record describes (lines 269-303). Clause (2): Theory/Subobject/Functor.v:127 is_pullback_along_id verbatim, Qed. I pushed on the reflection claim rather than accepting it: `rg 'pullback_sym|IsPullback g f|swap.*pullback'` returns 0 hits, so there is NO in-tree transposition lemma IsPullback f g P p1 p2 -> IsPullback g f P p2 p1; the book's square (identity VERTICALS, f on both horizontals) is therefore present only in its transposed instance, and closing the gap is a two-line swap of the UMP conjuncts. Because IsPullback is a property of one commuting square whose two presentations differ only in which projection is named first, and because the record DISCLOSES the reflection explicitly instead of glossing it, PRESENT is honest. Also checked that the lemma is not accidentally weakened by its section: it sits inside a `Context {@HasPullbacks C}` section (Theory/Subobject/Functor.v:30) but neither its statement nor its proof uses that hypothesis, so section discharge does not attach it."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.8",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphisms are stable under pullback",
+      "monic_pullback_stable",
+      "base change preserves monos",
+      "pullback of a mono is a mono",
+      "subobject reindexing is well-defined"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 226,
+        "symbol": "monic_pullback_stable",
+        "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 38,
+        "symbol": "sub_reindex",
+        "intree_statement": "sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) ... — the reindexed subobject along f is again a subobject, i.e. the pullback of a mono is used as a mono to build the Sub : C^op ⟶ Sets functor."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 7.8: in a pullback square with legs g : A' → A, f' : A' → B', f : A → B, h : B' → B, if f is a monomorphism then so is its pullback f'. (Hint: use Proposition 7.3 and Exercise 7.7.)",
+      "intree": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).",
+      "strength_comparison": "same. The conclusion is exactly 'the projection opposite the monic leg is monic', in an arbitrary category, for an arbitrary chosen pullback of the cospan. The in-tree proof is direct (cancel m on the other projection, then apply the mediator's uniqueness) rather than the book's hinted route through the pasting law and ex7.7 — a proof-strategy difference only, and it needs no extra hypotheses. The result is load-bearing: Theory/Subobject/Functor.v uses it to define reindexing of subobjects."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Theory/Morphisms/Stability.v:226 monic_pullback_stable first; quoted verbatim, Qed at line 259. The conclusion is the projection opposite the monic leg, in an arbitrary category over an arbitrary chosen Pullback of the cospan — no extra hypotheses, matching the book. The record's proof-strategy note is accurate (the in-tree proof cancels m on the other projection and closes with mediator uniqueness at lines 232-258, not via the pasting law + ex7.7 route the book hints at); that is a difference in route, not in strength. The load-bearing claim is verified: Theory/Subobject/Functor.v:38 sub_reindex really does call monic_pullback_stable to supply sub_is_monic."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:def-epi-mono-factorization",
+    "classification": "PARTIAL",
+    "aliases": [
+      "epi-mono factorization / image factorization",
+      "image of a morphism, im(f)",
+      "Factorization record, EpiClass / MonoClass, OFS",
+      "(Epi, Mono) orthogonal factorization system; regular epi-mono factorization",
+      "Sets_Image / Sets_Image_Factorization; image_mediator_epic"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Image.v",
+        "line": 143,
+        "symbol": "Sets_Image_Factorization",
+        "intree_statement": "Definition Sets_Image_Factorization : Factorization f EpiClass MonoClass := @Build_Factorization Sets X Y f EpiClass MonoClass Sets_Image Sets_Image_epi Sets_Image_epi_epic Sets_Image_mono Sets_Image_mono_monic Sets_Image_comm."
+      },
+      {
+        "file": "Structure/Factorization.v",
+        "line": 125,
+        "symbol": "Factorization",
+        "intree_statement": "Record Factorization {C : Category} {x y : C} (f : x ~> y) (E M : MorphismClass C) := { fact_mid : C; fact_e : x ~> fact_mid; fact_e_in : E _ _ fact_e; fact_m : fact_mid ~> y; fact_m_in : M _ _ fact_m; fact_comm : fact_m ∘ fact_e ≈ f }."
+      },
+      {
+        "file": "Structure/Factorization.v",
+        "line": 216,
+        "symbol": "factorization_unique",
+        "intree_statement": "Theorem factorization_unique {O : OFS E M} {x y : C} {f : x ~> y} (F1 F2 : Factorization f E M) : ∃ i : fact_mid F1 ≅ fact_mid F2, (to i ∘ fact_e F1 ≈ fact_e F2) ∧ (fact_m F2 ∘ to i ≈ fact_m F1)."
+      }
+    ],
+    "statement_record": {
+      "book": "Prose definition: f : C → D has an epi-mono factorization when there is an object im(f) with an epimorphism C ↠ im(f) and a monomorphism im(f) ↣ D composing to f. In Set every function factors as the surjection onto im(f) = {f(c) | c ∈ C} followed by the inclusion, and this factorization is unique up to isomorphism; the same holds in any topos — every f : c → d is e ; m with e epi and m mono.",
+      "intree": "Record Factorization f E M (the general (E,M)-factorization datum) instantiated at (EpiClass, MonoClass) by Sets_Image_Factorization for every f in Sets, with image object Sets_Image = { y : Y & { x : X & f x ≈ y } } compared by its Y-component; uniqueness up to iso is factorization_unique, which requires an `OFS E M` instance.",
+      "strength_comparison": "intree-weaker on two of the four clauses. The DEFINITION (clause a) is present as `Record Factorization` at (EpiClass, MonoClass), with the image object realized concretely. EXISTENCE IN SET (clause b) is fully present and axiom-free: Sets_Image_Factorization factors every morphism of Sets, the epi leg (Sets_Image_epi_epic) and mono leg (Sets_Image_mono_monic) both proved directly, needing no epis-are-surjections result. UNIQUENESS UP TO ISO (clause c) is only available through `factorization_unique`, which is stated over an `OFS E M` instance and hence needs orthogonality of E against M — and the library has NO `OFS EpiClass MonoClass` instance for Sets (only Abelian_OFS for abelian categories, Structure/Abelian.v:441, and Regular_OFS at (RegularEpi, Mono), Structure/Regular/Factorization.v:282, and there is no Regular instance for Sets). EXISTENCE IN A TOPOS (clause d) has no in-tree counterpart at all."
+    },
+    "gap": "Two clauses missing. (1) UNIQUENESS of the epi-mono factorization in Set: `factorization_unique` is conditioned on an `OFS E M` instance and the tree contains no `OFS EpiClass MonoClass` for Sets (nor a `Regular Sets` instance from which Regular_OFS could be drawn), so 'unique up to isomorphism' is unavailable for the very factorization Sets_Image_Factorization builds. (2) EPI-MONO FACTORIZATION IN A TOPOS: nothing derives a factorization from `ElementaryTopos` — no `OFS`/`Regular`/`Factorization` instance takes an ElementaryTopos as input; searching `ElementaryTopos` across the tree returns only Structure/Topos.v, Instance/FinSet/Topos.v and two prose mentions.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached PARTIAL with the same two gaps, and the sharper of the two (uniqueness) is a genuine catch that survives checking. Verified: Structure/Factorization.v:125 Record Factorization verbatim; Instance/Sets/Image.v:143 Sets_Image_Factorization verbatim, with Sets_Image_epi_epic (line 113) and Sets_Image_mono_monic (line 134) both Qed and Sets_Image_comm (line 103) proved by pointwise reflexivity. Structure/Factorization.v:216 factorization_unique is indeed stated `{O : OFS E M}` — so the book's 'unique up to isomorphism' clause is NOT instantiable for Sets_Image_Factorization: I re-ran the OFS census independently and the tree contains exactly two OFS instances, Abelian_OFS (Structure/Abelian.v:441) at (Epi, Mono) but only for abelian categories, and Regular_OFS (Structure/Regular/Factorization.v:282) at (RegularEpi, Mono); there is no `Regular` INSTANCE anywhere, so Regular_OFS cannot be routed to Sets either. The topos clause is likewise absent (see the ElementaryTopos census under remark-topos-properties). Classification unchanged."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.9",
+    "classification": "PRESENT",
+    "aliases": [
+      "factor a function as epi followed by mono",
+      "image factorization of a concrete map of finite sets",
+      "Sets_Image_Factorization",
+      "surjection onto the image followed by the inclusion",
+      "canonical epi-mono decomposition"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Image.v",
+        "line": 143,
+        "symbol": "Sets_Image_Factorization",
+        "intree_statement": "Definition Sets_Image_Factorization : Factorization f EpiClass MonoClass := @Build_Factorization Sets X Y f EpiClass MonoClass Sets_Image Sets_Image_epi Sets_Image_epi_epic Sets_Image_mono Sets_Image_mono_monic Sets_Image_comm."
+      },
+      {
+        "file": "Instance/Sets/Image.v",
+        "line": 103,
+        "symbol": "Sets_Image_comm",
+        "intree_statement": "Lemma Sets_Image_comm : Sets_Image_mono ∘ Sets_Image_epi ≈ f. (with Sets_Image_epi : X ~{Sets}~> Sets_Image sending x to (f x; (x; _)), and Sets_Image_mono the first projection)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 7.9: factor the pictured function f between two three-element sets as an epimorphism followed by a monomorphism.",
+      "intree": "For an arbitrary f : X ~{Sets}~> Y the image object Sets_Image := { y : Y & { x : X & f x ≈ y } } (compared by first components) comes with Sets_Image_epi : X ~> Sets_Image, Sets_Image_mono : Sets_Image ~> Y, Sets_Image_epi_epic, Sets_Image_mono_monic and Sets_Image_comm : Sets_Image_mono ∘ Sets_Image_epi ≈ f, bundled as Sets_Image_Factorization.",
+      "strength_comparison": "intree-stronger: the exercise asks for the decomposition of one particular map of three-element sets; the library supplies the construction uniformly for EVERY morphism of Sets, with both leg memberships proved and the triangle commuting on the nose, so the exercise's instance is obtained by instantiation. The one presentational note is that the concrete three-element instance is not spelled out anywhere in-tree, and skeletal FinSet (Instance/FinSet.v), where such a finite example would compute, has no image-factorization file of its own."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "The exercise's whole formalizable content — factor a function as epi then mono — is supplied uniformly by Instance/Sets/Image.v:143 Sets_Image_Factorization (verified verbatim, all three legs Qed), so instantiating at a three-element map adds nothing checkable; 'intree-stronger' is the honest reading and the record does not hide the missing concrete instance. I verified that honesty claim independently: `ls Instance/FinSet/` shows Classifier.v, Closed.v, Lawvere.v, Product.v, Pushout.v, Topos.v and NO image/factorization file, so the record's note that a computing finite example has no home is exactly right. All cited files are registered in _CoqProject (Instance/Sets/Image.v at line 233)."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:def-cartesian-closed",
+    "classification": "PRESENT",
+    "aliases": [
+      "cartesian closed category (CCC)",
+      "exponential object, internal hom D^C",
+      "currying isomorphism C(A × C, D) ≅ C(A, D^C) natural in A",
+      "Structure/Cartesian/Closed.v Class Closed, exp_iso, curry/uncurry/eval",
+      "cartesian monoidal structure that is monoidal closed (ClosedMonoidal)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' := to exp_iso; uncurry' := from exp_iso; eval' {x y} : y^x × x ~> y := uncurry' id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 165,
+        "symbol": "curry_comp_l",
+        "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g)."
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 442,
+        "symbol": "CCC_ClosedMonoidal",
+        "intree_statement": "Program Definition CCC_ClosedMonoidal : @ClosedMonoidal C := {| closed_is_cartesian := CC_CartesianMonoidal; exponent_obj := λ x y, @fobj _ _ (@InternalHomFunctor C _ CL) (x, y); exp_iso := @Cartesian.Closed.exp_iso C _ _ |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Prose definition (with numbered display (7.10)): C is cartesian closed when its products give a symmetric monoidal structure with respect to which C is monoidal closed; concretely, for any objects C, D there is a hom-object D^C and an isomorphism C(A × C, D) ≅ C(A, D^C) natural in A — the currying bijection.",
+      "intree": "Class Closed := { exponent_obj : obj → obj → obj; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; ... ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }.  Naturality in the first argument: curry_comp_l : curry f ∘ g ≈ curry (f ∘ first g).  The bridge to the book's monoidal phrasing: CCC_ClosedMonoidal : Closed → ClosedMonoidal over CC_CartesianMonoidal (the cartesian product read as a symmetric monoidal structure).",
+      "strength_comparison": "same. `exp_iso : x × y ~> z ≊ x ~> z^y` is literally display (7.10) as an isomorphism of hom-setoids (the library's `≊` is the Sets-level iso of homsets), with the second product factor as the exponent — the same convention as the book's C(A × C, D) ≅ C(A, D^C). Naturality is not a class field but is derived: curry_comp_l gives naturality in A, and curry_comp / uncurry_comp / uncurry_comp_r give the remaining substitution laws. The book's second phrasing (products supply a symmetric monoidal structure with respect to which C is monoidal closed) is realized by CC_CartesianMonoidal + CCC_ClosedMonoidal, giving the CCC ⇒ cartesian-monoidal-closed direction. NOTE the same-name trap: `Structure/Closed.v` is an unrelated incomplete Eilenberg-Kelly stub; the live CCC development is Structure/Cartesian/Closed.v, which is what ElementaryTopos consumes."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Structure/Cartesian/Closed.v:43 Class Closed verified field-by-field against the quote — exp_iso : x x y ~> z <-> x ~> z^y is literally display (7.10), and I confirmed the record's parenthetical about the library's iso notation rather than trusting it: `rg` finds the notation defined once, at Instance/Sets.v:205, as `Notation \"x =~ y\" := ({| carrier := x |} iso[Sets] {| carrier := y |})`, i.e. an isomorphism of hom-SETOIDS in Sets, so the book's C(A x C, D) =~ C(A, D^C) is matched on the nose. Naturality-in-A is correctly reported as derived, not axiomatic: curry_comp_l at line 165 (verified) is exactly curry f o g =~ curry (f o first g). The monoidal phrasing bridge checks out: Structure/Monoidal/Internal/Product.v:435 CC_CartesianMonoidal and :442 CCC_ClosedMonoidal, the latter built with closed_is_cartesian := CC_CartesianMonoidal and exp_iso := Cartesian.Closed.exp_iso, and Structure/Monoidal/Closed.v:46-47 confirms ClosedMonoidal bundles CartesianMonoidal. The same-name-trap warning is real and correct: Structure/Closed.v:15 self-describes as 'an in-progress stub' and :162 says 'the class does not yet typecheck' — precisely the kind of same-name-weaker-statement this pass hunts, and the classifier flagged it first."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:ex7.11",
+    "classification": "ABSENT",
+    "aliases": [
+      "unital commutative quantale",
+      "quantale whose tensor is the meet and whose unit is the top is cartesian closed",
+      "monoidal preorder / closed monoidal poset / residuated lattice",
+      "cartesian closed preorder (Heyting prealgebra)",
+      "complete lattice with a monoidal product; V-enrichment base"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'quantale' . → 1 hit, and it is a COMMENT only: Construction/Enriched.v:78 ('preorder- and quantale-enriched categories'). No Class/Record/Definition named Quantale anywhere.",
+      "grep -rn --include='*.v' -i 'residuat' . → 0 hits (no residuated lattice / residuation operation).",
+      "grep -rn --include='*.v' -i 'sup-lattice' . → 0 hits; -i 'join-semilattice' → 0 hits; -i 'complete lattice' → 2 hits, both prose in file headers, no structure.",
+      "grep -rn --include='*.v' -i 'closed preorder' . → 0 hits.",
+      "grep -rn --include='*.v' -i 'monoidal preorder' . → 0 hits; the only preorder/monoidal contact is Construction/Enriched/Two.v (Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder), which is enrichment in the two-element cartesian monoidal category, not a quantale.",
+      "grep -rn --include='*.v' -i 'Heyting' . → 7 hits, all prose comments (Instance/Props.v, Instance/Two.v, Structure/Topos.v, Theory/Lawvere.v, Theory/Sheaf.v); no Heyting-algebra structure is defined.",
+      "grep -rln --include='*.v' -i 'preorder|proset|poset' . → Instance/Proset.v (Proset : PreOrder R → Category), Instance/Poset.v, Instance/Props.v, Instance/Two.v. Instance/Props.v does supply Props_Closed, i.e. an EXAMPLE of a cartesian closed preorder (the Heyting prealgebra of propositions under implication), and Instance/Two.v a two-element one — but neither is derived from, or connected to, any quantale hypothesis, so neither witnesses the exercise's implication.",
+      "grep -rn --include='*.v' -E 'ClosedMonoidal' . → the closed-monoidal class bundles CartesianMonoidal (Structure/Monoidal/Closed.v:47), and Structure/Monoidal/Internal/Product.v:442 proves only the direction Closed → ClosedMonoidal; the converse 'cartesian monoidal closed ⇒ cartesian closed' that the exercise's argument needs is not proved either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search, run before opening the coverage file, reproduced the decisive negative: `rg -i quantale` over all .v files yields exactly ONE hit and it is a comment (Construction/Enriched.v:78, 'preorder- and quantale-enriched categories'); `rg -i 'closed preorder|monoidal preorder'` yields 0. No Quantale class/record/definition exists, so neither the exercise's hypotheses (unital commutative quantale with v <= I, v tensor w <= v,w, and the meet condition) nor its conclusion can be stated. I also independently checked the near-miss the log names: Instance/Props.v:94 Props_Closed does give a cartesian closed thin category (the Heyting prealgebra of propositions under implication, header lines 26-37) and Instance/Proset.v gives preorders-as-categories with NO cartesian or closed structure — so an example of a cartesian closed preorder exists but nothing connects it to a quantale hypothesis, exactly as the log says. The negative_search_log is unusually thorough and every command in it reproduces. ABSENT stands."
+    }
+  },
+  {
+    "id": "7sketches:7.2.1:def-elementary-topos",
+    "classification": "PRESENT",
+    "aliases": [
+      "elementary topos",
+      "Lawvere-Tierney topos: finite limits + cartesian closed + subobject classifier",
+      "ElementaryTopos class",
+      "finitely complete cartesian closed category with Ω",
+      "topos (elementary, as opposed to Grothendieck)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}."
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 44,
+        "symbol": "SubobjectClassifier",
+        "intree_statement": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback {u x} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one; char_unique {u x} (m : u ~> x) (M : Monic m) (h : x ~> Ω) : IsPullback h truth u m one → h ≈ char m M }."
+      }
+    ],
+    "statement_record": {
+      "book": "Footnote 4: a category that has finite limits, is cartesian closed, and has a subobject classifier is called an elementary topos (contrasted with the Grothendieck notion; not developed further in the book).",
+      "intree": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }.",
+      "strength_comparison": "same, with one disclosed presentational caveat. The three clauses map one-to-one: finite limits ↦ topos_terminal + topos_cartesian + topos_pullbacks, cartesian closed ↦ topos_closed (the live Structure/Cartesian/Closed.v `Closed`, not the Structure/Closed.v stub), subobject classifier ↦ topos_classifier (Ω with monic truth, char, the classifying pullback square, and uniqueness). The caveat, stated in the file header, is that finite limits are carried EXPLICITLY as those three components rather than as a finite-completeness hypothesis, because the reduction of pullbacks to products and equalizers is not formalized in-tree; a terminal object together with pullbacks does generate every finite limit (Borceux I, 2.8.2), so the class is extensionally the book's definition, but no equalizer field and no derivation is provided. The definition is inhabited by a computable in-tree witness, FinSet_Topos (Pow 2 = 4 by eq_refl)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Structure/Topos.v:112 ElementaryTopos verified verbatim; Structure/SubobjectClassifier.v:44 Class SubobjectClassifier verified verbatim including char_pullback and char_unique (its section context fixes Terminal and HasPullbacks at lines 41-42, matching how ElementaryTopos supplies them); Instance/FinSet/Topos.v:38 FinSet_Topos verbatim, and the inhabitation claim is real — Example FinSet_Pow_two : Pow 2 = 4 := eq_refl at line 52, plus FinSet_Pow_zero, FinSet_truth_computes and two char examples, all by eq_refl. The presentational caveat is disclosed by the library itself (Structure/Topos.v:20-27) rather than invented by the classifier, and terminal + pullbacks does generate all finite limits, so the class is extensionally the footnote's definition. Registered in _CoqProject (line 370). Note for issue-writing: the missing equalizer/finite-completeness derivation is the same in-tree gap already carried by remark-topos-properties clause (i); do not file it twice."
+    }
+  }
+]

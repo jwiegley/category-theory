@@ -1,0 +1,356 @@
+[
+  {
+    "id": "maclane:VII.5:remark-protean",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplicial category Delta",
+      "category of finite ordinals (full subcategory of Ord)",
+      "finite ordinals as preorder categories (subcategory of Cat)",
+      "strict monoidal category of the universal monoid (iterated multiplications)",
+      "ordered affine simplices with order-preserving affine maps (subcategory of Top)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'simplicial|simplex|augmented' --include='*.v' . -> hits ONLY in background-essay comments (Comonad/Core.v:103, Comonad/Coalgebra.v:100, Theory/Kan/Extension.v:47/91, Instance/FinSet.v:86-89 'simplex category Delta embedding into FinSet' PROSE, Construction/Enriched.v:72, Structure/Group.v:47, Structure/Coend.v:113); no category object.",
+      "grep -rniE 'Simplex|SimplexCat|DeltaCat|Ordinals|Instance Delta|Category Delta|:= Delta' --include='*.v' . -> only Instance/FinSet.v:89 and Instance/Two.v:81 comments; no Delta category constructed.",
+      "grep -rniE '\\bordinal|monotone|order.preserving|\\bfinord' --include='*.v' . -> Instance/Two.v (ordinal 2), Instance/Omega.v (the ordinal omega as a single linear-order chain for initial algebras, NOT the category of ALL finite ordinals), Instance/Poset.v (monotone maps between posets); none is Delta.",
+      "The library has ordinals-as-categories only as isolated objects (Two = {0<1}, Omega = the chain 0<=1<=2<=...); it has NO category Delta of all finite ordinals with weakly-monotone maps, and none of the four asserted identifications (Delta as full subcat of Ord / of Cat / as the strict monoidal cat of the universal monoid / as a subcat of Top) is realized. The whole remark presupposes Delta, which is not formalized in any of the 484 .v files."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind whole-tree search reproduced the same result independently. Every '\\bDelta\\b' hit is comonoid comultiplication delta (Frobenius/Comonoid/SCFA/Spider files), not a category; the single 'simplex category Delta' mention (Instance/FinSet.v:89) is essay prose about Grandis symmetric simplicial sets. No Ord/finite-ordinal category, no Delta-as-Cat-subcategory, no strict-monoidal universal-monoid Delta, no Delta-in-Top. ABSENT (not OUT_OF_SCOPE: Delta is fully formalizable in this setting, merely not built)."
+    }
+  },
+  {
+    "id": "maclane:VII.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "monic iff injective in Delta",
+      "epi iff surjective in Delta",
+      "monos/epis in the simplicial category",
+      "order-preserving monomorphism / epimorphism",
+      "faithful-forgetful characterization of monos in Delta"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Content is a statement ABOUT the simplicial category Delta (an arrow of finite ordinals is monic/epi iff the underlying weakly-monotone function is injective/surjective). Delta is not formalized: grep -rniE 'simplicial|simplex|\\bordinal|monotone|Delta (category)' --include='*.v' . -> only prose/comments and the unrelated Two/Omega/Poset objects.",
+      "The library DOES characterize monos-as-injections and epis-as-surjections, but only for a DIFFERENT category, Sets (Instance/Sets.v:32 'the characterizations of monos as injections'), whose arrows are all setoid maps, not order-preserving maps between finite ordinals. Same-name-but-different-category: this is not the Delta result the exercise asks for.",
+      "No category of monotone maps between finite ordinals exists to state monic/epi within, so the exercise's specific content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. The monic<=>injective / epi<=>surjective characterization exists in-tree only for Sets (and image factorizations), never for a category of weakly-monotone maps between finite ordinals, which does not exist (Delta absent, see remark-protean). No in-tree fragment states the Delta-specific claim. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.5:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Delta_mon (monic subcategory of Delta)",
+      "coface generators delta_i subject to relation (11)",
+      "injective monotone maps subcategory",
+      "presentation of the (semi)simplicial face category",
+      "every monic arrow an iterated sum of eta:0->1 and id:1->1"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'coface|codegeneracy|face map|degeneracy map|cosimplicial|augmented simplicial' --include='*.v' . -> only ONE comment (Theory/Kan/Extension.v:91 'cosimplicial space'); no coface/codegeneracy generators, no relations (11).",
+      "Requires the simplicial category Delta and its subcategory Delta_mon of monics; Delta is absent (see remark-protean log: grep -rniE 'simplicial|simplex|Delta category' finds only prose).",
+      "No presentation-by-generators-and-relations of any face category, and no coface operator delta_i, is defined anywhere in the tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. My search for '(Definition|Record|Instance) .*Coface|Codegener|Simplic' returned nothing; the sole 'cosimplicial' token is essay prose in Theory/Kan/Extension.v. No Delta_mon, no coface generators, no simplicial relation (11). ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Delta_epi (epi subcategory of Delta)",
+      "codegeneracy generators sigma_i subject to relation (12)",
+      "semigroup object in a strict monoidal category (associative mu, no unit)",
+      "universal semigroup (2 -> 1 in Delta_epi)",
+      "surjective monotone maps subcategory"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'codegeneracy|sigma_i|epi subcategory|surjective monotone' --include='*.v' . -> no hits; Delta_epi is not formalized. Delta itself is absent (see remark-protean log).",
+      "Semigroup OBJECT (an object c with associative mu:c(x)c->c, no unit) in a monoidal category: grep -rniE 'SemigroupObject|Semigroup :.*Category|Class Semigroup|Record Semigroup' --include='*.v' Theory/Algebra -> none. The only 'Semigroup' in-tree is the Coq/Haskell-style typeclass Theory/Coq/Semigroup.v (a semigroup on a Coq type) and Theory/Category/Semi.v (Semigroupoid = non-unital category); neither is a semigroup object in a general monoidal category, and neither carries a universal property.",
+      "The library formalizes MONOID objects (Theory/Algebra/Monoid.v MonoidObject, category Mon in Theory/Algebra/Monoid/Hom.v:83) but NOT semigroup objects, and there is no 'universal semigroup' analogue of the (also-absent) universal monoid of Delta.",
+      "All three of the exercise's ingredients (Delta_epi, semigroup object, universal semigroup) are unformalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed all three prerequisites absent. Verified directly: 'SemigroupObject|Class Semigroup|Record Semigroup' matches only Theory/Category/Semi.v (Semigroupoid) and Theory/Coq/Semigroup.v (Coq-type typeclass) -- neither a semigroup object in a monoidal category. MonoidObject and the category Mon (Theory/Algebra/Monoid/Hom.v:83) DO exist, but no Delta_epi, no codegeneracy generators, no universal semigroup. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.5:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplicial sets are small-complete",
+      "category of simplicial objects in Set is complete",
+      "presheaf category [Delta^op, Set] complete",
+      "functor-category limits computed pointwise",
+      "small-completeness of a Set-valued functor category"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Statement is small-completeness of the category of simplicial objects in Set = [Delta^op, Sets]. Delta is absent (see remark-protean log), so the category cannot even be formed in-tree.",
+      "The general theorem this instantiates ('a functor category valued in a (small-)complete category is complete, limits pointwise') is NOT proven in-tree: grep -rniE 'Fun_Complete|functor category.*complete|limits.*pointwise' Instance/Fun.v -> only prose in the background essay (Instance/Fun.v:101-105 'pointwise inheritance ... when D has limits ... so does [C,D]'); there is no Program Instance / Theorem giving [C,D] limits.",
+      "Sets itself is not proven small-complete: Instance/Sets.v:109-110 states 'completeness of [Sets] is built piecewise ... products and exponentials, pushouts, and Cauchy completeness' -- only specific limit shapes (finite products via Sets_Product_Monoidal, pushouts, ends/coends, Cauchy), not a general Complete Sets instance. grep -rniE 'Sets_Complete|Complete Sets|Cocomplete Sets' --include='*.v' . -> 0 hits.",
+      "There is a Complete predicate (Structure/Complete.v:115 Definition Complete := forall D F, Limit F) but no instance of it for Sets or for any functor category. With neither Delta, nor a general presheaf-completeness theorem, nor Complete Sets, no fragment of this specific statement is present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed and the harshness is warranted. Verified Structure/Complete.v:115 defines Complete as forall D F, Limit F, but a search for 'Instance ... Complete' / 'Program Instance ... Limit' restricted to fun/presheaf returned nothing -- no functor-category completeness instance exists. The subsuming general theorem is itself unproven, and Delta is absent, so no fragment of the specific statement is present. ABSENT (not PARTIAL: even the pointwise-completeness generalisation is essay-only in Instance/Fun.v)."
+    }
+  },
+  {
+    "id": "maclane:VII.6:def-comonad",
+    "classification": "PRESENT",
+    "aliases": [
+      "comonad",
+      "cotriple",
+      "comonoid in the endofunctor category A^A",
+      "dual of a monad (Monad on C^op)",
+      "counit / comultiplication / coassociativity + counit laws"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Monad.v",
+        "line": 144,
+        "symbol": "Comonad",
+        "intree_statement": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op)."
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 131,
+        "symbol": "extract",
+        "intree_statement": "Definition extract {x : C} : W x ~> x := @ret (C^op) (W^op) H x.   (* the counit epsilon : W => Id, componentwise *)"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 135,
+        "symbol": "duplicate",
+        "intree_statement": "Definition duplicate {x : C} : W x ~> W (W x) := @join (C^op) (W^op) H x.   (* the comultiplication delta : W => W o W *)"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 160,
+        "symbol": "extract_duplicate",
+        "intree_statement": "Lemma extract_duplicate {x : C} : extract ∘ duplicate ≈ id[W x].   (* counit law epsilon_W . delta = id *)"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 164,
+        "symbol": "fmap_extract_duplicate",
+        "intree_statement": "Lemma fmap_extract_duplicate {x : C} : fmap[W] extract ∘ duplicate ≈ id[W x].   (* counit law W epsilon . delta = id *)"
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 169,
+        "symbol": "duplicate_duplicate",
+        "intree_statement": "Lemma duplicate_duplicate {x : C} : duplicate ∘ @duplicate x ≈ fmap[W] duplicate ∘ @duplicate x.   (* coassociativity delta_W . delta = W delta . delta *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A comonad L = <L, eps, delta> in a category A is an endofunctor L : A -> A with natural transformations eps : L -> Id_A (counit) and delta : L -> L^2 (comultiplication) satisfying coassociativity (delta L).delta = (L delta).delta : L -> L^3 and the counit laws (eps L).delta = 1_L = (L eps).delta : L -> L. Equivalently, a comonoid in the strict monoidal category A^A of endofunctors under composition; the formal dual of a monad (VI.1).",
+      "intree": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op). (Theory/Monad.v:144), with the covariant API in Comonad/Core.v: extract (counit, :131), duplicate (comultiplication L x ~> W(W x), :135), extract_duplicate : extract ∘ duplicate ≈ id (:160), fmap_extract_duplicate : fmap[W] extract ∘ duplicate ≈ id (:164), duplicate_duplicate : duplicate ∘ duplicate ≈ fmap[W] duplicate ∘ duplicate (coassociativity, :169), plus naturality of extract/duplicate (:149, :155).",
+      "strength_comparison": "same. The library realizes Mac Lane's 'formal dual of a monad' characterization definitionally (Comonad := Monad on the opposite category, so C^op^op = C by reflexivity and every comonad law IS the corresponding monad law read backwards), and exposes exactly the counit + comultiplication + coassociativity + both counit laws Mac Lane lists as equations (1). Setoid rephrasing (≈ for =) is faithful. The 'comonoid in A^A' characterization Mac Lane gives as equivalent is also available in-tree by duality from 'a monad is a monoid in [C,C]' (Theory/Monad.v:15,55; Monad/Monoid.v). If anything the in-tree development is stronger (adds extend/co-Kleisli laws), but the definitional core matches exactly."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT verified at every cited location by direct read. Theory/Monad.v:144 (exact, confirmed by grep -n): Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op). Comonad/Core.v: extract:131, duplicate:135, extract_duplicate:160, fmap_extract_duplicate:164, duplicate_duplicate:169 -- all code quotes exact (the trailing (* ... *) annotations in the evidence are the classifier's gloss, but each precisely matches the preceding docstring at :130/:133/:159/:163/:167). Both counit laws AND coassociativity are present; naturality of extract (:149) and duplicate (:155) also present, so eps and delta are genuine natural transformations. Matches Mac Lane eqs (1) exactly. Both files registered in _CoqProject (Comonad/Core.v line 14, Theory/Monad.v line 461). strength_comparison 'same' is honest."
+    }
+  },
+  {
+    "id": "maclane:VII.6:remark-universal-comonoid",
+    "classification": "ABSENT",
+    "aliases": [
+      "universal comonoid in Delta^op",
+      "comonad as an augmented simplicial object",
+      "dual universal property of Delta (Theorem 5.1 dualized)",
+      "unique monoidal morphism Delta^op -> B carrying the universal comonoid to a comonad",
+      "comonoid <1, 1->0, 1->1+1> in Delta^op"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The remark asserts the universal property of Delta^op: Delta^op contains the universal comonoid, and any comonad in a strict monoidal <B,box,e> determines a unique strict-monoidal functor Delta^op -> B (an augmented simplicial object in B). This requires Delta / Delta^op, which is absent (see remark-protean log: grep -rniE 'simplicial|simplex|Delta category' -> only prose).",
+      "grep -rniE 'universal comonoid|universal monoid|augmented simplicial' --include='*.v' . -> no hits; neither the universal monoid of Delta (VII.5:construction1) nor its dual is formalized, so there is no source object to map out of.",
+      "The only in-tree touchpoint is the ALGEBRAIC fact 'comonad = comonoid in the endofunctor category' (Comonad/Core.v:44 comment; dual of Monad = monoid in [C,C], Theory/Monad.v:15,55, Monad/Monoid.v). That is the classification of the OBJECT, not the universal property of Delta^op nor the resulting augmented simplicial object; the substance of this remark (the Delta^op universal property and the induced simplicial object) has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. No universal (co)monoid, no Delta^op, no augmented-simplicial-object-from-comonad. The 'comonad = comonoid in endofunctors' remark (Comonad/Core.v:44) is object-level algebra, not the Delta^op universal property this remark states. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-smpl",
+    "classification": "ABSENT",
+    "aliases": [
+      "Smp L : the simplicial object of a comonad",
+      "bar construction / standard simplicial resolution of a comonad",
+      "canonical simplicial object n |-> L^n (iterated endofunctor powers)",
+      "faces d_i = L^i eps L^{n-i}, degeneracies s_i = L^i delta L^{n-i-1}",
+      "cotriple / Godement standard construction"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bbar construction\\b|\\bbar resolution\\b|\\bSmp\\b|cotriple|standard construction|standard resolution' --include='*.v' . -> hits ONLY in background-essay comments (Comonad/Core.v:53/103-104, Comonad/Coalgebra.v:100-103); Test/HypergraphPROPResolution.v is 'typeclass resolution', unrelated.",
+      "Comonad/Coalgebra.v:100-107 explicitly disclaims it: 'The same resolution machinery yields the simplicial bar construction on an algebra ... on which comonad (cotriple) cohomology is founded (Barr-Beck, 1969). None of this is formalized in this file; the pointers record where the notion earns its keep.'",
+      "The construction needs (a) Delta^op (absent, see remark-protean log) and (b) iterated endofunctor powers L^n with the L^i eps L^{n-i} / L^i delta L^{n-i-1} faces/degeneracies: grep -rniE 'endofunctor power|functor power|F\\^n|Fpow|funpow' --include='*.v' . -> none (only an unrelated iterated-coend in Theory/Coend/Fubini.v). No face/degeneracy operators exist: grep -rniE 'face operator|degeneracy operator|coface|codegeneracy' -> only one 'cosimplicial space' comment.",
+      "The comonad's eps (extract) and delta (duplicate) ARE in-tree (Comonad/Core.v), but they are never assembled into a simplicial/cosimplicial object indexed by Delta^op."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. 'Smp'/'bar'/'cotriple'/'standard construction' occur only in Comonad essays; verified Comonad/Coalgebra.v:105-107 is an HONEST disclaimer ('None of this is formalized in this file; the pointers record where the notion earns its keep') -- not a false 'is built' claim, so no library defect. eps/delta exist but are never assembled into a Delta^op-indexed simplicial object; no iterated-power faces/degeneracies. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-resolution",
+    "classification": "ABSENT",
+    "aliases": [
+      "comonad bar-resolution chain complex L^* a",
+      "standard resolution of an object by a comonad in an Ab-category",
+      "alternating-sum boundary d = sum (-1)^i d_i with dd = 0",
+      "cotriple resolution / derived-functor input",
+      "augmented chain complex La <- L^2 a <- L^3 a <- ..."
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Requires the simplicial object of a comonad (construction-smpl, ABSENT) PLUS a chain-complex construction (alternating sum of faces, dd=0) in an Ab-enriched/abelian category.",
+      "grep -rniE 'chain complex|homology|boundary map|alternating sum|differential graded' --include='*.v' . -> hits ONLY in background-essay comments (Structure/Abelian.v:70/75/100, Construction/Enriched.v:47/71, Construction/Localization.v; all prose). No ChainComplex / boundary / homology object: grep -rniE 'ChainComplex|Chain_Complex|CochainComplex|coboundary' --include='*.v' . -> none (Construction/Chain.v is the omega-CHAIN Omega ⟶ C for initial algebras, NOT a homological chain complex).",
+      "Structure/Abelian.v exists (zero objects, biproducts, kernels/cokernels, abelian categories) but constructs NO chain complex, no alternating-sum differential, and no homology functor.",
+      "Comonad/Coalgebra.v:107 'None of this is formalized' covers the resolution machinery. Both ingredients absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. No ChainComplex/boundary/homology type in-tree; verified Construction/Chain.v is the omega-chain (Omega ⟶ C) for initial-algebra theory, not a homological complex. Structure/Abelian.v builds the abelian-category spine (zero/biproduct/kernel) but no differential or homology functor. Prerequisite construction-smpl also absent. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-monoidring",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoid-ring functor Z : Mon -> Rng",
+      "group ring Z[Pi]",
+      "left adjoint to the forgetful U : Rng -> Mon (forget addition)",
+      "category of (unital) rings Rng",
+      "free ring on a monoid"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bRng\\b|category of rings|\\bRing\\b|Program Definition Rng|monoid ring|group ring' --include='*.v' . -> no ring category; 'ring' appears only in comments (Theory/Algebra.v:26, Structure/Monoid.v:69 examples, Theory/DoubleCategory.v:104, Theory/Equivalence.v Morita). There is NO Rng category and NO monoid-ring / group-ring functor.",
+      "A category of monoids DOES exist -- Mon (internal monoid objects) in Theory/Algebra/Monoid/Hom.v:83 with Mon_Forget -- so the DOMAIN could be named, but the CODOMAIN (rings) and the adjoint Z are entirely absent.",
+      "grep -rniE 'GroupRing|MonoidRing|group.ring' --include='*.v' . -> 0 hits (outside the 'simplicial bar resolution' comment). This is concrete ring theory the library does not develop."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. No Rng category, no monoid/group-ring functor; 'ring' occurs only in essay prose. Verified the domain claim: Mon exists (Theory/Algebra/Monoid/Hom.v:83 Program Definition Mon, Mon_Forget:93) -- so the classifier's honesty about the domain being nameable is accurate -- but the codomain Rng and the adjoint Z are absent. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-freemodule",
+    "classification": "ABSENT",
+    "aliases": [
+      "free Pi-module functor Z(Pi) (x) - : Ab -> Pi-Mod",
+      "left adjoint to forgetful Pi-Mod -> Ab",
+      "extension of scalars along Z -> Z[Pi]",
+      "category of Pi-modules (group representations)",
+      "induced module functor"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'R.Mod|category of modules|Module category|LeftModule|Class Module|Pi.Mod|extension of scalars' --include='*.v' . -> 'modules' appears only in comments (Theory/Equivalence.v Morita R-Mod ~ S-Mod as PROSE, Structure/Monoid.v:69). There is NO category of modules and NO free/induced-module functor.",
+      "Ab (abelian groups) has no dedicated category instance beyond commutative monoids (Instance/CMon.v is CMon, not Ab with negatives as a named category); the tensor Z(Pi) (x) - and its adjunction to Ab are unformalized.",
+      "Requires the group ring Z[Pi] (also absent, see construction-monoidring log). Concrete module theory is outside the library's developed content."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. No module category (LeftModule/R-Mod/Pi-Mod appear only in Morita essay prose), no free/induced-module functor, no Z[Pi] (group ring itself absent). Structure/Group.v defines GroupObject (a group object in a monoidal category), which is unrelated to module categories. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-barresolution",
+    "classification": "ABSENT",
+    "aliases": [
+      "bar resolution of the trivial module Z",
+      "standard free resolution for group (co)homology",
+      "bar complex with symbols x[x_1|...|x_n]",
+      "tensor powers Z(Pi)^{(n)} with face/degeneracy operators",
+      "normalized/unnormalized bar construction"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'bar resolution|bar construction|free resolution|standard resolution|standard free resolution' --include='*.v' . -> hits ONLY in Comonad essays (comments), and Comonad/Coalgebra.v:107 'None of this is formalized.'",
+      "Requires: the comonad L = Z(Pi) (x) - (construction-freemodule, ABSENT), the simplicial object Smp L (construction-smpl, ABSENT), the trivial Pi-module Z, and the tensor powers Z(Pi)^{(n)} with the explicit d_i / s_i on bar symbols -- none formalized. grep -rniE 'x\\[x_1|bar symbol|trivial module' --include='*.v' . -> none.",
+      "Every prerequisite (group ring, module category, comonad simplicial object, chain complex) is absent; this concrete homological-algebra construction has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. All prerequisites (group ring, module category, comonad simplicial object Smp L, chain complex) verified absent above; 'bar resolution/construction' occurs only in Comonad essays, which honestly disclaim formalization. No bar symbols or tensor powers. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VII.6:construction-groupcohomology",
+    "classification": "ABSENT",
+    "aliases": [
+      "group cohomology H^n(Pi, A)",
+      "cochain complex hom_Pi(Z(Pi)^{(n+1)}, A) with coboundary hom_Pi(d, A)",
+      "invariants H^0, crossed homomorphisms H^1, group extensions H^2",
+      "Ext over the group ring",
+      "derived functors of the Pi-fixed-points functor"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'group cohomolog|H\\^n|H_n|crossed hom|coboundary|group extensions' --include='*.v' . -> no group-cohomology construction; 'H^n' cohomology appears only in prose (Structure/Group.v:53 'cohomology H^n(X;G)', Structure/Abelian.v comments). The Functor/Strong.v matches are false positives (tensorial strength naturality, unrelated to homology).",
+      "Requires the bar resolution (construction-barresolution, ABSENT), hom_Pi over a module category (absent), and a cochain-complex/cohomology functor (no chain/cochain complexes in-tree; see construction-resolution log).",
+      "None of the identifications (H^0 = invariants, H^1 = crossed homomorphisms mod principal, H^2 = group extensions) is formalized; concrete group cohomology is entirely outside the developed library."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently confirmed. No group cohomology; 'H^n' appears only in Structure/Group.v:53 and Abelian.v essay prose. No cochain complex, no hom_Pi over a module category (both absent), none of the H^0/H^1/H^2 identifications. ABSENT."
+    }
+  }
+]

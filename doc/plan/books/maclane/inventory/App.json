@@ -1,0 +1,175 @@
+{
+  "book": "maclane",
+  "range": {"pdf_start": 295, "pdf_end": 297},
+  "pages": [
+    {
+      "pdf_page": 295,
+      "book_page": "289",
+      "empty": false,
+      "items": [
+        "maclane:App.1:def1",
+        "maclane:App.1:def2",
+        "maclane:App.1:def3"
+      ],
+      "notes": "Appendix opener. Motivational prose then numbered axiom list. Axioms 1-5 = elementary definition of a category (def1). The sentence 'An elementary topos is a category with...' plus axioms 6 (terminal object) and 7 (pullbacks, diagram (1), with the product-from-terminal remark) = elementary-topos umbrella (def2); terminal object (axiom 6) and pullbacks (axiom 7) are folded into def2 rather than atomized because both merely restate structure defined in Ch III (axiom 7 says explicitly 'defined as in III.4'). Axiom 8 (Truth / subobject classifier, def3) begins on this page and continues to 296. Scan fully legible; diagram (1) clear."
+    },
+    {
+      "pdf_page": 296,
+      "book_page": "290",
+      "empty": false,
+      "items": [
+        "maclane:App.1:def4",
+        "maclane:App.1:remark1",
+        "maclane:App.1:remark2",
+        "maclane:App.1:def5"
+      ],
+      "notes": "Continuations from 295: axiom 8 / subobject classifier (def3, diagram (2)) and the elementary-topos umbrella (def2) finish here. New items starting here: axiom 9 power objects (def4, diagram (3)); the worked verification that the category of all sets satisfies the topos axioms (remark1); the strong-consequences paragraph -- finite (co)limits, initial object, cartesian closure (remark2); and the last line 'A category of sets can now be described as an elementary topos... three additional properties:' begins def5, whose body (a) well-pointed, (b) AC, (c) NNO sits on PDF 297. Diagrams (2),(3) and the iso hom(a x b,c) = (a,c^b) all legible."
+    },
+    {
+      "pdf_page": 297,
+      "book_page": "291",
+      "empty": false,
+      "items": [
+        "maclane:App.1:def-well-pointed",
+        "maclane:App.1:def-ac",
+        "maclane:App.1:def-nno",
+        "maclane:App.1:remark-boolean"
+      ],
+      "notes": "Final page of the Appendix. Foundations. Fully legible (clean scan; diagram and displayed equations clear). Boundary: the overarching definition 'a category of sets = elementary topos + three properties' (def5) has its topic sentence on PDF 296 (printed 290, last line); the three properties (a/b/c = well-pointed, AC, NNO) it introduces are developed here in prose and recorded as separate definitions. Concluding sentence ('well-pointed topos with AC and NNO', Lawvere [1964] ETCS) and the 'sheaves on a space are a topos' pointer are historical/citation prose, skipped."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:App.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "category (direct, arrows-first axiomatization; axioms 1-5)",
+      "statement_summary": "A category described directly (not via sets) as a possible foundation for mathematics replacing the Zermelo-Fraenkel axioms: primitive objects (a,b,c,...) and arrows (f,g,h); (2) each arrow f has an object domain a and object codomain b, written f:a->b; (3) composition sending f:a->b and g:b->c to a composite g o f : a->c; (4) associativity h o (g o f) = (h o g) o f : a->d for f:a->b, g:b->c, h:c->d; (5) for each object b a two-sided identity 1_b:b->b with 1_b o f = f (for f:a->b) and g o 1_b = g (for g:b->c). Equivalent to the metacategory axioms of Chapter I but presented as a self-standing foundation.",
+      "book_section": "App.1",
+      "book_page": "289",
+      "pdf_pages": [295],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "axioms-1-5-grouped"]
+    },
+    {
+      "id": "maclane:App.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "elementary topos (umbrella of axioms 6-9)",
+      "statement_summary": "An elementary topos is a category equipped with additional structure: (6) a terminal object 1 such that every object a has exactly one arrow a->1; (7) a pullback for every cospan f:a->b<-c:g with common codomain (as defined in III.4), so that taking b=1 yields binary products a x c as pullbacks over the terminal object; (8) a subobject classifier -- an object Omega with a monic 'truth' t:1->Omega classifying all monomorphisms; and (9) power objects Pb. Bundles finite-limit structure (terminal object, pullbacks/products) with the subobject classifier and power objects. Corresponds to a category carrying finite limits, a classifier, and power objects.",
+      "book_section": "App.1",
+      "book_page": "289",
+      "pdf_pages": [295, 296],
+      "cross_refs": ["maclane:App.1:def3", "maclane:App.1:def4"],
+      "flags": ["unnumbered-definition", "spans-pages-295-296", "bundles-axioms-6-9"]
+    },
+    {
+      "id": "maclane:App.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "subobject classifier / truth (axiom 8)",
+      "statement_summary": "There is an object Omega (the object of truth values) together with a monomorphism t:1->Omega called 'truth' such that for every monomorphism m:a->b there is a unique arrow psi:b->Omega (the characteristic/classifying map of m) making the square with edges m:a->b, the unique a->1, t:1->Omega, and psi:b->Omega a pullback (diagram (2)). Universal property exhibiting subobjects of b as arrows b->Omega. Begins on printed 289 and completes on printed 290.",
+      "book_section": "App.1",
+      "book_page": "289",
+      "pdf_pages": [295, 296],
+      "cross_refs": ["maclane:App.1:def2"],
+      "flags": ["unnumbered-definition", "spans-pages-295-296"]
+    },
+    {
+      "id": "maclane:App.1:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "power object (axiom 9)",
+      "statement_summary": "To each object b is associated an object Pb (its power object) and an arrow epsilon_b : b x Pb -> Omega such that for every arrow f : b x a -> Omega there is a unique arrow g : a -> Pb for which f = epsilon_b o (1_b x g), i.e. the square with 1_b x g and epsilon_b commutes (diagram (3)). Categorical generalization of the power set, with epsilon_b as the membership/evaluation map; equivalently Pb classifies relations from b.",
+      "book_section": "App.1",
+      "book_page": "290",
+      "pdf_pages": [296],
+      "cross_refs": ["maclane:App.1:def2"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "maclane:App.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "the category of sets is an elementary topos (worked witnesses)",
+      "statement_summary": "The usual category of all sets satisfies the topos axioms, with explicit witnesses: any one-element set is a terminal object 1; the pullback of a->1<-b is the ordinary cartesian product with its projections; the truth-values object is Omega = 2 = {0,1} and t:1->2 the inclusion of 1, so each monomorphism m:a->b (a subset a of b) has characteristic function psi:b->2 with psi(y)=1 iff y in a; and Pb is the power set of b with epsilon_b(x,s)=1 iff x in s. Hence Set is an elementary topos.",
+      "book_section": "App.1",
+      "book_page": "290",
+      "pdf_pages": [296],
+      "cross_refs": ["maclane:App.1:def2", "maclane:App.1:def3", "maclane:App.1:def4"],
+      "flags": ["formalizable-example"]
+    },
+    {
+      "id": "maclane:App.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "strong consequences of the topos axioms (finite (co)limits; cartesian closure)",
+      "statement_summary": "The topos axioms have strong consequences: every elementary topos has all finite categorical products and pullbacks, all finite coproducts including an initial object (the empty set, the analogue of the empty set), and a right adjoint to the product functor a x (-) for each a. This right adjoint gives exponentials c^b together with a natural isomorphism hom(a x b, c) = hom(a, c^b) (cf. IV.6), i.e. the topos is cartesian closed.",
+      "book_section": "App.1",
+      "book_page": "290",
+      "pdf_pages": [296],
+      "cross_refs": ["maclane:App.1:def2"],
+      "flags": ["formalizable-remark"]
+    },
+    {
+      "id": "maclane:App.1:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "category of sets (well-pointed topos with choice and a natural-numbers object)",
+      "statement_summary": "A 'category of sets' is defined as an elementary topos that in addition (a) is well-pointed, (b) satisfies the axiom of choice (AC), and (c) has a natural-numbers object (NNO). This is Lawvere's elementary theory of the category of sets; such a well-pointed topos with choice and an NNO models a (bounded-Zermelo-strength) set theory. The item's introductory sentence begins on printed 290; the detailed definitions of (a) well-pointed, (b) AC, and (c) NNO occur on printed 291 (PDF 297) as items def-well-pointed, def-ac, def-nno.",
+      "book_section": "App.1",
+      "book_page": "290",
+      "pdf_pages": [296, 297],
+      "cross_refs": ["maclane:App.1:def2", "maclane:App.1:def-well-pointed", "maclane:App.1:def-ac", "maclane:App.1:def-nno"],
+      "flags": ["unnumbered-definition", "spans-pages-296-297"]
+    },
+    {
+      "id": "maclane:App.1:def-well-pointed",
+      "kind": "definition",
+      "number": null,
+      "name": "well-pointed topos (terminal object is a generator)",
+      "statement_summary": "A topos is well-pointed when the terminal object 1 separates parallel arrows: for any two distinct arrows f, g : a -> b with f != g there exists a global element (point) p : 1 -> a such that f o p != g o p. Equivalently, 1 is a generator/separator and global points 1 -> a are jointly monic on each hom-set, so maps that differ must differ at some point.",
+      "book_section": "App.1",
+      "book_page": "291",
+      "pdf_pages": [297],
+      "cross_refs": ["maclane:App.1:def5"],
+      "flags": ["unnumbered", "prose-definition"]
+    },
+    {
+      "id": "maclane:App.1:def-ac",
+      "kind": "definition",
+      "number": null,
+      "name": "axiom of choice (AC) in a topos: every surjection splits",
+      "statement_summary": "The (categorical) axiom of choice: every epimorphism / surjection f : a -> b has a right inverse (section) tau : b -> a with f o tau = id_b, so every surjection splits; equivalently each point p : 1 -> b is assigned a point tau o p : 1 -> a of a lying over it. (Mac Lane writes 'subjection' for surjection and 'f o tau = b' for f o tau = id_b.)",
+      "book_section": "App.1",
+      "book_page": "291",
+      "pdf_pages": [297],
+      "cross_refs": ["maclane:App.1:def5"],
+      "flags": ["unnumbered", "prose-definition"]
+    },
+    {
+      "id": "maclane:App.1:def-nno",
+      "kind": "definition",
+      "number": null,
+      "name": "natural-numbers object (NNO)",
+      "statement_summary": "A natural-numbers object is an object N equipped with a global element (zero) O : 1 -> N and an endomorphism (successor) s : N -> N that is universal for primitive recursion: for every object b with a point h : 1 -> b and a map k : b -> b there is a unique arrow f : N -> b making the two squares commute, i.e. f o O = h and f o s = k o f (in functional notation f(0) = h and f(n+1) = k(f(n))). This is the Lawvere recursion universal property.",
+      "book_section": "App.1",
+      "book_page": "291",
+      "pdf_pages": [297],
+      "cross_refs": ["maclane:App.1:def5"],
+      "flags": ["unnumbered", "prose-definition"]
+    },
+    {
+      "id": "maclane:App.1:remark-boolean",
+      "kind": "remark",
+      "number": null,
+      "name": "two-valued subobject classifier is a Boolean algebra",
+      "statement_summary": "If the subobject classifier Omega is assumed to have just two (global) elements, i.e. Omega is two-valued (Omega ~= 1 + 1), then Omega is a Boolean algebra; equivalently the topos is Boolean/classical. Formalizable consequence: a two-valued elementary topos has Boolean-algebra truth values.",
+      "book_section": "App.1",
+      "book_page": "291",
+      "pdf_pages": [297],
+      "cross_refs": ["maclane:App.1:def3"],
+      "flags": ["unnumbered"]
+    }
+  ]
+}

@@ -1,0 +1,490 @@
+[
+  {
+    "id": "maclane:IV.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Galois connection",
+      "GaloisConnection",
+      "monotone/antitone Galois connection",
+      "group action / stabilizer / fixing subgroup",
+      "fixed-point set of an action",
+      "polarity of a relation",
+      "Grp / G-Set instance"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'galois' --include='*.v' . -- 16 hits, ALL prose/background essays (Theory/Adjunction.v:78-79 'Between posets, an adjunction is exactly a Galois connection, whose antitone variant recovers classical Galois theory'; Instance/Poset.v:37-100 header essay; Adjunction/GAFT.v:136; Structure/Factorization.v:69; Instance/Adjoints.v:280; Structure/Limit.v:53); no GaloisConnection definition, instance, or theorem",
+      "grep -rniE 'group action|stabilizer|acts on|G-set|GSet' --include='*.v' . -- only the symmetric-group action on multicategory arities (Theory/Multicategory*.v, Theory/Multicategory/Operad.v) and unrelated prose; no group-acting-on-a-set machinery",
+      "grep -rniE 'polarit|antitone' --include='*.v' . -- 3 prose hits (Instance/Poset.v:59,61 on Ore/Birkhoff history; Theory/Adjunction.v:79); no antitone-connection formalization",
+      "Instance/ directory listing -- no Grp, G-Set, Vect, or field/automorphism-group category exists; Instance/Poset.v and Instance/Proset.v build the thin category of a single (pre)order and prove no adjunction between two of them; Instance/Adjoints.v mentions 'posets and Galois connections' only in its background essay"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: rg -i 'galois' hits are all header essays (Instance/Poset.v, Theory/Adjunction.v:78-79, Adjunction/GAFT.v:136, Structure/Factorization.v:69, Instance/Adjoints.v:280, Structure/Limit.v:53); no GaloisConnection formalization, no group-action machinery (Structure/Group.v is group objects in a monoidal category, no actions on sets). Negative log spot-checked and accurate."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "direct image f_*",
+      "inverse image / preimage f^*",
+      "image ⊣ preimage adjunction",
+      "powerset preorder P(U) / subset lattice",
+      "existential image along a function",
+      "Sub functor reindexing"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'direct image|inverse image|preimage' --include='*.v' . -- all hits are the unrelated 'chosen preimage under fmap' sense of fullness/essential surjectivity (Theory/Functor.v:325-332 prefmap, Theory/Equivalence.v eso_obj, etc.); no powerset image functor",
+      "grep -rniE 'powerset|power set' --include='*.v' . -- 1 hit, Structure/Topos.v:75 prose about the categorical power OBJECT Pow a := Ω ^ a inside a topos; no powerset preorder category instance anywhere",
+      "grep -rniE 'existential|direct_image|inverse_image|image_functor' --include='*.v' . -- no hit is a powerset adjunction; Instance/Sets/Image.v is the epi-mono image FACTORIZATION of one setoid morphism (Sets_Image_Factorization), not an adjunction between subset lattices",
+      "Nearest neighbors, checked and rejected: Theory/Subobject/Functor.v gives Sub : C^op ⟶ Sets by chosen-pullback reindexing (the subobject form of f^*) but grep -niE 'adjoint' Theory/Subobject/Functor.v -- 0 hits, no direct-image left adjoint; Construction/Slice/Pullback.v's Bang_Functor/Star_Functor are slice-level f_!/f^* with the adjunction itself unproven (see maclane:IV.5:ex3); Instance/Ens.v morphisms carry a preimage CONDITION (A = f⁻¹(B)) but form no powerset adjunction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: Instance/Sets/Image.v is epi-mono factorization of one morphism, not a powerset adjunction; Structure/Topos.v Pow is the power OBJECT; Instance/Ens.v morphisms carry a preimage condition but no adjunction. Verified the log's claim that Theory/Subobject/Functor.v has 0 'adjoint' hits (rg -ci adjoint: no matches). ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Boolean connectives as adjoints",
+      "Heyting algebra / Heyting prealgebra",
+      "meet right adjoint to diagonal, join left adjoint",
+      "implication right adjoint to conjunction",
+      "bicartesian closed thin category",
+      "deduction theorem as adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := ... (copairing by case analysis); exl := or_introl; exr := or_intror }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := ... } (* exp_iso is the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q) witnessing (- ∧ P) ⊣ (P → -) *)"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) — for any cartesian C (hence for the thin Props), the chosen product is literally the right adjoint of the diagonal."
+      }
+    ],
+    "statement_record": {
+      "book": "In the powerset preorder P(U): the diagonal Δ : P(U) → P(U)×P(U) has right adjoint intersection and left adjoint union; for fixed X, the functor X ∩ − has right adjoint X' ∪ − (X' the complement), since X ∩ Y ≤ Z iff Y ≤ X' ∪ Z. Thus 'and', 'or', 'not'/implication arise as adjoints.",
+      "intree": "Props is the thin category of propositions ordered by implication, made bicartesian closed: Props_Cartesian gives ∧ as the product (meet), Props_Cocartesian gives ∨ as the coproduct (join), and Props_Closed gives implication as the exponential, exp_iso witnessing (- ∧ P) ⊣ (P → -) — 'the deduction theorem' (file header). Diagonal_Product_Adjunction makes the right-adjoint-to-diagonal reading literal for the meet.",
+      "strength_comparison": "intree-weaker: the construction is carried on the thin category Props of propositions (a Heyting prealgebra) rather than on the powerset preorder P(U) of an arbitrary set U — no powerset-lattice category instance exists; the right adjoint of X ∧ − is intuitionistic implication P → −, not Mac Lane's classical complement form X' ∪ −; and the join-as-left-adjoint-to-diagonal is present as Cocartesian structure (product in Props^op) rather than as an explicitly stated left adjunction."
+    },
+    "gap": "No powerset preorder P(U) instance (the book's carrier); the classical/Boolean complement formulation X' ∪ − of the implication adjoint is absent (only the Heyting form P → − on Prop); the union-left-adjoint-to-diagonal is not instantiated as an explicit Adjunction (only via Cocartesian structure and duality).",
+    "negative_search_log": [
+      "grep -rniE 'powerset|power set' --include='*.v' . -- no powerset preorder instance (only Structure/Topos.v:75 power-object prose)",
+      "grep -rniE 'complement' --include='*.v' . -- no Boolean-complement adjoint anywhere (hits are ZX 'complementary observables' and prose)",
+      "grep -rniE 'heyting|lattice' --include='*.v' . -- prose only outside Instance/Props.v / Instance/Two.v headers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL with the same evidence set (Props_Cartesian/Cocartesian/Closed at Instance/Props.v:69/80/94, Diagonal_Product_Adjunction at Adjunction/Diagonal/Product.v:36). All four quotes verified against source; strength_comparison honest (thin Props carrier, Heyting P -> - not Boolean X' cup -, join via Cocartesian not an explicit left adjunction). Gap precise."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction4",
+    "classification": "ABSENT",
+    "aliases": [
+      "quantifiers as adjoints",
+      "existential/universal quantifier adjoint to substitution",
+      "hyperdoctrine",
+      "adjoint triple ∃ ⊣ f* ⊣ ∀ (Σ ⊣ f* ⊣ Π)",
+      "dependent sum / dependent product",
+      "cylinder and projection on powersets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'quantifier' --include='*.v' . -- 7 hits, all prose citing Lawvere's 'Adjointness in Foundations' / 'Quantifiers and Sheaves' (Tools/Abstraction.v:144, Theory/Adjunction.v:75-77, Instance/Poset.v:70, Construction/Slice.v:93, Structure/Pullback.v:124-129, Structure/Topos.v:38,85); no formal statement",
+      "grep -rniE 'hyperdoctrine|adjoint triple|dependent (sum|product)' --include='*.v' . -- prose only (Theory/Adjunction.v:76 'the quantifiers form the adjoint triple ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine'; Comonad/Coalgebra.v:97; Construction/Slice.v:90-96; Construction/Grothendieck.v:91); no hyperdoctrine definition, no fibre-wise quantifier functors",
+      "grep -rniE 'powerset|power set' --include='*.v' . -- no P(U)/P(U×V) preorder instances over which the substitution triple could even be stated",
+      "Categorified surrogate checked and rejected: Construction/Slice/Pullback.v builds Σ_f (Bang_Functor, line 50) and f^* (Star_Functor, line 67) between slices, but the adjunction Σ_f ⊣ f^* is only a commented-out stub (lines 121-125) and NO right adjoint Π_f (the universal quantifier / dependent product) appears anywhere in the tree (grep -rn 'Pi_f\\|Production' -- the Production functor at Slice/Pullback.v:114 is also commented out)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: 'quantifier|hyperdoctrine' hits are citations-in-prose only; Construction/Slice/Pullback.v's Base_Functor_Adjunction (lines 121-128) and Production (line 114) both verified commented out; no Pi_f anywhere. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "orthogonal complement",
+      "Hilbert space / inner product space",
+      "annihilator Galois connection",
+      "antitone Galois connection",
+      "perp operator S ↦ S⊥"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'hilbert|inner product|orthogonal complement' --include='*.v' . -- 3 hits, all prose analogies (Theory/Adjunction.v:38 adjoint operators on a Hilbert space; Theory/Algebra/Frobenius.v:95 orthogonal basis; Structure/Monoidal/Symmetric.v:92 Hilbert spaces as an example of symmetry); no inner-product structure formalized",
+      "grep -rniE 'orthogonal' --include='*.v' . -- all remaining hits are the orthogonal-FACTORIZATION-SYSTEM sense (Theory/Orthogonality.v lifting property e ⫫ m, Structure/Factorization.v, Construction/Localization.v orthogonal subcategory), an unrelated meaning",
+      "grep -rniE 'galois|antitone' --include='*.v' . -- prose only; no Galois connection definition to instantiate (see maclane:IV.5:construction1 log)",
+      "Instance/ directory listing -- no vector-space, normed-space, or Hilbert-space category exists in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no inner-product/Hilbert structure (Theory/Adjunction.v:38 is prose analogy, verified); every 'orthogonal' hit is the factorization-system lifting sense (Theory/Orthogonality.v). ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "closed elements of a Galois connection",
+      "closure operator fixed points",
+      "fixed points of an adjunction / idempotent monad",
+      "local objects (unit an iso)",
+      "reflective subcategory from an idempotent monad",
+      "Eilenberg-Moore of an idempotent monad"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 81,
+        "symbol": "IdempotentMonad",
+        "intree_statement": "Class IdempotentMonad {C : Category} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 224,
+        "symbol": "MLocal_Subcategory",
+        "intree_statement": "Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x); shom := fun _ _ _ _ _ => True; ... |} (* the full subcategory of objects fixed by the monad up to its unit — the categorical 'closed elements' p ≅ RLp *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 345,
+        "symbol": "Idempotent_Reflective",
+        "intree_statement": "Definition Idempotent_Reflective : Reflective MLocal_Subcategory := @Build_Reflective C MLocal_Subcategory MLocal_Full idem_reflector idem_reflective_adj."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 464,
+        "symbol": "Idempotent_EM_Equivalence",
+        "intree_statement": "Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G. (* the Eilenberg–Moore category of the idempotent monad is equivalent to its subcategory of M-local objects *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 198,
+        "symbol": "Reflective_IdempotentMonad",
+        "intree_statement": "Definition Reflective_IdempotentMonad : ... (* the monad of any reflection is idempotent — the converse leg of the reflective ⟺ idempotent-monad correspondence *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a Galois connection (L ⊣ R between posets P, Q): show {p | p = RLp} = {p | p = Rq for some q}, give a bijection from this set of closed elements to {q | q = LRq} in Q, and ask whether this generalizes to an arbitrary adjunction.",
+      "intree": "Construction/Reflective/Idempotent.v develops exactly the categorical generalization on the monad side: for an idempotent monad M (idem_join_iso), the objects with invertible unit (MLocal_Subcategory, sobj := IsIsomorphism (ret x)) form a full reflective subcategory (Idempotent_Reflective), reflective subcategories conversely have idempotent monads (Reflective_IdempotentMonad), and EM(M) is equivalent to the local subcategory (Idempotent_EM_Equivalence). In a poset every Galois connection's monad RL is automatically idempotent, so this is the exercise's closing question answered categorically on one side.",
+      "strength_comparison": "intree-stronger on the generalization (a full reflective-subcategory and Eilenberg–Moore equivalence, not just a bijection of fixed elements), intree-weaker on the exercise proper: the poset-level statements are never instantiated, and only the monad side is treated."
+    },
+    "gap": "The poset statements themselves are absent: no Galois-connection instance exists, so {p | p = RLp} = {p | ∃q, p = Rq} (closed = in the image of R) is nowhere stated; and the comonad side is missing — there is no in-tree bijection/equivalence between the unit-fixed objects in X and the counit-fixed objects in A for an adjunction (the 'closed ↔ coclosed' correspondence): Idempotent.v works entirely from a monad on one category, and no dual idempotent-comonad file exists (grep -rn 'IdempotentComonad' -- 0 hits).",
+    "negative_search_log": [
+      "grep -rniE 'closure operator|closed element' --include='*.v' . -- prose only (Instance/Poset.v:48,64-68 header essay: 'a monad is a closure operator')",
+      "grep -rn 'IdempotentComonad' --include='*.v' . -- 0 hits (no comonad-side dual)",
+      "grep -rniE 'fixed.*adjunction|inverted by' --include='*.v' Theory/ Adjunction/ Construction/ -- no two-sided fixed-point-of-an-adjunction equivalence"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT with Construction/Reflective/Idempotent.v as adjacent; on inspection PARTIAL is the better call: the exercise's closing question (generalize to an arbitrary adjunction) is substantively treated there. All five evidence lines verified (IdempotentMonad:81, Reflective_IdempotentMonad:198, MLocal_Subcategory:224 with sobj := IsIsomorphism (ret x), Idempotent_Reflective:345, Idempotent_EM_Equivalence:464); quotes accurate. Gap correctly isolates the missing poset-level statements (closed = image of R) and the missing comonad/counit side (rg 'IdempotentComonad': 0 hits, re-verified)."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "base change adjunction Σ_f ⊣ f^*",
+      "pullback functor right adjoint to composition",
+      "dependent sum / lower shriek f_!",
+      "slice-category functors from a base morphism",
+      "codomain fibration cartesian lifts"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 50,
+        "symbol": "Bang_Functor",
+        "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); fmap := λ x y f, (_; _) |}. (* the book's f_*: post-composition Σ_f *)"
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 67,
+        "symbol": "Star_Functor",
+        "intree_statement": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in (Pull h f pull; pullback_snd h f pull); fmap := ... |}. (* base change by chosen pullbacks, under Hypothesis pullbacks : ∀ f g, Pullback f g; functoriality fully proven *)"
+      },
+      {
+        "file": "Construction/Displayed/Codomain.v",
+        "line": 232,
+        "symbol": "codomain_cleaving_pullbacks",
+        "intree_statement": "codomain_cleaving / codomain_cleaving_pullbacks (codomain_cleaving at line 204, codomain_cleaving_pullbacks at line 232): cartesian lifts of the codomain displayed category exist iff the corresponding pullbacks do — the fibrational shadow of f^*."
+      }
+    ],
+    "statement_record": {
+      "book": "For C with pullbacks, each f : a → a' gives f_* : C/a → C/a' by composition; show f_* has a right adjoint f^* sending x' → a' to the pullback projection y → a.",
+      "intree": "Both functors are constructed and proven functorial: Bang_Functor (post-composition, no hypotheses) and Star_Functor (pullback base change, under a chosen-pullbacks hypothesis). The header (lines 30-40) states 'These two functors are adjoint, dependent sum on the left and base change on the right: Bang_Functor f ⊣ Star_Functor f', but the adjunction exists only as the commented-out stub Base_Functor_Adjunction (lines 121-125) — which moreover writes the direction backwards (Star ⊣ Bang), a mistake the header itself flags.",
+      "strength_comparison": "intree-weaker: the two functors exist but the adjunction — the entire content of the exercise — is unproven (commented-out stub only)."
+    },
+    "gap": "The adjunction Bang_Functor f ⊣ Star_Functor f (Σ_f ⊣ f^*) is not proven: Construction/Slice/Pullback.v:121-125 is a commented-out Program stub (stated in the wrong direction), and no other file states an adjunction between slice categories (grep -rn 'Bang_Functor\\|Star_Functor' --include='*.v' . -- only this file defines/uses them).",
+    "negative_search_log": [
+      "grep -rniE 'base ?change' --include='*.v' . -- prose plus Construction/Slice/Pullback.v itself; no proven adjunction",
+      "grep -rn 'Bang_Functor|Star_Functor' --include='*.v' . -- defined and referenced only in Construction/Slice/Pullback.v (plus headers of Slice.v/Pullback.v citing the unproven adjunction)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical state: Bang_Functor (line 50) and Star_Functor (line 67) proven functorial, registered (_CoqProject:69); the adjunction only a commented-out stub at lines 121-128, written in the reversed direction Star ⊣ Bang, which the header itself corrects. Corrected the third evidence entry's line number: codomain_cleaving is at Construction/Displayed/Codomain.v:204 and codomain_cleaving_pullbacks at :232 (record had a placeholder line 1)."
+    }
+  },
+  {
+    "id": "maclane:IV.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "cartesian closed category",
+      "CCC",
+      "Closed (type class) over Cartesian + Terminal",
+      "exponential object with specified adjunction",
+      "right adjoints to C→1, diagonal, and -×b"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' := to exp_iso; uncurry' := from exp_iso; eval' {x y} : y^x × x ~> y := uncurry' id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }. (* over Context `{@Cartesian C} *)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 121,
+        "symbol": "Cartesian",
+        "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj; fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl/exr projections; ... } (* specified binary products *)"
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; ... } (* specified terminal object, i.e. right adjoint to C → 1 *)"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) (* the chosen product data is literally a right adjoint to the diagonal *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A category with all finite products specifically given is cartesian closed when C → 1, the diagonal, and each - × b have specified right adjoints with specified adjunctions: a terminal object t, binary products a × b with projection counits, and exponentials c^b with hom(a × b, c) ≅ hom(a, c^b) natural in a and c.",
+      "intree": "The same three layers of chosen structure as type classes: Terminal (chosen terminal_obj with one : x ~> 1), Cartesian (chosen product_obj with fork/exl/exr — the counit projections), and Closed (chosen exponent_obj with the bijection exp_iso : (x × y ~> z) ≊ (x ~> z^y) and the beta law ump_exponents'); Diagonal_Product_Adjunction exhibits the product data as an actual right adjoint of Δ, and naturality of exp_iso in a and c is derived in-file (curry_comp_l, curry_comp).",
+      "strength_comparison": "same — up to presentation: unbundled into three classes conventionally combined (`{@Cartesian C} `{@Closed C _} `{@Terminal C}) rather than one 'cartesian closed' record, and adjunction-naturality is a derived lemma rather than an assumed field (equivalent given the beta law + bijectivity). All structure is specified data, matching the book's 'specifically given'. The preamble's left adjoints (initial object, coproducts) are Structure/Initial.v and Structure/Cocartesian.v."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PRESENT. Verified: Class Closed at Structure/Cartesian/Closed.v:43 with exp_iso + ump_exponents' beta law and derived naturality (curry_comp_l:165, curry_comp:177); Class Cartesian at Structure/Cartesian.v:121; Class Terminal at Structure/Terminal.v:107; Diagonal_Product_Adjunction at Adjunction/Diagonal/Product.v:36 as a genuine Adjunction instance. Unbundled-three-classes presentation faithfully carries the book's 'specified adjoints' since all structure is chosen data."
+    }
+  },
+  {
+    "id": "maclane:IV.6:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "evaluation map",
+      "eval / counit of the exponential adjunction",
+      "universal arrow from - × b to c",
+      "internal hom bifunctor C^op × C ⟶ C",
+      "uncurry id"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id. (* and field eval' {x y} : y^x × x ~> y := uncurry' id, commented 'evaluation; counit, = uncurry id' at line 56 *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 78,
+        "symbol": "ump_exponents",
+        "intree_statement": "Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f (* universality: existence; uniqueness of the transpose from exp_iso via curry_uncurry/uncurry_curry, lines 101-111 *)"
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => exponent_obj (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}. (* (b,c) ↦ c^b as a bifunctor — the parameter-theorem consequence the book cites *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The counit e = e_{b,c} : c^b × b → c of the exponential adjunction is the evaluation map; it is natural in c and universal from - × b to c, specifying the adjunction is equivalent to specifying such an e for each b, c, and by the parameter theorem (b,c) ↦ c^b becomes a bifunctor C^op × C → C.",
+      "intree": "eval := uncurry id is defined and documented as the counit; ump_exponents gives the couniversal beta law eval ∘ first (curry f) ≈ f with uniqueness from exp_iso being an isomorphism (curry_uncurry/uncurry_curry), plus the derived calculus (eval_curry, eval_first, curry_eval, curry_comp_l); InternalHomFunctor packages (b,c) ↦ c^b as an honest bifunctor C^op ∏ C ⟶ C with action [f,g] = curry (g ∘ eval ∘ second f).",
+      "strength_comparison": "same in substance; one presentational asymmetry: the library defines Closed from exp_iso and derives eval, and does not package the converse constructor (given a couniversal e for each b,c, build Closed) as a named smart constructor — but the equivalence's content (existence + uniqueness of transposes against eval) is fully proven, and in Sets/Cat the instances' eval computes to ordinary evaluation (Instance/Sets/Cartesian/Closed.v header, Instance/Cat/Cartesian/Closed.v header) as the book notes."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PRESENT. Verified eval := uncurry id at line 75 (field eval' with 'evaluation; counit' comment at line 56), ump_exponents at 78, uniqueness via curry_uncurry/uncurry_curry at 101/107, and InternalHomFunctor : C^op ∏ C ⟶ C at Functor/Hom/Internal.v:40 (line corrected from 41; definition spans 40-45, quote accurate). The noted asymmetry (no named converse constructor from a couniversal e) is real but presentational; content of the equivalence is proven."
+    }
+  },
+  {
+    "id": "maclane:IV.6:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Set is cartesian closed",
+      "Sets_Closed",
+      "function-set exponential hom(b,c)",
+      "setoid exponential SetoidMorphism",
+      "Coq_Closed (type-theoretic Set)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y; is_setoid := SetoidMorphism_Setoid x y |}; exp_iso := ... }. (* header: evaluation z^y × y → z is λp. (fst p) (snd p); fully constructive, no axioms *)"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { ... }"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { ... }"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 167,
+        "symbol": "Coq_Closed",
+        "intree_statement": "Program Instance Coq_Closed : @Closed Coq _ := { ... } (* the bare-Coq-types analogue; per the file header it spends exactly one stdlib axiom *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Set is cartesian closed: the exponential c^b is hom(b,c), the set of functions from b to c, with evaluation the ordinary evaluation of a function at an argument.",
+      "intree": "Sets (the library's category of setoids, its standing surrogate for Set) is cartesian closed: Sets_Terminal + Sets_Cartesian + Sets_Closed with exponential the setoid of ≈-respecting maps SetoidMorphism y z under pointwise equivalence, and eval = uncurry id computing to λp. (fst p)(snd p) — ordinary evaluation. Instance/Coq.v gives the same for raw Coq types (Coq_Closed).",
+      "strength_comparison": "same, up to the library's setoid reading of Set (hom-setoids with ≈; faithful per the frozen conventions): the exponential carries functions-that-respect-≈ rather than raw functions, which is the correct transport of hom(b,c) to Bishop sets."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PRESENT: Sets_Terminal (Instance/Sets.v:248), Sets_Cartesian (Instance/Sets/Cartesian.v:32), Sets_Closed with SetoidMorphism exponential (verified; line corrected 40 -> 38), plus Coq_Closed (Instance/Coq.v:167, one-axiom note at line 84 verified). Setoid reading faithful per frozen conventions."
+    }
+  },
+  {
+    "id": "maclane:IV.6:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat is cartesian closed",
+      "Cat_Closed",
+      "functor category as exponential C^B = [B,C]",
+      "currying of bifunctors",
+      "evaluation functor (G,b) ↦ G b"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := ... }. (* 'the internal hom is a functor category'; to = currying F : A × B ⟶ C to A ⟶ [B, C], from = uncurrying, eval : [B,C] × B ⟶ C is (G,b) ↦ G b recovered as uncurry id; header: all obligations proven, no axioms *)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { ... } (* product category C × D via Construction/Product.v *)"
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 54,
+        "symbol": "Cat_Terminal",
+        "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { ... } (* the one-object one-arrow category 1 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Cat is cartesian closed, the exponential C^B being the functor category of all functors B → C with natural transformations as morphisms.",
+      "intree": "Cat_Closed : @Closed Cat Cat_Cartesian with exponent_obj := @Fun, i.e. C^B = [B, C] the functor category (Instance/Fun.v), exp_iso the currying/uncurrying bijection Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]), and evaluation the bifunctor (G, b) ↦ G b; products from Cat_Cartesian, terminal from Cat_Terminal.",
+      "strength_comparison": "same — indeed stated for the full universe-polymorphic Cat of all categories, with the book's small-category size caveat handled by the library's universe polymorphism rather than a smallness hypothesis."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PRESENT: Cat_Closed at Instance/Cat/Cartesian/Closed.v:47 with exponent_obj := @Fun (verified verbatim), Cat_Cartesian at Instance/Cat/Cartesian.v:39, Cat_Terminal at Instance/One.v:54 (all verified)."
+    }
+  },
+  {
+    "id": "maclane:IV.6:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "tensor-hom adjunction for K-modules",
+      "- ⊗_K B ⊣ hom_K(B,-)",
+      "closed monoidal / symmetric monoidal closed category",
+      "internal hom of modules",
+      "evaluation counit hom(B,A) ⊗ B → A"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 109,
+        "symbol": "SymMonClosed",
+        "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj; exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; eval' {x y} : (x ⇒ y) ⨂ x ~> y := uncurry' id; ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }. (* the general tensor-hom adjunction over a genuinely non-cartesian symmetric tensor, determined by its evaluation counit *)"
+      },
+      {
+        "file": "Structure/Monoidal/Closed.v",
+        "line": 46,
+        "symbol": "ClosedMonoidal",
+        "intree_statement": "Class ClosedMonoidal := { closed_is_cartesian : @CartesianMonoidal C; exponent_obj ...; exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; eval' := uncurry' id; ump_exponents' : ∃! h, f ≈ eval' ∘ (h ⨂ id) }. (* the cartesian-bundled variant *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a commutative ring K, the functor - ⊗_K B on K-Mod has right adjoint hom_K(B, -), the adjunction being determined by the evaluation counit hom_K(B, A) ⊗_K B → A.",
+      "intree": "The abstract shape of the construction is fully formalized: SymMonClosed packages a specified right adjoint y ⇒ - to - ⨂ y over a symmetric monoidal base via exp_iso, with eval' the counit and ump_exponents' the exactly-one-transpose-against-eval law ('the adjunction is determined by the evaluation counit'). ClosedMonoidal is the same shape bundled over a cartesian tensor. Neither is instantiated at a category of modules.",
+      "strength_comparison": "intree-weaker: only the parametric class exists; the book item's substance is the concrete K-Mod instance, and no category of modules (or rings, or abelian groups — the additive spine stops at Instance/CMon.v's commutative monoids, which carry biproducts, not a tensor-hom closure) exists in-tree. The only concrete closed-monoidal instances are cartesian ones (e.g. Coq_ClosedMonoidal, Instance/Coq.v:179), so no non-cartesian tensor-hom adjunction is witnessed anywhere."
+    },
+    "gap": "No category of K-modules (nor rings/Ab) is formalized, so the tensor-hom adjunction for modules cannot even be stated concretely; SymMonClosed has no non-cartesian in-tree instance to stand in for the example. Building K-Mod (or at least Ab) with its tensor and internal hom would be required.",
+    "negative_search_log": [
+      "grep -rniE 'R-Mod|K-Mod|module categor|category of modules|tensor-hom' --include='*.v' . -- prose only (Theory/Adjunction.v:36 'the paradigm case being the tensor-hom adjunction'; Structure/Closed.v:24,101; Theory/Equivalence.v:79; Structure/Monoid.v:69); no module category",
+      "Instance/ directory listing -- no Mod, Ring, Ab, or Vect instance; the closest additive structure is Instance/CMon.v (commutative monoids, biproducts only)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT (no K-Mod), but PARTIAL is defensible and the record is honest: SymMonClosed (Structure/Monoidal/StarAutonomous.v:109, quote verified including the ∃!-transpose-against-eval field, i.e. 'determined by the evaluation counit') is exactly the book construction's abstract shape over a genuinely non-cartesian symmetric base; ClosedMonoidal (Structure/Monoidal/Closed.v:46, verified, ∃! form) is the cartesian-bundled variant. Verified the key negative claim: SymMonClosed has NO instance anywhere in-tree (rg: only the defining file plus one prose mention in Structure/Closed.v:105), and Coq_ClosedMonoidal (Instance/Coq.v:179) is cartesian-derived. Gap correctly states no module/Ab category exists."
+    }
+  }
+]

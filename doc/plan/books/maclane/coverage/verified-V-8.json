@@ -1,0 +1,393 @@
+[
+  {
+    "id": "maclane:V.8:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Special Initial Object Theorem",
+      "initial object from a small cogenerating set + completeness",
+      "Freyd special initial-object construction (intersection of all subobjects of the cogenerator product)",
+      "Initial / @Initial C produced from Cogenerator + Complete + intersections",
+      "wide pullback / intersection of a family of subobjects",
+      "canonical map into a power of the cogenerating family is monic"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 223,
+        "symbol": "cogenerator_canonical_monic",
+        "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c)."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 99,
+        "symbol": "Cogenerator",
+        "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 119,
+        "symbol": "SubobjectIndex",
+        "intree_statement": "Record SubobjectIndex {C : Category} (x : C) := { sub_index : Type; sub_dom : sub_index -> C; sub_mono : forall i, sub_dom i ~> x; sub_monic : forall i, Monic (sub_mono i) }."
+      }
+    ],
+    "statement_record": {
+      "book": "If D is small-complete, has small hom-sets, has a small cogenerating set Q, and every set of subobjects of each object of D has an intersection, then D has an initial object — namely the intersection r of all subobjects of the product q0 = ∏_{q∈Q} q. (Uniqueness of r → d from a proper-equalizer-subobject argument; existence by pulling the monic j : d → ∏_H q back along k : q0 → ∏_H q.)",
+      "intree": "Lemma cogenerator_canonical_monic ... : Monic (cogen_canonical comp G c).  — and, separately and with different hypotheses — Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit ...) (Pe : Limit ...) (E : HasEqualizers C) : @Initial C.",
+      "strength_comparison": "intree-weaker: no in-tree statement concludes an initial object from small-completeness + a cogenerating set + intersections. What is present is (a) the hypothesis vocabulary [Cogenerator] / [SubobjectIndex], and (b) exactly one step of Mac Lane's proof — 'since Q cogenerates, the canonical map into the power of the family is monic' — proved in full as [cogenerator_canonical_monic] and genuinely consuming [cog_separates]. The only initial-object production theorem in the tree, [initial_from_weakly_initial], has the *V.6* (GAFT) hypothesis of a weakly initial family plus two Type-indexed products and equalizers; that hypothesis is neither implied by nor implies Theorem 1's, and its construction (joint equalizer of all endomorphisms of the product) is a different construction from Theorem 1's (intersection of all subobjects of the cogenerator product)."
+    },
+    "gap": "The theorem itself is unstated. Three specific pieces are missing: (1) the intersection of a *family* of subobjects — the library has no wide pullback / no intersection operation at all; [Structure/Pullback.v:94] only remarks in prose that a binary pullback of two monos is an intersection of subobjects, and nothing constructs a limit of an arbitrary family of monos into a fixed object; (2) the uniqueness half of Theorem 1 (two distinct r → d would have an equalizer that is a strictly smaller subobject of q0 than the intersection) — no such argument exists in-tree; (3) the conclusion, an `Initial D` derived from `Complete D` + `Cogenerator D` + intersections. In-tree SAFT (Adjunction/SAFT.v:274) deliberately bypasses Theorem 1 entirely, routing instead through GAFT's solution-set / weakly-initial construction with the image-factorization step supplied as the caller-provided datum [SubobjectCover].",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'initial.object.theorem|special initial|initial_from|weakly.initial|WeaklyInitial' . — only initial_from_weakly_initial (V.6 route) and its callers",
+      "rg -n -i --glob '*.v' 'intersection|wide pullback|widepullback|Intersect' . — 3 hits, all prose (Structure/Factorization.v:70, Structure/Pullback.v:94, Construction/Groupoid.v:59); no construction",
+      "rg -n -i --glob '*.v' 'wide pullback|pullback of a family|family of monic|multiple pullback|limit of monos' . — 0 hits",
+      "rg -n -i --glob '*.v' '\\bgenerator\\b|generating set|generating family|jointly faithful|separating' . — Cogenerator only in Adjunction/SAFT.v",
+      "rg -n --glob '*.v' 'Initial' ./Adjunction/SAFT.v — 0 hits (SAFT never mentions an initial object)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage) reached the SAME classification, PARTIAL, from the same two anchors. My independent searches: `rg -i 'intersection' -g '*.v'` -> 3 hits, all prose (Structure/Factorization.v:70, Structure/Pullback.v:94, Construction/Groupoid.v:59); `rg -i 'wide pullback|family of monic|WidePullback' -g '*.v'` -> 0 hits; `rg -i 'cogenerat' -g '*.v'` -> Adjunction/SAFT.v only; `rg -n 'Initial' Adjunction/SAFT.v` -> exit 1, 0 hits (independently reproduced). Citation audit: SAFT.v:99 Cogenerator, SAFT.v:119 SubobjectIndex, SAFT.v:223 cogenerator_canonical_monic and Theory/WeaklyInitial.v:89 initial_from_weakly_initial all sit at the cited lines with the quoted types verbatim; Structure/Pullback.v:94 does read 'the pullback of two monomorphisms is the intersection of subobjects' as prose only. The identification of cogenerator_canonical_monic with Mac Lane's 'since Q cogenerates, j is monic' step is CORRECT and precise: cogen_power_index is the hom-indexed set H, cogen_canonical is Mac Lane's j, and monicity is proved from cog_separates. ADVERSARIAL STRENGTHENING (found while confirming, not in the Phase C record): that lemma is DEAD CODE. `rg 'cogenerator_canonical_monic|cogen_power|cogen_canonical' -g '*.v'` returns hits only inside SAFT.v's own definitions/comments plus one prose mention at Structure/Complete.v:90, and nothing in the tree Requires Category.Adjunction.SAFT at all. So the one proof step of Theorem 1 that is in-tree feeds no theorem; this makes the PARTIAL verdict, if anything, generous. Adjunction/SAFT.v is registered at _CoqProject:8 and has a .vo, so the evidence is genuinely compiled."
+    }
+  },
+  {
+    "id": "maclane:V.8:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Special Adjoint Functor Theorem",
+      "SAFT",
+      "Freyd SAFT",
+      "left adjoint from well-powered + cogenerating set",
+      "G has a left adjoint iff G preserves small limits and pullbacks of families of monics",
+      "adjoint functor theorem (special form)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 240,
+        "symbol": "SubobjectCover",
+        "intree_statement": "Definition SubobjectCover {C D : Category} (U : C ⟶ D) (comp : @Complete C) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) : Type := forall (d : D) (c : C) (h : d ~> U c), { i : sub_index (WP (cogen_prod comp G)) & { s : d ~> U (sub_dom (WP (cogen_prod comp G)) i) & { t : sub_dom (WP (cogen_prod comp G)) i ~> c & fmap[U] t ∘ s ≈ h } } }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G."
+      }
+    ],
+    "statement_record": {
+      "book": "Let A be small-complete with small hom-sets and a small cogenerating set Q, and suppose every set of subobjects of an object of A has a pullback (hence an intersection); let X have small hom-sets. Then G : A → X has a left adjoint IF AND ONLY IF G preserves all small limits and all pullbacks of families of monics. (Sufficiency by constructing an initial object in each comma (x ↓ G) via Theorem 1; necessity because right adjoints preserve limits.)",
+      "intree": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U }",
+      "strength_comparison": "intree-weaker on three axes and intree-stronger on one. WEAKER: (i) only the sufficiency direction is stated — no iff, and the necessity half exists only as the separate [right_adjoint_PreservesImageLimit] / [right_adjoint_preserves_limits], never combined with SAFT into a biconditional; (ii) the crux of the classical sufficiency proof, the image factorization of h : d ~> U c through a subobject of the cogenerator product, is NOT derived but assumed as the extra hypothesis [cover : SubobjectCover] — the file's own header concedes 'the honest reading ... is therefore to package this half as DATA'; (iii) the passage through the comma category (x ↓ G) and Theorem 1 is replaced by the GAFT solution-set route, so Mac Lane's actual argument (subobjects in (x ↓ G) are monos in A; Q' = {k : x → Gq} cogenerates (x ↓ G); intersections in (x ↓ G) come from pullbacks in A) is nowhere carried out. STRONGER on the preservation axis: [cont] asks U to preserve ALL limits cone-level (PreservesImageLimit), not merely small limits and pullbacks of families of monics."
+    },
+    "gap": "Missing: the necessity direction packaged with the theorem (an iff); the derivation of the covering/image-factorization step from well-poweredness + [cogenerator_canonical_monic] + intersections (currently the hypothesis [cover]); the comma-category verification (Mac Lane's Lemma on monics in (x ↓ G), the cogenerating set Q' of (x ↓ G), and intersections in (x ↓ G) obtained by pulling back monics in A and using that G preserves those pullbacks); and the weaker preservation hypothesis 'small limits + pullbacks of families of monics'. Also never instantiated: docs/INHABITATION.md records 'SAFT | SolutionSet + Cogenerator + SubobjectIndex | none of the three is inhabited; SAFT is never applied'.",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'SAFT|special adjoint' . — only Adjunction/SAFT.v plus cross-reference prose in GAFT.v, Complete.v, Topos.v, Lawvere/*",
+      "rg -n -i --glob '*.v' 'left adjoint iff|iff continuous|has a left adjoint <->' . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the SAME classification, PARTIAL, on the same three grounds (sufficiency only; the image-factorization crux assumed as `cover : SubobjectCover`; the comma-category route replaced by GAFT's solution set). Citation audit, all four evidence entries confirmed at the cited lines with accurate quotes: Adjunction/SAFT.v:274 SAFT (signature verbatim, including `cover`), Adjunction/SAFT.v:240 SubobjectCover, Construction/Comma/Limit.v:264 right_adjoint_PreservesImageLimit, Adjunction/Continuity.v:202 right_adjoint_preserves_limits. The header quotation 'the honest reading ... is therefore to package this half as DATA' is accurate (SAFT.v:59-61). docs/INHABITATION.md:54 does read '| `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |' - verified verbatim; independently, nothing in the tree Requires Category.Adjunction.SAFT. TWO CORRECTIONS TO THE RECORD'S WORDING (not to its verdict, so no overturn): (a) SIGN ERROR in strength_comparison. It says 'intree-weaker on three axes and intree-stronger on one', then explains the 'stronger' axis as '[cont] asks U to preserve ALL limits cone-level'. A STRONGER HYPOTHESIS yields a WEAKER theorem, so on that axis the in-tree STATEMENT is weaker too, not stronger. Phase E must not read this as the library over-delivering. (b) The record does not note that `cover` alone carries the covering content: SAFT_solution_set (SAFT.v:252-267) builds sol_index/sol_obj/sol_arr from WP's index and sub_dom, and discharges the factorization obligation purely by `destruct (cover d c h)`. `sub_monic` is never consumed (the header concedes this at SAFT.v:70-72) and `cog_separates` never reaches SAFT either, since cogenerator_canonical_monic has zero uses tree-wide. Effectively SAFT = GAFT + a hand-supplied solution set, re-indexed."
+    }
+  },
+  {
+    "id": "maclane:V.8:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "monics in the comma category (x ↓ G)",
+      "an arrow of (x ↓ G) is monic iff its underlying A-arrow is monic",
+      "comma projection reflects monomorphisms",
+      "comma_proj2 is faithful / reflects monos",
+      "kernel-pair characterization of monomorphism (mono iff kernel pair is (1,1))",
+      "creation of kernel pairs by the comma projection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Monic|Monomorphism' ./Construction/Comma.v ./Construction/Comma/ — 0 hits; the comma files never mention monos",
+      "rg -n -i --glob '*.v' 'reflects.*mono|monic.*reflect|Faithful.*[Mm]onic|monic_of|_monic\\b' . — the only hits are abelian/regular image lemmas, equalizer_monic, truth_monic, cogenerator_canonical_monic; none about comma categories",
+      "rg -n -i --glob '*.v' 'kernel pair|kernel_pair|KernelPair' . — only Structure/Regular/Factorization.v (image factorization via the kernel pair) and a prose mention in Structure/Pullback.v:95; no 'monic iff kernel pair is the identity pair' lemma",
+      "rg -n -i --glob '*.v' 'Faithful' ./Construction/ — Karoubi_Embed_Faithful, Cayley, Subcategory, Reflective/Idempotent; no Faithful instance for comma_proj1/comma_proj2",
+      "rg -n --glob '*.v' 'comma_proj' ./Construction/Comma.v — comma_proj, comma_proj1, comma_proj2, comma_proj_nat are defined (lines 185-214) with no monic/faithful lemmas attached",
+      "near-miss checked and rejected: Theory/Adjunction.v:311 'Theorem adj_monic {x y} (f : F x ~> y) c (g h : c ~> x) : Faithful F → Monic f -> ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h' — about adjoint transposes, not comma-category monos",
+      "near-miss checked and rejected: Construction/Comma/Limit.v proves Comma_Complete (limits in =(d) ↓ U), which is the *input* Mac Lane's lemma uses, but the lemma's conclusion (monic in the comma ⟺ monic underneath) is never drawn"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT before reading the record. My searches: `rg -n -i 'monic' Construction/Comma.v Construction/Comma/*.v` -> 0 hits (reproduced the classifier's key negative); `rg -n -i 'kernel pair|kernel_pair|KernelPair' -g '*.v'` -> Structure/Regular.v:41-46 (kernel_pair as the pullback of f along itself), Structure/Regular/Factorization.v, and prose at Structure/Equalizer.v:98 / Structure/Pullback.v:95 - no 'monic iff kernel pair is (1,1)' lemma; `rg -n 'comma_proj' Construction/Comma.v` -> comma_proj:185, comma_proj1:196, comma_proj2:204, comma_proj_nat:214, plus comma_proj_mor_iso:220 and comma_proj_com_iso:231 - the classifier's '185-214' is right and none of these is a monic/faithfulness lemma. The near-miss it rejected, Theory/Adjunction.v:310-312, is indeed about adjoint transposes under a faithful F, not comma monos - correct rejection. Nothing in Construction/Comma/Limit.v draws the conclusion either; it supplies limit creation, which is the lemma's INPUT. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "well-powered category",
+      "co-well-powered category",
+      "subobjects of each object form a small set",
+      "WellPowered class / SubobjectIndex",
+      "small indexing of Sub(a) / quotient objects form a set"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 119,
+        "symbol": "SubobjectIndex",
+        "intree_statement": "Record SubobjectIndex {C : Category} (x : C) := { sub_index : Type; sub_dom : sub_index -> C; sub_mono : forall i, sub_dom i ~> x; sub_monic : forall i, Monic (sub_mono i) }."
+      },
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 117,
+        "symbol": "(header) well-poweredness",
+        "intree_statement": "\"Well-poweredness of [C] is then [forall x, SubobjectIndex x]: the subobjects of every object are supplied as a small family of data.\""
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 15,
+        "symbol": "SubObj",
+        "intree_statement": "Record SubObj {C : Category} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }.  (* with SubObj_Setoid whose equiv is { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A is well-powered when for each object a the subobjects of a can be indexed by a small set: there is a small set J_a and a BIJECTION from J_a onto the set of all subobjects of a. Dually co-well-powered (quotient objects of each object form a small set). Consequence recorded: A well-powered and small-complete ⇒ every set of subobjects of an object has an intersection, formed by pullback, so the extra hypothesis of Theorems 1 and 2 is automatic.",
+      "intree": "Record SubobjectIndex {C : Category} (x : C) := { sub_index : Type; sub_dom : sub_index -> C; sub_mono : forall i, sub_dom i ~> x; sub_monic : forall i, Monic (sub_mono i) }.  Well-poweredness of C is (informally, in the header only) [forall x, SubobjectIndex x].",
+      "strength_comparison": "intree-weaker in a way that matters. (1) SubobjectIndex demands only a Type-indexed FAMILY of monos into x; it never requires the indexing to be surjective onto (let alone bijective with) the subobjects of x, so the empty family trivially inhabits it. Mac Lane's definition is a bijection onto ALL subobjects of a. (2) It is not a named class: 'well-powered' exists only as header prose, never as a definition [WellPowered C]. (3) The library's own header admits the field is inert: 'The existence proof does not consume [sub_monic] — smallness is supplied here as data, not derived'. (4) Theory/Subobject.v's SubObj x carries the genuine subobject setoid (monos modulo domain isomorphism over x) — the right object to ask smallness of — but nothing anywhere relates SubObj x to SubobjectIndex x or asserts any smallness of it."
+    },
+    "gap": "Three missing pieces: (a) the exhaustiveness/bijectivity clause — no in-tree statement says that the chosen index enumerates ALL subobjects of x, so `SubobjectIndex` is a strictly weaker predicate than well-poweredness (it is trivially satisfiable); (b) the dual notion co-well-powered (quotient objects) does not exist anywhere in the tree; (c) the recorded consequence 'well-powered + small-complete ⇒ every set of subobjects has an intersection' is absent, since no intersection/wide-pullback construction exists at all.",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'well.powered|wellpowered' . — hits only in Adjunction/SAFT.v (header prose + SubobjectIndex) and Structure/Complete.v:84 (prose)",
+      "rg -n -i --glob '*.v' 'co.?well.?powered|quotient object' . — 0 hits",
+      "rg -n --glob '*.v' 'Subobject' . — Theory/Subobject.v, Theory/Subobject/Functor.v, Structure/SubobjectClassifier.v, Instance/{FinSet,Sets}/Classifier.v, Adjunction/SAFT.v; none states smallness of the subobject collection",
+      "rg -n -i --glob '*.v' 'locally small|small hom|smallness|small set' . — smallness is carried implicitly by universe polymorphism (Structure/Complete.v:27-37); no smallness predicate exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the SAME classification, PARTIAL, with the same core objection: SubobjectIndex is a bare Type-indexed family of monos with NO exhaustiveness/bijectivity clause, so the empty index inhabits it and it is strictly weaker than Mac Lane's 'bijection from J_a onto the set of ALL subobjects of a'. Citation audit: Adjunction/SAFT.v:119-124 SubobjectIndex matches verbatim; the header quotation at SAFT.v:117-118 ('Well-poweredness of [C] is then [forall x, SubobjectIndex x] ...') is accurate; Theory/Subobject.v:15-19 SubObj matches, and SubObj_Setoid's equiv is exactly the quoted `{ i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u }` (Theory/Subobject.v:34-36). The 'inert field' quotation at SAFT.v:70-72 is accurate. Independently confirmed: `rg -i 'co.?well.?powered|quotient object' -g '*.v'` -> 0 hits, so the dual is genuinely absent, and there is no `Definition WellPowered` anywhere. ADDITIONAL FINDING (fed to problems[]): SubobjectIndex's projections are NAMED `sub_dom` and `sub_mono`, colliding with the identically-named top-level projections of Theory/Subobject.v's genuine `SubObj` record. Both files are in _CoqProject (465 and 8) and both issue `Arguments sub_dom {C x} _.`; the clash is currently latent only because nothing Requires Category.Adjunction.SAFT. This is exactly the 'same-name-weaker-statement' hazard: the weak indexing datum has stolen the names of the real subobject API. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.8:cor1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "classical Special Adjoint Functor Theorem",
+      "complete + well-powered + cogenerating set ⇒ left adjoint iff continuous",
+      "continuous functor A → Set is representable",
+      "Freyd representability theorem (special form)",
+      "SAFT corollary"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/SAFT.v",
+        "line": 274,
+        "symbol": "SAFT",
+        "intree_statement": "Definition SAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x."
+      },
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }."
+      }
+    ],
+    "statement_record": {
+      "book": "Corollary (classical SAFT). If A is small-complete, well-powered, with small hom-sets and a small cogenerating set, and X has small hom-sets, then G : A → X has a left adjoint if and only if G is continuous (preserves all small limits). In particular every continuous functor K : A → Set is representable.",
+      "intree": "Definition SAFT ... (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U }.",
+      "strength_comparison": "intree-weaker: the corollary's whole point is that well-poweredness alone suffices — the intersections hypothesis of Theorem 2 is discharged from well-poweredness + completeness, and 'preserves pullbacks of families of monics' collapses into plain continuity. Neither discharge happens in-tree: [SAFT] still carries an extra hypothesis [cover] that the book DERIVES, so the corollary's exact hypothesis set never yields the conclusion. Additionally only the (⇐) direction exists (no iff), and the second sentence — every continuous K : A ⟶ Sets is representable — has no in-tree counterpart at all: [Representable] is defined but no theorem ever produces an instance from limit preservation."
+    },
+    "gap": "Two distinct pieces missing. (1) The reduction 'well-powered + small-complete ⇒ every family of subobjects has an intersection', which is what turns Theorem 2 into this corollary — the library has no intersection/wide-pullback construction, and its `SubobjectIndex` carries no exhaustiveness clause, so the reduction is not even statable as-is. (2) The representability half: no theorem 'K : A ⟶ Sets continuous (on a complete well-powered A with a cogenerating set) ⇒ Representable K'. Also, as with V.8:thm2, no iff is assembled from the separately-proved necessity ([right_adjoint_PreservesImageLimit]).",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'Representab|representable' . — Functor/Representable.v (class only), Structure/UniversalProperty*.v (representability of universal properties via Yoneda), Theory/Profunctor*.v (representable profunctors); no theorem deriving representability from limit preservation",
+      "rg -n -i --glob '*.v' 'continuous|Continuity|preserves all small|PreservesLimit' . — Structure/Limit/Preservation.v (PreservesLimit/PreservesAllLimits), Adjunction/Continuity.v (RAPL/LAPC), Construction/Comma/Limit.v (PreservesImageLimit); no 'Continuous' definition and no representability corollary",
+      "rg -n -i --glob '*.v' 'well.powered' . — see V.8:def1 log; no lemma 'well-powered + complete ⇒ intersections'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL (I hesitated between ABSENT and PARTIAL and settled on PARTIAL for the same reason the classifier did: a weakened SAFT exists and is the right anchor, while both distinctive contents of the corollary are missing). Citation audit: Adjunction/SAFT.v:274 SAFT verbatim; Construction/Comma/Limit.v:110-113 PreservesImageLimit quoted exactly as it appears (the ∃! over φ with `image_leg L x ∘ φ ≈ cone_leg N x`); Functor/Representable.v:46-49 `Class Representable` matches, and I independently confirmed that file Requires only Lib/Category/Isomorphism/Functor/Hom/Sets - no adjunction, no limits - so nothing there could derive representability from continuity. `rg 'Representable' -g '*.v'` across the tree finds only the class definition, representable PROFUNCTORS (Theory/Profunctor*.v), representable MULTICATEGORIES, and Structure/UniversalProperty.v's Yoneda repackaging - no theorem whose conclusion is `Representable K` from a preservation hypothesis. The gap statement is honest and precise. One nuance worth carrying to Phase E: because in-tree SAFT already takes `cover` as data, the corollary's reduction (well-powered + complete discharges the intersections hypothesis) cannot even be STATED without first building wide pullbacks, so this item is downstream of the intersection gap recorded on V.8:thm1 and V.8:def1."
+    }
+  },
+  {
+    "id": "maclane:V.8:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone-Čech compactification",
+      "βX / beta compactification",
+      "left adjoint to the inclusion CompHaus ↪ Top",
+      "reflection of Top into compact Hausdorff spaces",
+      "compact Hausdorff category, unit interval I as cogenerator, Urysohn's lemma",
+      "Top / topological spaces / continuous maps as a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'Stone|Cech|compactif|CompHaus|compact Hausdorff|Tychonoff|Urysohn' . — every hit is prose: 'Rosetta Stone' citations, Theory/Equivalence.v:120-122 (Stone duality as motivation), Theory/Universal/Arrow.v:40,46 (Čech compactification named historically as a universal-arrow example), 'capstone'/'milestone' false positives",
+      "rg -n -i --glob '*.v' -l 'topolog' . — hits are all background essays (Structure/Terminal.v, Structure/Monoidal.v, Theory/Sheaf.v, ...); there is no Top category instance",
+      "ls Instance/ and Instance/*/ — no Top, no CompHaus, no topological instance of any kind (Sets, Coq, Cat, Fun, FinSet, CMon, Ens, Lambda, Omega, StrictCat, Two, ZX, ...)",
+      "rg -n -i --glob '*.v' 'completely regular' . — 0 hits",
+      "near-miss checked and rejected: Construction/Reflective.v:60 'Record Reflective {C : Category} (S : Subcategory C) := { reflective_full; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }' supplies the abstract SHAPE (left adjoint to a full-subcategory inclusion) but no topological instance and no connection to SAFT"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches: `rg -i 'stone.?.?ech|compactif|CompHaus|compact hausdorff' -g '*.v'` -> 3 hits, all prose (Theory/Universal/Arrow.v:40 and :46 naming the Stone-Cech / Cech compactification historically as a universal-arrow example, Theory/Equivalence.v:122 citing Gelfand-Naimark for compact Hausdorff spaces) - I opened all three and they are background essays, not constructions. `rg -i 'topological space' -g '*.v'` -> 0 hits. A full `ls Instance/` shows Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX - no Top, no CompHaus, no topology of any kind. The near-miss the classifier flagged (Construction/Reflective.v:60 `Record Reflective`) is at the cited line and is correctly rejected: it is the abstract shape only. NOT OUT_OF_SCOPE - a category of topological spaces is perfectly formalizable here (the library has universe polymorphism and setoid hom-sets); it simply does not exist. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:thm-watt",
+    "classification": "ABSENT",
+    "aliases": [
+      "Watt's theorem / Watts theorem / Eilenberg-Watts theorem",
+      "continuous additive contravariant functor on R-Mod is representable",
+      "T ≅ hom_R(-, C) for some R-module C",
+      "R is a generator in R-Mod / cogenerator in (R-Mod)^op",
+      "additive functor R-Mod → Ab preserving limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'Watt' . — 0 hits",
+      "rg -n -i --glob '*.v' 'R-Mod|RMod|Module|tensor_R|copower' . — 'Module' hits are all Coq `Module` declarations (Lib/*, Instance/Comp.v) or prose in Structure/Abelian.v; no module category exists",
+      "rg -n --glob '*.v' 'Ab\\b|AbGroup|Abelian group|Grp\\b' . — prose only (Structure/Abelian.v, Structure/Complete.v:55, Construction/Enriched.v); no Ab or Grp instance category",
+      "rg -n -i --glob '*.v' 'additive functor|AdditiveFunctor|preserves.*addition|Ab-enriched' . — only prose in Construction/Enriched.v:107 and Structure/Preadditive.v:22; no notion of an additive functor is defined",
+      "rg -n --glob '*.v' '^(Class|Record|Definition|Theorem|Lemma)' ./Structure/Additive.v — Class Additive (C : Category) plus negation lemmas; a class on categories, never on functors",
+      "rg -n -i --glob '*.v' 'Representab|representable' . — the Representable class exists but no theorem produces an instance from continuity/additivity"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. `rg -i 'watt' -g '*.v' -g '*.md'` -> 0 hits (reproduced). `rg -i '\\bR-Mod\\b|RMod|Module category' -g '*.v'` -> only prose in Structure/Abelian.v:69,106,111 and Theory/Equivalence.v:79. `rg -i 'category of abelian groups|AbGrp' -g '*.v'` -> prose only. The `Ab\\b` hits the classifier saw are dominated by false positives (`ab`/`ab'` local hypothesis names in Structure/UniversalProperty.v:133-202, `ustep l ab` in Instance/FinSet/Pushout.v:271) - I checked these and none is a category. Structure/Additive.v declares `Class Additive (C : Category)` at line 34 and only negation lemmas thereafter, so the classifier's 'a class on categories, never on functors' is exactly right; there is no AdditiveFunctor anywhere. The nearest ambient structure is Structure/Preadditive.v (CMon-enrichment) with Instance/CMon.v as its only concrete witness - a commutative-monoid category, not Ab and not R-Mod. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "left adjoint of a Set-valued functor implies representable (K ≅ A(F1, −))",
+      "representable functor A(a,−) has a left adjoint X ↦ X · a",
+      "copower / small copower / tensoring of an object by a set",
+      "indexed coproduct of copies of a (icoprod)",
+      "adjunction ⟺ representability of the underlying functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'copower|tensoring|indexed coproduct|icoprod' . — 0 hits for copower/icoprod; 'tensoring' only in Monad/Kleisli/Premonoidal.v (premonoidal actions)",
+      "rg -n --glob '*.v' '^(Record|Class|Definition|...)' ./Structure/Limit/Product.v — iprod / iprod_proj / iprod_ump / HasIndexedProducts exist (indexed PRODUCTS only); no dual indexed-coproduct API is defined, though Colimit F := Limit (F^op) exists",
+      "rg -n -i --glob '*.v' 'Representab|representable' . — Functor/Representable.v defines the class; nothing links it to the existence of a left adjoint",
+      "rg -n -i --glob '*.v' 'Adjunction' ./Functor/Representable.v — file requires only Lib, Category, Isomorphism, Functor, Hom, Sets; no adjunction anywhere in it",
+      "near-miss checked and rejected: Theory/Profunctor/Adjunction.v:70 'representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅ Repr_right U)' — an iff about representable PROFUNCTORS D(F−,−) ≅ C(−,U−), not about a Set-valued functor being representable by F applied to a terminal object"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. `rg -i 'copower' -g '*.v'` -> 0 hits (reproduced); the 'tensoring' hits are Monad/Kleisli/Premonoidal.v and Structure/Binoidal.v, i.e. one-variable tensor functors, unrelated. Structure/Limit/Product.v declares IsIndexedProduct:51, family_cone:80, iprod:93, iprod_proj:98, iprod_ump:105, limit_is_indexed_product:119, HasIndexedProducts:128 - products only; `rg -i 'icoprod|indexed coproduct|HasIndexedCoproducts' -g '*.v'` -> 0 hits, so the copower X·a of the exercise's converse has no carrier. For the forward half I searched beyond the classifier: `rg '⊣' -g '*.v' | rg -i 'Sets|Coq'` finds only the CCC currying adjunctions (Instance/Sets/Cartesian/Closed.v:24, Instance/Coq.v:164, Instance/Coq/Comonad/Store.v:28) and Theory/Profunctor/Adjunction.v; Theory/Universal/Arrow.v declares UniversalArrow:127, LeftAdjointFunctorFromUniversalArrows:185, AdjunctionFromUniversalArrows:214 - none concludes representability of a Set-valued functor. The rejected near-miss Theory/Profunctor/Adjunction.v:70-72 `representable_adjunction` is at the cited line and is indeed about representable profunctors, correctly rejected. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "hom-tensor adjunction / adjoint associativity for modules",
+      "hom_R(A, hom_Z(B,G)) ≅ hom_Z(B ⊗_R A, G)",
+      "injective cogenerator hom_Z(R, Q/Z)",
+      "Q/Z is an injective cogenerator of Ab",
+      "injective object / injective module",
+      "tensor product of modules over a ring"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'R-Mod|RMod|tensor_R|bimodule' . — no module categories; 'bimodule' appears only as prose in Theory/Bicategory.v, Theory/DoubleCategory.v, Theory/Algebra/Frobenius.v",
+      "rg -n -i --glob '*.v' 'Q/Z|rational|divisible group|Z-module' . — 0 relevant hits",
+      "rg -n -i --glob '*.v' 'injective object|Injective|projective object|Projective' . — 'injective' only as the setoid-function property (Lib/Setoid.v:117 Class injective) and prose; no injective/projective OBJECT is defined anywhere",
+      "rg -n -i --glob '*.v' 'cogenerat' . — only Adjunction/SAFT.v's Cogenerator; no notion of an injective cogenerator",
+      "near-miss checked and rejected: Structure/Monoidal/Closed.v:46 'Class ClosedMonoidal' with curry/uncurry and Structure/Monoidal/StarAutonomous.v's SymMonClosed exp_iso give the ABSTRACT tensor-hom adjunction C(x ⨂ y, z) ≅ C(x, y ⇒ z); this is neither the Ab-valued three-way module adjunction of part (a) nor any part of (b)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. No module categories, no tensor over a ring, no Q/Z: `rg -i 'tensor product of|⊗_R|tensor_R' -g '*.v'` -> only endofunctor/coend tensors (Functor/Product.v:30, Functor/Traversable/Product.v:26) and the Funny/Gray tensor of categories. `rg -i '\\bInjective\\b' -g '*.v'` -> the only definitional hit is Lib/Setoid.v:117 `Class injective` (a property of setoid FUNCTIONS), confirmed by reading; there is no injective/projective OBJECT anywhere. `rg -i 'cogenerat' -g '*.v'` -> Adjunction/SAFT.v only, so 'injective cogenerator' is doubly unavailable. The rejected near-miss is real and correctly rejected: Structure/Monoidal/Closed.v:46 `Class ClosedMonoidal` (verified at that line) supplies the abstract tensor-hom iso Hom(x ⨂ y, z) ≅ Hom(x, y ⇒ z), which is neither part (a)'s three-way module adjunction nor part (b). ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Watt's theorem via SAFT",
+      "continuous additive functor T : R-Mod → Ab is representable",
+      "representability from an injective cogenerator plus SAFT",
+      "SAFT applied to a module category",
+      "Eilenberg-Watts representability"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'Watt' . — 0 hits",
+      "rg -n -i --glob '*.v' 'R-Mod|RMod|Module|Ab\\b' . — no module or abelian-group category exists in-tree (see the V.8:thm-watt log)",
+      "rg -n -i --glob '*.v' 'additive functor|AdditiveFunctor' . — 0 definitional hits",
+      "rg -n -i --glob '*.v' 'SAFT' . — Adjunction/SAFT.v only; docs/INHABITATION.md:54 records 'SAFT is never applied', so there is no application of SAFT to any concrete category, let alone R-Mod",
+      "rg -n -i --glob '*.v' 'Representab' . — Representable class only; no representability theorem derived from continuity"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT; this item is the exercise form of V.8:thm-watt and inherits the same two total gaps (no R-Mod / Ab, no additive functor notion) plus a third: SAFT itself is never applied to anything. I confirmed the latter two ways - docs/INHABITATION.md:54 reads verbatim 'none of the three is inhabited; `SAFT` is never applied', and independently `rg -n 'Require.*Adjunction.SAFT' -g '*.v'` returns nothing, i.e. no file in the tree even imports the SAFT module. So there is no route by which the exercise's argument could be assembled today. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:V.8:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone-Čech unit is injective for completely regular spaces",
+      "universal arrow X → GFX is an injection",
+      "unit of an adjunction is monic",
+      "completely regular space / Urysohn separation",
+      "reflection unit monomorphic"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'completely regular|Urysohn' . — 0 hits",
+      "rg -n -i --glob '*.v' 'Stone|Cech|compactif|CompHaus' . — prose only (see the V.8:construction1 log); no topological category exists to state the exercise over",
+      "rg -n -i --glob '*.v' 'unit.*monic|monic.*unit|adj_unit.*Monic' . — hits are all monoidal unitors (iso_to_monic unit_left/unit_right) or Instance/Sets.v's unit setoid; no lemma about an adjunction unit being monic",
+      "rg -n -i --glob '*.v' 'universal arrow' ./Theory/Universal/Arrow.v — UniversalArrow class exists, but nothing states monicity/injectivity of the universal arrow"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. `rg -i 'completely regular|Urysohn' -g '*.v'` -> 0 hits (reproduced). There is no Top in which to state the exercise (see the V.8:construction1 note). I also checked the classifier's abstract fallback claim: `rg -i 'unit.*monic|monic.*unit' -g '*.v'` yields only monoidal unitor lemmas and Instance/Sets.v's unit setoid, and Theory/Universal/Arrow.v (UniversalArrow:127, AUniversalArrow:240) states no monicity/injectivity property of the universal arrow - so even the general lemma 'the unit of a reflection into a full subcategory is monic under a separation hypothesis', which would be the transferable content, is absent too. ABSENT stands."
+    }
+  }
+]

@@ -1,0 +1,1687 @@
+{
+  "book": "awodey",
+  "range": {
+    "pdf_start": 160,
+    "pdf_end": 199
+  },
+  "pages": [
+    {
+      "pdf_page": 160,
+      "book_page": "151",
+      "empty": false,
+      "items": [
+        "awodey:7.1:construction-cat-equalizer",
+        "awodey:7.1:remark-cat-complete"
+      ],
+      "notes": "Chapter 7 opening page; motivational preamble skipped. Section 7.1 begins."
+    },
+    {
+      "pdf_page": 161,
+      "book_page": "152",
+      "empty": false,
+      "items": [
+        "awodey:7.1:construction-cat-equalizer",
+        "awodey:7.1:remark-cat-complete",
+        "awodey:7.1:def-subcategory",
+        "awodey:7.1:def1"
+      ],
+      "notes": "First two IDs continue from PDF 160."
+    },
+    {
+      "pdf_page": 162,
+      "book_page": "153",
+      "empty": false,
+      "items": [
+        "awodey:7.1:construction-codiagonal",
+        "awodey:7.1:def-full-subcategory",
+        "awodey:7.1:example2",
+        "awodey:7.1:construction-linear-representation"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 163,
+      "book_page": "154",
+      "empty": false,
+      "items": [
+        "awodey:7.1:construction-poset-to-group",
+        "awodey:7.2:construction-representable-covariant",
+        "awodey:7.2:def-generator",
+        "awodey:7.2:construction-free-group-natural-iso"
+      ],
+      "notes": "Section 7.2 starts mid-page; the poset-to-group functor still belongs to 7.1. Displayed equation (7.1) appears here (equation counter, not an item number)."
+    },
+    {
+      "pdf_page": 164,
+      "book_page": "155",
+      "empty": false,
+      "items": [
+        "awodey:7.2:construction-free-group-natural-iso",
+        "awodey:7.2:remark-representables-preserve-limits",
+        "awodey:7.2:construction-representable-contravariant",
+        "awodey:7.2:example3"
+      ],
+      "notes": "First ID continues from PDF 163."
+    },
+    {
+      "pdf_page": 165,
+      "book_page": "156",
+      "empty": false,
+      "items": [
+        "awodey:7.2:example3",
+        "awodey:7.2:construction-continuous-real-functions-ring",
+        "awodey:7.2:remark-equational-structure-transfers"
+      ],
+      "notes": "Example 7.3 continues from PDF 164."
+    },
+    {
+      "pdf_page": 166,
+      "book_page": "157",
+      "empty": false,
+      "items": [
+        "awodey:7.2:example4"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 167,
+      "book_page": "158",
+      "empty": false,
+      "items": [
+        "awodey:7.2:example4",
+        "awodey:7.3:def-ultrafilter",
+        "awodey:7.3:remark-ultrafilter-maximality",
+        "awodey:7.3:construction-ult-functor"
+      ],
+      "notes": "Example 7.4 concludes at top (naturality square); section 7.3 begins mid-page."
+    },
+    {
+      "pdf_page": 168,
+      "book_page": "159",
+      "empty": false,
+      "items": [
+        "awodey:7.3:construction-ult-functor",
+        "awodey:7.3:remark-ult-powerset-not-inverse",
+        "awodey:7.3:construction-covariant-ultrafilter-functor"
+      ],
+      "notes": "First ID continues from PDF 167."
+    },
+    {
+      "pdf_page": 169,
+      "book_page": "160",
+      "empty": false,
+      "items": [
+        "awodey:7.3:construction-covariant-ultrafilter-functor",
+        "awodey:7.3:construction-stone-representation",
+        "awodey:7.3:prop5"
+      ],
+      "notes": "First ID continues from PDF 168. Proposition 7.5 is stated at the foot of the page with no separate proof environment."
+    },
+    {
+      "pdf_page": 170,
+      "book_page": "161",
+      "empty": false,
+      "items": [
+        "awodey:7.4:construction-associativity-natural"
+      ],
+      "notes": "Section 7.4 begins; page is motivation for Definition 7.6, but the associativity isomorphism of functors is a genuine construction."
+    },
+    {
+      "pdf_page": 171,
+      "book_page": "162",
+      "empty": false,
+      "items": [
+        "awodey:7.4:construction-associativity-natural",
+        "awodey:7.4:def6"
+      ],
+      "notes": "First ID continues from PDF 170."
+    },
+    {
+      "pdf_page": 172,
+      "book_page": "163",
+      "empty": false,
+      "items": [
+        "awodey:7.5:example7",
+        "awodey:7.5:example8"
+      ],
+      "notes": "Section 7.5 begins; the opening recap list of already-seen natural isomorphisms is not re-inventoried (recorded under 7.2/7.3)."
+    },
+    {
+      "pdf_page": 173,
+      "book_page": "164",
+      "empty": false,
+      "items": [
+        "awodey:7.5:construction-twist",
+        "awodey:7.5:def9"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 174,
+      "book_page": "165",
+      "empty": false,
+      "items": [
+        "awodey:7.5:def9",
+        "awodey:7.5:def10",
+        "awodey:7.5:lem11",
+        "awodey:7.5:example12"
+      ],
+      "notes": "Definition 7.9 continues from PDF 173 (identity and composite natural transformations)."
+    },
+    {
+      "pdf_page": 175,
+      "book_page": "166",
+      "empty": false,
+      "items": [
+        "awodey:7.5:example12"
+      ],
+      "notes": "No new item starts here; continuation of Example 7.12 (dual linear map, canonical map to the double dual, naturality computation)."
+    },
+    {
+      "pdf_page": 176,
+      "book_page": "167",
+      "empty": false,
+      "items": [
+        "awodey:7.5:example12",
+        "awodey:7.5:construction-sets-double-dual"
+      ],
+      "notes": "Example 7.12 concludes at top (finite-dimensional case)."
+    },
+    {
+      "pdf_page": 177,
+      "book_page": "168",
+      "empty": false,
+      "items": [
+        "awodey:7.6:prop13",
+        "awodey:7.6:lem14"
+      ],
+      "notes": "Section 7.6 begins."
+    },
+    {
+      "pdf_page": 178,
+      "book_page": "169",
+      "empty": false,
+      "items": [
+        "awodey:7.6:lem14"
+      ],
+      "notes": "No new item starts here; entirely the proof of Lemma 7.14."
+    },
+    {
+      "pdf_page": 179,
+      "book_page": "170",
+      "empty": false,
+      "items": [
+        "awodey:7.6:prop13"
+      ],
+      "notes": "No new item starts here; proof of Proposition 7.13, which continues onto PDF 180 (outside owned range)."
+    },
+    {
+      "pdf_page": 180,
+      "book_page": "171",
+      "empty": false,
+      "items": [
+        "awodey:7.6:prop13",
+        "awodey:7.7:example15",
+        "awodey:7.7:example16"
+      ],
+      "notes": "Top third of the page finishes the proof of the section-7.6 proposition that Fun(C,D) is the exponential in Cat (item STARTS on PDF 178, outside this range - not recorded here). Section 7.7 'Functor categories' heading begins mid-page."
+    },
+    {
+      "pdf_page": 181,
+      "book_page": "172",
+      "empty": false,
+      "items": [
+        "awodey:7.7:example17"
+      ],
+      "notes": "Example 7.16 continues from PDF 180 and concludes here."
+    },
+    {
+      "pdf_page": 182,
+      "book_page": "173",
+      "empty": false,
+      "items": [
+        "awodey:7.7:example18"
+      ],
+      "notes": "Example 7.17 continues from PDF 181 and concludes here (Graphs = Sets^Gamma)."
+    },
+    {
+      "pdf_page": 183,
+      "book_page": "174",
+      "empty": false,
+      "items": [
+        "awodey:7.7:example19"
+      ],
+      "notes": "Example 7.18 continues from PDF 182 and concludes here. A stray '!' is typeset on its own line after the cone-morphism triangle diagram (draft artifact, no mathematical content)."
+    },
+    {
+      "pdf_page": 184,
+      "book_page": "175",
+      "empty": false,
+      "items": [
+        "awodey:7.7:prop20",
+        "awodey:7.7:example21",
+        "awodey:7.7:def-groupoid",
+        "awodey:7.7:prop22"
+      ],
+      "notes": "Last page of section 7.7. The definition of 'groupoid' occurs in running prose inside the discussion following Example 7.21."
+    },
+    {
+      "pdf_page": 185,
+      "book_page": "176",
+      "empty": false,
+      "items": [
+        "awodey:7.8:example23"
+      ],
+      "notes": "Section 7.8 'Equivalence of categories' begins."
+    },
+    {
+      "pdf_page": 186,
+      "book_page": "177",
+      "empty": false,
+      "items": [
+        "awodey:7.8:def24"
+      ],
+      "notes": "Example 7.23 continues from PDF 185 and concludes at mid-page."
+    },
+    {
+      "pdf_page": 187,
+      "book_page": "178",
+      "empty": false,
+      "items": [
+        "awodey:7.8:remark-setsfin-ordfin",
+        "awodey:7.8:prop25"
+      ],
+      "notes": "Discussion following Definition 7.24 (equivalence vs. isomorphism of categories) continues from PDF 186 onto the top of this page."
+    },
+    {
+      "pdf_page": 188,
+      "book_page": "179",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only: proof of Proposition 7.25, direction (1 implies 2) - faithfulness and fullness of F. No item starts on this page."
+    },
+    {
+      "pdf_page": 189,
+      "book_page": "180",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only: proof of Proposition 7.25 concludes here (end of (1 implies 2) and all of (2 implies 1)). No item starts on this page."
+    },
+    {
+      "pdf_page": 190,
+      "book_page": "181",
+      "empty": false,
+      "items": [
+        "awodey:7.9:example26",
+        "awodey:7.9:prop27"
+      ],
+      "notes": "Section 7.9 'Examples of equivalence' begins."
+    },
+    {
+      "pdf_page": 191,
+      "book_page": "182",
+      "empty": false,
+      "items": [
+        "awodey:7.9:example28"
+      ],
+      "notes": "Proof/construction for Proposition 7.27 continues from PDF 190 and concludes at mid-page."
+    },
+    {
+      "pdf_page": 192,
+      "book_page": "183",
+      "empty": false,
+      "items": [
+        "awodey:7.9:example29",
+        "awodey:7.9:prop30"
+      ],
+      "notes": "Example 7.28 continues from PDF 191 and concludes mid-page."
+    },
+    {
+      "pdf_page": 193,
+      "book_page": "184",
+      "empty": false,
+      "items": [
+        "awodey:7.9:lem31"
+      ],
+      "notes": "Proof of Proposition 7.30 continues from PDF 192 (powerset and atoms functors; functorial action A(h))."
+    },
+    {
+      "pdf_page": 194,
+      "book_page": "185",
+      "empty": false,
+      "items": [
+        "awodey:7.9:lem32",
+        "awodey:7.9:remark-caba"
+      ],
+      "notes": "Proof of Proposition 7.30 concludes here (the natural isomorphisms alpha_X and beta_B). Last page of section 7.9."
+    },
+    {
+      "pdf_page": 195,
+      "book_page": "186",
+      "empty": false,
+      "items": [
+        "awodey:7:ex1",
+        "awodey:7:ex2",
+        "awodey:7:ex3"
+      ],
+      "notes": "Section 7.10 'Exercises' begins."
+    },
+    {
+      "pdf_page": 196,
+      "book_page": "187",
+      "empty": false,
+      "items": [
+        "awodey:7:ex4",
+        "awodey:7:ex5",
+        "awodey:7:ex6",
+        "awodey:7:ex7",
+        "awodey:7:ex8"
+      ],
+      "notes": "Exercises 4 and 5 carry a leading asterisk (harder/starred exercises)."
+    },
+    {
+      "pdf_page": 197,
+      "book_page": "188",
+      "empty": false,
+      "items": [
+        "awodey:7:ex9",
+        "awodey:7:ex10",
+        "awodey:7:ex11",
+        "awodey:7:ex12",
+        "awodey:7:ex13"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 198,
+      "book_page": "189",
+      "empty": false,
+      "items": [],
+      "notes": "Continuation only: the commuting-square-of-categories diagram and closing sentence of Exercise 13. Last content page of chapter 7."
+    },
+    {
+      "pdf_page": 199,
+      "book_page": "190",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso: carries only the folio '190' and the running head 'CHAPTER 7. FUNCTORS AND NATURALITY'. No content."
+    }
+  ],
+  "items": [
+    {
+      "id": "awodey:7.1:construction-cat-equalizer",
+      "kind": "construction",
+      "number": null,
+      "name": "equalizer of parallel functors in Cat",
+      "statement_summary": "Given categories C, D and two parallel functors F, G : C -> D, build a category E whose objects are exactly the objects X of C with F(X) = G(X) and whose arrows are exactly the arrows f of C with F(f) = G(f); E is closed under the categorical operations and the evident inclusion functor E -> C is an equalizer of F and G in Cat (verification left to the reader). E is offered as the running example of a subcategory.",
+      "book_section": "7.1",
+      "book_page": "151",
+      "pdf_pages": [
+        160,
+        161
+      ],
+      "cross_refs": [
+        "awodey:7.1:def-subcategory",
+        "awodey:7.1:remark-cat-complete"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.1:remark-cat-complete",
+      "kind": "remark",
+      "number": null,
+      "name": "Cat has finite/small products and coproducts, and all limits",
+      "statement_summary": "Recalled and asserted in prose: Cat has an initial category 0 and binary coproducts C + D, a terminal category 1 and binary products C x D, and likewise all small products and coproducts constructed analogously; together with the explicit equalizer construction this yields that Cat has all limits. Noted as a caveat: coequalizers of categories are much harder to describe, already for posets (coequalizer of a pair of monotone maps).",
+      "book_section": "7.1",
+      "book_page": "151",
+      "pdf_pages": [
+        160,
+        161
+      ],
+      "cross_refs": [
+        "awodey:7.1:construction-cat-equalizer"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:7.1:def-subcategory",
+      "kind": "definition",
+      "number": null,
+      "name": "subcategory and its inclusion functor",
+      "statement_summary": "A subcategory is characterized abstractly as a monomorphism in Cat; concretely, a subcategory of C is a choice U of some objects and arrows of C, U_0 subset C_0 and U_1 subset C_1, closed under dom, cod, id and composition, together with the evident inclusion functor i : U -> C, which is monic.",
+      "book_section": "7.1",
+      "book_page": "152",
+      "pdf_pages": [
+        161
+      ],
+      "cross_refs": [
+        "awodey:7.1:def-full-subcategory"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:7.1:def1",
+      "kind": "definition",
+      "number": "7.1",
+      "name": "injective/surjective on objects and arrows; faithful; full functor",
+      "statement_summary": "For a functor F : C -> D: F is injective (resp. surjective) on objects if the object part F_0 : C_0 -> D_0 is injective (resp. surjective); F is injective (resp. surjective) on arrows if the arrow part F_1 : C_1 -> D_1 is; F is faithful if for all objects A, B of C the hom-map F_{A,B} : Hom_C(A,B) -> Hom_D(FA,FB), f |-> F(f), is injective; F is full if F_{A,B} is always surjective.",
+      "book_section": "7.1",
+      "book_page": "152",
+      "pdf_pages": [
+        161
+      ],
+      "cross_refs": [
+        "awodey:7.1:construction-codiagonal",
+        "awodey:7.1:def-full-subcategory"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.1:construction-codiagonal",
+      "kind": "construction",
+      "number": null,
+      "name": "codiagonal functor as a faithful but non-injective-on-arrows functor",
+      "statement_summary": "The codiagonal functor nabla : C + C -> C is the functor induced out of the coproduct by the identity 1_C on each summand. It is used to show that faithfulness is strictly weaker than injectivity on arrows: nabla is faithful (injective on each hom-set separately) but not injective on arrows globally, since the two copies of an arrow are identified.",
+      "book_section": "7.1",
+      "book_page": "153",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "awodey:7.1:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.1:def-full-subcategory",
+      "kind": "definition",
+      "number": null,
+      "name": "full subcategory",
+      "statement_summary": "A full subcategory U >-> C consists of some of the objects of C together with ALL C-arrows between them (this automatically satisfies the closure conditions for a subcategory); its inclusion is full and faithful. Illustrations given: the inclusion of finite sets Sets_fin >-> Sets is full and faithful, whereas the forgetful functor Groups >-> Sets is faithful but not full.",
+      "book_section": "7.1",
+      "book_page": "153",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "awodey:7.1:def-subcategory",
+        "awodey:7.1:def1"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:7.1:example2",
+      "kind": "example",
+      "number": "7.2",
+      "name": "groups, monoids, posets and discrete sets sit fully and faithfully in Cat",
+      "statement_summary": "The 'forgetful' functor G : Groups -> Cat sending a group to its one-object category is full and faithful, because a functor G(A) -> G(B) between the one-object categories is exactly a group homomorphism A -> B; the same holds for monoids. Likewise P : Pos -> Cat is full and faithful, because a functor between posets is exactly a monotone map, and so is the discrete-category functor S : Sets -> Cat. The moral drawn: Cat is a common setting for comparing structures of different kinds.",
+      "book_section": "7.1",
+      "book_page": "153",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "awodey:7.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.1:construction-linear-representation",
+      "kind": "construction",
+      "number": null,
+      "name": "functor out of a group; linear representation",
+      "statement_summary": "For a group G (as a one-object category) and a category C, a functor R : G -> C is a general notion of representation of G in C: if C is a poset, any such functor is trivial (all arrows are forced to be identities); if C is the category of finite-dimensional real vector spaces and linear maps, a functor R : G -> C is exactly a linear representation of G, assigning to each group element an invertible matrix and to group multiplication matrix multiplication.",
+      "book_section": "7.1",
+      "book_page": "153",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "awodey:7.1:example2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.1:construction-poset-to-group",
+      "kind": "construction",
+      "number": null,
+      "name": "functor from a poset to a group; subtraction as a functor",
+      "statement_summary": "A functor g : P -> G from a poset P to a group G (both as categories) is the same thing as an assignment, to each pair p <= q, of an element g_{p,q} of G satisfying g_{p,p} = u (the unit) and g_{q,r} . g_{p,q} = g_{p,r} (a 'cocycle'/functoriality condition); the object part is forced since G has one object. Worked example: P = (R, <=) and G = (R, +), with g_{x,y} = y - x (subtraction), which satisfies g_{x,x} = 0 and g_{y,z} . g_{x,y} = (z-y) + (y-x) = z - x = g_{x,z}.",
+      "book_section": "7.1",
+      "book_page": "154",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "awodey:7.1:construction-linear-representation"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.2:construction-representable-covariant",
+      "kind": "construction",
+      "number": null,
+      "name": "covariant representable functor Hom_C(C,-)",
+      "statement_summary": "For a locally small category C and an object C, the covariant representable functor Hom_C(C,-) : C -> Sets sends an object X to the set Hom_C(C,X) and an arrow to post-composition with it. This is the section's basic construction, used to transfer structure from objects to hom-sets.",
+      "book_section": "7.2",
+      "book_page": "154",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "awodey:7.2:def-generator",
+        "awodey:7.2:construction-representable-contravariant"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.2:def-generator",
+      "kind": "definition",
+      "number": null,
+      "name": "generator (separator) of a category",
+      "statement_summary": "An object C of a locally small category is a generator if the representable functor Hom_C(C,-) is faithful; equivalently, for all objects X, Y and all parallel arrows f, g : X -> Y with f =/= g there exists x : C -> X with f o x =/= g o x, i.e. arrows are distinguished by their effect on generalized elements based at C. Examples given: the terminal object 1 is a generator in Sets; the free group F(1) on one element is a generator in Grp.",
+      "book_section": "7.2",
+      "book_page": "154",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-representable-covariant",
+        "awodey:7.2:construction-free-group-natural-iso"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:7.2:construction-free-group-natural-iso",
+      "kind": "construction",
+      "number": null,
+      "name": "Hom_Grp(F(1),G) isomorphic to U(G), naturally in G",
+      "statement_summary": "The functor represented by the free group F(1) on one generator is isomorphic to the forgetful functor U : Grp -> Sets: there is a bijection Hom(F(1),G) =~ U(G) for each group G (displayed equation (7.1)), and this bijection is compatible with every group homomorphism h : G -> H, i.e. the square whose verticals are post-composition h_* : Hom(F(1),G) -> Hom(F(1),H) and U(h) commutes. This is the book's first named instance of an isomorphism 'natural in G'.",
+      "book_section": "7.2",
+      "book_page": "154",
+      "pdf_pages": [
+        163,
+        164
+      ],
+      "cross_refs": [
+        "awodey:7.2:def-generator",
+        "awodey:7.2:remark-representables-preserve-limits",
+        "awodey:7.4:def6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.2:remark-representables-preserve-limits",
+      "kind": "remark",
+      "number": null,
+      "name": "representable functors preserve limits; concreteness of Grp",
+      "statement_summary": "Asserted in passing without proof: representable functors necessarily preserve all limits, so the forgetful functor U : Grp -> Sets, being naturally isomorphic to the representable Hom(F(1),-), preserves all limits; and the fact that this representable is faithful is the precise form of the informal claim that the category of groups is 'concrete'.",
+      "book_section": "7.2",
+      "book_page": "155",
+      "pdf_pages": [
+        164
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-free-group-natural-iso",
+        "awodey:7.2:def-generator"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:7.2:construction-representable-contravariant",
+      "kind": "construction",
+      "number": null,
+      "name": "contravariant representable functor Hom_C(-,C)",
+      "statement_summary": "Recalled construction: for an object C of a locally small category, Hom_C(-,C) : C^op -> Sets sends an arrow f : A -> B to the precomposition map f* : Hom_C(B,C) -> Hom_C(A,C) defined by f*(h) = h o f.",
+      "book_section": "7.2",
+      "book_page": "155",
+      "pdf_pages": [
+        164
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-representable-covariant",
+        "awodey:7.2:example3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.2:example3",
+      "kind": "example",
+      "number": "7.3",
+      "name": "Hom(-,G) lifts to Grp for a group object G",
+      "statement_summary": "If G is a group object in a locally small category C, then the contravariant representable Hom_C(-,G) carries a group structure on each hom-set, giving a functor C^op -> Grp lifting the Sets-valued representable. In Sets the structure is pointwise: unit the constant map u(x) = u, product (f . g)(x) = f(x) . g(x), inverse f^{-1}(x) = f(x)^{-1}; this exhibits Hom(X,G) =~ Prod_{x in X} G as a product group. Functoriality in X is precomposition, and h* : Hom(X,G) -> Hom(Y,G) is checked to be a group homomorphism, h*(f . g)(y) = (h*(f) . h*(g))(y), similarly for inverses and the unit. Remarked: the construction works for any algebraic structure defined by operations and equations.",
+      "book_section": "7.2",
+      "book_page": "155",
+      "pdf_pages": [
+        164,
+        165
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-representable-contravariant",
+        "awodey:7.2:remark-equational-structure-transfers"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.2:construction-continuous-real-functions-ring",
+      "kind": "construction",
+      "number": null,
+      "name": "the ring C(X) of continuous real-valued functions as a functor Top^op -> Rings",
+      "statement_summary": "For a topological space X, C(X) = Hom_Top(X,R) is the set of continuous real-valued functions on X, made a ring by the pointwise operations inherited from the ring R; for any continuous h : Y -> X precomposition gives a ring homomorphism h* : C(X) -> C(Y). Recognizing C(X) as a representable makes this assignment functorial, giving C : Top^op -> Rings.",
+      "book_section": "7.2",
+      "book_page": "156",
+      "pdf_pages": [
+        165
+      ],
+      "cross_refs": [
+        "awodey:7.2:example3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.2:remark-equational-structure-transfers",
+      "kind": "remark",
+      "number": null,
+      "name": "equational structure transfers to hom-objects, non-equational conditions need not",
+      "statement_summary": "In passing from an object to Hom(X,-) of it, all structure defined by operations and equations is retained, but properties given by conditions that are not strictly equational may be lost. Counterexample: R is a field (every non-zero r has a multiplicative inverse, formally for all x, x = 0 or exists y, y.x = 1) but C(R) is not: for f(x) = x^2 the pointwise inverse would have to be g(y) = 1/y^2, which is not continuous at 0 since lim_{y->0} 1/y^2 does not exist in R.",
+      "book_section": "7.2",
+      "book_page": "156",
+      "pdf_pages": [
+        165
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-continuous-real-functions-ring",
+        "awodey:7.2:example3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.2:example4",
+      "kind": "example",
+      "number": "7.4",
+      "name": "Hom(X,2) as a boolean algebra; the powerset as a functor Sets^op -> BA",
+      "statement_summary": "Let 2 be the two-element boolean algebra with the truth-table operations. For any set X, Hom_Sets(X,2) is a boolean algebra under the pointwise operations (0(x) = 0, 1(x) = 1, (f and g)(x) = f(x) and g(x), etc.), and precomposition makes Hom(-,2) : Sets^op -> BA a contravariant functor into boolean algebras and homomorphisms. The standard bijection Hom(X,2) =~ P(X) between characteristic functions phi and subsets V_phi = phi^{-1}(1) transports the pointwise operations to the subset operations: V_{phi and psi} = V_phi cap V_psi, V_{phi or psi} = V_phi cup V_psi, V_{not phi} = X - V_phi, V_1 = X, V_0 = empty. Hence the powerset is a contravariant functor P^BA : Sets^op -> BA, and the isomorphism is natural in X: for any f : Y -> X the square with f* : Hom(X,2) -> Hom(Y,2) and inverse image f^{-1} : P(X) -> P(Y) commutes.",
+      "book_section": "7.2",
+      "book_page": "157",
+      "pdf_pages": [
+        166,
+        167
+      ],
+      "cross_refs": [
+        "awodey:7.2:construction-representable-contravariant",
+        "awodey:7.3:construction-ult-functor"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.3:def-ultrafilter",
+      "kind": "definition",
+      "number": null,
+      "name": "ultrafilter in a boolean algebra",
+      "statement_summary": "An ultrafilter in a boolean algebra B is a PROPER subset U of B such that: 1 is in U; if x and y are in U then x and y (meet) is in U; if x is in U and x <= y then y is in U; and U is maximal, i.e. if U is properly contained in a filter U' then U' = B.",
+      "book_section": "7.3",
+      "book_page": "158",
+      "pdf_pages": [
+        167
+      ],
+      "cross_refs": [
+        "awodey:7.3:remark-ultrafilter-maximality",
+        "awodey:7.3:construction-ult-functor"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:7.3:remark-ultrafilter-maximality",
+      "kind": "remark",
+      "number": null,
+      "name": "maximality equals primeness for filters",
+      "statement_summary": "The maximality condition on an ultrafilter U in a boolean algebra B is equivalent to the condition that for every x in B, either x is in U or not-x is in U. The equivalence is posed as an exercise.",
+      "book_section": "7.3",
+      "book_page": "158",
+      "pdf_pages": [
+        167
+      ],
+      "cross_refs": [
+        "awodey:7.3:def-ultrafilter"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:7.3:construction-ult-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "the contravariant ultrafilter functor Ult : BA^op -> Sets",
+      "statement_summary": "For a boolean algebra B, the set Ult(B) of ultrafilters of B is isomorphic to Hom_BA(B,2), an ultrafilter U corresponding to its characteristic homomorphism chi_U with U = chi_U^{-1}(1); this isomorphism is natural in B. The assignment is made a contravariant functor by defining, for a boolean homomorphism h : B -> B', Ult(h) = h^{-1} : Ult(B') -> Ult(B). That inverse images of ultrafilters are ultrafilters is verified by the computation Ult(h)(U) = h^{-1}(chi_U^{-1}(1)) = (chi_U o h)^{-1}(1), which is again the preimage of 1 under a boolean homomorphism. Result: Ult : BA^op -> Sets, alongside P^BA : Sets^op -> BA.",
+      "book_section": "7.3",
+      "book_page": "158",
+      "pdf_pages": [
+        167,
+        168
+      ],
+      "cross_refs": [
+        "awodey:7.3:def-ultrafilter",
+        "awodey:7.2:example4"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.3:remark-ult-powerset-not-inverse",
+      "kind": "remark",
+      "number": null,
+      "name": "Ult and the powerset functor are not mutually inverse (they are adjoint)",
+      "statement_summary": "The pair (P^BA)^op : Sets -> BA^op and Ult : BA^op -> Sets is NOT an equivalence: in general Ult(P(X)) is much larger than X, because there are many non-principal ultrafilters on P(X), i.e. ones not of the form {U subset X | x in U} for some x in X (the finite case is raised as a question). The correct relation between the two functors is instead an adjunction, deferred to later chapters.",
+      "book_section": "7.3",
+      "book_page": "159",
+      "pdf_pages": [
+        168
+      ],
+      "cross_refs": [
+        "awodey:7.3:construction-ult-functor",
+        "awodey:7.3:construction-covariant-ultrafilter-functor"
+      ],
+      "flags": [
+        "forward-reference"
+      ]
+    },
+    {
+      "id": "awodey:7.3:construction-covariant-ultrafilter-functor",
+      "kind": "construction",
+      "number": null,
+      "name": "covariant ultrafilter functor U = Ult o (P^BA)^op on Sets and its unit eta",
+      "statement_summary": "The composite U = Ult o (P^BA)^op : Sets -> BA^op -> Sets is a covariant endofunctor of Sets with U(X) = {V subset P(X) | V an ultrafilter}, acting on f : X -> Y by U(f)(V) = {W subset Y | f^{-1}(W) is in V}. There is a map eta_X : X -> U(X) sending each element x to its principal ultrafilter eta(x) = {W subset X | x in W}. This eta is natural in X: for every f : X -> Y the square U(f) o eta_X = eta_Y o f commutes, verified elementwise by chasing W subset Y through the definitions. (This is the unit of what later becomes the ultrafilter monad.)",
+      "book_section": "7.3",
+      "book_page": "159",
+      "pdf_pages": [
+        168,
+        169
+      ],
+      "cross_refs": [
+        "awodey:7.3:construction-ult-functor",
+        "awodey:7.4:def6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.3:construction-stone-representation",
+      "kind": "construction",
+      "number": null,
+      "name": "Stone representation phi_B : B -> P(Ult(B))",
+      "statement_summary": "For every boolean algebra B there is a homomorphism phi_B : B -> P(Ult(B)) given by phi_B(b) = {V in Ult(B) | b is in V}, the analogue on the boolean-algebra side of the map eta on the set side. phi_B is always injective: given distinct b, b' in B, the boolean prime ideal theorem supplies an ultrafilter V containing b but not b'. The pair consisting of the powerset algebra P(Ult(B)) together with phi_B is called the Stone representation of B; it presents an arbitrary boolean algebra as an algebra of subsets.",
+      "book_section": "7.3",
+      "book_page": "160",
+      "pdf_pages": [
+        169
+      ],
+      "cross_refs": [
+        "awodey:7.3:construction-covariant-ultrafilter-functor",
+        "awodey:7.3:prop5"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "uses-choice-principle"
+      ]
+    },
+    {
+      "id": "awodey:7.3:prop5",
+      "kind": "proposition",
+      "number": "7.5",
+      "name": "Stone representation theorem (special case of Stone duality)",
+      "statement_summary": "Every boolean algebra B is isomorphic to a boolean algebra consisting of subsets of some set X, equipped with the set-theoretic boolean operations (intersection, union, complement, X and empty set). Presented as a very special case of the Stone Duality Theorem; the witness is X = Ult(B) with the injective homomorphism phi_B of the preceding construction, whose image is such an algebra of subsets. No separate proof environment is given, and the injectivity argument relies on the boolean prime ideal theorem.",
+      "book_section": "7.3",
+      "book_page": "160",
+      "pdf_pages": [
+        169
+      ],
+      "cross_refs": [
+        "awodey:7.3:construction-stone-representation",
+        "awodey:7.3:construction-ult-functor"
+      ],
+      "flags": [
+        "stated-without-proof",
+        "uses-choice-principle"
+      ]
+    },
+    {
+      "id": "awodey:7.4:construction-associativity-natural",
+      "kind": "construction",
+      "number": null,
+      "name": "associativity of binary products as an isomorphism of functors",
+      "statement_summary": "In a category C with binary products, for objects A, B, C there is an isomorphism h : (A x B) x C -> A x (B x C). Independence of the particular objects is made precise by the requirement that for every f : A -> A' the square formed by h_A, h_{A'} and the maps induced by f commutes; this says exactly that the two 'constructions' (- x B) x C and - x (B x C), viewed as functors C -> C, are isomorphic. More generally, the three-argument functors F = (-_1 x -_2) x -_3 and G = -_1 x (-_2 x -_3), both C^3 -> C, satisfy F =~ G. This example motivates defining a morphism of functors.",
+      "book_section": "7.4",
+      "book_page": "161",
+      "pdf_pages": [
+        170,
+        171
+      ],
+      "cross_refs": [
+        "awodey:7.4:def6",
+        "awodey:7.5:example8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.4:def6",
+      "kind": "definition",
+      "number": "7.6",
+      "name": "natural transformation; component",
+      "statement_summary": "For categories C, D and functors F, G : C -> D, a natural transformation theta : F -> G is a family of D-arrows (theta_X : F X -> G X) indexed by the objects X of C such that for every arrow f : X -> X' of C one has theta_{X'} o F(f) = G(f) o theta_X, i.e. the naturality square commutes. The arrow theta_X is called the component of theta at X. (Intuition offered: a functor is a picture of C inside D and a natural transformation is a cylinder with such a picture at each end.)",
+      "book_section": "7.4",
+      "book_page": "162",
+      "pdf_pages": [
+        171
+      ],
+      "cross_refs": [
+        "awodey:7.5:def9",
+        "awodey:7.5:def10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:example7",
+      "kind": "example",
+      "number": "7.7",
+      "name": "insertion of generators eta : 1_Sets -> UM for the free monoid",
+      "statement_summary": "For the free monoid M(X) on a set X and the forgetful functor U, the maps eta_X : X -> U M(X) sending each element x to the corresponding one-letter word define a natural transformation eta : 1_Sets -> U o M. Naturality (U M(f) o eta_X = eta_Y o f for f : X -> Y) holds because the induced monoid homomorphism M(f) is completely determined by what f does to the generators.",
+      "book_section": "7.5",
+      "book_page": "163",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "awodey:7.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:example8",
+      "kind": "example",
+      "number": "7.8",
+      "name": "second projection as a natural transformation A x - => 1_C",
+      "statement_summary": "Let C be a category with binary products and A a fixed object. Taking as component at X the second projection pi_2 : A x X -> X defines a natural transformation from the functor A x - : C -> C to the identity functor 1_C. Together with the pairing operation <-,-> one can build from such projections the associativity isomorphism h : (A x B) x C -> A x (B x C).",
+      "book_section": "7.5",
+      "book_page": "163",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "awodey:7.4:construction-associativity-natural",
+        "awodey:7.4:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:construction-twist",
+      "kind": "construction",
+      "number": null,
+      "name": "twist natural isomorphism between the product bifunctor and its swap",
+      "statement_summary": "Given the product bifunctor x : C^2 -> C, define x-bar : C^2 -> C by A x-bar B = B x A on objects and alpha x-bar beta = beta x alpha on arrows. The components t_{(A,B)} : A x B -> B x A determined by t_{(A,B)}<a,b> = <b,a> form a natural transformation t : x -> x-bar; naturality (the square with verticals alpha x beta and beta x alpha commutes) is verified using generalized elements a : Z -> A, b : Z -> B. Each component is an isomorphism with inverse t_{(B,A)}, so t is an isomorphism of functors -- the book's first fully worked isomorphism of functors.",
+      "book_section": "7.5",
+      "book_page": "164",
+      "pdf_pages": [
+        173
+      ],
+      "cross_refs": [
+        "awodey:7.5:def10",
+        "awodey:7.5:lem11"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "awodey:7.5:def9",
+      "kind": "definition",
+      "number": "7.9",
+      "name": "functor category Fun(C,D)",
+      "statement_summary": "The functor category Fun(C,D) has as objects the functors F : C -> D and as arrows the natural transformations theta : F -> G. The identity arrow 1_F has components (1_F)_X = 1_{FX} : FX -> FX, and the composite of F -theta-> G -phi-> H has components (phi o theta)_X = phi_X o theta_X, i.e. identities and composition are computed componentwise in D.",
+      "book_section": "7.5",
+      "book_page": "164",
+      "pdf_pages": [
+        173,
+        174
+      ],
+      "cross_refs": [
+        "awodey:7.4:def6",
+        "awodey:7.6:prop13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:def10",
+      "kind": "definition",
+      "number": "7.10",
+      "name": "natural isomorphism",
+      "statement_summary": "A natural isomorphism is a natural transformation theta : F -> G that is an isomorphism in the functor category Fun(C,D), i.e. has a two-sided inverse natural transformation.",
+      "book_section": "7.5",
+      "book_page": "165",
+      "pdf_pages": [
+        174
+      ],
+      "cross_refs": [
+        "awodey:7.5:def9",
+        "awodey:7.5:lem11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:lem11",
+      "kind": "lemma",
+      "number": "7.11",
+      "name": "componentwise criterion for a natural isomorphism",
+      "statement_summary": "A natural transformation theta : F -> G is a natural isomorphism (an isomorphism in Fun(C,D)) if and only if each component theta_X : FX -> GX is an isomorphism in D. The proof is left as an exercise.",
+      "book_section": "7.5",
+      "book_page": "165",
+      "pdf_pages": [
+        174
+      ],
+      "cross_refs": [
+        "awodey:7.5:def10",
+        "awodey:7.5:def9"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:7.5:example12",
+      "kind": "example",
+      "number": "7.12",
+      "name": "double dual of vector spaces: eta : 1_Vect -> (-)**",
+      "statement_summary": "In Vect(R) (real vector spaces and linear maps), each V has a dual space V* = Vect(V,R) and each f : V -> W a dual f* : W* -> V* given by precomposition, f*(A) = A o f; thus (-)* = Vect(-,R) : Vect^op -> Vect is the contravariant representable functor endowed with vector-space structure. There is a canonical linear map eta_V : V -> V** sending x to the evaluation ev_x : V* -> R, ev_x(A) = A(x); these are the components of a natural transformation eta : 1_Vect -> (-)**, the naturality square f** o eta_V = eta_W o f being verified by a direct computation on v in V and A in W*. Concluding content: every finite-dimensional V is isomorphic to V* for dimension reasons, but not naturally; by contrast eta_V IS an isomorphism whenever V is finite dimensional, so naturality formalizes the informal 'V =~ V** naturally, unlike V =~ V*'.",
+      "book_section": "7.5",
+      "book_page": "165",
+      "pdf_pages": [
+        174,
+        175,
+        176
+      ],
+      "cross_refs": [
+        "awodey:7.5:def10",
+        "awodey:7.2:construction-representable-contravariant",
+        "awodey:7.5:construction-sets-double-dual"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.5:construction-sets-double-dual",
+      "kind": "construction",
+      "number": null,
+      "name": "double powerset transformation eta : 1_Sets -> (-)** in Sets",
+      "statement_summary": "The vector-space duality story is repeated in Sets with 2 in place of R: the dual of a set A is A* = P(A) =~ Sets(A,2), and the dual of f : A -> B is the inverse image map f* : P(B) -> P(A). Evaluation eps : 2^A x A -> 2 corresponds, under the isomorphism 2^A =~ P(A) (and swapping), to the characteristic function of the membership relation on A x P(A); transposing once more yields eta_A : A -> P P(A) = A**, described explicitly by eta_A(a) = {U subset A | a in U}. Since A is always strictly smaller than P(A) (Cantor), eta_A is NEVER an isomorphism in Sets; nevertheless eta : 1_Sets -> (-)** is a natural transformation, whose verification is left to the reader.",
+      "book_section": "7.5",
+      "book_page": "167",
+      "pdf_pages": [
+        176
+      ],
+      "cross_refs": [
+        "awodey:7.5:example12",
+        "awodey:7.2:example4"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "awodey:7.6:prop13",
+      "kind": "proposition",
+      "number": "7.13",
+      "name": "Cat is cartesian closed with exponential D^C = Fun(C,D)",
+      "statement_summary": "The category Cat of small categories and functors is cartesian closed, the exponential of C and D being the functor category: D^C = Fun(C,D) (the same as the category Diag(C,D) of diagrams from the exercises). The proof establishes three things: (1) evaluation eps = eval : Fun(C,D) x C -> D is a functor -- shown via the bifunctor lemma, since eps(F,-) = F is a functor, eps(-,X) : Fun(C,D) -> D sending theta : F -> G to theta_X : FX -> GX is a functor, and the required interchange law for theta and f : X -> X' is precisely the naturality square of theta; (2) for every category X and functor F : X x C -> D there is a transpose F-bar : X -> Fun(C,D), defined by F-bar(X)(C) = F(X,C), with eps o (F-bar x 1_C) = F; (3) transposition is inverse to this: for any G : X -> Fun(C,D) the transpose of eps o (G x 1_C) is G again. A methodological remark accompanies it: since exponentials are unique up to isomorphism, this confirms that natural transformations are the 'right' notion of morphism of functors -- the definition is forced by the requirement that Fun(C,D) be an exponential.",
+      "book_section": "7.6",
+      "book_page": "168",
+      "pdf_pages": [
+        177,
+        179,
+        180
+      ],
+      "cross_refs": [
+        "awodey:7.5:def9",
+        "awodey:7.6:lem14"
+      ],
+      "flags": [
+        "proof-continues-past-owned-range"
+      ]
+    },
+    {
+      "id": "awodey:7.6:lem14",
+      "kind": "lemma",
+      "number": "7.14",
+      "name": "bifunctor lemma",
+      "statement_summary": "Given categories A, B, C and maps F_0 : A_0 x B_0 -> C_0 on objects and F_1 : A_1 x B_1 -> C_1 on arrows, these data constitute a functor F : A x B -> C if and only if (1) F is functorial in each argument separately, i.e. F(A,-) : B -> C and F(-,B) : A -> C are functors for all objects A of A and B of B, and (2) F satisfies the interchange law: for all alpha : A -> A' in A and beta : B -> B' in B one has F(A',beta) o F(alpha,B) = F(alpha,B') o F(A,beta) in C. Proof: necessity because every arrow <alpha,beta> : <A,B> -> <A',B'> of A x B factors in two ways through <1_A,beta> and <alpha,1_{B'}>; sufficiency by defining F(<alpha,beta>) = F(A',beta) o F(alpha,B) and using interchange plus separate functoriality to verify F(<alpha',beta'>) o F(<alpha,beta>) = F(<alpha',beta'> o <alpha,beta>), as read off a pasting diagram.",
+      "book_section": "7.6",
+      "book_page": "168",
+      "pdf_pages": [
+        177,
+        178
+      ],
+      "cross_refs": [
+        "awodey:7.6:prop13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:example15",
+      "kind": "example",
+      "number": "7.15",
+      "name": "basic functor categories: C^1, C^2 (arrow category), C^I over a discrete index",
+      "statement_summary": "Computes elementary functor categories. For the terminal category 1 one has C^1 = C. For the walking-arrow category 2 = (a to b) the functor category C^2 is the arrow category C^-> already introduced. For the DISCRETE two-object category 2 = {0,1} instead one has C^2 isomorphic to C x C. More generally, for any set I regarded as a discrete category, C^I is isomorphic to the I-indexed product (power) of copies of C.",
+      "book_section": "7.7",
+      "book_page": "171",
+      "pdf_pages": [
+        180
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:example16",
+      "kind": "example",
+      "number": "7.16",
+      "name": "transcendental deduction of natural transformations",
+      "statement_summary": "Derives what the objects and arrows of a functor category D^C must be, using only the exponential adjunction in Cat. Objects of D^C correspond uniquely to functors 1 -> D^C, hence to functors C -> D. Arrows of D^C correspond uniquely to functors 1 -> (D^C)^2 (with 2 the walking-arrow category), hence to functors 2 -> D^C, hence by transposition to functors C x 2 -> D, equivalently to functors C -> D^2. Since a functor from C into the arrow category D^2 (equivalently a functor out of the cylinder C x 2 into D) is exactly a natural transformation between two functors C -> D, the arrows of the functor category must be natural transformations.",
+      "book_section": "7.7",
+      "book_page": "171",
+      "pdf_pages": [
+        180,
+        181
+      ],
+      "cross_refs": [
+        "awodey:7.7:example15"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:example17",
+      "kind": "example",
+      "number": "7.17",
+      "name": "the category of directed graphs as a functor category Sets^Gamma",
+      "statement_summary": "A directed graph is a pair of sets G_1 (edges), G_0 (vertices) together with source and target functions s,t : G_1 -> G_0. A graph homomorphism h : G -> H is a pair of functions h_1 : G_1 -> H_1, h_0 : G_0 -> H_0 with s_H h_1 = h_0 s_G and t_H h_1 = h_0 t_G, i.e. two commuting squares. Let Gamma be the category with exactly two objects and two distinct parallel non-identity arrows between them. Then a graph is exactly a functor Gamma -> Sets and a graph homomorphism is exactly a natural transformation between two such functors, so the category of graphs IS the functor category Sets^Gamma. It follows (from the later result that Sets^C is cartesian closed) that Graphs is cartesian closed.",
+      "book_section": "7.7",
+      "book_page": "172",
+      "pdf_pages": [
+        181,
+        182
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:example18",
+      "kind": "example",
+      "number": "7.18",
+      "name": "the constant/diagonal functor Delta : C -> C^D, and cones as natural transformations",
+      "statement_summary": "Transposing the first product projection C x D -> C along the exponential adjunction yields the diagonal functor Delta : C -> C^D. For an object C, Delta(C) is the constant C-valued functor: Delta(C)(X) = C for every object X of D and Delta(C)(x) = 1_C for every arrow x of D; for an arrow f : C -> C', Delta(f) : Delta(C) -> Delta(C') is the natural transformation every component of which is f. Consequently, for any functor F : D -> C, a natural transformation theta : Delta(C) -> F is exactly a cone on the base F with vertex C: its components are arrows theta_D : C -> F(D), and each naturality square degenerates to a commuting triangle F(d) o theta_D = theta_D' because Delta(C)(d) = 1_C. Likewise a morphism of cones theta -> phi is exactly a constant natural transformation Delta(h) for an arrow h of C, making the evident triangle over F commute.",
+      "book_section": "7.7",
+      "book_page": "173",
+      "pdf_pages": [
+        182,
+        183
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:example19",
+      "kind": "example",
+      "number": "7.19",
+      "name": "functor category of two posets = the exponential poset",
+      "statement_summary": "Let P and Q be posets regarded as categories. The objects of the functor category Q^P are the monotone maps P -> Q. A natural transformation theta : f -> g must give, for each p in P, an arrow theta_p witnessing f(p) <= g(p); the naturality squares are automatic because the hom-sets of a poset are subsingletons. Hence there is a (necessarily unique) natural transformation f -> g exactly when f <= g pointwise, which is precisely the ordering of the exponential poset Q^P. Therefore the functor category Q^P coincides with the exponential poset Q^P.",
+      "book_section": "7.7",
+      "book_page": "174",
+      "pdf_pages": [
+        183
+      ],
+      "cross_refs": [
+        "awodey:7.7:prop20"
+      ],
+      "flags": [
+        "book-typo-prints-functors-Q-to-P-where-P-to-Q-is-meant"
+      ]
+    },
+    {
+      "id": "awodey:7.7:prop20",
+      "kind": "proposition",
+      "number": "7.20",
+      "name": "Pos -> Cat preserves cartesian closed structure",
+      "statement_summary": "The inclusion functor from the category Pos of posets and monotone maps into the category Cat of categories preserves CCC (cartesian closed) structure: the terminal object, binary products and exponentials formed in Pos are carried to the corresponding terminal object, products and exponentials in Cat. In particular, the exponential poset Q^P computed in Pos agrees with the functor category Q^P computed in Cat.",
+      "book_section": "7.7",
+      "book_page": "175",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "awodey:7.7:example19"
+      ],
+      "flags": [
+        "proof-omitted"
+      ]
+    },
+    {
+      "id": "awodey:7.7:example21",
+      "kind": "example",
+      "number": "7.21",
+      "name": "functor category H^G of two groups; natural transformations are conjugations",
+      "statement_summary": "Let G and H be groups regarded as one-object categories. A natural transformation theta between two group homomorphisms f, g : G -> H is a single element h of H satisfying f(x)*h = h*g(x) for all x in G, equivalently h^{-1}*f(x)*h = g(x); that is, theta is the inner automorphism 'conjugation by h' of H, carrying f to g. Every such arrow is invertible (its inverse is conjugation by h^{-1}). Hence the functor category H^G is not in general a group, since it usually has many objects (the several homomorphisms G -> H); it is instead a category with all arrows invertible, i.e. a groupoid.",
+      "book_section": "7.7",
+      "book_page": "175",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "awodey:7.7:def-groupoid",
+        "awodey:7.7:prop22"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.7:def-groupoid",
+      "kind": "definition",
+      "number": null,
+      "name": "groupoid",
+      "statement_summary": "A groupoid is a category in which every arrow is an isomorphism. It may be viewed as a generalized group in which the multiplication x*y is defined only when the domains and codomains match (groups being exactly the one-object groupoids). Groupoids arise in topology as the paths between different points of a space.",
+      "book_section": "7.7",
+      "book_page": "175",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "awodey:7.7:example21",
+        "awodey:7.7:prop22"
+      ],
+      "flags": [
+        "unnumbered-definition",
+        "defined-in-running-prose"
+      ]
+    },
+    {
+      "id": "awodey:7.7:prop22",
+      "kind": "proposition",
+      "number": "7.22",
+      "name": "Grpd is cartesian closed and Grpd -> Cat preserves CCC structure",
+      "statement_summary": "The category Grpd of groupoids (and functors between them) is cartesian closed, and the inclusion functor Grpd -> Cat preserves that cartesian closed structure. The exponential is the functor category: if G and H are groupoids then H^G is again a groupoid. The detailed proof is left as an exercise.",
+      "book_section": "7.7",
+      "book_page": "175",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "awodey:7.7:def-groupoid",
+        "awodey:7.7:example21",
+        "awodey:7.7:prop20"
+      ],
+      "flags": [
+        "proof-omitted"
+      ]
+    },
+    {
+      "id": "awodey:7.8:example23",
+      "kind": "example",
+      "number": "7.23",
+      "name": "finite sets versus finite ordinals (motivating example of equivalence)",
+      "statement_summary": "Let Ord_fin be the category whose objects are the finite ordinals 0,1,2,... (with 0 = empty set and n = {0,...,n-1}) and whose arrows are ALL functions between these sets. Suppose for each finite set A one selects an ordinal |A| that is its cardinal together with an isomorphism theta_A : A -> i|A|. Then for each function f : A -> B of finite sets one obtains |f| by completing the evident square, and this yields a functor |-| : Sets_fin -> Ord_fin; writing i : Ord_fin -> Sets_fin for the inclusion, the selected isomorphisms satisfy i(|f|) o theta_A = theta_B o f, i.e. they form a natural isomorphism theta : 1_{Sets_fin} -> i o |-| between endofunctors of Sets_fin. In the other order one may take theta_n = 1_n, so |i(-)| = 1_{Ord_fin} strictly. The two categories are neither equal nor even isomorphic, yet correspond in this weaker sense - the situation that the notion of equivalence of categories captures.",
+      "book_section": "7.8",
+      "book_page": "176",
+      "pdf_pages": [
+        185,
+        186
+      ],
+      "cross_refs": [
+        "awodey:7.8:def24",
+        "awodey:7.8:remark-setsfin-ordfin"
+      ],
+      "flags": [
+        "uses-choice-of-cardinal-and-iso-per-set"
+      ]
+    },
+    {
+      "id": "awodey:7.8:def24",
+      "kind": "definition",
+      "number": "7.24",
+      "name": "equivalence of categories; pseudo-inverse",
+      "statement_summary": "An equivalence of categories consists of a pair of functors E : C -> D and F : D -> C together with a pair of natural ISOMORPHISMS alpha : 1_C -> F o E (an iso in the functor category C^C) and beta : 1_D -> E o F (an iso in D^D). In this situation F is called a pseudo-inverse of E, and C and D are said to be equivalent, written C ~= D (Awodey's 'squiggle' notation). This generalizes isomorphism of categories, which demands the strict equalities 1_C = GF and 1_D = FG for functors E, F; equivalence replaces those identity natural transformations by natural isomorphisms, so it is 'isomorphism up to isomorphism' - the appropriate notion of sameness given that identity of objects matters less than isomorphism.",
+      "book_section": "7.8",
+      "book_page": "177",
+      "pdf_pages": [
+        186,
+        187
+      ],
+      "cross_refs": [
+        "awodey:7.8:example23",
+        "awodey:7.8:prop25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.8:remark-setsfin-ordfin",
+      "kind": "remark",
+      "number": null,
+      "name": "Sets_fin is equivalent to Ord_fin; the two characteristic conditions",
+      "statement_summary": "Unnumbered observation that in the running example Sets_fin is equivalent to Ord_fin because (1) every finite set A is isomorphic to i(n) for some ordinal n (the inclusion i : Ord_fin -> Sets_fin is essentially surjective on objects) and (2) for all ordinals n,m the map Hom_{Ord_fin}(n,m) -> Hom_{Sets_fin}(i n, i m) is a bijection (i is full and faithful). Awodey notes these two conditions are characteristic of equivalences in general, which is what the next proposition establishes.",
+      "book_section": "7.8",
+      "book_page": "178",
+      "pdf_pages": [
+        187
+      ],
+      "cross_refs": [
+        "awodey:7.8:example23",
+        "awodey:7.8:prop25"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "awodey:7.8:prop25",
+      "kind": "proposition",
+      "number": "7.25",
+      "name": "equivalence iff full, faithful and essentially surjective",
+      "statement_summary": "For a functor F : C -> D the following are equivalent: (1) F is (part of) an equivalence of categories; (2) F is full and faithful and essentially surjective on objects, i.e. for every object D of D there is an object C of C with F(C) isomorphic to D. Proof sketch: for (1 implies 2), given a pseudo-inverse E and natural isos alpha : 1_C -> EF, beta : 1_D -> FE, the naturality square of alpha with invertible components forces f = alpha_{C'}^{-1} o EF(f) o alpha_C, so F(f) = F(f') implies f = f' (F faithful, and symmetrically E faithful); given h : F(C) -> F(C') set f = alpha_{C'}^{-1} o E(h) o alpha_C, whence EF(f) = E(h) and, E being faithful, F(f) = h, so F is full; essential surjectivity comes from beta_D : D iso F(E D). For (2 implies 1), for each object D CHOOSE an object E(D) of C and an isomorphism beta_D : D -> F E(D); fullness and faithfulness supply a unique arrow E(h) : E(D) -> E(D') with F E(h) = beta_{D'} o h o beta_D^{-1}, making E a functor and beta : 1_D -> FE a natural isomorphism; finally alpha_C := F^{-1}(beta_{F C}) : C -> E F(C) is an isomorphism, natural because beta is.",
+      "book_section": "7.8",
+      "book_page": "178",
+      "pdf_pages": [
+        187,
+        188,
+        189
+      ],
+      "cross_refs": [
+        "awodey:7.8:def24",
+        "awodey:7.8:remark-setsfin-ordfin"
+      ],
+      "flags": [
+        "direction-2-implies-1-uses-choice-of-object-and-iso-per-object"
+      ]
+    },
+    {
+      "id": "awodey:7.9:example26",
+      "kind": "example",
+      "number": "7.26",
+      "name": "the category Par of sets and partial maps, and the category Sets_* of pointed sets",
+      "statement_summary": "Constructs two categories. (a) Par: objects are sets; an arrow f : A -> B is a partial function, i.e. a function |f| : U_f -> B for some subset U_f of A; the identity 1_A is the TOTAL identity function on A; the composite of f : A -> B and g : B -> C has domain U_{g o f} := |f|^{-1}(U_g), a subset of A, obtained as the pullback of the inclusion U_g -> B along |f|, and |g o f| : U_{g o f} -> C is the resulting horizontal composite. Composition is associative and the identities are units. (b) Sets_*: objects are pointed sets, i.e. pairs (A,a) with a an element of A; an arrow f : (A,a) -> (B,b) is a function f : A -> B with f(a) = b (point-preserving).",
+      "book_section": "7.9",
+      "book_page": "181",
+      "pdf_pages": [
+        190
+      ],
+      "cross_refs": [
+        "awodey:7.9:prop27"
+      ],
+      "flags": [
+        "defines-two-named-categories-in-a-numbered-example"
+      ]
+    },
+    {
+      "id": "awodey:7.9:prop27",
+      "kind": "proposition",
+      "number": "7.27",
+      "name": "Par is equivalent to Sets_*",
+      "statement_summary": "The category Par of sets and partial functions is equivalent to the category Sets_* of pointed sets. Witnessing functors: F : Par -> Sets_* sends a set A to (A_*, *) where A_* = A union {*} for a fresh point *, and sends a partial map f : A -> B to f_* : A_* -> B_* defined by f_*(x) = f(x) for x in U_f and f_*(x) = * otherwise (so f_*(*_A) = *_B). G : Sets_* -> Par sends (A,a) to A - {a}, and an arrow f : (A,a) -> (B,b) to the partial function with domain U_{G(f)} = A - f^{-1}(b) given by G(f)(x) = f(x) whenever f(x) is not b. Then F o G is the identity on Par (a point is added and then discarded), while G o F is only naturally isomorphic to 1_{Sets_*}, via (A,a) iso ((A - {a}) union {*}, *) - these pointed sets are isomorphic but not equal since a is not *. So the correspondence is an equivalence rather than an isomorphism of categories. Functoriality of F and G and naturality of the comparison are left to the reader.",
+      "book_section": "7.9",
+      "book_page": "181",
+      "pdf_pages": [
+        190,
+        191
+      ],
+      "cross_refs": [
+        "awodey:7.9:example26",
+        "awodey:7.8:def24"
+      ],
+      "flags": [
+        "statement-typeset-with-iso-symbol-though-proof-yields-only-an-equivalence"
+      ]
+    },
+    {
+      "id": "awodey:7.9:example28",
+      "kind": "example",
+      "number": "7.28",
+      "name": "slice categories and indexed families: Sets^I equivalent to Sets/I",
+      "statement_summary": "For a set I regarded as a discrete category, the functor category Sets^I is the category of I-indexed families of sets: objects are families (A_i)_{i in I} and arrows are I-indexed families of functions (f_i : A_i -> B_i). It is equivalent to the slice category Sets/I whose objects are functions alpha : A -> I and whose arrows are commuting triangles over I. The functors are Phi : Sets^I -> Sets/I with Phi((A_i)) = the indexing projection pi : coproduct over i of A_i -> I, and Psi : Sets/I -> Sets^I with Psi(alpha : A -> I) = the fibre family (alpha^{-1}{i})_{i in I}, defined analogously on arrows; they are mutually pseudo-inverse but NOT inverse (completion is left as an exercise). Awodey notes that the slice presentation E/E makes sense for any object E of any category E, whereas the functor-category presentation usually does not (e.g. in topological spaces), so slices make 'E-indexed family of objects of E' precise; and if E has pullbacks, reindexing along an arrow f : E -> F is represented by the pullback functor f^* : E/F -> E/E.",
+      "book_section": "7.9",
+      "book_page": "182",
+      "pdf_pages": [
+        191,
+        192
+      ],
+      "cross_refs": [
+        "awodey:7:ex13",
+        "awodey:7.8:def24"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.9:example29",
+      "kind": "example",
+      "number": "7.29",
+      "name": "Stone duality: dualities are equivalences with an opposite category",
+      "statement_summary": "Observes that a large class of examples of equivalences comes from classical 'duality' theorems, and that these are typically not isomorphisms C iso D^op (still less equalities C = D^op) but equivalences C equiv D^op, because the construction establishing the duality recovers the original object only up to isomorphism rather than on the nose. The finite boolean-algebra result proved next is presented as a simple special case of the general Stone Duality theorem.",
+      "book_section": "7.9",
+      "book_page": "183",
+      "pdf_pages": [
+        192
+      ],
+      "cross_refs": [
+        "awodey:7.9:prop30",
+        "awodey:7.9:remark-caba"
+      ],
+      "flags": [
+        "mostly-motivational-but-states-the-shape-of-duality-results"
+      ]
+    },
+    {
+      "id": "awodey:7.9:prop30",
+      "kind": "proposition",
+      "number": "7.30",
+      "name": "finite Stone duality: BA_fin equivalent to Sets_fin^op",
+      "statement_summary": "The category BA_fin of FINITE boolean algebras and boolean homomorphisms is equivalent to the opposite of the category Sets_fin of finite sets and functions. The functors: the contravariant powerset functor P^BA : Sets_fin^op -> BA_fin (the powerset of a finite set is a finite boolean algebra), and the atoms functor A : BA_fin^op -> Sets_fin with A(B) = {a in B : 0 < a and (b < a implies b = 0)}, which in the finite case is isomorphic to the ultrafilter functor Ult (represented by the two-element boolean algebra 2). Functorial action: for h : B -> B' and an atom a' of B', there is a UNIQUE atom a of B with a' <= h(b) iff a <= b for all b, obtained as the meet of the ultrafilter h^{-1}(up-set of a'); set A(h)(a') = a, giving A(h) : A(B') -> A(B). The pseudo-inverse natural isomorphisms are alpha_X : X -> A(P(X)), x maps to the singleton {x} (the atoms of a finite powerset are exactly the singletons), and beta_B : B -> P(A(B)), b maps to {a in A(B) : a <= b}, with proposed inverse sending a subset S of A(B) to the join of its elements. Naturality of alpha and beta is left to the reader.",
+      "book_section": "7.9",
+      "book_page": "183",
+      "pdf_pages": [
+        192,
+        193,
+        194
+      ],
+      "cross_refs": [
+        "awodey:7.9:lem31",
+        "awodey:7.9:lem32",
+        "awodey:7.9:example29",
+        "awodey:7.9:remark-caba"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.9:lem31",
+      "kind": "lemma",
+      "number": "7.31",
+      "name": "atoms correspond to ultrafilters in a finite boolean algebra",
+      "statement_summary": "For any FINITE boolean algebra B there is a bijection between the atoms a of B and the ultrafilters U contained in B, given in one direction by U maps to the meet of all elements of U, and in the other by a maps to its principal up-set (the set of b with a <= b). Proof: if a is an atom then its up-set is an ultrafilter, since for every b either a and b meet to a (so b is in the up-set) or a and b meet to 0 (so the complement of b is in the up-set). If U is an ultrafilter then, U being finite and closed under meets, the meet of U lies in U and is nonzero; if some nonzero b_0 were strictly below the meet then the complement of b_0 would lie in U, forcing the meet below b_0 and hence b_0 = 0. Finally the up-set of the meet of U equals U, since an element a not in U has complement in U, and then the meet would be below both a and its complement, hence 0 - impossible.",
+      "book_section": "7.9",
+      "book_page": "184",
+      "pdf_pages": [
+        193
+      ],
+      "cross_refs": [
+        "awodey:7.9:prop30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7.9:lem32",
+      "kind": "lemma",
+      "number": "7.32",
+      "name": "atomicity facts for finite boolean algebras",
+      "statement_summary": "For any FINITE boolean algebra B: (1) every element is the join of the atoms below it, i.e. b equals the join of {a in A(B) : a <= b}; (2) if a is an atom and a <= b or b' (the join), then a <= b or a <= b' (atoms are join-prime). These are what make beta_B : B -> P(A(B)) an isomorphism of boolean algebras. The proof is described as routine and is omitted.",
+      "book_section": "7.9",
+      "book_page": "185",
+      "pdf_pages": [
+        194
+      ],
+      "cross_refs": [
+        "awodey:7.9:prop30"
+      ],
+      "flags": [
+        "proof-omitted"
+      ]
+    },
+    {
+      "id": "awodey:7.9:remark-caba",
+      "kind": "remark",
+      "number": null,
+      "name": "extension to complete atomic boolean algebras and the full Stone Duality theorem",
+      "statement_summary": "States, without proof, that the finite duality BA_fin equivalent to Sets_fin^op extends to an equivalence caBA equivalent to Sets^op between ALL sets (opposite) and the complete atomic boolean algebras with complete homomorphisms. Here a boolean algebra B is COMPLETE if every subset of B has a join in B, a homomorphism is COMPLETE if it preserves such joins, and B is ATOMIC if every nonzero element of B dominates an atom. This is described as the discrete case of the full Stone Duality Theorem, which asserts an equivalence between the category of ALL boolean algebras and the opposite of the category of Stone spaces and continuous maps (reference: Johnstone).",
+      "book_section": "7.9",
+      "book_page": "185",
+      "pdf_pages": [
+        194
+      ],
+      "cross_refs": [
+        "awodey:7.9:prop30",
+        "awodey:7.9:example29"
+      ],
+      "flags": [
+        "unnumbered",
+        "stated-without-proof",
+        "external-reference-Johnstone"
+      ]
+    },
+    {
+      "id": "awodey:7:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "exponential law for sets from preservation of finite limits",
+      "statement_summary": "Using that representable functors preserve finite limits, show that for any sets A, B, C there is an isomorphism A^(B+C) iso A^B x A^C (the hom-functor turns the coproduct in the exponent into a product). Then conclude that for any sets A, B the powersets satisfy P(A+B) iso P(A) x P(B).",
+      "book_section": "7.10",
+      "book_page": "186",
+      "pdf_pages": [
+        195
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "naturality of the Stone representation map",
+      "statement_summary": "Consider the covariant composite functor F = P^BA o Ult^op : BA -> Sets^op -> BA taking a boolean algebra B to the powerset algebra of its set of ultrafilters; note F(B) is isomorphic to Hom_Sets(Hom_BA(B,2),2), a 'double dual'. There is always a homomorphism phi_B : B -> F(B) given by phi_B(b) = {V in Ult(B) : b is an element of V}. Show that for any boolean homomorphism h : A -> B the square F(h) o phi_A = phi_B o h commutes, i.e. phi is a natural transformation from the identity functor on BA to F.",
+      "book_section": "7.10",
+      "book_page": "186",
+      "pdf_pages": [
+        195
+      ],
+      "cross_refs": [
+        "awodey:7:ex7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "properties of the forgetful functors Groups -> Monoids -> Sets",
+      "statement_summary": "For the forgetful functors U : Groups -> Monoids and V : Monoids -> Sets, decide for each whether it is faithful, full, injective on arrows, surjective on arrows, injective on objects, and surjective on objects.",
+      "book_section": "7.10",
+      "book_page": "186",
+      "pdf_pages": [
+        195
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Alexandroff topology as a functor Pos -> Top",
+      "statement_summary": "(Starred.) Topologize a poset (X, <=) by declaring a subset U open just if it is closed upwards (x in U and x <= y imply y in U); this is the Alexandroff topology. Show this assignment is a functor A : Pos -> Top from posets and monotone maps to spaces and continuous maps, by showing that every monotone map of posets f : P -> Q is continuous for these topologies (the inverse image of an open set is open). Decide whether A is faithful and whether it is full, and discuss how the situation changes if instead the downward-closed subsets are taken as the open sets.",
+      "book_section": "7.10",
+      "book_page": "187",
+      "pdf_pages": [
+        196
+      ],
+      "cross_refs": [],
+      "flags": [
+        "starred-exercise"
+      ]
+    },
+    {
+      "id": "awodey:7:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "two factorization systems for functors",
+      "statement_summary": "(Starred.) Prove that every functor F : C -> D can be factored as F = M o E through some category E in the following two ways: (a) with E : C -> E bijective on objects and full, and M : E -> D faithful; (b) with E : C -> E surjective on objects, and M : E -> D injective on objects and full and faithful. Determine when the two factorizations agree.",
+      "book_section": "7.10",
+      "book_page": "187",
+      "pdf_pages": [
+        196
+      ],
+      "cross_refs": [],
+      "flags": [
+        "starred-exercise"
+      ]
+    },
+    {
+      "id": "awodey:7:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "componentwise characterization of natural isomorphisms (and monos)",
+      "statement_summary": "Show that a natural transformation is a natural isomorphism (i.e. an isomorphism in the functor category) exactly when each of its components is an isomorphism. Then decide whether the analogous statement holds for monomorphisms - i.e. whether a natural transformation is monic in the functor category exactly when each component is monic.",
+      "book_section": "7.10",
+      "book_page": "187",
+      "pdf_pages": [
+        196
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "Stone representation is an isomorphism for finite boolean algebras",
+      "statement_summary": "Prove that for any FINITE boolean algebra B the Stone representation phi : B -> P(Ult(B)) (sending b to the set of ultrafilters containing b) is an isomorphism of boolean algebras. Awodey notes the analogy with the double-dual isomorphism for finite dimensional vector spaces.",
+      "book_section": "7.10",
+      "book_page": "187",
+      "pdf_pages": [
+        196
+      ],
+      "cross_refs": [
+        "awodey:7:ex2",
+        "awodey:7.9:prop30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "objectwise binary products in a functor category",
+      "statement_summary": "Show that a functor category D^C has binary products whenever D does, by constructing the product of two functors F and G objectwise: (F x G)(C) = F(C) x G(C).",
+      "book_section": "7.10",
+      "book_page": "187",
+      "pdf_pages": [
+        196
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex9",
+      "kind": "exercise",
+      "number": "9",
+      "name": "the double-powerset unit is natural",
+      "statement_summary": "Show that the map of sets eta_A : A -> PP(A) sending an element a to {U subset of A : a is an element of U} is the component at A of a natural transformation eta : 1_Sets -> PP, where P : Sets^op -> Sets is the contravariant powerset functor (so that PP is a covariant endofunctor of Sets).",
+      "book_section": "7.10",
+      "book_page": "188",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex10",
+      "kind": "exercise",
+      "number": "10",
+      "name": "the hom-bifunctor of a locally small category",
+      "statement_summary": "Let C be a locally small category. Show that there is a functor Hom : C^op x C -> Sets such that for each object C of C the partial functors are the representables: Hom(C,-) : C -> Sets is the covariant representable functor and Hom(-,C) : C^op -> Sets is the contravariant one. Hint: use the Bifunctor Lemma.",
+      "book_section": "7.10",
+      "book_page": "188",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex11",
+      "kind": "exercise",
+      "number": "11",
+      "name": "properties not invariant under equivalence",
+      "statement_summary": "Determine what sorts of properties of categories do NOT respect equivalence of categories, and exhibit a specific property that is invariant under isomorphism of categories but not under equivalence.",
+      "book_section": "7.10",
+      "book_page": "188",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "awodey:7.8:def24"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex12",
+      "kind": "exercise",
+      "number": "12",
+      "name": "every category is equivalent to a skeleton",
+      "statement_summary": "Call a category skeletal if isomorphic objects in it are always identical. Show that every category is equivalent to a skeletal subcategory of itself (so every category has a 'skeleton').",
+      "book_section": "7.10",
+      "book_page": "188",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "awodey:7.8:prop25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "awodey:7:ex13",
+      "kind": "exercise",
+      "number": "13",
+      "name": "Sets^I equivalent to Sets/I, and reindexing as pullback",
+      "statement_summary": "Complete the proof that for any set I the category of I-indexed families of sets, regarded as the functor category Sets^I, is equivalent to the slice category Sets/I of sets over I. Then show that reindexing of families along a function f : J -> I, given by precomposition Sets^f((A_i)_{i in I}) = (A_{f(j)})_{j in J}, is represented by pullback: the square of categories and functors formed by the two equivalences Sets^I -> Sets/I and Sets^J -> Sets/J, the reindexing functor Sets^f on the left, and the pullback functor f^* on the right, commutes up to natural isomorphism.",
+      "book_section": "7.10",
+      "book_page": "188",
+      "pdf_pages": [
+        197,
+        198
+      ],
+      "cross_refs": [
+        "awodey:7.9:example28"
+      ],
+      "flags": [
+        "book-inconsistency-prose-types-f-star-as-Sets/J-to-Sets/I-while-the-diagram-requires-Sets/I-to-Sets/J"
+      ]
+    }
+  ]
+}

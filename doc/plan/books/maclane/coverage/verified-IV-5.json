@@ -1,0 +1,583 @@
+[
+  {
+    "id": "maclane:IV.5:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Galois connection (antitone / order-reversing adjoint pair) induced by a group action",
+      "invariants-and-fixed-points correspondence: L X = {sigma in G | sigma fixes every x in X}, R S = Fix(S)",
+      "fundamental theorem of Galois theory: lattice of subgroups vs. lattice of intermediate fields",
+      "Birkhoff polarity of a binary relation; formal-concept-analysis Galois connection",
+      "in-tree encoding: an `Adjunction` (Theory/Adjunction.v) between two thin categories `Proset`/`Poset` (Instance/Proset.v, Instance/Poset.v), one side taken opposite; or a `GroupObject` (Structure/Group.v) acting on an object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'galois' --type-add 'coq:*.v' -tcoq  -> 16 hits in 6 files, ALL background prose: Instance/Poset.v:37-100 (the order-theory dictionary essay, citing Ore 1944 and naming the subgroup/intermediate-field correspondence), Theory/Adjunction.v:78-79 ('Between posets, an adjunction is exactly a Galois connection, whose antitone variant recovers classical Galois theory'), Adjunction/GAFT.v:136, Instance/Adjoints.v:280, Structure/Factorization.v:69 (a Galois connection on ARROW CLASSES, a different object), Structure/Limit.v:53 (profinite Galois groups, prose). No Definition/Class/Instance/Lemma anywhere.",
+      "rg -n -i 'GaloisConnection|Galois_Connection|galois_conn' --type-add 'coq:*.v' -tcoq  -> 0 hits",
+      "rg -n -i 'antitone|order-reversing|inclusion-reversing|polarit' --type-add 'coq:*.v' -tcoq  -> 4 hits, all prose (Instance/Poset.v:57,59,95; Theory/Adjunction.v:79)",
+      "rg -n -i 'group action|G-set|orbit|stabilizer' --type-add 'coq:*.v' -tcoq  -> only the SYMMETRIC-GROUP action on multicategory/operad arities (Theory/Multicategory.v:54,393; Theory/Multicategory/{Representable,Operad,Functor}.v), Instance/ZX.v:137 ('stabilizer quantum mechanics', prose) and prose in Theory/Isomorphism.v:96, Construction/Groupoid.v:57. No action of a group on a set is defined in-tree.",
+      "rg -n -i 'subgroup|fixed field|field extension|fundamental theorem of galois' --type-add 'coq:*.v' -tcoq  -> 3 hits, all prose (Instance/Poset.v:58; Theory/Isomorphism.v:89 'maximal subgroupoid'; Construction/Cayley.v:53). Structure/Group.v declares only `Class GroupObject (grp : C)` (an internal group object, line 109) with no action and no subgroup lattice.",
+      "rg -n -i 'power ?set|powerset' --type-add 'coq:*.v' -tcoq  -> 1 hit, Structure/Topos.v:75, the topos POWER OBJECT `Pow a := Omega ^ a` -- not the powerset preorder P(U) ordered by inclusion. No P(U) carrier exists in-tree.",
+      "Enumerated every adjunction declaration in the tree: `rg -n --type-add 'coq:*.v' -tcoq '^\\s*(Program\\s+)?(Definition|Instance|Program Instance|Program Definition|Theorem|Lemma|Corollary)\\b.*⊣'` plus `rg -c '⊣'` over all *.v (Adjunction/{Compose,Hom,Opposite,Diagonal/Product,GAFT,SAFT}.v, Monad/*, Comonad/Duality.v, Construction/{Free,Reflective,Comma}/*, Instance/{Adjoints,Adj,Shapes}.v, Theory/Equivalence/*). NONE is an adjunction between two `Proset`/`Poset` categories, and none is built from a group action."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED against an independent blind pass that also landed on ABSENT before this file was opened. Reproduced the search log: `rg -i galois --glob '*.v'` -> 6 files (Adjunction/GAFT.v, Instance/Adjoints.v, Theory/Adjunction.v, Structure/Factorization.v, Instance/Poset.v, Structure/Limit.v), every hit background prose (Instance/Poset.v:37-100 is the order-theory dictionary essay; Theory/Adjunction.v:78-79 states the poset-adjunction/Galois-connection equation only in the header); `rg 'GaloisConnection'` -> 0 hits. Independently confirmed there is no group acting on a set anywhere: `Structure/Group.v:109` declares only `Class GroupObject (grp : C)`, an internal group object in a monoidal category, with no action, no subgroup lattice and no fixed-point operator. Also checked Instance/Poset.v in full (123 lines): its only declarations are `eq_equiv` (:111), `Poset` (:116) and `LessThanEqualTo_Category` (:120) -- the machinery to state a Galois connection exists, the connection itself does not. No counterpart missed. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "direct image f_* left adjoint to inverse image f^* on powersets",
+      "existential image / existential quantification along f (exists_f -| f^*)",
+      "preimage functor f^{-1} : P(V) -> P(U); substitution functor",
+      "powerset functor P : Set -> Set; powerset preorder (subsets ordered by inclusion) as a thin category",
+      "in-tree encoding: subobject reindexing `sub_reindex` / `Sub : C^op ⟶ Sets` (Theory/Subobject/Functor.v) equipped with a left adjoint; or `Ensemble`-valued predicates (Instance/Rel.v, Instance/Ens.v) ordered by inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'direct image' --type-add 'coq:*.v' -tcoq  -> 0 hits",
+      "rg -n -i 'inverse image' --type-add 'coq:*.v' -tcoq  -> 0 hits",
+      "rg -n -i 'preimage|pre-image' --type-add 'coq:*.v' -tcoq  -> ~35 hits, every one about the CHOSEN PREIMAGE of a morphism under a full functor (`prefmap`, Theory/Functor.v:332; Theory/Equivalence/FullFaithful.v; Instance/Sets/Classifier.v) or about pullbacks computing a preimage in prose (Structure/Pullback.v:92). No preimage functor on subsets, and no adjunction.",
+      "rg -n -i 'power ?set|powerset|subsets of' --type-add 'coq:*.v' -tcoq  -> 1 hit, Structure/Topos.v:75 (`Pow a := Omega ^ a`, the topos power object). The powerset preorder P(U) is not constructed anywhere.",
+      "rg -n -i 'Ensembles|Ensemble|Included|Coq\\.Sets' --type-add 'coq:*.v' -tcoq  -> only Instance/Rel.v (relations as `A -> Ensemble B`) and Instance/Ens.v. Neither orders subsets by inclusion and neither builds an image/preimage adjunction; note that Instance/Ens.v's HOM already bakes in a preimage EQUATION -- `hom := fun A B => ∃ f : ``A → ``B, ∀ x, In _ (projT2 A) x ↔ In _ (projT2 B) (f x)` (line 37), i.e. A = f⁻¹(B) -- so preimage appears only as a side condition on morphisms, never as a functor with an adjoint.",
+      "rg -n -i 'image functor|Image_Functor|ImageFunctor|existential image|f_\\*|f_!|lower shriek' --type-add 'coq:*.v' -tcoq  -> only Construction/Slice/Pullback.v (Sigma_f on SLICES, see maclane:IV.5:ex3) and Comonad/Coalgebra.v:97 prose about the triple f_! -| f^* -| f_*.",
+      "NEAR MISS examined and rejected: Theory/Subobject/Functor.v:180 defines `Program Definition Sub : C^op ⟶ Sets` by chosen-pullback reindexing (`sub_reindex`, line 35) -- this is the f^* half in general subobject form, but (a) it lands in Sets rather than in a preorder, (b) `sub_le` (Theory/Subobject.v:59) is a preorder on SubObj that is never assembled into a category, and (c) NO left adjoint (direct image) is constructed and no adjunction is stated (`rg -n -i 'adjoint' Theory/Subobject/Functor.v` -> 0 hits). Instance/Sets/Image.v gives only the epi-mono image FACTORIZATION of a single Sets morphism (`Sets_Image_Factorization`, line 143), not an image functor."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached ABSENT independently. Re-ran the two decisive greps over the whole tree: `rg -i 'direct image' --glob '*.v'` -> 0 hits and `rg -i 'inverse image' --glob '*.v'` -> 0 hits (my broader `direct image|inverse image|preimage` sweep returned ~17 files, but every one of them matched on `preimage` only). The two near-misses the record names are exactly the two I found and rejected: `sub_reindex` (Theory/Subobject/Functor.v:35) with `Sub : C^op ⟶ Sets` (:180) is the f^* half in subobject form but has no left adjoint (`rg -i adjoint` on that file -> 0), and `Sets_Image_Factorization` (Instance/Sets/Image.v:143) is an epi-mono factorization of one morphism, not an image functor. One extra carrier I checked that the record does not mention: Instance/Ens.v:55 declares a SECOND category `EnsT (T : Type)` whose objects literally are `Ensemble T` -- but its homs are endofunctions `f : T -> T` with `forall x, x in A <-> f x in B`, i.e. A = f^-1(B), not inclusions, so it is still not the powerset preorder P(U) and carries no image/preimage adjunction. PARTIAL would have been arguable on the strength of `Sub` alone; ABSENT is the honest call because both the direct image and the adjunction -- the entire content of the item -- are missing. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "meet as right adjoint to the diagonal; join as left adjoint to the diagonal",
+      "conjunction/disjunction/implication as adjoints; deduction theorem as an adjunction",
+      "Heyting algebra / Boolean algebra as a (bi)cartesian closed thin category; residuation X and - -| X => -",
+      "relative complement X' union - as the exponential in a Boolean algebra",
+      "in-tree encoding: `Diagonal_Product_Adjunction` (Adjunction/Diagonal/Product.v), `Cartesian`/`Cocartesian`/`Closed` instances on a thin category (`Instance/Props.v`, `Instance/Two/Monoidal.v`)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "#[export] Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and;  (* P × Q = P ∧ Q *) fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or;  (* P + Q = P ∨ Q *) fork := fun _ _ _ f g x => match x with | or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl;  (* Q ^ P = P → Q *) exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }.   [header, lines 91-92: \"exp_iso is the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q) witnessing (- ∧ P) ⊣ (P → -)\"]"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "Closed.exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;   (* class comment: \"The product-exponential adjunction (- × y) ⊣ (- ^ y), as the natural isomorphism Hom(x × y, z) ≅ Hom(x, z^y)\" *)"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}.   (`two_meet`, line 37: the meet of the two-element poset `_2`; `Two_Terminal` at line 98)"
+      }
+    ],
+    "statement_record": {
+      "book": "In the preorder P(U): the diagonal Δ : P(U) → P(U) × P(U) has right adjoint intersection (X, Y) ↦ X ∩ Y and left adjoint union (X, Y) ↦ X ∪ Y. For fixed X, the functor X ∩ − : P(U) → P(U) has right adjoint X' ∪ − (X' the complement of X), since X ∩ Y ⊆ Z iff Y ⊆ X' ∪ Z. Thus 'and', 'or', 'not'/implication all arise as adjoints.",
+      "intree": "`Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)` (Adjunction/Diagonal/Product.v:36) supplies the meet half in complete generality, applicable to any thin cartesian category; `Props_Cartesian`/`Props_Cocartesian`/`Props_Closed` (Instance/Props.v:69/80/94) realize ∧ as the product, ∨ as the coproduct and → as the exponential in a concrete thin category, with the header recording that `exp_iso` \"is the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q) witnessing (- ∧ P) ⊣ (P → -)\", i.e. the deduction theorem.",
+      "strength_comparison": "intree-weaker: three separate deficits. (1) Only the RIGHT-adjoint half of the diagonal adjunction is a theorem: `Diagonal_Product_Adjunction` gives Δ ⊣ ×, while the join half (∪ ⊣ Δ, i.e. coproduct as LEFT adjoint to Δ) exists only as the prose parenthetical at Adjunction/Diagonal/Product.v:19 (\"so that, dually, the coproduct is left adjoint to Δ\") -- no `Diagonal_Coproduct_Adjunction` and no opposite-category instantiation is declared anywhere. (2) The residuation half is the HEYTING implication: `Props_Closed` has Q^P = (P → Q), not the Boolean X' ∪ −; there is no complement operation, no Boolean algebra, and no lattice class in-tree (only prose at Instance/Two.v:85-88 and Structure/Cocartesian.v:100). (3) The carrier P(U) itself does not exist in-tree, so the construction has no witness at its own site -- the nearest concrete thin models are `Props` (propositions under entailment) and `_2` (the two-element poset, which has meet and terminal but neither coproduct nor exponential)."
+    },
+    "gap": "Missing: (a) the powerset preorder P(U) as a category, so the construction has no in-tree witness at its stated site; (b) the left adjoint of the diagonal (join/coproduct ⊣ Δ) is never stated as an adjunction, only in prose at Adjunction/Diagonal/Product.v:19; (c) the Boolean form X ∩ − ⊣ X' ∪ − -- no complement operation, Boolean algebra, or lattice structure is defined anywhere in the tree, so only the intuitionistic/Heyting shadow (`Props_Closed`, exponent = implication) is available.",
+    "negative_search_log": [
+      "rg -n -i 'left adjoint.*diagonal|diagonal.*left adjoint|coproduct.*left adjoint|Diagonal_Co' --type-add 'coq:*.v' -tcoq -> 4 hits, all prose (Adjunction/Diagonal/Product.v:19; Adjunction/GAFT/Examples.v:39,105,114); no coproduct-to-diagonal adjunction instance. Also checked Functor/Diagonal.v and Functor/Coproduct.v: no adjunction declared.",
+      "rg -n -i 'Boolean algebra|lattice|complement|Heyting' --type-add 'coq:*.v' -tcoq -> all hits are background prose or unrelated ('complements', 'complementary observables' in ZX/Localization); Instance/Props.v is the only Heyting structure, and it is a prealgebra of Props, not of subsets.",
+      "rg -n -i 'power ?set|powerset' --type-add 'coq:*.v' -tcoq -> 1 hit (Structure/Topos.v:75, the power OBJECT)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached PARTIAL on the same two pillars (Diagonal_Product_Adjunction + Instance/Props.v) before reading this file. Every citation checked at the cited line: Adjunction/Diagonal/Product.v:36 is `Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)` with the quoted `to`/`from`; Instance/Props.v:69/80/94 are `Props_Cartesian` (product = `and`), `Props_Cocartesian` (coproduct = `or`) and `Props_Closed` (exponent = `Basics.impl`), and the quoted header line about `exp_iso` witnessing (- ∧ P) ⊣ (P → -) is verbatim from Instance/Props.v:91-92; Structure/Cartesian/Closed.v:51 is `exp_iso`; Instance/Two/Monoidal.v:80 is `Two_Cartesian` with `two_meet` at :37 and `Two_Terminal` at :98, all exact. The three-part gap is honest and I independently confirmed each leg: no `Diagonal_Coproduct`-style adjunction exists (the dual is prose at Adjunction/Diagonal/Product.v:19 only, and Functor/Coproduct.v:61's `CoproductFunctor : C ∐ C ⟶ C` is over the COPRODUCT category, not C ∏ C, so it is not the ∪ of the item); no complement, Boolean algebra or lattice class exists; and P(U) has no in-tree carrier. strength_comparison is not overstated. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:construction4",
+    "classification": "ABSENT",
+    "aliases": [
+      "existential and universal quantifiers as adjoints to substitution (Lawvere): exists_P -| P^* -| forall_P",
+      "adjoint triple along a projection U × V → U on powersets; cylinder / projection / largest-cylinder-inside",
+      "hyperdoctrine; Beck-Chevalley condition; indexed poset with quantifier adjoints",
+      "in-tree encoding: left and right adjoints of `Sub : C^op ⟶ Sets` reindexing (Theory/Subobject/Functor.v), or of `Star_Functor` on slices (Construction/Slice/Pullback.v: Sigma_f -| f^* -| Pi_f)",
+      "dual/type-theoretic form: dependent sum and dependent product; locally cartesian closed category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'quantifier|hyperdoctrine' --type-add 'coq:*.v' -tcoq -> 13 hits, ALL background prose: Theory/Adjunction.v:75-76 ('the quantifiers form the adjoint triple ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine'), Instance/Poset.v:70-71, Construction/Slice.v:93, Structure/Pullback.v:86,122-128, Structure/Topos.v:38,85, Tools/Abstraction.v:144 (an unrelated Coq-level curry/uncurry remark). No Coq construct.",
+      "rg -n -i 'existential quantifier|universal quantifier' --type-add 'coq:*.v' -tcoq -> 0 hits",
+      "rg -n -i 'Beck-Chevalley|Beck–Chevalley' --type-add 'coq:*.v' -tcoq -> 2 prose hits (Comonad/Coalgebra.v:94, Theory/Bicategory.v:104); the condition is not formalized.",
+      "rg -n -i 'base change|dependent sum|dependent product|locally cartesian closed|LCCC|Sigma_f|Pi_f' --type-add 'coq:*.v' -tcoq -> Structure/Pullback.v:111,126-130 and Construction/Slice.v:87-93 are prose; the only code is Construction/ColouredPROP/BaseChange* (base change of COLOURS in coloured PROPs, an unrelated notion) and Construction/Slice/Pullback.v.",
+      "rg -n -i 'power ?set|powerset|direct image|inverse image' -> as logged for maclane:IV.5:construction2: no powerset preorder and no image/preimage pair, so the item's carriers P(U) and P(U × V) do not exist.",
+      "NEAR MISS examined and rejected: Construction/Slice/Pullback.v defines `Bang_Functor` (Sigma_f, line 50) and `Star_Functor` (f^*, line 67) between SLICE categories, but (a) that is the slice-level analogue, not the subset-level one; (b) the adjunction Sigma_f ⊣ f^* is only a COMMENTED-OUT stub (lines 121-127); and (c) the right adjoint Pi_f / the universal quantifier is entirely absent -- the only trace is the commented `Production` stub at lines 114-119. Theory/Subobject/Functor.v:180 supplies reindexing (`Sub : C^op ⟶ Sets`) with NO adjoints on either side."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached ABSENT. Reproduced: every `quantifier`/`hyperdoctrine` hit is background prose (Theory/Adjunction.v:75-76 '∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine', Construction/Slice.v:93, Structure/Pullback.v:124, Structure/Topos.v:38,85, Tools/Abstraction.v:144); `rg 'existential quantifier|universal quantifier'` -> 0. The rejected near-miss is correctly characterised: I read Construction/Slice/Pullback.v end to end -- `Bang_Functor` (:50) and `Star_Functor` (:67) are live, but `Base_Functor_Adjunction` is entirely inside a comment block (:121-127) and the right adjoint Π_f survives only as the commented `Production` stub (:114-119), so neither the ∃ nor the ∀ leg of the triple is proved even in its slice-level generalization. No counterpart missed. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "orthogonal complement as a (self-adjoint) Galois connection",
+      "inner-product space / Hilbert space; perp operator S -> S^perp; annihilator",
+      "symmetric relation induces a Galois connection with L = R (Birkhoff polarity of a symmetric relation)",
+      "in-tree encoding: an `Adjunction` between `Proset P(H)` and its opposite with both functors the perp map",
+      "dual reading: closure operator S -> S^perp^perp (double orthogonal complement)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'inner product' --type-add 'coq:*.v' -tcoq -> 0 hits",
+      "rg -n -i 'orthogonal complement|orthonormal' --type-add 'coq:*.v' -tcoq -> 1 hit, Theory/Algebra/Frobenius.v:95, prose about Frobenius algebras in Hilbert spaces ('is exactly an orthogonal basis, orthonormal exactly when …'); no definition.",
+      "rg -n -i 'Hilbert' --type-add 'coq:*.v' -tcoq -> 3 hits, all prose (Theory/Adjunction.v:38 uses the adjoint-operator identity ⟨Lx,y⟩ = ⟨x,Ry⟩ only as motivation; Theory/Algebra/Frobenius.v:95; Structure/Monoidal/Symmetric.v:92).",
+      "rg -n -i 'vector space|Vect|linear map|\\bfield\\b' --type-add 'coq:*.v' -tcoq -> all prose (Structure/Abelian.v:69, Structure/Cocartesian.v:68, Theory/Algebra/CommutativeFrobenius.v:34, Instance/ZX.v) or the unrelated record-`field` word. There is no linear algebra, no field, and no vector space anywhere in the tree.",
+      "HOMONYM TRAP checked and rejected: Theory/Orthogonality.v does define `Class Orthogonal {C : Category} {a b x y : C} (e : a ~> b) (m : x ~> y) := { ortho_lift {u v} (comm : m ∘ u ≈ v ∘ e) : ∃! d : b ~> x, (d ∘ e ≈ u) ∧ (m ∘ d ≈ v) }` -- the unique LIFTING property e ⫫ m used for orthogonal factorization systems, with no relation to orthogonal complements in an inner-product space. Likewise Structure/Factorization.v:69's 'Galois connection on arrow classes' is a different object.",
+      "rg -n -i 'galois|antitone' -> as logged for maclane:IV.5:construction1: prose only, no Galois-connection construct of any kind, so even the abstract shell of the exercise is unavailable."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached ABSENT. Reproduced exactly: `rg -i 'inner product'` -> 0 hits, `rg -i 'orthogonal complement'` -> 0 hits, `rg -i 'sesquilinear'` -> 0 hits, `rg -i hilbert` -> 3 files all prose (Theory/Adjunction.v:38, Theory/Algebra/Frobenius.v:95, Structure/Monoidal/Symmetric.v:92). The homonym trap the record flags is real and correctly rejected: Theory/Orthogonality.v:43 declares `Class Orthogonal ... ortho_lift ... ∃! d, (d ∘ e ≈ u) ∧ (m ∘ d ≈ v)`, the unique-lifting property of a factorization system, unrelated to a perp operator. The library has no linear algebra of any kind, so neither the exercise nor the abstract Galois shell it would be stated in exists. ABSENT is right; this is not OUT_OF_SCOPE, since a self-adjoint Galois connection between a proset and its opposite is perfectly formalizable here once a perp operator exists. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "closed elements of a Galois connection; {p | p = R L p} = image of R; closure operator R L",
+      "fixed points of the induced monad / comonad; algebras of an idempotent monad",
+      "the equivalence an adjunction restricts to between {x | unit_x iso} and {y | counit_y iso} (fixed-point / maximal equivalence of an adjunction)",
+      "in-tree encoding: `MLocal_Subcategory` (objects where `ret` is invertible), `IdempotentMonad`, `Reflective`, `EilenbergMoore`, `WLocal`/`C_W`",
+      "dual form: coreflective subcategory of comonad-fixed objects; `IdempotentComonad`"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 224,
+        "symbol": "MLocal_Subcategory",
+        "intree_statement": "Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x) ; shom := fun _ _ _ _ _ => True ; scomp := fun _ _ _ _ _ _ _ _ _ _ => I ; sid := fun _ _ => I |}.   (* header: \"The M-local objects: those x whose unit ret x is invertible\" -- the categorical 'closed elements' p ≅ R L p *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 345,
+        "symbol": "Idempotent_Reflective",
+        "intree_statement": "Definition Idempotent_Reflective : Reflective MLocal_Subcategory := @Build_Reflective C MLocal_Subcategory MLocal_Full idem_reflector idem_reflective_adj."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 464,
+        "symbol": "Idempotent_EM_Equivalence",
+        "intree_statement": "Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G.   (* \"The Eilenberg–Moore category of the idempotent monad is equivalent to its subcategory of M-local objects.\" *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 81,
+        "symbol": "IdempotentMonad",
+        "intree_statement": "Class IdempotentMonad {C : Category} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 198,
+        "symbol": "Reflective_IdempotentMonad",
+        "intree_statement": "Definition Reflective_IdempotentMonad : ...   (* the converse leg: the monad of any full reflective subcategory is idempotent, its join being a functor image of the counit *)"
+      },
+      {
+        "file": "Construction/Localization.v",
+        "line": 184,
+        "symbol": "unit_at_local_iso",
+        "intree_statement": "Lemma unit_at_local_iso {C : Category} {W : MorphismClass C} ... -- the unit at a W-local object is an isomorphism (with `WLocal` at line 129 and the full subcategory `C_W` at line 164)."
+      },
+      {
+        "file": "Construction/Reflective.v",
+        "line": 92,
+        "symbol": "reflective_counit_iso",
+        "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} ... -- the counit of a FULL reflective subcategory is an isomorphism."
+      }
+    ],
+    "statement_record": {
+      "book": "In a Galois connection L ⊣ R between posets, show that the set of closed elements {p | p = R L p} of P coincides with the image {p | p = R q for some q} of R, and exhibit a bijection from it onto the corresponding closed set {q | q = L R q} of Q. Ask whether this generalizes to an arbitrary adjunction (i.e. to the fixed points of the induced monad and comonad).",
+      "intree": "`Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x); ... |}` together with `Definition Idempotent_Reflective : Reflective MLocal_Subcategory` and `Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G` (Construction/Reflective/Idempotent.v:224/345/464), all under `Context `{IM : @IdempotentMonad C M MM}`, with the converse `Reflective_IdempotentMonad` at line 198.",
+      "strength_comparison": "intree-stronger where it overlaps (the closed elements are shown to form a full REFLECTIVE SUBCATEGORY equivalent to the Eilenberg-Moore category, not merely a fixed set), but intree-weaker on the exercise proper, on three counts. (1) ONE SIDE ONLY: the development identifies the closed elements of the DOMAIN -- the objects where the monad unit is invertible. The exercise's bijection onto the closed elements of the CODOMAIN (objects where the counit is invertible, the comonad-fixed side) is nowhere stated: there is no theorem that an arbitrary adjunction restricts to an equivalence between {x | η_x iso} and {y | ε_y iso}, and no `IdempotentComonad` exists. (2) EXTRA HYPOTHESIS: every statement is taken over `IdempotentMonad` (join invertible at every object). For posets this is automatic (all parallel arrows are equal in a thin category), so the poset case is covered, but the exercise's 'does this generalize to an arbitrary adjunction?' is answered in-tree only under idempotency. (3) The identification 'closed = in the image of R' ({p | p = R L p} = {p | ∃q, p = R q}) is not stated in any form, at either the poset or the categorical level."
+    },
+    "gap": "Missing: (a) the two-sided statement -- the bijection/equivalence between the closed elements of P (monad-fixed) and those of Q (comonad-fixed), i.e. the fixed-point equivalence any adjunction restricts to; no comonad-side dual file exists (`rg -n 'IdempotentComonad'` -> 0 hits). (b) The identification of the closed elements with the image of R. (c) The poset/Galois-connection instantiation itself: no Galois connection exists in-tree (see maclane:IV.5:construction1), so the exercise's own setting has no witness -- only the general idempotent-monad shadow is available. (d) The general (non-idempotent) answer to 'does it generalize' is not addressed.",
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'IdempotentComonad' -> 0 hits",
+      "rg -n -i 'fixed.?point|restricts to an equivalence|maximal equivalence|unit is (an )?iso|counit is (an )?iso|local object' --type-add 'coq:*.v' -tcoq -> the only fixed-point-of-an-adjunction material is Construction/Reflective/Idempotent.v and Construction/Localization.v (both single-sided, monad side); all other hits are least/greatest fixed points of endofunctors (Construction/FAlg.v, Construction/FCoalg.v, Instance/Coq/Lists.v) or Coq `Fixpoint`s.",
+      "rg -n -i 'closed element' --type-add 'coq:*.v' -tcoq -> 0 hits",
+      "rg -n -i 'closure operator' --type-add 'coq:*.v' -tcoq -> 1 file, Instance/Poset.v:48,64,66,68, all background prose ('a monad is a closure operator').",
+      "Inspected Theory/Equivalence/Adjunction.v in full: it transports an adjunction ALONG equivalences (`Transported_Adjunction`, line 105), a different statement; no fixed-subcategory equivalence is derived there."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, with a recorded disagreement of degree. My blind pass leaned ABSENT; the record's evidence is what moves it to PARTIAL, and I judge PARTIAL the better call: Construction/Reflective/Idempotent.v:224's `MLocal_Subcategory := {| sobj := fun x => IsIsomorphism (@ret C M MM x); ... |}` IS the categorified set of closed elements p ≅ R L p, and :345 `Idempotent_Reflective` and :464 `Idempotent_EM_Equivalence` are genuine theorems about it, not mere definitions. All cited lines verified exact (:81 `Class IdempotentMonad`, :198 `Reflective_IdempotentMonad`, :224, :345, :464; Construction/Reflective.v:92 `reflective_counit_iso`; Construction/Localization.v:184 `unit_at_local_iso` with `WLocal` at :129 and `C_W` at :164). The gap is precise and every leg checks out: `rg 'IdempotentComonad'` -> 0 hits, so the codomain/comonad side of the bijection is genuinely absent; Theory/Equivalence/Adjunction.v:105 `Transported_Adjunction` is indeed a different statement (transport along equivalences). The idempotency remark is also mathematically sound -- in a thin category `join` is invertible automatically, so a Galois connection would satisfy the hypothesis -- but as the record's gap (c) says, no Galois connection exists in-tree to instantiate it. PARTIAL rests entirely on the domain-side object; the item's actual content (the bijection, and 'closed = image of R') is unformalized. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.5:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pullback functor f^* right adjoint to composition-with-f on slices (Sigma_f -| f^*)",
+      "dependent sum / base change; f_! -| f^*; 'lower shriek' post-composition functor",
+      "over-category / comma-category (C down a) -> (C down a') induced by f",
+      "in-tree names: `Bang_Functor`, `Star_Functor`, `Slice`, `Pullback`, `HasPullbacks`",
+      "dual form: coslice / pushout-along-f left adjoint to composition"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 50,
+        "symbol": "Bang_Functor",
+        "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); fmap := λ x y f, (_; _) |}.   (* \"Dependent sum Σ_f (= f_!): post-compose the structure morphism with f.\" -- the book's f_* *)"
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 67,
+        "symbol": "Star_Functor",
+        "intree_statement": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in (Pull h f pull; pullback_snd h f pull); fmap := ... |}.   (under `Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g`, line 63; all three functoriality obligations discharged with Qed)"
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 121,
+        "symbol": "Base_Functor_Adjunction (commented-out stub)",
+        "intree_statement": "(* Program Definition Base_Functor_Adjunction `(f : a ~> b) : *)  (*   Star_Functor f ⊣ Bang_Functor f := {| *)  (*   adj := λ _ _, {| to := _ ; from := _ |} *)  (* |}. *)  (* Next Obligation. *)  (*   construct. *)   -- the entire adjunction is commented out and the section ends at `End SliceFunctors.` (line 129) with no adjunction term."
+      },
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 38,
+        "symbol": "Slice/Pullback.v header (self-flagged orientation error)",
+        "intree_statement": "\"The adjunction is sketched in the commented Base_Functor_Adjunction stub below; note that the live statement should read Bang_Functor f ⊣ Star_Functor f, since dependent sum is the LEFT adjoint.\""
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 129,
+        "symbol": "Structure/Pullback.v header (documentation overclaim)",
+        "intree_statement": "\"The base-change functor between slices, with its left adjoint, is built in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor]\"  -- but the referenced adjunction is only a comment.  Construction/Slice.v:88-90 repeats the overclaim: \"with the adjunction Σ_f ⊣ f^* recorded in that file's header\"."
+      }
+    ],
+    "statement_record": {
+      "book": "For C a category with pullbacks, each arrow f : a → a' defines a functor f_* : (C ↓ a) → (C ↓ a') sending x → a to the composite x → a → a'. Show that f_* has a right adjoint f^* sending (x' → a') to y → a, where y is the vertex of the pullback of a → a' ← x'.",
+      "intree": "`Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); ... |}` and `Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), (Pull h f pull; pullback_snd h f pull); ... |}` (Construction/Slice/Pullback.v:50, 67), the latter under a section-wide `Hypothesis pullbacks`.",
+      "strength_comparison": "intree-weaker: the two functors of the exercise are constructed and proved functorial (all `Program` obligations discharged with `Qed`), but the ADJUNCTION between them -- which is the entire content of the exercise -- is not proved. Its only occurrence is a commented-out stub at lines 121-127, and that stub is even mis-oriented, reading `Star_Functor f ⊣ Bang_Functor f`, the reverse of the correct `Bang_Functor f ⊣ Star_Functor f`, a mismatch the file's own header flags at lines 38-40. Additionally `Star_Functor` is built from a section-wide `Hypothesis pullbacks` giving ALL binary pullbacks, whereas the exercise needs only pullbacks along f."
+    },
+    "gap": "The adjunction itself is absent: there is no Coq term of type `Bang_Functor f ⊣ Star_Functor f` anywhere in the tree (verified by enumerating every `⊣` occurrence in every *.v file). Only the two functors exist, and no unit/counit is given. Two documentation sites OVERCLAIM the result -- Structure/Pullback.v:129-130 (\"is built in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor]\") and Construction/Slice.v:88-90 (\"with the adjunction Σ_f ⊣ f^* recorded in that file's header\") -- but the referenced adjunction is only a comment. Also missing: the further right adjoint Π_f (only a commented `Production` stub, lines 114-119).",
+    "negative_search_log": [
+      "rg -n '⊣' Construction/Slice/Pullback.v -> 4 hits: lines 30-33 (header prose), 38-40 (header prose), 122 (inside the comment block). No live declaration.",
+      "rg -n 'Bang_Functor|Star_Functor' --type-add 'coq:*.v' -tcoq -g '!Construction/Slice/Pullback.v' -> 4 hits, all documentation prose (Construction/Slice.v:43,87,89; Structure/Pullback.v:130). Neither functor is consumed by any other file.",
+      "Enumerated every adjunction declaration in the tree via `rg -n --type-add 'coq:*.v' -tcoq '^\\s*(Program\\s+)?(Definition|Instance|Program Instance|Program Definition|Theorem|Lemma|Corollary)\\b.*⊣'` and `rg -c '⊣'` over all *.v -- no slice-level adjunction appears."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached PARTIAL with the same gap. Read Construction/Slice/Pullback.v in full (129 lines): `Bang_Functor` at :50 and `Star_Functor` at :67 are live with all Program obligations closed by Qed, under the section-wide `Hypothesis pullbacks` at :63; the adjunction exists only as the comment block :121-127, and that stub does read `Star_Functor f ⊣ Bang_Functor f` -- the reverse of the correct orientation -- which the file's own header flags at :38-40. I independently confirmed both documentation OVERCLAIMS the record surfaces, and they are worth carrying into the issue draft: Structure/Pullback.v:129-130 says 'The base-change functor between slices, with its left adjoint, is built in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor]', and Construction/Slice.v:88-90 says 'with the adjunction Σ_f ⊣ f^* recorded in that file's header' -- both point at a comment. Construction/Slice/Pullback.v IS registered in _CoqProject (line 69), so this is a real compiled file with a real hole, not an unbuilt one. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "cartesian closed category (CCC)",
+      "category with finite products and exponentials; specified right adjoints to C → 1, to Δ, and to − × b",
+      "`Closed` / `Cartesian` / `Terminal` typeclasses; bicartesian closed category (BiCCC)",
+      "exponential object c^b with hom(a × b, c) ≅ hom(a, c^b) natural in a and c; currying/uncurrying",
+      "in-tree names: `Class Closed`, `exponent_obj`, `exp_iso`, `curry`, `uncurry`, `eval`, `ump_exponents`"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj  where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z); eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f }.   (declared under `Context {C : Category}. Context `{@Cartesian C}.`)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 121,
+        "symbol": "Cartesian",
+        "intree_statement": "Class Cartesian := { ... }   -- specified binary products; the class header (lines 30-33) states the UMP as the biconditional `ump_products : h ≈ ⟨f, g⟩ ↔ exl ∘ h ≈ f ∧ exr ∘ h ≈ g` and records that \"the nullary product (the terminal object 1) is supplied separately by [Terminal]\"."
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { ... }   -- the specified terminal object, i.e. Mac Lane's chosen right adjoint to C → 1."
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "#[export] Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }.   -- Mac Lane's second right adjoint (Δ has right adjoint ×), stated as an actual adjunction."
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 25,
+        "symbol": "BiCCC.v header (packaging convention)",
+        "intree_statement": "\"This file does not introduce a `BiCCC` class: rather than bundle a fourth redundant record, a BiCCC is obtained simply by assuming all four pieces of structure together (Cartesian, Closed, Cocartesian and Initial in the same Context)\" -- the same convention makes a CCC the combination `Cartesian` + `Terminal` + `Closed`."
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 179,
+        "symbol": "Coq_ClosedMonoidal",
+        "intree_statement": "Program Instance Coq_ClosedMonoidal : @ClosedMonoidal Coq := @CCC_ClosedMonoidal Coq Coq_Cartesian Coq_Terminal Coq_Closed.   -- a worked assembly of Mac Lane's three-fold package (terminal + binary products + exponentials) into one structure."
+      }
+    ],
+    "statement_record": {
+      "book": "A category C with all finite products specifically given is cartesian closed when each of the three functors C → 1, the diagonal C → C × C, and − × b : C → C (for each object b) has a specified right adjoint with a specified adjunction: respectively a terminal object t, a binary product a × b whose projections form the counit, and an exponential c^b with a bijection hom(a × b, c) ≅ hom(a, c^b) natural in a and c.",
+      "intree": "`Class Closed := { exponent_obj : obj → obj → obj; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' := to exp_iso; uncurry' := from exp_iso; eval' {x y} : y^x × x ~> y := uncurry' id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }` over `Context `{@Cartesian C}` (Structure/Cartesian/Closed.v:43), with the terminal object supplied by the separate `Class Terminal` (Structure/Terminal.v:107) and Δ ⊣ × available as `Diagonal_Product_Adjunction`.",
+      "strength_comparison": "same, up to packaging and to the library's setoid convention. Mac Lane's three specified right adjoints appear as: (1) `Terminal`, a separate class -- `Closed` itself only requires `Cartesian`, so an isolated `Closed` instance gives binary products + exponentials and one must add `Terminal` for the full definition (as `Coq_ClosedMonoidal` and BiCCC.v's section do); (2) `Cartesian`'s `ump_products` with the projections and pairing, plus `Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C)` giving the adjunction reading explicitly; (3) `exp_iso`, exactly Mac Lane's specified bijection hom(a × b, c) ≅ hom(a, c^b), here as an isomorphism of hom-SETOIDS in `Sets` (the faithful setoid rephrasing), whose naturality in a and c is recovered by the derived substitution laws `curry_comp_l`, `curry_comp`, `uncurry_comp`, `uncurry_comp_r` (Structure/Cartesian/Closed.v:165-199) rather than being asserted as a separate field. All structure is 'specifically given' in both: `exponent_obj` and `product_obj` are data, not existence claims. The preamble's left adjoints (initial object, coproducts) are Structure/Initial.v and Structure/Cocartesian.v."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "Confirmed `Structure/Closed.v` is NOT the live class (its own header and CLAUDE.md record it as an incomplete Eilenberg-Kelly stub whose `Class Closed` is not in force); the live cartesian-closed development is Structure/Cartesian/Closed.v, as targeted by every instance (`rg -n '@Closed ' --type-add 'coq:*.v' -tcoq` -> Sets, Coq, Cat, FinSet, Props, Rel, Lambda, AST, Comp/Algs, Product)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; blind pass reached PRESENT independently. Verified every citation at its line: Structure/Cartesian/Closed.v:43 `Class Closed` with `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` and `ump_exponents' ... eval' ∘ first (curry' f) ≈ f`, declared under `Context `{@Cartesian C}`; Structure/Cartesian.v:121 `Class Cartesian` with the `ump_products` biconditional quoted correctly from its header; Structure/Terminal.v:107 `Class Terminal`; Adjunction/Diagonal/Product.v:36; the Structure/BiCCC.v:25 packaging quote is verbatim. I checked the load-bearing claim myself rather than taking it: Mac Lane demands the bijection be NATURAL in a and c, and `exp_iso` is only a per-(x,y,z) setoid iso -- but naturality is a proved consequence, `Corollary curry_comp_l` (:165, `curry f ∘ g ≈ curry (f ∘ first g)`, naturality in a) and `Corollary curry_comp` (:177, naturality in c), both closed with Qed. So the record's 'same' is earned. Two residuals neither claimed nor hidden by the record, recorded here for the ledger: there is no bundled `CartesianClosed` class (a deliberate convention, BiCCC.v:25) and no in-tree `Adjunction` term of shape (C ⟶ 1) ⊣ Terminal or (- × y) ⊣ (- ^ y) -- the adjoint reading of those two legs lives in `Terminal`/`exp_iso` plus the substitution corollaries. Presentation, not substance; PRESENT stands. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.6:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "evaluation map / application map e : c^b × b → c; counit of the exponential adjunction",
+      "`eval`, `ump_exponents`, `curry`/`uncurry` (in-tree names); `uncurry id`",
+      "universal arrow from − × b to c; exponential universal property (beta law eval ∘ (curry f × id) ≈ f)",
+      "internal-hom bifunctor C^op × C → C obtained by the parameter theorem",
+      "monoidal analogue: `eval'` of `ClosedMonoidal` / `SymMonClosed`"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.   (class field at line 56: `eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id;   (* evaluation; counit, = uncurry id *)`; header lines 35-36: \"eval is the image of the identity on z^y (the counit of the adjunction)\")"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 78,
+        "symbol": "ump_exponents",
+        "intree_statement": "Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.   (class field comment, lines 58-60: \"Beta law / UMP existence equation … Uniqueness of the transpose is supplied by [exp_iso] being an isomorphism (see [uncurry_curry])\")"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 101,
+        "symbol": "curry_uncurry / uncurry_curry / curry_eval",
+        "intree_statement": "Corollary curry_uncurry {x y z} (f : x ~> z^y) : curry (uncurry f) ≈ f.  …  Corollary uncurry_curry {x y z} (f : x × y ~> z) : uncurry (curry f) ≈ f.  (line 107)  …  Corollary curry_eval {x y : C} : curry eval ≈ @id _ (y^x).  (line 133)  -- uniqueness of the transpose, i.e. the universality of eval."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 185,
+        "symbol": "uncurry_comp_r / curry_comp / eval_first",
+        "intree_statement": "Corollary uncurry_comp_r {x y z w : C} (f : z ~> w) (g : x ~> z^y) : f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).   (with `Corollary curry_comp`, line 177, and `Corollary eval_first {x y z} (f : x ~> z^y) : eval ∘ first f ≈ uncurry f`, line 141) -- the naturality of eval in the codomain c."
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p);   (* (a, b) ↦ b ^ a *) fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}.   -- Mac Lane's parameter-theorem conclusion that (b, c) ↦ c^b is a bifunctor C^op × C → C."
+      },
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 28,
+        "symbol": "Sets_Closed header (eval in Set), Cat_Closed header (eval in Cat)",
+        "intree_statement": "\"Evaluation z^y × y → z is the image of the identity under uncurry, namely λp. (fst p) (snd p).\"   and Instance/Cat/Cartesian/Closed.v:34-36: \"the evaluation functor eval : [B, C] × B ⟶ C (the bifunctor (G, b) ↦ G b, counit of the adjunction) is recovered as [uncurry id]\" -- the book's 'in Set and Cat it is ordinary evaluation'."
+      }
+    ],
+    "statement_record": {
+      "book": "In a cartesian closed category, the counit of the exponential adjunction e = e_{b,c} : c^b × b → c is called the evaluation map; it is natural in c and universal from − × b to c, and specifying the exponential adjunction is equivalent to specifying such an e for each b, c. In Set and Cat it is ordinary evaluation (f, x) ↦ f x. By the parameter theorem (IV.7 Theorem 3), (b, c) ↦ c^b then becomes a bifunctor C^op × C → C.",
+      "intree": "`Definition eval {x y} : y^x × x ~> y := uncurry id.` with `Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f` (Structure/Cartesian/Closed.v:75, 78), uniqueness from `curry_uncurry`/`uncurry_curry` (lines 101, 107) and `curry_eval : curry eval ≈ id` (line 133); the bifunctor is `InternalHomFunctor : C^op ∏ C ⟶ C` with `fmap (f, g) = curry (g ∘ eval ∘ second (op f))` (Functor/Hom/Internal.v:40).",
+      "strength_comparison": "same for the definition, its counit reading, its universality, its naturality in c and the bifunctor conclusion; the Set and Cat identifications are made explicitly in the `Sets_Closed` and `Cat_Closed` headers and hold by construction. intree-weaker only on the parenthetical equivalence of presentations: the `Closed` class takes `exp_iso` as primitive and DERIVES `eval'` as `uncurry' id`, and there is no smart constructor going the other way -- no `Build_Closed`-style term manufacturing a `Closed` instance from a given family e_{b,c} together with existence-and-uniqueness of transposes. So 'specifying the adjunction is EQUIVALENT to specifying e' is available only in the eval-from-adjunction direction, even though its mathematical content (existence + uniqueness of transposes against eval) is fully proven."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'Build_Closed|Closed_from|from_eval|IsExponential' -> 0 hits (no constructor of `Closed` from a chosen evaluation map); Structure/UniversalProperty/Cartesian.v declares no exponential universal-property record either (`rg -n '^(Program |#\\[export\\]\\s*)?(Class|Record|Definition|Instance|Theorem|Lemma|Corollary|Program Instance|Program Definition)' Structure/UniversalProperty/Cartesian.v` -> 0 matches)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; blind pass reached PRESENT. All citations exact: `eval := uncurry id` at Structure/Cartesian/Closed.v:75 (class field `eval'` at :56 with the inline comment 'evaluation; counit, = uncurry id'), `ump_exponents` :78, `curry_uncurry` :101, `uncurry_curry` :107, `curry_eval : curry eval ≈ id` :133, `eval_first` :141, `curry_comp` :177, `uncurry_comp_r` :185, and `InternalHomFunctor : C^op ∏ C ⟶ C` with `fmap (f,g) = curry (g ∘ eval ∘ second (op f))` at Functor/Hom/Internal.v:40 -- which is precisely Mac Lane's parameter-theorem conclusion, and is registered in _CoqProject (line 140). The Sets/Cat evaluation quotes are verbatim from Instance/Sets/Cartesian/Closed.v:27-28 and Instance/Cat/Cartesian/Closed.v:34-36. ONE LOG DEFECT, not affecting the verdict: the negative_search_log asserts that `rg '^(Program |#[export]\\s*)?(Class|Record|Definition|...)' Structure/UniversalProperty/Cartesian.v` returns 0 matches and reads that as the file declaring nothing. It returns 0 only because the regex is ^-anchored and that file's declarations are section-indented; the file does declare `Proposition CartesianProductIsUniversalProperty` at line 60. The substantive point survives intact -- that proposition is about PRODUCTS, so there is still no exponential universal-property record -- and I independently re-confirmed `rg 'Build_Closed|Closed_from|from_eval|IsExponential'` -> 0 hits, so the 'specifying e is equivalent to specifying the adjunction' converse really has no constructor. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.6:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Set is cartesian closed; the category of sets has exponentials c^b = hom(b, c)",
+      "function set / function space as exponential object; evaluation is ordinary application",
+      "in-tree instances: `Sets_Closed` (setoids), `Coq_Closed` (Coq types and functions), `FinSet_Closed` (skeletal finite sets)",
+      "currying bijection hom(S × T, R) ≅ hom(S, hom(T, R))",
+      "simply typed lambda calculus semantics"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "#[export] Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := {| morphism := fun f => {| morphism := fun x => {| morphism := fun y => f (x, y) |} |} |} ; from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} |} }.   (header: \"This construction is fully constructive: the function setoid and currying require no choice, so [Sets] is cartesian closed in plain intuitionistic logic.\")"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 167,
+        "symbol": "Coq_Closed",
+        "intree_statement": "#[export] Program Instance Coq_Closed : @Closed Coq _ := { exponent_obj := Basics.arrow;   (* exponential y^x := x → y *) exp_iso := λ _ _ _, {| to := {| morphism := λ f a b, f (a, b) |} ; from := {| morphism := λ f p, f (fst p) (snd p) |} |} }.   (header lines 162-166: \"exhibiting the adjunction `(- × x) ⊣ (x → -)` (hom(z × x, y) ≅ hom(z, x → y)). Establishing that to/from are mutually inverse invokes functional_extensionality.\")"
+      },
+      {
+        "file": "Instance/FinSet/Closed.v",
+        "line": 132,
+        "symbol": "FinSet_Closed",
+        "intree_statement": "#[export] Program Instance FinSet_Closed : @Closed FinSet FinSet_Cartesian := {   (header: \"The exponential of the canonical m-element and n-element sets is the canonical (n ^ m)-element set … no function extensionality is needed anywhere\")"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := {   (with `Program Instance Sets_Cartesian : @Cartesian Sets` at Instance/Sets/Cartesian.v:32, completing the finite-product half of the CCC package)"
+      }
+    ],
+    "statement_record": {
+      "book": "Set is a cartesian closed category, with exponential c^b = hom(b, c) the set of functions from b to c and evaluation the ordinary evaluation of a function at an argument.",
+      "intree": "`#[export] Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := … }` (Instance/Sets/Cartesian/Closed.v:38), together with `Sets_Cartesian` (Instance/Sets/Cartesian.v:32) and `Sets_Terminal` (Instance/Sets.v:248); plus `Coq_Closed : @Closed Coq _` with `exponent_obj := Basics.arrow` (Instance/Coq.v:167) and `FinSet_Closed : @Closed FinSet FinSet_Cartesian` (Instance/FinSet/Closed.v:132).",
+      "strength_comparison": "same, in the library's setoid rephrasing, and in fact witnessed three times over. The in-tree `Sets` is the category of SETOIDS rather than strict sets -- the constructive stand-in the library uses everywhere -- so the exponential is the setoid `SetoidMorphism x y` of ≈-respecting maps under pointwise ≈, and evaluation is `λp. (fst p) (snd p)`, exactly the book's ordinary evaluation; this version is axiom-free. `Coq` (Coq types and total functions) is the closer literal reading of Mac Lane's Set, and `Coq_Closed` gives it exponential `x → y` at the cost of exactly one axiom, functional extensionality (Instance/Coq.v:84 records this as the single axiom spent in the file). `FinSet_Closed` adds a funext-free computable witness on skeletal finite sets. No hypothesis is added and no special case taken; the only divergence is the standard setoid-vs-strict-set foundation, which the frozen conventions count as faithful."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; blind pass reached PRESENT. Verified `Sets_Closed` at Instance/Sets/Cartesian/Closed.v:38 with `exponent_obj := fun x y => {| carrier := SetoidMorphism x y; is_setoid := @SetoidMorphism_Setoid x y |}` and the quoted `exp_iso`; `Sets_Cartesian` at Instance/Sets/Cartesian.v:32; `Sets_Terminal` at Instance/Sets.v:248; `Coq_Closed` at Instance/Coq.v:167 with `exponent_obj := Basics.arrow`; `FinSet_Closed` at Instance/FinSet/Closed.v:132. All five files are registered in _CoqProject. The axiom accounting is accurate and I checked it at source: Instance/Coq.v:78-90 states 'exactly one axiom is spent, in [Coq_Closed]' (functional extensionality), while the Sets route is axiom-free -- so the record does not launder the funext cost. The setoid-vs-strict-set divergence is the only one, and the frozen definitions count hom-setoid rephrasing as faithful. Nothing weaker is being passed off as the book's claim. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.6:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat is cartesian closed; the exponential is the functor category [B, C]",
+      "functor category as internal hom of Cat; C^B with functors as objects and natural transformations as arrows",
+      "in-tree names: `Cat_Closed`, `Fun`, `[B, C]`, `Cat_Cartesian`, `Cat_Terminal`",
+      "currying of a bifunctor: Cat(A × B, C) ≅ Cat(A, [B, C]); evaluation functor (G, b) ↦ G b",
+      "strict variant: `StrictCat` (functors compared by equality) cartesian closed"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun;   (* the internal hom is a functor category *) exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => {| fobj := fun x : A => {| fobj := fun y : B => F (x, y) ; fmap := fun J K (f : J ~{B}~> K) => fmap[F] (@id A x, f) |} ; fmap := … |} |} ; from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x : A × B => F (fst x) (snd x) ; fmap := … |} |} |} }."
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 28,
+        "symbol": "Cat_Closed header",
+        "intree_statement": "\"Cat is cartesian closed. Its product is the product category C × D ([Cat_Cartesian], via [Construction.Product]), and the exponential C^B is the functor category [B, C] = Fun B C, with functors as objects and natural transformations as morphisms… The closed structure is the natural bijection Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) carried by [exp_iso]… all are proven (the instance is closed under the global context, no axioms).\""
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x) ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := fun _ _ => {| fobj := fst ; fmap := fun _ _ => fst |}; exr := … }."
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 54,
+        "symbol": "Cat_Terminal",
+        "intree_statement": "#[export] Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1;   (* the terminal category 1 *) one := Erase   (* the unique functor ! : C ⟶ 1 *) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Cat is cartesian closed, with exponential C^B the functor category (functors B → C and natural transformations).",
+      "intree": "`#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := … }` (Instance/Cat/Cartesian/Closed.v:47), together with `Cat_Cartesian : @Cartesian Cat` (product = the product category, Instance/Cat/Cartesian.v:39) and `Cat_Terminal : @Terminal Cat` (terminal = the one-object category `_1`, Instance/One.v:54).",
+      "strength_comparison": "same content -- the exponential is literally the functor category `@Fun`, the transpose is currying of a bifunctor, evaluation is (G, b) ↦ G b, and the instance is proved axiom-free -- with two recorded caveats. (1) Foundational: the in-tree `Cat` has hom-setoid `Functor_Setoid`, which identifies functors when they are NATURALLY ISOMORPHIC rather than equal, so this `Cat` is Ho(Cat) and its isomorphisms are equivalences of categories (Instance/Cat.v:29-37 discloses this at length and defends it as the deliberate library-wide convention); the CCC laws are therefore proven up to natural isomorphism of functors rather than on the nose. Under the frozen rule that hom-setoid rephrasing is faithful this still counts as the book's statement, but it is weaker than the strict reading. (2) The strict 1-category `StrictCat` (Instance/StrictCat.v, functors compared by equality, the textbook 'Cat' per Instance/Cat.v:49-52) is NOT shown cartesian closed. Mac Lane's smallness proviso is handled by the library's universe polymorphism rather than an explicit smallness hypothesis (Instance/Cat.v:23-27)."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'Instance.*Closed|@Closed ' -> the full list of `Closed` instances is Rel, Product (of two CCCs), Coq, FinSet, AST, Comp/Algs, Cat, Lambda, Props, Sets. There is no `StrictCat_Closed`, so the strict category of categories is not covered; StrictCat carries only `StrictCat_Terminal` (Instance/StrictCat/Terminal.v:36) and the Funny (□) monoidal structure."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT; blind pass reached PRESENT. Read Instance/Cat/Cartesian/Closed.v end to end (198 lines): `Cat_Closed` at :47 with `exponent_obj := @Fun`, `exp_iso` currying a bifunctor `A × B ⟶ C` into `A ⟶ [B, C]`, and every obligation discharged with Qed -- no Admitted, no axiom. `Cat_Cartesian` at Instance/Cat/Cartesian.v:39 and `Cat_Terminal` at Instance/One.v:54 (`terminal_obj := _1`, `one := Erase`) complete the package. The Ho(Cat) caveat is real, correctly disclosed, and quoted faithfully from Instance/Cat.v:28-37 ('an isomorphism in this [Cat] is an *equivalence* of categories ... the homotopy category Ho(Cat)'); I re-confirmed `rg 'StrictCat_Closed|@Closed StrictCat'` -> 0 hits, so the strict-Cat exclusion in strength_comparison is accurate rather than defensive. Under the frozen rule that the hom-setoid convention is faithful, PRESENT is correct, and the caveat is recorded rather than buried. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  },
+  {
+    "id": "maclane:IV.6:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "tensor-hom adjunction: − ⊗_K B left adjoint to hom_K(B, −)",
+      "closed monoidal / symmetric monoidal closed category; internal hom",
+      "evaluation counit hom_K(B, A) ⊗_K B → A determines the adjunction",
+      "in-tree names: `ClosedMonoidal` (Structure/Monoidal/Closed.v), `SymMonClosed` (Structure/Monoidal/StarAutonomous.v), `exponent_obj`, `exp_iso`, `eval'`",
+      "concrete carrier: category of K-modules / R-Mod / Ab / vector spaces with the tensor product"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 109,
+        "symbol": "SymMonClosed",
+        "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj  where \"x ⇒ y\" := (exponent_obj x y); exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; curry' {x y z} : x ⨂ y ~> z → x ~> y ⇒ z := to (@exp_iso x y z); uncurry' {x y z} : x ~> y ⇒ z → x ⨂ y ~> z := from (@exp_iso x y z); eval' {x y} : (x ⇒ y) ⨂ x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }."
+      },
+      {
+        "file": "Structure/Monoidal/Closed.v",
+        "line": 46,
+        "symbol": "ClosedMonoidal",
+        "intree_statement": "Class ClosedMonoidal := { closed_is_cartesian : @CartesianMonoidal C;   (* the underlying ⨂-structure *) exponent_obj : obj → obj → obj  where \"x ⇒ y\" := (exponent_obj x y); exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; … eval' {x y} : (x ⇒ y) ⨂ x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }.   (header lines 30-36: \"Packaged as an adjunction, the universal property is the tensor-hom bijection Hom(x ⨂ y, z) ≅ Hom(x, y ⇒ z) natural in x, y and z, expressing (- ⨂ y) ⊣ (y ⇒ -) … eval is the image of the identity on y ⇒ z (the counit of the adjunction).\")"
+      },
+      {
+        "file": "Structure/Monoidal/Closed.v",
+        "line": 83,
+        "symbol": "eval (monoidal)",
+        "intree_statement": "Definition eval {x y} : (x ⇒ y) ⨂ x ~> y := uncurry id.   (with `Definition ump_exponents {x y z} (f : x ⨂ y ~> z)` at line 88) -- the evaluation counit that Mac Lane says determines the adjunction."
+      }
+    ],
+    "statement_record": {
+      "book": "For a commutative ring K, the functor − ⊗_K B : K-Mod → K-Mod has right adjoint hom_K(B, −); the adjunction is determined by the evaluation counit hom_K(B, A) ⊗_K B → A.",
+      "intree": "`Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj; exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; eval' {x y} : (x ⇒ y) ⨂ x ~> y := uncurry' id; ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }` (Structure/Monoidal/StarAutonomous.v:109), and the cartesian-bundled variant `Class ClosedMonoidal` (Structure/Monoidal/Closed.v:46).",
+      "strength_comparison": "intree-weaker: the ABSTRACT tensor-hom adjunction -- (− ⨂ B) ⊣ (B ⇒ −) with the evaluation map as counit and the transpose determined by it (`ump_exponents'` in exactly the 'determined by the counit' shape ∃! h, f ≈ eval' ∘ (h ⨂ id)) -- is fully in force at the class level, and this is the general form of the book's construction. But the book's item is a CONCRETE example over K-modules, and none of its carriers exists in-tree: there is no ring, no module, no tensor product of modules, and no category K-Mod. Worse, the class that could host it, `SymMonClosed`, has NO instance anywhere in the tree (it is a definition-level class introduced only so that star-autonomy could be stated over a genuine non-cartesian base); and the file actually named `ClosedMonoidal` cannot host the example at all, because its first field `closed_is_cartesian : @CartesianMonoidal C` forces the tensor to be the cartesian product -- its only instances are `Coq_ClosedMonoidal` (Instance/Coq.v:179) and the generic `CCC_ClosedMonoidal` (Structure/Monoidal/Internal/Product.v:442), both cartesian, where the item degenerates into maclane:IV.6:def1. So the item is present only as an uninhabited parametric statement."
+    },
+    "gap": "Missing: (a) any category of modules over a ring -- no `Ring`, `Module`, `R-Mod`, `Ab`, or vector-space instance exists; the additive spine (Structure/Preadditive.v, Structure/Additive.v, Structure/Abelian.v) is axiomatized abstractly and its only concrete witness is Instance/CMon.v (commutative monoids with biproducts, no tensor); (b) the tensor product of modules; (c) consequently any instance of the tensor-hom adjunction at a genuinely non-cartesian tensor -- `SymMonClosed` has zero instances in-tree, and `ClosedMonoidal`'s two instances are cartesian. What survives is the abstract statement, not the construction.",
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'K-Mod|R-Mod|category of modules|tensor product of modules|module category' -> 'K-Mod' 0 hits; 'R-Mod' 5 hits, all background prose (Structure/Abelian.v:69,111; Structure/Monoid.v:69; Theory/Equivalence.v:79); 'module category' 2 hits, one prose (Structure/Abelian.v:106) and one a Coq-module naming remark (Structure/Monoidal/Semicartesian/Terminal.v:29). No module category is constructed.",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Instance.*SymMonClosed|: SymMonClosed|@SymMonClosed' -> 3 hits, all inside Structure/Monoidal/StarAutonomous.v itself (the class at line 109, its coercion at line 127, a `Context` at line 147). NO instance exists.",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Instance.*ClosedMonoidal|@ClosedMonoidal' -> instances are only `CCC_ClosedMonoidal` (Structure/Monoidal/Internal/Product.v:442, built from a cartesian closed category) and `Coq_ClosedMonoidal` (Instance/Coq.v:179, = @CCC_ClosedMonoidal Coq Coq_Cartesian Coq_Terminal Coq_Closed); the rest are `Context` uses in Functor/Applicative.v, Functor/Traversable*.v, Natural/Transformation/Applicative.v.",
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'vector space|Vect|linear map|\\bfield\\b|\\bring\\b' -> no algebra of scalars anywhere; all hits are prose or the unrelated record-`field` word."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; blind pass reached PARTIAL and, independently, the same sharp point the record makes: `ClosedMonoidal`'s first field is `closed_is_cartesian : @CartesianMonoidal C` (Structure/Monoidal/Closed.v:47), which forces the tensor to be a cartesian product and therefore CANNOT host K-Mod, whose ⊗ is not cartesian -- so the only class that can state the item at its own generality is `SymMonClosed` (Structure/Monoidal/StarAutonomous.v:109), verified verbatim including `exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z` and `ump_exponents' ... ∃! h, f ≈ eval' ∘ (h ⨂ id)` -- exactly Mac Lane's 'determined by the evaluation counit' shape. Re-confirmed the inhabitation claims: `SymMonClosed` has zero instances (its only three occurrences are the class, its coercion at :127 and a `Context` at :147), and `ClosedMonoidal`'s only instances are `CCC_ClosedMonoidal` (Structure/Monoidal/Internal/Product.v:442, built from `@Closed C`) and `Coq_ClosedMonoidal` (Instance/Coq.v:179), both cartesian. Independently confirmed there is no ring, module, Ab, vector space or tensor-of-modules anywhere: `rg -i 'K-Mod'` -> 0, `rg -i 'tensor product of modules'` -> 0, and the only concrete additive witness is Instance/CMon.v (commutative monoids, biproducts, no tensor). 'Present only as an uninhabited parametric statement' is the honest reading, and matches the docs/INHABITATION.md convention this repo already uses. Cross-cutting check performed once for the whole batch: every distinct file cited as evidence across all 12 records (23 files) is registered in _CoqProject by exact-line match, so no PRESENT/PARTIAL claim rests on an uncompiled file."
+    }
+  }
+]

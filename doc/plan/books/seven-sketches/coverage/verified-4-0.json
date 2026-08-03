@@ -1,0 +1,416 @@
+[
+  {
+    "id": "7sketches:4.1:def-codesign-diagram",
+    "classification": "PARTIAL",
+    "aliases": [
+      "co-design diagram",
+      "design-problem / box-and-wire picture",
+      "wiring diagram, string diagram",
+      "morphism of a free (coloured) PROP; typed string-diagram term",
+      "hypergraph-category / compact-closed diagram whose boxes denote feasibility relations"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/ColouredPROP/Signature.v",
+        "line": 139,
+        "symbol": "CTerm",
+        "intree_statement": "Inductive CTerm : list Colour -> list Colour -> Type := | CT_id (cs : list Colour) : CTerm cs cs | CT_braid (cs ds : list Colour) : CTerm (cs ++ ds) (ds ++ cs) | CT_comp {cs ds es} : CTerm ds es -> CTerm cs ds -> CTerm cs es | CT_tens {cs1 ds1 cs2 ds2} : CTerm cs1 ds1 -> CTerm cs2 ds2 -> CTerm (cs1 ++ cs2) (ds1 ++ ds2) | CT_gen {cs ds} : S cs ds -> CTerm cs ds."
+      },
+      {
+        "file": "Construction/ColouredPROP/Free.v",
+        "line": 97,
+        "symbol": "CFreeCat",
+        "intree_statement": "Program Definition CFreeCat : Category := {| obj := list Colour; hom := @CTerm Colour S; homset := @CTerm_Setoid; id := CT_id; compose := @CT_comp Colour S; ... |}"
+      },
+      {
+        "file": "Construction/ColouredPROP/Universal.v",
+        "line": 648,
+        "symbol": "cinterp_unique",
+        "intree_statement": "Theorem cinterp_unique : ∀ cs ds (t : CTerm S cs ds), fmap[G] t ≈ hom_cast (eq_sym (Hobj cs)) (eq_sym (Hobj ds)) (cinterp P S v t).  (G any strict symmetric monoidal functor out of CFreeCat S agreeing with the valuation v on generators)"
+      }
+    ],
+    "statement_record": {
+      "book": "A co-design diagram is a box-and-wire picture of a design problem: every wire is labelled by a PREORDER of resources of one type (ordered less-useful to more-useful), every box is a design component whose LEFT ports carry the resources it produces and whose RIGHT ports carry the resources it requires, each wire joining a requirement to a production is annotated with ≤, and the composite outer box is again such a component. Made precise later: each box denotes a feasibility relation (Def 4.2), the whole diagram a composite in a compact closed category.",
+      "intree": "Inductive CTerm : list Colour -> list Colour -> Type := CT_id | CT_braid | CT_comp | CT_tens | CT_gen; Program Definition CFreeCat : Category := {| obj := list Colour; hom := @CTerm Colour S |}; Theorem cinterp_unique : ∀ cs ds (t : CTerm S cs ds), fmap[G] t ≈ hom_cast … (cinterp P S v t).",
+      "strength_comparison": "intree-weaker: the library formalizes only the GENERIC box-and-wire syntax — terms with an ordered list of coloured input wires and output wires, built from identity wires, braids, sequential composition CT_comp, parallel composition CT_tens and signature generators, assembled into a category CFreeCat and interpreted into any strict symmetric monoidal target by a unique functor. None of the co-design reading survives: colours are elements of an arbitrary Type, never preorders of resources; generators come from an arbitrary signature, never feasibility relations; ports have no produces/requires polarity; there is no ≤ annotation attached to a wire; and there is no semantic target (Feas) to interpret a co-design diagram into."
+    },
+    "gap": "Only the generic typed-string-diagram syntax and its universal property are in-tree (Construction/ColouredPROP/*). The co-design specialisation is entirely absent: wires labelled by preorders of resources, the left-ports-produce / right-ports-require polarity, the ≤ constraint on each connecting wire, the reading of a box as a feasibility relation, and the semantic target Feas (which does not exist in-tree — see 7sketches:4.2.1:def4.2). No file in the tree mentions co-design, design problems, or feasibility.",
+    "negative_search_log": [
+      "grep -rin 'co-design' --include='*.v' . -- 0 hits",
+      "grep -rin 'codesign' --include='*.v' . -- 0 hits",
+      "grep -rin 'feasibility' --include='*.v' . -- 0 hits",
+      "grep -rin 'wiring' --include='*.v' . -- hits only in prose headers (Theory/DoubleCategory.v:155, Instance/ZX.v:446) and in the phrase 'shared-record wiring' of the PROP files; no wiring-diagram construct",
+      "grep -rin 'string diagram' --include='*.v' . -- prose headers only (PROP/ColouredPROP/Markov/ZX), the formal object being CTerm/Term of the free (coloured) PROP"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases expanded: co-design / codesign / design problem / box-and-wire / wiring diagram / string diagram / Feas / resource / requirement / available / compact closed). My independent preliminary was ABSENT-leaning; on applying the frozen PARTIAL definition ('some of the item exists') I accept PARTIAL, because CTerm/CFreeCat IS a genuine in-tree box-and-wire syntax with typed wires, not a fabricated stand-in. Evidence re-checked line by line and all three citations are exact: Construction/ColouredPROP/Signature.v:139 is `Inductive CTerm : list Colour -> list Colour -> Type` with the five constructors quoted verbatim; Construction/ColouredPROP/Free.v:97 is `Program Definition CFreeCat : Category` with obj := list Colour, hom := @CTerm Colour S; Construction/ColouredPROP/Universal.v:648 is `Theorem cinterp_unique` with the hom_cast conjugation as quoted. All three files are registered in _CoqProject. The strength_comparison is honest and self-undercutting ('None of the co-design reading survives'). My blind searches independently reproduce every negative claim: `rg -i 'feasib'` 0 hits, `rg -i 'co-?design'` 0 hits, `rg -i 'Feas'` 0 hits, `rg -i 'resource'` prose only in Structure/Monoidal/Symmetric.v:79-87 and Theory/Algebra/Frobenius.v:120. ADDITION (not a correction): the record omits Structure/Monoidal/CompactClosed.v:139 `Class CompactClosed` (dual, cc_unit, cc_counit, snake_left/right), which is the ambient the book names for the diagram's denotation in 4.5-4.5.2; it does not change the classification because the semantic target Feas is what is absent, but Phase E should cite it as the existing landing zone. NEGATIVE-LOG IMPRECISION (does not affect the verdict): the entry 'grep -rin wiring ... hits only in prose headers (Theory/DoubleCategory.v:155, Instance/ZX.v:446)' undercounts -- `rg -in 'wiring'` also returns Construction/ColouredPROP/Presentation/Universal.v:593, Construction/PROP/Presentation/Universal.v:558, Construction/ColouredPROP/Supply.v:292, Construction/ColouredPROP/Supply/Instance.v:278,281, Construction/PROP/Instance.v:65,79, Construction/ColouredPROP/Instance.v:96-97 -- all still the 'shared-record wiring' idiom, so the conclusion (no wiring-diagram construct) stands."
+    }
+  },
+  {
+    "id": "7sketches:4.2.1:def4.2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "feasibility relation Φ : X ⇸ Y",
+      "Bool-profunctor / Bool-valued distributor between preorders",
+      "monotone relation, order ideal, up-closed relation",
+      "profunctor X^op × Y → V (V = Bool)",
+      "monotone map into the truth-value preorder"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 122,
+        "symbol": "Profunctor",
+        "intree_statement": "Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets.   (Notation \"C ⇸ D\" := (Profunctor C D))"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q.   (with Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) })"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder."
+      }
+    ],
+    "statement_record": {
+      "book": "For preorders X = (X, ≤_X) and Y = (Y, ≤_Y), a feasibility relation for X given Y, written Φ : X ⇸ Y, is a MONOTONE MAP Φ : X^op × Y → Bool; Φ(x,y) = true reads 'x can be obtained given y', and monotonicity on the product preorder says x' ≤_X x and y ≤_Y y' imply Φ(x,y) ≤_Bool Φ(x',y'). This is the V = Bool case of Definition 4.8.",
+      "intree": "Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets.  Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.  Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 … ↔ MonotoneMap P Q.",
+      "strength_comparison": "intree-weaker: the variance schema is the same (contravariant in the first argument, covariant in the second, via C^op ∏ D) but the codomain is Sets, not the two-element truth-value preorder. Instantiated at thin categories the in-tree notion assigns a SETOID of heteromorphisms to each pair — the proof-relevant categorification of a feasibility relation — so nothing forces the value to be a truth value and the two monotonicity clauses are never stated. The enrichment dictionary that would supply Bool stops one level below profunctors: Enriched_Two_preorder gives preorders = Bool-categories and EnrichedFunctor_Two_monotone gives monotone maps = Bool-functors, but no Bool-valued (or general V-valued) profunctor exists anywhere in the tree."
+    },
+    "gap": "No Bool-valued profunctor. Missing: the notation X ⇸ Y for a feasibility relation, the definition as a monotone map into truth values, and the two monotonicity clauses (x' ≤ x, y ≤ y' ⇒ Φ(x,y) ≤ Φ(x',y')). What exists is (a) the Sets-valued profunctor (Theory/Profunctor.v), the V = Set instance of the same schema, and (b) the Bool-enrichment dictionary for CATEGORIES and FUNCTORS only (Construction/Enriched/Two.v). Neither the word 'feasibility' nor 'quantale' as a class occurs in any of the 487 .v files.",
+    "negative_search_log": [
+      "grep -rin 'feasibility' --include='*.v' . -- 0 hits",
+      "grep -ril 'profunctor' --include='*.v' . -- 13 files, all through Theory/Profunctor.v:122 which is Sets-valued; no Bool/V-valued variant",
+      "grep -rin 'quantale' --include='*.v' . -- 1 hit, a prose line (Construction/Enriched.v:78); no class, no instance",
+      "grep -rin 'monotone' --include='*.v' . -- only Construction/Enriched/Two.v (MonotoneMap, EnrichedFunctor_Two_monotone) and prose headers; no monotone map into Bool from a product preorder"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: feasibility relation, Bool-profunctor, monotone relation, order ideal, up-closed relation, X^op x Y -> Bool, monotone map into truth values, Feas). My independent preliminary was ABSENT (the notion is nowhere named); I accept PARTIAL because the record's evidence is real and its strength_comparison refuses to overclaim ('the codomain is Sets, not the two-element truth-value preorder'). Evidence re-checked: Theory/Profunctor.v:122 is exactly `Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets.` with the `C ⇸ D` notation on the next line; Construction/Enriched/Two.v:165 is `Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.` and :183 is `Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 … ↔ MonotoneMap P Q.`, with `Record MonotoneMap` at :176-179 quoted accurately. Both files registered in _CoqProject. Independent reproduction of the negatives: `rg -i 'feasib' -g '*.v'` 0 hits; `rg -il 'profunctor' -g '*.v' | wc -l` = 13 (the record's count is exact); `rg -i 'quantale' -g '*.v'` = 1 hit, Construction/Enriched.v:78, prose; `rg -n 'monotone' -g '*.v'` = only Construction/Enriched/Two.v (MonotoneMap, EnrichedFunctor_Two_monotone at :183,:190,:199) plus five prose header lines. The gap's file count '487 .v files' is exact (`find . -name '*.v' | wc -l` = 487; 486 are in _CoqProject, the odd one being doc/plan/books/probes/S8-metacategory-vacuity.v, unrelated). I also checked the two candidate counterparts the record does not mention and confirmed neither helps: Instance/Rel.v:45 (curried relations on bare Coq types, no order, no monotonicity) and Instance/Props.v:39 (thin category of Props, but no bifunctor into it)."
+    }
+  },
+  {
+    "id": "7sketches:4.2.1:ex4.4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "product preorder X^op × Y",
+      "opposite / dual preorder X^op",
+      "product category C ∏ D at thin categories",
+      "upper set, up-closed subset, filter of a preorder",
+      "Hasse diagram; monotone predicate valued in Bool"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Product.v",
+        "line": 95,
+        "symbol": "Product",
+        "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); homset := … componentwise …; id := fun _ => (id, id); … |}   (Notation \"C ∏ D\" := (@Product C D))"
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 106,
+        "symbol": "Opposite",
+        "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; … |}   (Notation \"C ^op\")"
+      }
+    ],
+    "statement_record": {
+      "book": "For the drawn preorders X and Y: (1) draw the Hasse diagram of the product preorder X^op × Y; (2) write down a profunctor Λ : X ⇸ Y and, reading Λ(x,y) = true as 'my aunt can explain an x given y', interpret the fact that the preimage of true is an UPPER SET in X^op × Y.",
+      "intree": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; … |};  Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); … |}",
+      "strength_comparison": "intree-weaker: the ambient object of the exercise, X^op ∏ Y, is constructible — Opposite reverses homs (giving the dual preorder at a thin category) and Product takes homs componentwise (giving the product preorder) — but the exercise's actual content is absent. There is no notion of an upper/up-closed subset of a preorder, no theorem identifying monotone maps into truth values with upper sets, and no Hasse-diagram apparatus; and since Bool-profunctors do not exist in-tree (def4.2), part (2)'s Λ : X ⇸ Y cannot even be written."
+    },
+    "gap": "Only the domain construction X^op ∏ Y is in-tree, as a category (hence, at thin categories, the product preorder with the componentwise order and the first factor reversed). Missing: any definition of an upper set / up-closed subset of a preorder, the correspondence 'monotone map to Bool ↔ upper set of the domain', and the Bool-profunctor Λ itself. Hasse diagrams are a drawing convention with no in-tree counterpart (and none is needed to state the mathematical content).",
+    "negative_search_log": [
+      "grep -rin 'upper set' / 'up-set' / 'upset' / 'up-closed' / 'upward closed' --include='*.v' . -- 0 hits each",
+      "grep -rin 'Hasse' --include='*.v' . -- 0 hits",
+      "grep -rin 'ideal' --include='*.v' . -- 2 hits, both English prose in file headers (Instance/Sets.v:47, Construction/Groupoid.v:40)",
+      "grep -rin 'sieve' --include='*.v' . -- prose only (Theory/Sheaf.v:80, Construction/Localization.v:101); no down/up-closed subset construct"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: Hasse diagram, product preorder, opposite/dual preorder, upper set / up-set / up-closed / upward closed / filter, preimage of true, monotone predicate). My independent preliminary was ABSENT; this is the MOST BORDERLINE record of the batch, since the cited evidence is only the exercise's ambient setting and covers neither of its two asks. I CONFIRM PARTIAL rather than overturn because (a) X^op ∏ Y does have a literal in-tree counterpart, so 'no in-tree counterpart' is false, and (b) the strength_comparison already says outright that 'the exercise's actual content is absent', so the record is not misleading and Phase E loses nothing. Evidence re-checked: Construction/Opposite.v:106 is `Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; … |}` (quote exact, including the reversed homset); Construction/Product.v:95 is `Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); … |}` with the componentwise setoid at :98-108 (quote exact, the '… componentwise …' elision is fair). Both registered. Independent negatives reproduced: `rg -i 'upper set|upward.closed|up-?set'` 0 hits; `rg -i 'hasse'` 0 hits. No counterpart missed."
+    }
+  },
+  {
+    "id": "7sketches:4.2.1:ex4.7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "residuation law b ∧ c ≤ d ⟺ b ≤ (c ⇒ d)",
+      "Heyting implication / relative pseudocomplement",
+      "deduction theorem, currying, exponential object in a poset",
+      "closed monoidal preorder; quantale internal hom",
+      "adjunction (− ∧ c) ⊣ (c ⇒ −) on the truth values"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }  — over Props_Cartesian with product_obj := and, so exp_iso is the residuation (b ∧ c ⊢ d) ≅ (b ⊢ c → d) in the thin category of propositions ordered by implication."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' … }"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}  (with Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal at line 105 — Bool with ∧ as tensor and true as unit)"
+      }
+    ],
+    "statement_record": {
+      "book": "Show that the Boolean operation ⇒ : B × B → B given by the truth table of (4.6) (c ⇒ d is false exactly when c = true and d = false) satisfies the closure/residuation condition (4.5): for all b, c, d ∈ B, b ∧ c ≤ d ⟺ b ≤ (c ⇒ d); i.e. Bool with ∧ is a closed monoidal preorder (quantale) with internal hom ⇒.",
+      "intree": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; … }, where Class Closed requires exp_iso {x y z} : x × y ~> z ≊ x ~> z^y and Props_Cartesian supplies product_obj := and.",
+      "strength_comparison": "intree-weaker on the object, more general on the algebra: the residuation isomorphism Hom(b ∧ c, d) ≅ Hom(b, c → d) IS asserted and proved in-tree, but for Props — the thin category of ALL Coq propositions ordered by entailment, a Heyting prealgebra — not for the book's two-element Bool. The library's own Bool is _2 (Instance/Two.v), which carries exactly the ∧-half of the exercise (Two_Cartesian: product = meet; Two_Monoidal: tensor = meet, unit = top) but has NO Closed instance: _2 is never shown residuated, the Boolean ⇒ is never defined and its truth table never given."
+    },
+    "gap": "The residuation law is verified for the propositional Heyting prealgebra Props, not for the two-element Bool the exercise is about. On _2 — the in-tree Bool — only the monoidal-preorder half exists (Two_Cartesian / Two_Monoidal); there is no Two_Closed instance, no Boolean implication operation, no truth table, and no notion of quantale (join-completeness with tensor distributing over joins) anywhere in the tree.",
+    "negative_search_log": [
+      "grep -rin 'residuat' --include='*.v' . -- 0 hits",
+      "grep -rn 'Closed' Instance/Two.v Instance/Two/Monoidal.v Instance/Two/Discrete.v -- 0 hits: _2 has Cartesian and Terminal but no Closed instance",
+      "grep -rin 'quantale' --include='*.v' . -- 1 prose hit (Construction/Enriched.v:78)",
+      "grep -rin 'Heyting' --include='*.v' . -- prose headers only (Instance/Props.v, Instance/Two.v:86, Structure/Topos.v:81, Theory/Sheaf.v:85); no Heyting-algebra class"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: residuation, Heyting implication, relative pseudocomplement, deduction theorem, currying, exponential in a poset, closed monoidal preorder, quantale internal hom, (- ∧ c) ⊣ (c ⇒ -)). My independent preliminary was PARTIAL for exactly the reason the record gives, reached before opening the coverage file, and by the same route (Props_Closed present, no Closed on _2) -- this is the record I can corroborate most strongly. Evidence re-checked: Instance/Props.v:94 is `Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }` -- verbatim, and Props_Cartesian at :69 does supply `product_obj := and`, so exp_iso really is the residuation (b ∧ c ⊢ d) ≅ (b ⊢ c → d); Structure/Cartesian/Closed.v:43 is `Class Closed := { exponent_obj …; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' … := to (@exp_iso x y z); uncurry' … }` -- verbatim; Instance/Two/Monoidal.v:80 is `Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}` and :105 is `Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal` -- both exact. All three files registered. The decisive negative is reproduced: `rg -n 'Closed' Instance/Two.v Instance/Two/Monoidal.v Instance/Two/Discrete.v` exits 1 with no output, so _2 genuinely has no Closed instance and the record is right to refuse PRESENT. `rg -i 'residuat'` 0 hits; `rg -i 'quantale'` 1 prose hit. The 'more general on the algebra' phrasing is fair: Props is the Heyting prealgebra of all Coq propositions, of which the exercise's two-element B is the classical poset reflection, not an in-tree instance."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:def4.8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "V-profunctor",
+      "enriched profunctor / enriched distributor",
+      "V-bimodule, V-module over a pair of V-categories",
+      "V-functor X^op ⊗ Y → V (V self-enriched)",
+      "quantale-enriched profunctor; Bool-profunctor as the special case"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 122,
+        "symbol": "Profunctor",
+        "intree_statement": "Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets.   (Notation \"C ⇸ D\")"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 111,
+        "symbol": "Enriched",
+        "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left …; eid_right …; ecompose_assoc … }"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 145,
+        "symbol": "EnrichedFunctor",
+        "intree_statement": "Class EnrichedFunctor (K : Category) `{@Monoidal K} (C : Enriched K) (D : Enriched K) := { efobj : C → D; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id : ∀ x, efmap ∘ eid << I ~~> (efobj x ⟿ efobj x) >> eid; efmap_comp : ∀ x y z, ecompose ∘ efmap ⨂ efmap ≈ efmap ∘ ecompose }"
+      }
+    ],
+    "statement_record": {
+      "book": "Let V = (V, ≤, I, ⊗) be a unital commutative quantale and X, Y be V-categories. A V-profunctor from X to Y, written Φ : X ⇸ Y, is a V-FUNCTOR Φ : X^op × Y → V, where the product is the enriched product of V-categories and V is regarded as enriched in itself. Feasibility relations are the case V = Bool.",
+      "intree": "Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets.  Class Enriched (K : Category) `{@Monoidal K} := { eobj; ehom : eobj → eobj → K; eid; ecompose; … }.  Class EnrichedFunctor K C D := { efobj; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id; efmap_comp }.",
+      "strength_comparison": "intree-weaker: only the V = Sets instance of Definition 4.8 exists, and even that is built from ORDINARY categories — (C^op ∏ D) ⟶ Sets uses the ordinary opposite and product of categories, not their enriched analogues, and Sets is the ambient hom-category rather than a self-enriched base V. The general-V definition cannot even be stated in-tree: there is no opposite of an Enriched category, no enriched product X ⊗ Y of two V-categories, and no self-enrichment of the base — exactly the three ingredients Def 4.8 requires — and no quantale class to instantiate V by. The V-layer that does exist stops at V-categories, V-functors and V-natural transformations."
+    },
+    "gap": "V-profunctors are absent for every V other than Sets, and the Sets case is not presented as an instance of an enriched definition. Concretely missing: (i) a quantale (or even a monoidal-preorder) class to serve as V; (ii) the opposite X^op of a V-category and the enriched product X ⊗ Y (Construction/Enriched.v supplies neither); (iii) the self-enrichment of V; and hence (iv) the definition 'V-profunctor = V-functor X^op ⊗ Y → V' and the notation X ⇸ Y at enriched level. Construction/Enriched/Fun.v already records (ledger 11) that genuine V-category hom-OBJECTS need ends in the base, which is the same obstruction.",
+    "negative_search_log": [
+      "grep -rin 'V-profunctor' / 'enriched profunctor' / 'EnrichedProf' / 'Prof_V' / 'V-Prof' --include='*.v' . -- 0 hits each",
+      "grep -rin 'bimodule' / 'distributor' --include='*.v' . -- prose only, in the headers of Theory/Profunctor.v and Theory/DoubleCategory.v",
+      "grep -rin 'quantale' --include='*.v' . -- 1 prose hit (Construction/Enriched.v:78)",
+      "ls Construction/Enriched/ -- Compose.v, Fun.v, Natural.v, Sets.v, Two.v: V-functors, V-natural transformations, the functor category and the V=Sets / V=2 dictionaries; no profunctor file, no enriched product, no enriched opposite"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: V-profunctor, enriched profunctor, enriched distributor, V-bimodule, V-module, V-functor X^op ⊗ Y → V, quantale-enriched profunctor, self-enriched base, enriched opposite, enriched product). My independent preliminary was ABSENT-leaning; I accept PARTIAL, since V-categories and V-functors -- two of the three ingredients Def 4.8 names -- are genuinely in-tree, and the record's gap enumerates the missing three with precision. Evidence re-checked: Construction/Enriched.v:111 `Class Enriched (K : Category) `{@Monoidal K} := { eobj; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left; eid_right; ecompose_assoc }` -- verbatim; :145 `Class EnrichedFunctor (K : Category) `{@Monoidal K} (C D : Enriched K) := { efobj; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id; efmap_comp }` -- verbatim (efmap_comp is stated in the typed-equality `<< … >>` form rather than with ≈, a harmless transcription); Theory/Profunctor.v:122 as above. All registered. I INDEPENDENTLY CONFIRMED each of the three claimed absences rather than taking them on trust: `rg -n 'Enriched' -g '*.v' | grep -iE 'op|product'` returns no enriched opposite and no enriched product (Construction/Enriched/ contains only Compose.v, Fun.v, Natural.v, Sets.v, Two.v); and there is no self-enrichment of a closed base anywhere -- Structure/Closed.v has only Curry:124, Flip:144 and Class Closed:166, no Enriched instance. The gap's cross-reference is accurate: Construction/Enriched/Fun.v:30-35 does say 'Upgrading it to a genuine V-CATEGORY -- with hom-OBJECTS ∫_c D(F c, G c) valued in K rather than hom-sets -- requires ends in K … (ledger 11)'. See problems[] for a header comment in Construction/Enriched.v that is in tension with this record's (correct) 'no self-enrichment of the base'."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:ex4.9",
+    "classification": "ABSENT",
+    "aliases": [
+      "elementwise characterisation of a V-profunctor",
+      "enriched bimodule / two-sided action condition X(x',x) ⊗ Φ(x,y) ⊗ Y(y,y') ≤ Φ(x',y')",
+      "left and right actions of a profunctor; heteromorphism composition",
+      "dinaturality / wedge condition for an enriched profunctor",
+      "monotonicity of Φ on X^op × Y collapsed to one inequality"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'V-profunctor' / 'enriched profunctor' / 'EnrichedProf' --include='*.v' . -- 0 hits; the object the exercise characterises does not exist in-tree (see 7sketches:4.2.2:def4.8), so neither can its elementwise characterisation",
+      "grep -rin 'bimodule' --include='*.v' . -- prose only (Theory/Profunctor.v:21,58,61; Theory/DoubleCategory.v:96,104,124,138); no action/bimodule condition is ever stated as a lemma",
+      "grep -rin 'dinatural' --include='*.v' . -- Theory/Dinatural.v exists, but it is the ordinary (Sets-level) dinatural-transformation condition between mixed-variance functors, not the two-sided enriched action inequality of this exercise",
+      "grep -rin 'quantale' --include='*.v' . -- 1 prose hit (Construction/Enriched.v:78); there is no ≤ on hom-objects in which to state the inequality",
+      "Nearest in-tree relative, deliberately not cited as evidence: the two actions are subsumed definitionally by functoriality of Theory/Profunctor.v:122's (C^op ∏ D) ⟶ Sets — but that is the V = Sets case, it is an equality-of-morphisms condition rather than the single ≤ inequality, and no lemma asserts the equivalence the exercise asks for."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: elementwise/pointwise characterisation, two-sided action, bimodule condition X(x',x) ⊗ Φ(x,y) ⊗ Y(y,y') ≤ Φ(x',y'), left/right action of a profunctor, dinaturality/wedge, monotonicity collapsed to one inequality). My independent preliminary was ABSENT; agreed. My blind search found no counterpart the classifier missed. Verified the record's own qualifications: Theory/Dinatural.v does exist (so the negative-log entry is honest about it) and is the ordinary mixed-variance dinaturality condition, not an enriched inequality; `rg -i 'bimodule|distributor'` returns only prose in Theory/Profunctor.v and Theory/DoubleCategory.v headers plus Theory/Bicategory.v and Theory/Algebra/Frobenius.v, with no action condition ever stated as a lemma; `rg -i 'quantale'` 1 prose hit, so there is indeed no ≤ on hom-objects in which the inequality could be phrased. The 'nearest in-tree relative, deliberately not cited as evidence' discipline (Theory/Profunctor.v:122's functoriality) is correct and correctly withheld from evidence[]. ABSENT satisfies the schema: evidence [] and statement_record null with a populated negative_search_log."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:ex4.10",
+    "classification": "ABSENT",
+    "aliases": [
+      "Bool-profunctor = feasibility relation",
+      "V = Bool instance of the enriched profunctor definition",
+      "unwinding the enriched jargon at the two-element base",
+      "Bool-enriched distributor between Bool-categories",
+      "correspondence theorem 'enrichment over 2 recovers order theory' at profunctor level"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'feasibility' --include='*.v' . -- 0 hits: the right-hand side of the claimed identification does not exist",
+      "grep -rin 'V-profunctor' / 'enriched profunctor' / 'Prof_V' --include='*.v' . -- 0 hits: the left-hand side does not exist either, so no part of the claim is in-tree",
+      "grep -rn 'Enriched_Two' --include='*.v' . -- Construction/Enriched/Two.v proves the analogous unwinding one level DOWN (Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder, line 165; EnrichedFunctor_Two_monotone, line 183), i.e. for V-categories and V-functors at V = 2. It says nothing about profunctors, so it is a sibling statement rather than a part of this item; cited as evidence only under def4.2/def4.8.",
+      "grep -rin 'Sets.v' Construction/Enriched/Sets.v -- the corresponding V = Sets round trips (Category_is_Enriched_over_Set, EnrichedTransform_is_Transform) also stop at transformations, never reaching profunctors"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: Bool-profunctor = feasibility relation, V=Bool instance, enrichment over 2 at profunctor level, Bool-enriched distributor). My independent preliminary was ABSENT; agreed -- and I verified the record's sharpest point myself: BOTH sides of the claimed identification are missing (`rg -i 'feasib'` 0 hits for the right-hand side; no V-profunctor of any kind for the left). The record's handling of Construction/Enriched/Two.v is exemplary and I checked it: Enriched_Two_preorder:165 and EnrichedFunctor_Two_monotone:183 prove the analogous unwinding one categorical level DOWN (V-categories and V-functors at V = _2) and say nothing about profunctors, so treating them as a sibling statement rather than partial coverage is the honest call, and they are cited under def4.2/def4.8 where they belong. Likewise Construction/Enriched/Sets.v:49 EnrichedTransform_is_Transform stops at transformations, as claimed."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:example4.11",
+    "classification": "ABSENT",
+    "aliases": [
+      "Bool-profunctor as a set of one-way bridges between preorders",
+      "Φ(x,y) = true iff a route runs from x within X, across a bridge, and on within Y",
+      "reachability / path existence in a preorder presented by a Hasse diagram",
+      "collage (cograph, cylinder) of a Bool-profunctor as a single preorder",
+      "free preorder generated by two preorders plus a relation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'feasibility' / 'bridge' --include='*.v' . -- 'feasibility' 0 hits; 'bridge' hits only the English word in Functor/Structure/Monoidal/Hypergraph.v and Braided.v headers about functor packaging",
+      "grep -rin 'collage' --include='*.v' . -- 1 hit, Construction/Comma.v:253, a prose aside naming the cocomma/collage as 'a genuinely different construction' that the file does NOT build",
+      "grep -rin 'route' / 'path' / 'reachab' --include='*.v' . -- no path/reachability construct on a preorder; 'path' hits are proof-strategy prose in Test/ files",
+      "grep -rin 'Hasse' --include='*.v' . -- 0 hits",
+      "grep -ril 'profunctor' --include='*.v' . -- all 13 files go through the Sets-valued Theory/Profunctor.v:122; no Bool-valued profunctor whose truth values could be read as bridges"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: bridges between preorders, route/path existence, reachability, collage / cograph / cylinder of a profunctor, free preorder on two preorders plus a relation, cocomma). My independent preliminary was ABSENT; agreed, no counterpart missed. I verified the collage claim at source rather than trusting it: Construction/Comma.v:248-254 defines `Cocomma := @Comma (B^op) (A^op) (C^op) (T^op) (S^op)` and its own header states this 'is NOT the cocomma *object* of nLab (the colimit-side dual, a.k.a. the collage), which is a genuinely different construction' -- so the record's reading of :253 as a disclaimer that the file does NOT build the collage is exactly right, and the collage that Example 4.11 foreshadows (Def 4.42) is genuinely absent. `rg -i 'hasse'` 0 hits confirmed. NEGATIVE-LOG IMPRECISION (does not affect the verdict): the entry claiming 'bridge' hits 'only … Hypergraph.v and Braided.v headers' is wrong on the census -- `rg -in '\\bbridge' -g '*.v'` returns 137 lines across Adjunction/GAFT.v:188, Monad/Graded.v:36,153, Solver/Reify.v:15, Test/HypergraphPROPResolution.v:133 and many more -- but every one is the ordinary English word for a connecting lemma, so the conclusion (no bridge construct between preorders) holds."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:ex4.12",
+    "classification": "ABSENT",
+    "aliases": [
+      "feasibility matrix of a Bool-profunctor",
+      "Boolean matrix / relation matrix presentation of Φ",
+      "matrix of truth values indexed by Ob(X) × Ob(Y)",
+      "adjacency / incidence matrix of a relation between finite preorders",
+      "Rel-style curried relation A → B → Prop"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'matrix' --include='*.v' . -- every hit is prose: Theory/Profunctor.v:54,64,69 ('a profunctor is a matrix of sets'), Functor/Hom/Yoneda.v:90, Instance/ZX.v, Structure/Semiadditive.v:99,287,298 and Structure/Preadditive.v:23 (the biproduct matrix calculus of an additive category, a different subject). No matrix datatype or matrix-of-a-profunctor construction exists",
+      "grep -rin 'feasibility' --include='*.v' . -- 0 hits",
+      "grep -rin 'adjacency' / 'incidence' --include='*.v' . -- 'adjacency' 1 prose hit (Construction/PROP.v:270); 'incidence' 0 hits",
+      "Nearest in-tree relative, deliberately not cited as evidence: Instance/Rel.v:45 makes a morphism A ~> B a curried relation A → Ensemble B, i.e. a Boolean matrix, with composition ∃ e, g a e ∧ f e b (the join-of-meets product). But its objects are bare Coq types with no order, its morphisms are not required to be monotone, and nothing connects it to profunctors, so it does not cover any part of this exercise's claim."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: feasibility matrix, Boolean/relation matrix, truth-value matrix over Ob(X) x Ob(Y), adjacency/incidence matrix, curried relation A → B → Prop). My independent preliminary was ABSENT; agreed. I re-ran the matrix census and it matches: every `rg -il 'matrix|matrices'` hit is either prose (Theory/Profunctor.v:54,64,69 'a profunctor is a matrix of sets'; Functor/Hom/Yoneda.v; Instance/ZX.v) or the biproduct matrix calculus of Structure/Semiadditive.v and Structure/Preadditive.v, which is morphism-valued in a semiadditive category and unconnected to profunctors; there is no matrix datatype. The 'nearest in-tree relative, deliberately not cited' note about Instance/Rel.v is accurate and I checked it at source: Rel.v:45 does make hom A B = A ~> Ensemble B with composition `∃ e, In (g a) e ∧ In (f e) b`, and its objects are indeed bare `@obj Coq` with no order and no monotonicity requirement, so withholding it from evidence[] is the right call."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:example4.13",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost-profunctor",
+      "Lawvere metric space / generalized metric space as a Cost-category",
+      "enrichment over ([0,∞], ≥, +) — the extended non-negative reals",
+      "weighted graph, distance matrix, shortest path across a bridge",
+      "(min,+) tropical quantale"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'Cost' --include='*.v' . -- 0 relevant hits (all matches are 'costructure'/'costructure map' in Comonad/Coalgebra.v)",
+      "grep -rin 'Lawvere metric' --include='*.v' . -- 1 hit, Instance/Poset.v:77, inside a header comment; grep -rin 'metric' --include='*.v' . -- prose only (Construction/Enriched.v:49,74-77; Instance/Two.v:71; Instance/Poset.v:75-77). No Cost category, no enrichment instance over [0,∞], no distance-valued hom",
+      "grep -rin 'triangle inequality' --include='*.v' . -- 3 hits, all prose headers explaining what enrichment over [0,∞] WOULD give (Construction/Enriched.v:76, Instance/Poset.v:76, Instance/Two.v:69); Instance/Two.v:72 states outright that 'the library carries the first case [V = 2] in full', i.e. the metric case is not carried",
+      "grep -rin 'shortest path' / 'weighted graph' / 'distance' --include='*.v' . -- 0 formal hits",
+      "grep -rin 'V-profunctor' / 'enriched profunctor' --include='*.v' . -- 0 hits, so even given a Cost base there would be no profunctor over it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: Cost-profunctor, Lawvere metric space, generalized metric space, enrichment over ([0,∞], ≥, +), extended non-negative reals, weighted graph, distance matrix, shortest path, (min,+) tropical quantale). My independent preliminary was ABSENT; agreed. Independently reproduced: `rg -i 'metric'` returns prose only (Construction/Enriched.v:49,74-77; Instance/Two.v:71; Instance/Poset.v:75-77; Theory/Profunctor.v; Construction/Karoubi.v) with no Cost category and no distance-valued hom; `rg -i 'shortest|min.plus|tropical'` 0 hits. The record's quotation of Instance/Two.v is accurate and is the strongest single piece of the negative case -- :71-72 reads 'over the interval [0, ∞] it produces metric spaces (Lawvere, 1973). The library carries the first case in full', i.e. the library itself discloses that only V = _2 is carried. MINOR CENSUS IMPRECISION (does not affect the verdict): the 'Cost' entry attributes the case-insensitive matches to 'costructure … in Comonad/Coalgebra.v'; `rg -in 'cost'` actually returns Comonad/Duality.v:284,314,336 ('costructure') and Comonad/Strong.v:18-72 ('costrength', 'Costrong'). No Cost quantale either way."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:ex4.15",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost-matrix of a Cost-profunctor",
+      "distance matrix between two Lawvere metric spaces",
+      "matrix of shortest-path lengths through a bridge",
+      "hom-object table of an enrichment over [0,∞]",
+      "(min,+) matrix entries"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'Cost' --include='*.v' . -- 0 relevant hits (only 'costructure' in Comonad/Coalgebra.v)",
+      "grep -rin 'matrix' --include='*.v' . -- prose only, plus the unrelated biproduct matrix calculus of Structure/Semiadditive.v / Structure/Preadditive.v; no matrix datatype",
+      "grep -rin 'metric' / 'distance' / 'shortest path' --include='*.v' . -- prose headers only (Construction/Enriched.v, Instance/Poset.v, Instance/Two.v); no Cost-category instance to take a matrix of",
+      "grep -rin 'V-profunctor' / 'enriched profunctor' --include='*.v' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: Cost-matrix, distance matrix between Lawvere metric spaces, shortest-path-through-a-bridge matrix, hom-object table of a [0,∞]-enrichment, (min,+) entries). My independent preliminary was ABSENT; agreed, no counterpart missed. Both prerequisites for the item are independently confirmed absent: no Cost base (see example4.13) and no matrix datatype (see ex4.12). Nothing in the tree indexes an enrichment's hom-objects into a table."
+    }
+  },
+  {
+    "id": "7sketches:4.2.2:remark4.16",
+    "classification": "ABSENT",
+    "aliases": [
+      "computing a profunctor by matrix multiplication",
+      "distance matrix as a matrix power: d_X = smallest power of M_X (Floyd–Warshall / transitive closure)",
+      "Φ = d_X · M_Φ · d_Y in the (min,+) quantale",
+      "matrix product over a quantale; generalized matrix multiplication of profunctors",
+      "tropical semiring matrix algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'matrix power' / 'shortest path' / 'transitive closure' --include='*.v' . -- 'matrix power' and 'shortest path' 0 hits; 'transitive closure' only Instance/Lambda/Multi.v (reflexive-transitive closure of the lambda Step relation, unrelated to distance matrices)",
+      "grep -rin 'Cost' / 'tropical' / 'min_plus' / 'Nat.min' / 'semiring' --include='*.v' . -- no (min,+) structure anywhere; 'semiring' is a single prose word in Theory/Algebra.v:25",
+      "grep -rin 'matrix' --include='*.v' . -- prose only; the one genuine matrix calculus in-tree is the biproduct one of Structure/Semiadditive.v (matrices of morphisms in a semiadditive category), which is neither quantale-valued nor connected to profunctors",
+      "grep -rin 'quantale' --include='*.v' . -- 1 prose hit (Construction/Enriched.v:78); there is no quantale in which to take the join-of-tensors matrix product",
+      "grep -ril 'profunctor' --include='*.v' . -- the only composition in-tree is Construction/Profunctor/Compose.v's coend composite of SETS-valued profunctors, which is the categorified analogue of the matrix product but carries no algorithm, no matrix entries, and no quantale"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass FIRST (aliases: profunctor by matrix multiplication, matrix power / Floyd-Warshall / transitive closure for the distance matrix, Φ = d_X · M_Φ · d_Y, quantale matrix product, generalized matrix multiplication, tropical semiring). My independent preliminary was ABSENT; agreed. Independently reproduced: `rg -i 'shortest|min.plus|tropical'` 0 hits; `rg -i 'semiring'` exactly 1 hit, Theory/Algebra.v:25, and it is the parenthetical 'a rig (a semiring,' in prose, matching the record; no (min,+) structure of any kind. The record's closing observation is correct and worth carrying into Phase E: Construction/Profunctor/Compose.v's coend composite IS the categorified analogue of the remark's matrix product, but it is Sets-valued, algorithm-free, and has no quantale entries -- so the remark's computational content has no in-tree counterpart at all."
+    }
+  }
+]

@@ -1,0 +1,201 @@
+[
+  {
+    "id": "maclane:III.1:def1",
+    "classification": "PRESENT",
+    "aliases": ["universal arrow", "UniversalArrow", "AUniversalArrow", "universal morphism", "initial object of comma category", "universal mapping property"],
+    "evidence": [
+      {"file": "Theory/Universal/Arrow.v", "line": 240, "symbol": "AUniversalArrow",
+       "intree_statement": "Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := { universal_arrow : c ~> fobj[F] a ; universal_arrow_universal {d} {f : c ~> (fobj[F] d)} : Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f) }."},
+      {"file": "Theory/Universal/Arrow.v", "line": 127, "symbol": "UniversalArrow",
+       "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := snd (`1 (@initial_obj _ arrow_initial)); arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial) }."},
+      {"file": "Theory/Universal/Arrow.v", "line": 139, "symbol": "ump_universal_arrows",
+       "intree_statement": "Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow."}
+    ],
+    "statement_record": {
+      "book": "Given S : D -> C and c in C, a universal arrow from c to S is a pair <r, u : c -> S r> such that every f : c -> S d factors as S f' o u = f for a unique f' : r -> d.",
+      "intree": "Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := { universal_arrow : c ~> fobj[F] a ; universal_arrow_universal : Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f) } — plus the equivalent comma-initial packaging UniversalArrow with derived ump_universal_arrows.",
+      "strength_comparison": "same — AUniversalArrow is exactly the book's definition with setoid ≈ for =; the two in-tree encodings (direct UMP and comma-initial) are proven interchangeable via universal_arrow_from_UMP and ump_universal_arrows"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently found the same evidence: read Theory/Universal/Arrow.v in full; both classes at the cited lines, quotes exact (Unique from Lib/Setoid.v:100 is precisely ∃! up to ≈). File registered in _CoqProject:475. Downstream API is genuinely in force (LeftAdjointFunctorFromUniversalArrows, AdjunctionFromUniversalArrows, used by GAFT.v, Monad/Lifting.v, Construction/Free/Quiver.v)."}
+  },
+  {
+    "id": "maclane:III.1:remark1",
+    "classification": "PRESENT",
+    "aliases": ["initial object of comma category", "(c ↓ S)", "=(c) ↓ F", "comma-initial", "uniqueness of universal arrows up to isomorphism", "GAFT_from_initials"],
+    "evidence": [
+      {"file": "Theory/Universal/Arrow.v", "line": 127, "symbol": "UniversalArrow",
+       "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } — the universal arrow is DEFINED as an initial object of the comma category =(c) ↓ F."},
+      {"file": "Theory/Universal/Arrow.v", "line": 158, "symbol": "universal_arrow_from_UMP",
+       "intree_statement": "Definition universal_arrow_from_UMP (c : C) (F : D ⟶ C) (d : D) (η : c ~> fobj[F] d) (u : ∀ (d' : D) (f : c ~> fobj[F] d'), ∃! g : d ~> d', f ≈ fmap[F] g ∘ η) : UniversalArrow c F — the converse direction: the UMP form yields initiality in =(c) ↓ F."},
+      {"file": "Structure/UniversalProperty.v", "line": 175, "symbol": "univ_property_unique_up_to_unique_iso",
+       "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s) — instantiated at P := AUniversalArrow c U (via UniversalArrowIsUniversalProperty, Structure/UniversalProperty/Universal/Arrow.v:61), this gives uniqueness of the universal object r up to unique isomorphism in D."}
+    ],
+    "statement_record": {
+      "book": "u : c -> S r is universal from c to S exactly when <r, u> is initial in the comma category (c downarrow S); hence the universal arrow is unique up to isomorphism and r is unique up to isomorphism in D.",
+      "intree": "arrow_initial : @Initial (=(c) ↓ F) as the definition, with ump_universal_arrows (initiality ⇒ UMP) and universal_arrow_from_UMP (UMP ⇒ initiality) realizing the 'exactly when' in both directions; uniqueness up to unique iso of the representing object via univ_property_unique / univ_property_unique_up_to_unique_iso applied through UniversalArrowIsUniversalProperty.",
+      "strength_comparison": "same — both directions of the equivalence are constructions in-tree, and the uniqueness consequence is proven (indeed strengthened to unique-isomorphism form)"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "All three cited statements verified at the cited lines by direct reading. One precision the record already handles honestly: the uniqueness-up-to-unique-iso consequence is not restated as a standalone lemma about UniversalArrow — it is the immediate application of the general Proposition (Structure/UniversalProperty.v:175) to the in-tree instance UniversalArrowIsUniversalProperty; both components exist and compose by plain application, which is faithful in substance. Structure/Initial.v itself carries no initial-objects-unique-up-to-iso lemma (blind search: rg 'initial_unique|unique up to' — none there), so the representability route is the load-bearing one."}
+  },
+  {
+    "id": "maclane:III.1:construction1",
+    "classification": "ABSENT",
+    "aliases": ["free vector space on a set", "Vect / Vect_K category", "formal linear combinations", "free module", "insertion of basis / insertion of generators", "forgetful functor Vect -> Set"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'vector space|vect_k|\\bVect\\b|linear combination' --include=*.v . — only prose mentions in background essays (Theory/Functor.v:68, Theory/Equivalence.v:86, Structure/Monoidal.v:78, Theory/Algebra/CommutativeFrobenius.v:34, ...); no category of vector spaces is defined",
+      "grep -rniE '\\bbasis\\b|K-linear|R-module|\\bmodules?\\b' --include=*.v . — no vector-space/module carrier; 'module' hits are Coq module-system prose only",
+      "grep -rniE 'free monoid|free group|free category|free module|polynomial' --include=*.v . — 'free module' 0 formal hits; free-construction hits concern the free category on a quiver and PROPs only",
+      "ls Instance/ — full instance listing inspected (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX): no Vect, Mod, or module category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently ran rg 'vector space|Vect|linear map|K-linear' and found only background-essay prose (Theory/Natural/Transformation.v:45, Theory/Kan/Extension.v:89, stdlib Coq.Vectors imports in Sheaf files, etc.); no Vect_K category, no formal-linear-combination construction anywhere. Instance/ listing has no linear-algebra instance."}
+  },
+  {
+    "id": "maclane:III.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": ["free category on a graph as universal arrow", "free monoid on a set", "free group", "free R-module", "polynomial algebra", "UniversalArrowQuiverCat", "Free ⊣ Forgetful"],
+    "evidence": [
+      {"file": "Construction/Free/Quiver.v", "line": 518, "symbol": "UniversalArrowQuiverCat",
+       "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — every quiver homomorphism G ⇨ U(C) factors uniquely through the unit UnitQuiverCatAdjunction as a functor InducedFunctor; FreeForgetfulAdjunction packages Free ⊣ Forgetful (file header, lines 43-46)."}
+    ],
+    "statement_record": {
+      "book": "The insertion of generators for the free category on a graph (P : G -> U C, U : Cat -> Grph), the free monoid on a set, the free group, the free R-module, and the polynomial algebra over a commutative ring are all universal arrows to the respective forgetful functors.",
+      "intree": "UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful, with the induced adjunction FreeForgetfulAdjunction — exactly the free-category-on-a-graph instance, packaged through the library's UniversalArrow class.",
+      "strength_comparison": "intree-weaker: only the free-category-on-a-graph example is formalized (at full strength, universal arrow + adjunction); the free monoid, free group, free R-module, and polynomial-algebra examples have no in-tree counterpart"
+    },
+    "gap": "Of the book's five examples only the free category on a graph (quiver) is formalized (Construction/Free/Quiver.v:518). There are no in-tree categories of set-level monoids, groups, R-modules, or commutative rings to host the others: Theory/Algebra/Monoid/Hom.v:83 defines Mon(C) (internal monoids in a monoidal category, with forgetful Mon_Forget to C) and Instance/CMon.v defines commutative monoids with CMon_Forget : CMon ⟶ Sets, but neither carries a free-object universal arrow or adjunction (grep 'free|adjunction|universal' over Theory/Algebra/ and Instance/CMon* finds none); the free monoid appears only in prose comments (Theory/Coq/List/Proofs.v:16-21, Theory/Coq/Foldable.v:30-41).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently found UniversalArrowQuiverCat at Construction/Free/Quiver.v:518 (quote exact; FreeForgetfulAdjunction built at lines 547-551 from AdjunctionFromUniversalArrows; file registered _CoqProject:72). Gap claims re-verified: Mon(C) + Mon_Forget confirmed at Theory/Algebra/Monoid/Hom.v (~83-95); CMon_Forget confirmed at Instance/CMon.v:169 with no free/adjunction hit in CMon files; Theory/Algebra/ has no free-object construction (only CommutativeFrobenius.v prose matches 'free'). The in-tree base is StrictCat/QuiverCategory rather than the book's Cat/Grph, which is faithful (Mac Lane's Cat is strict). PARTIAL with this gap is exactly right."}
+  },
+  {
+    "id": "maclane:III.1:construction2",
+    "classification": "ABSENT",
+    "aliases": ["field of quotients / field of fractions", "quotient field of an integral domain", "Frac / Quot(D)", "Fld and Dom categories", "localization of a ring (analogy)"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'field of quotient|fraction|integral domain' --include=*.v . — only the historical essay in Theory/Universal/Arrow.v:44-45 (quoting Samuel's examples) and Construction/Localization.v's ring-localization ANALOGY prose (lines 61-74); Construction/Localization.v itself is categorical orthogonal-subcategory localization, not the field of fractions (name-adjacent, different object)",
+      "grep -rniE '\\bFld\\b|\\bDom\\b|domain.*mono' --include=*.v — no category of fields or integral domains; no in-tree ring theory at the set level (Instance/ listing inspected, no Rng/CRng/Fld)",
+      "the non-existence counterexample (no universal arrow from Z to Fld -> Dom) — no counterpart; no Z-as-initial-ring machinery exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: 'field of quotients' appears only in the Samuel historical essay of Theory/Universal/Arrow.v:44. Spot-checked Construction/Localization.v:64-70 — the ring-of-fractions S⁻¹R passage is motivating prose for categorical localization, correctly excluded as name-adjacent. No Fld/Dom/ring instances exist."}
+  },
+  {
+    "id": "maclane:III.1:construction3",
+    "classification": "ABSENT",
+    "aliases": ["metric space completion", "complete metric space", "Cauchy completion (metric sense)", "Met category", "dense isometric embedding"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bmetric\\b|metric space|cauchy sequence' --include=*.v . — only Lawvere generalized-metric-space prose in background essays (Theory/Profunctor.v:46,100; Instance/Poset.v:39,75; Instance/Two.v:28,71; Construction/Enriched.v:40-75); no Met category, no metric structure formalized",
+      "grep -rn 'CauchyComplete' --include=*.v . — Construction/Karoubi/Universal.v:416 'Definition CauchyComplete (C : Category) := IdempotentsSplit C' — this is categorical Cauchy completeness (idempotent splitting, named by analogy with metric completion); it is NOT the metric completion universal arrow and was not counted as evidence",
+      "grep -rniE 'completion' --include=*.v — remaining hits are 'free monoidal cocompletion' (Construction/Day.v:111) and similar categorical cocompletion prose, unrelated to metric completion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: rg '\\bmetric\\b' finds only Lawvere-enrichment essay prose. Spot-checked Construction/Karoubi/Universal.v:416 — CauchyComplete := IdempotentsSplit confirmed verbatim; the classifier correctly resisted this same-name trap. No Met category, no completion construction."}
+  },
+  {
+    "id": "maclane:III.1:def2",
+    "classification": "PARTIAL",
+    "aliases": ["universal element", "UniversalElement", "universal element of a set-valued functor", "element whose Yoneda transform is an isomorphism", "representation by a universal element"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty.v", "line": 72, "symbol": "representability_by_yoneda",
+       "intree_statement": "Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C) : @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _) — the header (lines 67-71) names the sigma setoid 'the set of universal elements' and proves it isomorphic to the set of representations."},
+      {"file": "Functor/Hom/Yoneda.v", "line": 133, "symbol": "Yoneda_Lemma",
+       "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A — supplies the Yoneda mate through which the universal-element predicate is expressed."}
+    ],
+    "statement_record": {
+      "book": "For H : D -> Set, a universal element of H is a pair <r, e> with e in H r such that for every <d, x> with x in H d there is a unique arrow f : r -> d with (H f) e = x.",
+      "intree": "A universal element is encoded as { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } — an element of F c whose Yoneda mate [Hom ─,c] ⟹ F is a natural isomorphism — stated for presheaves F : C^op ⟶ Sets (the covariant case of the book follows by instantiating at D^op, since C^op^op = C holds definitionally in this library).",
+      "strength_comparison": "intree-weaker: the concept is present only through the equivalent Yoneda/representability characterization, not as the book's elementary unique-factorization definition, and the encoding is an unnamed sigma type inside one proposition rather than a first-class definition"
+    },
+    "gap": "The elementary definition — a pair <r, e> such that every x in H d equals (H f) e for a unique f : r -> d — is never stated; the in-tree surrogate is 'element whose Yoneda mate is an iso' (Structure/UniversalProperty.v:74), and the equivalence between that iso condition and the unique-factorization property is not spelled out as a lemma (it is implicit in unwinding what a Sets-isomorphism of hom-setoids means). No named class/definition 'universal element' exists (grep -rniE 'universal element' finds only comments in Functor/Representable.v:23, Structure/UniversalProperty.v:30,52,67,71, Structure/UniversalProperty/Universal/Arrow.v:39; grep 'UniversalElement' as an identifier: 0 hits).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Both evidence quotes verified by direct reading (representability_by_yoneda at Structure/UniversalProperty.v:72-76; Yoneda_Lemma at Functor/Hom/Yoneda.v:~132-134, quote exact). My blind pass initially leaned PRESENT-in-substance (the Yoneda-mate-is-iso form is mathematically equivalent to the book's definition), but PARTIAL is the more rigorous call: this is precisely the 'definition-without-required-API' pattern — the notion exists only as an anonymous sigma type inside one proposition, contravariant, with no named class, no elementary unique-factorization statement, and no reusable accessors. The classifier's variance note (covariant case via D^op with C^op^op = C definitional) is correct for this library."}
+  },
+  {
+    "id": "maclane:III.1:construction4",
+    "classification": "PARTIAL",
+    "aliases": ["quotient set by an equivalence relation", "S/E with projection p", "E-respecting functions factor uniquely", "coequalizer in Sets / setoid quotient", "quotient setoid"],
+    "evidence": [
+      {"file": "Instance/Sets/Pushout.v", "line": 185, "symbol": "Sets_HasPushouts",
+       "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets — the apex is the quotient (B ⊔ C)/~ by the inductive equivalence-closure relation pushout_eq (refl/sym/trans/inl-cong/inr-cong/glue), and the UMP obligation builds 'the unique mediator Pull → Q' for any cocone with q1 ∘ f ≈ q2 ∘ g, with uniqueness proved by induction on pushout_eq."},
+      {"file": "Lib/Setoid.v", "line": 18, "symbol": "Setoid",
+       "intree_statement": "'Setoids stand in for quotient sets in a type[-theoretic setting]' — the library-wide design under which quotients are carried by the object's equivalence rather than a quotient type."}
+    ],
+    "statement_record": {
+      "book": "For an equivalence relation E on a set S, <S/E, p> is a universal element of the functor H : Set -> Set sending X to the set of E-respecting functions S -> X: every E-respecting f factors uniquely through the projection p.",
+      "intree": "Sets_HasPushouts: the quotient of a setoid coproduct by the equivalence closure of a glue relation, with unique factorization of every relation-respecting cocone (Instance/Sets/Pushout.v); Instance/Sets/Coend.v likewise realises the coend in Sets as 'the inductive setoid quotient by exactly the dinaturality relation' with its UMP.",
+      "strength_comparison": "intree-weaker: the quotient-by-generated-equivalence technique with a proven unique-factorization UMP exists, but only for the special relations arising in pushouts and coends, and packaged as (co)limit UMPs rather than as a universal element of the E-respecting-functions functor"
+    },
+    "gap": "The book's statement for an ARBITRARY equivalence relation E on S is not in-tree: there is no general quotient-setoid construction S/E with the universal property that E-respecting morphisms factor uniquely through the projection, no coequalizers in Sets (grep 'Coequalizer' over Instance/ finds no Sets instance; Sets has coproducts, Instance/Sets/Cocartesian.v, and pushouts, but the coequalizer-of-E⇉S route is not taken), and no connection of any quotient to the universal-element packaging that the book uses (maclane:III.1:def2, itself only PARTIAL).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass called this ABSENT; on inspection I accept PARTIAL as defensible and the record as honest. Evidence verified: Sets_HasPushouts is at Instance/Sets/Pushout.v:185 (registered _CoqProject:237), pushout_eq is the inductive equivalence closure (lines 51-72) and the header states the UMP is proved by induction on it (line 38); the Lib/Setoid.v 'setoids stand in for quotient sets' quote is at lines 16-18. Gap re-verified independently: rg 'Coequalizer|Cocomplete' over Instance/Sets.v and Instance/Sets/ — 0 hits, so no coequalizers in Sets and no general S/E construction. The classification is at the generous edge of PARTIAL — the surviving content is the quotient-with-unique-factorization technique in cognate special cases, not any statement about an arbitrary E — but the strength_comparison and gap disclose exactly that, so it does not overclaim."}
+  },
+  {
+    "id": "maclane:III.1:construction5",
+    "classification": "ABSENT",
+    "aliases": ["quotient group G/N", "normal subgroup", "coset projection universal property", "category Grp of groups", "homomorphisms killing N factor through the quotient"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'quotient group|normal subgroup|\\bGrp\\b' --include=*.v . — 'quotient group' and 'normal subgroup' 0 formal hits; 'Grp' appears only in prose essays (Structure/Group.v:63,72 on group objects; Structure/Complete.v:55 'Set, Top, Grp, Ab' as textbook examples)",
+      "Structure/Group.v inspected — same-name trap: it defines GroupObject (a group object internal to a monoidal category: monoid object + inversion morphism with antipode laws), NOT the category Grp of set-level groups, and contains no quotient construction",
+      "grep -rniE 'category of group' --include=*.v — only Construction/Groupoid.v:94 noting no category of groupoids exists in-tree; no category of groups either (Instance/ listing inspected: no Grp)",
+      "grep -rniE 'coset|isomorphism theorem' --include=*.v — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: rg 'normal subgroup|Grp' finds only Structure/Group.v's GroupObject (verified by reading lines 109-122: internal group object with inverse/antipode laws — correctly identified as a same-name trap, not the category of groups) and textbook-example prose. No Grp instance, no quotient-group construction."}
+  },
+  {
+    "id": "maclane:III.1:construction6",
+    "classification": "ABSENT",
+    "aliases": ["tensor product of vector spaces", "universal bilinear map", "Bilin(V, V'; -) functor", "V ⊗ V' universal property", "tensor product of modules over a commutative ring"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'bilinear|tensor product of (vector|module)|universal bilinear' --include=*.v . — 'bilinear' appears only in prose (Theory/Displayed.v:49 and Construction/Indexed.v:121 on a countermodel twist, Structure/Preadditive.v:16 and Construction/Enriched.v:28,67 on bilinear composition in Ab-enrichment, Theory/Algebra/Frobenius.v:56 on Frobenius pairings); no Bilin functor, no bilinear-map type",
+      "grep -rniE 'vector space|\\bVect\\b' --include=*.v . — no category of vector spaces or modules in-tree (see maclane:III.1:construction1 log); hence no carrier for the construction",
+      "Structure/Monoidal.v:78 mentions 'the tensor product of vector spaces reassociates' only as motivating prose for abstract monoidal structure — the library's ⨂ is abstract data on a category, never constructed from bilinear maps; grep 'tensor' over Instance/CMon.v Instance/CMon/ — 0 hits (no tensor product of commutative monoids either)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search agreed: rg 'bilinear|Bilin' finds only the enrichment/preadditive/Frobenius prose hits listed; no Vect category (per construction1), no bilinear-map functor, no concrete tensor-product-by-universal-property construction. The abstract monoidal ⨂ is correctly excluded — it is structure data, not this construction."}
+  },
+  {
+    "id": "maclane:III.1:remark3",
+    "classification": "PARTIAL",
+    "aliases": ["universal element as universal arrow from a point", "one-point set * -> H r", "universal arrow iff universal element of C(c, S-)", "universal arrow iff representability of Hom(c, U-)", "UniversalArrowIsUniversalProperty"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty/Universal/Arrow.v", "line": 61, "symbol": "UniversalArrowIsUniversalProperty",
+       "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _ — with repr_functor := (Curried_Hom C c) ◯ U, i.e. d ↦ Hom_C(c, U d): the setoid of universal arrows (a, u) is isomorphic (in Sets) to the setoid of natural isomorphisms [Hom a,─] ≅ Hom_C(c, U ─), for each a."},
+      {"file": "Structure/UniversalProperty.v", "line": 72, "symbol": "representability_by_yoneda",
+       "intree_statement": "Proposition representability_by_yoneda : @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _) — universal elements of F at c correspond to representations of F by c."}
+    ],
+    "statement_record": {
+      "book": "Two-way subsumption: (a) a universal element <r, e> of H : D -> Set is exactly a universal arrow from the one-point set * to H; (b) when C has small hom-sets, <r, u> is a universal arrow from c to S iff <r, u> is a universal element of the functor H = C(c, S -) : D -> Set.",
+      "intree": "UniversalArrowIsUniversalProperty: universal arrows from c to U correspond to representations of d ↦ Hom_C(c, U d); representability_by_yoneda: universal elements correspond to representations. Composing the two isomorphisms yields direction (b); the book's small-hom-sets hypothesis is automatic (hom-setoids of any category land in Sets).",
+      "strength_comparison": "intree-weaker: both correspondences route through representations and their composite (universal arrow ⟺ universal element of Hom_C(c, U ─)) is not stated as a single theorem; the one-point-set formulation (a) is entirely absent. Where in force, no extra hypotheses — smallness is free in the setoid setting"
+    },
+    "gap": "Half (a) — a universal element of H : D -> Set is the same as a universal arrow from the one-point set * to H — has no counterpart (no mediation through global elements */terminal setoid; grep -rniE 'one.point|singleton set' over *.v finds no such bridge; Instance/One.v is the terminal CATEGORY, not the one-point setoid trick). Half (b) is derivable but unstated: it requires composing UniversalArrowIsUniversalProperty (covariant, per-object a) with representability_by_yoneda (stated contravariantly, so instantiated at D^op) and no in-tree lemma performs the composition or states the resulting universal-arrow ⟺ universal-element equivalence directly.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently identified exactly these two propositions as the in-tree material and reached the same borderline PARTIAL/PRESENT judgment; PARTIAL is right because the composite correspondence requires variance juggling (representability_by_yoneda is presheaf-side, UniversalArrowIsUniversalProperty copresheaf-side) that no in-tree lemma performs, and the one-point-set half is genuinely absent (Instance/One.v verified to be the terminal category, not a one-point setoid bridge). Both evidence quotes verified by direct reading; both files registered in _CoqProject (378, 381)."}
+  }
+]

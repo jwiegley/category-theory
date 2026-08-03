@@ -1,0 +1,596 @@
+[
+  {
+    "id": "maclane:III.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Limit",
+      "limiting cone",
+      "Cone / terminal cone",
+      "universal arrow from the diagonal Delta to F",
+      "inverse limit / projective limit",
+      "Lim"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 129,
+        "symbol": "IsALimit",
+        "intree_statement": "Class IsALimit `(F : J ⟶ C) (c : C) := { limit_acone : ACone c F; ump_limit : ∀ N : Cone F, ∃! u : N ~> c, ∀ x : J, vertex_map _ ∘ u ≈ vertex_map x }"
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 24,
+        "symbol": "ACone",
+        "intree_statement": "Class ACone ... (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }"
+      },
+      {
+        "file": "Instance/Cones/Comma.v",
+        "line": 73,
+        "symbol": "Cones_Comma",
+        "intree_statement": "Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F)). (cones over F ARE the comma category of the diagonal, MacLane's universal-arrow framing)"
+      },
+      {
+        "file": "Instance/Cones/Limit.v",
+        "line": 37,
+        "symbol": "Limit_Cones",
+        "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F"
+      }
+    ],
+    "statement_record": {
+      "book": "A limit of F : J -> C is a universal arrow from the diagonal functor Delta to F: an object Lim F with a limiting cone v : Delta(Lim F) -> F such that every cone tau : Delta c -> F factors as tau_i = v_i ∘ t for a unique t : c -> Lim F; a natural transformation Delta c -> F is a cone to the base F from the vertex c.",
+      "intree": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ vertex_map[N] x } (Structure/Limit.v), with cones as apex + coherent legs (Structure/Cone.v) and Colimit F := Limit (F^op).",
+      "strength_comparison": "same — the library uses the terminal-cone presentation instead of MacLane's universal-arrow-from-Delta presentation, and the equivalence of the presentations is itself in-tree: cones are identified with the comma category of the diagonal (Cones_Comma, Instance/Cones/Comma.v, with Δ from Functor/Diagonal.v where a cone with apex c is literally a natural transformation Δ(c) ⟹ F), and a terminal object of Cones F yields a Limit F (Instance/Cones/Limit.v). MacLane's 'colimit' synonym direct/inductive limit is Colimit := Limit F^op."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found Structure/Limit.v:113 Class Limit, Structure/Cone.v ACone/Cone, Colimit := Limit F^op (Limit.v:158), plus UniversalProperty/Limit.v representability. Verified extra evidence: Cones_Comma at Instance/Cones/Comma.v:73 (imports Functor.Diagonal, quote exact) and Limit_Cones at Instance/Cones/Limit.v:37 both exist as quoted. Terminal-cone presentation with in-tree equivalence to the universal-arrow-from-Delta framing is faithful. All files in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "limits unique up to isomorphism",
+      "uniqueness of universals",
+      "univ_property_unique",
+      "representing object unique up to unique iso",
+      "limit_unique"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)"
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)"
+      }
+    ],
+    "statement_record": {
+      "book": "As with any universal arrow, the limit object Lim F and its limiting cone are determined by F uniquely up to isomorphism in C.",
+      "intree": "univ_property_unique_up_to_unique_iso: for any universal property P (in the representability sense) and witnesses t : P c, s : P d there is a UNIQUE isomorphism c ≅ d transporting t to s; LimitIsUniversalProperty establishes that being a limit of F (IsALimit F c) is such a universal property on C^op, so any two limits of F are related by a unique structure-transporting isomorphism.",
+      "strength_comparison": "intree-stronger: the book's remark states uniqueness up to isomorphism; the in-tree pair delivers uniqueness up to UNIQUE isomorphism compatible with the limiting cones, obtained by applying the generic theorem to the in-tree instance (no separately named 'limits_unique' corollary, but both components are fully proven and compose by direct application; elementary siblings equalizer_unique and pullback_unique are also stated directly for those shapes)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same pair: univ_property_unique_up_to_unique_iso (Structure/UniversalProperty.v:175, statement verified: Unique over c ≅ d transporting t to s) + LimitIsUniversalProperty (UniversalProperty/Limit.v:141). Disclosed honestly that no named limits_unique corollary exists; composition is direct application. Verified the claimed elementary siblings exist: equalizer_unique (Structure/Equalizer/Fork.v:106) and pullback_unique (Structure/Pullback.v:182)."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-set characterization of limits",
+      "C(c, Lim F) ≅ Cone(c,F)",
+      "limit represents the cone functor",
+      "ConePresheaf representability",
+      "Nat(Delta c, F)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c) — with repr_functor := ConePresheaf F, i.e. IsALimit F z ⟺ a natural isomorphism Hom(−, z) ≅ ConePresheaf F; header: 'there is a natural isomorphism Hom(c, z) ≅ Cone(c, F), the representability formulation of a limit'"
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf ... (F : @Functor J C) : @Functor C^op Sets — each object c is sent to the setoid of cones with apex c, morphisms reindex by precomposition; 'Its representing object, when one exists, is the limit of F.'"
+      }
+    ],
+    "statement_record": {
+      "book": "When the (co)limits exist there are isomorphisms natural in c: C(c, Lim F) ≅ Nat(Delta c, F) = Cone(c, F), and Cone(F, c) = Nat(F, Delta c) ≅ C(Colim F, c); the limit represents the cone functor and the colimit corepresents the cocone functor.",
+      "intree": "LimitIsUniversalProperty: being a limit apex z for F is equivalent (as an isomorphism in Sets) to giving a natural isomorphism Hom(−, z) ≅ ConePresheaf F, i.e. C(c, z) ≅ Cone(c, F) natural in c.",
+      "strength_comparison": "same for the limit half, stated as a two-way equivalence (representation ⟺ limit) rather than only the forward isomorphism; the colimit half is not separately named but is the same theorem instantiated at (C^op, F^op), which is definitionally what Colimit means in-tree (Colimit F := Limit (F^op), Cocone F := Cone (F^op)), so no new proof content is missing."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same LimitIsUniversalProperty/ConePresheaf evidence (ConePresheaf at Structure/Cone.v:79, quote exact). Duality argument for the colimit half checked: Colimit F := Limit (F^op) (Structure/Limit.v:158) and Cocone F := Cone (F^op) (Structure/Cone.v:72) are definitional, and C^op^op = C by reflexivity in this library, so instantiating at (C^op, F^op) literally yields C(Colim F, c) ≅ Cocone(F, c) with no new proof content. Supporting evidence also exists in Structure/Limit/Weighted.v (conical_weighted, both directions)."
+    }
+  },
+  {
+    "id": "maclane:III.4:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "binary product",
+      "Cartesian",
+      "fork / exl / exr",
+      "product as limit over the discrete two-object category",
+      "Hom(z, a×b) ≅ Hom(z,a) × Hom(z,b)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 121,
+        "symbol": "Cartesian",
+        "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj; fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl {x y} : x × y ~> x; exr {x y} : x × y ~> y; ...; ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) }"
+      },
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C"
+      },
+      {
+        "file": "Structure/UniversalProperty/Cartesian.v",
+        "line": 60,
+        "symbol": "CartesianProductIsUniversalProperty",
+        "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) ... — realizing Hom(z, x × y) ≅ Hom(z, x) × Hom(z, y) natural in z"
+      }
+    ],
+    "statement_record": {
+      "book": "For J the discrete category {1,2}, the limit of a two-object diagram (a,b) is the product a × b with projections p, q; equivalently a bijection C(c, a×b) ≅ C(c,a) × C(c,b) natural in c, sending h to (ph, qh); given f : c -> a and g : c -> b there is a unique h = (f,g) with ph = f, qh = g.",
+      "intree": "Class Cartesian with product_obj, fork, exl, exr, and the biconditional ump_products (h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)); Cartesian_Limit proves this equivalent to having a Limit for every Two_Discrete-shaped diagram; CartesianProductIsUniversalProperty gives the natural hom-isomorphism form.",
+      "strength_comparison": "same — all three of the book's formulations (unique factorization through projections, limit over the discrete two-object shape, natural hom-set bijection) are present and proven mutually equivalent."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found Structure/Cartesian.v:121 (ump_products biconditional) and Cartesian_Limit (Structure/Limit/Cartesian.v:39, both directions verified in source). Verified CartesianProductIsUniversalProperty at Structure/UniversalProperty/Cartesian.v:60 with repr functor [Hom -, x] × [Hom -, y], matching the claimed natural hom-iso form. Book's preorder-GLB and Grp/Top examples are color, not the definition's core."
+    }
+  },
+  {
+    "id": "maclane:III.4:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "indexed product",
+      "infinite product",
+      "iprod / iprod_proj / iprod_ump",
+      "product over a discrete category",
+      "DiscreteCat_Functor limit",
+      "HasIndexedProducts"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 51,
+        "symbol": "IsIndexedProduct",
+        "intree_statement": "Record IsIndexedProduct {C : Category} {A : Type} (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) := { iprod_desc {c : C} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump ... (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 128,
+        "symbol": "HasIndexedProducts",
+        "intree_statement": "Class HasIndexedProducts (C : Category) — packages a choice of indexed product for every family"
+      }
+    ],
+    "statement_record": {
+      "book": "For a set J viewed as a discrete category, a functor is a J-indexed family a_j; a universal cone is the product object Prod_j a_j with projections p_j such that every family f_j : c -> a_j factors as f_j = p_j ∘ f for a unique f : c -> Prod_j a_j; equivalently a bijection Prod_j C(c, a_j) ≅ C(c, Prod_j a_j) natural in c.",
+      "intree": "IsIndexedProduct f p proj with iprod_desc : ∃! u, ∀ a, proj a ∘ u ≈ pi a, and iprod/iprod_proj/iprod_ump reading a Limit (DiscreteCat_Functor f) over the discrete category on A (Instance/Discrete.v) as such a product; both the limit-shaped and elementary presentations, with limit_is_indexed_product bridging them.",
+      "strength_comparison": "intree-stronger: the index is an arbitrary Type A rather than a small set (no finiteness or smallness assumed); the hom-set bijection form is carried as the ∃!-factorization, its equivalent unique-existence reading (the bijection into a product taken in Set is not separately restated, matching the library's setoid style)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same file and symbols; line numbers verified exact (IsIndexedProduct:51, iprod_ump:105, HasIndexedProducts:128). intree-stronger claim (arbitrary Type index, no smallness) is accurate per the file's own STATUS note."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "hom-functor preserves products",
+      "representable functors are continuous",
+      "C(c,-) preserves limits",
+      "PreservesLimit Curried_Hom",
+      "products exist in Set/Top/Grp"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 48,
+        "symbol": "PreservesLimit",
+        "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) } — the preservation vocabulary the missing theorem would be stated in"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets — binary products in Sets computed as the product setoid (partial witness of 'products exist in Set')"
+      }
+    ],
+    "statement_record": {
+      "book": "The covariant hom-functor C(c,-) carries products existing in C to products in Set (proof deferred to V.4); products over any small index set exist in Set, Top, and Grp, where they are the familiar cartesian/direct products.",
+      "intree": "Only the surrounding vocabulary and a fragment: PreservesLimit (Structure/Limit/Preservation.v) defines what preservation means, and Sets_Cartesian gives binary products in Sets; there is no statement that any hom-functor preserves products or limits.",
+      "strength_comparison": "intree-weaker: the remark's actual claim (representable/hom functors preserve products) has no in-tree counterpart — no PreservesLimit instance exists for Curried_Hom or any hom-functor; and the existence claim is witnessed only for binary products in Sets (and Coq), not for arbitrary small-indexed products (no HasIndexedProducts instance anywhere in Instance/), while Top and Grp are not in-tree categories."
+    },
+    "gap": "Missing: (1) the theorem that C(c,−) : C ⟶ Sets preserves products (or limits generally) — no PreservesLimit/continuity result mentions Hom, Curried_Hom, or representables (the RAPL machinery of Adjunction/Continuity.v covers right adjoints only); (2) a witness that Sets has products over an arbitrary index (no Limit (DiscreteCat_Functor f) or HasIndexedProducts instance for Sets); Top and Grp do not exist in-tree.",
+    "negative_search_log": [
+      "grep -rn 'Hom.*[Pp]reserves|preserves.*[Hh]om|representable.*preserve|Curried_Hom.*Limit|Hom.*Continuous' **/*.v — only unrelated hits (monoid homs, split preservation)",
+      "grep -rn 'PreservesLimit' **/*.v — instances only in Theory/Equivalence/Limit.v (equivalences) and Adjunction/Continuity.v (right adjoints); none for hom-functors",
+      "grep -rni 'continuous' **/*.v — prose mentions only, no continuity theorem for representables",
+      "grep -rn 'HasIndexedProducts|IsIndexedProduct' Instance/ — 0 hits (no concrete category has indexed products)",
+      "grep -rn 'Sets_Complete|Complete Sets' **/*.v — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL-or-ABSENT with the same findings: no PreservesLimit instance or continuity statement for Curried_Hom/representables anywhere (my searches: 'hom.*preserves', 'preserves.*products', CartesianFunctor instances, PreservesLimit file list — constructing instances only in Adjunction/Continuity.v and Theory/Equivalence/Limit.v), no Sets_Complete, no HasIndexedProducts instance in Instance/ (re-verified: 0 hits), Top/Grp absent as categories. PARTIAL is legitimate since the products-exist-in-Set fragment is witnessed by Sets_Cartesian (Instance/Sets/Cartesian.v:32, verified). Gap statement is precise and honest."
+    }
+  },
+  {
+    "id": "maclane:III.4:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "power of an object b^J",
+      "product of a constant family",
+      "copower dual",
+      "iprod at a constant family",
+      "C(c,b)^J ≅ C(c, b^J)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 51,
+        "symbol": "IsIndexedProduct",
+        "intree_statement": "Record IsIndexedProduct {C : Category} {A : Type} (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) — instantiating f with a constant family (fun _ => b) is exactly the power b^A"
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial ... (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) ... — the endomorphism-indexed power P0^{End(P0)} used (unnamed) in the Freyd construction"
+      }
+    ],
+    "statement_record": {
+      "book": "The product of a constant J-indexed family (a_j = b for all j) is the power b^J, satisfying C(c,b)^J ≅ C(c, b^J) naturally in c, the left power taken in Set.",
+      "intree": "No named power; the concept exists only as the instantiation of the general indexed product at a constant family, e.g. Theory/WeaklyInitial.v's Pe : Limit (DiscreteCat_Functor (fun _ : (P0 ~> P0) => P0)), the power of P0 by its endomorphism set.",
+      "strength_comparison": "intree-weaker: the general indexed product subsumes every instance of the power (and one such power is load-bearing in the GAFT spine), but there is no named definition, no notation b^J, and no statement of the characterizing isomorphism C(c,b)^J ≅ C(c, b^J). Note the same-name trap: the exponential x^y of Structure/Cartesian/Closed.v is the internal hom (exponential object), a different concept; the topos Pow a := Ω^a of Structure/Topos.v is the power object, also different."
+    },
+    "gap": "No named 'power of an object' definition or notation, and no statement of the hom-set characterization C(c,b)^J ≅ C(c,b^J) (with the left side a power in Set/Sets); powers occur only as ad-hoc instantiations of iprod/Limit (DiscreteCat_Functor ...) at constant families. The dual copower is likewise absent (0 hits).",
+    "negative_search_log": [
+      "grep -rni 'copower' **/*.v — 0 hits",
+      "grep -rni '\\bpower\\b' **/*.v — only power set / power object (topos Pow) / Lawvere finite powers / person name Power; no categorical J-indexed power of an object",
+      "grep -rn 'Definition power|power_obj|Notation.*\\^.*J' **/*.v — 0 relevant hits",
+      "grep -rni 'constant family' **/*.v — only Displayed/Grothendieck/Graded uses, unrelated to products"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no named power/copower (re-verified: 'copower' 0 hits; 'power' hits are power objects (Topos Pow := Ω^a), Cartesian-closed exponentials, and Lawvere law_pow — all different concepts, correctly flagged as same-name traps). Verified the WeaklyInitial.v:89 quote against source: Pe is literally the endomorphism-indexed power of iprod (wif_obj W) P, unnamed. SAFT's cogen_power (Adjunction/SAFT.v) is a further in-tree hom-indexed power the record could have cited, but its omission does not change the classification or gap."
+    }
+  },
+  {
+    "id": "maclane:III.4:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "equalizer",
+      "difference kernel",
+      "IsEqualizer / fork",
+      "limit over the parallel-pair category",
+      "Equalizer as Limit over Parallel"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Equalizer.v",
+        "line": 120,
+        "symbol": "Equalizer",
+        "intree_statement": "Definition Equalizer {C : Category} (F : Parallel ⟶ C) := Limit F — the equalizer as the limit of a parallel-pair diagram (use APair f g : Parallel ⟶ C from Instance/Parallel.v)"
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 52,
+        "symbol": "IsEqualizer",
+        "intree_statement": "Record IsEqualizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }"
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 68,
+        "symbol": "HasEqualizers",
+        "intree_statement": "Class HasEqualizers (C : Category) := { equalizer {x y : C} (f g : x ~> y) : ∃ (q : C) (e : q ~> x), IsEqualizer f g q e }"
+      }
+    ],
+    "statement_record": {
+      "book": "For J the parallel-pair category, a limit of the pair f, g : b -> a is an equalizer: an arrow e : d -> b with fe = ge, universal in that any h : c -> b with fh = gh factors as h = e ∘ h' for a unique h'. (In Set the subset {x | fx = gx}; in Ab the kernel of f − g; equalizers of any set of parallel arrows described similarly.)",
+      "intree": "Both presentations: Equalizer (F : Parallel ⟶ C) := Limit F over the parallel-pair shape (Instance/Parallel.v), and the elementary Record IsEqualizer f g q e with fork_eq and the unique factorization eq_desc, with round-trip conversions (equalizer_is_equalizer, is_equalizer_limit) in Structure/Equalizer/Fork.v.",
+      "strength_comparison": "same for the parallel-pair equalizer, in both the limit-shaped and elementary forms, plus HasEqualizers. The book's passing generalization to an arbitrary set of parallel arrows is not formalized (only pairs), and the difference-kernel reading in additive settings is realized abstractly by Structure/Kernel.v (IsKernel as IsEqualizer against zero) rather than by a concrete Ab instance; both are asides to the definition, not its core."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same two presentations; line numbers verified (Equalizer:120, IsEqualizer:52 with fork_eq/eq_desc quote exact, HasEqualizers:68). Disclosure that equalizers of arbitrary sets of parallel arrows are not formalized is accurate and honestly placed in strength_comparison."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark4",
+    "classification": "PRESENT",
+    "aliases": [
+      "equalizers are monic",
+      "equalizer_monic",
+      "every equalizer is a monomorphism",
+      "equalizing map is monic"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 83,
+        "symbol": "equalizer_monic",
+        "intree_statement": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e"
+      }
+    ],
+    "statement_record": {
+      "book": "Any equalizer arrow e is necessarily a monomorphism.",
+      "intree": "Lemma equalizer_monic : IsEqualizer f g q e → Monic e, proved from the uniqueness half of the elementary universal property.",
+      "strength_comparison": "same"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found equalizer_monic at Structure/Equalizer/Fork.v:83; quote exact (Lemma equalizer_monic ... : Monic e)."
+    }
+  },
+  {
+    "id": "maclane:III.4:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullback",
+      "fibered product",
+      "cartesian square",
+      "IsPullback",
+      "limit of a cospan",
+      "Pullback_Limit"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback",
+        "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }"
+      },
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 54,
+        "symbol": "Pullback_Limit",
+        "intree_statement": "Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F — with Pullback_to_Universal / Pullback_from_Universal converting between the record and the cospan-shaped limit"
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 53,
+        "symbol": "IsPullback",
+        "intree_statement": "Record IsPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) ... — the apex-pinned pullback-square predicate used by the pasting/stability toolkit"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 182,
+        "symbol": "pullback_unique",
+        "intree_statement": "Lemma pullback_unique ... (P Q : Pullback f g) : Pull f g P ≅ Pull f g Q — pullbacks unique up to a unique isomorphism respecting the projections"
+      }
+    ],
+    "statement_record": {
+      "book": "For J the cospan shape, a cone over f : b -> a <- d : g is a commuting square fh = gk; the universal such square is the pullback square (cartesian square) with vertex the fibered product b ×_a d and projections p, q, through which every commuting square factors by a unique r.",
+      "intree": "Record Pullback f g bundling the vertex, both projections, the commuting square, and the ∃! mediating morphism; Pullback_Limit realizing it as the Limit of a Cospan-shaped diagram with round-trip conversions; IsPullback as the square-shaped predicate.",
+      "strength_comparison": "same — both the elementary record and the limit-over-cospan presentation are present with proven round trips, plus uniqueness up to unique iso and the pasting/stability API the book develops in exercises."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same three presentations; quotes verified against source (Pullback record at 161 with ump_pullbacks exact; Pullback_Limit at Structure/Pullback/Limit.v:54; IsPullback at Theory/Morphisms/Stability.v:53; pullback_unique at 182)."
+    }
+  },
+  {
+    "id": "maclane:III.4:def7",
+    "classification": "PRESENT",
+    "aliases": [
+      "kernel pair",
+      "kernel_pair",
+      "pullback of f along itself",
+      "congruence of a morphism",
+      "Pullback f f"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Regular.v",
+        "line": 46,
+        "symbol": "kernel_pair",
+        "intree_statement": "Definition kernel_pair {C : Category} `{H : @HasPullbacks C} {x y : C} (f : x ~> y) : Pullback f f := pullback f f — 'The kernel pair of f : x ~> y is the pullback of f along itself: an object x ×_y x with projections p1, p2 : x ×_y x ~> x satisfying f ∘ p1 ≈ f ∘ p2, universal among such pairs.'"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback",
+        "intree_statement": "Record Pullback ... ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u ... — instantiated at g := f this is exactly the kernel-pair universal property (fh = fk ⟹ unique r with h = pr, k = qr)"
+      }
+    ],
+    "statement_record": {
+      "book": "The kernel pair of f : a -> b, when it exists, is the pullback of f along itself: an object d with p, q : d -> a satisfying fp = fq, such that any h, k : c -> a with fh = fk factor as h = pr, k = qr for a unique r : c -> d.",
+      "intree": "kernel_pair f := pullback f f : Pullback f f, whose Pullback record carries precisely fp ≈ fq (pullback_commutes) and the ∃! factorization (ump_pullbacks); kernel pairs are then consumed by the regular-category axioms (regular_coeq) in the same file.",
+      "strength_comparison": "same — the book's 'when it exists' is rendered by the type Pullback f f itself (inhabitation = existence); the named kernel_pair definition selects it from a chosen HasPullbacks, and the one-off form Pullback f f is available without any global assumption."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found kernel_pair at Structure/Regular.v:46; body verified: := pullback f f over HasPullbacks (Structure/Pullback.v:215), with the h,k-factorization carried by ump_pullbacks at g := f exactly as claimed."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark5",
+    "classification": "PRESENT",
+    "aliases": [
+      "terminal object as limit of the empty diagram",
+      "Terminal_Limit",
+      "nullary product",
+      "limit over the empty category 0",
+      "initial object as empty colimit (dual)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C — over the empty category 0 (Instance/Zero.v); a cone over the empty diagram is just an object, and the limit UMP says exactly that the apex receives a unique morphism from every object"
+      }
+    ],
+    "statement_record": {
+      "book": "For J = 0 the empty category there is exactly one functor 0 -> C and a cone over it is just an object of C; a limit of the empty functor is exactly a terminal object t of C.",
+      "intree": "Theorem Terminal_Limit : Limit F ↔ @Terminal C for the (unique) F : 0 ⟶ C, proven in both directions; the file header also records the dual (initial object as colimit of the empty diagram, via Colimit and Structure/Initial.v).",
+      "strength_comparison": "same"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found Terminal_Limit at Structure/Limit/Terminal.v:33; statement and both proof directions verified in source (Qed, no admits)."
+    }
+  },
+  {
+    "id": "maclane:III.4:def8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "diagram of graph shape",
+      "graph morphism into the underlying graph U C",
+      "quiver / QuiverHomomorphism / QuiverOfCat",
+      "cone over a graph diagram",
+      "limit of a diagram (graph-indexed)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver := { nodes : Type; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid (edges X Y) } — directed (multi)graphs, MacLane's graphs"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G G' : Quiver) := { fnodes : nodes → nodes; fedgemap : ∀ x y, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects ... }"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category) : Quiver — the underlying graph U C of a category; a diagram of shape G in C is exactly a QuiverHomomorphism G (QuiverOfCat C)"
+      }
+    ],
+    "statement_record": {
+      "book": "A diagram in C of shape a graph G is a graph morphism D : G -> UC; a cone mu : c -> D assigns to each node i an arrow mu_i : c -> D_i with D h ∘ mu_i = mu_j for every graph edge h : i -> j; a limit for D is a universal such cone.",
+      "intree": "The diagram notion is present: Quiver, QuiverHomomorphism, and QuiverOfCat make 'graph morphism D : G ⇨ U C' a first-class object (it is the domain of InducedFunctor). But Cone and Limit (Structure/Cone.v, Structure/Limit.v) are defined only over functors J ⟶ C; no cone-over-a-quiver-homomorphism or limit thereof exists.",
+      "strength_comparison": "intree-weaker: only the first third of the definition (the diagram) is formalized; the graph-indexed cone and its universal cone/limit are not defined anywhere."
+    },
+    "gap": "No definition of a cone over a graph-shaped diagram (a family mu_i : c ~> D i with fedgemap h ∘ mu_i ≈ mu_j per edge, with no functoriality demanded of D) and no limit of such a diagram; the library's Cone/ACone/Limit are all indexed by a functor from a Category, never by a QuiverHomomorphism.",
+    "negative_search_log": [
+      "grep -rni 'cone|limit' Construction/Free/Quiver.v — 0 hits",
+      "grep -rn 'Definition Diagram|Class Diagram|Record Diagram' **/*.v — 0 hits",
+      "grep -rni 'graph.*diagram|diagram.*graph|quiver.*limit|limit.*quiver' **/*.v — only prose hits about string diagrams / signal-flow graphs",
+      "grep -rn 'QuiverHomomorphism' **/*.v — only Construction/Free/Quiver.v and Test/Issue138.v, neither defines cones/limits over them"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL on the same grounds: Quiver (Construction/Free/Quiver.v:54), QuiverHomomorphism (:205), QuiverOfCat (:398) all verified with exact quotes; re-verified the key negative — 'cone|limit' has 0 case-insensitive hits in Construction/Free/Quiver.v, no Diagram definition tree-wide, and Cone/ACone/Limit are indexed only by functors from a Category. Gap statement precise."
+    }
+  },
+  {
+    "id": "maclane:III.4:remark6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free category on a graph",
+      "FreeOnQuiver / InducedFunctor",
+      "universal diagram P : G -> U(FG)",
+      "Free ⊣ Forgetful (Cat/Grph adjunction)",
+      "graph-shaped limits reduce to functor limits"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category — objects the nodes of G, morphisms the paths (tlist edges); the free category F G"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C — the functor D' : FG ⟶ C induced by a diagram D : G ⇨ U C"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — every quiver homomorphism G ⇨ U(C) factors uniquely through the unit UnitQuiverCatAdjunction as InducedFunctor (uniqueness proven via universal_arrow_from_UMP)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful — Free ⊣ Forgetful packaged from the universal arrows"
+      }
+    ],
+    "statement_record": {
+      "book": "Graph-shaped limits give nothing new: with FG the free category on G and P : G -> U(FG) the universal diagram, every diagram D : G -> UC factors uniquely as D = U D' ∘ P for a functor D' : FG -> C, and limits (and limiting cones) for D' correspond exactly to those for D.",
+      "intree": "The factorization half is fully present: FreeOnQuiver (= FG), UnitQuiverCatAdjunction (= P), InducedFunctor (= D'), and UniversalArrowQuiverCat proving existence and uniqueness of the factorization (packaged as FreeForgetfulAdjunction, Free ⊣ Forgetful over StrictCat). The limit-correspondence half has no counterpart.",
+      "strength_comparison": "intree-weaker: the universal-property/factorization content is present (indeed as a full adjunction over setoid-edged quivers), but the remark's punchline — that limits and limiting cones for D' : FG ⟶ C are in exact correspondence with those for the graph diagram D — cannot even be stated in-tree, because limits of graph-shaped diagrams (III.4:def8) are not defined."
+    },
+    "gap": "Missing the limit-correspondence statement: a definition of cones/limits over a graph diagram D : G ⇨ U C (see maclane:III.4:def8) together with the theorem that cones/limits of D correspond exactly to cones/limits of InducedFunctor D : FreeOnQuiver ⟶ C.",
+    "negative_search_log": [
+      "grep -rni 'cone|limit' Construction/Free/Quiver.v — 0 hits (the file proves the adjunction only)",
+      "grep -rni 'quiver.*limit|limit.*quiver|graph.*limit' **/*.v — no correspondence theorem",
+      "grep -rni 'free category' **/*.v — Construction/Free.v (paths on the underlying quiver of a category), Solver/* (reflective tactic), Instance/AST.v; none states the limit-reduction remark"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed PARTIAL: FreeOnQuiver (:431), InducedFunctor (:464), UniversalArrowQuiverCat (:518), FreeForgetfulAdjunction (:550) all verified — the factorization half is fully present (over StrictCat, as the file's header explains via Test/Issue138.v). The limit-correspondence half is absent and indeed unstatable without def8's graph-diagram cones; gap correctly cross-references def8."
+    }
+  }
+]

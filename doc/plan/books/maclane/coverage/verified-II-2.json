@@ -1,0 +1,515 @@
+[
+  {
+    "id": "maclane:II.3:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "natural in one variable",
+      "per-variable naturality",
+      "partial naturality of a bifunctor family",
+      "componentwise naturality (fixed argument)",
+      "Naturality class / ArityTwo"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Naturality.v",
+        "line": 165,
+        "symbol": "ArityTwo",
+        "intree_statement": "Program Instance ArityTwo {C : Category} (P : C → C → C) {FA : ∀ B, @Mapping C (fun A => P A B)} {FB : ∀ A, @Mapping C (fun B => P A B)} (Q : C → C → C) ... : @Naturality (∀ A B, P A B ~> Q A B) := { natural := fun f => ∀ x y (g : x ~> y) z w (h : z ~> w), map (GB _) h ∘ map (GA _) g ∘ f x z ≈ f y w ∘ map (FB _) h ∘ map (FA _) g }  (header note, lines 22-25: \"the multi-argument `Arity*` instances express naturality *separately* in each (covariant) argument, combined into one square via the bifunctorial action P(g,h) = FB h ∘ FA g\")"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed (exp_iso, to direction)",
+        "intree_statement": "to := ... fun F : A × B ⟶ C => {| fobj := fun x : A => {| fobj := fun y : B => F (x, y); fmap := fun J K f => fmap[F] (@id A x, f) |}; fmap := fun J K (f : J ~{A}~> K) => {| transform := fun L : B => fmap[F] (f, @id B L) |} |}  (currying materialises the partial functors S(x,−) and the per-variable transformation families S(f,−) as genuine Functor/Transform data)"
+      }
+    ],
+    "statement_record": {
+      "book": "For bifunctors S, S' : B x C -> D and a family alpha(b,c) : S(b,c) -> S'(b,c), alpha is 'natural in b' if for each fixed c the components alpha(-,c) form a natural transformation S(-,c) -> S'(-,c) of functors B -> D (dually 'natural in c').",
+      "intree": "ArityTwo: natural := fun f => ∀ x y (g : x ~> y) z w (h : z ~> w), map (GB _) h ∘ map (GA _) g ∘ f x z ≈ f y w ∘ map (FB _) h ∘ map (FA _) g",
+      "strength_comparison": "intree-weaker: no named reusable predicate 'natural in the first variable alone' for families between bifunctors B ∏ C ⟶ D over distinct categories; ArityTwo states only the JOINT square (factored through per-variable Mapping actions) and is restricted to object-maps C → C → C on a single category, while the true partial functors and per-variable families appear only inside the Cat_Closed currying construction, not as standalone vocabulary (the PartialApply_* functors in Theory/Naturality.v:63-115 are commented-out 'retained exploratory code')"
+    },
+    "gap": "The definition itself — a one-variable naturality predicate on a two-variable family alpha(b,c) between bifunctors B ∏ C ⟶ D (fixing c, alpha(-,c) is a Transform of partial functors), plus its dual in c — has no in-tree counterpart; only the joint square (Transform over the product category; ArityTwo's factored form for same-category object maps) and the curried avatars inside Cat_Closed exist.",
+    "negative_search_log": [
+      "grep -rn 'natural in' --include=*.v . — only whole-family/prose hits (Adjunction, Yoneda, Strong); no per-variable predicate",
+      "grep -rni 'natural.*separately|separately natural|componentwise natural|each variable' --include=*.v . — Theory/Naturality.v header note and Binoidal/Funny prose only",
+      "grep -rni 'for each fixed|fixed argument' --include=*.v . — Functor/Hom.v:26 prose, Structure/Binoidal.v:27 (tensor case) only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: only ArityTwo/Mapping (Theory/Naturality.v:123-176, verified) and the commented-out PartialApply_* exploratory code; per-variable predicate for families between bifunctors over distinct categories is absent. Verified the Cat_Closed currying evidence (Instance/Cat/Cartesian/Closed.v:46-59) does materialize partial functors F(x,-) and per-variable transform families. Gap statement precise; PARTIAL fair."
+    }
+  },
+  {
+    "id": "maclane:II.3:prop2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "bifunctor naturality is componentwise",
+      "natural transformation of bifunctors iff natural in each variable",
+      "joint vs separate naturality",
+      "Transform over a product category",
+      "middle-four factoring of naturality squares"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym ... }  (a natural transformation of bifunctors is a Transform between functors on C ∏ D: its naturality field quantifies jointly over pair-morphisms (f, g), and its instantiations at (f, id) and (id, g) are exactly per-variable naturality)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 104,
+        "symbol": "bimap_id_right_left / bimap_id_left_right",
+        "intree_statement": "Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w} `(f : z ~{C}~> w) `(g : x ~{D}~> y) : bimap f id ∘ bimap id g ≈ bimap f g  (and the mirror bimap_id_left_right) — the factoring of (f,g) through the one-sided actions that carries Mac Lane's proof"
+      }
+    ],
+    "statement_record": {
+      "book": "Proposition 2: for bifunctors S, S' : B x C -> D, a family alpha(b,c) : S(b,c) -> S'(b,c) is a natural transformation of bifunctors iff alpha(b,c) is natural in b for each fixed c and natural in c for each fixed b.",
+      "intree": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; ... } (instantiated at F G : B ∏ C ⟶ D)",
+      "strength_comparison": "intree-weaker: the encoding makes the forward direction (joint ⇒ per-variable, by instantiating naturality at (f, id[c]) and (id[b], g)) a one-step specialization, and the factoring lemmas supply the reverse direction's key step at the functor level, but the iff itself is nowhere stated or proven"
+    },
+    "gap": "No lemma states the equivalence: neither direction is recorded, and there is no constructor assembling a Transform S ⟹ S' over B ∏ C from two families of per-variable natural transformations (the reverse — and mathematically substantive — direction of Prop 2). What exists is the joint-naturality definition plus the bimap factoring toolkit from which both directions would be short proofs.",
+    "negative_search_log": [
+      "grep -rn 'Transform' --include=*.v . | grep '∏' — only Build_Transform' USES over product categories (PROP/ColouredPROP universality files); no per-variable assembly lemma",
+      "grep -rni 'natural.*separately|componentwise natural|each variable' --include=*.v . — no iff statement",
+      "grep -rn '≅' --include=*.v . | grep '∏' | grep '\\[' — bifunctor-valued natural isos are always stated jointly in [C ∏ C, D]-style functor categories; no componentwise-naturality bridge"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no iff lemma anywhere; verified Transform (Theory/Natural/Transformation.v:113) and bimap_id_right_left/left_right (Functor/Bifunctor.v:104/116). Borderline PARTIAL-vs-ABSENT, but the forward direction is a one-step instantiation of the joint naturality field at (f,id)/(id,g) and the factoring toolkit carries the reverse's key step, and the record says exactly this; honest PARTIAL."
+    }
+  },
+  {
+    "id": "maclane:II.3:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjunction via hom-set bijection",
+      "hom-bifunctor form of adjunction",
+      "Adjunction_Hom / hom_adj",
+      "representable profunctor isomorphism",
+      "left adjoint (hom_C(Fx,c) iso hom_X(x,Gc) natural in both)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Hom.v",
+        "line": 72,
+        "symbol": "Adjunction_Hom / hom_adj",
+        "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }  (a natural isomorphism, in the functor category over D^op ∏ C, between the composite hom-bifunctors Hom_C(F−,−) and Hom_D(−,U−) — exactly Mac Lane's composite-of-hom-with-F^op ∏⟶ Id formulation)"
+      },
+      {
+        "file": "Theory/Profunctor/Adjunction.v",
+        "line": 70,
+        "symbol": "representable_adjunction",
+        "intree_statement": "Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U)  (the two-variable natural-iso form is proven equivalent, both directions, to the library's primitive Adjunction)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 135,
+        "symbol": "Adjunction (adj)",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y ... |} {| carrier := @hom D x (U y) ... |} ...; (* naturality in both arguments: to_adj_nat_l, to_adj_nat_r, from_adj_nat_l, from_adj_nat_r *) }"
+      }
+    ],
+    "statement_record": {
+      "book": "Forward pointer with content: F : X -> C is left adjoint to G : C -> X when there is a bijection hom_C(Fx, c) iso hom_X(x, Gc) natural in x and c, where hom_C(F−,−) is the bifunctor X^op x C -> Set obtained by composing F^op x Id with hom_C (for small hom-sets), and such two-variable natural isomorphisms underlie the Chapter IV definition of adjoint functors.",
+      "intree": "hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U, with representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U)",
+      "strength_comparison": "intree-stronger: the remark only previews the definition; the library formalizes the exact composite-bifunctor natural isomorphism AND proves it equivalent to the unit/counit and universal-arrow presentations (Adjunction/Hom.v's four conversions, Theory/Profunctor/Adjunction.v). The 'small hom-sets' proviso is handled by the setoid category Sets under universe polymorphism."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found the same evidence: hom_adj (Adjunction/Hom.v:72-74) is literally the composite-bifunctor formulation Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U; representable_adjunction (Theory/Profunctor/Adjunction.v:69-72, iffT both directions) verified; core adj iso with four naturality fields at Theory/Adjunction.v:130-142. Quotes accurate; intree-stronger claim correct."
+    }
+  },
+  {
+    "id": "maclane:II.3:construction5",
+    "classification": "ABSENT",
+    "aliases": [
+      "cylinder category C x 2",
+      "interval/walking-arrow product",
+      "universal natural transformation from C",
+      "natural transformations as functors out of C ∏ 2",
+      "categorical homotopy / directed cylinder"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'cylinder' --include=*.v . — 0 hits",
+      "grep -rn 'universal natural transformation' --include=*.v . — 0 hits",
+      "grep -rn '∏ _2|∏ 2|Product .* Two|x 2\\b' --include=*.v . — only Functor/Diagonal.v:79 (Two_Discrete, binary-product shape; unrelated)",
+      "Construction/Arrow.v:104-108 read: the header itself discloses that the [2, C]/cylinder reading 'remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree'",
+      "Ingredients checked and present but unassembled: Instance/Two.v:134 (_2, the walking arrow), Construction/Product.v:95 (∏), Construction/Comma.v:214 (comma_proj_nat — at S = T = Id the generic arrow dom ⟹ cod, the transposed arrow-category avatar of μ, with no universal property); the endpoint functors T_0/T_1, the transformation μ c = (c, ↓), and the unique-factorization universal property are nowhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: zero hits for cylinder/universal natural transformation; Construction/Arrow.v:104-108 itself discloses the [2,C]/cylinder reading 'remains documentation-level'. Verified comma_proj_nat exists (Construction/Comma.v:214). Ingredients (_2, ∏) present but the construction and its universal property are nowhere; ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.3:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "product category subsumes product of monoids",
+      "monoid as one-object category (delooping)",
+      "product of groups as categories",
+      "product of discrete categories = discrete category of product set",
+      "DiscreteCat product"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'one-object|one object' --include=*.v . — only background essays (Theory/Functor.v:68, Theory/Displayed.v:45, Construction/Funny.v:112, Theory/Bicategory.v:68); no delooping-of-a-monoid Category construction",
+      "grep -rni 'delooping|deloop' --include=*.v . — only Theory/Bicategory/OneObject.v (monoidal category as one-object BIcategory, one dimension up) and Monad/Graded.v prose",
+      "grep -rni 'monoid as a categ|BM\\b' --include=*.v . — nothing relevant",
+      "grep -rn 'Discrete' --include=*.v . | grep -i 'prod|∏' — only Structure/Limit/Product.v (indexed products of OBJECTS over discrete diagrams); no DiscreteCat (A*B) ≅ DiscreteCat A ∏ DiscreteCat B",
+      "Ingredients present but no specialization stated: Construction/Product.v (∏), Instance/Discrete.v (DiscreteCat), Construction/Groupoid.v (core groupoid, not group delooping); none of the three claims (monoids, groups, sets) is formalized"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no monoid/group delooping into a Category anywhere (only one-object prose in essays and the one-object-BIcategory delooping of Theory/Bicategory/OneObject.v, one dimension up); no DiscreteCat product lemma. Construction/Groupoid.v exists as cited. ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "product of preorders is a preorder",
+      "product of thin categories is thin",
+      "Proset ∏ Proset",
+      "thin category predicate",
+      "product preorder"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Instance/Proset.v read in full: Proset (preorder → thin category) and LessThanEqualTo_Category only; no product lemma",
+      "grep -rn 'Proset' --include=*.v . (outside Proset/Poset) — only Test/Poset.v and an idiom comment in Instance/Props.v:44",
+      "grep -rn 'thin|Thin' --include=*.v Structure/ Theory/ — no thinness predicate class exists (thin-ness appears only in file headers), so 'the product category of two prosets is thin' is not even stateable without new vocabulary",
+      "Closest neighbour checked: Construction/Enriched/Two.v (2-enriched categories = preorders, both directions) — does not treat products of preorders"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: Instance/Proset.v has only the Proset construction and one example; no thinness predicate class, no product-of-prosets statement. ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.3:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "set-indexed product of categories Prod_i C_i",
+      "infinite product category",
+      "Cat has (all) products",
+      "Pi-category of a family of categories",
+      "universal property of product projections in Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := ...Fst...; exr := ...Snd... }  (the binary case with full UMP: [ump_products] gives exl ∘ ⟨F,G⟩ ≅ F, exr ∘ ⟨F,G⟩ ≅ G and uniqueness of ⟨F,G⟩ up to the hom-equivalence of Cat, which is natural isomorphism)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 33,
+        "symbol": "Cat_Terminal (cross-reference)",
+        "intree_statement": "\"the terminal object of Cat, is the terminal category 1 (Instance/One.v, [Cat_Terminal]); the two together make Cat a category with finite products\""
+      }
+    ],
+    "statement_record": {
+      "book": "For a set-indexed family {C_i | i in I} of categories, describe the product category Prod_i C_i with its projections P_i and establish their universal property: for any functors R_i : D -> C_i there is a unique functor F : D -> Prod_i C_i with P_i F = R_i.",
+      "intree": "Cat_Cartesian : @Cartesian Cat with product_obj := @Product (binary), plus Cat_Terminal (nullary), giving all finite products of categories with the universal property up to natural isomorphism",
+      "strength_comparison": "intree-weaker: only the finite (binary + nullary) case; and the UMP in Cat holds up to natural isomorphism (Cat's hom-setoid equivalence), where the book's uniqueness is on the nose"
+    },
+    "gap": "No general I-indexed product category construction exists — no Category whose objects are dependent functions ∀ i, C_i with componentwise morphisms — and hence no UMP for arbitrary set-indexed families; only the binary Product (Construction/Product.v) with Cat_Cartesian's UMP and the terminal category. (Structure/Limit/Product.v's IsIndexedProduct/HasIndexedProducts are indexed products of OBJECTS inside one category, not of categories.)",
+    "negative_search_log": [
+      "grep -rni 'indexed product|product of categories' --include=*.v . — Structure/Limit/Product.v (objects inside a category), Theory/WeaklyInitial.v (same), Construction/Product.v (binary) only",
+      "grep -rn 'obj *:= *∀|obj *:= *forall' --include=*.v . — 0 hits (no dependent-function category of categories)",
+      "grep -rn 'Definition Pi|PiCat|Pi_Cat|IndexedProduct|Product_indexed|ProdCat' --include=*.v . — nothing for Cat"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: Cat_Cartesian (Instance/Cat/Cartesian.v:39, verified with the UMP obligations) plus Cat_Terminal give exactly finite products; no I-indexed product category, no Complete instance for Cat; Structure/Limit/Product.v's iprod is products of objects inside a category, as the gap correctly distinguishes. PARTIAL with precise gap."
+    }
+  },
+  {
+    "id": "maclane:II.3:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrix category Matr_K",
+      "category of matrices over a field",
+      "opposite of the matrix category",
+      "Mat_K / Matr self-duality via transpose",
+      "skeleton of FdVect"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'matr' --include=*.v . — only prose mentions in background essays (Functor/Hom/Yoneda.v:89-90 left-multiplication example, Theory/Equivalence.v:87 'small category of natural numbers and matrices' as an nLab citation, Theory/Profunctor.v matrix-of-sets image); no Matr/matrix category instance is defined anywhere",
+      "grep -rni 'matrix categ|Mat_' --include=*.v . — 0 relevant hits; Construction/Opposite.v exists but there is no matrix category to apply it to"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: rg -i 'matr' yields only background-essay prose; no matrix category instance. ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.3:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "ring of continuous real-valued functions",
+      "contravariant functor Top -> Rng",
+      "C(X) functor",
+      "category Top of topological spaces",
+      "category Rng of rings"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'topological space|continuous real|ring of continuous' --include=*.v . — 0 relevant hits (no Top category instance in-tree)",
+      "grep -rn '\\bRng\\b' --include=*.v . — 0 hits (no category of rings in-tree; the library's ring-flavoured algebra stops at commutative monoids, Instance/CMon.v)",
+      "ls Instance/ — no Top, no Ring/Rng instance file; the tree's only 'space' structures are the presheaf/sheaf development over an abstract site (Theory/Sheaf.v), which does not construct Open(X) from a topology"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no Top, no Rng, no ring objects beyond commutative monoids (Instance/CMon.v). ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor category B^C / [C, B] / Funct(C,B)",
+      "vertical composition of natural transformations",
+      "nat_compose",
+      "Fun",
+      "Nat(S,T) hom-sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}  with Notation \"[ C , D ]\" := (@Fun C D)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 231,
+        "symbol": "nat_compose",
+        "intree_statement": "Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {| transform := λ X, transform[f] X ∘ transform[g] X |}  (naturality of the composite discharged by pasting the two naturality squares, exactly Mac Lane's stacked-squares argument)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 139,
+        "symbol": "Transform_Setoid",
+        "intree_statement": "Program Instance Transform_Setoid : Setoid Transform := {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x) |}  (the hom-setoid Nat(S,T): transformations identified componentwise)"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 129,
+        "symbol": "nat_id_left / nat_id_right",
+        "intree_statement": "Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) : nat_id ∙ N ≈[Fun] N  (unit laws restated; associativity holds componentwise, inherited from D, discharged by Program)"
+      }
+    ],
+    "statement_record": {
+      "book": "Vertical composite tau . sigma of natural transformations has components (tau . sigma)c = tau c o sigma c, is natural, is associative, and has identities 1_T; hence the functor category B^C = Funct(C,B) with objects all functors T : C -> B, morphisms the natural transformations, hom-sets Nat(S,T) (which need not be small).",
+      "intree": "Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D |}, notation [C, D], with Transform_Setoid the componentwise hom-setoid",
+      "strength_comparison": "same up to setoid presentation: hom-'sets' are setoids with componentwise ≈ instead of equality of transformations (the library's uniform hom-setoid discipline), and 'need not be small' is carried by universe polymorphism rather than remarked"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical evidence: Fun (Instance/Fun.v:108-114) with nat_id/nat_compose/Transform_Setoid, all verified at the cited lines (Transform_Setoid at 139-140, nat_compose at 231, nat_id_left at 129). Setoid rephrasing faithful; smallness handled by universe polymorphism as stated. PRESENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.4:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "B^1 isomorphic to B",
+      "[1, C] ≅ C",
+      "exponent by the terminal category",
+      "functor category over discrete sets is the function set",
+      "{0,1}^C is the power set"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 389,
+        "symbol": "exp_one",
+        "intree_statement": "Program Instance exp_one {x : C} : x^1 ≅ x := { to := eval ∘ id △ one; from := curry exl }  (generic law in any cartesian closed category with terminal object)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; ... }  (in Cat the exponential IS the functor category, so exp_one instantiated at Cat_Closed yields [1, B] ≅ B in Cat)"
+      }
+    ],
+    "statement_record": {
+      "book": "Elementary computations: for discrete B, C the functor category B^C is the function set of all functions C -> B, with {0,1}^C isomorphic to the power set P(C); and for any category B, B^1 is isomorphic to B.",
+      "intree": "exp_one {x : C} : x^1 ≅ x, instantiable at Cat_Closed (exponent_obj := @Fun) to give [1, B] ≅ B in Cat",
+      "strength_comparison": "intree-weaker: only the B^1 ≅ B claim is available, and only by instantiating the generic CCC law at Cat — it is not recorded as a named lemma about Fun; moreover ≅ in Cat is isomorphism up to natural isomorphism of the composites (Cat's hom-equivalence), the faithful setoid analogue of the book's isomorphism of categories"
+    },
+    "gap": "The discrete computations are absent: no statement that B^C for discrete B, C is the function set C → B, and no {0,1}^C ≅ P(C); the B^1 ≅ B instance, while an immediate specialization of exp_one at Cat_Closed, is nowhere stated for Fun explicitly.",
+    "negative_search_log": [
+      "grep -rn '\\[_1, |, _1\\]|\\^1|1 ⟶ ' --include=*.v . — the only x^1 ≅ x facts are the generic CCC ones (Theory/Algebra.v:84 Goal, Structure/Cartesian/Closed.v:389); nothing Fun-specific",
+      "grep -rn 'Fun' Instance/One.v; grep power-set/function-set renderings of functor categories — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classifier found more than my blind pass: verified exp_one (Structure/Cartesian/Closed.v:389, x^1 ≅ x under Terminal) and Cat_Closed (Instance/Cat/Cartesian/Closed.v:46, exponent_obj := @Fun), so [1,B] ≅ B is a genuine one-step instantiation in Cat — though unstated for Fun by name, and ≅ in Cat is equivalence of categories (Instance/Cat.v header), both honestly disclosed. Discrete/power-set computations absent as claimed (DiscreteCat_Functor in Instance/Discrete.v is only an extension map, not an iso). PARTIAL fair."
+    }
+  },
+  {
+    "id": "maclane:II.4:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrow category B^2 / Arr(B) / B^→ / [2, B]",
+      "category of arrows with commuting squares",
+      "comma category (Id ↓ Id)",
+      "walking-arrow exponent",
+      "Sq/commutative squares"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Arrow.v",
+        "line": 110,
+        "symbol": "Arrow",
+        "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).  (header, lines 13-26: \"The arrow category of C has as objects the morphisms of C and as morphisms the commuting squares of C: a morphism from (f : a₀ ~> a₁) to (g : b₀ ~> b₁) is a pair (u, v) with g ∘ u ≈ v ∘ f\"; dom/cod functors are the comma projections)"
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := ...  (the walking arrow {0 → 1}; header records '[2, C] is the arrow category of C' as the intended reading)"
+      }
+    ],
+    "statement_record": {
+      "book": "B^2 (2 the arrow category 0 -> 1) is the category of arrows of B: objects are the arrows f : a -> b of B, and morphisms f -> f' are pairs (h, k) of arrows forming a commutative square k o f = f' o h.",
+      "intree": "Arrow {C : Category} : Category := (Id[C] ↓ Id[C])  — objects the morphisms of C, morphisms the commuting squares (g ∘ u ≈ v ∘ f), via the comma construction",
+      "strength_comparison": "same for the category itself (arrows + commuting squares, with dom/cod projections and the generic arrow comma_proj_nat); intree-weaker on the book's actual presentation: the identification with the functor category [2, B] over the walking arrow is not formalized"
+    },
+    "gap": "The equivalence Arrow(B) ≅ [2, B] — the book's defining presentation of the arrow category as an exponent of the functor category — is explicitly documentation-level: Construction/Arrow.v:104-108 states \"The [2, C] equivalence of the header ... remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree.\" Both sides exist ([_2, B] via Fun and _2; Arrow via Comma) but no comparison functor or isomorphism connects them.",
+    "negative_search_log": [
+      "grep -rn '\\[_2|Two.*Fun|Fun.*Two' --include=*.v . — no functor-category-over-_2 development",
+      "Construction/Arrow.v read in full — the disclosure at lines 104-108 is the file's own accounting of this gap"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same: Arrow := (Id[C] ↓ Id[C]) at Construction/Arrow.v:110 with the exact objects-are-arrows/morphisms-are-squares description; the file's own lines 104-108 disclose the [2,C] comparison is not developed. The bare arrow category matches the book's concrete description (PRESENT-defensible), but PARTIAL with the functor-category-identification gap is the more honest reading of Mac Lane's construction, which derives the square description FROM B^2."
+    }
+  },
+  {
+    "id": "maclane:II.4:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Set^M as M-actions",
+      "monoid action category / M-Set",
+      "equivariant maps as natural transformations",
+      "group with operators (Grp^M)",
+      "functor category over a one-object category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'monoid action|group action|equivariant' --include=*.v . — only the symmetric-group actions internal to Theory/Multicategory*.v (operadic msym machinery, unrelated)",
+      "grep -rni 'M-Set|MSet|action categ|ActionCat' --include=*.v . — 0 relevant hits",
+      "grep -rn 'one-object|delooping' --include=*.v . — no monoid delooping into a Category, so the functor category Set^M cannot even be formed; Instance/Fun.v is fully general but no M-shaped domain or action-category characterization exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: no monoid delooping, no M-Set/action category, equivariant hits only in the operadic msym machinery. ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.4:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "(K-Mod)^G as K-linear representations",
+      "category of representations Rep(G)",
+      "intertwining operators as natural transformations",
+      "K-Mod category",
+      "group as one-object groupoid"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'intertwin' --include=*.v . — only metaphorical uses (Tools/Abstraction.v:35, Comonad/Coalgebra.v:25 costructure maps, Theory/Multicategory/Algebra.v operad-algebra morphisms); no representation-theoretic content",
+      "grep -rni 'linear representation|K-Mod|group represent|permutation represent' --include=*.v . — only background-essay prose (Theory/Functor.v:68-69, Construction/Free.v:84, Structure/Monoidal/Braided.v:105)",
+      "No category of modules K-Mod, no group delooping, no Rep category anywhere in Instance/ or Construction/ (ls + grep confirmed); the additive spine stops at commutative monoids (Instance/CMon.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agreed: 'intertwin' hits are metaphorical or operad-algebra morphisms; representation theory appears only in background essays (Theory/Functor.v:68, Instance/Fun.v). No K-Mod, no group-as-category. ABSENT correct."
+    }
+  },
+  {
+    "id": "maclane:II.4:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "size of B^C for large C",
+      "functor category exceeds the universe",
+      "smallness of Nat/functor collections",
+      "universe levels of [C, D]",
+      "P(U) has larger cardinality than U"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { ... }  (every category carries its own universe levels; the class lives strictly above them)"
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 143,
+        "symbol": "Cat (obj := Category)",
+        "intree_statement": "obj := Category  (header, lines 22-26: \"Cat is a large category, and so cannot be an object of itself ... enforced by universe polymorphism: [Category@{o h p | h <= p}] lives at a strictly higher universe than its objects, so the inner categories collected by [obj := Category] sit below the universe of [Cat] itself\")"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; ... |}  (universe-polymorphic: the kernel computes [C, D]'s levels from those of C and D, so a functor category out of a large domain is typed at whatever level it actually requires rather than being forced into a fixed universe)"
+      }
+    ],
+    "statement_record": {
+      "book": "When C is large the functor category B^C need not lie within the universe: with B = {0,1} and C the discrete category on a universe-sized set U, functors correspond to subsets of U, so the object set of {0,1}^U is equivalent to P(U), of larger cardinal than U.",
+      "intree": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)}; Cat with obj := Category at strictly lower levels; Fun universe-polymorphic over its arguments",
+      "strength_comparison": "intree-weaker (different mode): the size phenomenon is enforced structurally — universe polymorphism types every functor category at kernel-checked levels, and Cat cannot contain itself — rather than exhibited by the book's explicit cardinality argument"
+    },
+    "gap": "No formalized counting statement: neither the correspondence between functors from a discrete category into {0,1} and subsets (characteristic functions) nor a Cantor-style |P(U)| > |U| comparison is stated in-tree; the remark's conclusion is embodied only implicitly in the universe discipline (Theory/Category.v, Instance/Cat.v's size note).",
+    "negative_search_log": [
+      "grep -rni 'cardinal|Cantor|power set|larger.*universe' --include=*.v . — size discussion appears only in the Instance/Cat.v and Construction/Enriched-style headers, never as a theorem",
+      "grep -rn 'Fun' Instance/Fun.v with universe annotations — Fun's universes are inferred, no explicit size lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on mode: size is handled structurally by universe polymorphism. Verified Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} (Theory/Category.v:111) and Instance/Cat.v's size note (lines 22-26) with obj := Category. No characteristic-function correspondence or Cantor comparison in-tree, as the gap states. PARTIAL consistent with the frozen guidance on foundations items."
+    }
+  }
+]

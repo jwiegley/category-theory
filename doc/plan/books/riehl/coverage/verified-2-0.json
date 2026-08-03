@@ -1,0 +1,406 @@
+[
+  {
+    "id": "riehl:2.0:construction-ncolor",
+    "classification": "ABSENT",
+    "aliases": [
+      "n-colouring functor / n-Color : Graph^op -> Set",
+      "graph colouring, chromatic number, proper colouring",
+      "category of simple graphs, Graph, graph homomorphism, incidence relation",
+      "complete graph K_n as representing object / universal n-coloured graph",
+      "Hom(G, K_n) ~= n-colourings of G (representability of the colouring presheaf)",
+      "dual/encoding forms: Quiver, QuiverCategory, directed graph, adjacency"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'colou?r' -i -g '*.v' . -- all hits are Construction/ColouredPROP/* (colours of a coloured PROP) and Instance/ZX.v spider colours; nothing about graph colourings",
+      "rg -n 'complete graph|chromatic|K_n' -i -g '*.v' . -- 1 hit, Construction/ColouredPROP.v:42 ('monochromatic' case of a coloured PROP); no complete graph anywhere",
+      "rg -n 'Graph|graph' -g '*.v' --files-with-matches . -- the only graph-flavoured category in the tree is the quiver/underlying-graph development: Construction/Free/Quiver.v (Quiver, QuiverCategory, QuiverHomomorphism, FreeCatFunctor, Forgetful, FreeForgetfulAdjunction), exercised by Test/Issue138.v. Quivers are directed multigraphs with no incidence/adjacency predicate, no notion of a proper colouring, and no K_n",
+      "rg -n 'Category Graph|Graphs|Instance.*Graph' -g '*.v' . -- 0 hits; there is no Instance/Graph.v and no simple-graph category",
+      "ls Instance/*.v -- no Graph, Top, Vect, Group instance files exist at all",
+      "rg -n 'Class Representable|Representable' -g '*.v' . -- the generic notion exists (Functor/Representable.v:46) but has NO instances; grep for uses of the class outside its own file returns none, so no functor of any kind is exhibited in-tree as representable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-2-0.json) reached ABSENT independently. My searches: rg -i 'colou?r|chromatic|complete graph' -g '*.v' (hits only Construction/ColouredPROP* 'colour' of a coloured PROP and Instance/ZX.v:31,33,64 Z/X spider 'colour change' - both unrelated to vertex colourings); rg -li 'graph' -g '*.v' (Lib/TList, hypergraph-category files, Construction/Free/Quiver.v, Test/HypergraphPROPResolution.v - the only graph-shaped category in tree is the quiver/free-category development, a directed multigraph with no adjacency/incidence predicate, no proper colouring, no K_n); ls Instance/ (no Graph.v, and the concrete categories are Adj/Adjoints/AST/Cat/CMon/Comp/Cones/Coq/Discrete/Ens/Fact/FinSet/Fun/Lambda/Omega/One/Parallel/Poset/Props/Proset/Rel/Roof/Sets/Shapes/StrictCat/Two/Zero/ZX). Also verified the sub-claim that Functor/Representable.v's Class Representable has NO instances tree-wide (rg 'Representable' -g '*.v' returns only Functor/Representable.v:46,51 and the unrelated Theory/Multicategory/Representable.v RepresentableMulticategory + prose), so the representing-object half of the construction is not instantiated either. Negative log accurate as written."
+    }
+  },
+  {
+    "id": "riehl:2.1:example1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "principle of mathematical recursion as a universal property",
+      "(N, s, 0) initial discrete dynamical system / initial object of pointed-endo-sets",
+      "initial algebra of the endofunctor 1 + (-) (option/Maybe functor), NatF",
+      "catamorphism / fold / cata over an initial F-algebra, FAlg",
+      "nat_rect, primitive recursion, iterator"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Recursion.v",
+        "line": 72,
+        "symbol": "cata_unique",
+        "intree_statement": "Lemma cata_unique {a : C} (β : FAlgebra F a) (h : μ ~> a) (Hh : h ∘ inα ≈ β ∘ fmap[F] h) : h ≈ cata β.  (μ := the carrier of the assumed initial object of FAlg F, inα its structure map)"
+      },
+      {
+        "file": "Theory/Recursion.v",
+        "line": 63,
+        "symbol": "cata_commutes",
+        "intree_statement": "Lemma cata_commutes {a : C} (β : FAlgebra F a) : cata β ∘ inα ≈ β ∘ fmap[F] (cata β)."
+      },
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 87,
+        "symbol": "NatF",
+        "intree_statement": "Program Definition NatF : Coq ⟶ Coq := {| fobj := fun X => option X; fmap := fun X Y (f : X -> Y) o => match o with None => None | Some x => Some (f x) end |}.  (the signature endofunctor 1 + X whose algebras are exactly discrete dynamical systems)"
+      },
+      {
+        "file": "Instance/Coq/Lists.v",
+        "line": 111,
+        "symbol": "list_initial",
+        "intree_statement": "Program Definition list_initial (A : Type) : @Initial (FAlg (ListF A)) := {| terminal_obj := (list A; alg A); one := fun y => list_alg_hom A y |}.  (the same universal property, fully proven, for ListF A rather than NatF)"
+      }
+    ],
+    "statement_record": {
+      "book": "A discrete dynamical system is a set X with an endomorphism f : X -> X and a point x0 ∈ X. (N, s, 0) is the universal such system: for every (X, f, x0) there is a UNIQUE r : N -> X with r·0 = x0 and r ∘ s = f ∘ r; i.e. (N, s, 0) is the initial object of the category of discrete dynamical systems.",
+      "intree": "cata_commutes : cata β ∘ inα ≈ β ∘ fmap[F] (cata β)  together with  cata_unique : (h ∘ inα ≈ β ∘ fmap[F] h) → h ≈ cata β — the existence-and-uniqueness of the mediating map out of an initial F-algebra, for an arbitrary endofunctor F and an ASSUMED Initial (FAlg F).",
+      "strength_comparison": "intree-weaker: the recursion principle is proven only parametrically, as a conditional over an assumed initial object of FAlg F. Instantiating F := NatF gives exactly Riehl's category of discrete dynamical systems (an algebra option X ~> X is precisely a point plus an endomorphism) and cata_commutes/cata_unique unfold to Riehl's two commuting-square clauses — but nat is nowhere shown to carry that initial algebra, so the statement about N itself is never obtained."
+    },
+    "gap": "No in-tree assertion that (nat, [O,S]) is the initial NatF-algebra — i.e. the actual content of Example 2.1.1. Theory/Adamek/Corollaries.v:78-80 says so verbatim: 'the initial-algebra theorem [nat ≅ μ NatF] is not stated in the tree — it is recorded here as the informal cross-reference to [ListF A], not as a proven result.' There is no `Initial (FAlg NatF)` instance anywhere, and Adámek's theorem cannot close the gap in-tree because the `PreservesColimit → AdamekData` leg-agreement bridge is withheld (Theory/Adamek/Corollaries.v:41-49, ledger 17). What IS in tree: the ambient category (Construction/FAlg.v:114), the signature functor (NatF), the universal property in parametric form (cata_commutes/cata_unique), and the analogous theorem for lists (list_initial).",
+    "negative_search_log": [
+      "rg -rni 'natural numbers object|nno' -g '*.v' . -- 0 genuine hits (only substring matches inside 'cannot'/'annotation')",
+      "rg -rni 'dynamical|pointed endo' -g '*.v' . -- 0 hits",
+      "rg -n 'Initial \\(FAlg' -g '*.v' . / grep 'Program Definition list_initial' -- the only Initial (FAlg _) instance in the tree is for ListF A, not NatF"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Every cited line re-opened and matches exactly: Theory/Recursion.v:63 cata_commutes, :72 cata_unique (both stated over a Context-assumed `I : Initial (FAlg F)`, so genuinely conditional as the record says); Theory/Adamek/Corollaries.v:87 NatF; Instance/Coq/Lists.v:111 list_initial (with the uniqueness obligation discharged through hom_is_fold at :86, i.e. really proven). The verbatim disclosure quoted in the gap is at Theory/Adamek/Corollaries.v:77-80 and reads exactly as quoted. All four files are registered in _CoqProject (Theory/Recursion.v:472, Theory/Adamek/Corollaries.v:386, Instance/Coq/Lists.v:184, Construction/FAlg.v:36). My blind pass independently found NatF, list_initial and the same disclosure and found no `Initial (FAlg NatF)` anywhere, so PARTIAL with this gap is right; strength_comparison is honest (it does not oversell the parametric cata as the ORIGINAL statement about N)."
+    }
+  },
+  {
+    "id": "riehl:2.1:def-nno",
+    "classification": "PARTIAL",
+    "aliases": [
+      "natural numbers object (NNO), Lawvere natural numbers object",
+      "initial (X, x0 : 1 ~> X, f : X ~> X) internal to C",
+      "initial algebra for the endofunctor 1 + (-) / Δ(1) ∔ Id",
+      "FAlg / FAlgebra / Initial (FAlg F)",
+      "parametrized NNO, internal recursion"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/FAlg.v",
+        "line": 114,
+        "symbol": "FAlg",
+        "intree_statement": "Program Definition FAlg `(F : C ⟶ C) : Category := {| obj := ∃ a : C, FAlgebra F a; hom := fun x y => FAlgHom F ``x ``y (`2 x) (`2 y); ... |}  — with FAlgebra F a := F a ~> a (Theory/Functor.v:380) and FAlgHom carrying falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom (Construction/FAlg.v:105-108). For F = 1 + (-) this IS the category of discrete dynamical systems internal to C, with exactly Riehl's morphisms."
+      },
+      {
+        "file": "Theory/Recursion.v",
+        "line": 72,
+        "symbol": "cata_unique",
+        "intree_statement": "Lemma cata_unique {a : C} (β : FAlgebra F a) (h : μ ~> a) (Hh : h ∘ inα ≈ β ∘ fmap[F] h) : h ≈ cata β.  (the universal property that an NNO is asked to have, stated for the initial object of FAlg F)"
+      },
+      {
+        "file": "Theory/Adamek/Corollaries.v",
+        "line": 87,
+        "symbol": "NatF",
+        "intree_statement": "Program Definition NatF : Coq ⟶ Coq := {| fobj := fun X => option X; ... |}  — the only in-tree realization of the NNO signature functor 1 + (-), and only over Coq."
+      }
+    ],
+    "statement_record": {
+      "book": "In a category C with terminal object *, a natural numbers object is an object N with a global element z : * -> N and an endomorphism s : N -> N that is INITIAL among such triples (X, x0 : * -> X, f : X -> X), morphisms being maps commuting with both the point and the endomorphism.",
+      "intree": "FAlg F : Category (objects ∃ a, F a ~> a; morphisms FAlgHom with falg_commutes : falg_hom ∘ α ≈ β ∘ fmap[F] falg_hom) plus `Initial (FAlg F)` and its universal property cata_commutes/cata_unique.",
+      "strength_comparison": "intree-weaker: the NNO's shape is expressible as `Initial (FAlg F)` for F = 1 + (-), and the morphism condition falg_commutes is literally Riehl's commuting requirement - but the definition is never made: no class, notation or definition in the tree names a natural numbers object, and the endofunctor 1 + (-), though assemblable over any Terminal+Cocartesian category, is instantiated in tree only as the Coq-specific NatF."
+    },
+    "gap": "There is no definition of a natural numbers object in an arbitrary category with terminal object. Three concrete deficits: (1) no `NNO` class/definition anywhere (rg -rni 'nno|numbers object' finds nothing); (2) the signature endofunctor 1 + (-) is never assembled over a general C - it IS hand-buildable in any category with Terminal + Cocartesian (Structure/Cocartesian.v:125 Coprod, :148 right f : z + x ~> z + y give `fobj := fun x => 1 + x; fmap := fun f => right f`, exactly the way NatF was hand-built for Coq), and what is genuinely missing is any such in-tree instance plus any coproduct structure ON A FUNCTOR CATEGORY (ls Instance/Fun/ = Cartesian.v only; Functor/Coproduct.v is the codiagonal out of the coproduct CATEGORY C + C, not a coproduct of functors); (3) no object in any category is asserted to BE a natural numbers object (no `Initial (FAlg NatF)`), so the notion is nowhere inhabited. The generic FAlg/Initial/cata packaging is signature-agnostic machinery, not the NNO notion. [Phase D correction: the Phase C text claimed the endofunctor 'cannot be assembled generically'; that overstated the obstruction, which is absence of an instance, not impossibility.]",
+    "negative_search_log": [
+      "rg -rni 'nno|numbers object' -g '*.v' . -- 0 genuine hits",
+      "ls Instance/Fun/ -- only Cartesian.v, so no Cocartesian/coproduct structure on a functor category; Functor/Coproduct.v defines CoproductFunctor : C + C ⟶ C (the codiagonal out of the coproduct CATEGORY), not a coproduct of endofunctors; object-level coproducts do exist generically (Structure/Cocartesian.v:125 Coprod, :148 right), they are simply never packaged as the endofunctor 1 + (-) over a general C",
+      "rg -n 'Δ\\(1\\)|Diagonal .*Terminal|Δ\\[.*\\]\\( *terminal' -g '*.v' . -- the constant-singleton functor appears only as a WEIGHT in Structure/Limit/Weighted.v (Δ[J](terminal_obj) as a Sets-valued weight), never as a summand of an endofunctor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification PARTIAL upheld (blind pass had me leaning ABSENT; PARTIAL is defensible under the frozen rubric because FAlg + Initial + cata is literally the initial-algebra schema of which an NNO is the F = 1 + (-) case, and the gap is stated precisely). Evidence verified: Construction/FAlg.v:114 FAlg with FAlgHom/falg_commutes at :105-108; Theory/Recursion.v:72 cata_unique; Theory/Adamek/Corollaries.v:87 NatF. Confirmed independently that rg -i 'natural numbers object|nno' over *.v yields no definition. ONE SUB-CLAIM CORRECTED (see the edited gap text): the record asserted the signature endofunctor 'cannot be assembled generically'. That overstates. Structure/Cocartesian.v supplies Coprod (:125) and right f : z + x ~> z + y (:148), so `fobj := fun x => 1 + x; fmap := fun f => right f` is hand-buildable in ANY category with Terminal + Cocartesian, exactly the way NatF was hand-built for Coq. What is genuinely missing is (a) any in-tree instance of that endofunctor over a general C, and (b) any coproduct/Cocartesian structure on a FUNCTOR category (verified: ls Instance/Fun/ = Cartesian.v only; Functor/Coproduct.v is the CODIAGONAL out of the coproduct CATEGORY C + C, not a coproduct of functors). Classification unaffected."
+    }
+  },
+  {
+    "id": "riehl:2.1:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial object iff C(c,-) ≅ constant singleton functor",
+      "terminal object iff C(-,c) ≅ constant singleton presheaf",
+      "representability of the constant one-point functor",
+      "Terminal / Initial class, one, one_unique, zero, zero_unique",
+      "Δ[C](1), constant functor at the terminal setoid, Diagonal"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }.  (pointwise, exactly the assertion that every hom-setoid x ~> 1 is a singleton up to ≈, which is the value at x of Riehl's constant-singleton iso)"
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 119,
+        "symbol": "one_comp",
+        "intree_statement": "Corollary one_comp `{@Terminal C} {x y : C} {f : x ~> y} : one ∘ f ≈ one.  (the naturality square of the would-be iso [Hom ─,1] ≅ Δ(1): reindexing the unique point along f returns the unique point)"
+      },
+      {
+        "file": "Structure/Initial.v",
+        "line": 112,
+        "symbol": "zero_unique",
+        "intree_statement": "Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g := @one_unique _ I _ _ _.  (dual clause: every hom-setoid 0 ~> x is a singleton up to ≈, with zero : initial_obj ~> x at line 109)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) c is initial in C iff the covariant hom-functor C(c,-) : C -> Set is naturally isomorphic to the constant functor at the one-point set; (ii) c is terminal iff C(-,c) : C^op -> Set is naturally isomorphic to the corresponding constant singleton functor. Equivalently C has an initial (resp. terminal) object exactly when the constant singleton functor on C (resp. on C^op) is representable.",
+      "intree": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g } (plus one_comp : one ∘ f ≈ one, and the C^op-dual initial_obj/zero/zero_unique).",
+      "strength_comparison": "intree-weaker: the library states the pointwise/elementary form (each hom-setoid into 1, resp. out of 0, is inhabited and contractible, with the reindexing equation one_comp) but never assembles it into a natural isomorphism of Sets-valued functors, and never proves the converse direction (a natural iso [Hom c,─] ≅ constant singleton ⇒ c initial). The book's whole point — that initiality/terminality IS a representability statement — is therefore not asserted."
+    },
+    "gap": "Neither direction of the biconditional is in the tree. Missing specifically: (a) the constant-singleton copresheaf Δ[C](1 : Sets) is never used as a representation target (it occurs only as a WEIGHT in Structure/Limit/Weighted.v:128-165, where cone_of_nat/nat_of_cone convert between Δ[J](terminal_obj)-natural transformations and cones); (b) no in-tree natural isomorphism [Hom c,─] ≅ Δ(1) or [Hom ─,c] ≅ Δ(1); (c) the generic 'universal property ⟺ representability' packaging Class IsUniversalProperty (Structure/UniversalProperty.v:41) is instantiated for binary products (Structure/UniversalProperty/Cartesian.v:60, CartesianProductIsUniversalProperty) and for limits (Structure/UniversalProperty/Limit.v, representing ConePresheaf F) but NOT for terminal or initial objects. The nearest in-tree statement in the same spirit is Structure/Limit/Terminal.v:33 `Terminal_Limit : Limit F ↔ @Terminal C` for F : 0 ⟶ C — terminality as a limit, not as representability.",
+    "negative_search_log": [
+      "rg -n 'Terminal.*≅|≅.*Terminal|Terminal_Representable|Initial_Representable|terminal_repr|initial_repr' -g '*.v' . -- 0 hits",
+      "rg -n '^\\s*(Theorem|Lemma|Proposition|Corollary|Definition|Instance|Class)\\s+\\w*([Tt]erminal|[Ii]nitial)\\w*' -g '*.v' . -- enumerated every terminal/initial-named declaration in the tree; all are either concrete instances (Sets/Coq/FinSet/Props/Rel/CMon/Cat/AST/…) or Terminal_Limit / SemicartesianMonoidal_Terminal; none mentions a hom-functor",
+      "rg -n 'Curried_Hom|Curried_CoHom|\\[Hom' -g '*.v' . -- every consumer of the curried hom-functors listed (UniversalProperty, UniversalProperty/Cartesian, UniversalProperty/Limit, UniversalProperty/Universal/Arrow, Representable, Yoneda, Localization, Day, Cayley); none pairs it with Terminal/Initial",
+      "rg -n 'singleton|unit_setoid' -g '*.v' . -- Instance/Sets.v's unit_setoid_object is used as a probe object in injectivity_is_monic and as Sets_Terminal, never as the target of a natural iso from a hom-functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same reasoning. Evidence re-opened and exact: Structure/Terminal.v:107 Class Terminal (terminal_obj/one/one_unique), :119 one_comp; Structure/Initial.v:112 zero_unique (with zero at :109). Verified the negative claims myself: no declaration anywhere pairs Terminal/Initial with a hom-functor or with Delta(1); the constant singleton functor occurs only as a WEIGHT (Structure/Limit/Weighted.v:145 cone_of_nat and :157 nat_of_cone, both over Delta[J](@terminal_obj Sets Sets_Terminal)); the nearest in-tree statement really is Structure/Limit/Terminal.v:33 `Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` (terminality as a limit, not as representability), and Structure/UniversalProperty.v's IsUniversalProperty (:41) is instantiated only for products and limits. Both files registered (_CoqProject:377, :323, :331). One trivial citation slip, corrected in the gap text: CartesianProductIsUniversalProperty is at Structure/UniversalProperty/Cartesian.v:60, not :63."
+    }
+  },
+  {
+    "id": "riehl:2.1:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "representable functor, representation, representing object",
+      "Class Representable, repr_obj, represented",
+      "F ≅ Hom(c,-) covariant / F ≅ Hom(-,c) contravariant (presheaf)",
+      "corepresentable (term rejected by Riehl), copresheaf",
+      "universal element, IsUniversalProperty, Yoneda"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }.  (repr_obj is Riehl's c, `represented` the SPECIFIED natural isomorphism Φ; inhabitation of the class is 'F is representable')"
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 72,
+        "symbol": "representability_by_yoneda",
+        "intree_statement": "Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C) : @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _).  (the CONTRAVARIANT clause: representations [Hom ─,c] ≅ F are the same data as universal elements of F c)"
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  (over Class IsUniversalProperty at line 41, whose field repr_equivalence identifies proofs of P c with natural isos [Hom c,─] ≅ repr_functor — the 'a representable functor encodes a universal property of its representing object' half of Definition 2.1.4)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a Set-valued functor F on a LOCALLY SMALL category C: (i) a representation of F is an object c together with a specified natural isomorphism α : C(c,-) ⇒ F (covariant) or α : C(-,c) ⇒ F (contravariant); one says c represents F. (ii) F is representable if such data exists. A representation encodes a universal property of c: covariant representations describe arrows out of c, contravariant ones arrows into c.",
+      "intree": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }, together with representability_by_yoneda for the contravariant form (Isomorphism [Hom ─,c] F ≅ the universal elements of F c) and univ_property_unique_up_to_unique_iso for the encoded universal property.",
+      "strength_comparison": "same. The class carries repr_obj + a SPECIFIED natural iso (Riehl's clause (i), a representation) and its inhabitation is clause (ii). Presentation differences, all faithful: (a) hom-setoids replace hom-sets and the iso lives in [C, Sets] (setoids) rather than Set; (b) the contravariant case is not a separate class — since Curried_CoHom C := Curried_Hom C^op (Functor/Hom.v:146), `Representable` instantiated at C^op IS the presheaf case definitionally, and representability_by_yoneda states the contravariant form explicitly; (c) local smallness is carried by universe polymorphism (hom-setoids are objects of Sets at the appropriate level) rather than as a hypothesis. NOTE for downstream use: the class has NO instances anywhere in the tree — the definition is present, no functor is exhibited as representable through it."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT upheld; my blind pass reached PRESENT on the same evidence before opening the coverage file. Functor/Representable.v:46 `Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }` verified verbatim; the `≅` resolves in the functor category [C, Sets] (Instance/Fun.v is transitively imported), so it is a genuine NATURAL isomorphism, matching Riehl's 'specified natural isomorphism' rather than a family of bijections. The contravariant clause is genuinely definitional: Curried_CoHom C := Curried_Hom C^op (Functor/Hom.v:146 - the record says :145, off by one) together with op_invol : (C^op)^op = C (Construction/Opposite.v:126). representability_by_yoneda (Structure/UniversalProperty.v:72) and univ_property_unique_up_to_unique_iso (:175) both verified at the cited lines. File registered at _CoqProject:145. ADVERSARIAL CHECKS APPLIED, all clean: no same-name-weaker statement (the class is not a mere `∃ c, ...` on objects), not special-cased to a subclass of functors, dual case not assumed-but-absent. The record's own caveat is correct and important - `Representable` has ZERO instances and ZERO consumers outside its defining file (rg 'Representable' -g '*.v'), i.e. it is an inert definition; that is compatible with PRESENT for a DEFINITION item, but see problems[] for the header cross-reference defect it creates."
+    }
+  },
+  {
+    "id": "riehl:2.1:example5",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful functor is representable / free object on one generator",
+      "U : Group -> Set represented by Z; U : Ring -> Set represented by Z[x]; units functor and Z[x,x^-1]",
+      "ob : Cat -> Set represented by 1; mor : Cat -> Set represented by 2; composable pairs represented by 3",
+      "forgetful Top -> Set represented by the one-point space; Path/Loop functors, interval, based circle",
+      "free R-module on one generator; free group on n generators; group presentation functor; pointed sets",
+      "identity functor on Set represented by the singleton, Set(1,X) ≅ X"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/*.v -- the tree's concrete categories are Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. There is NO Group, Ab, Ring, R-Mod, Top, Vect or pointed-sets category, so twelve of the fourteen clauses have no ambient category to be stated in",
+      "rg -rni 'Vect|vector space|Topological|TopSpace|Sierpinski|Ring\\b|free group|cyclic|integers' -g '*.v' . -- no category of rings, groups, spaces or vector spaces; hits are unrelated prose",
+      "rg -n '⟶ Sets' -g '*.v' . -- enumerated EVERY Sets-valued functor in the tree: Hom/CoHom and their curried forms (Functor/Hom.v), Yoneda auxiliaries YoI/YoE (Theory/Coend/Yoneda.v, Fubini.v), Profunctor (Theory/Profunctor.v), ConePresheaf (Structure/Cone.v), Sub (Theory/Subobject/Functor.v), HomDiagram (Structure/Limit/Weighted.v), ev1 (Theory/Lawvere/Sets.v), StoreF/TracedF (Sets ⟶ Sets endofunctors). There is no `ob : Cat ⟶ Sets`, no `mor : Cat ⟶ Sets`, no forgetful functor to Sets from any algebraic category, and no identity-functor-on-Sets representability statement",
+      "rg -n 'Forgetful|forgetful' -g '*.v' --files-with-matches . -- the in-tree forgetful functors are FAlg_Forget, FCoalg_Forget, EM_Forget, Drinfeld_Forget, the Comonad coalgebra forgetfuls, and Construction/Free/Quiver.v's Forgetful : StrictCat ⟶ QuiverCategory; NONE of these lands in Sets. [Phase D correction: two functors DO land in Sets -- Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets (commutative monoids, omitted from the Phase C enumeration) and Theory/Lawvere/Sets.v:83 ev1 : Models T Sets ⟶ Sets. Neither is claimed representable, there is no free commutative monoid in tree (grep -ci 'free' Instance/CMon.v = 0), and commutative monoids are not among Riehl's fourteen clauses, so the ABSENT verdict is unaffected.]",
+      "rg -n 'Class Representable|Representable' -g '*.v' . -- the class (Functor/Representable.v:46) has zero instances anywhere in the tree, so no clause of this example is instantiated",
+      "rg -n 'Sets_Terminal|unit_setoid_object' -g '*.v' . -- no lemma of the form Sets(1, X) ≅ X (clause (i)); unit_setoid_object appears only as the terminal object and as a probe in injectivity_is_monic",
+      "rg -n 'law_of_nat 1|ev1' Theory/Lawvere/Sets.v -- ev1 : Models T Sets ⟶ Sets is the closest analogue of a forgetful functor, but it is proved only Faithful (ev1_Faithful, line 105) under a reachability hypothesis; it is never shown representable, and Theory/Lawvere/Monad.v only hypothesises a left adjoint L ⊣ ev1"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld - my blind pass reached the same verdict - BUT the negative_search_log contained a FALSE statement that I have corrected in place (entry 4). The record claimed of the in-tree forgetful functors that 'None lands in Sets'. That is wrong: Instance/CMon.v:169 defines `Program Definition CMon_Forget : CMon ⟶ Sets`, the forgetful functor from commutative monoids to setoids (the log's own entry 3, enumerating every `⟶ Sets` functor, also omitted it). This does NOT change the classification: commutative monoids are not among Riehl's fourteen clauses; CMon_Forget is nowhere claimed representable; and there is no free commutative monoid in tree (grep -ci 'free' Instance/CMon.v = 0), so no clause of Example 2.1.5 is instantiated. It matters downstream because a Phase-E issue drafted from the uncorrected log would assert something false about the library. Everything else in the log I re-ran and confirmed: no Group/Ab/Ring/R-Mod/Top/Vect/pointed-set category; no ob or mor functor Cat ⟶ Sets; no `Sets(1,X) ≅ X` lemma (clause (i)); Instance/Shapes.v cites the representable-functor nLab page for tries but states no representability result."
+    }
+  },
+  {
+    "id": "riehl:2.1:example6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "power set functor P : Set^op -> Set represented by 2 (subobject classifier, characteristic function)",
+      "open/closed subset functors represented by the Sierpinski space; complement natural iso",
+      "currying: Set(X × A, B) ≅ Set(X, B^A), exponential, exp_iso, curry/uncurry",
+      "dual vector space functor represented by the ground field",
+      "Eilenberg-MacLane space K(A,n) representing singular cohomology; classifying space BG and principal bundles"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.  (clause (i) in categorical form: subobjects of x correspond to characteristic maps x ~> Ω, forward by char, backward by pulling truth back)"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}.  (clause (i) concretely: the representing object of the subset functor IS the two-element set, with char the characteristic function)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;  (field of Class Closed at line 43 — clause (iv), currying, as an isomorphism of hom-setoids in Sets; instantiated by Sets_Closed (Instance/Sets/Cartesian/Closed.v:38), Coq_Closed (Instance/Coq.v:167) and FinSet_Closed (Instance/FinSet/Closed.v:132))"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 165,
+        "symbol": "curry_comp_l",
+        "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g).  (the naturality of exp_iso in the represented variable x, i.e. what makes clause (iv) a natural isomorphism rather than a family of bijections)"
+      }
+    ],
+    "statement_record": {
+      "book": "Seven contravariant Set-valued functors with representing objects: (i) the power set functor P : Set^op -> Set is represented by 2 via characteristic functions, naturality being 'precompose = take preimage'; (ii) the open-set functor on Top^op is represented by the Sierpinski space; (iii) the closed-set functor is also represented by it, so O ≅ C via complementation; (iv) X ↦ {functions X × A -> B} is represented by B^A — this natural iso is currying; (v) the dual-vector-space functor is represented by the ground field; (vi) singular cohomology H^n(-;A) on CW homotopy classes is represented by K(A,n); (vii) principal G-bundles are represented by BG.",
+      "intree": "classifier_classifies (x : C) : Isomorphism Sets (SubObj x) (x ~> Ω), with FinSet_Classifier taking Ω := 2 and char the decidable characteristic function; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y with curry_comp_l : curry f ∘ g ≈ curry (f ∘ first g).",
+      "strength_comparison": "mixed. Clause (iv) is same-or-stronger: exp_iso is stated for any cartesian closed category (not just Set), it is an iso of hom-setoids, and curry_comp_l supplies the naturality. Clause (i) is intree-weaker in one precise respect: classifier_classifies is a PER-OBJECT isomorphism of setoids, not a natural isomorphism Sub ≅ [Hom ─,Ω] of presheaves, even though the presheaf Sub : C^op ⟶ Sets exists (Theory/Subobject/Functor.v:180) — so the book's naturality clause ('precomposing a classifying map with f computes the preimage', i.e. char (f* m) ≈ char m ∘ f) is never asserted, and 'representable' is never claimed. Clauses (ii),(iii),(v),(vi),(vii) have no in-tree counterpart at all."
+    },
+    "gap": "Only two of the seven clauses are covered. (a) Clause (i) is present as a bijection but NOT as a representability statement: `classifier_classifies` is stated for each object x separately; there is no lemma `char (sub_reindex f s) ≈ char s ∘ f` and no natural iso `Sub ≅ [Hom ─,Ω]`, although `Sub : C^op ⟶ Sets` (Theory/Subobject/Functor.v:180) and `sub_reindex` (pullback = preimage) are both in tree. Also, in Sets proper the classifier is only a set of cross-universe theorems (Instance/Sets/Classifier.v: sets_char_pullback, sets_char_subobject, sets_char_unique), not a SubobjectClassifier instance, since the truth-value setoid lives one universe up. (b) Clauses (ii) open-set functor and (iii) closed-set functor + the complementation natural iso: no category of topological spaces and no Sierpinski space exist in the tree. (c) Clause (v): no category of vector spaces or fields. (d) Clauses (vi) and (vii): no algebraic topology whatsoever — no CW complexes, cohomology, Eilenberg-MacLane spaces, topological groups or principal bundles.",
+    "negative_search_log": [
+      "rg -rni 'Sierpinski|Topological|TopSpace|open set|closed set|Vect|vector space|cohomology|Eilenberg-MacLane|K\\(A,n\\)|classifying space|principal bundle|CW' -g '*.v' . -- 0 relevant hits",
+      "rg -n 'char' -g '*.v' Structure/SubobjectClassifier.v -- the file's assertions are char_pullback, char_unique, char_respects, classifier_char_roundtrip, classifier_pullback_roundtrip, classifier_classifies; none is a naturality statement in x",
+      "rg -n 'natural|Natural' -g '*.v' Structure/SubobjectClassifier.v Theory/Subobject/Functor.v -- 0 hits: neither file states a natural isomorphism"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld; my blind pass independently identified exactly the same two covered clauses ((i) via the classifier, (iv) via exp_iso) and no others. Evidence re-opened and exact: Structure/SubobjectClassifier.v:187 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}` - confirmed PER-OBJECT, the section variable x is universally quantified in the statement and no naturality square appears; Instance/FinSet/Classifier.v:353 FinSet_Classifier with Ω := 2 and char a decidable fin_existsb search; Structure/Cartesian/Closed.v:51 exp_iso (a field of Class Closed, so an iso of hom-setoids at every x,y,z) and :165 curry_comp_l. I independently enumerated every declaration of Structure/SubobjectClassifier.v (char_pullback, char_unique, char_respects:143, classifier_char_roundtrip:159, classifier_pullback_roundtrip, classifier_classifies:187) and of Theory/Subobject/Functor.v (sub_reindex and its respect/id/comp lemmas, Sub:180) - neither file states any natural isomorphism, so the gap's central claim is correct. All files registered (_CoqProject:369, :197, :300, :466). SOFT NOTE (not a defect worth filing on its own): Structure/Topos.v:71-73 glosses this as 'subobjecthood becomes representable ... which is the content of [classifier_classifies]'; the appositive that follows it ('every mono is the pullback of one generic mono along a unique classifying map') IS what is proven, but the word 'representable' describes a natural iso Sub ≅ [Hom ─,Ω] that the tree does not state. Worth mentioning in the Phase-E issue body."
+    }
+  },
+  {
+    "id": "riehl:2.1:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "cyclic group Z/n as a representing object",
+      "free group containing an element of order n; universal property of Z/n",
+      "functor G ↦ {g ∈ G : g^n = e} represented by Z/n",
+      "group homomorphisms Z/n -> Z/m; category of groups Grp/Group",
+      "torsion element, order of an element, group presentation ⟨x | x^n⟩"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/*.v -- there is no category of groups in the tree (no Grp.v, Group.v, Ab.v); the only group-flavoured file is Structure/Group.v, whose sole declaration is `Class GroupObject (grp : C)` (line 109) — an internal group object in a cartesian category, not a category of groups, and with no free/cyclic constructions",
+      "rg -rni 'cyclic|Z/n|order of an element|torsion|free group' -g '*.v' . -- 0 relevant hits",
+      "rg -n '^\\s*(Class|Definition|Program Definition|Instance|Program Instance|Theorem|Lemma)' -g '*.v' Structure/Group.v Structure/Group/Proofs.v -- only GroupObject and its algebraic laws; no hom-set computation, no presentation, no representability",
+      "rg -n 'Class Representable|Representable' -g '*.v' . -- the class has no instances, so no group-theoretic functor is exhibited as representable",
+      "Instance/CMon.v -- the only concrete algebraic category is commutative monoids (CMon), used for semiadditivity; it HAS a forgetful functor to Sets (CMon_Forget at Instance/CMon.v:169) but no free objects (grep -ci 'free' Instance/CMon.v = 0) and no representability claim, and it is not a category of groups. [Phase D correction: the Phase C entry asserted CMon has no forgetful functor to Sets; that is false.]"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld (blind pass agreed). Verified Structure/Group.v really does declare only `Class GroupObject (grp : C)` at :109 - an internal group object in a cartesian category, with no hom-set computation, no presentation and no free/cyclic construction - and that there is no Grp/Ab/Group category in Instance/. ONE FALSE LOG ENTRY CORRECTED in place (entry 5): the record said of CMon that 'it has no forgetful functor to Sets'; Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets exists. The 'no free objects' half of that entry is correct (grep -ci 'free' Instance/CMon.v = 0), and CMon is not a category of groups, so the ABSENT verdict is unchanged."
+    }
+  },
+  {
+    "id": "riehl:2.1:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "representable functors preserve monomorphisms",
+      "hom-functor carries monos to injections",
+      "PreservesMonos / preserves monomorphisms / faithful-reflects",
+      "counterexample: a Set-valued functor destroying a mono, hence not representable",
+      "Monic, injectivity_is_monic, MorphismClass"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -rni 'PreservesMonos|preserves.*mono|preserve monomorphism|reflects mono' -g '*.v' . -- the only hits are Theory/Adjunction.v:310-312 ('If F is a faithful functor, and f is monic, then adj f is monic') and Construction/Reflective/Idempotent.v:137, neither of which concerns representable or hom-functors",
+      "rg -n 'Monic' -g '*.v' Functor/ Theory/Morphisms/ -- Functor/ contains NO occurrence of Monic at all: no functor in the tree is proved to preserve monomorphisms. Theory/Morphisms/Stability.v:227 only proves monos are pullback-stable",
+      "rg -n 'Class Monic|injectivity_is_monic' -g '*.v' . -- the ingredients exist (Theory/Morphisms.v:116 Class Monic; Instance/Sets.v:369 injectivity_is_monic : (∀ x y, f x ≈ f y → x ≈ y) ↔ Monic f, i.e. monos in Sets are the injections) but nothing connects them to Representable or to [Hom c,─]",
+      "rg -n 'Class Representable|Representable' -g '*.v' . -- the class is used nowhere outside its defining file, so no property of representable functors is proved anywhere",
+      "rg -n 'Preserves' -g '*.v' Structure/Limit/Preservation.v -- the preservation vocabulary in the tree covers limits/colimits (PreservesLimit, PreservesImageLimit, PreservesColimit) and split coequalizers only; there is no preservation notion for MorphismClass-valued properties"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld; blind pass agreed (rg for 'preserve.*mono|PreservesMonos' returned nothing relevant). Re-verified the record's supporting facts: Theory/Morphisms.v:116 `Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }`; Instance/Sets.v:369 injectivity_is_monic (bi-implication between pointwise injectivity and Monic in Sets); Theory/Adjunction.v:310 `adj_monic` is about a FAITHFUL left adjoint transposing a mono, not about hom-functors; Functor/ contains no occurrence of Monic at all. NOTE FOR PHASE E (sizing): for the special case F = [Hom c,─] the exercise is definitionally immediate in this library - fmap[[Hom c,─]] m IS post-composition m ∘ -, `Monic m` IS its injectivity, and injectivity_is_monic converts that to monicity in Sets - so the only real formalization content is (a) transport of mono-preservation along the natural iso F ≅ [Hom c,─] and (b) the counterexample functor. An issue filed here should be a small one, and it needs no new vocabulary beyond a PreservesMonos predicate."
+    }
+  },
+  {
+    "id": "riehl:2.1:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "representability transported along an equivalence of categories",
+      "G ∘ H ≅ F with H an equivalence; F representable iff G representable",
+      "transport of representability along a natural isomorphism",
+      "EquivalenceOfCategories, quasi-inverse, essentially surjective + full + faithful",
+      "invariance of universal properties under equivalence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Class Representable|Representable' -g '*.v' . -- the class (Functor/Representable.v:46) is referenced nowhere else in the tree; in particular no lemma transports it along a natural iso or an equivalence, and there is not even the trivial `F ≅ G → Representable G → Representable F`",
+      "rg -n '^\\s*(Theorem|Lemma|Proposition|Corollary|Definition)' -g '*.v' Theory/Equivalence.v Theory/Equivalence/*.v -- enumerated every result of the equivalence development: FF_ESO_Equivalence, Equivalence_Full/Faithful/EssSurj, Equivalence_to_Cat_Iso and back, EquivalenceOfCategories_sym/Id/Compose, Equivalence_to_AdjointEquivalence, and the Limit/Adjunction/Monoidal/Bundled transports. What equivalences are shown to transport is limits, adjunctions and monoidal structure — never representability",
+      "rg -rni 'transport.*representab|representab.*equivalence|representab.*transport' -g '*.v' . -- 0 hits",
+      "rg -n 'Structure/UniversalProperty' -g '*.v' . -- univ_property_respects_iso (Structure/UniversalProperty.v:163) transports a universal property along an ISO OF OBJECTS c ≅ d inside one category; there is no analogue along an equivalence of the ambient categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld; blind pass agreed. Re-verified by enumerating Theory/Equivalence.v and Theory/Equivalence/{Adjoint,Adjunction,Bundled,FullFaithful,Limit,Monoidal}.v: what equivalences are shown to transport in tree is limits, adjunctions and monoidal structure, never representability. Also independently confirmed the stronger negative the record relies on - `Representable` (Functor/Representable.v:46) is referenced nowhere outside its defining file, so not even the trivial `F ≅ G → Representable G → Representable F` exists, let alone the along-an-equivalence version. The nearest in-tree analogue really is Structure/UniversalProperty.v:163 univ_property_respects_iso, which transports along an iso of OBJECTS inside one category."
+    }
+  },
+  {
+    "id": "riehl:2.1:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "subfunctor (natural transformation with monic components), subpresheaf",
+      "subfunctors of a represented functor C(-,c) = sieves on c",
+      "sieve / cosieve / right ideal of morphisms, closed under precomposition",
+      "Grothendieck topology by covering sieves, Site",
+      "downward-closed family of arrows into c"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Sieve|sieve|Subfunctor|subfunctor|Subpresheaf' -g '*.v' . -- exactly 2 hits, both PROSE in header comments (Theory/Sheaf.v:80 'through sieves in SGA 4'; Construction/Localization.v:101 'orthogonal to the covering sieves'). No sieve or subfunctor is ever DEFINED",
+      "rg -n 'Class Site|covering' -g '*.v' Theory/Sheaf.v -- Class Site (line 159) axiomatises Grothendieck topologies by COVERING FAMILIES with a pullback-stability axiom, deliberately not by sieves, so even the sheaf development contains no sieve object",
+      "rg -rni 'downward closed|closed under precomposition|right ideal' -g '*.v' . -- 0 hits",
+      "rg -n 'Subobject|SubObj' -g '*.v' Theory/Subobject.v Theory/Subobject/Functor.v -- the tree's subobject theory is about monos into an OBJECT of C (SubObj, sub_reindex, Sub : C^op ⟶ Sets); there is no notion of a subobject in a functor category, hence no subfunctor and no characterization of the subfunctors of [Hom ─,c]",
+      "rg -n 'Monic' -g '*.v' Theory/Natural/Transformation.v Instance/Fun.v -- 0 hits: monomorphisms of natural transformations (componentwise-monic families) are not developed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT upheld; blind pass agreed. Re-ran rg -i 'sieve|subfunctor|subpresheaf' -g '*.v': exactly two hits, both prose in header comments (Theory/Sheaf.v:80 'through sieves in SGA 4'; Construction/Localization.v:101 'orthogonal to the covering sieves') - nothing is ever defined. Verified Theory/Sheaf.v:159 `Class Site (C : Category)` is axiomatised by covering FAMILIES with a pullback-stability axiom, not by sieves, so the sheaf development contains no sieve object. Also confirmed the tree has no notion of a componentwise-monic natural transformation (no Monic in Theory/Natural/Transformation.v or Instance/Fun.v), which is the in-tree prerequisite for even stating 'subfunctor'."
+    }
+  }
+]

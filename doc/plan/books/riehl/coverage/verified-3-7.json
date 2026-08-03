@@ -1,0 +1,421 @@
+[
+  {
+    "id": "riehl:3.5:thm6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "contravariant representable carries colimits to limits",
+      "hom out of a colimit / C(colim F, X) iso lim_{J^op} C(F-,X)",
+      "cocone classification, ump_colimit / colimit_med / IsAColimit",
+      "Colimit F := Limit (F^op) and the cone presheaf of F^op",
+      "PreservesLimit ([Hom -,X]) / [Hom -,X] continuous",
+      "dual of Theorem 3.5.2 (covariant representables preserve limits)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 147,
+        "symbol": "ump_colimit",
+        "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (Unfolding IsUniversalProperty in C^op: for every c, IsALimit F c is isomorphic in Sets to the natural isomorphisms [Hom c,─]_{C^op} = Hom_C(─,c) ≅ ConePresheaf F.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For F : J ⟶ C in a locally small category whose colimit exists, the canonical map C(colim_J F, X) → lim_{J^op} C(F−, X) induced by the colimit cocone is an isomorphism natural in X; hence contravariant representables C(−,X) : C^op ⟶ Set carry any colimit existing in C to a limit in Set.",
+      "intree": "∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x",
+      "strength_comparison": "intree-weaker: the in-tree assertion is the elementwise bijection between morphisms out of the colimit apex and cocones under F with the given nadir (existence + uniqueness of the mediator), which is exactly the underlying bijection of Riehl's isomorphism only after silently identifying lim_{J^op} C(F−,X) with the setoid of cocones. That identification is never proved: the library constructs no general limits in Sets (Instance/Sets/ has Cartesian, Cocartesian, End, Coend, Image — no Limit/Complete instance, and Structure/Complete.v is only a hypothesis), so the second half of the theorem — that [Hom ─,X] : C^op ⟶ Sets is a limit-PRESERVING functor in the sense of Structure/Limit/Preservation.v's PreservesLimit — has no in-tree statement. Naturality in X is available only in the representability form, and only by instantiating the LIMIT-side LimitIsUniversalProperty at (J^op, C^op, F^op) (legal, since C^op^op = C by reflexivity here); no in-tree constant states the colimit form, unlike the deliberately spelled-out dual left_adjoint_preserves_colimit in Adjunction/Continuity.v:217."
+    },
+    "gap": "There is no named in-tree statement of the colimit/contravariant-representable form. What exists is (a) the elementwise cocone universal property ump_colimit, and (b) the limit-side representability theorem LimitIsUniversalProperty, whose instance at (J^op, C^op, F^op) is the natural iso Hom_C(c,−) ≅ Cocone(F,−). Missing: the identification of the cocone setoid with lim_{J^op} C(F−,X) as an actual limit in Sets (no limits in Sets are constructed in-tree), and consequently any PreservesLimit/PreservesAllLimits witness for the contravariant hom-functor [Hom ─,X].",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'hom.*preserv|preserv.*hom|continuous' — only Adjunction/Continuity.v (RAPL/LAPC for adjoints) and prose; no hom-functor preservation result",
+      "rg -n --glob '*.v' 'Sets_Complete|Complete Sets|Fun.*Limit' — 0 hits (no limits constructed in Sets or in functor categories)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same two anchors. Verified: Structure/Limit/Preservation.v:147 is exactly `Definition ump_colimit … ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x` (quote accurate to the character); Structure/UniversalProperty/Limit.v:141 is `Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)`, and the file's own header (lines 36-38) states the representability reading `Hom(c, z) ≅ Cone(c, F)`. Both files are registered in _CoqProject (lines 327, 380). The PARTIAL rationale holds on independent re-search: `rg 'Sets_Complete|Complete Sets'` = 0 hits; Instance/Sets/ contains no Limit/Complete instance; Instance/Fun/ contains only Cartesian.v, so there are no pointwise limits in functor categories either. An additional anchor the classifier did not cite STRENGTHENS rather than changes the verdict: Structure/Limit/Weighted.v:308 `wl_iso` + :326 `conical_of_limit_inst` give `C(c, lim F) ≅ [[[J,Sets]]](Δ(1), HomDiagram c F)` natural in c — i.e. Riehl 3.5.2 itself in the standard Nat(Δ1,−) presentation of lim_J C(c,F−) — and `WeightedColimit` (Weighted.v:370) is defined as the WeightedLimit at (J^op, C^op, F^op), so the 3.5.6 dual is definitionally reachable but is nowhere STATED. One aside in strength_comparison is imprecise: Instance/Sets/ also holds Classifier.v, Karoubi.v, Par.v, Pushout.v and Streams.v, not only the five files named; the substantive claim (no Limit/Complete instance) is correct."
+    }
+  },
+  {
+    "id": "riehl:3.5:example9",
+    "classification": "PRESENT",
+    "aliases": [
+      "representable universal property of the pushout",
+      "maps out of a pushout are compatible pairs",
+      "C(P,X) is the pullback of C(V,X) -> C(U,X) <- C(W,X)",
+      "pushout_ump / pushout_med / IsPushout",
+      "cocone over a span, colimit of a span"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pushout.v",
+        "line": 72,
+        "symbol": "pushout_ump",
+        "intree_statement": "Lemma pushout_ump {x y z : C} {f : x ~> y} {g : x ~> z} (P : IsPushout f g) (Q : C) (q1 : y ~> Q) (q2 : z ~> Q) (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 128,
+        "symbol": "pushout_med_eq",
+        "intree_statement": "Lemma pushout_med_eq ... (u v : pushout_apex P ~> Q) : u ∘ pushout_in1 P ≈ q1 -> u ∘ pushout_in2 P ≈ q2 -> v ∘ pushout_in1 P ≈ q1 -> v ∘ pushout_in2 P ≈ q2 -> u ≈ v."
+      }
+    ],
+    "statement_record": {
+      "book": "For a pushout square with f : U → V, g : U → W, h : V → P, k : W → P, and every object X of C, the hom-set C(P,X) is the pullback in Set of C(h,X) and C(k,X) over C(f,X), C(g,X): a map out of P is precisely a pair of maps out of V and W agreeing after restriction along U.",
+      "intree": "∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2  (given q1 ∘ f ≈ q2 ∘ g)",
+      "strength_comparison": "same (up to presentation): the ∃! quantified over every target Q and every compatible pair (q1,q2) is precisely the statement that u ↦ (u ∘ h, u ∘ k) is a bijection from C(P,X) onto {(a,b) ∈ C(V,X) × C(W,X) | a ∘ f = b ∘ g}, i.e. onto the Set-pullback; existence gives surjectivity and uniqueness gives injectivity (pushout_med_eq is the injectivity half in usable form). The only presentational difference is that the library never exhibits the Set-level pullback square itself, because it constructs no general pullbacks in Sets; nothing is weakened, since the elementwise form carries exactly the same content over hom-setoids with ≈."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned ABSENT/PARTIAL and I reversed to agree with PRESENT after reading the cited code. Verified verbatim: Structure/Pushout.v:72 `Lemma pushout_ump … (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2`, and Structure/Pushout.v:128 `pushout_med_eq`; both quotes accurate, file registered in _CoqProject:372. The ∃! quantified over every Q and every COMPATIBLE PAIR is literally the bijection C(P,X) ≅ {(a,b) | a ∘ f ≈ b ∘ g}, and for a span shape that compatible-pairs set IS the Set-pullback — no Sets-side construction is needed to state it, unlike the general-shape case. Checked the apparent tension with the PARTIAL on riehl:3.5:thm6 and it is NOT an inconsistency: thm6 needs lim_{J^op} in Set for an arbitrary shape, which the library genuinely lacks, whereas here the limit shape is finite and spelled out elementwise. Independently confirmed the strength_comparison's honest caveat: there is no `HasPullbacks Sets` in-tree (Instance/Sets/Pushout.v supplies PUSHOUTS only; the only HasPullbacks instances are FinSet_Pullbacks, Instance/FinSet/Classifier.v:264), so the Set-level pullback SQUARE and its naturality in X are indeed not exhibited."
+    }
+  },
+  {
+    "id": "riehl:3.5:thm10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "contravariant Yoneda embedding preserves and reflects colimits",
+      "y : C^op -> Set^C reflects limits",
+      "Curried_Hom C : C^op ⟶ [C, Sets] full and faithful",
+      "fully faithful functors reflect limits (ff_reflects_limit)",
+      "cocone is a colimit iff its image is a limit in the presheaf category",
+      "dual of Theorem 3.5.5"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 401,
+        "symbol": "ff_reflects_limit",
+        "intree_statement": "Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) := ... — in the section context {F : C ⟶ D} `{HF : @Full C D F} `{HfF : @Faithful C D F}, {G : J ⟶ C}, (N : Cone G), (HL : IsALimit (F ◯ G) (F (vertex_obj[N]))), (Hlegs : ∀ x : J, limit_leg HL x ≈ fmap[F] (cone_leg N x)): a full and faithful functor reflects limits."
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 147,
+        "symbol": "ump_colimit",
+        "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  (Curried_Hom C : C^op ⟶ [C, Sets] is exactly Riehl's contravariant Yoneda embedding; Yoneda_Full at Functor/Hom.v:96 supplies the other half.)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) Contravariant representables C(−,X) carry colimits in C to limits in Set. (ii) The contravariant Yoneda embedding y : C^op ⟶ Set^C both preserves and reflects limits; equivalently, a cocone under a diagram in C is a colimit cocone if and only if its image is a limit cone in Set^C.",
+      "intree": "ff_reflects_limit : IsALimit G (vertex_obj[N]) — for F full and faithful, when the image cone F N underlies a limit of F ◯ G (with legs identified as fmap[F] of N's legs), N is itself a limit of G",
+      "strength_comparison": "intree-weaker: only the REFLECTION half of clause (ii) is available, and only as a general theorem about full and faithful functors, instantiated at F := Curried_Hom C (full by Yoneda_Full, faithful by Yoneda_Faithful) — no in-tree constant names the Yoneda case. The PRESERVATION half is entirely absent: it needs limits in the presheaf category [C, Sets] computed pointwise (Riehl's Proposition 3.4.9), and the library constructs neither pointwise limits in functor categories nor limits in Sets — 'rg -i pointwise' returns no limit-related hit and there is no Fun/Limit file. Clause (i) is in the same state as riehl:3.5:thm6: only the elementwise cocone universal property, with no Sets-limit to land in."
+    },
+    "gap": "Missing: (a) preservation of limits by the contravariant Yoneda embedding, which requires pointwise (co)limits in functor categories — no such construction exists in-tree; (b) any Sets-level limit into which clause (i) could land; (c) any statement specialising ff_reflects_limit to Curried_Hom C. Present: the general reflection theorem for full+faithful functors and the full-faithfulness of Curried_Hom C, which together give the reflection half by direct instantiation.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'pointwise' — no hit concerning limits in functor categories",
+      "rg -n --glob '*.v' 'PreservesLimit|PreservesColimit' — witnesses exist only for adjoints (Adjunction/Continuity.v), equivalences (Theory/Equivalence/Limit.v) and comma projections; none for hom/Yoneda"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Verified: Theory/Equivalence/Limit.v:401 is `Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) := @Build_IsALimit J C G (vertex_obj[N]) (@coneFrom _ _ _ N) ff_reflect_ump`, in a section with `Full`/`Faithful` on F, `HL : IsALimit (F ◯ G) (F (vertex_obj[N]))` and `Hlegs : ∀ x, limit_leg HL x ≈ fmap[F] (cone_leg N x)`; Functor/Hom.v:85 `Yoneda_Faithful` and :96 `Yoneda_Full` both instances on `Curried_Hom C`; Preservation.v:147 `ump_colimit` as above. All quotes accurate, all files in _CoqProject (139, 327, 441). The gap statement is honest and survives independent search: `rg -i 'yoneda' --glob '*.v' | grep -i 'limit|colimit|preserv|reflect'` returns exactly ONE hit, a Require line in Structure/UniversalProperty/Limit.v:13 — no in-tree constant connects Yoneda to (co)limits; Instance/Fun/ holds only Cartesian.v, so pointwise limits in [C, Sets] are absent. Worth recording for the eventual issue: ff_reflects_limit carries the extra leg-identification hypothesis `Hlegs`, so instantiating it at the Yoneda embedding is real work, not a one-liner."
+    }
+  },
+  {
+    "id": "riehl:3.5:thm11",
+    "classification": "ABSENT",
+    "aliases": [
+      "limits from products and equalizers (existence theorem for limits)",
+      "colimits from coproducts and coequalizers",
+      "a category with small products and equalizers is complete",
+      "a category with small coproducts and coequalizers is cocomplete",
+      "Mac Lane V.2.1 'Limits by Products and Equalizers'",
+      "Complete / Cocomplete constructed from HasIndexedProducts + HasEqualizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni --glob '*.v' 'products and equalizers' — 4 hits, ALL prose citing the theorem as an external fact and none proving it: Structure/Equalizer.v:80 ('a category has all (finite) limits as soon as it has (finite) products and equalizers ... (Mac Lane §V.2)'), Structure/Limit.v:71 and :94 ('the existence theorem — a category with products and equalizers has all limits (Riehl, Theorem 3.5.11, dual form)'), Structure/Complete.v:51 ('The hypothesis is checkable because limits reduce to two constructions ... Mac Lane Theorem V.2.1; Riehl Theorem 3.4.12. ... The products half of the reduction lives in-tree as [iprod]')",
+      "rg -ni --glob '*.v' 'coproducts and coequalizers' — 0 hits",
+      "rg -ni --glob '*.v' 'limit_from_products|colimit_from_coproducts|Complete_of|complete_from|limits_from' — 0 hits",
+      "rg -n --glob '*.v' 'HasIndexedProducts|HasEqualizers|HasCoequalizers|HasProducts' — only the supply classes themselves (Structure/Limit/Product.v:128, Structure/Equalizer/Fork.v:68, Structure/Coequalizer.v:68) plus Complete_HasEqualizers (Adjunction/GAFT.v:193), which goes the OPPOSITE way (Complete → HasEqualizers)",
+      "rg -n --glob '*.v' 'Cocomplete' — only Structure/Complete.v:119 (the definition) and Theory/Adamek/Corollaries.v (a consumer); nothing constructs a Cocomplete or Complete witness from coproducts/coequalizers",
+      "rg -n --glob '*.v' 'Sets_Complete|Complete Sets' — 0 hits (not even the motivating instance)",
+      "read Structure/Complete.v, Structure/Limit.v, Structure/Equalizer.v, Structure/Limit/Product.v in full — every file cites this theorem as the standard justification for its shape, and Structure/Topos.v:22-24 states outright that 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every negative-log command re-run: `rg -ni 'coproducts and coequalizers'` = 0 hits; `rg -n 'HasFiniteLimits|FinitelyComplete|FiniteLimits'` = 0; `rg -n 'Cocomplete'` = only Structure/Complete.v:119 (the definition) plus Theory/Adamek/Corollaries.v consumers. The library states the absence in its own voice at Structure/Topos.v:23-24: 'the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library'. One log detail is off by a line-wrap: `rg -ni 'products and equalizers'` actually returns Structure/Equalizer.v:80, Structure/Limit.v:71, Structure/Topos.v:23, Structure/Complete.v:51 — the classifier listed Limit.v:94 in place of Topos.v:23. Limit.v:94-95 DOES carry the quoted prose ('Together with the existence theorem — a category with products and equalizers has all limits (Riehl, Theorem 3.5.11, dual form)'), the phrase simply straddles the line break so rg reports it at :71 only. Substance unaffected: every hit is prose, none proves the theorem."
+    }
+  },
+  {
+    "id": "riehl:3.5:remark14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "generalized element / X-shaped element / figure",
+      "probe by maps out of arbitrary objects, functor of points",
+      "Yoneda faithfulness: f = g iff f∘a = g∘a for all a",
+      "global element 1 ~> x (the special case)",
+      "limits detected representably / cone is a limit iff Hom(-,A) sees a limit"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  Unfolding Faithful, at C := C^op (where Curried_CoHom C := Curried_Hom C^op and fmap acts by postcomposition): if for every probe object z and every a : z ~> A the composites f ∘ a and g ∘ a agree, then f ≈ g — Riehl's consequence (a)."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (c is a limit apex of F exactly when Hom_C(─,c) ≅ ConePresheaf F naturally — being a limit is detected by what maps in from every probe object.)"
+      }
+    ],
+    "statement_record": {
+      "book": "An X-shaped generalized element of A is a morphism a : X → A; C(−,A) sends X to the set of X-shaped elements, and Yoneda full-faithfulness means nothing about A is lost by replacing it with this functor. Two consequences: (a) a parallel pair f, g : A ⇒ B is equal as soon as it induces the same function on generalized elements of every shape; (b) a cone with summit A is a limit cone as soon as, for generalized elements of every shape, the induced functions form a limit cone in Set.",
+      "intree": "Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C);  LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => LimitSetoid J C F c)",
+      "strength_comparison": "intree-weaker on clause (b) only. Clause (a) is exactly Yoneda_Faithful read at C^op (its own proof specialises the hypothesis at the identity, Riehl's argument verbatim), so that half matches in substance. Clause (b) is available only in the REPRESENTABILITY form 'c is a limit apex iff Hom(−,c) ≅ Cone(−,F) naturally', not in Riehl's form 'the induced functions define a limit cone in Set', because no limits are constructed in Sets in-tree; and the general reflection statement that would carry (b) for a *given* cone (ff_reflects_limit, Theory/Equivalence/Limit.v:401) is stated for a full and faithful functor into an arbitrary D and is never instantiated at the Yoneda embedding. There is also no in-tree notion of 'generalized element' at all: only the GLOBAL element 1 ~> x of Structure/Constant.v and Structure/Terminal.v, whose headers explicitly flag it as the special case."
+    },
+    "gap": "No in-tree definition of a generalized element (only global elements 1 ~> x in Structure/Constant.v). Consequence (a) is present as Yoneda_Faithful. Consequence (b) is present only as representability (LimitIsUniversalProperty) — Riehl's 'the induced functions define a limit cone in Set' cannot be stated because the library constructs no limits in Sets, and no in-tree constant applies ff_reflects_limit to the Yoneda embedding.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'generalized element|generalised element|figure' — only prose in Structure/Terminal.v:60-64 and Structure/Constant.v:15 naming the global-element special case; no definition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Verified Functor/Hom.v:85 `Yoneda_Faithful` and Structure/UniversalProperty/Limit.v:141 `LimitIsUniversalProperty`; both quotes accurate and both files in _CoqProject. The negative claim about the vocabulary re-checked: `rg -i 'generalized element|generalised element'` hits only Structure/Terminal.v:60-61 ('A morphism 1 ~> x is a global element of x — in the nLab's phrasing, a generalized element at stage of definition…') and Structure/Constant.v:15 ('global element is the special case of a generalized (T-valued) element'), i.e. prose flagging the special case, never a definition. Clause (a) really is Yoneda_Faithful at C^op. Clause (b): I additionally checked Structure/UniversalProperty/Limit.v:104 `cone_equiv_to_morphism_equiv` (two maps into a limit agreeing on every leg are equal) — that is a probe-style lemma but it is the UNIQUENESS half, not Riehl's 'induced functions form a limit cone in Set', so it does not close the gap and the PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:3.5:lem15",
+    "classification": "ABSENT",
+    "aliases": [
+      "product as pullback over the terminal object",
+      "wide pullback of the maps to 1 is the indexed product",
+      "trivializing the cospan apex to 1 recovers the binary product",
+      "Cartesian from HasPullbacks + Terminal",
+      "fibre product over a point"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni --glob '*.v' 'wide pullback|wide_pullback' — 0 hits",
+      "rg -ni --glob '*.v' 'product.*pullback|pullback.*product' — every hit is prose or a TODO: Structure/Pullback.v:254-265 is an explicit 'jww (2017-06-01): TODO' comment quoting Wikipedia's 'one can also trivialize them by specializing Z to be the terminal object ... the pullback of this cospan can be seen to be the product of X and Y' with no statement following it; Structure/Regular.v:28-30 states in prose 'binary products are pullbacks over the terminal object' purely to justify the shape of the Regular class; Structure/Complete.v:47 and Construction/Slice/Pullback.v:26 are unrelated",
+      "rg -n --glob '*.v' 'product_from_pullback|pullback_product|prod.*terminal.*pullback' — 0 hits",
+      "rg -n --glob '*.v' 'Cartesian' Structure/Regular.v Structure/Regular/Factorization.v — 0 hits: the Regular class carries regular_terminal + regular_pullbacks and never derives a Cartesian instance from them",
+      "read Structure/Limit/Cartesian.v — its Cartesian_Limit (line 39) is the DISCRETE two-object characterisation ((∀ F : Two_Discrete ⟶ C, Limit F) ↔ Cartesian C), not the cospan-over-terminal one",
+      "read Structure/Pullback/Limit.v — Pullback_Limit/Pushout_Limit and the Universal conversions only reconcile the Pullback record with Limit over Instance/Roof.v; no terminal-object specialisation",
+      "read Structure/Limit/Product.v — iprod/iprod_ump build indexed products as limits of DISCRETE diagrams; no wide-pullback presentation"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the log: `rg -ni 'wide pullback|wide_pullback'` = 0 hits; `rg -n 'Cartesian' Structure/Regular.v Structure/Regular/Factorization.v` = 0 hits (Regular really does carry regular_terminal + regular_pullbacks and derive no products). The 'jww TODO' citation is exact: Structure/Pullback.v:254 is `(* jww (2017-06-01): TODO *)` and the Wikipedia quote about trivializing Z to the terminal object runs 255-265 with no statement following it. Structure/Limit/Cartesian.v:39 is indeed `Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C`, the discrete two-object characterisation — not the cospan-over-terminal one — so it does not cover this lemma."
+    }
+  },
+  {
+    "id": "riehl:3.5:lem16",
+    "classification": "ABSENT",
+    "aliases": [
+      "equalizer as a pullback along the diagonal",
+      "equalizer from binary products and pullbacks",
+      "pullback of (f,g) : A -> B x B along Δ = (id,id)",
+      "kernel pair / difference kernel presentation",
+      "HasEqualizers from Cartesian + HasPullbacks"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'equalizer_from_pullback|pullback_equalizer' — 0 hits",
+      "rg -ni --glob '*.v' 'equalizer.*diagonal|diagonal.*equalizer' — 0 hits",
+      "rg -ni --glob '*.v' 'equalizer' | grep -i 'pullback|diagonal|product' — only prose: Structure/Regular.v:29 ('equalizers are pullbacks of the induced pairings'), Structure/Pullback.v:266-274 (a second 'jww (2017-06-02)' TODO quoting Wikipedia's converse — pullbacks from products and equalizers), Structure/Topos.v:23 ('the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another')",
+      "rg -n --glob '*.v' 'IsEqualizer' — Structure/Equalizer/Fork.v, Structure/Equalizer.v, Structure/Kernel.v, Structure/Limit/Product.v: the fork API and kernels (IsKernel f i := IsEqualizer f zero i), never a pullback construction",
+      "read Structure/Kernel.v and Structure/Regular.v — kernel_pair is the pullback of f along ITSELF (a different construction) and no equalizer is produced from it"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran: `rg -ni 'equalizer.*diagonal|diagonal.*equalizer'` = 0 hits; the only in-tree prose on the topic is Structure/Pullback.v:267 `(* jww (2017-06-02): *)` quoting Wikipedia for the CONVERSE direction (pullbacks from binary products and equalizers), which is not this lemma, plus Structure/Regular.v:29 and Structure/Topos.v:23. Confirmed Structure/Kernel.v builds `IsKernel f i := IsEqualizer f zero i` (zero-morphism special case) and Structure/Regular.v:46 `kernel_pair` is the pullback of f along ITSELF — neither is the diagonal pullback of (f,g) : A ~> B × B."
+    }
+  },
+  {
+    "id": "riehl:3.5:def-finite-diagram",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite diagram",
+      "finite index/indexing category",
+      "category with finitely many morphisms",
+      "FiniteCategory / finite_category / is_finite predicate",
+      "finite shape (for finite limits and for filtered categories)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'finite diagram|FiniteCategory|finite_category|is_finite' — 0 hits",
+      "rg -ni --glob '*.v' 'finitely many' — 1 hit, Instance/Lambda/Norm.v, unrelated",
+      "rg -n --glob '*.v' 'HasFiniteLimits|FinitelyComplete|FiniteLimits|finite_products|HasFiniteProducts' — 0 hits",
+      "rg -n --glob '*.v' 'Finite ' — only unrelated prose (Structure/Cartesian.v:79 'Finite products are moreover a doctrine', Structure/Topos.v:21, Theory/Multicategory/Endomorphism.v:66 'Finite powers', Construction/Funny/Comparison.v:109)",
+      "rg -n --glob '*.v' '^(Class|Record|Definition|Inductive) .*Fin' — only Fin.t/FinSet material (Instance/FinSet*.v, Theory/Lawvere/*), i.e. finiteness of SETS, never of a diagram shape or of a category's morphisms",
+      "checked the concrete finite shapes that exist instead (Instance/Discrete.v over an arbitrary Type, Instance/Parallel.v, Instance/Roof.v, Instance/Two.v) — each is a particular small category, none carries a finiteness predicate; Theory/Metacategory/ArrowsOnly.v has a finite composition TABLE (pairs : M.t arrow) but is a presentation device, not a finiteness predicate on Category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every command re-run and reproduced: `rg -n 'finite diagram|FiniteCategory|finite_category|is_finite'` = 0 hits; `rg -ni 'finitely many'` = exactly 1 hit, Instance/Lambda/Norm.v:56 ('[e] halts when it reduces in finitely many steps to a value'), unrelated; `rg -n 'HasFiniteLimits|FinitelyComplete|FiniteLimits|finite_limit'` = 0 hits. The concrete small shapes (Instance/Discrete.v, Instance/Parallel.v, Instance/Roof.v, Instance/Two.v) carry no finiteness predicate, as claimed. Note for the issue: without this definition neither riehl:3.5:thm17 nor the filtered/final-functor material of §3.8 can even be STATED, so it is a prerequisite, not a cosmetic gap."
+    }
+  },
+  {
+    "id": "riehl:3.5:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "naturality in X of lim_J C(X,F-) iso Cone(X,F)",
+      "the cone presheaf / ConePresheaf F : C^op ⟶ Sets",
+      "cone_of_nat / nat_of_cone (cones as natural transformations out of the terminal weight)",
+      "wlim_natural, naturality of the classifying isomorphism of a weighted limit",
+      "conical weighted limit at the constant weight Δ(1)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Weighted.v",
+        "line": 344,
+        "symbol": "conical_of_limit",
+        "intree_statement": "Lemma conical_of_limit `(F : J ⟶ C) : Limit F → WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F.  This discharges the wlim_natural field (Structure/Limit/Weighted.v:114): 'to (wlim_iso c') (nat_compose (HomDiagram_precompose h F) α) ≈ to (wlim_iso c) α ∘ h', i.e. the isomorphism [[[J,Sets]]](Δ(1), HomDiagram c F) ≅ C(c, lim F) is natural in the apex c."
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (The other leg: Cone(−,F) ≅ Hom_C(−,z) as a NATURAL isomorphism of presheaves, where Cone(−,F) is the functor ConePresheaf F of Structure/Cone.v:79.)"
+      }
+    ],
+    "statement_record": {
+      "book": "Show that the isomorphism (3.5.1), lim_J C(X, F−) ≅ Cone(X, F), is natural in X.",
+      "intree": "wlim_natural (c c' : C) (h : c' ~{C}~> c) (α : W ⟹ HomDiagram c F) : to (wlim_iso c') (nat_compose (HomDiagram_precompose h F) α) ≈ to (wlim_iso c) α ∘ h — discharged for W = Δ[J](1) by conical_of_limit",
+      "strength_comparison": "intree-weaker (extra hypothesis, and the wrong two of the three legs). The library proves naturality in the apex for BOTH composites through the limit — lim_J C(X,F−) ≅ C(X, lim F) (conical_of_limit's wlim_natural, with [[[J,Sets]]](Δ(1), HomDiagram X F) as the standard Set-presentation of lim_J C(X,F−)) and Cone(X,F) ≅ C(X, lim F) (LimitIsUniversalProperty) — from which the exercise's naturality follows by cancellation. But both require the limit of F to EXIST IN C, whereas Riehl's (3.5.1) is unconditional: it needs only the limit of the Set-valued diagram C(X,F−). The direct bijection cone_of_nat / nat_of_cone (Structure/Limit/Weighted.v:145 and :157), which is (3.5.1) itself, is constructed but has no naturality lemma and is not even shown to be a bijection outside the WeightedLimit packaging."
+    },
+    "gap": "Missing: a naturality statement for the bijection (3.5.1) itself. In-tree, cone_of_nat / nat_of_cone convert between Δ(1) ⟹ HomDiagram X F and ACone X F but no lemma says this conversion commutes with reindexing along h : X' ~> X (i.e. with HomDiagram_precompose on one side and ConePresheaf's fmap on the other). Naturality is proved only for the two composites that factor through C(X, lim F), which presupposes that F has a limit in C — a hypothesis Riehl's (3.5.1) does not need.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, and on the same file the classifier used. Verified: Structure/Limit/Weighted.v:344 `Lemma conical_of_limit `(F : J ⟶ C) : Limit F → WeightedLimit (Δ[J]( @terminal_obj Sets Sets_Terminal )) F`; the `wlim_natural` field is at Weighted.v:114-118 and reads `wlim_natural (c c' : C) (h : c' ~{C}~> c) (α : W ⟹ HomDiagram c F) : to (wlim_iso c') (nat_compose (HomDiagram_precompose h F) α) ≈ to (wlim_iso c) α ∘ h` — quote accurate. Independently confirmed the precise gap: `cone_of_nat` (Weighted.v:145) and `nat_of_cone` (:157) are constructed as bare conversions with no naturality lemma and no round-trip lemma outside the WeightedLimit packaging; the only round trips are inside `wl_iso` (:308), which presupposes a limit of F in C. So the exercise's unconditional (3.5.1) is genuinely not covered, and the strength_comparison's 'extra hypothesis' framing is honest."
+    }
+  },
+  {
+    "id": "riehl:3.5:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda embedding preserves, reflects, but does not create limits",
+      "creation of limits / CreatesLimits class",
+      "fully faithful functors reflect limits",
+      "counterexample to creation of limits by y : C ⟶ Set^{C^op}",
+      "conservative vs. limit-creating functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 401,
+        "symbol": "ff_reflects_limit",
+        "intree_statement": "Definition ff_reflects_limit : IsALimit G (vertex_obj[N]) := @Build_IsALimit J C G (vertex_obj[N]) (@coneFrom _ _ _ N) ff_reflect_ump — in a context with `{HF : @Full C D F}, `{HfF : @Faithful C D F}, a cone N over G whose image is a limit of F ◯ G (legs identified by Hlegs) is itself a limit of G."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  With Yoneda_Faithful (Functor/Hom.v:85) this makes the Yoneda embedding fully faithful, hence an instance of ff_reflects_limit."
+      }
+    ],
+    "statement_record": {
+      "book": "Explain why the Yoneda embedding y : C ⟶ Set^{C^op} preserves and reflects but does NOT create limits, and exhibit an explicit counterexample to creation.",
+      "intree": "ff_reflects_limit : IsALimit G (vertex_obj[N]) (for F full and faithful);  Yoneda_Full / Yoneda_Faithful (C : Category) : Full/Faithful (Curried_Hom C)",
+      "strength_comparison": "intree-weaker: only the REFLECTION clause is covered, and only generically — the general fully-faithful reflection theorem plus the full-faithfulness of the Yoneda embedding, never combined at the Yoneda case. The distinctive content of the exercise (non-creation plus a counterexample) has no in-tree counterpart whatsoever, and the library has no general notion of a functor CREATING limits: the only creation vocabulary is bespoke — CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164) for Beck's theorem and the ad-hoc equivalence_creates_limits (Theory/Equivalence/Limit.v:486) — so the negative claim cannot even be stated. Preservation of limits by y is also absent (it needs pointwise limits in presheaf categories)."
+    },
+    "gap": "Missing: (a) any general CreatesLimit(s) class — the two in-tree 'creation' constants are the Beck-specific CreatesUSplitCoequalizers and the bespoke equivalence_creates_limits, neither of which quantifies a functor creating arbitrary limits; (b) therefore the statement that y does not create limits, and any counterexample; (c) preservation of limits by y. Present: reflection, by instantiating ff_reflects_limit at the full and faithful Curried_Hom.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Creates|creates' — hits only in Monad/Monadicity/Beck.v (CreatesUSplitCoequalizers), Monad/Monadicity/BeckObjects.v, Theory/Equivalence/Limit.v:486 (equivalence_creates_limits) and Construction/Comma/Limit.v prose; no general limit-creation class and no counterexample anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass said ABSENT; I accept PARTIAL after checking, because the reflection clause of the exercise really is available generically and the record states the gap precisely rather than overselling. Verified Theory/Equivalence/Limit.v:401 `ff_reflects_limit` and Functor/Hom.v:96 `Yoneda_Full` (+ :85 Yoneda_Faithful); quotes accurate. The negative claim re-run: `rg -n 'Creates'` returns only Monad/Monadicity/Beck.v (CreatesUSplitCoequalizers at :164, monadic_creates at :911) and Monad/Monadicity/BeckObjects.v; the sole other creation constant is Theory/Equivalence/Limit.v:486 `equivalence_creates_limits`. There is no general CreatesLimits class, so 'y does not create limits' is literally unstatable in-tree — the distinctive content of the exercise is missing, exactly as the gap says."
+    }
+  },
+  {
+    "id": "riehl:3.5:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "monomorphism defined representably: C(X,f) injective for all X",
+      "epimorphism defined representably: C(f,X) injective for all X",
+      "left/right cancellation (Monic / Epic)",
+      "injections in Set / injectivity_is_monic",
+      "Epic f in C is Monic f in C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 116,
+        "symbol": "Monic",
+        "intree_statement": "Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }.  (For every probe z this is exactly the injectivity of C(z,f) : C(z,x) → C(z,y), g ↦ f ∘ g.)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 104,
+        "symbol": "Epic",
+        "intree_statement": "Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }.  (For every probe z this is exactly the injectivity of C(f,z) : C(y,z) → C(x,z), g ↦ g ∘ f.)"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 369,
+        "symbol": "injectivity_is_monic",
+        "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f."
+      }
+    ],
+    "statement_record": {
+      "book": "Explain how monomorphisms and epimorphisms in an arbitrary category C are both defined representably in terms of monomorphisms (injections) in Set: f is monic iff C(X,f) is injective for every X, and epic iff C(f,X) is injective for every X.",
+      "intree": "Monic f := ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2;  Epic f := ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2;  injectivity_is_monic : (∀ x y, f x ≈ f y → x ≈ y) ↔ Monic f in Sets",
+      "strength_comparison": "same (up to presentation). Both in-tree classes ARE the representable conditions: the cancellation law for Monic, quantified over the probe z, is literally the injectivity of post-composition, i.e. of the action of the covariant hom-functor [Hom z,─] on f (Functor/Hom.v:60 defines that action as g ↦ f ∘ g); dually for Epic and the contravariant hom [Hom ─,z] (g ↦ g ∘ f). injectivity_is_monic supplies the remaining half of the exercise, that injectivity in Sets is exactly monicity there, so 'defined in terms of monomorphisms in Set' is literal. The only presentational difference is that no in-tree constant packages the round trip as a single biconditional 'Monic f ↔ ∀ z, Monic (fmap[[Hom z,─]] f)'; the two sides are definitionally the same proposition, so nothing is weakened. Note in passing that the converse Sets fact surjectivity_is_epic (Instance/Sets.v:429) is deliberately unfinished, but the exercise never needs it — its point is precisely that BOTH notions reduce to injections."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass landed PARTIAL-leaning-PRESENT; I settle on PRESENT with the classifier. Verified Theory/Morphisms.v:104 `Class Epic {x y} (f : x ~> y) := { epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2 }` and :116 `Class Monic {x y} (f : x ~> y) := { monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2 }` — quotes exact. These ARE the representable conditions: Functor/Hom.v:60 `Curried_Hom` acts on morphisms by post-composition, so `monic` is verbatim the injectivity of C(z,f) for every probe z, and dually `epic` is the injectivity of C(f,z). Instance/Sets.v:369 `injectivity_is_monic : (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f` closes the 'in terms of injections in Set' half; quote exact. I also verified the record's honest aside: `surjectivity_is_epic` at Instance/Sets.v:429 really does end in `Abort.` (not Qed/Admitted), so it never enters the environment — and the exercise does not need it, since both notions reduce to INJECTIONS."
+    }
+  },
+  {
+    "id": "riehl:3.5:thm17",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite limits from pullbacks and a terminal object",
+      "finitely complete / lex category",
+      "finite colimits from pushouts and an initial object",
+      "Borceux I Prop. 2.8.2",
+      "HasFiniteLimits from Terminal + HasPullbacks"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni --glob '*.v' 'wide pullback|finite limit|finitely complete|FiniteLimit|finite_limit|lex\\b' — 6 hits, ALL prose: Structure/Regular.v:30 and :62 ('a terminal object and pullbacks generate all finite limits' — stated to motivate the class shape, never proved), Structure/Pullback.v:98 ('a terminal object together with [HasPullbacks] generates every finite limit (Borceux, Handbook I, Prop. 2.8.2)'), Structure/Pullback.v:272 (inside the 'jww (2017-06-02)' TODO comment), Structure/Topos.v:20-23",
+      "rg -n --glob '*.v' 'HasFiniteLimits|FinitelyComplete|FiniteLimits' — 0 hits",
+      "read Structure/Topos.v:20-24 — 'Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another', i.e. the library itself records this theorem as absent",
+      "rg -n --glob '*.v' 'Cartesian' Structure/Regular.v — 0 hits: Regular carries regular_terminal + regular_pullbacks and derives no products, so not even the first step (riehl:3.5:lem15) of the argument is available",
+      "the two prerequisite lemmas are likewise absent (see the negative logs for riehl:3.5:lem15 and riehl:3.5:lem16) and so is the finite case of the existence theorem (riehl:3.5:thm11), and there is no in-tree notion of a finite diagram at all (riehl:3.5:def-finite-diagram)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, and the library documents the absence itself. Re-ran: `rg -n 'HasFiniteLimits|FinitelyComplete|FiniteLimits|finite_limit'` = 0 hits; `rg -n 'Cartesian' Structure/Regular.v` = 0 hits. Structure/Topos.v:20-24 is quoted accurately ('Finite limits are carried EXPLICITLY here as terminal object + binary products + pullbacks: the reduction of pullbacks to products and equalizers (and conversely) is not formalized in this library, so we do not pretend one component subsumes another'). Structure/Pullback.v:98 does cite Borceux I Prop. 2.8.2 for the theorem, as an EXTERNAL fact. All three prerequisites (lem15, lem16, thm11) and the notion of a finite diagram are likewise absent, so this is a whole-argument gap, not a last-step gap."
+    }
+  }
+]

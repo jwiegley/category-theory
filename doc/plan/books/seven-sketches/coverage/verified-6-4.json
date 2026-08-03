@@ -1,0 +1,499 @@
+[
+  {
+    "id": "7sketches:6.3.1:example6.56",
+    "classification": "PARTIAL",
+    "aliases": [
+      "spider fusion instance",
+      "two connected spider diagrams with the same arity are equal",
+      "spider normal form (Lack) applied to a particular pair",
+      "canonical_spider / denote_spider equality",
+      "s_{k,n} ∘ s_{m,k} = s_{m,n}",
+      "ZX spider-fusion rule instance"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 613,
+        "symbol": "fold_mu_unfold_delta_id",
+        "intree_statement": "Lemma fold_mu_unfold_delta_id (X : C) (k : nat) : fold_mu X k ∘ unfold_delta X k ≈ id[X].  (* the k-ary specialness / fusion crux: the connected diagram that unfolds X into k+1 legs by δ and refolds them by μ equals the 1→1 spider *)"
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 188,
+        "symbol": "spider_2_to_2",
+        "intree_statement": "Lemma spider_2_to_2 (X : C) : scfa_delta (scfa X) ∘ scfa_mu (scfa X) ≈ bimap (scfa_mu (scfa X)) id[X] ∘ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (scfa_delta (scfa X)).  (* two differently-assembled connected 2→2 spider diagrams are equal *)"
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 149,
+        "symbol": "spider_mu_commutative",
+        "intree_statement": "Lemma spider_mu_commutative (X : C) : scfa_mu (scfa X) ∘ braid ≈ scfa_mu (scfa X).  (* the symmetry map σ that appears in the book's diagram may be absorbed into the spider *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The two displayed string diagrams are equal, immediately by Theorem 6.55, because they (i) have the same numbers of inputs and outputs, (ii) are built only from spiders (and the symmetry), and (iii) are connected.",
+      "intree": "fold_mu_unfold_delta_id : fold_mu X k ∘ unfold_delta X k ≈ id[X]; spider_2_to_2 : scfa_delta (scfa X) ∘ scfa_mu (scfa X) ≈ bimap (scfa_mu (scfa X)) id[X] ∘ from tensor_assoc ∘ bimap id[X] (scfa_delta (scfa X)); spider_mu_commutative : scfa_mu (scfa X) ∘ braid ≈ scfa_mu (scfa X).",
+      "strength_comparison": "intree-weaker: the book concludes the equality from an arity-and-connectivity CRITERION (Thm 6.55). In-tree that criterion does not exist — Structure/Monoidal/Hypergraph/Spider.v defines SpiderExpr / denote_spider / canonical_spider and proves the combinatorial crux (fold_mu_unfold_delta_id), but its own header (lines 414-445, 687-701) records that `spider_normal_form : forall e, denote_spider e ≈ canonical_spider X m n` and the two helper inductions `spider_compose_canonical` / `spider_par_canonical` are deferred. Each equality of the book's kind must therefore be re-derived by hand from the individual laws; only small/instance cases (2→2, the k-ary fold/unfold collapse, braid absorption) are proven."
+    },
+    "gap": "The deciding theorem is missing: no in-tree statement says that two connected μ/η/δ/ε/σ-diagrams with equal input and output arity are equal. The in-tree normal form `canonical_spider X m n` exists and the fusion crux `fold_mu_unfold_delta_id` is proven, but `spider_normal_form` (and its SE_seq/SE_par helpers `spider_compose_canonical`, `spider_par_canonical`) is explicitly deferred, so the specific pair displayed in Example 6.56 cannot be discharged by the book's one-line argument.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL independently. Alias expansion: spider, spider fusion, Lack normal form, canonical_spider, SCFA, special commutative Frobenius, ZX spider. Searches run: `grep -rIl -i 'spider'` (Instance/ZX.v, Theory/Algebra/{Frobenius,SpecialCommutativeFrobenius}.v, Construction/Cospan/Hypergraph.v, Structure/Monoidal/Hypergraph/{Spider,Tactics}.v), then a full read of Structure/Monoidal/Hypergraph/Spider.v (701 lines). Cited evidence CONFIRMED at the exact lines: Spider.v:613 fold_mu_unfold_delta_id (`fold_mu X k ∘ unfold_delta X k ≈ id[X]`, Qed), Spider.v:188 spider_2_to_2, Spider.v:149 spider_mu_commutative (`scfa_mu (scfa X) ∘ braid ≈ scfa_mu (scfa X)`) — all three quotes are verbatim-accurate. The gap statement is honest and corroborated by three separate in-file disclosures (Spider.v:44-45, 414-445, 687-701) that `spider_normal_form` and the helper inductions `spider_compose_canonical` / `spider_par_canonical` are deferred. File is registered in _CoqProject. Strength_comparison 'intree-weaker' is honest: the deciding CRITERION genuinely does not exist, only special cases of its consequences."
+    }
+  },
+  {
+    "id": "7sketches:6.3.1:ex6.57",
+    "classification": "PARTIAL",
+    "aliases": [
+      "which Frobenius diagrams 2→3 are equal",
+      "spider theorem decision procedure",
+      "connectivity is the only invariant",
+      "canonical_spider X 2 3",
+      "spider_normal_form / denote_spider",
+      "free special commutative Frobenius PROP (to separate the unequal ones)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 613,
+        "symbol": "fold_mu_unfold_delta_id",
+        "intree_statement": "Lemma fold_mu_unfold_delta_id (X : C) (k : nat) : fold_mu X k ∘ unfold_delta X k ≈ id[X].  (* the arbitrary-arity collapse that makes two connected diagrams with the same ports equal *)"
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 179,
+        "symbol": "spider_1_to_3",
+        "intree_statement": "Lemma spider_1_to_3 (X : C) : bimap (scfa_delta (scfa X)) id[X] ∘ scfa_delta (scfa X) ≈ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (scfa_delta (scfa X)) ∘ scfa_delta (scfa X).  (* the two bracketings of the 1→3 spider agree *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given an object X with a Frobenius structure, six string diagrams X ⊗ X → X ⊗ X ⊗ X are displayed; decide which are necessarily equal. The intended tool is Theorem 6.55: two such diagrams are equal exactly when they connect the same ports, so connected ones of the same arity coincide and differently-connected ones need not.",
+      "intree": "fold_mu_unfold_delta_id : fold_mu X k ∘ unfold_delta X k ≈ id[X]; spider_1_to_3 : bimap (scfa_delta (scfa X)) id[X] ∘ scfa_delta (scfa X) ≈ from tensor_assoc ∘ bimap id[X] (scfa_delta (scfa X)) ∘ scfa_delta (scfa X). The 2→3 normal form itself exists only as the datum `canonical_spider X 2 3` (Spider.v:274), with no lemma equating any expression to it.",
+      "strength_comparison": "intree-weaker on both halves. Positive half: no in-tree equality of 2→3 spider expressions is proven; only 1→3, 3→1, 2→2 and the k-ary fold/unfold collapse are. Negative half: nothing in-tree can DISTINGUISH two spider diagrams — that needs a free model (the free hypergraph/Frobenius PROP), and Construction/PROP/Signature.v:28-32 explicitly notes the library's FreePROP quotients only by the strict-SMC axioms and does NOT impose the special-commutative-Frobenius axioms, so the free Frobenius PROP in which the disconnected diagrams differ is not constructed."
+    },
+    "gap": "Both directions of the exercise are missing: (a) the equality criterion — `spider_normal_form` / `spider_compose_canonical` / `spider_par_canonical` are deferred (Spider.v:414-445, 687-701), and no 2→3 spider equality is proven in-tree; (b) the separation — there is no free special-commutative-Frobenius PROP in-tree, so the diagrams that are NOT equal cannot be shown unequal.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL. Evidence CONFIRMED: Spider.v:613 fold_mu_unfold_delta_id and Spider.v:179 spider_1_to_3 exist at the cited lines with the quoted statements. Independently verified the record's key negative claim by reading Construction/PROP/Signature.v:20-40: lines 28-32 do say 'the free *hypergraph* PROP on no generators, which additionally quotients by the special-commutative-Frobenius axioms, is the PROP of cospans of finite sets; that extra structure is NOT imposed by the [FreePROP] of this development, which quotients only by the strict-SMC axioms' — so the separation half of the exercise genuinely has no in-tree model. Also confirmed there is no lemma anywhere relating any expression to `canonical_spider X 2 3`: the only denote_spider results in the tree are the three smoke tests at Spider.v:661/666/674, none of which mentions canonical_spider. Both halves of the gap are stated precisely and honestly."
+    }
+  },
+  {
+    "id": "7sketches:6.3.1:thm6.58",
+    "classification": "ABSENT",
+    "aliases": [
+      "free prop on the Frobenius presentation is Cospan_FinSet",
+      "Lack's theorem: Cospan(FinSet) is the PROP for special commutative Frobenius monoids",
+      "PresentedPROP (G,E) ≃ CospanCat FinSet",
+      "free hypergraph prop on no generators",
+      "equivalence of symmetric monoidal categories / strong monoidal equivalence",
+      "SMT of special commutative Frobenius algebras"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'frobenius' Construction/PROP/ Construction/ColouredPROP/ Instance/ZX.v — only prose: Construction/PROP/Presentation.v:51 ('the theory of special commutative Frobenius algebras presents the PROP of cospans of finite sets') and Construction/PROP/Signature.v:29-32 ('the free *hypergraph* PROP on no generators ... is the PROP of cospans of finite sets; that extra structure is NOT imposed by the [FreePROP] of this development'). Both are header commentary, no Definition/Theorem.",
+      "grep -rIl on each of: 'Frobenius_SMT', 'frobenius_sig', 'FrobeniusSig', 'FrobeniusPresentation', 'smt_frobenius', 'free hypergraph', 'FreeHypergraph', 'Cospan_FinSet', 'CospanFinSet', 'prop for special' over --include='*.v' — 0 files each. No in-tree Signature/EqSystem/SMT naming the four generators μ,η,δ,ε with the nine Frobenius axioms.",
+      "grep -rIl 'SymmetricMonoidalEquivalence', 'MonoidalEquivalence', 'StrongMonoidalFunctor' over --include='*.v' — 0 files. The library has no notion of equivalence of (symmetric) monoidal categories; Theory/Equivalence/Monoidal.v only TRANSPORTS a Monoidal structure along an ordinary equivalence (MonoidalTransportData, Monoidal_from_transport_data), it does not define monoidal equivalence, and nothing symmetric-monoidal-level exists.",
+      "grep -rn 'CospanCat FinSet|Cospan.*FinSet' --include='*.v' . — only prose hits (Construction/Cospan/Hypergraph.v:294, Instance/FinSet/Pushout.v:51, Theory/Algebra/Frobenius.v:75,100). No .v file names the symmetric monoidal category Cospan_FinSet, let alone compares it to a presented PROP.",
+      "grep -rIn 'Lack' --include='*.v' . — citation-only, in Theory/Algebra/Frobenius.v (Lack, 'Composing PROPs') and Structure/Monoidal/Hypergraph/Spider.v:414ff, where Lack's theorem is named as deferred work.",
+      "NOTE (adjacent, not a counterpart): both SIDES of the statement have partial in-tree scaffolding — PresentedPROP/PresentedCat over an arbitrary SMT with its universal property (Construction/PROP/Presentation.v:312, Presentation/Universal.v:340,435), and CospanCat C with Cospan_SymmetricMonoidal / Cospan_Hypergraph (Construction/Cospan/HypergraphInstance.v:703) instantiable at FinSet. Neither the specific presentation (G,E) nor any comparison functor between them exists.",
+      "VERIFIER CORRECTION (Phase D) to the 'no notion of equivalence of monoidal categories' entry above: the literal string search is accurate, but the conclusion overreaches. Strong monoidal functors DO exist in-tree as `Class MonoidalFunctor` (Functor/Structure/Monoidal.v:77 — pure_iso : I ≅ F I plus an invertible tensor comparison ap_functor_iso, with the unit/associativity coherences), refined by `Class BraidedMonoidalFunctor` (Functor/Structure/Monoidal/Braided.v:67) and `Definition SymmetricMonoidalFunctor` (Functor/Structure/Monoidal/Braided.v:99, used at e.g. Theory/Lawvere/PROP.v:242 and Construction/PROP/Universal.v:457,522). What is actually missing is only the EQUIVALENCE notion — a SymmetricMonoidalFunctor that is additionally an equivalence of the underlying categories — plus the specific Frobenius presentation (G,E) and the comparison functor to Cospan(FinSet). Classification ABSENT is unchanged."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT for the theorem itself (I had weighed PARTIAL because both relata are constructible, but the equivalence claim has no in-tree counterpart of any strength, so ABSENT is right and is consistent with how the record itself flags the relata in its closing NOTE). Verified: (a) `grep -rn -i 'frobenius' Construction/PROP*` yields only the two prose lines the record quotes (Presentation.v:51, Signature.v:29-32) — no Definition/Theorem; (b) PresentedPROP does exist at Construction/PROP/Presentation.v:312 and the universal property at Presentation/Universal.v:340 (Presented_factor) and :435 (Presented_unique), as the record's NOTE says; (c) no .v file forms `CospanCat FinSet`. *** ONE NSL ENTRY IS MISLEADING AND HAS BEEN CORRECTED IN PLACE (appended, original preserved): *** the entry asserting \"grep ... 'StrongMonoidalFunctor' — 0 files. The library has no notion of equivalence of (symmetric) monoidal categories\" is literally true only of those exact strings. The library DOES have strong monoidal functors, under the name `MonoidalFunctor` (Functor/Structure/Monoidal.v:77, comparison morphisms invertible), plus `BraidedMonoidalFunctor` (Functor/Structure/Monoidal/Braided.v:67) and `SymmetricMonoidalFunctor` (Functor/Structure/Monoidal/Braided.v:99). What is genuinely missing is only the EQUIVALENCE notion (a symmetric monoidal functor that is an equivalence) — one short definition away, not a from-scratch development. A Phase-E issue drafted off the uncorrected NSL would overstate the work. Verdict unchanged."
+    }
+  },
+  {
+    "id": "7sketches:6.3.2:ex6.59",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "wire label inference in a wiring diagram",
+      "type inference for hypergraph-category composites",
+      "domain/codomain matching for μ/δ/η/ε",
+      "well-typedness of a string diagram",
+      "hom-set typing discipline"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": "The exercise asks the reader to read three suppressed object labels off a printed wiring diagram; in a dependently typed formalization the labels are the (forced) domain/codomain indices of the hom-sets, so Coq's type checker discharges the task and there is no proposition left to state or prove.",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on ABSENT-or-OUT_OF_SCOPE and, on reflection, agrees the justification is legitimate under the frozen definition. Searches run: `grep -rn -i 'wiring diagram|wire label'` over --include='*.v' — 0 hits tree-wide. The item's entire content is reading three suppressed object labels off a printed picture; in the library those labels are the domain/codomain indices of `hom`, so any in-tree rendering is discharged by type checking with no proposition left to state. This is not a size/foundations dodge (the caution in the frozen definition), and it does not hide missing structure: the ambient hypergraph-category structure the diagram depicts IS in-tree (Structure/Monoidal/Hypergraph.v:144), so nothing formalizable is being written off. One-line justification present as required."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:def6.60",
+    "classification": "PRESENT",
+    "aliases": [
+      "hypergraph category",
+      "Carboni–Walters / Fong–Spivak well-supported compact closed category",
+      "symmetric monoidal category with a chosen SCFA on every object",
+      "Class Hypergraph",
+      "Frobenius structure compatible with the monoidal product (mid_swap / middle-four interchange)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Hypergraph.v",
+        "line": 144,
+        "symbol": "Hypergraph",
+        "intree_statement": "Class Hypergraph : Type := { scfa : forall (X : C), SpecialCommutativeFrobenius X; scfa_tensor_mu : forall (X Y : C), scfa_mu (scfa (X ⨂ Y)) ≈ canonical_tensor_mu (scfa X) (scfa Y); scfa_tensor_eta : ... ≈ canonical_tensor_eta (scfa X) (scfa Y); scfa_tensor_delta : ... ≈ canonical_tensor_delta (scfa X) (scfa Y); scfa_tensor_epsilon : ... ≈ canonical_tensor_epsilon (scfa X) (scfa Y); scfa_unit_mu : scfa_mu (scfa I) ≈ to (@unit_left C _ I); scfa_unit_eta : scfa_eta (scfa I) ≈ id[I]; scfa_unit_delta : scfa_delta (scfa I) ≈ from (@unit_left C _ I); scfa_unit_epsilon : scfa_epsilon (scfa I) ≈ id[I] }.  (Section context: Context `{S : @SymmetricMonoidal C}.)"
+      },
+      {
+        "file": "Theory/Algebra/SpecialCommutativeFrobenius.v",
+        "line": 55,
+        "symbol": "SpecialCommutativeFrobenius",
+        "intree_statement": "Class SpecialCommutativeFrobenius (X : C) : Type := { scfa_commutative : @CommutativeFrobenius C _ X; mu_delta_id : mu ∘ delta ≈ id[X] }.  (* CommutativeFrobenius = Frobenius (commutative monoid + cocommutative comonoid + frob_law_left + frob_law_right) plus mu_commutative/delta_cocommutative — Def 6.52's nine equations *)"
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph.v",
+        "line": 109,
+        "symbol": "canonical_tensor_mu",
+        "intree_statement": "Definition canonical_tensor_mu {X Y : C} (MX : Monoid X) (MY : Monoid Y) : (X ⨂ Y) ⨂ (X ⨂ Y) ~> X ⨂ Y := bimap (@mu _ _ _ MX) (@mu _ _ _ MY) ∘ mid_swap X Y.  (* mid_swap X Y : (X⨂Y)⨂(X⨂Y) ~> (X⨂X)⨂(Y⨂Y), the middle-four interchange the book draws as the crossing wires *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A hypergraph category is a symmetric monoidal category (C, I, ⊗) in which every object X is equipped with a Frobenius structure (μ_X, δ_X, η_X, ε_X) in the sense of Definition 6.52, such that for all X, Y the four Frobenius maps on X ⊗ Y are the evident ones assembled from those on X and Y using the symmetry (four displayed string-diagram equations), and such that η_I = id_I = ε_I.",
+      "intree": "Class Hypergraph over `Context {C : Category}` + `Context `{S : @SymmetricMonoidal C}`: a field `scfa : forall X, SpecialCommutativeFrobenius X`, four tensor-coherence fields equating scfa_mu/eta/delta/epsilon at X ⨂ Y with canonical_tensor_mu/eta/delta/epsilon built through mid_swap, and four unit-coherence fields at I (scfa_unit_mu ≈ unit_left, scfa_unit_eta ≈ id[I], scfa_unit_delta ≈ unit_left⁻¹, scfa_unit_epsilon ≈ id[I]).",
+      "strength_comparison": "same on the substance (setoid rephrasing: the book's diagram equalities become ≈-equalities with explicit associator/unitor bookkeeping, and the crossing of the middle two wires is `mid_swap`, proved iso by swap_inner_invol at Hypergraph.v:100-106). intree-stronger in one respect: where the book requires only η_I = id_I = ε_I on the unit, the class ALSO demands scfa_unit_mu ≈ unit_left and scfa_unit_delta ≈ unit_left⁻¹ (Hypergraph.v:159-172 says these close a gap that would otherwise let an instance supply an incoherent SCFA on I). Those two extra equations are derivable per Fong–Spivak but are axioms here, so an instance must discharge two obligations the book does not impose."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Structure/Monoidal/Hypergraph.v:144 `Class Hypergraph` before opening the coverage file. Read the whole 178-line file: the quoted class body is verbatim-accurate, including all four scfa_tensor_* fields and all four scfa_unit_* fields, and `canonical_tensor_mu` at :109 is quoted correctly. `mid_swap` at :76 is the middle-four interchange and is proved iso at :100-106 by `swap_inner_invol`, exactly as the strength_comparison says. Chased the SCFA chain to confirm Def 6.52's law set is genuinely present: SpecialCommutativeFrobenius.v:55 (mu_delta_id) over CommutativeFrobenius.v:47 (mu_commutative, delta_cocommutative) over Frobenius.v:127 (frob_monoid, frob_comonoid, frob_law_left, frob_law_right) — the quoted gloss on the evidence line is accurate. The 'intree-stronger' disclosure (scfa_unit_mu / scfa_unit_delta are axioms here, not just eta_I = id = eps_I) is honest and matches Hypergraph.v:159-172. File registered in _CoqProject."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:def-hypergraph-prop",
+    "classification": "PRESENT",
+    "aliases": [
+      "hypergraph prop",
+      "hypergraph PROP",
+      "HypergraphPROP",
+      "PROP with a Frobenius structure on every object",
+      "hypergraph category with Ob(C) = ℕ, ⊗ = +, I = 0"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP.v",
+        "line": 230,
+        "symbol": "HypergraphPROP",
+        "intree_statement": "Class HypergraphPROP : Type := { hpprop : PROP; hpprop_hyper : @Hypergraph (@prop_cat hpprop) (@prop_symmetric hpprop) }.  #[export] Existing Instance hpprop_hyper.  Coercion hpprop : HypergraphPROP >-> PROP."
+      },
+      {
+        "file": "Construction/PROP.v",
+        "line": 68,
+        "symbol": "PROP",
+        "intree_statement": "Class PROP : Type := { prop_cat : Category; prop_strict : @StrictMonoidal prop_cat; prop_symmetric : @SymmetricMonoidal prop_cat; prop_monoidal_coherence : strict_is_monoidal prop_strict = braided_is_monoidal (symmetric_is_braided prop_symmetric); prop_of_nat : nat -> @obj prop_cat; prop_unit_zero : @I prop_cat _ = prop_of_nat 0; prop_tensor_plus : forall (m n : nat), (prop_of_nat m ⨂ prop_of_nat n)%object = prop_of_nat (m + n) }.  (* the object-monoid-is-(ℕ,0,+) clause *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A hypergraph prop is a hypergraph category that is at the same time a prop — Ob(C) = ℕ with monoidal unit 0 and monoidal product + on objects — so every object is a monoidal power of the generating object 1 while still carrying the special commutative Frobenius structure of Definition 6.60.",
+      "intree": "Class HypergraphPROP := { hpprop : PROP; hpprop_hyper : @Hypergraph (prop_cat hpprop) (prop_symmetric hpprop) }, over Class PROP whose object correspondence is prop_of_nat : nat -> obj with prop_unit_zero : I = prop_of_nat 0 and prop_tensor_plus : prop_of_nat m ⨂ prop_of_nat n = prop_of_nat (m+n) (strict, propositional object equalities).",
+      "strength_comparison": "intree-weaker in one stated respect: Construction/PROP.v:60-66 records that the PROP class deliberately does NOT require prop_of_nat to be a bijection on objects, so 'Ob(C) = ℕ' is relaxed to 'ℕ names objects, strictly compatible with I and ⊗' (the class captures a strict symmetric monoidal category whose object monoid is generated by ℕ). Also uninhabited: docs/INHABITATION.md and Test/HypergraphPROPResolution.v:89-92 state HypergraphPROP has no in-tree witness, and a known friction is that the two Monoidal paths (prop_strict vs prop_symmetric) agree only propositionally (prop_monoidal_coherence), so e.g. `braid : T ⨂ T ~> T ⨂ T` does not type-check without an explicit rewrite."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Construction/PROP.v:230 `Class HypergraphPROP`. Both evidence quotes CONFIRMED verbatim at the cited lines (HypergraphPROP at :230 with the export/coercion; `Class PROP` at :68 with prop_of_nat / prop_unit_zero / prop_tensor_plus). Independently verified the two honesty disclosures: PROP.v:60-66 does say the class 'does NOT assert the full \"objects are exactly N\" condition — namely that [prop_of_nat] is a bijection on objects', and PROP.v:88-100 records the propositional-not-definitional prop_monoidal_coherence friction with `braid : (T ⨂ T) ~> (T ⨂ T)` as the named symptom. Uninhabitedness confirmed at Test/HypergraphPROPResolution.v:89-92. MINOR: that test file points at docs/INHABITATION.md for the no-witness claim, but INHABITATION.md never mentions HypergraphPROP (only docs/AXIOMS.md:98 does) — filed as a library defect, not a coverage issue. PRESENT is right: this is a definition item, and the definition is in force and correct."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:example6.61",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cospan_C is a hypergraph category",
+      "cospans of a finitely cocomplete category carry a special commutative Frobenius monoid on every object",
+      "Cospan_Hypergraph",
+      "codiagonal cospan μ_X = (X+X →[id,id] X ← X)",
+      "Fong, Decorated Cospans Thm 3.5"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Cospan/HypergraphInstance.v",
+        "line": 703,
+        "symbol": "Cospan_Hypergraph",
+        "intree_statement": "#[export] Program Instance Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) := {| scfa := cospan_scfa HP; scfa_tensor_mu := cospan_scfa_tensor_mu HP; scfa_tensor_eta := cospan_scfa_tensor_eta HP; scfa_tensor_delta := cospan_scfa_tensor_delta HP; scfa_tensor_epsilon := cospan_scfa_tensor_epsilon HP; scfa_unit_mu := cospan_scfa_unit_mu; scfa_unit_eta := cospan_scfa_unit_eta; scfa_unit_delta := cospan_scfa_unit_delta; scfa_unit_epsilon := cospan_scfa_unit_epsilon |}.  (Section context: Context `{H_Coc : @Cocartesian C}, `{H_Ini : @Initial C}, (HP : HasPushouts C).)"
+      },
+      {
+        "file": "Construction/Cospan/SCFA.v",
+        "line": 1271,
+        "symbol": "cospan_scfa",
+        "intree_statement": "Program Definition cospan_scfa (X : CospanCat C HP) : @SpecialCommutativeFrobenius (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X := {| scfa_commutative := cospan_commutative_frobenius X |}.  Next Obligation. apply cospan_mu_delta_id. Defined.  (* every object of Cospan_C is a special commutative Frobenius monoid; the nine laws are cospan_mu_assoc, cospan_mu_unit_left/right, cospan_mu_commutative, cospan_delta_coassoc, cospan_delta_counit_left/right, cospan_delta_cocommutative, cospan_frob_law_left/right, cospan_mu_delta_id *)"
+      },
+      {
+        "file": "Construction/Cospan/Hypergraph.v",
+        "line": 119,
+        "symbol": "cospan_scfa_mu / cospan_scfa_eta / cospan_scfa_delta / cospan_scfa_epsilon",
+        "intree_statement": "Definition cospan_scfa_mu (X : C) : CospanArrow (X + X) X := Build_CospanArrow X (id[X] ▽ id[X]) id[X].  Definition cospan_scfa_eta (X : C) : CospanArrow Cospan_unit_obj X := Build_CospanArrow X zero id[X].  Definition cospan_scfa_delta (X : C) : CospanArrow X (X + X) := Build_CospanArrow X id[X] (id[X] ▽ id[X]).  Definition cospan_scfa_epsilon (X : C) : CospanArrow X Cospan_unit_obj := Build_CospanArrow X id[X] zero."
+      }
+    ],
+    "statement_record": {
+      "book": "For any C with finite colimits, Cospan_C is a hypergraph category, with μ_X := (X+X →[id,id] X ← id X), η_X := (∅ →! X ← id X), δ_X := (X →id X ←[id,id] X+X), ε_X := (X →id X ←! ∅), all built from the universal properties of the colimits involved.",
+      "intree": "Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP), for C cocartesian with an initial object and a chosen-pushout structure HP, with scfa := cospan_scfa and the four cospans exactly cospan_scfa_mu X = (X+X →(id▽id) X ← id X), cospan_scfa_eta X = (0 →zero X ← id X), cospan_scfa_delta X = (X →id X ←(id▽id) X+X), cospan_scfa_epsilon X = (X →id X ← zero 0).",
+      "strength_comparison": "same. The four Frobenius cospans match the book's formulas on the nose (codiagonal on one leg, identity on the other; zero map from the initial object for η/ε), and unlike the book — which gives no proof — all eight Hypergraph coherences plus the nine Def-6.52 laws are proved in-tree from the pushout UMP. Hypothesis shape differs only presentationally: 'finite colimits' is spelled Cocartesian + Initial + HasPushouts, and HasPushouts supplies a CHOSEN pushout for each span rather than mere existence (needed because the composite cospan is built, not merely asserted). The hom-setoid `cospan_equiv` (iso of apices intertwining both legs) is the faithful setoid rendering of the book's 'equivalence classes of cospans'. Inhabited: docs/INHABITATION.md:40,73-78 records that FinSet_HasPushouts witnesses this instance over skeletal FinSet."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Construction/Cospan/HypergraphInstance.v:703 `Cospan_Hypergraph`. All three evidence citations CONFIRMED verbatim: the Program Instance at :703-715 wires exactly the eight named lemmas; cospan_scfa at Construction/Cospan/SCFA.v:1271; and the four cospans at Construction/Cospan/Hypergraph.v:119/124/131/135. Checked the four against the book's formulas morphism-by-morphism — mu = (X+X -(id▽id)-> X <-id- X), eta = (0 -zero-> X <-id- X), delta = (X -id-> X <-(id▽id)- X+X), epsilon = (X -id-> X <-zero- 0) — they match on the nose. The section context (Cocartesian + Initial + HasPushouts) is as quoted. Spot-checked that the nine Def-6.52 laws named in the evidence gloss all exist in SCFA.v (mu_assoc:356, mu_unit_left:412, mu_unit_right:436, delta_coassoc:466, delta_counit_left:540, delta_counit_right:585, mu_commutative:701, delta_cocommutative:714, frob_law_left:1041, frob_law_right:1123, mu_delta_id:1198). Inhabitation claim corroborated by docs/AXIOMS.md:82-91 as well as INHABITATION.md. 'same' is honest."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:ex6.62",
+    "classification": "PRESENT",
+    "aliases": [
+      "Frobenius maps of the generating object 1 in Cospan_FinSet",
+      "μ, δ, η, ε at the one-element set",
+      "cospan_scfa_mu / cospan_scfa_delta / cospan_scfa_eta / cospan_scfa_epsilon at X = 1",
+      "Cospan(FinSet) hypergraph structure",
+      "wire depiction of a cospan (connected ports)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Cospan/HypergraphInstance.v",
+        "line": 703,
+        "symbol": "Cospan_Hypergraph",
+        "intree_statement": "#[export] Program Instance Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) := {| scfa := cospan_scfa HP; ... |} — parametric in any C with `Cocartesian C`, `Initial C`, `HasPushouts C`, hence available at C := FinSet."
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 513,
+        "symbol": "FinSet_HasPushouts",
+        "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }.  (* with FinSet_Cocartesian (Instance/FinSet.v:250) and FinSet_Initial (:223), this is the last premise Cospan_Hypergraph needs over FinSet *)"
+      },
+      {
+        "file": "Construction/Cospan/Hypergraph.v",
+        "line": 119,
+        "symbol": "cospan_scfa_mu / cospan_scfa_eta / cospan_scfa_delta / cospan_scfa_epsilon",
+        "intree_statement": "Definition cospan_scfa_mu (X : C) : CospanArrow (X + X) X := Build_CospanArrow X (id[X] ▽ id[X]) id[X]; ... cospan_scfa_eta X := Build_CospanArrow X zero id[X]; cospan_scfa_delta X := Build_CospanArrow X id[X] (id[X] ▽ id[X]); cospan_scfa_epsilon X := Build_CospanArrow X id[X] zero.  (* instantiate at X := 1 in FinSet to obtain the four cospans the exercise asks to draw *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Cospan_FinSet is a hypergraph category (and is equivalent to a hypergraph prop); draw the four Frobenius morphisms μ, δ, η, ε for the object 1, in both the function depiction and the wiring depiction of Example 6.46.",
+      "intree": "cospan_scfa_mu 1 = (1+1 →(id▽id) 1 ← id 1), cospan_scfa_delta 1 = (1 →id 1 ←(id▽id) 1+1), cospan_scfa_eta 1 = (0 →zero 1 ← id 1), cospan_scfa_epsilon 1 = (1 →id 1 ← zero 0), all of type CospanArrow in CospanCat FinSet FinSet_HasPushouts, which is a Hypergraph by Cospan_Hypergraph.",
+      "strength_comparison": "same on the mathematical content: the four morphisms at the generating object are exactly the in-tree cospan_scfa_* data instantiated at C := FinSet, X := 1, and the required premises (FinSet_Cocartesian, FinSet_Initial, FinSet_HasPushouts) are all in-tree. Two caveats, neither a mathematical gap: (i) no .v file names the FinSet instantiation — docs/INHABITATION.md:73-78 records that Cospan_Hypergraph and the spider results do instantiate over FinSet and were axiom-checked; (ii) the exercise's actual work is producing two PICTURES (function depiction, wiring depiction with circled connected ports), which is presentational and has no propositional content. The book's parenthetical 'in fact equivalent to a hypergraph prop' is not formalized (same missing ingredient as Theorem 6.58)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass had leaned PARTIAL; on inspection PRESENT is defensible and I do not overturn, because the exercise's TASK (produce the four Frobenius morphisms at the generating object of Cospan_FinSet) is fully covered and the residue is either presentational or already owned by another record. Verified: FinSet_HasPushouts really is at Instance/FinSet/Pushout.v:513 and the quote is accurate; Cospan_Hypergraph is parametric in (Cocartesian, Initial, HasPushouts) so it applies at FinSet; the four cospan_scfa_* at Construction/Cospan/Hypergraph.v:119-136 are quoted correctly. TWO RESERVATIONS, both disclosed by the record itself and neither sufficient to overturn: (1) NO .v FILE ANYWHERE forms `CospanCat FinSet FinSet_HasPushouts` — I grepped `Cospan.*FinSet` over --include='*.v' and every hit is prose (Construction/Cospan/Hypergraph.v:294, Instance/FinSet/Pushout.v:51, Theory/Algebra/Frobenius.v:75,100). The instantiation rests on docs/INHABITATION.md:73-78 and docs/AXIOMS.md:82-91, which assert it typechecks and is axiom-free; I attempted an independent coqc probe (`Definition probe : @Hypergraph (CospanCat FinSet FinSet_HasPushouts) _ := Cospan_Hypergraph FinSet_HasPushouts.`) but could not run it — every available nix coq/stdlib/Equations triple mismatches the OCaml toolchain the tree's .vo files were built with (4.14.3 vs 4.14.4), so the probe is UNVERIFIED rather than failed. (2) the book's parenthetical 'Cospan_FinSet is in fact equivalent to a hypergraph prop' is genuinely unformalized — but that is precisely the content of 7sketches:6.3.1:thm6.58, already recorded ABSENT, so overturning here would only duplicate that issue."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:ex6.63",
+    "classification": "PRESENT",
+    "aliases": [
+      "special law for the cospan Frobenius maps",
+      "δ_X ; μ_X = id_X in Cospan_C",
+      "cospan_mu_delta_id",
+      "pushout of X+X →[id,id] X ←[id,id] X+X is X",
+      "mu_delta_id / spider_collapse for cospans"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Cospan/SCFA.v",
+        "line": 1198,
+        "symbol": "cospan_mu_delta_id",
+        "intree_statement": "Lemma cospan_mu_delta_id (X : C) : cospan_equiv (cospan_compose HP (cospan_scfa_mu X) (cospan_scfa_delta X)) (cospan_id X).  (* proof: exists (pushout_codiag_apex X); the two legs collapse by pushout_med_in1 / pushout_med_in2 *)"
+      },
+      {
+        "file": "Construction/Cospan/SCFA.v",
+        "line": 672,
+        "symbol": "pushout_codiag_apex",
+        "intree_statement": "Lemma pushout_codiag_apex (X : C) : pushout_apex (pushout (id[X] ▽ id[X] : (X + X)%object ~> X) (id[X] ▽ id[X])) ≅ X.  (* the colimit computation the exercise calls for: the pushout of the codiagonal against itself is X again *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Using your knowledge of colimits, show that the maps μ_X, δ_X, η_X, ε_X of Example 6.61 obey the special law of Definition 6.52 — comultiplication followed by multiplication is the identity, δ_X ; μ_X = id_X — i.e. compute the pushout of X+X →[id,id] X ←[id,id] X+X and check the resulting cospan is equivalent to the identity cospan on X.",
+      "intree": "cospan_mu_delta_id (X : C) : cospan_equiv (cospan_compose HP (cospan_scfa_mu X) (cospan_scfa_delta X)) (cospan_id X), proved from pushout_codiag_apex : pushout_apex (pushout (id▽id) (id▽id)) ≅ X together with pushout_codiag_legs_eq : pushout_in1 P ≈ pushout_in2 P.",
+      "strength_comparison": "same, and by exactly the route the exercise prescribes: the pushout of the codiagonal against itself is computed (pushout_codiag_apex, from the pushout UMP via pushout_med / pushout_med_eq) and the composite cospan is shown cospan_equiv to cospan_id X. The law is then consumed as the mu_delta_id obligation of cospan_scfa (SCFA.v:1271-1277). Stated for an arbitrary cocartesian C with initial object and chosen pushouts, i.e. more general than the exercise's Cospan_C for a finitely cocomplete C — the same generality as Example 6.61."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Construction/Cospan/SCFA.v:1198 `cospan_mu_delta_id`. Read the full proof: the statement quote is verbatim-accurate, and the proof does exactly what the exercise prescribes — `exists (pushout_codiag_apex X)` then `apply pushout_med_in1` / `apply pushout_med_in2` on the two legs. `pushout_codiag_apex` CONFIRMED at SCFA.v:672 as cited, and `pushout_codiag_legs_eq` at :641 as named in the intree statement. Also confirmed the downstream consumption claim: SCFA.v:1271-1277 `cospan_scfa` discharges its mu_delta_id obligation with `apply cospan_mu_delta_id`. The generality note (arbitrary cocartesian C with initial object and chosen pushouts, rather than the book's finitely cocomplete C) is accurate. 'same' is honest."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:example6.64",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Corel is a hypergraph category",
+      "corelations of finite sets / jointly-epic cospans",
+      "partitions of X ⊔ Y",
+      "CorelCat, CorelationArrow",
+      "extraspecial commutative Frobenius monoid (Coya–Fong)",
+      "(Corel, ∅, ⊔) symmetric monoidal"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Cospan/Corelation.v",
+        "line": 259,
+        "symbol": "CorelCat",
+        "intree_statement": "Program Definition CorelCat : Category := {| obj := @obj C; hom := fun X Y => CorelationArrow X Y; homset := fun X Y => @CorelationArrow_Setoid C _ X Y; id := fun X => corelation_id X; compose := fun X Y Z g f => corelation_compose g f; ... |}.  (Section context: `{H_Coc : @Cocartesian C}, (HP : HasPushouts C), `{CC : @CorelComposable C H_Coc HP}.)"
+      },
+      {
+        "file": "Construction/Cospan/Corelation.v",
+        "line": 56,
+        "symbol": "CorelationArrow",
+        "intree_statement": "Record CorelationArrow (X Y : C) : Type := { corelation_cospan : CospanArrow X Y; corelation_copairing_epic : Epic (cospan_in1 corelation_cospan ▽ cospan_in2 corelation_cospan) }.  (* a corelation is a jointly-epic cospan — over FinSet exactly a partition of X ⊔ Y, the book's 'which elements are identified' *)"
+      },
+      {
+        "file": "Construction/Cospan/Corelation.v",
+        "line": 295,
+        "symbol": "Corel_to_Cospan",
+        "intree_statement": "Program Definition Corel_to_Cospan : @CorelCat C H_Coc HP CC ⟶ CospanCat C HP := {| fobj := fun X => X; fmap := fun X Y f => corelation_cospan f |}.  (* Corel sits over Cospan as a wide, faithful subcategory — the ambient category whose hypergraph structure the example wants to inherit *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In the monoidal category (Corel, ∅, ⊔) of finite sets and corelations, every object X carries μ_X : X ⊔ X → X, δ_X : X → X ⊔ X (the corelation identifying exactly the elements coming from the same element of X), and η_X : ∅ → X, ε_X : X → ∅ (identifying nothing); these are a special commutative Frobenius monoid and give Corel the structure of a hypergraph category.",
+      "intree": "CorelCat : Category (corelations = jointly-epic cospans, with a CorelComposable hypothesis packaging the composite-copairing-is-epi axiom) plus the faithful wide inclusion Corel_to_Cospan : CorelCat ⟶ CospanCat. No monoidal, symmetric monoidal, Frobenius or Hypergraph instance exists on CorelCat.",
+      "strength_comparison": "intree-weaker: only the underlying CATEGORY of the example is formalized. Grep over the whole tree for CorelCat / Corel_ outside Construction/Cospan/Corelation.v returns nothing, so there is no `@Monoidal CorelCat`, no `@SymmetricMonoidal CorelCat`, no SCFA on a corelation object and no `@Hypergraph CorelCat` — precisely the content the example asserts. In addition the in-tree Corel is parametric (any cocartesian C with chosen pushouts) and its composability hypothesis `CorelComposable` has NO in-tree instance (Corelation.v:306-321 says producing one even for Sets needs regular-epi factorization the library lacks), so the book's concrete Corel of finite sets is not inhabited either."
+    },
+    "gap": "Missing: (1) the monoidal structure (∅, ⊔) on CorelCat and its symmetry — no Monoidal/SymmetricMonoidal instance for corelations exists; (2) the four corelation Frobenius maps μ_X, δ_X, η_X, ε_X and the proof that they form a SpecialCommutativeFrobenius; (3) the `@Hypergraph CorelCat` instance with the four tensor-coherence and four unit-coherence obligations; (4) a concrete witness — `CorelComposable` is uninhabited in-tree, so even `CorelCat FinSet` does not exist yet. Only the category of jointly-epic cospans and its inclusion into CospanCat are in place.",
+    "negative_search_log": [
+      "grep -rn 'CorelCat|Corel_' --include='*.v' . | grep -v Construction/Cospan/Corelation.v — 0 hits (nothing downstream builds on Corel).",
+      "grep -rn -i 'corelation|extraspecial' --include='*.v' . outside Corelation.v — only prose citations in Theory/Algebra/Frobenius.v:103-104, Theory/Algebra/SpecialCommutativeFrobenius.v:32, Construction/Cospan/Category.v:45, Construction/Cospan/BlackBox.v:22-23.",
+      "VERIFIER CORRECTION (Phase D), completing the 'only prose citations' list: two further out-of-file references exist and are the ones that matter — Instance/Sets/Pushout.v:41 ('This file is the concrete realisation needed by [Construction/Cospan/Corelation.v]'s [CorelComposable Sets] instance') and :221 ('recorded here for downstream use in the [CorelComposable Sets] instance'). Both refer to a `CorelComposable Sets` instance that DOES NOT EXIST anywhere in the tree (`grep -rn 'CorelComposable' --include='*.v' .` yields only the class at Corelation.v:147 and Context hypotheses at :157/:200/:293). This strengthens, not weakens, gap item (4): the setoid pushout groundwork for a Sets witness was laid but the instance was never built. Classification PARTIAL is unchanged."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same gap. All three evidence citations CONFIRMED at the exact lines (CorelationArrow at Corelation.v:56, CorelCat at :259, Corel_to_Cospan at :295) with accurate quotes. Independently reproduced the two decisive negatives: (a) `grep -rn 'CorelCat' --include='*.v' .` returns hits in Construction/Cospan/Corelation.v ONLY — nothing downstream builds on Corel, so there is indeed no Monoidal / SymmetricMonoidal / SCFA / Hypergraph instance for corelations; (b) `grep -rn 'CorelComposable' --include='*.v' .` returns only the class declaration at Corelation.v:147 and its use as a `Context` hypothesis at :157/:200/:293 — NO instance exists anywhere, confirming gap item (4). Corelation.v:306-321 does say producing one even for Sets needs epi-factorization machinery the library lacks, as the record states. *** ONE NSL ENTRY WAS INCOMPLETE AND HAS BEEN CORRECTED IN PLACE (appended, original preserved): *** the 'only prose citations' list omits Instance/Sets/Pushout.v:41 and :221, which are the only two references that assert a `CorelComposable Sets` instance EXISTS. They are stale (no such instance is in the tree) — filed separately as a library defect. Gap statement is precise and the four listed missing pieces are each independently confirmed missing."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:example6.65",
+    "classification": "ABSENT",
+    "aliases": [
+      "prop of linear relations",
+      "LinRel / linear relations over a field",
+      "two hypergraph structures on one symmetric monoidal category",
+      "black copy/discard versus white add/zero generators",
+      "interacting Hopf algebras / bialgebra of two Frobenius structures",
+      "Vect, FdVect, matrices, subspaces of k^m ⊕ k^n"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIl on each of 'LinRel', 'LinearRelation', 'linear relation', 'VectorSpace', 'Matrix' over --include='*.v' — 0 files each. The library has no linear algebra: no field, no vector space, no module, no matrix category.",
+      "grep -rIl 'Vect' --include='*.v' — hits are Coq.Vectors.Vector / Coq.Vectors.Fin imports (Theory/Sheaf.v, Instance/FinSet*.v, Instance/Shapes.v) and prose mentions of Vect_K in Theory/Algebra/CommutativeFrobenius.v:34 and Theory/Algebra/Frobenius.v:64. No category of vector spaces.",
+      "grep -rIl 'black spider', 'white spider', 'two hypergraph', 'Hypergraph structure is data' --include='*.v' — 0 files each. Nothing in-tree exhibits two distinct Hypergraph instances on the same symmetric monoidal category, so the example's point (a hypergraph structure is extra DATA, not a property) has no in-tree counterpart.",
+      "grep -rn -i 'bialgebra|bimonoid|interacting' --include='*.v' . — prose only (Theory/Algebra/Frobenius.v:70-75, Instance/FinSet.v:78, Instance/ZX.v:32,76-79,99-101, Structure/Monoidal/Symmetric.v:75). No bialgebra/Hopf class.",
+      "NOTE (nearest neighbour, not a counterpart): Instance/ZX.v does carry BOTH spider colours as syntax — ZX_Cat : Category (ZX.v:348) with zx_z_self_fuse (:517) and zx_x_self_fuse (:524) — which is the same 'two Frobenius structures on one object' phenomenon in the ZX setting. But ZX is not the category of linear relations, and ZX.v:383-398,438-466 record that lifting ZX_Cat to PROP + Hypergraph is NOT done, so not even one hypergraph structure is proven there, let alone two."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Reproduced the searches: `grep -rn -i 'linear relation|LinRel|LinearRelation' --include='*.v' .` — 0 hits; `grep -rIl -i 'vect|vector space|module over' --include='*.v'` — every hit is a Coq.Vectors.Vector/Fin import or a prose mention (Theory/Algebra/Frobenius.v:64, CommutativeFrobenius.v:34), no category of vector spaces; `ls Instance/` — no Vect/FdVect/Mat. Also confirmed independently that nothing in-tree carries two distinct Hypergraph instances on one symmetric monoidal category, so the example's actual point (a hypergraph structure is DATA, not a property) has no counterpart. The record's ZX 'nearest neighbour' NOTE is accurate: ZX_Cat is at Instance/ZX.v:348, zx_z_self_fuse at :517 and zx_x_self_fuse at :524, and ZX.v:383-398 and :438-466 do state that lifting ZX_Cat to PROP + Hypergraph is not done (both spider colours are syntax only). Also checked Instance/Rel.v as a possible substitute: Rel.v:38-39 explicitly says its dagger-compact-closed structure is 'None of that extra' — no Frobenius/Hypergraph there either. negative_search_log satisfies the schema."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:prop6.66",
+    "classification": "PRESENT",
+    "aliases": [
+      "hypergraph categories are self-dual compact closed",
+      "every object is its own dual",
+      "cup := δ ∘ η, cap := ε ∘ μ",
+      "snake / zigzag / yanking identities",
+      "Hypergraph_CompactClosed",
+      "well-supported compact closed category"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 303,
+        "symbol": "Hypergraph_CompactClosed",
+        "intree_statement": "Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {| dual := fun X => X; cc_unit := fun X => hcc_unit X (F := scfa X); cc_counit := fun X => hcc_counit X (F := scfa X); snake_left := hypergraph_snake_left; snake_right := hypergraph_snake_right |}.  (Section context: `{S : @SymmetricMonoidal C}, `{H : @Hypergraph C S}; hcc_unit X := scfa_delta F ∘ scfa_eta F, hcc_counit X := scfa_epsilon F ∘ scfa_mu F.)"
+      },
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 241,
+        "symbol": "hypergraph_snake_left",
+        "intree_statement": "Lemma hypergraph_snake_left (X : C) : to (@unit_left C _ X) ∘ bimap (hcc_counit X (F := scfa X)) id[X] ∘ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (hcc_unit X (F := scfa X)) ∘ from (@unit_right C _ X) ≈ id[X]."
+      },
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 273,
+        "symbol": "hypergraph_snake_right",
+        "intree_statement": "Lemma hypergraph_snake_right (X : C) : to (@unit_right C _ X) ∘ bimap id[X] (hcc_counit X (F := scfa X)) ∘ to (@tensor_assoc C _ X X X) ∘ bimap (hcc_unit X (F := scfa X)) id[X] ∘ from (@unit_left C _ X) ≈ id[X]."
+      }
+    ],
+    "statement_record": {
+      "book": "Hypergraph categories are self-dual compact closed categories, if we define the cup I → X ⊗ X to be η_X followed by δ_X and the cap X ⊗ X → I to be μ_X followed by ε_X. Proof: expand by definition, apply the Frobenius law in the middle (Exercise 6.67), then unitality, yielding a bare wire.",
+      "intree": "Hypergraph_CompactClosed : @CompactClosed C S for any `{H : @Hypergraph C S}`, with dual X := X, cc_unit X := scfa_delta (scfa X) ∘ scfa_eta (scfa X), cc_counit X := scfa_epsilon (scfa X) ∘ scfa_mu (scfa X), and both zigzags discharged by hypergraph_snake_left / hypergraph_snake_right (each proved by distributing bimap, rewriting with frob_law_left / frob_law_right, then mu_unit_right / mu_unit_left and delta_counit_left / delta_counit_right).",
+      "strength_comparison": "intree-stronger, in two ways. (a) The book proves only the one displayed snake; in-tree BOTH zigzag identities of the CompactClosed class are proved (the second is not automatic for a general dual, though it is symmetric here since dual X := X). (b) The in-tree derivation notes and uses that specialness (μ ∘ δ ≈ id) is NOT needed for the snakes — only the Frobenius and unit/counit laws — so the result holds for any commutative Frobenius structure, a strictly weaker hypothesis than the book's special one (CompactClosed.v:186-189). Presentational difference: the instance is not exported as a Global Instance (clients opt in with `Existing Instance Hypergraph_CompactClosed`) to avoid typeclass-search blowup."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found Structure/Monoidal/CompactClosed.v:303 `Hypergraph_CompactClosed`. All three evidence citations CONFIRMED verbatim at :303, :241, :273; hcc_unit/hcc_counit are at :197/:201 as the parenthetical says; the CompactClosed class with both snake fields is at :139-167 and dual X := X makes every object self-dual, matching the book. Read both snake proofs — each is Qed'd and follows the route the record describes. ONE NITPICK on strength_comparison clause (b), not enough to overturn: it says the in-tree derivation holds 'for any commutative Frobenius structure, a strictly weaker hypothesis than the book's special one'. That is true of the PROOF (CompactClosed.v:186-189 does say specialness is not needed) but NOT of the delivered STATEMENT: `Hypergraph_CompactClosed` is stated over `Context `{H : @Hypergraph C S}`, which carries SCFA on every object, so the weaker hypothesis is observed but never instantiated. Readers should not cite the record as though a commutative-Frobenius-only compact-closed derivation exists in-tree. Clause (a) (both zigzags proved) is accurate."
+    }
+  },
+  {
+    "id": "7sketches:6.3.3:ex6.67",
+    "classification": "PRESENT",
+    "aliases": [
+      "the Frobenius step in the snake proof",
+      "fill in the missing diagram of Proposition 6.66",
+      "(μ ⊗ id) ∘ α⁻¹ ∘ (id ⊗ δ) = δ ∘ μ and its mirror",
+      "frob_law_left / frob_law_right",
+      "spider_frobenius / spider_frobenius_sym",
+      "Eq (6.51) monoid laws + opposites + Eq (6.53) Frobenius/special laws"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 241,
+        "symbol": "hypergraph_snake_left",
+        "intree_statement": "Lemma hypergraph_snake_left (X : C) : to unit_left ∘ bimap (hcc_counit X) id[X] ∘ from tensor_assoc ∘ bimap id[X] (hcc_unit X) ∘ from unit_right ≈ id[X].  Proof: ... rewrite (frob_law_left (Frobenius := scfa X)); (* the exercise's missing diagram: unit_left ∘ bimap ε id ∘ (δ ∘ μ) ∘ bimap id η ∘ unit_right⁻¹ *) ... rewrite (mu_unit_right (Monoid := scfa X)); rewrite (delta_counit_left (Comonoid := scfa X)); reflexivity. Qed."
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 62,
+        "symbol": "spider_frobenius",
+        "intree_statement": "Lemma spider_frobenius (X : C) : scfa_delta (scfa X) ∘ scfa_mu (scfa X) ≈ bimap (scfa_mu (scfa X)) id[X] ∘ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (scfa_delta (scfa X)).  (* Eq. (6.53), the Frobenius law, in the orientation the missing diagram needs *)"
+      },
+      {
+        "file": "Structure/Monoidal/Hypergraph/Spider.v",
+        "line": 74,
+        "symbol": "spider_frobenius_sym",
+        "intree_statement": "Lemma spider_frobenius_sym (X : C) : scfa_delta (scfa X) ∘ scfa_mu (scfa X) ≈ bimap id[X] (scfa_mu (scfa X)) ∘ to (@tensor_assoc C _ X X X) ∘ bimap (scfa_delta (scfa X)) id[X].  (* the mirror image — 'their opposites' in the exercise's wording *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Fill in the missing diagram in the proof of Proposition 6.66, using the equations of Eq. (6.51) (monoid associativity, unitality, commutativity), their opposites (the comonoid laws), and Eq. (6.53) (the Frobenius law and the special law).",
+      "intree": "The step is carried out inside the Qed'd proof of hypergraph_snake_left (and, mirrored, hypergraph_snake_right): after distributing bimap over the composites, `rewrite (frob_law_left (Frobenius := scfa X))` turns bimap μ id ∘ α⁻¹ ∘ bimap id δ into δ ∘ μ, leaving exactly the intermediate `unit_left ∘ bimap ε id ∘ (δ ∘ μ) ∘ bimap id η ∘ unit_right⁻¹`, which the following `mu_unit_right` and `delta_counit_left` rewrites collapse to id[X]. The law invoked is available standalone in both orientations as spider_frobenius / spider_frobenius_sym.",
+      "strength_comparison": "same. The exercise's content — the intermediate diagram and its justification from the Frobenius law plus the (co)unit laws — is the in-tree rewrite chain of hypergraph_snake_left, and hypergraph_snake_right supplies the mirror instance the book calls 'their opposites'. Presentational difference only: the intermediate is a Coq proof state rather than a drawn diagram, and it carries the explicit associator/unitor bookkeeping (from tensor_assoc, from unit_right) that string-diagram notation suppresses. Note that the in-tree derivation needs only the Frobenius and unit/counit laws — Eq. (6.53)'s special law is not used (CompactClosed.v:186-189)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT, locating the same step. Verified by reading the proof body of hypergraph_snake_left (CompactClosed.v:248-270): `rewrite (frob_law_left (Frobenius := scfa X))` at :260 is exactly the exercise's blank 'Frobenius' step, and the following `mu_unit_right` (:264) and `delta_counit_left` (:267) rewrites are the unitality collapse the book draws next; the mirror instance sits at :288 inside hypergraph_snake_right ('their opposites'). The two standalone orientations quoted as supporting evidence are CONFIRMED verbatim at Structure/Monoidal/Hypergraph/Spider.v:62 (spider_frobenius) and :74 (spider_frobenius_sym). Both files are registered in _CoqProject. The 'presentational difference only' claim is honest — the intermediate is a proof state rather than a drawn diagram, and the associator/unitor bookkeeping is explicit. The closing remark that Eq. (6.53)'s special law is unused matches CompactClosed.v:186-189."
+    }
+  }
+]

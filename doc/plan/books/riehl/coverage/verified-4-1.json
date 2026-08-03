@@ -1,0 +1,334 @@
+[
+  {
+    "id": "riehl:4.1:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of fields Field / Fld",
+      "forgetful functor Field ⟶ Ring (Rng, CRing)",
+      "units functor Field ⟶ Ab, underlying-set functor Field ⟶ Set",
+      "free field / cofree field on a set (nonexistent left/right adjoint)",
+      "characteristic of a field; no field homomorphism between differing characteristics",
+      "non-existence of adjoints / functor admitting no left adjoint"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rEn '\\b(Field|Fld)\\b' --include='*.v' . — only the record-field sense and bibliography hits ('Topological Quantum Field Theory' in Theory/Algebra/Frobenius.v, 'Field orientations' in Structure/Premonoidal.v); no category of fields",
+      "grep -rEn '\\b(Ring|CRing|Rng|CommutativeRing)\\b' --include='*.v' . — 0 hits; the library has no ring theory at all",
+      "grep -rln 'AbGroup|Abelian group' --include='*.v' . — only Structure/Closed.v (prose); no category Ab",
+      "grep -rin 'characteristic' --include='*.v' . — all hits are the subobject-classifier 'characteristic morphism' (Instance/FinSet/Classifier.v, Instance/Sets/Classifier.v), unrelated to field characteristic",
+      "ls Instance/*.v — the concrete categories in-tree are Sets, Coq, Ens, Rel, Cat/StrictCat, Fun, Poset/Proset, FinSet, CMon, Props, Two, One, Zero, Omega, Parallel, Roof, Shapes, ZX, Lambda, Adj, Adjoints, Cones, Comp, Discrete, Fact; the only algebraic ones are CMon (Instance/CMon.v) and Mon (Theory/Algebra/Monoid/Hom.v). No Grp, Ab, Ring, or Field",
+      "grep -rn 'Definition Grp|Instance Grp|category of groups|category of monoids' --include='*.v' . — no category of groups; Structure/Group.v defines a group OBJECT internal to a category, not Grp",
+      "grep -rin 'no left adjoint|admits no adjoint|fails to have a left adjoint' --include='*.v' . — 0 hits; the library records no non-existence-of-adjoint results at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass (run before opening the coverage file) reached the same verdict independently: `rg -in 'Field' --glob '*.v'` yields only the record-field sense and bibliography prose; `rg -nw 'Ring' --glob '*.v'` returns 0 hits (the record's log entry is exact); `ls Instance/*.v` shows the only algebraic categories in-tree are CMon (Instance/CMon.v) and Mon (Theory/Algebra/Monoid/Hom.v:83), and Structure/Group.v:8 defines a group OBJECT internal to a cartesian monoidal category, never Grp/Ab/Ring/Field. No characteristic, no field homomorphism, no non-existence-of-adjoint argument anywhere. One microscopic log imprecision, immaterial: searching 'no right adjoint' (the record searched only 'no left adjoint'/'admits no adjoint') does return one hit, Construction/ColouredPROP/LNL.v:53, but it is prose about Comon_Forget having no in-tree right adjoint, an unrelated functor and not a proof of non-existence."
+    }
+  },
+  {
+    "id": "riehl:4.1:example13",
+    "classification": "PRESENT",
+    "aliases": [
+      "free category on a quiver / on a directed graph",
+      "path category, category of paths, FreeCat / FreeOnQuiver",
+      "underlying-graph (forgetful) functor U : Cat ⟶ Quiv, Forgetful",
+      "Quiv / QuiverCategory, quiver homomorphism, graph morphism",
+      "Free ⊣ Forgetful, FreeCatFunctor, atomic/generating arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .   (with FreeCatFunctor : @Functor QuiverCategory StrictCat, line 546, and Forgetful : @Functor StrictCat QuiverCategory, line 412)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  — for every quiver G, the unit UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat (FreeOnQuiver)) is universal: every quiver homomorphism F : G ⇨ QuiverOfCat C factors through it as InducedFunctor F : FreeOnQuiver ⟶ C, uniquely up to ≈"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ ; ... |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}"
+      }
+    ],
+    "statement_record": {
+      "book": "The forgetful functor U : Cat → Quiver has a left adjoint F; F(Q) has the vertices of Q as objects and finite directed paths of edges as morphisms, nullary paths as identities and concatenation as composition, so functors F(Q) → C correspond naturally to quiver morphisms Q → U(C).",
+      "intree": "FreeOnQuiver G has obj := @nodes G, hom := tlist edges (type-aligned lists = finite composable paths), id := tnil, compose := fun _ _ _ f g => g +++ f; Forgetful : StrictCat ⟶ QuiverCategory sends a category to QuiverOfCat C (nodes := obj, edges := hom); FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful.",
+      "strength_comparison": "same — the free/forgetful adjunction is proven in full via the universal-arrow route, with morphisms literally the finite paths, identities the empty paths and composition concatenation. Two presentational differences, neither weakening the claim: (a) the codomain is StrictCat (functors compared by on-the-nose object equality), which the library documents as the textbook bare-name 'Cat' and which is REQUIRED here — Test/Issue138.v records `Fail Definition A138_forgetful_over_Cat : Cat ⟶ QuiverCategory := Forgetful`, since the library's weak `Cat` identifies functors up to natural isomorphism; (b) quivers are presented with edges indexed by their endpoints (edges : nodes → nodes → Type, each a setoid) rather than as (V, A, s, t), the standard equivalent packaging. Riehl's two illustrative riders — that the generators are exactly the arrows admitting no non-trivial factorization ('atomic'), and that ω is free on the successor quiver — are not separately proved in-tree (Instance/Omega.v builds ω directly from le_t, with no comparison to FreeOnQuiver)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Every cited site verified at the cited line: Construction/Free/Quiver.v:431 `Program Definition FreeOnQuiver : Category@{o h p}`, :518 `Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful`, :546 `FreeCatFunctor : @Functor QuiverCategory StrictCat`, :550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`, with Forgetful at :412 and QuiverOfCat at :398. No Admitted/Abort/admit in the file; Construction/Free/Quiver.v is registered in _CoqProject (line 72) and Construction/Free/Quiver.vo is built. The strength_comparison's two disclaimers both check out: Test/Issue138.v:75-76 does contain `Fail Check (Forgetful : Cat ⟶ QuiverCategory)` and `Fail Definition A138_forgetful_over_Cat : Cat ⟶ QuiverCategory := Forgetful`, and Instance/StrictCat.v:33-45 does document StrictCat as 'matching the textbook bare-name \"Cat\"' and names this Forgetful as the motivating example of issue #138. Riehl's atomic-arrows and 'omega is free on the successor quiver' riders are indeed unproven (Instance/Omega.v builds omega from le_t with no comparison to FreeOnQuiver) — correctly recorded as riders, not as part of the adjunction claim. See problems[] for a header defect found in this same file while confirming (the FreeSyntax equivalence)."
+    }
+  },
+  {
+    "id": "riehl:4.1:example14",
+    "classification": "ABSENT",
+    "aliases": [
+      "ordinal category n = {0 → 1 → … → n−1}, finite linear order as a category",
+      "simplex category Δ, coface d^i, codegeneracy s^i, face/degeneracy maps",
+      "adjoint string / chain of adjoints / tower of adjoints of arbitrary length",
+      "injective (monotone) and surjective (monotone) maps between finite ordinals",
+      "walking arrow 2, terminal category 1, free category on 0 → 1 → … → n"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'ordinal' --include='*.v' . — 7 hits, all prose: Instance/Two.v ('2 is the ordinal {0 < 1}'), Instance/Omega.v ('the ordinal ω'), Instance/Two/Monoidal.v, Construction/FAlg.v, Construction/Chain.v, Structure/Complete.v, Theory/Algebra/Frobenius.v (Lawvere's 'Ordinal sums'). No indexed family of finite ordinal categories",
+      "grep -rn '\\b_3\\b|Three|_n :' --include='*.v' . — the only `Three` is Theory/Metacategory.v:413 `Definition Three : Category := FromArrows ThreeArrows`, an arrows-only metacategory demo with no d^i/s^i functors; there is no `_3`, `_4`, or `_n` family alongside Instance/One.v's `_1` and Instance/Two.v's `_2`",
+      "grep -rin '\\bface\\b|degenerac|coface|delta\\^|Delta_n' --include='*.v' . — no simplicial face/degeneracy operators; every hit is the English word 'face' or the CopyDiscard/Graded 'degeneracy' pun",
+      "grep -rin 'simplex|simplicial' --include='*.v' . — prose only (Instance/FinSet.v mentions 'the simplex category Δ embedding into FinSet' as unrealized context; Instance/Two.v calls _2 'the 1-simplex'); no Δ in-tree",
+      "grep -rin 'arbitrarily long|adjoint chain|string of adjoint' --include='*.v' . — 0 hits",
+      "grep -rn '⊣' --include='*.v' . | grep 'Definition|Instance|Theorem|Program' — enumerated every concrete in-tree adjunction (Kleisli, Eilenberg–Moore, CoKleisli, CoEM, Free⊣Forgetful on quivers, Cardinality⊣Canonicity in Instance/Shapes.v, Bang⊣Star on slices, Id⊣Id, composites); none is between finite ordinal categories, and no adjoint triple or longer chain is instantiated anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My independent searches (`rg -in 'simplex|simplicial|ordinal|face map|degeneracy'`, `rg -in 'adjoint chain|string of adjoint'`, `ls Instance/*.v`) reproduce the record's result: Instance/One.v, Instance/Two.v and Instance/Omega.v are the only order-shaped categories, there is no indexed family of finite ordinal categories n, no coface d^i / codegeneracy s^i, and no chain of adjoints of any length. Spot-checked the record's sharpest claim: Theory/Metacategory.v:413 is indeed `Definition Three : Category := FromArrows ThreeArrows`, an arrows-only metacategory demo with no functors relating it to Two or One. The longest in-tree adjoint run is a single composite (Adjunction/Compose.v)."
+    }
+  },
+  {
+    "id": "riehl:4.1:example15",
+    "classification": "PARTIAL",
+    "aliases": [
+      "maximal subgroupoid, core of a category, Groupoid C, underlying groupoid functor",
+      "inclusion Grpd ↪ Cat and its right adjoint (core)",
+      "category of fractions C[Σ⁻¹], localization, formally inverting all morphisms",
+      "free groupoid on a category, fundamental-groupoid-style zig-zag quotient",
+      "isomorphisms of a category as a wide subcategory"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Groupoid.v",
+        "line": 103,
+        "symbol": "Groupoid",
+        "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}"
+      }
+    ],
+    "statement_record": {
+      "book": "The inclusion Groupoid ↪ Cat admits both a left and a right adjoint: the right adjoint sends a category to its maximal subgroupoid (functors out of a groupoid preserve isomorphisms, hence factor uniquely through the core), and the left adjoint formally inverts every morphism, giving the category of fractions built as a quotient of the free category on the quiver of C glued to that of C^op, with zig-zags modulo the two cancellation relations.",
+      "intree": "Groupoid C is the core, built objectwise: objects @obj C, homs @Isomorphism C, identity iso_id, composition iso_compose, morphism equivalence @iso_setoid C.",
+      "strength_comparison": "intree-weaker: only the OBJECT-LEVEL right-adjoint construction exists, as a map Category → Category. Neither adjunction is stated, and the library itself discloses this at Construction/Groupoid.v:93-95 ('The file constructs the core of a given C; no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem'). The left adjoint has no counterpart at all."
+    },
+    "gap": "Missing: (1) a category Grpd of groupoids and the inclusion functor Grpd ⟶ Cat/StrictCat — `grep -rn 'Grpd|Groupoids|category of groupoids'` finds only prose; (2) functoriality of `Groupoid` in C, i.e. a core functor Cat ⟶ Grpd; (3) the right-adjoint statement (unique factorization of a functor out of a groupoid through the core) — nothing in-tree asserts it; (4) the ENTIRE left adjoint: no category of fractions, no zig-zag morphisms, no gluing of the quiver of C to that of C^op, no quotient by the two cancellation relations (`grep -rin 'fraction|zig-zag|zigzag|formally invert'` returns only the adjunction/double-category zigzag identities). Construction/Localization.v is a different construction — reflective orthogonal-subcategory localization, whose `reflector_inverts_W` (line 241) requires a `Reflective (C_W W)` hypothesis and lands in the full subcategory of W-local objects rather than constructing C[W⁻¹] by generators and relations.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Construction/Groupoid.v:103 is verbatim as quoted, and the self-disclosure the record leans on is verbatim at :93-95 ('The file constructs the core of a given C; no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem'). Independently checked the left-adjoint half: no category of fractions, no zig-zag construction, no gluing of the quiver of C to that of C^op. Also verified that Construction/Localization.v really is a different construction, as the gap says — WLocal at :129, the full subcategory C_W at :164, and Theorem reflector_inverts_W at :241 sitting under `Context (R : Reflective (C_W W))`, i.e. reflective orthogonal-subcategory localization, never C[W^-1] by generators and relations. Note that Construction/Groupoid.v:22-24 does assert the core/inclusion adjunction flatly in its definitional header, but :93-95 explicitly retracts it to prose, so this is disclosed rather than a defect."
+    }
+  },
+  {
+    "id": "riehl:4.1:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "naturality of the adjunction transpose / adjunct / mate in both variables",
+      "to_adj_nat_l, to_adj_nat_r, from_adj_nat_l, from_adj_nat_r",
+      "hom-set adjunction as a natural isomorphism of hom-bifunctors (Adjunction_Hom)",
+      "transposition carries commutative squares to commutative squares",
+      "Lawvere comma-category characterization: (F ↓ Id) ≅ (Id ↓ G) over C × D"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 904,
+        "symbol": "Adjunction_Comma",
+        "intree_statement": "Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} : F ⊣ G ↔ @lawvere_equiv _ _ F G."
+      },
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 863,
+        "symbol": "Comma_F_Id_Id_G_Iso",
+        "intree_statement": "Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G) := { to := Comma_Functor_F_Id_Id_G H; from := Comma_Functor_Id_G_F_Id H }  — the two functors act as ((d,c); f) ↦ ((d,c); ⌊f⌋) and ((d,c); g) ↦ ((d,c); ⌈g⌉), and their morphism obligations are exactly 'the square commutes ⟹ the transposed square commutes', proved by `rewrite <- to_adj_nat_r; rewrite <- X; rewrite <- to_adj_nat_l` (resp. from_adj_nat_r/from_adj_nat_l)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 141,
+        "symbol": "Adjunction (fields to_adj_nat_l, to_adj_nat_r)",
+        "intree_statement": "Class Adjunction := { adj {x y} : Isomorphism Sets {| carrier := @hom C (F x) y |} {| carrier := @hom D x (U y) |} where \"⌊ f ⌋\" := (to adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋; from_adj_nat_l …; from_adj_nat_r … }"
+      }
+    ],
+    "statement_record": {
+      "book": "Given F : C → D, G : D → C and a family of bijections D(Fc,d) ≅ C(c,Gd) NOT assumed natural, prove that naturality of the family is equivalent to: for all h : c' → c, k : d → d', f♯ : Fc → d, g♯ : Fc' → d', the square in D with sides Fh, f♯, g♯, k commutes iff the transposed square in C with sides h, f♭, g♭, Gk commutes.",
+      "intree": "The two naturality directions are the class fields verbatim (⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g and ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋); from them Comma_Functor_F_Id_Id_G / Comma_Functor_Id_G_F_Id transport commuting squares in both directions and Comma_F_Id_Id_G_Iso shows the transport is a bijection; Adjunction_Comma packages the two-way statement as F ⊣ G ↔ lawvere_equiv.",
+      "strength_comparison": "intree-weaker on the converse leg. Forward (naturality ⟹ square correspondence) is fully in-tree and in fact stronger than asked, since the correspondence is upgraded to an isomorphism of comma categories. The converse in-tree is NOT 'square correspondence ⟹ naturality': `lawvere_equiv` (Construction/Comma/Adjunction.v:83) demands more than a square-respecting bijection — besides the comma iso it carries projF, projG (the iso lies over D ∏ C) AND the extra whisker coherence field σ : whisker_equiv … relating the iso's unit/counit to the projection comparison cells κ, θ. So the backward implication is proved under strictly stronger hypotheses than Riehl's."
+    },
+    "gap": "No in-tree lemma quantifies over an ARBITRARY (not-assumed-natural) family of hom-set bijections adj{x,y} : (F x ~> y) ≊ (x ~> U y) and proves the biconditional 'naturality ⟺ commuting squares correspond'. In-tree, naturality is a definitional FIELD of the Adjunction class, so the direction the exercise asks about (square correspondence ⇒ naturality, a one-line specialization taking g♯ := k ∘ f♯ ∘ fmap[F] h) is never stated; the only converse available, Adjunction_Comma's ← branch, additionally requires the projF/projG over-D∏C data and the whisker_equiv coherence σ. Also absent: any explicit rendering of Riehl's square (4.1.4), e.g. `⌊k ∘ f ∘ fmap[F] h⌋ ≈ fmap[U] k ∘ ⌊f⌋ ∘ h`, as a named two-variable naturality lemma.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Verified the class fields at Theory/Adjunction.v:141-153 and — the load-bearing check — that the two comma comparison functors' morphism obligations are literally the square transport: Construction/Comma/Adjunction.v:840-845 is `rewrite <- to_adj_nat_r; rewrite <- X; rewrite <- to_adj_nat_l; reflexivity` and :857-862 the from_adj_nat mirror, exactly as the evidence quotes. Record lawvere_equiv at :83 does carry projF/projG plus the whisker_equiv field sigma, so the gap's claim that the in-tree converse runs under strictly stronger hypotheses than Riehl's is honest. Two near-misses my blind pass found that the classifier did not cite; neither changes PARTIAL, both are worth carrying into the issue: (a) Theory/Adjunction.v:156-189 `Build_Adjunction'` takes an ARBITRARY not-assumed-natural family of hom-setoid isomorphisms plus only the two to-side naturality conditions and derives the full Adjunction (the from-side conditions come out by monicity of the iso) — the closest in-tree approach to the exercise's 'these bijections define an adjunction iff ...', but still not the commuting-square biconditional; (b) Adjunction/Hom.v:72 `Class Adjunction_Hom` states the bifunctor form (a natural iso in [D^op ∏ C, Sets]) and :223/:259 Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom prove it interderivable with the two-condition form — that is the 'naturality' half of Lemma 4.1.3 in the library, and an issue drafted from this record should cite it."
+    }
+  },
+  {
+    "id": "riehl:4.1:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "existential quantifier ∃_X ⊣ Δ_X ⊣ ∀_X, quantifiers as adjoints to substitution",
+      "direct image ⊣ inverse image ⊣ dual image on powersets; f_! ⊣ f^* ⊣ f_*",
+      "powerset functor P(X), preimage f⁻¹, Galois connection between power lattices",
+      "hyperdoctrine, Lawvere 'Adjointness in Foundations', Beck–Chevalley",
+      "predicates as subsets of a product; projection map π : X × Y → Y"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'powerset|power set|preimage|inverse image|direct image|dual image' --include='*.v' . — every `preimage` hit is the functor-fullness `prefmap` chosen preimage (Theory/Functor.v, Theory/Equivalence*.v) or the topos characteristic-map prose; no powerset object, no image/preimage functors between power lattices",
+      "grep -rin '∃ ⊣|⊣ ∀|exists_|forall_|quantifier' --include='*.v' . — the quantifier triple appears ONLY in prose: Theory/Adjunction.v:75-76 ('the quantifiers form the adjoint triple ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine') and Instance/Poset.v:70-71 (Lawvere citation). No Coq statement",
+      "grep -rin 'hyperdoctrine|beck-chevalley|existential quantif|universal quantif' --include='*.v' . — 4 hits, all in header prose (Theory/Adjunction.v, Theory/Bicategory.v, Structure/Pullback.v:86,122)",
+      "grep -n '^\\(Program \\)\\?\\(Definition\\|Lemma\\|Theorem\\|Instance\\)' Theory/Subobject/Functor.v — the nearest relative is `Sub : C^op ⟶ Sets` (line 180), reindexing of subobjects along a morphism by chosen pullback, i.e. the substitution/inverse-image leg alone; it is given NO left or right adjoint anywhere in-tree",
+      "grep -rin 'base change|dependent sum|dependent product|locally cartesian closed' --include='*.v' . — Construction/Slice/Pullback.v defines the two functors Bang_Functor (Σ_f, line 50) and Star_Functor (f*, line 67) but does NOT prove the adjunction: Base_Functor_Adjunction is a COMMENTED-OUT stub at lines 121-126 and states the direction backwards (`Star_Functor f ⊣ Bang_Functor f`), which the file header itself flags at lines 38-41. So neither Σ_f ⊣ f* nor Π_f exists in-tree, and nothing at poset/powerset level identifies the two triples. [phase-D correction; the phase-C entry read: \"Construction/Slice/Pullback.v supplies `Bang_Functor ⊣ Star_Functor` (Σ_f ⊣ f* between slices), a categorified cousin of the left half; there is no right adjoin...\"]",
+      "grep -n '^\\(Program \\)\\?\\(Definition\\|Lemma\\|Theorem\\|Instance\\)' Instance/Poset.v — the poset file supplies only `Poset` and `LessThanEqualTo_Category`; the Galois-connection = poset-adjunction dictionary it discusses at length is prose (lines 37-100), never a theorem",
+      "phase-D addition: grep -rn 'Diagonal.*Adjunction' --include='*.v' . — Adjunction/Diagonal/Product.v:36 proves `Diagonal_Product_Adjunction (C) : Diagonal_Product C ⊣ ×(C)` over an arbitrary cartesian category (the generic Δ ⊣ ∀ shape at a two-element index), with no coproduct ⊣ Δ dual and no poset/powerset instance; it does not supply either of Riehl's two triples."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT, with one negative-log entry corrected. My blind searches agree that both Example 4.1.8 and Example 4.1.9 are prose-only in-tree: the quantifier triple appears at Theory/Adjunction.v:75-76, Instance/Poset.v:70-71, Structure/Pullback.v:124 and Construction/Slice.v:93, always as header essay, and Instance/Poset.v really does define only Poset (:116) and LessThanEqualTo_Category (:120). CORRECTION (phase D): the record's fifth negative_search_log entry asserted that 'Construction/Slice/Pullback.v supplies `Bang_Functor ⊣ Star_Functor` (Σ_f ⊣ f* between slices)'. That is wrong in the library-favouring direction: the file supplies only the two functors (Bang_Functor at :50, Star_Functor at :67); the adjunction exists solely as a COMMENTED-OUT stub at :121-126, `(* Program Definition Base_Functor_Adjunction `(f : a ~> b) : Star_Functor f ⊣ Bang_Functor f *)`, whose direction the file's own header flags as backwards at :38-41. The log entry has been rewritten accordingly; classification unchanged. One near-miss the record omits, also not enough to lift it: Adjunction/Diagonal/Product.v:36 `Diagonal_Product_Adjunction (C) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)` is the generic shape of the right-hand half of 4.1.9 (Δ ⊣ ∀ at a two-element index set), but it is stated over an arbitrary cartesian category with no poset/powerset instance, and there is no coproduct ⊣ Δ counterpart in-tree, so neither the powerset triple nor the quantifier triple — let alone the identification the exercise asks for — exists."
+    }
+  },
+  {
+    "id": "riehl:4.1:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "objects functor ob : Cat ⟶ Set and its adjoints",
+      "discrete category functor Set ⟶ Cat (left adjoint), DiscreteCat",
+      "indiscrete / codiscrete / chaotic category functor (right adjoint)",
+      "vertex-set functor V : Quiv ⟶ Set, edgeless quiver, complete/codiscrete quiver",
+      "V : Graph ⟶ Set, free graph on a vertex set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Discrete.v",
+        "line": 52,
+        "symbol": "DiscreteCat_Functor",
+        "intree_statement": "Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |}"
+      },
+      {
+        "file": "Instance/Discrete.v",
+        "line": 37,
+        "symbol": "DiscreteCat",
+        "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality@{o h p} x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}"
+      }
+    ],
+    "statement_record": {
+      "book": "Define left and right adjoints to (i) ob : Cat → Set and (ii) V : Quiver → Set (the vertex-set functor), and decide whether V : Graph → Set has a left or a right adjoint.",
+      "intree": "DiscreteCat A is the discrete category on a type A, and every function f : A → C extends to a functor DiscreteCat A ⟶ C (the file header calls this 'the left adjoint Set ⟶ Cat at the level of a single functor').",
+      "strength_comparison": "intree-weaker: only the object part of the left adjoint of clause (i), plus one direction of its hom-correspondence, is present, and neither is assembled into a functor or an adjunction. Note also that DiscreteCat A uses propositional equality x = y as its homs (so it is discrete and skeletal), matching the book's discrete category."
+    },
+    "gap": "Missing, clause by clause. (i) ob : Cat ⟶ Set: no such functor exists in-tree — `grep -rn '⟶ Sets'` finds no functor out of Cat/StrictCat into Sets, and Instance/Cat.v defines only Cat plus full/faithful lemmas about isos. The left adjoint exists only pointwise (DiscreteCat is a map on types, not a Functor Sets ⟶ StrictCat), the inverse of the transposition DiscreteCat_Functor (functor ↦ its object map) is not recorded, and no adjunction is stated. The right adjoint is entirely absent: `grep -rin 'indiscrete|chaotic|codiscrete'` finds only the codiscrete SETOID on unit in Theory/Bicategory/Lax.v and the phrase 'chaotic groupoid' in Construction/Funny.v prose — no indiscrete-category construction. Structure/Discrete.v:23-24 states the discrete/codiscrete adjoints only as a header remark. (ii) V : Quiver ⟶ Set: QuiverCategory exists (Construction/Free/Quiver.v) but has no vertex-set functor to Sets and hence neither adjoint (the edgeless quiver and the codiscrete one-edge-per-pair quiver are never built). (iii) Graph: no category of undirected graphs at all — every `Graph` hit is Hypergraph/graphical-calculus prose.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL (borderline; I had ABSENT-leaning in my blind pass and am deferring to the record because its gap text is exhaustive and honest). Verified Instance/Discrete.v:37 DiscreteCat and :52 DiscreteCat_Functor as quoted, and the header remark at :29-32 that this is 'the left adjoint Set ⟶ Cat at the level of a single functor', plus Structure/Discrete.v:23-24 stating the discrete/codiscrete adjoints as prose only. Independently confirmed every leg of the gap: `rg -n '⟶ Sets' --glob '*.v'` enumerates every functor into Sets in-tree and none has Cat or StrictCat as domain, so there is no ob functor to be adjoint to; there is no functor Sets ⟶ Cat/StrictCat (DiscreteCat is a bare map Type → Category, with no action on functions); QuiverCategory (Construction/Free/Quiver.v:358) has no vertex-set functor to Sets; and no indiscrete/codiscrete category construction exists. So what is present is the object part of ONE of the four adjoints the exercise requests, at object level only — the record says exactly that and does not overstate."
+    }
+  },
+  {
+    "id": "riehl:4.1:exiv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint triple L ⊣ U ⊣ R, adjoint string",
+      "composition of adjunctions: F ⊣ G and F' ⊣ G' gives F'F ⊣ GG'",
+      "induced endofunctors LU ⊣ RU on C and UL ⊣ UR on D",
+      "Adjunction_Compose, adj_comp, Instance/Adjoints.v",
+      "monad/comonad induced by an adjoint triple"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 173,
+        "symbol": "Adjunction_Compose",
+        "intree_statement": "Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') := @Build_Adjunction E D (F' ◯ F) (U ◯ U') adj_compose_iso adj_compose_to_nat_l adj_compose_to_nat_r adj_compose_from_nat_l adj_compose_from_nat_r.   (Context {F : D ⟶ C} {U : C ⟶ D} {F' : C ⟶ E} {U' : E ⟶ C} (A : F ⊣ U) (A' : F' ⊣ U'))"
+      }
+    ],
+    "statement_record": {
+      "book": "Any adjoint triple L ⊣ U ⊣ R between C and D gives rise to a canonical adjunction LU ⊣ RU between the induced endofunctors of C, and an adjunction UL ⊣ UR between the induced endofunctors of D.",
+      "intree": "Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') from A : F ⊣ U and A' : F' ⊣ U' — adjunctions compose, in the hom-set presentation by pasting the two transposing isomorphisms in Sets (adj_compose_iso := iso_compose (adj A) (adj A')), with all four naturality fields populated.",
+      "strength_comparison": "intree-stronger as a general law (arbitrary composable adjunctions, both transposes' naturality, plus the whiskering formulas Adjunction_Compose_unit/counit), but the exercise's two conclusions are not instantiated. Feeding U ⊣ R then L ⊣ U into Adjunction_Compose yields L◯U ⊣ R◯U on C, and feeding L ⊣ U then U ⊣ R yields U◯L ⊣ U◯R on D; neither instantiation is written down."
+    },
+    "gap": "There is no notion of an adjoint triple in the library — `grep -rin 'adjoint triple|adjoint string|chain of adjoint'` returns only header prose (Comonad/Coalgebra.v:97, Theory/Adjunction.v:75, Instance/Poset.v:70, Construction/Arrow.v:61 'cod ⊣ ids ⊣ dom', Structure/Pullback.v:127) with no Class/Record/Definition packaging L ⊣ U ⊣ R — and neither induced-endofunctor adjunction (LU ⊣ RU on C, UL ⊣ UR on D) is stated or proved anywhere. What exists is the general composition law Adjunction_Compose (and its clone adj_comp in Instance/Adjoints.v:55), from which each conclusion is a one-line instantiation that no in-tree file performs.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Adjunction/Compose.v:173 `Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')` verified verbatim, and the surrounding Context at :91-99 (F : D ⟶ C, U : C ⟶ D, F' : C ⟶ E, U' : E ⟶ C, A : F ⊣ U, A' : F' ⊣ U') confirms the strength_comparison's claim that feeding U ⊣ R then L ⊣ U yields L◯U ⊣ R◯U and the other order yields U◯L ⊣ U◯R — both instantiations do typecheck as described, and neither is written anywhere in-tree. Independently confirmed there is no Class/Record/Definition of an adjoint triple: every 'adjoint triple'/'adjoint string' hit (Theory/Adjunction.v:75, Instance/Poset.v:70, Comonad/Coalgebra.v:97, Construction/Arrow.v:61, Structure/Pullback.v:127) is header prose. Minor correction: the gap text cites `adj_comp` at Instance/Adjoints.v:58; it is at line 55 (`Program Definition adj_comp`, signature `F ◯ F' ⊣ U' ◯ U` at :59). Corrected in place."
+    }
+  },
+  {
+    "id": "riehl:4.1:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "free R-module on a set, free module functor Set ⟶ Mod_R",
+      "formal finite R-linear combinations / formal sums of generators",
+      "functoriality of a free construction; induced homomorphism on generators",
+      "R-Mod / Mod_R / Vect_k, module homomorphism, linear map",
+      "free construction functorial via universal arrows / by the Yoneda lemma"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'R-module|free module|vector space|VectorSpace|\\bModule\\b|linear map' --include='*.v' . — every `Module` hit is a Coq module system declaration (Theory/Metacategory.v) or the profunctor-as-bimodule prose (Theory/Profunctor.v:21,58-61); 'vector space' and 'linear map' appear only in motivating prose (Theory/Functor.v:68, Theory/Natural/Transformation.v:45-51, Theory/Equivalence.v:86). No module or vector-space category",
+      "grep -rEn '\\b(Ring|CRing|Rng|CommutativeRing)\\b' --include='*.v' . — 0 hits, so there is no base ring R to take modules over",
+      "grep -rin 'free monoid|free group|formal sums|formal finite sum' --include='*.v' . — 'free monoid' appears as prose in Theory/Coq/List.v, Theory/Coq/Foldable.v, Construction/PROP.v, Construction/ColouredPROP.v etc.; no formal-sum construction and no free-algebra functor over an algebraic theory in Sets",
+      "ls Instance/*.v; grep -n 'CMon_Forget|Mon_Forget' -r --include='*.v' . — the algebraic categories in-tree are CMon (Instance/CMon.v, commutative monoids over setoids) and Mon (Theory/Algebra/Monoid/Hom.v); each has only a forgetful functor (CMon_Forget : CMon ⟶ Sets, Mon_Forget : Mon ⟶ C) with NO free left adjoint, so not even the additive-monoid skeleton of the free-module construction is present",
+      "Nearest generic machinery, deliberately not counted as partial coverage: Theory/Universal/Arrow.v:185 `LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U)` makes any family of universal arrows into a functor — the abstract reason a free construction is automatically functorial — but it is never applied to modules, and the exercise asks for the explicit induced homomorphism between formal sums"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independently re-ran the decisive searches: `rg -nw 'Ring' --glob '*.v'` returns 0 hits, so there is no base ring; no module or vector-space category exists; `rg -n 'free|Free|adjoint|⊣' Instance/CMon.v` returns 0 hits, confirming CMon carries only CMon_Forget (Instance/CMon.v:169) with no free left adjoint, and Theory/Algebra/Monoid/Hom.v has Mon (:83), Mon_Forget (:93) and Mon_Forget_Faithful (:101) but likewise no free functor. The record's decision NOT to count Theory/Universal/Arrow.v:185 LeftAdjointFunctorFromUniversalArrows as partial coverage is right and is verified at that line: it is the abstract reason a free construction is functorial (and is exactly what Construction/Free/Quiver.v:546 uses), but the exercise's subject — formal finite R-linear combinations and the induced homomorphism — has no in-tree counterpart of any kind."
+    }
+  },
+  {
+    "id": "riehl:4.1:exvi",
+    "classification": "PRESENT",
+    "aliases": [
+      "comma categories F ↓ D and C ↓ G of an adjunction are isomorphic",
+      "Lawvere's comma-category characterization of adjointness",
+      "(F ↓ Id[C]) ≅ (Id[D] ↓ G) over C × D, iso commuting with the projections",
+      "comma_proj / forgetful functor from a comma category to the product category",
+      "lawvere_equiv, Comma_Functor_F_Id_Id_G, Adjunction_Comma"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 904,
+        "symbol": "Adjunction_Comma",
+        "intree_statement": "Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} : F ⊣ G ↔ @lawvere_equiv _ _ F G.   — whose forward branch builds `lawvere_equiv` from an adjunction, supplying the over-the-projections clauses projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ and projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ (Record lawvere_equiv, line 83) together with the whisker coherence σ"
+      },
+      {
+        "file": "Construction/Comma/Adjunction.v",
+        "line": 863,
+        "symbol": "Comma_F_Id_Id_G_Iso",
+        "intree_statement": "Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G) := { to := Comma_Functor_F_Id_Id_G H; from := Comma_Functor_Id_G_F_Id H }   — with fobj := fun x => (``x; to adj (`2 x)) and fobj := fun x => (``x; from adj (`2 x)) respectively, so the isomorphism is the identity on the underlying (d,c) pair"
+      }
+    ],
+    "statement_record": {
+      "book": "If F : C ⇄ D : G with F ⊣ G, then the comma categories F ↓ D and C ↓ G (formed from F and G against the identity functors) are isomorphic, via an isomorphism commuting with the forgetful functors to C × D.",
+      "intree": "Comma_F_Id_Id_G_Iso (H : F ⊣ G) : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G), acting as ((d,c); f) ↦ ((d,c); ⌊f⌋) and ((d,c); g) ↦ ((d,c); ⌈g⌉); Adjunction_Comma's forward branch upgrades this to a `lawvere_equiv`, whose projF/projG fields state precisely that the iso and its inverse commute with comma_proj : Comma ⟶ D ∏ C.",
+      "strength_comparison": "intree-stronger: the exercise asks only for the forward implication, while Adjunction_Comma proves the biconditional (Lawvere's theorem), reconstructing the adjunction from a comma isomorphism over D ∏ C via lawvere_eqv_unit_transform / lawvere_eqv_counit_transform and the two triangle identities. The commuting-with-the-projections clause the exercise demands is exactly projF/projG, and the identity-on-(d,c) object action of the two comparison functors makes it visible directly; the only difference in presentation is the product order (D ∏ C rather than C × D) and the use of Lemma 4.1.3's naturality via the to_adj_nat_*/from_adj_nat_* fields, which is how the square obligations are discharged."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT (and the intree-stronger reading is justified). Verified Construction/Comma/Adjunction.v:904 `Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} : F ⊣ G ↔ @lawvere_equiv _ _ F G`, closed by Qed, with the forward branch supplying lawvere_iso := Comma_F_Id_Id_G_Iso H plus projF/projG and the whisker coherence σ; Comma_F_Id_Id_G_Iso at :863 with its two functors at :835 and :848, both `fobj := fun x => (``x; to adj (`2 x))` / `(``x; from adj (`2 x))`, i.e. identity on the underlying (d,c) pair as the evidence states; Record lawvere_equiv at :83 with projF/projG being precisely the 'commutes with the forgetful functors to C × D' clause (comma_proj : Comma ⟶ D ∏ C). No Admitted/Abort in the file; registered in _CoqProject and Construction/Comma/Adjunction.vo is built. Riehl's exercise asks only for the forward implication, which is fully in-tree; the extra σ coherence burdens only the converse, which the exercise does not request, so it cannot weaken this record."
+    }
+  }
+]

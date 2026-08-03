@@ -1,0 +1,456 @@
+[
+  {
+    "id": "awodey:2.3:def-filter",
+    "classification": "ABSENT",
+    "aliases": [
+      "filter",
+      "filter in a Boolean algebra",
+      "upward-closed meet-closed subset",
+      "Filter",
+      "proper filter",
+      "lattice filter"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il -tcoq 'ultrafilter|filter' . -> hits only in Lib/FMapExt.v (FMap M.filter on finite maps), Comonad/CoKleisli.v (digital-filter essay), Theory/Kan/Extension.v (the ULTRAFILTER MONAD as codensity, essay reference to Leinster), Theory/Metacategory.v (P.filter list op), Theory/Coq/{List,Map}.v (list/map filter); none is a Boolean-algebra filter",
+      "rg -n -tcoq '(Class|Record|Definition|Structure)\\s+\\w*(Boolean|Heyting|Lattice|Filter|Ultrafilter)' . -> 0 hits (no Boolean/Heyting/lattice algebra structure exists in-tree, so no carrier on which a filter could be defined)",
+      "rg -il -tcoq 'boolean|BoolAlg|Boolean' . -> hits are the two-element object/category (Instance/Two.v), Bool in FinSet, and topos truth-value prose; none define a Boolean algebra with 0,1,meet,join,complement",
+      "Awodey's def-boolean-algebra (its prerequisite, awodey:2.2) is itself only definition-in-prose and is likewise unformalized; without a Boolean algebra there is no in-tree object of which 'filter' is a subset"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind rg (BooleanAlgebra|Filter|Ultrafilter|upward-closed|meet-closed) found no Boolean-algebra structure or filter definition; only the ultrafilter MONAD is named in essays (Kan/Extension.v, Monad.v). No dedicated Boolean/Heyting algebra structure class exists (Heyting appears only as thin-CCC instances/essays). ABSENT correct."
+    }
+  },
+  {
+    "id": "awodey:2.3:def-ultrafilter",
+    "classification": "ABSENT",
+    "aliases": [
+      "ultrafilter",
+      "maximal filter",
+      "Ultrafilter",
+      "prime filter",
+      "2-valued measure",
+      "point of the Stone space"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il -tcoq 'ultrafilter|filter' . -> the only 'ultrafilter' occurrence is Theory/Kan/Extension.v lines 39,86, an ESSAY reference to Leinster 'Codensity and the ultrafilter monad' / Kennison, naming the ultrafilter MONAD (codensity of FinSet -> Set) as motivation; it is not a formalization and is a different object from Awodey's maximal-filter-in-a-Boolean-algebra",
+      "rg -n -tcoq '(Class|Record|Definition|Structure)\\s+\\w*(Boolean|Heyting|Lattice|Filter|Ultrafilter)' . -> 0 hits",
+      "No Boolean algebra structure exists in-tree (see def-filter negative log), so the maximality condition F subset F' => F'=B has no domain to be stated over",
+      "rg -in 'maximal filter|two of' -tcoq . -> no maximal-filter definition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Agrees with blind pass; sole 'ultrafilter' hits are essay references to the ultrafilter monad, not a maximal-filter definition. No Boolean-algebra carrier exists to state maximality over."
+    }
+  },
+  {
+    "id": "awodey:2.3:construction-ultrafilter-bijection",
+    "classification": "ABSENT",
+    "aliases": [
+      "Boolean homs to 2 = ultrafilters",
+      "Hom_Bool(B,2) bijection ultrafilters",
+      "characters of a Boolean algebra",
+      "2-valued homomorphism",
+      "Stone duality points",
+      "prime filter correspondence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on three unformalized prerequisites: the category Bool of Boolean algebras (awodey:2.2:def-boolean-algebra, prose-only), filters (def-filter, ABSENT), and ultrafilters (def-ultrafilter, ABSENT)",
+      "rg -n -tcoq '(Class|Record|Definition|Structure)\\s+\\w*(Boolean|Heyting|Lattice|Filter|Ultrafilter)' . -> 0 hits; there is no Bool category and no B -> 2 Boolean-homomorphism hom-set to biject with",
+      "rg -in 'Boolean|truth|meet|join|complement' Instance/Two.v -> _2 is the two-element ORDER / object of truth values with meet-tensor (Two_Monoidal); the essay calls _2 'the Boolean algebra' as an ENRICHING BASE, but no Boolean-algebra homomorphisms into it are formalized",
+      "The dual/Exercise-5 form (awodey:2:ex5) is the same content and is equally unsupported"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. No category Bool, no B->2 Boolean homs, no ultrafilter correspondence. Instance/Two.v's _2 is an enriching base, not a Boolean algebra with homomorphisms. Blind pass concurs."
+    }
+  },
+  {
+    "id": "awodey:2.3:def-global-element",
+    "classification": "PRESENT",
+    "aliases": [
+      "global element",
+      "point",
+      "constant",
+      "morphism from terminal 1 ~> A",
+      "one ~> x",
+      "element at stage 1",
+      "Constant",
+      "Repr/convert"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Constant.v",
+        "line": 27,
+        "symbol": "Constant",
+        "intree_statement": "Class Constant `{@Terminal C} (A : Type) := { constant_obj : A -> C; constant (x : A) : 1 ~> constant_obj x }.  (* header, l.14-16: \"A global element of an object x in a category with a terminal object 1 is a morphism 1 ~> x; in Sets ... these are in bijection with the elements of x\" *)"
+      },
+      {
+        "file": "Tools/Represented.v",
+        "line": 29,
+        "symbol": "Repr/convert",
+        "intree_statement": "Class Repr (A : Type) := { repr : Obj; convert : A -> (1 ~> repr) }.  (* header: \"...sending each value of A to a *global element* (point) of repr -- a morphism 1 ~> repr out of the terminal object. In Set a morphism 1 ~> x is exactly a choice of one element of x\" *)"
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 63,
+        "symbol": "Terminal / one",
+        "intree_statement": "one {x} : x ~> terminal_obj;  (* essay l.60-68: \"A morphism 1 ~> x is a global element of x ... in Set it picks out an ordinary element ... categories are well-pointed, meaning 1 is a generator\"; const l.129 factors a constant map through 1 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with terminal object 1, an arrow 1 -> A is a global element (also 'point' / 'constant') of A; in Sets X ~= Hom(1,X); a category 'has enough points' when f,g:A->B agree iff they agree on all points 1->A (true in Sets/Pos/Top, false in Mon).",
+      "intree": "Structure/Constant.v: `constant (x : A) : 1 ~> constant_obj x`, with the header defining a global element of x as a morphism `1 ~> x` and identifying these with elements in Sets; Tools/Represented.v `convert : A -> (1 ~> repr)` names these 'global element (point)'.",
+      "strength_comparison": "same for the core definition (global element = morphism out of the terminal object, explicitly named and used in-tree). intree-weaker only on the two ancillary clauses: the iso X ~= Hom(1,X) in Sets is implicit in Sets_Terminal but not a separately-stated lemma, and 'has enough points' / well-pointedness is not formalized at all (see example10 = ABSENT). The in-tree Constant/Repr classes additionally bundle a whole Coq-indexed FAMILY of global elements as structure, a superset of, not a weakening of, the single-element notion."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (borderline). Evidence verified at cited locations, all files _CoqProject-registered: Constant.v:27 `Class Constant`/`constant : 1 ~> constant_obj x`, Represented.v:29 `convert : A -> (1 ~> repr)`, Terminal.v essay. Core definition (global element = arrow from terminal) is genuinely present AND used, not just essay-mentioned. I independently leaned PARTIAL (the 'enough points'/well-pointed clause and the Sets X~=Hom(1,X) iso are absent), but the classifier honestly offloads 'enough points' to example10 (ABSENT) and discloses both gaps in strength_comparison, so scoping this item to the definition-proper and calling it PRESENT is defensible. Nit: 'iso X~=Hom(1,X) implicit in Sets_Terminal' slightly over-reaches, but the load-bearing admission (not separately stated) is correct."
+    }
+  },
+  {
+    "id": "awodey:2.3:example10",
+    "classification": "ABSENT",
+    "aliases": [
+      "has enough points",
+      "well-pointed category",
+      "terminal object is a generator",
+      "terminal is a separator",
+      "1 is separating",
+      "points-separate-morphisms",
+      "enough generalized elements"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il -tcoq 'enough points|well-pointed|wellpointed|well_pointed' . -> only Structure/Terminal.v (ESSAY prose 'categories are well-pointed, meaning 1 is a generator', not a definition) and Instance/Fun.v",
+      "rg -n -tcoq '(Class|Record|Definition)\\s+\\w*(Separat|Generat|WellPointed|Wellpointed|Pointed)' . -> Instance/Fun.v:230 Class Pointed / :240 Class WellPointed, but these are POINTED ENDOFUNCTORS (point : Id ==> F, well_pointed: F<point> ~= <point>F), the same-name-different-notion trap, unrelated to a category having enough points",
+      "rg -n 'Cogenerator|cog_separates' Adjunction/SAFT.v -> Record Cogenerator (a COseparating family: f=g if they agree after every k:y->cog_obj) exists, but that is the DUAL (co-separator) of Awodey's separator/generator; the separator ('enough points') direction f.p=g.p forall p:1->a is not formalized",
+      "The trivial sub-fact (3) 'f=g iff agree on all generalized elements x:D->C' (take x=id) is expressible but is not stated as any named lemma; the Pos-vs-Mon comparison (Pos has enough points, Mon does not) is not formalized (Instance/Poset.v gives Pos as a thin category, but no separator property; no non-commutative Mon instance exists, only CMon)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass concurs. 'enough points'/well-pointed (Awodey sense) is unformalized; Instance/Fun.v:230/240 Pointed/WellPointed are the pointed-ENDOFUNCTOR notions (point:Id==>F) -- a verified same-name-different-notion false friend, correctly flagged. No non-commutative Mon instance (only CMon)."
+    }
+  },
+  {
+    "id": "awodey:2.3:def-generalized-element",
+    "classification": "PRESENT",
+    "aliases": [
+      "generalized element",
+      "variable element",
+      "T-valued element",
+      "arrow X ~> A",
+      "element at stage X",
+      "figure of shape T",
+      "generalized point"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Constant.v",
+        "line": 15,
+        "symbol": "Constant (header)",
+        "intree_statement": "(* header l.15-16 *) \"A global element is the special case of a generalized (`T`-valued) element `T ~> x` where the stage `T` is the terminal object `1`.\"  -- i.e. a generalized element of x is an arbitrary morphism T ~> x"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 0,
+        "symbol": "hom (~>)",
+        "intree_statement": "The library primitive: for any objects X, A a morphism `X ~> A` (an element of the hom-setoid). A generalized element of A of shape X is exactly such a morphism; global elements are the case X = 1. The whole library is built on these, so the notion is definitionally present."
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 63,
+        "symbol": "one (essay)",
+        "intree_statement": "(* essay l.63-65 *) \"A morphism 1 ~> x is a global element of x -- in the nLab's phrasing, a generalized element at stage of definition 1\""
+      }
+    ],
+    "statement_record": {
+      "book": "A generalized (variable) element of an object A is an arbitrary arrow x : X -> A with any domain X; global elements are the special case X = 1. Logicians read 1->A as closed terms and X->A as arbitrary terms.",
+      "intree": "The notion coincides exactly with the library's primitive morphism `X ~> A` (a member of the hom-setoid); Structure/Constant.v's header states it verbatim: 'a generalized (T-valued) element T ~> x', with the global case being T = 1.",
+      "strength_comparison": "same: 'generalized element of A' is definitionally 'a morphism into A', which is the library's primitive hom, and this identification is stated in-tree (Constant.v, Terminal.v essays). No dedicated wrapper Definition exists because none is needed -- the primitive already is the concept. No weaker/stronger variant: every morphism is a generalized element and vice versa."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. A generalized element is definitionally an arbitrary morphism X~>A = the library primitive (hom at Theory/Category.v:115, Class Category :111), explicitly named in-tree (Constant.v:15 header 'generalized (T-valued) element'; Terminal.v:63 essay). I leaned PARTIAL on the absence of a dedicated Definition, but since the concept IS the primitive and is named in-tree with no missing sub-part, PRESENT is defensible. CITATION NIT (not a library defect): the Theory/Category.v evidence lists 'line 0' -- a placeholder; the real hom primitive is Theory/Category.v:115."
+    }
+  },
+  {
+    "id": "awodey:2.3:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Hom(2,-) is an isomorphism invariant",
+      "representable functor preserves isos",
+      "iso induces hom-set bijection",
+      "post-composition f_* is a bijection",
+      "mono+epi non-iso in Pos",
+      "generalized elements as invariants"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* any functor sends an iso to an iso, via to := fmap (to X), from := fmap (from X); applied to a covariant representable Hom(2,-) : C -> Sets this yields the bijection Hom(2,P) ~= Hom(2,Q) from an iso P ~= Q *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Two posets A (3-chain) and X (V-shape) admit an order-preserving bijection monic and epic in Pos but not an iso; since |Hom(2,P)| is an isomorphism invariant (an iso P~=Q induces a bijection Hom(2,P)~=Hom(2,Q) by post-composition f_*(h)=fh) and |Hom(2,X)|=5 != 6=|Hom(2,A)|, X and A are not isomorphic.",
+      "intree": "Theory/Functor.v `fobj_iso : Proper (Isomorphism ==> Isomorphism) fobj` -- every functor (hence the covariant representable Hom(T,-)) preserves isomorphisms; in Sets a preserved iso is a bijection, giving exactly the invariance principle the example uses.",
+      "strength_comparison": "intree-weaker: only the reusable invariance THEOREM is present (functors, in particular representable Hom(T,-), preserve isomorphisms => hom-set bijections). The example's distinctive content -- the concrete posets A and X, the order-preserving map that is monic+epic yet non-iso in Pos, and the |Hom(2,-)| cardinality computation (5 vs 6) used to separate them -- has no in-tree witness."
+    },
+    "gap": "Present: the general invariance principle (fobj_iso => representable functors preserve isos => hom-set bijections). Missing: (i) the two concrete posets and the non-iso mono+epi map between them in Pos; (ii) any |Hom(2,-)| finite-cardinality computation; (iii) an in-tree concrete mono-and-epi-but-not-iso witness in Pos (the library is non-balanced in general but exhibits no such Pos example).",
+    "negative_search_log": [
+      "rg -in 'Hom(2|Hom(_2|cardinal|counting' on Instance/Poset.v, Instance/Proset.v -> no hom-set cardinality invariants",
+      "no concrete Pos mono+epi-non-iso example found (searched Instance/Poset.v, Instance/Proset.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (generous but defensible). fobj_iso verified at Functor.v:227 (registered). The example's embedded invariance principle (iso P~=Q ==> bijection Hom(2,P)~=Hom(2,Q) by post-composition) is exactly fobj_iso specialized to a covariant representable, so 'some of the item' genuinely exists; the concrete posets, the mono+epic-non-iso map, and the |Hom(2,-)|=5 vs 6 count are absent, precisely stated in the gap. I independently leaned ABSENT (the present part is the fully-general fobj_iso, not example-specific content), but PARTIAL is honestly disclosed and defensible."
+    }
+  },
+  {
+    "id": "awodey:2.3:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "figures of shape T",
+      "|M| ~= Hom_Mon(M(*),M)",
+      "free monoid on one generator represents the forgetful functor",
+      "underlying set = Hom(free,-)",
+      "representable underlying-set functor",
+      "M(*) = free monoid on a point"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The distinctive content is |M| ~= Hom_Mon(M(*),M): the free monoid on one generator represents the underlying-set functor on Mon. rg -il -tcoq 'free monoid|FreeMonoid|free_monoid' . -> 0 hits; no free-monoid construction exists",
+      "ls Instance/ + rg 'Monoids|Category.*Monoid' -> no category Mon of (non-commutative) monoids; only Instance/CMon.v (commutative monoids) with CMon_Forget : CMon -> Sets, but no LEFT adjoint / free functor and no |M| ~= Hom(free(1),M) representation",
+      "The 'figures of shape T' = generalized-element / representable-functor naming (first sentence of the example) IS present, but only as the already-counted generalized-element notion (see def-generalized-element = PRESENT) and the covariant Hom(T,-) functor; the example's actual punchline (the free-monoid representation of the forgetful functor) is entirely absent",
+      "rg -in 'M(*)|free.*generator|one generator' -tcoq . -> no in-tree free-object-on-one-generator over an algebraic category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass concurs. No free-monoid construction, no category Mon (only CMon, without a free left adjoint), no |M|~=Hom(M(*),M) representation. The 'figures of shape T' framing reduces to the already-counted generalized-element notion."
+    }
+  },
+  {
+    "id": "awodey:2.4:remark-split-mono-monic",
+    "classification": "PRESENT",
+    "aliases": [
+      "left inverse implies monic",
+      "section is monic",
+      "retraction is epic",
+      "sections_are_monic",
+      "retractions_are_epic",
+      "split mono is mono",
+      "split epi is epi"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 179,
+        "symbol": "sections_are_monic",
+        "intree_statement": "Lemma sections_are_monic : Section f -> Monic f.  (* Section f = f has a left inverse `section` with section ∘ f ≈ id; conclusion f is monic *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 162,
+        "symbol": "retractions_are_epic",
+        "intree_statement": "Lemma retractions_are_epic : Retraction f -> Epic f.  (* Retraction f = f has a right inverse `retract` with f ∘ retract ≈ id; conclusion f is epic *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 230,
+        "symbol": "flip_Section",
+        "intree_statement": "Definition flip_Section `(f : x ~> y) (s : @Section C x y f) : @Retraction C y x section.  (* the left inverse `section` of f is itself a split epi (its right inverse is f), so by retractions_are_epic the left inverse of f is epic -- exactly the remark's second clause *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If f:A->B has a left inverse g:B->A (gf=1_A) then f is monic and g is epic (an easy exercise generalizing 'every iso is mono and epi').",
+      "intree": "Theory/Morphisms.v: `sections_are_monic : Section f -> Monic f` (an f with a left inverse is monic) and `retractions_are_epic : Retraction f -> Epic f`; `flip_Section` exhibits the left inverse of f as a Retraction, so it too is Epic. Both halves of the remark are proven.",
+      "strength_comparison": "same. `Section f` packages precisely 'f has a left inverse g with g∘f ≈ id' and yields Monic f; and via flip_Section that left inverse g is a Retraction, hence Epic. Setoid-faithful (≈ in place of =)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Evidence verified: Morphisms.v:179 sections_are_monic, :162 retractions_are_epic, :230 flip_Section (exhibits the left inverse of f as a Retraction => Epic). Both halves (f monic, g epic) proven, setoid-faithful. Blind pass found identical evidence."
+    }
+  },
+  {
+    "id": "awodey:2.4:def13",
+    "classification": "PRESENT",
+    "aliases": [
+      "split monomorphism",
+      "split epimorphism",
+      "section",
+      "retraction",
+      "retract",
+      "Section",
+      "Retraction",
+      "SplitMono",
+      "SplitEpi",
+      "left/right inverse"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 56,
+        "symbol": "Section",
+        "intree_statement": "Class Section `(f : x ~> y) := { section : y ~> x; section_comp : section ∘ f ≈ id }.  (* f is a split monomorphism; `section` is its retraction / left inverse *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 70,
+        "symbol": "Retraction",
+        "intree_statement": "Class Retraction `(f : x ~> y) := { retract : y ~> x; retract_comp : f ∘ retract ≈ id }.  (* f is a split epimorphism; `retract` is its section / right inverse *)"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 126,
+        "symbol": "SplitEpi/SplitMono",
+        "intree_statement": "Definition SplitEpi `(f : x ~> y) := Retraction f.  Definition SplitMono `(f : x ~> y) := Section f."
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 85,
+        "symbol": "SplitIdempotent/split_idem_retract",
+        "intree_statement": "Class SplitIdempotent {x y : C} := { split_idem_retract := y; split_idem_r : x ~> split_idem_retract; split_idem_s : split_idem_retract ~> x; ... }  (* the mediating retract OBJECT y, exposed as split_idem_retract *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A split mono (resp. split epi) is an arrow with a left (resp. right) inverse; if es=1_A then s is a section (splitting) of e and e is a retraction of s, and A is a retract of X.",
+      "intree": "Theory/Morphisms.v: `Section f` (= SplitMono, f with a left inverse), `Retraction f` (= SplitEpi, f with a right inverse), with fields `section`/`retract` naming the inverses; flip_Section/flip_Retraction record the section/retraction duality. SplitIdempotent exposes the mediating `split_idem_retract` object.",
+      "strength_comparison": "same for split mono, split epi, section, retraction (all four notions and both aliases present, setoid-faithful). Minor presentation note: the object-level relation 'A is a retract of X' is not given a standalone named Definition (Retract A X), though its data is present via SplitIdempotent.split_idem_retract; and the library's field naming is the mirror convention (the field `section` inside `Section f` is the left inverse/retraction), which it documents explicitly in the header."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Evidence verified: Morphisms.v Section:56 / Retraction:70 (with SplitMono:127 / SplitEpi:126 synonyms), SplitIdempotent:85 exposing split_idem_retract (the retract OBJECT). Split mono, split epi, section, retraction all present; retract-of-object data present. The mirror field-naming convention (field `section` inside `Section f` is the left inverse) is explicitly documented in the header -- disclosed, not a defect."
+    }
+  },
+  {
+    "id": "awodey:2.4:remark14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functors preserve split monos",
+      "functors preserve split epis",
+      "functors preserve sections/retractions",
+      "fmap of a section is a section",
+      "preservation of split idempotents",
+      "functors preserve identities and composition"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* functors preserve ISOMORPHISMS -- the strictly stronger-input analogue; the split mono/epi case would be the same one-line fmap_comp/fmap_id argument but is not separately stated *)"
+      },
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 104,
+        "symbol": "functor_preserves_split",
+        "intree_statement": "Theorem functor_preserves_split {C D} (F : C ⟶ D) {x y} (f g : x ~> y) : SplitCoequalizer f g -> SplitCoequalizer (fmap[F] f) (fmap[F] g).  (* preservation of split COEQUALIZERS -- a DIFFERENT 'split' notion, not split mono/epi *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 13,
+        "symbol": "fmap_comp/fmap_id",
+        "intree_statement": "fmap_id : fmap id ≈ id ;  fmap_comp : fmap (f ∘ g) ≈ fmap f ∘ fmap g  (* the two laws from which 'fmap preserves Section/Retraction' follows immediately: from section∘f≈id apply fmap to get fmap section ∘ fmap f ≈ id *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Since functors preserve identities and composition, they preserve split monos and split epis (contrast the forgetful Mon->Set failing to preserve the non-split epi N->Z).",
+      "intree": "The ingredients are all present -- Section/Retraction (Theory/Morphisms.v), fmap_id and fmap_comp (Theory/Functor.v) -- and the closely analogous preservation results are proven: fobj_iso (functors preserve isos) and functor_preserves_split (functors preserve split COEQUALIZERS). But no lemma states that fmap sends a Section to a Section / a Retraction to a Retraction.",
+      "strength_comparison": "intree-weaker: the specific remark (functors preserve split monos/split epis) is not itself stated. What is in-tree is the neighbouring preservation of isomorphisms (fobj_iso, whose input hypothesis is strictly stronger than 'split mono') and preservation of split coequalizers (a different 'split' notion). The remark is a one-line consequence of the in-tree fmap_comp+fmap_id but is not discharged."
+    },
+    "gap": "Missing: an explicit lemma `Section f -> Section (fmap[F] f)` (functor preserves split mono) and its dual `Retraction f -> Retraction (fmap[F] f)` (functor preserves split epi). Present building blocks: Section/Retraction classes, fmap_id, fmap_comp, plus the analogous proven results fobj_iso (preserves iso) and functor_preserves_split (preserves split coequalizers). The contrast case (forgetful Mon->Set not preserving the non-split N->Z epi) is also absent (no Mon instance).",
+    "negative_search_log": [
+      "rg -in -tcoq 'fmap.*Section|Section.*→.*Section|preserves_split|Functor.*Section|map_section|map_retract' . -> only functor_preserves_split (SplitCoequalizer, Structure/Coequalizer/Split.v) and prefmap/fmap_sur (fullness sections in Theory/Functor.v); no split-mono/epi preservation lemma",
+      "rg -in 'section|retract|split' Theory/Functor.v -> only the fmap_sur / prefmap fullness section, unrelated to preserving split monos"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (with caveat). Evidence verified at cited locations. PARTIAL is defensible because fobj_iso (Functor.v:227) proves the iso case, and since Iso is a subclass of SplitMono and of SplitEpi, functors-preserve-isos IS the iso-restriction of the remark's conclusion -- a genuine present sub-part; the general `Section f -> Section (fmap f)` lemma is unproved (only one-line derivable), gap precisely stated. CAVEAT for downstream: the cited functor_preserves_split (Coequalizer/Split.v:104) is about split COEQUALIZERS, a DIFFERENT notion sharing only the word 'split' -- it does NOT cover split mono/epi; and fmap_id/fmap_comp are generic functor laws, not themselves partial coverage. A strict reading (specific statement absent, only trivially derivable) would be ABSENT; I confirm PARTIAL on the fobj_iso special-case grounds alone."
+    }
+  },
+  {
+    "id": "awodey:2.4:example15",
+    "classification": "ABSENT",
+    "aliases": [
+      "every epi splits = axiom of choice",
+      "categorical axiom of choice",
+      "splitting = choice function",
+      "every mono splits in Sets",
+      "surjection has a section",
+      "internal AC"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -il -tcoq 'axiom of choice|choice function|categorical choice' . -> only ESSAY mentions: Structure/Factorization.v ('diagonal fillers rest on the axiom of choice'), Structure/Topos.v ('the axiom of choice need not hold internally'), Theory/Equivalence.v; none formalizes 'every epi splits <=> AC'",
+      "rg -in 'surject|split|section|Epic|choice' Instance/Sets.v -> `surjectivity_is_epic` (surjective <-> epic; its reverse direction is deliberately NOT admitted to avoid choice) and idempotent-splitting pointers, but NO statement that every epi in Sets splits, NO characterization of splittings as choice functions, and NO 'every mono except empty splits'",
+      "The categorical-AC equivalence and the mono-splitting-in-Sets claim are not stated as any theorem; related but non-covering material: Instance/Sets/Karoubi.v (splitting of IDEMPOTENTS in Sets, a different statement) and Sets.v surjectivity_is_epic"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass concurs. No 'every epi splits <=> AC', no choice-function characterization of splittings, no mono-splits-in-Sets. Verified the log's specific claim: Instance/Sets.v:429 surjectivity_is_epic proves only surjective->epic; the reverse (needing choice) is deliberately NOT admitted (header :414-416). AC appears only in essays."
+    }
+  },
+  {
+    "id": "awodey:2.4:def-projective",
+    "classification": "ABSENT",
+    "aliases": [
+      "projective object",
+      "Projective",
+      "lifts across epis",
+      "left lifting property against epimorphisms",
+      "Hom(P,-) preserves epis",
+      "enough projectives"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -tcoq '(Class|Definition|Record|Structure)\\s+\\w*[Pp]rojective' . -> 0 hits (no Projective object class or definition anywhere)",
+      "rg -in 'rojective' Structure/Abelian.v Structure/Closed.v Structure/Limit.v -> only ESSAY prose: Abelian.v 'sheaf categories lack enough projectives', Limit.v 'projective limit', Closed.v 'projective tensor product of Banach spaces'; none defines a projective object",
+      "rg -in -tcoq 'lift.*against|∀.*Epic.*∃|Epic.*→.*∃|has_lift|LiftingProblem|lifts across|orthogonal.*epi' . -> the only 'lifting' results (Structure/Regular.v, Regular/Factorization.v, Factorization/StrongEpi.v, Abelian.v:430) are about (regular/strong) epis lifting uniquely against MONOS (factorization-system orthogonality), NOT about an object P lifting maps across epis",
+      "No definition of the projectivity lifting property (for all epi e:E->X and f:P->X exists g:P->E with e∘g≈f); the retract-of-projective and free-object-projective facts are likewise absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass concurs. No Projective object class/definition anywhere (0 hits for (Class|Definition|Record|Structure)...Projective); 'projective' occurs only in essays ('enough projectives' Abelian.v:97, 'projective limit', 'projective tensor'). In-tree lifting/orthogonality results are epi-against-mono factorization, not object-projectivity."
+    }
+  }
+]

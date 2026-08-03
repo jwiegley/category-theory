@@ -1,0 +1,427 @@
+[
+  {
+    "id": "riehl:3.2:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "limit as an equalizer of two products",
+      "lim_J F >-> prod_{j} Fj => prod_{f} F(cod f)",
+      "Mac Lane V.2.1 / Riehl 3.2.11 construction of limits from products and equalizers",
+      "restrict the indexing to non-identity morphisms",
+      "atomic / indecomposable / generating morphisms of a category",
+      "Complete from HasIndexedProducts + HasEqualizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'atomic' . -> 0 hits (the exercise's key word does not occur anywhere in the tree)",
+      "grep -rn --include='*.v' -i 'generating morphism' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'non-identity morphism' . -> 1 hit, Instance/Two.v:130, describing the walking arrow; nothing about restricting an equalizer index",
+      "grep -rn --include='*.v' -i 'products and equalizers' . -> 4 hits, ALL inside comment blocks (Structure/Limit.v:71, Structure/Complete.v:51, Structure/Equalizer.v:80, Structure/Topos.v:23). Every one merely CITES the theorem (Mac Lane V.2.1 / Riehl 3.5.11) as motivation; none states or proves it",
+      "grep -rn --include='*.v' 'Limit\\b' . filtered to Theorem/Lemma/Definition/Program lines -> the only limit-existence results in the tree are Structure/Limit/Cartesian.v:39 Cartesian_Limit (two-object discrete diagrams), Structure/Limit/Terminal.v:33 Terminal_Limit (empty diagram) and Structure/Limit/Kan/Extension.v:46 Kan_Limit. There is no construction of a general limit from products and equalizers, so the theorem this exercise refines is itself not in-tree",
+      "grep -rn --include='*.v' 'Limit|limit' Instance/Sets.v Instance/Sets/*.v -> only comment lines (Instance/Sets.v:80, Instance/Sets/End.v:44, Instance/Sets/Coend.v:57). Sets is never shown complete and no limit of a Set-valued diagram is constructed",
+      "grep -rn --include='*.v' 'HasIndexedProducts|HasEqualizers' . -> classes exist (Structure/Limit/Product.v:128, Structure/Equalizer/Fork.v:68) but there is no instance for Sets and no theorem deriving Complete from them"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the whole-tree searches: `rg -i atomic` 0 hits; `rg -i 'non-identity'` returns only Instance/Two.v:130, Instance/Parallel.v:13/20/21, Structure/Pullback/Limit.v:24, Structure/Span.v:40 (the classifier listed only the Two.v hit but none of the others bears on the exercise either); `rg -i 'products and equalizers'` returns exactly Structure/Limit.v:71,95, Structure/Complete.v:51, Structure/Equalizer.v:80, Structure/Topos.v:23 -- all prose. Verified the three cited limit-existence results really are the only ones and really are iffs/theorems: Structure/Limit/Cartesian.v:39 `Theorem Cartesian_Limit (C : Category) : (forall F : Two_Discrete -> C, Limit F) <-> @Cartesian C`, Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit (C : Category) (F : 0 -> C) : Limit F <-> @Terminal C`, Structure/Limit/Kan/Extension.v:46 Kan_Limit. Verified Structure/Limit/Product.v:128 `Class HasIndexedProducts` and Structure/Equalizer/Fork.v:68 `Class HasEqualizers` exist with no Sets instance. The parent Theorem 3.2.11 is itself not in-tree, so the refinement asked for here has nothing to refine. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.2:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sq(f,g), set of commutative squares from f to g",
+      "hom-set of the arrow category C^->",
+      "comma category (Id downarrow Id) hom",
+      "pullback of hom-sets C(b,d) x_{C(a,d)} C(a,c)",
+      "lifting-problem set / square set",
+      "HasPullbacks Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; homset := fun _ _ => {| equiv := fun f g => (fst `1 f ≈ fst `1 g) * (snd `1 f ≈ snd `1 g) |}; ... |}   (* with S = T = Id[C] this is Construction/Arrow.v's Arrow := (Id[C] ↓ Id[C]), whose hom-setoid from f to g is exactly Sq(f,g) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For morphisms f : a -> b and g : c -> d in a locally small category C, construct the set Sq(f,g) of commutative squares from f to g as a pullback in Set (of the two hom-set maps (-∘f) : C(b,d) -> C(a,d) and (g∘-) : C(a,c) -> C(a,d)).",
+      "intree": "Comma's hom field: `∃ f : (a₀ ~> b₀) * (a₁ ~> b₁), g ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ h`, with the componentwise homset — i.e. the setoid of commuting squares from one arrow to another.",
+      "strength_comparison": "intree-weaker: the SET (setoid) of commutative squares is constructed, but only as a Σ-type packaged as a hom-setoid; it is never exhibited as a pullback in Sets, and no universal property of it as a pullback is asserted. Additionally the ambient tool is missing: `grep -rn 'HasPullbacks' .` shows instances only for FinSet (Instance/FinSet/Classifier.v:264) — Sets has Cartesian, Cocartesian, Terminal, Initial and even HasPushouts (Instance/Sets/Pushout.v:185) but no HasPullbacks, so the pullback square the exercise asks for cannot even be stated over Sets today without first supplying it."
+    },
+    "gap": "The pullback presentation is entirely missing. In-tree Sq(f,g) exists only as the hom-setoid of Comma/Arrow (a Σ-type carrying the commuting-square equation); there is no assertion that it, together with the two projections (u,v) ↦ u and (u,v) ↦ v, is a pullback of C(b,d) --(-∘f)--> C(a,d) <--(g∘-)-- C(a,c) in Sets. Sets also carries no HasPullbacks instance (only FinSet does), so the cospan's limit is not available.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT; PARTIAL is defensible and I do not overturn, because the SET Sq(f,g) genuinely exists in-tree as the Comma/Arrow hom-setoid. Evidence verified: `Program Definition Comma : Category` really is at Construction/Comma.v:127 and the quoted hom/homset fields match lines 130-136 verbatim (hom = sigma over a pair of component morphisms carrying `\\`2 y \\u2218 fmap[S] (fst f) \\u2248 fmap[T] (snd f) \\u2218 \\`2 x`, homset componentwise), and Construction/Arrow.v:110 `Definition Arrow {C : Category} : Category := (Id[C] \\u2193 Id[C])` makes the S=T=Id specialization real. The two supporting negative claims also check out: `rg HasPullbacks` gives an instance only at Instance/FinSet/Classifier.v:264 (FinSet), while `Sets_HasPushouts : HasPushouts Sets` is at exactly Instance/Sets/Pushout.v:185 -- so Sets really does have pushouts and not pullbacks. Construction/Comma.v is registered in _CoqProject. Gap statement is honest: no pullback square, no UMP."
+    }
+  },
+  {
+    "id": "riehl:3.2:exiv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Hom(F,G) / Nat(F,G) as a small limit in Set",
+      "set of natural transformations as an end",
+      "twisted arrow / subdivision indexing category (objects = morphisms of J, maps id_x -> f, id_y -> f)",
+      "Transform F G, Transform_Setoid, [[[J,C]]](F,G)",
+      "end ∫_j C(Fj,Gj)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}.  (* for any F : C^op ∏ C ⟶ Sets, with carrier end_family (line 59) := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] (id, f) (s x) ≈ fmap[F] (op f, id) (s y) }, and the universal property discharged in the following obligation *)"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}."
+      }
+    ],
+    "statement_record": {
+      "book": "For a small category J, a locally small C and functors F,G : J => C, the set Hom(F,G) of natural transformations can be defined as a small limit in Set, over the indexing category whose objects are the morphisms of J with maps id_x -> f and id_y -> f for each f : x -> y.",
+      "intree": "Sets_End : End F — every Sets-valued bifunctor F : C^op ∏ C ⟶ Sets has an end, realized as the setoid of compatible diagonal families; and Fun : Category, whose hom is the natural-transformation setoid @Transform C D.",
+      "strength_comparison": "intree-weaker on both halves. The set Hom(F,G) exists (as the hom-setoid of Fun), and a universal object of exactly the shape the exercise's limit computes exists in Sets (the end), but (i) the end is defined by a WEDGE universal property (Structure/End.v), never as a limit over an indexing category, so the hinted twisted-arrow/subdivision shape is not in-tree at all, and (ii) the end is never instantiated at the hom bifunctor (j,j') ↦ C(Fj,Gj'), and no isomorphism between `Transform F G` and any end or limit is proved."
+    },
+    "gap": "No in-tree statement identifies Hom(F,G) with a limit. Missing: (a) the indexing category of the hint (objects = mor J, arrows id_x -> f and id_y -> f) — grep for 'twisted arrow'/'subdivision' finds only a Wikipedia URL in Instance/Fact.v:10 (the factorization category of a SINGLE morphism, a different construction); (b) the diagram J-shaped-index ⟶ Sets built from C(F-,G-); (c) the isomorphism Transform F G ≅ lim of that diagram. Ends exist in Sets (Sets_End) but are wedge-defined, never limit-defined.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT; I confirm PARTIAL but flag it as sitting at the generous end of the frozen definition. Neither cited item is a partial version of the STATEMENT -- Instance/Fun.v:108 `Program Definition Fun` supplies one side of the claimed isomorphism (the natural-transformation setoid) and Instance/Sets/End.v:144 `Program Definition Sets_End : End F` is adjacent machinery. Both citations are accurate: Fun's quoted record fields match lines 108-115 verbatim, Sets_End is at line 144 with carrier end_family at line 59. I re-ran the searches the record implies: `rg -i 'twisted arrow'` finds only the Wikipedia URL in Instance/Fact.v (line 11, not 10 -- trivial off-by-one), and Instance/Fact.v really is the factorization category of a SINGLE morphism, a different construction; `rg 'Nat.*end|end.*Nat('` 0 hits. The gap enumerates (a)(b)(c) exhaustively and honestly, so PARTIAL loses no information downstream."
+    }
+  },
+  {
+    "id": "riehl:3.2:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Hom(F,G) as an equalizer of two products",
+      "Nat(F,G) >-> prod_j C(Fj,Gj) => prod_{f : j -> j'} C(Fj,Gj')",
+      "end formula for natural transformations ∫_j C(Fj,Gj)",
+      "compatible families / dinatural families",
+      "naturality condition as an equalizer"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}.  (* carrier end_family (line 59) := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] (id, f) (s x) ≈ fmap[F] (op f, id) (s y) } — literally the subobject of the product ∀x F(x,x) cut out by one equation per morphism, i.e. the equalizer-of-two-products shape, with its universal property proved *)"
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 297,
+        "symbol": "yoneda_reduction",
+        "intree_statement": "Definition yoneda_reduction : Sets_End_obj YoE ≅[Sets] F c := yoneda_iso.  (* YoE (x,y) := [C(c,x), F y], so Sets_End_obj YoE is the set of families s x : C(c,x) → F x satisfying exactly the naturality equations — the exercise's formula at the representable instance F := C(c,-) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For small J, locally small C and F,G : J => C there is an equalizer diagram Hom(F,G) >-> prod_{j in ob J} C(Fj,Gj) => prod_{f : j -> j' in mor J} C(Fj,Gj'), the two maps being post-composition with Gf and pre-composition with Ff.",
+      "intree": "Sets_End F : End F, whose apex is { s : ∀ x, F(x,x) | ∀ f : x ~> y, F(x,f)(s x) ≈ F(f,y)(s y) } — a family indexed by objects, constrained by one equation per morphism.",
+      "strength_comparison": "intree-weaker: the equalizer-of-products SHAPE is in-tree, and is even realized funext-free as a subsetoid, but only for a Sets-valued bifunctor F : C^op ∏ C ⟶ Sets and only via the wedge universal property. It is never instantiated at (j,j') ↦ C(Fj,Gj') for a parallel pair of functors into a general locally small C, and no isomorphism to `Transform F G` (Instance/Fun.v's hom) is proved. Moreover Sets has neither HasIndexedProducts nor equalizers in-tree, so the diagram cannot yet be read as a genuine equalizer of two product OBJECTS of Sets — the in-tree version is a hand-built subsetoid. The one genuine natural-transformation instance is the representable one inside the Yoneda-via-end development."
+    },
+    "gap": "The general formula for a parallel pair F,G : J => C is not stated. Missing: the bifunctor (j,j') ↦ C(Fj,Gj'), the two induced maps between the products, and the isomorphism Transform F G ≅ their equalizer. Also missing is the ambient supply that would let this be an honest equalizer of products in Sets (no HasIndexedProducts Sets, no HasEqualizers Sets — grep shows those classes exist at Structure/Limit/Product.v:128 and Structure/Equalizer/Fork.v:68 with no Sets instance).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT; PARTIAL confirmed and here the case is stronger than for exiv, because Instance/Sets/End.v's end_family carrier IS literally the equalizer-of-products shape (a family indexed by objects cut out by one equation per morphism), realized funext-free. Evidence verified: Sets_End at Instance/Sets/End.v:144, and `Definition yoneda_reduction : Sets_End_obj YoE \\u2245[Sets] F c := yoneda_iso.` at exactly Theory/Coend/Yoneda.v:297. Both files registered in _CoqProject. The strength_comparison's caveat -- that with no HasIndexedProducts/HasEqualizers instance for Sets the in-tree object is a hand-built subsetoid rather than an honest equalizer of two product OBJECTS -- is accurate and is the right thing to have said."
+    }
+  },
+  {
+    "id": "riehl:3.2:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of elements el(F) / ∫F",
+      "Grothendieck construction of a Set-valued functor",
+      "sections of the projection el(F) -> C",
+      "discrete opfibration",
+      "limit of a Set-valued diagram as the set of sections",
+      "comma category (1 ↓ F)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'category of elements' . -> 1 hit, Construction/Grothendieck.v:108, and it is a COMMENT ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'). No el(F) is defined",
+      "grep -rn --include='*.v' 'el(F)' . -> same single comment hit; no definition, no notation",
+      "grep -rn --include='*.v' -i 'Elements' . -> 87 hits, none a category-of-elements construction (all are 'elements of a setoid/list/label' in FinSet, Sets/Coend, PROP files)",
+      "grep -rn --include='*.v' -i 'section' . -> Theory/Morphisms.v Section/split-mono API and Construction/Comma/Natural/Transformation.v (Huq's correspondence: natural transformations as sections of the two comma projections). The latter is the closest structural relative but characterizes NATURAL TRANSFORMATIONS via sections, not LIMITS, and it needs S,T with a common domain, so it does not specialize to el(F) -> C",
+      "grep -rn --include='*.v' -i 'discrete opfibration' . -> only the Grothendieck.v comment; the in-tree fibration API (Theory/Fibration.v) has DCartesian/Cleaving/ClovenFibration but no discrete-opfibration notion",
+      "grep -rn --include='*.v' 'Limit|limit' Instance/Sets.v Instance/Sets/*.v -> comment lines only: no limit of a Set-valued diagram is constructed anywhere, so neither side of the claimed isomorphism exists in-tree",
+      "Checked Construction/Grothendieck.v, Construction/Grothendieck/Strict.v and Construction/Indexed.v: the Grothendieck construction is over an IndexedCat (categories in the fibres); no instance from a Sets-valued functor via DiscreteCat is built, and no sections-of-the-projection statement appears"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the single decisive claim: `rg -i 'category of elements'` returns exactly one hit, Construction/Grothendieck.v:108, and it is inside a comment block ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'). No el(F)/int-F construction, no notation, no sections-of-a-projection statement anywhere; the Grothendieck development is over IndexedCat (Construction/Indexed.v) with no Sets-valued instantiation via DiscreteCat. Neither side of the exercise's isomorphism exists in-tree. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.3:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "limit functor lim : C^J ⟶ C",
+      "functoriality of limits, lim α for α : F ⟹ G",
+      "Δ ⊣ lim / colim ⊣ Δ ⊣ lim",
+      "right Kan extension along the terminal functor, Ran (Erase J)",
+      "chosen limits (axiom of choice / anafunctors)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }.  (* chosen limits of two-object discrete diagrams assemble into a functor; by Structure/Limit/Cartesian.v:39 Cartesian_Limit, Cartesian C ↔ (∀ F : Two_Discrete ⟶ C, Limit F) *)"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }."
+      },
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt."
+      }
+    ],
+    "statement_record": {
+      "book": "If C has all J-shaped limits then a choice of a limit for each diagram is the object part of a functor lim : C^J ⟶ C, with lim α : lim F -> lim G the unique factorization of α · ε through the chosen limit cone for G; more generally lim is defined on the full subcategory of C^J spanned by the diagrams whose limits exist.",
+      "intree": "InternalProductFunctor : C ∏ C ⟶ C (chosen binary products are functorial) together with Diagonal_Product_Adjunction : Δ ⊣ ×(C); and, for a general shape, Kan_Limit relating a given Limit to the value of an ASSUMED right Kan extension functor Ran : [J,C] ⟶ [1,C] (Theory/Kan/Extension.v:140, Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }).",
+      "strength_comparison": "intree-weaker: the general construction is missing. Only the shape J = two-object discrete is carried out (as the product bifunctor, with the Δ ⊣ lim consequence). For general J the tree has no map from `∀ F : J ⟶ C, Limit F` (or Structure/Complete.v:115 Complete) to a functor [J,C] ⟶ C: there is no `lim α`, no functor laws, and no adjunction Δ ⊣ lim. The RightKan class ASSUMES the functor Ran rather than constructing it from limits, so Kan_Limit is a comparison theorem, not the existence statement of Proposition 3.3.1."
+    },
+    "gap": "Missing: a definition `lim : [J,C] ⟶ C` (or `Cones`-level equivalent) built from a family of chosen limits, its action on a natural transformation α : F ⟹ G as the unique mediator of α · ε, and the two functor laws lim(id) ≈ id, lim(β·α) ≈ lim β ∘ lim α. Also missing: the restricted version on the full subcategory of C^J of diagrams admitting limits, the general adjunction Δ ⊣ lim (colim ⊣ Δ ⊣ lim appears only in comments — Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24), and the colimit dual. The choice-dependence remark (anafunctors) has no in-tree counterpart.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL on the same reasoning. All three pieces of evidence verified: Functor/Product/Internal.v:34 InternalProductFunctor (quoted fobj/fmap match verbatim); Adjunction/Diagonal/Product.v:36 `Program Instance Diagonal_Product_Adjunction (C : Category) \\`{@Cartesian C} : Diagonal_Product C \\u22a3 \\u00d7(C)` with the quoted to/from -- the file exists (2170 bytes) and is registered in _CoqProject; Structure/Limit/Kan/Extension.v:46 `Theorem Kan_Limit \\`(F : J \\u27f6 C) \\`{Lim : @Limit _ _ F} \\`{@RightKan _ _ (Erase J) C} : Lim \\u2245 Ran (Erase J) F ttt`. The load-bearing judgement is right: Theory/Kan/Extension.v:140-145 `Class RightKan := { Ran : [A, C] \\u27f6 [B, C]; ...; ran_adjoint : Induced \\u22a3 Ran }` ASSUMES the extending functor, so with B := 1 it is a hypothesised limit functor, not one constructed from chosen limits, and Kan_Limit only compares object-level values. Confirmed there is no map from Structure/Complete.v:115 `Definition Complete {C} := forall (D : Category) (F : D \\u27f6 C), Limit F` to any functor [J,C] \\u27f6 C, no `lim \\u03b1`, no general \\u0394 \\u22a3 lim. The three cited comment-only sites are real: Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24."
+    }
+  },
+  {
+    "id": "riehl:3.3:example2",
+    "classification": "ABSENT",
+    "aliases": [
+      "path components functor pi_0 : Top -> Set",
+      "Path(X) = Top(I,X), evaluation at endpoints",
+      "coequalizer of ev_0, ev_1",
+      "connected components as a colimit",
+      "category of topological spaces Top"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'path component' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'pi_0' / 'pi0' / 'π0' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'unit interval' . -> 0 hits",
+      "grep -rln --include='*.v' -i 'topological space' . -> 0 files; there is no Instance/Top.v and no category of spaces anywhere in the tree (Instance/ contains Sets, Coq, Cat, Fun, FinSet, Ens, CMon, Lambda, Two, Roof, Omega, Discrete, ... but nothing topological)",
+      "grep -rn --include='*.v' -i 'homotopy' . -> only prose in headers (Comonad/Coalgebra.v, Theory/Monad.v, Theory/Adjunction.v) citing homotopy theory as motivation",
+      "The generic ingredient the example uses — Proposition 3.3.1's colimit functor — is itself only partially present (see riehl:3.3:prop1), and Instance/Cocartesian/coequalizer machinery is never assembled into a components functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: `rg -i 'topological space'` 0 hits tree-wide, `rg -i 'path.component'` 0 hits (the only 'connected component' hits are Instance/FinSet/Pushout.v:265,405, about pushout fibres in FinSet), `rg -i 'unit interval'` 0 hits, and Instance/ contains no Top.v. There is no category of spaces, so neither Path : Top \\u27f6 Set nor its coequalizer can be stated. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.3:cor3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "naturally isomorphic diagrams have isomorphic limits",
+      "limits are invariant under natural isomorphism of diagrams",
+      "transport of a limit along a diagram isomorphism",
+      "functors preserve isomorphisms",
+      "colimit_transport (dual)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 253,
+        "symbol": "limit_transport",
+        "intree_statement": "Definition limit_transport (L : Limit G) : Limit G' := isalimit_to_limit (isalimit_transport (limit_is_alimit L)).   (* in Section DiagramIso, Context {G G' : J ⟶ C}, Context (e : G ≈ G'); by Theory/Functor.v:148 Functor_Setoid, `G ≈ G'` IS a natural isomorphism: { iso : ∀ x, G x ≅ G' x & ∀ x y f, fmap[G] f ≈ from (iso y) ∘ fmap[G'] f ∘ to (iso x) } *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A natural isomorphism between diagrams of a common shape induces a naturally-defined isomorphism between their limits, or between their colimits, whenever these exist.",
+      "intree": "limit_transport (L : Limit G) : Limit G', given e : G ≈ G' — built from isalimit_transport : IsALimit G' c (Theory/Equivalence/Limit.v:245), which transports an apex-PINNED limit witness, so the transported limit has the SAME apex object c and legs to (e x) ∘ leg x.",
+      "strength_comparison": "The limit half is intree-stronger than the book's phrasing: rather than merely producing an isomorphism lim G ≅ lim G', the library shows the very same apex c is a limit of G', from which the book's isomorphism follows by essential uniqueness. The colimit half is intree-weaker: absent."
+    },
+    "gap": "Only the limit clause is proved. There is no `colimit_transport` / `isacolimit_transport` (grep -rn 'colimit_transport|isacolimit_transport' -> 0 hits), and the one-step reduction to the limit case is also missing: since Colimit F := Limit (F^op) (Structure/Limit.v:158), the dual needs `G ≈ G' → G^op ≈ G'^op`, i.e. a Proper instance or transport lemma for Opposite_Functor with respect to Functor_Setoid, which does not exist (grep 'Proper.*Opposite|op_respects' -> 0 hits; the same file hand-rolls equivalence_counit_op/equivalence_unit_op at lines 502/513 precisely because no such lemma is available). The surrounding remark — that a natural transformation (not necessarily invertible) between diagrams induces a morphism between their limits — is likewise absent (it is the lim α of riehl:3.3:prop1).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found the same single piece of evidence and reached the same split verdict. Verified: `Definition limit_transport (L : Limit G) : Limit G' := isalimit_to_limit (isalimit_transport (limit_is_alimit L)).` sits at exactly Theory/Equivalence/Limit.v:253, inside `Section DiagramIso` with `Context {G G' : J \\u27f6 C}` and `Context (e : G \\u2248 G')`, immediately under the header comment 'The bundled form: naturally isomorphic diagrams have the same limits, with the same apex' (lines 250-251). The strength claim that the transported witness keeps the SAME apex c is confirmed by reading isalimit_transport_acone / isalimit_transport_med (lines 200-245): the mediator is `limit_med HL (cone_transport_inv N)` with no apex adjustment. The colimit gap is confirmed by direct search: `rg 'colimit_transport|isacolimit_transport|cocone_transport'` 0 hits, `rg 'Proper.*Opposite|op_respects'` 0 hits, and Structure/Limit.v:158 is indeed `Definition Colimit \\`(F : J \\u27f6 C) := Limit (F^op)`. The corroborating detail is real too: the same file hand-rolls equivalence_counit_op (line 502) and equivalence_unit_op (line 514, record says 513 -- trivial off-by-one) precisely because no Opposite-vs-Functor_Setoid transport lemma exists. Riehl 3.3.3 covers limits AND colimits, so PARTIAL is the honest call."
+    }
+  },
+  {
+    "id": "riehl:3.3:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "G-sets, BG ⟶ Set, group actions as functors",
+      "delooping of a group / one-object category BG",
+      "fixed-point set as the limit of a G-set",
+      "orbit set as the colimit of a G-set",
+      "objectwise isomorphism versus natural isomorphism (counterexample)",
+      "equivariant bijection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'G-set' . -> 5 hits, all the phrase 'underlying-set functor' in Theory/Lawvere/Sets.v, Theory/Lawvere/Monad.v, Structure/Closed.v — no G-sets",
+      "grep -rn --include='*.v' -i 'delooping|BG\\b|one-object category|Deloop' . -> only prose mentions of delooping (Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY to a bicategory, not a group to a category) and header remarks in Theory/Functor.v:68, Functor/Hom/Yoneda.v:84, Theory/Metacategory.v:91. No BG : Group -> Category construction exists",
+      "grep -rn --include='*.v' -i 'group action|fixed point|orbit' . -> 'fixed point' hits are all about initial algebras / Lambek (Theory/Lambek.v, Theory/Recursion.v); 'action' hits are the symmetric-group action on multicategory arities (Theory/Multicategory*.v). Nothing about invariants/coinvariants of a group action",
+      "grep -rn --include='*.v' -i 'objectwise|pointwise isomorphism' . -> Functor/Product.v (objectwise tensor of functors), Instance/Fun/Cartesian.v (pointwise limits), Theory/Equivalence.v:208 — none contrasts objectwise with natural isomorphism, and no counterexample showing objectwise iso is strictly weaker is in-tree",
+      "Structure/Group.v defines an internal group object; there is no category of G-sets, no BG, and hence no limit/colimit computation over BG"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the decisive negatives: `rg -i 'orbit'` 0 hits; `rg -i 'equivariant'` returns only Theory/Multicategory/Endomorphism.v:796,853,889 and Theory/Multicategory/Representable.v:687 (the symmetric-group action on multicategory arities); `rg -i 'fixed.point'` returns only initial-algebra/Lambek/traced-monoidal prose; no BG delooping of a group exists (Theory/Bicategory/OneObject.v deloops a MONOIDAL CATEGORY, as the record says). Structure/Group.v is an internal group object with no category of G-sets. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.3:example5",
+    "classification": "ABSENT",
+    "aliases": [
+      "species (Joyal), functor Fin_iso -> Fin",
+      "core of the category of finite sets / groupoid of bijections",
+      "Sym(X) permutations versus Ord(X) total orderings",
+      "unlabeled structures as a colimit over BS_n",
+      "conjugacy classes of permutations"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'species' . -> 4 hits, all the ordinary English word ('many species of functor' Theory/Functor.v:19, 'Species 1/2' in Monad/Transformer.v). No combinatorial species",
+      "grep -rn --include='*.v' -i 'Joyal' . -> 4 hits, all citations of Joyal–Street on braided monoidal coherence (Construction/PROP/TermEq.v, Construction/PROP/Interp.v, Construction/ColouredPROP/TermEq.v). Not [Joy81] on species",
+      "grep -rn --include='*.v' -i 'Fin_iso' . -> 0 hits; Instance/FinSet.v is the skeletal category of finite sets with ALL functions, and no core/groupoid-of-bijections subcategory is carved out",
+      "grep -rn --include='*.v' -i 'total ordering' / 'conjugacy' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'permutation' . -> Theory/Multicategory.v's tperm witnesses and stdlib Permutation; nothing about Sym as a functor on bijections or about unlabeled structures",
+      "No BS_n (delooped symmetric group) exists — see the negative log for riehl:3.3:example4 — so the colimit defining unlabeled structures cannot be stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "ABSENT confirmed -- blind pass agreed. One inaccuracy in the negative log, non-fatal: the record says the four `Joyal` hits are in Construction/PROP/TermEq.v, Construction/PROP/Interp.v and Construction/ColouredPROP/TermEq.v, but my `rg -i Joyal` returns Adjunction/GAFT.v:121, Structure/Monoidal/Symmetric.v:45, Structure/Monoidal/CompactClosed.v:103 and Structure/Monoidal/Braided.v:53,56. The file list is wrong; the CONCLUSION is unchanged -- every hit is Joyal-Street on braided monoidal categories or Joyal's Mac Lane-attributed product counterexample in GAFT, none is [Joy81] on species. Independently verified `rg -i 'Fin_iso'` 0 hits, `rg -i species` returns only the ordinary English word (Theory/Functor.v:19, Monad/Transformer.v:59,179, Structure/Initial.v:25), and Instance/FinSet.v carves out no groupoid-of-bijections."
+    }
+  },
+  {
+    "id": "riehl:3.3:lem6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "associativity of binary products up to unique natural isomorphism",
+      "prod_assoc : (x × y) × z ≅ x × (y × z)",
+      "associator alpha_{X,Y,Z} of the cartesian monoidal structure",
+      "tensor_assoc / to_tensor_assoc_natural / pentagon_identity",
+      "n-ary products from iterated binary products"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 54,
+        "symbol": "CC_Monoidal",
+        "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}.  (* Class Monoidal, Structure/Monoidal.v:125, requires tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z) together with to_tensor_assoc_natural / from_tensor_assoc_natural (bimap g (bimap h i) ∘ tensor_assoc ≈ tensor_assoc ∘ bimap (bimap g h) i) and pentagon_identity; all obligations are discharged here for tensor = binary product *)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 485,
+        "symbol": "prod_assoc",
+        "intree_statement": "#[export] Program Instance prod_assoc {x y z : C} : (x × y) × z ≅ x × (y × z) := { to := (exl ∘ exl) △ ((exr ∘ exl) △ exr); from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) }."
+      }
+    ],
+    "statement_record": {
+      "book": "For any X, Y, Z in a category with binary products there is a UNIQUE natural isomorphism alpha_{X,Y,Z} : X × (Y × Z) ≅ (X × Y) × Z commuting with the projections to X, Y and Z; hence products are naturally associative and iterated binary products define n-ary products.",
+      "intree": "prod_assoc : (x × y) × z ≅ x × (y × z), built explicitly from the projections, together with CC_Monoidal's tensor_assoc naturality (to_/from_tensor_assoc_natural) and pentagon for the product tensor.",
+      "strength_comparison": "intree-weaker in two respects. (1) UNIQUENESS is not stated: no lemma says an isomorphism commuting with the three projections must equal prod_assoc, nor is the projection-compatibility of prod_assoc itself recorded as a lemma (it holds by construction but is never asserted); ump_products (Structure/Cartesian.v:136) supplies the ingredient but the conclusion is not drawn. (2) EXTRA HYPOTHESIS: prod_assoc sits inside `Context `{@Terminal C}` (opened at Structure/Cartesian.v:449) and CC_Monoidal likewise requires `{@Terminal C}` (Structure/Monoidal/Internal/Product.v:19), whereas Riehl's lemma needs only binary products. So the in-tree associator is unavailable in a category with binary products but no terminal object."
+    },
+    "gap": "Missing: (a) the uniqueness clause — that alpha is the unique isomorphism (indeed unique morphism) commuting with the three projections to X, Y, Z; (b) an explicit statement that prod_assoc does commute with those projections (exl ∘ to prod_assoc ≈ exl ∘ exl, etc.); (c) a version of the associator hypothesizing only Cartesian C, without Terminal; (d) the n-ary corollary (iterated binary products define n-ary products) and the criterion that alpha is the identity iff the projections from the two iterated products agree. grep -rn -i 'unique natural isomorphism' -> 0 hits; grep -rn 'prod_assoc' finds only Theory/Algebra.v (hint) and Theory/Multicategory/Endomorphism.v:125.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same two evidence sites. Both verified: `#[export] Program Instance prod_assoc {x y z : C} : (x \\u00d7 y) \\u00d7 z \\u2245 x \\u00d7 (y \\u00d7 z)` with the quoted to/from is at exactly Structure/Cartesian.v:485, and `Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}` at exactly Structure/Monoidal/Internal/Product.v:54, with six explicit obligations discharged before line 190 (the three isomorphism fields unit_left/unit_right/tensor_assoc are filled by typeclass resolution from the #[export] instances prod_one_l/prod_one_r/prod_assoc; the file's local Obligation Tactic is only set at line 433, well after). Read Structure/Monoidal.v:125-172 to confirm the Monoidal class really does demand to_tensor_assoc_natural and from_tensor_assoc_natural, so the NATURALITY half of the lemma is genuinely proved in-tree for the product tensor. The EXTRA-HYPOTHESIS claim is the record's best catch and is exactly right: `Context \\`{@Terminal C}` is opened at Structure/Cartesian.v:449, ahead of prod_comm (479), prod_assoc (485) and toggle (492), so the in-tree associator is unavailable in a category with binary products but no terminal object -- Riehl's lemma needs only products. Uniqueness confirmed missing: `rg -i 'unique natural isomorphism'` 0 hits. One inaccuracy in the gap prose, non-fatal: it claims `rg prod_assoc` finds 'only Theory/Algebra.v (hint) and Theory/Multicategory/Endomorphism.v:125', but there are also Structure/Cocartesian.v:404,405 (`apply (@prod_assoc _ O)`, discharging coprod_assoc by duality) and Structure/Cartesian/Closed.v:259,260. Does not affect the classification."
+    }
+  },
+  {
+    "id": "riehl:3.3:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "chosen product whose associator is not the identity",
+      "C ≅ C × C for a countably infinite set, self-product in Set",
+      "non-strict associativity of a chosen product / skeletal category",
+      "Isbell / clingman counterexample, subterminal hom-functor",
+      "ternary product cones disagreeing"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'clingman' / 'subterminal' / 'countably infinite' / 'not the identity' / 'strictly associative' (product context) . -> 0 relevant hits ('strictly associative' hits are about the free category's list concatenation, Construction/Free.v:109, ColouredPROP/TermEq.v:52, and Structure/Monoidal/Strict.v:17's definition of a strict monoidal category — none exhibits a chosen product with a non-identity associator)",
+      "grep -rn --include='*.v' -i 'Isbell' . -> 1 hit, Instance/Cat.v:104, citing Isbell's review of a dissertation; not [Isb69]",
+      "grep -rn --include='*.v' -i 'skeletal' . -> Test/Poset.v (a poset regression test) only; Instance/FinSet.v is skeletal but no associator computation is performed on it",
+      "The tree has no counterexample of this kind: Structure/Monoidal/Strict.v defines strictness but no file exhibits a non-strict chosen product, and Instance/Sets.v never constructs a bijection C ≅ C × C for an infinite carrier",
+      "Also checked Structure/Monoidal/Proofs.v and Structure/Monoidal/Naturality.v for a 'when is the associator an identity' criterion -> none"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: `rg -i subterminal` 0 hits, `rg -i clingman` 0 hits, `rg -i Isbell` 1 hit (Instance/Cat.v:104, a review citation, not [Isb69]), `rg -i skeletal` finds no associator computation. Instance/Sets.v never builds a bijection C \\u2245 C \\u00d7 C for an infinite carrier, and no file exhibits a chosen product with a non-identity associator. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:3.3:exi",
+    "classification": "PRESENT",
+    "aliases": [
+      "product bifunctor - × - : C × C ⟶ C",
+      "f × g / split f g / bimap on products",
+      "functoriality of the binary product",
+      "(f × D)(A × g) = (B × g)(f × C) interchange square",
+      "×(C) as a specialization of the limit functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }.  (* Notation ×( C ); the fmap on (f,g) is exactly f × g, and the Functor obligations prove fmap_id, fmap_comp and fmap_respects *)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 386,
+        "symbol": "first_second",
+        "intree_statement": "Theorem first_second {x y z w : C} (f : x ~> y) (g : z ~> w) : first f ∘ second g ≈ second g ∘ first f."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 425,
+        "symbol": "exl_split",
+        "intree_statement": "Theorem exl_split {x y z w : C} (f : x ~> y) (g : z ~> w): exl ∘ split f g ≈ f ∘ exl."
+      }
+    ],
+    "statement_record": {
+      "book": "Specialize Proposition 3.3.1 to define the product bifunctor - × - : C × C ⟶ C; explain how f : A -> B and g : C -> D induce f × g : A × C -> B × D commuting with the product projections, and demonstrate the commutativity of the square expressing f × g as both (f × D)(A × g) and (B × g)(f × C).",
+      "intree": "InternalProductFunctor : C ∏ C ⟶ C with fmap (f,g) = (f ∘ exl) △ (g ∘ exr) = split f g; exl_split : exl ∘ split f g ≈ f ∘ exl and exr_split (line 429) : exr ∘ split f g ≈ g ∘ exr; first_second : first f ∘ second g ≈ second g ∘ first f.",
+      "strength_comparison": "same. All three clauses are in force. The bifunctor is constructed with its functor laws; f × g is characterized by its commutation with both projections (exl_split, exr_split at Structure/Cartesian.v:425/429); and the interchange square is first_second, whose two sides are (f × D)(A × g) and (B × g)(f × C) under the definitions first f := (f ∘ exl) △ exr and second g := exl △ (g ∘ exr). Presentational differences only: (i) the identification of each side with f × g itself follows from split_comp (line 400) plus split_id (line 394) rather than being a single named lemma, and (ii) the bifunctor is built directly from the Cartesian class rather than derived by specializing a general limit functor (the general Proposition 3.3.1 is only partially present — see riehl:3.3:prop1) — but Structure/Limit/Cartesian.v:39 Cartesian_Limit certifies that Cartesian C is exactly 'all two-object discrete diagrams have limits', so this IS the J-discrete-two instance."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same evidence. All three citations verified verbatim at the stated lines: Functor/Product/Internal.v:34 `Program Instance InternalProductFunctor \\`(C : Category) \\`{@Cartesian C} : C \\u220f C \\u27f6 C` with fmap (f,g) = (fst p \\u2218 exl) \\u25b3 (snd p \\u2218 exr) and the Functor obligations proved (fmap_respects at the first Next Obligation, fmap_comp at the second); Structure/Cartesian.v:386 `Theorem first_second {x y z w : C} (f : x ~> y) (g : z ~> w) : first f \\u2218 second g \\u2248 second g \\u2218 first f`; Structure/Cartesian.v:425 `Theorem exl_split ... : exl \\u2218 split f g \\u2248 f \\u2218 exl` (with exr_split at 429). Read the definitions at Structure/Cartesian.v:172-180 to check the interchange reading: `first f := (f \\u2218 exl) \\u25b3 exr` is f \\u00d7 Z and `second g := exl \\u25b3 (g \\u2218 exr)` is Z \\u00d7 g, so first_second's two sides really are (f \\u00d7 D)(A \\u00d7 g) and (B \\u00d7 g)(f \\u00d7 C), and split f g = fmap[\\u00d7(C)] (f,g) is f \\u00d7 g. The Cartesian_Limit bridge cited in strength_comparison is a genuine iff (Structure/Limit/Cartesian.v:39), so calling this the J-discrete-two instance of Prop 3.3.1 is fair rather than hand-waving. Both files registered in _CoqProject. No same-name-weaker-statement, no special-case dressing: all three clauses of the exercise are in force."
+    }
+  }
+]

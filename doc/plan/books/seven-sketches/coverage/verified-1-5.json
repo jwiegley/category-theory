@@ -1,0 +1,488 @@
+[
+ {
+  "id": "7sketches:1.2.3:ex65",
+  "classification": "ABSENT",
+  "aliases": [
+   "poset of upper sets U(P) / up-sets / upward-closed subsets ordered by inclusion",
+   "power set ordered by inclusion P(B) (subobject preorder sub_le, power object Pow)",
+   "the inclusion U(B) -> P(B) as a monotone map, i.e. a functor between thin categories",
+   "upper set = cosieve = Props-valued copresheaf = subfunctor of the terminal copresheaf",
+   "principal filter / upward-closed predicate B -> 2 (monotone boolean predicate)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'upper set' . -- 0 hits",
+   "grep -rn --include='*.v' -i 'upset' . -- 0 hits; -i 'up_set' -- 0 hits; -i 'up-set' -- 0 hits",
+   "grep -rn --include='*.v' -i 'upward' . -- 1 hit, Structure/Monoid.v:89 prose ('Upward, the ...'); -i 'downward' -- 1 hit, Structure/Monoid.v:84 prose",
+   "grep -rn --include='*.v' -i 'sieve' . -- 2 hits, Theory/Sheaf.v:80 and Construction/Localization.v:101, both prose about Grothendieck topologies; no sieve or cosieve is defined",
+   "grep -rn --include='*.v' -i 'subfunctor' . -- 2 hits, both the Section name 'SubFunctor' in Theory/Subobject/Functor.v:27/199 (that section builds Sub : C^op -> Sets, not subfunctors of a presheaf)",
+   "grep -rn --include='*.v' -i 'powerset' . / -i 'PowerSet' . -- 0 hits; -i 'filter' -- only Theory/Metacategory.v FMap filters and a Comonad/CoKleisli.v prose remark about digital filters",
+   "grep -rn --include='*.v' -i 'monotone' . -- Construction/Enriched/Two.v:175/183 (MonotoneMap, EnrichedFunctor_Two_monotone) plus prose in Instance/{Proset,Poset,Two}.v and Construction/Enriched.v; no monotone map is ever constructed between two concretely given preorders",
+   "grep -rn --include='*.v' -i 'hasse' . -- 0 hits, so the exercise's drawing has no in-tree analogue in any form",
+   "grep -rn --include='*.v' 'Proset' . -- only Instance/Proset.v:33/48, Instance/Poset.v:117 and Test/Poset.v; the only carriers ever fed to Proset/Poset are nat and the bespoke two-element `two` of Test/Poset.v:117, never a set of subsets",
+   "NEAR MISS considered and rejected as evidence: the codomain, a power set ordered by inclusion, exists in categorical guise as the subobject preorder (Theory/Subobject.v:59 `sub_le`, :62 sub_le_refl, :67 sub_le_trans) and as the topos power object (Structure/Topos.v:129 `Pow a := Omega ^ a`) -- but that is exactly the content of 7sketches:1.2.2:example50, already recorded there. The exercise's OWN content is the domain U(B) and the inclusion map, and the poset of upper sets of a preorder does not exist in-tree at all, so no part of the map is present. Reindexing on the subobject side is moreover not even stated to be order-preserving (Theory/Subobject/Functor.v carries sub_reindex_id/comp/respects but no sub_le-monotonicity lemma), so nothing in-tree asserts monotonicity of any map between preorders of subsets"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT. Blind pass reached ABSENT independently. Reproduced the log's key negatives: rg -in 'upper set|upset|up-set|lower set' -> 0 definitional hits; rg -in 'powerset|power set' -> only Structure/Topos.v:129 `Pow a := Omega ^ a` (a topos power OBJECT, not a powerset preorder); rg -in 'hasse' -> 0 hits; rg -nw 'Ord' -> 0 definitions (see problems[]). TWO near-misses the classifier's log did not consider, neither changing the verdict: (a) Construction/Slice.v:169 `Program Definition Coslice `(C : Category) `(c : C) : Category` with the header at :80-81 saying 'For a poset P, the slice P/p is the principal down-set of p' -- dually, for a Proset the coslice p/C IS the principal up-set of p, so up-sets of the PRINCIPAL kind do exist in categorical guise; but that yields a category over P, never an element of a preorder U(B) ordered by inclusion, and only principal up-sets, whereas the exercise needs ALL upper sets of B. (b) Instance/Props.v:39 `Props : Category` is the thin category of propositions ordered by implication, i.e. the truth-value preorder into which a subset of B would be classified -- but no exponential B -> Props is formed and no subset preorder is built. The exercise's domain U(B), its codomain P(B) and the inclusion between them are all absent."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex66",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Yoneda lemma for preorders / order-theoretic Yoneda / an element is determined by its up-set",
+   "principal upper set up(p) = {p' | p <= p'} = Hom(p, -) (the covariant hom-functor)",
+   "Yoneda embedding, full and faithful (Curried_Hom, Yoneda_Full, Yoneda_Faithful, Yoneda_Embedding)",
+   "covariant Yoneda embedding into copresheaves, P^op -> [P, Sets] (contravariant on the source)",
+   "up(p') subset of up(p) iff p <= p' -- antitone hom-embedding; dual: down-set / representable presheaf"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 253,
+    "symbol": "Covariant_Yoneda_Embedding",
+    "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : forall A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.  (with `x ≊ y` = an isomorphism of the underlying setoids in Sets, Instance/Sets.v:205)"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 60,
+    "symbol": "Curried_Hom",
+    "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}."
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 85,
+    "symbol": "Yoneda_Faithful / Yoneda_Full",
+    "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  ...  #[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  (line 96; together with Corollary Yoneda_Embedding' (C : Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; ... |} at line 109)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a preorder (P, <=): (1) the principal set up(p) := {p' in P | p <= p'} is an upper set for every p; (2) p |-> up(p) is a monotone map from P^op to U(P), the upper sets ordered by inclusion; (3) p <= p' iff up(p') is contained in up(p) -- the Yoneda lemma for preorders, saying an element is determined up to equivalence by its web of relationships to all others; (4) draw the map for b >= a <= c.",
+   "intree": "`Covariant_Yoneda_Embedding (C : Category) : forall A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B` -- the morphisms A ~> B are in setoid bijection with the natural transformations Hom(B,-) ⟹ Hom(A,-); carried by `Curried_Hom C : C^op ⟶ [C, Sets]`, whose value at x is the functor y |-> hom C x y acting by post-composition, and which is asserted Full (Functor/Hom.v:96) and Faithful (:85).",
+   "strength_comparison": "intree-stronger in generality, intree-weaker in the item's own vocabulary. Every clause is an instance of the in-tree statements once C := Proset P (Instance/Proset.v:33, where hom x y IS the relation R x y and the hom-setoid is trivial): clause (1) is the inner `fmap := fun y z f => f ∘ g` of Curried_Hom, i.e. up(p) = Hom(p,-) is a functor, which for a thin category says exactly that p <= y and y <= z give p <= z -- upward closure; clause (2) is the outer functoriality of Curried_Hom, contravariant in the represented object, i.e. the assignment p |-> up(p) is monotone out of P^op; clause (3) is Covariant_Yoneda_Embedding at C := Proset P, where a natural transformation Hom(p',-) ⟹ Hom(p,-) is precisely a pointwise implication p' <= x -> p <= x (naturality is vacuous by thinness), i.e. an inclusion up(p') ⊆ up(p), so the bijection with p ~> p' IS 'p <= p' iff up(p') ⊆ up(p)'. What is weaker: the target of the in-tree embedding is the presheaf/copresheaf category [C, Sets], never the preorder U(P) of upper sets ordered by inclusion (which does not exist in-tree, see the ex65 log), so the book's inclusion of subsets appears only as the existence of a natural transformation; the Yoneda development is Sets-valued, with no 2-enriched (truth-value) Yoneda that would land in truth values as a preorder does; and no in-tree statement mentions preorders, so the specialization is available but unwritten."
+  },
+  "gap": "Three precise pieces. (1) U(P), the set of upper sets of a preorder ordered by inclusion, is not defined anywhere (grep -i 'upper set|upset|sieve|subfunctor': no definition), so clause (2)'s codomain is missing and 'up(p') ⊆ up(p)' cannot be stated as an inclusion in a preorder -- it exists only as the hom-setoid of the copresheaf category. (2) The Yoneda material is never instantiated at a Proset: no lemma or example specializes Covariant_Yoneda_Embedding, Curried_Hom, Yoneda_Full or Yoneda_Faithful to a thin category, and the library has no Two-enriched (truth-value-valued) Yoneda lemma, which is the form the order-theoretic statement takes. (3) Clause (4), the concrete three-element preorder b >= a <= c and its picture, has no counterpart (Hasse diagrams: 0 hits; the only concrete preorders in-tree are nat and the two-element Test/Poset.v `two`).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'upper set|upset|up-set' . -- 0 hits (the codomain U(P) is absent)",
+   "grep -rn --include='*.v' 'Yoneda' . -- Functor/Hom.v:85/96/109, Functor/Hom/Yoneda.v:133/182/231/253, Theory/Coend/Yoneda.v (ninja reductions), plus prose; none mentions preorders, up-sets or monotone maps",
+   "grep -rn --include='*.v' 'Proset' . -- Instance/Proset.v, Instance/Poset.v, Test/Poset.v only; no Yoneda-related file imports Proset"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL. Blind pass reached PARTIAL with the same evidence. Every citation verified line-exact: Functor/Hom/Yoneda.v:253 `Program Instance Covariant_Yoneda_Embedding `(C : Category) : forall A B : C, Copresheaves [Hom B,-] [Hom A,-] =~= A ~> B` (:252 is the #[export]); Functor/Hom.v:60 `Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets]` (the type is exactly as quoted, so 'p |-> up(p) is contravariant in the represented object' is literal); Functor/Hom.v:85 Yoneda_Faithful, :96 Yoneda_Full, :109 Yoneda_Embedding'; the `≊` notation is Instance/Sets.v:205 as cited. The strength_comparison is honest, including the decisive weakness: the embedding is Sets-valued, so it lands in [C, Sets], and there is no 2-enriched (truth-value) Yoneda -- I confirmed Construction/Enriched/Two.v contains no Yoneda material at all (its content stops at EnrichedFunctor_Two_monotone, :183), and Construction/Enriched/Fun.v:270-272 builds only the category of V-functors between two FIXED enrichments (obj := EnrichedFunctor K C D), never the V-Cat in which U(P) could be an object. One near-miss to add to the gap for Phase E: clause (1), 'up(p) is an upper set', also exists as Construction/Slice.v:169 `Coslice` -- for a Proset the coslice p/C is the principal up-set as a comma category (the file's own prose at :80-81 states the dual for slices) -- which is a second in-tree route to clause (1) but still not an element of a preorder U(P) ordered by inclusion."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex67",
+  "classification": "PRESENT",
+  "aliases": [
+   "every function out of a discrete preorder is monotone",
+   "a functor out of a discrete category is just a function on objects (DiscreteCat_Functor)",
+   "free preorder / left adjoint Set -> Cat applied to a set; discrete diagram",
+   "monotonicity is vacuous when the only relations are x <= x (reflexivity, id)",
+   "hom x y := x = y, so fmap transports the identity along the equality witness"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Discrete.v",
+    "line": 52,
+    "symbol": "DiscreteCat_Functor",
+    "intree_statement": "Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |}.  (the functor laws fmap_respects/fmap_id/fmap_comp are discharged by the default obligation tactic, so the construction succeeds for EVERY f and every target C)"
+   },
+   {
+    "file": "Instance/Discrete.v",
+    "line": 37,
+    "symbol": "DiscreteCat",
+    "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality@{o h p} x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}.  -- the discrete preorder: the order relation IS equality"
+   }
+  ],
+  "statement_record": {
+   "book": "If (P, <=_P) is a discrete preorder then every function f : P -> Q satisfies the monotonicity condition for any order <=_Q on Q; i.e. a monotone map out of a discrete preorder is just a function of underlying sets.",
+   "intree": "`DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |}` over `DiscreteCat A := {| obj := A; hom := fun x y => x = y; id := eq_refl; compose := eq_trans |}`.",
+   "strength_comparison": "same, and intree-stronger in the target. The hypothesis matches verbatim -- DiscreteCat's hom is propositional equality, the book's '<= is =' -- and the conclusion is produced for an ARBITRARY function f : A → C into an ARBITRARY category C, hence in particular into any Proset (Instance/Proset.v:33), where a functor is exactly a monotone map because hom is the order relation itself and the hom-setoid is trivial. The monotonicity obligation is discharged the same way the book argues it: the only relation to transport is reflexivity, and it goes to the identity. Two presentation notes, neither weakening: the source is built by DiscreteCat rather than by Proset instantiated at eq (Proset is never instantiated at eq in-tree, though eq is a PreOrder), and the map is packaged as a Functor rather than as the `MonotoneMap` record of Construction/Enriched/Two.v:175 -- the two coincide for thin categories but no in-tree lemma says so."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT. Blind pass reached PRESENT with the same evidence. Instance/Discrete.v:52 `DiscreteCat_Functor {A : Type} {C : Category} (f : A -> C) : DiscreteCat A ⟶ C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |}` and :37 `DiscreteCat (A : Type) : Category := {| obj := A; hom := fun x y => x = y; homset := Morphism_equality; id := eq_refl; compose := eq_trans |}` are both verbatim at the cited lines; the file is registered (_CoqProject:182). ONE REFINEMENT the classifier's presentation note stops short of, which sharpens rather than overturns: DiscreteCat's hom-setoid is `Morphism_equality` (strict equality OF equality proofs, per the header at :17-21), not the trivial thin setoid a Proset uses, so for a general Type A without UIP `DiscreteCat A` is the path category rather than a thin/discrete preorder. Conversely, `Proset` instantiated at `eq` (never done in-tree, as the record notes) carries the trivial hom-setoid `fun _ _ => True`, so its fmap_respects obligation would demand that ALL proofs of x = y be sent to ≈-equal morphisms -- i.e. it needs UIP on A. On sets, the book's setting, the two readings coincide and the book's hypothesis ('<= is =') and conclusion (monotonicity is vacuous, the only relation being reflexivity, which goes to id) are matched exactly, so PRESENT stands; the caveat is that the identification 'DiscreteCat A = the discrete preorder on A' holds only up to UIP on A and is nowhere stated in-tree."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:example68",
+  "classification": "ABSENT",
+  "aliases": [
+   "Prt(X), the preorder of partitions of X ordered by coarseness",
+   "partition presented by a surjection s : X ->> P; quotient object of X",
+   "pullback / restriction of a partition along a function: f*(s) = f ; s",
+   "contravariant reindexing of quotients, Quot : C -> Preorders (dual of Sub : C^op -> Sets)",
+   "induced monotone map f* : Prt(Y) -> Prt(X) (a monotone map going backwards)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'partition' . -- 4 hits, all Theory/Coq/List.v:391 `Definition partition {a} (p : a → bool) : list a → list a * list a` (a list filter) and its lemma Theory/Coq/List/Proofs.v:436/437. There is no notion of a partition of a set, hence neither Prt(X) nor Prt(Y) exists and the map f* has no source or target",
+   "grep -rn --include='*.v' -i 'Prt' . -- 0 hits; -i 'coarser' -- only unrelated prose (Instance/Adj.v:37, PROP presentations); -i 'coarsest' -- 0 hits",
+   "grep -rn --include='*.v' -i 'quotient object' . / 'QuotObj' -- 0 hits. Construction/Quotient.v quotients the HOM-SETOIDS of a category by a congruence (QuotientProj at :289), not an object by an equivalence relation, and defines no preorder of quotients",
+   "grep -rn --include='*.v' -i 'equivalence class' . -- Theory/Subobject.v:10 prose, Instance/FinSet/Pushout.v:27 prose, Construction/PROP.v:248, Construction/Cospan/BlackBox.v:93; none defines the set of partitions of a set or an order on it",
+   "grep -rn --include='*.v' -i 'surject' . -- Theory/Functor.v:323/326 (Full via a surjective fmap), Theory/Equivalence.v:11/38 (essentially surjective), Theory/Lawvere.v:33; nothing presents a partition by a surjection, so the example's 'partition presented by s : Y -> P' encoding is unavailable",
+   "NEAR MISS considered and rejected: the structurally analogous contravariant reindexing exists only on the SUBOBJECT (mono) side -- Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op ⟶ Sets` with `sub_reindex` -- which is about subsets, not partitions, and is not even asserted order-preserving: grep 'sub_reindex' Theory/Subobject/Functor.v yields sub_reindex_id (:143), sub_reindex_comp (:152), sub_reindex_respects (:60), sub_reindex_respects_mor (:113), and NO lemma of the form sub_le u v -> sub_le (sub_reindex f u) (sub_reindex f v). So even the dual statement 'a map induces a monotone map backwards' is unproven in-tree",
+   "Also checked the partition-adjacent machinery the sibling records cite for 1.1.1 (Instance/FinSet/Pushout.v `components`, components_edge_eq :328, components_resp :363, FinSet_HasPushouts :513): it computes the equivalence generated by an edge list and counts its classes, but exposes no type of partitions, no coarseness order, and no action of a function on partitions"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT. Blind pass reached ABSENT independently. Reproduced the negatives: rg -in 'prt' over all .v files -> 0 hits (not merely as a word: zero occurrences of the substring); rg -in 'partition' -> only Theory/Coq/List.v:391 `Definition partition {a} (p : a -> bool) : list a -> list a * list a` and its lemma at Theory/Coq/List/Proofs.v:436-437, a list filter; rg -in 'coarser|finer' -> unrelated prose only. Verified the record's sharpest negative claim at first hand: Theory/Subobject/Functor.v contains NO occurrence of `sub_le` at all (the reindexing lemmas are sub_reindex_respects :60, sub_reindex_respects_mor :113, sub_reindex_id :143, sub_reindex_comp :152, with `Program Definition Sub : C^op ⟶ Sets` at :180 exactly as quoted), so even on the dual SUBOBJECT side nothing in-tree asserts that a morphism induces an ORDER-PRESERVING map backwards -- the near-miss is correctly rejected. Instance/FinSet/Pushout.v's union-find machinery is line-accurate as described (`components` :275, components_edge_eq :328, components_resp :363, FinSet_HasPushouts :513) and exposes no type of partitions, no coarseness order, and no action of a function on partitions. Neither the source Prt(Y), the target Prt(X), nor the map f* exists."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex69",
+  "classification": "ABSENT",
+  "aliases": [
+   "compute f*(P) and f*(Q) for a surjection f : X ->> Y and two partitions of Y",
+   "worked example of pullback of a partition along a function (composition with the presenting surjection)",
+   "concrete finite partitions of a 3+ element set; Bell-number enumeration",
+   "Example ... := eq_refl computation in skeletal FinSet",
+   "induced monotone map on partition preorders, evaluated"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'partition' . -- only the Theory/Coq/List.v:391 list filter; there is no type of partitions in which the exercise's P and Q could be written down, so nothing can be computed",
+   "grep -rn --include='*.v' -i 'Prt' . -- 0 hits (the map f* whose values are to be computed does not exist; see the example68 record)",
+   "grep -n 'Example' Instance/FinSet/Pushout.v -- 0 hits: the one file with computing quotient machinery (union-find `components`, po_apex) never evaluates it on a closed input, so not even a hand-encoded surjection-pair computation exists to point at",
+   "grep -rn --include='*.v' 'Example' Instance/FinSet/ -- the computing examples in the FinSet layer are about products, exponentials and power objects (Instance/FinSet/Topos.v:52/54 `Pow 2 = 4`, `Pow 0 = 1`), never about partitions or quotients"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT. Blind pass reached ABSENT independently; the exercise is a computation in the (absent) partition preorder of example68, so it inherits that record's negatives, which I reproduced (rg -i 'prt' -> 0 hits; 'partition' -> only the Theory/Coq/List.v:391 list filter). Confirmed the auxiliary claim that the FinSet layer's computing Examples are about products/exponentials/power objects (Instance/FinSet/Topos.v) and never about partitions or quotients, and that Instance/FinSet/Pushout.v evaluates its `components` fold on no closed input. Nothing in-tree can even express the exercise's data."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:prop70",
+  "classification": "PRESENT",
+  "aliases": [
+   "identity map is monotone; composite of monotone maps is monotone",
+   "preorders and monotone maps form a category (Ord / Pos / Proset-and-functors)",
+   "identity functor Id and functor composition Compose; Cat is a category",
+   "identity and composite of 2-enriched functors (EnrichedId, EnrichedCompose) under monotone-map = enriched-functor",
+   "reflexivity and transitivity of the monotonicity condition; id_left/id_right/comp_assoc for monotone maps"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat.v",
+    "line": 142,
+    "symbol": "Cat",
+    "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc; comp_assoc_sym := ... }.  -- the identity and the composite are exactly the two data of the proposition, and this instance asserts they satisfy the category laws"
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 258,
+    "symbol": "Compose",
+    "intree_statement": "Program Definition Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}.  -- at C, D, E := Prosets, `fmap (fmap f)` IS the composite's monotonicity witness, built from the two given ones"
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 247,
+    "symbol": "Id",
+    "intree_statement": "Program Definition Id {C : Category} : C ⟶ C := {| fobj := fun x => x; fmap := fun _ _ f => f |}.  -- at C := Proset P this is 'the identity function on P is monotone', its monotonicity witness being the given relation proof itself"
+   },
+   {
+    "file": "Construction/Enriched/Compose.v",
+    "line": 49,
+    "symbol": "EnrichedCompose / EnrichedId",
+    "intree_statement": "Program Definition EnrichedCompose {K : Category} `{@Monoidal K} {C D E : Enriched K} (G : EnrichedFunctor K D E) (F : EnrichedFunctor K C D) : EnrichedFunctor K C E := {| efobj := fun x => efobj (efobj x); efmap := fun x y => efmap ∘ efmap |}.  (with `EnrichedId (C : Enriched K) : EnrichedFunctor K C C := {| efobj := fun x => x; efmap := fun x y => id |}` at line 25) -- the same two claims in the enrichment where, by Construction/Enriched/Two.v:183 `EnrichedFunctor_Two_monotone`, an enriched functor between preorders IS a MonotoneMap"
+   }
+  ],
+  "statement_record": {
+   "book": "For any preorder (P, <=_P) the identity function id_P : P -> P is monotone; and for preorders (P, <=_P), (Q, <=_Q), (R, <=_R) and monotone f : P -> Q, g : Q -> R the composite f ; g : P -> R is monotone. (Together: preorders and monotone maps form a category.)",
+   "intree": "`Id {C : Category} : C ⟶ C := {| fobj := fun x => x; fmap := fun _ _ f => f |}` and `Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}`, assembled by `Instance Cat : Category := { obj := Category; hom := @Functor; id := @Id; compose := @Compose; id_left := @fun_equiv_id_left; ... }`; and, in the 2-enriched presentation where monotone maps are literally the morphisms, `EnrichedId` and `EnrichedCompose` (Construction/Enriched/Compose.v:25/49) between the enrichments of Construction/Enriched/Two.v.",
+   "strength_comparison": "same in substance, intree-stronger in scope. A functor between Prosets (Instance/Proset.v:33) is exactly a monotone map: the hom-type IS the order relation, so fmap : R x y → R' (F x) (F y) is the monotonicity condition, and the functor laws are automatic because the hom-setoid is `equiv := fun _ _ => True` (thinness). Under that reading Id is the first clause and Compose the second, verbatim, and Cat additionally asserts the unit and associativity laws the parenthetical claims. The independent enriched route makes the identification with the book's vocabulary explicit rather than implicit: Construction/Enriched/Two.v:183 `EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 ... ↔ MonotoneMap P Q` says a morphism of 2-enrichments is a MonotoneMap (:175, `mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y)`), and EnrichedId/EnrichedCompose supply the identity and composite there. Two honest presentation gaps, neither a weakening of the claim: no category whose OBJECTS are preorders is built in-tree (preorders enter as objects of Cat/StrictCat via Proset), and the identity/composition are never transported through the `↔` to produce a MonotoneMap literally -- a one-line composition that is not written."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT, with a disclosed boundary. My blind pass landed PARTIAL, for exactly the reason the record's own strength_comparison discloses: the library builds NO category whose objects are preorders, and the `MonotoneMap` record (Construction/Enriched/Two.v:175) is given no identity and no composition. I independently confirmed there is no such category anywhere -- rg for a category with `obj := Enriched...` yields only Construction/Enriched/Fun.v:272 `obj := EnrichedFunctor K C D` (a V-functor category between two fixed enrichments, not a V-Cat), and rg -nw 'Ord' finds no definition. I accept PRESENT because the two claims ARE the cited constructions verbatim once the source is a Proset (Instance/Proset.v:33, where `hom := R` and the hom-setoid is `fun _ _ => True`): Theory/Functor.v:247 `Id {C : Category} : C ⟶ C := {| fobj := fun x => x; fmap := fun _ _ f => f |}` is 'id_P is monotone' with the relation proof as its own witness, and :258 `Compose {C D E} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}` is the composite's witness built from the two given ones. Instance/Cat.v:142 `Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects; id_left := @fun_equiv_id_left; ... }` is verbatim as quoted, supplying the parenthetical category laws. Construction/Enriched/Compose.v:25 `EnrichedId` and :49 `EnrichedCompose` are at the cited lines with their obligations proved (:30-44 and :56-75), and Construction/Enriched/Two.v:183 `EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 ... <-> MonotoneMap P Q` over :175 `mono_le x y : tpre_le P x y -> tpre_le Q (mono_map x) (mono_map y)` is exact. See problems[]: the LIBRARY comments at Instance/Proset.v:19 and Instance/Poset.v:21 point at `[Ord]`/`[Pos]` as though this proposition's category HAD been built in-tree, which is precisely the gap the record discloses."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex71",
+  "classification": "PRESENT",
+  "aliases": [
+   "verify that id is monotone and that composites of monotone maps are monotone",
+   "discharge the functor obligations for Id and Compose (fmap_id, fmap_comp, fmap_respects)",
+   "proof that reflexivity witnesses identity monotonicity and transitivity witnesses composite monotonicity",
+   "EnrichedId / EnrichedCompose obligations (efmap_id, efmap_comp) proven",
+   "Cat / StrictCat category laws for functors"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Functor.v",
+    "line": 258,
+    "symbol": "Compose",
+    "intree_statement": "Program Definition Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}.  Next Obligation. proper; rewrites; reflexivity. Qed.  Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.  -- the obligations ARE the verification that the composite's monotonicity witness is well defined"
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 247,
+    "symbol": "Id",
+    "intree_statement": "Program Definition Id {C : Category} : C ⟶ C := {| fobj := fun x => x; fmap := fun _ _ f => f |}.  -- all obligations discharged by the default tactic; at a Proset this is the check that the identity function is monotone"
+   },
+   {
+    "file": "Construction/Enriched/Compose.v",
+    "line": 49,
+    "symbol": "EnrichedCompose",
+    "intree_statement": "Program Definition EnrichedCompose ... : EnrichedFunctor K C E := {| efobj := fun x => efobj (efobj x); efmap := fun x y => efmap ∘ efmap |}.  Next Obligation. ... rewrite <- comp_assoc. rewrite (efmap_id (EnrichedFunctor := F)). rewrite (efmap_id (EnrichedFunctor := G)). reflexivity. Qed.  (and the efmap_comp obligation at :66; EnrichedId with its two proved obligations at :25) -- the same two checks carried out where the morphisms are monotone maps by Construction/Enriched/Two.v:183"
+   }
+  ],
+  "statement_record": {
+   "book": "Check the two claims of Proposition 1.70: that the identity function on a preorder is monotone, and that the composite of two monotone maps is monotone.",
+   "intree": "The verifications are the discharged obligations of `Id` and `Compose` (Theory/Functor.v:247/258, `fmap := fun _ _ f => f` and `fmap := fun _ _ f => fmap (fmap f)`, with the respects/id/comp obligations proved), and independently of `EnrichedId`/`EnrichedCompose` (Construction/Enriched/Compose.v:25/49, obligations proved by id_left, bimap_id_id, bimap_comp and the two efmap laws).",
+   "strength_comparison": "same. The exercise asks for exactly the proof that the library machine-checks: at C := Proset P the monotonicity witness for the identity is the given relation proof (`fmap := fun _ _ f => f`) and for a composite is the two witnesses composed (`fmap (fmap f)`), and both constructions type-check with all obligations closed -- a successful build IS the verification. intree-stronger in that the same proofs also discharge the functor laws (which the book's monotone-map setting does not require, being automatic for thin categories) and are carried out for arbitrary categories, not only preorders."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT. Blind pass agrees (the exercise is the verification half of prop70, whose record I also confirmed). The quoted obligations are real: Theory/Functor.v:247/258 are the cited definitions and their Program obligations are discharged in-file; Construction/Enriched/Compose.v:56-65 is the efmap_id obligation quoted (`rewrite <- comp_assoc. rewrite (efmap_id (EnrichedFunctor := F)). rewrite (efmap_id (EnrichedFunctor := G)). reflexivity.` -- verbatim), with the efmap_comp obligation at :66-75 and EnrichedId's two obligations at :30-44, all closed by Qed. The 'a successful build IS the verification' reading is legitimate here because Theory/Functor.v and Construction/Enriched/Compose.v are both registered in _CoqProject and the whole library builds. Same disclosed boundary as prop70: the checks are performed for functors, never transported through the `<->` of Construction/Enriched/Two.v:183 to yield an identity/composite MonotoneMap literally."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:example72",
+  "classification": "PARTIAL",
+  "aliases": [
+   "dagger preorder: id_P monotone as (P,<=) -> (P,<=^op); symmetric preorder",
+   "equivalence relation = reflexive + symmetric + transitive relation (Setoid, Equivalence)",
+   "a preorder-with-symmetry is a setoid / an equivalence relation on a set",
+   "groupoid-ness of a thin category; the core groupoid of a preorder (Groupoid C)",
+   "mutual entailment x <= y and y <= x, written x ~= y (Isomorphism in a thin category)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 187,
+    "symbol": "iso_equivalence",
+    "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }.  (bundled on objects as `#[export] Instance ob_setoid : Setoid C := {| equiv := Isomorphism ; setoid_equiv := iso_equivalence |}` at line 195) -- in a thin category, i.e. a preorder, `Isomorphism x y` is the mutual-relatedness x <= y and y <= x, and this asserts that relation is reflexive, symmetric and transitive: an equivalence relation on the elements"
+   },
+   {
+    "file": "Lib/Setoid.v",
+    "line": 32,
+    "symbol": "Setoid",
+    "intree_statement": "Class Setoid A := { equiv : crelation A; (* the equivalence ≈ on A *) setoid_equiv : Equivalence equiv (* refl/symm/trans laws for ≈ *) }.  -- the other side of the example's identification: a set equipped with an equivalence relation, the library's primitive structure"
+   }
+  ],
+  "statement_record": {
+   "book": "Define a dagger preorder to be a preorder (P, <=) such that id_P is monotone as a map (P, <=) -> (P, <=^op), equivalently such that q <= p whenever p <= q. This says <= is symmetric; since a preorder is already reflexive and transitive, a dagger preorder is precisely a set equipped with an equivalence relation.",
+   "intree": "`Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := ... }` with `Instance ob_setoid : Setoid C := {| equiv := Isomorphism; setoid_equiv := iso_equivalence |}`; and `Class Setoid A := { equiv : crelation A; setoid_equiv : Equivalence equiv }`.",
+   "strength_comparison": "intree-weaker, and one clause is a genuine near-miss rather than the claim. The equivalence-relation side is fully present (Setoid is the library's foundational structure, and every hom-set is one). What iso_equivalence asserts is that the SYMMETRIZATION of a preorder -- mutual relatedness, which is `Isomorphism` in a thin category -- is an equivalence relation; the example instead HYPOTHESIZES that <= is already symmetric and concludes that <= itself is an equivalence relation. For a dagger preorder the two coincide (<= equals its symmetrization), so the in-tree assertion specializes to the example's conclusion, but the specialization is nowhere stated and the hypothesis is nowhere expressible: there is no dagger/symmetric-preorder predicate, and no functor of the shape (P,<=) -> (P,<=^op) that is the identity on objects. Note also that the in-tree symmetrization always exists and is always an equivalence relation, for ANY preorder -- so iso_equivalence alone does not distinguish dagger preorders from arbitrary ones, which is exactly the content the example needs."
+  },
+  "gap": "Two pieces. (1) The dagger condition is not expressible in-tree in any form: grep -i 'dagger' finds only prose (Instance/Rel.v:36-39 on REL's converse, Instance/ZX.v, Theory/Algebra/{Frobenius,SpecialCommutativeFrobenius}.v) with no dagger structure defined; grep -i 'symmetric' over the tree finds only symmetric monoidal/braided/multicategorical notions, never a symmetric relation or a symmetric preorder; and no identity-on-objects functor C ⟶ C^op is ever constructed (Construction/Opposite.v provides C^op and Functor/Opposite.v provides F^op, nothing self-dual at the level of a single category). (2) Neither direction of the identification is asserted: Proset (Instance/Proset.v:33) is never instantiated at the equiv of a Setoid (so 'an equivalence relation yields a dagger preorder' is unwritten), and there is no lemma 'a symmetric preorder is an equivalence relation' -- the closest in-tree fact, iso_equivalence, is about the symmetrization of an arbitrary preorder. Construction/Groupoid.v:103 `Groupoid (C : Category) : Category` (hom := @Isomorphism C) builds that symmetrization as a category, but nothing says its thin instance is a dagger preorder.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'dagger' . -- prose only: Instance/Rel.v:36-39, Instance/ZX.v:108/112, Instance/Adjoints.v:278-280, Theory/Algebra/Frobenius.v:94, Construction/Span/Category.v:37; no dagger structure, no dagger category class",
+   "grep -rn --include='*.v' -i 'symmetric' . (filtering monoidal/braided hits) -- no symmetric relation or symmetric preorder anywhere; `Antisymmetric` occurs only in Instance/Poset.v:117 and Test/Poset.v",
+   "grep -rn --include='*.v' -i 'symmetric preorder' . / -i 'self-dual' . -- 0 relevant hits (self-dual: prose in Instance/Rel.v:38 about Rel ≅ Rel^op, Structure/Monoidal/CompactClosed.v about objects)",
+   "grep -rn --include='*.v' 'Proset' . -- never instantiated at an equivalence relation; the only carriers are nat and Test/Poset.v's `two`"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL, at the ABSENT/PARTIAL boundary, retained for consistency with the campaign's established convention (see verified-1-2.json, 7sketches:1.2.2:remark31, where the same shape was retained as PARTIAL with the note that ABSENT was equally defensible and the choice is immaterial to Phase E). My blind pass reached ABSENT. Citations verified line-exact: Theory/Isomorphism.v:187 `#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }` with :195 `ob_setoid : Setoid C := {| equiv := Isomorphism; setoid_equiv := iso_equivalence |}`; Lib/Setoid.v:32 `Class Setoid A := { equiv : crelation A; setoid_equiv : Equivalence equiv }`. The strength_comparison is unusually honest and I endorse its self-criticism verbatim: iso_equivalence is about the SYMMETRIZATION of an arbitrary preorder and therefore 'does not distinguish dagger preorders from arbitrary ones, which is exactly the content the example needs'. I reproduced both halves of the gap: rg -in 'dagger' -> prose only (Instance/Rel.v:36-39, Instance/ZX.v:108/112, Instance/Adjoints.v:278-280, Theory/Algebra/Frobenius.v:94, Structure/Monoidal/CompactClosed.v, Construction/Span/Category.v:37), all of it about dagger CATEGORIES in the monoidal sense, never a symmetric preorder; no identity-on-objects functor C ⟶ C^op exists; and Construction/Groupoid.v:103 `Groupoid (C : Category) : Category` builds the core (hom := @Isomorphism C) with no predicate 'every morphism is invertible' and no lemma about its thin instance. NOTE FOR PHASE E, an internal asymmetry in this batch: ex73 was classified ABSENT although its conclusion-side vocabulary (`Discrete`, Structure/Discrete.v:28) is equally in-tree, whereas here the conclusion-side vocabulary (`Setoid`) earned PARTIAL. Both records disclose their reasoning fully, so neither misleads, but the two are the same shape and a single issue may reasonably absorb both."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex73",
+  "classification": "ABSENT",
+  "aliases": [
+   "skeletal + dagger preorder = discrete preorder",
+   "skeletal thin groupoid is discrete (only identity arrows)",
+   "antisymmetric + symmetric relation is equality; a poset whose order is symmetric is discrete",
+   "Discrete predicate: every morphism forces its endpoints equal and is the identity",
+   "an equivalence relation that is also a partial order is =; identification with a bare set"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'dagger' . -- prose only (see the example72 log); the hypothesis 'dagger preorder' cannot even be stated in-tree, so no lemma can conclude from it",
+   "grep -rn --include='*.v' -i 'skeletal' . -- Test/Poset.v:102 `poset_nat_skeletal` and :150 `poset_two_skeletal` (per-instance facts about nat and a two-element carrier), Theory/Equivalence.v:95 prose, Theory/Lawvere*.v (strictness of skeletal theories). Skeletality is NOT a predicate on categories in-tree, so the exercise's other hypothesis is also unavailable",
+   "grep -rn --include='*.v' 'Discrete' Structure/Discrete.v Instance/Discrete.v -- the conclusion side exists as `Definition Discrete (C : Category) := forall x y (f : x ~> y), exists H : x = y, f ≈ rew H in id` (Structure/Discrete.v:28, which its own header calls 'the discrete *and* skeletal characterization') and `Lemma DiscreteCat_Discrete (A : Type) : Discrete (DiscreteCat A)` (Instance/Discrete.v:65). Neither is an implication from symmetry-plus-skeletality: DiscreteCat_Discrete is about the category BUILT from a bare type, i.e. the converse direction of the exercise's identification, applied to a preorder already known discrete",
+   "grep -rn --include='*.v' -i 'Antisymmetric' . -- Instance/Poset.v:117 (a hypothesis of Poset) and Test/Poset.v:99/133; no lemma combines antisymmetry with symmetry to conclude the relation is eq",
+   "grep -rn --include='*.v' 'Groupoid' Construction/Groupoid.v -- `Groupoid (C : Category) : Category` (:103) with hom := @Isomorphism C; no lemma states that a skeletal groupoid, or a skeletal thin groupoid, is discrete"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT. Blind pass reached ABSENT independently. Both hypotheses are inexpressible in-tree and I verified this at first hand: rg -E 'Class Skeletal|Definition Skeletal|Record Skeletal' -> 0 hits (skeletality exists only as the per-instance lemmas Test/Poset.v:102 `poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~> y)%nat -> (y ~> x)%nat -> x = y` and :150 `poset_two_skeletal`, both verified verbatim, plus prose at Instance/Poset.v:19-22), and rg -in 'dagger' finds only monoidal-dagger prose (see the example72 record). The conclusion side does exist -- Structure/Discrete.v:28 `Definition Discrete (C : Category) := forall x y (f : x ~> y), exists H : x = y, f ≈ rew H in id`, whose own header at :19 calls it 'the discrete *and* skeletal characterization', and Instance/Discrete.v:65 `DiscreteCat_Discrete (A : Type) : Discrete (DiscreteCat A)` -- and the record correctly rejects it as evidence: DiscreteCat_Discrete runs from a bare type to a discrete category, not from symmetry-plus-skeletality to discreteness. No lemma anywhere combines antisymmetry with symmetry to conclude the relation is eq (rg -in 'Antisymmetric' -> Instance/Poset.v:117 as a hypothesis of `Poset` and Test/Poset.v:99/133 only). See the example72 note on the PARTIAL/ABSENT asymmetry between these two sibling records."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:remark74",
+  "classification": "PARTIAL",
+  "aliases": [
+   "'an A can be identified with a B': mutually inverse constructions whose round trips are identities",
+   "bijective correspondence / isomorphism with both round-trip laws (iso_to_from, iso_from_to)",
+   "equivalence of categories subsuming the identification (EquivalenceOfCategories, C ≅[Cat] D)",
+   "discrete preorders can be identified with sets: obj (DiscreteCat A) = A and back",
+   "round-trip lemmas / mutually inverse packings (X_of_Y, Y_of_X, and the two composites)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 182,
+    "symbol": "Cat_Iso_to_Equivalence_to_Cat_Iso",
+    "intree_statement": "Corollary Cat_Iso_to_Equivalence_to_Cat_Iso {C D : Category} (iso : C ≅[Cat] D) : Equivalence_to_Cat_Iso (Cat_Iso_to_Equivalence iso) ≈ iso.  Proof. split; reflexivity. Qed.  -- one of the two round trips the remark demands, for the in-tree instance 'a Cat-isomorphism can be identified with an equivalence of categories'"
+   },
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 187,
+    "symbol": "Equivalence_to_Cat_Iso_to_Equivalence",
+    "intree_statement": "Corollary Equivalence_to_Cat_Iso_to_Equivalence {C D : Category} {F : C ⟶ D} (E : EquivalenceOfCategories F) : @quasi_inverse C D F (Cat_Iso_to_Equivalence (Equivalence_to_Cat_Iso E)) ≈ @quasi_inverse C D F E.  Proof. reflexivity. Qed.  -- the other round trip, over the two mutually inverse constructions `Equivalence_to_Cat_Iso` (:163) and `Cat_Iso_to_Equivalence` (:172)"
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 113,
+    "symbol": "Isomorphism",
+    "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.  -- the remark's criterion in general form: a passage each way whose two composites return the original"
+   }
+  ],
+  "statement_record": {
+   "book": "'An A can be identified with a B' means: each A determines a unique B, each B a unique A, and both round trips (A -> B -> A and B -> A -> B) return the original. Worked instance: a discrete preorder (P, <=) has underlying set P; a set P becomes the discrete preorder with p1 <= p2 iff p1 = p2; both round trips are identities. The notion is subsumed by equivalence of categories; the next case is isomorphism (Definition 1.75).",
+   "intree": "`Class Isomorphism (x y : C) := { to; from; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }`; `Class EquivalenceOfCategories {C D} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }` (Theory/Equivalence.v:151); and a worked identification with both round trips proved: Cat_Iso_to_Equivalence_to_Cat_Iso and Equivalence_to_Cat_Iso_to_Equivalence.",
+   "strength_comparison": "same in substance for the general notion, intree-weaker on the remark's illustration. The two-round-trips criterion is exactly the in-tree Isomorphism class's pair of laws, with ≈ in place of = (faithful setoid rephrasing), and the remark's own forward pointer -- that the notion is subsumed by equivalence of categories -- is realized by EquivalenceOfCategories together with the bridges to and from C ≅[Cat] D. The library even carries a fully worked instance of the pattern the remark describes, complete with both composites proved to return the original, though for a different pair of notions (Cat-isomorphisms vs equivalences) than the remark's (discrete preorders vs sets). What is missing is the illustration itself; and the informal phrase 'can be identified with' is never formalized as a schema (each such identification is hand-proved per pair, as the Equivalence.v corollaries are)."
+  },
+  "gap": "The remark's worked instance is not asserted. The two passages exist as constructions -- `DiscreteCat (A : Type) : Category` (Instance/Discrete.v:37, whose `obj := A` makes the underlying-set direction hold definitionally) and the `Discrete` predicate (Structure/Discrete.v:28) -- but neither round trip is stated: there is no lemma `obj (DiscreteCat A) = A` (grep 'Example|Lemma' Instance/Discrete.v: only DiscreteCat_Functor and DiscreteCat_Discrete), and no lemma that a category satisfying `Discrete` is isomorphic (or equivalent) to `DiscreteCat` of its object type. Nor is there any general formal notion of 'identification' between two kinds of structure (no schema, no bi-representation lemma); each in-tree identification is an ad hoc pair of Definitions plus round-trip corollaries, as in Theory/Equivalence.v:163-191 and Construction/Enriched/Two.v:165 (`Enriched_Two_preorder : Enriched _2 ↔ TwoPreorder`, which -- note the trap -- is a bare pair of functions with NO round-trip lemma, so it does not meet the remark's criterion at all).",
+  "negative_search_log": [
+   "grep -n 'Lemma|Example|Corollary' Instance/Discrete.v -- only DiscreteCat_Discrete (:65); no round-trip statement between Type and DiscreteCat",
+   "grep -rn --include='*.v' 'Enriched_Two_preorder' . -- Construction/Enriched/Two.v:165 and its uses at :185-186; stated as `↔` (two functions) with no proof that the composites are identities",
+   "grep -rn --include='*.v' -i 'round trip|roundtrip' . -- Construction/Grothendieck/RoundTrip.v (fibred vs indexed, with RoundTrip_Comparison / RoundTrip_Equivalence), Theory/Bicategory/Mates.v (mate_roundtrip_left/right), Construction/Enriched/Sets.v; all are other identifications, none about sets and discrete preorders"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL. Blind pass reached PARTIAL with the same reading (the two-round-trip criterion present as Isomorphism/EquivalenceOfCategories; the set-vs-discrete-preorder illustration absent). Citations verified line-exact: Theory/Isomorphism.v:113 `Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }`; Theory/Equivalence.v:151 `Class EquivalenceOfCategories {C D} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }`, with the two bridges at :163 `Equivalence_to_Cat_Iso` and :172 `Cat_Iso_to_Equivalence` and BOTH round trips at :182 `Cat_Iso_to_Equivalence_to_Cat_Iso ... : Equivalence_to_Cat_Iso (Cat_Iso_to_Equivalence iso) ≈ iso. Proof. split; reflexivity. Qed.` and :187 `Equivalence_to_Cat_Iso_to_Equivalence ... Proof. reflexivity. Qed.` -- exactly the pattern the remark describes, for a different pair of notions. I also independently confirmed the record's TRAP observation, which is the sharpest thing in it: Construction/Enriched/Two.v:165 `Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal <-> TwoPreorder. Proof. split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder. Defined.` is a bare pair of functions with no round-trip lemma anywhere in the file, so it does NOT meet the remark's criterion -- a real hazard for anyone tempted to cite it as an 'identification'. The gap's claim that Instance/Discrete.v proves no round trip is accurate: the file's only results are DiscreteCat_Functor (:52) and DiscreteCat_Discrete (:65)."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:def75",
+  "classification": "PRESENT",
+  "aliases": [
+   "isomorphism of preorders: monotone f with monotone inverse g, f;g = id and g;f = id",
+   "isomorphism in a category: two-sided inverse (Isomorphism, to/from/iso_to_from/iso_from_to)",
+   "on-the-nose isomorphism of categories (StrictCat, Functor_StrictEq_Setoid with F x = G x)",
+   "order-isomorphism / invertible monotone map; isomorphic preorders",
+   "the same-name-but-weaker neighbour: C ≅[Cat] D, which is only an EQUIVALENCE of categories"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 113,
+    "symbol": "Isomorphism",
+    "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.  Infix \"≅\" := Isomorphism (at level 91).  -- the definition's exact content: a forward map, a backward map, and both round trips equal to the identity"
+   },
+   {
+    "file": "Instance/StrictCat.v",
+    "line": 56,
+    "symbol": "StrictCat",
+    "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects_stricteq; id_left := @fun_strict_equiv_id_left; ... }.  -- over `Functor_StrictEq_Setoid` (Theory/Functor.v:508), whose equiv is `{ eq_on_obj : forall x : C, F x = G x & ... }`, so an Isomorphism in StrictCat between two Prosets is precisely a pair of monotone maps with g(f p) = p and f(g q) = q on the nose"
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity...; compose := ...transitivity... |}.  -- how preorders become the objects between which the isomorphism is taken; note the hom-setoid is trivial, so the morphism half of any functor comparison is automatic and the whole content of an iso of preorders sits in the object equalities"
+   }
+  ],
+  "statement_record": {
+   "book": "For preorders (P, <=_P) and (Q, <=_Q), a monotone f : P -> Q is an isomorphism if there is a monotone g : Q -> P with f ; g = id_P and g ; f = id_Q, i.e. p = g(f(p)) for all p and q = f(g(q)) for all q; g is the inverse of f, and P and Q are isomorphic when such an f exists. Both round trips are stated with equality, not merely with the equivalence induced by <=.",
+   "intree": "`Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }`, taken in `StrictCat` (Instance/StrictCat.v:56, homset := Functor_StrictEq_Setoid with `eq_on_obj : forall x, F x = G x`) between the thin categories `Proset P` and `Proset Q`.",
+   "strength_comparison": "same, with one trap to avoid. The class's two fields are the book's two equations, and the library's ≈ in place of = is the sanctioned setoid rephrasing -- for Prosets it is even harmless in the strongest sense: the hom-setoid is `equiv := fun _ _ => True`, so at StrictCat, whose functor equality is `forall x, F x = G x` plus a transported morphism condition, `Proset P ≅[StrictCat] Proset Q` unfolds to exactly 'monotone f, monotone g, g(f p) = p, f(g q) = q on the nose' -- the book's definition including its insistence on equality rather than equivalence, and StrictCat's own header (Instance/StrictCat.v:37-38) says its isomorphisms are 'genuine (on-the-nose) isomorphism[s] of categories'. THE TRAP: the same `≅` taken in the sibling `Cat` (Instance/Cat.v:142, homset := Functor_Setoid, which identifies functors up to natural isomorphism) is strictly WEAKER -- Instance/Cat.v:28-30 states outright that 'an isomorphism in this Cat is an *equivalence* of categories', and Theory/Equivalence.v:163/172 makes the coincidence a definition -- and for preorders that difference is real (a preorder and its poset reflection are equivalent but not isomorphic). So the book's Definition 1.75 is the StrictCat reading, not the Cat reading. Presentation gap, not a weakening: there is no in-tree category whose objects are preorders and whose morphisms are the `MonotoneMap` record of Construction/Enriched/Two.v:175, so the definition is available through Proset + StrictCat rather than instantiated as 'iso in Pos'."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PRESENT. Blind pass initially landed PARTIAL (I first reached only for `≅[Cat]`, which is an EQUIVALENCE and therefore too weak for the book's on-the-nose equations), then found StrictCat and agreed with PRESENT. I checked the record's decisive unfolding claim myself rather than taking it on trust: Theory/Functor.v:508 `Functor_StrictEq_Setoid {C D} : Setoid (C ⟶ D) := { equiv := fun F G => { eq_on_obj : forall x : C, F x = G x & forall x y f, transport ... (fmap[F] f) ≈ transport_r ... (fmap[G] f) } }` -- the SECOND component is a ≈ in the TARGET hom-setoid, which for `Proset Q` is `fun _ _ => True` (Instance/Proset.v:39), hence trivially inhabited; so an Isomorphism in StrictCat between two Prosets reduces exactly to 'monotone f, monotone g, g(f p) = p and f(g q) = q pointwise on the nose', which is Definition 1.75 including its insistence on equality rather than <=-equivalence. Citations verified: Theory/Isomorphism.v:113 (class, verbatim), Instance/StrictCat.v:56 `Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; ... }` with the header claim at :36-39 verbatim ('the strict 1-category in which an isomorphism is a genuine (on-the-nose) isomorphism of categories'), Instance/Proset.v:33. The record's TRAP is also verbatim in-tree: Instance/Cat.v:28-30 says 'because the hom-setoid [Functor_Setoid] identifies functors whenever they are naturally isomorphic ..., an isomorphism in this [Cat] is an *equivalence* of categories'. Presentation gap correctly labelled as such: no `Pos`-style category of preorders exists, so the definition is reached through Proset + StrictCat rather than instantiated (see problems[] for the dangling `[Pos]` pointer, and the third problems[] entry for Theory/Isomorphism.v's stale note about the on-the-nose notion)."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:example76",
+  "classification": "PARTIAL",
+  "aliases": [
+   "isomorphic finite preorders; explicit five-element order-isomorphism",
+   "a preorder is not its Hasse diagram; superfluous arrow implied by transitivity",
+   "transitive closure / derived arrow x <= z from x <= y and y <= z (composition = transitivity)",
+   "two presentations of the same preorder (same relation, different generating diagram)",
+   "concrete isomorphism of small categories (≅[Cat] between explicit finite categories)"
+  ],
+  "evidence": [
+   {
+    "file": "Test/Poset.v",
+    "line": 84,
+    "symbol": "poset_nat_comp_0_2",
+    "intree_statement": "Definition poset_nat_comp_0_2 : (0 ~{Poset_nat}~> 2)%nat := @compose Poset_nat 0%nat 1%nat 2%nat poset_nat_hom_1_2 poset_nat_hom_0_1.  (over poset_nat_hom_0_1 : 0 ~> 1 at :80 and poset_nat_hom_1_2 : 1 ~> 2 at :82) -- the example's 'superfluous arrow' made explicit: the relation 0 <= 2 need not be posited, it is the composite of the two drawn arrows"
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x; compose := fun x y z f g => @transitivity A R (@PreOrder_Transitive A R P) x y z g f |}.  -- the preorder IS the full relation R (already transitive), not a diagram of generators: composition is transitivity, so any transitively implied arrow is present whether or not it is drawn"
+   }
+  ],
+  "statement_record": {
+   "book": "Three five-element preorders P (a..e), Q and R (v..z) are drawn; all are isomorphic, and the explicit map f : P -> Q with f(a)=v,...,f(e)=z has an inverse, hence is an isomorphism in the sense of Definition 1.75. Q and R are in fact the SAME preorder: the extra drawn arrow x -> z in R is superfluous, transitivity already forcing x <= z from x <= y and y <= z (likewise v -> y could be drawn in either). Moral: a preorder is not its Hasse diagram.",
+   "intree": "`Proset ... := {| obj := A; hom := R; ... compose := ...transitivity... |}` -- the carrier of the construction is the relation itself, with composition given by transitivity -- and the concrete witness `poset_nat_comp_0_2 : 0 ~{Poset_nat}~> 2 := compose poset_nat_hom_1_2 poset_nat_hom_0_1`, the implied arrow obtained from the two adjacent ones.",
+   "strength_comparison": "intree-weaker overall, though the conceptual point is structurally built in. Because Proset takes the relation R (a PreOrder, hence transitively closed) as its hom, the distinction between a preorder and a generating diagram simply cannot be drawn in-tree: the transitively implied arrow always exists, and poset_nat_comp_0_2 exhibits one being derived rather than posited -- exactly the example's reason for calling the extra Hasse arrow superfluous. What is absent is everything else the example does: no Hasse diagram notion, no five-element preorders, and no isomorphism between two concretely given preorders is ever exhibited."
+  },
+  "gap": "Precisely: (1) no Hasse diagram, reduced graph or transitive-reduction notion exists (grep -i 'hasse': 0 hits; grep -i 'transitive closure|clos_trans': 0 hits), so 'the same preorder presented by two different diagrams' cannot be stated, only observed structurally; (2) no concrete isomorphism between finite preorders exists -- the only carriers ever passed to Proset/Poset are nat and Test/Poset.v's two-element `two`, and the concrete `≅[Cat]` isomorphisms in-tree are between constructions (Construction/Slice.v:141 `C ̸ c ≅[Cat] (Id ↓ =(c))`, Instance/Cones/Comma.v:73, Construction/Funny/Closed.v:351), never between two explicitly listed finite orders; (3) the five-element preorders P, Q, R and the map f are therefore not written down anywhere, so the example's own claim ('these three are isomorphic') is not asserted -- only the general notion of isomorphism it instantiates (see def75) is available.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'hasse' . -- 0 hits",
+   "grep -rn --include='*.v' -i 'transitive closure|clos_trans|clos_refl' . -- 0 hits (no reduction/closure vocabulary to express diagram-vs-relation)",
+   "grep -rn --include='*.v' '≅\\[Cat\\]' . -- Comonad/Coalgebra.v:304, Instance/Cones/Comma.v:73, Construction/Slice.v:141/182, Construction/Funny/{Closed.v:351,Associator.v:328,Unitors.v:219/222}, Theory/Equivalence.v:163/172/183; none between preorders",
+   "grep -rn --include='*.v' 'Proset|Poset' . -- carriers are only nat (Instance/Proset.v:48, Instance/Poset.v:120) and `two` (Test/Poset.v:139); no five-element order"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL. Blind pass leaned ABSENT (nothing in the example's own data is written down in-tree) but I accept PARTIAL: the example's conceptual point -- that a transitively implied arrow is present whether or not it is drawn -- is structurally built into Instance/Proset.v:33, where `hom := R` for an already-transitive R and `compose` IS transitivity, and it is exhibited concretely at the cited lines, all verified verbatim: Test/Poset.v:80 `poset_nat_hom_0_1 : (0 ~{Poset_nat}~> 1)%nat := le_S 0 0 (le_n 0)`, :82 `poset_nat_hom_1_2`, :84-85 `poset_nat_comp_0_2 : (0 ~{Poset_nat}~> 2)%nat := @compose Poset_nat 0%nat 1%nat 2%nat poset_nat_hom_1_2 poset_nat_hom_0_1` -- the un-drawn arrow obtained as a composite. Test/Poset.v is registered (_CoqProject:482). The strength_comparison labels itself 'intree-weaker overall', which is honest, and I reproduced the gap's negatives: rg -in 'hasse' -> 0 hits; rg -in 'transitive closure|clos_trans|clos_refl' -> 0 hits; the only carriers ever passed to Proset/Poset are nat (Instance/Proset.v:48, Instance/Poset.v:120) and Test/Poset.v:139's two-element `two`, so no five-element preorder and no isomorphism between two concretely given preorders exists."
+  }
+ },
+ {
+  "id": "7sketches:1.2.3:ex77",
+  "classification": "ABSENT",
+  "aliases": [
+   "the connectivity observation Phi : Prt({star,dot,circle}) -> B is monotone",
+   "boolean-valued observation on partitions; characteristic map into the walking arrow 2",
+   "monotone map into the boolean preorder B = {false <= true}",
+   "'are the dot and the star in the same block?' predicate; connectedness of two fixed points",
+   "coarsening preserves connectedness (order-preserving property of the observation)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'partition' . -- only Theory/Coq/List.v:391 (list filter) and Theory/Coq/List/Proofs.v:436; the exercise's domain Prt({star,dot,circle}) does not exist, so no map out of it can be defined or shown monotone (same finding as the sibling records for 1.1.1:construction-systems and 1.2.2:example52's neighbourhood)",
+   "grep -rn --include='*.v' -i 'Prt' . -- 0 hits",
+   "grep -rn --include='*.v' -i 'connected component' . -- Instance/FinSet/Pushout.v:265 and :405, prose about the fibres of the union-find labelling; the machinery (`components`, components_edge_eq :328, components_resp :363) computes the equivalence generated by an edge list but defines no set of partitions, no coarseness order, and no boolean observation on them",
+   "grep -rn --include='*.v' -i 'monotone' . -- Construction/Enriched/Two.v:175/183 only (MonotoneMap, EnrichedFunctor_Two_monotone); no monotone map is constructed into the boolean preorder, and no observation is proven order-preserving",
+   "The codomain alone is present: the boolean preorder is Instance/Two.v's walking arrow `_2` (TwoX < TwoY, with two_thin), and Instance/Two/Monoidal.v gives it cartesian structure -- already the content of 7sketches:1.2.2:example34. Nothing connects it to partitions"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT. Blind pass reached ABSENT independently. The domain is the (absent) partition preorder -- rg -i 'prt' -> 0 hits, rg -i 'partition' -> only the Theory/Coq/List.v:391 list filter -- so no map out of it can be written, let alone shown monotone. The record is right that the CODOMAIN alone is present: Instance/Two.v's walking arrow `_2` is the boolean preorder (TwoX < TwoY, with `two_thin` in Instance/Two/Monoidal.v), already booked under 7sketches:1.2.2:example34, and it correctly declines to count that as evidence here. I also confirmed that no monotone map into `_2` is ever constructed: rg -in 'monotone' finds only Construction/Enriched/Two.v:175/183 (the MonotoneMap record and the enriched-functor correspondence) plus prose in Instance/{Proset,Poset,Two}.v and Construction/Enriched.v -- not one concrete monotone map between two given preorders exists anywhere in the library."
+  }
+ }
+]

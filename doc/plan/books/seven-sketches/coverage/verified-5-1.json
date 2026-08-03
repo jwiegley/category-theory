@@ -1,0 +1,393 @@
+[
+  {
+    "id": "7sketches:5.2.2:def5.13",
+    "classification": "ABSENT",
+    "aliases": [
+      "port graph / (m,n)-port graph",
+      "open graph with boundary, interface graph, open hypergraph",
+      "wiring diagram (boxes with input/output ports)",
+      "record (V, in, out, iota) with in,out : V -> nat and a structure bijection",
+      "acyclic directed graph with in-degree / out-degree assignment"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE \"port.?graph|portgraph|wiring diagram\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"\\bPG\\b|PortGraph|in_degree|out_degree\" --include=*.v .  -- 0 hits",
+      "grep -rniF \"in-degree\" / \"out-degree\" / \"indegree\" / \"outdegree\" --include=*.v .  -- 0 hits each",
+      "grep -rniF \"open graph\" / \"half-edge\" / \"half edge\" / \"dangling\" / \"boundary port\" / \"nested box\" --include=*.v .  -- 0 hits each",
+      "grep -rniF \"acyclic\" --include=*.v .  -- 2 hits, both prose comments (Comonad/Coalgebra.v:102 on absolute coequalizers, Instance/Coq.v:90 on the universe-constraint graph); no acyclicity predicate on any graph structure",
+      "grep -rniE \"graph|quiver\" --include=*.v -l .  -- the only combinatorial graph notion in the tree is Construction/Free/Quiver.v's Class Quiver (nodes + endpoint-indexed edge setoids). It has no vertex degrees, no port set, no structure bijection and no acyclicity condition, so it is not a port graph.",
+      "grep -rniF \"vertices\" / \"vertex\" --include=*.v .  -- hits are Quiver/Free prose comments and limit-cone vertex_obj only",
+      "Checked the diagram-flavoured developments that could plausibly host a combinatorial model (Construction/PROP/Term.v Inductive Term, Construction/DecoratedCospan/*, Construction/Cospan/*, Instance/ZX.v, Functor/Structure/Monoidal/Hypergraph.v): free-PROP morphisms are inductive terms, not graphs; the hypergraph layer is Frobenius structure on objects, not a graph datatype."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass first, coverage file second; my independent classification was ABSENT, same as Phase C. Own searches: `rg -il 'port.?graph|portgraph' --glob '*.v'` 0 hits; `rg -i '\\bports?\\b' -l` 1 file (Construction/ColouredPROP/Cast.v, unrelated); `rg -in '\\bacyclic'` exactly 2 hits, both prose (Comonad/Coalgebra.v:102, Instance/Coq.v:90) -- Phase C's count is exact; `rg -in 'in.degree|out.degree|DAG'` no relevant hits. Re-verified the classifier's key structural claim: the only combinatorial graph datatype in the tree is Class Quiver (Construction/Free/Quiver.v:54), which carries nodes + endpoint-indexed edge setoids and has no degree functions, no port sets, no structure bijection and no acyclicity field. Independently confirmed the free-PROP hom is syntactic, not combinatorial: Construction/PROP/Term.v:39 `Inductive Term : nat -> nat -> Type` with T_id/T_braid/T_comp/T_tens (quote and line accurate)."
+    }
+  },
+  {
+    "id": "7sketches:5.2.2:example5.14",
+    "classification": "ABSENT",
+    "aliases": [
+      "(2,3)-port graph worked example",
+      "instance of a port graph with V = {a,b,c}",
+      "internal flow graph is acyclic (worked acyclicity check)",
+      "nested-box wiring picture of a morphism 2 -> 3",
+      "bipartite drawing of the structure bijection iota"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The item is a worked instance of Definition 5.13; since no port-graph datatype exists in the tree there can be no instance of it.",
+      "grep -rniE \"port.?graph|portgraph\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"\\bPG\\b|PortGraph\" --include=*.v .  -- 0 hits",
+      "grep -rniF \"acyclic\" --include=*.v .  -- 2 unrelated prose hits only (no acyclicity predicate to instantiate)",
+      "grep -rniF \"nested box\" / \"wiring\" --include=*.v .  -- \"wiring\" occurs only as prose metaphor (Theory/DoubleCategory.v:155) or as record-plumbing jargon (Construction/PROP/Presentation.v)",
+      "Searched the worked-example / regression layer (Test/*.v, Instance/ZX.v, Test/HypergraphPROPResolution.v) for a concrete diagram witness of a morphism 2 -> 3 built from a graph: only PROP/ZX term-level witnesses exist, none graph-based."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification ABSENT, matching Phase C: an instance of a datatype that does not exist cannot exist. Spot-checked the log: Theory/DoubleCategory.v:155 is indeed the only 'wiring' hit that is a prose metaphor ('dataflow and wiring: a structured cospan is an open system'); the remaining 'wiring' hits are in Construction/PROP*/ColouredPROP*/Instance/ZX.v and are all diagram-language prose, never a graph datatype. No worked 2 -> 3 graph witness anywhere in Test/*.v or Instance/ZX.v."
+    }
+  },
+  {
+    "id": "7sketches:5.2.2:construction-pg",
+    "classification": "ABSENT",
+    "aliases": [
+      "PG, the prop of port graphs",
+      "category whose morphisms are port graphs, Ob(PG) = nat",
+      "composition of port graphs by gluing the two structure bijections",
+      "monoidal product G + G' of port graphs (disjoint union of vertex sets)",
+      "identity port graph on n (empty vertex set, iota = id_n)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE \"port.?graph|portgraph\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"\\bPG\\b\" --include=*.v .  -- 0 hits",
+      "grep -rniF \"Definition PG\" / \"prop of port\" / \"graph_compose\" / \"graph of a prop\" --include=*.v .  -- 0 hits each",
+      "Enumerated every PROP in the tree (Construction/PROP.v Class PROP, Construction/PROP/Free.v, Construction/PROP/Instance.v, Construction/ColouredPROP/*, Instance/ZX.v, Instance/FinSet.v, Test/HypergraphPROPResolution.v): each realizes its hom-sets as inductive Terms (Construction/PROP/Term.v:39 `Inductive Term : nat -> nat -> Type`) or as concrete finite-set data; none has a graph-valued hom.",
+      "grep -rniE \"graph|quiver\" --include=*.v -l .  -- the only graph datatype is Class Quiver (Construction/Free/Quiver.v:54); the free category on it (FreeOnQuiver) is NOT a prop: its objects are the quiver's nodes, it carries no monoidal structure, and no instance connects it to Construction/PROP.v's Class PROP.",
+      "Note (nearest neighbour, not evidence): the book's Exercise 5.28 identifies PG with Free(G) for the signature with one generator per arity; the in-tree FreePROP construction exists (Construction/PROP/Free.v), but nothing in the tree states or models the port-graph presentation of it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification ABSENT, matching Phase C. Independently enumerated the PROP layer: Construction/PROP.v (Class PROP), Construction/PROP/Free.v (header states the hom is `Term S m n` quotiented by TermEq -- 'the standard \"free = syntactic\" construction'), Construction/PROP/Instance.v, Construction/ColouredPROP/*, Instance/ZX.v, Instance/FinSet.v; none has a graph-valued hom, so there is no PG. Also re-verified the classifier's claim that FreeOnQuiver is not a prop: `rg -n 'Monoidal|Coproduct' Construction/Free/Quiver.v` returns 0 hits, so QuiverCategory/FreeOnQuiver carry no monoidal structure and nothing connects them to Class PROP."
+    }
+  },
+  {
+    "id": "7sketches:5.2.2:ex5.16",
+    "classification": "ABSENT",
+    "aliases": [
+      "composition of port graphs, pictorially",
+      "plugging the outputs of one wiring diagram into the inputs of the next",
+      "sequential composition of open graphs / diagram juxtaposition",
+      "gluing along a shared boundary (cospan-style pushout of interfaces)",
+      "nested-box representation of a composite morphism in PG"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The mathematical content is the composition law of the prop PG (item 7sketches:5.2.2:construction-pg), which is itself absent.",
+      "grep -rniE \"port.?graph|portgraph|wiring diagram\" --include=*.v .  -- 0 hits",
+      "grep -rniF \"nested box\" / \"graph_compose\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"\\bPG\\b\" --include=*.v .  -- 0 hits",
+      "Checked the gluing-along-a-boundary machinery that could carry the content in another guise (Construction/Cospan/Category.v composition by pushout, Construction/DecoratedCospan/Category.v): these compose cospans of an arbitrary category, never port graphs, and none states the port-graph composition rule."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification ABSENT, matching Phase C. The exercise's mathematical content is the PG composition law, itself absent; the 'describe pictorially' half is presentational, so ABSENT (not OUT_OF_SCOPE) is the right call under the frozen definitions -- the content would be formalizable the moment port graphs existed. Checked the cospan gluing machinery independently (Construction/Cospan/Category.v, Construction/DecoratedCospan/Category.v): composition there is by pushout of cospans in an arbitrary category, never a port-graph splice."
+    }
+  },
+  {
+    "id": "7sketches:5.2.2:ex5.18",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoidal product of a port graph with itself",
+      "G + G' for port graphs (Eq. 5.17), stacking diagrams in parallel",
+      "disjoint union of open graphs, (m,n) + (m',n') = (m+m', n+n')",
+      "parallel composition / tensor of wiring diagrams",
+      "a (4,6)-port graph as a morphism 4 -> 6 in PG"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The mathematical content is the monoidal product on PG (item 7sketches:5.2.2:construction-pg), which is itself absent.",
+      "grep -rniE \"port.?graph|portgraph\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"\\bPG\\b\" --include=*.v .  -- 0 hits",
+      "grep -rniF \"disjoint union\" of graphs: no graph-level coproduct exists; Construction/Free/Quiver.v defines no coproduct or monoidal structure on QuiverCategory (grep -n \"Monoidal\\|Coproduct\" Construction/Free/Quiver.v -- 0 hits).",
+      "grep -rnE \"(Program )?Instance [A-Za-z_0-9]* *:.*Monoidal\" --include=*.v .  -- the monoidal instances in the tree are on Sets, Coq, Par, StrictCat (Funny), Cospan; none on any graph category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification ABSENT, matching Phase C. Verified the load-bearing negative: `rg -n 'Monoidal|Coproduct' Construction/Free/Quiver.v` -- 0 hits, so no monoidal or coproduct structure on any graph category. MINOR LOG INACCURACY (does not affect the verdict): the last log line says 'the monoidal instances in the tree are on Sets, Coq, Par, StrictCat (Funny), Cospan' -- that enumeration is far too narrow (125 .v files mention a Monoidal instance/structure, including all of Construction/PROP*, Construction/ColouredPROP*, Instance/ZX.v, Instance/Two/Monoidal.v, Instance/Coq/ParE.v). The conclusion drawn from it -- that none of them is on a graph category -- is nevertheless correct."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:example5.19",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free preorder on a relation",
+      "reflexive-transitive closure of R (clos_refl_trans, multi, star)",
+      "preorder generated by a relation / closure machine",
+      "least reflexive transitive relation containing R",
+      "preorder obtained from a graph (V,A,s,t) by closing {(s a, t a)}"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 74,
+        "symbol": "multi_PreOrder",
+        "intree_statement": "#[export] Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R)."
+      },
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 53,
+        "symbol": "multi_R",
+        "intree_statement": "Theorem multi_R `(R : crelation X) (x y : X) : R x y → multi R x y."
+      },
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 46,
+        "symbol": "multi",
+        "intree_statement": "Inductive multi `(R : crelation X) : crelation X := | multi_refl (x : X) : multi x x | multi_step (x y z : X) : R x y → multi y z → multi x z."
+      }
+    ],
+    "statement_record": {
+      "book": "Given a relation R on P, its reflexive-transitive closure is the free preorder on R: the minimally constrained preorder containing R, obtained by adding only the inequalities forced by reflexivity and transitivity; a graph (V,A,s,t) becomes a preorder by reading it as the relation {(s a, t a)} and closing. Minimality is explained as 'no further constraints on maps OUT of P', i.e. freeness is a left adjoint.",
+      "intree": "Inductive multi `(R : crelation X) : crelation X := multi_refl | multi_step ...; Theorem multi_R : R x y → multi R x y; Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R).",
+      "strength_comparison": "intree-weaker: the construction and the two positive clauses (it is a preorder; it contains R) are proved for an arbitrary relation, but the FREENESS clause — that it is the LEAST such preorder / the value of a left adjoint — is asserted only in the file's prose comment ('the least reflexive and transitive relation containing R'), never as a lemma. Also [multi] is Type-valued (crelation), so [multi R x y] is the type of R-paths rather than a truncated order relation: as stated it is the free CATEGORY on R-as-a-quiver with a PreOrder instance attached, not the quotient preorder the book builds. The graph-to-preorder passage (V,A,s,t) ↦ closure of {(s a, t a)} is nowhere in the tree, and there is no category of preorders/monotone maps in which to phrase the adjunction (Instance/Proset.v only turns one preorder into one thin category)."
+    },
+    "gap": "Freeness/minimality is never stated: no lemma of the form 'if S is reflexive and transitive and R ⊆ S then multi R ⊆ S', no left-adjoint packaging, and no category of preorders and monotone maps to host it. Additionally multi is proof-relevant (paths), so the truncation that makes the closure a *preorder relation* rather than a free category is not performed, and the graph-to-relation-to-preorder route of the example is absent.",
+    "negative_search_log": [
+      "grep -rniF \"free preorder\" / \"free order\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"clos_refl|closure\" --include=*.v .  -- clos_refl* : 0 hits; \"closure\" hits are unrelated (left-class closure in Theory/Orthogonality.v, closure operators as monads in comments)",
+      "grep -rnE \"monotone\" --include=*.v .  -- 6 hits, all in Instance/Proset.v / Instance/Poset.v prose or in Construction/Enriched/Two.v (MonotoneMap for the 2-enrichment theorem); no free construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification PARTIAL with exactly the same three pieces of evidence (Instance/Lambda/Multi.v multi:46, multi_R:53, multi_PreOrder:74) -- quotes and line numbers all check out verbatim. Independently enumerated every top-level statement of Instance/Lambda/Multi.v (multi, multi_R, multi_trans, multi_PreOrder, multi_respects_Step, multi_respects_multi, values_final, multistep_App*/Pair*/Fst1/Snd1): there is indeed NO minimality/least-closure lemma, so the freeness clause is genuinely unproved -- the words 'the least reflexive and transitive relation containing R' appear only in the file header comment (Multi.v:17-18). ADDITIONAL CAVEAT the record does not mention: `multi` is a `crelation` (Type-valued, via Coq.Classes.CRelationClasses re-exported through Lib/TList.v), whereas Instance/Proset.v:33 takes `{R : relation A} (P : PreOrder R)` under Coq.Relations.Relation_Definitions -- so even the naive 'feed the closure to Proset' step is not a literal identity of notions, which strengthens rather than weakens the PARTIAL verdict. Related library defect filed in problems[] about Instance/Proset.v:19's dangling [Ord] pointer, which falsely advertises the very category of preorders the gap field says is missing."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:ex5.20",
+    "classification": "PARTIAL",
+    "aliases": [
+      "universal property of the free preorder",
+      "monotone extension along the reflexive-transitive closure",
+      "R-respecting function is monotone for the closure (and conversely)",
+      "left adjoint to the forgetful functor Preord -> Rel / hom-set bijection",
+      "universal arrow / UMP of a free construction (UniversalArrow, InducedFunctor)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful. (built by universal_arrow_from_UMP from FreeOnQuiver, UnitQuiverCatAdjunction and the unique factorization of every quiver homomorphism G ⇨ QuiverOfCat C)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 139,
+        "symbol": "ump_universal_arrows",
+        "intree_statement": "Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow."
+      }
+    ],
+    "statement_record": {
+      "book": "For P a set, R ⊆ P×P, (P,≤_P) the reflexive-transitive closure, (Q,≤_Q) a preorder and f : P → Q an arbitrary function: (1) if R(x,y) implies f(x) ≤_Q f(y) then f is monotone (P,≤_P) → (Q,≤_Q); (2) conversely, if f is monotone then R(x,y) implies f(x) ≤_Q f(y). Together: the universal property of the free preorder.",
+      "intree": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C; Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful, whose UMP (ump_universal_arrows) reads: every quiver homomorphism G ⇨ QuiverOfCat C factors uniquely through the unit as a functor FreeOnQuiver G ⟶ C.",
+      "strength_comparison": "intree-stronger in generality but never specialized: the tree proves the same universal property one categorical level up (arbitrary quivers and categories, proof-relevant paths). Clause (1) is exactly InducedFunctor with C := Proset (Instance/Proset.v:33) and clause (2) is the unit direction of the same adjunction; but the preorder instance is never taken, [multi] (the in-tree reflexive-transitive closure) carries NO universal-property lemma at all, and there is no category of preorders and monotone maps in the tree, so neither clause exists as a statement about preorders."
+    },
+    "gap": "No preorder-level statement exists. Neither direction is proved for the in-tree closure [multi] (Instance/Lambda/Multi.v), and the quiver-level UMP (UniversalArrowQuiverCat) is never instantiated at a thin/Proset codomain. Missing: (a) 'R(x,y) → f x ≤ f y' implies monotone for multi R; (b) its converse; (c) the collapse of the proof-relevant free category to the free preorder.",
+    "negative_search_log": [
+      "grep -rniF \"free preorder\" --include=*.v .  -- 0 hits",
+      "grep -rnE \"monotone\" --include=*.v .  -- only Construction/Enriched/Two.v's MonotoneMap record and prose in Instance/Proset.v, Instance/Poset.v; no extension/universal-property lemma",
+      "grep -rn \"multi_\" Instance/Lambda/Multi.v  -- multi_R, multi_trans, multi_PreOrder, multi_respects_*, multistep_* only; no minimality/induction-as-UMP lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind classification leaned ABSENT; I am confirming Phase C's PARTIAL because its own gap field is precise and honest ('No preorder-level statement exists ... neither clause exists as a statement about preorders'). Evidence checked: UniversalArrowQuiverCat at Construction/Free/Quiver.v:518 (exact line, ends `Defined.` at 543, no admits), InducedFunctor at :464, and ump_universal_arrows at Theory/Universal/Arrow.v:139 -- the quoted `Corollary ump_universal_arrows \\`(c ⟿ F) \\`(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow.` is verbatim correct. CAVEATS on the strength_comparison label 'intree-stronger in generality but never specialized': (a) an unspecialized generalization is not literally a stronger form of THIS item, so readers should take the label from the prose that follows it, not from the word 'stronger'; (b) the claimed specialization `InducedFunctor with C := Proset` needs two bridges that do not exist in-tree -- the identification of `tlist R x y` (FreeOnQuiver's hom) with `multi R x y` (the in-tree closure), and the Prop/Type mismatch between Proset's `relation` and multi's `crelation`. Both make the item's true distance from the tree larger than the record implies; PARTIAL survives only on the strength of the explicit gap statement."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:ex5.21",
+    "classification": "ABSENT",
+    "aliases": [
+      "freeness concerns maps out, not maps in",
+      "maps INTO a free preorder need not reflect the generating relation",
+      "monotone map g : Q -> P does not imply (g a, g b) ∈ R",
+      "reflection (as opposed to preservation) of a relation by a map",
+      "counterexample separating R from its reflexive-transitive closure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniF \"maps out\" --include=*.v .  -- 5 hits, all unrelated (probing monos with maps out of a singleton in Instance/Sets.v, Instance/FinSet/Classifier.v; initiality of I in Structure/Monoidal/Semicocartesian.v)",
+      "grep -rniF \"counterexample\" --include=*.v .  -- 5 hits, all about other topics (Construction/Indexed.v twist, Construction/Funny/Bifunctor.v, Structure/Terminal.v, Structure/Monoidal.v, Adjunction/GAFT.v); none about free preorders or reflection of relations",
+      "grep -rniF \"not monotone\" / \"free preorder\" --include=*.v .  -- 0 hits each",
+      "grep -rn \"multi_\" Instance/Lambda/Multi.v  -- no statement about maps INTO multi R, and no separation lemma showing multi R ⊄ R",
+      "Checked the reflection vocabulary that could carry the content abstractly (Theory/Functor.v Faithful/Full, Structure/Limit/Preservation.v reflects-limits, Theory/Equivalence/*): all concern functors reflecting structure, none the order-theoretic 'a map into a free object need not reflect the generators' claim.",
+      "Note (nearest ingredient, not evidence): part (1)'s affirmative answer is one step from multi_R (Instance/Lambda/Multi.v:53, R ⊆ multi R), but neither part is stated in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification ABSENT, matching Phase C. Spot-checked both quantitative claims: `rg -in 'counterexample' --glob '*.v'` returns exactly 5 hits (Adjunction/GAFT.v:121, Structure/Terminal.v:79, Construction/Funny/Bifunctor.v:26, Structure/Monoidal.v:74, Construction/Indexed.v:59), none about preorders; `rg -in 'maps out'` returns exactly 5 hits (Structure/Monoidal/Semicocartesian.v:29/52, Instance/Coq/Lists.v:116, Instance/Sets.v:367, Instance/FinSet/Classifier.v:332), none order-theoretic. The 'nearest ingredient' note about multi_R (Multi.v:53) is accurate and correctly labelled as not evidence."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:example5.22",
+    "classification": "PRESENT",
+    "aliases": [
+      "free category on a graph",
+      "path category of a quiver / FreeOnQuiver",
+      "Free(G), objects = vertices, morphisms = paths",
+      "type-aligned list of composable edges (tlist)",
+      "quiver / directed multigraph (V, A, s, t)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ ; setoid_equiv := tlist_quiver_equiv_is_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 507,
+        "symbol": "UnitQuiverCatAdjunction",
+        "intree_statement": "Definition UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat (FreeOnQuiver)).  (fnodes := Datatypes.id; fedgemap := fun x y f => tlist_singleton f)"
+      }
+    ],
+    "statement_record": {
+      "book": "The free category Free(G) on a graph G has the vertices of G as objects and, as morphisms, the closure of the arrows of G under composition and identities — which turns out to be exactly the paths in G; Free(G) contains G and obeys no equations beyond those forced by the category axioms.",
+      "intree": "FreeOnQuiver : Category with obj := nodes G, hom := tlist edges (composable paths), id := tnil (empty path), compose := path concatenation; UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat FreeOnQuiver) sends each edge to its singleton path; UniversalArrowQuiverCat : UniversalArrow G Forgetful expresses that no equations hold beyond the forced ones.",
+      "strength_comparison": "same. Presentation differences only: the book's graph is (V,A,s,t) with source/target maps, while Class Quiver indexes edge sets by their endpoints (edges : nodes → nodes → Type) — an equivalent presentation of a directed multigraph — and each edge set carries a setoid, so morphism equality is the componentwise ≈ on paths (tlist_quiver_equiv) rather than =, the library's standard faithful setoid rephrasing. The category laws are the tlist_app laws (Lib/TList.v tlist_app_assoc, tlist_app_tnil_l/r), discharged as obligations."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification PRESENT with the same primary evidence, found independently before opening the coverage file (`rg -l 'Free.*Category|Path|paths' --glob '*.v'` -> Construction/Free/Quiver.v, Construction/Free.v). The FreeOnQuiver quote at Construction/Free/Quiver.v:431 is verbatim accurate (obj := nodes G, hom := tlist edges, id := tnil, compose := g +++ f, homset := tlist_quiver_equiv); UnitQuiverCatAdjunction:507 and UniversalArrowQuiverCat:518 are at the cited lines. Adversarial checks all clean: no Admitted/admit/Axiom/Parameter in the file; every Program obligation is discharged (tlist_app_tnil_l/r, tlist_app_assoc); the file IS registered in _CoqProject and its .vo is newer than its .v. The setoid rephrasing (paths compared by componentwise ≈ rather than =) is the library's standard faithful move, so 'same' is honest. A related in-file header overclaim is filed in problems[] (Quiver.v:50-51 asserts FreeSyntax 'is equivalent to FreeOnQuiver' but constructs no comparison functor); it does not touch this item's evidence."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:ex5.23",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal property of the free category on a graph",
+      "Free ⊣ Forgetful (Cat / Quiv adjunction)",
+      "functors Free(G) → C correspond to graph homomorphisms G → U(C)",
+      "underlying graph of a category: (Mor C, Ob C, dom, cod)",
+      "universal arrow / initial object in the comma category =(G) ↓ Forgetful"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful. (established via universal_arrow_from_UMP: for every category C and every quiver homomorphism F : G ⇨ QuiverOfCat C there is a functor InducedFunctor F : FreeOnQuiver G ⟶ C, unique with the unit triangle)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ ."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category@{o h p}) : Quiver@{o h p} := {| nodes := obj; edges := hom |}."
+      }
+    ],
+    "statement_record": {
+      "book": "(1) interpret dom, cod : Mor(C) → Ob(C); (2) show functors from the free category on G = (V,A,s,t) to C are in one-to-one correspondence with pairs (f : V → Ob C, g : A → Mor C) satisfying dom(g a) = f(s a) and cod(g a) = f(t a); (3) is (Mor C, Ob C, dom, cod) a graph, and can the correspondence of (2) be phrased as an adjunction?",
+      "intree": "QuiverOfCat (C : Category) : Quiver := {| nodes := obj; edges := hom |} (part 1/3: the underlying graph of a category), with Forgetful : Functor StrictCat QuiverCategory; UniversalArrowQuiverCat : UniversalArrow G Forgetful whose UMP (ump_universal_arrows : ∃! g, h ≈ fmap[F] g ∘ arrow) is exactly the bijection of part 2; FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, the affirmative answer to part 3.",
+      "strength_comparison": "same, and part 3 is answered affirmatively rather than left open. Presentation differences: the pair (f, g) with the dom/cod side conditions is packaged as Class QuiverHomomorphism (Construction/Free/Quiver.v:205 — fnodes on vertices, fedgemap on edges, with source/target preservation automatic from the endpoint indexing) so the book's two equations are absorbed into the typing; and the correspondence is exhibited as a universal arrow (initiality in the comma category), which AdjunctionFromUniversalArrows turns into the hom-setoid isomorphism, i.e. the one-to-one correspondence. Scope note, not a weakening for this item: the adjunction is stated over StrictCat (obj := Category, hom := Functor, homset := Functor_StrictEq_Setoid) rather than the weak Cat, because the underlying-graph functor does not respect natural isomorphism — Test/Issue138.v:75 locks in `Fail Check (Forgetful : Cat ⟶ QuiverCategory)`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind classification PRESENT with the same evidence. Verified: QuiverOfCat at Construction/Free/Quiver.v:398 is literally `{| nodes := obj; edges := hom |}` -- i.e. exactly the book's (Mor C, Ob C, dom, cod) graph, part (1)/(3); Forgetful : StrictCat ⟶ QuiverCategory at :412; UniversalArrowQuiverCat at :518; FreeForgetfulAdjunction at :550, and AdjunctionFromUniversalArrows really does exist at Theory/Universal/Arrow.v:214 with the type `@Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U`, so the cited chain is real. The book's dom/cod side conditions on the pair (f,g) really are absorbed into the typing of Class QuiverHomomorphism (:205, fnodes/fedgemap/fedgemap_respects), as claimed. ONE CITATION CORRECTION: the strength_comparison cites `Test/Issue138.v:75` for `Fail Check (Forgetful : Cat ⟶ QuiverCategory)` -- the line number is right and the command is there verbatim, but note the file's own comment (Issue138.v:71-74) qualifies that this Fail only checks the type mismatch and 'does not itself exercise the deeper reason no such functor can be *built* over [Cat]'. The scope note is still fair and the PRESENT verdict is unaffected."
+    }
+  },
+  {
+    "id": "7sketches:5.2.3:ex5.24",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free monoid on a set A",
+      "Loop(A): the one-vertex graph with one loop per element",
+      "monoid = one-object category (delooping BM)",
+      "list A / words over A as the free monoid; A* and concatenation",
+      "free monoid on one generator ≅ (ℕ, +, 0)"
+    ],
+    "evidence": [
+      {
+        "file": "Test/Issue138.v",
+        "line": 95,
+        "symbol": "B138_free_loop_nodes",
+        "intree_statement": "Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl.  (with B138_loop := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit), i.e. Loop({a}); so the free category on the one-loop graph is a ONE-OBJECT category)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}.  (at a one-node quiver the single hom-set is the set of words over the edge set, with tnil as unit and concatenation as multiplication)"
+      },
+      {
+        "file": "Construction/Funny/Comparison.v",
+        "line": 81,
+        "symbol": "ListMon",
+        "intree_statement": "Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; homset := fun _ _ => Morphism_equality _ _; id := fun _ => nil; compose := fun _ _ _ u v => (v ++ u)%list |}.  (header at :76-79: \"The free monoid on [bool], as a one-object category: morphisms are lists of booleans, composition is concatenation\"; Theorem funny_diagonals_distinct at :144 separates the words [true;false] and [false;true] in it) -- ADDED BY PHASE D, missed by Phase C; see verifier.notes"
+      }
+    ],
+    "statement_record": {
+      "book": "Since monoids are one-object categories, for a set A let Loop(A) be the one-vertex graph with a loop for each a ∈ A; the free category on Loop(A) is a one-object category, hence a monoid — the free monoid on A. (1) the elements of the free monoid on {a}; (2) a well-known monoid isomorphic to it; (3) the elements of the free monoid on {a,b}.",
+      "intree": "B138_loop := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit); Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl; FreeOnQuiver's hom is tlist edges with tnil/concatenation.",
+      "strength_comparison": "intree-weaker: the Loop({a}) graph and the one-object property of its free category are machine-checked (by eq_refl), and the hom is by construction the word/list monoid, but NOTHING in the tree performs the monoid identification. There is no delooping 'a one-object category is a monoid' anywhere (grep 'one-object' returns prose comments only), no free-monoid functor and no adjunction to Theory/Algebra/Monoid/Hom.v:93's Mon_Forget : Mon ⟶ C, and neither answer (1)/(2) — hom[FreeOnQuiver Loop({a})] ≅ (ℕ,+,0) — nor (3) — words in {a,b} — is stated or computed. 'Free monoid' occurs in the tree only in comments (Theory/Coq/List.v:25, Theory/Coq/Foldable.v:30-41, Construction/PROP.v:32)."
+    },
+    "gap": "The monoid layer is missing entirely: (a) no statement that a one-object category is a monoid (no delooping construction, no extraction of the endo-hom-monoid); (b) no free monoid on a set and no left adjoint to any forgetful functor out of monoids (Theory/Algebra/Monoid/Hom.v gives Mon and Mon_Forget but no left adjoint; Instance/CMon.v likewise gives CMon and CMon_Forget only); (c) the two computations asked for — free monoid on one generator ≅ (ℕ,+,0), free monoid on two generators = words — are absent, as are the list monoid laws for `list A` (no app_assoc/app_nil monoid instance in the tree; only the generic tlist_app_assoc / tlist_app_tnil_l/r of Lib/TList.v).",
+    "negative_search_log": [
+      "grep -rniF \"free monoid\" --include=*.v .  -- 9 hits, ALL prose comments (Theory/Coq.v:100, Theory/Coq/List.v:25, Theory/Coq/Foldable.v:30/34/41, Theory/Coq/List/Proofs.v:21, Construction/ColouredPROP.v:25, Construction/PROP.v:32, Construction/Day.v, Construction/Cayley.v); no definition, no lemma",
+      "grep -rniF \"one-object\" / \"delooping\" --include=*.v .  -- prose comments plus Theory/Bicategory/OneObject.v (monoidal category as a one-object BICATEGORY) and Theory/Multicategory/Operad.v (one-object multicategories); nothing about ordinary monoids as one-object categories",
+      "grep -rn \"Mon_Forget\" --include=*.v .  -- only Theory/Algebra/Monoid/Hom.v:93/101; no adjunction, no left adjoint anywhere",
+      "grep -rniF \"Kleene\" / \"word\" --include=*.v .  -- 0 relevant hits",
+      "grep -rnE \"app_assoc|app_nil\" --include=*.v .  -- hits only in Theory/Multicategory*.v boundary bookkeeping over stdlib lists; no monoid structure asserted for list A"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification PARTIAL confirmed (my blind pass reached PARTIAL too), but the record's evidence was INCOMPLETE and one of its claims is false. Verified evidence: Test/Issue138.v:95-96 really is `Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl.` with B138_loop defined at :87 as `Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit)` -- i.e. Loop({a}) -- quote and lines accurate. MISSED EVIDENCE (added by me to the evidence array): Construction/Funny/Comparison.v:81 defines `ListMon : Category` with obj := poly_unit, hom := fun _ _ => list bool, id := nil, compose := app -- a one-object category whose single hom-monoid is the free monoid on a TWO-element set, and its own header at :76-79 says so in as many words ('The free monoid on [bool], as a one-object category: morphisms are lists of booleans, composition is concatenation'). Theorem funny_diagonals_distinct (:144) then computes with two distinct elements of it, the words [true;false] and [false;true] -- exactly the content Exercise 5.24(3) asks for, on {a,b}. Consequently the strength_comparison's clause 'NOTHING in the tree performs the monoid identification' and the gap's '(a) no statement that a one-object category is a monoid' are overstated: a concrete free monoid IS realized in-tree as a one-object category, and its associativity/unit obligations are discharged by app_assoc/app_nil_r, which also contradicts the log line 'no monoid structure asserted for list A'. What genuinely remains missing, and keeps the item PARTIAL: no Loop(A) construction for general A; ListMon is built by hand rather than as FreeOnQuiver (Loop bool) and no isomorphism between the two is proved; no general delooping (one-object category -> Monoid object); no free-monoid left adjoint (Mon_Forget at Theory/Algebra/Monoid/Hom.v:93 confirmed to have no left adjoint anywhere); and parts (1)/(2) -- the free monoid on {a} and its iso to (ℕ,+,0) -- are entirely absent. Also verified the log's own citation of Construction/Cayley.v: the file exists and mentions 'the free monoid on a type' at :95 in prose only, so that line of the log is accurate."
+    }
+  }
+]

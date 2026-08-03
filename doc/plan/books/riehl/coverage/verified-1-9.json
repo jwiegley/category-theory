@@ -1,0 +1,476 @@
+[
+  {
+    "id": "riehl:1.5:exv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "full but not faithful functor (counterexample)",
+      "faithful but not full functor (counterexample)",
+      "reflects isomorphisms / conservative functor (ReflectsIsos)",
+      "creates isomorphisms",
+      "Full / Faithful / prefmap / fmap_inj",
+      "FullyFaithful reflects isos (the positive direction, Ex. 1.5.iv)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Funny/Comparison.v",
+        "line": 154,
+        "symbol": "FunnyToProduct_not_faithful",
+        "intree_statement": "Corollary FunnyToProduct_not_faithful : Faithful (@FunnyToProduct _2 _2) → False."
+      },
+      {
+        "file": "Construction/Funny/Comparison.v",
+        "line": 69,
+        "symbol": "FunnyToProduct_Full",
+        "intree_statement": "#[export] Program Instance FunnyToProduct_Full {C D : Category} : Full (@FunnyToProduct C D) := { prefmap := fun x y fg => fconsR (snd fg) (fconsL (fst fg) fnil) }."
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 243,
+        "symbol": "ReflectsIsos",
+        "intree_statement": "Class ReflectsIsos {C D : Category} (F : C ⟶ D) := { reflects_iso {x y : C} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }."
+      }
+    ],
+    "statement_record": {
+      "book": "Exhibit examples showing that a functor which is full but not faithful, or faithful but not full, need neither reflect nor create isomorphisms.",
+      "intree": "Construction/Funny/Comparison.v provides exactly ONE half of the setup: κ : (C □ D) ⟶ (C ∏ D) is Full for all C, D ([FunnyToProduct_Full]) and is provably NOT Faithful at C = D = _2 ([FunnyToProduct_not_faithful], from [funny_diagonals_distinct]). The vocabulary the exercise's conclusion needs exists as [ReflectsIsos] (Structure/Limit/Preservation.v).",
+      "strength_comparison": "intree-weaker: the library has a genuine full-but-not-faithful functor and the [ReflectsIsos] predicate, but never combines them — no in-tree proposition of the form `ReflectsIsos F → False` exists anywhere, and there is no faithful-but-not-full witness."
+    },
+    "gap": "Two of the three ingredients are missing. (1) No faithful-but-not-full functor is exhibited: every in-tree Faithful witness (Mon_Forget_Faithful, Comon_Forget_Faithful, ev1_Faithful, Karoubi_Embed_Faithful, Cat_Iso_to_Faithful, RoundTrip_Comparison faithful) is either also proved Full or is left unclassified; nothing is proved non-Full. (2) The exercise's actual CONCLUSION — that such a functor fails to reflect or to create isomorphisms — is not established for FunnyToProduct or for anything else: `ReflectsIsos` occurs only positively (ff_reflects_isos, equivalence_reflects_isos, beck_reflects), never negatively, and 'creates isomorphisms' has no in-tree predicate at all (CreatesUSplitCoequalizers is the only creation notion, and it is about coequalizers).",
+    "negative_search_log": [
+      "rg -n 'Full .*→ False|Faithful .*→ False|not_full|not_faithful|not_reflect' --glob '*.v' -- only Construction/Funny/Comparison.v:154 (FunnyToProduct_not_faithful) and its header comment",
+      "rg -n -i 'conservative|reflects iso|ReflectsIso|reflect.*isomorphism' --glob '*.v' -- ReflectsIsos declared at Structure/Limit/Preservation.v:243; all uses positive (Theory/Equivalence/Limit.v:335,456; Monad/Monadicity/Beck.v:304; Monad/Lifting.v:497; Theory/Lawvere/Monad.v:89)",
+      "rg -n 'Full|Faithful|EssentiallySurjective' --glob '*.v' | grep -E '(Lemma|Theorem|Definition|Corollary|Instance|Program|Proposition)' -- enumerated every Full/Faithful witness in the tree; none carries a 'creates isomorphisms' statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-1-9.json) reached PARTIAL independently, on the same evidence. Re-verified at source: Construction/Funny/Comparison.v:69 FunnyToProduct_Full and :154 FunnyToProduct_not_faithful (resting on :144 funny_diagonals_distinct) are quoted verbatim; Structure/Limit/Preservation.v:243 Class ReflectsIsos exact. Independently reproduced the two negatives: (a) every in-tree ReflectsIsos consumer is positive (Theory/Equivalence/Limit.v:335 ff_reflects_isos, :456 equivalence_reflects_isos, Monad/Monadicity/Beck.v:304, Monad/Lifting.v:497, Theory/Lawvere/Monad.v:89) and no `ReflectsIsos F -> False` exists; (b) 'creates isomorphisms' has no predicate -- the only creation notions in the tree are Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers and Theory/Equivalence/Limit.v:486/:582 equivalence_creates_limits/colimits. `rg 'Full .*-> False|not_full'` -> 0 hits, confirming no faithful-but-not-full witness. All cited files are registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.5:exvi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "composite of full functors is full / Full_Compose",
+      "composite of faithful functors is faithful / Faithful_Compose",
+      "composite of essentially surjective functors is essentially surjective / ESO_Compose",
+      "equivalence of categories is transitive / Equivalence_trans / C ≃ D → D ≃ E → C ≃ E",
+      "equivalence of categories is an equivalence relation (refl/sym/trans)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 115,
+        "symbol": "Equivalence_trans",
+        "intree_statement": "Definition Equivalence_trans {C D E : Category} (E1 : C ≃ D) (E2 : D ≃ E) : C ≃ E := (`1 E2 ◯ `1 E1; EquivalenceOfCategories_Compose (`2 E1) (`2 E2))."
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 94,
+        "symbol": "EquivalenceOfCategories_Compose",
+        "intree_statement": "Definition EquivalenceOfCategories_Compose : EquivalenceOfCategories (G ◯ F) := @Build_EquivalenceOfCategories C E (G ◯ F) (F' ◯ G') EquivalenceOfCategories_Compose_counit EquivalenceOfCategories_Compose_unit.  (with EquivalenceOfCategories_Compose_counit : (G ◯ F) ◯ (F' ◯ G') ≈ Id[E] and EquivalenceOfCategories_Compose_unit : Id[C] ≈ (F' ◯ G') ◯ (G ◯ F))"
+      },
+      {
+        "file": "Theory/Equivalence/Bundled.v",
+        "line": 108,
+        "symbol": "Equivalence_refl / Equivalence_sym",
+        "intree_statement": "Definition Equivalence_refl (C : Category) : C ≃ C := (Id[C]; @EquivalenceOfCategories_Id C).  Definition Equivalence_sym {C D : Category} (E : C ≃ D) : D ≃ C := (@quasi_inverse C D (`1 E) (`2 E); @EquivalenceOfCategories_sym C D (`1 E) (`2 E))."
+      }
+    ],
+    "statement_record": {
+      "book": "(i) A composite of two full functors is full, of two faithful functors is faithful, and of two essentially surjective functors is essentially surjective. (ii) C ≃ D and D ≃ E imply C ≃ E; conclude that equivalence of categories is an equivalence relation.",
+      "intree": "Part (ii) is fully in-tree at Theory/Equivalence/Bundled.v: `Equivalence_trans : C ≃ D → D ≃ E → C ≃ E` built from `EquivalenceOfCategories_Compose`, together with `Equivalence_refl` and `Equivalence_sym` — the three clauses of 'equivalence relation'.",
+      "strength_comparison": "intree-stronger on part (ii) (the transitivity proof is the direct quasi-inverse-composition argument, i.e. Riehl's own Exercise 1.7.v route, not the Theorem 1.5.9 route, and it comes with reflexivity and symmetry and the sanity corollaries Equivalence_sym_involutive / Equivalence_trans_functor); intree-absent on part (i)."
+    },
+    "gap": "Part (i) is entirely missing. There is no lemma anywhere in the tree of the form `Full F → Full G → Full (G ◯ F)`, nor its Faithful or EssentiallySurjective analogue. The three classes are declared (Theory/Functor.v:331 Full, Theory/Functor.v:342 Faithful, Theory/Equivalence.v:141 EssentiallySurjective) and instantiated at a dozen concrete functors, but no closure property under ◯ is ever stated. (Note the in-tree Full is the split/choice-carrying form with a chosen section `prefmap`, so composing fullness means composing the chosen preimages — the proof is short but is not written.)",
+    "negative_search_log": [
+      "rg -n 'Full|Faithful|EssentiallySurjective' --glob '*.v' | grep -iE 'compos|◯|comp\\b' -- 1 hit, a prose comment at Theory/Functor.v:353",
+      "rg -n 'Full.*∘|Faithful.*∘|Compose.*Full|Full.*Compose|Faithful.*Compose|EssentiallySurjective.*Compose' --glob '*.v' -- 0 hits",
+      "rg -n 'EssentiallySurjective' --glob '*.v' -- 17 hits, all either the class declaration, the FF+ESO hypothesis bundle in Theory/Equivalence/FullFaithful.v, or a single-functor instance (Karoubi_Embed_EssentiallySurjective, idem_G_ESO, RT_EssSurj); none about composites"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the identical (ii)-present / (i)-absent split. Theory/Equivalence/Bundled.v verified verbatim: :94 EquivalenceOfCategories_Compose, :108 Equivalence_refl, :111 Equivalence_sym, :115 Equivalence_trans, with the sanity corollaries at :124/:128. Part (i) re-searched independently: `rg 'Full \\(.*<compose>|Faithful \\(.*<compose>|EssentiallySurjective \\(.*<compose>|Full \\(Compose'` -> 0 hits; enumerated all 28 files mentioning Full and every Full/Faithful/EssentiallySurjective fact in the tree is about one named functor, never a composite. The gap's remark about the split `prefmap` form (Theory/Functor.v:331) is accurate."
+    }
+  },
+  {
+    "id": "riehl:1.5:exvii",
+    "classification": "ABSENT",
+    "aliases": [
+      "essentially discrete category",
+      "category equivalent to a discrete category",
+      "DiscreteCat / Discrete predicate",
+      "skeleton is discrete / skeletal groupoid",
+      "every endomorphism is an identity up to iso; hom-sets empty or contractible"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'essentially discrete' --glob '*.v' -- 0 hits",
+      "rg -n -i 'equivalent to a discrete|discrete up to|Discrete.*Equivalence|Equivalence.*Discrete' --glob '*.v' -- 0 hits (only Lib/Setoid.v:63, an unrelated 'discrete setoid' comment)",
+      "rg -n 'Discrete' --glob '*.v' | grep -E 'Definition|Lemma|Theorem|Class|Instance|Program' -- the only two discreteness notions are Structure/Discrete.v:28 `Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` (a PREDICATE asserting a category is discrete AND skeletal) and Instance/Discrete.v:37 `DiscreteCat (A : Type)` (the CONSTRUCTION), bridged only by Instance/Discrete.v:65 `DiscreteCat_Discrete`. Neither is ever related to ≃.",
+      "rg -n -i 'skeleton|skeletal' --glob '*.v' -- all hits are prose (Theory/Equivalence.v header, Instance/FinSet.v, Instance/Poset.v) or the unrelated Test/Poset.v poset_nat_skeletal; no skeleton construction and no 'every category is equivalent to its skeleton' theorem exists in-tree",
+      "rg -n 'CategoryEquivalence|≃' Theory/Equivalence/Bundled.v -- the bundled ≃ exists but no characterization theorem of any class of categories up to ≃ is proved"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reproduced the negative before reading the record. The only discreteness notions are Structure/Discrete.v:28 `Discrete (C : Category) := forall x y (f : x ~> y), exists H : x = y, f ~= rew H in id` (a discrete-AND-skeletal predicate) and Instance/Discrete.v:37 DiscreteCat, bridged only by :65 DiscreteCat_Discrete; neither is ever related to the bundled ~=. No skeleton construction and no 'every category is equivalent to its skeleton' theorem exist -- Theory/Equivalence.v:61-98 discusses skeletons only in prose and explicitly confines them to concrete instances. No counterpart missed."
+    }
+  },
+  {
+    "id": "riehl:1.5:exviii",
+    "classification": "ABSENT",
+    "aliases": [
+      "affine plane / groupoid Affine",
+      "projective plane with a distinguished line at infinity / Proj^l",
+      "incidence relation, incidence geometry, incidence structure",
+      "Klein's Erlangen program",
+      "equivalence of geometric groupoids, projective completion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'affine plane' --glob '*.v' -- 0 hits",
+      "rg -n -i 'projective' --glob '*.v' -- 4 hits, all unrelated prose: Structure/Abelian.v:97 ('enough projectives'), Structure/Limit.v:43,51 ('projective limit')",
+      "rg -n -i 'incidence' --glob '*.v' -- 5 hits, all the string 'coincidence' inside Structure/ZeroObject.v and Structure/Initial.v (zero-object coincidence iso); no incidence relation anywhere",
+      "rg -n -i 'Erlangen' --glob '*.v' -- 0 hits",
+      "rg -n -i 'line at infinity' --glob '*.v' -- 0 hits",
+      "rg -n -i 'affine' --glob '*.v' -- remaining hits are 'affine monoidal' = semicartesian (Structure/Monoidal/Semicartesian.v, Markov.v) and prose mentions of affine schemes/group schemes in Structure/Group.v and Structure/Pullback.v headers — a completely different use of the word",
+      "Construction/Groupoid.v inspected: the groupoid construction exists generically, but no geometric groupoid (of planes, of incidence structures, or of any concrete geometry) is built in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found no incidence geometry of any kind: 'affine plane', 'projective plane', 'incidence', 'Erlangen', 'line at infinity' all 0 hits; the only 'affine' hits are affine=semicartesian monoidal (Structure/Monoidal/Semicartesian.v, Markov.v), the only 'projective' hits are 'enough projectives' (Structure/Abelian.v:97) and 'projective limit' (Structure/Limit.v:43,51), and every apparent 'incidence' hit is the substring of 'coincidence'. Construction/Groupoid.v is generic. ABSENT is the right verdict rather than OUT_OF_SCOPE: the statement is perfectly formalizable, the library simply has no geometry layer."
+    }
+  },
+  {
+    "id": "riehl:1.5:exix",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ab (category of abelian groups), Group / Grp",
+      "Ring, Rng (non-unital rings), Field",
+      "R-Mod / category of modules over a ring",
+      "group of units functor (−)^×",
+      "forgetful / inclusion functor between algebraic categories, full / faithful / essentially surjective classification"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i '\\bRing\\b|\\bField\\b|AbGroup|R-Mod|RMod|Module' --glob '*.v' | grep -E 'Definition|Class|Record|Instance|Program|Lemma|Theorem' -- no category of rings, fields, abelian groups or modules is defined; the 'Module' hits are Coq `Module` blocks and the 'R-Mod' hits are prose in Structure/Abelian.v:69,111",
+      "rg -ic --glob '*.v' 'Rng' -- 0 hits; 'group of units' -- 0 hits; 'category of groups' -- 0 hits; 'category of rings' -- 0 hits; 'AbCat' -- 0 hits",
+      "rg -in --glob '*.v' 'Grp' -- 4 hits, all the local variable `grp` of Structure/Group.v / Structure/Group/Proofs.v (a GROUP OBJECT in a monoidal category, not a category of groups)",
+      "rg -n 'Definition|Class|Program|Instance|Record' Structure/Group.v -- the only group notion in-tree is `Class GroupObject (grp : C)` (Structure/Group.v:109), an internal group object; no category of such objects and no forgetful functor from one is built",
+      "Nearest in-tree analogues, none of them one of the six named functors: Theory/Algebra/Monoid/Hom.v:83 `Mon` (category of monoid objects) with :101 `Mon_Forget_Faithful : Faithful Mon_Forget`; Theory/Algebra/Comonoid/Hom.v:224 `Comon_Forget_Faithful`; Instance/CMon.v:169 `CMon_Forget : CMon ⟶ Sets` (commutative monoids over setoids, faithfulness not stated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently confirmed that none of the six functors' source or target categories exists in-tree. Structure/Group.v defines only `GroupObject` (an internal group object in a cartesian monoidal category), not a category of groups; there is no Ab, Ring, Rng, Field or R-Mod anywhere. The only concrete algebraic categories are Theory/Algebra/Monoid/Hom.v:83 `Mon` (monoid objects, with :101 Mon_Forget_Faithful), Theory/Algebra/Comonoid/Hom.v `Comon` (:224 Comon_Forget_Faithful) and Instance/CMon.v:140 `CMon` with :169 CMon_Forget -- exactly the nearest-analogue list the record gives."
+    }
+  },
+  {
+    "id": "riehl:1.6:def-commutes",
+    "classification": "PARTIAL",
+    "aliases": [
+      "commutative / commuting diagram",
+      "commutative triangle h = g ∘ f",
+      "commutative square k ∘ u ≈ v ∘ h",
+      "two paths with common source and target have equal composite",
+      "quiver / path category, tlist path, FreeFunctor collapsing a path to its composite"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Sq.v",
+        "line": 47,
+        "symbol": "Sq",
+        "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; ... |}  — the squares of Sq C ARE the proofs that the square commutes."
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 24,
+        "symbol": "ACone (cone_coherence)",
+        "intree_statement": "Class ACone {J C} (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }  — 'every diagram triangle commutes'."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 53,
+        "symbol": "IsPullback (is_pullback_commutes)",
+        "intree_statement": "Record IsPullback {C} {x y z : C} (f : x ~> z) (g : y ~> z) (P : C) (p1 : P ~> x) (p2 : P ~> y) := { is_pullback_commutes : f ∘ p1 ≈ g ∘ p2; is_pullback_ump : ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "Informally, a diagram is a quiver of morphisms in a category, and it COMMUTES when any two paths of composable arrows with a common source and a common target have the same composite; e.g. the commutative triangle asserts h = g f.",
+      "intree": "Commutativity is expressed throughout as ≈-equations between composites in the hom-setoids, and is packaged as a proposition for the two standard shapes: the commuting SQUARE is the square-type of the double category `Sq C` (`dsq h u v k := k ∘ u ≈ v ∘ h`, an honestly proof-irrelevant proposition) and the commuting TRIANGLE is `cone_coherence : fmap[F] f ∘ vertex_map x ≈ vertex_map y`; `is_pullback_commutes : f ∘ p1 ≈ g ∘ p2` is the same square condition inside the pullback record.",
+      "strength_comparison": "intree-weaker: commutativity is only ever stated shape-by-shape, as a named ≈-equation between two specific composites. There is no general predicate quantifying over ALL pairs of paths in a quiver."
+    },
+    "gap": "No general, quiver-indexed 'this diagram commutes' predicate. Riehl's informal clause quantifies over any two parallel paths in a quiver; in-tree the ingredients for that statement exist separately — `Construction/Free/Quiver.v` has `Class Quiver` (:54) and the path category `FreeOnQuiver` (:431) whose morphisms are the paths, and `Construction/Free.v` has `FreeFunctor` collapsing a path to its composite — but no definition of the form `Commutes (D : Quiver → C) := ∀ paths p q with the same endpoints, fold p ≈ fold q` is ever written, and no lemma relates path-equality in FreeOnQuiver to equality of composites in the image. (Riehl herself replaces the informal notion by Definition 1.6.4, which IS present; see riehl:1.6:def4.)",
+    "negative_search_log": [
+      "rg -n -i 'commutative square|commuting square|square' --glob '*.v' | grep -E 'Definition|Class|Record|Lemma|Notation' -- every hit is a specific named square (factorization_square, lift_action_square, kl_square_lr, CRelabel_assoc_square, …), never a general commutation predicate",
+      "rg -n -i 'commutes|commuting' --glob '*.v' -- occurrences are prose or field names on fixed shapes (is_pullback_commutes, char_pullback, naturality); no shape-generic predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL for the same reason. All three evidence sites verified verbatim: Construction/Sq.v:47 `dsq := fun a b c d h u v k => k o u ~= v o h`, Structure/Cone.v:24 ACone with cone_coherence, and IsPullback in Theory/Morphisms/Stability.v (the Record opens at :52 and is_pullback_commutes is at :54, so the cited :53 is one line off -- immaterial). Gap accurate and precisely stated: Construction/Free/Quiver.v:54 Quiver / :431 FreeOnQuiver supply the paths and Construction/Free.v supplies the fold to composites, but no `for all parallel paths p q, fold p ~= fold q` predicate is ever written."
+    }
+  },
+  {
+    "id": "riehl:1.6:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoid (in Set) given by commuting diagrams",
+      "monoid object, internal monoid, MonoidObject",
+      "mu : M × M → M, eta : 1 → M, associativity square, unit triangles",
+      "mappend / mempty, mu / eta",
+      "monoid in a cartesian monoidal category"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid.v",
+        "line": 44,
+        "symbol": "Monoid",
+        "intree_statement": "Class Monoid (X : C) : Type := { mu : X ⨂ X ~> X; eta : I ~> X; mu_assoc : mu ∘ bimap mu id[X] ≈ mu ∘ bimap id[X] mu ∘ to tensor_assoc; mu_unit_left : mu ∘ bimap eta id[X] ≈ to (@unit_left C M X); mu_unit_right : mu ∘ bimap id[X] eta ≈ to (@unit_right C M X) }."
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 124,
+        "symbol": "MonoidObject",
+        "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left : mappend ∘ bimap mempty id ≈ to (@unit_left C _ mon); mempty_right : mappend ∘ bimap id mempty ≈ to (@unit_right C _ mon); mappend_assoc : mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc }  — specialized at Structure/Monoid.v:173 to the cartesian monoidal structure (`Monoid := @MonoidObject C CC_Monoidal`, tensor = ×, unit = terminal 1) under `Context {C} `{@Cartesian C} `{@Terminal C}`, which is exactly the Set case."
+      }
+    ],
+    "statement_record": {
+      "book": "A monoid is an object M of Set with morphisms mu : M × M → M and eta : * → M (with * a singleton) such that the associativity square mu ∘ (M × mu) = mu ∘ (mu × M) and the two unit triangles mu ∘ (eta × M) = id = mu ∘ (M × eta) commute; the diagrammatic phrasing generalizes verbatim to other categories.",
+      "intree": "`Class Monoid (X : C)` with mu : X ⨂ X ~> X, eta : I ~> X and exactly the three laws (mu_assoc, mu_unit_left, mu_unit_right), stated over an arbitrary monoidal base; Structure/Monoid.v's `MonoidObject` is the same class under the names mappend/mempty, and its `Monoid := @MonoidObject C CC_Monoidal` fixes ⨂ to the categorical product and I to the terminal object — the Set case, with `Sets_Cartesian` (Instance/Sets/Cartesian.v:32) and `Sets_Terminal` (Instance/Sets.v:248) supplying that structure.",
+      "strength_comparison": "intree-stronger: the library states the definition over an arbitrary monoidal base (the generalization Riehl only announces here and carries out in Definition 1.6.3 / §E.2), with the cartesian/Set case recovered by instantiation. Presentation differs only in that the associator and unitors are written explicitly rather than suppressed as they are in Set."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Verified Theory/Algebra/Monoid.v:44 `Class Monoid (X : C)` (under Context {C : Category} + `{M : @Monoidal C}`) and Structure/Monoid.v:124 `Class MonoidObject (mon : C)` (same generality, Context at :121-:122) verbatim, plus the cartesian specialization at :173 `Definition Monoid := @MonoidObject C CC_Monoidal` under `{@Cartesian C}` (:164) and `{@Terminal C}` (:165), with Sets supplying that structure (Instance/Sets/Cartesian.v:32, Instance/Sets.v:248). One honest caveat, not classification-changing: the specialization is never actually INSTANTIATED at Sets in-tree (Instance/CMon.v builds commutative monoids element-wise instead), so Riehl's Set case is available by instantiation rather than exhibited. A comment defect found in Theory/Algebra/Monoid.v while confirming this record is filed in problems[]."
+    }
+  },
+  {
+    "id": "riehl:1.6:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "topological monoid (monoid in Top)",
+      "unital ring (monoid in Ab under ⊗_Z)",
+      "k-algebra (monoid in Vect_k under ⊗_k)",
+      "monoid in a monoidal category / MonoidObject / internal monoid",
+      "Top, Ab, Vect_k as categories; tensor product of abelian groups / vector spaces"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid.v",
+        "line": 44,
+        "symbol": "Monoid",
+        "intree_statement": "Class Monoid (X : C) : Type := { mu : X ⨂ X ~> X; eta : I ~> X; mu_assoc : mu ∘ bimap mu id[X] ≈ mu ∘ bimap id[X] mu ∘ to tensor_assoc; mu_unit_left : mu ∘ bimap eta id[X] ≈ to (@unit_left C M X); mu_unit_right : mu ∘ bimap id[X] eta ≈ to (@unit_right C M X) }  — stated over an arbitrary `Context {C : Category} `{M : @Monoidal C}`, i.e. the general notion Riehl says all four definitions are special cases of."
+      },
+      {
+        "file": "Instance/StrictCat/Premonoid.v",
+        "line": 137,
+        "symbol": "StrictPremonoidal_of_Monoid / Monoid_of_StrictPremonoidal",
+        "intree_statement": "Definition StrictPremonoidal_of_Monoid {c : Category} (m : @MonoidObject StrictCat Funny_Monoidal c) : StrictPremonoidal c := ... ; Definition Monoid_of_StrictPremonoidal {c : Category} (p : StrictPremonoidal c) : @MonoidObject StrictCat Funny_Monoidal c := ...  — a worked NON-cartesian instantiation (base (StrictCat, □)) of the same diagrams, the pattern Definition 1.6.3 illustrates."
+      }
+    ],
+    "statement_record": {
+      "book": "A topological monoid is an object M of Top with continuous mu : M × M → M and eta : * → M satisfying the same associativity square and unit triangles; a unital ring is an object R of Ab with mu : R ⊗_Z R → R and eta : Z → R doing likewise (so multiplication is bilinear and distributes over addition); a k-algebra is an object R of Vect_k with mu : R ⊗_k R → R and eta : k → R. All four are special cases of a monoid in a monoidal category.",
+      "intree": "The unifying notion — a monoid object over an ARBITRARY monoidal base — is in-tree as `Class Monoid (X : C)` / `Class MonoidObject (mon : C)`, and the 'same diagrams over a different base' move is exercised concretely at a non-cartesian base in Instance/StrictCat/Premonoid.v ((StrictCat, funny tensor)) and in Theory/Algebra/Frobenius.v.",
+      "strength_comparison": "intree-stronger on the unifying claim (the general monoid-in-a-monoidal-category definition, which Riehl only forward-references to §E.2, is a first-class class here); intree-absent on all three named instances."
+    },
+    "gap": "None of the three concrete notions exists, because none of the three base categories does. There is no category Top (rg -i 'topological' over *.v: only a prose citation in Theory/Multicategory.v), no category Ab of abelian groups, and no category Vect_k of k-vector spaces (rg -i 'Vect|vector space': 0 category definitions); consequently there is no tensor product ⊗_Z of abelian groups and no ⊗_k of vector spaces to serve as the monoidal structure, and hence no in-tree 'topological monoid', 'unital ring', or 'k-algebra'. The nearest concrete algebraic object is Instance/CMon.v's `CMonObject` (commutative monoids on setoids, element-wise not diagrammatic).",
+    "negative_search_log": [
+      "rg -n -i 'topological|\\bTop\\b|Vect|vector space|k-algebra|tensor product of abelian' --glob '*.v' -- every hit is either the Solver/Lib constructor `Top` of a formula datatype, a 'top-level' comment, or prose (Structure/Abelian.v:69 mentions vector spaces as motivation); no category is defined",
+      "rg -n -i '\\bRing\\b|\\bField\\b|AbGroup' --glob '*.v' | grep -E 'Definition|Class|Record|Instance' -- 0 category definitions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same reason (general schema present, all three named instances absent). Re-confirmed there is no Top, no Ab and no Vect_k in-tree, hence no tensor_Z or tensor_k to serve as a monoidal base. The Instance/StrictCat/Premonoid.v citation is real and apposite -- StrictPremonoidal_of_Monoid begins at :136 rather than the cited :137 (immaterial) and is a genuine non-cartesian instantiation of exactly these diagrams over (StrictCat, funny tensor)."
+    }
+  },
+  {
+    "id": "riehl:1.6:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "diagram = functor F : J ⟶ C",
+      "indexing category / index category / shape / scheme of a diagram",
+      "J-shaped diagram, diagram category [J, C]",
+      "Functor class",
+      "no size restriction on J (small diagram defined separately)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }  — the whole limit theory is indexed by an arbitrary functor F : J ⟶ C with J an unrestricted Category, i.e. by a diagram in Riehl's sense with no smallness hypothesis."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor {C : Category} {D : Category} := { fobj : C → D; fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y; fmap_respects : ...; fmap_id {x : C} : fmap (@id C x) ≈ id; fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }."
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 24,
+        "symbol": "ACone",
+        "intree_statement": "Class ACone {J : Category} {C : Category} (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }  — J is explicitly the diagram's index category, and functoriality of F is what forces the image's composition relations."
+      }
+    ],
+    "statement_record": {
+      "book": "A diagram in a category C is a functor F : J → C; its domain J is called the indexing category or the shape of the diagram. No size restriction is imposed on J, and functoriality forces every composition relation holding in J to hold in the image, which is what it means for the image quiver to be commutative.",
+      "intree": "The library has `Class Functor {C D : Category}` with the two functoriality laws (fmap_id, fmap_comp) and uses an arbitrary `F : J ⟶ C` directly as the diagram everywhere a shape is needed — `Class ACone {J C} (c) (F : J ⟶ C)`, `Class Limit \\`(F : J ⟶ C)` — with J an unrestricted `Category` (universe-polymorphic, no smallness field).",
+      "strength_comparison": "same, modulo naming: the library never introduces the abbreviation `Diagram F` nor the words 'indexing category'/'shape' as identifiers, but Riehl's Definition 1.6.4 asserts nothing beyond 'a diagram is a functor', and the role of J as the shape is realized literally by the domain of F throughout Structure/Cone.v and Structure/Limit.v. Like the book, no size restriction is imposed."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Diagram' --glob '*.v' | grep -E 'Definition|Class|Record|Notation|Instance|Program' -- the only symbol containing 'Diagram' is Structure/Limit/Weighted.v:49 `HomDiagram`, an unrelated construction; confirms there is no `Diagram` abbreviation, only the direct use of functors"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Verified Structure/Limit.v:113 `Class Limit `(F : J --> C)`, Theory/Functor.v:96 `Class Functor` (fmap_respects :101, fmap_id :104, fmap_comp :106) and Structure/Cone.v:24 ACone verbatim; independently reproduced the negative that no `Diagram` abbreviation exists (only Structure/Limit/Weighted.v:49 HomDiagram). Two supporting citations the classifier did not use, both strengthening PRESENT: Instance/Two.v:42-45 states Riehl's Definition 1.6.4 in prose almost verbatim -- 'A diagram of shape J in a category C is a functor from J to C; the category J is its shape, index, or scheme' -- with the nLab 'diagram' citation, and Structure/Limit.v:13-14 opens 'Let F : J --> C be a diagram of shape J in a category C'."
+    }
+  },
+  {
+    "id": "riehl:1.6:lem5",
+    "classification": "PRESENT",
+    "aliases": [
+      "functors preserve commutative diagrams",
+      "composite functor G ◯ F is the image diagram",
+      "Compose / functor composition",
+      "fmap_comp: fmap (f ∘ g) ≈ fmap f ∘ fmap g",
+      "fmap_respects: functors carry equal morphisms to equal morphisms"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 258,
+        "symbol": "Compose",
+        "intree_statement": "Program Definition Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}  — the obligation discharged by `intros; rewrite !fmap_comp; reflexivity`, i.e. exactly Riehl's proof that GF : J ⟶ D is again a diagram."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 106,
+        "symbol": "fmap_comp / fmap_respects",
+        "intree_statement": "fmap_respects : ∀ x y, Proper (equiv ==> equiv) (@fmap x y);  fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g  — together these say a functor carries any ≈-equation between composites to an ≈-equation between the images, which is the equational content of 'functors preserve commutative diagrams'."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 1.6.5: Functors preserve commutative diagrams. Proof: a diagram in C is a functor F : J → C; for any G : C → D the composite GF : J → D is the image diagram in D, which therefore satisfies all the composition relations holding in J.",
+      "intree": "`Compose (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E` — the composite of two functors is a functor, its functoriality obligation proved by `rewrite !fmap_comp` — together with the `fmap_comp` / `fmap_respects` fields of `Class Functor` which push any equation between composites through fmap.",
+      "strength_comparison": "same: Riehl's proof IS the observation that GF is a functor, and that is exactly what `Compose` asserts. The library additionally proves `Compose_respects` (Theory/Functor.v:272, composition is Proper for ≈ of functors) and `fobj_Compose`, which the book does not state."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Verified Theory/Functor.v:258-262 `Program Definition Compose {C D E} (F : D --> E) (G : C --> D) : C --> E` with its two obligations at :263 (`proper; rewrites; reflexivity`) and :264 (`intros; rewrite !fmap_comp; reflexivity`) -- the latter quoted exactly by the record. Minor: the second evidence entry cites :106 for both fmap_comp and fmap_respects; fmap_respects is at :101. Riehl's proof of 1.6.5 IS the composite-functor construction, so the identification is faithful, and Compose_respects (:272) and fobj_Compose (:300) are genuine extras."
+    }
+  },
+  {
+    "id": "riehl:1.6:example6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the category 2 × 2 / walking commutative square",
+      "product of the walking arrow with itself, _2 ∏ _2",
+      "commutative square as a diagram; [2, C] = arrow category",
+      "square shape / poset {0<1}²",
+      "functor out of 2×2 = commutative square in C"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; homset := Morphism_equality; id := ...; compose := ... |}  — the walking arrow {TwoX → TwoY}, one of the two factors of Riehl's 2 × 2."
+      },
+      {
+        "file": "Construction/Product.v",
+        "line": 95,
+        "symbol": "Product (C ∏ D)",
+        "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); ... |}  (Notation \"C ∏ D\" at line 142) — the product of categories in which Riehl's 2 × 2 would be `_2 ∏ _2`."
+      },
+      {
+        "file": "Construction/Sq.v",
+        "line": 47,
+        "symbol": "Sq",
+        "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; ... |} — commutative squares in C, packaged as the squares of a double category."
+      }
+    ],
+    "statement_record": {
+      "book": "The category 2 × 2 has four objects and the displayed non-identity morphisms; its diagonal is simultaneously the composite of top-then-right and of left-then-bottom, so those composites are equal. A diagram indexed by 2 × 2, drawn without the diagonal, is precisely a commutative square.",
+      "intree": "Both factors of the shape exist (`_2`, the walking arrow, and `Product`/`∏` on categories), and the notion of a commutative square in C exists independently as `dsq h u v k := k ∘ u ≈ v ∘ h` (Construction/Sq.v) and as `is_pullback_commutes : f ∘ p1 ≈ g ∘ p2` (Theory/Morphisms/Stability.v:55).",
+      "strength_comparison": "intree-weaker: the shape and the notion it is supposed to index are both present, but the identification the example makes between them is not."
+    },
+    "gap": "The category 2 × 2 is never actually formed: `rg '_2 ∏ _2'` over the whole tree returns 0 hits, so neither the four-object shape nor its diagonal-equals-both-composites property is exhibited. Nothing states that a functor `_2 ∏ _2 ⟶ C` is the same thing as a commutative square in C (nor the weaker companion claim in Instance/Two.v's own header that `[_2, C]` is the arrow category — Construction/Arrow.v:106-109 explicitly records that 'no formal comparison with a functor category over the walking arrow _2 of Instance/Two.v is developed in-tree'). The in-tree shapes actually built are Parallel (equalizers), Roof (pullbacks/pushouts), Two_Discrete (binary products) and Zero/One; the commutative-square shape is not among them.",
+    "negative_search_log": [
+      "rg -n '_2 ∏ _2|Two ∏ Two|_2 × _2' --glob '*.v' -- 0 hits",
+      "rg -n '\\[_2' --glob '*.v' -- all hits are prose in Instance/Two.v, Instance/Two/Monoidal.v, Construction/Enriched/Two.v and Construction/Arrow.v:106, the last stating the [2, C] comparison is NOT in-tree",
+      "rg -n -i 'commutative square|commuting square' --glob '*.v' -- only Construction/Sq.v's header and Instance/Two.v's header prose; no shape-level statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Verified Instance/Two.v:134 `_2`, Construction/Product.v:95 `Product` with the ∏ notation at :142, and Construction/Sq.v:47 Sq; independently reproduced `rg '_2 ∏ _2'` -> 0 hits. The gap's Construction/Arrow.v citation checks out and is at :104-:108 (cited as 106-109): 'The [2, C] equivalence of the header, by contrast, remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree.' The library therefore discloses this gap itself -- no defect, and Instance/Two.v's own header claim about [2, C] is a true mathematical remark, not a formalization claim."
+    }
+  },
+  {
+    "id": "riehl:1.6:remark7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presentation of a category by generators and relations",
+      "quiver (directed multigraph) with imposed commutativity relations",
+      "free category on a quiver / path category, FreeOnQuiver",
+      "quotient category by a congruence on homs, Quotient / QuotientLift",
+      "universal property: a functor out of the presented category = images of objects and generating arrows subject to the relations"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat / FreeForgetfulAdjunction",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  ... Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _.  — every quiver homomorphism G ⇨ QuiverOfCat C factors uniquely through the unit as a functor `InducedFunctor F : FreeOnQuiver G ⟶ C`, i.e. to give a functor out of the category generated by a quiver it suffices to give images of the nodes and of the generating edges."
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 313,
+        "symbol": "QuotientLift / QuotientLift_unique",
+        "intree_statement": "Definition QuotientLift : Quotient C R ⟶ D := Build_Functor ... (given `HF : ∀ x y (f g : x ~> y), R x y f g → fmap[F] f ≈ fmap[F] g`); Lemma QuotientLift_unique (G : Quotient C R ⟶ D) (Hobj : ∀ x, fobj[G] x = fobj[F] x) (HG : ...) : ∀ x y (f : x ~{Quotient C R}~> y), hom_cast (Hobj x) (Hobj y) (fmap[G] f) ≈ fmap[QuotientLift] f  — a functor out of the category-modulo-relations is exactly a functor identifying the imposed relations, uniquely."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver / FreeOnQuiver",
+        "intree_statement": "Class Quiver := { nodes : Type; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid (edges X Y) };  Program Definition FreeOnQuiver : Category := (nodes as objects, `tlist edges` paths as morphisms, tnil as identity, path concatenation as composition)."
+      }
+    ],
+    "statement_record": {
+      "book": "In practice an indexing category is specified as a quiver together with imposed commutativity relations, and in the image the composite arrows are omitted. To give a functor out of 2 × 2 it suffices to name four objects and four morphisms f, g, h, k subject to h f = k g. The relations are essential data: they distinguish 2 × 2 (which indexes a commutative square) from the quiver-generated category with two distinct diagonals (which indexes a not-necessarily-commutative square).",
+      "intree": "Both halves of 'quiver + relations' are in-tree with their universal properties: `FreeOnQuiver G` (paths as morphisms) with `InducedFunctor`/`UniversalArrowQuiverCat`/`FreeForgetfulAdjunction` for the generators, and `Quotient C R` for a `HomCongruence R` with `QuotientLift` and `QuotientLift_unique` for the relations. The 'two distinct diagonals' phenomenon is even witnessed concretely elsewhere: `funny_diagonals_distinct` (Construction/Funny/Comparison.v:144) proves the two diagonals of the square in `_2 □ _2` are NOT identified.",
+      "strength_comparison": "intree-weaker: the two universal properties exist separately and are never composed into a single presentation theorem, and the specific 2 × 2 instance is not carried out."
+    },
+    "gap": "Three things are missing. (1) No combined statement 'a functor out of FreeOnQuiver(G)/R is exactly a quiver homomorphism whose image satisfies R': the free-category UMP (Construction/Free/Quiver.v) and the quotient UMP (Construction/Quotient.v) are never chained, and no presentation-by-generators-and-relations construction for general categories exists (the only presentation machinery in-tree, Construction/PROP/Presentation.v and Construction/ColouredPROP/Presentation.v, is specific to PROPs and coloured PROPs). (2) The specific instance — the square quiver with the relation h f = k g yielding 2 × 2, and 'to define a functor out of 2 × 2 name four objects and four morphisms with h f = k g' — is not formalized (`_2 ∏ _2` never appears; see riehl:1.6:example6). (3) The contrast the remark turns on, between the free category on the square quiver (two distinct diagonals) and its quotient by h f = k g, is not stated for categories; the closest in-tree analogue is `funny_diagonals_distinct` for the funny tensor `_2 □ _2`, which is about the interchange law, not about a quiver presentation.",
+    "negative_search_log": [
+      "rg -n -i 'quiver|graph' --glob '*.v' | grep -E 'Definition|Class|Record|Inductive|Program' -- Construction/Free/Quiver.v is the only quiver development (Quiver, QuiverHomomorphism, QuiverCategory, FreeOnQuiver, Forgetful, InducedFunctor, UniversalArrowQuiverCat, FreeCatFunctor, FreeForgetfulAdjunction, FreeSyntax)",
+      "rg -n -i 'presentation|generators and relations' --glob '*.v' -- Construction/PROP/Presentation.v, Construction/PROP/Presentation/Universal.v, Construction/PROP/Tietze.v, Construction/ColouredPROP/Presentation.v only; all PROP-specific, none for general categories",
+      "rg -n '_2 ∏ _2' --glob '*.v' -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, with one refinement to gap clause (3). Verified Construction/Free/Quiver.v:54 `Class Quiver`, :431 FreeOnQuiver, :518 UniversalArrowQuiverCat (and FreeForgetfulAdjunction below it) and Construction/Quotient.v:313 QuotientLift / :322 QuotientLift_proj verbatim; all files in _CoqProject. REFINEMENT: the record says funny_diagonals_distinct 'is about the interchange law, not about a quiver presentation'. It is in fact both. Construction/Funny.v:337 `lstep_id : feq (lstep id) fnil`, :346 rstep_id and the fusion lemmas collapse identity steps, and in `_2` no two non-identity arrows are composable, so the morphisms of `_2 [funny] _2` are exactly the paths of the 4-edge square quiver -- i.e. `_2 [funny] _2` IS the free category on the square quiver, and Construction/Funny/Comparison.v:144 funny_diagonals_distinct is literally 'the free category on the square quiver has two distinct diagonals', Riehl's contrast object, with Construction/Funny/Comparison.v:59 FunnyToProduct the comparison to `_2 ∏ _2` that identifies them (Full at :69, not Faithful at :154). PARTIAL stands unchanged: `_2 ∏ _2` is still never formed, no quiver-with-relations presentation of it exists, and the free-category and quotient UMPs are still never chained."
+    }
+  }
+]

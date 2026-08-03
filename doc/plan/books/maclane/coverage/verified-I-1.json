@@ -1,0 +1,431 @@
+[
+  {
+    "id": "maclane:I.2:construction4",
+    "classification": "ABSENT",
+    "aliases": [
+      "group as one-object category",
+      "delooping BG / B G",
+      "one-object groupoid",
+      "Grp / group object",
+      "monoid with all arrows invertible",
+      "groupoid (every arrow invertible)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'one[- ]object' --include=*.v — ~20 files, all prose/background essays (Theory/Functor.v:68 'functor from a one-object category BG to vector spaces is precisely a representation', Construction/Funny.v:112, Construction/Cayley.v:69, Theory/Coq/Monoid.v:24 'the hom-set of a one-object category'); no construction building a category out of a group",
+      "grep -rniE 'deloop' --include=*.v — 4 hits, all the one-object BICATEGORY delooping of a monoidal category (Theory/Bicategory/OneObject.v Monoidal_OneObject_Bicategory; Structure/Monoidal.v prose), one categorical level above this item",
+      "grep -rnE 'obj\\s*:=\\s*(unit|poly_unit|tt)' --include=*.v — only Instance/One.v (the terminal category _1) and Construction/Funny/Comparison.v (funny-tensor comparison); no B G with obj := unit and hom := group carrier",
+      "grep -rniE 'every (arrow|morphism) (is|has).*(inverse|invertible)' --include=*.v — Construction/Groupoid.v prose only; its [Groupoid C] is the CORE of an existing category C (hom := @Isomorphism C), i.e. the maximal subgroupoid, not a one-object category built from a group",
+      "grep -rnE 'Definition Grp\\b|Grp :' --include=*.v — 0 hits; Structure/Group.v defines group OBJECTS internal to a cartesian monoidal category (mappend/mempty/inverse satisfying the diagrammatic inverse law), a different notion, and no category of groups exists either",
+      "grep -rniE 'monoid.*(as|is).*(category|one)' --include=*.v — prose remarks only; the sibling monoid-as-one-object-category construction (Mac Lane I.2 construction3) is likewise not formalized, so there is nothing to add inverses to"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Correction of one log nuance: Construction/Funny/Comparison.v:81 ListMon IS a one-object category built from a monoid (the free monoid on bool, obj := poly_unit, hom := list bool, compose := app) — so 'nothing to add inverses to' slightly overstates; but it is a single hard-coded instance, not a general monoid-to-category (let alone group-to-category) construction. Verified Structure/Group.v = group OBJECTS in a cartesian monoidal category, Construction/Groupoid.v = the CORE (maximal subgroupoid) of an existing category, Theory/Bicategory/OneObject.v = delooping one level up; none is the item. Prose hits Theory/Functor.v:68 ('one-object category BG') and Theory/Coq/Monoid.v:24 verified."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction5",
+    "classification": "ABSENT",
+    "aliases": [
+      "Matr_K / Matr",
+      "matrix category",
+      "Mat",
+      "category of rectangular matrices over a commutative ring",
+      "skeleton of Vect_K / FdVect"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'matri(x|ces)|\\bMatr\\b' --include=*.v — all hits are prose: Theory/Equivalence.v:87 background essay cites 'the small category of natural numbers and matrices' as the classical equivalence-of-categories example; Functor/Hom/Yoneda.v:89-90 (matrices in the Yoneda essay); Structure/Monoidal/Traced.v:85 (matrix trace); Instance/ZX.v:108,120,169 (ZX-calculus 'traded matrix bookkeeping', proofs proceed 'rather than by matrix computation')",
+      "same matrix hits filtered through 'definition|record|class|category' — only the three prose lines above; no Definition/Record/Class introduces a matrix category",
+      "grep -rniE '\\bMat\\b' --include=*.v — no definitional hits",
+      "ls Instance/ — no linear-algebra, vector-space, or matrix instance file exists in the tree (nearest algebraic instances are CMon and FinSet, neither ring-parameterized)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT: searched matrix|Matr|matrices|Mat|semiring; only prose (Theory/Equivalence.v:87 verified verbatim — the nat-and-matrices equivalence example; Structure/Abelian.v biproduct 'matrix' prose). Instance/ZX.v is the free hypergraph PROP on spider generators, not a matrix category; no ring structure exists in-tree at all."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ens / Ens_V",
+      "EnsT (sets within a fixed carrier)",
+      "category of sets within a set V",
+      "Sets (setoid category)",
+      "Coq (types and functions)",
+      "universe-bounded category of sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Ens.v",
+        "line": 34,
+        "symbol": "Ens",
+        "intree_statement": "Program Definition Ens : Category := {| obj := ∃ T : Type, Ensemble T; hom := fun A B => ∃ f : ``A → ``B, ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x); homset := fun P Q => {| equiv := fun f g => ∀ x, ``f x = ``g x |}; ... |}  (header: \"This file does NOT build that classical category directly.\")"
+      },
+      {
+        "file": "Instance/Ens.v",
+        "line": 56,
+        "symbol": "EnsT",
+        "intree_statement": "Program Definition EnsT (T : Type) : Category := {| obj := Ensemble T; hom := fun A B => ∃ f : T → T, ∀ x : T, In _ A x ↔ In _ B (f x); ... |}"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 120,
+        "symbol": "Coq",
+        "intree_statement": "Program Instance Coq : Category := { obj := Type; hom := λ A B : Type, A → B; homset := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |}; id := λ _ x, x; compose := λ _ _ _ g f x, g (f x) }"
+      }
+    ],
+    "statement_record": {
+      "book": "For any set V of sets, Ens_V is the category whose objects are all sets X that are members of V and whose arrows are ALL functions f : X -> Y with the usual composition; Ens names any one of these categories.",
+      "intree": "Ens: obj := ∃ T : Type, Ensemble T; hom A B := functions f on carrier types with ∀ x, x ∈ A ↔ f x ∈ B (membership preservation-and-reflection, A = f⁻¹(B)); plus EnsT fixing the carrier T; plus Coq/Sets as the categories of all types/setoids at a universe level with all (equivalence-respecting) functions.",
+      "strength_comparison": "intree-weaker: the namesake Ens/EnsT restrict morphisms to whole-carrier functions preserving AND reflecting membership rather than allowing all functions X → Y (their header discloses the deviation), so they are not Mac Lane's Ens_V; the faithful 'all sets bounded by a size parameter, all functions' category exists only with V realized as a Coq universe level (Instance/Coq.v, Instance/Sets.v), not as an arbitrary member-set V."
+    },
+    "gap": "No in-tree category is parameterized by an arbitrary set/type V of sets with exactly the members of V as objects and ALL functions between them as arrows: Instance/Ens.v deliberately alters the morphisms (A = f⁻¹(B) on whole carriers), and the universe-bounded realizations (Instance/Coq.v, Instance/Sets.v) fix the bound to be a universe level rather than a variable V.",
+    "negative_search_log": [
+      "grep -rniE '\\bEns\\b' --include=*.v — Instance/Ens.v is the only definitional site; its header states it does not build the classical category",
+      "grep for a V-parameterized sets category ('member', 'within a set') — none besides EnsT's fixed-carrier variant"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same three sites independently. Evidence line-exact (Ens.v:34, Ens.v:56, Coq.v:120); the header's own disclaimer 'This file does NOT build that classical category directly' quoted accurately; morphisms are whole-carrier maps with membership preservation-AND-reflection (A = f^-1(B)), genuinely a different category from Mac Lane's Ens_V. Gap statement precise; PARTIAL is the honest call."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Proset",
+      "PreOrder / preorder as category",
+      "thin category",
+      "posetal category",
+      "hom_preorder (underlying preorder of a category)",
+      "reflexive transitive relation"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity ...; compose := fun x y z f g => transitivity ... |}  (header: identities from reflexivity, composition from transitivity; 'The resulting category is \"thin\": any two parallel morphisms are equal')"
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 282,
+        "symbol": "hom_preorder",
+        "intree_statement": "Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f }  (comment: 'the standard observation that a category has an underlying preorder of objects (a preorder is exactly a thin category)')"
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 47,
+        "symbol": "LessThanEqualTo_Category",
+        "intree_statement": "Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder"
+      }
+    ],
+    "statement_record": {
+      "book": "A preorder is a category with at most one arrow p -> p'; defining p <= p' iff an arrow p -> p' exists yields a reflexive (identities) and transitive (composition) relation on objects; conversely any set with a reflexive transitive relation determines such a category, arrows being exactly the pairs p <= p'. This is a bijective correspondence between preordered sets and such categories.",
+      "intree": "Proset: any PreOrder R on A yields the category with obj := A, hom := R, all parallel arrows identified (thin by construction); hom_preorder: every category carries the preorder on objects with reflexivity id and transitivity composition.",
+      "strength_comparison": "intree-weaker: both single directions are present and faithful (thinness realized setoid-style by declaring all parallel morphisms equal, and hom_preorder even applies to an arbitrary category, of which the thin case is the book's converse), but the bijective correspondence itself is nowhere stated as a theorem."
+    },
+    "gap": "The round-trip/bijection between preordered sets and thin categories is not formalized: there is no thinness predicate on categories in-tree, and no theorem that Proset and hom_preorder are mutually inverse (that Proset (hom_preorder C) recovers a thin C up to isomorphism, and that hom_preorder (Proset P) is P). 'Thin category' exists only as prose (Instance/Proset.v header, Theory/Category.v:278-280 comment).",
+    "negative_search_log": [
+      "grep -rniE 'thin' --include=*.v — prose hits only (Proset.v header, Theory/Category.v:279 comment, Poset.v essay); no Class/Definition of thinness",
+      "grep for a preorder/thin-category equivalence or round-trip theorem — none"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified line-exact (Proset.v:33, Theory/Category.v:282 hom_preorder with its comment quoted accurately, Proset.v:47). Blind pass additionally found Construction/Enriched/Two.v:165 'Enriched_Two_preorder : @Enriched _2 Two_Monoidal <-> TwoPreorder' and :183 EnrichedFunctor_Two_monotone — the correspondence with maps in both directions at the 2-ENRICHED level; the file (215 lines) states no round-trip/mutual-inverse lemmas and its left side is an enriched category, not an ordinary thin category, so the recorded gap (no thinness predicate, no bijection theorem) stands. PARTIAL confirmed; the Enriched/Two evidence is worth citing in any issue filed."
+    }
+  },
+  {
+    "id": "maclane:I.2:def4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Poset / partial order",
+      "Antisymmetric",
+      "skeletal thin category",
+      "total order / linear order",
+      "TotalOrder / linearly ordered set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Poset.v",
+        "line": 116,
+        "symbol": "Poset",
+        "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P  (header: 'a poset is precisely a preorder (a [Proset]) satisfying the extra antisymmetry condition: x ≤ y ≤ x implies x = y'; antisymmetry 'only makes the resulting thin category skeletal')"
+      },
+      {
+        "file": "Instance/Poset.v",
+        "line": 120,
+        "symbol": "LessThanEqualTo_Category",
+        "intree_statement": "Definition LessThanEqualTo_Category : Category := @Poset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder (partial_order_antisym PeanoNat.Nat.le_partialorder)"
+      }
+    ],
+    "statement_record": {
+      "book": "Partial orders are preorders satisfying the added antisymmetry axiom (p <= p' and p' <= p imply p = p'); linear orders are partial orders that are total (any p, p' satisfy p <= p' or p' <= p).",
+      "intree": "Poset: a preorder R on C together with @Antisymmetric C eq eq_equiv R (antisymmetry with respect to Leibniz equality, matching the book's p = p'), packaged as the thin category Proset P.",
+      "strength_comparison": "intree-weaker: the partial-order half is present exactly (preorder + antisymmetry w.r.t. eq); the linear-order half is absent entirely."
+    },
+    "gap": "Linear (total) orders are nowhere defined in-tree: no totality/linearity/trichotomy predicate and no linear-order structure or category exists; the closest artifact, Instance/Omega.v, cites Wikipedia 'Total_order' in its header comment but formalizes only the single order (nat, ≤).",
+    "negative_search_log": [
+      "grep -rniE 'total order|linear order|linearly|TotalOrder|trichotom' --include=*.v — 0 definitional hits (only the Instance/Omega.v header citation and Theory/Metacategory.v:92 'total monoid', an unrelated term)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence line-exact (Poset.v:116 Definition Poset with @Antisymmetric C eq eq_equiv R; Poset.v:120 LessThanEqualTo_Category). Blind grep for total|linear|trichotom likewise found zero definitional hits (Omega.v's header Wikipedia 'Total_order' citation is prose). Test/Poset.v (registered, built) exercises Poset but adds no linear orders. PARTIAL with linear-orders gap confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Omega / ω as a category",
+      "ordinal as category",
+      "le_t / (nat, ≤) thin category",
+      "finite ordinal categories 0, 1, 2, 3",
+      "omega chain shape / interval categories",
+      "linear order 0 → 1 → 2 → ..."
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality; id := fun _ => le_t_n; compose := fun _ _ _ f g => le_t_trans g f |}  (header: '[Omega] is the thin category whose objects are the natural numbers and whose morphisms [m ~> n] are proofs of [m ≤ n]'; 'a functor [Omega ⟶ C] is exactly an ω-indexed diagram [X₀ ~> X₁ ~> X₂ ~> ...]')"
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 85,
+        "symbol": "omega_step",
+        "intree_statement": "Definition omega_step (n : nat) : @hom Omega n (S n) := le_t_S le_t_n  ('The generating step morphism [n ~> S n]')"
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := ...  (header: '2 is the ordinal {0 < 1} regarded as a (thin / posetal) category: two objects 0, 1, their identities, and a single non-identity arrow 0 → 1')"
+      },
+      {
+        "file": "Instance/Zero.v",
+        "line": 28,
+        "symbol": "_0",
+        "intree_statement": "Program Definition _0 : Category := {| ... |}  (the empty category, ordinal 0)"
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 25,
+        "symbol": "_1",
+        "intree_statement": "Program Definition _1@{o h p} : Category@{o h p} := {| obj := poly_unit@{o}; ... |}  (the one-object one-arrow category, ordinal 1)"
+      }
+    ],
+    "statement_record": {
+      "book": "Each ordinal n is the linearly ordered set {0, 1, ..., n-1} of all preceding ordinals, hence a category (a preorder); the categories 1, 2, 3 are the preorders of the ordinals 1, 2, 3; ω = {0, 1, 2, ...} as a category is the linear order 0 → 1 → 2 → 3 → ... with all composites and identities.",
+      "intree": "Omega: obj := nat, hom := le_t (bespoke Type-valued ≤), the thin category 0 → 1 → 2 → ...; the ordinals 0, 1, 2 exist as the bespoke categories _0, _1, _2; (nat, ≤) also as LessThanEqualTo_Category via Proset.",
+      "strength_comparison": "intree-weaker: ω itself is fully present (twice over, with Omega's composition even computing on closed inputs for Adámek chains — stronger API there), and ordinals 0, 1, 2 exist as hand-built categories; but the book's uniform 'every ordinal is a category' construction has no counterpart."
+    },
+    "gap": "No general ordinal-to-category construction: the finite ordinals exist only as the bespoke instances _0, _1, _2 (there is no _3, and no family n ↦ thin linear-order category on Fin n for arbitrary n), and no ordinals beyond ω are represented; the identification of an ordinal with the set of all preceding ordinals is not formalized.",
+    "negative_search_log": [
+      "grep -rniE '\\bordinal' --include=*.v — hits are Instance/Omega.v, Instance/Two.v headers (the instances cited as evidence) and prose; no general construction",
+      "grep -rnE 'Definition _3|Three' --include=*.v — no ordinal-3 category (Mac Lane's 3 exists nowhere in-tree)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All five evidence sites verified line-exact (Omega.v:72, Omega.v:85 omega_step, Two.v:134 _2, Zero.v:28 _0, One.v:25 _1); Two.v header 'the ordinal {0 < 1} regarded as a (thin / posetal) category' quoted accurately. Blind grep confirms no _3/Three and no uniform ordinal-to-category family; ordinals beyond omega absent. PARTIAL with the stated gap confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction9",
+    "classification": "ABSENT",
+    "aliases": [
+      "simplex category",
+      "simplicial category Delta / Δ",
+      "finite ordinals with order-preserving maps",
+      "monotone maps between finite ordinals",
+      "augmented simplex category",
+      "cosimplicial indexing category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'simplicial|simplex' --include=*.v — 10 hits, every one prose in background essays: Instance/FinSet.v:87-89 ('the simplex category Δ embedding into FinSet', on presheaves being augmented symmetric simplicial sets), Theory/Kan/Extension.v:47,91, Comonad/Core.v:103 and Comonad/Coalgebra.v:100 (simplicial bar resolution), Structure/Coend.v:113 (geometric realization), Construction/Enriched.v:72, Structure/Group.v:47, Instance/Two.v:81 ('the 1-simplex'); no definition",
+      "grep -rniE '\\bDelta\\b' --include=*.v -l — hits are diagonal/comonoid/copy-morphism files (Theory/Algebra/Comonoid*.v, Instance/ZX.v, Theory/Coq/Monad.v, Test/HypergraphPROPResolution.v), where Δ is the duplication morphism, not the simplex category",
+      "grep -rniE 'order[- ]preserving|monotone' --include=*.v — hits are Instance/Proset.v/Instance/Poset.v headers and Construction/Enriched/Two.v (enriched functors between preorders = monotone maps); no category whose objects are finite ordinals and whose arrows are the monotone functions; even the see-also categories 'Ord' and 'Pos' named in Instance/Proset.v:20 and Instance/Poset.v:22 prose do not exist (grep -rnE 'Definition Ord|Program Definition Ord|Definition Pos\\b|Program Definition Pos\\b' — 0 hits)",
+      "grep -rni 'augmented' --include=*.v — one prose hit (Instance/FinSet.v:86)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT: simplicial|simplex|Delta|monotone|order-preserving all prose or unrelated (Delta = duplication morphism in comonoid/ZX files; monotone maps appear only as MonotoneMap between TwoPreorders in Construction/Enriched/Two.v:176, not indexed by finite ordinals); FinSet's homs are ALL functions; the see-also categories [Ord] (Proset.v:19) and [Pos] (Poset.v:22) are dangling prose references with no definitions."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction10",
+    "classification": "PRESENT",
+    "aliases": [
+      "FinSet",
+      "Finord / Set_omega",
+      "skeletal category of finite sets",
+      "finite ordinals with all functions",
+      "Fin.t n"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet.v",
+        "line": 116,
+        "symbol": "FinSet",
+        "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); id := fun _ i => i; compose := fun _ _ _ f g i => f (g i) |}  (header: 'The skeleton of the category of finite sets: the objects are the natural numbers, with [n] standing for the canonical n-element set [Fin.t n], and the morphisms [m ~> n] are all functions [Fin.t m → Fin.t n]')"
+      }
+    ],
+    "statement_record": {
+      "book": "Finord = Set_omega is the category whose objects are all finite ordinals n and whose arrows f : m -> n are all functions from m to n; essentially the category of all finite sets, using exactly one finite set n for each finite cardinal n.",
+      "intree": "FinSet: obj := nat (one object per finite cardinal), hom m n := all functions Fin.t m → Fin.t n, identity and composition the usual ones, hom-setoid pointwise Leibniz equality.",
+      "strength_comparison": "same — the canonical n-element set is the dependent-types standard Fin.t n rather than the von Neumann ordinal {0,...,n-1}, and hom-setoids are pointwise Leibniz equality (a faithful, non-quotient presentation in the library's setoid discipline); intree-stronger on API: FinSet additionally carries computing Initial/Terminal/coproducts (Instance/FinSet.v), products, exponentials, pullbacks, a subobject classifier, and the full FinSet_Topos assembly (Instance/FinSet/*.v)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same and only counterpart. FinSet.v:116 quote exact (obj := nat, hom := fun m n => Fin.t m -> Fin.t n, fun_setoid homs); file plus satellites (Product/Closed/Classifier/Topos) registered in _CoqProject. strength_comparison honest: Fin.t n for the canonical n-element set is faithful presentation, and the extra topos API is correctly flagged intree-stronger. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction11",
+    "classification": "PRESENT",
+    "aliases": [
+      "universe / small sets",
+      "Sets@{o so} universe discipline",
+      "Coq : Category (types at a universe level)",
+      "size via universe polymorphism",
+      "Grothendieck universe device",
+      "category of small sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject@{o o} : Type@{so}; hom := λ x y, SetoidMorphism@{o o o} x y : Type@{o}; ... |}  (the category of all setoids small at level o, itself living one level up at so)"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 120,
+        "symbol": "Coq",
+        "intree_statement": "Program Instance Coq : Category := { obj := Type; hom := λ A B : Type, A → B; ... }  (header: 'objects are types `A : Type`' — all types at the ambient universe level, with all functions)"
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 22,
+        "symbol": "Cat (size note)",
+        "intree_statement": "Header: 'Size: Cat is a large category, and so cannot be an object of itself (there is no category of *all* categories). Here that constraint is enforced by universe polymorphism: [Category@{o h p | h <= p}] lives at a strictly higher universe than its objects.'"
+      }
+    ],
+    "statement_record": {
+      "book": "Beyond the metacategory of all sets (which is not a set), an actual category Set is obtained by assuming a big enough set U (the universe), calling a set small iff it is a member of U, and taking Set to be the category of all small sets with all functions between them; the device underlies the construction of the other familiar large categories.",
+      "intree": "Sets@{o so} : Category@{so o o} and Coq : Category collect all setoids/types small at a universe level into a genuine category living one level higher; library-wide universe polymorphism {o h p | h <= p} enforces the small/large distinction mechanically (Instance/Cat.v header, CLAUDE.md universe strategy).",
+      "strength_comparison": "same in substance: 'small' is realized as membership in a Coq predicative universe level rather than membership in a ZFC universe set U, and the resulting categories of small sets are honest categories one level up, exactly the book's move; the foundational packaging differs (type-theoretic universe hierarchy vs a posited universe set — Mac Lane's explicit universe closure axioms are his I.6 material, not this construction), and the machine even enforces the size discipline the book only promises ('details deferred to I.7')."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Sets.v:188 quote exact (Sets@{o so} : Category@{so o o} — the category of level-o setoids living one level up), Coq.v:120, Cat.v:22-26 size-note quote accurate ('enforced by universe polymorphism ... strictly higher universe than its objects'). Smallness-as-universe-membership is the faithful type-theoretic transposition of the book's universe device, and the frozen definitions endorse exactly this reading. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:I.2:construction12",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set / Sets / Coq",
+      "Cat / StrictCat",
+      "Mon / CMon (monoids)",
+      "Grp / Ab (groups, abelian groups)",
+      "Rng / CRng / R-Mod / Mod-R / K-Mod (rings, modules)",
+      "Top / Toph / Top* (spaces)",
+      "Set* pointed sets / Par",
+      "Ens"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq.v",
+        "line": 120,
+        "symbol": "Coq",
+        "intree_statement": "Program Instance Coq : Category := { obj := Type; hom := λ A B : Type, A → B; ... }  (Set, strict-function model)"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject; hom := SetoidMorphism; ... |}  (Set, setoid model)"
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "Instance Cat : Category := { ... }  (objects Categories, arrows Functors; hom-setoid [Functor_Setoid] identifies naturally isomorphic functors, so this is Ho(Cat) — 'NOT the strict 1-category of categories of the textbooks', disclosed in header)"
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { ... }  ('the category of categories where functors are compared by a *strict* relation' [Functor_StrictEq_Setoid] — the textbook strict 1-category Cat)"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |}  (internal monoids in any monoidal C; at C = Sets this is the classical Mon)"
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 140,
+        "symbol": "CMon",
+        "intree_statement": "Program Definition CMon : Category := {| obj := CMonObject; hom := CMonHom; ... |}  ('the category of commutative monoids over [Sets]')"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| ... A ~> B := A → option B ... |}  (header: 'This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps' — Set*, via a prose-noted equivalence only)"
+      },
+      {
+        "file": "Instance/Ens.v",
+        "line": 34,
+        "symbol": "Ens",
+        "intree_statement": "Program Definition Ens : Category := {| obj := ∃ T : Type, Ensemble T; ... |}  (namesake of the book's Ens, with disclosed non-classical morphisms)"
+      }
+    ],
+    "statement_record": {
+      "book": "The roster of standard large categories of small structures: Set, Set*, Ens, Cat, Mon, Grp, Ab, Rng, CRng, R-Mod, Mod-R, K-Mod, Top, Toph, Top*.",
+      "intree": "Present counterparts: Set (Coq, Sets), Cat (Cat as Ho(Cat) and StrictCat as the strict textbook version), Ens (with altered morphisms, disclosed), Mon (internal Mon(C) of Theory/Algebra/Monoid/Hom.v, classical at C = Sets; plus the direct CMon for commutative monoids), Set* (only via Par's prose-noted equivalence with pointed sets).",
+      "strength_comparison": "intree-weaker: roughly a third of the roster has in-tree counterparts; the algebraic bulk (Grp, Ab, Rng, CRng, all module categories) and the entire topological column (Top, Toph, Top*) are absent."
+    },
+    "gap": "No in-tree categories of: groups Grp (Structure/Group.v defines group OBJECTS internal to a cartesian monoidal category, with no category of them assembled); abelian groups Ab (Instance/CMon lacks inverses, and Structure/Abelian.v is abelian CATEGORIES, a different concept); rings Rng/CRng; modules R-Mod/Mod-R/K-Mod; topological spaces Top; homotopy classes Toph; pointed spaces Top*. Set* exists only through the prose-claimed (unformalized) equivalence with Instance/Coq/Par.v's Par, and Mon over Sets is one instantiation of the internal Mon(C) away but is not instantiated or named in-tree.",
+    "negative_search_log": [
+      "grep -rnE 'Definition Grp\\b|Definition Ab\\b|Definition Top\\b|Definition Rng|Definition Mod\\b' --include=*.v — 0 hits",
+      "grep -rniE 'topolog' --include=*.v -l — 10 files, all background-essay prose (no Top category)",
+      "grep -rniE 'homotopy categor' --include=*.v — prose only (Instance/StrictCat.v:36 on Ho(Cat), Construction/Localization.v:76,97 citing Top[W⁻¹] as motivation)",
+      "grep -rniE 'abelian group' --include=*.v -l — prose in Theory/Adjunction.v, Structure/{Group,Monoid,Closed,Additive,Preadditive}.v essays; no category Ab",
+      "grep -rniE '\\bring\\b|module' over candidate files — prose only (e.g. Theory/Algebra.v:26 'a ring without negatives' describing rigs)",
+      "grep -rniE 'pointed set' --include=*.v — Instance/Coq/Par.v:34-35 equivalence prose, Instance/Coq/ParE.v:116, Construction/Slice.v:82 ('pointed sets are the coslice of Set under the point' — prose, not a construction)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All eight evidence sites verified line-exact (Coq.v:120, Sets.v:188, Cat.v:142 with the Ho(Cat) disclosure, StrictCat.v:56 with its header quote verified verbatim, Theory/Algebra/Monoid/Hom.v:83 Mon, CMon.v:140, Par.v:53 with the :34 'equivalent (not isomorphic) to the category of pointed sets' prose, Ens.v:34). Fresh greps confirm zero definitions of Grp/Ab/Top/Rng/CRng/Toph and no in-tree instantiation of Mon at Sets. PARTIAL with the itemized roster gap confirmed."
+    }
+  }
+]

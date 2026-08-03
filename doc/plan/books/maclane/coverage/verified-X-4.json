@@ -1,0 +1,271 @@
+[
+  {
+    "id": "maclane:X.5:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "cones over the comma category (c/K) vs natural transformations",
+      "cone = natural transformation C(c,K-) => A(a,T-)",
+      "Nat(C(c,K-), A(a,T-)) bijection / weighted-cone bijection",
+      "wedge / end element over the comma category",
+      "pointwise Kan extension cone lemma"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'pointwise' --include=*.v . : in Theory/Kan/Extension.v only prose ('pointwise-free', essay lines 74,148); Structure/Coend.v:110 and Theory/DoubleCategory.v:140 also prose. No pointwise-Kan definition, hence no lemma feeding it.",
+      "grep -niE 'comma' Theory/Kan/Extension.v Structure/Limit/Kan/Extension.v : the two Kan files NEVER construct or reference the comma-category limit formula; the Theory/Kan/Extension.v essay (lines 74-79) states the pointwise comma/end formulas are 'a bridge not yet formalized'.",
+      "Read Instance/Cones/Comma.v : proves Cones F ≅ (Δ ↓ =(F)) (the category of cones over F is a comma category) — the CONVERSE direction (cones-as-comma), not the bijection 'cones over the comma category (c/K) ↔ Nat(C(c,K-),A(a,T-))' that lem1 asserts; unconnected to Kan extensions.",
+      "Read Structure/Limit/Weighted.v : HomDiagram c F (j ↦ C(c,Fj)) and WeightedLimit give the iso [J,Sets](W,HomDiagram c F) ≅ C(c,wlim_obj); adjacent in spirit (RHS of lem1 = [M,Sets](C(c,K-),A(a,T-)) is a Nat(weight,homdiagram)) but stated for weighted limits generally, NOT for the comma-category (c/K) of a Kan extension, and never linked to Kan extensions.",
+      "grep -rniE 'canonical (co)?limit|canonical cone|colimit of representable|limit of representable' --include=*.v . : 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass found the identical absence and no counterpart the classifier missed. rg -nwi 'dense' = 0; neither Kan file constructs a comma-category limit formula; Theory/Kan/Extension.v:74-79 header explicitly discloses the pointwise comma/end formulas as 'a bridge not yet formalized'. The only cone/Nat-bijection material in-tree is Cones_Comma (Instance/Cones/Comma.v: Cones F ~= Delta-down-F, the converse identification) and Structure/Limit/Weighted.v (HomDiagram/WeightedLimit, [J,Sets](W,HomDiagram c F) ~= C(c,wlim_obj)) -- both correctly cited as adjacent-not-matching: neither is tied to the comma category (c/K) of a Kan extension nor gives cone ~= Nat(C(c,K-),A(a,T-)). Verified Weighted.v exists with HomDiagram@49/WeightedLimit@101. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.5:cor4",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise right Kan extension via hom-set bijection",
+      "A(a,Rc) ≅ Nat(C(c,K-), A(a,T-))",
+      "end/weighted characterization of Ran_K T",
+      "representably-defined pointwise Kan extension",
+      "Ran as a limit corepresenting cones"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'pointwise.*kan|kan.*pointwise|Pointwise(Left|Right)?Kan' --include=*.v . : only 3 prose mentions (Theory/DoubleCategory.v:140, Theory/Kan/Extension.v:148 'pointwise-free', Structure/Coend.v:110); NO PointwiseKan class/definition exists.",
+      "Read Theory/Kan/Extension.v : the only local Kan notion is LocalRightKan (line 154) defined by a bare universal property (ump_ran), NOT Mac Lane's 'pointwise' (= preserved by all representables A(a,-)); no hom-set/Nat(C(c,K-),A(a,T-)) characterization is present.",
+      "grep -rniE 'dense|density|codense' finds no representability-of-Ran material; Theory/Kan/Extension.v essay (74-79) says the pointwise end/limit formulas are 'a bridge not yet formalized'.",
+      "Read Structure/Limit/Weighted.v : wlim_iso gives [J,Sets](W,HomDiagram c F) ≅ C(c,wlim_obj) — a structurally similar hom/Nat bijection, but for WEIGHTED LIMITS, not for a pointwise Ran_K T, and with no Kan-extension bridge.",
+      "grep -rniE 'preserves_right_Kan' --include=*.v . : the only preservation predicate (Theory/Kan/Extension.v:313) is 'R ◯ Ran K G ≈ Ran K (R ◯ G)', never specialized to representables to define 'pointwise', and used nowhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Independent search agrees: no pointwise-Kan notion in Mac Lane's representable-preservation sense exists; only LocalRightKan (bare ump_ran, Theory/Kan/Extension.v:154) and the unused preserves_right_Kan predicate. No A(a,Rc) ~= Nat(C(c,K-),A(a,T-)) characterization anywhere. Weighted.v's wlim_iso is honestly flagged as weighted-limits, not a pointwise Ran_K T, with no Kan bridge. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.5:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical comparison map w : G ∘ Ran_K T -> Ran_K (GT)",
+      "preserves right Kan extension iff comparison map is iso",
+      "mediating natural transformation from the Kan universal property",
+      "preserves_right_Kan",
+      "canonical map w with epsilon' . wK = G(epsilon)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 313,
+        "symbol": "preserves_right_Kan",
+        "intree_statement": "Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 386,
+        "symbol": "left_adjoints_preserve (Abort-ed)",
+        "intree_statement": "Theorem left_adjoints_preserve `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.  (* proof ends in `admit`+`Abort` on line 438 — NOT in the environment, introduces no axioms; the dual preserves_right_Kan has no theorem at all *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given C -K-> M -T-> A -G-> X with Ran_K T and Ran_K(GT) both existing (counits ε, ε'), there is a UNIQUE natural transformation (the canonical comparison map) w : G ∘ Ran_K T ⟹ Ran_K(GT) satisfying ε' · (wK) = G(ε), and G preserves Ran_K T iff w is an isomorphism.",
+      "intree": "Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G).",
+      "strength_comparison": "intree-weaker: the library only DEFINES preservation as the bare functor equivalence R ◯ Ran K G ≈ Ran K (R ◯ G) for the GLOBAL Ran functor; it never (i) constructs the canonical comparison natural transformation w, (ii) proves w unique with ε'·wK = G(ε), nor (iii) proves the equivalence 'preserves ⟺ w iso'. Per Mac Lane's own X.5 def1 (inventory: 'strictly stronger than the bare isomorphism G∘Ran_K T ≅ Ran_K(GT)') this bare-iso predicate is the weaker side of the very equivalence ex1 asks to establish. It is also stated for global Ran (not the local Ran_K T of a single T that ex1 is about), and is unused: the sole theorem mentioning it (left_adjoints_preserve, the LEFT dual) is Abort-ed."
+    },
+    "gap": "The exercise's actual deliverables are entirely missing: (a) construction of the canonical comparison map w : G ∘ Ran_K T ⟹ Ran_K(GT); (b) its uniqueness under ε' · (wK) = G(ε); (c) the theorem 'G preserves Ran_K T ⟺ w is an isomorphism'. In-tree there is only a coarse GLOBAL predicate preserves_right_Kan defined via a bare `≈` on functors (no comparison map, no local single-functor form), and no theorem is proven about it (the analogous left-hand theorem is Abort-ed).",
+    "negative_search_log": [
+      "grep -rniE 'comparison' --include=*.v . : all hits are monoidal/applicative 'comparison maps' (Functor/Applicative.v, Functor/Structure/*); NONE is a Kan-extension comparison map w.",
+      "grep -rniE 'preserves_right_Kan|preserves_left_Kan' --include=*.v . | grep -v Theory/Kan/Extension.v : 0 hits — the predicates are used nowhere in the tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Evidence verified exact: preserves_right_Kan is at line 313, left_adjoints_preserve at 386 with Abort at 438 (aborted; not in the environment, no axioms). Independently confirmed preserves_right_Kan is used NOWHERE tree-wide (rg outside the Kan file = 0). This is a genuine borderline PARTIAL/ABSENT: all three exercise deliverables (the canonical comparison map w, its uniqueness under eps'.wK=G(eps), and 'G preserves Ran_K T iff w iso') are absent, and the in-tree predicate is the bare-iso WEAK form for the GLOBAL Ran that Mac Lane's own X.5 def1 explicitly distinguishes from genuine preservation. Not overturned: a named preservation-of-right-Kan predicate genuinely exists as a partial hook, and the gap + strength_comparison state the deficit precisely and honestly ('the exercise's actual deliverables are entirely missing'). Minor wording nit (does not affect verdict): strength_comparison calls left_adjoints_preserve 'the sole theorem mentioning it [preserves_right_Kan]', but that theorem concludes preserves_LEFT_Kan; the evidence block itself correctly states the right-hand predicate 'has no theorem at all', so the record is internally consistent."
+    }
+  },
+  {
+    "id": "maclane:X.6:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "dense functor",
+      "dense subcategory",
+      "colimit of the canonical diagram K P^c equals c",
+      "Isbell left adequate subcategory",
+      "canonical colimit of objects of M / dense generator"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'dense|density|codense' --include=*.v . : the ONLY file is Theory/Kan/Extension.v, and every occurrence is prose about the CODENSITY MONAD in the background essay (lines 35,39,83,85,103,105,108); there is no Dense/Density definition, class, or lemma.",
+      "grep -rnwiE 'dense' --include=*.v . : 0 hits (no standalone 'dense' token anywhere).",
+      "grep -rniE 'adequate|left adequate|right adequate|adequate subcategor' --include=*.v . : 1 unrelated hit (Structure/Topos.v:53 'spaces adequate for sheaf cohomology'); Isbell's density synonym is not present.",
+      "grep -rniE 'canonical (co)?limit|colimit of representable|canonical cone' --include=*.v . : 0 hits — the 'c = Colim K P^c' canonical-colimit condition is not formalized.",
+      "Read Theory/Kan/Extension.v : contains RightKan/LeftKan/LocalRightKan/LocalLeftKan and preserves_(left|right)_Kan only; no density notion is built on top."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. rg -ril 'dense|codense|codensity' tree-wide returns only Theory/Kan/Extension.v (essay, codensity-monad prose lines 35-108) plus doc/plan planning files; rg -nwi 'dense' in .v = 0; no Dense/Density/canonical-colimit definition. 'adequate' (Isbell synonym) only at Structure/Topos.v:53 (sheaf cohomology, unrelated). Negative log accurate. Note for context (not a counterpart): doc/plan/books/maclane/issues/III-drafts.md already tracks Yoneda-density / co-Yoneda as a KNOWN gap -- a planning doc, not in-tree formalization."
+    }
+  },
+  {
+    "id": "maclane:X.6:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "the one-point set * is dense in Set",
+      "terminal object / singleton is a dense generator of Set",
+      "every set is the coproduct of its points (X = ∐_X 1)",
+      "(* / X) is the discrete category of elements of X",
+      "1 is a dense separator in Sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnwiE 'dense' --include=*.v . : 0 hits; the density notion this example instantiates does not exist in-tree (see maclane:X.6:def1).",
+      "grep -rniE 'copower|generator|separator' --include=*.v Instance/Sets.v Instance/Sets/*.v : 0 hits — there is no in-tree statement 'X ≅ coproduct of X copies of 1' / '1 generates Set' either, so not even the underlying coproduct-of-points fact is recorded as such.",
+      "grep -rniE 'dense|density|codense' --include=*.v . : only the codensity-monad prose in Theory/Kan/Extension.v; no Set-density example.",
+      "Instance/Sets.v does have coproducts, but nowhere is the specific density statement (a map out of X is determined by its values on points, as a colimit) formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Density notion absent (see def1); no in-tree 'X ~= coproduct of X copies of 1' / '1 dense in Set' statement, and no separator/generator formalization for Sets. Blind search agrees; negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.6:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "codense functor",
+      "codensity (K codense)",
+      "limit of the canonical diagram (c/K) -> M -K-> C equals c",
+      "Isbell right adequate / codense subcategory",
+      "Ran_K K limit condition"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'codense' --include=*.v . : only prose 'being codense' inside the codensity-monad essay of Theory/Kan/Extension.v:85; no Codense definition/class.",
+      "grep -rniE 'codensity' --include=*.v . filtered to non-prose : 0 definition hits (all mentions are essay lines 35,39,83,85,103,105,108).",
+      "grep -rniE 'adequate' --include=*.v . : only the unrelated Structure/Topos.v:53 hit; Isbell's 'right adequate' synonym absent.",
+      "grep -rniE 'canonical (co)?limit|canonical cone' --include=*.v . : 0 hits — the 'c = Lim (K over c/K)' canonical-limit condition is not formalized.",
+      "grep -niE 'comma' Structure/Limit/Kan/Extension.v Theory/Kan/Extension.v : the Kan files never form the comma-category limit that would define codensity."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. 'codense'/'codensity' occur only in the Theory/Kan/Extension.v essay; no Codense definition/class. Independently verified no Ran_K K (self-Kan-extension) instantiation anywhere: rg for RightKan/LocalRightKan/LeftKan/LocalLeftKan usage OUTSIDE the two Kan files = 0. Neither Kan file forms the defining comma-category limit. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.6:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "codense iff Id_C is the pointwise right Kan extension of K along K",
+      "Ran_K K = Id_C (pointwise), unit/counit = identity",
+      "codensity monad is trivial iff K codense",
+      "identity is the Kan extension of a functor along itself",
+      "self-Kan-extension Ran_K K"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'codense|codensity' --include=*.v . : prose-only (Theory/Kan/Extension.v essay); no codense predicate to equate with a pointwise Kan condition.",
+      "grep -rniE 'pointwise.*kan|Pointwise(Right)?Kan' --include=*.v . : no PointwiseKan definition (only prose); the 'pointwise Ran_K K' side of the iff has no in-tree counterpart.",
+      "grep -rniE 'Ran.*K.*K|along itself|self.?kan' --include=*.v . : no formalization of Ran of a functor along ITSELF; LocalRightKan (Theory/Kan/Extension.v:154) is never instantiated at X := K to build Ran_K K.",
+      "Both prerequisites (codensity, def2; pointwise Kan extension, X.5:def2) are themselves ABSENT, so the biconditional connecting them cannot be present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Both sides of the biconditional are absent: codensity (def2) and a pointwise Ran_K K. LocalRightKan is never instantiated at X:=K -- confirmed no external instantiation of any Kan class tree-wide. No self-Kan-extension in-tree. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.6:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "codense iff c |-> C(c,K-) : C^op -> Ens^M is full and faithful",
+      "nerve functor N_K full and faithful",
+      "C(a,c) ≅ Nat(C(c,K-), C(a,K-)) bijection (compose-on-the-right)",
+      "restricted-Yoneda / nerve fully faithful characterization of codensity",
+      "f |-> f* = C(f,K-)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'codense|codensity' --include=*.v . : prose-only; no codensity predicate exists to biconditional against a fullness/faithfulness condition.",
+      "grep -rniE 'nerve' --include=*.v . : hits are Multicategory/Grothendieck/Lambda prose or unrelated; no nerve functor N_K : C^op -> Ens^M and no proof of its full-faithfulness for general K.",
+      "Read Functor/Hom.v : the ONLY fully-faithful nerve-type embedding is Curried_Hom C : C^op ⟶ [C,Sets] (Yoneda_Full line 96, Yoneda_Faithful line 85), i.e. the case K = identity (c ↦ C(-,c)); the general 'c ↦ C(c,K-)' for an arbitrary K : M -> C is not defined nor shown full+faithful. This is Yoneda-adjacent but a strictly weaker special case.",
+      "grep -rniE 'Full.*Faithful' + 'C\\(c,K' style : no bijection C(a,c) ≅ Nat(C(c,K-),C(a,K-)) is formalized for general K."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Codensity absent; the general-K nerve c |-> C(c,K-) and its full-faithfulness are absent. The only FF hom-embedding is Curried_Hom : C^op --> [C,Sets] (Yoneda_Faithful@85, Yoneda_Full@96 in Functor/Hom.v), i.e. the K=Id special case -- verified and correctly flagged strictly weaker. No C(a,c) ~= Nat(C(c,K-),C(a,K-)) for general K. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.6:cor3",
+    "classification": "ABSENT",
+    "aliases": [
+      "the Yoneda embedding is codense",
+      "every functor M -> Ens is a canonical limit of representables",
+      "Yoneda embedding Y : M -> (Ens^M)^op codense / Ran_Y Y = Id",
+      "representables are codense / colimit-dense",
+      "codensity of the Yoneda embedding via the Yoneda lemma"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnwiE 'dense' / grep -rniE 'codense' --include=*.v . : no density/codensity notion exists (prose-only in Theory/Kan/Extension.v), so the STATEMENT 'Yoneda embedding is codense' has no in-tree counterpart.",
+      "Read Functor/Hom/Yoneda.v + Functor/Hom.v : the DRIVING INGREDIENTS are present — Yoneda_Lemma (Functor/Hom/Yoneda.v:132), Yoneda_Embedding (line 231, Presheaves[Hom ─,A][Hom ─,B] ≊ A~>B), Yoneda_Full/Yoneda_Faithful (Functor/Hom.v:96/85). But full-faithfulness of Y is a DIFFERENT theorem; the codensity conclusion ('every functor M->Ens is a canonical limit of representables' / Ran_Y Y = Id pointwise) is not stated.",
+      "grep -rniE 'canonical limit|limit of representable|colimit of representable' --include=*.v . : 0 hits.",
+      "cor3 depends on def2 (codense) and prop2, both ABSENT; hence the corollary is absent though its Yoneda-lemma engine is fully in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. The codensity-of-Yoneda statement has no in-tree counterpart. The Yoneda engine (Yoneda_Lemma Functor/Hom/Yoneda.v:132, Yoneda_Embedding:231, Yoneda_Full/Faithful) is present and correctly cited as the driving ingredient of a DIFFERENT theorem. Independently checked Theory/Coend/Yoneda.v: its co-Yoneda (integral^x C(x,c) x Fx ~= Fc) is about PRESHEAVES F, not 'every M-->Ens is a canonical limit of representables' (density of Y). No 'colimit/limit of representables' result exists. Negative log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.6:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "dense iff c |-> C(K-,c) : C -> Ens^{M^op} is full and faithful",
+      "dual of Proposition 2 (density criterion)",
+      "restricted-Yoneda / nerve N_K : C -> [M^op,Set] fully faithful",
+      "density via fullness+faithfulness of the nerve",
+      "c |-> C(K-,c) codensity-dual embedding"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnwiE 'dense' --include=*.v . : 0 hits; the density notion this criterion characterizes is absent (see maclane:X.6:def1).",
+      "grep -rniE 'nerve' --include=*.v . : no nerve functor N_K : C -> Ens^{M^op}, c ↦ C(K-,c), for general K; not defined and not shown full+faithful.",
+      "Read Functor/Hom.v : Curried_Hom : C^op ⟶ [C,Sets] (c ↦ C(-,c)) is full+faithful (Yoneda_Full/Faithful) — precisely remark2's functor at K = identity, a strictly weaker special case; the general-K nerve c ↦ C(K-,c) is absent.",
+      "remark2 is the dual of prop2 (ABSENT) and presupposes def1 (dense, ABSENT); no in-tree biconditional of density with nerve full-faithfulness exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Dual of prop2; both absent. No general-K nerve c |-> C(K-,c) : C --> Ens^(M^op) nor its FF proof; only the K=Id Yoneda case (Curried_Hom) exists, correctly flagged as a strictly weaker special case. Blind search agrees; negative log accurate."
+    }
+  }
+]

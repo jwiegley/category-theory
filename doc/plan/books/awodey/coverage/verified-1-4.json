@@ -1,0 +1,226 @@
+[
+  {
+    "id": "awodey:1:ex1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Rel is a category",
+      "category of relations Rel",
+      "category of sets and binary relations",
+      "relational composition / relative product",
+      "diagonal identity relation"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => forall x y, f x y <-> g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e /\\ In z (f e) b)%type |}. (Next Obligations discharge associativity, identity, and Proper laws — header: \"The category laws hold with no axioms.\")"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1: Show that Rel is a category — objects are sets, an arrow f:A->B is a relation f subset A x B, the identity on A is the diagonal/equality relation, and composition g o f = {(a,c) | exists b. (a,b) in f and (b,c) in g}; verify the category axioms.",
+      "intree": "Program Definition Rel : Category with obj := Coq types, hom A B := A -> Ensemble B (a curried relation R subset A x B), id := Singleton (the diagonal, In (id a) b iff b=a), compose := fun f g a b => exists e, In (g a) e /\\ In (f e) b (the existential-witness relational composite). All category-law obligations are proven (equivalence of homs is pointwise iff).",
+      "strength_comparison": "same — faithful setoid encoding: Awodey's 'sets' are Coq types (via obj Coq) and hom-equality is pointwise logical equivalence (<->) rather than set equality, which is the correct Prop-valued notion for relations. Identity = diagonal and composition = relative product match Awodey verbatim; the category axioms the exercise asks to verify are discharged in-tree, axiom-free."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PRESENT before opening coverage. Opened Instance/Rel.v: Rel : Category at line 45 is quoted accurately; all six Next Obligations (homset equivalence 54-60, compose Proper 61-65, left/right identity 66-79, associativity 80-81) end in Qed, none Admitted, so Rel is a fully-proven category. id = Singleton is the diagonal; compose is the existential relative product — matches Awodey. Registered in _CoqProject:225. Header claim 'category laws hold with no axioms' is consistent with the live code (the axiom-using Rel_Closed/proof_irrelevance block is commented out). strength_comparison ('objects = Coq types via obj Coq') is the honest faithful set-encoding note."
+    }
+  },
+  {
+    "id": "awodey:1:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Rel is self-dual, Rel ≅ Rel^op (via relation converse / dagger)",
+      "Sets ≅ Sets^op (Sets is NOT self-dual)",
+      "P(X) ≅ P(X)^op (powerset poset self-dual via complement A |-> X\\A)",
+      "self-dual category / involution / dagger",
+      "opposite-category isomorphism of a specific category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn 'Rel.*op|Rel_op|Rel_dagger|Dagger|complement|Complement' Instance/ Construction/ Structure/ — the ONLY hit tying Rel to Rel^op is the prose note in Instance/Rel.v:36-42 which explicitly states the dagger/self-duality 'None of that extra structure is built here'; no Rel ≅ Rel^op isomorphism is constructed.",
+      "grep -rIn 'Sets.*≅.*op|Sets_op|Sets ≅ Sets' --include=*.v . — 0 hits; the question 'is Sets self-dual' (answer: no) is not formalized (proving non-existence of an iso Sets ≅ Sets^op is not attempted).",
+      "grep -rIn 'self-dual|selfdual|self_dual|complement' --include=*.v . — hits are Frobenius/CompactClosed/Preadditive self-duality and localization/ZX 'complement', none about Rel, Sets, or a powerset poset P(X); no complement operation X\\A on a power-set poset and no P(X) ≅ P(X)^op.",
+      "grep -rIn 'Proset|opposite|Opposite' Instance/Proset.v — Proset builds a single preorder as a thin category; no power-set poset instance and no self-duality of P(X).",
+      "Construction/Opposite.v provides the generic (-)^op and op_invol ((C^op)^op = C, line 126), but that is infrastructure, not the exercise's determination of whether Rel/Sets/P(X) are each isomorphic to their OWN opposite; none of the three specific self-duality determinations is proven in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on ABSENT before opening coverage. My own searches reproduced the classifier's: the only Rel-to-Rel^op reference is the prose note at Instance/Rel.v:36-42, and I confirmed lines 38-39 read 'the dagger witnesses the self-duality Rel ≅ Rel^op ... None of that extra structure is built here.' No power-set poset P(X), no complement operation, and no Sets/P(X) self-duality determination anywhere. Considered whether op_invol ((C^op)^op = C) or a general groupoid-self-duality could be a fragment — neither is: op_invol is the double-opposite involution (unrelated), and none of Rel/Sets/P(X) is a groupoid. No in-tree fragment of any of the three iso-determinations, so PARTIAL is not warranted. negative_search_log is accurate."
+    }
+  },
+  {
+    "id": "awodey:1:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "isomorphisms in Sets are exactly bijections",
+      "isomorphisms in Mon(oids) are exactly bijective homomorphisms",
+      "in Pos isomorphisms are NOT the bijective monotone maps (counterexample)",
+      "bijective_is_iso / iso <-> bijection",
+      "order-isomorphism vs bijective monotone"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 400,
+        "symbol": "bijective_is_iso",
+        "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h. (fully proved — assembles the two-sided inverse from the chosen preimage)"
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 369,
+        "symbol": "injectivity_is_monic",
+        "intree_statement": "Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) : (forall x y : X, f x ≈ f y -> x ≈ y) <-> Monic f. (supporting infrastructure: monos in Sets are exactly injections)"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |} (the category of internal monoids; NO iso-vs-bijective-homomorphism characterization is stated)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3: (a) in Sets the isomorphisms are exactly the bijections; (b) in Monoids (Mon) the isomorphisms are exactly the bijective homomorphisms; (c) in Posets (Pos) the isomorphisms are NOT the same as the bijective monotone homomorphisms (exhibit a bijective monotone map that is not an order-isomorphism).",
+      "intree": "Only one direction of part (a) is in-tree: bijective_is_iso proves (injective /\\ surjective) => IsIsomorphism in Sets (with surjective = split-surjective up to ≈). Supporting: injectivity_is_monic (injective <-> Monic). The category Mon of monoids exists (Theory/Algebra/Monoid/Hom.v) but with no iso characterization; there is no Pos category of posets and monotone maps, and no bijective-monotone-not-iso counterexample.",
+      "strength_comparison": "intree-weaker: only the (bijection => iso) direction of part (a) is proven. The converse (iso => bijection) in Sets is not stated as such (iso => monic => injective is derivable via injectivity_is_monic, but iso => surjective is not: surjectivity_is_epic's epic=>surjective direction is deliberately abandoned, and no bundled 'iso <-> bijection' lemma exists). Part (b) is absent (Mon exists but no characterization). Part (c) is absent (no Pos category, no counterexample distinguishing order-iso from bijective monotone)."
+    },
+    "gap": "Missing: (i) the converse direction of (a), i.e. a proven 'isomorphism in Sets => injective and surjective' assembling to a full iso<->bijection characterization; (ii) all of part (b) — that isomorphisms in Mon are exactly the bijective monoid homomorphisms (the category Mon is defined, but no such theorem); (iii) all of part (c) — there is no in-tree Pos (category of posets and monotone maps) and no counterexample of a bijective monotone map that fails to be an order-isomorphism. Only 'bijection => iso in Sets' (bijective_is_iso) is present.",
+    "negative_search_log": [
+      "grep -rIn 'iso.*inject|iso.*surject|Iso.*biject|iso_is|is_injective|iso_impl' Instance/Sets.v Instance/Sets/ Theory/Isomorphism.v — no lemma giving iso => bijective; only bijective_is_iso (the forward direction) and injectivity_is_monic.",
+      "grep -rIn 'category of posets|Definition Pos|Program Definition Pos|Pos :=|monotone.*iso|bijective.*monotone' --include=*.v . — 0 relevant hits; no Pos category and no monotone-iso counterexample.",
+      "grep -rInl 'Cat.*Pos|Pos.*Category|posets and monotone' --include=*.v . — hits are Test/Poset.v and PROP/Braided coherence, not a category of posets."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PARTIAL before opening coverage. Verified every cited location: bijective_is_iso at Sets.v:400 states injective h -> surjective h -> IsIsomorphism h (forward direction only) — quote exact; injectivity_is_monic at Sets.v:369 states the (forall x y, f x ≈ f y -> x ≈ y) <-> Monic f — quote exact; Mon at Theory/Algebra/Monoid/Hom.v:83 is the internal-monoid category, quote exact, with no iso characterization. Independently confirmed the reverse iso=>surjective is genuinely unavailable: Sets.v:412-428 discloses surjectivity_is_epic's epic=>surjective direction is abandoned and 'does NOT enter the environment'. Independently confirmed there is NO category Pos whose objects are posets and morphisms monotone maps — the only 'Poset' constructs are single posets as thin categories (Instance/Poset.v parameterized; Test/Poset.v Poset_nat/Poset_two), so part (c) has no in-tree home. The lone genuine fragment (bijective_is_iso = one direction of part a) justifies PARTIAL over ABSENT; gap is honestly and precisely stated."
+    }
+  },
+  {
+    "id": "awodey:1:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coslice / under category C\\C",
+      "coslice as (C^op / C)^op — build under-category from over-category via opposite",
+      "slice / over category C/C",
+      "opposite (dual) category (-)^op",
+      "comma-category duality (S ↓ T)^op ≅ (T^op ↓ S^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := exists a : C, c ~> a; hom := fun x y => exists f : (`1 x) ~> (`1 y), `2 y ≈ f o `2 x; ... |} (the coslice is DEFINED DIRECTLY, not as (C^op/C)^op)"
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := {...} (coslice ≅ the comma (=(c) ↓ Id[C]); relates coslice to a comma, but NOT to the opposite of the slice on C^op)"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 254,
+        "symbol": "Cocomma",
+        "intree_statement": "Definition Cocomma {A B C} {S : A ⟶ C} {T : B ⟶ C} := @Comma (B^op) (A^op) (C^op) (T^op) (S^op). Comment lines 248-253: 'the comma of opposite functors is the opposite of the comma, this is (S ↓ T)^op up to isomorphism' — asserted in prose, the isomorphism is NOT proven."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4: Construct the coslice category C\\C under an object C using the slice construction C/C together with the opposite operation (-)^op — i.e. exhibit C\\C as (roughly) (C^op / C)^op.",
+      "intree": "The coslice category Coslice is constructed directly (Construction/Slice.v:169), the opposite (-)^op is available (Construction/Opposite.v, op_invol : (C^op)^op = C), and Cocomma := @Comma over opposite categories is defined (Construction/Comma.v:254). But the specific isomorphism the exercise asks to establish — Coslice C c ≅ (Slice (C^op) c)^op — is not proven; Coslice is instead tied to the comma (=(c) ↓ Id) via Comma_Coslice, and the general (S ↓ T)^op ≅ Cocomma identification is left as an unproven comment.",
+      "strength_comparison": "intree-weaker: the building blocks (coslice, slice, opposite, op-comma) are all present, but the exercise's actual deliverable — verifying that the coslice IS the opposite of the slice taken over the opposite category — is not carried out. The coslice is defined independently rather than derived from the slice by dualizing, and no lemma connects Coslice to (Slice C^op c)^op."
+    },
+    "gap": "The explicit op-derivation the exercise asks for is not established in-tree: there is no proven isomorphism Coslice C c ≅ (Slice (C^op) c)^op (nor the general (S ↓ T)^op ≅ (T^op ↓ S^op)). Cocomma := @Comma (B^op)(A^op)(C^op)(T^op)(S^op) is DEFINED but its stated identification with (S ↓ T)^op is only an in-comment remark, not a lemma; Coslice is built directly and related instead to the comma (=(c) ↓ Id). So the constituent pieces exist but the coslice-from-slice-via-op construction is not verified.",
+    "negative_search_log": [
+      "grep -rIn 'Coslice.*Slice|Slice.*op|Cocomma.*≅|≅.*Cocomma|Comma.*≅.*op|coslice.*op' --include=*.v . — no lemma proving coslice ≅ (slice on C^op)^op or Cocomma ≅ (Comma)^op.",
+      "grep -rIn 'Coslice|coslice' Construction/ — only Construction/Slice.v (direct definition + Comma_Coslice to (=(c) ↓ Id)) and the Comma.v prose header; no op-of-slice derivation.",
+      "Construction/Slice/Pullback.v inspected via file listing — concerns Bang_Functor/Star_Functor (base change), not the coslice-op identity."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT/PARTIAL; on inspection the classifier's PARTIAL is the more accurate call and I confirm it. Verified each citation: Coslice defined directly at Slice.v:169 (quote accurate); Comma_Coslice at Slice.v:181 proves c ̸co C ≅[Cat] (=(c) ↓ Id) — i.e. coslice tied to a comma, NOT to (Slice C^op c)^op; Cocomma at Comma.v:254 is literally @Comma (B^op)(A^op)(C^op)(T^op)(S^op), and I confirmed the comment lines 248-253 assert '(S ↓ T)^op up to isomorphism' without a proof. My own grep and the classifier's both return zero for any proven Coslice≅(Slice C^op c)^op or Cocomma≅Comma^op. All building blocks (coslice, slice, opposite, op-comma) genuinely exist and Cocomma is the op-comma itself, so 'some of the item exists' holds — PARTIAL over ABSENT is defensible, with the single unproven identification stated precisely as the gap."
+    }
+  },
+  {
+    "id": "awodey:1:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "how many free categories on graphs have exactly six arrows",
+      "count / enumerate generating graphs by number of arrows",
+      "cardinality of the free category (path count) on a quiver",
+      "finite free categories with a fixed number of morphisms",
+      "combinatorial enumeration of small quivers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn 'six arrows|number of arrows|count.*arrow|how many|enumerate.*categor|exactly.*arrows' --include=*.v . — 0 relevant hits (only unrelated 'exactly the arrows' prose in Metacategory files).",
+      "grep -rIn 'cardinal|finite.*free|free.*finite' Construction/ — only prose in Construction/Free.v / ColouredPROP.v about finite representation type and free monoids; no theorem counting arrows of a free category.",
+      "The free-category-on-a-quiver machinery IS present (Construction/Free/Quiver.v: FreeOnQuiver, paths as tlist edges), so the objects of the exercise are formalizable, but the specific enumeration deliverable — the NUMBER of graphs whose free category has exactly six arrows, and drawing those graphs — has no in-tree counterpart. This is a pencil-and-paper finite-combinatorics count, not a stated or proven library result."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on ABSENT before opening coverage. Reproduced the negative search: no 'six arrows'/count/enumerate result over graphs or free categories anywhere (Metacategory 'enumerated' hits are hand-built specific small categories, not a count of free-category-6-arrow graphs; FinSet/Pushout 'enumeration' is span-edge codecs). FreeOnQuiver exists so the notions ARE formalizable in principle, which is exactly why ABSENT (not OUT_OF_SCOPE) is correct — the classifier rightly avoided OUT_OF_SCOPE. The specific counting-and-drawing deliverable has no in-tree counterpart."
+    }
+  },
+  {
+    "id": "awodey:1:ex6",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal mapping property (UMP) of the free category on a graph",
+      "free category C(G) on a graph/quiver, universal property",
+      "free-forgetful adjunction Free ⊣ U : Cat -> Graphs/Quiv",
+      "universal arrow from a graph to the underlying-graph functor",
+      "unique functor extension along i : G -> U(C(G))"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful. (built via universal_arrow_from_UMP with apex FreeOnQuiver, unit UnitQuiverCatAdjunction, mediating functor InducedFunctor F, and the uniqueness proof over all quiver homs F : G -> U(C))"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 507,
+        "symbol": "UnitQuiverCatAdjunction",
+        "intree_statement": "Definition UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat (FreeOnQuiver)). (the unit i : G -> U(C(G)), a graph homomorphism sending each edge to a length-1 path via tlist_singleton)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C. (the unique functor h-bar : C(G) -> C extending a graph hom F, mapping a path to the composite of its F-images)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ . (packages the UMP as the free-forgetful adjunction Free ⊣ Forgetful : StrictCat -> QuiverCategory)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 6: Prove the universal mapping property of the free category on a graph G: for the free category C(G) with the insertion i : G -> U(C(G)), given any category D and graph homomorphism f : G -> U(D), there exists a UNIQUE functor h-bar : C(G) -> D with U(h-bar) o i = f.",
+      "intree": "UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful — established via universal_arrow_from_UMP with apex FreeOnQuiver (nodes as objects, tlist edges as path-morphisms), unit UnitQuiverCatAdjunction (i : G -> U(C(G))), for every category C and quiver hom F : G -> U(C) the mediating InducedFunctor F with the factorization U(h-bar) o i = F (proved by rewrite id_left), and the uniqueness clause. Packaged as FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful.",
+      "strength_comparison": "same (arguably intree-stronger): Awodey's 'graph' is realized as a Quiver (directed multigraph with per-hom setoids of edges — parallel edges/loops allowed), the underlying-graph functor U : Cat -> Graphs is Forgetful : StrictCat -> QuiverCategory, and the UMP is proven with both existence AND uniqueness of the extending functor, then upgraded to the full adjunction Free ⊣ Forgetful. It lives over StrictCat rather than weak Cat (a category's underlying quiver is not iso-invariant, per the header/Test/Issue138.v), matching Awodey's set-level treatment of Cat at this stage."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on PRESENT before opening coverage. Read Construction/Free/Quiver.v in full and verified every citation at the exact lines: UniversalArrowQuiverCat (518) is built via universal_arrow_from_UMP with apex FreeOnQuiver, unit UnitQuiverCatAdjunction (507), and for every arbitrary category C and quiver hom F (intros C F, line 522) the mediating InducedFunctor F (464); the factorization U(h-bar)∘i=F is discharged at line 524 (exists (fun z => eq_refl); now rewrite id_left) and uniqueness by the induction at lines 525-543; FreeForgetfulAdjunction (550) = AdjunctionFromUniversalArrows packaging Free ⊣ Forgetful. Every proof ends Defined/Qed — no Admitted in the file. Forgetful : StrictCat ⟶ QuiverCategory confirmed (line 412). Registered in _CoqProject:72. This realizes Awodey's UMP exactly (existence + uniqueness of the extending functor along i : G → U(C(G))), and is arguably stronger (full adjunction). Quotes and line numbers accurate."
+    }
+  }
+]

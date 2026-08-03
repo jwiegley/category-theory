@@ -1,0 +1,419 @@
+[
+  {
+    "id": "riehl:4.4:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "mutually left adjoint / mutually right adjoint contravariant functors",
+      "contravariant adjunction / dual adjunction / adjunction on the right",
+      "self-adjoint-on-the-right functor (F : C^op ⟶ D with D(d,Fc) ≅ C(c,Gd))",
+      "Opposite_Adjunction / U^op ⊣ F^op (the both-sides dualization)",
+      "Galois connection (antitone), polarity",
+      "Adjunction (C^op) D — an ordinary in-tree Adjunction with one side opposed"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 34,
+        "symbol": "Opposite_Adjunction",
+        "intree_statement": "Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op := {| adj := fun x y => {| to := from (@adj _ _ _ _ A y x); from := to (@adj _ _ _ _ A y x); ... |}; to_adj_nat_l := fun _ _ _ f g => @from_adj_nat_r _ _ _ _ A _ _ _ g f; ... |}"
+      },
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 60,
+        "symbol": "Opposite_Adjunction_invol",
+        "intree_statement": "Corollary Opposite_Adjunction_invol `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : (A^op)^op = A. Proof. reflexivity. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 4.1.1 admits three dualizations. Opposing BOTH categories gives nothing new: G : D^op ⟶ C^op is left adjoint to F : C^op ⟶ D^op iff F ⊣ G, so every left-adjoint theorem dualizes to a right-adjoint one. Opposing one side gives two genuinely new notions: F : C^op ⟶ D and G : D^op ⟶ C are MUTUALLY LEFT ADJOINT when D(Fc,d) ≅ C(Gd,c) naturally, and MUTUALLY RIGHT ADJOINT when D(d,Fc) ≅ C(c,Gd) naturally; the first comes with a pair of 'counits' GF ⇒ id_C, FG ⇒ id_D, the second with a pair of 'units' id_C ⇒ GF, id_D ⇒ FG (triangle identities in Exercise 4.4.i).",
+      "intree": "Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op — with (A^op)^op = A by reflexivity (Opposite_Adjunction_invol).",
+      "strength_comparison": "intree-weaker: only the THIRD dualization (both categories opposed) is formalized, and it is exactly the clause Riehl says yields nothing new. Neither of the two notions the definition actually introduces — mutually left adjoint (D(Fc,d) ≅ C(Gd,c)) and mutually right adjoint (D(d,Fc) ≅ C(c,Gd)) between contravariant functors — has any in-tree counterpart, nor do the associated paired units/counits."
+    },
+    "gap": "The definition itself is absent. The library has no class, definition, or instance for a pair of contravariant functors F : C^op ⟶ D, G : D^op ⟶ C carrying a natural iso D(Fc,d) ≅ C(Gd,c) (mutually left adjoint) or D(d,Fc) ≅ C(c,Gd) (mutually right adjoint), and none of the paired natural transformations (two counits GF ⇒ id_C, FG ⇒ id_D in the left case; two units id_C ⇒ GF, id_D ⇒ FG in the right case). Both notions ARE expressible with existing machinery — mutual left adjointness of (F,G) is the ordinary in-tree adjunction F ⊣ G^op between C^op and D, mutual right adjointness is F^op ⊣ G between C and D^op — but no in-tree statement records that translation, so nothing asserts the definition or its symmetry. The only in-tree assertion bearing on the item is the both-sides dualization Opposite_Adjunction, which is the degenerate case.",
+    "negative_search_log": [
+      "rg -ci --glob='*.v' 'mutually left adjoint' — 0 hits",
+      "rg -ci --glob='*.v' 'mutually right adjoint' — 0 hits",
+      "rg -ci --glob='*.v' 'mutual adjoint' — 0 hits",
+      "rg -ci --glob='*.v' 'contravariant adjunction' — 0 hits",
+      "rg -ci --glob='*.v' 'dual adjunction' — 0 hits",
+      "rg -n --glob='*.v' 'self-adjoint' — 2 hits, both prose comments about Id ⊣ Id (Adjunction/Compose.v:29, Instance/Adjoints.v:17)",
+      "rg -n --glob='*.v' -i 'contravariant' -l — 30 files, all about contravariant functors/presheaves, none about contravariant adjunctions; read Functor/Opposite.v, Structure/Monoidal/StarAutonomous.v (dual : C^op ⟶ C, star_transpose) — the dual functor is built but never asserted mutually right adjoint to itself",
+      "rg -n --glob='*.v' 'RightAdjointFunctor|AdjunctionFrom|Adjunction_from' — all hits are the covariant universal-arrow route (Theory/Universal/Arrow.v, Adjunction/Natural/Transformation/Universal.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, but this is the closest call in the batch and my own blind pass reached ABSENT before I opened the coverage file. Negatives independently reproduced: rg -in 'mutually (left|right) adjoint|mutual adjoint|contravariant adjunction|dual adjunction' over *.v = 0 hits; 'self-adjoint' = 2 prose hits only (Adjunction/Compose.v:29, Instance/Adjoints.v:17); no class or lemma anywhere for a pair of contravariant functors with D(Fc,d) or D(d,Fc) transposition. Evidence re-verified verbatim and exact: Adjunction/Opposite.v:34 'Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op', and :60 'Corollary Opposite_Adjunction_invol ... (A^op)^op = A. Proof. reflexivity. Qed.'; file registered at _CoqProject. Two caveats the issue drafter must carry. (1) The cited evidence is EXACTLY the dualization Riehl says yields nothing new, so the record's own gap sentence 'The definition itself is absent' is the operative fact; PARTIAL rests only on ingredient availability, matching the campaign precedent maclane:IV.5:def1 (Galois connections, PARTIAL on the same 'instantiable but never named' ground). (2) The record buries its strongest nearest relative in the gap prose instead of in evidence: mutual left adjointness of F : C^op ⟶ D, G : D^op ⟶ C is LITERALLY the in-tree '@Adjunction (C^op) D F (G^op)' — its field adj {x y} : (F x ~{D}~> y) ≊ (x ~{C^op}~> G^op y) unfolds on the nose to D(Fc,d) ≊ C(Gd,c) with zero new code — and Riehl's paired 'counits' GF ⇒ id_C / FG ⇒ id_D are the unit and counit of that same adjunction read through op (Adjunction/Natural/Transformation.v). It is not PRESENT only because no file ever writes that one-liner, unlike the analogous Comonad := @Monad (C^op) (M^op) which the library does write."
+    }
+  },
+  {
+    "id": "riehl:4.4:def-antitone-galois",
+    "classification": "ABSENT",
+    "aliases": [
+      "antitone Galois connection",
+      "order-reversing / inclusion-reversing Galois connection, polarity",
+      "contravariant adjunction between preorders / posets (Proset, Poset)",
+      "dual adjunction of posets, Galois correspondence",
+      "mutual right adjoints between thin categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob='*.v' 'antitone' — 2 hits, both inside prose comments (Theory/Adjunction.v:79 'whose antitone variant recovers classical Galois theory'; Instance/Poset.v:59 'the abstract notion, in its antitone form, is due to Ore (1944)'). No assertion.",
+      "rg -n -i --glob='*.v' 'galois' — 16 hits across Theory/Adjunction.v, Instance/Poset.v, Instance/Adjoints.v, Structure/Limit.v, Structure/Factorization.v, Adjunction/GAFT.v; every one is a comment/background-essay line, none is a Definition/Lemma/Class",
+      "rg -ci --glob='*.v' 'order-reversing' — 0 hits; 'inclusion-reversing' — 1 hit, a prose line in Instance/Poset.v:57 about the Galois-theory etymology",
+      "rg -ci --glob='*.v' 'polarity' — 0 hits; 'polarities' — 1 hit, prose in Instance/Poset.v:61",
+      "rg -n '^(Definition|Lemma|Theorem|Program|Class|Instance|Record|Corollary|Proposition)' Instance/Poset.v Instance/Proset.v — the only assertions in the two order files are the category constructions Proset, Poset and the example LessThanEqualTo_Category; nothing about adjunctions between them, monotone or antitone",
+      "rg -ci --glob='*.v' 'dual adjunction' / 'mutually right adjoint' — 0 hits (see riehl:4.4:def1)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; my blind pass reached ABSENT independently. Re-ran the load-bearing greps: rg -in 'antitone' over the whole tree returns exactly 2 in-library hits, both prose (Theory/Adjunction.v:79 'whose antitone variant recovers classical Galois theory'; Instance/Poset.v:59 'in its antitone form, is due to Ore (1944)'); rg -in 'galois' returns only background-essay lines (Theory/Adjunction.v:78, Instance/Poset.v:37/38/47/56/58/63/92/95/97, Instance/Adjoints.v:280, Structure/Limit.v:53, Structure/Factorization.v:69, Adjunction/GAFT.v:136) — not one is a Definition/Class/Lemma. One trivial log inaccuracy, verdict unaffected: the enumeration of assertions in Instance/Poset.v / Instance/Proset.v omits Instance/Poset.v:111 'Lemma eq_equiv'; the actual top-level assertions are Proset.v:33 Proset, Proset.v:47 LessThanEqualTo_Category, Poset.v:111 eq_equiv, Poset.v:116 Poset, Poset.v:120 LessThanEqualTo_Category — none of which mentions an adjunction, monotone or antitone. Not OUT_OF_SCOPE: preorders as thin categories exist (Instance/Proset.v) and the notion is entirely formalizable here; it is simply unbuilt."
+    }
+  },
+  {
+    "id": "riehl:4.4:example2",
+    "classification": "ABSENT",
+    "aliases": [
+      "V/I Galois connection, zero set / vanishing ideal",
+      "Hilbert's Nullstellensatz, radical ideal",
+      "Zariski closed subset, Spec k[x1..xn], affine variety",
+      "power-set poset P(S) ordered by inclusion (Proset on Ensemble ⊆)",
+      "fixed points of a Galois connection / closure operator"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ci --glob='*.v' 'Nullstellensatz' — 0 hits",
+      "rg -ci --glob='*.v' 'radical' — 0 hits; 'ideal' — 2 hits, both prose (Construction/Groupoid.v:40 'ideal arithmetic', Instance/Sets.v:47 'ideal existence')",
+      "rg -ci --glob='*.v' 'Zariski' — 1 hit, a prose aside in Theory/Sheaf.v:76 about the Zariski topology being too coarse; no construction",
+      "rg -ci --glob='*.v' 'algebraically closed' — 0 hits; 'common zero' — 0 hits; 'variety' — 4 hits, all 'variety of algebras' (Lawvere/monad prose), unrelated to algebraic varieties",
+      "rg -ci --glob='*.v' 'polynomial' — 4 files, none building a polynomial ring; there is no Ring, Field, or k[x] anywhere in the tree (ls Instance/ shows no algebra instances beyond CMon)",
+      "rg -n -i --glob='*.v' 'power set|subsets' — Instance/Ens.v builds EnsT T with hom = membership-preserving endofunctions, NOT the inclusion poset; Structure/Topos.v's Pow a := Ω^a is the power object of a topos, carrying no V/I pair",
+      "riehl:4.4:def1 / riehl:4.4:def-antitone-galois searches show the ambient notion (mutual right adjoints / antitone Galois connection) is itself absent, so neither the connection nor its fixed-point analysis can be present"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached ABSENT independently. Reproduced: 'nullstellensatz' 0 hits; 'zariski' 1 hit, the prose aside at Theory/Sheaf.v:76; 'radical ideal' / 'algebraically closed' / 'common zero' 0 hits; no Ring, Field, polynomial ring or ideal anywhere — confirmed by enumerating Instance/ (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX), whose only algebraic instance is CMon. Also independently checked the two hosts the classifier ruled out: Instance/Ens.v's EnsT is not the inclusion poset of subsets, and Structure/Topos.v's Pow a := Ω^a carries no V/I pair. Nothing in-tree could state 'T ⊆ V(S) iff S ⊆ I(T)', let alone its fixed points."
+    }
+  },
+  {
+    "id": "riehl:4.4:example3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Galois connection between syntax and semantics",
+      "Th/Mod adjunction, models of a set of axioms, theory of a class of structures",
+      "satisfaction relation M ⊨ A, first-order signature, sigma-structure",
+      "P(Axiom_sigma) / P(Struct_sigma) power-set posets",
+      "Lawvere theory models (Theory/Lawvere/Model.v), algebraic signature (Instance/Comp.v)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ci --glob='*.v' 'satisfaction' — 0 hits; 'model theory' — 0 hits",
+      "rg -n -i --glob='*.v' 'syntax.*semantics|semantics.*syntax|set of axioms|axioms satisfied|Th\\(' — 1 hit only, Structure/Initial.v:72 prose about initial algebras as abstract syntax; no satisfaction relation and no Th/Mod pair",
+      "rg -n -i --glob='*.v' 'first-order' — 11 hits, all prose (Structure/Topos.v, Instance/Cat.v, Theory/Metacategory.v on the first-order theory of categories); Theory/Metacategory.v axiomatizes categories, it does not build a general first-order signature/structure/satisfaction apparatus",
+      "rg -n '^(Definition|Lemma|Theorem|Program|Class|Instance|Record|Corollary|Proposition)' Theory/Lawvere/Model.v — Model, Models, Model_pack/unpack and the fullness lemma: models of a Lawvere theory in a category, with no poset of axiom-sets, no poset of structures, and no adjoint pair between them",
+      "Instance/Comp.v's OpSignature/Algs gives algebras for an operation signature but asserts no Galois connection between equation sets and algebra classes",
+      "the ambient notion (mutually right adjoint contravariant functors, riehl:4.4:def1) is absent, and there is no in-tree inclusion-ordered power-set category to host the connection (see riehl:4.4:example2 log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached ABSENT independently. Reproduced: 'satisfaction'/'model theory' 0 hits; 'first-order' hits are all prose (Structure/Topos.v, Instance/Cat.v, Theory/Metacategory.v), and Theory/Metacategory.v axiomatizes categories rather than building signatures/structures/satisfaction. Independently checked the two candidate hosts: Theory/Lawvere/Model.v's Model/Models is 'product-preserving functor out of a Lawvere theory', with no poset of axiom-sets, no poset of structures and no adjoint pair between them; Instance/Comp.v's OpSignature/Algs gives algebras for an operation signature but asserts no Galois connection between equation sets and algebra classes. No |= relation exists in the tree. Formalizable in principle, hence ABSENT rather than OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "riehl:4.4:prop4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pointwise representability criterion for an adjoint",
+      "universal arrow / universal morphism ⇒ adjunction (AdjunctionFromUniversalArrows)",
+      "representable functor B(F-,b) ⇒ right adjoint G",
+      "extend an object assignment to a functor by Yoneda / uniqueness of the morphism action",
+      "initial object of the comma category =(c) ↓ U; terminal object of F ↓ b (dual)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 214,
+        "symbol": "AdjunctionFromUniversalArrows",
+        "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 185,
+        "symbol": "LeftAdjointFunctorFromUniversalArrows",
+        "intree_statement": "Definition LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Functor C D. — fobj := fun c => arrow_obj _ _ (H c); fmap := fun x y f => unique_obj (ump_universal_arrows (H x) (arrow _ _ (H y) ∘ f)); [with ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow, Theory/Universal/Arrow.v:139]"
+      },
+      {
+        "file": "Structure/UniversalProperty/Universal/Arrow.v",
+        "line": 61,
+        "symbol": "UniversalArrowIsUniversalProperty",
+        "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.  Proof. exists ((Curried_Hom C c) ◯ U). ... — i.e. universal arrows from c to U are exactly representations of d ↦ Hom_C(c, U d) by natural isos [Hom a,─] ≅ Hom_C(c, U ─)."
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 4.4.4: let F : A ⟶ B be a functor such that for each b ∈ B there is an object Gb ∈ A and an isomorphism B(Fa,b) ≅ A(a,Gb) natural in a. Then there is a UNIQUE extension of the object assignment G to a functor G : B ⟶ A making the isomorphisms natural in b as well; consequently, if each B(F−,b) : A^op ⟶ Set is representable, the data assembles into an adjunction F ⊣ G. A dual criterion characterizes functors admitting a left adjoint. Proof by Yoneda applied to A(−,Gb) ⇒ A(−,Gb').",
+      "intree": "AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : Adjunction (LeftAdjointFunctorFromUniversalArrows H) U, where LeftAdjointFunctorFromUniversalArrows builds the functor with fmap the unique factorization delivered by ump_universal_arrows (∃! g, h ≈ fmap[U] g ∘ arrow), and UniversalArrowIsUniversalProperty identifies a universal arrow with a representation of d ↦ Hom_C(c, U d).",
+      "strength_comparison": "intree-weaker: only ONE of the two orientations is stated, and it is the one Riehl relegates to the closing sentence ('a dual representability criterion characterizes functors admitting a LEFT adjoint'). In-tree the given functor is the RIGHT adjoint U and the constructed one the left adjoint F; Riehl's headline direction (F given, right adjoint G constructed from representations of B(F−,b)) has no in-tree statement. Uniqueness is also weaker in form: in-tree it is the pointwise ∃! of ump_universal_arrows on each mediating morphism, not a theorem that the functor structure extending the object assignment is unique."
+    },
+    "gap": "Two things are missing. (1) The primary orientation: there is no in-tree construction of a RIGHT adjoint from a family of representations of B(F−,b) : A^op ⟶ Set (equivalently, from terminal objects of the comma categories F ↓ b / couniversal arrows). rg finds no 'couniversal', no RightAdjointFunctor*, and Theory/Universal/Arrow.v's UniversalArrow is exclusively the initial-object-in-=(c) ↓ F form; the dual is obtainable by transporting through Adjunction/Opposite.v's Opposite_Adjunction, but no file does so. (2) The uniqueness clause is not stated as such: nothing asserts that the functor extension of a given object assignment making the isomorphisms natural in the second variable is unique (Riehl's Yoneda argument, and his footnote 8 that G is the unique restriction of B → Set^{A^op} along the fully faithful Yoneda embedding). The pointwise ∃! inside ump_universal_arrows is the raw material for that claim but does not state it.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL; blind pass reached the same call on the same evidence. All three citations verified exact and in place: Theory/Universal/Arrow.v:214 AdjunctionFromUniversalArrows, :185 LeftAdjointFunctorFromUniversalArrows (fmap := unique_obj (ump_universal_arrows (H x) (arrow _ _ (H y) ∘ f))), :139 ump_universal_arrows (∃! g, h ≈ fmap[F] g ∘ arrow); Structure/UniversalProperty/Universal/Arrow.v:61 'Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.' with 'exists ((Curried_Hom C c) ◯ U)' as the first proof line. Both files are in _CoqProject. Verified the primary gap myself and it holds: rg 'couniversal|co-universal|RightAdjointFunctorFrom' = 0 hits; UniversalArrow is exclusively the initial-object-in-=(c)↓F form; Theory/Universal/Arrow.v:23 mentions the dual (terminal object of F ↓ =(c)) in prose only and never constructs it, so Riehl's headline orientation is genuinely unbuilt. Verified the uniqueness gap: the only in-tree uniqueness about adjoints is Theory/Adjunction.v:364 right_adjoint_iso / :404 left_adjoint_iso (two adjoints of the same functor are naturally isomorphic), which is uniqueness-up-to-iso of the whole functor, NOT Riehl's stronger claim that a GIVEN object assignment extends to a functor in exactly one way. The record's characterization of the gap is accurate. Checked one candidate the record does not mention and confirmed it is not evidence: Construction/Comma/Adjunction.v (Lawvere's comma characterization, lawvere_morph_iso at :659) takes BOTH F and G as input and produces the hom-set bijection from a comma iso; it constructs no adjoint from representability data."
+    }
+  },
+  {
+    "id": "riehl:4.4:prop6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pointwise/parametrized adjoints of a bifunctor assemble into a bifunctor",
+      "internal hom bifunctor from exponentials (InternalHomFunctor)",
+      "partial application of a bifunctor (Curry, PartialApply_*)",
+      "naturality in all three variables of the tensor-hom transposition",
+      "two-variable adjunction assembly; mutual right adjoints G(-,c), H(-,c)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 4.4.6, for F : A × B ⟶ C. (i) If each F(a,−) : B ⟶ C has a right adjoint G_a, there is a UNIQUE bifunctor G : A^op × C ⟶ B with G(a,−) = G_a such that C(F(a,b),c) ≅ B(b,G(a,c)) is natural in all THREE variables. (ii) dually for F(−,b) with right adjoints H_b, giving H : B^op × C ⟶ A and C(F(a,b),c) ≅ A(a,H(b,c)) natural in all three. (iii) When both hold, G(−,c) : A^op ⟶ B and H(−,c) : B^op ⟶ A are mutually right adjoint.",
+      "intree": "InternalHomFunctor : C^op ∏ C ⟶ C on a cartesian closed C, with fobj (a,b) = b^a the pointwise right adjoint of − × a and fmap (f,g) = curry (g ∘ eval ∘ second f); the functor laws are discharged from ump_exponents/curry_comp_l.",
+      "strength_comparison": "intree-weaker: this is a single INSTANCE of the conclusion of clause (i)/(ii) — the object assignment a ↦ exponent_obj a b, which the Closed class supplies as a pointwise right adjoint of the product bifunctor, is shown to extend to a bifunctor. The general proposition (arbitrary F : A × B ⟶ C over three distinct categories), the uniqueness of the bifunctor extension, the three-variable naturality of the transposition, and clause (iii) are all unstated."
+    },
+    "gap": "The general proposition is not in the tree. Missing: (a) any statement over an arbitrary bifunctor F : A ∏ B ⟶ C with pointwise right adjoints — the only realization is the cartesian-closed product bifunctor via InternalHomFunctor (and there is no analogue even for the monoidal case: neither Structure/Monoidal/Closed.v's ClosedMonoidal nor Structure/Monoidal/StarAutonomous.v's SymMonClosed derives an internal-hom bifunctor C^op ∏ C ⟶ C from its exp_iso); (b) uniqueness of the bifunctor extension; (c) the naturality of C(F(a,b),c) ≅ B(b,G(a,c)) in all three variables — in-tree exp_iso is a per-triple hom-setoid iso with naturality only recovered lemma-by-lemma (curry_comp_l, curry_comp, uncurry_comp), never packaged as a natural isomorphism of trifunctors; (d) clause (iii) entirely, since mutual right adjointness itself is absent (riehl:4.4:def1).",
+    "negative_search_log": [
+      "rg -n -i --glob='*.v' 'parametri[sz]ed|pointwise adjoint|pointwise right adjoint|pointwise left adjoint' — 1 unrelated hit (Theory/DoubleCategory.v:96, 'parametrized spectra')",
+      "rg -n --glob='*.v' 'natural in all three|natural in three|three variables|all three variables' — 1 hit, Structure/Premonoidal.v:310, about a different naturality condition",
+      "rg -n --glob='*.v' -i 'two-variable|two variable' — only Functor/Bifunctor.v:9 ('functors of two variables') and Instance/Lambda/Sub.v; no adjunction content"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL, with a cross-book flag. Evidence verified exact: Functor/Hom/Internal.v:40 'Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C' with fmap = curry (g ∘ eval ∘ second (op f)); registered in _CoqProject. Negatives reproduced: 'parametri[sz]ed' yields only Theory/DoubleCategory.v:96 'parametrized spectra'; 'natural in all three variables' yields only Structure/Premonoidal.v:310; no assembly theorem over an arbitrary bifunctor exists. I additionally confirmed sub-claim (a): neither ClosedMonoidal (Structure/Monoidal/Closed.v:46) nor SymMonClosed (Structure/Monoidal/StarAutonomous.v:109) derives an internal-hom bifunctor from its exp_iso — only the cartesian case does, in Functor/Hom/Internal.v. And sub-claim (c): Class Closed carries no naturality field; naturality in the first and third variables is only derivable from Structure/Cartesian/Closed.v:165 curry_comp_l and :185 uncurry_comp_r, and naturality in the exponent variable is nowhere stated. FLAG (not an overturn): this is the same theorem as maclane:IV.7:thm3 ('adjunctions with a parameter'), which the MacLane Phase-D pass classified ABSENT after explicitly considering and REJECTING this very PARTIAL reading — doc/plan/books/maclane/coverage/verified-IV-6.json records 'InternalHomFunctor ... builds the internal-hom bifunctor by hand ... a nearest relative, not partial coverage'. I leave PARTIAL standing because a special case of the conclusion does exist and the gap here is stated more precisely, but the ledger will carry two different labels for one theorem; riehl:4.4:prop6 should be routed onto the existing maclane:IV.7:thm3 issue rather than filed fresh."
+    }
+  },
+  {
+    "id": "riehl:4.4:def7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "two-variable adjunction",
+      "tensor-hom adjunction / adjunction of two variables",
+      "ClosedMonoidal, SymMonClosed, Closed (exp_iso)",
+      "triple of bifunctors F : A×B→C, G : A^op×C→B, H : B^op×C→A",
+      "internal hom / exponential bifunctor with C(F(a,b),c) ≅ B(b,G(a,c)) ≅ A(a,H(b,c))"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 109,
+        "symbol": "SymMonClosed",
+        "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj where \"x ⇒ y\" := (exponent_obj x y); exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; ... ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }."
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}."
+      },
+      {
+        "file": "Structure/Monoidal/Closed.v",
+        "line": 46,
+        "symbol": "ClosedMonoidal",
+        "intree_statement": "Class ClosedMonoidal := { closed_is_cartesian : @CartesianMonoidal C; exponent_obj : obj → obj → obj; exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; ... ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 4.4.7: a two-variable adjunction is a triple of bifunctors F : A × B ⟶ C, G : A^op × C ⟶ B, H : B^op × C ⟶ A together with a natural isomorphism C(F(a,b),c) ≅ B(b,G(a,c)) ≅ A(a,H(b,c)).",
+      "intree": "SymMonClosed / ClosedMonoidal / Cartesian.Closed all package a SINGLE transposition exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z (respectively x × y ~> z ≊ x ~> z^y) on one category C with an endo-tensor, plus the beta law ump_exponents'; InternalHomFunctor turns the cartesian-closed exponential into the bifunctor C^op ∏ C ⟶ C.",
+      "strength_comparison": "intree-weaker on three counts: (1) only ONE of the two transpositions is present (the right closure of − ⨂ y), so the triple (F,G,H) is never formed; (2) everything is stated for a single category with an endo-tensor F : C ∏ C ⟶ C, not for three possibly distinct categories A, B, C; (3) exp_iso is a family of hom-setoid isomorphisms indexed by (x,y,z) with no naturality field at all — naturality is recovered only piecemeal as derived lemmas (curry_comp_l, curry_comp, uncurry_comp), never as the single natural isomorphism the definition requires. Note also the same-name-but-weaker trap flagged in CLAUDE.md: ClosedMonoidal bundles CartesianMonoidal, so it is NOT a general monoidal closed structure; SymMonClosed is the honest general base."
+    },
+    "gap": "There is no in-tree notion of two-variable adjunction. Missing: the typing over three distinct categories A ∏ B ⟶ C with G : A^op ∏ C ⟶ B and H : B^op ∏ C ⟶ A; the SECOND transposition (a right adjoint to F(a,−) alongside the one to F(−,b)); and the single natural isomorphism relating the three hom-setoids. In-tree exp_iso covers exactly one leg of the chain, for an endo-tensor on one category, without naturality as a field. rg over the whole tree for 'two-variable'/'two variable' finds only Functor/Bifunctor.v's phrase 'functors of two variables'; there is no class, record, or lemma with this content.",
+    "negative_search_log": [
+      "rg -n -i --glob='*.v' 'two-variable|two variable' — no adjunction content anywhere",
+      "rg -n --glob='*.v' '⊣' across Structure/ Functor/ Construction/ Instance/ — no in-tree Adjunction instance for (− ⨂ y) ⊣ (y ⇒ −) or (− × y) ⊣ (−)^y; the closed structures never produce the partial-application functors an adjunction would need"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL. All three citations verified exact and in place: Structure/Monoidal/StarAutonomous.v:109 Class SymMonClosed (smc_is_symmetric, exponent_obj, exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z, ump_exponents' in ∃! form); Structure/Monoidal/Closed.v:46 Class ClosedMonoidal with 'closed_is_cartesian : @CartesianMonoidal C' as its FIRST field — the same-name-weaker trap the record flags is real and I re-read the field to confirm it; Functor/Hom/Internal.v:40 InternalHomFunctor. All registered in _CoqProject. Re-verified the decisive structural claim myself: in Structure/Cartesian/Closed.v:43-63, Structure/Monoidal/Closed.v:46-68 and StarAutonomous.v:109-125 the ONLY fields are exponent_obj, exp_iso, the derived curry'/uncurry'/eval' and the beta law — there is no naturality field of any kind, so Riehl's single natural isomorphism relating three hom-setoids cannot be phrased against them. Also checked that Structure/Closed.v's Eilenberg-Kelly 'Class Closed' (line 166) sits INSIDE the comment block opened at :154 and is not in force (consistent with CLAUDE.md), so it cannot supply the missing typing either. Independently confirmed the negative: no @Adjunction instance anywhere realizes (− ⨂ y) ⊣ (y ⇒ −) or (− × y) ⊣ (−)^y — the only product-related adjunction in the tree is Adjunction/Diagonal/Product.v:37 (Diagonal_Product C ⊣ ×(C)), which is Δ ⊣ ×, a different statement."
+    }
+  },
+  {
+    "id": "riehl:4.4:def-closures",
+    "classification": "PARTIAL",
+    "aliases": [
+      "left closure / right closure of a monoidal product",
+      "biclosed bifunctor, closed bifunctor",
+      "internal hom, exponential object (exponent_obj, exp_iso)",
+      "monoidal biclosed category, left/right internal hom",
+      "closed monoidal category (ClosedMonoidal, SymMonClosed)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 109,
+        "symbol": "SymMonClosed",
+        "intree_statement": "Class SymMonClosed := { smc_is_symmetric : @SymmetricMonoidal C; exponent_obj : obj → obj → obj where \"x ⇒ y\" := (exponent_obj x y); exp_iso {x y z} : x ⨂ y ~> z ≊ x ~> y ⇒ z; eval' {x y} : (x ⇒ y) ⨂ x ~> y := uncurry' id; ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) }."
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}."
+      },
+      {
+        "file": "Construction/Funny/Closed.v",
+        "line": 350,
+        "symbol": "Funny_exponential_law",
+        "intree_statement": "Program Definition Funny_exponential_law {A B E : Category} : (⟦A □ B, E⟧) ≅[Cat] (⟦A, ⟦B, E⟧⟧) := {| to := FunnyCurryF; from := FunnyUncurryF; iso_to_from := Funny_exp_to_from; iso_from_to := Funny_exp_from_to |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered definitions after 4.4.7: when the left adjoint F of a two-variable adjunction is a monoidal product, its pointwise right adjoints G and H are its LEFT and RIGHT CLOSURES. When both exist F is BICLOSED, or simply CLOSED — particularly when F : C × C ⟶ C is naturally symmetric, in which case the two closures are naturally isomorphic.",
+      "intree": "SymMonClosed / ClosedMonoidal / Cartesian.Closed each equip a tensor (resp. product) with ONE closure, exponent_obj with exp_iso : x ⨂ y ~> z ≊ x ~> y ⇒ z and the evaluation counit eval'; in the cartesian case that closure is upgraded to a bifunctor by InternalHomFunctor, and Construction/Funny/Closed.v gives the corresponding closure for the non-cartesian funny tensor □ on Cat (Funny_exponential_law).",
+      "strength_comparison": "intree-weaker: only one closure per structure is ever defined, and it is always the right adjoint of − ⨂ y. The left/right distinction is not made, no class or predicate expresses 'biclosed', and nothing asserts that for a symmetric tensor the two closures agree — Structure/Cartesian/Closed.v:117's `flip {x y z} (f : x ~> z^y) : y ~> z^x := curry (uncurry f ∘ swap)` supplies the comparison map but no lemma states it is a bijection (no flip_flip, no iso)."
+    },
+    "gap": "Missing: (a) any notion of LEFT closure (a right adjoint to x ⨂ −) distinct from the in-tree right closure (right adjoint to − ⨂ y) — every in-tree closed class defines exactly one; (b) any 'biclosed' class or predicate — the word appears in-tree only in comments (Instance/Two.v:32, Instance/StrictCat/Funny.v:53, Construction/Funny.v:29, Construction/Day.v:95, Construction/Funny/Hom.v:16, Structure/Closed.v:106, all citing Foltz–Lair–Kelly or Day, none an assertion); (c) the claim that for a naturally symmetric F the left and right closures are naturally isomorphic — Structure/Cartesian/Closed.v's `flip` and Structure/Monoidal/Closed.v's braided `flip` are the transposition maps, but neither is proved invertible.",
+    "negative_search_log": [
+      "rg -n -i --glob='*.v' 'biclosed|bi-closed' — 9 hits, ALL inside comments (Instance/Two.v, Instance/StrictCat/Funny.v, Structure/Closed.v, Construction/Day.v, Construction/Funny.v, Construction/Funny/Swap.v, Construction/Funny/Hom.v, Construction/Funny/Closed.v); no class, definition, or lemma",
+      "rg -n -i --glob='*.v' 'left closure|right closure|left internal hom|right internal hom' — 0 hits",
+      "rg -n --glob='*.v' 'flip' Structure/Cartesian/Closed.v Structure/Monoidal/Closed.v — flip is a bare Definition in each; no accompanying iso or involution lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PARTIAL. Citations verified exact: SymMonClosed at StarAutonomous.v:109; InternalHomFunctor at Functor/Hom/Internal.v:40; 'Program Definition Funny_exponential_law {A B E : Category} : (⟦A □ B, E⟧) ≅[Cat] (⟦A, ⟦B, E⟧⟧)' at Construction/Funny/Closed.v:350, quoted verbatim. The flip claims are exactly right: rg 'flip' over Structure/ returns exactly two definition sites, Structure/Cartesian/Closed.v:117 'Definition flip {x y z} `(f : x ~> z ^ y) : y ~> z ^ x := curry (uncurry f ∘ swap)' and Structure/Monoidal/Closed.v:129 'Definition flip `{@BraidedMonoidal C} ... := curry (uncurry f ∘ braid)', with no flip_flip, no involution, no iso lemma anywhere in the tree. THREE refinements the issue drafter should absorb. (1) The Funny citation is generous: Construction/Funny/Closed.v:25-56 itself discloses that this closed structure CANNOT be expressed by either library interface — ClosedMonoidal hard-requires CartesianMonoidal and □ is not cartesian, and the hom-setoid adjunction (− □ B) ⊣ ⟦B, −⟧ is 'unprovable in this metatheory' over either functor-category setoid. What is proved is an isomorphism of hom-CATEGORIES plus strict beta/eta laws, so it should be cited as a non-interface witness, not as 'the corresponding closure'. (2) The gap understates how close the symmetry clause is: Structure/Cartesian.v:298 proves swap_invol (swap ∘ swap ≈ id) and :480 packages a genuine iso 'x × y ≅ y × x' (to := swap, from := swap). Composing that iso with exp_iso yields the missing second transposition (x × y ~> z) ≊ (y ~> z^x) in one step — so the 'two closures agree for a symmetric product' clause is a two-line derivation that nobody has written, not a deep hole. Worth saying in the issue's Work-to-be-done. (3) Minor log correction, verdict unaffected: rg -c -i 'biclosed' --glob='*.v' gives 12 hits across 9 files, not 9 hits across 8 — the record's file list omits Construction/Product.v:70. All 12 are inside comments, so the 'no class, definition or lemma' conclusion stands."
+    }
+  },
+  {
+    "id": "riehl:4.4:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "tensor product of bimodules is biclosed",
+      "R-S bimodule category _R Mod_S, Hom_R(M,N) bimodule structure",
+      "tensor-hom adjunction over a ring, ⊗_S ⊣ Hom_S",
+      "category of modules / abelian groups / rings (Mod, Ab, Ring)",
+      "biclosed bifunctor between three different categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob='*.v' 'bimodule' — 13 hits, every one a prose comment using 'bimodule' as motivation for profunctors/bicategories/double categories (Theory/Profunctor.v:21,58,61,104; Theory/Bicategory.v:57,83; Theory/DoubleCategory.v:96,104,124,138; Theory/Algebra/Frobenius.v:27). Theory/Profunctor.v:61 explicitly disclaims: a profunctor is not 'literally a bimodule in the classical algebraic sense'.",
+      "rg -n -i --glob='*.v' '\\bAb\\b|_R Mod|RMod|ModCat|Ring\\b|tensor product of module' — no category of modules, no ring, no abelian group category anywhere",
+      "ls Instance/ (non-build files) — Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX. The nearest algebraic instance is CMon (commutative monoids over setoids, Instance/CMon.v); there is no module, ring, or bimodule layer to host ⊗_S, Hom_R, Hom_T.",
+      "rg -n -i --glob='*.v' 'biclosed' — comments only (see riehl:4.4:def-closures log), so even the general property this example instantiates is unavailable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED; blind pass reached ABSENT independently. Reproduced every negative: 'bimodule' hits are all prose motivation for profunctors/bicategories/double categories (Theory/Profunctor.v:21,58,61,104; Theory/Bicategory.v:57,83; Theory/DoubleCategory.v:96,104,124,138; Theory/Algebra/Frobenius.v:27), and Theory/Profunctor.v:61 explicitly disclaims the identification. No Ring, no Module, no Ab, no tensor product of modules anywhere; I re-enumerated Instance/ and the list in the record matches the directory exactly, with CMon the only algebraic instance. The record's closing observation is correct and worth keeping: the general property this example instantiates (biclosedness) is itself unavailable in-tree, so the example is doubly blocked — it needs both an algebraic layer and the biclosed vocabulary of riehl:4.4:def-closures."
+    }
+  },
+  {
+    "id": "riehl:4.4:example9",
+    "classification": "PRESENT",
+    "aliases": [
+      "currying in Set, exponential object in Set",
+      "Sets_Closed / Coq_Closed (@Closed Sets, @Closed Coq)",
+      "Hom(A × B, C) ≅ Hom(A, C^B), curry/uncurry/eval",
+      "product bifunctor × : C ∏ C ⟶ C (InternalProductFunctor)",
+      "exponential bifunctor (−)^(−) : C^op ∏ C ⟶ C (InternalHomFunctor)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := {| morphism := fun f => {| morphism := fun x => {| morphism := fun y => f (x, y) |} |} |} ; from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} |} }."
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}."
+      },
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Example 4.4.9: the product bifunctor × : Set × Set ⟶ Set is closed; currying gives natural isomorphisms {A × B → C} ≅ {A → C^B} ≅ {B → C^A}, so × and the exponential bifunctor (−)^(−) : Set^op × Set ⟶ Set define a two-variable adjunction.",
+      "intree": "Sets_Closed : @Closed Sets _ with exponent_obj x y := the setoid of ≈-respecting maps SetoidMorphism x y and exp_iso the currying bijection (x × y ~> z) ≊ (x ~> z^y), to = λf.λx.λy. f (x,y), from = λg.λp. g (fst p) (snd p); the product and exponential are bifunctors by InternalProductFunctor and InternalHomFunctor.",
+      "strength_comparison": "same in substance for the currying bijection (Sets is the setoid category rather than bare sets — the faithful setoid rephrasing this library uses throughout, and the file notes the construction needs no choice). intree-weaker only in packaging: the symmetric third transpose {B → C^A} exists only as the derived Definition `flip` (Structure/Cartesian/Closed.v:117) with no lemma asserting it is a bijection, and the 'two-variable adjunction' framing is unavailable because that notion is itself absent (recorded under riehl:4.4:def7). Neither affects the example's mathematical content, since for the symmetric cartesian product the two closures coincide."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PRESENT, with disclosure. All three citations verified exact and in place: Instance/Sets/Cartesian/Closed.v:38 Sets_Closed (exponent_obj = the SetoidMorphism setoid, exp_iso's to = λf.λx.λy. f (x,y), from = λg.λp. g (fst p) (snd p)); Functor/Hom/Internal.v:40 InternalHomFunctor; Functor/Product/Internal.v:34 'Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) }' — quoted correctly. All in _CoqProject. The setoid reading of Set is the library's standard faithful rephrasing, and the file's own header confirms the construction is choice-free. I considered overturning to PARTIAL and decided against it, but the drafter should know why it was close: Riehl's sentence is a CHAIN of isos {A × B → C} ≅ {A → C^B} ≅ {B → C^A}, and only the first link is stated in-tree. The second link exists only as the bare map flip (Structure/Cartesian/Closed.v:117) with no invertibility lemma anywhere; the record's parenthetical 'for the symmetric cartesian product the two closures coincide' is therefore asserted, not proven in-tree, although Structure/Cartesian.v:480's proven iso x × y ≅ y × x composed with exp_iso supplies it in one step. PRESENT stands because the example's mathematical substance (Set is cartesian closed via currying, both bifunctors exist) is fully formalized and the residue is packaging plus a two-line derivation. CONSEQUENCE TO ACT ON: PRESENT files no issue, so the natural Set witness for the two-variable-adjunction work (riehl:4.4:def7, PARTIAL) will be lost unless the drafter pulls Sets_Closed + InternalProductFunctor + InternalHomFunctor from this record into that issue's Verification section."
+    }
+  },
+  {
+    "id": "riehl:4.4:def10",
+    "classification": "PRESENT",
+    "aliases": [
+      "cartesian closed category, CCC",
+      "Structure/Cartesian/Closed.v Class Closed, exponent_obj, exp_iso, ump_exponents",
+      "exponential object, internal hom of a cartesian category",
+      "(− × y) ⊣ (−)^y, curry/uncurry/eval",
+      "Sets_Closed, Cat_Closed, FinSet_Closed, Coq_Closed, BiCCC"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' ... ; eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f }.  [declared under Context `{@Cartesian C}]"
+      },
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := ... }."
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => ... |} ; from := {| morphism := fun F : A ⟶ [B, C] => ... |} |} }."
+      },
+      {
+        "file": "Instance/FinSet/Closed.v",
+        "line": 132,
+        "symbol": "FinSet_Closed",
+        "intree_statement": "#[export] Program Instance FinSet_Closed : @Closed FinSet FinSet_Cartesian := { exponent_obj := fun m n => (n ^ m)%nat; exp_iso := fun x y z => {| to := {| morphism := fun f i => fin_tabulate (fun j => f (fin_pair i j)) |} ; from := {| morphism := fun g p => fin_apply (g (fst (fin_unpair p))) (snd (fin_unpair p)) |} |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 4.4.10: a cartesian closed category is a category with finite products in which the product bifunctor − × − : C × C ⟶ C is closed (admits pointwise right adjoints). Besides Set, the categories Fin, Cat, Set^{BG} and more generally Set^C are cartesian closed.",
+      "intree": "Class Closed, declared over Context `{@Cartesian C}, with exponent_obj, the transposition exp_iso {x y z} : x × y ~> z ≊ x ~> z^y, eval := uncurry id and the beta law ump_exponents; instantiated by Sets_Closed (Riehl's Set), FinSet_Closed (Riehl's Fin, skeletal, exponent = n^m by nat exponentiation), Cat_Closed (exponent = the functor category [B,C]), plus Coq_Closed, Props_Closed, Rel_Closed, Product_Closed, Lambda_Closed, Hom_Closed.",
+      "strength_comparison": "same in substance, with two presentational differences to note. (1) intree-weaker in bundling: `Closed` is stated over `@Cartesian C`, which is BINARY products only (Structure/Cartesian.v:121 has product_obj/fork/exl/exr/ump_products and no unit), so the nullary product of Riehl's 'finite products' is not part of the class — Terminal is a separate class, bundled alongside where needed (Structure/BiCCC.v, Structure/Topos.v:116 topos_closed). (2) naturality of exp_iso is not a field; it is recovered as derived lemmas (curry_comp_l : curry f ∘ g ≈ curry (f ∘ first g), curry_comp, uncurry_comp), which is what makes exp_iso genuinely the adjunction (− × y) ⊣ (−)^y rather than a bare family of bijections. The example list is covered for Set, Fin and Cat; Set^C (Riehl's Lemma 4.4.11) and Set^{BG} have no in-tree instance — rg for '@Closed' finds no Fun_Closed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED as PRESENT; blind pass reached the same call. All four citations verified exact and in place, all registered in _CoqProject: Structure/Cartesian/Closed.v:43 Class Closed with exactly the quoted fields and 'ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f', declared under 'Context `{@Cartesian C}' at line 13; Instance/Sets/Cartesian/Closed.v:38 Sets_Closed; Instance/Cat/Cartesian/Closed.v:47 Cat_Closed with exponent_obj := @Fun; Instance/FinSet/Closed.v:132 FinSet_Closed with exponent_obj := (n ^ m)%nat and the fin_tabulate/fin_apply codecs, matching the quote. Both disclosed differences independently checked and true. (1) Structure/Cartesian.v:121 Class Cartesian has fields product_obj, fork, exl, exr, fork_respects, ump_products and NO unit/terminal — so the class really is binary products only, and Riehl's 'finite products' needs Terminal bundled separately (as Structure/Topos.v:116 topos_closed and Structure/BiCCC.v do). (2) exp_iso carries no naturality field; the substitution laws are proven downstream (curry_comp_l :165, curry_comp :177, uncurry_comp_r :185, uncurry_comp :193). Example-list claim re-verified: the complete set of @Closed instances in the tree is Coq_Closed, Props_Closed, Rel_Closed, Algs_Closed, Hom_Closed, Lambda_Closed, Product_Closed, Sets_Closed, Cat_Closed, FinSet_Closed (the record omits Algs_Closed, harmless). There is no Fun_Closed and Instance/Fun/ contains only Cartesian.v, so Riehl's Set^C / Set^{BG} clause is genuinely uncovered — correctly deferred to riehl:4.4:lem11 rather than dragged into this record."
+    }
+  }
+]

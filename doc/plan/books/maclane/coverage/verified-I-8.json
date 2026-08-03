@@ -1,0 +1,317 @@
+[
+  {
+    "id": "maclane:I.7:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Rng / Ring / CRng category of rings",
+      "ring homomorphism (unit-preserving)",
+      "RingObject / internal ring",
+      "semiring / rig",
+      "Z initial ring, zero ring terminal, Z->Q epi not surjective"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' '\\bRng\\b|\\bRing\\b|ring hom' -- prose-only hits: Structure/Abelian.v:111 ('inside R-Mod for some ring R'), Theory/Algebra.v:26, Construction/Localization.v:59-66 (ring localization as historical motivation), Construction/Grothendieck.v:114-115; no ring category or ring structure defined",
+      "rg -c -i --glob '*.v' '\\bCRng\\b|ring_hom|RingHom|unital ring' -- 0 hits",
+      "rg -n --glob '*.v' 'RingObject|Semiring|semiring|\\bRig\\b' -- single prose mention 'rig (a semiring...)' in Theory/Algebra.v:25 (categorified rig identities in a BiCCC); no rig/ring object class",
+      "rg -n -i --glob '*.v' '\\bGrp\\b|category of groups|abelian group' -- only internal group OBJECTS in a monoidal category (Structure/Group.v GroupObject); no category of groups, abelian groups, or rings anywhere in Instance/ (ls Instance/ checked)",
+      "consequently the item's sub-claims (zero ring terminal, Z initial, monics = injections, surjective => epi, Z->Q epi without being surjective) have no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: rg for Rng/Ring/ring hom/CRng/RingObject/semiring finds prose-only hits; no ring category or internal ring object in-tree (Instance/ has CMon but no Grp/Ab/Rng). Structure/Group.v:105-109 is Section GroupObject (internal group objects), as the log says."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "R-Mod / Mod-R / R-Mod-S module categories",
+      "left R-module, R-linear map",
+      "Vct_F / Vect / vector spaces over a field",
+      "bimodule / semimodule",
+      "categories of small algebraic objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' '\\bmodule\\b|R-Mod|\\bVect\\b|vector space|linear map' -- prose only: Structure/Abelian.v:68-111 background essay names Ab/R-Mod/vector spaces as motivation; 'module' elsewhere means a Coq source module (Lib.v:7, Comonad/Core.v:119); Structure/Group.v:91 'in Vect a Hopf...' is prose",
+      "rg -n -i --glob '*.v' 'bimodule|semimodule|\\bR-Mod\\b|Vct' -- prose only (Theory/DoubleCategory.v:104 bimodule motivation, Theory/Profunctor.v bimodule analogy, Structure/Monoid.v:69)",
+      "no ring exists in-tree to index modules over (see maclane:I.7:construction2 log); nearest in-tree relative inspected and rejected: Instance/CMon.v is the category of commutative monoids over setoids (the semiadditive witness), not modules over a ring and not vector spaces",
+      "the item's monic/epi/null-object claims for R-Mod therefore also have no counterpart (Structure/Abelian.v axiomatizes abelian CATEGORIES parametrically but constructs no module-category instance)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: module/vector-space hits are background essays only (Structure/Abelian.v:111 names R-Mod as motivation). Instance/CMon.v (category of commutative monoids over setoids, CMon at line 140 with CMon_Forget at 169) correctly inspected and rejected as not-this-item."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top, category of topological spaces",
+      "continuous map",
+      "open set / topology",
+      "Hausdorff / compact Hausdorff spaces",
+      "injections monic, surjections epi in Top"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'topolog|continuous|open set|Hausdorff|compactly generated' -- every hit is prose or the unrelated term 'continuous functor' (= limit-preserving: Adjunction/Continuity.v:24, Structure/Limit/Preservation.v:15); Top is named only in comments (Structure/Complete.v:55 'how Set, Top, Grp, Ab ... are shown complete', Structure/Group.v:46)",
+      "ls Instance/ -- no Top or topology instance file; nothing in the tree defines topological spaces, continuity, or open sets",
+      "hence the sub-claims (one-point space terminal, empty space initial, monics = injections, epis = surjections, Hausdorff variants) have no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: 'continuous' hits are the limit-preservation sense (Adjunction/Continuity.v), 'topolog|Hausdorff' hits are essays; no Top instance, no topology anywhere in-tree."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction5",
+    "classification": "ABSENT",
+    "aliases": [
+      "Toph, homotopy category of spaces",
+      "homotopy classes of continuous maps",
+      "Ho(-) homotopy quotient",
+      "CW-complex / Kan complex / simplicial set categories",
+      "arrows that are not functions (injection not monic in Toph)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'homotop' -- prose only: Instance/Cat.v:31 and Instance/StrictCat.v:36 call Cat 'the homotopy category Ho(Cat)' by analogy in comments; Structure/Factorization.v:102-104 cites Quillen; no category with homotopy-class hom-sets is constructed",
+      "rg -n -i --glob '*.v' 'simplicial|CW-complex|Kan complex' -- prose mentions only (Comonad/Core.v, Comonad/Coalgebra.v, Construction/Enriched.v, Structure/Coend.v, Structure/Group.v background essays)",
+      "Top itself is absent (see maclane:I.7:construction4 log), so no homotopy quotient of it can exist; the 'category whose arrows are not functions' moral is incidentally witnessed in-tree by Instance/Rel.v, but that is a different construction (I.7:construction8), not Toph"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: 'homotop|simplicial|Kan complex|CW' are essay prose only (Instance/Cat.v:31 Ho(Cat) analogy, Structure/Factorization.v Quillen citation). No homotopy-class hom-set category exists; Top itself absent."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set_* / pointed sets, basepoint-preserving maps",
+      "Par / Pfn, category of partial maps (equivalent presentation)",
+      "Kleisli category of the option/Maybe monad",
+      "null object / zero object (one-point pointed set)",
+      "based sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := fun P Q => {| equiv := fun f g => ∀ x, f x = g x |}; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 34,
+        "symbol": "Par (header comment)",
+        "intree_statement": "\"This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps: the object [A] realizes the pointed set [option A = A ⊔ {None}] with basepoint [None].\""
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 229,
+        "symbol": "Par_Initial (with Par_Terminal, line 213)",
+        "intree_statement": "Program Instance Par_Initial : Initial Par := { terminal_obj := False; one := λ _ _, False_rect _ _ } -- together with Par_Terminal (False, line 213) making False a null (zero) object of Par"
+      },
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x _ (option y) _ ; ... |} -- \"the category PAR (also written Par or Pfn) of setoids and partial maps\""
+      }
+    ],
+    "statement_record": {
+      "book": "Set_* is the category of small pointed sets (a nonvoid set with a selected base point) and base-point-preserving functions; the one-point set {*} is both initial and terminal in it (a null object).",
+      "intree": "Instance/Coq/Par.v:53 'Program Definition Par : Category := {| ... hom := fun A B => A ~> option B; id := λ _, Some; compose := ... option_bind ... |}', whose header states it is 'equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps'; False is proven both Terminal (Par_Terminal, line 213) and Initial (Par_Initial, line 229). Setoid variant Part in Instance/Sets/Par.v:27.",
+      "strength_comparison": "intree-weaker: the library constructs a category mathematically equivalent to Set_* (partial maps = Kleisli(option)) rather than Set_* itself; the equivalence is asserted only in a comment and is not formalizable in-tree since no pointed-set category exists to compare against. The null-object observation is present only in transported form (False both initial and terminal in Par, corresponding to {*})."
+    },
+    "gap": "No literal category of pointed sets with basepoint-preserving morphisms exists; the equivalence Par ≃ Set_* is documentation, not a theorem; consequently the book's null object {*} appears only as its Par-side image (False).",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'pointed|base ?point|Set_\\*|Sets_\\*' -- pointed SETS occur only via the Par/ParE partial-map realization (Instance/Coq/Par.v, Instance/Coq/ParE.v comments); other hits are pointed endofunctors (Instance/Fun.v:230) and well-pointedness (Structure/Terminal.v:66), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence items verified at the cited lines with accurate quotes: Par (Instance/Coq/Par.v:53), the equivalent-to-pointed-sets header (lines 34-36), Par_Initial with terminal_obj := False (lines 229-232) alongside Par_Terminal (line 213, False via SemicartesianMonoidal I := False), and Part (Instance/Sets/Par.v:27). Both files registered in _CoqProject (lines 189, 236). PARTIAL with the equivalence-is-documentation gap is the honest call; my blind pass reached the same classification independently."
+    }
+  },
+  {
+    "id": "maclane:I.7:prop2",
+    "classification": "ABSENT",
+    "aliases": [
+      "in Set_*: monic iff has left inverse (split monic / section)",
+      "epi iff has right inverse (split epi / retraction)",
+      "invertible iff monic and epi (bimorphism = iso)",
+      "Section / Retraction characterization in pointed sets",
+      "Par monic/epi characterization"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Monic|Epic' Instance/Coq/Par.v Instance/Sets/Par.v Instance/Coq/ParE.v -- 0 hits: no monic/epi characterization lemmas in any partial-map (≃ pointed-set) category",
+      "rg -l --glob '*.v' 'SplitEpi|SplitMonic|split_epi|split_monic' -- only generic vocabulary: Theory/Morphisms.v, Theory/Morphisms/Classes.v, Structure/Factorization/StrongEpi.v, Monad/Monadicity/Beck*.v; Theory/Morphisms.v proves only the any-category easy directions (sections_are_monic, retractions_are_epic, lines ~50-72) which are the content of book item I.5:def5, never the Set_*-specific converses monic=>split, epi=>split, monic∧epi=>iso",
+      "rg -n 'bimorphism' -- Theory/Morphisms.v:121 mentions bimorphisms in a comment only; no iso <=> monic∧epi theorem for any concrete pointed-like category",
+      "the ambient category Set_* is itself absent (see maclane:I.7:construction6), so no statement of this proposition exists in any form; classifying ABSENT rather than PARTIAL because the trivially-true halves that do exist generically are coverage of I.5:def5, not of this item's distinctive content"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no Monic/Epic lemmas in Par.v/ParE.v/Sets/Par.v; the generic easy halves exist only category-agnostically. Minor log correction: sections_are_monic and retractions_are_epic are at Theory/Morphisms.v:179 and :162 (the '~50-72' range in the log is where their header comments sit, lines 52/67). Classification unaffected — the Set_*-specific converses (monic ⇒ split, epi ⇒ split, monic∧epi ⇒ iso) exist nowhere, and Instance/Sets.v:370/:431 characterize monic/epic for Sets (injective/surjective), not Set_*."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction7",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top_* / pointed (based) topological spaces",
+      "basepoint-preserving continuous map",
+      "Toph_* pointed homotopy category (based homotopies)",
+      "wedge / smash of pointed spaces",
+      "fundamental group / homotopy group motivation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'pointed|base ?point' -- hits are pointed sets via Par/ParE (Instance/Coq/Par.v:34-36, ParE.v), pointed endofunctors (Instance/Fun.v:225-241), well-pointed toposes (Structure/Terminal.v:66); 'wedge sum of pointed spaces' appears once as prose in Structure/Cocartesian.v:69",
+      "rg -n -i --glob '*.v' 'topolog|continuous|Hausdorff|compactly generated' -- no topological spaces in tree (see maclane:I.7:construction4 log), hence no pointed spaces",
+      "rg -n -i --glob '*.v' 'homotop' -- prose only (see maclane:I.7:construction5 log), hence no based-homotopy category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: pointed hits are Par/ParE pointed-set realizations, pointed endofunctors (Instance/Fun.v:230), and well-pointedness prose; no topological spaces, hence no based spaces or based-homotopy category."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Rel / REL, category of sets and relations",
+      "binary relation R ⊆ X×Y, relative product composition",
+      "identity/diagonal relation",
+      "graph of a function: Set as (wide) subcategory of Rel",
+      "converse relation / dagger R†"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |} -- relative-product composition, diagonal identity, all category laws discharged (header: 'The category laws hold with no axioms')"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 167,
+        "symbol": "Relation_Functor",
+        "intree_statement": "Program Instance Relation_Functor : Coq ⟶ Rel := { fobj := fun x => x; fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y } -- each function sent to its graph, identity on objects"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 36,
+        "symbol": "Rel (header comment)",
+        "intree_statement": "\"REL is a dagger category: the converse R† = { (b, a) | (a, b) ∈ R } is an involution ... None of that extra structure is built here; this file constructs the bare category, its initial object ..., and the wide embedding Coq ⟶ Rel of functions as relations.\""
+      }
+    ],
+    "statement_record": {
+      "book": "Rel has as objects all small sets and as arrows R : X -> Y the relations R ⊆ X×Y; the composite is the relative product S.R = {<x,z> | ∃y, <x,y>∈R ∧ <y,z>∈S}; the identity on X is the diagonal; the category axioms hold; Rel contains Set as a subcategory via graphs of functions; and Rel carries the extra structure of a converse relation R† : Y -> X.",
+      "intree": "Instance/Rel.v:45 'Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; ...; id := Singleton; compose := fun ... => exists e, ... ∧ ... |}' plus Instance/Rel.v:167 'Program Instance Relation_Functor : Coq ⟶ Rel' embedding functions as their graphs.",
+      "strength_comparison": "core construction same up to presentation (small sets → Coq types via obj Coq; relations curried as A → Ensemble B; hom-setoid = pointwise ↔ in place of relation equality); intree-weaker on the trimmings: the converse/dagger operation R† is explicitly not built, and the graph embedding carries no Faithful instance, so the 'Set is a subcategory of Rel' claim is documented rather than proven."
+    },
+    "gap": "The converse operation R† (the dagger involution with (S∘R)† = R†∘S†) is not formalized -- the file's own header says 'None of that extra structure is built here'; and Relation_Functor's faithfulness (the substance of 'Set is a wide subcategory') is asserted only in a comment, with no Faithful proof (rg -n 'Relation_Functor' finds only its definition, and no dagger/converse identifier exists tree-wide: rg -n -i 'dagger|converse|†' over *.v yields prose comments only).",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'dagger|converse|†' -- dagger/converse appear only in prose (Instance/Rel.v header, Instance/Adjoints.v:278-280, Structure/Monoidal/CompactClosed.v essays); no formal dagger structure anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified: Rel (Instance/Rel.v:45, quote accurate), Relation_Functor (line 167), header dagger disclaimer (lines 36-43); _CoqProject:225. Blind pass found the same file. The record correctly does NOT cite Rel_Cartesian/Rel_Cocartesian/Rel_Closed — those instances (lines 96-157) are inside a comment block and not built. Gap is exactly right: no dagger/converse anywhere in-tree, and Relation_Functor's faithfulness is asserted only in the comment at lines 163-165 with no Faithful instance (Rel.v also records only the initial half of the zero object, per its own lines 84-88). PARTIAL is the honest call given the item's converse-relation and Set-as-subcategory clauses."
+    }
+  },
+  {
+    "id": "maclane:I.7:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "concrete category <C, U>",
+      "faithful functor to Set / Sets",
+      "underlying-set functor, forgetful functor",
+      "Faithful typeclass",
+      "arrows are actual functions"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 342,
+        "symbol": "Faithful",
+        "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g } -- \"F is faithful when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is injective\""
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| ... |} -- the library's category of sets (setoids), the codomain a concrete structure would forget into"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 101,
+        "symbol": "Mon_Forget_Faithful",
+        "intree_statement": "#[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget. -- a worked faithful forgetful functor (\"it is faithful by construction\"), witnessing the (C, U faithful) pattern in-tree"
+      }
+    ],
+    "statement_record": {
+      "book": "A concrete category is a pair <C, U> where C is a category and U : C -> Set is a faithful functor; equivalently, a category in which every object has an underlying set, every arrow is an actual function between underlying sets, and composition of arrows is composition of functions.",
+      "intree": "Theory/Functor.v:342 'Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g }' together with the base category Sets (Instance/Sets.v:188) makes any concrete-category datum (C, U : C ⟶ Sets, Faithful U) expressible; concrete faithful forgetful functors exist (e.g. Theory/Algebra/Monoid/Hom.v:101 Mon_Forget_Faithful).",
+      "strength_comparison": "intree-weaker: every ingredient of the definition is present in setoid-faithful form (Faithful w.r.t. ≈, Sets in place of Set), but the bundled notion 'concrete category' is never defined, named, or given an API, and the equivalent arrows-are-actual-functions reading is not formalized either."
+    },
+    "gap": "No ConcreteCategory (or similar) definition bundling a category with a chosen faithful functor to Sets; concreteness exists only as an unassembled pattern (Faithful + Sets + per-instance forgetful functors). rg -n -i 'concrete' over *.v finds only the ordinary English word in comments.",
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'concrete' -- ~30 hits, all the ordinary English word in comments (Solver/Expr.v, Adjunction/GAFT/Examples.v, ...); none is a formal concreteness notion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence verified with exact quotes: Class Faithful (Theory/Functor.v:342), Sets (Instance/Sets.v:188), Mon_Forget_Faithful (Theory/Algebra/Monoid/Hom.v:101). Caveat kept honest by the record: Mon_Forget lands in the ambient monoidal category C, not Sets — it witnesses the pattern, not a functor-to-Sets. An additional in-tree witness the record missed, which strengthens the PARTIAL claim: Theory/Lawvere/Sets.v:105 ev1_Faithful : Faithful ev1 with ev1 : Models T Sets ⟶ Sets, faithful under an explicit reachability hypothesis — a genuine (C, U : C ⟶ Sets, Faithful U) datum. My blind pass initially leaned ABSENT (no bundled/named notion), but under the frozen definition PARTIAL is correct: the load-bearing half (Faithful, Sets, worked instances) exists first-class and the gap (no ConcreteCategory bundling, no arrows-are-functions reading) is stated precisely."
+    }
+  },
+  {
+    "id": "maclane:I.7:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "concreteness of the standard large categories",
+      "Toph is not concrete (Freyd's theorem)",
+      "Rel is not concrete (relative to its evident functor)",
+      "no faithful underlying-set functor",
+      "concretizable category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i --glob '*.v' 'concrete' -- only the ordinary English word in comments; no formal concreteness notion exists (see maclane:I.7:def2)",
+      "rg -n -i --glob '*.v' 'concretiz|not concrete|non-concrete' -- 0 hits",
+      "rg -n -i --glob '*.v' 'homotop' -- prose only; Toph does not exist in-tree (see maclane:I.7:construction5) and no non-concreteness theorem (Freyd, 'Homotopy is not concrete') is stated or proven",
+      "Instance/Rel.v -- constructs Rel but states nothing about (non-)concreteness; its Relation_Functor goes INTO Rel, not out of it, and no faithful-functor-to-Sets impossibility appears",
+      "positive half equally absent: the section's concrete categories (Rng, R-Mod, Top, Set_*) are not in-tree, so their evident forgetful functors do not exist to be proven faithful; the only in-tree faithful forgetful functors (e.g. Theory/Algebra/Monoid/Hom.v:101) concern internal monoid objects, not this remark's categories"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no formal concreteness notion, no concretizability, no Freyd non-concreteness theorem, and the section's concrete categories are themselves absent. One log sentence slightly overstates: Theory/Lawvere/Sets.v:105 ev1_Faithful is an in-tree faithful functor INTO Sets (Lawvere-theory models), so Monoid/Hom.v is not the only faithful-forgetful witness — but it concerns Lawvere models, not this remark's categories, so ABSENT stands."
+    }
+  }
+]

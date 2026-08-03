@@ -1,0 +1,407 @@
+[
+  {
+    "id": "7sketches:3.3.4:ex3.58",
+    "classification": "ABSENT",
+    "aliases": [
+      "at most one natural transformation into a preorder",
+      "thin category / posetal category / (0,1)-category; hom-sets are subsingletons",
+      "[C, P] is thin whenever P is thin (functor category into a preorder)",
+      "Proset / Poset / Two / Props (this library's preorder-as-category instances)",
+      "parallel morphisms are equal; hom-setoid is the trivial setoid",
+      "dual/converse form: [P, C] need NOT be thin — counterexample for functors OUT of a preorder"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'preorder|proset|thin categor' over *.v (17 files): Instance/Proset.v, Instance/Poset.v, Construction/Enriched/Two.v, Instance/Two.v, Instance/Two/Monoidal.v, Theory/Category.v, Adjunction/GAFT.v, Structure/Complete.v, Instance/Props.v, Test/Poset.v. Read all of Instance/Proset.v and Instance/Poset.v: they define `Proset (P : PreOrder R) : Category` with `homset := fun A B => {| Setoid.equiv := fun _ _ => True |}` and `Poset ... := Proset P`, and stop there. NOTHING in either file (or anywhere else) states a consequence for functors or natural transformations into such a category.",
+      "rg -i 'subsingleton|at most one' over *.v: every hit is a prose comment (Instance/Proset.v:26,28; Instance/Poset.v:25; Instance/Roof.v:83; Instance/Two.v:132; Construction/Enriched.v:96,99; Theory/Sheaf/Category.v:40; Instance/Lambda/Full.v). No Lemma/Theorem asserts thinness of a hom-setoid or of a functor category.",
+      "rg 'thin|Thin' over *.v: the only ASSERTION is `Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g` (Instance/Two/Monoidal.v:26), specific to the walking arrow _2 and consumed only to discharge enrichment coherence in Construction/Enriched/Two.v:157-159,213-214. There is no general `Thin`/`Posetal` predicate on categories, hence no lemma of the form `Thin D -> forall (F G : C ⟶ D) (a b : F ⟹ G), a ≈ b`.",
+      "rg -i 'unique.*natural transformation|transform_unique|Transform_unique|nat_eq' over *.v: 0 relevant hits. The only transformation-level uniqueness statements in-tree are UMP mediating-cell clauses (Theory/Kan/Extension.v:162 `∃! δ, μ ≈ ran_transform ∙ δ ⊲ F`, :242 the Lan dual), which are about a universal factorisation, not about thinness of the codomain.",
+      "Read Instance/Fun.v in full outline (`rg '^\\s*(Definition|Lemma|Theorem|Corollary|Program ...)' Instance/Fun.v`): `Fun`, the whiskering laws, `nat_λ/nat_ρ/nat_α`, `Pointed/WellPointed`, `Functor_Setoid_Nat_Iso`, `iso_equiv/equiv_iso`. No lemma specialises `[C, D]`'s hom-setoid when D is thin.",
+      "rg -i 'counterexample|countermodel' over *.v: hits only in Adjunction/GAFT.v, Structure/Monoidal.v, Structure/Terminal.v, Construction/Indexed.v, Construction/Funny/Bifunctor.v (all prose, all about other topics). Clause (2) of the exercise — exhibiting two distinct natural transformations between functors OUT of a preorder — has no in-tree witness either.",
+      "NEAR MISS, deliberately NOT cited as evidence because it asserts nothing about natural transformations: clause (1) is definitionally trivial in this library, since `Proset`'s hom-setoid is `fun _ _ => True` (Instance/Proset.v:39) and `Transform_Setoid`'s equivalence is componentwise ≈ in the target (Theory/Natural/Transformation.v:139-140). The mathematical claim is nowhere stated, so this is a genuinely fileable one-lemma gap, not a hidden PRESENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-3-4.json) independently landed on ABSENT. Re-ran the classifier's own searches: `two_thin` really is only Instance/Two/Monoidal.v:26 and is consumed only at Construction/Enriched/Two.v:157-159,213-214; Instance/Proset.v:39 is verbatim `homset := fun A B => {| Setoid.equiv := fun _ _ => True |}`; there is no `Thin`/`Posetal` predicate on categories and no lemma anywhere of the shape `∀ (a b : F ⟹ G), a ≈ b`. Instance/Props.v, the tree's other thin category, carries only Terminal/Initial/Cartesian/Cocartesian/Closed instances — nothing about transformations into it. The negative log's NEAR MISS paragraph is honest and correctly withheld from evidence: clause (1) is degenerately true in this library but is nowhere stated, and clause (2)'s counterexample has no witness either."
+    }
+  },
+  {
+    "id": "7sketches:3.3.4:remark3.59",
+    "classification": "PARTIAL",
+    "aliases": [
+      "PrO / Ord / Pos — the category of preorders and monotone maps",
+      "Bool-Cat / 2-Cat — categories enriched over the truth values (Bool-categories) and Bool-functors",
+      "equivalence of categories: F : A ⟶ B, G : B ⟶ A with F ◯ G ≅ Id and G ◯ F ≅ Id",
+      "EquivalenceOfCategories / quasi_inverse / adjoint equivalence (library naming)",
+      "Lawvere: a preorder is a category enriched in the poset of truth values",
+      "monotone map = enriched functor between Bool-categories"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.  Proof. split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder. Defined."
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q.  (with Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) })"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 151,
+        "symbol": "EquivalenceOfCategories",
+        "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }.  (≈ on functors IS bundled natural isomorphism, Functor_Setoid; the ≅[Fun] forms are equivalence_counit_iso / equivalence_unit_iso at :202,:205)"
+      }
+    ],
+    "statement_record": {
+      "book": "Makes precise 'preorders are equivalent to Bool-categories': there is a category PrO of preorders and monotone maps, a category Bool-Cat of Bool-categories and Bool-functors, and the two are EQUIVALENT — functors F : PrO → Bool-Cat and G : Bool-Cat → PrO with natural isomorphisms F;G ≅ id_PrO and G;F ≅ id_Bool-Cat (natural iso in the sense of Def 3.49).",
+      "intree": "Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder (maps both ways on objects) together with EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 ... ↔ MonotoneMap P Q (maps both ways on morphisms); the general notion the remark is making precise is Class EquivalenceOfCategories with quasi_inverse and the two natural-isomorphism cells.",
+      "strength_comparison": "intree-weaker: three separate gaps. (i) The correspondence is a bare Type-level ↔ (a PAIR OF MAPS), with NO round-trip lemma in either direction — nothing shows TwoPreorder_of_Enriched ∘ Enriched_of_TwoPreorder is the identity up to anything, so it is not even an isomorphism of types, let alone an equivalence. (ii) Neither PrO nor Bool-Cat is built as a Category in-tree, so the statement cannot even be phrased as an equivalence of categories; the morphism leg is a bijection of hom-TYPES between two fixed preorders, not a functor. (iii) The in-tree TwoPreorder carries DECIDABILITY as data (tpre_dec x y : tpre_le x y + (tpre_le x y → False)), an extra hypothesis the book does not impose (needed because ehom must compute an object of _2), and the enrichment is over the walking arrow _2 with its cartesian Two_Monoidal rather than over an abstract Bool. The general definition of equivalence of categories (clause: 'these are called equivalent because there exist F, G and natural isos') IS present at full strength."
+    },
+    "gap": "The two CATEGORIES do not exist in-tree — there is no Instance/Ord.v (the 'See also [Ord], for the category of preordered sets' pointer at Instance/Proset.v:19 and the '[Pos]' pointer at Instance/Poset.v:21 are stale: `ls Instance/` and `rg '\\bOrd\\b|PrO|Preord'` find no such category), and there is no category of Bool-categories/Bool-functors (rg 'MonotoneMap|TwoPreorder' outside Construction/Enriched/Two.v: 0 hits, so MonotoneMap is never assembled into a category). Consequently: no functors F : PrO ⟶ Bool-Cat, G : Bool-Cat ⟶ PrO; no natural isomorphisms F ◯ G ≅ Id, G ◯ F ≅ Id; and no instance of EquivalenceOfCategories witnessing the remark. What exists is the object-level and morphism-level dictionary as bare bidirectional maps, plus decidability as an extra hypothesis on the preorder side.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL for the same reasons. All three evidence citations verified verbatim at the cited lines (Construction/Enriched/Two.v:165 and :183; Theory/Equivalence.v:151). Gap independently confirmed: `rg 'MonotoneMap|TwoPreorder'` over *.v hits Construction/Enriched/Two.v and nothing else, so MonotoneMap is never assembled into a category; Construction/Enriched/Fun.v:270 builds `Enriched_Fun (C D : Enriched K) : Category`, the category of V-functors between two FIXED V-categories, which is not a category of Bool-categories, so Bool-Cat genuinely does not exist in-tree; `ls Instance/` has no Ord/Pos module. Claim (i) 'no round-trip lemma' is accurate — Enriched_Two_preorder's whole proof is `split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder.` The record's observation that the [Ord] and [Pos] pointers are stale is correct; I have escalated both to problems[] on the library-defect channel."
+    }
+  },
+  {
+    "id": "7sketches:3.3.5:def3.60",
+    "classification": "PRESENT",
+    "aliases": [
+      "instance homomorphism = natural transformation between set-valued functors",
+      "C-Inst := Set^C, the functor category [C, Set]",
+      "Fun / [C, D] / Presheaves (library naming)",
+      "category of models / category of diagrams of shape C in Set",
+      "copresheaf category Set^C (dual: presheaf category Set^{C^op})"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; (* objects are functors C ⟶ D *) hom := @Transform C D; (* morphisms are natural transformations *) id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.  Notation \"[ C , D ]\" := (@Fun C D)  (Instance/Fun.v:119)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }."
+      }
+    ],
+    "statement_record": {
+      "book": "For a database schema C and C-instances I, J : C → Set, an instance homomorphism is a natural transformation α : I → J; the category of instances on C is C-Inst := Set^C, the functor category, whose objects are instances and whose morphisms are instance homomorphisms.",
+      "intree": "Fun : Category with obj := C ⟶ D, hom := @Transform C D, id := nat_id, compose := nat_compose, written [C, D]; taking D := Sets (Instance/Sets.v:188) gives [C, Sets], and Transform is precisely the naturality-square class.",
+      "strength_comparison": "same — the functor category is constructed in full generality for any C and D, so C-Inst is [C, Sets]; the setoid rephrasing (Transform_Setoid identifies transformations componentwise under ≈) is the faithful library idiom. Two presentational notes, neither a weakening: (a) the library's Sets is the category of SETOIDS (SetoidObject/SetoidMorphism, Instance/Sets.v:188) rather than bare sets — the library's standing stand-in for Set, with Instance/Coq.v (types and functions) and Instance/Ens.v also available; (b) the book's C-Inst notation and the word 'instance' are not used in-tree (rg -i 'database|instance homomorphism|data migration' finds only the prose essay at Construction/Free.v:87-90, which cites Seven Sketches by name), so only the mathematical content, not the database vocabulary, is formalized. The naming alias Definition Presheaves {U C} := [U^op, C] (Theory/Sheaf.v:127) exists for the contravariant case but is not cited here since it asserts nothing beyond the name."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Instance/Fun.v:108 and Theory/Natural/Transformation.v:113 verified verbatim, as were the two prose citations (Instance/Sets.v:188 `Program Definition Sets`, Theory/Sheaf.v:127 `Definition Presheaves {U C} := [U^op, C]`). The `same` strength verdict is honest: Fun is built for arbitrary C and D, so C-Inst is the instance [C, Sets], and Transform is exactly the naturality-square class. ONE CAVEAT that does not affect this verdict: the item's trailing prose ('1-Inst is equivalent to Set') has no in-tree counterpart — Instance/One.v:22 asserts `[1, C] ≃ C` in a COMMENT only and no theorem proves it. That content belongs to the cross-referenced example3.53 item and must not be credited as PRESENT there on the strength of this record."
+    }
+  },
+  {
+    "id": "7sketches:3.3.5:construction-gr",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the schema Gr: free category on Arrow ⇉ Vertex (source, target)",
+      "walking parallel pair / walking quiver / free quiver (library: Instance/Parallel.v)",
+      "graphs as presheaves: Set^Gr ≅ Graph, [Parallel^op, Sets]",
+      "Quiv — the category of quivers/graphs and graph homomorphisms (library: QuiverCategory)",
+      "graph homomorphism = natural transformation whose naturality squares are source/target preservation"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 129,
+        "symbol": "APair",
+        "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C := {| fobj := fun z => match z with | ParX => x | ParY => y end; fmap := fun z w h => match z, w with | ParX, ParX => id[x] | ParY, ParY => id[y] | ParX, ParY => match ``h with | true => f | false => g end | ParY, ParX => False_rect _ (ParHom_Y_X_absurd _ (projT2 h)) end |}. (ADDED BY VERIFIER: the general construction of a Gr-instance from graph data — at C := Sets, with x := the arrow set, y := the vertex set, f := source, g := target, this IS the book's translation, in the book's own covariant orientation Gr ≅ Parallel with Arrow := ParX, Vertex := ParY.)"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with | ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := fun z w h => match z, w with ... | ParY, ParX => match ``h with | true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end end |}."
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 80,
+        "symbol": "Parallel",
+        "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; homset := fun x y => {| equiv := fun f g => ``f = ``g |}; id := ...; compose := ... |}, over Inductive ParObj := ParX | ParY and Inductive ParHom : bool → ParObj → ParObj → Set := ParIdX | ParIdY | ParOne | ParTwo (two objects, two parallel non-identity arrows, no other composites)."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category := Build_Category' QuiverHomomorphism QuiverId (fun Q1 Q2 Q3 F G => @QuiverComp Q1 Q2 Q3 G F) with homset := QuiverHomomorphismEquivalence — i.e. Quiv, the category whose objects are graphs (Class Quiver := { nodes : Type; edges : nodes → nodes → Type; edgeset : ∀ X Y, Setoid (edges X Y) }) and whose morphisms are graph homomorphisms."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D |}, notation [C, D] — instantiating at [Parallel^op, Sets] gives the category the construction calls Gr-Inst."
+      }
+    ],
+    "statement_record": {
+      "book": "Gr is the free category on the graph with two vertices Arrow, Vertex and two parallel arrows source, target : Arrow → Vertex, no equations. A Gr-instance I : Gr → Set is EXACTLY a graph (I(Vertex) the vertices, I(Arrow) the arrows, I(source)/I(target) the endpoint maps); every graph arises this way. Hence the objects of Gr-Inst = Set^Gr are graphs and its morphisms — natural transformations with components α_Vertex, α_Arrow — are exactly graph homomorphisms, the naturality squares at source and target being preservation of endpoints.",
+      "intree": "The schema exists as Parallel (two objects, two parallel non-identity arrows), so Gr = Parallel^op; one graph is exhibited as an instance by Presheaf_Graph : Parallel^op ⟶ Sets with fobj ParX := nat (vertices), fobj ParY := nat*nat (edges), fmap of the two arrows := fst (source) and snd (target); Gr-Inst is available as [Parallel^op, Sets] from Fun; and the category of graphs in the direct presentation is QuiverCategory over Class Quiver / Class QuiverHomomorphism.",
+      "strength_comparison": "intree-weaker: the two halves exist but the IDENTIFICATION between them — the whole content of the construction — is never stated. In-tree there is (a) the schema and one hand-built instance, and (b) an independently defined category of graphs, with no functor, isomorphism or equivalence connecting [Parallel^op, Sets] to QuiverCategory. Two further mismatches: Class Quiver presents a graph as a node-INDEXED FAMILY edges : nodes → nodes → Type (with a setoid on each edge set), not as one arrow set with two endpoint maps, so even the object-level correspondence would need the family/fibration translation; and Parallel is defined ad hoc by an inductive hom family rather than as FreeOnQuiver of the two-parallel-arrows quiver, so its freeness (the book's presentation of Gr, and what makes schema functors definable on generators) is asserted only in a file comment (Instance/Parallel.v:12 'also called the free quiver'), never proved."
+    },
+    "gap": "Missing: (1) any statement that a Gr-instance IS a graph — no map either way between obj[Parallel^op, Sets] and Quiver, and no equivalence [Parallel^op, Sets] ≃ QuiverCategory (rg -i 'graph homomorphism|category of graphs|Gr-instance' over *.v: 0 hits; Presheaf_Graph is defined once and referenced nowhere else in the tree); (2) any statement that natural transformations of Gr-instances are exactly graph homomorphisms, i.e. that the naturality squares at source and target say precisely that endpoints are preserved; (3) a construction of Gr as a free category on the two-parallel-arrow quiver (FreeOnQuiver is available but is never instantiated at that quiver — the only in-tree instantiation is the one-node one-loop quiver B138_loop in Test/Issue138.v:87). [VERIFIER CORRECTION] Phase C's gap understates the in-tree state: `APair {C} {x y} (f g : x ~> y) : Parallel ⟶ C` (Instance/Parallel.v:129, pointed to from Structure/Equalizer.v:37 and consumed in Adjunction/GAFT.v:198 and Structure/Coequalizer.v) IS a general construction of a Gr-instance from graph data, in the book's own covariant orientation. So the 'graph data ↦ Gr-instance' half of the identification exists in-tree in reusable form, and 'Presheaf_Graph is defined once and referenced nowhere else' (independently verified true of Presheaf_Graph) must not be read as 'the tree contains one Gr-instance'. What remains genuinely missing, and what keeps this PARTIAL, is (a) the converse reading of an arbitrary instance as graph data, (b) any statement that the two are inverse, (c) the morphism half — that Transforms of Gr-instances are exactly graph homomorphisms — and (d) any functor/equivalence relating [Parallel, Sets] to Construction/Free/Quiver.v:358's QuiverCategory, whose `Class Quiver` uses the node-INDEXED family `edges : nodes → nodes → Type` rather than one arrow set with two endpoint maps. Verified independently: `rg -i 'graph homomorphism|category of graphs|Gr-instance'` over *.v = 0 hits.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld — the identification the construction is FOR is genuinely unproven. But the record materially understated the in-tree state and I have corrected evidence and gap: `APair` (Instance/Parallel.v:129) is a general graph-data-to-Gr-instance construction, and it is BETTER evidence than the hand-built infinite `Presheaf_Graph` because it is reusable and lands in the book's covariant orientation ([Parallel, Sets] with Arrow := ParX, Vertex := ParY) rather than [Parallel^op, Sets]. Everything else checks out: Parallel at :80, QuiverCategory at Construction/Free/Quiver.v:358, Presheaf_Graph's single reference, and the honest observation that Parallel's freeness is only a file comment (see problems[] — that comment calls the CATEGORY 'the free quiver', which is a category error)."
+    }
+  },
+  {
+    "id": "7sketches:3.3.5:ex3.62",
+    "classification": "PARTIAL",
+    "aliases": [
+      "write a given graph as a Gr-instance / as a set-valued functor on the schema Gr",
+      "graph in table form: Arrow table with source and target columns, Vertex table",
+      "presheaf on the walking parallel pair (Parallel^op ⟶ Sets)",
+      "quiver-to-presheaf translation",
+      "concrete finite instance of a database schema"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 129,
+        "symbol": "APair",
+        "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C := {| fobj := fun z => match z with | ParX => x | ParY => y end; fmap := fun z w h => match z, w with | ParX, ParX => id[x] | ParY, ParY => id[y] | ParX, ParY => match ``h with | true => f | false => g end | ParY, ParX => False_rect _ (ParHom_Y_X_absurd _ (projT2 h)) end |}. (ADDED BY VERIFIER: the general construction of a Gr-instance from graph data — at C := Sets, with x := the arrow set, y := the vertex set, f := source, g := target, this IS the book's translation, in the book's own covariant orientation Gr ≅ Parallel with Arrow := ParX, Vertex := ParY.)"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with | ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := ... | ParY, ParX => match ``h with | true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end ... |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Take the graph displayed at Eq. (3.2) (forgetting its white/black node distinction) and write down the corresponding Gr-instance in the table style of (3.61): an Arrow table with source and target columns, plus a Vertex table — i.e. exhibit the set-valued functor Gr → Set that the picture encodes.",
+      "intree": "Presheaf_Graph : Parallel^op ⟶ Sets, the one worked example in the tree of a graph written as a set-valued functor on the parallel-pair schema: vertex object nat, arrow object nat*nat, and the two schema arrows sent to fst (source) and snd (target).",
+      "strength_comparison": "intree-weaker: the exercise's translation (picture of a graph ↦ set-valued functor on Gr) is carried out in-tree exactly once, for a DIFFERENT and INFINITE graph — the complete graph on nat with edge set nat*nat — rather than for the finite graph of Eq. (3.2), and there is no tabular/finite presentation anywhere. It is also a hand-built one-off: there is no general construction turning an arbitrary graph (Quiver, or a pair of finite sets with two maps) into a functor Parallel^op ⟶ Sets, so nothing lets a reader instantiate the translation at a new graph without redoing the Program Definition by hand. [VERIFIER CORRECTION] The sentence 'It is also a hand-built one-off: there is no general construction turning an arbitrary graph (Quiver, or a pair of finite sets with two maps) into a functor Parallel^op ⟶ Sets' is FALSE for the book's own variance: `APair f g : Parallel ⟶ C` (Instance/Parallel.v:129) turns any pair of parallel morphisms — at C := Sets, any (source, target : A → V) — into exactly the Gr-instance the exercise asks for. The reusable translation exists; only its instantiation at a concrete finite graph does not."
+    },
+    "gap": "The specific instance of Eq. (3.2) is not in-tree, and neither is any finite Gr-instance (Instance/FinSet.v exists but is never used to build a presheaf on Parallel). More substantively, the reusable form of the exercise — a construction Quiver → ([Parallel^op, Sets]) sending a graph to its instance — does not exist, so the translation is witnessed only by the single hard-coded Presheaf_Graph. [VERIFIER CORRECTION] The clause 'the reusable form of the exercise — a construction ... sending a graph to its instance — does not exist, so the translation is witnessed only by the single hard-coded Presheaf_Graph' is false: `APair` (Instance/Parallel.v:129) is precisely that construction for the two-sets-and-two-maps presentation of a graph. The surviving gap, which keeps this PARTIAL, is narrower: no instantiation of APair (or of any Gr-instance) at a concrete finite graph — the graph of Eq. (3.2) in particular — and no bridge from the indexed-edges `Class Quiver` record to that presentation.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld (the Eq. (3.2) graph, and any finite Gr-instance, are absent — independently confirmed: no presheaf on Parallel is ever built over Instance/FinSet.v, and Induced/APair are never applied to concrete finite data). Corrected a FALSE claim in both strength_comparison and gap: the reusable graph-to-instance construction DOES exist as `APair` (Instance/Parallel.v:129). Left the classification unchanged because the exercise's actual content — this graph, written out — still has no counterpart."
+    }
+  },
+  {
+    "id": "7sketches:3.3.5:example3.63",
+    "classification": "PARTIAL",
+    "aliases": [
+      "concrete graphs presented as database instances on Gr",
+      "finite Gr-instance: Arrow table (ID, source, target) + Vertex table",
+      "finite presheaf on the walking parallel pair",
+      "picture of a graph and its pair of tables carry the same data",
+      "finite graph as a functor into FinSet / Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 129,
+        "symbol": "APair",
+        "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C := {| fobj := fun z => match z with | ParX => x | ParY => y end; fmap := fun z w h => match z, w with | ParX, ParX => id[x] | ParY, ParY => id[y] | ParX, ParY => match ``h with | true => f | false => g end | ParY, ParX => False_rect _ (ParHom_Y_X_absurd _ (projT2 h)) end |}. (ADDED BY VERIFIER: the general construction of a Gr-instance from graph data — at C := Sets, with x := the arrow set, y := the vertex set, f := source, g := target, this IS the book's translation, in the book's own covariant orientation Gr ≅ Parallel with Arrow := ParX, Vertex := ParY.)"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with | ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := ... | ParY, ParX => match ``h with | true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end ... |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Two concrete graphs are given both pictorially and as instances on Gr: G with vertices {1,2,3} and arrows a : 1→2, b : 2→3; H with vertices {4,5} and arrows c, d : 4→5 and a loop e : 5→5. Each is written as an Arrow table with source and target columns plus a Vertex table, showing the picture and the tables carry exactly the same data.",
+      "intree": "Presheaf_Graph : Parallel^op ⟶ Sets — the tree's only graph-as-set-valued-functor, with vertex object nat, arrow object nat*nat and the two schema arrows realized as fst and snd.",
+      "strength_comparison": "intree-weaker: the example's content is that FINITE, explicitly enumerated graphs (with named vertices and named arrows, including parallel arrows c, d and a loop e) can be written as Gr-instances. In-tree there is exactly one Gr-instance, and it is infinite and uniform (nat vertices, nat*nat arrows), so it exhibits neither the finite tabular presentation nor the two particular graphs; and since only one instance exists, the pair G, H that Example 3.63 sets up for Exercise 3.64 has no counterpart at all."
+    },
+    "gap": "Neither G nor H is in-tree, and no finite Gr-instance of any kind exists (no presheaf on Parallel valued in Instance/FinSet.v, no enumerated carrier). Also absent is any second instance on the schema, which is what the example exists to supply — the tree has one and only one object of [Parallel^op, Sets] (Presheaf_Graph is defined at Instance/Parallel.v:166 and referenced nowhere else). [VERIFIER CORRECTION] 'the tree has one and only one object of [Parallel^op, Sets]' is true as stated but misleading: `APair f g : Parallel ⟶ C` (Instance/Parallel.v:129) produces a Gr-instance from ANY parallel pair, so Gr-instances are generically constructible in-tree in the book's own variance. The surviving gap is that no CONCRETE pair of finite instances (the G and H this example exists to supply for Exercise 3.64) is ever written down, and no Gr-instance with an enumerated finite carrier exists at all.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld — neither G nor H, nor any finite Gr-instance, is in-tree. Corrected the 'one and only one object of [Parallel^op, Sets]' framing, which is accurate for Parallel^op but suppresses `APair`'s generic supply of instances in the covariant orientation. Presheaf_Graph quote re-verified verbatim at Instance/Parallel.v:166-171."
+    }
+  },
+  {
+    "id": "7sketches:3.3.5:ex3.64",
+    "classification": "PARTIAL",
+    "aliases": [
+      "graph homomorphism as a natural transformation between Gr-instances",
+      "unique α : G ⟹ H with α_Arrow(a) = d; existence and uniqueness of a graph map",
+      "naturality square = 'α-then-source equals source-then-α' (endpoint preservation)",
+      "QuiverHomomorphism (library naming for a graph homomorphism)",
+      "morphism in [Parallel^op, Sets]"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 205,
+        "symbol": "QuiverHomomorphism",
+        "intree_statement": "Class QuiverHomomorphism (G : Quiver) (G' : Quiver) := { fnodes : @nodes G -> @nodes G'; fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); fedgemap_respects : ∀ x y, Proper (equiv ==> equiv) (@fedgemap x y) }."
+      }
+    ],
+    "statement_record": {
+      "book": "For G, H as in Example 3.63 there is EXACTLY ONE graph homomorphism (natural transformation) α : G → H with α_Arrow(a) = d; determine α_Arrow(b) and the three values of α_Vertex, draw both components as matchings of the ID columns, and verify naturality on the tables ('α-then-source = source-then-α', likewise for target).",
+      "intree": "The general notion of the compatibility being checked is Class Transform with its naturality square fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f, instantiated at the schema arrows source and target it IS the exercise's check; the notion of a graph homomorphism itself is Class QuiverHomomorphism, a node map together with an edge map fedgemap : edges x y → edges (fnodes x) (fnodes y).",
+      "strength_comparison": "intree-weaker in two distinct ways. (i) QuiverHomomorphism makes endpoint preservation TRUE BY TYPING — the edge map is forced to land in edges (fnodes x) (fnodes y) — rather than by a naturality square, so the exercise's actual verification step has no in-tree counterpart; nothing links the two presentations. (ii) Nothing about THIS α exists: there is no pair of Gr-instances in the tree (Presheaf_Graph is the only one), hence no transformation between Gr-instances, and no existence-and-uniqueness statement of the form 'exactly one α with α_Arrow(a) = d'."
+    },
+    "gap": "Missing: (1) any natural transformation between set-valued functors on Parallel/Parallel^op — the tree contains exactly one such functor, so the hom-set the exercise computes in is empty of witnesses; (2) the specific α : G ⟹ H and the proof that it is the unique one with α_Arrow(a) = d; (3) the bridge stating that a Transform between Gr-instances is exactly a QuiverHomomorphism, i.e. that naturality at source and target IS endpoint preservation (rg -i 'graph homomorphism' over *.v: 0 hits; QuiverHomomorphism is never related to any functor category). [VERIFIER CORRECTION] Clause (1)'s premise 'the tree contains exactly one such functor, so the hom-set the exercise computes in is empty of witnesses' is false — `APair` (Instance/Parallel.v:129) yields a Gr-instance for every parallel pair. The correct and independently verified form of clause (1) is: no natural transformation between ANY two Parallel-shaped Sets-valued diagrams is ever constructed in-tree. In particular `Cone`/`ACone` (Structure/Cone.v:24,51) is a legs-plus-coherence record, NOT a `Transform` out of a constant functor, so the forks over `APair f g` do not supply one either; and Monad/Monadicity/Crude.v:48 explicitly records that even the comparison of `U ◯ APair f g` with `APair (fmap[U] f) (fmap[U] g)` is 'an identification that the library does not carry'. Clauses (2) and (3) stand as written.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld. Both evidence quotes verified verbatim (Theory/Natural/Transformation.v:113, Construction/Free/Quiver.v:205). The strength_comparison's point (i) — that QuiverHomomorphism makes endpoint preservation true BY TYPING (`fedgemap : edges x y → edges (fnodes x) (fnodes y)`) so the exercise's naturality check has no in-tree counterpart — is exactly right and is the sharpest observation in this batch. Corrected the false premise of gap clause (1) (APair), and strengthened it with the two independent findings that Cone is not a Transform and that Crude.v:48 disclaims the APair-comparison identification."
+    }
+  },
+  {
+    "id": "7sketches:3.4.1:construction-dds-schema-functor",
+    "classification": "PARTIAL",
+    "aliases": [
+      "DDS schema: one object State, one loop next; free category on a one-vertex one-loop graph",
+      "delooping of the free monoid on one generator (ℕ as a one-object category)",
+      "deterministic discrete dynamical system = a set with an endofunction (S, next : S → S)",
+      "schema functor F : Gr → DDS defined on generators (source ↦ id, target ↦ next)",
+      "functor out of a free category determined by a quiver homomorphism (freeness UMP / InducedFunctor)"
+    ],
+    "evidence": [
+      {
+        "file": "Test/Issue138.v",
+        "line": 95,
+        "symbol": "B138_free_loop_nodes",
+        "intree_statement": "Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl.  (over Definition B138_loop : Quiver := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit), Test/Issue138.v:87 — the one-node one-loop quiver, so FreeOnQuiver B138_loop is the one-object category freely generated by a single loop, i.e. the schema DDS)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver G) C.  — a functor out of a free category is determined by an arbitrary assignment of its generating edges to morphisms of C, which is exactly what licenses 'source ↦ id_State, target ↦ next'."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful (built from FreeOnQuiver, UnitQuiverCatAdjunction and InducedFunctor with its uniqueness clause), packaged as Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful (:550) — the universal property making 'defined on generators, no equations to impose' a theorem rather than a slogan."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 431,
+        "symbol": "FreeOnQuiver",
+        "intree_statement": "Program Definition FreeOnQuiver : Category := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |} — morphisms are paths of generating edges, i.e. the free category on a graph with no equations."
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 129,
+        "symbol": "APair",
+        "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C. (ADDED BY VERIFIER: taking x = y = State and (f, g) = (id[State], next) gives a functor Parallel ⟶ DDS that IS the book's schema functor F : Gr → DDS — both objects to State, source to id, target to next — with no free-category machinery involved. It is not written down in-tree, but the obstruction Phase C states does not exist.)"
+      }
+    ],
+    "statement_record": {
+      "book": "DDS is the schema with one object State and one non-identity generator next : State → State (free on a one-vertex one-loop graph, no equations); its instances I : DDS → Set are exactly deterministic discrete dynamical systems, a state set I(State) with a transition function I(next). F : Gr → DDS sends both Arrow and Vertex to State, source to id_State and target to next; being defined on the generators of a free category with no equations, this data determines a functor.",
+      "intree": "FreeOnQuiver B138_loop with obj[FreeOnQuiver B138_loop] = Datatypes.unit is the one-object category freely generated by a single loop (the schema DDS); InducedFunctor / UniversalArrowQuiverCat / FreeForgetfulAdjunction give exactly the 'a functor out of a free category is an assignment on generators' principle in general.",
+      "strength_comparison": "intree-weaker in coverage, not in the parts it has: the free-category-on-a-graph machinery and its universal property are present at full strength (indeed stronger than the book needs — a full adjunction Free ⊣ Forgetful over StrictCat, not just the generators principle), and the DDS schema itself is instantiated in-tree at Test/Issue138.v. But the schema is built there only as a smoke test of issue #138 (nothing names it a dynamical-systems schema and only its OBJECT set is characterised — no lemma says its hom-sets are ℕ, i.e. that the loop generates freely), and the two things the construction is FOR — DDS-instances being (set, endofunction) pairs, and the comparison functor F : Gr → DDS — are absent."
+    },
+    "gap": "Missing: (1) the identification of DDS-instances with deterministic discrete dynamical systems — no statement that [FreeOnQuiver B138_loop, Sets] is (equivalent to) the category of sets equipped with an endofunction; Construction/FAlg.v's FAlg would give that category as FAlg (Id[Sets]) but is never related to any functor category (rg -i 'dynamical|transition function|endofunction|state machine': only prose hits in Comonad/Core.v, Construction/Cayley.v, Instance/Lambda/Eval.v, none categorical). (2) The schema functor F : Gr → DDS. This cannot currently be built by InducedFunctor either, because the in-tree Gr (Instance/Parallel.v's Parallel) is defined by an ad hoc inductive hom family rather than as FreeOnQuiver of the two-parallel-arrows quiver, so the freeness that licenses 'define it on source and target' is unavailable at Gr — bridging the two schemas into the same free-category framework is the prerequisite. (3) The concrete 7-state DDS-instance displayed at (3.65). [VERIFIER CORRECTION] Gap clause (2)'s stated OBSTRUCTION is wrong and would misdirect an issue-writer. It claims F : Gr → DDS 'cannot currently be built by InducedFunctor either, because the in-tree Gr ... is defined by an ad hoc inductive hom family rather than as FreeOnQuiver ..., so the freeness that licenses defining it on source and target is unavailable at Gr — bridging the two schemas into the same free-category framework is the prerequisite'. In fact functors OUT of `Parallel` are routinely built by direct case analysis with a three-line obligation proof: `APair` (Instance/Parallel.v:129) is exactly such a functor, and the book's F (both objects to State, source to id_State, target to next) is literally `APair (id[State]) next : Parallel ⟶ DDS`, since both images are parallel morphisms State → State. No free-category re-foundation of Parallel is a prerequisite, and no appeal to freeness is needed. Clauses (1) and (3), and the true fact that F is nowhere written down, stand.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld — the DDS schema exists (Test/Issue138.v:87 `B138_loop`, :95 `B138_free_loop_nodes`, file registered at _CoqProject:481) and the schema functor does not. All four Construction/Free/Quiver.v citations verified at :431, :464, :518, :550. The observation that Test/Issue138.v characterises only the OBJECT set (nothing proves the hom-sets are ℕ) is correct and well made. Corrected gap clause (2): the stated obstruction (Parallel not being a free category) is not real — `APair (id[State]) next` is the book's F, buildable today. This matters because the Phase C wording would scope an issue around rebuilding Parallel as FreeOnQuiver, which is unnecessary work."
+    }
+  },
+  {
+    "id": "7sketches:3.4.1:ex3.67",
+    "classification": "PARTIAL",
+    "aliases": [
+      "migrate an instance along a schema functor: compute G ; I",
+      "pullback / restriction of a set-valued functor along G (Δ_G)",
+      "precomposition functor (− ◯ G) : [DDS, Set] ⟶ [Gr, Set]",
+      "the mirror schema functor G : Gr → DDS with source ↦ next, target ↦ id",
+      "composite functor I ◯ G"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}  (for F : A ⟶ B) — the restriction/precomposition functor along F, i.e. the migration operation the exercise carries out."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 258,
+        "symbol": "Compose",
+        "intree_statement": "Program Definition Compose {C D E : Category} (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}, notation F ◯ G — the composite I ◯ G that the exercise computes table by table."
+      }
+    ],
+    "statement_record": {
+      "book": "For the alternative functor G : Gr → DDS with source ↦ next and target ↦ id_State, migrate the 7-state DDS-instance I of (3.65) along G: compute the composite G ; I : Gr → Set, write down the resulting Arrow and Vertex tables, and draw the corresponding graph.",
+      "intree": "The migration operation is Induced : [B, C] ⟶ [A, C], fobj G := G ◯ F, together with functor composition Compose (F ◯ G) — both fully general and applicable to any schema functor and any instance.",
+      "strength_comparison": "intree-weaker: the general operation the exercise instantiates is present at full strength (and more generally than the book states it, for an arbitrary target category rather than Set), but every particular of the exercise is missing — the schemas Gr and DDS are not connected by any functor in-tree, so neither G nor the mirror F exists; the 7-state instance of (3.65) does not exist; and no migration is ever computed on a concrete instance anywhere in the tree (Induced is used only as the left side of the Kan adjunctions Induced ⊣ Ran, Lan ⊣ Induced)."
+    },
+    "gap": "The exercise is a concrete computation, and none of its data is in-tree: no schema functor Gr → DDS in either orientation (see the DDS item — Parallel is not built as a free category on a quiver, so InducedFunctor cannot produce one), no 7-state DDS-instance, and no worked example of Induced/Δ applied to a specific set-valued functor to yield explicit tables. What exists is only the general operation being instantiated. [VERIFIER CORRECTION] The parenthetical '(see the DDS item — Parallel is not built as a free category on a quiver, so InducedFunctor cannot produce one)' misstates the obstruction. The exercise's mirror functor G : Gr → DDS (source to next, target to id_State) is `APair next (id[State]) : Parallel ⟶ DDS` using the existing `APair` (Instance/Parallel.v:129); no freeness and no InducedFunctor are needed. The real, verified gap is only that neither G nor F is written down, the 7-state instance of (3.65) does not exist, and `Induced` is never applied to a concrete Sets-valued functor anywhere in the tree.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL upheld — none of the exercise's concrete data is in-tree. Both evidence citations verified at the cited lines (Theory/Kan/Extension.v:127 `Induced`, Theory/Functor.v:258 `Compose`), and the claim that Induced appears only as the left side of the Kan adjunctions is correct (`rg 'Induced'` outside its own file finds no application to a concrete diagram). Corrected the false obstruction inherited from the DDS record: `APair next (id[State])` is the mirror functor G."
+    }
+  },
+  {
+    "id": "7sketches:3.4.1:def3.68",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullback of an instance along a functor: F ; I = I ◯ F",
+      "data migration functor Δ_F : D-Inst ⟶ C-Inst",
+      "restriction / precomposition functor (− ◯ F), written F* or p*",
+      "Induced (library naming, Theory/Kan/Extension.v)",
+      "whiskering α_F with (α_F)_c := α_{Fc} (library: whisker_right, N ⊲ F)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}.  Next Obligation. apply naturality. Qed.  Next Obligation. apply naturality_sym. Qed.  (Context {A B : Category} {F : A ⟶ B} {C : Category})"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 329,
+        "symbol": "whisker_right",
+        "intree_statement": "Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G) {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {| transform := λ x, N (X x); naturality := λ _ _ _, naturality _ _ _ _; naturality_sym := λ _ _ _, naturality_sym _ _ _ _ |}.  Notation \"N ⊲ F\" := (whisker_right N F)."
+      }
+    ],
+    "statement_record": {
+      "book": "For F : C → D and any I : D → Set, the composite F ; I : C → Set is the pullback of I along F; and for α : I ⇒ J there is α_F : F ; I ⇒ F ; J with (α_F)_c := α_{Fc}. This assignment on objects and morphisms defines the data migration functor Δ_F : D-Inst ⟶ C-Inst, depicted by whiskering α onto F.",
+      "intree": "Induced : ([B, C]) ⟶ ([A, C]) with fobj G := G ◯ F and fmap f := the transformation with component fun z => transform[f] (F z), its two naturality obligations discharged by naturality/naturality_sym; the transformation half is independently available as whisker_right N X : F ◯ X ⟹ G ◯ X with transform := λ x, N (X x), notation N ⊲ X.",
+      "strength_comparison": "intree-stronger: Induced is the same construction — object part the composite (written I ◯ F for the book's diagrammatic F ; I), morphism part the whiskering with component at c given by the original component at F c, packaged as a genuine Functor between the two functor categories (so its own fmap_id/fmap_comp/fmap_respects obligations are discharged, which the book only asserts) — and it is stated for an ARBITRARY target category C rather than only Set, so Δ_F : D-Inst ⟶ C-Inst is the special case C := Sets. It is also strictly more than the definition: the book's later claim that Δ_F has adjoints Σ_F ⊣ Δ_F ⊣ Π_F is exactly `ran_adjoint : Induced ⊣ Ran` and `lan_adjoint : Lan ⊣ Induced` (Theory/Kan/Extension.v:145, :225). The only presentational difference is naming and the absence of the database vocabulary."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT on the same construction before reading the coverage file. `Induced` (Theory/Kan/Extension.v:127) verified verbatim including both obligations discharged by naturality/naturality_sym, and `whisker_right` (Theory/Natural/Transformation.v:329-337) verified verbatim including `transform := λ x, N (X x)` and the `N ⊲ F` notation — so both halves of Definition 3.68 (object part I ◯ F, morphism part (α_F)_c := α_{Fc}) are present, packaged as a genuine Functor between functor categories for an ARBITRARY target rather than only Sets. 'intree-stronger' is fair. ONE CAVEAT, flagged so it is not carried forward: the remark that Σ_F ⊣ Δ_F ⊣ Π_F 'is exactly ran_adjoint / lan_adjoint (Theory/Kan/Extension.v:145,:225)' is conditional-only — `RightKan` and `LeftKan` are CLASSES whose adjunction is a FIELD, and `rg 'RightKan|LeftKan'` finds no instance ever constructed in the tree (the only external occurrence is the hypothesis `{@RightKan _ _ (Erase J) C}` in Structure/Limit/Kan/Extension.v:46). The §3.4.3 Σ/Δ/Π item must not be classified PRESENT on the strength of that sentence."
+    }
+  }
+]

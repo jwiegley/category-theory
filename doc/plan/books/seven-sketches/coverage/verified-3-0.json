@@ -1,0 +1,574 @@
+[
+ {
+  "id": "7sketches:3.1:ex3.3",
+  "classification": "ABSENT",
+  "aliases": [
+   "database schema as a graph/quiver",
+   "relational table, non-ID column, attribute column",
+   "foreign key arrow / attribute arrow to an external type",
+   "columns of a table correspond to arrows out of its node",
+   "schema graph edges out of a vertex",
+   "database instance as a Set-valued functor (the dual reading)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn \"database\\|schema\" --include=*.v . -i  → only prose in comments: Construction/Free.v:87 (\"a database schema is a finitely presented category\", header essay), Instance/Lambda/Full.v:37 (\"schema\" in an unrelated sense), plus many hits on Ltac \"hint database\" (Lib/Tactics.v, Test/Issue213.v). No definition, no Coq object.",
+   "grep -rn \"foreign key\\|\\btable\\b\\|column\" --include=*.v . -i → Structure/Pullback.v:50 (comment: \"primary key from A, and g a foreign key referencing A\"), Theory/Metacategory.v:96 and DecideExample.v (composition TABLES, unrelated sense), Instance/Sets.v:61 / Structure/Semiadditive.v:100 (\"column\" of a matrix / of a taxonomy). No relational-table type anywhere.",
+   "grep -rn \"attribute\\|primary key\\|tuple of a relation\" --include=*.v . -i → nothing bearing on relational schemas.",
+   "Class Quiver (Construction/Free/Quiver.v:54) exists, but nothing in-tree relates a quiver's edges out of a node to the columns of a table; there is no notion of table or column in the library at all."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: ABSENT. My own searches before opening the coverage file (`rg -in 'database|schema|foreign key|olog'`, `rg -in 'table|column|attribute'`) returned only header prose, never a Coq object. The closest in-tree text is Construction/Free.v:87-90, which cites this very book -- \"Applied category theory runs the same recipe toward data: a database schema is a finitely presented category, a free category on tables and foreign keys quotiented by path equations, with instances as functors to Set and data migration by adjoints (Fong, Spivak, 'Seven Sketches in Compositionality', CUP 2019, Chapter 3)\" -- and Structure/Pullback.v:50 (primary/foreign key analogy). Both are essays; there is no relational-table, column or attribute type anywhere. Recommend the classifier's negative log be augmented with the exact Construction/Free.v:87-90 citation, since it is the nearest thing to a counterpart and an issue drafter will want it."
+  }
+ },
+ {
+  "id": "7sketches:3.2:def3.6",
+  "classification": "PRESENT",
+  "aliases": [
+   "category",
+   "Class Category with obj / hom / id / compose",
+   "hom-set, Hom_C(c,d), homset (setoid of morphisms)",
+   "unitality + associativity (id_left / id_right / comp_assoc)",
+   "locally small category, metacategory made concrete"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Category.v",
+    "line": 111,
+    "symbol": "Category",
+    "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y); id {x} : x ~> x; compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z; compose_respects {x y z} : Proper (equiv ==> equiv ==> equiv) (@compose x y z); id_left {x y} (f : x ~> y) : id ∘ f ≈ f; id_right {x y} (f : x ~> y) : f ∘ id ≈ f; comp_assoc {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym {x y z w} ... : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h) }"
+   }
+  ],
+  "statement_record": {
+   "book": "A category C consists of a collection Ob(C) of objects; for each ordered pair c,d a SET C(c,d) of morphisms; an identity id_c ∈ C(c,c) for each object; and a composition C(c,d) × C(d,e) → C(c,e) written diagrammatically f;g. Two axioms: unitality id_c ; f = f = f ; id_d, and associativity (f;g);h = f;(g;h).",
+   "intree": "Class Category := { obj : Type; hom : obj → obj → uhom; homset : ∀ X Y, Setoid (X ~> Y); id {x} : x ~> x; compose {x y z} (f : y ~> z) (g : x ~> y) : x ~> z; compose_respects ... ; id_left (f : x ~> y) : id ∘ f ≈ f; id_right (f : x ~> y) : f ∘ id ≈ f; comp_assoc : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h) }",
+   "strength_comparison": "same. Three presentation differences, none weakening: (i) composition is written in classical order g ∘ f rather than the book's diagrammatic f;g — a pure notational mirror; (ii) hom-sets are SETOIDS with ≈ rather than sets with =, which the campaign fixes as a faithful rephrasing, and it forces the extra field compose_respects (composition well-defined on equivalence classes) that the book gets for free from strict equality; (iii) the book insists each C(c,d) is a set while Ob(C) may be a proper collection, whereas the in-tree hom lands in a universe-polymorphic Type@{h} — strictly more general, and the size discussion of the book's footnote 2 is handled by universe polymorphism rather than excluded. comp_assoc_sym is a redundant (derivable) field carried so that C^op^op = C holds by reflexivity, so the in-tree class is if anything slightly stronger data with identical content."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PRESENT (Theory/Category.v). Opened the cited location: `Class Category@{o h p | h <= p}` really is at Theory/Category.v:111, and the quoted field list is exact against lines 111-137 (obj/hom/homset/id/compose/compose_respects/id_left/id_right/comp_assoc/comp_assoc_sym); the quote silently drops the two let-fields `dom`/`cod` (127-128) and `uhom` is quoted correctly. `#[export] Existing Instance homset` and `compose_respects` (138-139) make the setoid and the Proper field usable, so this is a definition WITH its API, not a bare record. strength_comparison is honest: diagrammatic vs classical composition order is notation, and the hom-setoid rephrasing is the campaign-sanctioned one and is what forces the extra compose_respects field. File registered in _CoqProject."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:def3.7",
+  "classification": "PRESENT",
+  "aliases": [
+   "free category on a graph, Free(G), path category",
+   "quiver / directed multigraph; FreeOnQuiver",
+   "paths as type-aligned lists (tlist), concatenation as composition",
+   "free-forgetful adjunction Free ⊣ U : Cat → Quiv",
+   "Mac Lane II.7 'Graphs and Free Categories'"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 431,
+    "symbol": "FreeOnQuiver",
+    "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ ; setoid_equiv := tlist_quiver_equiv_is_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}  (over Class Quiver := { nodes : Type; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid (edges X Y) })"
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 550,
+    "symbol": "FreeForgetfulAdjunction",
+    "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _.   (with Definition FreeCatFunctor : @Functor QuiverCategory StrictCat, and Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful at line 518)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a graph G = (V, A, s, t), Free(G) is the category whose objects are the vertices V, whose morphisms c → d are the paths (head-to-tail sequences of arrows) from c to d, whose identity at c is the trivial length-0 path, and whose composition is concatenation of paths.",
+   "intree": "FreeOnQuiver G : Category with obj := nodes G, hom := tlist edges (finite composable paths of edges), id := tnil (the empty path), compose f g := g +++ f (path concatenation).",
+   "strength_comparison": "same, and in-tree stronger by the added universal property. The book's (V, A, s, t) with explicit source/target maps is replaced by the endpoint-indexed `edges : nodes → nodes → Type` — an equivalent presentation of a directed multigraph in which parallel edges and loops are still allowed, with s,t implicit in the indexing. Edge sets carry setoids, so path equality is componentwise ≈ rather than =; that is the sanctioned setoid rephrasing. The in-tree development goes beyond Definition 3.7 by proving the universal property (UniversalArrowQuiverCat / FreeForgetfulAdjunction), which the book does not state here. Note the adjunction is over StrictCat, not the weak Cat — a foundational refinement (locked by Test/Issue138.v), not a weakening of Definition 3.7."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PRESENT, and I found the same two witnesses independently. Verified Construction/Free/Quiver.v:431 `Program Definition FreeOnQuiver : Category` with obj := @nodes G, hom := tlist edges, id := tnil, compose f g := g +++ f -- objects=vertices, morphisms=paths, identity=trivial path, composition=concatenation, i.e. Definition 3.7 verbatim; and line 550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful`, resting on `UniversalArrowQuiverCat` at 518 (checked). `Class Quiver` at line 54 indexes edges by endpoints instead of carrying s,t -- an equivalent presentation of a directed multigraph that still admits parallel edges and loops, so no strength is lost. File in _CoqProject:72. Note for the record's benefit: a SECOND free category exists at Construction/Free.v:118 (`Free`), but only on the underlying quiver of a category, so Quiver.v is rightly the primary citation."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:construction-walking-arrow",
+  "classification": "PRESENT",
+  "aliases": [
+   "the category 2, walking arrow, interval category, free-standing morphism",
+   "_2 / TwoObj / TwoHom",
+   "free category on the graph v1 --f1--> v2",
+   "ordinal {0 < 1} as a thin category",
+   "two-arrow metacategory table"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Two.v",
+    "line": 134,
+    "symbol": "_2",
+    "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; homset := Morphism_equality; id := fun x => match x with TwoX => TwoIdX | TwoY => TwoIdY end; compose := ... |}   (over Inductive TwoObj := TwoX | TwoY and Inductive TwoHom : TwoObj → TwoObj → Set := TwoIdX | TwoIdY | TwoXY, i.e. exactly two objects and exactly the three morphisms id_{v1}, f1, id_{v2})"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 26,
+    "symbol": "two_thin",
+    "intree_statement": "Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g."
+   },
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 388,
+    "symbol": "TwoArrows",
+    "intree_statement": "Program Definition TwoArrows : Metacategory := {| pairs := [map (0, 0) +=> 0 ; (1, 1) +=> 1 ; (0, 2) +=> 2 ; (2, 1) +=> 2 ] |}   (the walking arrow as an explicit arrows-only composition table: two identities 0, 1 and one non-identity arrow 2, with 0∘2 = 2 = 2∘1)"
+   }
+  ],
+  "statement_record": {
+   "book": "2 := Free(v1 --f1--> v2). Explicitly 2 has two objects and exactly three morphisms — id_{v1}, f1, id_{v2} — with id_{v1};f1 = f1 and id_{v2};id_{v2} = id_{v2}. Standing convention: from here on a graph and its free category are not notationally distinguished.",
+   "intree": "Program Definition _2 : Category with obj := TwoObj (TwoX, TwoY) and hom := TwoHom whose only inhabitants are TwoIdX, TwoIdY, TwoXY; Lemma two_thin : any two parallel TwoHom morphisms are equal; TwoHom_Y_X_absurd : TwoHom TwoY TwoX → False.",
+   "strength_comparison": "same content, different construction route. The morphism-level claim is fully pinned in-tree: TwoHom's three constructors give exactly the book's three morphisms, two_thin plus TwoHom_Y_X_absurd say each hom-set is a singleton or empty, and the unit equations id_{v1};f1 = f1 etc. are _2's discharged category obligations. WEAKER only in that the library never DEFINES 2 as Free(one-arrow quiver) and never proves _2 ≅ FreeOnQuiver of that quiver — the two definitions coexist in-tree without a comparison functor between them. The book's standing notational convention (eliding graph vs free category) is metalinguistic and has no formal counterpart, nor could it have one."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed (I hesitated between PRESENT and PARTIAL for the same reason the record discloses). Verified: Instance/Two.v:134 `Program Definition _2 : Category` over `Inductive TwoObj := TwoX | TwoY` and `Inductive TwoHom` with EXACTLY three constructors TwoIdX/TwoIdY/TwoXY (lines 103-107) -- two objects, three morphisms, on the nose; Instance/Two/Monoidal.v:26 `Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g`; `TwoHom_Y_X_absurd` (Instance/Two.v:124). The strength_comparison is honest in stating the one real shortfall: `_2` is built directly as the posetal interval, never as `FreeOnQuiver` of the one-arrow quiver, and no comparison functor or iso between the two is proved (`rg -n FreeOnQuiver` hits only Construction/Free/Quiver.v and Test/Issue138.v). CAVEAT ON THE THIRD EVIDENCE ITEM: `TwoArrows` (Theory/Metacategory.v:388) is accurately described AS A TABLE, but it must not be read as an in-tree category with two objects -- `FromArrows TwoArrows` has object type `exists i, identity TwoArrows i`, and that predicate is uninhabited (see the LIBRARY-DEFECT entries). `_2` carries the whole weight, and it is enough. Minor schema note: gap is null while strength_comparison says 'WEAKER only in that ...'; the schema only mandates `gap` for PARTIAL, so this is legal, and the disclosure is the honest kind."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:ex3.9",
+  "classification": "PRESENT",
+  "aliases": [
+   "Free(G) satisfies the category axioms",
+   "path concatenation is associative and unital",
+   "tlist_app_assoc / tlist_app_tnil_l / tlist_app_tnil_r",
+   "FreeOnQuiver obligations discharged",
+   "path category laws"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 431,
+    "symbol": "FreeOnQuiver",
+    "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}. Next Obligation. (* compose_respects *) ... Defined. Next Obligation. rewrite tlist_app_tnil_r. apply Equivalence_Reflexive. Qed. Next Obligation. rewrite tlist_app_tnil_l. apply Equivalence_Reflexive. Qed. Next Obligation. rewrite tlist_app_assoc. apply Equivalence_Reflexive. Qed."
+   },
+   {
+    "file": "Lib/TList.v",
+    "line": 208,
+    "symbol": "tlist_app_assoc",
+    "intree_statement": "Lemma tlist_app_assoc {i j k l} (xs : tlist B i j) (ys : tlist B j k) (zs : tlist B k l) : (xs +++ ys) +++ zs = xs +++ (ys +++ zs).   (with tlist_app_tnil_l : tnil +++ xs = xs at line 195 and tlist_app_tnil_r : xs +++ tnil = xs at line 319)"
+   }
+  ],
+  "statement_record": {
+   "book": "Verify that the data of Definition 3.7 — vertices as objects, paths as morphisms, trivial paths as identities, concatenation as composition — satisfy the unitality and associativity axioms of Definition 3.6, for an arbitrary graph G.",
+   "intree": "FreeOnQuiver G is inhabited at type Category for an arbitrary Quiver G, with the id_left / id_right / comp_assoc obligations discharged by tlist_app_tnil_l, tlist_app_tnil_r and tlist_app_assoc respectively.",
+   "strength_comparison": "same. The verification is exactly the exercise: the unit laws are the two nil-append laws and associativity is append associativity, both proved by induction on the path in Lib/TList.v, and they hold on the nose (Leibniz =) before being weakened into the free category's setoid ≈. The proof is given for an arbitrary quiver, matching the exercise's 'for an arbitrary graph G'. The same verification is carried out a second time in Construction/Free.v:118 (Program Definition Free) for the special case of the underlying quiver of a category."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PRESENT. Verified the obligations at Construction/Free/Quiver.v:459-462 -- `rewrite tlist_app_tnil_r` (id_left), `rewrite tlist_app_tnil_l` (id_right), and `rewrite tlist_app_assoc` TWICE (comp_assoc and comp_assoc_sym); the record quotes three of the four, an immaterial omission. compose_respects is the induction at 440-458. The supporting lemmas are where the record says: Lib/TList.v:195 tlist_app_tnil_l, 208 tlist_app_assoc, 319 tlist_app_tnil_r, all Qed and proved by induction, with `=` not `~`. Orientation checked: compose f g := g +++ f, so `id o f` really is `f +++ tnil` and therefore really is discharged by tlist_app_tnil_r as claimed. Stated for an arbitrary Quiver, matching 'for an arbitrary graph G'."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:ex3.10",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the free category 3 on v1 → v2 → v3",
+   "six morphisms: three identities, f1, f2, f1;f2",
+   "composition table of a small category",
+   "ThreeArrows / Three (arrows-only metacategory table)",
+   "linear order 3 as a thin category"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 396,
+    "symbol": "ThreeArrows",
+    "intree_statement": "Program Definition ThreeArrows : Metacategory := {| pairs := [map (0, 0) +=> 0 ; (1, 1) +=> 1 ; (2, 2) +=> 2 ; (0, 3) +=> 3 ; (3, 1) +=> 3 ; (1, 4) +=> 4 ; (4, 2) +=> 4 ; (3, 4) +=> 5 ; (0, 5) +=> 5 ; (5, 2) +=> 5 ] |}   (the composition table itself, as data: six arrows 0..5 -- identities 0,1,2; generators 3 : 1 -> 0 and 4 : 2 -> 1; composite 5 = 3 o 4 : 2 -> 0 -- with every defined composite listed. Keys are the composable pair <g,f> and the value is g.f, per the field `composite (f g h : arr) := M.MapsTo (f, g) h pairs` at line 143. The obligations actually discharged for this table are `composition_law` (167) and `triple_composition` (176); the third axiom `identity_law` (191) is vacuous by the file's own note at 184-190.)"
+   },
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 447,
+    "symbol": "ThreeArrows_card_3",
+    "intree_statement": "Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3%nat.   (`cardinality` (415) counts the finite-map entries of the form (i,i) |-> i, i.e. the DIAGONAL ENTRIES that mark the intended identities -- a syntactic proxy. It does NOT count arrows satisfying the file's `identity` predicate, and it does not count objects of any in-tree category; see the gap.)"
+   }
+  ],
+  "statement_record": {
+   "book": "The free category 3 on v1 --f1--> v2 --f2--> v3 has three objects and six morphisms: the three trivial paths plus f1, f2 and f1;f2. Choose names for the six, tabulate all composites in a 6x6 table (writing the composite where one exists), and identify which entries are the identities.",
+   "intree": "ThreeArrows : Metacategory is that tabulation as data -- six arrows named 0..5, all ten defined composites listed, the diagonal entries marking the identities, with the associativity axioms (composition_law, triple_composition) discharged. ThreeArrows_card_3 : cardinality ThreeArrows = 3 counts the diagonal entries. Three : Category := FromArrows ThreeArrows type-checks, but its object type is `exists i : arr, identity ThreeArrows i` (FromArrows, line 261) and that predicate is uninhabited, so Three is the EMPTY category rather than the three-object one.",
+   "strength_comparison": "intree-weaker. The tabulation half of the exercise is met on the nose and is in fact machine-checked for associativity, which the exercise only asks the reader to read off. But the exercise's framing claim -- that 3 HAS three objects and six morphisms -- has no in-tree realisation: `identity (u : arr) := (forall f : arr, composite f u f) /\\ (forall g : arr, composite u g g)` (157-158) quantifies over all of `arr := nat` (135) with no definedness guard, while `pairs : M.t arr` (138) is a finite map, so no arrow of ThreeArrows is an `identity` and `Three` has no objects. The unit half of the category laws is therefore vacuous, not verified."
+  },
+  "gap": "The table is not realised as a category. (a) `Three := FromArrows ThreeArrows` (Theory/Metacategory.v:413) has object type `exists i : arr M, identity M i` (261-264), and `identity` (157-158) demands `forall f : arr, composite f u f` over the whole of `arr := nat` (135) against a FINITE map `pairs : M.t arr` (138) -- unsatisfiable for every u -- so Three is the empty category, not the three-object one, and its unit laws hold vacuously. (b) Consequently nothing in-tree states that 3 has three objects and six morphisms; ThreeArrows_card_3 counts finite-map diagonal entries, not objects. (c) The third metacategory axiom `identity_law` (191-194) is vacuous by the file's own jww note (184-190), so it constrains the table not at all. (d) No in-tree statement identifies ThreeArrows (or Three) with the free category on the linear 3-vertex graph: `rg -n FreeOnQuiver` hits only Construction/Free/Quiver.v and Test/Issue138.v, and Theory/Metacategory.v never mentions quivers or paths. Theory/Metacategory/ArrowsOnly.v keeps the guarded form of `identity` (noted at 155-156) but builds no analogue of Three.",
+  "negative_search_log": [
+   "rg -n 'Instance/Three|_3 : Category|Definition Three' -- the only `Three` in-tree is Theory/Metacategory.v:413, i.e. FromArrows ThreeArrows; there is no directly-built three-object linear category anywhere (Instance/ has One, Two, Zero, Parallel, Roof, Omega only).",
+   "rg -n 'FreeOnQuiver' -- Construction/Free/Quiver.v and Test/Issue138.v only; the free category is never instantiated at the linear 3-vertex graph.",
+   "Read Theory/Metacategory.v:128-195 and 261-268 in full to check the `identity`/`FromArrows` chain; no guarded variant is used in this file (the guarded one lives in Theory/Metacategory/ArrowsOnly.v and is not used to build Three)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:PARTIAL",
+   "notes": "My blind pass ALSO landed on ThreeArrows and I too was minded to call it PRESENT -- then I opened Theory/Metacategory.v and read the `identity` field, which the record did not. The overturn rests on one fact: the categorical realisation of the table is degenerate.\n\nTheory/Metacategory.v:135 sets `arr := nat`; 138 `pairs : M.t arr` is a FINITE map (M : WSfun); 143 `composite (f g h : arr) := M.MapsTo (f, g) h pairs`; 157-158 `identity (u : arr) := (forall f : arr, composite f u f) /\\ (forall g : arr, composite u g g)`. That quantifies over ALL of nat with no definedness guard, so `identity M u` demands infinitely many bindings and is UNSATISFIABLE in any metacategory of this file. FromArrows (line 261) takes `obj := exists i : arr M, identity M i`. Hence `Three := FromArrows ThreeArrows` (line 413) is the EMPTY category -- not the three-object category the header advertises -- and its unit laws hold vacuously.\n\nConsequences for the Phase C record, both corrected in place: (i) its strength_comparison asserted 'Nothing weaker: that the table really is a category (all associativity/unit obligations) is machine-checked' -- false; the unit content is carried by `identity`, which nothing inhabits, and the third Mac Lane axiom `identity_law` (191-194) is vacuous by the file's own jww note at 184-190. (ii) its gloss on ThreeArrows_card_3, 'so 3 identifies ... how many objects there are', is false: `cardinality` (415) counts finite-map entries (i,i) |-> i, a syntactic proxy, while `Three` has zero objects.\n\nWhat genuinely survives, and why this is PARTIAL rather than ABSENT: the TABLE is exactly the exercise's answer as data -- six arrows named 0..5, ten defined composites, the diagonal entries marking the identities -- and the associativity content (`composition_law`, `triple_composition`) IS discharged for it by check_structure. I verified the arrow directions independently from the composite convention at 137-143 (keys are the composable pair <g,f> with value g.f): (0,3)|->3 and (3,1)|->3 give 3 : 1 -> 0; (1,4)|->4 and (4,2)|->4 give 4 : 2 -> 1; (3,4)|->5 with (0,5)|->5, (5,2)|->5 give 5 = 3 o 4 : 2 -> 0. So the table is faithfully the free category on the linear 3-vertex graph, with no equations imposed. Only its realisation as a Category is missing."
+  },
+  "phase_c_classification": "PRESENT"
+ },
+ {
+  "id": "7sketches:3.2.1:ex3.12",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the terminal / point category 1",
+   "the empty / initial category 0",
+   "the free category n on a linear graph with n vertices",
+   "ordinal category [n], finite linear order as a category",
+   "number of morphisms in n = n(n+1)/2"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/One.v",
+    "line": 25,
+    "symbol": "_1",
+    "intree_statement": "Program Definition _1@{o h p} : Category@{o h p} := {| obj := poly_unit@{o}; hom := fun _ _ => poly_unit@{h}; homset := Morphism_equality; id := fun _ => ttt; compose := fun _ _ _ _ _ => ttt |}   (one object, one morphism; and Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase } at line 54)"
+   },
+   {
+    "file": "Instance/Zero.v",
+    "line": 28,
+    "symbol": "_0",
+    "intree_statement": "Program Definition _0 : Category := {| obj := Empty_set; hom := fun _ _ => Empty_set; homset := Morphism_equality |}   (no objects, no morphisms; and Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; one := From_0 } at line 44)"
+   }
+  ],
+  "statement_record": {
+   "book": "Extrapolating the pattern of 2 and 3: (1) describe the objects and morphisms of 1; (2) describe 0; (3) give a closed formula for the number of morphisms in n for arbitrary n ∈ N.",
+   "intree": "_1 : Category with obj := poly_unit and hom := fun _ _ => poly_unit (one object, one identity morphism), shown terminal in Cat; _0 : Category with obj := Empty_set and hom := fun _ _ => Empty_set (no objects, no morphisms), shown initial in Cat. Theory/Metacategory.v additionally carries OneArrow (pairs := [map (0,0) +=> 0]) and ZeroArrows (pairs := [map]) as the corresponding arrows-only tables.",
+   "strength_comparison": "parts (1) and (2) same, and in-tree stronger (each is characterized by a universal property in Cat, which the exercise does not ask for). Part (3) has no in-tree counterpart."
+  },
+  "gap": "Part (3) is entirely missing: there is no in-tree family `n` of free categories on the linear graph with n vertices (the tree has exactly 0, 1, 2 and 3 as separate hand-built objects — Instance/Zero.v, Instance/One.v, Instance/Two.v, Theory/Metacategory.v's Three — and no n-indexed construction, no simplex/ordinal category Δ, no `Fin n`-indexed linear order as a category), and consequently no closed formula n(n+1)/2 for the number of its morphisms and no cardinality statement of any kind for a general n. `grep -rn \"simplex\\|Simplex\\|ordinal\" --include=*.v .` finds only Instance/Omega.v (the single ordinal ω, not the finite ordinals) and passing prose in Instance/FinSet.v:89 and Instance/Two.v:81.",
+  "negative_search_log": [
+   "grep -rn \"simplex\\|Simplex\\|ordinal\\|finite linear order\" --include=*.v . -i → Instance/Omega.v (ω only), Instance/FinSet.v:89 and Instance/Two.v:81 (comments), nothing defining the finite ordinals as categories.",
+   "grep -rn \"^Inductive .*Obj\\|^Inductive .*Hom\" --include=*.v . → only Instance/AST.v, Instance/Two.v, Instance/Parallel.v, Instance/Roof.v, Instance/Two/Discrete.v, Construction/Funny.v — no n-indexed shape family."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PARTIAL, same split. Verified Instance/One.v:25 `_1` (obj := poly_unit, hom := fun _ _ => poly_unit) and Cat_Terminal at 54; Instance/Zero.v:28 `_0` (obj := Empty_set, hom := fun _ _ => Empty_set) and Cat_Initial at 44 (the `terminal_obj`/`one` field names are correct -- Initial is Terminal in the opposite). The gap on part (3) matches my own negative search: no finite-ordinal / simplex / Fin-indexed family of categories exists; Instance/Omega.v is the single infinite ordinal omega (objects nat, homs `le_t`), which is NOT a finite `n` and is correctly excluded by the record. No closed morphism-count formula of any kind is in-tree. CAVEAT: the statement_record's mention of OneArrow/ZeroArrows as 'the corresponding arrows-only tables' is accurate as a description of tables only -- `FromArrows` of either is the empty category (see the LIBRARY-DEFECT entries); it is not load-bearing here since _1 and _0 are the real evidence."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:example3.13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free category on the one-loop graph, one object and N-many morphisms",
+   "free monoid on one generator; N as a one-object category",
+   "one-object category = monoid (delooping BM)",
+   "hom-monoid / endomorphism monoid of a single object",
+   "monoid as a Set-enriched one-object category"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Funny/Comparison.v",
+    "line": 81,
+    "symbol": "ListMon",
+    "intree_statement": "Program Definition ListMon : Category := {| obj := poly_unit; hom := fun _ _ => list bool; homset := fun _ _ => Morphism_equality _ _; id := fun _ => nil; compose := fun _ _ _ u v => (v ++ u)%list |}. Next Obligation. now rewrite app_nil_r. Qed. Next Obligation. now rewrite app_assoc. Qed.   (a one-object category whose hom-monoid is the free monoid on two generators, the category laws BEING the monoid laws)"
+   },
+   {
+    "file": "Test/Issue138.v",
+    "line": 95,
+    "symbol": "B138_free_loop_nodes",
+    "intree_statement": "Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl.   (where Definition B138_loop : Quiver := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit) is the one-vertex one-loop graph: the free category on it has exactly one object)"
+   }
+  ],
+  "statement_record": {
+   "book": "The free category on the graph with a single vertex z and a single loop s has one object and infinitely many morphisms — exactly one path of each length n ∈ N, so its morphism set {z, s, s;s, ...} is in bijection with N, the length-0 path being id_z. Generally, a category C with a single object * is the same thing as a monoid (M, ·, e) with M := C(*,*), e := id_*, and · := composition; the monoid axioms are exactly the category's associativity and unitality.",
+   "intree": "FreeOnQuiver B138_loop is the free category on the one-vertex one-loop quiver and its object type is unit (one object); its hom is tlist (fun _ _ => unit) tt tt. ListMon exhibits a one-object category whose hom-set is a free monoid under concatenation, its category obligations being exactly app_nil_r / app_assoc.",
+   "strength_comparison": "intree-weaker on both halves. The one-object-ness of the free category on the loop graph is asserted; the bijection of its morphisms with N is not. The monoid/one-object-category correspondence appears only as one worked instance (ListMon) rather than as a construction or theorem."
+  },
+  "gap": "Two distinct gaps. (a) The bijection {paths in the one-loop graph} ≅ N is never stated: B138_free_loop_nodes pins only the OBJECT type of FreeOnQuiver B138_loop, and no lemma says tlist_length is a bijection hom(tt,tt) ≅ nat, nor that this category is N. (b) There is NO general correspondence 'one-object category = monoid' in-tree: no delooping construction M ↦ BM, no theorem that C(*,*) of a one-object category is a monoid, and no functor Mon ⟶ Cat. `grep -rn \"deloop\" --include=*.v -i .` finds delooping only for the monoidal-category/bicategory case (Theory/Bicategory/OneObject.v, one object of a BIcategory), one level up from the item's claim. What exists is the pattern instantiated by hand once (ListMon) and the free-monoid prose in Theory/Coq/Monoid.v — a class carrying mempty with the laws stated only in comments, not an assertion.",
+  "negative_search_log": [
+   "grep -rn \"one-object\\|single object\\|one object\" --include=*.v -i . → Theory/Bicategory/OneObject.v (monoidal category as a one-object BIcategory), Theory/Multicategory/Operad.v (operad as one-object multicategory), Theory/Functor.v:68 / Theory/Coq/Monoid.v:24 / Theory/Displayed.v:45 (prose comments only). No one-object CATEGORY = monoid statement.",
+   "grep -rn \"deloop\\|Deloop\\|BMonoid\\|Monoid_Category\\|MonoidCat\\|Cat_of_Monoid\" --include=*.v -i . → only Theory/Bicategory/OneObject.v, Theory/Bicategory.v, Monad/Graded.v, Structure/Monoidal.v — all the monoidal/bicategorical delooping, none the monoid/category one.",
+   "grep -rn \"Monoid.*: Category\\|Category.*Monoid\\|of_Monoid\\|Monoid_to\\|from a monoid\" --include=*.v -i . → no construction turning a Monoid into a Category.",
+   "grep -n \"Monoid\\|Semigroup\" Theory/Coq/List.v Theory/Coq/List/Proofs.v → no output: `list` carries no Monoid instance either."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PARTIAL, and independently for both halves. Verified Construction/Funny/Comparison.v:81 `ListMon` (obj := poly_unit, hom := fun _ _ => list bool, id := nil, compose u v := v ++ u, obligations app_nil_r / app_assoc) -- a genuine one-object category whose category laws ARE the monoid laws, but for one fixed monoid; and Test/Issue138.v:95-96 `Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl` over `B138_loop := Build_Quiver_Standard_Eq unit (fun _ _ => unit)` at line 87. Test/Issue138.v IS registered (_CoqProject:481), so the evidence is compiled. The gap is exactly right on both counts; my own searches for a delooping (`deloop`, `Monoid_Category`, `of_Monoid`, `obj := poly_unit`) turned up only the monoidal/bicategorical delooping (Theory/Bicategory/OneObject.v -- one level up) and ListMon. Two prose corroborations the record could cite for the issue draft: Theory/Coq/Monoid.v:22-28 states the monoid = one-object category reading explicitly as commentary, and Construction/Free.v:91-95 states 'The one-object case is the free monoid ... on a single-vertex quiver the paths are words over the edge set under concatenation' -- both prose, neither a theorem, which is precisely the gap."
+  }
+ },
+ {
+  "id": "7sketches:3.2.1:ex3.15",
+  "classification": "PARTIAL",
+  "aliases": [
+   "concatenation of paths corresponds to addition of lengths",
+   "free monoid on one generator is (N, +, 0)",
+   "path length is a monoid homomorphism to (N, +)",
+   "tlist_app_length",
+   "loop paths s^m ; s^n = s^(m+n)"
+  ],
+  "evidence": [
+   {
+    "file": "Lib/TList.v",
+    "line": 323,
+    "symbol": "tlist_app_length",
+    "intree_statement": "Lemma tlist_app_length {i j k} (xs : tlist B i j) (ys : tlist B j k) : tlist_length (xs +++ ys) = (tlist_length xs + tlist_length ys)%nat.   (with Fixpoint tlist_length at line 81: tnil ↦ 0, tcons x _ xs ↦ 1 + tlist_length xs — so the empty path has length 0)"
+   }
+  ],
+  "statement_record": {
+   "book": "Under the bijection of Example 3.13 between paths in the one-loop graph and natural numbers, determine which number corresponds to the concatenation of the paths associated with m and n — i.e. identify the monoid operation as addition, so the free monoid on one generator is (N, +, 0).",
+   "intree": "tlist_app_length : tlist_length (xs +++ ys) = tlist_length xs + tlist_length ys, with tlist_length tnil = 0 by computation. Composition in FreeOnQuiver IS +++, so the length of a composite path is the sum of the lengths and the identity has length 0.",
+   "strength_comparison": "intree-weaker. The in-tree lemma gives the homomorphism half of the exercise — length(p;q) = length(p) + length(q) and length(id) = 0, i.e. the monoid operation on path lengths is addition with unit 0 — but only as a statement about lengths, for an arbitrary quiver."
+  },
+  "gap": "The lemma is a homomorphism statement, not a bijection: nothing in-tree says that for the one-loop quiver (Test/Issue138.v's B138_loop, whose edges are `fun _ _ => unit`) the map tlist_length : hom(tt,tt) → nat is injective/surjective, so 'the paths ARE the natural numbers' is not established, and the monoid (N, +, 0) is never identified as the free monoid on one generator (indeed no Monoid instance for nat under + and no free-monoid universal property at the monoid level exist in-tree; the only free-monoid content is the free CATEGORY adjunction of Construction/Free/Quiver.v and prose in Theory/Coq/List.v).",
+  "negative_search_log": [
+   "grep -rn \"free monoid\" --include=*.v -i . → all hits are header prose (Construction/Free.v:92, Theory/Coq/List.v:25, Theory/Coq/Foldable.v:30, Construction/PROP.v:32, ...); no theorem.",
+   "grep -n \"Monoid\\|Semigroup\" Theory/Coq/List.v Theory/Coq/List/Proofs.v → no output; `list` has no Monoid instance, and there is none for nat/+ either.",
+   "grep -n \"tlist_length\\|length\" Lib/TList.v → tlist_length (81), tlist_app_length (323), tlist_rev_length (397) only; no injectivity/bijection lemma."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass classified this ABSENT; the classifier is BETTER supported and I withdraw my reading. Verified Lib/TList.v:323-324 `Lemma tlist_app_length {i j k} (xs : tlist B i j) (ys : tlist B j k) : tlist_length (xs +++ ys) = (tlist_length xs + tlist_length ys)%nat` (Qed, by induction) with `Fixpoint tlist_length` at 81 (tnil |-> 0). Since composition in FreeOnQuiver IS +++, this is genuinely the homomorphism half of the exercise -- concatenation of paths corresponds to addition, identity to 0 -- so PARTIAL, not ABSENT. The gap is stated precisely and honestly: no injectivity/surjectivity of tlist_length on the one-loop quiver, so 'the paths ARE N' is never established, and (N, +, 0) is never packaged as a monoid at all (I confirmed no Monoid instance for nat or list anywhere)."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:def-finite-presentation",
+  "classification": "PARTIAL",
+  "aliases": [
+   "path equation between PARALLEL paths",
+   "finite presentation of a category; finitely presented category",
+   "quotient category by a congruence on paths (Mac Lane II.8)",
+   "generators and relations for a category",
+   "congruence generated by a set of equations"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient",
+    "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; setoid_equiv := Quotient_equivalence x y |}; id := @id C; compose := @compose C; compose_respects := fun x y z f f' Hf g g' Hg => cong_comp Hf Hg; id_left := fun x y f => cong_incl (id_left f); ... |}   (over Definition HomRel (C : Category) : Type := ∀ x y : C, (x ~> y) → (x ~> y) → Prop, line 221 — an equation may relate only PARALLEL morphisms, by typing)"
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 226,
+    "symbol": "HomCongruence",
+    "intree_statement": "Class HomCongruence {C : Category} (R : HomRel C) : Type := { cong_incl {x y} {f g : x ~> y} : f ≈ g → R x y f g; cong_sym ...; cong_trans ...; cong_comp {x y z} {f f' : y ~> z} {g g' : x ~> y} : R y z f f' → R x y g g' → R x z (f ∘ g) (f' ∘ g') }   (plus Definition QuotientProj : C ⟶ Quotient C R and the lifting UMP QuotientLift at lines 294 and 313)"
+   },
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 163,
+    "symbol": "TermEqW_Congruence",
+    "intree_statement": "#[export] Instance TermEqW_Congruence : @HomCongruence (FreeCat Σ) (fun m n : nat => @TermEqW m n) := @Build_HomCongruence ... ; Definition PresentedCat : Category := @Quotient (FreeCat Σ) (fun m n => @TermEqW m n) TermEqW_Congruence   (the smallest congruence containing an imposed axiom system smt_eqs E, and the category it presents)"
+   }
+  ],
+  "statement_record": {
+   "book": "Starting from the free category on a graph G one may additionally impose equations between paths, but only between PARALLEL paths (same source, same target). A finite graph together with such a set of path equations is a finite presentation of a category, and the category it presents is finitely presented; its morphisms are the paths modulo the congruence generated by the imposed equations, so imposing equations can only merge morphisms, never add them.",
+   "intree": "HomRel C := ∀ x y : C, (x ~> y) → (x ~> y) → Prop (parallelism is enforced by the indexing); HomCongruence R requires R to contain ≈ and be closed under symmetry, transitivity and composition; Quotient C R is the category with the SAME objects and morphisms as C and hom-equivalence coarsened from ≈ to R, with QuotientProj : C ⟶ Quotient C R identity on objects and morphisms; at the PROP level, TermEqW is the congruence generated by an imposed equation system and PresentedCat := Quotient (FreeCat Σ) TermEqW.",
+   "strength_comparison": "intree-weaker as a package. Every ingredient is present and each is at least as strong as the book's: parallelism of equations is enforced by typing rather than by a side condition; 'can only merge morphisms, never add them' is literally the fact that Quotient keeps `hom := @hom C` and only coarsens the setoid, which is sharper than the book's informal remark; and the quotient carries a lifting universal property the book does not state. What is missing is the assembly."
+  },
+  "gap": "There is no in-tree notion of a PRESENTATION OF A CATEGORY as the pair (quiver, set of parallel path equations), and no construction of the congruence GENERATED by such a set on FreeOnQuiver. The two halves exist separately — FreeOnQuiver (Construction/Free/Quiver.v:431) and Quotient/HomCongruence (Construction/Quotient.v:226,254) — but nothing composes them: `grep -rn \"Quotient (FreeOnQuiver\\|Quotient (Free\" --include=*.v .` finds only Construction/PROP/Presentation.v:181, which quotients FreeCat Σ (the free PROP on a monoidal SIGNATURE, objects = nat, terms with tensor) rather than a free category on a graph. So the generated-congruence step is available only for symmetric monoidal theories (TermEqW) and for coloured PROPs, never for a bare graph presentation. 'Finite' is likewise nowhere a predicate: no finiteness condition on nodes/edges/equations is defined, so 'finitely presented category' has no in-tree counterpart.",
+  "negative_search_log": [
+   "grep -rn \"FreeOnQuiver\\|Quotient (Free\" --include=*.v . → FreeOnQuiver used only inside Construction/Free/Quiver.v and Test/Issue138.v; the only Quotient-of-a-free-category is Construction/PROP/Presentation.v:181 over FreeCat Σ.",
+   "grep -rn \"path equation\\|parallel path\\|finitely presented\" --include=*.v -i . → no hits outside header prose.",
+   "grep -rn \"generators and relations\" --include=*.v -i . → Construction/PROP/{Presentation,Tietze}.v, Construction/ColouredPROP/*, Construction/Free.v:67, Instance/FinSet.v:73 — all comments or the PROP-level development."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: PARTIAL, same two halves and same missing join. Verified Construction/Quotient.v:221 `HomRel C := forall x y : C, (x ~> y) -> (x ~> y) -> Prop` (so the book's parallel-paths side condition is enforced BY TYPING -- the record's best observation, and correct), 226 `Class HomCongruence` with cong_incl/cong_sym/cong_trans/cong_comp, 254 `Definition Quotient` keeping `obj := @obj C` and `hom := @hom C` and only coarsening the setoid (which is literally 'equations can only merge morphisms, never add them'), plus QuotientProj (294) and the lifting UMP QuotientLift (313) / QuotientLift_unique (334). Verified Construction/PROP/Presentation.v:163 `TermEqW_Congruence` and 180-181 `PresentedCat := @Quotient (FreeCat Sigma) ... TermEqW_Congruence` (the evidence entry cites 163 but quotes the 180 definition alongside it -- a bundled citation, both lines correct). Independently confirmed the gap: `rg -n '@?Quotient \\(Free'` finds ONLY PROP/Presentation.v:181, and `rg -n FreeOnQuiver` finds only Quiver.v and Test/Issue138.v, so no one has ever quotiented a free category on a graph in-tree, and no congruence-generation operator exists at the plain-category level (HomCongruence is a predicate on a GIVEN relation, never a closure construction). 'Finite' is likewise undefined as a predicate."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:construction-square-categories",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Free_square: free category on the commuting-square graph (10 morphisms)",
+   "Comm_square: the commutative-square category (9 morphisms), 2 × 2",
+   "walking commutative square / walking (non-commuting) square",
+   "funny tensor _2 □ _2 versus the product _2 ∏ _2",
+   "the two diagonals f;h and g;i of a square"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Funny/Comparison.v",
+    "line": 144,
+    "symbol": "funny_diagonals_distinct",
+    "intree_statement": "Theorem funny_diagonals_distinct : feq diagLR diagRL → False.   (where diagLR := fconsL TwoXY (fconsR TwoXY fnil) and diagRL := fconsR TwoXY (fconsL TwoXY fnil), both of type FunHom (C:=_2) (D:=_2) TwoX TwoX TwoY TwoY — the two diagonals of the square in _2 □ _2, whose feq imposes only same-side fusion and identity removal, no interchange)"
+   },
+   {
+    "file": "Construction/Funny/Comparison.v",
+    "line": 154,
+    "symbol": "FunnyToProduct_not_faithful",
+    "intree_statement": "Corollary FunnyToProduct_not_faithful : Faithful (@FunnyToProduct _2 _2) → False.   (proved by applying funny_diagonals_distinct to inj (TwoX,TwoX) (TwoY,TwoY) diagLR diagRL after `simpl; split; reflexivity` — i.e. both diagonals have the SAME image (TwoXY, TwoXY) in _2 ∏ _2, which is the equation f;h = g;i)"
+   },
+   {
+    "file": "Construction/Funny/Comparison.v",
+    "line": 69,
+    "symbol": "FunnyToProduct_Full",
+    "intree_statement": "#[export] Program Instance FunnyToProduct_Full {C D : Category} : Full (@FunnyToProduct C D) := { prefmap := fun x y fg => fconsR (snd fg) (fconsL (fst fg) fnil) }   (with Lemma FunnyToProduct_obj : FunnyToProduct (c, d) = ((c,d) : C ∏ D) at line 63 — the comparison is bijective on objects and full, so _2 ∏ _2 is a quotient of _2 □ _2)"
+   }
+  ],
+  "statement_record": {
+   "book": "On the square graph with vertices A,B,C,D and arrows f : A→B, g : A→C, h : B→D, i : C→D, Free_square is the presentation with no equations — the free category, with ten morphisms (four identities, the four generators, and the two DISTINCT paths f;h and g;i) — while Comm_square is the presentation with the single path equation f;h = g;i, with nine morphisms, g;i being present but equal to f;h.",
+   "intree": "_2 □ _2 (the funny tensor of two walking arrows) has as morphisms words of one-sided steps modulo feq, which imposes only same-side fusion (feq_fuseL/feq_fuseR) and identity removal (feq_idL/feq_idR) and explicitly NO interchange; funny_diagonals_distinct proves its two diagonals are distinct. _2 ∏ _2 is the product, into which the identity-on-objects full comparison FunnyToProduct sends both diagonals to (TwoXY, TwoXY), whence FunnyToProduct_not_faithful.",
+   "strength_comparison": "intree-weaker as a naming/counting matter, but the DISCRIMINATING content of both constructions is proved. _2 □ _2 is the free square category and _2 ∏ _2 the commutative one, and the exact difference the book draws (two distinct diagonals versus one) is a machine-checked theorem plus its corollary; fullness and bijectivity on objects moreover say Comm_square is a quotient of Free_square, which the book only asserts implicitly."
+  },
+  "gap": "Neither category is CONSTRUCTED as the book constructs it, and neither morphism count is stated. Specifically: (a) _2 □ _2 is defined by the funny tensor (Construction/Funny.v:138, Inductive FunHom of one-sided step words), not as FreeOnQuiver of the four-vertex square quiver, and no in-tree lemma identifies the two; (b) _2 ∏ _2 is the plain product category, not the quotient of a free category by the single equation f;h = g;i, and although FunnyToProduct is proved full and identity-on-objects, it is nowhere shown that the ONLY identification it makes is that equation; (c) the counts 'ten morphisms' and 'nine morphisms' are not stated anywhere, nor is any finiteness/enumeration of either hom-set; (d) the names Free_square and Comm_square do not occur in-tree.",
+  "negative_search_log": [
+   "grep -rn \"^Inductive .*Obj\\|^Inductive .*Hom\" --include=*.v . → no four-object shape category exists (Instance/Two.v, Instance/Parallel.v, Instance/Roof.v, Instance/Two/Discrete.v, Instance/AST.v, Construction/Funny.v only).",
+   "grep -rn \"Square\\|square\" --include=*.v -l . → Construction/Sq.v is the DOUBLE category of commuting squares in an arbitrary C, and Theory/Morphisms/Stability.v etc. treat pullback squares — none is a square SHAPE category."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass classified this ABSENT -- I searched for a four-object square SHAPE category and found none (Instance/{Two,Parallel,Roof,Two/Discrete}.v are the only shapes) and never thought of the funny tensor. The classifier's identification is correct and I verified it arithmetically: Construction/Funny.v:138 `Inductive FunHom` builds words of one-sided steps with NO interchange (feq at 186 imposes only same-side fusion feq_fuseL/feq_fuseR and identity removal feq_idL/feq_idR), so _2 [] _2 has 4 identities + 4 generating steps + 2 distinct diagonals = the book's ten morphisms, while _2 x _2 collapses the diagonals to one = the book's nine. Verified Construction/Funny/Comparison.v:63 FunnyToProduct_obj (identity on objects), 69 FunnyToProduct_Full, 144 `Theorem funny_diagonals_distinct : feq diagLR diagRL -> False` (proved by folding into ListMon and discriminating [true;false] from [false;true]), 154 FunnyToProduct_not_faithful. So the DISCRIMINATING content of both constructions really is machine-checked, which is more than my blind pass credited. The gap (a)-(d) is accurate and I re-verified (a) and (d) directly: no lemma relates _2 [] _2 to FreeOnQuiver of the square quiver, and neither name occurs in-tree."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:ex3.16",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the ten paths of the free square category",
+   "parallel paths (equal source and equal target)",
+   "two distinct parallel morphisms in a free category",
+   "non-parallel pair of paths",
+   "diagonals of _2 □ _2"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Funny/Comparison.v",
+    "line": 144,
+    "symbol": "funny_diagonals_distinct",
+    "intree_statement": "Theorem funny_diagonals_distinct : feq diagLR diagRL → False.   (diagLR and diagRL are both declared at type FunHom (C:=_2) (D:=_2) TwoX TwoX TwoY TwoY, i.e. they are PARALLEL — same source (TwoX,TwoX), same target (TwoY,TwoY) — in the free square category _2 □ _2, and the theorem says they are distinct)"
+   }
+  ],
+  "statement_record": {
+   "book": "(1) List the ten paths (= morphisms) of the free square category Free_square. (2) Exhibit two distinct paths that are parallel (same source and same target). (3) Exhibit two distinct paths that are NOT parallel.",
+   "intree": "diagLR := fconsL TwoXY (fconsR TwoXY fnil) and diagRL := fconsR TwoXY (fconsL TwoXY fnil), both of type FunHom TwoX TwoX TwoY TwoY, with Theorem funny_diagonals_distinct : feq diagLR diagRL → False.",
+   "strength_comparison": "part (2) same (and in fact stronger: the book asks for an example, the library proves the distinctness by a semantic separation argument through the free monoid on bool via ffold_respects). Parts (1) and (3) have no in-tree counterpart."
+  },
+  "gap": "Only clause (2) is covered. Clause (1) — the enumeration of the ten morphisms of the free square category — is absent: nothing in-tree enumerates or counts the homs of _2 □ _2 (no decision procedure, no finiteness instance, no list of representatives), and indeed FunHom is an Inductive of unbounded-length words whose quotient by feq is never normalized. Clause (3) — a pair of distinct NON-parallel paths — is absent, and in the in-tree encoding it is not even expressible as a comparison, since FunHom is indexed by its four endpoints and morphisms with different endpoints inhabit different types, so 'two distinct non-parallel paths' would have to be phrased as a statement about the indexing rather than about a hom-setoid.",
+  "negative_search_log": [
+   "grep -rn \"parallel\" --include=*.v -i . → Instance/Parallel.v (walking parallel PAIR shape), Structure/Coequalizer/Reflexive.v etc.; no lemma about parallel paths of a free/square category.",
+   "grep -rn \"ten morphisms\\|10 morphisms\\|enumerate.*morphism\" --include=*.v -i . → no hits."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass said ABSENT for the same reason as the previous record; the classifier's clause-(2) evidence is real and I confirm it. diagLR and diagRL (Comparison.v:130-136) are both declared at `FunHom (C:=_2) (D:=_2) TwoX TwoX TwoY TwoY`, i.e. literally parallel, and funny_diagonals_distinct (144) proves them distinct in the free square category -- exactly clause (2), and by a semantic separation argument rather than by inspection. Clauses (1) and (3) are correctly reported absent; the record's observation that clause (3) is not even expressible as a hom-comparison, because FunHom is indexed by its four endpoints so non-parallel morphisms inhabit different types, is correct and is the right thing for an issue drafter to know."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:ex3.17",
+  "classification": "PARTIAL",
+  "aliases": [
+   "presented category: square with a diagonal j, equations f;h = j = g;i",
+   "definitional extension / Tietze move 2 (adding a definable generator)",
+   "adding a new generator with a defining equation changes nothing",
+   "conservative extension of a presentation",
+   "redundant generator elimination"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Tietze.v",
+    "line": 680,
+    "symbol": "ext_retract_section",
+    "intree_statement": "Lemma ext_retract_section {a b : nat} (t : Term ext_sig a b) : TermEqW ext_smt t (T_map sig_inl (ext_retract t)).   (over Definition ext_smt : SMT := {| smt_sig := Sum_Sig (smt_sig B) (Single_Sig m n); smt_eqs := ext_eqs |} whose only new axiom is ee_def : ext_eqs m n (T_gen new_gen) (T_map sig_inl w) — i.e. EVERY morphism of the extended presentation equals an embedded base morphism, so adjoining a generator with a defining equation adds no new morphisms, only a new name)"
+   },
+   {
+    "file": "Construction/PROP/Tietze.v",
+    "line": 639,
+    "symbol": "ext_conservative",
+    "intree_statement": "Theorem ext_conservative {a b : nat} (s t : Term (smt_sig B) a b) : TermEqW ext_smt (T_map sig_inl s) (T_map sig_inl t) → TermEqW B s t.   (with the converse Theorem ext_reflects at line 650 — the extension identifies base terms exactly when the base theory already did)"
+   }
+  ],
+  "statement_record": {
+   "book": "Write down all the morphisms of the category presented by the square graph A -f-> B, A -g-> C, B -h-> D, C -i-> D together with a diagonal arrow j : A -> D and the equations f;h = j = g;i.",
+   "intree": "ext_retract_section : every term over the extended signature is TermEqW-equal to the embedding of a base term; ext_conservative / ext_reflects : the extension identifies base terms exactly when the base theory did. Together: adjoining a fresh generator with a single defining equation g ≈ w yields a presentation with the same morphisms as the base, the new generator being a name for w.",
+   "strength_comparison": "intree-weaker: the general Tietze move that ANSWERS the exercise is proved, but in a different category of presentations, and the exercise's concrete instance is not carried out."
+  },
+  "gap": "Three shortfalls. (a) The Tietze machinery is developed for SMTs — presentations of PROPs by a symmetric monoidal signature plus equations (Term Σ m n, objects nat, with tensor) — not for presentations of a bare category by a graph plus path equations, and the campaign has no bridge between the two levels (see the def-finite-presentation record: no generated congruence on FreeOnQuiver exists). (b) The exercise's presentation imposes TWO equations f;h = j and g;i = j, whose joint effect is the derived equation f;h = g;i; deriving that and then discarding it is Tietze move 1 (Theorem AddEqn_derivable_conservative, Tietze.v:395), which is proved but never composed with move 2, so 'the same category as Comm_square' is not concluded in-tree. (c) The concrete square-with-diagonal presentation is nowhere constructed and its nine morphisms are nowhere enumerated.",
+  "negative_search_log": [
+   "grep -rn \"diagonal arrow\\|square with a diagonal\" --include=*.v -i . → no hits.",
+   "grep -rn \"Tietze\" --include=*.v . → Construction/PROP/Tietze.v and Construction/ColouredPROP/Relabel.v only — the PROP level."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Borderline PARTIAL/ABSENT; I confirm PARTIAL because the record's disclosure is complete enough that nothing is oversold. All four citations verified verbatim: Construction/PROP/Tietze.v:395 `Theorem AddEqn_derivable_conservative (Hd : TermEqW E s t) : forall a b u u', TermEqW AddEqn u u' <-> TermEqW E u u'`, 639 `Theorem ext_conservative`, 650 `Theorem ext_reflects`, 680 `Lemma ext_retract_section`. These do answer the exercise in principle (adjoining a generator with a defining equation adds no morphisms), but at the SMT/PROP level, and gap (a) says so explicitly, gap (b) correctly notes the two Tietze moves are never composed, and gap (c) that the concrete presentation is never built. DOWNSTREAM CAUTION for Phase E: this is a level-analogous result, not an instance of the exercise; if the issue drafter needs 'the library answers ex3.17', the honest reading is closer to ABSENT-with-adjacent-machinery than to half-done."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:example3.18",
+  "classification": "PARTIAL",
+  "aliases": [
+   "imposed equations force further equations (congruence closure)",
+   "the congruence generated by a set of relations",
+   "presentation ⟨s | s;s = id⟩ presents Z/2Z as a one-object category",
+   "cyclic group of order 2, booleans under xor",
+   "collapse of a presented monoid"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Presentation.v",
+    "line": 163,
+    "symbol": "TermEqW_Congruence",
+    "intree_statement": "#[export] Instance TermEqW_Congruence : @HomCongruence (FreeCat Σ) (fun m n : nat => @TermEqW m n) := @Build_HomCongruence (FreeCat Σ) (fun m n => @TermEqW m n) (fun m n s t H => TEW_termeq s t H) (fun m n s t H => TEW_sym s t H) (fun m n s t u H1 H2 => TEW_trans s t u H1 H2) (fun m n p f f' g g' Hf Hg => TEW_comp f f' g g' Hf Hg).   (TermEqW, the smallest relation containing the imposed axioms smt_eqs E and closed under TEW_sym / TEW_trans / TEW_comp / TEW_tens, IS a congruence — so imposed equations propagate into further equations between composites)"
+   },
+   {
+    "file": "Construction/PROP/Tietze.v",
+    "line": 395,
+    "symbol": "AddEqn_derivable_conservative",
+    "intree_statement": "Theorem AddEqn_derivable_conservative (Hd : TermEqW E s t) : ∀ (a b : nat) (u u' : Term (smt_sig E) a b), TermEqW AddEqn u u' <-> TermEqW E u u'.   (an equation already forced by the imposed ones may be added to the axioms without changing the presented category — the exact sense in which 'enforcing one equation typically forces additional equations')"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 405,
+    "symbol": "Bool",
+    "intree_statement": "Definition Bool : Group. Proof. exists BoolOp. intros [] args ; simpl; try (destruct (args Only) ; reflexivity). destruct (args One); destruct (args Two); destruct (args Three); reflexivity. Defined.   (with Definition BoolOp : OpAlgebra GroupOp := {| carrier := bool ; op := ... mul ↦ xor ... |} and Definition Group := Algebra GroupOp GroupEq — the two-element group Z/2Z)"
+   }
+  ],
+  "statement_record": {
+   "book": "Enforcing one equation between morphisms typically forces additional equations. On the loop graph (vertex z, loop s), C is presented by s;s = z and D by s;s;s;s;s = s;s. In C the imposed relation implies s;s;s = s and s;s;s;s = z, so the morphisms collapse to exactly {z, s} with s;s = z and z;s = s;z = s — that is, C is the group Z/2Z as a one-object category.",
+   "intree": "TermEqW_Congruence : the congruence generated by an imposed axiom system on a free category is closed under composition, symmetry and transitivity; AddEqn_derivable_conservative : adding an equation derivable from the imposed ones leaves the presented congruence unchanged; Bool : Group : the booleans under xor form a group (Z/2Z).",
+   "strength_comparison": "intree-weaker. The general principle behind the example (imposed equations generate a congruence, hence force further equations) is proved, and Z/2Z exists in-tree as an algebraic object, but neither the specific presentation nor the identification of its presented category with Z/2Z is carried out."
+  },
+  "gap": "(a) The congruence-closure machinery is PROP-level (Term Σ m n over a symmetric monoidal signature), not a presentation of a plain category or monoid by a graph and path equations; the general-category Class HomCongruence (Construction/Quotient.v:226) is only a PREDICATE on a given relation — there is no in-tree construction of the congruence GENERATED by an arbitrary set of parallel equations on a free category. (b) Neither presentation of the example is instantiated: nothing in-tree presents a one-object category by the loop generator s with s;s = id (or with s^5 = s^2), and nothing computes the resulting morphism set. (c) Bool : Group is built directly from the xor operation table and shown to satisfy the group axioms; it is NOT obtained from the presentation ⟨s | s² = e⟩, is not exhibited as a one-object category, and no in-tree statement relates a presented category to it.",
+  "negative_search_log": [
+   "grep -rn \"Z/2\\|cyclic\\|Z_2\\|group of order\" --include=*.v -i . → Instance/Comp.v:384 (BoolGroup section), Construction/Cayley.v:53 (prose), Instance/ZX.v:376 (Z-spider notation, unrelated). No presented Z/2Z.",
+   "grep -rn \"presented monoid\\|monoid presentation\\|word problem\\|Knuth\\|rewriting system\" --include=*.v -i . → Instance/ZX.v:198 and Construction/Funny.v:96, both prose. No monoid presentation machinery."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass said ABSENT; I confirm PARTIAL as the more useful call, since the general principle the example is illustrating (imposed equations generate a congruence, hence force further equations) really is proved -- verified TermEqW_Congruence at Construction/PROP/Presentation.v:163 and AddEqn_derivable_conservative at Tietze.v:395. Verified Instance/Comp.v:405 `Definition Bool : Group` over BoolOp (carrier bool, mul = xor) at 395; it is Z/2Z, but as a universal-algebra Algebra GroupOp GroupEq, NOT a one-object category and NOT obtained from any presentation -- gap (c) states this correctly, so the evidence entry is not oversold, but a reader should treat it as incidental rather than as coverage. (Aside: that section is proved using functional_extensionality, an instance-layer axiom permitted by docs/AXIOMS.md.) Gap (a) is the important one and is precisely right: HomCongruence is a predicate on a given relation, so the congruence GENERATED by a set of parallel path equations on a free category does not exist in-tree at all."
+  }
+ },
+ {
+  "id": "7sketches:3.2.2:ex3.19",
+  "classification": "ABSENT",
+  "aliases": [
+   "the monoid presented by one generator s with s^5 = s^2",
+   "quotient of the free monoid on one generator by a relation",
+   "one-object presented category, its morphism list",
+   "monoid by generators and relations; word problem for a one-relator monoid",
+   "cyclic-with-tail monoid, N modulo s^5 = s^2"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn \"s\\^5\\|presented monoid\\|monoid presentation\\|word problem\\|Knuth\\|rewriting system\" --include=*.v -i . → only Instance/ZX.v:198 ('WORD problem presentation' in prose about ZX terms) and Construction/Funny.v:96 (citation of Stell on term rewriting). No monoid presentation anywhere.",
+   "grep -rn \"generators and relations\" --include=*.v -i . → Construction/PROP/{Presentation,Tietze}.v, Construction/PROP/Presentation/Universal.v, Construction/ColouredPROP/* and header prose in Construction/Free.v:67, Instance/FinSet.v:73. All of these present PROPs by a symmetric monoidal signature plus equations; none presents a monoid or a one-object category, and none computes the elements of a presented structure.",
+   "grep -rn \"deloop\\|Monoid_Category\\|MonoidCat\\|of_Monoid\" --include=*.v -i . → nothing turning a monoid presentation into a category (see the example3.13 record).",
+   "grep -rn \"Monoid.*: Category\\|Category.*Monoid\" --include=*.v -i . → no construction; the only concrete one-object category in-tree is ListMon (Construction/Funny/Comparison.v:81), the FREE monoid on bool, carrying no relations.",
+   "grep -n \"Monoid\\|Semigroup\" Theory/Coq/List.v Theory/Coq/List/Proofs.v → no output: not even the free monoid on one generator (list unit, or nat under +) is packaged as a monoid, so there is nothing to quotient."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed: ABSENT. I re-ran the substance of the negative log independently (`rg -in 'free monoid'`, `rg -in 'presented monoid|monoid presentation|word problem'`, `rg -n 'Class Monoid|Definition Monoid'`) and reached the same result: the only Monoid notions in-tree are Theory/Coq/Monoid.v (an ops-only Haskell-style class carrying mempty, laws in prose), Theory/Algebra/Monoid.v and Structure/Monoid.v (monoid OBJECTS in a monoidal category), none of which is presented by generators and relations; the only concrete one-object category is ListMon, which is free and carries no relations. Nothing computes the elements of a presented structure. ABSENT stands."
+  }
+ }
+]

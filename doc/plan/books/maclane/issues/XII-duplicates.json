@@ -1,0 +1,12 @@
+[
+  {
+    "item_id": "maclane:XII.3:def1",
+    "issue": 283,
+    "append_block": "### Also covered by\n\nMac Lane, *Categories for the Working Mathematician*, 2nd ed., §XII.3 (book pp. 273–275, PDF pp. 280–282), item `maclane:XII.3:def1` — the *elementary* definition of a (strict) 2-category. This is the same missing structure this issue already targets (a strict 2-category, absent in-tree — the in-tree `Theory/Bicategory.v` is weak). The new aspect §XII.3 contributes is an alternative axiomatization to add as a presentation of the strict 2-category built here via the double-category route: the globular form given by 2-cells `α : f ⇒ g` between parallel 1-cells, a horizontal composite of 2-cells matching 1-cell composition (with two-sided identity 2-cells `1_{1b}`), a vertical composite making each hom a category, the two horizontal-vertical axioms `1_{f'f} = 1_{f'} ∘ 1_f` and the middle-four interchange `(β'∘β)·(α'∘α) = (β'·α')∘(β·α)`, and whiskering as horizontal composition with a vertical identity. The in-tree middle-four interchange already appears in whisker form (`Theory/Bicategory/Adjunction.v:156`, `whisker_exchange`); the strict 2-category should record the elementary axioms as equivalent to the double-category presentation. No separate PR is warranted — it is the same obligation under a different presentation."
+  },
+  {
+    "item_id": "maclane:XII.5:remark1",
+    "issue": 217,
+    "append_block": "### Also covered by\n\nMac Lane, *Categories for the Working Mathematician*, 2nd ed., §XII.5 (book p. 279, PDF p. 286), item `maclane:XII.5:remark1` — the single-set (arrows-only) definition of a category is equivalent to the two-sorted (objects-and-arrows) definition. This is exactly the equivalence-of-presentations obligation this issue already owns (the general-carrier arrows-only record plus the `Category → Metacategory` converse it adds fix the one-directional state in `Theory/Metacategory/*`). The new aspect §XII.5 adds is that the equivalence is also asserted at the *functor* level (single-set functors correspond to ordinary functors) and via the source/target-operator presentation of §XII.5; both are handled by the separately drafted XII.5 issue \"Single-set (arrows-only) categories and functors via source/target operators\" (`maclane:XII.5:def1`, `maclane:XII.5:def2`), which depends on this issue. No separate PR is warranted for the category-level equivalence — it is this issue's obligation restated in a later chapter."
+  }
+]

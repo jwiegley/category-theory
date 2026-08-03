@@ -1,0 +1,460 @@
+[
+  {
+    "id": "riehl:1.3:cor10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "group elements act by automorphisms",
+      "functor out of BG / delooping of a group",
+      "functorial group action, g_* : X -> X",
+      "functors preserve isomorphisms (Lemma 1.3.8) specialized to a groupoid",
+      "fmap of an inverse is the inverse of fmap: F(f^{-1}) = (F f)^{-1}",
+      "fobj_iso / Proper (Isomorphism ==> Isomorphism) (fobj[F])"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  Next Obligation. proper. refine {| to := fmap[F] (to X) ; from := fmap (from X) |}. - rewrite <- fmap_comp. rewrite iso_to_from; cat. - rewrite <- fmap_comp. rewrite iso_from_to; cat. Defined."
+      }
+    ],
+    "statement_record": {
+      "book": "If a group G acts functorially on an object X of a category C (i.e. via a functor BG ⟶ C), then each g ∈ G necessarily acts by an AUTOMORPHISM g_* : X ≅ X, and moreover (g_*)^{-1} = (g^{-1})_*.",
+      "intree": "Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]) — built as `to := fmap[F] (to X); from := fmap (from X)`, so the image of an isomorphism is an isomorphism whose inverse IS the image of the inverse.",
+      "strength_comparison": "intree-weaker: only the general principle is in force. The obligation of fobj_iso literally supplies both halves of the corollary's conclusion at the level of an arbitrary functor and an arbitrary isomorphism — F f is invertible and (F f)^{-1} ≈ F (f^{-1}) — but the corollary's own subject matter is absent: there is no delooping BG of a group (or monoid) anywhere in the tree, hence no notion of a group acting functorially on an object, and the automorphism conclusion is never drawn for group elements. Note also that fobj_iso is stated in Proper form (a congruence of fobj for ≅), not as a named lemma about a single morphism."
+    },
+    "gap": "The general fact (functor sends isos to isos, with F(f)^{-1} = F(f^{-1})) is present as fobj_iso, but the corollary itself is not statable in-tree: no one-object category BG of a group/monoid exists (`grep -rn 'BG'` hits only the delooping of a MONOIDAL category to a one-object BICATEGORY in Theory/Bicategory/OneObject.v, and the header prose of Theory/Functor.v:68 which merely mentions BG as motivation), so there is no `group acts functorially on X` and no derived statement about automorphisms of X or about (g_*)^{-1} = (g^{-1})_*. Structure/Group.v defines GROUP OBJECTS in a cartesian monoidal category, an unrelated notion. Construction/Groupoid.v builds the core groupoid of a category but proves nothing about functors out of a groupoid.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-1-4.json) reached PARTIAL independently. Evidence confirmed at the cited location: Theory/Functor.v:227 is exactly `Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])` whose obligation builds `to := fmap[F] (to X); from := fmap (from X)`, so BOTH halves of Riehl's conclusion (F g invertible, and (F g)^-1 = F (g^-1)) are in force generically — quote accurate, strength_comparison honest. Independently confirmed the delooping is absent: `rg -n 'one.object|delooping|BG' --glob '*.v'` returns only Theory/Bicategory/OneObject.v (a MONOIDAL category delooped to a one-object BICATEGORY), header prose at Theory/Functor.v:68 (verified: 'a functor from a one-object category BG to vector spaces is precisely a linear representation of the group G'), and `BG` used as a BraidedMonoidalFunctor binder in Construction/(Coloured)PROP/Universal.v. Construction/Groupoid.v:103 builds only the CORE groupoid of a category. Theory/Functor.v is registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:1.3:lem-preserves-split",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functors preserve split monomorphisms and split epimorphisms",
+      "split mono = section, split epi = retraction",
+      "Section f / Retraction f / SplitMono / SplitEpi",
+      "absoluteness: fmap transports an equational splitting r ∘ s ≈ id",
+      "fmap_split_epic / functor_preserves_split",
+      "dual: functors preserve split epis in C^op"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 116,
+        "symbol": "fmap_split_epic",
+        "intree_statement": "Lemma fmap_split_epic {x y : D} (p : x ~> y) (s : y ~> x) (Hps : p ∘ s ≈ id) : Epic (fmap[T] p).  Proof. apply retractions_are_epic. exists (fmap[T] s). rewrite <- fmap_comp. rewrite Hps. apply fmap_id. Qed.   (in a section with Context {D : Category} (T : D ⟶ D) `{H : @Monad D T})"
+      },
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 104,
+        "symbol": "functor_preserves_split",
+        "intree_statement": "Theorem functor_preserves_split {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g)."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor need not preserve monomorphisms or epimorphisms, but every functor preserves SPLIT monomorphisms and SPLIT epimorphisms, since the retraction/section supplies an equation r ∘ s = id that functoriality transports; Exercise 1.3.v asks for the precise statement and proof together with the dual variants.",
+      "intree": "fmap_split_epic: `(p ∘ s ≈ id) → Epic (fmap[T] p)`, proved by exhibiting `Retraction (fmap[T] p)` with retract `fmap[T] s`. functor_preserves_split: `SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g)` for an ARBITRARY functor F.",
+      "strength_comparison": "intree-weaker: the split-epi half exists only inside the Beck monadicity development and carries extra hypotheses the book's lemma does not (the functor must be an ENDOfunctor T of D carrying a Monad structure H, even though the proof uses none of it), and it concludes `Epic (fmap[T] p)` rather than returning the transported splitting itself. The genuinely-arbitrary-functor theorem in-tree, functor_preserves_split, is about split COEQUALIZERS, a different (though morally parallel, absoluteness-style) statement. Neither the general `∀ (F : C ⟶ D) (f : x ~> y), Retraction f → Retraction (fmap[F] f)` nor its split-mono dual `Section f → Section (fmap[F] f)` is stated."
+    },
+    "gap": "No general statement that an arbitrary functor preserves split monos or split epis. Theory/Morphisms.v defines Section/Retraction (lines 56, 70) and SplitMono/SplitEpi (lines 126-127) and proves sections_are_monic / retractions_are_epic (lines 179, 162), but has no functor-image lemma at all. The split-EPI half appears only as Monad/Monadicity/BeckObjects.v:116 fmap_split_epic, scoped to the endofunctor of a monad and concluding Epic rather than Retraction. The split-MONO half has no in-tree counterpart in any form. The four dual variants requested by Exercise 1.3.v are likewise unstated. The negative half of the book's remark (a functor need NOT preserve monos or epis) is also not witnessed by a counterexample in-tree.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, for the same reason. Verified Theory/Morphisms.v:126-127 (`SplitEpi := Retraction`, `SplitMono := Section`, over Class Section:56 / Class Retraction:70) with retractions_are_epic:162 and sections_are_monic:179 — and confirmed the file contains NO functor-image lemma at all. Monad/Monadicity/BeckObjects.v:116 quoted accurately; I confirmed by reading the surrounding section that it is scoped to a monad's ENDOfunctor T and concludes `Epic (fmap[T] p)`, i.e. special-case-only, exactly as recorded. Structure/Coequalizer/Split.v:104 functor_preserves_split confirmed verbatim for an arbitrary F, but its subject is SplitCoequalizer — a different (parallel) absoluteness statement, correctly flagged. My own negative searches: `rg 'Retraction \\(fmap|Section \\(fmap|SplitMono \\(fmap|SplitEpi \\(fmap'` → 0 hits; `rg 'Preserves.*Mono|preserves_mono|Preserves.*Epi|preserves_epi|preserve.*split'` → only the split-COEQUALIZER hits. Gap statement is precise and honest."
+    }
+  },
+  {
+    "id": "riehl:1.3:def11",
+    "classification": "PRESENT",
+    "aliases": [
+      "functors represented by an object",
+      "covariant hom-functor C(c,-) : C ⟶ Set, postcomposition f_*",
+      "contravariant hom-functor C(-,c) : C^op ⟶ Set, precomposition f^*",
+      "corepresentable / representable presheaf, Hom(A,─), [Hom A,─]",
+      "Curried_Hom / Curried_CoHom"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}.   (* notation [Hom A,─] *)"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 146,
+        "symbol": "Curried_CoHom",
+        "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.   (* notation [Hom ─ , A ]; its value at c is the presheaf Hom(−,c) : C^op ⟶ Sets, acting by precomposition *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For C locally small and c ∈ C, the functors REPRESENTED BY c are the covariant C(c,−) : C ⟶ Set (x ↦ C(c,x), f ↦ postcomposition f_*) and the contravariant C(−,c) : C^op ⟶ Set (x ↦ C(x,c), f ↦ precomposition f^*); postcomposition is always covariant on hom-sets, precomposition always contravariant. Functoriality is left to the reader.",
+      "intree": "Curried_Hom C : C^op ⟶ [C, Sets] whose value at x is the functor y ↦ hom C x y with fmap f g = f ∘ g (postcomposition, covariant); Curried_CoHom C : C ⟶ [C^op, Sets], the same construction over C^op, whose value at c is Hom(−,c) : C^op ⟶ Sets acting by precomposition (g ∘ op f).",
+      "strength_comparison": "same. Both variances are constructed, and functoriality — which the book defers to Exercise 1.3.iv — is discharged in-tree, since Curried_Hom is elaborated as a Functor into a functor category (all Program obligations proven). The setoid rephrasing is faithful: the hom-SET is the hom-SETOID {| carrier := hom C x y ; is_setoid := homset C x y |}, an object of Sets (the category of setoids), and the action f_* is a SetoidMorphism, i.e. respects ≈. The book's LOCAL SMALLNESS hypothesis is not an explicit side condition in-tree; it is discharged by universe polymorphism (Sets@{o so} : Category@{so o o} in Instance/Sets.v, so `Hom C` typechecks exactly when C's hom universe fits the object universe of Sets), which the library's own headers describe as the size-obstruction mechanism. The contravariant leg is obtained by instantiating the covariant construction at C^op rather than being written out separately — sound here because C^op^op = C holds by reflexivity (Construction/Opposite.v:126 op_invol)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently (found Functor/Hom.v without the coverage file). Both quotes verified verbatim: Curried_Hom at Functor/Hom.v:60 (`C^op ⟶ [C, Sets]`, fmap g = f ∘ g, i.e. postcomposition/covariant) and Curried_CoHom at :146 (`C ⟶ [C^op, Sets] := Curried_Hom C^op`, acting by `g ∘ op f`, precomposition/contravariant). Notations [Hom A ,─] and [Hom ─ , A ] confirmed at :80 and :149. The local-smallness justification checks out: Instance/Sets.v:188 is literally `Program Definition Sets@{o so} : Category@{so o o}`. The claim that (C^op)^op = C is definitional is corroborated EMPIRICALLY, not just by the header: Curried_CoHom is DECLARED at type `C ⟶ [C^op, Sets]` while its body is `Curried_Hom C^op` (whose type mentions (C^op)^op), so the file only compiles if the two are convertible — op_invol at Construction/Opposite.v:126 is real (proof `unfold Opposite; simpl. destruct C; simpl. f_equal.`). Functor/Hom.v is _CoqProject line 139. No same-name-weaker trap: this really is the represented-functor pair, not a stub."
+    }
+  },
+  {
+    "id": "riehl:1.3:def12",
+    "classification": "PRESENT",
+    "aliases": [
+      "product category C × D",
+      "C ∏ D, Product (C D : Category)",
+      "objects ordered pairs, morphisms ordered pairs, componentwise composition",
+      "categorical product in Cat",
+      "projection functors π₁, π₂ / Fst, Snd"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Product.v",
+        "line": 95,
+        "symbol": "Product",
+        "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); homset := fun x y => {| equiv := fun f g => (equiv (fst f) (fst g) * equiv (snd f) (snd g)) ; ... |}; id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ... |}.   Notation \"C ∏ D\" := (@Product C D)."
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x) ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := fun _ _ => {| fobj := fst ; fmap := fun _ _ => fst |}; exr := fun _ _ => {| fobj := snd ; fmap := fun _ _ => snd |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "For any categories C and D there is a category C × D, their PRODUCT, whose objects are ordered pairs (c,d), whose morphisms (c,d) → (c',d') are ordered pairs (f,g) with f : c → c' in C and g : d → d' in D, and in which composition and identities are defined componentwise.",
+      "intree": "Definition Product (C D : Category) : Category with obj := C * D, hom x y := (fst x ~> fst y) * (snd x ~> snd y), id := (id, id), compose f g := (fst f ∘ fst g, snd f ∘ snd g), and every law field supplied componentwise from the corresponding law of C and D.",
+      "strength_comparison": "same, with the setoid rephrasing of morphism equality (equivalence of pairs is the componentwise conjunction of ≈ in C and ≈ in D, with the Equivalence instance built componentwise) — faithful. In-tree is additionally STRONGER in one respect the book does not claim at 1.3.12: Cat_Cartesian proves C ∏ D is the categorical PRODUCT in Cat, with the projection functors Fst/Snd (Construction/Product.v:149, 157) as exl/exr; the factor-swap functor Swap : C ∏ D ⟶ D ∏ C is also built (Construction/Product.v:164)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Construction/Product.v:95 `Definition Product` verified verbatim, including the componentwise homset with a hand-built Equivalence and every law field supplied componentwise; Notation `C ∏ D` at :142; Fst:149, Snd:157, Swap:164 all confirmed at the exact lines cited. Instance/Cat/Cartesian.v:39 `Program Instance Cat_Cartesian : @Cartesian Cat` verified verbatim, so the intree-stronger claim (this is the categorical product in Cat) is real, not aspirational. Construction/Product.v is _CoqProject line 63; Instance/Cat/Cartesian.v is registered. Incidental corroboration: the file's own background essay cites 'Riehl, Category Theory in Context, Dover 2016, Definition 1.3.12' — the very item under review — and the number matches our 2nd-edition inventory (Chapter 1 was not among the reordered chapters)."
+    }
+  },
+  {
+    "id": "riehl:1.3:def13",
+    "classification": "PRESENT",
+    "aliases": [
+      "two-sided represented functor C(-,-) : C^op × C ⟶ Set",
+      "hom bifunctor, Hom(-,-), identity profunctor",
+      "bifunctor = functor out of a product category",
+      "g ↦ h g f (precompose with f, postcompose with h)",
+      "interchange / factorization (f^op,h) = (id,h)∘(f^op,id) = (f^op,id)∘(id,h)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}.  Next Obligation. now rewrite !comp_assoc. Qed."
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 104,
+        "symbol": "bimap_id_right_left",
+        "intree_statement": "Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w} `(f : z ~{C}~> w) `(g : x ~{D}~> y) : bimap f id ∘ bimap id g ≈ bimap f g."
+      }
+    ],
+    "statement_record": {
+      "book": "For C locally small there is a TWO-SIDED REPRESENTED FUNCTOR C(−,−) : C^op × C ⟶ Set sending (x,y) to C(x,y) and a pair f : w → x, h : y → z to the function g ↦ hgf. Associativity and unitality make the assignment BIFUNCTORIAL, and the bifunctorial action factors as a composite of the one-variable actions in two ways, since (f^op,h) = (id,h)∘(f^op,id) = (f^op,id)∘(id,h). A functor of two variables is called a BIFUNCTOR.",
+      "intree": "Hom C : C^op ∏ C ⟶ Sets with fobj (x,y) the hom-setoid and fmap (f,h) the setoid map g ↦ h ∘ g ∘ f; functoriality discharged by `now rewrite !comp_assoc`. Bifunctoriality-as-factorization: bimap_id_right_left : bimap f id ∘ bimap id g ≈ bimap f g.",
+      "strength_comparison": "same. The bifunctor-is-a-functor-out-of-a-product convention is the library's own (Functor/Bifunctor.v:38 defines bimap f g := fmap[F] (f, g), with bimap_fmap holding at Leibniz equality). The book's 'in two ways' clause is covered by the PAIR of lemmas bimap_id_right_left (line 104) and its mirror bimap_id_left_right (Functor/Bifunctor.v:116, `bimap id f ∘ bimap g id ≈ bimap g f`); the joint interchange law is bimap_comp (line 68). The library additionally records the two one-variable actions as bimap_comp_id_left/right (lines 80, 91). As with def11 the local-smallness hypothesis is discharged by universe polymorphism, not stated. Naming caution: Functor/Hom.v:134 CoHom : C ∏ C^op ⟶ Sets is the OPPOSITE hom bifunctor (variance swapped), not this one."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Functor/Hom.v:49 `Hom `(C : Category) : C^op ∏ C ⟶ Sets` with `fmap (f,h) g = snd f ∘ g ∘ fst f` and obligation `now rewrite !comp_assoc` verified verbatim. Every Bifunctor cross-reference checked line by line and confirmed: bimap at Functor/Bifunctor.v:38, bimap_id_id:59, bimap_comp:68, bimap_comp_id_left:80, bimap_comp_id_right:91, bimap_id_right_left:104, bimap_id_left_right:116 — so the book's 'factors in two ways' clause really is covered by the stated PAIR. The naming caution about CoHom (Functor/Hom.v:134, `C ∏ C^op ⟶ Sets`) is accurate and is exactly the same-name-weaker trap a later reader could fall into. No overclaim detected."
+    }
+  },
+  {
+    "id": "riehl:1.3:construction-cat",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cat, the category of small categories",
+      "CAT, the category of locally small categories",
+      "categories as objects, functors as morphisms",
+      "inclusion functor Cat ⟶ CAT; Cat is an object of CAT",
+      "size / Russell's paradox / universe levels / smallness",
+      "StrictCat, Ho(Cat), 2-category of categories"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc; comp_assoc_sym := ... }."
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects_stricteq; id_left := @fun_strict_equiv_id_left; ... }."
+      },
+      {
+        "file": "Instance/StrictCat/ToCat.v",
+        "line": 76,
+        "symbol": "StrictCat_to_Cat",
+        "intree_statement": "Program Definition StrictCat_to_Cat : StrictCat ⟶ Cat := {| ... |}   (the identity-on-objects comparison functor sending each strict functor equality to the natural isomorphism it induces)."
+      }
+    ],
+    "statement_record": {
+      "book": "Categories and functors assemble into a category. Cat has SMALL categories as objects and functors as morphisms; Cat is locally small but not small, so Set, Group, … (not being small) are not objects of Cat. CAT has LOCALLY SMALL categories as objects and functors as morphisms; requiring local smallness of its objects keeps Russell's paradox at bay (CAT is itself not locally small, so is not an object of CAT). There is an inclusion functor Cat ⟶ CAT, and Cat IS an object of CAT.",
+      "intree": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; ... } — one universe-polymorphic category of categories, whose file header states: 'Cat is a large category, and so cannot be an object of itself … Here that constraint is enforced by universe polymorphism: [Category@{o h p | h <= p}] lives at a strictly higher universe than its objects, so the inner categories collected by [obj := Category] sit below the universe of [Cat] itself.'",
+      "strength_comparison": "intree-weaker in two independent ways. (1) SIZE: there is exactly ONE construction, `Cat`, universe-polymorphic, so there is a Cat at every universe level, each strictly above its own objects; the Cat/CAT PAIR is not built. There is no `Small`/`LocallySmall` predicate on categories anywhere in the tree, no separate `CAT`, no inclusion functor Cat ⟶ CAT, and no in-tree statement (or Check) exhibiting Cat as an object of a higher Cat. The paradox is averted by a universe constraint caught by the elaborator, which is a faithful — arguably better — realization of the book's intent, but it is not the book's two-tier construction. (2) HOM-SETOID: this `Cat` uses Functor_Setoid, which identifies functors up to NATURAL ISOMORPHISM, so its isomorphisms are equivalences and it is Ho(Cat), not Riehl's strict Cat; the faithful rendering of the textbook bare-name 'Cat' is Instance/StrictCat.v's StrictCat (Functor_StrictEq_Setoid, object equality on the nose). The library discloses this explicitly in the Instance/Cat.v header. StrictCat_to_Cat is a comparison functor between two categories-of-categories, NOT the book's size inclusion."
+    },
+    "gap": "Missing: (a) any smallness/local-smallness predicate and hence any separate CAT; (b) the inclusion functor Cat ⟶ CAT and the statement that Cat is an object of CAT; (c) any statement that Sets/Poset/Groupoid/etc. sit inside Cat as (full) subcategories — Instance/Sets.v, Instance/Proset.v, Instance/Poset.v and Construction/Groupoid.v each build the category, and Construction/Subcategory.v supplies the general subcategory machinery, but no such embedding is instantiated, and there is no category of monoids or of groups at all (only Instance/CMon.v, commutative monoids). What IS present is the assembly itself (Cat and StrictCat as Category instances, with the categorical algebra over Cat: Cat_Cartesian, Cat_Terminal, Cat_Initial, Cat_Closed) plus a documented universe-polymorphic answer to the size question.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same two grounds. Instance/Cat.v:142 `Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; ... }` verified verbatim; Instance/StrictCat.v:56 verified verbatim; Instance/StrictCat/ToCat.v:76 StrictCat_to_Cat verified. The header quote reproduced in statement_record.intree matches Instance/Cat.v:22-27 word for word. Independently confirmed there is no second tier: no `Small`/`LocallySmall` predicate anywhere, no `CAT`, no Cat ⟶ CAT inclusion. Spot-checked the gap's positive half — Cat_Cartesian (Instance/Cat/Cartesian.v:39), Cat_Terminal (Instance/One.v:54), Cat_Initial (Instance/Zero.v:44) and Cat_Closed (Instance/Cat/Cartesian/Closed.v:47) all exist as claimed, so the record does not undersell what IS there. The hom-setoid caveat is the crucial one and is correctly stated: `≅[Cat]` is equivalence, not Riehl's isomorphism."
+    }
+  },
+  {
+    "id": "riehl:1.3:def-iso-categories",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphism of categories",
+      "isomorphism in Cat / in CAT",
+      "F : C ⟶ D and G : D ⟶ C with GF = Id_C and FG = Id_D",
+      "on-the-nose / strict isomorphism, ≅[StrictCat]",
+      "induces a bijection on objects and on morphisms",
+      "contrast: equivalence of categories"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Funny/Swap.v",
+        "line": 143,
+        "symbol": "Funny_swap",
+        "intree_statement": "Definition Funny_swap {C D : Category} : (C □ D) ≅[StrictCat] (D □ C) := @Build_Isomorphism StrictCat (C □ D) (D □ C) (@FunnySwap C D) (@FunnySwap D C) (@FunnySwap_invol D C) (@FunnySwap_invol C D)."
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 508,
+        "symbol": "Functor_StrictEq_Setoid",
+        "intree_statement": "Program Instance Functor_StrictEq_Setoid {C D : Category} : Setoid (C ⟶ D) := { equiv := fun F G => { eq_on_obj : ∀ x : C, F x = G x & ∀ (x y : C) (f : x ~> y), transport (fun z => hom (fobj[F] x) z) (eq_on_obj y) (fmap[F] f) ≈ transport_r (fun z => hom z (fobj[G] y)) (eq_on_obj x) (fmap[G] f) } }.   (this is the hom-setoid of StrictCat, Instance/StrictCat.v:56, so an isomorphism there IS `G ∘ F = Id` on objects with matching morphism actions)"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 172,
+        "symbol": "Cat_Iso_to_Equivalence",
+        "intree_statement": "Definition Cat_Iso_to_Equivalence {C D : Category} (iso : C ≅[Cat] D) : EquivalenceOfCategories (to iso) := @Build_EquivalenceOfCategories C D (to iso) (from iso) (iso_to_from iso) (symmetry (iso_from_to iso))."
+      }
+    ],
+    "statement_record": {
+      "book": "An ISOMORPHISM OF CATEGORIES is an isomorphism in Cat or CAT in the sense of Definition 1.1.10: a pair of functors F : C ⟶ D, G : D ⟶ C whose composites GF and FG are EQUAL to the identity functors. Such an isomorphism induces a bijection on objects and likewise on morphisms. This strict notion is later relaxed to equivalence.",
+      "intree": "≅[StrictCat] — the general Isomorphism class instantiated at StrictCat, whose hom-setoid is Functor_StrictEq_Setoid (∀ x, F x = G x, together with transported agreement of fmap). Worked instances: Funny_swap : (C □ D) ≅[StrictCat] (D □ C), Funny_unit_left : (1 □ C) ≅[StrictCat] C (Construction/Funny/Unitors.v:134), Funny_assoc : ((C □ D) □ E) ≅[StrictCat] (C □ (D □ E)) (Construction/Funny/Associator.v:320).",
+      "strength_comparison": "same, up to the library's setoid rephrasing of functor equality. The book's `GF = 1_C` becomes `G ◯ F ≈ Id` in Functor_StrictEq_Setoid, i.e. propositional equality of the object maps plus transported agreement of the morphism maps — which is exactly what 'equal functors' can mean absent function extensionality, and which does deliver the book's object bijection (∀ x, G (F x) = x). ⚠ SAME-NAME-WEAKER TRAP, explicitly disclosed in-tree: `≅[Cat]` is NOT this notion. Cat's hom-setoid is Functor_Setoid (natural isomorphism), so Cat_Iso_to_Equivalence proves a Cat-isomorphism is exactly an EQUIVALENCE of categories, the relaxation the book only reaches later; a ledger reader must not cite ≅[Cat] as Riehl's isomorphism of categories. Construction/Funny/Swap.v's own comment (line 138) names the distinction: 'on-the-nose isomorphism of categories; pushing it through the comparison functor StrictCat_to_Cat yields the corresponding isomorphism — an equivalence — in the weak Cat.'"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently, and independently identified StrictCat (not Cat) as the correct carrier — the same-name-weaker trap the record flags. Theory/Functor.v:508 Functor_StrictEq_Setoid verified verbatim (`{ eq_on_obj : ∀ x, F x = G x & ∀ x y f, transport ... ≈ transport_r ... }`), and it IS the hom-setoid of StrictCat (Instance/StrictCat.v:59). All three worked instances confirmed at the exact cited lines: Funny_swap (Construction/Funny/Swap.v:143), Funny_unit_left (Construction/Funny/Unitors.v:134), Funny_assoc (Construction/Funny/Associator.v:320) — so the notion is not merely expressible but instantiated. Theory/Equivalence.v:172 Cat_Iso_to_Equivalence verified verbatim, confirming that ≅[Cat] is the WEAKER notion. Considered downgrading to PARTIAL on the ground that no named `IsomorphismOfCategories` definition exists and 'induces a bijection on objects/morphisms' is never drawn as a lemma; rejected, since eq_on_obj IS that object bijection and the frozen PRESENT criterion is substance, not naming."
+    }
+  },
+  {
+    "id": "riehl:1.3:example14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "BG ≅ BG^op via g ↦ g^{-1}; right actions as left actions",
+      "every groupoid is isomorphic to its opposite",
+      "R-Mod ≅ Mod_{R^op}, opposite ring",
+      "O(X) ≅ C(X)^op (open sets vs closed complements)",
+      "Mat_R ≅ Mat_R^op via transpose",
+      "(-)^op : CAT ⟶ CAT is a non-trivial automorphism; F : C ⟶ D induces F^op : C^op ⟶ D^op",
+      "self-duality; a category is not typically isomorphic to its opposite (ω vs ω^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) (λ x y f g, @fmap_respects _ _ F y x f g) (λ x, fmap_id) (λ x y z f g, @fmap_comp _ _ F _ _ _ g f).   Notation \"F ^op\"."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F.  Proof. reflexivity. Qed."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 126,
+        "symbol": "op_invol",
+        "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C.  Proof. unfold Opposite; simpl. destruct C; simpl. f_equal. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Six examples of isomorphisms of categories: (i) BG ≅ BG^op by g ↦ g^{-1}; (ii) any groupoid ≅ its opposite; (iii) R-Mod ≅ Mod_{R^op}; (iv) O(X) ≅ C(X)^op for a space X; (v) Mat_R ≅ Mat_R^op by transpose; (vi) (−)^op : CAT ⟶ CAT is a non-trivial automorphism of the category of categories, and a functor F : C ⟶ D also defines a functor C^op ⟶ D^op. Closing warning: a category is NOT typically isomorphic to its opposite (compare ω and ω^op).",
+      "intree": "Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op — the second half of clause (vi), with `(F^op)^op = F` by reflexivity (Opposite_Functor_invol) and `(C^op)^op = C` (op_invol) supplying the involutivity that makes op an automorphism-shaped operation.",
+      "strength_comparison": "intree-weaker: only clause (vi) is covered, and only in part. `F ↦ F^op` and the two involution laws are in force (op_invol and Opposite_Functor_invol; the library's duality architecture is built so that C^op^op = C holds definitionally, which is stronger than the book needs), but (−)^op is never PACKAGED as a functor Cat ⟶ Cat, and there is no statement that it is an automorphism or an isomorphism of Cat. Clauses (i)–(v) have no in-tree counterpart of any kind. The closing warning (ω ≇ ω^op) is likewise unwitnessed — Instance/Omega.v builds ω but proves nothing about ω^op."
+    },
+    "gap": "Five of the six clauses are absent, and clause (vi) is only half-covered. (i) no delooping BG of a group exists (`grep -rn 'BG' --include=*.v` finds only monoidal→bicategory delooping and prose mentions); (ii) Construction/Groupoid.v:103 builds the core groupoid `Groupoid C` but proves nothing relating it to `(Groupoid C)^op`, and nothing states 'every groupoid is isomorphic to its opposite'; (iii) no rings, no modules, no opposite ring (`grep -rn 'R-Mod'` = 3 hits, all in header prose of Theory/Equivalence.v and Structure/Abelian.v); (iv) no topological spaces, no lattice of opens O(X) or of closeds (`grep -rn 'open subset'` = 0); (v) no category of matrices (`grep -rni 'matrix|matrices'` = 17 hits, all header prose, none constructing Mat_R); (vi) no `Op : Cat ⟶ Cat` functor and no automorphism claim. The nearest in-tree self-duality claim, `Rel ≅ Rel^op`, appears only in the Instance/Rel.v:38 header, whose own next sentence says 'None of that extra structure is built here.'",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same single surviving clause. Functor/Opposite.v:31 Opposite_Functor and :49 `Corollary Opposite_Functor_invol : (F^op)^op = F. Proof. reflexivity. Qed.` verified verbatim; Construction/Opposite.v:126 op_invol verified verbatim. Independently reproduced every negative: `rg -i 'matrix|matrices'` → header prose only, nothing constructing Mat_R; `rg -i 'module|R-Mod'` → prose only, no ring or module; `rg -i 'open subset|topological space'` → nothing constructing O(X); no groupoid-vs-its-opposite statement anywhere (Construction/Groupoid.v:103 builds the core groupoid and stops); no `Op : Cat ⟶ Cat`. Also independently found Instance/Rel.v:38's `Rel ≅ Rel^op` and confirmed the record's reading — it is prose, and the file's own next sentence says 'None of that extra structure is built here.' Note the record's own header remark at Functor/Opposite.v:27-29 (op is the 2-functor Cat^co ⟶ Cat on 2-cells) is likewise prose, not a construction, consistent with the gap."
+    }
+  },
+  {
+    "id": "riehl:1.3:example15",
+    "classification": "ABSENT",
+    "aliases": [
+      "fundamental theorem of Galois theory",
+      "Galois group Aut(E/F), finite Galois extension E/F",
+      "orbit category O_G of subgroups / left G-sets G/H",
+      "G-equivariant maps G/H → G/K",
+      "category of intermediate fields Field_F^E, fixed field of a subgroup",
+      "isomorphism of categories O_G^op ≅ Field_F^E"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Galois' . → 16 hits, ALL header prose about GALOIS CONNECTIONS between posets (Theory/Adjunction.v:78-79, Instance/Poset.v:37-100, Adjunction/GAFT.v:136, Structure/Factorization.v:69, Structure/Limit.v:53); none constructs a field extension, a Galois group, or the fundamental theorem. Instance/Poset.v:58 mentions 'fields and subgroups in the fundamental theorem of Galois theory' only as etymology for the name 'Galois connection'.",
+      "grep -rn --include='*.v' 'orbit categor' . → 0 hits",
+      "grep -rn --include='*.v' 'OrbitCategory' . → 0 hits",
+      "grep -rn --include='*.v' 'O_G' . → 0 hits",
+      "grep -rn --include='*.v' 'Aut(' . → 0 hits; grep -rn --include='*.v' 'Automorphism' . → 0 hits (the library has Isomorphism but never names endo-isomorphisms)",
+      "grep -rn --include='*.v' 'field extension' . → 0 hits; 'intermediate field' → 0 hits; 'fixed field' → 0 hits",
+      "grep -rn --include='*.v' 'Field' . → 3 hits, all the record-FIELD sense (e.g. 'the unit_left field'), no algebraic field",
+      "grep -rn --include='*.v' 'Subgroup' . → 0 hits; 'subgroup' → 3 hits, all header prose (Construction/Cayley.v on Cayley's theorem, Instance/Poset.v etymology)",
+      "grep -rn --include='*.v' 'equivariant' . → 10 hits, all about the SYMMETRIC-GROUP action in Theory/Multicategory* (slot-crossing equivariance), unrelated to G-sets G/H",
+      "grep -rn --include='*.v' 'GroupHom' . → 0 hits; 'group homomorphism' → 0 hits. Structure/Group.v defines GROUP OBJECTS in a cartesian monoidal category, which cannot express Aut(E/F) for a field extension.",
+      "Directory survey: no Instance/ file for fields, rings, modules, or G-sets (ls Instance/ — Sets, Coq, Cat, Fun, FinSet, Rel, Poset, Proset, CMon, Lambda, ZX, Omega, One, Two, Zero, Roof, Props, Ens, Shapes, Parallel, Discrete, AST, Comp, Cones, Fact, Adj, Adjoints, StrictCat)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own `rg -i 'galois' --glob '*.v'` returned the identical hit set — all Galois CONNECTIONS between posets (Theory/Adjunction.v:78-79, Instance/Poset.v:37-100, Adjunction/GAFT.v:136, Structure/Factorization.v:69, Structure/Limit.v:53) plus Instance/Poset.v:58 citing the fundamental theorem only as etymology; nothing constructs a field extension, an automorphism group, an orbit category, or the theorem. Spot-checked two load-bearing negative-log entries: case-sensitive `rg 'Automorphism' --glob '*.v'` → 0 hits (confirmed; 10 lowercase 'automorphism' hits exist but all are prose about natural automorphisms/twists, none about Aut(E/F)); `rg -i 'subgroup'` → 3 prose hits only. ONE IMMATERIAL INACCURACY in the negative_search_log, not affecting the verdict: the 3 `\\bField\\b` hits are Structure/Premonoidal.v:188 ('Field orientations', record-field sense) and Theory/Algebra/Frobenius.v:43 and :86 (paper titles, 'Topological Quantum Field Theory' / 'Conformal Field Theory') — so 'all the record-FIELD sense' is wrong for two of them, but the conclusion (no algebraic field anywhere in the tree) stands. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "riehl:1.3:construction-set-partial",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set_partial, category of sets and partial functions",
+      "Par / Pfn / PAR, Kleisli category of the maybe monad",
+      "domain of definition, composite defined on dom(f) ∩ f^{-1}(dom g)",
+      "Set_*, pointed sets, based maps",
+      "free-basepoint functor (-)_+ : X ↦ X ∪ {X}; forgetful U : Set_* ⟶ Set_partial",
+      "U(-)_+ = Id but (U-)_+ only naturally isomorphic; motivation for equivalence of categories"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y)); homset := fun x y => @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |} |}.   (identity x ↦ Some x; composition (f ∘ g) x = match g x with None => None | Some b => f b end)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := fun P Q => {| equiv := fun f g => ∀ x, f x = g x |}; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}."
+      }
+    ],
+    "statement_record": {
+      "book": "A partial function f : X ⇀ Y is a function from a possibly empty subset X' ⊆ X (its domain of definition) to Y; the composite of f : X ⇀ Y and g : Y ⇀ Z has domain dom(f) ∩ f^{-1}(dom g). Set_partial is the category of sets and partial functions. There is a functor (−)_+ : Set_partial ⟶ Set_* sending X to X_+ := X ∪ {X} with the added element as basepoint, and a forgetful U : Set_* ⟶ Set_partial. The composite U(−)_+ is the IDENTITY endofunctor of Set_partial, but (U−)_+ sends (X,x) to a merely ISOMORPHIC pointed set, and no construction can make U injective on objects — so Set_partial and Set_* cannot be isomorphic, motivating the relaxation of GF = id, FG = id to natural isomorphism and hence the definition of natural transformation.",
+      "intree": "Part : Category (setoids and partial setoid maps, encoded as total maps into option, with Kleisli composition) and Par : Category (Coq types and A → option B). The header of Instance/Sets/Par.v names it: 'This is the category PAR (also written Par or Pfn) of setoids and partial maps … Equivalently this is the Kleisli category of the maybe monad option on Sets.'",
+      "strength_comparison": "intree-weaker: only the FIRST half of the construction exists. The category itself is faithfully rendered — the option encoding makes the domain of definition implicit (None = undefined) rather than an explicit subset, and Kleisli composition is exactly the book's dom(f) ∩ f^{-1}(dom g) condition, so this is a presentation change, not a strength change. But the entire point of the construction in the book — the comparison with pointed sets and the resulting motivation for equivalence — is absent."
+    },
+    "gap": "Missing: (a) any category Set_* of pointed sets / pointed setoids (grep for 'pointed set', 'Pointed', 'based set' finds only Instance/Fun.v:230 `Class Pointed` for POINTED ENDOFUNCTORS, an unrelated notion); (b) the free-basepoint functor (−)_+ : Part ⟶ Set_* and the forgetful U : Set_* ⟶ Part; (c) the round-trip statements U(−)_+ = Id and (U−)_+ ≅ Id-but-not-=; (d) the negative conclusion that Part and Set_* are equivalent but not isomorphic, which is the whole motivating payload. Theory/Coq/Maybe.v:29 records in prose that 'the Kleisli category on Set is the category of sets and partial functions; its algebras are the pointed objects', but no Eilenberg–Moore category for option is built and no comparison functor is constructed. The target notion the construction motivates, equivalence of categories, IS present independently (Theory/Equivalence.v, with Cat_Iso_to_Equivalence at line 172), so the motivation is not needed in-tree — but the item's own content is only half covered.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently (found Instance/Coq/Par.v via `rg -i 'partial function|pointed set|basepoint'` before opening the coverage file). Instance/Sets/Par.v:27 `Program Definition Part : Category` with `obj := Sets` and hom a SetoidMorphism into `option y` verified verbatim; Instance/Coq/Par.v:53 `Program Definition Par : Category` verified verbatim. The option encoding really is Riehl's dom(f) ∩ f^-1(dom g) in disguise — Instance/Sets/Par.v:21-25 spells out exactly that composition — so 'presentation change, not strength change' is honest. Independently confirmed the missing half: `rg -i 'pointed'` finds no category of pointed sets, only Instance/Fun.v:230 `Class Pointed` for pointed ENDOfunctors (unrelated), and Instance/Coq/Par.v:34 states the equivalence-not-isomorphism fact as a HEADER COMMENT with no proof — which is precisely the item's motivating payload and is correctly recorded as absent. Theory/Coq/Maybe.v:29 prose confirmed verbatim. Both Par files are in _CoqProject (lines 189, 240 region)."
+    }
+  },
+  {
+    "id": "riehl:1.3:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "functor between one-object categories = monoid/group homomorphism",
+      "BG, delooping of a group, one-object category",
+      "group regarded as a category with one object and all morphisms invertible",
+      "Grp, category of groups; group homomorphism",
+      "monoid as a one-object category; MonoidHom"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'BG' . → 9 hits, none a delooping of a GROUP: Theory/Functor.v:68 and Theory/Bicategory.v:70-73 are header prose, Construction/PROP/Universal.v:535,550 and Construction/ColouredPROP/Universal.v:579,595 use BG as a bound variable name for a BraidedMonoidalFunctor witness.",
+      "grep -rn --include='*.v' 'delooping' . → 8 hits + 'Delooping' → 1, all the MONOIDAL-CATEGORY-as-one-object-BICATEGORY delooping (Theory/Bicategory/OneObject.v:56 Monoidal_OneObject_Bicategory, Monad/Graded.v:43-53). No group/monoid is delooped to a one-object CATEGORY.",
+      "grep -rn --include='*.v' 'one-object category' . → 9 hits, all header prose (e.g. Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces is precisely a linear representation of the group G' — cited as motivation, never constructed).",
+      "grep -rn --include='*.v' 'OneObjectCategory|Monoid_Category|MonoidCategory|Group_Category' . → 0 hits each.",
+      "grep -rn --include='*.v' 'GroupHom' . → 0 hits; 'group homomorphism' → 0 hits.",
+      "grep -rn --include='*.v' 'Grp' . → 4 hits, all header prose (e.g. Construction/Groupoid.v:22 on the inclusion Grpd ↪ Cat, which the file's own header says 'remains prose rather than a theorem').",
+      "grep -rn --include='*.v' 'MonoidHom' . → 18 hits, all in Theory/Algebra/Monoid/Hom.v: homomorphisms of MONOID OBJECTS in a monoidal category (f ∘ mu ≈ mu ∘ (f ⨂ f)), which is not a functor between one-object categories.",
+      "grep -rn --include='*.v' 'obj := unit|obj := poly_unit|obj := True' . → 4 hits, all one-object MULTIcategories/operads (Theory/Multicategory/Algebra.v:445, Endomorphism.v:1053) or terminal-object definitions, not a delooped group.",
+      "Survey of every `: Category` definition under Instance/ (Adj, Adjoints, Cat, AST, CMon, Coq, Cones, Discrete, Comp/Algs, Comp, Fact, FinSet, Ens, EnsT, Fun, Omega, One, Lambda, Props, Parallel, APair, Proset, Poset, Rel, Tries, Vectors, Roof, Sets, StrictCat, Zero, Two, ZX_Cat): none is the one-object category of a group or monoid. Structure/Group.v's GroupObject is a group object in a cartesian monoidal category; Instance/CMon.v's CMon has commutative monoids as OBJECTS with homomorphisms as morphisms — neither expresses 'a functor BG ⟶ BH is a homomorphism G → H'."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My searches for a group/monoid delooped to a one-object CATEGORY (`rg -i 'one.object|delooping|BG|monoid.*as a category'`), for group homomorphisms (`rg 'GroupHom|MonoidHom|group homomorphism'`), and a directory survey of every `: Category` definition under Instance/ reproduced the log's findings exactly: the only deloopings are monoidal→bicategory (Theory/Bicategory/OneObject.v, Monad/Graded.v:43-53); Theory/Algebra/Monoid/Hom.v's MonoidHom is a homomorphism of MONOID OBJECTS in a monoidal category; Structure/Group.v is group OBJECTS in a cartesian monoidal category; Instance/CMon.v has commutative monoids as objects, not as one-object categories. Construction/Cayley.v:69-78 discusses the one-object case only in prose. Nothing lets 'a functor BG ⟶ BH is a homomorphism G → H' even be stated. ABSENT confirmed; negative_search_log is accurate and command-level."
+    }
+  },
+  {
+    "id": "riehl:1.3:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functor between preorders = monotone map",
+      "preorder / proset regarded as a thin category",
+      "order-preserving map, monotone function, MonotoneMap",
+      "Ord / Pos, the category of preorders and monotone maps",
+      "2-enriched category = preorder; enriched functor = monotone map"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q.   (with Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) } at line 175)"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.  Proof. split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder. Defined."
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.3.ii: determine what a functor between two preorders, regarded as categories, amounts to — namely a monotone (order-preserving) map.",
+      "intree": "EnrichedFunctor_Two_monotone : EnrichedFunctor _2 (enrichment of P) (enrichment of Q) ↔ MonotoneMap P Q, a bidirectional theorem with both legs Defined; supported by Enriched_Two_preorder : Enriched _2 ↔ TwoPreorder (preorders ARE the 2-enriched categories) and by Proset, which realizes a preorder as an ordinary thin category (hom := R, all parallel arrows identified).",
+      "strength_comparison": "intree-weaker in PRESENTATION, not in mathematical strength: the correspondence is proven for functors ENRICHED over the walking arrow `_2` between the 2-enrichments built from preorders, never for an ordinary `Functor (Proset P) (Proset Q)` — the exact shape the exercise asks about. The gap is genuine but shallow: `Functor (Proset P) (Proset Q)` unfolds to exactly (fobj : A → B, fmap : ∀ x y, R x y → R' (fobj x) (fobj y)) with fmap_respects/fmap_id/fmap_comp automatic by thinness (Proset's hom-setoid is `fun _ _ => True`), so the statement would be a one-line corollary — but it is not in the tree. Additional caveat: TwoPreorder carries a DECIDABILITY field (tpre_dec, used in the reverse leg to case-split on whether x ≤ y), an extra hypothesis the book's exercise does not impose."
+    },
+    "gap": "The 'functor between preorders = monotone map' correspondence exists only in the Two-ENRICHED presentation (EnrichedFunctor over the walking arrow), not for ordinary functors between the thin categories `Proset P` and `Proset Q`, and the enriched version additionally assumes the preorder is decidable (the tpre_dec field of TwoPreorder). There is no in-tree category Ord/Pos of preorders and monotone maps in which the correspondence could be stated as a hom-set bijection — the `[Ord]` cross-reference in Instance/Proset.v:19 points at a file that does not exist (`grep -rn --include='*.v' '\\bOrd\\b'` returns exactly that one comment).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on exactly the same ground (I found Instance/Proset.v and Construction/Enriched/Two.v separately and noted that only the ENRICHED correspondence exists). All three citations verified at the exact lines: Construction/Enriched/Two.v:165 Enriched_Two_preorder, :175 Record MonotoneMap, :183 EnrichedFunctor_Two_monotone (read the full proof — both legs really are constructed, and the reverse leg does case-split on tpre_dec); Instance/Proset.v:33 Proset verified verbatim including the `fun _ _ => True` thin hom-setoid. The extra-hypothesis caveat is REAL and I verified it independently: TwoPreorder at Construction/Enriched/Two.v:60 carries `tpre_dec x y : tpre_le x y + (tpre_le x y → False)` at line 65, a decidability field Riehl's exercise does not impose. The gap's claim that the `[Ord]` cross-reference is dangling is also confirmed (`rg '\\bOrd\\b' --glob '*.v'` → exactly Instance/Proset.v:19; no Instance/Ord.v exists) — filed to problems[] as a library defect. Both files are in _CoqProject (lines 35, 224)."
+    }
+  }
+]

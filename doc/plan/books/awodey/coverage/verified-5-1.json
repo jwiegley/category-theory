@@ -1,0 +1,726 @@
+[
+ {
+  "id": "awodey:5.2:prop-pullback-of-mono",
+  "classification": "PRESENT",
+  "aliases": [
+   "a pullback of a monomorphism is a monomorphism",
+   "monos are stable under pullback / stable under base change",
+   "monic_pullback_stable / mono_pullback_stable",
+   "inverse image of a subobject is a subobject",
+   "dual: epis are stable under pushout (cobase change)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 226,
+    "symbol": "monic_pullback_stable",
+    "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P)."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 26,
+    "symbol": "(file header)",
+    "intree_statement": "- monomorphisms are stable under pullback ([monic_pullback_stable]);"
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 38,
+    "symbol": "sub_reindex",
+    "intree_statement": "sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u))  (* the inverse image of a subobject is a subobject *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Unnumbered claim in 5.2 (proof left as 'Exercise!'): given a mono m : M >-> B and any f : A -> B, in the pullback square over the cospan f, m the leg m' : A x_B M -> A opposite m is again monic.",
+   "intree": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).",
+   "strength_comparison": "same. The library's [Pullback f m] record carries an arbitrary apex with the full UMP (Structure/Pullback.v:161), not a chosen/canonical pullback, so the lemma applies to ANY pullback square of that cospan — exactly the book's generality. The proof is the standard one (cancel m on the other projection, then use uniqueness of the mediator); Monic is the setoid-faithful `∀ g1 g2, m ∘ g1 ≈ m ∘ g2 → g1 ≈ g2`. No extra hypotheses (no HasPullbacks instance is required: the pullback is passed in)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently (rg -i 'pullback.*mono|pullback_stable' -> Theory/Morphisms/Stability.v). Verified: monic_pullback_stable is at line 226 verbatim as quoted; header bullet at line 26 verbatim; Theory/Subobject/Functor.v:38 does apply it (the trailing (* ... *) in the evidence quote is the classifier's annotation, not file text). Checked the anti-pattern 'special-case-only': Structure/Pullback.v:161's Pullback record is apex-existential with the full UMP, so the lemma holds of ANY pullback square of the cospan, matching the book's generality; pullback_fst is indeed the leg opposite m. File registered in _CoqProject:464."
+  }
+ },
+ {
+  "id": "awodey:5.3:lem10",
+  "classification": "PRESENT",
+  "aliases": [
+   "two-pullbacks lemma",
+   "pasting law for pullbacks / composition and cancellation of pullback squares",
+   "pullback_paste / pullback_unpaste / IsPullback",
+   "outer rectangle is a pullback; left square is a pullback",
+   "dual: pasting law for pushouts"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 53,
+    "symbol": "IsPullback",
+    "intree_statement": "Record IsPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) (P : C) (p1 : P ~> x) (p2 : P ~> y) := { is_pullback_commutes : f ∘ p1 ≈ g ∘ p2; is_pullback_ump : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> P, p1 ∘ u ≈ q1 ∧ p2 ∘ u ≈ q2 }."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 106,
+    "symbol": "pullback_paste",
+    "intree_statement": "Lemma pullback_paste (HQ : IsPullback h m Q q1 q2) (HP : IsPullback k q1 P p1 p2) : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 160,
+    "symbol": "pullback_unpaste",
+    "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2."
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 329,
+    "symbol": "pullback_transport",
+    "intree_statement": "Lemma pullback_transport {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P P' : Pullback f g) : PullbackTransport P P'.   (* iso of apexes commuting with BOTH projections; supplies the corollary A x_B (B x_C D) ≅ A x_C D *)"
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 152,
+    "symbol": "sub_reindex_comp",
+    "intree_statement": "Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) (u : SubObj x) : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u).   (* proved by `apply (pullback_paste ...)` — the corollary iso, instantiated at subobjects *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Lemma 5.10 (two-pullbacks lemma). For two adjacent commuting squares over a composable bottom row A -> B -> C: (1) if both squares are pullbacks then the outer rectangle is a pullback (hence A x_B (B x_C D) ≅ A x_C D); (2) if the RIGHT square and the OUTER rectangle are pullbacks then the LEFT square is a pullback.",
+   "intree": "pullback_paste : IsPullback h m Q q1 q2 → IsPullback k q1 P p1 p2 → IsPullback (h ∘ k) m P p1 (q2 ∘ p2);  pullback_unpaste : IsPullback h m Q q1 q2 → k ∘ p1 ≈ q1 ∘ p2 → IsPullback (h ∘ k) m P p1 (q2 ∘ p2) → IsPullback k q1 P p1 p2.",
+   "strength_comparison": "same. Both halves are proved, in the standard orientation (the file header at line 90 explicitly records that an earlier planning draft had transposed the squares and that the RIGHT square being a pullback is required in both directions — matching the book, which does not claim the left-square-alone converse). Two presentational notes, neither a weakening: (a) [pullback_unpaste] takes the left square's commutativity [Hcomm] as an explicit hypothesis, which the book supplies implicitly by drawing a commutative diagram (the header, lines 155-159, states exactly this reason); (b) the corollary isomorphism A x_B (B x_C D) ≅ A x_C D is not stated as its own lemma, but is one step from the in-tree [pullback_transport]/[pullback_unique], and the pattern is actually carried out in-tree at subobjects as [sub_reindex_comp], whose proof is literally `apply pullback_paste`."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Verified pullback_paste (line 106) and pullback_unpaste (line 160) verbatim, and read both proofs: orientation is the standard one, with the RIGHT square hypothesised in both directions -- exactly Awodey 5.10(1) and 5.10(2), and no unclaimed left-square-alone converse. IsPullback:53 quote exact. The in-file note about the transposed planning draft is at lines 91-94 (record says 'line 90'; immaterial). The un-stated corollary iso A x_B (B x_C D) = A x_C D is honestly flagged inside strength_comparison rather than silently claimed; sub_reindex_comp:152 does indeed close by `apply (pullback_paste ...)`."
+  }
+ },
+ {
+  "id": "awodey:5.3:cor11",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the pullback of a commutative triangle is a commutative triangle",
+   "prism lemma",
+   "base change of a slice morphism / induced map on pullbacks",
+   "Star_Functor fmap / h* on arrows",
+   "mediating morphism gamma' between two pullbacks over the same base change"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 67,
+    "symbol": "Star_Functor (fmap clause)",
+    "intree_statement": "fmap := λ '(a; x) '(b; y) '(g; H), let ypb : Pullback y f := pullbacks y f in let xpb : Pullback x f := pullbacks x f in let uniq := ump_pullbacks _ _ ypb _ (g ∘ pullback_fst x f xpb) (pullback_snd x f xpb) ltac:(rewrite comp_assoc, H; exact (pullback_commutes x f xpb)) in (unique_obj uniq; snd (unique_property uniq))"
+   },
+   {
+    "file": "Structure/Pullback.v",
+    "line": 171,
+    "symbol": "ump_pullbacks",
+    "intree_statement": "ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2"
+   },
+   {
+    "file": "Theory/Morphisms/Stability.v",
+    "line": 160,
+    "symbol": "pullback_unpaste",
+    "intree_statement": "Lemma pullback_unpaste (HQ : IsPullback h m Q q1 q2) (Hcomm : k ∘ p1 ≈ q1 ∘ p2) (HO : IsPullback (h ∘ k) m P p1 (q2 ∘ p2)) : IsPullback k q1 P p1 p2.   (* the missing clause of Cor 5.11 would follow from this in one step, but is nowhere stated *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Corollary 5.11. Given a commutative triangle beta ∘ gamma = alpha over C and any h : C' -> C, with pullbacks alpha' : A' -> C' of alpha and beta' : B' -> C' of beta along h, there is a UNIQUE gamma' : A' -> B' making the prism commute — beta' ∘ gamma' = alpha' (left face a commutative triangle) and the upper face (A'->A, gamma', gamma, B'->B) a commutative rectangle — and moreover that upper square is itself a pullback.",
+   "intree": "Star_Functor's fmap: for a slice arrow (g; H) : (a; x) ~> (b; y) over the base, gamma' := unique_obj uniq where uniq := ump_pullbacks y f ypb _ (g ∘ pullback_fst x f xpb) (pullback_snd x f xpb) _ ; its `unique_property` gives BOTH `pullback_fst y f ypb ∘ gamma' ≈ g ∘ pullback_fst x f xpb` (upper rectangle commutes) and `pullback_snd y f ypb ∘ gamma' ≈ pullback_snd x f xpb` (beta' ∘ gamma' ≈ alpha'), and `uniqueness` gives uniqueness among arrows satisfying both.",
+   "strength_comparison": "intree-weaker. The existence/uniqueness half of the corollary is realized (it is exactly the pullback UMP applied to the cone (gamma ∘ alpha'-leg, alpha'), and both prism commutations plus uniqueness are the two components of `unique_property`/`uniqueness`), but only INSIDE the fmap field of Star_Functor — there is no standalone lemma named for it. The distinctive extra clause that makes 5.11 a corollary of the two-pullbacks lemma — that the upper square (A'->A, gamma', gamma, B'->B) is ITSELF a pullback — is not proved anywhere in the tree, although [pullback_unpaste] supplies it in one step."
+  },
+  "gap": "(1) No standalone statement of the prism/triangle-pullback corollary; the induced gamma' with its two commutations and its uniqueness exists only as the anonymous fmap field of [Star_Functor] (Construction/Slice/Pullback.v:72-83). (2) The clause 'the upper square is itself a pullback' is nowhere proved — grep over the whole tree for prism / triangle-pullback / IsPullback-of-the-induced-square found no such lemma; only the ingredient [pullback_unpaste] exists.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"prism\" . — only Theory/Profunctor.v:116 (optics: lenses, prisms, traversals), unrelated",
+   "grep -rn --include=\"*.v\" -i \"two-pullback|two pullback|pasting law\" . — hits only Stability.v (paste/unpaste), Subobject/Functor.v, Regular/Factorization.v; no triangle/prism corollary",
+   "grep -rn --include=\"*.v\" \"Star_Functor\" . — defined once (Construction/Slice/Pullback.v:67), no downstream consumer and no companion lemma about its fmap"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, on the same two grounds. Reproduced the negative searches: `rg -i prism` over the tree yields exactly one hit, Theory/Profunctor.v:116 (optics lenses/prisms), unrelated; `rg 'Star_Functor|Bang_Functor'` outside Construction/Slice/Pullback.v yields only prose mentions in Construction/Slice.v:43,89 -- no code consumer, no companion lemma. Confirmed the gamma' really is realized only inside the fmap field (Construction/Slice/Pullback.v:72-83) and that its `unique_property` supplies both prism commutations, matching the record's statement_record. No in-tree statement anywhere asserts the induced upper square is itself a pullback."
+  }
+ },
+ {
+  "id": "awodey:5.3:prop12",
+  "classification": "PRESENT",
+  "aliases": [
+   "pullback functor between slice categories h* : C/C -> C/C'",
+   "base change functor / inverse image functor f^*",
+   "Star_Functor",
+   "reindexing functor on slices, right adjoint to dependent sum Sigma_f",
+   "dual: Bang_Functor / post-composition Sigma_f : C/a -> C/b"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 67,
+    "symbol": "Star_Functor",
+    "intree_statement": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in (Pull h f pull; pullback_snd h f pull); fmap := λ '(a; x) '(b; y) '(g; H), ... (unique_obj uniq; snd (unique_property uniq)) |}."
+   },
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 63,
+    "symbol": "pullbacks (section hypothesis)",
+    "intree_statement": "Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g."
+   },
+   {
+    "file": "Construction/Slice.v",
+    "line": 123,
+    "symbol": "Slice",
+    "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := ...   (* notation: C ̸ c *)"
+   },
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 93,
+    "symbol": "Star_Functor obligations (fmap_id, fmap_comp)",
+    "intree_statement": "Next Obligation. repeat (destruct (pullbacks _ _); simpl). repeat (destruct (ump_pullbacks _ _ _ _); simpl). intuition eauto. apply uniqueness. now cat. Qed.   (* fmap_id *)  Next Obligation. ... apply uniqueness. split. - rewrite comp_assoc. rewrite a1. now comp_left. - rewrite comp_assoc. now rewrite b0. Qed.   (* fmap_comp *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Proposition 5.12. For a fixed h : C' -> C in a category C with pullbacks, pulling back along h is a functor h* : C/C -> C/C'. On objects (alpha : A -> C) ↦ (alpha' : C' x_C A -> C'); on arrows gamma ↦ the unique gamma' of Cor. 5.11. The functor laws h*(1) = 1 and h*(g∘f) = h*(g)∘h*(f) hold, by the two-pullbacks lemma.",
+   "intree": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c, with fobj (_; h) = (Pull h f (pullbacks h f); pullback_snd h f (pullbacks h f)) and fmap the pullback mediator, under Hypothesis pullbacks : ∀ X Y Z (f : Y ~> Z) (g : X ~> Z), Pullback f g.",
+   "strength_comparison": "same. Direction and typing agree exactly (Awodey's h : C' -> C giving h* : C/C -> C/C'; in-tree f : c ~> a giving Slice C a ⟶ Slice C c). The object map is the pullback of the structure map along f with the projection onto the new base as structure map; the arrow map is the pullback mediator; the three functor obligations (fmap Proper, fmap_id, fmap_comp) are all discharged. The 'C has pullbacks' hypothesis is the section Hypothesis [pullbacks], i.e. chosen pullbacks — the same assumption the book makes. (Housekeeping note, not a gap: the enclosing section also declares `Context `{A : @Cartesian C}` with the in-file comment 'only used by the commented Production functor'; it does not occur in Star_Functor's body or type, so Coq's section discharge does not attach it.)"
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Star_Functor at line 67 with fobj/fmap as quoted; read the three Program obligations (file lines 84, 92, 100) -- fmap Proper, fmap_id and fmap_comp are all discharged with Qed, so this is a full functor, not a definition-without-API. The record cites line 93, which is inside the fmap_id obligation block (starts at 92); immaterial. Independently checked the honesty note: `Context {A : @Cartesian C}` is not mentioned in Star_Functor's body or type, so Coq's section discharge does not attach it, while `Hypothesis pullbacks` IS discharged into it -- i.e. the only added hypothesis is Awodey's own 'C has pullbacks'. Direction of the functor matches the book. Registered in _CoqProject:69."
+  }
+ },
+ {
+  "id": "awodey:5.3:cor13",
+  "classification": "PARTIAL",
+  "aliases": [
+   "inverse image functor on subobjects f^-1 : Sub(B) -> Sub(A)",
+   "subobject presheaf Sub : C^op -> Sets / Sub as a poset-valued functor",
+   "sub_reindex / sub_reindex_id / sub_reindex_comp / sub_reindex_respects",
+   "monotone for inclusion of subobjects; descends to Sub(-)/≅",
+   "restriction of the base change f* : C/B -> C/A to subobjects"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 35,
+    "symbol": "sub_reindex",
+    "intree_statement": "Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := {| sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst f (sub_mono u) (pullback f (sub_mono u)); sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) |}."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 60,
+    "symbol": "sub_reindex_respects",
+    "intree_statement": "#[export] Instance sub_reindex_respects {x y : C} (f : y ~> x) : Proper (equiv ==> equiv) (@sub_reindex x y f).   (* u ≈ v ⇒ f^-1 u ≈ f^-1 v : the descent to equivalence classes *)"
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 59,
+    "symbol": "sub_le",
+    "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.   (* the inclusion preorder on Sub(x) *)"
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 93,
+    "symbol": "sub_equiv_iff_mutual",
+    "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+   }
+  ],
+  "statement_record": {
+   "book": "Corollary 5.13. For C with pullbacks and f : A -> B, the square of categories formed by f^-1 : Sub(B) -> Sub(A), f* : C/B -> C/A and the two inclusions Sub(-) -> C/(-) commutes, since f^-1 is by definition the restriction of f*. In particular f^-1 is functorial, i.e. monotone for inclusion (M ⊆ N ⇒ f^-1 M ⊆ f^-1 N); hence M ≡ N ⇒ f^-1 M ≡ f^-1 N and f^-1 descends to f^-1/≡ : Sub(B)/≡ -> Sub(A)/≡.",
+   "intree": "Sub : C^op ⟶ Sets, sending x to the setoid (SubObj x, SubObj_Setoid) and f to sub_reindex (unop f); the descent clause is `sub_reindex_respects : Proper (equiv ==> equiv) (sub_reindex f)`, and functoriality in f is sub_reindex_id / sub_reindex_comp. The inclusion preorder exists separately as `sub_le` in Theory/Subobject.v, with `sub_equiv_iff_mutual : (u ≈ v) ↔ (sub_le u v * sub_le v u)`.",
+   "strength_comparison": "mixed. Intree-stronger on the descent clause: the library never forms the un-quotiented Sub(B) at all — SubObj x is already a SETOID whose ≈ IS the quotient of monos by domain-iso-over-x (Theory/Subobject.v:33), so `f^-1/≡` is the only thing constructed, and the full contravariant functor laws (sub_reindex_id, sub_reindex_comp, and respect for ≈ on the MORPHISM f via sub_reindex_respects_mor) are proved, which is more than the book states here. Intree-weaker on the other two clauses: monotonicity of reindexing for the inclusion preorder is never stated, and neither is the comparison with the slice base change."
+  },
+  "gap": "Two of the corollary's three clauses are missing. (1) Monotonicity: `sub_le u v → sub_le (sub_reindex f u) (sub_reindex f v)` is nowhere proved — [sub_le] (Theory/Subobject.v:59) and [sub_reindex] (Theory/Subobject/Functor.v:35) are defined in different files and never related; nor is Sub(x) assembled into a poset/category on which f^-1 could be a functor, so 'f^-1 is a functor between the posets Sub(B) and Sub(A)' has no in-tree form (only 'Sub is a functor C^op ⟶ Sets', a different statement). (2) The commuting square with the slice base change: no lemma relates [sub_reindex] (Theory/Subobject/Functor.v) to [Star_Functor] (Construction/Slice/Pullback.v) — the two files do not import each other, and there is no inclusion functor Sub(x) → C/x in the tree.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" \"sub_le|sub_reindex\" . — sub_le occurs only in Theory/Subobject.v; sub_reindex only in Theory/Subobject/Functor.v and Structure/SubobjectClassifier.v; no file mentions both",
+   "grep -rln --include=\"*.v\" \"Theory.Subobject\" + \"Construction.Slice\" — no file imports both, so no Sub(-) → C/(-) comparison exists",
+   "grep -rn --include=\"*.v\" -i \"monotone|order-preserving|Sub.*poset|poset of subobjects\" . — no monotonicity statement for reindexing"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, with the same gap. Verified Sub : C^op -> Sets at Theory/Subobject/Functor.v:180, with the three functor obligations closed by sub_reindex_respects_mor / sub_reindex_id / sub_reindex_comp; sub_reindex:35 and sub_reindex_respects:60 as quoted; sub_le:59 and sub_equiv_iff_mutual:93 in Theory/Subobject.v as quoted. Independently re-ran both negative searches: `rg -l sub_reindex` = {Theory/Subobject/Functor.v, Structure/SubobjectClassifier.v} (sub_le appears in neither), and no file in the tree imports both Category.Theory.Subobject and Category.Construction.Slice -- so the monotonicity clause and the Sub(-) -> C/(-) comparison square are genuinely absent, as claimed. The 'intree-stronger on descent' half is fair: SubObj_Setoid (Theory/Subobject.v:33) already IS the quotient, so f^-1/= is the only thing built."
+  }
+ },
+ {
+  "id": "awodey:5.3:example14",
+  "classification": "PARTIAL",
+  "aliases": [
+   "characteristic function chi_U : A -> 2; extension of a propositional function",
+   "subobject classifier / truth : 1 -> Omega; every mono is a pullback of true",
+   "power set as exponential 2^A ≅ P(A); Pow a := Omega^a",
+   "substitution is pullback: f^-1(phi^-1(true)) = (phi ∘ f)^-1(true)",
+   "naturality of the iso 2^A ≅ P(A) in A / natural isomorphism Sub ≅ Hom(-, Omega)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 44,
+    "symbol": "SubobjectClassifier",
+    "intree_statement": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback {u x : C} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one; char_unique {u x : C} (m : u ~> x) (M : Monic m) (h : x ~> Ω) : IsPullback h truth u m one → h ≈ char m M }."
+   },
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 152,
+    "symbol": "sub_reindex_comp",
+    "intree_statement": "Lemma sub_reindex_comp {x y z : C} (g : y ~> x) (f : z ~> y) (u : SubObj x) : sub_reindex (g ∘ f) u ≈ sub_reindex f (sub_reindex g u).   Proof. apply (sub_reindex_transport ...). apply (pullback_paste ...). Qed.   (* substitution-as-pullback, proved by the two-pullbacks lemma *)"
+   },
+   {
+    "file": "Instance/Sets/Classifier.v",
+    "line": 224,
+    "symbol": "sets_char_pullback",
+    "intree_statement": "Theorem sets_char_pullback {A B : SetoidObject@{o o}} (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) : @IsPullback Sets@{so sso} (Setoid_Lift B) unit_setoid_object PropSetoid (char_setoid m) sets_true (Setoid_Lift A) (SetoidMorphism_Lift m) sets_to_unit."
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 353,
+    "symbol": "FinSet_Classifier",
+    "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}.   (* literally Omega = 2 *)"
+   },
+   {
+    "file": "Structure/Topos.v",
+    "line": 129,
+    "symbol": "Pow",
+    "intree_statement": "Definition Pow {C : Category} {H : ElementaryTopos C} (a : C) : C := Ω ^ a.   (* the power object as the exponential Omega^a *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.14. In Sets: (i) the pullback E = {(a,b) | f a = g b} is the equalizer of f∘pi1 and g∘pi2 : A x B -> C; (ii) with B = 1, C = 2, g = true, U ⊆ A is the pullback of true : 1 -> 2 along chi_U; (iii) the bijection 2^A ≅ P(A) sends phi to V_phi = phi^-1(true), described as a pullback; (iv) for f : B -> A, f^-1 : P(A) -> P(B) is pullback, and the two-pullbacks lemma gives f^-1(V_phi) = V_{phi ∘ f} — substitution is pullback; (v) hence the square with 2^f on one edge and f^-1 on the other commutes: the iso 2^A ≅ P(A) is NATURAL in A, strictly stronger than a pointwise bijection.",
+   "intree": "classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}  — a POINTWISE isomorphism of setoids, one object x at a time; together with char_pullback (every mono is a pullback of truth), char_unique, sub_reindex_comp (substitution is pullback, proved via pullback_paste), the Sets-level sets_char_pullback / sets_char_unique / sets_char_subobject, and the computable FinSet witness with Ω := 2.",
+   "strength_comparison": "intree-weaker on the example's punchline. Clauses (ii), (iii) and (iv) are all realized: (ii)+(iii) as the SubobjectClassifier class plus classifier_classifies, concretely in FinSet with Ω literally 2 and in Sets as the cross-universe theorems of Instance/Sets/Classifier.v; (iv) verbatim as sub_reindex_comp, and its proof is exactly the book's appeal to the two-pullbacks lemma (`apply pullback_paste`). But (v) — NATURALITY of the correspondence, which the book explicitly flags as strictly stronger than an object-wise iso — is not proved: classifier_classifies is stated per object x and is never assembled into a natural isomorphism between the in-tree functor Sub : C^op ⟶ Sets (Theory/Subobject/Functor.v:180) and Hom(-, Ω), even though both functors exist. Clause (i) has no in-tree counterpart either."
+  },
+  "gap": "(1) Naturality is missing: [classifier_classifies] is a per-object [Isomorphism Sets] (Structure/SubobjectClassifier.v:187), never upgraded to a natural isomorphism Sub ≅ Hom(-, Ω) of functors C^op ⟶ Sets, although the functor [Sub] exists at Theory/Subobject/Functor.v:180 — this is precisely the point Example 5.14(v) is making. (2) Clause (i), the identification of the pullback in Sets with the equalizer of f∘pi1, g∘pi2 : A x B -> C, is absent: Sets carries no HasPullbacks instance at all, and the general product+equalizer ⇒ pullback construction is left as an explicit `jww (2017-06-02)` TODO comment at Structure/Pullback.v:267-274.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"classifier_classifies|natural.*classif|Sub_natural\" . — 5 hits, all uses/mentions of the pointwise iso (Structure/Topos.v:73,135,149; SubobjectClassifier.v:34,187); no naturality statement",
+   "grep -rn --include=\"*.v\" \"exl.*exr\" . | grep -i equali — 0 hits (no pullback-as-equalizer-of-projections construction)",
+   "grep -rn --include=\"*.v\" \"HasPullbacks|Pullback\" Instance/ — only FinSet_Pullbacks and the Sets/Classifier cross-universe IsPullback theorems; no Sets pullbacks instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, on the same punchline (naturality). Verified classifier_classifies at Structure/SubobjectClassifier.v:187 is a per-object `@Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> O |}`, and independently grepped -i 'natural' across Structure/SubobjectClassifier.v, Instance/Sets/Classifier.v, Instance/FinSet/Classifier.v and Structure/Topos.v: zero hits -- there is no natural-isomorphism upgrade, although both functors (Sub at Theory/Subobject/Functor.v:180 and Hom(-,O)) exist. classifier_classifies has only three consumers (Structure/Topos.v:73,135,149), all pointwise. Clause (i) confirmed absent: Structure/Pullback.v:254-265 and 267-274 are two `jww` TODO comments, and no Sets HasPullbacks instance exists. Evidence lines 44/187/152/224/353/129 all verified."
+  }
+ },
+ {
+  "id": "awodey:5.3:example15",
+  "classification": "ABSENT",
+  "aliases": [
+   "reindexing an indexed family of sets along alpha : J -> I is a pullback",
+   "family of sets / I-indexed family (A_i)_{i in I}; Set/I ≃ Set^I",
+   "J x_I (coproduct_i A_i) ≅ coproduct_j A_{alpha(j)}",
+   "families fibration; self-indexing; bundle over I and its fibres",
+   "indexed coproduct / dependent sum Sigma_{i in I} A_i in Sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"indexed family|reindex\" . — reindexing hits are all about (a) sub_reindex on subobjects, (b) Displayed/Indexed/Grothendieck fibre reindexing, (c) arity casts in Multicategory; nothing about set-indexed families",
+   "grep -rn --include=\"*.v\" -i \"icoprod|indexed coproduct|Set\\^I|Sets\\^I|family fibration|families fibration|coproduct of a family\" . — only Construction/Slice.v:75, and that is HEADER PROSE citing Leinster ('an equivalence Set/I ≃ Set^I'), not a formalized statement",
+   "grep -rn --include=\"*.v\" \"iprod|icoprod\" . — [iprod]/[iprod_proj]/[iprod_ump] (indexed PRODUCTS as discrete-diagram limits, Structure/Limit/Product.v) exist; there is no dual indexed coproduct anywhere",
+   "grep -rn --include=\"*.v\" -i \"sigT|dependent sum|family of sets|families\" Instance/Sets.v Instance/Sets/*.v Construction/Slice.v Construction/Displayed/Codomain.v — only compatible-families language in Sets/End.v and the Slice.v header prose",
+   "grep -rn --include=\"*.v\" -i \"disjoint union\" . — Sets_Cocartesian (BINARY coproduct of setoids only), Instance/Coq sums, category coproducts; no I-indexed coproduct in Sets",
+   "grep -rn --include=\"*.v\" \"HasPullbacks|Pullback\" Instance/ — Sets has no pullbacks instance, so the statement J x_I (-) cannot even be formed in Sets in-tree",
+   "Nearest in-tree relatives, deliberately not counted as partial coverage: [Star_Functor] (base change on slices is pullback, Construction/Slice/Pullback.v:67) and [codomain_cleaving]/[codomain_cleaving_pullbacks] (Construction/Displayed/Codomain.v) give the ABSTRACT 'base change = pullback' fact, but the example's content — the identification of I-indexed families with bundles over I in Sets and the concrete formula J x_I (coproduct_i A_i) ≅ coproduct_j A_{alpha(j)} — requires Set/I ≃ Set^I and indexed coproducts in Sets, neither of which is formalized"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently; my own searches (indexed family, reindex, disjoint union, family fibration, Set^I) surfaced nothing the classifier missed. Re-verified the load-bearing claims: `rg 'icoprod|IndexedCoproduct'` = 0 hits tree-wide, so there is no dual of Structure/Limit/Product.v:93's iprod; Construction/Slice.v:73-77's 'an equivalence Set/I = Set^I' is header prose citing Leinster, not a formalized statement; Sets carries no pullbacks instance, so the example's fibre product cannot even be formed in-tree. The 'nearest relatives, deliberately not counted' entry (Star_Functor, codomain_cleaving) is the right call: those give abstract base-change-is-pullback, not the Sets family formula."
+  }
+ },
+ {
+  "id": "awodey:5.4:prop16",
+  "classification": "ABSENT",
+  "aliases": [
+   "finite products + equalizers iff pullbacks + terminal object",
+   "product as pullback over the terminal object A x_1 B",
+   "equalizer as pullback of <f,g> along the diagonal Delta = <1,1>",
+   "finitely complete iff terminal + pullbacks (Borceux I, Prop. 2.8.2)",
+   "existence theorem for finite limits"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"pullback.*from.*equalizer|equalizer.*from.*pullback|from_equalizer|from_pullback|Pullback_from|Pullback_to\" . — only Pullback_to_WeakPullback (forgetting uniqueness) and Pullback_to_Universal / Pullback_from_Universal (pullback ⟺ limit-of-cospan, a different statement)",
+   "grep -rn --include=\"*.v\" -i \"×_1|over the terminal|product_from|Cartesian_from|Cartesian_Pullback|Pullback_Cartesian\" . — 0 relevant hits; no construction of binary products as pullbacks over 1",
+   "grep -rn --include=\"*.v\" -i \"Equalizer_Pullback|Pullback_Equalizer|equalizer_from|along the diagonal\" . — 0 relevant hits; no construction of equalizers as pullbacks along the diagonal (the only 'diagonal' hits are the diagonal FUNCTOR Delta : C ⟶ C ∏ C and reflexive-pair language)",
+   "grep -rn --include=\"*.v\" \"exl.*exr\" . | grep -i equali — 0 hits; no equalizer-of-projections construction of a pullback either",
+   "Structure/Pullback.v:267-274 leaves precisely the products+equalizers ⇒ pullbacks direction as an explicit unproved TODO: '(* jww (2017-06-02): *) ... This shows that pullbacks exist in any category with binary products and equalizers.'",
+   "Structure/Regular.v:28-30 states the converse direction ONLY as header prose — 'binary products are pullbacks over the terminal object, and equalizers are pullbacks of the induced pairings, so a terminal object and pullbacks generate all finite limits' — and the class [Regular] (line 66) simply CARRIES regular_terminal and regular_pullbacks as data; grep of the file shows no Cartesian/Equalizer construction",
+   "CLAUDE.md flags the same hole for the topos development: 'ElementaryTopos carrying finite limits explicitly (terminal+products+pullbacks — the pullback-from-equalizer reduction is a known in-tree gap)', and Structure/Topos.v:112 indeed lists topos_terminal, topos_cartesian and topos_pullbacks as independent fields rather than deriving any from the others"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-verified each leg: Structure/Pullback.v:254-265 ('jww (2017-06-01): TODO') and 267-274 ('jww (2017-06-02)') are Wikipedia quotations left as TODOs, covering exactly the products+equalizers => pullbacks direction; Structure/Regular.v:26-30 asserts the converse generation only in prose; and Structure/Topos.v:22-23 states outright that 'the reduction of pullbacks to products and equalizers (and conversely) is not' formalized. Independently grepped for any Cartesian or Equalizer instance constructed from HasPullbacks + Terminal: zero hits. Nothing in-tree proves either direction."
+  }
+ },
+ {
+  "id": "awodey:5.4:def17",
+  "classification": "PRESENT",
+  "aliases": [
+   "diagram of type J = functor D : J ⟶ C; index/shape category",
+   "cone to a diagram; ACone / Cone with vertex_map and cone_coherence",
+   "morphism of cones; the category Cone(D) / Cones F",
+   "cone as a natural transformation Delta(c) ⟹ F; comma category (Delta ↓ F)",
+   "dual: cocone, Cocones F"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cone.v",
+    "line": 24,
+    "symbol": "ACone",
+    "intree_statement": "Class ACone {J : Category} {C : Category} (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }."
+   },
+   {
+    "file": "Structure/Cone.v",
+    "line": 51,
+    "symbol": "Cone",
+    "intree_statement": "Class Cone {J : Category} {C : Category} (F : J ⟶ C) := { vertex_obj : C; coneFrom : ACone vertex_obj F }."
+   },
+   {
+    "file": "Instance/Cones.v",
+    "line": 29,
+    "symbol": "Cones",
+    "intree_statement": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ _ F (@coneFrom _ _ _ N) j }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+   },
+   {
+    "file": "Instance/Cones/Comma.v",
+    "line": 73,
+    "symbol": "Cones_Comma",
+    "intree_statement": "Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))."
+   },
+   {
+    "file": "Instance/Cones.v",
+    "line": 46,
+    "symbol": "Cocones",
+    "intree_statement": "Definition Cocones `(F : J ⟶ C) := Cones (F^op)."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 5.17. A diagram of type J in C is a functor D : J ⟶ C. A cone to D is an object C with arrows c_j : C -> D_j, one per object j of J, such that D_alpha ∘ c_i = c_j for every alpha : i -> j in J. A morphism of cones theta : (C, c_j) -> (C', c'_j) is an arrow theta : C -> C' with c_j = c'_j ∘ theta for all j. Cones to D and their morphisms form a category Cone(D).",
+   "intree": "ACone c F := { vertex_map (x : J) : c ~> F x; cone_coherence (f : x ~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y };  Cone F := { vertex_obj : C; coneFrom : ACone vertex_obj F };  Cones F : Category with hom N L := { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ vertex_map[N] j }.",
+   "strength_comparison": "same, with a faithful setoid rephrasing (= becomes ≈, and cone morphisms are identified when their apex maps agree, the commutation witness being proof-irrelevant). Every clause matches: diagram = functor (the library uses `F : J ⟶ C` directly as the diagram — there is no separate `Diagram` abbreviation, which is a naming difference only); the cone coherence field is literally D_alpha ∘ c_i ≈ c_j; the hom of Cones F is literally an apex map with the triangle equations c_j ≈ c'_j ∘ theta; identity and composition are the apex identity and composite. Intree-stronger extras: the apex-fixed variant [ACone] is separated out, the dual [Cocones] is definitional, and [Cones_Comma] proves Cones F ≅[Cat] (Δ ↓ =(F)) — an ISOMORPHISM in Cat, not merely an equivalence."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Verified ACone:24, Cone:51, Cones:29 (hom is literally an apex map plus the leg-triangle equations, homset identifies morphisms by their apex maps -- the faithful setoid rephrasing the record describes), Cocones:46, and Cones_Comma at Instance/Cones/Comma.v:73 (`Cones F =[Cat] (D | =(F))`, an isomorphism in Cat, so the 'intree-stronger extras' claim is accurate). Diagram-as-functor with no separate `Diagram` alias is a naming difference only. All files registered in _CoqProject. See problems[] for one cosmetic binder wart in the same file (AConeEquiv)."
+  }
+ },
+ {
+  "id": "awodey:5.4:def18",
+  "classification": "PARTIAL",
+  "aliases": [
+   "limit of a diagram = terminal object in Cone(D)",
+   "universal / terminal cone; Limit F, IsALimit F c, ump_limits",
+   "limit projections p_i : lim_j D_j -> D_i",
+   "finite limit (index category J finite)",
+   "dual: colimit = initial object in Cocone(D)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit.v",
+    "line": 113,
+    "symbol": "Limit",
+    "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }."
+   },
+   {
+    "file": "Structure/Limit.v",
+    "line": 129,
+    "symbol": "IsALimit",
+    "intree_statement": "Class IsALimit `(F : J ⟶ C) (c : C) := { limit_acone : ACone c F; ump_limit : ∀ N : Cone F, ∃! u : N ~> c, ∀ x : J, vertex_map _ ∘ u ≈ vertex_map x }."
+   },
+   {
+    "file": "Instance/Cones/Limit.v",
+    "line": 37,
+    "symbol": "Limit_Cones",
+    "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := {| limit_cone := @terminal_obj _ T; ump_limits := fun N => {| unique_obj := `1 (@one _ T N); unique_property := `2 (@one _ T N); uniqueness := fun v H => @one_unique _ T N (@one _ T N) (v; H) |} |}."
+   },
+   {
+    "file": "Structure/Limit.v",
+    "line": 158,
+    "symbol": "Colimit",
+    "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op)."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 5.18. A limit for a diagram D : J ⟶ C is a terminal object in Cone(D). A finite limit is a limit for a diagram whose index category J is finite. A limit is denoted by its projections p_i : lim_j D_j -> D_i; spelled out, for any cone (C, c_j) there is a unique u : C -> lim_j D_j with p_j ∘ u = c_j for every j.",
+   "intree": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ vertex_map[N] x }.  Plus Limit_Cones : `{T : @Terminal (Cones F)} → Limit F.",
+   "strength_comparison": "intree-weaker in two specific respects, and otherwise the same. The book's spelled-out universal property (unique mediator with p_j ∘ u = c_j) is exactly [ump_limits], with ≈ for =, and the limit's projections are [vertex_map[limit_cone]]; that half is faithful. But the book's DEFINING formulation — terminal object of Cone(D) — is only realized in one direction, [Limit_Cones] (terminal object of Cones F ⇒ Limit F); the converse direction Limit F → Terminal (Cones F) is not in the tree, so the two formulations are not proved equivalent. And the second sentence of the definition, 'finite limit', has no counterpart at all: there is no finiteness predicate on index categories anywhere in the library."
+  },
+  "gap": "(1) Only one direction of 'limit = terminal object in Cone(D)' is formalized: [Limit_Cones] (Instance/Cones/Limit.v:37) builds a [Limit F] from a `Terminal (Cones F)`; the converse, that the limit cone is a terminal object of [Cones F], is nowhere stated (grep for 'Terminal (Cones' finds only Limit_Cones). (2) 'Finite limit' is absent: the library has no predicate expressing that an index category is finite, so no notion of finite limit exists — see the negative log on awodey:5.4:def-all-finite-limits.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" \"Cones\\b\" . — the only Terminal/Cones interaction is Limit_Cones and the header pointer at Structure/Terminal.v:54; no Limit → Terminal (Cones F) direction",
+   "grep -rn --include=\"*.v\" -i \"FiniteCat|Finite_|IsFinite|Fintype|finite category|Finitely\" . — a single hit (Theory/Metacategory/DecideExample.v:23, prose), no finiteness class on categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL. Verified Limit:113, IsALimit:129, Colimit:158, Limit_Cones at Instance/Cones/Limit.v:37, all verbatim. Independently confirmed gap (1): `rg 'Terminal.*Cones|Cones.*Terminal'` returns only Limit_Cones, so the direction Limit F -> Terminal (Cones F) is indeed absent. Fairness note kept for the record: that missing direction is a pure repackaging (Cones F's hom IS the mediating apex map with the leg equations, and its homset equates morphisms by apex map), so the substantive half of the gap is (2), the absent finiteness notion, which is shared with awodey:5.4:def-all-finite-limits and independently verified there. PARTIAL stands under the frozen definition since the book's defining formulation and its second sentence are both only half-realized."
+  }
+ },
+ {
+  "id": "awodey:5.4:example19",
+  "classification": "PRESENT",
+  "aliases": [
+   "limit over the discrete two-object category is the binary product",
+   "product as a limit of a discrete diagram; Cartesian_Limit",
+   "Two_Discrete / Pick_Two index category",
+   "cone with two legs and no commutativity condition",
+   "dual: colimit over the discrete two-object shape is the coproduct"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+   },
+   {
+    "file": "Instance/Two/Discrete.v",
+    "line": 58,
+    "symbol": "Two_Discrete",
+    "intree_statement": "Program Definition Two_Discrete : Category := ...   (* two objects TwoDX, TwoDY and only identity morphisms *)"
+   },
+   {
+    "file": "Instance/Two/Discrete.v",
+    "line": 111,
+    "symbol": "Pick_Two",
+    "intree_statement": "Program Definition Pick_Two {C : Category} (a b : C) : Two_Discrete ⟶ C   (* a diagram of that shape is exactly an ordered pair of objects *)"
+   },
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 93,
+    "symbol": "iprod",
+    "intree_statement": "Definition iprod {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : C := ...   (* with iprod_proj (line 98) and iprod_ump: the I-indexed generalization of this example, limits of discrete diagrams *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.19. For J = {1, 2} the discrete two-object category, a diagram D : J ⟶ C is a pair of objects D_1, D_2; a cone is an object C with two arrows c_1, c_2 and no commutativity condition; and a limit of D is exactly a binary product D_1 x D_2 with its projections, so lim_j D_j ≅ D_1 x D_2.",
+   "intree": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.",
+   "strength_comparison": "intree-stronger. The book states the identification for a single diagram; the in-tree theorem is a biconditional at the level of the whole category — having limits for every two-object discrete diagram is equivalent to being Cartesian — and both directions are constructed (left-to-right: the limit apex becomes the product object, the two legs become exl/exr, the mediator becomes fork; right-to-left: the product with exl/exr is the limit cone and fork supplies the unique factorization). The index shape [Two_Discrete] is exactly the book's discrete two-object J (objects TwoDX, TwoDY, only identities), and [Pick_Two a b] realizes the book's observation that a diagram of that shape is just a pair of objects."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Verified Cartesian_Limit at Structure/Limit/Cartesian.v:39 is the biconditional as quoted, and read both branches of the proof: left-to-right builds the Cartesian instance from limit apex/legs/mediator, right-to-left builds the limit cone from the product with fork as the unique factorization -- so 'intree-stronger' (category-level iff vs the book's single-diagram identification) is honest, not inflated. Two_Discrete:58 and Pick_Two:111 verified in Instance/Two/Discrete.v; iprod:93 is the genuine indexed generalization."
+  }
+ },
+ {
+  "id": "awodey:5.4:example20",
+  "classification": "PRESENT",
+  "aliases": [
+   "limit over the parallel-pair category is the equalizer",
+   "walking parallel pair / Parallel index category; APair f g",
+   "Equalizer := Limit F for F : Parallel ⟶ C",
+   "IsEqualizer fork API; equalizer_is_equalizer / is_equalizer_limit",
+   "dual: colimit over the parallel pair is the coequalizer"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Equalizer.v",
+    "line": 120,
+    "symbol": "Equalizer",
+    "intree_statement": "Definition Equalizer {C : Category} (F : Parallel ⟶ C) := Limit F."
+   },
+   {
+    "file": "Instance/Parallel.v",
+    "line": 129,
+    "symbol": "APair",
+    "intree_statement": "Program Definition APair {C : Category} {x y : C} (f g : x ~> y) : Parallel ⟶ C   (* the diagram of a parallel pair *)"
+   },
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 52,
+    "symbol": "IsEqualizer",
+    "intree_statement": "Record IsEqualizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }."
+   },
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 225,
+    "symbol": "equalizer_is_equalizer",
+    "intree_statement": "Definition equalizer_is_equalizer (L : Equalizer (APair f g)) : IsEqualizer f g L (limit_leg (limit_is_alimit L) ParX) := {| fork_eq := limit_equalizes L ; eq_desc := fun z h Hh => limit_equalizer_desc L h Hh |}."
+   },
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 273,
+    "symbol": "is_equalizer_limit",
+    "intree_statement": "Definition is_equalizer_limit {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Equalizer (APair f g) := {| limit_cone := is_equalizer_cone E ; ump_limits := fun N => is_equalizer_cone_ump E N |}."
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.20. For J the category with two objects and two parallel non-identity arrows alpha, beta, a diagram of type J is a parallel pair D_alpha, D_beta : D_1 -> D_2. A cone is c_1, c_2 with D_alpha c_1 = c_2 = D_beta c_1, hence equivalently just c_1 with D_alpha c_1 = D_beta c_1. A limit for D is therefore precisely an equalizer of D_alpha and D_beta.",
+   "intree": "Definition Equalizer {C : Category} (F : Parallel ⟶ C) := Limit F.  With equalizer_is_equalizer : Equalizer (APair f g) → IsEqualizer f g L (limit_leg ... ParX) and is_equalizer_limit : IsEqualizer f g q e → Equalizer (APair f g).",
+   "strength_comparison": "same, and if anything intree-stronger in that both directions are made explicit. The library takes the book's identification as the DEFINITION (Equalizer of a parallel-pair diagram := Limit of it) and then proves it agrees with the elementary fork presentation in both directions: [equalizer_is_equalizer] extracts fork_eq (the collapse of the two-leg cone condition to the single equation the book describes) and the unique factorization from the limit, and [is_equalizer_limit] rebuilds the limit from the fork. The proof of [is_equalizer_cone_ump] performs exactly the book's collapse, deriving f ∘ c_1 ≈ c_2 and g ∘ c_1 ≈ c_2 from cone_coherence at the two non-identity arrows of [Parallel]. Index shape [Parallel] (Instance/Parallel.v:80) is the book's two-object/two-parallel-arrow J."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Equalizer := Limit F over Parallel at Structure/Equalizer.v:120 verified; crucially the round trip to the elementary fork API is real in BOTH directions -- equalizer_is_equalizer at Structure/Equalizer/Fork.v:225 and is_equalizer_limit at :273 -- so this is not a definition-without-API. IsEqualizer:52, Parallel:80 (two objects, two parallel non-identity arrows) and APair:129 all verified. The book's collapse of the two-leg cone to the single equalizing arrow is exactly what is_equalizer_cone_ump performs."
+  }
+ },
+ {
+  "id": "awodey:5.4:example21",
+  "classification": "PRESENT",
+  "aliases": [
+   "limit over the empty index category is a terminal object",
+   "terminal object as the empty product / nullary product",
+   "Terminal_Limit; Instance/Zero (the empty category 0)",
+   "unique empty diagram 0 ⟶ C",
+   "dual: colimit over the empty diagram is the initial object"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 33,
+    "symbol": "Terminal_Limit",
+    "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+   },
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 22,
+    "symbol": "(file header)",
+    "intree_statement": "Here `0` is the empty category (Instance/Zero.v) and `F : 0 ⟶ C` is the unique empty diagram. [Terminal_Limit] shows the two notions coincide ... A cone over the empty diagram carries no legs, so its apex is unconstrained; the limit's universal property then says exactly that this apex receives a unique morphism from every object, which is the definition of a terminal object."
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.21. When the index category J is empty there is exactly one diagram D : J ⟶ C, and a limit for it is precisely a terminal object of C; so the limit over the empty diagram is ≅ 1.",
+   "intree": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.",
+   "strength_comparison": "same, stated as a biconditional with both directions constructed (Limit F ⇒ Terminal: the limit apex receives a unique arrow from every object, uniqueness coming from [ump_limits] applied to two legless cones; Terminal ⇒ Limit: terminal_obj with the empty leg family is the limit cone, [one]/[one_unique] supplying the UMP). The book's 'there is exactly one diagram' is handled by quantifying over an arbitrary F : 0 ⟶ C, which is the same content since any two such functors agree vacuously."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Terminal_Limit at Structure/Limit/Terminal.v:33 verified as the biconditional over the empty category 0, and both branches are constructed (Limit -> Terminal derives uniqueness from ump_limits applied to legless cones; Terminal -> Limit uses one/one_unique). Header quote at line 22 matches the file. No hidden hypotheses."
+  }
+ },
+ {
+  "id": "awodey:5.4:example22",
+  "classification": "PRESENT",
+  "aliases": [
+   "limit over the cospan index category is a pullback",
+   "walking cospan / Roof^op index category; Cospan C := Roof^op ⟶ C",
+   "Pullback_Limit; Pullback_to_Universal / Pullback_from_Universal",
+   "fibered product as a limit",
+   "dual: colimit over the span shape (Roof) is the pushout"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Pullback/Limit.v",
+    "line": 52,
+    "symbol": "Pullback_Limit",
+    "intree_statement": "Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F."
+   },
+   {
+    "file": "Structure/Pullback/Limit.v",
+    "line": 68,
+    "symbol": "Pullback_to_Universal",
+    "intree_statement": "Program Definition Pullback_to_Universal {C : Category} (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {| Pull := P; pullback_fst := (vertex_map _); pullback_snd := (vertex_map _) |}."
+   },
+   {
+    "file": "Structure/Pullback/Limit.v",
+    "line": 113,
+    "symbol": "Pullback_from_Universal",
+    "intree_statement": "Program Definition Pullback_from_Universal {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) : Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {| limit_cone := {| vertex_obj := P ; coneFrom := {| vertex_map := _; cone_coherence := _ |} |} |}."
+   },
+   {
+    "file": "Instance/Roof.v",
+    "line": 29,
+    "symbol": "RoofObj / RoofHom",
+    "intree_statement": "Inductive RoofObj : Set := RNeg | RZero | RPos.  Inductive RoofHom : RoofObj → RoofObj → Set := | IdNeg | ZeroNeg | IdZero | ZeroPos | IdPos.   (* three objects, two non-identity arrows: the walking span; its opposite is the cospan shape *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 5.22. Taking J to be the three-object finite category shaped as a cospan (two non-identity arrows with a common codomain), a limit for a diagram of that shape — i.e. for A -f-> C <-g- B — is exactly the pullback A x_C B of f and g.",
+   "intree": "Pullback_Limit (F : Cospan C) := Limit F, with Pullback_to_Universal : Pullback_Limit F → Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) and Pullback_from_Universal : Pullback f g → Pullback_Limit ((ASpan f g in C^op)^op).",
+   "strength_comparison": "same, with both directions constructed. Cospan C is `Roof^op ⟶ C` where Roof (Instance/Roof.v) is the three-object category with exactly two non-identity arrows — the book's cospan shape. Pullback_to_Universal reads the pullback projections off the limit legs at RNeg and RPos and derives the square's commutativity from cone_coherence, converting the limit UMP into ump_pullbacks; Pullback_from_Universal goes back, building the limit cone (with the forced diagonal leg f ∘ pullback_fst at RZero) from a universal-property pullback. The file header (lines 36-46) spells out the leg-by-leg correspondence."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Verified Pullback_to_Universal:68 and Pullback_from_Universal:113 and read both proofs -- the projections are the legs at RNeg/RPos, commutativity comes from cone_coherence, and the UMPs convert in both directions. Independently confirmed the shape claim: Structure/Span.v:35 defines `Cospan (C : Category) := Roof^op -> C` over Instance/Roof.v's three-object Roof with exactly two non-identity arrows. Two immaterial citation slips: Pullback_Limit is at line 54 (record says 52) and RoofObj/RoofHom at lines 28/30 (record says 29)."
+  }
+ },
+ {
+  "id": "awodey:5.4:def-all-finite-limits",
+  "classification": "PARTIAL",
+  "aliases": [
+   "category has all finite limits / finitely complete category",
+   "FinitelyComplete; lex category; cartesian category (in the lex sense)",
+   "Complete (all small limits) as the unrestricted analogue",
+   "terminal object + pullbacks (the economical presentation of finite completeness)",
+   "finite index category / finite diagram"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Complete.v",
+    "line": 115,
+    "symbol": "Complete",
+    "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+   },
+   {
+    "file": "Structure/Regular.v",
+    "line": 66,
+    "symbol": "Regular (finite-completeness clause)",
+    "intree_statement": "Class Regular (C : Category) := { regular_terminal : @Terminal C; regular_pullbacks : @HasPullbacks C; regular_coeq ...; regular_stable ... }.   (* header, line 28-30: 'binary products are pullbacks over the terminal object, and equalizers are pullbacks of the induced pairings, so a terminal object and pullbacks generate all finite limits' *)"
+   },
+   {
+    "file": "Structure/Topos.v",
+    "line": 112,
+    "symbol": "ElementaryTopos (finite-limit fields)",
+    "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 29,
+    "symbol": "(file header, on the size discipline)",
+    "intree_statement": "The definitions below quantify over [∀ (D : Category)] without an explicit smallness hypothesis; the size discipline is instead carried implicitly by the library's universe polymorphism."
+   }
+  ],
+  "statement_record": {
+   "book": "Unnumbered definition in running prose after Prop. 5.23: a category C has all finite limits when every diagram D : J ⟶ C whose index category J is finite has a limit in C.",
+   "intree": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.   (* no finiteness restriction on D; the two finite-limit users instead CARRY the structure as data: Regular has regular_terminal + regular_pullbacks, ElementaryTopos has topos_terminal + topos_cartesian + topos_pullbacks *)",
+   "strength_comparison": "intree-weaker as a definition, though the surrounding structures approximate it from both sides. [Complete] is the right SHAPE of definition — 'every diagram of shape D has a limit', quantified over the shape — but it is the unrestricted (small-)limit version: there is no finiteness predicate on index categories anywhere in the library, so the class of diagrams the book's definition ranges over cannot be named. Conversely the two places that actually need finite completeness ([Regular], [ElementaryTopos]) sidestep the definition entirely by carrying a terminal object plus pullbacks (plus products, in the topos case) as separate class FIELDS; the header of Structure/Regular.v asserts in prose that this 'generates all finite limits', but that generation theorem is not proved (it is Awodey's Prop. 5.16, itself ABSENT here — see awodey:5.4:prop16), and CLAUDE.md records the corresponding hole as 'the pullback-from-equalizer reduction is a known in-tree gap'."
+  },
+  "gap": "There is no in-tree definition of 'C has all finite limits': (1) no predicate expressing that an index category is finite (grep for FiniteCat / IsFinite / Fintype / 'finite category' / Finitely over all 486 .v files finds only prose; the only finite encoding of a category is Theory/Metacategory.v's arrows-only [Metacategory] with [cardinality], which is never connected to limits); (2) consequently no [FinitelyComplete] class quantifying [Limit F] over finite shapes; (3) the two consumers ([Regular], [ElementaryTopos]) substitute a fixed data package (terminal + pullbacks, resp. terminal + products + pullbacks) whose equivalence with 'all finite limits' is asserted only in header prose and is not proved.",
+  "negative_search_log": [
+   "grep -rn --include=\"*.v\" -i \"FinitelyComplete|finitely complete|has all finite|finite limits\" . — 9 hits, ALL header prose (Structure/Topos.v:20,21,58; Structure/Regular.v:17,30,62; Structure/Pullback.v:272; Structure/Cocartesian.v:13; Instance/Two/Monoidal.v:15); no definition",
+   "grep -rn --include=\"*.v\" \"FiniteCat|Finite_|IsFinite|Fintype|finite category|Finitely\" . — 1 hit (Theory/Metacategory/DecideExample.v:23), prose only",
+   "grep -rn --include=\"*.v\" -i \"Finite\\b\" . — all hits are prose in background essays (finite products, finite lists, finite-dimensional, finite maps); no finiteness predicate on Category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL. Verified Complete at Structure/Complete.v:115 verbatim -- shape-quantified but with NO finiteness restriction -- and the header remark at lines 29-31 as quoted. Independently searched for any finiteness predicate on categories (FiniteCat / IsFinite / Fintype / 'finite category' / Finitely) and found only prose, confirming gap (1)/(2). Gap (3) verified at the two consumers: Structure/Regular.v:66 carries regular_terminal + regular_pullbacks with the generation claim only in the header prose at lines 26-30, and Structure/Topos.v:112 carries topos_terminal + topos_cartesian + topos_pullbacks as independent fields, with lines 22-23 disclosing that the reduction is not formalized. The cross-reference to the ABSENT awodey:5.4:prop16 is correct."
+  }
+ }
+]

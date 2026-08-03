@@ -1,0 +1,227 @@
+[
+ {
+  "issue": 822,
+  "decision": "2.15",
+  "mode": "replace_text",
+  "find": "5. Record in the header the relationship to the order-level wiring diagrams of\n   #776: there a diagram is a proof of an inequality, here it is a morphism, and\n   the former is the thin case of the latter.\n",
+  "replace": "5. Record in the header the relationship to the order-level wiring diagrams of\n   #776: there a diagram is a proof of an inequality, here it is a morphism, and\n   the former is the thin case of the latter.\n6. CONSUME #776 rather than only citing it, which is what makes the dependency\n   real: instantiate the generalised interpreter of item 1 at the THIN symmetric\n   monoidal category of a monoidal preorder — objects its elements, exactly one\n   morphism `x ~> y` when `x ≤ y`, tensor its monoidal product, which is the base\n   #776 works over — and prove `sinterp_thin_valid`: for every diagram term, a\n   morphism `sinterp` from the folded input labels to the folded output labels\n   exists if and only if #776's validity predicate\n   (`7sketches:2.2.2:def-valid-wiring-diagram`, `Structure/Monoidal/Preorder/Diagram.v`)\n   holds of that term. That biconditional is the precise sense in which the\n   order-level diagrams are the thin case of these; without it the link is prose.\n",
+  "note": "2.15(b): the ADDED consumption of #776 — Work item 6 instantiating the generalised interpreter at a thin symmetric monoidal base and proving agreement with #776's validity predicate. Edge to #776 is untouched."
+ },
+ {
+  "issue": 822,
+  "decision": "2.15",
+  "mode": "replace_text",
+  "find": "- [ ] The relationship to #776's order-level diagrams is recorded in the header\n",
+  "replace": "- [ ] The relationship to #776's order-level diagrams is recorded in the header\n- [ ] The generalised interpreter is INSTANTIATED at the thin symmetric monoidal\n      category of a monoidal preorder, and `sinterp_thin_valid` — the\n      interpreting morphism exists iff #776's validity predicate holds — is\n      proved, not asserted\n",
+  "note": "2.15: the matching DoD box for Work item 6. The pre-existing header-note box is kept verbatim as the first line of the replacement."
+ },
+ {
+  "issue": 822,
+  "decision": "2.15",
+  "mode": "replace_text",
+  "find": "Print Assumptions sinterp_unique.\nPrint Assumptions ex4_50_values.\n",
+  "replace": "Print Assumptions sinterp_unique.\nPrint Assumptions ex4_50_values.\nPrint Assumptions sinterp_thin_valid.\n",
+  "note": "2.15: Verification block gains the new theorem, so the added DoD box is checkable."
+ },
+ {
+  "issue": 822,
+  "decision": "2.15",
+  "mode": "replace_text",
+  "find": "Depends on: #776 (Seven Sketches 2.2: Wiring diagrams over a monoidal preorder) — this issue is the CATEGORIFICATION of that one, and the book states the link: printed p.134 opens §4.4.2 with \"We introduced a very simple sort of wiring diagram in Section 2.2.2.\" The preorder-level syntax and its validity notion should be reused, not re-derived. (Added on audit: the body already discussed\n- Related (NOT blocking): #776 in prose and in a Definition-of-Done checkbox, but never DECLARED it, so no edge existed.)\n",
+  "replace": "Depends on: #776 (`7sketches:2.2.2:def-valid-wiring-diagram`) — this issue is the CATEGORIFICATION of that one, and the book states the link: printed p.134 opens §4.4.2 with \"We introduced a very simple sort of wiring diagram in Section 2.2.2.\" The preorder-level syntax and its validity predicate are consumed by Work item 6, not re-derived.\n",
+  "note": "2.15 HYGIENE (drop if the coordinator has this queued elsewhere): the live Depends-on line ends mid-sentence and its audit parenthetical was split across a bogus `- Related (NOT blocking): #776` line that reads as a hedge on a dep already declared HARD. Rewritten as one clean resolved-label dep line (item id in backticks, so check_graph's RESOLVED_LABEL matches); no edge change."
+ },
+ {
+  "issue": 822,
+  "decision": "2.15",
+  "mode": "trailer_deps",
+  "replace": [
+   "7sketches:2.2.2:def-valid-wiring-diagram"
+  ],
+  "note": "2.15: trailer dep converted from the issue number `#776` to the item id per convention 4; `7sketches:2.2.2:def-valid-wiring-diagram` -> 776 verified in seven-sketches/issue-map.json, and it is the one of #776's five ids this issue actually consumes."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "Suggested module: `Construction/Enriched/Profunctor/Collage.v`.\n\n1. Define the collage of a V-profunctor: objects the sum of the two object types;\n   hom-object by the four-way case split of the definition, with the empty join in\n   the reverse block. Prove it is a V-category — the identity element on each\n   block comes from that block's own identity, and each of the composition cases\n   is either a composition of one of the two categories, an action of the\n   profunctor, or absorbed by the empty join.\n",
+  "replace": "Suggested module: `Construction/Enriched/Profunctor/Collage.v`.\n\nBASE (QA audit, DECISIONS.md §2.16): the construction is developed over an\nARBITRARY monoidal base `V` carrying an initial object `0`, NOT over a quantale.\nThe reverse block takes `0`; when `V` is a quantale `0` is the empty join and the\ndefinition is Fong & Spivak's verbatim, and when `V = Sets` it is the empty\nsetoid — which is exactly what turns Work item 4's identification with #587 into a\nprovable theorem instead of a false claim, since #587's `C_K` has genuine\nhom-setoids and `Sets` is not thin.\n\n1. Define the collage of a V-profunctor: objects the sum of the two object types;\n   hom-object by the four-way case split of the definition, with the base's\n   initial object in the reverse block. Prove it is a V-category — the identity\n   element on each block comes from that block's own identity, and each of the\n   composition cases is either a composition of one of the two categories, an\n   action of the profunctor, or absorbed by the initial object (the empty join at\n   a quantale base).\n",
+  "note": "2.16(a): the base generalisation, stated once at the head of the Work section and threaded into item 1. Quantale is recovered as the instance, so nothing already scheduled is lost."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "- No V-profunctor exists to take the collage of (see the §4.2.2 Definition 4.8\n  issue), and the empty join that the definition puts in the reverse block has no\n  in-tree home, since there is no quantale.\n",
+  "replace": "- No V-profunctor exists to take the collage of (see the §4.2.2 Definition 4.8\n  issue). The empty join the book puts in the reverse block has no in-tree home,\n  since there is no quantale — but under the generalised base below the reverse\n  block is the base's INITIAL OBJECT (`Structure/Initial.v`), which does have one,\n  and the empty join is its quantale instance.\n",
+  "note": "2.16: the Current-state bullet said the reverse block has no in-tree home; under the generalised base it does. Corrected in place so the state section does not contradict the Work section."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "   implicitly: the collage of the bottom profunctor is the coproduct V-category\n   (which reconciles the construction with `Construction/Coproduct.v`), and the\n   hom-object from the second block to the first is the bottom element, so no\n   arrow runs backwards.\n",
+  "replace": "   implicitly: the collage of the CONSTANTLY-INITIAL profunctor (the bottom\n   profunctor when the base is a quantale) is the coproduct V-category, which\n   reconciles the construction with `Construction/Coproduct.v`; and the hom-object\n   from the second block to the first is the base's initial object (the bottom\n   element at a quantale base), so no arrow runs backwards.\n",
+  "note": "2.16: Work item 3 restated over the generalised base — both 'bottom profunctor' and 'bottom element' were quantale-only readings."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "Depends on: #799 (the quantale class, supplying the empty join).\n",
+  "replace": "Depends on: #799 (the quantale class — needed for the cost-base instances of Work\nitem 5; after the base generalisation the definition itself asks only for an initial\nobject).\n",
+  "note": "2.16: the #799 edge is KEPT and unchanged; only its label is corrected, since after the generalisation the quantale is no longer what the definition rests on. No reverse/soft cue words on the line, one #N, so check_graph still reads it as a hard dep."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "values. Record the relationship with #587's one-sided construction — that\n   issue's category is this one applied to a profunctor out of the unit\n   V-category.\n",
+  "replace": "values. Then PROVE the identification with #587's one-sided construction, which is\n   available precisely because the base was generalised: at `V = Sets`, #587's\n   `C_K` IS this collage applied to the `Sets`-profunctor out of the unit\n   `Sets`-category determined by `K`. State it as a named isomorphism of\n   categories `collage_unit_iso_CK` and prove it — a theorem, not an analogy.\n",
+  "note": "2.16: Work item 4's claim about #587 becomes a proved theorem (`collage_unit_iso_CK`) rather than the false-as-written assertion. #587 edge kept."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "- [ ] The collage is a V-category over an arbitrary quantale, with the empty join\n      in the reverse block\n",
+  "replace": "- [ ] The collage is a V-category over an ARBITRARY monoidal base carrying an\n      initial object, that initial object occupying the reverse block; the\n      quantale case (reverse block = the empty join) is recovered as an instance\n",
+  "note": "2.16: DoD box 2 tracks the generalised base."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "- [ ] The universal property is proved, and its relationship to #587's one-sided\n      construction is recorded\n",
+  "replace": "- [ ] The universal property is proved, and `collage_unit_iso_CK` — #587's `C_K` is\n      this collage at `V = Sets` for the profunctor out of the unit\n      `Sets`-category — is proved as a named isomorphism of categories, with\n      `Print Assumptions` reported for it\n",
+  "note": "2.16: replaces the unverifiable DoD phrase 'is recorded' with a named artifact plus a Print Assumptions requirement (the operator required this half under either option)."
+ },
+ {
+  "issue": 818,
+  "decision": "2.16",
+  "mode": "replace_text",
+  "find": "Print Assumptions collage_ump.\n```\nplus `make` and `nix build .#category-theory_8_20`. Reviewer checklist: the\nreverse block is the empty join and not a copy of anything;",
+  "replace": "Print Assumptions collage_ump.\nPrint Assumptions collage_unit_iso_CK.\n```\nplus `make` and `nix build .#category-theory_8_20`. Reviewer checklist: the base\nreally is an arbitrary monoidal category with an initial object (the context line\nshows no quantale); the reverse block is that initial object and not a copy of\nanything;",
+  "note": "2.16: Verification gains the new theorem and the reviewer checklist stops asserting the quantale-only reading."
+ },
+ {
+  "issue": 310,
+  "decision": "4.4",
+  "mode": "replace_text",
+  "find": "### Scope increment (QA audit)\n\n- [ ] (from MacLane §IV.2 Ex. 1) The exterior algebra exhibited as a LEFT ADJOINT to the forgetful functor from graded anticommutative K-algebras, not only as a universal arrow.\n- [ ] (from MacLane §IV.2 Ex. 1) A lemma stating that this forgetful functor is NOT faithful (exhibit two distinct algebra morphisms with the same underlying map).\n\nNote: this presupposes a category of graded anticommutative K-algebras, which neither #257\nnor #258 supplies — see the judgement call recorded in the QA plan.\n",
+  "replace": "### Scope increment (QA audit)\n\n- [ ] (from MacLane §IV.2 Ex. 1) The exterior algebra `Λ(V)` in UNIVERSAL-ARROW form: the insertion `V → Λ(V)` is universal among ALTERNATING maps out of `V` into associative K-algebras — the same substrate this issue already builds for the tensor algebra `T(V)`, so no category of graded anticommutative K-algebras is required.\n- [ ] (from MacLane §IV.2 Ex. 1) The file header records what §IV.2 asks for beyond that and this issue deliberately does NOT deliver: the LEFT-ADJOINT packaging over graded anticommutative K-algebras and the non-faithfulness of that forgetful functor. Neither may be assumed anywhere in the development.\n\nNote: scoped by the QA audit (DECISIONS.md §4.4) to the universal-arrow form precisely so\nthat no category of graded anticommutative K-algebras is needed; neither #257 nor #258\nsupplies one. Should that category ever be built, the left-adjoint upgrade and the\nnon-faithfulness lemma are a follow-up issue, not a silent widening of this one.\n",
+  "note": "4.4: both boxes rescoped to the universal-arrow form; the left-adjoint/non-faithfulness content survives as a header-disclosure obligation instead of a substrate demand. Replaces the whole appended section, including the stale 'see the judgement call' note."
+ },
+ {
+  "issue": 829,
+  "decision": "4.5",
+  "mode": "replace_text",
+  "find": "- In a new `Construction/Cospan/Corelation/Monoidal.v`, show that the\n  symmetric monoidal structure of `CospanCat` restricts to `CorelCat`: the\n  tensor of two jointly-epic cospans is jointly epic, so the wide-subcategory\n  structure is inherited. State it as an explicit transport along\n  `Corel_to_Cospan`, so the embedding becomes a strict monoidal functor.\n",
+  "replace": "- In a new `Construction/Cospan/Corelation/Monoidal.v`, prove the GENERAL\n  restriction, at an ARBITRARY base: the symmetric monoidal structure of\n  `CospanCat` restricts to `CorelCat`, since the tensor of two jointly-epic\n  cospans is jointly epic, so the wide-subcategory structure is inherited. State\n  it as an explicit transport along `Corel_to_Cospan`, so the embedding becomes a\n  strict monoidal functor. The FinSet INSTANTIATION of that transport is #824's\n  and is consumed from there, never re-derived here (QA audit, DECISIONS.md §4.5:\n  the bullet is reworded, not deleted, and #824 is left unedited).\n",
+  "note": "4.5: the reword the operator chose over deletion — this issue keeps the general restriction at an arbitrary base; #824 keeps the FinSet instantiation. #824 is NOT edited."
+ },
+ {
+  "issue": 829,
+  "decision": "4.5",
+  "mode": "replace_text",
+  "find": "Three edits (the deletion of the general restriction lemma is deliberately NOT included — see\nthe judgement call recorded separately):\n",
+  "replace": "Four edits. The deletion of the general restriction lemma is NOT included, and that\njudgement call is now decided: DECISIONS.md §4.5 keeps the first Work bullet and rewords\nit to the GENERAL restriction at an arbitrary base, leaving the FinSet instantiation to\n#824, which is not edited.\n",
+  "note": "4.5: retires the stale 'see the judgement call recorded separately' pointer (the call is decided) and re-counts the list, which now has four items."
+ },
+ {
+  "issue": 829,
+  "decision": "4.5",
+  "mode": "replace_text",
+  "find": "2. Delete the DoD box `\n\n- [ ] `CorelCat` inherits the symmetric (strict, on a skeletal base) monoidal structure from `CospanCat`, proved rather than assumed.` and rewrite the next box to `- [ ] `FinCorel_PROP : PROP` with the strict refinement of §5.2.1, built on #824's composability instance and monoidal transport.`\n3. Verification → `coqc -R . Category Instance/FinSet/Corel.v`.\n",
+  "replace": "2. KEEP the first DoD box (DECISIONS.md §4.5) and reword it to read: *The symmetric monoidal structure of `CospanCat` restricts to `CorelCat` at an ARBITRARY base, proved rather than assumed; the FinSet instantiation is #824's.* Then rewrite the next box to read: *`FinCorel_PROP : PROP` with the strict refinement of §5.2.1, built on #824's composability instance and monoidal transport.*\n3. Verification → `coqc -R . Category Construction/Cospan/Corelation/Monoidal.v Instance/FinSet/Corel.v` — the general-restriction file stays; only the #824-owned FinSet derivation goes.\n4. The SCOPE blockquote above overstates the transfer: #824's step 3 owns the FinSet INSTANTIATION of the monoidal transport, not the general restriction at an arbitrary base, which remains this issue's first Work bullet.\n",
+  "note": "4.5: the Correction list previously ordered the general-restriction DoD box DELETED, which contradicts the kept bullet; it is now kept-and-reworded, Verification keeps Monoidal.v, and a fourth item reconciles the SCOPE blockquote without editing it (that blockquote is a §6.2 hand relocation — avoiding a race). NOTE the boxes are quoted WITHOUT the literal '- [ ] ' prefix on purpose: lint_issue_bodies.py rule L6 rejects that token mid-line, which is what forced the embedded newline defect in the text being replaced."
+ },
+ {
+  "issue": 729,
+  "decision": "4.8",
+  "mode": "replace_text",
+  "find": "### Scope increment (QA audit)\n\nAppend at the end of the `riehl:4.5:example7` block:\n\n- [ ] (from Riehl §4.5) Fibrewise cartesian closure: the category of `X`-indexed families of sets is cartesian closed with internal hom the fibrewise exponential `(B_x^{A_x})`, stated in the library's `Structure/Cartesian/Closed.v` `Closed` vocabulary — the clause the ledger assigns to this issue alongside the fibrewise adjoint triple.\n\n(`ledger.tsv:2617` reads `riehl:4.5:example7  ABSENT  #729  10  part: fibrewise cartesian\nclosure and the fibrewise adjoint triple`. The alternative is to re-home on #732/#734 and\ncorrect the line-2617 part label to `part: the fibrewise adjoint triple`.)\n",
+  "replace": "### Scope increment (QA audit) — RE-HOMED, not this issue's\n\nThe fibrewise-cartesian-closure half of Riehl Example 4.5.7 that an earlier audit pass\nappended here has been re-homed by DECISIONS.md §4.8: the cartesian-closure clause is\n#732's (the locally-cartesian-closed class, in whose `Closed` vocabulary it is stated),\nwith the concrete discrete-base instance on #734, and `ledger.tsv:2617`'s part label is\ncorrected to `part: the fibrewise adjoint triple` in the same pass. This issue's share of\n`riehl:4.5:example7` is exactly the fibrewise adjoint triple `Σ_f ⊣ Δ_f ⊣ Π_f` that its\nDefinition of Done already carries; no cartesian-closure obligation is added here.\n",
+  "note": "4.8: removes the checkbox remediation.json already appended to #729 (it is LIVE in the body) and records where it went. If the coordinator re-runs remediation.json, its #729 group-D 'Scope increment' block must NOT be re-applied."
+ },
+ {
+  "issue": 732,
+  "decision": "4.8",
+  "mode": "append_block",
+  "block": "### Scope increment (QA audit)\n\nRe-homed here from #729 by DECISIONS.md §4.8. `riehl:4.5:example7` is split between #709\n(the equivalence `Set/X ≃ Set^X`), #729 (the fibrewise adjoint triple) and — for this\nclause — this issue; `ledger.tsv:2617`'s part label is corrected to\n`part: the fibrewise adjoint triple` in the same pass.\n\n- [ ] (from Riehl §4.5, Example 4.5.7) Fibrewise cartesian closure: the category of `X`-indexed families of sets is cartesian closed, with internal hom the fibrewise exponential `(B_x^{A_x})`, stated in this issue's `Structure/Cartesian/Closed.v` `Closed` vocabulary — and used as the concrete witness the Work section already demands for the `LocallyCartesianClosed` class (the `docs/INHABITATION.md` row).\n",
+  "note": "4.8: the re-homed checkbox, class-level half. MUST be inserted BEFORE the <!-- catalog --> trailer (convention 3 / linter L2); #732's body currently ends with the trailer followed by a blank line."
+ },
+ {
+  "issue": 734,
+  "decision": "4.8",
+  "mode": "append_block",
+  "block": "### Scope increment (QA audit)\n\nThe concrete half of the clause re-homed from #729 by DECISIONS.md §4.8; the class-level\nstatement is #732's.\n\n- [ ] (from Riehl §4.5, Example 4.5.7) Instantiate this issue's result at a DISCRETE base: `Set^X` is the presheaf category on the discrete category `X`, so the `LocallyCartesianClosed` instance specialises to Riehl's fibrewise statement, its internal hom computing to the fibrewise exponential `(B_x^{A_x})`. State that specialisation explicitly rather than leaving it implicit in the general instance.\n",
+  "note": "4.8: the '#732/#734' half on #734 — the discrete-base instance. MUST be inserted BEFORE the <!-- catalog --> trailer. No ledger row added for this one: it is a refinement of #734's own riehl:4.5:example10 row."
+ },
+ {
+  "issue": 0,
+  "decision": "4.8",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "riehl:4.5:example7\tABSENT\t#729\t10\tpart: fibrewise cartesian closure and the fibrewise adjoint triple\n",
+  "replace": "riehl:4.5:example7\tABSENT\t#729\t10\tpart: the fibrewise adjoint triple\n",
+  "note": "4.8: ledger.tsv line 2617 part label corrected, exactly as the decision states. Tabs are literal in find/replace."
+ },
+ {
+  "issue": 0,
+  "decision": "4.8",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "riehl:4.5:construction-dependent-sum-product\tPARTIAL\t#944\t10\talso covered by existing issue\n",
+  "replace": "riehl:4.5:example7\tABSENT\t#732\t10\tpart: fibrewise cartesian closure, re-homed from #729 by DECISIONS.md 4.8; the discrete-base instance is #734's\nriehl:4.5:construction-dependent-sum-product\tPARTIAL\t#944\t10\talso covered by existing issue\n",
+  "note": "4.8 COMPANION ROW (drop this entry alone if unwanted): without it the re-homed clause has no ledger home at all. Anchored on the line AFTER 2617 so it is independent of the label correction above and order does not matter."
+ },
+ {
+  "issue": 255,
+  "decision": "4.1",
+  "mode": "replace_text",
+  "find": "Riehl §1.4 Example 1.4.4 clause (vi), printed p. 26 (PDF pp. 46-47); item `riehl:1.4:example4`.\n\nRiehl's clause (vi) is a small but instructive statement",
+  "replace": "Riehl §1.4 Example 1.4.4 clause (vi), printed p. 26 (PDF pp. 46-47); item `riehl:1.4:example4`.\n\nClause map for the seven-clause Example 1.4.4 (QA audit, DECISIONS.md §4.1). Clauses (i)-(ii)\nare #237's; clause (iii) is #227's; clause (vi) is this issue's. Clause (iv) — a natural\ntransformation between functors `BG ⟶ C` is exactly one G-equivariant morphism — is already\ndelivered by #278's Work item 2 and is carried as a LEDGER ROW ONLY, adding no obligation\nanywhere. Clause (v) — the open- and closed-subset functors `O, C : Top^op ⟶ Set` are\nnaturally isomorphic by complementation — is FILED ONCE, on #259, because it is the SAME\nstatement as Example 1.3.14's clause (iv) (`O(X)` isomorphic to `C(X)^op`), which #267\nseparately surfaced: one filing, not two. Clause (vii) — the only natural transformation\nfrom the identity to `V ↦ V ⊗ V` on `Vect_k` is zero, the no-cloning statement — is filed on\n#237 scoped as Riehl's CONCRETE `Vect_k` computation, explicitly not as a fresh no-go\ntheorem: the library already has the weaker abstract counterpart `no_cloning` at\n`Structure/Monoidal/Collapse.v:526`.\n\nRiehl's clause (vi) is a small but instructive statement",
+  "note": "4.1: the H Group E clause map for #255, written to the operator's decision (complementation filed once on #259; (iv) ledger-row-only; (vii) scoped to Riehl's concrete Vect_k computation with the Collapse.v:526 counterpart named). Inserted BETWEEN the append's header line and its clause-(vi) paragraph, both re-emitted verbatim."
+ },
+ {
+  "issue": 267,
+  "decision": "4.1",
+  "mode": "replace_text",
+  "find": "Riehl §1.3 Example 1.3.14 clause (vi), printed pp. 21-22 (PDF pp. 41-42); item `riehl:1.3:example14`.\n\nRiehl's clause (vi) is this issue's `Op`",
+  "replace": "Riehl §1.3 Example 1.3.14 clause (vi), printed pp. 21-22 (PDF pp. 41-42); item `riehl:1.3:example14`.\n\nClause map for the six-clause Example 1.3.14 (QA audit, DECISIONS.md §4.1). Clause (ii) —\nevery groupoid is isomorphic to its opposite — is #248's; clause (v) — `Mat_R` isomorphic to\nits opposite by transpose — is #221's; clause (vi) is this issue's. Clause (i) — `BG`\nisomorphic to `BG^op` by inversion — belongs to #248, whose own append already records it as\nthe one-object case of its clause-(ii) checkbox, so it is carried as a LEDGER ROW ONLY and\nadds no new obligation. Clause (iii) — `R-Mod` isomorphic to `Mod_{R^op}` via the opposite\nring — belongs to #258, whose Work section already schedules `Mod-R` as `R^op`-modules,\nlikewise a LEDGER ROW ONLY. Clause (iv) — `O(X)` isomorphic to `C(X)^op` by complementation —\nis FILED ONCE, on #259, as the same statement that Example 1.4.4's clause (v) states\nfunctorially and that #255 separately surfaced.\n\nRiehl's clause (vi) is this issue's `Op`",
+  "note": "4.1: the H Group E clause map for #267, to the operator's decision — (i)->#248 and (iii)->#258 as ledger rows only, complementation filed once on #259, no new edges. Inserted between the append's header line and its clause-(vi) paragraph, both re-emitted verbatim."
+ },
+ {
+  "issue": 259,
+  "decision": "4.1",
+  "mode": "append_block",
+  "block": "### Scope increment (QA audit)\n\nFiled here ONCE by DECISIONS.md §4.1. Riehl states the complementation isomorphism twice —\nExample 1.3.14 clause (iv) as an isomorphism of posets (surfaced on #267) and Example 1.4.4\nclause (v) as a natural isomorphism of functors (surfaced on #255) — and it is ONE statement.\nIt is homed here because this is the only issue that builds opens, so the clause is gated on\nthis issue's own topology and on nothing else.\n\n- [ ] (from Riehl §1.3 Example 1.3.14(iv) and §1.4 Example 1.4.4(v)) The closed-subset counterpart of this issue's opens, and complementation as an isomorphism: `O(X)` isomorphic to `C(X)^op` as thin categories for each space `X`, and the natural isomorphism `O ≅ C` between the open- and closed-subset functors `Top^op ⟶ Sets` whose component at `X` is complementation — naturality being precisely that preimages commute with complements.\n",
+  "note": "4.1: the single filing of the complementation clause, on #259 (the Top issue). MUST be inserted BEFORE the <!-- catalog --> trailer (convention 3 / linter L2); #259's body ends with the trailer plus a trailing blank line. No dependency edge is created: the clause needs only #259's own opens."
+ },
+ {
+  "issue": 237,
+  "decision": "4.1",
+  "mode": "append_block",
+  "block": "### Scope increment (QA audit)\n\nFiled here by DECISIONS.md §4.1, and deliberately scoped. Riehl's Example 1.4.4 clause (vii)\nis a CONCRETE `Vect_k` computation, not a fresh abstract no-go theorem: the library already\nproves the abstract counterpart at `Structure/Monoidal/Collapse.v:526`\n(`Theorem no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object]`, Abramsky's compact-closed\ncollapse), which assumes a natural cocommutative diagonal in a compact closed category and\nneither implies nor is implied by Riehl's computation — so nothing below may be discharged by\nciting it.\n\n- [ ] (from Riehl §1.4 Example 1.4.4(vii)) Riehl's concrete computation on vector spaces: the only natural transformation from the identity functor to `V ↦ V ⊗ V` is the zero family. Proved over the vector-space substrate this issue already works over — it needs the tensor product on that substrate, which is a prerequisite to name explicitly if #244's `FdVect` does not supply it, not a reason to weaken the statement — with the header naming `Structure/Monoidal/Collapse.v:526` `no_cloning` as the pre-existing abstract counterpart and saying precisely how the two differ.\n",
+  "note": "4.1: the clause-(vii) filing, scoped exactly as the operator required ('Riehl's concrete Vect_k computation') with the weaker in-tree counterpart named. Homed on #237 because it is the campaign's only Vect_k issue and already owns clauses (i)-(ii) of the same example. MUST be inserted BEFORE the <!-- catalog --> trailer. Drop this entry alone if the operator prefers clause (vii) left unfiled — the #255 clause map then needs its last sentence adjusted by hand."
+ },
+ {
+  "issue": 0,
+  "decision": "4.1",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "riehl:1.4:example4\tPARTIAL\t#255\t10\tpart: (vi) the opposite-group endofunctor is naturally isomorphic to the identity\n",
+  "replace": "riehl:1.4:example4\tPARTIAL\t#255\t10\tpart: (vi) the opposite-group endofunctor is naturally isomorphic to the identity\nriehl:1.4:example4\tPARTIAL\t#278\t10\tpart: (iv) a natural transformation between BG-functors is one G-equivariant morphism; already delivered by #278 Work item 2, ledger row only\nriehl:1.4:example4\tPARTIAL\t#259\t10\tpart: (v) O and C : Top^op -> Set naturally isomorphic by complementation; filed ONCE, same statement as riehl:1.3:example14 clause (iv)\nriehl:1.4:example4\tPARTIAL\t#237\t10\tpart: (vii) no-cloning as Riehl's concrete Vect_k computation; weaker in-tree counterpart Structure/Monoidal/Collapse.v:526 no_cloning\n",
+  "note": "4.1: the three previously unhomed clauses of riehl:1.4:example4 get ledger rows. Anchored on the existing #255 row (unique). Classification PARTIAL matches its three sibling rows. Tabs literal; no tab inside any note field."
+ },
+ {
+  "issue": 0,
+  "decision": "4.1",
+  "mode": "file_edit",
+  "file": "doc/plan/books/ledger.tsv",
+  "find": "riehl:1.3:example14\tPARTIAL\t#221\t10\tpart: (v) Mat_R is isomorphic to its opposite by transpose\n",
+  "replace": "riehl:1.3:example14\tPARTIAL\t#221\t10\tpart: (v) Mat_R is isomorphic to its opposite by transpose\nriehl:1.3:example14\tPARTIAL\t#248\t10\tpart: (i) BG is isomorphic to BG^op by inversion, the one-object case of clause (ii); ledger row only\nriehl:1.3:example14\tPARTIAL\t#258\t10\tpart: (iii) R-Mod is isomorphic to Mod_{R^op} via the opposite ring; ledger row only\nriehl:1.3:example14\tPARTIAL\t#259\t10\tpart: (iv) O(X) is isomorphic to C(X)^op by complementation; filed ONCE, same statement as riehl:1.4:example4 clause (v)\n",
+  "note": "4.1: clause (i)->#248 and clause (iii)->#258 as LEDGER ROWS ONLY, exactly as decided, plus the complementation row pointing at the single #259 filing. Anchored on the existing #221 row (unique)."
+ }
+]

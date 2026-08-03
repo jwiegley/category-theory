@@ -1,0 +1,606 @@
+[
+  {
+    "id": "maclane:III.3:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "coproduct",
+      "Cocartesian",
+      "Coprod / inl / inr / merge",
+      "sum object x + y",
+      "copairing [f,g] / ▽",
+      "dual of Cartesian product"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 115,
+        "symbol": "Cocartesian",
+        "intree_statement": "Notation \"'Cocartesian' C\" := (@Cartesian (C^op))"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 125,
+        "symbol": "Coprod",
+        "intree_statement": "Definition Coprod : C → C → C := @product_obj _ O."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 131,
+        "symbol": "merge",
+        "intree_statement": "Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x := @fork _ O _ _ _ f g."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 142,
+        "symbol": "inl",
+        "intree_statement": "Definition inl {x y : C} : x ~{C}~> x + y := @exl _ O _ _.  (and line 143: Definition inr {x y : C} : y ~{C}~> x + y := @exr _ O _ _.)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 175,
+        "symbol": "inl_merge",
+        "intree_statement": "Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) : f ▽ g ∘ inl ≈ f.  (line 182 inr_merge: f ▽ g ∘ inr ≈ g)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 196,
+        "symbol": "merge_inv",
+        "intree_statement": "Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i)."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 136,
+        "symbol": "ump_products",
+        "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ ⟨f, g⟩ ↔ exl ∘ h ≈ f ∧ exr ∘ h ≈ g  (class field; supplies the coproduct UMP read in C^op)"
+      }
+    ],
+    "statement_record": {
+      "book": "A coproduct diagram for an object ⟨a,b⟩ of C×C is a universal arrow to the diagonal Δ: an object c with injections i : a→c, j : b→c such that every pair f : a→d, g : b→d factors through a unique h : c→d with h∘i = f, h∘j = g. The object c = a⊔b is unique up to isomorphism; ⟨f,g⟩ ↦ h is a bijection C(a,d)×C(b,d) ≅ C(a⊔b,d) natural in d, inverse h ↦ ⟨h∘i, h∘j⟩. Injections need not be injective.",
+      "intree": "Cocartesian C := @Cartesian (C^op); Coprod := product_obj; inl/inr := exl/exr; merge f g := fork f g with inl_merge (f ▽ g ∘ inl ≈ f), inr_merge, merge_inl_inr (inl ▽ inr ≈ id), and merge_inv (f ▽ g ≈ h ▽ i ↔ components agree), all inherited from Cartesian's biconditional ump_products in C^op.",
+      "strength_comparison": "same — existence and uniqueness of the copairing are exactly inl_merge/inr_merge + merge_inv; the hom-set bijection C(a,d)×C(b,d) ≅ C(a+b,d) is merge with inverse (h∘inl, h∘inr) (merge_inv, merge_inl_inr), naturality in d via merge_comp; uniqueness of the coproduct object up to iso follows from the UMP (coprod_respects_iso; dual of IsCartesianProduct machinery). Phrased as the dual UMP class rather than a universal arrow to Δ : C ⟶ C ∏ C, but Δ itself is in-tree (Functor/Diagonal.v, Diagonal_Product) and the presentations are interderivable. Even the book's aside that injections need not be injective is echoed in the file's essay (line 75)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search (rg -i cocartesian; rg 'ump_products') found the same evidence. All cited lines verified verbatim: Cocartesian notation @ Structure/Cocartesian.v:115, Coprod:125, merge:131, inl/inr:142-143, inl_merge:175, merge_inv:196, ump_products @ Structure/Cartesian.v:136 (biconditional uses '*' not '∧' — trimming tolerance). coprod_respects_iso exists (line 362). File registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:III.3:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "coproduct bifunctor",
+      "+ as functor C ∏ C ⟶ C",
+      "cover (h + k on morphisms)",
+      "functoriality of ⊔",
+      "InternalProductFunctor dual",
+      "coproduct of morphisms h ⊔ k"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 151,
+        "symbol": "cover",
+        "intree_statement": "Definition cover {x y z w : C} (f : x ~> y) (g : z ~> w) : x + z ~{C}~> y + w := (inl ∘ f) ▽ (inr ∘ g)."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 354,
+        "symbol": "cover_inl",
+        "intree_statement": "Theorem cover_inl {x y z w : C} (f : x ~> y) (g : z ~> w): cover f g ∘ inl ≈ inl ∘ f.  (line 358 cover_inr: cover f g ∘ inr ≈ inr ∘ g — the book's defining equations (h⊔k)∘i = i'∘h, (h⊔k)∘j = j'∘k)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 285,
+        "symbol": "cover_id",
+        "intree_statement": "Theorem cover_id {x y : C} : cover (id[x]) (id[y]) ≈ id[x + y]."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 291,
+        "symbol": "cover_comp",
+        "intree_statement": "Theorem cover_comp {x y z w v u : C} (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) : cover f g ∘ cover h i ≈ cover (f ∘ h) (g ∘ i)."
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 163,
+        "symbol": "cover_respects",
+        "intree_statement": "Program Instance cover_respects {a b c d : C} : Proper (equiv ==> equiv ==> equiv) (@cover a b c d)."
+      },
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C — the bundled product bifunctor; since Cocartesian C is definitionally Cartesian (C^op), its instantiation at C^op is the bundled coproduct bifunctor"
+      }
+    ],
+    "statement_record": {
+      "book": "If every pair of objects has a coproduct, choosing a coproduct diagram for each pair makes ⊔ a bifunctor C×C → C, where h ⊔ k : a⊔b → a'⊔b' (for h : a→a', k : b→b') is the unique arrow with (h⊔k)∘i = i'∘h and (h⊔k)∘j = j'∘k.",
+      "intree": "cover f g := (inl ∘ f) ▽ (inr ∘ g) with cover_inl / cover_inr (the defining equations), cover_respects, cover_id, cover_comp, plus the one-sided actions left/right with left_id/left_comp/right_id/right_comp and interchange left_right; coprod_respects_iso transports isos.",
+      "strength_comparison": "same in substance — the morphism action, its uniqueness characterization (via merge_inv), respect for ≈, and both bifunctor laws are all proven; the only presentational difference is that no bundled Functor instance + : C ∏ C ⟶ C is declared on the coproduct side (the bundled form exists as InternalProductFunctor, Functor/Product/Internal.v, applicable at C^op; the (+) ⊣ Δ packaging is mentioned only in prose at Adjunction/GAFT/Examples.v:45)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass independently located cover (151), cover_respects (163), cover_id (285), cover_comp (291); cover_inl/cover_inr verified at 354/358 — exactly the book's defining equations. Verified InternalProductFunctor @ Functor/Product/Internal.v:34. Honest disclosure that no bundled coproduct-side Functor instance C ∑ C ⟶ C is declared; substance (morphism action, both functor laws, Proper, uniqueness via merge_inv) is fully proven, so PRESENT is faithful."
+    }
+  },
+  {
+    "id": "maclane:III.3:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "disjoint union of sets (coproduct in Set)",
+      "sum types (Coq)",
+      "join / least upper bound in a preorder",
+      "direct sum (Ab, R-Mod)",
+      "free product (Grp)",
+      "tensor product of commutative rings",
+      "wedge sum (Top_*)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cocartesian.v",
+        "line": 28,
+        "symbol": "Sets_Cocartesian",
+        "intree_statement": "Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ... |}; fork := case split; exl/exr := Datatypes.inl/inr } — disjoint union of setoids"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 199,
+        "symbol": "Coq_Cocartesian",
+        "intree_statement": "Program Instance Coq_Cocartesian : @Cocartesian Coq := { product_obj := sum; ... } — disjoint union (sum type) of Coq types"
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 250,
+        "symbol": "FinSet_Cocartesian",
+        "intree_statement": "Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; fork := copairing through fin_split; exl/exr := Fin.L/Fin.R |} — computable disjoint union of finite sets"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; ... } — in the thin (preorder) category Props, P + Q = P ∨ Q, i.e. the coproduct is exactly a least upper bound, the book's preorder example"
+      },
+      {
+        "file": "Instance/Cat/Cocartesian.v",
+        "line": 40,
+        "symbol": "Cat_Cocartesian",
+        "intree_statement": "Program Instance Cat_Cocartesian : @Cocartesian Cat — disjoint-union categories (beyond the book's list here; MacLane defers Cat to Exercise III.3.4)"
+      }
+    ],
+    "statement_record": {
+      "book": "Concrete coproducts: disjoint union (Set, Top), wedge product at base points (Top_*), direct sum A ⊕ B (Ab, R-Mod), free product (Grp), tensor product R ⊗ S (CRng); in a preorder the coproduct of a and b is a least upper bound a ∨ b.",
+      "intree": "Cocartesian instances for Sets (disjoint union of setoids), Coq (sum types), FinSet (computable, merge computes by eq_refl), Props (P ∨ Q, a genuine preorder-join witness), Rel, AST, and Cat.",
+      "strength_comparison": "intree-weaker: only the Set-style examples (Sets, Coq, FinSet, Rel) and the preorder-join example (Props) are witnessed; Top and Top_* (no topological category in-tree), Ab and R-Mod direct sums, Grp free products, and CRng tensor-product coproducts are all absent because those categories do not exist in-tree. Nearest algebraic relative: CMon with biproducts (Instance/CMon/Biproduct.v, CMon_Biproducts at line 457), the direct-sum-as-coproduct for commutative monoids."
+    },
+    "gap": "The algebraic examples (direct sum in Ab/R-Mod, free product in Grp, tensor product in CRng) and the topological examples (Top disjoint union, Top_* wedge) have no in-tree counterpart: no Ab, R-Mod, Grp, CRng, Top, or Top_* category exists in the library. Instance/CMon/Biproduct.v (commutative monoids, direct sum as biproduct hence coproduct) is the closest in-tree relative of the Ab example.",
+    "negative_search_log": [
+      "grep -rln --include='*.v' -iE 'cocartesian|coprod' . — full instance sweep; hits enumerated above, none for Top/Grp/Ring categories",
+      "grep -rn --include='*.v' -E 'Cocartesian' Instance/ — all Cocartesian instances: FinSet, AST, Rel, Comp(Algs), Cat, Props, Coq, Sets; no algebraic/topological category",
+      "no in-tree category of groups, abelian groups, rings, or topological spaces (checked Instance/ listing; CMon is the only algebraic-structure category with coproduct-like structure)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind sweep found the identical instance set: Sets_Cocartesian (Instance/Sets/Cocartesian.v:28), Coq_Cocartesian (Instance/Coq.v:199), FinSet_Cocartesian (Instance/FinSet.v:250), Props_Cocartesian (Instance/Props.v:80, the preorder-join witness), Cat_Cocartesian (Instance/Cat/Cocartesian.v:40); CMon_Biproducts verified @ Instance/CMon/Biproduct.v:457. No Top/Top_*/Ab/R-Mod/Grp/CRng category in-tree (Instance/ listing checked independently). Gap statement precise."
+    }
+  },
+  {
+    "id": "maclane:III.3:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "indexed coproduct",
+      "X-fold coproduct / X-indexed disjoint union",
+      "icoprod (dual of iprod)",
+      "colimit of a discrete diagram",
+      "HasIndexedCoproducts",
+      "coproduct over a set"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit.v",
+        "line": 158,
+        "symbol": "Colimit",
+        "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op). — the general colimit, which at a discrete index category IS the X-fold coproduct"
+      },
+      {
+        "file": "Instance/Discrete.v",
+        "line": 52,
+        "symbol": "DiscreteCat_Functor",
+        "intree_statement": "Program Definition DiscreteCat_Functor — any family f : A → C extends to a functor DiscreteCat A ⟶ C (functors out of a discrete category are exactly A-indexed families)"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 93,
+        "symbol": "iprod",
+        "intree_statement": "Definition iprod {C} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : C := vertex_obj[L].  With iprod_proj (line 98) and iprod_ump (line 105): ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a — the fully-developed PRODUCT side of exactly this item"
+      }
+    ],
+    "statement_record": {
+      "book": "For a set X as a discrete category, C^X has X-indexed families as objects; an X-fold coproduct diagram is a universal arrow from a family a = {a_x} to the diagonal: an object ⊔_x a_x with injections i_x : a_x → ⊔_x a_x such that f ↦ {f ∘ i_x} is a bijection C(⊔_x a_x, c) ≅ ∏_{x∈X} C(a_x, c) natural in c. In Set: X-fold disjoint union.",
+      "intree": "Colimit (DiscreteCat_Functor f) expresses the X-indexed coproduct (Structure/Limit.v:158, Instance/Discrete.v), and the exactly-dual indexed PRODUCT carries a full accessor API (iprod/iprod_proj/iprod_ump/IsIndexedProduct/HasIndexedProducts, Structure/Limit/Product.v); the binary coproduct is fully developed (Structure/Cocartesian.v).",
+      "strength_comparison": "intree-weaker: the coproduct-side reading is expressible but not developed — no icoprod/injection/UMP accessors dual to iprod, no HasIndexedCoproducts class, and the natural bijection C(⊔_x a_x, c) ≅ ∏_x C(a_x, c) is nowhere stated; nor is the X-fold disjoint union constructed in Sets. Only the binary case (X = 2) is fully present via Cocartesian."
+    },
+    "gap": "The indexed-coproduct API is missing: no dual of Structure/Limit/Product.v's iprod/iprod_proj/iprod_ump/limit_is_indexed_product/HasIndexedProducts for colimits of discrete diagrams, no hom-set bijection C(⊔_x a_x, c) ≅ ∏_x C(a_x, c), and no concrete X-fold disjoint union in Sets. All the ingredients (Colimit, DiscreteCat, DiscreteCat_Functor) exist, so the item is definable but undeveloped beyond the binary case.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'IndexedCoproduct|indexed_coprod|HasIndexedCoproducts|coprod_desc' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'icoprod' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'Colimit.*Discrete|Discrete.*Colimit' . — only Instance/Two/Discrete.v:23 (binary case, prose)",
+      "grep -n -iE 'coprod|colimit' Structure/Limit/Product.v — 0 hits: the file is products-only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. My blind searches (icoprod, IndexedCoproduct, HasIndexedCoproducts, Colimit+Discrete) also returned 0 hits; only the product side iprod/iprod_proj/iprod_ump exists (Structure/Limit/Product.v:93/98/105, verified). PARTIAL is the right call: all ingredients (Colimit @ Structure/Limit.v:158, DiscreteCat_Functor @ Instance/Discrete.v:52) plus the fully-developed binary case exist, but no coproduct-side API or hom-set bijection."
+    }
+  },
+  {
+    "id": "maclane:III.3:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "copower",
+      "X . b / X · b (tensor of a set with an object)",
+      "tensored (category tensored over Set)",
+      "constant-family coproduct",
+      "weighted colimit at the one-object shape"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'copower' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'copow' . — 0 hits",
+      "grep -rn --include='*.v' -iE 'tensored' . — only Theory/Multicategory.v:120 ('one tensored input'), unrelated prose",
+      "grep -rn --include='*.v' -iE 'icoprod|indexed coproduct' . — 0 hits (the X-fold coproduct of which the copower is the constant-family special case is itself undeveloped; see maclane:III.3:def2)",
+      "near-miss recorded: Structure/Limit/Weighted.v:370 defines WeightedColimit {J C} (W : J^op ⟶ Sets) (F : J ⟶ C) := WeightedLimit (J^op) (C^op) W (F^op); at J = 1 with weight X and diagram b this would BE the copower X · b, but no in-tree statement names, instantiates, or develops that case, and the bijection C(X · b, c) ≅ C(b, c)^X appears nowhere (nor the Set example X · Y = X × Y)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search agrees: 'copower'/'copow'/'tensored' 0 relevant hits tree-wide; SAFT's cogen_power is the product-side power; Spider's tpower is a monoidal tensor power, not a Set-copower. The WeightedColimit near-miss (Structure/Limit/Weighted.v:370) is honestly recorded and is not an in-tree statement of the copower."
+    }
+  },
+  {
+    "id": "maclane:III.3:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "cokernel",
+      "IsCokernel / HasCokernels",
+      "coequalizer of f with the zero morphism",
+      "null object / zero object with zero_mor",
+      "conormal epi / quotient map"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 58,
+        "symbol": "IsCokernel",
+        "intree_statement": "Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 69,
+        "symbol": "HasCokernels",
+        "intree_statement": "Class HasCokernels := { cokernel {x y : C} (f : x ~> y) : ∃ (q : C) (e : y ~> q), IsCokernel f e }."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 88,
+        "symbol": "cokernel_comp_zero",
+        "intree_statement": "Lemma cokernel_comp_zero {x y q : C} {f : x ~> y} {e : y ~> q} (K : IsCokernel f e) : e ∘ f ≈ zero_mor.  — the book's clause (i)"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 132,
+        "symbol": "cokernel_desc",
+        "intree_statement": "Lemma cokernel_desc ... (K : IsCokernel f e) {z : C} (h : y ~> z) (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h  — the book's clause (ii), unique factorization"
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 35,
+        "symbol": "ZeroObject",
+        "intree_statement": "Class ZeroObject (C : Category) := { zero_terminal : @Terminal C; zero_initial : @Initial C; zero_coincide : initial_obj ≅ terminal_obj }.  With zero_mor (line 53): the zero morphism x ~> y through the zero object — the book's null object and zero arrows"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with a null object z (giving zero arrows 0 : b → z → c), the cokernel of f : a → b is u : b → e with (i) u ∘ f = 0 and (ii) any h : b → c with h ∘ f = 0 factors as h = h' ∘ u for a unique h'. In Ab the cokernel of f : A → B is B → B/fA.",
+      "intree": "IsCokernel f e := IsCoequalizer f zero_mor q e over the ZeroObject class (initial + terminal coinciding up to iso, zero_mor the tunnelled zero morphism), with cokernel_comp_zero (e ∘ f ≈ zero_mor) and cokernel_desc (h ∘ f ≈ 0 ⇒ ∃! u, u ∘ e ≈ h) recovering the book's two clauses verbatim; plus normality vocabulary (normal_epi, line 152) and cokernel_regular_epi beyond the book at this point.",
+      "strength_comparison": "same — the definition routes through the coequalizer-with-zero presentation, which is equivalent to the book's elementary one given a zero object, and both book clauses are re-derived as the named lemmas; the null object is the setoid-honest ZeroObject (coincidence as iso, not object equality). The illustrative Ab computation (B/fA) has no in-tree host category (no Ab), but the defined concept — the item — is fully present."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. All evidence verified: IsCokernel := IsCoequalizer f zero_mor (Structure/Kernel.v:58), HasCokernels:69, cokernel_comp_zero:88, cokernel_desc:132; ZeroObject class @ Structure/ZeroObject.v:35 with zero_mor:52 built exactly as the book's b → z → c composite (through the coincidence iso). The two book clauses are re-derived as named lemmas; equivalence of the coequalizer-with-zero phrasing with the elementary one is immediate given zero absorption, proven in-file."
+    }
+  },
+  {
+    "id": "maclane:III.3:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "coequalizer",
+      "IsCoequalizer / HasCoequalizers",
+      "cofork / coequalizing map",
+      "difference cokernel",
+      "dual of equalizer"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 52,
+        "symbol": "IsCoequalizer",
+        "intree_statement": "Record IsCoequalizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : y ~> q) := { cofork : e ∘ f ≈ e ∘ g; coeq_desc {z} (h : y ~> z) (Hh : h ∘ f ≈ h ∘ g) : ∃! u : q ~> z, u ∘ e ≈ h }."
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 68,
+        "symbol": "HasCoequalizers",
+        "intree_statement": "Class HasCoequalizers (C : Category) := { coeq {x y : C} (f g : x ~> y) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e }."
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 83,
+        "symbol": "coequalizer_epic",
+        "intree_statement": "Lemma coequalizer_epic {q : C} {e : y ~> q} (E : IsCoequalizer f g q e) : Epic e."
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 106,
+        "symbol": "coequalizer_unique",
+        "intree_statement": "Lemma coequalizer_unique {q1 q2 : C} {e1 : y ~> q1} {e2 : y ~> q2} (E1 : IsCoequalizer f g q1 e1) (E2 : IsCoequalizer f g q2 e2) : q1 ≅ q2."
+      }
+    ],
+    "statement_record": {
+      "book": "Given a parallel pair f, g : a → b, a coequalizer of ⟨f,g⟩ is an arrow u : b → e (or the pair ⟨e,u⟩) with (i) u ∘ f = u ∘ g and (ii) whenever h : b → c has h ∘ f = h ∘ g, then h = h' ∘ u for a unique h' : e → c.",
+      "intree": "Record IsCoequalizer f g q e := { cofork : e ∘ f ≈ e ∘ g; coeq_desc : ∀ h with h ∘ f ≈ h ∘ g, ∃! u : q ~> z, u ∘ e ≈ h }, with HasCoequalizers, coequalizer_epic, and uniqueness up to iso.",
+      "strength_comparison": "same — clause-for-clause identical up to the setoid ≈ rephrasing; the in-tree API additionally proves epicness and uniqueness up to isomorphism, and Structure/Coequalizer/{Split,Reflexive}.v extend the vocabulary well beyond this definition."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass found the same record: IsCoequalizer (Structure/Coequalizer.v:52, cofork + coeq_desc verbatim clauses (i)/(ii) up to ≈), HasCoequalizers:68, coequalizer_epic:83, coequalizer_unique:106. Same in substance, with extra API beyond the book."
+    }
+  },
+  {
+    "id": "maclane:III.3:construction2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coequalizer as colimit over the walking parallel pair",
+      "parallel-pair shape category (⇉, Instance/Parallel.v)",
+      "coequalizer as universal arrow to the diagonal",
+      "Coequalizer (APair f g) := Colimit",
+      "wide coequalizer (arbitrary set of parallel maps)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 28,
+        "symbol": "ParObj",
+        "intree_statement": "Inductive ParObj : Set := ParX | ParY.  Inductive ParHom : bool → ParObj → ParObj → Set := ... — the walking parallel pair; header: 'A functor [Parallel ⟶ C] is exactly a parallel pair of morphisms in C; its limit is their equalizer and its colimit their coequalizer.'"
+      },
+      {
+        "file": "Structure/Equalizer.v",
+        "line": 126,
+        "symbol": "Coequalizer",
+        "intree_statement": "Definition Coequalizer {C : Category} (F : Parallel ⟶ C) := Colimit F."
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 226,
+        "symbol": "coequalizer_is_coequalizer",
+        "intree_statement": "Definition coequalizer_is_coequalizer (L : Coequalizer (APair f g)) : IsCoequalizer f g (colimit_apex L) (colimit_inj (colimit_is_acolimit L) ParY) — colimit ⇒ elementary coequalizer"
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 275,
+        "symbol": "is_coequalizer_colimit",
+        "intree_statement": "Definition is_coequalizer_colimit {q : C} {e : y ~> q} (E : IsCoequalizer f g q e) : Coequalizer (APair f g) — elementary coequalizer ⇒ bundled colimit; cofork_cocone (line 177) builds the cocone from any coforking map h, realizing 'an arrow h with hf = hg is the same as an arrow ⟨f,g⟩ → Δc'"
+      },
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] — the diagonal functor Δ of the book's phrasing, with the header noting 'The diagonal is the universal source of cones'"
+      }
+    ],
+    "statement_record": {
+      "book": "With ⇉ the parallel-pair category, an object of C^⇉ is a parallel pair ⟨f,g⟩ : a → b, an arrow ⟨f,g⟩ → ⟨f',g'⟩ is a commuting pair ⟨h,k⟩ (kf = f'h, kg = g'h), Δ : C → C^⇉ is the diagonal, and a coequalizer ⟨e,u⟩ of ⟨f,g⟩ is exactly a universal arrow from ⟨f,g⟩ to Δ (an arrow h : b → c with hf = hg being the same as an arrow ⟨f,g⟩ → Δc). Coequalizers of an arbitrary set of maps a → b are defined the same way.",
+      "intree": "Instance/Parallel.v (the shape ⇉ with APair f g : Parallel ⟶ C the diagram of a pair); Coequalizer (F : Parallel ⟶ C) := Colimit F; conversions in both directions between the colimit and the elementary IsCoequalizer (coequalizer_is_coequalizer / is_coequalizer_colimit), with cofork_cocone mediating 'coforking map ↔ cocone'.",
+      "strength_comparison": "same for the parallel-pair content up to presentation — the colimit is taken via cocones (legs + coherence) rather than a universal arrow to Δ in the functor category, but a cocone F → c is precisely a natural transformation F ⟹ Δc, morphisms of [Parallel, C] are precisely the book's commuting pairs ⟨h,k⟩, and Δ : C ⟶ [J,C] is itself in-tree; intree-weaker on the closing clause: the arbitrary-set (wide) coequalizer generalization has no in-tree counterpart."
+    },
+    "gap": "The construction's final sentence — coequalizers of an ARBITRARY set of parallel maps a → b, 'defined the same way' (wide coequalizers) — is not formalized: there is no wide-parallel shape category (only the two-arrow Parallel) and no wide-coequalizer definition. grep 'wide (co)?equal|WideParallel' finds only a prose mention of a wide-equalizer reduction in Theory/WeaklyInitial.v:39 (about equalizing an endomorphism family, a different device). The binary correspondence itself is complete in both directions.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'wide (co)?equal|WideParallel|arbitrary set of' . — only Theory/WeaklyInitial.v:39 (prose, wide equalizer reduction in the Freyd initial-object argument)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Verified: ParObj/ParHom @ Instance/Parallel.v:28-34 with APair at line 129; Coequalizer (F : Parallel ⟶ C) := Colimit F @ Structure/Equalizer.v:126; both conversions coequalizer_is_coequalizer:226 and is_coequalizer_colimit:275 with cofork_cocone:177 (all quotes accurate); Diagonal @ Functor/Diagonal.v:33. The PARTIAL gap is real: my independent search for wide (co)equalizers found only the prose mention in Theory/WeaklyInitial.v:39 (wide equalizer, different device); no wide-parallel shape or arbitrary-set coequalizer exists."
+    }
+  },
+  {
+    "id": "maclane:III.3:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "coequalizer in Set (quotient by generated equivalence relation Y/E)",
+      "coequalizer in Ab (B/(f−g)A)",
+      "coequalizer in Top (quotient topology)",
+      "concrete coequalizer instance",
+      "Sets_HasCoequalizers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'IsCoequalizer|HasCoequalizers|Coequalizer' Instance/ — 0 hits (case-sensitive): no concrete category carries a coequalizer construction",
+      "grep -rn -i 'coequalizer' Instance/Two.v Instance/Parallel.v — hits are shape-category prose only ('its colimit their coequalizer'), not constructions",
+      "grep -rln --include='*.v' -E 'HasCoequalizers|IsCoequalizer' . — all consumers are abstract: Structure/{Coequalizer,Kernel,Regular,...}.v and the Monad/Monadicity Beck machinery; none instantiates a concrete category",
+      "no Ab or Top category exists in-tree to host B/(f−g)A or the quotient-topology construction (Instance/ contains no abelian-group or topological-space category)",
+      "near-miss recorded: Instance/Sets/Pushout.v realises exactly the remark's technique — an inductive least-equivalence-relation closure (pushout_eq with po_glue/po_sym/po_trans) on a quotiented setoid — but for pushouts of a span, not coequalizers of a parallel pair; Instance/Sets/Coend.v likewise quotients by the dinaturality relation; neither states the Set coequalizer p : Y → Y/E of this remark, and Sets is nowhere shown to have coequalizers or to be cocomplete (grep 'Cocomplete' — definition only, Structure/Complete.v:119)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. My blind search independently found no concrete coequalizer construction in any Instance/ category (whole-tree IsCoequalizer/HasCoequalizers consumers are all abstract: Structure/, Monad/Monadicity, Lawvere). Near-misses (Instance/Sets/Pushout.v's least-equivalence-closure quotient, Instance/Sets/Coend.v's dinaturality quotient) honestly recorded; Cocomplete @ Structure/Complete.v:119 is definition-only as claimed. No Ab/Top in-tree."
+    }
+  },
+  {
+    "id": "maclane:III.3:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "pushout",
+      "fibered sum / cocartesian square",
+      "IsPushout / HasPushouts",
+      "pullback in C^op",
+      "amalgamated sum b ⊔_a c"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pushout.v",
+        "line": 47,
+        "symbol": "IsPushout",
+        "intree_statement": "Definition IsPushout {x y z : C} (f : x ~> y) (g : x ~> z) : Type := @Pullback (C^op) y z x f g."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 63,
+        "symbol": "pushout_commutes",
+        "intree_statement": "Lemma pushout_commutes ... (P : IsPushout f g) : pushout_in1 P ∘ f ≈ pushout_in2 P ∘ g."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 72,
+        "symbol": "pushout_ump",
+        "intree_statement": "Lemma pushout_ump (P : IsPushout f g) (Q : C) (q1 : y ~> Q) (q2 : z ~> Q) (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2."
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 148,
+        "symbol": "HasPushouts",
+        "intree_statement": "Class HasPushouts (C : Category) : Type := { pushout : forall {x y z : C} (f : x ~> y) (g : x ~> z), IsPushout f g }."
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 182,
+        "symbol": "pullback_unique",
+        "intree_statement": "Lemma pullback_unique ... : P ≅ Q (uniqueness of the (pushout) vertex up to isomorphism respecting the structure, read in C^op since IsPushout is definitionally a Pullback there)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given f : a → b and g : a → c, a pushout of ⟨f,g⟩ is a commutative square u f = v g (u : b → r, v : c → r) such that every commutative square h f = k g factors through it by a unique t : r → s with t u = h, t v = k; the vertex r =: b ⊔_a c (fibered sum, vertex of a cocartesian square) is unique up to a unique isomorphism.",
+      "intree": "IsPushout f g := Pullback in C^op, surfaced covariantly: pushout_apex, pushout_in1/in2, pushout_commutes (in1 ∘ f ≈ in2 ∘ g), pushout_ump (∃! mediator against any competing cocone), the mediator kit pushout_med/_in1/_in2/_unique/_eq, and HasPushouts, with HasPushouts C ↔ HasPullbacks (C^op) exposed both ways.",
+      "strength_comparison": "same — the square, its universal property, and uniqueness (pullback_unique dualized; the mediating iso is unique by pushout_med_unique) all match; 'fibered sum'/'cocartesian square' are terminology only. The chosen-pushouts class HasPushouts additionally packages the book's implicit choice."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. All lines verified: IsPushout := @Pullback (C^op) (Structure/Pushout.v:47), pushout_commutes:63, pushout_ump:72 (∃! mediator), HasPushouts:148 with both HasPullbacks(C^op) interchange functions, mediator kit pushout_med/_in1/_in2/_unique/_eq present; pullback_unique @ Structure/Pullback.v:182 supplies vertex uniqueness up to iso, dualized definitionally. Same statement up to setoid presentation."
+    }
+  },
+  {
+    "id": "maclane:III.3:construction3",
+    "classification": "PRESENT",
+    "aliases": [
+      "pushout as colimit over the span shape",
+      "walking span / Roof category (·←·→·)",
+      "Pushout_Limit / Colimit of a Span",
+      "pushout as universal arrow to the diagonal",
+      "dual of pullback-as-limit-of-cospan"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Roof.v",
+        "line": 29,
+        "symbol": "RoofObj",
+        "intree_statement": "Inductive RoofObj : Set := RNeg | RZero | RPos.  — the walking span RNeg ← RZero → RPos; header: 'a functor [Roof ⟶ C] is a span in C ... A colimit over a span is a pushout'"
+      },
+      {
+        "file": "Structure/Span.v",
+        "line": 27,
+        "symbol": "Span",
+        "intree_statement": "Definition Span (C : Category) := Roof ⟶ C.  (line 35: Definition Cospan (C : Category) := Roof^op ⟶ C; line 43: ASpan packages a concrete span from f, g)"
+      },
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 60,
+        "symbol": "Pushout_Limit",
+        "intree_statement": "Definition Pushout_Limit {C : Category} (F : Span C) := Colimit F."
+      },
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 68,
+        "symbol": "Pullback_to_Universal",
+        "intree_statement": "Program Definition Pullback_to_Universal {C} (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) — (co)limit ⇒ elementary UMP; with Pullback_from_Universal (line 113) the converse; both instantiate at C^op to the pushout reading, since IsPushout := Pullback in C^op and Colimit F := Limit (F^op)"
+      }
+    ],
+    "statement_record": {
+      "book": "With ·←·→· the span-shape category, an object of C^(·←·→·) is a pair of arrows with common domain, Δ the diagonal; a commutative square h f = k g is exactly an arrow ⟨f,g⟩ → Δs in the functor category, and the pushout of ⟨f,g⟩ is the universal such arrow.",
+      "intree": "Roof (the walking span), Span C := Roof ⟶ C (so spans ARE the objects of the functor category [Roof, C]), Pushout_Limit F := Colimit F, and the elementary-UMP ↔ (co)limit conversions Pullback_to_Universal / Pullback_from_Universal, whose C^op instances are exactly the pushout correspondence.",
+      "strength_comparison": "same up to presentation — the universal arrow to Δ is rendered as the colimit of the span diagram (a cocone being precisely a natural transformation to the constant functor; Δ : C ⟶ [J,C] is in-tree, Functor/Diagonal.v), and the two conversion lemmas are stated in pullback orientation with the pushout reading obtained by the library's standing definitional duality (C^op^op = C by reflexivity; IsPushout is literally a Pullback in C^op), not re-stated under pushout names. Construction/Cospan/Double.v and Instance/Sets/Pushout.v consume this pushout vocabulary downstream."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Verified: RoofObj @ Instance/Roof.v:28 (record says 29, off by one — immaterial), Span := Roof ⟶ C @ Structure/Span.v:27 with ASpan:43, Pushout_Limit := Colimit F @ Structure/Pullback/Limit.v:60, Pullback_to_Universal:68 / Pullback_from_Universal:113. PRESENT is faithful: the span shape, the functor-category reading, and pushout-as-colimit (= universal cocone = universal arrow to Δ via Structure/Cone/Const.v's Cone_Natural_Transform/Cone_Comma equivalences) are all in-tree; the strength_comparison honestly discloses that the elementary↔diagram conversions are stated in pullback orientation only, reached at C^op by the library's definitional duality (IsPushout literally IS a Pullback in C^op)."
+    }
+  },
+  {
+    "id": "maclane:III.3:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pushout in Set (disjoint union with f x ~ g x identified)",
+      "pushout in Top / adjunction space",
+      "pushout in Grp / amalgamated (free) product",
+      "Sets_HasPushouts",
+      "FinSet pushouts"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 185,
+        "symbol": "Sets_HasPushouts",
+        "intree_statement": "Program Instance Sets_HasPushouts : HasPushouts Sets — apex carrier B + C modulo the inductive closure pushout_eq; header: 'the disjoint union (coproduct) modulo the finest equivalence relation with [f a ~ g a]', exactly the book's Set construction, funext-free"
+      },
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 53,
+        "symbol": "pushout_eq",
+        "intree_statement": "Inductive pushout_eq : sum (carrier B) (carrier C) → sum (carrier B) (carrier C) → Type := po_inl_cong | po_inr_cong | po_glue : forall a, pushout_eq (inl (f a)) (inr (g a)) | po_sym | po_trans | ... — the least equivalence relation identifying f x with g x"
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 513,
+        "symbol": "FinSet_HasPushouts",
+        "intree_statement": "Program Instance FinSet_HasPushouts : HasPushouts FinSet — counted, computable pushouts of finite sets (mirroring the Sets construction)"
+      }
+    ],
+    "statement_record": {
+      "book": "In Set the pushout of ⟨f,g⟩ always exists: the disjoint union b ⊔ c with f x and g x identified for each x ∈ a. A similar construction (with quotient topology) gives pushouts in Top, including adjunction spaces. Pushouts exist in Grp; if f and g are monic the pushout injections u, v are monic and the vertex is the amalgamated product of b and c.",
+      "intree": "Sets_HasPushouts: for setoid morphisms f : A → B, g : A → C the pushout is the sum carrier B + C under the smallest equivalence relation containing the summand equivalences and the glue inl (f a) ~ inr (g a) — verbatim the book's construction, setoid-quotient style; plus computable FinSet pushouts.",
+      "strength_comparison": "intree-weaker: the Set clause is fully present (and constructively sharpened — funext-free, plus a computable FinSet variant); the Top clause (quotient topology, adjunction spaces) and the entire Grp clause (existence, monos preserved, amalgamated products) are absent, as no Top or Grp category exists in-tree."
+    },
+    "gap": "Pushouts in Top (quotient-topology construction, adjunction spaces) and in Grp (existence; if f, g are monic then the pushout legs u, v are monic and the vertex is the amalgamated product) have no in-tree counterpart: the library contains no category of topological spaces or of groups, and no amalgamated-product construction.",
+    "negative_search_log": [
+      "grep -rln --include='*.v' -iE 'pushout' . — all concrete hits are Instance/Sets/Pushout.v and Instance/FinSet/Pushout.v; the remaining hits are abstract (Structure/, Construction/Cospan*, Theory/)",
+      "grep -rn --include='*.v' -iE 'amalgam' . — 0 hits",
+      "no Top or Grp category in Instance/ (directory listing checked)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Verified: Sets_HasPushouts @ Instance/Sets/Pushout.v:185 over the inductive closure pushout_eq (Inductive at line 51, record says 53 — constructors po_inl_cong/po_inr_cong/po_glue/po_sym/po_trans verified at 55-69), exactly the book's disjoint-union-with-glue construction; FinSet_HasPushouts @ Instance/FinSet/Pushout.v:513. Gap (Top quotient topology/adjunction spaces; Grp existence, monic legs, amalgamated products) accurate. One nit: the negative log claims 'amalgam — 0 hits'; there is one prose hit (Construction/Groupoid.v:62, 'amalgamated free product of groupoids' in a background essay, no construction) — immaterial to the classification."
+    }
+  }
+]

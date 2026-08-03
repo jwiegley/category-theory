@@ -1,0 +1,516 @@
+[
+  {
+    "id": "awodey:6.1:construction-exponential-in-sets",
+    "classification": "PRESENT",
+    "aliases": [
+      "function set C^B / set of all functions B -> C",
+      "currying / uncurrying bijection Sets(A x B, C) = Sets(A, C^B)",
+      "evaluation map eval : C^B x B -> C (apply)",
+      "Sets_Closed / exponent_obj / exp_iso / eval (library naming)",
+      "cartesian closure of Set / Coq_Closed (types and functions)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := fun _ _ _ => {| to := {| morphism := fun f => {| morphism := fun x => {| morphism := fun y => f (x, y) |} |} |} ; from := {| morphism := fun f => {| morphism := fun p => f (fst p) (snd p) |} |} |} }."
+      },
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 24,
+        "symbol": "(header)",
+        "intree_statement": "The CCC adjunction (- x y) |- (- ^ y) is witnessed by [exp_iso], the bijection Hom(x x y, z) = Hom(x, z^y): the forward (curry) direction sends f : x x y -> z to lam x. lam y. f (x, y), and the inverse (uncurry) direction sends g : x -> z^y to lam p. g (fst p) (snd p).  Evaluation z^y x y -> z is the image of the identity under uncurry, namely lam p. (fst p) (snd p)."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 78,
+        "symbol": "ump_exponents",
+        "intree_statement": "Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f."
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 167,
+        "symbol": "Coq_Closed",
+        "intree_statement": "Program Instance Coq_Closed : @Closed Coq _ := { exponent_obj := Basics.arrow; exp_iso := λ _ _ _, {| to := {| morphism := λ f a b, f (a, b) |} ; from := {| morphism := λ f p, f (fst p) (snd p) |} |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "For sets A, B, C write C^B for the set of all functions B -> C. Currying f : A x B -> C gives the unique f~ : A -> C^B with f~(a)(b) = f(a,b), and every phi : A -> C^B arises this way, so Sets(A x B, C) = Sets(A, C^B). The bijection is mediated by eval : C^B x B -> C, eval(g,b) = g(b), which is universal: for each f : A x B -> C there is a unique f~ with eval . (f~ x 1_B) = f (equation 6.1).",
+      "intree": "Sets_Closed : @Closed Sets _ with exponent_obj x y := the setoid SetoidMorphism x y (pointwise ≈), exp_iso {x y z} : x × y ~> z ≊ x ~> z^y given by curry/uncurry, eval := uncurry id, and ump_exponents f : eval ∘ first (curry f) ≈ f.",
+      "strength_comparison": "same, up to the library's setoid discipline: [Sets] is the category of setoids, so C^B is the setoid of ≈-respecting maps under pointwise ≈ rather than the raw function set, and equation (6.1) is stated with ≈ instead of =. The bijection is a genuine isomorphism of hom-setoids (≊ = ≅[Sets] on carriers, Instance/Sets.v:205), so both round trips (curry_uncurry / uncurry_curry) are proved, matching the book's existence+uniqueness. The construction is axiom-free here; the raw-function version (Instance/Coq.v:167 Coq_Closed, exponent_obj := Basics.arrow) additionally invokes functional_extensionality, as its header discloses."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening the coverage file) reached the same PRESENT verdict from the same two witnesses. Verified at the cited lines: Instance/Sets/Cartesian/Closed.v:38 `Program Instance Sets_Closed : @Closed Sets _` with exponent_obj = the setoid SetoidMorphism x y, exp_iso to = fun f => fun x => fun y => f (x,y) and from = fun f p => f (fst p) (snd p) (quote accurate); header text at :24-28 quoted accurately; Structure/Cartesian/Closed.v:75 `Definition eval {x y} : y^x × x ~> y := uncurry id` and :78-79 `ump_exponents ... eval ∘ first (curry f) ≈ f` both exact; Instance/Coq.v:167 `Program Instance Coq_Closed : @Closed Coq _ := { exponent_obj := Basics.arrow; ... }` exact, with the funext disclosure at :165. Both files are registered in _CoqProject (lines 229 and 191-ish, checked by exact-line grep). Uniqueness (Awodey's 'unique f-tilde') is genuinely available, not just beta: uncurry_curry/curry_uncurry (:101,:107) plus eval_first (:141) give g ≈ curry f from eval ∘ first g ≈ f. strength_comparison is honest about the setoid rendering and about Coq_Closed's funext cost."
+    }
+  },
+  {
+    "id": "awodey:6.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential object C^B with evaluation eps",
+      "internal hom / exponent_obj",
+      "universal mapping property of the exponential, unique transpose (curry)",
+      "Closed / ClosedMonoidal class; ump_exponents; exp_iso",
+      "right adjoint to (- x B); lambda abstraction"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 43,
+        "symbol": "Closed",
+        "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z); eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 58,
+        "symbol": "(comment on ump_exponents')",
+        "intree_statement": "Beta law / UMP existence equation: eval ∘ (curry f × id) ≈ f, with [first (curry' f)] = curry' f × id.  Uniqueness of the transpose is supplied by [exp_iso] being an isomorphism (see [uncurry_curry])."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 107,
+        "symbol": "uncurry_curry",
+        "intree_statement": "Corollary uncurry_curry {x y z} (f : x × y ~> z) : uncurry (curry f) ≈ f."
+      },
+      {
+        "file": "Structure/Monoidal/Closed.v",
+        "line": 66,
+        "symbol": "ump_exponents' (ClosedMonoidal)",
+        "intree_statement": "ump_exponents' {x y z} (f : x ⨂ y ~> z) : ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with binary products, an exponential of B and C consists of an object C^B and an arrow eps : C^B x B -> C such that for every Z and every f : Z x B -> C there is a UNIQUE f~ : Z -> C^B with eps . (f~ x 1_B) = f.",
+      "intree": "Class Closed (over `{@Cartesian C}`) with exponent_obj : obj → obj → obj, exp_iso {x y z} : x × y ~> z ≊ x ~> z^y, eval' {x y} : y^x × x ~> y := uncurry' id, and ump_exponents' f : eval' ∘ first (curry' f) ≈ f.",
+      "strength_comparison": "same in substance. Two presentation differences, both recorded: (1) the in-tree notion is GLOBAL — the class chooses exponentials for ALL pairs at once — whereas Awodey defines 'an exponential of B and C' for a designated pair; the library has the designated-triple analogue for products (Structure/Cartesian.v:145, `Class IsCartesianProduct (x y z : C)`, explicitly so that 'being a product can be asserted of a specific object rather than a chosen operation') but has NO `IsExponential x y z` counterpart. (2) uniqueness is not spelled as ∃!: the class carries the hom-setoid isomorphism exp_iso plus the beta law, and uniqueness is recovered from iso_from_to (uncurry_curry, line 107) — the header at line 58 says exactly this. The ∃! phrasing does appear in-tree for the monoidal variant (Structure/Monoidal/Closed.v:66). Neither difference weakens the mathematical content: the in-tree data is equivalent to, and in the all-pairs reading stronger than, the book's."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'IsExponential|Exponential\\b' --include=*.v . — only prose/comment hits; no designated-triple exponential class exists (contrast Structure/Cartesian.v:145 IsCartesianProduct)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently classified PRESENT before reading the record, with exactly the same two caveats the classifier already discloses (all-pairs bundling; uniqueness via the iso rather than an ∃! clause) — so the record is honest rather than same-name-weaker. Verified: Structure/Cartesian/Closed.v:43 `Class Closed`, :51 `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y`, :56 `eval' := uncurry' id`, :61-62 `ump_exponents' f : eval' ∘ first (curry' f) ≈ f`; the comment block at :58-60 says exactly what is quoted. Structure/Monoidal/Closed.v:66-67 does carry the ∃! form (`∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id)`) as claimed. Re-ran the negative search for a designated-triple exponential: `rg -n 'IsExponential|IsClosed|IsCartesianProduct'` returns only IsCartesianProduct (Structure/Cartesian.v:145) — confirmed, there is no `IsExponential x y z`. Checked that the UMP is a working API, not a definition without consumers: curry_inj/uncurry_inj, eval_first, curry_comp_l/curry_comp, exp_prod_l/exp_prod_r/exp_one/one_exp all ride it, and eight instances populate it (Sets, Coq, FinSet, Cat, Props, Rel, Comp, Lambda/AST)."
+    }
+  },
+  {
+    "id": "awodey:6.1:remark-transposition-bijection",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential transpose f~ / g-bar; currying and uncurrying are mutually inverse",
+      "transposition is involutive; (g-bar)~ = g and (f~)-bar = f",
+      "hom-set bijection Hom(Z x B, C) = Hom(Z, C^B)",
+      "curry_uncurry / uncurry_curry / exp_iso (library naming)",
+      "adjunction transposes; leftAdjunct / rightAdjunct"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 101,
+        "symbol": "curry_uncurry",
+        "intree_statement": "Corollary curry_uncurry {x y z} (f : x ~> z^y) : curry (uncurry f) ≈ f. Proof. sapply (iso_to_from (@exp_iso _ x y z)). Qed."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 107,
+        "symbol": "uncurry_curry",
+        "intree_statement": "Corollary uncurry_curry {x y z} (f : x × y ~> z) : uncurry (curry f) ≈ f. Proof. sapply (iso_from_to (@exp_iso _ x y z)). Qed."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 53,
+        "symbol": "curry' / uncurry'",
+        "intree_statement": "curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z);    (* transpose: x×y~>z to x~>z^y *)   uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z);  (* inverse transpose *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 141,
+        "symbol": "eval_first",
+        "intree_statement": "Corollary eval_first {x y z : C} (f : x ~> z^y) : eval ∘ first f ≈ uncurry f."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 205,
+        "symbol": "≊ notation",
+        "intree_statement": "Notation \"x ≊ y\" := ({| carrier := x |} ≅[Sets] {| carrier := y |})"
+      }
+    ],
+    "statement_record": {
+      "book": "eps is called evaluation; f~ : Z -> C^B is the transpose of f : Z x B -> C, and for g : Z -> C^B its transpose is g-bar := eps . (g x 1_B). By uniqueness, (g-bar)~ = g and (f~)-bar = f, so transposition is a bijection Hom(Z x B, C) = Hom(Z, C^B).",
+      "intree": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y (an isomorphism of hom-setoids in Sets), with curry' := to exp_iso, uncurry' := from exp_iso, and the two round trips curry_uncurry : curry (uncurry f) ≈ f and uncurry_curry : uncurry (curry f) ≈ f. The g-bar direction is identified with eps . (g x 1) by eval_first : eval ∘ first f ≈ uncurry f.",
+      "strength_comparison": "same, indeed slightly stronger in packaging: the bijection is an in-tree datum (an isomorphism in Sets between the two hom-setoids, hence automatically ≈-respecting in both directions via curry_respects/uncurry_respects at lines 81/91), and both involutions are named corollaries. eval_first supplies exactly Awodey's identification of the inverse transpose g-bar with eps ∘ (g × 1_B); the naming 'transpose' is used in the file's prose and in Theory/Adjunction.v:17."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same verdict on the blind pass. All six evidence anchors check out verbatim: :51 exp_iso, :53 curry'/uncurry' as to/from, :101 `curry_uncurry (f : x ~> z^y) : curry (uncurry f) ≈ f`, :107 `uncurry_curry (f : x × y ~> z) : uncurry (curry f) ≈ f`, :141 `eval_first (f : x ~> z^y) : eval ∘ first f ≈ uncurry f` (this is precisely Awodey's g-bar := ε ∘ (g × 1)), and Instance/Sets.v:205 for the ≊ notation being ≅[Sets] on hom-setoid carriers, so the 'bijection' reading is exact and not weakened to a mere pair of maps. Both round trips are proved, so the involutivity claim of the remark is fully covered."
+    }
+  },
+  {
+    "id": "awodey:6.2:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "cartesian closed category / CCC",
+      "finite products + exponentials; terminal object + binary products + internal hom",
+      "Closed class over Cartesian; Cartesian + Terminal + Closed context",
+      "CCC_ClosedMonoidal; BiCCC",
+      "locally cartesian closed / closed monoidal (cartesian case)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 12,
+        "symbol": "Section Closed context",
+        "intree_statement": "Context {C : Category}. Context `{@Cartesian C}. ... Class Closed := { exponent_obj : obj → obj → obj ...; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; ... }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 20,
+        "symbol": "(header)",
+        "intree_statement": "A cartesian closed category (CCC) is a cartesian category in which every functor - × y has a right adjoint - ^ y, the exponential (internal hom)."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 387,
+        "symbol": "Terminal assumption",
+        "intree_statement": "Context `{@Terminal C}."
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 24,
+        "symbol": "(header, design note)",
+        "intree_statement": "This file does not introduce a `BiCCC` class: rather than bundle a fourth redundant record, a BiCCC is obtained simply by assuming all four pieces of structure together (Cartesian, Closed, Cocartesian and Initial in the same Context), exactly as the section header below does."
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 442,
+        "symbol": "CCC_ClosedMonoidal",
+        "intree_statement": "Program Definition CCC_ClosedMonoidal : @ClosedMonoidal C := {| closed_is_cartesian := CC_CartesianMonoidal; exponent_obj := λ x y, @fobj _ _ (@InternalHomFunctor C _ CL) (x, y); exp_iso := @Cartesian.Closed.exp_iso C _ _ |}.  (* section context: `{@Cartesian C}, `{@Terminal C}, `{CL : @Closed C _} *)"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 180,
+        "symbol": "Coq_ClosedMonoidal",
+        "intree_statement": "@CCC_ClosedMonoidal Coq Coq_Cartesian Coq_Terminal Coq_Closed."
+      }
+    ],
+    "statement_record": {
+      "book": "A category is cartesian closed if it has all finite products (in particular a terminal object and binary products) and exponentials C^B for every pair of objects, in the sense of Definition 6.1.",
+      "intree": "There is no single bundled class named CartesianClosed. A cartesian closed category is the conjunction of instances `{@Cartesian C}` (binary products, Structure/Cartesian.v:122), `{@Terminal C}` (Structure/Terminal.v) and `{@Closed C _}` (Structure/Cartesian/Closed.v:43); the header of Structure/Cartesian/Closed.v:20 names exactly this combination 'a cartesian closed category (CCC)', and CCC_ClosedMonoidal (Structure/Monoidal/Internal/Product.v:442) consumes precisely that triple of hypotheses.",
+      "strength_comparison": "same in substance, with one honest packaging nuance: the `Closed` class presupposes only `Cartesian` (binary products), so the terminal object — Awodey's empty finite product — is a SEPARATE assumption, introduced further down the same file (`Context `{@Terminal C}`, line 387) for the results that need it (exp_one, one_exp). Every concrete cartesian closed instance in-tree carries all three (Coq, Sets, FinSet, Cat, Props, Lambda, AST). The absence of a bundled record is a deliberate, documented design choice (Structure/BiCCC.v:24), not a missing notion, and the library's stated equivalent form ('every - × y has a right adjoint') is the same as the book's."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'CCC' --include=*.v . — no `Class CartesianClosed`; only the combination idiom and CCC_ClosedMonoidal"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (PRESENT, unbundled). Verified: Structure/Cartesian/Closed.v:12-13 opens `Context {C : Category}` / `Context `{@Cartesian C}`, the header at :20 names the CCC, and `Context `{@Terminal C}` really does appear only at :387 — i.e. the record's honest nuance (Closed presupposes binary products only, terminal is a later separate assumption) is accurate and load-bearing. Structure/BiCCC.v:24-27 does contain the design note quoted. Structure/Monoidal/Internal/Product.v:440-446 `CCC_ClosedMonoidal` consumes Cartesian+Terminal+Closed as claimed. One evidence nit that does not affect the verdict: the Coq_ClosedMonoidal anchor is cited as Instance/Coq.v:180, but the `Program Instance Coq_ClosedMonoidal : @ClosedMonoidal Coq` line is 179 (180 is its body). Re-ran the negative search: no `Class CartesianClosed` / `Record CCC` anywhere."
+    }
+  },
+  {
+    "id": "awodey:6.2:example3",
+    "classification": "PRESENT",
+    "aliases": [
+      "Sets is cartesian closed",
+      "FinSet / Sets_fin / finite sets is cartesian closed",
+      "|N^M| = |N|^|M| ; nat power as exponential object",
+      "Sets_Closed, FinSet_Closed, exponent_obj := (n ^ m)%nat",
+      "full subcategory closed under exponentials"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Cartesian/Closed.v",
+        "line": 38,
+        "symbol": "Sets_Closed",
+        "intree_statement": "Program Instance Sets_Closed : @Closed Sets _ := { exponent_obj := fun x y => {| carrier := SetoidMorphism x y ; is_setoid := @SetoidMorphism_Setoid x y |}; exp_iso := ... }."
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; ... |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := ... fst ...; exr := ... snd ... }."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }."
+      },
+      {
+        "file": "Instance/FinSet/Closed.v",
+        "line": 132,
+        "symbol": "FinSet_Closed",
+        "intree_statement": "Program Instance FinSet_Closed : @Closed FinSet FinSet_Cartesian := { exponent_obj := fun m n => (n ^ m)%nat; exp_iso := fun x y z => {| to := {| morphism := fun (f : Fin.t (x * y) → Fin.t z) (i : Fin.t x) => fin_tabulate (fun j : Fin.t y => f (fin_pair i j)) |} ; from := {| morphism := fun (g : Fin.t x → Fin.t (z ^ y)%nat) (p : Fin.t (x * y)) => fin_apply (g (fst (fin_unpair p))) (snd (fin_unpair p)) |} |} }."
+      },
+      {
+        "file": "Instance/FinSet/Product.v",
+        "line": 105,
+        "symbol": "FinSet_Cartesian",
+        "intree_statement": "Program Instance FinSet_Cartesian : @Cartesian FinSet := {| product_obj := fun m n => (m * n)%nat; fork := ... fin_pair (f i) (g i); exl := ... fst (fin_unpair p); exr := ... snd (fin_unpair p) |}."
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 236,
+        "symbol": "FinSet_Terminal",
+        "intree_statement": "Instance FinSet_Terminal : @Terminal FinSet := @Build_Terminal FinSet 1%nat (fun x (_ : Fin.t x) => Fin.F1) (fun x f g i => eq_trans (fin1_unique (f i)) (eq_sym (fin1_unique (g i))))."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 24,
+        "symbol": "(header)",
+        "intree_statement": "... a terminal object, binary products, pullbacks, exponentials, and a subobject [classifier] ..."
+      }
+    ],
+    "statement_record": {
+      "book": "Sets is cartesian closed (by the section-6.1 construction); so is the full subcategory Sets_fin of finite sets, since for finite M, N the function set N^M is again finite, |N^M| = |N|^|M|, so the exponential stays inside the subcategory.",
+      "intree": "Sets_Closed : @Closed Sets _ together with Sets_Cartesian and Sets_Terminal; and FinSet_Closed : @Closed FinSet FinSet_Cartesian with `exponent_obj := fun m n => (n ^ m)%nat` together with FinSet_Cartesian (`product_obj := fun m n => (m * n)%nat`) and FinSet_Terminal (1%nat).",
+      "strength_comparison": "same claim on both halves, with one framing difference on the finite half. Awodey's Sets_fin is the FULL SUBCATEGORY of Sets on the finite sets, and his point is closure of that subcategory under the ambient exponential; in-tree the finite half is carried by the SKELETAL FinSet (objects are naturals, hom m ~> n = Fin.t m → Fin.t n, Instance/FinSet.v:15), which is equivalent to Sets_fin but is not literally a subcategory of Sets — there is no inclusion functor FinSet ⟶ Sets in-tree and no lemma that FinSet's exponential agrees with Sets'. Compensating, the in-tree version is sharper about the counting argument: the exponential object IS the nat power n^m, so |N^M| = |N|^|M| holds by definition and the structure computes (Instance/FinSet/Topos.v:49 checks Pow 2 = 4 by eq_refl). The Sets half is a faithful setoid rendering (exponential = setoid of ≈-respecting maps)."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE 'FinSet ⟶|⟶ FinSet|FinSet_to' --include=*.v . — 0 hits (no inclusion of FinSet into Sets)",
+      "grep -rn 'Subcategory' --include=*.v . | grep -i 'finite|finset' — 0 hits (no full subcategory of finite setoids inside Sets)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT on both halves with the same witnesses. Verified line by line: Instance/Sets/Cartesian/Closed.v:38, Instance/Sets/Cartesian.v:32 Sets_Cartesian, Instance/Sets.v:248 Sets_Terminal, Instance/FinSet/Closed.v:132 `FinSet_Closed : @Closed FinSet FinSet_Cartesian` with :133 `exponent_obj := fun m n => (n ^ m)%nat`, Instance/FinSet/Product.v:105 FinSet_Cartesian, Instance/FinSet.v:236 FinSet_Terminal, Instance/FinSet/Topos.v:20-28 header. I independently reproduced the negative claim underlying the framing caveat: `rg 'FinSet ⟶|⟶ FinSet|FinSet.*Sets'` returns 0 hits, so there is indeed no inclusion FinSet ⟶ Sets and no lemma reconciling the two exponentials — the caveat is honest, and does not undercut PRESENT because each half of Awodey's example is a self-contained CCC claim. Minor: the strength_comparison cites Instance/FinSet.v:15 for the objects/hom description; :15 is the title line, the description is at :20-22. All cited files are in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:6.2:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Pos, the category of posets and monotone maps",
+      "Ord / Preord / category of (pre)ordered sets, order-preserving maps",
+      "componentwise (product) order on P x Q",
+      "pointwise order on the monotone function space Q^P",
+      "monotone evaluation; monotone transpose; Pos is cartesian closed"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'category of posets' --include=*.v . — 0 hits",
+      "grep -rniE 'monotone' --include=*.v . — 13 hits, all either prose (Instance/Poset.v:22,47, Instance/Two.v:76, Construction/Enriched.v:100) or the enrichment-over-2 correspondence in Construction/Enriched/Two.v (Record MonotoneMap at :175 and Theorem EnrichedFunctor_Two_monotone at :183), which gives monotone maps as a bare Record between TwoPreorders — no Category instance, no products, no exponentials",
+      "grep -rniE 'Ord\\b' --include=*.v . — 471 hits, all PreOrder / 'order' / 'record' noise; grep -rnE 'Definition Ord|Instance Ord|Ord :=' filtered — 0 hits. Instance/Proset.v:19 and Instance/Poset.v:22 both forward-REFER to '[Ord], for the category of preordered sets ... morphisms are monotone mappings' and to '[Pos], the category of posets', but no such object is defined anywhere in the tree",
+      "grep -rniE 'Preord' --include=*.v . — 86 hits, all Coq stdlib PreOrder / PreOrder_Reflexive / PreOrder_Transitive",
+      "grep -rniE 'pointwise order' --include=*.v . — 0 hits",
+      "grep -rniE 'order-preserving' --include=*.v . — 5 hits, all about order-preserving embeddings/tabulations in FinSet and Lambda renamings, unrelated",
+      "grep -rniE 'PosCat' --include=*.v . — 0 hits; find . -name '*.v' | grep -iE 'pos|ord' — only Instance/Poset.v, Instance/Proset.v, Test/Poset.v (a poset AS a thin category, i.e. Awodey's other reading) and Opposite-category files",
+      "cross-check of every @Closed instance in the tree (grep -rn 'exponent_obj' --include=*.v .): Sets, Coq, FinSet, Cat, Props, Rel, Comp, Lambda, AST, Monoidal/Internal/Product — none is a category of ordered sets"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My own blind search, run before reading the record, reached ABSENT by the same route and found nothing the classifier missed. Independent checks: `ls Instance/*.v` has no Pos/Ord file; Instance/Poset.v:116 `Definition Poset {C : Type} `{R : relation C} ... : Category` is a single poset AS a thin category (Awodey's other reading), likewise Instance/Proset.v; Construction/Enriched/Two.v:175 `Record MonotoneMap (P Q : TwoPreorder)` is a bare record with no Category instance built on it (grep for MonotoneMap returns only :175 and :187, its use in the ↔ theorem), and there is no product or exponential of TwoPreorders. So none of the three components of Example 6.4 (Pos as a category, the componentwise product order, the pointwise-ordered monotone function space with monotone eval/transpose) exists in-tree — ABSENT rather than PARTIAL. Side finding recorded in problems[]: Instance/Poset.v:21 and Instance/Proset.v:19 refer to [Pos] and [Ord] in the library's own bracketed-identifier style, but neither exists anywhere in the tree."
+    }
+  },
+  {
+    "id": "awodey:6.2:example5",
+    "classification": "ABSENT",
+    "aliases": [
+      "omega-CPO / CPO / dcpo / chain-complete partial order",
+      "omega-continuous (Scott-continuous) monotone map",
+      "least upper bound of an omega-chain; directed suprema",
+      "category of domains; domain theory; Scott domains",
+      "CPO is cartesian closed; continuous function space"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'cpo' --include=*.v . — 2 hits, both prose in Structure/Monoidal/Traced.v:66,93 ('pointed cpos' as an example of a traced category, no definition)",
+      "grep -rniE 'dcpo' --include=*.v . — 0 hits",
+      "grep -rniE 'directed complete' --include=*.v . — 0 hits",
+      "grep -rniE 'chain.complete' --include=*.v . — 0 hits",
+      "grep -rniE 'omega.continuous' --include=*.v . — 0 hits",
+      "grep -rniE 'Scott.continuous' --include=*.v . — 0 hits ('Scott' occurs only as Lambek & Scott and Scott's D-infinity, in prose)",
+      "grep -rniE 'least upper bound|supremum|lub\\b' --include=*.v . — 0 hits",
+      "grep -rniE 'domain theory' --include=*.v . — 1 hit, prose only",
+      "grep -rniE 'omega-CPO' --include=*.v . — 0 hits; find . -name '*.v' | grep -iE 'cpo|domain' — 0 files",
+      "Prerequisite is also missing: there is no category of ordered sets in-tree at all (see the negative log for awodey:6.2:example4), so neither the omega-CPO objects nor the monotone+continuous function space can be stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. I reproduced the key negatives independently — `rg -iw 'cpo|dcpo|scott'` yields only prose in Structure/Monoidal/Traced.v:66,93 ('pointed cpos' as an example) and Lambek-and-Scott / Scott's D∞ citations (Structure/Limit.v:107-109, Construction/Karoubi.v:97-99, Instance/Coq.v:59, Instance/Lambda.v:79); `rg -i 'chain.complete|least upper bound|supremum|lub'` gives nothing order-theoretic. No ω-CPO objects, no ω-continuity predicate, no continuous function space, and (as the record notes) not even the ambient category of ordered sets that the example is a restriction of."
+    }
+  },
+  {
+    "id": "awodey:6.2:remark-transpose-of-evaluation",
+    "classification": "PRESENT",
+    "aliases": [
+      "the transpose of evaluation is the identity; eps~ = 1_{B^A}",
+      "curry eval = id (eta law for exponentials)",
+      "eps is the transpose of the identity; eps = (1_{B^A})-bar",
+      "curry_eval / eval = uncurry id (library naming)",
+      "counit of the product-exponential adjunction is uncurry of the identity"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 133,
+        "symbol": "curry_eval",
+        "intree_statement": "Corollary curry_eval {x y : C} : curry eval ≈ @id _ (y^x). Proof. intros; unfold eval; simpl; cat. Qed."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 56,
+        "symbol": "eval' (class field, with comment)",
+        "intree_statement": "eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id;   (* evaluation; counit, = uncurry id *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For eps : B^A x A -> B, its transpose eps~ : B^A -> B^A is the unique arrow with eps . (eps~ x 1_A) = eps; since 1_{B^A} x 1_A = 1_{B^A x A} has that property, uniqueness forces eps~ = 1_{B^A}. Equivalently eps is the other-direction transpose of the identity: eps = (1_{B^A})-bar.",
+      "intree": "Corollary curry_eval {x y : C} : curry eval ≈ @id _ (y^x); and, in the other direction, Definition eval {x y} : y^x × x ~> y := uncurry id — evaluation IS the inverse transpose of the identity, by definition.",
+      "strength_comparison": "same, and in-tree the second (equivalent) formulation is definitional rather than derived: eval := uncurry id makes 'eps = (1_{B^A})-bar' hold by construction, and curry_eval then supplies the book's stated form eps~ = 1_{B^A} as an ≈-equation. Note the in-tree proof route differs from the book's — it is a one-line consequence of curry_uncurry (the exp_iso round trip) rather than of the uniqueness clause plus 1 × 1 = 1 — but the statement proved is the same, and the auxiliary identity Awodey uses is available separately (Structure/Cartesian.v:340, second_id : second (id[y]) ≈ id[x × y], and first_id)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Verified Structure/Cartesian/Closed.v:133-137 `Corollary curry_eval {x y : C} : curry eval ≈ @id _ (y^x)` (Awodey's ε-tilde = 1_{B^A}) and :75 `Definition eval {x y} : y^x × x ~> y := uncurry id`, which makes the equivalent second formulation ε = (1_{B^A})-bar definitional; the class-field form is at :56. The record's disclosure that the in-tree proof route differs from the book's (curry_uncurry rather than the uniqueness clause + 1×1 = 1) is accurate, and the auxiliary identity Awodey uses is present independently at Structure/Cartesian.v:340-342 `Theorem second_id : second (id[y]) ≈ id[x × y]` — verified verbatim."
+    }
+  },
+  {
+    "id": "awodey:6.2:prop6",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponentiation by a fixed object is a functor (-)^A : C -> C",
+      "beta^A := (beta . eps)~ ; postcomposition functor on the exponential",
+      "internal hom functor [A, -] / InternalHomFunctor",
+      "covariant action of the exponential; fmap on exponent_obj",
+      "(1_B)^A = 1_{B^A} and (gamma . beta)^A = gamma^A . beta^A (functor laws)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p);   (* (a, b) ↦ b ^ a *)  fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}."
+      },
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 29,
+        "symbol": "(header)",
+        "intree_statement": "[f, g] := curry (g ∘ eval ∘ second f) : b ^ a ~> b' ^ a', which pre-composes by f in the exponent and post-composes by g in the base."
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 80,
+        "symbol": "bimap_comp_id_left",
+        "intree_statement": "(* Functoriality of the partial functor F(w, -) in the second variable. *) Lemma bimap_comp_id_left {F : C ∏ D ⟶ E} {w} `(f : y ~{D}~> z) `(g : x ~{D}~> y) : bimap (id[w]) (f ∘ g) ≈ bimap id f ∘ bimap id g."
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 59,
+        "symbol": "bimap_id_id",
+        "intree_statement": "Lemma bimap_id_id {F : C ∏ D ⟶ E} {x y} : bimap (id[x]) (id[y]) ≈ id."
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 340,
+        "symbol": "second_id",
+        "intree_statement": "Theorem second_id {x y : C} : second (id[y]) ≈ id[x × y]."
+      }
+    ],
+    "statement_record": {
+      "book": "In a CCC, exponentiation by a fixed A is a functor (-)^A : C -> C: on objects B |-> B^A, on beta : B -> C the arrow beta^A := (beta . eps)~ : B^A -> C^A, the unique map with eps . (beta^A x 1_A) = beta . eps. The functor laws (1_B)^A = 1_{B^A} and (gamma . beta)^A = gamma^A . beta^A are proved.",
+      "intree": "InternalHomFunctor : C^op ∏ C ⟶ C with fobj (a,b) = b^a and fmap (f,g) = curry (g ∘ eval ∘ second (op f)); at f := id this is curry (g ∘ eval ∘ second id) ≈ curry (g ∘ eval) = g^a (second_id, Structure/Cartesian.v:340). The two functor laws in the fixed-first-argument variable are the generic bifunctor lemmas at F := InternalHomFunctor: bimap_id_id (bimap id id ≈ id, i.e. (1_B)^A = 1_{B^A}) and bimap_comp_id_left, whose in-file comment is literally 'Functoriality of the partial functor F(w, -) in the second variable' (bimap id (f ∘ g) ≈ bimap id f ∘ bimap id g, i.e. (gamma ∘ beta)^A = gamma^A ∘ beta^A).",
+      "strength_comparison": "intree-stronger: the library proves functoriality in BOTH variables at once (a bifunctor C^op ∏ C ⟶ C, contravariant in the exponent as well), whose restriction along {A} × C is exactly Awodey's (-)^A, with his beta^A := (beta ∘ eps)~ recovered on the nose modulo second_id. One packaging caveat, recorded for honesty: no OBJECT of type `C ⟶ C` for fixed A is constructed — the library has no generic 'fix one argument of a bifunctor' combinator (Functor/Hom.v:60 Curried_Hom does this only for the external hom; the `Curry` used in the Structure/Closed.v:189 notation lives inside a commented-out stub and is not defined anywhere). The mathematical content of Prop 6.6 — the action on arrows and both functor laws — is nevertheless fully available as instances of the above."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE 'Curried|Curry\\b' --include=*.v . — only Curried_Hom / Curried_CoHom (Functor/Hom.v:60,142) and FunnyCurry (Construction/Funny/Closed.v:76); no generic bifunctor currying, so no packaged `(-)^A : C ⟶ C` functor object exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on InternalHomFunctor and agreed the content of Prop 6.6 is in-tree. Verified: Functor/Hom/Internal.v:40-45 `Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C` with `fobj := fun p => exponent_obj (fst p) (snd p)` and `fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f))` — quote accurate; at f := id this is Awodey's β^A = (β ∘ ε)-tilde modulo Structure/Cartesian.v:340 second_id. Functor/Bifunctor.v:59-64 `bimap_id_id` and :79-88 `bimap_comp_id_left` exist verbatim, and the :79 comment really does read 'Functoriality of the partial functor F(w, -) in the second variable', so both functor laws are available in the fixed-first-argument variable. File is in _CoqProject (line 140). ONE CORRECTION to the record's negative_search_log, which does not change the classification: the claim that 'the library has no generic fix-one-argument-of-a-bifunctor combinator' is too strong — Cat is cartesian closed (Instance/Cat/Cartesian/Closed.v:45-48 `Cat_Closed`, exponent_obj := @Fun, Cat_Cartesian's product_obj := @Product at Instance/Cat/Cartesian.v:40), and the `to` direction of its exp_iso IS exactly bifunctor currying (its header at :30-34 and Instance/Cat.v:124-126 both say so), so `curry[Cat] (InternalHomFunctor C) : C^op ⟶ [C, C]` evaluated at A packages Awodey's (-)^A : C ⟶ C. That construction is derivable but is nowhere performed or named in-tree, so the record's substantive point (no packaged (-)^A object exists) stands."
+    }
+  },
+  {
+    "id": "awodey:6.2:construction-eta",
+    "classification": "PARTIAL",
+    "aliases": [
+      "eta := (1_{A x B})~ : A -> (A x B)^B, the transpose of the identity",
+      "unit of the product-exponential adjunction (- x B) |- (- ^ B)",
+      "curry id / curry (id[A × B])",
+      "f~ = f^A . eta (transpose computed from the exponentiation functor)",
+      "pairing map a |-> (b |-> (a,b)); the 'return' of the reader/state adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 201,
+        "symbol": "curry_id",
+        "intree_statement": "Theorem curry_id {x y z : C} (f : x ~> y) : curry (@id _ (y × z)) ∘ f ≈ curry (first f)."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 177,
+        "symbol": "curry_comp",
+        "intree_statement": "Corollary curry_comp {x y z w : C} (f : z ~> w) (g : x × y ~> z) : curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 165,
+        "symbol": "curry_comp_l",
+        "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g)."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 34,
+        "symbol": "(header)",
+        "intree_statement": "natural in x, y and z, expressing (- × y) ⊣ (- ^ y). Currying is the left-to-right direction, uncurrying its inverse, and eval is the image of the identity on z^y (the counit of the adjunction)."
+      }
+    ],
+    "statement_record": {
+      "book": "eta := (1_{A x B})~ : A -> (A x B)^B is the transpose of the identity (in Sets, eta(a)(b) = (a,b)); it is the unit of the product/exponential adjunction, and for f : Z x A -> B the transpose can be computed from the exponentiation functor as f~ = f^A . eta, with eta : Z -> (Z x A)^A and f^A : (Z x A)^A -> B^A.",
+      "intree": "The arrow itself occurs only as the anonymous term `curry (@id _ (y × z))` inside Theorem curry_id (line 201), which states its naturality-in-the-source form curry (id[y × z]) ∘ f ≈ curry (first f). The book's computation rule is the g := id instance of Corollary curry_comp (line 177): curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g at g := id[x × y] and z := x × y gives, after id_right, curry f ≈ curry (f ∘ eval) ∘ curry id — exactly f~ = f^A ∘ eta.",
+      "strength_comparison": "intree-stronger on the equation (curry_comp is the general two-arrow substitution law, of which the book's f~ = f^A ∘ eta is the g := id special case), but intree-weaker on the packaging: eta is never named, defined, or identified as an adjunction unit. Contrast the counit, which IS a named in-tree definition (eval := uncurry id, line 75)."
+    },
+    "gap": "Three specific pieces are missing. (1) No named/defined arrow for eta: nothing like `Definition exp_unit {x y} : x ~> (x × y)^y := curry id` exists — `curry (@id _ (y × z))` appears only as an anonymous subterm of curry_id (grep for 'curry id|curry (id|curry (@id' over all *.v returns only Structure/Cartesian/Closed.v:202 plus unrelated `uncurry id` hits). (2) No in-tree lemma stating f~ = f^A ∘ eta in that shape, and in particular nothing identifying the `curry (f ∘ eval)` of curry_comp with `fmap[InternalHomFunctor] (id, f)` (the identification needs second_id + id_right; it is an ≈-rewrite, not definitional). (3) eta is not exhibited as the unit of an adjunction: there is no `Adjunction` instance for (- × y) ⊣ (- ^ y) anywhere in the tree — the `Closed` class carries only the hom-setoid iso exp_iso, and neither of the two functors (- × y) : C ⟶ C, (- ^ y) : C ⟶ C is constructed as a Functor object, so Theory/Adjunction.v's unit ⌊id⌋ is unavailable here. The Sets computation eta(a)(b) = (a,b) is likewise not recorded.",
+    "negative_search_log": [
+      "grep -rnE 'curry id|curry \\(id|curry \\(@id' --include=*.v . — only Structure/Cartesian/Closed.v:202 (inside curry_id); all other hits are `uncurry id` (eval)",
+      "grep -rniE 'eta :=|η :=|unit of the .*adjunction' --include=*.v . — hits in Bicategory/Mates.v, Monad/*/Adjunction.v, Cospan/SCFA.v, Opposite/Monoidal.v; none for the product-exponential adjunction",
+      "grep -rn 'Adjunction' --include=*.v . | grep -iE 'closed|exponent|curry' — 2 hits, both prose in Construction/Funny*.v; no CCC adjunction instance",
+      "grep -rnE 'Instance .*⊣|Definition .*⊣|: .* ⊣ ' --include=*.v . — the in-tree adjunctions are Kleisli/EM, co-Kleisli/coEM, Kan, Diagonal_Product (Adjunction/Diagonal/Product.v:37), GAFT examples, equivalences; none is (- × y) ⊣ (- ^ y)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL, and I independently rediscovered the curry_comp route before reading the record. Verified Structure/Cartesian/Closed.v:177-178 `Corollary curry_comp {x y z w : C} (f : z ~> w) (g : x × y ~> z) : curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g`; type-checking the g := id[x×y], z := x×y instance confirms it is literally Awodey's f-tilde = f^A ∘ η (curry (f ∘ eval) : (x×y)^y ~> w^y is f^y, curry id : x ~> (x×y)^y is η), so the record's 'intree-stronger on the equation' is accurate and not overstated. :165-166 curry_comp_l and :201-202 `Theorem curry_id {x y z : C} (f : x ~> y) : curry (@id _ (y × z)) ∘ f ≈ curry (first f)` verified verbatim; `curry (@id ...)` occurs nowhere else in the tree (I re-ran the literal search for 'curry id' / 'curry (@id' — only :202 plus unrelated `uncurry id` hits at Structure/Monoid.v:318,351 and the eval definitions). I also confirmed the third gap item independently: no Adjunction instance for (- × y) ⊣ (- ^ y) exists — the mentions in Comonad/Duality.v:95 and Instance/Coq/Comonad/Store.v:27-28 are prose only, and neither (- × y) nor (- ^ y) is built as a Functor object. PARTIAL is the honest call for a construction item whose point is to introduce η: the equation is present, the named arrow, its Sets computation η(a)(b) = (a,b), and its identification as an adjunction unit are not."
+    }
+  }
+]

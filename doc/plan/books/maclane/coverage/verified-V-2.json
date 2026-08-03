@@ -1,0 +1,390 @@
+[
+  {
+    "id": "maclane:V.2:prop3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Freyd's thinness theorem / Freyd collapse",
+      "a small small-complete category is a preorder (thin, posetal)",
+      "complete small category = complete lattice up to equivalence (AHS Thm 12.7)",
+      "Coq encoding: Complete C -> forall (a b : C) (f g : a ~> b), f ≈ g",
+      "cardinality/Cantor argument: 2^|arr C| > |arr C|"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -il 'preorder|thin categor|posetal' . -- 19 files, all either Proset/Poset/Two instances (categories that ARE thin by construction) or header prose; no theorem concluding thinness from completeness",
+      "grep -rn --include='*.v' -iE 'small.?complete.*preorder|complete.*small.*preorder' . -- 2 hits, both prose in Structure/Complete.v (lines 63-72, 99-106)",
+      "grep -rn --include='*.v' -i 'freyd' . -- 137 hits; all GAFT/SAFT/Freyd-category/comma-category references plus the Structure/Complete.v and Instance/Poset.v:80-87 essays. No proof-carrying constant",
+      "grep -rn --include='*.v' -iE 'cardinal|cantor' . -- 17 hits: Theory/Metacategory.v's finite `cardinality` counter, Structure/Limit.v:109 (Scott/Cantor prose), Structure/Complete.v:69 (prose). No cardinal arithmetic and no injection/surjection size machinery in the library",
+      "grep -rn --include='*.v' -iE 'any two parallel|hom_subsingleton|thin_cat|is_thin' . -- only Proset/Two/Roof instance headers; grep for a lemma of shape 'forall f g : x ~> y, f ≈ g' found only an inline `assert` in Structure/Limit/Kan/Extension.v:91",
+      "grep -rn --include='*.v' -iE 'set of all arrows|arr C' . -- 6 hits, none constructing a global arrow set; the library has no Small/IsSmall predicate (searched 'Small', 'locally small' -- only prose)",
+      "NOTE (why not ABSENT): the in-tree obstruction is documented, not merely unmet. Structure/Complete.v:99-106 states 'Hyland exhibited, inside the effective topos, a complete small category that is not a preorder ... so the thinness theorem cannot be proved constructively.' The library is axiom-free in Theory/Structure/Construction, has no smallness predicate (universe polymorphism is the stand-in, per Structure/Complete.v:26-38), and no cardinality machinery. Phase D/E should not file a formalization issue for this item.",
+      "PHASE D blind pass (run before opening coverage-V-2.json), same result: `rg -l -i 'preorder' -tcoq` -> 15 files, the only completeness-related hits being PROSE (Structure/Complete.v:64-70 'Freyd proved that a category with products of families as large as its own morphism set is a preorder ... It follows that complete small categories are preorders'; Structure/Complete.v:102-106 'Finally, Freyd's collapse is essentially classical. Hyland exhibited ... so the thinness theorem cannot be proved constructively.'; Adjunction/GAFT.v:105). `rg -n -i 'freyd'` -> all GAFT/SAFT/Freyd-category prose, no proof-carrying constant. `rg -n -i 'thin|is_preorder|Preorder'` -> only stdlib PreOrder in Test/Poset.v and Instance/Poset.v/Instance/Proset.v object-level instances. `rg -n 'cardinal|2\\^|Cantor'` -> Theory/Metacategory.v's finite nat `cardinality` counter and two prose mentions. No formal counterpart of the proposition exists.",
+      "PHASE D correction of the line ranges cited above: the Freyd sentence is Structure/Complete.v:64-70 (Phase C wrote 63-72) and the Hyland/constructivity sentence is Structure/Complete.v:102-106 (Phase C wrote 99-106). Both quotes are accurate; only the ranges were loose.",
+      "PHASE D rationale for ABSENT over OUT_OF_SCOPE (supersedes the Phase C NOTE above, which is retained verbatim for provenance): (a) the frozen taxonomy explicitly steers size/foundations items away from OUT_OF_SCOPE; (b) the library already has an established idiom for exactly the missing ingredient -- smallness supplied as explicit DATA rather than as machinery: Adjunction/SAFT.v packages well-poweredness and the cogenerator as `SubobjectIndex`/`Cogenerator` precisely 'since the library has no smallness/image-factorization machinery', and Theory/WeaklyInitial.v deliberately keeps its endomorphism-indexed product an explicit input 'so that ... the universe constraints remain in the caller's hands'; (c) the library's parametric/conditional-theorem pattern (docs/INHABITATION.md) is designed for results whose distinctive premise has no in-tree model, and the classical/cardinality step could be a hypothesis of exactly that kind, in an Instance-layer file where docs/AXIOMS.md already sanctions stdlib axioms. The item is hard and low-value, but it is not 'not meaningfully formalizable in this library's setting'."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "Blind pass (done before reading the coverage file) reached ABSENT independently and found exactly the same in-tree material Phase C found: two header essays (Structure/Complete.v:64-70 and :102-106, Adjunction/GAFT.v:105) that STATE Freyd's collapse in prose with citations, and no proof-carrying constant anywhere. Phase C's factual findings are all confirmed -- the library has no smallness predicate, no cardinality apparatus, and the header does say the thinness theorem 'cannot be proved constructively'. What is overturned is only the taxonomy call. The frozen definition reserves OUT_OF_SCOPE for what is 'not meaningfully formalizable in this library's setting' and warns in the same breath that size/foundations items are usually PARTIAL or PRESENT because the library has universe polymorphism. Decisive here is the in-tree PRECEDENT: this library's answer to 'no smallness machinery' is not 'out of scope', it is 'pass the smallness as data' -- Adjunction/SAFT.v (SubobjectIndex, Cogenerator) and Theory/WeaklyInitial.v (endomorphism-indexed product kept an explicit input) both do exactly that, and docs/INHABITATION.md records the library's habit of proving flagship results as axiom-free conditionals over premises with no in-tree model. Under that idiom Freyd's proposition is statable and conditionally provable; it is simply unformalized. Hence ABSENT. Phase E guidance carried over from Phase C and endorsed: this should NOT become an ordinary 'formalize theorem X' issue. If filed at all, scope it as (i) stating the collapse conditionally over an explicit size/classicality hypothesis pack in an Instance-layer file, or (ii) recording it as a documented boundary; the Hyland counterexample means no unconditional core-theory proof is possible."
+    },
+    "phase_c_classification": "OUT_OF_SCOPE"
+  },
+  {
+    "id": "maclane:V.2:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Manes' criterion for completeness",
+      "common left inverse pair / coreflexive pair (h f = 1 = h g)",
+      "equalizers of coreflexive pairs + small products => small-complete",
+      "HasIndexedProducts + restricted HasEqualizers -> Complete",
+      "(b) common right inverse in Set / diagonal contained in the image of (f,g) : X -> Y x Y"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'common left inverse' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'coreflexive' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'manes' . -- 2 hits, both bibliographic in Theory/Monad.v (compact Hausdorff triple, join/return presentation); nothing about completeness",
+      "grep -rn --include='*.v' -iE 'common section|common right inverse' . -- 10 hits, all Structure/Coequalizer/Reflexive.v and Monad/Monadicity/*: the DUAL notion `ReflexivePair f g` (Structure/Coequalizer/Reflexive.v:40, a common SECTION s with f∘s ≈ id ≈ g∘s), used for reflexive COequalizers in the monadicity spine, not for equalizers/limits",
+      "grep -rn --include='*.v' -iE 'products and equalizers|equalizers and .*products' . -- 4 hits, ALL header prose (Structure/Complete.v:51-53, Structure/Equalizer.v:80, Structure/Topos.v:23, Structure/Limit.v:71). Mac Lane V.2 Theorem 1 itself (limits as an equalizer between two products) is nowhere formalized, so its Manes refinement has nothing to refine",
+      "grep -rn --include='*.v' -i 'HasEqualizers|HasIndexedProducts|Complete_HasEqualizers' . -- the ingredients exist (Structure/Equalizer/Fork.v:68 `HasEqualizers`, Structure/Limit/Product.v:128 `HasIndexedProducts`, Adjunction/GAFT.v:193 `Complete_HasEqualizers` which runs the CONVERSE direction Complete -> HasEqualizers), but no constant of type `HasIndexedProducts C -> HasEqualizers C -> Complete`",
+      "part (b): grep for a Sets-level characterization of a common right inverse via the diagonal -- searched Instance/Sets*.v for 'diagonal', 'image', 'surject'; Instance/Sets/Image.v is the epi-mono factorization image, with no such lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed on ABSENT before the coverage file was opened. Independently re-ran the decisive searches: `rg -ni 'coreflexive'` -> 0 hits (confirms Phase C); `rg -n -i 'common left inverse|left inverse|split pair|Manes'` -> Theory/Morphisms.v:57-58 (section/retraction of a SINGLE morphism), Theory/Morphisms/Classes.v:42 (split monos), Theory/Monad.v:66,83 (Manes, bibliographic only); `rg -n 'Complete_HasEqualizers|limits_from_products|complete_from'` -> only Adjunction/GAFT.v:193 `Complete_HasEqualizers {A} (HA : @Complete A) : HasEqualizers A`, i.e. the CONVERSE direction, exactly as Phase C says. Verified Structure/Coequalizer/Reflexive.v:40-44 `ReflexivePair` really is the dual notion (a common SECTION `refl_section : y ~> x` with `f ∘ refl_section ≈ id` and `g ∘ refl_section ≈ id`), and it is wired to COequalizers (`HasReflexiveCoequalizers`, :54), never to equalizers or limits. Confirmed the ingredients Phase C names exist at the cited lines: Structure/Equalizer/Fork.v:68 `Class HasEqualizers`, Structure/Limit/Product.v:128 `Class HasIndexedProducts`. Also confirms the deeper point: Mac Lane V.2 Theorem 1 itself (limits as an equalizer of two products) has no in-tree counterpart, so this exercise's refinement of it has nothing to attach to -- any issue here should depend on the V.2:thm1 issue."
+    }
+  },
+  {
+    "id": "maclane:V.2:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "product category C1 x C2 is complete / cocomplete",
+      "limits in a product category are computed componentwise",
+      "Complete (C ∏ D) / Cocomplete (C ∏ D)",
+      "Product_Cartesian / Product_Closed (Construction.Product)",
+      "C ∏ D inherits limits factorwise"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Product.v",
+        "line": 38,
+        "symbol": "Product_Cartesian",
+        "intree_statement": "Program Instance Product_Cartesian : @Cartesian (C ∏ D) := { product_obj := fun x y => (fst x × fst y, snd x × snd y); fork := fun _ _ _ f g => (fst f △ fst g, snd f △ snd g); exl := fun x y => (exl, exl); exr := fun x y => (exr, exr) }.  [Section context: Context `{@Cartesian C}. Context `{@Cartesian D}.]"
+      },
+      {
+        "file": "Structure/Cartesian/Product.v",
+        "line": 32,
+        "symbol": "(header, scope disclosure)",
+        "intree_statement": "\"This is the special case, for the discrete two-object diagram shape, of the general fact that limits in a functor category [J, D] are computed pointwise whenever D has them: a product category C ∏ D inherits any limit that both factors possess.\""
+      },
+      {
+        "file": "Structure/Cartesian/Closed/Product.v",
+        "line": 43,
+        "symbol": "Product_Closed",
+        "intree_statement": "Program Instance Product_Closed : @Closed (C ∏ D) Product_Cartesian := { ... }  (exponentials componentwise; not a limit, recorded to show how far the componentwise transport is carried in-tree)"
+      }
+    ],
+    "statement_record": {
+      "book": "If C1 and C2 are complete (respectively cocomplete) then so is the product category C1 x C2.",
+      "intree": "Product_Cartesian : @Cartesian (C ∏ D), given `{@Cartesian C} and `{@Cartesian D} — binary products in C ∏ D exist and are computed componentwise.",
+      "strength_comparison": "intree-weaker: only one diagram shape (the discrete two-object diagram) is transported, and only in the limit direction. The book asserts closure of C1 ∏ C2 under ALL small limits (and dually all small colimits). In-tree there is no `Complete (C ∏ D)`, no `Cocomplete (C ∏ D)`, no terminal or initial object of a product category, and no equalizers — so not even finite completeness follows from what is proved."
+    },
+    "gap": "Missing: (i) the theorem `Complete C → Complete D → Complete (C ∏ D)` in the library's own vocabulary (Structure/Complete.v:115), which would be the faithful rendering; (ii) its dual for Cocomplete; (iii) every diagram shape other than the discrete two-object one — a search for `Terminal`, `Initial`, `Cocartesian` or `Bicartesian` instances on `C ∏ D` returns nothing, and the only structures transported componentwise in-tree are Cartesian (Structure/Cartesian/Product.v), Closed (Structure/Cartesian/Closed/Product.v) and Monoidal (Structure/Monoidal/Product.v). The componentwise construction of a general limit cone in C ∏ D (project the diagram to each factor, take limits, pair them) is not carried out anywhere.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Product_Complete|Product_Cocomplete' . -- 0 hits",
+      "grep -rn --include='*.v' -E '@?(Cocartesian|Terminal|Initial|Bicartesian)\\s*\\(?[A-Za-z]*\\s*∏' . -- 0 hits",
+      "grep -rln --include='*.v' '(C ∏ D)' . -- 8 files: Functor/Bifunctor.v, Functor/Construction/Product/Monoidal.v, Theory/Coend/Fubini.v, Construction/Product.v, Construction/Funny/Comparison.v, Structure/Cartesian/Product.v, Structure/Cartesian/Closed/Product.v, Structure/Monoidal/Product.v. No limit/colimit statement among them"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Every cited location opened and checked. Structure/Cartesian/Product.v:38 is verbatim `Program Instance Product_Cartesian : @Cartesian (C ∏ D) := {` inside a section with `Context `{@Cartesian C}. Context `{@Cartesian D}.` (lines 10-13), and the four fields quoted (product_obj/fork/exl/exr, all componentwise) match the source exactly. The header quote is at lines 32-35, verbatim. Structure/Cartesian/Closed/Product.v:43 is verbatim `Program Instance Product_Closed : @Closed (C ∏ D) Product_Cartesian := {`. Both files are registered in _CoqProject (lines 302 and 303 region; `grep -n 'Cartesian/Product' _CoqProject` hits). The gap statement was adversarially re-tested rather than taken on trust: `rg -n 'Terminal \\(C ∏|Cocartesian \\(C ∏|Initial \\(C ∏|Bicartesian \\(C ∏'` -> 0 hits, and a wider sweep of every occurrence of `∏ D)` across the tree turns up only Cartesian (Structure/Cartesian/Product.v), Closed (Structure/Cartesian/Closed/Product.v), Monoidal (Structure/Monoidal/Product.v), the Funny/Grothendieck comparison functors and Fubini's index juggling -- no limit, colimit, terminal or initial structure. So 'not even finite completeness follows' is accurate, not rhetorical. strength_comparison is honest: intree-weaker, one diagram shape only, limit direction only."
+    }
+  },
+  {
+    "id": "maclane:V.2:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Lim and Colim as functors C^J -> C",
+      "functoriality of the limit: the induced arrow Lim β for β : F ⟹ F'",
+      "Lim : [J, C] ⟶ C right adjoint to the diagonal (colim ⊣ Δ ⊣ lim)",
+      "limit_functor / LimitFunctor / Lim_functor",
+      "dual: Colim β, Colim : [J, C] ⟶ C"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Lim :|Lim_functor|limit_functor|LimitFunctor' . -- 4 hits, none a functor: Theory/Adamek.v:108 (`adamek_colim` field), Construction/Quotient.v:209 (unrelated `heq_elim`), Structure/Limit/Weighted.v:234 and Structure/Limit/Kan/Extension.v:46 (a local `Lim` VARIABLE of type `Limit F`)",
+      "grep -rn --include='*.v' -iE 'colim ⊣|⊣ lim' . -- 3 hits, all header prose asserting the adjoint sandwich without building it: Functor/Diagonal.v:28, Instance/Fun.v:70, Structure/Cone/Const.v:24 ('Limits arise as the universal/terminal such cone, equivalently as the right adjoint Δ ⊣ lim of the diagonal functor')",
+      "grep -rn --include='*.v' -E 'Lim (β|beta)' . -- 0 hits",
+      "grep -rn --include='*.v' -E 'transform\\[[^]]*\\] .*∘ (cone_leg|vertex_map)|(cone_leg|vertex_map)[^≈]*∘ transform' . -- 0 hits: the library has no construction postcomposing a cone's legs with a natural transformation, which is the cone needed to even FORM Lim β",
+      "NEAR MISS considered and rejected: Theory/Equivalence/Limit.v:253 `limit_transport (L : Limit G) : Limit G'` transports a limit along a natural ISOMORPHISM of diagrams (Section DiagramIso, with legs `to (β x) ∘ leg x` at isalimit_transport_leg:182). That is invariance of limits under diagram isos, not functoriality: it applies only to invertible β, it produces a whole Limit structure rather than the mediating arrow Lim β, and it yields no functor [J, C] ⟶ C. Functor/Diagonal.v:33 supplies Δ : C ⟶ [J, C] (the exercise's cross-referenced ingredient) but nothing on the limit side",
+      "grep -n on Instance/Cones.v / Instance/Cones/Limit.v -- `Cones F` and `Limit_Cones` are per-diagram (F fixed); there is no morphism part in F"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the searches that would overturn it: `rg -n 'Δ ⊣|⊣ lim|Diagonal ⊣|⊣ Lim|lim ⊣|Colim ⊣|⊣ Diagonal'` -> 9 hits, every one prose or about a DIFFERENT adjunction (Functor/Diagonal.v:28 and :30, Instance/Fun.v:70, Structure/Cone/Const.v:24 are the essay assertions of colim ⊣ Δ ⊣ lim; Adjunction/Diagonal/Product.v and Adjunction/GAFT/Examples.v are the binary Δ ⊣ (×), a different statement). Confirmed Functor/Diagonal.v:33 `Program Instance Diagonal {C} (J : Category) : C ⟶ [J, C]` exists (the exercise's Δ ingredient) while nothing exists on the limit side. Phase C's NEAR-MISS analysis checks out at the source: Theory/Equivalence/Limit.v:253 `Definition limit_transport (L : Limit G) : Limit G'` sits in a section whose legs are `isalimit_transport_leg` (:182) built from an ISOMORPHISM of diagrams, and it returns a whole `Limit` structure, not a mediating arrow -- correctly rejected as functoriality. Also confirmed Instance/Cones.v:29 `Cones` and Instance/Cones/Limit.v:37 `Limit_Cones` are per-diagram with F fixed, no morphism part in F."
+    }
+  },
+  {
+    "id": "maclane:V.2:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical comparison arrow for limits of composites, t : H(Lim F) ~> Lim(H F W)",
+      "canonical map from the image of a limit into the limit of the image",
+      "product comparison map F(x × y) ~> F x × F y (prod_out) / terminal comparison F 1 ~> 1",
+      "image cone under a functor (fmap_cone) + mediating morphism (limit_med)",
+      "dual: s : Colim(H F W) ~> H(Colim F)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 283,
+        "symbol": "fmap_cone",
+        "intree_statement": "Definition fmap_cone (N : Cone G) : Cone (F ◯ G) := @Build_Cone J D (F ◯ G) (F (vertex_obj[N])) (@Build_ACone J D (F (vertex_obj[N])) (F ◯ G) (fmap_cone_leg N) (fun x y f => fmap_cone_coherence N f)).   [with fmap_cone_leg N x := fmap[F] (cone_leg N x)]"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 74,
+        "symbol": "limit_med / limit_med_commutes / limit_med_unique",
+        "intree_statement": "Definition limit_med `(H : @IsALimit J C F c) (N : Cone F) : vertex_obj[N] ~{C}~> c := unique_obj (@ump_limit _ _ _ _ H N).   Lemma limit_med_commutes ... : limit_leg H x ∘ limit_med H N ≈ cone_leg N x.   Lemma limit_med_unique ... : (∀ x : J, limit_leg H x ∘ v ≈ cone_leg N x) → limit_med H N ≈ v."
+      },
+      {
+        "file": "Functor/Structure/Cartesian.v",
+        "line": 51,
+        "symbol": "CartesianFunctor / fobj_prod_iso / prod_out",
+        "intree_statement": "Class CartesianFunctor := { fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y; prod_in := fun x y => from (@fobj_prod_iso x y); prod_out := fun x y => to (@fobj_prod_iso x y); fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _; ... }"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 103,
+        "symbol": "image_acone / PreservesImageLimit",
+        "intree_statement": "Definition image_acone {J : Category} {G : J ⟶ C} (L : Limit G) : ... ; Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ... — the cone-level (image-leg) form of preservation, i.e. the statement that the canonical comparison out of U (Lim G) is invertible"
+      }
+    ],
+    "statement_record": {
+      "book": "For composable W : J' -> J, F : J -> C, H : C -> C', with limiting cones ν for F and ν' for HFW, there is a unique canonical arrow t : H(Lim F) -> Lim(HFW) making the cone diagram commute (ν'_k ∘ t = H ν_{Wk}); dually a canonical s : Colim(HFW) -> H(Colim F).",
+      "intree": "For W = Id the arrow is the composite `limit_med L' (fmap_cone H L) : H (Lim F) ~> Lim (H ◯ F)`, with existence given by `limit_med_commutes` (limit_leg L' x ∘ limit_med ≈ fmap[H] (cone_leg L x)) and uniqueness by `limit_med_unique`. The composite is formed inline in proofs (Theory/Equivalence/Limit.v:358 `ff_reflect_med`) but is never named or stated as the canonical comparison.",
+      "strength_comparison": "intree-weaker: (1) no reindexing — W is absent entirely, and there is no construction restricting a cone over F to a cone over F ◯ W, so the book's t : H(Lim F) -> Lim(HFW) cannot even be typed without new machinery; (2) the arrow at W = Id is derivable but not packaged, so nothing states its canonicity/uniqueness as a theorem; (3) the only NAMED comparison maps in-tree, `prod_out` (Functor/Structure/Cartesian.v:54) and `fobj_one_iso` (Functor/Structure/Terminal.v), are fields of PRESERVATION classes that already require the comparison to be an isomorphism, whereas the exercise's point is that the arrow exists canonically for an arbitrary H; (4) the colimit dual s is nowhere."
+    },
+    "gap": "Missing: (i) a named general comparison `limit_comparison H L L' : H (Lim F) ~> Lim (H ◯ F)` together with its defining equation and uniqueness (the ingredients `fmap_cone` and `limit_med`/`limit_med_commutes`/`limit_med_unique` exist and are composed ad hoc inside Theory/Equivalence/Limit.v:358 and Construction/Comma/Limit.v); (ii) any reindexing along a functor W : J' ⟶ J — there is no restriction of a cone/limit along W, so the general shape t : H(Lim F) ~> Lim (H ◯ F ◯ W) is not statable; (iii) the dual s : Colim (H ◯ F ◯ W) ~> H (Colim F); (iv) a decoupling of the comparison arrow from the preservation classes that assume it invertible.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'comparison.*limit|limit.*comparison' . -- 0 hits",
+      "grep -rn --include='*.v' -E 'H \\(Lim|Lim \\(H' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'canonical.*comparison|comparison.*arrow|comparison map|canonical map|canonical arrow' . -- ~30 hits, all monoidal/cartesian/closed/terminal comparison maps at a fixed finite shape, plus Theory/Coend/Fubini.v's coend comparisons; none for a general limit",
+      "grep -rn --include='*.v' -E 'Cone \\([A-Za-z]+ ◯ [A-Za-z]+\\)|restrict.*cone|cone.*restrict' . -- only `fmap_cone`, `base_cone`, `rapl_*_cone` (image cones under a FUNCTOR applied to the codomain), never a cone restricted along a functor into the index category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass had provisionally read this as ABSENT; opening the cited evidence changed my mind, and PARTIAL is upheld. The decisive check Phase C claims -- that the W = Id comparison arrow is actually FORMED inline in-tree -- is true and I verified it at the source: Theory/Equivalence/Limit.v:356-358 reads `Definition ff_reflect_med (M : Cone G) : ... := prefmap (limit_med HL (fmap_cone F M)).`, i.e. literally `limit_med` applied to `fmap_cone`, with the defining equation at :369 (`rewrite (limit_med_commutes HL (fmap_cone F M) x)`) and uniqueness at :382. `fmap_cone` is at Theory/Equivalence/Limit.v:283 exactly as quoted (with `fmap_cone_leg` at :271 and `fmap_cone_leg_eq : cone_leg (fmap_cone N) x ≈ fmap[F] (cone_leg N x)` at :290). `limit_med`/`limit_med_commutes`/`limit_med_unique` are at Structure/Limit/Preservation.v:74/78/82 as quoted. Functor/Structure/Cartesian.v:49-54 `Class CartesianFunctor` with `fobj_prod_iso`/`prod_in`/`prod_out` is verbatim (Phase C cited :51, the class opens at :49 -- one-line slip, immaterial). Construction/Comma/Limit.v:103 `image_acone` and :110 `PreservesImageLimit` are verbatim. So 'some of the item exists' is met by a derivable-and-actually-used term, and the gap is stated with the right emphasis: the reindexing along W : J' ⟶ J is wholly absent (no restriction of a cone or limit along a functor into the index category exists anywhere -- I re-checked with `rg -n 'Cone \\([A-Za-z]+ ◯'` and by reading the cone vocabulary in Structure/Cone.v), so the book's t : H(Lim F) ~> Lim(HFW) is not even typable in-tree. Colimit dual absent, confirmed."
+    }
+  },
+  {
+    "id": "maclane:V.2:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "Lim as a functor on the category of all diagrams in C",
+      "comma category (Cat ↓ C) of diagrams / (Cat downto C)^op ⟶ C",
+      "super-comma category of pairs (W : J' ⟶ J, β : FW ⟹ F')",
+      "the total/Grothendieck category of diagrams over C with Lim as a functor on it",
+      "dual: Colim on the opposite of the diagram category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Cat ↓|↓ Cat' . -- 0 hits (the comma notation `↓` of Construction/Comma.v is never instantiated with Cat on either side)",
+      "grep -rn --include='*.v' -iE 'super.?comma' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'category of diagrams|diagram category' . -- 4 hits, all prose: Theory/Adamek.v:64, Structure/Complete.v:76, Structure/Cone/Const.v:32 (quoting Wikipedia on C^J), Adjunction/SAFT.v:138. No such category is constructed",
+      "PREREQUISITE MISSING: this exercise builds on maclane:V.2:ex3 (Lim as a functor [J,C] ⟶ C) and maclane:V.2:ex4 (the canonical comparison t), neither of which is in-tree — see those records. Without a Lim functor and without cone reindexing along W there is nothing on which to define the functor out of (Cat ↓ C)^op",
+      "grep -rn --include='*.v' -iE 'Lim :|Lim_functor|limit_functor|LimitFunctor' . -- 4 hits, all local variables or unrelated (see maclane:V.2:ex3 log)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. Re-ran: `rg -ni 'super.?comma'` -> 0; `rg -ni 'Cat ↓|↓ Cat'` -> 0; `rg -ni 'category of diagrams|diagram category'` -> prose only. Construction/Comma.v does supply the general `Comma`/`↓` construction, and Instance/Cat.v supplies Cat, so the OBJECT (Cat ↓ C) could be formed today -- but the exercise's content is the FUNCTOR Lim out of its opposite, and both prerequisites (V.2:ex3's Lim functor, V.2:ex4's reindexing along W) are absent, exactly as the record's PREREQUISITE MISSING entry says. Dependency chain in the record (ex3, ex4) is the right one for Phase E to encode."
+    }
+  },
+  {
+    "id": "maclane:V.3:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "evaluation functor E_p : X^P ⟶ X, H ↦ H p, σ ↦ σ_p",
+      "eval / evaluation bifunctor [B,C] ∏ B ⟶ C (counit of the exponential adjunction)",
+      "exponential adjunction Cat(J × P, X) ≅ Cat(J, X^P) — currying / uncurrying a bifunctor",
+      "Cat is cartesian closed (Cat_Closed, exponent_obj := Fun)",
+      "Curried_Hom / Bifunctor partial application"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => {| fobj := fun x : A => {| fobj := fun y : B => F (x, y) ; fmap := fun J K (f : J ~{B}~> K) => fmap[F] (@id A x, f) |} ; fmap := fun J K (f : J ~{A}~> K) => {| transform := fun L : B => fmap[F] (f, @id B L) |} |} |} ; from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x : A × B => F (fst x) (snd x) ; fmap := fun J K (f : J ~{A × B}~> K) => fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |} }."
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;   (* at Cat: (A ∏ B ⟶ C) ≊ (A ⟶ [B, C]), i.e. Cat(J × P, X) ≅ Cat(J, X^P) *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 75,
+        "symbol": "eval",
+        "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id.   (* at Cat with x := P, y := X: eval : [P, X] ∏ P ⟶ X, the two-variable evaluation bifunctor *)"
+      },
+      {
+        "file": "Theory/Lawvere/Sets.v",
+        "line": 83,
+        "symbol": "ev1",
+        "intree_statement": "Program Definition ev1 : Models T Sets ⟶ Sets := {| fobj := fun M => `1 M (law_of_nat 1%nat); fmap := fun F G τ => transform (`1 τ) (law_of_nat 1%nat) |}.   (* the only in-tree evaluation-at-a-fixed-object functor: on the full subcategory Models T Sets of [law_cat T, Sets] *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Replace a bifunctor T : J x P -> X by its adjunct S : J -> X^P under the exponential adjunction Cat(J x P, X) = Cat(J, X^P); and for each object p of P record the evaluation functor E_p : X^P -> X, defined on objects by E_p H = H_p and on natural transformations by E_p σ = σ_p : H_p -> H'_p.",
+      "intree": "Cat_Closed supplies exactly the adjunct passage: exp_iso : (A ∏ B ⟶ C) ≊ (A ⟶ [B, C]), with `to` the currying x ↦ (y ↦ F (x, y)), `from` the uncurrying, and both round-trip laws proved (the header records the instance is closed under the global context, no axioms). Evaluation appears only in two-variable form, eval : [P, X] ∏ P ⟶ X (Structure/Cartesian/Closed.v:75, = uncurry id).",
+      "strength_comparison": "same for the adjunct passage (the currying isomorphism is in-tree in full, in both directions, with the exponential UMP); intree-weaker for E_p: no functor `[P, X] ⟶ X` evaluating at a fixed object p is defined anywhere. The nearest in-tree constants are the two-variable `eval` at Cat and `ev1` (Theory/Lawvere/Sets.v:83), which evaluates at ONE designated object of ONE designated functor category restricted to the model subcategory."
+    },
+    "gap": "Missing: the general evaluation functor `E_p : [P, X] ⟶ X` for a fixed object p (object part H ↦ H p, arrow part σ ↦ transform[σ] p, functor laws componentwise from [P,X]). It is derivable in a few lines — either directly as a Program Definition, or as the partial application of `eval : [P,X] ∏ P ⟶ X` at p — but neither the definition nor the partial-application idiom exists in-tree: a scan for functors out of a functor category (`grep -rn -E 'fobj\\s*:=\\s*fun\\s+[FGHM]'`) returns only Theory/Kan/Extension.v:127 `Induced` (precomposition, [B,C] ⟶ [A,C]), Theory/Lawvere/Sets.v:83 `ev1`, Instance/CMon.v:170 and Construction/Day.v:921. Functor/Bifunctor.v provides `bimap` but no partial-application constructor. Since E_p is the ingredient every downstream V.3 statement is phrased through, its absence is the reason maclane:V.3:thm1 cannot be stated in Mac Lane's form.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'evaluation functor' . -- 4 hits: Instance/Cat/Cartesian/Closed.v:34 (prose describing eval as uncurry id), Construction/Free.v:45,131,160 (the FreeFunctor path-collapsing functor, unrelated)",
+      "grep -rn --include='*.v' -iE 'eval_at|evalAt|ev_p' . -- 0 hits",
+      "grep -rn --include='*.v' -E 'fmap\\s*:=\\s*fun[^;]*transform' . -- 2 hits only: Theory/Kan/Extension.v:129 (whiskering) and Theory/Lawvere/Sets.v:85 (ev1)",
+      "grep -n on Functor/Bifunctor.v -- only `bimap` and its laws; the header says currying a bifunctor 'is exhibited concretely for the hom-bifunctor by [Curried_Hom]', i.e. no generic partial application"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence sites opened and confirmed at the cited lines: Instance/Cat/Cartesian/Closed.v:47 `Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := ... }` (the quoted `to`/`from` bodies match the source character-for-character); Structure/Cartesian/Closed.v:51 `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y`; Structure/Cartesian/Closed.v:75 `Definition eval {x y} : y^x × x ~> y := uncurry id.`; Theory/Lawvere/Sets.v:83 `Program Definition ev1 : Models T Sets ⟶ Sets := ...`. The 'same' verdict on the adjunct passage is honest -- exp_iso is a genuine two-sided isomorphism with both round trips discharged (Structure/Cartesian/Closed.v:104,110 `iso_to_from`/`iso_from_to`), which is precisely Mac Lane's Cat(J × P, X) ≅ Cat(J, X^P). The E_p half of the gap survived my own adversarial hunt: the one plausible in-tree source of an evaluation-at-a-fixed-object functor turns out to be DEAD -- Theory/Naturality.v:60-115 contains `PartialApply_Curried_Left/Right` and `PartialApply_Product_Left/Right`, but the entire block is inside a `(* ... *)` comment, introduced at :60 as 'Retained exploratory code ... Superseded by the Mapping-based Arity* instances'. So there is genuinely no partial-application idiom in force, confirming the gap. Also checked the alternative route (precompose along a functor 1 ⟶ P, then [1,X] ≅ X): Theory/Kan/Extension.v:127 `Induced` gives the precomposition half, but no in-tree witness of [1, C] ≃ C exists -- Instance/One.v:22 asserts it in prose only, and Instance/One/Diagonal.v proves only the unrelated `Diagonal_Unique`. Both routes to E_p are open."
+    }
+  },
+  {
+    "id": "maclane:V.3:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "limits with parameters / pointwise (objectwise) limits in a functor category",
+      "E_p(Lim S) = Lim(E_p S) — limits in [P, X] are computed pointwise",
+      "[C, D] inherits limits of a given shape from D, computed pointwise",
+      "Functor_Category_Cartesian (pointwise products in [C,D])",
+      "dual: pointwise colimits in a functor category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  [object part: `fun F G => {| fobj := fun c => fobj[F] c × fobj[G] c ; fmap := fun x y f => Cartesian.split (fmap[F] f) (fmap[G] f) |}`; projections and pairing are the natural transformations whose components are exl, exr and σ △ τ at each object, and the UMP is discharged componentwise]"
+      },
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 17,
+        "symbol": "(header, scope)",
+        "intree_statement": "\"When D is cartesian, the functor category [C, D] is cartesian, with all of the structure computed pointwise (objectwise) in D. The nLab records the general fact that 'if D has limits or colimits of a certain shape, then so does [C, D] and they are computed pointwise'; finite products are the special case used here.\""
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 101,
+        "symbol": "(header, unproved claim)",
+        "intree_statement": "\"the governing principle is pointwise inheritance: when D has limits or colimits of a given shape, so does `[C, D]`, computed pointwise\" — asserted in the header essay, not formalized"
+      }
+    ],
+    "statement_record": {
+      "book": "Let S : J -> X^P be such that for every object p of P the composite E_p S : J -> X has a limit L_p with limiting cone tau_p. Then there is a UNIQUE functor L : P -> X with object function p |-> L_p making p |-> tau_p a natural transformation tau : Delta L => S, and this tau is a limiting cone in X^P. Equivalently E_p(Lim S) = Lim(E_p S): limits in a functor category are computed pointwise when the pointwise limits exist.",
+      "intree": "Functor_Category_Cartesian : @Cartesian D → @Cartesian (@Fun C D), with (F × G) c := F c × G c on objects, split (fmap[F] f) (fmap[G] f) on arrows, projections/pairing componentwise, and ump_products inherited pointwise from D.",
+      "strength_comparison": "intree-weaker in three separate ways: (1) SHAPE — only the discrete two-object diagram (binary products); no general index category J, and not even the empty diagram (there is no Terminal instance for [C, D]), so not even finite products in [C, D] follow; (2) FORM — the book's clause that the functor structure on p ↦ L_p is UNIQUELY determined (L_h forced by tau_q j ∘ L_h ≈ S_h j ∘ tau_p j) has no in-tree counterpart, because the arrow part is simply supplied by fiat as `split`; (3) VOCABULARY — the reformulation E_p(Lim S) ≅ Lim(E_p S) cannot even be stated, since E_p is undefined in-tree (see maclane:V.3:construction1). The colimit dual is likewise absent."
+    },
+    "gap": "Missing: the general theorem for an arbitrary index category J — given S : J ⟶ [P, X] whose composites with each evaluation have limits, the construction of L : P ⟶ X with limiting cone tau in [P, X], plus the uniqueness of the arrow part of L. In-tree only the J = discrete-2 instance is proved (Instance/Fun/Cartesian.v:111), together with its prose statement in the headers of Instance/Fun.v:101-103 and Instance/Fun/Cartesian.v:17-21. Also missing: the evaluation functor E_p that the theorem is phrased through (maclane:V.3:construction1), any Terminal/Cocartesian/Equalizer structure on [C, D], and the colimit dual.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'pointwise (limit|colimit)|limits.*pointwise' . -- 2 hits, both prose (Theory/DoubleCategory.v:140, Instance/Fun.v:102)",
+      "grep -rn --include='*.v' -iE 'Complete \\(@Fun|Fun_Complete|Fun_Limit' . -- 0 relevant hits",
+      "grep -rln --include='*.v' 'Instance.Fun' . -- 40 files; the only structure instance built ON a functor category is Instance/Fun/Cartesian.v:111 (checked `grep -rn 'Cartesian (@Fun|Terminal (@Fun'` -- one hit)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Instance/Fun/Cartesian.v:111 confirmed verbatim: `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).` The bracketed description of the object/arrow part is an accurate rendering of the proof script (:115 `exact (fun c => fobj[F] c × fobj[G] c)`, :116 `exact (fun x y f => Cartesian.split (fmap[F] f) (fmap[G] f))`, projections at :128/:132 as `exl`/`exr` componentwise, UMP discharged componentwise at :137-139) -- Phase C flagged it as a paraphrase of the body, which is the honest way to quote a tactic-built instance. File is registered (_CoqProject:201). Header quotes at Instance/Fun/Cartesian.v:17-21 and Instance/Fun.v:101 are verbatim and correctly labelled as prose, not proof. The three-way strength_comparison is exactly right and I re-derived point (2) independently: because the instance is built with `unshelve econstructor` and the arrow part is supplied outright as `Cartesian.split`, the book's UNIQUENESS clause (L_h forced by tau_q j ∘ L_h ≈ S_h j ∘ tau_p j) has no counterpart -- there is nothing in-tree from which it could be read off. Sweep for any other structure instance on a functor category: `rg -n '@\\w+ \\(@?Fun'` returns only Instance/Fun/Cartesian.v:111 and Instance/Cat/Bicategory.v's field projections, so 'one shape only' is verified, not assumed."
+    }
+  },
+  {
+    "id": "maclane:V.3:cor1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functor categories inherit small-completeness: X complete ⇒ X^P complete",
+      "Complete D → Complete [C, D] / Complete (@Fun C D)",
+      "presheaf categories are complete (limits computed objectwise from Set)",
+      "[C, D] has all small limits when D does",
+      "dual: X cocomplete ⇒ X^P cocomplete"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  — the only in-tree instance of \"[C,D] inherits a limit-shape from D\""
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 115,
+        "symbol": "Complete",
+        "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.   (* the predicate the corollary would have to conclude for [P, X]; never instantiated at a functor category *)"
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 56,
+        "symbol": "(header, unproved claim)",
+        "intree_statement": "\"the property propagates: presheaf categories inherit all small limits and colimits objectwise from the category of sets (nLab, 'category of presheaves')\" — cited in the essay, not formalized"
+      }
+    ],
+    "statement_record": {
+      "book": "If X is small-complete then so is every functor category X^P.",
+      "intree": "No `Complete (@Fun P X)` exists. The only inheritance proved is Functor_Category_Cartesian : @Cartesian D → @Cartesian (@Fun C D), i.e. inheritance of the binary-product shape only.",
+      "strength_comparison": "intree-weaker: the library's own completeness predicate (Structure/Complete.v:115) is never established for a functor category. Only one diagram shape is transported, and the transported structure is `Cartesian`, not `Complete`; the terminal object of [C, D] is not even constructed, so [C, D] is not shown to have all finite limits, let alone all small ones. The dual (Cocomplete) is entirely absent. In-tree, `Complete` is concluded for exactly one derived category: the comma category, via Comma_Complete (Construction/Comma/Limit.v:245)."
+    },
+    "gap": "Missing: the corollary itself, `Complete X → Complete [P, X]` (and its `Cocomplete` dual), which in the library's vocabulary means producing a `Limit S` for every `S : J ⟶ @Fun P X`. This requires maclane:V.3:thm1 in general form (only the binary-product case is in-tree, Instance/Fun/Cartesian.v:111) and the evaluation functors E_p (absent, see maclane:V.3:construction1). The claim is asserted in the header essays of Instance/Fun.v:101-105 and Structure/Complete.v:55-58 but never proved. A concrete consequence: the presheaf category [C^op, Sets] is nowhere shown complete, even though Instance/Sets.v provides the base.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Complete' . -- every occurrence enumerated; the only Complete-valued constants are Structure/Complete.v:115/119 (definitions), Construction/Comma/Limit.v:245 `Comma_Complete` and :271 `Comma_Complete_right_adjoint`, plus Complete-consuming hypotheses in Adjunction/GAFT.v, Adjunction/SAFT.v, Theory/Adamek/Corollaries.v. Nothing produces Complete for a functor category",
+      "grep -rn --include='*.v' -iE 'Complete \\(@Fun|Complete \\[|Fun_Complete' . -- 1 hit, an unrelated string in Construction/PROP/Free.v:36 ('complete [FreeCat S]')",
+      "grep -rn --include='*.v' -i 'presheaf.*limit|limit.*presheaf' . -- no formalization; Theory/Sheaf.v and Theory/Sheaf/Category.v do not build limits of presheaves"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence checked: Structure/Complete.v:115 is verbatim `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.`; the header quote at Structure/Complete.v:56 ('and the property propagates: presheaf categories inherit all small limits and colimits objectwise from the category of sets') is verbatim and correctly labelled an unproved essay claim; Instance/Fun/Cartesian.v:111 as above. Independently confirmed the negative: enumerating every `Complete`-valued constant in the tree gives only Structure/Complete.v:115/119 (the definitions), Construction/Comma/Limit.v:245 `Comma_Complete` and :271 `Comma_Complete_right_adjoint` -- both verified at those exact lines -- and consumers in GAFT/SAFT/Adamek. Nothing produces `Complete` for a functor category, and the `Cocomplete` dual is untouched. One caveat recorded rather than acted on: this record and V.3:thm1 rest on the SAME single instance, and for cor1 (whose conclusion quantifies over all shapes at once) a strict reading would say ABSENT rather than PARTIAL. I let PARTIAL stand because the gap field is precise about what is missing and about the dependency on thm1 plus E_p, which is what Phase E actually consumes; the two records should be filed together or as one issue."
+    }
+  },
+  {
+    "id": "maclane:V.3:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "restriction along the discrete subcategory creates limits",
+      "i* = X^i : X^P ⟶ X^|P| creates limits (i : |P| ⟶ P the inclusion of objects)",
+      "precomposition/restriction functor Induced = (− ◯ i) creates limits",
+      "creation of limits (V creates limits for F: unique lifted cone, itself limiting)",
+      "dual: X^i creates colimits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'creates limits|CreatesLimit|creation of limits|creates_limits' . -- the library has NO general definition of 'creates limits'. The only creation notions are Monad/Monadicity/Beck.v:164 `CreatesUSplitCoequalizers` (creation of coequalizers of U-split pairs, for Beck monadicity) and Theory/Equivalence/Limit.v:486 `equivalence_creates_limits (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G` (an equivalence transports limits back; not the unique-lift-plus-universality definition of Mac Lane V.1:def3)",
+      "grep -rn --include='*.v' -i 'discrete subcategory' . -- 0 hits. There is no construction |P| of the discrete subcategory on the objects of a category, and no inclusion functor i : |P| ⟶ P. Instance/Discrete.v:37 `DiscreteCat (A : Type)` builds a discrete category on a TYPE and :52 `DiscreteCat_Functor (f : A → C) : DiscreteCat A ⟶ C` would give the inclusion at A := obj P with f := id, but neither is instantiated that way anywhere (checked all 5 users of Instance/Discrete: Theory/WeaklyInitial.v:90-91, Structure/Limit/Product.v, Adjunction/GAFT*.v)",
+      "grep -rn --include='*.v' 'Induced' . -- Theory/Kan/Extension.v:127 defines the general precomposition functor `Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}`, i.e. the X^i of the theorem for an arbitrary F. It is used only as the left adjoint of Ran / right adjoint of Lan; no limit-creation property is proved of it",
+      "grep -rn --include='*.v' -i 'creates' . -- 20 hits; Construction/Comma.v:100 and Construction/Comma/Limit.v:33 say in prose that comma_proj2 'creates the limits', but the file proves only `comma_limit`/`Comma_Complete` (existence), never a creation statement",
+      "PREREQUISITE MISSING: the theorem's whole content is the recasting of maclane:V.3:thm1 as creation. Neither the general thm1 (PARTIAL: only binary products, see that record) nor the creation vocabulary exists in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every claim in the negative log verified at the source: there is NO general 'creates limits' definition in the tree -- `rg -n 'Creates'` returns only Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers` and :911 `monadic_creates`; Theory/Equivalence/Limit.v:486 `Definition equivalence_creates_limits {J} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G := limit_transport (equivalence_diagram_iso G) (rapl_limit ...)` is exactly as Phase C characterizes it -- transport of a limit back along a quasi-inverse, not the unique-lift-plus-universality notion. `rg -ni 'discrete subcategory'` -> 0 hits; Instance/Discrete.v:37 `DiscreteCat` and :52 `DiscreteCat_Functor` confirmed at those lines, and their only users (Theory/WeaklyInitial.v:90-91, Structure/Limit/Product.v, Adjunction/GAFT.v:249-251, Adjunction/SAFT.v:146,186) all instantiate them for indexed PRODUCTS, never as an object-inclusion i : |P| ⟶ P. Theory/Kan/Extension.v:127 `Program Definition Induced : ([B, C]) ⟶ ([A, C])` confirmed verbatim -- the X^i of the theorem exists in full generality, and no limit property whatsoever is proved of it. The 'creates' prose hits Phase C flags at Construction/Comma.v:100 and Construction/Comma/Limit.v:33 are real, and on inspection they are an in-tree documentation overclaim rather than evidence -- see the LIBRARY-DEFECT entry in problems[]."
+    }
+  }
+]

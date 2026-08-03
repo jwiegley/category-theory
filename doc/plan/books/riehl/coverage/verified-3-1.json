@@ -1,0 +1,511 @@
+[
+  {
+    "id": "riehl:3.1:eq17",
+    "classification": "PARTIAL",
+    "aliases": [
+      "fiber of a morphism over a point",
+      "fibre / preimage f^{-1}(a)",
+      "pullback along a global element 1 ~> A",
+      "fibered product B ×_A 1",
+      "Pullback / Pull / ump_pullbacks (library naming)",
+      "generalized element, point of an object"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 52,
+        "symbol": "char_pullback",
+        "intree_statement": "char_pullback {u x : C} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one  (* with truth : 1 ~> Ω, so u is the pullback of a GLOBAL ELEMENT along char m — literally the fiber of char m over \"true\" *)"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback / ump_pullbacks",
+        "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with a terminal object *, the pullback of f : B -> A along a global element a : * -> A is written B_a and is called the fiber of f over a.",
+      "intree": "Record Pullback ... ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2; and char_pullback : IsPullback (char m M) truth u m one with truth : 1 ~> Ω",
+      "strength_comparison": "intree-weaker: the general pullback (and both apex-pinned and bundled presentations, plus HasPullbacks and Terminal) is fully in force, and the tree even USES the pullback of a global element (char_pullback pulls back truth : 1 ~> Ω), but nothing in the tree defines or names the special case 'fiber of f over a point a : 1 ~> A', gives it notation, or proves anything about it as such."
+    },
+    "gap": "The library has no definition, notation, or lemma for the fiber B_a of f : B ~> A over a global element a : 1 ~> A. A user must instantiate the generic Pullback/HasPullbacks at the cospan (f, a) by hand; no in-tree constant abbreviates that, and no property of fibers (e.g. that fibers of a mono are subobjects) is stated in fiber vocabulary. The nearest in-tree use of the construction is the classifying square char_pullback, which pulls back the global element truth : 1 ~> Ω.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"\\bfib(er|re)\" . — 60+ hits, ALL of them fibration/fibred-category or 'fibre of an indexed category' usages (Theory/Fibration.v, Theory/Displayed.v, Construction/Indexed.v, Construction/Grothendieck*.v); no 'fiber of a morphism over a point'",
+      "grep -rn --include=\"*.v\" -iE \"global.element|generalized.element|preimage|inverse image\" . — 'global element' occurs only in Tools/Represented.v, Tools/Abstraction.v and Functor/Structure/Constant.v headers (as 1 ~> repr), never combined with a pullback; 'preimage' is always the fullness/eso chosen-preimage of Theory/Functor.v and Theory/Equivalence*.v",
+      "grep -rn --include=\"*.v\" -E \"pullback.*(one|terminal|Terminal)|(one|terminal).*pullback\" . — only SubobjectClassifier.v/Instance/Sets/Classifier.v (truth : 1 ~> Ω) and generic 'one cospan' prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Cited evidence re-read and exact: Structure/Pullback.v:161 is `Record Pullback ... ump_pullbacks`, Structure/SubobjectClassifier.v:52 is `char_pullback ... : IsPullback (char m M) truth u m one` with `truth : 1 ~> Ω` at line 46 — a genuine in-tree pullback along a global element. Both files are registered in _CoqProject. My own searches (rg -il 'fiber|fibre' → 21 files, ALL fibration/displayed/Grothendieck; rg 'global element' → Tools/Represented.v, Tools/Abstraction.v, Functor/Structure/Constant.v, Structure/Constant.v, Structure/Terminal.v) found no fiber-over-a-point notion, confirming ABSENT-of-the-name. One small correction to negative_search_log item 2: 'global element' ALSO appears in Structure/Constant.v:10,12,15,20 (the `constant : 1 ~> constant_obj x` family) and Structure/Terminal.v:60,68,71, not only in the three files listed; this widens the global-element vocabulary but changes nothing, since none of those combine it with a pullback. strength_comparison is honest."
+    }
+  },
+  {
+    "id": "riehl:3.1:example18",
+    "classification": "ABSENT",
+    "aliases": [
+      "fiber of the exponential covering map R -> S^1",
+      "covering space / covering map fiber",
+      "discrete fiber Z inside R",
+      "Top, category of topological spaces",
+      "quotient map t |-> e^{2 pi i t}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -icE \"topological space|Instance.*Top\\b|category of spaces|continuous map\" . — 0 hits; there is no category of topological spaces in the tree",
+      "grep -rn --include=\"*.v\" -iE \"circle|torus|covering map|quotient map|figure eight|wedge of\" . — only Theory/Multicategory.v's 'circle-i composition' and Theory/Algebra/CommutativeFrobenius.v's 2Cob prose; no space, no S^1, no R",
+      "ls Instance | grep -iE \"ab|grp|ring|mod|top\" — no hits; concrete instances are Sets, Coq, Cat, Fun, FinSet, CMon, Rel, Poset, Proset, Two, Lambda, ZX, Omega, Zero, One, Props, Roof, Shapes, StrictCat, Ens, Discrete, Parallel",
+      "grep -rn --include=\"*.v\" -iE \"\\bfib(er|re)\" . — no 'fiber of a map of spaces' anywhere (all hits are fibred-category usages)",
+      "NOTE: the follow-on prose of this example ('the pullback of a monomorphism along any map is a monomorphism') IS in-tree as Theory/Morphisms/Stability.v:226 monic_pullback_stable, but the book itself defers that claim to Exercise 3.1.v, which the inventory files as the separate item riehl:3.1:exv; the content OF Example 3.1.18 — a concrete computation in Top — has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the decisive negatives: `ls Instance/*.v` gives Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no Top, no metric/topological structure anywhere; rg -i 'topological space|continuous map' → 0 hits. No R, no S^1, no covering map. The classifier's NOTE correctly separates the follow-on prose (pullback-stability of monos, in-tree at Theory/Morphisms/Stability.v) from this example's Top content, and correctly assigns that content to the distinct item riehl:3.1:exv."
+    }
+  },
+  {
+    "id": "riehl:3.1:example19",
+    "classification": "ABSENT",
+    "aliases": [
+      "pullback of multiplication maps in Ab computes the lcm",
+      "category of abelian groups Ab, Z-modules",
+      "Z represents the forgetful functor U : Ab -> Set",
+      "least common multiple / gcd via a pullback square",
+      "kernel pair / fiber product of Z -m-> Z <-n- Z"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"abelian group|AbGrp|\\bAb\\b|R-Mod\" . — only prose mentions (Theory/Adjunction.v header on tensor-hom for abelian groups, Structure/Complete.v header listing 'Set, Top, Grp, Ab'); no Ab category instance",
+      "grep -rn --include=\"*.v\" -E \"Instance/(Ab|Grp|Ring|Mod)\" . — 0 hits; ls Instance shows no Ab/Grp/Ring/Mod file",
+      "grep -rn --include=\"*.v\" -iE \"\\blcm\\b|least common multiple|\\bgcd\\b|Nat.lcm\" . — 0 hits",
+      "grep -n ... Instance/CMon.v — the only algebraic instance is CMon (commutative monoids over setoids, CMonObject/CMonHom/CMon/CMon_Forget); it has no Z object, no representability statement, and no pullbacks",
+      "Structure/Group.v defines GroupObject (a group OBJECT internal to a monoidal category), not the category of groups; grep 'category of groups' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Confirmed there is no category of abelian groups: the only algebraic concrete instance is Instance/CMon.v (commutative monoids over setoids); Structure/Group.v defines GroupObject, a group OBJECT internal to a cartesian monoidal category, not Grp/Ab. rg -i 'lcm|least common multiple|gcd' → 0 hits. Nothing to compute the pullback of Z -m-> Z <-n- Z in."
+    }
+  },
+  {
+    "id": "riehl:3.1:def21",
+    "classification": "PARTIAL",
+    "aliases": [
+      "inverse limit / projective limit / lim_<-",
+      "limit of a tower indexed by omega^op",
+      "Omega^op-indexed diagram, cochain, sequential/tower diagram",
+      "limit over a limit ordinal alpha^op",
+      "terminal cone over an omega^op diagram, (omega+1)^op extension"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit / ump_limits",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }  (* terminal cone, at an ARBITRARY shape J, hence at J := Omega^op *)"
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality@{o h p}; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}  (* the ordinal ω as a thin category; Omega^op is the tower shape *)"
+      },
+      {
+        "file": "Construction/Chain.v",
+        "line": 78,
+        "symbol": "Cochain",
+        "intree_statement": "Definition Cochain {C : Category} `{@Terminal C} (F : C ⟶ C) : Omega^op ⟶ C := (@Chain (C^op) _ (F^op))^op  (* a concrete ω^op-indexed tower ... ~> F² 1 ~> F 1 ~> 1 in C *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The limit of a diagram indexed by omega^op is called an inverse limit lim_<- F_n; an omega^op-diagram is a tower ... -> F_2 -> F_1 -> F_0, a cone over it extends the data to shape (omega+1)^op, and the inverse limit is the terminal such cone. The same applies for any limit ordinal alpha.",
+      "intree": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ... }, together with Omega : Category (nat with le_t) and Cochain F : Omega^op ⟶ C",
+      "strength_comparison": "intree-weaker: the terminal-cone definition of a limit is in force at an arbitrary shape, so it specializes to J := Omega^op, and both the shape (Omega, and Omega^op via Construction/Opposite) and a concrete ω^op tower (Cochain) exist — but no in-tree constant is named 'inverse limit', nothing in the tree ever forms a limit of an Omega^op-indexed diagram, and nothing generalizes the shape to an arbitrary limit ordinal."
+    },
+    "gap": "Missing: (a) any named notion of inverse limit (lim_<-) or any lemma/theorem about limits of Omega^op-shaped diagrams — grep shows Omega is used ONLY on the colimit side, by Construction/Chain.v and Theory/Adamek.v, and no in-tree statement ever writes `Limit (Cochain F)` or `Limit (F : Omega^op ⟶ C)`; (b) the book's (omega+1)^op packaging of a cone as 'a new object all the way to the left' (the library uses its generic Cone, which is equivalent but not identified with an (omega+1)^op-diagram in-tree); (c) the generalization to an arbitrary limit ordinal alpha — Instance/Omega.v is nat-indexed only, with no ordinal machinery; (d) any concrete inverse limit whatsoever.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"inverse limit|projective limit|sequential (co)?limit|direct limit|\\btower\\b|omega\\^op\" . — 'inverse limit'/'projective limit' occur ONLY in the Structure/Limit.v header essay (comments); 'tower' hits are all unrelated ('the Solver reflective tower', 'the monoidal tower')",
+      "grep -rn --include=\"*.v\" -E \"Omega\" . — outside Instance/Omega.v, the ONLY users are Construction/Chain.v (Chain : Omega ⟶ C, Cochain : Omega^op ⟶ C), Theory/Adamek.v and Theory/Adamek/Corollaries.v, all of which take a COLIMIT of Chain, never a limit"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same three ingredients. All citations exact: Structure/Limit.v:113 `Class Limit`; Instance/Omega.v:72 `Program Definition Omega@{o h p}` (obj := nat, hom := le_t); Construction/Chain.v:78 `Definition Cochain ... : Omega^op ⟶ C`. Strengthening datum the classifier did not state, which makes the gap sharper rather than weaker: `Cochain` — the ONLY ω^op-shaped diagram in the tree — is defined in Construction/Chain.v and used NOWHERE (rg -l Cochain → Construction/Chain.v only), so no in-tree statement ever takes a limit over Omega^op. Minor correction to negative_search_log item 2: Construction/FAlg.v:75 also names Instance/Omega.v, but only in a header comment, so the substantive claim (Chain.v, Adamek.v, Adamek/Corollaries.v are the only consumers, all on the colimit side) stands."
+    }
+  },
+  {
+    "id": "riehl:3.1:example22",
+    "classification": "ABSENT",
+    "aliases": [
+      "p-adic integers Z_p as an inverse limit",
+      "lim_<- Z/p^n with the canonical quotient maps",
+      "profinite completion / profinite ring",
+      "category of rings, Z/p^n",
+      "tower of quotient rings"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"p-adic|padic|p_adic|Z/p|profinite\" . — the ONLY hits are Structure/Limit.v lines 51-55, which are header-essay COMMENTS ('the p-adic integers arise as the inverse limit of the rings Z/pⁿZ ... profinite groups ... are inverse limits of finite groups'); no assertion, no construction",
+      "ls Instance | grep -iE \"ring|ab|grp|mod\" — 0 hits; there is no category of rings in the tree",
+      "grep -rn --include=\"*.v\" -iE \"inverse limit\" . — comments only (see above)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified that the only 'p-adic' occurrence in the tree is the Structure/Limit.v header essay (around lines 51-55: 'the p-adic integers arise as the inverse limit of the rings Z/pⁿZ'), which is motivational prose in a comment, not a construction. No category of rings exists in Instance/."
+    }
+  },
+  {
+    "id": "riehl:3.1:def23",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coproduct as colimit of a discrete diagram; coproduct inclusions iota_k",
+      "initial object as colimit of the empty diagram",
+      "coequalizer as colimit over the parallel pair; cofork",
+      "pushout as colimit of a span; cocartesian square",
+      "sequential colimit / direct limit / colim F_n over omega",
+      "library names: Cocartesian/Coprod/inl/inr/merge, Initial, Coequalizer/IsCoequalizer, IsPushout/pushout_ump, Chain/Colimit"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C  (* clause (i), binary, dual at C^op: coproducts are the discrete-shape (co)limits *)"
+      },
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C  (* clause (ii): at C^op this reads Colimit F ↔ Initial C, since Colimit F := Limit (F^op) and Initial C := Terminal (C^op) *)"
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 226,
+        "symbol": "coequalizer_is_coequalizer",
+        "intree_statement": "Definition coequalizer_is_coequalizer (L : Coequalizer (APair f g)) : IsCoequalizer f g (colimit_apex L) (colimit_inj (colimit_is_acolimit L) ParY)  (* clause (iii); converse is is_coequalizer_colimit at line 275, and IsCoequalizer at line 52 is the cofork UMP: cofork : e ∘ f ≈ e ∘ g; coeq_desc {z} (h : y ~> z) (Hh : h ∘ f ≈ h ∘ g) : ∃! u : q ~> z, u ∘ e ≈ h *)"
+      },
+      {
+        "file": "Structure/Pushout.v",
+        "line": 72,
+        "symbol": "pushout_ump",
+        "intree_statement": "Lemma pushout_ump {x y z : C} {f : x ~> y} {g : x ~> z} (P : IsPushout f g) (Q : C) (q1 : y ~> Q) (q2 : z ~> Q) (Hcomm : q1 ∘ f ≈ q2 ∘ g) : ∃! u : pushout_apex P ~> Q, u ∘ pushout_in1 P ≈ q1 ∧ u ∘ pushout_in2 P ≈ q2  (* clause (iv) *)"
+      },
+      {
+        "file": "Construction/Chain.v",
+        "line": 64,
+        "symbol": "Chain",
+        "intree_statement": "Program Definition Chain : Omega ⟶ C := {| fobj := chain_obj; fmap := fun _ _ p => chain_hom p |}  (* clause (v): an ω-indexed sequence 0 ~> F 0 ~> F² 0 ~> ...; Theory/Adamek.v consumes `Colimit (Chain F)` to build the initial algebra *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Dualizing five earlier definitions: (i) a coproduct is the colimit of a family indexed by a discrete category, its legs being the inclusions iota_k; (ii) an initial object is the colimit of the empty diagram; (iii) a coequalizer is the colimit over the parallel-pair shape, the universal h with h.f = h.g; (iv) a pushout is the colimit of a span; (v) the colimit of an omega-indexed sequence is a sequential colimit / direct limit.",
+      "intree": "Cartesian_Limit : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C; Terminal_Limit (F : 0 ⟶ C) : Limit F ↔ @Terminal C; coequalizer_is_coequalizer / is_coequalizer_colimit (Colimit over Parallel ⟺ the cofork UMP); pushout_ump; Chain : Omega ⟶ C with Colimit (Chain F)",
+      "strength_comparison": "intree-weaker on clause (i) only: clauses (ii)-(v) are present at full strength (the tree's Colimit F := Limit (F^op) with Cocone F := Cone (F^op) and covariant accessors colimit_inj/colimit_med/colimit_med_unique in Structure/Limit/Preservation.v makes every dual statement definitional), but the coproduct clause is available only for a TWO-object discrete shape (via Cartesian_Limit / Cocartesian), whereas the product side has an arbitrary-index version (Structure/Limit/Product.v's limit_is_indexed_product over DiscreteCat A)."
+    },
+    "gap": "Clause (i) is only binary. Structure/Limit/Product.v supplies indexed PRODUCTS as limits over DiscreteCat A (iprod, iprod_proj, iprod_ump, limit_is_indexed_product, HasIndexedProducts) for an arbitrary index Type A, but there is NO dual: grep for icoprod / IsIndexedCoproduct / indexed_coproduct / HasIndexedCoproducts returns 0 hits, so an I-indexed coproduct-as-colimit-of-a-discrete-diagram does not exist in-tree; the only coproduct is the binary Cocartesian C := Cartesian (C^op) with inl/inr/merge. Also absent: the book's observation that the coproduct inclusions need not be monomorphisms (deferred by Riehl to Exercise 3.1.ix), and any statement that the colimit shapes are the opposites of the corresponding limit shapes.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"icoprod|IsIndexedCoproduct|indexed_coproduct|HasIndexedCoproducts|Cocartesian_Colimit|Initial_Colimit\" . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, and located the same clause-by-clause split. All five citations re-read at the cited lines and exact: Structure/Limit/Cartesian.v:39 `Theorem Cartesian_Limit`; Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit`; Structure/Coequalizer.v:226 `Definition coequalizer_is_coequalizer` (converse `is_coequalizer_colimit` confirmed at line 276, one line off the record's 275 — harmless, it is the `Definition` line under its comment); Structure/Pushout.v:72 `Lemma pushout_ump`; Construction/Chain.v:64 `Program Definition Chain : Omega ⟶ C`. Clause (iii) is even stronger than cited: Structure/Equalizer.v:126 has `Definition Coequalizer {C} (F : Parallel ⟶ C) := Colimit F` outright. Clause (iv) has an uncited but real colimit-of-a-span leg: Structure/Pullback/Limit.v proves pullback = limit of a cospan (Pullback_to_Universal / Pullback_from_Universal), and IsPushout := Pullback in C^op, so the pushout-as-colimit reading is definitional. Two caveats on the phrase 'clauses (ii)-(v) at full strength': (a) clause (ii) read at C^op needs 0^op to be the empty category again — true here since Instance/Zero.v's _0 has obj := Empty_set, hom := fun _ _ => Empty_set, homset := Morphism_equality, all self-dual, but it is an unstated conversion rather than a theorem; (b) clause (v) has no in-tree name for 'sequential colimit'/'direct limit', the same naming absence for which def21 was docked — the asymmetry is nonetheless justified, because on the colimit side an actual `Colimit (Chain F)` IS formed (Theory/Adamek.v) whereas no `Limit` over Omega^op ever is. The gap statement about clause (i) is accurate: rg for icoprod/IsIndexedCoproduct/indexed_coproduct/HasIndexedCoproducts → 0 hits, confirmed."
+    }
+  },
+  {
+    "id": "riehl:3.1:example24",
+    "classification": "ABSENT",
+    "aliases": [
+      "wedge of circles S^1 v S^1 as a pushout in Top",
+      "figure eight, based spaces, coproduct in Top_*",
+      "torus as a pushout along the commutator attaching map",
+      "attaching a 2-cell / CW structure on the torus",
+      "category of topological spaces"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -icE \"topological space|Instance.*Top\\b|category of spaces|continuous map\" . — 0 hits",
+      "grep -rn --include=\"*.v\" -iE \"circle|torus|wedge of|figure eight|attaching map|CW complex\" . — no hits naming any space; Structure/Wedge.v is the (co)end wedge/dinaturality notion, unrelated to a topological wedge sum",
+      "grep -rn --include=\"*.v\" -iE \"based space|pointed space|commutator\" . — 0 hits",
+      "The generic pushout machinery exists (Structure/Pushout.v pushout_ump, Instance/Sets/Pushout.v, Instance/FinSet/Pushout.v) but there is no space in the tree to apply it to; this example's content is entirely the Top computation."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. No Top, no pointed spaces, no circle/disk/torus anywhere. The classifier's disambiguation is correct and worth keeping: Structure/Wedge.v is the (co)end wedge/dinaturality notion and has nothing to do with a topological wedge sum. Generic pushout machinery exists (Structure/Pushout.v, Instance/Sets/Pushout.v, Instance/FinSet/Pushout.v) but has no space to be applied to."
+    }
+  },
+  {
+    "id": "riehl:3.1:example25",
+    "classification": "PARTIAL",
+    "aliases": [
+      "cokernel as the coequalizer of (phi, 0)",
+      "quotient by the normal closure of the image",
+      "IsCokernel / HasCokernels / cokernel_desc",
+      "trivial homomorphism, zero morphism zero_mor",
+      "category of groups Group / Grp"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 132,
+        "symbol": "cokernel_desc",
+        "intree_statement": "Lemma cokernel_desc {x y q : C} {f : x ~> y} {e : y ~> q} (K : IsCokernel f e) {z : C} (h : y ~> z) (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h  (* the cokernel's universal property, derived from coeq_desc against the zero morphism *)"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 58,
+        "symbol": "IsCokernel",
+        "intree_statement": "Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e  (* in a category with a zero object: the cokernel IS the coequalizer of f against the trivial morphism *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The coequalizer of a group homomorphism phi : G -> H with the trivial homomorphism e : G -> H is the cokernel: the quotient of H by the normal subgroup generated by the image of phi.",
+      "intree": "Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e; Lemma cokernel_desc ... (Hh : h ∘ f ≈ zero_mor) : ∃! u : q ~> z, u ∘ e ≈ h",
+      "strength_comparison": "intree-stronger in generality, intree-weaker in concreteness: the identification cokernel = coequalizer-against-the-zero-morphism is in force for ANY category with a zero object (not just Group), with the full API — cokernel_comp_zero, cokernel_epic (Structure/Kernel.v:106, from coequalizer_epic), cokernel_desc, normal_epi, cokernel_regular_epi, normal_epi_cokernel_of_kernel — but the book's concrete content, that in Group this quotient is H modulo the normal closure of im phi, has no in-tree counterpart because there is no category of groups."
+    },
+    "gap": "The concrete half is missing: there is no category of groups in the tree (Structure/Group.v defines a group OBJECT internal to a monoidal category, not Grp; `ls Instance` has no Grp/Ab), so the cokernel is never computed as H/⟨⟨im phi⟩⟩ and no concrete instance of HasCokernels is constructed anywhere. Only the abstract zero-object-level identification and its consequences are in-tree.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"category of groups|Grp|Group_Category\" . — only Construction/Groupoid.v's 'the inclusion Grpd ↪ Cat' and Structure/Complete.v's header list; no Grp instance",
+      "grep -rn --include=\"*.v\" -iE \"normal subgroup|normal closure|quotient group\" . — 0 hits (Structure/Kernel.v's normal_mono/normal_epi are the categorical 'arises as a (co)kernel' predicates, not subgroup notions)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on exactly the same ground. Citations exact: Structure/Kernel.v:58 `Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e`, Structure/Kernel.v:132 `Lemma cokernel_desc`. The supporting API the strength_comparison names all exists as claimed: cokernel_epic at line 106, normal_epi at 151, cokernel_regular_epi at 160, normal_epi_cokernel_of_kernel at 234. The concrete Group half is genuinely absent: no Grp instance, and rg -i 'normal subgroup|normal closure|quotient group' → 0 hits. Classification stands."
+    }
+  },
+  {
+    "id": "riehl:3.1:example26",
+    "classification": "ABSENT",
+    "aliases": [
+      "sequential colimit of sets and inclusions is the union",
+      "colim X_n = union over n of X_n; directed/filtered colimit in Set",
+      "omega-indexed colimit in Sets, Colimit (F : Omega ⟶ Sets)",
+      "CW complex as the colimit of its n-skeleta",
+      "increasing chain / direct limit of a nested family"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"Colimit|HasColimits|Cocomplete\" Instance/ — 0 hits: no colimit of any shape is computed in ANY concrete instance category (Instance/Sets/Pushout.v builds a pushout via its elementary UMP, Instance/Sets/Coend.v a coend, neither via Colimit and neither ω-indexed)",
+      "grep -rn --include=\"*.v\" -iE \"filtered|directed colimit|directed system|ind-object\" . — 0 relevant hits (the single 'filtered' hit is 'the filtered stream' in Comonad/CoKleisli.v prose)",
+      "grep -rn --include=\"*.v\" -iE \"\\bunion\\b\" . — only 'disjoint union' (coproduct) prose and Instance/FinSet/Pushout.v's union-find algorithm; no union-as-colimit statement",
+      "grep -rn --include=\"*.v\" -iE \"CW complex|n-skeleton|skeleta|cell attach|attaching map\" . — 0 hits (all 'skeletal' hits concern skeletal CATEGORIES, e.g. FinSet)",
+      "grep -rn --include=\"*.v\" -iE \"sequential\" . — no sequential-colimit hits; all are 'sequential composition' in the monad/PROP files"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the load-bearing negative myself: `rg -n 'Colimit|HasColimits|Cocomplete' Instance/` → 0 hits, so no colimit of any shape is computed in any concrete instance category; the closest constructions (Instance/Sets/Pushout.v, Instance/Sets/Coend.v) go through their own elementary universal properties, are not ω-indexed, and are not phrased as Colimit. No union-as-colimit statement and no CW/skeleton vocabulary anywhere ('skeletal' hits are all about skeletal CATEGORIES)."
+    }
+  },
+  {
+    "id": "riehl:3.1:def-direct-sums",
+    "classification": "PARTIAL",
+    "aliases": [
+      "direct sum / biproduct oplus_{i in I} A_i",
+      "canonical identity-matrix morphism coprod -> prod is an isomorphism",
+      "Biproduct / HasBiproducts / can_comparison / cartesian_biproduct",
+      "matrix of component maps; composition by matrix multiplication",
+      "semiadditive / CMon-enriched category; hom-sets are commutative monoids"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 227,
+        "symbol": "cartesian_biproduct",
+        "intree_statement": "Definition cartesian_biproduct (x y : C) : Biproduct x y := {| biproduct_obj := x × y; bi_inl := id △ zero_mor; bi_inr := zero_mor △ id; bi_exl := exl; bi_exr := exr; bi_exl_inl := exl_fork id zero_mor; ... |}  (* in a Preadditive category with products, the identity-matrix injections make the product a biproduct — i.e. the comparison coprod -> prod is invertible *)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 101,
+        "symbol": "bi_copair_pair",
+        "intree_statement": "Lemma bi_copair_pair {x y z w : C} (B : Biproduct x y) (u : x ~> w) (v : y ~> w) (f : z ~> x) (g : z ~> y) : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g)  (* matrix multiplication: a 1×2 row against a 2×1 column is the sum of the diagonal composites *)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 573,
+        "symbol": "bicartesian_preadditive",
+        "intree_statement": "Definition bicartesian_preadditive : Preadditive C := {| padd := @conv; pzero := @zero_mor C Z; ... |}  (* under Context (E : ∀ x y : C, IsIsomorphism (can_comparison x y)): once the identity matrix can_comparison x y := (id △ 0) ▽ (0 △ id) is invertible, every hom-setoid becomes a commutative monoid — the book's footnote *)"
+      },
+      {
+        "file": "Structure/Biproduct.v",
+        "line": 42,
+        "symbol": "Biproduct",
+        "intree_statement": "Record Biproduct (x y : C) := { biproduct_obj : C; bi_inl; bi_inr; bi_exl; bi_exr; bi_exl_inl : bi_exl ∘ bi_inl ≈ id; bi_exr_inr : bi_exr ∘ bi_inr ≈ id; bi_exl_inr : bi_exl ∘ bi_inr ≈ zero_mor; bi_exr_inl : bi_exr ∘ bi_inl ≈ zero_mor; bi_is_product : ...; bi_is_coproduct : ... }  (* the direct-sum object: the four identity-matrix equations plus BOTH universal properties *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with zero morphisms, the canonical 'identity matrix' morphism coprod_{i in I} A_i -> prod_{i in I} A_i (zero off the diagonal, identity on it) is an isomorphism for finite I; the common value is the direct sum oplus_{i in I} A_i. Morphisms between finite direct sums are then matrices of component maps, composed by matrix multiplication with (i,k) entry sum_j g_(j,k) f_(i,j). Footnotes: the identity matrix is an isomorphism in any abelian category, and with direct sums each hom-set becomes a commutative monoid.",
+      "intree": "can_comparison (x y : C) : x + y ~{C}~> x × y := (id △ zero_mor) ▽ (zero_mor △ id), with its four matrix entries exl_can_inl/exr_can_inl/exl_can_inr/exr_can_inr; cartesian_biproduct (x y : C) : Biproduct x y (Preadditive + Cartesian); bi_copair_pair : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g); bicartesian_preadditive : Preadditive C",
+      "strength_comparison": "intree-weaker: everything is BINARY (|I| = 2). The identity-matrix comparison, its four entries, its invertibility in the preadditive case, matrix multiplication as the composition rule, and the commutative-monoid enrichment are all present and are exactly the book's content in the two-element case; but the I-indexed direct sum, the general matrix representation, and the general sum formula are absent."
+    },
+    "gap": "Only the binary case exists. Absent: (a) any I-indexed direct sum oplus_{i in I} A_i — the tree has indexed PRODUCTS (Structure/Limit/Product.v: iprod/HasIndexedProducts) but no indexed coproduct at all (grep icoprod/indexed_coproduct → 0 hits), so the identity-matrix morphism for a general finite I cannot even be written; (b) the representation of a morphism between direct sums as an (I × J)-matrix of components and the composition formula (i,k) = sum_j g_(j,k) f_(i,j) — only the 2-entry instance bi_copair_pair and the 2×2 interchange Structure/Bicartesian.v:39 fork_merge exist; (c) the footnote that the comparison is invertible in any ABELIAN category — Structure/Abelian.v mentions the matrix calculus only in its header prose and never proves it.",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE \"matrix|matrices\" . — every hit is prose except Structure/Semiadditive.v's binary can_comparison/bi_copair_pair block and Structure/Bicartesian.v's fork_merge comment; Structure/Abelian.v:120 ('composition is matrix ...') is a header comment, not an assertion",
+      "grep -rn --include=\"*.v\" -E \"icoprod|IsIndexedCoproduct|indexed_coproduct|HasIndexedCoproducts\" . — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same binary-only ground. All four citations re-read and exact: Structure/Semiadditive.v:227 `Definition cartesian_biproduct`, :101 `Lemma bi_copair_pair ... ≈ padd (u ∘ f) (v ∘ g)`, :573 `Definition bicartesian_preadditive` (under `Context (E : ∀ x y, IsIsomorphism (can_comparison x y))`), Structure/Biproduct.v:42 `Record Biproduct`. `can_comparison x y := (id △ zero_mor) ▽ (zero_mor △ id)` and its four matrix entries are at Semiadditive.v:287-320, exactly the book's identity matrix in the binary case. I can SHARPEN gap clause (c) without changing the verdict: the abelian-category footnote is not merely 'never proved' — it is structurally unprovable as stated in-tree, because `Class Abelian` (Structure/Abelian.v:137-138) carries `abelian_additive : Additive C` and `Class Additive` (Structure/Additive.v:34,37) carries `additive_biproducts : HasBiproducts` as DATA, so an in-tree abelian category HAS biproducts by hypothesis; there is nothing left to derive, and the direction Riehl's footnote asserts (abelian axioms ⇒ comparison invertible) is not the direction the library packages. Structure/Abelian.v:119-129's matrix passage is header prose, correctly identified as non-assertive. The indexed gap is real: rg icoprod/IsIndexedCoproduct/indexed_coproduct/HasIndexedCoproducts → 0 hits, against Structure/Limit/Product.v's full indexed-PRODUCT API."
+    }
+  },
+  {
+    "id": "riehl:3.1:remark27",
+    "classification": "PARTIAL",
+    "aliases": [
+      "C(coprod_i A_i, X) ≅ prod_i C(A_i, X) — maps out of a coproduct",
+      "C(X, prod_j B_j) ≅ prod_j C(X, B_j) — maps into a product",
+      "ump_products / merge_inv / iprod_desc (library names)",
+      "Delta ⊣ product adjunction; coproduct ⊣ Delta",
+      "matrix of component maps f_(i,j) : A_i -> B_j determining coprod -> prod"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }  (* the bijection (Δ x ~> p) ≅ (x ~> ×(C) p) NATURAL in x and p — part (ii) binary, with naturality; instantiated at C^op it is part (i) *)"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 51,
+        "symbol": "IsIndexedProduct / iprod_desc",
+        "intree_statement": "Record IsIndexedProduct {C : Category} {A : Type} (f : A → C) (p : C) (proj : ∀ a : A, p ~> f a) := { iprod_desc {c : C} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a }  (* part (ii) at an ARBITRARY index Type A; iprod_ump at line 105 derives it from a Limit over DiscreteCat A *)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 196,
+        "symbol": "merge_inv",
+        "intree_statement": "Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i)  (* part (i), binary: with inl_merge (l.175) inl ▽-restriction recovers f, inr_merge (l.182), and merge_inl_inr (l.189) inl ▽ inr ≈ id, this is the bijection C(x+y, z) ≅ C(x,z) × C(y,z) *)"
+      },
+      {
+        "file": "Structure/Bicartesian.v",
+        "line": 39,
+        "symbol": "fork_merge",
+        "intree_statement": "Corollary fork_merge {x y z w : C} (f : x ~> y) (g : x ~> z) (h : w ~> y) (i : w ~> z) : (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i)  (* part (iii), 2×2: the four component maps assemble the same morphism (x + w) ~> (y × z) read either way *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) C(coprod_{i in I} A_i, X) ≅ prod_i C(A_i, X), naturally, the i'-component being restriction along iota_{i'}; (ii) dually C(X, prod_{j in J} B_j) ≅ prod_j C(X, B_j) via the projections; (iii) combining, a morphism coprod_{i in I} A_i -> prod_{j in J} B_j is determined by an (I × J)-indexed matrix of component maps f_(i',j') : A_{i'} -> B_{j'}.",
+      "intree": "Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) (hom-set bijection (Δ x ~> p) ≅ (x ~> ×(C) p) natural in both); ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g); IsIndexedProduct's iprod_desc at arbitrary index A; merge_inv with inl_merge/inr_merge/merge_inl_inr; fork_merge",
+      "strength_comparison": "intree-weaker on the coproduct side: part (ii) is present at FULL generality (arbitrary index Type A, via iprod_desc) and in binary form even as a natural adjunction; part (i) is present only for |I| = 2 (merge_inv + the inl/inr laws, and by duality the same adjunction at C^op), because the library has no indexed coproduct; part (iii) is present only as the 2×2 interchange fork_merge."
+    },
+    "gap": "Part (i) exists only in the binary case — there is no indexed coproduct in the tree (grep icoprod / IsIndexedCoproduct / indexed_coproduct / HasIndexedCoproducts → 0 hits), in contrast to the product side which has IsIndexedProduct/HasIndexedProducts over an arbitrary index Type. Part (iii) exists only as the 2×2 matrix-transpose law fork_merge; there is no statement that a morphism from an I-indexed coproduct to a J-indexed product is determined by an (I × J)-matrix. The naturality of the coproduct bijection is not asserted in its own right — it is obtainable only by instantiating Diagonal_Product_Adjunction at C^op, since Cocartesian C := Cartesian (C^op).",
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -E \"icoprod|IsIndexedCoproduct|indexed_coproduct|HasIndexedCoproducts\" . — 0 hits",
+      "grep -rn --include=\"*.v\" -E \"Δ ⊣|Diagonal|diagonal.*adjoint\" Adjunction/ Structure/ Instance/ — only Adjunction/Diagonal/Product.v (Δ ⊣ ×) and its GAFT reconstruction; no coproduct ⊣ Δ file"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, and identified the same product/coproduct asymmetry. Citations exact: Adjunction/Diagonal/Product.v:36 `Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)`; Structure/Limit/Product.v:51 `Record IsIndexedProduct ... iprod_desc {c} (pi : ∀ a, c ~> f a) : ∃! u : c ~> p, ∀ a, proj a ∘ u ≈ pi a`; Structure/Cocartesian.v:196 `Corollary merge_inv ... : f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i)`; Structure/Bicartesian.v:39 `Corollary fork_merge : (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i)`. One nuance the record could have added but which does not change the verdict: `iprod_desc` gives part (ii) at arbitrary index as a UNIQUE-EXISTENCE statement, not as an isomorphism of hom-setoids in Sets and with no naturality — so even the fully-general half is the elementary form of the bijection rather than the natural iso Riehl states; the natural form exists only binarily, via Diagonal_Product_Adjunction and Structure/UniversalProperty/Cartesian.v's `CartesianProductIsUniversalProperty` (Hom(z, x × y) ≅ Hom(z,x) × Hom(z,y)), which has no cocartesian counterpart file. gap and strength_comparison are otherwise honest."
+    }
+  },
+  {
+    "id": "riehl:3.1:lem28",
+    "classification": "PRESENT",
+    "aliases": [
+      "the legs of a limit cone are jointly monic",
+      "maps into a limit are determined by their composites with the legs",
+      "maps out of a colimit are determined by composites with the injections",
+      "C(X, lim F) ≅ Cone(X, F) natural in X",
+      "limit_med_eq / colimit_med_eq / cone_equiv_to_morphism_equiv"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 104,
+        "symbol": "cone_equiv_to_morphism_equiv",
+        "intree_statement": "Proposition cone_equiv_to_morphism_equiv (c z : C) (H : IsALimit F z) (f g : c ~> z) : (forall a : J, vertex_map limit_acone a ∘ f ≈ vertex_map limit_acone a ∘ g) -> f ≈ g  (* proved exactly as Riehl proves it: reindex the limit cone along f and along g through ConePresheaf F, then apply uniqueness of the mediator *)"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 166,
+        "symbol": "colimit_med_eq",
+        "intree_statement": "Lemma colimit_med_eq `(H : @IsAColimit J C F c) (N : Cocone F) (u v : c ~{C}~> vertex_obj[N]) : (∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x) → (∀ x : J, v ∘ colimit_inj H x ≈ cocone_inj N x) → u ≈ v  (* the covariantly-phrased colimit half *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A parallel pair of morphisms into a limit object are equal if and only if their composites with the legs of the limit cone are equal; dually for a parallel pair out of a colimit object and the legs of the colimit cocone. Proof: the limit induces a bijection C(X, lim F) ≅ Cone(X, F), and two cones agree iff their components do.",
+      "intree": "Proposition cone_equiv_to_morphism_equiv (c z : C) (H : IsALimit F z) (f g : c ~> z) : (forall a : J, vertex_map limit_acone a ∘ f ≈ vertex_map limit_acone a ∘ g) -> f ≈ g",
+      "strength_comparison": "same. The limit half is verbatim (the 'only if' direction is congruence of ∘ and needs no lemma). The colimit half comes free by the library's DEFINITIONAL duality — Colimit F := Limit (F^op), Cocone F := Cone (F^op), IsAColimit F c := IsALimit (F^op) c — so instantiating the same proposition at (J^op, C^op, F^op) IS the dual statement with no conversion step; colimit_med_eq is the explicit covariant near-form (it fixes a competing cocone N rather than quantifying over an arbitrary parallel pair). The library also proves the underlying representability C(c, z) ≅ Cone(c, F) that Riehl's proof invokes, as LimitIsUniversalProperty (Structure/UniversalProperty/Limit.v:141)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and landed on the same lemma. Structure/UniversalProperty/Limit.v:104 is verbatim `Proposition cone_equiv_to_morphism_equiv (c z : C) (H : IsALimit F z) (f g : c ~> z) : (forall a : J, vertex_map limit_acone a ∘ f ≈ vertex_map limit_acone a ∘ g) -> f ≈ g`, and the proof body does exactly what the record says (reindex limit_acone along f and along g through ConePresheaf F, then apply `uniqueness`) — i.e. Riehl's own proof via C(X, lim F) ≅ Cone(X, F). The file is registered in _CoqProject. The duality claim was checked all the way down rather than taken on trust: Structure/Cone.v:72 `Definition Cocone `(F : J ⟶ C) := Cone (F^op)`, Structure/Limit.v:158 `Definition Colimit `(F : J ⟶ C) := Limit (F^op)`, Structure/Limit/Preservation.v:130 `Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c` — so instantiating the same proposition at (J^op, C^op, F^op) IS the colimit half with no conversion step, as claimed. Structure/Limit/Preservation.v:166 `colimit_med_eq` is exactly as quoted, and the record is scrupulous in calling it a 'near-form' (it fixes a competing cocone N rather than quantifying over a bare parallel pair). LimitIsUniversalProperty confirmed at Structure/UniversalProperty/Limit.v:141. The book's 'only if' direction is congruence of ∘ and needs no lemma. strength_comparison 'same' is honest; nothing weaker hides under the name."
+    }
+  },
+  {
+    "id": "riehl:3.1:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "limits and colimits in a poset are glb and lub",
+      "greatest lower bound / infimum / meet; least upper bound / supremum / join",
+      "product in a thin category is a meet, coproduct is a join",
+      "Poset / Proset as a thin category (Instance/Poset.v, Instance/Proset.v)",
+      "complete lattice, order-theoretic shadow of a limit"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  (* Props is thin (homset equiv := fun f g => True), i.e. a preorder; the binary product is conjunction = the MEET / greatest lower bound *)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }  (* the binary coproduct in the same preorder is disjunction = the JOIN / least upper bound; the file's own comment at l.78 reads \"P ∨ Q is the join\" *)"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}  (* with two_meet at l.37, commented \"The binary meet (product object): TwoX is the bottom, TwoY the top\": the binary limit in the two-element poset IS the greatest lower bound *)"
+      },
+      {
+        "file": "Instance/Poset.v",
+        "line": 50,
+        "symbol": "Poset (header essay)",
+        "intree_statement": "(* \"a product is a meet, and more generally the limit over a subset is its greatest lower bound (nLab, \\\"meet\\\"); a coproduct is a join (Structure/Cocartesian.v)\" — the general dictionary is stated ONLY as header prose; there is no Lemma or Theorem in the file relating limits to bounds *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a diagram F : J -> P valued in a poset (P, ≤), characterize lim F and colim F order-theoretically: the greatest lower bound and the least upper bound of the image of F.",
+      "intree": "Props_Cartesian : @Cartesian Props with product_obj := and (the meet/glb) and Props_Cocartesian : @Cocartesian Props with product_obj := or (the join/lub), on the thin category Props; Props_Terminal (True = top) and Props_Initial (False = bottom) for the nullary cases; Two_Cartesian : @Cartesian _2 with product_obj := two_meet on the two-element poset. No general statement relating Limit/Colimit of a J-shaped diagram in a poset to bounds of its image.",
+      "strength_comparison": "intree-weaker: BOTH halves of the order dictionary are realized, but only at binary (and nullary) shape and only in two fixed small posets. Instance/Props.v gives meet = ∧ (Props_Cartesian) and join = ∨ (Props_Cocartesian) in a genuine preorder, with top = True and bottom = False; Instance/Two/Monoidal.v gives the meet in _2 as two_meet. The exercise's actual content — that for an arbitrary diagram F : J → P into an arbitrary poset, lim F is the greatest lower bound and colim F the least upper bound of the image of F — is nowhere stated, and no general glb/lub/infimum/supremum vocabulary or complete-lattice notion exists in the tree."
+    },
+    "gap": "Missing: the general J-shaped theorem. In-tree the poset dictionary exists only as binary/nullary instances in two fixed small posets — Instance/Props.v (Props_Cartesian = ∧ = meet, Props_Cocartesian = ∨ = join, Props_Terminal = top, Props_Initial = bottom, on a thin category whose hom-setoid equiv is definitionally True) and Instance/Two/Monoidal.v (Two_Cartesian via two_meet on _2). There is no statement that a Limit of an arbitrary diagram F : J ⟶ P valued in a poset is the greatest lower bound of the image of F, none for the Colimit/lub dual, no glb/lub/infimum/supremum definition or notation, and no complete-lattice or bounded-poset structure. Instance/Poset.v supplies posets as thin categories (Poset P antisym := Proset P) and asserts the general dictionary in its header essay at lines 50-52, but that is a comment with no corresponding Lemma or Theorem; Test/Poset.v proves only skeletality and inhabitation. (Corrected in Phase D: the Phase-C record claimed the colimit/lub half was absent in every form and that no meet/join vocabulary existed in the tree — Props_Cocartesian and two_meet refute both claims.)",
+    "negative_search_log": [
+      "rg -n 'greatest lower bound|least upper bound|infimum|supremum|\\bglb\\b|\\blub\\b' --glob '*.v' — exactly ONE hit, Instance/Poset.v:51, inside the header essay comment; no definition, no lemma",
+      "rg -n 'lattice|complete poset|order-theoretic' --glob '*.v' -i — comments only (Instance/Poset.v, Theory/Adjunction.v, Theory/Lawvere.v headers)",
+      "rg -n 'Limit|Colimit' Instance/Poset.v Instance/Proset.v Test/Poset.v — 0 hits: no limit of any shape is ever taken in a poset",
+      "rg -n 'Colimit|HasColimits|Cocomplete' Instance/ — 0 hits, so the lub half is realized only through the elementary Cocartesian/Initial interface (Props_Cocartesian, Props_Initial), never as a colimit",
+      "Test/Poset.v read in full — the poset regression file proves only skeletality and inhabitation (Poset_nat and the _2 example), nothing about limits or bounds"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification PARTIAL stands, but I have CORRECTED this record's evidence, gap and strength_comparison; the classifier's blind spot was material. Its gap asserted that 'the colimit/lub half in any form' is missing and that 'no glb/lub/infimum/supremum definition' exists anywhere in the tree. That is false. Instance/Props.v builds a genuine thin category (homset equiv := fun f g => True, so it is a preorder in the Instance/Proset.v sense) and instantiates BOTH halves of the order dictionary on it: `Props_Cartesian` with `product_obj := and` is the binary meet/glb, and `Props_Cocartesian` with `product_obj := or` is the binary join/lub — the file's own comment at line 78 reads 'Coproduct: disjunction. P ∨ Q is the join'. `Props_Terminal` (True = top) and `Props_Initial` (False = bottom) supply the nullary cases. So the lub half is realized, and the record's parenthetical 'grep finds none in the whole tree' is simply wrong. My own blind pass had ALSO initially reached ABSENT here for the same reason the classifier undercounted — the tree names none of this glb/lub/infimum/supremum — and I overturned myself on re-reading Instance/Props.v. The cited Instance/Two/Monoidal.v:80 `Two_Cartesian` with `two_meet` (defined at line 37, correctly commented 'The binary meet (product object)') is real and verified, but it is only one of several witnesses, and only the meet half. What genuinely remains missing, and keeps this PARTIAL rather than PRESENT, is the exercise's actual content: the J-shaped statement that lim F is the glb and colim F the lub of the IMAGE of an arbitrary diagram in an arbitrary poset. In-tree there are only binary/nullary instances in two fixed small posets (_2 and Props), no general theorem, and Instance/Poset.v:50-52 asserts the general dictionary only in header prose ('a product is a meet, and more generally the limit over a subset is its greatest lower bound; a coproduct is a join') with no corresponding Lemma/Theorem."
+    }
+  }
+]

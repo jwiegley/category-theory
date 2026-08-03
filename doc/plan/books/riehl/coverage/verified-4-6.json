@@ -1,0 +1,409 @@
+[
+ {
+  "id": "riehl:4.5:example1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Omega^X, the poset of predicates on a set X under the pointwise order",
+   "Heyting algebra / cartesian closed poset (meet and implication)",
+   "Props: propositions ordered by implication (this library's truth-value poset)",
+   "_2 / walking arrow as the two-element poset of truth values",
+   "powerset lattice of X; subsets ordered by inclusion",
+   "functor category [DiscreteCat X, _2] with pointwise structure"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl;  (* Q ^ P = P -> Q *)  exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }.  -- with Class Closed's field  exp_iso {x y z} : x × y ~> z ≅ x ~> z^y  (Structure/Cartesian/Closed.v:51), i.e. exactly the (p ∧ q) ≤ r  iff  p ≤ (q ⇒ r) correspondence"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 80,
+    "symbol": "Two_Cartesian",
+    "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}.   (and Two_Terminal : @Terminal _2 := {| terminal_obj := TwoY; one := two_one |} at line 98)"
+   },
+   {
+    "file": "Instance/Fun/Cartesian.v",
+    "line": 111,
+    "symbol": "Functor_Category_Cartesian",
+    "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).   -- pointwise binary products in a functor category; instantiating C := DiscreteCat X, D := _2 gives the pointwise meet on Ω^X, but supplies NO exponentials"
+   }
+  ],
+  "statement_record": {
+   "book": "For a fixed set X the category Ω^X of predicates on X (functions X → Ω = {⊥ → ⊤}, ordered pointwise: p ≤ q iff p(x) implies q(x)) has finite products — terminal object the constantly-true predicate, product the pointwise conjunction p ∧ q — and is cartesian closed, the internal hom being pointwise implication q ⇒ r, with (p ∧ q) ≤ r iff p ≤ (q ⇒ r).",
+   "intree": "Props_Closed : @Closed Props _ with exponent_obj := Basics.impl and exp_iso the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q); Props_Cartesian : @Cartesian Props with product_obj := and; Props_Terminal with terminal_obj := True.",
+   "strength_comparison": "intree-weaker: the full cartesian-closed claim is in-tree only at the ONE-POINT index (Ω^1 = Ω itself, presented as Props, whose truth values are Prop rather than the 2-element poset — constructively a Heyting PREalgebra, not the skeletal 2). At a general index X only the PRODUCT half is reachable, and only by instantiating the generic Functor_Category_Cartesian; Ω^X is never formed, and no exponentials exist in any functor category in-tree (there is no Closed instance for @Fun C D). The literal 2-element poset _2 has meets and a top (Two_Cartesian/Two_Terminal) but no Closed instance."
+  },
+  "gap": "The category Ω^X of predicates on a general set X is never constructed (no pointwise-order Proset on X → Prop, no [DiscreteCat X, _2]); no functor category is shown cartesian closed (Instance/Fun/Cartesian.v stops at pointwise products, and there is no Fun_Terminal), so the general-X form of the example is missing. Only Ω itself (Props) is proved cartesian closed, and the truth-value object used there is Prop, not the skeletal 2 of Instance/Two.v (which has meets and a top but no exponential). The redescription of ⇒ and ∧ through the quantifier triple that Riehl attaches to this example is entirely absent (see riehl:4.5:construction-quantifier-adjoint-triple).",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same PARTIAL independently. Cited evidence verified at the exact lines: Instance/Props.v:94 is `Program Instance Props_Closed : @Closed Props _` with exponent_obj := Basics.impl and the currying exp_iso; Instance/Two/Monoidal.v:80 is `Program Instance Two_Cartesian : @Cartesian _2` (Two_Terminal at :98); Instance/Fun/Cartesian.v:111 is `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`. All three files are registered in _CoqProject (lines 235/241/201). Independently re-checked the two load-bearing gap claims and both hold: `rg 'Closed'` over the whole tree finds Closed instances only for Props, Coq, Sets, FinSet, Rel, AST, Lambda, Comp, C ∏ D and Cat — none for @Fun C D; and there is no Terminal instance for a functor category anywhere (Instance/Fun/Cartesian.v is the only Fun structure file). Ω^X for a general X is never formed: no Proset on X → Prop and no [DiscreteCat X, _2]. strength_comparison is honest, including the Prop-vs-skeletal-2 caveat (Props is a Heyting PREalgebra: hom-setoid equiv := True, so thin but not skeletal)."
+  }
+ },
+ {
+  "id": "riehl:4.5:construction-quantifier-adjoint-triple",
+  "classification": "PARTIAL",
+  "aliases": [
+   "exists_f -| Delta_f -| forall_f (quantifiers as adjoints to substitution)",
+   "Lawvere hyperdoctrine; reindexing/substitution functor Delta_f p = p . f",
+   "base change on predicate posets; preimage functor f^{-1} : P(X) -> P(Y)",
+   "image / preimage Galois connection between powersets",
+   "existential and universal image; direct image left adjoint to preimage",
+   "subobject presheaf Sub : C^op -> Sets; pullback reindexing sub_reindex",
+   "Lawvere hyperdoctrine base functor (Delta only, adjoints absent)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}   [Context {C : Category}, Context `{@HasPullbacks C}]"
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 35,
+    "symbol": "sub_reindex",
+    "intree_statement": "Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := {| sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst f (sub_mono u) (pullback f (sub_mono u)); sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) |}   -- with sub_reindex_id (:143) and sub_reindex_comp (:152) making it functorial"
+   },
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 67,
+    "symbol": "Star_Functor",
+    "intree_statement": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), (Pull h f pull; pullback_snd h f pull); fmap := ... |}   -- base change as a genuine FUNCTOR, but between full slices, not between predicate posets"
+   }
+  ],
+  "statement_record": {
+   "book": "For ANY function f : Y → X there is an adjoint triple ∃_f ⊣ Δ_f ⊣ ∀_f between Ω^Y and Ω^X, where Δ_f : Ω^X → Ω^Y is substitution/reindexing (Δ_f p = p ∘ f) and ∃_f, ∀_f are the fibrewise existential and universal quantifiers; the cartesian closed structure of Ω^X is redescribed through it, (q ⇒ r) = ∀_i Δ_i r and (p ∧ q) = ∃_i Δ_i r.",
+   "intree": "Sub : C^op ⟶ Sets, the subobject presheaf of any category with chosen pullbacks, whose action on a morphism f is sub_reindex f — pullback of a mono along f, monic by monic_pullback_stable — with sub_reindex_id and sub_reindex_comp as the functor laws. Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c is the same operation as a functor between full slices.",
+   "strength_comparison": "intree-weaker: only the MIDDLE term Δ_f of the triple has an in-tree counterpart, and even that in a different presentation. sub_reindex is defined for subobjects of an arbitrary category with pullbacks (more general than Riehl's Set), which for C = Set is exactly the preimage f^{-1} on predicates, but it is packaged as a map of SETOIDS into Sets (Sub is a presheaf C^op ⟶ Sets), not as a functor between the poset categories Ω^X, Ω^Y — those categories are never formed in-tree at all (see riehl:4.5:example1). Neither adjoint exists in any form, and no adjointness whatsoever is asserted about sub_reindex or Star_Functor."
+  },
+  "gap": "Both adjoints are missing outright: nothing in the tree defines ∃_f (direct image) or ∀_f (dual image), and no Adjunction instance mentions sub_reindex, Sub or Star_Functor. The ambient categories are missing too — Ω^X is never constructed as a category (only the single-index Props, and the SubObj x SETOID), so a triple of functors Ω^Y ⇄ Ω^X cannot even be typed; Sub lands in Sets, so Δ_f is a setoid morphism rather than a monotone functor of preorders. Finally the redescription Riehl draws from the triple — (q ⇒ r) = ∀_i Δ_i r and (p ∧ q) = ∃_i Δ_i r, hence the closed structure of Ω^X — has no in-tree counterpart. What IS present is the substitution half of Lawvere's ∃ ⊣ substitution ⊣ ∀, in its subobject-fibration form.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'quantifier' .  -- 7 hits, ALL inside (* ... *) prose (Theory/Adjunction.v:75, Instance/Poset.v:70, Construction/Slice.v:93, Structure/Pullback.v:124, Structure/Topos.v:38,85, Tools/Abstraction.v:144); no Definition/Lemma/Instance",
+   "grep -rn --include='*.v' -i 'adjoint triple' .  -- 5 hits, all prose headers (Comonad/Coalgebra.v:97, Theory/Adjunction.v:75, Instance/Poset.v:70, Construction/Arrow.v:61, Structure/Pullback.v:127); no in-tree triple of predicate functors",
+   "grep -rn --include='*.v' -i 'hyperdoctrine' .  -- 3 hits, all prose (Theory/Adjunction.v:76, Structure/Pullback.v:86,122)",
+   "grep -rn --include='*.v' -i 'exists_f|forall_f|Delta_f|substitution functor' .  -- 0 relevant hits (only Lib/Datatypes.v Forall_forall)",
+   "grep -rn --include='*.v' -i 'preimage' .  -- 6 hits, all about Functor.Full's chosen preimage of a hom, unrelated",
+   "grep -rn --include='*.v' -i 'inverse image' .  -- 0 hits",
+   "grep -rn --include='*.v' -i 'reindex' .  -- hits only in Displayed/Grothendieck/Sheaf/Multicategory senses (reindexing of displayed fibres and arity casts), never a predicate-poset substitution functor",
+   "grep -rn --include='*.v' 'Props' Instance/ | reviewed Instance/Props.v in full -- Props carries Terminal/Initial/Cartesian/Cocartesian/Closed only; no functors between Props-powers, so no Delta_f and no adjoints to it",
+   "PHASE D CORRECTION to the log line above: `rg -in 'reindex' -g '*.v' -l` lists 22 files INCLUDING Theory/Subobject/Functor.v, whose sub_reindex (line 35) is precisely a substitution operation on subobjects — i.e. Δ_f in the subobject-fibration presentation. The Phase C claim that reindex hits occur 'only in Displayed/Grothendieck/Sheaf/Multicategory senses, never a predicate-poset substitution functor' is half right (it is not a poset-category functor) but wrong about the file inventory, and it is on that omission that the ABSENT verdict rested.",
+   "rg -in 'Adjunction' Theory/Subobject/Functor.v Theory/Subobject.v Construction/Slice/Pullback.v -- 0 hits: neither adjoint is even mentioned at the two sites where Δ_f exists."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:PARTIAL",
+   "notes": "Blind pass found a counterpart Phase C missed. Theory/Subobject/Functor.v (registered at _CoqProject:466) builds `Sub : C^op ⟶ Sets` (line 180) whose fmap is `sub_reindex` (line 35) — pullback reindexing of subobjects, functorial via sub_reindex_id (:143) and sub_reindex_comp (:152). For C = Set that IS the substitution functor Δ_f of this item, and it is the standard categorical form of the Δ in Lawvere's ∃ ⊣ Δ ⊣ ∀ (indeed Structure/Pullback.v:122-124 cites Lawvere's hyperdoctrines and then names Theory/Subobject/Functor.v as where the Sub functor is obtained by chosen-pullback reindexing). Star_Functor (Construction/Slice/Pullback.v:67) is the same operation as a genuine functor. Under the frozen definition PARTIAL = 'some of the item exists', the middle term of the triple exists and the two adjoints do not, so PARTIAL with a precise gap is the honest verdict. CONSISTENCY ARGUMENT: the same Phase C pass counted `classifier_classifies : SubObj x ≅ (x ~> Ω)` as PARTIAL evidence for the neighbouring item riehl:4.5:construction-setmono-slice, i.e. it accepted SubObj-as-Ω^X there; denying the reindexing on that same SubObj here is internally inconsistent. The overturn does not change whether an issue must be filed — it changes what the issue's 'Current state in the library' must say, which is the point. Note in mitigation of Phase C: nothing about the adjoints is present, so the item's headline content is genuinely unformalized."
+  },
+  "phase_c_classification": "ABSENT"
+ },
+ {
+  "id": "riehl:4.5:construction-setmono-slice",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Set_mono / category of sets and injections; slice (Set_mono)/X",
+   "subobject poset Sub(X); monos into X modulo iso",
+   "Sub(X) is isomorphic to Omega^X (characteristic functions)",
+   "subobject classifier; char / truth pullback square",
+   "quantifier redescription: (q => r) = forall_i Delta_i r, (p /\\ q) = exists_i Delta_i r"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.   -- to: classify a subobject by its characteristic morphism; from: pull truth back along h"
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 93,
+    "symbol": "sub_equiv_iff_mutual",
+    "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u).   -- over Record SubObj x := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono } and sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }"
+   }
+  ],
+  "statement_record": {
+   "book": "A predicate q on X corresponds to the mono i : Q >-> X on its truth set; the slice (Set_mono)/X of monos into X is a preorder EQUIVALENT to Ω^X, hence each such slice is cartesian closed, its closed structure arising from the adjoint triples exists_f -| Delta_f -| forall_f, with (q => r) = forall_i Delta_i r and (p ∧ q) = exists_i Delta_i r.",
+   "intree": "classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}, together with the factorization preorder sub_le on SubObj x whose induced equivalence is the mono-quotient (sub_equiv_iff_mutual).",
+   "strength_comparison": "intree-weaker on three counts: (1) the correspondence subobjects ↔ predicates is proved as an ISOMORPHISM OF SETOIDS in Sets, not as an equivalence of preorder CATEGORIES, and it is stated only for a category already equipped with a SubobjectClassifier (Terminal + HasPullbacks + Ω) — in-tree the only concrete carrier is FinSet (Instance/FinSet/Topos.v), Sets itself being cross-universe theorems only (Instance/Sets/Classifier.v); (2) SubObj x is the mono-quotient preorder, never presented as a SLICE of a category of monomorphisms (no Set_mono, no (Set_mono)/X); (3) no cartesian closed structure whatsoever is placed on SubObj x or on any slice, and the quantifier redescription of ⇒ and ∧ is absent."
+  },
+  "gap": "The category Set_mono (sets and monomorphisms) does not exist in-tree, hence neither does its slice, nor the claimed equivalence (Set_mono)/X ≃ Ω^X as categories; @Slice occurs only in Construction/Slice.v and Construction/Slice/Pullback.v and is never given a cartesian, terminal or closed structure. What is in-tree is the mono-quotient subobject preorder (SubObj x, sub_le, sub_equiv_iff_mutual) and, in a category with a subobject classifier, the setoid iso SubObj x ≅ (x ~> Ω) — the object-level half of the correspondence. The consequence Riehl draws (these slices are cartesian closed, their closure induced by the exists_f -| Delta_f -| forall_f triples) has no in-tree counterpart.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'Set_mono|SetMono|sets and mono|injection' .  -- no category of sets and monos; 'injection' hits are coproduct injections and colimit legs",
+   "grep -rn --include='*.v' 'Monic' . | grep -iE 'subcategory|Category :=|wide'  -- 0 hits: monos are never assembled into a (wide) subcategory",
+   "grep -rn --include='*.v' '@Slice' .  -- occurs only in Construction/Slice.v and Construction/Slice/Pullback.v"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently on the same two witnesses. Verified: Structure/SubobjectClassifier.v:187 is `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}` (Defined, with `to` the char map and `from` sub_reindex of truth); Theory/Subobject.v:93 is `Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)`. Both files registered (_CoqProject:369, :465). Re-ran the negative searches: `rg -i 'Set_mono|SetMono|sets and mono'` over *.v returns 0 hits, and `rg 'Slice'` over *.v touches only Construction/Slice.v, Construction/Slice/Pullback.v and seven prose mentions — no slice carries a Cartesian/Terminal/Closed instance, so the 'each slice is cartesian closed' consequence is genuinely unstatable. strength_comparison's three counts are accurate."
+  }
+ },
+ {
+  "id": "riehl:4.5:def2",
+  "classification": "ABSENT",
+  "aliases": [
+   "locally cartesian closed category (LCCC)",
+   "every slice C/X is cartesian closed",
+   "Seely semantics of dependent type theory",
+   "pullback functor with a right adjoint Pi_f (dependent product)",
+   "Class LocallyClosed / LCC over Structure/Cartesian/Closed.v"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- 5 hits, EVERY ONE inside a (* ... *) header essay: Instance/Sets.v:97 (setoids are a ΠW-pretopos, cited from van den Berg), Instance/Cat.v:129 (Cat is NOT lcc), Construction/Slice.v:91 (when every f^* has a further right adjoint Π_f, C is locally cartesian closed), Construction/Slice/Pullback.v:36, Structure/Pullback.v:126. No Class, Record, Definition or Instance",
+   "grep -rn --include='*.v' -i 'LCCC|LCC' .  -- 0 hits",
+   "grep -rn --include='*.v' -i 'Seely' .  -- 6 hits, all bibliography lines in prose",
+   "grep -rn --include='*.v' 'Closed (@Slice|Cartesian (@Slice' .  -- 0 hits; no slice category carries any Cartesian/Terminal/Closed instance",
+   "grep -rn --include='*.v' -i 'dependent product|Pi_f|pushforward|right adjoint to pullback' .  -- only prose mentions (Construction/Slice/Pullback.v:37, Structure/Pullback.v:128); the one candidate definition, Production, is COMMENTED OUT at Construction/Slice/Pullback.v:114-118"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees. Re-ran `rg -in 'locally cartesian' -g '*.v'` and got SIX hits, all inside (* ... *) header essays: Instance/Sets.v:97, Instance/Cat.v:129, Structure/Pullback.v:126, Construction/Slice.v:91 AND :97, Construction/Slice/Pullback.v:36. (The record's log says five and omits Construction/Slice.v:97 — immaterial, that hit is the Seely bibliography line in the same essay.) No Class/Record/Definition/Instance named LocallyCartesianClosed or equivalent exists; `rg 'LCCC'` is 0 hits. Also confirmed the record's Production claim: Construction/Slice/Pullback.v:114-119 is the commented-out `Production` stub, and line 45 carries the Cartesian context with the comment '(* only used by the commented Production functor *)'."
+  }
+ },
+ {
+  "id": "riehl:4.5:lem3",
+  "classification": "ABSENT",
+  "aliases": [
+   "slices of a locally cartesian closed category are locally cartesian closed",
+   "iterated slice: (C/X)/f is isomorphic to C/Y",
+   "slice over the terminal object: C/1 is isomorphic to C",
+   "Slice (Slice C x) f = Slice C y",
+   "fundamental theorem of slice categories / stability under slicing"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' '@Slice' .  -- only Construction/Slice.v (the definition, Comma_Slice, Coslice, Comma_Coslice) and Construction/Slice/Pullback.v (Bang_Functor, Star_Functor). No iterated slice, no slice over 1",
+   "grep -rn --include='*.v' '̸' .  -- every use of the slice notation C ̸ c listed; none is an isomorphism of an iterated slice, and none mentions the terminal object",
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- prose only (see riehl:4.5:def2 log), so neither clause of the lemma has a subject in-tree",
+   "grep -nE 'Instance|Definition|Lemma|Theorem' Construction/Comma.v  -- Comma carries only comma_proj/comma_proj1/comma_proj2/comma_proj_nat and the two hom-iso theorems; no comma-over-terminal collapse"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees on both clauses. `rg 'Slice' -g '*.v'` shows the identifier occurs in exactly eleven files, and the only Slice-level results in the tree are Comma_Slice / Comma_Coslice (Construction/Slice.v:140, :181) and Bang_/Star_Functor. There is no iterated-slice isomorphism (C ̸ x) ̸ f ≅ C ̸ y and no C ̸ 1 ≅ C anywhere. Noteworthy but NOT a defect: Construction/Slice.v:67-70 states 'since C/1 is isomorphic to C, a theorem proved over an arbitrary base specializes to the absolute theorem' — that sentence is explicitly attributed to nLab, 'over category', as background, and makes no claim that the isomorphism is in-tree."
+  }
+ },
+ {
+  "id": "riehl:4.5:lem4",
+  "classification": "ABSENT",
+  "aliases": [
+   "a locally cartesian closed category has pullbacks",
+   "pullback of a cospan = binary product in the slice C/X",
+   "identity on X is terminal in C/X",
+   "finite limits from finite products and equalizers (Riehl 3.5.17)",
+   "finitely complete / has all finite limits"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- prose only; the hypothesis of all three clauses has no in-tree definition",
+   "grep -rn --include='*.v' -iE 'products and equalizers|equalizers and products|finitely complete|finite limits' .  -- 11 hits, ALL prose: notably Structure/Complete.v:51 ('a category with all small products and equalizers of parallel pairs has all small limits ... Mac Lane V.2.1; Riehl 3.4.12') and Structure/Topos.v:23 ('the reduction of pullbacks to products and equalizers (and conversely) is not [formalized]'). The reduction theorem itself is NOT proved in-tree; Structure/Complete.v defines only Complete := forall D F, Limit F",
+   "grep -rn --include='*.v' -i 'terminal in' .  -- Instance/Two/Monoidal.v:97, Structure/Initial.v, Instance/StrictCat/Terminal.v etc.; nothing asserting id[X] is terminal in a slice",
+   "grep -rn --include='*.v' -iE 'pullback.*equalizer|equalizer.*pullback' .  -- 5 hits, all prose (Structure/Regular.v:29 states the economical presentation in its header but the Class Regular merely POSTULATES regular_terminal + regular_pullbacks; it derives no finite limits)",
+   "grep -rn --include='*.v' '@Slice' .  -- slices carry no Cartesian instance, so 'pullback = product in the slice' cannot be stated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees. Independently verified the sharpest log line: the finite-limits-from-products-and-equalizers reduction that clause (iii) needs is NOT proved in-tree. Structure/Complete.v contains only `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F` (line 115) and `Cocomplete` (line 119) — its lines 50-58 state the reduction as a cited fact (Mac Lane V.2.1; Riehl 3.4.12) in the header essay only. Structure/Pullback.v:267-274 states the same reduction inside a `jww (2017-06-02)` TODO comment quoting Wikipedia. Structure/Topos.v:21-23 independently discloses the gap. And with no Cartesian instance on any slice, 'the pullback is the binary product in C/X' and 'id[X] is terminal in C/X' are both unstatable."
+  }
+ },
+ {
+  "id": "riehl:4.5:example5",
+  "classification": "ABSENT",
+  "aliases": [
+   "Set_mono is locally cartesian closed",
+   "category of sets and injections lacks a terminal object",
+   "category of sets and monomorphisms has no binary products",
+   "counterexample: locally cartesian closed but not cartesian closed",
+   "wide subcategory of monomorphisms"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'Set_mono|SetMono|sets and mono' .  -- 0 hits; the category is never constructed",
+   "grep -rn --include='*.v' 'Monic' . | grep -iE 'subcategory|wide|Category :='  -- 0 hits; Construction/Subcategory.v provides Subcategory/Sub/Wide but is never instantiated at the monomorphism class",
+   "grep -rn --include='*.v' -i 'wide subcategory' .  -- 15 hits, all other classes (Det, Thunk, Centre, CorelCat, Coq inside Rel); none is monos-in-Sets",
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- prose only, so the property claimed of Set_mono is not even expressible",
+   "grep -rn --include='*.v' -i 'no terminal|lacks a terminal|has no product' .  -- 0 hits; the library records no negative structure results of this shape"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees. `rg -in 'Set_mono|SetMono|sets and mono' -g '*.v'` = 0 hits; Construction/Subcategory.v is never instantiated at the monomorphism class (checked `rg 'Monic' | grep -iE 'subcategory|wide|Category :='` = 0 hits). Both halves of the example — the subject category and the LCCC predicate asserted of it — are missing, so not even a weakened form is available."
+  }
+ },
+ {
+  "id": "riehl:4.5:construction-slice-pullback-adjunction",
+  "classification": "PARTIAL",
+  "aliases": [
+   "pullback / base change functor Delta_f = f^* : C/X -> C/Y",
+   "post-composition functor Sigma_f = f_! : C/Y -> C/X",
+   "dependent sum left adjoint to base change (Sigma_f -| Delta_f)",
+   "codomain fibration; cartesian lifts are pullback squares",
+   "Bang_Functor / Star_Functor"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 67,
+    "symbol": "Star_Functor",
+    "intree_statement": "Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in (Pull h f pull; pullback_snd h f pull); fmap := λ '(a; x) '(b; y) '(g; H), ... (unique_obj uniq; snd (unique_property uniq)) |}   [under Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g]"
+   },
+   {
+    "file": "Construction/Slice/Pullback.v",
+    "line": 50,
+    "symbol": "Bang_Functor",
+    "intree_statement": "Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {| fobj := λ '(o; h), (o; f ∘ h); fmap := λ x y f, (_; _) |}"
+   },
+   {
+    "file": "Construction/Displayed/Codomain.v",
+    "line": 204,
+    "symbol": "codomain_cleaving",
+    "intree_statement": "Definition codomain_cleaving `{H : @HasPullbacks C} : Cleaving (Codomain_Displayed C) := {| clift := fun x y f dy => (codomain_lift_obj f dy (pullback f (`2 dy)); (codomain_lift_mor f dy (pullback f (`2 dy)); codomain_lift_cartesian f dy (pullback f (`2 dy)))) |}   -- base change over ALL f at once, as cartesian lifts of the codomain fibration whose fibres are the slices"
+   }
+  ],
+  "statement_record": {
+   "book": "For f : Y → X in a category with pullbacks, pulling back along f defines Delta_f : C/X → C/Y (a : A → X goes to the pullback projection Delta_f A → Y) and post-composition defines Sigma_f : C/Y → C/X (b goes to f∘b); the universal property of the pullback exhibits Sigma_f -| Delta_f, the transpose sending g : B → Delta_f A over Y to g# : B → A over X.",
+   "intree": "Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b (post-composition, Σ_f) and Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c (pullback, f^*), the latter under a Hypothesis that all binary pullbacks exist.",
+   "strength_comparison": "intree-weaker: BOTH functors are constructed exactly as in the book, but the ADJUNCTION Σ_f ⊣ f^* — the whole point of the construction — is not proved. The file's Base_Functor_Adjunction is commented out (lines 121-127) and, as its own header notes at line 39, the commented stub even states the adjunction backwards ('the live statement should read Bang_Functor f ⊣ Star_Functor f'). No transposition map g ↦ g# exists in-tree."
+  },
+  "gap": "The adjunction Sigma_f -| Delta_f is absent: Construction/Slice/Pullback.v:121-127 contains only a commented-out Base_Functor_Adjunction stub (written in the wrong order, per the file's own line-39 caveat), and no Adjunction instance anywhere relates Bang_Functor to Star_Functor. Also absent: functoriality of the slice assignment beyond a single f, and the transposition bijection Hom_{C/Y}(b, Delta_f a) ≅ Hom_{C/X}(Sigma_f b, a). Star_Functor is moreover stated under a Section-level Hypothesis of all binary pullbacks rather than pullbacks along f only.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL; blind pass reached the identical verdict and the identical gap. Read Construction/Slice/Pullback.v in full (129 lines). Verified: `Bang_Functor` at line 50 (fobj := λ '(o; h), (o; f ∘ h)), `Star_Functor` at line 67 under `Hypothesis pullbacks` at line 63, and `Base_Functor_Adjunction` present ONLY as a comment at lines 121-127 — written `Star_Functor f ⊣ Bang_Functor f`, i.e. backwards, exactly as the file's own line 38-40 caveat admits. There is no Adjunction instance anywhere relating the two (whole-tree grep). Construction/Displayed/Codomain.v:204 `codomain_cleaving` verified verbatim, and `codomain_cleaving_pullbacks` at :232 is its converse; counting it as supporting evidence for base-change-over-all-f is fair, since it is a Cleaving and not an adjunction it does not overstate. All three files registered in _CoqProject. The gap's extra observation — that Star_Functor assumes ALL binary pullbacks rather than pullbacks along f — is correct and load-bearing for any future issue. See problems[] for a stale cross-reference in Structure/Pullback.v that this record's evidence exposes."
+  }
+ },
+ {
+  "id": "riehl:4.5:prop6",
+  "classification": "ABSENT",
+  "aliases": [
+   "C is locally cartesian closed iff every pullback functor has a right adjoint",
+   "adjoint triple Sigma_f -| Delta_f -| Pi_f between slices",
+   "dependent product / pushforward functor Pi_f",
+   "base change has a right adjoint",
+   "Seely / Frobenius characterization of local cartesian closure"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- prose only (5 hits, all header essays); condition (i) is not definable in-tree",
+   "grep -rn --include='*.v' -i 'dependent product|Pi_f|pushforward' .  -- prose only; the only candidate code, Production, is commented out at Construction/Slice/Pullback.v:114-118, and its header line 45 marks the Cartesian context as 'only used by the commented Production functor'",
+   "grep -rn --include='*.v' -i 'adjoint triple' .  -- 5 hits, all prose headers; no in-tree triple of slice functors",
+   "grep -rn --include='*.v' 'Bang_Functor|Star_Functor' .  -- the two functors exist but carry NO adjunction (see riehl:4.5:construction-slice-pullback-adjunction); a fortiori there is no right adjoint to Star_Functor",
+   "grep -rn --include='*.v' 'Closed (@Slice|Cartesian (@Slice' .  -- 0 hits, so neither side of the equivalence is stated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees. Neither side of the equivalence is statable: no LCCC predicate (see def2), and no right adjoint to base change — `rg -in 'Pi_f|Π_f|dependent product|pushforward'` over *.v returns only prose (Construction/Slice/Pullback.v:37, Structure/Pullback.v:128, Theory/Adjunction.v:77, Construction/Slice.v:96) plus Grothendieck/RoundTrip.v's unrelated opcartesian-lift 'pushforward' vocabulary. The one code candidate, `Production`, is commented out (Construction/Slice/Pullback.v:114-119) and in any case is an endofunctor o ↦ o × c^a on C, not a slice functor."
+  }
+ },
+ {
+  "id": "riehl:4.5:example7",
+  "classification": "ABSENT",
+  "aliases": [
+   "Set is locally cartesian closed",
+   "Set/X is equivalent to Set^X (slices as indexed families of sets)",
+   "family of sets; bundle over an index set; fibres of a function",
+   "Set^X as the functor category on a discrete category (DiscreteCat X)",
+   "fibrewise Sigma_f, Delta_f, Pi_f computed over the fibres f^{-1}(x)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'family of sets' .  -- 2 hits, both in the Construction/Slice.v header essay (lines 73, 77): 'an object of Set/I is the same data as an I-indexed family of sets ... an equivalence Set/I ≃ Set^I (Leinster; nLab)'. Prose citation, no Coq statement",
+   "grep -rn --include='*.v' -i 'indexed family' .  -- 7 hits, none about slices of Sets (Instance/Comp.v products of algebras, Grothendieck header, PROP/Interp, Lib/IList, Spider)",
+   "grep -rn --include='*.v' '@Slice' .  -- Slice is never instantiated at Sets/Coq/FinSet anywhere in the tree",
+   "grep -rn --include='*.v' -i 'locally cartesian' .  -- Instance/Sets.v:97 mentions in prose only that setoids form a ΠW-pretopos (a locally cartesian closed pretopos), citing van den Berg; nothing is proved",
+   "grep -rn --include='*.v' -i 'Sets\\^|Set\\^X' .  -- hits are all Sets^op (Streams, Pushout, Store/Traced comonads); no X-indexed power of Sets",
+   "Nearest neighbour, deliberately NOT counted: Instance/Sets/Cartesian/Closed.v proves Sets cartesian closed, and Construction/Grothendieck/Strict.v proves Grothendieck (constant D) ≅[Cat] B ∏ D. Neither is a clause of this item: Set/1 ≃ Set is not in-tree (see riehl:4.5:lem3), no slice of Sets is shown cartesian closed, and the constant-family Grothendieck iso is over an arbitrary base category, not the discrete-X family equivalence"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees, and I independently hit the same near-miss the record flags. Construction/Slice.v:73-76 asserts 'an object of Set/I is the same data as an I-indexed family of sets ... an equivalence Set/I ≃ Set^I' — but that paragraph is a cited background essay (Leinster; nLab, 'family of sets'), not an in-tree claim, and no Coq statement follows it. Confirmed independently that @Slice is never instantiated at Sets, Coq or FinSet, that no slice is shown cartesian closed, and that Sets is nowhere shown locally cartesian closed (Instance/Sets.v:97's ΠW-pretopos remark is a van den Berg citation about setoids, explicitly prose). The record's decision NOT to count Instance/Sets/Cartesian/Closed.v or Grothendieck_Constant_iso is correct — neither is a clause of the example."
+  }
+ },
+ {
+  "id": "riehl:4.5:construction-dependent-sum-product",
+  "classification": "PARTIAL",
+  "aliases": [
+   "dependent sum Sigma_{x in X} A_x = coproduct of an indexed family",
+   "dependent product Pi_{x in X} A_x = product of an indexed family",
+   "indexed product as a limit of a discrete diagram (iprod)",
+   "indexed coproduct / disjoint union of a family",
+   "dependent pairs (sigma types) and dependent functions (pi types)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 105,
+    "symbol": "iprod_ump",
+    "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.   -- the A-indexed product of the family f, with iprod f L := vertex_obj[L] and iprod_proj the limit legs"
+   },
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 128,
+    "symbol": "HasIndexedProducts",
+    "intree_statement": "Class HasIndexedProducts (C : Category) := { indexed_product {A : Type} (f : A → C) : C; indexed_product_proj {A : Type} (f : A → C) (a : A) : indexed_product f ~> f a; indexed_product_ump {A : Type} (f : A → C) : IsIndexedProduct f (indexed_product f) (indexed_product_proj f) }"
+   }
+  ],
+  "statement_record": {
+   "book": "Specializing Sigma_! and Pi_! along the unique map ! : X → 1 recovers the coproduct and the product of the indexed family (A_x): Sigma_{x in X} A_x is the DEPENDENT SUM, its elements the dependent pairs (x0, a0) with a0 in A_{x0}; Pi_{x in X} A_x is the DEPENDENT PRODUCT, its elements the dependent functions f with f(x) in A_x.",
+   "intree": "iprod_ump / IsIndexedProduct / HasIndexedProducts: the A-indexed product of a family f : A → C as the limit of DiscreteCat_Functor f, with the universal property ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.",
+   "strength_comparison": "intree-weaker in three ways: the PRODUCT half only (there is no indexed-coproduct counterpart anywhere in the tree, hence no dependent sum); it is an abstract limit in an arbitrary category, never connected to Pi_! along a terminal map (no slice adjoints exist at all); and it has NO instance — grep finds no HasIndexedProducts instance in the library — so the element-level readings 'dependent function' and 'dependent pair' are never computed in Sets or Coq."
+  },
+  "gap": "Only the dependent-PRODUCT half has an in-tree counterpart, and only as the abstract indexed product iprod = limit of a discrete diagram; there is no indexed coproduct (grep 'indexed coproduct|icoprod|HasIndexedCoproducts' returns 0 hits), so the dependent sum is missing entirely. The identification with Sigma_! and Pi_! along ! : X → 1 cannot be stated because the slice adjoints do not exist (see riehl:4.5:prop6), and HasIndexedProducts is never instantiated — in particular Sets is not shown to have indexed products, so 'elements are dependent functions / dependent pairs' is nowhere established.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'indexed coproduct|icoprod|HasIndexedCoproducts' .  -- 0 hits",
+   "grep -rn --include='*.v' 'HasIndexedProducts|IsIndexedProduct' .  -- only Structure/Limit/Product.v plus one prose mention in Theory/WeaklyInitial.v:44; no instance anywhere",
+   "grep -rn --include='*.v' -i 'dependent sum|dependent product|dependent pair|dependent function' .  -- the 'dependent pair' hits describe Coq's sigma ENCODING of slice/comma/total objects, not a categorical dependent sum; 'dependent sum/product' hits are prose in Theory/Adjunction.v:77, Construction/Slice.v:96, Construction/Slice/Pullback.v:19,37"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED PARTIAL; blind pass reached the same verdict from the same file. Verified Structure/Limit/Product.v:105 `Definition iprod_ump ... : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a` and :128 `Class HasIndexedProducts`. Independently confirmed the three gap clauses: (a) `rg 'indexed coproduct|icoprod|HasIndexedCoproducts'` = 0 hits, so the dependent SUM half is entirely missing — there is no Cocartesian dual of Structure/Limit/Product.v; (b) `rg 'HasIndexedProducts|IsIndexedProduct'` finds only Structure/Limit/Product.v plus a prose mention in Theory/WeaklyInitial.v:44, so the class has NO instance in the library (in particular Sets and Coq are not shown to have indexed products); (c) the Σ_!/Π_! identification along ! : X → 1 is unstatable since the slice adjoints do not exist. File registered (_CoqProject:328). strength_comparison honest."
+  }
+ },
+ {
+  "id": "riehl:4.5:remark8",
+  "classification": "ABSENT",
+  "aliases": [
+   "Sigma_f versus exists_f; the constructive existential quantifier",
+   "existential quantifier as dependent sum followed by image factorization",
+   "image factorization of the direct image; epi-mono factorization",
+   "restriction of the Set adjoint triple along a monomorphism",
+   "support / truncation of a family with several preimages"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'quantifier' .  -- 7 hits, all prose; neither exists_f nor Sigma_f exists as a definition, so the remark's comparison has no subjects in-tree",
+   "grep -rn --include='*.v' 'Bang_Functor|Star_Functor' .  -- the only slice functors in-tree; there is no right adjoint, no restriction to a subcategory of monos, and no Sets-level computation of them",
+   "grep -rn --include='*.v' -i 'Set_mono|sets and mono' .  -- 0 hits, so 'restricted to Set_mono' is not expressible",
+   "Nearest neighbour, deliberately NOT counted: image factorization IS in-tree (Instance/Sets/Image.v: Sets_Image_epi_epic:113, Sets_Image_mono_monic:134, Sets_Image_Factorization:143; Structure/Regular/Factorization.v Regular_OFS). But the remark's claim — that exists_f is Sigma_f post-composed with image factorization, and that the two differ when f is not monic — relates two operations neither of which is defined in the library, so no clause of it is formalized"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED ABSENT; blind pass agrees. The remark compares two operations, ∃_f and Σ_f, neither of which is defined in the library, over a category (Set_mono) that does not exist. The record's 'nearest neighbour, deliberately NOT counted' is honest and I verified it: Instance/Sets/Image.v really does supply the (Epi, Mono) factorization (Sets_Image_epi_epic:113, Sets_Image_mono_monic, Sets_Image_Factorization) and Structure/Regular/Factorization.v supplies Regular_OFS — but the image factorization alone is an ingredient of the remark's construction, not a clause of its claim, so excluding it from evidence is the right call."
+  }
+ }
+]

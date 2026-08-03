@@ -1,0 +1,528 @@
+[
+  {
+    "id": "riehl:3.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "constant functor Delta c",
+      "constant diagram functor / diagonal functor Delta : C -> C^J",
+      "constant natural transformation Delta f",
+      "Diagonal",
+      "Transform_Const / Const functor",
+      "dual: same functor into [J^op, C^op]"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |} ; fmap := fun _ _ f => {| transform := fun _ => f |} }"
+      },
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 92,
+        "symbol": "Transform_Const",
+        "intree_statement": "Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y)."
+      }
+    ],
+    "statement_record": {
+      "book": "For J, C categories and c an object of C, the constant functor Δc : J → C sends every object to c and every morphism to id_c; the constant diagram functor Δ : C → C^J sends c to Δc and f : c → c' to the constant natural transformation Δf : Δc ⇒ Δc' whose every component is f.",
+      "intree": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |} ; fmap := fun _ _ f => {| transform := fun _ => f |} }",
+      "strength_comparison": "same — a single instance carries all three of Riehl's clauses: the inner record is Δc (objects ↦ c, morphisms ↦ id[c]), the outer functor into the functor category [J,C] is Δ, and its fmap is the constant natural transformation with every component f. Notation Δ[J](c), Δ(c), =(c) and the abbreviation Δ := Diagonal are supplied. No smallness hypothesis on J is imposed (universe polymorphism instead). Transform_Const restates the constant natural transformation as a standalone instance."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached Functor/Diagonal.v independently (rg -n 'Constant|Diagonal' --glob '*.v' -l). Both cited lines verified verbatim: :33 Diagonal (fobj := constant-at-x record with fmap := id[x]; fmap := constant transform at f) and :92 Transform_Const. The three clauses of 3.1.1 are all there: Delta c (inner record), Delta : C -> [J,C] (outer instance), Delta f (fmap, every component f). Notations Δ[J](c), Δ(c), =(c) and the abbreviation Δ at lines 66-75; Diagonal_Product_Two (line 78) ties the binary Δ : C ⟶ C ∏ C to the J = Two_Discrete case. File registered in _CoqProject:138. No same-name-weaker-statement, no missing API."
+    }
+  },
+  {
+    "id": "riehl:3.1:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "cone over a diagram, summit/apex, legs",
+      "cone under a diagram, nadir, cocone",
+      "ACone / Cone / Cocone",
+      "natural transformation Delta c => F",
+      "cone_coherence (the triangle F f . lambda_j = lambda_k, display (3.1.3))"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cone.v",
+        "line": 24,
+        "symbol": "ACone",
+        "intree_statement": "Class ACone {J : Category} {C : Category} (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }"
+      },
+      {
+        "file": "Structure/Cone/Const.v",
+        "line": 53,
+        "symbol": "Cone_Natural_Transform",
+        "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F."
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 72,
+        "symbol": "Cocone",
+        "intree_statement": "Definition Cocone `(F : J ⟶ C) := Cone (F^op)."
+      }
+    ],
+    "statement_record": {
+      "book": "A cone over F : J → C with summit c is a natural transformation λ : Δc ⇒ F; its components λ_j : c → Fj are the legs, and the family is a cone iff Ff ∘ λ_j = λ_k for every f : j → k (the numbered triangle (3.1.3)). Dually a cone under F with nadir c is λ : F ⇒ Δc with λ_k ∘ Ff = λ_j; cones under F are cocones, and a cone under F : J → C is precisely a cone over F read as J^op → C^op.",
+      "intree": "Class ACone (c : obj[C]) (F : J ⟶ C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y }  …  Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F.  …  Definition Cocone `(F : J ⟶ C) := Cone (F^op).",
+      "strength_comparison": "same. [ACone] is the explicit leg-family presentation with [cone_coherence] literally Riehl's (3.1.3) (with ≈ for =, the faithful setoid rephrasing); [Cone] bundles it with the summit ([vertex_obj]); [Cone_Natural_Transform] proves the equivalence with Riehl's official definition as a natural transformation out of the constant functor; and [Cocone F := Cone (F^op)] realises exactly Riehl's own remark that a cone under F is a cone over F viewed as a functor J^op → C^op, so the dual is definitionally the same notion rather than a separate axiomatisation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Structure/Cone.v and Structure/Cone/Const.v before opening the coverage file. ACone (:24) is legs vertex_map (x : J) : c ~> F x plus cone_coherence {x y} (f : x ~> y) : fmap[F] f ∘ vertex_map x ≈ vertex_map y — literally Riehl's triangle (3.1.3) with ≈ for =. Cone (:51) bundles vertex_obj (summit) with coneFrom. Cocone := Cone (F^op) (:72) is exactly Riehl's own dualisation remark ('a cone under F : J ⟶ C is a cone over F viewed as J^op ⟶ C^op'), not a re-definition. Cone_Natural_Transform (Structure/Cone/Const.v:53) proves Δ[J](N) ⟹ F ↔ Cone[N] F, i.e. Riehl's official 'cone = natural transformation out of the constant functor'. _CoqProject:310-311. One cosmetic in-file defect logged in problems[] (AConeEquiv binder swap at :39) — it does not affect the classification."
+    }
+  },
+  {
+    "id": "riehl:3.1:def5",
+    "classification": "PRESENT",
+    "aliases": [
+      "limit as a representation of Cone(-,F)",
+      "Cone(-,F) = Hom(Delta -, F) : C^op -> Set",
+      "ConePresheaf",
+      "representable universal property of the limit, C(-, lim F) =~ Cone(-,F)",
+      "colimit as representation of Cone(F,-)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  [with IsUniversalProperty C P eqP := { repr_functor : C ⟶ Sets ; repr_equivalence : forall c, Isomorphism (P c) (Isomorphism [Hom c,─] repr_functor) }, and the witness supplied being repr_functor := @ConePresheaf J C F]"
+      },
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf {J : Category} {C : Category} (F : @Functor J C) : @Functor C^op Sets.  [fobj c := the setoid of cones Cone[c]F; fmap f λ := the cone whose legs are (vertex_map λ x) ∘ f]"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 129,
+        "symbol": "IsALimit",
+        "intree_statement": "Class IsALimit `(F : J ⟶ C) (c : C) := { limit_acone : ACone c F; ump_limit : ∀ N : Cone F, ∃! u : N ~> c, ∀ x : J, vertex_map _ ∘ u ≈ vertex_map x }"
+      }
+    ],
+    "statement_record": {
+      "book": "Cone(−,F) := Hom(Δ(−),F) : C^op → Set sends c to the set of cones over F with summit c and f : c → d to precomposition f* . A limit of F is a representation for Cone(−,F): an object lim F together with a universal cone λ : Δ lim F ⇒ F, giving a natural isomorphism C(−, lim F) ≅ Cone(−,F). Dually for colimits with Cone(F,−).",
+      "intree": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => LimitSetoid F c) — i.e. proofs that c is a limit of F correspond isomorphically to natural isomorphisms [Hom c,─]_{C^op} ≅ ConePresheaf F, which is C(−,c) ≅ Cone(−,F).",
+      "strength_comparison": "same. ConePresheaf is exactly Riehl's Cone(−,F) including the precomposition action f*, and LimitIsUniversalProperty asserts precisely that 'is a limit at c' is the same data as a representation of that presheaf by c, i.e. the natural iso C(−, lim F) ≅ Cone(−,F). Riehl's footnote (J small and C locally small so that Cone(c,F) is a set) is discharged in-tree by universe polymorphism rather than by a smallness hypothesis: ConePresheaf lands in [Sets] at whatever universe the parameters force, so no size side-condition appears. The colimit half is obtained by the definitional duality Colimit F := Limit (F^op) / Cocone F := Cone (F^op) rather than by a separately stated Cone(F,−) presheaf."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently located ConePresheaf (Structure/Cone.v:79) and Structure/UniversalProperty/Limit.v. Verified the presheaf ACTION matches Riehl's f* exactly: Structure/Cone.v:85 builds the reindexed cone with legs (fun x => vertex_map λ1 x ∘ f), i.e. μ ↦ μ · Δf. LimitIsUniversalProperty (:141) reads IsUniversalProperty C^op (fun c => IsALimit F c) (LimitSetoid F); unfolding IsUniversalProperty (Structure/UniversalProperty.v:41) that is a natural iso [Hom c,─] ≅ repr_functor in Sets, taken over C^op, i.e. C(−, lim F) ≅ Cone(−, F). The colimit half is definitional (Colimit F := Limit (F^op), Structure/Limit.v:158; C^op^op = C by reflexivity per the library's duality design). Riehl's smallness footnote is handled by universe polymorphism, which the frozen guidance treats as faithful. Files at _CoqProject:310, 380."
+    }
+  },
+  {
+    "id": "riehl:3.1:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "limit as terminal object in the category of cones",
+      "category of cones Cones F",
+      "morphism of cones (factorization through legs)",
+      "category of elements of Cone(-,F)",
+      "colimit as initial object in the category of cocones"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cones/Limit.v",
+        "line": 37,
+        "symbol": "Limit_Cones",
+        "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := {| limit_cone := @terminal_obj _ T; ump_limits := fun N => {| unique_obj := `1 (@one _ T N); unique_property := `2 (@one _ T N); uniqueness := fun v H => @one_unique _ T N (@one _ T N) (v; H) |} |}"
+      },
+      {
+        "file": "Instance/Cones.v",
+        "line": 29,
+        "symbol": "Cones",
+        "intree_statement": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ vertex_map (coneFrom N) j }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ vertex_map (coneFrom N) x }"
+      }
+    ],
+    "statement_record": {
+      "book": "A limit of F is a terminal object in the category of cones over F: objects are cones over F with arbitrary summit, and a morphism from λ : Δc ⇒ F to μ : Δd ⇒ F is f : c → d in C with μ_j ∘ f = λ_j for every j. Dually a colimit is an initial object in the category of cones under F.",
+      "intree": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ vertex_map (coneFrom N) j } … |}  …  Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := …",
+      "strength_comparison": "same. [Cones F] has exactly Riehl's objects (cones with arbitrary summit) and exactly his morphisms (a single apex map u with vertex_map[L] ∘ u ≈ vertex_map[N] j for every j), with the commuting witness made proof-irrelevant by the hom-setoid; [Limit_Cones] converts a terminal object of that category into a [Limit]. Note that the in-tree [Limit] class is itself the spelled-out terminality of the limit cone in [Cones F] (a cone plus unique factorization of every cone), so the identification is definitional in substance; only the direction Terminal (Cones F) → Limit F is written as a named theorem, the converse (Limit F → Terminal (Cones F)) is not stated in-tree. The dual is [Cocones F := Cones (F^op)] (Instance/Cones.v:46) whose initial object is the colimit. Riehl's alternative phrasing via the category of elements of Cone(−,F) is not the presentation used; the closest in-tree upgrade is Cones_Comma (Instance/Cones/Comma.v:73), Cones F ≅[Cat] (Δ ↓ =(F))."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Cones F (Instance/Cones.v:29) has exactly Riehl's data: obj := Cone F (arbitrary summit) and hom N L := { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ vertex_map N j } — the leg-factorisation condition, with the witness made proof-irrelevant by the hom-setoid (`1 f ≈ `1 g). Cocones F := Cones (F^op) (:46) covers the dual. The in-tree Limit class (Structure/Limit.v:113) IS the spelled-out terminality (limit_cone + ump_limits: ∃! u from every cone), so the definitional content of 3.1.6 is present outright. HONEST GAP NOTED (not classification-changing): Limit_Cones (Instance/Cones/Limit.v:37) goes only Terminal (Cones F) → Limit F; the converse Limit F → Terminal (Cones F) is not stated in-tree, though it is a three-field record built from ump_limits. Instance/Cones/Comma.v additionally proves Cones F ≅[Cat] (Δ ↓ =(F)). _CoqProject:178-180, 325."
+    }
+  },
+  {
+    "id": "riehl:3.1:prop7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "limits are unique up to unique isomorphism",
+      "essential uniqueness of limits/colimits",
+      "terminal objects form a contractible groupoid",
+      "univ_property_unique_up_to_unique_iso",
+      "representing objects unique up to unique iso"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s).  [generic over any IsUniversalProperty C P eqP; never instantiated at limits]"
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)."
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 106,
+        "symbol": "equalizer_unique",
+        "intree_statement": "Lemma equalizer_unique {q1 q2 : C} {e1 : q1 ~> x} {e2 : q2 ~> x} (E1 : IsEqualizer f g q1 e1) (E2 : IsEqualizer f g q2 e2) : q1 ≅ q2.  [special case; no uniqueness of the iso, no leg commutation]"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 182,
+        "symbol": "pullback_unique",
+        "intree_statement": "Lemma pullback_unique {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} (P Q : Pullback f g) : Pull f g P ≅ Pull f g Q.  [special case; no uniqueness of the iso, no projection commutation]"
+      }
+    ],
+    "statement_record": {
+      "book": "Given two limit cones λ : Δl ⇒ F and λ' : Δl' ⇒ F over the same diagram F, there is a unique isomorphism l ≅ l' commuting with the legs of the two limit cones (proof: both are terminal in the category of cones). The only automorphism of l commuting with λ is the identity. Dually for colimits.",
+      "intree": "univ_property_unique_up_to_unique_iso (Structure/UniversalProperty.v:175) + LimitIsUniversalProperty (Structure/UniversalProperty/Limit.v:141); no in-tree term combines them, and no lemma about [Limit]/[IsALimit] concludes an isomorphism.",
+      "strength_comparison": "intree-weaker: the proposition itself is not stated in-tree at any generality over limits. A general representability theorem plus a proof that limits are representable are both present, but the composite is never formed, and the 'unique isomorphism COMMUTING WITH THE LEGS' clause would additionally require identifying univ_property_respects_iso's Yoneda-round-trip transport with precomposition of the legs, which is nowhere proved. The two instantiations that would be corollaries (equalizer_unique, pullback_unique) are instead proved by hand and conclude only a bare `≅`."
+    },
+    "gap": "No limit-level uniqueness statement exists in-tree. What is present is (a) the generic theorem univ_property_unique_up_to_unique_iso (Structure/UniversalProperty.v:175) for any representable universal property and (b) LimitIsUniversalProperty (Structure/UniversalProperty/Limit.v:141) certifying that 'is a limit of F at c' IS such a property. Missing, precisely: (1) the instantiation of (a) at (b) is never performed anywhere in the tree (univ_property_unique_up_to_unique_iso has exactly two occurrences: its definition site and a header mention in Theory/Isomorphism.v:80), so no term of the shape 'IsALimit F c -> IsALimit F d -> unique iso c ≅ d' exists; (2) Riehl's clause 'commuting with the legs of the two limit cones' is not available as stated — on the generic route it would have to be read off univ_property_respects_iso (Structure/UniversalProperty.v:159), whose transport is defined through the Yoneda round-trip, and no lemma identifies that transport with precomposition of the limit legs by the isomorphism; (3) the accompanying remark's 'the only endomorphism/automorphism of l commuting with the specified cone λ is the identity' is unstated (it is one line from limit_med_unique, Structure/Limit/Preservation.v:82); (4) the dual colimit statement is likewise unstated. The two special cases the library does prove are hand-rolled and strictly weaker than Riehl's proposition: equalizer_unique (Structure/Equalizer/Fork.v:106) and pullback_unique (Structure/Pullback.v:182) each conclude only a bare `≅`, with neither a uniqueness clause nor commutation with the legs/projections.",
+    "negative_search_log": [
+      "Enumerated every Lemma/Theorem/Proposition/Definition/Class in Structure/Limit.v, Structure/Limit/Preservation.v, Structure/Cone.v, Instance/Cones.v, Instance/Cones/Limit.v, Structure/UniversalProperty/Limit.v — no uniqueness-of-limits statement",
+      "rg -n 'limit.*uniq|uniq.*limit|Limit_Unique|unique_limit' -i --glob '*.v' — hits are only limit_med_unique / unique_obj / uniqueness accessors of the mediating morphism, never uniqueness of the limit OBJECT",
+      "rg -n '≅' --glob '*.v' -l | xargs rg -ln 'IsALimit|Limit F|limit_cone' — 5 files (Structure/Limit.v [prose only: Scott's D ≅ [D → D]], Structure/Equalizer/Fork.v, Structure/Limit/Weighted.v [a weighted-limit hom-iso], Structure/Coequalizer.v, Structure/UniversalProperty/Limit.v); none states two limits of a diagram are isomorphic",
+      "rg -n 'univ_property_unique_up_to_unique_iso|univ_property_unique|LimitIsUniversalProperty' --glob '*.v' — 7 hits, all definition sites or header prose; the generic uniqueness theorem is never applied",
+      "rg -n 'unique isomorphism' --glob '*.v' — 13 hits, all header prose except Structure/Pullback.v:182 and Structure/Equalizer/Fork.v:106, whose statements deliver a bare ≅"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:PARTIAL",
+      "notes": "Phase C recorded PRESENT with the caveat 'obtained by instantiation rather than as a stand-alone limit theorem'. That caveat is the whole finding, and under the frozen definition it is a gap, not a presentation difference. Verified by blind search: (i) there is NO limit-level uniqueness statement anywhere in the tree — I enumerated every Lemma/Theorem/Proposition/Definition in Structure/Limit.v, Structure/Limit/Preservation.v, Structure/Cone.v, Instance/Cones.v, Instance/Cones/Limit.v, Structure/UniversalProperty/Limit.v, and grepped every file containing '≅' that also mentions IsALimit/Limit F/limit_cone (Structure/Limit.v — prose only, Structure/Equalizer/Fork.v, Structure/Limit/Weighted.v — a weighted-limit hom-iso, Structure/Coequalizer.v, Structure/UniversalProperty/Limit.v); nothing states that two limits of a common diagram are isomorphic. (ii) univ_property_unique_up_to_unique_iso has exactly two occurrences in the tree (its definition site Structure/UniversalProperty.v:175 and a header mention in Theory/Isomorphism.v:80) — it is never instantiated at LimitIsUniversalProperty. (iii) Riehl's 'commuting with the legs of the two limit cones' would, on that route, have to be read off univ_property_respects_iso, whose transport is defined through the Yoneda round-trip (Structure/UniversalProperty.v:159-168); no lemma identifies that transport with precomposing the limit legs by the isomorphism, so the leg-commutation clause is not available as stated. (iv) Corroborating evidence that the general result is not usable off the shelf: the library proves the two special cases BY HAND rather than deriving them — equalizer_unique (Structure/Equalizer/Fork.v:106) and pullback_unique (Structure/Pullback.v:182) — and both deliver only a bare `≅`, with neither the uniqueness clause nor the leg/projection commutation. Also absent: the accompanying remark's 'the only automorphism of l commuting with λ is the identity' (immediate from limit_med_unique, but unstated)."
+    },
+    "phase_c_classification": "PRESENT"
+  },
+  {
+    "id": "riehl:3.1:def9",
+    "classification": "PRESENT",
+    "aliases": [
+      "product as limit of a discrete diagram",
+      "indexed product, product projections pi_k",
+      "iprod / IsIndexedProduct / HasIndexedProducts",
+      "Cartesian (binary product), exl/exr",
+      "C(c, prod_j F_j) =~ prod_k C(c, F_k)",
+      "dual: coproduct as colimit of a discrete diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.  [iprod f L := vertex_obj[L]; iprod_proj f L a := limit_leg (limit_is_alimit L) a]"
+      },
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+      },
+      {
+        "file": "Structure/UniversalProperty/Cartesian.v",
+        "line": 60,
+        "symbol": "CartesianProductIsUniversalProperty",
+        "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z).  [repr_functor := [Hom ─ , x ] × [Hom ─ , y ], i.e. Hom(−, x×y) ≅ Hom(−,x) × Hom(−,y)]"
+      }
+    ],
+    "statement_record": {
+      "book": "A product is a limit of a diagram indexed by a discrete category; such a diagram is a J-indexed family (F_j) and a cone over it is an unconstrained family λ_j : c → F_j. The limit is ∏_j F_j with legs the projections π_k, and composition with the projections gives a natural isomorphism C(c, ∏_j F_j) ≅ ∏_k C(c, F_k) ≅ Cone(c,F).",
+      "intree": "Definition iprod_ump (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.  …  Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.",
+      "strength_comparison": "same, and the indexed case is in-tree at full generality: Structure/Limit/Product.v reads a Limit of DiscreteCat_Functor f (a diagram over the discrete category on an ARBITRARY index Type A — no finiteness, no smallness) as an indexed product, with the limit legs literally the projections (iprod_proj := limit_leg) and the limit UMP literally the product UMP, and the auxiliary lemma family_cone_coherence records Riehl's observation that cone coherence over a discrete shape is vacuous. Cartesian_Limit gives the binary case as an iff with the library's [Cartesian] class. The hom-set clause C(c, ∏) ≅ ∏ C(c, F) is in-tree only for the BINARY case (CartesianProductIsUniversalProperty, as a representability statement Hom(−,x×y) ≅ Hom(−,x) × Hom(−,y)); the A-indexed hom-set isomorphism is not separately stated, though iprod_ump is the same content in ∃!-form."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached Structure/Limit/Product.v and Structure/Limit/Cartesian.v independently. Verified the shape identification is genuine: family_cone_coherence (Structure/Limit/Product.v:70) proves the cone condition over DiscreteCat A is vacuous (destruct the eq_refl witness; fmap computes to id), which is Riehl's 'a cone over a discrete diagram is a family of morphisms subject to no further constraint'. iprod := vertex_obj[L] (:93), iprod_proj := limit_leg (:98) — the projections ARE the limit legs, as Riehl says — and iprod_ump (:105) is ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a, the hom-bijection C(c, ∏ F_j) ≅ ∏_k C(c, F_k) in setoid/∃! form. Index type A is an arbitrary Type (no finiteness/smallness). Cartesian_Limit (Structure/Limit/Cartesian.v:39) is an iff for the binary case; CartesianProductIsUniversalProperty (Structure/UniversalProperty/Cartesian.v:60) gives the representability form. _CoqProject:326, 328, 379."
+    }
+  },
+  {
+    "id": "riehl:3.1:example10",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top, the category of topological spaces and continuous maps",
+      "product topology / initial topology / coarsest topology making projections continuous",
+      "box topology",
+      "underlying-set functor U : Top -> Set represented by the point",
+      "product of spaces X x Y with continuous projections"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ — the concrete-instance layer contains Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no category of topological spaces",
+      "grep -rn \"Instance Top\\|Definition Top\\|Program Definition Top\\|Top :=\\|Top : Category\" --include='*.v' . — 0 hits",
+      "grep -rniE \"topological space\" --include='*.v' . — 0 hits",
+      "grep -rniE \"open set|opens|continuous map|homeomorph\" --include='*.v' . — 5 hits, all the English word 'opens' in prose headers (Theory/Universal/Arrow.v, Construction/Arrow.v, Construction/Groupoid.v, Structure/Closed.v, Structure/Group.v); no topology",
+      "grep -rniE \"product topology|box topology|coarsest|finest|subspace topology\" --include='*.v' . — 3 hits, all 'finest' in Instance/Sets/Coend.v and Instance/Sets/Pushout.v about finest congruences on setoid quotients, unrelated to topology",
+      "grep -rniE \"forgetful.*Top|Top.*Forget\" --include='*.v' . — 2 hits, both prose (a bibliography line in Theory/Universal/Arrow.v and 'forgets' in Construction/Funny.v)",
+      "grep -rn \"Topology\\|topology\" --include='*.v' . — all hits are Grothendieck topologies / sites (Theory/Sheaf.v, Structure/Topos.v, Construction/Grothendieck.v) or prose; no point-set topology",
+      "grep -rniE \"Instance Group|category of groups|Grp\" — checked while surveying concrete instances; the concrete layer has no Top and no Grp"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search independently reproduced the negative result before opening the coverage file: `ls Instance/` lists Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no category of topological spaces; and `rg -ni 'topological|topolog' --glob '*.v' -l` returns only files whose HEADER PROSE mentions topological groups/spaces as motivation (Structure/Group.v, Structure/Terminal.v, Structure/Limit.v, Instance/Cat.v, Theory/Sheaf.v, Structure/Topos.v, …) plus Grothendieck topologies/sites — never a Top instance. Not OUT_OF_SCOPE: a category of topological spaces (or a point-set-topology-free surrogate) is perfectly formalizable here; it simply does not exist in-tree, so ABSENT is right. Note that the general product UMP the example illustrates IS present (see riehl:3.1:def9); what is missing is only the concrete Top witness and the coarsest-topology/box-topology discussion."
+    }
+  },
+  {
+    "id": "riehl:3.1:remark8",
+    "classification": "ABSENT",
+    "aliases": [
+      "limit diagram / colimit diagram (terminology)",
+      "cone = diagram indexed by J with a freely adjoined initial object",
+      "augmented indexing category, cone shape J^triangleleft / J^triangleright",
+      "join of categories 1 * J, ordinal sum of shape categories",
+      "J as a full subcategory of the augmented shape"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE \"adjoin|freely add|free.*initial object|cone shape|augmented\" --include='*.v' . — only 'adjoint' hits (Functor/Diagonal.v, Comonad/*, Theory/Adjunction.v) plus Theory/Coq/Maybe.v 'freely adjoined unit' for the Maybe monoid; nothing constructing an augmented indexing category",
+      "grep -rniE \"1 \\\\* J|J \\\\* 1|ordinal sum|lax join|cocone shape|slice of shapes\" --include='*.v' . — 1 hit, a bibliographic mention of Lawvere's 'Ordinal sums and equational doctrines' in Theory/Algebra/Frobenius.v",
+      "grep -rniE \"limit diagram|colimit diagram\" --include='*.v' . — 0 hits (the terminology is not in the tree)",
+      "grep -rniE \"J .*full subcategory|Cone_Diagram|DiagramWithCone|ConeShape\" --include='*.v' . — 0 hits",
+      "grep -rniE \"pointed category|new initial|extra initial|initial adjoined\" --include='*.v' . — 0 hits",
+      "grep -rniE \"\\\\bjoin\\\\b.*categor|categor.*\\\\bjoin\\\\b|walking\" --include='*.v' . — 'join' only as the monad multiplication (Theory/Monad.v); the 'walking' shapes in tree are Two (walking arrow), Parallel (walking parallel pair), Roof (walking span) — none is an augmented cone shape",
+      "Inspected Instance/Shapes.v (the only file whose name suggested shape categories) — it is about Shape-indexed tries/exponentials of types, unrelated",
+      "Checked the two in-tree reformulations of cones that DO exist — Cone_Natural_Transform / Cone_Comma (Structure/Cone/Const.v) and Cones_Comma (Instance/Cones/Comma.v, Cones F ≅[Cat] (Δ ↓ =(F))) — these are the Δ-natural-transformation and comma-category reformulations, NOT the augmented-shape one this remark asserts"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search agrees on both halves. (a) The terminology: `rg -ni 'limit diagram|colimit diagram' --glob '*.v'` → 0 hits. (b) The substantive claim — a J-diagram-with-a-cone is a diagram indexed by J with a freely adjoined initial object (dually terminal) — has no in-tree counterpart: I listed all of Construction/ and Theory/ and found no shape-augmentation construction, and `rg -ni 'adjoin|augment|new initial|extra object' --glob '*.v'` (minus 'adjoint' noise) yields only Theory/Coq/Maybe.v's freely adjoined monoid unit and Instance/Coq/Par.v's basepoint. The in-tree shape categories are Zero (empty), One, Two/Two_Discrete, Parallel, Roof, DiscreteCat — none is J^◁/J^▷. The two cone reformulations that DO exist (Cone_Natural_Transform/Cone_Comma in Structure/Cone/Const.v; Cones_Comma in Instance/Cones/Comma.v) are the Δ-natural-transformation and comma-category readings, which are different statements — Phase C correctly refused to count them."
+    }
+  },
+  {
+    "id": "riehl:3.1:def11",
+    "classification": "PRESENT",
+    "aliases": [
+      "terminal object as the limit of the empty diagram",
+      "nullary product / empty product",
+      "Terminal_Limit",
+      "limit over the empty category 0",
+      "dual: initial object as the colimit of the empty diagram"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.  [0 is the empty category of Instance/Zero.v and F the unique empty diagram]"
+      }
+    ],
+    "statement_record": {
+      "book": "A terminal object is the special case of a product whose indexing discrete category is empty: a cone over the empty diagram is just its summit, the category of cones over the empty diagram is isomorphic to the ambient category, and hence the limit of the empty diagram is exactly a terminal object.",
+      "intree": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.",
+      "strength_comparison": "same, and in-tree it is an IFF proved in both directions (Riehl only needs one). Riehl's intermediate observation — that the category of cones over the empty diagram is isomorphic to C — is not stated separately; the proof instead builds the empty cone at each object directly and reads terminality off [ump_limits]. The presentation is via the empty CATEGORY 0 (Instance/Zero.v) rather than as the A = ∅ instance of the indexed product of Structure/Limit/Product.v, so the 'special case of a product' framing is a sibling file (the header cross-references it) rather than a formal specialization."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Terminal_Limit (Structure/Limit/Terminal.v:33) is `Limit F ↔ @Terminal C` for F : 0 ⟶ C, proved in both directions (Riehl needs only one). Verified the proof: forward, the apex of the limit cone becomes terminal_obj, the empty cone at any x supplies `one`, and one_unique comes from `uniqueness (ump_limits …)` applied twice; backward, the empty cone at terminal_obj is the limit and `one`/`one_unique` discharge ump_limits. Presentation differs harmlessly from Riehl's: the shape is the empty CATEGORY 0 (Instance/Zero.v) rather than the empty DISCRETE category, so this is the empty-diagram reading rather than literally the nullary case of 3.1.9 — but Structure/Limit/Product.v's iprod at A := False gives that reading too. Riehl's intermediate observation (Cones over the empty diagram ≅ C) is not stated separately. _CoqProject:331."
+    }
+  },
+  {
+    "id": "riehl:3.1:def13",
+    "classification": "PRESENT",
+    "aliases": [
+      "equalizer of a parallel pair",
+      "limit over the walking parallel pair / Parallel shape",
+      "IsEqualizer, fork, equalizer diagram",
+      "APair f g : Parallel -> C",
+      "dual: coequalizer / cofork"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 225,
+        "symbol": "equalizer_is_equalizer",
+        "intree_statement": "Definition equalizer_is_equalizer (L : Equalizer (APair f g)) : IsEqualizer f g L (limit_leg (limit_is_alimit L) ParX) := {| fork_eq := limit_equalizes L ; eq_desc := fun z h Hh => limit_equalizer_desc L h Hh |}"
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 52,
+        "symbol": "IsEqualizer",
+        "intree_statement": "Record IsEqualizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }"
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 273,
+        "symbol": "is_equalizer_limit",
+        "intree_statement": "Definition is_equalizer_limit {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Equalizer (APair f g) := {| limit_cone := is_equalizer_cone E ; ump_limits := fun N => is_equalizer_cone_ump E N |}"
+      }
+    ],
+    "statement_record": {
+      "book": "An equalizer is a limit of a diagram indexed by the parallel pair category; such a diagram is a parallel pair f,g : A ⇉ B. A cone with summit C is a : C → A together with a redundant b : C → B, so a cone is equivalent to a single a with f∘a = g∘a. The equalizer h : E → A is the universal such morphism: any a with f∘a = g∘a factors as a = h∘k for a unique k.",
+      "intree": "Record IsEqualizer (f g : x ~> y) (q : C) (e : q ~> x) := { fork_eq : f ∘ e ≈ g ∘ e; eq_desc {z} (h : z ~> x) (Hh : f ∘ h ≈ g ∘ h) : ∃! u : z ~> q, e ∘ u ≈ h }  …  Definition Equalizer {C : Category} (F : Parallel ⟶ C) := Limit F.",
+      "strength_comparison": "same. The shape identification is genuine and proved in BOTH directions rather than only asserted by the naming alias `Equalizer F := Limit F`: equalizer_is_equalizer shows a Limit over APair f g is an elementary equalizer at its apex with the equalizing map the ParX leg, and is_equalizer_limit builds the Limit back from the elementary data (its is_equalizer_cone_ump, line 241, is where Riehl's 'b is redundant' collapse is carried out — the ParY leg is derived from the ParX leg by cone coherence). Instance/Parallel.v supplies the walking parallel pair and APair f g. The dual [Coequalizer F := Colimit F] plus the covariant cofork API of Structure/Coequalizer.v cover Riehl's dual (his Definition 3.1.23(iii))."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found Structure/Equalizer.v, Instance/Parallel.v and Structure/Equalizer/Fork.v independently. Instance/Parallel.v is the walking parallel pair with exactly Riehl's shape (two objects, two parallel non-identity arrows, no arrows y → x); Equalizer F := Limit F over Parallel (Structure/Equalizer.v:119). Riehl's 'the second leg b is redundant' is realised in both directions rather than merely asserted: equalizer_is_equalizer (Fork.v:225) reads a Limit (APair f g) as IsEqualizer f g at its apex with the equalizing map the ParX leg, and is_equalizer_limit (Fork.v:273) rebuilds the Limit from the elementary fork data. IsEqualizer (Fork.v:52) is fork_eq : f ∘ e ≈ g ∘ e together with eq_desc : ∃! u, e ∘ u ≈ h for every forking h — Riehl's universal property verbatim. equalizer_monic (Fork.v:83) additionally supplies the mono fact Riehl defers to Exercise 3.1.iv. _CoqProject:221, 317-318."
+    }
+  },
+  {
+    "id": "riehl:3.1:def15",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullback as limit of a cospan",
+      "fiber product B x_A C",
+      "Pullback record / ump_pullbacks",
+      "Cospan C := Roof^op -> C",
+      "IsPullback (apex-pinned), pullback square / corner symbol",
+      "dual: pushout as colimit of a span"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 68,
+        "symbol": "Pullback_to_Universal",
+        "intree_statement": "Program Definition Pullback_to_Universal {C : Category} (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {| Pull := P; pullback_fst := (vertex_map _); pullback_snd := (vertex_map _) |}"
+      },
+      {
+        "file": "Structure/Pullback.v",
+        "line": 161,
+        "symbol": "Pullback",
+        "intree_statement": "Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := { Pull : C; pullback_fst : Pull ~> x; pullback_snd : Pull ~> y; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }"
+      },
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 113,
+        "symbol": "Pullback_from_Universal",
+        "intree_statement": "Program Definition Pullback_from_Universal {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) : Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {| limit_cone := {| vertex_obj := P ; coneFrom := {| vertex_map := _; cone_coherence := _ |} |} |}"
+      }
+    ],
+    "statement_record": {
+      "book": "A pullback is a limit of a cospan B → A ← C: a cone with summit D is a triple of morphisms making both triangles of (3.1.16) commute, equivalently a pair b : D → B, c : D → C with f∘b = g∘c; the pullback is the universal such commuting square, through which every commuting square factors uniquely. The corner symbol marks a square as a pullback. P is the fiber product B ×_A C.",
+      "intree": "Record Pullback (f : x ~> z) (g : y ~> z) := { Pull; pullback_fst; pullback_snd; pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd; ump_pullbacks : ∀ Q q1 q2, f ∘ q1 ≈ g ∘ q2 → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 }  …  Pullback_to_Universal / Pullback_from_Universal exchange this with Limit over a Cospan.",
+      "strength_comparison": "same, with the cospan-limit identification proved in both directions. Cospan C := Roof^op ⟶ C (Structure/Span.v:35) is Riehl's indexing poset with two non-identity morphisms into a common codomain; Pullback_to_Universal shows the limit legs at RNeg/RPos ARE the two pullback projections and derives Riehl's commuting square from cone coherence (Riehl's remark that the third leg over the cospan's apex is redundant is exactly the `now rewrite 2 cone_coherence` obligation), while Pullback_from_Universal builds the limit cone back from a UMP-pullback with the redundant leg reinstated as f ∘ pullback_fst. The two-out-of-three redundancy of Riehl's triple of legs is therefore formalized, not assumed. There is also an apex-pinned predicate form IsPullback in Theory/Morphisms/Stability.v used by the pasting/stability toolkit. The dual (pushout as colimit of a span) is Pushout_Limit F := Colimit F (Structure/Pullback/Limit.v:60) plus Structure/Pushout.v, matching Riehl's Definition 3.1.23(iv). The corner-symbol convention is notation only and has no in-tree counterpart."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Cospan C := Roof^op ⟶ C (Structure/Span.v:35) over Instance/Roof.v is Riehl's indexing poset with two non-identity arrows into a common codomain. Pullback (Structure/Pullback.v:161) carries Pull, pullback_fst, pullback_snd, pullback_commutes and ump_pullbacks : ∀ Q q1 q2, f ∘ q1 ≈ g ∘ q2 → ∃! u, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2 — exactly Riehl's universal square. Both bridge directions verified: Pullback_to_Universal (Structure/Pullback/Limit.v:68) derives the commuting square from cone_coherence (Riehl's redundant apex leg) and reads the RNeg/RPos legs as the projections; Pullback_from_Universal (:113) goes back. 'Fiber product b ×_a c' is recorded in the field comment at :162 and used in Construction/Slice/Pullback.v. _CoqProject:226, 368, 371, 376. One comment/code mismatch found nearby and logged in problems[] (pullback_unique overclaim) — it concerns uniqueness, not this definition."
+    }
+  },
+  {
+    "id": "riehl:3.1:example12",
+    "classification": "PRESENT",
+    "aliases": [
+      "the terminal category 1 (the point)",
+      "1 is the terminal object of Cat",
+      "1 is the terminal object of CAT",
+      "unique functor ! : C -> 1 (Erase)",
+      "one-object one-morphism category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/One.v",
+        "line": 54,
+        "symbol": "Cat_Terminal",
+        "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }.  [Terminal requires one_unique : ∀ (f g : x ~> terminal_obj), f ≈ g, discharged by the `constructive` obligation]"
+      },
+      {
+        "file": "Instance/StrictCat/Terminal.v",
+        "line": 36,
+        "symbol": "StrictCat_Terminal",
+        "intree_statement": "Program Instance StrictCat_Terminal : @Terminal StrictCat := { terminal_obj := _1; one := Erase }."
+      }
+    ],
+    "statement_record": {
+      "book": "The category 1 with a single object and only its identity morphism is the terminal category: it is the terminal object in Cat, and also in CAT.",
+      "intree": "Program Definition _1@{o h p} : Category@{o h p} := {| obj := poly_unit@{o}; hom := fun _ _ => poly_unit@{h}; homset := Morphism_equality; id := fun _ => ttt; compose := fun _ _ _ _ _ => ttt |}  …  Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }.",
+      "strength_comparison": "same, and the Cat/CAT distinction is handled by universe polymorphism rather than by two separate categories: _1@{o h p} and Cat are universe-polymorphic, so Cat_Terminal instantiates at every universe level and thereby covers both Riehl's Cat (small categories) and CAT (locally small / large categories); there is no separate CAT object in-tree at which to restate it. StrictCat_Terminal is a STRONGER variant along a different axis (uniqueness on the nose in StrictCat, where functors are compared by strict equality, rather than up to natural isomorphism as in Cat) — it is not the CAT clause."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "_1 (Instance/One.v:25) is universe-polymorphic `_1@{o h p}` with one object ttt and only its identity; Erase (:47) is the unique functor C ⟶ 1; Cat_Terminal (:54) makes it terminal in Cat. Checked the size question the example raises: Instance/Cat.v's header (lines 30-36) states that Cat is large and that the constraint is enforced by universe polymorphism — Category@{o h p | h <= p} sits strictly above its objects — so Cat_Terminal instantiates at every level and covers Riehl's CAT as well; there is no separate CAT object at which to restate it, and the frozen guidance directs treating such size questions as PRESENT rather than OUT_OF_SCOPE. Worth recording: Cat's hom-setoid identifies functors up to natural isomorphism, so Cat_Terminal's one_unique is uniqueness up to natural iso; StrictCat_Terminal (Instance/StrictCat/Terminal.v:36) supplies the on-the-nose version, and for functors into 1 the two coincide anyway. _CoqProject:219, 174."
+    }
+  },
+  {
+    "id": "riehl:3.1:example14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "kernel as an equalizer against the trivial/zero homomorphism",
+      "difference kernel, ker(phi - psi)",
+      "equalizer in Group, subgroup where two homomorphisms agree",
+      "IsKernel := IsEqualizer f zero_mor",
+      "equalizer leg is a monomorphism (equalizer_monic)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 53,
+        "symbol": "IsKernel",
+        "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i.  [in a Section with Context {C : Category} `{Z : @ZeroObject C}]"
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 118,
+        "symbol": "kernel_desc",
+        "intree_statement": "Lemma kernel_desc {x y k : C} {f : x ~> y} {i : k ~> x} (K : IsKernel f i) {z : C} (h : z ~> x) (Hh : f ∘ h ≈ zero_mor) : ∃! u : z ~> k, i ∘ u ≈ h."
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 83,
+        "symbol": "equalizer_monic",
+        "intree_statement": "Lemma equalizer_monic {q : C} {e : q ~> x} (E : IsEqualizer f g q e) : Monic e."
+      }
+    ],
+    "statement_record": {
+      "book": "In Group, the equalizer of φ : G → H with the trivial homomorphism e : G → H is the kernel of φ, its limit leg being the inclusion ker φ ↪ G. More generally the equalizer of φ, ψ : G ⇉ H is the subgroup {g : φ(g) = ψ(g)}, which for abelian H is ker(φ − ψ). The accompanying prose adds that the leg of any equalizer is always a monomorphism.",
+      "intree": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i  (in a category with a ZeroObject)  …  Lemma equalizer_monic (E : IsEqualizer f g q e) : Monic e.",
+      "strength_comparison": "intree-weaker: the general categorical skeleton of the example is present but the Group content is not. In-tree the identification 'kernel = equalizer against the trivial map' is the DEFINITION of IsKernel in an arbitrary category with a zero object, with kernel_desc restating its universal property in the zero-composite phrasing and kernel_monic/equalizer_monic supplying the mono clause of Riehl's prose. What is missing is the concrete side: there is no category of groups in the tree, so nothing computes the equalizer of a pair of group homomorphisms as the subgroup on which they agree, and there is no difference-kernel lemma identifying the equalizer of φ,ψ with ker(φ−ψ) even in the abelian/additive setting the library does have."
+    },
+    "gap": "No in-tree category Group (or Ab): Instance/ has CMon (commutative monoids) and Instance/Comp.v's universal-algebra layer, where `Group := Algebra GroupOp GroupEq` is only a TYPE of group algebras — the category Algs there is built on OpAlgebra (equation-free) and carries no equalizers or kernels. Consequently (a) the first clause is present only as the abstract definition IsKernel f i := IsEqualizer f zero_mor k i over any ZeroObject category, never instantiated at groups; (b) the elementwise description of the equalizer of φ,ψ : G ⇉ H as the subgroup {g | φ g = ψ g} has no in-tree counterpart; (c) the abelian specialization ker(φ − ψ) is absent — searched Structure/Additive.v, Structure/Preadditive.v, Structure/Abelian.v and Structure/Kernel.v for 'difference kernel' / an equalizer-as-kernel-of-a-difference lemma, 0 hits, even though Preadditive/Additive supply the hom-group structure that would let it be stated.",
+    "negative_search_log": [
+      "grep -rniE \"category of groups|Grp|abelian group|Instance Group|Definition Group|group homomorphism\" --include='*.v' . — hits are Instance/Comp.v's universal-algebra GroupOp/GroupEq/`Definition Group := Algebra GroupOp GroupEq` (a type of algebras, not a category), Structure/Group.v's GroupObject (a group OBJECT internal to a cartesian monoidal category), Construction/Groupoid.v, and prose",
+      "grep -rniE \"difference kernel|f - g|sub_mor|neg_mor|equalizer.*kernel|kernel.*equalizer\" --include='*.v' Structure/Additive.v Structure/Preadditive.v Structure/Abelian.v Structure/Kernel.v — only Structure/Kernel.v header prose and kernel_monic's comment; no difference-kernel lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached the same PARTIAL independently, and the stated gap is accurate on all three clauses. Verified: IsKernel f i := IsEqualizer f zero_mor k i (Structure/Kernel.v:53) is the abstract skeleton of clause 1 (kernel = equalizer against the trivial map) over any ZeroObject category; kernel_desc (:118) and kernel_monic (:98, via equalizer_monic at Structure/Equalizer/Fork.v:83) supply the UMP and the mono clause Riehl's prose flags. Confirmed there is no category of groups: `ls Instance/` has CMon (commutative monoids) but no Grp/Ab; Structure/Group.v is a group OBJECT internal to a cartesian monoidal category, not the category of groups; Instance/CMon/ contains only Biproduct.v (zero object + biproducts), no equalizers or kernels. Confirmed the difference-kernel gap: `rg -n 'difference kernel|f - g|sub_mor|neg_mor' Structure/Additive.v Structure/Preadditive.v Structure/Kernel.v` → 0 hits. So the elementwise subgroup description and the abelian ker(φ − ψ) specialization are genuinely absent, and 'intree-weaker' is honest."
+    }
+  }
+]

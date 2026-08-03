@@ -1,0 +1,398 @@
+[
+  {
+    "id": "maclane:I.6:def5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "class",
+      "proper class",
+      "small/large distinction",
+      "universe polymorphism",
+      "Type@{o} universe levels",
+      "Godel-Bernays",
+      "NBG",
+      "smallness"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; ... } \u2014 every category lives at a universe strictly above its objects, giving a typed size hierarchy in place of set/class strata"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 116,
+        "symbol": "(header essay)",
+        "intree_statement": "\"The name itself has largely fallen out of general use (nLab, 'metacategory'); the size distinctions it once marked are, in this library, carried instead by universe polymorphism.\""
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 111,
+        "symbol": "(header essay)",
+        "intree_statement": "\"a category of all categories invites a Russell-style paradox, classically avoided by the small/large distinction or by Grothendieck universes. Rather than adopt either device axiomatically, this library has a [Cat] at every universe level, each strictly above its own objects\""
+      }
+    ],
+    "statement_record": {
+      "book": "Relative to the universe U, a class is any subset of U; small sets (elements of U) are classes; classes not in U (e.g. U itself) are proper classes; small sets and classes together satisfy the Godel-Bernays axioms.",
+      "intree": "No term 'class'/'proper class' exists. The two-level small/class stratification is played by Coq's universe hierarchy, used relatively: Category@{o h p} : Type@{max(o+1,h+1,p+1)} with obj : Type@{o}, and the library headers state explicitly that size distinctions are carried by universe polymorphism.",
+      "strength_comparison": "intree-weaker: the ROLE of classes (a size layer above the small sets, usable as the object collection of a large category) is fully served by universe levels and is enforced by the elaborator, but there is no reified definition of class/proper class, no membership relation, and no Godel-Bernays axiom pack \u2014 the library formalizes no membership-based set theory."
+    },
+    "gap": "No membership-based vocabulary: 'class = subset of U', 'proper class = class not in U', and the GB-axioms claim have no in-tree counterparts. Size stratification exists only as Coq's (relative) universe-level discipline, pervasively used but never reified as a predicate or definition.",
+    "negative_search_log": [
+      "grep -rni 'proper class' --include='*.v' . \u2014 0 hits",
+      "grep -rniE 'bernays|godel|NBG' --include='*.v' . \u2014 0 hits",
+      "grep -rniE 'grothendieck universe' --include='*.v' . \u2014 1 hit, prose in Instance/Cat.v:111 (the header essay quoted as evidence)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass independently found the same three anchors: Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} verified verbatim at Theory/Category.v:111; the Metacategory.v:116-118 closing note and the Instance/Cat.v:111-114 size essay quoted exactly. Blind searches: rg 'proper class' 0 hits in .v; rg 'Godel|Bernays|NBG|\\bCls\\b' 0 hits. PARTIAL is right: the size role is served by universe levels, but class/proper-class vocabulary and GB axioms are unreified."
+    }
+  },
+  {
+    "id": "maclane:I.6:def6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "large category",
+      "small category",
+      "Category@{o h p}",
+      "universe-polymorphic category",
+      "locally small",
+      "size"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 22,
+        "symbol": "(header, Size note)",
+        "intree_statement": "\"Size: Cat is a large category, and so cannot be an object of itself (there is no category of *all* categories). Here that constraint is enforced by universe polymorphism: [Category@{o h p | h <= p}] lives at a strictly higher universe than its objects, so the inner categories collected by [obj := Category] sit below the universe of [Cat] itself.\""
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; ... } \u2014 one polymorphic definition covering categories at every size level"
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 30,
+        "symbol": "(header)",
+        "intree_statement": "\"The definitions below quantify over [forall (D : Category)] without an explicit smallness hypothesis; the size discipline is instead carried implicitly by the library's universe polymorphism.\""
+      }
+    ],
+    "statement_record": {
+      "book": "A large category is one in which the set of objects and the set of arrows are classes (proper or otherwise); Set, Grp, etc. are large categories.",
+      "intree": "No definition 'large category'. The single universe-polymorphic Category class instantiates at any level; largeness is the relative fact that a category's object universe sits above a chosen small level, enforced by typing and asserted in prose (Instance/Cat.v: 'Cat is a large category').",
+      "strength_comparison": "intree-weaker: every book-large category is directly constructible (the polymorphic Category at a higher object universe), and the size constraints the notion exists to police are machine-enforced, but 'large category' is never reified as an in-tree predicate or definition \u2014 there is no absolute small/large split because there is no fixed universe U."
+    },
+    "gap": "The notion is unreified: no in-tree term or predicate 'large category' (nor 'small category'); largeness lives in universe-level side conditions and header prose. A consumer wanting to state 'C is large' has no vocabulary to say it inside the library.",
+    "negative_search_log": [
+      "grep -rni 'large categor' --include='*.v' . \u2014 2 hits, both prose (Instance/Cat.v:22, Adjunction/GAFT.v:103); no definition",
+      "grep -rni 'small categor' --include='*.v' . \u2014 ~20 hits, all header prose; no smallness predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass found the identical prose hits ('large categor' only at Instance/Cat.v:22 and Adjunction/GAFT.v:103; 'small categor' header prose only) and no largeness predicate. All three quotes verified verbatim at the cited lines (Cat.v Size note lines 22-26, Category class line 111, Complete.v:30-34)."
+    }
+  },
+  {
+    "id": "maclane:I.6:construction3",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cls",
+      "category of classes",
+      "category of large sets",
+      "Sets at a higher universe",
+      "SetoidObject one level up",
+      "Coq (types and functions)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject@{o o}; ... |} \u2014 the category of ALL setoids at any chosen object universe o; instantiating o at the class level yields the category of class-sized sets, and the typing Category@{so o o} places it strictly above its objects"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 115,
+        "symbol": "Setoid_Lift",
+        "intree_statement": "Definition Setoid_Lift@{o so} (X : SetoidObject@{o o}) : SetoidObject@{so so} \u2014 re-types a small setoid one universe up; the file works in Sets@{so sso}, the class-level instantiation, alongside Sets@{o so}"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 47,
+        "symbol": "PropSetoid",
+        "intree_statement": "\"[PropSetoid] the truth-value setoid: carrier Type@{o} under iffT, a SetoidObject@{so so} (o < so) \u2014 one universe up.\" \u2014 a genuinely class-sized object of the higher Sets, used in cross-universe theorems"
+      }
+    ],
+    "statement_record": {
+      "book": "Cls is the category whose objects are all classes and whose arrows are all functions between classes; its collection of objects (the power set of U) is not itself a class, so Cls is not given by classes.",
+      "intree": "Sets@{o so} : Category@{so o o} is defined once, universe-polymorphically; instantiated with o at the class level it IS the category of all class-sized sets (setoids) and their maps, and Instance/Sets/Classifier.v actually works in that higher instantiation Sets@{so sso}, with Setoid_Lift and PropSetoid living one universe up. That Cls itself outgrows classes is enforced by the typing (the category lives at universe so strictly above its objects at o).",
+      "strength_comparison": "same, up to the library's two standing presentations: sets are rendered as setoids (declared faithful) and the small-set/class stratification is rendered as consecutive universe levels; the book's observation that Cls is not class-given is carried by the universe checker (Category lives strictly above its objects) rather than stated as a cardinality theorem."
+    },
+    "negative_search_log": [
+      "grep -rn '\\bCls\\b' --include='*.v' . \u2014 0 hits (no category is NAMED Cls; coverage is by instantiating the polymorphic Sets/Coq one level up, as Instance/Sets/Classifier.v does)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Evidence verified: Program Definition Sets@{o so} : Category@{so o o} with obj := SetoidObject@{o o} : Type@{so} at Instance/Sets.v:188; Setoid_Lift at Classifier.v:115; PropSetoid header note at Classifier.v:47-50; Sets@{so sso} genuinely used in proved theorems (sets_char_pullback line 224, sets_char_unique line 283), so the higher instantiation is in actual in-tree use, not merely possible. PRESENT is at the generous edge but defensible under the frozen size-as-universe-levels guidance, and the strength_comparison discloses the translation honestly. Nuance to keep on record: library records are non-cumulative, so small setoids enter the higher Sets only via the explicit Setoid_Lift rebuild (disclosed at Classifier.v:52-54), a functorial rather than on-the-nose small-in-class inclusion."
+    }
+  },
+  {
+    "id": "maclane:I.6:construction4",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat'",
+      "category of all large categories",
+      "category of categories",
+      "Cat",
+      "StrictCat",
+      "Instance/Cat.v"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; ... } \u2014 universe-polymorphic; at any instantiation its objects are ALL categories at strictly lower universes, small and large alike"
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 111,
+        "symbol": "(header essay)",
+        "intree_statement": "\"Rather than adopt either device axiomatically, this library has a [Cat] at every universe level, each strictly above its own objects, so self-membership is a universe inconsistency caught by the elaborator rather than a paradox to be excluded by axiom.\""
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { ... } \u2014 the strict variant in which functors are compared on the nose; the header of Instance/Cat.v identifies this as \"the textbook bare-name Cat\""
+      }
+    ],
+    "statement_record": {
+      "book": "Cat' denotes the category of all large categories; a useful category which is not itself a class (sketched in one sentence).",
+      "intree": "The universe-polymorphic Cat (obj := Category) instantiated at a level above the class level is precisely the category of all class-sized (large) categories; its own data sit one level higher still, enforced by Category@{o h p} : Type@{max(o+1,h+1,p+1)}. Header: 'a [Cat] at every universe level, each strictly above its own objects'.",
+      "strength_comparison": "same, up to the size-as-universe-levels presentation, with one deliberate presentational divergence to note: in-tree Cat's hom-setoid identifies functors up to natural isomorphism (Ho(Cat)); the on-the-nose textbook 1-category MacLane means is Instance/StrictCat.v's StrictCat, equally universe-polymorphic. 'Not a class' is carried by the universe checker rather than stated as a theorem."
+    },
+    "negative_search_log": [
+      "grep -rn \"Cat'\" --include='*.v' . \u2014 no separately named Cat-prime; the small/large pair Cat vs Cat' collapses into one polymorphic definition instantiated at different levels"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Cat verified at Instance/Cat.v:142 (obj := Category, hom := @Functor, homset := @Functor_Setoid) and StrictCat at Instance/StrictCat.v:56 (homset := @Functor_StrictEq_Setoid, on-the-nose); the 'a [Cat] at every universe level' header quote is exact (lines 111-115). The Ho(Cat)-vs-StrictCat divergence is accurately disclosed and load-bearing for honesty, since MacLane's Cat' is the strict 1-category. Library-wide Universe Polymorphism (Theory/Category.v header) makes the higher instantiation real."
+    }
+  },
+  {
+    "id": "maclane:I.6:remark3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "elementary topos",
+      "ElementaryTopos",
+      "ETCS",
+      "first-order axioms for categories",
+      "metacategory",
+      "Grothendieck universe axiom",
+      "foundations"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 42,
+        "symbol": "Metacategory / FromArrows",
+        "intree_statement": "\"The first-order theory of categories, and its computable models\" \u2014 the arrows-only first-order axiomatization on undefined terms, with the machine-checked witness [FromArrows] rebuilding a [Category] from the three axioms; the essay cites Lawvere's elementary programme (ETCS 1964, Category of Categories 1966)"
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal } \u2014 the elementary (first-order, membership-free) axioms the remark points to"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 44,
+        "symbol": "(header essay)",
+        "intree_statement": "\"Reading types and functions as a category enacts the structural stance that Lawvere took when he axiomatized the category of sets directly \u2014 objects and composites first, membership a derived notion (... the origin of ETCS). On that view a set is whatever composes, and [Coq] is the stance implemented over the universe Type, machine-checked rather than postulated.\""
+      },
+      {
+        "file": "Instance/Cat.v",
+        "line": 100,
+        "symbol": "(header essay)",
+        "intree_statement": "\"Lawvere proposed to make the self-application foundational: the category of categories itself, axiomatized in first-order terms, would replace membership-based set theory ... this library has a [Cat] at every universe level, each strictly above its own objects\""
+      }
+    ],
+    "statement_record": {
+      "book": "One universe handles the category of all small sets/groups but yields no category of ALL sets; Grothendieck's axiom (every set belongs to some universe) gives one category per universe but still no category of all groups; this motivates set-free first-order axiomatizations \u2014 category axioms on undefined terms, and elementary axioms for the category of sets (elementary topos, Mac Lane\u2013Moerdijk).",
+      "intree": "Both first-order alternatives the remark advertises are formalized: the axioms-on-undefined-terms route as Theory/Metacategory.v (arrows-only first-order theory with FromArrows) and the elementary-axioms-for-Set route as Structure/Topos.v's ElementaryTopos (with the computable witness FinSet_Topos, Instance/FinSet/Topos.v:38). The no-category-of-all-X limitation is enforced by universe typing rather than asserted (Instance/Cat.v size note).",
+      "strength_comparison": "intree-weaker on the set-theoretic half: the one-universe vs Grothendieck-hierarchy comparison is embodied in Coq's metatheory (a cumulative hierarchy with a polymorphic Cat/Sets at every level \u2014 functionally Grothendieck's 'every set is in some universe') and discussed in headers, but no membership-based universe or its axioms is formalized; intree-stronger on the axiomatic half: the elementary-topos axioms are not merely cited but defined and inhabited (FinSet_Topos), and the first-order category axioms carry a machine-checked equivalence witness."
+    },
+    "gap": "The set-theoretic side is meta-level only: no in-tree formalization of a universe U, of Grothendieck's every-set-in-a-universe axiom, or of the one-universe limitation as a theorem. Also no in-tree witness that the ambient category of sets satisfies the ElementaryTopos axioms at one level: Instance/Sets/Classifier.v proves the classifier for Sets must live one universe up ('its ambient category would have to contain PropSetoid ... one level up'), so Sets is deliberately cross-universe theorems, not an ElementaryTopos instance; the inhabited witness is skeletal FinSet.",
+    "negative_search_log": [
+      "grep -rniE 'grothendieck universe' --include='*.v' . \u2014 1 hit, prose (Instance/Cat.v:111)",
+      "grep -rni 'proper class' --include='*.v' . \u2014 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. ElementaryTopos verified verbatim at Structure/Topos.v:112-118 (all five fields as quoted); FinSet_Topos : ElementaryTopos FinSet at Instance/FinSet/Topos.v:38 with the eq_refl Example at line 52; the Instance/Coq.v ETCS essay quote exact at lines 46-53; Metacategory.v:42 first-order essay verified. The gap statement matches Topos.v:106-110 (Sets classifier deliberately cross-universe, not an instance). PARTIAL with intree-weaker/intree-stronger split is honest."
+    }
+  },
+  {
+    "id": "maclane:I.6:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "universe closed under small products",
+      "cartesian product of a small family",
+      "indexed product",
+      "HasIndexedProducts",
+      "iprod",
+      "Complete (Sets small-complete, the downstream use)",
+      "Pi-type closure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "negative_search_log": [
+      "grep -rniE 'grothendieck universe' --include='*.v' . \u2014 1 hit, prose only (Instance/Cat.v:111); no universe object or closure axiom is formalized anywhere",
+      "grep -rni 'proper class' / 'bernays|godel|NBG' --include='*.v' . \u2014 0 hits; the library formalizes no membership-based set theory in which 'Prod_i f_i is an element of U' could even be stated",
+      "grep -rn 'HasIndexedProducts|IndexedProduct' --include='*.v' . \u2014 vocabulary only: Structure/Limit/Product.v (class HasIndexedProducts, line 128; iprod/iprod_proj/iprod_ump) and a comment in Theory/WeaklyInitial.v:44; NO instance for Sets, Coq, or any concrete category",
+      "grep -rnE 'Complete' instances for Sets/Coq \u2014 none: Complete (Structure/Complete.v:117) is consumed as a hypothesis (Adjunction/GAFT.v, Adjunction/SAFT.v, Construction/Comma/Limit.v) and never instantiated at Sets/Coq; Instance/Sets.v header confirms completeness of Sets exists only 'piecewise' (binary products/exponentials/pushouts), with no indexed products",
+      "NOTE (classification rationale): the faithful in-library transposition of this exercise \u2014 Sets/Coq at level o has products of families indexed by any I : Type@{o}, i.e. a HasIndexedProducts (or Complete) instance, the exact fact MacLane later uses ex1 for (Set is small-complete) \u2014 is statable with existing in-tree vocabulary and is not present; the raw membership form is meta-level (Coq's Pi-typing rule). Hence ABSENT rather than OUT_OF_SCOPE."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass found no universe object or closure theorem anywhere. Verified: HasIndexedProducts is vocabulary-only (Class at Structure/Limit/Product.v:128; zero instances tree-wide, only the deliberate-refusal note at Theory/WeaklyInitial.v:44); no Complete instance for Sets/Coq or any concrete category (Complete only consumed as hypothesis in GAFT/SAFT); Instance/Sets.v:109 confirms completeness of Sets is built 'piecewise'. Minor nit: Complete is defined at Structure/Complete.v:115, not 117. The ABSENT-not-OUT_OF_SCOPE rationale (the downstream categorical form is statable with in-tree vocabulary and missing) is sound."
+    }
+  },
+  {
+    "id": "maclane:I.6:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "universe closed under small unions",
+      "union of a small family",
+      "indexed coproduct",
+      "HasIndexedCoproducts",
+      "Cocomplete (Sets, downstream form)",
+      "universe axiom equivalence"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "negative_search_log": [
+      "grep -rniE 'grothendieck universe' --include='*.v' . \u2014 1 prose hit; no formal universe whose closure conditions (v), union-closure, etc. could be stated or proven equivalent \u2014 part (b), the axiom-replacement equivalence, is inherently about the membership-based definition and has no in-tree host",
+      "grep -rni '\\bunion\\b' --include='*.v' . \u2014 all hits are disjoint-union coproducts or union-find prose (Instance/Cat/Cocartesian.v, Instance/FinSet/Pushout.v, Instance/Coq.v sum types); nothing about universes",
+      "grep -rniE 'IndexedCoproduct|HasIndexedCoproducts' --include='*.v' . \u2014 0 hits: not even the vocabulary for the categorical shadow (indexed coproducts) exists, only binary coproducts (Instance/Sets/Cocartesian.v, Structure/Cocartesian.v)",
+      "grep -rnE 'Cocomplete' instances \u2014 Cocomplete (Structure/Complete.v:121) is only ever a hypothesis (Theory/Adamek/Corollaries.v); no Sets/Coq instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Verified: 'HasIndexedCoproducts|IndexedCoproduct' 0 hits tree-wide (blind rerun); Cocomplete defined but never instantiated; all 'union' hits are coproduct/FMap prose unrelated to universes. Part (b), the axiom-replacement equivalence, indeed has no in-tree host since no membership-based universe definition exists."
+    }
+  },
+  {
+    "id": "maclane:I.7:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Ab",
+      "category of abelian groups",
+      "AbGrp",
+      "Grp",
+      "CMon (commutative monoids)",
+      "null object",
+      "zero object",
+      "ZeroObject"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/CMon.v",
+        "line": 140,
+        "symbol": "CMon",
+        "intree_statement": "Program Definition CMon : Category := {| obj := CMonObject; hom := CMonHom; homset := @CMonHom_Setoid; id := @cmon_hom_id; compose := @cmon_hom_compose; ... |} \u2014 the category of commutative monoids over Sets (carriers are setoids, morphisms preserve zero and plus)"
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 160,
+        "symbol": "CMon_Zero",
+        "intree_statement": "#[export] Instance CMon_Zero : ZeroObject CMon := @Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id \u2014 the trivial one-element monoid is initial and terminal, i.e. exactly the book's null object, via Structure/ZeroObject.v:35 (Class ZeroObject := { zero_terminal; zero_initial; zero_coincide })"
+      },
+      {
+        "file": "Structure/Group.v",
+        "line": 109,
+        "symbol": "GroupObject",
+        "intree_statement": "Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : ...; right_inverse : ... } \u2014 internal group objects (inverses exist in-tree at the object level, but no category of groups is instantiated)"
+      }
+    ],
+    "statement_record": {
+      "book": "Ab is the category of all small (additive) abelian groups with all homomorphisms; in Ab the zero group is simultaneously initial and terminal (a null object).",
+      "intree": "The inverse-free analogue is fully built: CMon, the category of commutative monoids over Sets (Instance/CMon.v:140), with the trivial monoid as ZeroObject (CMon_Zero, Instance/CMon/Biproduct.v:160) and the full semiadditive/biproduct development on top (CMon_Biproducts, line 457). Group objects with inverses exist only internally (Structure/Group.v:109 GroupObject), not as a category instance.",
+      "strength_comparison": "intree-weaker: the ambient structure and the null-object observation are formalized for commutative MONOIDS, not abelian GROUPS \u2014 additive inverses are nowhere in the concrete category; Ab itself appears only as motivating prose (Structure/Abelian.v:68 'the common structure of the category Ab of abelian groups')."
+    },
+    "gap": "No category of abelian groups (nor of groups) exists in-tree: grep for 'Ab : Category', 'Grp : Category', 'abelian' in Instance/ all come up empty (the two Instance/ hits are prose). The stand-in CMon lacks additive inverses, so it is Ab's semiadditive shadow; the null-object content of the item is proven, but for CMon.",
+    "negative_search_log": [
+      "grep -rnE 'Definition Ab\\b|Instance Ab\\b|Ab : Category' --include='*.v' . \u2014 0 hits",
+      "grep -rnE 'Grp : Category|Definition Grp\\b|Instance Grp\\b' --include='*.v' . \u2014 0 hits",
+      "grep -rni 'abelian' Instance/ \u2014 2 hits, both header prose (Instance/Cat.v:90, Instance/Fun.v:50)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. All evidence verified at cited lines: CMon at Instance/CMon.v:140; CMon_Zero := Build_ZeroObject CMon CMon_Terminal CMon_Initial iso_id at Instance/CMon/Biproduct.v:160 (trivial monoid, exactly the null-object content); CMon_Biproducts at line 457; GroupObject at Structure/Group.v:109. 'abelian' in Instance/ = exactly the 2 claimed prose hits (Cat.v:90, Fun.v:50). Blind pass found no Ab or Grp category anywhere. PARTIAL with the inverse-free gap precisely stated is the honest call."
+    }
+  },
+  {
+    "id": "maclane:I.7:prop1",
+    "classification": "ABSENT",
+    "aliases": [
+      "monic iff injective in Ab",
+      "epi iff surjective in Ab",
+      "Monic",
+      "Epic",
+      "monomorphism = injection",
+      "epimorphism = surjection",
+      "quotient argument for epis"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "negative_search_log": [
+      "Prerequisite check: the category Ab does not exist in-tree (grep -rnE 'Ab : Category|Definition Ab\\b|Instance Ab\\b' \u2014 0 hits; see maclane:I.7:construction1), so the Ab-specific characterization cannot be stated, let alone proven",
+      "grep -rn 'Monic|Epic' Instance/CMon.v Instance/CMon/ \u2014 no monic/epic characterization exists even for the stand-in CMon (hits are only cmon_zero/cmon_map_zero fields)",
+      "Near-misses in OTHER categories (different book items, logged for the verifier): Instance/Sets.v:369 injectivity_is_monic ((forall x y, f x \u2248 f y -> x \u2248 y) <-> Monic f, fully proven); Instance/Sets.v:429 surjectivity_is_epic ((forall b, exists a, h a \u2248 b) <-> Epic h) is stated but ABORTED at line 476 \u2014 the header documents that the reverse direction needs a truth-value object one universe up, 'so that lemma never enters the environment'; Instance/FinSet/Classifier.v:335 finset_monic_iff_injective; Instance/Sets/Image.v:113,134 Sets_Image_epi_epic / Sets_Image_mono_monic (single directions)",
+      "The distinctive mathematical content \u2014 epi implies surjective via the quotient B/fA in an additive category (the argument that fails in Rng and is delicate in Grp) \u2014 has no in-tree counterpart anywhere: no quotient-group machinery, no cokernel-based epi characterization in a concrete algebraic instance (Structure/Kernel.v is abstract)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind pass independently found the identical near-miss set: injectivity_is_monic (Instance/Sets.v:369, fully proven), surjectivity_is_epic stated at Sets.v:429 with Abort verified at line 476 (does not enter the environment, exactly as the file header discloses), finset_monic_iff_injective (Instance/FinSet/Classifier.v:335), Sets_Image_epi_epic/mono_monic (Image.v:113/134, single directions). No Monic/Epic characterization for CMon; no Ab. ABSENT is correct: the item is Ab-specific and its distinctive content (epi implies onto via the quotient B/fA) has no counterpart."
+    }
+  },
+  {
+    "id": "maclane:I.7:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "ring",
+      "small ring",
+      "Rng",
+      "CRing",
+      "RingObject",
+      "semiring",
+      "rig",
+      "ring object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "negative_search_log": [
+      "grep -rniE 'class (Group|AbelianGroup|AbGroup|Ring|Semiring)' --include='*.v' . \u2014 only Class GroupObject (Structure/Group.v:109); no ring",
+      "grep -rnE 'RingObject|CRing|\\bRng\\b' --include='*.v' . \u2014 0 hits",
+      "grep -rniE '\\brig\\b|semiring' --include='*.v' . \u2014 2 hits, both prose in Theory/Algebra.v:16,25 about RIG CATEGORIES (categorified rigs: coproduct/product structural isos), not a definition of rings",
+      "grep -rniE '\\bring\\b' --include='*.v' . \u2014 prose only (Localization.v, Grothendieck.v, Equivalence.v, Coend.v headers citing rings as motivation); the algebraic-object layer in-tree stops at monoid/comonoid/group/Frobenius objects (Theory/Algebra/*.v, Structure/Monoid.v, Structure/Group.v) \u2014 no two-operation ring structure, internal or concrete"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search for Ring/Rng/CRing/Semiring/RingObject definitions found only prose: the rig-category essay (Theory/Algebra.v:16,25-26, categorified rigs, not rings) and motivation headers (Localization.v, Grothendieck.v, Equivalence.v, Coend.v). The internal-algebra layer stops at monoid/comonoid/group/Frobenius objects; no two-operation structure exists, so ABSENT."
+    }
+  }
+]

@@ -1,0 +1,519 @@
+[
+ {
+  "id": "awodey:7.7:example15",
+  "classification": "PARTIAL",
+  "aliases": [
+   "C^1 = C, terminal category exponential",
+   "C^2 = arrow category C^→ / Arr(C) / [2, C]",
+   "functor category over the walking arrow _2",
+   "C^I as I-indexed power / product of copies of C over a discrete index",
+   "exponent_obj in Cat / Cat_Closed / exp_one"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat/Cartesian/Closed.v",
+    "line": 47,
+    "symbol": "Cat_Closed",
+    "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => ... |} ; from := {| morphism := fun F : A ⟶ [B, C] => ... |} |} }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 389,
+    "symbol": "exp_one",
+    "intree_statement": "#[export] Program Instance exp_one {x : C} : x^1 ≅ x := { to := eval ∘ id △ one; from := curry exl }."
+   },
+   {
+    "file": "Construction/Arrow.v",
+    "line": 110,
+    "symbol": "Arrow",
+    "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).   Notation \"C ⃗\" := (@Arrow C)"
+   }
+  ],
+  "statement_record": {
+   "book": "C^1 = C; C^2 over the walking arrow 2 is the arrow category C^→; C^2 over the DISCRETE two-object category is C × C; more generally C^I over a discrete index set I is the I-fold power of C.",
+   "intree": "Cat_Closed makes the exponential in Cat the functor category (exponent_obj := @Fun), and the generic CCC lemma exp_one : x^1 ≅ x instantiates there to [1, C] ≅ C. Arrow C is defined independently as the comma category (Id[C] ↓ Id[C]).",
+   "strength_comparison": "intree-weaker: only the C^1 ≅ C clause is derivable (and only by instantiating the generic exp_one at Cat_Closed, not as a stated Cat-level result); the identification of [_2, C] with Arrow C and the discrete-index power C^I ≅ ∏_I C are never stated."
+  },
+  "gap": "Two of the three clauses are missing. (1) No comparison between the functor category over the walking arrow [_2] (Instance/Two.v) and Arrow C — Construction/Arrow.v's own header discloses this: \"no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree\". (2) No statement or proof that [DiscreteCat A, C] (or [Two_Discrete, C]) is the A-indexed power of C in Cat; Structure/Limit/Product.v's iprod builds indexed products of a family INSIDE a category, not powers of Cat by a discrete index. (3) Even the C^1 ≅ C clause exists only as the generic exp_one, never instantiated in-tree at Cat.",
+  "negative_search_log": [
+   "grep -rn 'Arrow' --include=*.v . — Arrow only as the comma (Id↓Id); header explicitly disclaims the [2,C] comparison",
+   "grep -rn '_2 ⟶|\\[_2|_1 ⟶|\\[_1|Fun _1|Fun _2' --include=*.v . — no functor category over _1 or _2 formed anywhere",
+   "grep -rn '≅\\[Cat\\]' --include=*.v . — full list of Cat-level isos inspected; none is [1,C]≅C, [2,C]≅Arrow C, or [I,C]≅∏C",
+   "grep -n 'Definition|Program|Lemma|Theorem|Instance|Class' Structure/Limit/Product.v — iprod/iprod_proj/iprod_ump are indexed products in C, not powers of Cat"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same boundary call (I leaned ABSENT-with-ingredients; PARTIAL with this gap text is honest and I do not overturn). Evidence verified at the cited lines: Instance/Cat/Cartesian/Closed.v:47 is `Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; ... }` (quote accurate, header states all obligations proven); Structure/Cartesian/Closed.v:389 is `#[export] Program Instance exp_one {x : C} : x^1 ≅ x` inside `Context `{@Terminal C}` (quote accurate); Construction/Arrow.v:110 is `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])` (quote accurate). The derivability claim for C^1 ≅ C checks out: Cat has Cat_Terminal (Instance/One.v:57), Cat_Cartesian and Cat_Closed, and exponent_obj 1 C = @Fun 1 C = [1, C]. The self-disclosure quoted in the gap is real (Construction/Arrow.v:105-108). All four cited files are registered in _CoqProject (lines 13, 167-168, 300). One further generic lemma the record does not mention and which strengthens the same 'derivable but never stated' reading: Structure/BiCCC.v:134 `exp_coprod : x^(y + z) ≅ x^y × x^z`, which at Cat would give C^(1+1) ≅ C × C — i.e. the discrete-two clause is also one instantiation away, modulo identifying 1+1 in Cat with Two_Discrete (never done in-tree). This does not change the classification: nothing is stated at Cat."
+  }
+ },
+ {
+  "id": "awodey:7.7:example16",
+  "classification": "PARTIAL",
+  "aliases": [
+   "exponential adjunction in Cat / currying of functors",
+   "arrows of D^C are natural transformations",
+   "functors C × 2 ⟶ D as natural transformations (directed homotopy / cylinder)",
+   "functors 1 ⟶ D^C pick out objects",
+   "D^2 arrow category as codomain of a transposed functor"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat/Cartesian/Closed.v",
+    "line": 47,
+    "symbol": "Cat_Closed",
+    "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := ... (currying a functor A × B ⟶ C to A ⟶ [B, C]) ; from := ... |} }."
+   },
+   {
+    "file": "Instance/Fun.v",
+    "line": 108,
+    "symbol": "Fun",
+    "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}."
+   }
+  ],
+  "statement_record": {
+   "book": "Deduce, from the exponential adjunction in Cat alone, that the objects of D^C must be functors C ⟶ D and its arrows must be natural transformations: arrows of D^C ≅ functors 1 ⟶ (D^C)^2 ≅ functors 2 ⟶ D^C ≅ functors C × 2 ⟶ D ≅ functors C ⟶ D^2, and such a functor is exactly a natural transformation.",
+   "intree": "The exponential adjunction Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) is proven (Cat_Closed's exp_iso, with to = currying and from = uncurrying); the functor category is DEFINED to have functors as objects and natural transformations (@Transform) as morphisms.",
+   "strength_comparison": "intree-weaker: the transposition machinery the example runs on is proven, but the derivation itself is absent — the library POSITS natural transformations as the morphisms of Fun instead of deducing them, and the intermediate correspondences (2 ⟶ X = an arrow of X; C × 2 ⟶ D = a natural transformation; C ⟶ D^2 = a natural transformation) are nowhere stated."
+  },
+  "gap": "The example's actual content — the chain of bijections that FORCES the arrows of D^C to be natural transformations — is not formalized. Missing: (a) any statement that functors out of the walking arrow _2 into a category correspond to its morphisms (Instance/Two.v carries this only as prose, line 96, and _2_as_Set is one particular functor, not a correspondence); (b) any statement that functors C ∏ _2 ⟶ D, or functors C ⟶ Arrow D, correspond to natural transformations F ⟹ G (Instance/Two.v:83 and Construction/Arrow.v state this only in header prose, the latter explicitly disclaiming a formal in-tree comparison); (c) any statement that functors 1 ⟶ X correspond to objects of X.",
+  "negative_search_log": [
+   "grep -rn '_2 ⟶|\\[_2|Fun _2|_1 ⟶|Fun _1' --include=*.v . — only prose mentions and the single functor _2_as_Set",
+   "grep -rn 'Arrow' --include=*.v . — Construction/Arrow.v header: \"no formal comparison with a functor category over the walking arrow [_2] ... is developed in-tree\"",
+   "grep -rn '≅\\[Cat\\]' --include=*.v . — no iso relating [C ∏ _2, D], [C, Arrow D] and Transform",
+   "sed -n '160,200p' Instance/Two.v — _2_as_Set is a single functor 2 ⟶ Sets, with the correspondence stated only in the surrounding comment"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Same classification as my blind pass. Cited evidence verified: Instance/Cat/Cartesian/Closed.v:47 (Cat_Closed, exp_iso to = currying / from = uncurrying, per the file header lines 30-38) and Instance/Fun.v:108-112 `Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D |}` (quote accurate). Negative-log claims spot-checked and true: Instance/Two.v carries the C ∏ _2 correspondence only as prose (line 83: 'a natural transformation between two functors from C to D is a functor from C ∏ [_2] to D, a directed homotopy'), and _2_as_Set (Instance/Two.v:174) is one functor `_2 ⟶ Sets`, not a correspondence. Construction/Arrow.v:105-108 explicitly disclaims the [2,C] comparison. I found no in-tree statement of `1 ⟶ X ↔ obj X` either. The record's 'the library POSITS natural transformations as the morphisms of Fun instead of deducing them' is exactly right."
+  }
+ },
+ {
+  "id": "awodey:7.7:example17",
+  "classification": "PARTIAL",
+  "aliases": [
+   "directed graph / quiver, Quiv",
+   "category of graphs Sets^Γ, presheaves on the parallel pair",
+   "walking parallel pair Γ (two objects, two parallel arrows)",
+   "graph homomorphism = natural transformation (two commuting squares)",
+   "Graphs is cartesian closed (from Sets^C cartesian closed)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Parallel.v",
+    "line": 166,
+    "symbol": "Presheaf_Graph",
+    "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := ... | ParY, ParX => match ``h with true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end |}."
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 358,
+    "symbol": "QuiverCategory",
+    "intree_statement": "#[export] Instance QuiverCategory : Category. ... (Build_Category' QuiverHomomorphism QuiverId (fun Q1 Q2 Q3 F G => @QuiverComp Q1 Q2 Q3 G F)) with hom-setoid QuiverHomomorphismEquivalence"
+   },
+   {
+    "file": "Instance/Parallel.v",
+    "line": 80,
+    "symbol": "Parallel",
+    "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; ... |}  (* two objects, two parallel non-identity arrows *)"
+   }
+  ],
+  "statement_record": {
+   "book": "The index category Γ has two objects and two distinct parallel non-identity arrows; a graph IS a functor Γ ⟶ Sets and a graph homomorphism IS a natural transformation, so the category of graphs is the functor category Sets^Γ; hence (from Sets^C cartesian closed) Graphs is cartesian closed.",
+   "intree": "Parallel is the walking parallel pair; Presheaf_Graph exhibits one concrete graph (vertices nat, edges nat*nat, source = fst, target = snd) as a presheaf Parallel^op ⟶ Sets; QuiverCategory is the category of quivers and quiver homomorphisms, built directly (nodes-and-indexed-edge-families presentation) rather than as a functor category.",
+   "strength_comparison": "intree-weaker: both sides of the identification exist but are never identified — there is no functor, equivalence or isomorphism between QuiverCategory and [Parallel^op, Sets], and the cartesian-closure corollary is unavailable because no functor category is ever given cartesian closed structure."
+  },
+  "gap": "Three things are missing. (1) No theorem QuiverCategory ≅ (or ≃) [Parallel^op, Sets]: Instance/Parallel.v carries the identification only as a comment (\"a presheaf on the parallel-pair category x ⇉ y is a graph (quiver)\") and Presheaf_Graph is one instance, not a correspondence. (2) The in-tree Quiver uses edges : nodes → nodes → Type (an indexed family) rather than a single edge set with source/target functions — equivalent, but the translation to Awodey's (G_1, G_0, s, t) presentation is not proven; QuiverHomomorphism preserves source/target by typing rather than by the two commuting squares. (3) There is NO cartesian closed structure on any functor category in-tree (no Fun_Closed / presheaf CCC instance), so the conclusion \"Graphs is cartesian closed\" has no in-tree route.",
+  "negative_search_log": [
+   "grep -rn 'Fun_Cartesian|Fun_Closed|Presheaf.*Closed|@Closed \\[|Closed \\(\\[' --include=*.v . — 0 hits",
+   "grep -rn 'Program Instance.*: @Closed|Instance.*@Closed ' --include=*.v . — full list of Closed instances (AST, Lambda, Algs, Rel, Props, Coq, Cat, FinSet, Sets, C ∏ D); no functor/presheaf category",
+   "grep -rn 'Quiver|graph|Graph' --include=*.v . | grep -i 'definition|record|class|program|inductive' — QuiverCategory and Presheaf_Graph only; no comparison functor",
+   "grep -rn '≅\\[Cat\\]' --include=*.v . — no iso involving QuiverCategory",
+   "[PHASE-D ADDED] rg -n 'Functor_Category_Cartesian' --include=*.v . — Instance/Fun/Cartesian.v:111 gives POINTWISE products on any functor category (@Cartesian (@Fun C D) from @Cartesian D), registered at _CoqProject:201. The name-based log line above ('Fun_Cartesian ... 0 hits') should not be read as 'functor categories carry no cartesian structure'. Gap clause (3) still stands: no CLOSED structure on any functor category exists, so 'Graphs is cartesian closed' has no in-tree route."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Same classification as my blind pass. Cited evidence verified: Instance/Parallel.v:80 `Program Definition Parallel : Category` (the walking parallel pair = Awodey's Γ; header lines 15-25 confirm two objects and two parallel non-identity arrows), Instance/Parallel.v:166 `Program Definition Presheaf_Graph : Parallel^op ⟶ Sets` with ParX ↦ nat (vertices), ParY ↦ nat*nat (edges), fmap true ↦ fst (source), false ↦ snd (target) — quote accurate, and it is indeed ONE graph, not a correspondence; Construction/Free/Quiver.v:358 `#[export] Instance QuiverCategory : Category` built via Build_Category' on QuiverHomomorphism (quote accurate). All three files registered in _CoqProject (72, 221). CORRECTION to the negative_search_log (classification unchanged): the first log line reads \"grep -rn 'Fun_Cartesian|Fun_Closed|Presheaf.*Closed|@Closed \\[|Closed \\(\\[' — 0 hits\", which is true as a name search but could be read as 'no cartesian structure on functor categories'. In fact Instance/Fun/Cartesian.v:111 has `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` (registered at _CoqProject:201) — pointwise PRODUCTS on functor categories DO exist. The gap's clause (3) is nevertheless correct as written: there is no CLOSED structure on any functor category, so Awodey's 'hence Graphs is cartesian closed' still has no in-tree route. I appended a corrected log line."
+  }
+ },
+ {
+  "id": "awodey:7.7:example18",
+  "classification": "PRESENT",
+  "aliases": [
+   "diagonal functor Δ : C ⟶ C^D",
+   "constant functor Δ(C), Diagonal, =(c)",
+   "cone = natural transformation from the constant functor",
+   "morphism of cones = constant natural transformation Δ(h)",
+   "transpose of the product projection C × D ⟶ C"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cone/Const.v",
+    "line": 53,
+    "symbol": "Cone_Natural_Transform",
+    "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F."
+   },
+   {
+    "file": "Functor/Diagonal.v",
+    "line": 33,
+    "symbol": "Diagonal",
+    "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }."
+   },
+   {
+    "file": "Instance/Cones/Comma.v",
+    "line": 73,
+    "symbol": "Cones_Comma",
+    "intree_statement": "Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))."
+   }
+  ],
+  "statement_record": {
+   "book": "Δ : C ⟶ C^D is the transpose of the first projection; Δ(C)(X) = C on objects, Δ(C)(x) = 1_C on arrows, and Δ(f) is the natural transformation all of whose components are f. Consequently a natural transformation Δ(C) ⟹ F is exactly a cone on F with vertex C (naturality degenerating to the commuting triangles), and a morphism of cones is exactly Δ(h).",
+   "intree": "Diagonal J : C ⟶ [J, C] with fobj x = the functor constantly x sending every arrow to id[x], and fmap f = the transformation with every component f; Cone_Natural_Transform : Δ[J](N) ⟹ F ↔ Cone[N] F (both directions Defined); Cones_Comma : Cones F ≅[Cat] (Δ ↓ =(F)), an isomorphism of the whole category of cones, so cone morphisms match too.",
+   "strength_comparison": "same — indeed intree-stronger on the morphism clause: the book asserts that cone morphisms are the constant transformations Δ(h), and the library proves the whole category Cones F is ISOMORPHIC in Cat (not merely equivalent) to the comma category (Δ ↓ =(F)). The only presentational difference is that Δ is built directly rather than obtained as the transpose of exl along Cat_Closed."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed against the code, not just the header. Functor/Diagonal.v:33 `Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C]` with fobj x = the functor constantly x with fmap _ = id[x], and fmap f = the transformation with `transform := fun _ => f` — this is exactly Awodey's Δ(C)(X)=C, Δ(C)(x)=1_C, Δ(f) all-components-f. Structure/Cone/Const.v:53-54 `Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F` — verified verbatim, Defined (both directions constructed), and the file is registered (_CoqProject:311). The 'intree-stronger' claim on the morphism clause was checked and holds: Instance/Cones/Comma.v:73 `Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F))` is a genuine isomorphism in Cat (proof by `isomorphism` with Cones_to_Comma / Cones_from_Comma and both round trips), and morphisms of (Δ ↓ =(F)) are pairs (h, ttt) with θ ≈ θ' ∘ Δ(h) — literally Awodey's 'a morphism of cones is a constant natural transformation Δ(h)'. Instance/Cones.v (the category of cones, apex maps with φx ∘ u ≈ ψx) also matches. The one presentational divergence (Δ built directly rather than as the transpose of exl along Cat_Closed) is disclosed in the record. No defect found in the cited files."
+  }
+ },
+ {
+  "id": "awodey:7.7:example19",
+  "classification": "PARTIAL",
+  "aliases": [
+   "poset as a (thin) category, Proset / Poset",
+   "monotone map = functor between poset categories",
+   "exponential poset Q^P, pointwise order on monotone maps",
+   "natural transformation between monotone maps is unique / exists iff f ≤ g pointwise",
+   "thin category, (0,1)-category, preorder enriched over 2"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 183,
+    "symbol": "EnrichedFunctor_Two_monotone",
+    "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q."
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}."
+   }
+  ],
+  "statement_record": {
+   "book": "For posets P, Q the objects of the functor category Q^P are the monotone maps P ⟶ Q; a natural transformation f ⟹ g exists (and is then unique, naturality being automatic by thinness) exactly when f ≤ g pointwise; hence Q^P as a functor category coincides with the exponential poset Q^P.",
+   "intree": "Proset P is the thin category of a preorder (every hom-setoid is the total relation, so parallel arrows are equal by construction); EnrichedFunctor_Two_monotone identifies enriched functors between the _2-enrichments of two preorders with monotone maps.",
+   "strength_comparison": "intree-weaker: the objects clause is captured only in the ENRICHED encoding (V-functors over the walking arrow _2 between Enriched_of_TwoPreorder structures), not for ordinary functors between the Proset categories; the arrows clause — the whole point of the example — has no counterpart at all."
+  },
+  "gap": "The functor category [Proset P, Proset Q] is never formed, and nothing is proved about it. Missing: (a) that ordinary functors Proset P ⟶ Proset Q are exactly monotone maps (only the enriched analogue exists, in a different framework); (b) that hom-sets of a functor category into a thin category are subsingletons, i.e. natural transformations there are unique when they exist; (c) that a natural transformation f ⟹ g exists iff f ≤ g pointwise; (d) any exponential-poset object — no category Pos and no exponential in it exists in-tree — so the concluding identification cannot even be stated.",
+  "negative_search_log": [
+   "grep -rn 'category of posets|MonotoneMap|monotone map' --include=*.v . — MonotoneMap only in Construction/Enriched/Two.v; 'category of posets' only as a comment in Instance/Poset.v:22",
+   "grep -rni 'exponential poset|order-preserving' --include=*.v . — no exponential poset; order-preserving hits are FinSet codecs and Lambda renamings",
+   "grep -rn 'Pos_|PosetCat|Posets' --include=*.v . — no Pos category",
+   "grep -rni 'Thin|thin categ' --include=*.v . | grep -i 'definition|class|lemma|theorem|instance|record' — 0 assertions about thinness"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass leaned ABSENT; PARTIAL with this gap is defensible and I do not overturn, since the objects clause genuinely has an in-tree analogue in the enriched framework. Evidence verified: Construction/Enriched/Two.v:183-187 `Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q` (quote accurate; MonotoneMap is the Record at line 175). Instance/Proset.v:33-40 `Program Definition Proset ... homset := fun A B => {| Setoid.equiv := fun _ _ => True |}` — the quote is trimmed but faithful. Both registered (_CoqProject:35, 224). Two refinements to the record that do not change the classification: (a) Instance/Poset.v:116 also defines `Poset` (a Proset plus antisymmetry) — closer to Awodey's P, Q than Proset, and worth citing in any issue; (b) the record's gap clause (b) ('natural transformations into a thin category are unique') is missing as a STATEMENT, but note it is definitionally true for Proset targets, since Proset's hom-setoid is the total relation — so any issue should ask for the statement, not for new machinery. Gap clause (d) is the substantive one and I confirm it: there is no category Pos and no exponential poset anywhere in-tree."
+  }
+ },
+ {
+  "id": "awodey:7.7:prop20",
+  "classification": "ABSENT",
+  "aliases": [
+   "Pos ⟶ Cat preserves cartesian closed structure",
+   "inclusion of posets into categories, forgetful/inclusion functor Pos ↪ Cat",
+   "exponential poset agrees with the functor category",
+   "CCC-structure-preserving functor / preserves terminal, products, exponentials",
+   "cartesian closed functor, strong closed functor"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Pos\\b' --include=*.v . — only Lib/MapDecide's Pos (binary positives), Instance/Roof's RPos constructors, and a prose mention at Instance/Poset.v:22; no category of posets exists in-tree",
+   "grep -rn 'category of posets|Posets|PosetCat|Pos_' --include=*.v . — no definition",
+   "grep -rn 'monotone map|MonotoneMap' --include=*.v . — MonotoneMap is a Record in Construction/Enriched/Two.v used for the 2-enrichment theorem; it is never assembled into a category",
+   "grep -rni 'exponential poset' --include=*.v . — 0 hits",
+   "grep -rn 'Program Instance.*: @Closed|Instance.*@Closed ' --include=*.v . — the Closed instances are AST, Lambda, Algs, Rel, Props, Coq, Cat, FinSet, Sets and C ∏ D; none is a category of posets, so there is no CCC structure to preserve",
+   "[PHASE-D CORRECTED] grep -rn 'CartesianFunctor|ClosedFunctor|TerminalFunctor' --include=*.v . — the notion of a CCC-structure-preserving functor DOES exist in-tree: Functor/Structure/Cartesian.v:49 (CartesianFunctor), Functor/Structure/Cartesian/Closed.v:49 (ClosedFunctor), Functor/Structure/Terminal.v:43 (TerminalFunctor), all registered in _CoqProject. What is missing is the poset side (no category Pos, no inclusion Pos ↪ Cat), not the preservation vocabulary. (Replaces a Phase C log line that wrongly claimed no such notion is defined.)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed by my own blind pass. `rg -n '\\bPos\\b'` over all .v files returns only Lib/MapDecide.v (binary positives), Instance/Roof.v's RPos/ZeroPos constructors, and the prose mention at Instance/Poset.v:22; there is no category of posets, hence no inclusion Pos ↪ Cat and nothing to state. CORRECTION to the negative_search_log (classification unchanged): the last log line asserted \"no notion of a CCC-structure-preserving functor is defined (the library has monoidal/braided/symmetric structured functors, not cartesian-closed ones)\". That is FALSE. Functor/Structure/Cartesian.v:49 defines `Class CartesianFunctor` (fobj_prod_iso : F (x × y) ≅ F x × F y with fmap_exl/fmap_exr/fmap_fork), Functor/Structure/Cartesian/Closed.v:49 defines `Class ClosedFunctor` (fobj_exp_iso : F (y^x) ≅ F y ^ F x with fmap_curry/fmap_uncurry), and Functor/Structure/Terminal.v:43 defines `Class TerminalFunctor` — all three registered in _CoqProject (148, 149, 158). So the VOCABULARY for 'preserves CCC structure' is fully in-tree; only the poset side is missing. I replaced that log line and preserved the original wording here. This matters for Phase E: the issue must ask for Pos + the inclusion + a ClosedFunctor instance, not for a new structured-functor notion. Classification stays ABSENT: a generic class with no applicable instance is vocabulary, not partial coverage of the statement."
+  }
+ },
+ {
+  "id": "awodey:7.7:example21",
+  "classification": "ABSENT",
+  "aliases": [
+   "group as a one-object category, delooping BG",
+   "group homomorphism as a functor between one-object categories",
+   "natural transformation between group homomorphisms = conjugation / inner automorphism",
+   "functor category H^G is a groupoid",
+   "conjugation h⁻¹ f(x) h = g(x)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'one object|single object|delooping|BG\\b' --include=*.v . — only prose (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces'), Instance/One.v's terminal category, and Theory/Bicategory/OneObject.v (delooping a MONOIDAL CATEGORY into a bicategory, not a group into a category); no construction turning a group or monoid into a one-object category",
+   "grep -rni 'group homomorphism|GroupHom' --include=*.v . — 0 hits",
+   "grep -rni 'conjugat|inner automorphism' --include=*.v . — conjugation hits are all about conjugating functors/bifunctors by isomorphisms (Theory/Equivalence.v, Functor/Construction/Product.v) or DoubleCategory conjoints (conj_hor etc.); nothing about conjugation in a group",
+   "grep -n 'Class|Definition|Program|Theorem|Lemma' Structure/Group.v — only GroupObject, a group OBJECT internal to a cartesian category; no group-as-category and no category of groups",
+   "grep -rni 'H\\^G|functor category of groups' --include=*.v . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed independently. My blind searches: `rg -i 'deloop|one-object|one object'` returns only prose (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces', Theory/Coq/Monoid.v:24, Structure/Monoid.v:113) plus Theory/Bicategory/OneObject.v, which deloops a MONOIDAL CATEGORY into a bicategory — not a group into a category. `rg -i 'conjugat'` finds only functor/bifunctor conjugation by isomorphisms and DoubleCategory conjoints; nothing group-theoretic. Structure/Group.v is group OBJECTS in a cartesian monoidal category (verified by reading the file), and Construction/Cayley.v is the Cayley/Yoneda representation of a category, not a delooping B(-) : Grp ⟶ Cat. There is no category of groups either. Nothing to weaken or special-case; the record's negative log is accurate as written."
+  }
+ },
+ {
+  "id": "awodey:7.7:def-groupoid",
+  "classification": "PARTIAL",
+  "aliases": [
+   "groupoid = category in which every arrow is an isomorphism",
+   "IsGroupoid predicate / Grpd",
+   "core of a category, maximal subgroupoid",
+   "generalized group with partially-defined multiplication; one-object groupoid = group",
+   "fundamental groupoid of a space"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Groupoid.v",
+    "line": 103,
+    "symbol": "Groupoid",
+    "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+   }
+  ],
+  "statement_record": {
+   "book": "A groupoid is a category in which every arrow is an isomorphism; equivalently a generalized group whose multiplication is defined only when domains and codomains match, groups being exactly the one-object groupoids.",
+   "intree": "Groupoid C is the category whose objects are those of C and whose morphisms x ~> y are the isomorphisms x ≅ y of C, with iso_id, iso_compose and the iso_setoid equivalence — i.e. the CORE of C, the canonical example of a groupoid.",
+   "strength_comparison": "intree-weaker: the library provides a construction that yields a groupoid, but never defines groupoid-hood as a property, so no statement can be quantified over groupoids, and it is not even proved that every morphism of Groupoid C is invertible."
+  },
+  "gap": "There is no predicate or class expressing \"every morphism of this category is an isomorphism\" — nothing can be said of an arbitrary groupoid. The name Groupoid is bound instead to one particular construction (the core of a given C). Also missing: any lemma that every arrow of Groupoid C is invertible (iso_sym is available in Theory/Isomorphism.v but is never applied to state this); the identification of groups with one-object groupoids; and any category Grpd of groupoids (Construction/Groupoid.v's own header concedes \"no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem\").",
+  "negative_search_log": [
+   "grep -rn 'Groupoid' --include=*.v . — only Construction/Groupoid.v (the core construction), a prose reference in Theory/Isomorphism.v, and two uses in Structure/UniversalProperty.v",
+   "grep -rni 'every morphism is an iso|every arrow is|all arrows are invertible|IsGroupoid' --include=*.v . — the sole hit is the header comment Construction/Groupoid.v:13",
+   "grep -rn 'Grpd' --include=*.v . — one prose hit (Construction/Groupoid.v:23) and no definition",
+   "grep -rni 'groupoid' --include=*.v . (excluding Construction/Groupoid.v, Theory/Isomorphism.v) — remaining hits are 'groupoid laws' for cast/transport packs (Multicategory, DoubleCategory, Displayed) and 'semigroupoid' (Theory/Category/Semi.v), none defining the notion"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; my blind pass reached the identical call. Construction/Groupoid.v:103-108 verified verbatim (`Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}`), registered at _CoqProject:53. The key adversarial check — is `Groupoid` a same-name-weaker-statement? — resolves in the record's favour: the name is bound to the CORE construction, not to groupoid-hood, and `rg -i 'IsGroupoid|is_groupoid|every arrow is an iso'` finds only the header comment at line 13. So no predicate exists and nothing can be quantified over groupoids, exactly as the gap says. The gap's quotation of the file's own disclosure is accurate (Construction/Groupoid.v, closing paragraph: 'no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem') — that is honest documentation, not a defect. I also confirmed the header's downstream claim about Structure/UniversalProperty.v is true (it uses `Groupoid (@Fun.Fun C Sets)` at lines 242-249), so the header is not stale."
+  }
+ },
+ {
+  "id": "awodey:7.7:prop22",
+  "classification": "ABSENT",
+  "aliases": [
+   "Grpd is cartesian closed",
+   "category of groupoids and functors",
+   "inclusion Grpd ⟶ Cat preserves CCC structure",
+   "exponential of groupoids is the functor category; H^G is a groupoid",
+   "groupoid-valued functor category closed under natural isomorphism"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Grpd' --include=*.v . — single prose hit at Construction/Groupoid.v:23; no category of groupoids is constructed",
+   "grep -rn 'Groupoids|GrpdCat|GroupCat|Group_Category' --include=*.v . — no definition (only prose in Construction/Groupoid.v and Theory/Isomorphism.v)",
+   "Construction/Groupoid.v header states outright: 'no standalone category of groupoids exists in-tree, so the adjunction remark in the header above remains prose rather than a theorem'",
+   "grep -rn 'Program Instance.*: @Closed|Instance.*@Closed ' --include=*.v . — full list of Closed instances; none over a category of groupoids",
+   "grep -rni 'H\\^G|functor category of groups' --include=*.v . — 0 hits; no proof that a functor category into a groupoid is a groupoid",
+   "[PHASE-D CORRECTED] grep -rn 'CartesianFunctor|ClosedFunctor|TerminalFunctor' --include=*.v . — CCC-structure preservation by a functor IS defined in-tree (Functor/Structure/Cartesian.v:49, Functor/Structure/Cartesian/Closed.v:49, Functor/Structure/Terminal.v:43, all in _CoqProject). What is missing is the category Grpd and any proof that a functor category into a groupoid is a groupoid. (Replaces a Phase C log line that wrongly claimed no such notion exists.)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed. No category of groupoids exists: `rg -n '\\bGrpd\\b'` yields exactly one hit, the prose line Construction/Groupoid.v:23, and the file's closing paragraph concedes the point outright. Nothing in-tree proves a functor category into a groupoid is a groupoid. CORRECTION to the negative_search_log (classification unchanged): the line \"no notion of CCC-structure preservation by a functor exists in-tree\" is FALSE for the same reason as in prop20 — Functor/Structure/Cartesian/Closed.v:49 `Class ClosedFunctor` (plus CartesianFunctor and TerminalFunctor), all registered in _CoqProject. The original wording is preserved here; I replaced the log line so Phase E does not draft an issue asking for machinery that already exists."
+  }
+ },
+ {
+  "id": "awodey:7.8:example23",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Ord_fin, finite ordinals with all functions, skeletal FinSet",
+   "Sets_fin, category of finite sets",
+   "cardinality functor |−| : Sets_fin ⟶ Ord_fin, chosen isomorphism θ_A : A ≅ i|A|",
+   "natural isomorphism 1_{Sets_fin} ≅ i ∘ |−|",
+   "equivalent but not isomorphic categories, skeleton of a category"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet.v",
+    "line": 116,
+    "symbol": "FinSet",
+    "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); id := fun _ i => i; compose := fun _ _ _ f g i => f (g i) |}."
+   }
+  ],
+  "statement_record": {
+   "book": "Ord_fin has the finite ordinals 0, 1, 2, ... as objects and ALL functions between them as arrows. Choosing for each finite set A a cardinal |A| and an isomorphism θ_A : A ≅ i|A| makes |−| : Sets_fin ⟶ Ord_fin a functor and θ a natural isomorphism 1_{Sets_fin} ⟹ i ∘ |−|, while |i(−)| = 1_{Ord_fin} strictly; the two categories are not isomorphic, motivating equivalence.",
+   "intree": "FinSet is exactly Ord_fin: objects the natural numbers (n standing for Fin.t n) and morphisms all functions Fin.t m → Fin.t n, with pointwise-equality hom-setoids. Nothing on the Sets_fin side exists.",
+   "strength_comparison": "intree-weaker: only one of the two categories in the comparison is formalized; the comparison itself — the functors i and |−|, the chosen isomorphisms θ_A, the natural isomorphism, and the strict identity in the other order — is entirely absent."
+  },
+  "gap": "There is no category of finite sets (Sets_fin): the library's Sets is all setoids, and no finiteness predicate or full subcategory of finite objects exists (grep 'Finite' finds only a prose mention of finite limits in Structure/Topos.v). Consequently there is no inclusion i : FinSet ⟶ Sets, no cardinality functor |−|, no chosen isomorphism family θ_A, no natural isomorphism Id ≅ i ◯ |−|, and no proof of the strict identity |i(−)| = Id. Instance/FinSet.v presents FinSet as 'the skeleton of the category of finite sets' but the skeleton relation itself is never formalized — Theory/Equivalence.v:98 confirms the library 'confines skeletons to concrete instances such as Instance/FinSet.v'.",
+  "negative_search_log": [
+   "grep -rni 'Sets_fin|FinSets|category of finite sets' --include=*.v . — only header prose in Instance/FinSet.v",
+   "grep -rn 'Finite' --include=*.v . | grep -i 'definition|class|record|program|inductive' — 0 hits; no finiteness predicate on objects of Sets",
+   "grep -rni 'skeleton|skeletal' --include=*.v . | grep -i 'definition|class|lemma|theorem|instance|record' — only Test/Poset.v's poset_nat_skeletal / poset_two_skeletal; no skeleton construction or 'C ≃ skeleton(C)' theorem",
+   "grep -rn 'EquivalenceOfCategories' --include=*.v . — every in-tree equivalence instance listed (Karoubi, Grothendieck Fiber/RoundTrip, Reflective/Idempotent, monadicity comparisons, Lawvere EM); none involves FinSet or Sets",
+   "grep -rn 'Definition|Program|Lemma|Theorem|Instance' Instance/Ens.v — Ens/EnsT are unrelated set-like categories, with no finiteness or comparison to FinSet"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed. Instance/FinSet.v:116-122 verified verbatim (`Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; homset := fun m n => fun_setoid (Fin.t m) (Fin.t n); ... |}`), registered at _CoqProject:193 — this really is Ord_fin (objects the finite ordinals, arrows ALL functions between them). My blind searches independently found no Sets_fin: no finiteness predicate on setoids, no full subcategory of finite objects, no cardinality functor, no θ family, no natural iso, and no skeleton construction. The gap's quotation of Theory/Equivalence.v is accurate — lines 97-100 read 'The library accordingly states every law up to ≈ and confines skeletons to concrete instances such as Instance/FinSet.v'. Strength comparison ('only one of the two categories is formalized') is honest."
+  }
+ },
+ {
+  "id": "awodey:7.8:def24",
+  "classification": "PRESENT",
+  "aliases": [
+   "equivalence of categories",
+   "pseudo-inverse / quasi-inverse functor",
+   "natural isomorphisms α : 1_C ≅ F∘E, β : 1_D ≅ E∘F",
+   "C ≃ D, weak equivalence, isomorphism up to isomorphism",
+   "isomorphism of categories (the strict notion it generalizes)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 151,
+    "symbol": "EquivalenceOfCategories",
+    "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }."
+   },
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 268,
+    "symbol": "Nat_Isos_to_Equivalence",
+    "intree_statement": "Definition Nat_Isos_to_Equivalence {C D : Category} (F : C ⟶ D) (G : D ⟶ C) (counit_iso : F ◯ G ≅[Fun] Id[D]) (unit_iso : Id[C] ≅[Fun] G ◯ F) : EquivalenceOfCategories F."
+   },
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 163,
+    "symbol": "Equivalence_to_Cat_Iso",
+    "intree_statement": "Definition Equivalence_to_Cat_Iso {C D : Category} {F : C ⟶ D} (E : EquivalenceOfCategories F) : C ≅[Cat] D := @Build_Isomorphism Cat C D F quasi_inverse equivalence_counit (symmetry equivalence_unit)."
+   }
+  ],
+  "statement_record": {
+   "book": "An equivalence of categories is a pair of functors E : C ⟶ D, F : D ⟶ C together with natural isomorphisms α : 1_C ≅ F∘E and β : 1_D ≅ E∘F; F is a pseudo-inverse of E and C ≃ D. It generalizes isomorphism of categories by replacing the strict identities 1_C = GF, 1_D = FG with natural isomorphisms.",
+   "intree": "EquivalenceOfCategories F packages a quasi_inverse : D ⟶ C with F ◯ quasi_inverse ≈ Id[D] and Id[C] ≈ quasi_inverse ◯ F, where ≈ on functors is Functor_Setoid (a pointwise family of isomorphisms plus the conjugation coherence). Nat_Isos_to_Equivalence converts bundled natural isomorphisms in [C,D] into the class, and equivalence_counit_iso/equivalence_unit_iso convert back, so the ≈ presentation is interchangeable with Awodey's natural-isomorphism presentation.",
+   "strength_comparison": "same (setoid rephrasing): the two cells are stated as ≈ of functors rather than as bundled natural isomorphisms, but Functor_Setoid IS a componentwise iso family with naturality, and the round trip is proven in-tree (Nat_Isos_to_Equivalence in one direction, equivalence_unit_iso/equivalence_counit_iso via equiv_iso in the other). The comparison with isomorphism of categories that Awodey draws is also present, as the pair Equivalence_to_Cat_Iso / Cat_Iso_to_Equivalence with both round trips (Cat_Iso_to_Equivalence_to_Cat_Iso, Equivalence_to_Cat_Iso_to_Equivalence)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed, and I checked the one thing that could have downgraded it: whether `≈` between functors is genuinely NATURAL isomorphism or merely a pointwise iso family. Theory/Functor.v:148-160 `Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D)` has equiv F G := { iso : ∀ x, F x ≅ G x & ∀ x y (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } — the second component IS the naturality square in conjugated form. So the setoid rephrasing is faithful and the strength_comparison ('same (setoid rephrasing)') is honest. All three cited evidence sites verified verbatim: Theory/Equivalence.v:151 (Class EquivalenceOfCategories with quasi_inverse + the two cells, orientation matching Awodey's α : 1_C → F∘E, β : 1_D → E∘F), :163 (Equivalence_to_Cat_Iso), :268 (Nat_Isos_to_Equivalence). The claimed round trip back to bundled natural isos also exists: equivalence_counit_iso at :202 and equivalence_unit_iso at :205, plus the componentwise equivalence_counit_at/:210 and equivalence_unit_at/:213. Both Cat-iso round trips are proven (:182, :187)."
+  }
+ },
+ {
+  "id": "awodey:7.8:remark-setsfin-ordfin",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Sets_fin ≃ Ord_fin",
+   "inclusion i : Ord_fin ⟶ Sets_fin is full and faithful",
+   "essentially surjective on objects (every finite set is isomorphic to some i(n))",
+   "Hom(n,m) → Hom(i n, i m) is a bijection",
+   "the two characteristic conditions of an equivalence"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/FullFaithful.v",
+    "line": 160,
+    "symbol": "FF_ESO_Equivalence",
+    "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F."
+   },
+   {
+    "file": "Theory/Equivalence.v",
+    "line": 141,
+    "symbol": "EssentiallySurjective",
+    "intree_statement": "Class EssentiallySurjective {C D : Category} (F : C ⟶ D) := { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }."
+   },
+   {
+    "file": "Instance/FinSet.v",
+    "line": 116,
+    "symbol": "FinSet",
+    "intree_statement": "Program Definition FinSet : Category := {| obj := nat; hom := fun m n => Fin.t m → Fin.t n; ... |}  (* the Ord_fin side of the comparison *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Sets_fin is equivalent to Ord_fin because (1) the inclusion i is essentially surjective — every finite set is isomorphic to some i(n) — and (2) i is full and faithful, Hom_{Ord_fin}(n,m) → Hom_{Sets_fin}(i n, i m) being a bijection; these two conditions are characteristic of equivalences in general.",
+   "intree": "The two characteristic conditions are formalized as classes (Full, Faithful in Theory/Functor.v; EssentiallySurjective with the split eso_obj/eso_iso witness) and their sufficiency is FF_ESO_Equivalence; the Ord_fin side of the concrete example exists as FinSet.",
+   "strength_comparison": "intree-weaker on the concrete claim: the general criterion the remark points forward to is fully proven, but the specific equivalence Sets_fin ≃ Ord_fin is not, because no category of finite sets and no inclusion functor exist."
+  },
+  "gap": "The concrete content of the remark — that Sets_fin ≃ Ord_fin — has no in-tree counterpart: there is no category of finite sets, hence no inclusion i : FinSet ⟶ Sets_fin, no proof that it is full and faithful (no hom-set bijection), and no proof of essential surjectivity (no 'every finite set is isomorphic to some Fin.t n' statement). Only the general criterion the remark alludes to is present, and that is separately item awodey:7.8:prop25.",
+  "negative_search_log": [
+   "grep -rni 'Sets_fin|FinSets|category of finite sets' --include=*.v . — only header prose in Instance/FinSet.v",
+   "grep -rn 'Finite' --include=*.v . | grep -i 'definition|class|record|program|inductive' — 0 hits; no finiteness predicate to carve a subcategory of Sets",
+   "grep -rn 'EquivalenceOfCategories' --include=*.v . — no instance involving FinSet, Sets, or a skeleton comparison",
+   "grep -rni 'skeleton|skeletal' --include=*.v . | grep -i 'lemma|theorem|definition|class' — no 'every category is equivalent to its skeleton' theorem"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, though this is the boundary call of the batch: the remark has two halves, the concrete claim (Sets_fin ≃ Ord_fin) which is entirely absent, and the general observation (eso + full&faithful characterize equivalences) which is fully proven. My blind pass would have said ABSENT-on-the-concrete-claim; PARTIAL is acceptable because the remark's forward-pointing half genuinely exists and the gap text says so precisely. Evidence verified: Theory/Equivalence.v:141 `Class EssentiallySurjective { eso_obj : D → C; eso_iso (d : D) : F (eso_obj d) ≅ d }` (verbatim), Theory/Equivalence/FullFaithful.v:160 FF_ESO_Equivalence (verbatim), Instance/FinSet.v:116 (verbatim). PHASE E CAUTION: the general half of this record is item awodey:7.8:prop25, which is PRESENT. The record itself flags this ('that is separately item awodey:7.8:prop25'), so any issue filed from this record must cover only the concrete Sets_fin ≃ Ord_fin content and must not double-count prop25."
+  }
+ },
+ {
+  "id": "awodey:7.8:prop25",
+  "classification": "PRESENT",
+  "aliases": [
+   "equivalence iff full, faithful and essentially surjective",
+   "FF + ESO ⇒ equivalence, quasi-inverse construction by choice",
+   "equivalence ⇒ full / faithful / essentially surjective",
+   "essentially surjective on objects, eso",
+   "weak equivalence characterization of functors"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/FullFaithful.v",
+    "line": 160,
+    "symbol": "FF_ESO_Equivalence",
+    "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F. Proof. exact (@Build_EquivalenceOfCategories C D F (ff_eso_inverse F) (ff_eso_counit F) (ff_eso_unit F)). Defined."
+   },
+   {
+    "file": "Theory/Equivalence/FullFaithful.v",
+    "line": 214,
+    "symbol": "Equivalence_Full",
+    "intree_statement": "Theorem Equivalence_Full `(E : @EquivalenceOfCategories C D F) : Full F."
+   },
+   {
+    "file": "Theory/Equivalence/FullFaithful.v",
+    "line": 171,
+    "symbol": "Equivalence_Faithful",
+    "intree_statement": "Theorem Equivalence_Faithful `(E : @EquivalenceOfCategories C D F) : Faithful F."
+   },
+   {
+    "file": "Theory/Equivalence/FullFaithful.v",
+    "line": 221,
+    "symbol": "Equivalence_EssSurj",
+    "intree_statement": "Theorem Equivalence_EssSurj `(E : @EquivalenceOfCategories C D F) : EssentiallySurjective F. Proof. exact (@Build_EssentiallySurjective C D F (fun d => quasi_inverse d) (fun d => equivalence_counit_at d)). Defined."
+   }
+  ],
+  "statement_record": {
+   "book": "For F : C ⟶ D the following are equivalent: (1) F is part of an equivalence of categories; (2) F is full, faithful and essentially surjective on objects. Direction (2 ⇒ 1) CHOOSES, for each object D, an object E(D) and an isomorphism β_D : D ≅ F E(D).",
+   "intree": "Both directions are theorems: FF_ESO_Equivalence builds an EquivalenceOfCategories from Full + Faithful + EssentiallySurjective (with ff_eso_inverse the constructed quasi-inverse, ff_eso_counit and ff_eso_unit the two cells), and Equivalence_Full / Equivalence_Faithful / Equivalence_EssSurj give the converse; Equivalence_Inverse_Faithful additionally supplies the faithfulness of the quasi-inverse used in the classical proof.",
+   "strength_comparison": "same, with the choice content made explicit rather than invoked: EssentiallySurjective is a SPLIT class carrying eso_obj : D → C and eso_iso, and Full likewise carries a chosen preimage, so the (2 ⇒ 1) direction is axiom-free instead of appealing to the axiom of choice as Awodey's proof does — a presentational strengthening that shifts the choice into the hypothesis (Theory/Equivalence.v's header records that this is deliberate, the classical statement being equivalent to AC)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed in both directions, read in the source rather than from the header. Theory/Equivalence/FullFaithful.v:160 FF_ESO_Equivalence (Defined, built from ff_eso_inverse/ff_eso_counit/ff_eso_unit), :171 Equivalence_Faithful (Qed), :214 Equivalence_Full (Defined, via equivalence_prefmap and the section law equivalence_prefmap_sur at :203), :221 Equivalence_EssSurj (Defined). All four quotes accurate; the file is registered at _CoqProject:436. The strength_comparison's choice discussion checks out against the class definitions: Theory/Functor.v:331 `Class Full` carries `prefmap` + `fmap_sur` (a chosen section, not mere surjectivity) and Theory/Equivalence.v:141 EssentiallySurjective carries eso_obj + eso_iso, so the (2 ⇒ 1) direction is genuinely axiom-free — a hypothesis-strengthening, honestly labelled as such, and the deliberateness is documented at Theory/Equivalence.v:102-117. No same-name-weaker-statement here: `Full`, `Faithful`, `EssentiallySurjective` mean what the proposition needs."
+  }
+ }
+]

@@ -1,0 +1,449 @@
+[
+  {
+    "id": "7sketches:7.2.2:def7.12",
+    "classification": "PRESENT",
+    "aliases": [
+      "subobject classifier",
+      "SubobjectClassifier / Omega / truth",
+      "characteristic map, char(m), classifying morphism",
+      "generic subobject, true : 1 >-> Omega",
+      "classifying pullback square, {Y | p}",
+      "predicate on Y = morphism Y -> Omega"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 44,
+        "symbol": "SubobjectClassifier",
+        "intree_statement": "Context {C : Category}. Context `{HT : @Terminal C}. Context `{HP : @HasPullbacks C}. Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback {u x : C} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one; char_unique {u x : C} (m : u ~> x) (M : Monic m) (h : x ~> Ω) : IsPullback h truth u m one → h ≈ char m M }"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}  (forward: s ↦ char (sub_mono s) (sub_is_monic s); backward: h ↦ sub_reindex h truth_subobject, i.e. the pullback of truth along h — the book's {Y | p})"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 64,
+        "symbol": "truth_monic",
+        "intree_statement": "Lemma truth_monic : Monic truth."
+      }
+    ],
+    "statement_record": {
+      "book": "In a category E with finite limits (pullbacks + terminal 1), a subobject classifier is an object Ω with a mono true : 1 -> Ω such that every mono m : X >-> Y has a UNIQUE char(m) : Y -> Ω making the square (X -> 1, m, true, char(m)) a pullback; conversely any p : Y -> Ω determines a subobject {Y | p} by pulling true back, and a predicate on Y is a morphism Y -> Ω.",
+      "intree": "Class SubobjectClassifier over `{@Terminal C}` + `{@HasPullbacks C}` with fields Ω, truth : 1 ~> Ω, char m M : x ~> Ω, char_pullback : IsPullback (char m M) truth u m one, char_unique : IsPullback h truth u m one → h ≈ char m M; plus classifier_classifies : SubObj x ≅[Sets] (x ~> Ω) with the backward leg sub_reindex h truth_subobject.",
+      "strength_comparison": "same — and marginally intree-stronger on two counts: the book ASSUMES true is monic while the library DERIVES it (truth_monic), and the converse direction ({Y | p}) is not merely defined but proved a two-sided bijection with the subobject setoid (classifier_classifies, both round trips). The finite-limit hypothesis matches exactly (terminal + pullbacks). Uniqueness is stated at the level of ≈ on morphisms, the faithful setoid rephrasing of the book's equality. The book's phrase 'a predicate on Y is a morphism Y -> Ω' has no separate in-tree name, but that is a naming convention, not content."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search (rg -i 'subobject.?classifier|SubobjectClassifier' over *.v -> 12 files) landed on the same evidence before the coverage file was opened. Read Structure/SubobjectClassifier.v in full: the cited Class at line 44 is verbatim (fields Omega/truth/char/char_pullback/char_unique, lines 45-57) and the Section context at lines 40-42 is exactly `{@Terminal C}` + `{@HasPullbacks C}`, matching the book's finite-limits hypothesis. classifier_classifies is at line 187 (ends Defined) with both round trips at lines 159 and 174; truth_monic at line 64 is a genuine Lemma, NOT a class field, so the strength_comparison claim 'the book assumes true is monic, the library derives it' is accurate. char_respects (line 143) is likewise derived, not assumed. IsPullback is the apex-pinned form of Theory/Morphisms/Stability.v pinned at (u, m, one), i.e. the book's square with legs X->1 and m. File registered in _CoqProject:369. No same-name-weaker-statement, no missing API: the definition ships with the classification isomorphism the book only gestures at."
+    }
+  },
+  {
+    "id": "7sketches:7.2.2:construction-subobject-classifier-set",
+    "classification": "PARTIAL",
+    "aliases": [
+      "subobject classifier in Set, Omega_Set = B = {true,false}",
+      "booleans as truth values, Omega := 2, bool",
+      "characteristic function chi_X(y) = true iff y in image",
+      "subsets of Y correspond to functions Y -> B / powerset",
+      "Sets classifier, FinSet classifier, PropSetoid"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 353,
+        "symbol": "FinSet_Classifier",
+        "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := fun u x (m : u ~{FinSet}~> x) (_ : Monic m) (b : Fin.t x) => fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}  (obligations discharge char_pullback and char_unique)"
+      },
+      {
+        "file": "Instance/Sets/Classifier.v",
+        "line": 224,
+        "symbol": "sets_char_pullback",
+        "intree_statement": "Theorem sets_char_pullback@{o so sso} {A B : SetoidObject@{o o}} (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) : @IsPullback Sets@{so sso} (Setoid_Lift B) unit_setoid_object PropSetoid (char_setoid m) sets_true (Setoid_Lift A) (SetoidMorphism_Lift m) sets_to_unit  — where char_setoid m b := ∃ a, m a ≈ b"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}  — instantiated at FinSet_Classifier this IS the book's bijection between subsets of Y and functions Y -> 2"
+      }
+    ],
+    "statement_record": {
+      "book": "The subobject classifier of Set is Omega_Set := B = {true,false} with true : 1 -> B; for an injection m : X >-> Y, char(m)(y) = true iff y is in the image of m; conversely p : Y -> B classifies the subset {y in Y | p(y) = true}, exhibiting the bijection between subsets of Y and functions Y -> B.",
+      "intree": "For skeletal FINITE sets the construction is literal and computable: FinSet_Classifier has Ω := 2, truth := fin_true, and char m b := fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) — 'true exactly on the image' — with char_pullback and char_unique proved (and finset_monic_iff_injective, line 335, giving monos = injections). For the full setoid category Sets the classifier exists only as CROSS-UNIVERSE theorems with Ω := PropSetoid (carrier Type@{o} under iffT), char_setoid m b := ∃ a, m a ≈ b.",
+      "strength_comparison": "intree-weaker on the book's own category: over ALL sets the two-element boolean Ω is not available in-tree (and cannot be, constructively — 'b is in the image of m' is a Type-valued proposition, not a decidable boolean), so the in-tree Sets result is a differently-valued classifier living one universe up, deliberately NOT a `SubobjectClassifier Sets` instance. The boolean statement is realized in full only over FinSet, where image membership is decidable by fin_existsb. The image-membership rule for char, and the subsets↔maps bijection, are present in both settings."
+    },
+    "gap": "No `SubobjectClassifier Sets` (nor for Instance/Ens.v or Instance/Coq.v) at a single universe level, and no set-level Ω equal to the two-element boolean set: Instance/Sets/Classifier.v's header states the canonical candidate provably cannot fit at one level and its Ω is PropSetoid = Type@{o} under iffT, one universe up, with sets_char_pullback/sets_char_unique stated in Sets@{so sso}. Hence the book's identification Omega_Set = B = {true,false} (and with it the classical bijection 'subsets of Y ≅ B^Y' for arbitrary Y) is in-tree only for the decidable/finite case, FinSet with Ω = 2. Nothing in-tree connects the two (no 'FinSet ↪ Sets preserves the classifier' statement).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind search found exactly the two in-tree homes the record cites. Verified Instance/FinSet/Classifier.v:353 verbatim: `#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Omega := 2%nat; truth := fun _ => fin_true; char := ... fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}` with both obligations (char_pullback at 361, char_unique at 392) closed by Qed, and finset_monic_iff_injective at line 335 (record says 335; the Lemma line is 335) giving monos = injections. Verified Instance/Sets/Classifier.v:224 sets_char_pullback and the header (lines 12-77), which itself states the one-level obstruction and explicitly declines to claim the folklore no-go as a theorem -- so 'deliberately NOT a `SubobjectClassifier Sets` instance' is the library's own disclosure, not the classifier's spin. The gap is precise and I could not narrow it: the Sets char rule char_setoid m b := exists a, m a ~= b (Instance/Sets/Classifier.v:186) is the book's image-membership rule, but its truth values are Type@{o} under iffT one universe up, not 2. Both cited files are registered (_CoqProject:197, 234)."
+    }
+  },
+  {
+    "id": "7sketches:7.2.2:ex7.16",
+    "classification": "ABSENT",
+    "aliases": [
+      "characteristic function of a subset, chi_N : Z -> B",
+      "char(m)(y) = true iff y in image of m",
+      "membership predicate of a subobject",
+      "N inside Z / nat as a subset of the integers",
+      "computing char at a concrete element"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'ZArith|BinInt' --glob '*.v' | wc -l -- 0 hits: the integers Z do not exist anywhere in the library, so the exercise's mono N >-> Z cannot even be stated",
+      "rg -n 'carrier := nat' --glob '*.v' -- 2 hits, both Instance/Parallel.v:168/169 (the graph example's vertices/edges); no object of any classifier-carrying category has carrier nat",
+      "rg -n '\\bchar\\b' --glob '*.v' -- 23 hits in 4 files (Structure/SubobjectClassifier.v, Structure/Topos.v, Instance/FinSet/Classifier.v, Instance/FinSet/Topos.v); the only EVALUATED characteristic values in-tree are Instance/FinSet/Topos.v:78/81, char of the point truth : 1 ~> 2, not of any inclusion",
+      "rg -i 'subobject.?classifier|SubobjectClassifier' --glob '*.v' -l -- 12 files; the only concrete classifiers are FinSet (Omega = 2, finite cardinals only) and the cross-universe Sets theorems whose char_setoid is Type-valued and does not evaluate to true/false",
+      "rg -ni 'characteristic function|characteristic map|characteristic morphism' --glob '*.v' -- all hits are in Structure/SubobjectClassifier.v, Structure/Topos.v, Instance/FinSet/Classifier.v and Instance/Sets.v; none computes a value at a concrete element of an infinite set"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "Overturned from PARTIAL. The evidence cited (FinSet_Classifier's char := image membership, and the two Instance/FinSet/Topos.v Examples) is not part of THIS item at all -- it is the general characteristic-map rule already credited, in full, to `7sketches:7.2.2:def7.12` and `7sketches:7.2.2:construction-subobject-classifier-set` in this same batch. Nothing of the exercise's own content exists in-tree: my blind pass found the integers do not exist anywhere in the library (`rg -n 'ZArith|BinInt' --glob '*.v' | wc -l` -> 0), so the mono N >-> Z cannot be written, and the only characteristic values computed in-tree are FinSet_char_at_true / FinSet_char_at_false (Instance/FinSet/Topos.v:78/81) for the point truth : 1 ~> 2. The Phase-C record was also internally inconsistent with its own siblings: ex7.17 and ex7.21 -- exercises in the identical evidentiary position (concrete characteristic functions of subsets of N, with the same general FinSet char rule available) -- were classified ABSENT. Re-citing the shared definition once per exercise inflates PARTIAL and double-counts a single gap. Classification, evidence, statement_record and gap corrected; negative_search_log filled with the searches I actually ran; phase_c_classification preserved. Downstream effect is unchanged (both PARTIAL and ABSENT file/fold into the same boolean-classifier issue)."
+    },
+    "phase_c_classification": "PARTIAL",
+    "verifier_correction_note": "Phase D: the general rule 'char(m)(y) = true iff y is in the image of m' IS in-tree for FinSet, but it belongs to items def7.12 / construction-subobject-classifier-set, which already carry it; this exercise's own content (the inclusion N subset Z and the values at -5 and 0) has no in-tree counterpart. Any Phase-E issue for this item should fold into the boolean-classifier gap filed for 7sketches:7.2.2:construction-subobject-classifier-set rather than stand alone."
+  },
+  {
+    "id": "7sketches:7.2.2:ex7.17",
+    "classification": "ABSENT",
+    "aliases": [
+      "characteristic function of the identity, char(id) = constantly true",
+      "top / maximal / whole subobject of an object",
+      "characteristic function of the empty injection, char(0 -> X) = constantly false",
+      "bottom / least / empty subobject, char of the initial map",
+      "char_id, char_top, char_bot"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'char_id|char_identity|char_top|char_bot' --glob '*.v' — 0 hits",
+      "rg -n 'char \\(id|char id|char \\(@id' --glob '*.v' — 0 hits",
+      "rg -ni 'top subobject|maximal subobject|greatest subobject|whole subobject' --glob '*.v' — 0 hits",
+      "rg -ni 'bottom subobject|least subobject|empty subobject|initial subobject' --glob '*.v' — 0 hits",
+      "rg -n '\\bchar\\b' --glob '*.v' — 7 hits total, all enumerated: the class field and its two laws (Structure/SubobjectClassifier.v), FinSet_Classifier's definition and its two obligations (Instance/FinSet/Classifier.v:357/361/392), and the two Examples char point_true ... (Instance/FinSet/Topos.v:78/81). None concerns an identity mono or a map out of an initial object",
+      "rg -n '^(Program |#\\[export\\] |)(Instance|Definition|Theorem|Lemma|Corollary|Class|Record) ' Theory/Subobject.v — SubObj, sub_le, sub_le_refl/trans/unique, sub_equiv_iff_mutual only: the subobject API has a factorization preorder but no top or bottom element",
+      "rg -n 'FinSet_Initial|Initial FinSet' --glob '*.v' — Instance/FinSet.v:223 FinSet_Initial exists, but no lemma classifies the initial map as a subobject or computes its characteristic morphism"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached ABSENT independently. Spot-checked the negative log: Theory/Subobject.v carries only SubObj (line 15), SubObj_Setoid (33), sub_le (59), sub_le_refl/trans/unique (62/67/78) and sub_equiv_iff_mutual (93) -- no top, bottom, meet or join, confirming there is no maximal/empty subobject to classify; Instance/FinSet.v:223 FinSet_Initial exists with no lemma computing its characteristic morphism; Instance/FinSet/Topos.v defines point_true (line 69) and nothing else. ONE INACCURACY in the log, not affecting the verdict: `rg -n '\\bchar\\b' --glob '*.v'` returns 23 hits across 4 files (16 of them in Structure/SubobjectClassifier.v, mostly header prose), not '7 hits total'; the ~10 code occurrences are as enumerated, and none concerns an identity mono or a map out of an initial object, so the conclusion stands. (Same miscount is repeated in the ex7.21 log.)"
+    }
+  },
+  {
+    "id": "7sketches:7.2.3:construction-and",
+    "classification": "PARTIAL",
+    "aliases": [
+      "conjunction AND : B x B -> B, x AND y",
+      "internal meet on the subobject classifier, ∧ : Ω × Ω ~> Ω",
+      "characteristic map of (true,true) : 1 >-> Omega x Omega",
+      "meet of truth values, Heyting/lattice conjunction",
+      "intersection of subobjects"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "#[export] Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  — conjunction of truth values as the categorical meet, with the pairing universal property"
+      },
+      {
+        "file": "Instance/Two/Monoidal.v",
+        "line": 80,
+        "symbol": "Two_Cartesian",
+        "intree_statement": "Program Instance Two_Cartesian : @Cartesian _2 := {| product_obj := two_meet; fork := two_fork; exl := two_exl; exr := two_exr |}  with two_meet x y := match x with TwoX => TwoX | TwoY => y end — the AND truth table on the two-element object of truth values, certified as the binary product"
+      }
+    ],
+    "statement_record": {
+      "book": "The element (true,true) : 1 -> B x B is a mono, so it has a characteristic map char((true,true)) : B x B -> B; by the classification rule the only element sent to true is (true,true), so its truth table is that of conjunction. AND is DEFINED to be this characteristic map.",
+      "intree": "Conjunction of truth values exists twice over, each time with its universal property: Props_Cartesian makes `and` the binary product of the Heyting prealgebra of propositions, and Two_Cartesian makes `two_meet` (the AND table on the two-element truth-value poset _2) the binary product there. Neither is a morphism of a topos, and neither is obtained from a subobject classifier.",
+      "strength_comparison": "intree-weaker and off-register: what is in-tree is the EXTERNAL conjunction of truth values (a meet in a poset-like category, characterized by a product UMP); what the book constructs is the INTERNAL morphism Ω × Ω ~> Ω of a topos, obtained as char of the mono (true,true) : 1 ~> Ω × Ω. No in-tree statement links the two, and FinSet's Ω = 2 carries no operations at all."
+    },
+    "gap": "No internal conjunction morphism exists in-tree: searching the whole tree for a morphism Ω × Ω ~> Ω (or 4 ~{FinSet}~> 2) turns up nothing, no point (true,true) : 1 ~> Ω × Ω is ever formed, and no lemma identifies any conjunction with `char` of that point. Concretely missing: the mono ⟨truth, truth⟩ : 1 ~> Ω × Ω with its Monic proof, the definition and_map := char ⟨truth,truth⟩, and (in FinSet) the computation that and_map has the AND truth table. The in-tree meets (Props_Cartesian, Two_Cartesian) live in the external truth-value poset, not in a topos.",
+    "negative_search_log": [
+      "rg -n 'Ω × Ω|Ω ~> Ω|Ω \\^ Ω' --glob '*.v' — only Structure/Topos.v:87, a prose mention of a Lawvere–Tierney j : Ω ~> Ω in the file header (no definition)",
+      "rg -n '\\bandb\\b|\\borb\\b|\\bnegb\\b' --glob '*.v' — hits only in Monad/Graded.v (a bool grading monoid) and Instance/Coq/Monad.v, nothing on truth values of a classifier",
+      "rg -ni 'truth table' --glob '*.v' — 0 hits",
+      "rg -n 'and_map|conj_map|omega_and|internal_and|meet' --glob '*.v' — no internal-connective definitions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass independently found no internal connective on a classifier (rg -i 'internal logic|heyting|conjunction|disjunction' -> prose headers only; every occurrence of the Omega notation outside the classifier files is a comment). Verified the two cited instances verbatim: Instance/Props.v:69 Props_Cartesian (product_obj := and) and Instance/Two/Monoidal.v:80 Two_Cartesian (product_obj := two_meet), where two_meet at line 37 is literally the AND table on the two-element object of truth values (TwoX bottom, TwoY top). PARTIAL is the honest call under the frozen definition: the FUNCTION the book names AND does exist in-tree (with a universal property), while the book's CONSTRUCTION of it -- char of the mono (true,true) : 1 ~> Omega x Omega in a topos -- has no counterpart. The record itself flags the register mismatch rather than hiding it, and the gap names the three missing artefacts concretely. Both files registered (_CoqProject)."
+    }
+  },
+  {
+    "id": "7sketches:7.2.3:construction-or",
+    "classification": "PARTIAL",
+    "aliases": [
+      "disjunction OR : B x B -> B",
+      "internal join on the subobject classifier, ∨ : Ω × Ω ~> Ω",
+      "union of subobjects {true} x B ∪ B x {true}",
+      "join in the subobject lattice, colimit of limits",
+      "characteristic map of a three-element subset of B x B"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }  — disjunction of truth values as the categorical join, with the copairing universal property"
+      }
+    ],
+    "statement_record": {
+      "book": "OR : B x B -> B is the characteristic map of the three-element subset {(true,true),(true,false),(false,true)} of B x B; to make the recipe transportable to an arbitrary topos the subset is re-described as the union of {true} x B and B x {true}, i.e. a colimit of limits built from 1, true and products — so the same recipe yields Omega x Omega -> Omega in any topos E.",
+      "intree": "Disjunction of truth values exists as the coproduct/join of the Heyting prealgebra Props (Props_Cocartesian: P + Q = P ∨ Q), with its copairing universal property. Nothing in-tree forms unions of subobjects or a disjunction morphism on a subobject classifier.",
+      "strength_comparison": "intree-weaker and off-register, exactly as for conjunction: the external join of truth values is present with its UMP, but the internal morphism Ω × Ω ~> Ω, and above all the book's transportable recipe (union of two subobjects of Ω × Ω, then classify), are absent. The library also lacks the ingredient the recipe needs — joins of subobjects."
+    },
+    "gap": "Two distinct pieces are missing. (1) No internal disjunction morphism Ω × Ω ~> Ω in any topos, and no lemma computing its truth table. (2) The subobject API of Theory/Subobject.v carries only the factorization preorder (sub_le, sub_le_refl/trans/unique, sub_equiv_iff_mutual) — there is no union/join (nor intersection/meet) of subobjects anywhere in the tree, so the book's 'union of {true} × Ω and Ω × {true}, a colimit of limits' cannot even be written; the nearest in-tree remark is Structure/Pullback.v:94 noting that a pullback of two monos is their intersection, but no subobject-level operation is defined from it.",
+    "negative_search_log": [
+      "rg -n 'sub_join|sub_meet|sub_union|sub_inter|union of subobjects|intersection of subobjects' --glob '*.v' — 1 hit, a prose remark in Structure/Pullback.v:94; no definition",
+      "rg -n 'Ω × Ω|Ω ~> Ω' --glob '*.v' — only the prose mention in Structure/Topos.v:87",
+      "rg -n 'or_map|omega_or|internal_or|disjunction' --glob '*.v' — 'disjunction' occurs only in Structure/Monoidal/StarAutonomous.v as the linear-logic par; no connective on a classifier"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Instance/Props.v:80 Props_Cocartesian verbatim (product_obj := or, with the in-file comment explaining that product_obj names the coproduct because Cocartesian is Cartesian read in Props^op -- so the quoted field name is not a transcription error). Independently confirmed the second half of the gap: Theory/Subobject.v has no join/meet of subobjects at all (full API enumerated above), and the only in-tree trace of intersection is the prose remark at Structure/Pullback.v:92-95 ('the pullback of two monomorphisms is the intersection of subobjects'), with no operation defined from it -- so the book's 'union of {true} x Omega and Omega x {true}, a colimit of limits' genuinely cannot be written. NOTE for Phase E: the OR evidence is strictly thinner than the AND case -- Instance/Two/Monoidal.v supplies two_meet but no two_join, so the disjunction TABLE on a two-element set is not in-tree the way the conjunction table is; Props' `or` is the propositional connective serving as a coproduct in a thin category. PARTIAL still holds on the same external-truth-values basis as construction-and, and keeping the two consistent is right."
+    }
+  },
+  {
+    "id": "7sketches:7.2.3:ex7.19",
+    "classification": "PARTIAL",
+    "aliases": [
+      "negation NOT : B -> B as a characteristic function",
+      "what does NOT classify — a subobject / mono",
+      "the subobject {false} ⊆ B, the point false : 1 >-> Omega",
+      "complement of a subobject, ¬ : Ω ~> Ω",
+      "every map into Omega classifies a unique subobject"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 159,
+        "symbol": "classifier_char_roundtrip",
+        "intree_statement": "Lemma classifier_char_roundtrip {x : C} (h : x ~> Ω) : char (sub_mono (sub_reindex h truth_subobject)) (sub_is_monic (sub_reindex h truth_subobject)) ≈ h.  — every morphism into Ω (NOT included) IS the characteristic map of a subobject, namely the pullback of truth along it; with classifier_pullback_roundtrip (line 174) this is the bijection answering 'what sort of thing does NOT classify'"
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 77,
+        "symbol": "FinSet_char_at_true",
+        "intree_statement": "Example FinSet_char_at_true : char point_true point_true_monic fin_true = fin_true := eq_refl.  (with FinSet_char_at_false at line 80) — the characteristic map of the POINT point_true : 1 ~{FinSet}~> 2, i.e. of the subobject {true} ⊆ Ω, computed on both truth values; it is the identity predicate"
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 89,
+        "symbol": "FinSet_Pow_membership",
+        "intree_statement": "Example FinSet_Pow_membership : @eval FinSet FinSet_Cartesian FinSet_Closed 2%nat (@Ω FinSet FinSet_Terminal FinSet_Classifier) (fin_pair (Fin.FS (Fin.FS Fin.F1) : Fin.t 4) fin_true) = fin_false := eq_refl.  — membership of the truth value true in the subset-of-truth-values coded by the digit string [false,true] (i.e. {false} ⊆ Ω) evaluates to false"
+      }
+    ],
+    "statement_record": {
+      "book": "NOT : B -> B (false ↦ true, true ↦ false) is the characteristic function of (1) some SORT of thing — a subobject/mono, not an object or a topos — and (2) specifically of the subobject {false} ⊆ B, i.e. of the point false : 1 >-> B.",
+      "intree": "Part (1) is a general in-tree theorem: classifier_char_roundtrip + classifier_pullback_roundtrip (packaged as classifier_classifies : SubObj x ≅[Sets] (x ~> Ω)) say every h : x ~> Ω is the characteristic map of exactly one subobject of x, obtained as sub_reindex h truth_subobject. Part (2) is done for the OTHER point: FinSet_char_at_true/false compute the characteristic map of point_true : 1 ~> 2 (the subobject {true} ⊆ Ω) as the identity on truth values, and FinSet_Pow_membership evaluates the {false} ⊆ Ω subset's membership function at true, getting false.",
+      "strength_comparison": "intree-weaker on the exercise's own instance: the general answer to part (1) is fully present and in a stronger (bijective, any category, any object) form than the exercise needs, but negation itself is never defined, so the identification 'NOT = char of the point false' is not stated; only the mirror-image computation for the point true, and one truth-table row of {false} ⊆ Ω through the power object, exist."
+    },
+    "gap": "No negation morphism is defined anywhere in-tree (rg for negb/¬ on truth values, omega_not, internal_not: nothing on a classifier), and the point `false : 1 ~> Ω` is never formed — Instance/FinSet/Topos.v defines only point_true (with point_true_monic). Hence the exercise's answer to part (2) — that NOT is char of the mono false : 1 >-> Ω, i.e. of the subobject {false} — has no in-tree statement; what exists is the analogous computation for the point true (yielding the identity predicate) and, via the power object, a single evaluated row of the {false} membership function.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Part (1) of the exercise ('what SORT of thing does NOT classify') really is answered in-tree, and in a stronger form: classifier_char_roundtrip (Structure/SubobjectClassifier.v:159) + classifier_pullback_roundtrip (174), packaged as classifier_classifies (187), say every h : x ~> Omega is the characteristic map of exactly one subobject. So PARTIAL, not ABSENT, is right. Verified the three FinSet evidence lines (Instance/FinSet/Topos.v:77, 80, 89) are exact. Checked the gloss on FinSet_Pow_membership: the file's own comment (lines 83-87) calls code 2 the 'negation' subset-of-truth-values with digit string [fin_false, fin_true], and that is consistent with fin_tabulate's row-major recursion (Instance/FinSet/Closed.v:36-41, fin_tabulate f = fin_pair (f F1) ...) given fin_true = F1 and fin_false = FS F1 -- so the evidence is not over-read. Confirmed the gap: no negation morphism anywhere, and Instance/FinSet/Topos.v:69 defines point_true only, never a point false."
+    }
+  },
+  {
+    "id": "7sketches:7.2.3:ex7.20",
+    "classification": "PARTIAL",
+    "aliases": [
+      "implication P => Q on truth values",
+      "P implies Q defined as P = (P AND Q)",
+      "Heyting implication, exponential of truth values",
+      "IMPLIES : B x B -> B as a characteristic function",
+      "the subobject classified by implication (the order relation on Omega)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }  — implication as the exponential of truth values, with the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q) witnessing (- ∧ P) ⊣ (P → -)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "#[export] Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  — the conjunction the exercise's definition P = (P AND Q) is stated over"
+      }
+    ],
+    "statement_record": {
+      "book": "Define P implies Q to mean P = (P AND Q); fill in the truth table for P AND Q and for P = (P AND Q), check it against the intended meaning of implication, give the characteristic function m : B x B -> B for implication, and say which subobject m classifies.",
+      "intree": "Implication of truth values is in-tree as the Heyting exponential: Props_Closed makes Basics.impl the exponential object of Props with the currying isomorphism, alongside Props_Cartesian's conjunction. Nothing states the order-theoretic characterization P ≤ Q ⟺ P ≈ P ∧ Q, and nothing produces an implication morphism on a subobject classifier.",
+      "strength_comparison": "intree-weaker and off-register: the exponential adjunction is a stronger statement about implication than the truth-table exercise, but it lives in the external category of truth values Props, not as a morphism Ω × Ω ~> Ω of a topos; and the exercise's defining equation P = (P ∧ Q), together with the identification of the subobject it classifies (the order relation on Ω), is absent."
+    },
+    "gap": "Three specific pieces are missing: (1) the equational characterization of the order on truth values, P ≤ Q ⟺ P ≈ P ∧ Q, is nowhere stated (no such lemma for Props, for _2, or for a general Cartesian category); (2) there is no implication morphism Ω × Ω ~> Ω in any topos, in particular none on FinSet's Ω = 2; (3) the subobject of Ω × Ω that implication would classify (the internal order relation) is never constructed — consistent with the library having no meets/joins/order on subobjects at all.",
+    "negative_search_log": [
+      "rg -ni 'heyting' --glob '*.v' — only prose headers (Instance/Props.v, Instance/Two.v, Structure/Topos.v, Theory/Sheaf.v); no Heyting-algebra class or internal implication",
+      "rg -n 'Ω × Ω|Ω ~> Ω' --glob '*.v' — only the prose mention at Structure/Topos.v:87",
+      "rg -ni 'truth table' --glob '*.v' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Instance/Props.v:94 Props_Closed verbatim (exponent_obj := Basics.impl with the currying exp_iso), and the in-file comment confirms the adjunction reading (- ^ P) i.e. (- /\\ P) -| (P -> -). Independently confirmed gap piece (1): no lemma anywhere relates an order to a meet (rg for sub_le outside Theory/Subobject.v -> 0 hits; no P <= Q <-> P ~= P /\\ Q for Props, for _2, or generally), so the exercise's DEFINING equation P = (P AND Q) is genuinely unformalized. Pieces (2) and (3) follow from the same absence of internal connectives and of any subobject order operations verified under construction-and / construction-or. PARTIAL is honest: the exponential is a stronger fact about implication than the truth table, but lives in the external truth-value category, not as Omega x Omega ~> Omega."
+    }
+  },
+  {
+    "id": "7sketches:7.2.3:ex7.21",
+    "classification": "ABSENT",
+    "aliases": [
+      "characteristic functions of subsets of N (evens, primes, >= 10)",
+      "decidable subset of nat as a map N -> B",
+      "boolean combination of characteristic functions, (chi_E AND chi_P) OR chi_T",
+      "intersection and union of subobjects computed pointwise",
+      "predicates on natural numbers, membership decision procedure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni '\\beven\\b|prime number|divisib' --glob '*.v' — every hit is the English word 'even' in prose (Structure/Cocartesian.v:75, Structure/Initial.v:55, Structure/SubobjectClassifier.v:63, …); no arithmetic subsets of nat are defined",
+      "rg -n '\\bchar\\b' --glob '*.v' — 7 hits, all in the classifier files and the two FinSet Examples; no characteristic function of a subset of nat",
+      "rg -n 'sub_join|sub_meet|sub_union|sub_inter' --glob '*.v' — 0 definitions, so boolean combinations of subobjects cannot be formed",
+      "rg -n '\\bandb\\b|\\borb\\b|\\bnegb\\b' --glob '*.v' — only Monad/Graded.v's bool grading monoid and Instance/Coq/Monad.v; no connectives on classifier truth values (see also the construction-and / construction-or logs)",
+      "rg -ni 'characteristic function|characteristic map|characteristic morphism' --glob '*.v' — all hits are in Structure/SubobjectClassifier.v, Structure/Topos.v, Instance/FinSet/Classifier.v, Instance/Sets.v headers; none over N"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed ABSENT, and it is now consistent with ex7.16 (overturned to ABSENT in this pass) and ex7.17. Independently verified the decisive negatives: no arithmetic subsets of nat are defined anywhere; there are no meets/joins of subobjects (Theory/Subobject.v API enumerated above), so (char_E AND char_P) OR char_T cannot be formed even in principle; and no connective exists on any classifier's truth values. Same '7 hits total' miscount for `rg '\\bchar\\b'` as in the ex7.17 log (actual: 23 hits / 4 files); conclusion unaffected."
+    }
+  },
+  {
+    "id": "7sketches:7.3:remark-presheaf-topos",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presheaf topos, Set^(C^op) is a topos",
+      "category of database instances C-Inst is a topos",
+      "any small category is a site (trivial coverage)",
+      "functor category [C^op, Sets] as an elementary topos",
+      "copresheaves C -> Set also form a topos"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)  — with product computed pointwise, fun c => fobj[F] c × fobj[G] c"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}  — the presheaf category is [U^op, C] (Theory/Sheaf.v's Presheaves)"
+      }
+    ],
+    "statement_record": {
+      "book": "Any small category C can be regarded as a site, and the corresponding topos is the functor category of presheaves C^op -> Set; in particular the category C-Inst of database instances on a schema is a topos, and these are called presheaf toposes (footnote: C -> Set is likewise a topos, via C^op as the site).",
+      "intree": "Presheaf categories exist (Fun / Presheaves := [U^op, C]) and inherit ONE of the five components of Structure/Topos.v's ElementaryTopos pointwise: Functor_Category_Cartesian gives binary products when the target is cartesian. There is no ElementaryTopos instance for any functor category — the only in-tree witness is FinSet_Topos (Instance/FinSet/Topos.v:38).",
+      "strength_comparison": "intree-weaker by a wide margin: the claim 'presheaves form a topos' is unproven; only the pointwise cartesian structure is available, and none of terminal, pullbacks, exponentials or a subobject classifier for [C^op, Sets]."
+    },
+    "gap": "No `ElementaryTopos [C^op, Sets]` anywhere; the only ElementaryTopos instance in the tree is FinSet_Topos. Missing for functor categories: the subobject classifier (the sieve object Ω(c) := {sieves on c} with its classifying pullbacks), exponentials (no `Closed (@Fun C D)` instance exists — Instance/Fun/ contains only Cartesian.v), pullbacks and a terminal object (no `HasPullbacks` or `Terminal` instance for @Fun; the only HasPullbacks instance in the tree is FinSet_Pullbacks). Also missing is the site half of the remark: Theory/Sheaf.v defines Class Site but there is NO Site instance for a general small category (trivial coverage), and nothing identifies presheaves with the sheaves on such a site, so Theory/Sheaf/Category.v's Sheaves cannot be specialized to recover the remark.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass reached the same place and I independently re-verified every load-bearing negative in the gap, all of which hold: (a) the ONLY ElementaryTopos instance in the tree is FinSet_Topos (Instance/FinSet/Topos.v:38) -- `rg -n 'ElementaryTopos'` returns 7 hits, the rest being the class (Structure/Topos.v:112), Pow/relations_iso, and two prose mentions; (b) the ONLY HasPullbacks instance is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264); (c) `ls Instance/Fun/` contains Cartesian.v and nothing else, so there is no Closed/Terminal/HasPullbacks for @Fun; (d) `rg -n 'Site'` returns only the Class (Theory/Sheaf.v:159), its use as a Context hypothesis (Theory/Sheaf/Category.v:68) and two prose lines -- there is NO Site instance anywhere, so the site half of the remark is unwritten as claimed; (e) `rg -i 'sieve'` hits only Theory/Sheaf.v and Construction/Localization.v prose, so the sieve object Omega(c) is absent. PARTIAL rather than ABSENT is defensible: the presheaf category exists and one of the five topos components (pointwise products, Instance/Fun/Cartesian.v:111) is proved. The library never claims the presheaf-topos theorem: Instance/Fun.v:59-66 attributes 'cartesian closed / free cocompletion' to nLab and then states separately what is in-tree, which is honest."
+    }
+  },
+  {
+    "id": "7sketches:7.3.1:def7.22",
+    "classification": "PRESENT",
+    "aliases": [
+      "presheaf P : C^op -> Set",
+      "sections of P over c, P(c)",
+      "restriction map P(f) : P(c) -> P(c'), s|_f",
+      "morphism of presheaves = natural transformation",
+      "functor category [C^op, Sets], Presheaves"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D;  (* objects are functors C ⟶ D *) hom := @Transform C D;  (* morphisms are natural transformations *) id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}  — with Notation \"[ C , D ]\" := (@Fun C D), so Presheaves := [U^op, C] (Theory/Sheaf.v:127)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 96,
+        "symbol": "Functor",
+        "intree_statement": "Class Functor (C D : Category) := { fobj : C → D;  fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;  fmap_respects : ∀ x y, Proper (equiv ==> equiv) (@fmap x y);  fmap_id {x : C} : fmap (@id C x) ≈ id;  fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) : fmap (f ∘ g) ≈ fmap f ∘ fmap g }  — instantiated at C^op ⟶ Sets: fobj c is the set of sections over c and fmap f the restriction map, with the two functoriality laws"
+      }
+    ],
+    "statement_record": {
+      "book": "For a small category C, a presheaf P on C is a functor P : C^op -> Set; P(c) is the set of sections over c; for f : c' -> c the function P(f) : P(c) -> P(c') is the restriction map, written s|_f; and a morphism of presheaves is by definition a natural transformation.",
+      "intree": "Presheaf U C := U^op ⟶ C and Presheaves := [U^op, C] (Theory/Sheaf.v:124/127) over Construction/Opposite.v's Opposite (line 106); the content is carried by Class Functor (fobj = sections, fmap = restriction, with fmap_id and fmap_comp) and by Fun, whose homs ARE @Transform, the natural transformations, with nat_id/nat_compose making them a category.",
+      "strength_comparison": "same, with the standard setoid rephrasing: 'Set' is Instance/Sets.v's category of setoids, restriction maps must additionally respect ≈ (fmap_respects), and s|_f is spelled fmap[P] f s. In-tree the notion is more general in two ways — the target category is arbitrary (C-valued presheaves), and smallness of C is not required as a hypothesis, universe polymorphism {o h p} handling the size question instead. The library also carries the dual (Copresheaf U C := U ⟶ C, Theory/Sheaf.v:130), matching the book's footnote."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search located Theory/Sheaf.v:124 `Definition Presheaf (U C : Category) := U^op --> C` and line 127 `Definition Presheaves {U C : Category} := [U^op, C]`, plus Copresheaf/Copresheaves at 130/133 (the book's footnote). Verified Instance/Fun.v:108-110 (obj := C --> D, hom := @Transform C D, i.e. morphisms of presheaves ARE natural transformations) and Theory/Functor.v:96 Class Functor. The book's terminology is also carried in-tree: Theory/Sheaf.v:16-19 says in as many words that the action fmap[X] f is the RESTRICTION map, so 'sections / restriction' is presentation, not a gap; only the notation s|_f is unspelled. Registered (_CoqProject:473). MINOR (no verdict change): the actual definition site Theory/Sheaf.v:124/127 appears only inside statement_record, not in the evidence[] array -- Phase E should cite it as the primary location rather than Instance/Fun.v:108."
+    }
+  },
+  {
+    "id": "7sketches:7.3.1:example7.23",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrow shape ArShp, the walking arrow / parallel pair Vertex ⇉ Arrow",
+      "presheaves on the arrow shape are directed graphs",
+      "quiver, Gph, category of graphs, database schema Gr",
+      "graph as a pair of sets with source and target maps",
+      "presheaf category as free colimit completion"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Parallel.v",
+        "line": 166,
+        "symbol": "Presheaf_Graph",
+        "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} (* vertices *) | ParY => {| carrier := nat * nat |} (* edges *) end; fmap := fun z w h => match z, w with … | ParY, ParX => match ``h with true => {| morphism := fst |} (* source *) | false => {| morphism := snd |} (* target *) end end |}"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category.  Proof. unshelve eapply (Build_Category' QuiverHomomorphism QuiverId (fun Q1 Q2 Q3 F G => @QuiverComp Q1 Q2 Q3 G F)) … — directed graphs (Quiver: nodes, edges x y, edgeset) and their homomorphisms form a category"
+      },
+      {
+        "file": "Instance/Parallel.v",
+        "line": 80,
+        "symbol": "Parallel",
+        "intree_statement": "Program Definition Parallel : Category := {| obj := ParObj; hom := fun x y => ∃ b : bool, ParHom b x y; homset := fun x y => {| equiv := fun f g => ``f = ``g |}; id := …; compose := … |}  — two objects ParX, ParY and exactly two non-identity morphisms ParX ⇉ ParY, i.e. the book's ArShp"
+      }
+    ],
+    "statement_record": {
+      "book": "ArShp has objects Vertex and Pure Arrow with two non-identity morphisms src, tgt : Vertex -> Pure Arrow; a presheaf on ArShp is a functor ArShp^op -> Set, i.e. an instance on the schema Gr, so presheaves on ArShp are exactly directed graphs (with a worked instance drawn); the example closes with the unproved slogan that presheaves on C are the free colimit completion of C.",
+      "intree": "The shape category is Instance/Parallel.v's Parallel (two objects, two parallel non-identity arrows), and Presheaf_Graph : Parallel^op ⟶ Sets exhibits a graph as a presheaf on it — vertices nat, edges nat × nat, with fst and snd as the source and target restriction maps (its header notes 'a presheaf on the parallel-pair category x ⇉ y is a graph (quiver)'). Independently, Construction/Free/Quiver.v builds QuiverCategory, the category of directed graphs.",
+      "strength_comparison": "intree-weaker: the correspondence is exhibited on ONE hand-chosen presheaf rather than proved. Presheaf_Graph fixes the vertex and edge sets to nat and nat × nat, so it is a single object of [Parallel^op, Sets], not a statement about all of them; and QuiverCategory encodes a graph as a dependent edge family (edges : nodes → nodes → Type) rather than as a set of edges with source/target maps, so the two presentations are not even connected in-tree."
+    },
+    "gap": "The equivalence itself is missing: no functor either way between [Parallel^op, Sets] and QuiverCategory, and no `≃`/`≅[Cat]` statement identifying presheaves on the arrow shape with directed graphs — only the single example Presheaf_Graph (with hard-coded nat vertices and nat × nat edges) and a prose remark in the file header. The re-encoding step is real work, since QuiverCategory's quivers are dependent edge families, not (G0, G1, src, tgt) triples. The example's closing slogan (presheaves on C are the free colimit completion of C) is likewise unformalized — rg -i 'cocompletion|density|free colimit' finds only prose in Instance/Fun.v:63, Theory/Sheaf.v:117 and Construction/Day.v:111, with no theorem.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass found the same three artefacts, in the same order. Verified Instance/Parallel.v:80 (Parallel: two objects, exactly two non-identity arrows ParX ==> ParY, i.e. the book's ArShp), the header remark at lines 152-161 ('a presheaf on the parallel-pair category x ==> y is a graph (quiver): G0 vertices, G1 edges, the two arrows send an edge to its source and target'), and Presheaf_Graph at line 166 -- whose variance is right (in Parallel^op the maps go ParY -> ParX, so fmap gives edges -> vertices, matching the book's src,tgt : Vertex -> Arrow read contravariantly). Verified Construction/Free/Quiver.v:358 QuiverCategory and, at line 57, that a Quiver's edges really are a dependent family `edges : nodes -> nodes -> uedges`, so the record's claim that the two presentations are not connected is exact, not rhetorical. Confirmed the two missing pieces by independent search: no functor or equivalence between [Parallel^op, Sets] and QuiverCategory (rg 'Parallel' -> 17 files, none bridging to Quiver), and no free-cocompletion theorem (rg -i 'cocompletion|free colimit|colimit completion' -> 3 prose hits only)."
+    }
+  }
+]

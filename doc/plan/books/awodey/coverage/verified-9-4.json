@@ -1,0 +1,434 @@
+[
+ {
+  "id": "awodey:9.8:cor31",
+  "classification": "PARTIAL",
+  "aliases": [
+   "AFT for small complete categories",
+   "adjoint functor theorem with automatic solution set",
+   "GAFT corollary / Freyd",
+   "SolutionSet, sol_index, sol_covers",
+   "Complete C + small C + continuous U \u21d2 left adjoint",
+   "smallness discharges the solution-set condition"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/GAFT.v",
+    "line": 241,
+    "symbol": "GAFT",
+    "intree_statement": "Theorem GAFT {C D : Category} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D \u27f6 C & F \u22a3 U }."
+   }
+  ],
+  "statement_record": {
+   "book": "If C is a small and complete category and U : C \u27f6 X preserves all limits, then U has a left adjoint; smallness of C makes the solution-set condition of the AFT automatic, because the objects of C already form a set.",
+   "intree": "Theorem GAFT {C D : Category} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D \u27f6 C & F \u22a3 U }.",
+   "strength_comparison": "intree-weaker: GAFT ALWAYS demands an explicit SolutionSet U d at every d, which is exactly the hypothesis Corollary 9.31 claims to eliminate. The library has no smallness predicate on categories at all, so the corollary's hypothesis (C small) cannot even be stated. Two deviations run the other way and are not weakenings: the preservation hypothesis is the cone-level PreservesImageLimit rather than the apex-only PreservesAllLimits (the correct, stronger reading of 'preserves limits', documented in the GAFT.v header), and the conclusion is a genuine packaged left adjoint { F & F \u22a3 U }."
+  },
+  "gap": "The corollary itself (complete + small + limit-preserving \u21d2 left adjoint) is not stated anywhere. What is missing is exactly one step: a construction of SolutionSet U d out of smallness of C \u2014 concretely sol_index := { c : C & d ~> U c }, sol_obj := projT1, sol_arr := projT2, sol_covers with t := id and factorization by id_left. No such construction, and no notion of a small (or locally small) category, exists in the tree; the only in-tree producer of a SolutionSet is Adjunction/SAFT.v's SAFT_solution_set, which routes through cogenerators and well-powered indexing rather than smallness.",
+  "negative_search_log": [
+   "grep -rn -i 'small complete\\|complete small' --include='*.v' . \u2014 7 hits, ALL prose headers (Structure/Complete.v:66-73, Instance/Poset.v:83-86, Adjunction/GAFT.v:103-105); no Coq statement",
+   "grep -rn 'Small\\b\\|SmallCategory\\|is_small\\|locally small' --include='*.v' . \u2014 only prose ('locally small') in Functor/Representable.v:29, Functor/Hom.v:18, Construction/Enriched.v:26, Structure/Complete.v:83; no smallness class or predicate",
+   "grep -rn -i 'solution set' --include='*.v' . \u2014 18 hits, all in Adjunction/GAFT.v, Adjunction/SAFT.v, Structure/Complete.v, Instance/Poset.v prose; the only SolutionSet producers are SAFT_solution_set and wif_of_sols",
+   "grep -rn 'sol_index' --include='*.v' . \u2014 defined in Adjunction/GAFT.v:160, instantiated only in Adjunction/SAFT.v:258"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS (run before opening coverage-9-4.json): aliases expanded to {AFT / GAFT / Freyd / solution set / SolutionSet / small complete category / smallness}; commands: rg -n 'SAFT|Cogenerator|well.powered|SubobjectIndex', rg -n 'Class Small|Definition Small|Record Small|IsSmall|LocallySmall' (0 hits), rg -in 'small complete|freyd.*preorder|thin category', rg -n '^(Theorem|Definition|...)' Adjunction/GAFT.v. My independent preliminary verdict was PARTIAL, matching Phase C. Evidence re-read at source: Adjunction/GAFT.v:241 is exactly 'Theorem GAFT {C D : Category} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D \u27f6 C & F \u22a3 U }.' \u2014 quote accurate, file registered in _CoqProject:6. The gap (no construction of SolutionSet from smallness; SAFT_solution_set is the only producer, via cogenerators) is confirmed: rg 'sol_index' hits only GAFT.v:160 (definition) and SAFT.v:258 (the sole instantiation). ONE NUANCE recorded, not enough to overturn: the strength_comparison sentence 'the corollary's hypothesis (C small) cannot even be stated' is slightly overstated. There is indeed no [Small] predicate (verified: 0 hits), but the library's own Structure/Complete.v:29-37 says the size discipline 'is instead carried implicitly by the library's universe polymorphism', and objects of any [Category] already form a [Type], so the tautological solution set sol_index := { c : C & d ~> U c } is expressible \u2014 what is genuinely absent is the construction and the universe bookkeeping that would let [Complete C] be applied at that index. PARTIAL stands."
+  }
+ },
+ {
+  "id": "awodey:9.8:example32",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Galois connection",
+   "adjoint functor theorem for posets / preorders",
+   "cocontinuous monotone map has a right adjoint",
+   "join-preserving / sup-preserving map",
+   "complete lattice, complete poset, LUB",
+   "LAPC (left adjoints preserve colimits) specialized to a thin category"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 223,
+    "symbol": "left_adjoint_preserves_colimits",
+    "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+   }
+  ],
+  "statement_record": {
+   "book": "For complete posets P and Q, a monotone f : P \u2192 Q has a right adjoint g : Q \u2192 P if and only if f is cocontinuous (preserves all set-indexed joins); the right adjoint is g(q) = \u22c1{ x \u2208 P : f(x) \u2264 q }, verified in both directions. This is the dual AFT applied to a small complete category.",
+   "intree": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F.",
+   "strength_comparison": "intree-weaker: only the EASY direction is in-tree, and only in its general categorical form (any left adjoint is cocontinuous), never instantiated to posets. The library's thin categories exist (Instance/Proset.v, Instance/Poset.v) but carry no completeness structure, and no lemma identifies a colimit of a discrete diagram in a Proset with a join, so even the easy direction is not available as the book's statement about monotone maps and joins."
+  },
+  "gap": "The substantive direction \u2014 cocontinuous \u21d2 a right adjoint exists, with the explicit formula g(q) = \u22c1{ x : f(x) \u2264 q } and the two-way verification of p \u2264 g(q) \u27fa f(p) \u2264 q \u2014 is entirely absent, as is any notion of a complete poset / complete lattice. Also absent: the identification of (co)limits in Instance/Proset.v with meets/joins, so LAPC cannot be read off as 'f preserves joins' without new work. Instance/Poset.v discusses Galois connections and the poset AFT only in its prose header (lines 60-86); the sole concrete Galois-style adjunction in the tree is Instance/Props.v's (- \u2227 P) \u22a3 (P \u2192 -), a single instance rather than the criterion.",
+  "negative_search_log": [
+   "grep -rn -i 'galois' --include='*.v' . \u2014 16 hits, all prose (Theory/Adjunction.v:78, Instance/Poset.v header); no Coq statement",
+   "grep -rn -i 'complete lattice' --include='*.v' . \u2014 2 hits, both prose (Structure/Complete.v:72, Instance/Poset.v)",
+   "grep -rn -i 'join-preserving\\|sup-preserving\\|supremum\\|lub' --include='*.v' . \u2014 0 hits",
+   "grep -rn -i 'monotone' --include='*.v' . \u2014 14 hits; the only assertions are Construction/Enriched/Two.v's EnrichedFunctor_Two_monotone (enrichment in the walking arrow = monotone maps), nothing about adjoints or joins",
+   "grep -rn -i 'cocontinuous' --include='*.v' . \u2014 3 hits (Theory/Adjunction.v:448 prose, Adjunction/Continuity.v:26 prose, Structure/Limit/Preservation.v:225 prose above PreservesAllColimits)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {Galois connection, poset/preorder AFT, cocontinuous, join/sup-preserving, complete lattice, monotone}; commands: rg -in 'galois|adjunction.*poset|monotone.*adjoint|cocontinuous|sup.preserving|join.preserving', rg -in 'complete lattice|supremum|infimum|lub', rg -n decls Instance/Poset.v Instance/Proset.v. My independent preliminary verdict was ABSENT; Phase C says PARTIAL. I do NOT overturn: the forward ('only if') leg of the book's biconditional does exist in-tree in strictly greater generality, and I confirmed the cited evidence verbatim at Adjunction/Continuity.v:223 ('Definition left_adjoint_preserves_colimits {C D : Category} {F : D \u27f6 C} {U : C \u27f6 D} (A : F \u22a3 U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G.'). The strength_comparison is unusually honest \u2014 it concedes the general theorem is 'never instantiated to posets' \u2014 and the gap correctly names the two missing pieces I also found: no complete-poset/complete-lattice notion anywhere (rg 'complete lattice' \u2192 2 prose hits only, Structure/Complete.v:71 and Instance/Poset.v), and no lemma identifying a colimit in Instance/Proset.v with a join. DISSENT RECORDED for the issue writer: ABSENT is nearly as defensible, since none of the item's own vocabulary (join, cocontinuous monotone map, g(q) = \u22c1{x : f x \u2264 q}) exists; Instance/Poset.v:80-86 states the poset AFT in PROSE ONLY."
+  }
+ },
+ {
+  "id": "awodey:9.8:cor33",
+  "classification": "PARTIAL",
+  "aliases": [
+   "representability criterion for Set-valued functors",
+   "continuous functor on a small complete category is representable",
+   "U \u2245 Hom(F1, \u2212)",
+   "Representable, repr_obj, represented",
+   "preserves limits \u27fa has a left adjoint \u27fa representable",
+   "RAPL + GAFT + Yoneda representation"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Continuity.v",
+    "line": 202,
+    "symbol": "right_adjoint_preserves_limits",
+    "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.  (in Section RAPL, over a given adjunction F \u22a3 U; this is clause (2) \u21d2 clause (1))"
+   },
+   {
+    "file": "Adjunction/GAFT.v",
+    "line": 241,
+    "symbol": "GAFT",
+    "intree_statement": "Theorem GAFT {C D : Category} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D \u27f6 C & F \u22a3 U }.  (clause (1) \u21d2 clause (2), but only with a solution set supplied)"
+   },
+   {
+    "file": "Functor/Representable.v",
+    "line": 46,
+    "symbol": "Representable",
+    "intree_statement": "Class Representable `(F : C \u27f6 Sets) := { repr_obj : C; represented : [Hom repr_obj,\u2500] \u2245 F }.  (clause (3): the notion of representability, as an iso in [C, Sets])"
+   }
+  ],
+  "statement_record": {
+   "book": "For C small and complete and any U : C \u27f6 Sets, the following are equivalent: (1) U preserves all limits; (2) U has a left adjoint; (3) U is representable. Immediate from Cor 9.31 plus the observation that a left adjoint F \u22a3 U gives U \u2245 Hom(F1, \u2212).",
+   "intree": "right_adjoint_preserves_limits : PreservesAllLimits U (given F \u22a3 U); GAFT : Complete C \u2192 PreservesImageLimit U \u2192 (\u2200 d, SolutionSet U d) \u2192 { F & F \u22a3 U }; Class Representable `(F : C \u27f6 Sets) := { repr_obj : C; represented : [Hom repr_obj,\u2500] \u2245 F }.",
+   "strength_comparison": "intree-weaker: only the (2) \u21d2 (1) leg holds at full strength in-tree (and in greater generality \u2014 any right adjoint into any category, not just Sets). The (1) \u21d2 (2) leg needs an extra SolutionSet hypothesis that the book's smallness assumption is supposed to discharge, and the (2) \u27fa (3) leg is not present in any form: no lemma builds the representation U \u2245 Hom(F 1, \u2212) from an adjunction, and the Representable class has NO consumers anywhere in the tree."
+  },
+  "gap": "The representability leg is the whole missing content: nothing states that a left adjoint F \u22a3 U with U : C \u27f6 Sets makes U representable by F 1, and there is no lemma Hom_Sets(1, X) \u2245 X that would supply the transposition. Theory/Profunctor/Adjunction.v:70's representable_adjunction is a DIFFERENT statement ((F \u22a3 U) \u2194 (Repr_left F \u2245 Repr_right U), a bifunctor iso in [D^op \u220f C, Sets]), not U \u2245 Hom(F1,\u2212). Additionally the smallness hypothesis that makes (1) \u21d2 (2) unconditional is unavailable (see awodey:9.8:cor31).",
+  "negative_search_log": [
+   "grep -rn 'Representable' --include='*.v' . \u2014 Functor/Representable.v is the only definition site; no theorem consumes the class (all other hits are Theory/Profunctor*.v's unrelated 'representable profunctor' and Theory/Multicategory/Representable.v)",
+   "grep -rn 'Hom(F1\\|left_adjoint.*represent\\|adjoint.*representable' --include='*.v' . \u2014 0 assertions",
+   "grep -rn -i 'representability' --include='*.v' . \u2014 21 hits, prose plus Theory/Profunctor/Adjunction.v's representable_adjunction (profunctor form, not Hom(F1,\u2212))",
+   "grep -rn 'Hom.*terminal\\|hom_one\\|Hom(1' --include='*.v' . \u2014 no Sets-level lemma Hom(1, X) \u2245 X"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {representable, Representable, repr_obj, Hom(F1,\u2212), RAPL, continuous \u21d2 representable}; commands: rg -l 'Representable|representable', rg decls Functor/Representable.v, rg -n 'Representable' across tree. My independent preliminary verdict was ABSENT; Phase C says PARTIAL, on the ground that the (2)\u21d2(1) leg is present at full strength. I confirm rather than overturn: all three cited sites verified verbatim \u2014 Adjunction/Continuity.v:202 'Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G.' (inside Section RAPL over a given F \u22a3 U), Adjunction/GAFT.v:241, and Functor/Representable.v:46 'Class Representable `(F : C \u27f6 Sets) := { repr_obj : C; represented : [Hom repr_obj,\u2500] \u2245 F }.'. INDEPENDENTLY CONFIRMED the record's strongest claim, that the Representable class has no consumers: `rg -l 'Category.Functor.Representable' -tcoq` returns EMPTY \u2014 no file in the tree imports Functor/Representable.v, even though it is registered at _CoqProject:145. Also independently confirmed there is no Sets-level Hom(1,X) \u2245 X lemma (searched Hom.*One / hom_one / global element / Terminal.*Hom \u2014 the only Sets-terminal uses are Structure/Limit/Weighted.v's conical weights). So the (2)\u27fa(3) leg is genuinely unavailable and the gap text is accurate."
+  }
+ },
+ {
+  "id": "awodey:9.8:prop34",
+  "classification": "ABSENT",
+  "aliases": [
+   "a small complete category is a preorder",
+   "Freyd's theorem / Freyd's observation",
+   "complete small \u21d2 thin / posetal category",
+   "hom-set has at most one element",
+   "Cantor cardinality argument 2^|J| > |J|",
+   "products indexed by the arrow set force thinness"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'is a preorder' --include='*.v' . \u2014 6 hits; the two on point are PROSE ONLY: Structure/Complete.v:64-73 ('Freyd proved that a category with products of families as large as its own morphism set is a preorder ... exceeding |Mor| by Cantor's theorem. It follows that complete small categories are preorders') and Instance/Poset.v:83-86 ('by Freyd's observation, any complete small category is a preorder'). Neither is a Coq statement.",
+   "grep -rn -i 'cantor' --include='*.v' . \u2014 2 hits, both comments (Structure/Complete.v:69, Structure/Limit.v:109)",
+   "grep -rn -i 'cardinality' --include='*.v' . \u2014 12 hits, all comments or the unrelated Instance/Shapes.v Cardinality functor",
+   "grep -rn -i 'thin categ' --include='*.v' . \u2014 9 hits, all prose in Instance/Proset.v, Instance/Poset.v, Theory/Category.v:279",
+   "grep -rn -i 'small complete\\|complete small' --include='*.v' . \u2014 7 hits, all prose",
+   "grep -rn 'power set\\|PowerSet\\|2\\^' --include='*.v' . \u2014 no cardinality machinery; the library has no cardinal arithmetic and no smallness predicate with which to state Prop 9.34"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {small complete \u21d2 preorder, Freyd, thin, Cantor, 2^|J|, hom-set at most one element}; commands: rg -in 'small complete|freyd.*preorder|preorder.*complete|thin category', rg -in 'cantor|cardinality', rg 'Class Small|IsSmall' (0 hits). My independent preliminary verdict was ABSENT, matching Phase C. I re-read both prose sites at source and confirm they are comments, not Coq statements: Structure/Complete.v lines 64-76 ('Freyd proved that a category with products of families as large as its own morphism set is a preorder ... exceeding |Mor| by Cantor's theorem. It follows that complete small categories are preorders'), and Instance/Poset.v lines 83-86 ('by Freyd's observation, any complete small category is a preorder, which is exactly why the general theorem in Adjunction/GAFT.v must carry a [SolutionSet] hypothesis'). Adjunction/GAFT.v:104-105 carries the same sentence. There is no cardinal arithmetic and no smallness predicate in-tree, so the statement is not merely unproved but currently unstatable in the book's form. Empty evidence and null statement_record are schema-correct for ABSENT."
+  }
+ },
+ {
+  "id": "awodey:9.8:remark35",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Special Adjoint Functor Theorem",
+   "SAFT",
+   "well powered category (set of subobjects)",
+   "cogenerating set / coseparating family",
+   "Cogenerator, SubobjectIndex",
+   "Freyd SAFT, Mac Lane V.8"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 274,
+    "symbol": "SAFT",
+    "intree_statement": "Definition SAFT {C D : Category} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D \u27f6 C & F \u22a3 U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)."
+   },
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 223,
+    "symbol": "cogenerator_canonical_monic",
+    "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c).  (the classical 'the canonical map into the power of the cogenerating family is monic' step, proved from cog_separates)"
+   },
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 99,
+    "symbol": "Cogenerator",
+    "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k \u2218 f \u2248 k \u2218 g) -> f \u2248 g }."
+   },
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 119,
+    "symbol": "SubobjectIndex",
+    "intree_statement": "Record SubobjectIndex {C : Category} (x : C) := { sub_index : Type; sub_dom : sub_index -> C; sub_mono : forall i, sub_dom i ~> x; sub_monic : forall i, Monic (sub_mono i) }.  (well-poweredness of C is then forall x, SubobjectIndex x)"
+   }
+  ],
+  "statement_record": {
+   "book": "Let A be locally small and complete, well powered (every object has at most a set of subobjects) and equipped with a cogenerating set {A_i} separating parallel arrows. Then any limit-preserving U : A \u27f6 X has a left adjoint. (Proof referred to Mac Lane V.8.)",
+   "intree": "Definition SAFT {C D} (U : C \u27f6 D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x) (cover : SubobjectCover U comp G WP) : { F : D \u27f6 C & F \u22a3 U }.",
+   "strength_comparison": "intree-weaker: SAFT carries one hypothesis the book does not, namely cover : SubobjectCover U comp G WP, which literally ASSERTS the conclusion of the classical image-factorization step (every h : d ~> U c factors as fmap[U] t \u2218 s through a well-powered subobject of the cogenerator product). The library derives this from nothing; the header says so explicitly, calling it 'hypothesis-as-data'. Two further deviations: locally-small/smallness is not modelled (cog_index and sub_index are bare Types, so 'set of subobjects' is only a universe-level convention), and the preservation hypothesis is the cone-level PreservesImageLimit (stronger and correct, not a weakening). The genuinely internal mathematics proved here is cogenerator_canonical_monic (separation \u21d2 monic)."
+  },
+  "gap": "The image-factorization half of Freyd's SAFT is assumed, not proved: SubobjectCover (Adjunction/SAFT.v:240) is a hypothesis stating exactly that every d-arrow into U c factors through a subobject of \u220f_j A_j. Deriving it needs an (epi, mono) factorization in a complete well-powered category, which the tree does not have \u2014 Structure/Factorization.v and Structure/Regular/Factorization.v provide OFS/regular-epi-mono factorizations only under their own explicit hypotheses and are never connected to SAFT. Also missing: any smallness notion making 'well powered' a real (rather than data-supplied) condition.",
+  "negative_search_log": [
+   "rg -iE 'well.powered' --include='*.v' -- returns 12 hits, in Adjunction/SAFT.v and Adjunction/GAFT.v, where well-poweredness is PACKAGED AS DATA (SubobjectIndex) rather than defined as a property; verdict stands. [CORRECTED on fess-aw9 F5: previously claimed 0 hits.]",
+   "grep -rn -i 'cogenerating' --include='*.v' . \u2014 16 hits, all in Adjunction/SAFT.v prose plus Adjunction/GAFT.v:118 and Structure/Complete.v:84"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {SAFT, Special Adjoint Functor Theorem, well-powered, cogenerating set, coseparator, Cogenerator, SubobjectIndex}; commands: rg -n 'SAFT|Cogenerator|well.powered|WellPowered|SubobjectIndex' (all hits in Adjunction/SAFT.v + GAFT.v:118 + Structure/Complete.v:84), rg decls Adjunction/SAFT.v. My independent preliminary verdict was PARTIAL with exactly the gap Phase C names (the SubobjectCover datum), matching. All four cited sites verified verbatim: SAFT.v:274 (Definition SAFT ... (cover : SubobjectCover U comp G WP) : { F : D \u27f6 C & F \u22a3 U } := GAFT U comp cont (SAFT_solution_set U comp G WP cover)), SAFT.v:223 (Lemma cogenerator_canonical_monic, whose proof does consume cog_separates \u2014 I read the proof body), SAFT.v:99 (Cogenerator), SAFT.v:119 (SubobjectIndex). The file's own header (lines 36-90) discloses the two-halves split honestly and in more detail than the record; no header overclaim found. File registered at _CoqProject:8. LOG CORRECTION (does not affect the verdict): the negative_search_log entry \"grep -rn -i 'well-powered\\|well powered' --include='*.v' . \u2014 0 hits\" is FALSE and self-contradicted by its own trailing clause. The true result is \u22657 hits, all prose: Adjunction/SAFT.v:28, 53, 63, 76, 249, Adjunction/GAFT.v:118, Structure/Complete.v:84. The substantive point the entry was making \u2014 that 'well-powered' is never a Coq-level predicate, only the packaged SubobjectIndex \u2014 is correct."
+  }
+ },
+ {
+  "id": "awodey:9.8:def-equational-theory",
+  "classification": "PARTIAL",
+  "aliases": [
+   "finitary equational theory / algebraic theory / variety",
+   "signature with arities + equations (OpSignature, EqSignature)",
+   "T-algebra, OpAlgebra, Algebra S E",
+   "homomorphism of algebras (AlgHom)",
+   "T-Alg, Algs, Models T Sets",
+   "forgetful functor U : T-Alg \u27f6 Sets (ev1, CMon_Forget, Mon_Forget)",
+   "Lawvere theory as the categorical form of an equational theory"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Comp.v",
+    "line": 268,
+    "symbol": "Algebra",
+    "intree_statement": "Record Algebra (S : OpSignature) (E : EqSignature S) := { alg :> OpAlgebra S ; equations : \u2200 (e : E) (args : eq_arity e \u2192 alg), lhs e args = rhs e args }.  (with Record OpAlgebra (S) := { carrier :> Type ; op : \u2200 o : operation S, (arity o \u2192 carrier) \u2192 carrier } at line 54 and Record EqSignature at line 240)"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 64,
+    "symbol": "AlgHom",
+    "intree_statement": "Record AlgHom {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) := { map :> A \u2192 B ; op_commute : \u2200 (o : operation S) (args : arity o \u2192 A), map (op A o args) = op B o (fun x => map (args x)) }."
+   },
+   {
+    "file": "Theory/Lawvere/Model.v",
+    "line": 77,
+    "symbol": "Models",
+    "intree_statement": "Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub.  (the category of models of a Lawvere theory T in C \u2014 the full subcategory of [law_cat T, C] on the finite-product-preserving functors; for C = Sets this is T-Alg)"
+   },
+   {
+    "file": "Theory/Lawvere/Sets.v",
+    "line": 83,
+    "symbol": "ev1",
+    "intree_statement": "Program Definition ev1 : Models T Sets \u27f6 Sets := {| fobj := fun M => `1 M (law_of_nat 1%nat); fmap := fun F G \u03c4 => transform (`1 \u03c4) (law_of_nat 1%nat) |}.  (the underlying-set / forgetful functor on T-algebras; ev1_Faithful at line 105 under a reachability hypothesis)"
+   }
+  ],
+  "statement_record": {
+   "book": "A finitary equational theory T is finitely many operation symbols with finite arities (0-ary = constants) plus a set of equations between terms; a T-algebra is a set with operations of those arities satisfying the equations; a homomorphism is an underlying function preserving all operations; T-Alg is the category of T-algebras and homomorphisms, with the evident forgetful U : T-Alg \u27f6 Sets.",
+   "intree": "OpSignature (operation : Type, arity : operation \u2192 Type) + EqSignature (eq, eq_arity, lhs, rhs, naturality) give the theory; Algebra S E is a T-algebra; AlgHom is a homomorphism; Algs : Category is the category of algebras FOR THE SIGNATURE ONLY; on the categorical side Models : Category is the category of models of a LawvereTheory and ev1 : Models T Sets \u27f6 Sets is the forgetful functor.",
+   "strength_comparison": "intree-stronger in one respect and weaker in another. Stronger: arities are arbitrary Types rather than finite, so infinitary theories are covered, and EqSignature imposes lhs/rhs naturality, ruling out non-term-shaped equations. Weaker: the two presentations never meet. Instance/Comp.v's Algs (line 151) has obj := OpAlgebra S, i.e. the EQUATIONS ARE DROPPED \u2014 there is no category of Algebra S E \u2014 and Algs has no forgetful functor. Conversely Theory/Lawvere's Models/ev1 do deliver T-Alg with its U, but for a LawvereTheory given as an abstract cartesian category, which no in-tree construction produces from a signature-and-equations presentation."
+  },
+  "gap": "Three precise gaps. (1) No category whose objects are Algebra S E: Instance/Comp.v:151 builds Algs over OpAlgebra S, so the variety cut out by the equations is never made a category (only Product at line 434 shows Algebra S E is closed under products). (2) No forgetful functor out of Algs (or out of any syntactic algebra category) to Coq/Sets; the only forgetful functors of this shape are for fixed varieties, Instance/CMon.v:169 CMon_Forget : CMon \u27f6 Sets and Theory/Algebra/Monoid/Hom.v:93 Mon_Forget. (3) No bridge from a syntactic presentation (OpSignature + EqSignature, or a PROP presentation) to a LawvereTheory, so 'the Lawvere theory of T' \u2014 and hence 'T-Alg = Models T Sets' for a given equational T \u2014 is not available. Finitarity of arities is also not imposed, which is a generalization rather than a defect.",
+  "negative_search_log": [
+   "grep -rn 'T-Alg' --include='*.v' . \u2014 0 hits",
+   "grep -rn -i 'equational theory' --include='*.v' . \u2014 20 hits, all in the PROP/ColouredPROP term-syntax development (Construction/PROP/TermEq.v etc.) and Instance/ZX.v, none constructing a Lawvere theory or a category of algebras for a signature with equations",
+   "grep -rn -i 'variety\\|universal algebra' --include='*.v' . \u2014 Instance/Comp.v header and Theory/Lawvere.v:89 prose only"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {equational theory, algebraic theory, signature+arities+equations, T-algebra, T-Alg, forgetful functor, variety, universal algebra, Lawvere theory}; commands: rg -in 'equational theory|T-algebra|TAlg|varieties|universal algebra', rg -in 'free algebra|free functor|free monoid', rg decls Theory/Lawvere/{Model,Sets,Monad}.v. My blind preliminary verdict was PARTIAL on the Lawvere side only \u2014 I MISSED Instance/Comp.v entirely, because my 'universal algebra' grep was truncated by a `| head -40` before reaching it. Phase C found it; that is a real gain from the classifier and is recorded here as such. All four cited sites then verified at source: Instance/Comp.v:45 OpSignature, :54 OpAlgebra, :64 AlgHom, :240 EqSignature (with lhs_natural/rhs_natural), :268 Algebra S E, :151 Algs. The record's decisive claim is CORRECT and I checked it directly: Instance/Comp.v:151-152 reads 'Program Definition Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; ...' \u2014 the EQUATIONS ARE DROPPED, there is no category of Algebra S E, and Algs carries no forgetful functor. Theory/Lawvere/Model.v:77 Models and Theory/Lawvere/Sets.v:83 ev1 verified verbatim (ev1_Faithful at :105 under the reach hypothesis at :103). Instance/Comp.v is registered at _CoqProject:177. Two in-file items the record does not cite are commented-out code, not live: Algs_Closed (:190) and Algs_Cocartesian (:224) both sit inside (* ... *) blocks \u2014 noting so the issue writer does not cite them. Two header defects found here are reported in problems[]."
+  }
+ },
+ {
+  "id": "awodey:9.8:prop36",
+  "classification": "PARTIAL",
+  "aliases": [
+   "existence of free algebras",
+   "free functor F : Sets \u27f6 T-Alg left adjoint to the forgetful U",
+   "free-forgetful adjunction for an equational theory",
+   "universal property of the free algebra (induced_hom, from_free_unique)",
+   "free object / universal arrow into U",
+   "term algebra on a set of generators"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Comp.v",
+    "line": 116,
+    "symbol": "from_free_unique",
+    "intree_statement": "Theorem from_free_unique (f g : AlgHom Free A) : (\u2200 x : X, f (generator x) = g (generator x)) \u2192 f \u2248 g.  (uniqueness half of the free-algebra universal property, in Section FreeAlg over S : OpSignature, X : Type, A : OpAlgebra S)"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 108,
+    "symbol": "induced_hom",
+    "intree_statement": "Definition induced_hom : AlgHom Free A.  (existence half: for every OpAlgebra A and every h : X \u2192 A there is an algebra homomorphism out of Free := {| carrier := Tree; op := node |} extending h, via Fixpoint induced_map)"
+   }
+  ],
+  "statement_record": {
+   "book": "For any finitary equational theory T, the forgetful functor U : T-Alg \u27f6 Sets has a left adjoint, the free-algebra functor F : Sets \u27f6 T-Alg. (An application of the adjoint functor theorem; general proof referred to Mac Lane V.)",
+   "intree": "Section FreeAlg (S : OpSignature) (X : Type) (A : OpAlgebra S) (h : X \u2192 A): Free : OpAlgebra S := {| carrier := Tree; op := node |}; induced_hom : AlgHom Free A; Theorem from_free_unique (f g : AlgHom Free A) : (\u2200 x : X, f (generator x) = g (generator x)) \u2192 f \u2248 g.",
+   "strength_comparison": "intree-weaker on three counts. (a) Only for theories WITHOUT equations: Free is an OpAlgebra, and there is no free Algebra S E for an EqSignature, so the proposition's actual subject (an equational theory T) is not covered. (b) The universal property is pointwise data, not an adjunction: there is no functor F : Coq \u27f6 Algs, no forgetful functor out of Algs, and no F \u22a3 U anywhere. (c) It is not obtained from the adjoint functor theorem at all but by an explicit inductive term construction, and its uniqueness proof invokes functional extensionality (Instance/Comp.v:124-131 flags this)."
+  },
+  "gap": "No free/forgetful adjunction for algebras of a theory exists in-tree. Missing: the free construction for theories WITH equations (quotient of the term algebra by the congruence generated by the equations \u2014 the tree has generic hom-congruence quotients in Construction/Quotient.v but they are never applied here); the functorial packaging F : Sets \u27f6 T-Alg and the adjunction F \u22a3 U; and any AFT-based derivation. On the Lawvere side, Theory/Lawvere/Monad.v takes the left adjoint as a Context hypothesis (Context (L : Sets \u27f6 Models T Sets); Context (adj : L \u22a3 ev1 T)) \u2014 it is assumed, never constructed, so Lawvere_Monad and Lawvere_crude_monadicity are conditional on exactly the content of Prop 9.36. The only genuine free/forgetful adjunction in the tree is for free CATEGORIES on quivers (Construction/Free/Quiver.v FreeForgetfulAdjunction : FreeCatFunctor \u22a3 Forgetful), a different theorem.",
+  "negative_search_log": [
+   "grep -rn -i 'free algebra\\|free functor\\|free object' --include='*.v' . \u2014 assertions only in Instance/Comp.v (Section FreeAlg, Algs_Initial); everything else is prose",
+   "grep -rn '\u22a3' --include='*.v' . filtered to definitions \u2014 no adjunction whose right adjoint is a forgetful functor out of an algebra category; Instance/CMon.v:169 CMon_Forget and Theory/Algebra/Monoid/Hom.v:93 Mon_Forget have no left adjoints",
+   "grep -rn 'Context (adj : L \u22a3 ev1' Theory/Lawvere/Monad.v \u2014 the Lawvere free functor is a hypothesis (lines 67-68), not a construction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {free algebra, free functor, free-forgetful adjunction, term algebra, universal arrow into U, left adjoint of the forgetful functor}; commands: rg -in 'free algebra|free functor|free monoid|free group', rg decls Theory/Lawvere/Monad.v. My blind verdict hovered between ABSENT and PARTIAL for exactly the reason Phase C states \u2014 the Lawvere-side adjunction is a Context hypothesis \u2014 and I settled on PARTIAL once I saw Monad/Eilenberg/Moore/Adjunction.v; Phase C reaches PARTIAL through the stronger and better route (Instance/Comp.v's Section FreeAlg). Verified at source: Instance/Comp.v:83-133 Section FreeAlg \u2014 Inductive Tree (generator/node), Free := {| carrier := Tree; op := node |}, :108 Definition induced_hom : AlgHom Free A, and :116 'Theorem from_free_unique (f g : AlgHom Free A) : (\u2200 x : X, f (generator x) = g (generator x)) \u2192 f \u2248 g.'. The record's claim (c) that the uniqueness proof invokes functional extensionality is CORRECT \u2014 I read the proof: it calls `extensionality x` with an in-file jww comment (lines 124-131) explaining why. Verified the Lawvere-side gap verbatim: Theory/Lawvere/Monad.v:67-68 are 'Context (L : Sets \u27f6 Models T Sets).' and 'Context (adj : L \u22a3 ev1 T).' \u2014 assumed, never discharged, so Lawvere_Monad (:73), Lawvere_EM_Comparison (:78) and Lawvere_crude_monadicity (:91) are all conditional on precisely Prop 9.36. The record's cross-reference is accurate: Construction/Free/Quiver.v:550 'Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful' does exist (free CATEGORIES on quivers, a different theorem). CMon_Forget (Instance/CMon.v:169) and Mon_Forget (Theory/Algebra/Monoid/Hom.v:93) verified as having no left adjoints in-tree."
+  }
+ },
+ {
+  "id": "awodey:9.8:example37",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free algebra for one constant and one unary operation",
+   "algebras 1 -a-> M -f-> M and their homomorphisms",
+   "solution set from a cardinality bound on generated subalgebras",
+   "forgetful functor creates limits, T-Alg complete",
+   "F(\u2205) is initial in T-Alg",
+   "free monoid/term algebra construction, subalgebra generated by a subset"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Comp.v",
+    "line": 209,
+    "symbol": "Algs_Initial",
+    "intree_statement": "Program Instance Algs_Initial : Initial Algs := { terminal_obj := Free S False; one := fun x : OpAlgebra S => induced_hom S False x (False_rect _) }.  (the free algebra on the empty set of generators is the initial object of the algebra category \u2014 the example's closing claim that F(\u2205) is initial)"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 116,
+    "symbol": "from_free_unique",
+    "intree_statement": "Theorem from_free_unique (f g : AlgHom Free A) : (\u2200 x : X, f (generator x) = g (generator x)) \u2192 f \u2248 g.  (with induced_hom at line 108: the free algebra on X exists, for exactly the shape of theory in this example \u2014 operation symbols, no axioms)"
+   },
+   {
+    "file": "Instance/Comp.v",
+    "line": 434,
+    "symbol": "Product",
+    "intree_statement": "Definition Product {S : OpSignature} {E : EqSignature S} (I : Type) : (I \u2192 Algebra S E) \u2192 Algebra S E.  (algebras are closed under I-indexed products, computed carrierwise via ProductOp with Project : AlgHom (ProductOp A) (A i) \u2014 the products half of 'U creates all limits')"
+   }
+  ],
+  "statement_record": {
+   "book": "For T with one constant and one unary operation and no axioms, U : T-Alg \u27f6 Sets creates all limits (so T-Alg is complete and U preserves limits); the subalgebra generated by the image of h : X \u2192 M is { f^n(z) : z = a or z = h(x) }, of cardinality at most \u03ba = (|X|+1)\u00b7|\u2115| independently of h and M, so one representative per iso class of T-algebras of size \u2264 \u03ba is a solution set at X; the AFT then yields F : Sets \u27f6 T-Alg. Finally F(\u2205) is initial in T-Alg and is a natural numbers object.",
+   "intree": "Instance/Comp.v Section FreeAlg builds Free := {| carrier := Tree; op := node |} for an arbitrary OpSignature with induced_hom / from_free_unique; Algs_Initial : Initial Algs with terminal_obj := Free S False; Product exhibits I-indexed products of algebras carrierwise.",
+   "strength_comparison": "intree-stronger on the conclusion's existence (the free algebra is built for EVERY operation signature, this example's T included, directly and constructively rather than through an existence theorem) but intree-weaker on the example's actual content: none of the AFT argument is present, and the final NNO claim is unavailable because the library has no natural numbers object."
+  },
+  "gap": "Everything specific to the example's method and to its punchline is missing: (1) the generated subalgebra \u27e8h(X)\u27e9 = { f^n(z) } and its cardinality bound \u03ba = (|X|+1)\u00b7|\u2115| \u2014 grep for 'subalgebra' finds only prose in Theory/Lawvere.v:89; (2) the solution set built by taking one representative per iso class of algebras of bounded size, and the invocation of the AFT (the free algebra is instead constructed syntactically); (3) 'U creates all limits' \u2014 there is no forgetful functor out of Algs and no equalizers of algebras, only Algs_Terminal (line 160), Algs_Cartesian (line 169) and the I-indexed Product; (4) the free FUNCTOR F : Sets \u27f6 T-Alg and the adjunction; (5) 'F(\u2205) is a natural numbers object' \u2014 no NNO exists in-tree (see awodey:9.8:def38).",
+  "negative_search_log": [
+   "grep -rn -i 'subalgebra' --include='*.v' . \u2014 1 hit, Theory/Lawvere.v:89 prose",
+   "grep -rn -i 'creates limits\\|creates all limits' --include='*.v' . \u2014 creation appears only for monadic/EM functors (Monad/Monadicity/*) and Theory/Equivalence/Limit.v, never for algebra categories",
+   "grep -rn -i 'natural numbers object' --include='*.v' . \u2014 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {free algebra for one constant + one unary op, 1 \u2192 M \u2192 M, NatF/option algebra, solution set by cardinality bound, U creates limits, F(\u2205) initial}; commands: rg -n 'NatF|successor', rg -in 'creates limits', rg decls Instance/Coq/Lists.v, rg decls Theory/Adamek/Corollaries.v. My blind verdict was PARTIAL/ABSENT (I reached the NatF + ListF material but, again, missed Instance/Comp.v); Phase C's PARTIAL is better supported. All three cited sites verified verbatim: Instance/Comp.v:209 'Program Instance Algs_Initial : Initial Algs := { terminal_obj := Free S False; one := fun x : OpAlgebra S => induced_hom S False x (False_rect _) }' with 'Next Obligation. now apply from_free_unique. Qed.'; :116 from_free_unique; :434 'Definition Product {S : OpSignature} {E : EqSignature S} (I : Type) : (I \u2192 Algebra S E) \u2192 Algebra S E' built from ProductOp (:420) and Project (:426). The strength_comparison is honest in both directions (stronger on existence \u2014 the free algebra is built for every signature, constructively, not via the AFT; weaker on the example's method and on its NNO punchline). Gap items (1)-(5) each independently checked: no 'subalgebra' generation, no cardinality bound \u03ba, no iso-class solution set, no forgetful functor out of Algs hence no 'U creates all limits', no free FUNCTOR, and no NNO. Note the AFT is not merely unused here \u2014 the free algebra is obtained by an inductive term construction, which is a genuinely different (and stronger) route."
+  }
+ },
+ {
+  "id": "awodey:9.8:def38",
+  "classification": "ABSENT",
+  "aliases": [
+   "natural numbers object (NNO)",
+   "1 -0-> N -s-> N initial among such structures",
+   "initial algebra of the endofunctor 1 + (\u2212)",
+   "NatF-algebra, option/Maybe endofunctor algebra",
+   "zero and successor with unique recursor \u03c6",
+   "parametrized NNO / Lawvere natural number object"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'natural numbers object\\|NaturalNumbers\\|NatObject' --include='*.v' . \u2014 0 hits",
+   "grep -rnw 'NNO' --include='*.v' . \u2014 0 hits (a case-insensitive search matches only the substring inside 'cannot')",
+   "grep -rn -i 'natural numbers\\|NNO' docs/ README.md \u2014 0 relevant hits",
+   "grep -rn 'NatF' --include='*.v' . \u2014 the only hits are Theory/Adamek/Corollaries.v, which DEFINES the option endofunctor NatF : Coq \u27f6 Coq (line 87) and then states in its header (lines 78-80) that 'the initial-algebra theorem [nat \u2245 \u03bc NatF] is not stated in the tree \u2014 it is recorded here as the informal cross-reference to [ListF A], not as a proven result'. So even the Coq-specific instance of the NNO is explicitly disclaimed.",
+   "grep -rn -i 'succ\\|zero and successor\\|peano' --include='*.v' . \u2014 no successor morphism on any categorical object; PeanoNat hits are stdlib uses in Instance/FinSet.v, Theory/Metacategory/ArrowsOnly.v, Instance/Poset.v",
+   "grep -rn -i 'initial algebra\\|Initial (FAlg' --include='*.v' . \u2014 the generic machinery exists (Construction/FAlg.v FAlg F; Theory/Lambek.v lambek; Theory/Recursion.v cata) and one concrete instance is proven, Instance/Coq/Lists.v:111 list_initial : @Initial (FAlg (ListF A)) \u2014 a LIST object, not an NNO. No file forms the endofunctor 1 + (\u2212) in a general category (Functor/Coproduct.v:61 gives only CoproductFunctor : C \u2210 C \u27f6 C) and no file names or defines a natural numbers object.",
+   "NEAREST MISS, recorded for the issue writer: the NNO is definitionally @Initial (FAlg NatF) over Coq, and every ingredient (NatF, FAlg, Initial, cata) is in-tree, but the definition is neither stated in a general category with a terminal object nor asserted for any concrete category."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {natural numbers object, NNO, 1 -0-> N -s-> N, initial algebra of 1 + (\u2212), option/Maybe algebra, zero and successor, parametrized NNO, Peano}; commands: rg -il 'natural numbers object|\\bNNO\\b' -tcoq (0 hits), rg -in 'NNO|NaturalNumber|Nat_Object', rg -n 'NatF|successor|succ', rg -in 'peano|primitive recursion|recursor', plus a whole-repo (non-.v) sweep which found 'NNO' only in doc/wiggum-handoff.md:2480,2483. My independent verdict was ABSENT, matching Phase C. I re-read the record's decisive citation at source and it is accurate: Theory/Adamek/Corollaries.v defines NatF at line 87 ('Program Definition NatF : Coq \u27f6 Coq := {| fobj := fun X => option X; ... |}') and its header at lines 76-80 states 'Only the functor [NatF] itself is formalized below; the initial-algebra theorem [nat \u2245 \u03bc NatF] is not stated in the tree \u2014 it is recorded here as the informal cross-reference to [ListF A], not as a proven result.' That header is honest, so this ABSENT generates no library defect. Also verified: Functor/Coproduct.v:61 gives only 'Program Instance CoproductFunctor : C \u2210 C \u27f6 C', not a general 1 + (\u2212) endofunctor; Instance/Coq/Lists.v:111 list_initial : @Initial (FAlg (ListF A)) is a list object, not an NNO. The record's NEAREST MISS note is fair and useful for Phase E."
+  }
+ },
+ {
+  "id": "awodey:9.8:remark-nno-recursion",
+  "classification": "ABSENT",
+  "aliases": [
+   "NNO universal property is definition by recursion",
+   "\u03c6(0) = a and \u03c6(s n) = f(\u03c6 n)",
+   "N with 0 and successor is an NNO in Sets",
+   "uniqueness of the NNO in Sets up to isomorphism",
+   "categorical characterization equivalent to the Peano axioms",
+   "primitive recursion / recursor from initiality"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'primitive recursion' --include='*.v' . \u2014 1 hit, Theory/Adamek/Corollaries.v:71, a comment ('initiality is exactly primitive recursion on [nat]') attached to the NatF definition whose initiality the same header says is NOT proven in-tree",
+   "grep -rn -i 'peano' --include='*.v' . \u2014 only stdlib PeanoNat/Peano_dec imports and peano_rect uses in Theory/Metacategory/ArrowsOnly.v; no statement that a categorical characterization is equivalent to the Peano axioms",
+   "grep -rn -i 'natural numbers object' --include='*.v' . \u2014 0 hits, so no object whose universal property could be identified with recursion",
+   "grep -rn -i 'recursor\\|nat_rec\\|Nat.iter' --include='*.v' . \u2014 0 relevant hits",
+   "NEAREST MISS: Theory/Recursion.v:63 cata_commutes (cata \u03b2 \u2218 in\u03b1 \u2248 \u03b2 \u2218 fmap[F] (cata \u03b2)) and :73 cata_unique state 'initiality = definition by recursion' for a general F-algebra, and Instance/Coq/Lists.v:86 hom_is_fold / :111 list_initial instantiate it for lists. But nothing instantiates this to 1 + (\u2212), nothing asserts that nat with O/S is an initial algebra (Theory/Adamek/Corollaries.v:78-80 explicitly withholds it), and nothing states uniqueness of such an object in Sets up to iso."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {NNO universal property = primitive recursion, \u03c6(0)=a, \u03c6(s n)=f(\u03c6 n), \u2115 is the NNO in Sets, uniqueness up to iso, Peano axioms}; commands: rg -in 'peano|primitive recursion|recursor', rg -in 'natural numbers object' (0 hits), rg decls Theory/Recursion.v, rg decls Instance/Coq/Lists.v. My independent verdict was ABSENT, matching Phase C. Verified the single 'primitive recursion' hit at Theory/Adamek/Corollaries.v:71 \u2014 it is a comment on NatF whose initiality the same header withholds. Verified the NEAREST MISS material at source: Theory/Recursion.v:63 cata_commutes and Instance/Coq/Lists.v:86 hom_is_fold / :111 list_initial all exist and do state 'initiality = definition by recursion' for a general F-algebra and for lists \u2014 but nothing instantiates this at 1 + (\u2212) and nothing asserts \u2115-with-O/S is initial, nor uniqueness in Sets up to iso. LOG CORRECTION (immaterial): the NEAREST MISS cites 'Theory/Recursion.v:73 cata_unique'; the declaration is at line 72."
+  }
+ },
+ {
+  "id": "awodey:9.8:example39",
+  "classification": "ABSENT",
+  "aliases": [
+   "recursive definitions from an NNO",
+   "addition a + n defined by recursion (f_a(0) = a, f_a(s n) = s(f_a n))",
+   "multiplication a \u00b7 n by recursion",
+   "functor iteration F^n(C), n-th iterate of an endofunctor",
+   "the discrete category N is an NNO in Cat",
+   "transpose f-bar : N \u00d7 C \u27f6 C of f : N \u27f6 C^C"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i 'natural numbers object' --include='*.v' . \u2014 0 hits, so none of the three recursions can be phrased through an NNO in-tree",
+   "grep -rn -i 'fpow\\|functor power\\|F\\^n\\|Nat.iter\\|iterate' --include='*.v' . \u2014 no definition of the n-th iterate of an endofunctor as a functor N \u27f6 C^C, and no statement that the discrete category on \u2115 is an NNO in Cat (Instance/Discrete.v provides DiscreteCat but asserts nothing of the kind)",
+   "grep -rn -i 'addition\\|Nat.add' --include='*.v' . \u2014 hits are stdlib nat arithmetic used inside PROP/multicategory arity bookkeeping (Construction/PROP/*.v, Theory/Multicategory/*.v) and Structure/Semiadditive.v's hom-enrichment addition; none is a recursion defined from a universal property",
+   "NEAREST MISS: Construction/Chain.v:33 Fixpoint chain_obj (n : nat) : C := match n with O => initial_obj | S k => F (chain_obj k) end, assembled as Chain : Omega \u27f6 C (line 64) \u2014 this IS F^n applied to an object, but only at the initial object, and it is defined by Coq's own Fixpoint on nat rather than obtained from an NNO in Cat, so it does not carry the example's content (the universal property producing the iterate)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "BLIND PASS: aliases {recursion from an NNO, addition/multiplication by recursion, functor iteration F^n, discrete \u2115 is an NNO in Cat, transpose \u2115 \u00d7 C \u27f6 C}; commands: rg -in 'iterate|iteration|F\\^n', rg decls Construction/Chain.v, rg decls Instance/Discrete.v, rg -in 'natural numbers object' (0 hits). My independent verdict was ABSENT, matching Phase C, and I independently landed on the same nearest miss. Verified at source: Construction/Chain.v:33 'Fixpoint chain_obj (n : nat) : C := match n with | O => initial_obj | S k => F (chain_obj k) end' inside a section with Context `{@Initial C}, assembled as Chain : Omega \u27f6 C at :64. The record's characterization is exactly right \u2014 this is F^n, but pinned at the initial object, defined by Coq's own Fixpoint on nat, and indexed by Omega (a THIN order category, Instance/Omega.v), not by a discrete \u2115 obtained from an NNO in Cat; Instance/Discrete.v (DiscreteCat at :37) asserts nothing of the kind. None of the three recursions (a+n, a\u00b7n, F^n C via the universal property) exists in-tree."
+  }
+ }
+]

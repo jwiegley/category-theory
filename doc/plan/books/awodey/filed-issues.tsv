@@ -1,0 +1,205 @@
+220	MacLane I.2: Delooping monoids and groups into one-object categories
+221	MacLane I.2: The matrix category Matr_K
+226	MacLane I.2: The roster of standard large categories
+227	MacLane I.3: The covariant power-set functor
+234	MacLane I.3: Functors between preorders, groups, and representation categories
+237	MacLane I.4: The double-dual natural isomorphism for finite-dimensional vector spaces
+238	MacLane I.4: The skeleton equivalence between finite sets and finite ordinals
+241	MacLane I.4: Natural transformations between group homomorphisms are conjugations
+245	MacLane I.5: Epis in Sets are exactly the surjections
+247	MacLane I.5: Uniqueness of terminal, initial, and zero objects
+248	MacLane I.5: Groupoids and the structure of connected groupoids
+250	MacLane I.5: Monic/epi cancellation and a non-invertible bimorphism
+253	MacLane I.6: Size and foundations vocabulary
+254	MacLane I.6: Small completeness of Sets (indexed products and coproducts)
+255	MacLane I.6: Grp, the category of groups
+261	MacLane I.7: Set_*, the category of pointed sets
+262	MacLane I.7: Rel, converse relations, and the graph embedding
+263	MacLane I.7: Concrete categories
+266	MacLane II.1: The ETAC statement language and the duality principle
+270	MacLane II.3: Bifunctors and transformations from partial data (Propositions 1 and 2)
+271	MacLane II.3: The cylinder C x 2 and the universal natural transformation
+275	MacLane II.3: The ring of continuous functions as a contravariant functor
+277	MacLane II.4: The arrow category as [2, B] and the classification of natural transformations
+279	MacLane II.4: Linear representations as the functor category (K-Mod)^G
+296	MacLane II.7: The free monoid and its universal property
+299	MacLane II.8: The least congruence and presented categories
+301	MacLane II.8: Group congruences are normal subgroups
+309	MacLane III.1: Free modules and polynomial rings as universal arrows
+311	MacLane III.1: A universal element for the contravariant power-set functor
+313	MacLane III.1: Quotient groups and the isomorphism theorems by universality
+315	MacLane III.1: Quotient setoids and coequalizers in Sets
+316	MacLane III.2: Naturality of the Yoneda isomorphism in both variables
+321	MacLane III.4: Powers and copowers of an object
+324	MacLane III.3: Coproducts in the familiar algebraic and topological categories
+326	MacLane III.4: Interdefinability of the finite (co)limit constructions
+328	MacLane III.3: Coproducts in Mon and Grph
+333	MacLane III.4: Pullbacks and kernel pairs in Sets
+335	MacLane III.5: All finite products from a terminal object and binary products
+341	MacLane III.6: Group objects through their representable functors
+343	MacLane III.6: The categories of internal monoids and groups have finite products
+345	MacLane III.7: The category of elements of a set-valued functor
+346	MacLane III.7: The density theorem: set-valued functors as colimits of representables
+347	MacLane IV.1: Determination of an adjunction by its counit and by couniversal arrows
+348	MacLane IV.1: A left adjoint exists exactly when the hom-functors are representable
+351	MacLane IV.1: Coproducts as the left adjoint of the diagonal functor
+353	MacLane IV.2: Limits and colimits as adjoints of the diagonal functor
+357	MacLane IV.2: The adjoint string on the objects functor of Cat
+365	MacLane IV.2: A left adjoint to the coslice projection
+369	MacLane IV.3: Monomorphisms and epimorphisms in a functor category are pointwise
+374	MacLane IV.4: Skeletons and skeletal categories
+380	MacLane IV.5: Galois connections are adjunctions between preorders
+382	MacLane IV.5: The powerset preorder and the direct-image/inverse-image adjunction
+384	MacLane IV.5: Quantifiers as adjoints to substitution
+387	MacLane IV.5: Base change is right adjoint to composition on slices
+389	MacLane IV.6: Powerset lattices and Boolean algebras are cartesian closed
+392	MacLane IV.6: Cartesian closure is not inherited by functor categories
+403	MacLane IV.9: Subobject classifiers for functor categories
+404	MacLane IV.10: Sets and presheaf categories as elementary toposes
+405	MacLane IV.10: Every elementary topos has finite colimits
+406	MacLane V.1: Creation of limits by a functor
+407	MacLane V.1: Completeness of Sets by cone sets
+411	MacLane V.1: The forgetful functor of Grp lifts and creates limits
+414	MacLane V.1: Cat is small-complete
+416	MacLane V.2: Limits from products and equalizers
+417	MacLane V.2: Finite index categories and finite limits
+422	MacLane V.2: Products in a preorder are greatest lower bounds
+423	MacLane V.2: A small small-complete category is a preorder (Freyd)
+424	MacLane V.3: The evaluation functor on a functor category
+425	MacLane V.3: Pointwise limits in a functor category
+427	MacLane V.4: Cone-level preservation of limits and continuous functors
+428	MacLane V.4: Hom-functors are continuous
+429	MacLane V.4: Projective and injective objects
+432	MacLane V.5: Non-existence of adjoints in Set and Set^op
+435	MacLane V.6: The initial-object theorem as a characterization
+436	MacLane V.6: The Freyd adjoint functor theorem as a characterization
+437	MacLane V.6: The representability theorem
+440	MacLane V.6: The category of algebras of a variety
+441	MacLane V.6: The free-algebra adjunction for a variety
+442	MacLane V.6: The free group functor via the adjoint functor theorem
+443	MacLane V.6: Left adjoints to forgetful functors by the adjoint functor theorem
+444	MacLane V.6: The solution set condition is necessary (counterexamples)
+447	MacLane V.7: Generating (separating) sets of objects
+453	MacLane V.8: The special adjoint functor theorem as a characterization
+458	MacLane V.9: Top is complete and cocomplete
+479	MacLane VI.6: Algebraic quotients as coequalizers split under the forgetful functor (groups and rings)
+503	MacLane VII.3: Finite products in the category of monoids
+530	MacLane VIII.1: Equalizers as kernels of differences in an Ab-category
+534	MacLane VIII.2: Product, biproduct, and coproduct coincide in an Ab-category
+561	MacLane IX.1: Algebraic forgetful functors create filtered colimits
+590	MacLane X.3: Existence of Kan extensions from completeness and the global adjoint to precomposition
+637	MacLane App.1: Natural-numbers object
+640	Awodey 1.4: Wide subcategories of Sets cut out by a class of functions
+641	Awodey 1.4: Pos, the category of posets and monotone maps
+642	Awodey 1.4: The category of a deductive system (proofs as arrows)
+643	Awodey 1.5: Automorphism groups, permutation groups, and Cayley's theorem
+644	Awodey 1.5: Every category with small hom-collections is concrete (Cayley/Yoneda into Sets)
+645	Awodey 1.9 Ex 3: Isomorphisms versus bijective homomorphisms in Sets, Mon, and Pos
+646	Awodey 1.9 Ex 4: The coslice as the opposite of the slice over the opposite category
+647	Awodey 1.9 Ex 5: Free categories on graphs with exactly six arrows
+648	Awodey 2.1: Monomorphisms in Mon are exactly the injective homomorphisms
+649	Awodey 2.1: The inclusion of the additive monoid of naturals into the integers is a non-surjective epimorphism
+650	Awodey 2.1: Sets is balanced — a monic epimorphism of sets is an isomorphism
+651	Awodey 2.1: Every arrow in a poset is a bimorphism, and Pos is not balanced
+652	Awodey 2.2: Initial and terminal objects in slice categories, coslices, and posets
+653	Awodey 2.2: Boolean algebras and the category Bool
+654	Awodey 2.3: Filters, ultrafilters, and the correspondence between Boolean homomorphisms to 2 and ultrafilters
+655	Awodey 2.3: Well-pointed categories and having enough points
+656	Awodey 2.4: Functors preserve split monomorphisms and split epimorphisms
+657	Awodey 2.4: The categorical axiom of choice and projective objects in Sets and Pos
+658	Awodey 3.2: The coproduct bifunctor + : C ∏ C ⟶ C
+659	Awodey 3.2: The coproduct universal property — representability and uniqueness up to isomorphism
+660	Awodey 3.3: Subsets as equalizers of their characteristic functions in Sets
+661	Awodey 3.5 Ex 6: Kernel relations, quotients, and generated equivalence relations in Sets
+662	Awodey 3.5 Ex 5: The category of posets has all coequalizers
+663	Awodey 3.4: Presentations of algebras by generators and relations as coequalizers of free algebras
+664	Awodey 4.3: The homomorphism theorem for categories — kernel congruence, kernel category, and the bijective-on-objects/faithful factorization of a functor
+665	Awodey 4.3–4.4: Coequalizers of functors in Cat via congruence quotients
+666	Awodey 4.4: Finitely presented example categories — the walking isomorphism, Z/2Z, cyclic groups, and presentations of the category 3
+667	Awodey 4.1: Group objects in Sets, Top, and Pos recover ordinary, topological, and ordered groups
+668	Awodey 4.5 Ex 2: Internal groups in a slice Sets/I as an I-indexed family of groups
+669	Awodey 5.1: The subobject preorder Sub_C(X) as a category, and its poset quotient
+670	Awodey 5.1: Functoriality of subobjects — direct image along a mono, and monotonicity of reindexing
+671	Awodey 5.1: Local membership of generalized elements, and the equalizer as a comprehension subobject
+672	Awodey 5.3/5.7 Ex 1: Pullback calculus — the prism lemma, and monos as pullback squares
+673	Awodey 5.3/5.5: Slices of Sets as indexed families — reindexing as pullback, and its preservation of coproducts
+674	Awodey 5.6: The cumulative hierarchy as an ω-colimit, and the functoriality of V_ω
+675	Awodey 5.6: ω-CPOs and continuous monotone maps
+676	Awodey 5.6: Least fixed points of continuous maps on an ω-CPO (Kleene iteration)
+677	Awodey 5.6: Colimits depend on the ambient category — the chain of finite ω-CPOs in Pos and in ωCPO
+678	Awodey 5.7 Ex 4: The category of partial maps Par(C) over a category with pullbacks
+679	Awodey 5.5: Composition-reversal and identity laws for contramap
+680	Awodey 6.2: Pos is cartesian closed — the componentwise product and the pointwise-ordered monotone function space
+681	Awodey 6.2/6.6 Ex 4: ω-CPOs are cartesian closed, and strict ω-CPOs are not
+682	Awodey 6.2/6.6 Ex 3: The unit of the currying adjunction (− × B) ⊣ (−)^B, and the global points of an exponential
+683	Awodey 6.3: Heyting algebras — the class, the poset exponential UMP, and negation
+684	Awodey 6.3: Complete lattices — meets give joins, and the infinite distributive law as the Heyting criterion
+685	Awodey 6.3: Powersets and open-set lattices as complete Heyting algebras, and the failure of the Boolean laws
+686	Awodey 6.3: The full IPC entailment calculus and the Lindenbaum–Tarski Heyting algebra
+687	Awodey 6.3/6.6 Ex 5: Derived entailment rules and the three implication axioms of positive IPC
+688	Awodey 6.3: Heyting algebras presented by generators and relations — the universal property of HA(L)
+689	Awodey 6.4: The equational characterization of cartesian closed categories
+690	Awodey 6.5: The typed λ-calculus over a signature, and λ-theories with a provable-equality judgement
+691	Awodey 6.5: The category of types C(L) of a λ-theory, and its cartesian closed structure
+692	Awodey 6.5: Models of a λ-theory in a cartesian closed category, and the λ-theory of monoids
+693	Awodey 6.5: The universal property of C(L) — the free cartesian closed category on a λ-theory
+694	Awodey 6.5/6.6 Ex 6: Completeness of the λ-calculus for cartesian closed models, and the degeneracy of Sets-models
+695	Awodey 6.5: The internal language L(C) of a cartesian closed category, and the isomorphism C(L(C)) ≅ C
+696	Awodey 6.6 Ex 2: The category of monoids is not cartesian closed
+697	Awodey 7.1: Injectivity and surjectivity of a functor on objects and on arrows
+698	Awodey 7.1: Monoids, groups, posets and sets embed fully and faithfully in Cat
+699	Awodey 7.2: Hom(X,2) as a Boolean algebra and the powerset as a functor Sets^op ⟶ BA
+700	Awodey 7.3: The ultrafilter functor Ult : BA^op ⟶ Sets and the covariant ultrafilter endofunctor on Sets
+701	Awodey 7.3: The Stone representation φ_B : B → P(Ult(B)) and the Stone representation theorem
+702	Awodey 7.9: Finite Stone duality — BA_fin is equivalent to Sets_fin^op
+703	Awodey 7.9: Complete atomic Boolean algebras and the discrete Stone duality caBA ≃ Sets^op
+704	Awodey 7.5: The contravariant powerset functor on Sets, the double-powerset unit, and P(A+B) ≅ P(A) × P(B)
+705	Awodey 7.7: The category of directed graphs as the functor category Sets^Γ
+706	Awodey 7.7: The functor category of two posets is the exponential poset, and Pos ⟶ Cat preserves cartesian closed structure
+707	Awodey 7.7: The category Grpd of groupoids is cartesian closed and its inclusion into Cat preserves the structure
+708	Awodey 7.9: The category of partial maps is equivalent to the category of pointed sets
+709	Awodey 7.9: The equivalence Sets^I ≃ Sets/I and reindexing as pullback
+710	Awodey 7.10 Ex 3: The forgetful functors Grp ⟶ Mon ⟶ Sets — fullness, faithfulness and (non-)surjectivity
+711	Awodey 7.10 Ex 4: The Alexandroff topology as a functor Pos ⟶ Top
+712	Awodey 7.10 Ex 5: The full-image factorization of a functor, and its comparison with the bijective-on-objects factorization
+713	Awodey 8.2: The hom-bifunctor and its two exponential transposes in Cat
+714	Awodey 8.2/8.4: Lower sets, the principal-down-set embedding, and the thin-category Yoneda criterion
+715	Awodey 8.6: Colimits in a functor category are pointwise, and presheaf categories are cocomplete
+716	Awodey 8.6: The category of elements is equivalent to the Yoneda slice y/P
+717	Awodey 8.6: The Yoneda embedding is the free cocompletion of a small category
+718	Awodey 8.7: Exponentials of presheaves and cartesian closure of Sets^(C^op)
+719	Awodey 8.7/8.9 Ex 5: (− × B) as a left adjoint, and its preservation of all colimits
+720	Awodey 8.9 Ex 4: The Yoneda embedding preserves products and exponentials
+721	Awodey 8.8: The subobject functor is representable — naturality of the classifying bijection and uniqueness of Ω
+722	Awodey 8.8: The fundamental theorem of topos theory — every slice of a topos is a topos
+723	Awodey 8.9 Ex 6: The subobject classifiers of Sets^2 and Sets^ω, and finite-set diagrams as a topos
+724	Awodey 9.1/9.9 Ex 3: Binary products and coproducts from an adjoint to the diagonal functor
+725	Awodey 9.1: The lower-set completion is left adjoint to the forgetful functor from cocomplete posets
+726	Awodey 9.2/9.8: Recovering universal arrows from an adjunction — each unit component is initial in the comma category
+727	Awodey 9.4: The interior operator as a right adjoint to the inclusion of open sets
+728	Awodey 9.5: Quantifiers as adjoints to weakening — a syntactic hyperdoctrine and its geometric reading
+729	Awodey 9.7: Change of base for indexed families of sets — the adjoint triple with its fibrewise formulas
+730	Awodey 9.7: The dependent product — the right adjoint to base change on slices
+731	Awodey 9.7: Structure on slice categories — the domain functor, products from pullbacks, and C ≅ C/1
+732	Awodey 9.7: Locally cartesian closed categories, and the equivalence with slicewise cartesian closure
+733	Awodey 9.7: A slice of a presheaf category is again a presheaf category
+734	Awodey 9.7: Presheaf categories are locally cartesian closed
+735	Awodey 9.7: Fibrations of posets — the category Fib, and Fib/P as a locally cartesian closed category
+736	Awodey 9.8: Smallness discharges the solution-set condition — the adjoint functor theorem for small complete categories
+737	Awodey 9.8: The adjoint functor theorem for complete posets — a join-preserving monotone map has a right adjoint
+738	Awodey 9.8/9.9 Ex 10: Recursion from a natural numbers object — arithmetic, functor iteration, and exponentiation in a cartesian closed category
+739	Awodey 9.9 Ex 8: Indexed sets, change of base, and Lawvere's hyperdoctrine diagram
+740	Awodey 10.4: The comonad induced by an adjunction, with its counit and comultiplication exposed
+741	Awodey 10.4: Comonadic functors — the co-Eilenberg–Moore comparison and the Comonadic predicate
+742	Awodey 10.6 Ex 7(c): The category of sets with an endomorphism and its eventually-fixed-points comonad
+743	Awodey 10.4: Adjoint triples — the induced monad, the induced comonad, and T ⊣ G
+744	Awodey 10.4: The comonad Δ∘lim on a diagram category, and Sets as its coalgebras
+745	Awodey 10.4/10.6 Ex 8: The interior comonad and the closure monad on the subsets of a space
+746	Awodey 10.5: Pointwise sums of functors and the class of polynomial endofunctors
+747	Awodey 10.5: Group structures as algebras for 1 + X + X × X, and signatures as polynomial endofunctors
+748	Awodey 10.5/10.6 Ex 2: Lambek's lemma — the initial algebra structure map is an isomorphism
+749	Awodey 10.5: Initial algebras unwound — binary trees, term trees, and length by initiality
+750	Awodey 10.5: The covariant powerset functor has no initial algebra (Lambek plus Cantor)
+751	Awodey 10.5: Every polynomial endofunctor on Sets has an initial algebra
+752	Awodey 10.5: When endofunctor algebras are monad algebras — the free P-algebra and the three equivalent conditions
+753	Awodey 10.6 Ex 10: The final coalgebra of 1 + A × X — possibly-infinite lists

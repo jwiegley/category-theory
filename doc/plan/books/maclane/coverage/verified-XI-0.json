@@ -1,0 +1,450 @@
+[
+  {
+    "id": "maclane:XI.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoidal category",
+      "tensor category",
+      "Monoidal",
+      "Class Monoidal",
+      "pentagon and triangle",
+      "associator/unitor coherence"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal.v",
+        "line": 125,
+        "symbol": "Monoidal",
+        "intree_statement": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C where \"x ⨂ y\" := (tensor (x,y)); unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); to_/from_unit_left_natural ...; to_/from_unit_right_natural ...; to_/from_tensor_assoc_natural ...; triangle_identity {x y} : bimap unit_right id ≈ bimap id unit_left ∘ tensor_assoc; pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id ≈ tensor_assoc ∘ tensor_assoc }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoidal category is a category with a tensor bifunctor ⊗ : M×M→M, a unit object e, and natural isomorphisms associator α:(ab)c≅a(bc), left unitor λ:ea≅a, right unitor ρ:ae≅a, satisfying the pentagon coherence for α and the triangle relating α,λ,ρ (with λ=ρ:ee→e).",
+      "intree": "Class Monoidal with unit I, tensor bifunctor, unit_left(λ)/unit_right(ρ)/tensor_assoc(α) all as isomorphisms (≅), explicit to+from naturality of each, triangle_identity and pentagon_identity.",
+      "strength_comparison": "same — faithful setoid rephrasing (hom-setoids with ≈); unitors and associator are genuine isomorphisms exactly as in the book; the derived equation λ_I≈ρ_I is Kelly's redundant law and is proved as unit_identity in Structure/Monoidal/Proofs.v rather than posed as a field, matching Kelly's reduction the book itself uses."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently PRESENT. Verified Structure/Monoidal.v:125 Class Monoidal (I, tensor, unit_left/right, tensor_assoc, both-direction naturality, triangle+pentagon) matches the book; the book's lambda_I=rho_I is Kelly-redundant and is proved in-tree as unit_identity (Structure/Monoidal/Proofs.v:344), not posed as a field. Quote accurate; file registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:XI.1:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "braiding",
+      "braided monoidal category",
+      "BraidedMonoidal",
+      "hexagon identities",
+      "commutativity constraint gamma",
+      "braid"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Braided.v",
+        "line": 128,
+        "symbol": "BraidedMonoidal",
+        "intree_statement": "Class BraidedMonoidal := { braided_is_monoidal : @Monoidal C; braid {x y} : x ⨂ y ~> y ⨂ x; braid_natural : natural (@braid); hexagon_identity {x y z} : tensor_assoc ∘ braid ∘ tensor_assoc ≈ id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id; hexagon_identity_sym {x y z} : tensor_assoc⁻¹ ∘ braid ∘ tensor_assoc⁻¹ ≈ braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ braid }"
+      },
+      {
+        "file": "Structure/Monoidal/Braided/Proofs.v",
+        "line": 529,
+        "symbol": "braid_unit_left",
+        "intree_statement": "Theorem braid_unit_left {x : C} : unit_left ∘ braid << x ⨂ I ~~> x >> unit_right.  (* stated in Section BraidedUnitors under Context `{S : @SymmetricMonoidal C} *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A braiding on a monoidal category M is a family of natural ISOMORPHISMS γ_{a,b}:a⊗b≅b⊗a satisfying (i) unit compatibility λ∘γ_{a,e}=ρ and (ii) both hexagon identities relating γ to the associator; not required to be involutive.",
+      "intree": "BraidedMonoidal carries braid {x y} : x ⨂ y ~> y ⨂ x (a bare morphism, NOT an ≅), braid_natural, and the two hexagons; there is no invertibility field and no unit-compatibility field.",
+      "strength_comparison": "intree-weaker: (a) the braiding is exposed as a bare natural transformation (~>), not a natural isomorphism as the book demands — the file's own Braided/Proofs.v header states it 'exposes the braiding as a natural family of morphisms without an inverse'; invertibility is genuinely extra (the candidate inverse γ_{y,x} is a two-sided inverse only under the symmetry law, which is not assumed here). (b) The book's unit-compatibility axiom λ∘γ_{a,e}=ρ is not a field; it is derivable (Joyal–Street Prop. 2.1) and IS derived in-tree as braid_unit_left, but only inside Section BraidedUnitors under a SymmetricMonoidal hypothesis, so for a general (non-symmetric) braided category the in-tree development does not establish it."
+    },
+    "gap": "Two omissions relative to the book's definition: (1) the braiding field is a plain morphism x⨂y ~> y⨂x, not a natural isomorphism, and no in-tree theorem derives invertibility from the two hexagons; (2) the unit-compatibility equation λ∘γ_{a,e}=ρ is absent as an axiom and its in-tree derivation (braid_unit_left) is proven only for symmetric monoidal categories, not for general braided ones. The braiding data, naturality, and both hexagons are otherwise faithfully present.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently derived the SAME two-part gap before reading coverage. Verified the braid field at Braided.v:132 is typed 'x ⨂ y ~> y ⨂ x' (bare morphism, not an iso), and that braid_unit_left (Proofs.v:529) lives inside Section BraidedUnitors under Context {S:@SymmetricMonoidal C} (line 506) — so unit-compatibility is NOT established for a general braided category. Invertibility is genuinely not derivable from the two hexagons (the candidate inverse braid_{y,x} is a two-sided inverse only under the symmetry law). PARTIAL with this precise gap is honest. See problems[]: the field's own comment mislabels it ≅."
+    }
+  },
+  {
+    "id": "maclane:XI.1:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "inverse braiding is a braiding",
+      "reverse braiding",
+      "mirror braiding",
+      "opposite braiding",
+      "gamma^{-1} braiding",
+      "reversed braided structure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'reverse.?brai|opposite.?brai|braid.*inverse|inverse.*braid|mirror.?brai|braid_iso|braid.?sym' -g '*.v' — only hits are (i) symmetry remarks ('braiding must be its own inverse') in the PROP/symmetric files, (ii) the SymmetricMonoidal braid_invol field, and (iii) braid_unit_*_from unitor-shuffle corollaries; none constructs the pointwise-inverse family as a braiding.",
+      "rg -n 'Braided_op' — Construction/Opposite/Monoidal.v:148 Program Definition Braided_op `{B:@BraidedMonoidal C} : @BraidedMonoidal (C^op) := {| braid := fun x y => @braid C B y x |}. This is a DIFFERENT construction: it builds a braiding on the OPPOSITE category C^op using braid_{y,x} (not the inverse family γ^{-1}), and the two hexagons exchange roles. It does not require or use γ^{-1}, so it is not Mac Lane's remark that γ^{-1} is a braiding on the SAME M.",
+      "rg -n 'BraidedMonoidal' -g '*.v' | rg 'Class|Instance|Program|Definition|Build' — enumerated every BraidedMonoidal constructor in the tree; none is a reverse/inverse-braiding-on-M construction. In-tree BraidedMonoidal does not even expose braid as invertible in general (see def2), so the pointwise inverse γ^{-1} is not in-tree expressible for a general braided category.",
+      "In the SymmetricMonoidal special case γ^{-1}=γ trivially (braid_invol), so remark1 degenerates and is not stated separately; the braided-generality statement of the remark has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search found the same single cousin, Braided_op (Construction/Opposite/Monoidal.v:148). Agree it is a DIFFERENT theorem: it builds a braiding on C^op from braid_{y,x} (no inverse) with the hexagons exchanging roles, not 'gamma^{-1} is a braiding on the same M'; and the general in-tree class cannot even form gamma^{-1} (braid not invertible). The negative log honestly surfaces and correctly distinguishes Braided_op rather than missing it. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:XI.1:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "symmetric monoidal category",
+      "symmetry",
+      "SymmetricMonoidal",
+      "braid_invol",
+      "gamma^2 = 1",
+      "involutive braiding"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Symmetric.v",
+        "line": 103,
+        "symbol": "SymmetricMonoidal",
+        "intree_statement": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y] }"
+      }
+    ],
+    "statement_record": {
+      "book": "A symmetric monoidal category is a monoidal category with a braiding γ that is a symmetry: γ_{b,a}∘γ_{a,b}=id_{a⊗b} (γ²=1); under symmetry each hexagon implies the other. Same notion as VII.7.",
+      "intree": "SymmetricMonoidal extends BraidedMonoidal with braid_invol : braid ∘ braid ≈ id[x ⨂ y], i.e. β_{y,x}∘β_{x,y}=1; header notes 'under symmetry either hexagon implies the other' and hexagon_rotated derives the second hexagon from the first.",
+      "strength_comparison": "same — braid_invol is exactly γ²=1. Note the def2 weakness (braiding as a bare morphism) is neutralized here: braid_invol makes braid its own two-sided inverse, so the symmetric braiding IS a natural isomorphism as the book requires, and unit-compatibility is available (braid_unit_left, proved under this SymmetricMonoidal hypothesis)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. Symmetric.v:103 SymmetricMonoidal = BraidedMonoidal + braid_invol (braid∘braid≈id) = gamma^2=1, exactly the book. braid_invol restores invertibility, so here the braiding IS a genuine natural iso (the def2 weakness is neutralized, as the record states). Quote accurate; registered."
+    }
+  },
+  {
+    "id": "maclane:XI.1:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "permuted-word functor",
+      "(w tau)_M",
+      "word evaluation functor M^n -> M",
+      "tensor word functor",
+      "iterated tensor of a permuted list",
+      "permutation realization"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Multicategory/Representable.v",
+        "line": 55,
+        "symbol": "tensor_list",
+        "intree_statement": "Definition tensor_list {C} `{M:@Monoidal C} (xs : list C) : C := fold_right (fun a acc => (a ⨂ acc)%object) I xs.  (* and Definition tfold : list A → C := fold_right (fun a acc => (ob a ⨂ acc)%object) I, line 67 *)"
+      },
+      {
+        "file": "Theory/Multicategory/Representable.v",
+        "line": 543,
+        "symbol": "perm_arrow",
+        "intree_statement": "Fixpoint perm_arrow {Γ Δ : list A} (p : tperm Γ Δ) : tfold ob Δ ~{C}~> tfold ob Γ := match p with tperm_nil => id | tperm_skip x q => id[ob x] ⨂ perm_arrow q | tperm_swap x y Γ' => tensor_assoc ∘ (braid ⨂ id) ∘ tensor_assoc⁻¹ | tperm_trans q r => perm_arrow q ∘ perm_arrow r end"
+      }
+    ],
+    "statement_record": {
+      "book": "For a symmetric monoidal M, each ⊗-word w in n letters together with a permutation τ∈S_n determines a functor (wτ)_M : M^n → M, given by (wτ)_M(a₁,…,aₙ) = w(a_{τ1},…,a_{τn}) — the word evaluated on the τ-permuted argument list.",
+      "intree": "tensor_list/tfold realizes a list of objects as its right-nested ⊗-fold (the object part of the canonical word); perm_arrow realizes a Type-valued structural permutation tperm as a morphism between folds, built inductively from braidings and associators. Developed to give the symmetric-group action on the representable multicategory of a symmetric monoidal category.",
+      "strength_comparison": "intree-weaker/re-purposed: covers only the object-level fold of the CANONICAL right-nested bracketing (not arbitrary words/binary trees w), and realizes τ as a morphism perm_arrow between folds rather than assembling the functor (wτ)_M : M^n → M; there is no functor packaging M^n → M and no arbitrary-word generality."
+    },
+    "gap": "The book's construction is a functor (wτ)_M : M^n → M for an ARBITRARY word w and permutation τ. In-tree there is (i) tensor_list/tfold giving only the single canonical right-nested bracketing on objects (no arbitrary bracketing/word), and (ii) perm_arrow giving the τ-realization as a morphism between folds — but neither is packaged as a functor M^n → M, and the two pieces are assembled for the representable multicategory (Theory/Multicategory/Representable.v), not as the coherence-scaffolding functor of Mac Lane's Theorem 1.",
+    "negative_search_log": [
+      "rg -ni 'permut|tensor_list|tfold|perm_arrow' -g '*.v' | rg 'Definition|Fixpoint|Class|Record|Inductive' — the only word/permutation-to-object-fold machinery is Theory/Multicategory/Representable.v (tensor_list, tfold, perm_arrow) and Theory/Multicategory.v (tperm); no functor M^n → M indexed by (word, permutation).",
+      "rg -ni 'word' -g '*.v' Functor/ — no word-indexed functor construction over a monoidal category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified the evidence quotes: perm_arrow at Theory/Multicategory/Representable.v:543 (tperm_swap ↦ tensor_assoc∘(braid⨂id)∘tensor_assoc⁻¹) and tensor_list:55/tfold:67 are accurate. These realize the object-level word-fold and permutation-as-braid, but are not packaged as a functor M^n→M and cover only the canonical right-nested bracketing, in service of the representable multicategory. Borderline ABSENT/PARTIAL; PARTIAL with the stated gap is defensible and the gap is precisely stated."
+    }
+  },
+  {
+    "id": "maclane:XI.1:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coherence for symmetric monoidal categories",
+      "canonical maps",
+      "all coherence diagrams commute",
+      "Mac Lane coherence symmetric",
+      "unique canonical iso between permuted words",
+      "coherence collapse"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Braided/Proofs.v",
+        "line": 1093,
+        "symbol": "swap_inner_assoc",
+        "intree_statement": "Theorem swap_inner_assoc {a b c d e f} : swap_inner a b (c⨂e) (d⨂f) ∘ ((id ⨂ swap_inner c d e f) ∘ to tensor_assoc) ≈ (to tensor_assoc ⨂ to tensor_assoc) ∘ (swap_inner (a⨂c) (b⨂d) e f ∘ (swap_inner a b c d ⨂ id))  (* the associativity hexagon for the middle-four interchange; plus swap_inner_invol, swap_inner_braid, swap_inner_unit_left2/right2 *)"
+      },
+      {
+        "file": "Structure/Monoidal/Braided.v",
+        "line": 155,
+        "symbol": "Yang_Baxter_equation",
+        "intree_statement": "Theorem Yang_Baxter_equation {a b c} : braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc⁻¹ ≈ tensor_assoc⁻¹ ∘ id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ braid"
+      },
+      {
+        "file": "Structure/Monoidal/Symmetric.v",
+        "line": 137,
+        "symbol": "bimap_braid",
+        "intree_statement": "Lemma bimap_braid {x y z w} (f g) : g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g   (* with braid_bimap_braid, hexagon_rotated: specific coherence collapses *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In every symmetric monoidal category M there is a unique natural iso can_M(vσ,wτ) : (vσ)_M ⟹ (wτ)_M for each ordered pair of permuted words of the same length, the 'canonical map', characterized inductively (id, α, γ canonical; composites and ⊗ of canonical maps canonical); consequently any two canonical maps between the same permuted words are equal — coherence for symmetric monoidal categories.",
+      "intree": "No general statement of the theorem exists. In-tree there is a body of specific coherence instances: the middle-four interchange associativity hexagon swap_inner_assoc, its involution/braid/unit coherences, the Yang–Baxter equation, bimap_braid/braid_bimap_braid/hexagon_rotated, and the braid–unitor coherences (braid_unit_left/right, braid_I_left/right).",
+      "strength_comparison": "intree-weaker: only specific finite-diagram instances of the theorem's conclusion are proved (each swap_inner_* equation is literally two canonical maps between the same permuted words shown equal); there is no inductively-defined family of canonical maps, no quantification over arbitrary permuted words, and no uniqueness/all-parallel-canonical-maps-equal theorem. Structure/Monoidal/Symmetric.v (header) itself frames its lemmas as 'small instances of this collapse [= Mac Lane's coherence theorem].'"
+    },
+    "gap": "The general coherence theorem is not formalized: there is no inductive 'canonical map' family between permuted-word functors and no proof that any two canonical maps with the same source/target (equivalently the same underlying permutation) are equal. Only specific instances of the conclusion (swap_inner_assoc and the surrounding interchange coherences, Yang–Baxter, bimap_braid, braid–unitor coherences) are proved. The informal unitor extension the book leaves to the reader is likewise not present.",
+    "negative_search_log": [
+      "rg -ni 'coherence theorem|coherence_theorem|Mac Lane coherence' -g '*.v' — the phrase appears only in header prose (Structure/Monoidal.v, Structure/Monoidal/Symmetric.v, Structure/Monoidal/Proofs.v, Theory/Bicategory.v) and in the unrelated Fong–Spivak supply coherence theorems (Construction/ColouredPROP/Supply.v) and Hedberg coherence (Grothendieck/Strict.v); no proven Mac Lane coherence theorem for (symmetric) monoidal categories.",
+      "rg -ni 'canonical' -g '*.v' — 'canonical map' occurs for cogenerators (SAFT), comparison maps, comonoid tensors; none is the symmetric-coherence canonical-map family."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified swap_inner_assoc (Proofs.v:1093), Yang_Baxter_equation (Braided.v:155), bimap_braid (Symmetric.v:137). The general coherence theorem (an inductive canonical-map family + uniqueness/all-parallel-equal) is genuinely absent; only specific instances of its conclusion are proved. Symmetric.v's own header frames these as 'small instances of this collapse [Mac Lane coherence]', which supports PARTIAL over ABSENT. Gap is honest and precise."
+    }
+  },
+  {
+    "id": "maclane:XI.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoidal functor",
+      "lax monoidal functor",
+      "LaxMonoidalFunctor",
+      "F_2 F_0 comparison maps",
+      "tensor and unit comparison",
+      "mu and eta of a functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 110,
+        "symbol": "LaxMonoidalFunctor",
+        "intree_statement": "Class LaxMonoidalFunctor := { lax_pure : I ~> F I; ap_functor_nat : ((⨂)◯F∏⟶F) ~{[C∏C,D]}~> (F◯(⨂)); lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat](x,y); pure_left/pure_right/ap_assoc (derived isos); lax_monoidal_unit_left {x} : to unit_left ≈ fmap[F](to unit_left) ∘ lax_ap ∘ bimap lax_pure id; lax_monoidal_unit_right {x} : to unit_right ≈ fmap[F](to unit_right) ∘ lax_ap ∘ bimap id lax_pure; lax_monoidal_assoc {x y z} : fmap[F](to tensor_assoc) ∘ lax_ap ∘ bimap lax_ap id ≈ lax_ap ∘ bimap id lax_ap ∘ to tensor_assoc }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoidal functor (F,F₂,F₀):M→M' is a functor F with a natural transformation F₂(a,b):Fa⊗Fb→F(a⊗b) and a morphism F₀:e'→Fe, subject to an associativity coherence relating F₂ to α,α' and two unit coherences relating F₂,F₀ to the unitors (the lax form; comparisons not assumed invertible).",
+      "intree": "LaxMonoidalFunctor with lax_pure (F₀:I→FI), ap_functor_nat/lax_ap (F₂ as a natural transformation), and exactly the three coherences: lax_monoidal_assoc (associativity α vs. two F₂), lax_monoidal_unit_left, lax_monoidal_unit_right.",
+      "strength_comparison": "same — faithful setoid rephrasing; F₂ posed as a genuine natural transformation ap_functor_nat, comparisons not required invertible; the three coherence squares are exactly the book's diagrams (3),(4). The extra pure_left/pure_right/ap_assoc are derived-iso fields (documented as consequences, not extra structure)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. LaxMonoidalFunctor (Functor/Structure/Monoidal.v:110): lax_pure (F_0), ap_functor_nat/lax_ap (F_2 as a genuine natural transformation), and exactly three coherences (assoc + two unit) = the book's (3),(4). Quote accurate; registered."
+    }
+  },
+  {
+    "id": "maclane:XI.2:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoidal functors compose",
+      "composite of monoidal functors",
+      "Compose_MonoidalFunctor",
+      "Compose_LaxMonoidalFunctor",
+      "MonCat composition"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal/Compose.v",
+        "line": 59,
+        "symbol": "Compose_MonoidalFunctor",
+        "intree_statement": "#[export] Program Instance Compose_MonoidalFunctor `(M:@MonoidalFunctor D E _ _ F) `(N:@MonoidalFunctor C D _ _ G) : `{@MonoidalFunctor C E _ _ (F ◯ G)} := { pure_iso := iso_compose (fobj_iso F _ _ pure_iso) pure_iso; ap_functor_iso := {| to := fun p => fmap(to ap_iso) ∘ to ap_iso ... |} }  (* all coherence obligations discharged *)"
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Compose.v",
+        "line": 291,
+        "symbol": "Compose_LaxMonoidalFunctor",
+        "intree_statement": "#[export] Program Instance Compose_LaxMonoidalFunctor `(M:@LaxMonoidalFunctor D E _ _ F) `(N:@LaxMonoidalFunctor C D _ _ G) : `{@LaxMonoidalFunctor C E _ _ (F ◯ G)} := { lax_pure := fmap lax_pure ∘ lax_pure; ap_functor_nat := {| transform := fun p => fmap lax_ap ∘ lax_ap |} }"
+      }
+    ],
+    "statement_record": {
+      "book": "The (evident) composite of two monoidal functors is again a monoidal functor; monoidal functors are closed under composition, with composite comparison maps built from those of the factors.",
+      "intree": "Compose_MonoidalFunctor (strong) and Compose_LaxMonoidalFunctor (lax) construct the composite monoidal functor with composite comparisons μ^{F◯G}=F μ^G ∘ μ^F and η^{F◯G}=F η^G ∘ η^F, all coherence obligations proved with no axioms.",
+      "strength_comparison": "same — the closure-under-composition remark is proved, for both the strong and lax variants, with the exact composite comparison maps the book describes."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. Compose_MonoidalFunctor (Compose.v:59) and Compose_LaxMonoidalFunctor (Compose.v:291) construct the composite with composite comparisons and all obligations discharged, for both strong and lax. Quotes accurate."
+    }
+  },
+  {
+    "id": "maclane:XI.2:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "strong monoidal functor",
+      "strict monoidal functor",
+      "MonoidalFunctor",
+      "StrictMonoidalFunctor",
+      "invertible comparison maps",
+      "identity comparison maps"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal.v",
+        "line": 77,
+        "symbol": "MonoidalFunctor",
+        "intree_statement": "Class MonoidalFunctor := { pure_iso : I ≅ F I; ap_functor_iso : (⨂)◯F∏⟶F ≅[[C∏C,D]] F◯(⨂); ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y) := ...; monoidal_unit_left/right; monoidal_assoc }  (* strong: comparisons are isomorphisms *)"
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Strict.v",
+        "line": 54,
+        "symbol": "StrictMonoidalFunctor",
+        "intree_statement": "Class StrictMonoidalFunctor := { strict_functor_is_monoidal : @MonoidalFunctor C D _ _ F; strict_pure_obj : (@I D _) = F (@I C _); strict_ap_obj {x y} : (F x ⨂ F y)%object = F (x ⨂ y)%object; strict_pure_iso_id : to pure_iso ≈ match strict_pure_obj with eq_refl => id end; strict_ap_iso_id {x y} : to ap_iso ≈ match strict_ap_obj with eq_refl => id end }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoidal functor (F,F₂,F₀) is STRONG when F₀ and every F₂(a,b) are isomorphisms, and STRICT when F₀ and every F₂(a,b) are identities.",
+      "intree": "MonoidalFunctor is the strong form — pure_iso and ap_functor_iso are posed directly as isomorphisms (≅). StrictMonoidalFunctor is the strict form — object-level Leibniz equalities I=FI, Fx⊗Fy=F(x⊗y) together with the comparison isos equal to the transported identity.",
+      "strength_comparison": "same — strong is comparisons-as-isomorphisms exactly; strict is comparisons-as-identities, faithfully encoded in the setoid/Type-object setting via object-level equalities plus transported-id (obj is a Type not a setoid, so the comparison relates distinct objects and Leibniz equality is the honest 'identity' condition, documented in the file's header)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. Strong = MonoidalFunctor (Monoidal.v:77, comparisons posed as ≅); strict = StrictMonoidalFunctor (Strict.v:54, object-level Leibniz equalities + comparison-isos-equal-transported-id). Both faithful in the Type-object setoid setting. Quotes accurate; registered."
+    }
+  },
+  {
+    "id": "maclane:XI.2:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "monoidal natural transformation",
+      "LaxMonoidal_Transform",
+      "monoidal transformation coherence squares",
+      "compatibility with F_2 and F_0"
+    ],
+    "evidence": [
+      {
+        "file": "Natural/Transformation/Monoidal.v",
+        "line": 31,
+        "symbol": "LaxMonoidal_Transform",
+        "intree_statement": "Class LaxMonoidal_Transform `{@Monoidal C} `{!LaxMonoidalFunctor F} `{!LaxMonoidalFunctor G} (N : F ⟹ G) := { lax_pure_transform : lax_pure[G] ≈ transform[N] _ ∘ lax_pure[F]; lax_ap_transform {x y} : lax_ap[G] ∘ transform[N] x ⨂ transform[N] y ≈ transform[N] _ ∘ lax_ap[F] }"
+      }
+    ],
+    "statement_record": {
+      "book": "A monoidal natural transformation θ:(F,F₂,F₀)⇒(G,G₂,G₀) is an ordinary natural transformation θ:F⇒G with two coherence squares: G₂∘(θ_a⊗θ_b)=θ_{a⊗b}∘F₂ (tensor compatibility) and θ_e∘F₀=G₀ (unit compatibility).",
+      "intree": "LaxMonoidal_Transform over an underlying N:F⟹G with lax_pure_transform (unit: ε^G ≈ N_I ∘ ε^F) and lax_ap_transform (tensor: μ^G ∘ (N_x⊗N_y) ≈ N_{x⊗y} ∘ μ^F).",
+      "strength_comparison": "same — the two coherence squares are exactly the book's, stated over the library's lax comparison maps; a plain setoid rephrasing."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. LaxMonoidal_Transform (Natural/Transformation/Monoidal.v:31): lax_pure_transform (unit square) + lax_ap_transform (tensor square) = the book's two coherence squares over the lax comparisons. Quote accurate."
+    }
+  },
+  {
+    "id": "maclane:XI.2:remark2",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoidal natural transformations compose",
+      "composite of monoidal natural transformations",
+      "vertical composition of monoidal transformations",
+      "category of monoidal functors",
+      "Compose_LaxMonoidal_Transform"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'LaxMonoidal_Transform|Monoidal_Transform|MonoidalTransform' -g '*.v' — only 4 hits: the class definition (Natural/Transformation/Monoidal.v:31) and three usages inside Natural/Transformation/Applicative.v (Applicative_Transform coercing to LaxMonoidal_Transform). No Compose/Id instance and no proof that the composite of two monoidal natural transformations is monoidal.",
+      "The file Natural/Transformation/Monoidal.v defines only the class (plus a notation); it contains no identity instance, no vertical-composition instance, and no category of monoidal functors built from LaxMonoidal_Transform.",
+      "rg -n 'Natural.Transformation.Monoidal' -g '*.v' — imported only by Functor/Traversable.v and Natural/Transformation/Applicative.v; neither proves closure under composition of monoidal transformations.",
+      "Contrast: monoidal FUNCTOR composition IS proved (Functor/Structure/Monoidal/Compose.v), but the analogous closure for monoidal NATURAL TRANSFORMATIONS (remark2) is not formalized anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind search confirms: LaxMonoidal_Transform occurs only at its definition plus three uses in Natural/Transformation/Applicative.v; no Compose/Id instance, no vertical-composition proof, no category of monoidal functors built from it. ABSENT confirmed; negative log matches my own search."
+    }
+  },
+  {
+    "id": "maclane:XI.2:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "word-indexed comparison transformation",
+      "F_v",
+      "iterated tensor comparison of a functor",
+      "n-ary lax comparison",
+      "F_v : v(Fa) -> F(v a)",
+      "generalized F_2/F_0"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Fixpoint|Definition' -g '*.v' | rg -i 'lax_ap|ap_iso|ap_fold|fold.*ap|monoidal.*fold' — the ap_iso hits are all binary comparison isos of specific PROP interpretations (PresentedInterp_ap_iso, InterpF_ap_iso, CInterpF_ap_iso, Relabel_ap_iso, ...); none is an iterated/word-indexed family F_v.",
+      "rg -ni 'tensor_list|tfold' -g '*.v' Functor/ Natural/ — no hits: the tensor-fold machinery of Theory/Multicategory/Representable.v is never lifted to a monoidal-functor comparison over a fold/word.",
+      "The monoidal functor (Functor/Structure/Monoidal.v) exposes only the binary lax_ap (F₂), the nullary lax_pure (F₀), and fixed low-arity derived isos pure_left/pure_right/ap_assoc; there is no inductive family F_v indexed by ⊗-words with F_□=F₂, F_e=F₀, F_{v⊗v'}=F₂∘(F_v⊗F_{v'}), nor the coherence squares against a word-comparison η:v⇒w or against a monoidal natural transformation θ.",
+      "rg -ni 'word' -g '*.v' Functor/ — no word-indexed comparison for functors."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent search confirms no inductive word-indexed F_v: the monoidal functor exposes only the binary lax_ap (F_2), nullary lax_pure (F_0), and fixed derived isos; the tfold/word machinery is never lifted to a functor comparison. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:XI.2:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "braided monoidal functor",
+      "symmetric monoidal functor",
+      "BraidedMonoidalFunctor",
+      "BraidedLaxMonoidalFunctor",
+      "braid compatibility of a functor",
+      "F(gamma) F_2 = F_2 gamma'"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Structure/Monoidal/Braided.v",
+        "line": 67,
+        "symbol": "BraidedMonoidalFunctor",
+        "intree_statement": "Class BraidedMonoidalFunctor := { braided_is_strong : @MonoidalFunctor C D _ _ F; braid_compat {x y} : fmap[F] (@braid C _ x y) ∘ to ap_iso ≈ to ap_iso ∘ @braid D _ (F x) (F y) }"
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Braided.v",
+        "line": 54,
+        "symbol": "BraidedLaxMonoidalFunctor",
+        "intree_statement": "Class BraidedLaxMonoidalFunctor := { braided_is_lax : @LaxMonoidalFunctor C D _ _ F; lax_braid_compat {x y} : fmap[F] (@braid C _ x y) ∘ lax_ap ≈ lax_ap ∘ @braid D _ (F x) (F y) }"
+      },
+      {
+        "file": "Functor/Structure/Monoidal/Braided.v",
+        "line": 99,
+        "symbol": "SymmetricMonoidalFunctor",
+        "intree_statement": "Definition SymmetricMonoidalFunctor `{@SymmetricMonoidal C} `{@SymmetricMonoidal D} (F : C ⟶ D) : Type := @BraidedMonoidalFunctor C D _ _ F"
+      }
+    ],
+    "statement_record": {
+      "book": "For braided (or symmetric) B,B' with braidings γ,γ', a braided monoidal functor is a monoidal functor (F,F₂,F₀):B→B' compatible with the braidings: F(γ_{a,b})∘F₂(a,b)=F₂(b,a)∘γ'_{Fa,Fb}. A braided monoidal functor between symmetric categories is a symmetric monoidal functor.",
+      "intree": "BraidedMonoidalFunctor (strong) / BraidedLaxMonoidalFunctor (lax) add exactly the single square braid_compat : fmap[F](braid)∘μ ≈ μ∘braid (over ap_iso / lax_ap). SymmetricMonoidalFunctor is defined as a BraidedMonoidalFunctor between SymmetricMonoidal categories — the same equation, no new data.",
+      "strength_comparison": "same — the compatibility equation is exactly the book's (10); 'braided' is a property, not extra structure, matching the book; the symmetric case is the same equation over symmetric bases, exactly as the book states. (The only caveat is inherited from def2: the underlying BraidedMonoidal base has a bare-morphism braiding; this does not weaken the functor-level compatibility axiom itself.)"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass PRESENT. BraidedMonoidalFunctor (Braided.v:67) + BraidedLaxMonoidalFunctor (:54) add exactly braid_compat (F(braid)∘μ ≈ μ∘braid) = the book's (10); SymmetricMonoidalFunctor (:99) is the same equation over symmetric bases. The def2 base caveat (bare-morphism braiding) does not weaken the functor-level axiom, as the record notes. Quotes accurate; registered."
+    }
+  }
+]

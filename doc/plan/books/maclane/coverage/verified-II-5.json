@@ -1,0 +1,474 @@
+[
+  {
+    "id": "maclane:II.6:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "coslice category",
+      "under category",
+      "category of objects under b",
+      "b ↓ C",
+      "c/C",
+      "Coslice"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}"
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id)"
+      }
+    ],
+    "statement_record": {
+      "book": "For an object b of C, the category (b ↓ C) of objects under b: objects are pairs <f, c> with f : b -> c; arrows <f,c> -> <f',c'> are h : c -> c' with h ∘ f = f'; composition as in C. Examples: (* ↓ Set) = pointed sets, (Z ↓ Ab) = abelian groups with a selected element.",
+      "intree": "Coslice C c with objects (∃ a : C, c ~> a), morphisms (∃ f : `1 x ~> `1 y, `2 y ≈ f ∘ `2 x), morphism equivalence on the underlying C-morphism (triangle proof-irrelevant); proven isomorphic in Cat to the comma presentation (=(c) ↓ Id) by Comma_Coslice.",
+      "strength_comparison": "same — setoid rephrasing (≈ for =, proof-irrelevant triangle witness) of exactly the book's definition, with the comma presentation additionally proven; the illustrative instances (pointed sets, Z ↓ Ab) are not built as named in-tree categories, but they are examples, not the definitional content"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found identical evidence (Coslice at Slice.v:169, Comma_Coslice at :181, both registered in _CoqProject); quotes verified verbatim against the file; strength_comparison honest (examples are illustrative, not definitional content)."
+    }
+  },
+  {
+    "id": "maclane:II.6:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "slice category",
+      "over category",
+      "category of objects over a",
+      "C ↓ a",
+      "C/c",
+      "Slice"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 123,
+        "symbol": "Slice",
+        "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}"
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 140,
+        "symbol": "Comma_Slice",
+        "intree_statement": "Program Instance Comma_Slice `(C : Category) `(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c))"
+      }
+    ],
+    "statement_record": {
+      "book": "For an object a of C, the category (C ↓ a) of objects over a: objects are arrows f : c -> a; arrows are h : c -> c' with f' ∘ h = f. Examples: (Set ↓ *) ≅ Set since * is terminal; (Rng ↓ Z) is augmented rings.",
+      "intree": "Slice C c with objects (∃ a : C, a ~> c), morphisms (∃ f, `2 y ∘ f ≈ `2 x), equivalence on the underlying morphism; proven isomorphic in Cat to the comma presentation (Id ↓ =(c)) by Comma_Slice; heavily used downstream (Construction/Slice/Pullback.v, Construction/Displayed/Codomain.v).",
+      "strength_comparison": "same — faithful setoid rephrasing of the definition; the book's examples are not instantiated ((Set ↓ *) ≅ Set is an instance of the slice-over-terminal fact recorded under ex2 as ABSENT; no Rng category exists in-tree), but the definitional content of the item is fully present"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found identical evidence (Slice at Slice.v:123, Comma_Slice at :140); quotes verified; downstream use (Slice/Pullback.v Bang_Functor/Star_Functor, Displayed/Codomain.v) confirms the definition carries real API."
+    }
+  },
+  {
+    "id": "maclane:II.6:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "category of objects S-under b",
+      "b ↓ S",
+      "structured arrow category",
+      "comma with constant functor",
+      "=(c) ↓ F",
+      "dual: T-over a = F ↓ =(a)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : ..., `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; ... |} — the general comma, which at S := =(b) : 1 ⟶ C is exactly (b ↓ T)"
+      },
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 55,
+        "symbol": "=(c)",
+        "intree_statement": "Notation \"=( c )\" := (Diagonal 1 c) — the constant functor 1 ⟶ C selecting c, i.e. the object-as-functor needed to form (b ↓ S) as =(b) ↓ S"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "arrow_initial",
+        "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } — the category of objects F-under c in live use as the carrier of universal arrows"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 78,
+        "symbol": "comma_square",
+        "intree_statement": "Lemma comma_square {X Y : =(d) ↓ U} (m : X ~{=(d) ↓ U}~> Y) — the comma square collapses to the book's triangle S h ∘ f ≈ f' in this specialization"
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 180,
+        "symbol": "GAFT_from_initials",
+        "intree_statement": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U } — Mac Lane's stated purpose for (b ↓ S) (adjoint functors) carried out over it"
+      }
+    ],
+    "statement_record": {
+      "book": "For b in C and S : D -> C, the category (b ↓ S) of objects S-under b: objects <f, d> with f : b -> S d; arrows h : d -> d' of D with S h ∘ f = f'; composition and equality those of D. Example: (x ↓ U) for the forgetful U : Grp -> Set, used extensively for adjoint functors. Dually (T ↓ a) for T : E -> C and a in C.",
+      "intree": "The general Comma instantiated as =(b) ↓ S: objects are (∃ p : 1 ∏ D, b ~> S (snd p)) — pairs (d, f : b ~> S d) with a trivial unit component — and morphisms exactly the h : d ~> d' with the collapsed triangle (comma_square). Used pervasively: UniversalArrow (Theory/Universal/Arrow.v), Comma_Complete (Construction/Comma/Limit.v), GAFT (Adjunction/GAFT.v). The dual (T ↓ a) is the same instantiation on the other side, S ↓ =(a) (mentioned as terminal objects of F ↓ =(c) in Theory/Universal/Arrow.v:24 prose).",
+      "strength_comparison": "same — the library obtains (b ↓ S) as a comma instance rather than a standalone named category (this is exactly Mac Lane's own remark1 identification), the only presentation difference being the vacuous terminal-category component in objects; the Grp/Set example functor is not in-tree, but the definition and its adjoint-functor use (Mac Lane's stated purpose) are both present"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found the =(d) ↓ U instantiation in live use (UniversalArrow, Comma_Complete, GAFT_from_initials at GAFT.v:180 verified verbatim) plus the dual (T ↓ a) shape exercised as Cones F ≅[Cat] (Δ ↓ =(F)) in Instance/Cones/Comma.v:73. Corrected evidence line for arrow_initial from 128 to 127 (Class UniversalArrow opens at 126). Instance-of-general-comma is a faithful presentation; PRESENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.6:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "comma category",
+      "(T ↓ S)",
+      "(T, S)",
+      "Comma",
+      "S ↓ T",
+      "Lawvere comma construction"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; homset := fun _ _ => {| equiv := fun f g => (fst `1 f ≈ fst `1 g) * (snd `1 f ≈ snd `1 g) |}; id := fun _ => ((id, id); _); compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _) |}"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 218,
+        "symbol": "↓ notation",
+        "intree_statement": "Notation \"S ↓ T\" := (@Comma _ _ _ S T) (at level 90) : category_scope"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 254,
+        "symbol": "Cocomma",
+        "intree_statement": "Definition Cocomma {A B C : Category} {S : A ⟶ C} {T : B ⟶ C} := @Comma (B^op) (A^op) (C^op) (T^op) (S^op) — the op-dual, beyond the book item"
+      }
+    ],
+    "statement_record": {
+      "book": "Given T : E -> C and S : D -> C, the comma category (T ↓ S): objects are triples <e, d, f> with f : Te -> Sd; arrows <e,d,f> -> <e',d',f'> are pairs <k, h> with f' ∘ Tk = Sh ∘ f; composites componentwise.",
+      "intree": "Comma over S : A ⟶ C, T : B ⟶ C with objects the dependent pairs ((a, b); h : S a ~> T b), morphisms pairs (f, g) with the commuting square `2 y ∘ fmap[S] f ≈ fmap[T] g ∘ `2 x, identity (id, id), componentwise composition, morphism equivalence the componentwise conjunction of ≈ (square proof-irrelevant).",
+      "strength_comparison": "same — verbatim match up to the setoid encoding, the triple-as-dependent-pair packaging, and renaming (the library's S plays the book's T position); in-tree adds material beyond the book item (Cocomma dual, comma_proj_mor_iso/comma_proj_com_iso, iso-invariance, completeness)"
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same core evidence; all three quotes and line numbers (127, 218, 254) verified verbatim against Construction/Comma.v."
+    }
+  },
+  {
+    "id": "maclane:II.6:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comma specializations",
+      "arrow category C^2 as (C ↓ C)",
+      "objects as functors from 1",
+      "comma of two objects = discrete hom-set category",
+      "origin of the comma name (T, S)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 140,
+        "symbol": "Comma_Slice",
+        "intree_statement": "Program Instance Comma_Slice `(C : Category) `(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c))"
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id)"
+      },
+      {
+        "file": "Construction/Arrow.v",
+        "line": 110,
+        "symbol": "Arrow",
+        "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 127,
+        "symbol": "arrow_initial",
+        "intree_statement": "arrow_initial : @Initial (=(c) ↓ F) — the (b ↓ S) specialization via the object-as-constant-functor =(c) : 1 ⟶ C, exactly the remark's mechanism"
+      }
+    ],
+    "statement_record": {
+      "book": "The general comma subsumes the earlier cases: with T = b : 1 -> C one gets (b ↓ S) and (b ↓ C); with S = T = Id_C, (C ↓ C) is the arrow category C^2; with both S and T objects (functors from 1), (T ↓ S) is the discrete category on the hom-set C(b, a) — the origin of the notation (T, S) and the name 'comma category'.",
+      "intree": "Comma_Slice and Comma_Coslice prove the slice/coslice specializations as isomorphisms in Cat; the arrow category is defined as the comma of identities (Arrow := Id ↓ Id); objects-as-functors-from-1 is the =(c) := Diagonal 1 c notation used throughout (UniversalArrow, GAFT). The discrete-category-on-C(b,a) case appears only as prose in Construction/Product/Comma.v; the identification of the comma-built Arrow with the functor category [2, C] = C^2 is explicitly documentation-level (Arrow.v header).",
+      "strength_comparison": "intree-weaker: the slice, coslice, and (b ↓ S) specializations are fully proven, and (C ↓ C) IS the in-tree definition of the arrow category, but two legs of the remark are unformalized — (i) comma of two objects ≅ discrete category on the hom-set C(b,a) (prose only), (ii) the arrow category's agreement with Mac Lane's II.4 functor-category presentation C^2 (an acknowledged gap in Arrow.v's header)"
+    },
+    "gap": "No formal statement that for objects a, b : 1 ⟶ C the comma (b ↓ a) is the discrete category on the hom-set C(b, a) (only prose in Construction/Product/Comma.v:33-35: 'the comma category is instead the discrete category of morphisms between the two selected objects'); and no formal isomorphism between the comma-defined Arrow = (Id ↓ Id) and the functor category [2, C] (Construction/Arrow.v:104-108 discloses the [2, C] equivalence 'remains documentation-level').",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'discrete' filtered by 'comma|hom-set|homset' — only the prose hit Construction/Product/Comma.v:34; no formal statement of the discrete-hom-set specialization",
+      "grep -rn --include='*.v' '⟶ (C ⃗)|⟶ Arrow|C ⃗)' — no functor or isomorphism relating Arrow to [2, C]; Instance/Two.v's walking arrow is never compared to Construction/Arrow.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: slice/coslice comma isos proven, Arrow := (Id ↓ Id) definitional (Arrow.v:110 verified), objects-as-functors via Diagonal 1; and my search likewise found NO formal discrete-hom-set statement (only Product/Comma.v:33-35 prose, verified) and Arrow.v:104-108 explicitly discloses the [2,C] comparison as documentation-level. Gap statement precise. Corrected arrow_initial line 128→127."
+    }
+  },
+  {
+    "id": "maclane:II.6:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comma projections P, Q, R",
+      "comma_proj",
+      "forgetful functors of the comma",
+      "functor into the arrow category C^2",
+      "domain/codomain functors C^{d0}, C^{d1}"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 196,
+        "symbol": "comma_proj1",
+        "intree_statement": "Program Instance comma_proj1 : Comma ⟶ A := {| fobj := fun x => fst ``x; fmap := fun _ _ f => fst ``f |}"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 204,
+        "symbol": "comma_proj2",
+        "intree_statement": "Program Instance comma_proj2 : Comma ⟶ B := {| fobj := fun x => snd ``x; fmap := fun _ _ f => snd ``f |}"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 185,
+        "symbol": "comma_proj",
+        "intree_statement": "Program Instance comma_proj : Comma ⟶ A ∏ B := {| fobj := fun x => ``x; fmap := fun _ _ f => ``f |}"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 214,
+        "symbol": "comma_proj_nat",
+        "intree_statement": "Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2 — the canonical transformation whose component at (a, b, h) is h, i.e. the data of Mac Lane's R in natural-transformation form"
+      }
+    ],
+    "statement_record": {
+      "book": "The comma (T ↓ S) carries projections P : (T ↓ S) -> E, Q : (T ↓ S) -> D, and a functor R : (T ↓ S) -> C^2 sending <e,d,f> to the arrow f, fitting into a commutative diagram over E ->(T) C <-(C^{d0}) C^2 ->(C^{d1}) C <-(S) D, where C^{d0}, C^{d1} : C^2 -> C are the domain and codomain functors (displays (5), (6)).",
+      "intree": "comma_proj1 and comma_proj2 are Mac Lane's P and Q with full arrow-level definitions (plus the pairing comma_proj into A ∏ B); comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2 packages the h-component. The domain/codomain functors exist implicitly as comma_proj1/comma_proj2 specialized to Arrow = (Id ↓ Id) (stated in Construction/Arrow.v:29-32 header).",
+      "strength_comparison": "intree-weaker: P and Q are present and stronger than the book asks (Proper obligations, used throughout GAFT/limits), but the functor R : (T ↓ S) ⟶ C^2 is never constructed, and the commutative diagram (5)/(6) relating T∘P, S∘Q to C^{d0}∘R, C^{d1}∘R is not stated; comma_proj_nat carries equivalent data (via the functors-into-C^2 = natural-transformations correspondence, itself unformalized — see II.4:ex7)"
+    },
+    "gap": "The functor R : (S ↓ T) ⟶ C^→ (x ↦ `2 x on objects) is absent, as is the formal commuting diagram over E ⟶ C ⟵ C^2 ⟶ C ⟵ D; only its natural-transformation avatar comma_proj_nat exists. The dom/cod functors C^{d0}, C^{d1} are only implicitly available as the specialized comma projections of (Id ↓ Id), never named.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' '⟶ (C ⃗)|⟶ Arrow|⟶ (Arrow' — 0 hits: no functor in the tree has the arrow category as codomain",
+      "grep -rn --include='*.v' 'Arrow' over Construction/ Theory/ Instance/ Functor/ filtered for comma — only Construction/Arrow.v (the definition) and unrelated CospanArrow hits in Construction/Cospan/Double.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: comma_proj/comma_proj1/comma_proj2/comma_proj_nat verified at lines 185/196/204/214; my independent search over all importers of Construction.Arrow found zero functors with the arrow category as codomain, so R and diagram (5)/(6) are genuinely absent; PARTIAL with an honest gap."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "commutative K-algebras as coslice",
+      "(K ↓ CRng)",
+      "CRng",
+      "category of commutative rings",
+      "K-Alg",
+      "augmented rings"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' '\\bRng\\b|\\bCRng\\b|CRing|[Aa]ugmented' — only Instance/FinSet.v:86 ('augmented symmetric simplicial sets', prose); no ring category anywhere",
+      "grep -rn --include='*.v' -i 'K-algebra|commutative ring' — only prose in Construction/Localization.v:67 (Ore-condition aside); no formal object",
+      "ls Instance/ — no Ring/Rng/CRng/Algebra category instance; nearest algebraic instance is CMon.v (commutative monoids over setoids), which cannot express this exercise",
+      "grep -rn --include='*.v' -il 'coslice|Coslice' — only Construction/Slice.v and Construction/Comma.v; no algebraic coslice instance exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: no Rng/CRng/ring/algebra category instance in-tree (only prose hits Instance/FinSet.v:86, Construction/Localization.v:67); nearest algebraic instance CMon.v cannot express K-algebras. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "slice over terminal object",
+      "(C ↓ t) ≅ C",
+      "C/1 ≅ C",
+      "Slice_Terminal",
+      "coslice under initial (dual)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'slice.*terminal|terminal.*slice' — 0 hits",
+      "grep -rn --include='*.v' 'Slice_Term|Coslice_Init|Slice_1|Slice .* ≅' — 0 hits",
+      "grep -rn --include='*.v' ' ̸' outside Construction/Slice.v — only header prose in Construction/Slice/Pullback.v; the Slice notation is never applied at a terminal object, so no such iso is stated anywhere",
+      "Note: Construction/Slice.v:67-69 header prose says 'since C/1 is isomorphic to C, a theorem proved over an arbitrary base specializes to the absolute theorem over the terminal object' — documentation only; and Construction/Product/Comma.v's Comma_Product ((F ↓ G) ≅[Cat] C ∏ D for functors into the terminal CATEGORY 1) is a different statement (terminal category as codomain, not terminal object of C) that does not entail this exercise"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: the only trace is Slice.v:67-69 header prose ('C/1 is isomorphic to C'); no formal Slice-over-terminal iso anywhere; the negative log correctly distinguishes Comma_Product (terminal CATEGORY as codomain, Product/Comma.v:57) from this exercise (terminal OBJECT of C). ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrow action of the comma projections",
+      "fmap of comma_proj",
+      "P, Q, R on arrows",
+      "display (6) completed"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma.v",
+        "line": 196,
+        "symbol": "comma_proj1",
+        "intree_statement": "Program Instance comma_proj1 : Comma ⟶ A := {| fobj := fun x => fst ``x; fmap := fun _ _ f => fst ``f |} — P defined on arrows, with Proper and functor laws discharged"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 204,
+        "symbol": "comma_proj2",
+        "intree_statement": "Program Instance comma_proj2 : Comma ⟶ B := {| fobj := fun x => snd ``x; fmap := fun _ _ f => snd ``f |} — Q defined on arrows likewise"
+      }
+    ],
+    "statement_record": {
+      "book": "Complete display (6) by defining the comma-diagram functors P, Q, and R on arrows (P<k,h> = k, Q<k,h> = h, R<k,h> = the commuting square (Tk, Sh) as a morphism of C^2).",
+      "intree": "comma_proj1 and comma_proj2 give exactly the arrow-level definitions fmap f = fst ``f and fmap f = snd ``f, with respectfulness and functoriality proven; no R exists to receive an arrow-level definition.",
+      "strength_comparison": "intree-weaker: the P and Q thirds of the exercise are fully formalized (with setoid Proper obligations the book does not ask for); the R-on-arrows third is missing because R itself is not constructed (see construction1)"
+    },
+    "gap": "The arrow action of R — sending a comma morphism <k, h> to the commuting square (Tk, Sh) as a morphism of C^→ — is absent along with R itself; only P and Q are defined on arrows.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' '⟶ (C ⃗)|⟶ Arrow' — 0 hits (no functor into the arrow category, hence no arrow-level R anywhere)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: P and Q carry full arrow-level definitions with functor laws (Comma.v:196, :204); R does not exist to receive one (same negative search as construction1). PARTIAL with the correct gap."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Huq correspondence",
+      "natural transformations as sections of the comma projections",
+      "Comma_Functor",
+      "Comma_Transform",
+      "section functor D ⟶ (S ↓ T)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Natural/Transformation.v",
+        "line": 42,
+        "symbol": "Comma_Functor",
+        "intree_statement": "Program Definition Comma_Functor {C D : Category} {S T : D ⟶ C} (F : S ⟹ T) : D ⟶ (S ↓ T) := {| fobj := fun X : D => ((X, X); F X); fmap := fun _ _ f => ((f, f); _) |}"
+      },
+      {
+        "file": "Construction/Comma/Natural/Transformation.v",
+        "line": 53,
+        "symbol": "Comma_Transform",
+        "intree_statement": "Program Definition Comma_Transform {C D : Category} {S T : D ⟶ C} (F : D ⟶ (S ↓ T)) (proj1 : comma_proj1 ◯ F ≈[Cat] Id) (proj2 : comma_proj2 ◯ F ≈[Cat] Id) : S ⟹ T"
+      }
+    ],
+    "statement_record": {
+      "book": "For T, S : D -> C, a natural transformation τ : T -> S is the same thing as a functor τ : D -> (T ↓ S) with P τ = Q τ = id_D (S. A. Huq) — a bijective correspondence.",
+      "intree": "Both directions are constructed in a file whose header cites 'Mac Lane, page 47, exercise 4': Comma_Functor sends F : S ⟹ T to the section functor X ↦ ((X, X); F X), f ↦ (f, f) ('a common section of comma_proj1 and comma_proj2 by construction', per the header); Comma_Transform recovers S ⟹ T from any functor D ⟶ (S ↓ T) with section witnesses comma_proj1 ◯ F ≈[Cat] Id and comma_proj2 ◯ F ≈[Cat] Id, conjugating by the witness isomorphisms.",
+      "strength_comparison": "intree-weaker: the two maps of the correspondence exist (Comma_Transform even generalizes the book slightly, accepting sections up to natural isomorphism rather than on the nose), but the round-trip identities making it a bijection — Comma_Transform (Comma_Functor F) ≈ F and Comma_Functor (Comma_Transform F p q) ≈[Cat] F — are not stated or proven, and Comma_Functor's section property is only asserted in the header comment, not recorded as a lemma"
+    },
+    "gap": "The bijectivity of Huq's correspondence: no round-trip lemmas in either direction, and no formal statement that Comma_Functor F is a section of both projections (it holds definitionally but is unrecorded).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Comma_Functor|Comma_Transform' — only the two definitions in Construction/Comma/Natural/Transformation.v (plus the unrelated Comma_Functor_F_Id_Id_G/Comma_Functor_Id_G_F_Id in Construction/Comma/Adjunction.v); no file proves the round trips"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same split independently: Comma_Functor (:42) and Comma_Transform (:53) verified verbatim, header cites 'Mac Lane, page 47, exercise 4'; no round-trip lemmas exist anywhere (grep for both symbols finds only the definitions plus the unrelated Comma_Functor_F_Id_Id_G at Comma/Adjunction.v:835), and the section property of Comma_Functor is indeed unrecorded as a lemma. PARTIAL is the honest call; the classifier resisted the temptation to call the two-directions file a bijection."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "comma category as pullback",
+      "universal property of the comma construction",
+      "comma object",
+      "PIE-limit",
+      "unique functor L : X ⟶ (T ↓ S) through P, Q, R"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'comma' filtered by 'pullback|universal|unique functor|ump' — hits are Construction/Comma/Limit.v:222 comma_ump (the mediating morphism of limits IN the comma category =(d) ↓ U, i.e. Comma_Complete — a different theorem) and prose in Construction/Comma.v:104-108 ('[Comma] is the strict comma object of the cospan ... comma objects are PIE-limits, constructible from pullbacks and the power C^2' — an explicitly documentation-level nLab citation)",
+      "grep -n '∃!|Unique' Construction/Comma.v Construction/Comma/*.v — only Comma/Limit.v:112,223 (cone mediators, not the comma UMP)",
+      "grep -rn --include='*.v' -i 'pullback' Instance/Cat* — 0 hits: Cat carries no pullback structure in-tree, so even the ambient 'pullback in Cat' reading of the exercise is unavailable",
+      "enumerated all 18 files importing Construction.Comma (grep -rln 'Construction.Comma') and inspected the comma satellites (Limit, Adjunction, Isomorphism, Natural/Transformation, Product/Comma): none states the factorization 'given P', Q', R' commuting over E ⟶ C ⟵ C^2 ⟶ C ⟵ D there is a unique L : X ⟶ (T ↓ S) with P' = PL, Q' = QL, R' = RL' (note R itself is absent, see construction1)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search concurs: Comma/Limit.v is Comma_Complete (limits IN the comma category; comma_ump at :222 verified to be the cone mediator, not the comma UMP); no unique-factorization L : X ⟶ (T ↓ S) through P, Q, R exists, and R itself is absent. The prose PIE-limit citation in Comma.v:104-108 is documentation-level. ABSENT stands."
+    }
+  },
+  {
+    "id": "maclane:II.6:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functoriality of the comma construction",
+      "comma as bifunctor (C^E)^op x C^D -> Cat",
+      "Comma_Iso",
+      "comma invariance under natural isomorphism",
+      "Proper instance for Comma"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Isomorphism.v",
+        "line": 147,
+        "symbol": "Comma_Iso",
+        "intree_statement": "Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} : Proper (@Isomorphism Fun ==> @Isomorphism Fun ==> @Isomorphism Cat) (@Comma A B C)"
+      },
+      {
+        "file": "Construction/Comma/Isomorphism.v",
+        "line": 64,
+        "symbol": "Comma_Iso_to_Left",
+        "intree_statement": "Program Instance Comma_Iso_to_Left {A B C : Category} (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) : (x ↓ z) ⟶ (y ↓ z) — objects (a, b, h) ↦ (a, b, h ∘ from iso a), morphisms unchanged (with Comma_Iso_from_Left, Comma_Iso_to_Right, Comma_Iso_from_Right its three siblings)"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) For fixed small C, D, E, the assignment <T, S> ↦ (T ↓ S) is the object function of a functor (C^E)^op x (C^D) -> Cat. (b) Describe a similar functor when C, D, and E also vary.",
+      "intree": "Comma_Iso packages the action of the comma construction on natural ISOMORPHISMS of each functor argument: (x ≅[Fun] x') -> (y ≅[Fun] y') -> ((x ↓ y) ≅[Cat] (x' ↓ y')), built from the four one-sided functors Comma_Iso_to/from_Left/Right which move the mediating morphism through the iso components.",
+      "strength_comparison": "intree-weaker: the in-tree result is Proper-ness for natural isomorphism valued in isomorphism (equivalence) of categories — the object-level invariance consequence of the exercise — not the functor itself: no action on arbitrary (non-invertible) natural transformations, no bifunctor (Fun E C)^op ∏ (Fun D C) ⟶ Cat with identity/composition laws, and nothing for part (b)"
+    },
+    "gap": "The actual functor of part (a): the comma construction's action on general natural transformations σ : T' ⟹ T, τ : S ⟹ S' (giving (T ↓ S) ⟶ (T' ↓ S'), the morphism part of a bifunctor (C^E)^op ∏ (C^D) ⟶ Cat) together with its functoriality laws — only the natural-isomorphism restriction Comma_Iso exists (the one-sided constructions each use only one component of the iso and would generalize, but are stated for isos). Part (b) (varying C, D, E) is entirely absent.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'comma' filtered for 'functor.*Cat|bifunctor' — no functor into Cat with the comma construction as object function; Construction/Comma/Isomorphism.v is the only functoriality-flavored comma file (verified against the full list of 18 Construction.Comma importers)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: only iso-level invariance exists (Comma_Iso, Isomorphism.v:147 verified; Proper for natural isomorphism valued in ≅[Cat], i.e. equivalence — not a bifunctor into Cat, no action on non-invertible transformations, no functor laws, nothing for part (b)). Corrected Comma_Iso_to_Left line 66→64. PARTIAL with a precise gap."
+    }
+  }
+]

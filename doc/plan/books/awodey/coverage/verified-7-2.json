@@ -1,0 +1,488 @@
+[
+  {
+    "id": "awodey:7.4:construction-associativity-natural",
+    "classification": "PRESENT",
+    "aliases": [
+      "associator alpha : (A x B) x C ≅ A x (B x C) for binary products",
+      "prod_assoc / tensor_assoc / to_tensor_assoc_natural",
+      "naturality of the associativity isomorphism in all three arguments",
+      "cartesian monoidal structure CC_Monoidal (tensor := x, I := 1)",
+      "isomorphism of the functors (-1 x -2) x -3 and -1 x (-2 x -3) : C^3 ⟶ C"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 54,
+        "symbol": "CC_Monoidal",
+        "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}.  (* Context `{@Cartesian C} `{@Terminal C}; so x ⨂ y = x × y and the Monoidal fields — including tensor_assoc and its two naturality squares — are asserted for the binary product *)"
+      },
+      {
+        "file": "Structure/Monoidal.v",
+        "line": 146,
+        "symbol": "to_tensor_assoc_natural",
+        "intree_statement": "to_tensor_assoc_natural {x y z w v u} (g : x ~> w) (h : y ~> v) (i : z ~> u) : bimap g (bimap h i) ∘ tensor_assoc << (x ⨂ y) ⨂ z ~~> w ⨂ (v ⨂ u) >> tensor_assoc ∘ bimap (bimap g h) i;   (* field of Class Monoidal, together with from_tensor_assoc_natural at line 152 *)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 485,
+        "symbol": "prod_assoc",
+        "intree_statement": "#[export] Program Instance prod_assoc {x y z : C} : (x × y) × z ≅ x × (y × z) := { to := (exl ∘ exl) △ ((exr ∘ exl) △ exr); from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) }."
+      }
+    ],
+    "statement_record": {
+      "book": "In a category with binary products there is an isomorphism h : (A x B) x C -> A x (B x C), and it is independent of the chosen objects in the precise sense that for every f : A -> A' the square built from h_A, h_{A'} and the induced maps commutes; equivalently the functors (- x B) x C and - x (B x C) are isomorphic, and more generally the three-argument functors F = (-1 x -2) x -3 and G = -1 x (-2 x -3), both C^3 -> C, satisfy F ≅ G.",
+      "intree": "prod_assoc {x y z} : (x × y) × z ≅ x × (y × z) supplies the isomorphism from the product UMP; CC_Monoidal : @Monoidal C instantiates Class Monoidal at tensor := InternalProductFunctor C (so x ⨂ y = x × y), whose fields to_tensor_assoc_natural / from_tensor_assoc_natural assert exactly bimap g (bimap h i) ∘ tensor_assoc ≈ tensor_assoc ∘ bimap (bimap g h) i for arbitrary g : x ~> w, h : y ~> v, i : z ~> u — the joint naturality of the associator in all three variables.",
+      "strength_comparison": "same, and in-tree slightly stronger in one respect: naturality is asserted (and, for products, proved as a CC_Monoidal obligation) jointly in ALL THREE arguments at once, which is Awodey's 'more generally' clause; his one-variable statement is the case h = id, i = id. Presentational difference: the naturality is a raw equation family over the three-fold bimap action rather than an inhabitant of Transform between two functors C ∏ C ∏ C ⟶ C, and the pentagon/triangle coherence CC_Monoidal additionally proves goes beyond the book item."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass (before opening coverage-7-2.json) independently landed on the same three carriers: Structure/Cartesian.v:485 prod_assoc, Structure/Monoidal.v:146/152 to_/from_tensor_assoc_natural, Structure/Monoidal/Internal/Product.v:54 CC_Monoidal. Verified: CC_Monoidal is `Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}` at line 54 with Context `{@Cartesian C} `{@Terminal C}; every Program obligation in the file closes with Qed (rg for Admitted/admit/Axiom over the file returns 0 hits), so the three-argument naturality really is discharged for binary products and not assumed. Quote of to_tensor_assoc_natural matches the source field verbatim including the `<< ... ~~> ... >>` typed-equality notation. All cited files are registered in _CoqProject. The 'presentational difference' caveat (equation family rather than an inhabitant of Transform on C ∏ C ∏ C ⟶ C) is stated and is the honest one."
+    }
+  },
+  {
+    "id": "awodey:7.4:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural transformation theta : F -> G; component theta_X",
+      "Class Transform / F ⟹ G / transform[N] x",
+      "naturality square G f ∘ eta_x ≈ eta_y ∘ F f",
+      "NaturalTransformation, nat_trans, 2-cell of Cat",
+      "cylinder between two functorial pictures"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 113,
+        "symbol": "Transform",
+        "intree_statement": "Class Transform := { transform {x} : F x ~> G x;  naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;  naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }.  (* Context {C D : Category} {F G : C ⟶ D}; Notation \"F ⟹ G\" := (@Transform _ _ F G) at line 160 *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 129,
+        "symbol": "Build_Transform'",
+        "intree_statement": "Definition Build_Transform' (transform' : forall x, F x ~> G x) (natural : forall x y (f : x ~> y), fmap[G] f ∘ transform' x ≈ transform' y ∘ fmap[F] f) : Transform.  (* derives naturality_sym by symmetry, witnessing that the extra field carries no content beyond the book's single square *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For functors F, G : C -> D a natural transformation theta : F -> G is a family of D-arrows (theta_X : F X -> G X) indexed by the objects of C such that for every f : X -> X' in C one has theta_{X'} o F(f) = G(f) o theta_X; theta_X is the component of theta at X.",
+      "intree": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform }.",
+      "strength_comparison": "same. The family and the naturality square are literally the book's, with = replaced by the hom-setoid ≈ (the faithful setoid rephrasing). The only apparent surplus is naturality_sym, the mirrored orientation kept as a primitive field so that C^op^op duality holds definitionally; Build_Transform' proves it from naturality alone, so no extra hypothesis is imposed on a would-be transformation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass found the same carrier. Verified Theory/Natural/Transformation.v: `Class Transform` opens at line 113 with fields transform/naturality/naturality_sym exactly as quoted; `Definition Build_Transform'` at line 129 derives naturality_sym from naturality by `symmetry`, so the third field imposes no extra hypothesis — the strength_comparison's claim on that point is checked, not merely asserted. Notation `F ⟹ G` at line 160, Transform_Setoid (componentwise ≈) at line 139. File registered in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:7.5:example7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unit / insertion of generators eta : 1 ⟹ U ◯ M",
+      "free monoid M(X) = list X / word monoid; forgetful U : Mon ⟶ Sets",
+      "Adjunction_to_Transform, Adjunction_Transform.unit, UniversalArrow",
+      "free-forgetful adjunction Free ⊣ Forgetful",
+      "M(f) determined by its action on generators (universal property of the free object)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Natural/Transformation/Universal.v",
+        "line": 84,
+        "symbol": "Adjunction_to_Transform",
+        "intree_statement": "Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}.  (* F ∹ U = Adjunction_Transform, whose first field is unit : Id ⟹ U ◯ F; the Next Obligations prove naturality of η from to_adj_nat_l/to_adj_nat_r *)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .  (* the concrete free ⊣ forgetful adjunction in-tree; its unit is UnitQuiverCatAdjunction (line 507), the quiver homomorphism G ⇨ QuiverOfCat (FreeOnQuiver) sending an edge f to the length-one path tlist_singleton f — the exact analogue of 'x ↦ the one-letter word x' *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 116,
+        "symbol": "from_free_unique",
+        "intree_statement": "Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g.  (* Free := the term algebra on generators X for an operation signature S, with generator : X → Tree the insertion of generators and induced_hom its universal factorization — the property Awodey invokes to get naturality *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the free monoid M(X) on a set X and the forgetful functor U : Mon -> Sets, the maps eta_X : X -> U M(X) sending x to the one-letter word x are the components of a natural transformation eta : 1_Sets -> U o M; naturality U M(f) o eta_X = eta_Y o f holds because M(f) is determined by what f does on generators.",
+      "intree": "Adjunction_to_Transform {A : F ⊣ U} : F ∹ U produces, from any adjunction, unit : Id ⟹ U ◯ F as a genuine Transform with its naturality square proved; FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful is the in-tree free/forgetful instance (free category on a quiver), whose unit UnitQuiverCatAdjunction inserts each generating edge as a length-one path; from_free_unique is the 'determined on generators' principle for free algebras on a generating set.",
+      "strength_comparison": "intree-weaker: the general phenomenon is present and strictly more general (η : Id ⟹ U ◯ F natural for EVERY adjunction, not just free/forgetful ones), but the book's actual example — the free MONOID on a set, and the forgetful functor Mon ⟶ Sets — has no in-tree counterpart, so the specific η of Example 7.7 is not exhibited. The nearest concrete instance is a different free construction (paths in a quiver, Free ⊣ Forgetful : QuiverCategory ⇄ StrictCat)."
+    },
+    "gap": "No free monoid on a set and no monoid free/forgetful adjunction. Concretely: (1) Theory/Algebra/Monoid/Hom.v builds Mon (internal monoids in a monoidal C) and Mon_Forget : Mon ⟶ C but supplies NO left adjoint — grep 'Mon_Forget' returns only its definition and Mon_Forget_Faithful; likewise Instance/CMon.v has CMon_Forget : CMon ⟶ Sets with no free functor. (2) 'list A' appears (Theory/Coq/List.v, Instance/Coq/Lists.v) only as the initial ListF-algebra, never as a monoid object nor as a functor Sets ⟶ Mon, and no η_X : X → U(list X) is stated. (3) Instance/Comp.v's Free S X is the TERM algebra of a signature with no equations (so not the free monoid — associativity and unit laws are not quotiented), it is defined only for a fixed generating type X with no fmap, hence is not a functor, and its `generator` insertion is never shown natural. (4) There is therefore no in-tree instantiation of Adjunction_to_Transform at a monoid free/forgetful pair.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'free monoid|FreeMonoid|Free_Monoid|free_monoid' . -> 19 hits, ALL prose comments (Theory/Coq.v, Theory/Coq/List.v, Theory/Coq/Foldable.v, Construction/PROP.v, Construction/Cayley.v, ...); no definition",
+      "grep -rn --include='*.v' 'Mon_Forget' . -> Theory/Algebra/Monoid/Hom.v:93 (definition) and :101 (Mon_Forget_Faithful) only; no adjunction",
+      "grep -rn --include='*.v' 'CMon_Forget|CMon_Free|Free.*CMon' . -> Instance/CMon.v:169 only",
+      "grep -rn --include='*.v' '⊣' Instance Construction Theory -> the only concrete adjunction instances are adj_id, adj_comp (Instance/Adjoints.v), Card_Canon_Adjunction (Instance/Shapes.v), ForgetSyntax ⊣ CanonicalMap and FreeForgetfulAdjunction (Construction/Free*.v), reflective_adj (Construction/Reflective.v); none involves monoids",
+      "grep -rn --include='*.v' 'insertion of generators|universal property of the free' . -> only prose (Theory/Coq/Foldable.v:30,35)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. My blind pass reached the same verdict independently and for the same reason (`rg -in 'free monoid' -l` returns only prose files; `Instance/` has CMon but no Mon-over-Sets and no free functor). Evidence verified at the cited lines: Adjunction/Natural/Transformation/Universal.v:84 is `Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U`, and Adjunction/Natural/Transformation.v:36 shows the target field is literally `unit : Id ⟹ U ◯ F`; Construction/Free/Quiver.v:550 FreeForgetfulAdjunction with UnitQuiverCatAdjunction at 507; Instance/Comp.v:116 `Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g`. Negative log spot-checked: Theory/Algebra/Monoid/Hom.v has Mon (line 83) and Mon_Forget (line 93) with no left adjoint; Instance/CMon.v has CMon_Forget at 169 only. Gap statement is precise and each of its four clauses holds."
+    }
+  },
+  {
+    "id": "awodey:7.5:example8",
+    "classification": "PRESENT",
+    "aliases": [
+      "second projection pi_2 : A x - ⟹ 1_C as a natural transformation",
+      "exr / snd / pr2 natural in the second argument",
+      "exr_split : exr ∘ split f g ≈ g ∘ exr (naturality square of the projection)",
+      "product of functors in [C,D] computed pointwise; exr as a morphism of the functor category",
+      "counit of the product functor / projection out of Δ(A) × Id"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  (* product of F, G : C ⟶ D is the pointwise (F × G) c := F c × G c with fmap f := split (fmap[F] f) (fmap[G] f); the exr field is built at lines 132-135 as `intro a. simpl. exact exr.` plus its two naturality obligations, i.e. exr : F × G ~{[C,D]}~> G is a natural transformation with component exr at each object *)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 429,
+        "symbol": "exr_split",
+        "intree_statement": "Theorem exr_split {x y z w : C} (f : x ~> y) (g : z ~> w) : exr ∘ split f g ≈ g ∘ exr.  (* the naturality square of the second projection; at f := id[A] this is exr ∘ (id[A] ⨂ g) ≈ g ∘ exr, Awodey's square for A × - ⟹ 1_C *)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category C with binary products and a fixed object A, taking the second projection pi_2 : A x X -> X as component at X defines a natural transformation from A x - : C -> C to the identity functor 1_C.",
+      "intree": "Functor_Category_Cartesian (C D) (Cartesian D) : @Cartesian (@Fun C D) — [C,D] is cartesian with products computed pointwise, so its exr field IS a natural transformation F × G ⟹ G whose component at each object is exr; instantiated at D := C, F := Δ(A) (the constant functor, Functor/Diagonal.v) and G := Id it is exactly the family exr : A × c ~> c, since (Δ(A) × Id) c = A × c and its action on f is split id f. The naturality square itself is exr_split : exr ∘ split f g ≈ g ∘ exr.",
+      "strength_comparison": "same, in-tree stated more generally. The book fixes the source functor to be A × - ; in-tree exr is a natural transformation F × G ⟹ G for ARBITRARY F, G : C ⟶ D, of which the book's case is the instance F := Δ(A), G := Id (definitionally A × c, no rewriting needed). Note the library nowhere names an `A × -` functor or a `pi_2` transformation as such, so the book's exact family is obtained by instantiating the general one rather than being written out; and exr_split proves the square in both variables at once."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT — and this record beat my blind pass. Blindly I had reached only PARTIAL, citing Structure/Cartesian.v:372 exr_second (`exr ∘ second f ≈ f ∘ exr`) as the bare naturality equation with no Transform packaging. The classifier's Instance/Fun/Cartesian.v:111 `Functor_Category_Cartesian` is the better carrier and I verified it: the product of F,G in [C,D] is `fun c => fobj[F] c × fobj[G] c` with `fmap f := Cartesian.split (fmap[F] f) (fmap[G] f)`, and the exr field is built at lines 131-135 as `intro a. simpl. exact exr.` plus its two naturality obligations — i.e. a genuine Transform (F × G) ⟹ G with component exr. The book's instance is definitional, which I checked rather than took on trust: Functor/Diagonal.v:33 Diagonal has inner `fobj := fun _ => x; fmap := fun _ _ _ => id[x]`, so (Δ(A) × Id) c reduces to A × c and its action on f is split id f = second f — exactly A × -. exr_split is at Structure/Cartesian.v:429 as quoted. Instance/Fun/Cartesian.v is registered in _CoqProject (line 201)."
+    }
+  },
+  {
+    "id": "awodey:7.5:construction-twist",
+    "classification": "PRESENT",
+    "aliases": [
+      "twist / swap / symmetry natural isomorphism t : (x) ⟹ (x-bar)",
+      "braid : x ⨂ y ~> y ⨂ x with braid_natural (braiding of a braided monoidal category)",
+      "swap := exr △ exl; prod_comm : x × y ≅ y × x; swap_invol",
+      "symmetric monoidal structure on a cartesian category (CC_SymmetricMonoidal)",
+      "ProductFunctor_swap / Swap : C ∏ D ⟶ D ∏ C conjugating the product bifunctor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 190,
+        "symbol": "CC_BraidedMonoidal",
+        "intree_statement": "Program Definition CC_BraidedMonoidal : @BraidedMonoidal C := {| braided_is_monoidal := CC_Monoidal; braid := @swap C _ |}.  (* Context `{@Cartesian C} `{@Terminal C}; the first Next Obligation discharges braid_natural for swap = ⟨exr, exl⟩, i.e. the twist for binary products is proved natural *)"
+      },
+      {
+        "file": "Structure/Monoidal/Braided.v",
+        "line": 133,
+        "symbol": "braid_natural",
+        "intree_statement": "braid {x y} : x ⨂ y ~> y ⨂ x;  braid_natural : natural (@braid);  (* fields of Class BraidedMonoidal; via the ArityTwo instance of Theory/Naturality.v `natural` unfolds to ∀ x y (g : x ~> y) z w (h : z ~> w), (h ⨂ id) ∘ (id ⨂ g) ∘ braid ≈ braid ∘ (id ⨂ h) ∘ (g ⨂ id), i.e. bimap h g ∘ braid ≈ braid ∘ bimap g h *)"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 314,
+        "symbol": "CC_SymmetricMonoidal",
+        "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}.  (* swap_invol (Structure/Cartesian.v:298) : swap ∘ swap ≈ id[x × y] — each component of the twist is an isomorphism whose inverse is the twist at the swapped pair; the packaged iso is prod_comm (Structure/Cartesian.v:479) with to := swap, from := swap *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given the product bifunctor x : C^2 -> C, define x-bar by A x-bar B = B x A and alpha x-bar beta = beta x alpha. The components t_{(A,B)} : A x B -> B x A with t<a,b> = <b,a> form a natural transformation t : x -> x-bar (the square with verticals alpha x beta and beta x alpha commutes), and each component is an isomorphism with inverse t_{(B,A)}, so t is an isomorphism of functors.",
+      "intree": "CC_BraidedMonoidal : @BraidedMonoidal C over a cartesian C with braid := swap = exr △ exl, whose braid_natural obligation is proved; braid_natural asserts bimap h g ∘ braid ≈ braid ∘ bimap g h — the two-variable naturality square with verticals alpha ⨂ beta and beta ⨂ alpha. Invertibility with the twist back as inverse is swap_invol : swap ∘ swap ≈ id, packaged as prod_comm : x × y ≅ y × x (to = from = swap) and as CC_SymmetricMonoidal's braid_invol.",
+      "strength_comparison": "same. swap := exr △ exl is precisely 'send <a,b> to <b,a>' stated arrow-theoretically rather than through generalized elements; naturality is the same square; invertibility with inverse t_{(B,A)} is swap_invol. Presentational difference: naturality is expressed as the ArityTwo `natural` predicate over the two per-variable actions of the product, not as an inhabitant of Transform between the two functors C ∏ C ⟶ C; the swapped bifunctor x-bar is available as ProductFunctor_swap / (- ◯ Swap) (Functor/Construction/Product.v:57, Construction/Product.v) but the twist is not packaged as a morphism of a functor category. In-tree also proves more (hexagons, Yang-Baxter, symmetry) than the book item asks."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass reached the same verdict via the same route. Verified: Structure/Monoidal/Internal/Product.v:190 CC_BraidedMonoidal with braid := @swap, :314 CC_SymmetricMonoidal with braid_invol := @swap_invol; Structure/Monoidal/Braided.v:132-133 `braid {x y} : x ⨂ y ~> y ⨂ x; braid_natural : natural (@braid)`; Structure/Cartesian.v:209 swap := exr △ exl, :298 swap_invol, :479 prod_comm (to := swap, from := swap). I independently unfolded the ArityTwo instance of Theory/Naturality.v (line 160ff) at P A B := A ⨂ B, Q A B := B ⨂ A and got exactly the quoted `(h ⨂ id) ∘ (id ⨂ g) ∘ braid ≈ braid ∘ (id ⨂ h) ∘ (g ⨂ id)`, i.e. bimap h g ∘ braid ≈ braid ∘ bimap g h — the classifier's unfolding is correct, not hand-waved. ProductFunctor_swap is at Functor/Construction/Product.v:57 and Swap at Construction/Product.v:164, as the caveat says."
+    }
+  },
+  {
+    "id": "awodey:7.5:def9",
+    "classification": "PRESENT",
+    "aliases": [
+      "functor category Fun(C,D) / D^C / [C, D]",
+      "Instance/Fun.v Fun : Category with hom := Transform",
+      "vertical composition of natural transformations, componentwise",
+      "identity natural transformation 1_F with components id_{FX}",
+      "diagram category Diag(C,D); presheaf category [C^op, Sets]"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.  (* Notation \"[ C , D ]\" := (@Fun C D) at line 119; the category laws are the Program obligations, restated at lines 130-141 as nat_id_left, nat_id_right, nat_comp_assoc *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 231,
+        "symbol": "nat_compose",
+        "intree_statement": "Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {| transform := λ X, transform[f] X ∘ transform[g] X |}.  (* the obligation proves the composite family is natural *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 220,
+        "symbol": "nat_id",
+        "intree_statement": "Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {| transform := λ X, fmap (@id C X) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Fun(C,D) is the category whose objects are the functors F : C -> D and whose arrows are the natural transformations theta : F -> G, with (1_F)_X = 1_{FX} and (phi o theta)_X = phi_X o theta_X, i.e. identities and composition computed componentwise in D.",
+      "intree": "Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := nat_id; compose := nat_compose |}, with nat_compose f g having component transform[f] X ∘ transform[g] X and nat_id having component fmap (id[X]).",
+      "strength_comparison": "same. Composition is componentwise exactly as in the book. One presentational wrinkle: the identity transformation's component is written fmap[F] (id[X]) rather than id[F X]; these are equal by fmap_id (the source comment says so), so the identity is the book's up to ≈ rather than syntactically. Hom-setoid equality of transformations is componentwise ≈ (Transform_Setoid, line 139 of Theory/Natural/Transformation.v), the faithful setoid rephrasing."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass found the same carrier. Verified Instance/Fun.v:108 `Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}`; notation `[ C , D ]` at line 119 (record says 119 — correct); nat_id at Theory/Natural/Transformation.v:220 and nat_compose at 231 with component `transform[f] X ∘ transform[g] X`, nat_compose_respects at 252. The strength note about nat_id's component being `fmap[F] (id X)` rather than `id[F x]` is accurate — the source comment at Transformation.v:218 says the same, and they agree by fmap_id."
+    }
+  },
+  {
+    "id": "awodey:7.5:def10",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural isomorphism = isomorphism in Fun(C,D)",
+      "F ≅[Fun] G / Isomorphism in the functor category",
+      "invertible natural transformation with two-sided inverse transformation",
+      "natural equivalence (Eilenberg-Mac Lane)",
+      "Functor_Setoid (functor equality IS natural isomorphism in this library)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 255,
+        "symbol": "Functor_Setoid_Nat_Iso",
+        "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G ↔ F ≈ G.  (* a theorem ABOUT isomorphisms in the functor category [C,D]; the file comment at line 246 states 'Isomorphisms in [C, D] are exactly natural isomorphisms' *)"
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 113,
+        "symbol": "Isomorphism",
+        "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.  (* Infix \"≅\" ; instantiated at C := Fun this is a natural transformation together with a two-sided inverse natural transformation, i.e. a natural isomorphism, written F ≅[Fun] G *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A natural isomorphism is a natural transformation theta : F -> G that is an isomorphism in the functor category Fun(C,D), i.e. one with a two-sided inverse natural transformation.",
+      "intree": "There is no separate class: a natural isomorphism is Isomorphism instantiated at the category Fun, notated F ≅[Fun] G — a pair of natural transformations to : F ⟹ G, from : G ⟹ F with to ∙ from ≈ id and from ∙ to ≈ id (equality of transformations being componentwise ≈). Functor_Setoid_Nat_Iso is stated over exactly this notion, and concrete instances (nat_λ, nat_ρ, nat_α at Instance/Fun.v:168-194, equivalence_unit_iso / equivalence_counit_iso at Theory/Equivalence.v:202-205) are all of type _ ≅[Fun] _.",
+      "strength_comparison": "same — this is the book's definition verbatim once 'isomorphism in a category' is the library's Isomorphism class, with equations up to the hom-setoid ≈. The library goes further by proving (Functor_Setoid_Nat_Iso) that this notion coincides with its notion of functor equality Functor_Setoid, which the book does not discuss."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass agreed. Verified Theory/Isomorphism.v:113 `Class Isomorphism (x y : C) := { to; from; iso_to_from; iso_from_to }` quoted verbatim, and Instance/Fun.v:255 Functor_Setoid_Nat_Iso stated over `F ≅[Fun] G`. Concrete inhabitants of the notion exist (nat_λ:168, nat_ρ:177, nat_α:187), so this is not a definition-without-API case."
+    }
+  },
+  {
+    "id": "awodey:7.5:lem11",
+    "classification": "PRESENT",
+    "aliases": [
+      "a natural transformation is a natural isomorphism iff each component is an isomorphism",
+      "componentwise / pointwise criterion for invertibility in Fun(C,D)",
+      "the inverse family of a componentwise-invertible natural transformation is again natural",
+      "Functor_Setoid_Nat_Iso, iso_equiv, equiv_iso",
+      "IsIsomorphism at each component ⟹ IsIsomorphism in [C,D]"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun.v",
+        "line": 255,
+        "symbol": "Functor_Setoid_Nat_Iso",
+        "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) : F ≅[Fun] G ↔ F ≈ G.  (* proved in both directions and Defined: the forward direction builds, from an iso X : F ≅[Fun] G, the family fun x => {| to := transform[to X] x; from := transform[from X] x |} of componentwise isomorphisms; the backward direction takes a family of isos whose `to` components are natural and assembles the two mutually inverse natural transformations *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 148,
+        "symbol": "Functor_Setoid",
+        "intree_statement": "Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := { equiv := fun F G => { iso : ∀ x : C, F x ≅ G x & ∀ (x y : C) (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) } }.  (* the right-hand side of Functor_Setoid_Nat_Iso: a family of componentwise isomorphisms together with the (rearranged) naturality square to (iso y) ∘ fmap[F] f ≈ fmap[G] f ∘ to (iso x) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A natural transformation theta : F -> G is a natural isomorphism (an isomorphism in Fun(C,D)) if and only if each component theta_X : FX -> GX is an isomorphism in D.",
+      "intree": "Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G, where F ≈ G unpacks (Functor_Setoid) to a family of componentwise isomorphisms iso x : F x ≅ G x satisfying the naturality square for their `to` components.",
+      "strength_comparison": "same in substance, with one packaging difference worth recording. The book quantifies over a GIVEN natural transformation theta and asks whether theta itself is invertible; the in-tree statement is an iff between two existential data types — 'there is an iso in [C,D]' and 'there is a componentwise-iso family that is natural'. Because both sides are Type-valued and the proof is Defined, the round trip does preserve the transformation (the ⇐ direction builds an iso whose `to` component is literally the given family, the ⇒ direction returns the components of the given iso), so nothing is lost; but the statement as written does not itself assert that correspondence, and there is no separate lemma of the form (∀ x, IsIsomorphism (transform[theta] x)) → IsIsomorphism theta in [C,D]."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT, with the record's own caveat endorsed. Blind pass landed on the same carrier and hesitated between PRESENT and PARTIAL for exactly the reason the strength_comparison records, so the record is not overclaiming. I checked the round-trip claim in the source rather than accepting it: in the ⇒ branch of Instance/Fun.v:255 the family is built by `apply X` / `apply (X⁻¹)`, so to (iso x) IS transform[to X] x; in the ⇐ branch the two transforms are built by `apply x` on the given family, so the resulting iso's to-component is the given family componentwise. Hence for a given θ with all components invertible, one derivation step (package + reuse θ's naturality) yields θ invertible in [C,D] — no content is missing, only a named lemma. Note the in-tree right-hand side Functor_Setoid (Theory/Functor.v:148) carries a naturality side-condition in its Σ-type, which is essential and which the record does mention. See problems[] for a comment in Instance/Fun.v that states this less carefully."
+    }
+  },
+  {
+    "id": "awodey:7.5:example12",
+    "classification": "PARTIAL",
+    "aliases": [
+      "double dual eta : 1_Vect ⟹ (-)** ; ev_x : V* -> R",
+      "dual space V* = Vect(V,R), f* = precomposition (contravariant representable with linear structure)",
+      "linear negation / dual functor (- ⇒ ⊥) : C^op ⟶ C; double_dual endofunctor",
+      "star-autonomous category, dualizing object, star_double_dual + star_natural",
+      "V ≅ V* non-naturally vs V ≅ V** naturally (Eilenberg-Mac Lane 1945 motivating example)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 229,
+        "symbol": "dual",
+        "intree_statement": "Program Definition dual (d : C) : C^op ⟶ C := {| fobj := fun x => @exponent_obj C _ x d; fmap := fun x y f => dcur (eval' ∘ (id ⨂ (f : y ~{C}~> x))) |}.  (* Context `{@SymMonClosed C}: the contravariant dual functor (- ⇒ d) acting by precomposition in the exponent, with functoriality proved (dual_hom_comp, line 203); double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op at line 252 *)"
+      },
+      {
+        "file": "Structure/Monoidal/StarAutonomous.v",
+        "line": 261,
+        "symbol": "StarAutonomous",
+        "intree_statement": "Class StarAutonomous : Type := { dualizer : C; star_transpose {x y : C} : (x ⨂ y ~> dualizer) ≊ (x ~> dual dualizer y); star_double_dual {x : C} : x ≅ double_dual dualizer x; star_natural {a b : C} (f : a ~> b) : to (star_double_dual (x:=b)) ∘ f << a ~~> double_dual dualizer b >> fmap[double_dual dualizer] f ∘ to (star_double_dual (x:=a)) }."
+      }
+    ],
+    "statement_record": {
+      "book": "In Vect(R), V* = Vect(V,R) with f*(A) = A o f makes (-)* : Vect^op -> Vect contravariant; eta_V : V -> V**, x |-> ev_x with ev_x(A) = A(x), are the components of a natural transformation eta : 1_Vect -> (-)** (the square f** o eta_V = eta_W o f is checked directly); eta_V is an isomorphism whenever V is finite dimensional, whereas the pointwise isomorphisms V ≅ V* (which exist for dimension reasons) cannot be made natural.",
+      "intree": "dual (d : C) : C^op ⟶ C is the contravariant 'dual' functor x ↦ (x ⇒ d) acting on arrows by precomposition in the exponent, over a symmetric monoidal closed base; double_dual d := dual d ◯ (dual d)^op is the double-dual endofunctor; StarAutonomous carries star_double_dual : x ≅ double_dual dualizer x together with star_natural, the naturality square to(star_double_dual) ∘ f ≈ fmap[double_dual dualizer] f ∘ to(star_double_dual).",
+      "strength_comparison": "intree-weaker in three ways. (1) The category is wrong: there is no Vect, no field, no linear map, no dimension anywhere in the tree (the words appear only in prose), so the book's concrete instance is not available; the in-tree statement lives over an abstract SymMonClosed base. (2) The double-dual map is ASSUMED, not constructed: star_double_dual posits SOME isomorphism x ≅ x**, and the file header (lines 71-78) explicitly says pinning it to the canonical map and requiring the canonical map to be invertible is left undone — so the canonical eta_V = 'evaluate at x' is nowhere built (the transposition machinery is present, e.g. flip : (x ~> z^y) → (y ~> z^x) at Structure/Cartesian/Closed.v:117, but flip id is never named or shown natural). (3) star_natural is a class FIELD (a hypothesis on the structure), not a theorem, and no instance of StarAutonomous exists in-tree, so no double-dual naturality is ever discharged over a concrete object."
+    },
+    "gap": "Missing: (a) Vect / FdVect and all linear algebra — grep -rn -i 'Vect|vector space|linear map' over *.v returns only prose comments plus Coq.Vectors.Vector uses (Instance/Shapes.v, Theory/Sheaf.v) that are unrelated; (b) the CANONICAL map eta_x : x → x** as the double transpose of evaluation, and a proof that it is natural (StarAutonomous assumes an unspecified iso plus its naturality instead); (c) any instance of StarAutonomous — the file header states no concrete model is provided; (d) the finite-dimensionality clause (eta_V an iso exactly for finite-dimensional V) and the contrast statement that V ≅ V* holds pointwise but not naturally, which is the actual punchline of the example and has no in-tree analogue.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Vect|VectorSpace|FdVect|LinearMap|linear map|vector space' . -> only prose (Theory/Functor.v:68, Theory/Equivalence.v:86, Theory/Natural/Transformation.v:45-52, Theory/Kan/Extension.v:89, Theory/Algebra/*Frobenius.v) and stdlib Coq.Vectors.Vector for length-indexed lists",
+      "grep -rn --include='*.v' 'double dual|double-dual|DoubleDual|dual_dual' . -> Structure/Monoidal/StarAutonomous.v and prose in Construction/Opposite.v:51, Theory/Natural/Transformation.v:48",
+      "grep -rn --include='*.v' 'StarAutonomous' . -> the class and its file only; NO instance anywhere",
+      "grep -rn --include='*.v' 'flip' Structure Functor Instance -> Structure/Cartesian/Closed.v:117 and Structure/Monoidal/Closed.v:129 define flip; neither is applied to id nor shown natural"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. My blind verdict leaned ABSENT (no Vect, no field, no linear maps anywhere in tree) but PARTIAL is defensible and better supported: Structure/Monoidal/StarAutonomous.v really does carry `dual (d : C) : C^op ⟶ C` (line 229), `double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op` (line 252) and the class at 261 with fields dualizer / star_transpose / star_double_dual / star_natural — I read the class body and the field is indeed named star_natural, quoted accurately. The three gap clauses check out: (2) is corroborated by the file's own header at lines 71-78 (star_double_dual posits SOME iso, not the canonical map — a disclosed deviation, so this is not a library defect); (3) `rg StarAutonomous` over the tree returns the class, its file, and two prose cross-references only — no instance anywhere, confirming nothing is discharged over a concrete object. The record's honesty here is good: it does not claim the abstract cousin is the book's example."
+    }
+  },
+  {
+    "id": "awodey:7.5:construction-sets-double-dual",
+    "classification": "ABSENT",
+    "aliases": [
+      "double powerset natural transformation eta : 1_Sets ⟹ P ∘ P",
+      "eta_A(a) = {U ⊆ A | a ∈ U} (principal ultrafilter / point map)",
+      "powerset functor P(A) ≅ Sets(A,2) with f* = inverse image",
+      "evaluation eps : 2^A × A → 2 as the characteristic function of membership",
+      "Cantor: A is never isomorphic to P(A), so eta_A is never an iso"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'owerset|Powerset|Pow |Pow_' . -> 9 hits: Structure/Topos.v:129 Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a (an OBJECT map only, no fmap, hence not a functor), Structure/Topos.v:144-148 the relations iso SubObj (a × b) ≅ (a ~> Pow b), and Instance/FinSet/Topos.v Examples; nothing forms Pow ∘ Pow and no map a ~> Pow (Pow a) exists",
+      "grep -rn --include='*.v' 'HasPullbacks' . -> only FinSet_Pullbacks (Instance/FinSet/Classifier.v:264); Sets has no HasPullbacks instance, so Theory/Subobject/Functor.v's Sub : C^op ⟶ Sets (the nearest powerset functor) cannot even be instantiated at C := Sets, let alone composed with itself",
+      "grep -rn --include='*.v' -i 'cantor' . -> 2 hits, both prose (Structure/Limit.v:109 on D ≅ [D → D]; Structure/Complete.v:69 on cardinality); no theorem A ≇ P(A)",
+      "grep -rn --include='*.v' 'principal' . -> 6 hits, all unrelated (principal field/theorem/bundle prose); no principal-ultrafilter or point map",
+      "grep -rn --include='*.v' 'eval ∘ swap|curry (eval|flip' Structure Functor Instance -> Structure/Cartesian/Closed.v:117 defines flip f := curry (uncurry f ∘ swap); `flip id : y ~> z^(z^y)` would be the canonical double-dual map but is never formed, named, or shown natural, and there is no double-dual endofunctor on a cartesian closed category",
+      "grep -rn --include='*.v' 'Ens' Instance/Ens.v -> the Ensemble-based category has no powerset construction; grep 'Sets_Pow|double power' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. My blind search independently found nothing: Pow exists only as `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` (Structure/Topos.v:129) — an object map with no fmap, hence no functor and a fortiori no Pow ∘ Pow and no η : Id ⟹ Pow ∘ Pow. I re-ran the record's load-bearing negative claim rather than trusting it: `rg HasPullbacks` returns exactly one instance in the whole tree, FinSet_Pullbacks (Instance/FinSet/Classifier.v:264), and Theory/Subobject/Functor.v:30 opens `Context `{@HasPullbacks C}` before defining Sub : C^op ⟶ Sets at line 180 — so the nearest powerset-like functor genuinely cannot be instantiated at Sets. No Cantor statement, no membership/point map. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:7.6:prop13",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat is cartesian closed with D^C = Fun(C,D)",
+      "Cat_Closed : @Closed Cat Cat_Cartesian, exponent_obj := @Fun",
+      "currying/uncurrying of functors: (A ∏ B ⟶ C) ≅ (A ⟶ [B, C])",
+      "evaluation functor eval : [B,C] ∏ B ⟶ C as the counit / uncurry id",
+      "exponential object in Cat; Diag(C,D) as the diagram category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := {| morphism := fun F : A × B ⟶ C => {| fobj := fun x : A => {| fobj := fun y : B => F (x, y); fmap := fun J K (f : J ~{B}~> K) => fmap[F] (@id A x, f) |}; fmap := fun J K (f : J ~{A}~> K) => {| transform := fun L : B => fmap[F] (f, @id B L) |} |} |}; from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x : A × B => F (fst x) (snd x); fmap := fun J K (f : J ~{A × B}~> K) => fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |} }.  (* all 14 obligations are Qed; the file header records that the instance is closed under the global context, no axioms *)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := fun _ _ => {| fobj := fst; fmap := fun _ _ => fst |}; exr := fun _ _ => {| fobj := snd; fmap := fun _ _ => snd |} }.  (* the product of Cat used as the domain of the transposition; the nullary product is Cat_Terminal, Instance/One.v:54 *)"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 78,
+        "symbol": "ump_exponents",
+        "intree_statement": "Definition ump_exponents {x y z} (f : x × y ~> z) : eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.  (* with eval {x y} : y^x × x ~> y := uncurry id (line 75); instantiated at Cat this is Awodey's clause (2): eps ∘ (F-bar × 1_C) = F, uniqueness of the transpose coming from exp_iso being an isomorphism *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The category Cat of small categories and functors is cartesian closed, the exponential of C and D being the functor category D^C = Fun(C,D): (1) eval : Fun(C,D) x C -> D is a functor; (2) every F : X x C -> D has a transpose F-bar : X -> Fun(C,D) with eps o (F-bar x 1_C) = F; (3) transposition is inverse to this, so for G : X -> Fun(C,D) the transpose of eps o (G x 1_C) is G again.",
+      "intree": "Cat_Closed : @Closed Cat Cat_Cartesian with exponent_obj := @Fun and exp_iso the setoid isomorphism (A × B ~{Cat}~> C) ≊ (A ~{Cat}~> [B,C]); `to` is currying (F ↦ x ↦ y ↦ F (x,y), with fmap[F](id,f) and fmap[F](f,id) as the inner functor action and the transformation components) and `from` is uncurrying with fmap (f,g) = fmap (snd f) ∘ transform[fmap[F] (fst f)]. eval and the beta law eval ∘ first (curry f) ≈ f come from Structure/Cartesian/Closed.v (eval := uncurry id, ump_exponents), and the two round trips are the iso_to_from / iso_from_to obligations, discharged as natural isomorphisms with identity components.",
+      "strength_comparison": "same. Two faithful-rephrasing notes: (i) 'small' is handled by universe polymorphism — Cat@{o h p} has obj := Category@{o h p} and lives one level up, so A, B, C must share a universe level rather than be 'small' in a fixed ambient set theory; per the library's design this is the standard treatment, not a weakening of content; (ii) the hom-setoid of Cat is Functor_Setoid, i.e. equality of functors IS natural isomorphism, so the transposition bijection and its round trips hold up to natural isomorphism rather than on the nose — the obligations in fact build isos with identity components, so nothing weaker than the book is proved. Awodey's clause (1), 'eval is a functor', is subsumed: eval := uncurry id is the image of the identity under `from`, hence a functor by construction, and the bifunctor-lemma route he uses is not needed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind pass found the same carrier. Verified Instance/Cat/Cartesian/Closed.v:47 `#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := ... }` with the quoted to/from bodies matching the source; Instance/Cat/Cartesian.v:39 Cat_Cartesian with product_obj := @Product; Structure/Cartesian/Closed.v:75 `Definition eval {x y} : y^x × x ~> y := uncurry id` and :78 ump_exponents. No Admitted/admit in the file. The universe-polymorphism treatment of 'small' is correctly flagged as presentation, not weakening — consistent with the frozen guidance that size discussions are usually PRESENT/PARTIAL here rather than OUT_OF_SCOPE. The claim that Awodey's clause (1) is subsumed (eval = uncurry id = image of id under `from`) is correct."
+    }
+  },
+  {
+    "id": "awodey:7.6:lem14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "bifunctor lemma / functoriality in each variable plus interchange",
+      "middle-four exchange, interchange law F(A',beta) ∘ F(alpha,B) = F(alpha,B') ∘ F(A,beta)",
+      "bimap / bimap_comp / bimap_id_right_left / bimap_comp_id_left",
+      "separately functorial data (SepFunctorial) and its eliminator",
+      "currying a bifunctor C ∏ D ⟶ E into C ⟶ [D, E]"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "exp_iso := fun A B C => {| to := (fun F : A × B ⟶ C => ...); from := {| morphism := fun F : A ⟶ [B, C] => {| fobj := fun x : A × B => F (fst x) (snd x); fmap := fun J K (f : J ~{A × B}~> K) => fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |}  (* `from` IS the sufficiency direction: from data functorial in each argument separately (a functor A ⟶ [B,C]) it builds the functor A ∏ B ⟶ C by Awodey's very formula F(<alpha,beta>) := F(A',beta) ∘ F(alpha,B); `to` is the necessity direction, and exp_iso being an isomorphism makes the two mutually inverse *)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 104,
+        "symbol": "bimap_id_right_left",
+        "intree_statement": "Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w} `(f : z ~{C}~> w) `(g : x ~{D}~> y) : bimap f id ∘ bimap id g ≈ bimap f g.  (* with the mirror bimap_id_left_right (line 116) : bimap id f ∘ bimap g id ≈ bimap g f; together these are exactly the interchange law F(A',beta) ∘ F(alpha,B) ≈ F(alpha,B') ∘ F(A,beta), derived from F being a functor on C ∏ D — Awodey's necessity of condition (2) *)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 80,
+        "symbol": "bimap_comp_id_left",
+        "intree_statement": "Lemma bimap_comp_id_left {F : C ∏ D ⟶ E} {w} `(f : y ~{D}~> z) `(g : x ~{D}~> y) : bimap (id[w]) (f ∘ g) ≈ bimap id f ∘ bimap id g.  (* with bimap_comp_id_right (line 91) for the first variable, and bimap_id_id (line 59); together: a bifunctor is functorial in each argument separately — Awodey's necessity of condition (1) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given categories A, B, C and maps F_0 : A_0 x B_0 -> C_0, F_1 : A_1 x B_1 -> C_1, these data constitute a functor F : A x B -> C if and only if (1) F is functorial in each argument separately and (2) F satisfies the interchange law F(A',beta) o F(alpha,B) = F(alpha,B') o F(A,beta).",
+      "intree": "Necessity is stated over a given bifunctor F : C ∏ D ⟶ E as the bimap lemmas: bimap_id_id, bimap_comp_id_left / bimap_comp_id_right (separate functoriality) and bimap_id_right_left / bimap_id_left_right (interchange). Sufficiency appears only inside Cat_Closed's exp_iso, whose `from` turns a functor A ⟶ [B, C] into a functor A ∏ B ⟶ C with fmap (f,g) := fmap (snd f) ∘ transform[fmap[F] (fst f)], i.e. F(alpha,beta) := F(A',beta) ∘ F(alpha,B); exp_iso being an isomorphism makes `to` and `from` mutually inverse, which is a bijection refining the book's iff.",
+      "strength_comparison": "intree-weaker as a usable criterion, though not in mathematical content. Both directions exist, and the sufficiency construction uses exactly Awodey's defining formula. But there is no standalone lemma over RAW data (F_0, F_1) plus hypotheses (1)+(2); the hypotheses have to be pre-assembled as a functor A ⟶ [B, C] (equivalent data — the per-object functors are (1) in the second variable, the naturality of each fmap[F] f is (2), and fmap_id/fmap_comp in [B,C] are (1) in the first variable — but a different, heavier interface), and going through Cat_Closed additionally forces A, B, C to be objects of one Cat, hence to share a universe level. The library's only raw-data eliminator, Construction/Funny.v's SepFunctorial/FunnyUP, deliberately OMITS interchange and lands in the funny tensor C □ D, not in C ∏ D."
+    },
+    "gap": "No smart constructor of the shape 'Build_Bifunctor : (object map) → (two separately functorial actions) → (interchange law) → C ∏ D ⟶ E', and no statement of the equivalence as an iff over raw data. The sufficiency direction is reachable only by first building a functor into the functor category [B, C] and applying Cat_Closed's exp_iso `from` (which also pins all three categories to one universe level of Cat), or by writing the Program Definition of the C ∏ D ⟶ E functor by hand. Construction/Funny.v has the closest raw-data record (Record SepFunctorial, line 377, with its eliminator FunnyUP and round trip toSep / ffold_toSep) but by design it imposes NO interchange condition and eliminates into C □ D; there is no in-tree bridge factoring FunnyUP through the comparison FunnyToProduct : (C □ D) ⟶ (C ∏ D) under an interchange hypothesis.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Build_Bifunctor|bifunctor_from|from_partial' . -> 0 hits",
+      "grep -rn --include='*.v' 'separately|in each variable|in each argument' . -> 30 hits, all prose comments except Construction/Funny.v's SepFunctorial (no-interchange) and Instance/StrictCat/Premonoid.v's StrictPremonoidal_SepFunctorial (also no interchange)",
+      "grep -rn --include='*.v' 'interchange' . -> the bimap lemmas of Functor/Bifunctor.v, the 2-cell/Godement interchange of Theory/Bicategory and Theory/DoubleCategory, and Theory/Displayed.v's transport interchange; none states the bifunctor lemma",
+      "grep -rn --include='*.v' 'Build_Functor' . -> 10 hits, all ad-hoc uses to pin a codomain (Functor/Opposite.v, Construction/Quotient.v, Instance/Coq/Comonad/*), none a separately-functorial constructor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Blind pass reached the same verdict for the same reason: Functor/Bifunctor.v supplies only the necessity direction (verified line numbers: bimap_id_id 59, bimap_comp 68, bimap_comp_id_left 80, bimap_comp_id_right 91, bimap_id_right_left 104, bimap_id_left_right 116 — all as cited), and there is no `Build_Bifunctor`-style constructor over raw (F_0, F_1) + hypotheses. Construction/Funny.v claims verified: `Record SepFunctorial` at 377, FunnyUP at 441, toSep at 465, ffold_toSep at 505; FunnyToProduct at Construction/Funny/Comparison.v:59 — and, as the gap says, SepFunctorial imposes no interchange and FunnyUP eliminates into C □ D. ONE OMISSION in the negative search log, which does not change the verdict: Structure/Premonoidal/Monoidal.v:271 `Definition Premonoidal_Tensor : (C ∏ C) ⟶ C := @Build_Functor ...` is a second in-tree sufficiency witness — it assembles a genuine bifunctor on C ∏ C out of the two one-sided binoidal actions plus interchange (Premonoidal_Tensor_comp at 262 discharges fmap_comp from composite_ff'_comp_l, consuming the all_central hypothesis, which IS Awodey's condition (2)). It is still specialized (one category, a Binoidal + Premonoidal Context, tensor-shaped data), so no general A, B, C lemma exists and PARTIAL is right; but the gap sentence 'sufficiency appears only inside Cat_Closed's exp_iso' is incomplete as written. The classifier's grep for 'separately|in each variable|in each argument' missed it because the file does not use that vocabulary."
+    }
+  }
+]

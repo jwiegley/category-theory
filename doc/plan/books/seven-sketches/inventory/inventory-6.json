@@ -1,0 +1,2020 @@
+{
+  "book": "7sketches",
+  "range": {
+    "pdf_start": 193,
+    "pdf_end": 232
+  },
+  "pages": [
+    {
+      "pdf_page": 193,
+      "book_page": "181",
+      "empty": false,
+      "items": [],
+      "notes": "Chapter 6 opener, 'Electric circuits: Hypergraph categories and operads' (folio printed bottom-centre; note the TOC/running-head form is 'Circuits: hypergraph categories and operads'). Section 6.1 'The ubiquity of network languages' begins. Motivational prose plus the unnumbered flip-flop circuit figure. No numbered environment and no numbered display on this page; the chapter's counter has not yet been touched."
+    },
+    {
+      "pdf_page": 194,
+      "book_page": "182",
+      "empty": false,
+      "items": [],
+      "notes": "Section 6.1 continued. Unnumbered bold run-in lead 'Connections via colimits.' (not an item, per pagemap Trap 8). Three unnumbered circuit-component figures introducing ports (bold dots) and witness-to-connection circles. Footnote 1 (a circuit with no ports has the empty set as interface) belongs to the chapter's independent footnote sequence, not the item counter. No numbered environment, no numbered display."
+    },
+    {
+      "pdf_page": 195,
+      "book_page": "183",
+      "empty": false,
+      "items": [],
+      "notes": "Section 6.1 continued. Unnumbered bold run-in lead 'Composition operations and wiring diagrams.' (not an item). Informal preview of Cospan_C, of hypergraph categories, and of the spider icons s_{m,n} : m -> n; all made precise later as Definitions 6.45, 6.60 and 6.54, so nothing is minted here. Footnotes 2 and 3. No numbered environment, no numbered display."
+    },
+    {
+      "pdf_page": 196,
+      "book_page": "184",
+      "empty": false,
+      "items": [],
+      "notes": "End of section 6.1 (spider fusion picture, informal); section 6.2 'Colimits and connection' and subsection 6.2.1 'Initial objects' both begin here. All prose. No numbered environment, no numbered display."
+    },
+    {
+      "pdf_page": 197,
+      "book_page": "185",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.1:example6.2",
+        "7sketches:6.2.1:ex6.3",
+        "7sketches:6.2.1:example6.4",
+        "7sketches:6.2.1:example6.5",
+        "7sketches:6.2.1:ex6.6",
+        "7sketches:6.2.1:ex6.7"
+      ],
+      "notes": "The chapter's counter opens with a named item (Definition 6.1), not a display. Numbers 6.1-6.7 run consecutively on this page with no gap. Exercise 6.7 starts here (its part 1) and continues onto PDF 198 (part 2)."
+    },
+    {
+      "pdf_page": 198,
+      "book_page": "186",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.1:ex6.7",
+        "7sketches:6.2.1:ex6.8",
+        "7sketches:6.2.1:remark6.9",
+        "7sketches:6.2.1:ex6.10",
+        "7sketches:6.2.2:def6.11",
+        "7sketches:6.2.2:ex6.13",
+        "7sketches:6.2.2:example6.14"
+      ],
+      "notes": "Exercise 6.7 concludes at the top (part 2, the initial object of Rig) and is recorded under PDF 197. Subsection 6.2.2 'Coproducts' begins. NUMBER 6.12 IS CONSUMED BY A NUMBERED DISPLAY: the right-flush (6.12) labels the commuting copairing triangle drawn inside Definition 6.11's shaded box; it carries no claim distinct from that definition, so no item is minted. Example 6.14 starts here and continues onto PDF 199."
+    },
+    {
+      "pdf_page": 199,
+      "book_page": "187",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.2:example6.14",
+        "7sketches:6.2.2:ex6.16",
+        "7sketches:6.2.2:ex6.17",
+        "7sketches:6.2.2:ex6.18"
+      ],
+      "notes": "Example 6.14 concludes here (recorded under PDF 198). NUMBER 6.15 IS CONSUMED BY A NUMBERED DISPLAY: the right-flush (6.15) labels the fruit-sets disjoint-union figure inside Example 6.14, plus the two-case copairing formula below it; both are illustrations of that Example, so no item is minted. Exercise 6.18 starts here and continues onto PDF 200."
+    },
+    {
+      "pdf_page": 200,
+      "book_page": "188",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.2:ex6.18",
+        "7sketches:6.2.3:def6.19"
+      ],
+      "notes": "Exercise 6.18 concludes at the top (recorded under PDF 199). Subsection 6.2.3 'Pushouts' begins. NUMBERS 6.20 AND 6.21 ARE CONSUMED BY NUMBERED DISPLAYS: both label diagrams in the unshaded 'In more detail' elaboration that immediately follows and belongs to Definition 6.19 -- (6.20) is the commuting pushout square, (6.21) the universal-property diagram with the unique mediating t. Neither carries a claim distinct from Definition 6.19, so both are folded into that item rather than minted separately."
+    },
+    {
+      "pdf_page": 201,
+      "book_page": "189",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.3:example6.22",
+        "7sketches:6.2.3:example6.23",
+        "7sketches:6.2.3:ex6.24",
+        "7sketches:6.2.3:example6.25"
+      ],
+      "notes": "The tail of Definition 6.19's elaboration (the naming of the 'pushout square' corner marker, and of iota_X as 'the pushout of g along f') occupies the top of this page and is recorded under PDF 200. Example 6.25 starts here and continues onto PDF 202. No numbered display on this page."
+    },
+    {
+      "pdf_page": 202,
+      "book_page": "190",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.3:example6.25",
+        "7sketches:6.2.3:ex6.26",
+        "7sketches:6.2.3:example6.27",
+        "7sketches:6.2.3:ex6.28",
+        "7sketches:6.2.3:example6.29"
+      ],
+      "notes": "Example 6.25 concludes at the top (recorded under PDF 201). Example 6.27's three parenthetical 'why?^1', 'why?^2', 'why?^3' markers are superscripts inside that Example, NOT footnote markers and NOT item numbers. Example 6.29 starts here and continues onto PDF 203. No numbered display on this page."
+    },
+    {
+      "pdf_page": 203,
+      "book_page": "191",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.3:example6.29",
+        "7sketches:6.2.4:def-finite-category"
+      ],
+      "notes": "Example 6.29 concludes at the top (recorded under PDF 202). Subsection 6.2.4 'Finite colimits' begins; its prose recalls that a colimit is an initial object in a category of cocones (back-reference to Definition 3.102, no new item) and displays an unnumbered diagram/cocone pair. Footnote 4 states a genuine definition in running text ('a category with finitely many morphisms is a finite category'), recorded as the unnumbered item def-finite-category. No numbered environment and no numbered display on this page."
+    },
+    {
+      "pdf_page": 204,
+      "book_page": "192",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.4:def6.30",
+        "7sketches:6.2.4:example6.31",
+        "7sketches:6.2.4:prop6.32",
+        "7sketches:6.2.4:example6.33"
+      ],
+      "notes": "Proposition 6.32's Proof block is unnumbered (italic 'Proof.', hollow-square terminator) and is folded into the proposition item. NUMBER 6.34 IS CONSUMED BY A NUMBERED DISPLAY: the right-flush (6.34) labels the diagram (B->Z, A->C, A->D) inside Example 6.33 whose colimit is being computed; it is the Example's data, not a distinct claim, so no item is minted. Example 6.33 starts here and continues onto PDF 205."
+    },
+    {
+      "pdf_page": 205,
+      "book_page": "193",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.4:example6.33",
+        "7sketches:6.2.4:ex6.35",
+        "7sketches:6.2.4:cor6.36",
+        "7sketches:6.2.4:thm6.37",
+        "7sketches:6.2.4:example6.38",
+        "7sketches:6.2.4:example6.39"
+      ],
+      "notes": "Example 6.33 concludes at the top (recorded under PDF 204). Numbers 6.35-6.39 run consecutively with no gap. Theorem 6.37's colimit formula display is unnumbered (no right-flush label). No numbered display on this page."
+    },
+    {
+      "pdf_page": 206,
+      "book_page": "194",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.4:example6.40",
+        "7sketches:6.2.4:ex6.41",
+        "7sketches:6.2.4:example6.42",
+        "7sketches:6.2.5:def6.43"
+      ],
+      "notes": "Subsection 6.2.5 'Cospans' begins. Definition 6.43's shaded box closes on this page. No numbered display on this page."
+    },
+    {
+      "pdf_page": 207,
+      "book_page": "195",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.5:construction-cospan-composition",
+        "7sketches:6.2.5:def-cospan-equivalence"
+      ],
+      "notes": "Entirely unshaded running prose that develops two unnumbered pieces of mathematics later relied on by Definition 6.45: the composition of cospans by pushout (with the identity cospan) and the equivalence relation on cospans. Both are recorded as unnumbered items. NUMBER 6.44 IS CONSUMED BY A NUMBERED DISPLAY: the right-flush (6.44) labels the two-panel figure exhibiting the pushout N +_B P and the extracted composite cospan; it is the picture of the construction just described, not a distinct claim."
+    },
+    {
+      "pdf_page": 208,
+      "book_page": "196",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.5:example6.46"
+      ],
+      "notes": "The unshaded paragraph between Definition 6.45 and Example 6.46 ('It is a straightforward but time-consuming exercise to verify ... but it does') is an unnumbered assertion that (Cospan_C, empty set, +) satisfies the symmetric monoidal axioms; it is folded into Definition 6.45's statement rather than minted as a separate item. Example 6.46 starts here and continues onto PDF 209. No numbered display on this page."
+    },
+    {
+      "pdf_page": 209,
+      "book_page": "197",
+      "empty": false,
+      "items": [
+        "7sketches:6.2.5:example6.46",
+        "7sketches:6.2.5:ex6.48",
+        "7sketches:6.2.5:ex6.49"
+      ],
+      "notes": "Example 6.46 concludes at the top (recorded under PDF 208). Sections 6.3 'Hypergraph categories' and 6.3.1 'Frobenius monoids' both begin on this page; their opening prose is informal preview only. TWO NUMBERS CONSUMED BY NUMBERED DISPLAYS: (6.47) labels the arrow-notation cospan-composition figure inside Example 6.46, and (6.50) labels the wire-notation depiction of the same composite inside Exercise 6.49. Neither carries a claim distinct from its enclosing item."
+    },
+    {
+      "pdf_page": 210,
+      "book_page": "198",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.1:def-cocommutative-comonoid",
+        "7sketches:6.3.1:def6.52"
+      ],
+      "notes": "TWO NUMBERS CONSUMED BY NUMBERED DISPLAYS: (6.51) labels the three string-diagram commutative-monoid axioms (associativity, unitality, commutativity) recalled from Definition 5.65 in the running prose -- recalled material, no new claim; and (6.53) labels the three further string-diagram equations (the two Frobenius laws and the special law) printed inside Definition 6.52's shaded box. The cocommutative comonoid is defined in running prose ('obeying the mirror images of the laws in Eq. (6.51)') and is recorded as the unnumbered item def-cocommutative-comonoid, since Definition 6.52 presupposes it."
+    },
+    {
+      "pdf_page": 211,
+      "book_page": "199",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.1:def6.54",
+        "7sketches:6.3.1:thm6.55",
+        "7sketches:6.3.1:example6.56",
+        "7sketches:6.3.1:ex6.57"
+      ],
+      "notes": "Numbers 6.54-6.57 run consecutively with no gap. Exercise 6.57 starts here (its part 1) and continues onto PDF 212 (parts 2-6). No numbered display on this page."
+    },
+    {
+      "pdf_page": 212,
+      "book_page": "200",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.1:ex6.57",
+        "7sketches:6.3.1:thm6.58"
+      ],
+      "notes": "Exercise 6.57 concludes at the top with its parts 2-6 (recorded under PDF 211). Unnumbered bold run-in lead 'Back to cospans.' (not an item). Theorem 6.58 carries an in-box lettered footnote 'a' glossing 'equivalent as a symmetric monoidal category' -- a footnote, not an item. Subsection 6.3.2 'Wiring diagrams for hypergraph categories' begins at the foot. No numbered display on this page."
+    },
+    {
+      "pdf_page": 213,
+      "book_page": "201",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.2:ex6.59",
+        "7sketches:6.3.3:def6.60"
+      ],
+      "notes": "Subsection 6.3.3 'Definition of hypergraph category' begins. Definition 6.60's shaded box opens at the very foot of this page and its body (the four compatibility string-diagram equations and the eta_I = id_I = epsilon_I clause) continues onto PDF 214; recorded here with spans-page-break. The one-sentence prose definition of 'hypergraph prop' sits just BELOW that box on PDF 214, i.e. it starts outside this range, and is deliberately left to the agent owning PDF 214-232."
+    },
+    {
+      "pdf_page": 214,
+      "book_page": "202",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.3:def6.60",
+        "7sketches:6.3.3:def-hypergraph-prop",
+        "7sketches:6.3.3:example6.61",
+        "7sketches:6.3.3:ex6.62",
+        "7sketches:6.3.3:ex6.63",
+        "7sketches:6.3.3:example6.64"
+      ],
+      "notes": "Section 6.3.3. The pink box at the top of the page is the SECOND HALF of Definition 6.60 (hypergraph category), which starts on PDF 213 and therefore belongs to the agent owning that page; it carries the four diagrammatic compatibility laws relating the Frobenius maps on X (x) Y to those on X and on Y, and the closing requirement eta_I = id_I = epsilon_I. Immediately after it, one unnumbered paragraph defines 'hypergraph prop' in running prose; that IS recorded here. No numbered display consumes a number on this page."
+    },
+    {
+      "pdf_page": 215,
+      "book_page": "203",
+      "empty": false,
+      "items": [
+        "7sketches:6.3.3:example6.64",
+        "7sketches:6.3.3:example6.65",
+        "7sketches:6.3.3:prop6.66",
+        "7sketches:6.3.3:ex6.67"
+      ],
+      "notes": "Example 6.64 concludes in the green box at the top of the page (recorded under PDF 214). The 'Proof.' block of Proposition 6.66 is an unnumbered environment (italic header, hollow-square terminator) and is folded into the proposition item. Section 6.4 'Decorated cospans' opens at the bottom with motivational prose only. No numbered display on this page."
+    },
+    {
+      "pdf_page": 216,
+      "book_page": "204",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.1:def6.68",
+        "7sketches:6.4.1:example6.69",
+        "7sketches:6.4.1:ex6.70"
+      ],
+      "notes": "Section headers 6.4.1 'Symmetric monoidal functors' and 6.4.2 'Decorated cospans' both fall on this page. Rough Definition 6.68 is a genuine 'Rough Definition' header (pink box, bold) and is recorded with kind 'rough-definition', not normalized to 'definition'. The commuting square inside Exercise 6.70 is unnumbered. No numbered display consumes a number on this page."
+    },
+    {
+      "pdf_page": 217,
+      "book_page": "205",
+      "empty": false,
+      "items": [],
+      "notes": "NUMBERS 6.71 AND 6.72 ARE CONSUMED BY NUMBERED DISPLAYS; no item is minted for either, and a numbering-continuity check must not report them as missing. (6.71) is the running example circuit (a 2-ohm resistor and 3-farad capacitor in parallel across the top, two 1-ohm resistors down the sides, a 1-henry inductor across the bottom, four nodes). (6.72) is that same circuit with its interface marked: grey arrows exhibit functions A -> N and B -> N from finite sets A (one element) and B (two elements) into the four-element node set N, i.e. a cospan in FinSet whose apex has been 'decorated' by the circuit. Both are illustrations whose content is restated in the surrounding prose. No named numbered environment starts or ends on this page; all remaining text is running prose of section 6.4.2."
+    },
+    {
+      "pdf_page": 218,
+      "book_page": "206",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.2:def6.75"
+      ],
+      "notes": "NUMBERS 6.73 AND 6.74 ARE CONSUMED BY NUMBERED DISPLAYS. (6.73) shows the two composable decorated cospans A -> N <- B and B -> M <- C drawn side by side; (6.74) shows the result of gluing them, a single decorated cospan A -> N +_B M <- C. Neither carries a claim distinct from the prose, so no item is minted. Definition 6.75 (F-decorated cospan) is on this page; its footnote 5 (one should technically use equivalence classes of cospans, as in Definition 6.45) is a footnote, not an item. The running prose developing COMPOSITION of decorated cospans begins in the last two lines of this page and its numbered display (6.76) lands on PDF 219, where it is recorded as an equation item."
+    },
+    {
+      "pdf_page": 219,
+      "book_page": "207",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.2:eq6.76",
+        "7sketches:6.4.2:thm6.77",
+        "7sketches:6.4.2:ex6.78",
+        "7sketches:6.4.3:def-c-circuit"
+      ],
+      "notes": "Section 6.4.3 'Electric circuits' begins here. Number 6.76 IS recorded as an equation item (rare case): the display sits in running prose inside no named environment, supplies the composition law for decorated cospans that Definition 6.75 does not state, and is later cited by number on printed p. 209. The bold run-in lead \"Let's build some circuits.\" is not itself an item, but the component set C and the notion of a C-circuit are defined in the prose under it and are recorded as an unnumbered definition."
+    },
+    {
+      "pdf_page": 220,
+      "book_page": "208",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.3:def-c-circuit",
+        "7sketches:6.4.3:ex6.79",
+        "7sketches:6.4.3:construction-circ",
+        "7sketches:6.4.3:ex6.80",
+        "7sketches:6.4.3:ex6.82"
+      ],
+      "notes": "NUMBER 6.81 IS CONSUMED BY A NUMBERED DISPLAY: the coherence map psi_{V,V'} : Circ(V) x Circ(V') -> Circ(V + V') of the circuit decoration functor. No separate equation item is minted for it because it is one clause of the unnumbered construction of (Circ, psi) recorded on this page as 7sketches:6.4.3:construction-circ; the display's content is reproduced in full in that item's summary. The bold run-in lead 'A decoration functor for circuits.' is not itself an item. The unnumbered C-circuit definition begun on PDF 219 also finishes in the first paragraph of this page (the 'reversed graph' remark) and is recorded under its starting page 219."
+    },
+    {
+      "pdf_page": 221,
+      "book_page": "209",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.3:ex6.84"
+      ],
+      "notes": "NUMBER 6.83 IS CONSUMED BY A NUMBERED DISPLAY: the picture of the battery open circuit, a morphism 1 -> 1 of Cospan_Circ (cospan 1 -> 2 <- 1 decorated by the battery element of Circ(2)). Folded into the construction item, not minted separately. Bold run-in leads 'Open circuits using decorated cospans.' and 'Composition in Cospan_Circ.' are not items in themselves; the category Cospan_Circ built under them is recorded as an unnumbered construction spanning PDF 221-223."
+    },
+    {
+      "pdf_page": 222,
+      "book_page": "210",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.3:ex6.86"
+      ],
+      "notes": "NUMBER 6.85 IS CONSUMED BY A NUMBERED DISPLAY: the pushout square in FinSet exhibiting the composite of the two one-port cospans over the shared foot 1. Folded into 7sketches:6.4.3:construction-cospan-circ. Rest of the page is the worked composition of the battery circuit with the switch circuit and the bold run-in lead 'Monoidal products in Cospan_Circ.', both folded into that same construction item."
+    },
+    {
+      "pdf_page": 223,
+      "book_page": "211",
+      "empty": false,
+      "items": [
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.3:ex6.88"
+      ],
+      "notes": "NUMBER 6.87 IS CONSUMED BY A NUMBERED DISPLAY: the monoidal product in Cospan_Circ of two open circuits, drawn stacked one above the other in a single box with two input and two output white circles. Folded into 7sketches:6.4.3:construction-cospan-circ. Section 6.5 'Operads and their algebras' and section 6.5.1 'Operads design wiring diagrams' both open on this page with motivational prose (reference to [VSL15] and 'passing wires'); no named environment there. Footnote marker 6 is set in Exercise 6.88 on this page but its footnote TEXT is deferred to printed p. 213 (PDF 225)."
+    },
+    {
+      "pdf_page": 224,
+      "book_page": "212",
+      "empty": false,
+      "items": [],
+      "notes": "NUMBERS 6.89 AND 6.90 ARE CONSUMED BY NUMBERED DISPLAYS; no items minted, and a continuity check must not flag them. (6.89) is a hypergraph-category wiring diagram with inputs A, B on the left, output D on the right and inner boxes f, g, h, k; (6.90) redraws exactly the same interconnection pattern with no left/right distinction - four labelled circles inside one big circle with wires between them - motivating the shift from categories to operads. All other text on the page is running prose of section 6.5.1. No named numbered environment."
+    },
+    {
+      "pdf_page": 225,
+      "book_page": "213",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.1:def6.91"
+      ],
+      "notes": "Rough Definition 6.91 (operad) is a genuine 'Rough Definition' header and is recorded with kind 'rough-definition'. The preceding prose - that Cospan_FinSet can be viewed as a 'theory of hypergraph categories' so that hypergraph categories are functors Cospan_FinSet -> Set - is motivational foreshadowing of Proposition 6.101 and is not minted as a separate item. Two footnotes sit at the foot of this page: footnote 6 (! is the unique function out of the empty set), whose MARKER is back on printed p. 211, and footnote 7 (types are elsewhere called objects or colours, operations morphisms, substitution composition, operads multicategories; formal definition in [Lei04]). Footnotes are an independent sequence and are not items."
+    },
+    {
+      "pdf_page": 226,
+      "book_page": "214",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.1:example6.92",
+        "7sketches:6.5.2:example6.93"
+      ],
+      "notes": "Section 6.5.2 'Operads from symmetric monoidal categories' opens on this page, between Example 6.92 (still section 6.5.1) and Example 6.93 (section 6.5.2). The unnumbered picture of substitution (a shape nested into a trapezoid, then the result) is an illustration, not a numbered display. Example 6.93 continues onto PDF 227. No number is consumed by a display on this page."
+    },
+    {
+      "pdf_page": 227,
+      "book_page": "215",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.2:example6.93",
+        "7sketches:6.5.2:example6.94"
+      ],
+      "notes": "Clauses (iii) and (iv) of Example 6.93 finish at the top of this page (item recorded under PDF 226). NUMBER 6.95 IS CONSUMED BY A NUMBERED DISPLAY sitting INSIDE Example 6.94: the wiring-diagram picture of an operation of arity (3,3,4,2; 3), with circles f, g, h, k inside an outer circle. It carries no claim distinct from its enclosing example, so no separate equation item is minted; its content is reproduced in the Example 6.94 summary. Example 6.94 continues onto PDF 228."
+    },
+    {
+      "pdf_page": 228,
+      "book_page": "216",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.2:example6.94",
+        "7sketches:6.5.2:ex6.96",
+        "7sketches:6.5.2:def6.97"
+      ],
+      "notes": "The green box at the top of the page is the last sentence of Example 6.94 (recorded under PDF 227). Section 6.5.3 'The operad for hypergraph props' opens at the foot of the page with one sentence of prose. The two cospan pictures inside Exercise 6.96 are unnumbered. No number is consumed by a display on this page."
+    },
+    {
+      "pdf_page": 229,
+      "book_page": "217",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.3:def6.98",
+        "7sketches:6.5.3:def6.99",
+        "7sketches:6.5.3:example6.100"
+      ],
+      "notes": "Rough Definition 6.98 (operad functor) is a genuine 'Rough Definition' header, recorded with kind 'rough-definition'. Definition 6.99 (algebra for an operad) is an ordinary Definition. The paragraph between them, explaining O -> Set algebras as assignments of sets of box-fillers, is prose folded into Definition 6.99. Example 6.100 begins here and continues onto PDF 230; its two pictures (the wiring diagram phi and the three elements of Circ(2)) are unnumbered. No number is consumed by a display on this page."
+    },
+    {
+      "pdf_page": 230,
+      "book_page": "218",
+      "empty": false,
+      "items": [
+        "7sketches:6.5.3:example6.100",
+        "7sketches:6.5.3:prop6.101"
+      ],
+      "notes": "Example 6.100 concludes in the green box at the top (the resulting closed circuit; item recorded under PDF 229). Proposition 6.101 is stated without proof and is the LAST numbered item of chapter 6 (chapter maximum 6.101, matching the calibration tally). Section 6.6 'Summary and further reading' opens at the foot of the page. The prose between the proposition and section 6.6 - varying the operad to cobordisms, and the remark that there is an operad for operads ([Lei04, Example 2.2.23]) - is motivational and is not minted."
+    },
+    {
+      "pdf_page": 231,
+      "book_page": "219",
+      "empty": false,
+      "items": [],
+      "notes": "Remainder of section 6.6 'Summary and further reading': pure bibliographic prose, no numbered environment and no numbered display. Records that special commutative Frobenius monoids and hypergraph categories were first defined by Carboni and Walters under the names 'separable commutative Frobenius algebra' and 'well-supported compact closed category' [CW87; Car91]; decorated cospans [Fon15; Fon18; Fon16]; passive linear networks [BF15]; Markov processes and chemistry [BFP16; BP17]; the pixel array method [Spi+16]; [FS18b; FS18a]; operads introduced by May [May72], book by Leinster [Lei04]; applied operads [RS13; Spi13; VSL15]. Skipped as historical/motivational prose per the inventory rules."
+    },
+    {
+      "pdf_page": 232,
+      "book_page": "220",
+      "empty": true,
+      "items": [],
+      "notes": "Genuinely blank verso closing chapter 6 - no folio, no running head, no extractable text. This is the known 'blank verso' trap (PDF 232 = printed 220); it is counted in the printed numbering and the printed = PDF - 12 offset is unchanged after it."
+    }
+  ],
+  "items": [
+    {
+      "id": "7sketches:6.2.1:def6.1",
+      "kind": "definition",
+      "number": "6.1",
+      "name": "initial object",
+      "statement_summary": "In a category C, an initial object is an object -- written with the default notation for the empty set -- such that for every object T of C there is exactly one morphism from it to T. The following prose stresses that the notation is only a suggestive default name, and that the hallmark of universality here is the existence of a unique map to every comparable object.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:example6.4",
+        "7sketches:6.2.1:ex6.7",
+        "7sketches:6.2.1:remark6.9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:example6.2",
+      "kind": "example",
+      "number": "6.2",
+      "name": "initial objects in preorders are bottom elements",
+      "statement_summary": "In a preorder viewed as a category, an initial object is exactly a bottom element, i.e. an element below every other element. Concretely 0 is initial in the natural numbers under the usual order, while the reals under the usual order have no initial object.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:ex6.3",
+      "kind": "exercise",
+      "number": "6.3",
+      "name": "preorders on a two-element set with 0, 1 or 2 initial objects",
+      "statement_summary": "On the two-element set {a, b}, exhibit preorder relations for which the resulting category has (1) no initial object, (2) exactly one initial object, and (3) two initial objects.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.1:example6.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:example6.4",
+      "kind": "example",
+      "number": "6.4",
+      "name": "the empty set is initial in FinSet",
+      "statement_summary": "The initial object of the category FinSet of finite sets and functions is the empty set: for any finite set T there is a unique function from the empty set to T, because the empty set has no elements on which the function could differ.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:example6.5",
+      "kind": "example",
+      "number": "6.5",
+      "name": "a small category with no initial object",
+      "statement_summary": "The category with exactly two objects A, B and two distinct parallel non-identity arrows f, g : A -> B has no initial object. A fails because there are two morphisms A -> B rather than one; B fails because there are zero morphisms B -> A rather than one. Hence categories need not have initial objects.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.1:ex6.3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:ex6.6",
+      "kind": "exercise",
+      "number": "6.6",
+      "name": "initial objects in free categories on four graphs",
+      "statement_summary": "For each of four displayed graphs -- a single vertex; a three-vertex path a -> b -> c; two isolated vertices a, b; and a single vertex carrying a loop -- decide whether the free category on that graph has an initial object.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:ex6.7",
+      "kind": "exercise",
+      "number": "6.7",
+      "name": "rig homomorphisms and the initial rig",
+      "statement_summary": "Recalling rigs from Chapter 5: a rig homomorphism from (R, 0_R, +_R, 1_R, *_R) to (S, 0_S, +_S, 1_S, *_S) is a function f : R -> S with f(0_R) = 0_S and f(r1 +_R r2) = f(r1) +_S f(r2), etc. Part 1 asks the reader to guess the remaining conditions (preservation of 1 and of multiplication). Part 2 asserts that the category Rig of rigs and rig homomorphisms has an initial object and asks which object it is.",
+      "book_section": "6.2.1",
+      "book_page": "185",
+      "pdf_pages": [
+        197,
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.1:ex6.8",
+      "kind": "exercise",
+      "number": "6.8",
+      "name": "what is universal about an initial object",
+      "statement_summary": "Explain the slogan that the hallmark of universality is the existence of a unique map to any other comparable object, specifically in the setting of Definition 6.1: say what is being made universal there and which object plays the role of the 'comparable object'.",
+      "book_section": "6.2.1",
+      "book_page": "186",
+      "pdf_pages": [
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:remark6.9",
+      "kind": "remark",
+      "number": "6.9",
+      "name": "uniqueness up to unique isomorphism of universal objects",
+      "statement_summary": "One habitually speaks of 'the' object satisfying a universal property, such as 'the initial object', even though many distinct objects can satisfy the condition. This is legitimate because such objects are unique up to unique isomorphism: any two initial objects admit a canonical isomorphism between them, obtained by applying the universal property.",
+      "book_section": "6.2.1",
+      "book_page": "186",
+      "pdf_pages": [
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.1:ex6.10"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.1:ex6.10",
+      "kind": "exercise",
+      "number": "6.10",
+      "name": "canonical isomorphism between two initial objects",
+      "statement_summary": "Given a category C and two initial objects c1 and c2 of C, construct an isomorphism between them using only the universal property of Definition 6.1 (the mutually inverse unique maps c1 -> c2 and c2 -> c1, whose composites must be the identities by uniqueness).",
+      "book_section": "6.2.1",
+      "book_page": "186",
+      "pdf_pages": [
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.1:remark6.9"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.2:def6.11",
+      "kind": "definition",
+      "number": "6.11",
+      "name": "coproduct and copairing",
+      "statement_summary": "A coproduct of objects A and B of a category C is an object, denoted A + B, together with morphisms iota_A : A -> A + B and iota_B : B -> A + B, such that for every object T and every pair of morphisms f : A -> T, g : B -> T there is a unique morphism [f, g] : A + B -> T making the triangles commute, i.e. iota_A ; [f, g] = f and iota_B ; [f, g] = g. The morphism [f, g] is called the copairing of f and g. (The commuting triangle is displayed inside the box and carries the chapter number 6.12.)",
+      "book_section": "6.2.2",
+      "book_page": "186",
+      "pdf_pages": [
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:ex6.17",
+        "7sketches:6.2.2:example6.14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.2:ex6.13",
+      "kind": "exercise",
+      "number": "6.13",
+      "name": "coproducts in a preorder are joins",
+      "statement_summary": "Explain why, in a preorder viewed as a category, coproducts coincide with joins (least upper bounds).",
+      "book_section": "6.2.2",
+      "book_page": "186",
+      "pdf_pages": [
+        198
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:def6.11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.2:example6.14",
+      "kind": "example",
+      "number": "6.14",
+      "name": "coproducts in FinSet and Set are disjoint unions",
+      "statement_summary": "In FinSet and in Set the coproduct of sets A and B is their disjoint union, with the two inclusion functions as the coproduct injections. A worked picture (numbered display 6.15) exhibits the disjoint union of two concrete finite sets of fruit names. Given f : A -> T and g : B -> T, the unique copairing is computed by cases: [f, g](x) = f(a) when x is the image of a in A under the left inclusion, and g(b) when x is the image of b in B under the right inclusion; every element of the disjoint union is of exactly one of these two forms.",
+      "book_section": "6.2.2",
+      "book_page": "186",
+      "pdf_pages": [
+        198,
+        199
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:def6.11",
+        "7sketches:6.2.1:example6.4"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.2:ex6.16",
+      "kind": "exercise",
+      "number": "6.16",
+      "name": "compute a copairing on eight elements",
+      "statement_summary": "Take T to be the 26-letter alphabet and A, B the two fruit-name sets of the numbered display 6.15. With f : A -> T sending each element of A to the first letter of its label and g : B -> T sending each element of B to the last letter of its label, write out the value of the copairing [f, g](x) for all eight elements x of the disjoint union of A and B.",
+      "book_section": "6.2.2",
+      "book_page": "187",
+      "pdf_pages": [
+        199
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:example6.14",
+        "7sketches:6.2.2:def6.11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.2:ex6.17",
+      "kind": "exercise",
+      "number": "6.17",
+      "name": "the four coproduct identities",
+      "statement_summary": "Let f : A -> C, g : B -> C and h : C -> D be morphisms in a category with coproducts. Prove: (1) iota_A ; [f, g] = f; (2) iota_B ; [f, g] = g; (3) [f, g] ; h = [f ; h, g ; h] (post-composition distributes over copairing); (4) [iota_A, iota_B] = id on A + B.",
+      "book_section": "6.2.2",
+      "book_page": "187",
+      "pdf_pages": [
+        199
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:def6.11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.2:ex6.18",
+      "kind": "exercise",
+      "number": "6.18",
+      "name": "coproducts and an initial object give a symmetric monoidal structure",
+      "statement_summary": "Suppose a category C has all binary coproducts + and an initial object. The exercise develops the data showing that C with + as monoidal product and the initial object as unit is a symmetric monoidal category in the sense of Definition 4.45: (1) show + extends to a functor C x C -> C, and say how it acts on morphisms; (2) from the universal properties of the initial object and of the coproduct, construct isomorphisms A + 0 -> A and 0 + A -> A; (3) from the universal property of the coproduct, write down the associator (A + B) + C -> A + (B + C) and the symmetry A + B -> B + A, and optionally check that these are isomorphisms. The exercise stops short of verifying the coherence axioms.",
+      "book_section": "6.2.2",
+      "book_page": "187",
+      "pdf_pages": [
+        199,
+        200
+      ],
+      "cross_refs": [
+        "7sketches:6.2.2:def6.11",
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.3:def6.19",
+      "kind": "definition",
+      "number": "6.19",
+      "name": "pushout, pushout square, pushout of a morphism along another",
+      "statement_summary": "Let f : A -> X and g : A -> Y be morphisms of C with common domain. The pushout, written X +_A Y, is the colimit of that span. Spelled out, it consists of an object X +_A Y together with morphisms iota_X : X -> X +_A Y and iota_Y : Y -> X +_A Y such that (a) the square commutes, f ; iota_X = g ; iota_Y (numbered display 6.20), and (b) it is universal: for every object T and morphisms x : X -> T, y : Y -> T with f ; x = g ; y there is a unique t : X +_A Y -> T with iota_X ; t = x and iota_Y ; t = y (numbered display 6.21). Such a commuting square is drawn with a corner marker and called a pushout square; iota_X is called the pushout of g along f, and iota_Y the pushout of f along g.",
+      "book_section": "6.2.3",
+      "book_page": "188",
+      "pdf_pages": [
+        200,
+        201
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:example6.25",
+        "7sketches:6.2.4:prop6.32",
+        "7sketches:6.2.5:construction-cospan-composition"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.3:example6.22",
+      "kind": "example",
+      "number": "6.22",
+      "name": "pushouts in a preorder are joins",
+      "statement_summary": "In a preorder, the pushout of a span B <- A -> C equals the coproduct of B and C: both are the join B v C. So pushouts and coproducts coincide there.",
+      "book_section": "6.2.3",
+      "book_page": "189",
+      "pdf_pages": [
+        201
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.2:ex6.13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:example6.23",
+      "kind": "example",
+      "number": "6.23",
+      "name": "pushout along an isomorphism",
+      "statement_summary": "Let f : A -> X be any morphism and let i : A -> A' and j : X -> X' be isomorphisms. Setting f' := i^{-1} ; f ; j, the square with sides f, i, j, f' is a pushout square, so X' is a pushout X +_A A'. Proof: given any T with x : X -> T and a : A' -> T making the outer square commute, f ; x = i ; a forces the mediating morphism to be x' := j^{-1} ; x, and one computes f' ; x' = i^{-1} ; f ; j ; j^{-1} ; x = i^{-1} ; i ; a = a, so the diagram commutes and x' is unique.",
+      "book_section": "6.2.3",
+      "book_page": "189",
+      "pdf_pages": [
+        201
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:ex6.24",
+      "kind": "exercise",
+      "number": "6.24",
+      "name": "pushouts and initial objects in a discrete category",
+      "statement_summary": "For a set S let Disc_S be the discrete category with S as objects and only identity morphisms. (1) Show that all pushouts exist in Disc_S, for any S. (2) Determine for which sets S the category Disc_S has an initial object.",
+      "book_section": "6.2.3",
+      "book_page": "189",
+      "pdf_pages": [
+        201
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.1:def6.1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:example6.25",
+      "kind": "example",
+      "number": "6.25",
+      "name": "pushouts in FinSet as quotients of a disjoint union",
+      "statement_summary": "FinSet has all pushouts. The pushout of functions f : A -> X and g : A -> Y is the set of equivalence classes of the disjoint union of X and Y under the equivalence relation generated by (i.e. the reflexive, transitive, symmetric closure of) the relation f(a) ~ g(a) for a in A. Read as interconnection: each element a of A supplies a connection between f(a) in X and g(a) in Y, and the pushout is the set of connected components of the disjoint union of X and Y.",
+      "book_section": "6.2.3",
+      "book_page": "189",
+      "pdf_pages": [
+        201,
+        202
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.4:ex6.41",
+        "7sketches:6.2.4:thm6.37"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.3:ex6.26",
+      "kind": "exercise",
+      "number": "6.26",
+      "name": "compute a concrete pushout of finite sets",
+      "statement_summary": "Compute the pushout of two pictured functions f from a 4-element set to a 5-element set and g from the same 4-element set to a 3-element set, checking the answer against the connected-components description of Example 6.25.",
+      "book_section": "6.2.3",
+      "book_page": "190",
+      "pdf_pages": [
+        202
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:example6.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:example6.27",
+      "kind": "example",
+      "number": "6.27",
+      "name": "pushout over the initial object is the coproduct",
+      "statement_summary": "Let C have an initial object; then for any objects X, Y there are unique morphisms from it into X and into Y, giving a canonical span. Claim: that span has a pushout iff X and Y have a coproduct, and the two agree. Forward: if X + Y exists, the coproduct square commutes (uniqueness of maps out of the initial object) and the coproduct's universal property supplies the unique mediating map required by the pushout diagram, so X + Y is a pushout and X +_0 Y is isomorphic to X + Y. Conversely, if the pushout X +_0 Y exists it satisfies the universal property of the coproduct. Three steps are left as 'why?' questions answered in Exercise 6.28.",
+      "book_section": "6.2.3",
+      "book_page": "190",
+      "pdf_pages": [
+        202
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.2:def6.11",
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.3:ex6.28"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:ex6.28",
+      "kind": "exercise",
+      "number": "6.28",
+      "name": "justify the three steps of Example 6.27",
+      "statement_summary": "Supply justifications for the three steps marked 'why?' in Example 6.27: (1) why the canonical square over the initial object commutes; (2) why the coproduct's universal property yields the unique mediating map required by the pushout universal property; (3) why an existing pushout over the initial object satisfies the coproduct universal property.",
+      "book_section": "6.2.3",
+      "book_page": "190",
+      "pdf_pages": [
+        202
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:example6.27"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.3:example6.29",
+      "kind": "example",
+      "number": "6.29",
+      "name": "a pushout of infinite sets collapsing to a point",
+      "statement_summary": "Take A = X = Y to be the natural numbers, with f(a) = floor(a/2) and g(a) = floor((a+1)/2). For any set T and maps x : X -> T, y : Y -> T with f ; x = g ; y, one computes y(0) = y(g(0)) = x(f(0)) = x(0), then chains through f(1) = 0, g(1) = 1, g(2) = 1, f(2) = 1, and so on; by induction every element of X and every element of Y is sent to the same point. Hence the pushout is a one-element set.",
+      "book_section": "6.2.3",
+      "book_page": "190",
+      "pdf_pages": [
+        202,
+        203
+      ],
+      "cross_refs": [
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.3:example6.25"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.4:def-finite-category",
+      "kind": "definition",
+      "number": null,
+      "name": "finite category (footnote 4)",
+      "statement_summary": "Unnumbered definition made in a footnote: a category J is called finite when it has finitely many morphisms. The footnote observes that such a J then necessarily has finitely many objects too, since every object contributes its own identity morphism. This is the notion of finiteness used in Definition 6.30.",
+      "book_section": "6.2.4",
+      "book_page": "191",
+      "pdf_pages": [
+        203
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:def6.30"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.4:def6.30",
+      "kind": "definition",
+      "number": "6.30",
+      "name": "category with finite colimits",
+      "statement_summary": "A category C is said to have finite colimits when the colimit of D exists for every finite category J (finitely many morphisms) and every diagram D : J -> C. The surrounding prose recalls that a colimit of D is an initial object in the category of cocones over D, dually to a limit being a terminal object in the category of cones.",
+      "book_section": "6.2.4",
+      "book_page": "192",
+      "pdf_pages": [
+        204
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:def-finite-category",
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.4:prop6.32"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.31",
+      "kind": "example",
+      "number": "6.31",
+      "name": "an initial object is the colimit of the empty diagram",
+      "statement_summary": "The initial object of a category C, when it exists, is precisely the colimit of the unique functor from the empty category (no objects, no morphisms) into C. Indeed a cocone over that functor is just an object of C, so the initial cocone is the initial object. Since the empty category has finitely many objects (none), initial objects are finite colimits.",
+      "book_section": "6.2.4",
+      "book_page": "192",
+      "pdf_pages": [
+        204
+      ],
+      "cross_refs": [
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.4:def6.30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:prop6.32",
+      "kind": "proposition",
+      "number": "6.32",
+      "name": "generators for finite colimits",
+      "statement_summary": "For a category C the following are equivalent: (1) C has all finite colimits; (2) C has an initial object and all pushouts; (3) C has all coequalizers and all finite coproducts. The accompanying proof block gives no details, saying only that the key idea is inductive -- arbitrary finite diagrams are built from basic building blocks -- and cites Borceux [Bor94, Prop. 2.8.2] for the full argument.",
+      "book_section": "6.2.4",
+      "book_page": "192",
+      "pdf_pages": [
+        204
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:def6.30",
+        "7sketches:6.2.1:def6.1",
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.4:cor6.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.33",
+      "kind": "example",
+      "number": "6.33",
+      "name": "a finite colimit computed as an iterated pushout",
+      "statement_summary": "Let C have all pushouts, and consider the finite diagram (numbered display 6.34) with arrows B -> Z, A -> C and A -> D. The example spots two spans ready to be pushed out, takes those pushouts to obtain intermediate objects, then spots a further pushout square and takes it again, producing an object S together with morphisms from every object of the original diagram. It is claimed (verification deferred to Exercise 6.35) that S with those morphisms has the correct universal property and is therefore the colimit of the original diagram -- illustrating the inductive reduction underlying Proposition 6.32.",
+      "book_section": "6.2.4",
+      "book_page": "192",
+      "pdf_pages": [
+        204,
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:prop6.32",
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.4:ex6.35"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.4:ex6.35",
+      "kind": "exercise",
+      "number": "6.35",
+      "name": "verify the pushout-of-pushouts is the colimit",
+      "statement_summary": "Check that the object obtained in Example 6.33 by taking pushouts of pushouts satisfies the universal property of the colimit of the original diagram (numbered display 6.34).",
+      "book_section": "6.2.4",
+      "book_page": "193",
+      "pdf_pages": [
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:example6.33"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:cor6.36",
+      "kind": "corollary",
+      "number": "6.36",
+      "name": "FinSet and Set have all finite colimits",
+      "statement_summary": "The categories FinSet and Set have all finite colimits. This follows from Proposition 6.32 clause (2), since both have already been shown to have an initial object (the empty set) and all pushouts (quotients of disjoint unions).",
+      "book_section": "6.2.4",
+      "book_page": "193",
+      "pdf_pages": [
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:prop6.32",
+        "7sketches:6.2.1:example6.4",
+        "7sketches:6.2.3:example6.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:thm6.37",
+      "kind": "theorem",
+      "number": "6.37",
+      "name": "formula for finite colimits in Set",
+      "statement_summary": "Let J be a category presented by a finite graph (V, A, s, t) together with some equations, and let D : J -> Set be a diagram. Form the set of pairs (v, d) with v a vertex of V and d an element of D(v), and quotient by the equivalence relation generated by declaring (v, d) ~ (w, e) whenever there is an arrow a : v -> w in the graph with D(a)(d) = e. Then this quotient set, together with the functions from D(v) into it sending each element to its equivalence class, is a colimit of D. Dually to the earlier finite-limit formula (a limit is a subset of a product), a finite colimit is a quotient of a coproduct.",
+      "book_section": "6.2.4",
+      "book_page": "193",
+      "pdf_pages": [
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:example6.38",
+        "7sketches:6.2.4:example6.39",
+        "7sketches:6.2.4:example6.40",
+        "7sketches:6.2.4:ex6.41"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.38",
+      "kind": "example",
+      "number": "6.38",
+      "name": "the formula on the empty graph gives the empty set",
+      "statement_summary": "Since an initial object is the colimit over the empty graph, the formula of Theorem 6.37 has no vertices to range over, so the resulting set of pairs is empty: the initial object of Set is the empty set.",
+      "book_section": "6.2.4",
+      "book_page": "193",
+      "pdf_pages": [
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:thm6.37",
+        "7sketches:6.2.4:example6.31"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.39",
+      "kind": "example",
+      "number": "6.39",
+      "name": "the formula on a two-vertex discrete graph gives the disjoint union",
+      "statement_summary": "A coproduct is a colimit over the graph with two vertices and no arrows. A diagram on it is a choice of two sets X and Y. Since there are no arrows, the equivalence relation of Theorem 6.37 is vacuous, so the colimit is the set of pairs (v, d) with d in D(v) for v either vertex, i.e. the disjoint union of X and Y, as expected.",
+      "book_section": "6.2.4",
+      "book_page": "193",
+      "pdf_pages": [
+        205
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:thm6.37",
+        "7sketches:6.2.2:example6.14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.40",
+      "kind": "example",
+      "number": "6.40",
+      "name": "the colimit of a one-object diagram",
+      "statement_summary": "For J the terminal category (one object, only its identity), the formula of Theorem 6.37 gives the set of pairs (v, d) with d in D(v), which is isomorphic to D(v). So a set X regarded as a diagram from the one-object category into Set has X as its colimit, just as it has X as its limit.",
+      "book_section": "6.2.4",
+      "book_page": "194",
+      "pdf_pages": [
+        206
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:thm6.37"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:ex6.41",
+      "kind": "exercise",
+      "number": "6.41",
+      "name": "recover the pushout description from the colimit formula",
+      "statement_summary": "Use the formula of Theorem 6.37 to show that colimits over a span X <- N -> Y, i.e. pushouts, agree with the quotient-of-disjoint-union description given in Example 6.25.",
+      "book_section": "6.2.4",
+      "book_page": "194",
+      "pdf_pages": [
+        206
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:thm6.37",
+        "7sketches:6.2.3:example6.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.4:example6.42",
+      "kind": "example",
+      "number": "6.42",
+      "name": "coequalizers, and the light-switch interconnection as a coequalizer",
+      "statement_summary": "The coequalizer is another important finite colimit: it is the colimit over the graph consisting of two vertices and two parallel arrows between them. For a diagram f, g : X -> Y in Set, the coequalizer is the set of equivalence classes of Y under the equivalence relation generated by y ~ y' whenever there is x in X with f(x) = y and g(x) = y'. Applied to the introductory circuit picture, with X the set of white 'connect these two' circles and Y the set of black ports, the two families of arrows define functions f, g : X -> Y and their coequalizer is a three-element set -- one element per newly connected group of ports. Thus the colimit computes the set of terminals resulting from the interconnection (the circuit components themselves are tracked later, in section 6.4).",
+      "book_section": "6.2.4",
+      "book_page": "194",
+      "pdf_pages": [
+        206
+      ],
+      "cross_refs": [
+        "7sketches:6.2.4:prop6.32",
+        "7sketches:6.2.4:thm6.37"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.5:def6.43",
+      "kind": "definition",
+      "number": "6.43",
+      "name": "cospan, apex, feet",
+      "statement_summary": "A cospan in a category C is a pair of morphisms into a common object, A -> N <- B. The common codomain N is called the apex of the cospan and the two other objects A and B are called its feet.",
+      "book_section": "6.2.5",
+      "book_page": "194",
+      "pdf_pages": [
+        206
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.5:construction-cospan-composition"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.5:construction-cospan-composition",
+      "kind": "construction",
+      "number": null,
+      "name": "composition of cospans by pushout, and the identity cospan",
+      "statement_summary": "Unnumbered construction developed in running prose. Given cospans A -f-> N <-g- B and B -h-> P <-k- C whose middle feet agree, juxtapose them and, provided the pushout of N <-g- B -h-> P exists in C, form N +_B P with injections iota_N, iota_P; the composite cospan is A -(f;iota_N)-> N +_B P <-(k;iota_P)- C (numbered display 6.44). The identity on an object C is the cospan C -> C <- C with both legs the identity. The prose notes two obstructions to this making a category on the nose: C may lack the needed pushouts, and pushouts are determined only up to isomorphism -- resolved respectively by requiring finite colimits and by quotienting (see the cospan-equivalence definition and Definition 6.45).",
+      "book_section": "6.2.5",
+      "book_page": "195",
+      "pdf_pages": [
+        207
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:def6.43",
+        "7sketches:6.2.3:def6.19",
+        "7sketches:6.2.5:def-cospan-equivalence",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.5:def-cospan-equivalence",
+      "kind": "definition",
+      "number": null,
+      "name": "equivalence of cospans",
+      "statement_summary": "Unnumbered definition made in running prose. Two cospans A -> P <- B and A -> P' <- B with the same feet are defined to be equivalent when there exists an isomorphism P -> P' between their apexes that commutes with both legs on each side. This quotient is imposed precisely because a pushout is determined only up to isomorphism, so that all admissible choices of composite count as the same morphism.",
+      "book_section": "6.2.5",
+      "book_page": "195",
+      "pdf_pages": [
+        207
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:def6.43",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.5:def6.45",
+      "kind": "definition",
+      "number": "6.45",
+      "name": "the symmetric monoidal category Cospan_C",
+      "statement_summary": "Let C be a category with finite colimits. Then there is a category Cospan_C with the same objects as C, whose morphisms A -> B are the equivalence classes of cospans from A to B, with composition given by the pushout construction. Moreover Cospan_C carries a symmetric monoidal structure whose unit is the initial object of C and whose monoidal product is the coproduct of C, with coherence isomorphisms (e.g. A + 0 isomorphic to A) built as in Exercise 6.18. The following prose asserts, without proof, that these data do satisfy all the symmetric monoidal axioms -- 'a straightforward but time-consuming exercise'.",
+      "book_section": "6.2.5",
+      "book_page": "196",
+      "pdf_pages": [
+        208
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:def6.43",
+        "7sketches:6.2.5:construction-cospan-composition",
+        "7sketches:6.2.5:def-cospan-equivalence",
+        "7sketches:6.2.2:ex6.18",
+        "7sketches:6.2.4:def6.30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.5:example6.46",
+      "kind": "example",
+      "number": "6.46",
+      "name": "Cospan_FinSet and its wire picture",
+      "statement_summary": "Since FinSet has finite colimits (Corollary 6.36), Definition 6.45 yields the symmetric monoidal category Cospan_FinSet: objects are finite sets, morphisms are (equivalence classes of) cospans of functions A -> N <- B. Two depictions are given: an arrow depiction drawing an arrow from each element of A to its image in N and from each element of B to its image in N; and a wire depiction where arrows become wires, the intermediate dots are erased, and a dotted contour is drawn around each connected group of ports -- emphasising that a cospan records which ports are connected, i.e. lie in the same equivalence class. Composition is pushout (numbered display 6.47) and the monoidal product is disjoint union of cospans, drawn as stacking one cospan above another.",
+      "book_section": "6.2.5",
+      "book_page": "196",
+      "pdf_pages": [
+        208,
+        209
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.4:cor6.36",
+        "7sketches:6.3.1:thm6.58"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.2.5:ex6.48",
+      "kind": "exercise",
+      "number": "6.48",
+      "name": "draw a monoidal product of cospans",
+      "statement_summary": "The numbered display 6.47 exhibits morphisms A -> B and B -> C in Cospan_FinSet. Draw their monoidal product as a single morphism A + B -> B + C in Cospan_FinSet.",
+      "book_section": "6.2.5",
+      "book_page": "197",
+      "pdf_pages": [
+        209
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:example6.46",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.2.5:ex6.49",
+      "kind": "exercise",
+      "number": "6.49",
+      "name": "the composition rule of Cospan_FinSet in terms of connected components",
+      "statement_summary": "Compare the arrow-notation composite of the numbered display 6.47 with its wire-notation depiction (numbered display 6.50) and describe the composition rule of Cospan_FinSet in terms of wires and connected components -- namely that composing glues the two wire pictures along the shared middle foot and takes connected components of the result.",
+      "book_section": "6.2.5",
+      "book_page": "197",
+      "pdf_pages": [
+        209
+      ],
+      "cross_refs": [
+        "7sketches:6.2.5:example6.46",
+        "7sketches:6.2.3:example6.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.1:def-cocommutative-comonoid",
+      "kind": "definition",
+      "number": null,
+      "name": "cocommutative comonoid in a symmetric monoidal category",
+      "statement_summary": "Unnumbered definition made in running prose. Having recalled that a commutative monoid (X, mu, eta) in a symmetric monoidal category consists of mu : X (x) X -> X and eta : I -> X obeying associativity, unitality and commutativity (the string diagrams of numbered display 6.51), the text defines dually: a cocommutative comonoid (X, delta, epsilon) is an object X with maps delta : X -> X (x) X and epsilon : X -> I obeying the mirror images of those same three laws, i.e. coassociativity, counitality and cocommutativity. This notion is presupposed by Definition 6.52.",
+      "book_section": "6.3.1",
+      "book_page": "198",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def6.52"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "7sketches:6.3.1:def6.52",
+      "kind": "definition",
+      "number": "6.52",
+      "name": "Frobenius structure; special commutative Frobenius monoid",
+      "statement_summary": "Let X be an object of a symmetric monoidal category (C, (x), I). A Frobenius structure on X is a 4-tuple (mu, eta, delta, epsilon) such that (X, mu, eta) is a commutative monoid and (X, delta, epsilon) is a cocommutative comonoid -- six equations: associativity, unitality, commutativity and their three duals -- and which additionally satisfies three further equations displayed in string-diagram form (numbered display 6.53): the two Frobenius laws, saying that the three ways of drawing a comultiplication-then-multiplication (the 'S', the 'X'/two-legged form, and the 'Z') agree, and the special law, saying that comultiplying and then multiplying is the identity on X. Nine equations in all. An object equipped with such a structure is called a special commutative Frobenius monoid, or just Frobenius monoid for short.",
+      "book_section": "6.3.1",
+      "book_page": "198",
+      "pdf_pages": [
+        210
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def-cocommutative-comonoid",
+        "7sketches:6.3.1:def6.54",
+        "7sketches:6.3.1:thm6.58",
+        "7sketches:6.3.3:def6.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.1:def6.54",
+      "kind": "definition",
+      "number": "6.54",
+      "name": "spider s_{m,n}",
+      "statement_summary": "Let (X, mu, eta, delta, epsilon) be a Frobenius monoid in a monoidal category (C, I, (x)) and let m, n be natural numbers. The spider of type (m, n) is the morphism s_{m,n} from the m-fold monoidal power of X to the n-fold monoidal power of X obtained by composing (m - 1) multiplications mu -- folding the m input wires into one -- followed by (n - 1) comultiplications delta -- splitting that wire into n outputs -- with the special cases m = 0 (use eta) and n = 0 (use epsilon). It is drawn as a single icon with m legs on the left and n legs on the right.",
+      "book_section": "6.3.1",
+      "book_page": "199",
+      "pdf_pages": [
+        211
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def6.52",
+        "7sketches:6.3.1:thm6.55"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.1:thm6.55",
+      "kind": "theorem",
+      "number": "6.55",
+      "name": "spider theorem (connected diagrams of Frobenius generators are spiders)",
+      "statement_summary": "Let (X, mu, eta, delta, epsilon) be a Frobenius monoid in a monoidal category (C, I, (x)). Suppose f is a morphism from the m-fold to the n-fold monoidal power of X, built purely from spiders and the symmetry map on X (x) X using composition and the monoidal product, and suppose the string diagram of f has only one connected component. Then f is the spider of type (m, n): f = s_{m,n}. In other words two such morphisms are equal exactly when their string diagrams connect the same ports; connectivity is the only invariant.",
+      "book_section": "6.3.1",
+      "book_page": "199",
+      "pdf_pages": [
+        211
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def6.54",
+        "7sketches:6.3.1:def6.52",
+        "7sketches:6.3.1:example6.56"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.1:example6.56",
+      "kind": "example",
+      "number": "6.56",
+      "name": "two connected spider diagrams are equal",
+      "statement_summary": "Two displayed string-diagram morphisms are equal by Theorem 6.55, since they (i) have the same numbers of inputs and outputs, (ii) are constructed only from spiders, and (iii) are connected.",
+      "book_section": "6.3.1",
+      "book_page": "199",
+      "pdf_pages": [
+        211
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:thm6.55"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.1:ex6.57",
+      "kind": "exercise",
+      "number": "6.57",
+      "name": "which Frobenius string diagrams X (x) X -> X (x) X (x) X are equal",
+      "statement_summary": "Let X be an object equipped with a Frobenius structure. Six string diagrams are displayed, each presented as a morphism from X (x) X to X (x) X (x) X built from the Frobenius generators and the symmetry; decide which of them are necessarily equal. The intended tool is Theorem 6.55 -- equality is decided by whether the diagrams have the same connectivity between ports.",
+      "book_section": "6.3.1",
+      "book_page": "199",
+      "pdf_pages": [
+        211,
+        212
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:thm6.55",
+        "7sketches:6.3.1:def6.52"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.3.1:thm6.58",
+      "kind": "theorem",
+      "number": "6.58",
+      "name": "the free Frobenius prop is Cospan_FinSet",
+      "statement_summary": "Let G be the four-element generating set {mu, eta, delta, epsilon} with arities in(mu) = 2, out(mu) = 1; in(eta) = 0, out(eta) = 1; in(delta) = 1, out(delta) = 2; in(epsilon) = 1, out(epsilon) = 0. Let E be the set of Frobenius axioms, i.e. the nine equations of Definition 6.52. Then the free prop on the presentation (G, E) is equivalent, as a symmetric monoidal category, to Cospan_FinSet. A footnote inside the box declines to define 'equivalent as a symmetric monoidal category' precisely, glossing it as sameness for all category-theoretic purposes, analogous to equivalence of categories.",
+      "book_section": "6.3.1",
+      "book_page": "200",
+      "pdf_pages": [
+        212
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def6.52",
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.5:example6.46"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.2:ex6.59",
+      "kind": "exercise",
+      "number": "6.59",
+      "name": "infer wire labels in a hypergraph wiring diagram",
+      "statement_summary": "For the displayed hypergraph-category wiring diagram (boxes f, g, h inside an outer box, with wires that split, join, terminate and initialise, and with most object labels suppressed), determine (1) the label on the input wire to h, (2) the label on the output wire of g, and (3) the label on the fourth output wire of the composite -- all inferrable from the labels shown.",
+      "book_section": "6.3.2",
+      "book_page": "201",
+      "pdf_pages": [
+        213
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:def6.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:def6.60",
+      "kind": "definition",
+      "number": "6.60",
+      "name": "hypergraph category",
+      "statement_summary": "A hypergraph category is a symmetric monoidal category (C, I, (x)) in which every object X is equipped with a Frobenius structure (mu_X, delta_X, eta_X, epsilon_X) in the sense of Definition 6.52, subject to a compatibility with the monoidal product: for all objects X and Y, the four Frobenius maps on X (x) Y are the evident ones assembled from those on X and on Y using the symmetry -- multiplication on X (x) Y is the middle-four interchange followed by mu_X (x) mu_Y, comultiplication on X (x) Y is delta_X (x) delta_Y followed by the interchange, the unit on X (x) Y is eta_X (x) eta_Y and the counit is epsilon_X (x) epsilon_Y (the four conditions are displayed as string-diagram equations). It is further required that eta_I = id_I = epsilon_I on the monoidal unit. (The definition's shaded box begins on printed page 201 and its four displayed equations and closing clause occupy printed page 202.)",
+      "book_section": "6.3.3",
+      "book_page": "201",
+      "pdf_pages": [
+        213,
+        214
+      ],
+      "cross_refs": [
+        "7sketches:6.3.1:def6.52",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.3.3:def-hypergraph-prop",
+      "kind": "definition",
+      "number": null,
+      "name": "hypergraph prop",
+      "statement_summary": "Unnumbered one-sentence definition made in running prose immediately after Definition 6.60: a hypergraph prop is a hypergraph category that is at the same time a prop, i.e. whose object monoid is the natural numbers under addition (Ob(C) = N, monoidal unit 0, monoidal product + on objects), so that every object is an iterated monoidal power of the single generating object 1 while every object still carries the special commutative Frobenius structure required by Definition 6.60 (compatible with the monoidal product). The term is not restated later but is the right-hand side of Proposition 6.101.",
+      "book_section": "6.3.3",
+      "book_page": "202",
+      "pdf_pages": [
+        214
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:def6.60",
+        "7sketches:5.2.1:def5.2",
+        "7sketches:6.5.3:prop6.101"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "7sketches:6.3.3:example6.61",
+      "kind": "example",
+      "number": "6.61",
+      "name": "Cospan_C is a hypergraph category",
+      "statement_summary": "Claim: for any category C with finite colimits, the symmetric monoidal category Cospan_C of (equivalence classes of) cospans in C is a hypergraph category. The witnessing Frobenius structure on each object X is built purely from the universal properties of the colimits involved: the multiplication mu_X is the cospan X + X --[id_X,id_X]--> X <--id_X-- X (copairing of two identities on the left leg); the unit eta_X is the cospan 0 --!_X--> X <--id_X-- X (unique map out of the initial object on the left leg); the comultiplication delta_X is X --id_X--> X <--[id_X,id_X]-- X + X; and the counit epsilon_X is X --id_X--> X <--!_X-- 0. No proof of the Frobenius, commutativity, speciality or monoidal-compatibility axioms is given here (speciality is set as Exercise 6.63).",
+      "book_section": "6.3.3",
+      "book_page": "202",
+      "pdf_pages": [
+        214
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:def6.60",
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.3.3:ex6.63"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:ex6.62",
+      "kind": "exercise",
+      "number": "6.62",
+      "name": "draw the Frobenius maps of the object 1 in Cospan_FinSet",
+      "statement_summary": "Given (from Example 6.61) that Cospan_FinSet is a hypergraph category, and remarking parenthetically that it is in fact equivalent to a hypergraph prop, the task is to draw the four Frobenius morphisms mu, delta, eta, epsilon for the one-element object 1 of Cospan_FinSet, in both of the two depictions used in Example 6.46: the 'function' depiction (dots for elements of the three sets with arrows for the two cospan legs) and the 'wiring' depiction (wires joining ports, with connected ports circled).",
+      "book_section": "6.3.3",
+      "book_page": "202",
+      "pdf_pages": [
+        214
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:example6.61",
+        "7sketches:6.2.5:example6.46",
+        "7sketches:6.3.3:def-hypergraph-prop"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:ex6.63",
+      "kind": "exercise",
+      "number": "6.63",
+      "name": "the Cospan_C Frobenius maps obey the special law",
+      "statement_summary": "Using the universal properties of colimits, prove that the four cospan-valued maps mu_X, delta_X, eta_X, epsilon_X defined in Example 6.61 satisfy the special law of Definition 6.52 (comultiplication followed by multiplication is the identity, delta_X ; mu_X = id_X). Concretely this amounts to computing the pushout of X + X --[id,id]--> X <--[id,id]-- X + X and checking the resulting cospan is equivalent to the identity cospan on X.",
+      "book_section": "6.3.3",
+      "book_page": "202",
+      "pdf_pages": [
+        214
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:example6.61",
+        "7sketches:6.3.1:def6.52",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:example6.64",
+      "kind": "example",
+      "number": "6.64",
+      "name": "Corel is a hypergraph category",
+      "statement_summary": "In the monoidal category (Corel, empty set, disjoint union) of finite sets and corelations (Example 4.61), every object X is given a special commutative Frobenius monoid. mu_X : X u X -> X is the corelation whose partition of the three-fold disjoint union X u X u X (domain plus codomain) identifies exactly those elements arising from the same underlying element of X; delta_X : X -> X u X is defined in the same way; eta_X : empty -> X and epsilon_X : X -> empty are the corelations on empty u X = X = X u empty in which no two distinct elements are identified. Claim: (X, mu_X, eta_X, delta_X, epsilon_X) is a special commutative Frobenius monoid, and these structures make Corel a hypergraph category (satisfying the monoidal-compatibility clauses of Definition 6.60). No proof given.",
+      "book_section": "6.3.3",
+      "book_page": "202",
+      "pdf_pages": [
+        214,
+        215
+      ],
+      "cross_refs": [
+        "7sketches:4.5.1:example4.61",
+        "7sketches:6.3.3:def6.60"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.3.3:example6.65",
+      "kind": "example",
+      "number": "6.65",
+      "name": "linear relations form a hypergraph category in two ways",
+      "statement_summary": "The prop of linear relations (introduced in passing in Exercise 5.84) is a hypergraph category, and in fact carries two distinct hypergraph structures on the same underlying symmetric monoidal category: one may take either the black 'copy' and 'discard' generators, or the white 'add' and 'zero' generators, as the Frobenius maps delta/epsilon and mu/eta. Illustrates that a hypergraph structure is extra data rather than a property. No proof given.",
+      "book_section": "6.3.3",
+      "book_page": "203",
+      "pdf_pages": [
+        215
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:ex5.84",
+        "7sketches:6.3.3:def6.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:prop6.66",
+      "kind": "proposition",
+      "number": "6.66",
+      "name": "hypergraph categories are self-dual compact closed",
+      "statement_summary": "Every hypergraph category is a compact closed category in which every object is its own dual, provided the cup (unit) I -> X (x) X is defined as the unit eta_X followed by the comultiplication delta_X, and the cap (counit) X (x) X -> I as the multiplication mu_X followed by the counit epsilon_X. Proof given diagrammatically in three steps: expand both cup and cap by these definitions; apply the Frobenius law to the middle of the resulting string diagram (this step is left as Exercise 6.67); then apply unitality to collapse to a bare wire, i.e. the snake/zig-zag equation holds. Generalizes the compact-closedness construction of Theorem 5.87.",
+      "book_section": "6.3.3",
+      "book_page": "203",
+      "pdf_pages": [
+        215
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:def6.60",
+        "7sketches:6.3.3:ex6.67",
+        "7sketches:5.4.3:thm5.87"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.3.3:ex6.67",
+      "kind": "exercise",
+      "number": "6.67",
+      "name": "fill in the middle step of the proof of Proposition 6.66",
+      "statement_summary": "Supply the string diagram left blank in the middle of the proof of Proposition 6.66 (the step labelled 'Frobenius'), deriving it from the Frobenius equations displayed as Eq. (6.51) in section 6.3.1, from their mirror images (opposites), and from Eq. (6.53).",
+      "book_section": "6.3.3",
+      "book_page": "203",
+      "pdf_pages": [
+        215
+      ],
+      "cross_refs": [
+        "7sketches:6.3.3:prop6.66"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.1:def6.68",
+      "kind": "rough-definition",
+      "number": "6.68",
+      "name": "symmetric monoidal functor",
+      "statement_summary": "A 'Rough Definition' header (informal, boxed like a Definition). Let (C, I_C, (x)_C) and (D, I_D, (x)_D) be symmetric monoidal categories. To specify a symmetric monoidal functor (F, phi) from C to D one gives: (i) an ordinary functor F : C -> D; (ii) a morphism phi_I : I_D -> F(I_C) in D; (iii) for every pair of objects c1, c2 of C a morphism phi_{c1,c2} : F(c1) (x)_D F(c2) -> F(c1 (x)_C c2), natural in c1 and c2. The maps phi are called coherence maps and are required to satisfy (unstated, 'bookkeeping') axioms making them compatible with the associators, unitors and symmetries of the two symmetric monoidal structures. If phi_I and every phi_{c1,c2} is an isomorphism, (F, phi) is called strong. Note the direction: the structure maps point INTO F of the tensor, i.e. this is a lax monoidal functor.",
+      "book_section": "6.4.1",
+      "book_page": "204",
+      "pdf_pages": [
+        216
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.1:example6.69",
+      "kind": "example",
+      "number": "6.69",
+      "name": "the power set functor as a symmetric monoidal functor",
+      "statement_summary": "The power set functor P : Set -> Set sends a set S to P(S) := {R subset of S} and a function f : S -> T to the image map im_f : P(S) -> P(T), R |-> {f(r) | r in R}. Equipping Set with the cartesian symmetric monoidal structure ({1}, x) of Example 4.49, define phi_I : {1} -> P({1}) picking out the maximal subset {1} of {1}, and for sets S, T define phi_{S,T} : P(S) x P(T) -> P(S x T) by (A, B) |-> A x B, a subset of S x T. Claim: with these coherence maps (P, phi) is a symmetric monoidal functor (naturality of phi is deferred to Exercise 6.70). Note that phi_{S,T} is not an isomorphism, so (P, phi) is lax but not strong.",
+      "book_section": "6.4.1",
+      "book_page": "204",
+      "pdf_pages": [
+        216
+      ],
+      "cross_refs": [
+        "7sketches:6.4.1:def6.68",
+        "7sketches:4.4.3:example4.49",
+        "7sketches:6.4.1:ex6.70"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.1:ex6.70",
+      "kind": "exercise",
+      "number": "6.70",
+      "name": "naturality of the power-set coherence maps",
+      "statement_summary": "Check that the coherence maps phi_{S,T} of Example 6.69 are natural in S and in T: given functions f : S -> S' and g : T -> T', show that the square with top edge phi_{S,T} : P(S) x P(T) -> P(S x T), left edge im_f x im_g : P(S) x P(T) -> P(S') x P(T'), right edge im_{f x g} : P(S x T) -> P(S' x T'), and bottom edge phi_{S',T'} : P(S') x P(T') -> P(S' x T') commutes.",
+      "book_section": "6.4.1",
+      "book_page": "204",
+      "pdf_pages": [
+        216
+      ],
+      "cross_refs": [
+        "7sketches:6.4.1:example6.69"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.2:def6.75",
+      "kind": "definition",
+      "number": "6.75",
+      "name": "F-decorated cospan, decoration functor, decoration",
+      "statement_summary": "Let C be a category with finite colimits and let (F, phi) : (C, +) -> (Set, x) be a symmetric monoidal functor from C with its coproduct monoidal structure to the category of sets with cartesian product. An F-decorated cospan is a pair consisting of a cospan A --i--> N <--o-- B in C together with an element s in F(N) (an element of the decorating set attached to the apex). The functor (F, phi) is called the decoration functor and s the decoration. Footnote 5 records that, as in Definition 6.45, one should technically use equivalence classes of cospans; the text elides this and refers the reader to section 6.6.",
+      "book_section": "6.4.2",
+      "book_page": "206",
+      "pdf_pages": [
+        218
+      ],
+      "cross_refs": [
+        "7sketches:6.4.1:def6.68",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.2:eq6.76",
+      "kind": "equation",
+      "number": "6.76",
+      "name": "composition rule for decorated cospans",
+      "statement_summary": "Recorded as an equation item because this numbered display sits in running prose inside no named environment, supplies the composition law that Definition 6.75 does not state, and is later cited by number when composing electric circuits. Given F-decorated cospans (A --f--> N <--g-- B, s) and (B --h--> P <--k-- C, t), their composite is the pushout-composed cospan A --f;iota_N--> N +_B P <--k;iota_P-- C of Definition 6.45, decorated by the element F([iota_N, iota_P])(phi_{N,P}(s, t)) of F(N +_B P). That is: first combine the two decorations using the coherence map phi_{N,P} : F(N) x F(P) -> F(N + P) of the decoration functor, then push the result forward along F applied to the copairing [iota_N, iota_P] : N + P -> N +_B P of the two pushout inclusions.",
+      "book_section": "6.4.2",
+      "book_page": "207",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:def6.75",
+        "7sketches:6.4.1:def6.68",
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.2:example6.14"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.2:thm6.77",
+      "kind": "theorem",
+      "number": "6.77",
+      "name": "decorated cospans form a hypergraph category Cospan_F",
+      "statement_summary": "Given a category C with finite colimits and a symmetric monoidal functor (F, phi) : (C, +) -> (Set, x), there is a hypergraph category Cospan_F whose objects are exactly the objects of C and whose morphisms A -> B are the equivalence classes of F-decorated cospans from A to B, composed by the rule of Eq. (6.76). Its symmetric monoidal structure and its hypergraph (Frobenius) structure are induced by those of Cospan_C (Example 6.61). Stated without proof.",
+      "book_section": "6.4.2",
+      "book_page": "207",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:def6.75",
+        "7sketches:6.4.2:eq6.76",
+        "7sketches:6.3.3:example6.61",
+        "7sketches:6.3.3:def6.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.2:ex6.78",
+      "kind": "exercise",
+      "number": "6.78",
+      "name": "Cospan_C is the constant-decoration special case of Cospan_F",
+      "statement_summary": "An expert claims that the two similar-looking notations Cospan_C (cospans in C) and Cospan_F (F-decorated cospans) are not so different, one being a special case of the other, and that one should 'just use the constant functor F(c) := {*}'. Explain what is meant. (Expected content: the constant functor at a one-element set is symmetric monoidal, every apex then has exactly one decoration, so Cospan_F is isomorphic to Cospan_C and the theorem specialises to Example 6.61.)",
+      "book_section": "6.4.2",
+      "book_page": "207",
+      "pdf_pages": [
+        219
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:thm6.77",
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.3.3:example6.61"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:def-c-circuit",
+      "kind": "definition",
+      "number": null,
+      "name": "the component set C and C-circuits",
+      "statement_summary": "Unnumbered definitions made in running prose under the bold run-in lead \"Let's build some circuits\". First a set of circuit components is fixed: C := {light, switch, battery} u {x Ohm | x in R+}, remarked to be isomorphic to {light, switch, battery} u R+ (the Ohm symbols are only labels). Then, for any such set C, a C-circuit is defined to be a graph (V, A, s, t) - a set V of vertices (nodes), a set A of edges, and source and target functions s, t : A -> V - together with a labelling function l : A -> C assigning a circuit component to each edge. A C-circuit is thus a 5-tuple (V, A, s, t, l). Worked instance: V = {1, 2}, A = {e}, s(e) = 1, t(e) = 2, l(e) = 3 Ohm is a single 3-ohm resistor between nodes 1 and 2. The text notes the encoding is not unique - reversing an edge (s(e) = 2, t(e) = 1) represents the same physical circuit - so distinct tuples can denote one circuit.",
+      "book_section": "6.4.3",
+      "book_page": "207",
+      "pdf_pages": [
+        219,
+        220
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:ex6.79"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "unnumbered-definition",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.79",
+      "kind": "exercise",
+      "number": "6.79",
+      "name": "encode the running example circuit as a tuple",
+      "statement_summary": "Write down a tuple (V, A, s, t, l) - a C-circuit in the sense just defined - that represents the bridge-like circuit displayed as Eq. (6.71) (four nodes; a 2-ohm resistor and a 3-farad capacitor in parallel across the top, a 1-ohm resistor on each side, a 1-henry inductor across the bottom).",
+      "book_section": "6.4.3",
+      "book_page": "208",
+      "pdf_pages": [
+        220
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:def-c-circuit"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:construction-circ",
+      "kind": "construction",
+      "number": null,
+      "name": "the circuit decoration functor (Circ, psi) : (FinSet, +) -> (Set, x)",
+      "statement_summary": "Unnumbered construction developed in prose under the bold run-in lead 'A decoration functor for circuits', supplying the concrete instance of the decoration functor of Definition 6.75. On objects: Circ sends a finite set V to the set of all C-circuits with vertex set V, Circ(V) := {(V, A, s, t, l) | s, t : A -> V, l : A -> C}. On morphisms: a function f : V -> V' is sent to Circ(f) : Circ(V) -> Circ(V'), (V, A, s, t, l) |-> (V', A, s ; f, t ; f, l), i.e. the edges and their labels are kept and their endpoints relabelled along f (so f may merge nodes). This is asserted to be a functor. The coherence maps are given by the numbered display (6.81): psi_{V,V'} : Circ(V) x Circ(V') -> Circ(V + V'), ((V, A, s, t, l), (V', A', s', t', l')) |-> (V + V', A + A', s + s', t + t', [l, l']) - put the two circuits side by side as a single circuit on the disjoint union of their vertex sets, with edge set the disjoint union and labelling the copairing of the two labellings. Together (Circ, psi) is a symmetric monoidal functor (FinSet, +) -> (Set, x), the input required by Theorem 6.77.",
+      "book_section": "6.4.3",
+      "book_page": "208",
+      "pdf_pages": [
+        220
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:def6.75",
+        "7sketches:6.4.1:def6.68",
+        "7sketches:6.4.3:def-c-circuit",
+        "7sketches:6.4.2:thm6.77"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "number-6.81-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.80",
+      "kind": "exercise",
+      "number": "6.80",
+      "name": "compute Circ(f)(c) for a node-merging function",
+      "statement_summary": "Let c be the element of Circ(4) consisting of a lightbulb edge between nodes 1 and 2 together with a 3-ohm resistor edge between nodes 3 and 4, and let f : 4 -> 3 be the function with f(1) = 1, f(2) = 2, f(3) = 2, f(4) = 3. Draw a picture of the circuit Circ(f)(c) in Circ(3) (i.e. apply the morphism part of the decoration functor, which merges nodes 2 and 3).",
+      "book_section": "6.4.3",
+      "book_page": "208",
+      "pdf_pages": [
+        220
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:construction-circ"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.82",
+      "kind": "exercise",
+      "number": "6.82",
+      "name": "compute the coherence map psi on two two-node circuits",
+      "statement_summary": "Let b be the circuit in Circ(2) consisting of a battery edge between the two nodes, and let s be the circuit in Circ(2) consisting of a switch edge between the two nodes. Using the definition of psi_{V,V'} given in the display (6.81), determine and draw the four-vertex circuit psi_{2,2}(b, s) in Circ(2 + 2) = Circ(4). (Expected answer: the disjoint circuit with a battery between nodes 1 and 2 and a switch between nodes 3 and 4.)",
+      "book_section": "6.4.3",
+      "book_page": "208",
+      "pdf_pages": [
+        220
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:construction-circ"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:construction-cospan-circ",
+      "kind": "construction",
+      "number": null,
+      "name": "Cospan_Circ, the hypergraph category of open electric circuits",
+      "statement_summary": "Unnumbered construction developed in prose under the bold run-in leads 'Open circuits using decorated cospans', 'Composition in Cospan_Circ' and 'Monoidal products in Cospan_Circ'. Feeding the decoration functor (Circ, psi) into Theorem 6.77 produces the promised hypergraph category Cospan_Circ of open circuits. Objects: the objects of FinSet, i.e. finite sets, drawn as collections of white circles marking the interface points of an open circuit. Morphisms m -> n: Circ-decorated cospans, i.e. a cospan m --i1--> p <--i2-- n of finite sets together with an element c of Circ(p), a C-circuit on the apex nodes; e.g. the cospan 1 --i1--> 2 <--i2-- 1 with i1(1) = 1, i2(1) = 2 decorated by the battery element of Circ(2), displayed as (6.83). Composition: take the pushout of the two cospans over the shared foot (display (6.85) shows the pushout square for two one-port circuits over 1) and push the combined decoration psi_{N,P}(s, t) forward along the copairing [iota_N, iota_P] of the pushout inclusions, exactly as in Eq. (6.76); worked through in full for a battery circuit 1 -> 1 composed with a switch circuit 1 -> 1, yielding a battery in series with a switch. Monoidal product: on objects it is disjoint union of finite sets; on morphisms, given cospans A -> M <- B and C -> N <- D one takes the coproduct cospan A + C -> M + N <- B + D in Cospan_FinSet and combines decorations with psi_{M,N} : Circ(M) x Circ(N) -> Circ(M + N) - pictorially, stacking one open circuit above the other (display (6.87)).",
+      "book_section": "6.4.3",
+      "book_page": "209",
+      "pdf_pages": [
+        221,
+        222,
+        223
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:thm6.77",
+        "7sketches:6.4.3:construction-circ",
+        "7sketches:6.4.2:eq6.76",
+        "7sketches:6.2.5:example6.46",
+        "7sketches:6.2.5:def6.45"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break",
+        "number-6.83-is-a-display",
+        "number-6.85-is-a-display",
+        "number-6.87-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.84",
+      "kind": "exercise",
+      "number": "6.84",
+      "name": "identify the decoration of the battery open circuit",
+      "statement_summary": "Morphisms of Cospan_Circ are Circ-decorated cospans in the sense of Definition 6.75, so the picture displayed as (6.83) depicts a cospan together with a decoration, which is some C-circuit (V, A, s, t, l) in Circ(2). State what that circuit is. (Expected answer: V = 2, one edge e with s(e) = 1, t(e) = 2, l(e) = battery.)",
+      "book_section": "6.4.3",
+      "book_page": "209",
+      "pdf_pages": [
+        221
+      ],
+      "cross_refs": [
+        "7sketches:6.4.2:def6.75",
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.3:def-c-circuit"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.86",
+      "kind": "exercise",
+      "number": "6.86",
+      "name": "recompute the introductory circuit composition in Cospan_Circ",
+      "statement_summary": "Return to the motivating example at the start of section 6.4.2: express the two decorated circuits drawn in Eq. (6.73) (the 2-ohm/3-farad/1-ohm/1-henry circuit with interface A, N, B, and the 5-ohm/8-ohm circuit with interface B, M, C) as actual morphisms of Cospan_Circ, compute their composite using the composition rule, and verify that the result agrees with the picture drawn in Eq. (6.74) (apex N +_B M).",
+      "book_section": "6.4.3",
+      "book_page": "210",
+      "pdf_pages": [
+        222
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.2:eq6.76"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.4.3:ex6.88",
+      "kind": "exercise",
+      "number": "6.88",
+      "name": "closing off an open circuit with a cup and a cap",
+      "statement_summary": "Write x for the open circuit displayed as (6.87) (a morphism 2 -> 2 of Cospan_Circ, the stacked battery-switch and lightbulb-resistor circuits). Define further morphisms eta : 0 -> 2 and epsilon : 2 -> 0 by the two displayed cospans - empty set -> 1 <- 2 and 2 -> 1 <- empty set respectively, whose apex is a single node - each decorated by the empty circuit (1, empty set, !, !, !) in Circ(1), where ! is the unique function out of the empty set (footnote 6). Compute the composite eta ; x ; epsilon in Cospan_Circ. It is a morphism 0 -> 0; such morphisms are called closed circuits.",
+      "book_section": "6.4.3",
+      "book_page": "211",
+      "pdf_pages": [
+        223
+      ],
+      "cross_refs": [
+        "7sketches:6.4.3:construction-cospan-circ",
+        "7sketches:6.4.3:def-c-circuit",
+        "7sketches:6.3.3:prop6.66"
+      ],
+      "flags": [
+        "book-typo-second-cospan-labelled-eta-in-prose-but-epsilon-in-display"
+      ]
+    },
+    {
+      "id": "7sketches:6.5.1:def6.91",
+      "kind": "rough-definition",
+      "number": "6.91",
+      "name": "operad (coloured / typed operad, i.e. symmetric multicategory)",
+      "statement_summary": "A 'Rough Definition' header (informal, boxed like a Definition). To specify an operad O one gives: (i) a collection T whose elements are called types; (ii) for each tuple (t1, ..., tn, t) of types a set O(t1, ..., tn; t) whose elements are the operations of arity (t1, ..., tn; t); (iii) for each pair of tuples (s1, ..., sm, t_i) and (t1, ..., tn, t) a substitution function o_i : O(s1, ..., sm; t_i) x O(t1, ..., tn; t) -> O(t1, ..., t_{i-1}, s1, ..., sm, t_{i+1}, ..., tn; t), plugging an m-ary operation into the ith argument slot; (iv) for each type t an identity operation id_t in O(t; t). These data must satisfy (unstated) generalized identity and associativity laws. Intuition given afterwards: an n-ary operation accepts n arguments, and substituting an m-ary f into the ith slot of an n-ary g yields an operation of arity m + n - 1. Footnote 7 records the standard synonyms: types = objects or colours, operations = morphisms, substitution = composition, operads = multicategories, with the formal definition in [Lei04].",
+      "book_section": "6.5.1",
+      "book_page": "213",
+      "pdf_pages": [
+        225
+      ],
+      "cross_refs": [
+        "7sketches:6.5.2:def6.97",
+        "7sketches:6.5.3:def6.98"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.1:example6.92",
+      "kind": "example",
+      "number": "6.92",
+      "name": "context-free grammars present free operads",
+      "statement_summary": "Expository (prose-only) example, recorded for completeness: context-free grammars are to operads as graphs are to categories. A context-free grammar over an alphabet describes a set of 'syntactic categories' formed from a set of symbols (in English: nouns, determiners, adjectives, verbs, noun phrases, prepositional phrases, sentences, with symbols the words cat, dog, the, chases). It is specified by production rules saying how an entity of one syntactic category is formed out of entities of other syntactic categories (e.g. a noun phrase from a determiner, an adjective and a noun). The claim, attributed to [HMP98]: just as graphs present free categories, context-free grammars present free operads - the syntactic categories being the types and the production rules the generating operations. No formal statement or construction is given.",
+      "book_section": "6.5.1",
+      "book_page": "214",
+      "pdf_pages": [
+        226
+      ],
+      "cross_refs": [
+        "7sketches:6.5.1:def6.91"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.2:example6.93",
+      "kind": "example",
+      "number": "6.93",
+      "name": "the operad Set",
+      "statement_summary": "The operad Set of sets, given by the four clauses of Definition 6.91: (i) types are sets X; (ii) the operations of arity (X1, ..., Xn; Y) are the functions X1 x ... x Xn -> Y; (iii) substitution: for f in Set(W1, ..., Wm; Xi) and g in Set(X1, ..., Xn; Y), the composite g o_i f is the function X1 x ... x X_{i-1} x W1 x ... x Wm x X_{i+1} x ... x Xn -> Y defined by (g o_i f)(x1, ..., x_{i-1}, w1, ..., wm, x_{i+1}, ..., xn) = g(x1, ..., x_{i-1}, f(w1, ..., wm), x_{i+1}, ..., xn); (iv) the identity id_X in Set(X; X) is the identity function X -> X. This is the target operad in which algebras are taken (Definition 6.99).",
+      "book_section": "6.5.2",
+      "book_page": "214",
+      "pdf_pages": [
+        226,
+        227
+      ],
+      "cross_refs": [
+        "7sketches:6.5.1:def6.91",
+        "7sketches:6.5.3:def6.99"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.5.2:example6.94",
+      "kind": "example",
+      "number": "6.94",
+      "name": "the operad Cospan of finite-set cospans",
+      "statement_summary": "The operad Cospan, given by the four clauses of Definition 6.91: (i) types are natural numbers a in N (standard finite sets); (ii) an operation of arity (a1, ..., an; b) is a cospan a1 + ... + an --> p <-- b of finite sets; (iii) substitution is defined by pushout; (iv) the identity id_a is the identity cospan a --id--> a <--id-- a. Asserted to be the operadic analogue of the symmetric monoidal category (Cospan_FinSet, 0, +). Operations are drawn as wiring diagrams: the display (6.95) shows an operation of arity (3, 3, 4, 2; 3) - inner circles f, g, h, k with 3, 3, 4 and 2 ports inside an outer circle with 3 ports - which formally is a cospan 3 + 3 + 4 + 2 --a--> p <--b-- 3 whose apex p is the set 7 (the seven junction nodes drawn), the function a sending each inner-circle port to the node it connects to and b doing the same for the outer-circle ports. Substitution corresponds to inserting one wiring diagram into a circle of another, so operads are read as wiring-diagram grammars.",
+      "book_section": "6.5.2",
+      "book_page": "215",
+      "pdf_pages": [
+        227,
+        228
+      ],
+      "cross_refs": [
+        "7sketches:6.5.1:def6.91",
+        "7sketches:6.2.5:def6.45",
+        "7sketches:6.2.5:example6.46"
+      ],
+      "flags": [
+        "spans-page-break",
+        "number-6.95-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:6.5.2:ex6.96",
+      "kind": "exercise",
+      "number": "6.96",
+      "name": "wiring diagrams and substitution in the operad Cospan",
+      "statement_summary": "Four-part exercise on the operad Cospan. (1) Given a displayed cospan f in Cospan(2, 2; 2) (left foot 2 + 2, apex drawn as a three-node set, right foot 2), draw it as a wiring diagram with two inner circles of two ports each inside an outer circle with two ports. (2) Draw the wiring diagram corresponding to a displayed cospan g in Cospan(2, 2, 2; 0), whose right foot is the empty set. (3) Compute the substituted cospan g o_1 f and state its arity. (4) Draw g o_1 f and observe that it is the nesting (substitution) of the diagram of f into the first inner circle of the diagram of g.",
+      "book_section": "6.5.2",
+      "book_page": "216",
+      "pdf_pages": [
+        228
+      ],
+      "cross_refs": [
+        "7sketches:6.5.2:example6.94",
+        "7sketches:6.5.1:def6.91"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.2:def6.97",
+      "kind": "definition",
+      "number": "6.97",
+      "name": "the operad underlying a symmetric monoidal category",
+      "statement_summary": "For any symmetric monoidal category (C, I, (x)) there is an operad O_C, called the operad underlying C, defined by: (i) types are the objects Ob(C); (ii) the operations of arity (C1, ..., Cn; D) are the morphisms C1 (x) ... (x) Cn -> D of C; (iii) substitution is (f o_i g) := f o (id, ..., id, g, id, ..., id), i.e. tensor g with identity morphisms in the remaining slots and then compose with f; (iv) the identity id_a in O_C(a; a) is the identity morphism id_a of C. This construction generalizes both Example 6.93 (C = Set with cartesian product) and Example 6.94 (C = Cospan_FinSet with +).",
+      "book_section": "6.5.2",
+      "book_page": "216",
+      "pdf_pages": [
+        228
+      ],
+      "cross_refs": [
+        "7sketches:6.5.1:def6.91",
+        "7sketches:6.5.2:example6.93",
+        "7sketches:6.5.2:example6.94",
+        "7sketches:4.4.3:def4.45"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.3:def6.98",
+      "kind": "rough-definition",
+      "number": "6.98",
+      "name": "operad functor",
+      "statement_summary": "A 'Rough Definition' header (informal, boxed like a Definition). Given operads O and P with type collections T and U respectively, to specify an operad functor F : O -> P one gives: (i) a function f : T -> U on types; (ii) for every arity (t1, ..., tn; t) of O a function F : O(t1, ..., tn; t) -> P(f(t1), ..., f(tn); f(t)), such that substitution (composition) and identities are preserved. The preceding prose says an operad functor takes types of one operad to types of another and operations of the first to operations of the second in a way that respects this.",
+      "book_section": "6.5.3",
+      "book_page": "217",
+      "pdf_pages": [
+        229
+      ],
+      "cross_refs": [
+        "7sketches:6.5.1:def6.91"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.3:def6.99",
+      "kind": "definition",
+      "number": "6.99",
+      "name": "algebra for an operad",
+      "statement_summary": "An algebra for an operad O is an operad functor F : O -> Set into the operad Set of Example 6.93. The following prose supplies the intended reading: each type t of O is a box in a wiring diagram and F(t) is the set of 'fillers' available for that box; each operation (wiring diagram) f in O(t1, ..., tn; t) is sent to a function F(f) : F(t1) x ... x F(tn) -> F(t) that assembles n fillers with interfaces t1, ..., tn into a single filler with interface t (e.g. n circuits with the given boundaries into one circuit with boundary t).",
+      "book_section": "6.5.3",
+      "book_page": "217",
+      "pdf_pages": [
+        229
+      ],
+      "cross_refs": [
+        "7sketches:6.5.3:def6.98",
+        "7sketches:6.5.2:example6.93",
+        "7sketches:6.5.1:def6.91"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:6.5.3:example6.100",
+      "kind": "example",
+      "number": "6.100",
+      "name": "electric circuits as a Cospan-algebra",
+      "statement_summary": "The electric-circuit story recast as an operad algebra. The types are again finite sets, T = Ob(FinSet), a set t corresponding to a cell with t ports; the fillers are the elements of Circ(t), the electric circuits with t marked terminals. Claim: Circ is an operad algebra Circ : Cospan -> Set, i.e. an operad functor from the operad of Example 6.94 to the operad Set. It sends the displayed wiring diagram phi - three inner circles with two ports each inside an outer circle with no ports, an operation of Cospan of arity (2, 2, 2; 0) - to a morphism Circ(phi) in Set(Circ(2), Circ(2), Circ(2); Circ(0)), i.e. to a function Circ(2) x Circ(2) x Circ(2) -> Circ(0). Applying that function to the three displayed elements of Circ(2) (a battery, a switch, and a lightbulb in series with a resistor) returns the closed circuit shown at the beginning of the chapter.",
+      "book_section": "6.5.3",
+      "book_page": "217",
+      "pdf_pages": [
+        229,
+        230
+      ],
+      "cross_refs": [
+        "7sketches:6.5.3:def6.99",
+        "7sketches:6.5.2:example6.94",
+        "7sketches:6.4.3:construction-circ",
+        "7sketches:6.4.3:def-c-circuit"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:6.5.3:prop6.101",
+      "kind": "proposition",
+      "number": "6.101",
+      "name": "Cospan-algebras are equivalent to hypergraph props",
+      "statement_summary": "There is an equivalence between Cospan-algebras (operad functors Cospan -> Set out of the operad of finite-set cospans of Example 6.94) and hypergraph props (hypergraph categories whose object monoid is (N, 0, +)). Stated without proof. The surrounding prose gives the significance: the decorated-cospan construction of Theorem 6.77 produces only SOME hypergraph categories, whereas every hypergraph prop arises from a Cospan-algebra; and one may vary the operad (e.g. to an operad of cobordisms) to obtain different compositionality rules.",
+      "book_section": "6.5.3",
+      "book_page": "218",
+      "pdf_pages": [
+        230
+      ],
+      "cross_refs": [
+        "7sketches:6.5.3:def6.99",
+        "7sketches:6.5.2:example6.94",
+        "7sketches:6.3.3:def-hypergraph-prop",
+        "7sketches:6.4.2:thm6.77"
+      ],
+      "flags": []
+    }
+  ]
+}

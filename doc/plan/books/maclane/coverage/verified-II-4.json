@@ -1,0 +1,481 @@
+[
+  {
+    "id": "maclane:II.5:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "double category",
+      "DoubleCategory",
+      "pseudo double category",
+      "two compositions with interchange / dinterchange",
+      "commuting squares double category (Sq)",
+      "Ehresmann"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/DoubleCategory.v",
+        "line": 162,
+        "symbol": "DoubleCategory",
+        "intree_statement": "Class DoubleCategory : Type := { dcat : Category; dhor : dcat → dcat → Type; dsq {a b c d : dcat} : dhor a b → (a ~{dcat}~> c) → (b ~{dcat}~> d) → dhor c d → Type; ... dhcomp ...; dsq_vcomp ...; dsq_hcomp ...; dinterchange ...; dassoc ...; dunit_left ...; dunit_right ... }"
+      },
+      {
+        "file": "Theory/DoubleCategory.v",
+        "line": 257,
+        "symbol": "dinterchange",
+        "intree_statement": "dinterchange ... (s11 : dsq h1 u1 u2 j1) (s12 : dsq h2 u2 u3 j2) (s21 : dsq j1 w1 w2 k1) (s22 : dsq j2 w2 w3 k2) : dsq_vcomp (dsq_hcomp s11 s12) (dsq_hcomp s21 s22) ≈ dsq_hcomp (dsq_vcomp s11 s21) (dsq_vcomp s12 s22)"
+      },
+      {
+        "file": "Construction/Sq.v",
+        "line": 47,
+        "symbol": "Sq",
+        "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; dsq_setoid := fun ... => trivial_setoid _; dhid := fun a => id[a]; dhcomp := fun a b c g f => g ∘ f |}"
+      }
+    ],
+    "statement_record": {
+      "book": "A double category (Ehresmann) is a set that is the arrow-set of two different composition operations which together satisfy the interchange law; example: the commutative squares in Set under horizontal and vertical pasting form a double category.",
+      "intree": "Class DoubleCategory (Theory/DoubleCategory.v:162): strict vertical Category dcat, horizontal 1-cells dhor, square setoids dsq with boundary coercion, strict vertical composition, horizontal pasting dsq_hcomp with the interchange field dinterchange, and WEAK (globular-iso) associator/unitors. Construction/Sq.v:47: Sq C, the commuting-squares double category over any category C with dsq h u v k := k ∘ u ≈ v ∘ h.",
+      "strength_comparison": "intree-weaker as a rendering of MacLane's definition: the class is the PSEUDO (Grandis-Paré) double category — typed squares instead of one arrow-set, horizontal composition only weakly associative/unital, and explicitly coherence-only in scope (its header defers horizontal identity squares on verticals, the unit half of interchange, and coherence naturality). MacLane's strict Ehresmann notion is not separately defined; it is only exhibited through instances with degenerate coherence. The interchange law itself is the dinterchange field, and the book's example is intree-stronger: Sq C exists for ANY base category C, subsuming commutative squares in Set."
+    },
+    "gap": "No strict double category definition (a single collection carrying two everywhere-strict interchanging category structures, or equivalently a category internal to Cat — the header cites this characterization without formalizing it). Only the pseudo variant exists, itself a disclosed coherence-only fragment. MacLane's motivating example is fully covered by Sq (Construction/Sq.v) with all coherence cells degenerate.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'StrictDouble|strict double' — 0 hits",
+      "grep -rn --include='*.v' -i 'internal categor' — only essay prose (Theory/DoubleCategory.v:115, Construction/Enriched.v:83-85); no internal-category machinery"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found identical evidence (DoubleCategory:162, dinterchange:257, Sq:47); all lines/quotes verified, files registered in _CoqProject. PRESENT was arguable (pseudo subsumes strict with degenerate coherence; Sq covers the book example over any C), but PARTIAL with the stated gap (no strict single-set/internal-category definition; the class is a disclosed coherence-only pseudo fragment) is the honest call."
+    }
+  },
+  {
+    "id": "maclane:II.5:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-category",
+      "strict 2-category / TwoCategory",
+      "Bicategory (weak 2-category)",
+      "Cat-enriched category",
+      "Godement product / interchange makes Cat a 2-category"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 204,
+        "symbol": "Bicategory",
+        "intree_statement": "Class Bicategory := { bi0cell : Type; bi1cell : bi0cell → bi0cell → bi1uhom; bi2cell {x y} (f g : bi1cell x y) : bi2uhom; ... hcompose ...; hunit_left/hunit_right/hassoc as 2-isomorphisms; triangle_identity; pentagon_identity; ... } (header line 19: 'A bicategory (a weak 2-category) has 0-cells (objects), 1-cells between them, and 2-cells between parallel 1-cells')"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 127,
+        "symbol": "Cat_Bicategory",
+        "intree_statement": "Definition Cat_Bicategory : Bicategory := Build_Bicategory Category (fun C D => @obj (@Fun C D)) ... (* bicat C D ≡ [C, D] definitionally; hcompose := Cat_Hcompose; vertical composition = nat_compose; horizontal = nat_hcompose *)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 74,
+        "symbol": "(header essay)",
+        "intree_statement": "\"...horizontal composition [nat_hcompose] is the Godement product... and the interchange law between the two makes Cat a strict 2-category (nLab, 'Godement product'), realized in this library as the motivating bicategory of Instance/Cat/Bicategory.v, with [whisker_left] and [whisker_right] the horizontal composites against an identity.\""
+      }
+    ],
+    "statement_record": {
+      "book": "A 2-category is a double category in which every identity arrow for the first composition is also an identity for the second; the double category of commutative squares in Set is not a 2-category; n-categories for higher n deferred.",
+      "intree": "Class Bicategory (Theory/Bicategory.v:204) — the weak 2-category with unitors/associator as coherent invertible 2-cells under triangle+pentagon; Cat_Bicategory (Instance/Cat/Bicategory.v:127) instantiates it at Cat with hom-categories the functor categories [C,D], where both compositions and the interchange are concretely realized (nat_compose, nat_hcompose, whiskering).",
+      "strength_comparison": "intree-weaker relative to the book's definitional target: MacLane defines the STRICT 2-category, which the library never defines — Theory/Bicategory.v:53 explicitly names strict 2-categories only to motivate weakening ('A strict 2-category demands that horizontal composition of 1-cells be associative and unital on the nose'), and Construction/Enriched.v:69 notes 'K = Cat gives strict 2-categories' without instantiating enrichment at Cat (no Cat_Monoidal exists). The weak variant is intree-stronger than needed for Cat, and Cat's strict 2-categorical operations exist concretely, but only packaged through the weak class."
+    },
+    "gap": "No strict 2-category definition — neither as a special double category (there is also no strict double category, see maclane:II.5:def2), nor via enrichment in Cat (Construction/Enriched.v supports V-categories but Cat is given no monoidal structure in-tree), nor as a standalone class. The negative claim that commutative-squares double categories are not 2-categories is likewise unformalizable in-tree for want of the strictness predicate.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'strict 2-categor|TwoCategory|Two_Category|StrictBicategory' — only comments/essays (Theory/Bicategory.v:53,113; Theory/Natural/Transformation.v:74; Instance/Cat.v:92; Construction/Enriched.v:69); no definition",
+      "grep -rn --include='*.v' 'Cat_Monoidal' — no such symbol (the only substring matches are FreeCat_Monoidal in Theory/Lawvere/PROP.v and Construction/PROP/Universal.v, the monoidal structure of free PROP categories); the Cat instance itself carries no monoidal structure, so no Cat-enriched instantiation is possible"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: only the weak notion (Bicategory) is formalized; rg for a strict 2-category class found none. Verified Bicategory.v:204, Cat_Bicategory at Instance/Cat/Bicategory.v:127, the NT.v:74 Godement essay, Enriched.v:69, Bicategory.v:53, and that no Cat_Monoidal symbol exists (only *FreeCat_Monoidal-shaped names elsewhere)."
+    }
+  },
+  {
+    "id": "maclane:II.5:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "interchange law",
+      "middle-four exchange",
+      "bimap_comp / bifunctor preserves composition",
+      "tensor functoriality as interchange",
+      "partially defined operations interchange (double category dinterchange)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 68,
+        "symbol": "bimap_comp",
+        "intree_statement": "Lemma bimap_comp {F : C ∏ D ⟶ E} {x y z w u v} (f : y ~{C}~> z) (h : x ~{C}~> y) (g : v ~{D}~> w) (i : u ~{D}~> v) : bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i. (proved from fmap_comp: interchange IS the bifunctor's preservation of composition)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 17,
+        "symbol": "(header)",
+        "intree_statement": "\"A functor on C ∏ D is equivalent to giving two 'partial' actions, one in each variable, that are separately functorial and compatible via the interchange (middle-four exchange) law bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i ([bimap_comp])... the prototypical bifunctor, the tensor ⊗, appears in Structure/Monoidal.\""
+      },
+      {
+        "file": "Theory/DoubleCategory.v",
+        "line": 257,
+        "symbol": "dinterchange",
+        "intree_statement": "dinterchange ... : dsq_vcomp (dsq_hcomp s11 s12) (dsq_hcomp s21 s22) ≈ dsq_hcomp (dsq_vcomp s11 s21) (dsq_vcomp s12 s22) (interchange for two partially defined pasting operations, defined exactly when boundaries match)"
+      }
+    ],
+    "statement_record": {
+      "book": "Two partially defined binary operations . and o on one set satisfy the interchange law when (5) holds whenever both sides are defined; if . : C × C → C is a functor (e.g. a tensor product) and o is composition of arrows of C, the interchange law is precisely the requirement that the functor . preserve composition; a further example is block-diagonal sum of square matrices against matrix product.",
+      "intree": "bimap_comp (Functor/Bifunctor.v:68): for any bifunctor F : C ∏ D ⟶ E, bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i, derived from fmap_comp — the header states the equivalence in MacLane's direction (a bifunctor = two partial actions compatible via the interchange law), with the tensor of Structure/Monoidal.v named as the prototypical case; the partially-defined-operations form is the dinterchange field of DoubleCategory.",
+      "strength_comparison": "same for the remark's mathematical claim — the identification of a binary functor's composition-preservation with the middle-four interchange is recorded verbatim (bimap_comp plus its swap forms bimap_id_right_left/bimap_id_left_right, Functor/Bifunctor.v:101-125), specialized to the tensor across Structure/Monoidal.v, and the partial-operation formulation lives as dinterchange. The closing illustrative example (block-diagonal sum vs product of square matrices) has no in-tree counterpart — there is no matrix category (grep -rn -i 'Matr' finds only essay prose); this is an unformalized aside, not the remark's content."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Matr|matrix|matrices' — only essay mentions (Functor/Hom/Yoneda.v:89, Theory/Profunctor.v:64, Instance/ZX.v, Theory/Equivalence.v:87); no matrix category, so the block-diagonal example is not in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on bimap_comp (Functor/Bifunctor.v:68) as the exact identification interchange = bifunctor composition-preservation; header quote at :14-21 accurate; matrix aside honestly disclosed as unformalized essay-level content; dinterchange:257 verified as the partial-operations form."
+    }
+  },
+  {
+    "id": "maclane:II.5:construction2",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential bifunctor Cat^op × Cat → Cat",
+      "internal hom functor [-,-]",
+      "InternalHomFunctor",
+      "functor category functorial in both variables",
+      "F^G = F ∘ S ∘ G whiskering functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Internal.v",
+        "line": 40,
+        "symbol": "InternalHomFunctor",
+        "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |} (header: 'the internal counterpart of Functor/Hom.v', contravariant in the first argument, covariant in the second)"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := ... } (the internal hom of Cat is the functor category [B, C])"
+      },
+      {
+        "file": "Instance/Cat/Cartesian.v",
+        "line": 39,
+        "symbol": "Cat_Cartesian",
+        "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; ... }"
+      }
+    ],
+    "statement_record": {
+      "book": "The functor category B^C is functorial, covariantly in B and contravariantly in C: a functor Cat^op × Cat → Cat sends (C, B) to B^C and functors F : B → B', G : C' → C to F^G : B^C → B'^(C') defined by S ↦ F ∘ S ∘ G on objects and τ ↦ F ∘ τ ∘ G on arrows — the exact analogue of the hom-functor Set^op × Set → Set.",
+      "intree": "InternalHomFunctor (Functor/Hom/Internal.v:40) is the bifunctor C^op ∏ C ⟶ C for ANY cartesian closed C, with action [f, g] = curry (g ∘ eval ∘ second f); Cat is cartesian closed with exponent_obj := @Fun (Cat_Closed, Instance/Cat/Cartesian/Closed.v:47), so InternalHomFunctor Cat : Cat^op ∏ Cat ⟶ Cat sends (C, B) to [C, B].",
+      "strength_comparison": "intree-stronger in generality: the bifunctor is constructed once for every cartesian closed category and MacLane's construction is its instantiation at Cat (all needed instances are exported; no new proof is required, though no in-tree file literally writes the Cat application — machine-checked this session in the repo toolchain: `Check (@InternalHomFunctor Cat Cat_Cartesian Cat_Closed)` elaborates to a functor Cat^op ∏ Cat ⟶ Cat with no universe obstruction). Presentation differs: the morphism action is the exponential transpose curry (F ∘ eval ∘ second G) rather than MacLane's explicit both-sided whiskering formula F ∘ S ∘ G / F ∘ τ ∘ G — extensionally the same functor by the exponential UMP; the whiskering operations themselves also exist directly (whisker_left/whisker_right, Theory/Natural/Transformation.v:329,347, and Cat_Hcompose). The Set-hom analogy MacLane draws is the file's own framing (Hom : C^op ∏ C ⟶ Sets in Functor/Hom.v:49 vs its 'internal counterpart')."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same route (InternalHomFunctor + Cat_Closed). Lines verified (Internal.v:40, Cat/Cartesian/Closed.v:47, Cat/Cartesian.v:39). I independently re-ran the machine check this session: coqc under nix develop (Rocq 9.1.1) accepts Check (@InternalHomFunctor Cat Cat_Cartesian Cat_Closed) : Cat^op ∏ Cat ⟶ Cat. Presentation caveat (curry-transpose vs explicit whiskering) is honestly disclosed."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Cat is cartesian closed",
+      "Cat_Closed",
+      "exp_iso / curry / uncurry",
+      "product-exponential adjunction (− × B ⊣ [B, −])",
+      "Cat(A×B, C) ≅ Cat(A, C^B)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := (currying: F : A × B ⟶ C ↦ the functor A ⟶ [B, C] sending x ↦ (y ↦ F (x, y))); from := (uncurrying) |} } (file header: 'Cat is cartesian closed: the exponential is the functor category'; 'The closed structure is the natural bijection Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) carried by [exp_iso]... all are proven (the instance is closed under the global context, no axioms)')"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 51,
+        "symbol": "exp_iso",
+        "intree_statement": "exp_iso {x y z} : x × y ~> z ≊ x ~> z^y (class header: 'A cartesian closed category (CCC) is a cartesian category in which every functor - × y has a right adjoint - ^ y'; 'the universal property is the bijection Hom(x × y, z) ≅ Hom(x, z^y) ([exp_iso]) natural in x, y and z, expressing (- × y) ⊣ (- ^ y)'), plus the beta law ump_exponents' : eval' ∘ first (curry' f) ≈ f"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 165,
+        "symbol": "curry_comp_l",
+        "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) : curry f ∘ g ≈ curry (f ∘ first g) (naturality/substitution in the first variable; curry_comp at :177 gives the covariant-variable law; uncurry_comp/uncurry_comp_r the inverses)"
+      }
+    ],
+    "statement_record": {
+      "book": "For small categories A, B, C establish a bijection Cat(A × B, C) ≅ Cat(A, C^B), show it natural in A, B, C, and deduce that − × B : Cat → Cat has a right adjoint.",
+      "intree": "Cat_Closed : @Closed Cat Cat_Cartesian with exponent_obj := @Fun — the setoid isomorphism (A × B ⟶ C) ≊ (A ⟶ [B, C]) whose to/from are currying/uncurrying, together with the exponential universal property; the Closed class is by its own statement the packaged form of (− × y) ⊣ (− ^ y).",
+      "strength_comparison": "same in substance, with two packaging differences: (1) naturality in the three variables is carried by the UMP plus the derived substitution laws (curry_comp_l = naturality in A, curry_comp = naturality in C, uncurry_comp/uncurry_comp_r duals; in the exponent variable B only iso-respect is stated, exp_respects_iso at Structure/Cartesian/Closed.v:209 — full B-naturality is determined by the UMP but not written out) rather than stated as a single tri-natural isomorphism of bifunctors; (2) 'deduce a right adjoint' is answered by the Closed class itself being the library's UMP-packaged rendering of that adjunction — no bundled Theory/Adjunction.v record (− × B ⊣ [B, −]) is constructed anywhere in-tree (grep: no file imports both Cartesian.Closed and Theory.Adjunction). Intree also drops MacLane's smallness restriction: the instance is universe-polymorphic over all in-scope categories."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln 'Cartesian.Closed' . | xargs grep -ln 'Theory.Adjunction' — 0 files: the currying adjunction is never bundled as an Adjunction record (noted, but the Closed packaging is the library's canonical form of the same content)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PRESENT via Cat_Closed exp_iso. Verified exp_iso at Structure/Cartesian/Closed.v:51, curry_comp_l:165, exp_respects_iso:209. Reproduced the negative claim: grep confirms no file imports both Cartesian.Closed and Theory.Adjunction, so the bundled (− × B) ⊣ [B,−] Adjunction record indeed does not exist; the Closed class is the canonical UMP packaging of it, honestly noted in strength_comparison."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "exponential laws",
+      "exp_prod_l / exp_prod_r",
+      "(A × B)^C ≅ A^C × B^C",
+      "C^(A×B) ≅ (C^B)^A",
+      "currying isomorphism of functor categories"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 310,
+        "symbol": "exp_prod_r",
+        "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }"
+      },
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 257,
+        "symbol": "exp_prod_l",
+        "intree_statement": "#[export] Program Instance exp_prod_l {x y z : C} : z^(x × y) ≅ (z^y)^x := { to := curry (curry (eval ∘ to prod_assoc)); from := curry (uncurry eval ∘ from prod_assoc) }"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; ... } (instantiating the two general isomorphisms at Cat yields (A ∏ B)^C ≅ A^C ∏ B^C and C^(A ∏ B) ≅ (C^B)^A as isomorphisms in Cat, i.e. of functor categories; machine-checked this session in the repo toolchain: `@exp_prod_r Cat Cat_Cartesian Cat_Closed C A B` and `@exp_prod_l Cat Cat_Cartesian Cat_Closed C B A` both elaborate at those types)"
+      }
+    ],
+    "statement_record": {
+      "book": "For categories A, B, C establish natural isomorphisms (A × B)^C ≅ A^C × B^C and C^(A × B) ≅ (C^B)^A, and compare the second with the currying bijection of Exercise 1.",
+      "intree": "exp_prod_r : (y × z)^x ≅ y^x × z^x and exp_prod_l : z^(x × y) ≅ (z^y)^x, proven in any cartesian closed category (Structure/Cartesian/Closed.v:310, :257); at C = Cat via Cat_Closed these are precisely the two isomorphisms of functor categories.",
+      "strength_comparison": "intree-stronger in generality (both laws hold in every cartesian closed category, not only Cat, and instantiate at Cat with no further proof) but intree-weaker on the naturality clause: the isomorphisms are constructed per object triple, with only iso-respect (exp_respects_iso) recorded — MacLane asks for NATURAL isomorphisms in A, B, C."
+    },
+    "gap": "Naturality of exp_prod_l / exp_prod_r in their variables is not stated (neither side is packaged as a functor and no natural-isomorphism statement exists — only pointwise isos plus Proper/iso-respect instances). The requested comparison of C^(A×B) ≅ (C^B)^A with Exercise 1's external bijection (internalization of currying) is also not recorded, beyond exp_prod_l being built from curry/uncurry.",
+    "negative_search_log": [
+      "grep -n 'natural' Structure/Cartesian/Closed.v around exp_prod_l/exp_prod_r — no naturality lemmas for either iso",
+      "grep -rn --include='*.v' 'exp_prod' . — only Structure/Cartesian/Closed.v (definitions + local Hint Rewrite); no Cat-specific or naturality-upgraded versions elsewhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently classified PARTIAL on the same gap (naturality in A,B,C unstated; isos are per-object). Verified exp_prod_l:257, exp_prod_r:310. I re-ran the machine check this session: at Cat both elaborate — exp_prod_r : Isomorphism ((A × B)^C) (A^C × B^C) and exp_prod_l : Isomorphism (C^(A × B)) ((C^B)^A)."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex3",
+    "classification": "PRESENT",
+    "aliases": [
+      "horizontal composition as a functor",
+      "Cat_Hcompose",
+      "nat_hcompose / Godement product",
+      "hcompose bifunctor of the Cat bicategory",
+      "composition functor [D,E] ∏ [C,D] ⟶ [C,E]"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |} (comment: 'fmap_comp is the middle-four interchange law, discharged from naturality of the outer transformation')"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 283,
+        "symbol": "nat_hcompose",
+        "intree_statement": "Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E} (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {| transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x) |}"
+      }
+    ],
+    "statement_record": {
+      "book": "Use Theorem 1 (the two interchanging composition structures on natural transformations) to show that horizontal composition is a functor ∘ : A^B × B^C → A^C.",
+      "intree": "Cat_Hcompose {C D E} : ([D, E] ∏ [C, D]) ⟶ [C, E] — on objects functor composition, on morphisms the Godement horizontal composite nat_hcompose — with the fmap_comp obligation proven from the naturality of the outer transformation, exactly the interchange-law argument the exercise intends.",
+      "strength_comparison": "same (the type ([D,E] ∏ [C,D]) ⟶ [C,E] is MacLane's ∘ : A^B × B^C → A^C in the library's [−,−]/∏ notation); intree-stronger context: the same functor is the hcompose field of Cat_Bicategory (Instance/Cat/Bicategory.v:127), so its compatibility with the unitors/associator (triangle, pentagon, naturality) is also established."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same witness: Cat_Hcompose : ([D,E] ∏ [C,D]) ⟶ [C,E] at Instance/Cat/Bicategory.v:64, with fmap_comp discharged by the interchange argument; nat_hcompose verified at Theory/Natural/Transformation.v:283."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "topological group",
+      "loop/path concatenation vs pointwise product",
+      "H-space interchange",
+      "Top (category of topological spaces)",
+      "continuous paths at the identity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'topological group' — 3 hits, all historical essay prose in Theory/Universal/Arrow.v (Samuel's free topological groups); no formalization",
+      "grep -rn --include='*.v' -i 'topolog' — only citations/essays (Grothendieck topology essays in Theory/Sheaf.v, journal titles in Theory/DoubleCategory.v, physics/topology slogan in Theory/Category.v); no topological spaces exist in-tree",
+      "ls Instance/ | grep -i 'top|space' — empty: no Top category instance",
+      "grep -rn --include='*.v' -i 'loop.*concat|concat.*loop|H-space|Hspace' — 0 hits",
+      "grep -rn --include='*.v' -iw 'homotopy' — only historical essay mentions (Theory/Monad.v, Theory/Adjunction.v, Comonad/Coalgebra.v, Theory/Multicategory.v)",
+      "NOTE: the interchange law the exercise instantiates is in-tree abstractly (bimap_comp, dinterchange, conv_interchange), but the topological instance — continuous e-based paths in a topological group under concatenation and pointwise multiplication — has no possible home: no Top, no paths, no unit interval"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no topological spaces, paths, or Top instance anywhere in-tree; all topolog*/loop hits are essay prose. ABSENT (not OUT_OF_SCOPE) is right — a Top instance is formalizable in principle, just not present."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Eckmann-Hilton argument",
+      "Hilton-Eckmann",
+      "interchange + shared unit implies operations coincide and commute",
+      "two unital binary operations",
+      "conv / conv_pr convolution interchange"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 503,
+        "symbol": "conv_interchange",
+        "intree_statement": "Lemma conv_interchange {x y : C} (a b c d : x ~> y) : conv (conv_pr a b) (conv_pr c d) ≈ conv_pr (conv a c) (conv b d). (comment: 'The Eckmann–Hilton interchange law between the two convolutions')"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 515,
+        "symbol": "conv_conv_pr",
+        "intree_statement": "Lemma conv_conv_pr {x y : C} (f g : x ~> y) : conv f g ≈ conv_pr f g. (comment: 'Eckmann–Hilton, first consequence: the two convolutions coincide'; proof via conv_pr_zero_left/right — the shared unit zero_mor — and conv_interchange)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 524,
+        "symbol": "conv_comm",
+        "intree_statement": "Lemma conv_comm {x y : C} (f g : x ~> y) : conv f g ≈ conv g f. (comment: 'Eckmann–Hilton, second consequence: convolution is commutative'; conv_assoc at :534 adds associativity)"
+      }
+    ],
+    "statement_record": {
+      "book": "If a set carries two everywhere-defined binary operations . and o with the same two-sided unit e satisfying the interchange identity (5), then the two operations coincide and each is commutative (the Hilton-Eckmann argument).",
+      "intree": "The Eckmann–Hilton argument executed in full on hom-setoids: for a category with zero object and invertible biproduct comparison, the coproduct-convolution conv and product-convolution conv_pr share the unit zero_mor (conv_zero_*/conv_pr_zero_*), satisfy interchange (conv_interchange), and therefore coincide (conv_conv_pr), commute (conv_comm), and associate (conv_assoc) — Structure/Semiadditive.v:489-543.",
+      "strength_comparison": "intree-weaker: the argument is carried out only for one specific pair of operations (the two convolutions on hom-setoids of a semiadditive-candidate category), not as the abstract theorem about an arbitrary carrier with two unital interchanging operations; intree-stronger locally in that associativity (conv_assoc) is also derived, beyond the book's conclusion. The general principle is stated in header prose only (Structure/Monoid.v:90: 'the Eckmann–Hilton argument shows... a monoid object in the category of monoids is already a commutative monoid... The same argument appears in this library at Structure/Semiadditive.v')."
+    },
+    "gap": "No abstract standalone Eckmann–Hilton theorem (arbitrary setoid with two everywhere-defined unital binary operations satisfying interchange ⇒ the operations coincide and are commutative). The argument exists only instantiated at the Semiadditive convolution pair; Structure/Monoid.v and Structure/Group.v carry the principle as cited essay prose (Eckmann–Hilton 1962) without a formal statement.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Eckmann|Hilton' — formal content only in Structure/Semiadditive.v (:500-543); Structure/Monoid.v:47-90, Structure/Group.v:35-74, Structure/Monoidal/Braided.v:90, Structure/Abelian.v:124, Structure/Monoidal/Proofs.v:339 are essay/comment mentions only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the identical evidence set (conv_interchange:503, conv_conv_pr:515, conv_comm:524, conv_assoc:534 — line numbers exact) and the same gap: the EH argument is executed only for the Semiadditive convolution pair; no abstract two-unital-operations-on-a-setoid theorem exists."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "fundamental group of a topological group is abelian",
+      "π₁ abelian",
+      "fundamental group",
+      "loop space of an H-space",
+      "homotopy groups"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'fundamental group' — 1 hit: Construction/Groupoid.v:58, essay prose naming the fundamental groupoid π₁(X, A) as historical motivation; no formalization",
+      "grep -rn --include='*.v' -i 'pi_1|π₁|pi1' — hits are the product-projection notation π₁ (Construction/Product.v, Instance/Cat/Cartesian.v, Theory/Coq/Tuple/Proofs.v) and the Groupoid.v essay; no fundamental group",
+      "grep -rn --include='*.v' -i 'topological group' / -iw 'homotopy' / 'loop' — essay prose only; no Top category, no paths, no homotopy (see maclane:II.5:ex4 log)",
+      "NOTE: the algebraic half of the exercise (Eckmann–Hilton) exists in-tree only as the Semiadditive convolution instance (see maclane:II.5:ex5); the topological composite statement has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: fundamental group appears only in the Construction/Groupoid.v essay; π₁ hits are product projections. No topology, no homotopy. ABSENT."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrow functions as a natural transformation of hom-bifunctors",
+      "Hom A ⟹ Hom D ◯ (T^op ∏⟶ T)",
+      "fmap is natural in both variables",
+      "induced map of hom-functors",
+      "hom profunctor restriction along a functor"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); ... |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |} (the source bifunctor A(-,-))"
+      },
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 155,
+        "symbol": "Repr_left",
+        "intree_statement": "Definition Repr_left {C D : Category} (F : C ⟶ D) : C ⇸ D := Hom D ◯ (F^op ∏⟶ (@Id D)). (the composite pattern Hom-after-product-functor needed for the target bifunctor D(T-, T-) = Hom D ◯ (T^op ∏⟶ T); ProductFunctor '∏⟶' is Functor/Construction/Product.v:34)"
+      },
+      {
+        "file": "Functor/Bifunctor.v",
+        "line": 68,
+        "symbol": "bimap_comp",
+        "intree_statement": "Lemma bimap_comp ... : bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i (with fmap_comp of T, exactly the componentwise equation T(g ∘ q ∘ f) ≈ Tg ∘ Tq ∘ Tf that the exercise's naturality square asserts)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a functor T : A → D, the arrow functions T_{a,b} : A(a,b) → D(Ta, Tb) constitute a natural transformation between the two bifunctors A^op × A → Set given by A(-,-) and D(T-, T-).",
+      "intree": "All ingredients exist: the hom bifunctor Hom C : C^op ∏ C ⟶ Sets (Functor/Hom.v:49), product functors F ∏⟶ G (Functor/Construction/Product.v:34), the composite shape Hom D ◯ (F^op ∏⟶ G) (used at Theory/Profunctor.v:155-159 for Repr_left/Repr_right), and the componentwise naturality equation via fmap_comp; but the transformation itself is not constructed.",
+      "strength_comparison": "intree-weaker: only the ingredients are present. The one-variable analogues exist (fmap[Curried_Hom] : morphisms to transformations of representables, Functor/Hom.v:60; corepresentable transformations in Construction/Cayley.v), and Theory/Profunctor/Adjunction.v builds a two-variable ISO Repr_left F ≅ Repr_right U from an adjunction — but its components are adjunction transposes, not the arrow functions of a single functor."
+    },
+    "gap": "The natural transformation τ_T : Hom A ⟹ Hom D ◯ (T^op ∏⟶ T) with component at (a,b) the setoid morphism f ↦ fmap[T] f is nowhere defined, and no lemma states that the arrow functions of a functor are natural in both variables jointly (the content would be a short definition discharged by fmap_comp/comp_assoc, but it does not exist in-tree).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Hom .*⟹|⟹ .*Hom' — hits are representable/one-variable only (Functor/Representable.v:48, Functor/Hom.v:83,107, Construction/Cayley.v, Structure/UniversalProperty.v:54); no two-variable Hom-to-Hom transformation induced by a functor",
+      "grep -rn --include='*.v' '\\^op ∏⟶' — only Repr_left/Repr_right (Id in one slot) and Adjunction/Hom.v's hom_adj; the pattern T^op ∏⟶ T (same functor both slots) never occurs",
+      "grep -rn --include='*.v' -i 'induced.*hom|hom.*induced' — no relevant hit"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned ABSENT, but PARTIAL is defensible under the frozen definition: the source bifunctor (Hom, Functor/Hom.v:49), the target-shape combinators (∏⟶ at Functor/Construction/Product.v:34, used as Hom D ◯ (F^op ∏⟶ Id) at Theory/Profunctor.v:155), and the componentwise content (fmap_respects/fmap_comp) all exist; only the packaged transformation is missing, and the gap says exactly that. Evidence lines verified."
+    }
+  },
+  {
+    "id": "maclane:II.5:ex8",
+    "classification": "ABSENT",
+    "aliases": [
+      "centre (center) of a category",
+      "Nat(Id, Id)",
+      "endo-transformations of the identity functor",
+      "End(Id_C) commutative monoid",
+      "natural automorphisms of Id"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'center|centre' — all hits are the premonoidal centre (Structure/Premonoidal/Centre.v, Structure/Binoidal.v: the wide subcategory Z(C) of central morphisms of a binoidal category) or the Drinfeld centre (Structure/Monoidal/Drinfeld.v: half-braidings on a monoidal category) — both different notions from the centre-of-a-category monoid Nat(Id_C, Id_C)",
+      "grep -rn --include='*.v' 'Id ⟹ Id|Transform Id Id|⟹ Id\\[' — no development of endo-transformations of the identity functor; the hom-setoid of [C, C] at (Id, Id) exists only implicitly as an instance of the general functor category (Instance/Fun.v), with no monoid/commutativity statement",
+      "grep -rn --include='*.v' -i 'endotransformation|natural.*identity functor|identity functor.*natural' — Structure/Monoidal/Balanced.v:24 ('theta is a natural automorphism of the identity functor', the balanced twist) and Structure/Monoidal/Symmetric.v:182; families of Id-endotransformations appear as data, never with the commutative-monoid theorem",
+      "grep -rn --include='*.v' -i 'End(I' — Structure/Monoidal/Proofs.v:339: comment that Kelly's unit_identity 'underlies, e.g., the commutativity of End(I) via Eckmann-Hilton' — the neighbouring fact is cited, not proven, and concerns End of a monoidal unit object, not Nat(Id, Id)",
+      "grep -rn --include='*.v' -i 'commutative monoid' — Instance/CMon.v (the category of commutative monoids) and Theory/Multicategory/Algebra.v (Comm-operad algebras are commutative monoids); neither states that Nat(Id,Id) is one, and the requested identifications for C = Grp, Ab, Set are likewise absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no End(Id_C) development; the hom-setoid of [C,C] at (Id,Id) exists only implicitly; premonoidal centre (Binoidal/Premonoidal) and Drinfeld centre (Monoidal/Drinfeld.v) are correctly distinguished as different notions; Balanced.v twist is data only; the Monoidal/Proofs.v:339 End(I) remark is cited-not-proven. Negative log accurate."
+    }
+  }
+]

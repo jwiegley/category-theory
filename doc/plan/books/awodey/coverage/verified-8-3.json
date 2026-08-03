@@ -1,0 +1,357 @@
+[
+  {
+    "id": "awodey:8.8:remark-topos-properties",
+    "classification": "ABSENT",
+    "aliases": [
+      "every topos has finite colimits / topos is (finitely) cocomplete",
+      "Cocartesian / Initial structure derived from ElementaryTopos",
+      "fundamental theorem of topos theory",
+      "every slice of a topos is a topos / Slice_Topos / ElementaryTopos (Slice C c)",
+      "over category / C/c is a topos; base change f* preserves topos structure"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'ElementaryTopos' . — 8 hits total: Structure/Topos.v:112 (the class), :129/:146 (Pow, relations_iso), Instance/FinSet/Topos.v:38 (FinSet_Topos, the ONLY inhabitant), and Structure/Topos.v:98,106 + Construction/Slice.v:114 which are COMMENTS. No slice topos, no derived colimit structure.",
+      "grep -rn --include=*.v 'Slice.*Topos|Topos.*Slice|fundamental theorem' . — Construction/Slice.v:109 and Structure/Topos.v:96 both state the fundamental theorem of topos theory only in prose header comments ('it remains the headline', Construction/Slice.v:114); no Coq statement.",
+      "grep -n 'Program Definition|Program Instance|Definition|Instance' Construction/Slice.v — the file supplies only Slice, Comma_Slice, Coslice, Comma_Coslice; no Terminal/Cartesian/Pullback/Closed/SubobjectClassifier instance for a slice, so none of the five topos_* fields can be assembled for C ̸ c.",
+      "grep -rn --include=*.v 'topos' . | grep -i 'colimit|coproduct|cocomplete|initial' — a single hit, Structure/Topos.v:91, inside the Giraud-theorem paragraph of the header essay; no assertion that a topos has finite colimits.",
+      "grep -rn --include=*.v 'Cocomplete' . — Structure/Complete.v:119 (definition) and Theory/Adamek/Corollaries.v (hypothesis) only; no instance derives colimits from ElementaryTopos.",
+      "grep -rn --include=*.v 'HasPullbacks' . | grep -i 'instance|program' — only Instance/FinSet/Classifier.v:264 (FinSet_Pullbacks); no slice category or presheaf category has pullbacks, another blocker for the slice topos."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-8-3.json) reached ABSENT independently. Re-ran the classifier's greps: `rg -in sieve|topos|fundamental theorem` and `rg -n ElementaryTopos` reproduce exactly the cited hit sets — ElementaryTopos has one inhabitant only, Instance/FinSet/Topos.v:38 FinSet_Topos; Construction/Slice.v:110 defines Slice and nothing else structural, and its own header at :113-115 says the fundamental theorem 'remains the headline theorem about this construction not yet formalized here'. HasPullbacks instances tree-wide: only Instance/FinSet/Classifier.v:264 (plus the op-transport Structure/Pushout.v:158/168), so no slice/presheaf category even has the pullback field. The finite-colimits half likewise has no counterpart: no Cocartesian/Initial/Cocomplete is derived from ElementaryTopos anywhere. See problems[] for a header-honesty defect in Structure/Topos.v:95-98 found while confirming this record."
+    }
+  },
+  {
+    "id": "awodey:8.8:prop17",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presheaf category is a topos / Sets^(C^op) is a topos",
+      "Presheaves_Topos / Fun_Topos / ElementaryTopos [C^op, Sets]",
+      "subobject classifier of a presheaf category (Omega = sieves)",
+      "exponentials of presheaves / Closed (Fun C D)",
+      "diagram category has finite limits + exponentials + classifier"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  (* product object built pointwise: 'exact (fun c => fobj[F] c × fobj[G] c)', fmap := Cartesian.split (fmap[F] f) (fmap[G] f), UMP discharged componentwise from D's *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Prop 8.17: for any small category C, the presheaf category Sets^(C^op) is a topos. Finite limits and exponentials come from the earlier sections; the subobject classifier is Omega(C) := {sieves on C} with restriction h*(S) = {g : h ∘ g ∈ S}, t : 1 → Omega picking the total sieve, and the classifying map of U >-> E given at C by u_C(e) = {f : D → C | f*(e) ∈ U(D)}.",
+      "intree": "Only ONE of the five topos axioms holds for a functor category in-tree: Functor_Category_Cartesian shows [C, D] is Cartesian (binary products, computed pointwise) whenever D is. There is no ElementaryTopos instance for any presheaf category — the only inhabitant of the class anywhere in the tree is Instance/FinSet/Topos.v:38 FinSet_Topos.",
+      "strength_comparison": "intree-weaker: the proposition's conclusion (topos-hood of Sets^(C^op)) is not asserted anywhere, and its entire proof content — the classifier built from sieves — has no in-tree counterpart. What exists is the binary-product axiom only, and it is stated more generally (arbitrary Cartesian target D, arbitrary C, not just Sets and small C)."
+    },
+    "gap": "Four of the five ElementaryTopos fields are missing for functor/presheaf categories, and so is the proposition's actual content. (1) TERMINAL: no `@Terminal (@Fun C D)` instance (grep 'Terminal (@Fun|Terminal (Fun' — 0 hits; Instance/Fun/ contains only Cartesian.v). (2) PULLBACKS: no `HasPullbacks` instance for a functor category — the only HasPullbacks instance in the tree is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264). (3) EXPONENTIALS: no `@Closed (@Fun C D)` instance; the full list of Closed instances is Lambda_Closed, Hom_Closed (AST), Algs_Closed, Rel_Closed, Props_Closed, Coq_Closed, FinSet_Closed, Cat_Closed, Sets_Closed, Product_Closed — Cat_Closed is the exponential [C,D] IN Cat, not an exponential of presheaves. (4) CLASSIFIER: no `SubobjectClassifier` for a functor category (the only instance is FinSet_Classifier, Instance/FinSet/Classifier.v:354), and the sieve construction it would need does not exist (see awodey:8.8:def-sieve). Note the surviving fragment (pointwise binary products) is the same evidence already carrying awodey:8.5:prop7 and awodey:8:ex3, so it is not distinctive content of 8.17.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT (nothing about presheaf topoi, no sieves, no presheaf classifier, no presheaf exponentials); PARTIAL is nonetheless defensible and is the more informative call here, because the classifier states the gap precisely and explicitly flags that the surviving fragment (pointwise binary products) is generic functor-category content and NOT distinctive to 8.17. Evidence re-verified: Instance/Fun/Cartesian.v:111 Functor_Category_Cartesian, object map literally `fun c => fobj[F] c × fobj[G] c` at :115, `Cartesian.split` at :116, ends in Defined at :140; file registered at _CoqProject:201. Gap claims re-verified independently: no @Terminal/@HasPullbacks/@Closed/@SubobjectClassifier for any functor category (the complete Closed instance list is Coq_Closed, Product_Closed, Sets_Closed, Props_Closed, Hom_Closed, Lambda_Closed, Algs_Closed, Rel_Closed, FinSet_Closed, Cat_Closed — and Instance/Cat/Cartesian/Closed.v:47 Cat_Closed is indeed the exponential [C,D] taken IN Cat, not an internal hom of presheaves). Downstream issue text should not read the PARTIAL as meaning any part of the classifier construction exists."
+    }
+  },
+  {
+    "id": "awodey:8.8:def-sieve",
+    "classification": "ABSENT",
+    "aliases": [
+      "sieve on an object / crible",
+      "downward-closed / precomposition-closed set of arrows into C",
+      "subfunctor of a representable presheaf / subpresheaf of [Hom ─,C]",
+      "lower set (poset special case) / down-set / ideal of a preorder",
+      "cosieve (dual) / covering sieve of a Grothendieck topology"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include=*.v 'sieve|crible' . — exactly 2 hits, both COMMENTS: Theory/Sheaf.v:80 ('through sieves in SGA 4') and Construction/Localization.v:101 ('orthogonal to the covering sieves'). No Definition, Class, Record or Inductive named or describing a sieve.",
+      "grep -rni --include=*.v 'cosieve' . — 0 hits.",
+      "grep -rni --include=*.v 'downward|down-closed|downset|lower set|lower_set' . — 1 hit, Structure/Monoid.v:84, an unrelated prose use of 'Downward'; the poset special case (lower sets) is likewise unformalized (Instance/Poset.v defines no down-set).",
+      "grep -rni --include=*.v 'subfunctor|sub-functor|subpresheaf' . — only Theory/Subobject/Functor.v:27/199, which are the section delimiters 'Section SubFunctor' for the reindexing functor Sub : C^op ⟶ Sets, not a notion of subfunctor of a presheaf.",
+      "grep -rni --include=*.v 'grothendieck topology|covering famil|coverage|site' . — Theory/Sheaf.v:159 Class Site is the ONLY related structure, and it deliberately encodes a coverage by VECTOR-INDEXED COVERING FAMILIES ('covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u))', with a single chosen family per object), never as a precomposition-closed set of arrows; no closure-under-precomposition condition appears anywhere.",
+      "grep -rn --include=*.v 'Omega_presheaf|Sieves|sieve_presheaf' . — 0 hits (Instance/Omega.v's `Omega` is the ordinal ω used for Adámek chains, unrelated)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: `rg -in 'sieve' -g '*.v'` returns exactly 2 lines tree-wide, both comments (Theory/Sheaf.v:80, Construction/Localization.v:101), 0 hits for cosieve/subpresheaf. Spot-checked the classifier's Site claim: Theory/Sheaf.v:159 `Class Site` with :162 `covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u))` and :167 `coverage (u : C) : covering_family u` — a single chosen vector-indexed family per object, with no closure-under-precomposition condition, exactly as the log states. Negative log accurate."
+    }
+  },
+  {
+    "id": "awodey:8.8:construction-omega-sieves",
+    "classification": "ABSENT",
+    "aliases": [
+      "presheaf of sieves Omega : C^op ⟶ Sets",
+      "restriction of sieves h*(S) = {g | h ∘ g ∈ S}",
+      "maximal / total sieve as the point t : 1 ⟹ Omega ('true')",
+      "classifying natural transformation u : E ⟹ Omega of a subpresheaf",
+      "subobject classifier of a presheaf topos / Presheaf_Classifier / truth presheaf"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'Omega_presheaf|Sieves|sieve_presheaf|truth_presheaf' . — 0 hits.",
+      "grep -rni --include=*.v 'sieve|crible' . — only the two comments recorded under awodey:8.8:def-sieve; the carrier of the construction does not exist, so neither does the presheaf built from it.",
+      "grep -rn --include=*.v 'SubobjectClassifier' . — 14 hits: Structure/SubobjectClassifier.v (the class and its theory), Structure/Topos.v (the topos field), Instance/FinSet/Classifier.v:354 (FinSet_Classifier, the only instance), Instance/Sets/Classifier.v:21 (a comment explaining that Sets gets cross-universe THEOREMS instead of an instance), Theory/Subobject/Functor.v:175 (a cross-reference comment). No functor/presheaf category carries a classifier.",
+      "grep -rn --include=*.v 'Presheaf.*Classifier|Fun.*Classifier|Classifier.*Fun' . — 0 hits.",
+      "grep -rn --include=*.v 'Terminal (@Fun|Terminal (Fun' . — 0 hits, so even the terminal presheaf 1 that t : 1 ⟹ Omega points out of is not constructed; ls Instance/Fun/ shows Cartesian.v as the sole satellite file.",
+      "grep -rni --include=*.v 'subpresheaf|subfunctor' . — only the 'Section SubFunctor' delimiters of Theory/Subobject/Functor.v; there is no notion of subpresheaf U >-> E whose classifying transformation could be defined."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently; the carrier notion (sieve) does not exist, so the presheaf of sieves cannot. Re-verified: SubobjectClassifier instances tree-wide are FinSet_Classifier (Instance/FinSet/Classifier.v:354) alone; Instance/Sets/Classifier.v:21-45 deliberately supplies cross-universe THEOREMS and documents why a one-level instance is impossible; no Terminal instance for any functor category, so even the domain 1 of t : 1 ⟹ Ω is unavailable. Negative log accurate."
+    }
+  },
+  {
+    "id": "awodey:8.8:remark18",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Omega as object of truth values / propositions; extension of a propositional function",
+      "subobjects correspond to characteristic maps E ~> Omega",
+      "membership criterion x ∈ U ⟺ u ∘ x = true for generalized elements",
+      "quantifiers as adjoints to pullback / base change (Σ_f ⊣ f* ⊣ Π_f)",
+      "power object P(E) = Omega^E; higher-order logic / Mitchell-Bénabou internal language"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 187,
+        "symbol": "classifier_classifies",
+        "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.  (* forward = char, backward = pullback of `truth` along h; both round trips proved, Defined so it computes *)"
+      },
+      {
+        "file": "Structure/Topos.v",
+        "line": 146,
+        "symbol": "relations_iso",
+        "intree_statement": "Definition relations_iso {C : Category} {H : ElementaryTopos C} (a b : C) : @Isomorphism Sets {| carrier := SubObj (a × b) |} {| carrier := a ~> Pow b |} := iso_compose exp_iso (classifier_classifies (a × b)).  (* Pow b := Ω ^ b, so this is the power-object reading Sub(a × b) ≅ (a ~> Ω^b) *)"
+      },
+      {
+        "file": "Structure/SubobjectClassifier.v",
+        "line": 52,
+        "symbol": "char_pullback",
+        "intree_statement": "char_pullback {u x : C} (m : u ~> x) (M : Monic m) : IsPullback (char m M) truth u m one;  (* field of Class SubobjectClassifier; its UMP is exactly the membership criterion — any z ~> x with char m ∘ z ≈ truth ∘ one factors uniquely through m *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Remark 8.18: since subobjects U >-> E correspond to arrows u : E → Omega, Omega is an object of truth values with t = 'true', u is a propositional function and U its extension; the classifying pullback yields the membership criterion U = {x ∈ E : u x = true} for generalized elements x : X → E; topoi further model first-order quantifiers as adjoints to pullback, and cartesian closure plus the classifier interprets higher-order logic, with Omega^E the power object P(E).",
+      "intree": "The subobject/characteristic-map correspondence is a theorem (classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets), Ω and truth are the class data, the power object is Pow a := Ω ^ a with relations_iso : SubObj (a × b) ≅ (a ~> Pow b), and the membership criterion is available as the universal property of the classifying pullback square char_pullback (not as a named lemma about generalized elements).",
+      "strength_comparison": "intree-weaker on the logical half: the two set-theoretic clauses (subobject ⟺ characteristic map; Ω^E as the object of subobjects of E) are present at full strength — indeed classifier_classifies is an isomorphism of setoids, stronger than the book's bijection of classes, and it is proved for an arbitrary category with terminal + pullbacks. The membership criterion is only implicit in char_pullback's UMP rather than stated in Awodey's generalized-element form. The quantifier and higher-order-logic clauses have no in-tree counterpart at all."
+    },
+    "gap": "Three clauses of the remark are missing. (1) MEMBERSHIP CRITERION as a statement: no lemma of the shape `(∃ k, m ∘ k ≈ z) ↔ char m M ∘ z ≈ truth ∘ one` exists — grep -rni 'factors through|factor_through|sub_factor' over Theory/Subobject*.v finds only the two prose comments at Theory/Subobject.v:55,88 about the ≤ preorder; the content is recoverable from is_pullback_ump but never packaged. (2) QUANTIFIERS AS ADJOINTS TO PULLBACK: Construction/Slice/Pullback.v defines Bang_Functor f (Σ_f, line 50) and Star_Functor f (f*, line 67), but the adjunction is a COMMENTED-OUT stub — lines 114-121 are '(* Program Definition Production ... *)' and '(* Program Definition Base_Functor_Adjunction `(f : a ~> b) : ... *)', with the header itself noting 'the live statement should read Bang_Functor f ⊣ Star_Functor f'. No Σ_f ⊣ f* ⊣ Π_f is proved, hence no existential/universal quantifier. (3) HIGHER-ORDER LOGIC: no internal language, no Mitchell-Bénabou/Kripke-Joyal interpretation, no Heyting-algebra structure on SubObj x (grep -rni 'Mitchell|quantifier' finds only header prose at Theory/Adjunction.v:75-77, Instance/Poset.v:70, Construction/Slice.v:93 and Structure/Topos.v:84); Instance/Lambda/ formalizes the simply-typed lambda calculus but is not connected to Ω or to SubObj.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently with the same split. All three evidence citations open and match verbatim: Structure/SubobjectClassifier.v:187 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}` (Defined at :214, both round trips at :159/:174), :52 char_pullback field, Structure/Topos.v:146 relations_iso over `Pow a := Ω ^ a` (:129). Gap claims re-verified: no membership-criterion lemma of the form `(∃ k, m ∘ k ≈ z) ↔ char m M ∘ z ≈ truth ∘ one` exists anywhere (only the UMP inside char_pullback); Construction/Slice/Pullback.v:114-125 really are commented out — `(* Program Definition Production ... *)` and `(* Program Definition Base_Functor_Adjunction `(f : a ~> b) : Star_Functor f ⊣ Bang_Functor f := ... *)` — with the header at :37-39 disclosing the stub status and the orientation erratum, so no Σ_f ⊣ f* ⊣ Π_f is proved. Strength_comparison is honest (the classification iso is genuinely stronger than the book's bijection, and stated for any category with terminal + pullbacks, not just a topos)."
+    }
+  },
+  {
+    "id": "awodey:8:ex1",
+    "classification": "PRESENT",
+    "aliases": [
+      "fully faithful functors reflect isomorphisms / conservative functor",
+      "FullyFaithful / ff_reflects_isos / ReflectsIsos",
+      "functors preserve isomorphisms (fobj_iso / map_iso)",
+      "C ≅ C' iff FC ≅ FC' for full and faithful F",
+      "Full + Faithful classes on Functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Functor.v",
+        "line": 355,
+        "symbol": "FullyFaithful",
+        "intree_statement": "Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y.  (* witnesses by prefmap of the given iso; inverse laws discharged by fmap_inj; ends in Defined *)"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 227,
+        "symbol": "fobj_iso",
+        "intree_statement": "#[export] Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F]).  (* obligation builds {| to := fmap[F] (to X); from := fmap (from X) |}: every functor sends x ≅ y to F x ≅ F y *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1: if F : C → D is full and faithful then for objects C, C' one has C ≅ C' iff FC ≅ FC' — such a functor both preserves and reflects isomorphism of objects.",
+      "intree": "Both directions, as separate constants. Reflection: FullyFaithful F : ∀ x y, F x ≅ F y → x ≅ y under Full + Faithful. Preservation: fobj_iso F : Proper (Isomorphism ==> Isomorphism) (fobj[F]), i.e. x ≅ y → F x ≅ F y for ANY functor.",
+      "strength_comparison": "same, with the in-tree preservation half stronger than needed (no Full/Faithful hypothesis, as in the book's own reading). The setoid rephrasing is faithful: `≅` is Theory/Isomorphism.v's two-sided-inverse record up to ≈, and the reflected iso is constructed (Defined), not merely asserted to exist. A second, morphism-level packaging of the same reflection is Theory/Equivalence/Limit.v:335 ff_reflects_isos : ReflectsIsos F."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and found the same two constants. Theory/Functor.v:355 `Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} : ∀ x y, F x ≅ F y → x ≅ y` — quote exact, ends in Defined at :370. Theory/Functor.v:227 `Program Instance fobj_iso `(F : C ⟶ D) : Proper (Isomorphism ==> Isomorphism) (fobj[F])` — quote exact, obligation builds to := fmap[F] (to X), from := fmap (from X). Checked for the same-name-weaker trap: Full is the section-form class (prefmap + fmap_sur, Theory/Functor.v:331) with the extraneous functoriality fields deliberately removed per issue #118 — that is the standard notion and is exactly what FullyFaithful consumes, so no weakening. Cross-reference Theory/Equivalence/Limit.v:335 `Definition ff_reflects_isos : ReflectsIsos F` exists as claimed (a morphism-level, strictly different statement — correctly described as a 'second packaging', not as the object-level exercise). No Admitted in either file; Theory/Functor.v registered in _CoqProject."
+    }
+  },
+  {
+    "id": "awodey:8:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "exponential laws in a CCC: (A × B)^C ≅ A^C × B^C",
+      "A^(B+C) ≅ A^B × A^C / exp_coprod",
+      "exp_prod_r / exp_prod_l / exp_swap / exp_one",
+      "right adjoint (−)^C preserves products; (− × C) preserves coproducts",
+      "distributivity of a bicartesian closed category"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian/Closed.v",
+        "line": 310,
+        "symbol": "exp_prod_r",
+        "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }.  (* Section context: Context {C : Category} `{@Cartesian C} `{@Closed C _} *)"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 134,
+        "symbol": "exp_coprod",
+        "intree_statement": "#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }.  (* Section BiCCC: Cartesian + Cocartesian + Closed *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 2: in a locally small cartesian closed category, use the Yoneda embedding to prove (A × B)^C ≅ A^C × B^C; and if C also has binary coproducts, A^(B+C) ≅ A^B × A^C.",
+      "intree": "exp_prod_r : (y × z)^x ≅ y^x × z^x under Cartesian + Closed, and exp_coprod : x^(y + z) ≅ x^y × x^z under Cartesian + Cocartesian + Closed. Both are Isomorphism records with explicit to/from and the two round-trip obligations proved.",
+      "strength_comparison": "intree-stronger: the same two isomorphisms with the same hypotheses minus local smallness (the library's hom-setoids need no smallness side condition), and the isomorphisms are given by named explicit mutually-inverse morphisms rather than only as an abstract natural bijection. The proofs are elementary curry/uncurry calculations rather than the book's Yoneda argument; the resulting statement is identical. Theory/Algebra.v:86 additionally exhibits `∀ x y z : C, x^(y + z) ≅ x^y × x^z` as discharged by `auto` from the same hint set."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and found the same two instances. Structure/Cartesian/Closed.v:310 `#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }` — quote character-exact; section context is `Context {C : Category} `{@Cartesian C} `{@Closed C _}`. Structure/BiCCC.v:134 `#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }` — quote character-exact, Section BiCCC context is Cartesian + Cocartesian + Closed, matching the exercise's 'if C additionally has binary coproducts'. Both obligations Qed (no Admitted/Abort in either file); both files in _CoqProject (289, and Structure/Cartesian/Closed.v). Method differs from the book (curry/uncurry calculation, not Yoneda) but the exercise's conclusion is what is classified; strength_comparison says so honestly."
+    }
+  },
+  {
+    "id": "awodey:8:ex3",
+    "classification": "PRESENT",
+    "aliases": [
+      "binary products of presheaves computed pointwise",
+      "Functor_Category_Cartesian / Cartesian (Fun C D)",
+      "(F × G)(C) = FC × GC / objectwise product of functors",
+      "limits in functor categories are pointwise (binary case)",
+      "Sets^(C^op) has binary products"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D).  (* the product functor is built objectwise — `exact (fun c => fobj[F] c × fobj[G] c)` on objects and `exact (fun x y f => Cartesian.split (fmap[F] f) (fmap[G] f))` on morphisms — with exl/exr the componentwise projections and the UMP `ump_products` discharged pointwise from D's; ends in Defined *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 3: for any locally small C, the functor category Sets^(C^op) has binary products F × G, computed pointwise: (F × G)(C) = FC × GC for every object C.",
+      "intree": "Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D), whose product object is literally the pointwise product c ↦ F c × G c (the instance is Defined, so `fobj[F × G] c` is convertible to `F c × G c`), with projections and pairing the componentwise ones and the universal property inherited objectwise.",
+      "strength_comparison": "intree-stronger in generality: the index C is arbitrary (no local smallness) and the target is any Cartesian D rather than Sets specifically, of which Sets^(C^op) is the instance since Sets_Cartesian (Instance/Sets/Cartesian.v:32) exists. Same conclusion. One presentational difference: the pointwise formula holds by conversion from the instance body rather than being stated as a separate lemma `(F × G) c ≅ F c × G c`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently on the same constant. Instance/Fun/Cartesian.v:111 `#[export] Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)`, with the pointwise object map at :115 (`exact (fun c => fobj[F] c × fobj[G] c)`), the morphism map at :116, exl/exr componentwise at :129/:133, the UMP discharged from D's ump_products at :137-139, ending in Defined at :140 — so the pointwise formula does hold by conversion, as the record claims. Instantiation at Sets is real: Instance/Sets/Cartesian.v:32 `Program Instance Sets_Cartesian : @Cartesian Sets` (line number exact). File registered at _CoqProject:201. Checked the definition-without-API trap: the record honestly notes there is no separate `(F × G) c ≅ F c × G c` lemma."
+    }
+  },
+  {
+    "id": "awodey:8:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda embedding preserves products / y(A × B) ≅ yA × yB",
+      "Hom(−, A × B) ≅ Hom(−, A) × Hom(−, B) naturally (representability of the product)",
+      "Yoneda preserves exponentials / y(A^B) ≅ (yA)^(yB)",
+      "representable functors preserve limits / hom preserves limits",
+      "Curried_CoHom / [Hom ─,A] as a product-preserving functor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Cartesian.v",
+        "line": 60,
+        "symbol": "CartesianProductIsUniversalProperty",
+        "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z).  Proof. unshelve econstructor; [ exact ([Hom ─ , x ] × [Hom ─ , y ]) |]. …  (* IsUniversalProperty supplies repr_functor := [Hom ─,x] × [Hom ─,y] and, for every z, an isomorphism in Sets between proofs of `IsCartesianProduct x y z` and natural isomorphisms [Hom ─,z] ≅ [Hom ─,x] × [Hom ─,y]; the × on presheaves is the pointwise product of Instance/Fun/Cartesian.v.  Hence y(x × y) ≅ y x × y y in the presheaf category, and conversely *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4: for a locally small C with binary products, show the Yoneda embedding y : C → Sets^(C^op) preserves those products; and if C also has exponentials, show y preserves them too (supplying the omitted half of Theorem 8.14).",
+      "intree": "Only the product half. CartesianProductIsUniversalProperty asserts, for all x y and every z, an isomorphism of setoids between `IsCartesianProduct x y z` and `Isomorphism [Hom ─,z] ([Hom ─,x] × [Hom ─,y])` in the presheaf category — i.e. z is a product of x and y exactly when y z ≅ y x × y y, which contains preservation (and reflection) of binary products by y.",
+      "strength_comparison": "intree-stronger than the book on the product clause (it is an iff/representability statement, giving reflection as well as preservation, and needs no local smallness), but the exponential clause is entirely absent because its target structure does not exist: no presheaf category in the tree has exponentials."
+    },
+    "gap": "The exponential half is not merely unproved but unstatable in-tree: there is no `@Closed (@Fun C D)` instance and no exponential of presheaves anywhere (grep for `@Closed` instances returns Lambda_Closed, Hom_Closed/AST, Algs_Closed, Rel_Closed, Props_Closed, Coq_Closed, FinSet_Closed, Cat_Closed, Sets_Closed, Product_Closed — Instance/Cat/Cartesian/Closed.v:47 Cat_Closed is the exponential [C,D] IN Cat, not an internal hom of presheaves; ls Instance/Fun/ contains only Cartesian.v). Consequently `y(A^B) ≅ (yA)^(yB)` cannot even be written. Secondary gap on the product clause: the preservation statement is packaged through the IsUniversalProperty representability wrapper rather than as `PreservesLimit`/`Cartesian`-functor structure for the embedding `Curried_Hom C^op`, and there is no `TerminalFunctor`/`CartesianFunctor` instance for the Yoneda embedding (grep -rni 'yoneda' . | grep -i 'preserv|limit|product|exponent' — 0 assertions, only Structure/UniversalProperty/Limit.v's Require line).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass MISSED this evidence and would have said ABSENT — I searched `Yoneda` co-occurring with product/preserve/limit and found nothing, because the in-tree statement is phrased through the representability wrapper and never mentions Yoneda by name. The classifier's find is genuine and I verified it from first principles: Structure/UniversalProperty.v:41-49 defines `IsUniversalProperty C P eqP` as repr_functor : C ⟶ Sets plus, for each c, an iso in Sets between P c and `Isomorphism [Hom c,─] repr_functor`; instantiated at C^op (Structure/UniversalProperty/Cartesian.v:60-64) the covariant hom of C^op IS the presheaf Hom_C(─,z) = y z, and repr_functor is `[Hom ─,x] × [Hom ─,y]` where × is the pointwise presheaf product (the file Requires Category.Instance.Fun.Cartesian at :11). So for every z: IsCartesianProduct x y z ≅ (y z ≅ y x × y y) — genuinely the product half of the exercise, and an iff, hence reflection too. The comparison map is the canonical one (its to-component is built from the exl'/exr' Hint Externs at :15-16, i.e. f ↦ (exl' ∘ f, exr' ∘ f)). Proposition is Defined at :123, no Admitted, file registered at _CoqProject:379. The exponential half is genuinely absent AND unstatable as claimed (no @Closed for any functor category). PARTIAL with that gap is correct."
+    }
+  },
+  {
+    "id": "awodey:8:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "A × − preserves colimits in Sets / (− × A) is cocontinuous",
+      "left adjoint preserves colimits (LAPC) applied to (− × A) ⊣ (−)^A",
+      "A × colim B_i ≅ colim (A × B_i)",
+      "distributivity: A × (B + C) ≅ A×B + A×C, A × 0 ≅ 0",
+      "PreservesColimit / PreservesAllColimits for the product functor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 90,
+        "symbol": "prod_coprod_r",
+        "intree_statement": "#[export] Program Instance prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }.  (* Section BiCCC: Cartesian + Cocartesian + Closed, all three of which Sets has (Sets_Cartesian, Sets_Cocartesian, Sets_Closed) — the binary-coproduct case of 'x × − preserves colimits' *)"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 221,
+        "symbol": "prod_zero_r",
+        "intree_statement": "#[export] Program Instance prod_zero_r {x : C} : x × 0 ≅ 0 := { to := uncurry zero ∘ swap; from := zero }.  (* the initial-object (empty-colimit) case of the same preservation *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 5: use the Yoneda Lemma to show that for any set A the functor A × − : Sets → Sets preserves ALL colimits, i.e. A × colim_i B_i ≅ colim_i (A × B_i) for any diagram i : I → Sets.",
+      "intree": "Only the finite-coproduct instances of the conclusion, and stated as distributivity rather than as colimit preservation: prod_coprod_r : x × (y + z) ≅ x × y + x × z and prod_zero_r : x × 0 ≅ 0, both derived from Cartesian + Cocartesian + Closed and hence available at Sets. The file header of Structure/BiCCC.v gives exactly the book's reason ('because the category is closed, each functor _ × x has a right adjoint _ ^ x, hence preserves all colimits'), but that general statement is not proved.",
+      "strength_comparison": "intree-weaker: only the shapes `two-object discrete` and `empty` are covered, not arbitrary diagrams; and even those are phrased as isomorphisms of objects, not as a `PreservesColimit` witness. In-tree the result is more general in the ambient category (any bicartesian closed C, not just Sets)."
+    },
+    "gap": "Everything beyond the binary/nullary case is missing. (1) The functor `A × − : Sets ⟶ Sets` is not defined anywhere (grep 'ProductFunctor|Prod_Left|prod_left|tensor_left' finds Functor/Construction/Product.v's ProductFunctor F ∏⟶ G on product CATEGORIES and Functor/Product/Internal.v:34 InternalProductFunctor : C ∏ C ⟶ C, never a one-variable x × −). (2) Sets has no colimits: grep -rn 'Colimit' over Instance/Sets*.v and Instance/Sets/ returns 0 hits, and no `Cocomplete` instance exists anywhere (Structure/Complete.v:119 is the bare definition). (3) The adjunction is never packaged: `Closed` supplies only `exp_iso : x × y ~> z ≊ x ~> z^y` (Structure/Cartesian/Closed.v:47) as a hom-setoid isomorphism, and there is NO `Adjunction` record `(− × y) ⊣ (− ^ y)` anywhere (the header of Instance/Sets/Cartesian/Closed.v:24 and Instance/Coq.v:164 mention the adjunction only in prose), so `left_adjoint_preserves_colimits` (Adjunction/Continuity.v:223) cannot be applied. (4) No Yoneda-based argument and no `PreservesColimit` witness for any product functor.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently with the same reading (finite-coproduct/initial case only). Evidence quotes character-exact: Structure/BiCCC.v:90 `prod_coprod_r {x y z : C} : x × (y + z) ≅ x × y + x × z := { to := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap; from := second inl ▽ second inr }` and :221 `prod_zero_r {x : C} : x × 0 ≅ 0 := { to := uncurry zero ∘ swap; from := zero }`. All four gap clauses re-verified independently: (1) no one-variable `A × −` functor exists — the only `fobj := fun p => fst p × snd p` is Functor/Product/Internal.v:36 (a bifunctor C ∏ C ⟶ C), and Functor/Construction/Product.v:94 ProductFunctor_fst only slices at the MONOIDAL UNIT I, not an arbitrary A; (2) `rg -n Colimit Instance/Sets.v Instance/Sets/*.v` returns 0 hits and no Cocomplete instance exists tree-wide; (3) no `Adjunction` record for (− × y) ⊣ (− ^ y) anywhere — Structure/Cartesian/Closed.v:34/:47 mention it only in prose around the hom-setoid `exp_iso`, and Theory/Adjunction.v:75/:94 likewise, so left_adjoint_preserves_colimits (Adjunction/Continuity.v:223) is not applicable; (4) no PreservesColimit witness for any product functor. Strength_comparison honest in both directions (weaker in shape coverage, more general in ambient category)."
+    }
+  },
+  {
+    "id": "awodey:8:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "subobject classifier of Sets^2 (the arrow category of sets)",
+      "subobject classifier of Sets^omega / presheaves on the ordinal ω",
+      "category of 2-indexed diagrams of finite sets is a topos / (FinSet)^2",
+      "Arrow category C^→ = [2, C] as a topos; Omega for the walking arrow",
+      "[_2, Sets] / [Omega, Sets] classifier; three-element Omega for the arrow category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v 'SubobjectClassifier' . — the only instance in the tree is Instance/FinSet/Classifier.v:354 `@SubobjectClassifier FinSet FinSet_Terminal`; nothing for [_2, Sets], [Omega, Sets] or any arrow/diagram category. Instance/Sets/Classifier.v deliberately provides cross-universe theorems (sets_char_pullback:224, sets_char_unique:283, sets_char_subobject:341) and explicitly NOT an instance, so even Sets^1 is not a classifier instance.",
+      "grep -rn --include=*.v 'ElementaryTopos' . — only Structure/Topos.v:112 (class) and Instance/FinSet/Topos.v:38 FinSet_Topos; no diagram/arrow category is a topos, so part (b) has no counterpart. FinSet_Topos is the skeletal category of finite sets itself, not the category (FinSet)^2 of 2-indexed diagrams.",
+      "grep -n 'Definition|Instance|Lemma|Theorem' Construction/Arrow.v — the file contains exactly ONE constant, `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])` (line 110); no Terminal, Cartesian, Pullback, Closed or classifier structure is put on it, and no `Arrow FinSet`/`Arrow Sets` is instantiated anywhere.",
+      "grep -rni --include=*.v 'arrow category|Arrow_Category|\\[_2, Sets\\]|Fun _2|_2, Sets' . — hits are Theory/Orthogonality.v:32,146 (retracts in the arrow category, prose), Instance/Fact.v:10 (twisted arrow, comment), Instance/Two.v:20 and Construction/Arrow.v:13,28,42,48 (all header comments); no functor category over _2 is constructed. Instance/Two.v:174 `_2_as_Set : _2 ⟶ Sets` is a single diagram, not the category of them.",
+      "grep -rn --include=*.v 'Terminal (@Fun|Terminal (Fun|HasPullbacks' . — no Terminal and no HasPullbacks instance for any functor category (the sole HasPullbacks instance is FinSet_Pullbacks, Instance/FinSet/Classifier.v:264), so the topos axioms for (FinSet)^2 cannot be assembled either.",
+      "grep -rn --include=*.v 'Omega' Instance/Omega.v — Instance/Omega.v's `Omega` (line 72) is the ordinal ω as a Type-valued preorder used for Adámek chains; no presheaf category over it and no classifier are built."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every negative-log claim spot-checked and accurate: the sole SubobjectClassifier instance is Instance/FinSet/Classifier.v:354 and the sole ElementaryTopos inhabitant is Instance/FinSet/Topos.v:38 (which is FinSet itself, NOT (FinSet)^2 — the record makes exactly this distinction, avoiding the special-case-passed-off-as-general trap); Construction/Arrow.v contains literally one Definition (`Arrow {C : Category} : Category := (Id[C] ↓ Id[C])` at :110) plus the notation at :112 and no structure instances; Instance/Two.v:174 `_2_as_Set : _2 ⟶ Sets` is a single diagram, not a diagram category; Instance/Omega.v's Omega is the ordinal ω for Adámek chains, unrelated to a truth-value object; Instance/Two/ contains only Discrete.v and Monoidal.v. No functor category in the tree has Terminal, HasPullbacks, Closed or a classifier, so neither part (a) nor part (b) has any counterpart."
+    }
+  }
+]

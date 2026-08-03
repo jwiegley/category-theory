@@ -1,0 +1,1772 @@
+{
+  "book": "7sketches",
+  "range": {
+    "pdf_start": 159,
+    "pdf_end": 192
+  },
+  "pages": [
+    {
+      "pdf_page": 159,
+      "book_page": "147",
+      "empty": false,
+      "items": [],
+      "notes": "Chapter 5 opener (folio printed bottom-centre) plus all of the running prose of section 5.1 'Comparing systems as interacting signal processors'. Motivational text on cyber-physical systems, variable sharing and Shannon signal flow graphs; no numbered environment and no numbered display on this page."
+    },
+    {
+      "pdf_page": 160,
+      "book_page": "148",
+      "empty": false,
+      "items": [],
+      "notes": "Number 5.1 is CONSUMED BY A NUMBERED DISPLAY: the introductory signal flow graph diagram, right-flush label (5.1). No item is minted for it (it is the illustrative running example, its content restated informally in the surrounding prose). Also carries an unnumbered annotated copy of the same diagram, the three bullet readings of the icons (scalar/copy/add), and footnote 1 on the spelling 'prop' vs 'PROP'. No named numbered environment."
+    },
+    {
+      "pdf_page": 161,
+      "book_page": "149",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.1:def5.2"
+      ],
+      "notes": "Sections 5.2 'Props and presentations' and 5.2.1 'Props: definition and first examples' begin here. The (i)-(v) list of the five data needed to specify a prop is unnumbered prose immediately after Definition 5.2 and is folded into that item, not recorded separately. Footnote 2 (jocular 'his/her' aside) is a footnote, not an item."
+    },
+    {
+      "pdf_page": 162,
+      "book_page": "150",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.1:example5.3",
+        "7sketches:5.2.1:ex5.5",
+        "7sketches:5.2.1:example5.6",
+        "7sketches:5.2.1:example5.7",
+        "7sketches:5.2.1:example5.8"
+      ],
+      "notes": "Number 5.4 is CONSUMED BY A NUMBERED DISPLAY inside Example 5.3 (the two-case formula for the disjoint union f+g of functions). It carries no claim distinct from its enclosing Example, so no separate item is recorded. Footnote 3 marker appears in Example 5.8; its text is printed at the foot of the next page."
+    },
+    {
+      "pdf_page": 163,
+      "book_page": "151",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.1:ex5.9",
+        "7sketches:5.2.1:ex5.10",
+        "7sketches:5.2.1:def5.11",
+        "7sketches:5.2.1:example5.12",
+        "7sketches:5.2.2:def5.13"
+      ],
+      "notes": "Section 5.2.2 'The prop of port graphs' begins here. Footnote 3 (the monoidal product of relations, R1+R2 inside (m1 u m2) x (n1 u n2)) is printed at the foot of this page. A short EMPTY pale-green shaded strip sits at the bottom of the text block: it is the top edge of Example 5.14's box, whose header and all content begin on PDF 164 \u2014 the item is therefore recorded under 164, not here."
+    },
+    {
+      "pdf_page": 164,
+      "book_page": "152",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.2:example5.14",
+        "7sketches:5.2.2:construction-pg"
+      ],
+      "notes": "Number 5.15 is CONSUMED BY A NUMBERED DISPLAY: the (2,3)-port-graph picture inside Example 5.14, right-flush label (5.15); it is the Example's own illustration, so no separate item. The bold run-in 'A category PG whose morphisms are port graphs.' is NOT itself an item, but the unnumbered construction of the prop PG that it opens IS recorded (it builds a genuine category/prop in prose) and continues onto PDF 165."
+    },
+    {
+      "pdf_page": 165,
+      "book_page": "153",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.2:construction-pg",
+        "7sketches:5.2.2:ex5.16",
+        "7sketches:5.2.2:ex5.18",
+        "7sketches:5.2.3:example5.19"
+      ],
+      "notes": "The unnumbered PG construction (started PDF 164) concludes here: the three-case formula for the composite bijection, Ob(PG) = N, the identity port graph on n, and the bold run-in 'The monoidal structure structure on PG.' (the doubled word 'structure structure' is the book's own typo). Number 5.17 is CONSUMED BY A NUMBERED DISPLAY, the formula G+G' for the monoidal product of port graphs; it belongs to that construction, so no separate item. Section 5.2.3 'Free constructions and universal properties' begins; Example 5.19's shaded box continues onto PDF 166."
+    },
+    {
+      "pdf_page": 166,
+      "book_page": "154",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.3:example5.19",
+        "7sketches:5.2.3:ex5.20",
+        "7sketches:5.2.3:ex5.21",
+        "7sketches:5.2.3:example5.22"
+      ],
+      "notes": "Example 5.19 (started PDF 165) concludes in the top third of this page. No numbered displays on this page."
+    },
+    {
+      "pdf_page": 167,
+      "book_page": "155",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.3:ex5.23",
+        "7sketches:5.2.3:ex5.24",
+        "7sketches:5.2.4:def5.25"
+      ],
+      "notes": "Section 5.2.4 'The free prop on a signature' begins here. Footnote 4 defines the arity of a prop morphism as a pair (m,n) in N x N. Definition 5.25's pink box continues onto PDF 168. The one-vertex graph Loop(A) drawn inside Exercise 5.24 is an unnumbered figure."
+    },
+    {
+      "pdf_page": 168,
+      "book_page": "156",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:5.2.4:example5.27",
+        "7sketches:5.2.4:ex5.28",
+        "7sketches:5.2.4:prop5.29"
+      ],
+      "notes": "Definition 5.25 (started PDF 167) concludes at the top of this page. Number 5.26 is CONSUMED BY A NUMBERED DISPLAY: the picture of a G-labelled morphism 3 -> 2 in Free(G) using the generator g twice and f not at all \u2014 purely illustrative, no separate item. The bold run-in 'An alternate way to describe morphisms in Free(G).' at the foot is a heading, not an item; the construction it opens is Definition 5.30 on the next page."
+    },
+    {
+      "pdf_page": 169,
+      "book_page": "157",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.4:def5.30",
+        "7sketches:5.2.4:example5.31"
+      ],
+      "notes": "Footnote 5 (the symmetry sigma can be thought of as the 'swap' icon 2 -> 2). No numbered displays on this page."
+    },
+    {
+      "pdf_page": 170,
+      "book_page": "158",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.4:ex5.32",
+        "7sketches:5.2.5:def5.33",
+        "7sketches:5.2.5:remark5.34"
+      ],
+      "notes": "Section 5.2.5 'Props via presentations' begins here. Item 5.33 is a ROUGH DEFINITION header (kind rough-definition), not a plain Definition. Footnote 6 notes that elements of E, here called equations, are traditionally called 'relations'. Remark 5.34's text runs over onto PDF 171. The four-action-column picture with dashed vertical lines and the resulting expression (g+id1);(id1+sigma);(id1+g);(h+id1) is an unnumbered display."
+    },
+    {
+      "pdf_page": 171,
+      "book_page": "159",
+      "empty": false,
+      "items": [
+        "7sketches:5.2.5:remark5.34",
+        "7sketches:5.2.5:ex5.35",
+        "7sketches:5.3.1:def5.36",
+        "7sketches:5.3.1:example5.37"
+      ],
+      "notes": "Remark 5.34 (started PDF 170) concludes at the top of this page. Sections 5.3 'Simplified signal flow graphs' and 5.3.1 'Rigs' begin. Footnote 7 (rigs are also known as semi-rings) and footnote 8 (multiplication is NOT required commutative; Example 5.40 gives a non-commutative case) are footnotes, not items."
+    },
+    {
+      "pdf_page": 172,
+      "book_page": "160",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.1:example5.38",
+        "7sketches:5.3.1:example5.39",
+        "7sketches:5.3.1:example5.40",
+        "7sketches:5.3.1:ex5.41",
+        "7sketches:5.3.1:example5.42"
+      ],
+      "notes": "Section 5.3.2 'The iconography of signal flow graphs' begins in the lower half. The scalar-multiplication icon display is tagged '(scalar mult.)' \u2014 a WORD tag, not a number, so it consumes no counter value. Footnote 9 (strictly the signals should take values in an R-module M; the text keeps M = R)."
+    },
+    {
+      "pdf_page": 173,
+      "book_page": "161",
+      "empty": false,
+      "items": [],
+      "notes": "No numbered environment and no numbered display on this page. Content: the four remaining signal-flow-graph icons, each on a display tagged with a WORD not a number \u2014 '(copy)', '(discard)', '(add, +)', '(zero, 0)' \u2014 plus their readings, a redrawn copy of the Eq. (5.1) example over the rig N, and the sum-over-paths recipe. These icons are the generating set later formalised as G_R in Definition 5.45 (PDF 175), where they are recorded; no separate unnumbered-construction item is minted for the informal iconography."
+    },
+    {
+      "pdf_page": 174,
+      "book_page": "162",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.2:ex5.43",
+        "7sketches:5.3.2:example5.44"
+      ],
+      "notes": "The displayed differential and Laplace-transformed equation systems inside Example 5.44 are UNNUMBERED displays and consume no counter value. The bold run-in 'Signal flow graphs as morphisms in a free prop.' at the foot is a heading, not an item; it opens Definition 5.45 on the next page."
+    },
+    {
+      "pdf_page": 175,
+      "book_page": "163",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.3.2:example5.46"
+      ],
+      "notes": "Number 5.47 is CONSUMED BY A NUMBERED DISPLAY: two copy-tree diagrams set side by side with the word 'and' between them, which the surrounding prose reads as expressing the same behaviour (one input copied to three identical outputs). It is an illustrative pre-announcement of the axioms formalised in section 5.4.1 (outside this range), carries no claim independent of that prose, and is therefore NOT recorded as an equation item."
+    },
+    {
+      "pdf_page": 176,
+      "book_page": "164",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.3:eq5.48",
+        "7sketches:5.3.3:remark5.49",
+        "7sketches:5.3.3:def5.50",
+        "7sketches:5.3.3:ex5.51"
+      ],
+      "notes": "Section 5.3.3 'The prop of matrices over a rig' begins here (this is the chapter's declared splitAt page). Number 5.48 IS recorded as an equation item: the display defines composition of rig-valued matrices, sits in running prose enclosed by no named environment, and is the content that Definition 5.50 cites by number for its composition law \u2014 the same situation as the already-recorded 7sketches:2.5.3:equation101. The two matrices A and B inside Exercise 5.51 are unnumbered displays."
+    },
+    {
+      "pdf_page": 177,
+      "book_page": "165",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.4:construction-generator-matrix-table"
+      ],
+      "notes": "Section 5.3.4 'Turning signal flow graphs into matrices' opens here. Number 5.52 is CONSUMED BY A DISPLAY: the right-flush label (5.52) sits beside a four-column table (generator | icon | matrix | arity) rather than an environment header. The table is nonetheless the generator-to-matrix assignment that Theorem 5.53 and Proposition 5.54 both cite by name ('Table 5.52'), so it is recorded as an unnumbered construction with the flag number-5.52-is-a-display; the continuity check should still count 5.52 as a display. Also on the page, unrecorded: the running example matrix (15 3; 0 21) for the Eq. (5.1) signal flow graph, and the unnumbered bold run-in lead 'Every signal flow graph can be interpreted as a matrix.' (a run-in lead, not an item)."
+    },
+    {
+      "pdf_page": 178,
+      "book_page": "166",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.4:thm5.53",
+        "7sketches:5.3.4:prop5.54"
+      ],
+      "notes": "Theorem 5.53 (lavender box) with a three-line proof, then Proposition 5.54 (lavender box) whose proof starts here and runs onto printed 167. Footnote 10 (an aside on what mathematical induction is) belongs to the chapter's independent footnote sequence and is not an item. No numbered display on this page."
+    },
+    {
+      "pdf_page": 179,
+      "book_page": "167",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.4:prop5.54",
+        "7sketches:5.3.4:ex5.55"
+      ],
+      "notes": "Continuation and end of the proof of Proposition 5.54 (the composition case with its sum-over-paths display, and the monoidal-product case). Exercise 5.55 begins at the foot of the page with part 1 and its diagram; parts 2 and 3 are on printed 168, so the exercise spans the page break. The sum-over-paths display in the proof is UNNUMBERED. No numbered display on this page."
+    },
+    {
+      "pdf_page": 180,
+      "book_page": "168",
+      "empty": false,
+      "items": [
+        "7sketches:5.3.4:ex5.55"
+      ],
+      "notes": "Not empty: carries the end of Exercise 5.55 (parts 2 and 3, recorded on printed 167), then three section openers - 5.3.5 'The idea of functorial semantics' (pure reflective prose: syntax vs semantics, S as a prop functor, compositional computation of S(g) in three steps), 5.4 'Graphical linear algebra' (motivational, cites [FSR16]), and 5.4.1 'A presentation of Mat(R)'. No numbered environment starts here and no number is consumed by a display."
+    },
+    {
+      "pdf_page": 181,
+      "book_page": "169",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.1:prop5.56",
+        "7sketches:5.4.1:ex5.58",
+        "7sketches:5.4.1:ex5.59"
+      ],
+      "notes": "Number 5.57 is CONSUMED BY A DISPLAY: the right-flush (5.57) labels the four-layer 2x2 signal flow graph drawn inside the proof sketch of Proposition 5.56. It carries no claim distinct from its enclosing proposition, so no separate item is recorded."
+    },
+    {
+      "pdf_page": 182,
+      "book_page": "170",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "notes": "Theorem 5.60 occupies most of the page as one large lavender box (statement plus roughly fourteen diagrammatic equations), followed by its proof and the unnumbered bold run-in lead 'Sound and complete presentation of matrices.' (a run-in lead, not an item; its content - two signal flow graphs represent the same matrix iff one rewrites to the other - is the theorem's stated consequence and is folded into the Theorem 5.60 summary). The run-in paragraph continues onto printed 171. No numbered display on this page."
+    },
+    {
+      "pdf_page": 183,
+      "book_page": "171",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.1:example5.61",
+        "7sketches:5.4.1:ex5.62",
+        "7sketches:5.4.1:ex5.63"
+      ],
+      "notes": "Number 5.64 is CONSUMED BY A DISPLAY: the right-flush (5.64) labels the pair of signal flow graphs drawn inside Exercise 5.63; it carries no claim distinct from its enclosing exercise, so no separate item."
+    },
+    {
+      "pdf_page": 184,
+      "book_page": "172",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.4.2:example5.66",
+        "7sketches:5.4.2:ex5.67",
+        "7sketches:5.4.2:example5.68"
+      ],
+      "notes": "Section 5.4.2 'Aside: monoid objects in a monoidal category' opens with a short prose paragraph observing that subsets of the Theorem 5.60 equations axiomatize (co)monoids, (co)monoid homomorphisms, Frobenius algebras and (rearranged) Hopf algebras - pure signposting, not recorded. No numbered display on this page."
+    },
+    {
+      "pdf_page": 185,
+      "book_page": "173",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.2:ex5.69",
+        "7sketches:5.4.2:example5.70",
+        "7sketches:5.4.2:example5.71",
+        "7sketches:5.4.2:example5.72",
+        "7sketches:5.4.2:example5.73",
+        "7sketches:5.4.2:remark5.74"
+      ],
+      "notes": "Six consecutive numbered items, 5.69-5.74, with no intervening prose beyond one recall paragraph inside Exercise 5.69 about the monoidal units of Mat(R) and Set. No numbered display on this page."
+    },
+    {
+      "pdf_page": 186,
+      "book_page": "174",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:ex5.77"
+      ],
+      "notes": "Section 5.4.3 'Signal flow graphs: feedback and more' opens here. Numbers 5.75 and 5.76 are both CONSUMED BY DISPLAYS (right-flush labels), but each display is the formula of a definition made in running prose - the behavior B(g) of a signal flow graph, and the transposed relation B(g^op) of a mirrored graph - so each is recorded as a prose definition carrying the flag number-5.75-is-a-display / number-5.76-is-a-display, with number null. The unnumbered bold run-in leads 'The behavioral approach.' and 'Mirror image of an icon.' are leads, not items; so is the unnumbered display B(copy) = {(x,(x,x)) | x in R}."
+    },
+    {
+      "pdf_page": 187,
+      "book_page": "175",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.3:def-relation-composition",
+        "7sketches:5.4.3:def5.79",
+        "7sketches:5.4.3:ex5.80",
+        "7sketches:5.4.3:def-sfg-plus"
+      ],
+      "notes": "Numbers 5.78 and 5.81 are CONSUMED BY DISPLAYS, and again each display is the formula of a definition made in running prose - composition of relations ('We shall use this as the general definition for composing two behaviors'), and the prop SFG_R^+ := Free(G_R + G_R^op) of non-simplified signal flow graphs - so both are recorded as prose definitions with number null and the corresponding number-is-a-display flag. The unnumbered bold run-in leads 'Combining directions.' and '(No-longer simplified) signal flow graphs.' are leads, not items."
+    },
+    {
+      "pdf_page": 188,
+      "book_page": "176",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.3:ex5.82",
+        "7sketches:5.4.3:ex5.83",
+        "7sketches:5.4.3:ex5.84"
+      ],
+      "notes": "Three exercises with box-and-wire diagrams. The unnumbered bold run-in lead 'Linear algebra via signal flow graphs.' is a lead, not an item. No numbered display on this page."
+    },
+    {
+      "pdf_page": 189,
+      "book_page": "177",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.3:ex5.85"
+      ],
+      "notes": "Number 5.86 is CONSUMED BY A DISPLAY: the right-flush (5.86) labels the two cup/cap signal flow graphs. The display itself is a bare pair of pictures - the claim about them (their behaviors are {(0,(x,x))} and {((x,x),0)}, and they serve as the eta_1 and epsilon_1 of the Chapter 4 compact-closed definition) is made in the surrounding prose and is the content of Theorem 5.87 on printed 178, so no separate item is recorded. The unnumbered bold run-in lead 'Compact closed structure.' is a lead, not an item; so is the closing unnumbered display of three signal flow graphs asserted to represent the same relation (the snake/zigzag equations), whose statement is absorbed by Theorem 5.87."
+    },
+    {
+      "pdf_page": 190,
+      "book_page": "178",
+      "empty": false,
+      "items": [
+        "7sketches:5.4.3:thm5.87",
+        "7sketches:5.4.3:example-control-theory-cruise-control"
+      ],
+      "notes": "Theorem 5.87 (lavender box) with no proof, followed by an unnumbered pair of definitional equations introducing 'cup' and 'cap' as abbreviations for the two composites of Eq. (5.86) - notation only, folded into the Theorem 5.87 entry rather than recorded separately. Then the unnumbered bold run-in lead 'Back to control theory.' introduces the closing worked cruise-control example, recorded as an unnumbered example. Section 5.5 'Summary and further reading' opens at the foot of the page. No numbered display on this page (the integral equation for v is unnumbered)."
+    },
+    {
+      "pdf_page": 191,
+      "book_page": "179",
+      "empty": false,
+      "items": [],
+      "notes": "Not empty: the remainder of section 5.5 'Summary and further reading' - pure bibliographic and historical prose (Sobocinski's Graphical Linear Algebra blog [Sob], Baez-Erbele [BE15], Zanasi's thesis [Zan15] and [BSZ14; BSZ15; BS17], control-theory applications [FSR16], Willems' behavioral approach [Wil07], abstract algebra [Fra67], rigs/semirings [Gla13], Lawvere's thesis [Law04] for functorial semantics). Roughly the top third of the page is text and the rest is blank. No numbered environment, no numbered display, no definition in prose."
+    },
+    {
+      "pdf_page": 192,
+      "book_page": "180",
+      "empty": true,
+      "items": [],
+      "notes": "Genuinely blank verso - no folio, no running head, no extractable text. This is the trailing \\cleardoublepage blank listed in the pagemap (PDF 192 = printed 180) that closes the Chapter 5 range. Not a dropped page; the offset printed = pdf - 12 is unaffected."
+    }
+  ],
+  "items": [
+    {
+      "id": "7sketches:5.2.1:def5.2",
+      "kind": "definition",
+      "number": "5.2",
+      "name": "prop",
+      "statement_summary": "A prop is a symmetric strict monoidal category (C, 0, +) whose set of objects is exactly the natural numbers, whose monoidal unit is the object 0, and whose monoidal product on objects is addition of natural numbers. Every object n is thereby the n-fold monoidal product of the generating object 1. The following prose lists the five data that suffice to present a prop: (i) a hom-set C(m,n) for each m,n in N; (ii) an identity id_n : n -> n for each n; (iii) a symmetry sigma_{m,n} : m+n -> n+m for all m,n; (iv) a composition rule sending f : m -> n and g : n -> p to (f ; g) : m -> p; (v) a monoidal product on morphisms sending f : m -> m' and g : n -> n' to (f+g) : m+n -> m'+n'; these must satisfy the symmetric strict monoidal category axioms.",
+      "book_section": "5.2.1",
+      "book_page": "149",
+      "pdf_pages": [
+        161
+      ],
+      "cross_refs": [
+        "7sketches:4.4.3:def4.45",
+        "7sketches:4.4.3:remark4.46"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:example5.3",
+      "kind": "example",
+      "number": "5.3",
+      "name": "FinSet as a prop",
+      "statement_summary": "FinSet is a prop: its morphisms m -> n are the functions from the standard finite set {1,...,m} to {1,...,n}, with the evident identities, symmetries and composition. Its monoidal product on morphisms is disjoint union of functions: given f : m -> m' and g : n -> n', the map f+g : m+n -> m'+n' sends i to f(i) when 1 <= i <= m and to m' + g(i) when m+1 <= i <= m+n (displayed as the numbered equation (5.4)).",
+      "book_section": "5.2.1",
+      "book_page": "150",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:ex5.5",
+      "kind": "exercise",
+      "number": "5.5",
+      "name": "unpacking the prop structure of FinSet",
+      "statement_summary": "Five-part exercise making explicit what Example 5.3 called 'obvious' about FinSet: (1) draw a morphism f : 3 -> 2 and a morphism g : 2 -> 4 in FinSet; (2) draw f + g; (3) state the composition rule for f : m -> n and g : n -> p in FinSet; (4) say what the identities in FinSet are and draw some; (5) choose m,n in N and draw the symmetry map sigma_{m,n} in FinSet.",
+      "book_section": "5.2.1",
+      "book_page": "150",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:example5.3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:example5.6",
+      "kind": "example",
+      "number": "5.6",
+      "name": "Bij, the prop of bijections",
+      "statement_summary": "Bij is a prop whose morphisms m -> n are the bijections {1,...,m} -> {1,...,n}; consequently the hom-set Bij(m,n) is empty unless m = n. Bij is a subcategory of FinSet and inherits the same monoidal product on morphisms (the disjoint-union formula of Eq. (5.4)).",
+      "book_section": "5.2.1",
+      "book_page": "150",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:example5.3",
+        "7sketches:1.2.1:def22"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:example5.7",
+      "kind": "example",
+      "number": "5.7",
+      "name": "Corel is a prop",
+      "statement_summary": "The compact closed category Corel of corelations, whose morphisms m -> n are the partitions of the disjoint union {1,...,m} u {1,...,n}, is a prop. (Corel was constructed in Chapter 4; here the claim is only that it satisfies Definition 5.2.)",
+      "book_section": "5.2.1",
+      "book_page": "150",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "7sketches:4.5.1:example4.61",
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:example5.8",
+      "kind": "example",
+      "number": "5.8",
+      "name": "Rel, the prop of relations",
+      "statement_summary": "Rel is a prop whose morphisms m -> n are the relations R contained in {1,...,m} x {1,...,n}. Composition of R with S contained in {1,...,n} x {1,...,p} is relational composition, R ; S = {(i,k) : there exists j in {1,...,n} with (i,j) in R and (j,k) in S}. The monoidal product is disjoint union of relations; footnote 3 gives it as R1 + R2 contained in (m1 x n1) u (m2 x n2), which sits inside (m1 u m2) x (n1 u n2). A picture illustrates the sum of a relation 2 -> 2 with a relation 3 -> 1 giving a relation 5 -> 3.",
+      "book_section": "5.2.1",
+      "book_page": "150",
+      "pdf_pages": [
+        162
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:ex5.9",
+      "kind": "exercise",
+      "number": "5.9",
+      "name": "posetal props",
+      "statement_summary": "A posetal prop is defined to be a prop that is also a poset; equivalently a symmetric monoidal preorder of the form (N, <=) for some poset relation <= on N whose monoidal product on objects is addition. The exercise asks for three examples of a posetal prop.",
+      "book_section": "5.2.1",
+      "book_page": "151",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:ex5.10",
+      "kind": "exercise",
+      "number": "5.10",
+      "name": "the five aspects of a chosen prop",
+      "statement_summary": "Choose one of the props of Examples 5.6, 5.7 or 5.8 (Bij, Corel, Rel) and explicitly supply the five data (i)-(v) listed after Definition 5.2: hom-sets, identities, symmetries, composition, and the monoidal product on morphisms.",
+      "book_section": "5.2.1",
+      "book_page": "151",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.2",
+        "7sketches:5.2.1:example5.6",
+        "7sketches:5.2.1:example5.7",
+        "7sketches:5.2.1:example5.8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:def5.11",
+      "kind": "definition",
+      "number": "5.11",
+      "name": "prop functor",
+      "statement_summary": "Given props C and D, a functor F : C -> D is a prop functor when (a) F is the identity on objects, i.e. F(n) = n for every n in Ob(C) = Ob(D) = N, and (b) F preserves the monoidal product of morphisms: F(f) + F(g) = F(f + g) in D for all f : m1 -> m2 and g : n1 -> n2 in C.",
+      "book_section": "5.2.1",
+      "book_page": "151",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.1:example5.12",
+      "kind": "example",
+      "number": "5.12",
+      "name": "two prop functors: Bij -> FinSet and FinSet -> Rel",
+      "statement_summary": "The inclusion i : Bij -> FinSet is a prop functor. More interestingly there is a prop functor F : FinSet -> Rel_Fin sending a function f : {1,...,m} -> {1,...,n} to its graph, the relation F(f) = {(i,j) : f(i) = j} contained in {1,...,m} x {1,...,n}.",
+      "book_section": "5.2.1",
+      "book_page": "151",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [
+        "7sketches:5.2.1:def5.11",
+        "7sketches:5.2.1:example5.6",
+        "7sketches:5.2.1:example5.8"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.2:def5.13",
+      "kind": "definition",
+      "number": "5.13",
+      "name": "(m,n)-port graph",
+      "statement_summary": "For m,n in N, an (m,n)-port graph is a tuple (V, in, out, iota) where (i) V is a set of vertices; (ii) in, out : V -> N assign each vertex its in-degree and out-degree; and (iii) iota is a BIJECTION from {1,...,m} u O to I u {1,...,n}, where I = {(v,i) : v in V, 1 <= i <= in(v)} is the set of vertex inputs and O = {(v,i) : v in V, 1 <= i <= out(v)} is the set of vertex outputs. The data must satisfy an acyclicity condition: build the internal flow graph with vertex set V and an arrow e^{u,i}_{v,j} : u -> v whenever iota(u,i) = (v,j); the tuple is a port graph exactly when this internal flow graph is acyclic, i.e. the only path from any vertex to itself is trivial.",
+      "book_section": "5.2.2",
+      "book_page": "151",
+      "pdf_pages": [
+        163
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.2:example5.14",
+      "kind": "example",
+      "number": "5.14",
+      "name": "a (2,3)-port graph",
+      "statement_summary": "A worked instance of Definition 5.13 with m = 2, n = 3 and vertex set V = {a,b,c}, e.g. in(a) = 1 and out(a) = 3. The example is displayed three ways: as a nested-box wiring picture (the numbered display (5.15)), as an explicit bipartite drawing of the bijection iota linking {1,...,m} u O to I u {1,...,n}, and as the resulting internal flow graph, which is exhibited as acyclic. The example also connects port graphs to wiring diagrams for monoidal categories and props.",
+      "book_section": "5.2.2",
+      "book_page": "152",
+      "pdf_pages": [
+        164
+      ],
+      "cross_refs": [
+        "7sketches:5.2.2:def5.13"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.2:construction-pg",
+      "kind": "construction",
+      "number": null,
+      "name": "PG, the prop of port graphs (unnumbered construction in prose)",
+      "statement_summary": "Unnumbered construction, developed across two bold run-in paragraphs, of a category PG that is then shown to be a prop. Objects: Ob(PG) = N. Morphisms: PG(m,n) is the set of (m,n)-port graphs of Definition 5.13. Composition of an (m,n)-port graph (V,in,out,iota) with an (n,p)-port graph (V',in',out',iota') is the (m,p)-port graph (V u V', [in,in'], [out,out'], iota''), where [in,in'] is the copairing V u V' -> N and the composite bijection iota'' : {1,...,m} u O u O' -> I u I' u {1,...,p} is given by the three cases: iota''(x) = iota(x) if iota(x) lies in I; iota''(x) = iota'(iota(x)) if iota(x) lies in {1,...,n}; iota''(x) = iota'(x) if x lies in O'. The identity on n is the (n,n)-port graph (empty set, !, !, id_n) with ! the unique function from the empty set to N. Monoidal product (numbered display (5.17)): G + G' = (V u V', [in,in'], [out,out'], iota u iota'), with monoidal unit (empty set, !, !, !). The text asserts PG is in fact a prop.",
+      "book_section": "5.2.2",
+      "book_page": "152",
+      "pdf_pages": [
+        164,
+        165
+      ],
+      "cross_refs": [
+        "7sketches:5.2.2:def5.13",
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.2.2:ex5.16",
+      "kind": "exercise",
+      "number": "5.16",
+      "name": "visualising port graph composition",
+      "statement_summary": "Describe how composition of port graphs looks with respect to the nested-box visual representation used in Example 5.14, and give a nontrivial example.",
+      "book_section": "5.2.2",
+      "book_page": "153",
+      "pdf_pages": [
+        165
+      ],
+      "cross_refs": [
+        "7sketches:5.2.2:example5.14",
+        "7sketches:5.2.2:construction-pg"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.2:ex5.18",
+      "kind": "exercise",
+      "number": "5.18",
+      "name": "monoidal product of a port graph with itself",
+      "statement_summary": "Draw the monoidal product of the (2,3)-port graph of Eq. (5.15) with itself; the result is a (4,6)-port graph, i.e. a morphism 4 -> 6 in PG.",
+      "book_section": "5.2.2",
+      "book_page": "153",
+      "pdf_pages": [
+        165
+      ],
+      "cross_refs": [
+        "7sketches:5.2.2:example5.14",
+        "7sketches:5.2.2:construction-pg"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.3:example5.19",
+      "kind": "example",
+      "number": "5.19",
+      "name": "the free preorder on a relation",
+      "statement_summary": "Recalls the free construction for preorders: given a relation R contained in P x P, its reflexive-transitive closure is the free preorder on R \u2014 the minimally constrained preorder containing R, obtained by a 'closure machine' that adds only the inequalities forced by reflexivity and transitivity. A graph (V,A,s,t) is turned into a preorder by first reading it as the relation {(s(a),t(a)) : a in A} contained in V x V and then closing. The example then explains in what sense this is minimally constrained: the extra equalities impose no further constraints on maps OUT of P (freeness is about maps out, explored in Exercises 5.20 and 5.21), and notes that the higher-level justification is that freeness is a left adjoint.",
+      "book_section": "5.2.3",
+      "book_page": "153",
+      "pdf_pages": [
+        165,
+        166
+      ],
+      "cross_refs": [
+        "7sketches:5.2.3:ex5.20",
+        "7sketches:5.2.3:ex5.21",
+        "7sketches:3.4.2:example3.74"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.2.3:ex5.20",
+      "kind": "exercise",
+      "number": "5.20",
+      "name": "universal property of the free preorder",
+      "statement_summary": "Let P be a set, R contained in P x P a relation, (P, <=_P) the preorder given by the reflexive-transitive closure of R, (Q, <=_Q) an arbitrary preorder, and f : P -> Q a function not assumed monotone. (1) Show that if R(x,y) implies f(x) <=_Q f(y) for all x,y in P, then f is a monotone map (P,<=_P) -> (Q,<=_Q). (2) Show conversely that if f is monotone then R(x,y) implies f(x) <=_Q f(y). The two together are named the universal property of the free preorder (P,<=_P).",
+      "book_section": "5.2.3",
+      "book_page": "154",
+      "pdf_pages": [
+        166
+      ],
+      "cross_refs": [
+        "7sketches:5.2.3:example5.19"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.3:ex5.21",
+      "kind": "exercise",
+      "number": "5.21",
+      "name": "freeness concerns maps out, not maps in",
+      "statement_summary": "With P, Q, R as in Exercise 5.20, now take a function g : Q -> P in the opposite direction. (1) If for all a,b in Q, a <=_Q b implies (g(a),g(b)) in R, is g automatically a monotone map (Q,<=_Q) -> (P,<=_P)? (2) If g is monotone, is it automatic that a <=_Q b implies (g(a),g(b)) in R? The moral drawn is that maps between structured objects preserve constraints, so the domain must be more constrained than the codomain; having the fewest additional constraints coincides with having the most maps out.",
+      "book_section": "5.2.3",
+      "book_page": "154",
+      "pdf_pages": [
+        166
+      ],
+      "cross_refs": [
+        "7sketches:5.2.3:ex5.20"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.3:example5.22",
+      "kind": "example",
+      "number": "5.22",
+      "name": "the free category on a graph",
+      "statement_summary": "Recalls the construction of the free category Free(G) on a graph G: the objects of Free(G) are the vertices of G, while the morphisms are the closure of the set of arrows of G under composition and the addition of identities. That closure turns out to be exactly the set of paths in G, so Free(G) is a category containing G that obeys no equations other than those forced by the category axioms.",
+      "book_section": "5.2.3",
+      "book_page": "154",
+      "pdf_pages": [
+        166
+      ],
+      "cross_refs": [
+        "7sketches:3.2.1:def3.7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.3:ex5.23",
+      "kind": "exercise",
+      "number": "5.23",
+      "name": "universal property of the free category on a graph",
+      "statement_summary": "Let G = (V,A,s,t) be a graph, let script-G be the free category on G, and let C be a category with morphism set Mor(C). (1) Interpret the statement that there are 'domain and codomain' functions dom, cod : Mor(C) -> Ob(C). (2) Show that functors script-G -> C are in one-to-one correspondence with pairs of functions (f,g) where f : V -> Ob(C) and g : A -> Mor(C) satisfy dom(g(a)) = f(s(a)) and cod(g(a)) = f(t(a)) for every arrow a. (3) Ask whether (Mor(C), Ob(C), dom, cod) is a graph and, if so, whether the correspondence of part 2 can be phrased as an adjunction.",
+      "book_section": "5.2.3",
+      "book_page": "155",
+      "pdf_pages": [
+        167
+      ],
+      "cross_refs": [
+        "7sketches:5.2.3:example5.22",
+        "7sketches:3.2.1:def3.7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.3:ex5.24",
+      "kind": "exercise",
+      "number": "5.24",
+      "name": "the free monoid on a set",
+      "statement_summary": "Recalling that monoids are one-object categories, for any set A let Loop(A) be the graph with a single vertex and one loop arrow for each a in A. The free category on Loop(A) is a one-object category, hence a monoid, called the free monoid on A. (1) What are the elements of the free monoid on A = {a}? (2) Identify a well-known monoid isomorphic to it. (3) What are the elements of the free monoid on A = {a,b}?",
+      "book_section": "5.2.3",
+      "book_page": "155",
+      "pdf_pages": [
+        167
+      ],
+      "cross_refs": [
+        "7sketches:3.2.1:example3.13",
+        "7sketches:5.2.3:example5.22"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:def5.25",
+      "kind": "definition",
+      "number": "5.25",
+      "name": "prop signature, G-labeling, and the free prop Free(G)",
+      "statement_summary": "Three definitions in one box. (a) A prop signature is a tuple (G,s,t) with G a set and s,t : G -> N functions; each g in G is a generator and s(g), t(g) are its in-arity and out-arity (the signature is usually abbreviated to G). (b) A G-labeling of a port graph (V,in,out,iota) is a function l : V -> G whose arities agree with the degrees: s(l(v)) = in(v) and t(l(v)) = out(v) for every vertex v. (c) The free prop on G, written Free(G), is the prop whose morphisms m -> n are all G-labeled (m,n)-port graphs, with composition and monoidal structure exactly those of PG (Eq. (5.17)), the labelings simply carried along. Drawing convention: each vertex v is a box with in(v) ports on the left and out(v) on the right, labelled by l(v); the same generator may label several boxes and some generators may go unused.",
+      "book_section": "5.2.4",
+      "book_page": "155",
+      "pdf_pages": [
+        167,
+        168
+      ],
+      "cross_refs": [
+        "7sketches:5.2.2:def5.13",
+        "7sketches:5.2.2:construction-pg"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.2.4:example5.27",
+      "kind": "example",
+      "number": "5.27",
+      "name": "the free prop on the empty signature is Bij",
+      "statement_summary": "Free(empty set) = Bij. Reason: a labeling must be a function V -> empty set, forcing V to be empty, so the only morphisms n -> m are the port graphs (empty set, !, !, sigma) whose structure bijection sigma : n -> m is a bijection of finite sets.",
+      "book_section": "5.2.4",
+      "book_page": "156",
+      "pdf_pages": [
+        168
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:5.2.1:example5.6",
+        "7sketches:1.2.1:ex25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:ex5.28",
+      "kind": "exercise",
+      "number": "5.28",
+      "name": "the free prop on one generator per arity recovers PG",
+      "statement_summary": "For the prop signature G = {rho_{m,n} : m,n in N} with s(rho_{m,n}) = m and t(rho_{m,n}) = n \u2014 i.e. exactly one generating morphism for each pair (m,n) in N^2 \u2014 show that Free(G) is the prop PG of port graphs constructed in Section 5.2.2.",
+      "book_section": "5.2.4",
+      "book_page": "156",
+      "pdf_pages": [
+        168
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:5.2.2:construction-pg"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:prop5.29",
+      "kind": "proposition",
+      "number": "5.29",
+      "name": "universal property of the free prop on a signature",
+      "statement_summary": "The free prop Free(G) on a prop signature (G,s,t) has the following universal property in terms of maps out: for any prop C, the prop functors Free(G) -> C are in one-to-one correspondence with the functions from G to the morphisms of C that send each generator g in G to a morphism s(g) -> t(g) of C. The text notes this can be proved in the manner of Exercise 5.23 (its analogue for free categories); no proof is given.",
+      "book_section": "5.2.4",
+      "book_page": "156",
+      "pdf_pages": [
+        168
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:5.2.1:def5.11",
+        "7sketches:5.2.3:ex5.23"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:def5.30",
+      "kind": "definition",
+      "number": "5.30",
+      "name": "G-generated prop expression; Expr(G)",
+      "statement_summary": "Given a set G with functions s,t : G -> N, the G-generated prop expressions e : m -> n (m,n in N) are defined inductively: (i) the empty morphism id_0 : 0 -> 0, the identity id_1 : 1 -> 1 and the symmetry sigma : 2 -> 2 are expressions; (ii) each generator g in G is an expression g : s(g) -> t(g); (iii) if alpha : m -> n and beta : p -> q are expressions then so is the monoidal sum alpha + beta : m+p -> n+q; (iv) if alpha : m -> n and beta : n -> p are expressions then so is the composite alpha ; beta : m -> p. Expr(G) denotes the set of all such expressions and (m,n) is called the arity of e : m -> n. The surrounding prose adds that distinct expressions may denote the same morphism of Free(G) (e.g. f ; id_1 and f), so morphisms of the free prop are expressions quotiented by the equivalence relation forced by the prop axioms \u2014 equivalently, by having the same underlying port graph. It also gives the translation from a port graph to an expression: sweep a vertical line left to right and, for each 'action column', form the monoidal sum of the boxes, symmetries and identity wires met there, then compose the columns.",
+      "book_section": "5.2.4",
+      "book_page": "157",
+      "pdf_pages": [
+        169
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:1.2.1:def21"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:example5.31",
+      "kind": "example",
+      "number": "5.31",
+      "name": "sample prop expressions over a three-generator signature",
+      "statement_summary": "For G = {f : 1 -> 1, g : 2 -> 2, h : 2 -> 1}, the following are all G-generated prop expressions: id_1 : 1 -> 1; f : 1 -> 1; f ; id_1 : 1 -> 1; h + id_1 : 3 -> 2; and (h + id_1) ; sigma ; g ; sigma : 3 -> 2.",
+      "book_section": "5.2.4",
+      "book_page": "157",
+      "pdf_pages": [
+        169
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.30"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.4:ex5.32",
+      "kind": "exercise",
+      "number": "5.32",
+      "name": "draw a given prop expression",
+      "statement_summary": "For the free prop on generators G = {f : 1 -> 1, g : 2 -> 2, h : 2 -> 1}, draw the picture of the expression (f + id_1 + id_1) ; (sigma + id_1) ; (id_1 + h) ; sigma ; g, where sigma : 2 -> 2 is the symmetry map.",
+      "book_section": "5.2.4",
+      "book_page": "158",
+      "pdf_pages": [
+        170
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.30",
+        "7sketches:5.2.4:example5.31"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.5:def5.33",
+      "kind": "rough-definition",
+      "number": "5.33",
+      "name": "presentation of a prop; the prop presented by a presentation",
+      "statement_summary": "ROUGH DEFINITION (the book's own informal/provisional Definition header, not a plain Definition). A presentation (G,s,t,E) for a prop consists of a set G of generators, functions s,t : G -> N, and a set E contained in Expr(G) x Expr(G) of pairs of G-generated prop expressions such that the two components of each pair (e1,e2) in E have the same arity; E is called the set of equations. The prop presented by (G,s,t,E) is the prop whose morphisms are the elements of Expr(G) quotiented both by the equations e1 = e2 for every (e1,e2) in E and by the axioms of symmetric strict monoidal categories. Footnote 6 records that elements of E are traditionally called 'relations'.",
+      "book_section": "5.2.5",
+      "book_page": "158",
+      "pdf_pages": [
+        170
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.30",
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.2.5:remark5.34",
+      "kind": "remark",
+      "number": "5.34",
+      "name": "universal property of a presented prop",
+      "statement_summary": "States without proof ('it can be shown') the maps-out universal property of the prop script-G presented by (G,s,t,E): for any prop C, the prop functors script-G -> C are in one-to-one correspondence with the functions f from G to the set of morphisms of C such that (i) for every g in G, f(g) is a morphism s(g) -> t(g) of C, and (ii) for every equation (e1,e2) in E, f(e1) = f(e2) in C, where f(e) denotes the morphism of C obtained by applying f to each generator occurring in the expression e and composing/summing the results in C.",
+      "book_section": "5.2.5",
+      "book_page": "158",
+      "pdf_pages": [
+        170,
+        171
+      ],
+      "cross_refs": [
+        "7sketches:5.2.5:def5.33",
+        "7sketches:5.2.4:prop5.29"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.2.5:ex5.35",
+      "kind": "exercise",
+      "number": "5.35",
+      "name": "free prop versus prop presented with no relations",
+      "statement_summary": "Is the free prop on a signature (G,s,t) as given in Definition 5.25 the same thing as the prop presented by (G,s,t,empty set), i.e. with no relations, in the sense of Rough Definition 5.33 \u2014 or is there a subtle difference?",
+      "book_section": "5.2.5",
+      "book_page": "159",
+      "pdf_pages": [
+        171
+      ],
+      "cross_refs": [
+        "7sketches:5.2.4:def5.25",
+        "7sketches:5.2.5:def5.33"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:def5.36",
+      "kind": "definition",
+      "number": "5.36",
+      "name": "rig",
+      "statement_summary": "A rig is a tuple (R, 0, +, 1, *) with R a set, 0 and 1 elements of R, and +, * : R x R -> R binary operations, such that (a) (R,+,0) is a commutative monoid; (b) (R,*,1) is a monoid (commutativity of * is deliberately NOT required, cf. footnote 8 and Example 5.40); (c) * distributes over + on both sides: a*(b+c) = a*b + a*c and (a+b)*c = a*c + b*c for all a,b,c in R; and (d) 0 annihilates: a*0 = 0 = 0*a for all a in R. Footnote 7 records the synonym 'semi-ring'.",
+      "book_section": "5.3.1",
+      "book_page": "159",
+      "pdf_pages": [
+        171
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:example5.37",
+      "kind": "example",
+      "number": "5.37",
+      "name": "the natural numbers form a rig",
+      "statement_summary": "The natural numbers form a rig (N, 0, +, 1, *) with the usual addition and multiplication.",
+      "book_section": "5.3.1",
+      "book_page": "159",
+      "pdf_pages": [
+        171
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:example5.38",
+      "kind": "example",
+      "number": "5.38",
+      "name": "the Booleans form a rig",
+      "statement_summary": "The Booleans form a rig (B, false, OR, true, AND): disjunction is the additive operation with unit false, conjunction the multiplicative operation with unit true.",
+      "book_section": "5.3.1",
+      "book_page": "160",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:example5.39",
+      "kind": "example",
+      "number": "5.39",
+      "name": "every quantale determines a rig",
+      "statement_summary": "Any quantale V = (V, <=, I, tensor) determines a rig (V, 0, join, I, tensor), where the additive operation is binary join, the multiplicative operation is the quantale's monoidal product with unit I, and the additive unit 0 is the empty join (the join of the empty subset).",
+      "book_section": "5.3.1",
+      "book_page": "160",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36",
+        "7sketches:2.5.2:def90",
+        "7sketches:2.5.1:def79"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:example5.40",
+      "kind": "example",
+      "number": "5.40",
+      "name": "square matrices over a rig form a rig",
+      "statement_summary": "For a rig R and n in N, the set Mat_n(R) of (n x n)-matrices over R is itself a rig. A matrix M in Mat_n(R) is a function M : {1,...,n} x {1,...,n} -> R. Addition is entrywise, (M+N)(i,j) := M(i,j) + N(i,j); multiplication is (M*N)(i,j) := sum over k in {1,...,n} of M(i,k)*N(k,j); the additive unit is the zero matrix 0(i,j) := 0. Mat_n(R) is generally NOT commutative, which is the promised example showing why Definition 5.36 does not demand commutative multiplication.",
+      "book_section": "5.3.1",
+      "book_page": "160",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:ex5.41",
+      "kind": "exercise",
+      "number": "5.41",
+      "name": "identity and non-commutativity in Mat_n(R)",
+      "statement_summary": "Two parts about Example 5.40. (1) Since Mat_n(R) is a rig for any rig R, identify its multiplicative identity 1 in Mat_n(R). (2) Pick an n and show explicitly that Mat_n(N) is not commutative, where N is the rig of Example 5.37.",
+      "book_section": "5.3.1",
+      "book_page": "160",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:example5.40",
+        "7sketches:5.3.1:example5.37"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.1:example5.42",
+      "kind": "example",
+      "number": "5.42",
+      "name": "every ring is a rig",
+      "statement_summary": "Any ring forms a rig; in particular the real numbers (R, 0, +, 1, *) are a rig. The difference is that a ring additionally has additive inverses (negatives), whence the mnemonic that a rig is a ring without negatives.",
+      "book_section": "5.3.1",
+      "book_page": "160",
+      "pdf_pages": [
+        172
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.2:ex5.43",
+      "kind": "exercise",
+      "number": "5.43",
+      "name": "evaluate a given signal flow graph",
+      "statement_summary": "A displayed signal flow graph over the natural numbers takes two inputs x and y (its icons are amplify-by-5, amplify-by-3 twice, two copy nodes and two add nodes) and produces two output signals. Determine what those two output signals are, using the icon semantics (amplify multiplies, black dot copies, white dot adds) or the sum-over-paths rule.",
+      "book_section": "5.3.2",
+      "book_page": "162",
+      "pdf_pages": [
+        174
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:example5.37"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.2:example5.44",
+      "kind": "example",
+      "number": "5.44",
+      "name": "a linear system of differential equations as a signal flow graph",
+      "statement_summary": "For readers familiar with differential equations: the movement of a particle with position (x,y,z) in 3-space specified by the linear system x' + 3y'' - 2z = 0 and y'' + 5z' = 0 can, via the Laplace transform, be rewritten over a formal variable D standing for 'differentiate', giving Dx + 3D^2 y - 2z = 0 and D^2 y + 5Dz = 0; this rewritten system is then represented by an explicitly drawn signal flow graph whose amplifier boxes are labelled D, 3D^2, -2, D^2 and 5D. Illustrates that the scalars of a signal flow graph may come from a rig of differential operators.",
+      "book_section": "5.3.2",
+      "book_page": "162",
+      "pdf_pages": [
+        174
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.2:def5.45",
+      "kind": "definition",
+      "number": "5.45",
+      "name": "the generating signature G_R and the prop SFG_R of simplified signal flow graphs",
+      "statement_summary": "Let R be a rig. Define the prop signature G_R to consist of four fixed generator icons \u2014 add, zero, copy and discard \u2014 together with one amplification icon for each element a of R; the arity functions s,t : G_R -> N are read off as the number of dangling wires on the left and on the right of the generator icon respectively (so add is 2 -> 1, zero is 0 -> 1, copy is 1 -> 2, discard is 1 -> 0 and each amplifier is 1 -> 1). A simplified signal flow graph is by definition a morphism in the free prop Free(G_R) on this signature, and one sets SFG_R := Free(G_R). ('Simplified' means without feedback; feedback is added in Section 5.4.3.)",
+      "book_section": "5.3.2",
+      "book_page": "163",
+      "pdf_pages": [
+        175
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36",
+        "7sketches:5.2.4:def5.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.2:example5.46",
+      "kind": "example",
+      "number": "5.46",
+      "name": "drawing convention for morphisms of Free(G_R)",
+      "statement_summary": "Notational example: strictly, morphisms of Free(G_R) should be drawn like port graphs and wiring diagrams, with each vertex a labelled box; the signal flow graph of Exercise 5.43 is redrawn in that boxed style. Since it is easier to read, the book instead drops the boxes and draws only the icons inside them, as in Exercise 5.43, and adopts that convention from here on.",
+      "book_section": "5.3.2",
+      "book_page": "163",
+      "pdf_pages": [
+        175
+      ],
+      "cross_refs": [
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.3.2:ex5.43",
+        "7sketches:5.2.4:def5.25"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.3:eq5.48",
+      "kind": "equation",
+      "number": "5.48",
+      "name": "composition (matrix multiplication) of rig-valued matrices",
+      "statement_summary": "Recorded because this numbered display sits in running prose inside no named environment and supplies the composition law that Definition 5.50 then cites by number. The prose first defines an (m x n)-matrix M with values in a rig R to be a function M : {1,...,m} x {1,...,n} -> R. The display then defines, for an (m x n)-matrix M and an (n x p)-matrix N, their composite as the (m x p)-matrix M ; N given for a in {1,...,m} and c in {1,...,p} by (M ; N)(a,c) := sum over b in {1,...,n} of M(a,b) x N(b,c), where the summation is repeated addition using the rig's + operation. Note the diagrammatic-order convention: composition is written left to right.",
+      "book_section": "5.3.3",
+      "book_page": "164",
+      "pdf_pages": [
+        176
+      ],
+      "cross_refs": [
+        "7sketches:5.3.1:def5.36",
+        "7sketches:5.3.3:def5.50",
+        "7sketches:2.5.3:equation101"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.3:remark5.49",
+      "kind": "remark",
+      "number": "5.49",
+      "name": "row-vector composition convention for matrices",
+      "statement_summary": "Convention note with mathematical content: conventionally a matrix A acts on a column vector v by multiplication in the order Av, but to keep matrix composition in the same left-to-right (diagrammatic) order as the book's composition operator, matrices here act on ROW vectors in the opposite order, v ; A. This convention is used implicitly in the generator-interpretation table of Eq. (5.52).",
+      "book_section": "5.3.3",
+      "book_page": "164",
+      "pdf_pages": [
+        176
+      ],
+      "cross_refs": [
+        "7sketches:5.3.3:eq5.48",
+        "7sketches:5.3.3:def5.50"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.3:def5.50",
+      "kind": "definition",
+      "number": "5.50",
+      "name": "Mat(R), the prop of R-matrices",
+      "statement_summary": "For a rig R, the prop of R-matrices, written Mat(R), is defined to be the prop whose morphisms m -> n are the (m x n)-matrices with values in R. Composition is matrix multiplication as in Eq. (5.48). The monoidal product is the direct sum of matrices: given A : m -> n and B : p -> q, the sum A + B : m+p -> n+q is the block-diagonal matrix with A in the top-left block, B in the bottom-right block and zero matrices of the appropriate dimensions (m x q and n x p) elsewhere. Any combination of matrix multiplication and direct sum is called an interconnection of matrices.",
+      "book_section": "5.3.3",
+      "book_page": "164",
+      "pdf_pages": [
+        176
+      ],
+      "cross_refs": [
+        "7sketches:5.3.3:eq5.48",
+        "7sketches:5.3.1:def5.36",
+        "7sketches:5.2.1:def5.2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.3:ex5.51",
+      "kind": "exercise",
+      "number": "5.51",
+      "name": "compute a direct sum of two matrices over N",
+      "statement_summary": "Given the natural-number matrices A = [[3,3,1],[2,0,4]] (a 2 x 3 matrix, i.e. a morphism 2 -> 3 in Mat(N)) and B = [2,5,6,1] (a 1 x 4 matrix, i.e. a morphism 1 -> 4), compute the direct sum matrix A + B, the block-diagonal 3 x 7 matrix representing the morphism 3 -> 7.",
+      "book_section": "5.3.3",
+      "book_page": "164",
+      "pdf_pages": [
+        176
+      ],
+      "cross_refs": [
+        "7sketches:5.3.3:def5.50"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.4:construction-generator-matrix-table",
+      "kind": "construction",
+      "number": null,
+      "name": "Table (5.52): the matrix interpretation of each signal flow graph generator",
+      "statement_summary": "Fixes the semantic assignment on generators that defines the functor of Theorem 5.53. For a rig R, each element of the generating set G_R of SFG_R is sent to a matrix over R, with matching arity: amplification by a in R (the box icon, arity 1 -> 1) goes to the 1x1 matrix (a); addition (arity 2 -> 1) goes to the 2x1 column with both entries 1; zero (arity 0 -> 1) goes to the empty 0x1 matrix; copy (arity 1 -> 2) goes to the 1x2 row (1 1); discard (arity 1 -> 0) goes to the empty 1x0 matrix. The accompanying prose stresses that zero and discard are both empty matrices but of different shapes (0xn versus nx0), which must be tracked because composability depends on the shape. Since signal flow graphs are the morphisms of a FREE prop, this generator table alone determines an interpretation of every signal flow graph as a matrix.",
+      "book_section": "5.3.4",
+      "book_page": "165",
+      "pdf_pages": [
+        177
+      ],
+      "cross_refs": [
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.3.3:def5.50",
+        "7sketches:5.3.4:thm5.53"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "number-5.52-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:5.3.4:thm5.53",
+      "kind": "theorem",
+      "number": "5.53",
+      "name": "the semantics functor S : SFG_R -> Mat(R)",
+      "statement_summary": "Claim: there is a prop functor S from the prop SFG_R of simplified signal flow graphs over a rig R to the prop Mat(R) of R-matrices, whose value on each generator icon g in G_R is the matrix assigned to it in Table (5.52). Proof: one line - the generator assignment extends uniquely because SFG_R is the free prop on the signature G_R, so the free-prop universal property (Remark 5.34) supplies the functor. Being a prop functor, S automatically preserves identities, composition, monoidal products and symmetries.",
+      "book_section": "5.3.4",
+      "book_page": "166",
+      "pdf_pages": [
+        178
+      ],
+      "cross_refs": [
+        "7sketches:5.3.4:construction-generator-matrix-table",
+        "7sketches:5.2.5:remark5.34",
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.3.3:def5.50",
+        "7sketches:5.2.1:def5.11"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.3.4:prop5.54",
+      "kind": "proposition",
+      "number": "5.54",
+      "name": "S(g) computes amplification from input i to output j",
+      "statement_summary": "Claim: for a signal flow graph g with m inputs and n outputs, the matrix S(g) produced by the functor of Theorem 5.53 is the m x n matrix whose (i,j) entry is the amplification that the ith input contributes to the jth output - i.e. the abstractly defined functor agrees with the concrete path-tracing reading. Proof by structural induction over G_R-generated prop expressions (Definition 5.30), whose formation rules are monoidal product and composition of expressions. Base cases: the empty graph id_0 goes to the empty 0x0 matrix, id_1 to (1), the symmetry to the 2x2 swap matrix, and amplification by a to (a); in each the (i,j) entry is the claimed amplification. Inductive step (i), composition alpha ; beta with alpha : m -> n and beta : n -> q: every path from input i to output k factors through some jth wire between them, and by distributivity of the rig the total amplification is the sum over j in n of alpha(i,j) * beta(j,k), which is exactly matrix multiplication, i.e. composition in Mat(R). Inductive step (ii), monoidal product alpha + beta: no new paths are created, only inputs and outputs are reindexed (input i of beta becomes input m+i, output j of beta becomes output n+j), so the resulting matrix is the block direct sum S(alpha) + S(beta) = S(alpha + beta).",
+      "book_section": "5.3.4",
+      "book_page": "166",
+      "pdf_pages": [
+        178,
+        179
+      ],
+      "cross_refs": [
+        "7sketches:5.3.4:thm5.53",
+        "7sketches:5.2.4:def5.30",
+        "7sketches:5.2.1:def5.11",
+        "7sketches:5.3.3:def5.50"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.3.4:ex5.55",
+      "kind": "exercise",
+      "number": "5.55",
+      "name": "matrices of the two re-associated double-copy graphs",
+      "statement_summary": "Three parts, over an arbitrary rig. (1) Compute the matrix represented by the signal flow graph in which a single input is copied and then the upper of the two resulting wires is copied again (a 1 -> 3 graph built from two copy icons). (2) Compute the matrix for the variant in which the LOWER wire is copied again instead. (3) Decide whether the two are equal. (In effect the two sides of the coassociativity law for copy; both matrices are the 1 x 3 row of ones.)",
+      "book_section": "5.3.4",
+      "book_page": "167",
+      "pdf_pages": [
+        179,
+        180
+      ],
+      "cross_refs": [
+        "7sketches:5.3.4:prop5.54",
+        "7sketches:5.3.4:construction-generator-matrix-table"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "7sketches:5.4.1:prop5.56",
+      "kind": "proposition",
+      "number": "5.56",
+      "name": "fullness of S: every matrix is realized by a signal flow graph",
+      "statement_summary": "Claim: for every matrix M in Mat(R) there exists a signal flow graph g in SFG_R with S(g) = M; i.e. the semantics functor S of Theorem 5.53 is full (surjective on hom-sets, phrased objectwise here). Proof sketch: build g so that there is exactly one path from the ith input to the jth output and that path carries exactly one amplification icon, labelled M(i,j); then path-tracing (Proposition 5.54) gives S(g)(i,j) = M(i,j). The construction is displayed for a 2x2 matrix (a b; c d) as the composite of four layers - (i) copy and discard maps, (ii) scalar amplifications, (iii) swaps and identities, (iv) additions and zero maps - and the general m x n case is deferred to Exercise 5.59.",
+      "book_section": "5.4.1",
+      "book_page": "169",
+      "pdf_pages": [
+        181
+      ],
+      "cross_refs": [
+        "7sketches:5.3.4:thm5.53",
+        "7sketches:5.3.4:prop5.54",
+        "7sketches:5.4.1:ex5.59",
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:ex5.58",
+      "kind": "exercise",
+      "number": "5.58",
+      "name": "draw signal flow graphs for three given matrices",
+      "statement_summary": "Draw signal flow graphs representing each of three explicit matrices over the natural numbers: the 1 x 3 column with entries 0, 1, 2; the 2 x 2 zero matrix; and the 2 x 3 matrix with rows (1 2 3) and (4 5 6). (An instance of the construction in the proof of Proposition 5.56.)",
+      "book_section": "5.4.1",
+      "book_page": "169",
+      "pdf_pages": [
+        181
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:prop5.56",
+        "7sketches:5.4.1:ex5.62"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:ex5.59",
+      "kind": "exercise",
+      "number": "5.59",
+      "name": "detailed proof of Proposition 5.56 for general m x n",
+      "statement_summary": "Write out a full proof of Proposition 5.56: given an m x n matrix M, generalize the 2 x 2 construction displayed as Eq. (5.57) and build the signal flow graph g with m inputs and n outputs as the composite of four layers - (i) copy and discard maps, (ii) scalar amplifications, (iii) swaps and identities, (iv) addition and zero maps - and verify S(g) = M.",
+      "book_section": "5.4.1",
+      "book_page": "169",
+      "pdf_pages": [
+        181
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:prop5.56"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:thm5.60",
+      "kind": "theorem",
+      "number": "5.60",
+      "name": "presentation of Mat(R) by generators and diagrammatic equations (sound and complete graphical calculus)",
+      "statement_summary": "Claim: for a rig R, the prop Mat(R) is isomorphic to the prop PRESENTED by the generating set G_R - addition (2 -> 1), zero (0 -> 1), copy (1 -> 2), discard (1 -> 0), and one amplification icon for each a in R (1 -> 1), the same generators as SFG_R - modulo an explicitly drawn list of equations, required for all a, b in R. The equations say, in words: (i) copy and discard make the object 1 a cocommutative comonoid (copy is coassociative and cocommutative, discard is a counit on either leg); (ii) addition and zero make it a commutative monoid (associative, commutative, unital); (iii) the two interact as a bimonoid/bialgebra - copying a sum equals adding two copies with a middle interchange, discarding a sum equals discarding both summands, copying zero gives two zeros, and zero followed by discard is the empty diagram; (iv) the scalars act compatibly - amplifying by a then by b equals amplifying by ab, copying and amplifying by a and by b then adding equals amplifying by a+b, amplifying by 1 is the identity wire, amplifying by 0 equals discard followed by zero, and every scalar commutes with copy, with addition, with discard and with zero (each amplification is a bimonoid homomorphism). Proof: these equations suffice to rewrite any G_R-generated prop expression into the normal form used in the proof of Proposition 5.56 - all black (copy/discard) nodes on the left, all white (addition/zero) nodes on the right, all scalars in between - which forces any two expressions denoting the same matrix to be provably equal; details cited to [BE15] and [BS17]. Stated consequence in the following prose: the graphical rules are a SOUND and COMPLETE reasoning system - two signal flow graphs represent the same matrix if and only if one can be rewritten into the other by local application of these equations together with the prop axioms.",
+      "book_section": "5.4.1",
+      "book_page": "170",
+      "pdf_pages": [
+        182
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:prop5.56",
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.3.3:def5.50",
+        "7sketches:5.2.5:def5.33",
+        "7sketches:5.4.1:example5.61"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:example5.61",
+      "kind": "example",
+      "number": "5.61",
+      "name": "two signal flow graphs for the column vector (0, 6) rewritten into each other",
+      "statement_summary": "Exhibits two different signal flow graphs (0 -> 2 diagrams, i.e. states) that represent the same matrix, the 2 x 1 column with entries 0 and 6: one built from a copy of an input amplified by 2, with one branch amplified by 3 and added, and the other a single amplification by 6. Then carries out the rewriting promised by Theorem 5.60 in three displayed steps, using only the presentation's equations (moving the addition/copy nodes past each other and merging the scalars 2 and 3 into 6), thereby demonstrating the completeness half of the theorem on a concrete instance.",
+      "book_section": "5.4.1",
+      "book_page": "171",
+      "pdf_pages": [
+        183
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:ex5.62",
+      "kind": "exercise",
+      "number": "5.62",
+      "name": "alternative graphs for the Exercise 5.58 matrices and graphical proofs of equality",
+      "statement_summary": "Two parts. (1) For each of the three matrices of Exercise 5.58, draw a SECOND signal flow graph representing the same matrix. (2) Using the equations of Theorem 5.60 together with the prop axioms, prove graphically that the two graphs for each matrix are equal - i.e. exercise the completeness of the presentation.",
+      "book_section": "5.4.1",
+      "book_page": "171",
+      "pdf_pages": [
+        183
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:ex5.58",
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.1:ex5.63",
+      "kind": "exercise",
+      "number": "5.63",
+      "name": "distinguishing two signal flow graphs using only the presentation",
+      "statement_summary": "Considers two displayed signal flow graphs (labelled Eq. (5.64)); the left is a pair of wires each discarded and each fed by a zero, the right a larger diagram with amplifications 5 and 3. Two parts. (1) With R the rig of natural numbers (N, 0, +, 1, *), prove that the two graphs do NOT represent the same matrix by reasoning with the presentation of Mat(R) of Theorem 5.60, without computing either matrix - i.e. use soundness of the graphical calculus as a non-derivability argument. (2) With R = N/3N instead (equivalently, replace every 3 by 0 in the right-hand diagram), find a minimal representation of that diagram using the same presentation.",
+      "book_section": "5.4.1",
+      "book_page": "171",
+      "pdf_pages": [
+        183
+      ],
+      "cross_refs": [
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:def5.65",
+      "kind": "definition",
+      "number": "5.65",
+      "name": "monoid object, commutative monoid object, in a symmetric monoidal category",
+      "statement_summary": "Defines a monoid object in a symmetric monoidal category (C, I, tensor) to be a triple (M, mu, eta) with M an object of C, mu : M tensor M -> M and eta : I -> M morphisms, satisfying (a) associativity, (mu tensor id) ; mu = (id tensor mu) ; mu, and (b) two-sided unitality, (eta tensor id) ; mu = id = (id tensor eta) ; mu. It is a COMMUTATIVE monoid object if in addition (c) sigma_{M,M} ; mu = mu, where sigma is the symmetry (swap) of C at M. (Coherence isomorphisms are suppressed, as the ambient prop/monoidal setting here is strict.)",
+      "book_section": "5.4.2",
+      "book_page": "172",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:example5.66",
+        "7sketches:5.4.2:example5.68",
+        "7sketches:5.4.2:remark5.74"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.66",
+      "kind": "example",
+      "number": "5.66",
+      "name": "monoid objects in (Set, 1, x) are ordinary monoids",
+      "statement_summary": "Unpacks Definition 5.65 in the cartesian monoidal category of sets: a monoid object there is exactly an ordinary monoid - a set M, a binary operation mu : M x M -> M written infix as *, and an element eta(1) = e in M, such that (a*b)*c = a*(b*c) and a*e = a = e*a. Cross-referenced to the chapter-2 and chapter-3 discussions of monoids.",
+      "book_section": "5.4.2",
+      "book_page": "172",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:ex5.67",
+      "kind": "exercise",
+      "number": "5.67",
+      "name": "the multiplicative and additive monoid structures on the reals",
+      "statement_summary": "For the set R of real numbers: (1) verify that mu(a,b) = a*b with eta = 1 satisfies all three conditions of Definition 5.65, so (R, *, 1) is a commutative monoid object in Set; (2) verify the same for mu(a,b) = a+b with eta = 0, giving (R, +, 0).",
+      "book_section": "5.4.2",
+      "book_page": "172",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.4.2:ex5.69"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.68",
+      "kind": "example",
+      "number": "5.68",
+      "name": "(1, addition, zero) is a commutative monoid object in Mat(R)",
+      "statement_summary": "Reads Definition 5.65 diagrammatically in a prop by taking mu to be the addition icon (2 -> 1) and eta the zero icon (0 -> 1) on the object 1. Axioms (a) associativity, (b) unitality and (c) commutativity then become exactly three of the drawn equations, all of which appear in the presentation of Theorem 5.60; hence the triple (1, addition, zero) is a commutative monoid object in the prop Mat(R). (Shows how a monoid object is read off a graphical presentation.)",
+      "book_section": "5.4.2",
+      "book_page": "172",
+      "pdf_pages": [
+        184
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.4.1:thm5.60",
+        "7sketches:5.4.2:example5.70",
+        "7sketches:5.4.2:ex5.69"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:ex5.69",
+      "kind": "exercise",
+      "number": "5.69",
+      "name": "the underlying-set functor U : Mat(R) -> Set and preservation of monoid objects",
+      "statement_summary": "Sets up, for any rig R, the functor U : Mat(R) -> Set sending the object n in N to the set R^n and a morphism (matrix) M : m -> n to the function R^m -> R^n given by vector-matrix multiplication; recalls that the monoidal unit of Mat(R) is 0 with monoidal product +, while in Set the unit is a one-element set and the product is cartesian. Three parts: (1) check that U preserves the monoidal unit and the monoidal product; (2) show that if (M, mu, eta) is a monoid object in Mat(R) then (U(M), U(mu), U(eta)) is a monoid object in Set - noting that this works for any monoidal functor, defined later in the book, not just for U; (3) since Example 5.68 makes (1, addition, zero) a commutative monoid object in Mat(R), taking R = the reals yields a monoid structure on the set R - identify which of the two structures of Exercise 5.67 it is.",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.4.2:example5.68",
+        "7sketches:5.4.2:ex5.67",
+        "7sketches:5.3.3:def5.50"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.70",
+      "kind": "example",
+      "number": "5.70",
+      "name": "(1, copy, discard) is a cocommutative comonoid object in Mat(R)",
+      "statement_summary": "Dual counterpart of Example 5.68: the triple consisting of the object 1 with the copy icon (1 -> 2) and the discard icon (1 -> 0) is a commutative monoid object in the opposite prop Mat(R)^op; equivalently one says (1, copy, discard) is a co-commutative comonoid object in Mat(R).",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.4.2:example5.68",
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.71",
+      "kind": "example",
+      "number": "5.71",
+      "name": "symmetric strict monoidal categories are commutative monoid objects in Cat",
+      "statement_summary": "Asserts that a symmetric strict monoidal category is precisely a commutative monoid object, in the sense of Definition 5.65, in the cartesian monoidal category (Cat, x, 1) of categories - the multiplication being the tensor functor and the unit picking out the monoidal unit object. Forward-referenced to section 6.4.1 where it is unpacked.",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.72",
+      "kind": "example",
+      "number": "5.72",
+      "name": "symmetric monoidal preorders are commutative monoid objects in Preord",
+      "statement_summary": "Asserts that a symmetric monoidal preorder, as defined in the chapter-2 definition, is exactly a commutative monoid object (Definition 5.65) in the symmetric monoidal category (Preord, x, 1) of preorders and monotone maps.",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:example5.73",
+      "kind": "example",
+      "number": "5.73",
+      "name": "a rig is a monoid object in (CMon, tensor, N)",
+      "statement_summary": "Asserts, for readers who know the tensor product of commutative monoids, that a rig is exactly a monoid object (Definition 5.65) in the symmetric monoidal category of commutative monoids with the tensor product as monoidal product and the natural numbers as monoidal unit.",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.2:remark5.74",
+      "kind": "remark",
+      "number": "5.74",
+      "name": "the prop presenting the theory of monoids; monoid objects as strict monoidal functors",
+      "statement_summary": "Observes that the prop M presented by two generators mu : 2 -> 1 and eta : 0 -> 1 subject to the three equations of Definition 5.65 deserves the name 'the theory of monoids in monoidal categories': for any monoidal category C, the monoid objects in C correspond to strict monoidal functors M -> C. Notes that this is the germ of Lawvere's algebraic theories and points to the further-reading section. (Formalizable content: a presented prop together with the claimed bijection between its strict monoidal models and monoid objects.)",
+      "book_section": "5.4.2",
+      "book_page": "173",
+      "pdf_pages": [
+        185
+      ],
+      "cross_refs": [
+        "7sketches:5.4.2:def5.65",
+        "7sketches:5.2.5:def5.33"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:def-behavior",
+      "kind": "definition",
+      "number": null,
+      "name": "the behavior B(g) of a signal flow graph (Eq. (5.75))",
+      "statement_summary": "Definition made in running prose, its formula carried by the display numbered (5.75). For a signal flow graph g : m -> n over a rig R, the BEHAVIOR of g is the set B(g) of input/output pairs, a subset of R^m x R^n; concretely B(g) = {(x, S(g)(x)) : x in R^m}, the graph of the linear map determined by the matrix S(g) of Theorem 5.53. Illustrated first on the copy icon, whose behavior is {(x, (x,x)) : x in R}. This shifts the semantics from matrices to relations and is the basis for the later prop Rel_R.",
+      "book_section": "5.4.3",
+      "book_page": "174",
+      "pdf_pages": [
+        186
+      ],
+      "cross_refs": [
+        "7sketches:5.3.4:thm5.53",
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:def5.79"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "number-5.75-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:5.4.3:def-transposed-relation",
+      "kind": "definition",
+      "number": null,
+      "name": "mirror image of an icon and its transposed relation (Eq. (5.76))",
+      "statement_summary": "Definition made in running prose, its formula carried by the display numbered (5.76). Reversing a signal flow graph g : m -> n left-to-right exchanges inputs and outputs, producing g^op : n -> m; since B(g) is a subset of R^m x R^n, the behavior of g^op must be a subset of R^n x R^m, and it is DEFINED to be the converse relation obtained by swapping each pair: B(g^op) := {(S(g)(x), x) : x in R^m}. This is called the transposed relation, and it is what gives a semantics to the mirrored generators used later.",
+      "book_section": "5.4.3",
+      "book_page": "174",
+      "pdf_pages": [
+        186
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:ex5.77",
+        "7sketches:5.4.3:def-sfg-plus"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "number-5.76-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.77",
+      "kind": "exercise",
+      "number": "5.77",
+      "name": "behaviors of the reversed addition and reversed copy icons",
+      "statement_summary": "Two parts, applying the transposed-relation definition: (1) compute the behavior of the reversed addition icon, a morphism 1 -> 2; (2) compute the behavior of the reversed copy icon, a morphism 2 -> 1.",
+      "book_section": "5.4.3",
+      "book_page": "174",
+      "pdf_pages": [
+        186
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:def-behavior"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:def-relation-composition",
+      "kind": "definition",
+      "number": null,
+      "name": "composition of behaviors as composition of relations (Eq. (5.78))",
+      "statement_summary": "Definition made in running prose, its formula carried by the display numbered (5.78). Motivated by checking that for matrices M : m -> n and N : n -> p the behavior of M ; N is the relational composite of their behaviors: given relations B1 contained in R^m x R^n and B2 contained in R^n x R^p, their composite B1 ; B2, contained in R^m x R^p, is defined as {(x,z) : there exists y in R^n with (x,y) in B1 and (y,z) in B2}. The text explicitly adopts this as the general definition of composing two behaviors, so that it restricts to matrix multiplication on graphs of linear maps.",
+      "book_section": "5.4.3",
+      "book_page": "175",
+      "pdf_pages": [
+        187
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:def5.79"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "number-5.78-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:5.4.3:def5.79",
+      "kind": "definition",
+      "number": "5.79",
+      "name": "the prop Rel_R of R-relations",
+      "statement_summary": "For a rig R, defines the prop Rel_R whose objects are the natural numbers and whose morphisms m -> n are arbitrary subsets B of R^m x R^n (relations), composed by the relational-composition rule of Eq. (5.78), with the monoidal product of two morphisms given by the product of the two subsets. (Identities and the symmetry are the evident diagonal and swap relations; the definition is stated compactly and leaves the monoidal product to be spelled out in Exercise 5.80.) Rel_R contains Mat(R) as the sub-prop of graphs of linear maps.",
+      "book_section": "5.4.3",
+      "book_page": "175",
+      "pdf_pages": [
+        187
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-relation-composition",
+        "7sketches:5.4.3:ex5.80",
+        "7sketches:5.4.3:thm5.87",
+        "7sketches:5.4.3:ex5.85",
+        "7sketches:5.3.3:def5.50"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.80",
+      "kind": "exercise",
+      "number": "5.80",
+      "name": "the monoidal product in Rel_R written out in set notation",
+      "statement_summary": "Definition 5.79 treated the monoidal product + of Rel_R quickly; given morphisms B contained in R^m x R^n and C contained in R^p x R^q, write down the monoidal product B + C explicitly in set notation (as a subset of R^(m+p) x R^(n+q)).",
+      "book_section": "5.4.3",
+      "book_page": "175",
+      "pdf_pages": [
+        187
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def5.79"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:def-sfg-plus",
+      "kind": "definition",
+      "number": null,
+      "name": "the prop SFG_R^+ of non-simplified signal flow graphs (Eq. (5.81))",
+      "statement_summary": "Definition made in running prose, its formula carried by the display numbered (5.81). Writing G_R^op := {g^op : g in G_R} for the set of mirror images of the generators, one defines the prop SFG_R^+ := Free(G_R disjoint-union G_R^op), the free prop on the original generators together with their reversals. Its morphisms are called (non-simplified) signal flow graphs; they extend the simplified ones because mirrored icons may now be used. Since the behavior of each mirrored generator was fixed as the transposed relation of Eq. (5.76), the free-prop universal property specifies the behavior of every non-simplified signal flow graph, i.e. a prop functor SFG_R^+ -> Rel_R.",
+      "book_section": "5.4.3",
+      "book_page": "175",
+      "pdf_pages": [
+        187
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:def5.79",
+        "7sketches:5.3.2:def5.45",
+        "7sketches:5.2.5:remark5.34"
+      ],
+      "flags": [
+        "defined-in-running-prose",
+        "number-5.81-is-a-display"
+      ]
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.82",
+      "kind": "exercise",
+      "number": "5.82",
+      "name": "behavior of g composed with a reversed graph is a solution set",
+      "statement_summary": "Let g : m -> n and h : l -> n be signal flow graphs, so that h^op : n -> l and the composite g ; (h^op) : m -> l exists in SFG_R^+. Show that its behavior, a subset of R^m x R^l, equals {(x,y) : S(g)(x) = S(h)(y)} - i.e. composing forwards with backwards computes the solution set of a linear equation between the two matrices.",
+      "book_section": "5.4.3",
+      "book_page": "176",
+      "pdf_pages": [
+        188
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:def-sfg-plus",
+        "7sketches:5.4.3:ex5.84"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.83",
+      "kind": "exercise",
+      "number": "5.83",
+      "name": "behavior of a reversed graph composed with another graph",
+      "statement_summary": "Let g : m -> n and h : m -> p be signal flow graphs, so that g^op : n -> m and the composite (g^op) ; h : n -> p exists. Show that its behavior equals {(S(g)(x), S(h)(x)) : x in R^m} - the joint image of the two matrices, the dual pattern to Exercise 5.82.",
+      "book_section": "5.4.3",
+      "book_page": "176",
+      "pdf_pages": [
+        188
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:def-transposed-relation",
+        "7sketches:5.4.3:ex5.82"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.84",
+      "kind": "exercise",
+      "number": "5.84",
+      "name": "kernels, images and linearity of behaviors",
+      "statement_summary": "Assumes R is a field and g : m -> n is a signal flow graph with associated matrix S(g) (Theorem 5.53). Three parts. (1) Show that the graph obtained by post-composing g with reversed zero icons on all its outputs has behavior equal to the kernel of the matrix S(g). (2) Show that the graph obtained by pre-composing g with reversed discard icons on all its inputs has behavior equal to the image of S(g). (3) Show that for ANY signal flow graph g the behavior B(g), a subset of R^m x R^n, is a linear subspace: if b1, b2 lie in B(g) then so do b1 + b2 and r * b1 for every r in R.",
+      "book_section": "5.4.3",
+      "book_page": "176",
+      "pdf_pages": [
+        188
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.3.4:thm5.53",
+        "7sketches:5.4.3:ex5.85"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:ex5.85",
+      "kind": "exercise",
+      "number": "5.85",
+      "name": "linear relations form a sub-prop LinRel_R of Rel_R",
+      "statement_summary": "Describes the prop LinRel_R one would like to construct: the sub-prop of Rel_R (Definition 5.79) whose morphisms m -> n are the LINEAR relations, i.e. subsets B of R^m x R^n closed under scalar multiplication ((x,y) in B and r in R imply (r*x, r*y) in B) and under addition ((x,y), (x',y') in B imply (x+x', y+y') in B). The exercise proper asks only for the key closure step: prove that the composite of two linear relations is again linear. Surrounding prose adds (without proof) the converse to Exercise 5.84 - every linear relation is the behavior of some signal flow graph - and states that a sound and complete presentation of linear relations exists, with generating set G_R disjoint-union G_R^op as in Eq. (5.81) and equations extending those of Theorem 5.60.",
+      "book_section": "5.4.3",
+      "book_page": "177",
+      "pdf_pages": [
+        189
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def5.79",
+        "7sketches:5.4.3:ex5.84",
+        "7sketches:5.4.3:def-sfg-plus",
+        "7sketches:5.4.1:thm5.60"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:thm5.87",
+      "kind": "theorem",
+      "number": "5.87",
+      "name": "Rel_R is compact closed with every object self-dual",
+      "statement_summary": "Claim: the prop Rel_R of R-relations is a compact closed category in which every object n in N is dual to itself, n = n*. No proof is given; the preceding prose supplies the witnesses - the cup and cap signal flow graphs of Eq. (5.86), with behaviors {(0,(x,x)) : x in R} contained in R^0 x R^2 and {((x,x),0) : x in R} contained in R^2 x R^0, serve as the unit eta_1 and counit epsilon_1 of the chapter-4 compact-closed definition at the object 1, and monoidal products of these give the duality data at every n; the snake (zigzag) equations are the assertion, checked graphically just before, that three displayed signal flow graphs represent the same relation. Immediately after the theorem the cup and cap are abbreviated as new icons by two defining equations. Notably this holds for Rel_R but NOT for Mat(R), since the cup/cap are not graphs of linear maps.",
+      "book_section": "5.4.3",
+      "book_page": "178",
+      "pdf_pages": [
+        190
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def5.79",
+        "7sketches:5.4.3:def-sfg-plus"
+      ],
+      "flags": []
+    },
+    {
+      "id": "7sketches:5.4.3:example-control-theory-cruise-control",
+      "kind": "example",
+      "number": null,
+      "name": "cruise control as a signal flow diagram over the rig of Laurent polynomials in s",
+      "statement_summary": "Unnumbered closing worked example ('Back to control theory'). Models a car cruise-control problem in signal flow diagrams over the rig R[s, s^{-1}] of polynomials in s and s^{-1} with real coefficients subject to s * s^{-1} = s^{-1} * s = 1, where s is read as integration and s^{-1} as differentiation. Three contributions to the actual speed v are combined: an external force F scaled by 1/m and integrated, the desired speed u, and a feedback control term that amplifies the linear combination a*u + b*v by a factor p and integrates it; the diagram is drawn with an explicit feedback loop in which v occurs twice, and reads as the integral equation v = integral of (1/m)F dt + u + p * integral of (a*u + b*v) dt. The design problem is then posed as choosing the scalars a and b so that the behavior of the diagram approximates the relation {(F,u,v) : u = v}. Illustrates behaviors/feedback rather than proving anything.",
+      "book_section": "5.4.3",
+      "book_page": "178",
+      "pdf_pages": [
+        190
+      ],
+      "cross_refs": [
+        "7sketches:5.4.3:def-behavior",
+        "7sketches:5.4.3:def-sfg-plus",
+        "7sketches:5.3.1:def5.36"
+      ],
+      "flags": [
+        "unnumbered-example",
+        "applied-illustration"
+      ]
+    }
+  ]
+}

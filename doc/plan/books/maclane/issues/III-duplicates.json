@@ -1,0 +1,7 @@
+[
+  {
+    "item_id": "maclane:III.4:ex2",
+    "issue": 254,
+    "append_block": "### Also covered by\nMac Lane §III.4, Exercise 2 (book p. 72, PDF p. 81), item `maclane:III.4:ex2`: the J-indexed cartesian product with its projections is the categorical product in **Set** — the same mathematical obligation as this issue's indexed products in Sets (the in-tree vocabulary is `iprod`/`HasIndexedProducts`, Structure/Limit/Product.v, with no Sets instance yet). NEW aspect added by III.4: the exercise also asks for the analogous description in **Top**, which is gated on the category of topological spaces (#259) and should be recorded as an optional extension once Top lands."
+  }
+]

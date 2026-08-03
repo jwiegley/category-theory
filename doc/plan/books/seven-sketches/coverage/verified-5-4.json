@@ -1,0 +1,235 @@
+[
+  {
+    "id": "7sketches:5.3.3:eq5.48",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrix multiplication over a rig / semiring",
+      "composition of R-valued matrices, (M;N)(a,c) = sum_b M(a,b)*N(b,c)",
+      "Mat(R) composition / matmul / mat_mul / mmult",
+      "sum-of-products composition of homs between biproducts (categorical form)",
+      "generalised matrix multiplication (profunctor composition, the Sets-valued analogue)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 hits, ALL prose in header essays (Functor/Hom/Yoneda.v:89, Theory/Profunctor.v:54,64,68,69, Theory/Equivalence.v:87, Instance/ZX.v:108,120,169, Structure/Preadditive.v:23, Structure/Bicartesian.v:34,36, Structure/Abelian.v:119,120,129, Structure/Semiadditive.v:99,287,298, Structure/Monoidal/Traced.v:85, CompactClosed.v:95, Braided.v:98). No Definition/Record/Class named for matrices anywhere.",
+      "grep -rn --include='*.v' -iw \"rig\" .  -> 2 hits, both COMMENT lines in Theory/Algebra.v (16, 25) citing the nLab 'rig category' page. No `Rig`/`Semiring` class exists.",
+      "grep -rni --include='*.v' \"semiring\\|semi-ring\" .  -> 1 hit, Theory/Algebra.v:25, a comment.",
+      "grep -rni --include='*.v' \"matmul\\|mat_mul\\|mmult\" .  -> 0 hits.",
+      "grep -rn --include='*.v' -i \"\\bMat\\b\" .  -> 6 hits, all bibliographic ('Rend. Sem. Mat. Fis. Milano', 'Riv. Mat. Univ. Parma', 'Mat. Sbornik', 'mat.uab.cat').",
+      "find . -name '*.v' | sort  -> full 484-file listing inspected; there is no Mat*.v, Matrix*.v, Rig*.v or Semiring*.v anywhere in the tree.",
+      "NEAR MISS considered and rejected: Structure/Semiadditive.v:101 `bi_copair_pair : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g)` is the sum-of-products law for a 1x2 row against a 2x1 column, but its 'entries' are MORPHISMS of a preadditive category with a binary biproduct, there is no index set {1..n}, no rig, and no matrix datatype; it is a different theorem in a different setting, not a rephrasing of (5.48). Likewise Theory/Profunctor.v's coend composition is 'generalised matrix multiplication' only as prose imagery (Sets-valued, over a category index, not a rig).",
+      "grep -rni --include='*.v' \"row vector\\|column vector\\|rowvec\\|colvec\" .  -> 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS FIRST (before opening coverage-5-4.json), independently reached ABSENT. My own searches: `rg -il -tcoq 'matrix|Matrix|\\bMat\\b' .` -> 13 files, every hit prose in a header essay (Structure/Abelian.v, Structure/Semiadditive.v, Structure/Preadditive.v, Structure/Bicartesian.v, Instance/ZX.v, Functor/Hom/Yoneda.v, Theory/Profunctor.v, Theory/Equivalence.v, Monoidal/{Traced,Braided,CompactClosed}.v, Construction/Enriched.v, Construction/Comma.v); no matrix datatype, no Definition/Record/Class. `rg -w 'rig|Rig|semiring|Semiring|SemiRing'` -> exactly 2 hits, Theory/Algebra.v:16 and :25, both comments citing the nLab 'rig category' page; no algebraic Rig/Semiring class anywhere. `rg -iw 'Mat'` -> 6 hits, all bibliographic (verified verbatim: Theory/Algebra/Frobenius.v:45 'mat.uab.cat', Construction/Enriched.v:41 and Theory/Profunctor.v:47 'Rend. Sem. Mat. Fis. Milano', Theory/Equivalence.v:123 'Mat. Sbornik', Construction/Comma.v:101-102 'Riv. Mat. Univ. Parma'/'Atti Sem. Mat. Fis. Univ. Modena') — the classifier's count of 6 is exact. `rg 'Fin\\.t [a-z]+ (->|\\u2192) Fin\\.t [a-z]+ (->|\\u2192)'` -> 0 hits; `rg 'hom :='` filtered to nat/Fin -> only Instance/FinSet.v:118 `hom := fun m n => Fin.t m -> Fin.t n` (plain functions, not R-valued matrices). NEAR-MISS AGREEMENT: I independently flagged Structure/Semiadditive.v:101 `bi_copair_pair : bi_copair B u v \\u2218 bi_pair B f g \\u2248 padd (u \\u2218 f) (v \\u2218 g)` (verified at that exact line, with the explanatory comment at :99-100 'Copairing against pairing computes the matrix product') as the only in-tree sum-of-products law, and reached the same rejection the classifier records: it is the binary-biproduct case with morphism entries, no index set {1..n}, no rig, no matrix carrier. Structure/Abelian.v:119-129 describes the same calculus in prose only. Negative log spot-checked and accurate."
+    }
+  },
+  {
+    "id": "7sketches:5.3.3:remark5.49",
+    "classification": "ABSENT",
+    "aliases": [
+      "diagrammatic-order composition convention for matrices",
+      "matrices act on row vectors on the right (v ; A) instead of Av",
+      "transpose / opposite-category convention for matrix action",
+      "left-to-right composition order (f ; g) vs classical f ∘ g",
+      "right action of a matrix on a vector"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"row vector\\|column vector\\|rowvec\\|colvec\" .  -> 0 hits.",
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 hits, all prose comments (see the eq5.48 log); no matrix object exists on which a row-vs-column action convention could be fixed.",
+      "grep -rni --include='*.v' \"transpose\" .  -> 183 hits, all about currying/adjunction transposes (`Structure/Cartesian/Closed.v`, `Theory/Adjunction.v` to_adj/from_adj) or the bicartesian 'matrix transpose' image in a comment (Structure/Bicartesian.v:36); none is a vector/matrix action convention.",
+      "grep -rn --include='*.v' -iw \"rig\" .  -> 2 comment hits only, so the R-valued vectors the remark acts on do not exist either.",
+      "Convention context checked directly: Theory/Category.v fixes CLASSICAL composition order globally (`compose f g` applies g first), the opposite of the book's diagrammatic `;`, and Instance/Rel.v:33 restates that convention explicitly ('note the diagrammatic order: [compose f g] applies g first'). The remark's premise (a diagrammatic-order matrix calculus) therefore does not arise in-tree at all — there is nothing to record as partial coverage.",
+      "Not filed OUT_OF_SCOPE: once Mat(R) exists the remark has genuine content (the choice between Mat(R) and Mat(R)^op, which Construction/Opposite.v could express), so it is a real gap rather than an unformalizable one."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. Searches run: `rg -i 'row vector|column vector|covector'` -> 0 hits; `rg -i 'diagrammatic|left to right|left-to-right'` -> 30 hits, all about composition order or evaluation order, none about a matrix/vector action; `rg -i 'convention'` -> 30+ hits, all composition/variance/naming conventions. `rg -c -i 'transpose'` summed to 183, matching the classifier's count exactly; spot-checked that the hits are adjunction/currying transposes plus the Structure/Bicartesian.v:36 'matrix transpose' image in a comment. Agreed with the classifier's explicit refusal to file OUT_OF_SCOPE: the remark has real mathematical content (Mat(R) vs Mat(R)^op) once a matrix prop exists, so it is a genuine gap, not an unformalizable one — this is the correct application of the frozen definition, which warns against OUT_OF_SCOPE for anything the library's machinery (here Construction/Opposite.v) could express. CAVEAT on one cited line: the classifier quotes Instance/Rel.v:33 as evidence that the library fixes CLASSICAL composition order. The quote is verbatim accurate and the conclusion is right, but the source comment itself mislabels that order 'diagrammatic' — logged in problems[] as a LIBRARY-DEFECT. It does not change the verdict."
+    }
+  },
+  {
+    "id": "7sketches:5.3.3:def5.50",
+    "classification": "ABSENT",
+    "aliases": [
+      "Mat(R), the prop of R-matrices",
+      "category of natural numbers and matrices / skeletal matrix category",
+      "PROP instance whose homs m -> n are m x n matrices over a rig",
+      "direct sum (block-diagonal) monoidal product on matrices",
+      "interconnection of matrices; free bicommutative bimonoid prop Mat(N)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' \": PROP\\b\\|PROP :=\" .  -> the ONLY PROP instances in the tree are `FreePROP` (Construction/PROP/Instance.v:82), `PresentedPROP` (Construction/PROP/Presentation.v:312), `Lawvere_PROP` (Theory/Lawvere/PROP.v:179) and `RepeatPROP` (Construction/ColouredPROP/UnitBridge.v:344). None is a matrix prop.",
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 hits, all header prose; no carrier type for matrices.",
+      "grep -rn --include='*.v' -iw \"rig\" . ; grep -rni --include='*.v' \"semiring\" .  -> 3 comment hits total; the parameter R of Mat(R) has no in-tree algebraic class.",
+      "grep -rni --include='*.v' \"direct sum\\|block-diagonal\\|block_diag\\|blockdiag\\|oplus_mat\" .  -> 2 hits, both comments (Structure/Cocartesian.v:68 'direct sum of vector spaces', Structure/Abelian.v:119); the monoidal product of Mat(R) is not built.",
+      "grep -rni --include='*.v' \"bimonoid\\|bialgebra\\|bicommutative\" .  -> comment-only hits (Instance/FinSet.v:78, Construction/PROP/Signature.v:38, Theory/Algebra/Frobenius.v:70,75, Instance/ZX.v). The nearest in-tree candidate, skeletal `FinSet` (Instance/FinSet.v:116), is described in a COMMENT as 'the PROP for commutative monoids' but is never given a `Monoidal`/`StrictMonoidal`/`PROP` instance, so even that is not a prop in-tree.",
+      "find . -name '*.v' | sort  -> no Mat*.v / Matrix*.v file in the 484-file tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. I enumerated every PROP instance in the tree with `rg '(Definition|Program Definition|Instance|Program Instance)\\s+\\w+[^:]*:\\s*PROP\\b'` and got EXACTLY four, confirming the classifier's list line-for-line: Construction/PROP/Instance.v:82 `Definition FreePROP : PROP`, Construction/PROP/Presentation.v:312 `Definition PresentedPROP : PROP`, Theory/Lawvere/PROP.v:179 `Definition Lawvere_PROP : PROP`, Construction/ColouredPROP/UnitBridge.v:344 `Definition RepeatPROP : PROP`. None has matrix homs. `ls Instance/` and a full *.v listing show no Mat*.v / Matrix*.v / Rig*.v / Semiring*.v. `rg -i 'direct sum|block diagonal|block-diagonal|blockdiag'` -> 2 hits, both prose (Structure/Abelian.v:119, Structure/Cocartesian.v:68). VERIFIED the classifier's strongest and most falsifiable sub-claim — that skeletal FinSet is called 'the PROP for commutative monoids' in a comment but carries no Monoidal/PROP instance: `rg 'Monoidal|PROP' Instance/FinSet.v Instance/FinSet/*.v` returns ONLY the three comment lines 27, 30, 71, and Instance/FinSet.v:116 is `Program Definition FinSet : Category` with nothing monoidal riding on it. The header at :27-32 is itself honest ('That monoidal assembly, and the [PROP] instance riding on it, need the coherence machinery and are not yet built'), so this is NOT a library defect. Instance/FinSet.v:78 'bicommutative bimonoids' and Construction/PROP/Signature.v:38 (the bimonoid aside) both verified verbatim."
+    }
+  },
+  {
+    "id": "7sketches:5.3.3:ex5.51",
+    "classification": "ABSENT",
+    "aliases": [
+      "direct sum of two matrices over N (block-diagonal construction)",
+      "monoidal product of morphisms in Mat(N)",
+      "concrete computation A (+) B of a 2x3 and a 1x4 natural-number matrix",
+      "biproduct/bimap of matrices; oplus of matrices",
+      "worked example of matrix tensor in a prop"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 comment-only hits; there is no matrix value to compute with, hence no in-tree analogue of the exercise's computation.",
+      "grep -rni --include='*.v' \"block_diag\\|blockdiag\\|direct sum\\|oplus_mat\" .  -> 0 code hits (2 prose hits, Structure/Cocartesian.v:68 and Structure/Abelian.v:119).",
+      "grep -rn --include='*.v' -iw \"rig\" .  -> 2 comment hits; N-as-a-rig is not in-tree either.",
+      "grep -rn --include='*.v' \": PROP\\b\\|PROP :=\" .  -> no matrix prop exists (see def5.50 log), so its tensor cannot be exercised.",
+      "Computational-example precedent checked (the library DOES do `eq_refl`-computing examples: Instance/FinSet.v:215 `fin_split_computes`, :291 `merge_computes`, Instance/FinSet/Topos.v `FinSet_Pow_two`), so the exercise's style is idiomatic here — only its subject matter is missing."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently — the exercise computes a concrete block-diagonal matrix and neither the carrier nor the tensor exists (see the def5.50 verification). Every citation in the negative log checks out at the stated line: Instance/FinSet.v:215 `Example fin_split_computes : @fin_split 2 2 (Fin.FS (Fin.FS Fin.F1)) = Datatypes.inr Fin.F1 := eq_refl` and :291 `Example merge_computes : ... = Fin.F1 := eq_refl` (both grep-confirmed at exactly those lines), and Instance/FinSet/Topos.v:52 `Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl`. The classifier's point that the eq_refl-computing-example STYLE is idiomatic in-tree while only the subject matter is missing is fair and correctly sourced."
+    }
+  },
+  {
+    "id": "7sketches:5.3.4:construction-generator-matrix-table",
+    "classification": "ABSENT",
+    "aliases": [
+      "Table (5.52): generator-to-matrix assignment for signal flow graphs",
+      "valuation / interpretation of a PROP signature in a target prop",
+      "copy -> (1 1), discard -> 1x0, add -> column (1 1)^T, zero -> 0x1, amplify by a -> (a)",
+      "semantics of the bicommutative-bimonoid generators as matrices",
+      "empty matrices of shapes 0xn and nx0"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"signal[ _-]flow\\|SFG\\|flow graph\" .  -> 6 hits, ALL bibliographic prose (Construction/ColouredPROP.v:34, Construction/DecoratedCospan.v:90, DecoratedCospan/Symmetric.v:46, Construction/ColouredPROP/Linear.v:104, Structure/Monoidal/Symmetric.v:62, Structure/Monoidal/HypergraphFunctor.v:43). No signal-flow signature `G_R` is defined.",
+      "grep -rni --include='*.v' \"amplif\\|gain\" .  -> no hit naming an amplification generator (the `gain` hits are all substrings of unrelated identifiers).",
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> comment-only; the table's TARGET values (the matrices) do not exist.",
+      "grep -rn --include='*.v' \"Valuation\" .  -> the general SHAPE of such a table is in-tree (Construction/PROP/Interp.v:892 `Definition Valuation : Type := forall m n, S m n -> (⟦m⟧ ~{P}~> ⟦n⟧)`), and one concrete instantiation exists at a Lawvere-theory target (Theory/Lawvere/PROP.v:204 `Lawvere_Valuation`), but NO valuation assigning matrices to signal-flow generators exists — the item is the specific table, and every one of its five entries is missing.",
+      "grep -rni --include='*.v' \"bimonoid\\|bicommutative\" .  -> comment-only hits; the copy/discard/add/zero generators exist only as ABSTRACT structure (Structure/Monoidal/CopyDiscard.v:107 `copy`, :110 `discard`; Theory/Algebra/CommutativeMonoid.v), never with a matrix semantics."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. My first sweep with `rg -i 'signal flow|signal_flow|SFG|flow graph'` found only 4 files; re-running the classifier's broader `signal[ _-]flow` pattern reproduced its 6 hits EXACTLY (Structure/Monoidal/HypergraphFunctor.v:43, Structure/Monoidal/Symmetric.v:62, Construction/ColouredPROP/Linear.v:104, Construction/DecoratedCospan.v:90, Construction/ColouredPROP.v:34, Construction/DecoratedCospan/Symmetric.v:46) — all bibliographic prose, no G_R signature. `rg -i 'amplif'` -> 0 hits, confirmed by `rg -c`. The classifier's honest distinction between the generic SLOT and the specific table is verified: Construction/PROP/Interp.v:892 is exactly `Definition Valuation : Type := \\u2200 m n : nat, S m n \\u2192 (\\u27e6m\\u27e7 ~{P}~> \\u27e6n\\u27e7)`, and Theory/Lawvere/PROP.v:204 `Definition Lawvere_Valuation : Valuation Lawvere_PROP \\u03a3 := v` is the one concrete instantiation — neither assigns matrices to signal-flow generators. Structure/Monoidal/CopyDiscard.v:107 `copy` and :110 `discard` verified at those lines (abstract comonoid projections, no semantics)."
+    }
+  },
+  {
+    "id": "7sketches:5.3.4:thm5.53",
+    "classification": "PARTIAL",
+    "aliases": [
+      "semantics functor S : SFG_R -> Mat(R) from the free-prop universal property",
+      "free PROP universal property / initiality of the free prop on a signature",
+      "unique extension of a valuation of generators to a symmetric strict monoidal (prop) functor",
+      "InterpF / interp / prop functor out of FreeCat S",
+      "denotational semantics of string diagrams as a monoidal functor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 525,
+        "symbol": "InterpF_Symmetric",
+        "intree_statement": "Definition InterpF_Symmetric : @SymmetricMonoidalFunctor (FreeCat S) P (FreeCat_Symmetric S) (@prop_symmetric P) InterpF := InterpF_Braided.  (* in a section with `Context (S : Signature) (P : PROP) {HP : HomEqProp P} {OD : ObjDecEq P} (v : Valuation P S)`; the strict half is Universal.v:416 `Program Definition InterpF_Strict : @StrictMonoidalFunctor (FreeCat S) P (FreeCat_Monoidal S) (MP P) InterpF` *)"
+      },
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 186,
+        "symbol": "InterpF_extends_valuation",
+        "intree_statement": "Example InterpF_extends_valuation (m n : nat) (g : S m n) : fmap[InterpF] (T_gen g) = v m n g := eq_refl."
+      },
+      {
+        "file": "Construction/PROP/Universal.v",
+        "line": 603,
+        "symbol": "interp_unique",
+        "intree_statement": "Theorem interp_unique : ∀ m n (t : Term S m n), fmap[G] t ≈ hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t).  (* G any competitor with SG : StrictMonoidalFunctor, HB : SymmetricStrict G SG, Hobj : ∀ n, G n = ⟦n⟧, and Hgen : G agrees with v on generators *)"
+      }
+    ],
+    "statement_record": {
+      "book": "There is a prop functor S from SFG_R (the free prop on the signal-flow signature G_R over a rig R) to Mat(R), sending each generator icon to the matrix assigned to it in Table (5.52); it exists and is unique because SFG_R is free on G_R.",
+      "intree": "For any Signature S, any PROP P satisfying HomEqProp P and ObjDecEq P, and any Valuation v : ∀ m n, S m n → (⟦m⟧ ~{P}~> ⟦n⟧), `InterpF : FreeCat S ⟶ P` is a symmetric strict monoidal functor (`InterpF_Strict`, `InterpF_Symmetric`) with `fmap[InterpF] (T_gen g) = v m n g` by `eq_refl` (`InterpF_extends_valuation`), and `interp_unique` shows any competing strict symmetric functor agreeing with v on generators agrees with it on every term.",
+      "strength_comparison": "intree-weaker: the GENERAL theorem of which 5.53 is a pure instance is present at full strength (existence + symmetric strict monoidal structure + uniqueness), but its instantiation at this item's data is impossible in-tree — neither the target prop Mat(R) nor the signal-flow signature G_R nor the Table (5.52) valuation exists (see items def5.50 and construction-generator-matrix-table). Two hypotheses are also added relative to the book's unconditional statement: the target must have decidable object equality (`ObjDecEq`, powering axiom-free UIP on objects) and a Prop-reflected hom equivalence (`HomEqProp`) — see `Arguments InterpF S P {HP OD} v` at Universal.v:754 and the file header. Both would be discharged for a hypothetical Mat(R) (objects are nat; matrix equality is Prop-valued), so the added hypotheses are not the real gap."
+    },
+    "gap": "Only the abstract half is in-tree. Missing: (i) the target prop Mat(R) with matrix multiplication as composition and direct sum as tensor (item def5.50); (ii) the signal-flow signature G_R giving SFG_R := FreePROP G_R; (iii) the valuation realising Table (5.52). Once (i)-(iii) exist, Theorem 5.53 is `InterpF` applied verbatim — exactly as `Theory/Lawvere/PROP.v:209 Lawvere_PROP_interp` already instantiates the same machinery at another target.",
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"signal[ _-]flow\\|SFG\\|flow graph\" .  -> 6 hits, all bibliographic comments; no SFG_R construction.",
+      "grep -rn --include='*.v' \": PROP\\b\\|PROP :=\" .  -> only FreePROP / PresentedPROP / Lawvere_PROP / RepeatPROP; no Mat(R) target."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS independently reached PARTIAL with the same reasoning: the free-PROP universal property is fully in-tree, the specific target and signature are not. ALL THREE cited evidence lines open and match VERBATIM at the stated locations: Universal.v:186 `Example InterpF_extends_valuation (m n : nat) (g : S m n) : fmap[InterpF] (T_gen g) = v m n g := eq_refl`; Universal.v:525 `Definition InterpF_Symmetric : @SymmetricMonoidalFunctor (FreeCat S) P (FreeCat_Symmetric S) (@prop_symmetric P) InterpF := InterpF_Braided`; Universal.v:603 `Theorem interp_unique : \\u2200 m n (t : Term S m n), fmap[G] t \\u2248 hom_cast (eq_sym (Hobj m)) (eq_sym (Hobj n)) (interp P S v t)` with `Proof using G HB Hgen Hobj OD P S SG v` naming exactly the hypothesis pack the record describes. The secondary citations are also exact: Universal.v:416 `Program Definition InterpF_Strict : @StrictMonoidalFunctor (FreeCat S) P (FreeCat_Monoidal S) (MP P) InterpF`, Universal.v:754 `Arguments InterpF S P {HP OD} v : assert` (so the ObjDecEq/HomEqProp side conditions really are added, exactly as strength_comparison discloses), Interp.v:892 Valuation, Theory/Lawvere/PROP.v:209 `Definition Lawvere_PROP_interp : FreeCat \\u03a3 \\u27f6 @law_cat T := @InterpF \\u03a3 Lawvere_PROP HP OD Lawvere_Valuation`. ADVERSARIAL CHECKS RUN AND PASSED: (a) same-name-weaker-statement — InterpF is genuinely a PROP functor, not a bare functor: both the strict (:416) and the symmetric (:525) monoidal structures are supplied; (b) source-mismatch — I verified Construction/PROP/Instance.v:82 has `prop_cat := FreeCat S`, so `InterpF : FreeCat S \\u27f6 P` really is a morphism out of the free PROP and not out of some other category; (c) registration — _CoqProject lines 96-98 register Construction/PROP/{Instance,Interp,Universal}.v, so the evidence is in the build; (d) uniqueness is not assumed-but-absent (interp_unique is a Theorem with a Qed, not an axiom). The PARTIAL rather than PRESENT call is correct and the `gap` field is precise: neither Mat(R) (def5.50) nor G_R nor the Table-(5.52) valuation exists, so the item's actual functor cannot be built. strength_comparison is honest, including its own hedge that the two extra side conditions 'would be discharged' for a hypothetical Mat(R) and 'are not the real gap'."
+    }
+  },
+  {
+    "id": "7sketches:5.3.4:prop5.54",
+    "classification": "ABSENT",
+    "aliases": [
+      "S(g)(i,j) is the amplification from input i to output j",
+      "adequacy/agreement of the abstract semantics functor with the path-tracing reading",
+      "sum over paths / path-counting semantics of a string diagram",
+      "structural induction over prop expressions showing composition = matrix product and tensor = direct sum",
+      "entrywise characterisation of a diagram's denotation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"amplif\" .  -> 0 hits; the quantity the proposition computes has no in-tree name.",
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 comment-only hits; there are no matrix ENTRIES for the (i,j) claim to be about.",
+      "grep -rni --include='*.v' \"signal[ _-]flow\\|SFG\\|flow graph\" .  -> 6 bibliographic-comment hits; no g : SFG_R exists.",
+      "grep -rni --include='*.v' \"path\" . | grep -i \"sum\\|count\"  -> no path-summing semantics anywhere.",
+      "Considered and rejected as partial coverage: Construction/PROP/Interp.v:904 `Fixpoint interp` DEFINES the semantics by structural recursion (T_comp ↦ ∘, T_tens ↦ ⊞, T_gen ↦ v), and Construction/PROP/Universal.v:603 `interp_unique` is the structural-induction tool that would discharge 5.54 once BOTH descriptions existed — but the proposition's actual content is the agreement of that functor with an INDEPENDENT entrywise path-tracing description, and no second (path-based) semantics is defined in-tree, so nothing of the claim is present."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently. The proposition's content is the AGREEMENT of the inductively-defined denotation with an independent entrywise path-tracing reading; in-tree there is only one semantics and no matrix entries. Verified Construction/PROP/Interp.v:904 `Fixpoint interp {m n : nat} (t : Term S m n) : \\u27e6m\\u27e7 ~{P}~> \\u27e6n\\u27e7` with the clauses T_comp \\u21a6 \\u2218, T_tens \\u21a6 \\u229e, T_gen \\u21a6 v, exactly as the classifier's rejected-near-miss note describes, and Universal.v:603 interp_unique as the structural-induction tool — the record's judgement that these are the future PROOF ENGINE but not the CLAIM is right, since the second (path-based) semantics whose agreement is the whole content of 5.54 is nowhere defined. `rg -i 'amplif'` -> 0 hits (re-confirmed with -c). The rejection is reasoned, not merely asserted."
+    }
+  },
+  {
+    "id": "7sketches:5.3.4:ex5.55",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrices of the two re-associated double-copy signal flow graphs",
+      "coassociativity of copy in Mat(R) / (delta (x) 1) ; delta = (1 (x) delta) ; delta",
+      "comonoid coassociativity law delta_coassoc",
+      "diagonal/fork associativity in a cartesian or copy-discard category",
+      "1 -> 3 copy tree, both bracketings equal the 1x3 row of ones"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni --include='*.v' \"matrix\\|matrices\" .  -> 21 comment-only hits; the two 1x3 matrices the exercise asks for cannot be written down in-tree.",
+      "grep -rni --include='*.v' \"signal[ _-]flow\\|SFG\\|flow graph\" .  -> 6 bibliographic-comment hits; the two graphs are not expressible.",
+      "grep -rn --include='*.v' \"coassoc\" .  -> hits are Theory/Algebra/Comonoid.v:45 `delta_coassoc` (a FIELD of `Class Comonoid`, i.e. an assumed law, not a computed matrix identity), Theory/Algebra/Comonoid/Tensor.v:81 `canonical_tensor_delta_coassoc` and :299 `unit_comonoid_coassoc` (coassociativity of the tensor/unit comonoids, derived FROM that field), and comonad duplicate-coassociativity lemmas. None is the exercise's verification.",
+      "grep -n 'CD_of_Cartesian' Structure/Monoidal/CopyDiscard/Proofs.v  -> :145 `Program Definition CD_of_Cartesian : @CopyDiscard C S` does PROVE the comonoid laws for the cartesian diagonal, which is the closest in-tree instance of 'copy is coassociative' — but Mat(R)'s copy is the comultiplication of a BIMONOID and is not cartesian (the copy row (1 1) is not a product diagonal), so this is a different category and does not cover the exercise.",
+      "grep -rni --include='*.v' \"bimonoid\\|bicommutative\" .  -> comment-only hits (Instance/FinSet.v:78, Construction/PROP/Signature.v:38); the bimonoid setting in which the exercise lives is not formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS reached ABSENT independently, and I independently surfaced the same strongest candidate the classifier considered and rejected: `rg -i 'coassoc'` led me to Theory/Algebra/Comonoid.v:45 `delta_coassoc : bimap delta id[X] \\u2218 delta \\u2248 from (@tensor_assoc C M X X X) \\u2218 bimap id[X] delta \\u2218 delta`, verified to be a FIELD of `Class Comonoid` (line 40) — an assumed law, not a computed matrix identity, which is precisely the classifier's ground for rejecting it. Theory/Algebra/Comonoid/Tensor.v:81 `canonical_tensor_delta_coassoc` and :299 `unit_comonoid_coassoc` confirmed at those exact lines and are derived FROM that field, as stated. Structure/Monoidal/CopyDiscard/Proofs.v:145 `Program Definition CD_of_Cartesian : @CopyDiscard C (...)` confirmed verbatim; the record's reason for rejecting it — Mat(R)'s copy is a bimonoid comultiplication, not a cartesian diagonal, since the row (1 1) is not a product projection pair — is mathematically correct and is the right call. Nothing was missed by the classifier here."
+    }
+  }
+]

@@ -1,0 +1,505 @@
+[
+  {
+    "id": "7sketches:1.4.3:thm115",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint functor theorem for preorders / posets (complete-lattice AFT)",
+      "Freyd's General Adjoint Functor Theorem (GAFT), solution-set condition",
+      "RAPL — right adjoints preserve limits (= meets in a preorder)",
+      "LAPC — left adjoints preserve colimits (= joins), the dual half",
+      "meet-preserving monotone map has a left adjoint; f(p) := ⋀{q | p ≤ g q}",
+      "continuous functor with a left adjoint; PreservesLimit / PreservesImageLimit"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Section RAPL. Context {F : D ⟶ C}. Context {U : C ⟶ D}. Context (A : F ⊣ U). ... Definition right_adjoint_preserves_limit {J : Category} (G : J ⟶ C) : PreservesLimit G U := @Build_PreservesLimit J C G D U (rapl_is_alimit G). Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+      }
+    ],
+    "statement_record": {
+      "book": "If Q has all meets and P is any preorder, a monotone g : Q → P preserves meets IFF g is a right adjoint (has a left adjoint); dually, if P has all joins, a monotone f : P → Q preserves joins IFF f is a left adjoint. The 'only if' half is Prop 1.111; the converse builds the left adjoint by the numbered display (1.116), f(p) := ⋀{q ∈ Q | p ≤ g(q)}, whose monotonicity is Prop 1.91 and whose unit/counit come from meet-preservation and Prop 1.91, concluded by Prop 1.107.",
+      "intree": "Theorem GAFT (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }  —  together with, in Section RAPL over Context (A : F ⊣ U), Definition right_adjoint_preserves_limits : PreservesAllLimits U, and its dual Definition left_adjoint_preserves_colimits (A : F ⊣ U) : PreservesAllColimits F.",
+      "strength_comparison": "both directions exist categorically, but the hard direction is intree-weaker for THIS item: GAFT carries an extra `SolutionSet U d` hypothesis at every d, which the book's preorder theorem does not need (for a complete preorder the meet of display (1.116) is itself a one-element solution set, so the hypothesis is vacuous there — but nothing in-tree discharges it). It is also stated over `Complete C` (limits of all small diagrams) and `PreservesImageLimit` (cone-level preservation), not over 'has all meets' / 'preserves meets', and it constructs the adjoint by Freyd's product+equalizer route (Theory/WeaklyInitial.v), not by the explicit formula (1.116). The easy direction (RAPL/LAPC) is intree-stronger than Prop 1.111 in generality — arbitrary diagram shapes in arbitrary categories, of which binary/subset meets are the thin-category instance."
+    },
+    "gap": "The preorder statement is never obtained. (i) `GAFT`'s `SolutionSet` hypothesis is not discharged for a complete preorder, so Theorem 1.115's unconditional 'preserves meets ⇒ right adjoint' does not follow from the in-tree theorem without new code. (ii) Meets and joins of a SUBSET of a preorder do not exist in-tree at all (cf. 7sketches:1.3.1:prop91 / 1.3.1:def81), so neither 'Q has all meets' nor 'g preserves meets' is expressible in the book's vocabulary; `Complete` is diagram-completeness and `PreservesImageLimit` is cone-level preservation. (iii) The candidate left adjoint of display (1.116), f(p) := ⋀{q | p ≤ g q}, its monotonicity via Prop 1.91, and the unit/counit verification are absent. (iv) No functor between two `Proset`s is ever constructed (see 7sketches:1.4.1:def95), so neither direction has ever been instantiated at a preorder. (v) The 'no generative effect ⟺ left adjoint' reading via Def 1.93 is unavailable: def93 is ABSENT.",
+    "negative_search_log": [
+      "grep -rniE 'preserves meets' --include='*.v' . — 0 hits; likewise 'meet-preserving', so the book's hypothesis has no in-tree spelling.",
+      "grep -rniE 'complete lattice' --include='*.v' . — 2 hits, both prose (Instance/Poset.v:93 Knaster–Tarski remark, Structure/Complete.v:71 AHS citation); no complete-lattice AFT.",
+      "grep -rniE 'adjoint functor theorem' --include='*.v' . — 27 hits; the only proof-carrying ones are Adjunction/GAFT.v (`GAFT`, `GAFT_from_initials`) and Adjunction/SAFT.v (`SAFT`), both with the solution-set/well-powered hypotheses. Instance/Poset.v:79-86 discusses the preorder case in prose ('a functor that preserves all small meets from a complete domain has a left adjoint outright') but proves nothing.",
+      "grep -rn 'Proset' --include='*.v' . — no Functor, Adjunction or preservation witness over Proset anywhere; only Instance/Poset.v and Test/Poset.v consume the category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening Phase C) independently reached PARTIAL with the same two anchors: RAPL for the easy half and GAFT-with-SolutionSet for the hard half. Evidence verified verbatim: Adjunction/GAFT.v:241 `Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }`; Adjunction/Continuity.v:202 `right_adjoint_preserves_limits : PreservesAllLimits U` inside Section RAPL over `Context (A : F ⊣ U)`; Continuity.v:223 `left_adjoint_preserves_colimits`. No Admitted/admit in either file; both registered (_CoqProject:5, :7-ish for GAFT). Instance/Poset.v:79-86 (the preorder-AFT paragraph) is prose only, as claimed. PRECISION CORRECTION to gap clause (ii): 'neither “Q has all meets” nor “g preserves meets” is expressible in the book’s vocabulary' is overstated. Both ARE expressible in-tree once instantiated at a Proset: `@Complete (Proset P)` (Structure/Complete.v:115) is all-small-diagram limits, and Structure/Limit/Product.v:93-122 (`iprod`, `iprod_proj`, `iprod_ump`, `IsIndexedProduct` over `DiscreteCat_Functor`) is exactly an indexed meet, with `PreservesLimit (DiscreteCat_Functor f) g` the meet-preservation hypothesis. What is genuinely missing — and what keeps the record PARTIAL — is any instantiation or bridge: I re-verified by `rg 'Proset|@Poset'` that no functor, limit, monad or adjunction over a thin category exists anywhere outside Instance/Poset.v and Test/Poset.v, and the SolutionSet hypothesis is never discharged. Classification and strength_comparison otherwise honest."
+    }
+  },
+  {
+    "id": "7sketches:1.4.3:example117",
+    "classification": "PARTIAL",
+    "aliases": [
+      "preimage / inverse-image map f* : P(B) → P(A), pullback along f",
+      "direct image f_! (existential image ∃_f, image of a subset)",
+      "dual image f_* (universal image ∀_f, buckets all of whose apples are chosen)",
+      "adjoint triple ∃_f ⊣ f* ⊣ ∀_f (Lawvere quantifiers / hyperdoctrine base change)",
+      "subobject reindexing along f: sub_reindex, Sub : C^op ⟶ Sets",
+      "Σ_f ⊣ f* ⊣ Π_f between slice categories / codomain fibration"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 180,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x ; is_setoid := @SubObj_Setoid C x |}; fmap := fun x y (f : x ~{C^op}~> y) => {| morphism := sub_reindex (unop f) ; proper_morphism := sub_reindex_respects (unop f) |} |}  (over Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y, the chosen pullback of sub_mono u along f — the preimage map f* : P(x) → P(y), functorial by sub_reindex_id / sub_reindex_comp)"
+      },
+      {
+        "file": "Instance/Sets/Image.v",
+        "line": 143,
+        "symbol": "Sets_Image_Factorization",
+        "intree_statement": "Definition Sets_Image_Factorization : Factorization f EpiClass MonoClass := @Build_Factorization Sets X Y f EpiClass MonoClass Sets_Image Sets_Image_epi Sets_Image_epi_epic Sets_Image_mono Sets_Image_mono_monic  (with Definition Sets_Image : SetoidObject := {| carrier := ∃ y : Y, ∃ x : X, f x ≈ y; is_setoid := Sets_Image_setoid |} and Sets_Image_mono : Sets_Image ~{Sets}~> Y monic)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)  (over Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }, sub_le_refl, sub_le_trans) — the power-set preorder P(x) in which the book's two adjointness biconditionals would be stated"
+      }
+    ],
+    "statement_record": {
+      "book": "For a function f : A → B, the preimage map f* : P(B) → P(A), B' ↦ f⁻¹(B'), is monotone and has BOTH a left adjoint, the direct image f_!(A') = {b | ∃ a ∈ A', f(a) = b}, and a right adjoint, the dual image f_*(A') = {b | ∀ a, f(a) = b → a ∈ A'}; so f_! ⊣ f* ⊣ f_*, all three induced automatically by f.",
+      "intree": "Program Definition Sub : C^op ⟶ Sets with fmap f := sub_reindex (unop f) : SubObj x → SubObj y (the chosen-pullback preimage of subobjects, with sub_reindex_id and sub_reindex_comp); plus, in Sets only, Sets_Image_Factorization : Factorization f EpiClass MonoClass factoring a map through Sets_Image = {b : Y & ∃ a : X, f a ≈ b}; plus the subobject preorder sub_le with sub_equiv_iff_mutual : (u ≈ v) ↔ (sub_le u v * sub_le v u).",
+      "strength_comparison": "intree-weaker: exactly ONE of the three maps exists, and none of the adjointness. `sub_reindex` is a faithful, indeed more general, f* (subobjects of an arbitrary category by pullback rather than subsets of a set), but `Sub` lands in Sets — it is functorial for ≈ only, and monotonicity of f* for `sub_le` is nowhere stated (`sub_reindex_respects` is respect for the setoid, not for the order). The direct image exists only as the image of a WHOLE map (`Sets_Image`), never as an operation SubObj A → SubObj B, and there is no dual image at any level. Neither of the book's two biconditionals (f_!(A') ⊆ B' ⟺ A' ⊆ f*(B') and f*(B') ⊆ A' ⟺ B' ⊆ f_*(A')) appears in any form."
+    },
+    "gap": "Missing: (a) f_! as a map on subobjects/subsets — `Sets_Image` gives the image of a whole morphism, and although f_!(u) could be assembled as `Build_SubObj B (Sets_Image (f ∘ sub_mono u)) …`, no such definition exists (the only in-tree use of Sets_Image as a subobject is `sets_char_subobject`, Instance/Sets/Classifier.v:341, which merely identifies a mono with its own image); (b) f_* — the dual/universal image has no in-tree counterpart whatsoever; (c) both adjunctions — there is no adjunction, Galois connection, or order-transposition between subobject/subset preorders anywhere (`sub_reindex` has no external consumers at all); (d) monotonicity of f* with respect to `sub_le`; (e) the power set of a set as a PREORDER under inclusion: `Instance/Ens.v`'s `EnsT T` has the subsets of T as objects but its homs are endofunctions f with A = f⁻¹(B), not inclusions, and Structure/Topos.v's `Pow a := Ω ^ a` is a power OBJECT with no order.",
+    "negative_search_log": [
+      "grep -rniE 'direct image|dual image' --include='*.v' . — 0 hits each.",
+      "grep -rniE 'adjoint triple|quantifier|base change' --include='*.v' . — every hit is prose: Theory/Adjunction.v:75-77 ('the quantifiers form the adjoint triple ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine'), Instance/Poset.v:71, Comonad/Coalgebra.v:97 ('adjoint triple f_! ⊣ f^* ⊣ f_*'). No proof-carrying constant.",
+      "grep -rn 'sub_reindex' --include='*.v' . — all 15 hits are inside Theory/Subobject/Functor.v; no consumer, hence no adjoint constructed anywhere.",
+      "grep -rniE 'powerset|power set|Included' --include='*.v' . — 'power set' once (Structure/Topos.v:75 prose about Pow), `Included` never used; no inclusion order on Ensembles or on SubObj beyond `sub_le`."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED at the PARTIAL/ABSENT boundary. My blind pass leaned ABSENT (nothing about power sets; the two slice functors Bang_Functor/Star_Functor of Construction/Slice/Pullback.v:50,67 exist but their adjunction `Base_Functor_Adjunction` is COMMENTED OUT at lines 121-126 and even states the reversed direction); PARTIAL is upheld because `sub_reindex`/`Sub` is a genuine and more general f*. Evidence verified verbatim: Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op ⟶ Sets` with `fmap := … sub_reindex (unop f) … sub_reindex_respects (unop f)`; Instance/Sets/Image.v:143 `Sets_Image_Factorization`; Theory/Subobject.v:93 `sub_equiv_iff_mutual`. The strength claim is honest: `sub_reindex_respects` (Functor.v:60-61) is literally `Proper (equiv ==> equiv) (@sub_reindex x y f)` — setoid respect, not sub_le-monotonicity — and `sub_le` has 0 occurrences in Theory/Subobject/Functor.v, so monotonicity of f* for the order is indeed unstated. ONE FACTUAL ERROR in negative_search_log, corrected here: \"all 15 hits are inside Theory/Subobject/Functor.v; no consumer, hence no adjoint\" is FALSE — `rg -c sub_reindex` gives Theory/Subobject/Functor.v:27 AND Structure/SubobjectClassifier.v:8 (lines 160,161,173,175,184,202,207, the char/sub_reindex_transport round trip of the classification theorem). The verdict is unaffected: that consumer uses f* for the bijection SubObj x ≅ (x ~> Ω), not for any adjoint, order comparison, direct image or dual image — f_! as an operation on subobjects and f_* at any level remain absent, as does either biconditional."
+    }
+  },
+  {
+    "id": "7sketches:1.4.3:ex118",
+    "classification": "ABSENT",
+    "aliases": [
+      "computed preimage f*(B') on a small finite set",
+      "computed direct image f_!(A') / existential image on a finite set",
+      "computed dual image f_*(A') / universal image on a finite set",
+      "worked FinSet example of the adjoint triple; Example ... := eq_refl on Fin.t",
+      "concrete pullback of a subset inclusion along a finite function"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'direct image|dual image' --include='*.v' . — 0 hits; two of the three operations the exercise asks to compute have no in-tree definition to instantiate (see 7sketches:1.4.3:example117).",
+      "grep -rniE 'preimage' --include='*.v' . — 44 hits, none about subsets: every one is `prefmap`, the chosen preimage of a morphism under a full functor (Theory/Functor.v:325-332, Theory/Equivalence.v:106-143, Theory/Equivalence/Limit.v:306, Test/FullIssue118.v:47).",
+      "grep -nE '^\\s*Example' Instance/FinSet/Topos.v Instance/FinSet/Classifier.v — the computed examples are FinSet_Pow_two (Pow 2 = 4), FinSet_Pow_zero, FinSet_truth_computes, FinSet_char_at_true/false, FinSet_Pow_membership and fin_select_computes. None computes an image or a preimage of a subset along a function.",
+      "read Instance/FinSet/Classifier.v:257-303 — `finset_pb_pred f g` and `FinSet_Pullbacks` do compute preimages as counted subsets (the pullback of f against a subset inclusion), so the infrastructure for part (1) exists, but no definition of a subset-preimage MAP and no worked instance is built on it; parts (2) and (3) have no infrastructure at all.",
+      "grep -rn 'sub_reindex' --include='*.v' . — no consumer outside Theory/Subobject/Functor.v, so the generic f* is never evaluated at a concrete finite example either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass found no counterpart either (0 hits for 'direct image'/'dual image'; the 44 'preimage' hits are all `prefmap`, the chosen preimage of a morphism under a full functor). Spot-checked the log's positive-infrastructure claim: Instance/FinSet/Classifier.v:257 `finset_pb_pred` + `FinSet_Pullbacks` do compute agreement subsets by the count codec (verified lines 250-305), and Instance/FinSet/Topos.v's Examples are exactly FinSet_Pow_two (:52, `= 4%nat := eq_refl`), FinSet_Pow_zero, FinSet_truth_computes, FinSet_char_at_true/false, FinSet_Pow_membership — none computes an image or a subset-preimage. The log repeats the same sub_reindex mis-count as example117 (Structure/SubobjectClassifier.v does consume `sub_reindex`, 8 occurrences); immaterial here, since those uses are generic and evaluate nothing at a concrete finite set."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:construction-closure-from-galois-connection",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the round trip g ∘ f of an adjunction is a closure operator",
+      "monad induced by an adjunction (U ◯ F, η, UεF)",
+      "idempotent monad / reflective modality; nucleus of a Galois connection",
+      "interior operator (the dual composite f ∘ g) = comonad induced by the adjunction",
+      "extensive + idempotent monotone endomap; consequence operator"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).   (Section AdjunctionMonad, Context {F : D ⟶ C} {U : C ⟶ D}; also Monad/Comparison.v:123 Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := Build_Monad (U ◯ F) (fun x => unit x) (fun x => fmap[U] (counit (F x))) …)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 214,
+        "symbol": "unit",
+        "intree_statement": "Definition unit {x : D} : x ~> U (F x) := ⌊id⌋.   Definition counit {x : C} : F (U x) ~> x := ⌈id⌉."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 81,
+        "symbol": "IdempotentMonad",
+        "intree_statement": "Class IdempotentMonad {C : Category} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }   (with Definition join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (@join C M _ x) ↔ IsIsomorphism (@ret C M _ (M x)))"
+      },
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := Comonad_of_op_Monad (Adjunction_Monad (Opposite_Adjunction F U A))"
+      }
+    ],
+    "statement_record": {
+      "book": "Given a Galois connection f : P → Q left adjoint to g : Q → P, the composite (f ; g) : P → P is a monotone endomap with p ≤ (f ; g)(p) for all p and (f ; g ; f ; g)(p) ≅ (f ; g)(p) — i.e. a closure operator (Def 1.120). Footnote 8: dually (g ; f) : Q → Q satisfies (g ; f)(q) ≤ q and idempotence up to ≅, an INTERIOR operator.",
+      "intree": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F), whose class fields are ret {x} : x ~> M x, join {x} : M (M x) ~> M x, join_fmap_ret {x} : join ∘ fmap ret ≈ id, join_ret {x} : join ∘ ret (M x) ≈ id (Theory/Monad.v:92-109); the unit itself is Definition unit {x : D} : x ~> U (F x) := ⌊id⌋; invertibility of join is the SEPARATE Class IdempotentMonad := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }; the dual composite is Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U).",
+      "strength_comparison": "intree-stronger on clause (a) and on generality, intree-weaker on clause (b). Clause (a), p ≤ (f;g)(p), is exactly `unit`/`ret` and holds for every adjunction between arbitrary categories; monotonicity of the composite is functoriality of U ◯ F. Clause (b) is only half-present: a general monad supplies BOTH comparison arrows (join : M M x ~> M x and ret (M x) : M x ~> M M x) and the equations join ∘ ret(M x) ≈ id, join ∘ fmap ret ≈ id, but their being an ISOMORPHISM is false for a general monad and is imposed in-tree as the extra `IdempotentMonad` axiom. In a thin category (a preorder) invertibility is automatic because all parallel morphisms are equal — that step is nowhere taken in-tree."
+    },
+    "gap": "No order-theoretic instance and no closure-operator statement. Specifically: (i) there is no Galois connection in-tree (7sketches:1.4.1:def95: `GaloisConnection` has 0 hits and no functor between two `Proset`s is ever built), so the hypothesis of the construction cannot be written; (ii) `closure operator` occurs only as prose in Instance/Poset.v:48,64-68 — no definition, so the conclusion cannot be written either (see 7sketches:1.4.4:def120); (iii) the idempotence clause (b) is available only by ASSUMING `IdempotentMonad`, and nothing in-tree proves that a monad on a thin category is idempotent (grep 'thin' finds only comments), which is precisely the step that makes the book's claim automatic; (iv) the footnote-8 interior operator likewise exists only as `Adjunction_Comonad` — the dual inequality (g;f)(q) ≤ q is the comonad's `extract`, but no 'interior operator' statement or order instance exists.",
+    "negative_search_log": [
+      "grep -rniE 'closure operator|ClosureOperator|inflationary' --include='*.v' . — 4 hits, all prose in Instance/Poset.v; 0 hits for the identifier forms.",
+      "grep -rniE '\\bthin\\b|posetal' --include='*.v' . — every hit is a comment (Instance/Proset.v:9-29, Instance/Poset.v:19-43, Instance/Two.v:13-89); no lemma exploits thinness, so the automatic invertibility of join in a preorder is unproven."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; my blind pass reached the same reading (round trip = monad, dual = comonad, no order-level statement). Evidence verified verbatim: Monad/Adjunction.v:48 `Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F)`; Theory/Adjunction.v:214 `Definition unit {x : D} : x ~> U (F x) := ⌊id⌋`; Construction/Reflective/Idempotent.v:81 `Class IdempotentMonad … { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }`; Comonad/Duality.v:170 `Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U)`. Monad/Comparison.v:123 `Adjunction_Induced_Monad` (transparent, ret = η, join = U ε F) is the second witness, also as quoted. No Admitted in any of them; all registered in _CoqProject. The strength_comparison is honest, including the sharp point that clause (b)'s ≅ is an imposed axiom: I re-verified that thinness is exploited by no lemma, although Instance/Proset.v:39's `homset := … equiv := fun _ _ => True` would make `IsIsomorphism join` inhabited by `ret (M x)` with both laws trivial — i.e. the missing step is one short lemma, which Phase E should scope explicitly. 'Interior operator' indeed has 0 in-tree hits beyond Adjunction_Comonad's existence."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:ex119",
+    "classification": "PARTIAL",
+    "aliases": [
+      "prove p ≤ (f ; g)(p) — the unit of the adjunction / monad return",
+      "prove (f ; g ; f ; g)(p) ≅ (f ; g)(p) — idempotence of the round trip",
+      "monad unit and multiplication laws join_ret / join_fmap_ret",
+      "idempotent monad: join is invertible (idem_join_iso)",
+      "nucleus / closure of a Galois connection is extensive and idempotent"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).   The Monad class (Theory/Monad.v:92) supplies exactly the two arrows the exercise asks for — ret {x} : x ~> M x (clause 1) and join {x} : M (M x) ~> M x with join_ret {x} : join ∘ @ret (M x) ≈ id and join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id (one half of clause 2)."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 132,
+        "symbol": "join_iso_iff_ret_M_iso",
+        "intree_statement": "Definition join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (@join C M _ x) ↔ IsIsomorphism (@ret C M _ (M x)) := (join_iso_ret_iso x, ret_iso_join_iso x).   (over Class IdempotentMonad := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }, line 81)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 280,
+        "symbol": "counit_fmap_unit",
+        "intree_statement": "Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x].   (with Definition unit {x : D} : x ~> U (F x) := ⌊id⌋ and Definition counit {x : C} : F (U x) ~> x := ⌈id⌉, lines 214-215 — the zig-zag identities the exercise is told to argue from, Prop 1.107 in the book)"
+      }
+    ],
+    "statement_record": {
+      "book": "Assuming f left adjoint to g, show using Prop 1.107 that (1) p ≤ (f ; g)(p) for all p ∈ P, and (2) (f ; g ; f ; g)(p) ≅ (f ; g)(p), by proving inequalities in both directions.",
+      "intree": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F), where the Monad class fields are ret {x} : x ~> M x; join {x} : M (M x) ~> M x; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id — plus Definition join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (@join C M _ x) ↔ IsIsomorphism (@ret C M _ (M x)) and Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x].",
+      "strength_comparison": "part (1) is intree-stronger (the unit exists for any adjunction between arbitrary categories, not merely preorders, and is derived from the transposition exactly as the exercise's Prop-1.107 route intends); part (2) is intree-weaker — the two comparison arrows exist and satisfy the two unit equations, but their invertibility, which is what '≅' asserts, is not derived: it is imposed as the `IdempotentMonad` axiom. The exercise's 'inequalities in both directions' argument (ret at M x for one direction, join for the other) is available arrow-by-arrow but the conclusion that they compose to identities is only automatic in a thin category, a step never taken in-tree."
+    },
+    "gap": "Same as the owning construction (7sketches:1.4.4:construction-closure-from-galois-connection): the exercise's conclusion 'the round trip is a closure operator' cannot even be stated because no closure operator is defined in-tree and no Galois connection / Proset functor exists; and clause (2)'s isomorphism is available only under the extra `IdempotentMonad` hypothesis, with no in-tree lemma that a monad on a preorder (thin category) satisfies it.",
+    "negative_search_log": [
+      "grep -rniE 'closure operator|ClosureOperator' --include='*.v' . — 4 prose hits in Instance/Poset.v only, so the target notion of the exercise is unavailable."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, consistent with my blind pass (the exercise's two clauses are the monad's ret and the join/ret(Mx) pair). Evidence verified verbatim: Monad/Adjunction.v:48; Construction/Reflective/Idempotent.v:132 `Definition join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (@join C M _ x) ↔ IsIsomorphism (@ret C M _ (M x))`; Theory/Adjunction.v:280 `Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x]` (the Prop-1.107 zig-zag route the exercise prescribes, so the mapping of the book's proof plan onto in-tree material is accurate). Same one-lemma thinness gap as the owning construction; no double-counting concern since the record explicitly defers its gap to that record."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:def120",
+    "classification": "PARTIAL",
+    "aliases": [
+      "closure operator on a preorder (extensive + monotone + idempotent up to ≅)",
+      "monad on a thin category / posetal monad",
+      "idempotent monad (join invertible); reflective modality",
+      "consequence operator (Tarski); nucleus on a frame/Heyting algebra",
+      "Idempotent endomorphism f ∘ f ≈ f"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Monad.v",
+        "line": 92,
+        "symbol": "Monad",
+        "intree_statement": "Class Monad := { ret {x} : x ~> M x; join {x} : M (M x) ~> M x; fmap_ret {x y} (f : x ~> y) : ret ∘ f ≈ fmap f ∘ ret; join_fmap_join {x} : join ∘ fmap (@join x) ≈ join ∘ join; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id; join_fmap_fmap {x y} (f : x ~> y) : join ∘ fmap (fmap f) ≈ fmap f ∘ join }  (Section Monad, Context `{M : C ⟶ C})"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 81,
+        "symbol": "IdempotentMonad",
+        "intree_statement": "Class IdempotentMonad {C : Category} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }"
+      },
+      {
+        "file": "Theory/Morphisms.v",
+        "line": 22,
+        "symbol": "Idempotent",
+        "intree_statement": "Class Idempotent `(f : x ~> x) := { idem : f ∘ f ≈ f }"
+      }
+    ],
+    "statement_record": {
+      "book": "A CLOSURE OPERATOR on a preorder P is a monotone map j : P → P such that for all p ∈ P: (a) p ≤ j(p), and (b) j(j(p)) ≅ j(p) — idempotence only up to the preorder's induced isomorphism, not equality.",
+      "intree": "Class Monad := { ret {x} : x ~> M x; join {x} : M (M x) ~> M x; …; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id; … } over Context `{M : C ⟶ C}; and Class IdempotentMonad (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }; and, without extensivity, Class Idempotent `(f : x ~> x) := { idem : f ∘ f ≈ f }.",
+      "strength_comparison": "intree-stronger as a categorification, never specialized. Instantiated at `Proset P` a `Monad` IS Def 1.120: the endofunctor is a monotone map, `ret` is clause (a), `join` together with `ret (M x)` gives clause (b)'s two comparisons, and all seven laws hold vacuously because Proset's hom-setoid identifies parallel proofs (`equiv := fun _ _ => True`). But the in-tree class demands a full monad on an arbitrary category — strictly more data than the book's two conditions in the general case — and `IdempotentMonad` states clause (b) as an added axiom rather than deriving it. `Idempotent` is genuinely weaker than either clause: it is bare f ∘ f ≈ f with no extensivity and no 'up to ≅' relaxation."
+    },
+    "gap": "There is no closure operator in-tree: `ClosureOperator` and `inflationary` have 0 hits and `closure operator` occurs only as prose in Instance/Poset.v:48,64-68 ('a monad is a closure operator, the unit giving extensivity and the multiplication idempotency'). Nothing performs the specialization: no functor between two `Proset`s exists (7sketches:1.4.1:def95), so `@Monad (Proset P) j` — the term that WOULD be Def 1.120 — cannot be written without new code. The only monotone-map record in-tree, `MonotoneMap` (Construction/Enriched/Two.v:175), belongs to the 2-enriched presentation, additionally requires a DECIDABLE order (`tpre_dec`), and is never related to Proset or to Monad. Also missing: the order-level naming (closure / extensive / idempotent), and the observation that clause (b) is automatic in a thin category.",
+    "negative_search_log": [
+      "grep -rniE 'ClosureOperator|inflationary' --include='*.v' . — 0 hits each.",
+      "grep -rniE 'closure operator' --include='*.v' . — 4 hits, all comments in Instance/Poset.v.",
+      "grep -rniE 'monotone' --include='*.v' . — 14 hits; the only proof-carrying ones are `MonotoneMap` and `EnrichedFunctor_Two_monotone` in Construction/Enriched/Two.v:175,183, both inside the Two-enriched development with a decidability field; the rest are prose.",
+      "grep -rn 'Proset' --include='*.v' . — only Instance/Poset.v and Test/Poset.v consume it; no endofunctor on a Proset anywhere."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL; identical to my blind conclusion (no closure operator in-tree, monad is the categorification). Evidence verified verbatim field-by-field: Theory/Monad.v:92 `Class Monad` with exactly ret, join, fmap_ret, join_fmap_join, join_fmap_ret, join_ret, join_fmap_fmap; Construction/Reflective/Idempotent.v:81 `IdempotentMonad`; Theory/Morphisms.v:22 `Class Idempotent ‘(f : x ~> x) := { idem : f ∘ f ≈ f }` — and the record is right that this last is weaker than either book clause. The MonotoneMap caveat also checks out: Construction/Enriched/Two.v:175 `Record MonotoneMap (P Q : TwoPreorder)` is over `Record TwoPreorder` (line 60-66) which really does carry `tpre_dec x y : tpre_le x y + (tpre_le x y → False)`, and `EnrichedFunctor_Two_monotone` sits at :183 as cited; neither is ever related to Proset or Monad (verified: Proset has no consumers outside Instance/Poset.v and Test/Poset.v)."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:example121",
+    "classification": "PARTIAL",
+    "aliases": [
+      "program / evaluator as a closure operator on the rewriting order",
+      "expressions preordered by rewritability (reflexive-transitive closure of one-step reduction)",
+      "normalizer: e --->* normalize e, and idempotence normalize ∘ normalize = normalize",
+      "abstract rewriting system, normal form, confluence / uniqueness of normal forms",
+      "normalization by evaluation (morDA) as an idempotent monotone endomap"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 74,
+        "symbol": "multi_PreOrder",
+        "intree_statement": "Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R)   (over Inductive multi `(R : crelation X) : crelation X := multi_refl (x : X) : multi x x | multi_step (x y z : X) : R x y → multi y z → multi x z, and Theorem multi_trans) — the rewriting order of the example: expressions preordered by 'can be rewritten to'"
+      },
+      {
+        "file": "Instance/Lambda/Norm.v",
+        "line": 263,
+        "symbol": "strong_normalization",
+        "intree_statement": "Corollary strong_normalization {τ} (e : Exp nil τ) : e ⇓.   (Definition halts {Γ τ} (e : Exp Γ τ) : Type := ∃ e', e --->* e' ∧ ValueP e' — every expression rewrites to a normal form, the value of the would-be j at e)"
+      },
+      {
+        "file": "Instance/Lambda/Norm.v",
+        "line": 95,
+        "symbol": "normal_forms_unique",
+        "intree_statement": "Theorem normal_forms_unique Γ τ : deterministic (normal_form_of (Γ:=Γ) (τ:=τ))   (over Definition normal_form_of {Γ τ} (e e' : Exp Γ τ) : Type := (e --->* e' ∧ normal_form Step e')) — the normal form reached is unique, so j is well defined as a relation"
+      }
+    ],
+    "statement_record": {
+      "book": "Order arithmetic expressions by rewritability (a partial order; 7+2+3 rewrites to 12). A program is a map j : exp → exp, and it is desirable that j be a closure operator: monotonicity says x rewritable to y implies j(x) rewritable to j(y); x ≤ j(x) says j only performs permissible rewrites; idempotence j(j(x)) = j(x) says re-reducing an already reduced expression changes nothing.",
+      "intree": "Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R) — the reflexive-transitive closure of one-step reduction is a preorder; Corollary strong_normalization {τ} (e : Exp nil τ) : e ⇓, i.e. ∃ e', e --->* e' ∧ ValueP e'; Theorem normal_forms_unique Γ τ : deterministic (normal_form_of).",
+      "strength_comparison": "the ORDER is present and faithful (indeed proved for an arbitrary relation R, not just one language), and the existence-and-uniqueness of the normal form is stronger than the example needs. But the closure-operator reading is absent: no map j : Exp → Exp is defined (normalization is stated relationally, `normal_form_of`, and the only function-level evaluator is the gas-indexed abstract machine `run gas e : Σ τ` of Instance/Lambda/Eval.v:206, which lands in machine states, not expressions, and has no `e --->* run gas e` soundness lemma). Hence none of the example's three conditions on j is stated: not monotonicity, not extensivity as a property of a map, not idempotence."
+    },
+    "gap": "The rewriting preorder exists (`multi_PreOrder`) but the example's actual content — that a program is desirably a CLOSURE OPERATOR on it — is unformalized: (i) no function j : Exp → Exp with j(e) a normal form is defined (normalization lives in the relational `normal_form_of` / `halts`, and `run`'s codomain is the machine state Σ τ, with no lemma relating `run` to `--->*`); (ii) monotonicity of any such j is never stated; (iii) idempotence of any such j is never stated (the closest is Construction/Free.v:228 `morDA_tlistDA`, stability of the free-category normalizer on normal forms, which is about formal composites, not reduction); (iv) `closure operator` does not exist in-tree at all (see def120), so the example cannot be connected to Def 1.120; (v) the book's arithmetic-expression order itself is not in-tree — the only rewriting order is `multi Step` on the intrinsically-typed λ-calculus of Instance/Lambda.",
+    "negative_search_log": [
+      "grep -rniE 'closure operator' --include='*.v' . — prose only (Instance/Poset.v), so the example's conclusion has no in-tree spelling.",
+      "grep -rn 'multi ' --include='*.v' . | grep -v Instance/Lambda/Multi.v — no consumers outside the file (all remaining hits are the unrelated `operad_multi`), so the rewriting preorder is never used as an ordered structure, only as a reduction relation.",
+      "grep -nE '^\\s*(Theorem|Lemma|Definition)' Instance/Lambda/Eval.v Instance/Lambda/Sound.v — the evaluator interface is `loop`, `inject`, `run gas` and `soundness` (Sound.v:42, relating the machine to the denotational semantics); no `e --->* run gas e` and no idempotence of any normalizing map on Exp."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, but flagged as an ABSENT-grade gap for Phase E: my blind pass classified this ABSENT because the item's entire content (a program j being a closure operator) has zero in-tree presence; PARTIAL is upheld only on the ambient rewriting preorder. Evidence verified verbatim: Instance/Lambda/Multi.v:74 `Program Instance multi_PreOrder ‘(R : crelation X) : PreOrder (multi R)` over the `multi` inductive at :46; Instance/Lambda/Norm.v:263 `Corollary strong_normalization {τ} (e : Exp nil τ) : e ⇓`; Norm.v:95 `Theorem normal_forms_unique Γ τ : deterministic (normal_form_of (Γ:=Γ) (τ:=τ))`. The gap's claim about `run` is not only true but understated: Instance/Lambda/Eval.v:206 defines `run gas e : Σ τ`, and the file's own FLAG (lines 58-64 and 208-222) states the agreement theorem relating `run` to `--->*` is unproven AND 'currently false on terms with products because of the pair defect documented above'. So no candidate j exists even up to soundness. Multi.v's complete symbol list (multi, multi_R, multi_trans, multi_PreOrder, multi_respects_Step, multi_respects_multi, values_final, multistep_App*/Pair*/Fst1/Snd1) confirms no monotone or idempotent endomap on Exp is anywhere in the file."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:example122",
+    "classification": "PARTIAL",
+    "aliases": [
+      "closure operator yields an adjunction via its fixed points; fix_j ↪ P",
+      "reflective subcategory of a (idempotent) monad; local objects, M-local",
+      "idempotent monad ⇒ reflective subcategory (Eilenberg–Moore / reflector ⊣ inclusion)",
+      "Karoubi / split-idempotent fixed-point object; sets_split_obj",
+      "j : P → fix_j left adjoint to the inclusion; j(p) ≤ q ⟺ p ≤ q for q a fixed point"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 335,
+        "symbol": "idem_reflective_adj",
+        "intree_statement": "Definition idem_reflective_adj : idem_reflector ⊣ Incl C MLocal_Subcategory := Adjunction_from_Transform idem_reflection_transform.   (Section IdempotentInducesReflective, Context {M : C ⟶ C} `{MM : @Monad C M} `{IM : @IdempotentMonad C M MM}; idem_reflector : C ⟶ Sub C MLocal_Subcategory sends x ↦ (M x; join_iso_ret_iso x (idem_join_iso M x)))"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 224,
+        "symbol": "MLocal_Subcategory",
+        "intree_statement": "Definition MLocal_Subcategory : Subcategory C := {| sobj := fun x => IsIsomorphism (@ret C M MM x) ; shom := fun _ _ _ _ _ => True ; scomp := …; sid := … |}   — the objects with j(p) ≅ p, i.e. fix_j, as a FULL subcategory (Definition MLocal_Full : Full C MLocal_Subcategory, line 341)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 345,
+        "symbol": "Idempotent_Reflective",
+        "intree_statement": "Definition Idempotent_Reflective : Reflective MLocal_Subcategory := @Build_Reflective C MLocal_Subcategory MLocal_Full idem_reflector idem_reflective_adj   (Record Reflective (S : Subcategory C) := { reflective_full : Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }, Construction/Reflective.v:60)"
+      }
+    ],
+    "statement_record": {
+      "book": "Converse to the closure construction: for a closure operator j on a preorder P, let fix_j := {p | j(p) ≅ p} with the inherited order; j(p) ∈ fix_j for every p, and j viewed as a map P → fix_j is left adjoint to the inclusion g : fix_j → P — for p ∈ P and q ∈ fix_j, j(p) ≤ q iff p ≤ q.",
+      "intree": "Definition idem_reflective_adj : idem_reflector ⊣ Incl C MLocal_Subcategory, over Definition MLocal_Subcategory := {| sobj := fun x => IsIsomorphism (@ret C M MM x); shom := fun _ _ _ _ _ => True |} and idem_reflector : C ⟶ Sub C MLocal_Subcategory, x ↦ (M x; join_iso_ret_iso x (idem_join_iso M x)); packaged as Definition Idempotent_Reflective : Reflective MLocal_Subcategory, with the further Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G (line 464).",
+      "strength_comparison": "same in substance under the order/category dictionary, and intree-stronger overall, with one added hypothesis. The fixed points are defined exactly as the book's (`sobj := IsIsomorphism (ret x)` is j(p) ≅ p, not equality), the subcategory is full so the order is inherited, `idem_reflector` is j landing in fix_j (its object part carries the proof that M x is local — the book's remark that j(p) ∈ fix_j), and the adjunction's hom-isomorphism is the biconditional j(p) ≤ q ⟺ p ≤ q. The library goes further, identifying fix_j with the Eilenberg–Moore algebras. The added hypothesis is `IdempotentMonad` (join invertible): in a preorder this is automatic, but nothing in-tree says so, so the in-tree theorem is formally weaker than 'every closure operator yields an adjunction'."
+    },
+    "gap": "Two precise gaps. (i) The in-tree theorem needs `IdempotentMonad` — invertibility of join — as a hypothesis, whereas the book's j is merely a closure operator on a preorder, where invertibility comes free from thinness; no in-tree lemma derives idempotence from thinness (grep 'thin' finds comments only), so Example 1.122 is not an instance of `idem_reflective_adj` without new code. (ii) There is no order-theoretic layer to instantiate it in: no closure operator (def120), no Galois connection (def95), and no functor between two `Proset`s anywhere in the tree, so `fix_j` as a sub-PREORDER and the biconditional in ≤-form are never written. Cosmetically, the in-tree fixed points are the 'M-local objects' with no order-theoretic naming.",
+    "negative_search_log": [
+      "grep -rniE 'closure operator' --include='*.v' . — prose only, so the hypothesis of Example 1.122 has no in-tree spelling.",
+      "grep -rn 'Proset' --include='*.v' . — no functor, monad or adjunction over a Proset, so the example is never realized at the order level."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL after adversarial pressure in the opposite direction: my blind pass leaned PRESENT-as-generalization, since Construction/Reflective/Idempotent.v proves exactly 'fixed points of the operator, operator left adjoint to the inclusion'. Evidence verified verbatim: :224 `MLocal_Subcategory` with `sobj := fun x => IsIsomorphism (@ret C M MM x)` and the terminal `shom` (so the order is inherited, as the record says); :335 `Definition idem_reflective_adj : idem_reflector ⊣ Incl C MLocal_Subcategory := Adjunction_from_Transform idem_reflection_transform`; :345 `Idempotent_Reflective`; :464 `Idempotent_EM_Equivalence`. The section context at :218-219 does carry `@Monad C M` and `@IdempotentMonad C M MM`, so the added-hypothesis analysis is exact, and no Admitted appears in the file. PARTIAL is upheld because the book's j is an arbitrary closure operator on a preorder while the in-tree theorem needs join invertible; I confirmed the missing bridge is genuinely absent (thinness is exploited by no lemma in the tree) even though it is one line over Instance/Proset.v's trivial hom-setoid. Phase E should scope the issue as (a) that bridge lemma and (b) the order-level layer, NOT as re-proving the theorem."
+    }
+  },
+  {
+    "id": "7sketches:1.4.4:example123",
+    "classification": "PARTIAL",
+    "aliases": [
+      "modal operator = closure operator on the preorder of propositions ordered by entailment",
+      "propositions preordered by implication (thin category Props / Heyting prealgebra)",
+      "j := (B ⇒ −), the 'assuming B' modality; reader-style closure operator",
+      "Lawvere–Tierney topology / nucleus on a Heyting algebra; reflective modality",
+      "double-negation or open/closed modality ¬¬, B ∨ −"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 39,
+        "symbol": "Props",
+        "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}   — propositions ordered by entailment, thin because the hom-setoid identifies all proofs"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }   — the implication exponential Q ^ P = P → Q and the deduction-theorem adjunction (− ∧ P) ⊣ (P → −), i.e. the operator B ⇒ − the example uses"
+      }
+    ],
+    "statement_record": {
+      "book": "Order all propositions by entailment (p ≤ q iff p implies q); this is a preorder. A closure operator on it is called a MODAL OPERATOR: j with p implies j(p) and j(j(p)) = j(p). Worked instance: fix a proposition B and let j := (B ⇒ −), i.e. j(p) = 'assuming B, p'; both closure axioms hold informally. Points forward to §7.4.5 on modalities.",
+      "intree": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := trivial; id; compose |} — with Props_Terminal, Props_Initial, Props_Cartesian (∧), Props_Cocartesian (∨) and Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := … } giving Q ^ P = P → Q with the currying isomorphism.",
+      "strength_comparison": "the ambient structure is PRESENT and stronger than the example needs — Props is exactly the book's preorder of propositions under entailment (thin, hom = implication), and it is bicartesian closed, so the operator B ⇒ − exists as `exponent_obj` and (− ∧ B) ⊣ (B ⇒ −) is proved. But the example's actual claim is missing: j := (B ⇒ −) is never exhibited as an endofunctor on Props, and neither closure axiom is stated (p ≤ (B ⇒ p) and (B ⇒ (B ⇒ p)) ≅ (B ⇒ p) appear nowhere). Note also that the monad induced in-tree by the closed adjunction is B ⇒ (− ∧ B), not the example's B ⇒ −, so the modality is not obtained as a by-product either."
+    },
+    "gap": "Missing: (i) the name and notion 'modal operator' — grep 'modal' returns 5 hits, all prose about the linear-logic exponential comonad ! (Comonad/Core.v:99, Comonad/CoKleisli.v:50,66,87) and one about reflective modalities (Construction/Localization.v:119); (ii) the endofunctor B ⇒ − on Props and its two closure axioms p → (B → p) and (B → (B → p)) ↔ (B → p) — neither is stated, in Props or anywhere; (iii) any closure operator at all (def120 is PARTIAL: none exists in-tree); (iv) a Lawvere–Tierney topology / nucleus (0 hits) — the topos development (Structure/Topos.v, Structure/SubobjectClassifier.v) stops at the classifier, so the §7.4.5 forward reference has no in-tree home; (v) no monad on `Props` is ever constructed, so even the general dictionary 'closure operator = monad on a thin category' is not instantiated here.",
+    "negative_search_log": [
+      "grep -rniE 'modal|modality|lawvere.?tierney' --include='*.v' . — 5 hits, all comments and none about a modal operator on propositions; 0 hits for Lawvere–Tierney.",
+      "grep -rn 'Props' --include='*.v' . — the only consumers of Instance/Props.v are its own instances plus prose cross-references (Instance/Poset.v:106, Structure/Cocartesian.v:60); no functor, monad or closure operator over Props.",
+      "grep -rniE 'closure operator|ClosureOperator' --include='*.v' . — prose only, so the example's classification of j as a closure operator cannot be stated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, same as my blind conclusion. Evidence verified verbatim: Instance/Props.v:39 `Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := … equiv := fun f g => True … |}` (the entailment preorder, thin) and :94 `Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := … }`. The negative claims check out exactly: `rg -i modal` gives precisely the 5 prose hits named (Comonad/Core.v:99, Comonad/CoKleisli.v:50,66,87, Construction/Localization.v:119), 0 hits for Lawvere–Tierney, and Props has no functor/monad consumer — outside its own file only the prose cross-references at Instance/Poset.v:106 and Structure/Cocartesian.v:60 (Instance/FinSet/Pushout.v:54's 'Props in Network Theory' is a paper title, not a consumer). The remark that the closed adjunction's induced monad is B ⇒ (− ∧ B) rather than the example's B ⇒ − is correct and is a useful precision for Phase E."
+    }
+  },
+  {
+    "id": "7sketches:1.4.5:ex124",
+    "classification": "ABSENT",
+    "aliases": [
+      "Hasse diagram of a finite poset",
+      "Rel(S) — binary relations on S preordered by inclusion (16 elements for S = {1,2})",
+      "power set of S × S ordered by ⊆; boolean lattice 2^4",
+      "hom-order of Rel (locally posetal structure, R ≤ R')",
+      "Ensemble inclusion order / Included on Ensembles"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Hasse' --include='*.v' . — 0 hits; the library draws no order diagrams and has no covering-relation notion.",
+      "grep -rniE 'Included' --include='*.v' . — 2 hits, both the English word in comments (Theory/Functor.v:20, Structure/Monoidal/Braided/Proofs.v:100); the stdlib `Included` on Ensembles is never used, so no inclusion order on relations or subsets exists.",
+      "read Instance/Rel.v — the file builds the CATEGORY Rel (objects Coq types, homs A → Ensemble B, hom-equivalence pointwise ↔) and its header explicitly declines the order: 'It is moreover locally posetal (relations ordered by inclusion) and dagger-compact closed. None of that extra structure is built here' (lines 38-43). So the preorder Rel(S) of the exercise is not in-tree even for a general S.",
+      "grep -rniE 'powerset|power set' --include='*.v' . — 1 hit, prose at Structure/Topos.v:75 about Pow a := Ω ^ a; Instance/FinSet/Topos.v:52 computes Pow 2 = 4 as an OBJECT of FinSet, but no order on a power object and no instance at 2 × 2 = 4 (which would give the exercise's 16).",
+      "grep -rn 'Proset' --include='*.v' . — the only Proset instance built anywhere is `LessThanEqualTo_Category` on nat (Instance/Poset.v:120); no finite preorder of relations is ever constructed, and no cardinality or enumeration of such a preorder is stated."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass agrees (0 hits for 'Hasse'; no inclusion order on relations or subsets anywhere). The load-bearing quote is accurate: Instance/Rel.v:38-43 says of the locally-posetal order and dagger-compact structure 'None of that extra structure is built here; this file constructs the bare category, its initial object … and the wide embedding Coq ⟶ Rel', so the exercise's preorder Rel(S) is absent even for a general S. Instance/FinSet/Topos.v:52 `FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl` is a power OBJECT with no order, as the log states, and the only concrete preorder in-tree is `LessThanEqualTo_Category` on nat (Instance/Poset.v:120 and, separately, Instance/Proset.v:47)."
+    }
+  },
+  {
+    "id": "7sketches:1.4.5:construction-level-shift-rel-pos",
+    "classification": "PARTIAL",
+    "aliases": [
+      "reflexive-transitive closure Cl : Rel(S) → Pos(S), left adjoint to the underlying-relation map",
+      "multi / clos_refl_trans: least preorder containing a relation",
+      "free category (free preorder) on a graph ⊣ underlying graph — level shift",
+      "Rel(S) relations preordered by inclusion; Pos(S) preorder relations preordered by inclusion",
+      "Galois connection between relations and preorders; transitive closure as a monad"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .   (over Definition FreeCatFunctor : @Functor QuiverCategory StrictCat := LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _), Definition Forgetful : @Functor StrictCat QuiverCategory, and Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful) — the level-shift adjunction: free composition-closure on a quiver ⊣ underlying quiver"
+      },
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 74,
+        "symbol": "multi_PreOrder",
+        "intree_statement": "Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R)   (over Inductive multi `(R : crelation X) : crelation X := multi_refl (x : X) : multi x x | multi_step (x y z : X) : R x y → multi y z → multi x z) — Cl(R) is a preorder relation, i.e. Cl lands in Pos(S)"
+      },
+      {
+        "file": "Instance/Lambda/Multi.v",
+        "line": 53,
+        "symbol": "multi_R",
+        "intree_statement": "Theorem multi_R `(R : crelation X) (x y : X) : R x y → multi R x y   — the unit of the would-be adjunction: R is contained in the underlying relation of Cl(R)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a set S, Rel(S) is the set of binary relations R ⊆ S × S preordered by inclusion, and Pos(S) the set of preorder relations on S preordered by inclusion (a preorder of preorder structures — a level shift). Every preorder relation is a relation, giving the underlying-relation map U : Pos(S) → Rel(S); this is the RIGHT adjoint of a Galois connection whose LEFT adjoint is Cl : Rel(S) → Pos(S), sending R to its reflexive and transitive closure.",
+      "intree": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, with Forgetful : StrictCat ⟶ QuiverCategory the underlying-quiver functor and FreeCatFunctor the free category on a quiver; and, at the relation level, Inductive multi `(R : crelation X) : crelation X (reflexive-transitive closure) with Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R) and Theorem multi_R `(R : crelation X) (x y : X) : R x y → multi R x y.",
+      "strength_comparison": "intree-stronger in one dimension, incomplete in the one the book needs. `FreeForgetfulAdjunction` is a genuine level-shifting adjunction of exactly this shape — freely adding composites and identities is left adjoint to forgetting them — but it is stated over ALL quivers and ALL strict categories (varying vertex sets, setoid-valued edge SETS, proof-relevant paths), not over the thin, fixed-carrier case, and the book's Rel(S)/Pos(S) are not exhibited as subcategories or objects of anything in-tree. `multi` is precisely Cl, and `multi_R` is precisely the unit, but Cl's monotonicity in R and its minimality among preorders containing R — the transposition direction of the Galois connection — are never proved, and `multi` has no consumer outside Instance/Lambda/Multi.v."
+    },
+    "gap": "Missing pieces of the construction: (i) Rel(S) and Pos(S) as PREORDERED SETS — Instance/Rel.v builds the category Rel and its header explicitly declines the hom-inclusion order ('locally posetal … None of that extra structure is built here', lines 38-43), and there is no type of preorder structures on a fixed carrier ordered by inclusion (`TwoPreorder`, Construction/Enriched/Two.v:60, bundles carrier + order + a decidability field and is never ordered); (ii) monotonicity of Cl — no lemma `(∀ x y, R x y → R' x y) → multi R x y → multi R' x y`; (iii) the universal property / transposition — no lemma that multi R is the LEAST preorder containing R (i.e. R ⊆ U(≤) → multi R ⊆ ≤ for a preorder ≤), which is the substance of the Galois connection and is one induction away but nowhere stated; (iv) the Galois connection itself (see 7sketches:1.4.1:def95: 0 hits for GaloisConnection, no functor between Prosets); (v) no bridge from `FreeForgetfulAdjunction` down to the thin/fixed-carrier case.",
+    "negative_search_log": [
+      "grep -rniE 'clos_refl_trans' --include='*.v' . — 0 hits: the stdlib closure is not used; `multi` is the in-tree version.",
+      "grep -rniE 'transitive closure' --include='*.v' . — 4 hits, all comments in Instance/Lambda/Multi.v (lines 14-34) describing `multi` as 'the least reflexive and transitive relation containing R' — the minimality is asserted only in prose, never proved.",
+      "grep -rn 'multi ' --include='*.v' . | grep -v Instance/Lambda/Multi.v — no consumers (the remaining hits are the unrelated `operad_multi`), so `multi` is never used as a left adjoint or as a monotone operation.",
+      "grep -rniE 'GaloisConnection|lower adjoint|upper adjoint' --include='*.v' . — 0 hits, so the construction's conclusion has no in-tree spelling."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL after pressure: my blind pass classified this ABSENT (no Rel(S), no Pos(S), no order-level Galois connection, and `multi` never used as a left adjoint). PARTIAL is upheld because the two cited anchors are real and on-point: Construction/Free/Quiver.v:550 `Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .` over `Forgetful : StrictCat ⟶ QuiverCategory` (:412) and `UniversalArrowQuiverCat` (:518) — a genuine level-shift free/forgetful adjunction, no Admitted, registered at _CoqProject:72 — and Instance/Lambda/Multi.v:53 `Theorem multi_R ‘(R : crelation X) (x y : X) : R x y → multi R x y` with :74 `multi_PreOrder`, which are literally Cl and its unit. Gap clauses (ii) and (iii) are confirmed by the file's full symbol list (multi, multi_R, multi_trans, multi_PreOrder, multi_respects_Step, multi_respects_multi, values_final, multistep_*): no `(∀ x y, R x y → R' x y) → multi R x y → multi R' x y` and no minimality lemma, so the transposition half of the Galois connection is unproved — note Multi.v:16-17 asserts minimality in prose ('the least reflexive and transitive relation containing R') without proving it, which is exactly the one induction Phase E should ask for."
+    }
+  },
+  {
+    "id": "7sketches:1.4.5:ex125",
+    "classification": "ABSENT",
+    "aliases": [
+      "concrete verification of Cl ⊣ U on S = {1,2,3}",
+      "underlying relation U(≤) of a chosen preorder on a three-element set",
+      "reflexive-transitive closure of a chosen relation, compared with a preorder",
+      "worked example / Example ... := eq_refl witnessing an order-level adjunction",
+      "Q ⊆ U(≤) ⇒ Cl(Q) ⊑ ≤ and a counterexample Q' ⊄ U(≤)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'GaloisConnection|Galois' --include='*.v' . — 16 hits, all prose (Theory/Adjunction.v:78-79, Instance/Poset.v:37-63, Instance/Adjoints.v:280, Adjunction/GAFT.v:136); there is no adjunction between order-theoretic structures to verify, concretely or otherwise.",
+      "grep -rn 'multi ' --include='*.v' . | grep -v Instance/Lambda/Multi.v — no consumer of the reflexive-transitive closure outside its defining file, hence no worked instance of it on a finite carrier, and neither the monotonicity nor the minimality lemma the exercise instantiates exists (see 7sketches:1.4.5:construction-level-shift-rel-pos).",
+      "grep -rniE 'transitive closure|clos_refl_trans' --include='*.v' . — 4 prose hits in Instance/Lambda/Multi.v and 0 stdlib uses; no example computing a closure on a concrete 2- or 3-element set.",
+      "grep -rn 'Proset' --include='*.v' . — the only concrete preorder built in-tree is `LessThanEqualTo_Category` (≤ on nat, Instance/Poset.v:120); no finite preorder on {1,2,3}, no Rel(S), no Pos(S), so neither side of the exercise's comparison can be written.",
+      "read Instance/Rel.v — the sole concrete relation exhibited is `some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat` (line 161), with no closure taken and no order on homs."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT; my blind pass agrees. Re-ran the decisive negatives: `rg 'GaloisConnection|lower adjoint|upper adjoint'` → 0 hits; the 16 'Galois' hits are all prose (Theory/Adjunction.v:78-79, Instance/Poset.v:37-63, Instance/Adjoints.v:280, Adjunction/GAFT.v:136, Structure/Factorization.v:69, Structure/Limit.v:53); Instance/Rel.v:161 `Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat` is indeed the only concrete relation exhibited, with no closure taken; and no finite preorder on a three-element carrier exists (the only concrete prosets are ≤ on nat). Nothing to instantiate, so ABSENT is right rather than PARTIAL."
+    }
+  }
+]

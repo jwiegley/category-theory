@@ -1,0 +1,17 @@
+[
+  {
+    "item_id": "maclane:XI.1:thm1",
+    "issue": 520,
+    "append_block": "### Also covered by\n\n**MacLane XI.1** (Theorem 1, book p. 253, PDF pp. 260-262; item `maclane:XI.1:thm1`). Chapter XI restates the symmetric-monoidal coherence theorem as the existence of a *unique* canonical natural isomorphism `can_M(vσ, wτ) : (vσ)_M ⇒ (wτ)_M` between permuted-word functors `M^n ⟶ M`, characterized inductively (the identity, the associator `α`, and the braiding `γ` are canonical; canonical maps are closed under composite and `⊗`), so any two parallel canonical maps agree. This is the same mathematical obligation as this issue's Work-to-be-done item (a) — any two parallel canonical maps realizing the same permutation of factors are equal. New aspect from §XI.1: the canonical-map assignment is presented over the *permuted-word functors* `(wτ)_M` (a word `w` evaluated on the `τ`-permuted argument list); fold that permuted-word / `can_M` presentation into the canonical-map machinery of this issue. The informal unitor extension Mac Lane leaves to the reader is in scope here too."
+  },
+  {
+    "item_id": "maclane:XI.1:construction1",
+    "issue": 520,
+    "append_block": "### Also covered by\n\n**MacLane XI.1** (the permuted-word functor `(wτ)_M`, book p. 253, PDF p. 260; item `maclane:XI.1:construction1`). For a symmetric monoidal category `M`, each `⊗`-word `w` in `n` letters together with a permutation `τ ∈ S_n` determines a functor `(wτ)_M : M^n ⟶ M`, `(wτ)_M(a_1,…,a_n) = w(a_{τ1},…,a_{τn})`. These permuted-word functors are exactly the domains and codomains between which this issue's symmetric-coherence canonical maps live, so building them is subsumed in this issue's scope. Partial in-tree donors to reuse: `tensor_list` / `tfold` (the right-nested `⊗`-fold of a list of objects) and `perm_arrow` (a structural permutation realized as a braid-and-associator morphism between folds) at `Theory/Multicategory/Representable.v:55,67,543` — currently only the canonical right-nested bracketing on objects, and not packaged as a functor `M^n ⟶ M`."
+  },
+  {
+    "item_id": "maclane:XI.3:thm2",
+    "issue": 497,
+    "append_block": "### Also covered by\n\n**MacLane XI.3** (Theorem 2, book p. 259, PDF pp. 266-267; item `maclane:XI.3:thm2`). Chapter XI re-derives the monoidal coherence theorem — any two natural transformations built from the associator `α` (and likewise from the unit isos `ρ`, `λ`) between the same pair of tensor-word functors are equal — by a *different proof*: it transports parallel canonical maps through the strictification equivalence `G : M ⟶ S` onto a strict monoidal `S`, where strictness collapses them to equality. This does not enlarge the obligation of this issue (the coherence theorem itself); it is an alternative proof route enabled by the separately-filed strictification theorem of §XI.3 (every monoidal category is monoidally equivalent to a strict one). Optionally record the via-strictification proof as a second route once that strictification result lands."
+  }
+]

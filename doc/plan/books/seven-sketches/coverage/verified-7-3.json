@@ -1,0 +1,387 @@
+[
+  {
+    "id": "7sketches:7.3.3:def7.35",
+    "classification": "PARTIAL",
+    "aliases": [
+      "sheaf / sheaf condition / Shv(X, Op)",
+      "matching family / compatible family / descent data",
+      "gluing / glued section / amalgamation; separated presheaf (locality)",
+      "site, coverage, covering family (Grothendieck topology)",
+      "category of sheaves, Sheaves, sheaf morphism = natural transformation of presheaves"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 192,
+        "symbol": "Sheaf",
+        "intree_statement": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, let '(i; f) := coverage u in ForallT (A := ∃ uᵢ, uᵢ ~> u) (λ '(uᵢ; fᵢ), ∀ xᵢ : X uᵢ, (∀ (v : C) (g : v ~> uᵢ), ForallT (A := ∃ uⱼ, uⱼ ~> u) (λ '(uⱼ; fⱼ), ∀ h : v ~> uⱼ, fᵢ ∘ g ≈ fⱼ ∘ h → ∀ xⱼ : X uⱼ, fmap[X] g xᵢ ≈ fmap[X] h xⱼ) f) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ) f }."
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 94,
+        "symbol": "Sheaves_Full",
+        "intree_statement": "Lemma Sheaves_Full : Functor.Full Sheaves_Incl.  (with Sheaves_Faithful : Functor.Faithful Sheaves_Incl at line 103, over Sheaves := Sub (@Presheaves C Sets) Sheaves_sub, Sheaves_sub having hom-predicate (fun _ _ _ _ _ => True))"
+      },
+      {
+        "file": "Theory/Sheaf.v",
+        "line": 159,
+        "symbol": "Site",
+        "intree_statement": "Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition (u : C) (fs : covering_family u) (v : C) (g : v ~> u) : ∃ hs : covering_family v, ForallT (λ '(vⱼ; hⱼ), ExistsT (λ '(uᵢ; fᵢ), ∃ k : vⱼ ~> uᵢ, fᵢ ∘ k ≈ g ∘ hⱼ) (`2 fs)) (`2 hs) }."
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 119,
+        "symbol": "sheaf_iso_closed",
+        "intree_statement": "Theorem sheaf_iso_closed (X Y : Presheaf C Sets) (iso : X ≅[@Presheaves C Sets] Y) : Sheaf X → Sheaf Y."
+      }
+    ],
+    "statement_record": {
+      "book": "For a topological space (X, Op) and a presheaf P : Op^op → Set, and a family (U_i)_{i∈I} of opens covering U: a MATCHING FAMILY is a tuple (s_i ∈ P(U_i))_{i∈I} with s_i|_{U_i ∩ U_j} = s_j|_{U_i ∩ U_j} for all i, j; a GLUING is s ∈ P(U) with s|_{U_i} = s_i for all i; P satisfies the SHEAF CONDITION for the cover when every matching family has a UNIQUE gluing, and P is a SHEAF when this holds for every open cover. A morphism of sheaves is a morphism of underlying presheaves (a natural transformation), giving the category Shv(X, Op).",
+      "intree": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, let '(i; f) := coverage u in ForallT (λ '(uᵢ; fᵢ), ∀ xᵢ : X uᵢ, (∀ (v : C) (g : v ~> uᵢ), ForallT (λ '(uⱼ; fⱼ), ∀ h : v ~> uⱼ, fᵢ ∘ g ≈ fⱼ ∘ h → ∀ xⱼ : X uⱼ, fmap[X] g xᵢ ≈ fmap[X] h xⱼ) f) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ) f }.",
+      "strength_comparison": "intree-weaker, in three independent ways, two of them serious. (1) THE MATCHING-FAMILY QUANTIFIER IS WRONG. The book quantifies over a whole tuple (s_i)_{i∈I} at once and asks for one x gluing ALL of them; the in-tree [restriction] is per-leg — under the outer [ForallT] each leg uᵢ is handed a SINGLE section xᵢ and produces its own [∃! x, fmap[X] fᵢ x ≈ xᵢ], so no simultaneous matching family and no simultaneous gluing is ever formed. (2) THE COMPATIBILITY ANTECEDENT IS TOO STRONG, HENCE THE WHOLE CONDITION IS VACUOUS BEYOND SUBSINGLETONS. The inner hypothesis quantifies over ALL xⱼ : X uⱼ rather than over the given sections of a fixed family; Theory/Sheaf/Category.v:28-42 records the instantiation v := uᵢ, g := h := id, j := i, which forces xᵢ ≈ xⱼ for EVERY xⱼ : X uᵢ, so the antecedent is satisfiable only when X uᵢ is a subsingleton and the condition says nothing at any covered object with two inequivalent sections. (3) A SITE CARRIES ONE COVER PER OBJECT, not a collection: [coverage u : covering_family u] is a single vector-indexed family, so 'for every open cover' is replaced by 'for the chosen cover', as Theory/Sheaf.v:164-166 discloses. What IS faithful: the presheaf side ([Presheaf U C := U^op ⟶ C], restriction = fmap), the pullback-stability axiom of a coverage, and the category-of-sheaves clause — Sheaves is the FULL subcategory of presheaves on the predicate, so sheaf morphisms are exactly natural transformations (Sheaves_Full + Sheaves_Faithful), matching the book's 'a morphism of sheaves is just a morphism of the underlying presheaves' exactly. Repleteness (sheaf_iso_closed) is an extra the book does not state."
+    },
+    "gap": "Three precise gaps. (a) NO TOPOLOGICAL SPACES: there is no Top, no topology, no poset-of-opens Op(X) anywhere in the tree (grep -rniE 'topological|open subset|Sierpinski' over *.v returns only bibliographic prose), so the book's site Op(X) is never instantiated and Shv(X, Op) as such does not exist — only Sheaves over an abstract Site. (b) THE SHEAF PREDICATE IS NOT THE BOOK'S: gluing is per-leg rather than over a simultaneous matching family, and the compatibility antecedent is self-contradictory except on subsingleton fibres, so the in-tree Sheaf class is provably vacuous at any covered object with two inequivalent sections; re-founding it on honest matching families is a named deferral (ledger entry 1). (c) A Site picks ONE covering family per object, not a collection, so 'sheaf for every open cover' is not statable. Note also that the vector-indexed cover admits the EMPTY family, for which ForallT is inhabited by ForallT_nil, so the in-tree condition imposes nothing at all for an empty cover (see example7.36).",
+    "negative_search_log": [
+      "grep -rniE 'glue|gluing' --include='*.v' . — 0 hits (the operation is named only via ∃! in the class body)",
+      "grep -rniE 'topological|open subset|Sierpinski' --include='*.v' . — 20/0/0 hits, all bibliographic prose; no Op(X) lattice of opens in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same four constants: Theory/Sheaf.v:159 [Site], :192 [Sheaf], Theory/Sheaf/Category.v:81 [Sheaves]/:94 [Sheaves_Full]/:103 [Sheaves_Faithful]/:119 [sheaf_iso_closed]. All four cited locations and quotes verified exact; both files are registered in _CoqProject (lines 473-474). The per-leg reading and the subsingleton-vacuity instantiation (v:=u_i, g:=h:=id, j:=i) were re-derived by hand from the class body and are correct, and match the file's own scope note at Theory/Sheaf/Category.v:28-47. Gaps (a) no topology/Op(X) and (c) one cover per object independently confirmed (no Top in Instance/, no Site INSTANCE anywhere in-tree). TWO CORRECTIONS to the record, neither changing the verdict. (1) The strength_comparison's 'What IS faithful' list wrongly includes 'the pullback-stability axiom of a coverage'. That axiom is VACUOUS: in Theory/Sheaf.v:170-178 the witness [hs] is existentially quantified over ARBITRARY vectors of morphisms into v ([covering_family v] carries no covering requirement), so [hs := (0; nil)] discharges it via ForallT_nil for every category and every choice function. I proved this against the built library (Rocq 9.1) in scratchpad/7s-ch7/ProbeSiteVacuous.v: [coverage_condition_is_vacuous], [Site_from_any_choice], [Empty_Site] and [every_presheaf_is_a_sheaf] all compile. So [Site C] imposes nothing beyond a choice function, and over [Empty_Site C] EVERY presheaf is a [Sheaf]. This is a FOURTH weakening, undisclosed anywhere in-tree, and is filed on the library-defect channel. (2) negative_search_log entry 1 is factually false: `grep -rniE 'glue|gluing' --include='*.v' .` returns 97 hits, not 0 (po_glue in Instance/Sets/Pushout.v, ce_glue in Instance/Sets/Coend.v and Theory/Coend/*, plus the prose 'gluing axiom' at Theory/Sheaf.v:37-38,52). The substantive point (no sheaf-gluing OPERATION in-tree) survives, but the log line as written is wrong."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:example7.36",
+    "classification": "ABSENT",
+    "aliases": [
+      "empty cover / nullary covering family / cover by no opens",
+      "P(∅) ≅ 1 : sheaf sends the initial object to the terminal set",
+      "sheaf value at the bottom element is a singleton",
+      "F(0) is terminal / normalized presheaf",
+      "sheaf condition for the empty sieve"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'empty cover|nil cover|initial object.*sheaf' --include='*.v' . — 0 hits",
+      "grep -rniE 'covering famil' --include='*.v' . — 12 hits, all in Theory/Sheaf.v/Theory/Sheaf/Category.v; none states any consequence of the EMPTY covering family",
+      "grep -rniE 'matching famil' --include='*.v' . — 6 hits, all comments in Theory/Sheaf/Category.v (the scope note) and its proof script; no lemma about the empty matching family",
+      "grep -rn 'ForallT_nil' --include='*.v' . — only the constructor declaration at Theory/Sheaf.v:137; nothing derives a consequence from it",
+      "grep -rn 'Sets_Initial\\|Sets_Terminal' --include='*.v' . — Instance/Sets.v:248,265 define the singleton and empty setoid objects, but no result connects them to a sheaf's value at a covered object",
+      "Read Theory/Sheaf.v:192-211 in full — with the coverage of u the empty vector, [restriction] reduces to ForallT _ nil, which is inhabited by ForallT_nil, so the in-tree Sheaf class imposes NOTHING on X u for an empty cover: the book's necessary condition P(∅) ≅ 1 is not even derivable in-tree, let alone stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified log claims: ForallT_nil is declared at Theory/Sheaf.v:137 and nothing consumes it; Sets_Terminal / Sets_Initial are at Instance/Sets.v:248 / :265 as claimed, with no link to any sheaf value. The log's key inference — that an empty coverage makes [restriction] reduce to [ForallT _ nil], hence imposes nothing on X u — I upgraded from an argument to a PROOF: scratchpad/7s-ch7/ProbeSiteVacuous.v compiles [every_presheaf_is_a_sheaf : forall C X, @Sheaf C (Empty_Site C) X] against the built library. So not only is the book's necessary condition P(empty) = 1 absent, the in-tree condition is strictly incapable of expressing it."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.38",
+    "classification": "ABSENT",
+    "aliases": [
+      "fiber / fibre of a function f over a point y",
+      "preimage f⁻¹(y), inverse image of a singleton",
+      "pullback of f along a global element 1 → Y",
+      "kernel pair / equivalence relation induced by f",
+      "indexed family: Set/Y ≃ Set^Y, the fibration of a function"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'fiber|fibre' --include='*.v' . — 118 hits, every one about Grothendieck fibrations or fibre CATEGORIES (Theory/Fibration.v, Theory/Displayed.v, Construction/Grothendieck/Fiber.v, Construction/Displayed/Codomain.v); none is the preimage f⁻¹(y) of a function at a point",
+      "grep -rniE 'preimage of' --include='*.v' . — 10 hits, all about Functor.Full's chosen [prefmap] preimage of a morphism (Theory/Functor.v:325-334, Theory/Equivalence/FullFaithful.v), not preimages of elements",
+      "grep -rnE 'f x ≈ y' --include='*.v' . — hits only Instance/Sets/Image.v:50,69,76 and Lib/Setoid.v:122, which build the IMAGE {y & {x & f x ≈ y}} and the surjectivity witness, never the fibre {x & f x ≈ y} at a fixed y",
+      "grep -rn 'kernel_pair' --include='*.v' . — Structure/Regular.v:46 defines kernel_pair f := pullback f f, the pullback of f along ITSELF (an equivalence relation on the domain), not the fibre over a chosen point of the codomain",
+      "grep -rn 'HasPullbacks' --include='*.v' . — the only concrete instance is Instance/FinSet/Classifier.v:264 (FinSet_Pullbacks); Sets carries no HasPullbacks instance, so even 'fibre = pullback along a point' is unavailable in Sets. No in-tree statement asserts anything about the fibres of a function, and nothing constructs a function whose every fibre has one or two elements."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the log's greps: every 'fiber'/'fibre' hit is Grothendieck-fibration or fibre-CATEGORY machinery (Theory/Fibration.v, Theory/Displayed.v, Construction/Grothendieck/Fiber.v, Construction/Displayed/Codomain.v); Structure/Regular.v:46 [kernel_pair f := pullback f f] is confirmed as the pullback of f along itself, not the fibre over a point; Instance/Sets/Image.v:69,76 builds {y & {x & f x ~ y}} (the image setoid), never the fibre at a fixed y; and FinSet_Pullbacks (Instance/FinSet/Classifier.v:264) is indeed the only concrete HasPullbacks instance, Sets having none, so even 'fibre = pullback along a global element' is unavailable in Sets. ABSENT rather than OUT_OF_SCOPE is the right call: the item IS formalizable (a concrete finite map in FinSet with its preimages), it is simply not done."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:construction-sections-sheaf",
+    "classification": "ABSENT",
+    "aliases": [
+      "sheaf of sections Sec_f of a map f : X → Y",
+      "section presheaf / presheaf of partial sections U ↦ {s : U → X | s ; f = id_U}",
+      "étale space / espace étalé and its sheaf of sections",
+      "discrete topology, discrete space (every subset open)",
+      "slice Set/Y ≃ presheaves on the discrete space Y; dependent product Π_f along f"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'sheaf of sections' --include='*.v' . — 0 hits",
+      "grep -rniE 'Sec_' --include='*.v' . — 2 hits, both Structure/Premonoidal/Freyd.v:63,212 ([freyd_sec_eq], the object-section of a Freyd inclusion) — unrelated",
+      "grep -rniE 'etale|étale' --include='*.v' . — 2 hits, both bibliographic (Structure/Topos.v:36,53, SGA 4 and étale cohomology)",
+      "grep -rniE 'sections' --include='*.v' . — ~20 hits: split monos (Theory/Morphisms.v:179 sections_are_monic), chosen sections of fmap (Theory/Functor.v:334), and the prose of Theory/Sheaf.v's header. None builds a presheaf of sections of a map",
+      "grep -rniE 'topological|discrete topology|open subset' --include='*.v' . — no topology in-tree; Instance/Discrete.v is the DISCRETE CATEGORY on a type (used for indexed products in Structure/Limit/Product.v), not a discrete topological space",
+      "ls Instance/ — no Top; the concrete categories are Sets, Coq, FinSet, Cat, Fun, Ens, Rel, Poset, Proset, Props, Two, One, Zero, Omega, CMon, Lambda, ZX, StrictCat, Shapes, Roof, Parallel, Discrete, AST, Adj, Comp, Cones, Fact",
+      "Nothing in-tree defines Sec_f, its restriction maps, or verifies the sheaf condition for it; there is no worked sheaf EXAMPLE at all — the Sheaf class of Theory/Sheaf.v has no in-tree instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: 'Sec_' has exactly the two unrelated hits in Structure/Premonoidal/Freyd.v:63,212 ([freyd_sec_eq]); 'sheaf of sections' and 'etale' return nothing but bibliography; Instance/Discrete.v is DiscreteCat (equality-proof homs), not a discrete topological space; there is no Top in Instance/. I additionally confirmed the record's strongest implicit claim — that the [Sheaf] class has NO in-tree instance at all — by grepping for [Site] and [Sheaf] instances tree-wide: only the class declarations and Theory/Sheaf/Category.v's parametric [Context `{@Site C}]. Note in passing that Sec_f is expressible with existing machinery (hom-sets of Construction/Slice.v over Y, restricted along Op(Y)^op), so the blocker is the missing Op(Y), not the sections idea."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.40",
+    "classification": "ABSENT",
+    "aliases": [
+      "elements of Sec_f(V) for a finite V / enumerate the sections over an open",
+      "count of cross-sections = product of fibre cardinalities, Π_{v∈V} |f⁻¹(v)|",
+      "dependent function space / dependent product over a finite index",
+      "sections of a bundle over a finite discrete base",
+      "choice functions picking one element per fibre"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'sheaf of sections|Sec_' --include='*.v' . — no Sec_f construction in-tree (see construction-sections-sheaf), so no enumeration of its elements is possible",
+      "grep -rniE 'fiber|fibre' --include='*.v' . — 118 hits, all fibration/fibre-category machinery; no fibre of a function, hence no product-of-fibres count",
+      "grep -rniE 'dependent product|Pi type|Π_' --include='*.v' . — 0 relevant hits; the library has no dependent-product-along-a-map construction",
+      "grep -rn 'iprod' --include='*.v' Structure/Limit/Product.v — indexed products EXIST as discrete-diagram limits (iprod/iprod_proj/iprod_ump), but they are a universal property in an abstract category, not a computation of the section set of a concrete finite map, and nothing instantiates them at a family of fibres",
+      "grep -rn 'FinSet' --include='*.v' Instance/FinSet.v Instance/FinSet/*.v — skeletal FinSet has computable products/exponentials/pullbacks, but no example computes sections of a map"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Depends entirely on Sec_f, which is absent; verified that Structure/Limit/Product.v's [iprod]/[iprod_proj]/[iprod_ump] are an abstract universal property over Instance/Discrete.v's DiscreteCat and are never instantiated at a family of fibres, and that no FinSet example computes sections of a map."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.42",
+    "classification": "ABSENT",
+    "aliases": [
+      "restriction map of the section presheaf Sec_f along an inclusion",
+      "presheaf restriction s ↦ s|_V, fmap along V ⊆ U",
+      "functorial action of a presheaf on the poset of opens",
+      "Sec_f({a,b,c}) → Sec_f({a,c})",
+      "restriction of a function to a subset"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Sec_|sheaf of sections' --include='*.v' . — no Sec_f in-tree, so its restriction map cannot be displayed",
+      "grep -rniE 'restriction' --include='*.v' . — the only [restriction] identifier is the single field of Theory/Sheaf.v:193's Sheaf class (the gluing axiom), not a restriction MAP; presheaf restriction is generic fmap[X] on Presheaf U C := U^op ⟶ C (Theory/Sheaf.v:124), which is a naming definition and asserts nothing about this item",
+      "grep -rniE 'topological|open subset' --include='*.v' . — no lattice of opens Op(Y), so the inclusion {a,c} ⊆ {a,b,c} is not an in-tree morphism",
+      "grep -rnE '^(Program )?(Definition|Instance|Lemma) ' Instance/Poset.v Instance/Proset.v — Poset/Proset turn a (pre)order into a category generically, but no instance is the poset of subsets of a finite set, and nothing computes a presheaf's action on such an inclusion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the record's sharpest point: the only [restriction] identifier in-tree is the single FIELD of the Sheaf class at Theory/Sheaf.v:193 (the gluing axiom), not a restriction MAP; presheaf restriction is generic [fmap] on [Presheaf U C := U^op --> C] (Theory/Sheaf.v:124), which asserts nothing. Instance/Poset.v:116 and Instance/Proset.v:33 do generically turn a (pre)order into a category, as claimed, but no instance is a powerset poset, so the inclusion {a,c} in {a,b,c} has no in-tree referent."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.44",
+    "classification": "ABSENT",
+    "aliases": [
+      "matching versus non-matching family for a two-set cover",
+      "sections agreeing / disagreeing on the overlap U1 ∩ U2",
+      "gluing a compatible pair over a binary cover; failure of gluing for an incompatible pair",
+      "descent for a two-element cover; equalizer P(U) → P(U1) × P(U2) ⇉ P(U1 ∩ U2)",
+      "amalgamation of local sections"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'matching famil' --include='*.v' . — 6 hits, all inside Theory/Sheaf/Category.v (the scope note at lines 35,46,112,113 and the proof of sheaf_iso_closed at 130); none is a lemma exhibiting a matching or non-matching family",
+      "grep -rniE 'glue|gluing' --include='*.v' . — 0 hits",
+      "grep -rniE 'overlap|intersection of opens' --include='*.v' . — 0 relevant hits",
+      "grep -rniE 'Sec_|sheaf of sections' --include='*.v' . — no Sec_f, so the concrete pairs (s1, s2) and (h1, h2) have no in-tree referent",
+      "grep -rnE 'equalizer' --include='*.v' Structure/Equalizer.v Structure/Equalizer/Fork.v — the equalizer/fork API exists generically (IsEqualizer), but nothing states the sheaf condition as the equalizer P(U) → ΠP(U_i) ⇉ ΠP(U_i ∩ U_j), and no binary-cover instance exists"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified 'matching famil' has exactly 6 hits, all in Theory/Sheaf/Category.v (35,46,112,113,130,131 — the scope note and the sheaf_iso_closed proof script), none a lemma exhibiting a matching or non-matching family; and that Structure/Equalizer.v / Structure/Equalizer/Fork.v never state the sheaf condition as the equalizer P(U) -> prod P(U_i) => prod P(U_i cap U_j). ONE CORRECTION, not verdict-changing: the log line \"grep -rniE 'glue|gluing' --include='*.v' . - 0 hits\" is false (97 hits tree-wide; same erroneous line as in def7.35). The intended claim — no sheaf-gluing operation or lemma in-tree — holds."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:example7.45",
+    "classification": "ABSENT",
+    "aliases": [
+      "sheaf of sections of a continuous map f : X → Y",
+      "Top, category of topological spaces and continuous maps",
+      "Sec_f : Op_Y^op ⟶ Set, U ↦ {g : U → X continuous | g ; f = id_U}",
+      "bundle / étale bundle and its sheaf of continuous sections",
+      "sheaf on a space given by a space over it"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ — no Top instance; the concrete categories in-tree are Sets, Coq, FinSet, Cat, Fun, Ens, Rel, Poset, Proset, Props, Two, One, Zero, Omega, CMon, Lambda, ZX, StrictCat, Shapes, Roof, Parallel, Discrete, AST, Adj, Comp, Cones, Fact",
+      "grep -rniE 'topological' --include='*.v' . — 20 hits, all bibliographic prose (topological groups in Theory/Universal/Arrow.v, TQFT in Theory/Algebra/Frobenius.v, Top named only as an enrichment base in Construction/Enriched.v:70); no topology is defined",
+      "grep -rniE 'continuous' --include='*.v' . — 14 hits, ALL the category-theoretic sense 'preserves limits' (Adjunction/Continuity.v, Structure/Limit/Preservation.v) or bibliographic ('Categories of continuous functors'); no topological continuity",
+      "grep -rniE 'open subset|open set|Sierpinski' --include='*.v' . — 0 hits",
+      "grep -rniE 'sheaf of sections|Sec_|etale|étale' --include='*.v' . — no section presheaf and no étale space; the Sheaf class of Theory/Sheaf.v has no in-tree instance whatsoever"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: no Top in Instance/; all 14 'continuous' hits are the category-theoretic sense (Adjunction/Continuity.v, Structure/Limit/Preservation.v) or bibliography — none is topological continuity; 'open subset'/'open set'/'Sierpinski' return nothing. The whole 7.3.3 sheaf-example programme is blocked on the same missing prerequisite (a topology / lattice of opens), which is worth carrying into Phase E as a single shared dependency rather than one per item."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:example7.46",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "sheaf of vector fields, sheaf of sections of the tangent bundle TM → M",
+      "manifold, tangent bundle, tangent space, smooth/continuous vector field",
+      "hairy ball theorem / Poincaré–Brouwer theorem, nowhere-zero section of TS²",
+      "local-versus-global sections, obstruction, sheaf cohomology H¹",
+      "generative effect measured by cohomology"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'vector field|tangent|hairy|Poincar' --include='*.v' . — 0 hits each",
+      "grep -rniE 'manifold' --include='*.v' . — 3 hits, all bibliographic prose (Lie groups in Structure/Group.v:46, 3-manifold invariants in Structure/Monoidal/Braided.v:100,103)",
+      "grep -rniE 'cohomolog' --include='*.v' . — hits only bibliographic prose (Čech cohomology in Structure/Limit.v:50, étale cohomology in Structure/Topos.v:53); no cohomology is developed",
+      "grep -rniE 'topological|continuous' --include='*.v' . — no topology and no topological continuity in-tree (see example7.45)"
+    ],
+    "out_of_scope_reason": "The item's content is differential/algebraic topology — manifolds, tangent bundles, and the Poincaré–Brouwer hairy-ball theorem (a degree-theoretic statement about S²) — for which a pure category-theory library with no topology, no real analysis and no homotopy substrate has nothing to build on; its only categorical residue is the Sec_f construction already tracked under example7.45.",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently judged the distinctive content unformalizable here. The OUT_OF_SCOPE justification is legitimate under the frozen definition: manifolds, tangent bundles and the Poincare-Brouwer hairy-ball theorem are differential/algebraic topology needing analysis and degree theory that a pure category-theory library has no substrate for, and this is a genuine subject-matter exclusion rather than a size/foundations objection (the case the frozen rule warns against). Verified the supporting greps: 'vector field'/'tangent'/'hairy'/'Poincar' return 0 hits each, 'manifold' only 3 bibliographic hits (Structure/Group.v:46, Structure/Monoidal/Braided.v:100,103), 'cohomolog' only bibliography. The item's one categorical residue — Sec_pi as an instance of Example 7.45 — is correctly routed to example7.45 rather than double-counted here."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.47",
+    "classification": "ABSENT",
+    "aliases": [
+      "sheaves on M versus vector fields on M; Shv(M) is a category, not a set",
+      "global sections functor Γ = Hom(1, −) / evaluation of a sheaf at the top open",
+      "elements/sections of a sheaf versus objects of the sheaf topos",
+      "vector fields = Γ(Sec_π), the global sections of one particular sheaf",
+      "points of an object versus objects of a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'global section' --include='*.v' . — 3 hits, all prose in Theory/Sheaf.v's header essay (lines 37, 54, 96); no global-sections functor Γ is defined anywhere",
+      "grep -rniE 'vector field|manifold|tangent' --include='*.v' . — 0/3(bibliographic)/0 hits, so 'vector fields on M' has no in-tree referent",
+      "grep -rn 'Sheaves' --include='*.v' . — the category Sheaves exists (Theory/Sheaf/Category.v:81) with a full and faithful inclusion into presheaves, but nothing relates its OBJECTS to the ELEMENTS of any single sheaf, which is the whole point of the exercise",
+      "grep -rniE 'topological|Op\\(X\\)|lattice of opens' --include='*.v' . — no space M and no Op(M) in-tree, so Shv(M) is not constructible"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified 'global section' has exactly the 3 prose hits at Theory/Sheaf.v:37,54,96 and that no global-sections functor Gamma = Hom(1,-) on sheaves exists; the category [Sheaves] does exist (Theory/Sheaf/Category.v:81) with a full/faithful/replete inclusion, but nothing relates its OBJECTS to the ELEMENTS of a single sheaf, which is the exercise's whole point."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:example7.48",
+    "classification": "ABSENT",
+    "aliases": [
+      "Set ≃ Shv(1), sheaves on the one-point space are sets",
+      "one-point space / point / terminal topological space; Shv(pt)",
+      "[1, C] ≃ C, presheaves on the terminal category",
+      "Set is a topos / the punctual topos / the base topos",
+      "every space gives a topos of sheaves"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'one-point space|point space|Sierpinski|topological' --include='*.v' . — no topological spaces in-tree, so the one-point space and Shv(pt) do not exist",
+      "grep -rn 'Instance/One' and grep -nE '^(Program )?(Definition|Instance) ' Instance/One.v Instance/One/Diagonal.v — the terminal category _1 is defined (Instance/One.v:25) and Cat_Terminal at :54, but the equivalence [1, C] ≃ C appears ONLY as a comment at Instance/One.v:22 ('functors out of 1 pick out objects of the target, so [1, C] ≃ C') and at Instance/One/Diagonal.v:30; the only assertion there is Diagonal_Unique, about constant diagrams. No proof of [1, C] ≃ C exists",
+      "grep -rn 'ElementaryTopos' --include='*.v' . — 7 hits; the only concrete witness is Instance/FinSet/Topos.v:38 (FinSet_Topos). Sets is NOT an ElementaryTopos instance: Structure/Topos.v:107-110 discloses that in Sets the truth-value setoid lives one universe up, so the classifier survives only as the cross-universe THEOREMS of Instance/Sets/Classifier.v (sets_char_pullback:224, sets_char_unique:283, sets_char_subobject:341), never assembled into a topos instance",
+      "grep -rniE 'presheaf.*topos|topos.*presheaf|Grothendieck topos' --include='*.v' . — 3 hits, all bibliographic prose (Theory/Sheaf.v:83-84, Structure/Topos.v:54); no theorem that a presheaf or sheaf category is a topos",
+      "Neither clause of the example is in-tree: Set is not exhibited as a topos, and no equivalence identifies any sheaf category with Sets"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and hit the same two near-misses. Verified: [1, C] ~ C appears ONLY as prose, at Instance/One.v:22 and Instance/One/Diagonal.v:30, the only assertion in the latter file being [Diagonal_Unique : forall J C D d, Delta[J](d) ~=[Cat] Delta(d) o one] at line 33 — no proof of [1,C] ~ C exists. And Sets is genuinely NOT an ElementaryTopos instance: Structure/Topos.v:104-110 discloses the one-universe-up truth-value setoid, and Instance/Sets/Classifier.v carries only the cross-universe theorems (sets_char_pullback:224, sets_char_unique:283, sets_char_subobject:341), all three line numbers exact. Both clauses of the example are therefore missing, as claimed."
+    }
+  },
+  {
+    "id": "7sketches:7.3.3:ex7.49",
+    "classification": "ABSENT",
+    "aliases": [
+      "Sierpinski space ({1,2}, {∅,{1},{1,2}}) and its poset of opens",
+      "Op as the 3-chain poset viewed as a category; presheaf on a linear order",
+      "Shv(Sierpinski) ≃ Set^→, sheaves on Sierpinski are functions",
+      "arrow category / functor category [2, Set] as a sheaf category",
+      "sheaf condition on a poset site where every cover is trivial"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Sierpinski' --include='*.v' . — 0 hits",
+      "grep -rniE 'topological|open subset' --include='*.v' . — no topology in-tree, so the Sierpinski space and its Op have no referent",
+      "grep -nE '^(Program )?(Definition|Instance|Lemma) ' Instance/Poset.v Instance/Proset.v — Poset/Proset generically turn a (pre)order into a category (Instance/Poset.v:116, Instance/Proset.v:33), but no instance is the 3-element chain of Sierpinski opens, and nothing computes presheaves on it",
+      "grep -rn 'Arrow' --include='*.v' Construction/Arrow.v — the arrow category exists (Construction/Arrow.v:110, Arrow := Id[C] ↓ Id[C]), but no theorem identifies it with any sheaf or presheaf category",
+      "grep -rn 'Sheaves' --include='*.v' . — the abstract Sheaves category exists but has no instance on any concrete site; no result computes what a sheaf on a specific site amounts to"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified 'Sierpinski' has 0 hits tree-wide, and that Construction/Arrow.v:110 defines [Arrow := Id[C] |> Id[C]] but its own header at lines 105-108 explicitly states that 'no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree' — corroborating the record's claim that no theorem identifies the arrow category with any (pre)sheaf category."
+    }
+  },
+  {
+    "id": "7sketches:7.4:def-topos",
+    "classification": "PARTIAL",
+    "aliases": [
+      "topos defined as a category of sheaves; sheaf topos / Grothendieck topos",
+      "elementary topos (Lawvere) — the notion named in the book's footnote 9",
+      "Shv(X, Op) is a topos; presheaves are sheaves (for the trivial topology)",
+      "C-Inst = [C, Set] is a topos; presheaf topos",
+      "Giraud's theorem: elementary topos + generators + colimits ⟺ sheaves on a site"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Topos.v",
+        "line": 112,
+        "symbol": "ElementaryTopos",
+        "intree_statement": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }."
+      },
+      {
+        "file": "Instance/FinSet/Topos.v",
+        "line": 38,
+        "symbol": "FinSet_Topos",
+        "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}."
+      },
+      {
+        "file": "Theory/Sheaf/Category.v",
+        "line": 94,
+        "symbol": "Sheaves_Full",
+        "intree_statement": "Lemma Sheaves_Full : Functor.Full Sheaves_Incl.  (Sheaves := Sub (@Presheaves C Sets) Sheaves_sub is the full subcategory of presheaves on the Sheaf predicate, Sheaves_Incl its inclusion; Sheaves_Faithful at line 103)"
+      }
+    ],
+    "statement_record": {
+      "book": "Section 7.4 opens by DEFINING a topos to be a category of sheaves. Consequences drawn on the spot: Shv(X, Op) is a topos for every topological space; Set = Shv(pt) is a topos; and for any database schema (finitely presented category) C, the instance category C-Inst is a topos, presheaves counting as sheaves (footnote 10, to be made precise via sites). Footnote 9 records the alternative names sheaf topos / Grothendieck topos, and the more general ELEMENTARY topos of Lawvere.",
+      "intree": "Class ElementaryTopos (C : Category) := { topos_terminal : @Terminal C; topos_cartesian : @Cartesian C; topos_pullbacks : @HasPullbacks C; topos_closed : @Closed C topos_cartesian; topos_classifier : @SubobjectClassifier C topos_terminal }.  — plus Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub with Sheaves_Full / Sheaves_Faithful.",
+      "strength_comparison": "intree-weaker AND differently founded. The library takes the book's FOOTNOTE-9 notion (Lawvere's elementary topos, axiomatized by finite-limit data + cartesian closure + a subobject classifier) as its primitive, and it is genuinely inhabited (FinSet_Topos, whose Pow 2 = 4 by eq_refl). The book's DEFINIENS — 'a topos IS a category of sheaves' — is not in-tree at all: the two halves (the category Sheaves and the class ElementaryTopos) exist in separate files and are never connected. Concretely, none of the book's three consequences is proved: no ElementaryTopos instance on Sheaves C, none on any presheaf category [C^op, Sets] or instance category C-Inst, and none on Sets itself (Structure/Topos.v:107-110 discloses that Sets' classifier survives only as the cross-universe theorems of Instance/Sets/Classifier.v, not as an instance). Neither is the converse bridge (Giraud) present. Independently, the in-tree Sheaf predicate the category Sheaves is cut out by is itself defective (see def7.35), so even a future proof would have to be preceded by re-founding it."
+    },
+    "gap": "The identification 'topos := category of sheaves' is entirely missing. Specifically: (1) no theorem or instance ElementaryTopos (Sheaves C) — Theory/Sheaf/Category.v proves only that Sheaves is a category with a full, faithful, replete inclusion into presheaves; (2) no theorem that a presheaf category [C^op, Sets] (equivalently the book's instance category C-Inst) is a topos, and no notion of trivial/canonical topology making presheaves sheaves; (3) no Grothendieck-topos definition or Giraud-style characterization; (4) Sets is not an in-tree ElementaryTopos instance, so 'Set is a topos' is available only as the cross-universe classifier theorems of Instance/Sets/Classifier.v (sets_char_pullback, sets_char_unique, sets_char_subobject) plus separately-proved cartesian/closed structure; the only assembled witness is FinSet_Topos. What IS present: the elementary-topos class of the book's footnote 9, with derived power objects Pow a := Ω^a and relations_iso : SubObj (a × b) ≅ (a ~> Pow b), and one computable instance.",
+    "negative_search_log": [
+      "grep -rniE 'presheaf.*topos|topos.*presheaf|Grothendieck topos|sheaf topos' --include='*.v' . — 3 hits, ALL bibliographic prose (Theory/Sheaf.v:83-84, Structure/Topos.v:54); no such definition or theorem",
+      "grep -rn 'Sheaves' --include='*.v' . — 16 hits confined to Theory/Sheaf.v's header and Theory/Sheaf/Category.v; nothing outside that file consumes Sheaves, in particular no topos instance on it",
+      "grep -rn 'ElementaryTopos' --include='*.v' . — 7 hits: the class (Structure/Topos.v:112), its projections/derived Pow and relations_iso, the single instance Instance/FinSet/Topos.v:38, and a prose mention in Construction/Slice.v:114 (the fundamental theorem of topos theory is named as a target, not proved)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same reasoning: the library takes the book's FOOTNOTE-9 notion (Lawvere's elementary topos) as primitive and never states the book's DEFINIENS 'a topos is a category of sheaves'. All three evidence citations verified exact — Structure/Topos.v:112 [ElementaryTopos] with its five fields, Instance/FinSet/Topos.v:38 [FinSet_Topos], Theory/Sheaf/Category.v:94 [Sheaves_Full] — and all three files are in _CoqProject (199, 370, 474). Independently confirmed every negative: no ElementaryTopos on [Sheaves], none on any presheaf category, no trivial/canonical topology making presheaves sheaves, no Giraud, and Construction/Slice.v:110-116 confirms the fundamental theorem of topos theory is NAMED as 'not yet formalized here' rather than proved. TWO ADDENDA, neither verdict-changing. (1) The gap statement understates one partial ingredient: Instance/Fun/Cartesian.v:111 [Functor_Category_Cartesian : forall C D, Cartesian D -> Cartesian (Fun C D)] does give functor categories their cartesian structure, so of the presheaf-topos ingredients the library has products but neither the closed structure nor a classifier. (2) negative_search_log entry 2 says \"'Sheaves' - 16 hits confined to Theory/Sheaf.v's header and Theory/Sheaf/Category.v\"; the true count is 15, and 4 fall OUTSIDE those files (Instance/Coq/Comonad/Traced.v:71, Structure/Topos.v:38,45, Structure/Equalizer.v:100) — all bibliographic references to Mac Lane-Moerdijk etc., so the substantive claim (no code consumer of [Sheaves]) stands. Note finally that the library-defect found under def7.35 (the vacuous coverage axiom, plus the Empty_Site witness under which every presheaf is a Sheaf) makes the prospective theorem 'Sheaves C is a topos' worse than merely unproved: as currently founded it would be a theorem about a degenerate predicate."
+    }
+  }
+]

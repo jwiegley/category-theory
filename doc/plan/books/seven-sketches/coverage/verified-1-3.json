@@ -1,0 +1,513 @@
+[
+ {
+  "id": "7sketches:1.2.2:remark39",
+  "classification": "PRESENT",
+  "aliases": [
+   "free preorder on a graph; preorder generated/presented by a graph",
+   "reflexive-transitive closure of a relation (multi, clos_refl_trans, multi_PreOrder)",
+   "path category / free category on a quiver (FreeOnQuiver, tlist edges, tnil = length-0 path)",
+   "reachability order on vertices; Hasse diagram as a presentation",
+   "underlying preorder of a category (hom_preorder, thin category)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda/Multi.v",
+    "line": 74,
+    "symbol": "multi_PreOrder",
+    "intree_statement": "#[export] Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R). — over `Inductive multi `(R : crelation X) : crelation X := | multi_refl (x : X) : multi x x | multi_step (x y z : X) : R x y → multi y z → multi x z` (line 46), so `multi R v w` IS the type of paths from v to w in the graph whose edge set from v to w is `R v w`: `multi_refl` is the length-0 path and `multi_step` prepends one arrow. The instance asserts exactly the Remark's two clauses, its transitivity obligation discharged by `multi_trans` (line 62: `multi R x y → multi R y z → multi R x z`, proved by induction, i.e. path concatenation)."
+   },
+   {
+    "file": "Theory/Category.v",
+    "line": 282,
+    "symbol": "hom_preorder",
+    "intree_statement": "#[export] Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f }. — the second route to the Remark: reflexivity witnessed by the identity (the length-0 path) and transitivity by composition (concatenation); instantiated at the path category below it gives `v ≤ w iff there is a path v → w` verbatim."
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 431,
+    "symbol": "FreeOnQuiver",
+    "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}. — over `Class Quiver := { nodes : Type; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid (edges X Y) }` (line 54), the library's own graph notion; the morphisms are the finite composable paths, the identity is the length-0 path `tnil`, and composition is path concatenation, so the underlying preorder of this category (via hom_preorder) is the vertex set ordered by existence of a path."
+   }
+  ],
+  "statement_record": {
+   "book": "Every graph presents a preorder, and a Hasse diagram is exactly such a presentation: take the vertex set V as the underlying set and put v ≤ w iff the graph contains a path from v to w. Reflexivity holds by the length-0 path at each vertex; transitivity holds because a path u→v and a path v→w concatenate.",
+   "intree": "multi_PreOrder : PreOrder (multi R), where multi R is the inductively generated path relation on the graph with edge sets R v w (multi_refl = the length-0 path, multi_step = prepend an arrow, multi_trans = concatenation); equivalently FreeOnQuiver G is the category of paths of a Quiver (hom := tlist edges, id := tnil, compose := concatenation) and hom_preorder makes any category's hom relation a preorder with id for reflexivity and ∘ for transitivity.",
+   "strength_comparison": "same. Two disclosures, neither a gap in the Remark's claim: (i) intree-stronger/proof-relevant — `multi R` and `tlist edges` are the actual SETS of paths rather than the mere existence claim `∃ path`, and the truncation to a thin relation is exactly Proset's trivial hom-setoid (Instance/Proset.v:33, `equiv := fun _ _ => True`); (ii) the two routes do not compose verbatim, since Instance/Proset.v's `Proset` takes a Prop-valued `relation` while `multi R` is a Type-valued crelation, so building the thin CATEGORY of the closure would need a truncated closure — the Remark itself only claims a preorder, which multi_PreOrder gives. Hasse diagrams as pictures are nowhere formalized (grep -i hasse: 0 hits), but that clause of the Remark is a drawing convention, not mathematical content."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'hasse' . -- 0 hits",
+   "grep -rni --include=*.v 'clos_refl|clos_trans|Relation_Operators|transitive closure|reflexive-transitive' . -- only Instance/Lambda/Multi.v (the closure itself) and Lib/TList.v:55 (Transitive_Closure.wf_clos_trans, a well-foundedness helper)",
+   "grep -rn --include=*.v 'Build_Quiver_Standard_Eq' . -- 1 use, Test/Issue138.v:88"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently and found the SAME three witnesses, in this order: (1) Instance/Lambda/Multi.v:46/62/74 (`multi` inductive = paths, `multi_trans` = concatenation, `multi_PreOrder`); (2) Construction/Free/Quiver.v:54 `Class Quiver` (nodes + endpoint-indexed edge setoids, parallel edges and loops allowed = the book's (V,A,s,t) quadruple) and :431 `FreeOnQuiver` (hom := tlist edges, id := tnil = the length-0 path, compose := path concatenation); (3) Theory/Category.v:282 `hom_preorder`, whose own header line 276-281 states the Remark verbatim ('a category has an underlying preorder of objects ... reflexivity is witnessed by id and transitivity by composition'). All five cited line numbers verified exact; all four files registered in _CoqProject. The two disclosures in strength_comparison are the ones I independently flagged (proof-relevant path TYPE rather than mere existence; Instance/Proset.v's `Proset` takes a Prop-valued `relation` so the two routes do not literally compose without truncation) and neither is a gap in the Remark's claim. Independent negative checks: `hasse` 0 hits; no second reflexive-transitive-closure construction (only Lib/TList.v's well-foundedness helper); Build_Quiver_Standard_Eq used once (Test/Issue138.v:88)."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex40",
+  "classification": "PARTIAL",
+  "aliases": [
+   "compute the reachability preorder of a concrete finite graph; enumerate all related pairs",
+   "reflexive-transitive closure of a concrete edge list (multi, components)",
+   "free category on a concrete quiver (FreeOnQuiver B138_loop)",
+   "explicit hom enumeration of a small thin category (Roof, _2, two_le)",
+   "connected components of a finite graph (union-find labeling)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda/Multi.v",
+    "line": 74,
+    "symbol": "multi_PreOrder",
+    "intree_statement": "#[export] Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R). — the general construction the exercise asks to instantiate: for a concrete edge relation R on a concrete vertex type, `multi R v w` is the (computable, inductively generated) path relation, so each pair of the exercise's answer would be inhabited by an explicit multi_step/multi_refl term."
+   },
+   {
+    "file": "Instance/Roof.v",
+    "line": 51,
+    "symbol": "RoofHom_inv",
+    "intree_statement": "Corollary RoofHom_inv x y f : RoofHom_inv_t x y f. — together with `RNeg_RZero_absurd : RoofHom RNeg RZero → False` (line 60), `RPos_RZero_absurd` (65), `RNeg_RPos_absurd` (70) and `RPos_RNeg_absurd` (75), this is the in-tree analogue of the exercise's deliverable: for the concrete three-element thin category `Roof` (line 80, homset `equiv := fun f g => True`, hence a preorder) EVERY related pair is exhibited (IdNeg, IdZero, IdPos, ZeroNeg, ZeroPos) and every unrelated pair is proved absurd. The same enumeration exists for the two-element order in Instance/Two.v:122 (`TwoHom_Y_X_absurd : TwoHom TwoY TwoX → False`) and Test/Poset.v:115 (`two_le` by cases, with `two_le_preorder` at 126)."
+   }
+  ],
+  "statement_record": {
+   "book": "Determine the preorder presented (in the sense of Remark 1.39) by the four-vertex, five-arrow graph of Example 1.37: name its underlying set of elements and write down every pair (p1, p2) with p1 ≤ p2.",
+   "intree": "The general closure is multi_PreOrder (multi R = the path relation of the graph R); the concrete deliverable — a full enumeration of the ≤ relation of a named small preorder together with absurdity of the unrelated pairs — exists only for the library's own shape categories (Roof: RoofHom_inv plus four absurdity lemmas; _2: TwoHom_Y_X_absurd; Test/Poset.v's two_le), which are DEFINED as categories rather than generated from a graph.",
+   "strength_comparison": "intree-weaker: no concrete graph's reachability preorder is computed anywhere. The enumerated small preorders (Roof, _2) are given directly by an inductive hom family with identities built in, not obtained as the closure of an edge set, so the exercise's actual work (closing a five-arrow graph under paths, including the loop that makes 1 ≤ 2 hold through infinitely many paths) is never performed."
+  },
+  "gap": "Three specific things are missing. (1) No concrete graph is ever closed into a preorder: the only concrete quiver in the tree is Test/Issue138.v:88 `B138_loop := Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit)` (one node, one loop), and the only assertion made about its free category is Test/Issue138.v:96 `Example B138_free_loop_nodes : obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl` — the NODE set, never the path/reachability relation. (2) The one in-tree computation of a closure over a concrete finite graph, `components` (Instance/FinSet/Pushout.v:275, a union-find fold with `components_edge_eq` at 328), computes UNDIRECTED connected components — the generated EQUIVALENCE relation, which conflates a ≤ b with b ≤ a — and so is not the directed reachability preorder this exercise asks for. (3) There is no in-tree preorder on a four-element carrier at all, and no counting/enumeration lemma of the shape 'these are exactly the related pairs' beyond the two- and three-object shape categories.",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'hasse|reachab' . -- 0 hits for hasse; 'reachab' only the unrelated Lawvere reachability hypothesis (Theory/Lawvere/Sets.v)",
+   "grep -rn --include=*.v 'Build_Quiver_Standard_Eq' . -- 1 use (Test/Issue138.v:88, the one-node loop quiver)",
+   "grep -rn --include=*.v 'FreeOnQuiver' . -- Construction/Free/Quiver.v and Test/Issue138.v only; no lemma about its hom relation"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass landed between ABSENT and PARTIAL and the record's own strength_comparison states the decisive fact honestly ('no concrete graph's reachability preorder is computed anywhere'), so PARTIAL stands on evidence that does bear on the item's own subject matter: multi_PreOrder IS the Remark-1.39 construction the exercise instantiates, and Roof/_2 supply the exercise's deliverable SHAPE (every related pair exhibited, every unrelated pair proved absurd). Citations verified: Instance/Roof.v:51 `RoofHom_inv`, :60/:65/:70/:75 the four absurdity lemmas, :80 `Program Definition Roof`; Instance/Two.v:122 `TwoHom_Y_X_absurd`; Test/Issue138.v:88 `B138_loop` and :96 `obj[FreeOnQuiver B138_loop] = Datatypes.unit := eq_refl`; Instance/FinSet/Pushout.v:275 `components` (a Fixpoint over an edge list) and :328 `components_edge_eq`. Gap point (2) is correct and is the subtle one: `components` computes the UNDIRECTED generated equivalence, not the directed reachability order. One citation slip (harmless, in the prose of an evidence entry): Test/Poset.v's `two_le` is at line 119, not 115 (`two_le_preorder` at 126 is right)."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex41",
+  "classification": "PARTIAL",
+  "aliases": [
+   "edgeless graph presents the discrete preorder",
+   "discrete category / discrete preorder (DiscreteCat, Discrete predicate)",
+   "free category on the empty quiver; closure of the empty relation is equality",
+   "collection of points with no arrows as a Hasse diagram",
+   "codiscrete/indiscrete dual"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Discrete.v",
+    "line": 65,
+    "symbol": "DiscreteCat_Discrete",
+    "intree_statement": "Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A). — where `Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` (Structure/Discrete.v:28) and `DiscreteCat A := {| obj := A; hom := fun x y => x = y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}` (line 37). This asserts the discrete preorder in the book's sense: the only instances of x ≤ y are the reflexive ones, i.e. the picture with no arrows."
+   },
+   {
+    "file": "Instance/Lambda/Multi.v",
+    "line": 74,
+    "symbol": "multi_PreOrder",
+    "intree_statement": "#[export] Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R). — the presentation side of the exercise: the construction accepts ANY edge family R, including the empty one, in which case the only inhabitants of `multi R x y` are `multi_refl`-built, so an edgeless graph does present a preorder."
+   }
+  ],
+  "statement_record": {
+   "book": "Decide whether a collection of points with no arrows (the depiction of a discrete preorder, Example 1.32) counts as a Hasse diagram in the sense of Remark 1.39 — i.e. whether the edgeless graph presents the discrete preorder.",
+   "intree": "DiscreteCat A has hom x y := (x = y) with id := eq_refl, and DiscreteCat_Discrete asserts every morphism forces its endpoints equal and is the transported identity; separately multi_PreOrder applies to any edge family, the empty one included.",
+   "strength_comparison": "intree-weaker: both endpoints of the exercise exist but are never joined. The answer 'yes' requires identifying the closure of the empty edge family with equality, and no such identification is stated."
+  },
+  "gap": "The identification the exercise asks for is absent: nothing asserts that the free/generated preorder on an edgeless graph is the discrete one. Concretely there is no lemma `multi (fun _ _ => False) x y ↔ x = y`, and no comparison functor or isomorphism `FreeOnQuiver G ≅ DiscreteCat (nodes G)` for an edgeless quiver G (grep FreeOnQuiver: only Construction/Free/Quiver.v and Test/Issue138.v, no such lemma). Hasse diagrams are not formalized at all (grep -i hasse: 0 hits), so 'counts as a Hasse diagram' can only be read as the closure question.",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'hasse' . -- 0 hits",
+   "grep -rn --include=*.v 'DiscreteCat' . -- Instance/Discrete.v (DiscreteCat, DiscreteCat_Functor, DiscreteCat_Discrete) and Structure/Limit/Product.v; no relation to quivers or to multi",
+   "grep -rn --include=*.v 'multi (fun|multi_refl.*eq|edges := fun _ _ => False' . -- 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently reached PARTIAL with the same two endpoints and the same missing link. Citations verified: Instance/Discrete.v:65 `Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o})`, with `DiscreteCat` at :37 (hom := fun x y => x = y at :39, id := eq_refl at :41), and Structure/Discrete.v:28 `Definition Discrete (C : Category) := forall x y (f : x ~> y), exists H : x = y, f = rew H in id` — quote accurate. I re-ran the negative searches: no lemma of the shape `multi (fun _ _ => False) x y <-> x = y`, no edgeless-quiver instance (the only concrete quiver is Test/Issue138.v:88's one-node ONE-LOOP quiver, the opposite extreme), and no comparison FreeOnQuiver G ~= DiscreteCat (nodes G). Gap statement is precise."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex42",
+  "classification": "ABSENT",
+  "aliases": [
+   "partitions of a three-element set ordered by coarseness/fineness",
+   "the five-element partition lattice of a 3-set; Bell number 5",
+   "enumerate all 12 related pairs of a finite poset (reflexive pairs included)",
+   "refinement order on equivalence relations / on quotients of a fixed set",
+   "Hasse diagram (1.5) of the five three-point systems"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "Let X be the set of partitions of a three-element set — it has five elements, ordered by coarseness as in display (1.5). Write down every pair (x, y) of elements of X with x ≤ y; there should be 12, counting the reflexive pairs.",
+   "intree": "no counterpart",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'partition' . -- only Theory/Coq/List.v:391 `Definition partition {a} (p : a → bool) : list a → list a * list a` (the list filter) and its lemmas; no partition of a set",
+   "grep -rni --include=*.v 'coarser|fineness|finer|refinement' . -- prose only (Instance/Adj.v:37 'a coarser category', PROP/Presentation.v 'coarser equivalence'); no order on partitions",
+   "grep -rni --include=*.v 'equivalence class|quotient set' . -- prose only (Theory/Subobject.v:10, Construction/PROP.v:248, Instance/FinSet/Pushout.v:27)",
+   "grep -rni --include=*.v 'bell|stirling|catalan' . -- 0 relevant hits (only 'Bell inequalities' prose in Theory/Sheaf.v:97)",
+   "grep -rni --include=*.v 'hasse' . -- 0 hits",
+   "Largest in-tree finite ordered carrier checked by inspection: Instance/Roof.v (3 objects, 5 related pairs) and Test/Poset.v:113 `two` (2 elements); nothing with five elements, and no pair-counting lemma anywhere"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT before opening the coverage file, on the same searches. Re-verified the negative log's load-bearing claims: `partition` in .v files hits only Theory/Coq/List.v:391 (`Definition partition {a} (p : a -> bool) : list a -> list a * list a`) and its proofs; no order on partitions, no equivalence-class/quotient-set construction, no five-element carrier, and no pair-counting lemma anywhere; `hasse` 0 hits. Test/Poset.v's bespoke carrier `two` is at line 117, not 113 (harmless slip in the negative log)."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:remark43",
+  "classification": "ABSENT",
+  "aliases": [
+   "total order / linear order / totally ordered set / chain",
+   "totality axiom: ∀ x y, x ≤ y ∨ y ≤ x (connexity, trichotomy)",
+   "comparable elements of a preorder",
+   "StrictTotalOrder / TotalOrder / Nat.le_total, le_ge_cases",
+   "decidable preorder (tpre_dec) — the near miss"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "A total order is a preorder additionally satisfying, for all x and y, that x ≤ y or y ≤ x. Two elements of a preorder are comparable when x ≤ y or y ≤ x holds; so a total order is exactly a preorder in which every two elements are comparable.",
+   "intree": "no counterpart",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'total order|totally ordered|linear order|linearly' . -- 0 hits for the notion (only Structure/Monoidal/Commutative.v:43 prose 'assuming the objects can be totally ordered, e.g. under choice' and StarAutonomous.v:64 'linearly-distributed')",
+   "grep -rni --include=*.v 'comparab' . -- 1 hit, Structure/Monoidal/CopyDiscard.v:42 'INCOMPARABLE with', unrelated",
+   "grep -rn --include=*.v 'Total' . -- only Construction/Displayed/Total.v's total category of a displayed category",
+   "grep -rni --include=*.v 'trichotom|connex' . -- 0 hits (only Instance/Poset.v:38 citing Ore's 'Galois connexions')",
+   "grep -rn --include=*.v 'le_total|le_ge_cases|le_dec|le_lt_dec|lt_eq_lt|Nat.compare|leb' . -- 0 hits; the only stdlib order facts used are PeanoNat.Nat.le_preorder and Nat.le_partialorder (Instance/Proset.v:48, Instance/Poset.v:121, Test/Poset.v:100)",
+   "NEAR MISS checked and rejected: Construction/Enriched/Two.v:60 `Record TwoPreorder := { tpre_carrier; tpre_le; tpre_refl; tpre_trans; tpre_dec x y : tpre_le x y + (tpre_le x y → False) }` — tpre_dec is DECIDABILITY of ≤ (x ≤ y or not), not TOTALITY (x ≤ y or y ≤ x); a discrete preorder satisfies tpre_dec and is maximally non-total, so this field does not witness the Remark",
+   "grep -rni --include=*.v 'chain' . -- only ω-chains (Construction/Chain.v, Theory/Adamek.v) and prose; no chain = totally ordered subset"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. I ran a wider alias set than the record and still found nothing: connex/trichotomy/StronglyConnected/TotalOrder/LinearOrder/le_total/le_ge_cases/le_ge_dec/lt_eq_lt_dec/Compare_dec — 0 hits; `leb`, `ltb`, `le_dec` — 0 hits anywhere in the tree, so the library does not even have a decidable <= on nat from which totality could be read off. The only 'total order' string is the Wikipedia URL in Instance/Omega.v:9, whose file defines the naturals' order (`le_t`, :28) as a thin category and never states totality. The record's NEAR-MISS rejection is correct and important: Construction/Enriched/Two.v:65 `tpre_dec x y : tpre_le x y + (tpre_le x y -> False)` is DECIDABILITY, satisfied by the maximally-non-total discrete preorder. Comparability is likewise undefined (the single `comparab` hit, Structure/Monoidal/CopyDiscard.v:42, is the English word 'INCOMPARABLE')."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex44",
+  "classification": "PARTIAL",
+  "aliases": [
+   "discrete preorder has no comparable elements? (reflexivity catch)",
+   "comparability of two elements of a preorder",
+   "discrete category, only identity morphisms (DiscreteCat, Discrete)",
+   "reflexivity witnessed by the identity morphism (hom_preorder, PreOrder_Reflexive)",
+   "equality-as-order; x ≤ y iff x = y"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Discrete.v",
+    "line": 65,
+    "symbol": "DiscreteCat_Discrete",
+    "intree_statement": "Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A). — with `Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id` (Structure/Discrete.v:28): in the discrete preorder every instance of x ≤ y forces x = y, which is the half of the exercise that makes distinct elements incomparable."
+   },
+   {
+    "file": "Theory/Category.v",
+    "line": 282,
+    "symbol": "hom_preorder",
+    "intree_statement": "#[export] Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := { PreOrder_Reflexive := fun _ => id; PreOrder_Transitive := fun _ _ _ f g => g ∘ f }. — the exercise's catch, stated in-tree in the general form: reflexivity is witnessed by `id`, so in EVERY preorder (the discrete one included) x ≤ x always holds; in DiscreteCat that witness is `id := eq_refl` (Instance/Discrete.v:41)."
+   }
+  ],
+  "statement_record": {
+   "book": "Decide whether it is correct to describe a discrete preorder as one in which no two elements are comparable. (The intended catch: by reflexivity every element is comparable with itself, so the correct statement restricts to distinct elements.)",
+   "intree": "DiscreteCat A has hom x y := (x = y) with id := eq_refl, and DiscreteCat_Discrete asserts every morphism forces its endpoints equal; hom_preorder asserts reflexivity in any category with `id` as the witness, so x ≤ x always holds.",
+   "strength_comparison": "intree-weaker in vocabulary only: both facts the exercise turns on (x ≤ y implies x = y in the discrete preorder; x ≤ x always) are asserted in-tree, but the predicate 'comparable' in which the exercise's claim is phrased does not exist, so the claim itself cannot be stated or refuted in-tree."
+  },
+  "gap": "'Comparable' is undefined and nothing of the shape `(x ≤ y) + (y ≤ x)` appears anywhere (grep -i comparab: 1 unrelated hit; no disjunction/sum of a relation with its flip). Consequently the exercise's actual sentence — 'no two elements of a discrete preorder are comparable' — has no in-tree statement to be corrected, and the corrected form (distinct elements are incomparable, each element is comparable with itself) is likewise unstated: DiscreteCat_Discrete gives x ≤ y → x = y but no lemma records the contrapositive 'x ≠ y → the hom is empty' as a statement about comparability.",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'comparab' . -- 1 hit, Structure/Monoidal/CopyDiscard.v:42, unrelated",
+   "grep -rni --include=*.v 'total order|totally ordered|linear order' . -- 0 hits for the notion",
+   "grep -rn --include=*.v 'Discrete' Structure/Discrete.v Instance/Discrete.v -- Discrete predicate (line 28) + DiscreteCat/DiscreteCat_Functor/DiscreteCat_Discrete only; no incomparability statement"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass said ABSENT; on review PARTIAL is the better call and I confirm it, because both facts the exercise turns on are in-tree AND are about the exercise's own subject matter (the discrete preorder): Instance/Discrete.v:65 `DiscreteCat_Discrete` gives x <= y => x = y, and Theory/Category.v:282 `hom_preorder`'s `PreOrder_Reflexive := fun _ => id` is exactly the reflexivity catch, at Instance/Discrete.v:41 realized as `id := eq_refl`. Only the vocabulary ('comparable') is missing, and the gap says so precisely. Consistency note with remark43 (ABSENT): there the ITEM IS the definition of the missing vocabulary, so nothing of it exists; here the item is a question whose two supporting facts do exist. Both classifications are non-PRESENT and both feed the same issue."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:example45",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the naturals with the usual order as a preorder/poset (Nat.le, Proset, Poset_nat, Omega)",
+   "total/linear order on ℕ with a linear Hasse diagram",
+   "discrete order on ℕ (DiscreteCat nat)",
+   "reverse/opposite order (C^op, Opposite)",
+   "divisibility order n | m; many different orders on one set"
+  ],
+  "evidence": [
+   {
+    "file": "Test/Poset.v",
+    "line": 102,
+    "symbol": "poset_nat_skeletal",
+    "intree_statement": "Lemma poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y. — over `Poset_nat := @Poset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder (partial_order_antisym PeanoNat.Nat.le_partialorder)` (Test/Poset.v:54; the same instance is Instance/Proset.v:47 `LessThanEqualTo_Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder` and Instance/Poset.v:118): the naturals under their usual size ordering are in-tree as a preorder (hom x y is definitionally x ≤ y, id from reflexivity, composition from transitivity), and this lemma asserts antisymmetry on top. Concrete related pairs are exhibited at Test/Poset.v:80-85 (0 ≤ 1, 1 ≤ 2, and their composite 0 ≤ 2)."
+   },
+   {
+    "file": "Instance/Discrete.v",
+    "line": 65,
+    "symbol": "DiscreteCat_Discrete",
+    "intree_statement": "Lemma DiscreteCat_Discrete@{o h p} (A : Type@{o}) : Discrete (DiscreteCat@{o h p} A). — the example's second ordering: `DiscreteCat A` has hom x y := (x = y) (line 39), so at A := nat this is exactly 'n ≤ m only when n = m', and the lemma asserts there are no other morphisms."
+   },
+   {
+    "file": "Construction/Opposite.v",
+    "line": 106,
+    "symbol": "Opposite",
+    "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; ... |}. — the example's third ordering: the hom relation is flipped while reflexivity and transitivity are re-derived, so `LessThanEqualTo_Category^op` is the reverse of the usual order on ℕ (5 ≤ 3), and by construction C^op^op = C on the nose."
+   }
+  ],
+  "statement_record": {
+   "book": "The naturals with their usual size ordering form a preorder that is moreover a TOTAL order (for all m, n either m ≤ n or n ≤ m), with a linear Hasse diagram — unlike the partition diagram (1.5), whose middle row has incomparable elements. One set carries many orders: the discrete ordering (n ≤ m only if n = m), the reverse of the usual ordering (5 ≤ 3), and the divisibility ordering (n ≤ m iff n divides m, so 2 ≤ 4 but not 2 ≤ 3).",
+   "intree": "poset_nat_skeletal over Poset_nat = @Poset nat Nat.le Nat.le_preorder ... (the usual order as a thin category, with 0 ≤ 1 ≤ 2 exhibited concretely); DiscreteCat_Discrete (the discrete ordering, hom x y := x = y); Opposite (the reverse ordering, hom flipped).",
+   "strength_comparison": "intree-stronger on the usual order (antisymmetry/skeletality is proven, which the book does not claim here, and a second Type-valued copy exists as Instance/Omega.v's `le_t`), but intree-weaker on the example's two headline points: totality is never stated for any order, and the divisibility order does not exist."
+  },
+  "gap": "Two of the example's clauses are missing. (1) TOTALITY — the distinguishing property the example is making (ℕ is totally ordered, hence its diagram is linear) — is nowhere in-tree: grep 'total order|totally ordered|linear order|comparab|le_total|le_ge_cases|le_dec' returns no statement, so nothing records ∀ m n, m ≤ n ∨ n ≤ m even for the naturals, and the linear-vs-branching diagram contrast (against the partition poset, itself absent) cannot be made. (2) DIVISIBILITY has no counterpart at all: grep 'divide|divis|dvd|Nat.divide|Nat.gcd|modulo|prime' finds nothing arithmetical, so 'many orders on one set' is witnessed in-tree by three of the four (usual, discrete, reverse) and the fourth is absent. Also, the reverse ordering is available only as the general `C^op`; no in-tree definition applies it to ℕ.",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'divide|divis|dvd|Nat.divide|Nat.gcd|modulo|prime' . -- 0 arithmetical hits (only 'modulo' as prose and 'primeros/primer' in bibliography lines)",
+   "grep -rni --include=*.v 'total order|totally ordered|linear order|comparab|trichotom' . -- 0 hits for the notion",
+   "grep -rn --include=*.v 'le_total|le_ge_cases|le_dec|le_lt_dec|leb|Nat.compare' . -- 0 hits",
+   "grep -rn --include=*.v 'Nat.le' . -- Instance/Proset.v:48, Instance/Poset.v:121, Test/Poset.v:99-100, Lib/Datatypes.v:285 only"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL with the same three witnesses and the same two gaps (totality, divisibility). Citations verified: Test/Poset.v:102-105 `poset_nat_skeletal` over `Poset_nat` at :54, with the concrete chain 0<=1 (:80), 1<=2 (:82) and their composite 0<=2 (:84-85); Instance/Discrete.v:65 `DiscreteCat_Discrete`; Construction/Opposite.v:106 `Opposite` (hom := fun x y => @hom C y x — the flip, quote exact). The record's 'a second Type-valued copy exists as Instance/Omega.v's le_t' is accurate (:28). I add one witness Phase C did not list, which strengthens rather than changes the verdict: Instance/Proset.v:47 `LessThanEqualTo_Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder` is a THIRD in-tree copy of the usual order on N (Instance/Poset.v:120 defines a same-named fourth over the antisymmetric version). Totality: independently re-searched (leb/ltb/le_dec/le_total/connex) with 0 hits; divisibility: 0 arithmetical hits."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex46",
+  "classification": "ABSENT",
+  "aliases": [
+   "divisibility order on {1,...,10}; a divides b without remainder",
+   "Nat.divide / dvd / gcd / modulo arithmetic",
+   "divisibility lattice; Hasse diagram of the divisor order",
+   "is the divisibility preorder a total order (2 and 3 incomparable)",
+   "multiplicative order on the naturals"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "Write the numbers 1 to 10 and draw an arrow a → b whenever a divides b without remainder; then decide whether the resulting divisibility preorder is a total order.",
+   "intree": "no counterpart",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'divide|divis|dvd' . -- 0 hits about divisibility (only 'division of labour' prose in Instance/Coq.v:72)",
+   "grep -rn --include=*.v 'Nat.divide|Nat.gcd|Nat.modulo|Znumtheory|prime' . -- 0 hits; no number-theoretic stdlib module is imported anywhere",
+   "grep -rni --include=*.v 'total order|totally ordered|comparab' . -- 0 hits for the notion, so the second half of the exercise is unstatable too",
+   "grep -rni --include=*.v 'hasse' . -- 0 hits",
+   "The only order on nat in-tree is Nat.le (Instance/Proset.v:48, Instance/Poset.v:121) and its Type-valued twin le_t (Instance/Omega.v:28); no second order on nat exists"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently: no divisibility relation, no number-theoretic stdlib import (`dvd`/`divide`/`Nat.gcd`/`Znumtheory` all 0 hits; the only `divis` strings are 'division of labour' prose), and the second half of the exercise (is it total?) is unstatable since totality is absent (re-verified: leb/ltb/le_dec 0 hits). The claim 'the only order on nat in-tree is Nat.le and its Type-valued twin le_t' is correct."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:example47",
+  "classification": "ABSENT",
+  "aliases": [
+   "the real numbers with the usual ≤ as a preorder (Rle, Rle_refl, Rle_trans)",
+   "Coq.Reals / Rdefinitions / ordered field",
+   "numeric preorder as a thin category (Proset, Poset, LessThanEqualTo_Category)",
+   "chain of inequalities -500 ≤ -499 ≤ 0 ≤ √2 ≤ 100/3",
+   "rationals / irrationals as ordered carriers"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "The real numbers with their usual ordering form a preorder, illustrated by a chain such as -500 ≤ -499 ≤ 0 ≤ √2 ≤ 100/3.",
+   "intree": "no counterpart: the reals do not exist in the library. The generic apparatus `Proset` would turn (R, Rle) into a thin category in three lines, but no carrier beyond N (Nat.le, and the Type-valued le_t of Instance/Omega.v) and the bespoke two-element `two` of Test/Poset.v:117 is ever supplied.",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'Reals|Rdefinitions|real number' . -- only Instance/ZX.v:178, a comment about phases",
+   "grep -rni --include=*.v 'rational' . -- prose only ('operational', 'rationale'); no ℚ",
+   "grep -rn --include=*.v 'Rle|Rplus|sqrt' . -- 0 hits",
+   "grep -rn --include=*.v 'Proset|Poset' . -- Instance/Proset.v, Instance/Poset.v, Test/Poset.v only; the sole carriers are nat and the bespoke two-element `two`",
+   "NEAR MISS demoted from Phase C evidence by the Phase D pass: Instance/Proset.v:33 `Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category` — the generic preorder-to-thin-category apparatus, credited at def30/remark35; it says nothing about R (the reals).",
+   "NEAR MISS demoted from Phase C evidence: Test/Poset.v:102 `poset_nat_skeletal` over `Poset_nat := @Poset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder ...` (:54), with the chain 0<=1<=2 at :80-85 — the carrier is N, not R, so it is evidence for example45, not for this item.",
+   "rg -n -i 'real number|Reals|Rdefinitions|QArith|rational' -g '*.v' -- 4 prose hits, none a formalization: Instance/ZX.v:178 (a phase 'is a real number modulo 2pi', phases not modelled as reals), Construction/Karoubi.v:87 and Construction/Enriched.v:74 (Lawvere metric spaces over the nonnegative reals ordered by >=, prose only). Phase C's log recorded only the ZX hit; the two extra hits are still prose, so the conclusion is unchanged.",
+   "rg -n -F 'Rle' / 'Rplus' / 'sqrt' -g '*.v' -- 0 hits; no Coq.Reals module is imported anywhere in _CoqProject's 484 files."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "OVERTURNED PARTIAL -> ABSENT. The reals do not exist in this library in any form, and the two cited evidence entries are not counterparts of THIS item: Instance/Proset.v:33 `Proset` is the generic preorder-to-thin-category apparatus (the counterpart of def30/remark35, already credited there), and Test/Poset.v:102 `poset_nat_skeletal` is about N, a different carrier — the record itself calls the 0<=1<=2 chain 'the N analogue of the example's displayed chain of reals'. Phase C's own strength_comparison concedes the decisive point ('the carrier R never appears in the library, so the example's own statement is not made'), which under the frozen definition is ABSENT ('no in-tree counterpart'), not PARTIAL. Batch-consistency was the clincher: ex46 (divisibility order on N) and ex48 (is <= on R total) were classified ABSENT on identically shaped grounds — generic Proset present, the specific ordered set absent — and ex46 in fact has MORE in-tree than this item, since its carrier N does exist. Treating the mere existence of Proset as 'some of the item' would make PARTIAL vacuous for every order example in the chapter. Issue framing is unaffected in kind: the work is still 'add a carrier and instantiate Proset', now correctly labelled as a fresh addition. Evidence moved to the negative log; gap cleared (PARTIAL-only field)."
+  },
+  "phase_c_classification": "PARTIAL"
+ },
+ {
+  "id": "7sketches:1.2.2:ex48",
+  "classification": "ABSENT",
+  "aliases": [
+   "is the usual ≤ on ℝ a total order",
+   "totality/connexity of a numeric order (∀ x y, x ≤ y ∨ y ≤ x, Rle_or_lt, Rtotal_order)",
+   "linearly ordered field; the real line as a chain",
+   "comparable real numbers",
+   "decidability vs totality of ≤"
+  ],
+  "evidence": [],
+  "statement_record": {
+   "book": "Decide whether the usual ≤ on the set of real numbers is a total order in the sense of Remark 1.43.",
+   "intree": "no counterpart",
+   "strength_comparison": "n/a"
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni --include=*.v 'Reals|Rdefinitions|Rle|Rtotal_order|real number' . -- no reals in the library (only a phase comment at Instance/ZX.v:178), so the carrier of the exercise is absent",
+   "grep -rni --include=*.v 'total order|totally ordered|linear order|comparab|trichotom|connex' . -- 0 hits for the notion, so the property asked about is absent as well",
+   "grep -rn --include=*.v 'le_total|le_ge_cases|le_dec|Rle_or_lt' . -- 0 hits",
+   "NEAR MISS rejected: Construction/Enriched/Two.v:60's `tpre_dec x y : tpre_le x y + (tpre_le x y → False)` is decidability of ≤, not totality"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently: both halves of the exercise are absent — the carrier (no Reals/Rdefinitions/Rle anywhere) and the property (no totality/comparability; leb/ltb/le_dec 0 hits). The tpre_dec near-miss rejection is correct (decidability, not totality). Consistent with my overturn of example47 to ABSENT."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:example49",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the equivalence relation induced by a preorder (x ≤ y and y ≤ x); symmetrization",
+   "isomorphism of objects is an equivalence relation (iso_equivalence, ob_setoid)",
+   "mutual factorization of subobjects (sub_equiv_iff_mutual)",
+   "quotient by the induced equivalence; set of equivalence classes; skeleton",
+   "partition induced by an equivalence relation (Prop 1.19); 'A induces B'"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 187,
+    "symbol": "iso_equivalence",
+    "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }. — the example's first clause in full generality: in a thin category (a preorder, Instance/Proset.v:33, whose hom-setoid is `fun _ _ => True` so both iso laws hold vacuously) `x ≅ y` is exactly the book's 'x ≤ y and y ≤ x', and this instance asserts that relation is reflexive, symmetric and transitive. It is packaged as a setoid on objects by `ob_setoid : Setoid C := {| equiv := Isomorphism; setoid_equiv := iso_equivalence |}` (line 195)."
+   },
+   {
+    "file": "Theory/Subobject.v",
+    "line": 93,
+    "symbol": "sub_equiv_iff_mutual",
+    "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u). — over the factorization preorder `sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }` with `sub_le_refl` (62) and `sub_le_trans` (67): a concrete in-tree preorder whose induced 'x ≤ y and y ≤ x' relation is proved to coincide with the setoid equality of SubObj (whose reflexivity/symmetry/transitivity are discharged in SubObj_Setoid, line 33) — the example's construction carried out on a real preorder."
+   },
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 363,
+    "symbol": "components_resp",
+    "intree_statement": "Lemma components_resp {X : Type} (h : Fin.t N → X) (edges : list (Fin.t N * Fin.t N)) (l : Fin.t N → Fin.t N) : (∀ e, In e edges → h (fst e) = h (snd e)) → (∀ p, h (l p) = h p) → ∀ p, h (components edges l p) = h p. — with `po_apex := fin_countP po_isrep` (406, the number of classes), `po_cls p := fin_rank po_isrep (po_lab p) ...` (420, the class map) and `po_cls_rep (k : Fin.t po_apex) : po_cls (fin_select po_isrep k) = k` (445, a section, hence surjectivity of the class map), this is the passage 'equivalence relation ⇒ partition' realized concretely and computably for a finite carrier: the classes are indexed by a set, every element has a class, every class is hit, and any map respecting the relation factors through the classes."
+   }
+  ],
+  "statement_record": {
+   "book": "Every preorder induces a partition of its underlying set: the relation 'x ≤ y and y ≤ x' is reflexive, symmetric and transitive, and Proposition 1.19 turns it into a partition of P. This illustrates the phrase 'A induces B' — a canonical automatic passage from an A to a B — and is drawn as an eight-element preorder alongside its four equivalence classes.",
+   "intree": "iso_equivalence : Equivalence Isomorphism (in a thin category, the symmetrization of ≤ is an equivalence relation), packaged as ob_setoid : Setoid C; sub_equiv_iff_mutual identifies that induced equivalence with the setoid equality on subobjects for the concrete factorization preorder; components_resp/po_cls/po_cls_rep exhibit the class map, class count and factorization property for a finite carrier.",
+   "strength_comparison": "same for the first clause (the induced relation is proved an equivalence, in any category, hence in any preorder, and is even the library's canonical notion of sameness of objects), intree-weaker for the second: the passage to a PARTITION exists only for finite carriers presented by an edge list, never as a general construction from a preorder."
+  },
+  "gap": "The general 'induces a partition' step is missing in two ways. (1) There is no set of equivalence classes / quotient set for a general equivalence relation (Prop 1.19 has no in-tree counterpart; grep 'partition' finds only Theory/Coq/List.v:391's list filter, and Lib/Setoid.v:18 explicitly says setoids 'stand in for quotient sets', i.e. the library carries the relation and never forms the classes). (2) There is no skeleton: nothing quotients the objects of a category by `Isomorphism` (grep -i 'skeleton|skeletal' finds Theory/Equivalence.v:61-98 prose deliberately declining to build skeletons, plus Test/Poset.v's antisymmetry lemmas), so 'a preorder induces a partition of its underlying set' stops at `ob_setoid`, a set-with-an-equivalence-relation rather than a set of parts. The concrete finite quotient of Instance/FinSet/Pushout.v is by the equivalence GENERATED by an edge list, not by a given preorder's symmetrization, and the eight-element illustration has no counterpart.",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'partition' . -- only Theory/Coq/List.v:391 (list filter) and its lemmas",
+   "grep -rni --include=*.v 'skeletal|skeleton' . -- Theory/Equivalence.v:61-98 prose (skeletons deliberately confined to concrete instances), Test/Poset.v:102/150; no skeleton construction",
+   "grep -rn --include=*.v 'Quotient' Construction/Quotient.v -- quotients a CATEGORY by a Prop-valued hom-congruence (Quotient, QuotientProj, QuotientLift), identity on objects: it never quotients objects by ≅",
+   "grep -rni --include=*.v 'equivalence class|quotient set' . -- prose only"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL and found Theory/Subobject.v:93 `sub_equiv_iff_mutual` and Lib/Setoid.v:18 ('setoids stand in for quotient sets') on my own; Phase C additionally found the better first witness, Theory/Isomorphism.v:187 `iso_equivalence : Equivalence Isomorphism` with :195 `ob_setoid` — I verified both lines and the reduction it relies on (in a `Proset` the hom-setoid is `fun _ _ => True`, Instance/Proset.v:39, so `x ~= y` is inhabited exactly by a pair of mutual <=-witnesses; the iso laws are vacuous). Theory/Subobject.v citations all exact (sub_le :59, refl :62, trans :67, unique :78, sub_equiv_iff_mutual :93, SubObj_Setoid :33), as are Instance/FinSet/Pushout.v:363 `components_resp`, :406 `po_apex`, :420 `po_cls`, :445 `po_cls_rep`. The gap is honest on both counts: no quotient SET of classes for a general equivalence relation, and no skeleton (Theory/Equivalence.v:93-98 explicitly confines skeletons to concrete instances — verified verbatim), so the induced partition stops at ob_setoid. Independent re-check: Construction/Quotient.v quotients a category by a hom-congruence and is identity-on-objects, so it does not quotient objects by ~=."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:example50",
+  "classification": "PARTIAL",
+  "aliases": [
+   "power set ordered by inclusion; the poset (P(X), ⊆)",
+   "subobject preorder / factorization order (SubObj, sub_le)",
+   "power object Ω^a in a topos (Pow, classifier_classifies, relations_iso)",
+   "Ensembles of a fixed carrier (EnsT T) — the same-name-but-differently-ordered trap",
+   "n-cube Hasse diagram of the power set of an n-element set"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Subobject.v",
+    "line": 67,
+    "symbol": "sub_le_trans",
+    "intree_statement": "Lemma sub_le_trans (u v w : SubObj x) : sub_le u v → sub_le v w → sub_le u w. — with `sub_le u v := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }` (59) and `sub_le_refl (u : SubObj x) : sub_le u u` (62): the subsets of a fixed ambient object, ordered by inclusion (factorization of one mono through the other), form a preorder — the example's 'ordered by inclusion of subsets' clause, and by sub_le_unique (78) the inclusion witness is unique, so the order is thin as a preorder must be."
+   },
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}. — the example's 'the power set is the set of ALL subsets of X' clause: the subsets of x correspond bijectively to the points of the power object, `Pow a := Ω ^ a` (Structure/Topos.v:129), whose defining role is exactly to internalize that collection (extended to relations by `relations_iso : SubObj (a × b) ≅ (a ~> Pow b)`, Structure/Topos.v:146)."
+   },
+   {
+    "file": "Instance/FinSet/Topos.v",
+    "line": 52,
+    "symbol": "FinSet_Pow_two",
+    "intree_statement": "Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl. — in skeletal FinSet objects ARE cardinalities, so this asserts computably that the power set of a two-element set has four elements; `FinSet_Pow_membership` (line 89) evaluates the membership map `eval : Pow 2 × 2 ~> Ω` on a concrete subset code, so the elements of the power object really are subsets."
+   }
+  ],
+  "statement_record": {
+   "book": "For a set X the power set is the set of all subsets of X, given the order by inclusion of subsets — the order always intended when the power set is regarded as an ordered set. For a three-element set the Hasse diagram is a 3-cube; in general the power set of an n-element set has an n-dimensional cube as its Hasse diagram.",
+   "intree": "sub_le / sub_le_refl / sub_le_trans (the subsets of an ambient object under inclusion form a preorder, with unique inclusion witnesses); classifier_classifies : SubObj x ≅ (x ~> Ω) with Pow a := Ω^a (the collection of all subsets, internalized); FinSet_Pow_two : Pow 2 = 4 (the count, computably).",
+   "strength_comparison": "intree-stronger on the 'all subsets' clause (a proven bijection with predicates in any elementary topos, plus a computing finite model) but intree-weaker on the ORDER clause: inclusion is a preorder on the external setoid SubObj x, and nothing transports it to the internal power object Pow a, so 'the power set regarded as an ORDERED set' is only half realized."
+  },
+  "gap": "Three shortfalls. (1) The order and the power object are never joined: `classifier_classifies` is an isomorphism of SETOIDS in Sets, order-forgetting, and no internal order on `Pow a` (no internal ⊆ : Pow a × Pow a ~> Ω) is defined, so the example's 'this is the order always intended when the power set is regarded as an ordered set' is unavailable at the power object. (2) `sub_le` is never packaged as an ordered object: no `Proset`/`Poset` instance is built from sub_le_refl/sub_le_trans (grep Proset/Poset: only nat and a bespoke two-element carrier), and there are no meets or joins of subobjects (grep 'intersect|union|lattice|meet|join' about subobjects: prose only, e.g. Structure/Pullback.v:94 calls a pullback of subobjects 'the intersection' without defining it). (3) TRAP: Instance/Ens.v:56 `EnsT (T : Type)` does have ALL subsets of a fixed carrier as its objects (`obj := Ensemble T`), which looks like the power set as a category — but its homs are `∃ f : T → T, ∀ x, x ∈ A ↔ x ∈ f⁻¹ B`, i.e. preimage equalities under endofunctions of T, not inclusions, and it is not thin, so EnsT is NOT (P(T), ⊆). Finally the n-cube Hasse diagram has no counterpart (grep -i 'hasse|cube': no hits for Hasse; 'cube' only little-n-cubes operads).",
+  "negative_search_log": [
+   "grep -rni --include=*.v 'power set|powerset' . -- prose only (Structure/Topos.v:75 'the categorical power set', Instance/Poset.v:95 'power-set Galois connection')",
+   "grep -rn --include=*.v 'Included' . -- 0 hits, even though Coq.Sets.Ensembles is imported by Instance/Ens.v and Instance/Rel.v: inclusion of ensembles is never used",
+   "grep -rni --include=*.v 'hasse|cube' . -- 0 hits for hasse; cube only in the little-n-cubes operad prose",
+   "grep -rn --include=*.v 'sub_le' . -- Theory/Subobject.v only (sub_le, sub_le_refl, sub_le_trans, sub_le_unique, sub_equiv_iff_mutual); no consumer builds an ordered object from it"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL with the same primary witness (Theory/Subobject.v's sub_le preorder as the categorical power set ordered by inclusion) and the same trap: Instance/Ens.v:56 `EnsT T` has `obj := Ensemble T` (all subsets) but its homs are preimage equalities under endofunctions of T, not inclusions — the record's TRAP paragraph is exactly right, and `Included` really has 0 uses despite Coq.Sets.Ensembles being imported twice. Citations verified: Theory/Subobject.v:59/62/67/78; Structure/SubobjectClassifier.v:187 `Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Omega |}` (quote exact); Structure/Topos.v:129 `Pow a := Omega ^ a` and :146 `relations_iso`; Instance/FinSet/Topos.v:52 `FinSet_Pow_two` and :89 `FinSet_Pow_membership`. The order-vs-power-object gap is real and correctly stated: nothing defines an internal `subseteq : Pow a x Pow a ~> Omega`, and no Proset/Poset is built from sub_le_refl/sub_le_trans."
+  }
+ },
+ {
+  "id": "7sketches:1.2.2:ex51",
+  "classification": "PARTIAL",
+  "aliases": [
+   "power set of the empty set, of a singleton, of a two-element set (1, 2, 4 elements)",
+   "Hasse diagram of a small power set (point, arrow, square)",
+   "power object counts Pow 0 = 1, Pow 1 = 2, Pow 2 = 4 (Ω^a in skeletal FinSet)",
+   "subsets of a finite set; subobject lattice of a finite set",
+   "2^n cardinality of the power set"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Topos.v",
+    "line": 54,
+    "symbol": "FinSet_Pow_zero",
+    "intree_statement": "Example FinSet_Pow_zero : @Pow FinSet FinSet_Topos 0%nat = 1%nat := eq_refl. — in skeletal FinSet an object IS its cardinality, so this asserts computably that the power set of the empty set has exactly one element (the exercise's first diagram: a single point)."
+   },
+   {
+    "file": "Instance/FinSet/Topos.v",
+    "line": 52,
+    "symbol": "FinSet_Pow_two",
+    "intree_statement": "Example FinSet_Pow_two : @Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl. — the exercise's third diagram, at the level of its element count: the power set of a two-element set has four elements, by eq_refl through the enumeration exponential codec of Instance/FinSet/Closed.v."
+   }
+  ],
+  "statement_record": {
+   "book": "Draw the inclusion Hasse diagrams of the power set of the empty set, of a one-element set, and of a two-element set (one, two and four elements respectively).",
+   "intree": "FinSet_Pow_zero : Pow 0 = 1 and FinSet_Pow_two : Pow 2 = 4, both by eq_refl in skeletal FinSet where objects are cardinalities, so two of the three power sets are exhibited with their exact size, computably.",
+   "strength_comparison": "intree-stronger where it overlaps (the counts are not merely asserted but reduce by eq_refl through a real exponential codec) but intree-weaker in kind: only the SIZE of each power set is given, never its inclusion order, so no diagram is determined."
+  },
+  "gap": "The exercise's actual content — the inclusion order on each small power set — is absent, and one of the three cases is not stated. (1) `Pow 1 = 2` appears nowhere: the two computed examples are Pow 0 = 1 (Instance/FinSet/Topos.v:54) and Pow 2 = 4 (line 52); the one-element case, which would also reduce by eq_refl, is not recorded. (2) No order on the elements of a power object exists (no internal ⊆ on Pow a, and the external inclusion preorder Theory/Subobject.v:59 `sub_le` is never transported through `classifier_classifies`), so nothing distinguishes the four-element power set from any other four-element set; the two-element diagram's single arrow and the four-element square are not derivable. (3) Hasse diagrams are not formalized at all (grep -i hasse: 0 hits).",
+  "negative_search_log": [
+   "grep -rn --include=*.v 'Pow ' Structure/ Instance/ -- Structure/Topos.v:129 (definition), Structure/Topos.v:146 (relations_iso), Instance/FinSet/Topos.v:52/54/83-93 only; no Pow 1 example",
+   "grep -rni --include=*.v 'hasse' . -- 0 hits",
+   "grep -rn --include=*.v 'Included|sub_le' . -- Included: 0 hits; sub_le confined to Theory/Subobject.v with no ordered-object packaging"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found exactly the two computing witnesses (Instance/FinSet/Topos.v:54 `FinSet_Pow_zero : Pow 0 = 1` and :52 `FinSet_Pow_two : Pow 2 = 4`, both `:= eq_refl`) and noted the missing `Pow 1 = 2` and the absent inclusion order, so PARTIAL with this gap matches. Verified there is no third Pow example (grep 'Pow' across Structure/ and Instance/: Structure/Topos.v:129/146, Instance/FinSet/Topos.v:52/54/83-93 only), and that Structure/Topos.v:107's header claim '[Pow] 2 evaluating to 4 by eq_refl' is backed by the Example — no defect there. PARTIAL rather than ABSENT is justified because these two examples are about the exercise's own objects (the power sets of the empty and the two-element set), unlike the generic-apparatus evidence I overturned on example47."
+  }
+ }
+]

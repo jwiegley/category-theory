@@ -1,0 +1,509 @@
+[
+  {
+    "id": "maclane:V.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "complete category / small-complete category",
+      "has all small limits",
+      "Complete / Cocomplete (library naming: Structure/Complete.v)",
+      "HasLimits / limit oracle (∀ D (F : D ⟶ C), Limit F)",
+      "J-complete; dual: cocomplete = C^op complete"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Complete.v",
+        "line": 115,
+        "symbol": "Complete",
+        "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 119,
+        "symbol": "Cocomplete",
+        "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 113,
+        "symbol": "Limit",
+        "intree_statement": "Class Limit `(F : J ⟶ C) := { limit_cone : Cone F; ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J, vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x }."
+      },
+      {
+        "file": "Structure/Complete.v",
+        "line": 30,
+        "symbol": "(header: smallness discipline)",
+        "intree_statement": "The definitions below quantify over [∀ (D : Category)] without an explicit smallness hypothesis; the size discipline is instead carried implicitly by the library's universe polymorphism. When [Complete]/[Cocomplete] are instantiated, the universe levels of D become constrained relative to those of C, which is the universe-polymorphic stand-in for \"D small relative to C\"."
+      }
+    ],
+    "statement_record": {
+      "book": "A category C is small-complete (usually just 'complete') when every small diagram in C has a limit — equivalently, when every functor F : J ⟶ C out of a small index category J has a limit in C.",
+      "intree": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.",
+      "strength_comparison": "same. The universal quantification is over all diagram categories D with no explicit smallness side-condition; the library carries that side-condition by universe polymorphism (instantiating Complete constrains D's universes relative to C's), which the file header states verbatim and Adjunction/SAFT.v:138 confirms in a concrete use ('[Complete] forces the diagram category's hom universe to coincide with C's hom universe'). Slightly STRONGER than the propositional reading in one respect: Complete is Type-valued data, a chosen-limit oracle rather than a mere existence claim. Caveat that belongs to Theorem 1, not to this definition: Mac Lane's accompanying announcement that Set, Grp, Ab satisfy completeness is uninstantiated — docs/INHABITATION.md:53 records 'no `Complete`/`Cocomplete` instance exists in-tree'."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Verified every cited line: Structure/Complete.v:115 `Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.` and :119 Cocomplete are verbatim; Structure/Limit.v:113 `Class Limit` is at that line; the :30 header quote is verbatim; Adjunction/SAFT.v:138 quote (\"[Complete] forces the diagram category's hom universe to coincide with C's hom universe\") is verbatim; docs/INHABITATION.md:53 row is verbatim. File is registered in _CoqProject. ADVERSARIAL NUANCE (does not overturn): the smallness stand-in is weaker than the strength_comparison's \"same\" suggests — SAFT.v:138 records that instantiating Complete forces D's hom universe to COINCIDE with C's, not to sit strictly below it, so the in-tree quantifier is 'universe-constrained' rather than 'small'. Both Structure/Complete.v:30-34 and SAFT.v:134-144 disclose this in prose, and the frozen rules put foundations/size questions on the PRESENT/PARTIAL side, so PRESENT stands for a DEFINITION item. Uninstantiated (no `Complete`/`Cocomplete` instance in tree) — correctly flagged in the record and correctly deferred to thm1 rather than downgrading the definition. Checked for a competing definition: `rg -i 'HasLimits|AllLimits|small.?complete'` → no second/weaker Complete anywhere; PreservesAllLimits (Structure/Limit/Preservation.v:229) is preservation, not completeness."
+    }
+  },
+  {
+    "id": "maclane:V.1:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "the ordinal ω as a category",
+      "Omega (Instance/Omega.v)",
+      "the poset (nat, ≤) viewed as a thin category",
+      "free category on the chain graph 0 → 1 → 2 → …",
+      "ω^op / inverse (projective) sequence shape; Cochain"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality@{o h p}; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}."
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 28,
+        "symbol": "le_t",
+        "intree_statement": "Inductive le_t@{u} (n : nat) : nat → Type@{u} := | le_t_n : le_t n | le_t_S {m} : le_t m → le_t (S m)."
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 85,
+        "symbol": "omega_step",
+        "intree_statement": "Definition omega_step (n : nat) : @hom Omega n (S n) := le_t_S le_t_n."
+      },
+      {
+        "file": "Construction/Chain.v",
+        "line": 64,
+        "symbol": "Chain",
+        "intree_statement": "Program Definition Chain : Omega ⟶ C := {| ... |}  (* an ω-indexed diagram X₀ ~> X₁ ~> X₂ ~> … ; Cochain at line 78 is its dual, over Omega^op *)"
+      }
+    ],
+    "statement_record": {
+      "book": "ω denotes the linearly ordered set of all finite ordinals viewed as a category — the free category generated by the infinite chain graph 0 → 1 → 2 → 3 → …; diagrams indexed by ω^op are the inverse sequences used throughout the section.",
+      "intree": "[Omega] is the thin category whose objects are the natural numbers and whose morphisms [m ~> n] are proofs of [m ≤ n]. … a functor [Omega ⟶ C] is exactly an ω-indexed diagram [X₀ ~> X₁ ~> X₂ ~> ...] in [C].  (Instance/Omega.v:11–15, with Omega at line 72 and the generating step arrow omega_step at line 85.)",
+      "strength_comparison": "same. Mac Lane presents ω as the free category on the chain graph; the library presents it as the thin category of the order ≤ on nat, the standard identification (the free category on a linear chain graph is thin and coincides with the ≤-poset), and supplies the generating step arrow explicitly as omega_step. The order relation is a bespoke Type-valued le_t rather than stdlib's Prop-valued le, deliberately, so that it can eliminate into Type-valued hom-sets — a strengthening, not a weakening. ω^op is available by Construction/Opposite.v; Construction/Chain.v:78 already uses it (Cochain by duality)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Instance/Omega.v:72 `Program Definition Omega@{o h p} : Category@{o h p}` with obj := nat, hom := le_t, homset := Morphism_equality; :28 le_t; :85 omega_step — all three line citations exact. Construction/Chain.v:64 Chain : Omega ⟶ C exact, and :78-79 `Definition Cochain {C} `{@Terminal C} (F : C ⟶ C) : Omega^op ⟶ C` supplies the ω^op shape the item names. Registered in _CoqProject. Checked the identification the strength_comparison asserts: le_t m n has a structurally UNIQUE derivation (le_t_n only when the indices agree, otherwise le_t_S of a smaller one), and homset is strict Morphism_equality, so Omega is genuinely THIN — hence really is the free category on the chain graph 0→1→2→…, as claimed, not merely a lookalike. Composition is le_t_trans with the unit/assoc lemmas at :51/:55/:63 proved, so the category laws are on the nose. No weaker same-name rival: `rg -i 'ordinal|omega'` finds no second ω. NOTE for Phase E: Cochain is specialised to the terminal chain of an endofunctor, so a general 'inverse sequence' F : Omega^op ⟶ C is expressible but has no named form."
+    }
+  },
+  {
+    "id": "maclane:V.1:construction1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "inverse limit / projective limit of a tower of sets",
+      "set of matching strings / compatible families",
+      "sub-object of the product cut out by the compatibility constraint",
+      "Cone(*, F) — cones from the one-point set",
+      "limits in Sets / Sets_Limit / indexed product of setoids",
+      "end as a compatible-family subsetoid (Instance/Sets/End.v)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 59,
+        "symbol": "end_family",
+        "intree_statement": "Definition end_family : Type := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] ((@id (C^op) x, f) : (x, x) ~{C^op ∏ C}~> (x, y)) (s x) ≈ fmap[F] ((op f, @id C y) : (y, y) ~{C^op ∏ C}~> (x, y)) (s y) }."
+      },
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}.  (* header: 'The carrier is the setoid of \"compatible families\": a choice [s x : F(x,x)] for every object [x : C], subject to the wedge (dinaturality) constraint … Because the apex is a setoid, this equivalence is carried by the object itself rather than by a quotient type, so the construction is [funext]-free.' *)"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => @equiv _ x (fst z) (fst w) * @equiv _ y (snd z) (snd w) ; … |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := …; exr := … }."
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; … |}  (* the ω^op tower shape is available as Omega^op, but no Sets-valued tower limit is built *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For F : ω^op ⟶ Set with sets F_n and maps f_n : F_{n+1} → F_n, the subset L ⊆ ∏_i F_i of matching strings (f_n x_{n+1} = x_n for all n), with μ_n x = x_n, is a limiting cone; a matching string is exactly a cone from the one-point set, so L = Cone(*, F); and the same recipe works for an arbitrary index category in place of ω^op.",
+      "intree": "Definition end_family : Type := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] (id, f) (s x) ≈ fmap[F] (op f, id) (s y) }  —  with Sets_End : End F proving its universal property.",
+      "strength_comparison": "intree-weaker. The distinctive technique of the construction — carve the limit out of the product of the family by exactly the compatibility equations, with the equivalence carried pointwise by the setoid rather than by a quotient — is realised in Sets, but only for the END of a mixed-variance functor (the wedge/dinaturality constraint), whose universal property is a wedge UMP, not a cone UMP over a general diagram. No in-tree object is the limit of an ω^op tower of setoids, no indexed product of a family of setoids exists, and Cone(*, F) is never exhibited as a limit apex. Only the finite discrete shapes are instantiated in Sets: Sets_Terminal (Instance/Sets.v:248) and Sets_Cartesian (binary)."
+    },
+    "gap": "Missing, precisely: (a) an indexed product ∏_{j : J} F j in Sets (no such construction exists; Structure/Limit/Product.v defines iprod only as a discrete-diagram Limit, with no Sets instance); (b) the compatible-family sub-setoid for a CONE over a general diagram F : J ⟶ Sets, with its limiting-cone proof (only the end's wedge version, Instance/Sets/End.v, exists); (c) the ω^op-tower instance itself — Omega and Omega^op exist (Instance/Omega.v:72, Construction/Chain.v:78) but no functor Omega^op ⟶ Sets is given a limit; (d) the identification 'matching string = cone from the point', i.e. L ≅ Cone(*, F), which in library terms would read ConePresheaf F (terminal_obj Sets) (Structure/Cone.v:79) as the apex.",
+    "negative_search_log": [
+      "grep -rniE 'inverse limit|projective limit' --include='*.v' . → hits only in prose headers (Structure/Limit.v:50-56 historical note), no construction",
+      "grep -rniE 'matching|compatible famil' --include='*.v' . → Instance/Sets/End.v (ends), Theory/Sheaf*.v (matching families, sheaf-side, disclosed as per-leg/vacuous), nothing cone-side",
+      "grep -rniE 'Sets_Limit|Sets_Cone|limits in Sets|Sets is complete' --include='*.v' . → 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned ABSENT; on review PARTIAL is defensible and the record's gap text is accurate, so no overturn — but the classification sits ON the PARTIAL/ABSENT boundary and the CITED evidence is weaker than the record implies. Two corrections a consumer of this record needs: (1) Instance/Sets/End.v's Sets_End is NOT an in-tree limit. Structure/End.v:35 defines `Class End `(F : C^op ∏ C ⟶ D)` as an INDEPENDENT class (Coend at :58 by duality); nothing in tree relates End to Limit over the twisted-arrow category. So the cited evidence supplies zero `Limit` witnesses in Sets and supports only a technique analogy (compatible-family subsetoid), exactly as the strength_comparison says. (2) The genuinely limit-shaped Sets coverage the record MISSES is the degenerate discrete end of the 'arbitrary index category' clause: Structure/Limit/Terminal.v:33 `Terminal_Limit (C) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` and Structure/Limit/Cartesian.v:39 `Cartesian_Limit (C) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C`, which together with Sets_Terminal (Instance/Sets.v:248) and Sets_Cartesian (Instance/Sets/Cartesian.v:32) DO yield real `Limit F` witnesses in Sets for J = 0 and J = discrete-two. That is what actually keeps this off ABSENT. Everything else in the record verified: I independently reproduced 0 hits for a Sets tower limit, for indexed products of setoids, and for `Cone(*` anywhere; Instance/Sets/End.v:59 end_family and :144 Sets_End are at the cited lines and registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:V.1:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Set is small-complete / Set is complete",
+      "@Complete Sets / Sets_Complete",
+      "every small diagram of sets has a limit",
+      "Lim F = Cone(*, F) (the set of cones from the point)",
+      "products of sets as the discrete-diagram special case",
+      "limits of setoids computed elementwise"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }.  (* the empty-J case of the theorem *)"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; … |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fun _ _ => {| morphism := fst |}; exr := fun _ _ => {| morphism := snd |} }.  (* the discrete-two case Mac Lane singles out *)"
+      },
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}.  (* limit-shaped universal object in Sets, built exactly by the Theorem-1 matching-families recipe, but for the wedge/end universal property *)"
+      },
+      {
+        "file": "docs/INHABITATION.md",
+        "line": 53,
+        "symbol": "(inhabitation ledger)",
+        "intree_statement": "| `GAFT` (solution-set form) | `Complete C` | no `Complete`/`Cocomplete` instance exists in-tree |"
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem 1: for J small, every functor F : J ⟶ Set has a limit, which may be taken to be the set Cone(*, F) of all cones from the one-point set to F, with limiting cone ν_j σ = σ_j; consequently Set is small-complete. Special case: for J discrete, Cone(*, F) is the cartesian product of the F_j.",
+      "intree": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; … |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; … }  (together with Sets_Terminal, Sets_Initial, Sets_Cocartesian, Sets_End, Sets_Coend, Instance/Sets/Pushout.v).",
+      "strength_comparison": "intree-weaker, severely. Only the two finite discrete shapes of the theorem's own 'special case' remark are instantiated in Sets (terminal object; binary product, carrier the actual cartesian product of carriers), plus the end/coend and a pushout. The theorem's headline conclusion — that Sets has limits of all small diagrams, i.e. `@Complete Sets` — is not proved anywhere; docs/INHABITATION.md:53 states that no `Complete`/`Cocomplete` instance exists in-tree at all. The apex Cone(*, F) is likewise never exhibited."
+    },
+    "gap": "`@Complete Sets` is uninhabited and no limit of a general diagram F : J ⟶ Sets is constructed. Concretely missing: (a) indexed products of a family of setoids; (b) equalizers in Sets (Structure/Equalizer.v defines Equalizer as a Limit over Parallel but has no Sets instance — grep 'Sets_Equalizer' → 0 hits), hence not even the products-and-equalizers route to completeness; (c) the apex `Cone(*, F)` — note the library already has the setoid of cones with a given apex as `ConePresheaf F c` (Structure/Cone.v:79), so the missing statement is exactly `IsALimit F (ConePresheaf F (terminal_obj Sets))` in Sets; (d) the assembled `Complete Sets`. The J-discrete special case exists only for J = 0 and J = 2.",
+    "negative_search_log": [
+      "grep -rn 'Complete Sets|Sets_Complete|@Complete Sets' --include='*.v' . → 0 hits",
+      "grep -rniE 'Sets_Limit|Sets_Cone|limits in Sets|Sets is complete' --include='*.v' . → 0 hits",
+      "grep -rn 'Sets_Equalizer|Sets_Pullback' --include='*.v' . → 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same conclusion (no `Complete Sets`, no limit of a general Sets-diagram). All four citations verified at their lines: Instance/Sets.v:248 Sets_Terminal, Instance/Sets/Cartesian.v:32 Sets_Cartesian, Instance/Sets/End.v:144 Sets_End, docs/INHABITATION.md:53 (quote verbatim). I independently re-ran the negative searches: `Complete Sets|Sets_Complete` → 0, `Sets_Equalizer` → 0 (and no equalizer of any name in Instance/Sets*), and confirmed Instance/Sets/ contains no Limit.v. STRENGTHENING the record (missing from its evidence, and load-bearing for the PARTIAL): Sets_Terminal and Sets_Cartesian are not `Limit` instances on their own, so the claim that they instantiate 'the empty-J case' and 'the discrete-two case' rests on two bridge theorems the record never cites — Structure/Limit/Terminal.v:33 `Terminal_Limit (C) (F : 0 ⟶ C) : Limit F ↔ @Terminal C` and Structure/Limit/Cartesian.v:39 `Cartesian_Limit (C) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C`. With those the PARTIAL is rigorous; without them it would have been evidence-free. Note also Instance/Sets/Pushout.v exists but is a COLIMIT and so irrelevant to this item. Gap text is honest and the 'intree-weaker, severely' verdict is if anything generous to the library."
+    }
+  },
+  {
+    "id": "maclane:V.1:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "representability of the cone functor; Cone(X, F) ≅ Set(X, Lim F)",
+      "Nat(Δ X, F) ≅ Hom(X, Lim F)",
+      "Δ ⊣ lim (diagonal is left adjoint to the limit functor)",
+      "ConePresheaf / presheaf of cones",
+      "limit as a representing object / universal property",
+      "cone = natural transformation out of the constant functor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cone.v",
+        "line": 79,
+        "symbol": "ConePresheaf",
+        "intree_statement": "Instance ConePresheaf {J : Category} {C : Category} (F : @Functor J C) : @Functor C^op Sets.  (* header: 'The presheaf of cones over F: each object c is sent to the setoid of cones with apex c … Its representing object, when one exists, is the limit of F.' *)"
+      },
+      {
+        "file": "Structure/UniversalProperty/Limit.v",
+        "line": 141,
+        "symbol": "LimitIsUniversalProperty",
+        "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (* header: 'being a limit of [F] is the same as *representing* the presheaf of cones [ConePresheaf F : C^op ⟶ Sets] … Concretely there is a natural isomorphism Hom(c, z) ≅ Cone(c, F)' *)"
+      },
+      {
+        "file": "Structure/Cone/Const.v",
+        "line": 53,
+        "symbol": "Cone_Natural_Transform",
+        "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F."
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)  (* only the binary/two-object case of Δ ⊣ lim; no Δ[J] ⊣ lim for general J *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The crux of Theorem 1 is a bijection Cone(X, F) ≅ Set(X, Cone(*, F)) natural in the set X (τ ↦ h with h x = τ·x). Since a J-cone from X is exactly a natural transformation Δ X ⟹ F, this reads Nat(Δ X, F) ≅ Set(X, Cone(*, F)) — an adjunction exhibiting Cone(*, F) as Lim F; so by the very definition of limit, Lim F = Cone(*, F).",
+      "intree": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)   [= Hom(c, z) ≅ Cone(c, F) naturally], together with  Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F.",
+      "strength_comparison": "mixed. The two structural halves of the remark are PRESENT and in greater generality than the book (arbitrary ambient C, not just Set): 'a cone is a natural transformation out of Δ' is Cone_Natural_Transform, and 'being a limit = representing the cone presheaf', i.e. Hom(−, z) ≅ Cone(−, F) naturally, is LimitIsUniversalProperty. What is intree-weaker is precisely the Set-specific payload the remark exists to deliver — that the representing object IS the set of cones out of the point — plus the general adjunction form Δ[J] ⊣ lim, which exists in tree only for J = discrete two (Adjunction/Diagonal/Product.v:36)."
+    },
+    "gap": "Two things missing. (1) The Set instantiation: the setoid of cones with apex the terminal setoid — already namable in tree as `ConePresheaf F (terminal_obj Sets)` (Structure/Cone.v:79) — is never shown to be a limit apex, i.e. `IsALimit F (ConePresheaf F (terminal_obj Sets))` in Sets is unproved, because there is no limit construction in Sets at all (see maclane:V.1:thm1). (2) The general adjunction Δ[J] ⊣ lim : C ⟶ [J, C] for arbitrary J: only the binary Δ ⊣ × is in tree; the nearest general result is Structure/Limit/Kan/Extension.v:46 `Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt`, which routes the limit through a right Kan extension rather than through a Δ-adjunction.",
+    "negative_search_log": [
+      "grep -rniE 'Δ ⊣ lim|lim_adjunction|Limit_Functor|LimFunctor' --include='*.v' . → 0 hits (only the prose remark in Functor/Diagonal.v:28)",
+      "grep -rn 'Cone(\\*' --include='*.v' . → 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same two halves. Verified: Structure/Cone.v:79 `Instance ConePresheaf` at that line; Structure/UniversalProperty/Limit.v:141 `Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c)` exact, and its file header :30-37 does state the natural iso Hom(c,z) ≅ Cone(c,F); Structure/Cone/Const.v:53 `Lemma Cone_Natural_Transform `(F : [J, C]) : ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F` exact (proved `Defined`, both directions, so it is a usable transport not a mere ↔ of Props); Adjunction/Diagonal/Product.v:36-37 `Diagonal_Product_Adjunction ... : Diagonal_Product C ⊣ ×(C)` exact; Structure/Limit/Kan/Extension.v:46 Kan_Limit exact. All registered in _CoqProject. I independently confirmed the two negatives: no general Δ[J] ⊣ lim anywhere (`rg '⊣ Lim|⊣ lim|LimFunctor|Limit_Functor'` → 0; Functor/Diagonal.v:28 and Instance/Fun.v:70 mention colim ⊣ Δ ⊣ lim in PROSE only), and no `Cone(*` occurrence. The 'mixed' strength_comparison is honest: the general halves really are stronger than the book's Set-only form, and the Set-specific payload really is absent, downstream of thm1's total absence of Sets limits."
+    }
+  },
+  {
+    "id": "maclane:V.1:construction2",
+    "classification": "ABSENT",
+    "aliases": [
+      "ring of p-adic integers Z_p",
+      "inverse limit of Z/p^n Z along the residue maps",
+      "profinite completion / profinite ring",
+      "Rng / CRing / category of rings; ring object",
+      "coherent sequence of residues mod p^n"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'p-adic' --include='*.v' . → 1 hit, prose only: Structure/Limit.v:51 'the p-adic integers arise as the inverse limit of the rings Z/pⁿZ under remainder maps' (a historical header note, no definition)",
+      "grep -rniE 'padic|Z_p|solenoid' --include='*.v' . → 0 hits",
+      "grep -rniE 'profinite' --include='*.v' . → 2 hits, prose only (Structure/Limit.v:53-55)",
+      "grep -rniE '\\bRng\\b|RingObject|CRing' --include='*.v' . → 0 hits",
+      "grep -rniE '\\bring\\b' --include='*.v' . → hits only in prose (Theory/Algebra.v 'rig', Construction/Grothendieck.v 'modules over every ring', Structure/Abelian.v 'inside R-Mod for some ring R'); no Category of rings, no RingObject class",
+      "grep -rniE 'residue' --include='*.v' . → 16 hits, all unrelated senses ('the residue that an adjunction leaves', 'non-destructible residue' in PROP proofs)",
+      "ls Instance/ → the only concrete algebraic category over Sets is Instance/CMon.v (commutative monoids); there is no Instance/Rng.v, Instance/Ab.v or Instance/Mod.v",
+      "grep -rniE 'inverse limit|projective limit' --include='*.v' . → prose only; no tower construction in any concrete category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found nothing: `rg -i 'p-adic|padic|solenoid'` → the single prose hit at Structure/Limit.v:51 (historical note in the background essay) and nothing else; `rg -i '\\bRing\\b|\\bRng\\b'` → prose only (Structure/Abelian.v, Theory/Algebra.v, Construction/Localization.v, Construction/Grothendieck.v). Checked the one place a ring could hide: Structure/Group.v:109 defines `Class GroupObject (grp : C)` and Structure/Monoid.v:124 `Class MonoidObject` — INTERNAL objects in a cartesian monoidal category, not a category of rings, and no ring/rig object class exists at all. `ls Instance/` confirms the only concrete algebraic category over Sets is Instance/CMon.v. Also confirmed the enabling machinery is missing independently of the algebra: there is no ω^op tower limit in ANY concrete category (see construction1). ABSENT is correct; not OUT_OF_SCOPE — nothing about Z_p resists formalisation here, it simply has no prerequisites in tree."
+    }
+  },
+  {
+    "id": "maclane:V.1:construction3",
+    "classification": "ABSENT",
+    "aliases": [
+      "p-adic solenoid",
+      "Top / category of topological spaces and continuous maps",
+      "circle S^1 and the p-fold winding map z ↦ z^p",
+      "initial (coarsest) topology making the projections continuous",
+      "inverse limit of a tower of circles"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'solenoid' --include='*.v' . → 0 hits",
+      "grep -rniE 'topolog|open set|opens\\b|Sierpinski' --include='*.v' . → hits only in prose, and only for Grothendieck topologies/sites (Theory/Sheaf.v:23,44,74-80); there is no category Top and no notion of topological space",
+      "grep -rniE 'initial topology|coarsest' --include='*.v' . → 0 hits",
+      "grep -rniE 'continuous map' --include='*.v' . → 0 hits ('continuous functor' appears only as the limit-preservation sense, Structure/Limit/Preservation.v:19)",
+      "grep -rniE 'circle' --include='*.v' . → 5 hits, all unrelated ('circle-i composition' in Theory/Multicategory.v, '2Cob … the circle is sent to the algebra' in Theory/Algebra/CommutativeFrobenius.v, prose in Construction/Groupoid.v and Structure/Topos.v)",
+      "grep -rniE 'S\\^1' --include='*.v' . → 0 hits",
+      "ls Instance/ → no Instance/Top.v; concrete instances are Sets, Coq, Ens, Cat, Fun, FinSet, CMon, Rel, Poset, Proset, Two, One, Zero, Omega, Roof, Parallel, Discrete, Lambda, ZX, StrictCat, Props, Shapes, Comp, Adj, Adjoints, Cones"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found nothing: `rg -i 'topolog|compact|Hausdorff|circle|solenoid'` returns only prose — Grothendieck topologies (Theory/Sheaf*), 'dagger compact' monoidal remarks (Construction/Span/Category.v:37, Instance/ZX.v, Structure/Monoidal/CompactClosed.v), 'circle-i composition' (Theory/Multicategory.v:347), and the 2Cob circle in Theory/Algebra/CommutativeFrobenius.v:34. No Instance/Top.v; `ls Instance/` verified against the record's enumeration and it is accurate. The record correctly does not reach for OUT_OF_SCOPE: a category of spaces is formalisable in principle, it is just wholly absent, and this item depends on construction1 (tower limits) as well."
+    }
+  },
+  {
+    "id": "maclane:V.1:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful functor U : Grp ⟶ Set lifts limits uniquely",
+      "unique lifting of a limit along a forgetful functor",
+      "algebraic structure induced componentwise on a limit",
+      "monadic / algebraic functors create limits; EM_Forget creates limits",
+      "limits of groups computed elementwise on underlying sets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnwE 'Grp' --include='*.v' . → 3 hits, all prose: Structure/Group.v:63 and :72 ('representable functors into Grp'), Structure/Complete.v:55 ('this is how Set, Top, Grp, Ab, and module categories are shown complete'). There is no category of groups in tree — Structure/Group.v defines GROUP OBJECTS internal to a cartesian monoidal category, which is a different notion and carries no forgetful functor to Sets",
+      "grep -rniE 'category of groups|GroupHom|group homomorphism' --include='*.v' . → 0 hits",
+      "grep -rniE 'lifts limits|lifting of limits|creates limits|CreatesLimits|LiftsLimits' --include='*.v' . → 0 hits",
+      "grep -rniE 'forgetful.*limit' --include='*.v' . → 0 hits",
+      "grep -rn 'Limit|Cone' Monad/Eilenberg/Moore.v Monad/Algebra.v Construction/FAlg.v → 0 hits; no limit theory for algebra categories",
+      "grep -rn 'Forget' --include='*.v' . -l → the only forgetful functor into Sets is CMon_Forget (Instance/CMon.v:169); EM_Forget / Kleisli_Forget / FCoalg_Forget land in an abstract base and carry no limit-lifting result",
+      "nearest analogue examined and rejected: Instance/CMon/Biproduct.v:167 CMon_product builds the componentwise commutative-monoid structure on the product setoid (carrier `carrier M * carrier N`, the Sets product) and :352 CMon_bi_is_product proves its universal property — but that is 'CMon has binary products', constructed directly rather than lifted, with no uniqueness-of-structure clause, no general shape J, no reference to CMon_Forget, and it is CMon rather than Grp",
+      "grep -rniE 'monadic.*creat' --include='*.v' . → only Structure/Complete.v:58, a prose citation ('monadic functors create limits, so algebras for a monad on a complete category are again complete'), explicitly attributed to nLab and not proved"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Verified the load-bearing negative: `rg -nw 'Grp|Group'` finds only prose plus Structure/Group.v:109 `Class GroupObject (grp : C)` — group OBJECTS internal to a cartesian monoidal category, with no underlying-set functor — exactly as the record says. Confirmed CMon_Forget (Instance/CMon.v:169) is the ONLY functor into Sets carrying 'Forget' in its name (enumerated every *Forget* symbol in tree) and has zero consumers. Confirmed Monad/Eilenberg/Moore.v, Monad/Algebra.v and Construction/FAlg.v exist and contain no occurrence of Limit or Cone, as the log claims. ONE ADDITION the record's negative log understates, material to the Phase-E issue: the log says the EM/Kleisli forgetful functors 'carry no limit-lifting result', which is true for LIMITS but omits that the COLIMIT-side unique-lifting theorem of exactly Mac Lane's Theorem-2 SHAPE is proved in tree — Monad/Monadicity/BeckObjects.v:385 `Record CreatedSplitCoequalizer` (fields created_alg, created_hom, created_hom_carrier, created_coequalizes, and crucially `created_alg_unique : ... → t_alg[alg'] ≈ t_alg[created_alg]`) with :396 `Theorem em_forget_creates_split : CreatedSplitCoequalizer`. That is 'exactly one algebra structure on the coequalizer object makes e a homomorphism, and with it the object is universal upstairs' — the same argument shape as 'exactly one group structure on L makes every ν_j a homomorphism'. Classification is unchanged (different functor, dual shape, split pairs only, and no Grp), but any issue filed for thm2 should cite this as the in-tree template."
+    }
+  },
+  {
+    "id": "maclane:V.1:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "a functor creates limits / created limit",
+      "CreatesLimits / CreatesLimit class",
+      "strictly creates limits (unique on-the-nose lift)",
+      "creates products / creates finite limits / creates colimits",
+      "lifts limits uniquely",
+      "CreatesUSplitCoequalizers (in-tree creation, coequalizer shape)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { create_coeq {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : @Isomorphism D (U q) (scoeq_obj S), to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) (q : C) (e : y ~> q) (He : e ∘ f ≈ e ∘ g) (i : @Isomorphism D (U q) (scoeq_obj S)) (Hi : to i ∘ fmap[U] e ≈ scoeq_e S) : IsCoequalizer f g q e }."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 52,
+        "symbol": "(header: deviation from Mac Lane)",
+        "intree_statement": "The second clause is the uniqueness half of creation, phrased in the strongest form the theorem can consume.  Mac Lane's strict definition demands a unique on-the-nose lift of the colimiting cocone and that this lift be colimiting; in a setoid-based library, where downstairs data can only be matched up to isomorphism, the non-evil rendering asks instead that every iso-compatible lift be colimiting."
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 486,
+        "symbol": "equivalence_creates_limits",
+        "intree_statement": "Definition equivalence_creates_limits {J : Category} (G : J ⟶ C) (L : Limit (F ◯ G)) : Limit G := limit_transport (equivalence_diagram_iso G) (rapl_limit (equiv_adjunction E) (F ◯ G) L)."
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 47,
+        "symbol": "PreservesLimit",
+        "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }.  (* the file supplies preservation and reflection-of-isos vocabulary only; there is no creation class *)"
+      }
+    ],
+    "statement_record": {
+      "book": "V : A ⟶ X creates limits for F : J ⟶ A when (i) for every limiting cone τ : x ⇒ VF in X there is exactly one pair (a, σ) of an object a of A and a cone σ : a ⇒ F with Va = x and Vσ = τ, and (ii) that unique σ is itself a limiting cone in A. Variants by restricting J: creates products (J discrete), creates finite limits (J finite), creates colimits (arrows reversed). Creation says nothing unless VF already has a limit.",
+      "intree": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { create_coeq … : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : U q ≅ scoeq_obj S, to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects … : IsCoequalizer f g q e }.",
+      "strength_comparison": "intree-weaker on three axes. (i) Shape: creation is defined only for coequalizers of U-split parallel pairs, never for limits over a general J, and none of the book's variants (creates products, creates finite limits, creates colimits generally) is defined. (ii) Strictness: the lift is matched to the downstairs datum only up to a packaged comparison isomorphism i with `to i ∘ fmap[U] e ≈ scoeq_e S`, not Mac Lane's on-the-nose `Va = x` and `Vσ = τ`; the file header at :52 acknowledges exactly this deviation, and the uniqueness clause is replaced by the reflection clause (every iso-compatible lift is colimiting), with 'unique up to compatible isomorphism' derived as the corollary create_coeq_unique. (iii) The two limit-side results that carry the word 'creates' — equivalence_creates_limits (Theory/Equivalence/Limit.v:486) and the comma development (Construction/Comma/Limit.v:17, 'the projection comma_proj2 creates them') — contain no uniqueness-of-lift clause at all: they are bare lifting maps Limit (F ◯ G) → Limit G / Limit K. Nothing in tree records the book's caveat that creation is vacuous unless VF already has a limit."
+    },
+    "gap": "No `CreatesLimit`/`CreatesLimits` class exists. Missing: the general definition for a diagram F : J ⟶ A and functor V : A ⟶ X — either strictly (unique (a, σ) with Va = x, Vσ = τ, σ limiting) or, consistently with Beck.v's precedent, in the iso-invariant form — plus the variants for products, finite limits and colimits, and the placement of the existing results (equivalence_creates_limits, Construction/Comma/Limit.v, CreatesUSplitCoequalizers) under that common vocabulary alongside PreservesLimit / ReflectsIsos in Structure/Limit/Preservation.v.",
+    "negative_search_log": [
+      "grep -rniE 'creates limits|CreatesLimits|LiftsLimits|created limit' --include='*.v' . → 0 hits for a class; only Construction/Comma/Limit.v:17,33 (prose) and the two 'equivalence_creates_*' definitions",
+      "grep -rniE 'creates|creation' --include='*.v' . → the only creation CLASS is CreatesUSplitCoequalizers (Monad/Monadicity/Beck.v:164); other hits are Monad/Monadicity/BeckObjects.v:396 em_forget_creates_split, Beck.v:911 monadic_creates, Beck.v:264 creates_split_reflects_isos, Theory/Equivalence/Limit.v:486/582, all coequalizer- or equivalence-specific"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass leaned ABSENT (I found BeckObjects.v's CreatedSplitCoequalizer but not Beck.v's class); Phase C found the stronger evidence and PARTIAL is the better call — confirmed. Verified verbatim: Monad/Monadicity/Beck.v:164 `Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D)` with both clauses create_coeq and create_coeq_reflects exactly as quoted, and the :52-60 header deviation note is quoted accurately word for word ('Mac Lane's strict definition demands a unique on-the-nose lift ... the non-evil rendering asks instead that every iso-compatible lift be colimiting'), with `Corollary create_coeq_unique` at :189 delivering the up-to-iso uniqueness. Theory/Equivalence/Limit.v:486 equivalence_creates_limits is exactly the bare lifting map the record describes (`Limit (F ◯ G) → Limit G`, built from limit_transport ∘ rapl_limit, no uniqueness clause), and its own header at :69 honestly calls it only 'the practical content of' creation. Structure/Limit/Preservation.v: the class is at line 48, not 47 (harmless off-by-one; :47 is blank) — and I confirmed the file supplies PreservesLimit (:48), PreservesColimit (:196), PreservesAllLimits (:229), ReflectsIsos (:243) and NO creation vocabulary. I re-ran the class search independently: CreatesUSplitCoequalizers is the only creation class in tree. The three-axis strength_comparison is accurate and the gap is actionable."
+    }
+  },
+  {
+    "id": "maclane:V.1:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Grp ⟶ Set creates limits",
+      "the forgetful functor of an algebraic category creates limits",
+      "U : Rng/Ab/R-Mod ⟶ Set creates limits",
+      "algebraic categories are complete because their forgetful functor creates limits",
+      "CreatesLimits instance for a concrete category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnwE 'Grp' --include='*.v' . → 3 hits, all prose (Structure/Group.v:63,72; Structure/Complete.v:55). No category of groups exists in tree",
+      "grep -rniE 'creates limits|CreatesLimits' --include='*.v' . → 0 hits; there is no creation-of-limits notion at all (see maclane:V.1:def3), so a fortiori no instance of it",
+      "grep -rniE 'category of groups|GroupHom|group homomorphism' --include='*.v' . → 0 hits",
+      "grep -rniE '\\bAb\\b|abelian group|R-Mod|module category' --include='*.v' . → prose only (Theory/Adjunction.v:37, Structure/Abelian.v:111); no concrete algebraic category besides Instance/CMon.v",
+      "grep -rn 'CMon_Forget' --include='*.v' . → 1 definition (Instance/CMon.v:169) and no consumers; nothing states that it creates, lifts, preserves or reflects limits",
+      "grep -rniE 'monadic.*creat' --include='*.v' . → Structure/Complete.v:58 only, an unproved prose citation"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT; the item is doubly blocked (no Grp — see thm2 — and no creates-limits notion — see def3). Re-verified `CMon_Forget` has no consumers of any kind (`rg 'CMon_Forget'` → the single definition at Instance/CMon.v:169), and that Structure/Complete.v:58 'monadic functors create limits, so algebras for a monad on a complete category are again complete' is an nLab CITATION in the background essay, not an in-tree result — the record's log characterises it correctly. ADDITION for the Phase-E issue, parallel to thm2: the closest in-tree statement of the shape 'the forgetful functor of an algebra category creates (some) universal constructions' is Monad/Monadicity/Beck.v:911 `Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)` — colimit side, split pairs only, over an abstract monad rather than over Grp, so it does not move the classification, but it is the in-tree precedent an implementation should follow. docs/INHABITATION.md:56 separately records that `CreatesUSplitCoequalizers` composed from the Beck engine is never assembled."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the projection (x ↓ C) ⟶ C creates limits",
+      "coslice / under category x/C; Coslice",
+      "comma category projection comma_proj2",
+      "limits in a comma category / Comma_Complete",
+      "creation of limits in (=(d) ↓ U)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 238,
+        "symbol": "comma_limit",
+        "intree_statement": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump.   (* in a section with Context (HC : @Complete C) (HU : PreservesImageLimit) {J : Category} (K : J ⟶ (=(d) ↓ U)); apex_obj := ((ttt, vertex_obj[Ldiag]); phi) with Ldiag := HC J (comma_proj2 ◯ K) *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 32,
+        "symbol": "(header)",
+        "intree_statement": "Standard fact: if [C] has and [U] preserves [J]-limits, then [=(d) ↓ U] has [J]-limits, and the projection [comma_proj2 : =(d) ↓ U ⟶ C] creates them."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := { to := {| fobj := _; fmap := _ |}; from := {| fobj := _; fmap := _ |} }.   (* identifies Mac Lane's (x ↓ C) with the in-tree comma at U := Id *)"
+      },
+      {
+        "file": "Instance/Adjoints.v",
+        "line": 42,
+        "symbol": "adj_id",
+        "intree_statement": "Program Instance adj_id {C : Category} : Id ⊣ Id := { adj := fun _ _ => {| to := {| morphism := _ |}; from := {| morphism := _ |} |} }.   (* would feed right_adjoint_PreservesImageLimit at U := Id, but that composition is not performed in tree *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise V.1.1: prove that the projection functor (x ↓ C) ⟶ C creates limits.",
+      "intree": "Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump, and Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K.",
+      "strength_comparison": "intree-weaker in three respects. (i) It is a LIFTING statement, not creation: the constructed limit's apex is ((ttt, vertex_obj[Ldiag]); phi) and its legs project to the C-legs, but nothing asserts that this is the UNIQUE object-and-cone over the given C-limiting cone — which is the whole content of 'creates'. (ii) The C-limit is drawn from a global oracle `HC : @Complete C` (`Ldiag := HC J Gdiag`) rather than from the per-diagram hypothesis `Limit (comma_proj2 ◯ K)` that creation quantifies over; a caller with one limit but no completeness cannot use it. (iii) The general form carries the extra hypothesis `PreservesImageLimit U`, harmless at U := Id but never discharged there: neither `PreservesImageLimit (Id C)` nor the transfer of the conclusion along `Comma_Coslice` to the coslice `x ̸co C` is performed in tree, so the exercise's actual statement is nowhere written down. The header at :32 does assert the creation fact in prose."
+    },
+    "gap": "Missing: (a) a creation statement — the uniqueness clause 'exactly one pair (a, σ) over the given C-limiting cone', which the current development does not prove; (b) a per-diagram form taking `Limit (comma_proj2 ◯ K)` as hypothesis instead of the `@Complete C` oracle; (c) the exercise's own instance — specialize U := Id (discharging PreservesImageLimit via right_adjoint_PreservesImageLimit adj_id, Construction/Comma/Limit.v:264 with Instance/Adjoints.v:42) and transport along Comma_Coslice (Construction/Slice.v:181) to state the result for the coslice `x ̸co C` and its projection.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same first two gaps; Phase C additionally found Construction/Slice.v:181 `Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id)`, which I had MISSED and which is the exact bridge from Mac Lane's (x ↓ C) to the in-tree comma — verified at that line, with Coslice itself at :169. All other citations verified: Construction/Comma/Limit.v:238 comma_limit, :245 Comma_Complete, :32-33 header, and Instance/Adjoints.v:42 adj_id. I independently confirmed each of the three claimed weaknesses by reading the proof: (i) `comma_ump` (:222) is the ordinary limit UMP of the constructed cone — there is NO uniqueness-of-lift clause anywhere in the file, so 'creates' is not proved; (ii) `Ldiag := HC J Gdiag` (:131) really does draw the C-limit from the global `@Complete C` oracle although only that one limit is used, so a caller holding `Limit (comma_proj2 ◯ K)` alone cannot apply it; (iii) `right_adjoint_PreservesImageLimit` (:264) has exactly ONE consumer in the whole tree, `Comma_Complete_right_adjoint` (:271), so it is indeed never instantiated at Id and the coslice statement is nowhere written. Registered in _CoqProject. See problems[] — the file's own titles and Construction/Comma.v:100 assert the creation fact the code does not prove."
+    }
+  },
+  {
+    "id": "maclane:V.1:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "CompHaus ⟶ Set creates limits",
+      "compact Hausdorff spaces as a full subcategory of Top",
+      "Top / topological space / continuous map",
+      "Tychonoff product, closed subspace of a product",
+      "algebras of the ultrafilter monad (Manes) = compact Hausdorff spaces"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'CompHaus' --include='*.v' . → 0 hits",
+      "grep -rniE 'compact hausdorff' --include='*.v' . → 1 hit, prose only: Theory/Monad.v:65-66 'the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces (Manes …)'",
+      "grep -rniE 'ultrafilter' --include='*.v' . → 2 hits, prose only (Theory/Monad.v:65, Theory/Kan/Extension.v:39,86)",
+      "grep -rniE 'topolog|open set|Sierpinski|Tychonoff' --include='*.v' . → no category of topological spaces; topology-word hits are Grothendieck topologies in Theory/Sheaf.v and historical prose",
+      "grep -rniE 'creates limits|CreatesLimits' --include='*.v' . → 0 hits; the creation-of-limits notion itself is missing (see maclane:V.1:def3)",
+      "ls Instance/ → no Instance/Top.v and no topological instance of any kind"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found nothing: `rg -i 'CompHaus|Hausdorff|ultrafilter|Tychonoff|topological space'` → only the two prose mentions the record names (Theory/Monad.v on Manes' ultrafilter-monad theorem, and Theory/Kan/Extension.v). Triply blocked: no Top and no CompHaus (see construction3), no creates-limits notion (see def3), and no limits in Sets to create along (see thm1). ABSENT is correct and the record correctly avoids OUT_OF_SCOPE."
+    }
+  }
+]

@@ -1,0 +1,469 @@
+[
+  {
+    "id": "riehl:1.1:def-endomorphism",
+    "classification": "ABSENT",
+    "aliases": [
+      "endomorphism",
+      "automorphism",
+      "self-map / loop / endoarrow (f : x ~> x)",
+      "Endo, End(x), endomorphism monoid",
+      "Aut(x), automorphism group, self-isomorphism (x ≅ x)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Endomorphism|endomorphism|Automorphism|automorphism' --include='*.v' . — 60+ hits, ALL of them prose inside comments/headers (Theory/Morphisms.v:20 'An endomorphism `f : x ~> x` is idempotent when...', Theory/WeaklyInitial.v, Construction/Indexed.v, Theory/Multicategory/Endomorphism.v header). No Definition/Class/Record named Endomorphism or Automorphism anywhere.",
+      "grep -rn 'Definition Endomorphism|Class Endomorphism|Definition Automorphism|Class Automorphism|Notation \"End|Aut(' --include='*.v' . — 0 hits.",
+      "grep -rn 'Endo\\b|Endo_|Definition Aut|AutGroup' --include='*.v' . — only Theory/WeaklyInitial.v:98 `set (Endo := fun _ : (P0 ~> P0) => P0)`, a local index set inside the Freyd construction, not a definition of the notion.",
+      "grep -rn 'x ~> x|a ~> a|c ~> c' --include='*.v' . restricted to Definition/Class/Lemma/Record lines — the endomorphism SHAPE is used as an unnamed type by Theory/Morphisms.v:22 `Class Idempotent \\`(f : x ~> x)` and :32 `Class Involutive \\`(f : x ~> x)`, but neither names or defines 'endomorphism', and no class restricts an Isomorphism to x ≅ x.",
+      "Theory/Multicategory/Endomorphism.v is the endomorphism OPERAD (n-ary X^n ~> X), a different notion; grep -n of its assertions confirms no unary endomorphism definition.",
+      "No endomorphism monoid / automorphism group is constructed: grep -rn 'Definition Mat|hom x x' and the CLAUDE.md Key Files index (checked, then verified by whole-tree grep as required) show nothing."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass ran BEFORE opening the coverage file and reached the same result by an independent route: `rg -ni -g '*.v' 'endomorphism' -l` (20 files) and `rg -ni 'automorphism' -l` (8 files) return prose-only hits in comments/headers; no Definition/Class/Record/Notation named Endomorphism, Automorphism, End(-) or Aut(-) exists. My blind lean was PARTIAL rather than ABSENT, on the ground that the SHAPE is in-tree and load-bearing: Theory/Morphisms.v:22 `Class Idempotent `(f : x ~> x)` and :32 `Class Involutive `(f : x ~> x)` are endomorphism-typed, and Theory/Isomorphism.v:149 `Program Instance iso_id {x : C} : x ≅ x` is literally an automorphism. I settled on CONFIRMED because the item IS the naming: Riehl adds no content beyond 'domain equals codomain' plus 'endomorphism that is an isomorphism', and the classifier's negative log already discloses the unnamed-shape usage honestly (log entry 4). Consistency check against the sibling records holds: def12 (groupoid) is PARTIAL because a groupoid OBJECT is constructed while only the predicate is missing, whereas here nothing at all is named. Scope note for Phase E: any issue arising from this record is naming + derived API only (End(x) as a monoid, Aut(x) as a group) — the bare notion needs no formalization."
+    }
+  },
+  {
+    "id": "riehl:1.1:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "isomorphisms in Set are the bijections",
+      "bijective_is_iso / iso iff bijection / injective + surjective",
+      "homeomorphism (Top), homotopy equivalence (Htpy)",
+      "bijective group/ring/module homomorphism is an isomorphism",
+      "in a poset the only isomorphisms are identities (thin skeletal category)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 400,
+        "symbol": "bijective_is_iso",
+        "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h."
+      }
+    ],
+    "statement_record": {
+      "book": "Isomorphisms are identified concretely in five families: (i) in Set exactly the bijections; (ii) in Group/Ring/Field/R-Mod exactly the bijective homomorphisms; (iii) in Top exactly the homeomorphisms (strictly stronger than bijective continuous maps); (iv) in Htpy exactly the homotopy equivalences; (v) in a poset only the identities, by antisymmetry.",
+      "intree": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h.",
+      "strength_comparison": "intree-weaker: only clause (i), and only ONE direction of it. The library proves bijective ⇒ iso in Sets (setoids, so 'surjective' is the split/choice-carrying form `∀ b, ∃ a, h a ≈ b` in Type); the converse iso ⇒ bijective is nowhere stated (the companion `surjectivity_is_epic` at Instance/Sets.v:429 is explicitly abandoned mid-proof and never enters the environment). Clauses (ii)–(iv) have no carrier at all — the library has no Group/Ring/Field/R-Mod/Top/Htpy categories. Clause (v) appears ONLY as prose in the Instance/Poset.v:19-21 header ('it only makes the resulting thin category skeletal, so that isomorphic objects are equal'), never as a lemma; Instance/Poset.v's `Poset` definition discards the antisymmetry argument entirely (`Poset P H := Proset P`)."
+    },
+    "gap": "Only Riehl clause (i) is touched, and only in the direction bijective ⇒ iso, for setoids rather than sets. Missing: (a) the converse iso ⇒ injective ∧ surjective in Sets; (b) clauses (ii)/(iii)/(iv) entirely — no Group, Ring, Field, R-Mod, Top or Htpy category exists in-tree (grep over `Definition Top\\b|Definition Ring\\b|Definition Field\\b|Definition Vect|Definition Grp\\b` returns nothing categorical); (c) clause (v) — 'in a poset every isomorphism is an identity' is asserted only in a comment in Instance/Poset.v, with no lemma consuming the `Antisymmetric` hypothesis that `Poset` takes.",
+    "negative_search_log": [
+      "grep -rn 'injective|surjective|bijective' --include='*.v' . filtered to assertion lines — only Instance/Sets.v:400 bijective_is_iso, Instance/FinSet/Classifier.v:335 finset_monic_iff_injective (monos, not isos), and lambda/comma-category lemmas.",
+      "grep -rn 'Isomorphism|≅' Instance/Coq.v Instance/Ens.v Instance/Rel.v Instance/CMon.v — no iso-characterization lemma in any concrete instance beyond Sets.",
+      "grep -rn 'Antisymmetric|antisym' --include='*.v' . — the hypothesis is taken by Instance/Poset.v:117 and discharged in Test/Poset.v, but is never used to prove anything about isomorphisms."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Evidence opened and checked. Instance/Sets.v:400 is verbatim `Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h.` — quote accurate, line exact. The `surjectivity_is_epic` claim was verified to the letter: Instance/Sets.v:429 opens that lemma and Instance/Sets.v:476 ends it with `Abort.`, so it genuinely does not enter the environment, exactly as the record and the file's own comment say. Instance/Poset.v:116-117 confirmed: `Definition Poset {C} `{R} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P.` — the antisymmetry argument is taken and never used, so clause (v) really is prose-only (Instance/Poset.v:17-21). Blind confirmation of the absent clauses: `rg -ni 'topological space|Definition Top\\b|homeomorph|homotopy equiv'` finds no category of spaces; Instance/ contains no Group/Ring/Field/R-Mod category (only CMon, commutative monoids). ONE REFINEMENT to the gap statement, which does not change the classification: the converse iso ⇒ bijective is 'nowhere stated' as the record says, but it is closer to hand than the wording implies — `iso_to_monic` (Theory/Isomorphism.v:264) composed with the iff `injectivity_is_monic` (Instance/Sets.v:369) already gives iso ⇒ injective in Sets, and surjectivity follows from `from`/`iso_to_from` in one line. So gap (a) is a two-line derivation, not missing machinery; gaps (b) and (c) are the real content."
+    }
+  },
+  {
+    "id": "riehl:1.1:def12",
+    "classification": "PARTIAL",
+    "aliases": [
+      "groupoid",
+      "category in which every morphism is an isomorphism / invertible",
+      "IsGroupoid predicate, all-isos category",
+      "core / maximal subgroupoid (the canonical example)",
+      "Grpd, (1-)groupoid, one-object case = group"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Groupoid.v",
+        "line": 103,
+        "symbol": "Groupoid",
+        "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.1.12: a groupoid is a category in which every morphism is an isomorphism.",
+      "intree": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; ... id := @iso_id C; compose := @iso_compose C |}.",
+      "strength_comparison": "intree-weaker: the library never states the DEFINING PREDICATE. It supplies one canonical groupoid-former — the core of a category, whose hom-type is literally `@Isomorphism C x y` — but there is no `Class Groupoid (C : Category)` / `IsGroupoid` asserting 'every morphism of C is an isomorphism', and no lemma asserting that `Groupoid C` satisfies such a condition (i.e. that each of its morphisms is invertible in it). Consequently nothing in-tree can say of an arbitrary category that it is or is not a groupoid, which is exactly what Riehl's definition is for (it is the hypothesis of Example 1.1.13 and the conclusion of Lemma 1.1.14)."
+    },
+    "gap": "The predicate is missing. Present: the core construction `Groupoid C` (Construction/Groupoid.v:103), built from Theory/Isomorphism.v's `iso_id`/`iso_sym`/`iso_compose`. Absent: any `Class`/`Definition` of the form `∀ x y (f : x ~> y), IsIsomorphism f` characterising a category as a groupoid; and the derived fact that `Groupoid C` (or `Instance/One.v`'s `_1`, or a `DiscreteCat`) meets it.",
+    "negative_search_log": [
+      "grep -rn 'Class Groupoid|Record Groupoid|Definition IsGroupoid|Class IsGroupoid' --include='*.v' . — 0 hits.",
+      "grep -rn 'Groupoid' --include='*.v' . — 11 hits total; the only assertion is Construction/Groupoid.v:103, the rest are header prose (Theory/Isomorphism.v:91) or downstream uses (Construction/Free/Quiver.v:9 as an import, Structure/UniversalProperty.v:242-249 computing inside `Groupoid (Fun C Sets)`).",
+      "grep -rn '∀ .*IsIsomorphism|forall .*IsIsomorphism|every morphism|is_iso' --include='*.v' . — the phrase 'every morphism is an isomorphism' occurs only in the Construction/Groupoid.v:13 comment; no class field quantifies IsIsomorphism over all homs of a category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "This record survives the sharpest trap in the batch — SAME-NAME-WEAKER-STATEMENT — and the classifier caught it unaided: in-tree `Groupoid` is NOT Riehl's groupoid predicate but the core construction. Verified independently: Construction/Groupoid.v is 109 lines total, its only assertion is the `Program Definition Groupoid (C : Category) : Category` at line 103 (quote exact, including `hom := @Isomorphism C`), and my blind `rg -n 'Groupoid' -g '*.v'` over the whole tree returns 4 non-self files (Structure/UniversalProperty.v:11,242,248,249; Theory/Isomorphism.v:91,93,97; Construction/Free/Quiver.v:9) — all imports, prose, or computations INSIDE `Groupoid (Fun C Sets)`, never a predicate. No `Class Groupoid`, `IsGroupoid`, or field of the form `∀ x y (f : x ~> y), IsIsomorphism f` exists anywhere. Registration checked: Construction/Groupoid.v is _CoqProject line 53. PARTIAL rather than ABSENT is the right call because a groupoid is genuinely constructed in-tree even though the defining property is never stated; the strength_comparison says exactly that."
+    }
+  },
+  {
+    "id": "riehl:1.1:example13",
+    "classification": "ABSENT",
+    "aliases": [
+      "a group is a one-object groupoid",
+      "BG, delooping of a group/monoid, classifying category",
+      "one-object category whose endomorphisms are the group elements",
+      "fundamental groupoid Π₁X, path groupoid",
+      "endpoint-preserving homotopy classes of paths"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'one-object|one object|single object|delooping|Delooping|BG\\b' --include='*.v' . — 30 hits, all prose. The only DELOOPING assertion in-tree is Theory/Bicategory/OneObject.v (a monoidal category as a one-object BICATEGORY), one categorical level above the group ⇒ one-object-category statement, and it deloops a monoidal category, not a group.",
+      "grep -rn 'Definition BG|Delooping|deloop' --include='*.v' . — 11 hits, all comments (Theory/Functor.v:68 'a functor from a one-object category BG to vector spaces...', Theory/Bicategory/OneObject.v:13-16 headers).",
+      "grep -rn ': Category :=' --include='*.v' . (full enumeration of every category construction in the tree, ~60 results) — no construction takes a group or monoid to a category. Nearest: Instance/Proset.v (preorder ⇒ thin category), Instance/Discrete.v (set ⇒ discrete category), Construction/Cayley.v (Cayley/difference-list reassociation of a given C), Theory/Metacategory.v:261 FromArrows.",
+      "grep -rn 'Monoid\\b' Construction/ Instance/ Theory/ filtered to Category-producing lines — Theory/Algebra/Monoid/Hom.v:83 `Mon : Category` is the category OF internal monoids, not the one-object category OF a monoid.",
+      "grep -rn 'Group' Instance/ Construction/ Structure/ Theory/ — the only `Group` is Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq`, a Lawvere-style equational algebra; Structure/Group.v is a group OBJECT in a cartesian category. Neither is delooped.",
+      "grep -rni 'fundamental_groupoid|FundamentalGroupoid|Pi1|homotopy class' --include='*.v' . — 25 hits, none relevant: Construction/Span/Category.v `pi1` is a pullback projection, Structure/Regular/Factorization.v `pi1`/`pi2` are cover projections, Structure/Monoid.v:59 mentions homotopy classes only in prose. The fundamental groupoid appears in-tree exclusively in the Construction/Groupoid.v:58 background essay.",
+      "grep -rn 'Definition Top\\b|Definition Htpy' --include='*.v' . — 0 hits; there is no category of spaces, so Π₁ has no domain."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reproduced the negative result independently and found no counterpart the classifier missed. `rg -ni 'one.object|delooping|deloop'` returns 30 prose hits; the only delooping ASSERTION in-tree is Theory/Bicategory/OneObject.v, which deloops a MONOIDAL CATEGORY into a bicategory — one categorical level above 'a group is a one-object category', as the record states. I re-verified the three near-miss citations: Instance/Comp.v:382 `Definition Group := Algebra GroupOp GroupEq` (an equational algebra, not a category), Theory/Algebra/Monoid/Hom.v:83 `Program Definition Mon : Category` (the category OF monoid objects, not the category OF a monoid), Theory/Metacategory.v:261 `Program Definition FromArrows (M : Metacategory) : Category` (arrows-only presentation) — none is a delooping. `rg -ni 'fundamental groupoid'` hits only the Construction/Groupoid.v background essay (lines 58, 81); there is no Top, hence no domain for Π₁. One degenerate near-instance the record does not mention and which does NOT change the verdict: Instance/One.v's terminal category `_1` is the delooping of the trivial monoid, i.e. B(1) — too degenerate to witness the example."
+    }
+  },
+  {
+    "id": "riehl:1.1:def-subcategory",
+    "classification": "PRESENT",
+    "aliases": [
+      "subcategory",
+      "sub-collection of objects and morphisms closed under id and composition",
+      "Subcategory record / Sub / inclusion functor Incl",
+      "full subcategory, wide (lluf) subcategory, replete subcategory",
+      "subcategory as a faithful functor into C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 31,
+        "symbol": "Subcategory",
+        "intree_statement": "Record Subcategory := { sobj : C → Type; shom {x y : C} : sobj x → sobj y → (x ~> y) → Type; scomp {x y z} (ox : sobj x) (oy : sobj y) (oz : sobj z) {f : y ~> z} {g : x ~> y} : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid {x : C} (ox : sobj x) : shom ox ox (@id C x) }."
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 50,
+        "symbol": "Sub",
+        "intree_statement": "Program Definition Sub : Category := {| obj := { x : C & sobj S x }; hom := fun x y => { f : `1 x ~> `1 y & shom S `2 x `2 y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; sid S `2 x); compose := fun x y z f g => (`1 f ∘ `1 g; scomp S `2 x `2 y `2 z `2 f `2 g) |}."
+      },
+      {
+        "file": "Construction/Subcategory.v",
+        "line": 59,
+        "symbol": "Incl",
+        "intree_statement": "Program Instance Incl : Sub ⟶ C := { fobj := fun x => `1 x; fmap := fun x y f => `1 f }."
+      }
+    ],
+    "statement_record": {
+      "book": "A subcategory D of C is a subcollection of the objects and a subcollection of the morphisms of C closed under: containing the domain and codomain of each of its morphisms, containing the identity of each of its objects, and containing the composite of any composable pair of its morphisms.",
+      "intree": "Record Subcategory := { sobj : C → Type; shom {x y : C} : sobj x → sobj y → (x ~> y) → Type; scomp ... : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid {x : C} (ox : sobj x) : shom ox ox (@id C x) }.",
+      "strength_comparison": "same, up to a presentational reindexing the file itself discloses: `shom` is indexed by ALREADY-SELECTED objects, so Riehl's domain/codomain closure condition holds by construction rather than being a field (header, Construction/Subcategory.v:20-23). The remaining two closure conditions are `sid` and `scomp` verbatim. The library additionally delivers what Riehl only implies — that D is itself a category (`Sub`) and that the inclusion is a functor (`Incl`, always faithful), plus the `Full`/`Wide`/`Replete` refinements Riehl introduces later. Sub-collections are Type-valued (proof-relevant selections) rather than subsets, the standard setoid-library encoding."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items opened and matched verbatim: Construction/Subcategory.v:31 `Record Subcategory` (fields sobj/shom/scomp/sid exactly as quoted), :50 `Program Definition Sub : Category`, :59 `Program Instance Incl : Sub ⟶ C`. Registration checked: Construction/Subcategory.v is _CoqProject line 71. The 'closure by construction' reading of the domain/codomain condition is the file's own disclosure at lines 20-23 and is correct — `shom` is indexed by `sobj x`/`sobj y` witnesses, so a selected morphism cannot escape the selected objects. The Full/Wide/Replete refinements are real (lines 69, 87, 93). Definition-without-required-API check: the API is genuinely exercised elsewhere — `Sub`/`Build_Subcategory` are instantiated at Theory/Sheaf/Category.v:74,81, Theory/Lawvere/Model.v:68,77, Structure/Binoidal/Central.v, Structure/Monoidal/CopyDiscard/Deterministic.v — so this is not a dead definition. ONE MINOR OVERSTATEMENT in statement_record, not affecting the verdict: it says the inclusion is '`Incl`, always faithful', but `Faithful Incl` is never proved in-tree (only `Full_Implies_Full_Functor` at :74). The faithfulness claim appears solely as header prose at Construction/Subcategory.v:24-26, where it is mathematically correct (the hom-setoid of `Sub` is `\\`1 f ≈ \\`1 g` by definition, so it is a one-liner) but is not a theorem."
+    }
+  },
+  {
+    "id": "riehl:1.1:lem14",
+    "classification": "PARTIAL",
+    "aliases": [
+      "maximal subgroupoid",
+      "core of a category, core groupoid",
+      "wide subcategory of isomorphisms",
+      "Fin_iso / the isos form a subcategory",
+      "underlying-groupoid functor, iso-classes"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Groupoid.v",
+        "line": 103,
+        "symbol": "Groupoid",
+        "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Lemma 1.1.14: every category C contains a maximal subgroupoid — the subcategory containing all the objects of C and exactly those morphisms of C that are isomorphisms.",
+      "intree": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; ... id := @iso_id C; compose := @iso_compose C |}.",
+      "strength_comparison": "intree-weaker in three specific ways. (1) NOT A SUBCATEGORY: `Groupoid C` is a free-standing category whose hom-TYPE is `@Isomorphism C x y` (a packaged to/from/laws record), not a `Subcategory C` in the sense of Construction/Subcategory.v's record — its morphisms are not C-morphisms carrying a property, and there is no inclusion functor `Groupoid C ⟶ C` anywhere in the file (which ends at line 109). Contrast Structure/Binoidal/Central.v:239 `Centre_wide : Wide C CentralSub` and Structure/Monoidal/CopyDiscard/Deterministic.v:583 `Det_wide`, which DO instantiate the Subcategory record and prove wideness — the same pattern is simply never applied to the isomorphisms. (2) NOT PROVED A GROUPOID: nothing asserts every morphism of `Groupoid C` is invertible in it (there is no groupoid predicate at all — see riehl:1.1:def12). (3) NOT PROVED MAXIMAL: no statement compares it with an arbitrary subgroupoid of C. What IS present is the substantive closure content — the isomorphisms contain the identities (`iso_id`) and are closed under composition (`iso_compose`), assembled into a lawful category."
+    },
+    "gap": "Missing: (a) a `Subcategory C` instance whose `sobj` is everything and whose `shom` selects the isomorphisms, together with the `Wide` proof and the faithful inclusion into C — the machinery for this exists (Construction/Subcategory.v `Subcategory`/`Sub`/`Incl`/`Wide`) and is used for the centre and for Det, but not for isos; (b) the maximality clause (any subcategory of C all of whose morphisms are C-isomorphisms factors through it); (c) the illustration Fin_iso (FinSet and bijections) — Instance/FinSet.v proves nothing about its isomorphisms.",
+    "negative_search_log": [
+      "grep -rn 'Groupoid' --include='*.v' . — no functor out of `Groupoid C`, no Subcategory instance built from it.",
+      "grep -rn 'Wide|wide subcategory' Structure/ Construction/ Theory/ filtered to assertions — only Structure/Binoidal/Central.v:239 Centre_wide and Structure/Monoidal/CopyDiscard/Deterministic.v:583 Det_wide; neither concerns isomorphisms.",
+      "grep -rn 'maximal|maximality' --include='*.v' . in Construction/Groupoid.v — the word appears only in the file's header prose (lines 7, 14)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "The three-part strength_comparison is accurate and was checked point by point. (1) Verified that Construction/Groupoid.v ends at line 109 with the `Program Definition` and contains NO functor `Groupoid C ⟶ C` and no `Subcategory` instance — my blind `rg -n 'Groupoid' -g '*.v'` over the whole tree independently found no consumer that treats it as a subcategory. (2)(3) Verified there is no groupoid predicate and no maximality statement anywhere. The contrast citations are both real and land on the right lines: Structure/Binoidal/Central.v:239 `Lemma Centre_wide : Wide C CentralSub.` and Structure/Monoidal/CopyDiscard/Deterministic.v:583 `Lemma Det_wide : Wide C DeterministicSub.` — so the record's claim that the Wide/Subcategory pattern exists and is simply never applied to the isomorphisms is exactly right, and that makes the gap actionable rather than speculative. The gap's clause (c) also checks out: Instance/FinSet.v proves nothing about its isomorphisms (the only iso-adjacent FinSet result is `finset_monic_iff_injective` at Instance/FinSet/Classifier.v:335, about monos)."
+    }
+  },
+  {
+    "id": "riehl:1.1:exi",
+    "classification": "PRESENT",
+    "aliases": [
+      "uniqueness of two-sided inverses",
+      "left inverse equals right inverse",
+      "comp_inverse_unique, inverse_unique, iso_unique",
+      "a morphism with a section and a retraction is an isomorphism",
+      "Eilenberg–Mac Lane Lemma 1.4"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 301,
+        "symbol": "comp_inverse_unique",
+        "intree_statement": "Lemma comp_inverse_unique {C : Category} {x y : C} (f : x ~> y) (g g' : y ~> x) : f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 392,
+        "symbol": "Monic_Retraction_Iso",
+        "intree_statement": "Program Instance Monic_Retraction_Iso {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) : x ≅ y := { to := f; from := retract }."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 317,
+        "symbol": "to_equiv_implies_iso_equiv",
+        "intree_statement": "Proposition to_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) : to f ≈ to g -> f ≈ g."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.1.i: for f : x → y, (i) if there exist g, h : y → x with gf = 1_x and fh = 1_y then g = h and f is an isomorphism; (ii) a morphism has at most one inverse isomorphism.",
+      "intree": "Lemma comp_inverse_unique {C : Category} {x y : C} (f : x ~> y) (g g' : y ~> x) : f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'.",
+      "strength_comparison": "same. `comp_inverse_unique` is exactly part (i)'s conclusion g ≈ h (setoid ≈ for the book's =), for the same hypotheses (one right inverse, one left inverse) and stated on bare morphisms without iso packaging; the file header at Theory/Isomorphism.v:52-57 identifies it as Eilenberg–Mac Lane's Lemma 1.4 (line range corrected by Phase D; the record originally cited :81-83, which is the unrelated core/maximal-subgroupoid passage), the source of this exercise. The trailing 'and f is an isomorphism' is the one-step rewrite of g' ∘ f ≈ id along g ≈ g', and is independently available in packaged form as `Monic_Retraction_Iso` (a split epi that is monic is an iso) composed with Theory/Morphisms.v:179 `sections_are_monic : Section f → Monic f`. Part (ii) — at most one inverse — is `comp_inverse_unique` specialised to two two-sided inverses, and is also delivered in iso-packaged form by `to_equiv_implies_iso_equiv`: an isomorphism is determined by its `to` component, i.e. the `from` component is unique."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items verified verbatim at the cited lines: Theory/Isomorphism.v:301 `comp_inverse_unique`, :317 `to_equiv_implies_iso_equiv`, :392 `Monic_Retraction_Iso`. Hypothesis-matching checked against the book rather than assumed: Riehl's `gf = 1_x` and `fh = 1_y` map onto the in-tree `g' ∘ f ≈ id[x]` and `f ∘ g ≈ id[y]`, and the conclusion `g ≈ g'` is Riehl's `g = h` under the setoid rephrasing — an exact match, no special-casing. The 'and f is an isomorphism' tail is not a standalone lemma, but the record's proposed route is real and I checked it types: Theory/Morphisms.v:179 `sections_are_monic : Section f → Monic f` feeds `Monic_Retraction_Iso`, giving `x ≅ y` from the two one-sided inverses. CITATION CORRECTED IN PLACE: strength_comparison cited the Eilenberg–Mac Lane Lemma 1.4 attribution as 'Theory/Isomorphism.v:81-83'; it is actually at lines 52-57 ('Eilenberg and Mac Lane (1945) ... prove as their Lemma 1.4 that its left and right inverses coincide and are unique ... [comp_inverse_unique] is Lemma 1.4'). Lines 81-83 are the unrelated core/maximal-subgroupoid passage. The attribution itself is correct; only the line range was wrong, and I have rewritten it."
+    }
+  },
+  {
+    "id": "riehl:1.1:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the isomorphisms of C form a subcategory",
+      "core groupoid / maximal subgroupoid",
+      "isos closed under identity and composition",
+      "wide subcategory of invertible morphisms",
+      "underlying groupoid of a category"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Groupoid.v",
+        "line": 103,
+        "symbol": "Groupoid",
+        "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 166,
+        "symbol": "iso_compose",
+        "intree_statement": "Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {| to := to f ∘ to g; from := from g ∘ from f |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.1.ii: show that the collection of isomorphisms of a category C defines a subcategory of C — the maximal subgroupoid inside C (this is the deferred proof of Lemma 1.1.14).",
+      "intree": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; ... id := @iso_id C; compose := @iso_compose C |}.  /  Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {| to := to f ∘ to g; from := from g ∘ from f |}.",
+      "strength_comparison": "intree-weaker. The mathematical core of the exercise — identities are isomorphisms (`iso_id`, Theory/Isomorphism.v:149 — line corrected by Phase D from :152, which is its closing brace) and isomorphisms compose (`iso_compose`, :166) — is fully in-tree, and the two are assembled into a lawful category by `Groupoid C`. But the exercise's actual assertion, 'defines a SUBCATEGORY of C', is not made: `Groupoid C` has hom-type `@Isomorphism C x y`, a record of data, not a sub-collection of `x ~{C}~> y`, and no `Subcategory C` instance, no `Wide` proof and no inclusion functor `Groupoid C ⟶ C` exists. The 'maximal subgroupoid' clause is likewise unstated (see riehl:1.1:lem14)."
+    },
+    "gap": "Missing: the packaging of the isomorphisms as a `Subcategory C` in the sense of Construction/Subcategory.v (an `sobj`/`shom` pair with `sid` from `iso_id` and `scomp` from `iso_compose`), the `Wide` witness, and the resulting faithful inclusion into C. Also missing: the identification of that subcategory with `Groupoid C`, and the maximality clause. The closure facts themselves (iso_id, iso_sym, iso_compose) are all present. Phase D note: this gap is identical to the one recorded for riehl:1.1:lem14 (the isomorphisms are never packaged as a Subcategory C, never shown Wide, and no inclusion functor exists); the two items should share one issue.",
+    "negative_search_log": [
+      "grep -rn 'Groupoid' --include='*.v' . — 11 hits; no Subcategory instance, no inclusion functor.",
+      "grep -rn 'Wide|Definition Full|Replete' Construction/Subcategory.v and users — the Subcategory record is instantiated in-tree only for the centre of a binoidal category (Structure/Binoidal/Central.v), deterministic morphisms (Structure/Monoidal/CopyDiscard/Deterministic.v), sheaves (Theory/Sheaf/Category.v:81), Lawvere models (Theory/Lawvere/Model.v:77) and localization (Construction/Localization.v) — never for isomorphisms."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently reached PARTIAL on the same grounds before reading the file. Evidence verified: Theory/Isomorphism.v:166 `Program Definition iso_compose` (quote exact). The negative claim was re-run blind: the `Subcategory` record is instantiated in-tree at Theory/Sheaf/Category.v:74, Theory/Lawvere/Model.v:68, Structure/Binoidal/Central.v, Structure/Monoidal/CopyDiscard/Deterministic.v and Construction/Localization.v — never for the isomorphisms — so the record's list is accurate. The exercise's real content (isos contain identities, isos compose) is present and correctly credited; what is missing is precisely the assertion the exercise makes, that they form a SUBCATEGORY of C. CITATION CORRECTED IN PLACE: `iso_id` was cited as Theory/Isomorphism.v:152; the `#[export] Program Instance iso_id {x : C} : x ≅ x := {` header is at line 149 (152 is its closing brace). Corrected. Note this record and riehl:1.1:lem14 have the same underlying gap, which Phase E should fold into one issue rather than two."
+    }
+  },
+  {
+    "id": "riehl:1.1:exiii",
+    "classification": "PRESENT",
+    "aliases": [
+      "slice category C/c, over category",
+      "coslice category c/C, under category",
+      "objects are morphisms into/out of c, morphisms are commuting triangles",
+      "comma category (Id ↓ c) and (c ↓ Id)",
+      "arrow category over an object"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 123,
+        "symbol": "Slice",
+        "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x; ... |}."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 140,
+        "symbol": "Comma_Slice",
+        "intree_statement": "Program Instance Comma_Slice `(C : Category) `(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c)) := { to := {| fobj := _; fmap := _ |}; from := {| fobj := _; fmap := _ |} }."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.1.iii: for a category C and object c, show that (i) there is a category c/C whose objects are morphisms f : c → x and whose morphisms f → g are h : x → y with g = hf; and (ii) there is a category C/c whose objects are morphisms f : x → c and whose morphisms f → g are h : x → y with f = gh. These are the slice categories under and over c.",
+      "intree": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : `1 x ~> `1 y, `2 y ∘ f ≈ `2 x; ... |}  and  Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : `1 x ~> `1 y, `2 y ≈ f ∘ `2 x; ... |}.",
+      "strength_comparison": "same, and both clauses are covered. `Slice C c` is Riehl's C/c (objects a ~> c, a morphism being f with `2 y ∘ f ≈ `2 x — the book's f = gh) and `Coslice C c` is Riehl's c/C (objects c ~> a, morphism condition `2 y ≈ f ∘ `2 x — the book's g = hf); building the category is exactly what the exercise asks. Equality of triangles is the hom-setoid ≈, the faithful setoid rephrasing, and hom-equality of slice morphisms is proof-irrelevant in the commuting witness (`equiv f g := `1 f ≈ `1 g`). intree-stronger in one respect: `Comma_Slice`/`Comma_Coslice` additionally prove the isomorphism in Cat with the comma categories (Id ↓ =(c)) and (=(c) ↓ Id), which the book only asserts later."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items verified verbatim at Construction/Slice.v:123 (`Slice`), :169 (`Coslice`), :140 (`Comma_Slice`). Registration checked: Construction/Slice.v is _CoqProject line 68. I re-derived the clause-to-construction mapping independently rather than trusting it, because the over/under handedness is the obvious place to get this wrong: Riehl's C/c (over) has objects f : x → c and morphisms h with f = gh, matching `Slice`'s `hom x y := ∃ f, \\`2 y ∘ f ≈ \\`2 x`; Riehl's c/C (under) has objects f : c → x and morphisms h with g = hf, matching `Coslice`'s `\\`2 y ≈ f ∘ \\`2 x`. Both clauses covered, orientation correct. The intree-stronger claim is real: `Comma_Slice`/`Comma_Coslice` prove `C ̸ c ≅[Cat] (Id ↓ =(c))` and `c ̸co C ≅[Cat] (=(c) ↓ Id)`, which the exercise does not ask for."
+    }
+  },
+  {
+    "id": "riehl:1.1:exiv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "congruence on a category, hom-congruence",
+      "quotient category C/~",
+      "equivalence relation on hom-sets respected by pre- and postcomposition",
+      "homotopy is a congruence on Top; Htpy as a quotient of Top",
+      "identifying parallel morphisms / coarsening the hom-setoid"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Quotient.v",
+        "line": 254,
+        "symbol": "Quotient",
+        "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; setoid_equiv := Quotient_equivalence x y |}; id := @id C; compose := @compose C; compose_respects := fun x y z f f' Hf g g' Hg => cong_comp Hf Hg; ... |}."
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 226,
+        "symbol": "HomCongruence",
+        "intree_statement": "Class HomCongruence {C : Category} (R : HomRel C) : Type := { cong_incl {x y} {f g : x ~> y} : f ≈ g → R x y f g; cong_sym ... ; cong_trans ... ; cong_comp {x y z} {f f' : y ~> z} {g g' : x ~> y} : R y z f f' → R x y g g' → R x z (f ∘ g) (f' ∘ g') }."
+      },
+      {
+        "file": "Construction/Quotient.v",
+        "line": 294,
+        "symbol": "QuotientProj",
+        "intree_statement": "Definition QuotientProj : C ⟶ Quotient C R := Build_Functor C (Quotient C R) (fun x => x) (fun x y f => f) (fun x y f g Hfg => cong_incl Hfg) (fun x => cong_refl (@id C x)) (fun x y z f g => cong_refl (f ∘ g))."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 1.1.iv: a congruence is an equivalence relation ~ on the hom-sets of a category respected by pre- and postcomposition (f ~ g implies hfk ~ hgk). (i) Show that for a congruence ~ on C there is a quotient category with the same objects as C and with morphisms the ~-classes of parallel C-morphisms. (ii) Prove that homotopy is a congruence on Top — if f, g : X → Y are homotopic and k : W → X, h : Y → Z are continuous, then hfk and hgk are homotopic — exhibiting Htpy as a quotient of Top.",
+      "intree": "Class HomCongruence {C : Category} (R : HomRel C) : Type := { cong_incl : f ≈ g → R x y f g; cong_sym; cong_trans; cong_comp : R y z f f' → R x y g g' → R x z (f ∘ g) (f' ∘ g') }.  Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; ... |}; ... |}.",
+      "strength_comparison": "Part (i): same, in the setoid idiom. The quotient does not literally form equivalence CLASSES — it keeps C's objects and morphisms and coarsens the hom-setoid's ≈ to R, which in a setoid library is the faithful rendering of 'morphisms are the ~-classes' (Construction/Quotient.v:250-253 documents exactly this). `cong_comp` is two-sided compatibility in one field and is equivalent to Riehl's `f ~ g ⇒ hfk ~ hgk` given reflexivity, which `cong_incl` supplies; `Quotient_equivalence` (:241) derives the equivalence-relation clause. intree-stronger on this clause: `QuotientProj` and a universal property are provided, which the exercise does not ask for. Part (ii): absent — the library has no Top and no homotopy relation, so 'homotopy is a congruence' and 'Htpy is a quotient of Top' have no carrier."
+    },
+    "gap": "Clause (ii) is entirely missing: there is no category of topological spaces and no homotopy relation in-tree, so neither 'homotopy is a congruence on Top' nor 'Htpy = Top/homotopy' can be stated. Clause (i) is fully covered by Construction/Quotient.v. Note also a presentational point that would matter to any consumer: `HomRel` is Prop-valued (`Definition HomRel (C : Category) := ∀ x y : C, (x ~> y) → (x ~> y) → Prop`), so a congruence carrying data (e.g. a chosen homotopy) does not fit the class as stated.",
+    "negative_search_log": [
+      "grep -rn 'Definition Top\\b|Definition Htpy' --include='*.v' . — 0 hits; no category of spaces exists.",
+      "grep -rni 'homotopy' --include='*.v' . — hits are background prose only (Construction/Groupoid.v:81 'groupoids model homotopy 1-types', Structure/Monoid.v:59, Theory/Isomorphism.v); no homotopy relation is defined on any hom-set.",
+      "grep -rn 'congruence' --include='*.v' . — Construction/Quotient.v is the generic development; Construction/PROP/Presentation.v and ColouredPROP use it for syntactic term congruences, never for a topological one."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items verified verbatim at Construction/Quotient.v:226 (`HomCongruence`), :254 (`Quotient`), :294 (`QuotientProj`). Registration checked: _CoqProject line 67. I verified the congruence-shape equivalence myself rather than accepting it: Riehl's two-sided condition `f ~ g ⇒ hfk ~ hgk` follows from `cong_comp` plus `cong_refl` (Construction/Quotient.v:236, itself derived from `cong_incl`), and conversely — so the single-field packaging is faithful, not weaker. `Quotient_equivalence` at :241 supplies the equivalence-relation clause. Blind search confirmed clause (ii) has no carrier: no Top, no homotopy relation on any hom-set. The record's extra observation that `HomRel` is Prop-valued is correct and worth keeping — it means a data-carrying congruence (a chosen homotopy) does not fit the class, which is exactly the obstruction a Top-side formalization would hit."
+    }
+  },
+  {
+    "id": "riehl:1.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "opposite category C^op",
+      "dual category, arrow-reversal",
+      "Opposite, op / unop, f^op",
+      "hom[C^op] x y := hom[C] y x with reversed composition",
+      "self-duality of the category axioms, (C^op)^op = C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Opposite.v",
+        "line": 106,
+        "symbol": "Opposite",
+        "intree_statement": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; homset := fun x y => @homset C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; compose_respects := fun x y z f g fg h i hi => @compose_respects C z y x h i hi f g fg; id_left := fun x y f => @id_right C y x f; id_right := fun x y f => @id_left C y x f; comp_assoc := fun x y z w f g h => @comp_assoc_sym C w z y x h g f; comp_assoc_sym := fun x y z w f g h => @comp_assoc C w z y x h g f |}."
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 126,
+        "symbol": "op_invol",
+        "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C."
+      }
+    ],
+    "statement_record": {
+      "book": "Definition 1.2.1: C^op has the same objects as C and one morphism f^op : Y → X for each f : X → Y of C, with identities id_X^op and composition f^op · g^op := (g · f)^op, defined exactly when g · f is; associativity and unitality hold precisely because they hold in C, so C^op carries the same information as C — the syntactic self-duality of the axioms.",
+      "intree": "Definition Opposite `(C : Category) : Category := {| obj := @obj C; hom := fun x y => @hom C y x; id := @id C; compose := fun _ _ _ f g => g ∘ f; id_left := fun x y f => @id_right C y x f; id_right := fun x y f => @id_left C y x f; comp_assoc := fun x y z w f g h => @comp_assoc_sym C w z y x h g f; ... |}.  Lemma op_invol {C : Category} : (C^op)^op = C.",
+      "strength_comparison": "intree-stronger. Every clause of the definition is present and each law is discharged by literally handing back C's own law with the arguments permuted — which is precisely Riehl's 'the axioms hold because they hold in C' made into the proof term (id_left := id_right, comp_assoc := comp_assoc_sym). Riehl's f ↦ f^op renaming is definitional here (hom[C^op] x y is convertible with hom[C] y x, with `op`/`unop` the identity on the underlying arrow); the library goes past the book by proving the involution STRICTLY, `op_invol : (C^op)^op = C` on the nose (=), where Riehl only claims C^op 'carries exactly the same information'. The header at :80-96 discusses this design fork against agda-unimath/1Lab/agda-categories."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence items verified verbatim at Construction/Opposite.v:106 (`Opposite`, all ten fields as quoted) and :126 (`op_invol : (C^op)^op = C`). Registration checked: _CoqProject line 61. The intree-stronger claim holds: each law is discharged by handing back C's own law with permuted arguments (`id_left := @id_right`, `comp_assoc := @comp_assoc_sym`), which is Riehl's 'the axioms hold because they hold in C' turned into the proof term, and the strict `=` involution goes past the book's informal 'carries the same information'. The header citation is accurate — Construction/Opposite.v:80-96 does contain the agda-unimath / 1Lab / agda-categories design-fork discussion. ONE OBSERVATION, deliberately NOT filed as a defect: the header at lines 19-20 says '(see op_invol, provable by [reflexivity])', but the proof at 127-131 is `unfold Opposite; simpl. destruct C; simpl. f_equal.` rather than `reflexivity`. Whether bare `reflexivity` closes it depends on kernel eta for the Category record, which I could not test (no coqc/rocq on PATH in this read-only pass, though Construction/Opposite.vo exists). Since `f_equal` fully closed the goal after `destruct C`, every field pair is convertible, so the comment is very likely true and the proof merely defensive — I did not want to file a defect I could not confirm. Flagged for a one-line check by anyone with the toolchain."
+    }
+  },
+  {
+    "id": "riehl:1.2:example2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Mat_R^op, category of matrices, opposite of a matrix category",
+      "opposite of a preorder / poset, reversed order, ω^op",
+      "(BG)^op ≅ B(G^op), opposite group G^op",
+      "right actions as left actions over the opposite group",
+      "op of a one-object category / delooping"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Mat_R|MatCat|Definition Mat' --include='*.v' . — 0 hits. grep -rn 'Mat\\b|Matrix|matrices' --include='*.v' . — 9 hits, all bibliographic (Rend. Sem. Mat. Fis. Milano, Mat. Sbornik) or prose (Functor/Hom/Yoneda.v:89, Theory/Equivalence.v:87 'the small category of natural numbers and matrices'). No matrix category is constructed, so clause (i) has no carrier.",
+      "grep -rn 'Proset|Poset' --include='*.v' . — Instance/Proset.v:33 `Proset (P : PreOrder R) : Category` and Instance/Poset.v:117 `Poset` exist, but nothing anywhere relates `(Proset P)^op` to the reversed preorder, and no lemma about opposites of thin categories exists. Clause (ii) unproved.",
+      "grep -rn 'Cochain|Omega\\^op' --include='*.v' . — Construction/Chain.v:78 `Cochain F : Omega^op ⟶ C := (@Chain (C^op) _ (F^op))^op` uses Omega^op, but asserts nothing about its generation by ... → 2 → 1 → 0 (Riehl's ω^op description).",
+      "grep -rn 'Definition BG|Delooping|deloop|one-object' --include='*.v' . — no delooping of a group/monoid into a category (see the riehl:1.1:example13 log), so (BG)^op ≅ B(G^op) has no carrier.",
+      "grep -rn 'opposite monoid|op_monoid|Monoid_op|opposite group|G\\^op' --include='*.v' . — Construction/Opposite/Monoidal.v supplies `Monoidal_op`, `Braided_op`, `Symmetric_op` and the comonoid/op-monoid transfers, which are about opposites of MONOIDAL STRUCTURE, not about the opposite of a group presented as a one-object category. Clause (iii) unproved.",
+      "grep -rn 'right action|left action' --include='*.v' . — no action categories, so the motivating remark of clause (iii) is also uncovered."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search reproduced every leg of the negative result. (i) No matrix category: `rg -ni 'matri' -l` returns 11 files, all bibliographic or prose. (ii) Instance/Proset.v:33 `Program Definition Proset {A} {R} (P : PreOrder R) : Category` exists and `Opposite` applies to it, but nothing relates `(Proset P)^op` to the reversed preorder — verified there is no lemma about opposites of thin categories anywhere. The Construction/Chain.v:78 citation is exact (`Definition Cochain {C} `{@Terminal C} (F : C ⟶ C) : Omega^op ⟶ C := (@Chain (C^op) _ (F^op))^op`) and indeed asserts nothing about ω^op's generation. (iii) No delooping, so (BG)^op ≅ B(G^op) has no carrier; the Construction/Opposite/Monoidal.v citation is correct — that file supplies `Monoidal_op` (:92), `Braided_op` (:148), `Symmetric_op` (:175) and the comonoid/op-monoid transfers, which are opposites of MONOIDAL STRUCTURE and not the opposite of a group-as-category. ABSENT is right: this item's three clauses are examples whose carriers (Mat_R, BG) do not exist, and clause (ii) is a statement never made."
+    }
+  },
+  {
+    "id": "riehl:1.2:lem3",
+    "classification": "ABSENT",
+    "aliases": [
+      "representable characterization of isomorphisms",
+      "f is iso iff postcomposition f_* : C(c,x) → C(c,y) is a bijection for all c",
+      "f is iso iff precomposition f^* : C(y,c) → C(x,c) is a bijection for all c",
+      "isomorphisms defined representably; Yoneda-style detection of isos",
+      "hom-functor reflects isomorphisms; conservativity of the Yoneda embedding"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'postcomposition|precomposition|post-composition|pre-composition|postcompose|precompose' --include='*.v' . filtered to assertions — 7 hits, none relevant: Theory/Coend/Fubini.v:355 `postcompose_cowedge`, Structure/SubobjectClassifier.v:108 `is_pullback_precompose_iso`, Structure/Limit/Weighted.v:73 `HomDiagram_precompose`. No lemma characterises invertibility by the induced hom-set maps.",
+      "grep -rn 'bijection|bijective' --include='*.v' . — 30 hits; the only iso-related assertion is Instance/Sets.v:400 `bijective_is_iso` (bijections in Sets are isos), which is a statement about ONE category, not the representable criterion for an arbitrary C.",
+      "grep -rni 'representably|representable characterization|iso_iff|iff.*IsIsomorphism' --include='*.v' . — 2 hits, both Construction/Reflective/Idempotent.v:39,132 `join_iso_iff_ret_M_iso` (a monad-specific equivalence), unrelated.",
+      "grep -n assertions in Functor/Hom.v and Functor/Hom/Yoneda.v — the nearest in-tree relatives are Yoneda_Full/Yoneda_Faithful (Functor/Hom.v:85,96), Yoneda_Embedding' (:109, the hom-set bijection induced by Curried_Hom), and Yoneda_Embedding / Covariant_Yoneda_Embedding (Functor/Hom/Yoneda.v:231,253, giving Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B). These characterise isomorphic OBJECTS via their representables; none states the morphism-level criterion Riehl proves.",
+      "grep -rn 'reflects isomorphism|ReflectsIsos|Conservative' --include='*.v' . — Theory/Functor.v:355 `FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y` and Theory/Equivalence/Limit.v:335 `ff_reflects_isos : ReflectsIsos F` are the generic conservativity results; applying them to Curried_Hom would DERIVE a form of the lemma, but the derivation is nowhere carried out and the three-way equivalence (i)⟺(ii)⟺(iii) is nowhere stated. Likewise Theory/Functor.v:227 `fobj_iso : Proper (Isomorphism ==> Isomorphism) fobj[F]` would give the easy direction at [Hom c,─] but is never so applied.",
+      "grep -rn 'Riehl' --include='*.v' . — 21 citations across the tree, none to §1.2 or to this lemma."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "This is the record where a missed counterpart would have been most costly, so I searched it hardest and blind: `rg -ni 'postcompos|precompos'`, `rg -ni 'biject'`, `rg -ni 'iff.*isomorphism|isomorphism.*iff'`, `rg -n 'hom .*≅|≅.*hom '`, plus a full read of the assertion lines of Functor/Hom.v and Functor/Hom/Yoneda.v. Nothing states the morphism-level criterion 'f is an isomorphism iff f_* (resp. f^*) is a bijection on every hom-set', in either direction, and the three-way equivalence is nowhere stated. Every near-miss the record lists is real and correctly characterized as a near-miss: Theory/Functor.v:227 `fobj_iso : Proper (Isomorphism ==> Isomorphism) fobj[F]` (preservation, not the criterion), Theory/Functor.v:355 `FullyFaithful : ∀ x y, F x ≅ F y → x ≅ y` and Theory/Equivalence/Limit.v:335 `ff_reflects_isos : ReflectsIsos F` (OBJECT-level conservativity), Functor/Hom.v:85/96/109 (`Yoneda_Faithful`, `Yoneda_Full`, `Yoneda_Embedding'` — the hom-set bijection induced by `Curried_Hom` on MORPHISMS OF C^op, a different bijection from Riehl's f_*), Functor/Hom/Yoneda.v:231/253. I additionally checked `Class ReflectsIsos` at Structure/Limit/Preservation.v:243 (`reflects_iso {x y} (f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f`) — this is the right SHAPE for the (ii)⇒(i) half, but it is never instantiated at `Curried_Hom`/`[Hom c,─]`, and Riehl's hypothesis is a bijection for EVERY c (a jointly-conservative family), which no in-tree class expresses. ABSENT confirmed. Phase E note: the derivation is genuinely short given `ReflectsIsos` and `fobj_iso`, so the issue is low-cost, and it is a natural prerequisite for the Yoneda-consequences later in Riehl §2."
+    }
+  }
+]

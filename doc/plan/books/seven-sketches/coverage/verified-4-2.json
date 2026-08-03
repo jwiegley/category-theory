@@ -1,0 +1,450 @@
+[
+  {
+    "id": "7sketches:4.3.2:ex4.32",
+    "classification": "PARTIAL",
+    "aliases": [
+      "associativity of profunctor (bimodule/distributor) composition, (Phi;Psi);Upsilon = Phi;(Psi;Upsilon)",
+      "prof_assoc_iso, the associator of the bicategory Prof",
+      "Fubini interchange / rebracketing of a double coend",
+      "comp_assoc of relational composition (V = Bool, discrete objects)",
+      "skeletality upgrading a two-sided inequality to an equality of hom-objects"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 722,
+        "symbol": "prof_assoc_iso",
+        "intree_statement": "Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R).  (Context {C D E FF : Category} (P : C ⇸ D) (Q : D ⇸ E) (R : E ⇸ FF); built from assoc_iso_family plus assoc_natural_form.)"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}.  — its comp_assoc obligation is exactly the STRICT associativity of the OR-of-ANDs composite."
+      },
+      {
+        "file": "Theory/Coend/Fubini.v",
+        "line": 449,
+        "symbol": "coend_fubini",
+        "intree_statement": "Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner) := {| to := fwd; from := bwd; iso_to_from := fubini_to_from; iso_from_to := fubini_from_to |}.  (the ∫^{(c,d)} H ≅ ∫^c ∫^d H interchange, i.e. the rebracketing of the double join over the two middle variables that the book's proof performs)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4.32 asks for a proof of Lemma 4.31: for V-profunctors Phi : P -|-> Q, Psi : Q -|-> R, Upsilon : R -|-> S over a SKELETAL quantale V, serial composition is associative on the nose, (Phi ; Psi) ; Upsilon = Phi ; (Psi ; Upsilon). The hint is that skeletality turns the two mutual inequalities into an equality; the inequalities themselves come from tensor distributing over joins in a quantale.",
+      "intree": "prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R) at V = Sets, with the underlying rebracketing supplied by coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner); plus the strict Bool case discharged as the comp_assoc obligation of Rel : Category.",
+      "strength_comparison": "intree-weaker in base and in strictness. Base: there is no Quantale class in-tree (grep 'quantale' over *.v returns exactly one PROSE comment, Construction/Enriched.v:78) and no V-enriched profunctor type, so the exercise's actual statement — over an arbitrary skeletal quantale — cannot even be typed. Strictness: the in-tree conclusion is a natural ISOMORPHISM ≅[Fun] in [C^op ∏ FF, Sets], not the equality that skeletality buys the book; Instance/Rel.v does deliver a strict equality but only for V = Bool between DISCRETE Bool-categories (bare Coq types), where the profunctor side condition is vacuous. Note also that this exercise's content is identical to Lemma 4.31, classified PARTIAL on the same evidence."
+    },
+    "gap": "The exercise is to prove associativity over a skeletal quantale; with no Quantale class, no V-profunctors and no join/tensor distributivity in-tree, that statement is unstatable. What exists is (a) the V = Sets associator prof_assoc_iso, an iso rather than an equality, resting on the double-coend interchange coend_fubini, and (b) the strict V = Bool case for discrete objects inside Rel's comp_assoc obligation. The skeletality hypothesis and the 'tensor distributes over joins' step of the intended proof have no in-tree home.",
+    "negative_search_log": [
+      "grep -rniE 'quantale' --include='*.v' . -> 1 hit, prose only (Construction/Enriched.v:78)",
+      "grep -rniE 'skeletal|skeleton' --include='*.v' . -> hits only in Test/Poset.v (poset_nat_skeletal, poset_two_skeletal), Theory/Lawvere.v prose, Theory/Equivalence.v prose; no skeletality hypothesis usable for profunctors"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same anchor. Verified Construction/Profunctor/Laws.v:722 reads exactly 'Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R)' under Section Associator (Context {C D E FF} (P : C ⇸ D) (Q : D ⇸ E) (R : E ⇸ FF)), built from assoc_iso_family (:718) + assoc_natural_form (:701), closed with Defined, no Admitted in the file. Instance/Rel.v:45 is the Program Definition Rel with compose := ∃e, g a e ∧ f e b; its comp_assoc / comp_assoc_sym obligations are the two 'Next Obligation. firstorder. Qed.' at :79-80, so the strict V=Bool case really is discharged. Theory/Coend/Fubini.v:449 is 'Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner)' as quoted. Reconfirmed the base negative independently: the only in-tree occurrence of 'quantale' is the prose at Construction/Enriched.v:78. Corroborating disclosure the record did not cite but which supports its gap verbatim: Construction/Profunctor/Laws.v:43-44 states 'Assembling these into a [Bicategory] instance for the bicategory of profunctors is deferred; here we deliver the laws themselves.' All cited files are registered in _CoqProject (Construction/Profunctor/Laws.v:66, Theory/Profunctor.v:470, Instance/Rel.v:225)."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:remark4.33",
+    "classification": "PARTIAL",
+    "aliases": [
+      "isomorphism classes of profunctors as the morphisms of Prof_V",
+      "quotient category by a hom-congruence / iso-class quotient to recover a strict 1-category",
+      "Cospan_C built from iso-classes of cospans (the remark's own cited example, Def 6.45)",
+      "bicategory: composition unital and associative only up to isomorphism",
+      "categorification, weak 2-category, pseudo/weak composition"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 722,
+        "symbol": "prof_assoc_iso",
+        "intree_statement": "Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R).  (with prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P at Laws.v:236 and prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P at Laws.v:395 — profunctor composition is unital and associative UP TO ISOMORPHISM, which is exactly the remark's second device carried out for profunctors)"
+      },
+      {
+        "file": "Construction/Cospan/Category.v",
+        "line": 560,
+        "symbol": "CospanCat",
+        "intree_statement": "Program Definition CospanCat : Category := {| obj := @obj C; hom := fun X Y => CospanArrow X Y; homset := fun X Y => @CospanArrow_Setoid C X Y; id := fun X => cospan_id X; compose := fun X Y Z g f => cospan_compose HP g f; ... comp_assoc := fun X Y Z W f g h => cospan_compose_assoc HP f g h |}.  (the hom-setoid ≈ is cospan_equiv, i.e. an isomorphism of apexes respecting both legs — the iso-class device, on precisely the Cospan example the remark cites)"
+      },
+      {
+        "file": "Theory/Bicategory.v",
+        "line": 204,
+        "symbol": "Bicategory",
+        "intree_statement": "Class Bicategory := { ... hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z; hunit_left {x y} (f : bicat x y) : (bi1id ∘∘∘ f) ≅[bicat x y] f; hunit_right {x y} (f : bicat x y) : (f ∘∘∘ bi1id) ≅[bicat x y] f; hassoc {w x y z} (h : bicat y z) (g : bicat x y) (f : bicat w x) : ((h ∘∘∘ g) ∘∘∘ f) ≅[bicat w z] (h ∘∘∘ (g ∘∘∘ f)); ... hcoherence_triangle ...; hcoherence_pentagon ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "Prof_V was constructed (Thm 4.23) only for SKELETAL quantales; a non-skeletal V can be accommodated in either of two standard ways: (i) take the morphisms of Prof_V to be ISOMORPHISM CLASSES of V-profunctors — the same device used for Cospan_C in Definition 6.45 — or (ii) relax the notion of category so that composition is unital and associative only UP TO ISOMORPHISM, i.e. pass to bicategory theory, itself a form of categorification.",
+      "intree": "Both devices exist in-tree in general form but neither is applied to profunctors. Device (ii) is realized concretely for profunctors WITHOUT the bicategory packaging: prof_unit_left_iso / prof_unit_right_iso / prof_assoc_iso give the unit and associativity laws of profunctor composition as natural isomorphisms ≅[Fun]. Device (i) is realized at the remark's own cited example: CospanCat : Category, whose hom-setoid identifies cospans up to isomorphism of apexes, so that 'relative to that ≈ the unit and associativity laws hold strictly' (file header). Device (ii) as a named notion is Class Bicategory, with hunit_left/hunit_right/hassoc recorded as 2-isomorphisms in the hom-categories and constrained by triangle + pentagon.",
+      "strength_comparison": "intree-weaker: the remark's subject, Prof_V over a non-skeletal quantale, does not exist (no Quantale class, no V-profunctors). What is present is each device separately and at other objects. In one respect the in-tree situation is STRONGER than the remark's sketch: Theory/Bicategory.v carries the full coherence data (naturality of the unitors and associator, triangle and pentagon), which the remark only gestures at. In one respect it is weaker even at V = Sets: Theory/Profunctor.v:31-38 states outright that no single category of all profunctors is assembled (a universe-size ground), and no Bicategory instance for profunctors is registered, so device (ii) is never actually applied to profunctors."
+    },
+    "gap": "Neither device is instantiated for profunctors. Missing: (a) the iso-class quotient of profunctor hom-collections (Construction/Quotient.v:254's Quotient C R is a Prop-valued hom-congruence quotient and is never applied to profunctors, which in any case have no ambient category to be quotiented); (b) a Bicategory (or pseudo-double-category) instance whose 1-cells are profunctors — grep for a Prof bicategory instance finds only prose in Theory/Bicategory.v and Theory/DoubleCategory.v. And with no quantale in-tree, 'skeletal vs non-skeletal V' has no formal content at all.",
+    "negative_search_log": [
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit; skeletal/non-skeletal V is unstatable",
+      "grep -rn --include='*.v' -E 'Prof\\b|Prof_' . -> only prose comments; no Prof category or Bicategory instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same two devices. Construction/Cospan/Category.v:560 is 'Program Definition CospanCat : Category' as cited, and its header at :35-44 spells out the remark's FIRST device in the remark's own terms: pushouts are canonical only up to iso so 'Cospan(C) is therefore in general a bicategory, not a strict 1-category. Here we obtain an honest 1-category ([CospanCat]) by the standard device of quotienting by that isomorphism ... exactly the nLab/Wikipedia prescription of taking iso-classes of cospans to recover a 1-category.' This is the in-tree realization of precisely the Cospan_C (Def. 6.45) analogy the remark invokes, so PARTIAL rather than ABSENT is well founded. Theory/Bicategory.v:204 is 'Class Bicategory := {' as cited (the remark's SECOND device). Independently confirmed the negative: Build_Bicategory occurs only in Theory/Bicategory.v, Theory/Bicategory/OneObject.v, Theory/Bicategory/Lax.v and Instance/Cat/Bicategory.v — there is no Prof bicategory instance. Files registered (_CoqProject:399, :171 region, Construction/Cospan/Category.v present)."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:def4.34",
+    "classification": "PARTIAL",
+    "aliases": [
+      "companion of a functor F-hat(p,q) := Q(F p, q); representable / covariantly-representable profunctor",
+      "conjoint F-check(q,p) := Q(q, F p); corepresentable profunctor, the right module induced by F",
+      "Repr_left / Repr_right (this library's names for the two representables of a functor)",
+      "companion pair and conjoint pair of a vertical arrow in a double category",
+      "graph and cograph of a functor; F_* and F^* base-change bimodules"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 155,
+        "symbol": "Repr_left",
+        "intree_statement": "Definition Repr_left {C D : Category} (F : C ⟶ D) : C ⇸ D := Hom D ◯ (F^op ∏⟶ (@Id D)).  (on (c, d) it is D(F c, d), i.e. the companion F-hat)"
+      },
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 158,
+        "symbol": "Repr_right",
+        "intree_statement": "Definition Repr_right {C D : Category} (U : D ⟶ C) : C ⇸ D := Hom C ◯ ((@Id C)^op ∏⟶ U).  (on (c, d) it is C(c, U d); instantiated at U := F : P ⟶ Q it is the profunctor Q ⇸ P sending (q, p) to Q(q, F p), i.e. the conjoint F-check)"
+      },
+      {
+        "file": "Theory/DoubleCategory/Companion.v",
+        "line": 142,
+        "symbol": "Companion",
+        "intree_statement": "Record Companion {a b : dcat} (u : a ~> b) : Type := { comp_hor : dhor a b; comp_unit : dsq (dhid a) id u comp_hor; comp_counit : dsq comp_hor u id (dhid b); comp_zig : dsq_coerce (id_left id) (id_left id) (dsq_vcomp (dunit_right_to comp_hor) (dunit_left_from comp_hor)) ≈ dsq_hcomp comp_unit comp_counit; comp_zag_eval : ∀ h' e, companion_eval u comp_hor comp_counit (companion_name u comp_hor comp_unit e) ≈ e; comp_zag_name : ∀ h' g, companion_name u comp_hor comp_unit (companion_eval u comp_hor comp_counit g) ≈ g }."
+      },
+      {
+        "file": "Theory/DoubleCategory/Companion.v",
+        "line": 308,
+        "symbol": "Conjoint",
+        "intree_statement": "Record Conjoint {a b : dcat} (u : a ~> b) : Type := { conj_hor : dhor b a; conj_unit : dsq (dhid a) u id conj_hor; conj_counit : dsq conj_hor id u (dhid b); conj_zig : ...; conj_zag_eval : ...; conj_zag_name : ... }.  (note the direction: conj_hor runs b to a, matching the book's F-check : Q -|-> P)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a V-functor F : P -> Q, the COMPANION is the V-profunctor F-hat : P -|-> Q with F-hat(p,q) := Q(F p, q), and the CONJOINT is the V-profunctor F-check : Q -|-> P with F-check(q,p) := Q(q, F p).",
+      "intree": "Repr_left F := Hom D ◯ (F^op ∏⟶ Id) : C ⇸ D, i.e. (c,d) ↦ D(F c, d), and Repr_right U := Hom C ◯ (Id^op ∏⟶ U) : C ⇸ D, i.e. (c,d) ↦ C(c, U d), which at U := F reads (q,p) ↦ Q(q, F p). Abstractly, the double-category records Companion u / Conjoint u package the same notion as a horizontal 1-cell equipped with binding squares satisfying the horizontal zigzag and the representability (name/eval) transposition.",
+      "strength_comparison": "intree-weaker only in the enrichment base, but the formulas match exactly. Base: Repr_left/Repr_right are defined for ORDINARY (Sets-enriched) categories; the library has a general Enriched class over any monoidal base K (Construction/Enriched.v:111, ehom : eobj → eobj → K) and EnrichedFunctor (:145), but no enriched PROFUNCTOR type, so F-hat/F-check for a V-functor over a quantale cannot be typed. Second caveat: Theory/DoubleCategory/Companion.v gives the abstract notion at full strength (both zigzags, plus companion_unique at :252), but the only in-tree double-category models are Sq C — where every morphism is its own companion (Sq_companion, Construction/Sq.v:118) but conjoints exist EXACTLY for isomorphisms (Sq_conjoint at :146, Sq_conjoint_iso at :161) — and Cospan/Double.v. The double category of V-categories, V-functors and V-profunctors, in which every functor has both a companion and a conjoint, is not constructed, so the two presentations are never joined."
+    },
+    "gap": "The V-enriched form is missing: no quantale, and no V-profunctor type, so F-hat / F-check over a general V are unstatable. At V = Sets the definition is present verbatim as Repr_left / Repr_right. The abstract double-category Companion/Conjoint records exist but are only instantiated at Sq C, whose conjoints are restricted to isomorphisms — the opposite of the book's situation, where every V-functor has both.",
+    "negative_search_log": [
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit; no V-profunctor type exists",
+      "grep -rniE 'bimodule|distributor' --include='*.v' . -> prose only (Theory/DoubleCategory.v:96,104,124,138)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same anchors. Verified Theory/Profunctor.v:155 'Definition Repr_left {C D : Category} (F : C ⟶ D) : C ⇸ D := Hom D ◯ (F^op ∏⟶ (@Id D))' and :158 'Definition Repr_right {C D : Category} (U : D ⟶ C) : C ⇸ D := Hom C ◯ ((@Id C)^op ∏⟶ U)'. Checked the formula match myself rather than taking it on trust: Repr_left F (c,d) reduces to D(F c, d), which is the book's F-hat(p,q) := Q(F p, q); and Repr_right U (c,d) reduces to C(c, U d), which under the renaming U↔F, C↔Q, D↔P is the book's F-check(q,p) := Q(q, F p) INCLUDING the source/target reversal Q ⇸ P. So the constructions coincide exactly at V = Sets. Theory/DoubleCategory/Companion.v:142 'Record Companion {a b : dcat} (u : a ~> b)' and :308 'Record Conjoint {a b : dcat} (u : a ~> b)' confirmed at those lines. I independently verified the record's sharpest claim — that those two records are instantiated only at Sq C: grep over all *.v finds Companion/Conjoint uses only in Theory/DoubleCategory{,/Companion}.v (definitions/prose) and Construction/Sq.v (Sq_companion:118, Sq_conjoint:146 delivered only at an isomorphism, Sq_conjoint_iso:161 proving the necessity); Construction/Cospan/Double.v has ZERO companion/conjoint occurrences. The gap text is therefore exact, not merely plausible."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:example4.35",
+    "classification": "PARTIAL",
+    "aliases": [
+      "companion and conjoint of the identity functor coincide, id-hat = id-check",
+      "the identity functor is self-adjoint (Id ⊣ Id) hence its two representables agree",
+      "Repr_left Id ≅ Repr_right Id",
+      "the unit/identity profunctor U_P = Hom P = prof_id",
+      "the hom-bifunctor is the identity 1-cell of Prof"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Profunctor/Adjunction.v",
+        "line": 70,
+        "symbol": "representable_adjunction",
+        "intree_statement": "Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) := (adjunction_to_repr_iso, repr_iso_to_adjunction)."
+      },
+      {
+        "file": "Instance/Adjoints.v",
+        "line": 42,
+        "symbol": "adj_id",
+        "intree_statement": "Program Instance adj_id {C : Category} : Id ⊣ Id := { adj := fun _ _ => {| to := {| morphism := _ |} ; from := {| morphism := _ |} |} }."
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.  (with prof_unit_right_iso at :395; prof_id {C} : C ⇸ C := Hom C, Compose.v:342 — i.e. the hom-assignment of C really is the unit profunctor U_C in its identity role)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any preorder P, the identity functor id : P -> P has companion and conjoint that agree, id-hat = id-check : P -|-> P, and that common profunctor is the unit profunctor U_P of (4.25), namely (x,y) ↦ P(x,y).",
+      "intree": "No single statement. What is present is representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅ Repr_right U) together with adj_id : Id ⊣ Id, whose composite instantiates in one step to Repr_left Id ≅ Repr_right Id — the example's first claim at V = Sets; and prof_unit_left_iso / prof_unit_right_iso, which assert that prof_id := Hom C is a two-sided unit for profunctor composition, i.e. that the hom-assignment plays the role of U_P.",
+      "strength_comparison": "intree-weaker on both counts. (a) The example's first claim is derivable in one step from two in-tree assertions but is never itself recorded; a reader gets it only by applying representable_adjunction to adj_id. (b) The example's second claim, id-hat = U_P, has no in-tree assertion at all: Repr_left (@Id C) unfolds to Hom C ◯ (Id^op ∏⟶ Id), which is NOT syntactically prof_id = Hom C, and no lemma reduces the componentwise product of identity functors (grep for such a law over ∏⟶ found only Functor/Strong.v and Monad/Strong/Symmetric.v uses, no identity law). (c) Base: V = Sets and the conclusion is a natural iso, not the equality the book's skeletality gives."
+    },
+    "gap": "Neither half of the example is asserted. Missing: (i) an in-tree statement Repr_left (@Id C) ≅ Repr_right (@Id C) — it follows immediately from representable_adjunction applied to adj_id, but is not recorded; (ii) an in-tree statement Repr_left (@Id C) ≅ prof_id (= Hom C), which needs an identity law for the componentwise functor product ∏⟶ that the library does not state; (iii) the quantale-enriched form, unstatable for want of V-profunctors.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Repr_left|Repr_right|Id_Profunctor|prof_id' . -> Repr_left/Repr_right occur only in Theory/Profunctor.v and Theory/Profunctor/Adjunction.v; no lemma relates either to prof_id",
+      "grep -rn --include='*.v' -E '∏⟶ *\\(?@?Id|Id\\^op' . -> 11 hits, all uses inside Repr_left/Repr_right/hom_adj/strength definitions; no identity law for ∏⟶"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL. Cited lines confirmed: Theory/Profunctor/Adjunction.v:70 'Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U)', Instance/Adjoints.v:42 'Program Instance adj_id {C : Category} : Id ⊣ Id', Construction/Profunctor/Laws.v:236 'Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P'. ONE REFINEMENT to the gap wording, which does NOT change the classification: the record says clause (a) 'follows immediately from representable_adjunction applied to adj_id', but by inspection of the two definitions Repr_left (@Id C) and Repr_right (@Id C) each unfold to the SAME term Hom C ◯ ((@Id C)^op ∏⟶ (@Id C)) — Repr_left instantiates D := C and Repr_right instantiates D := C — so id-hat = id-check should hold in-tree by eq_refl, definitionally stronger than the book's skeletality-mediated equality and stronger than the route the record describes. (Not machine-checked: no coqc/rocq on PATH in this sandbox; asserted from the definition bodies only.) The record's operative point survives untouched: NEITHER half of Example 4.35 is asserted anywhere in-tree, and the second half (identification with the unit profunctor U_P = Hom C) additionally needs an identity law for ∏⟶ that the library does not state. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:ex4.36",
+    "classification": "PARTIAL",
+    "aliases": [
+      "companion of the identity functor is the unit profunctor, id-hat(p,q) = P(p,q)",
+      "Repr_left Id ≅ prof_id (= Hom C)",
+      "the hom-bifunctor is the identity 1-cell of Prof",
+      "Id_Profunctor C := Hom C",
+      "the diagonal/equality relation as the identity of Rel (V = Bool, discrete case)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.  (with prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P at :395 — together they assert that Hom C really is the unit profunctor)"
+      },
+      {
+        "file": "Theory/Profunctor.v",
+        "line": 155,
+        "symbol": "Repr_left",
+        "intree_statement": "Definition Repr_left {C D : Category} (F : C ⟶ D) : C ⇸ D := Hom D ◯ (F^op ∏⟶ (@Id D)).  (the companion; at F := Id it is Hom C ◯ (Id^op ∏⟶ Id), the left-hand side of the exercise)"
+      }
+    ],
+    "statement_record": {
+      "book": "Check directly from Definition 4.34 that the companion of the identity functor id : P -> P is given by the unit-profunctor formula (4.25): id-hat(p,q) = P(p,q).",
+      "intree": "Both sides of the equation are in-tree — the companion as Repr_left F := Hom D ◯ (F^op ∏⟶ Id), and the unit profunctor as prof_id {C} : C ⇸ C := Hom C, whose identity role is asserted by prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P and prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P — but the equation itself is nowhere stated.",
+      "strength_comparison": "intree-weaker: the exercise's one-line check is not performed. Repr_left (@Id C) is definitionally Hom C ◯ (Id^op ∏⟶ Id), which is not the same term as Hom C, and the library states no identity law for the componentwise functor product ∏⟶ that would collapse it; nor is there a lemma of the shape Repr_left Id ≅ prof_id anywhere. Additionally the ambient base is V = Sets (hom-setoids), not a quantale, and the natural notion of sameness available is ≅[Fun] rather than the equality skeletality gives the book."
+    },
+    "gap": "The identification id-hat = U_P is not asserted. Present: the companion construction (Repr_left) and the unit profunctor with its two-sided unit laws (prof_id / prof_unit_left_iso / prof_unit_right_iso). Missing: any lemma connecting them, which would need an identity law for ∏⟶; and the V-enriched reading (no quantale, no V-profunctors) in which the exercise is actually posed.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Repr_left|Repr_right|Id_Profunctor|prof_id' . -> no hit relates Repr_left Id to prof_id / Id_Profunctor / Hom",
+      "grep -rniE 'unit profunctor|Unit_Profunctor' --include='*.v' . -> 0 assertion hits (only the prose 'the unit of this composition is the hom-bifunctor', Theory/Profunctor.v:71)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL. Cited lines confirmed (Construction/Profunctor/Laws.v:236 prof_unit_left_iso; Theory/Profunctor.v:155 Repr_left). Independently reproduced the negative: no lemma anywhere relates Repr_left/Repr_right to prof_id, Id_Profunctor or Hom — Repr_left/Repr_right occur ONLY in Theory/Profunctor.v and Theory/Profunctor/Adjunction.v, and Id_Profunctor (Theory/Profunctor.v:132) has no use site at all outside its own definition. REFINEMENT (classification unchanged): the record says Repr_left (@Id C) 'is not the same term as Hom C', which is right at functor level, but POINTWISE it is definitional — (Repr_left (@Id C)) (c,d) reduces to Hom C (c,d) because Id's object map is the identity — so the exercise's actual displayed formula id-hat(p,q) = P(p,q) is true by computation in-tree; what is genuinely missing is any stated lemma, the functor-level identification with prof_id, and the V-enriched reading. PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:example4.37",
+    "classification": "ABSENT",
+    "aliases": [
+      "monotone addition map + : R^3 -> R as a Bool-functor between preorders",
+      "companion of a monotone map as a feasibility relation, +-hat(a,b,c,d) = true iff a+b+c <= d",
+      "the real numbers with their usual order as a preorder/Bool-category",
+      "ordered monoid / ordered abelian group; monotonicity of addition (plus_le_compat)",
+      "product order on a product preorder"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Require.*Reals|Rdefinitions|Rle|R\\.add' . -> 0 hits for the reals; the library never imports Coq's Reals",
+      "grep -rn --include='*.v' -E 'QArith|Qle' . -> 0 hits (no rationals either)",
+      "grep -rniE 'ordered monoid|ordered.*group|Nat.add.*monoton|plus_le' --include='*.v' . -> 0 hits; no monotonicity-of-addition statement, even on nat",
+      "grep -rniE 'feasib' --include='*.v' . -> 0 hits; feasibility relations do not exist in-tree",
+      "grep -rniE '\\bCost\\b|Lawvere metric|extended real|generalized metric' --include='*.v' . -> only prose citations of Lawvere's paper (Theory/Profunctor.v:46,100; Instance/Poset.v:39,75; Instance/Two.v:28,71; Construction/Enriched.v:40,49,74); no Cost quantale instance",
+      "grep -rniE 'monotone' --include='*.v' . -> the only assertion is EnrichedFunctor_Two_monotone (Construction/Enriched/Two.v:183, EnrichedFunctor ↔ MonotoneMap over the walking arrow): the general principle 'monotone map = Bool-functor' exists, but no concrete monotone map is exhibited and no companion of any concrete functor is ever computed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: searches for Cost / quantale / Lawvere-metric / feasibility / reals all come back empty of assertions. Reconfirmed each: 'feasib' → 0 hits; 'quantale' → 1 prose hit (Construction/Enriched.v:78); Reals → with a TIGHTENED pattern ('Require.*\\bReals\\b|Coq\\.Reals|Stdlib\\.Reals') 0 hits, so the library genuinely never imports the reals and the map + : R^3 → R cannot be written. Also confirmed the record's honest positive framing that only the GENERAL principle (Construction/Enriched/Two.v:183 EnrichedFunctor_Two_monotone, and :165 Enriched_Two_preorder) exists, with no concrete monotone map and no companion of any concrete functor ever computed. ABSENT confirmed. See problems[] for one inaccuracy in the logged grep pattern itself (conclusion unaffected)."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:ex4.38",
+    "classification": "ABSENT",
+    "aliases": [
+      "conjoint of the monotone addition map, +-check : R -|-> R^3",
+      "feasibility relation (d,(a,b,c)) |-> true iff d <= a+b+c",
+      "the right module / corepresentable Bool-profunctor induced by +",
+      "Repr_right applied to a concrete monotone map",
+      "reversing the bridges of a monotone map's companion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Require.*Reals|Rdefinitions|Rle|R\\.add' . -> 0 hits; the reals are absent, so the map + : R^3 -> R has no in-tree existence",
+      "grep -rniE 'feasib' --include='*.v' . -> 0 hits",
+      "grep -rn --include='*.v' -E 'Repr_left|Repr_right' . -> Repr_right occurs only in Theory/Profunctor.v:158 and Theory/Profunctor/Adjunction.v; it is never instantiated at any concrete functor",
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit; the Bool-profunctor type the exercise asks for does not exist"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Same verification as Example 4.37: no reals, no Cost quantale, no feasibility relations, and Repr_right (Theory/Profunctor.v:158) is never instantiated at any concrete functor anywhere in-tree (its only occurrences are its definition and Theory/Profunctor/Adjunction.v). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:remark4.39",
+    "classification": "PARTIAL",
+    "aliases": [
+      "V-adjunction / enriched adjunction between V-categories",
+      "hom-object isomorphism P(p, G q) ≅ Q(F p, q) natural in p and q",
+      "Galois connection between preorders (the Bool-enriched case, Def 1.95)",
+      "hom-set adjunction, Adjunction_Hom / hom_adj",
+      "adjoint functors defined by the transposition bijection ⌊-⌋ / ⌈-⌉"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |} {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |} where \"⌊ f ⌋\" := (to adj f) and \"⌈ f ⌉\" := (from adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋; ... }."
+      },
+      {
+        "file": "Adjunction/Hom.v",
+        "line": 72,
+        "symbol": "Adjunction_Hom",
+        "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }."
+      },
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}.  (a preorder AS a category, so an Adjunction between two Prosets is exactly a Galois connection — the Bool case the remark generalizes)"
+      }
+    ],
+    "statement_record": {
+      "book": "Generalizing Galois connections (Def 1.95, the Bool-enriched case), a V-ADJUNCTION for a monoidal preorder V is a pair of V-functors F : P -> Q and G : Q -> P such that P(p, G q) ≅ Q(F p, q) for all p, q (display 4.40); when V is skeletal the isomorphism is an equality of hom-objects.",
+      "intree": "The hom-object form exists only at V = Sets: Class Adjunction's field adj is an isomorphism in Sets between the hom-setoids C(F x, y) and D(x, U y), with naturality in both variables recorded as the four fields to_adj_nat_l / to_adj_nat_r / from_adj_nat_l / from_adj_nat_r; and Adjunction_Hom's field hom_adj states the same thing as a natural isomorphism of the two hom-bifunctors in [D^op ∏ C, Sets]. The Bool instance is available indirectly because Proset makes a preorder a thin category, so an Adjunction between Prosets is a Galois connection (as Instance/Poset.v:47 and Theory/Adjunction.v:78 both note in prose).",
+      "strength_comparison": "intree-weaker in the enrichment base only. The library has Enriched (over any monoidal K, with ehom : eobj → eobj → K) and EnrichedFunctor, so V-categories and V-functors ARE in-tree for a general base — but there is no enriched adjunction: a search for any V-level isomorphism ehom-to-ehom returns nothing. Consequently display (4.40) can be stated only for K = Sets, where 'isomorphism of hom-objects' is an isomorphism of hom-SETOIDS. In one respect the in-tree class is stronger than the remark: it demands naturality of the transposition explicitly, whereas the remark leaves it implicit (harmless for a quantale base, where hom-objects are elements of a preorder and naturality is automatic)."
+    },
+    "gap": "There is no V-adjunction over a general monoidal/quantale base: nothing in Construction/Enriched.v or its satellites states P(p, G q) ≅ Q(F p, q) at the level of ehom, and no class pairs two EnrichedFunctors adjointly. What exists is the V = Sets case (Adjunction.adj, Adjunction_Hom.hom_adj) and, via Proset, the V = Bool case realized as an ordinary adjunction between thin categories rather than as an enriched notion. The skeletal upgrade of the isomorphism to an equality of hom-objects has no in-tree counterpart.",
+    "negative_search_log": [
+      "grep -rniE 'enriched.*adjunction|adjunction.*enriched|V-adjunction' --include='*.v' . -> 0 hits",
+      "grep -rniE 'ehom.*≅|enriched.*hom-object' --include='*.v' . -> 0 hits",
+      "grep -rniE 'galois' --include='*.v' . -> hits are all PROSE (Theory/Adjunction.v:78, Instance/Poset.v:37-100, Instance/Adjoints.v:280, Structure/Factorization.v:69, Adjunction/GAFT.v:136); no Galois-connection definition or theorem",
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL on the same anchors. Verified Theory/Adjunction.v:130 'Class Adjunction@{o3 p3 so sh sp} := {' with field adj {x y} : Isomorphism Sets (hom C (F x) y) (hom D x (U y)) — the hom-set iso form. Verified Adjunction/Hom.v:72 'Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }', which IS display (4.40) at V = Sets, naturality included. Verified Instance/Proset.v:33 'Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category' with the trivial hom-setoid, i.e. the thin/V=Bool model. Independently reconfirmed the decisive negative and strengthened it: not only do the enriched-adjunction aliases return 0 hits, but Construction/Enriched.v and ALL FIVE satellites (Natural, Compose, Fun, Sets, Two) contain no occurrence of 'adjunc' whatsoever — there is no V-adjunction at any base. Galois is prose-only, as logged (Instance/Poset.v:37–100 is a long essay on the collapse dictionary but states no Galois lemma). PARTIAL confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:ex4.41",
+    "classification": "PARTIAL",
+    "aliases": [
+      "F and G are adjoint iff the companion of F equals the conjoint of G, F-hat = G-check",
+      "adjunction as a natural isomorphism of representable profunctors, Repr_left F ≅ Repr_right U",
+      "hom-set/hom-object criterion for adjointness",
+      "adjoint pairs in a proarrow equipment: the companion of F is the conjoint of its right adjoint",
+      "corollary: id-hat = id-check"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Profunctor/Adjunction.v",
+        "line": 70,
+        "symbol": "representable_adjunction",
+        "intree_statement": "Definition representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) := (adjunction_to_repr_iso, repr_iso_to_adjunction).  (Context {C D : Category} {F : D ⟶ C} {U : C ⟶ D}; ↔ is the Type-valued iffT, and both legs are genuine — adjunction_to_repr_iso at :57, repr_iso_to_adjunction at :64.)"
+      },
+      {
+        "file": "Instance/Adjoints.v",
+        "line": 42,
+        "symbol": "adj_id",
+        "intree_statement": "Program Instance adj_id {C : Category} : Id ⊣ Id := { adj := fun _ _ => {| to := {| morphism := _ |} ; from := {| morphism := _ |} |} }.  (feeding this to representable_adjunction discharges clause (2), Repr_left Id ≅ Repr_right Id, in one step — though the library never records the consequence)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let V be a skeletal quantale, P and Q V-categories and F : P -> Q, G : Q -> P V-functors. (1) F and G are V-adjoints in the sense of (4.40) iff the companion of F equals the conjoint of G, F-hat = G-check. (2) Deduce id-hat = id-check, as asserted in Example 4.35.",
+      "intree": "representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U) — an iff, with both directions constructed (adjunction_to_repr_iso routes an adjunction through Adjunction_Universal_to_Hom to the hom-bifunctor iso hom_adj, whose endpoints are definitionally Repr_left F and Repr_right U; repr_iso_to_adjunction reads such an iso back as an Adjunction_Hom and converts it by Adjunction_Hom_to_Universal). Clause (2) is one application away via adj_id : Id ⊣ Id but is not stated.",
+      "strength_comparison": "Clause (1) matches the book almost exactly, and at full biconditional strength — this is the closest in-tree match of any item in this batch. The differences are base and strictness: (a) V = Sets rather than a skeletal quantale, since the library has no quantale and no V-profunctors, so 'companion' and 'conjoint' here mean Repr_left / Repr_right for ordinary categories; (b) the conclusion is a natural ISOMORPHISM in [D^op ∏ C, Sets] rather than the strict equality skeletality delivers — which is the correct notion at V = Sets but strictly weaker than what the exercise asks for. Clause (2) is absent as a statement."
+    },
+    "gap": "Clause (1) is present at V = Sets as a genuine biconditional but not over a skeletal quantale, and its conclusion is an iso rather than an equality. Clause (2) — id-hat = id-check — is never recorded, though it follows in one step from representable_adjunction applied to adj_id; and its further identification with the unit profunctor U_P (Example 4.35) is likewise unstated.",
+    "negative_search_log": [
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit; the skeletal-quantale hypothesis is unstatable",
+      "grep -rn --include='*.v' -E 'Repr_left|Repr_right' . -> no instantiation at Id, hence no in-tree form of clause (2)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL and independently identified representable_adjunction as the closest match in the batch, agreeing with the record's own assessment. Verified Theory/Profunctor/Adjunction.v:70 and both directions being real, not stubs: adjunction_to_repr_iso (:57) routes through Adjunction_Universal_to_Hom and hom_adj, repr_iso_to_adjunction (:64) through Adjunction_Hom_to_Universal; the pair is bundled as a Type-valued iff. I checked the correspondence with the book rather than assuming it: for F : D ⟶ C and U : C ⟶ D, Repr_left F (d,c) = C(F d, c) = F-hat and Repr_right U (d,c) = D(d, U c) = U-check, so 'F and G are adjoint iff F-hat = G-check' is matched exactly, at full biconditional strength. PARTIAL rather than PRESENT is nevertheless correct under the frozen definition: the base is Sets, not a skeletal quantale (a change of enrichment base, not of presentation), the conclusion is a natural iso rather than an equality of hom-objects, and clause (2) of the exercise is nowhere recorded. Confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:def4.42",
+    "classification": "ABSENT",
+    "aliases": [
+      "collage of a profunctor (Col Phi); cograph / cylinder of a bimodule",
+      "cocomma object; the colimit-side dual of the comma category",
+      "gluing two categories along a profunctor; two-sided Grothendieck construction of a profunctor",
+      "the V-category on Ob(X) + Ob(Y) with Phi in one off-diagonal block and bottom in the other",
+      "collage inclusions i_X : X -> Col(Phi), i_Y : Y -> Col(Phi)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'collage' . -> exactly 1 hit, and it is a DISCLAIMER: Construction/Comma.v:253 says the Cocomma defined there 'is NOT the cocomma *object* of nLab (the colimit-side dual, a.k.a. the collage), which is a genuinely different construction'",
+      "grep -rn --include='*.v' -iE 'cograph' . -> 0 hits",
+      "grep -rn --include='*.v' -iE 'cylinder' . -> 0 hits",
+      "grep -rniE 'cocomma|two-sided grothendieck|cotabulat' --include='*.v' . -> only Construction/Comma.v's Cocomma := @Comma (B^op) (A^op) (C^op) (T^op) (S^op), the pointwise op-dual, explicitly disclaimed as not the collage",
+      "grep -rniE 'gluing|glue' --include='*.v' . -> hits only in Theory/Sheaf.v (sheaf gluing axiom) and Theory/Coend/*.v (ce_glue, the coend quotient relation); nothing that glues two categories along a profunctor",
+      "grep -rn --include='*.v' -iE 'coproduct of categories|disjoint union' . -> Construction/Coproduct.v:36 builds the coproduct category with obj := C + D, i.e. exactly the DEGENERATE collage of the bottom profunctor (both off-diagonal blocks empty); it has no profunctor parameter and no collage inclusions with a nontrivial cross block",
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit, so the V-enriched form (with the empty join in the Y-to-X block) is unstatable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT before reading the record, by the same searches. Reproduced exactly: 'collage' → one hit only, and it is a DISCLAIMER — Construction/Comma.v:253 says the Cocomma defined there 'is NOT the cocomma *object* of nLab (the colimit-side dual, a.k.a. the collage), which is a genuinely different construction'; 'cograph' → 0; 'cylinder' → 0. Confirmed the record's ingredient note is accurate: Construction/Coproduct.v:35 builds obj := C + D with cross-summand homs literally False, i.e. the degenerate collage of the bottom profunctor, with no profunctor parameter and no cross block. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:example4.43",
+    "classification": "ABSENT",
+    "aliases": [
+      "collage of a concrete Cost-profunctor, drawn as a weighted Hasse diagram",
+      "distance matrix of the collage of two Lawvere metric spaces joined by bridges",
+      "Cost-enriched category ([0,infinity], >=, +) as an enrichment base",
+      "cograph of a bimodule between finite enriched categories",
+      "generalized Hasse diagram of a Cost-category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'collage|cograph|cylinder' . -> 1 disclaiming comment (Construction/Comma.v:253) and nothing else; the construction being exemplified does not exist",
+      "grep -rniE '\\bCost\\b|Lawvere metric|extended real|generalized metric' --include='*.v' . -> only prose citations of Lawvere 1973 (Theory/Profunctor.v:46,100; Instance/Poset.v:39,75; Instance/Two.v:28,71; Construction/Enriched.v:40,49,74); no Cost quantale, hence no Cost-profunctor and no distance matrix",
+      "grep -rn --include='*.v' -iE 'Require.*Reals|Rdefinitions|Rle' . -> 0 hits; the non-negative extended reals are not available",
+      "grep -rniE 'hasse' --include='*.v' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. The construction being exemplified does not exist (see def4.42), and neither does its base: no Cost quantale, no extended reals, 'hasse' → 0 hits. Note the inventory flags this item 'suspected-book-typo' (the printed Y→X block reads 0 where clause (iii) of Def. 4.42 requires the empty join, ∞ in Cost); that is a book-side issue and correctly has no bearing on the in-tree classification. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "7sketches:4.3.3:ex4.44",
+    "classification": "ABSENT",
+    "aliases": [
+      "compute/draw the collage of a given Cost-profunctor",
+      "weighted-graph (Hasse) presentation of a finite Cost-enriched category",
+      "bridges of a Cost-profunctor between two finite Lawvere metric spaces",
+      "cograph of a finite bimodule",
+      "matrix presentation of a collage"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'collage|cograph|cylinder' . -> 1 disclaiming comment only (Construction/Comma.v:253); nothing to compute",
+      "grep -rniE '\\bCost\\b|Lawvere metric|extended real' --include='*.v' . -> prose citations only; no Cost quantale instance exists in which the given profunctor could be written down",
+      "grep -rniE 'hasse' --include='*.v' . -> 0 hits",
+      "grep -rniE 'quantale' --include='*.v' . -> 1 prose hit (Construction/Enriched.v:78)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Nothing to compute: no collage, no Cost quantale in which the displayed profunctor of Eq. (4.14) could be written, no Hasse-diagram vocabulary. I specifically considered and REJECTED OUT_OF_SCOPE: although the exercise's surface instruction is 'draw a diagram', its formalizable content — the collage V-category of a given Cost-profunctor — is perfectly statable in this library once a quantale base and V-profunctors exist, so it is a coverage gap and not a foundational impossibility. ABSENT confirmed."
+    }
+  }
+]

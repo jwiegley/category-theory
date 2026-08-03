@@ -1,0 +1,371 @@
+[
+  {
+    "id": "7sketches:2.3.4:ex61",
+    "classification": "ABSENT",
+    "aliases": [
+      "NMY-category = category enriched in the three-element truth-value preorder {no ≤ maybe ≤ yes} with unit `yes` and tensor `min`",
+      "three-valued / Kleene / Łukasiewicz logic as an enrichment base; fuzzy or graded preorder",
+      "min-tensor (meet) monoidal structure on a finite linear order — the three-object analogue of `two_meet` / `Two_Monoidal` on `_2`",
+      "quantale-enriched / MV-algebra-enriched category over a finite chain",
+      "the two enrichment axioms read in NMY: `yes ≤ X(x,x)` (self-reachability is certain) and `min(X(x,y), X(y,z)) ≤ X(x,z)` (transitivity degrades to the weaker of the two grades)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E '\\bNMY\\b|Kleene|Lukasiewicz' . -- 0 hits",
+      "grep -rn --include='*.v' -i 'fuzzy' . -- 0 hits",
+      "grep -rn --include='*.v' -iE '\\bmaybe\\b|three.?valued|truth value' . -- every hit is either the option monad (Theory/Coq/Maybe.v, `Notation Maybe := option`, an unrelated FP construct) or prose about Heyting truth values (Theory/Sheaf.v:85,92); no three-element order anywhere",
+      "grep -rn --include='*.v' -iE 'MV-algebra|residuated|quantale' . -- 1 hit, prose only (Construction/Enriched.v:78, 'preorder- and quantale-enriched categories')",
+      "grep -rn --include='*.v' ': @Monoidal|: Monoidal\\b' . -- the COMPLETE list of monoidal bases in tree: Sets_Product_Monoidal (Instance/Sets.v:283), Coq_Monoidal (Instance/Coq.v:159), Funny_Monoidal on StrictCat (Instance/StrictCat/Funny.v:224), Two_Monoidal on _2 (Instance/Two/Monoidal.v:105), Lawvere_Monoidal (Theory/Lawvere/PROP.v:111), plus free/presented/transported ones. Exactly ONE base is a preorder, and it has TWO elements",
+      "grep -rn --include='*.v' -E 'Definition (two_meet|two_join|nat_min|min_)|Nat.min|Nat.max' . -- only Instance/Two/Monoidal.v:37 `two_meet`; there is no `min` bifunctor on any three-element or numeric order to serve as the NMY tensor",
+      "ls Instance | grep -i three -- no Instance/Three.v; read Instance/Roof.v:28-36, the only three-object category in tree (`RoofObj := RNeg | RZero | RPos`), whose homs `ZeroNeg : RoofHom RZero RNeg` and `ZeroPos : RoofHom RZero RPos` make it the SPAN shape, not a linear order, and it carries no Monoidal instance",
+      "grep -rln --include='*.v' 'Enriched' . -- exactly 11 files, and the six real ones (Construction/Enriched.v and Construction/Enriched/{Sets,Natural,Two,Compose,Fun}.v) instantiate the class at only two bases, Sets (Category_is_Enriched_over_Set) and _2 (Enriched_Two_preorder); no third base exists to interpret",
+      "PHASE-D CORRECTION: the entry 'ls Instance | grep -i three ... Instance/Roof.v, the only three-object category in tree' is FACTUALLY WRONG. Theory/Metacategory.v:413 `Definition Three : Category := FromArrows ThreeArrows` (table at :396) is a three-object category and is precisely the 3-element LINEAR ORDER (identity arrows 0,1,2; 3 : 0->1, 4 : 1->2, 5 : 0->2 the composite) — i.e. the NMY carrier as a thin category. It carries no Terminal/Cartesian/Monoidal instance, so the NMY BASE is still absent and the ABSENT verdict stands; Phase E should note the carrier exists (via the FromArrows metacategory machinery, so a fresh inductive may still be cheaper).",
+      "PHASE-D CORRECTION: 'Exactly ONE base is a preorder' is true only of DECLARED `Monoidal` instances. Instance/Props.v is thin (`homset := fun P Q => {| equiv := fun f g => True |}`, :45) and already carries Props_Terminal (:53) and Props_Cartesian (:69), so `@Cartesian_Monoidal Props _ _` is a one-line second monoidal-preorder base; the NMY base is buildable by the same recipe as Two_Monoidal (Instance/Two/Monoidal.v:105-106)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening coverage-2-4.json) reached ABSENT independently: alias expansion {NMY, three-element chain, min/meet tensor, quantale/MV base, fuzzy grades} gave 0 hits; the only declared Monoidal instance on a thin category is Two_Monoidal (Instance/Two/Monoidal.v:105 = Cartesian_Monoidal on _2, two_meet :37, two_thin :26), verified by hand. TWO FACTUAL CORRECTIONS to the negative log, neither changing the verdict (appended to negative_search_log, originals kept): (a) 'Instance/Roof.v ... the only three-object category in tree' is FALSE — Theory/Metacategory.v:413 `Three : Category := FromArrows ThreeArrows` (table at :396) is a three-object category and is exactly the 3-element LINEAR ORDER (identities 0,1,2; arrows 3:0->1, 4:1->2, 5:0->2 the composite), i.e. the NMY carrier; it simply carries no Terminal/Cartesian/Monoidal instance. (b) Instance/Props.v is thin (homset equiv := True, :45) and already has Props_Terminal (:53) + Props_Cartesian (:69), so a second monoidal-preorder base is one `Cartesian_Monoidal` application away — the same recipe Two_Monoidal uses. Both facts matter for Phase E costing, not for the classification: no NMY base and no `Enriched` interpretation over any three-valued base exists."
+    }
+  },
+  {
+    "id": "7sketches:2.3.4:ex62",
+    "classification": "ABSENT",
+    "aliases": [
+      "the power-set monoidal preorder (P(M), ⊆, M, ∩) as an enrichment base; subsets under inclusion with intersection as tensor",
+      "M-category over a powerset base: hom-object = set of modes of transport that get you all the way from a to b",
+      "free V-category on a V-labelled graph: hom-object := union over paths p : x → y of the intersection of the edge labels along p",
+      "labelled quiver / weighted graph, path (walk) type, reachability or adjacency matrix, transitive closure",
+      "Boolean-algebra / meet-semilattice enriched category (each subset a truth value in a powerset quantale)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'power.?set|Ensemble|subsets' . -- the only Ensemble-carrying categories are Instance/Ens.v:34 `Ens` and :56 `EnsT T`; read both: their objects ARE subsets of a carrier but a morphism is a FUNCTION `f : T → T` with `∀ x, x ∈ A ↔ f x ∈ B`, NOT an inclusion, so neither is the inclusion preorder (P(M), ⊆) the item needs. Instance/Poset.v:61,95 mention power-set Galois connections in prose only",
+      "grep -rn --include='*.v' -iE 'Intersection|Included|subset order|inclusion order' . -- no order-theoretic hits at all; `Coq.Sets.Ensembles` is imported (Instance/Ens.v:4, Instance/Rel.v:6) but `Included`/`Intersection` are never used, so there is no ∩ tensor and no ⊆ hom",
+      "grep -rn --include='*.v' ': @Monoidal|: Monoidal\\b' . -- no powerset/lattice base among the monoidal instances; the only preorder base is Two_Monoidal (Instance/Two/Monoidal.v:105, two elements, tensor := two_meet)",
+      "grep -rn --include='*.v' -iE 'free category|graph|\\bpath\\b|walk' . filtered to Definition/Class/Record/Inductive/Fixpoint/Theorem/Lemma -- the ONLY graph object in tree is Instance/Parallel.v:166 `Presheaf_Graph : Parallel^op ⟶ Sets`, and it is one FIXED unlabelled graph (vertices := nat, edges := nat * nat, fmap giving fst/snd as source/target). There is no labelled graph, no path/walk type, and no free-category-on-a-graph construction, so the union-over-paths-of-intersections hom-object cannot be formed",
+      "grep -rn --include='*.v' -iE 'reachab|adjacency|boolean matrix|transitive closure' . -- the only 'reachab' hits are the unrelated Lawvere-theory reachability hypothesis (Theory/Lawvere/Sets.v:32-45); no matrix presentation of a hom-object (the V-category hom 'matrix' in tree is just the class field `ehom : eobj → eobj → K`, Construction/Enriched.v:114)",
+      "grep -rn --include='*.v' -iE 'transport mode|by car|by boat|on foot' . -- 0 relevant hits (the item's interpretation layer has no in-tree counterpart either)",
+      "PHASE-D CORRECTION: 'the ONLY graph object in tree is Instance/Parallel.v:166 Presheaf_Graph ... There is no labelled graph, no path/walk type, and no free-category-on-a-graph construction' is FACTUALLY WRONG on three counts. Construction/Free/Quiver.v:54 `Class Quiver` is a general graph (nodes + per-pair edge setoids); :431 `Program Definition FreeOnQuiver : Category` is the free (path) category on a quiver, with `QuiverCategory` :358, `Forgetful : StrictCat -> QuiverCategory` :412, `UniversalArrowQuiverCat`/`FreeCatFunctor` :546 and `FreeForgetfulAdjunction` :550; and the path type is `tlist` (Lib/TList.v:47), used by Construction/Free.v for the path category on a category's underlying quiver. Both files are registered (_CoqProject:38, :72). The ABSENT verdict is unaffected — Quiver edges carry no labels in a monoidal preorder, there is no V-weighted free enrichment, and the (P(M), subseteq, M, cap) base does not exist — but Phase E should build on Quiver/tlist instead of from scratch."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently (no (P(M), subseteq, M, cap) base; no V-labelled graph; no union-over-paths-of-meets hom). Verified the log's Ens claim by reading Instance/Ens.v:34-45,56-66: a morphism really is a membership-preserving-AND-reflecting FUNCTION, not an inclusion, so neither `Ens` nor `EnsT T` is the inclusion preorder. ONE FACTUAL CORRECTION (appended, original kept): the claim 'the ONLY graph object in tree is Instance/Parallel.v:166 Presheaf_Graph ... There is no labelled graph, no path/walk type, and no free-category-on-a-graph construction' is FALSE. Construction/Free/Quiver.v:54 `Class Quiver` is a general graph (nodes + per-pair edge setoids), :431 `FreeOnQuiver : Category` is the free (path) category on it, with `QuiverCategory` :358, `Forgetful : StrictCat -> QuiverCategory` :412 and `FreeForgetfulAdjunction` :550; the path type is `tlist` (Lib/TList.v:47), used by Construction/Free.v for the path category on a category's underlying quiver. Both files are in _CoqProject (:38, :72). ABSENT still stands: Quiver edges carry no V-labels, there is no V-weighted free enrichment, and the powerset base does not exist — but Phase E should build on Quiver/tlist rather than from scratch."
+    }
+  },
+  {
+    "id": "7sketches:2.3.4:ex63",
+    "classification": "ABSENT",
+    "aliases": [
+      "the bottleneck / capacity monoidal preorder W = (ℕ ∪ {∞}, ≤, ∞, min)",
+      "max-min (widest-path / bottleneck-shortest-path) algebra; the tropical-style semiring (max, min) on ℕ ∪ {∞}",
+      "Instance/Omega.v `Omega` (nat under the Type-valued `le_t`) extended with a top element ∞ and given `min` as tensor",
+      "W-category = bandwidth/capacity space; hom-object = greatest capacity of any route",
+      "matrix whose (x,y) entry is max over paths p : x → y of min over edges of p"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'bottleneck|capacity|widest|tropical|max-min' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'infty|infinity' . -- 0 hits, so ℕ ∪ {∞} has no carrier and the monoidal UNIT ∞ of W does not exist",
+      "grep -n -E '^(Definition|Program Definition|Inductive|Lemma|Theorem|Instance|Record|Class)' Instance/Omega.v -- the whole file is `le_t` (:28), three groupoid lemmas, `Omega : Category` (:72) and `omega_step` (:85). The nat order is present as a CATEGORY but with no top object and no tensor",
+      "grep -rn --include='*.v' 'Omega' . | grep -i 'monoidal|tensor' -- 0 hits: there is no bifunctor `Omega ∏ Omega ⟶ Omega`, hence no `min` (nor `+`, nor `*`) monoidal structure on the nat order. Independently confirmed for the multiplicative case by the coverage record for 7sketches:2.2.5:ex45",
+      "grep -rn --include='*.v' -E 'Definition (two_meet|two_join|nat_min|min_)|Nat.min|Nat.max' . -- only Instance/Two/Monoidal.v:37 `two_meet` (on the two-element order); `Nat.min`/`Nat.max` are never used",
+      "grep -rn --include='*.v' -iE 'free category|graph|\\bpath\\b|walk' . -- as for ex62, the only graph is the fixed unlabelled Instance/Parallel.v:166 `Presheaf_Graph`; no labelled graph, no path type, so the max-over-paths-of-min matrix has no in-tree counterpart, and no lemma anywhere asserts such a matrix satisfies the enrichment axioms",
+      "PHASE-D CORRECTION: the entry 'as for ex62, the only graph is the fixed unlabelled Instance/Parallel.v:166 Presheaf_Graph; no labelled graph, no path type' is FACTUALLY WRONG in the same way: Construction/Free/Quiver.v:54 `Class Quiver` (a general graph), :431 `FreeOnQuiver` (the free/path category on it) and the path type `tlist` (Lib/TList.v:47) all exist and are registered (_CoqProject:38, :72). What is genuinely missing, and what keeps the ABSENT verdict, is edge labels valued in a monoidal preorder, the base W = (N u {infinity}, <=, infinity, min) itself (no `infty|infinity` anywhere in tree), and the max-over-paths-of-min hom-object with its enrichment proof."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the Omega claims by reading Instance/Omega.v: the whole file is `le_t` (:28), three groupoid lemmas (:51,:55,:63), `Omega` (:72), `omega_step` (:85) — no top element, no bifunctor; and `rg -i 'infty|infinity' --glob '*.v'` really is 0 hits tree-wide, so the monoidal unit infinity of W has no carrier. SAME CORRECTION AS ex62 (appended, original kept): the log's 'as for ex62 ... no labelled graph, no path type' is false — Construction/Free/Quiver.v:54 `Class Quiver`, :431 `FreeOnQuiver`, and `tlist` (Lib/TList.v:47) exist; what is genuinely missing is edge LABELS in a monoidal preorder and the max-over-paths-of-min hom-object with its enrichment proof. Verdict unchanged."
+    }
+  },
+  {
+    "id": "7sketches:2.4.1:construction64",
+    "classification": "ABSENT",
+    "aliases": [
+      "change of base of enrichment along a (lax) monoidal functor: from `f : V → W` and a V-category C build the W-category C_f with Ob(C_f) := Ob(C), C_f(c,d) := f(C(c,d))",
+      "base change / pushforward / transport of an enrichment; `f_* C`, `C ⊗_V W`, the induced 2-functor V-Cat ⟶ W-Cat",
+      "`LaxMonoidalFunctor` (Functor/Structure/Monoidal.v) applied to `Enriched` (Construction/Enriched.v): eid ↦ lax_pure ∘ f(eid), ecompose ↦ f(ecompose) ∘ lax_ap",
+      "the underlying-ordinary-category functor as the special case of base change along V ⟶ Set",
+      "change of enrichment base along a monoidal monotone (the thin-base reading: I_W ≤ f(I_V) ≤ f(C(c,c)) and f(C(c,d)) ⊗_W f(C(d,e)) ≤ f(C(c,d) ⊗_V C(d,e)) ≤ f(C(c,e)))"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln --include='*.v' 'Enriched' . -- EXACTLY 11 files mention the word: Construction/Enriched.v and Construction/Enriched/{Sets,Natural,Two,Compose,Fun}.v (the real development) plus five prose-only mentions (Theory/Natural/Transformation.v:103, Instance/Poset.v:72, Instance/Two.v:75-77,100, Structure/Closed.v:42,58, Structure/Monoidal.v:107). No other file can host a base change",
+      "grep -rn --include='*.v' -E '^(Definition|Theorem|Lemma|Class|Record|Program|Instance|Corollary|Fixpoint|Coercion)' Construction/Enriched.v Construction/Enriched/*.v -- the COMPLETE symbol list of the enriched development: Enriched, EnrichedFunctor, Category_is_Enriched_over_Set, Functor_is_Enriched_over_Set, EnrichedTransform(_Setoid), EnrichedId, EnrichedCompose, EnrichedWhiskerLeft/Right, Enriched_Fun (+ its vertical-composition lemmas), EF/EG/EnrichedTransform_is_Transform, and the Two.v preorder correspondence. NOTHING takes a monoidal functor as input; no symbol is parameterised by two bases K and K'",
+      "grep -rn --include='*.v' -iE 'change of base|base change|changeofbase|base_change|ChangeBase' . -- all hits are unrelated: pullback/cobase change of MORPHISMS (Theory/Morphisms/Stability.v:215, Construction/Slice/Pullback.v:24,62-65, Theory/Orthogonality.v:34) and colour base change of coloured PROPs (Construction/ColouredPROP/BaseChange.v:29 + BaseChange/Laws.v). Nothing about enrichment bases",
+      "grep -rn --include='*.v' -iE 'transport.*enrich|enrich.*transport|Transported' . -- the nearest relative is `Transported_Monoidal` (Theory/Equivalence/Monoidal.v:928), which transports MONOIDAL structure along an EQUIVALENCE of categories; it is neither about enrichment nor available from a merely lax monoidal functor",
+      "NOTE (near-miss, not evidence): both INPUTS of the construction are in tree and already credited elsewhere — `LaxMonoidalFunctor` (Functor/Structure/Monoidal.v:110, the monoidal monotone of Def 2.41, PRESENT) and `Class Enriched` (Construction/Enriched.v:111, the V-category of Def 2.46, PRESENT). Only the construction combining them is missing, which makes this the cheapest high-value gap in the batch"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently: `rg -l 'Construction.Enriched'` returns only Instance/{Two,Poset}.v, Theory/Natural/Transformation.v, Structure/{Closed,Monoidal}.v and the Enriched/* files, none of which transports an enrichment; 'monoidal monotone' has 0 hits; the only 'base change' hits are ColouredPROP colour re-indexing and pullback base change of morphisms. Confirmed the log's symbol inventory by reading Construction/Enriched.v in full (Enriched :111, EnrichedFunctor :145, Category_is_Enriched_over_Set :163, Functor_is_Enriched_over_Set :215) plus Compose.v (:25,:49,:87,:118) and Fun.v (:270): NO symbol in the enriched development is parameterised by two bases K, K', and none consumes a monoidal functor. The near-miss note is accurate: `Class MonoidalFunctor` is Functor/Structure/Monoidal.v:77 and `Class LaxMonoidalFunctor` :110, exactly as cited. Cheapest high-value gap in the batch, as the log says."
+    }
+  },
+  {
+    "id": "7sketches:2.4.1:example65",
+    "classification": "ABSENT",
+    "aliases": [
+      "the monoidal monotone f : Cost → Bool with f(0) = true, f(x) = false for x > 0",
+      "base change along Cost ⟶ Bool sending a Lawvere metric space to its specialization preorder (x ≤ y iff d(x,y) = 0)",
+      "zero-distance / specialization / indistinguishability preorder of a (quasi-pseudo)metric space",
+      "`Enriched Cost` ⟶ `Enriched _2 Two_Monoidal` induced by a lax monoidal functor between the bases",
+      "the 'is-at-no-cost-reachable-from' relation as a reflexive-transitive relation derived from d"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; the source base of the base change does not exist (consistent with the coverage record for 7sketches:2.3.3:def53)",
+      "grep -rn --include='*.v' -E 'Require.*Reals|Rle|Rplus|QArith' . -- 0 hits, and grep -rn -iE 'infty|infinity' . -- 0 hits: there is no [0, ∞] carrier, so f's DOMAIN cannot even be typed",
+      "grep -rn --include='*.v' -i 'metric' . -- every hit is a substring false positive ('symmetric', 'parametric') or prose (Construction/Enriched.v:49,75-77; Instance/Poset.v:76-77; Instance/Two.v:69-77); no metric space object exists to be converted",
+      "grep -rn --include='*.v' -iE 'change of base|base change' . -- no enriched base-change machinery exists to instantiate at f (see the negative log for 7sketches:2.4.1:construction64)",
+      "grep -rn --include='*.v' -iE 'specialization preorder|zero distance|indistinguishab' . -- 0 hits: the RESULT of the base change (the preorder x ≤ y iff d(x,y) = 0) is not stated either",
+      "grep -rn --include='*.v' ': @Monoidal|: Monoidal\\b' . -- the only thin/preorder base is Two_Monoidal (Instance/Two/Monoidal.v:105), i.e. the TARGET Bool exists but the source and the map do not"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Independently re-ran the load-bearing negatives: `rg -i '\\bCost\\b'` matches only the English word 'cost' in prose; `rg -i 'infty|infinity'` 0 hits; `rg 'Require.*Reals|Rle|Rplus|QArith'` 0 hits; every 'metric' hit is background prose (Construction/Enriched.v:49,75-77; Instance/Poset.v:39,75-77; Instance/Two.v:28,71; Theory/Profunctor.v:46,100; Construction/Karoubi.v:45,86). Target base Bool exists (Two_Monoidal, Instance/Two/Monoidal.v:105) but neither the source base nor the monotone nor the base-change machinery does."
+    }
+  },
+  {
+    "id": "7sketches:2.4.1:ex67",
+    "classification": "ABSENT",
+    "aliases": [
+      "specialization preorder of the 'regions of the world' Lawvere metric space (US, Spain, Boston)",
+      "Hasse diagram of the preorder obtained by base change along f : Cost → Bool",
+      "containment / zero-distance ordering of regions (Boston ≤ US since d(Boston, US) = 0)",
+      "a concrete finite Cost-category and its image under change of base",
+      "asymmetric (quasi-)metric on a finite set given by a distance table"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; the Cost-category of Exercise 2.52 that this exercise transports has no in-tree counterpart (that item is itself recorded ABSENT)",
+      "grep -rn --include='*.v' -iE 'infty|infinity' . and grep -rn -E 'Require.*Reals|Rle|Rplus|QArith' . -- 0 hits each: no carrier for the distance table",
+      "grep -rn --include='*.v' -i 'hasse' . -- 0 hits; no finite order is ever presented by a diagram or covering relation in tree",
+      "grep -rn --include='*.v' -iE 'change of base|base change' . -- no enriched base change to apply (see 7sketches:2.4.1:construction64)",
+      "grep -rn --include='*.v' -iE 'region|Spain|Boston' . -- 0 hits; no concrete finite metric or preorder example of this shape exists",
+      "grep -rn --include='*.v' -E 'Definition (Pos|Preord|Prosets|Posets)' . -- 0 hits: even the OUTPUT (a named finite preorder) would have to be built from Instance/Proset.v's `Proset P`, and no such three-element instance exists (the only Proset/Poset examples are `LessThanEqualTo_Category` on nat, Instance/Proset.v:47 and Instance/Poset.v:120, and Test/Poset.v's two-element `Poset_two`)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Spot-checked the log: 'hasse' 0 hits; no Cost base; the only Proset/Poset instances in tree are Instance/Proset.v:47 and Instance/Poset.v:120 (`LessThanEqualTo_Category` on nat) plus Test/Poset.v:54 `Poset_nat` and :139 `Poset_two` — all verified at the cited lines. No three-element preorder example and no Cost-category to transport."
+    }
+  },
+  {
+    "id": "7sketches:2.4.1:ex68",
+    "classification": "ABSENT",
+    "aliases": [
+      "a second monoidal monotone g : Cost → Bool (e.g. g(x) = true iff x < ∞, or a threshold g(x) = true iff x ≤ r)",
+      "two distinct lax monoidal functors between the same bases giving distinct base changes X_f ≠ X_g",
+      "threshold / finite-distance preorder of a Lawvere metric space (as opposed to the zero-distance one)",
+      "non-uniqueness of change of base: the induced maps V-Cat ⟶ W-Cat differ",
+      "counterexample separating two enrichment-base comparisons"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits: neither g's domain nor the f it must differ from exists",
+      "grep -rn --include='*.v' -iE 'infty|infinity' . -- 0 hits, so the natural second monotone (true iff the distance is finite) cannot even be written",
+      "grep -rn --include='*.v' -iE 'change of base|base change' . -- no enriched base change exists, so 'the two base changes differ' has nothing to compare (see 7sketches:2.4.1:construction64)",
+      "grep -rn --include='*.v' -iE 'MonoidalPreorder|monoidal.*monotone|monotone.*monoidal|ordered monoid' . -- 0 hits: the name 'monoidal monotone' does not occur; the generic `LaxMonoidalFunctor` (Functor/Structure/Monoidal.v:110) exists but has NO in-tree instance between thin categories, so there is not even ONE monoidal monotone in tree, let alone two to distinguish",
+      "grep -rn --include='*.v' -i 'metric' . -- prose only; no Lawvere metric space X exists on which to exhibit X_f ≠ X_g"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the sharpest claim in the log — that there is not even ONE monoidal monotone in tree: `LaxMonoidalFunctor` (Functor/Structure/Monoidal.v:110) has instances only at Id (Functor/Structure/Monoidal/Id.v:73) and Compose (Functor/Structure/Monoidal/Compose.v:291), i.e. generic constructions, never an instance between thin categories; 'monoidal monotone' as a phrase has 0 hits. So 'exhibit X with X_f =/= X_g' has neither the maps nor the base change nor the space."
+    }
+  },
+  {
+    "id": "7sketches:2.4.2:def69",
+    "classification": "PRESENT",
+    "aliases": [
+      "V-functor / enriched functor between V-categories (`EnrichedFunctor`, `efobj`, `efmap`)",
+      "Kelly enriched functor: object map plus hom-object maps F : C(x,y) ~> D(Fx, Fy) commuting with j and M",
+      "Bool-enriched functor = monotone map; Cost-enriched functor = 1-Lipschitz map (the two readings the book gives next)",
+      "the one-constraint preorder form: X(x1,x2) ≤ Y(F x1, F x2) in V",
+      "V-Cat morphism / 1-cell of the 2-category of V-categories"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched.v",
+        "line": 145,
+        "symbol": "EnrichedFunctor",
+        "intree_statement": "Class EnrichedFunctor (K : Category) `{@Monoidal K} (C : Enriched K) (D : Enriched K) := { efobj : C → D; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id : ∀ x, efmap ∘ eid << I ~~> (efobj x ⟿ efobj x) >> eid; efmap_comp : ∀ x y z, ecompose ∘ efmap ⨂ efmap << (y ⟿ z) ⨂ (x ⟿ y) ~~> (efobj x ⟿ efobj z) >> efmap ∘ ecompose }"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q. Proof. split; intro X. - destruct X as [f fm _ _]; ... unshelve refine {| mono_map := f |}; intros x y l; apply ehom_of_le_sound; specialize (fm x y); rewrite (ehom_of_le_complete l) in fm; exact fm. - ... (efmap by cases on tpre_dec; the two preservation laws by two_thin). Defined.  — at the book's own base V = Bool the class provably collapses to exactly Def 2.69's data: a function on objects plus the single inequality X(x1,x2) ≤ Y(F x1, F x2)"
+      },
+      {
+        "file": "Construction/Enriched.v",
+        "line": 215,
+        "symbol": "Functor_is_Enriched_over_Set",
+        "intree_statement": "Theorem Functor_is_Enriched_over_Set (C D : Category) : EnrichedFunctor Sets (snd Category_is_Enriched_over_Set C) (snd Category_is_Enriched_over_Set D) ↔ (C ⟶ D).  — the sanity check that the class is the standard notion: at V = Sets an enriched functor is exactly an ordinary functor, efobj/efmap/efmap_id/efmap_comp unfolding to fobj/fmap/fmap_id/fmap_comp"
+      }
+    ],
+    "statement_record": {
+      "book": "For V-categories X and Y, a V-functor F : X → Y consists of ONE constituent — a function F : Ob(X) → Ob(Y) — subject to ONE constraint: for all x1, x2 ∈ Ob(X), X(x1, x2) ≤ Y(F x1, F x2) in V. Because the base is a preorder there is no further data and no equations to impose.",
+      "intree": "Class EnrichedFunctor (K : Category) `{@Monoidal K} (C D : Enriched K) := { efobj : C → D; efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y); efmap_id : ∀ x, efmap ∘ eid ≈ eid; efmap_comp : ∀ x y z, ecompose ∘ efmap ⨂ efmap ≈ efmap ∘ ecompose }",
+      "strength_comparison": "same at the book's generality; intree-stronger in base generality. `efobj : C → D` is the book's single constituent and `efmap : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y)` is verbatim its single constraint (in a thin base a hom IS the relation ≤, so the K-morphism IS the inequality). The class additionally demands the two Kelly coherence equations `efmap_id`/`efmap_comp`, which Def 2.69 never states — but over a preorder base they are vacuous, and Construction/Enriched/Two.v discharges both by `apply two_thin` (Instance/Two/Monoidal.v:26, `two_thin : ∀ (f g : TwoHom x y), f = g`), so no extra hypothesis is imposed in the book's setting; over a general proof-relevant base they are the correct definition. Two disclosures, neither an actionable gap for this item. (1) `EnrichedFunctor_Two_monotone` is stated for enrichments in the IMAGE of `Enriched_of_TwoPreorder` (`snd Enriched_Two_preorder P`) rather than for arbitrary Bool-categories, matching the book's own framing but inheriting the Ex 2.50 round-trip gap. (2) The library has no `MonoidalPreorder` class and no generic bridge from a symmetric monoidal preorder to a thin monoidal category, so a base must be hand-built; exactly one preorder base exists in tree (`Two_Monoidal`, Instance/Two/Monoidal.v:105). The surrounding API the book will need is present: `EnrichedId`/`EnrichedCompose` (Construction/Enriched/Compose.v:25,49) and the V-functor category `Enriched_Fun C D` (Construction/Enriched/Fun.v:270)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT confirmed against the source. Construction/Enriched.v line 145 IS `Class EnrichedFunctor` and the quoted fields are verbatim (efobj :148, efmap :149, efmap_id :152, efmap_comp :155); Two.v:183 and Enriched.v:215 exist exactly as quoted. Every support cited in strength_comparison checks out: `two_thin` Instance/Two/Monoidal.v:26 (`Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g`), `two_meet` :37, `Two_Monoidal` :105 (= Cartesian_Monoidal on _2), `EnrichedId` Compose.v:25, `EnrichedCompose` :49, `Enriched_Fun` Fun.v:270 with `obj := EnrichedFunctor K C D` (:271). All files registered in _CoqProject (:30-35, :240-241). Adversarial checks: NOT a same-name-weaker statement (the class is strictly stronger — it adds the two Kelly equations Def 2.69 omits, and they are vacuous at a thin base, discharged by `apply two_thin`); the required API exists (identity, composite, functor category). Residual, already disclosed by Phase C and not enough to overturn: no `MonoidalPreorder` class, so the book's degenerate 'one constituent, one constraint' reading is machine-checked only at V = _2."
+    }
+  },
+  {
+    "id": "7sketches:2.4.2:example70",
+    "classification": "PRESENT",
+    "aliases": [
+      "Bool-functors are exactly the monotone maps (V = Bool leg of Def 2.69)",
+      "`EnrichedFunctor_Two_monotone` / `MonotoneMap` (Construction/Enriched/Two.v)",
+      "monotone map = functor between thin categories (Proset P ⟶ Proset Q)",
+      "order-preserving map; 2-enriched functor; morphism leg of the preorder/Bool-category correspondence",
+      "x1 ≤_X x2 → F x1 ≤_Y F x2 read as X(x1,x2) ≤ Y(F x1, F x2) in Bool"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q.  — proved in BOTH directions: forward, `mono_map := f` with monotonicity `ehom_of_le_sound` applied to `efmap` after `rewrite (ehom_of_le_complete l)`; backward, `efmap` by cases on `tpre_dec P x y` (top-to-top from `mono_le`, else `two_bot`) with `efmap_id`/`efmap_comp` discharged by `two_thin`"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 175,
+        "symbol": "MonotoneMap",
+        "intree_statement": "Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) }  — the book's 'monotone map' side of the identification, exactly a function plus the implication x1 ≤ x2 → F x1 ≤ F x2"
+      }
+    ],
+    "statement_record": {
+      "book": "Taking V = Bool, so that preorders are Bool-categories with X(x1,x2) = true written x1 ≤ x2, the V-functors of Def 2.69 are exactly the monotone maps: a function F : X → Y satisfying X(x1,x2) ≤ Y(F x1, F x2) in Bool is precisely one with x1 ≤_X x2 implying F x1 ≤_Y F x2.",
+      "intree": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q, with MonotoneMap := { mono_map : tpre_carrier P → tpre_carrier Q; mono_le x y : tpre_le P x y → tpre_le Q (mono_map x) (mono_map y) }.",
+      "strength_comparison": "same in substance, both directions machine-checked, at the genuine base Bool (`Two_Monoidal` has tensor := `two_meet` = AND and unit := `TwoY` = true, Instance/Two/Monoidal.v:37,105). Three disclosures. (1) `↔` is `iffT` (Lib/Foundation.v:72), a pair of maps carrying no inverse laws, so 'exactly' is asserted only as mutual constructibility, not as a bijection of the two types — the same weakening recorded at Ex 2.50. (2) The theorem quantifies over enrichments of the form `snd Enriched_Two_preorder P` (i.e. built from a preorder by `Enriched_of_TwoPreorder`) rather than over arbitrary `Enriched _2 Two_Monoidal`; this matches the book, which also views preorders qua Bool-categories, but a fully general form would need the Ex 2.50 round trip. (3) `TwoPreorder` (Construction/Enriched/Two.v:60) carries a decidability field `tpre_dec x y : tpre_le x y + (tpre_le x y → False)` that the classical statement does not, the unavoidable constructive price of computing a truth value; the file header discloses it, and the converse direction supplies decidability for free."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PRESENT confirmed against the source. Read Construction/Enriched/Two.v in full: `MonotoneMap` at :175 and `EnrichedFunctor_Two_monotone` at :183 are verbatim as quoted, the proof really does both directions (forward via `ehom_of_le_sound` after `rewrite (ehom_of_le_complete l)`; backward `efmap` by cases on `tpre_dec` with `efmap_id`/`efmap_comp` by `two_thin`) and ends `Defined.`; `<->` is `iffT` (Lib/Foundation.v:72) as disclosed; the decidability field is `tpre_dec` at :65 with the header disclosure at :52-58. Adversarial checks run and their outcome: (i) special-case-only — the theorem quantifies over enrichments in the IMAGE of `Enriched_of_TwoPreorder`, so the fully general form (arbitrary E E' : Enriched _2 Two_Monoidal, preorders taken by `TwoPreorder_of_Enriched`) is NOT in tree; I did not overturn because Example 2.70 itself speaks of preorders qua Bool-categories, and Phase C discloses the restriction, but Phase E should know the general form is unstated; (ii) definition-without-API and dual-assumed-but-absent do not apply; (iii) file registered in _CoqProject:35."
+    }
+  },
+  {
+    "id": "7sketches:2.4.2:remark71",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the preorder / Bool-category correspondence is an EQUIVALENCE of categories (Preord ≃ Bool-Cat)",
+      "category of preorders and monotone maps (Ord / Pos / Preord) and category of V-categories and V-functors (V-Cat / Bool-Cat)",
+      "isomorphism of categories `≅[Cat]`; `Equivalence` / adjoint equivalence between the two presentations",
+      "2-functor from V-Cat to Cat; the object leg `Enriched_Two_preorder` plus the morphism leg `EnrichedFunctor_Two_monotone` upgraded to functors",
+      "Lawvere 1973: a preorder IS a category enriched in the truth values, functorially"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder. Proof. split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder. Defined.  — the OBJECT leg of the would-be equivalence, as a pair of maps in both directions"
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 183,
+        "symbol": "EnrichedFunctor_Two_monotone",
+        "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q  — the MORPHISM leg, a hom-level correspondence in both directions"
+      }
+    ],
+    "statement_record": {
+      "book": "The correspondence of Thm 2.49 together with Example 2.70 is in fact an EQUIVALENCE of categories between the category of preorders (with monotone maps) and the category of Bool-categories (with Bool-functors); the vocabulary needed to state this precisely is developed in the next chapter (Remark 3.59).",
+      "intree": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder (object level) and Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q (hom level).",
+      "strength_comparison": "intree-weaker: both LEGS of the correspondence exist, but the correspondence is never assembled into anything categorical. `↔` is `iffT` (Lib/Foundation.v:72), a bare pair of maps with no inverse laws, no functoriality (nothing says the object map and the hom map respect identities and composition), and no naturality; and there are no CATEGORIES for the equivalence to live between. So the in-tree content is 'maps both ways on objects, and maps both ways on homs, for each fixed pair', strictly weaker than 'an equivalence of categories'. The general machinery to state the conclusion does exist and is unused here (Theory/Equivalence.v's quasi-inverse `Equivalence` class, the Full+Faithful+essentially-surjective characterization in Theory/Equivalence/FullFaithful.v, and `≅[Cat]` over Instance/Cat.v)."
+    },
+    "gap": "Three precise omissions. (1) NO CATEGORY OF PREORDERS. Instance/Proset.v:33 `Proset P` and Instance/Poset.v:116 `Poset P` build a SINGLE preorder AS a category; nothing has preorders as its objects and monotone maps as its morphisms (`grep -rn -E 'Definition (Pos|Preord|Prosets|Posets|POS)' .` : 0 hits, and both files' headers point at an 'Ord'/'Pos' they do not construct — Instance/Proset.v:20 'See also [Ord], for the category of preordered sets', Instance/Poset.v:21-22 'See also [Pos] ... whose objects are posets'). `MonotoneMap` (Construction/Enriched/Two.v:175) supplies the hom type but no `Category` instance is built from it. (2) NO CATEGORY OF Bool-CATEGORIES. Construction/Enriched/Fun.v:270 builds only `Enriched_Fun C D`, the ordinary category of V-functors between two FIXED V-categories; there is no `V-Cat` whose objects are the V-categories (`grep -rn -E 'VCat|ECat|EnrichedCat|Enriched_Cat' .` : 0 hits), even though the 1-cell structure needed for it is present (`EnrichedId`, `EnrichedCompose`, Construction/Enriched/Compose.v:25,49). (3) CONSEQUENTLY NO FUNCTORS AND NO EQUIVALENCE. Since neither category exists, neither direction is a functor and no `Equivalence`/`≅[Cat]`/`Isomorphism` instance relates them; nothing in tree even asserts the underlying BIJECTION (that is the separately-recorded PARTIAL at 7sketches:2.3.2:ex50, whose round trips are likewise unstated), so full-faithfulness and essential surjectivity — the content of 'equivalence' — are entirely absent.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Definition (Pos|Preord|Prosets|Posets|POS)|Program Definition (Pos|Preord)|category of posets|category of preorders' . -- only Instance/Poset.v:116 (`Poset`, a single poset as a category) and Test/Poset.v:54,139 (two instances of it); the category OF preorders is nowhere built",
+      "grep -rn --include='*.v' -E 'VCat|ECat|EnrichedCat|Enriched_Cat' . -- 0 hits: no category (or 2-category) of enriched categories",
+      "grep -rn --include='*.v' -E '^(Definition|Theorem|Lemma|Class|Record|Program|Instance)' Construction/Enriched/Fun.v -- the file's only Category is `Enriched_Fun {K} (C D : Enriched K) : Category` (:270), with obj := EnrichedFunctor K C D; the objects are V-FUNCTORS, not V-categories",
+      "grep -rn --include='*.v' 'round|roundtrip|RoundTrip' Construction/Enriched/ Construction/Enriched.v -- only the prose 'definitional round trip' (Construction/Enriched.v:90); no lemma mentions both `TwoPreorder_of_Enriched` and `Enriched_of_TwoPreorder`, so not even the bijection underlying the equivalence is stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL confirmed; the three-part gap is accurate and I reproduced each leg independently. `rg 'VCat|ECat|EnrichedCat|Enriched_Cat' --glob '*.v'` 0 hits; `Enriched_Fun` (Construction/Enriched/Fun.v:270) has `obj := EnrichedFunctor K C D` (:271), i.e. objects are V-FUNCTORS, so there is no category of V-categories even though EnrichedId/EnrichedCompose exist; no category of preorders (`rg '\\bOrd\\b'` = 1 comment hit, `rg '\\bPos\\b'` = stdlib positives in Lib/MapDecide.v + 1 comment), and Instance/Proset.v:33 / Instance/Poset.v:116 build ONE preorder AS a category; no lemma anywhere mentions both `TwoPreorder_of_Enriched` (Two.v:71) and `Enriched_of_TwoPreorder` (:131), so not even the underlying bijection is stated, let alone functoriality, fullness/faithfulness or essential surjectivity. Evidence at :165 and :183 verified verbatim. Minor citation nit (not corrected in the record): the '[Ord]' quote begins at Instance/Proset.v:19, which the gap text cites as :20."
+    }
+  },
+  {
+    "id": "7sketches:2.4.2:example72",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost-functors between Lawvere metric spaces are exactly the 1-Lipschitz (short, distance-nonincreasing) maps",
+      "nonexpansive map / metric map / contraction; d_X(x1,x2) ≥ d_Y(F x1, F x2)",
+      "`EnrichedFunctor Cost X Y` for X, Y : `Enriched Cost` (the V = Cost leg of Def 2.69)",
+      "morphism of generalized/Lawvere metric spaces; the category Met of metric spaces and short maps",
+      "the reversed-order reading: the hom-object inequality in Cost = ([0,∞], ≥, 0, +) IS the Lipschitz condition"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits: the base is absent, so `EnrichedFunctor Cost X Y` cannot be formed (consistent with the coverage record for 7sketches:2.3.3:def53, PARTIAL on the generic class alone)",
+      "grep -rn --include='*.v' -iE 'lipschitz|nonexpansive|non-expansive|short map|contraction' . -- no relevant hits; every 'contraction' hit is the structural rule of a term calculus (Theory/Multicategory.v:153, Theory/Lawvere.v:109) or beta-contraction (Instance/Lambda/Full.v:24-51)",
+      "grep -rn --include='*.v' -i 'metric' . -- prose only (Construction/Enriched.v:49,75-77; Instance/Poset.v:76-77; Instance/Two.v:69-77); the rest are 'symmetric'/'parametric' substrings. There are no metric spaces to map between",
+      "grep -rn --include='*.v' -E 'Require.*Reals|Rle|Rplus|QArith' . and grep -rn -iE 'infty|infinity' . -- 0 hits each: no [0, ∞], hence no distances and no inequality between them to assert",
+      "grep -rn --include='*.v' -iE '\\bMet\\b|MetricSpaces' . -- no category of metric spaces",
+      "NOTE: the GENERIC statement this example instantiates, `Class EnrichedFunctor` (Construction/Enriched.v:145), is PRESENT and credited at 7sketches:2.4.2:def69; the distinctive content here — the identification with the Lipschitz condition at V = Cost — has no in-tree counterpart at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-ran the negatives myself: `\\bCost\\b` prose only; 'lipschitz|nonexpansive|short map' 0 relevant hits; '\\bMet\\b|MetricSpaces' 0 hits; no [0,infinity] carrier (`infty|infinity`, `Reals|Rle|Rplus|QArith` all 0 hits). The generic class the example instantiates (`EnrichedFunctor`, Construction/Enriched.v:145) is indeed credited at def69, so no double-count; the distinctive content (identification with the Lipschitz condition at V = Cost) has no counterpart."
+    }
+  },
+  {
+    "id": "7sketches:2.4.2:ex73",
+    "classification": "ABSENT",
+    "aliases": [
+      "opposite V-category X^op with X^op(x,y) := X(y,x) (needs V symmetric); dual enrichment",
+      "dagger / symmetric V-category: the identity is a V-functor X ⟶ X^op, i.e. X(x,y) ≤ X(y,x)",
+      "skeletal V-category: I ≤ X(x,y) and I ≤ X(y,x) imply x = y (the enriched form of antisymmetry / separation)",
+      "extended metric space = skeletal dagger Cost-category ([0,∞]-valued metric with symmetry and separation restored)",
+      "the analogy preorder : set :: Lawvere metric space : extended metric space (poset = skeletal thin category, `Construction/Opposite.v` C^op as the Bool-level opposite)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'Enriched.*op|op.*Enriched' Construction/ -- no `Enriched_op`, no `X^op` for V-categories; the only hits are the file's own prose and the names `TwoPreorder_of_Enriched`/`Enriched_of_TwoPreorder`. `Construction/Opposite.v` provides `C^op` for an ordinary `Category` ONLY (which is the Bool-level shadow of the item's X^op, and would give the opposite preorder as `(Proset P)^op`), never for `Enriched K`, and no `TwoPreorder` opposite exists either",
+      "grep -rn --include='*.v' -i 'dagger' . -- all 14 hits are prose: Instance/Rel.v:36-39 ('REL is a dagger category ... None of that extra structure' is developed), Instance/ZX.v:108-112, Instance/Adjoints.v:278-280, Structure/Monoidal/CompactClosed.v:48,117-118, Theory/Algebra/Frobenius.v:94, Construction/Span/Category.v:37. There is NO `Dagger` class anywhere, hence no dagger V-category and no in-tree notion of a symmetric enrichment",
+      "grep -rn --include='*.v' -E 'Skeletal|skeleton' . filtered to Definition/Class/Record/Lemma/Theorem -- 0 hits: skeletality is never a definition. The nearest assertions are Test/Poset.v:102 `poset_nat_skeletal : ∀ x y : obj[Poset_nat], (x ~> y) → (y ~> x) → x = y` and :150 `poset_two_skeletal` (same shape for a bespoke two-element poset) — per-INSTANCE facts about two specific posets qua ordinary categories, not the enriched condition I ≤ X(x,y) ∧ I ≤ X(y,x) → x = y, and not applicable at any base other than Bool. Instance/Poset.v:19-21 states 'a poset is exactly a skeletal thin category' in prose only",
+      "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits, and grep -rn -iE 'infty|infinity' . / grep -rn -E 'Require.*Reals|Rle|Rplus|QArith' . -- 0 hits each: the headline claim (a skeletal dagger Cost-category IS an extended metric space) has neither side available — no Cost base, no [0,∞] carrier",
+      "grep -rn --include='*.v' -i 'metric' . -- prose only; grep -rn -iE 'extended metric|pseudometric|ultrametric|quasi-metric' . -- 0 hits: no extended metric space definition to be identified with anything",
+      "grep -rn --include='*.v' -E '^(Definition|Theorem|Lemma|Class|Record|Program|Instance|Corollary)' Construction/Enriched.v Construction/Enriched/*.v -- the complete symbol list of the enriched development contains no op, no dagger/symmetry, and no skeletality construct; all three notions this exercise defines are missing at the V-level"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently for all three notions. Verified: NO dagger class anywhere (`rg 'Class Dagger|Record Dagger'` 0 hits; every 'dagger' hit is background prose); no opposite of an `Enriched` (the enriched development's complete symbol list contains no op — Construction/Opposite.v gives C^op for an ordinary Category only); skeletality is never a definition, the nearest being Test/Poset.v:102 `poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~> y) -> (y ~> x) -> x = y` and :150 `poset_two_skeletal` — both quoted accurately by Phase C and both per-instance facts about ordinary thin categories, not the enriched condition I <= X(x,y) /\\ I <= X(y,x) -> x = y; and no Cost base or extended metric space to identify. Minor count nit (not corrected): the log says 'all 14 hits are prose' for dagger; there are 16 hits, across exactly the 8 files it lists, and all are prose."
+    }
+  }
+]

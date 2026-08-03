@@ -1,0 +1,288 @@
+[
+  {
+    "id": "maclane:IX.3:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "final functor preserves colimits",
+      "cofinal functor",
+      "colim FL ≅ colim F",
+      "colimits computed over a final/cofinal subcategory",
+      "comparison map h : Colim FL → Colim F is iso"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIi 'cofinal|final functor|final subcat|coinitial|initial functor' --include=*.v . → only Functor/Structure/Terminal.v, where 'InitialFunctor' means a functor PRESERVING the initial object (TerminalFunctor on F^op), a different concept from Mac Lane's cofinal/final functor",
+      "grep -rInw -iE 'Final|Cofinal|Coinitial' --include=*.v . → remaining hits are all 'final F-coalgebra' (terminal coalgebra, Theory/Lambek.v, Theory/Recursion.v) or prose ('final distinction', 'final cast', 'final lemmas'); none the cofinality notion",
+      "grep -rIn 'colim.*subcat|subcat.*colim|colim FL|Colim.*restrict|restrict.*colim|reindex.*colim' --include=*.v . → 0 hits: no comparison map Colim FL → Colim F, no notion of computing a colimit over a subcategory",
+      "grep -rIn 'Class Connected|Definition Connected|Record Connected|connected_category' --include=*.v . → 0 hits: no connectedness-of-a-category predicate, which the finality condition (comma k↓L nonempty and connected) requires",
+      "grep -rIn 'Comma.*connect|connect.*Comma|nonempty|inhabited.*comma' Construction/Comma.v Construction/Comma/ → 0 hits",
+      "Structure/Limit/Preservation.v defines PreservesLimit/PreservesColimit for a functor F:C⟶D acting on a diagram G:J⟶C (preservation on the VALUE category); this is NOT comparison of colimits along a functor between INDEX categories, so it does not subsume the final-functor theorem",
+      "corroboration: doc/plan/books/maclane/issues/III-drafts.md:1433 records a prior verified negative search stating 'no final/initial-functor (cofinality) machinery exists'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind whole-tree search independently found NO cofinal/final-functor notion: rg 'cofinal|final functor|finality' → 0; all '\\bfinal\\b' hits are prose or 'final coalgebra'; no colim-over-subcategory comparison map. Verified the log's positive claim: Functor/Structure/Terminal.v:59 defines InitialFunctor := TerminalFunctor on F^op (= 'preserves the initial object', a genuinely different concept). Corroboration doc/plan/.../III-drafts.md:1433 exists and is quoted accurately. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "initial functor",
+      "coinitial functor",
+      "limits computed over an initial subcategory",
+      "dual of the final-functor theorem",
+      "limit unchanged along an initial functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This remark is the exact dual of IX.3:thm1 (limits over initial subcategories). Its content depends on the same absent finality/initiality machinery.",
+      "grep -rIi 'coinitial|initial functor|initial subcat' --include=*.v . → only Functor/Structure/Terminal.v 'InitialFunctor' = preserves the initial object (distinct concept)",
+      "grep -rIn 'lim.*subcat|subcat.*lim|Lim.*restrict|restrict.*lim' --include=*.v . → 0 hits: no notion of computing a limit over a subcategory or comparing limits along an index functor",
+      "grep -rIn 'Class Connected|Definition Connected|Record Connected' --include=*.v . → 0 hits (connectedness of a comma category is unavailable)",
+      "corroboration: doc/plan/books/maclane/issues/III-drafts.md:1433 'no final/initial-functor (cofinality) machinery exists'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Exact dual of thm1; same absent finality/initiality machinery. Blind search for 'coinitial|initial functor|lim over subcat' found only the unrelated InitialFunctor (preserves initial object). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "one-object inclusion final iff terminal",
+      "{j} → J final",
+      "singleton subcategory cofinal",
+      "colimit over a category with a terminal index object",
+      "j terminal ⇒ colim F = F j"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise's content is a characterization of finality (of the inclusion {j}→J) in terms of j being terminal; it presupposes the finality notion, which is absent (see IX.3:thm1 log).",
+      "grep -rIi 'terminal.*index|colim.*terminal object|colimit.*evaluat' --include=*.v . → Instance/One/Diagonal.v mentions the terminal INDEX category Δ[1] (a one-object domain), not a terminal OBJECT inside an arbitrary index category, and proves nothing about finality or colim F = F j",
+      "grep -rInw -iE 'Final|Cofinal' --include=*.v . → no final-functor predicate to state 'the inclusion {j}→J is final iff j is terminal'",
+      "The library HAS Terminal objects (Structure/Terminal.v) but no lemma relating a terminal index object to the value of a colimit (grep 'Colim.*terminal|colimit.*terminal' → 0 relevant hits)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Presupposes the absent finality notion. Verified the log's Instance/One/Diagonal.v:24 citation: it is about the terminal INDEX category Δ[1](d), not a terminal object inside an arbitrary J, and proves no colim=F(j) result. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "composite of final functors is final",
+      "cofinal functors compose",
+      "finality closed under composition",
+      "L' ∘ L final"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Content: closure of the (absent) finality property under functor composition. With no in-tree 'final functor' predicate there is nothing to close under composition.",
+      "grep -rIi 'cofinal|final functor' --include=*.v . → 0 relevant hits (only Functor/Structure/Terminal.v 'InitialFunctor' = preserves initial object)",
+      "grep -rInw -iE 'Final|Cofinal|Coinitial' --include=*.v . → only final F-coalgebra / prose",
+      "corroboration: doc/plan/books/maclane/issues/III-drafts.md:1433 'no final/initial-functor (cofinality) machinery exists'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Closure of the absent finality predicate under composition — nothing to close. Blind search found no cofinal predicate. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "full functor into filtered category is final",
+      "cofinal via nonempty comma + filtered target",
+      "filtered category",
+      "final functor sufficient condition",
+      "comma (k↓L) nonempty"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Content requires BOTH an in-tree 'final functor' notion AND an in-tree 'filtered category' notion; neither exists.",
+      "grep -rIi 'cofinal|final functor' --include=*.v . → 0 relevant hits",
+      "grep -rIin 'filtered' --include=*.v . → only Comonad/CoKleisli.v:81 ('the filtered stream'), an unrelated data-stream comment; no 'filtered category' / 'directed' cocone-completeness predicate is defined",
+      "grep -rIn 'Full' Theory/Functor/ ... : the library has Full functors, but no theorem 'full + filtered target + nonempty commas ⇒ final' (the conclusion predicate 'final' is undefined)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Requires BOTH a final-functor notion AND a filtered-category notion; blind search confirms neither exists (rg 'filtered' → only a prose hit in Comonad/CoKleisli.v; no filtered/directed cocompleteness predicate). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "colimit of a covariant hom-functor is a point",
+      "Colim J(k,-) = 1",
+      "colimit of a representable is terminal",
+      "representable functor is connected / category of elements has initial object",
+      "co-Yoneda / density"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Content: Colim_J J(k,-) ≅ 1 in Set (the covariant representable has a colimit equal to the one-point set, because el(J(k,-)) has initial object (k,id)). Not formalized in-tree.",
+      "grep -rIin 'colim.*yoneda|yoneda.*colim|colimit of.*represent|density' --include=*.v . → no 'colimit of a representable = 1' result; the Kan/codensity hits (Theory/Kan/Extension.v) are unrelated",
+      "grep -rIn 'co-?Yoneda|coyoneda' --include=*.v . → Theory/Coend/Yoneda.v proves the co-Yoneda density iso ∫^x C(x,c) × F x ≅ F c (coyoneda_reduction, line 174); this is a COEND/density statement over the CONTRAVARIANT representable paired with F, distinct from 'Colim over J of the covariant representable J(k,-) is a point' — it does not specialize to it",
+      "grep -rIin 'Colim.*= 1|Colim.*terminal|Colim.*one-point|one-point|singleton.*colim' --include=*.v . → no matching statement about colimits of representables"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found no 'Colim of representable = 1'; Instance/Sets has no Colimit construction. Verified the log's distinction: Theory/Coend/Yoneda.v:174 coyoneda_reduction is the density iso ∫^x C(x,c)×Fx ≅ Fc, a genuinely different statement that does not specialize to Colim_J J(k,-) ≅ 1. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.3:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "converse of the final-functor theorem",
+      "comparison-iso for all X implies final",
+      "detects finality from colimit preservation",
+      "cofinality is necessary",
+      "Colim FL → Colim F iso for all F,X ⇒ L final"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Content is the converse of IX.3:thm1: from 'the canonical map Colim FL → Colim F is iso for every cocomplete X and every F' conclude L is final. Depends entirely on the absent finality notion and the absent comparison map.",
+      "grep -rIi 'cofinal|final functor' --include=*.v . → 0 relevant hits",
+      "grep -rIn 'colim FL|Colim.*subcat|comparison.*colim' --include=*.v . → 0 hits: neither the comparison map nor its universal-quantification-over-X form exists",
+      "corroboration: doc/plan/books/maclane/issues/III-drafts.md:1433 'no final/initial-functor (cofinality) machinery exists'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Converse of thm1; depends entirely on the absent finality notion and comparison map. Blind search confirms both absent. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "dinatural transformation",
+      "diagonal natural transformation",
+      "dinaturality hexagon",
+      "Dinatural class",
+      "α : F ⇏ G on the diagonal"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Dinatural.v",
+        "line": 51,
+        "symbol": "Dinatural",
+        "intree_statement": "Class Dinatural := { ditransform {x} : F (x, x) ~> G (x, x); dinaturality {x y} (f : x ~{C}~> y) : fmap[G] (op f ⋆⋆⋆ id) ∘ @ditransform y ∘ fmap[F] (id ⋆⋆⋆ f) ≈ fmap[G] (id ⋆⋆⋆ f) ∘ @ditransform x ∘ fmap[F] (op f ⋆⋆⋆ id) }   (with F G : C^op ∏ C ⟶ D)"
+      }
+    ],
+    "statement_record": {
+      "book": "For S,T : C^op × C → B, a dinatural transformation α : S ⇒ T assigns each object c an arrow α_c : S(c,c) → T(c,c) such that for every f : c → c' the hexagon commutes: T(1,f)∘α_c∘S(f,1) = T(f,1)∘α_{c'}∘S(1,f) (both sides S(c',c) → T(c,c')).",
+      "intree": "Class Dinatural over F G : C^op ∏ C ⟶ D with component ditransform{x} : F(x,x) ~> G(x,x) and law dinaturality: fmap[G](op f ⋆⋆⋆ id) ∘ α_y ∘ fmap[F](id ⋆⋆⋆ f) ≈ fmap[G](id ⋆⋆⋆ f) ∘ α_x ∘ fmap[F](op f ⋆⋆⋆ id), both sides F(y,x) ~> G(x,y).",
+      "strength_comparison": "same — the setoid-rephrased hexagon is exactly Mac Lane's dinaturality condition with variance made explicit (op f ⋆⋆⋆ id = the S(f,1)/T(f,1) contravariant action, id ⋆⋆⋆ f = the S(1,f)/T(1,f) covariant action); domain/codomain F(y,x) ~> G(x,y) matches S(c',c) → T(c,c') under c=x,c'=y. The file's own header and nLab citation confirm the correspondence. No extra hypotheses; no special-casing."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently read Theory/Dinatural.v: the Dinatural class (line 51) with ditransform{x}:F(x,x)~>G(x,x) and the dinaturality hexagon (lines 56-58) is a faithful setoid rephrasing of Mac Lane's condition; I verified the variance/orientation by hand (library RHS = Mac Lane LHS, domain F(y,x)~>G(x,y) = S(c',c)→T(c,c')). Evidence quote is exact; strength 'same' is honest. File registered in _CoqProject. INFORMATIONAL (no downgrade): Mac Lane's auxiliary remarks within def1 — that every ordinary nat. transf. restricts to a dinatural one, and the dummy-variable special cases — are not separately formalized as lemmas here, but they are not part of the definition proper. PRESENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IX.4:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "dummy variable functor",
+      "constant-in-a-variable functor",
+      "functor factoring through a projection",
+      "constant functor Δ(b)",
+      "functor independent of an argument"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal / Δ(c)",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; ... }  — the constant functor at x (every object ↦ x, every morphism ↦ id[x]); notation Δ(c) := Diagonal _ c. This is exactly Mac Lane's 'dummy in both variables = constant at b' case (Δ(b) : C^op ∏ C ⟶ B)."
+      },
+      {
+        "file": "Construction/Product.v",
+        "line": 149,
+        "symbol": "Fst / Snd",
+        "intree_statement": "Program Instance Fst {C D : Category} : C ∏ D ⟶ C := { ... }; Program Instance Snd {C D : Category} : C ∏ D ⟶ D := { ... }  — the projection functors π₁,π₂, through which a one-variable functor may be precomposed to become 'dummy in a variable', but no named predicate captures this."
+      }
+    ],
+    "statement_record": {
+      "book": "A functor T : C^op × C → B is 'dummy' in a variable if it factors through the projection deleting that variable (essentially a one-variable functor); 'dummy in both variables' means it is constant at an object b (T(c,c')=b, T(f,f')=1_b).",
+      "intree": "The 'dummy in both variables' case is the constant/diagonal functor Δ(b) : (C^op ∏ C) ⟶ B (Functor/Diagonal.v). The projection functors Fst/Snd : C ∏ D ⟶ C, D exist (Construction/Product.v), so 'dummy in one variable' = F ∘ Snd (resp. F ∘ Fst) is expressible by composition, but is not defined or named as a predicate.",
+      "strength_comparison": "intree-weaker: only the both-variables-dummy case has a direct named in-tree counterpart (the constant functor Δ, which is actively used, e.g. as Δw in Structure/Wedge.v). The general 'dummy in one variable = factors through a projection' is expressible from primitives (Fst/Snd + composition) but is not formalized as a named concept, and the reduction of a one-variable functor to a bifunctor via a projection is nowhere developed."
+    },
+    "gap": "No in-tree predicate for a bifunctor being independent of (‘dummy’ in) one of its two arguments, i.e. factoring through π₁/π₂. Only the degenerate both-variables case (the constant functor Δ) is named and used; the one-variable-dummy framing that Mac Lane uses to exhibit ordinary/covariant–contravariant natural transformations as special dinatural transformations is not formalized.",
+    "negative_search_log": [
+      "grep -rIn 'dummy' --include=*.v . → 0 hits (the term is not used)",
+      "grep -rIn 'Definition Constant|Class ConstantFunctor' --include=*.v . → Functor/Structure/Constant.v defines ConstantFunctor, but that is a functor compatible with EMBEDDED CONSTANTS (global elements), NOT the constant functor Δ — same-name trap, not relevant to def2"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Concur with PARTIAL. Verified evidence: Functor/Diagonal.v defines the constant/diagonal functor Δ (fobj↦const x, fmap↦id; Δ(c) notation) — the genuine 'dummy in both variables = constant at b' case, actively used as Δw in Structure/Wedge.v — and Construction/Product.v:149/157 defines the projections Fst/Snd. The gap (no named predicate for a bifunctor being dummy in ONE argument / factoring through π1,π2) is precisely stated. Verified the same-name-trap: Functor/Structure/Constant.v:43 ConstantFunctor is about embedded constants / global elements (unmap_one, map_const, constant_obj), NOT the diagonal Δ — accurately flagged. My blind call leaned ABSENT, but PARTIAL is the MORE honest classification because the constant-functor case genuinely exists and is used; ABSENT would ignore that. CONFIRMED as PARTIAL."
+    }
+  },
+  {
+    "id": "maclane:IX.4:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "wedge",
+      "extranatural transformation",
+      "supernatural transformation",
+      "cowedge",
+      "dinatural transformation to/from a constant"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Wedge.v",
+        "line": 38,
+        "symbol": "Wedge",
+        "intree_statement": "Class Wedge `(F : C^op ∏ C ⟶ D) := { wedge_obj : D; wedge_map {x : C} : wedge_obj ~{D}~> F (x, x); ump_wedges {x y : C} (f : x ~{C}~> y) : bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map }  — a dinatural transformation from the constant Δw to F (Mac Lane's dual wedge β : b ⇒ T)."
+      },
+      {
+        "file": "Structure/Wedge.v",
+        "line": 61,
+        "symbol": "Cowedge",
+        "intree_statement": "Definition Cowedge `(F : C^op ∏ C ⟶ D) := @Wedge (C^op) (D^op) (F^op).  — the dual: legs F(x,x) ~> d, i.e. Mac Lane's extranatural α : S ⇒ b (components S(c,c) → b)."
+      }
+    ],
+    "statement_record": {
+      "book": "When T=b is constant, a dinatural α : S ⇒ b (α_c : S(c,c)→b with α_c∘S(f,1)=α_{c'}∘S(1,f), 'square 3') is an extranatural / supernatural transformation, or wedge, from S to b; dually a wedge β : b ⇒ T (β_c : b→T(c,c) with T(1,f)∘β_c=T(f,1)∘β_{c'}, 'square 4').",
+      "intree": "Wedge F: apex wedge_obj w with legs wedge_map : w ~> F(x,x) and condition bimap[F] id f ∘ wedge_map[x] ≈ bimap[F] (op f) id ≈ wedge_map[y] (i.e. F(1,f)∘β_x = F(f,1)∘β_y = Mac Lane square 4). Cowedge F = Wedge F^op captures the dual with legs F(x,x)~>d (Mac Lane square 3).",
+      "strength_comparison": "same — ump_wedges is exactly Mac Lane's square-4 wedge condition (bimap[F] id f = F(1,f), bimap[F] (op f) id = F(f,1); under x=c,y=c' this is T(1,f)∘β_c = T(f,1)∘β_{c'}), and Cowedge gives the square-3 (extranatural-to-constant) direction. Both directions of Mac Lane's def3 are present. Only the terminology differs: the library says 'wedge/cowedge' and does not use 'extranatural/supernatural', but the mathematical content is identical."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independently read Structure/Wedge.v: Wedge class (line 38, apex + legs w~>F(x,x) + wedge condition) and Cowedge := @Wedge (C^op)(D^op)(F^op) (line 61) both match the evidence quotes exactly; Structure/End.v confirms the end as the universal wedge. Both directions of Mac Lane's def3 (α:S⇒b square-3 = Cowedge; β:b⇒T square-4 = Wedge) are present; only terminology differs (library uses 'wedge/cowedge'; 'extranatural/supernatural' appears only in comments), which the record honestly notes. Files registered in _CoqProject. PRESENT confirmed."
+    }
+  }
+]

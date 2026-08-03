@@ -1,0 +1,504 @@
+[
+  {
+    "id": "maclane:IV.3:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "opposite adjunction / dual adjunction",
+      "Opposite_Adjunction / A^op",
+      "op on functors and natural transformations (F^op, N^op)",
+      "unit-counit swap under duality",
+      "Full/Faithful self-dual under op"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 36,
+        "symbol": "Opposite_Adjunction",
+        "intree_statement": "Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : U^op ⊣ F^op := {| adj := fun x y => {| to := from (@adj _ _ _ _ A y x); from := to (@adj _ _ _ _ A y x); ... |} — the adjunction row: <F,G,phi> dualizes to the opposite adjunction with the transposes (phi/phi^{-1}) swapped"
+      },
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 63,
+        "symbol": "Opposite_Adjunction_invol",
+        "intree_statement": "Corollary Opposite_Adjunction_invol `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) : (A^op)^op = A. Proof. reflexivity. Qed."
+      },
+      {
+        "file": "Adjunction/Natural/Transformation/Opposite.v",
+        "line": 34,
+        "symbol": "Opposite_Adjunction_Transform",
+        "intree_statement": "Program Definition Opposite_Adjunction_Transform `(F : D ⟶ C) `(U : C ⟶ D) (A : F ∹ U) : U^op ∹ F^op — the new [unit] field is built from [counit] and vice versa (header: 'the original counit ε : F ◯ U ⟹ Id [becomes] the *unit* ... and the original unit η : Id ⟹ U ◯ F [becomes] its *counit*'), i.e. the unit-dualizes-to-counit row"
+      },
+      {
+        "file": "Natural/Transformation/Opposite.v",
+        "line": 27,
+        "symbol": "Opposite_Transform",
+        "intree_statement": "Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) : G^op ⟹ F^op — the natural-transformation row (eta : S ⟹ T dualizes to eta : T^op ⟹ S^op)"
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op — the functor row; Corollary Opposite_Functor_invol : (F^op)^op = F (line 49)"
+      }
+    ],
+    "statement_record": {
+      "book": "Extend the II.1 duality table with rows: 'S, T : C -> B are functors' (self-dual); 'T is full' (self-dual); 'T is faithful' (self-dual); 'eta : S -> T is natural' dualizes to 'eta : T -> S'; '<F,G,phi> : X -> A is an adjunction' dualizes to '<G,F,phi^{-1}> : A -> X'; 'eta is the unit of <F,G,phi>' dualizes to 'eta is the counit of <G,F,phi^{-1}>'.",
+      "intree": "Opposite_Functor : C^op ⟶ D^op; Opposite_Transform : G^op ⟹ F^op; Opposite_Adjunction : F ⊣ U yields U^op ⊣ F^op with to/from (phi/phi^{-1}) swapped; Opposite_Adjunction_Transform : U^op ∹ F^op with unit := counit and counit := unit; all with definitional involutions ((A^op)^op = A by reflexivity).",
+      "strength_comparison": "intree-weaker: four of the six rows (functors, transformations, the adjunction dualization with phi^{-1}, and the unit-to-counit swap) are fully present in both hom-set and unit/counit form, but the 'T is full' and 'T is faithful' self-duality rows have no op-transport lemmas."
+    },
+    "gap": "No lemmas of the shape Full F -> Full (F^op) or Faithful F -> Faithful (F^op): Theory/Equivalence/Limit.v:574-575 obtains fullness/faithfulness of F^op only through the equivalence detour (Equivalence_Full/Equivalence_Faithful applied to EquivalenceOfCategories_op), which does not cover arbitrary full or faithful functors.",
+    "negative_search_log": [
+      "grep -rniE 'faithful' --include='*.v' . | grep -iE 'op\\b|opposite|dual' -- only usage sites (Theory/Equivalence/Limit.v via EquivalenceOfCategories_op, Functor/Hom.v Yoneda prose); no Full_op/Faithful_op lemma",
+      "grep -rn 'Faithful_op|Opposite_Faithful|Full_op|Opposite_Full' --include='*.v' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently and on the same grounds. Verified each op-transport exists and is registered in _CoqProject: Functor/Opposite.v:31 Opposite_Functor (+ Opposite_Functor_invol:49), Natural/Transformation/Opposite.v:27 Opposite_Transform (direction reversed, G^op ⟹ F^op — the book's 'eta : S -> T dualizes to eta : T -> S' row), Adjunction/Opposite.v Opposite_Adjunction (ACTUAL LINE 34, record says 36) with to := from (adj y x) / from := to (adj y x), i.e. literally the phi/phi^{-1} swap of the book's adjunction row, and Opposite_Adjunction_invol (ACTUAL LINE 60, record says 63), and Adjunction/Natural/Transformation/Opposite.v Opposite_Adjunction_Transform (ACTUAL LINE 33, record says 34) whose header states verbatim that the original counit becomes the unit and the original unit becomes the counit — the book's unit/counit row. Line drift of 1-3 in three entries; symbols and quotes are otherwise accurate. GAP CONFIRMED INDEPENDENTLY: rg for 'Full_op|Faithful_op|Opposite_Full|Opposite_Faithful' and for 'Full.*\\^op|Faithful.*\\^op' over the whole tree returns 0 hits; the only fullness/faithfulness-of-an-op result is the equivalence detour at Theory/Equivalence/Limit.v:574-575 (verified: those exact lines are '(HF := Equivalence_Full (EquivalenceOfCategories_op E))' and '(HfF := Equivalence_Faithful (EquivalenceOfCategories_op E))'), which needs an equivalence and so does not cover an arbitrary full or faithful functor. The gap statement's file:line citation is exactly right."
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "torsion-free abelian groups reflective in Ab",
+      "category of abelian groups (Ab, AbGrp)",
+      "torsion subgroup / torsion-free quotient reflector",
+      "reflective subcategory concrete algebra example",
+      "Grp / group category instance"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'torsion' --include='*.v' . -- 0 hits anywhere in the tree",
+      "grep -rniE 'abelian group|AbGrp|\\bGrp\\b' --include='*.v' . -- only prose mentions of Ab/Grp in background essays (Theory/Adjunction.v:37, Structure/Abelian.v:68, Structure/Complete.v:55, Structure/Group.v header on group objects); no category-of-abelian-groups instance",
+      "ls Instance/ -- no Ab.v, no Grp.v, no AbGrp.v; closest is Instance/CMon.v (category of commutative monoid objects over setoids), which is not Ab and carries no torsion theory",
+      "grep -rniE 'reflectiv' --include='*.v' -l . -- hit list (Construction/Reflective.v, Localization, Karoubi, Sheaf, GAFT, ...) contains no concrete algebraic reflection instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found nothing. Re-ran the decisive searches: rg -i 'torsion' over all .v files returns 0 hits tree-wide; rg 'Instance Ab|Definition Ab |Instance Grp|Definition Grp |Instance AbGrp' returns 0 hits; `ls Instance/` confirms there is no Ab.v / Grp.v / AbGrp.v. The nearest algebraic hom-category is Instance/CMon.v (commutative monoids over setoids, used for the semiadditivity witness), which is not Ab and carries no torsion theory; Structure/Group.v is internal group OBJECTS in a cartesian category, not the category of groups. Neither the ambient category nor the subcategory of the exercise exists, so ABSENT (not PARTIAL) is right; note the reflective-subcategory MACHINERY does exist (Construction/Reflective.v) — what is missing is any concrete algebraic instance of it."
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "full left adjoint with monic units",
+      "unit monic implies unit epi",
+      "full functor adjunction unit epi",
+      "eta_x monic and epi",
+      "fullness hypothesis on an adjoint"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Full' Theory/Adjunction.v Adjunction/*.v -- 0 statement-level hits (no fullness hypothesis appears anywhere in the adjunction development; the only match is prose 'full, honest adjunction' in Adjunction/GAFT/Examples.v:46)",
+      "grep -rniE 'unit.*monic|monic.*unit|unit.*epic|epic.*unit' --include='*.v' . -- hits are monoidal-unitor iso_to_monic/iso_to_epic uses (Structure/Monoidal/*) and equivalence-unit iso lemmas (Theory/Equivalence/FullFaithful.v:209-210); nothing about adjunction unit components being monic or epi",
+      "grep -rniE 'eta.*epi|epi.*eta|unit_epi|epi_unit' --include='*.v' . -- 0 relevant hits",
+      "read Theory/Adjunction.v in full for monic/epi content -- only adj_monic (line 311: Faithful F + Monic f => Monic ⌊f⌋), a different statement with a faithfulness (not fullness) hypothesis"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Verified the record's key negative: rg 'Full' over Theory/Adjunction.v and Adjunction/*.v yields no statement-level hit — the single 'Faithful' occurrence in Theory/Adjunction.v is line 312 inside adj_monic, and the Adjunction/GAFT/Examples.v:46 match is the prose phrase 'the full, honest adjunction [F ⊣ ×(C)]' (verified by reading lines 44-48), not a fullness hypothesis. No lemma anywhere asserts anything about an adjunction unit component being monic or epic: the 'unit/monic' and 'unit/epic' hits are monoidal-unitor iso_to_monic/iso_to_epic uses (Structure/Monoidal/**) and Theory/Equivalence/FullFaithful.v:209-210, which cancel iso components of the EQUIVALENCE unit, an unrelated object. Negative log is accurate."
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "poset reflection of preorders (partial orders reflective in Preord)",
+      "category of preorders Ord/Preord/Pros",
+      "antisymmetrization quotient",
+      "T0 reflection / Kolmogorov quotient",
+      "category Top of topological spaces"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ -- Instance/Proset.v and Instance/Poset.v are a SINGLE preorder/poset viewed as a thin category (Proset {A R} (P : PreOrder R) : Category), not the category of all preorders with monotone maps; no Ord.v, no Pos.v, no Top.v",
+      "grep -rn 'Definition Ord|Instance Ord|Definition Pos\\b|Instance Pos\\b' --include='*.v' . -- 0 hits (Instance/Proset.v:19-20 mentions '[Ord], for the category of preordered sets' in a comment, but no such instance exists in-tree)",
+      "grep -rniE 'poset reflection|antisym' --include='*.v' . -- antisymmetry appears only inside Test/Poset.v's concrete instances; no reflection functor from preorders to posets",
+      "grep -rniE 'topolog|hausdorff|opens\\b' --include='*.v' -l . -- no category of topological spaces (only prose mentions in essays)",
+      "grep -rniE 'kolmogorov|\\bT0\\b|\\bT_0\\b' --include='*.v' . -- 0 relevant hits (matches are pattern variables t0 in proofs)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Read Instance/Proset.v and Instance/Poset.v directly and confirm the record's crucial distinction: both build a SINGLE preordered / partially ordered set as a thin category (`Proset {A R} (P : PreOrder R) : Category`), not the category Preord of all preorders with monotone maps — Instance/Proset.v:20 itself says 'See also [Ord], for the category of preordered sets', and rg confirms no such Ord instance exists in-tree. No Instance/Top.v and no topology development at all, so the T_0 half has no ambient category either. Both halves of the exercise are unstatable today; ABSENT confirmed. (Not OUT_OF_SCOPE: nothing about these categories is foundationally obstructed here — they are simply not built.)"
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "faithful right adjoint iff transpose preserves epis",
+      "phi-inverse carries epis to epis",
+      "adjunct preserves epis/monics",
+      "adj_monic (dual form)",
+      "counit epi faithfulness criterion"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 311,
+        "symbol": "adj_monic",
+        "intree_statement": "(* If F is a faithful functor, and f is monic, then adj f is monic. *) Theorem adj_monic {x y} (f : F x ~> y) c (g h : c ~> x) : Faithful F → Monic f -> ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h."
+      },
+      {
+        "file": "Adjunction/Opposite.v",
+        "line": 36,
+        "symbol": "Opposite_Adjunction",
+        "intree_statement": "Program Definition Opposite_Adjunction ... : U^op ⊣ F^op — the dualization along which adj_monic transports to the book's orientation, available but not applied in-tree"
+      }
+    ],
+    "statement_record": {
+      "book": "Given an adjunction <F, G, phi> : X -> A, G is faithful if and only if phi^{-1} carries epis to epis.",
+      "intree": "adj_monic: if the LEFT adjoint F is Faithful and f : F x ~> y is Monic, then the transpose ⌊f⌋ = phi(f) is monic — exactly the categorical dual of the forward implication (G faithful ⇒ phi^{-1} preserves epis).",
+      "strength_comparison": "intree-weaker: only one implication, and stated in the dual orientation (faithful left adjoint, phi preserving monics, rather than faithful right adjoint, phi^{-1} preserving epis); the book's orientation is derivable by instantiating adj_monic at Opposite_Adjunction but is not stated, and the converse implication (transpose preserves epis ⇒ faithful) is absent, so the iff is absent."
+    },
+    "gap": "The converse direction (phi^{-1} carries epis to epis ⇒ G faithful) has no counterpart, and the present direction exists only as the dual statement adj_monic, never instantiated to the book's orientation; the iff packaging is absent.",
+    "negative_search_log": [
+      "grep -rniE 'counit.*(epi|monic|split)|(epi|monic|split).*counit' --include='*.v' . (excluding comonad files) -- only iso-flavoured counit lemmas in Theory/Equivalence*; no faithfulness-via-epi characterizations",
+      "grep -rn 'Epic|Monic|epi\\b|monic' Theory/Adjunction.v Adjunction/ -- adj_monic is the only monic/epi result in the adjunction development (SAFT hits concern subobject monos, unrelated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently landed on adj_monic and on PARTIAL. Quote verified VERBATIM at Theory/Adjunction.v:310-313, including the preceding comment. I checked the duality claim by hand rather than taking it on trust: for F ⊣ G with phi : A(Fx,a) ≅ X(x,Ga), the opposite adjunction is G^op ⊣ F^op with G^op the LEFT adjoint, and its to-transpose hom_X(x,Ga) → hom_A(Fx,a) is exactly phi^{-1}; Monic in the opposite categories is Epic in the originals; so adj_monic instantiated at Opposite_Adjunction is precisely the book's forward implication. The record's duality claim is therefore correct and its 'derivable but not stated' framing is honest. Gap confirmed: the converse (phi^{-1} preserves epis ⇒ G faithful) has no counterpart anywhere, and no in-tree definition performs the Opposite_Adjunction instantiation, so the iff is absent. Reasonable people could argue ABSENT here (nothing in-tree is stated in the book's orientation); PARTIAL with this gap text is the more informative and still-honest call."
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "G-epsilon invertible with inverse eta-G",
+      "whiskered counit isomorphism when F or G full",
+      "full adjoint counit iso",
+      "reflective_counit_iso",
+      "triangle identity two-sided inverse"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 288,
+        "symbol": "fmap_counit_unit",
+        "intree_statement": "Corollary fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x]. — exactly one of ex6's two inverse laws (G-epsilon ∘ eta-G = 1), unconditionally for every adjunction. [VERIFIER: the record cited line 280, which is the OTHER triangle, counit_fmap_unit : ε ∘ fmap[F] η ≈ id[F x]; corrected to 288. The header quote the record used (Theory/Adjunction.v:21-22, naming both corollaries) was verified accurate.]"
+      },
+      {
+        "file": "Construction/Reflective.v",
+        "line": 92,
+        "symbol": "reflective_counit_iso",
+        "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x — the inverse is the unit η_{Incl x} lifted into the subcategory by fullness (lines 102-106), i.e. two-sided invertibility of the counit against the unit, proven in the special case G = full inclusion of a reflective subcategory"
+      }
+    ],
+    "statement_record": {
+      "book": "Given an adjunction <F, G, eta, epsilon> with either F or G full, the transformation G-epsilon : GFG -> G is invertible with inverse eta-G : G -> GFG.",
+      "intree": "fmap_counit_unit : fmap[U] ε ∘ η ≈ id (one inverse law, any adjunction); reflective_counit_iso : for a full reflective subcategory the counit component is an isomorphism whose two-sided inverse is the fullness-lifted unit.",
+      "strength_comparison": "intree-weaker: one of the two inverse laws is the unconditional triangle identity, and full two-sided invertibility is proven only for the special case of a full reflective-subcategory inclusion; the general hypothesis 'F full or G full' on an arbitrary adjunction is never used, and the missing law ηG ∘ Gε ≈ id under that hypothesis is not proven."
+    },
+    "gap": "The general lemma — for an arbitrary adjunction with F or G full, eta-G ∘ G-epsilon ≈ id (hence Gε invertible) — is not formalized; only the unconditional triangle identity plus the full-reflective-inclusion instance (reflective_counit_iso) exist.",
+    "negative_search_log": [
+      "grep -rniE 'full.*adjunction|adjunction.*full' --include='*.v' . -- no fullness-hypothesis lemma on general adjunctions",
+      "grep -rn 'Full' Theory/Adjunction.v Adjunction/*.v -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the same two pieces of evidence. EVIDENCE LINE CORRECTED: the first entry cited Theory/Adjunction.v:280, which is `counit_fmap_unit : ε ∘ fmap[F] η ≈ id[F x]` — the OTHER triangle. The law that is ex6's 'Gε ∘ ηG = 1' is `fmap_counit_unit : fmap[U] ε ∘ η ≈ id[U x]` at line 288. I moved the line to 288 and replaced the header paraphrase with the actual corollary statement; the header quote at Theory/Adjunction.v:21-22 was itself verified accurate. reflective_counit_iso verified verbatim at Construction/Reflective.v:92-115 (inverse is the fullness-lifted unit at lines 102-106) — and note it is genuinely a SPECIAL CASE in two directions at once: stronger conclusion (ε itself iso, not merely Gε) under stronger hypotheses (a full reflective subcategory inclusion, i.e. G full AND faithful). Independently checked the general form is absent: no lemma anywhere takes `Full F` or `Full U` as a hypothesis on an arbitrary adjunction. Sibling instances the record did not list, all likewise special-case: Construction/Reflective/Idempotent.v:175 reflective_counit_IsIso and Construction/Localization/Universal.v:110 reflection_counit_is_iso."
+    }
+  },
+  {
+    "id": "maclane:IV.3:ex7",
+    "classification": "ABSENT",
+    "aliases": [
+      "full reflective subcategory closed under limits",
+      "limits inherited by reflective subcategory",
+      "reflective subcategory complete",
+      "limits in Sub C S",
+      "creates/reflects limits along the inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Limit|Complete' Construction/Reflective.v Construction/Reflective/Idempotent.v Construction/Localization.v Construction/Localization/Universal.v -- 0 hits (Construction/Reflective.v is 115 lines and ends at reflective_counit_iso; no limit theory)",
+      "grep -rniE 'inherit|creates.*limit|limits.*subcat|subcat.*limit' --include='*.v' . -- nothing about subcategory limits",
+      "grep -rn 'Complete|Limit' --include='*.v' . | grep -iE 'reflect|Sub C|subcategor|sheaf' -- only Theory/Equivalence/Limit.v's ff_reflects_limit (line 401): fully faithful functors reflect limits. This is the final step of the classical proof of this exercise, stated for arbitrary full+faithful functors, but the exercise's statement (a diagram in a full reflective subcategory A with a limit in B has a limit in A) is nowhere assembled — no lemma consumes a Reflective witness to produce a limit",
+      "grep -rn 'Limit|limit' Construction/Subcategory.v -- 0 hits",
+      "Theory/Sheaf/Category.v (sheaves as full subcategory of presheaves, the would-be flagship instance) -- CLAUDE.md and the file header confirm sheafification and its reflection are deferred (ledger 1), so no instance of this result exists either",
+      "[VERIFIER] Adjunction/Continuity.v:202 right_adjoint_preserves_limits (RAPL) does apply to the inclusion of a reflective subcategory, since that inclusion is the right adjoint — but it is the CONVERSE-direction fact (A-limits are carried to B-limits). The exercise needs the other direction (a B-limit of a diagram landing in A), which RAPL does not give; not coverage."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. Verified the record's decisive negatives: Construction/Reflective.v is 115 lines and ends at reflective_counit_iso; rg -c 'Limit|Complete' over Construction/Reflective.v, Construction/Reflective/Idempotent.v, Construction/Localization.v and Construction/Localization/Universal.v returns 0 hits in all four; Construction/Subcategory.v has no limit content. Theory/Sheaf/Category.v:47-50 confirms sheafification (the would-be flagship reflector) is a named deferral, ledger 1, so no instance exists either. The record correctly identifies Theory/Equivalence/Limit.v:401 ff_reflects_limit as the final step of the classical proof that is present but never assembled. ADDITIONAL near-miss the record did not mention, recorded so Phase E does not mistake it for coverage: Adjunction/Continuity.v:202 right_adjoint_preserves_limits (RAPL) applies to the inclusion of a reflective subcategory (which IS the right adjoint), but it states the CONVERSE-direction fact — the inclusion carries A-limits to B-limits — and gives nothing about a B-limit of a diagram in A being attained in A, which is what the exercise asks. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:IV.4:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphism of categories (strict)",
+      "two-sided inverse functor, ST = I and TS = I",
+      "isomorphism in StrictCat (≅[StrictCat])",
+      "Functor_StrictEq_Setoid",
+      "on-the-nose invertible functor"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { ... homset := @Functor_StrictEq_Setoid; ... }; header (lines 38-40): 'StrictCat instead uses [Functor_StrictEq_Setoid] with [F x = G x], so it is the strict 1-category in which an isomorphism is a genuine (on-the-nose) isomorphism of categories — matching the textbook bare-name \"Cat\".'"
+      },
+      {
+        "file": "Theory/Functor.v",
+        "line": 508,
+        "symbol": "Functor_StrictEq_Setoid",
+        "intree_statement": "Program Instance Functor_StrictEq_Setoid {C D : Category} : Setoid (C ⟶ D) := { equiv := fun F G => { eq_on_obj : ∀ x : C, F x = G x & ∀ (x y : C) (f : x ~> y), transport ... (fmap[F] f) ≈ transport_r ... (fmap[G] f) } } — strict propositional equality of functors"
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 113,
+        "symbol": "Isomorphism",
+        "intree_statement": "Class Isomorphism (x y : C) : Type := { to; from; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id } — instantiated at StrictCat, C ≅[StrictCat] D is a pair of functors mutually inverse up to strict functor equality, i.e. MacLane's ST = I, TS = I"
+      },
+      {
+        "file": "Construction/Funny/Swap.v",
+        "line": 143,
+        "symbol": "Funny_swap",
+        "intree_statement": "Definition Funny_swap {C D : Category} : (C □ D) ≅[StrictCat] (D □ C) := @Build_Isomorphism StrictCat (C □ D) (D □ C) (@FunnySwap C D) (@FunnySwap D C) (@FunnySwap_invol D C) (@FunnySwap_invol C D). — header (lines 136-140): 'In [StrictCat] the involution makes [FunnySwap] a genuine (on-the-nose) isomorphism of categories'. A real in-tree use site of MacLane's notion, not just an expressible notation. Companions: Funny_unit_left (Construction/Funny/Unitors.v:134), Funny_unit_right (Unitors.v:209), Funny_assoc (Construction/Funny/Associator.v:320)"
+      },
+      {
+        "file": "Construction/Funny/Swap.v",
+        "line": 149,
+        "symbol": "Funny_swap_cat",
+        "intree_statement": "Definition Funny_swap_cat {C D : Category} : (C □ D) ≅[Cat] (D □ C) := fobj_iso StrictCat_to_Cat (C □ D) (D □ C) Funny_swap. — the strict-to-weak transport (fobj_iso at Theory/Functor.v:227, StrictCat_to_Cat at Instance/StrictCat/ToCat.v:76), i.e. 'every isomorphism of categories is an equivalence' as executable API; same pattern at Unitors.v:220,223 and Associator.v:329"
+      }
+    ],
+    "statement_record": {
+      "book": "S : A -> C is an isomorphism of categories when there is T : C -> A with ST = I_C and TS = I_A on the nose; in that case the identity natural transformations make <T, S; eta, epsilon> an adjunction, so a two-sided inverse T is both a left adjoint and a right adjoint of S.",
+      "intree": "An isomorphism in StrictCat: mutually inverse functors with iso_to_from/iso_from_to in Functor_StrictEq_Setoid, i.e. pointwise propositional object equality S(T x) = x plus transport-coherent agreement of the morphism actions.",
+      "strength_comparison": "same up to funext-free presentation: 'ST = I' is rendered as the strict-equality setoid (propositional equality on objects + transported fmap agreement) rather than Leibniz equality of functor records — the standard faithful rendering in a setoid library. The rider that a two-sided inverse is simultaneously left and right adjoint is not a named StrictCat-level lemma, though every link exists: StrictCat_to_Cat (Instance/StrictCat/ToCat.v:76), Cat_Iso_to_Equivalence (Theory/Equivalence.v:172), Equivalence_to_AdjointEquivalence and AdjointEquivalence_swap_adjunction (Theory/Equivalence/Adjoint.v:333, 414)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass initially leaned PARTIAL; overturned MYSELF to agree with PRESENT after finding use sites the record missed. The definitional core is not merely notationally expressible — `≅[StrictCat]` is genuinely instantiated and consumed in-tree, four times: Construction/Funny/Swap.v:143 Funny_swap : (C □ D) ≅[StrictCat] (D □ C), Construction/Funny/Unitors.v:134 Funny_unit_left, :209 Funny_unit_right, Construction/Funny/Associator.v:320 Funny_assoc; Funny/Swap.v:136-140 calls it in so many words 'a genuine (on-the-nose) isomorphism of categories'. Each is then pushed to the weak notion via `fobj_iso StrictCat_to_Cat` (Theory/Functor.v:227; Swap.v:149, Unitors.v:220,223, Associator.v:329), so the required API exists and the 'definition-without-API' failure mode does not apply. I added these to `evidence`. Quotes verified: Instance/StrictCat.v:56 and its header lines 37-39; Theory/Functor.v:508 Functor_StrictEq_Setoid verbatim; Theory/Isomorphism.v:113 Isomorphism class verbatim; Instance/StrictCat/ToCat.v:76 StrictCat_to_Cat verbatim. ONE HONEST CAVEAT FOR PHASE E, which the record placed in strength_comparison while leaving `gap` null: the second half of the book's definition — that the identity natural transformations make <T,S;eta,epsilon> an adjunction, hence T is simultaneously a left and a right adjoint of S — has NO in-tree lemma. The chain the record names does exist and composes (fobj_iso StrictCat_to_Cat ⇒ Cat_Iso_to_Equivalence ⇒ Equivalence_to_AdjointEquivalence ⇒ adj_equivalence / AdjointEquivalence_swap_adjunction), but it routes through the WEAK Cat notion and produces an adjunction whose unit and counit are the equivalence-derived cells, NOT the identity transformations the book specifies. I keep PRESENT because the item's kind is `definition` and the definition itself is faithfully and usably formalized; a reading that counts the rider as part of the item would give PARTIAL with exactly that gap."
+    }
+  },
+  {
+    "id": "maclane:IV.4:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "equivalence of categories",
+      "EquivalenceOfCategories",
+      "quasi-inverse",
+      "natural isomorphisms ST ≅ I and TS ≅ I",
+      "isomorphism in Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 151,
+        "symbol": "EquivalenceOfCategories",
+        "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F } — where [≈] on functors is Functor_Setoid, i.e. bundled natural isomorphism"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 256,
+        "symbol": "EquivalenceOfCategories_sym",
+        "intree_statement": "Definition EquivalenceOfCategories_sym : EquivalenceOfCategories quasi_inverse — the quasi-inverse is itself an equivalence, quasi-inverted by F (the book's 'in this case T is also an equivalence')"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 163,
+        "symbol": "Equivalence_to_Cat_Iso",
+        "intree_statement": "Definition Equivalence_to_Cat_Iso ... : C ≅[Cat] D (with converse Cat_Iso_to_Equivalence, line 172, and both round trips) — an equivalence IS an isomorphism in Cat, whose hom-setoid is natural isomorphism"
+      }
+    ],
+    "statement_record": {
+      "book": "S : A -> C is an equivalence of categories (A, C equivalent) when there is T : C -> A and natural isomorphisms ST ≅ I_C and TS ≅ I_A; T is then also an equivalence.",
+      "intree": "EquivalenceOfCategories F: chosen quasi_inverse with cells F ◯ quasi_inverse ≈ Id[D] and Id[C] ≈ quasi_inverse ◯ F, [≈] being bundled natural isomorphism; symmetry via EquivalenceOfCategories_sym.",
+      "strength_comparison": "same — the two cells are exactly the book's natural isomorphisms (Functor_Setoid bundles the componentwise isos with conjugation coherence = naturality); the quasi-inverse is chosen data (split/constructive rendering of 'there is a functor T'), the house style for existentials."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same three citations. All quotes verified verbatim: Theory/Equivalence.v:151-155 EquivalenceOfCategories (three fields exactly as quoted), :256-260 EquivalenceOfCategories_sym (delivers the book's 'T is then also an equivalence'), :163-167 Equivalence_to_Cat_Iso with converse at :172-176 and both round-trip corollaries at :182 and :187. The strength_comparison is honest on the two points that matter: [≈] on functors IS bundled natural isomorphism (Functor_Setoid, confirmed in Theory/Equivalence.v:20-27 header), so the cells are the book's natural isomorphisms and not something weaker; and quasi_inverse is chosen data rather than an existential, the library's disclosed house style (Theory/Equivalence.v:49-55 explains why nothing here is an Instance). Theory/Equivalence.v is registered in _CoqProject. Also available and not cited, harmlessly: the bundled `C ≃ D` at Theory/Equivalence/Bundled.v:36 with refl/sym/trans at :108-115."
+    }
+  },
+  {
+    "id": "maclane:IV.4:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "skeleton of a category",
+      "skeletal category",
+      "Skeletal predicate / Skeleton construction",
+      "isomorphic objects are equal",
+      "skeletal FinSet / skeletal thin category"
+    ],
+    "evidence": [
+      {
+        "file": "Test/Poset.v",
+        "line": 102,
+        "symbol": "poset_nat_skeletal",
+        "intree_statement": "Lemma poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y. — skeletality ('isomorphic implies identical') proven for a concrete thin category; likewise poset_two_skeletal (line 150)"
+      },
+      {
+        "file": "Instance/FinSet.v",
+        "line": 15,
+        "symbol": "FinSet",
+        "intree_statement": "(** * FinSet, the skeletal category of finite sets *) ... 'The skeleton of the category of finite sets: the objects are the natural numbers' — a concrete category built AS a skeleton (positional objects), used throughout (Lawvere theories, the topos witness)"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 92,
+        "symbol": "(header essay)",
+        "intree_statement": "'Skeletons measure the cost of strictifying anyway: every category is equivalent to its skeleton, yet the statement that every category has one is itself equivalent to the axiom of choice, ... The library accordingly states every law up to ≈ and confines skeletons to concrete instances such as Instance/FinSet.v' — deliberate design disclosure"
+      }
+    ],
+    "statement_record": {
+      "book": "A skeleton of C is a full subcategory A such that each object of C is isomorphic in C to exactly one object of A; C is skeletal when isomorphic objects are identical (C is its own skeleton).",
+      "intree": "No general definition exists. The skeletality property is formalized only per instance: poset_nat_skeletal/poset_two_skeletal state 'mutually related (hence isomorphic, by thinness) objects are equal' for two concrete thin categories, and FinSet is skeletal by construction (objects are natural numbers).",
+      "strength_comparison": "intree-weaker: special cases only — there is no [Skeletal : Category → Type] predicate, no 'skeleton of C' full-subcategory construction, and no statement of the one-object-per-isomorphism-class condition; the general concept lives in documentation and instance-level lemmas."
+    },
+    "gap": "The general definitions are missing: a Skeletal predicate on categories (∀ x y, x ≅ y → x = y) and a Skeleton relation/construction (isomorphism-representative full subcategory). Only concrete skeletal categories (FinSet, the Poset instances) with ad hoc skeletality lemmas exist.",
+    "negative_search_log": [
+      "grep -rniE 'skelet' --include='*.v' -l . -- 28 files; every hit is a comment/essay or a concrete-instance lemma name; no Gallina identifier defines skeleton/skeletal in general",
+      "grep -rn 'Class Skeletal|Definition Skeleton|Record Skeleton' --include='*.v' . -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BORDERLINE — my blind pass reached ABSENT; I am confirming PARTIAL because the gap text is precise and honest either way, but Phase E should know how thin the positive evidence is. Verified: Test/Poset.v:102-105 poset_nat_skeletal and :150-153 poset_two_skeletal exist and read as quoted — but they state 'x ~> y → y ~> x → x = y', i.e. skeletality via the THINNESS coincidence, never mentioning `≅`, and they sit in Test/ as regression guards for an unrelated Poset-definition fix (the file says so at :95-97), not as skeleton theory. Instance/FinSet.v:15 quote verified verbatim; FinSet is skeletal BY CONSTRUCTION (objects are naturals) but is nowhere asserted to be a skeleton OF anything. Theory/Equivalence.v:92-99 quote verified verbatim and is a deliberate design disclosure, i.e. documentation. I independently confirm the gap: rg 'Class Skeletal|Definition Skeleton|Record Skeleton' returns 0 hits, and none of the 28 files matching /skelet/ defines the notion in a Gallina identifier. One near-miss the record did not cite and which does NOT change the verdict: Structure/Discrete.v:29 `Discrete C := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id`, whose header (line 19) calls it 'the discrete *and* skeletal characterization' — it entails skeletality but is a strictly stronger, different notion, so it is not a skeleton API."
+    }
+  },
+  {
+    "id": "maclane:IV.4:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "a category is equivalent to each of its skeletons",
+      "skeleton inclusion is an equivalence",
+      "finite ordinals form a skeleton of finite sets",
+      "TK = I with theta : I ≅ KT",
+      "equivalence with skeletal subcategory"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'skelet' --include='*.v' . -- only prose headers (Theory/Equivalence.v:92-99, Instance/FinSet.v, Instance/Poset.v, Instance/Two.v, Structure/Discrete.v) and concrete skeletality lemmas (Test/Poset.v:102, 150); no equivalence-with-skeleton theorem anywhere",
+      "grep -rn 'EquivalenceOfCategories|AdjointEquivalence' Instance/FinSet.v Instance/FinSet/ Instance/Poset.v Instance/Proset.v -- 0 hits: FinSet is built skeletal outright with no companion non-skeletal category of finite sets and no equivalence to one (so not even MacLane's finite-ordinals example is instantiated)",
+      "Theory/Equivalence.v:92-99 states in prose that 'every category is equivalent to its skeleton' but notes existence of skeletons is equivalent to AC and that the library 'confines skeletons to concrete instances' — the theorem is deliberately unformalized",
+      "no Skeleton definition exists against which to state the remark (see maclane:IV.4:def3, PARTIAL)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT and found nothing the record missed. Verified: rg 'EquivalenceOfCategories|AdjointEquivalence' over Instance/FinSet.v, Instance/FinSet/*, Instance/Poset.v, Instance/Proset.v returns 0 hits, so not even Mac Lane's own example (finite ordinals as a skeleton of finite sets) is instantiated — there is no in-tree category of all finite sets for FinSet to be equivalent to. The Theory/Equivalence.v:92-99 prose does assert 'every category is equivalent to its skeleton' but immediately explains why the library declines to formalize it (existence of skeletons is equivalent to AC), so it is a documented non-goal, not partial coverage. The record's fourth log line is the right structural point: with no Skeleton definition (see IV.4:def3) the remark cannot even be stated. ABSENT confirmed. Note for Phase E: this is a deliberate design decision, so an issue here should be framed as 'add the skeleton notion and the equivalence' rather than as an oversight."
+    }
+  },
+  {
+    "id": "maclane:IV.4:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjoint equivalence",
+      "AdjointEquivalence",
+      "adjunction with invertible unit and counit",
+      "quasi-inverse unit/counit isomorphisms",
+      "T both left and right adjoint of S"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 69,
+        "symbol": "AdjointEquivalence",
+        "intree_statement": "Class AdjointEquivalence {C D : Category} (F : C ⟶ D) (U : D ⟶ C) := { adj_equivalence : F ⊣ U; adj_equiv_unit_iso (x : C) : IsIsomorphism (@unit _ _ _ _ adj_equivalence x); adj_equiv_counit_iso (y : D) : IsIsomorphism (@counit _ _ _ _ adj_equivalence y) }."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 414,
+        "symbol": "AdjointEquivalence_swap_adjunction",
+        "intree_statement": "Definition AdjointEquivalence_swap_adjunction `(A : @AdjointEquivalence C D F U) : U ⊣ F — via AdjointEquivalence_swap (line 407): the two adjoints trade places, i.e. the right adjoint is simultaneously a left adjoint (the book's 'T is at once left and right adjoint of S')"
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 379,
+        "symbol": "AdjointEquivalence_to_counit",
+        "intree_statement": "Definition AdjointEquivalence_to_counit ... : F ◯ U ≈ Id[D] (and AdjointEquivalence_to_unit, line 388) — the componentwise iso witnesses assemble into the natural-isomorphism cells, confirming the definition means natural isos of the unit/counit"
+      }
+    ],
+    "statement_record": {
+      "book": "An adjoint equivalence is an adjunction <T, S; eta, epsilon> in which both the unit eta : I ≅ ST and counit epsilon : TS ≅ I are natural isomorphisms; then <S, T, epsilon^{-1}, eta^{-1}> is also an adjunction, so T is simultaneously left adjoint and right adjoint of S.",
+      "intree": "AdjointEquivalence F U: a hom-setoid adjunction F ⊣ U with IsIsomorphism witnesses for every unit and counit component; AdjointEquivalence_swap_adjunction produces the reversed adjunction U ⊣ F.",
+      "strength_comparison": "same — componentwise invertibility of unit/counit is equivalent to the cells being natural isomorphisms (the file assembles the natural-iso cells from the witnesses, their coherence being unit/counit naturality); the both-sided-adjoint rider is delivered by AdjointEquivalence_swap_adjunction."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same citations. All quotes verified verbatim: Theory/Equivalence/Adjoint.v:69-75 AdjointEquivalence (three fields as quoted), :414-416 AdjointEquivalence_swap_adjunction : U ⊣ F built from AdjointEquivalence_swap at :407-410, :379-385 AdjointEquivalence_to_counit and :388-394 AdjointEquivalence_to_unit. The strength_comparison's key claim is sound and I checked it rather than assuming: componentwise IsIsomorphism witnesses do assemble into the natural-iso CELLS, via IsIsoToIso plus adjoint_equiv_counit_coherence/adjoint_equiv_unit_coherence (:348, :364), whose proofs are exactly unit/counit naturality — so the class really does mean the book's 'eta and epsilon are natural isomorphisms'. File is registered in _CoqProject. ONE UNSTATED RIDER, not enough to downgrade: the book identifies the reversed adjunction's unit as epsilon^{-1} and its counit as eta^{-1}. In-tree, AdjointEquivalence_swap routes through EquivalenceOfCategories_sym and Equivalence_to_AdjointEquivalence, which rebuild the transposes from equiv_adj_to/equiv_adj_from; nothing proves that the resulting unit is the inverse counit. rg over Theory/Equivalence/Adjoint.v finds no such identification. The mathematical content the book is after ('T is at once left and right adjoint of S') is delivered; only the componentwise identification of the swapped cells is missing."
+    }
+  },
+  {
+    "id": "maclane:IV.4:thm1",
+    "classification": "PRESENT",
+    "aliases": [
+      "characterization of equivalences",
+      "full + faithful + essentially surjective iff equivalence",
+      "FF_ESO_Equivalence",
+      "every equivalence refines to an adjoint equivalence",
+      "quasi-inverse construction from ff + eso"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 160,
+        "symbol": "FF_ESO_Equivalence",
+        "intree_statement": "Theorem FF_ESO_Equivalence `(F : C ⟶ D) `{@Full C D F} `{@Faithful C D F} `{@EssentiallySurjective C D F} : EquivalenceOfCategories F. — (iii) ⇒ (i)"
+      },
+      {
+        "file": "Theory/Equivalence/FullFaithful.v",
+        "line": 171,
+        "symbol": "Equivalence_Faithful / Equivalence_Full / Equivalence_EssSurj",
+        "intree_statement": "Theorem Equivalence_Faithful `(E : @EquivalenceOfCategories C D F) : Faithful F (171); Theorem Equivalence_Full ... : Full F (214); Theorem Equivalence_EssSurj ... : EssentiallySurjective F (221). — (i) ⇒ (iii)"
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 333,
+        "symbol": "Equivalence_to_AdjointEquivalence",
+        "intree_statement": "Theorem Equivalence_to_AdjointEquivalence `(E : @EquivalenceOfCategories C D F) : AdjointEquivalence F (@quasi_inverse C D F E). — (i) ⇒ (ii), carried by the same functor and quasi-inverse, exactly MacLane's (iii)⇒(ii) construction route (universal arrows from fullness+faithfulness+eso)"
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 398,
+        "symbol": "AdjointEquivalence_to_Equivalence",
+        "intree_statement": "Definition AdjointEquivalence_to_Equivalence `(A : @AdjointEquivalence C D F U) : EquivalenceOfCategories F. — (ii) ⇒ (i)"
+      }
+    ],
+    "statement_record": {
+      "book": "For S : A -> C the following are equivalent: (i) S is an equivalence of categories; (ii) S is part of an adjoint equivalence <T, S; eta, epsilon>; (iii) S is full and faithful and each c in C is isomorphic to Sa for some a (proof of (iii)⇒(ii) by choosing T_0 c and eta_c : c ≅ S(T_0 c) and invoking universality).",
+      "intree": "The full cycle in both directions: FF_ESO_Equivalence ((iii)⇒(i)); Equivalence_Full/Equivalence_Faithful/Equivalence_EssSurj ((i)⇒(iii)); Equivalence_to_AdjointEquivalence ((i)⇒(ii)); AdjointEquivalence_to_Equivalence ((ii)⇒(i)).",
+      "strength_comparison": "same — all three nodes with both directions. Presentation difference: Full and EssentiallySurjective are split, choice-carrying classes (chosen prefmap preimages, chosen eso_obj/eso_iso witnesses), so (iii)⇒(i)/(ii) is choice-free where MacLane's existential reading invokes AC to choose T_0 c and eta_c — the constructive kernel, disclosed in the Theory/Equivalence.v header (HoTT-book style). Under the book's classical reading the statements coincide."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT with the same four citations, and the cycle does close in both directions through all three nodes. All quotes verified verbatim: Theory/Equivalence/FullFaithful.v:160-166 FF_ESO_Equivalence ((iii)⇒(i)), :171 Equivalence_Faithful, :214 Equivalence_Full, :221 Equivalence_EssSurj ((i)⇒(iii)); Theory/Equivalence/Adjoint.v:333-341 Equivalence_to_AdjointEquivalence ((i)⇒(ii)) and :398-402 AdjointEquivalence_to_Equivalence ((ii)⇒(i)). Both files registered in _CoqProject. The choice caveat in strength_comparison is accurate and matches the in-file disclosure (Theory/Equivalence.v:102-117: EssentiallySurjective is split into chosen eso_obj/eso_iso precisely because the classical form needs AC, and FF_ESO_Equivalence invokes no choice principle). ONE INACCURATE GLOSS, in the evidence note for Equivalence_to_AdjointEquivalence only, not in the classification or the statement_record: it says the proof is 'exactly MacLane's (iii)⇒(ii) construction route (universal arrows from fullness+faithfulness+eso)'. The file header at Theory/Equivalence/Adjoint.v:26-33 says the opposite — 'The route is direct — it does not rectify one of the two comparison cells through the triangle identities' — and builds the hom-setoid transposes outright from prefmap and eso_iso; no universal arrow is constructed. The logical content of the arrow ((i)⇒(ii), which with FF_ESO_Equivalence composes to (iii)⇒(ii)) is right; only the description of the proof technique is wrong. Not grounds to overturn."
+    }
+  }
+]

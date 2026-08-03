@@ -1,0 +1,352 @@
+[
+  {
+    "id": "maclane:VII.3:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Mon_B has finite products",
+      "products in the category of monoid objects",
+      "category of internal monoids is cartesian",
+      "Product_Monoid",
+      "Mon(C) products / terminal monoid"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 83,
+        "symbol": "Mon",
+        "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun X => (id; MonoidHom_id `2 X); compose := fun _ _ _ f g => (`1 f ∘ `1 g; MonoidHom_comp `2 f `2 g) |} — the category Mon(C) of internal monoids in a monoidal category C, with a faithful forgetful Mon_Forget : Mon ⟶ C."
+      },
+      {
+        "file": "Structure/Monoid.v",
+        "line": 179,
+        "symbol": "Product_Monoid",
+        "intree_statement": "Program Instance Product_Monoid `(X : Monoid x) `(Y : Monoid y) : @MonoidObject C CC_Monoidal (x × y) := {| mempty := mempty[X] △ mempty[Y]; mappend := split mappend[X] mappend[Y] ∘ toggle |} — the product carrier x × y carries a monoid structure (the three monoid laws are the three discharged obligations)."
+      }
+    ],
+    "statement_record": {
+      "book": "If the monoidal category B has finite products, then the category Mon_B of monoids in B (with monoid morphisms) again has finite products.",
+      "intree": "Mon : Category (objects = { x : C & Monoid x }, morphisms = monoid homomorphisms), with a faithful forgetful Mon ⟶ C; and Product_Monoid : @MonoidObject C CC_Monoidal (x × y) equipping the product carrier with a monoid structure.",
+      "strength_comparison": "intree-weaker: the category Mon(C) of internal monoids and the object-level 'product of two monoids is a monoid' (Product_Monoid) both exist, but (i) Product_Monoid is stated ONLY for the cartesian monoidal structure CC_Monoidal (tensor = ×) and for the sibling MonoidObject definition of Structure/Monoid.v, not for the general monoidal Mon of Theory/Algebra/Monoid/Hom.v; (ii) it is only an object-level construction — it is never assembled into the categorical finite-product structure on Mon, i.e. there is no @Cartesian Mon / terminal-monoid instance, no proof that the product projections and pairing are monoid morphisms, and no universal property; (iii) the exercise's generality (B monoidal under □ with a separate categorical product ×) is not addressed."
+    },
+    "gap": "Missing: (a) that the underlying-object product x × y is the categorical PRODUCT in the category Mon (projections exl/exr and pairing ⟨f,g⟩ shown to be monoid homomorphisms and to satisfy the product universal property); (b) a terminal monoid (the unit object with its trivial monoid structure) making Mon have all finite products; (c) the construction for a general monoidal category B with a categorical product × distinct from the tensor □ (Product_Monoid handles only the cartesian case □ = ×, and on the other of the two monoid-object definitions). Only the object-level 'x × y is a monoid, cartesian case' fragment is in-tree.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Blind pass reached the same call independently. Verified both cited locations verbatim: Theory/Algebra/Monoid/Hom.v:83 `Program Definition Mon : Category` (obj = {x:C & Monoid x}, hom = MonoidHom sigma, faithful Mon_Forget + Mon_Forget_Faithful all present) and Structure/Monoid.v:179 `Product_Monoid : @MonoidObject C CC_Monoidal (x x y)`. strength_comparison is honest and precise: the two pieces do not compose (Mon is built from Theory.Algebra.Monoid.Monoid; Product_Monoid uses the sibling Structure.Monoid.MonoidObject and only the cartesian CC_Monoidal), there is no @Cartesian Mon / terminal-monoid instance, and no universal property. Empty negative_search_log is acceptable for a PARTIAL (evidence+statement_record present). Both files registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:VII.3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "coherence theorem for monoids",
+      "General Associative Law reread as coherence",
+      "canonical maps mu_w between word-functors",
+      "monoid coherence (all paths w -> (-) agree)",
+      "iterated multiplication mu^(n)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'general associative|associative law|mu\\^|n-fold|iterated (product|multiplication)|coherence for monoid' -g '*.v' — no counterpart; the only 'associative law' hits are the monoid-object axioms mu_assoc/mappend_assoc, not the General Associative Law mu_w / mu^(n).",
+      "rg -in 'coherence for monoid|can_c|can_B|mu_w|word functor|every diagram.*commut' -g '*.v' — no hits for canonical monoid maps mu_w; 'can_comparison' (Structure/Semiadditive.v) is the biproduct comparison map x + y ~> x × y, unrelated; 'every diagram ... commutes' (Structure/Monoidal/Symmetric.v:48) is the monoidal category's own coherence, not the monoid's General Associative Law.",
+      "rg -in 'substitution of word|word substitution|binary_word|BinaryWord|W\\^n' -g '*.v' — the underlying word/W apparatus of VII.2 on which this exercise's coherence graph is stated is not present either.",
+      "Read Theory/Algebra/Monoid.v and Structure/Monoid.v in full — they give the monoid-object axioms only; no iterated-product mu^(n), no canonical arrows mu_w : v_c -> w_c, and no coherence statement 'any two paths w -> (-) have equal composite (and this fails for target (-) ⨂ (-))'.",
+      "Note: the library does prove monoidal-category coherence via FreePROP/ColouredPROP universal properties and Multicategory/Representable, but NOT Mac Lane's monoid-specific coherence (Proposition VII.3.1 reread as a coherence theorem)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No word-indexed canonical maps mu_w / General Associative Law / monoid-specific coherence; the monoid-object files (Theory/Algebra/Monoid.v, Structure/Monoid.v) carry only the bare mu_assoc/unit axioms. Monoidal-category coherence via PROP/Multicategory exists but is a different object, correctly noted in the negative log."
+    }
+  },
+  {
+    "id": "maclane:VII.3:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "substitution of words in a word",
+      "word-substitution functor u_W : W^n -> W",
+      "operadic substitution of monoidal words",
+      "free monoidal category on one generator (W)",
+      "generalized General Associative Law via substitution"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'substitution of word|word substitution|FreeMonoidal|free_monoidal|binary_word|BinaryWord|W\\^n' -g '*.v' — only Construction/PROP/Monoidal.v (Section FreeMonoidal) and Construction/ColouredPROP/Monoidal.v (Section CFreeMonoidal), which build the (symmetric, strict) monoidal structure of the free PROP, NOT Mac Lane's free monoidal category W on one generator, its binary words, nor the substitution functors u_W : W^n -> W.",
+      "rg -in 'free monoidal categor|binary word|one generator|category W' -g '*.v' — no hits for the free monoidal category on one generator or binary words; 'walking …' hits are the walking arrow/parallel-pair, unrelated.",
+      "The exercise depends on the free monoidal category W of VII.2 (also absent) and on defining u_W : W^n -> W by substituting v_1..v_n into u's blanks, then proving mu_w = mu_u ∘ (mu_{v1} ⨂ … ⨂ mu_{vn}) ∘ (canonical map); none of this word-substitution machinery, nor the generalization of Proposition VII.3.1 it yields, is in-tree.",
+      "The library's free-symmetric-strict-monoidal (PROP) and coloured-PROP developments are a different universal object (symmetric + strict, on a signature) than W (non-symmetric, non-strict, one generator); they do not provide word substitution u_W."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. The FreeMonoidal/CFreeMonoidal sections build the free (symmetric, strict) PROP, not Mac Lane's non-symmetric non-strict free monoidal category W on one generator, its binary words, nor the substitution functors u_W : W^n -> W. Word-substitution machinery absent."
+    }
+  },
+  {
+    "id": "maclane:VII.4:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "left action of a monoid object nu : c ⨂ a -> a",
+      "left module over a monoid in a monoidal category",
+      "internal module / c-module",
+      "monoid-object action (associativity square + unit triangle)",
+      "left regular representation of a monoid object (c acts on itself by mu)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'MonoidAction|monoid_action|LeftModule|RightModule|Module_over|act :|act:|nu :.*⨂' -g '*.v' — no dedicated class/record for a monoid-object action nu : c ⨂ a -> a.",
+      "rg -in 'left action|right action|monoid action|acts on|c ⨂ a|left module|right module|bimodule' -g '*.v' — only prose/analogy hits (Theory/Profunctor.v calls a profunctor a 'bimodule'/'left action of C and right action of D by composition'; Theory/DoubleCategory.v, Theory/Bicategory.v, Theory/Algebra/Frobenius.v mention bimodules as motivating examples), no internal-module definition.",
+      "rg -n --word-regexp 'cLact|Lact|Ract|Comodule|Bimodule|LeftAct|RightAct|Module|Action' -g '*.v' — the only 'Action' definitions are Instance/Lambda/Ren.v ('Action of a renaming on a variable/term' — the renaming functor on lambda terms), entirely unrelated to a monoid acting on an object.",
+      "Near-miss (NOT an instance of def1): Monad/Algebra.v:24 Class TAlgebra with field t_action (t_alg ∘ fmap t_alg ≈ t_alg ∘ join) is an action of a monad — a monoid in the endofunctor category [X,X] under composition — on an OBJECT a of X (an actegory / [X,X]-on-X action), whereas def1 is the internal module nu : c ⨂ a -> a with c and a BOTH objects of one monoidal category B. The general internal-module notion is not defined anywhere in the tree.",
+      "The monoid-object notion itself (Theory/Algebra/Monoid.v Monoid, Structure/Monoid.v MonoidObject) is present, but no notion of an object acted on by such a monoid via the tensor is defined."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass independently found no module/action-over-a-monoid-object class (no nu : c (x) a ~> a). The negative log's TAlgebra near-miss analysis is exactly right: a monad is a monoid in [X,X] acting on an object, whereas def1 is the internal module with c,a both objects of one monoidal B. Minor imprecision (not affecting the verdict): the log's claim that 'the only Action definitions are Lambda/Ren.v' overlooks Theory/Multicategory/Algebra.v:152 Record OperadAction (and t_action/w_coaction/created_action), none of which is a monoid-object module either. No regular-representation module structure exists (Construction/Cayley.v is classical Cayley into endofunctors, not c-acting-on-itself-by-mu)."
+    }
+  },
+  {
+    "id": "maclane:VII.4:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "morphism of left actions",
+      "module homomorphism (internal)",
+      "equivariant map / c-linear map",
+      "action-preserving morphism nu' ∘ (1 ⨂ f) ≈ f ∘ nu",
+      "arrow of cLact"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on VII.4:def1 (left action), which is ABSENT: with no internal-module class there is no morphism-of-modules class.",
+      "rg -in 'MonoidAction|LeftModule|RightModule|module hom|equivariant|action.*morphism|morphism.*action' -g '*.v' — no class/record for a map f : a -> a' satisfying nu' ∘ (1 ⨂ f) ≈ f ∘ nu.",
+      "rg -n --word-regexp 'cLact|Lact|Ract|Module|Action' -g '*.v' — no module/action morphism definitions (only the unrelated Lambda 'renaming action').",
+      "The closest structural analogue is Monad/Algebra.v:44 TAlgebraHom (a T-algebra homomorphism between monad-algebras), which is a morphism of actegory-style monad actions on objects, not a morphism of internal monoid-object actions."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No morphism-of-modules class (no f : a ~> a' with nu' (o) (1 (x) f) = f (o) nu). Correctly depends on def1; TAlgebraHom is the monad-case analogue, not this."
+    }
+  },
+  {
+    "id": "maclane:VII.4:construction1",
+    "classification": "ABSENT",
+    "aliases": [
+      "category cLact of left actions",
+      "category of modules over a monoid object",
+      "forgetful functor cLact -> B",
+      "free module functor b |-> c ⨂ b",
+      "free/forgetful adjunction for monoid-object actions"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on VII.4:def1/def2 (left actions and their morphisms), both ABSENT: with no module notion there is no category cLact of modules.",
+      "rg -n --word-regexp 'cLact|Lact|Ract|Module|Action' -g '*.v' — no cLact/Lact category; only Instance/Lambda/Ren.v renaming 'action', unrelated.",
+      "rg -in 'forgetful.*(module|action)|free (module|action)|b ↦ c ⨂|c ⨂ b' -g '*.v' — no forgetful cLact -> B, and no free functor b |-> c ⨂ b with the induced c-action c ⨂ (c ⨂ b) -> (c ⨂ c) ⨂ b -> c ⨂ b.",
+      "The library HAS the analogous free/forgetful adjunctions for monad-algebras (Monad/Eilenberg/Moore/Adjunction.v, Monad/Kleisli/Adjunction.v), i.e. the actegory instance, but NOT the internal-module category cLact and its free functor c ⨂ -."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No internal-module category cLact, no forgetful cLact -> B, no free functor b |-> c (x) b. The monad Eilenberg-Moore / Kleisli free-forgetful adjunctions exist but are the specific [X,X]-on-X instance, not the general monoidal cLact; the log states this honestly. Treatment is consistent with def1/def2 being ABSENT despite TAlgebra existing."
+    }
+  },
+  {
+    "id": "maclane:VII.4:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "right action sigma : b ⨂ c -> b",
+      "right module over a monoid object",
+      "bimodule (two-sided module)",
+      "internal bimodule / commuting left-right action",
+      "Ract_c"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'right action|right module|bimodule|two-sided|σ :.*⨂.*~>|b ⨂ c' -g '*.v' — 'bimodule' occurs only in prose/analogy (Theory/Profunctor.v: a profunctor is a 'bimodule'/distributor; Theory/DoubleCategory.v and Theory/Bicategory.v cite 'tensor of bimodules over a ring' as a motivating loose bicategory; Theory/Algebra/Frobenius.v comment 'delta is a bimodule map'). No right-action or bimodule DEFINITION (a map sigma : b ⨂ c -> b with the dual associativity/unit laws, or a compatible pair (nu, sigma)).",
+      "rg -n --word-regexp 'Bimodule|RightAct|Ract' -g '*.v' — no such definitions.",
+      "Depends on the internal left-action notion (VII.4:def1, ABSENT); the dual right action and the bimodule combining a commuting left and right action are likewise absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No right action sigma : b (x) c ~> b and no bimodule structure; every 'bimodule' hit is prose/analogy (Profunctor, DoubleCategory, Bicategory, Frobenius comment)."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monad action on an endofunctor (Dubuc 1970)",
+      "lifting a functor S to Eilenberg-Moore algebras X^T (S = G^T S')",
+      "T-algebra structure on an endofunctor / T-module in [X,X]",
+      "liftings S' : X -> X^T correspond to actions",
+      "mixed distributive law lifting"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Eilenberg/Moore.v",
+        "line": 44,
+        "symbol": "EilenbergMoore",
+        "intree_statement": "Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {| obj := ∃ a : C, @TAlgebra C T H a; hom := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y); … |} — the Eilenberg–Moore category X^T (= C^T) whose forgetful functor U^T : C^T → C, (a, ν) ↦ a is the target of the lifting in the exercise."
+      },
+      {
+        "file": "Monad/Algebra.v",
+        "line": 24,
+        "symbol": "TAlgebra",
+        "intree_statement": "Class TAlgebra `(T : C ⟶ C) `{@Monad C T} (a : C) := { t_alg : T a ~> a; t_id : t_alg ∘ ret ≈ id; t_action : t_alg ∘ fmap t_alg ≈ t_alg ∘ join } — the object-level action of the monad T on an object a (the pointwise ingredient of a T-action on an endofunctor)."
+      }
+    ],
+    "statement_record": {
+      "book": "(Dubuc 1970) For a monad ⟨T,η,μ⟩ on X, T has an action on an endofunctor S : X → X iff S lifts to the Eilenberg–Moore category X^T as S = G^T S'; such actions correspond one-to-one with the liftings S' : X → X^T.",
+      "intree": "EilenbergMoore : the category X^T with forgetful U^T; TAlgebra T a : an action of T on an OBJECT a (t_alg : T a ~> a with unit and associativity laws); TAlgebraHom : algebra homomorphisms.",
+      "strength_comparison": "intree-weaker: the Eilenberg–Moore category X^T, its forgetful functor U^T = G^T, and the object-level monad action TAlgebra are present, but the exercise's actual content — the notion of a T-action on an ENDOFUNCTOR S (a T-algebra structure on S in the functor category [X,X], i.e. a natural α : T S → S with the algebra laws), the lifting S' : X → X^T satisfying G^T S' = S, and the bijection {T-actions on S} ↔ {liftings S'} — is not formalized."
+    },
+    "gap": "Missing: (a) the definition of a T-action on an endofunctor S : X → X (T-algebra object in [X,X] under T∘−); (b) the construction of a lifting S' : X → X^T with G^T S' = S from such an action, and conversely; (c) the one-to-one correspondence (bijection of the two). Only the object-level TAlgebra and the EM category/forgetful are in-tree. NOTE: Monad/Lifting.v is a DIFFERENT theorem — the Dubuc (1968) adjoint-TRIANGLE lifting of left adjoints along a monadic functor — not this Dubuc (1970) action/functor-lifting correspondence.",
+    "negative_search_log": [
+      "rg -n 'lift|Eilenberg|correspond|X\\^T' Monad/Distributive.v — empty: distributive laws are present but no lifting/action correspondence.",
+      "rg -in 'lift' Monad/Eilenberg/Moore.v — only the forgetful/free-algebra discussion; no lifting of an arbitrary endofunctor S to X^T."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL (borderline; an ABSENT reading is also defensible and I considered it). Verified both cited locations verbatim: Monad/Eilenberg/Moore.v:44 `EilenbergMoore` (X^T with U^T) and Monad/Algebra.v:24 `TAlgebra` (object-level t_action) — both registered in _CoqProject. Unlike def1, ex1's setting IS the monad/EM setting the library fully has, and object-level TAlgebra is a genuine fragment (the pointwise value of a T-action on an endofunctor), so PARTIAL is supportable. The strength_comparison is honest that the specific content — a T-action on an endofunctor S (natural TS => S), the lifting S':X->X^T with G^T S'=S, and the bijection — is entirely unformalized; a reader is not misled. I verified the gap's disambiguation: Monad/Lifting.v is indeed the DIFFERENT Dubuc (1968) adjoint-TRIANGLE theorem (its header cites \"Adjoint triangles\", 1968), not this Dubuc (1970) action/lifting correspondence. Monad/Distributive.v is the weak Jones-Duponcheel form, not the lifting bijection. Not overturned: the call is defensible and honestly documented, not a same-name-weaker misrepresentation."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "strict monoidal category acting on a category",
+      "actegory / module category over a monoidal category",
+      "C-actegory (action ⊗ : B × C → C)",
+      "tensored category over a monoidal category",
+      "action of a monoid in Cat on a category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'actegory|module category|acts on (a|the) categor|action of .* (monoidal|monoid) categor|tensored categor' -g '*.v' — only Structure/Abelian.v:106 ('a localization of a module category', prose) and Structure/Monoidal/Semicartesian/Terminal.v (a Coq module reference), neither an actegory.",
+      "rg -in 'actegory|tensored (over|categor)|left module categor|module over a monoidal|C-module|acted on' -g '*.v' — no actegory / module-category structure; only a Comonad/Strong.v comment ('two variables acted on').",
+      "The intended notion — a strict monoidal category B (a monoid in ⟨Cat,×,1⟩) acting on a category C, plus the action of a monoid in B on an object of C, extending VII.4:ex1 to functors S : A → X — is not formalized. The library has monads (monoids in [X,X]) and their EM algebras, i.e. one specific actegory instance, but not the general 'monoidal category acting on a category' framework this exercise requires."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No actegory / module category / monoidal-category-acting-on-a-category. Instance/StrictCat/Premonoid.v (strict premonoidal = monoid in (StrictCat, box)) is a monoid object in a Cat-like setting but not an action ON a category; it is a reasonable near-miss the log could have cited, but the ABSENT verdict is correct."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "actions of a K-coalgebra",
+      "comodule over a coalgebra/comonoid",
+      "coaction rho : a -> c ⨂ a (dual of a left action)",
+      "comodule over an internal comonoid in K-Mod",
+      "K-Mod comonoid corepresentation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'comodule|coaction|coact|co-action' -g '*.v' — 'coaction' occurs only in Comonad/Coalgebra.v (w_coaction: the coalgebra law for a coalgebra over a COMONAD W, i.e. a comodule over a comonoid in the endofunctor category) and Instance/Coq/Comonad/Store.v; there is NO comodule over a general internal comonoid object c (a map rho : a -> c ⨂ a with the dual associativity/unit laws).",
+      "rg -in 'comodule|coaction|action|module' Theory/Algebra/Comonoid/Hom.v Theory/Algebra/Comonoid.v — empty: internal comonoids and their homomorphisms (category Comon(C)) exist, but not their comodules/actions.",
+      "The library has internal comonoids (Theory/Algebra/Comonoid.v) and comonad-coalgebras (Comonad/Coalgebra.v, an actegory instance), but NOT 'actions of a K-coalgebra' — comodules over a comonoid object in a concrete monoidal category such as K-Mod. There is also no K-Mod category in-tree. Dual to the ABSENT internal-module notion of VII.4:def1."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. Internal comonoids (Theory/Algebra/Comonoid.v) and comonad-coalgebras (Comonad/Coalgebra.v w_coaction) exist, but there is no comodule/coaction rho : a -> c (x) a over a general internal comonoid object, and no K-Mod category. Near-misses correctly identified and distinguished."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "cLact inherits coproducts",
+      "colimits of modules over a monoid object",
+      "forgetful cLact -> B preserves coproducts",
+      "cocompleteness of the module category",
+      "coproducts of left actions"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on the category cLact of left actions (VII.4:construction1) and the left-action notion (VII.4:def1), both ABSENT: there is no module category whose coproducts could be discussed.",
+      "rg -n --word-regexp 'cLact|Lact|Ract' -g '*.v' — no module/action category exists.",
+      "rg -in 'coproduct.*(action|module)|(action|module).*coproduct' -g '*.v' — no result about coproducts of actions preserved by a forgetful functor.",
+      "Coproducts (Structure/Cocartesian.v) and the fact that left adjoints preserve them are present generically, but there is no cLact to inherit them."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. Depends on the absent cLact. Coproducts (Structure/Cocartesian.v) and left-adjoints-preserve-colimits exist generically, but there is no module category to inherit them."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "cLact inherits finite products",
+      "products of modules over a monoid object",
+      "product of left actions with projections equivariant",
+      "cartesian structure on the module category",
+      "finite products in cLact"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on the category cLact of left actions (VII.4:construction1) and the left-action notion (VII.4:def1), both ABSENT.",
+      "rg -n --word-regexp 'cLact|Lact|Ract' -g '*.v' — no module/action category.",
+      "rg -in 'product.*(action|module)|(action|module).*product' -g '*.v' — no result that finite products lift to a module category with the projections a × a' -> a, a × a' -> a' being morphisms of actions.",
+      "Finite products (Structure/Cartesian.v) exist generically, but there is no cLact to inherit them and no proof the projections are equivariant."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. Depends on the absent cLact. Finite products (Structure/Cartesian.v) exist generically, but there is no module category and no proof the projections are equivariant. Confirmed no @Cartesian on any module/action category exists."
+    }
+  },
+  {
+    "id": "maclane:VII.4:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "tensor product of a right module by a left module",
+      "relative tensor product b ⨂_c a",
+      "coequalizer definition of the module tensor",
+      "balanced tensor product over a monoid object",
+      "⨂_c : Ract_c × cLact → B as a functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -in 'relative tensor|tensor product of modules|tensor over|⨂_c|box_c|coequalizer.*action' -g '*.v' — no relative/balanced tensor product b ⨂_c a; the ⨂_C hits (DecoratedCospan, HypergraphFunctor) are ordinary tensor notation with a subscripted category, not a tensor over a monoid.",
+      "Depends on the left/right action notions (VII.4:def1/def3) and the categories cLact/Ract_c, all ABSENT: there is nothing to coequalize.",
+      "The prerequisite coequalizers DO exist (Structure/Coequalizer.v, with Reflexive.v and Split.v variants), so the ambient colimit is available — but the construction of b ⨂_c a as the coequalizer of the two maps b ⨂ (c ⨂ a) ⇉ b ⨂ a (right action on the left factor vs left action on the right factor) and the functoriality of ⨂_c : Ract_c × cLact → B are not formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind pass agrees. No relative/balanced tensor b (x)_c a as a coequalizer, and no functor (x)_c : Ract_c x cLact -> B. Coequalizers do exist (Structure/Coequalizer.v {,/Reflexive,/Split}), correctly noted; the Structure/Coend.v 'C in the role of the ring' text is an analogy in a comment, not a module tensor."
+    }
+  }
+]

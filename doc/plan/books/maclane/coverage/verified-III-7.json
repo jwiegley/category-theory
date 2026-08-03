@@ -1,0 +1,446 @@
+[
+  {
+    "id": "maclane:III.5:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "category with finite products",
+      "cartesian category",
+      "Cartesian (class) + Terminal (class)",
+      "binary product / product_obj / fork / exl / exr",
+      "indexed product over a discrete category (iprod)",
+      "HasFiniteProducts"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 121,
+        "symbol": "Cartesian",
+        "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj; fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl {x y} : x × y ~> x; exr {x y} : x × y ~> y; fork_respects ...; ump_products {x y z} (f g h) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) } — header (lines 19-22): 'A cartesian category is a category equipped with finite products. This class axiomatizes the binary product; the nullary product (the terminal object 1) is supplied separately by [Terminal]'"
+      },
+      {
+        "file": "Structure/Terminal.v",
+        "line": 107,
+        "symbol": "Terminal",
+        "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 93,
+        "symbol": "iprod",
+        "intree_statement": "Definition iprod {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : C — the n-ary/indexed product diagram as the limit of a discrete diagram, with iprod_proj and iprod_ump"
+      }
+    ],
+    "statement_record": {
+      "book": "A category C has finite products when every finite list of objects c_1,...,c_n admits a product diagram (product object plus n projections with the universal property); the n=0 case is a terminal object and n=2 the binary product.",
+      "intree": "Cartesian (binary product with UMP as ump_products) together with Terminal (nullary product); n-ary product diagrams are available as limits of discrete diagrams via iprod/iprod_proj/iprod_ump in Structure/Limit/Product.v.",
+      "strength_comparison": "same up to presentation: the library adopts the standard equivalent generators (binary + nullary) that the book itself reduces to via its Prop. 1; the general n-ary product-diagram vocabulary exists (iprod over DiscreteCat), though a packaged 'all finite lists' class is not separately defined and the iteration binary+terminal ⇒ n-ary is not proven in-tree (that gap is charged to maclane:III.5:prop1)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by blind search. Class Cartesian at Structure/Cartesian.v:121 with header quote verified verbatim (lines 19-22); Class Terminal at Structure/Terminal.v:107; iprod/iprod_proj/iprod_ump at Structure/Limit/Product.v:93-105 plus HasIndexedProducts (:128) verified; blind pass also found Cartesian_Limit (Structure/Limit/Cartesian.v:39) and Terminal_Limit (Structure/Limit/Terminal.v:33) as the discrete-limit bridges. All files in _CoqProject. PRESENT-with-gap-charged-to-prop1 is the honest split."
+    }
+  },
+  {
+    "id": "maclane:III.5:def2",
+    "classification": "PRESENT",
+    "aliases": [
+      "diagonal map / diagonal morphism δ_c",
+      "fork id id / id △ id",
+      "RelevanceMonoidal.diagonal (∆)",
+      "copy (copy-discard / comonoid supply)",
+      "unit of the adjunction Δ ⊣ ×"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Relevance.v",
+        "line": 50,
+        "symbol": "diagonal",
+        "intree_statement": "diagonal {x} : x ~> x ⨂ x; diagonal_natural : natural (@diagonal) — 'Naturality: (f ⨂ f) ∘ ∆x ≈ ∆y ∘ f, so ∆ is a natural transformation from the identity functor to the squaring functor x ↦ x ⨂ x'"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 319,
+        "symbol": "CC_RelevanceMonoidal",
+        "intree_statement": "Program Definition CC_RelevanceMonoidal : @RelevanceMonoidal C := {| relevance_is_symmetric := CC_SymmetricMonoidal; diagonal := fun _ => Cartesian.fork id id |} — the cartesian diagonal δ_c = ⟨id, id⟩, naturality discharged in the first obligation (lines 323-332)"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 211,
+        "symbol": "exl_fork",
+        "intree_statement": "Corollary exl_fork : exl ∘ f △ g ≈ f (and exr_fork, line 220) — instantiated at f = g = id these are the book's defining equations p1 ∘ δ_c ≈ 1_c ≈ p2 ∘ δ_c"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) — the hom-set adjunction whose transpose pairs components f △ g; the diagonal is its unit"
+      }
+    ],
+    "statement_record": {
+      "book": "For each object c the diagonal map δ_c : c → c×c is defined by p1 ∘ δ_c = 1_c = p2 ∘ δ_c, and the family δ is a natural transformation from the identity functor to the binary-product functor.",
+      "intree": "diagonal := fork id id with exl_fork/exr_fork giving the projection equations, and diagonal_natural : natural (@diagonal) proven for the cartesian instance in CC_RelevanceMonoidal.",
+      "strength_comparison": "same; intree-stronger in surroundings: the diagonal is additionally developed as a full cocommutative-comonoid supply (coassociativity, cocommutativity, tensor-compatibility in RelevanceMonoidal) and as the unit of Δ ⊣ ×, beyond what the book states here."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED by blind search. diagonal field + diagonal_natural at Structure/Monoidal/Relevance.v:50/53 with the quoted naturality comment verified verbatim; CC_RelevanceMonoidal at Structure/Monoidal/Internal/Product.v:319 with diagonal := fork id id and the naturality obligation (first Next Obligation, lines 323-332 — the second obligation is diagonal_unit via one_unique, confirming the first is naturality); exl_fork/exr_fork at Cartesian.v:211/220; Diagonal_Product_Adjunction at Adjunction/Diagonal/Product.v:36 all verified."
+    }
+  },
+  {
+    "id": "maclane:III.5:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "finite products from terminal + binary products",
+      "product bifunctor InternalProductFunctor ×(C)",
+      "cartesian monoidal structure CC_Monoidal / CC_CartesianMonoidal",
+      "canonical associator prod_assoc / tensor_assoc (alpha)",
+      "unitors prod_one_l / prod_one_r / unit_left / unit_right (lambda, rho)",
+      "dual: finite coproducts / Cocartesian"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Product/Internal.v",
+        "line": 34,
+        "symbol": "InternalProductFunctor",
+        "intree_statement": "Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} : C ∏ C ⟶ C := { fobj := fun p => fst p × snd p; fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr) } — × as a bifunctor, with f1 × f2 determined by the projections exactly as in the book"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 54,
+        "symbol": "CC_Monoidal",
+        "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |} — the obligations discharge naturality of unit_left (λ_a : 1 × a ≅ a), unit_right (ρ_a : a × 1 ≅ a) and tensor_assoc (α), all built canonically from the product UMP"
+      },
+      {
+        "file": "Structure/Cartesian.v",
+        "line": 485,
+        "symbol": "prod_assoc",
+        "intree_statement": "Program Instance prod_assoc {x y z : C} : (x × y) × z ≅ x × (y × z) := { to := (exl ∘ exl) △ ((exr ∘ exl) △ exr); from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) } (with prod_one_l : 1 × x ≅ x at line 451, prod_one_r : x × 1 ≅ x at line 465)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 115,
+        "symbol": "Cocartesian",
+        "intree_statement": "Notation \"'Cocartesian' C\" := (@Cartesian (C^op)) — the dual half (finite coproducts, with coprod_assoc / coprod_zero_l / coprod_zero_r at lines 375-406) obtained by the library's duality design"
+      }
+    ],
+    "statement_record": {
+      "book": "If C has a terminal object t and a binary product for every pair, then C has all finite products; the chosen products make × a bifunctor, and there are canonical isomorphisms alpha_{a,b,c} : a×(b×c) ≅ (a×b)×c, lambda_a : t×a ≅ a, rho_a : a×t ≅ a natural in all arguments, arising by uniqueness of universals; dually for finite coproducts.",
+      "intree": "InternalProductFunctor is the bifunctor; CC_Monoidal packages the canonical natural α, λ, ρ (naturality fields of the Monoidal class discharged from the product UMP); prod_assoc/prod_one_l/prod_one_r give the isos in Cartesian vocabulary; the coproduct dual is Cocartesian = Cartesian (C^op) with coprod_assoc/coprod_zero_l/coprod_zero_r.",
+      "strength_comparison": "intree-weaker: the headline quantifier 'C has ALL finite products' (a product diagram for every finite list c_1..c_n, by iterating the binary product) is never stated or proven — there is no theorem producing an n-ary iprod / Limit over a finite discrete category from Cartesian + Terminal; only the binary/ternary components (bifunctor, natural α, λ, ρ) are formalized. The closest neighbors are law_pow (Theory/Lawvere.v:150), which iterates binary products into n-fold powers of one object, and pow in Theory/Multicategory/Endomorphism.v — powers, not arbitrary finite lists."
+    },
+    "gap": "The general conclusion 'terminal + binary products ⇒ a product diagram for every finite list of objects' is absent: no in-tree construction of n-ary products (e.g. Limit (DiscreteCat_Functor f) for f : Fin n → C, or an iprod instance) by iteration from Cartesian + Terminal. The bifunctor and the canonical natural α/λ/ρ (and the coproduct dual by the C^op design) are fully present.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (PARTIAL). Blind pass leaned PRESENT-in-substance but the classifier's gap is real and precisely stated: no in-tree theorem produces an n-ary product diagram (for an arbitrary finite list) from Cartesian + Terminal — verified no such iteration lemma exists (only law_pow at Theory/Lawvere.v:150, powers of a single object, and pow in Multicategory/Endomorphism.v). Evidence verified: InternalProductFunctor (Functor/Product/Internal.v:34), CC_Monoidal (Internal/Product.v:54, all naturality obligations discharged), prod_assoc/prod_one_l/prod_one_r (Cartesian.v:485/451/465), Cocartesian notation (Cocartesian.v:115) with coprod_assoc/coprod_zero_l/coprod_zero_r (:399/375/384)."
+    }
+  },
+  {
+    "id": "maclane:III.5:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "finite coproducts dually / cocartesian category",
+      "copairing merge ▽ and injections inl/inr",
+      "cocomponents f ∘ i_j determine f",
+      "matrix of an arrow from a coproduct to a product",
+      "fork/merge interchange (2x2 matrix)",
+      "Matr / FdVect matrix of a linear map"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 131,
+        "symbol": "merge",
+        "intree_statement": "Definition merge {x y z} (f : y ~> x) (g : z ~> x) : y + z ~> x := @fork _ O _ _ _ f g — copairing with injections inl/inr (lines 142-143) and uniqueness via the dualized ump_products (merge_inv, merge_inl_inr); Initial supplies the nullary coproduct"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 274,
+        "symbol": "merge_ext",
+        "intree_statement": "Lemma merge_ext {x y z} (u v : x + y ~> z) : u ∘ inl ≈ v ∘ inl → u ∘ inr ≈ v ∘ inr → u ≈ v — an arrow out of a (binary) coproduct is determined by its cocomponents; dually fork_ext (line 260)"
+      },
+      {
+        "file": "Structure/Bicartesian.v",
+        "line": 39,
+        "symbol": "fork_merge",
+        "intree_statement": "Corollary fork_merge (f : x ~> y) (g : x ~> z) (h : w ~> y) (i : w ~> z) : (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i) — glossed in-file as: 'Reading the four morphisms as the entries of a 2×2 matrix, both sides assemble the same morphism (x + w) ~> (y × z)'"
+      }
+    ],
+    "statement_record": {
+      "book": "Dually, the empty coproduct is an initial object and a map f out of a coproduct a_1+...+a_m is uniquely determined by its m cocomponents f ∘ i_j; when C has both finite products and finite coproducts, an arrow a_1+...+a_m → b_1×...×b_n is uniquely determined by the m×n matrix f_jk = p_k ∘ f ∘ i_j, recovering in finite-dimensional vector spaces the classical matrix of a linear transformation.",
+      "intree": "The dual coproduct calculus is complete in the binary+nullary case (Cocartesian = Cartesian (C^op): merge, inl/inr, merge_ext/merge_inv uniqueness, Initial), and the 2×2 matrix determination is present as fork_merge plus merge_ext/fork_ext.",
+      "strength_comparison": "intree-weaker: only the binary (2×2) case of the matrix calculus is stated; there is no general m×n lemma that an arrow from an m-fold coproduct to an n-fold product is determined by its m·n entries p_k ∘ f ∘ i_j (no n-ary coproducts/products to state it over — see prop1's gap), and no category of finite-dimensional vector spaces or matrices (Matr) in-tree to recover the classical-matrix example (FdVect appears only in prose in Structure/Monoidal/CompactClosed.v)."
+    },
+    "gap": "General m×n matrix determination of arrows a_1+...+a_m → b_1×...×b_n is absent (binary 2×2 case only, via fork_merge + merge_ext/fork_ext); the finite-dimensional-vector-space example identifying this with the classical matrix of a linear map is absent (no FdVect/Matr instance).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (PARTIAL). merge at Cocartesian.v:131, merge_ext/fork_ext at Semiadditive.v:274/260, fork_merge at Bicartesian.v:39 with the 2x2-matrix gloss verified verbatim in the file comment. Blind search for 'matrix' confirms only 2x2/binary material (Bicartesian, Semiadditive matrix-entry lemmas, Abelian.v prose); no m-by-n determination lemma and no FdVect/Matr instance in-tree."
+    }
+  },
+  {
+    "id": "maclane:III.5:def3",
+    "classification": "PRESENT",
+    "aliases": [
+      "null object",
+      "zero object / ZeroObject",
+      "zero arrow / zero morphism zero_mor",
+      "pointed category",
+      "initial-and-terminal object"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 35,
+        "symbol": "ZeroObject",
+        "intree_statement": "Class ZeroObject (C : Category) := { zero_terminal : @Terminal C; zero_initial : @Initial C; zero_coincide : @initial_obj C zero_initial ≅ @terminal_obj C zero_terminal }"
+      },
+      {
+        "file": "Structure/ZeroObject.v",
+        "line": 53,
+        "symbol": "zero_mor",
+        "intree_statement": "Definition zero_mor {x y : C} : x ~> y := zero ∘ from zero_coincide ∘ one — the zero arrow x → 1 ≅ 0 → y, with absorption laws zero_mor_left (f ∘ 0 ≈ 0), zero_mor_right (0 ∘ f ≈ 0) and zero_mor_unique (any morphism factoring through the zero object is the zero morphism)"
+      }
+    ],
+    "statement_record": {
+      "book": "A null object z of C is an object both initial and terminal; when C has one, the zero arrow 0 : a → b between any two objects is the composite a → z → b of the unique arrows through z, and it is independent of choices.",
+      "intree": "ZeroObject packages a chosen terminal and a chosen initial object with a coincidence isomorphism; zero_mor is the composite through the zero object with absorption and uniqueness lemmas.",
+      "strength_comparison": "same up to setoid presentation: instead of one object literally playing both roles, a chosen initial and terminal object are linked by an iso — no loss of generality since (co)terminal objects are unique up to unique iso, and the file states this rationale explicitly; the book's 'composite through z' becomes the tunnel x → 1 ≅ 0 → y with the expected laws proven."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Class ZeroObject at Structure/ZeroObject.v:35 (zero_terminal + zero_initial + zero_coincide iso) and zero_mor at :53 verified, with zero_mor_left/zero_mor_right/zero_mor_unique at :61/:73/:85. The coincidence-up-to-iso presentation is a faithful setoid rephrasing of 'both initial and terminal'."
+    }
+  },
+  {
+    "id": "maclane:III.5:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical arrow from coproduct to product",
+      "comparison morphism can_comparison",
+      "identity matrix map ((id,0),(0,id))",
+      "biproduct (iso case) / semiadditive category",
+      "coproduct-to-product comparison invertible"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 288,
+        "symbol": "can_comparison",
+        "intree_statement": "Definition can_comparison (x y : C) : x + y ~> x × y := (id △ zero_mor) ▽ (zero_mor △ id) — comment: 'The canonical comparison morphism from the coproduct to the product, the \"identity matrix\" ((id, 0), (0, id))'; context is exactly the book's hypotheses: ZeroObject + Cartesian + Cocartesian (lines 255-257); the four matrix entries computed in exl_can_inl ≈ id, exr_can_inl ≈ 0, exl_can_inr ≈ 0, exr_can_inr ≈ id (lines 299-321)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 573,
+        "symbol": "bicartesian_preadditive",
+        "intree_statement": "Definition bicartesian_preadditive : Preadditive C — under the hypothesis E : ∀ x y, IsIsomorphism (can_comparison x y) (line 324), the iso case makes the category preadditive (Eckmann–Hilton), the in-tree elaboration of the book's 'may be an isomorphism (Ab, R-Mod)' branch"
+      },
+      {
+        "file": "Instance/CMon/Biproduct.v",
+        "line": 442,
+        "symbol": "CMon_Biproduct",
+        "intree_statement": "Definition CMon_Biproduct (M N : CMonObject) : @Biproduct CMon CMon_Zero M N — the concrete in-tree witness that the comparison is invertible in a familiar additive-flavoured category (commutative monoids, the stand-in for the Ab/R-Mod example)"
+      }
+    ],
+    "statement_record": {
+      "book": "With a null object, finite products and finite coproducts, there is a canonical arrow a_1+...+a_n → a_1×...×a_n given by the identity n×n matrix; it may be an isomorphism (Ab, R-Mod), a proper monic (pointed spaces, pointed sets), or a proper epi (Grp).",
+      "intree": "can_comparison (x y : C) : x + y ~> x × y := (id △ zero_mor) ▽ (zero_mor △ id) over ZeroObject + Cartesian + Cocartesian, with the entry computations; invertibility is isolated as the semiadditivity hypothesis and shown to yield preadditive enrichment, witnessed concretely in CMon.",
+      "strength_comparison": "intree-weaker on n-arity and examples (binary comparison only; no pointed-sets/pointed-spaces proper-monic witness nor Grp proper-epi witness in-tree); intree-stronger on the iso branch (proves invertible comparison ⇒ commutative-monoid enrichment, well beyond the book's remark)."
+    },
+    "gap": "Only the binary (2×2) canonical arrow is defined — no n-ary identity-matrix arrow a_1+...+a_n → a_1×...×a_n; the book's non-iso example classifications are unwitnessed: no pointed-sets/pointed-topological category showing the comparison a proper monic, and no Grp instance showing it a proper epi.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (PARTIAL). can_comparison at Semiadditive.v:288 with the identity-matrix comment and all four entry lemmas (:299-321) verified; semiadditivity hypothesis (IsIsomorphism of the comparison) at :324; bicartesian_preadditive at :573; CMon_Biproduct at Instance/CMon/Biproduct.v:442 (in _CoqProject:165). Blind search confirms no n-ary comparison and no pointed-sets/Grp mono/epi witnesses."
+    }
+  },
+  {
+    "id": "maclane:III.5:ex1",
+    "classification": "PRESENT",
+    "aliases": [
+      "naturality of the diagonal",
+      "diagonal_natural",
+      "(f × f) ∘ δ ≈ δ ∘ f",
+      "copy naturality (deterministic morphisms)",
+      "fork id id natural"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/Relevance.v",
+        "line": 53,
+        "symbol": "diagonal_natural",
+        "intree_statement": "diagonal_natural : natural (@diagonal) — 'Naturality: (f ⨂ f) ∘ ∆x ≈ ∆y ∘ f, so ∆ is a natural transformation from the identity functor to the squaring functor'"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 323,
+        "symbol": "CC_RelevanceMonoidal (first obligation)",
+        "intree_statement": "The first Next Obligation of CC_RelevanceMonoidal (diagonal := fun _ => Cartesian.fork id id) proves precisely this naturality square for the cartesian diagonal, by fork_comp/exl_fork/exr_fork — i.e. the exercise's proof carried out from the product UMP"
+      }
+    ],
+    "statement_record": {
+      "book": "Prove that the diagonal δ_c : c → c×c is natural in c.",
+      "intree": "diagonal_natural is a field of RelevanceMonoidal, and the cartesian instance CC_RelevanceMonoidal discharges it for diagonal := ⟨id, id⟩ over any Cartesian+Terminal category (tensor being ×).",
+      "strength_comparison": "same: the naturality square (f × f) ∘ δ_c ≈ δ_{c'} ∘ f is proven for the canonical cartesian diagonal in full generality; it is also independently derivable in-tree from the copy-discard/Fox development (cartesian_all_deterministic in Structure/Monoidal/Markov/Fox.v)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. diagonal_natural field (Relevance.v:53, comment quote verbatim) and the cartesian discharge in CC_RelevanceMonoidal's first obligation (Internal/Product.v:323-332) verified; all_deterministic_cartesian/cartesian_all_deterministic both exist in Structure/Monoidal/Markov/Fox.v (:156 and per-header) supporting the independent-derivation note."
+    }
+  },
+  {
+    "id": "maclane:III.5:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "pentagon identity for canonical product maps",
+      "triangle identities (both unit triangles)",
+      "monoidal coherence of the cartesian structure",
+      "CC_Monoidal pentagon_identity / triangle_identity",
+      "triangle_identity_left / triangle_identity_right"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal.v",
+        "line": 162,
+        "symbol": "triangle_identity / pentagon_identity",
+        "intree_statement": "triangle_identity {x y} : bimap unit_right id ≈ bimap id unit_left ∘ tensor_assoc (on (x ⨂ I) ⨂ y ~~> x ⨂ y); pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id ≈ tensor_assoc ∘ tensor_assoc"
+      },
+      {
+        "file": "Structure/Monoidal/Internal/Product.v",
+        "line": 54,
+        "symbol": "CC_Monoidal",
+        "intree_statement": "CC_Monoidal instantiates @Monoidal C with tensor := InternalProductFunctor C and I := 1 for any Cartesian+Terminal C; its obligations (lines 104-180) prove the triangle and pentagon for the canonical α, λ, ρ built from the product UMP — exactly the exercise's claim that these diagrams always commute in a category with finite products"
+      },
+      {
+        "file": "Structure/Monoidal/Proofs.v",
+        "line": 184,
+        "symbol": "triangle_identity_left",
+        "intree_statement": "Theorem triangle_identity_left {x y} : unit_left ⨂ id ≈ unit_left ∘ tensor_assoc (on (I ⨂ x) ⨂ y ~~> x ⨂ y), and triangle_identity_right (line 299) — the exercise's t×(b×c) triangle variant, derived from pentagon + triangle at full monoidal generality, hence holding in CC_Monoidal"
+      }
+    ],
+    "statement_record": {
+      "book": "In any category with finite products, prove that the pentagon relating the two reassociations of a×(b×(c×d)) and the two triangle diagrams relating α with λ on t×(b×c) → (t×b)×c and with λ, ρ on a×(t×c) → (a×t)×c always commute for the canonical maps of Proposition 1.",
+      "intree": "CC_Monoidal proves pentagon_identity and triangle_identity for the canonical cartesian α/λ/ρ over any Cartesian+Terminal category; the additional unit-triangle variant of the exercise is triangle_identity_left in Structure/Monoidal/Proofs.v (with triangle_identity_right), derived from the axioms and hence available at the cartesian instance.",
+      "strength_comparison": "same: all three diagrams of the exercise are proven (the a×(t×c) triangle is the triangle_identity axiom discharged by CC_Monoidal, the t×(b×c) triangle is triangle_identity_left); the only presentational difference is the associator orientation (tensor_assoc : (x⨂y)⨂z ≅ x⨂(y⨂z), the inverse of Mac Lane's α)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. triangle_identity/pentagon_identity fields at Structure/Monoidal.v:162/167 verified verbatim; CC_Monoidal (Program Definition at Internal/Product.v:54) necessarily discharges both (compiles; obligations inspected); triangle_identity_left at Structure/Monoidal/Proofs.v:184 and triangle_identity_right at :299 verified. The associator-orientation caveat (tensor_assoc is the inverse orientation of Mac Lane's alpha for products) is accurate."
+    }
+  },
+  {
+    "id": "maclane:III.5:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cat has pullbacks",
+      "pullback of categories / fiber product of categories",
+      "HasPullbacks Cat / Cat_Pullback",
+      "comma category as a pullback in Cat",
+      "iso-comma category",
+      "arrow category C^2 projections pullback"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'HasPullbacks' --include='*.v' . — the only HasPullbacks instance in-tree is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264); consumers are Span/Cospan/Codomain/Subobject/Topos machinery; nothing for Cat",
+      "grep -rn 'Pullback' --include='*.v' Instance/ — hits only Instance/FinSet.v, Instance/Sets.v, Instance/Two.v, Instance/Roof.v and FinSet/Sets subfiles; no Instance/Cat pullback file exists (Instance/Cat/ contains only Bicategory, Cartesian, Cocartesian)",
+      "grep -rni 'Cat_Pullback|pullback.*categories|categories.*pullback' --include='*.v' . — 0 relevant hits (after excluding slice/codomain/FinSet/Sets/Span/Cospan/Stability/Subobject/Topos noise)",
+      "grep -rni 'pullback' Construction/Comma.v Construction/Comma/ Construction/Product/Comma.v Instance/Cones/Comma.v — only prose in Construction/Comma.v's background essay (comma objects from pullbacks and C^2 in the 2-categorical setting, nLab citation); no formalization of a comma category as a pullback in Cat. Closest neighbor: Construction/Product/Comma.v proves (F ↓ G) ≅[Cat] C ∏ D for functors into the terminal category — a comma computation in Cat, but involving no pullback",
+      "grep -rni 'fiber product|fibre product|iso-comma|isocomma' --include='*.v' . — only prose mentions in Construction/Slice/Pullback.v and Structure/Pullback.v (both about pullbacks inside an abstract C, not pullbacks OF categories)",
+      "grep -rni 'Cat_Complete|Complete Cat|Cocomplete Cat|Cat_Cocomplete' --include='*.v' . — no completeness instance for Cat that could supply pullbacks indirectly"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (ABSENT). Blind search agrees: only HasPullbacks instance is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264); Instance/Cat/ contains only Bicategory/Cartesian/Cocartesian; no equalizers or completeness for Cat; comma-as-pullback appears only as prose in Construction/Comma.v:108; Construction/Product/Comma.v's Comma_Product ((F down G) iso-in-Cat C prod D, :57) is the closest neighbor and involves no pullback. StrictCat also has no pullbacks."
+    }
+  },
+  {
+    "id": "maclane:III.5:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cat has small coproducts",
+      "coproduct of categories / disjoint union category",
+      "Cat_Cocartesian",
+      "initial (empty) category Cat_Initial",
+      "indexed/set-indexed coproducts in Cat",
+      "Cocomplete Cat"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cocartesian.v",
+        "line": 40,
+        "symbol": "Cat_Cocartesian",
+        "intree_statement": "Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := [F, G] (case functor); exl := Inl; exr := Inr } — the coproduct of two categories is the disjoint-union category of Construction/Coproduct.v, with the full coproduct UMP (a functor C ∐ D ⟶ E is uniquely the case functor of a pair)"
+      },
+      {
+        "file": "Instance/Zero.v",
+        "line": 44,
+        "symbol": "Cat_Initial",
+        "intree_statement": "Program Instance Cat_Initial : @Initial Cat — the empty category as the nullary coproduct"
+      }
+    ],
+    "statement_record": {
+      "book": "Prove that Cat has all small coproducts (coproducts indexed by any small set).",
+      "intree": "Cat has binary coproducts (Cat_Cocartesian, disjoint-union category with the case-functor UMP) and the initial object (Cat_Initial, empty category), i.e. all finite coproducts.",
+      "strength_comparison": "intree-weaker: finite coproducts only. No arbitrary-set-indexed coproduct of a family of categories is constructed (no discrete-diagram Colimit instance for Cat, no Cocomplete instance, no indexed disjoint-union construction)."
+    },
+    "gap": "Small (arbitrary set-indexed) coproducts of categories are absent: only the binary disjoint-union category (Construction/Coproduct.v + Cat_Cocartesian) and the empty category are in-tree; there is no Σ-indexed disjoint-union category, no colimit-of-discrete-diagram instance for Cat, and no cocompleteness result for Cat (searches: grep -rni 'small coproduct|indexed coproduct|icoprod|coproduct.*famil' → only prose in Structure/Cocartesian.v; grep Colimit instances for Cat → none).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (PARTIAL). Cat_Cocartesian at Instance/Cat/Cocartesian.v:40 (disjoint-union category with case-functor UMP) and Cat_Initial at Instance/Zero.v:44 verified; blind search found no indexed disjoint-union construction, no discrete-diagram Colimit instance for Cat, no icoprod, no Cocomplete Cat."
+    }
+  },
+  {
+    "id": "maclane:III.5:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "pointwise products in functor categories",
+      "functor category [C,D] cartesian",
+      "Functor_Category_Cartesian",
+      "products in presheaf categories computed objectwise",
+      "terminal object of a functor category (constant functor at 1)"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Fun/Cartesian.v",
+        "line": 111,
+        "symbol": "Functor_Category_Cartesian",
+        "intree_statement": "Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D) — the product of functors is (F × G) c := F c × G c with morphism action split (fmap[F] f) (fmap[G] f); projections and pairing are componentwise natural transformations and the UMP is inherited pointwise from D (per the file's header)"
+      }
+    ],
+    "statement_record": {
+      "book": "If B has (finite) products, then any functor category B^C also has (finite) products, calculated pointwise.",
+      "intree": "Functor_Category_Cartesian: when D is cartesian, [C, D] is cartesian with binary products computed objectwise.",
+      "strength_comparison": "intree-weaker: binary pointwise products only. The nullary case — the terminal object of [C, D] as the constant functor at 1 — is not constructed (the file's own header notes the terminal 'is supplied separately, as for any cartesian category', but no @Terminal (Fun C D) instance exists anywhere in-tree: grep ': @Terminal' lists instances for Sets, Cat, Coq, FinSet, CMon, StrictCat, Two, Props, Par/ParE, Lambda, AST, Comp, Shapes, Cones — none for Fun); larger/indexed pointwise products in functor categories are likewise absent (no general pointwise-limits theorem for [C, D])."
+    },
+    "gap": "The nullary product is missing: no Terminal instance for the functor category [C, D] (constant functor at the terminal object of D), so 'finite products' is covered only in its binary part; general indexed/small pointwise products in functor categories are also absent.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (PARTIAL). Functor_Category_Cartesian at Instance/Fun/Cartesian.v:111 verified (in _CoqProject:201); the file header's 'supplied separately' remark about the terminal is accurate and no @Terminal (Fun C D) instance exists anywhere in-tree (blind grep of all Terminal instances agrees); no general pointwise-limits theorem for functor categories either."
+    }
+  }
+]

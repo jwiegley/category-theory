@@ -1,0 +1,311 @@
+[
+  {
+    "id": "awodey:9.7:construction-y-over-P",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of elements of a presheaf (el P, ∫P, Groth(P))",
+      "y/P — the Yoneda slice / comma category y ↓ P of the Yoneda embedding over a presheaf",
+      "Grothendieck construction on a Sets-valued presheaf",
+      "slice of a presheaf category, Sets^(C^op)/P (Construction/Slice.v at [C^op, Sets])",
+      "the comparison functor Φ(q)(C,x) = Hom_{Ĉ/P}(x,q) and the equivalence Ĉ/P ≃ Sets^((y/P)^op)",
+      "dual/related: discrete fibration classified by a presheaf; Grothendieck_Displayed / Total"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'category of elements|Elements\\b|CatOfElements|el(P)' . — the only hits are Theory/Metacategory.v's finite-map [M.elements], Instance/Sets.v/Instance/Discrete.v prose about set elements, and Functor/Structure/Constant.v 'global elements'; no category-of-elements construction anywhere",
+      "grep -rn --include='*.v' '∫' . — hits are only the coend/end calculus (Theory/Coend/*, Theory/Profunctor.v, Construction/Day.v, Instance/Sets/{End,Coend}.v) and Theory/Displayed.v's total-category notation [∫ D]; none is the category of elements of a presheaf",
+      "grep -rn --include='*.v' -i 'y/P|Yoneda.*slice|slice.*Yoneda|elements of a presheaf' . — 0 relevant hits (the 'y/P' matches are unrelated prose)",
+      "grep -rn --include='*.v' 'Presheaves' . — Theory/Sheaf.v:127 [Definition Presheaves := [U^op, C]] and Theory/Sheaf/Category.v's subcategory of sheaves; nothing about slices of a presheaf category",
+      "grep -rn --include='*.v' 'Slice C|Slice.*≃|Slice.*equiv|Presheaves.*Slice' . — Construction/Slice.v defines [Slice] and [Comma_Slice] generically and Construction/Slice/Pullback.v defines Σ_f/f*; there is NO theorem comparing a slice of a functor category to a functor category",
+      "grep -rn --include='*.v' 'Grothendieck' . — Construction/Grothendieck.v builds the total category of an [IndexedCat B] (Cat-valued, coherent pseudofunctor-lite), never of a Sets-valued presheaf; Construction/Grothendieck/RoundTrip.v's [RoundTrip_Equivalence] compares split opfibrations with indexed CATEGORIES, which is the categorified (not the Set-valued/discrete) analogue and says nothing about y/P or Φ",
+      "grep -rn --include='*.v' -i 'discrete fibration' . — 1 hit, Theory/Displayed.v:135, an nLab pointer inside the background essay; no definition",
+      "NOTE: the raw ingredients exist generically (Construction/Comma.v, Construction/Slice.v, Functor/Hom/Yoneda.v's [Yoneda_Embedding]), so y/P is *expressible* as [Yoneda_Embedding ↓ =(P)] — but neither that category, nor its isomorphism with the category of elements, nor the functor Φ, nor its equivalence with Ĉ/P is asserted anywhere in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Alias-expanded and searched before opening the coverage file: `category of elements` (1 hit, Construction/Grothendieck.v:108, background prose only: 'Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)' -- a pointer, not a construction); `Elements|El_|CategoryOfElements` (no such symbol); `y/P|Yoneda slice|slice of a presheaf` (0 relevant); `Grothendieck` (Construction/Grothendieck.v builds Total of Grothendieck_Displayed over an IndexedCat B, i.e. a Cat-valued coherent pseudofunctor-lite -- never over a Sets-valued presheaf; Construction/Grothendieck/Strict.v's IndexedCat_of_StrictFunctor needs a STRICT functor into Cat under fibrewise UIP, which a presheaf C^op -> Sets is not, so even the instantiation route is blocked). Independently confirmed the classifier's NOTE: the raw ingredients do exist (Construction/Comma.v:127 [Comma], Construction/Slice.v:126 [Slice], Functor/Hom/Yoneda.v:231 [Yoneda_Embedding]), so y/P is EXPRESSIBLE, but neither y/P, nor its iso with the category of elements, nor Phi, nor Phi's being an equivalence is asserted anywhere. All cited files are registered in _CoqProject. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:cor24",
+    "classification": "ABSENT",
+    "aliases": [
+      "locally cartesian closed category (LCCC)",
+      "presheaf category is cartesian closed / exponentials of presheaves",
+      "every slice Sets^(C^op)/P is cartesian closed",
+      "dependent product Π_f, the right adjoint of base change f* (Σ_f ⊣ f* ⊣ Π_f)",
+      "functor-category exponential [C,D] closed / Fun_Closed"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'locally cartesian closed|LocallyCartesianClosed|LCCC|LCC' . — 5 hits, ALL header prose (Instance/Sets.v:97, Construction/Slice.v:47/91/97, Construction/Slice/Pullback.v:36); there is no [LocallyCartesianClosed] class, definition or instance",
+      "grep -rn --include='*.v' '@Closed' . — every cartesian-closed instance in the tree is enumerated: Sets_Closed (Instance/Sets/Cartesian/Closed.v:38), Coq_Closed, FinSet_Closed, Cat_Closed, Props_Closed, Rel_Closed, Algs_Closed, Lambda_Closed, Hom_Closed (AST), Product_Closed, and Structure/Topos.v's [topos_closed] field. NONE is a functor/presheaf category",
+      "grep -rn --include='*.v' 'Fun_Closed|Functor_Category_Closed|Fun_Exp|Exp_Functor|Closed (@Fun' . — 0 hits; Instance/Fun/Cartesian.v supplies only [Functor_Category_Cartesian (C D) (_ : @Cartesian D) : @Cartesian (@Fun C D)] (pointwise products, line 111) — no exponentials of functors/presheaves anywhere",
+      "grep -rn --include='*.v' -i 'Slice_Closed|Slice.*Cartesian|every slice|slices are' . — 0 structural hits; slice categories carry no cartesian, closed, or terminal structure in-tree",
+      "grep -rn --include='*.v' -i 'dependent product|Π_f' . — Construction/Slice/Pullback.v defines [Bang_Functor] (Σ_f, line 50) and [Star_Functor] (f*, line 67), but its [Production] (the Π candidate, lines 114-119) and [Base_Functor_Adjunction] (lines 121-127) are both COMMENTED OUT, so even Σ_f ⊣ f* is unproven and Π_f does not exist",
+      "Awodey 9.24 needs Lemma 9.23 (each slice of a presheaf category is again a presheaf category) plus Prop 9.20 (slicewise CCC ⇒ LCCC); neither ingredient nor the conclusion has an in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -in 'locally cartesian closed|LocallyCartesianClosed|LCCC' over *.v: every hit is header prose or an nLab URL (Construction/Slice.v:47 URL and 91/97, Construction/Slice/Pullback.v:36, Structure/Pullback.v:126, Instance/Sets.v:97 -- the last a literature claim about MLTT setoids attributed to van den Berg, not an in-tree assertion). No LocallyCartesianClosed class/definition/instance exists. Verified the classifier's two key sub-claims by opening the files: (a) Instance/Fun/Cartesian.v:111 supplies ONLY [Functor_Category_Cartesian (C D) (_ : @Cartesian D) : @Cartesian (@Fun C D)] -- pointwise products, no exponentials, so presheaf categories are not even shown cartesian CLOSED, let alone locally so; (b) Construction/Slice/Pullback.v:114-119 [Production] and 121-127 [Base_Functor_Adjunction] are genuinely commented out, so Sigma_f |- f* is unproven and Pi_f does not exist. The classifier's negative log says '5 hits' where the true count is 6 (it omits Structure/Pullback.v:126); the substantive claim -- all prose, no class -- is correct and the miscount does not touch the verdict. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:example25",
+    "classification": "ABSENT",
+    "aliases": [
+      "fibration of posets / poset fibration (unique lifting property for p' ≤ f(x))",
+      "discrete fibration (monotone map with unique lifts)",
+      "Fib — the (non-full) subcategory of Pos whose arrows are fibrations",
+      "Pos / the category of posets and monotone maps",
+      "fibrations compose and identities are fibrations (wide subcategory closure)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'discrete fibration|unique lifting|DiscreteFibration|lifting property' . — 'discrete fibration' occurs once (Theory/Displayed.v:135, nLab pointer in a comment); 'unique lifting property' occurs twice (Theory/Orthogonality.v:8 header about orthogonality e ⫫ m, Structure/Regular/Factorization.v:112) — neither defines lifting for a monotone/poset map",
+      "grep -rn --include='*.v' -i 'fibration.*poset|poset.*fibration|Fib\\b|Fib/' . — the only 'fib' identifiers are [idx_fib] (Construction/Indexed.v:76, the fibre category of an indexed category); no [Fib] category exists",
+      "grep -n 'Class|Record|Definition|Theorem' Theory/Fibration.v — the in-tree fibration vocabulary is [DCartesian], [Cleaving], [CartesianMorphism], [CartesianLift], [ClovenFibration], [SplitCleaving], [OpCleaving]: cartesian-lift (Grothendieck) fibrations of CATEGORIES with chosen, non-unique lifts, not unique-lifting maps of posets",
+      "grep -rn --include='*.v' 'Definition Pos\\b|Instance Pos\\b|category of posets|monotone map' . — Instance/Poset.v:22 mentions '[Pos], the category of posets' only in prose; the file's only assertion is [Definition Poset (P : PreOrder) : Category := Proset P], i.e. ONE poset viewed as a thin category. There is no category whose objects are posets, hence no subcategory of it",
+      "grep -rn --include='*.v' -i 'monotone' . — the only assertions are Construction/Enriched/Two.v ([Enriched_Two_preorder], [EnrichedFunctor_Two_monotone]: enrichment in the walking arrow ⟺ preorders, enriched functors = monotone maps); no lifting condition on such maps"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -n '\\bFib\\b' over *.v returns 0 hits (the 25 case-insensitive 'fib' hits are all [idx_fib] of Construction/Indexed.v:76 and the word 'fibration/fibre' in prose). rg -in 'poset fibration|fibration.*poset' = 0. Confirmed Instance/Poset.v defines a SINGLE poset as a thin category ([Definition Poset ... : Category], line 116, over Instance/Proset.v) and mentions [Pos], the category of posets, only in prose at line 22 -- so there is no ambient category of posets for Fib to be a subcategory of. Theory/Fibration.v's vocabulary (DCartesian/Cleaving/CartesianMorphism/ClovenFibration/SplitCleaving) is Grothendieck fibration of CATEGORIES with chosen, non-unique cartesian lifts -- a different notion from the unique-lifting monotone map. The two 'unique lifting property' hits (Theory/Orthogonality.v:8, Structure/Regular/Factorization.v:112) are about orthogonality e |- m, not poset lifting. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:lem26",
+    "classification": "ABSENT",
+    "aliases": [
+      "Fib/P is cartesian closed",
+      "Fib/P ≃ Sets^(P^op) — fibrations over a poset are presheaves on it",
+      "discrete fibrations over B ≃ presheaves on B (the Set-valued Grothendieck correspondence)",
+      "fibre functor q ↦ (p ↦ q^{-1}(p)) and its quasi-inverse, the projection from the category of elements",
+      "Grothendieck construction / RoundTrip comparison between fibrations and indexed structures"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Fib\\b|fibration.*poset|poset.*fibration' . — no [Fib] category exists (see awodey:9.7:example25), so no slice Fib/P and no statement about it can exist",
+      "grep -rn --include='*.v' 'Fun_Closed|Closed (@Fun|@Closed' . — [Sets^(P^op)] is never shown cartesian closed in-tree (no exponentials in any functor category), so even the target of the claimed equivalence lacks the structure the lemma transports",
+      "grep -rn --include='*.v' -i 'category of elements|el(P)|∫' . — no category of elements of a Sets-valued (pre)sheaf, so the quasi-inverse direction of the stated equivalence has no in-tree carrier",
+      "grep -n 'RoundTrip_Equivalence|RT_Equivalence|RoundTrip_Comparison' Construction/Grothendieck/RoundTrip.v — the nearest in-tree relative is [RoundTrip_Equivalence (P : E ⟶ B) (Sp : SplitCleaving P) : EquivalenceOfCategories (RoundTrip_Comparison P Sp)] (line 1638), i.e. split opfibrations of categories ≃ the Grothendieck construction of an [IndexedCat B] (Cat-valued, chosen non-unique lifts). That is the categorified analogue at a different level: it is not about posets, not about unique lifting, not about Sets-valued presheaves, and asserts nothing about cartesian closure — so it does not bear on this item",
+      "grep -rn --include='*.v' -i 'fibre|fiber' Construction/Grothendieck/Fiber.v — [fiber_grothendieck_equiv] compares the fibre of a Grothendieck construction with the indexing category; again Cat-valued and unrelated to Fib/P"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, and for two independent reasons: (i) no [Fib] exists (see example25), so Fib/P cannot be formed; (ii) the target of the claimed equivalence is also missing -- Sets^(P^op) is nowhere shown cartesian closed (the only @Closed instances in-tree are Sets, Coq, FinSet, Cat, Props, Rel, Algs, Lambda, AST-Hom, Product, and the topos_closed field; none is a functor category). Checked the classifier's disclaimer about the nearest in-tree relative and agree it is honest: Construction/Grothendieck/RoundTrip.v:1638 [RoundTrip_Equivalence] compares split opfibrations of categories with the Grothendieck construction of an IndexedCat, i.e. the CATEGORIFIED correspondence with chosen non-unique lifts -- not posets, not unique lifting, not Sets-valued presheaves, and silent on cartesian closure. Likewise Construction/Grothendieck/Fiber.v's fiber_grothendieck_equiv. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.7:cor27",
+    "classification": "ABSENT",
+    "aliases": [
+      "Fib/P is locally cartesian closed",
+      "slice of a slice is a slice (Slice (Slice C c) f ≅ Slice C (dom f))",
+      "LCCC defined without requiring a terminal object",
+      "Fib lacks a terminal object / almost locally cartesian closed",
+      "slicewise cartesian closure ⇒ local cartesian closure (Awodey Prop 9.20)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'locally cartesian closed|LCCC' . — 5 hits, all header prose; no [LocallyCartesianClosed] notion exists in either the with-terminal-object or the without-terminal-object formulation",
+      "grep -rn --include='*.v' -i 'Fib\\b' . — no [Fib] category (see awodey:9.7:example25), hence no Fib/P and no statement that it is locally cartesian closed",
+      "grep -rn --include='*.v' -i 'slice.*slice|Slice (Slice|iterated slice' . — 0 hits; the 'a slice of a slice is a slice' lemma the corollary relies on is not in-tree",
+      "grep -rn --include='*.v' -i 'Slice.*Terminal|Slice_Terminal|Slice.*Cartesian' . — 0 hits; slices carry no terminal/cartesian/closed structure in-tree, so neither the corollary nor the terminal-object caveat it discusses can be stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Every ingredient is missing: no LCCC notion in either formulation (with or without terminal object); no [Fib]; and no structure on slices at all -- rg for Slice_Terminal / Slice.*Cartesian / Slice.*Closed returns 0 hits, so Construction/Slice.v's [Slice] carries neither terminal, nor products, nor exponentials in-tree. The 'a slice of a slice is a slice' lemma the corollary leans on is likewise absent (0 hits). ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.8:remark-left-adjoint-representable",
+    "classification": "ABSENT",
+    "aliases": [
+      "a Sets-valued right adjoint is representable: U ≅ Hom(F 1, −)",
+      "representable functor / Representable class / representing object",
+      "U C ≅ Hom(1, U C) — the points (global elements) of a set",
+      "necessary condition for a left adjoint: representability",
+      "dual: a Sets-valued left adjoint is corepresentable, U ≅ Hom(−, U 1) in C^op"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Representable' . — the ONLY occurrences of the ordinary notion are Functor/Representable.v:46 [Class Representable (F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }] and its coercion at line 51. There is no instance, lemma or theorem producing a [Representable] from anything, in particular none from an adjunction. (The other 'representable' hits are Theory/Multicategory/Representable.v and Theory/Profunctor*.v, different notions.)",
+      "grep -rn --include='*.v' -i 'adjoint.*representable|representable.*adjoint' . — Theory/Profunctor/Adjunction.v:70 [representable_adjunction : (F ⊣ U) ↔ (Repr_left F ≅[[D^op ∏ C, Sets]] Repr_right U)]. This is a DIFFERENT statement: it says the hom-profunctors D(F−,−) and C(−,U−) agree, for arbitrary C and D; it does not say a Sets-valued U is representable, and it never mentions the terminal object or F 1",
+      "grep -rn --include='*.v' -i 'global element|Hom 1|hom(1|points' . — only prose (Structure/Terminal.v:60, Functor/Structure/Constant.v) and Tools/Represented.v:31 [convert : A → (1 ~> repr)], a tooling class for the AST/abstraction layer. The iso Hom_Sets(1, X) ≅ X, which the remark's computation U C ≅ Hom(1, U C) needs, is nowhere proved",
+      "grep -rn --include='*.v' 'Sets_Terminal' . — Instance/Sets.v:248 gives the terminal setoid, but no lemma identifying maps out of it with elements",
+      "Theory/Adjunction.v's API ([adj], [unit], [to_adj_unit] etc.) supplies Hom(F x, y) ≅ Hom(x, U y) naturally, so instantiating x := 1 would give the remark modulo the missing Hom(1,−) ≅ Id in Sets; that instantiation is never made in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, after weighing PARTIAL and rejecting it. Functor/Representable.v:46 defines [Class Representable (F : C -> Sets) := { repr_obj : C; represented : [Hom repr_obj,-] ~= F }] and NOTHING in-tree ever produces one: rg 'Representable' shows only the class, its coercion (line 51), and unrelated namesakes (Theory/Multicategory/Representable.v, Theory/Profunctor*.v). Checked the nearest candidate the classifier flags -- Theory/Profunctor/Adjunction.v:70 [representable_adjunction : (F |- U) <-> (Repr_left F ~= Repr_right U)] -- and agree it is a different statement (equality of hom-PROFUNCTORS D(F-,-) and C(-,U-) for arbitrary C, D; no Sets-valuedness, no terminal object, no F 1). The missing second ingredient is real: I searched independently for Hom_Sets(1, X) ~= X and found none (Instance/Sets.v:248 gives Sets_Terminal but no lemma identifying maps out of it with elements; Structure/Constant.v and Tools/Represented.v:31 only PACKAGE global elements). Since the remark's whole content is the composite U ~= Hom(F1,-), and neither the composite nor its Sets-specific half is stated, PARTIAL would overstate: the surviving pieces (adjunction hom-iso, Representable class) are generic library furniture, not a weaker version of the claim. ABSENT stands."
+    }
+  },
+  {
+    "id": "awodey:9.8:thm28",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Freyd's General Adjoint Functor Theorem (GAFT / AFT)",
+      "Solution Set Condition (SSC), pre-adjointness (Freyd–Scedrov)",
+      "continuous functor from a complete locally small category with a solution set has a left adjoint",
+      "RAPL — right adjoints preserve limits (the converse half of the biconditional)",
+      "adjoint from a family of universal arrows / initial objects in the comma categories"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U. — the limit-preservation half of the (1) ⇒ (2) direction, at exactly the cone-level notion GAFT consumes (cf. Adjunction/Continuity.v:202 [right_adjoint_preserves_limits : PreservesAllLimits U])"
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 159,
+        "symbol": "SolutionSet",
+        "intree_statement": "Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := { sol_index : Type; sol_obj : sol_index -> C; sol_arr : forall i, d ~> U (sol_obj i); sol_covers {c} (h : d ~> U c) : { i : sol_index & { t : sol_obj i ~> c & fmap[U] t ∘ sol_arr i ≈ h } } }."
+      }
+    ],
+    "statement_record": {
+      "book": "For C locally small and complete, X any category and U : C → X, TFAE: (1) U has a left adjoint; (2) U preserves all limits and satisfies the Solution Set Condition at every object X — a SET of objects (C_i) such that every f : X → UC factors as U(f̄) ∘ φ through some φ : X → UC_i.",
+      "intree": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }.",
+      "strength_comparison": "intree-weaker: only the substantive implication (2) ⇒ (1) is proved; the theorem is not stated as a biconditional. Along the proved direction the in-tree hypotheses are if anything leaner and more honest than the book's — [PreservesImageLimit] is the cone-level statement that the image cone (U L, fmap[U] π) is universal (GAFT.v's header records that the apex-only [PreservesAllLimits] would be genuinely insufficient), and 'locally small' is replaced by universe polymorphism plus a caller-chosen [sol_index : Type]. One constructive strengthening of the hypothesis to note: [sol_covers] is a Σ-type (a CHOSEN factorization), not a mere existence claim as in the book."
+    },
+    "gap": "The (1) ⇒ (2) direction of the equivalence is not assembled. Its limit-preservation half is in-tree ([right_adjoint_PreservesImageLimit], [right_adjoint_preserves_limits]), but nothing constructs a [SolutionSet U d] from an adjunction F ⊣ U — the one-element family {F d} with sol_arr := unit, whose covering property is exactly [to_adj_unit : ⌊f⌋ ≈ fmap[U] f ∘ η] (Theory/Adjunction.v:264). grep for 'SolutionSet' finds it only in Adjunction/GAFT.v (definition + GAFT), Adjunction/SAFT.v (SAFT_solution_set, built from well-poweredness + a cogenerator), and one comment in Instance/Poset.v. So the biconditional packaging, and hence the 'necessary and sufficient' reading of the theorem, is missing.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on exactly the same gap. Verified every citation by opening the files: Adjunction/GAFT.v:241-243 is verbatim [Theorem GAFT {C D : Category} (U : C -> D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D -> C & F |- U }] and the proof body genuinely routes solution set -> wif_of_sols -> Comma_Complete -> initial_from_weakly_initial -> GAFT_from_initials (read lines 226-257); Adjunction/GAFT.v:159-165 quotes SolutionSet accurately, including that sol_covers is a Sigma-type (the classifier's 'constructive strengthening' note is correct); Construction/Comma/Limit.v:264-267 really is [Definition right_adjoint_PreservesImageLimit ... (A : F |- U) : @PreservesImageLimit C D U. Proof. intros J G L N. exact (rapl_ump A G L N). Defined.] -- I initially mis-scored this symbol as missing because a `| head` truncated my grep, then confirmed it exists. strength_comparison is honest on both counts: PreservesImageLimit is the cone-level notion (Construction/Comma/Limit.v:110) and is a STRENGTHENING of the hypothesis relative to the apex-only PreservesAllLimits, never a weakening of the conclusion; and 'locally small' is discharged by universe polymorphism plus the caller-chosen sol_index : Type. The gap is precisely stated and I reproduced it: no in-tree construction of a SolutionSet from an adjunction (rg 'SolutionSet' hits only Adjunction/GAFT.v, Adjunction/SAFT.v:252 SAFT_solution_set from well-poweredness+cogenerator, and one Instance/Poset.v comment). Note for Phase E scoping: the missing (1)=>(2) half is a short assembly -- right_adjoint_PreservesImageLimit already exists, and the one-member family {F d} with sol_arr := eta is covered by to_adj_unit (Theory/Adjunction.v:264, verified). PARTIAL stands."
+    }
+  },
+  {
+    "id": "awodey:9.8:lem29",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Freyd's initial object lemma / initial-object theorem",
+      "weakly initial family ⇒ initial object (product then joint equalizer of all endomorphisms)",
+      "Solution Set Condition for objects: some D_i maps into every D",
+      "wide equalizer of the endomorphism monoid of a weakly initial object",
+      "dual: weakly terminal family ⇒ terminal object (in C^op)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 89,
+        "symbol": "initial_from_weakly_initial",
+        "intree_statement": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C."
+      },
+      {
+        "file": "Theory/WeaklyInitial.v",
+        "line": 58,
+        "symbol": "WeaklyInitialFamily",
+        "intree_statement": "Record WeaklyInitialFamily (C : Category) := { wif_index : Type; wif_obj : wif_index -> C; wif_cover (c : C) : { i : wif_index & wif_obj i ~> c } }."
+      }
+    ],
+    "statement_record": {
+      "book": "For D locally small and complete, TFAE: (1) D has an initial object; (2) D satisfies the Solution Set Condition — a SET of objects (D_i) such that every object D receives an arrow D_i → D for some i. Proof of (2) ⇒ (1): W := Π_i D_i is weakly initial; take V ↣ W the joint equalizer of all endomorphisms of W; V is initial.",
+      "intree": "Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C) (P : Limit (DiscreteCat_Functor (wif_obj W))) (Pe : Limit (DiscreteCat_Functor (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P) => iprod (wif_obj W) P))) (E : HasEqualizers C) : @Initial C.",
+      "strength_comparison": "intree-weaker as a characterization (only (2) ⇒ (1)), but intree-stronger in hypothesis economy along that direction: instead of full completeness plus local smallness it consumes exactly the two products the Freyd argument uses (over the family index, and over the endomorphism hom-type of the resulting product — this is the device that turns the joint/wide equalizer of ALL endomorphisms into a single binary equalizer) plus binary equalizers, deliberately leaving the size of the index in the caller's hands (file header, 'STATUS / hypothesis form'). The proof is the book's verbatim: endo_absorb (u ∘ e ≈ e for every endo u), monicity of the equalizer, and the split-epi/uniqueness chase. One constructive strengthening: [wif_cover] is a Σ-type (a chosen covering member and arrow), not the book's bare existence."
+    },
+    "gap": "Only (2) ⇒ (1) is in-tree; the lemma is not stated as an equivalence and the trivial converse (1) ⇒ (2) — an initial object 0 gives the one-member solution set {0}, i.e. a [WeaklyInitialFamily] with wif_index := unit — is not constructed anywhere (grep 'WeaklyInitialFamily' finds only the record, [wif_of_sols] in Adjunction/GAFT.v:210, and the consumer above). Also, 'locally small and complete' is not formalized as such: the library has no smallness predicate (grep 'Class Small|LocallySmall' = 0 hits) and the two limits are explicit hypotheses rather than harvested from [Complete].",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same evidence and (after deliberation) the same verdict. Verified Theory/WeaklyInitial.v:58 [Record WeaklyInitialFamily] and :89 [Theorem initial_from_weakly_initial] verbatim, and read the proof body (lines 95-160): it is Freyd's argument as Awodey gives it -- endo_absorb (u . e ~= e for every endomorphism u), monicity of the equalizer inclusion via equalizer_monic, then the split-epi/uniqueness chase -- with the joint equalizer of ALL endomorphisms realized exactly as the book does, as the binary equalizer of the tupling m of all endos against the constant-identity tupling d through the endomorphism-indexed product. The header's 'STATUS / hypothesis form' section the classifier cites is real (line 30), and its claim that supplying Pe separately 'strengthens the hypotheses ... and never weakens the conclusion' is accurate. I considered OVERTURNING to PRESENT, since the (1)=>(2) leg the book bundles into its TFAE is mathematically trivial ({0} is a solution set) and the substantive content is fully in-tree with leaner hypotheses. I did not, for two reasons: (a) the book statement really is a characterization and the converse is nowhere constructed -- rg 'WeaklyInitialFamily' finds only the record, wif_of_sols (Adjunction/GAFT.v:210) and this consumer, none producing a family from an initial object; (b) consistency with the sibling record thm28, whose identical TFAE-half gap the classifier also scored PARTIAL. Phase E should scope the resulting issue as the trivial-converse packaging plus the Complete-harvesting convenience wrapper, not as a re-proof. PARTIAL stands."
+    }
+  },
+  {
+    "id": "awodey:9.8:construction-comma-x-u",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comma category (X ↓ U), objects (C, f : X → UC), arrows g with U(g) ∘ f = f'",
+      "universal arrow from X to U / universal mapping property of the unit",
+      "U has a left adjoint iff every (X ↓ U) has an initial object",
+      "AdjunctionFromUniversalArrows / LeftAdjointFunctorFromUniversalArrows",
+      "dual: (U ↓ X) has a terminal object iff U has a right adjoint (couniversal arrow)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 180,
+        "symbol": "GAFT_from_initials",
+        "intree_statement": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U }."
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 139,
+        "symbol": "ump_universal_arrows",
+        "intree_statement": "Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow. — where [Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := snd (`1 (initial_obj)); arrow : c ~> F arrow_obj := `2 (initial_obj) }] (line 127), i.e. the initial object of the comma IS the pair (F c, η) with the unit's UMP"
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 127,
+        "symbol": "Comma",
+        "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)), `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; ... |} — at S := =(X) : 1 ⟶ D (Functor/Diagonal.v's [=(c)]) and T := U this is exactly (X ↓ U): objects (C, f : X ~> U C) and arrows g with f' ∘ id ≈ U(g) ∘ f"
+      }
+    ],
+    "statement_record": {
+      "book": "For U : C → X and X an object of X, form the comma (X|U) with objects (C, f : X → UC) and arrows g : C → C' satisfying f' = U(g) ∘ f. Then U has a left adjoint F iff for every X the category (X|U) has an initial object, which is precisely (FX, η : X → UFX) with the universal mapping property of the unit.",
+      "intree": "Theorem GAFT_from_initials {C D : Category} (U : C ⟶ D) (H : forall d : D, @Initial (=(d) ↓ U)) : { F : D ⟶ C & F ⊣ U }. together with [Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := ...; arrow : c ~> F arrow_obj := ... }] and [Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) : ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow].",
+      "strength_comparison": "same for the construction and for the 'if' half: the comma (X ↓ U) is the library's [=(d) ↓ U], the initial object is packaged as [UniversalArrow] whose projections are exactly (FX, η), the UMP is [ump_universal_arrows], and [AdjunctionFromUniversalArrows] (Theory/Universal/Arrow.v:214) verifies that the assembled F is genuinely left adjoint with those arrows as unit. intree-weaker only in that the biconditional is not stated (see gap)."
+    },
+    "gap": "The 'only if' half is never formed: from an adjunction F ⊣ U nothing in-tree produces [@Initial (=(d) ↓ U)] or a [UniversalArrow d U]. The ingredients are one step apart — [adj_univ : f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g] and [to_adj_unit : ⌊f⌋ ≈ fmap[U] f ∘ η] (Theory/Adjunction.v:195, 264) give exactly the unique-factorization hypothesis of [universal_arrow_from_UMP] (Theory/Universal/Arrow.v:158), which would then yield the initial object — but that composite appears nowhere (grep 'UniversalArrow' finds only Theory/Universal/Arrow.v, Adjunction/GAFT.v, Construction/Free/Quiver.v:518 and Monad/Lifting.v:445, all producing rather than consuming an adjunction).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same 'only if' gap. Verified all three citations: Construction/Comma.v:127 is the quoted [Program Definition Comma] (objects ex p : A x B, S (fst p) ~> T (snd p); homs the commuting square) and at S := =(X), T := U it is literally Awodey's (X|U); Theory/Universal/Arrow.v:127 [Class UniversalArrow (c : C) (F : D -> C) := { arrow_initial : @Initial (=(c) |- F); arrow_obj := snd (`1 initial_obj); arrow := `2 initial_obj }] -- so 'the initial object IS the pair (FX, eta)' is definitional, not merely analogous; :139 [Corollary ump_universal_arrows] is the unit's UMP verbatim; Adjunction/GAFT.v:180 [GAFT_from_initials] is the 'if' half and its proof goes through AdjunctionFromUniversalArrows (Theory/Universal/Arrow.v:214, which I read: it builds the genuine hom-set iso with arrow as unit). Independently reproduced the gap: I searched for any Adjunction -> UniversalArrow / Adjunction -> Initial (comma) direction and found none. rg 'UniversalArrow' outside its defining file hits only Construction/Free/Quiver.v:518, Monad/Lifting.v:445 and Adjunction/GAFT.v -- every one PRODUCING an adjunction from universal arrows, none going the other way; Adjunction/Natural/Transformation/Universal.v carries only [Adjunction_from_Transform]/[Adjunction_to_Transform] (F |- U vs F :| U), not the comma-initiality direction. The classifier's observation that universal_arrow_from_UMP (Theory/Universal/Arrow.v:158) + adj_univ (Theory/Adjunction.v:195) + to_adj_unit (:264) close the gap in one step is correct -- I opened all three and the line numbers are exact. PARTIAL stands."
+    }
+  },
+  {
+    "id": "awodey:9.8:remark30",
+    "classification": "ABSENT",
+    "aliases": [
+      "necessity/sharpness of the AFT hypotheses; the solution set must be a genuine SET",
+      "completeness is required; incomplete C with an adjoint escapes detection",
+      "small complete category is a preorder (Freyd's thinness theorem)",
+      "if C is small and complete the solution set condition can be dropped (Awodey Cor 9.31)",
+      "size/smallness discipline: Small, LocallySmall, set-indexed limits"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Class Small|Record Small|Definition Small|LocallySmall' . — 0 hits; the library has no smallness or local-smallness predicate at all (size is carried implicitly by universe polymorphism, as Structure/Complete.v's header states), so clause (2) of the remark ('the solution set must be a SET, and C must have set-indexed limits') cannot be stated, let alone shown necessary",
+      "grep -rn --include='*.v' -i 'thin|preorder.*complete|complete.*preorder|Freyd.*preorder' . — Freyd's thinness theorem ('a complete small category is a preorder'), which is the mathematical content behind clauses (2) and (3), appears ONLY in header prose: Structure/Complete.v:68-75 and Instance/Poset.v:80-87. Instance/Proset.v/Instance/Two.v prove thinness of particular categories ([two_thin]), never the theorem",
+      "grep -rn --include='*.v' '^Theorem GAFT|^Definition GAFT|^Theorem SAFT|^Definition SAFT' . — the tree has exactly [GAFT_from_initials], [GAFT] (Adjunction/GAFT.v:180, 241) and [SAFT_solution_set], [SAFT] (Adjunction/SAFT.v:252, 274). There is NO small-and-complete variant that drops the solution-set hypothesis, i.e. clause (3) / Awodey's Cor 9.31 has no in-tree counterpart",
+      "grep -rn --include='*.v' -i 'counterexample|not representable|Ord\\b' . — no counterexample witnessing that an incomplete C or a proper-class solution set breaks the theorem (compare the same verdict for maclane:V.6:remark-ord-counterexample, ledger row 489: ABSENT)",
+      "NOTE: Adjunction/GAFT.v's background essay (lines 100-125) discusses precisely this sharpness — the size obstruction, Freyd's collapse, and the nLab/Mac Lane–Joyal continuous-but-not-representable counterexample — but comments are not assertions, so nothing in-tree can be cited as evidence"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, after considering PARTIAL and OUT_OF_SCOPE and rejecting both. Confirmed there is no smallness vocabulary: rg 'Class Small|Record Small|Definition Small|LocallySmall' over *.v returns 0 hits, so clause (2) of the remark cannot even be phrased. Confirmed clause (3) has no counterpart: the only adjoint-functor-theorem entry points in-tree are GAFT_from_initials, GAFT (Adjunction/GAFT.v:180, 241) and SAFT_solution_set, SAFT (Adjunction/SAFT.v:252, 274); there is no small-and-complete variant dropping the solution set (Awodey Cor 9.31). Verified the classifier's honest NOTE by reading the prose it points at: Adjunction/GAFT.v:101 ff. really does discuss the size obstruction ('a small complete category is a preorder (Freyd), so completeness cannot be exploited naively at large size') and :120-122 the sharpness counterexample Joyal attributes to Mac Lane; Structure/Complete.v:64-76 states Freyd's thinness argument with its Cantor-diagonal reason; Instance/Poset.v:80-87 repeats it as the reason GAFT must carry a SolutionSet. (The classifier cites Structure/Complete.v:68-75; the passage actually spans ~64-76 -- a one-off-by-a-few-lines citation, immaterial.) All of that is comment prose, not proposition, so ABSENT is the right call rather than PARTIAL; and OUT_OF_SCOPE would be wrong under the frozen definition, since a small-and-complete GAFT variant IS formalizable here (universe polymorphism supplies the size discipline). ABSENT stands."
+    }
+  }
+]

@@ -1,0 +1,658 @@
+[
+ {
+  "id": "awodey:5.4:prop23",
+  "classification": "PARTIAL",
+  "aliases": [
+   "existence theorem for limits",
+   "limits by products and equalizers (Mac Lane V.2.1 / Riehl 3.4.12)",
+   "finite completeness from finite products + equalizers",
+   "Complete / HasProducts + HasEqualizers / HasIndexedProducts",
+   "terminal object + binary products + equalizers => all finite limits",
+   "pullbacks + terminal => finite limits (Borceux I 2.8.2)",
+   "dual form: colimits from coproducts and coequalizers"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+   },
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 33,
+    "symbol": "Terminal_Limit",
+    "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+   },
+   {
+    "file": "Adjunction/GAFT.v",
+    "line": 193,
+    "symbol": "Complete_HasEqualizers",
+    "intree_statement": "Definition Complete_HasEqualizers {A : Category} (HA : @Complete A) : HasEqualizers A. (* pose (L := HA Parallel (APair f g)); exact (equalizer_is_equalizer f g L) *)"
+   },
+   {
+    "file": "Structure/Equalizer.v",
+    "line": 80,
+    "symbol": "(file header, prose only)",
+    "intree_statement": "\"First, completeness reduces to it: a category has all (finite) limits as soon as it has (finite) products and equalizers, every limit arising as an equalizer of two maps between products (Mac Lane, Categories for the Working Mathematician, 2nd ed. 1998, §V.2, \\\"Limits by Products and Equalizers\\\") ...\" — cited as background; no such theorem is stated or proved in the file."
+   },
+   {
+    "file": "Structure/Pullback.v",
+    "line": 267,
+    "symbol": "(jww TODO comment)",
+    "intree_statement": "(* jww (2017-06-02): *) (* Wikipedia: \"... the pullback ... as the equalizer of the morphisms f ∘ p1, g ∘ p2 : X × Y → Z ... This shows that pullbacks exist in any category with binary products and equalizers. In fact, by the existence theorem for limits, all finite limits exist in a category with a terminal object, binary products and equalizers.\" *) — an explicitly open TODO, not a proof."
+   }
+  ],
+  "statement_record": {
+   "book": "A category has all finite limits iff it has all finite products and all equalizers (equivalently: iff it has pullbacks and a terminal object). Proof by construction: for D : J → C finite, take P0 = ∏_{i∈J0} D_i and P1 = ∏_{(α:i→j)∈J1} D_j, define φ, ψ : P0 → P1 by π_α∘φ = π_{cod α} and π_α∘ψ = D_α∘π_{dom α}, and let e : E → P0 be their equalizer; then (E, π_i∘e) is the limit of D.",
+   "intree": "Only the converse, shape-by-shape: `Cartesian_Limit : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C`; `Terminal_Limit (F : 0 ⟶ C) : Limit F ↔ @Terminal C`; `Complete_HasEqualizers : @Complete A → HasEqualizers A`. Structure/Equalizer.v and Structure/Pullback.v cite the existence theorem in prose (the latter as an open `jww` TODO) without proving it.",
+   "strength_comparison": "intree-weaker: only the trivial direction (a category with limits of a given shape has the corresponding structure) is proved, and even that is done one shape at a time and with the equalizer half derived from FULL completeness (`@Complete A`) rather than from finite limits. The substantive direction — the equalizer-of-two-products construction that manufactures an arbitrary (finite) limit — is nowhere in the tree, and there is no in-tree notion of a finite diagram or of `has all finite limits` at all (`Complete` quantifies over all diagram categories, size being carried implicitly by universe polymorphism)."
+  },
+  "gap": "Missing: (a) any predicate for `finite diagram` / `has all finite limits` (the only quantified limit hypothesis is `Complete {C} := ∀ D (F : D ⟶ C), Limit F` in Structure/Complete.v, with no finiteness restriction); (b) the construction of the two comparison maps φ, ψ : ∏_{i∈J0} D_i → ∏_{(α)∈J1} D_{cod α} and the proof that the equalizer of φ and ψ is a limit cone for D — i.e. the whole `products + equalizers ⇒ limits` direction; (c) the equivalent `pullbacks + terminal ⇒ finite limits` reduction (explicitly an open `jww` TODO at Structure/Pullback.v:267, and assumed rather than derived at Structure/Topos.v where finite limits are carried as terminal+products+pullbacks). Consequently no in-tree category is shown complete by this route.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'limits? from (products|product)|products and equalizers|equalizers and products|Complete_from|complete_from_products' . — hits only in prose headers (Structure/Complete.v:54, Structure/Equalizer.v:81, Structure/Pullback.v:272, Structure/Regular.v:30)",
+   "grep -rn --include=*.v -E '(Definition|Theorem|Lemma|Program (Definition|Instance)|Corollary|Instance)[^:]*: *(@?Limit|@?Colimit|@?Complete|@?Cocomplete)' . — 7 hits, none constructing a limit from products+equalizers (limit_transport, Ldiag, comma_limit, rapl_limit, colimit accessors)",
+   "grep -rn --include=*.v -iE 'existence theorem for limits|limits by products|Theorem 3\\.4\\.12|Borceux.*2\\.8\\.2' . — 4 hits, all citation prose",
+   "grep -rn --include=*.v -i 'finite limits' . — 6 hits, all header prose or hypotheses (Structure/Topos.v carries finite limits as explicit fields)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same verdict independently. My own searches (rg -ni 'products and equalizers|equalizers and products|finite limit|existence theorem'; rg -n 'HasEqualizers|HasProducts|HasIndexedProducts|Complete_HasEqualizers') found the reduction ONLY in header prose: Structure/Complete.v:49-53 ('a category with all small products and equalizers of parallel pairs has all small limits ... The products half of the reduction lives in-tree as [iprod]'), Structure/Limit.v:70-72, Structure/Equalizer.v:80, Structure/Pullback.v:266-273 (an explicit 'jww (2017-06-02)' TODO), Structure/Regular.v:30, and Structure/Topos.v:22-23 which discloses the reduction as a KNOWN IN-TREE GAP ('the reduction of pullbacks to products and equalizers (and conversely) is not ...'). Cited evidence verified at the exact lines: Structure/Limit/Cartesian.v:39 reads `Theorem Cartesian_Limit (C : Category) : (forall F : Two_Discrete -> C, Limit F) <-> @Cartesian C.`; Structure/Limit/Terminal.v:33 reads `Theorem Terminal_Limit (C : Category) (F : 0 -> C) : Limit F <-> @Terminal C.`; Adjunction/GAFT.v:193 reads `Definition Complete_HasEqualizers {A : Category} (HA : @Complete A) : HasEqualizers A.` Quotes accurate, strength_comparison honest (both `Cartesian_Limit` and `Terminal_Limit` are genuine biconditionals, so a real fragment of the easy direction IS in-tree, which is what makes PARTIAL rather than ABSENT correct here). All cited files are registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:5.4:cor24",
+  "classification": "PARTIAL",
+  "aliases": [
+   "limits of cardinality kappa from kappa-products and equalizers",
+   "small limits from small products and equalizers",
+   "HasIndexedProducts + HasEqualizers => Complete",
+   "iprod / indexed product / product of a family",
+   "kappa-complete category",
+   "dual: kappa-colimits from kappa-coproducts and coequalizers"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 93,
+    "symbol": "iprod / iprod_proj / iprod_ump",
+    "intree_statement": "Definition iprod {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : C := vertex_obj[L].  Definition iprod_ump ... : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a."
+   },
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 119,
+    "symbol": "limit_is_indexed_product",
+    "intree_statement": "Definition limit_is_indexed_product {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) : IsIndexedProduct f (iprod f L) (iprod_proj f L) := {| iprod_desc := fun c pi => iprod_ump f L c pi |}."
+   },
+   {
+    "file": "Structure/Limit/Product.v",
+    "line": 128,
+    "symbol": "HasIndexedProducts",
+    "intree_statement": "Class HasIndexedProducts (C : Category) := { indexed_product {A : Type} (f : A → C) : C; indexed_product_proj {A : Type} (f : A → C) (a : A) : indexed_product f ~> f a; indexed_product_ump {A : Type} (f : A → C) : IsIndexedProduct f (indexed_product f) (indexed_product_proj f) }."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 115,
+    "symbol": "Complete",
+    "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F."
+   },
+   {
+    "file": "Adjunction/GAFT.v",
+    "line": 193,
+    "symbol": "Complete_HasEqualizers",
+    "intree_statement": "Definition Complete_HasEqualizers {A : Category} (HA : @Complete A) : HasEqualizers A."
+   }
+  ],
+  "statement_record": {
+   "book": "A category has all limits of a given cardinality κ (limits of every diagram D : J → C with |J1| ≤ κ) iff it has all equalizers and all products of κ-many objects; proved by the same product-and-equalizer construction as Proposition 5.23.",
+   "intree": "The two halves of the *hypothesis* vocabulary exist and are related to limits one shape at a time: `limit_is_indexed_product` reads a `Limit (DiscreteCat_Functor f)` over an ARBITRARY index `A : Type` as an elementary indexed product, `HasIndexedProducts` supplies such products for every family, and `Complete_HasEqualizers` extracts equalizers from full completeness. `Complete {C} := ∀ (D : Category) (F : D ⟶ C), Limit F` is the only `has all limits` predicate; cardinality is not tracked, the size discipline being carried implicitly by universe polymorphism (Structure/Complete.v header).",
+   "strength_comparison": "intree-weaker: the κ-indexed product half is present in a stronger, size-free form (`A : Type` arbitrary — Structure/Limit/Product.v explicitly notes `No finiteness is assumed`), and the trivial direction limits⇒products is proved; but the implication `HasIndexedProducts C → HasEqualizers C → Complete C` is nowhere stated, so the corollary's actual content is missing."
+  },
+  "gap": "Missing: (a) the implication `HasIndexedProducts + HasEqualizers ⇒ Complete` (no such definition, lemma or instance exists — searched for every arrangement of the names); (b) any κ/cardinality bookkeeping on diagrams — `Complete` is an unrestricted ∀-over-diagram-categories, so `limits of cardinality κ` and `products of cardinality κ` cannot even be stated as separate hypotheses (the library substitutes universe constraints for smallness, which the Structure/Complete.v header discloses); (c) `HasIndexedProducts` has no dual `HasIndexedCoproducts` (grep: 0 hits), so the κ-sized dual of the corollary is not expressible either.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -E 'HasIndexedProducts|HasIndexedCoproducts|icoprod' . — 3 hits, all for HasIndexedProducts (Structure/Limit/Product.v:34,128 and a mention in Theory/WeaklyInitial.v:44); zero hits for any coproduct dual",
+   "grep -rn --include=*.v -iE 'cardinality|kappa-complete|small limits' . — no theorem relating a cardinality bound on a diagram to products of that cardinality",
+   "grep -rn --include=*.v -E 'HasProducts.*HasEqualizers|HasEqualizers.*HasProducts' . — 0 hits",
+   "grep -rn --include=*.v 'Complete' . — every occurrence is either the definition, a hypothesis being CONSUMED (GAFT, SAFT, Comma_Complete, Adamek corollaries), or prose; no occurrence derives Complete from other structure"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent search agreed. Verified Structure/Limit/Product.v:93 (`Definition iprod`), :119 (`Definition limit_is_indexed_product`), :128 (`Class HasIndexedProducts`), Structure/Complete.v:115 (`Definition Complete {C : Category} := forall (D : Category) (F : D -> C), Limit F.`) and Adjunction/GAFT.v:193 -- all at the cited lines with accurate quotes. Confirmed the record's two negative claims myself: rg for `HasIndexedCoproducts|icoprod` returns 0 hits, and no occurrence of `Complete` anywhere DERIVES completeness from other structure (every use is the definition, prose, or a consumed hypothesis in GAFT/SAFT/Comma/Adamek). The kappa-bookkeeping point is fair and is not an OUT_OF_SCOPE matter: the library has universe polymorphism, so a size-indexed variant is expressible in principle; it simply is not written."
+  }
+ },
+ {
+  "id": "awodey:5.4:thm25",
+  "classification": "PARTIAL",
+  "aliases": [
+   "dual existence theorem for colimits",
+   "colimits from coproducts and coequalizers",
+   "finite cocompleteness from finite coproducts + coequalizers",
+   "pushouts + initial object => finite colimits",
+   "Cocomplete / HasCoequalizers / Cocartesian",
+   "colimit = limit in C^op"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit.v",
+    "line": 158,
+    "symbol": "Colimit",
+    "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op)."
+   },
+   {
+    "file": "Structure/Complete.v",
+    "line": 119,
+    "symbol": "Cocomplete",
+    "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+   },
+   {
+    "file": "Structure/Coequalizer.v",
+    "line": 226,
+    "symbol": "coequalizer_is_coequalizer / is_coequalizer_colimit",
+    "intree_statement": "Definition coequalizer_is_coequalizer (L : Coequalizer (APair f g)) : IsCoequalizer f g (colimit_apex L) (colimit_inj (colimit_is_acolimit L) ParY) := {| cofork := colimit_coequalizes L ; coeq_desc := fun z h Hh => colimit_coequalizer_desc L h Hh |}.  (* and the converse Definition is_coequalizer_colimit ... : Coequalizer (APair f g) at line 276 *)"
+   },
+   {
+    "file": "Structure/Coequalizer.v",
+    "line": 68,
+    "symbol": "HasCoequalizers",
+    "intree_statement": "Class HasCoequalizers (C : Category) := { coeq {x y : C} (f g : x ~> y) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e }."
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 115,
+    "symbol": "Cocartesian",
+    "intree_statement": "Notation \"'Cocartesian' C\" := (@Cartesian (C^op)) — so `Cartesian_Limit` (Structure/Limit/Cartesian.v:39) instantiated at C^op reads: (∀ F : Two_Discrete ⟶ C^op, Limit F) ↔ Cocartesian C."
+   }
+  ],
+  "statement_record": {
+   "book": "Dual of Prop 5.23 and Cor 5.24 (cocones for cones, colimits for limits): C has all finite colimits iff it has all finite coproducts and all coequalizers, equivalently iff it has pushouts and an initial object; and C has all colimits of size κ iff it has coequalizers and coproducts of size κ. Stated without separate proof, by duality.",
+   "intree": "The duality mechanism the theorem relies on IS in force definitionally: `Colimit F := Limit (F^op)`, `Cocomplete := ∀ D F, Colimit F`, `Cocone F := Cone (F^op)`, `Cocartesian C := Cartesian (C^op)`, and Structure/Coequalizer.v carries the covariant round trip between `Colimit (APair f g)` and the elementary `IsCoequalizer` in both directions. What is dualized, however, is only the converse direction: `Cartesian_Limit`/`Terminal_Limit`/`coequalizer_is_coequalizer` at C^op give coproducts/initial/coequalizers FROM colimits.",
+   "strength_comparison": "intree-weaker: the theorem itself has nothing to dualize — since its primal (Prop 5.23 / Cor 5.24) is not proved in-tree (see awodey:5.4:prop23, awodey:5.4:cor24), the dual statement `finite coproducts + coequalizers ⇒ finite colimits` is not obtainable, and no in-tree statement asserts it. Only the shape-instantiation converse and the definitional duality apparatus are present."
+  },
+  "gap": "Missing: the dual existence theorem in every form — `HasCoequalizers + coproducts ⇒ Cocomplete`, `pushouts + Initial ⇒ finite colimits`, and any `has all finite colimits` predicate. (Construction/Cospan/Symmetric.v:29 and Construction/Cospan/Hypergraph.v:41 speak of `a category with finite colimits` but discharge it by ASSUMING `Initial C`, `Cocartesian C` and `HasPushouts C` as separate hypotheses — precisely the reduction the theorem would justify, taken as an axiom pack instead.) Also absent: any indexed-coproduct notion (`HasIndexedCoproducts` has 0 hits), so the κ-sized half of the dual is not even statable.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'coproducts and coequalizers|coequalizers and coproducts|finite colimits' . — 3 hits, all in Construction/Cospan/* prose where finite colimits are ASSUMED as Initial+Cocartesian+HasPushouts",
+   "grep -rn --include=*.v -E 'Cocomplete' . — 5 hits: the definition, prose, and Theory/Adamek/Corollaries.v:61 which CONSUMES it; nothing derives it",
+   "grep -rn --include=*.v -E 'HasIndexedCoproducts|icoprod' . — 0 hits",
+   "grep -rn --include=*.v -E 'Cocartesian_Colimit|Initial_Colimit' . — 0 hits (the colimit-shape characterizations exist only via C^op instantiation of the limit-side theorems)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent search agreed; PARTIAL is consistent with the sibling ruling on prop23. Verified Structure/Limit.v:158 (`Definition Colimit `(F : J -> C) := Limit (F^op).`), Structure/Complete.v:119 (`Cocomplete`), Structure/Coequalizer.v:68 (`Class HasCoequalizers`) and :226 (`Definition coequalizer_is_coequalizer`), Structure/Cocartesian.v:115 (the `Cocartesian C := @Cartesian (C^op)` notation). The duality apparatus really is definitional, so the trivial direction dualizes for free, while the substantive direction has no primal to dualize. I additionally confirmed the record's claim that the Cospan development ASSUMES the reduction rather than deriving it: Construction/Cospan/{Hypergraph,Symmetric,Bridging}.v and Construction/Cospan/HypergraphInstance.v all take `HasPushouts C` (plus Initial/Cocartesian) as separate Context hypotheses."
+  }
+ },
+ {
+  "id": "awodey:5.5:def26",
+  "classification": "PARTIAL",
+  "aliases": [
+   "preserves limits of type J",
+   "F(lim D) ≅ lim F(D) via the canonical comparison",
+   "continuous functor",
+   "PreservesLimit / PreservesAllLimits",
+   "PreservesImageLimit (cone-level)",
+   "cocontinuous / PreservesColimit (dual)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 48,
+    "symbol": "PreservesLimit",
+    "intree_statement": "Class PreservesLimit `(G : J ⟶ C) `(F : C ⟶ D) := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }."
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 229,
+    "symbol": "PreservesAllLimits / PreservesAllColimits",
+    "intree_statement": "Definition PreservesAllLimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesLimit G F.  Definition PreservesAllColimits {C D : Category} (F : C ⟶ D) : Type := ∀ (J : Category) (G : J ⟶ C), PreservesColimit G F."
+   },
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 110,
+    "symbol": "PreservesImageLimit",
+    "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.  (* image_leg L x := fmap[U] (limit_leg (limit_is_alimit L) x) *)"
+   },
+   {
+    "file": "Construction/Comma/Limit.v",
+    "line": 54,
+    "symbol": "(file header, STATUS note)",
+    "intree_statement": "\"The bare class [PreservesLimit] of [Structure/Limit/Preservation.v] records only that the *apex object* [U L] carries *some* limit structure of [U ◯ G] ([IsALimit (U ◯ G) (U L)]); the legs of that structure are left unconstrained and need not be the image legs [fmap[U] π_•]. Two distinct cone structures on the same apex can differ by precomposition with a non-invertible endomorphism, only one of them being a limit, so apex-only preservation does not by itself make the image cone universal.\""
+   }
+  ],
+  "statement_record": {
+   "book": "F : C → D preserves limits of type J when for every diagram D : J → C and every limiting cone p_j : L → D_j the IMAGE cone F p_j : F L → F D_j is a limiting cone for F∘D; briefly F(lim D_j) ≅ lim F(D_j) via the canonical comparison. A functor preserving all limits is called continuous.",
+   "intree": "Two inequivalent notions coexist. Apex-only, per-diagram: `Class PreservesLimit G F := { preserves_limit (L : Limit G) : IsALimit (F ◯ G) (F L) }`, with `PreservesAllLimits F := ∀ J G, PreservesLimit G F` as `continuous`. Cone-level, all-shapes, section-bound to one functor U : `PreservesImageLimit := ∀ J G (L : Limit G) (N : Cone (U ◯ G)), ∃! φ, ∀ x, fmap[U] (limit_leg L x) ∘ φ ≈ cone_leg N x`.",
+   "strength_comparison": "intree-weaker for the named class: `PreservesLimit`/`PreservesAllLimits` assert only that the apex object F L admits SOME limit structure for F ◯ G, not that the image cone (F applied to the limit legs) is limiting — the library itself proves this insufficient in the Construction/Comma/Limit.v header and refuses to use the class for GAFT/SAFT. The faithful cone-level rendering of `continuous` exists as `PreservesImageLimit`, but only in the all-shapes bundled form."
+  },
+  "gap": "Missing: (a) a cone-level `preserves limits of type J` — `PreservesImageLimit` cannot be restricted to a shape J or to a single diagram G (it quantifies over both internally) and is defined inside a Section fixed to a particular functor U in Construction/Comma/Limit.v rather than exported as a general class next to `PreservesLimit`; (b) the canonical comparison morphism F(lim D) → lim(F∘D) is never constructed, so the book's `F(lim D) ≅ lim F(D) via the canonical comparison` phrasing has no in-tree counterpart (`PreservesLimit` sidesteps the comparison by pinning the apex, which is exactly what makes it too weak); (c) no cone-level dual: `PreservesColimit G F := PreservesLimit G^op F^op` inherits the apex-only defect and there is no `PreservesImageColimit`.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'PreservesAllLimits|PreservesLimit|PreservesColimit|PreservesAllColimits' . — all uses are the apex-only class; GAFT.v:240 and SAFT.v:85 explicitly say they use PreservesImageLimit `rather than the apex-only [PreservesAllLimits]`",
+   "grep -rn --include=*.v 'PreservesImageLimit' . — 11 hits, all inside Construction/Comma/Limit.v or citing it from Adjunction/GAFT.v and Adjunction/SAFT.v; no per-shape variant",
+   "grep -rn --include=*.v -iE 'canonical comparison|comparison (map|morphism).*limit' . — no comparison map into a limit is constructed anywhere",
+   "grep -rn --include=*.v -i 'continuous' . — 'continuous'/'cocontinuous' appear only as prose glosses on PreservesAllLimits/PreservesAllColimits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass reached PARTIAL for exactly the reason cited -- this is the same-name-weaker-statement hazard and the classifier caught it. Verified Structure/Limit/Preservation.v:48 (`Class PreservesLimit `(G : J -> C) `(F : C -> D) := { preserves_limit (L : Limit G) : IsALimit (F o G) (F L) }`) -- the `IsALimit` witness carries its OWN `limit_acone`, which is nowhere required to be the image of L's legs, so the class is genuinely weaker than Awodey's image-cone formulation. Verified Preservation.v:229 (`PreservesAllLimits`), Preservation.v:196 (`PreservesColimit ... := @PreservesLimit (J^op) (C^op) (G^op) (D^op) (F^op)`, inheriting the defect as claimed), and Construction/Comma/Limit.v:110 (`PreservesImageLimit`), whose Section context is `Context {C D : Category}. Context {U : C -> D}. Context {d : D}.` -- so it is indeed bound to a fixed functor U and quantifies J and G internally (GAFT.v:242 uses it as `@PreservesImageLimit C D U`). The header quote at Comma/Limit.v:54 is accurate. I independently confirmed gap (b): no comparison morphism into a limit is constructed anywhere (rg -ni 'comparison' cross-cut with limit/cone yields only Instance/Cones/Comma.v's Cones-vs-Comma functors and Monad/Comparison.v's Eilenberg-Moore comparison, neither relevant). See problems[] for the associated library-documentation defect."
+  }
+ },
+ {
+  "id": "awodey:5.5:prop27",
+  "classification": "PARTIAL",
+  "aliases": [
+   "representable functors preserve limits",
+   "Hom(C,-) is continuous",
+   "hom functor preserves limits",
+   "Hom(C, lim D) ≅ lim Hom(C, D_j)",
+   "Hom(C, X × Y) ≅ Hom(C,X) × Hom(C,Y); Hom(C,1) = 1; equalizers of hom-sets",
+   "Curried_Hom / [Hom A,─] / Representable"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/UniversalProperty/Limit.v",
+    "line": 141,
+    "symbol": "LimitIsUniversalProperty",
+    "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (* header: \"being a limit of [F] is the same as *representing* the presheaf of cones [ConePresheaf F : C^op ⟶ Sets] ... Concretely there is a natural isomorphism Hom(c, z) ≅ Cone(c, F)\" *)"
+   },
+   {
+    "file": "Structure/Cone.v",
+    "line": 79,
+    "symbol": "ConePresheaf",
+    "intree_statement": "Instance ConePresheaf {J C : Category} (F : @Functor J C) : @Functor C^op Sets.  (* fobj c := {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |}; fmap f reindexes a cone by precomposing every leg with f *)"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 60,
+    "symbol": "Curried_Hom / [Hom A,─]",
+    "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := ... ;  Notation \"[Hom A , ─]\" := (@Curried_Hom _ A) : functor_scope.  (* the covariant representable Hom(A,−) : C ⟶ Sets acting by post-composition *)"
+   },
+   {
+    "file": "Adjunction/Diagonal/Product.v",
+    "line": 36,
+    "symbol": "Diagonal_Product_Adjunction",
+    "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }.  (* the Sets-iso (x ~> y) × (x ~> z) ≅ (x ~> y × z), i.e. the binary-product case of the proposition *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For locally small C and any object C, the covariant representable Hom_C(C,−) : C → Sets (f ↦ f_* = f∘−) preserves ALL limits. Proof by reduction to products and equalizers: Hom(C,1) is a singleton, Hom(C, ∏_i X_i) ≅ ∏_i Hom(C,X_i), and e_* : Hom(C,E) → Hom(C,X) is the equalizer of f_* and g_* in Sets.",
+   "intree": "The hom-side bijection that is the content of the proposition is proved, but as a representability statement about limits rather than as a preservation statement about the hom functor: `LimitIsUniversalProperty` establishes the natural iso Hom(c, z) ≅ Cone(c, F) (z a limit of F), with `ConePresheaf F : C^op ⟶ Sets` the presheaf of cones. The special cases the book's proof uses are individually available as universal properties: `ump_products`/`Diagonal_Product_Adjunction` (binary products), `iprod_ump` (indexed products), `Terminal` uniqueness, `equalizer_desc`.",
+   "strength_comparison": "intree-weaker: no statement anywhere asserts that `[Hom A,─]` (or any representable) preserves limits — there is no `PreservesLimit G (Curried_Hom C A)` instance, and the identification of `lim (Hom(A,−) ◯ F)` in Sets with the cone setoid is missing because Sets is not shown to have limits. The in-tree fragment gives the bijection Hom(c, lim F) ≅ Cone(c, F) but stops short of exhibiting the image cone in Sets as a limit cone."
+  },
+  "gap": "Missing three links: (a) limits in Sets — the library has no `Complete Sets` and no general construction of a limit of a Sets-diagram (only Sets coproducts, pushouts, the end of Instance/Sets/End.v as the setoid of compatible families, and the coend quotient of Instance/Sets/Coend.v), so `lim_j Hom(C, D_j)` is not an in-tree object; (b) the identification of that limit with the cone setoid `Cone[c]F` (`ConePresheaf`), which would turn `LimitIsUniversalProperty` into the proposition; (c) the preservation statement itself — no `PreservesLimit`/`PreservesImageLimit` witness is ever produced for a hom functor, contravariant or covariant. Note also that the natural preservation class to instantiate would be the apex-only `PreservesLimit` (see awodey:5.5:def26), which is weaker than what the proposition asserts.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'hom.*preserv|preserv.*hom|representable.*(limit|continuous)|continuous.*representable' . — 15 hits, none a statement about a hom functor preserving limits (all are about cartesian-closed functors, hom-setoids, or the GAFT prose on `a product of representables ... continuous yet not representable`)",
+   "grep -rn --include=*.v -E 'PreservesLimit|PreservesAllLimits' . — every witness is for equivalences (Theory/Equivalence/Limit.v) or right adjoints (Adjunction/Continuity.v); none for Curried_Hom / Curried_CoHom / a Representable",
+   "grep -rn --include=*.v -E 'Complete Sets|Sets.*Complete|Limit.*Sets' . — no completeness instance for Sets",
+   "grep -rn --include=*.v -E 'Hom.*≅|≅.*hom' . — the hom-set isos found are the adjunction/exponential transposes (Yoneda, Closed, Adj), never a hom-vs-limit iso"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass also landed on PARTIAL. My blind search found the binary-product fragment via `CartesianProductIsUniversalProperty` (Structure/UniversalProperty/Cartesian.v:59, the natural iso Hom(z, x x y) = Hom(z,x) x Hom(z,y)); the classifier found the STRONGER and more apposite fragment `LimitIsUniversalProperty`, which I verified at Structure/UniversalProperty/Limit.v:141 (`Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).`, proof begins `exists (@ConePresheaf J C F)`), together with `ConePresheaf` at Structure/Cone.v:79 and `Diagonal_Product_Adjunction` at Adjunction/Diagonal/Product.v:36. Unfolding `IsUniversalProperty C^op` the ambient `[Hom c,-]` is Hom_C(-,c), so the header's claim of a natural iso Hom(c,z) = Cone(c,F) is accurate. Quotes and line numbers all check out; strength_comparison is honest (no PreservesLimit witness is ever produced for a hom functor -- I re-ran that search myself). ONE IMPRECISION, not affecting the verdict: gap (a) says the library has 'only Sets coproducts, pushouts, the end ..., and the coend' -- it omits that Sets DOES have a terminal object (Instance/Sets.v:248, `Sets_Terminal`) and binary products (Instance/Sets/Cartesian.v:32, `Sets_Cartesian`), i.e. two of the three ingredients of the book's own proof are in-tree; what is genuinely missing is equalizers in Sets, general Sets-limits, `Complete Sets`, and the preservation statement itself."
+  }
+ },
+ {
+  "id": "awodey:5.5:def28",
+  "classification": "PRESENT",
+  "aliases": [
+   "contravariant functor",
+   "functor C^op ⟶ D",
+   "presheaf",
+   "contramap / Opposite_Functor / F^op",
+   "arrow-reversing functor, F(g∘f) = F(f)∘F(g)"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Opposite.v",
+    "line": 52,
+    "symbol": "(header) + contramap",
+    "intree_statement": "\"(* A functor F : C^op ⟶ D is a contravariant functor on C: it reverses the direction of morphisms. [contramap] applies it to a C-arrow f : x ~> y by reading f as the C^op-arrow (op f), yielding F y ~> F x in D. *)\""
+   },
+   {
+    "file": "Functor/Opposite.v",
+    "line": 56,
+    "symbol": "contramap",
+    "intree_statement": "Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f)."
+   },
+   {
+    "file": "Functor/Opposite.v",
+    "line": 24,
+    "symbol": "(header)",
+    "intree_statement": "\"A contravariant functor C ⟶ D is, by definition, an ordinary functor out of C^op; see [contramap] at the end.\""
+   },
+   {
+    "file": "Functor/Opposite.v",
+    "line": 31,
+    "symbol": "Opposite_Functor",
+    "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) ... (λ (x y z : C^op) (f : y ~{C^op}~> z) (g : x ~{C^op}~> y), @fmap_comp _ _ F _ _ _ g f)."
+   }
+  ],
+  "statement_record": {
+   "book": "A functor of the form F : C^op → D is called a contravariant functor on C. Explicitly it sends f : A → B to F(f) : F(B) → F(A) and reverses composition: F(g∘f) = F(f)∘F(g).",
+   "intree": "`Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f).` with the header stating verbatim that \"A contravariant functor C ⟶ D is, by definition, an ordinary functor out of C^op\" and that such an F \"reverses the direction of morphisms\". Composition reversal is definitional: the `fmap_comp` field of a `Functor` out of `C^op` is `fmap (g ∘[C^op] f) ≈ fmap g ∘ fmap f`, and `g ∘[C^op] f = f ∘[C] g` by the built-in duality (`C^op^op = C` by reflexivity, Construction/Opposite.v).",
+   "strength_comparison": "same — the definition is adopted verbatim (functor out of the opposite category), the explicit action on arrows is `contramap` with exactly the book's variance, and the contravariant composition law is not an extra axiom but the `fmap_comp` field read in C^op. The setoid rephrasing (≈ for =) is the library's uniform faithful convention."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v -i 'contravariant' . — 28 hits; Functor/Opposite.v:24,52 give the definition, the rest are consistent usages (presheaves, Hom, Sub, profunctors)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on PRESENT. Verified Functor/Opposite.v:52-57: the comment 'A functor F : C^op -> D is a contravariant functor on C: it reverses the direction of morphisms' and `Definition contramap `{F : C^op -> D} `(f : x ~{C}~> y) : F y ~{D}~> F x := fmap (op f).`; also Opposite.v:24 and Opposite_Functor at :31 (quoted body matches the file verbatim). The composition-reversal law really is definitional: `Opposite_Functor`'s fmap_comp field is literally `fun f g => @fmap_comp _ _ F _ _ _ g f`, i.e. the arguments swapped, and Corollary Opposite_Functor_invol : (F^op)^op = F is proved by `reflexivity`. No definition-without-API problem: the contravariant idiom is used pervasively (Hom, presheaves, Sub, profunctors, ConePresheaf). Functor/Opposite.v is registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:5.5:construction-contravariant-representable",
+  "classification": "PRESENT",
+  "aliases": [
+   "contravariant representable Hom(-, C)",
+   "presheaf represented by C",
+   "Curried_CoHom / [Hom ─,A]",
+   "precomposition action f^*(g) = g ∘ f",
+   "contravariant Yoneda embedding C ⟶ [C^op, Sets]"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom.v",
+    "line": 146,
+    "symbol": "Curried_CoHom",
+    "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.  Notation \"[Hom ─ , A ]\" := (@Curried_CoHom _ A) : functor_scope.  (* header: \"Curried_CoHom C c = [Hom ─,c] is the presheaf Hom(-, c) : C^op ⟶ Sets, obtained as the covariant Curried_Hom on C^op. This is the contravariant Yoneda embedding C ⟶ [C^op, Sets] used to present presheaves.\" *)"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 49,
+    "symbol": "Hom",
+    "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}.  (* header: \"Fixing one argument yields ... the contravariant Hom(-, b) : C^op ⟶ Sets (acting by pre-composition)\" *)"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 134,
+    "symbol": "CoHom / CoHom_Alt",
+    "intree_statement": "Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {| fobj := fun p => {| carrier := @hom (C^op) (fst p) (snd p) ; ... |}; fmap := fun x y (f : x ~{C ∏ C^op}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+   },
+   {
+    "file": "Functor/Representable.v",
+    "line": 25,
+    "symbol": "(header of Representable)",
+    "intree_statement": "\"A contravariant representable G : C^op ⟶ Sets (a presheaf) is instead naturally isomorphic to Hom(─, A); see [Hom ─,A] (Curried_CoHom) in Functor/Hom.v.\""
+   }
+  ],
+  "statement_record": {
+   "book": "For locally small C and fixed C, X ↦ Hom(X,C) is a contravariant functor Hom_C(−,C) : C^op → Sets, sending f : X → Y to the precomposition map f^*: Hom(Y,C) → Hom(X,C), f^*(g) = g∘f. Presented as the typical example of Definition 5.28.",
+   "intree": "`Curried_CoHom C : C ⟶ [C^op, Sets]`, notation `[Hom ─,A]`, defined as `Curried_Hom C^op`, so `[Hom ─,A] : C^op ⟶ Sets` with `fobj X = hom C X A` (as a setoid, the hom-setoid) and `fmap f` acting by `g ↦ g ∘ f` (post-composition in C^op is pre-composition in C — the action displayed uncurried in `Hom C` is `fmap (f,g) q = g ∘ q ∘ f`).",
+   "strength_comparison": "same. Presentation differs only in currying and in size handling: the library uses the setoid category `Sets` (hom-setoids) instead of `Set` with equality, which is the faithful setoid rephrasing; and local smallness is not a hypothesis but a universe constraint, since `hom C X A` always lands in `Sets` at the appropriate level. Extra content beyond the book: this same object is registered as the contravariant Yoneda embedding, with `Yoneda_Full`/`Yoneda_Faithful` (Functor/Hom.v:85,96)."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v 'Curried_CoHom|\\[Hom ─' . — defined at Functor/Hom.v:146,149 and cited by Functor/Representable.v and Functor/Hom/Yoneda.v"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on PRESENT and found the same object first. Verified Functor/Hom.v:146-149: `Definition Curried_CoHom `(C : Category) : C -> [C^op, Sets] := Curried_Hom C^op.` with `Notation \"[Hom - , A ]\" := (@Curried_CoHom _ A)`. Unfolding `Curried_Hom C^op` (Functor/Hom.v:60-71) its fmap acts by `fun g => g o op f`, i.e. precomposition in C -- exactly the book's f^*(g) = g o f. Also verified Hom at :49 and CoHom at :134, and the Functor/Representable.v:25-27 quote. Functor/Hom.v is registered in _CoqProject:139. One observation (not a defect, and not affecting the verdict): Functor/Hom.v:78 installs a global `Coercion Curried_Hom : Category >-> Functor`, so a bare category can silently elaborate to its covariant hom -- worth knowing when reading `fobj[C]` in Yoneda_Embedding'."
+  }
+ },
+ {
+  "id": "awodey:5.5:cor29",
+  "classification": "PARTIAL",
+  "aliases": [
+   "contravariant representables take colimits to limits",
+   "Hom(-, C) sends colimits in C to limits in Sets",
+   "Hom(colim D_j, C) ≅ lim Hom(D_j, C)",
+   "presheaf Hom(−,C) is continuous as a functor C^op ⟶ Sets",
+   "dual of `representables preserve limits`",
+   "PreservesLimit (Curried_CoHom C A) / cocontinuity of hom out of a colimit"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 147,
+    "symbol": "ump_colimit",
+    "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x.  (* the elementwise bijection Hom(colim F, n) ≅ Cocone(F, n) *)"
+   },
+   {
+    "file": "Structure/UniversalProperty/Limit.v",
+    "line": 141,
+    "symbol": "LimitIsUniversalProperty (at C^op)",
+    "intree_statement": "Proposition LimitIsUniversalProperty : IsUniversalProperty C^op (fun c => IsALimit F c) (fun c => @LimitSetoid J C F c).  (* instantiated at (J^op, C^op, F^op) this is the natural iso Hom(colim F, c) ≅ Cocone(F, c), since Colimit F := Limit (F^op) *)"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 146,
+    "symbol": "Curried_CoHom / [Hom ─,A]",
+    "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.  (* the functor whose preservation behaviour the corollary is about *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Dual form of Proposition 5.27: a contravariant representable Hom_C(−,C) : C^op → Sets carries all colimits in C to limits in Sets.",
+   "intree": "The elementwise bijection is present as the colimit universal property, covariantly: `ump_colimit : ∃! u : c ~> N, ∀ x, u ∘ colimit_inj H x ≈ cocone_inj N x`, i.e. Hom(colim F, n) ≅ Cocone(F, n); and the natural-isomorphism form follows from `LimitIsUniversalProperty` instantiated in C^op, the library's duality being definitional (`Colimit F := Limit (F^op)`, `Cocone F := Cone (F^op)`, `Cocones F := Cones (F^op)`).",
+   "strength_comparison": "intree-weaker: exactly as for Proposition 5.27, the bijection `maps out of a colimit ↔ cocones` is proved, but the corollary's actual assertion — that the presheaf `[Hom ─,C]` sends colimits of C to limits of Sets — is nowhere stated, because (i) no preservation witness is ever produced for a hom functor and (ii) `lim_j Hom(D_j, C)` has no in-tree meaning (Sets is not shown to have limits)."
+  },
+  "gap": "Same three missing links as awodey:5.5:prop27, in dual form: limits in Sets are not constructed; the limit of the Sets-diagram j ↦ Hom(D_j, C) is not identified with the cocone setoid; and no `PreservesLimit`/cone-level witness is instantiated at `Curried_CoHom`. Note additionally that the corollary is stated in the book by duality from Prop 5.27 — in this library that inference WOULD be near-free (`Colimit := Limit ∘ op`, `Cocartesian := Cartesian ∘ op`), so the gap is entirely inherited from the missing primal statement rather than from any missing duality machinery.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -iE 'representable.*(colimit|limit)|Hom.*colimit|colimit.*Hom' . — 0 statements; only prose",
+   "grep -rn --include=*.v -E 'PreservesColimit|PreservesAllColimits' . — witnesses exist only for equivalences (Theory/Equivalence/Limit.v:432) and left adjoints (Adjunction/Continuity.v:219,225); none for a hom functor",
+   "grep -rn --include=*.v 'Curried_CoHom' . — 3 hits (definition + notation + a citation in Functor/Representable.v); no theorem about it beyond Yoneda"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed. Verified Structure/Limit/Preservation.v:147 (`Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : exists! u : c ~{C}~> vertex_obj[N], forall x : J, u o colimit_inj H x = cocone_inj N x`) and the LimitIsUniversalProperty / Curried_CoHom citations (see prop27). The record is careful to mark the C^op instantiation of LimitIsUniversalProperty as a derivation that is never performed in-tree, which is honest; the gap text correctly inherits from prop27. I re-ran the negative searches: no PreservesColimit / PreservesLimit witness exists for any hom functor (the only witnesses are Theory/Equivalence/Limit.v and Adjunction/Continuity.v), and Curried_CoHom has no consumer beyond Yoneda and a citation in Functor/Representable.v."
+  }
+ },
+ {
+  "id": "awodey:5.5:remark-hom-coproduct",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Hom(X + Y, C) ≅ Hom(X,C) × Hom(Y,C) (eq. 5.1)",
+   "copairing bijection / merge / ▽ / ump_coproducts",
+   "coproduct universal property in hom-set form",
+   "exponent law C^(X+Y) ≅ C^X × C^Y ; k^(m+n) = k^n·k^m",
+   "ultrafilters of a coproduct of boolean algebras; Ult : Bool^op ⟶ Sets"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Diagonal/Product.v",
+    "line": 36,
+    "symbol": "Diagonal_Product_Adjunction",
+    "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |} ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }.  (* header: `the family of bijections (Δ x ~{C ∏ C}~> p) ≅ (x ~{C}~> ×(C) p) natural in x and p`; instantiated at C^op — legitimate since `Cocartesian C` IS `@Cartesian (C^op)` — this is exactly (Y ~> X) × (Z ~> X) ≅ (Y + Z ~> X) in Sets *)"
+   },
+   {
+    "file": "Structure/Cocartesian.v",
+    "line": 131,
+    "symbol": "merge / inl_merge / inr_merge / merge_inl_inr",
+    "intree_statement": "Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x := @fork _ O _ _ _ f g.  Lemma inl_merge : f ▽ g ∘ inl ≈ f.  Lemma inr_merge : f ▽ g ∘ inr ≈ g.  Corollary merge_inl_inr : inl ▽ inr ≈ @id C (x + y).  (* with `ump_products` read in C^op: h ≈ f ▽ g ↔ (h ∘ inl ≈ f) * (h ∘ inr ≈ g) — the bijection of eq. 5.1, elementwise *)"
+   },
+   {
+    "file": "Structure/BiCCC.v",
+    "line": 134,
+    "symbol": "exp_coprod",
+    "intree_statement": "#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }.  (* in a Context with @Cartesian C, @Cocartesian C, @Closed C *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Instance of Cor 5.29: for a coproduct X + Y in any locally small C there is a canonical iso Hom(X+Y, C) ≅ Hom(X,C) × Hom(Y,C) (eq. 5.1), given by precomposing with the injections. Two consequences: (i) since Ult : Bool^op → Sets is representable, ultrafilters of A + B correspond to pairs (U,V) of ultrafilters of A and B; (ii) in Sets the same iso is the exponent law C^(X+Y) ≅ C^X × C^Y, whose arithmetic special case is k^(m+n) = k^n·k^m.",
+   "intree": "The bijection itself is available two ways: elementwise as the coproduct UMP (`ump_products` read in C^op, plus `inl_merge`, `inr_merge`, `merge_inl_inr`), and as a genuine Sets-isomorphism natural in both variables by instantiating `Diagonal_Product_Adjunction` at C^op (its `adj` field is an `≅` in `Sets` between the hom-setoid of the product category and the hom-setoid out of the coproduct). The internal (exponential-object) form of consequence (ii) is proved outright: `exp_coprod : x^(y + z) ≅ x^y × x^z`.",
+   "strength_comparison": "intree-stronger on the exponent law (proved as an object-level iso `x^(y+z) ≅ x^y × x^z` in any bicartesian closed category, not merely in Sets); same for the bijection modulo an instantiation step (the Sets-iso is obtained by applying an existing general instance at C^op, no new proof required); intree-absent for the ultrafilter/Boolean-algebra instance."
+  },
+  "gap": "Two gaps. (1) The external iso `Hom(X+Y,C) ≅ Hom(X,C) × Hom(Y,C)` is never written down as such: it exists only as the C^op instantiation of `Diagonal_Product_Adjunction` (never performed in-tree — there is no `Coproduct_Diagonal_Adjunction`, no `Cocartesian` companion file to Adjunction/Diagonal/Product.v) or elementwise via `ump_products` in C^op; there is no named lemma or `≅` in `Sets` for it. (2) Consequence (i) is entirely absent: the library has no Boolean algebras, no category `Bool`, no ultrafilter functor and no Stone duality (grep for 'ultrafilter'/'boolean' finds only two prose citations, in Theory/Monad.v:65 and Theory/Equivalence.v:120). Consequence (ii)'s arithmetic reading (k^(m+n) = k^n·k^m) is likewise not instantiated at any concrete category — `exp_coprod` is proved abstractly and Instance/FinSet's exponential codecs (Instance/FinSet/Closed.v) are not connected to it.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -i 'ultrafilter|boolean|Bool\\b' . — 20 hits, all prose citations (Theory/Monad.v:65 ultrafilter monad, Theory/Kan/Extension.v:39,86, Theory/Equivalence.v:120 Stone duality) or Coq's `bool` datatype; no Boolean-algebra category, no Ult functor",
+   "grep -rn --include=*.v -iE 'exponent law|C\\^\\(X\\+Y\\)|exp_coprod|exp_plus' . — exp_coprod is the only formalized exponent law (Structure/BiCCC.v:134), abstract over any BiCCC",
+   "grep -rn --include=*.v -E 'Coproduct_Diagonal|Diagonal_Coproduct|Cocartesian.*Adjunction' . — 0 hits; only Diagonal_Product_Adjunction exists"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on PARTIAL and reached the same two gaps. Verified Structure/BiCCC.v:134 `#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) = x^y x x^z` -- and checked it is NOT built over the incomplete `Structure/Closed.v` stub: BiCCC.v:7 imports `Category.Structure.Cartesian.Closed`, the live cartesian-closed development, so the 'intree-stronger on the exponent law' claim holds. Verified Adjunction/Diagonal/Product.v:36 and Structure/Cocartesian.v:131 (`merge ... := @fork _ O _ _ _ f g`) with `inl_merge` :175, `inr_merge` :182, `merge_inl_inr` :189. The C^op instantiation route is legitimate (`Cocartesian C` IS `@Cartesian (C^op)` by the notation at Cocartesian.v:115, and the adjunction's `adj` field is an isomorphism of hom-setoids in Sets), and the record correctly flags that it is never performed. I independently confirmed the ultrafilter/Boolean-algebra half is absent (no Bool category, no Ult functor; only prose citations) and that Adjunction/Diagonal/ contains only Product.v."
+  }
+ },
+ {
+  "id": "awodey:5.5:example-reindexing-preserves-coproducts",
+  "classification": "ABSENT",
+  "aliases": [
+   "reindexing / base change functor α^* : Sets/I ⟶ Sets/J preserves coproducts",
+   "pullback functor f^* / Star_Functor",
+   "J ×_I (∐_{i∈I} A_i) ≅ ∐_{j∈J} A_{α(j)}",
+   "slice category Set/I ≃ Set^I, indexed family of sets",
+   "Σ_f ⊣ f^* ⊣ Π_f, dependent sum / base change",
+   "left adjoint preserves colimits (LAPC) applied to f^*"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v -i 'reindex' . — 6 hits, all about displayed categories / Grothendieck / subobject reindexing (Theory/Subobject/Functor.v), none about slice reindexing preserving coproducts",
+   "grep -rn --include=*.v -i 'base change|base_change' . — hits are the pullback-stability toolkit (Theory/Morphisms/Stability.v) and prose; no preservation statement",
+   "grep -rn --include=*.v -E 'Slice.*Cocartesian|Cocartesian.*Slice' . — 0 hits (slices are given no coproducts)",
+   "grep -rn --include=*.v -i 'locally cartesian closed|Pi_f|Prod_f|dependent product' . — prose only (Construction/Slice.v:90-96, Structure/Pullback.v header); no Π_f functor",
+   "grep -rn --include=*.v 'Star_Functor' . — 6 hits: the definition, header prose, and the commented-out adjunction; no consumer",
+   "PHASE D (blind): rg -n 'Star_Functor|Bang_Functor' --glob '*.v' -- definition, header prose and the commented-out adjunction only; no consumer, no preservation lemma",
+   "PHASE D: rg -n 'HasPullbacks (Sets|FinSet)|: HasPullbacks' --glob '*.v' -- the ONLY instance is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264); no HasPullbacks Sets, so Star_Functor cannot be instantiated where the example lives",
+   "PHASE D: rg -ni 'reindex' --glob '*.v' -- 30 hits, all displayed-category / Grothendieck / subobject reindexing; none about slices",
+   "PHASE D: rg -n '^(Class|Definition|Program Definition|Theorem|Lemma|Program Instance|Instance|Corollary)' Construction/Slice/Pullback.v -- exactly two definitions in the file (Bang_Functor:50, Star_Functor:67); nothing else is proved about them"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "My blind pass classified this ABSENT, and re-reading the Phase C record I think its own strength_comparison concedes the point: 'intree-weaker: only the functor is constructed. The example's actual claim ... has no in-tree counterpart' -- that last clause IS the frozen definition of ABSENT. What exists (Construction/Slice/Pullback.v:67 `Star_Functor`, :50 `Bang_Functor`) is the SUBJECT of the claim, not any fragment of the claim; contrast the sibling records in this batch (prop23 has the genuine biconditionals `Cartesian_Limit`/`Terminal_Limit`; cor29 has the actual colimit hom-bijection `ump_colimit`), where real content of the item is formalized. Here zero percent of the assertion is formalized, and the claim is not even TYPEABLE in-tree: rg for 'Slice.*Cocartesian|Cocartesian.*Slice' returns 0 hits, so slices carry no coproducts. I also verified two further obstructions the Phase C record did not: (i) there is no `HasPullbacks Sets` instance anywhere (the only `HasPullbacks` instance in-tree is `FinSet_Pullbacks`, Instance/FinSet/Classifier.v:264), so `Star_Functor` cannot even be instantiated at Sets, which is where the example lives; (ii) Construction/Slice/Pullback.v:121 confirms the adjunction is a fully commented-out stub. All Phase C evidence has been moved into `notes` as adjacent infrastructure (matching the shape the ABSENT record awodey:5.6:example30 already uses in this file) and the negative_search_log has been extended with my own commands. Phase C's original verdict is preserved in `phase_c_classification`."
+  },
+  "phase_c_classification": "PARTIAL",
+  "notes": "ADJACENT INFRASTRUCTURE ONLY (none of it is a fragment of the example's claim). Construction/Slice/Pullback.v:67 defines the reindexing/base-change functor itself, `Program Definition Star_Functor `(f : c ~> a) : @Slice C a -> @Slice C c`, built from a `Hypothesis [pullbacks]` supplying chosen pullbacks; :50 defines the dependent sum `Bang_Functor `(f : a ~> b) : @Slice C a -> @Slice C b`. Nothing is stated about what either preserves. The adjunction Sigma_f -| f^* that would make preservation derivable (via Adjunction/Continuity.v's LAPC) exists only as a fully commented-out stub at :121-127, whose statement the file header itself notes has the adjoints in the wrong order; there is no Pi_f and no local cartesian closedness in-tree. The claim is not even typeable: slice categories are given no coproducts (no `Cocartesian (Slice C a)` instance exists), so `alpha^*(coprod A_i) = coprod alpha^*(A_i)` cannot be written down. Nor can `Star_Functor` be instantiated at Sets, the setting of the example: there is no `HasPullbacks Sets` instance in-tree (the only `HasPullbacks` instance is `FinSet_Pullbacks`, Instance/FinSet/Classifier.v:264). Finally the equivalence Set/I ~= Set^I that underwrites the example's indexed-family reading is prose in the Construction/Slice.v header (:73), not a theorem."
+ },
+ {
+  "id": "awodey:5.6:construction-pushout-sets",
+  "classification": "PRESENT",
+  "aliases": [
+   "pushout in Sets as a quotient of the disjoint sum",
+   "B +_A C = (B + C)/~ with f(a) ~ g(a)",
+   "amalgamated sum / cocartesian square in Set",
+   "HasPushouts Sets / Sets_HasPushouts",
+   "dual of `pullback from product and equalizer`",
+   "coequalizer of the two coproduct legs"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 51,
+    "symbol": "pushout_eq",
+    "intree_statement": "Inductive pushout_eq : Datatypes.sum (carrier B) (carrier C) -> Datatypes.sum (carrier B) (carrier C) -> Type := | po_inl_cong : ∀ b1 b2, @equiv _ B b1 b2 -> pushout_eq (inl b1) (inl b2) | po_inr_cong : ∀ c1 c2, @equiv _ C c1 c2 -> pushout_eq (inr c1) (inr c2) | po_glue : ∀ a : carrier A, pushout_eq (inl (f a)) (inr (g a)) | po_sym : ... | po_trans : ..."
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 91,
+    "symbol": "pushout_apex_setoid",
+    "intree_statement": "Program Definition pushout_apex_setoid {A B C : SetoidObject} (f : SetoidMorphism A B) (g : SetoidMorphism A C) : SetoidObject := {| carrier := Datatypes.sum (carrier B) (carrier C); is_setoid := {| equiv := pushout_eq f g; setoid_equiv := _ |} |}."
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 185,
+    "symbol": "Sets_HasPushouts",
+    "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; pullback_commutes := _; ump_pullbacks := _ |} |}."
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 16,
+    "symbol": "(header)",
+    "intree_statement": "\"the pushout of the span [B <-f- A -g-> C] is the quotient [(B ⊔ C)/~]: the apex carrier is [B + C] (the Coq sum type), equipped with the smallest equivalence relation containing: the existing setoid equivalences on [B] ... and the \\\"glue\\\" identifications [inl (f a) ~ inr (g a)] for every [a : A]. This matches the standard Set construction: the disjoint union (coproduct) modulo the finest equivalence relation with [f a ~ g a].\""
+   }
+  ],
+  "statement_record": {
+   "book": "Given f : A → B and g : A → C, the pushout in Sets is built by forming the coproduct B → B + C ← C, taking the equivalence relation ~ on B + C generated by f(a) ~ g(a) for all a ∈ A, and quotienting: B +_A C = (B + C)/~. Noted to be dual to the construction of pullbacks from products and equalizers.",
+   "intree": "`pushout_apex_setoid f g` has carrier the Coq sum `carrier B + carrier C` with setoid equivalence the inductively generated `pushout_eq`, whose constructors are exactly reflexivity-through-the-component-setoids (`po_inl_cong`, `po_inr_cong`), the glue `po_glue : pushout_eq (inl (f a)) (inr (g a))`, symmetry and transitivity. Legs are the two injections; the UMP is proved by induction on `pushout_eq` and packaged as `Sets_HasPushouts : HasPushouts Sets`.",
+   "strength_comparison": "same, with a presentational improvement forced by the setoid setting: instead of a quotient TYPE, the quotient is realised by re-equipping the sum type with the generated equivalence relation as its setoid, which the header notes makes the construction funext-free. The generated-equivalence-relation content is identical (the inductive relation IS the smallest equivalence containing the glue). The UMP (any competing cocone with q1∘f ≈ q2∘g factors uniquely) is proved, so this is the pushout, not just the quotient object. Not covered: the book's parenthetical that this is dual to `pullback from product + equalizer` — that reduction is itself absent in-tree (see awodey:5.4:prop23), so the pushout here is built directly rather than as `coequalizer of the two coproduct legs`."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include=*.v 'HasPushouts' . — Sets (Instance/Sets/Pushout.v:185) and FinSet (Instance/FinSet/Pushout.v:513) both instantiate it; heavily consumed by Construction/Cospan/*"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on PRESENT and found the same file first. Verified every cited line: Instance/Sets/Pushout.v:51 `Inductive pushout_eq`, :91 `Program Definition pushout_apex_setoid`, :185 `#[export] Program Instance Sets_HasPushouts : HasPushouts Sets`, and the header quote at :16-27. The file is registered in _CoqProject:237. I read the whole file: the UMP obligation is genuinely discharged (mediator built by `pushout_mediator` at :166 with `pushout_mediator_respects` proved by induction on `pushout_eq` at :144, uniqueness by case split on the sum), the glue obligation is closed by `apply po_glue`, and nothing is admitted -- so this is the pushout, not merely the quotient object, as the record says. The record's honest caveat that the book's 'dual of pullback-from-product-and-equalizer' framing is absent is correct and consistent with the prop23 ruling."
+  }
+ },
+ {
+  "id": "awodey:5.6:def-colimit",
+  "classification": "PARTIAL",
+  "aliases": [
+   "cocone, morphism of cocones, colimit",
+   "colimit as initial object in the category of cocones",
+   "Cocone / Cocones / Colimit / IsAColimit",
+   "colim_{j∈J} D_j, universal cocone",
+   "dual of Definition 5.18 (cone / limit as terminal cone)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cone.v",
+    "line": 72,
+    "symbol": "Cocone",
+    "intree_statement": "Definition Cocone `(F : J ⟶ C) := Cone (F^op).  (* header: \"A cocone over F is the dual notion: a cone over the opposite diagram F^op, whose legs run F x ~> apex\" *)"
+   },
+   {
+    "file": "Instance/Cones.v",
+    "line": 29,
+    "symbol": "Cones / Cocones",
+    "intree_statement": "Program Definition Cones `(F : J ⟶ C) : Category := {| obj := Cone F; hom := fun N L => { u : vertex_obj[N] ~> vertex_obj[L] & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ _ F (@coneFrom _ _ _ N) j }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}.  Definition Cocones `(F : J ⟶ C) := Cones (F^op).  (* comment at line 45: \"Its initial object is the colimit of F.\" *)"
+   },
+   {
+    "file": "Structure/Limit.v",
+    "line": 158,
+    "symbol": "Colimit",
+    "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op).  (* header: \"The colimit of F is the dual notion: a limit of the opposite diagram F^op, i.e. the universal cocone / initial object of the category of cocones over F\" *)"
+   },
+   {
+    "file": "Structure/Limit/Preservation.v",
+    "line": 130,
+    "symbol": "IsAColimit / cocone_inj / colimit_inj / ump_colimit",
+    "intree_statement": "Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c.  Definition cocone_inj `{F : J ⟶ C} (N : Cocone F) (x : J) : F x ~{C}~> vertex_obj[N].  Lemma cocone_inj_coherence (N : Cocone F) {x y} (f : x ~> y) : cocone_inj N y ∘ fmap[F] f ≈ cocone_inj N x.  Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x."
+   }
+  ],
+  "statement_record": {
+   "book": "Dual to Def 5.18, in running prose. A cocone from the base D : J → C is an object C (vertex) with arrows c_j : D_j → C such that c_j ∘ D(α) = c_i for every α : i → j. A morphism of cocones f : (C,(c_j)) → (C',(c'_j)) is f : C → C' with f ∘ c_j = c'_j for all j. A colimit for D is an initial object in the category of cocones — a cocone mapping uniquely to any other cocone from D; written colim_{j∈J} D_j.",
+   "intree": "`Cocone F := Cone (F^op)` (apex plus legs `cocone_inj N x : F x ~> vertex_obj[N]` with coherence `cocone_inj N y ∘ fmap[F] f ≈ cocone_inj N x` — exactly the book's c_j ∘ D(α) = c_i); `Cocones F := Cones (F^op)`, whose morphisms are apex maps `u` with `vertex_map[L] ∘ u ≈ vertex_map[N]` read in C^op, i.e. `u ∘ c_j ≈ c'_j`, identified when their underlying apex maps agree (the commutativity witness is proof-irrelevant); `Colimit F := Limit (F^op)`, with `ump_colimit : ∃! u : c ~> N, ∀ x, u ∘ colimit_inj H x ≈ cocone_inj N x`.",
+   "strength_comparison": "same, with the dual formulated definitionally rather than restated (the library's duality architecture makes C^op^op = C hold by reflexivity, so the cocone/colimit notions are the cone/limit notions transported, and covariant accessors `cocone_inj`, `colimit_inj`, `ump_colimit`, `colimit_med`, `colimit_med_unique` re-expose everything in C). One presentational difference: `Colimit F` is defined as the universal cocone (terminal object of `Cones (F^op)`) rather than literally as `Initial (Cocones F)`; the two are the same statement — `Cocones F := Cones (F^op)` and initial-in-C-cocones is terminal-in-C^op-cones — and Instance/Cones/Limit.v:37 supplies the round trip `Limit_Cones : Terminal (Cones F) → Limit F`, which dualizes. Setoid rephrasing (≈ for =) is the library's faithful convention."
+  },
+  "gap": "fess F1: the colimit-as-INITIAL-cocone packaging is missing, exactly dual to def18's already-filed gap (Colimit F -> Initial (Cocones F)); only the converse direction exists in-tree.",
+  "negative_search_log": [
+   "grep -rn --include=*.v -E 'Cocone|Cocones' . — Structure/Cone.v:72, Instance/Cones.v:46, plus covariant accessors in Structure/Limit/Preservation.v:113-175 and heavy downstream use (Structure/Coequalizer.v, Theory/Adamek.v)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on PRESENT. Verified Structure/Cone.v:72 (`Definition Cocone `(F : J -> C) := Cone (F^op).`), Instance/Cones.v:29 (`Cones`) and :46 (`Definition Cocones `(F : J -> C) := Cones (F^op).`), Structure/Limit.v:158 (`Colimit`), and the covariant accessor block Structure/Limit/Preservation.v:116-175 (`cocone_inj` :116, `cocone_inj_coherence` :120, `IsAColimit` :130, `colimit_inj` :135, `ump_colimit` :147, `colimit_med` :152). I unfolded the cocone-morphism claim myself: a hom N ~> L in `Cones (F^op)` is, read in C, a map apex(L) -> apex(N) with u o legs_L = legs_N, i.e. `Cocones F` is the OPPOSITE of the usual cocone category and the colimit is its TERMINAL object -- which is exactly what `Colimit F := Limit (F^op)` delivers. The record's strength_comparison states this correctly ('initial-in-C-cocones is terminal-in-C^op-cones'). HOWEVER, the record quotes the Instance/Cones.v:45 comment 'Its initial object is the colimit of F' as supporting evidence without noticing that this comment is wrong as written about the object defined on the very next line; see problems[] (the classification is unaffected -- the CODE is right, the COMMENT is not)."
+  }
+ },
+ {
+  "id": "awodey:5.6:example30",
+  "classification": "ABSENT",
+  "aliases": [
+   "direct limit of a sequence of groups",
+   "colim_{n∈ω} G_n / G_infinity / inductive limit",
+   "ω-colimit / sequential colimit / filtered colimit / directed colimit",
+   "category of groups Grp and group homomorphisms",
+   "forgetful functor U : Groups ⟶ Sets creates ω-colimits",
+   "colimit computed on underlying sets; equational algebraic structures"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rIn --include=*.v -i 'direct limit' . — 2 hits, both prose in Structure/Limit.v:48,58 (\"those early articles still call colimits 'direct limits'\"); no construction",
+   "grep -rIn --include=*.v -i 'Groups' . — 61 hits, all prose (bibliography titles such as Mac Lane, \"Groups, categories and duality\", and motivational text); grep -rIn --include=*.v 'Groups' . | grep -v prose leaves only Construction/Opposite.v:56, Structure/Group.v:66, Structure/Monoidal/Braided.v:97 — all citations. There is NO category of groups in-tree: Structure/Group.v:109 defines `Class GroupObject (grp : C)` — a group OBJECT internal to a `@CartesianMonoidal C` — not a category whose objects are groups",
+   "grep -rIn --include=*.v -i 'GroupHom' . — 0 hits; grep -rIn --include=*.v -i 'group homomorphism' . — 0 hits",
+   "grep -rIn --include=*.v -i 'creates colimits' . — 0 hits; 'created colimit' — 0 hits (the only creation results in-tree are for LIMITS along equivalences, Theory/Equivalence/Limit.v:486, and U-split coequalizers in Monad/Monadicity/BeckObjects.v — neither is a forgetful-functor-creates-ω-colimits statement)",
+   "grep -rIn --include=*.v -i 'filtered' . — 1 hit, unrelated prose; 'directed colimit' — 0 hits; 'sequential colimit' — 0 hits; 'colim_' — 0 hits",
+   "grep -rIn --include=*.v -iE 'inductive limit|colimit of a (sequence|chain)' . — 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent pass agreed on ABSENT and found nothing the classifier missed. I re-ran the decisive searches: rg -ni 'direct limit|directed colimit|filtered colimit|sequential colimit' yields only the two prose lines in Structure/Limit.v:48,58; rg -ni 'creates|creation' cross-cut with (co)limits yields only Theory/Equivalence/Limit.v:486 `equivalence_creates_limits` / :582 `equivalence_creates_colimits` and Construction/Comma/Limit.v -- no forgetful-functor creation; there is no category of groups (Structure/Group.v:109 defines `Class GroupObject (grp : C)`, a group OBJECT internal to a cartesian-monoidal C). The `notes` field's adjacent-infrastructure survey is accurate: Instance/Omega.v:72 `Omega : Category` with `omega_step` at :85, Construction/Chain.v:64 `Chain : Omega -> C` for an endofunctor. ONE CORRECTION to the notes, not affecting the verdict: it says Instance/Comp.v's `Algs` has 'no colimits' -- `Algs` does have an INITIAL object (`Algs_Initial`, Instance/Comp.v:209, the free algebra on no generators). Its `Algs_Closed` (:190) and `Algs_Cocartesian` (:224) are both entirely commented out, so binary coproducts are indeed absent, and no omega-colimit exists there either -- the conclusion stands."
+  },
+  "notes": "Adjacent infrastructure exists but none of the example's content. Instance/Omega.v:72 defines the ordinal ω as a category (`Omega : Category` over a Type-valued `le_t`, with `omega_step (n : nat) : @hom Omega n (S n)`), so the SHAPE of the diagram is available, and Construction/Chain.v builds `Chain F : Omega ⟶ C` for an ENDOFUNCTOR F (not an arbitrary ω-sequence of objects and maps) whose colimit Theory/Adamek.v consumes. Instance/Comp.v:151 defines `Algs : Category`, a category of algebras for an operation signature (with `Algebra S E` for varieties, the header naming groups as an example), shown to have a terminal object, binary products and an initial object — but no colimits, no forgetful functor to Sets, and no creation result. Nothing in-tree constructs colim_n G_n, its group structure, its universal property, or the fact that the colimit is computed on underlying sets."
+ }
+]

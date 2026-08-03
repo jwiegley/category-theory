@@ -1,0 +1,712 @@
+{
+  "book": "riehl",
+  "range": {"pdf_start": 271, "pdf_end": 280},
+  "pages": [
+    {
+      "pdf_page": 271,
+      "book_page": "251",
+      "empty": false,
+      "items": [
+        "riehl:E.1:thm-yoneda",
+        "riehl:E.1:def-representable"
+      ],
+      "notes": "Chapter opening: title 'Epilogue: Theorems in Category Theory', Mac Lane epigraph [ML88], two paragraphs of motivational prose (the 'no theorems in category theory' complaint, Kan/Grothendieck, a roadmap of E.1-E.5, a reading list) — not inventoried. Section E.1 heading appears mid-page. ANOMALY: every theorem in E.1 is an UNNUMBERED restatement whose label carries the ORIGINAL cross-reference numbers in parentheses, e.g. 'Theorem (2.2.4, 2.2.8)'; E.1 therefore has NO arabic item numbers at all, and its cross_refs are recorded as bare dotted numbers rather than riehl: item ids because the kind of the original environment is not visible from this chapter."
+    },
+    {
+      "pdf_page": 272,
+      "book_page": "252",
+      "empty": false,
+      "items": [
+        "riehl:E.1:def-representable",
+        "riehl:E.1:thm-representation-initial",
+        "riehl:E.1:thm-colimit-construction",
+        "riehl:E.1:thm-large-products-poset",
+        "riehl:E.1:thm-adjoints-preserve",
+        "riehl:E.1:thm-gaft",
+        "riehl:E.1:thm-locally-presentable-adjoints",
+        "riehl:E.1:thm-representability-criteria",
+        "riehl:E.1:thm-monadicity"
+      ],
+      "notes": "Eight unnumbered restated theorems, each labeled only by its original cross-reference; the tail of the prose definition of 'representable' carries over from PDF 271. The monadicity theorem's clause list (i)-(iv) runs over onto PDF 273. Running head 'EPILOGUE: THEOREMS IN CATEGORY THEORY'."
+    },
+    {
+      "pdf_page": 273,
+      "book_page": "253",
+      "empty": false,
+      "items": [
+        "riehl:E.1:thm-monadicity",
+        "riehl:E.1:thm-kan-adjoints",
+        "riehl:E.1:exi",
+        "riehl:E.2:def-symmetric-monoidal-category",
+        "riehl:E.2:def-monoidal-category",
+        "riehl:E.2:example-symmetric-monoidal"
+      ],
+      "notes": "Top of page carries clauses (i)-(iv) of the monadicity theorem begun on PDF 272. One paragraph of pure prose listing 'other candidates for inclusion' (4.2.7, 6.3.7, 6.4.12, 6.4.13) is not inventoried. 'Exercises.' heading + Exercise E.1.i close E.1. Section E.2 begins. NUMBER 1 OF SECTION E.2 IS CONSUMED BY THE NUMBERED DISPLAY (E.2.1) — the four structural natural isomorphisms gamma, alpha, lambda, rho. Per the shared-counter rule no separate item is minted; its content is absorbed into riehl:E.2:def-symmetric-monoidal-category and the section's next number is Theorem E.2.2. This is NOT a numbering gap."
+    },
+    {
+      "pdf_page": 274,
+      "book_page": "254",
+      "empty": false,
+      "items": [
+        "riehl:E.2:def-symmetric-monoidal-category",
+        "riehl:E.2:def-monoidal-category",
+        "riehl:E.2:example-symmetric-monoidal",
+        "riehl:E.2:thm-monoidal-coherence",
+        "riehl:E.2:thm2",
+        "riehl:E.2:cor-nary-tensor"
+      ],
+      "notes": "Carries the tail of the symmetric-monoidal examples (chain complexes Ch_R with its two sign conventions; a commutative monoid as a discrete symmetric monoidal category) and the block of unnumbered coherence diagrams (pentagon; unit triangle; symmetry/unit compatibility; the involution gamma_{w,v} o gamma_{v,w} = id; hexagon) — all folded into riehl:E.2:def-symmetric-monoidal-category. A blockquote from Mac Lane [ML63] on the general associative law is motivational prose. The Mac Lane/Kelly coherence theorem for MONOIDAL categories is stated in running prose and recorded as an unnumbered item."
+    },
+    {
+      "pdf_page": 275,
+      "book_page": "255",
+      "empty": false,
+      "items": [
+        "riehl:E.2:exi",
+        "riehl:E.3:def-unit-interval",
+        "riehl:E.3:def-path",
+        "riehl:E.3:def-fundamental-groupoid",
+        "riehl:E.3:def-bipointed-space",
+        "riehl:E.3:thm1"
+      ],
+      "notes": "'Exercises.' heading + Exercise E.2.i close E.2. Section E.3 begins with four bolded definitions developed in running prose plus two unnumbered displayed diagrams (the composite-path factorization I -> I v I -> X, and the pushout square defining I v I) and one unnumbered pushout diagram defining X v X. Theorem E.3.1 (Freyd, Leinster) begins at the foot of this page and its statement + commuting square run onto PDF 276."
+    },
+    {
+      "pdf_page": 276,
+      "book_page": "256",
+      "empty": false,
+      "items": [
+        "riehl:E.3:thm1",
+        "riehl:E.3:remark-terminal-coalgebra",
+        "riehl:E.3:def-coalgebra",
+        "riehl:E.3:exi",
+        "riehl:E.4:def-presheaf",
+        "riehl:E.4:def-grothendieck-topos",
+        "riehl:E.4:remark-cocomplete-and-elementary",
+        "riehl:E.4:def-site",
+        "riehl:E.4:def-sheaf"
+      ],
+      "notes": "Page opens with the CONTINUATION of Theorem E.3.1 (Freyd, Leinster), which starts on PDF 275: its concluding clause (unique bipointed map r : X -> I making the square with d and the homeomorphism delta commute) and its commuting square occupy the top of this page. Section E.4 heading (A characterization of Grothendieck toposes) begins mid-page. Three displays on this page (the r/delta square, the E <-> Set^{C^op} adjunction, and the sheaf equalizer fork) are ALL UNNUMBERED — no display consumes a counter value here."
+    },
+    {
+      "pdf_page": 277,
+      "book_page": "257",
+      "empty": false,
+      "items": [
+        "riehl:E.4:thm1",
+        "riehl:E.4:def-disjoint-coproduct",
+        "riehl:E.4:def-universal-colimit",
+        "riehl:E.4:def-effective-equivalence-relation",
+        "riehl:E.4:def-separating-set",
+        "riehl:E.4:exi",
+        "riehl:E.5:def1",
+        "riehl:E.5:def-biproduct",
+        "riehl:E.5:remark-ab-enrichment"
+      ],
+      "notes": "Theorem E.4.1 (Giraud) with its six numbered conditions (i)-(vi), followed by an explanatory bullet list that defines/recalls four subsidiary notions in running prose. Section E.5 heading (Embeddings of abelian categories) begins mid-page. No numbered displays."
+    },
+    {
+      "pdf_page": 278,
+      "book_page": "258",
+      "empty": false,
+      "items": [
+        "riehl:E.5:remark-ab-enrichment",
+        "riehl:E.5:def-image",
+        "riehl:E.5:def-exact-sequence",
+        "riehl:E.5:remark-five-lemma",
+        "riehl:E.5:def-exact-functor",
+        "riehl:E.5:thm2",
+        "riehl:E.5:exi"
+      ],
+      "notes": "Carries the tail of riehl:E.5:remark-ab-enrichment (begun on PDF 277). Two footnotes: #12 points at enriched category theory ([Kel82], [Rie14] Ch. 3), a pure pointer; #13 fixes the convention that the ring R of Theorem E.5.2 is unital and associative but not necessarily commutative (folded into that theorem's summary). The closing block-quote from Johnstone's Topos Theory is pure motivational prose and deliberately not inventoried. The unnumbered exact-sequence display carries no number."
+    },
+    {
+      "pdf_page": 279,
+      "book_page": "259",
+      "empty": false,
+      "items": [
+        "riehl:E.5:exi"
+      ],
+      "notes": "NOT empty, but no item STARTS here: the page carries only clause (iii) of Exercise E.5.i (the short five lemma, with its two-row short-exact-sequence ladder), which begins on PDF 278 and is listed here under the all-pages rule. Last text page of the Epilogue; the remainder of the leaf is blank."
+    },
+    {
+      "pdf_page": 280,
+      "book_page": "260",
+      "empty": true,
+      "items": [],
+      "notes": "Blank verso closing the Epilogue (no printed folio, no running head, no content). Expected per the pagemap: all seven blank pages in this PDF are counted, and the Epilogue ends on one. Bibliography begins on PDF 281."
+    }
+  ],
+  "items": [
+    {
+      "id": "riehl:E.1:thm-yoneda",
+      "kind": "theorem",
+      "number": null,
+      "name": "Yoneda lemma (restated)",
+      "statement_summary": "For a locally small category C, a functor F : C^op -> Set, and an object c of C, evaluation at the identity gives a bijection between the collection of natural transformations from the represented functor C(-,c) to F and the set Fc, sending a natural transformation alpha to alpha_c(id_c); the bijection is natural in both c and F. Consequence drawn in the same statement: every natural transformation C(-,c) => C(-,c') between represented functors is postcomposition with a unique morphism c -> c' of C.",
+      "book_section": "E.1",
+      "book_page": "251",
+      "pdf_pages": [271],
+      "cross_refs": ["2.2.4", "2.2.8"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:def-representable",
+      "kind": "definition",
+      "number": null,
+      "name": "representable set-valued functor",
+      "statement_summary": "A set-valued functor is called representable exactly when it is naturally isomorphic to a represented functor (covariant C(c,-) or contravariant C(-,c) according to its variance). Given in running prose, without a Definition environment, as the setup for the next theorem.",
+      "book_section": "E.1",
+      "book_page": "251",
+      "pdf_pages": [271, 272],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose", "spans-page-break"]
+    },
+    {
+      "id": "riehl:E.1:thm-representation-initial",
+      "kind": "theorem",
+      "number": null,
+      "name": "representations as initial/terminal objects of the category of elements",
+      "statement_summary": "A representation for a covariant functor F : C -> Set is precisely an initial object of its category of elements; dually, a representation for a contravariant functor F : C^op -> Set is precisely a terminal object of its category of elements. This is the sense in which a representable functor encodes a universal property of its representing object.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["2.4.8"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:thm-colimit-construction",
+      "kind": "theorem",
+      "number": null,
+      "name": "colimits from coproducts and coequalizers (and the dual)",
+      "statement_summary": "A category possessing all small coproducts and all coequalizers has small colimits of every shape; dually, a category possessing all small products and all equalizers has all small limits.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["3.5.11"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:thm-large-products-poset",
+      "kind": "theorem",
+      "number": null,
+      "name": "a category with products larger than its cardinality is a poset",
+      "statement_summary": "Any category admitting products, or coproducts, indexed by sets as large as the cardinality of its collection of morphisms is equivalent to a poset. In particular the only small categories that are complete, or cocomplete, are equivalent to posets (Freyd's size argument).",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["3.7.3"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:thm-adjoints-preserve",
+      "kind": "theorem",
+      "number": null,
+      "name": "RAPL/LAPC: right adjoints preserve limits, left adjoints preserve colimits",
+      "statement_summary": "Every right adjoint functor preserves all limits that exist in its domain, and every left adjoint functor preserves all colimits that exist in its domain.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["4.6.2"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:thm-gaft",
+      "kind": "theorem",
+      "number": null,
+      "name": "adjoint functor theorems (initial-object, solution-set, and coseparator forms)",
+      "statement_summary": "Let U : A -> S be a continuous functor whose domain A is complete and whose domain and codomain are both locally small. If ANY ONE of the following holds then U admits a left adjoint: (i) for every object s of S the comma category s/U has an initial object; (ii) SOLUTION SET CONDITION: for every s of S there is a SET of morphisms Phi_s = {f_i : s -> U a_i} such that every morphism f : s -> U a factors as U(k) o f_i for some f_i in Phi_s and some k : a_i -> a in A; (iii) A has a small coseparating set and every collection of subobjects of a fixed object of A admits an intersection (a wide pullback). Clauses (i), (ii), (iii) are the initial-object form, the General Adjoint Functor Theorem, and the Special Adjoint Functor Theorem respectively.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["4.7.1", "4.7.3", "4.7.10"],
+      "flags": ["unnumbered", "restatement-of-earlier-result", "three-clause-item"]
+    },
+    {
+      "id": "riehl:E.1:thm-locally-presentable-adjoints",
+      "kind": "theorem",
+      "number": null,
+      "name": "adjoints between locally presentable categories",
+      "statement_summary": "For a functor F : C -> D between locally presentable categories: (i) F admits a right adjoint if and only if F is cocontinuous (preserves all small colimits); (ii) F admits a left adjoint if and only if F is continuous (preserves all small limits) and accessible (preserves sufficiently filtered colimits). Presented as a corollary of the adjoint functor theorems.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["4.7.17"],
+      "flags": ["unnumbered", "restatement-of-earlier-result", "two-clause-item"]
+    },
+    {
+      "id": "riehl:E.1:thm-representability-criteria",
+      "kind": "theorem",
+      "number": null,
+      "name": "representability criteria for limit-preserving Set-valued functors",
+      "statement_summary": "Let F : C -> Set preserve limits, with C locally small and complete. Then F is representable provided EITHER (i) C has a small coseparating set and every collection of subobjects of a fixed object of C has an intersection, OR (ii) there is a SET Phi of objects of C such that for every object c of C and every element x of Fc there exist s in Phi, an element y in Fs, and a morphism f : s -> c with (Ff)(y) = x. These are the representability analogues of the special and general adjoint functor theorems.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272],
+      "cross_refs": ["4.7.14", "4.7.15"],
+      "flags": ["unnumbered", "restatement-of-earlier-result", "two-clause-item"]
+    },
+    {
+      "id": "riehl:E.1:thm-monadicity",
+      "kind": "theorem",
+      "number": null,
+      "name": "properties of monadic functors",
+      "statement_summary": "Let U : A -> S admit a left adjoint and create coequalizers of U-split pairs (i.e. U is monadic in the sense of Beck's theorem). Then: (i) U is CONSERVATIVE — a morphism f of A is an isomorphism if and only if Uf is an isomorphism in S; (ii) U creates all limits that exist in S; (iii) U creates all colimits that exist in S and are preserved by the induced monad on S and by its square (the monad applied twice); (iv) if S is locally small, complete and cocomplete and U preserves filtered colimits, then A admits all small colimits.",
+      "book_section": "E.1",
+      "book_page": "252",
+      "pdf_pages": [272, 273],
+      "cross_refs": ["5.5.1", "5.6.1", "5.6.5", "5.6.12"],
+      "flags": ["unnumbered", "restatement-of-earlier-result", "four-clause-item", "spans-page-break"]
+    },
+    {
+      "id": "riehl:E.1:thm-kan-adjoints",
+      "kind": "theorem",
+      "number": null,
+      "name": "existence of pointwise Kan extensions as adjoints to restriction",
+      "statement_summary": "Let K : C -> D with C small and D locally small, and let E be another category. If E is cocomplete then the restriction functor K* : E^D -> E^C has a left adjoint Lan_K given by a particular colimit formula; if E is complete then K* has a right adjoint Ran_K given by the dual limit formula, yielding Lan_K -| K* -| Ran_K. Moreover, when K is fully faithful the adjunction Lan_K -| K* is coreflective and K* -| Ran_K is reflective (i.e. the respective unit/counit is an isomorphism, so the Kan extensions restrict back to the original functor).",
+      "book_section": "E.1",
+      "book_page": "253",
+      "pdf_pages": [273],
+      "cross_refs": ["6.2.1", "6.2.7", "6.2.14"],
+      "flags": ["unnumbered", "restatement-of-earlier-result"]
+    },
+    {
+      "id": "riehl:E.1:exi",
+      "kind": "exercise",
+      "number": "E.1.i",
+      "name": "describe your favorite theorem in category theory",
+      "statement_summary": "Expository/pedagogical task with no mathematical content to formalize: explain a favorite theorem of category theory to a friend who does not yet know it. Recorded for completeness of the exercise roster.",
+      "book_section": "E.1",
+      "book_page": "253",
+      "pdf_pages": [273],
+      "cross_refs": [],
+      "flags": ["non-mathematical-exercise"]
+    },
+    {
+      "id": "riehl:E.2:def-symmetric-monoidal-category",
+      "kind": "definition",
+      "number": null,
+      "name": "symmetric monoidal category",
+      "statement_summary": "A symmetric monoidal category (V, tensor, unit) consists of a category V, a bifunctor tensor : V x V -> V (the monoidal product), a unit object, and four specified natural isomorphisms displayed as the numbered equation (E.2.1): the symmetry gamma : v tensor w =~ w tensor v, the associator alpha : u tensor (v tensor w) =~ (u tensor v) tensor w, and the left and right unitors lambda : unit tensor v =~ v and rho : v tensor unit =~ v. These must satisfy coherence axioms, displayed as unnumbered commuting diagrams: the pentagon for alpha on four objects; the unit triangle relating alpha, lambda and rho; compatibility of gamma with the unitors (rho then gamma equals lambda); the symmetry involution gamma_{w,v} o gamma_{v,w} = id; and the hexagon relating gamma to alpha. (The displayed structure maps occupy number 1 of section E.2; the section's next environment is Theorem E.2.2.)",
+      "book_section": "E.2",
+      "book_page": "253",
+      "pdf_pages": [273, 274],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose", "absorbs-numbered-display-E.2.1", "spans-page-break"]
+    },
+    {
+      "id": "riehl:E.2:def-monoidal-category",
+      "kind": "definition",
+      "number": null,
+      "name": "monoidal category",
+      "statement_summary": "A monoidal category is defined exactly as a symmetric monoidal category except that the symmetry natural isomorphism gamma is omitted: the data are a category, a bifunctor (monoidal product), a unit object, an associator and two unitors, subject to the pentagon and unit-triangle coherence axioms only.",
+      "book_section": "E.2",
+      "book_page": "253",
+      "pdf_pages": [273, 274],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose", "spans-page-break"]
+    },
+    {
+      "id": "riehl:E.2:example-symmetric-monoidal",
+      "kind": "example",
+      "number": null,
+      "name": "examples of symmetric monoidal categories",
+      "statement_summary": "A run of examples given in prose: (a) any category with finite products, tensor = binary product and unit = terminal object — instanced by (Set, x, singleton), (Top, x, point) and (Cat, x, terminal category); (b) dually, any category with finite coproducts, tensor = coproduct and unit = initial object — instanced by manifolds (Man, disjoint union, empty); (c) modules over a ring R carry two monoidal structures, direct sum with unit 0, and tensor over R with unit R, the latter only when R is commutative; (d) unbounded chain complexes of R-modules for R commutative, with the graded tensor product of chain complexes and unit the complex concentrated in degree zero on R — for which the symmetry isomorphism admits two distinct definitions according to whether a sign is introduced in odd degrees; (e) a commutative monoid viewed as a discrete category is a symmetric monoidal category all of whose structure isomorphisms are identities, exhibiting the structure isomorphisms as categorifications of the commutativity, associativity and unit laws.",
+      "book_section": "E.2",
+      "book_page": "253",
+      "pdf_pages": [273, 274],
+      "cross_refs": [],
+      "flags": ["unnumbered", "example-in-running-prose", "spans-page-break"]
+    },
+    {
+      "id": "riehl:E.2:thm-monoidal-coherence",
+      "kind": "theorem",
+      "number": null,
+      "name": "Mac Lane-Kelly coherence theorem for monoidal categories",
+      "statement_summary": "Stated in running prose and attributed to Mac Lane, improved by Kelly (with a pointer to [ML98a, §XI.1] for a precise statement and proof and [ML76] for discussion): once the pentagon and unit coherence axioms hold in a monoidal category, EVERY diagram whose edges are composites of the structural natural isomorphisms (associators and unitors), with the objects parenthesized in any order, commutes.",
+      "book_section": "E.2",
+      "book_page": "254",
+      "pdf_pages": [274],
+      "cross_refs": [],
+      "flags": ["unnumbered", "theorem-stated-in-running-prose"]
+    },
+    {
+      "id": "riehl:E.2:thm2",
+      "kind": "theorem",
+      "number": "E.2.2",
+      "name": "coherence for symmetric monoidal categories (Mac Lane, Kelly)",
+      "statement_summary": "In a symmetric monoidal category, any diagram whose edges are built from the associators alpha, the unitors lambda and rho, and the symmetries gamma, and which is 'formal' (its commutativity is asserted for arbitrary objects, i.e. the diagram arises from a diagram in the free symmetric monoidal structure rather than from an accidental coincidence of components), commutes.",
+      "book_section": "E.2",
+      "book_page": "254",
+      "pdf_pages": [274],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "riehl:E.2:cor-nary-tensor",
+      "kind": "corollary",
+      "number": null,
+      "name": "uniqueness of the comparison between n-ary tensor product functors",
+      "statement_summary": "Consequence of Theorem E.2.2 drawn in prose: any two functors V^n -> V that are built iteratively from the bifunctor tensor and the unit object, permuting and parenthesizing their n inputs in any manner, are connected by a UNIQUE natural isomorphism assembled from alpha, lambda, rho and gamma. Hence a choice of parenthesization or ordering when defining an n-ary tensor product is immaterial, which is why the structural isomorphisms of (E.2.1) are usually suppressed in practice.",
+      "book_section": "E.2",
+      "book_page": "254",
+      "pdf_pages": [274],
+      "cross_refs": [],
+      "flags": ["unnumbered", "corollary-stated-in-running-prose"]
+    },
+    {
+      "id": "riehl:E.2:exi",
+      "kind": "exercise",
+      "number": "E.2.i",
+      "name": "cartesian monoidal structure from terminal object and binary products",
+      "statement_summary": "Prove that any category C possessing a terminal object and binary products carries a symmetric monoidal structure (C, x, terminal) whose monoidal product is the binary product and whose unit is the terminal object — i.e. exhibit the associator, unitors and symmetry from the universal properties and verify the coherence axioms.",
+      "book_section": "E.2",
+      "book_page": "255",
+      "pdf_pages": [275],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "riehl:E.3:def-unit-interval",
+      "kind": "definition",
+      "number": null,
+      "name": "the unit interval",
+      "statement_summary": "The unit interval is the topological space I = [0,1], a subspace of the real line, carrying the standard Euclidean metric topology. Introduced in prose as the object whose universal property section E.3 will establish.",
+      "book_section": "E.3",
+      "book_page": "255",
+      "pdf_pages": [275],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose"]
+    },
+    {
+      "id": "riehl:E.3:def-path",
+      "kind": "definition",
+      "number": null,
+      "name": "path in a topological space and composition of paths",
+      "statement_summary": "A path in a topological space X is a continuous function p : I -> X; its endpoints are the points p(0) and p(1) obtained by evaluating at 0 and 1. Given a second path q with p(1) = q(0), the composite path p*q : I -> X is defined as the composite of a homeomorphism delta : I -> I v I with the map p v q : I v I -> X, where the 'fattened interval' I v I is constructed as the pushout of the two point-inclusions 1 : point -> I and 0 : point -> I (gluing the endpoint 1 of the left copy to the endpoint 0 of the right copy); I v I is homeomorphic to [0,2] and delta is the map t |-> 2t. Consequently (p*q)(0) = p(0) and (p*q)(1) = q(1), so p*q runs from the start of p to the end of q.",
+      "book_section": "E.3",
+      "book_page": "255",
+      "pdf_pages": [275],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose", "carries-unnumbered-pushout-diagram"]
+    },
+    {
+      "id": "riehl:E.3:def-fundamental-groupoid",
+      "kind": "definition",
+      "number": null,
+      "name": "fundamental groupoid",
+      "statement_summary": "The fundamental groupoid of a space X is the category whose objects are the points of X and whose morphisms are endpoint-preserving homotopy classes of paths in X, with composition induced by the gluing construction of path composition. Homotopy classes rather than paths are required precisely because path composition defined via the interval is neither strictly associative nor strictly unital; endpoint-preserving homotopies in particular allow reparameterizations of the unit interval.",
+      "book_section": "E.3",
+      "book_page": "255",
+      "pdf_pages": [275],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose"]
+    },
+    {
+      "id": "riehl:E.3:def-bipointed-space",
+      "kind": "definition",
+      "number": null,
+      "name": "bipointed space, maps of bipointed spaces, and the wedge X v X",
+      "statement_summary": "A bipointed space is a topological space X together with two DISTINCT closed points x0 (the 'left' point) and x1 (the 'right' point). A map of bipointed spaces is a continuous function carrying left point to left point and right point to right point. For any bipointed space (X, x0, x1) the space X v X is defined as the pushout gluing the right point x1 of one copy to the left point x0 of the other, and is itself bipointed by the two points that were not identified. (Attributed to Freyd, refined by Leinster.)",
+      "book_section": "E.3",
+      "book_page": "255",
+      "pdf_pages": [275],
+      "cross_refs": [],
+      "flags": ["unnumbered", "definition-in-running-prose", "carries-unnumbered-pushout-diagram"]
+    },
+    {
+      "id": "riehl:E.3:thm1",
+      "kind": "theorem",
+      "number": "E.3.1",
+      "name": "universal property of the unit interval (Freyd, Leinster)",
+      "statement_summary": "The unit interval I, bipointed by 0 and 1 and equipped with the canonical homeomorphism delta : I -> I v I, is terminal among bipointed spaces equipped with a map of bipointed spaces into their own wedge: for any bipointed space (X, x0, x1) with a bipointed map d : X -> X v X there is a UNIQUE bipointed continuous map r : X -> I such that delta o r = (r v r) o d, i.e. the evident square commutes. Equivalently (spelled out on the following page) (I, 0, 1) is the terminal coalgebra for the endofunctor X |-> X v X on the category of bipointed spaces.",
+      "book_section": "E.3",
+      "book_page": "255",
+      "pdf_pages": [275, 276],
+      "cross_refs": ["riehl:E.3:remark-terminal-coalgebra"],
+      "flags": ["spans-page-break"]
+    },
+    {
+      "id": "riehl:E.3:remark-terminal-coalgebra",
+      "kind": "remark",
+      "number": null,
+      "name": "the unit interval as a terminal coalgebra; Lambek's theorem quoted",
+      "statement_summary": "Unnumbered prose reformulation of Theorem E.3.1: the triple consisting of the unit interval with its two endpoints is the TERMINAL COALGEBRA of the endofunctor sending a bipointed space X to the wedge X glued to X, taken on the category of bipointed spaces and bipointed continuous maps. She also records the reason the structure map (the halving homeomorphism from the interval to the doubled interval) is invertible: a general theorem of Lambek says the structure map of ANY terminal coalgebra for any endofunctor is an isomorphism; its proof is deferred to Exercise E.3.i. Cites Leinster for a full discussion and proof of the interval result.",
+      "book_section": "E.3",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.3:thm1", "riehl:E.3:exi"],
+      "flags": ["unnumbered-remark", "restates-adjacent-range-theorem"]
+    },
+    {
+      "id": "riehl:E.3:def-coalgebra",
+      "kind": "definition",
+      "number": null,
+      "name": "coalgebra for an endofunctor, coalgebra morphism, terminal coalgebra",
+      "statement_summary": "Definition made in running prose inside Exercise E.3.i. For an endofunctor T on a category C, a coalgebra is an object C of that category together with a structure map from C to T applied to C. A morphism of coalgebras from one such pair to another is a map of the underlying objects making the evident naturality square commute (structure map of the target after the map equals T of the map after the structure map of the source). Coalgebras and their morphisms form a category; a TERMINAL coalgebra is a terminal object of that category.",
+      "book_section": "E.3",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.3:exi"],
+      "flags": ["unnumbered-definition", "definition-inside-exercise"]
+    },
+    {
+      "id": "riehl:E.3:exi",
+      "kind": "exercise",
+      "number": "E.3.i",
+      "name": "Lambek's lemma for terminal coalgebras",
+      "statement_summary": "After defining coalgebras for an endofunctor T on C, morphisms of coalgebras, and terminal coalgebras (see riehl:E.3:def-coalgebra), asks the reader to prove that if a coalgebra is terminal in the category of T-coalgebras, then its structure map from the carrier to T of the carrier is an isomorphism. This is the coalgebraic (dual) form of Lambek's lemma; attributed in the surrounding text to Lambek 1968.",
+      "book_section": "E.3",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.3:def-coalgebra", "riehl:E.3:remark-terminal-coalgebra"],
+      "flags": []
+    },
+    {
+      "id": "riehl:E.4:def-presheaf",
+      "kind": "definition",
+      "number": null,
+      "name": "presheaf",
+      "statement_summary": "Unnumbered prose definition opening section E.4: for a SMALL category C, a presheaf on C is another name for a contravariant set-valued functor on C, i.e. an object of the functor category from the opposite of C to Set.",
+      "book_section": "E.4",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "riehl:E.4:def-grothendieck-topos",
+      "kind": "definition",
+      "number": null,
+      "name": "Grothendieck topos",
+      "statement_summary": "Unnumbered prose definition: a Grothendieck topos is a REFLECTIVE FULL SUBCATEGORY E of a presheaf category on some small category C — i.e. the inclusion of E into the presheaf category has a left adjoint L (the reflector) — subject to the extra requirement that this left adjoint PRESERVES FINITE LIMITS (an exact/left-exact reflector). The definition is displayed as an adjunction between E and the presheaf category with L on the left.",
+      "book_section": "E.4",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.4:def-presheaf", "riehl:E.4:thm1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "riehl:E.4:remark-cocomplete-and-elementary",
+      "kind": "remark",
+      "number": null,
+      "name": "a Grothendieck topos is cocomplete and elementary; Fin is a non-example",
+      "statement_summary": "Three linked claims stated in prose. (1) Combining two earlier results (her Propositions 4.6.14 and 3.4.9) shows that a Grothendieck topos E is cocomplete, so the defining adjunction can alternatively be produced (as in her Proposition 6.5.9) from the functor from C to E obtained by restricting the left adjoint along the Yoneda embedding — i.e. the reflector is the left Kan extension of a functor defined only on representables. (2) Every Grothendieck topos is an ELEMENTARY topos. (3) The converse fails: the category Fin of finite sets is an elementary topos that is NOT a Grothendieck topos, one reason being that it is neither complete nor cocomplete (it lacks infinite products/coproducts).",
+      "book_section": "E.4",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.4:def-grothendieck-topos"],
+      "flags": ["unnumbered-remark"]
+    },
+    {
+      "id": "riehl:E.4:def-site",
+      "kind": "rough-definition",
+      "number": null,
+      "name": "site and covering families",
+      "statement_summary": "Informal prose definition: objects of a Grothendieck topos E can be characterized as sheaves on a small SITE, meaning a small category C equipped with, for each object U of C, a specified collection of 'covering families' of morphisms into U (families of maps from various U_i to U), these collections being required to satisfy a WEAK PULLBACK CONDITION. The pullback/stability axioms are named but not spelled out here, so the definition is deliberately provisional.",
+      "book_section": "E.4",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.4:def-sheaf", "riehl:E.4:def-grothendieck-topos"],
+      "flags": ["unnumbered-definition", "informal-axioms-not-spelled-out"]
+    },
+    {
+      "id": "riehl:E.4:def-sheaf",
+      "kind": "definition",
+      "number": null,
+      "name": "sheaf on a topological space (equalizer condition)",
+      "statement_summary": "Worked prose definition in the motivating example where C is taken to be the poset O(X) of open sets of a topological space X. A presheaf P on that poset assigns a set P(U) to each open U, functorially in the inclusions of open subsets (restriction maps). Such a P is a SHEAF exactly when, for every open cover of an open set U by opens U_alpha, the canonical fork from P(U) into the product over alpha of P(U_alpha), followed by the two maps into the product over pairs (alpha,beta) of P(U_alpha intersect U_beta) given by the two restrictions, is an EQUALIZER diagram in Set. Cross-referenced to her earlier Definition 3.4.4.",
+      "book_section": "E.4",
+      "book_page": "256",
+      "pdf_pages": [276],
+      "cross_refs": ["riehl:E.4:def-presheaf", "riehl:E.4:def-site"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "riehl:E.4:thm1",
+      "kind": "theorem",
+      "number": "E.4.1",
+      "name": "Giraud's theorem (characterization of Grothendieck toposes)",
+      "statement_summary": "A BICONDITIONAL characterization, attributed to Giraud and first printed in SGA4 (GV72, IV.1.2): a category E is a Grothendieck topos IF AND ONLY IF it satisfies six 'exactness plus size' conditions — (i) E is locally small; (ii) E has finite limits; (iii) E has all small coproducts, and these coproducts are DISJOINT and UNIVERSAL; (iv) equivalence relations in E have UNIVERSAL coequalizers; (v) every equivalence relation in E is EFFECTIVE and every epimorphism in E is a coequalizer (i.e. every epi is regular); (vi) E has a SEPARATING SET of objects. The technical terms of (iii)-(vi) are unpacked in the four prose definitions that follow. She notes a proof can be found in Johnstone's Elephant, section C0.4 (cited as [Joh14, section 0.4]), which also gives a clear exposition of the ideas.",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": [
+        "riehl:E.4:def-grothendieck-topos",
+        "riehl:E.4:def-disjoint-coproduct",
+        "riehl:E.4:def-universal-colimit",
+        "riehl:E.4:def-effective-equivalence-relation",
+        "riehl:E.4:def-separating-set"
+      ],
+      "flags": ["proof-not-given-cited-externally", "six-clause-item"]
+    },
+    {
+      "id": "riehl:E.4:def-disjoint-coproduct",
+      "kind": "definition",
+      "number": null,
+      "name": "disjoint coproduct",
+      "statement_summary": "Bullet-list prose definition unpacking Giraud condition (iii): a coproduct of a family of objects is DISJOINT when each coproduct inclusion is a monomorphism AND the pullback of any two DISTINCT inclusions is an initial object.",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.4:thm1"],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "riehl:E.4:def-universal-colimit",
+      "kind": "definition",
+      "number": null,
+      "name": "universal (stable) colimit cone",
+      "statement_summary": "Bullet-list prose definition unpacking Giraud conditions (iii) and (iv): a colimit cone with legs from the A_alpha into the apex A is UNIVERSAL when, for every map from an object B into A, the pullbacks of the colimit legs along that map again form a colimit cone with apex B — i.e. colimits are stable under pullback / preserved by base change.",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.4:thm1"],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "riehl:E.4:def-effective-equivalence-relation",
+      "kind": "definition",
+      "number": null,
+      "name": "effective equivalence relation",
+      "statement_summary": "Bullet-list prose definition unpacking Giraud condition (v): an equivalence relation is EFFECTIVE when it arises as the KERNEL PAIR of some morphism (the pullback of a morphism against itself), referring back to her Example 3.6.11 for the kernel-pair construction.",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.4:thm1"],
+      "flags": ["unnumbered-definition", "definition-in-prose"]
+    },
+    {
+      "id": "riehl:E.4:def-separating-set",
+      "kind": "definition",
+      "number": null,
+      "name": "separating set (recalled)",
+      "statement_summary": "Bullet-list prose RECALL of her earlier Definition 4.7.7, unpacking Giraud condition (vi): a separating set for E is a set of objects, a subclass of the objects of E, that is JOINTLY SEPARATING — for any parallel pair of maps from B to A that are not equal, there is some object G in the set and some map from G to B whose composites with the two maps differ. (Equivalently the representables on that set jointly reflect equality of morphisms.)",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.4:thm1"],
+      "flags": ["unnumbered-definition", "recalled-definition", "definition-in-prose"]
+    },
+    {
+      "id": "riehl:E.4:exi",
+      "kind": "exercise",
+      "number": "E.4.i",
+      "name": "slices of a Grothendieck topos are Grothendieck toposes",
+      "statement_summary": "Asks the reader to use the Giraud axioms (Theorem E.4.1) to show that if E is a Grothendieck topos and B is an object of E, then the SLICE category E/B is again a Grothendieck topos. (The 'fundamental theorem of topos theory' in its Grothendieck form, proved axiom-by-axiom rather than by exhibiting a site.)",
+      "book_section": "E.4",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.4:thm1", "riehl:E.4:def-grothendieck-topos"],
+      "flags": []
+    },
+    {
+      "id": "riehl:E.5:def1",
+      "kind": "definition",
+      "number": "E.5.1",
+      "name": "abelian category",
+      "statement_summary": "Defines an ABELIAN category by four axioms: (a) it has a ZERO OBJECT, i.e. an object that is simultaneously initial and terminal; (b) it has all binary products and all binary coproducts; (c) it has all KERNELS and COKERNELS, where the kernel (resp. cokernel) of a map f from A to B is defined to be the equalizer (resp. coequalizer) of f together with the ZERO MAP from A to B, the zero map being the composite of the unique maps from A to the zero object and from the zero object to B; and (d) NORMALITY in both directions — every monomorphism arises as a kernel (of some map) and every epimorphism arises as a cokernel (of some map). Motivated as the abstraction of the categories Ab of abelian groups, R-Mod of modules over a unital ring, and Ch_R of chain complexes; attributed to Buchsbaum with development by Grothendieck (Tohoku).",
+      "book_section": "E.5",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.5:def-biproduct", "riehl:E.5:remark-ab-enrichment"],
+      "flags": ["four-clause-item"]
+    },
+    {
+      "id": "riehl:E.5:def-biproduct",
+      "kind": "definition",
+      "number": null,
+      "name": "biproduct / direct sum",
+      "statement_summary": "Unnumbered prose definition and accompanying claim: in an abelian category, finite products and finite coproducts COINCIDE, in the precise sense that the canonical comparison map FROM the coproduct TO the product (the map described in her Remark 3.1.27, whose components are identities on matching summands and zero maps off the diagonal) is an ISOMORPHISM. The resulting common object is called a BIPRODUCT or DIRECT SUM. Note the statement is asserted here, not proved.",
+      "book_section": "E.5",
+      "book_page": "257",
+      "pdf_pages": [277],
+      "cross_refs": ["riehl:E.5:def1"],
+      "flags": ["unnumbered-definition", "asserted-without-proof"]
+    },
+    {
+      "id": "riehl:E.5:remark-ab-enrichment",
+      "kind": "remark",
+      "number": null,
+      "name": "an abelian category is canonically Ab-enriched",
+      "statement_summary": "Unnumbered result asserted in prose (spanning the page break): the axioms of Definition E.5.1 IMPLY that each hom-set of an abelian category A canonically carries the structure of an ABELIAN GROUP whose additive identity is the zero map of that hom-set, and that composition is BILINEAR with respect to these group structures. Equivalently, A is canonically a category ENRICHED over the monoidal category of abelian groups under the tensor product over the integers with unit the integers. A footnote points to Kelly and to Riehl's Categorical Homotopy Theory Chapter 3 for enriched category theory. Note the addition is DERIVED from the limit/colimit axioms rather than assumed, so this is the semiadditivity/Eckmann-Hilton content, asserted without proof.",
+      "book_section": "E.5",
+      "book_page": "257",
+      "pdf_pages": [277, 278],
+      "cross_refs": ["riehl:E.5:def1", "riehl:E.5:def-biproduct"],
+      "flags": ["unnumbered-remark", "spans-pages", "spans-page-break", "asserted-without-proof"]
+    },
+    {
+      "id": "riehl:E.5:def-image",
+      "kind": "definition",
+      "number": null,
+      "name": "image of a morphism in an abelian category",
+      "statement_summary": "Unnumbered prose definition plus a claim: the IMAGE of a morphism is defined to be the kernel of its cokernel, or equivalently the cokernel of its kernel — and the claim is that in an abelian category these two objects are ALWAYS ISOMORPHIC (so the definition is unambiguous). Asserted, not proved here.",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278],
+      "cross_refs": ["riehl:E.5:def1", "riehl:E.5:def-exact-sequence"],
+      "flags": ["unnumbered-definition", "asserted-without-proof"]
+    },
+    {
+      "id": "riehl:E.5:def-exact-sequence",
+      "kind": "definition",
+      "number": null,
+      "name": "exact sequence in an abelian category",
+      "statement_summary": "Unnumbered prose definition, displayed as a doubly infinite chain of composable maps f_n from A_n to A_{n-1}: the sequence is EXACT when for every index the kernel of f_n equals (as a subobject of A_n) the image of the following map f_{n+1}. Depends on the image definition above.",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278],
+      "cross_refs": ["riehl:E.5:def-image", "riehl:E.5:def1"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "riehl:E.5:remark-five-lemma",
+      "kind": "remark",
+      "number": null,
+      "name": "the five lemma holds in any abelian category",
+      "statement_summary": "Prose claim carrying formalizable content: classical homological results such as the FIVE LEMMA — used to detect that a map between a pair of exact sequences is an isomorphism — can be proved in ANY abelian category purely from the universal properties of kernels and cokernels ('by general abstract nonsense'), with no elements and no appeal to a concrete module model. No proof is given; the SHORT five lemma is set as Exercise E.5.i(iii).",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278],
+      "cross_refs": ["riehl:E.5:def-exact-sequence", "riehl:E.5:exi"],
+      "flags": ["unnumbered-remark", "asserted-without-proof"]
+    },
+    {
+      "id": "riehl:E.5:def-exact-functor",
+      "kind": "definition",
+      "number": null,
+      "name": "exact functor",
+      "statement_summary": "Unnumbered prose definition with an asserted equivalence: a functor (between abelian categories) is EXACT if it preserves exact sequences, or EQUIVALENTLY if it is both left exact and right exact in the sense of her earlier Definition 4.6.7 (preservation of finite limits and of finite colimits respectively).",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278],
+      "cross_refs": ["riehl:E.5:def-exact-sequence", "riehl:E.5:thm2"],
+      "flags": ["unnumbered-definition"]
+    },
+    {
+      "id": "riehl:E.5:thm2",
+      "kind": "theorem",
+      "number": "E.5.2",
+      "name": "Freyd-Mitchell embedding theorem",
+      "statement_summary": "If A is a SMALL abelian category, then there EXISTS a ring R — unital and associative, but not necessarily commutative, per her footnote convention — together with a functor from A into the category of left R-modules that is EXACT and FULLY FAITHFUL, and which therefore embeds A as a FULL SUBCATEGORY of R-Mod. She notes a proof appears as the very last result of Freyd's book Abelian Categories, and that most of the roughly 150 preceding pages of material appears to be necessary for it. The section closes with a quotation from the introduction to Johnstone's Topos Theory on the significance of the theorem (pure exposition, not inventoried).",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278],
+      "cross_refs": ["riehl:E.5:def1", "riehl:E.5:def-exact-functor"],
+      "flags": ["proof-not-given-cited-externally"]
+    },
+    {
+      "id": "riehl:E.5:exi",
+      "kind": "exercise",
+      "number": "E.5.i",
+      "name": "elementary diagram lemmas in an abelian category (three parts)",
+      "statement_summary": "A three-clause exercise, all parts set in an arbitrary abelian category. (i) Prove that monomorphisms and epimorphisms are characterized by left and right cancellation against ZERO morphisms respectively: if f has the property that whenever the composite f-after-g is the zero morphism then g is already the zero morphism, then f is a monomorphism (and dually for epimorphisms). (ii) Prove that any morphism that is simultaneously a monomorphism and an epimorphism is an ISOMORPHISM (i.e. an abelian category is balanced). (iii) Prove the SHORT FIVE LEMMA: given a commutative ladder whose two rows are short exact sequences (0 into A into B onto C into 0, and the primed analogue) with vertical maps a, b, c, if the outer maps a and c are respectively both monomorphisms, both epimorphisms, or both isomorphisms, then the middle map b is likewise a monomorphism, an epimorphism, or an isomorphism.",
+      "book_section": "E.5",
+      "book_page": "258",
+      "pdf_pages": [278, 279],
+      "cross_refs": ["riehl:E.5:def1", "riehl:E.5:def-exact-sequence", "riehl:E.5:remark-five-lemma"],
+      "flags": ["multi-part-exercise", "spans-pages", "spans-page-break"]
+    }
+  ]
+}

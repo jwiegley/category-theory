@@ -1,0 +1,27 @@
+[
+  {
+    "item_id": "maclane:IX.1:ex1",
+    "issue": 450,
+    "append_block": "### Also covered by\n\nMacLane IX.1 Exercise 1 (book p. 214, PDF p. 221, item `maclane:IX.1:ex1`) asks for the same conclusion — that `Grp` has all small colimits — obtained by applying the adjoint functor theorem to the free-group/forgetful adjunction, i.e. the algebraic-colimits-via-AFT method of this issue specialized to groups. (Mac Lane's primary §IX.1 route, creation of filtered colimits, is drafted as a separate issue.)"
+  },
+  {
+    "item_id": "maclane:IX.1:ex2",
+    "issue": 450,
+    "append_block": "### Also covered by\n\nMacLane IX.1 Exercise 2 (book p. 214, PDF p. 221, item `maclane:IX.1:ex2`) asks to prove that `Alg_τ` — the algebras of a fixed operator/identity type, as in §V.6 — has all small colimits via the adjoint functor theorem, the same obligation as this issue. New aspect: IX.1 additionally asks to describe the initial object (the free algebra on the empty set) and to characterize when `Alg_τ` is empty (no constants in the type)."
+  },
+  {
+    "item_id": "maclane:IX.4:ex2",
+    "issue": 396,
+    "append_block": "### Also covered by\n\nMacLane IX.4 Exercise 2 (book p. 222, PDF p. 229, item `maclane:IX.4:ex2`) asks to formulate the triangle (zig-zag) identities for an adjunction with a parameter — the parametrized form of the counit–unit coherence for `F : X × P ⟶ A`, `G : P^op × A ⟶ X`. This is part of specifying the parametrized adjunction structure of this issue."
+  },
+  {
+    "item_id": "maclane:IX.6:remark2",
+    "issue": 514,
+    "append_block": "### Also covered by\n\nMacLane IX.6 (book p. 227, PDF p. 234, item `maclane:IX.6:remark2`) expresses the geometric realization of a simplicial set as the coend `|S| = ∫^n Sn · Δn` (the copower of each level with the standard-simplex cosimplicial space). New aspect: the coend formula for the realization functor — the in-tree coend machinery (`Structure/Coend.v`, `Instance/Sets/Coend.v`) is available to state and prove `|S| ≅ ∫^n Sn · Δn`, giving a coend construction of the functor this issue builds."
+  },
+  {
+    "item_id": "maclane:IX.7:ex3",
+    "issue": 420,
+    "append_block": "### Also covered by\n\nMacLane IX.7 Exercise 3 (book p. 229, PDF p. 236, item `maclane:IX.7:ex3`) asks to prove that `Lim : X^C ⟶ X` is a functor (for `X` small-complete, `C` small) — the same conclusion as this issue — using Proposition IX.7.1 (functoriality of ends). New aspect: the via-ends proof of the functoriality, routing the limit through its expression as an end."
+  }
+]

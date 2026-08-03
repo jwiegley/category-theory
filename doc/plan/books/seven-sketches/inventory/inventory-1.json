@@ -1,0 +1,2724 @@
+{
+ "book": "seven-sketches",
+ "range": {
+  "pdf_start": 13,
+  "pdf_end": 50
+ },
+ "pages": [
+  {
+   "pdf_page": 13,
+   "book_page": "1",
+   "empty": false,
+   "items": [],
+   "notes": "Chapter 1 opening page (opener title form 'Generative effects: Orders and Galois connections'); chapter-intro prose plus the start of section 1.1 'More than the sum of their parts'. Purely motivational (observation is lossy; f : X -> Y as an observation). No numbered environment, no display, nothing inventoriable."
+  },
+  {
+   "pdf_page": 14,
+   "book_page": "2",
+   "empty": false,
+   "items": [
+    "7sketches:1.1:ex1",
+    "7sketches:1.1.1:construction-systems"
+   ],
+   "notes": "Exercise 1.1 (the chapter's first numbered thing) sits in section 1.1, before the 1.1.1 heading. Section 1.1.1 opens lower on the page, followed by the unnumbered bold run-in lead 'A simple system.' (not a section, not an item). Footnote 1 (independent per-chapter footnote sequence)."
+  },
+  {
+   "pdf_page": 15,
+   "book_page": "3",
+   "empty": false,
+   "items": [
+    "7sketches:1.1.1:construction-systems"
+   ],
+   "notes": "No item STARTS here. Continuation of the systems construction recorded under PDF 14 (symmetry and transitivity of connection; the five systems on three points; Alice's observation Phi into booleans). Number 1.2 is CONSUMED BY A NUMBERED DISPLAY here: the right-flush label (1.2) marks the picture of the three systems on which Phi is false. It carries no distinct formalizable claim, so no equation item is minted."
+  },
+  {
+   "pdf_page": 16,
+   "book_page": "4",
+   "empty": false,
+   "items": [
+    "7sketches:1.1.1:construction-join",
+    "7sketches:1.1.1:ex4"
+   ],
+   "notes": "Unnumbered bold run-in lead 'Joining our simple systems.' (not a section). Number 1.3 is CONSUMED BY A NUMBERED DISPLAY: the right-flush label (1.3) marks the picture of two joins of systems; no distinct formalizable claim, so no equation item. Closing prose exhibits the generative effect numerically (Phi(A) = Phi(B) = false but Phi(A join B) = true)."
+  },
+  {
+   "pdf_page": 17,
+   "book_page": "5",
+   "empty": false,
+   "items": [
+    "7sketches:1.1.2:construction-order",
+    "7sketches:1.1.2:ex6"
+   ],
+   "notes": "Section 1.1.2 'Ordering systems' begins. Number 1.5 is CONSUMED BY A NUMBERED DISPLAY: the right-flush label (1.5) marks the Hasse diagram of the five three-point systems; it is a figure, not a claim, so no equation item. The term 'Hasse diagram' is introduced informally here (given a real definition only at Remark 1.39). Exercise 1.6's header is at the foot of the page; its parts run onto PDF 18."
+  },
+  {
+   "pdf_page": 18,
+   "book_page": "6",
+   "empty": false,
+   "items": [
+    "7sketches:1.1.2:ex6",
+    "7sketches:1.1.2:ex7",
+    "7sketches:1.1.2:eq8"
+   ],
+   "notes": "Parts 1-6 of Exercise 1.6 (recorded under PDF 17) occupy the top of the page. Prose then introduces the boolean order false <= true and the join on B (both later formalized as Example 1.34). Number 1.8 IS recorded as an equation item: the display Phi(A) join Phi(B) <= Phi(A join B) is a genuine formalizable claim. Footnote 2."
+  },
+  {
+   "pdf_page": 19,
+   "book_page": "7",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:def-subset",
+    "7sketches:1.2.1:example9",
+    "7sketches:1.2.1:ex10"
+   ],
+   "notes": "Section 1.2 'What is order?' opens (one intro paragraph only), immediately followed by section 1.2.1 'Review of sets, relations, and functions'. 'Set' is deliberately left undefined. Footnotes 3 (bags/lists aside) and 4 (the := assignment convention). Exercise 1.10 part 1 here, parts 2-3 on PDF 20."
+  },
+  {
+   "pdf_page": 20,
+   "book_page": "8",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:ex10",
+    "7sketches:1.2.1:def-setops",
+    "7sketches:1.2.1:ex11",
+    "7sketches:1.2.1:def12",
+    "7sketches:1.2.1:example13"
+   ],
+   "notes": "Parts 2-3 of Exercise 1.10 (recorded under PDF 19) at the top. Prose paragraphs define the set operations. The infix-notation convention for binary relations (a star b meaning (a,b) in R) is notational and folded into Definition 1.12's summary. Example 1.13's green box runs onto PDF 21."
+  },
+  {
+   "pdf_page": 21,
+   "book_page": "9",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:example13",
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.1:ex16",
+    "7sketches:1.2.1:ex17",
+    "7sketches:1.2.1:def18"
+   ],
+   "notes": "Top line completes Example 1.13 (divisibility, 5|10). Unnumbered bold run-in lead 'Partitions and equivalence relations.' (not a section). Number 1.15 is CONSUMED BY A NUMBERED DISPLAY sitting INSIDE Definition 1.14's box (the cover-and-disjointness conditions); no separate equation item is minted since the content is already carried by def14. Definition 1.18's box spans the break onto PDF 22. Footnote 5."
+  },
+  {
+   "pdf_page": 22,
+   "book_page": "10",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:def18",
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.1:ex20",
+    "7sketches:1.2.1:def21",
+    "7sketches:1.2.1:def22"
+   ],
+   "notes": "Definition 1.18's box closes at the top (the reflexivity/symmetry/transitivity naming plus footnote a defining 'iff'). Proposition 1.19 carries a full unnumbered Proof block. Unnumbered bold run-in lead 'Functions.' (not a section). Definition 1.22's box spans the break onto PDF 23."
+  },
+  {
+   "pdf_page": 23,
+   "book_page": "11",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:def22",
+    "7sketches:1.2.1:example23",
+    "7sketches:1.2.1:ex24",
+    "7sketches:1.2.1:ex25"
+   ],
+   "notes": "Definition 1.22's box closes at the top (injective, bijective). An unnumbered figure tabulates the four arrow decorations (arbitrary / surjective / injective / bijective) with 3->3, 3->>2, 2>->3, 3=~>3 examples; notational, not minted as an item. Interposed prose on notation versus 'pedantry' is stylistic and skipped."
+  },
+  {
+   "pdf_page": 24,
+   "book_page": "12",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.1:example26",
+    "7sketches:1.2.1:ex27",
+    "7sketches:1.2.1:def28",
+    "7sketches:1.2.1:example29"
+   ],
+   "notes": "Section 1.2.2 'Preorders' begins at the foot of the page (its first item, Definition 1.30, is on PDF 25)."
+  },
+  {
+   "pdf_page": 25,
+   "book_page": "13",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:remark31",
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.2:example33",
+    "7sketches:1.2.2:example34",
+    "7sketches:1.2.2:remark35"
+   ],
+   "notes": "Six consecutive numbered environments, 1.30-1.35, with no gap: Definition, Remark, three Examples, Remark. Both Remarks carry real mathematical content (preorder = equivalence relation minus symmetry; partial order = skeletal preorder) so both are recorded."
+  },
+  {
+   "pdf_page": 26,
+   "book_page": "14",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:def36",
+    "7sketches:1.2.2:example37",
+    "7sketches:1.2.2:ex38",
+    "7sketches:1.2.2:remark39"
+   ],
+   "notes": "Remark 1.39 begins at the foot and runs onto PDF 27. Footnote 6 (defining 'iff' again). Example 1.37's source/target table is deliberately printed with '?' entries (the content of Exercise 1.38) - not a legibility problem."
+  },
+  {
+   "pdf_page": 27,
+   "book_page": "15",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:remark39",
+    "7sketches:1.2.2:ex40",
+    "7sketches:1.2.2:ex41",
+    "7sketches:1.2.2:ex42",
+    "7sketches:1.2.2:remark43",
+    "7sketches:1.2.2:ex44",
+    "7sketches:1.2.2:example45",
+    "7sketches:1.2.2:ex46"
+   ],
+   "notes": "Top two lines complete Remark 1.39 (recorded under PDF 26). Remark 1.43 is where 'total order' and 'comparable' are actually defined, inside a Remark rather than a Definition box - recorded as a remark, kind not normalized. Example 1.45's green box closes just above Exercise 1.46, so 1.45 does not span onto PDF 28."
+  },
+  {
+   "pdf_page": 28,
+   "book_page": "16",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:example47",
+    "7sketches:1.2.2:ex48",
+    "7sketches:1.2.2:example49",
+    "7sketches:1.2.2:example50",
+    "7sketches:1.2.2:ex51"
+   ],
+   "notes": "Example 1.50 carries an in-box footnote a (omitting parentheses, P X for P(X)). No numbered displays on this page."
+  },
+  {
+   "pdf_page": 29,
+   "book_page": "17",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:example52",
+    "7sketches:1.2.2:ex53",
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:ex55",
+    "7sketches:1.2.2:example56",
+    "7sketches:1.2.2:ex57"
+   ],
+   "notes": "Exercise 1.57's header is at the foot; its diagram and bonus part are on PDF 30."
+  },
+  {
+   "pdf_page": 30,
+   "book_page": "18",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.2:ex57",
+    "7sketches:1.2.2:example58",
+    "7sketches:1.2.3:def59"
+   ],
+   "notes": "Exercise 1.57 (recorded under PDF 29) completes at the top. Section 1.2.3 'Monotone maps' begins mid-page; Definition 1.59 is its first item, followed by an unnumbered illustrative two-preorder figure. This is the last page of the owned range; PDF 31 (printed 19) opens with Example 1.60 and belongs to the adjacent agent."
+  },
+  {
+   "pdf_page": 31,
+   "book_page": "19",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.3:example60",
+    "7sketches:1.2.3:example61",
+    "7sketches:1.2.3:example62",
+    "7sketches:1.2.3:ex63"
+   ],
+   "notes": "Section 1.2.3 Monotone maps (header and Definition 1.59 are on PDF 30, owned by the other agent). Exercise 1.63 begins here and its part 3 runs onto PDF 32."
+  },
+  {
+   "pdf_page": 32,
+   "book_page": "20",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.3:ex63",
+    "7sketches:1.2.3:example64",
+    "7sketches:1.2.3:ex65",
+    "7sketches:1.2.3:ex66",
+    "7sketches:1.2.3:ex67",
+    "7sketches:1.2.3:example68",
+    "7sketches:1.2.3:ex69"
+   ],
+   "notes": "Opens with part 3 of Exercise 1.63 (continued from PDF 31). Unnumbered prose after Exercise 1.66 names that exercise the 'Yoneda lemma for preorders'. Footnote 7 (independent per-chapter footnote sequence) extends Example 1.68 to non-surjective functions, forward-referencing Section 1.4.2. Closing prose forward-references Proposition 1.70, Example 1.23 and Definition 1.28."
+  },
+  {
+   "pdf_page": 33,
+   "book_page": "21",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.3:prop70",
+    "7sketches:1.2.3:ex71",
+    "7sketches:1.2.3:example72",
+    "7sketches:1.2.3:ex73",
+    "7sketches:1.2.3:remark74",
+    "7sketches:1.2.3:def75"
+   ],
+   "notes": ""
+  },
+  {
+   "pdf_page": 34,
+   "book_page": "22",
+   "empty": false,
+   "items": [
+    "7sketches:1.2.3:example76",
+    "7sketches:1.2.3:ex77",
+    "7sketches:1.2.3:prop78",
+    "7sketches:1.2.3:ex79"
+   ],
+   "notes": "Proposition 1.78 carries an unnumbered Proof block. Unnumbered run-in prose re-introduces the boolean preorder B = {false <= true}."
+  },
+  {
+   "pdf_page": 35,
+   "book_page": "23",
+   "empty": false,
+   "items": [
+    "7sketches:1.3.1:ex80",
+    "7sketches:1.3.1:def81"
+   ],
+   "notes": "Section 1.3 Meets and joins and Section 1.3.1 Definition and basic examples begin here. The prose before Exercise 1.80 introduces lower/upper bound, greatest lower bound (meet), least upper bound (join) and the phrase 'universal property' informally; that content is formalized by Definition 1.81 and is not minted as a separate item. Also contains an UNNUMBERED display for the set {1/(n+1) | n in N}."
+  },
+  {
+   "pdf_page": 36,
+   "book_page": "24",
+   "empty": false,
+   "items": [
+    "7sketches:1.3.1:remark82",
+    "7sketches:1.3.1:example83",
+    "7sketches:1.3.1:example84",
+    "7sketches:1.3.1:ex85"
+   ],
+   "notes": "Remark 1.82 forward-references Remark 3.85 in Chapter 3 (cross-chapter reference not recorded as a cross_ref because its dotted section is outside this range)."
+  },
+  {
+   "pdf_page": 37,
+   "book_page": "25",
+   "empty": false,
+   "items": [
+    "7sketches:1.3.1:example86",
+    "7sketches:1.3.1:example87",
+    "7sketches:1.3.1:example88",
+    "7sketches:1.3.1:example89",
+    "7sketches:1.3.1:ex90",
+    "7sketches:1.3.1:prop91"
+   ],
+   "notes": "Proposition 1.91 carries an unnumbered Proof block. Example 1.88 cites Exercise 1.7, whose owning section lies outside this range and is therefore not listed as a cross_ref."
+  },
+  {
+   "pdf_page": 38,
+   "book_page": "26",
+   "empty": false,
+   "items": [
+    "7sketches:1.3.2:def92",
+    "7sketches:1.3.2:def93",
+    "7sketches:1.3.2:ex94"
+   ],
+   "notes": "Section 1.3.2 Back to observations and generative effects opens the page; Section 1.4 Galois connections opens at the foot. Opening and closing prose (Adam's thesis [Ada17], monotone maps as observations, generative effect as failure to preserve colimits) is motivational and not inventoried."
+  },
+  {
+   "pdf_page": 39,
+   "book_page": "27",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.1:example97",
+    "7sketches:1.4.1:ex98",
+    "7sketches:1.4.1:ex99"
+   ],
+   "notes": "Section 1.4.1 Definition and examples of Galois connections begins here. NUMBER 1.96 IS CONSUMED BY A DISPLAYED EQUATION, right-flush as (1.96), sitting INSIDE Definition 1.95: it is the adjointness condition f(p) <= q iff p <= g(q). No separate equation item is minted because the display's claim is not distinct from Definition 1.95 (see problems[]). Example 1.97 carries lettered footnote a. Exercise 1.99 begins here (part 1 with its diagram) and part 2 runs onto PDF 40."
+  },
+  {
+   "pdf_page": 40,
+   "book_page": "28",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.1:ex99",
+    "7sketches:1.4.1:remark100",
+    "7sketches:1.4.1:ex101",
+    "7sketches:1.4.2:construction-partition-galois-connection"
+   ],
+   "notes": "Opens with part 2 of Exercise 1.99 (continued from PDF 39). Section 1.4.2 Back to partitions begins mid-page. The unnumbered pushforward/pullback construction on partitions starts here (indented 'seasoned category theorist' gloss plus two unnumbered pushout / epi-mono diagrams) and its down-to-earth definition completes on PDF 41."
+  },
+  {
+   "pdf_page": 41,
+   "book_page": "29",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.2:construction-partition-galois-connection",
+    "7sketches:1.4.2:example102",
+    "7sketches:1.4.2:ex103",
+    "7sketches:1.4.2:example104",
+    "7sketches:1.4.2:ex105",
+    "7sketches:1.4.2:ex106"
+   ],
+   "notes": "Opens with the completion of the unnumbered partition-adjunction construction begun on PDF 40 (transitive closure for g_!, preimage-of-parts for g*). Exercise 1.106 begins here (part 1) and parts 2-5 run onto PDF 42. Figure element labels in Example 1.104 are small; the item summary records the operation, not every drawn part."
+  },
+  {
+   "pdf_page": 42,
+   "book_page": "30",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.2:ex106",
+    "7sketches:1.4.3:prop107",
+    "7sketches:1.4.3:ex109",
+    "7sketches:1.4.3:ex110"
+   ],
+   "notes": "Opens with parts 2-5 of Exercise 1.106 (continued from PDF 41). Section 1.4.3 Basic theory of Galois connections begins mid-page. NUMBER 1.108 IS CONSUMED BY A DISPLAYED EQUATION, right-flush as (1.108), sitting INSIDE Proposition 1.107 as clause (b): the unit/counit inequalities p <= g(f(p)) and f(g(q)) <= q. No separate equation item is minted. Proposition 1.107 carries an unnumbered Proof block. Unnumbered prose between Exercises 1.109 and 1.110 observes that replacing <= by = in (1.108) recovers Definition 1.75 (isomorphism); noted rather than minted as an item."
+  },
+  {
+   "pdf_page": 43,
+   "book_page": "31",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.3:prop111",
+    "7sketches:1.4.3:ex112",
+    "7sketches:1.4.3:example113"
+   ],
+   "notes": "Proposition 1.111 carries an unnumbered Proof block and two UNNUMBERED displays (g(meet A) = meet g(A) and f(join A) = join f(A)). Example 1.113's shaded box spans the page break and finishes on PDF 44."
+  },
+  {
+   "pdf_page": 44,
+   "book_page": "32",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.3:example113",
+    "7sketches:1.4.3:ex114",
+    "7sketches:1.4.3:thm115",
+    "7sketches:1.4.3:example117"
+   ],
+   "notes": "Opens with the last two lines of Example 1.113 (continued from PDF 43). NUMBER 1.116 IS CONSUMED BY A DISPLAYED EQUATION, right-flush as (1.116), sitting inside the Proof of Theorem 1.115: the left-adjoint formula f(p) := meet{q in Q | p <= g(q)}. No separate equation item is minted (the construction is captured in the thm115 summary). The proof also carries two UNNUMBERED displays. Example 1.117's shaded box spans the page break and finishes on PDF 45. This page is the calibration anchor for the shared counter: 1.114 Exercise, 1.115 Theorem, (1.116) equation, 1.117 Example - confirmed on the image."
+  },
+  {
+   "pdf_page": 45,
+   "book_page": "33",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.3:example117",
+    "7sketches:1.4.3:ex118",
+    "7sketches:1.4.4:construction-closure-from-galois-connection",
+    "7sketches:1.4.4:ex119",
+    "7sketches:1.4.4:def120"
+   ],
+   "notes": "Opens with the completion of Example 1.117 (continued from PDF 44), including its two UNNUMBERED displays defining f_! (direct image) and f_* . Exercise 1.118 still belongs to Section 1.4.3; Section 1.4.4 Closure operators begins after it. Definition 1.120's shaded box spans the page break: its header and lead-in are here, clauses (a) and (b) are on PDF 46. Footnote 8 states the dual interior-operator facts for g;f."
+  },
+  {
+   "pdf_page": 46,
+   "book_page": "34",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.4:def120",
+    "7sketches:1.4.4:example121",
+    "7sketches:1.4.4:example122",
+    "7sketches:1.4.4:example123"
+   ],
+   "notes": "Opens with clauses (a) p <= j(p) and (b) j(j(p)) = j(p) of Definition 1.120 (continued from PDF 45). Example 1.122 carries an UNNUMBERED display defining fix_j. Example 1.123's shaded box spans the page break and finishes on PDF 47."
+  },
+  {
+   "pdf_page": 47,
+   "book_page": "35",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.4:example123",
+    "7sketches:1.4.5:ex124",
+    "7sketches:1.4.5:construction-level-shift-rel-pos",
+    "7sketches:1.4.5:ex125"
+   ],
+   "notes": "Opens with the completion of Example 1.123 (continued from PDF 46). Section 1.4.5 Level shifting begins mid-page. The Rel(S)/Pos(S) level-shift adjunction is developed in unnumbered prose surrounding Exercise 1.124, together with an unnumbered Hasse diagram for Rel({1}). Exercise 1.125 begins here (part 1) and parts 2-4 run onto PDF 48."
+  },
+  {
+   "pdf_page": 48,
+   "book_page": "36",
+   "empty": false,
+   "items": [
+    "7sketches:1.4.5:ex125"
+   ],
+   "notes": "No item STARTS on this page. Opens with parts 2-4 of Exercise 1.125 (continued from PDF 47, recorded there). Section 1.5 Summary and further reading then begins: purely recapitulative/motivational prose (informal restatement of the adjoint functor theorem for preorders, forward pointers to Chapters 2, 3, 4, and the [Ada17] reference) - nothing inventoriable per the campaign's skip rule."
+  },
+  {
+   "pdf_page": 49,
+   "book_page": "37",
+   "empty": false,
+   "items": [],
+   "notes": "Closing four-line paragraph of Section 1.5 (abelian categories/cohomology as a detector of generative effects; program-analysis pointer to Chapter 4 of [NNH99]). Pure further-reading prose, no items, no equations. Last CONTENT page of Chapter 1."
+  },
+  {
+   "pdf_page": 50,
+   "book_page": "38",
+   "empty": true,
+   "items": [],
+   "notes": "Blank verso (cleardoublepage blank). No folio, no running head, zero text. Counted in the printed numbering as printed page 38 and assigned to the Chapter 1 range; expected per pagemap Trap 3 - not a dropped page."
+  }
+ ],
+ "items": [
+  {
+   "id": "7sketches:1.1:ex1",
+   "kind": "exercise",
+   "number": "1.1",
+   "name": "order-, metric-, and addition-preserving functions on the reals",
+   "statement_summary": "Defines three properties of a function f from R to R: order-preserving (x <= y implies f(x) <= f(y) for all real x,y), metric-preserving (|x - y| = |f(x) - f(y)|), and addition-preserving (f(x + y) = f(x) + f(y)). For each of the three properties separately, the task is to exhibit one f that has it and one f that does not. Establishes the chapter's framing that a map is an observation preserving only some structure.",
+   "book_section": "1.1",
+   "book_page": "2",
+   "pdf_pages": [
+    14
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.1.1:construction-systems",
+   "kind": "construction",
+   "number": null,
+   "name": "systems on a three-point set and the connectivity observation Phi",
+   "statement_summary": "Built in running prose. On the three-element set {dot, circle, star} a 'system' is a choice of which points are connected, where connectedness is required to be symmetric (a connected to b implies b connected to a) and transitive (a-b and b-c imply a-c); equivalently a system is a partition of the three points into connected blocks, and there are exactly five such systems. The observation Phi assigns to each system the boolean true when dot and star are connected in it and false otherwise, i.e. Phi is a map from the five-element set of systems to B = {false, true}. This is the running example the whole chapter's generative-effect story is built on.",
+   "book_section": "1.1.1",
+   "book_page": "2",
+   "pdf_pages": [
+    14,
+    15
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.2:example34"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.1.1:construction-join",
+   "kind": "construction",
+   "number": null,
+   "name": "join of two systems as the transitive closure of the union of connections",
+   "statement_summary": "Built in running prose. Given systems A and B on the same point set, their join A join B connects points x and y whenever there is a finite chain z_1, ..., z_n such that x is connected to z_1, each z_i to z_{i+1}, and z_n to y, with each individual link a connection of A or a connection of B. Equivalently, the join is the transitive closure of the union of the two connection relations. Illustrated on the three-point systems.",
+   "book_section": "1.1.1",
+   "book_page": "4",
+   "pdf_pages": [
+    16
+   ],
+   "cross_refs": [
+    "7sketches:1.1.1:construction-systems",
+    "7sketches:1.1.2:construction-order"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:1.1.1:ex4",
+   "kind": "exercise",
+   "number": "1.4",
+   "name": "compute the join of two given partitions of a six-element set",
+   "statement_summary": "Two systems (partitions) of the six-element set {11, 12, 13, 21, 22, 23} are displayed as block pictures; the task is to compute their join in the sense just defined (transitive closure of the union of the two connection relations).",
+   "book_section": "1.1.1",
+   "book_page": "4",
+   "pdf_pages": [
+    16
+   ],
+   "cross_refs": [
+    "7sketches:1.1.1:construction-join"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.1.2:construction-order",
+   "kind": "construction",
+   "number": null,
+   "name": "the order on systems, and join recovered as least upper bound",
+   "statement_summary": "Built in running prose. Systems on a fixed point set are ordered by A <= B iff every pair connected in A is also connected in B (coarser-than / inclusion of connection relations); the five three-point systems arrange into a Hasse diagram with the discrete system at the bottom and the fully connected one at the top. Relative to this order the join defined earlier is exactly the least upper bound: A <= A join B and B <= A join B, and whenever A <= C and B <= C one has A join B <= C. So the join operation is derived from, not extra to, the order.",
+   "book_section": "1.1.2",
+   "book_page": "5",
+   "pdf_pages": [
+    17
+   ],
+   "cross_refs": [
+    "7sketches:1.1.1:construction-join",
+    "7sketches:1.2.2:def30"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:1.1.2:ex6",
+   "kind": "exercise",
+   "number": "1.6",
+   "name": "partitions of two- and four-element sets; join as least upper bound",
+   "statement_summary": "Six-part exercise. (1) List all partitions of a two-element set, order them by the coarseness order above, and draw the Hasse diagram. (2) Do the same for a four-element set, obtaining 15 partitions. Then, choosing any two partitions A, B in that 15-element Hasse diagram: (3) compute A join B by the transitive-closure definition; (4) verify A <= A join B and B <= A join B; (5) determine all C that are upper bounds of both A and B; (6) check that A join B <= C for every such C. Together (4)-(6) verify concretely that join is the least upper bound.",
+   "book_section": "1.1.2",
+   "book_page": "5",
+   "pdf_pages": [
+    17,
+    18
+   ],
+   "cross_refs": [
+    "7sketches:1.1.2:construction-order"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.1.2:ex7",
+   "kind": "exercise",
+   "number": "1.7",
+   "name": "joins in the boolean preorder",
+   "statement_summary": "Using the order false <= true on B = {true, false}, where A join B denotes the least element above both, compute true join false, false join true, true join true, and false join false.",
+   "book_section": "1.1.2",
+   "book_page": "6",
+   "pdf_pages": [
+    18
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example34"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.1.2:eq8",
+   "kind": "equation",
+   "number": "1.8",
+   "name": "an order-preserving observation only sub-preserves joins: Phi(A) join Phi(B) <= Phi(A join B)",
+   "statement_summary": "Numbered display carrying a genuine claim. The connectivity observation Phi from systems to B preserves the order (if A <= B and dot is connected to star in A then it is in B too), and consequently satisfies the one-sided inequality Phi(A) join Phi(B) <= Phi(A join B) for all systems A, B. The inequality can be STRICT: two systems are exhibited with Phi(A) = Phi(B) = false, hence left side false, while Phi(A join B) = true. Such strictness is what the book names a generative effect: an order-preserving map need not preserve joins. Flagged in the text as a hint of the categorical notions of functor, colimit and adjunction.",
+   "book_section": "1.1.2",
+   "book_page": "6",
+   "pdf_pages": [
+    18
+   ],
+   "cross_refs": [
+    "7sketches:1.1.1:construction-systems",
+    "7sketches:1.1.2:construction-order",
+    "7sketches:1.2.3:def59"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def-subset",
+   "kind": "definition",
+   "number": null,
+   "name": "sets, subsets, empty set, and comprehension",
+   "statement_summary": "Prose definitions, no box. A set is treated informally as a collection of elements; membership is written x in X, and a set is determined by its elements alone, so repeating an element in the notation changes nothing ({h, h, 1, h, 1} is the same set as {h, 1}). X is a subset of Y, written X subset-eq Y, when every element of X is an element of Y. The empty set is defined as the set with no elements and is a subset of every set. Given a set Y and a property P that is true or false of each of its elements, the comprehension {y in Y | P(y)} denotes the subset of elements satisfying P. The book explicitly declines to define 'set' itself.",
+   "book_section": "1.2.1",
+   "book_page": "7",
+   "pdf_pages": [
+    19
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:example9"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:example9",
+   "kind": "example",
+   "number": "1.9",
+   "name": "standard sets and their notation",
+   "statement_summary": "Fixes notation for the standard sets used throughout the book: the empty set (no elements); the one-element set {1}; B, the two-element set of booleans {true, false}; N, the natural numbers with 0 as an element; for each n in N the n-th ordinal, an underlined n, defined as the n-element set {1, ..., n} (so underlined 0 is empty and underlined 5 is {1,2,3,4,5}); Z, the integers; and R, the real numbers.",
+   "book_section": "1.2.1",
+   "book_page": "7",
+   "pdf_pages": [
+    19
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex10",
+   "kind": "exercise",
+   "number": "1.10",
+   "name": "comprehension subsets of the integers",
+   "statement_summary": "Three yes/no questions about comprehension: is N equal to the set of integers n with n >= 0; is N equal to the set of integers n with n >= 1; and is the empty set equal to the set of integers n with 1 < n < 2.",
+   "book_section": "1.2.1",
+   "book_page": "7",
+   "pdf_pages": [
+    19,
+    20
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def-subset",
+    "7sketches:1.2.1:example9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:def-setops",
+   "kind": "definition",
+   "number": null,
+   "name": "union, intersection, indexed union/intersection, product, disjoint union",
+   "statement_summary": "Prose definitions, no box. For subsets X1, X2 of a set Y: their union is the subset of Y containing exactly the elements of X1 together with those of X2 (with the empty set as unit, empty union X = X); their intersection is the subset of elements of Y lying in both. For a family of subsets X_n of Y indexed by n in N, the indexed union is the subset containing exactly the elements belonging to at least one X_n, and the indexed intersection those belonging to every X_n (worked example: X_0 empty, X_1 = {1}, X_2 = {1,2}, ... gives union equal to the positive naturals and empty intersection). For sets X and Y, the product X x Y is the set of ordered pairs (x, y) with x in X and y in Y. The disjoint union X + Y is realized as the set of tagged pairs (x, 1) for x in X together with (y, 2) for y in Y, so elements common to X and Y are kept apart.",
+   "book_section": "1.2.1",
+   "book_page": "8",
+   "pdf_pages": [
+    20
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def-subset"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:ex11",
+   "kind": "exercise",
+   "number": "1.11",
+   "name": "counting subsets, products, unions and disjoint unions",
+   "statement_summary": "With A = {h, 1} and B = {1, 2, 3}: (1) write out all eight subsets of B; (2) pick two nonempty subsets of B and write out their union; (3) write out the six elements of A x B; (4) write out the five elements of the disjoint union of A and B; (5) regarding A and B as subsets of {h, 1, 2, 3}, write out the four elements of their union. The contrast between (4) and (5) is the point: disjoint union tags, ordinary union merges.",
+   "book_section": "1.2.1",
+   "book_page": "8",
+   "pdf_pages": [
+    20
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def-setops"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def12",
+   "kind": "definition",
+   "number": "1.12",
+   "name": "relation between two sets; binary relation on a set",
+   "statement_summary": "For sets X and Y, a relation between X and Y is defined to be a subset R of the product X x Y. A binary relation on X is the special case Y = X, i.e. a subset R of X x X. The immediately following prose fixes the infix convention: choose a symbol, say star, and write a star b to mean the pair (a, b) belongs to R.",
+   "book_section": "1.2.1",
+   "book_page": "8",
+   "pdf_pages": [
+    20
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def-setops",
+    "7sketches:1.2.1:example13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:example13",
+   "kind": "example",
+   "number": "1.13",
+   "name": "familiar relations written in infix notation",
+   "statement_summary": "The usual ordering on R is a binary relation on R written infix as <=, so one writes 5 <= 6 rather than (5, 6) in R. Other relations conventionally written infix are equality, approximate equality, strict less-than and greater-than. In number theory divisibility is a binary relation on the naturals written with a vertical bar, e.g. 5 divides 10.",
+   "book_section": "1.2.1",
+   "book_page": "8",
+   "pdf_pages": [
+    20,
+    21
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def12"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:def14",
+   "kind": "definition",
+   "number": "1.14",
+   "name": "partition of a set",
+   "statement_summary": "A partition of a set A consists of a set P of part labels together with, for each p in P, a NONEMPTY subset A_p of A, subject to two conditions (the numbered display 1.15): the A_p jointly cover A, and A_p meets A_q in the empty set whenever p differs from q. Equivalently each element of A belongs to exactly one part. Notation: the family indexed by P; A_p is called the p-th part. Two partitions of A, indexed by P and by P', are declared THE SAME when for each p in P there is p' in P' with A_p equal to A'_{p'} - i.e. partitions are identified up to relabelling of parts, only the collection of blocks matters.",
+   "book_section": "1.2.1",
+   "book_page": "9",
+   "pdf_pages": [
+    21
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:ex16",
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.1:example26"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex16",
+   "kind": "exercise",
+   "number": "1.16",
+   "name": "the relabelling correspondence between two equal partitions is a bijection",
+   "statement_summary": "Suppose A is a set and two partitions of A, indexed by P and by P', satisfy: for each p in P there exists p' in P' with A_p equal to A'_{p'}. Show (1) that for each p in P there is AT MOST ONE such p' (uniqueness of the matching label), and (2) that for each p' in P' there conversely exists p in P with A_p equal to A'_{p'} (surjectivity). Together these make the induced label correspondence a bijection, justifying the identification in Definition 1.14.",
+   "book_section": "1.2.1",
+   "book_page": "9",
+   "pdf_pages": [
+    21
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex17",
+   "kind": "exercise",
+   "number": "1.17",
+   "name": "listing the same-part pairs of a displayed partition",
+   "statement_summary": "For the displayed partition of {11, 12, 13, 21, 22, 23} into the blocks {11,12}, {13}, {21}, {22,23}, write a twiddle a ~ b when a and b lie in a common part, and list every pair (a, b) so related. There should be 10, the footnoted hint being that a and b may be the same element (so the reflexive pairs count).",
+   "book_section": "1.2.1",
+   "book_page": "9",
+   "pdf_pages": [
+    21
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.1:def18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def18",
+   "kind": "definition",
+   "number": "1.18",
+   "name": "equivalence relation",
+   "statement_summary": "An equivalence relation on a set A is a binary relation on A, written infix as a twiddle, satisfying three properties: a ~ a for all a in A (reflexivity); a ~ b if and only if b ~ a for all a, b (symmetry); and a ~ b together with b ~ c implies a ~ c for all a, b, c (transitivity). The three are named reflexivity, symmetry and transitivity in the closing line of the box.",
+   "book_section": "1.2.1",
+   "book_page": "9",
+   "pdf_pages": [
+    21,
+    22
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:remark31"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:prop19",
+   "kind": "proposition",
+   "number": "1.19",
+   "name": "partitions of a set correspond bijectively to equivalence relations on it",
+   "statement_summary": "For any set A there is a one-to-one correspondence between the ways of partitioning A and the equivalence relations on A. The supplied proof gives both constructions and shows them mutually inverse. From a partition indexed by P, define a ~ b to mean that some part A_p contains both a and b; reflexivity, symmetry and transitivity follow from each element lying in exactly one part. From an equivalence relation, call a subset X of A closed when x in X and x' ~ x force x' in X, and connected when X is nonempty and x ~ y for all x, y in X; the parts of the associated partition are exactly the closed connected subsets. That these do form a partition is the content of Exercise 1.20.",
+   "book_section": "1.2.1",
+   "book_page": "10",
+   "pdf_pages": [
+    22
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.1:def18",
+    "7sketches:1.2.1:ex20",
+    "7sketches:1.2.1:def21",
+    "7sketches:1.2.2:example49"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex20",
+   "kind": "exercise",
+   "number": "1.20",
+   "name": "the closed connected subsets of an equivalence relation form a partition",
+   "statement_summary": "Completes the omitted verification in the proof of Proposition 1.19. Given an equivalence relation on a set A, let P index the collection of subsets that are both closed and connected for that relation. Show (1) each such part is nonempty; (2) distinct parts are disjoint, i.e. if A_p and A_q are not exactly the same set then their intersection is empty; and (3) the parts cover A.",
+   "book_section": "1.2.1",
+   "book_page": "10",
+   "pdf_pages": [
+    22
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.1:def14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def21",
+   "kind": "definition",
+   "number": "1.21",
+   "name": "quotient of a set by an equivalence relation",
+   "statement_summary": "Given a set A and an equivalence relation on A, the quotient of A by that relation is defined to be the SET OF PARTS of the corresponding partition (the partition supplied by the correspondence of Proposition 1.19). So the quotient is the set of equivalence classes, presented via partitions rather than via classes directly.",
+   "book_section": "1.2.1",
+   "book_page": "10",
+   "pdf_pages": [
+    22
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.1:def18"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def22",
+   "kind": "definition",
+   "number": "1.22",
+   "name": "function, preimage, surjection, injection, bijection",
+   "statement_summary": "A function from S to T is defined relationally: a subset F of S x T such that for every s in S there is a UNIQUE t in T with (s, t) in F. Notation F : S -> T, F(s) = t, or s maps to t. For t in T the preimage of t along F is the subset of s in S with F(s) = t. F is surjective (a surjection) when for every t in T some s in S has F(s) = t; injective (an injection) when F(s1) = F(s2) = t forces s1 = s2; and bijective when it is both surjective and injective.",
+   "book_section": "1.2.1",
+   "book_page": "10",
+   "pdf_pages": [
+    22,
+    23
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def12",
+    "7sketches:1.2.1:example23",
+    "7sketches:1.2.1:example26",
+    "7sketches:1.2.1:def28"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.1:example23",
+   "kind": "example",
+   "number": "1.23",
+   "name": "identity function",
+   "statement_summary": "For any set X the identity function on X sends each element to itself, and it is bijective. Depicted as a diagram of parallel dotted arrows.",
+   "book_section": "1.2.1",
+   "book_page": "11",
+   "pdf_pages": [
+    23
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def22"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex24",
+   "kind": "exercise",
+   "number": "1.24",
+   "name": "exhibiting and classifying functions and non-functions",
+   "statement_summary": "Four parts, using no example already drawn in the text. (1) Give sets A, B and a function A -> B that is injective but not surjective. (2) Give sets A, B and a function A -> B that is surjective but not injective. Then for each of four displayed relations between finite sets: (3) decide whether it is a function; (4) if not, say why, and if so classify it as injective, surjective, both (bijective), or neither.",
+   "book_section": "1.2.1",
+   "book_page": "11",
+   "pdf_pages": [
+    23
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def22",
+    "7sketches:1.2.1:def12"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex25",
+   "kind": "exercise",
+   "number": "1.25",
+   "name": "a set admitting a function to the empty set is empty",
+   "statement_summary": "Suppose A is a set and there exists a function from A to the empty set. Show that A is empty. (The emptiness of the empty set is initial: only the empty set maps into it.)",
+   "book_section": "1.2.1",
+   "book_page": "11",
+   "pdf_pages": [
+    23
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def22"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:example26",
+   "kind": "example",
+   "number": "1.26",
+   "name": "partitions of a set as surjections out of it",
+   "statement_summary": "A partition of A can equivalently be presented by a surjective function out of A: given a surjection f from A onto any set P, the preimages of the individual elements p in P are nonempty, pairwise disjoint and cover A, hence form a partition of A indexed by P. Worked out on the six-element set {11, 12, 13, 21, 22, 23} partitioned into four blocks, with P = {a, b, c, d} and the surjection tabulated element by element (11 and 12 to a, 13 to b, 21 to c, 22 and 23 to d).",
+   "book_section": "1.2.1",
+   "book_page": "12",
+   "pdf_pages": [
+    24
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.1:def22",
+    "7sketches:1.2.2:example52"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:ex27",
+   "kind": "exercise",
+   "number": "1.27",
+   "name": "surjections for the five three-point partitions",
+   "statement_summary": "Write down the surjective function out of the three-point set corresponding, under the partition/surjection correspondence, to each of the five partitions appearing in the Hasse diagram display (1.5).",
+   "book_section": "1.2.1",
+   "book_page": "12",
+   "pdf_pages": [
+    24
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:example26",
+    "7sketches:1.1.2:construction-order"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:def28",
+   "kind": "definition",
+   "number": "1.28",
+   "name": "composite of two functions",
+   "statement_summary": "Given functions F from X to Y and G from Y to Z, their composite is the function from X to Z sending x to G(F(x)); operationally, evaluate F at x to land in Y then evaluate G. Commonly written G after F, but the book prefers the DIAGRAMMATIC order notation F then G (semicolon/fatsemi), writing the first-applied function on the left.",
+   "book_section": "1.2.1",
+   "book_page": "12",
+   "pdf_pages": [
+    24
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def22",
+    "7sketches:1.2.1:example29"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.1:example29",
+   "kind": "example",
+   "number": "1.29",
+   "name": "elements as functions from the singleton; evaluation as composition",
+   "statement_summary": "For any set X, an element x of X may be regarded as the function from the one-element set {1} to X sending 1 to x; illustrated by the three functions from {1} to {1,2,3} corresponding to its three elements. Consequently, for F from X to Y and an element x of X viewed this way, evaluation is composition: F(x) is the composite of x followed by F.",
+   "book_section": "1.2.1",
+   "book_page": "12",
+   "pdf_pages": [
+    24
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def28",
+    "7sketches:1.2.1:example9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:def30",
+   "kind": "definition",
+   "number": "1.30",
+   "name": "preorder relation; preorder; equivalent elements",
+   "statement_summary": "A preorder relation on a set X is a binary relation on X, written infix <=, satisfying (a) x <= x for all x (reflexivity) and (b) x <= y together with y <= z implies x <= z (transitivity). NO antisymmetry is required. When both x <= y and y <= x hold one writes x isomorphic-to y and calls x and y equivalent. A preorder is a pair consisting of a set together with such a relation.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def12",
+    "7sketches:1.2.1:def18",
+    "7sketches:1.2.2:remark31",
+    "7sketches:1.2.2:remark35",
+    "7sketches:1.2.3:def59"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:remark31",
+   "kind": "remark",
+   "number": "1.31",
+   "name": "preorders are equivalence relations without symmetry",
+   "statement_summary": "Observes that reflexivity and transitivity are exactly two of the three axioms of an equivalence relation (Definition 1.18), so a preorder is precisely an equivalence relation with the symmetry axiom dropped.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def18",
+    "7sketches:1.2.2:def30"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example32",
+   "kind": "example",
+   "number": "1.32",
+   "name": "discrete preorder on a set",
+   "statement_summary": "Every set X carries the discrete preorder in which the order relation is equality: the only instances of x <= y are x <= x, and for distinct x, y neither x <= y nor y <= x holds. Depicted simply as a collection of unconnected points.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:ex41",
+    "7sketches:1.2.2:ex55"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example33",
+   "kind": "example",
+   "number": "1.33",
+   "name": "codiscrete preorder on a set",
+   "statement_summary": "Every set X also carries the codiscrete preorder, given by the total relation X x X viewed as a subset of X x X: x <= y (and hence also y <= x) for ALL x and y in X. A trivial structure in which every pair of elements is equivalent.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:remark35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example34",
+   "kind": "example",
+   "number": "1.34",
+   "name": "the boolean preorder",
+   "statement_summary": "The two-element set B = {false, true} is a preorder under false <= true (together with the two reflexive instances); its Hasse diagram is a single upward arrow from false to true. This is the truth-value preorder used for observations throughout the chapter.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.1.2:ex7",
+    "7sketches:1.2.2:example54"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:remark35",
+   "kind": "remark",
+   "number": "1.35",
+   "name": "partial orders are skeletal preorders",
+   "statement_summary": "Defines a partial order (poset) as a preorder satisfying the additional axiom that x equivalent to y implies x = y; in categorical language this axiom is skeletality, so partial orders are exactly the skeletal preorders. Notes further that the distinction is inessential: every preorder becomes a partial order by identifying (quotienting by) equivalent elements, i.e. by collapsing each class of mutually related elements. Every discrete preorder is already a partial order, whereas a codiscrete preorder collapses to the unique partial order on a one-element set.",
+   "book_section": "1.2.2",
+   "book_page": "13",
+   "pdf_pages": [
+    25
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.2:example33",
+    "7sketches:1.2.2:remark43",
+    "7sketches:1.2.1:def21"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:def36",
+   "kind": "definition",
+   "number": "1.36",
+   "name": "graph and path in a graph",
+   "statement_summary": "A graph is a quadruple consisting of a set V of vertices, a set A of arrows, and two functions from A to V called source and target; an arrow a with source v and target w is an arrow from v to w. A path in the graph is any finite sequence of arrows in which the target of each arrow is the source of the next. Explicitly included are paths of length 1 (a single arrow) and paths of LENGTH 0, which begin and end at the same vertex and traverse no arrow.",
+   "book_section": "1.2.2",
+   "book_page": "14",
+   "pdf_pages": [
+    26
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def22",
+    "7sketches:1.2.2:example37",
+    "7sketches:1.2.2:remark39"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example37",
+   "kind": "example",
+   "number": "1.37",
+   "name": "a concrete four-vertex graph and its paths",
+   "statement_summary": "A displayed graph with vertices {1,2,3,4} and arrows {a,b,c,d,e}, whose source/target functions are tabulated with several entries deliberately left as question marks (to be filled in Exercise 1.38). Path counts are read off: exactly one path from 2 to 3 (the single arrow e, length 1); no path from 4 to 3; exactly one path from 4 to 4, namely the length-0 path; and INFINITELY MANY paths from 1 to 2, because a loop d at vertex 2 can be traversed arbitrarily often.",
+   "book_section": "1.2.2",
+   "book_page": "14",
+   "pdf_pages": [
+    26
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def36",
+    "7sketches:1.2.2:ex38",
+    "7sketches:1.2.2:ex40"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex38",
+   "kind": "exercise",
+   "number": "1.38",
+   "name": "complete the source/target table of the example graph",
+   "statement_summary": "Fill in the missing source and target entries of the tabulated graph of Example 1.37, reading them off the displayed picture.",
+   "book_section": "1.2.2",
+   "book_page": "14",
+   "pdf_pages": [
+    26
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example37"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:remark39",
+   "kind": "remark",
+   "number": "1.39",
+   "name": "every graph presents a preorder; Hasse diagrams as presentations",
+   "statement_summary": "Substantive construction stated as a Remark: from any graph one obtains a preorder, and a Hasse diagram is precisely such a presentation. Take the underlying set of the preorder to be the vertex set V, and define v <= w to hold if and only if the graph contains a path from v to w. Reflexivity holds because every vertex has the length-0 path to itself, and transitivity holds because a path from u to v and a path from v to w concatenate to a path from u to w. (This is the free preorder / reflexive-transitive closure on a graph.) A footnote pins down 'iff' as mutual implication.",
+   "book_section": "1.2.2",
+   "book_page": "14",
+   "pdf_pages": [
+    26,
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def36",
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:ex40",
+    "7sketches:1.2.2:ex41"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.2:ex40",
+   "kind": "exercise",
+   "number": "1.40",
+   "name": "the preorder presented by the example graph",
+   "statement_summary": "Determine the preorder presented, in the sense of Remark 1.39, by the graph of Example 1.37: name its underlying set of elements and write down every pair (p1, p2) for which p1 <= p2 holds.",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:remark39",
+    "7sketches:1.2.2:example37"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex41",
+   "kind": "exercise",
+   "number": "1.41",
+   "name": "is a bare collection of points a Hasse diagram",
+   "statement_summary": "Decide whether a collection of points with no arrows, as used to depict a discrete preorder (Example 1.32), counts as a Hasse diagram in the sense of Remark 1.39 - i.e. whether an edgeless graph presents the discrete preorder.",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.2:remark39"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex42",
+   "kind": "exercise",
+   "number": "1.42",
+   "name": "the twelve related pairs in the five-element partition preorder",
+   "statement_summary": "Let X be the set of partitions of a three-element set; it has five elements and is ordered by coarseness as in the Hasse diagram display (1.5). Write down every pair (x, y) of elements of X with x <= y; there should be 12 (reflexive pairs included).",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.1.2:construction-order",
+    "7sketches:1.2.2:example52"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:remark43",
+   "kind": "remark",
+   "number": "1.43",
+   "name": "total orders and comparability",
+   "statement_summary": "After recalling that the preorder/partial-order distinction is inessential (any preorder converts to a categorically equivalent partial order), the remark introduces a genuinely stronger axiom: a TOTAL ORDER is a preorder additionally satisfying, for all x and y, that x <= y or y <= x. Two elements of a preorder are called comparable when one of x <= y, y <= x holds, so a total order is exactly a preorder in which every two elements are comparable.",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:remark35",
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:ex44",
+    "7sketches:1.2.2:example45"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex44",
+   "kind": "exercise",
+   "number": "1.44",
+   "name": "is a discrete preorder one with no comparable elements",
+   "statement_summary": "Decide whether it is correct to describe a discrete preorder as one in which NO two elements are comparable. (The intended catch is reflexivity: every element is comparable with itself.)",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:remark43",
+    "7sketches:1.2.2:example32"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example45",
+   "kind": "example",
+   "number": "1.45",
+   "name": "orderings on the natural numbers",
+   "statement_summary": "The naturals with their usual size ordering form a preorder that is moreover a TOTAL order (for all m, n either m <= n or n <= m), with a linear Hasse diagram; contrast the partition diagram (1.5), which is not linear because its middle row contains incomparable elements. The example then stresses that one set carries many orders, listing three further preorders on the naturals: the discrete ordering (n <= m only when n = m); the reverse of the usual ordering (so 5 <= 3); and the DIVISIBILITY ordering, n <= m iff n divides m without remainder, under which 2 <= 4 but 2 is not <= 3.",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:remark43",
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.2:ex46",
+    "7sketches:1.2.1:example9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex46",
+   "kind": "exercise",
+   "number": "1.46",
+   "name": "divisibility Hasse diagram on 1 through 10",
+   "statement_summary": "Write down the numbers 1 to 10 and draw an arrow from a to b whenever a divides b without remainder; then decide whether the resulting divisibility preorder is a total order.",
+   "book_section": "1.2.2",
+   "book_page": "15",
+   "pdf_pages": [
+    27
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example45",
+    "7sketches:1.2.2:remark43"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example47",
+   "kind": "example",
+   "number": "1.47",
+   "name": "the real numbers as a preorder",
+   "statement_summary": "The reals with the usual ordering form a preorder, illustrated by a chain of inequalities such as -500 <= -499 <= 0 <= sqrt 2 <= 100/3.",
+   "book_section": "1.2.2",
+   "book_page": "16",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:ex48"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex48",
+   "kind": "exercise",
+   "number": "1.48",
+   "name": "is the usual order on the reals total",
+   "statement_summary": "Decide whether the usual <= on the set of real numbers is a total order in the sense of Remark 1.43.",
+   "book_section": "1.2.2",
+   "book_page": "16",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example47",
+    "7sketches:1.2.2:remark43"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example49",
+   "kind": "example",
+   "number": "1.49",
+   "name": "the partition induced by a preorder",
+   "statement_summary": "Every preorder induces a partition of its underlying set: the equivalence relation of the preorder (x equivalent to y meaning x <= y and y <= x) is genuinely reflexive, symmetric and transitive, and Proposition 1.19 converts it into a partition of P. The book uses this to explain the phrase 'A induces B' as the existence of a canonical automatic passage from an A to a B. Illustrated by an eight-element preorder Hasse diagram alongside the partition into its four equivalence classes.",
+   "book_section": "1.2.2",
+   "book_page": "16",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.1:prop19",
+    "7sketches:1.2.1:def18",
+    "7sketches:1.2.2:remark35"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example50",
+   "kind": "example",
+   "number": "1.50",
+   "name": "power set preordered by inclusion",
+   "statement_summary": "For a set X the power set is the set of all subsets of X; it is given the order by inclusion of subsets, and this is the order always intended when the power set is regarded as an ordered set. For a three-element set the Hasse diagram is a 3-cube, and generally the power set of an n-element set has an n-dimensional cube as its Hasse diagram. A footnote records the convention of omitting parentheses in the power-set notation.",
+   "book_section": "1.2.2",
+   "book_page": "16",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.1:def-subset",
+    "7sketches:1.2.2:ex51",
+    "7sketches:1.2.2:ex55"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex51",
+   "kind": "exercise",
+   "number": "1.51",
+   "name": "Hasse diagrams of small power sets",
+   "statement_summary": "Draw the inclusion Hasse diagrams of the power set of the empty set, of a one-element set, and of a two-element set (one, two and four elements respectively).",
+   "book_section": "1.2.2",
+   "book_page": "16",
+   "pdf_pages": [
+    28
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example50"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example52",
+   "kind": "example",
+   "number": "1.52",
+   "name": "the preorder of partitions ordered by fineness",
+   "statement_summary": "For a set A, the set of ALL partitions of A is preordered by fineness: partition P is finer than partition Q when for every part p of P there is a part q of Q with the block A_p contained in the block A_q (equivalently Q is coarser than P). This is the order already used on the five three-point systems in display (1.5). Restated through the surjection presentation of Example 1.26: a surjection f from A onto P is finer than a surjection g from A onto Q exactly when there exists h from P to Q with f followed by h equal to g.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "7sketches:1.2.1:def14",
+    "7sketches:1.2.1:example26",
+    "7sketches:1.1.2:construction-order",
+    "7sketches:1.2.2:ex53",
+    "7sketches:1.2.2:ex42"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex53",
+   "kind": "exercise",
+   "number": "1.53",
+   "name": "the surjections presenting the coarsest and finest partitions",
+   "statement_summary": "For an arbitrary set S, identify the surjective function corresponding to the coarsest partition of S (the one with a single part) and the surjective function corresponding to the finest partition (every element alone in its own part). These are the top and bottom of the fineness preorder.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example52",
+    "7sketches:1.2.1:example26"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example54",
+   "kind": "example",
+   "number": "1.54",
+   "name": "the preorder of upper sets of a preorder",
+   "statement_summary": "Given a preorder P, an upper set in P is a subset U closed upward: whenever p lies in U and p <= q, then q lies in U as well. The collection of all upper sets of P is itself given the order by inclusion. Computed for the booleans: the upper sets of B are the empty set, the singleton {true}, and all of {true, false}, linearly ordered by inclusion; the subset {false} is NOT an upper set because false <= true while true is not in it.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.2:example34",
+    "7sketches:1.2.2:ex55",
+    "7sketches:1.2.2:example50"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex55",
+   "kind": "exercise",
+   "number": "1.55",
+   "name": "upper sets of a discrete preorder form the power set",
+   "statement_summary": "Prove that for the discrete preorder on a set X (Example 1.32), the preorder of upper sets is exactly the power set of X ordered by inclusion - every subset is upward closed when the order is equality.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.2:example50"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:example56",
+   "kind": "example",
+   "number": "1.56",
+   "name": "product preorder",
+   "statement_summary": "Given preorders P and Q, the product set P x Q carries the product preorder defined componentwise: (p, q) <= (p', q') if and only if p <= p' in P AND q <= q' in Q. Flagged as a basic instance of the more general product of categories.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.2.1:def-setops",
+    "7sketches:1.2.2:ex57"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.2:ex57",
+   "kind": "exercise",
+   "number": "1.57",
+   "name": "Hasse diagram of a product preorder, and its upper sets",
+   "statement_summary": "Draw the Hasse diagram of the product preorder of two displayed small preorders: a three-element V-shaped preorder (a below both b and c) and the two-element chain 1 <= 2. Bonus part: compute the preorder of upper sets of that product.",
+   "book_section": "1.2.2",
+   "book_page": "17",
+   "pdf_pages": [
+    29,
+    30
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example56",
+    "7sketches:1.2.2:example54"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.2:example58",
+   "kind": "example",
+   "number": "1.58",
+   "name": "opposite preorder",
+   "statement_summary": "Given a preorder P, the opposite preorder has the SAME underlying set with the order reversed: p <= q in the opposite exactly when q <= p in the original. (Reflexivity and transitivity are inherited.)",
+   "book_section": "1.2.2",
+   "book_page": "18",
+   "pdf_pages": [
+    30
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:def59",
+   "kind": "definition",
+   "number": "1.59",
+   "name": "monotone map between preorders",
+   "statement_summary": "A monotone map between preorders (A, <=_A) and (B, <=_B) is a function f from A to B such that for all elements x, y of A, x <=_A y implies f(x) <=_B f(y). Presented as the structure-preserving notion of map for preorders (order must be preserved for the function to count as monotone); illustrated by a dotted-arrow picture of an order-respecting assignment between two Hasse diagrams. No injectivity, surjectivity or reflection of order is required.",
+   "book_section": "1.2.3",
+   "book_page": "18",
+   "pdf_pages": [
+    30
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:def30",
+    "7sketches:1.1.2:eq8",
+    "7sketches:1.1:ex1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example60",
+   "kind": "example",
+   "number": "1.60",
+   "name": "a monotone map from the booleans to the naturals",
+   "statement_summary": "The function from the two-element boolean preorder B (false <= true) to the naturals N with their usual order that sends false to 17 and true to 24 is monotone, since false <= true and 17 <= 24; illustrated by a diagram of the two chains with dashed image arrows.",
+   "book_section": "1.2.3",
+   "book_page": "19",
+   "pdf_pages": [
+    31
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:def59",
+    "7sketches:1.2.2:example34",
+    "7sketches:1.2.2:example45"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example61",
+   "kind": "example",
+   "number": "1.61",
+   "name": "the tree of life: classifications to taxonomic ranks",
+   "statement_summary": "Constructs two preorders and a monotone map between them. Objects: all animal classification terms ('tiger', 'panthera', 'carnivore', 'mammal', 'habilis', 'homo', 'primate', 'sapiens', ...) ordered by specificity, so tiger <= mammal; the resulting preorder is a tree. Target: the linear preorder of taxonomic ranks species <= genus <= family <= order <= class <= phylum <= kingdom. The assignment F of each term to its rank is monotone because every upward path x -> y in the classification tree maps to an upward path F(x) -> F(y) in the rank chain.",
+   "book_section": "1.2.3",
+   "book_page": "19",
+   "pdf_pages": [
+    31
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:def59"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example62",
+   "kind": "example",
+   "number": "1.62",
+   "name": "cardinality is a monotone map from the power set",
+   "statement_summary": "For a finite set X, the cardinality function |.| from the power set P(X), ordered by inclusion, to N with its usual order, sending each subset S to the number |S| of its elements, is a monotone map (inclusion of subsets implies inequality of cardinalities).",
+   "book_section": "1.2.3",
+   "book_page": "19",
+   "pdf_pages": [
+    31
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example50",
+    "7sketches:1.2.3:def59"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex63",
+   "kind": "exercise",
+   "number": "1.63",
+   "name": "Hasse diagrams for P({0,1,2}) and the cardinality map",
+   "statement_summary": "For X = {0,1,2}: (1) draw the Hasse diagram of the inclusion preorder on P(X); (2) draw the Hasse diagram of the total order 0 <= 1 <= 2 <= 3; (3) draw the cardinality map of Example 1.62 between them as dashed lines, i.e. exhibit the monotone map concretely on all eight subsets.",
+   "book_section": "1.2.3",
+   "book_page": "19",
+   "pdf_pages": [
+    31,
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:example62"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.3:example64",
+   "kind": "example",
+   "number": "1.64",
+   "name": "upper sets include monotonically into the power set",
+   "statement_summary": "For a preorder (P, <=), the map U(P) -> P(P) that sends each upper set of P to the underlying subset of P is monotone, where both sides are ordered by inclusion; i.e. the poset of upper sets sits inside the power set order-preservingly.",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:example50"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex65",
+   "kind": "exercise",
+   "number": "1.65",
+   "name": "draw the inclusion U(B) -> P(B)",
+   "statement_summary": "For the boolean preorder B, draw the monotone map U(B) -> P(B) of Example 1.64 explicitly, using the previously drawn Hasse diagrams of U(B) and P(B).",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:example64",
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:ex51"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex66",
+   "kind": "exercise",
+   "number": "1.66",
+   "name": "Yoneda lemma for preorders (principal upper sets)",
+   "statement_summary": "For a preorder (P, <=): (1) show the principal set up(p) := {p' in P | p <= p'} is an upper set for every p in P; (2) show that p |-> up(p) is a monotone map from the opposite preorder P^op to U(P) (ordered by inclusion); (3) show p <= p' in P if and only if up(p') is contained in up(p); (4) draw the map for the preorder b >= a <= c. Part 3 is the order-theoretic Yoneda lemma: an element is determined up to equivalence by its principal upper set, i.e. by its web of relationships to all other elements. The naming as 'Yoneda lemma for preorders' occurs in the unnumbered prose immediately following the exercise.",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example58",
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:example56"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex67",
+   "kind": "exercise",
+   "number": "1.67",
+   "name": "every function out of a discrete preorder is monotone",
+   "statement_summary": "Show that if (P, <=_P) is a discrete preorder then every function P -> Q satisfies the monotonicity condition, whatever the order <=_Q on the codomain; i.e. a monotone map out of a discrete preorder is just a function on underlying sets.",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.3:def59"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example68",
+   "kind": "example",
+   "number": "1.68",
+   "name": "a surjection induces a monotone map of partition preorders",
+   "statement_summary": "Recalls that Prt(X), the set of partitions on X, may be presented via surjective functions s : X -> P. Constructs, for any surjection f : X -> Y, a monotone map f* : Prt(Y) -> Prt(X) going 'backwards': it sends a partition presented by s : Y -> P to the composite f ; s : X -> P. Footnote 7 records that any function f : X -> Y, not necessarily surjective, also induces such a monotone map f* : Prt(Y) -> Prt(X), but only after an extra step supplied in Section 1.4.2.",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example52",
+    "7sketches:1.4.2:construction-partition-galois-connection"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex69",
+   "kind": "exercise",
+   "number": "1.69",
+   "name": "compute the induced map on partitions",
+   "statement_summary": "Choose sets X and Y with at least three elements each and a surjective non-identity function f : X -> Y; write down two different partitions P and Q of Y and compute f*(P) and f*(Q) using the construction of Example 1.68.",
+   "book_section": "1.2.3",
+   "book_page": "20",
+   "pdf_pages": [
+    32
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:example68"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:prop70",
+   "kind": "proposition",
+   "number": "1.70",
+   "name": "identities and composites of monotone maps are monotone",
+   "statement_summary": "For any preorder (P, <=_P) the identity function on P is monotone; and if (Q, <=_Q) and (R, <=_R) are preorders and f : P -> Q, g : Q -> R are monotone, then the composite f ; g : P -> R is monotone. (Together these are the data making preorders and monotone maps into a category.)",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:def59",
+    "7sketches:1.2.1:example23",
+    "7sketches:1.2.1:def28"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex71",
+   "kind": "exercise",
+   "number": "1.71",
+   "name": "verify Proposition 1.70",
+   "statement_summary": "Check the two claims of Proposition 1.70: that the identity on a preorder is monotone, and that the composite of two monotone maps is monotone.",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:prop70"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example72",
+   "kind": "example",
+   "number": "1.72",
+   "name": "dagger preorders are exactly equivalence relations",
+   "statement_summary": "Defines a dagger preorder: (P, <=) such that the identity function id_P is monotone as a map (P, <=) -> (P, <=^op), equivalently such that q <= p holds whenever p <= q for all p, q in P. Observes that this says <= is symmetric, and since a preorder relation is already reflexive and transitive, a dagger preorder is precisely a set equipped with an equivalence relation.",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example58",
+    "7sketches:1.2.1:def18"
+   ],
+   "flags": [
+    "definition-in-example"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.3:ex73",
+   "kind": "exercise",
+   "number": "1.73",
+   "name": "skeletal dagger preorders are discrete preorders",
+   "statement_summary": "Show that a preorder that is both skeletal (in the sense of Remark 1.35) and a dagger preorder is exactly a discrete preorder, and hence can be identified with a bare set.",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:example72",
+    "7sketches:1.2.2:remark35",
+    "7sketches:1.2.2:example32"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:remark74",
+   "kind": "remark",
+   "number": "1.74",
+   "name": "what 'can be identified with' means",
+   "statement_summary": "Explains the phrase 'an A can be identified with a B': each A determines a unique B, each B a unique A, and both round trips (A -> B -> A and B -> A -> B) return the original. The worked instance: any discrete preorder (P, <=) has underlying set P, any set P becomes the discrete preorder with p1 <= p2 iff p1 = p2, and both round trips are identities. Flags that this notion is subsumed by equivalence of categories, and points to isomorphism (Definition 1.75) as the immediate next case.",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example32",
+    "7sketches:1.2.3:def75"
+   ],
+   "flags": [
+    "partly-motivational"
+   ]
+  },
+  {
+   "id": "7sketches:1.2.3:def75",
+   "kind": "definition",
+   "number": "1.75",
+   "name": "isomorphism of preorders",
+   "statement_summary": "For preorders (P, <=_P) and (Q, <=_Q), a monotone function f : P -> Q is an isomorphism if there exists a monotone g : Q -> P with f ; g = id_P and g ; f = id_Q, i.e. p = g(f(p)) for all p in P and q = f(g(q)) for all q in Q. Such a g is called the inverse of f and vice versa; P and Q are isomorphic when such an f exists. Note both round-trip conditions are stated with equality, not merely with the equivalence induced by <=.",
+   "book_section": "1.2.3",
+   "book_page": "21",
+   "pdf_pages": [
+    33
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:def59",
+    "7sketches:1.2.3:remark74"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:example76",
+   "kind": "example",
+   "number": "1.76",
+   "name": "three isomorphic preorders; superfluous Hasse arrows",
+   "statement_summary": "Exhibits three five-element preorders P (elements a,b,c,d,e), Q and R (elements v,w,x,y,z) by Hasse diagrams, all isomorphic. The explicit map f : P -> Q with f(a)=v, f(b)=w, f(c)=x, f(d)=y, f(e)=z has an inverse, so it is an isomorphism in the sense of Definition 1.75. Q and R are in fact the SAME preorder: the extra drawn arrow x -> z in R's Hasse diagram is superfluous because transitivity already forces x <= z from x <= y and y <= z; likewise an arrow v -> y could have been drawn in either without changing the preorder. Point: a preorder is not its Hasse diagram.",
+   "book_section": "1.2.3",
+   "book_page": "22",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:def75",
+    "7sketches:1.2.2:def30"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex77",
+   "kind": "exercise",
+   "number": "1.77",
+   "name": "the connectivity observation is monotone",
+   "statement_summary": "Show that the map Phi of Section 1.1.1, given roughly by asking 'is the dot connected to the star?', is a monotone map from Prt({star, dot, circle}) (partitions of a three-element set, ordered by coarseness) to the boolean preorder B; compare the earlier displayed Eq. (1.5).",
+   "book_section": "1.2.3",
+   "book_page": "22",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example52",
+    "7sketches:1.2.2:example34"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:prop78",
+   "kind": "proposition",
+   "number": "1.78",
+   "name": "monotone maps to B classify upper sets",
+   "statement_summary": "For any preorder P, the monotone maps P -> B are in one-to-one correspondence with the upper sets of P. Proof: given monotone f, the fibre f^{-1}(true) is an upper set (p in it and p <= q force true = f(p) <= f(q), so f(q) = true); conversely an upper set U gives f_U with f_U(p) = true iff p in U, which is monotone; the two constructions are mutually inverse. (So B is a classifier for upper sets, the order-theoretic shadow of a subobject classifier.)",
+   "book_section": "1.2.3",
+   "book_page": "22",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example54",
+    "7sketches:1.2.2:example34",
+    "7sketches:1.2.3:example64"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.2.3:ex79",
+   "kind": "exercise",
+   "number": "1.79",
+   "name": "pullback map on upper sets",
+   "statement_summary": "For preorders P, Q and a monotone map f : P -> Q, show that U |-> f^{-1}(U) is a well-defined monotone map f* : U(Q) -> U(P) on upper sets (the pullback along f); and, viewing upper sets as monotone maps into B via Proposition 1.78, show that f* is precomposition with f, i.e. it sends u : Q -> B to f ; u : P -> B.",
+   "book_section": "1.2.3",
+   "book_page": "22",
+   "pdf_pages": [
+    34
+   ],
+   "cross_refs": [
+    "7sketches:1.2.3:prop78",
+    "7sketches:1.2.2:example54"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:ex80",
+   "kind": "exercise",
+   "number": "1.80",
+   "name": "0 is the meet of {1/(n+1)} in R",
+   "statement_summary": "For the subset {1/(n+1) | n in N} of the reals with their usual order: (1) show 0 is a lower bound; (2) show it is a greatest lower bound, i.e. a meet.",
+   "book_section": "1.3.1",
+   "book_page": "23",
+   "pdf_pages": [
+    35
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:def81",
+   "kind": "definition",
+   "number": "1.81",
+   "name": "meet and join of a subset of a preorder",
+   "statement_summary": "Let (P, <=) be a preorder and A a subset of P. An element p of P is a MEET of A if (a) p <= a for every a in A, and (b) for every q with q <= a for all a in A, one has q <= p; written p = meet(A) (also meet over a in A, or a /\\ b when A = {a,b}). Dually p is a JOIN of A if (a) a <= p for every a in A and (b) for every q with a <= q for all a in A, one has p <= q; written p = join(A), or a \\/ b when A = {a,b}. Note the definition is stated for a preorder, so meets and joins are characterised only up to the equivalence induced by <= (see Remark 1.82), and are not asserted to exist.",
+   "book_section": "1.3.1",
+   "book_page": "23",
+   "pdf_pages": [
+    35
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:remark82",
+    "7sketches:1.3.1:example83",
+    "7sketches:1.3.1:example84"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:remark82",
+   "kind": "remark",
+   "number": "1.82",
+   "name": "meets are unique only up to isomorphism",
+   "statement_summary": "Warns that the notation meet(A) in Definition 1.81 is an abuse: a subset A of a preorder can have two distinct meets p and q. But any two meets satisfy p <= q and q <= p by the defining universal property, hence p and q are isomorphic; consequently for every x, p <= x iff q <= x and x <= p iff x <= q, so p and q are indistinguishable by their relationships to other elements. States the general principle that anything determined by a universal property is unique up to (unique) isomorphism, so treating such elements as equal causes no trouble.",
+   "book_section": "1.3.1",
+   "book_page": "24",
+   "pdf_pages": [
+    36
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.3.1:example84"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example83",
+   "kind": "example",
+   "number": "1.83",
+   "name": "meets and joins need not exist",
+   "statement_summary": "In an arbitrary preorder a subset need have neither a meet nor a join. Witness: P = {p, q, r} with the discrete ordering; the subset A = {p, q} has no join, since a join x would need p <= x and q <= x and no such element exists.",
+   "book_section": "1.3.1",
+   "book_page": "24",
+   "pdf_pages": [
+    36
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.2.2:example32"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example84",
+   "kind": "example",
+   "number": "1.84",
+   "name": "a subset with two distinct meets",
+   "statement_summary": "A subset can have more than one meet. Witness: a four-element preorder given by a Hasse diagram with a and b on top, c and d below both, and arrows c -> d and d -> c so that c <= d and d <= c. For A = {a, b}, both c and d are meets of A (anything below both a and b is below c and also below d), and c is isomorphic to d, as Remark 1.82 predicts. In general any two meets of the same subset are isomorphic.",
+   "book_section": "1.3.1",
+   "book_page": "24",
+   "pdf_pages": [
+    36
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.3.1:remark82"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:ex85",
+   "kind": "exercise",
+   "number": "1.85",
+   "name": "meet of a singleton",
+   "statement_summary": "Let (P, <=) be a preorder, p in P, and A = {p}. Show (1) meet(A) is isomorphic to p; (2) if P is in fact a partial order then meet(A) = p on the nose; (3) decide whether the analogous statements hold with meet replaced by join.",
+   "book_section": "1.3.1",
+   "book_page": "24",
+   "pdf_pages": [
+    36
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example86",
+   "kind": "example",
+   "number": "1.86",
+   "name": "idempotence of binary meet and join in a partial order",
+   "statement_summary": "In any partial order P one has p \\/ p = p /\\ p = p, because by the notation of Definition 1.81 p \\/ p means join{p, p}, the set {p, p} equals {p}, and Exercise 1.85 identifies the join/meet of a singleton with p.",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:ex85",
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example87",
+   "kind": "example",
+   "number": "1.87",
+   "name": "meets and joins in a power set are intersection and union",
+   "statement_summary": "In the power set P(X) ordered by inclusion, the meet of subsets A, B of X is their intersection (A /\\ B = A intersect B) and the join is their union (A \\/ B = A union B); more generally the meet of a collection of subsets is its intersection. Illustrated by a Venn diagram.",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.2.2:example50"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example88",
+   "kind": "example",
+   "number": "1.88",
+   "name": "meet and join in the booleans are AND and OR",
+   "statement_summary": "In the boolean preorder B = {false <= true}, the meet of any two elements is their logical AND and the join is their logical OR.",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example34",
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:example89",
+   "kind": "example",
+   "number": "1.89",
+   "name": "meets and joins in a total order are infima and suprema",
+   "statement_summary": "In a total order the meet of a subset is its infimum and the join is its supremum; since B is a total order this generalises Example 1.88.",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.3.1:example88"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:ex90",
+   "kind": "exercise",
+   "number": "1.90",
+   "name": "meet and join in the divisibility preorder",
+   "statement_summary": "In the divisibility preorder on N (n <= m iff n divides m), identify the standard names of the binary meet and the binary join of two numbers (namely greatest common divisor and least common multiple).",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example45",
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.1:prop91",
+   "kind": "proposition",
+   "number": "1.91",
+   "name": "meets are antitone and joins monotone in the subset",
+   "statement_summary": "Let (P, <=) be a preorder and A contained in B contained in P subsets that both have meets. Then meet(B) <= meet(A). Dually, if A and B both have joins then join(A) <= join(B). Proof: with m = meet(A), n = meet(B), every a in A also lies in B so n <= a; thus n is a lower bound for A, and since m is a greatest lower bound of A, n <= m.",
+   "book_section": "1.3.1",
+   "book_page": "25",
+   "pdf_pages": [
+    37
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.4.3:thm115"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.2:def92",
+   "kind": "definition",
+   "number": "1.92",
+   "name": "monotone map preserves meets / preserves joins",
+   "statement_summary": "A monotone map f : P -> Q PRESERVES MEETS if f(a /\\ b) is isomorphic to f(a) /\\ f(b) for all a, b in P, and PRESERVES JOINS if f(a \\/ b) is isomorphic to f(a) \\/ f(b) for all a, b in P. (Stated for binary meets/joins and up to the preorder's induced isomorphism, not equality.)",
+   "book_section": "1.3.2",
+   "book_page": "26",
+   "pdf_pages": [
+    38
+   ],
+   "cross_refs": [
+    "7sketches:1.3.1:def81",
+    "7sketches:1.4.3:prop111",
+    "7sketches:1.4.3:thm115"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.2:def93",
+   "kind": "definition",
+   "number": "1.93",
+   "name": "generative effect of a monotone map",
+   "statement_summary": "A monotone map f : P -> Q HAS A GENERATIVE EFFECT if there exist elements a, b in P for which f(a) \\/ f(b) is NOT isomorphic to f(a \\/ b); i.e. f fails to preserve some binary join. Interpretation given in the following prose: observing the combined system a \\/ b can reveal more than combining the separate observations of a and of b.",
+   "book_section": "1.3.2",
+   "book_page": "26",
+   "pdf_pages": [
+    38
+   ],
+   "cross_refs": [
+    "7sketches:1.3.2:def92",
+    "7sketches:1.3.2:ex94",
+    "7sketches:1.4.3:thm115"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.3.2:ex94",
+   "kind": "exercise",
+   "number": "1.94",
+   "name": "the join comparison map always goes one way",
+   "statement_summary": "Prove that for any monotone map f : P -> Q, if a, b in P have a join and f(a), f(b) in Q have a join, then f(a) \\/ f(b) <= f(a \\/ b). Hence a generative effect is always a strict increase ('more stuff' in f(a \\/ b)), never an incomparability.",
+   "book_section": "1.3.2",
+   "book_page": "26",
+   "pdf_pages": [
+    38
+   ],
+   "cross_refs": [
+    "7sketches:1.3.2:def93",
+    "7sketches:1.3.1:def81"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.1:def95",
+   "kind": "definition",
+   "number": "1.95",
+   "name": "Galois connection between preorders (adjoint pair)",
+   "statement_summary": "A GALOIS CONNECTION between preorders P and Q is a pair of monotone maps f : P -> Q and g : Q -> P satisfying, for all p in P and q in Q, the adjointness biconditional f(p) <= q if and only if p <= g(q) (the condition carried by the numbered display (1.96)). f is called the LEFT ADJOINT and g the RIGHT ADJOINT.",
+   "book_section": "1.4.1",
+   "book_page": "27",
+   "pdf_pages": [
+    39
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:prop107",
+    "7sketches:1.4.3:prop111",
+    "7sketches:1.4.3:thm115",
+    "7sketches:1.2.3:def75"
+   ],
+   "flags": [
+    "contains-numbered-display-1.96"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.1:example97",
+   "kind": "example",
+   "number": "1.97",
+   "name": "ceiling-of-a-third is left adjoint to multiplication by 3",
+   "statement_summary": "Regard multiplication by three, (3 x -) : Z -> R, as a monotone map from the integers to the reals. Writing ceil(z) for the least integer at or above a real z and floor(z) for the greatest integer at or below it, the map ceil(- / 3) : R -> Z is a left adjoint to (3 x -): one checks ceil(x/3) <= y if and only if x <= 3y for all real x and integer y. So (ceil(-/3), (3 x -)) is a Galois connection.",
+   "book_section": "1.4.1",
+   "book_page": "27",
+   "pdf_pages": [
+    39
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.1:ex98",
+    "7sketches:1.4.1:ex101"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.1:ex98",
+   "kind": "exercise",
+   "number": "1.98",
+   "name": "right adjoint of multiplication by 3",
+   "statement_summary": "For the monotone map (3 x -) : Z -> R of Example 1.97, find a right adjoint (rather than the left adjoint found there) and verify the adjointness condition.",
+   "book_section": "1.4.1",
+   "book_page": "27",
+   "pdf_pages": [
+    39
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:example97",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.1:ex99",
+   "kind": "exercise",
+   "number": "1.99",
+   "name": "test two candidate adjoint pairs on the three-chain",
+   "statement_summary": "Let P = Q = 3, the three-element total order 1 <= 2 <= 3. Two pairs of monotone maps f : P -> Q and g : Q -> P are given by pictures (dashed blue arrows for f, dashed red for g). In each case decide whether f is left adjoint to g by checking, for every 1 <= p, q <= 3, whether f(p) <= q if and only if p <= g(q).",
+   "book_section": "1.4.1",
+   "book_page": "27",
+   "pdf_pages": [
+    39,
+    40
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.1:remark100"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.1:remark100",
+   "kind": "remark",
+   "number": "1.100",
+   "name": "non-crossing criterion for adjunctions between total orders",
+   "statement_summary": "Records a visual criterion suggested by the pictures of Exercise 1.99: if P and Q are total orders and monotone maps f : P -> Q and g : Q -> P are drawn with all arrows bending counterclockwise, then f is left adjoint to g if and only if none of the drawn arrows cross. The authors assert this can be formalised but do not do so.",
+   "book_section": "1.4.1",
+   "book_page": "28",
+   "pdf_pages": [
+    40
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:ex99",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": [
+    "informal-criterion"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.1:ex101",
+   "kind": "exercise",
+   "number": "1.101",
+   "name": "iterated left adjoints of ceiling-of-a-third",
+   "statement_summary": "(1) Does the monotone map ceil(- / 3) : R -> Z have a left adjoint L : Z -> R? (2) If not, why not; if so, does that left adjoint itself have a left adjoint?",
+   "book_section": "1.4.1",
+   "book_page": "28",
+   "pdf_pages": [
+    40
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:example97",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.2:construction-partition-galois-connection",
+   "kind": "construction",
+   "number": null,
+   "name": "pushforward/pullback Galois connection on partitions induced by a function",
+   "statement_summary": "Unnumbered construction developed in prose: any function g : S -> T induces a Galois connection between the coarseness preorders Prt(S) and Prt(T), with left adjoint g_! : Prt(S) -> Prt(T) and right adjoint g* : Prt(T) -> Prt(S). Down-to-earth definitions: given a partition ~_S of S, declare t1 ~ t2 in T whenever there exist s1 ~_S s2 with g(s1) = t1 and g(s2) = t2, then take the TRANSITIVE CLOSURE (needed because the raw relation may fail transitivity) to obtain g_!(~_S) = ~_T; given a partition ~_T of T, define g*(~_T) = ~_S by s1 ~_S s2 iff g(s1) ~_T g(s2). Categorical gloss (with two diagrams): the left adjoint is the pushout P +_S T of the presenting surjection c : S -> P along g, and the right adjoint is obtained by composing a surjection c out of T with g and taking the epi-mono factorization, i.e. the image im(g ; c) -> P. This is the promised extension of Example 1.68's f* from surjections to arbitrary functions (footnote 7).",
+   "book_section": "1.4.2",
+   "book_page": "28",
+   "pdf_pages": [
+    40,
+    41
+   ],
+   "cross_refs": [
+    "7sketches:1.2.2:example52",
+    "7sketches:1.2.3:example68",
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.2:example102",
+    "7sketches:1.4.2:example104"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.2:example102",
+   "kind": "example",
+   "number": "1.102",
+   "name": "worked pushforward of a partition",
+   "statement_summary": "Worked instance of g_!. Take S = {1,2,3,4}, T = {12,3,4} and g : S -> T with g(1) = g(2) = 12, g(3) = 3, g(4) = 4. Starting from the partition of S with parts {1,3} and {2,4}, the pushforward g_! merges 12 with 3 (via 1 ~ 3) and 12 with 4 (via 2 ~ 4), and transitivity then forces 3 ~ 4, so the resulting partition of T has the single part {12,3,4}, as shown in the figure.",
+   "book_section": "1.4.2",
+   "book_page": "29",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "7sketches:1.4.2:construction-partition-galois-connection"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.2:ex103",
+   "kind": "exercise",
+   "number": "1.103",
+   "name": "compute six pushforwards on a four-element set",
+   "statement_summary": "A four-element set has 15 partitions; choose 6 of them, each presented as a surjection c : S -> P, and compute g_!(c) for the S, T and g : S -> T of Example 1.102.",
+   "book_section": "1.4.2",
+   "book_page": "29",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "7sketches:1.4.2:example102",
+    "7sketches:1.4.2:construction-partition-galois-connection"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.2:example104",
+   "kind": "example",
+   "number": "1.104",
+   "name": "worked pullback of a partition",
+   "statement_summary": "Worked picture of the right adjoint g* : Prt(T) -> Prt(S) for a displayed function g : S -> T between finite sets (drawn in blue): a partition of T is pulled back to the partition of S in which two elements are grouped exactly when their g-images lie in the same part of the given partition of T. The figure's specific parts are drawn but not transcribed here; the operative definition is the one in the surrounding prose.",
+   "book_section": "1.4.2",
+   "book_page": "29",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "7sketches:1.4.2:construction-partition-galois-connection"
+   ],
+   "flags": [
+    "figure-details-not-transcribed"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.2:ex105",
+   "kind": "exercise",
+   "number": "1.105",
+   "name": "compute all five pullbacks along g",
+   "statement_summary": "A three-element set has five partitions; for T = {12,3,4} and the same S and g : S -> T as in Example 1.102, determine the pulled-back partition g*(c) of S for each of the five partitions c : T -> P.",
+   "book_section": "1.4.2",
+   "book_page": "29",
+   "pdf_pages": [
+    41
+   ],
+   "cross_refs": [
+    "7sketches:1.4.2:example102",
+    "7sketches:1.4.2:example104"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.2:ex106",
+   "kind": "exercise",
+   "number": "1.106",
+   "name": "verify the partition adjunction in an instance",
+   "statement_summary": "Evidence for g_! being left adjoint to g*, in the setting of Example 1.102: (1) choose a nontrivial partition c : S -> P and compute its pushforward g_!(c) on T; (2) choose a partition d : T -> P' coarser than g_!(c), i.e. with g_!(c) <= d; (3) choose e : T -> Q with g_!(c) not <= e; (4) compute g*(d) and g*(e); (5) check that the adjointness condition Eq. (1.96) is borne out, namely c <= g*(d) while c is not <= g*(e).",
+   "book_section": "1.4.2",
+   "book_page": "29",
+   "pdf_pages": [
+    41,
+    42
+   ],
+   "cross_refs": [
+    "7sketches:1.4.2:construction-partition-galois-connection",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.3:prop107",
+   "kind": "proposition",
+   "number": "1.107",
+   "name": "unit/counit characterisation of a Galois connection",
+   "statement_summary": "For monotone maps f : P -> Q and g : Q -> P the following are equivalent: (a) f and g form a Galois connection with f left adjoint to g; (b) for every p in P and q in Q, p <= g(f(p)) and f(g(q)) <= q (the numbered display (1.108), the order-theoretic unit and counit). Proof sketch: from (a), reflexivity f(p) <= f(p) with q := f(p) gives p <= g(f(p)), dually for the counit; from (b), f(p) <= q gives g(f(p)) <= g(q) by monotonicity of g, whence p <= g(q), and symmetrically.",
+   "book_section": "1.4.3",
+   "book_page": "30",
+   "pdf_pages": [
+    42
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.3:ex109",
+    "7sketches:1.2.3:def75"
+   ],
+   "flags": [
+    "contains-numbered-display-1.108"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.3:ex109",
+   "kind": "exercise",
+   "number": "1.109",
+   "name": "finish the proof of the unit/counit characterisation",
+   "statement_summary": "Complete the proof of Proposition 1.107 by showing (1) if f is left adjoint to g then f(g(q)) <= q for all q in Q; and (2) if the unit/counit inequalities (1.108) hold then p <= g(q) if and only if f(p) <= q, for all p in P and q in Q.",
+   "book_section": "1.4.3",
+   "book_page": "30",
+   "pdf_pages": [
+    42
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:prop107"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.3:ex110",
+   "kind": "exercise",
+   "number": "1.110",
+   "name": "uniqueness of adjoints up to isomorphism",
+   "statement_summary": "(1) Show that if f : P -> Q has a right adjoint g then it is unique up to isomorphism: for any other right adjoint g', g(q) is isomorphic to g'(q) for all q in Q. (2) Decide whether the same holds for left adjoints, i.e. whether a left adjoint of h : P -> Q is necessarily unique up to isomorphism.",
+   "book_section": "1.4.3",
+   "book_page": "30",
+   "pdf_pages": [
+    42
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.3:prop107"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.3:prop111",
+   "kind": "proposition",
+   "number": "1.111",
+   "name": "right adjoints preserve meets, left adjoints preserve joins",
+   "statement_summary": "Let f : P -> Q be left adjoint to g : Q -> P. For any subset A of Q with image g(A) := {g(a) | a in A}: if A has a meet in Q then g(A) has a meet in P and g(meet A) is isomorphic to meet(g(A)). Dually, for any subset A of P that has a join in P, f(A) has a join in Q and f(join A) is isomorphic to join(f(A)). Proof of the first claim: with m = meet A, monotonicity gives g(m) <= g(a) for all a in A, so g(m) is a lower bound of g(A); for any other lower bound b of g(A), adjointness turns b <= g(a) into f(b) <= a for all a, so f(b) <= m, and adjointness again gives b <= g(m). Note the statement is arbitrary-subset (not merely binary) and asserts existence of the meet/join of the image.",
+   "book_section": "1.4.3",
+   "book_page": "31",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.3.1:def81",
+    "7sketches:1.3.2:def92",
+    "7sketches:1.4.3:ex112",
+    "7sketches:1.4.3:thm115"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.3:ex112",
+   "kind": "exercise",
+   "number": "1.112",
+   "name": "left adjoints preserve joins",
+   "statement_summary": "Complete the proof of Proposition 1.111 by proving the dual claim: a left adjoint preserves joins, i.e. if A is a subset of P with a join then f(A) has a join in Q and f(join A) is isomorphic to join(f(A)).",
+   "book_section": "1.4.3",
+   "book_page": "31",
+   "pdf_pages": [
+    43
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:prop111"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.3:example113",
+   "kind": "example",
+   "number": "1.113",
+   "name": "a right adjoint that fails to preserve joins",
+   "statement_summary": "Counterexample showing right adjoints need not preserve joins. P has elements 1, 2, 3.9, 4 with 1 <= 3.9, 2 <= 3.9 and 3.9 <= 4; Q has elements 1, 2, 4 with 1 <= 4 and 2 <= 4. Let g : Q -> P be the label-preserving map and f : P -> Q the label-preserving map except f(3.9) := 4. Both are monotone and g is right adjoint to f (twelve checks, Exercise 1.114). But in Q, 1 \\/ 2 = 4, whereas in P, g(1) \\/ g(2) = 1 \\/ 2 = 3.9, which is not isomorphic to 4 = g(4) = g(1 \\/ 2).",
+   "book_section": "1.4.3",
+   "book_page": "31",
+   "pdf_pages": [
+    43,
+    44
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:prop111",
+    "7sketches:1.4.3:ex114",
+    "7sketches:1.3.2:def93"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.3:ex114",
+   "kind": "exercise",
+   "number": "1.114",
+   "name": "check the twelve adjointness conditions",
+   "statement_summary": "Verify that g really is right adjoint to f in Example 1.113 by checking, for each of the twelve pairs (p, q) with p in P and q in Q, that f(p) <= q if and only if p <= g(q).",
+   "book_section": "1.4.3",
+   "book_page": "32",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:example113",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.3:thm115",
+   "kind": "theorem",
+   "number": "1.115",
+   "name": "adjoint functor theorem for preorders",
+   "statement_summary": "Suppose Q is a preorder that HAS ALL MEETS and P is any preorder. Then a monotone map g : Q -> P preserves meets if and only if g is a right adjoint (i.e. has a left adjoint). Dually, if P has all joins and Q is any preorder, a monotone map f : P -> Q preserves joins if and only if f is a left adjoint. Proof: the 'only if' direction is Proposition 1.111; conversely, given meet-preserving g, define the candidate left adjoint by the numbered display (1.116), f(p) := meet{q in Q | p <= g(q)}, well defined since Q has all meets. Monotonicity of f follows from Proposition 1.91 (the indexing set shrinks as p grows). The unit p0 <= g(f(p0)) holds because p0 is below every element of {g(q) | p0 <= g(q)} hence below its meet, which g(meet ...) identifies with g(f(p0)) using meet-preservation; the counit f(g(q0)) <= q0 holds because {q0} is contained in {q | g(q0) <= g(q)} so Proposition 1.91 gives f(g(q0)) <= meet{q0} = q0. Proposition 1.107 then concludes. Combined with Definition 1.93 this says a monotone map has no generative effect exactly when it is a left adjoint.",
+   "book_section": "1.4.3",
+   "book_page": "32",
+   "pdf_pages": [
+    44
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:prop111",
+    "7sketches:1.4.3:prop107",
+    "7sketches:1.3.1:prop91",
+    "7sketches:1.3.2:def92",
+    "7sketches:1.3.2:def93",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": [
+    "contains-numbered-display-1.116"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.3:example117",
+   "kind": "example",
+   "number": "1.117",
+   "name": "preimage between power sets has both adjoints (apples and buckets)",
+   "statement_summary": "For a function f : A -> B between sets (apples into buckets), the preimage or 'pullback along f' map f* : P(B) -> P(A), sending a subset B' of B to f^{-1}(B'), is monotone and has BOTH a left and a right adjoint. The left adjoint is the direct image f_! : P(A) -> P(B), f_!(A') := {b in B | there exists a in A' with f(a) = b} (buckets containing at least one chosen apple). The right adjoint is f_* : P(A) -> P(B), f_*(A') := {b in B | for all a with f(a) = b, a is in A'} (buckets all of whose apples are chosen; empty buckets count vacuously). So f_! is left adjoint to f* which is left adjoint to f_*; the point stressed is that all three operations are induced automatically by f and each has a natural reading.",
+   "book_section": "1.4.3",
+   "book_page": "32",
+   "pdf_pages": [
+    44,
+    45
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.2.3:ex79",
+    "7sketches:1.4.3:ex118",
+    "7sketches:1.3.1:example87"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.3:ex118",
+   "kind": "exercise",
+   "number": "1.118",
+   "name": "compute preimage, direct image and dual image",
+   "statement_summary": "Choose sets X and Y with between two and four elements each and a function f : X -> Y, then (1) pick two subsets B1, B2 of Y and compute f*(B1), f*(B2); (2) pick two subsets A1, A2 of X and compute f_!(A1), f_!(A2); (3) for the same A1, A2 compute f_*(A1), f_*(A2).",
+   "book_section": "1.4.3",
+   "book_page": "33",
+   "pdf_pages": [
+    45
+   ],
+   "cross_refs": [
+    "7sketches:1.4.3:example117"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.4:construction-closure-from-galois-connection",
+   "kind": "construction",
+   "number": null,
+   "name": "closure operator (and dually interior operator) from a Galois connection",
+   "statement_summary": "Unnumbered construction opening Section 1.4.4: given a Galois connection with f : P -> Q left adjoint to g : Q -> P, the composite f ; g : P -> P (first f, then g) is a monotone endomap satisfying p <= (f ; g)(p) for all p, and (f ; g ; f ; g)(p) isomorphic to (f ; g)(p) - i.e. it is a closure operator in the sense of Definition 1.120. Footnote 8 records the dual: the other composite g ; f : Q -> Q satisfies (g ; f)(q) <= q and (g ; f ; g ; f)(q) isomorphic to (g ; f)(q), and is called an INTERIOR OPERATOR (not developed further). The proof is set as Exercise 1.119.",
+   "book_section": "1.4.4",
+   "book_page": "33",
+   "pdf_pages": [
+    45
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.4:ex119",
+    "7sketches:1.4.4:def120",
+    "7sketches:1.4.4:example122"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.4:ex119",
+   "kind": "exercise",
+   "number": "1.119",
+   "name": "the round trip of an adjunction is a closure operator",
+   "statement_summary": "Assume f is left adjoint to g. Using Proposition 1.107, show (1) p <= (f ; g)(p) for all p in P; and (2) (f ; g ; f ; g)(p) is isomorphic to (f ; g)(p), by establishing inequalities in both directions.",
+   "book_section": "1.4.4",
+   "book_page": "33",
+   "pdf_pages": [
+    45
+   ],
+   "cross_refs": [
+    "7sketches:1.4.4:construction-closure-from-galois-connection",
+    "7sketches:1.4.3:prop107",
+    "7sketches:1.4.4:def120"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.4:def120",
+   "kind": "definition",
+   "number": "1.120",
+   "name": "closure operator on a preorder",
+   "statement_summary": "A CLOSURE OPERATOR on a preorder P is a monotone map j : P -> P such that for all p in P: (a) p <= j(p); and (b) j(j(p)) is isomorphic to j(p). (Idempotence only up to the preorder's induced isomorphism, not equality.)",
+   "book_section": "1.4.4",
+   "book_page": "33",
+   "pdf_pages": [
+    45,
+    46
+   ],
+   "cross_refs": [
+    "7sketches:1.4.4:construction-closure-from-galois-connection",
+    "7sketches:1.4.4:example122"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.4:example121",
+   "kind": "example",
+   "number": "1.121",
+   "name": "program reduction as a closure operator",
+   "statement_summary": "Informal example from computation: order arithmetic expressions by whether one can be rewritten to another (a partial order; e.g. 7+2+3 rewrites to 12). A program is a map j : exp -> exp, and it is desirable that j be a closure operator: monotonicity says x rewritable to y implies j(x) rewritable to j(y); condition x <= j(x) says j only performs permissible rewrites; idempotence j(j(x)) = j(x) says re-reducing an already reduced expression changes nothing. Presented as useful structure for program semantics.",
+   "book_section": "1.4.4",
+   "book_page": "34",
+   "pdf_pages": [
+    46
+   ],
+   "cross_refs": [
+    "7sketches:1.4.4:def120"
+   ],
+   "flags": [
+    "informal"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.4:example122",
+   "kind": "example",
+   "number": "1.122",
+   "name": "adjunction from a closure operator via its fixed points",
+   "statement_summary": "Converse to the construction of Section 1.4.4: every closure operator yields an adjunction. Given a closure operator j : P -> P on a preorder P, let fix_j := {p in P | j(p) is isomorphic to p}, a sub-preorder of P with the inherited order; j(p) lies in fix_j for every p since j(j(p)) is isomorphic to j(p). Then j viewed as a map P -> fix_j is left adjoint to the inclusion g : fix_j -> P: for p in P and q in fix_j, j(p) <= q if and only if p <= q. (Forward direction by p <= j(p) and transitivity; converse because q is a fixed point, so p <= q gives j(p) <= j(q) isomorphic to q.)",
+   "book_section": "1.4.4",
+   "book_page": "34",
+   "pdf_pages": [
+    46
+   ],
+   "cross_refs": [
+    "7sketches:1.4.4:def120",
+    "7sketches:1.4.4:construction-closure-from-galois-connection",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.4:example123",
+   "kind": "example",
+   "number": "1.123",
+   "name": "modal operators in logic as closure operators",
+   "statement_summary": "Closure operators from logic. Take the set of all propositions and order them by entailment: p <= q iff p implies q; this is a preorder since p implies p and implication is transitive. A closure operator on it is called a MODAL OPERATOR: a function j from propositions to propositions with p implies j(p) and j(j(p)) = j(p). Worked instance: fix a proposition B (e.g. 'Bob is in San Diego') and let j be (B implies -), i.e. j(p) = 'assuming B, p'. Informal verification that both closure axioms hold. Points forward to Section 7.4.5 on modalities.",
+   "book_section": "1.4.4",
+   "book_page": "34",
+   "pdf_pages": [
+    46,
+    47
+   ],
+   "cross_refs": [
+    "7sketches:1.4.4:def120"
+   ],
+   "flags": [
+    "informal",
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.5:ex124",
+   "kind": "exercise",
+   "number": "1.124",
+   "name": "Hasse diagram of Rel({1,2})",
+   "statement_summary": "Draw the Hasse diagram of the preorder Rel({1,2}) of all binary relations on the two-element set {1,2}, ordered by inclusion of subsets of {1,2} x {1,2} (sixteen elements).",
+   "book_section": "1.4.5",
+   "book_page": "35",
+   "pdf_pages": [
+    47
+   ],
+   "cross_refs": [
+    "7sketches:1.4.5:construction-level-shift-rel-pos"
+   ],
+   "flags": []
+  },
+  {
+   "id": "7sketches:1.4.5:construction-level-shift-rel-pos",
+   "kind": "construction",
+   "number": null,
+   "name": "level shift: reflexive-transitive closure is left adjoint to the underlying relation",
+   "statement_summary": "Unnumbered construction (the chapter's 'level shifting' illustration). For a set S, let Rel(S) be the set of binary relations on S, i.e. subsets R of S x S, preordered by inclusion (R <= R' iff R(s1,s2) implies R'(s1,s2)); illustrated by the two-element Hasse diagram of Rel({1}). Let Pos(S) be the set of PREORDER relations on S, preordered by the inclusion order written with a square symbol (<= below <=' iff a <= b implies a <=' b for all a, b in S) - a preorder of preorder structures, hence a level shift. Every preorder relation is in particular a relation, giving an inclusion (underlying-relation) map Pos(S) -> Rel(S); this is the RIGHT adjoint of a Galois connection whose LEFT adjoint is the monotone map Cl : Rel(S) -> Pos(S) sending a relation R, written infix as <=, to its reflexive and transitive closure (add s <= s for every s, and add s <= u whenever s <= t and t <= u).",
+   "book_section": "1.4.5",
+   "book_page": "35",
+   "pdf_pages": [
+    47
+   ],
+   "cross_refs": [
+    "7sketches:1.4.1:def95",
+    "7sketches:1.4.5:ex124",
+    "7sketches:1.4.5:ex125",
+    "7sketches:1.2.2:def30"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "7sketches:1.4.5:ex125",
+   "kind": "exercise",
+   "number": "1.125",
+   "name": "verify the closure/underlying-relation adjunction concretely",
+   "statement_summary": "For S = {1,2,3}, verify the Cl-versus-underlying-relation adjunction by hand: (1) choose a preorder relation <= on S and write down its underlying relation U(<=) := {(s1,s2) | s1 <= s2}, a subset of S x S, i.e. its image under Pos(S) -> Rel(S); (2) choose binary relations Q and Q' on S, with Q contained in U(<=) and Q' not contained in U(<=), neither required to come from a preorder; (3) show concretely, without invoking the adjunction, that Cl(Q) is below <= in the order on Pos(S); (4) show concretely that Cl(Q') is NOT below <=. Together these instantiate Cl being left adjoint to U.",
+   "book_section": "1.4.5",
+   "book_page": "35",
+   "pdf_pages": [
+    47,
+    48
+   ],
+   "cross_refs": [
+    "7sketches:1.4.5:construction-level-shift-rel-pos",
+    "7sketches:1.4.1:def95"
+   ],
+   "flags": [
+    "spans-page-break",
+    "flag-added-on-audit(fess-7s1 M5)"
+   ]
+  }
+ ]
+}

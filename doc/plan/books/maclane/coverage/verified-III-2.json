@@ -1,0 +1,448 @@
+[
+  {
+    "id": "maclane:III.2:prop1",
+    "classification": "PRESENT",
+    "aliases": [
+      "universal arrow iff natural hom-set bijection",
+      "universal property as representability",
+      "AUniversalArrow / IsUniversalProperty",
+      "D(r,-) ≅ C(c,S-) natural isomorphism",
+      "representable characterization of universal arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Universal/Arrow.v",
+        "line": 61,
+        "symbol": "UniversalArrowIsUniversalProperty",
+        "intree_statement": "Proposition UniversalArrowIsUniversalProperty : IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.  [with repr_functor := (Curried_Hom C c) ◯ U; repr_equivalence gives, for each a : D, a Sets-isomorphism between the setoid of AUniversalArrow c U a and the setoid of natural isomorphisms [Hom a,─] ≅ ((Curried_Hom C c) ◯ U)]"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 240,
+        "symbol": "AUniversalArrow",
+        "intree_statement": "Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := { universal_arrow : c ~> fobj[F] a ; universal_arrow_universal {d} {f : c ~> (fobj[F] d)} : Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f) }."
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 41,
+        "symbol": "IsUniversalProperty",
+        "intree_statement": "Class IsUniversalProperty (C : Category) (P : C → Type) (eqP : forall c, Setoid (P c)) := { repr_functor : C ⟶ Sets ; repr_equivalence : forall c : C, @Isomorphism Sets (Build_SetoidObject (P c) (eqP c)) (Build_SetoidObject (Isomorphism [Hom c,─] repr_functor) _) }."
+      }
+    ],
+    "statement_record": {
+      "book": "For S : D → C, a pair <r, u : c → S r> is universal from c to S iff f' ↦ S f' ∘ u is a bijection D(r,d) ≅ C(c, S d) natural in d; conversely every natural isomorphism D(r,-) ≅ C(c, S-) is determined by a unique u : c → S r making <r,u> universal.",
+      "intree": "UniversalArrowIsUniversalProperty : for each a : D, the setoid of universal-arrow structures (AUniversalArrow c U a — the morphism u together with its Unique factorization property) is isomorphic in Sets to the setoid of natural isomorphisms [Hom a,─] ≅ (Curried_Hom C c ◯ U) in the functor category [D, Sets].",
+      "strength_comparison": "same — both directions are carried by the two legs of the setoid isomorphism; MacLane's 'natural in d' is the iso living in [D, Sets]; 'determined by a unique u' is the round-trip law over AUniversalArrowEquiv, whose equivalence compares exactly the underlying morphisms u up to ≈ (setoid rephrasing of uniqueness). No smallness hypothesis is needed (universe-polymorphic Sets)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found the same evidence (UniversalArrowIsUniversalProperty at Structure/UniversalProperty/Universal/Arrow.v:61; AUniversalArrow at Theory/Universal/Arrow.v:240; also ump_universal_arrows/AdjunctionFromUniversalArrows as the adjunction-facing form). Verified both round-trip laws of the setoid iso carry Mac Lane's 'determined by a unique u' via AUniversalArrowEquiv comparing underlying morphisms. Quotes accurate; file in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:III.2:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "representable functor",
+      "representation of a functor",
+      "representing object",
+      "Representable class",
+      "covariant hom-functor Hom(r,-) up to natural iso"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Representable.v",
+        "line": 46,
+        "symbol": "Representable",
+        "intree_statement": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }."
+      }
+    ],
+    "statement_record": {
+      "book": "For D with small hom-sets, a representation of K : D → Set is a pair <r, ψ> with ψ : D(r,-) ≅ K a natural isomorphism; r is the representing object; K is representable when a representation exists.",
+      "intree": "Class Representable `(F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F } — repr_obj is MacLane's r and represented is the natural iso ψ, an isomorphism in the functor category [C, Sets].",
+      "strength_comparison": "same — a verbatim match up to the setoid rephrasing (Sets is the category of setoids); the 'small hom-sets' proviso is discharged by universe polymorphism (Set Universe Polymorphism in Lib/Setoid.v), so the definition applies at every size."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the identical Representable class (Functor/Representable.v:46), quote verbatim. Verified 'Set Universe Polymorphism' at Lib/Setoid.v:10 supporting the smallness claim. Also noted IsUniversalProperty (Structure/UniversalProperty.v:41) as the representability packaging."
+    }
+  },
+  {
+    "id": "maclane:III.2:prop2",
+    "classification": "PRESENT",
+    "aliases": [
+      "representations correspond to universal elements",
+      "universal arrow from a one-point set",
+      "universal element of a Set-valued functor",
+      "representability_by_yoneda",
+      "representation determined by universal element"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 72,
+        "symbol": "representability_by_yoneda",
+        "intree_statement": "Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C): @Isomorphism Sets {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c ) x) } |} (Build_SetoidObject (Isomorphism [Hom ─,c] F) _)."
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 54,
+        "symbol": "preyoneda",
+        "intree_statement": "Lemma preyoneda ... (τ : [Hom ─ , c] ⟹ P) : forall f : d ~> c, transform τ d f ≈ fmap[P] f (transform τ c id{C}).  [the universal element τ_c(id) determines τ]"
+      }
+    ],
+    "statement_record": {
+      "book": "For * a one-point set and D with small hom-sets: if <r, u : * → K r> is universal from * to K : D → Set, then ψ sending f' : r → d to K(f')(u *) is a representation of K, and every representation arises from exactly one such universal arrow; via Set(*, X) ≅ X, representations of K correspond to universal elements of K.",
+      "intree": "representability_by_yoneda: the setoid of universal elements { x : F c & the Yoneda transpose of x, k ↦ fmap[F] k x, is a natural isomorphism } is isomorphic in Sets to the setoid of representations Isomorphism [Hom ─,c] F, with forward map exactly x ↦ (its Yoneda transpose) and inverse evaluation at the identity.",
+      "strength_comparison": "same in substance — the library works with elements of the setoid F c directly rather than arrows from a one-point set (MacLane's own parenthetical identification Set(*,X) ≅ X); the universal-element property is encoded as 'the Yoneda transpose is an iso', i.e. f ↦ F(f)(e) is a bijection hom(c,d) ≅ F d for each d, which is precisely the unique-factorization property (Sets-isos are two-sided-inverse bijections); stated in the contravariant (presheaf) form, the covariant form following by instantiating at C := D^op with C^op^op = C definitional in this library."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found representability_by_yoneda independently. Verified the sigma-setoid (exists_setoid, Structure/UniversalProperty.v:62) compares underlying elements x, so the iso genuinely carries 'every representation from exactly one universal element'. PRESENT vs PARTIAL judgment call on the one-point-set packaging: PRESENT is right under the frozen definition — Mac Lane's own parenthetical (Set(*,X) ≅ X) identifies representations with universal elements, and the setoid reading of an element as an arrow from the one-point setoid is faithful. Contravariant-form caveat honestly disclosed; C^op^op = C is definitional in-tree."
+    }
+  },
+  {
+    "id": "maclane:III.2:lem1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Yoneda lemma",
+      "Nat(D(r,-), K) ≅ K r",
+      "Yoneda_Lemma / Covariant_Yoneda_Lemma",
+      "evaluation at the identity bijection",
+      "hom-functor natural transformations classified by elements"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 182,
+        "symbol": "Covariant_Yoneda_Lemma",
+        "intree_statement": "Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) : ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := ... fun phi => @fmap C Sets F A x phi y ... }."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "For K : D → Set and r an object of D (D with small hom-sets), there is a bijection y : Nat(D(r,-), K) ≅ K r sending each natural transformation α to α_r(1_r).",
+      "intree": "Covariant_Yoneda_Lemma : ∀ A : C, Copresheaves [Hom A,─] F ≅ F A — an isomorphism in Sets between the setoid of natural transformations [Hom A,─] ⟹ F (Copresheaves = [C, Sets], its hom-setoid) and the setoid F A, whose forward map is evaluation at the identity, x ↦ transform[x] A id.",
+      "strength_comparison": "same — the covariant form matches MacLane's statement exactly (forward map α ↦ α_r(1_r)); the isomorphism is a Sets-iso of setoids rather than a bare bijection, which under the setoid discipline is the faithful reading; intree-stronger on size: no small-hom-sets hypothesis, the statement being universe-polymorphic. Naturality of the bijection in K and r is MacLane's separate addendum (III.2:lem2, classified separately)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same two statements (Functor/Hom/Yoneda.v:133,182); Covariant_Yoneda_Lemma is the exact covariant match with forward map transform[x] A id = alpha_r(1_r). Quotes accurate; correctly defers binaturality to lem2."
+    }
+  },
+  {
+    "id": "maclane:III.2:cor1",
+    "classification": "PRESENT",
+    "aliases": [
+      "natural transformations between hom-functors are D(h,-)",
+      "Yoneda embedding full and faithful on hom-sets",
+      "Yoneda_Full / Yoneda_Faithful / Yoneda_Embedding'",
+      "Nat(D(r,-), D(s,-)) ≅ D(s,r)",
+      "corollary to the Yoneda lemma"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  [prefmap := fun c d f => f c id: every natural transformation between hom-functors arises from a morphism, recovered as its component at the identity]"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 109,
+        "symbol": "Yoneda_Embedding'",
+        "intree_statement": "Corollary Yoneda_Embedding' (C: Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} {| morphism := @fmap _ _ (Curried_Hom C) c d; ... |}."
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 253,
+        "symbol": "Covariant_Yoneda_Embedding",
+        "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B."
+      }
+    ],
+    "statement_record": {
+      "book": "For objects r, s of D, each natural transformation D(r,-) → D(s,-) has the form D(h,-) for a unique arrow h : s → r.",
+      "intree": "Yoneda_Full gives existence (each τ : [Hom c,─] ⟹ [Hom d,─] equals fmap[Curried_Hom] of the arrow τ c id), Yoneda_Faithful gives uniqueness up to ≈, and Yoneda_Embedding' packages both as: fmap[Curried_Hom C] is an isomorphism in Sets between hom(d,c) and the natural transformations [Hom c,─] ⟹ [Hom d,─]; Covariant_Yoneda_Embedding is the same bijection for covariant hom-functors: Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.",
+      "strength_comparison": "same — the corollary is stated for all natural transformations (not only isos), exactly as in the book, via fullness + faithfulness; uniqueness is uniqueness up to ≈ (setoid rephrasing)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same four witnesses (Yoneda_Full/Yoneda_Faithful/Yoneda_Embedding' in Functor/Hom.v:96/85/109; Covariant_Yoneda_Embedding in Functor/Hom/Yoneda.v:253). Full gives existence of h = tau c id, Faithful uniqueness up to ~=; honest."
+    }
+  },
+  {
+    "id": "maclane:III.2:lem2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "naturality of the Yoneda bijection",
+      "Yoneda iso natural in K and r",
+      "N ≅ E on Set^D × D",
+      "evaluation functor vs Nat functor natural isomorphism",
+      "parametrized Yoneda lemma"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := ...  [a family of Sets-isos indexed by both F and A; the header comment claims 'Nat([Hom ─,A], F) ≅ F A, natural in both A and F' but only the per-(A,F) components are formalized]"
+      },
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exp_iso := fun A B C => ... }  [the evaluation bifunctor eval : [B, C] × B ⟶ C — MacLane's E — exists only implicitly as the uncurrying counit of Cat's cartesian-closed structure]"
+      }
+    ],
+    "statement_record": {
+      "book": "The Yoneda bijection y is natural in both K and r: with E : Set^D × D → Set the evaluation functor <K,r> ↦ K r and N : Set^D × D → Set the functor <K,r> ↦ Nat(D(r,-), K) (on arrows by Nat(D(f,-), F)), y is a natural isomorphism N ≅ E.",
+      "intree": "Yoneda_Lemma / Covariant_Yoneda_Lemma provide the component isomorphism Nat([Hom A,─], F) ≅ F A at every pair (F, A), quantified over both variables, but only as a family of isos in Sets; no bifunctor N : [C,Sets] ∏ C ⟶ Sets is constructed and no naturality square of y in either variable is stated or proven.",
+      "strength_comparison": "intree-weaker: the bijection is present at every component (that part coincides with lem1), but the specific content of this addendum — the functors N and E on Set^D × D and the proof that y is a natural isomorphism between them — has no in-tree counterpart; the evaluation functor E exists only implicitly via Cat's closed structure, and the Nat-bifunctor N is nowhere defined."
+    },
+    "gap": "The naturality of the Yoneda bijection in K and r is not formalized: no bifunctor <K,r> ↦ Nat([Hom r,─], K) on [C,Sets] ∏ C, no evaluation bifunctor packaged for this purpose, and no natural-isomorphism statement y : N ≅ E; only the object-wise isomorphisms exist (Functor/Hom/Yoneda.v). Searches: rg -i 'natural in both|naturality of the yoneda|yoneda.*natural' — only the informal header comment at Functor/Hom/Yoneda.v:22; rg -i 'evaluation functor|Eval' — only Cat_Closed's exp_iso (Instance/Cat/Cartesian/Closed.v) and unrelated files.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL with the identical gap before reading this record: no bifunctors N, E : [D,Sets] ∏ D ⟶ Sets and no naturality square for the Yoneda family in either variable; only per-(F,A) components (each direction a proper setoid morphism) plus the informal 'natural in both A and F' header comment. Verified Cat_Closed evidence (Instance/Cat/Cartesian/Closed.v:46-47) — evaluation exists only implicitly as closed-structure counit. Final sweep for Nat-bifunctor/hom_nat found nothing."
+    }
+  },
+  {
+    "id": "maclane:III.2:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "Yoneda functor / Yoneda embedding Y : D^op → Set^D",
+      "Curried_Hom / Curried_CoHom",
+      "full and faithful embedding into a functor category",
+      "dual Yoneda functor Y' : D → Set^(D^op)",
+      "presheaf embedding"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 60,
+        "symbol": "Curried_Hom",
+        "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => ... @hom C x y ...; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 85,
+        "symbol": "Yoneda_Faithful",
+        "intree_statement": "#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C)."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 96,
+        "symbol": "Yoneda_Full",
+        "intree_statement": "#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C)."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 146,
+        "symbol": "Curried_CoHom",
+        "intree_statement": "Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := Curried_Hom C^op.  [the contravariant Yoneda embedding C ⟶ [C^op, Sets], notation [Hom ─,A]]"
+      }
+    ],
+    "statement_record": {
+      "book": "r ↦ D(r,-) and (f : s → r) ↦ D(f,-) define a full and faithful functor Y : D^op → Set^D (the Yoneda functor); its dual Y' : D → Set^(D^op), sending f : s → r to D(-,f), is also faithful. D must have small hom-sets.",
+      "intree": "Curried_Hom C : C^op ⟶ [C, Sets] with instances Yoneda_Full and Yoneda_Faithful; the dual Curried_CoHom C : C ⟶ [C^op, Sets] is defined as Curried_Hom C^op, so Yoneda_Full (C^op) and Yoneda_Faithful (C^op) apply to it directly (C^op^op = C holds definitionally in this library).",
+      "strength_comparison": "intree-stronger on the dual: MacLane claims only faithfulness for Y', while the instantiation at C^op yields fullness as well; small-hom-sets is not needed (universe polymorphism). Otherwise the same construction, with Sets the category of setoids."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same construction (Curried_Hom at Functor/Hom.v:60 with Full/Faithful instances; Curried_CoHom at :146). 'intree-stronger on the dual' verified: Curried_CoHom C := Curried_Hom C^op, and Yoneda_Full/Yoneda_Faithful are stated for arbitrary C, so fullness of the dual comes free (Mac Lane claims only faithfulness)."
+    }
+  },
+  {
+    "id": "maclane:III.2:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Yoneda for large categories",
+      "enlarged Ens / bigger universe of sets",
+      "universe polymorphism replaces smallness",
+      "hom-sets objects of Ens proviso",
+      "size-independent Yoneda lemma"
+    ],
+    "evidence": [
+      {
+        "file": "Lib/Setoid.v",
+        "line": 10,
+        "symbol": "Set Universe Polymorphism",
+        "intree_statement": "Set Universe Polymorphism.  [global regime: every definition, including Sets and Yoneda_Lemma, is universe-polymorphic]"
+      },
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A  [no smallness hypothesis anywhere: C ranges over categories at arbitrary universe levels {o h p}, and the constraint that C's hom-setoids fit in Sets' level — MacLane's 'hom-sets of D are objects of Ens' — is solved by Coq's universe inference at each instantiation]"
+      }
+    ],
+    "statement_record": {
+      "book": "For D larger than small hom-sets allow, the Yoneda lemmas remain valid with Set replaced by any category Ens of sets whose objects include the hom-sets of D and whose morphisms are all functions; moreover the meaning of naturality is not altered by further enlargement of Ens (pointer to Exercise III.2.4).",
+      "intree": "The in-tree Yoneda lemma is stated once, universe-polymorphically, for a category C at arbitrary levels and F landing in the polymorphic Sets; each choice of universe level instantiates 'Ens' at the appropriate size, with the proviso 'hom-sets of D are objects of Ens' enforced as the inferred universe constraint. This realizes the remark's primary claim: there is no fixed small Set, and the lemma holds at every size.",
+      "strength_comparison": "primary claim same (realized foundationally by universe polymorphism instead of an explicit enlargement of Ens); the remark's second clause — invariance of naturality under enlargement of the codomain category — is not represented: no cross-universe or full-subcategory-inclusion comparison of Nat-setoids exists in-tree (that clause is Exercise III.2.4 = maclane:III.2:ex4, classified ABSENT)."
+    },
+    "gap": "The invariance clause: no in-tree statement compares natural transformations computed in Sets at one universe level with those computed after enlargement (or along a full inclusion Ens ⊆ Ens'); each polymorphic instance is uniform by construction, but the comparison itself is nowhere formalized. Searches: rg -i 'enlarg|Ens' — Instance/Ens.v is an unrelated category of Coq Ensembles (predicates), not MacLane's enlarged set-category; rg 'Set Universe Polymorphism' — Lib/Setoid.v:10, Lib/Foundation.v:6 (the mechanism that carries the primary claim).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL with this gap is the honest reading; my blind pass wavered PRESENT/PARTIAL and the classifier's split is more precise. Verified: Set Universe Polymorphism at Lib/Setoid.v:10 and Lib/Foundation.v:6 (carries the primary claim — the lemma holds at every size with the hom-sets-in-Ens proviso enforced as universe constraints); Instance/Ens.v confirmed to be Coq Ensembles (predicates), unrelated to Mac Lane's Ens — same-name trap correctly rejected. The enlargement-invariance clause is exactly ex4, ABSENT."
+    }
+  },
+  {
+    "id": "maclane:III.2:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "arrow between representing objects induced by a natural transformation",
+      "functoriality of representations",
+      "unique h with τ ∘ ψ = ψ' ∘ D(h,-)",
+      "representing object unique up to unique iso (τ = id case)",
+      "morphism of representations"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 112,
+        "symbol": "univ_property_unique",
+        "intree_statement": "Proposition univ_property_unique (c : C) (t : P c) : @Unique obj[C] (ob_setoid) P.  [any two objects representing the same functor are isomorphic, the mediating iso pulled back through the fully faithful Yoneda embedding]"
+      },
+      {
+        "file": "Structure/UniversalProperty.v",
+        "line": 175,
+        "symbol": "univ_property_unique_up_to_unique_iso",
+        "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c ≅ d) => univ_property_respects_iso c d p t ≈ s)."
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 109,
+        "symbol": "Yoneda_Embedding'",
+        "intree_statement": "Corollary Yoneda_Embedding' (C: Category) (c d : C) : @IsIsomorphism Sets {| carrier := hom d c |} {| carrier := hom (fobj[C] c) (fobj[C] d) |} ...  [the engine from which the general statement is an immediate corollary: transport τ to ψ'^{-1} ∘ τ ∘ ψ : D(r,-) ⟹ D(r',-) and apply the bijection]"
+      }
+    ],
+    "statement_record": {
+      "book": "If K, K' : D → Set have representations <r, ψ> and <r', ψ'>, then to each natural transformation τ : K → K' there is a unique arrow h : r' → r with τ ∘ ψ = ψ' ∘ D(h,-).",
+      "intree": "The special case τ = id is present in full: univ_property_unique / univ_property_unique_up_to_unique_iso give the unique isomorphism between two objects representing the same functor, compatible with the representations. The general case for arbitrary τ is an immediate corollary of Yoneda_Embedding' (apply the hom-set bijection to ψ'^{-1} ∘ τ ∘ ψ) but is not stated as a lemma.",
+      "strength_comparison": "intree-weaker: only the τ = id instance (uniqueness of representing objects up to unique compatible iso) is stated; the general induced-arrow statement for an arbitrary natural transformation between two different represented functors, with its compatibility equation τ ∘ ψ ≈ ψ' ∘ D(h,─), is not in-tree, though all ingredients are."
+    },
+    "gap": "No lemma producing, from τ : K ⟹ K' and representations ⟨r,ψ⟩ of K and ⟨r',ψ'⟩ of K', the unique h : r' ~> r with τ ∘ ψ ≈ ψ' ∘ fmap[Curried_Hom] h. Searches: rg -i 'representing object|repr_obj|between representa' — only Functor/Representable.v (the class) and Structure/UniversalProperty.v (the τ = id uniqueness results); rg 'Representable' usage — no functoriality-of-representations lemma anywhere.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: only the tau = id case exists (univ_property_unique / univ_property_unique_up_to_unique_iso, Structure/UniversalProperty.v:112/175 — two representations of the SAME functor). No functoriality-of-representations lemma producing unique h : r' ~> r from arbitrary tau : K ⟹ K'; my independent rg over 'repr|representing|Representable' usages found nothing beyond the cited files. All ingredients present via Yoneda_Embedding', so PARTIAL (not ABSENT) is right."
+    }
+  },
+  {
+    "id": "maclane:III.2:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "contravariant Yoneda lemma",
+      "dual Yoneda: Nat(D(-,r), K) ≅ K r for presheaves",
+      "presheaf Yoneda",
+      "Yoneda_Lemma (C^op ⟶ Sets form)",
+      "Yoneda for D^op"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom/Yoneda.v",
+        "line": 133,
+        "symbol": "Yoneda_Lemma",
+        "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; from := ... fmap (C^op) Sets F A x phi y ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "State the dual of the Yoneda Lemma with D replaced by D^op: the bijection Nat(D(-, r), K) ≅ K r for contravariant K : D^op → Set.",
+      "intree": "Yoneda_Lemma : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A for F : C^op ⟶ Sets — an isomorphism in Sets between the setoid of natural transformations [Hom ─,A] ⟹ F (Presheaves = [C^op, Sets]) and F A, with forward map evaluation at the identity. This is exactly the contravariant/presheaf dual; the library carries both variances as separate first-class statements (the covariant Covariant_Yoneda_Lemma being MacLane's main lemma).",
+      "strength_comparison": "same — the dual is not merely 'stated' (the exercise's task) but proven, with the same evaluation-at-identity forward map; setoid rephrasing and no smallness hypothesis as with lem1."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same witness: Yoneda_Lemma (Functor/Hom/Yoneda.v:133) IS the contravariant dual Nat(D(-,r),K) ≅ K r, fully proven — stronger than the exercise's ask (merely to state it). Both variances are first-class in-tree."
+    }
+  },
+  {
+    "id": "maclane:III.2:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "coyoneda lemma (Kan, category-of-elements form)",
+      "category of elements (* ↓ K) / el(K)",
+      "Nat(K, D(a,-)) ≅ Nat(Δa, Q) with Q the projection",
+      "cones from a constant functor to the elements projection",
+      "discrete opfibration of a Set-valued functor"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'category of elements' --glob '*.v' — 1 relevant hit: Construction/Grothendieck.v:108, prose only ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); the construction is never instantiated: IndexedCat targets Cat, and no Sets-to-discrete-Cat instantiation or el(F) definition exists in-tree",
+      "rg -i 'coyoneda|co-yoneda|co_yoneda' --glob '*.v' — hits only the coend-calculus ninja co-Yoneda (Theory/Coend/Yoneda.v: coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c, i.e. ∫^x C(x,c) × F x ≅ F c), a different theorem from MacLane's Exercise 3 (which is the cone iso Nat(K, D(a,-)) ≅ Nat(Δa, Q) over the category of elements) — the same-name trap, checked and rejected",
+      "rg 'Elems|el_of|CatOfElements|ElementsCat' --glob '*.v' — 0 hits",
+      "rg -i 'kan' --glob '*.v' -l — Theory/Kan/Extension.v, Structure/Limit/Kan/Extension.v and adjunction files; none constructs the category of elements or states the exercise's isomorphism",
+      "Construction/Comma.v provides general comma categories, but no (∗ ↓ K) instance for K : D ⟶ Sets (comma of a point-of-Sets functor over K) is built anywhere; rg -i 'universal element' hits only Structure/UniversalProperty.v and Functor/Representable.v (representability, not the elements category)",
+      "rg -i 'discrete opfibration' --glob '*.v' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found no counterpart: no category-of-elements construction (Grothendieck.v:107-111 is prose only; IndexedCat targets Cat, never instantiated at discrete fibres of a Set-valued functor), no (* ↓ K) comma instance, and Theory/Coend/Yoneda.v's coyoneda_reduction (∫^x C(x,c) × F x ≅ F c) is a genuinely different theorem sharing the name — the negative log's same-name-trap rejection is correct. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:III.2:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "Nat(K,L) ≅ Nat(JK,JL) for a full subcategory inclusion",
+      "postcomposition/whiskering with a fully faithful functor is fully faithful on functor categories",
+      "naturality unchanged by enlarging the codomain",
+      "corestriction of natural transformations",
+      "induced functor [D,E] ⟶ [D,E'] full and faithful"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'full subcategory|FullSubcat|Subcategory' --glob '*.v' -l — Construction/Subcategory.v defines Sub/Incl with the Full predicate and Full_Implies_Full_Functor (fullness of the inclusion on HOM-SETS of Sub, not a statement about Nat-setoids of functor categories); Theory/Sheaf/Category.v proves Sheaves_Full/faithful for the specific sheaf inclusion, again hom-level; Construction/Reflective.v, Construction/Localization.v use full inclusions but state nothing about Nat(K,L) vs Nat(JK,JL)",
+      "rg 'Whisker|whisker_|postcompose|Postcompose|precompose|Induced' --glob '*.v' — whiskering lemmas exist only inside a fixed functor category (Instance/Fun.v: whisker_left_id, whisker_left_right etc., coherence of ⊳/⊲); no postcomposition functor [D,E] ⟶ [D,E'] along J : E ⟶ E' is defined, hence no full/faithfulness statement for it",
+      "rg 'Full.*◯|◯.*Full' --glob '*.v' — 0 relevant hits; Theory/Equivalence/FullFaithful.v and Theory/Equivalence/Adjoint.v concern ff+eso functors as equivalences of the base categories, not induced maps on Nat-setoids",
+      "rg -i 'restrict.*Nat|Nat.*restrict|corestrict' --glob '*.v' — 0 relevant hits (hits are about unrelated restriction notions in CopyDiscard/Localization/Quotient)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently found no counterpart: Construction/Subcategory.v's Full/Full_Implies_Full_Functor is hom-level fullness of Incl on Sub, not a Nat-setoid comparison; no postcomposition functor [D,E] ⟶ [D,E'] along J exists, hence no full/faithfulness for it; Instance/Fun.v whiskering lemmas are internal to one functor category; Sheaves_Full/Faithful are again hom-level for a specific inclusion. ABSENT confirmed; this is also the missing clause behind remark1's gap."
+    }
+  }
+]

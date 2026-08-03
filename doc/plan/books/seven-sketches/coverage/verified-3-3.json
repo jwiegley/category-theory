@@ -1,0 +1,685 @@
+[
+ {
+  "id": "7sketches:3.3.2:example3.42",
+  "classification": "PARTIAL",
+  "aliases": [
+   "monotone map",
+   "order-preserving map",
+   "preorder as thin category",
+   "Proset / Poset as a category",
+   "MonotoneMap record",
+   "enriched functor over 2",
+   "functor N -> N as non-decreasing sequence"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 183,
+    "symbol": "EnrichedFunctor_Two_monotone",
+    "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) <-> MonotoneMap P Q."
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}."
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 47,
+    "symbol": "LessThanEqualTo_Category",
+    "intree_statement": "Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder."
+   }
+  ],
+  "statement_record": {
+   "book": "Preorders are exactly the categories with at most one morphism between any two objects, so a functor between preorder categories is precisely a monotone map; worked out for N = the category of (N, <=), where a functor F : N -> N is the same thing as a monotone map N -> N (functoriality is automatic because hom-sets are subsingletons).",
+   "intree": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) <-> MonotoneMap P Q, where Record MonotoneMap (P Q : TwoPreorder) := { mono_map : tpre_carrier P -> tpre_carrier Q; mono_le x y : tpre_le P x y -> tpre_le Q (mono_map x) (mono_map y) }.",
+   "strength_comparison": "intree-weaker: the correspondence is stated for 2-ENRICHED functors between 2-enrichments, not for ordinary Functors between the thin categories Instance/Proset.v builds, and TwoPreorder carries a DECIDABILITY field (tpre_dec x y : tpre_le x y + (tpre_le x y -> False)) that the book's preorders do not need; Enriched_of_TwoPreorder computes hom truth values through that decider. The book's N-instance (functors N -> N = non-decreasing sequences) is absent."
+  },
+  "gap": "Missing: (a) any statement that an ordinary Functor (Proset P) (Proset Q) is the same thing as a monotone map -- the in-tree correspondence lives in the 2-enrichment encoding (Construction/Enriched/Two.v) and additionally assumes the order is decidable; (b) the N-specific reading of Example 3.42 (a functor N -> N, over Instance/Proset.v's LessThanEqualTo_Category or Instance/Omega.v's Omega, is a non-decreasing sequence F_0 <= F_1 <= ...); (c) any lemma that functoriality is automatic in a thin category (all hom-sets subsingletons), which is what makes the book's identification work.",
+  "negative_search_log": [
+   "rg -n 'monotone' --glob '*.v'  -- 12 hits, all in Instance/Proset.v, Instance/Poset.v, Instance/Two.v, Construction/Enriched.v, Construction/Enriched/Two.v; only Enriched/Two.v carries a theorem",
+   "rg -n 'Proset' --glob '*.v'  -- only Instance/Proset.v, Instance/Poset.v, Test/Poset.v, Instance/Props.v (comment); no functor between Prosets anywhere",
+   "rg -n 'thin categor|two_thin|Thin' --glob '*.v'  -- only two_thin (Instance/Two/Monoidal.v:26) and header prose; no general thin-category lemma",
+   "rg -n '\\bOrd\\b|Definition Ord|Pos\\b' --glob '*.v'  -- no category of preorders/posets with monotone maps in tree (Instance/Proset.v's 'See also [Ord]' is a forward reference to something that does not exist)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. My searches (rg -l -i 'preorder' --glob '*.v'; rg -n -i 'monotone'; rg -n 'Proset'; rg -n -i 'thin') found exactly the same three artefacts: Instance/Proset.v:33 Proset (verified verbatim -- hom := R, homset equiv := fun _ _ => True, id from reflexivity, compose from transitivity), Instance/Proset.v:47 LessThanEqualTo_Category over (nat, le), and Construction/Enriched/Two.v:183 EnrichedFunctor_Two_monotone (verified verbatim at lines 175-215, including Record MonotoneMap with mono_map/mono_le). No in-tree statement relates an ORDINARY Functor (Proset P) (Proset Q) to a monotone map, and the enriched form additionally consumes TwoPreorder's tpre_dec decidability field (confirmed: Enriched_of_TwoPreorder branches on tpre_dec at Construction/Enriched/Two.v:145-146), so the strength_comparison's 'intree-weaker' is honest. Construction/Enriched/Two.v is registered in _CoqProject (line 35), as are Instance/Proset.v and Instance/Poset.v. Note the classifier's own negative log flagged that Instance/Proset.v:19's 'See also [Ord]' points at a symbol that does not exist -- I confirmed that (rg -n '\\bOrd\\b' --glob '*.v' returns that one comment line and nothing else) and escalated it to problems[] as a library defect, since a PRESENT/PARTIAL classification files no issue for it."
+  }
+ },
+ {
+  "id": "7sketches:3.3.2:ex3.43",
+  "classification": "PRESENT",
+  "aliases": [
+   "Cat",
+   "category of (small) categories",
+   "identity functor id_C",
+   "composition of functors",
+   "StrictCat",
+   "Id / Compose",
+   "2-category Cat truncated"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat.v",
+    "line": 142,
+    "symbol": "Cat",
+    "intree_statement": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc; ... }."
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 247,
+    "symbol": "Id",
+    "intree_statement": "Program Definition Id {C : Category} : C ==> C := {| fobj := fun x => x; fmap := fun _ _ f => f |}."
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 258,
+    "symbol": "Compose",
+    "intree_statement": "Program Definition Compose {C D E : Category} (F : D ==> E) (G : C ==> D) : C ==> E := {| fobj := fun x => fobj (fobj x); fmap := fun _ _ f => fmap (fmap f) |}."
+   },
+   {
+    "file": "Instance/StrictCat.v",
+    "line": 56,
+    "symbol": "StrictCat",
+    "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; id := @Id; compose := @Compose; ... }."
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 3.43: (1) every category C has an identity functor id_C fixing all objects and morphisms; (2) functors F : C -> D and G : D -> E compose to (F;G) : C -> E by composing the underlying functions; (3) there is a category Cat whose objects are categories, whose morphisms are functors, with those identities and that composition.",
+   "intree": "Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc; ... }, with Id and Compose from Theory/Functor.v.",
+   "strength_comparison": "same, with a presentation note in BOTH directions: Instance/Cat.v's hom-setoid is Functor_Setoid, which identifies functors up to NATURAL ISOMORPHISM (so its isos are equivalences of categories, i.e. Ho(Cat)); the book's strict Cat -- functors compared on the nose -- is Instance/StrictCat.v's StrictCat, which is also in tree over the same Id/Compose. Size is handled by universe polymorphism (Category@{o h p} sits strictly above obj := Category), so there is a Cat at every level rather than a smallness side condition."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT. Verified all four cited sites verbatim: Instance/Cat.v:142 Instance Cat (obj := Category, hom := @Functor, homset := @Functor_Setoid, id := @Id, compose := @Compose, plus the three law fields), Theory/Functor.v:247 Id and :258 Compose, Instance/StrictCat.v:56 StrictCat over @Functor_StrictEq_Setoid. All in _CoqProject; no Admitted in any of them. The strength_comparison's two-sided disclosure is accurate and load-bearing: Cat's hom-setoid IS Functor_Setoid (Theory/Functor.v:148), whose equiv is a componentwise-iso family, so Cat is the weak/Ho(Cat) version and StrictCat is the on-the-nose one the exercise literally describes -- both in tree, so PRESENT survives either reading. Universe handling checked: Instance/Cat.v:108-114 documents that obj := Category sits strictly above its own objects at every level."
+  }
+ },
+ {
+  "id": "7sketches:3.3.3:def-set-valued-functor",
+  "classification": "PRESENT",
+  "aliases": [
+   "set-valued functor",
+   "copresheaf",
+   "functor C -> Set",
+   "C ==> Sets",
+   "Copresheaves [U, C]",
+   "Set-valued diagram",
+   "presheaf (dual form)"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 182,
+    "symbol": "Covariant_Yoneda_Lemma",
+    "intree_statement": "Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ==> Sets) : forall A : C, Copresheaves [Hom A,-] F ~= F A."
+   },
+   {
+    "file": "Functor/Representable.v",
+    "line": 46,
+    "symbol": "Representable",
+    "intree_statement": "Class Representable `(F : C ==> Sets) := { repr_obj : C; represented : [Hom repr_obj,-] ~= F }."
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 188,
+    "symbol": "Sets",
+    "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject; hom := lambda x y, SetoidMorphism x y; homset := @SetoidMorphism_Setoid; id := @setoid_morphism_id; compose := @setoid_morphism_compose |}."
+   }
+  ],
+  "statement_record": {
+   "book": "For a category C, a functor F : C -> Set is called a set-valued functor on C.",
+   "intree": "Functors into Sets are a first-class, pervasively used notion: Covariant_Yoneda_Lemma quantifies over an arbitrary `(F : C ==> Sets)` and Representable is a class over `(F : C ==> Sets)`; Sets itself is Instance/Sets.v's category of setoids and equivalence-respecting maps.",
+   "strength_comparison": "same up to the library's sanctioned setoid presentation: the codomain Sets is the category of SETOIDS (a carrier with an equivalence) and setoid morphisms, not bare sets and functions, and hom-equality is ~= rather than =. Nothing about the book's notion depends on the difference. Theory/Sheaf.v:133 additionally names the functor category (Definition Copresheaves {U C} := [U, C]), but that is a bare alias and is not cited as evidence."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT. Verified Functor/Hom/Yoneda.v:182-183 (Covariant_Yoneda_Lemma quantified over `(F : C ⟶ Sets)`), Functor/Representable.v:46 (Class Representable `(F : C ⟶ Sets)), Instance/Sets.v:188 (Sets over SetoidObject/SetoidMorphism). The setoid rephrasing is the sanctioned faithful one. ONE IMPROVEMENT, not a defect: the closest in-tree counterpart to the book's terminology is Theory/Sheaf.v:130 `Definition Copresheaf (U C : Category) := U ⟶ C` (at C := Sets, literally 'set-valued functor on U'); the record's strength_comparison instead cites :133 Copresheaves, which is the functor CATEGORY. Classification unaffected -- :130 is a strictly better witness than the one dismissed, so PRESENT is if anything better supported than the record claims. Additional independent witnesses my blind pass found: Instance/Parallel.v:166 Presheaf_Graph and Instance/Two.v:174 _2_as_Set, both concrete set-valued functors on small shape categories."
+  }
+ },
+ {
+  "id": "7sketches:3.3.3:def3.44",
+  "classification": "PARTIAL",
+  "aliases": [
+   "database instance",
+   "C-instance",
+   "Set-valued functor on a schema",
+   "finitely presented category",
+   "schema",
+   "presentation by generators and relations",
+   "free category on a graph modulo path equations",
+   "model of a sketch",
+   "copresheaf on a small category"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Parallel.v",
+    "line": 166,
+    "symbol": "Presheaf_Graph",
+    "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ==> Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} | ParY => {| carrier := nat * nat |} end; fmap := fun z w h => ... match ``h with true => {| morphism := fst |} | false => {| morphism := snd |} end ... |}.  (a Set-valued functor on a two-object shape category: G0 vertices, G1 edges, source/target)"
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 431,
+    "symbol": "FreeOnQuiver",
+    "intree_statement": "Program Definition FreeOnQuiver : Category@{o h p} := (nodes of the quiver G as objects, finite paths of G-edges as morphisms), with Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful (Construction/Free/Quiver.v:518)."
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient",
+    "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category, with Definition QuotientProj : C ==> Quotient C R (:294) and the universal property Definition QuotientLift : Quotient C R ==> D (:313) / Lemma QuotientLift_unique (:334)."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.44: let C be a schema, i.e. a finitely presented category; a C-instance is a functor I : C -> Set (with 'white' attribute objects such as the node labelled string required to go to a fixed value set). Schema constraints/path equations are automatically enforced because functors preserve composition.",
+   "intree": "The instance half is in tree in full generality (any functor into Sets; Instance/Parallel.v:166 is a worked Set-valued functor on a hand-built shape category, described in its own header as 'a presheaf on the parallel-pair category is a graph'). The schema half exists only as separate raw materials: FreeOnQuiver (free category on a quiver, with its universal arrow) and Quotient C R by a HomCongruence with QuotientLift's universal property.",
+   "strength_comparison": "intree-weaker: no notion of schema / finitely presented category is packaged anywhere; the generators-and-relations recipe (FreeOnQuiver then Quotient by a hom-congruence) is never assembled, and there is no finiteness condition on either the quiver or the equation set."
+  },
+  "gap": "Missing: (a) a `Schema` / `FinitelyPresented` notion combining Construction/Free/Quiver.v's FreeOnQuiver with Construction/Quotient.v's Quotient-by-a-HomCongruence (both exist, neither is composed, and neither carries a finiteness constraint); (b) the attribute-object discipline of Definition 3.44 -- no way to require an instance to send designated 'white' objects to fixed value sets (a comma/slice-style constraint); (c) any in-tree statement that a Set-valued functor on such a presented category automatically satisfies the schema's path equations (true by fmap_comp, never stated); (d) the database vocabulary entirely -- rg -in 'database|schema' over *.v finds only one prose sentence, Construction/Free.v:87, citing Seven Sketches Chapter 3.",
+  "negative_search_log": [
+   "rg -in 'database|schema' --glob '*.v'  -- only Construction/Free.v:87 (header prose citing Fong-Spivak) and unrelated 'hint database' hits",
+   "rg -c 'data migration|foreign key|attribute|C-instance' --glob '*.v'  -- only incidental prose hits (Adjunction/GAFT.v, Instance/Poset.v, Construction/Funny.v ...), no definition",
+   "rg -in 'generators and relations|presentation' --glob '*.v' | grep -v PROP  -- presentations exist only for PROPs (Construction/PROP/Presentation.v, Construction/ColouredPROP/), never for a general category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason. My independent grep (rg -n -i 'database|schema' --glob '*.v') returns Construction/Free.v:87 as the ONLY substantive hit -- header prose citing Fong-Spivak Chapter 3 ('a database schema is a finitely presented category, a free category on tables and foreign keys quotiented by path equations, with instances as functors to Set and data migration by adjoints') -- everything else is 'hint database'. Verified the raw materials exist and are proven: Construction/Free/Quiver.v:431 FreeOnQuiver and :518 UniversalArrowQuiverCat; Construction/Quotient.v:254 Quotient with :294 QuotientProj, :313 QuotientLift, :334 QuotientLift_unique. Confirmed they are never composed: no FinitelyPresented/Schema/Presentation of a general category anywhere (presentations exist only for PROPs). Instance/Parallel.v:166 Presheaf_Graph verified as the cited worked instance. Gap statement (a)-(d) is precise and correct."
+  }
+ },
+ {
+  "id": "7sketches:3.3.3:ex3.45",
+  "classification": "PARTIAL",
+  "aliases": [
+   "functors out of the terminal category",
+   "1 ==> Sets",
+   "[1, C] ~= C",
+   "points / global elements of a category",
+   "constant functor on the point",
+   "Diagonal 1",
+   "=(c) notation",
+   "x^1 ~= x"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 389,
+    "symbol": "exp_one",
+    "intree_statement": "Program Instance exp_one {x : C} : x^1 ~= x := { to := eval o id /\\ one; from := curry exl }.  (in any cartesian closed C with a Terminal object)"
+   },
+   {
+    "file": "Instance/Cat/Cartesian/Closed.v",
+    "line": 47,
+    "symbol": "Cat_Closed",
+    "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => ... }.  (so z^y = exponent_obj y z = [y, z]; with Cat_Terminal (Instance/One.v:54) whose terminal_obj is _1, x^1 unfolds to [1, x])"
+   },
+   {
+    "file": "Functor/Diagonal.v",
+    "line": 33,
+    "symbol": "Diagonal",
+    "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ==> [J, C] := { fobj := fun x => {| fobj := fun _ => x; fmap := fun _ _ _ => id[x] |}; fmap := fun _ _ f => {| transform := fun _ => f |} }.  (at J := 1, notation =(c) := Diagonal 1 c, Functor/Diagonal.v:55 -- the functor 1 ==> C picking out c)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 3.45: for the category 1 (one object, only its identity), any functor F : 1 -> Set determines a set F(1); conversely for every set S there is a functor F_S : 1 -> Set with F_S(1) = S. Functors 1 -> Set are therefore the same thing as sets.",
+   "intree": "The 'conversely' direction is exactly Diagonal 1 : C ==> [1, C] (notation =(c)), whose object part sends S to a functor 1 ==> Sets with value S at the point definitionally; the forward direction is fobj application. The identification itself is available only by instantiating exp_one : x^1 ~= x at Cat (Cat_Cartesian + Cat_Closed with exponent_obj := @Fun + Cat_Terminal with terminal_obj := _1), which no in-tree line performs.",
+   "strength_comparison": "intree-weaker in packaging, stronger in generality: nothing states 'functors 1 -> Sets are sets'; the general CCC lemma exp_one plus Cat's closed structure yields [1, C] ~= C for EVERY C in one step, but the instantiation (and any Sets-specific reading) is missing. Instance/One.v:22 and Instance/One/Diagonal.v:30 record '[1, C] ~= C' as prose only."
+  },
+  "gap": "No in-tree statement of the identification. Concretely missing: (a) the instantiation of Structure/Cartesian/Closed.v's exp_one at Cat (or any direct construction) giving [1, C] ~= C, let alone at C := Sets; (b) an evaluation functor [1, C] ==> C and a proof that it is inverse to Diagonal 1 (fully faithful + essentially surjective, or a Cat-isomorphism); (c) the trivial-but-unstated fact F_S(1) = S for the constructed functor -- it holds definitionally but is never asserted. The claim appears only as comment prose at Instance/One.v:22 and Instance/One/Diagonal.v:30.",
+  "negative_search_log": [
+   "rg -n '\\[1, |\\[1,|\\[ 1 ,' --glob '*.v'  -- 2 hits, both COMMENTS (Instance/One.v:22, Instance/One/Diagonal.v:30)",
+   "rg -n '~=\\[Cat\\]' --glob '*.v'  -- 20+ hits (comma, slice, funny tensor, Grothendieck, arrow/codomain), none involving the terminal category 1",
+   "rg -n '_1 ==>|==> _1' --glob '*.v'  -- only Instance/StrictCat/Premonoid.v:100 (sp_unit : _1 ==> c, the premonoid unit), no identification theorem"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently: I found `1` (Instance/One.v:25 _1) and Sets, but rg -n '\\[1,' --glob '*.v' returns exactly TWO hits and both are COMMENTS (Instance/One.v:22, Instance/One/Diagonal.v:30) -- no theorem. Verified the record's derivation chain is real, not hand-waved: Structure/Cartesian/Closed.v:389 exp_one : x^1 ≅ x under `Context `{@Terminal C}` (:387); the notation is `y ^ x := exponent_obj x y` (Structure/Cartesian/Closed.v:65,433) so x^1 = exponent_obj 1 x; Instance/Cat/Cartesian/Closed.v:47 Cat_Closed sets exponent_obj := @Fun; Instance/One.v:54 Cat_Terminal sets terminal_obj := _1. Hence exp_one at Cat WOULD read [1, x] ≅ x -- and rg confirms it is never instantiated at Cat (the only other use is Theory/Algebra.v:84's `Goal ∀ x : C, x^1 ≅ x`, inside an abstract CCC section). Functor/Diagonal.v:33 Diagonal and :55 the =(c) notation verified verbatim, so the 'conversely' leg is genuinely in tree. No Admitted in any cited file."
+  }
+ },
+ {
+  "id": "7sketches:3.3.3:example3.46",
+  "classification": "PARTIAL",
+  "aliases": [
+   "idempotent endofunction",
+   "s;s = s",
+   "walking idempotent category",
+   "Karoubi envelope",
+   "split idempotent",
+   "retract / fixed-point set",
+   "one-object category presented by a loop",
+   "delooping of a monoid"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Karoubi.v",
+    "line": 80,
+    "symbol": "sets_split",
+    "intree_statement": "Program Definition sets_split {X : SetoidObject} (e : X ~{Sets}~> X) (H : Idempotent e) : @SplitIdempotent Sets X (sets_split_obj e) := {| split_idem := e; split_idem_r := sets_split_r e H; split_idem_s := sets_split_s e |}, over Program Definition sets_split_obj {X} (e : X ~{Sets}~> X) : SetoidObject := {| carrier := exists a : X, e a ~= a |} (:41)."
+   },
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 22,
+    "symbol": "Idempotent",
+    "intree_statement": "Class Idempotent `(f : x ~> x) := { idem : f o f ~= f }."
+   },
+   {
+    "file": "Instance/Sets/Karoubi.v",
+    "line": 113,
+    "symbol": "Sets_Cauchy",
+    "intree_statement": "Corollary Sets_Cauchy : EquivalenceOfCategories (@Karoubi_Embed Sets)."
+   }
+  ],
+  "statement_record": {
+   "book": "Example 3.46: take C the one-object category presented by a loop s on z subject to s;s = s. A set-valued functor F : C -> Set is then exactly a set Z = F(z) with an IDEMPOTENT endofunction S = F(s) : Z -> Z (S;S = S). Four models: citizens/president, N with constant 0, arithmetic expressions/evaluation, integers >= 2 with smallest prime factor.",
+   "intree": "The target notion is in tree at Sets: Class Idempotent `(f : x ~> x) := { idem : f o f ~= f }, and sets_split shows every idempotent endomorphism of a setoid splits through its fixed-point sub-setoid { a | e a ~= a } -- the 'set of presidents' / 'set of primes' image the book's models exhibit. The schema side (the presented one-object category) and the functor-identification are absent.",
+   "strength_comparison": "intree-weaker on the item's actual claim: what is formalized is an idempotent ENDOMORPHISM in Sets (plus its splitting), never that Set-valued functors on the walking-idempotent category are the same thing as such data."
+  },
+  "gap": "Missing: (a) the schema itself -- there is no delooping construction (a monoid/one-object category on a presented generator) anywhere in tree, hence no walking-idempotent category <z, s | s;s = s>; rg -n 'delooping|one-object' finds only header prose (Theory/Functor.v:68, Theory/Bicategory.v:68, Construction/Karoubi.v:95); (b) the identification 'Set-valued functor on that schema = set with an idempotent endofunction', in either direction; (c) the four concrete models. Only the codomain-side notion (Idempotent at Sets, with its splitting) is present.",
+  "negative_search_log": [
+   "rg -n 'walking idempotent' --glob '*.v'  -- 0 hits",
+   "rg -n 'delooping|one-object|one object' --glob '*.v'  -- header prose only (Theory/Bicategory.v, Monad/Graded.v, Construction/Karoubi.v, Theory/Functor.v); no BG / BM construction",
+   "rg -ln 'idempotent' --glob '*.v'  -- 17 files; the endomorphism-level notion is Theory/Morphisms.v's Idempotent (Construction/Reflective/Idempotent.v is the unrelated idempotent MONAD)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason. Verified Theory/Morphisms.v:22 Class Idempotent { idem : f ∘ f ≈ f } verbatim, Instance/Sets/Karoubi.v:41 sets_split_obj (carrier := ∃ a : X, e a ≈ a), :80 sets_split, :101 Sets_IdempotentsSplit, :113 Sets_Cauchy -- all Defined/Qed, no Admitted. Independently confirmed the schema side is absent: rg -n -i 'walking' --glob '*.v' lists walking parallel pair, walking arrow, walking roof, walking isomorphism -- no walking idempotent; there is no delooping/one-object-category-on-a-presented-generator construction anywhere. So the identification 'Set-valued functor on <z, s | s;s=s> = a set with an idempotent endofunction' is genuinely unstated, and only the codomain-side notion is present. Strength_comparison honest."
+  }
+ },
+ {
+  "id": "7sketches:3.3.3:ex3.48",
+  "classification": "PARTIAL",
+  "aliases": [
+   "involution s;s = id",
+   "Z/2-set",
+   "set with an involution",
+   "fork / equalizing pair",
+   "parallel pair a -f-> b => c",
+   "cone over the walking parallel pair",
+   "quiver as a presheaf",
+   "Instance/Parallel"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 32,
+    "symbol": "Involutive",
+    "intree_statement": "Class Involutive `(f : x ~> x) := { invol : f o f ~= id }."
+   },
+   {
+    "file": "Structure/Equalizer/Fork.v",
+    "line": 176,
+    "symbol": "fork_cone",
+    "intree_statement": "Definition fork_cone {z : C} (h : z ~> x) (Hh : f o h ~= g o h) : Cone (APair f g) := @Build_Cone Parallel C (APair f g) z (@Build_ACone Parallel C z (APair f g) (fork_legs h) (fork_legs_coherence h Hh)).  (the data z -h-> x =f,g=> y with g o h ~= f o h is exactly a cone over the walking parallel pair)"
+   },
+   {
+    "file": "Instance/Parallel.v",
+    "line": 166,
+    "symbol": "Presheaf_Graph",
+    "intree_statement": "Program Definition Presheaf_Graph : Parallel^op ==> Sets := {| fobj := fun z => match z with ParX => {| carrier := nat |} | ParY => {| carrier := nat * nat |} end; ... |}.  (the exercise's 'give an example of the sort of data that makes sense for this schema', carried out for the parallel-pair schema: a graph)"
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 3.48: exhibit the data (a set-valued functor) that makes sense for each of two schemas -- (1) one object with a loop s subject to s;s = z, i.e. a set with an INVOLUTION; (2) a -f-> b with parallel g, h : b -> c subject to f;g = f;h, i.e. sets A, B, C with f : A -> B and g, h : B -> C agreeing after precomposition with f.",
+   "intree": "Clause (1)'s target notion is Class Involutive `(f : x ~> x) := { invol : f o f ~= id }, instantiable at Sets. Clause (2)'s data is precisely fork_cone's input -- h : z ~> x with f o h ~= g o h over the walking parallel pair APair f g -- and Instance/Parallel.v:166 carries out the 'what data does this schema hold' reading for the (unconstrained) parallel-pair schema.",
+   "strength_comparison": "intree-weaker: both clauses appear only as the ambient categorical data, never as the image of a functor out of a presented schema; and Structure/Equalizer/Fork.v's headline record IsEqualizer (:52) is STRONGER than the exercise wants -- it adds the universal property eq_desc, whereas the exercise asks only for the fork equation fork_eq : f o e ~= g o e."
+  },
+  "gap": "Missing: (a) both schemas as categories -- there is no one-object category with a generator subject to s;s = identity (no delooping in tree), and the three-object schema a -> b => c with f;g = f;h is nowhere built (Instance/Parallel.v has only the bare parallel pair b => c, with no incoming leg and no equation); (b) the identification of set-valued functors on them with, respectively, an involution on a set and a triple (A,B,C) with the agreement equation; (c) any Sets-level instance of Involutive.",
+  "negative_search_log": [
+   "rg -n 'involution|Involution' --glob '*.v'  -- 20+ hits, all either braided-monoidal (braid_invol, swap_inner_invol) or Theory/Morphisms.v's Involutive class; no set-with-involution instance and no schema",
+   "rg -n 'walking involution' --glob '*.v'  -- 0 hits",
+   "rg -n 'Definition Diagram|Class Diagram' / 'schema' --glob '*.v'  -- no schema/presented-category machinery to host either shape (see def3.44's log)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason. Verified Theory/Morphisms.v:32 Class Involutive { invol : f ∘ f ≈ id } verbatim (note the record cites line 32, which is the Class line -- exact), Structure/Equalizer/Fork.v:176 fork_cone verbatim, and :52 Record IsEqualizer whose fields are fork_eq (:55) and eq_desc (:58) -- so the record's 'IsEqualizer is STRONGER than the exercise wants (it adds eq_desc)' is verified, not asserted. Instance/Parallel.v:166 Presheaf_Graph verified. Independently confirmed both schemas are absent: no walking involution (rg -n -i 'involution' hits are only braided-monoidal lemmas plus Theory/Morphisms.v's class), and Instance/Parallel.v builds the bare pair b ⇉ c with no incoming leg and no equation (ParObj has exactly two constructors, ParHom four). No Sets-level Involutive instance exists."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:def3.49",
+  "classification": "PRESENT",
+  "aliases": [
+   "natural transformation",
+   "Transform",
+   "F ==> G components",
+   "naturality square",
+   "natural isomorphism",
+   "componentwise iso",
+   "Godement / vertical"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Natural/Transformation.v",
+    "line": 113,
+    "symbol": "Transform",
+    "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f o transform ~= transform o fmap[F] f; naturality_sym {x y} (f : x ~> y) : transform o fmap[F] f ~= fmap[G] f o transform }."
+   },
+   {
+    "file": "Instance/Fun.v",
+    "line": 255,
+    "symbol": "Functor_Setoid_Nat_Iso",
+    "intree_statement": "Theorem Functor_Setoid_Nat_Iso `(F : C ==> D) (G : C ==> D) : F ~=[Fun] G <-> F ~= G.  (where F ~= G is Theory/Functor.v:148's Functor_Setoid: { iso : forall x : C, F x ~= G x & forall x y (f : x ~> y), fmap[F] f ~= from (iso y) o fmap[G] f o to (iso x) } -- i.e. an isomorphism in the functor category is exactly a componentwise-invertible natural family)"
+   },
+   {
+    "file": "Theory/Natural/Transformation.v",
+    "line": 129,
+    "symbol": "Build_Transform'",
+    "intree_statement": "Definition Build_Transform' (transform' : forall x, F x ~> G x) (natural : forall x y (f : x ~> y), fmap[G] f o transform' x ~= transform' y o fmap[F] f) : Transform."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.49: for functors F, G : C -> D, a natural transformation alpha : F => G is a family of components alpha_c : F(c) -> G(c), one per object c, satisfying naturality: F(f) ; alpha_d = alpha_c ; G(f) for every f : c -> d. It is a natural ISOMORPHISM if every component is an isomorphism in D.",
+   "intree": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f o transform ~= transform o fmap[F] f; naturality_sym ... }, with Functor_Setoid_Nat_Iso : F ~=[Fun] G <-> F ~= G supplying the natural-isomorphism clause (iso in [C,D] iff componentwise iso).",
+   "strength_comparison": "same. The naturality equation is written in composition order (G f o alpha_x ~= alpha_y o F f), the transpose of the book's diagrammatic F(f);alpha_d = alpha_c;G(f); the extra field naturality_sym is only the symmetric orientation kept primitive so that duality is definitional, and Build_Transform' proves it carries no content. Natural isomorphism is packaged as an isomorphism in [C, D] rather than as a predicate on a Transform, and Functor_Setoid_Nat_Iso proves the two agree."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT. Verified Theory/Natural/Transformation.v:113 Class Transform with transform/naturality/naturality_sym and :129 Build_Transform' (which derives naturality_sym from naturality alone, confirming it carries no content); Instance/Fun.v:255 Theorem Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G, read against Theory/Functor.v:148 Functor_Setoid whose equiv is `{ iso : ∀ x, F x ≅ G x & ∀ x y f, ... }` -- i.e. componentwise invertibility, exactly the book's natural-isomorphism clause. Both directions are Defined (Instance/Fun.v:299), not Admitted. The composition-order transpose vs the book's diagrammatic F(f);α_d = α_c;G(f) is the standard faithful rephrasing, and the record discloses that natural iso is packaged as an iso in [C,D] rather than as a predicate, with the agreement proven. No same-name-weaker hazard found."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:def3.51",
+  "classification": "PARTIAL",
+  "aliases": [
+   "diagram in a category",
+   "functor from an indexing/shape category",
+   "commuting diagram",
+   "D(f) = D(f') for parallel pairs",
+   "preorder reflection of J",
+   "Span/Cospan as diagrams",
+   "cone coherence"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit.v",
+    "line": 113,
+    "symbol": "Limit",
+    "intree_statement": "Class Limit `(F : J ==> C) := { limit_cone : Cone F; ump_limits : forall N : Cone F, exists! u : N ~> limit_cone, forall x : J, vertex_map[limit_cone] o u ~= vertex_map x }.  (the library's diagrams ARE functors F : J ==> C out of an arbitrary index category J)"
+   },
+   {
+    "file": "Structure/Span.v",
+    "line": 43,
+    "symbol": "ASpan",
+    "intree_statement": "Program Definition ASpan {C : Category} {S x y : C} (f : S ~> x) (g : S ~> y) : Roof ==> C := {| fobj := fun z => match z with RNeg => x | RZero => S | RPos => y end; fmap := ... |}.  (a concrete diagram exhibited as a functor out of a shape category)"
+   },
+   {
+    "file": "Structure/Cone.v",
+    "line": 24,
+    "symbol": "ACone",
+    "intree_statement": "Class ACone {J C} (c : obj[C]) (F : J ==> C) := { vertex_map (x : J) : c ~{C}~> F x; cone_coherence {x y : J} (f : x ~{J}~> y) : fmap[F] f o vertex_map x ~= vertex_map y }."
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.51: a diagram D in C is a functor D : J -> C from an arbitrary category J, the indexing category. D COMMUTES if D(f) = D(f') for every parallel pair f, f' : a -> b in J (footnote: equivalently, D factors through the preorder reflection of J). Applied to the naturality square (3.50), 'the diagram commutes' says exactly F(f);alpha_d = alpha_c;G(f).",
+   "intree": "The diagram-as-functor half is the library's standing convention -- Limit, Cone/ACone, Span/Cospan and every (co)limit notion are stated over `(F : J ==> C)` for an arbitrary index category J -- but is never given a name; the commuting predicate has no counterpart, the nearest being ACone's cone_coherence, which forces only the triangles under a fixed apex to commute.",
+   "strength_comparison": "intree-weaker: half the definition (diagram = functor out of an index category) is present only as usage, not as a definition; the other half (the `commutes` predicate on a diagram and its preorder-reflection characterization) is entirely absent."
+  },
+  "gap": "Missing: (a) any named `Diagram` definition -- rg -n 'Definition Diagram|Class Diagram|Record Diagram' returns 0 hits, so 'diagram' exists only as the informal reading of `F : J ==> C`; (b) the commuting predicate of Definition 3.51, i.e. a proposition 'D(f) ~= D(f') for every parallel pair f, f' in J' -- rg -n 'commuting diagram|diagram commutes' finds only header prose; (c) the footnote's equivalent packaging, since there is no preorder-reflection construction on a category in tree (rg -n 'preorder reflection|posetal reflection' returns 0 hits); (d) the observation that the naturality square of Definition 3.49 is the commuting condition for the diagram (3.50).",
+  "negative_search_log": [
+   "rg -n 'Definition Diagram|Class Diagram|Record Diagram|Diagram :=' --glob '*.v'  -- 0 hits",
+   "rg -n 'commuting diagram|commutative diagram|diagram commutes' --glob '*.v'  -- 6 hits, ALL comment prose (Structure/Pullback.v, Structure/Group.v, Structure/Monoidal/Proofs.v, Theory/DoubleCategory.v)",
+   "rg -n 'preorder reflection|posetal reflection' --glob '*.v'  -- 0 hits",
+   "rg -n 'indexing category|index category|shape category' --glob '*.v'  -- prose in Structure/Span.v, Functor/Diagonal.v, Theory/Coend/Yoneda.v; the notion is carried by the bare binder J"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason. Independently reproduced every negative: rg -no '\\b[A-Za-z_]*Diagram[A-Za-z_]*\\b' over all .v yields only {Diagram, DiagramIso, Diagrammatic(ally|s), HomDiagram, HomDiagram_precompose}, and the two bare 'Diagram' hits are SECTION names (Adjunction/Continuity.v:79/194) -- there is no Definition/Class/Record Diagram; HomDiagram (Structure/Limit/Weighted.v:49) is the weighted-limit hom-diagram, not a counterpart. 'preorder reflection'/'posetal reflection': 0 hits, confirmed. Verified the three cited positives verbatim: Structure/Limit.v:113 Class Limit `(F : J ⟶ C), Structure/Span.v:43 ASpan : Roof ⟶ C, Structure/Cone.v:24 ACone with cone_coherence. The record's point that cone_coherence forces only the apex triangles (not all parallel pairs in J) is correct and is the right reason not to call it the commuting predicate."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:example3.52",
+  "classification": "PRESENT",
+  "aliases": [
+   "natural transformation between functors out of the walking arrow",
+   "components alpha_1, alpha_2",
+   "commuting square in D",
+   "[2, D]",
+   "arrow category C^->",
+   "two views of C inside D"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Natural/Transformation.v",
+    "line": 129,
+    "symbol": "Build_Transform'",
+    "intree_statement": "Definition Build_Transform' (transform' : forall x, F x ~> G x) (natural : forall x y (f : x ~> y), fmap[G] f o transform' x ~= transform' y o fmap[F] f) : Transform.  (exactly the example's recipe: choose a component at each object of the source and check the naturality square)"
+   },
+   {
+    "file": "Theory/Natural/Transformation.v",
+    "line": 113,
+    "symbol": "Transform",
+    "intree_statement": "Class Transform := { transform {x} : F x ~> G x; naturality {x y} (f : x ~> y) : fmap[G] f o transform ~= transform o fmap[F] f; naturality_sym ... }."
+   }
+  ],
+  "statement_record": {
+   "book": "Example 3.52: with C the two-object category 1 -f-> 2 and D a six-object category, two functors F, G : C -> D are drawn and a natural transformation alpha : F => G is given by components alpha_1 : v -> x and alpha_2 : w -> y (each the unique available choice in the drawn configuration); F and G are two views of C inside D and alpha relates them by morphisms of D.",
+   "intree": "Class Transform / Build_Transform' -- a natural transformation between any pair of functors is exactly a component family satisfying the naturality square, which for a source with one non-identity arrow is one square.",
+   "strength_comparison": "same: the example makes no claim beyond Definition 3.49, and the general in-tree definition covers it for every source category, including the walking arrow _2 of Instance/Two.v. Not in tree: the specific six-object picture, and the standard repackaging that transformations between functors 2 -> D are the commuting squares of D, i.e. [2, D] ~=[Cat] Arrow D -- Construction/Arrow.v:110 defines Arrow C := (Id[C] |> Id[C]) and its header asserts the [2, C] identification only as prose."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass initially leaned ABSENT (the specific six-object picture and its two chosen components are nowhere in tree), so I stress-tested the PRESENT call. It holds under the frozen definition: Example 3.52 asserts no proposition beyond Definition 3.49 -- it is an illustration of how a component family plus one naturality square constitutes a natural transformation, and that IS Theory/Natural/Transformation.v:113 Transform / :129 Build_Transform' (both verified verbatim), applicable at the walking arrow _2 of Instance/Two.v:134. Classifying it PARTIAL would file an issue for content the book item does not state. Separately verified the honest caveat in strength_comparison: Construction/Arrow.v:110 defines Arrow C := (Id[C] ↓ Id[C]) and its header (:104-108) explicitly self-discloses that 'no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree' -- a real gap, but one the book does not raise here, so it is correctly left uncounted rather than smuggled into this record."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:example3.53",
+  "classification": "PARTIAL",
+  "aliases": [
+   "natural transformations between functors 1 -> Set",
+   "constant functors on the point",
+   "[1, Sets] hom-sets",
+   "Transform_Const",
+   "vacuous naturality",
+   "x^1 ~= x"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Diagonal.v",
+    "line": 92,
+    "symbol": "Transform_Const",
+    "intree_statement": "Instance Transform_Const `(x ~{C}~> y) : D(x) ==> D(y).  (a morphism x ~> y of C yields a natural transformation between the corresponding constant functors; at J := 1 -- notation =(c) := Diagonal 1 c -- this is exactly 'a function A -> B gives a natural transformation between A, B : 1 -> Sets')"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 389,
+    "symbol": "exp_one",
+    "intree_statement": "Program Instance exp_one {x : C} : x^1 ~= x := { to := eval o id /\\ one; from := curry exl }.  (with Instance/Cat/Cartesian/Closed.v:47's Cat_Closed, exponent_obj := @Fun, this would give [1, C] ~= C hence the hom-set bijection [1,C](A, B) ~= C(A, B) -- but the instantiation at Cat is not performed in tree)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 3.53: identifying functors 1 -> Set with sets (Exercise 3.45), a natural transformation between two such functors A, B : 1 -> Set is just a function A -> B: there is a single component, and naturality is vacuous because 1 has only its identity morphism.",
+   "intree": "One direction is Transform_Const : (x ~> y) -> (D(x) ==> D(y)), which at index category 1 turns a Sets-morphism into a natural transformation between the two functors 1 ==> Sets. The bijection (and the vacuity-of-naturality observation) is only derivable, via exp_one at Cat.",
+   "strength_comparison": "intree-weaker: only the function-to-transformation direction is asserted; nothing states that it is a bijection, nor that naturality over 1 is vacuous."
+  },
+  "gap": "Missing: (a) the converse direction -- that a natural transformation between functors 1 ==> Sets is determined by (and freely chosen as) its single component, naturality being vacuous over the terminal category; (b) the resulting hom-setoid isomorphism [1, Sets](A, B) ~= (A ~{Sets}~> B), which would follow from instantiating exp_one at Cat but is never instantiated; (c) any statement that Diagonal 1 is fully faithful. Same missing instantiation as ex3.45 and example3.56.",
+  "negative_search_log": [
+   "rg -n '\\[1, |\\[1,' --glob '*.v'  -- only the two prose comments (Instance/One.v:22, Instance/One/Diagonal.v:30)",
+   "rg -n 'Erase|_1|One' Instance/Cat/*.v  -- Cat's cartesian/closed files never mention the terminal category except in prose (Instance/Cat/Cartesian.v:33)",
+   "rg -n 'vacuous|vacuously' --glob '*.v' (naturality over 1)  -- no statement that naturality is vacuous over the point"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL. Verified Functor/Diagonal.v:92 `Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y)` verbatim (note Δ(c) := Diagonal _ c, Functor/Diagonal.v:54, so the index category is a metavariable instantiable at 1 -- the record's reading is right), and re-verified the exp_one/Cat_Closed/Cat_Terminal chain as under ex3.45. Independently confirmed the converse leg is unstated: nothing asserts that a Transform out of _1 is determined by its single component, nothing says naturality over the point is vacuous, and Diagonal is nowhere shown fully faithful (rg -n 'Full|Faithful' Functor/Diagonal.v: 0 hits). Gap (a)-(c) accurate."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:def3.54",
+  "classification": "PRESENT",
+  "aliases": [
+   "functor category D^C",
+   "[C, D]",
+   "Fun C D",
+   "exponential in Cat",
+   "category of functors and natural transformations",
+   "Presheaves/Copresheaves"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Fun.v",
+    "line": 108,
+    "symbol": "Fun",
+    "intree_statement": "Program Definition Fun : Category := {| obj := C ==> D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.  with Notation \"[ C , D ]\" := (@Fun C D)."
+   },
+   {
+    "file": "Instance/Cat/Cartesian/Closed.v",
+    "line": 47,
+    "symbol": "Cat_Closed",
+    "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := ... currying ...; from := ... uncurrying ... |} }.  (so the book's exponential notation D^C is literally the functor category: z^y = exponent_obj y z = [y, z])"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 3.54: for categories C and D, D^C is the category whose objects are the functors F : C -> D and whose morphisms D^C(F, G) are the natural transformations alpha : F -> G; it is called the functor category.",
+   "intree": "Program Definition Fun : Category := {| obj := C ==> D; hom := @Transform C D; id := @nat_id; compose := @nat_compose |}, written [C, D].",
+   "strength_comparison": "same, and in-tree stronger on the notation: Cat_Closed proves the functor category IS the exponential in Cat (exponent_obj := @Fun), which is what licenses the book's D^C spelling; the book only names it."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT. Verified Instance/Fun.v:108 `Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}` verbatim, with `Notation \"[ C , D ]\" := (@Fun C D)` at :119. Verified Instance/Cat/Cartesian/Closed.v:47 Cat_Closed with exponent_obj := @Fun, and the notation direction `y ^ x := exponent_obj x y` (Structure/Cartesian/Closed.v:65) so the book's D^C spelling really is [C, D] -- the 'in-tree stronger on the notation' claim checks out rather than being decorative. Both files in _CoqProject, no Admitted."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:ex3.55",
+  "classification": "PRESENT",
+  "aliases": [
+   "vertical composition of natural transformations",
+   "identity natural transformation",
+   "nat_compose / nat_id",
+   "functor category laws",
+   "unitality of [C, D]",
+   "associativity of vertical composition"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Fun.v",
+    "line": 108,
+    "symbol": "Fun",
+    "intree_statement": "Program Definition Fun : Category := {| obj := C ==> D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D; compose_respects := @nat_compose_respects C D |}.  (its discharged obligations ARE the identity and associativity laws of Definition 3.6 for [C, D])"
+   },
+   {
+    "file": "Theory/Natural/Transformation.v",
+    "line": 231,
+    "symbol": "nat_compose",
+    "intree_statement": "Program Definition nat_compose `{F : C ==> D} {G : C ==> D} {K : C ==> D} (f : G ==> K) (g : F ==> G) : F ==> K := {| transform := lambda X, transform[f] X o transform[g] X |}.  (its first obligation is exactly the check that the componentwise composite is natural); with Program Definition nat_id `{F : C ==> D} : F ==> F := {| transform := lambda X, fmap (@id C X) |} (:220)"
+   },
+   {
+    "file": "Instance/Fun.v",
+    "line": 129,
+    "symbol": "nat_id_left / nat_id_right / nat_comp_assoc",
+    "intree_statement": "Corollary nat_id_left C D (F G : C ==> D) (N : F ==> G) : nat_id . N ~=[Fun] N.  Corollary nat_id_right ... : N . nat_id ~=[Fun] N (:133).  Corollary nat_comp_assoc C D (F G H J : C ==> D) (M : H ==> J) (N : G ==> H) (O : F ==> G) : M . (N . O) ~=[Fun] (M . N) . O (:137)."
+   }
+  ],
+  "statement_record": {
+   "book": "Exercise 3.55: verify the category structure on D^C -- (1) compose natural transformations componentwise (vertical composition) and check the composite is natural; (2) give the identity natural transformation on any F and check unitality, i.e. condition (a) of Definition 3.6.",
+   "intree": "nat_compose (componentwise composite, with the naturality obligation discharged), nat_id, and their laws restated for the functor category as nat_id_left, nat_id_right, nat_comp_assoc; Fun : Category bundles all of it.",
+   "strength_comparison": "same; in-tree additionally supplies nat_compose_respects (vertical composition is a congruence for the componentwise hom-setoid), which the book does not need because it compares transformations by equality."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT. Verified Theory/Natural/Transformation.v:220 nat_id, :231 nat_compose, :252 nat_compose_respects, and Instance/Fun.v:129 nat_id_left, :133 nat_id_right, :137 nat_comp_assoc -- all present at the cited lines with the cited names. The claim that Fun's discharged Program obligations ARE Definition 3.6's unit/associativity laws for [C, D] is structurally correct (Fun's record literal at :108 omits id_left/id_right/comp_assoc, so Program generates exactly those obligations) and the standalone Corollaries at :129-137 restate them explicitly, so the evidence is doubly anchored. No Admitted in either file."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:example3.56",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Set^1 ~= Set",
+   "[1, C] ~= C",
+   "functor category over the terminal category",
+   "x^1 ~= x in a CCC",
+   "Cat_Closed exponent_obj := Fun",
+   "Cat_Terminal"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 389,
+    "symbol": "exp_one",
+    "intree_statement": "Program Instance exp_one {x : C} : x^1 ~= x := { to := eval o id /\\ one; from := curry exl }.  (stated for any C with Cartesian, Closed and Terminal structure)"
+   },
+   {
+    "file": "Instance/Cat/Cartesian/Closed.v",
+    "line": 47,
+    "symbol": "Cat_Closed",
+    "intree_statement": "Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => ... }.  (z^y = exponent_obj y z = @Fun y z = [y, z])"
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1; one := Erase }.  (so the `1` of exp_one, read in Cat, is the one-object one-morphism category _1)"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 3.56: the functor category Set^1 (functors from the one-object, one-morphism category 1 to Set, with natural transformations between them) is equivalent to Set.",
+   "intree": "No such statement. The three ingredients that would yield it in one step -- exp_one : x^1 ~= x in any cartesian closed category with a terminal object, Cat_Closed with exponent_obj := @Fun, and Cat_Terminal with terminal_obj := _1 -- are each proven, but the composite [1, C] ~=[Cat] C is never written down, and Instance/One.v:22 ('so [1, C] ~= C') and Instance/One/Diagonal.v:30 record it only as comment prose.",
+   "strength_comparison": "intree-weaker as stated (the specific equivalence is missing), potentially stronger once instantiated: exp_one would give [1, C] ~=[Cat] C for EVERY category C, and since Cat's hom-setoid identifies functors up to natural isomorphism, ~=[Cat] is already an equivalence of categories -- exactly the book's 'is equivalent to'."
+  },
+  "gap": "The equivalence Set^1 ~= Set (more generally [1, C] ~=[Cat] C) is not asserted anywhere. What is missing is only the instantiation: a corollary applying Structure/Cartesian/Closed.v's exp_one at (Cat, Cat_Cartesian, Cat_Closed, Cat_Terminal), or an explicit pair of functors [1, C] ==> C (evaluation at the point) and Diagonal 1 : C ==> [1, C] with the two round trips. Also missing is any Sets-specific instance.",
+  "negative_search_log": [
+   "rg -n '\\[1, |\\[1,|\\[ 1 ,' --glob '*.v'  -- 2 hits, both comments (Instance/One.v:22, Instance/One/Diagonal.v:30)",
+   "rg -n '~=\\[Cat\\]' --glob '*.v'  -- all hits are comma/slice/funny-tensor/Grothendieck/arrow isos; none has 1 or a functor category over 1 on either side",
+   "rg -n 'exp_one|one_exp|x\\^1' --glob '*.v'  -- exp_one is used only inside Structure/Cartesian/Closed.v and Theory/Algebra.v:84's `Goal forall x : C, x^1 ~= x`; never instantiated at Cat"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same conclusion. rg -n '\\[1,' --glob '*.v' → exactly 2 hits, both comments (Instance/One.v:22, Instance/One/Diagonal.v:30); rg for exp_one uses → only inside Structure/Cartesian/Closed.v and the abstract Goal at Theory/Algebra.v:84; no ≅[Cat] statement anywhere has 1 or a functor category over 1 on either side (I re-ran the ≅[Cat] sweep myself: comma, slice, funny tensor, Grothendieck, codomain/arrow, coalgebras -- none). All three ingredient sites verified verbatim (exp_one :389 under Context `{@Terminal C}` :387; Cat_Closed :47; Cat_Terminal :54). The 'potentially stronger once instantiated' remark is legitimate and correctly labelled as not-yet-done. The underlying comment-vs-code honesty issue at Instance/One.v:22 is escalated to problems[] as a library defect, since a PARTIAL record files an issue about the missing THEOREM but nothing about the header prose that presents it as settled."
+  }
+ },
+ {
+  "id": "7sketches:3.3.4:example3.57",
+  "classification": "ABSENT",
+  "aliases": [
+   "N^N",
+   "functor category between preorders is a preorder",
+   "pointwise order on monotone maps",
+   "thin functor category",
+   "locally posetal / posetal functor category",
+   "[Omega, Omega]",
+   "[Proset P, Proset Q]",
+   "non-decreasing sequences ordered pointwise"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'monotone' --glob '*.v'  -- 12 hits; the only theorem is Construction/Enriched/Two.v:183 (EnrichedFunctor_Two_monotone), which is about a single enriched functor, not about ordering the collection of them",
+   "rg -n 'pointwise order|pointwise ordering|ordered pointwise' --glob '*.v'  -- 0 hits",
+   "rg -n 'posetal|locally thin' --glob '*.v'  -- 0 hits",
+   "rg -n 'thin|two_thin|Thin' --glob '*.v'  -- only Instance/Two/Monoidal.v:26's two_thin (parallel arrows of _2 coincide) and header prose in Instance/Proset.v, Instance/Poset.v, Instance/Omega.v; nothing about [C, D] inheriting thinness from D",
+   "rg -n 'Proset' --glob '*.v'  -- Proset is never used as the source or target of a Fun / [C, D]",
+   "rg -n 'Omega' --glob '*.v' (functor category over Omega)  -- Omega appears only as the shape of Construction/Chain.v's omega-chain (Chain F : Omega ==> C); no [Omega, Omega] and no ordering of such functors",
+   "rg -n 'Definition|Theorem|Lemma' Instance/Fun.v  -- Instance/Fun.v proves the category laws, whiskering, Pointed/WellPointed and Functor_Setoid_Nat_Iso; nothing conditions the hom-setoid of [C, D] on properties of D"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. My own searches: rg -n -i 'monotone' (12 hits, only Construction/Enriched/Two.v:183 is a theorem, and it concerns a single enriched functor, not an ordering on the collection); rg -n 'Proset' (Proset never appears as source or target of Fun / [-,-]); rg -n -i 'thin' (only Instance/Two/Monoidal.v:26 two_thin, verified verbatim as a fact about _2 alone, plus header prose); no pointwise-order, posetal, or locally-thin notion; Instance/Omega.v's Omega is used only as the shape of Construction/Chain.v's ω-chain, never as a functor-category argument. Nothing in Instance/Fun.v conditions [C, D]'s hom-setoid on properties of D. Correctly ABSENT: neither leg (N^N is thin, nor its identification with pointwise-ordered monotone maps) exists. negative_search_log is accurate and reproducible."
+  }
+ }
+]

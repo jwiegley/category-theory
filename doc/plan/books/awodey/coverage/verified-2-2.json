@@ -1,0 +1,283 @@
+[
+  {
+    "id": "awodey:2.5:def16",
+    "classification": "PRESENT",
+    "aliases": ["product diagram", "binary product", "Cartesian product (UMP)", "product_obj / fork / exl / exr", "ump_products", "IsCartesianProduct", "pairing / projections"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 121, "symbol": "Cartesian", "intree_statement": "Class Cartesian := { product_obj : obj -> obj -> obj ; fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y x z; exl {x y} : x x y ~> x; exr {x y} : x x y ~> y; ... ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y x z) : h = fork f g <-> (exl o h = f) * (exr o h = g) }"},
+      {"file": "Structure/Cartesian.v", "line": 145, "symbol": "IsCartesianProduct", "intree_statement": "Class IsCartesianProduct (x y z : C) := { fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z; exl' : z ~> x; exr' : z ~> y; ... ump_product ... : h = fork' f g <-> (exl' o h = f) * (exr' o h = g) }"}
+    ],
+    "statement_record": {
+      "book": "A product diagram for A, B is an object P with projections A <-p1- P -p2-> B satisfying the UMP: for every A <-x1- X -x2-> B there is a unique u : X -> P with p1 o u = x1 and p2 o u = x2.",
+      "intree": "product_obj x y with exl : x x y ~> x, exr : x x y ~> y, fork f g the pairing, and the biconditional ump_products : h = fork f g <-> (exl o h = f) * (exr o h = g). IsCartesianProduct x y z states the same UMP for one designated object z (fork'/exl'/exr'/ump_product).",
+      "strength_comparison": "same — setoid rephrasing (= replaced by hom-setoid =) faithfully captures existence+uniqueness of the mediating map; the per-object IsCartesianProduct matches Awodey's 'P is a product diagram' phrasing verbatim."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read Structure/Cartesian.v:121-157 directly. Cartesian class (product_obj/fork/exl/exr/ump_products biconditional) at 121; IsCartesianProduct x y z (fork'/exl'/exr'/ump_product) at 145 witnesses a designated object as a product — the exact 'P is a product diagram' phrasing. Actual notation is the hom-setoid (~=), rendered as '=' in the quote and correctly disclosed in strength_comparison. File registered/compiled. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.5:remark17",
+    "classification": "PRESENT",
+    "aliases": ["existence and uniqueness of mediating map", "product UMP two parts", "unique existence", "exists!", "iprod_desc", "ump_products biconditional"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 137, "symbol": "ump_products", "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y x z) : h = fork f g <-> (exl o h = f) * (exr o h = g)   (<- direction = uniqueness: any h satisfying both projection eqns equals fork f g; -> at h:=fork gives existence via exl_fork/exr_fork)"},
+      {"file": "Structure/Limit/Product.v", "line": 55, "symbol": "iprod_desc", "intree_statement": "iprod_desc {c} (pi : forall a, c ~> f a) : exists! u : c ~> p, forall a, proj a o u = pi a"}
+    ],
+    "statement_record": {
+      "book": "Remark 2.17 spells the product UMP into two parts: Existence — some u : X -> P with x1 = p1 o u, x2 = p2 o u; and Uniqueness — any v with p1 o v = x1, p2 o v = x2 equals u.",
+      "intree": "The ump_products biconditional encodes both parts: existence (fork f g is a mediating map, exl_fork/exr_fork corollaries at Cartesian.v:211,220) and uniqueness (right-to-left: h with both eqns equals fork f g). The Cartesian.v header (lines 32-40) narrates exactly this existence/uniqueness reading; iprod_desc uses Coq's exists! (unique existence) directly.",
+      "strength_comparison": "same — the biconditional and the exists! quantifier are the standard faithful encodings of Awodey's existence+uniqueness split."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified ump_products at Cartesian.v:136-137; existence corollaries exl_fork (211) and exr_fork (220) confirmed present, uniqueness is the right-to-left direction of the biconditional. Header essay lines 30-40 explicitly frames it as existence + uniqueness. iprod_desc at Limit/Product.v:55 uses '?! u' (exists!). Both faithful renderings of the two-part UMP. PRESENT confirmed."}
+  },
+  {
+    "id": "awodey:2.5:prop18",
+    "classification": "PRESENT",
+    "aliases": ["products unique up to isomorphism", "canonical iso of two products", "uniqueness up to unique iso", "univ_property_unique_up_to_unique_iso", "prod_respects_iso", "CartesianProductIsUniversalProperty"],
+    "evidence": [
+      {"file": "Structure/UniversalProperty.v", "line": 175, "symbol": "univ_property_unique_up_to_unique_iso", "intree_statement": "Proposition univ_property_unique_up_to_unique_iso (c d : C) (t : P c) (s : P d) : Unique (fun p : (c = d) => univ_property_respects_iso c d p t = s)   -- a unique structure-preserving iso between any two representing objects"},
+      {"file": "Structure/UniversalProperty/Cartesian.v", "line": 60, "symbol": "CartesianProductIsUniversalProperty", "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z)   -- instantiates the generic uniqueness for products"},
+      {"file": "Structure/Cartesian.v", "line": 438, "symbol": "prod_respects_iso", "intree_statement": "Program Instance prod_respects_iso : Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj"}
+    ],
+    "statement_record": {
+      "book": "Proposition 2.18: any two product diagrams (P,p1,p2), (Q,q1,q2) for A,B are canonically isomorphic; the induced mediators i,j satisfy j o i = 1, i o j = 1 by uniqueness, so i is an iso commuting with the projections.",
+      "intree": "Products form a universal property (CartesianProductIsUniversalProperty), so the generic univ_property_unique_up_to_unique_iso gives, for any two objects both proving IsCartesianProduct x y, a UNIQUE isomorphism between them transporting the product structure (projections) accordingly.",
+      "strength_comparison": "same — indeed intree-stronger in packaging: the iso is not only canonical/commuting-with-projections but proven UNIQUE and structure-transporting, matching and slightly exceeding Awodey's 'unique isomorphism'."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read UniversalProperty.v:108-227 and UniversalProperty/Cartesian.v:60-124. univ_property_unique_up_to_unique_iso (175) proves a UNIQUE iso c=d with univ_property_respects_iso ... t = s; the transported P here is IsCartesianProduct and CartesianProductStructuresEquiv compares exl'/exr', so the iso commutes with projections. CartesianProductIsUniversalProperty (60) genuinely makes products an instance. CAVEAT (does not overturn): prop18 is realized via the generic universal-property/representability machinery instantiated for products, NOT as a standalone specialized lemma 'IsCartesianProduct x y z -> IsCartesianProduct x y z' -> z ~= z''; still substantively formalized and honestly labeled. prod_respects_iso (438) is a different fact (product respects iso of factors) — supplementary, not the uniqueness itself. PRESENT defensible."}
+  },
+  {
+    "id": "awodey:2.6:construction-product-sets",
+    "classification": "PRESENT",
+    "aliases": ["cartesian product in Set", "product setoid", "Sets_Cartesian", "A x B with fst/snd", "product in the category of setoids"],
+    "evidence": [
+      {"file": "Instance/Sets/Cartesian.v", "line": 32, "symbol": "Sets_Cartesian", "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; ... equiv := componentwise |}; fork := fun f g => (fun x => (f x, g x)); exl := fst; exr := snd }"}
+    ],
+    "statement_record": {
+      "book": "The cartesian product A x B with its two projections is the product in Sets; any two encodings of ordered pairs give isomorphic products.",
+      "intree": "Sets (setoids) has binary products: the product setoid (carrier = A * B, componentwise equivalence), exl/exr = fst/snd, pairing x |-> (f x, g x), satisfying ump_products.",
+      "strength_comparison": "same — faithful setoid rendering (Sets = setoids, not strict sets, per project convention); the 'different pair encodings are isomorphic' aside is subsumed by uniqueness-up-to-iso (prop18) and not separately needed."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Sets_Cartesian confirmed at Instance/Sets/Cartesian.v (Program Instance line is 32; coverage cites 31, trivial off-by-one at the preceding comment). product_obj = product setoid with componentwise equiv, exl/exr = fst/snd. File registered/compiled. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.6:construction-product-monoid-group",
+    "classification": "PARTIAL",
+    "aliases": ["direct product of monoids", "product group", "componentwise operation product", "Mon / Grp product", "CMon biproduct", "algebra product carrierwise", "Algs_Cartesian"],
+    "evidence": [
+      {"file": "Instance/CMon/Biproduct.v", "line": 442, "symbol": "CMon_Biproduct", "intree_statement": "Definition CMon_Biproduct (M N : CMonObject) : @Biproduct CMon CMon_Zero M N := ...   -- direct product M (+) N, product setoid with componentwise unit/plus, projections fst/snd homomorphisms, pairing a |-> (f a, g a); simultaneously the categorical product (biproduct carries the product UMP)"},
+      {"file": "Instance/Comp.v", "line": 169, "symbol": "Algs_Cartesian", "intree_statement": "Program Instance Algs_Cartesian : @Cartesian Algs := { product_obj := fun x y => {| carrier := ...*... ; op := carrierwise |} ... }   -- binary product of algebras for a signature, carrierwise operation, full UMP"},
+      {"file": "Instance/Comp.v", "line": 434, "symbol": "Product", "intree_statement": "Definition Product {S E} (I : Type) : (I -> Algebra S E) -> Algebra S E := ... ProductOp with op componentwise; equations descend via lhs_natural/rhs_natural; Project (line 426) makes the projections AlgHom homomorphisms"}
+    ],
+    "statement_record": {
+      "book": "For monoids/groups G,H the categorical product G x H is the cartesian product of underlying sets with componentwise operation, unit, (and inverse), projections being homomorphisms, giving the product in Mon/Grp.",
+      "intree": "Commutative monoids: CMon_Biproduct is the componentwise direct product, a genuine categorical product (biproduct with UMP). General single-sorted algebras: Algs_Cartesian gives the carrierwise binary product WITH full UMP for the signature category Algs (equation-free), and Comp.v Product/Project build the componentwise product OBJECT of an equational variety (Monoid/Group = Algebra S E) with homomorphism projections, proving the equations descend.",
+      "strength_comparison": "intree-weaker: no single in-tree category of the equational variety of ALL monoids (or ALL groups) carries a Cartesian instance with the product UMP proven. The full categorical UMP holds only for commutative monoids (CMon) and for the equation-free signature category (Algs); at the variety level (Comp.v Product) only the product object + homomorphism projections are constructed, not the pairing/UMP."
+    },
+    "gap": "The componentwise product is a categorical product WITH UMP only for commutative monoids (Instance/CMon) and for equation-free signature-algebras (Instance/Comp.v Algs_Cartesian). For Awodey's actual Mon (all monoids) / Grp (all groups) as equational varieties there is no assembled category with a Cartesian instance: Comp.v's Product/Project give the product object and homomorphism projections but do not prove the mediating-pairing universal property at the variety level.",
+    "negative_search_log": [
+      "grep -rln 'Grp|category of groups|Definition Group' Instance/ Construction/ -- only Instance/Comp.v:382 'Definition Group := Algebra GroupOp GroupEq' (an object type, no category-of-groups with Cartesian instance)",
+      "grep 'Cartesian|product' Theory/Algebra/Monoid/Hom.v -- Mon (internal monoid objects) has NO product instance",
+      "Instance/CMon.v header confirms it is COMMUTATIVE monoids over Sets, distinct from Awodey's general Mon"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified: CMon_Biproduct (Instance/CMon/Biproduct.v:442, @Biproduct CMon CMon_Zero M N; CMon_Biproducts:HasBiproducts at 457); Algs_Cartesian (Comp.v:169, @Cartesian Algs, carrierwise op, full fork/UMP); Comp.v Group = Algebra GroupOp GroupEq (382, an object type), Product (434) and Project (426, homomorphism projections). Independently confirmed the gap: grep for a Cartesian instance on the equational-variety category (Algebra S E with equations, i.e. Mon/Grp) returned ZERO hits — only Algs (equation-free) and CMon (commutative) carry the UMP. PARTIAL is accurate and the gap is honestly stated."}
+  },
+  {
+    "id": "awodey:2.6:construction-product-cat",
+    "classification": "PRESENT",
+    "aliases": ["product category as product in Cat", "C x D", "Cat_Cartesian", "product of categories", "projection functors Fst/Snd"],
+    "evidence": [
+      {"file": "Instance/Cat/Cartesian.v", "line": 40, "symbol": "Cat_Cartesian", "intree_statement": "Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun F G => {| fobj := fun x => (F x, G x); fmap := fun f => (fmap[F] f, fmap[G] f) |}; exl := {| fobj := fst; fmap := fst |}; exr := {| fobj := snd; fmap := snd |} }"}
+    ],
+    "statement_record": {
+      "book": "For (small) categories C,D the product category C x D (pairs of objects/arrows, componentwise composition) with its two projection functors is the product in Cat; products of posets and monoids are special cases.",
+      "intree": "Cat has binary products given by the product category C ∏ D (Construction/Product.v); exl/exr are the projection functors, fork F G = x |-> (F x, G x), and ump_products holds up to natural isomorphism (the hom-equivalence in Cat).",
+      "strength_comparison": "same — faithful; the UMP is stated up to natural iso (=[Cat]) rather than on-the-nose, which is exactly correct for Cat (a 2-categorical product), matching Awodey's intent."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read the whole of Instance/Cat/Cartesian.v (1-95). Cat_Cartesian at 39-40 with product_obj := @Product, exl/exr the projection functors, fork F G = x |-> (F x, G x); ump_products obligation discharged up to natural iso in Cat (correct for the 2-categorical product). (Note: an earlier ripgrep view showed '@n Cat' — a color-highlight rendering artifact for 'Cartesia|n'; the file is correct.) File registered/compiled. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.6:construction-product-poset",
+    "classification": "PARTIAL",
+    "aliases": ["product in a poset is the meet", "greatest lower bound", "glb / infimum", "meet as categorical product", "thin category product", "Props conjunction", "two_meet"],
+    "evidence": [
+      {"file": "Instance/Props.v", "line": 69, "symbol": "Props_Cartesian", "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun f g x => conj (f x) (g x); exl := proj1; exr := proj2 }   -- header: 'P /\\ Q is the meet'"},
+      {"file": "Instance/Two/Monoidal.v", "line": 37, "symbol": "two_meet", "intree_statement": "Definition two_meet (x y : TwoObj) : TwoObj := ...  (* The binary meet (product object): TwoX is bottom, TwoY the top *); two_exl/two_exr projections, assembled via Cartesian_Monoidal into Two_Monoidal"},
+      {"file": "Instance/Poset.v", "line": 50, "symbol": "Poset (prose)", "intree_statement": "header: 'a product is a meet, and more generally the limit over a subset is its greatest lower bound' — Poset builds the thin category of a poset, but carries NO Cartesian instance"}
+    ],
+    "statement_record": {
+      "book": "In a poset P viewed as a category, the product p x q of two elements is their greatest lower bound (meet) p /\\ q: p x q <= p, p x q <= q, and x <= p, x <= q imply x <= p x q.",
+      "intree": "The poset-as-category is present (Instance/Poset.v, Instance/Proset.v — thin categories). Concrete thin categories realize product = meet: Props (product_obj := and = conjunction = meet in the implication order) and Two (two_meet as the Cartesian product object of the 2-element lattice).",
+      "strength_comparison": "intree-weaker: the GENERAL fact 'categorical product in an arbitrary poset = order meet/glb' is stated only in prose (Poset.v header); it is formalized only for specific thin categories (Props, Two), not as a theorem over Instance/Poset.v or Instance/Proset.v."
+    },
+    "gap": "No general theorem 'in a poset/proset-as-category the categorical product coincides with the order-theoretic greatest lower bound'. Instance/Poset.v and Instance/Proset.v carry no Cartesian instance; the product=meet identity is realized only in concrete thin instances (Props conjunction, Two min/meet).",
+    "negative_search_log": [
+      "grep -rin 'greatest lower bound|meet|glb|infimum' Instance/ Structure/ -- only prose in Poset.v/Two.v and the concrete Props/Two_Monoidal instances; no general Poset Cartesian instance",
+      "Cartesian-instance file list does NOT include Instance/Poset.v or Instance/Proset.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Read Instance/Props.v:55-94: Props_Cartesian (69) product_obj := and (conjunction), exl/exr = proj1/proj2, header line 66 'P /\\ Q is the meet' — a concrete poset (propositions under implication) where product = meet. two_meet confirmed at Two/Monoidal.v:36-37 (product_obj := two_meet at 81). Independently confirmed Instance/Proset.v ('thin category of a preorder', Proset:33) and Instance/Poset.v ('category of a partially-ordered set') carry NO Cartesian instance (grep count in Poset.v = comment-only prose about meet at lines 74/90/106/108). So the general 'poset product = glb' theorem is absent; only concrete witnesses exist. PARTIAL accurate."}
+  },
+  {
+    "id": "awodey:2.6:construction-product-top",
+    "classification": "ABSENT",
+    "aliases": ["product of topological spaces", "product topology", "Top", "category of topological spaces", "continuous maps", "open sets / O(X)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln 'Topolog|TopCat|open set|continuous' Instance/ -- 0 category hits (only an unrelated comment in Instance/Cat.v)",
+      "grep -rn 'Top : Category| Top :=|Definition Top' --include=*.v . -- 0 hits",
+      "grep -rli 'topological space|homeomorph|open subset' --include=*.v . -- 0 hits across the whole tree",
+      "No Instance/Top.v (or equivalent) exists; no category of topological spaces is defined, so the product-topology construction has no in-tree counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent blind search: rg for 'Topological|open_set|continuous_map|Instance.*Top' produced only prose/bibliography hits (Frobenius.v:43 'Topological Quantum Field', Braided.v:109 'Topological quantum', Multicategory.v 'Topological'/'Topology' in paper titles). No Instance/Top.v, no category of topological spaces, no product topology anywhere. ABSENT confirmed; negative_search_log accurate."}
+  },
+  {
+    "id": "awodey:2.6:construction-lambda-types",
+    "classification": "PRESENT",
+    "aliases": ["category of types of STLC", "C(lambda)", "simply-typed lambda calculus category", "syntactic CCC", "Lambda_Cartesian", "TyPair product", "beta-eta term model"],
+    "evidence": [
+      {"file": "Instance/Lambda.v", "line": 226, "symbol": "Lambda", "intree_statement": "Program Definition Lambda G : Category := {| obj := Ty; hom := fun A B => Exp G (A ~~> B); homset := @Exp_Setoid G; id := @identity G; compose := @composition G; ... |}"},
+      {"file": "Instance/Lambda.v", "line": 252, "symbol": "Lambda_Cartesian", "intree_statement": "Program Instance Lambda_Cartesian G : @Cartesian (Lambda G) := { product_obj := TyPair; fork := fun f g => LAM (Pair (APP (wk f) (VAR ZV)) (APP (wk g) (VAR ZV))); exl := LAM (Fst (VAR ZV)); exr := LAM (Snd (VAR ZV)) }"},
+      {"file": "Instance/Lambda.v", "line": 154, "symbol": "Exp_Setoid", "intree_statement": "Program Instance Exp_Setoid {G dom cod} : Setoid (Exp G (dom ~~> cod)) := { equiv := fun f g => forall E, SemExp f E = SemExp g E }   -- hom-equivalence is denotational agreement (corrected: line 154, not 163)"}
+    ],
+    "statement_record": {
+      "book": "The category of types C(lambda) of the simply-typed lambda calculus: objects are types (closed under x and ->), arrows are (closed) lambda-terms up to beta-eta-equivalence, identity lambda x.x, composition lambda x.c(bx). Shows C(lambda) has binary products A x B with projections and pairing satisfying the product UMP.",
+      "intree": "Instance/Lambda.v builds the STLC category of types (objects = Ty, arrows = terms Exp G (A -> B)), with a full Cartesian instance Lambda_Cartesian (TyPair as product, fst/snd projections, pairing), and moreover a Closed instance (full CCC).",
+      "strength_comparison": "intree-stronger in structure (full cartesian-CLOSED category, not only binary products), but presented differently: arrows are identified by DENOTATIONAL equality (SemExp f E = SemExp g E for all environments E in the standard Coq model) rather than by syntactic beta-eta provability. This is a faithful model of Awodey's C(lambda) for the binary-product content; the emphasis differs (standard-model quotient vs free/term-model quotient by beta-eta)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "PROVENANCE: my own blind pass initially classified this ABSENT because I searched only the Instance/Lambda/ SUBDIRECTORY (denotational semantics into a CCC, no syntactic category) and missed the TOP-LEVEL file Instance/Lambda.v. The classifier was correct. Read Instance/Lambda.v:150-279 directly: Lambda G : Category (226) with obj=Ty, hom=Exp G (A ~~> B) (lambda terms), id = identity, compose = composition; Lambda_Cartesian G (252) with product_obj:=TyPair, exl/exr = Fst/Snd, fork the pairing; UMP obligations discharged via SemExp. File registered (_CoqProject:202) and compiled (Instance/Lambda.vo present). CAVEATS (do not overturn; strength_comparison already discloses): (1) the hom-setoid Exp_Setoid (154, NOT 163 as cited — minor drift) is DENOTATIONAL equality (SemExp agreement in the standard set model), strictly coarser than syntactic beta-eta convertibility, so Lambda G is a denotational quotient rather than Awodey's free/term model; the binary-product UMP holds in both, and the classifier honestly flags the difference. (2) The product UMP is proven via SemExp and is INDEPENDENT of the self-disclosed operational pair-step defect flagged in Instance/Lambda/Eval.v (that defect is in the 'step' relation, not SemExp). PRESENT confirmed for the binary-product content."}
+  },
+  {
+    "id": "awodey:2.7:construction-product-bifunctor",
+    "classification": "PRESENT",
+    "aliases": ["product of morphisms f x g", "product bifunctor", "split", "InternalProductFunctor", "x : C x C -> C", "product functor", "functoriality of product"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 178, "symbol": "split", "intree_statement": "Definition split {x y z w} (f : x ~> y) (g : z ~> w) : x x z ~> y x w := (f o exl) triangle (g o exr)   -- the product of two morphisms f x g"},
+      {"file": "Structure/Cartesian.v", "line": 394, "symbol": "split_id / split_comp", "intree_statement": "Theorem split_id : split id id = id[x x y].   Theorem split_comp (line 400): split f g o split h i = split (f o h) (g o i)   -- the two functor laws"},
+      {"file": "Functor/Product/Internal.v", "line": 34, "symbol": "InternalProductFunctor", "intree_statement": "Program Instance InternalProductFunctor (C : Category) {@Cartesian C} : C ∏ C ⟶ C := ...  (notation x(C)); the packaged product bifunctor, used as tensor of CC_Monoidal (Structure/Monoidal/Internal/Product.v:55)"}
+    ],
+    "statement_record": {
+      "book": "Defines the product of two morphisms f x f' = <f o p1, f' o p2> : A x A' -> B x B' (both projection squares commute) and observes that choosing products for all pairs assembles these into a bifunctor x : C x C -> C.",
+      "intree": "split f g = (f o exl) triangle (g o exr) is exactly <f o p1, g o p2>, with exl_split/exr_split giving the commuting projection squares; split_id and split_comp are the functor laws; InternalProductFunctor C : C ∏ C ⟶ C packages it as an actual Functor (the cartesian monoidal tensor).",
+      "strength_comparison": "same — both the morphism action (split, with commuting squares) and the assembled bifunctor (InternalProductFunctor : C ∏ C ⟶ C) are present, matching Awodey exactly."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified split at Cartesian.v:178 ((f o exl) triangle (g o exr) = <f o p1, g o p2>), split_id at 394 and split_comp at 400 (the two functor laws). InternalProductFunctor at Functor/Product/Internal.v:34 (C ∏ C ⟶ C, notation x(C)); file registered (_CoqProject:144). Both the morphism action and the assembled bifunctor are present. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.7:def-has-binary-products",
+    "classification": "PRESENT",
+    "aliases": ["has binary products", "Cartesian category", "has all binary products", "product for every pair", "class Cartesian"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 121, "symbol": "Cartesian", "intree_statement": "Class Cartesian := { product_obj : obj -> obj -> obj; fork ...; exl ...; exr ...; ump_products ... }   -- supplies a product diagram (with UMP) for EVERY pair of objects"}
+    ],
+    "statement_record": {
+      "book": "A category is said to have binary products if it has a product diagram for every pair of objects.",
+      "intree": "The Cartesian class provides product_obj x y with projections and the ump_products universal property for all x, y — i.e. a product diagram for every pair.",
+      "strength_comparison": "same — 'has binary products' is precisely the Cartesian typeclass; also cross-checked by Cartesian_Limit (Structure/Limit/Cartesian.v): (forall two-object discrete diagram, Limit) <-> Cartesian C."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Cartesian class (Cartesian.v:121) supplies a product-with-UMP for every pair. Cartesian_Limit confirmed at Structure/Limit/Cartesian.v:39 (Theorem Cartesian_Limit (C : Category) : ... relating two-object discrete limits to Cartesian; header line 24 confirms nullary=terminal framing). Minor formal nuance (not a gap): Awodey's 'has binary products' is a property (existence per pair) while Cartesian is structure (chosen products) — the standard, faithful setoid/typeclass rendering. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.7:construction-finite-products",
+    "classification": "PARTIAL",
+    "aliases": ["finite products from binary", "ternary product", "n-ary product", "associativity of product up to iso", "prod_assoc", "iterated binary product", "A x B x C := (A x B) x C"],
+    "evidence": [
+      {"file": "Structure/Cartesian.v", "line": 485, "symbol": "prod_assoc", "intree_statement": "Program Instance prod_assoc {x y z} : (x x y) x z = x x (y x z) := { to := (exl o exl) triangle ((exr o exl) triangle exr); from := (exl triangle (exl o exr)) triangle (exr o exr) }   -- associativity up to isomorphism"},
+      {"file": "Structure/Limit/Product.v", "line": 51, "symbol": "IsIndexedProduct", "intree_statement": "Record IsIndexedProduct (f : A -> C) (p : C) (proj : forall a, p ~> f a) := { iprod_desc {c} (pi : forall a, c ~> f a) : exists! u, forall a, proj a o u = pi a }   -- the n-ary/A-ary UMP for arbitrary index A (subsumes ternary/finite)"}
+    ],
+    "statement_record": {
+      "book": "Defines ternary/n-ary products by the analogous UMP; shows a category with binary products has all finite products (>= 2 factors), e.g. A x B x C := (A x B) x C, and that the binary product is associative up to isomorphism.",
+      "intree": "Associativity up to iso is prod_assoc ((x x y) x z = x x (y x z)). The general n-ary product UMP exists as IsIndexedProduct (arbitrary index type, hence any finite n), but as an INDEPENDENT primitive defined via discrete-diagram limits, not built by iterating the binary product.",
+      "strength_comparison": "intree-weaker on the reduction: the two substantive facts (associativity iso; n-ary UMP) are each present, but there is no in-tree theorem 'a category with binary products (+ terminal) has all finite products' constructing the n-fold product as iterated binary and proving its n-ary UMP that way."
+    },
+    "gap": "No in-tree reduction 'binary products ⟹ all finite products by iteration': prod_assoc gives associativity up to iso, and IsIndexedProduct gives the n-ary UMP as a separate limit-based primitive, but the A x B x C := (A x B) x C construction is not shown to satisfy the ternary/n-ary UMP built from binary products (Cartesian does not yield HasIndexedProducts for finite families in-tree).",
+    "negative_search_log": [
+      "grep -rn 'Cartesian.*HasIndexedProduct|finite.*from.*binary|iterat|ternary' Structure/ -- no Cartesian->finite-products bridge; Semiadditive.v only discusses binary biproducts"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "prod_assoc confirmed at Cartesian.v:485 ((x x y) x z ~= x x (y x z), associativity up to iso — Awodey ex6 content). IsIndexedProduct confirmed at Limit/Product.v:51 (arbitrary-index UMP). Independently confirmed the gap: no ternary/n-ary product built by iterating binary and proven to satisfy the n-ary UMP that way; grep for a Cartesian->finite-products bridge is empty. The '×' notation is right-associative so A×B×C parses, but its 3-ary UMP is not derived from binary. PARTIAL accurate."}
+  },
+  {
+    "id": "awodey:2.7:remark-terminal-nullary",
+    "classification": "PRESENT",
+    "aliases": ["terminal object as nullary product", "empty product", "0-ary product", "unary product", "Terminal_Limit", "limit of the empty diagram"],
+    "evidence": [
+      {"file": "Structure/Limit/Terminal.v", "line": 33, "symbol": "Terminal_Limit", "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F <-> @Terminal C   -- header: 'a terminal object can be thought of as an empty product (the nullary product)'"},
+      {"file": "Structure/Cartesian.v", "line": 20, "symbol": "Cartesian (header)", "intree_statement": "'the nullary product (the terminal object 1) is supplied separately by [Terminal]' — the identification terminal = nullary product is design-level and re-stated in Structure/Limit/Cartesian.v ('the empty discrete diagram gives the nullary product, the terminal object')"}
+    ],
+    "statement_record": {
+      "book": "A terminal object 1 is the nullary (empty) product, the unique arrow ! : X -> 1 serving as the mediating map with no projections to match; any object A is its own unary product.",
+      "intree": "Terminal_Limit proves terminal object <-> limit of the empty diagram, which IS the nullary/empty product (the empty discrete category has no legs, so the apex is unconstrained and receives a unique map from every object). Explicitly cross-referenced as the nullary product in Cartesian.v and Limit/Cartesian.v.",
+      "strength_comparison": "same for the nullary claim (terminal = empty product, formalized via Terminal_Limit). The 'A is its own unary product' sub-remark is not separately stated as a theorem (it is trivial/definitional: IsIndexedProduct over a one-element index at A)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Terminal_Limit confirmed verbatim at Structure/Limit/Terminal.v:33 — 'Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.' Header lines 19-22 explicitly frame terminal as the empty/nullary product. Cartesian.v:20 header and Limit/Cartesian.v:24 corroborate. The unary-product half is honestly noted as trivial/not-separately-stated. PRESENT solid for the nullary claim."}
+  },
+  {
+    "id": "awodey:2.7:construction-indexed-product",
+    "classification": "PRESENT",
+    "aliases": ["I-indexed product", "product of a family", "arbitrary product", "wide product", "IsIndexedProduct", "iprod", "HasIndexedProducts", "product of algebras"],
+    "evidence": [
+      {"file": "Structure/Limit/Product.v", "line": 51, "symbol": "IsIndexedProduct", "intree_statement": "Record IsIndexedProduct {A : Type} (f : A -> C) (p : C) (proj : forall a, p ~> f a) := { iprod_desc {c} (pi : forall a, c ~> f a) : exists! u : c ~> p, forall a, proj a o u = pi a }"},
+      {"file": "Structure/Limit/Product.v", "line": 128, "symbol": "HasIndexedProducts", "intree_statement": "Class HasIndexedProducts (C : Category) := { ... }   -- packages a choice of indexed product for every family; A is an arbitrary Type (no finiteness assumed)"},
+      {"file": "Instance/Comp.v", "line": 434, "symbol": "Product", "intree_statement": "Definition Product {S E} (I : Type) : (I -> Algebra S E) -> Algebra S E := ...  -- concrete I-indexed product of algebras (carrierwise)"}
+    ],
+    "statement_record": {
+      "book": "The product of a family (C_i)_{i in I} indexed by an arbitrary set I via an I-ary UMP generalizing nullary/unary/binary/n-ary; precise formulation deferred to Exercise 7.",
+      "intree": "IsIndexedProduct f p proj records exactly the I-ary UMP (exists! mediating u factoring any competing family pi through the projections) for an arbitrary index Type A; iprod/iprod_proj/iprod_ump read it off a discrete-diagram limit, and HasIndexedProducts packages the whole family choice.",
+      "strength_comparison": "intree-stronger: the library gives the full I-indexed UMP that Awodey DEFERS to Exercise 7, for an arbitrary Type index (small products), with an axiom-free discrete-limit construction."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "IsIndexedProduct confirmed at Limit/Product.v:51 (Record with iprod_desc : ?! u, ... proj a o u ~= pi a over arbitrary index Type A); HasIndexedProducts class at 128; iprod/iprod_proj/iprod_ump at 93/98/105; Comp.v Product (434) is a concrete I-indexed algebra product. File registered (_CoqProject:328)/compiled. The full I-ary UMP genuinely exceeds Awodey's deferred Exercise 7. PRESENT solid."}
+  },
+  {
+    "id": "awodey:2.7:def19",
+    "classification": "PRESENT",
+    "aliases": ["has all finite products", "has all small products", "finitely complete (products)", "HasIndexedProducts", "Terminal + Cartesian", "Complete"],
+    "evidence": [
+      {"file": "Structure/Limit/Product.v", "line": 128, "symbol": "HasIndexedProducts", "intree_statement": "Class HasIndexedProducts (C : Category) := { ... }   -- a product for every family over an arbitrary Type index = 'has all (small) products'"},
+      {"file": "Structure/Cartesian.v", "line": 121, "symbol": "Cartesian (+ Terminal)", "intree_statement": "Cartesian = all binary products; combined with @Terminal C (Structure/Terminal.v) this is 'terminal object + all binary products' = Awodey's characterization of has-all-finite-products"},
+      {"file": "Structure/Complete.v", "line": 115, "symbol": "Complete", "intree_statement": "Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F   -- all small limits, hence all small products a fortiori. (CORRECTED by verifier: it is a Definition at line 115, NOT 'Class Complete := { limits ... }' at line 19 as the Phase-C record stated; line 19 is header prose.)"}
+    ],
+    "statement_record": {
+      "book": "Definition 2.19: C has all finite products if it has a terminal object and all binary products (hence products of any finite cardinality); C has all small products if every set of objects has a product.",
+      "intree": "'Has all small products' = HasIndexedProducts (a product for every arbitrary-Type-indexed family). 'Has all finite products' = @Terminal C * @Cartesian C (terminal object + all binary products), the exact combination the library uses idiomatically (e.g. Structure/Topos.v 'terminal object + binary products'). Complete additionally gives all small limits.",
+      "strength_comparison": "same in substance. Presentation note: 'has all finite products' is realized as the (unbundled) Terminal + Cartesian pair rather than one named class; 'has all small products' is HasIndexedProducts. Both notions are directly available and used; the 'hence any finite cardinality' inference is the separate construction-finite-products reduction (only partially assembled)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Classification PRESENT confirmed, resting on HasIndexedProducts (Limit/Product.v:128 = 'has all small products') and Cartesian:121 + @Terminal ('has all finite products'). COVERAGE-RECORD DEFECT (corrected in evidence above): the Phase-C Complete evidence quoted 'Class Complete := { limits : forall (D)(F), Limit F }' at line 19; in reality Structure/Complete.v defines 'Definition Complete {C} := ∀ (D : Category)(F : D ⟶ C), Limit F' at line 115 (a Pi-type, no record/field), and line 19 is header prose. Not load-bearing for the classification. Honest presentation note preserved (finite products = unbundled Terminal+Cartesian; the 'any finite cardinality' step is the PARTIAL finite-products reduction). PRESENT confirmed."}
+  }
+]

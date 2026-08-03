@@ -1,0 +1,530 @@
+[
+  {
+    "id": "awodey:3.4:example16",
+    "classification": "PARTIAL",
+    "aliases": [
+      "equalizer in Pos",
+      "equalizer in Mon",
+      "equalizer in Top",
+      "kernel in Ab",
+      "ker(f-g)",
+      "equalizer against zero",
+      "difference kernel",
+      "underlying-set equalizer subset"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Kernel.v",
+        "line": 53,
+        "symbol": "IsKernel",
+        "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i."
+      },
+      {
+        "file": "Structure/Kernel.v",
+        "line": 98,
+        "symbol": "kernel_monic",
+        "intree_statement": "Lemma kernel_monic ... (K : IsKernel f i) : Monic i. (via equalizer_monic)"
+      },
+      {
+        "file": "Structure/Equalizer/Fork.v",
+        "line": 45,
+        "symbol": "IsEqualizer/HasEqualizers",
+        "intree_statement": "elementary fork equalizer API with equalizer_monic and the HasEqualizers supply class (general C)"
+      }
+    ],
+    "statement_record": {
+      "book": "Equalizers in concrete categories are the underlying-set equalizer subset A(f=g)={x:f(x)=g(x)} with inherited structure (induced order in Pos, subspace topology in Top, submonoid in Mon); in Ab the equalizer of f,g equals the kernel ker(f-g), i.e. the equalizer of h=f-g against the zero map.",
+      "intree": "IsKernel f i := IsEqualizer f zero_mor k i  (kernel = equalizer against the zero morphism, in any category with a zero object).",
+      "strength_comparison": "intree-weaker: only the abstract identity 'kernel = equalizer against zero' is captured (Structure/Kernel.v), which is the converse half of Awodey's ker(f-g) remark. The concrete underlying-set-subset construction of equalizers in the specific categories Pos, Mon, Top, Ab is not present: there is NO in-tree category of posets (Instance/Poset.v is a single poset viewed as a category, not the category Pos), no Mon, no Top, and no Ab (Instance/CMon.v is commutative monoids, which are not abelian groups and carry no equalizer construction). The 'equalizer of f,g = kernel of f-g' direction (needing subtraction) is not stated."
+    },
+    "gap": "The abstract kernel<->equalizer-against-zero identity is present, but none of Awodey's concrete instances (equalizers in Pos/Mon/Top built on the underlying-set equalizer subset; kernel = ker(f-g) in Ab) are formalized: the categories Pos, Mon, Top, Ab do not exist in-tree, and no lemma expresses the additive equalizer as ker(f-g).",
+    "negative_search_log": [
+      "grep -rin 'equalizer' Instance/CMon.v Instance/CMon/ -> 0 hits",
+      "ls Instance/ | grep -i 'mon|group|pos|top|ab' -> only CMon (commutative monoids) and Poset (a SINGLE poset as a category, not the category of posets)",
+      "grep -rin 'equalizer.*kernel|f - g|difference kernel' Structure/Additive.v Structure/Preadditive.v -> 0 hits (no equalizer=ker(f-g) lemma)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees. Confirmed IsKernel (Kernel.v:53) and kernel_monic (Kernel.v:98); IsEqualizer/HasEqualizers general (Equalizer/Fork.v). No category Pos/Mon/Top/Ab in-tree (Instance/Poset.v is a single poset from a Proset; CMon has zero equalizer/kernel content). PARTIAL upheld: the abstract kernel=equalizer-against-zero identity is present; the concrete underlying-set-subset instances and the equalizer(f,g)=ker(f-g) subtraction direction are absent."
+    }
+  },
+  {
+    "id": "awodey:3.4:def17",
+    "classification": "PRESENT",
+    "aliases": [
+      "coequalizer",
+      "cofork",
+      "IsCoequalizer",
+      "Coequalizer := Colimit (APair f g)",
+      "quotient colimit",
+      "dual of equalizer"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 52,
+        "symbol": "IsCoequalizer",
+        "intree_statement": "Record IsCoequalizer {C} {x y : C} (f g : x ~> y) (q : C) (e : y ~> q) := { cofork : e ∘ f ≈ e ∘ g; coeq_desc {z} (h : y ~> z) (Hh : h ∘ f ≈ h ∘ g) : ∃! u : q ~> z, u ∘ e ≈ h }."
+      },
+      {
+        "file": "Structure/Equalizer.v",
+        "line": 126,
+        "symbol": "Coequalizer",
+        "intree_statement": "Definition Coequalizer {C} (F : Parallel ⟶ C) := Colimit F. (an object q with q∘f ≈ q∘g universal among such maps)"
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 68,
+        "symbol": "HasCoequalizers",
+        "intree_statement": "Class HasCoequalizers (C : Category) := { coeq {x y} (f g : x ~> y) : ∃ q e, IsCoequalizer f g q e }."
+      }
+    ],
+    "statement_record": {
+      "book": "For a parallel pair f,g : A -> B, a coequalizer is an object Q with q : B -> Q satisfying qf=qg, universal: for every z : B -> Z with zf=zg there is a unique u : Q -> Z with uq=z. Dual to equalizer.",
+      "intree": "IsCoequalizer f g q e := { cofork : e ∘ f ≈ e ∘ g ; coeq_desc : forall z (h : y ~> z), h∘f ≈ h∘g -> ∃! u, u∘e ≈ h }, plus Coequalizer F := Colimit F over the walking parallel pair.",
+      "strength_comparison": "same (setoid rephrasing: equality of composites replaced by ≈, unique existence by ∃!). Both the elementary cofork form and the colimit form are provided and shown equivalent."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed independently. IsCoequalizer (Coequalizer.v:52) and Coequalizer:=Colimit (Equalizer.v:126) both present, with the two presentations shown equivalent. Faithful setoid rephrasing. PRESENT upheld."
+    }
+  },
+  {
+    "id": "awodey:3.4:prop18",
+    "classification": "PRESENT",
+    "aliases": [
+      "coequalizer is epic",
+      "coequalizer_epic",
+      "every coequalizer is an epimorphism",
+      "dual of equalizer monic",
+      "regular epi"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 83,
+        "symbol": "coequalizer_epic",
+        "intree_statement": "Lemma coequalizer_epic {q} {e : y ~> q} (E : IsCoequalizer f g q e) : Epic e."
+      }
+    ],
+    "statement_record": {
+      "book": "If q : B -> Q is a coequalizer of some parallel pair, then q is an epimorphism (dual of Prop 3.15, equalizers are monic).",
+      "intree": "Lemma coequalizer_epic (E : IsCoequalizer f g q e) : Epic e. Proof cancels e on the right by descent uniqueness.",
+      "strength_comparison": "same. The library proves it directly on the covariant IsCoequalizer (rather than by transfer to C^op), matching the statement exactly."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed independently. coequalizer_epic at Coequalizer.v:83, proved directly on the covariant IsCoequalizer. PRESENT upheld."
+    }
+  },
+  {
+    "id": "awodey:3.4:example19",
+    "classification": "PARTIAL",
+    "aliases": [
+      "quotient by equivalence relation",
+      "X/R as coequalizer",
+      "coequalizer of the two projections r1,r2 : R => X",
+      "canonical projection pi",
+      "kernel pair coequalizer",
+      "regular_coeq"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Regular.v",
+        "line": 71,
+        "symbol": "regular_coeq",
+        "intree_statement": "regular_coeq {x y} (f : x ~> y) : ... IsCoequalizer (pullback_fst f f (kernel_pair f)) (pullback_snd f f (kernel_pair f)) y f  (a regular epi is the coequalizer of its own kernel pair)"
+      },
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 15,
+        "symbol": "Sets pushout by generated equivalence",
+        "intree_statement": "pushout apex is (B ⊔ C) modulo the smallest equivalence relation (inductive pushout_eq) containing the glue f a ~ g a; funext-free"
+      }
+    ],
+    "statement_record": {
+      "book": "For an equivalence relation R ⊆ X×X with projections r1,r2 : R => X, the canonical projection pi : X -> X/R, x |-> [x], is the coequalizer of r1,r2 in Sets; f factors through pi iff f respects R iff f r1 = f r2, and the mediator is unique because pi is epic.",
+      "intree": "regular_coeq (in a regular category) exhibits a regular epi f as the coequalizer of the two projections of its kernel pair; Sets has quotients-by-generated-equivalence realized concretely for pushouts (Instance/Sets/Pushout.v).",
+      "strength_comparison": "intree-weaker: the ABSTRACT kernel-pair phrasing (regular epi = coequalizer of its kernel pair) is present in Structure/Regular.v, and Sets carries the exact quotient-by-generated-equivalence machinery, but only for PUSHOUTS. The specific Sets fact 'pi : X -> X/R is the coequalizer of the two projections of an equivalence relation R' is not instantiated as a Sets coequalizer, and Instance/Sets has no coequalizer object at all."
+    },
+    "gap": "The categorical kernel-pair coequalizer (regular_coeq) and the funext-free generated-equivalence quotient (Sets pushout) both exist, but the concrete Sets coequalizer pi : X -> X/R of an equivalence relation's projections is never built; there is no HasCoequalizers Sets instance.",
+    "negative_search_log": [
+      "grep -rin 'coequalizer|HasCoequalizers' Instance/Sets.v Instance/Sets/ -> 0 hits",
+      "grep -rn 'HasCoequalizers' (whole tree) -> only the class def, HasReflexiveCoequalizers, and a general instance; no Sets/FinSet witness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed evidence exists: regular_coeq is a FIELD of the Regular class (Regular.v ~line 72) giving an existential coequalizer of kernel-pair projections; Sets/Pushout.v realises the generated-equivalence quotient. Minor quote imprecision: the cited 'IsCoequalizer (...) y f' matches the RegularEpi.regepi_is_coeq field, not the regular_coeq class field (which is existentially quantified over q,e). Substance intact. PARTIAL upheld (concrete Sets X/R-of-an-equiv-relation coequalizer never built; borderline but gap honestly stated)."
+    }
+  },
+  {
+    "id": "awodey:3.4:construction-sets-coeq",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sets has all coequalizers",
+      "HasCoequalizers Sets",
+      "quotient by generated equivalence relation",
+      "B/(f=g)",
+      "coequalizer in Set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 15,
+        "symbol": "Sets_Pushout (generated-equivalence quotient)",
+        "intree_statement": "For f : A → B, g : A → C the pushout apex is B + C modulo the smallest equivalence relation (inductive pushout_eq: refl/sym/trans + inl/inr congruence + glue inl(f a) ~ inr(g a)); UMP proved by induction on pushout_eq; funext-free"
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 68,
+        "symbol": "HasCoequalizers",
+        "intree_statement": "Class HasCoequalizers (C : Category) := { coeq {x y} (f g : x ~> y) : ∃ q e, IsCoequalizer f g q e } (the target class, with no Sets instance)"
+      }
+    ],
+    "statement_record": {
+      "book": "The coequalizer in Sets of f,g : A => B is B quotiented by the equivalence relation generated by the equations f(x)=g(x); the quotient map is the coequalizer. (Details deferred to Exercise 4.)",
+      "intree": "Instance/Sets/Pushout.v constructs quotients of a coproduct by an inductively-generated smallest equivalence relation (glue constructor), exactly the construction Awodey asks for, but for the PUSHOUT colimit, not the coequalizer.",
+      "strength_comparison": "intree-weaker: the identical 'quotient by the generated equivalence relation, realized as an inductive setoid relation carried by the object' technique is in-tree for pushouts in Sets, but no coequalizer of a parallel pair f,g : A => B is instantiated, and HasCoequalizers Sets is not proven."
+    },
+    "gap": "Sets is only shown to have pushouts (via the generated-equivalence quotient); the coequalizer of a parallel pair as B/(f=g) and a HasCoequalizers Sets instance are not built.",
+    "negative_search_log": [
+      "grep -rin 'coequalizer' Instance/Sets.v Instance/Sets/ -> 0 hits",
+      "grep -rn 'HasCoequalizers' tree -> only class definition + Reflexive variant + generic instance from HasCoequalizers; no Sets/FinSet witness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. Instance/Sets/Pushout.v builds the funext-free generated-equivalence quotient, but only for the pushout colimit; no coequalizer of a parallel pair and no HasCoequalizers Sets. PARTIAL upheld (shared construction technique present; deliverable absent)."
+    }
+  },
+  {
+    "id": "awodey:3.4:example20",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presentation by generators and relations",
+      "finitely presented algebra",
+      "F(n)/(l=r)",
+      "coequalizer of F(m) => F(n)",
+      "presented PROP",
+      "symmetric monoidal theory",
+      "free-then-quotient"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Presentation.v",
+        "line": 62,
+        "symbol": "PresentedCat/PresentedPROP",
+        "intree_statement": "PresentedCat E := quotient of FreeCat Σ by the congruence TermEqW E generated by the free equations together with the theory axioms smt_eqs E; assembled as PresentedPROP E with projection PresentedProj E : FreeCat Σ ⟶ PresentedCat E"
+      },
+      {
+        "file": "Construction/PROP/Presentation/Universal.v",
+        "line": 1,
+        "symbol": "presented-PROP universal property",
+        "intree_statement": "universal property of the presented PROP (the interp factoring through the projection)"
+      }
+    ],
+    "statement_record": {
+      "book": "In a category of algebras with free algebras F(n) and all coequalizers, the algebra presented by generators g_1..g_n and relations l_i=r_i is the coequalizer q : F(n) -> Q=F(n)/(l=r) of l,r : F(m) => F(n); it satisfies the UMP (any algebra with elements satisfying the relations receives a unique homomorphism). Such algebras are finitely presented. Example Q ≅ F(x,y,z)/(xy=z, y^2=1).",
+      "intree": "Construction/PROP/Presentation.v presents a PROP as the free PROP FreeCat Σ quotiented by the congruence generated by a signature's axioms (an SMT), with the identity-on-objects projection and a universal property (Presentation/Universal.v). The header explicitly likens this to 'a monoid presented by generators and relations is the free monoid quotiented by the relation-congruence'.",
+      "strength_comparison": "intree-weaker: presentation-by-generators-and-relations with a UMP is present, but only for PROPs/symmetric monoidal theories, and phrased as a congruence-QUOTIENT of the free category rather than explicitly as the COEQUALIZER of a pair F(m) => F(n) of free algebras. The general 'category of algebras with free algebras and coequalizers' setting, finite-presentation for arbitrary algebraic theories, and the worked group example are not present."
+    },
+    "gap": "Generators-and-relations presentations with a UMP exist for PROPs (as free-category congruence quotients), but not as coequalizers of free algebras F(m) => F(n), and not for general categories of algebras; 'finitely presented algebra' in Awodey's coequalizer form is not stated.",
+    "negative_search_log": [
+      "grep -rin 'finitely presented' tree -> hits only in PROP/ColouredPROP presentation headers, all congruence-quotient based, none phrased as a coequalizer of free algebras",
+      "grep -rin 'coeq.*F(n)|coequalizer.*free algebra' tree -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. PresentedCat/PresentedPROP (PROP/Presentation.v:180 / header 62) with universal property; presentation as free-category congruence quotient, not as a coequalizer of free algebras F(m)=>F(n), and only for PROPs. PARTIAL upheld."
+    }
+  },
+  {
+    "id": "awodey:3.4:remark21",
+    "classification": "PARTIAL",
+    "aliases": [
+      "presentations are not unique",
+      "redundant generator",
+      "Tietze transformation",
+      "definitional extension",
+      "add derivable relation",
+      "finiteness inessential"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Tietze.v",
+        "line": 36,
+        "symbol": "Tietze moves (AddEqn / add generator)",
+        "intree_statement": "Tietze transformations for PROP presentations: adding a derivable relation (move 1, AddEqn: congruences coincide at every arity) and adding a definable generator (move 2: the embedding is conservative and a section up to derivable equality, pinning the presented homs); realizes 'two presentations of the same object'"
+      }
+    ],
+    "statement_record": {
+      "book": "Warning: presentations by generators and relations are not unique — the same algebra has distinct presentations F(n)/(l=r) ≅ F(n')/(l'=r') (e.g. add a redundant generator g_{n+1} with relation g_n = g_{n+1}). Finiteness is inessential: arbitrary sets of generators G and relations R give F(G)/(r1=r2) as the coequalizer F(R) => F(G) -> F(G)/(r1=r2).",
+      "intree": "Construction/PROP/Tietze.v develops the two 'adding' Tietze moves (add a derivable equation; add a definable generator) and proves they are presentation-preserving (congruences coincide; the embedding is conservative and a section up to derivable equality).",
+      "strength_comparison": "intree-weaker: the mathematical content of the warning — that adding a redundant generator/relation yields a different presentation of the SAME object — is formalized as Tietze moves, but only for PROPs, and the header states the packaging as an equivalence of presented PROPs is deferred (only the two 'adding' moves, not removal, and no F(R)=>F(G) coequalizer form for arbitrary generators/relations)."
+    },
+    "gap": "Tietze moves for PROP presentations capture 'presentations are not unique' (redundant generator), but only the two adding moves are proven, the equivalence-of-presentations packaging is deferred, and there is no general-algebra F(R)=>F(G) coequalizer statement of the finiteness-inessential remark.",
+    "negative_search_log": [
+      "grep -rin 'Tietze' tree -> only Construction/PROP/Tietze.v (PROP-specific)",
+      "grep -rin 'presentation.*not unique|redundant generator' tree -> 0 hits outside the Tietze/PROP headers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. Tietze moves (PROP/Tietze.v: AddEqn at line 385, conservativity) capture 'presentations not unique' for PROPs only; equivalence-of-presentations packaging deferred per header. PARTIAL upheld."
+    }
+  },
+  {
+    "id": "awodey:3.4:prop22",
+    "classification": "PARTIAL",
+    "aliases": [
+      "every monoid is a coequalizer of free monoids",
+      "bar resolution",
+      "canonical presentation of an algebra",
+      "T^2 M => T M -> M",
+      "canonical_split",
+      "split coequalizer of an algebra",
+      "monadic canonical presentation"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a : D} (α : TAlgebra T a) : SplitCoequalizer (@join D T H a) (fmap[T] (t_alg[α])).  (the pair μ_a, T α : TTa ⇉ Ta is coequalized by α, split by η_a, η_{Ta})"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 99,
+        "symbol": "canonical_reflexive",
+        "intree_statement": "Definition canonical_reflexive ... : the same pair μ_a, T α is a reflexive pair with common section T η_a"
+      }
+    ],
+    "statement_record": {
+      "book": "For every monoid M there are sets G,R and a coequalizer diagram F(R) => F(G) -> M with F(G),F(R) free monoids, so M ≅ F(G)/(r1=r2). Proof: the bar resolution (3.2) T^2 M => TM -> M with T = M(|-|), epsilon (multiplication in TM), mu = T pi, counit pi, exhibited as a coequalizer of monoids.",
+      "intree": "canonical_split: for any monad (T,η,μ) on D and any T-algebra (a,α), the fork μ_a, T α : T(Ta) ⇉ Ta --α--> a is a SPLIT coequalizer (sections η_a, η_{Ta}); canonical_reflexive records the same pair is reflexive.",
+      "strength_comparison": "intree-stronger in generality (holds for every EM-algebra of any monad, giving a SPLIT — hence absolute — coequalizer, not merely a coequalizer), but intree-weaker in placement: the fork is exhibited in the BASE category D (a split coequalizer of the underlying objects), not as a coequalizer inside the category of algebras/monoids; and there is NO in-tree category of monoids, no free-monoid monad, so Awodey's concrete monoid instance M ≅ F(G)/(r1=r2) is not witnessed."
+    },
+    "gap": "The general monadic bar-resolution (every T-algebra is the split coequalizer of its free presentation μ_a, Tα ⇉ Ta -> a) is present as canonical_split, but it is stated in the base category (split coequalizer) rather than as a coequalizer in the algebra category, and it is never instantiated for monoids (no Mon category and no free-monoid monad in-tree).",
+    "negative_search_log": [
+      "ls Instance/ | grep -i mon -> only CMon (commutative monoids); no category of monoids Mon and no free-monoid monad",
+      "grep -rin 'free monoid.*monad|M(|-|)|free-monoid monad' tree -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. canonical_split (BeckObjects.v:75) exhibits every T-algebra as a SPLIT coequalizer of its free presentation in the base category; canonical_reflexive at 99. No category of monoids and no free-monoid monad in-tree, so the concrete M=F(G)/(r1=r2) is not witnessed. PARTIAL upheld (stronger in generality/absoluteness, weaker in placement)."
+    }
+  },
+  {
+    "id": "awodey:3:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "coproduct via hom-set isomorphism",
+      "Hom(C,Z) ≅ Hom(A,Z) × Hom(B,Z)",
+      "representable characterization of coproduct",
+      "copairing bijection",
+      "product represents z ↦ Hom(z,x)×Hom(z,y)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/UniversalProperty/Cartesian.v",
+        "line": 60,
+        "symbol": "CartesianProductIsUniversalProperty",
+        "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) ... (x × y represents z ↦ Hom(z,x) × Hom(z,y), natural in z)"
+      },
+      {
+        "file": "Structure/Cocartesian.v",
+        "line": 129,
+        "symbol": "merge / merge_inv",
+        "intree_statement": "merge (f ▽ g) : y + z ~> x is the unique morphism with (f▽g)∘inl ≈ f, (f▽g)∘inr ≈ g; uniqueness via merge_inv/merge_inl_inr (the copairing bijection element-wise)"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) A -c1-> C <-c2- B is a coproduct iff for every Z the map Hom(C,Z) -> Hom(A,Z) × Hom(B,Z), f |-> <f c1, f c2>, is a bijection. (b) Derive the product version by duality.",
+      "intree": "The product hom-representability Hom(z, x×y) ≅ Hom(z,x)×Hom(z,y) is packaged as CartesianProductIsUniversalProperty; the coproduct copairing UMP (unique merge with the two triangle equations) is Structure/Cocartesian.v (built as the fork of C^op).",
+      "strength_comparison": "intree-weaker: the PRODUCT direction of the representable hom-isomorphism is present as a packaged 'universal property ⟺ representability' proposition, and the coproduct copairing UMP exists in Cocartesian.v, but the coproduct hom-set bijection Hom(C,Z) ≅ Hom(A,Z)×Hom(B,Z) itself (Awodey's part (a)) is not stated as a separate lemma — only its element-wise unpacking (merge_inv) and the dual product version are present."
+    },
+    "gap": "The dual (coproduct) hom-set bijection Hom(C,Z) ≅ Hom(A,Z)×Hom(B,Z) is not stated as such; only the product representability proposition and the element-level coproduct copairing UMP are in-tree.",
+    "negative_search_log": [
+      "grep -rin 'Hom(x + y|coproduct.*hom.*iso|Hom.*≅.*Hom.*×.*Hom' Structure/ -> only the product version (UniversalProperty/Cartesian.v) and closed/exponential hom-isos",
+      "grep -rin 'Cocartesian' Structure/UniversalProperty/ -> 0 hits (no dualized coproduct universal-property file)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. CartesianProductIsUniversalProperty (UniversalProperty/Cartesian.v:60) gives the product hom-representability; Cocartesian merge (line 131) gives the copairing UMP. The coproduct hom-bijection Hom(C,Z)≅Hom(A,Z)×Hom(B,Z) is not stated as such. PARTIAL upheld."
+    }
+  },
+  {
+    "id": "awodey:3:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ab has all equalizers",
+      "category of abelian groups",
+      "abelian group equalizers",
+      "HasEqualizers Ab",
+      "kernel in Ab"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "ls Instance/ | grep -i 'ab|group' -> no category of abelian groups (only CMon = commutative monoids)",
+      "grep -rin 'equalizer|kernel' Instance/CMon.v Instance/CMon/ -> 0 hits (CMon carries biproducts but no equalizers, and CMon ≠ Ab: commutative monoids have no inverses)",
+      "grep -rn 'HasEqualizers' tree -> only Structure defs, Complete_HasEqualizers (from Complete), WeaklyInitial usage; no Ab/CMon instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT: no category of abelian groups anywhere; Instance/CMon (commutative monoids, no inverses) carries no equalizer/kernel content; the only HasEqualizers is derived from Complete abstractly (GAFT.v). No counterpart missed."
+    }
+  },
+  {
+    "id": "awodey:3:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "forgetful functor preserves the canonical monoid coequalizer",
+      "U : Mon -> Sets preserves coequalizer",
+      "split coequalizer is absolute",
+      "functor_preserves_split",
+      "absolute colimit"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 104,
+        "symbol": "functor_preserves_split",
+        "intree_statement": "Theorem functor_preserves_split {C D} (F : C ⟶ D) ... : every functor preserves split coequalizers (hence they are absolute colimits, split_coequalizer_preserved)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "the canonical presentation μ_a, Tα ⇉ Ta -> a of a T-algebra is a SplitCoequalizer, therefore absolute"
+      }
+    ],
+    "statement_record": {
+      "book": "For the specific coequalizer presentation T^2 M => TM -> M of a monoid M (from Prop 3.22), show coequalizers of this form are preserved by the forgetful functor Mon -> Sets.",
+      "intree": "functor_preserves_split: every functor preserves split coequalizers; combined with canonical_split (the bar-resolution presentation is a split coequalizer), any functor — in particular a forgetful one — preserves it.",
+      "strength_comparison": "intree-stronger in the abstract (the presentation is a SPLIT coequalizer, absolute, so preserved by EVERY functor, which is exactly why the forgetful functor preserves it), but intree-weaker concretely: there is no category of monoids and no forgetful functor Mon -> Sets in-tree to instantiate the exercise's specific claim."
+    },
+    "gap": "The general reason the exercise holds (split/absolute coequalizers preserved by all functors, and the canonical presentation is split) is present, but the concrete forgetful functor Mon -> Sets is not, since Mon does not exist in-tree.",
+    "negative_search_log": [
+      "ls Instance/ | grep -i mon -> only CMon; no Mon; grep -rin 'Mon.*Forget|forgetful.*Mon' tree -> 0 hits for a monoids-to-sets forgetful functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. functor_preserves_split (Split.v:104) + canonical_split give the abstract reason the exercise holds; no Mon->Sets forgetful functor in-tree. PARTIAL upheld."
+    }
+  },
+  {
+    "id": "awodey:3:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sets has all coequalizers",
+      "B/(f=g)",
+      "quotient by intersection of equivalence relations containing (f x, g x)",
+      "generated equivalence relation",
+      "HasCoequalizers Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Pushout.v",
+        "line": 15,
+        "symbol": "Sets pushout by generated equivalence",
+        "intree_statement": "the pushout apex is a coproduct quotiented by the smallest equivalence relation (inductive pushout_eq) containing the glue identifications; funext-free, UMP by induction on pushout_eq"
+      }
+    ],
+    "statement_record": {
+      "book": "Prove Sets has all coequalizers: the coequalizer of f,g : A => B is Q = B/(f=g), where the equivalence relation is the intersection of all equivalence relations on B containing the pairs (f(x),g(x)).",
+      "intree": "Instance/Sets/Pushout.v realizes exactly this generated-equivalence-relation quotient (as an inductive setoid relation carried by the object), but for the pushout colimit rather than for the coequalizer of a parallel pair.",
+      "strength_comparison": "intree-weaker: the required construction technique (smallest equivalence relation containing prescribed pairs, realized funext-free as an inductive relation) is in-tree for pushouts, but no coequalizer of f,g : A => B is constructed in Sets and HasCoequalizers Sets is not proven."
+    },
+    "gap": "Same as awodey:3.4:construction-sets-coeq: the generated-equivalence quotient exists only for Sets pushouts, not as a coequalizer of a parallel pair; no HasCoequalizers Sets instance.",
+    "negative_search_log": [
+      "grep -rin 'coequalizer|HasCoequalizers' Instance/Sets.v Instance/Sets/ -> 0 hits",
+      "grep -rn 'HasCoequalizers' tree -> no Sets/FinSet witness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed, same evidence/gap as construction-sets-coeq: generated-equivalence quotient present for Sets pushouts only; no coequalizer / HasCoequalizers Sets. PARTIAL upheld."
+    }
+  },
+  {
+    "id": "awodey:3:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "posets have all coequalizers",
+      "category of posets Pos",
+      "Pos coequalizers",
+      "HasCoequalizers Pos",
+      "quotient poset"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "cat Instance/Poset.v (grep symbols) -> 'Poset' is a SINGLE poset viewed as a category (LessThanEqualTo_Category), NOT the category Pos of all posets; no coequalizer content",
+      "ls Instance/ | grep -i pos -> only Poset.v (one poset as a category)",
+      "grep -rin 'category of posets|Pos.*coequalizer|HasCoequalizers.*Pos' tree -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirms ABSENT: no category of posets. Instance/Poset.v is a single poset qua thin category; the '[Ord] category of preordered sets' referenced in Instance/Proset.v:19 is never actually defined in-tree. No coequalizer content. No counterpart missed."
+    }
+  },
+  {
+    "id": "awodey:3:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "kernel relation of f",
+      "kernel pair",
+      "A x_B A",
+      "A -> A/R kernel is R",
+      "quotient is coequalizer of projections",
+      "generated equivalence relation <R>",
+      "kernel of a coequalizer"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Regular.v",
+        "line": 46,
+        "symbol": "kernel_pair",
+        "intree_statement": "Definition kernel_pair {C} `{HasPullbacks C} {x y} (f : x ~> y) := pullback of f along itself (its two projections p1,p2 : x ×_y x ~> x are the kernel-pair relation of f)"
+      },
+      {
+        "file": "Structure/Regular.v",
+        "line": 71,
+        "symbol": "regular_coeq",
+        "intree_statement": "regular_coeq {x y} (f : x ~> y) : IsCoequalizer (pullback_fst f f (kernel_pair f)) (pullback_snd f f (kernel_pair f)) y f  (a regular epi is the coequalizer of its own kernel pair)"
+      }
+    ],
+    "statement_record": {
+      "book": "In Sets: (a) the equalizer of f∘p1, f∘p2 : A×A => B is the kernel relation of f, an equivalence relation; (b) the kernel of a quotient map A -> A/R is R; (c) for a relation R, A -> A/<R> is the coequalizer of the two projections R => A; (d) <R> is the kernel of that coequalizer.",
+      "intree": "kernel_pair f is the pullback of f along itself (the kernel relation in general categorical form); regular_coeq exhibits a regular epi as the coequalizer of its kernel pair (the abstract analogue of (c)).",
+      "strength_comparison": "intree-weaker: the general categorical notions — kernel pair as a pullback, and 'regular epi = coequalizer of its kernel pair' — are present in Structure/Regular.v, but the Sets-specific results of the exercise are not: the kernel relation as a concrete binary relation on A, 'kernel of A -> A/R is R', the least equivalence relation <R> generated by R, and 'kernel of the coequalizer of R's projections is <R>' are none of them formalized, and Sets is not shown to have the relevant coequalizers/quotients as needed."
+    },
+    "gap": "Kernel pairs and 'regular epi = coequalizer of its kernel pair' exist abstractly (Structure/Regular.v), but the exercise's Sets-specific computations (kernel relation as an equivalence relation, kernel of a quotient = R, the generated equivalence relation <R>, and <R> as the kernel of the coequalizer) are absent.",
+    "negative_search_log": [
+      "grep -rin 'generated equivalence|<R>|least equivalence relation|kernel relation' tree -> 0 hits (no generated-equivalence-relation development in Sets)",
+      "grep -rin 'kernel.*quotient|A/R' tree -> 0 hits for the Sets kernel-of-quotient results"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed. kernel_pair (Regular.v:46) as pullback-along-self and the regular-epi=coequalizer-of-kernel-pair content are present abstractly; the Sets-specific computations (kernel relation as an equiv relation, ker of a quotient = R, generated <R>, <R> as kernel of the coequalizer) are absent. Same minor quote imprecision as example19 (the 'y f' in the regular_coeq quote is the RegularEpi field). PARTIAL upheld."
+    }
+  }
+]

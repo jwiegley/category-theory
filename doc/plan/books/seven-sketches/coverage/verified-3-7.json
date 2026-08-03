@@ -1,0 +1,308 @@
+[
+  {
+    "id": "7sketches:3.5.3:thm3.95",
+    "classification": "PARTIAL",
+    "aliases": [
+      "formula for limits in Set: lim D = { tuples (d_1..d_n) : D(a)(d_i) = d_j } with projections p_i",
+      "Set is complete / Complete Sets / Sets_Complete / a Limit F for F : J ⟶ Sets",
+      "limit as a subobject of the product cut out by the arrow equations (products + equalizers ⇒ all limits)",
+      "compatible families / end in Sets (Sets_End, end_family) — the same subsetoid-of-a-product construction",
+      "terminal cone over a diagram in Sets; Terminal (Cones F) in Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/End.v",
+        "line": 144,
+        "symbol": "Sets_End",
+        "intree_statement": "Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}  — over  Definition end_family : Type := { s : ∀ x : C, F (x, x) & ∀ (x y : C) (f : x ~{C}~> y), fmap[F] ((id (C^op) x, f) : (x,x) ~{C^op ∏ C}~> (x,y)) (s x) ≈ fmap[F] ((op f, id C y) : (y,y) ~{C^op ∏ C}~> (x,y)) (s y) }  with legs  end_projection (x : C) : Sets_End_obj ~{Sets}~> F (x,x) := {| morphism := fun s => `1 s x |}  and the UMP obligation discharged by Build_Unique (Sets_End_mediator W)"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => equiv (fst z) (fst w) * equiv (snd z) (snd w) |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fun _ _ => {| morphism := fst |}; exr := fun _ _ => {| morphism := snd |} }"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 264,
+        "symbol": "FinSet_Pullbacks",
+        "intree_statement": "Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := fun q => fst (fin_unpair (fin_select (finset_pb_pred f g) q)); pullback_snd := fun q => snd (fin_unpair (fin_select (finset_pb_pred f g) q)) |} }  where  finset_pb_pred f g := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))"
+      }
+    ],
+    "statement_record": {
+      "book": "For J presented by a finite graph (V,A,s,t) plus equations and D : J → Set with V = {v_1..v_n}, the set lim_J D := {(d_1,…,d_n) | d_i ∈ D(v_i), and D(a)(d_i) = d_j for every arrow a : v_i → v_j} together with p_i(d_1,…,d_n) := d_i IS a limit of D; every finite limit in Set is computed this way, and the equations of the presentation are irrelevant (only the generating graph matters).",
+      "intree": "Sets_End : End F, whose object is end_family = { s : ∀ x, F (x,x) & ∀ x y (f : x ~> y), fmap[F] (id, f) (s x) ≈ fmap[F] (op f, id) (s y) } with projection legs `s ↦ s x` and the universal property proved; plus the shape-by-shape instances Sets_Terminal (nullary), Sets_Cartesian (binary product as the setoid of pairs), FinSet_Pullbacks (cospan shape as the counted subset of pairs on which f and g agree).",
+      "strength_comparison": "intree-weaker: the library never constructs a Limit F for a general F : J ⟶ Sets, so the book's shape-indexed tuple formula is neither stated nor proven. The nearest genuine assertion, Sets_End, builds exactly the book's object — a subsetoid of a dependent product cut out by the arrow-compatibility equations, with evaluation-at-x as the projections — and proves it universal, but for WEDGES over C^op ∏ C (dinaturality) rather than CONES over an arbitrary index J, and the end/limit reduction is not in tree. The remaining evidence verifies the formula only at individual shapes."
+    },
+    "gap": "Missing: (1) any construction `Limit F` for a general diagram F : J ⟶ Sets (rg for `: Limit`/`: @Limit` finds only Instance/Cones/Limit.v's Limit_Cones, Construction/Comma/Limit.v's comma limits and Theory/Equivalence/Limit.v's transports — none in Sets); (2) any `Complete Sets` instance (Structure/Complete.v:117 defines Complete but has no Sets inhabitant — the only consumers are Adjunction/GAFT.v, Adjunction/SAFT.v, Theory/Adamek/Corollaries.v, all taking it as a hypothesis); (3) the reduction 'products + equalizers ⇒ all limits' (asserted only in the Structure/Limit.v, Structure/Complete.v and Structure/Equalizer.v headers with textbook citations, never proven), and indeed Sets has no Equalizer instance in tree at all (rg 'Equalizer' Instance/ — 0 hits, re-verified in Phase D); (4) the book's presentation-independence clause — that lim_J D depends only on the generating graph of J and not on the equations imposed — which is absent as a THEOREM. [PHASE-D CORRECTION: Phase C additionally claimed clause (4) was 'not statable' because 'no free-category-on-a-graph construction exists in tree'. That is FALSE and has been removed: Construction/Free/Quiver.v (_CoqProject:72) defines Quiver, QuiverCategory, FreeOnQuiver (line 431 — the path category on a quiver) with its universal property (line 465) and FreeForgetfulAdjunction (line 550); Construction/Free.v gives the path category on the underlying quiver of a category; and Construction/Quotient.v (_CoqProject:67) provides the quotient of an arbitrary category by a Prop-valued hom-congruence. 'J presented by a finite graph together with equations' is therefore fully statable in-tree as a hom-congruence quotient of FreeOnQuiver — it is simply never connected to limits.] What IS present is the general terminal-cone definition of Limit, the formula verified at three individual shapes (Sets_Terminal, Sets_Cartesian, FinSet_Pullbacks), and the identical subsetoid-of-a-dependent-product compatible-family construction for ends.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' \"Sets_Complete|Complete Sets|Cocomplete Sets|Sets_Cocomplete\" . — 0 hits",
+      "grep -rn --include='*.v' \": *Limit |: *@Limit |Limit F :=\" . — hits only in Theory/Adamek.v, Theory/WeaklyInitial.v, Theory/Equivalence/Limit.v, Instance/Cones/Limit.v, Construction/Comma/Limit.v, Structure/Limit*; none constructs a limit in Sets",
+      "rg -n 'Equalizer' Instance/ — 0 hits (Sets has no equalizers in tree); RE-VERIFIED in Phase D",
+      "grep -rn --include='*.v' \"products and equalizers|limits from products|Limit_from|limits_from\" . — 4 hits, all inside header comments (Structure/Topos.v, Structure/Complete.v, Structure/Limit.v, Structure/Equalizer.v)",
+      "grep -rn --include='*.v' \"compatible famil|compatible tuple|matching famil\" . — hits only in Instance/Sets/End.v, Instance/Sets/Coend.v, Theory/Coend/Yoneda.v, Theory/Sheaf/Category.v",
+      "[PHASE-D CORRECTION — the Phase-C entry here read: \"grep -rn --include='*.v' -i 'free category|graph' . — no free-category-on-a-graph construction (only Solver.v reify and the Metacategory metagraph discussion)\". WRONG. rg -i 'free category|quiver' finds Construction/Free.v, Construction/Free/Quiver.v (FreeOnQuiver:431, universal property:465, FreeForgetfulAdjunction:550), Lib/NETList.v:23, Solver/Expr.v:59, Instance/StrictCat.v:51 and Test/Issue138.v; Construction/Free/Quiver.v is registered at _CoqProject:72 and compiled. Together with Construction/Quotient.v's hom-congruence quotient (_CoqProject:67) the book's 'graph + equations' presentation of J IS expressible in-tree.]",
+      "rg -n 'Limit|limit' Instance/Sets.v Instance/Sets/*.v — only header prose (Instance/Sets.v:80 on Weighted weights) and the '(co)limit' smallness notes in End.v:44 / Coend.v:57; no Sets-valued limit construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "BLIND PASS FIRST (before opening coverage-3-7.json) reached PARTIAL independently. My own search log: rg 'Complete' -l → Structure/Complete.v defines Complete/Cocomplete but no instance exists for Sets (only GAFT/SAFT/Adamek consume it as a hypothesis); rg 'HasPullbacks' → the single instance in tree is FinSet_Pullbacks (Instance/FinSet/Classifier.v:264), Sets has none; rg 'Equalizer' Instance/ → 0 hits; rg 'Sets_Limit|Sets_Complete' → 0 hits; nearest analogue is Instance/Sets/End.v's end_family (a subsetoid of a dependent product cut out by compatibility equations, with evaluation-at-x as legs) — exactly the classifier's reading. EVIDENCE VERIFIED VERBATIM: Instance/Sets/End.v:144 is 'Program Definition Sets_End : End F := {| end_wedge := Sets_End_Wedge |}' over end_family (line 60); Instance/Sets/Cartesian.v:32 is 'Program Instance Sets_Cartesian : @Cartesian Sets' (the quote trims '@equiv _ x' to 'equiv', a sanctioned trim); Instance/FinSet/Classifier.v:264 is 'Program Instance FinSet_Pullbacks : HasPullbacks FinSet' over finset_pb_pred (line 257). All three files are registered in _CoqProject and carry no Admitted/admit/Axiom; .vo artifacts present. strength_comparison is honest — it names the end/limit mismatch (wedges over C^op ∏ C vs cones over J) and says outright that the remaining evidence verifies the formula only at individual shapes. ONE SUB-FIELD OVERTURNED ON FACT (classification unaffected): Phase C's gap clause (4) and its matching negative-log line asserted that no free-category-on-a-graph construction exists in tree and hence that 'J presented by a graph and equations' is not statable. Construction/Free/Quiver.v (FreeOnQuiver, _CoqProject:72) and Construction/Quotient.v (hom-congruence quotients, _CoqProject:67) refute both halves; gap and negative_search_log have been rewritten. PARTIAL still stands, because the theorem's actual content — that the compatible-tuple set with its coordinate projections IS a limit of D : J ⟶ Sets — is nowhere constructed."
+    }
+  },
+  {
+    "id": "7sketches:3.5.3:example3.96",
+    "classification": "PRESENT",
+    "aliases": [
+      "limit of the empty diagram is the terminal object",
+      "nullary product / empty product / terminal object as a limit",
+      "Terminal_Limit, Limit F ↔ Terminal C for F : 0 ⟶ C",
+      "terminal object of Sets is the singleton (Sets_Terminal, poly_unit)",
+      "Instance/Zero.v — the empty index category 0"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C."
+      },
+      {
+        "file": "Instance/Sets.v",
+        "line": 248,
+        "symbol": "Sets_Terminal",
+        "intree_statement": "Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; one := fun _ => {| morphism := fun _ => ttt |}; one_unique := fun x f g => _ }"
+      }
+    ],
+    "statement_record": {
+      "book": "Instantiating the limit formula at the empty graph (n = 0) leaves exactly one empty tuple ( ), which vacuously satisfies the arrow conditions; so the limit of the empty diagram in Set is the singleton {( )}, i.e. the terminal object.",
+      "intree": "Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C; and Sets_Terminal : @Terminal Sets with terminal_obj := {| carrier := poly_unit |} (the singleton setoid on the unit type, whose sole inhabitant is ttt).",
+      "strength_comparison": "intree-stronger: the library proves the equivalence in BOTH directions and over an arbitrary category C, not just Set (a cone over the empty diagram has no legs, so its apex is unconstrained and the limit UMP is literally terminality); the Set-specific half of the example — that this terminal object is the one-element set — is exactly Sets_Terminal's poly_unit carrier."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT via the same two constants. Both citations verified verbatim: Structure/Limit/Terminal.v:33 reads 'Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.' (proof is a two-sided split, Qed, no admits), and Instance/Sets.v:248 reads 'Program Instance Sets_Terminal : @Terminal Sets := { terminal_obj := {| carrier := poly_unit |}; ... }'. Both files are in _CoqProject. The 'intree-stronger' claim is honest: the ↔ is proved in both directions over an arbitrary C, which strictly subsumes the example's Set instance. Nuance recorded, not a downgrade: the example's content is the CONJUNCTION of the two constants (empty-diagram limit = terminal; terminal in Set = singleton); no single in-tree statement says 'the limit of the empty diagram in Sets is poly_unit', but each half is proved and the composition is immediate. Cross-checked that '0' is Instance/Zero.v's empty category as the header claims."
+    }
+  },
+  {
+    "id": "7sketches:3.5.3:ex3.97",
+    "classification": "PRESENT",
+    "aliases": [
+      "product as the limit of a discrete two-object diagram",
+      "Cartesian_Limit, (∀ F : Two_Discrete ⟶ C, Limit F) ↔ Cartesian C",
+      "indexed/arbitrary product as limit of a discrete diagram (iprod, iprod_proj, iprod_ump)",
+      "binary product in Set is the cartesian product with fst/snd (Sets_Cartesian)",
+      "cone over a discrete category = a bare family of legs (vacuous coherence)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Cartesian.v",
+        "line": 39,
+        "symbol": "Cartesian_Limit",
+        "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.  (proof: left-to-right takes product_obj := vertex_obj[X (Pick_Two x y)], exl/exr := the limit legs at TwoDX/TwoDY and fork := the mediating morphism; right-to-left makes product_obj the cone apex with exl/exr as legs and fork the unique factorization)"
+      },
+      {
+        "file": "Instance/Sets/Cartesian.v",
+        "line": 32,
+        "symbol": "Sets_Cartesian",
+        "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; is_setoid := {| equiv := fun z w => equiv (fst z) (fst w) * equiv (snd z) (snd w) |} |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fun _ _ => {| morphism := fst |}; exr := fun _ _ => {| morphism := snd |} }"
+      },
+      {
+        "file": "Structure/Limit/Product.v",
+        "line": 105,
+        "symbol": "iprod_ump",
+        "intree_statement": "Definition iprod_ump {C : Category} {A : Type} (f : A → C) (L : Limit (DiscreteCat_Functor f)) (c : C) (pi : ∀ a, c ~> f a) : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a."
+      }
+    ],
+    "statement_record": {
+      "book": "Show that the limit formula of Theorem 3.95 works for products: instantiated at the discrete two-object indexing category (Example 3.94), the compatible-tuple set is the cartesian product X × Y and the p_i are its two projections.",
+      "intree": "Cartesian_Limit : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C — the limit apex over the discrete two-object diagram is the product object, the limit legs at TwoDX/TwoDY are exl/exr and the mediating morphism is fork; Sets_Cartesian computes that product in Sets as the setoid of pairs with fst/snd as exl/exr; iprod_ump generalizes to an arbitrary index Type A over DiscreteCat A.",
+      "strength_comparison": "intree-stronger: the correspondence is proved in both directions and for an arbitrary ambient category (and, via iprod_ump, for an arbitrary — not merely two-element, not merely finite — index Type), whereas the exercise only asks for the two-object instance in Set; the Set-level half of the exercise (the tuple set IS the cartesian product with the coordinate projections) is Sets_Cartesian's product_obj/exl/exr. The vacuity of the cone-coherence condition on a discrete shape, which is what makes the exercise work, is Structure/Limit/Product.v's family_cone_coherence."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT via Cartesian_Limit + Sets_Cartesian + iprod. All three citations verified verbatim: Structure/Limit/Cartesian.v:39 'Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.'; Instance/Sets/Cartesian.v:32 Sets_Cartesian; Structure/Limit/Product.v:105 'Definition iprod_ump ... : ∃! u : c ~> iprod f L, ∀ a, iprod_proj f L a ∘ u ≈ pi a.' (Defined, over iprod:94 / iprod_proj:99, with family_cone_coherence:69 supplying the vacuity of discrete cone coherence exactly as the strength_comparison says). All in _CoqProject, no admits. ONE HONEST NUANCE, recorded rather than actioned: the exercise literally asks to instantiate Theorem 3.95's tuple formula, and that formula is NOT in tree (see thm3.95, PARTIAL). The in-tree route proves product = limit-of-discrete-diagram through the universal property instead, then computes the Set-level product as the setoid of pairs. That is the exercise's substance under the frozen PRESENT definition ('statement matches up to presentation'), so PRESENT holds; the dependency on thm3.95's gap is noted so no downstream reader infers that the Sets tuple formula itself has been verified at the discrete shape."
+    }
+  },
+  {
+    "id": "7sketches:3.5.3:ex3.98",
+    "classification": "ABSENT",
+    "aliases": [
+      "limit of a diagram indexed by the terminal category 1 is the diagram's single value",
+      "lim over the point / one-object index / Limit F for F : 1 ⟶ C",
+      "[1, C] ≃ C (functors out of the point are objects)",
+      "Erase / one[C] : C ⟶ 1 and the constant functor Δ(c) = =(c) : 1 ⟶ C",
+      "limit over an index category with a terminal object equals the value there (cofinality of the point)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' \"Limit.*Erase\" . — 1 hit, Structure/Limit/Kan/Extension.v:46 Kan_Limit, which relates a limit to Ran (Erase J) F ttt; it does not compute the limit of a diagram indexed BY 1",
+      "grep -rn --include='*.v' \"Limit_One|One_Limit\" . — 0 hits",
+      "grep -rn --include='*.v' \"limit.*terminal category|singleton index\" . — 0 hits",
+      "grep -rn --include='*.v' \"1 ⟶ C\" . — 2 hits, both header comments (Construction/Slice.v:37, Structure/Limit/Kan/Extension.v:30)",
+      "grep -rn --include='*.v' \"_1\\b\" . (excluding Instance/One.v and StrictCat) — only obligation names and unrelated numerals; no [1,C] ≃ C theorem",
+      "read Instance/One.v in full — defines _1, Erase, Cat_Terminal; the equivalence [1, C] ≃ C appears only in the header prose (line 22), unproven",
+      "read Functor/Diagonal.v in full — Diagonal, Δ[J](c), =(c) := Diagonal 1 c, Diagonal_Product_Two, Transform_Const; no statement about limits over the index category 1",
+      "grep -rn --include='*.v' -i \"cofinal|final functor|initial functor\" . — 1 hit, Functor/Structure/Terminal.v:53, about initial-object preservation, unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT before opening the coverage file. My own searches: rg 'Limit' over Instance/ → only Instance/Cones/Limit.v's Limit_Cones and header prose; rg for a one-object index limit (Limit_One|One_Limit|'terminal category' near limit) → 0 hits; read Instance/One.v in full — it defines _1 (line 25), Erase (47) and Cat_Terminal (54), and the '[1, C] ≃ C' at line 22 is header prose with no corresponding theorem; Instance/One/Diagonal.v contains only Diagonal_Unique (Δ[J](d) ≈[Cat] Δ(d) ∘ one), which is about constant diagrams, not about limits indexed by 1. Phase C's negative log spot-checked and correct: Structure/Limit/Kan/Extension.v:46 is indeed 'Theorem Kan_Limit ... : Lim ≅ Ran (Erase J) F ttt' — it relates a limit to a Kan extension EVALUATED at 1, and does not compute the limit of a diagram INDEXED BY 1; Functor/Diagonal.v does contain Diagonal (33), Δ[J](c) (50), =(c) := Diagonal 1 c (55), Diagonal_Product_Two (78) and Transform_Const (92), none about limits over 1. Correctly ABSENT rather than PARTIAL: Limit is general enough that the instance is trivially derivable, but no in-tree statement asserts lim_1 D ≅ D(∗), and derivability is not presence."
+    }
+  },
+  {
+    "id": "7sketches:3.5.3:example3.99",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullback = limit of a cospan diagram (fibre product X ×_A Y)",
+      "Pullback_Limit / Pullback_to_Universal / Pullback_from_Universal over the walking roof (Instance/Roof.v)",
+      "the diagonal leg of a pullback cone is redundant; the commuting square with the corner marker",
+      "pullback in Set = {(x,y) | f x = g y} (the same-colour pairs) — FinSet_Pullbacks, finset_pb_pred",
+      "Pullback record: pullback_fst/pullback_snd, pullback_commutes, ump_pullbacks"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 68,
+        "symbol": "Pullback_to_Universal",
+        "intree_statement": "Program Definition Pullback_to_Universal {C : Category} (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {| Pull := P; pullback_fst := (vertex_map _) (* leg at RNeg *); pullback_snd := (vertex_map _) (* leg at RPos *) |}  — the square commutes by `now rewrite 2 cone_coherence`, and ump_pullbacks is the limit UMP applied to the cone built from a competing square (Q,q1,q2) whose RZero leg is supplied as `unop (fmap[F] ZeroPos) ∘ q2`"
+      },
+      {
+        "file": "Structure/Pullback/Limit.v",
+        "line": 113,
+        "symbol": "Pullback_from_Universal",
+        "intree_statement": "Program Definition Pullback_from_Universal {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) : Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {| limit_cone := {| vertex_obj := P ; coneFrom := {| vertex_map := _; cone_coherence := _ |} |} |}"
+      },
+      {
+        "file": "Instance/FinSet/Classifier.v",
+        "line": 264,
+        "symbol": "FinSet_Pullbacks",
+        "intree_statement": "Program Instance FinSet_Pullbacks : HasPullbacks FinSet := { pullback := fun m n k (f : Fin.t m → Fin.t k) (g : Fin.t n → Fin.t k) => {| Pull := fin_countP (finset_pb_pred f g); pullback_fst := fun q => fst (fin_unpair (fin_select (finset_pb_pred f g) q)); pullback_snd := fun q => snd (fin_unpair (fin_select (finset_pb_pred f g) q)) |} }  where  finset_pb_pred f g := fun p => fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p)))"
+      }
+    ],
+    "statement_record": {
+      "book": "When J is the cospan shape, the limit of a diagram of that shape is called a pullback; a cone has legs c_x, c_y, c_a, but commutativity forces c_a = c_x;f = c_y;g so the diagonal leg is redundant and one draws the commuting square with apex X ×_A Y. Concretely in Set with f : X → A and g : Y → A, the pullback is {(i,j) ∈ X × Y | f(i) = g(j)} — the pairs whose entries carry the same colour.",
+      "intree": "Pullback_to_Universal (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) with Pull := P and the two projections taken to be the limit legs at RNeg and RPos; conversely Pullback_from_Universal (P : Pullback f g) : Pullback_Limit (ASpan f g in C^op)^op. In FinSet, FinSet_Pullbacks computes the pullback of f, g as fin_countP (finset_pb_pred f g), the subset of encoded pairs p with fin_eqb (f (fst (fin_unpair p))) (g (snd (fin_unpair p))), i.e. exactly the pairs on which f and g agree, with the projections decoding that pair.",
+      "strength_comparison": "same. Both directions of the pullback ⟷ limit-of-a-cospan correspondence are proven over an arbitrary category, and the redundancy of the diagonal leg is visible in the construction: the two conversions only ever use the legs at RNeg and RPos, and the RZero leg of a competing cone is manufactured as `unop (fmap[F] ZeroPos) ∘ q2`. The concrete Set computation is realized in skeletal FinSet (objects = nat, homs = Fin.t m → Fin.t n) rather than in Sets — Sets has no HasPullbacks instance in tree (only the single classifying square sets_char_pullback in Instance/Sets/Classifier.v) — which matches the example's finite illustration (X = 6, Y = 4, A = 3 colours) exactly but is narrower than 'Set' at large."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT via Structure/Pullback/Limit.v plus FinSet_Pullbacks. Both conversion directions verified verbatim: line 68 'Program Definition Pullback_to_Universal {C : Category} (F : Cospan C) (P : Pullback_Limit F) : Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos))' with pullback_fst/pullback_snd := the legs at RNeg/RPos, and line 113 'Program Definition Pullback_from_Universal ... : Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op'. Cospan is confirmed to be the cospan shape: Structure/Span.v:35 'Definition Cospan (C : Category) := Roof^op ⟶ C'; Pullback_Limit F := Limit F at Structure/Pullback/Limit.v:56. The claimed redundancy of the diagonal leg is visible in the code as stated — the competing cone's RZero leg is manufactured as 'unop (fmap[F] ZeroPos) ∘ q2' and the square commutes by 'now rewrite 2 cone_coherence'. FinSet_Pullbacks (Instance/FinSet/Classifier.v:264) computes exactly {(i,j) | f i = g j} via finset_pb_pred (line 257). The FinSet-vs-Sets disclosure in strength_comparison is accurate and independently re-verified: rg 'HasPullbacks' shows FinSet_Pullbacks as the sole instance in Instance/, and Sets carries only the single classifying square sets_char_pullback (Instance/Sets/Classifier.v:224). 'same' is defensible — the general correspondence is proved in both directions over an arbitrary category and the concrete Set computation lands in the skeletal finite model that matches the book's own finite illustration (X = 6, Y = 4, three colours). No admits; both files in _CoqProject."
+    }
+  },
+  {
+    "id": "7sketches:3.5.3:remark3.100",
+    "classification": "ABSENT",
+    "aliases": [
+      "pullback along a functor (Δ_F, restriction/precomposition of Set-valued functors) as a pullback in Cat",
+      "category of elements el(F) / ∫F / Grothendieck construction of a Set-valued functor",
+      "discrete opfibration / discrete fibration",
+      "strict pullback of categories / HasPullbacks Cat / pullback square in Cat",
+      "reindexing Induced := (− ◯ F) : [B,C] ⟶ [A,C] exhibited as a base change"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include='*.v' -F 'category of elements' . — 1 hit, Construction/Grothendieck.v:108, inside the background essay ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); no construction",
+      "grep -rIn --include='*.v' -F 'discrete opfibration' . — 1 hit, Construction/Grothendieck.v:109, same comment; no DiscreteOpfibration class or predicate",
+      "grep -rIn --include='*.v' -F 'DiscreteOpfibration' . — 0 hits",
+      "grep -rIn --include='*.v' -F 'Elements' . — 3 hits, all unrelated (Instance/FinSet/Pushout.v comments, Instance/Sets/Coend.v comment)",
+      "grep -rIn --include='*.v' 'Pullback.*Cat\\b' . — 0 hits; grep -rIn --include='*.v' -F 'HasPullbacks Cat' . — 0 hits; grep -rIn --include='*.v' -F 'Cat_Pullback' . — 0 hits (Cat is shown Cartesian/Cocartesian in Instance/Cat/, but has no pullbacks)",
+      "grep -rIn --include='*.v' -F 'strict pullback' . and -F 'iso-comma' . — 0 hits each",
+      "grep -rn --include='*.v' 'Induced\\b' Theory/Kan/Extension.v — the precomposition functor Induced := (− ◯ F) : [B,C] ⟶ [A,C] exists (line 127) but is only ever used as the functor whose adjoints are Lan/Ran; it is never exhibited as a base change or as a pullback of any cospan",
+      "grep -rn --include='*.v' 'Opfibration|opfibration|Displayed_op' . — the fibration machinery exists (Theory/Fibration.v, Construction/Grothendieck/Fibration.v: the Grothendieck projection is a split opfibration), but only for IndexedCat/Displayed data, never for a Set-valued functor, and never as a pullback in Cat"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My own searches: rg -i 'category of elements|discrete opfibration|discrete fibration' → only background-essay prose; rg 'Elements' → 3 unrelated comment hits (Instance/FinSet/Pushout.v:309,430, Instance/Sets/Coend.v:68); no DiscreteOpfibration class or predicate anywhere. Phase C's citation spot-checked and EXACT: Construction/Grothendieck.v lines 107-109 read 'Restricting the fibres to sets, viewed as discrete categories, / recovers the category of elements el(F), whose projection is a / discrete opfibration ...' — essay text, no construction. Cat genuinely has no pullbacks: Instance/Cat/ contains Cartesian.v, Cocartesian.v and the Bicategory development only. The pullback-along-a-functor half DOES exist as the precomposition functor Induced := (− ◯ F) : [B,C] ⟶ [A,C] (Theory/Kan/Extension.v:127, whose adjoints are Lan/Ran), and the pullback-as-cospan-limit half exists in full (Structure/Pullback/Limit.v) — but the remark's actual claim, that the former is an instance of the latter in Cat via the category of elements and discrete opfibrations, is nowhere stated or proved. ABSENT is right for the claim; note that the two concepts it wants to reconcile are individually in tree, so a future issue has both endpoints available and needs only el(−), discrete opfibrations, and pullbacks in Cat."
+    }
+  },
+  {
+    "id": "7sketches:3.5.4:ex3.101",
+    "classification": "PRESENT",
+    "aliases": [
+      "opposite functor F^op : C^op ⟶ D^op",
+      "dual functor / Opposite_Functor",
+      "F^op acts as F on objects and morphisms, only the (formally reversed) source/target change",
+      "contravariant functor as a functor out of C^op (contramap)",
+      "involutivity (F^op)^op = F"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Opposite.v",
+        "line": 31,
+        "symbol": "Opposite_Functor",
+        "intree_statement": "Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) (λ (x y : C^op) (f g : x ~{C^op}~> y), @fmap_respects _ _ F y x f g) (λ x : C^op, fmap_id) (λ (x y z : C^op) (f : y ~{C^op}~> z) (g : x ~{C^op}~> y), @fmap_comp _ _ F _ _ _ g f)."
+      },
+      {
+        "file": "Functor/Opposite.v",
+        "line": 49,
+        "symbol": "Opposite_Functor_invol",
+        "intree_statement": "Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F.  Proof. reflexivity. Qed."
+      }
+    ],
+    "statement_record": {
+      "book": "Given F : C → D, define its opposite F^op : C^op → D^op: say how it acts on objects and how it acts on morphisms.",
+      "intree": "Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op, built with fobj := F (the same object map) and fmap at x, y : C^op given by @fmap C D F y x (the same underlying morphism map, with its indices swapped); fmap_id is F's fmap_id and fmap_comp is F's with the arguments transposed to match reversed composition. Notation F^op is bound to it.",
+      "strength_comparison": "intree-stronger: the exercise asks only for the two actions, whereas the in-tree definition additionally discharges fmap_respects, fmap_id and fmap_comp (so F^op is proved to BE a functor), records the involution (F^op)^op = F by reflexivity — available because C^op^op = C definitionally in this library — and derives contramap for the contravariant reading."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT at Functor/Opposite.v. Both citations verified verbatim: line 31 'Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := @Build_Functor (C^op) (D^op) F (λ (x y : C^op) (f : x ~{C^op}~> y), @fmap C D F y x f) ...' — fobj is literally F (same action on objects) and fmap is F's with indices swapped (same action on morphisms), which is precisely the exercise's two answers; line 49 'Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F. Proof. reflexivity. Qed.'. The F^op notation is bound at line 41 and contramap at line 57. File is at _CoqProject:142, compiled, no admits. 'intree-stronger' is honest — the functor laws are discharged, not merely the two actions supplied."
+    }
+  },
+  {
+    "id": "7sketches:3.5.4:def3.102",
+    "classification": "PRESENT",
+    "aliases": [
+      "cocone := cone in C^op; colimit := limit of D^op",
+      "Cocone F := Cone (F^op); Colimit F := Limit (F^op)",
+      "colimit as the initial object of the category of cocones (Cocones F := Cones (F^op))",
+      "covariant unpacking: colimit injections F x ~> c, cocone_inj / colimit_inj, ump_colimit",
+      "IsAColimit F c := IsALimit (F^op) c"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 147,
+        "symbol": "ump_colimit",
+        "intree_statement": "Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x.  Proof. exact (@ump_limit _ _ _ _ H N). Defined.  (over  Definition IsAColimit `(F : J ⟶ C) (c : C) : Type := IsALimit (F^op) c)"
+      },
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 120,
+        "symbol": "cocone_inj_coherence",
+        "intree_statement": "Lemma cocone_inj_coherence `{F : J ⟶ C} (N : Cocone F) {x y : J} (f : x ~{J}~> y) : cocone_inj N y ∘ fmap[F] f ≈ cocone_inj N x.  Proof. exact (@cone_coherence _ _ _ _ (@coneFrom _ _ _ N) y x f). Qed.  (over  Definition cocone_inj `{F : J ⟶ C} (N : Cocone F) (x : J) : F x ~{C}~> vertex_obj[N] := @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x)"
+      }
+    ],
+    "statement_record": {
+      "book": "A cocone in C is by definition a cone in C^op. Given D : J → C, the limit of D^op : J^op → C^op is a cone in C^op, hence a cocone in C; the colimit of D is defined to be that cocone. The text notes this compressed dual definition is unusable until unpacked, and defers the unpacking to Chapter 6.",
+      "intree": "Cocone `(F : J ⟶ C) := Cone (F^op) (Structure/Cone.v:72) and Colimit `(F : J ⟶ C) := Limit (F^op) (Structure/Limit.v:158), with IsAColimit F c := IsALimit (F^op) c; the dual definition is then unpacked covariantly and PROVED in that form: cocone_inj N x : F x ~{C}~> vertex_obj[N] with cocone_inj_coherence (cocone_inj N y ∘ fmap[F] f ≈ cocone_inj N x), and ump_colimit H N : ∃! u : c ~> vertex_obj[N], ∀ x, u ∘ colimit_inj H x ≈ cocone_inj N x (plus colimit_med / colimit_med_commutes / colimit_med_unique / colimit_med_eq).",
+      "strength_comparison": "intree-stronger: the definition matches on the nose (both are the literal duals, and because C^op^op = C holds by reflexivity here the duality is definitional rather than up to iso), and the library additionally supplies the unpacking the book explicitly defers — the covariant injections, their coherence, and the mediating-morphism API, all derived rather than re-postulated. Instance/Cones.v:46 further records Cocones F := Cones (F^op), whose initial object is the colimit."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PRESENT and found the same core constants before opening the coverage file: Structure/Cone.v:72 'Definition Cocone `(F : J ⟶ C) := Cone (F^op).' and Structure/Limit.v:158 'Definition Colimit `(F : J ⟶ C) := Limit (F^op).' — the book's definition on the nose. Both cited unpacking lemmas verified verbatim: Structure/Limit/Preservation.v:120 'Lemma cocone_inj_coherence ... : cocone_inj N y ∘ fmap[F] f ≈ cocone_inj N x. Proof. exact (@cone_coherence _ _ _ _ (@coneFrom _ _ _ N) y x f). Qed.' over cocone_inj:116, and :147 'Definition ump_colimit `(H : @IsAColimit J C F c) (N : Cocone F) : ∃! u : c ~{C}~> vertex_obj[N], ∀ x : J, u ∘ colimit_inj H x ≈ cocone_inj N x. Proof. exact (@ump_limit _ _ _ _ H N). Defined.' over IsAColimit:130. The companion API the strength_comparison advertises is all present: colimit_inj:135, colimit_inj_coherence:138, colimit_med:152, colimit_med_commutes:156, colimit_med_unique:160, colimit_med_eq:166. Instance/Cones.v:46 'Definition Cocones `(F : J ⟶ C) := Cones (F^op).' confirmed. 'intree-stronger' is honest: the library supplies exactly the covariant unpacking the book defers to Chapter 6, derived from the dual definition rather than re-postulated."
+    }
+  }
+]

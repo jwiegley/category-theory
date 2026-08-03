@@ -1,0 +1,272 @@
+[
+  {
+    "id": "maclane:IV.2:ex5",
+    "classification": "ABSENT",
+    "aliases": ["translation functor", "group as monoid with adjoint translations", "category of groups (Grp)", "monoid multiplication bifunctor mu : M x M -> M", "delooping of a monoid / one-object category"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'translation' --include='*.v' -- only unrelated hits (Tools/Abstraction.v compiling-to-categories, CoKleisli logic translation, Traced comonad 'translation of the context'); no translation functors mu(x,-)/mu(-,y)",
+      "grep -rn -i 'Class Group|Record Group|Definition Group|Instance Grp' --include='*.v' -- only Instance/Comp.v's universal-algebra `Group := Algebra GroupOp GroupEq` (groups as equational algebras for a computability development); no category Grp, no adjoint characterization of groups",
+      "grep -rn -i 'delooping|one-object category|single-object' --include='*.v' -- only the monoidal-category-as-one-object-bicategory delooping (Theory/Bicategory/OneObject.v) and prose mentions; no monoid-as-discrete-category with multiplication bifunctor",
+      "grep -rn -i 'left_translation|right_translation|mu (x' --include='*.v' -- 0 relevant hits",
+      "grep -rln 'Monoid' over Instance/ Construction/ -- monoid material is Coq-side typeclasses (Theory/Coq/Monoid.v), comonoid supplies, PROPs; nothing on the exercise's adjoint-inverse characterization of groups"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex6",
+    "classification": "ABSENT",
+    "aliases": ["pushout adjunction (pushout left adjoint to cospan diagonal)", "pullback right adjoint of diagonal", "unit/counit of pullback adjunction", "base change adjunction", "span/cospan diagonal functor"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'pushout|pullback' x 'adjoint|adjunction|⊣' --include='*.v' -- only Construction/Slice/Pullback.v's Bang_Functor ⊣ Star_Functor, which is (a) the slice base-change Σ_f ⊣ f*, not the exercise's Δ ⊣ pullback-vertex adjunction, and (b) not even live: the adjunction is a commented stub (`(* Program Definition Base_Functor_Adjunction ... *)`, lines 121-122)",
+      "ls Adjunction/Diagonal/ -- contains only Product.v (Diagonal_Product_Adjunction, Δ ⊣ ×, line 36); no pushout/pullback/equalizer diagonal adjunctions",
+      "Functor/Diagonal.v header states 'colim ⊣ Δ ⊣ lim' as prose only ('When the relevant universal cones exist'); no such adjunction is constructed for any non-product shape",
+      "Instance/Roof.v / Structure/Span.v provide the span/cospan shape categories and Structure/Pullback.v the pullback UMP, but no pullback-as-functor and no unit/counit description",
+      "grep -rn 'Lim ⊣|⊣ lim|colim ⊣' --include='*.v' -- prose comments only (Structure/Cone/Const.v:24, Instance/Fun.v:70)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex7",
+    "classification": "ABSENT",
+    "aliases": ["disjoint union / coproduct of categories", "limit over a coproduct of index categories is a product of limits", "connected components of a category", "connected category (zigzag)", "limits from products plus connected limits"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Construction/Coproduct.v read -- defines the binary coproduct category C ∐ D with its Cat universal property, but contains no limit statement (grep -i 'limit' in it: 0 hits); no indexed disjoint union of a family of categories",
+      "grep -rn -i 'connected' --include='*.v' -- no categorical connected-components notion; hits are FinSet pushout set-level component computations (Instance/FinSet/Pushout.v), prose in Groupoid.v/ZX.v, nothing on decomposing a category into connected components",
+      "grep -rn 'zigzag|zig-zag' --include='*.v' -- only adjunction/companion triangle identities, not zigzag-connectivity of a category",
+      "grep -rn -i 'component' x 'connect' --include='*.v' -- 0 relevant hits (no connected-components decomposition of categories)",
+      "no 'Connected' predicate on categories anywhere in Structure/ or Theory/ (grep -rn 'Connected' --include='*.v')"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex8",
+    "classification": "ABSENT",
+    "aliases": ["limit of a constant functor over a connected category", "colimit of constant diagram", "connected index category", "unit of the limit adjunction Δ ⊣ lim"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'connected' --include='*.v' -- no definition of connected category (zigzag) anywhere in the tree (see also IV.2:ex7 log)",
+      "grep -rn -i 'constant' x 'limit|colim' --include='*.v' -- constant functors appear only as comma-limit diagram encodings (Construction/Comma/Limit.v), Kan-extension bookkeeping (Structure/Limit/Kan/Extension.v) and the constant-singleton weight (Structure/Limit/Weighted.v); no lemma Lim (Δ c) ≈ c",
+      "Functor/Diagonal.v provides Δ[J] and Structure/Cone/Const.v the cone ↔ Δ(N) ⟹ F correspondence, but no Δ ⊣ lim adjunction and hence no unit description",
+      "grep -rn 'Lim ⊣|⊣ lim' --include='*.v' -- prose only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex9",
+    "classification": "PARTIAL",
+    "aliases": ["objects functor O : Cat -> Set", "discrete category functor left adjoint", "connected components left adjoint to discrete", "indiscrete/chaotic/codiscrete category right adjoint", "adjoint string pi0 -| D -| O -| Indisc"],
+    "evidence": [
+      {"file": "Instance/Discrete.v", "line": 37, "symbol": "DiscreteCat",
+       "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; ... |}."},
+      {"file": "Instance/Discrete.v", "line": 52, "symbol": "DiscreteCat_Functor",
+       "intree_statement": "Program Definition DiscreteCat_Functor {A : Type} {C : Category} (f : A → C) : DiscreteCat A ⟶ C := {| fobj := f; fmap := fun x y (e : x = y) => match e with eq_refl => id end |} — header: 'Functors out of [DiscreteCat A] are exactly functions [A → C]... This is the left adjoint `Set ⟶ Cat` at the level of a single functor.'"}
+    ],
+    "statement_record": {
+      "book": "(Smythe) The objects functor O : Cat -> Set has a left adjoint D (discrete category on a set); D itself has a left adjoint (set of connected components); and O has a right adjoint (the category with object set X and exactly one arrow in each hom-set).",
+      "intree": "DiscreteCat A builds the discrete category on a Type, and DiscreteCat_Functor extends any function A → C to a functor DiscreteCat A ⟶ C; the file's header remarks this is 'the left adjoint Set ⟶ Cat at the level of a single functor'. Structure/Discrete.v:23-24 mentions the further adjoints in prose only.",
+      "strength_comparison": "intree-weaker: only the object-level discrete construction and the from-direction of the D ⊣ O transposition (function ↦ functor) exist; no objects functor O : Cat ⟶ Sets is defined, none of the three adjunctions (π₀ ⊣ D, D ⊣ O, O ⊣ Indiscrete) is stated or proven, and neither the connected-components functor nor the indiscrete-category construction exists at all"
+    },
+    "gap": "Missing: the objects functor O : Cat ⟶ Sets; the adjunction D ⊣ O as an Adjunction (naturality of the functors-out-of-discrete bijection); the connected-components functor and its adjunction π₀ ⊣ D; the indiscrete (chaotic) category construction and O ⊣ Indisc (grep -rn -i 'chaotic|indiscrete|codiscrete' finds prose mentions only: Structure/Discrete.v:23-24, Construction/Funny.v's walking-iso groupoid).",
+    "negative_search_log": [
+      "grep -rn -i 'chaotic|indiscrete|codiscrete' --include='*.v' -- prose/comment hits only, no construction",
+      "grep -rn 'DiscreteCat|Discrete' x 'adjoint|⊣|adjunction' --include='*.v' -- only GAFT/SAFT consuming DiscreteCat_Functor for discrete diagrams; no adjunction involving Cat",
+      "grep -rn -i 'pi0|connected_components|Connected_Components' --include='*.v' -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex10",
+    "classification": "ABSENT",
+    "aliases": ["cokernel pair", "cokernel pair functor left adjoint to equalizer functor", "arrow category C^2 to parallel-pair category", "kernel pair (dual)", "equalizer as a functor"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'cokernel_pair|CokernelPair|cokernel pair' --include='*.v' -- 0 hits (cokernel pairs do not exist in-tree; Structure/Kernel.v has kernels/cokernels against zero objects, a different notion)",
+      "grep -rn 'kernel_pair' --include='*.v' -- Structure/Regular.v:46 defines kernel_pair as a chosen pullback of f along f, but only object-level for the regular-category development; no functoriality and no dual",
+      "ingredients exist without the adjunction: Construction/Arrow.v:110 `Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).` (the arrow category C^2) and Instance/Parallel.v (the walking parallel pair), Structure/Equalizer.v (equalizers as limits over Parallel) -- but no functor K : C^2 ⟶ C^Parallel, no equalizer functor, no adjunction",
+      "grep -rn 'Equalizer' x 'adjoint|⊣' --include='*.v' -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex11",
+    "classification": "ABSENT",
+    "aliases": ["coslice projection functor left adjoint", "under-category forgetful functor", "a + (-) adjunction", "coproduct injection as unit", "comma projection Q : (a ↓ C) -> C"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Construction/Slice.v:169 defines `Coslice` (c ̸co C) and Comma_Coslice identifies it with the comma (=(c) ↓ Id[C]) -- the category exists but carries no adjunction results",
+      "grep -rn 'Slice|Coslice' x 'adjoint|Adjunction|⊣' --include='*.v' -- only Structure/Pullback.v:130's pointer to the slice Bang ⊣ Star base-change (itself a commented stub in Construction/Slice/Pullback.v), unrelated to the coslice projection",
+      "grep -rn 'Comma_Proj|comma_proj' x 'adjoint|⊣' --include='*.v' -- 0 hits; Construction/Comma.v defines comma_proj/comma_proj1/comma_proj2 with no adjoints",
+      "Construction/Comma/Adjunction.v read -- it is the Lawvere comma-iso characterization of adjunctions (lawvere_equiv etc.), not a projection-adjoint result",
+      "Structure/Cocartesian.v provides finite coproducts (as Cartesian in C^op) but no left adjoint c ↦ (a ~> a + c) to any projection"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.2:ex12",
+    "classification": "ABSENT",
+    "aliases": ["copower X . c", "power c^X", "copower left adjoint to power", "tensoring/cotensoring over Set", "indexed coproduct/product functors"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'copower' --include='*.v' -- 0 hits",
+      "grep -rn -i 'power' --include='*.v' -- hits are: Lawvere-theory finite powers (law_pow, Theory/Lawvere.v), the endomorphism-operad finite power `pow` (Theory/Multicategory/Endomorphism.v), and topos power OBJECTS `Pow a := Ω ^ a` (Structure/Topos.v) -- none is the Set-indexed power functor c ↦ c^X, and none carries the copower adjunction",
+      "near-miss noted: Structure/Limit/Product.v:93 `iprod` gives X-indexed products as limits over DiscreteCat, so the power OBJECT c^X is expressible as iprod (fun _ : X => c); but there is no power functor, no indexed-coproduct/copower construction at all, and no adjunction hom(X·c, d) ≅ hom(c, d^X)",
+      "Structure/Limit/Weighted.v (Sets-weighted (co)limits by representability) -- checked: provides HomDiagram/WeightedLimit/WeightedColimit and the conical case; copowers/powers as weighted (co)limits over the point are not developed",
+      "grep -rn 'icoprod' --include='*.v' -- 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:thm1",
+    "classification": "PARTIAL",
+    "aliases": ["right adjoint faithful iff counit epi", "right adjoint full iff counit split monic", "fully faithful right adjoint iff counit iso", "counit epimorphism characterization", "reflective inclusion counit iso"],
+    "evidence": [
+      {"file": "Construction/Reflective.v", "line": 92, "symbol": "reflective_counit_iso",
+       "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x. (forward map the counit, inverse the fullness-lifted unit)"},
+      {"file": "Construction/Reflective/Idempotent.v", "line": 175, "symbol": "reflective_counit_IsIso",
+       "intree_statement": "Lemma reflective_counit_IsIso (x : Sub C S) : IsIsomorphism (@counit (Sub C S) C (reflector R) (Incl C S) (reflective_adj R) x)."}
+    ],
+    "statement_record": {
+      "book": "For an adjunction <F, G, eta, epsilon> : X -> A: (i) G is faithful iff every counit component epsilon_a is epi; (ii) G is full iff every epsilon_a is a split monic; hence G is full and faithful iff each epsilon_a is an isomorphism.",
+      "intree": "reflective_counit_iso / reflective_counit_IsIso: for a Reflective subcategory (full inclusion with left adjoint reflector), the counit of reflector ⊣ Incl is a componentwise isomorphism.",
+      "strength_comparison": "intree-weaker: only one instance of one direction survives — 'the inclusion is full (and, being an inclusion, faithful) ⇒ counit iso', specialized to reflection adjunctions reflector ⊣ Incl. Neither biconditional is present: no 'faithful ⟺ ε epi', no 'full ⟺ ε split monic', no converse 'ε iso ⇒ G full and faithful', and nothing for an arbitrary right adjoint G"
+    },
+    "gap": "Missing for arbitrary adjunctions F ⊣ G: (i) both directions of 'G faithful ⟺ every counit component is Epic'; (ii) both directions of 'G full ⟺ every counit component is a split Monic'; and the combined 'full+faithful ⟺ counit iso' biconditional. The library has the Epic/Monic vocabulary (Theory/Morphisms.v) and Full/Faithful classes (Theory/Functor.v:331,342) but never connects them through the counit; the only in-tree fragments are the full-subcategory-inclusion counit-iso lemmas cited, plus counit isos for adjoint equivalences (Theory/Equivalence/Adjoint.v:73 adj_equiv_counit_iso, again a special case with extra hypotheses).",
+    "negative_search_log": [
+      "grep -rn -i 'counit.*epi|epi.*counit|faithful_iff|full_iff|counit_split|counit_monic' --include='*.v' -- 0 hits",
+      "grep -rn 'Monic|Epic' x 'counit|unit|adjun' --include='*.v' -- only Theory/Adjunction.v:311 adj_monic (F faithful → transposes of monics behave monically), a different statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:lem1",
+    "classification": "ABSENT",
+    "aliases": ["Yoneda-induced transformation f* : A(a,-) -> A(b,-)", "representable functor monic/epi transfer", "hom-functor reflects epis", "f* monic iff f epi", "f* epi iff f split monic (section/retraction)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Monic|Epic|monic|epic' Functor/Hom.v Functor/Hom/Yoneda.v Functor/Representable.v Theory/Natural/Transformation.v Instance/Fun.v -- 0 hits: the Yoneda development (Functor/Hom/Yoneda.v) has no monic/epi transfer lemmas",
+      "grep -rn -i 'presheaf|yoneda' --include='*.v' -l then inspected candidates -- Yoneda material covers the embedding, full faithfulness (Cayley.v remarks), ninja-Yoneda coend reductions; nothing on monic/epi of induced transformations between representables",
+      "Instance/Sets.v:370 (injective ↔ Monic) and :431 (surjective-up-to-∃ ↔ Epic) exist as Sets-level ingredients only; no lemma lifts them through Nat(A(a,-), A(b,-)) ≅ A(b,a)",
+      "grep -rn -i 'split' x 'monic|mono' --include='*.v' -- split-idempotent (Karoubi) and strong-epi material only; no split-monic ⟺ f* epi statement"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:remark1",
+    "classification": "ABSENT",
+    "aliases": ["pointwise epi/monic natural transformation", "componentwise monic implies monic in functor category", "epi in B^C", "monos/epis in presheaf categories computed pointwise"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'pointwise' x 'epi|mono|monic' --include='*.v' -- 0 relevant hits (matches are pointwise products/monoid laws)",
+      "grep -rn 'Monic|Epic' x 'Fun|transform|nat|component' --include='*.v' -- only Theory/Morphisms/Classes.v (MorphismClass wrappers over a single category) and FinSet classifier internals; Instance/Fun.v contains no monic/epi results at all",
+      "grep -rln 'Monic' --include='*.v' full list inspected -- no file states 'if every component of τ is Monic/Epic then τ is Monic/Epic in [C, D]', nor the Set-valued converse via pointwise pushouts/pullbacks"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:def1",
+    "classification": "PRESENT",
+    "aliases": ["reflective subcategory", "reflector", "reflection of a category in a subcategory", "inclusion functor with left adjoint", "localization/reflection adjunction"],
+    "evidence": [
+      {"file": "Construction/Reflective.v", "line": 60, "symbol": "Reflective",
+       "intree_statement": "Record Reflective {C : Category} (S : Subcategory C) := { reflective_full : Construction.Subcategory.Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }."}
+    ],
+    "statement_record": {
+      "book": "A subcategory A of B is reflective when the inclusion K : A -> B has a left adjoint F (the reflector); the adjunction <F, K, phi> is a reflection of B in A. Equivalent descriptions: a functor R : B -> B with values in A and a natural bijection A(Rb, a) ≅ B(b, a); or, for each b, a universal arrow eta_b : b -> Rb to the subcategory.",
+      "intree": "Record Reflective bundles fullness of the subcategory, the reflector C ⟶ Sub C S, and the adjunction reflector ⊣ Incl C S (Construction/Reflective.v:60-64), over Construction/Subcategory.v's Sub/Incl.",
+      "strength_comparison": "intree-stronger (narrower): the record additionally demands fullness of the subcategory, whereas Mac Lane defines reflectivity for an arbitrary subcategory and treats fullness as a separate condition (his remark2 covers the full case); this matches the modern nLab convention. Mac Lane's two equivalent reformulations (the R : B -> B natural-bijection form and the universal-arrow form) are not separately proven, though the universal-arrow form is recoverable from the general adjunction ⟺ universal-arrows machinery of Theory/Universal/Arrow.v"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:remark2",
+    "classification": "PRESENT",
+    "aliases": ["full reflective subcategory counit iso", "reflector restricted to the subcategory is naturally isomorphic to the identity", "Ra ≅ a for a in A", "counit componentwise isomorphism"],
+    "evidence": [
+      {"file": "Construction/Reflective.v", "line": 92, "symbol": "reflective_counit_iso",
+       "intree_statement": "Lemma reflective_counit_iso {C : Category} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x."},
+      {"file": "Construction/Reflective/Idempotent.v", "line": 175, "symbol": "reflective_counit_IsIso",
+       "intree_statement": "Lemma reflective_counit_IsIso (x : Sub C S) : IsIsomorphism (@counit (Sub C S) C (reflector R) (Incl C S) (reflective_adj R) x)."}
+    ],
+    "statement_record": {
+      "book": "If a full subcategory A of B is reflective, then each a in A is isomorphic to FKa (by Theorem IV.3.1), hence Ra ≅ a for all a in A: the reflector restricted to A is naturally isomorphic to the identity.",
+      "intree": "For any Reflective S (fullness is a record field), the counit component at each subcategory object x is an isomorphism reflector R (Incl C S x) ≅ x, with the counit as forward map and the fullness-lifted unit as inverse; proved from the two triangle identities plus counit naturality.",
+      "strength_comparison": "same: the componentwise counit iso is exactly Mac Lane's Ra ≅ a (the iso even lives in Sub C S, which via the full inclusion agrees with an iso in the ambient category); the in-tree proof is direct from the triangle identities rather than a corollary of the (absent) Theorem IV.3.1, a presentation difference only. The bundling into a natural isomorphism reflector ∘ Incl ≅ Id is not stated as such but the componentwise form is what Mac Lane asserts"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:def2",
+    "classification": "PRESENT",
+    "aliases": ["coreflective subcategory", "coreflector", "inclusion with right adjoint", "reflective in the opposite category", "coreflection"],
+    "evidence": [
+      {"file": "Construction/Reflective.v", "line": 85, "symbol": "Coreflective",
+       "intree_statement": "Definition Coreflective {C : Category} (S : Subcategory C) : Type := @Reflective (C^op) (op_subcategory S). (with op_subcategory at line 74: the same selected objects with the C^op-reversed morphisms)"}
+    ],
+    "statement_record": {
+      "book": "Dually, a subcategory A of B is coreflective in B when the inclusion A -> B has a right adjoint (the coreflector).",
+      "intree": "Coreflective S := Reflective (op_subcategory S) over C^op: reflectivity of the opposite subcategory in the opposite category, which unfolds to the inclusion having a right adjoint in C; the file header states this reading explicitly.",
+      "strength_comparison": "same up to the duality encoding (the library's C^op^op = C design makes this the canonical presentation); inherits the fullness restriction of the Reflective record noted under IV.3:def1 — Mac Lane's coreflective is defined for arbitrary subcategories"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": null
+  },
+  {
+    "id": "maclane:IV.3:construction1",
+    "classification": "ABSENT",
+    "aliases": ["abelianization reflector (Ab reflective in Grp)", "metric-space completion reflector", "Stone-Cech compactification reflector", "torsion subgroup coreflector", "concrete reflective subcategory examples"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'abelianization|abelianisation' --include='*.v' -- 0 hits",
+      "grep -rn -i 'torsion' --include='*.v' -- 0 hits",
+      "grep -rn -i 'stone|compactification' --include='*.v' -- 0 hits",
+      "grep -rn -i 'metric' --include='*.v' -- only substring noise ('symmetric'); no category of metric spaces",
+      "Instance/ directory listing inspected in full -- no Grp, Ab, Top, or Met category instances exist (closest algebraic instance is Instance/CMon.v, commutative monoids, not reflective in anything in-tree)",
+      "grep -rn 'Reflective' --include='*.v' minus the defining file -- every consumer (Construction/Localization.v:185,231, Construction/Localization/Universal.v:76, Construction/Reflective/Idempotent.v:166) takes `R : Reflective S` as a HYPOTHESIS; no concrete instance of the Reflective record is constructed anywhere",
+      "grep -n -i 'reflective' docs/INHABITATION.md -- no entry (no concrete witness recorded); the sheaves-in-presheaves reflective example is explicitly deferred with sheafification (ledger 1, per Theory/Sheaf/Category.v and CLAUDE.md)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": null
+  }
+]

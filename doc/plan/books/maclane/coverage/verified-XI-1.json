@@ -1,0 +1,218 @@
+[
+  {
+    "id": "maclane:XI.3:def1",
+    "classification": "PRESENT",
+    "aliases": ["strict monoidal category", "StrictMonoidal", "strictly associative tensor", "associator/unitors are identities", "strict tensor category"],
+    "evidence": [
+      {"file": "Structure/Monoidal/Strict.v", "line": 52, "symbol": "StrictMonoidal",
+       "intree_statement": "Class StrictMonoidal : Type := { strict_is_monoidal : @Monoidal C; strict_assoc_obj : forall X Y Z, ((X ⨂ Y) ⨂ Z) = (X ⨂ (Y ⨂ Z)); strict_unit_left_obj : forall X, (I ⨂ X) = X; strict_unit_right_obj : forall X, (X ⨂ I) = X; strict_assoc_to : to tensor_assoc ≈ match strict_assoc_obj … with eq_refl => id end; strict_unit_left_to : to unit_left ≈ … id; strict_unit_right_to : to unit_right ≈ … id }"}
+    ],
+    "statement_record": {
+      "book": "A monoidal category is strict when its structure isomorphisms — the associator α and the unitors λ, ρ — are all identities; equivalently the tensor is strictly associative and e is a strict two-sided unit (recalled from VII.1).",
+      "intree": "Class StrictMonoidal over a Monoidal C: the object-level Leibniz equalities (X⨂Y)⨂Z = X⨂(Y⨂Z), I⨂X = X, X⨂I = X, together with fields forcing to(tensor_assoc), to(unit_left), to(unit_right) to equal the identity transported along those equalities (with the from-directions derived as corollaries strict_*_from).",
+      "strength_comparison": "same (faithful setoid rendering). Because obj is a Type not a setoid, 'α,λ,ρ are identities' is rendered as BOTH object-level propositional equalities AND the structural isos equalling the transported id; the file's header explains this is the honest strict notion in a setoid library. If anything intree-stronger only in bookkeeping (it names the object equalities explicitly), not in mathematical content."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search independently found Structure/Monoidal/Strict.v as the sole strict-monoidal class. Read the file: Class StrictMonoidal begins at line 52, fields span 52-94, and the quoted intree_statement matches the code (object-level Leibniz equalities + strict_*_to forcing the structural isos to the transported id). File is registered in _CoqProject. The setoid rendering (object equalities plus transported-identity isos) is the faithful strict notion; strength 'same' is honest. Header (Strict.v:20-46) is accurate and matches the code."}
+  },
+  {
+    "id": "maclane:XI.3:thm1",
+    "classification": "ABSENT",
+    "aliases": ["strictification theorem", "every monoidal category is equivalent to a strict one", "monoidally equivalent to strict", "Strictification", "free monoid on objects S", "coherence via strictification"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'strictif' over *.v — only comments: Theory/DoubleCategory.v:119 (pseudo double categories, nLab-reported, not proven), Theory/Equivalence.v:93 (category ≃ its skeleton), Instance/Cat.v:54 & Instance/StrictCat/ToCat.v:27 (StrictCat as strictification of Cat — the strict-2-category sense, unrelated to monoidal). None construct a strict monoidal category from a monoidal one.",
+      "grep -rn -i 'equivalent.*strict|strict.*equivalent|Strictification|every monoidal|monoidally equivalent|MonoidalEquivalence' — Structure/Monoidal.v:71 states 'every monoidal category is monoidally equivalent to a strict one' only inside the header background essay (external fact), not as a theorem; Theory/Bicategory.v:113 is the Mac Lane–Paré bicategory strictification, also essay-only.",
+      "grep -rn -i 'free monoid|free monoid on|word' over Structure/ Construction/ Theory/ — no construction of S = free monoid on the objects of a monoidal category, no strong monoidal functors F:S→M, G:M→S. The 'free monoid' hits are Day/Cayley/Funny background prose.",
+      "No F ⊣ / equivalence M ≃ S between a monoidal category and a StrictMonoidal one anywhere; StrictMonoidal is instantiated only for PROPs (Construction/PROP.v:71, ColouredPROP.v:112, Lawvere/PROP.v), never obtained as a strictification of an arbitrary monoidal category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind rg for 'strictif' / 'equivalent to a strict' / 'free monoid on ... objects' independently found no monoidal strictification (only double-category, skeleton, and strict-2-category StrictCat hits). Confirmed by clean grep that @StrictMonoidal is instantiated ONLY on PROP-family carriers (prop_cat:71, cprop_cat:112, FreeCat S, CFreeCat S, PresentedCat, CPresentedCat) and merely ASSUMED as a Context hypothesis on law_cat (Lawvere/PROP.v:151) — never obtained from an arbitrary monoidal category. Structure/Monoidal.v:71 states the fact only in the header essay. Negative log accurate."}
+  },
+  {
+    "id": "maclane:XI.3:thm2",
+    "classification": "ABSENT",
+    "phase_c_classification": "PARTIAL",
+    "aliases": ["coherence for associativity", "Mac Lane coherence theorem", "all diagrams built from alpha commute", "any two canonical maps equal", "Kelly's lemmas", "unit coherence"],
+    "evidence": [],
+    "statement_record": {
+      "book": "If M is equivalent via a strong monoidal functor to a strict monoidal category S, then coherence for associativity (and for the unit isos ρ, λ) holds in M: any two natural transformations built from α (resp. ρ, λ) between the same pair of tensor-word functors are equal. Proof transports parallel canonical maps through the equivalence, where strictness of S collapses them to equality.",
+      "intree": "NO in-tree counterpart to the universal coherence theorem. There is no datatype of canonical/formal maps, no tensor-word functors, and no universally-quantified 'any two parallel canonical maps are equal' statement. The only related content is a fixed finite family of derived coherence corollaries in Structure/Monoidal/Proofs.v (triangle_identity_left:184, inverse_triangle_identity:201, inverse_pentagon_identity:215, triangle_identity_right:299, bimap_triangle_right:314, bimap_triangle_left:327, unit_identity/λ_I≈ρ_I:344) — Kelly's lemmas, proved directly from the pentagon/triangle AXIOMS. The file header (Proofs.v:14-20) itself frames these as consequences 'that Mac Lane's coherence theorem guarantees', treating the theorem as an EXTERNAL fact it does not formalize.",
+      "strength_comparison": "intree-weaker to the point of absence: the theorem's distinctive content (the universal quantification over all canonical maps, obtained via strictification) has no in-tree carrier; only individual named low-arity diagrams (all direct axiom-consequences) are proved."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'canonical map|all diagrams commute|coherence theorem|any two natural|word.*equal|two.*canonical|parallel.*canonical' — every hit tying 'coherence theorem' to monoidal categories is a header/essay reference (Structure/Monoidal.v:43,53,71; Structure/Monoidal/Proofs.v:16; Symmetric.v:47; Heunen_Vicary.v:58), not a theorem statement. No 'tensor-word functor' / 'canonical map' datatype in Structure/ or Theory/.",
+      "The free-PROP universal property (Construction/PROP/Universal.v) is a coherence-type result but for STRICT SYMMETRIC monoidal targets over a signature — a different item, not the plain-monoidal associativity coherence of XI.3:thm2.",
+      "The only proven field literally named *coherence* is prop_monoidal_coherence (Construction/PROP.v:111) / cprop_monoidal_coherence — an eq_refl-computing OBJECT-LEVEL strictness equality of the strict symmetric PROP, NOT Mac Lane's associativity coherence theorem.",
+      "RELATED-BUT-NOT-THE-ITEM: Structure/Monoidal/Proofs.v proves Kelly's derived lemmas (triangle_identity_left:184 ... unit_identity/λ_I≈ρ_I:344), all direct corollaries of the pentagon+triangle axioms, standing alone; they instantiate no universal coherence statement and use no strictification. The via-strictification proof route the book uses is absent because strictification itself (XI.3:thm1) is ABSENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "OVERTURNED:ABSENT", "notes": "Phase C classified PARTIAL on the strength of the Kelly's-lemmas evidence. I verified those lemmas DO exist at the cited lines (Proofs.v:184,201,215,299,314,327,344) and are honestly described — but they do not constitute partial coverage of THIS item. The item is the universal coherence THEOREM (any two parallel canonical maps between tensor-word functors are equal), obtained via strictification. In-tree: (1) there is NO notion of canonical map or tensor-word functor — zero infrastructure toward the theorem; (2) no universally-quantified coherence statement is proved; (3) the strictification route is absent (thm1 ABSENT, agreed by Phase C); (4) the proved lemmas are derived corollaries of the pentagon/triangle AXIOMS, and the file's own header (14-20) treats Mac Lane's coherence theorem as an EXTERNAL fact that 'guarantees' them 'without making them part of the data'. Proving a fixed finite set of named low-arity diagrams is the special-case-only pattern the adversarial pass targets, not a fragment of a metatheorem that has no in-tree carrier. Contrast with XI.3:ex1 (CONFIRMED PARTIAL), where the item's carrier object (the monoidal endofunctor category) genuinely exists and only a property is missing — here the theorem has no carrier at all. Downgraded to ABSENT; the Kelly lemmas are retained in the negative log as related-not-the-item so Phase E frames the issue as 'formalize the monoidal coherence theorem', not 'extend a partial one'."}
+  },
+  {
+    "id": "maclane:XI.3:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["endofunctor category is strict monoidal", "C^C with composition tensor", "[C,C] monoidal", "monoid in category of endofunctors", "Compose_Monoidal", "endofunctor monoidoid"],
+    "evidence": [
+      {"file": "Structure/Monoidal/Compose.v", "line": 42, "symbol": "Compose_Monoidal",
+       "intree_statement": "Program Definition Compose_Monoidal {C : Category} : @Monoidal ([C, C]) := {| tensor := {| fobj := fun p => fst p ◯ snd p ; fmap := … Godement composite … |}; I := Id |}. (tensor = functor composition ◯, unit = identity functor Id.)"},
+      {"file": "Monad/Monoid.v", "line": 41, "symbol": "Monoid_Monad",
+       "intree_statement": "Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M.  (uses Compose_Monoidal as the monoidal structure on Endofunctors C := [C,C])"}
+    ],
+    "statement_record": {
+      "book": "For any category C the endofunctor category C^C, with composition of endofunctors as tensor and the identity functor 1_C as unit, is a strict monoidal category.",
+      "intree": "Compose_Monoidal : @Monoidal ([C, C]) gives the endofunctor category the monoidal structure with ◯ as tensor and Id as unit; its unitors and associator are component-wise identity natural isomorphisms. The header (Structure/Monoidal/Compose.v:35-40) explicitly states 'In the literature this monoidal structure is strict … Here it is nonetheless presented as a general (non-strict) Monoidal instance'.",
+      "strength_comparison": "intree-weaker: the endofunctor category is given the monoidal structure of the exercise (composition tensor, Id unit) and it is genuinely used (Monad/Monoid.v), but it is registered only as a general @Monoidal, NOT as a @StrictMonoidal. The 'strict' upgrade — the point of the exercise — is deliberately not asserted; no StrictMonoidal instance for Compose_Monoidal exists in-tree (StrictMonoidal is instantiated only for PROPs)."
+    },
+    "gap": "Strictness is not formalized: Compose_Monoidal is a general Monoidal with component-wise-identity unitors/associator; the object-level Leibniz equalities (F◯G)◯H = F◯(G◯H), Id◯F = F, F◯Id = F and the StrictMonoidal record are not established (only remarked in the file header).",
+    "negative_search_log": [
+      "grep -rn -i 'StrictMonoidal' filtered to instances — StrictMonoidal instances exist only for prop_cat / cprop_cat / law_cat (PROPs); none for [C,C]/Compose_Monoidal.",
+      "grep for a StrictMonoidal ([C,C]) or Endofunctors-strict instance — none found."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Compose_Monoidal at Compose.v:42 (@Monoidal ([C,C]), composition tensor, Id unit) and its genuine use in Monad/Monoid.v:41; both files registered in _CoqProject. Read Compose.v:35-38 — header explicitly presents it as a general NON-strict Monoidal though 'in the literature this monoidal structure is strict', an honest disclosure. Confirmed by clean grep that @StrictMonoidal is NOT instantiated for [C,C]/Compose/Endofunctors (only the PROP family + a law_cat hypothesis). PARTIAL is correct and correctly bounded: the exercise's carrier (the monoidal endofunctor category) exists first-class and is used; only the 'strict' property is missing (not PRESENT, since object-level functor-composition Leibniz equality is not established in this setoid library, and not ABSENT, since the monoidal structure is genuinely there). Gap statement is precise."}
+  },
+  {
+    "id": "maclane:XI.3:ex2",
+    "classification": "ABSENT",
+    "aliases": ["strong monoidal functor T : M -> M^M", "tensoring functor a ↦ a⊗−", "left regular representation of a monoidal category", "self-action / actegory embedding", "T_2 = associator, T_0 = λ⁻¹"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'tensor.*curr|curried.*tensor|left regular|regular representation|actegory|⨂ -|Tensor_Left|LeftTensor|tensoring' — no functor M → [M,M] built from the tensor (a ↦ a⊗−). The PartialApply_Curried functors in Theory/Naturality.v are retained-but-commented-out exploratory code, not a monoidal functor.",
+      "grep -rn 'C ⟶ \\[C, C\\]|⟶ Endofunctors|MonoidalFunctor.*Compose|MonoidalFunctor.*\\[C, C\\]' — no MonoidalFunctor from a monoidal category into its endofunctor category. Diagonal (Functor/Diagonal.v) and Curried_Hom (Functor/Hom.v) are the only C ⟶ [D,E] functors, neither is the tensoring functor.",
+      "Construction/Cayley.v builds the Yoneda/Cayley embedding C ⟶ [C,Sets] via Hom (post-composition), realized as a standalone category — the HOM-based left regular representation, NOT the tensor-based T(a)=a⊗− with T_2 = α, T_0 = λ⁻¹ that this exercise asks for; it carries no monoidal-functor structure.",
+      "grep -rn -i 'strong' near endofunctor — 'strong' hits are StrongFunctor (tensorial strength, Functor/Strong.v), a different concept, not a strong (pseudo) monoidal functor into M^M."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind search for a strong monoidal T : M → [M,M] with a↦a⊗−, T_2=α, T_0=λ⁻¹ found none. The 'tensoring functor' hits (Binoidal/Premonoidal/Kleisli) are one-sided partial-application binoidal functors, not a monoidal functor into endofunctors. Cayley is the Hom-based (not tensor-based) embedding and carries no monoidal-functor structure. 'strong' in-tree means tensorial strength (Functor/Strong.v), a different notion. Negative log accurate; ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.3:ex3",
+    "classification": "ABSENT",
+    "aliases": ["independent proof of strictification", "strictification without coherence", "coherence via Theorem 2", "monoidal strictification from the T embedding"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Depends on XI.3:thm1 (strictification) and XI.3:ex2 (the T : M → M^M embedding), both classified ABSENT above. No strictification theorem exists in-tree by any route (grep -rn -i 'strictif|equivalent.*strict|monoidally equivalent' returns only header essays), so an 'independent' proof of it is a fortiori absent.",
+      "No proof that every monoidal category is monoidally equivalent to a strict one is present, coherence-dependent or otherwise."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Prerequisites XI.3:thm1 (strictification) and XI.3:ex2 (the T:M→M^M embedding) are both independently confirmed ABSENT above. No strictification theorem exists by any route, so an independent proof of it is a fortiori absent. Accurate."}
+  },
+  {
+    "id": "maclane:XI.4:def1",
+    "classification": "ABSENT",
+    "aliases": ["Artin braid group B_n", "braid group", "braid on n strings", "sigma_i generators with braid relations", "fundamental group of configuration space of n points", "π₁(Conf_n(ℝ²))"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'artin|braid group|B_n|braid_group|BraidGroup' over *.v — only prose: Structure/Monoidal/Braided.v:60-72,80 (background essay citing Artin's braid groups and B_n vs S_n) and :105 (anyon braid-group representations). No group named B_n, no braid-on-n-strings type.",
+      "grep -rn -i 'presentation|generator.*relation|free group|freegroup' over Structure/ Theory/ Instance/ Construction/ (minus PROP) — no group presented by generators and relations anywhere; no free group. Structure/Group.v defines internal GROUP OBJECTS in a cartesian monoidal category (Eckmann–Hilton), not the concrete Artin group.",
+      "grep -rn -i 'sigma_i|artin relation|braid relation' — only Braided.v:80 essay ('categorical form of Artin's braid relation'); Comonad/Strong.v sigma_* are costrength fields, unrelated.",
+      "grep -rn -i 'configuration space|fundamental group' — only Construction/Groupoid.v:58 (fundamental groupoid π₁(X,A), general homotopy prose); no configuration space Conf_n, no π₁ of it.",
+      "The only 'braid' formalized is the braiding morphism of a BraidedMonoidal category (Structure/Monoidal/Braided.v:132), a categorical structure, not the discrete group B_n."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Independent braid-group sweep (Artin / Zöpfe / B_n / B_2 / B_3 / sigma_i / configuration space / fundamental group) found only prose citations, all inside the Braided.v background essay (Artin's 1925/1947 papers, B_n vs S_n). Verified Structure/Group.v defines GroupObject in a cartesian monoidal category (Class GroupObject at line 109), an internal group object — NOT the concrete Artin group; no group-by-generators-and-relations machinery exists anywhere. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.4:construction1",
+    "classification": "ABSENT",
+    "aliases": ["surjective homomorphism B_n -> S_n", "braid to permutation of endpoints", "quotient adjoining sigma_i^2 = 1", "presentation of S_n by transpositions", "symmetric group S_n"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Requires both B_n (ABSENT, see maclane:XI.4:def1) and a concrete symmetric group S_n; grep -rn -i 'symmetric group|Sym_n|S_n' — no S_n as a group. The only permutation machinery is Theory/Multicategory.v's Type-valued 'tperm' witness (line 242), whose header (lines 68-82) explicitly states the action does NOT descend to the symmetric group and there is deliberately no S_n quotient; stdlib Sorting.Permutation is imported only to bridge witnesses (tperm_Permutation), not as a group.",
+      "grep -rn -i 'homomorphism|B_n.*S_n|braid.*permutation' — no group homomorphism B_n → S_n; no map from braids to endpoint permutations. The permutation-of-endpoints construction cannot be stated without B_n.",
+      "No presentation of S_n by transpositions τ_i with relations is formalized (no group-by-generators-and-relations machinery exists at all — see negative log for XI.4:def1)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Requires B_n (ABSENT) and a concrete symmetric group as a group. Independently confirmed there is no S_n group: the only permutation machinery is Theory/Multicategory's Type-valued tperm witness whose header disallows symmetric-group descent (no S_n quotient by design); Construction/PROP prose says S_n 'embeds into PROP(n,n)' but no standalone group S_n and no B_n→S_n homomorphism exist. Negative log accurate."}
+  },
+  {
+    "id": "maclane:XI.4:construction2",
+    "classification": "ABSENT",
+    "aliases": ["braid category B", "category of braids", "objects = naturals, hom(n,n) = B_n", "strict monoidal category of braids under +", "free braided PROP / braided PROP"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'braid category|BraidCat|Braid_Category|category of braids|category B' — no such category. 'category B' hits are Theory/Bicategory.v's generic bicategory B, unrelated.",
+      "Requires the braid groups B_n as its hom-sets (ABSENT). No category with objects ℕ and hom(n,n) = B_n and no arrows between distinct objects exists in-tree.",
+      "Closest in-tree object: the free PROP FreeCat S (Construction/PROP/*) has objects ℕ under + and a strict monoidal structure, BUT it is SYMMETRIC — Construction/PROP/Symmetric.v proves free_braid_invol / TE_braid_invol (σ_{y,x}⊙σ_{x,y} = id), so its hom(n,n) are permutations (S_n), NOT braids (B_n). The free PROP is the free strict SYMMETRIC monoidal category, a genuinely different (symmetric, not braided) structure; it is not the braid category.",
+      "Construction/PROP/Braided.v ('FreeBraided') equips the free PROP with a braiding, but that braiding is a symmetry (the Symmetric/Strict/bundled instances all project the same record); it does not yield a non-symmetric braid category."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "No 'braid category' exists. Independently verified the closest object — the free PROP FreeCat S — is SYMMETRIC, not braided: Construction/PROP/Symmetric.v's braiding satisfies braid_invol, and the header (lines 25-33) states the TE_braid_invol axiom 'matches the braid_invol field of SymmetricMonoidal verbatim'. So its hom(n,n) is S_n, not B_n; it is the free strict symmetric monoidal category, a different structure. No category with objects ℕ and hom(n,n)=B_n exists. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.4:construction3",
+    "classification": "ABSENT",
+    "aliases": ["braiding gamma_{m,n} on the braid category B", "block crossing of m strings over n", "braided monoidal structure on B", "braiding that is not a symmetry (gamma^2 ≠ 1)", "concrete non-symmetric braided example"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The carrier — the braid category B (maclane:XI.4:construction2) — is ABSENT, so the specific block-crossing braiding γ_{m,n} on it and the proof that B is thereby braided-but-not-symmetric are not formalizable in-tree.",
+      "The GENERAL notion is present: Structure/Monoidal/Braided.v:128 Class BraidedMonoidal has no braid_invol field, so a braiding need not be a symmetry (symmetry is the separate stronger SymmetricMonoidal of Structure/Monoidal/Symmetric.v). But no CONCRETE braided-not-symmetric instance realizing the braid-category braiding exists.",
+      "grep -rn -i 'braid category|gamma_{m,n}|block cross|not a symmetry|gamma^2' — no in-tree braided-non-symmetric witness matching the braid category. (Structure/Monoidal/Drinfeld.v builds Drinfeld_Braided from any monoidal category, a related general source of braidings, but it is not the braid category and the item is specifically about B.)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "The carrier (the braid category B, construction2) is ABSENT, so its specific block-crossing braiding γ_{m,n} is absent. I confirmed the abstract Class BraidedMonoidal (Braided.v:128) has no braid_invol field (so braided need not be symmetric) — but that is the general definition (Mac Lane XI.1:def2, a DIFFERENT item, not in this batch), not the braiding on B. No concrete braided-non-symmetric witness realizing the braid category exists (Drinfeld_Braided is a general centre construction, not B). ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.5:remark1",
+    "classification": "ABSENT",
+    "aliases": ["canonical automorphisms of a⊗b", "action of B_2 on a tensor", "double braiding gamma^2 not identity", "powers gamma^{2k} distinct", "braiding has memory of the crossing"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'double brai|gamma^2|canonical automorphism|B_2|acts on' — no formalized statement that in a braided (non-symmetric) category the maps 1, γ², γ⁻², γ⁴, … : a⊗b → a⊗b are distinct automorphisms giving a B_2-action. Requires the braid group B_2 (ABSENT) to even phrase the action.",
+      "The enabling fact (braid∘braid need not be id) is only reflected implicitly: Structure/Monoidal/Braided.v defines BraidedMonoidal without a braid_invol field, and its header (lines 70-72) notes in PROSE 'the double braiding [braid]∘[braid] need not be the identity'. No lemma exhibits nontrivial γ² or the resulting automorphism subgroup.",
+      "No 'canonical automorphism' enumeration for braided tensors; grep over Structure/Monoidal/*.v finds no such family."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "No formalized statement of the B_2-action / distinct powers γ^{2k} on a⊗b; phrasing it requires the braid group B_2 (ABSENT). The enabling structural fact (braid∘braid not forced to id) is present only implicitly — BraidedMonoidal (Braided.v:128) lacks a braid_invol field — and the non-collapse is stated only in the header essay (Braided.v:70-72). No lemma exhibits a nontrivial γ² or the canonical-automorphism family. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.5:thm1",
+    "classification": "ABSENT",
+    "aliases": ["braid category is the free braided monoidal category on one object", "Joyal-Street freeness", "evaluation at 1 is an equivalence hom_BMC(B,M) ≃ M_0", "universal property of the braid category", "F_a strict braided monoidal functor"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'free braided|FreeBraided|free.*one object|braided.*universal|universal.*braid' — no universal property / freeness theorem for a braid category. The 'FreeBraided' sections (Construction/PROP/Braided.v:76, ColouredPROP/Braided.v:106) merely equip the free PROP with a braiding record; they are not the Joyal–Street freeness theorem, and the PROP is symmetric (braid_invol holds), so it is the free SYMMETRIC monoidal category, not the free BRAIDED one.",
+      "Requires the braid category B (maclane:XI.4:construction2, ABSENT) as the free object and the category hom_BMC(B,M) of strong braided monoidal functors (BraidedMonoidalFunctor exists in Functor/Structure/Monoidal/Braided.v, but no functor category of them into an arbitrary braided M, and no evaluation-at-1 equivalence).",
+      "Related but genuinely different result present: the free-PROP universal property (Construction/PROP/Universal.v) characterizes the free strict SYMMETRIC monoidal category on a signature — the symmetric analog. It does not give the braided freeness on one object; there is no braided counterpart in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "No 'free braided monoidal category on one object' / evaluation-at-1 equivalence exists. 'free braided monoidal' appears only in the Braided.v:68 header essay. The FreeBraided PROP sections equip the (symmetric) free PROP with a braiding — the free strict SYMMETRIC monoidal category, not the Joyal–Street braided freeness; and the carrier braid category B (construction2) is ABSENT. BraidedMonoidalFunctor exists but there is no functor category of them into an arbitrary braided M and no evaluation equivalence. ABSENT confirmed."}
+  },
+  {
+    "id": "maclane:XI.5:thm2",
+    "classification": "ABSENT",
+    "aliases": ["braided coherence via underlying braid", "Joyal-Street braided coherence", "two composites equal iff same element of B_n", "underlying braid of a canonical map", "coherence as classification by braid"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The theorem's characteristic content is a CLASSIFICATION/biconditional: two composites of canonical maps (from α, λ, ρ, γ) on an n-fold tensor are equal in every braided monoidal category iff they determine the same element of the braid group B_n. The braid group B_n is ABSENT (maclane:XI.4:def1), so the 'underlying braid' invariant and the iff cannot even be stated in-tree.",
+      "grep -rn -i 'coherence|underlying braid|same braid|classification' over Structure/Monoidal/Braided* — no braided coherence theorem; only the header essay (Braided.v:64-69) invokes Joyal–Street coherence as an external fact ('commutes whenever both sides have the same underlying braid, and in the free braided monoidal category only then').",
+      "One related consequence IS proven: Structure/Monoidal/Braided.v:155 Theorem Yang_Baxter_equation (the braid relation on a triple tensor, third Reidemeister move) — but this is a single soundness-direction relation following directly from the hexagon axioms, present in every BraidedMonoidal, not a fragment of the classification theorem, which requires B_n and the iff (both absent). No coherence classification, no free-braided-category completeness side."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "The braided-coherence classification ('two composites equal iff same element of B_n') cannot be stated without the braid group B_n (ABSENT), so the 'underlying braid' invariant and the biconditional have no in-tree carrier. Only Yang_Baxter_equation is proven — a single soundness relation from the hexagons, present in every BraidedMonoidal, not a fragment of the classification theorem (which needs B_n and the completeness/iff direction). Braided.v:64-69 invokes Joyal–Street coherence only as external prose. ABSENT confirmed."}
+  }
+]

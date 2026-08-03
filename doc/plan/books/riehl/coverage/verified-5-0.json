@@ -1,0 +1,382 @@
+[
+  {
+    "id": "riehl:5.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "monad",
+      "triple",
+      "standard construction",
+      "endofunctor with unit and multiplication (T, eta, mu)",
+      "Class Monad / ret / join / Monad M",
+      "monoid in the endofunctor category [C,C]",
+      "dual: comonad (Definition 5.1.6)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Monad.v",
+        "line": 92,
+        "symbol": "Monad",
+        "intree_statement": "Context `{M : C ⟶ C}. Class Monad := { ret {x} : x ~> M x; (* unit η : Id ⟹ M *) join {x} : M (M x) ~> M x; (* mult μ : M ○ M ⟹ M *) fmap_ret {x y} (f : x ~> y) : ret ∘ f ≈ fmap f ∘ ret; join_fmap_join {x} : join ∘ fmap (@join x) ≈ join ∘ join; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id; join_fmap_fmap {x y} (f : x ~> y) : join ∘ fmap (fmap f) ≈ fmap f ∘ join }."
+      }
+    ],
+    "statement_record": {
+      "book": "A monad on C is an endofunctor T : C -> C with natural transformations eta : id_C => T and mu : T^2 => T such that mu . T mu = mu . mu T (associativity) and mu . eta T = id_T = mu . T eta (unit laws), the two diagrams living in the endofunctor category C^C.",
+      "intree": "Class Monad := { ret {x} : x ~> M x; join {x} : M (M x) ~> M x; fmap_ret ... ; join_fmap_join {x} : join ∘ fmap (@join x) ≈ join ∘ join; join_fmap_ret {x} : join ∘ fmap (@ret x) ≈ id; join_ret {x} : join ∘ @ret (M x) ≈ id; join_fmap_fmap ... }",
+      "strength_comparison": "same — [M : C ⟶ C] is the endofunctor T, [ret]/[join] are eta/mu, [join_fmap_join] is Riehl's associativity square and [join_fmap_ret]/[join_ret] are his two unit triangles, all stated with the hom-setoid ≈ in place of =. The only presentational difference is that Riehl packages eta and mu as natural transformations (naturality implicit in the C^C typing) while the class carries the two naturality squares explicitly as the fields [fmap_ret] and [join_fmap_fmap]; that is the same data, and the file header says so verbatim."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently before opening coverage-5-0.json. Evidence re-verified at source: Theory/Monad.v:92 is `Class Monad` and the quoted field list (ret, join, fmap_ret, join_fmap_join, join_fmap_ret, join_ret, join_fmap_fmap) matches lines 92-110 verbatim, comments included; Theory/Monad.v:144 carries the dual `Definition Comonad`. File is registered (_CoqProject:461). strength_comparison is honest: the class states the two naturality squares as explicit fields where Riehl folds them into 'eta and mu are natural transformations', which is the same data, and the file header says so. No same-name-weaker-statement, no special-case restriction."
+    }
+  },
+  {
+    "id": "riehl:5.1:remark2",
+    "classification": "PRESENT",
+    "aliases": [
+      "a monad is a monoid in the category of endofunctors",
+      "monoid object in a monoidal category",
+      "MonoidObject / mempty / mappend",
+      "monoidal category (tensor, unit object, coherence isos)",
+      "strict monoidal category of endofunctors, Compose_Monoidal, Endofunctors C",
+      "dual: comonoid object"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monoid.v",
+        "line": 40,
+        "symbol": "Monoid_Monad",
+        "intree_statement": "Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M."
+      },
+      {
+        "file": "Structure/Monoidal/Compose.v",
+        "line": 42,
+        "symbol": "Compose_Monoidal",
+        "intree_statement": "Program Definition Compose_Monoidal {C : Category} : @Monoidal ([C, C]) := {| tensor := {| fobj := fun p => fst p ◯ snd p ; fmap := fun F G N => {| transform := fun x => fst N (snd G x) ∘ fmap[fst F] (snd N x) |} |}; I := Id |}."
+      },
+      {
+        "file": "Structure/Monoidal.v",
+        "line": 125,
+        "symbol": "Monoidal",
+        "intree_statement": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C where \"x ⨂ y\" := (tensor (x, y)); unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); ... triangle_identity ... pentagon_identity }."
+      }
+    ],
+    "statement_record": {
+      "book": "The monad axioms are exactly the monoid axioms; a monad on C is precisely a monoid in the monoidal category C^C of endofunctors, with composition as the binary functor and id_C as the unit object. C^C is strict, so the coherence isomorphisms may be taken to be identities. (Monoidal category itself is defined in prose: a bifunctor V x V -> V, a unit object, and coherence natural isomorphisms.)",
+      "intree": "Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M — where Endofunctors C := [C, C] and Compose_Monoidal : @Monoidal ([C,C]) has tensor = functor composition and I = Id.",
+      "strength_comparison": "same for the identification, and it is proved as a genuine two-way [↔] (both directions constructed, [Defined]), which is stronger than the book's remark-level assertion. Riehl's prose definition of a monoidal category is in force as the in-tree [Class Monoidal] (tensor bifunctor, unit object, unitors/associator as natural isomorphisms, plus triangle/pentagon). One deliberate presentational weakening: Riehl calls C^C STRICT monoidal, whereas [Compose_Monoidal] is packaged as an ordinary (non-strict) [Monoidal] whose unitors and associator happen to be componentwise identity isomorphisms — the library has a [StrictMonoidal] class (Structure/Monoidal/Strict.v) but does not instantiate it at [C,C]. The file header states this explicitly and the ↔ is unaffected."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Monad/Monoid.v:40 `Theorem Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M <-> Monad M` verified verbatim; the proof is `split; intros m` with BOTH directions constructed and closed with `Defined`, so the two-way claim is real and transparent. Structure/Monoidal/Compose.v:42 `Compose_Monoidal` and Structure/Monoidal.v:125 `Class Monoidal` (unitors/associator as isomorphisms + naturality + triangle/pentagon) confirmed at the cited lines; both files registered in _CoqProject. The strictness caveat is independently confirmed and honest: `rg 'StrictMonoidal'` finds Structure/Monoidal/Strict.v's class but NO instance at [C,C], and Structure/Monoidal/Compose.v:36-40 discloses the non-strict packaging itself. MonoidObject (Structure/Monoid.v:124) is stated with the unitors/associator in the laws, exactly the shape Riehl's remark presupposes."
+    }
+  },
+  {
+    "id": "riehl:5.1:lem3",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjunction induces a monad",
+      "monad from an adjunction UF",
+      "Adjunction_Monad / Adjunction_Induced_Monad",
+      "T = UF, eta the unit, mu = U epsilon F",
+      "Huber's theorem / standard construction from adjoint functors",
+      "dual: adjunction induces a comonad FU"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 123,
+        "symbol": "Adjunction_Induced_Monad",
+        "intree_statement": "Context {F : D ⟶ C}. Context {U : C ⟶ D}. Context (A : F ⊣ U). ... Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => @unit _ _ _ _ A x) (* ret = η *) (fun x => fmap[U] (@counit _ _ _ _ A (F x))) (* join = U ε F *) (fun x y f => adj_unit_natural f) (fun x => Induced_Monad_join_fmap_join x) (fun x => Induced_Monad_join_fmap_ret x) (fun x => @fmap_counit_unit _ _ _ _ A (F x)) (fun x y f => Induced_Monad_join_fmap_fmap f)."
+      },
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Context {F : D ⟶ C}. Context {U : C ⟶ D}. Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F)."
+      }
+    ],
+    "statement_record": {
+      "book": "Any adjunction F : C <-> D : U with unit eta and counit epsilon induces a monad on C, the codomain of the right adjoint: endofunctor T = UF, unit eta, multiplication U epsilon F. The unit triangles are the adjunction triangle identities and the associativity square is naturality of U epsilon.",
+      "intree": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) with ret = η and join = U ε F, over (A : F ⊣ U), F : D ⟶ C, U : C ⟶ D — i.e. the monad lives on D, the codomain of the right adjoint U.",
+      "strength_comparison": "same. The endofunctor is literally [U ◯ F] on the codomain of the right adjoint; the unit and multiplication fields are the adjunction unit and [fmap[U] counit] (U ε F) transparently, and the unit-law obligation is discharged by the library's triangle identity [fmap_counit_unit] exactly as in the book's proof. Both the hom-set form ([Adjunction_Monad], from F ⊣ U) and the unit/counit form ([Adjunction_Nat_Monad], from F ∹ U) are proved and stated to yield the same monad."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Monad/Comparison.v:123 `Adjunction_Induced_Monad : @Monad D (U o F)` with `ret = eta` and `join = fmap[U] (counit (F x))` verified verbatim, including the two supporting lemmas Induced_Monad_join_fmap_ret (:100) and Induced_Monad_join_fmap_fmap (:110); Monad/Adjunction.v:48 `Adjunction_Monad` and :84 `Adjunction_Nat_Monad` confirmed. Orientation checked against Riehl: in-tree F : D -> C, U : C -> D, monad on D = codomain of the RIGHT adjoint, matching the book. Worth recording (not a demotion): Adjunction_Monad and Adjunction_Nat_Monad are Qed-opaque, so their ret/join are not readable as terms; the transparent witness of Riehl's explicit T = UF, eta, U eps F is Adjunction_Induced_Monad, which the record correctly cites first."
+    }
+  },
+  {
+    "id": "riehl:5.1:example4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "maybe monad / option / (-)_+ / free pointed set",
+      "list monad / free monoid monad / Kleene star",
+      "free R-module monad R[-] / free abelian group monad / free vector space monad",
+      "free group monad",
+      "ultrafilter monad beta / Stone-Cech compactification",
+      "free category monad on Quiver / path monad",
+      "double power set monad P^2 / contravariant power set self-adjunction",
+      "continuation monad S^{S^-} / double dual monad"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeCatFunctor : @Functor QuiverCategory StrictCat := (LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _)). Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ ."
+      },
+      {
+        "file": "Theory/Coq/Maybe.v",
+        "line": 94,
+        "symbol": "Maybe_Monad",
+        "intree_statement": "Instance Maybe_Monad : Monad Maybe := { ret := @Just; bind := @Maybe_bind; }. (with Definition Maybe_join {X} (x : Maybe (Maybe X)) : Maybe X — \"Monad multiplication [μ : (X + 1) + 1 → X + 1], collapsing the two copies of\" the adjoined point)"
+      },
+      {
+        "file": "Theory/Coq/List.v",
+        "line": 113,
+        "symbol": "list_Monad",
+        "intree_statement": "Instance list_Monad : Monad list := { ret := λ _ x, [x]; bind := λ _ _ x f, flatten (map f x) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Eight monads obtained by applying Lemma 5.1.3 to familiar free-forgetful adjunctions: (i) maybe monad (-)_+ from Set <-> Set_*, (ii) free monoid/list monad from Set <-> Monoid, (iii) free R-module monad R[-] from Ab <-> R-Mod / Set <-> R-Mod, (iv) free group monad, (v) ultrafilter monad beta from Set <-> Top <-> cHaus, (vi) free category monad on Quiver from Quiver <-> Cat, (vii) double power set monad from the contravariant power set self-adjunction, (viii) continuation monads S^{S^-} and the double dual monad on Vect_k.",
+      "intree": "Only clause (vi) has its generating adjunction in tree: FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, between QuiverCategory and StrictCat. Clauses (i) and (ii) have only the Haskell-style law-free instances Maybe_Monad : Monad Maybe and list_Monad : Monad list of the applied layer Theory/Coq.",
+      "strength_comparison": "intree-weaker: no clause is realized as Riehl states it, i.e. as a categorical monad obtained by applying Lemma 5.1.3 to a named free-forgetful adjunction. For (vi) the adjunction exists but the induced monad on Quiver is never instantiated (Test/Issue138.v only `Check (Forgetful ◯ FreeCatFunctor : QuiverCategory ⟶ QuiverCategory)`, which asserts endofunctoriality, not monadhood). For (i) and (ii) the in-tree objects are instances of the applied-layer Class Monad of Theory/Coq/Monad.v, which by design carries ONLY ret and bind and NO laws (\"the laws are NOT recorded as fields here\"); Theory/Coq/Monad/Proofs.v proves the IsMonad lawfulness bridge only for Identity, arrow (reader) and Compose, not for Maybe or list. No adjunction generating either is in tree (there is no Set_* and no Monoid category)."
+    },
+    "gap": "Clauses (iii) free R-module/free abelian group/free vector space monad, (iv) free group monad, (v) ultrafilter monad beta, (vii) double power set monad and (viii) continuation / double dual monad have NO in-tree counterpart at all (no Ab/R-Mod/Grp/Top/cHaus/Vect categories, no power set functor on Sets, no self-adjunction of a contravariant hom into a dualizing object). Clause (vi) has its free-forgetful adjunction (FreeForgetfulAdjunction) but the induced path monad on QuiverCategory is never formed, even though Adjunction_Induced_Monad would give it in one line. Clauses (i) and (ii) exist only as law-free Haskell-style Monad instances on Coq types, with no monad laws proved, no categorical @Monad Coq (or @Monad Sets) witness, and no generating adjunction.",
+    "negative_search_log": [
+      "grep -rn 'ultrafilter' --include=*.v . -> 3 hits, ALL in header comments (Theory/Monad.v:65, Theory/Kan/Extension.v:39,86); no definition",
+      "grep -rni 'power set|powerset|PowerSet' --include=*.v . -> 1 hit, Structure/Topos.v:75 comment about Pow a := Ω ^ a (an internal power object in a topos, not the Set power set functor, and not a monad)",
+      "grep -rni 'continuation|double dual|codensity' --include=*.v . -> only header/essay comments (Functor/Hom/Yoneda.v, Theory/Kan/Extension.v, Theory/Coq.v); no Cont/double-dual monad",
+      "grep -rni 'free monoid|FreeMonoid|free group|FreeGroup|free module' --include=*.v . -> only prose comments (Theory/Coq/List.v:25, Theory/Coq/Foldable.v:30, Theory/Universal/Arrow.v:45); no free functor, no adjunction",
+      "grep -rn 'Category of monoids|Mon :|Monoids' --include=*.v Instance/ Structure/ -> only Instance/CMon.v (commutative monoids); no Mon, no Set ⇄ Mon adjunction",
+      "grep -rni 'self-adjoint|mutually right adjoint|contravariant power' --include=*.v . -> only Instance/Adjoints.v:17 and Adjunction/Compose.v:29 about Id being self-adjoint",
+      "grep -rn 'Theory.Monad.Monad|: @Monad |: Monad ' --include=*.v . -> the only concrete categorical monads in tree are Id_Monad (Monad/Strong.v:149), Reflective_Monad (Construction/Reflective/Idempotent.v:194), Lawvere_Monad (Theory/Lawvere/Monad.v:73) and Adjunction_Induced_Monad; none of Riehl's eight",
+      "grep -rn 'FreeCatFunctor|FreeForgetfulAdjunction' --include=*.v . -> Construction/Free/Quiver.v:546,550 and Test/Issue138.v Checks only; no induced-monad instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same three positives. Re-verified: Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` over QuiverCategory/StrictCat (registered, _CoqProject:72); Theory/Coq/Maybe.v:94 `Maybe_Monad` and Theory/Coq/List.v:113 `list_Monad` are instances of the LAW-FREE class of Theory/Coq/Monad.v (whose header, lines 28-30, states the laws are not fields), and Theory/Coq/Monad/Proofs.v proves the IsMonad bridge only for Identity (:57), arrow (:63) and Compose (:90) - never for Maybe or list, confirmed by reading Theory/Coq/Maybe/Proofs.v and Theory/Coq/List/Proofs.v, which contain no monad-law lemma at all. The Test/Issue138.v citation is accurate (line 65 Checks `Forgetful o FreeCatFunctor : QuiverCategory -> QuiverCategory`, line 82 Checks the adjunction; no monad). Negative log spot-checked and reproduced (ultrafilter: 3 prose hits; power set: 1 prose hit at Structure/Topos.v:75). ADDITIONAL EVIDENCE my blind pass found that the record omits, which strengthens but does not change PARTIAL: clause (i)'s Kleisli category exists in tree even though its monad does not - Instance/Sets/Par.v (header lines 10-19) builds PAR and states 'this is the Kleisli category of the maybe monad [option] on [Sets]', and Instance/Coq/Par.v:34 records the pointed-set equivalence. Also unremarked: Riehl's (i) generalization 'adjoin a fixed object in any category with coproducts' has no in-tree counterpart either."
+    }
+  },
+  {
+    "id": "riehl:5.1:example5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "covariant power set monad P / union multiplication",
+      "free commutative monoid monad / multiset / bag monad / finitely supported N-valued functions",
+      "writer monad (-) x N / monoid-graded writer / m ⊗ - for a monoid object m",
+      "Giry monad / Prob / probability measures on a measurable space / Meas",
+      "monads not arising from a named adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coq/Tuple.v",
+        "line": 104,
+        "symbol": "Tuple_Monad",
+        "intree_statement": "Instance Tuple_Monad x `{Monoid x} : Monad (Tuple x) := { ret := λ _ y, (mempty, y); (* unit: empty log [mempty] *) bind := λ _ _ '(xm, m) f, let '(xx, x) := f m in (xm ⊗ xx, x) (* concatenate logs via [⊗] *) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Four monads not presented via an adjunction: (i) the covariant power set functor P on Set with singleton unit and union multiplication; (ii) the free commutative monoid monad (finite unordered lists / finitely supported functions A -> N); (iii) the monad (-) x N on Set with unit a |-> (a,0) and multiplication (a,m,n) |-> (a,m+n), N replaceable by any monoid and Set by any monoidal category; (iv) the Giry monad on Meas, A |-> Prob(A), unit the Dirac measure and multiplication given by integration.",
+      "intree": "Instance Tuple_Monad x `{Monoid x} : Monad (Tuple x) := { ret := λ _ y, (mempty, y); bind := λ _ _ '(xm, m) f, let '(xx, x) := f m in (xm ⊗ xx, x) } — the writer monad x × (−) over an arbitrary monoid x, on Coq types.",
+      "strength_comparison": "intree-weaker on every axis. Clause (iii) is the only one with a counterpart, and it is an instance of the applied-layer Class Monad of Theory/Coq/Monad.v which carries ONLY ret and bind and no laws (Theory/Coq/Monad/Proofs.v proves lawfulness only for Identity, arrow and Compose, not for Tuple), so 'is a monad' is asserted structurally but not proved. It is also stated on Coq types rather than as a @Monad Coq / @Monad Sets, and Riehl's generalization — a monoid object m in a monoidal category V makes m ⊗ (−) a monad on V — is not proved anywhere in tree despite MonoidObject and Monoidal both existing. Monad/Graded.v's GradedWriter is a different object (a GradedMonad whose functor family is constantly Id, with the log living entirely in the grades)."
+    },
+    "gap": "Clauses (i) covariant power set monad, (ii) free commutative monoid (multiset) monad and (iv) Giry monad have NO in-tree counterpart — there is no power set functor on Sets/Coq, no multiset/bag construction, and no category of measurable spaces (Structure/Monoidal/Markov.v axiomatizes Markov categories abstractly and mentions Giry only in its header essay; Stoch/Meas is never built). Clause (iii) is present only as a law-free Haskell-style Monad instance for the writer over an arbitrary monoid, with the monad laws unproved and no categorical monad witness; the monoidal-category generalization Riehl states (a monoid object m gives the monad m ⊗ −) is not proved.",
+    "negative_search_log": [
+      "grep -rni 'power set|powerset|PowerSet' --include=*.v . -> 1 hit, Structure/Topos.v:75 comment (internal power object Ω^a, not the covariant Set power set monad)",
+      "grep -rni 'direct image|image functor|Sets_Image|subsets' --include=*.v . -> Instance/Sets/Image.v / Instance/Sets/Classifier.v give the image of a single morphism (Sets_Image m), not a power set endofunctor",
+      "grep -rni 'free commutative|multiset|bag' --include=*.v . -> 0 relevant hits (only Construction/ColouredPROP/LNL.v:49 'cofree commutative comonoid' and Structure/Monoidal/Symmetric.v:51 prose)",
+      "grep -rni 'giry|measurable|probability measure|Meas\\b' --include=*.v . -> only Structure/Monoidal/Markov.v:56,59,65 header-essay mentions; no Meas category, no Prob functor, no Giry monad",
+      "grep -rni 'writer' --include=*.v . -> Theory/Coq/Tuple.v (the instance cited) and Monad/Graded.v:350 'grade-only writer' (GradedWriter, a GradedMonad on the constant Id family — not (−) × N)",
+      "grep -rn 'MonoidObject' --include=*.v . -> Monad/Monoid.v (monoid in [C,C] ↔ monad), Structure/Monoid.v, Structure/Group.v, Instance/StrictCat/Premonoid.v; no theorem that a monoid object m yields the monad m ⊗ −"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same single positive. Theory/Coq/Tuple.v:104 `Instance Tuple_Monad x `{Monoid x} : Monad (Tuple x)` verified verbatim; it is the law-free applied-layer class and has no IsMonad witness, exactly as the record says. Monad/Graded.v:356 `GradedWriter (W : GradeMonoid) : @GradedMonad Coq W (fun _ => Id[Coq])` verified - the record's disclaimer that it is a different object (constant identity family, log in the grades) is accurate. Negative claims reproduced: no covariant power set functor anywhere (the only 'power' hit is the internal power object at Structure/Topos.v:75), no multiset/bag construction, no Meas category and no Giry monad (Structure/Monoidal/Markov.v:56-67 is header essay only). Instance/CMon.v exists but has no free functor and no adjunction, so clause (ii) has no generator either."
+    }
+  },
+  {
+    "id": "riehl:5.1:def6",
+    "classification": "PRESENT",
+    "aliases": [
+      "comonad",
+      "cotriple",
+      "monad on C^op",
+      "counit epsilon / comultiplication delta / extract / duplicate / extend / cobind",
+      "coassociativity and counit triangles",
+      "adjunction induces a comonad FU on the codomain of the left adjoint"
+    ],
+    "evidence": [
+      {
+        "file": "Comonad/Core.v",
+        "line": 169,
+        "symbol": "duplicate_duplicate",
+        "intree_statement": "(** Coassociativity δ_W ∘ δ ≈ W δ ∘ δ: op-read of the associativity law [join_fmap_join] ... *) Lemma duplicate_duplicate {x : C} : duplicate ∘ @duplicate x ≈ fmap[W] duplicate ∘ @duplicate x."
+      },
+      {
+        "file": "Comonad/Core.v",
+        "line": 164,
+        "symbol": "fmap_extract_duplicate",
+        "intree_statement": "Lemma extract_duplicate {x : C} : extract ∘ duplicate ≈ id[W x].  Lemma fmap_extract_duplicate {x : C} : fmap[W] extract ∘ duplicate ≈ id[W x]."
+      },
+      {
+        "file": "Comonad/Duality.v",
+        "line": 170,
+        "symbol": "Adjunction_Comonad",
+        "intree_statement": "Context {F : D ⟶ C}. Context {U : C ⟶ D}. Definition Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U) := let M : @Monad (C^op) (F^op ◯ U^op) := Adjunction_Monad (Opposite_Adjunction F U A) in @Build_Monad (C^op) ((F ◯ U)^op) ..."
+      }
+    ],
+    "statement_record": {
+      "book": "A comonad on C is a monad on C^op; explicitly, an endofunctor K : C -> C with epsilon : K => id_C and delta : K => K^2 such that the coassociativity square K delta . delta = delta K . delta and the counit triangles epsilon K . delta = id_K = K epsilon . delta commute. Adjacent prose adds two unnumbered claims: a comonad is a comonoid in the endofunctor category, and (dually to Lemma 5.1.3) every adjunction induces a comonad FU on the codomain of its left adjoint, with counit the adjunction counit and comultiplication F eta U.",
+      "intree": "Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op) (Theory/Monad.v:144), whose covariant API is [extract : W x ~> x], [duplicate : W x ~> W (W x)] with the laws [duplicate_duplicate : duplicate ∘ duplicate ≈ fmap[W] duplicate ∘ duplicate], [extract_duplicate : extract ∘ duplicate ≈ id[W x]], [fmap_extract_duplicate : fmap[W] extract ∘ duplicate ≈ id[W x]]; and [Adjunction_Comonad (A : F ⊣ U) : @Comonad C (F ◯ U)].",
+      "strength_comparison": "same. The library's definition is Riehl's own one-liner verbatim — a comonad IS a monad on the opposite category — and Comonad/Core.v then discharges every one of Riehl's explicit diagrams as a covariant lemma (coassociativity plus both counit triangles), together with naturality of ε and δ (extract_natural, duplicate_natural). The adjacent unnumbered dual of Lemma 5.1.3 is Adjunction_Comonad, on the codomain of the left adjoint, exactly as stated. One adjacent claim is unproved: 'a comonad is a comonoid in the category of endofunctors' has no in-tree dual to Monad/Monoid.v's Monoid_Monad (Theory/Algebra/Comonoid.v defines Comonoid in a monoidal category, but is never applied to [C,C]); this is an aside of the remark, not part of the definition."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Theory/Monad.v:144 `Definition Comonad `{M : C -> C} := @Monad (C^op) (M^op)` - Riehl's own one-line definition, verbatim. Comonad/Core.v:160 extract_duplicate, :164 fmap_extract_duplicate, :169 duplicate_duplicate all verified at the cited lines with the quoted statements (plus extract_natural/duplicate_natural at :151/:155), so all three of Riehl's explicit diagrams are discharged covariantly. Comonad/Duality.v:170 `Adjunction_Comonad (A : F -| U) : @Comonad C (F o U)` verified verbatim, on the codomain of the LEFT adjoint as the book states. The record's caveat about the unproved comonoid aside is correct: Theory/Algebra/Comonoid.v:40 defines `Class Comonoid` in a monoidal category but it is never applied to [C,C], so there is no dual of Monoid_Monad. ONE FURTHER SUB-GAP the record does not mention (insufficient to demote a definitional item): Comonad/Duality.v:145-158 discloses that because Adjunction_Monad is Qed-opaque, the covariant readings extract = eps and duplicate = F eta U for the INDUCED comonad are deliberately not exposed as lemmas - the comonad is constructed and its laws hold, but Riehl's explicit description of its structure maps is not readable back as an in-tree equation."
+    }
+  },
+  {
+    "id": "riehl:5.1:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "closure operator (order-preserving, p <= Tp, T^2 p = Tp)",
+      "kernel operator / interior operator / coclosure operator",
+      "monad on a preorder / monad on a poset",
+      "Moore closure, consequence operator, inflationary idempotent monotone map",
+      "topological closure and interior on the powerset poset PX"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'closure operator' --include=*.v . -> 3 hits, ALL inside the header essay of Instance/Poset.v (lines 48, 64, 66); no Definition, Lemma or Class",
+      "grep -rni 'kernel operator' --include=*.v . -> 0 hits",
+      "grep -rni 'interior operator' --include=*.v . -> 0 hits",
+      "grep -rni 'interior|topological space|Kuratowski' --include=*.v . -> only Test/ProbeFunnyPoly.v:19 (unrelated 'interior [Set] level') and Theory/Lawvere.v:90 (metaphorical prose); no topology in tree",
+      "grep -rni 'monad on a poset|monad on a preorder|inflationary|Moore closure' --include=*.v . -> 0 hits",
+      "grep -n 'Definition|Theorem|Lemma|Instance|Program|Class' Instance/Poset.v -> only eq_equiv, Definition Poset (:= Proset P) and LessThanEqualTo_Category; grep -n ... Instance/Proset.v -> only Program Definition Proset and LessThanEqualTo_Category. Preorders/posets ARE categories in tree, but nothing relates monads on them to closure operators",
+      "grep -rni 'idempotent monad' --include=*.v . -> Construction/Reflective/Idempotent.v and prose cross-references; the idempotent-monad development is stated for a general category and never specialized to a poset or connected to closure operators"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, before opening the coverage file. Reproduced every negative: 'closure operator' occurs at exactly three places, all inside the header essay of Instance/Poset.v (lines 48, 64, 66); 'kernel operator' and 'interior operator' have zero hits; Instance/Poset.v declares only eq_equiv (:111), Poset (:116) and LessThanEqualTo_Category (:120), and Instance/Proset.v only Proset (:33) and LessThanEqualTo_Category (:47). The identification 'a monad on a preorder is a closure operator' is asserted twice in prose - Instance/Poset.v:48-49 and Theory/Monad.v:68-70 - and formalized nowhere; there is no topology in tree, so the PX closure/interior example has no home either. ABSENT is right under the frozen definition: the ambient poset-as-category and the Monad class both exist, but the item IS the identification, and no statement of it exists."
+    }
+  },
+  {
+    "id": "riehl:5.1:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "free monoid monad in a monoidal category",
+      "T(X) = coproduct over n of X^{tensor n} / Kleene star / list object",
+      "tensor distributes over coproducts / distributive monoidal category",
+      "free monoid object, tensor powers X^⨂n",
+      "dual: cofree comonoid comonad"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'tensor_pow|tensor power|tensor_list|free monoid object|list object' --include=*.v . -> Theory/Multicategory/Representable.v:55 [tensor_list : list C -> C] folds a LIST OF OBJECTS to their tensor (no coproduct over n, no monad); Structure/Monoidal/Hypergraph/Spider.v:199ff [tpower X n] is the n-fold tensor power of a single object, used for spiders, again with no coproduct and no monad structure",
+      "grep -rni 'free monoid|FreeMonoid' --include=*.v . -> only prose comments (Theory/Coq.v:100, Theory/Coq/List.v:25, Theory/Coq/Foldable.v:30,34,41, Theory/Coq/List/Proofs.v:21); no construction",
+      "grep -rni 'distribute|Distributive' --include=*.v Structure/ -> Structure/Distributive.v Class Distributive is about finite PRODUCTS distributing over coproducts in a cartesian/cocartesian category, not about a monoidal tensor preserving finite coproducts in each variable; no such hypothesis class exists",
+      "grep -n 'Definition|Theorem|Lemma' Construction/Free.v -> the free category on a quiver / on a category's arrows (Free, FreeFunctor, FreeSyntax); nothing about free monoids in a monoidal category",
+      "grep -rn 'Theory.Monad.Monad|: @Monad |: Monad ' --include=*.v . -> no monad is ever constructed from a monoidal category with coproducts"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Reproduced: Theory/Multicategory/Representable.v:55 `tensor_list` and :67 `tfold` fold a LIST OF OBJECTS to a right-nested tensor (no coproduct over n, no monad); Structure/Monoidal/Hypergraph/Spider.v:199ff `tpower X n` is the n-fold tensor power of one object, used for spiders only. No free-monoid-object construction, no hypothesis class for 'tensor preserves finite coproducts in each variable' (Structure/Distributive.v is about products distributing over coproducts in a bicartesian setting, as the record says), and no monad is ever built from a monoidal category with coproducts."
+    }
+  },
+  {
+    "id": "riehl:5.1:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "ultrafilter monad beta",
+      "Stone-Cech compactification monad",
+      "ultrafilter / filter / principal ultrafilter",
+      "submonad of the double power set monad P^2",
+      "codensity monad of FinSet -> Set (Kennison-Gildenhuys / Leinster)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'ultrafilter' --include=*.v . -> 3 hits, ALL header-essay comments: Theory/Monad.v:65 ('the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces'), Theory/Kan/Extension.v:39 (Leinster citation), Theory/Kan/Extension.v:86 (codensity remark). No Definition/Lemma/Instance",
+      "grep -rn 'Ultrafilter' --include=*.v . -> 0 hits",
+      "grep -rn 'Stone' --include=*.v . -> Theory/Category.v:86 (Rosetta Stone paper), Theory/Equivalence.v:120 (Stone duality prose), Theory/Universal/Arrow.v:40 (Stone-Cech prose) — all citations",
+      "grep -rn 'compact Hausdorff|cHaus|beta monad' --include=*.v . -> only Theory/Equivalence.v:122 prose; no cHaus category",
+      "grep -rni 'power set|powerset' --include=*.v . -> 1 hit, Structure/Topos.v:75 comment about the internal power object Ω^a; the double power set monad P^2 that this exercise's hint uses is not in tree either",
+      "grep -rni 'filter' --include=*.v . -> only Comonad/CoKleisli.v (digital filters, prose) and Theory/Metacategory.v:416 (M.filter on a finite map) — unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Reproduced exactly: 'ultrafilter' has three occurrences in the whole tree, all header essay - Theory/Monad.v:65, Theory/Kan/Extension.v:39 and :86 - and 'Ultrafilter' zero. No cHaus, no Top, no filter construction, and the double power set monad the exercise's hint leans on is equally absent. The codensity route is likewise prose only (Theory/Kan/Extension.v:86)."
+    }
+  },
+  {
+    "id": "riehl:5.1:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "idempotent monad",
+      "mu is an isomorphism / T^2 iso T",
+      "mu is a monomorphism / monic multiplication",
+      "eta T = T eta / the two whiskerings of the unit coincide",
+      "reflective subcategory induces an idempotent monad / localization / reflector"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 198,
+        "symbol": "Reflective_IdempotentMonad",
+        "intree_statement": "Context (R : Reflective S). Definition Reflective_Monad : @Monad C (Incl C S ◯ reflector R) := Adjunction_Induced_Monad (reflective_adj R). Definition Reflective_IdempotentMonad : @IdempotentMonad C (Incl C S ◯ reflector R) Reflective_Monad."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 132,
+        "symbol": "join_iso_iff_ret_M_iso",
+        "intree_statement": "Definition join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (@join C M _ x) ↔ IsIsomorphism (@ret C M _ (M x)) := (join_iso_ret_iso x, ret_iso_join_iso x)."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 139,
+        "symbol": "join_iso_fmap_ret",
+        "intree_statement": "Definition join_iso_fmap_ret (x : C) (Hj : IsIsomorphism (@join C M _ x)) : fmap[M] (@ret C M _ x) ≈ @ret C M _ (M x)."
+      }
+    ],
+    "statement_record": {
+      "book": "Prove the equivalence of three characterizations of an idempotent monad (T, eta, mu): (i) mu is a natural isomorphism; (ii) mu is a monomorphism; (iii) eta T = T eta as natural transformations T => T^2. Then show, as a fourth separate clause, that the adjunction of a reflective subcategory of C induces an idempotent monad on C.",
+      "intree": "Class IdempotentMonad {C} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }; join_iso_iff_ret_M_iso (x : C) : IsIsomorphism (join x) ↔ IsIsomorphism (ret (M x)); join_iso_fmap_ret (x : C) (Hj : IsIsomorphism (join x)) : fmap[M] ret ≈ ret (M x); Reflective_IdempotentMonad : @IdempotentMonad C (Incl C S ◯ reflector R) Reflective_Monad.",
+      "strength_comparison": "intree-weaker on the equivalence, same on the trailing clause. The trailing clause (reflective subcategory => idempotent monad) is fully proved as Reflective_IdempotentMonad, over Reflective_Monad = Adjunction_Induced_Monad of the reflection adjunction, and the library goes further than the exercise by proving the converse and the Eilenberg-Moore equivalence (Idempotent_Reflective, Idempotent_EM_Equivalence). But characterization (i) is taken as the DEFINITION in tree (IdempotentMonad's single field is pointwise invertibility of join), so no equivalence with (ii) or (iii) is established: only the forward implication (i) => (iii) is proved (join_iso_fmap_ret), and the one genuine two-way result, join_iso_iff_ret_M_iso, characterizes (i) by invertibility of ret at M x — a condition Riehl does not list."
+    },
+    "gap": "The three-way equivalence is not proved. Missing entirely: (ii) 'mu is a monomorphism' — the word Monic never appears in Construction/Reflective/Idempotent.v and no lemma anywhere states that a monic join is invertible (grep for 'Monic (@join', 'join.*Monic' over *.v returns 0 hits), so neither (i) => (ii) (trivial) nor the substantive (ii) => (i) exists. Missing: the converse (iii) => (i), i.e. that eta T = T eta forces mu to be invertible — only join_iso_fmap_ret, the direction (i) => (iii), is proved. Missing: any packaging of the three conditions as a single equivalence statement. Also, the in-tree conditions are stated pointwise as IsIsomorphism at each object rather than as invertibility of the natural transformation mu; that is equivalent in this setting and not counted as part of the gap.",
+    "negative_search_log": [
+      "grep -n 'Monic|Monomorphism|mono' Construction/Reflective/Idempotent.v -> 0 hits",
+      "grep -rn 'Monic (@join|Monic join|join.*Monic' --include=*.v . -> 0 hits",
+      "grep -rni 'idempotent monad' --include=*.v . -> Construction/Reflective/Idempotent.v (the development cited) plus prose cross-references in Theory/Monad.v:70, Theory/Equivalence.v:132, Construction/Localization.v:110,117, Construction/Karoubi.v:108; no other characterization theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same split (characterization (i) is the definition; (ii) missing; only (i)=>(iii) present; trailing clause fully proved). Re-verified at source: Construction/Reflective/Idempotent.v:81 `Class IdempotentMonad ... := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }`, :132 join_iso_iff_ret_M_iso, :139 join_iso_fmap_ret (hypothesis-taking, one direction only), :194 Reflective_Monad := Adjunction_Induced_Monad (reflective_adj R), :198 Reflective_IdempotentMonad; the extras the record credits also exist (:345 Idempotent_Reflective, :464 Idempotent_EM_Equivalence). File registered (_CoqProject:60). ONE FACTUAL CORRECTION to the record's prose, which does not affect the verdict: the gap asserts 'the word Monic never appears in Construction/Reflective/Idempotent.v' - lowercase 'monic' DOES appear, at lines 102 and 137, but only inside comments observing that an invertible join is monic. There is still no lemma stating that a monic join is invertible anywhere in the tree, so the substance of the gap - (ii) is absent in both directions - stands unchanged."
+    }
+  }
+]

@@ -1,0 +1,474 @@
+[
+ {
+  "id": "7sketches:4.4.3:def4.45",
+  "classification": "PRESENT",
+  "aliases": [
+   "symmetric monoidal category",
+   "symmetric monoidal structure",
+   "monoidal category (tensor, unit, associator, unitors)",
+   "SymmetricMonoidal / Monoidal / BraidedMonoidal (typeclass)",
+   "tensor product with coherence; swap / braiding sigma with sigma^2 = id",
+   "categorification of a symmetric monoidal preorder"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal.v",
+    "line": 125,
+    "symbol": "Monoidal",
+    "intree_statement": "Class Monoidal := { I : C; tensor : C ∏ C ⟶ C where \"x ⨂ y\" := (tensor (x, y)); unit_left {x} : I ⨂ x ≅ x; unit_right {x} : x ⨂ I ≅ x; tensor_assoc {x y z} : (x ⨂ y) ⨂ z ≅ x ⨂ (y ⨂ z); ... to_unit_left_natural / to_unit_right_natural / to_tensor_assoc_natural (+ their from-forms); triangle_identity {x y} : bimap unit_right id ≈ bimap id unit_left ∘ tensor_assoc; pentagon_identity {x y z w} : bimap id tensor_assoc ∘ tensor_assoc ∘ bimap tensor_assoc id ≈ tensor_assoc ∘ tensor_assoc }"
+   },
+   {
+    "file": "Structure/Monoidal/Symmetric.v",
+    "line": 103,
+    "symbol": "SymmetricMonoidal",
+    "intree_statement": "Class SymmetricMonoidal := { symmetric_is_braided : @BraidedMonoidal C; braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y] }"
+   },
+   {
+    "file": "Structure/Monoidal/Braided.v",
+    "line": 128,
+    "symbol": "BraidedMonoidal",
+    "intree_statement": "Class BraidedMonoidal := { braided_is_monoidal : @Monoidal C; braid {x y} : x ⨂ y ~> y ⨂ x; braid_natural : natural (@braid); hexagon_identity {x y z} : tensor_assoc ∘ braid ∘ tensor_assoc ≈ id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id; hexagon_identity_sym ... }"
+   }
+  ],
+  "statement_record": {
+   "book": "Rough Definition: a symmetric monoidal structure on a category C is a unit object I and a functor ⊗ : C × C → C together with natural isomorphisms λ_c : I ⊗ c ≅ c, ρ_c : c ⊗ I ≅ c, α : (c⊗d)⊗e ≅ c⊗(d⊗e) and a swap σ_{c,d} : c⊗d ≅ d⊗c with σ∘σ = id, all required only to be 'well behaved' (the coherence axioms are deliberately suppressed).",
+   "intree": "Class Monoidal (I, tensor : C ∏ C ⟶ C, unit_left, unit_right, tensor_assoc, six naturality squares, triangle_identity, pentagon_identity) + Class BraidedMonoidal (braid, braid_natural, both hexagons) + Class SymmetricMonoidal (braid_invol : braid ∘ braid ≈ id[x ⨂ y]).",
+   "strength_comparison": "intree-stronger: the book explicitly suppresses the coherence axioms ('rough'), while the in-tree classes impose them in full — triangle and pentagon for the monoidal part, both hexagons for the braiding, plus the naturality squares in to- and from-form. The book's σ is an isomorphism outright; in-tree braid is a bare morphism made invertible by braid_invol, which is equivalent. Setoid rephrasing (≈ on hom-setoids) throughout."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (before opening coverage): rg -in 'Class Symmetric|SymmetricMonoidal', ls Structure/Monoidal/, read Structure/Monoidal.v, Braided.v, Symmetric.v -> identical evidence. Line numbers re-verified: Monoidal.v:125 Class Monoidal (with triangle_identity/pentagon_identity and the six naturality fields), Braided.v:128 Class BraidedMonoidal (braid, braid_natural, hexagon_identity, hexagon_identity_sym), Symmetric.v:103 Class SymmetricMonoidal (braid_invol). All three files registered in _CoqProject. The quoted statements are accurate; 'intree-stronger' is honest (the book explicitly suppresses coherence, the library imposes triangle+pentagon+both hexagons). No same-name-weaker-statement: nothing in-tree named 'SymmetricMonoidal' is weaker than the class cited."
+  }
+ },
+ {
+  "id": "7sketches:4.4.3:remark4.46",
+  "classification": "PARTIAL",
+  "aliases": [
+   "strict monoidal category",
+   "symmetric strict monoidal category",
+   "StrictMonoidal / PROP",
+   "Mac Lane coherence theorem",
+   "strictification / every monoidal category is equivalent to a strict one",
+   "permutative category"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Strict.v",
+    "line": 52,
+    "symbol": "StrictMonoidal",
+    "intree_statement": "Class StrictMonoidal : Type := { strict_is_monoidal : @Monoidal C; strict_assoc_obj : forall X Y Z, ((X ⨂ Y) ⨂ Z)%object = (X ⨂ (Y ⨂ Z))%object; strict_unit_left_obj : forall X, (I ⨂ X)%object = X; strict_unit_right_obj : forall X, (X ⨂ I)%object = X; strict_assoc_to : ... to tensor_assoc ≈ match strict_assoc_obj X Y Z in _ = T return _ with eq_refl => id end; strict_unit_left_to ...; strict_unit_right_to ... }"
+   },
+   {
+    "file": "Construction/PROP.v",
+    "line": 68,
+    "symbol": "PROP",
+    "intree_statement": "Class PROP : Type := { prop_cat : Category; prop_strict : @StrictMonoidal prop_cat; prop_symmetric : @SymmetricMonoidal prop_cat; prop_monoidal_coherence : strict_is_monoidal prop_strict = braided_is_monoidal (symmetric_is_braided prop_symmetric); ... }"
+   },
+   {
+    "file": "Construction/ColouredPROP.v",
+    "line": 108,
+    "symbol": "ColouredPROP",
+    "intree_statement": "Class ColouredPROP : Type := { cprop_cat : Category; cprop_strict : @StrictMonoidal cprop_cat; cprop_symmetric : @SymmetricMonoidal cprop_cat; cprop_monoidal_coherence : (@strict_is_monoidal cprop_cat cprop_strict) = (@braided_is_monoidal cprop_cat (@symmetric_is_braided cprop_cat cprop_symmetric)); ... }  [second object-pinned bundling of strict + symmetric; added by the Phase-D verifier]"
+   }
+  ],
+  "statement_record": {
+   "book": "Replacing λ, ρ and α (but NOT the swap σ) of Rough Definition 4.45 by equalities gives the complete notion of a symmetric STRICT monoidal category; by Mac Lane's coherence theorem symmetric strict monoidal categories are 'almost the same thing' as symmetric monoidal categories, which licenses pretending monoidal categories are strict when drawing wiring diagrams.",
+   "intree": "StrictMonoidal makes exactly λ, ρ, α strict — object-level Leibniz equalities (X⨂Y)⨂Z = X⨂(Y⨂Z), I⨂X = X, X⨂I = X together with strict_*_to saying each structural iso IS the transported identity — with the braiding left untouched; the symmetric-strict combination is in force as the field pair prop_strict + prop_symmetric of Class PROP.",
+   "strength_comparison": "intree-weaker: the first clause (the definition of symmetric strict monoidal) is present in substance and faithfully leaves σ non-strict, but the in-tree bundlings of StrictMonoidal with SymmetricMonoidal are Class PROP (Construction/PROP.v:68), which additionally pins the objects to ℕ (prop_of_nat, prop_unit_zero, prop_tensor_plus), and Class ColouredPROP (Construction/ColouredPROP.v:108-113), which pins them to lists of colours — there is no free-standing SymmetricStrictMonoidal class. The second clause, Mac Lane coherence, is not formalized at all."
+  },
+  "gap": "Mac Lane's coherence theorem is nowhere formalized: no statement that every (symmetric) monoidal category is monoidally equivalent to a strict one, and no 'all formal diagrams built from λ, ρ, α, σ commute' theorem. The claim appears only in prose headers (Structure/Monoidal/Symmetric.v:47-52 'the reward is Mac Lane's coherence theorem…', Theory/Bicategory.v:112 for the Mac Lane-Paré bicategory analogue) and is never a Lemma/Theorem. Also missing: a general SymmetricStrictMonoidal class independent of the object-pinned PROP / ColouredPROP classes (rg 'SymmetricStrict' finds only functor-level predicates, Construction/PROP/Universal.v:569 and Construction/ColouredPROP/Presentation/Universal.v:351).",
+  "negative_search_log": [
+   "rg -n 'strictif|Strictif|coherence theorem|Mac Lane|MacLane' --glob '*.v' — every hit is a comment/header citation; no assertion",
+   "rg -n 'StrictMonoidal' --glob '*.v' — only Structure/Monoidal/Strict.v (the class), Construction/PROP*.v and ColouredPROP (ℕ-indexed uses), no strictification result"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agreed on PARTIAL before reading the file. Verified Strict.v:52 Class StrictMonoidal (object-level Leibniz equalities for alpha/lambda/rho + strict_*_to; the braiding is untouched, exactly as the book requires) and PROP.v:68 Class PROP (prop_strict + prop_symmetric + prop_monoidal_coherence). Independent search for the coherence half: rg -in 'strictification|coherence theorem|equivalent to a strict|Mac ?Lane' -> every hit is prose (Structure/Monoidal/Symmetric.v:47, Structure/Monoidal.v:43, Structure/Monoidal/Proofs.v:16, Theory/Bicategory.v:112-113, Theory/DoubleCategory.v:119-120); no Lemma/Theorem asserts Mac Lane coherence or strictification. Gap statement is accurate. ONE FIELD CORRECTION applied by the verifier: Phase C wrote that Class PROP is 'the only in-tree bundling of StrictMonoidal with SymmetricMonoidal'; Construction/ColouredPROP.v:108-113 bundles them too (cprop_strict + cprop_symmetric + cprop_monoidal_coherence), with objects pinned to lists of colours rather than to N. The correction does not touch the classification: both bundlings are object-pinned, and no free-standing SymmetricStrictMonoidal class exists (rg 'SymmetricStrict' finds only functor-level predicates in PROP/Universal.v:569 and ColouredPROP/Presentation/Universal.v:351)."
+  }
+ },
+ {
+  "id": "7sketches:4.4.3:remark4.47",
+  "classification": "PARTIAL",
+  "aliases": [
+   "non-rough definition of symmetric monoidal category",
+   "category equipped with an equivalence to a strict monoidal category",
+   "transport of monoidal structure along an equivalence",
+   "Transported_Monoidal / MonoidalTransportData",
+   "strictification, monoidal equivalence"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Equivalence/Monoidal.v",
+    "line": 928,
+    "symbol": "Transported_Monoidal",
+    "intree_statement": "Definition Transported_Monoidal : @Monoidal D := Monoidal_from_transport_data Transported_Monoidal_Data (fun x y => Transported_triangle_identity x y) (fun x y z w => Transported_pentagon_identity x y z w).  [Section context: {F : C ⟶ D}, (E : @EquivalenceOfCategories C D F), (M : @Monoidal C); unit F I, tensor (d,d') ↦ F (G d ⨂ G d')]"
+   },
+   {
+    "file": "Theory/Equivalence/Monoidal.v",
+    "line": 870,
+    "symbol": "Transported_triangle_identity",
+    "intree_statement": "Lemma Transported_triangle_identity (x y : D) : Tbimap (to (Transported_unit_right x)) (id[y]) ≈ Tbimap (id[x]) (to (Transported_unit_left y)) ∘ to (Transported_tensor_assoc x (F (@I C M)) y)."
+   }
+  ],
+  "statement_record": {
+   "book": "The promised complete (non-rough) definition: a symmetric monoidal category is a category equipped with an equivalence to (the underlying category of) a symmetric strict monoidal category; unpackable via Remark 4.46 and the notion of equivalence of categories.",
+   "intree": "Given an equivalence F : C ⟶ D with quasi-inverse G and a Monoidal structure on C, D acquires a genuine Monoidal structure (unit F I, tensor (d,d') ↦ F (G d ⨂ G d')), with the triangle and pentagon laws proved (Transported_triangle_identity, Transported_pentagon_identity) after rectifying the counit so the zig-zag holds.",
+   "strength_comparison": "intree-weaker: the substantive content of the book's definition — being equivalent to a (strict) monoidal category endows you with a genuine monoidal structure — is proved in-tree, but only for the BARE monoidal structure. The braiding/symmetry is not transported, the source is an arbitrary Monoidal rather than a StrictMonoidal, and the library does not adopt 'equivalent to a strict one' as the definition (Monoidal is defined directly by its coherence axioms)."
+  },
+  "gap": "Three things are missing for Remark 4.47. (1) No transport of the braiding/symmetry: Theory/Equivalence/Monoidal.v transports only Monoidal — there is no Transported_Braided / Transported_Symmetric, so 'symmetric monoidal' is not obtained from an equivalence. (2) No converse (strictification): nothing states that every (symmetric) monoidal category admits an equivalence to a strict one, so the book's definition and the library's are not shown to agree. (3) The definition-by-equivalence is never stated as a class or as an iff with Class Monoidal.",
+  "negative_search_log": [
+   "rg -n 'Transported_Monoidal|Transported_Braided|Transported_Symmetric' --glob '*.v' — only Transported_Monoidal exists",
+   "ls Theory/Equivalence/ — Adjoint, Adjunction, Bundled, FullFaithful, Limit, Monoidal; no Strict/Braided/Symmetric transport file",
+   "rg -ni 'strictif' --glob '*.v' — 0 hits outside a DoubleCategory header remark on the strictification theorem for double categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass MISSED Theory/Equivalence/Monoidal.v entirely (I searched 'strictification|equivalent to a strict' and the Structure/Monoidal tree, and would have called this ABSENT-leaning-PARTIAL on the grounds that the library defines Monoidal axiomatically). Phase C's find is genuine and verified: Theory/Equivalence/Monoidal.v:928 Definition Transported_Monoidal : @Monoidal D (assembled from Transported_Monoidal_Data plus the two coherence lemmas) and :870 Lemma Transported_triangle_identity, quoted accurately; the file is registered (_CoqProject:439). Negative half re-verified independently: rg -n 'Transported_(Braided|Symmetric|Monoidal)' returns ONLY Transported_Monoidal (:37 prose, :928 definition), and ls Theory/Equivalence/ shows no Strict/Braided/Symmetric transport file — so the symmetry is indeed not transported and no strictification converse exists. PARTIAL with the three-part gap is honest."
+  }
+ },
+ {
+  "id": "7sketches:4.4.3:ex4.48",
+  "classification": "PARTIAL",
+  "aliases": [
+   "monoidal preorder as monoidal category",
+   "thin category / posetal category / proset",
+   "hom-set has at most one element",
+   "Proset, Poset, two_thin",
+   "monoidal categories generalize monoidal preorders"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := reflexivity; compose := fun x y z f g => transitivity g f |}  (* every hom-setoid is trivial, i.e. at most one arrow up to ≈ *)"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 105,
+    "symbol": "Two_Monoidal",
+    "intree_statement": "Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal.  (* a monoidal structure on the thin category _2: tensor := meet, unit := TwoY *)"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 26,
+    "symbol": "two_thin",
+    "intree_statement": "Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g."
+   }
+  ],
+  "statement_record": {
+   "book": "Check that monoidal categories generalize monoidal preorders: a monoidal preorder is exactly a monoidal category (P, I, ⊗) in which every hom-set P(p,q) has at most one element.",
+   "intree": "Proset turns any preorder into a category whose hom-setoids are trivial (so at most one arrow up to ≈); Two_Monoidal equips one such thin category (_2, with two_thin proving thinness) with a Monoidal structure whose tensor is the meet and whose unit is the top element.",
+   "strength_comparison": "intree-weaker: only the unenriched, one-directional half is present (preorder ⟹ thin category), plus one concrete monoidal thin category. The book's identification — monoidal PREORDERS are exactly the thin monoidal categories — is never stated, in either direction, and the library has no notion of monoidal preorder to compare against."
+  },
+  "gap": "There is no in-tree definition of a (symmetric) monoidal preorder — `rg -ni 'monoidal preorder|MonoidalPreorder'` returns 0 hits — hence no statement of the exercise's equivalence. Missing: (a) the converse leg, that a category whose hom-setoids are subsingletons yields a preorder on its objects; (b) the monoidal half, that a Monoidal structure on such a thin category is exactly a monoidal-preorder structure (monotone ⊗ with unit, associativity/unitality as EQUALITIES of objects up to the preorder). Only the base-level Proset construction and the single instance Two_Monoidal exist.",
+  "negative_search_log": [
+   "rg -ni 'monoidalpreorder|monoidal preorder|monoidal poset|posetal monoidal' --glob '*.v' — 0 hits",
+   "rg -ni 'thin' --glob '*.v' — Instance/Two.v, Instance/Two/Monoidal.v, Instance/Poset.v, Instance/Proset.v, Instance/Roof.v, Construction/Enriched.v headers only; no thin-category ⟺ preorder theorem",
+   "rg -ni 'at most one|subsingleton' --glob '*.v' — all hits are prose or the Roof/Sheaf subsingleton hom remarks"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. Verified Instance/Proset.v:33 (Program Definition Proset, homset := fun A B => {| equiv := fun _ _ => True |}, so hom-setoids are trivial — 'at most one arrow up to ~' is accurate), Instance/Two/Monoidal.v:26 Lemma two_thin and :105 Definition Two_Monoidal := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal. Both files registered (_CoqProject:224, :241). Independent negative search reproduces Phase C's: rg -ni 'monoidal preorder|monoidalpreorder|posetal monoidal' -> 0 hits in .v files; no converse construction (thin category -> preorder) exists — Construction/Enriched/Two.v's TwoPreorder_of_Enriched goes from an ENRICHMENT, not from a thin category, so it does not supply the missing leg. Gap correctly identifies both the missing converse and the missing monoidal layer."
+  }
+ },
+ {
+  "id": "7sketches:4.4.3:example4.49",
+  "classification": "PRESENT",
+  "aliases": [
+   "(Set, 1, ×) as a symmetric monoidal category",
+   "cartesian monoidal structure on Set / Sets / Coq",
+   "Sets_Product_Monoidal, CC_Monoidal, CC_SymmetricMonoidal",
+   "product bifunctor × : Set × Set → Set, (f × g)(s,t) = (f s, g t)",
+   "singleton as monoidal unit"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 283,
+    "symbol": "Sets_Product_Monoidal",
+    "intree_statement": "Program Instance Sets_Product_Monoidal : @Monoidal Sets := { I := {| carrier := poly_unit |}; tensor := {| fobj := fun p => {| carrier := carrier (fst p) * carrier (snd p) |}; fmap := fun x y f => {| morphism := fun p => (fst f (fst p), snd f (snd p)) |} |} }"
+   },
+   {
+    "file": "Structure/Monoidal/Internal/Product.v",
+    "line": 314,
+    "symbol": "CC_SymmetricMonoidal",
+    "intree_statement": "Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {| symmetric_is_braided := CC_BraidedMonoidal; braid_invol := @swap_invol _ _ |}  (* for any C with Cartesian + Terminal; CC_Monoidal has tensor := InternalProductFunctor C, I := 1 *)"
+   },
+   {
+    "file": "Instance/Sets/Cartesian.v",
+    "line": 32,
+    "symbol": "Sets_Cartesian",
+    "intree_statement": "Program Instance Sets_Cartesian : @Cartesian Sets := { product_obj := fun x y => {| carrier := (carrier x * carrier y)%type ; ... |}; fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |}; exl := fst; exr := snd }"
+   }
+  ],
+  "statement_record": {
+   "book": "(Set, {1}, ×) is a symmetric monoidal category: × is a functor Set × Set → Set with (S,T) ↦ S × T and (f × g)(s,t) = (f s, g t), preserving identities and composition; the four coherence isomorphisms (a)-(d) of 4.45 are the obvious bijections, e.g. {1} × S ≅ S, (1,s) ↦ s.",
+   "intree": "Sets_Product_Monoidal asserts Sets (setoids) is Monoidal with I the singleton setoid and tensor the product bifunctor acting on morphisms exactly pointwise, with the unitor/associator obligations discharged; Sets_Cartesian gives Sets the categorical product and Sets_Terminal the singleton, and CC_SymmetricMonoidal upgrades any Cartesian+Terminal category to a full SymmetricMonoidal.",
+   "strength_comparison": "same, with one bookkeeping caveat: the library states the example twice, once by hand (Sets_Product_Monoidal, over setoids, which is what Construction/Enriched.v uses) and once generically (CC_Monoidal/CC_SymmetricMonoidal at Sets_Cartesian + Sets_Terminal, also instantiated for types-and-functions as Coq_Monoidal, Instance/Coq.v:159). The braiding lives on the CC_* path over CC_Monoidal, and no lemma identifies CC_Monoidal Sets with Sets_Product_Monoidal, so 'Sets is symmetric monoidal' is reached through the generic instance rather than through the hand-built one. Base is setoids rather than bare sets (faithful setoid rephrasing)."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'Symmetric' Instance/Sets.v Instance/Coq.v Instance/Sets/*.v — no named Sets_SymmetricMonoidal / Coq_SymmetricMonoidal instance; the symmetry comes from CC_SymmetricMonoidal"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Instance/Sets.v:283 Sets_Product_Monoidal independently and reached PRESENT with the same caveat. Re-verified: the tensor's fmap is literally pointwise ((f x g)(s,t) = (f s, g t)) and I is the singleton setoid, matching the book's bookkeeping description; Instance/Sets/Cartesian.v:32 Sets_Cartesian and Instance/Sets.v:248 Sets_Terminal exist, and Structure/Monoidal/Internal/Product.v is parameterised on exactly Context `{@Cartesian C}` + `{@Terminal C}` (lines 17-19), so CC_SymmetricMonoidal (:314) does apply at Sets. The caveat in strength_comparison is not merely stylistic and is worth keeping: Structure/Monoidal/Internal/Product.v itself imports Instance/Sets.v (line 11), so Instance/Sets.v cannot instantiate the CC_* path, and rg confirms no Sets_SymmetricMonoidal / Sets_BraidedMonoidal instance and no lemma identifying CC_Monoidal Sets with Sets_Product_Monoidal. The Instance/Coq.v:159 cross-check in the record is accurate (Coq_Monoidal := @CC_Monoidal Coq Coq_Cartesian Coq_Terminal). Classification stands: the book's Example 4.49 asserts the monoidal structure on (Set, 1, x), which IS in-tree."
+  }
+ },
+ {
+  "id": "7sketches:4.4.3:ex4.50",
+  "classification": "PARTIAL",
+  "aliases": [
+   "evaluating a wiring diagram in (Set, 1, ×)",
+   "string-diagram / wiring-diagram semantics in a symmetric monoidal category",
+   "interpretation of PROP terms, Valuation, interp, interp_sound",
+   "denotation of a composite of boxes via ∘ and ⨂",
+   "signal-flow / process diagram in Set"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/PROP/Interp.v",
+    "line": 1030,
+    "symbol": "interp_sound",
+    "intree_statement": "Theorem interp_sound {m n : nat} {s t : Term S m n} : TermEq S s t → interp s ≈ interp t.  [with Fixpoint interp {m n} (t : Term S m n) : ⟦m⟧ ~{P}~> ⟦n⟧ := ... | T_comp g f => interp g ∘ interp f | T_tens f g => interp f ⊞ interp g, over Context (P : PROP) (v : Valuation P S)]"
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 283,
+    "symbol": "Sets_Product_Monoidal",
+    "intree_statement": "Program Instance Sets_Product_Monoidal : @Monoidal Sets := { I := {| carrier := poly_unit |}; tensor := ... product of setoids, (f ⨂ g)(s,t) = (f s, g t) ... }"
+   }
+  ],
+  "statement_record": {
+   "book": "A concrete computation: in the symmetric monoidal category (Set, 1, ×), a three-box wiring diagram (boxes f, g, h over wires A..G, with A=B=C=D=F=G=ℤ and E=Bool) denotes a function q : A × B → G × F; evaluate g_E(5,3), g_F(5,3), h(5,true), q_G(-2,3), q_F(-2,3), etc.",
+   "intree": "The ambient structure is present — Sets (and Coq) is symmetric monoidal, so each box is a morphism and the diagram's composite is expressible with ∘, bimap and braid. Diagram-term semantics is formalized only for PROP targets: interp maps free string-diagram terms Term S m n to ⟦m⟧ ~> ⟦n⟧ in a PROP, and interp_sound proves it respects the equational theory TermEq.",
+   "strength_comparison": "intree-weaker: interp/interp_sound interpret wiring diagrams into a PROP (a STRICT symmetric monoidal category whose objects are generated by ℕ), not into an arbitrary symmetric monoidal category such as Sets, whose objects are setoids and whose tensor is non-strict. The exercise's own claim — that (Set, 1, ×) interprets this diagram — is therefore not reachable by instantiating the in-tree interpreter."
+  },
+  "gap": "Two things. (1) No interpretation of wiring/string diagrams into an ARBITRARY symmetric monoidal category: Construction/PROP/Interp.v and Construction/PROP/Universal.v both fix the target to a PROP (Context (P : PROP) and StrictMonoidalFunctor into it), and the ColouredPROP interpreter likewise; Sets is not a PROP, so the diagram semantics does not apply to it. (2) No worked instance evaluating a concrete diagram over concrete Set-valued boxes — nothing in Instance/ or Test/ builds a multi-box composite in Sets/Coq and computes its values.",
+  "negative_search_log": [
+   "rg -ni 'wiring' --glob '*.v' — only prose (ColouredPROP/Linear.v, DoubleCategory.v) and 'shared-record wiring' engineering comments; no diagram-evaluation example",
+   "rg -n 'Valuation|interp' Construction/PROP/Interp.v — Context (P : PROP), so the interpreter's target is a PROP, never a general SymmetricMonoidal category",
+   "rg -n '^Context' Construction/PROP/Universal.v — Context (P : PROP), StrictMonoidalFunctor (FreeCat S) P; same restriction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass leaned ABSENT (a numeric evaluation exercise) but PARTIAL is defensible and more informative under the frozen definitions, and its gap is stated precisely. Verified: Construction/PROP/Interp.v:1030 Theorem interp_sound exists as quoted, and the target really is restricted — Section PROPTarget opens with Context (P : PROP) (Interp.v:165-167), and Construction/PROP/Universal.v:145-149 likewise fixes Context (P : PROP) with a StrictMonoidalFunctor, so no in-tree interpreter lands in an arbitrary SymmetricMonoidal category; I found no evaluation example anywhere in Instance/ or Test/. TWO LOG INACCURACIES, neither affecting the verdict: (a) the negative log says rg -ni 'wiring' hits only 'ColouredPROP/Linear.v, DoubleCategory.v' — 'wiring diagram|string diagram' actually hits 13 files (Structure/Monoidal/CompactClosed.v, CopyDiscard.v, Markov.v, Hypergraph/Spider.v, Instance/ZX.v, PROP/Signature.v, ...), though every hit is indeed prose, so the conclusion holds; (b) Construction/ColouredPROP/Linear.v does exist (I checked, since the log's phrasing suggested otherwise)."
+  }
+ },
+ {
+  "id": "7sketches:4.4.4:def4.51",
+  "classification": "PRESENT",
+  "aliases": [
+   "category enriched in V / V-category",
+   "enriched category, hom-object, identity element, composition morphism",
+   "Class Enriched, ehom, eid, ecompose",
+   "Kelly, Basic Concepts of Enriched Category Theory",
+   "Ab-enriched / preadditive, 2-enriched preorder"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched.v",
+    "line": 113,
+    "symbol": "Enriched",
+    "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left {x y} : ecompose ∘ eid ⨂ id ≈ unit_left; eid_right {x y} : ecompose ∘ id ⨂ eid ≈ unit_right; ecompose_assoc {x y z w} : ecompose ∘ ecompose ⨂ id ≈ ecompose ∘ id ⨂ ecompose ∘ tensor_assoc }"
+   }
+  ],
+  "statement_record": {
+   "book": "Rough Definition: for V a symmetric monoidal category, a V-category X consists of (i) a collection Ob(X); (ii) for each x,y an OBJECT X(x,y) of V; (iii) for each x a MORPHISM id_x : I → X(x,x) in V; (iv) for each x,y,z a morphism X(x,y) ⊗ X(y,z) → X(x,z); subject to 'the usual associative and unital laws', deliberately suppressed.",
+   "intree": "Class Enriched over a monoidal base K: eobj : Type (i), ehom : eobj → eobj → K (ii), eid {x} : I ~{K}~> (x ⟿ x) (iii), ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z) (iv), with eid_left, eid_right and ecompose_assoc stated as equations of K-morphisms.",
+   "strength_comparison": "intree-stronger: the two unit laws and the associativity law that the book explicitly suppresses are written out and required, and the base is only asked to be Monoidal (the book asks for symmetric monoidal), so the in-tree class is more general in its hypothesis and more complete in its axioms. The composition morphism is written in classical order (y⟿z) ⨂ (x⟿y) → (x⟿z) where the book writes the diagrammatic order X(x,y) ⊗ X(y,z) → X(x,z); pure presentation."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently from Construction/Enriched.v. Field-by-field check against Rough Definition 4.51: eobj (i), ehom : eobj -> eobj -> K (ii), eid {x} : I ~{K}~> (x <~> x) (iii), ecompose {x y z} : (y<~>z) (x) (x<~>y) ~{K}~> (x<~>z) (iv), plus eid_left/eid_right/ecompose_assoc — the laws the book suppresses are all present, so 'intree-stronger' is honest. Base is `{@Monoidal K}` (more general than the book's symmetric monoidal, and the standard hypothesis for V-categories); the order swap in ecompose is pure presentation, as claimed. ONE PRECISION NOTE: the evidence cites line 113 while `Class Enriched (K : Category) `{@Monoidal K} := {` is at line 111 (113 is inside the record body) — a two-line drift, not a miscitation. File registered (_CoqProject:30)."
+  }
+ },
+ {
+  "id": "7sketches:4.4.4:ex4.52",
+  "classification": "PRESENT",
+  "aliases": [
+   "Set-enriched category = ordinary category",
+   "V = Set recovers ordinary category theory",
+   "Category_is_Enriched_over_Set",
+   "locally small category as Set-category",
+   "Sets-enrichment round trip"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched.v",
+    "line": 163,
+    "symbol": "Category_is_Enriched_over_Set",
+    "intree_statement": "Theorem Category_is_Enriched_over_Set : Enriched Sets ↔ Category.  [forward: obj := eobj, hom := ehom, id := fun x => eid x ttt, compose := fun x y z f g => ecompose (f, g), with id_left/id_right/comp_assoc from eid_left/eid_right/ecompose_assoc; backward: Build_Enriched over Sets_Product_Monoidal with ehom x y := the hom-setoid x ~> y, eid := fun _ => id[x], ecompose := fun p => fst p ∘ snd p]"
+   }
+  ],
+  "statement_record": {
+   "book": "Since V = (Set, {1}, ×) is symmetric monoidal, Rough Definition 4.51 applies to it: does the resulting notion of a Set-enriched category agree with the definition of a category (Definition 3.6), or is there a subtle difference?",
+   "intree": "Theorem Category_is_Enriched_over_Set : Enriched Sets ↔ Category — a Defined round trip in which the enriched identity evaluated at the unit point IS the ordinary identity and the enriched composition applied to a pair IS ordinary composition, so the three enrichment laws map onto id_left, id_right and comp_assoc.",
+   "strength_comparison": "same (in fact a definitional round trip rather than a mere correspondence). Two honest differences of setting, both of which are exactly the 'subtle difference' the exercise is fishing for: the in-tree base is Sets (setoids with ≈) rather than bare sets, so hom-objects are hom-SETOIDS and the recovered Category's homset is the enriched hom-object itself; and the size question is handled by universe polymorphism (Enriched Sets at a given universe corresponds to categories with hom-setoids at that universe) rather than by a small/large distinction."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Category_is_Enriched_over_Set independently. Verified at Construction/Enriched.v:163, ending in Defined (both directions compute), with the forward direction taking id := fun x => eid x ttt and compose := fun f g => ecompose (f,g) exactly as quoted. PRECISION NOTE for downstream readers: `<->` in this library is iffT (Lib/Foundation.v:72), i.e. functions in both directions — the two constructions are NOT proved mutually inverse, so 'a definitional round trip rather than a mere correspondence' should be read as 'both directions are Defined and compute', which is also how the library's own header words it (Construction/Enriched.v:90). That does not weaken the answer to the exercise (which asks whether the notions agree), so PRESENT stands. The strength_comparison's account of the 'subtle difference' (setoid hom-objects; size handled by universe polymorphism rather than a small/large distinction) is accurate for this library."
+  }
+ },
+ {
+  "id": "7sketches:4.4.4:remark4.53",
+  "classification": "PARTIAL",
+  "aliases": [
+   "preorder-enriched category, V a monoidal preorder",
+   "properties become structure (categorification)",
+   "identity element degenerates to I ≤ X(x,x)",
+   "Enriched_Two_preorder, enrichment over 2 = preorder",
+   "Bool-enriched / truth-value enriched category"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 165,
+    "symbol": "Enriched_Two_preorder",
+    "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder."
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 71,
+    "symbol": "TwoPreorder_of_Enriched",
+    "intree_statement": "Definition TwoPreorder_of_Enriched (E : @Enriched _2 Two_Monoidal) : TwoPreorder := {| tpre_carrier := eobj E; tpre_le x y := ehom E x y = TwoY; tpre_refl := fun x => two_from_top (eid E x); tpre_trans := ... from ecompose ... |}  (* eid : TwoY ~> (x ⟿ x) forces ehom x x = TwoY: the chosen identity element collapses to the PROPERTY of reflexivity *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Every symmetric monoidal preorder is a symmetric monoidal category (Ex. 4.48), so Def. 4.51 applies to a monoidal preorder V; the data (i) objects and (ii) hom-objects agree with Definition 2.46, and the extra data (iii) identity elements and (iv) composition morphisms need not be CHOSEN, because a preorder has at most one morphism between any two objects — it suffices that they EXIST, which is exactly properties (a) and (b) of Def. 2.46. Typical of categorification: properties become structure.",
+   "intree": "For the single base V = 2 (the walking arrow with its cartesian Two_Monoidal), Enriched_Two_preorder gives both directions of the collapse, and TwoPreorder_of_Enriched exhibits the mechanism: eid : I ~> (x ⟿ x) forces ehom x x = TwoY, i.e. the chosen identity element degenerates to the property of reflexivity, and ecompose to transitivity; the three enrichment laws hold automatically because 2 is thin (two_thin).",
+   "strength_comparison": "intree-weaker: only the instance V = 2 is proved, not the general remark for an arbitrary monoidal preorder V. The general reason the remark gives (thinness of V makes (iii),(iv) properties and makes the laws automatic) is used in-tree only for this one base, and the library has no Definition-2.46-style V-category to compare the collapsed notion against."
+  },
+  "gap": "The remark is proved only at V = 2. Missing: (a) any notion of a general (symmetric) monoidal preorder base — `rg -ni 'monoidal preorder'` returns 0 hits; (b) the general statement that when the base V is thin, the eid/ecompose data of Class Enriched are uniquely determined so that a V-category in the sense of Def. 4.51 is the same as one in the sense of Def. 2.46 (existence of I ≤ X(x,x) and X(x,y) ⊗ X(y,z) ≤ X(x,z)); (c) any second instance (e.g. Cost) confirming the pattern beyond truth values.",
+  "negative_search_log": [
+   "rg -ni 'monoidalpreorder|monoidal preorder' --glob '*.v' — 0 hits",
+   "rg -ni 'thin' --glob '*.v' — thinness is used only for _2 (two_thin) and described in Proset/Poset headers; no general 'thin base ⇒ enrichment data is a property' lemma",
+   "ls Construction/Enriched/ — Compose, Fun, Natural, Sets, Two only; no preorder/quantale base file"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL with the same reasoning and the same single witness. Verified Construction/Enriched/Two.v:165 Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal <-> TwoPreorder and :71 TwoPreorder_of_Enriched (tpre_refl := two_from_top (eid E x) — the identity element really does degenerate into the PROPERTY of reflexivity, which is the remark's mechanism); file registered (_CoqProject:35). Negative half re-verified: no general monoidal-preorder base (rg -ni 'monoidal preorder' -> 0), no lemma 'thin base => enrichment data is determined', and ls Construction/Enriched/ shows only Compose/Fun/Natural/Sets/Two. Gap items (a)-(c) are accurate."
+  }
+ },
+ {
+  "id": "7sketches:4.4.4:ex4.54",
+  "classification": "ABSENT",
+  "aliases": [
+   "Lawvere metric space",
+   "Cost-enriched category / enrichment over ([0,∞], ≥, +)",
+   "generalized metric space, d(x,x) = 0",
+   "quantale-enriched category",
+   "identity element in a Cost-category, 0 ≥ d(x,x)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'Lawvere metric|generalized metric|metric space|extended real|quantale' --glob '*.v' — 13 hits, ALL of them prose in file headers (Construction/Enriched.v:74-77, Instance/Two.v:71, Instance/Poset.v:75-77, Theory/Profunctor.v:100, Construction/Karoubi.v:86); not one is a Definition/Lemma/Instance",
+   "rg -ni 'triangle inequality|self-distance|distance' --glob '*.v' — 5 hits, all in the same headers explaining what Lawvere's example WOULD be",
+   "rg -n 'Cost\\b|Quantale|\\bReal\\b|Rbar|R_scope' --glob '*.v' — 0 hits; the library has no reals, no [0,∞], and no quantale",
+   "ls Instance/ — no metric/Cost/quantale instance file; the only enrichment bases realized are Sets (Construction/Enriched.v) and _2 (Construction/Enriched/Two.v)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently classified ABSENT. Reproduced the negative searches: rg -in 'lawvere metric|metric space|quantale|Cost' -> every hit is background prose (Construction/Enriched.v:40,74-78; Instance/Two.v:28,71; Instance/Poset.v:39,75-77; Construction/Karoubi.v:45,86; Theory/Profunctor.v:46,100), never a Definition/Instance/Lemma; and rg -n 'Require.*Reals|Require.*QArith' -> 0 hits, so the library has no reals, hence no ([0,inf], >=, +) base and no Cost-enrichment in which to ask what the identity elements are. Instance/Poset.v's own header explicitly defers the Lawvere-metric reading to prose while pointing the truth-value case at Construction/Enriched/Two.v, confirming there is no metric instance. ABSENT with an adequate negative_search_log."
+  }
+ },
+ {
+  "id": "7sketches:4.5.1:def4.58",
+  "classification": "PRESENT",
+  "aliases": [
+   "dual object, dual pair, c* with unit and counit",
+   "snake / zigzag / yanking equations, triangle identities",
+   "compact closed category, rigid / autonomous symmetric monoidal category",
+   "Class CompactClosed, dual, cc_unit, cc_counit, snake_left, snake_right",
+   "cup and cap, coevaluation and evaluation"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/CompactClosed.v",
+    "line": 139,
+    "symbol": "CompactClosed",
+    "intree_statement": "Class CompactClosed : Type := { dual : C -> C; cc_unit : forall X : C, I ~> dual X ⨂ X; cc_counit : forall X : C, X ⨂ dual X ~> I; snake_left : forall X, to unit_left ∘ bimap (cc_counit X) id[X] ∘ from (tensor_assoc (x:=X) (y:=dual X) (z:=X)) ∘ bimap id[X] (cc_unit X) ∘ from unit_right ≈ id[X]; snake_right : forall X, to (unit_right (x:=dual X)) ∘ bimap id[dual X] (cc_counit X) ∘ to (tensor_assoc (x:=dual X) (y:=X) (z:=dual X)) ∘ bimap (cc_unit X) id[dual X] ∘ from unit_left ≈ id[dual X] }  [Context `{S : @SymmetricMonoidal C}]"
+   },
+   {
+    "file": "Structure/Monoidal/CompactClosed.v",
+    "line": 303,
+    "symbol": "Hypergraph_CompactClosed",
+    "intree_statement": "Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {| dual := fun X => X; cc_unit := fun X => hcc_unit X (F := scfa X); cc_counit := fun X => hcc_counit X (F := scfa X); snake_left := hypergraph_snake_left; snake_right := hypergraph_snake_right |}  (* every hypergraph category is compact closed, self-dual, with η := δ ∘ η_X and ε := ε_X ∘ μ *)"
+   }
+  ],
+  "statement_record": {
+   "book": "Let (C, I, ⊗) be symmetric monoidal and c an object. A dual for c is (i) an object c*, (ii) η_c : I → c* ⊗ c, (iii) ε_c : c ⊗ c* → I, satisfying the two snake equations (4.59): c ≅ c⊗I → c⊗(c*⊗c) ≅ (c⊗c*)⊗c → I⊗c ≅ c equals id_c, and symmetrically for c*. If every object has a dual, C is compact closed.",
+   "intree": "Class CompactClosed over `{S : @SymmetricMonoidal C}` with dual : C -> C, cc_unit X : I ~> dual X ⨂ X, cc_counit X : X ⨂ dual X ~> I, and snake_left / snake_right written exactly as the book's two composites — λ ∘ (ε ⨂ id) ∘ α⁻¹ ∘ (id ⨂ η) ∘ ρ⁻¹ ≈ id[X] and ρ ∘ (id ⨂ ε) ∘ α ∘ (η ⨂ id) ∘ λ⁻¹ ≈ id[dual X].",
+   "strength_comparison": "same on the compact-closed clause; intree-stronger in one respect and differently packaged in another. Stronger: the dual is CHOSEN (a function dual : C → C) rather than merely existing per object, and the unitor/associator coercions the book writes as '≅' are pinned to the specific structural isomorphisms. Differently packaged: the book's stand-alone notion of 'a dual FOR c' is not a separate in-tree class; its exact content is however available as BicatAdjunction f u in the delooping Monoidal_OneObject_Bicategory (Theory/Bicategory/OneObject.v:56), where bicat tt tt ≡ C definitionally and adj_triangle_left / adj_triangle_right unfold to precisely snake_left / snake_right. A concrete witness exists (Hypergraph_CompactClosed)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found Structure/Monoidal/CompactClosed.v independently and reached PRESENT. Field check at :139: dual : C -> C, cc_unit X : I ~> dual X (x) X, cc_counit X : X (x) dual X ~> I, snake_left/snake_right written as the book's two composites with the unitors and associator in exactly the book's places; ambient Context `{S : @SymmetricMonoidal C}` matches Definition 4.58's hypothesis; Hypergraph_CompactClosed at :303 is a real Program Instance (its two snake obligations are discharged by hypergraph_snake_left/right, proved above it), so the concrete-witness claim holds. File registered (_CoqProject:363). I INDEPENDENTLY CHECKED the record's strongest side-claim — that a 'dual for c' is a BicatAdjunction in the delooping — and it survives: Theory/Bicategory/Adjunction.v:270-291 states adj_unit : bi1id ~> u ooo f, adj_counit : f ooo u ~> bi1id, adj_triangle_left = to (hunit_left f) oo hcomp2 adj_counit (bi2id f) oo from (hassoc f u f) oo hcomp2 (bi2id f) adj_unit oo from (hunit_right f) ~ bi2id f, and Theory/Bicategory/OneObject.v:56 builds the delooping with hcompose := tensor, hunit_left := unit_left, hunit_right := unit_right, hassoc := tensor_assoc, with the header (lines 41-55) certifying bicat tt tt == C definitionally and hcomp2 == bimap; substituting f := X, u := dual X turns adj_triangle_left/right into snake_left/snake_right verbatim. Note the delooping needs only Monoidal, so it applies to the SymmetricMonoidal base. The 'chosen dual' strengthening is correctly flagged and is what blocks stating Prop 4.60(2) directly (see that record)."
+  }
+ },
+ {
+  "id": "7sketches:4.5.1:prop4.60",
+  "classification": "PARTIAL",
+  "aliases": [
+   "compact closed implies monoidal closed",
+   "internal hom c ⊸ d := c* ⊗ d, tensor-hom adjunction C(b⊗c,d) ≅ C(b, c ⊸ d)",
+   "uniqueness of duals up to isomorphism / uniqueness of adjoints",
+   "double dual c ≅ c**",
+   "SymMonClosed, ClosedMonoidal, adjoint_unique, star_double_dual"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Bicategory/Adjunction.v",
+    "line": 708,
+    "symbol": "adjoint_unique",
+    "intree_statement": "Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ≅[bicat y x] b.  [BicatAdjunction f u = adj_unit : bi1id ⟹ u ∘∘∘ f, adj_counit : f ∘∘∘ u ⟹ bi1id, adj_triangle_left/right — the two snake equations]"
+   },
+   {
+    "file": "Theory/Bicategory/OneObject.v",
+    "line": 56,
+    "symbol": "Monoidal_OneObject_Bicategory",
+    "intree_statement": "Definition Monoidal_OneObject_Bicategory (C : Category) `{M : @Monoidal C} : Bicategory := Build_Bicategory unit (fun _ _ => @obj C) (fun _ _ => @hom C) (fun _ => @I C M) ... (fun _ _ _ => @tensor C M) (fun _ _ => @unit_left C M) (fun _ _ => @unit_right C M) (fun _ _ _ _ => @tensor_assoc C M) ...  (* bicat tt tt ≡ C definitionally; hcompose ≡ tensor, hassoc ≡ tensor_assoc *)"
+   }
+  ],
+  "statement_record": {
+   "book": "If C is compact closed then (1) C is monoidal closed: for all c,d there is an object c ⊸ d with C(b ⊗ c, d) ≅ C(b, c ⊸ d) natural in b (take c ⊸ d := c* ⊗ d, precomposing with id_b ⊗ η_c); (2) any two duals c* and c' of c are isomorphic; (3) c ≅ c**.",
+   "intree": "Clause (2) is available in bicategorical form: adjoint_unique says two right adjoints of the same 1-cell are isomorphic, and since the delooping Monoidal_OneObject_Bicategory makes bicat tt tt definitionally C with hcompose = tensor and the BicatAdjunction triangles literally the snake equations, a dual of c is exactly a right adjoint of c and adjoint_unique yields c* ≅ c'. Clauses (1) and (3) have no in-tree counterpart over CompactClosed.",
+   "strength_comparison": "intree-weaker overall. For (2) the in-tree theorem is at least as strong as the book's (it produces a canonical mate isomorphism, not merely existence), but the instantiation at the delooping is never performed in-tree, so no statement mentions CompactClosed's `dual`. For (1): SymMonClosed (Structure/Monoidal/StarAutonomous.v:109) and ClosedMonoidal (Structure/Monoidal/Closed.v:46) exist as CLASSES — closedness is assumed as data, never derived from duals. For (3): the double-dual isomorphism appears in-tree only as star_double_dual, a FIELD of Class StarAutonomous over a different (dualizing-object, internal-hom) notion of dual — assumed, not proved, and not about compact closure."
+  },
+  "gap": "Precisely clauses (1) and (3), plus the un-performed transfer for (2). (1) There is no derivation CompactClosed ⇒ closed: no definition of c ⊸ d := dual c ⨂ d, and no natural isomorphism C(b ⨂ c, d) ≅ C(b, c ⊸ d) built from cc_unit/cc_counit; the in-tree closed classes (SymMonClosed, ClosedMonoidal) postulate exp_iso as a field. (2) adjoint_unique is stated for bicategories only; no corollary instantiates it at Monoidal_OneObject_Bicategory to conclude that two duals of an object of a (symmetric) monoidal category are isomorphic, and nothing connects a BicatAdjunction in the delooping to the fields of Class CompactClosed. (3) No theorem c ≅ dual (dual c) for a compact closed category, and no contravariant dual functor on a compact closed category at all (Structure/Monoidal/StarAutonomous.v's `dual` is the internal hom into the dualizer, a different construction). Structure/Monoidal/CompactClosed.v proves NOTHING downstream of the class except the hypergraph instance.",
+  "negative_search_log": [
+   "rg -n 'CompactClosed' --glob '*.v' — 21 hits in 7 files; the only uses outside Structure/Monoidal/CompactClosed.v are prose headers plus Structure/Monoidal/Collapse.v:192 (the no-cloning collapse), so no consequence of compact closure is derived",
+   "rg -n 'cc_unit|cc_counit|snake_left|snake_right' --glob '*.v' — no hits outside Structure/Monoidal/CompactClosed.v",
+   "rg -ni 'double_dual|dual_unique|Dualizable|autonomous|rigid' --glob '*.v' — double_dual/star_double_dual only in Structure/Monoidal/StarAutonomous.v (class field, dualizing-object notion); no dual-uniqueness lemma anywhere",
+   "rg -n 'Class ClosedMonoidal|Class SymMonClosed|internal_hom|exp_iso' --glob '*.v' — closedness is always a class field (exp_iso), never derived from duals"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass classified this ABSENT (nothing in-tree states any of the three clauses about a compact closed category), so I scrutinised Phase C's PARTIAL rather than accepting it. It survives, because the evidence is a genuine in-tree theorem whose specialisation is clause (2) verbatim: Theory/Bicategory/Adjunction.v:708 Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ~=[bicat y x] b (proved via matecell, not assumed), plus the delooping Theory/Bicategory/OneObject.v:56 under which a right adjoint of X IS a dual of X (verified field-by-field, see the def4.58 record). Under the frozen definition that is 'some of the item exists', and the record states the un-performed instantiation precisely rather than claiming it. The two absent clauses were re-checked independently: rg 'cc_unit|cc_counit|snake_left|snake_right' has NO hits outside Structure/Monoidal/CompactClosed.v, so nothing is derived from duals; Structure/Monoidal/Closed.v:46 Class ClosedMonoidal and Structure/Monoidal/StarAutonomous.v:109 Class SymMonClosed both postulate the internal hom (exp_iso) as data, and StarAutonomous.v:269 star_double_dual is a class FIELD over the dualizing-object notion, not a theorem about compact closure. Both cited line numbers are exact and both files are registered. Gap text is accurate and unusually precise."
+  }
+ }
+]

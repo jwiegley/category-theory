@@ -1,0 +1,563 @@
+[
+  {
+    "id": "riehl:5.3:def-strictly-monadic",
+    "classification": "ABSENT",
+    "aliases": [
+      "strictly monadic functor",
+      "strict monadicity",
+      "comparison functor K : D -> C^T is an isomorphism of categories",
+      "Monadic but with Isomorphism (≅[Cat] / StrictCat equality) in place of EquivalenceOfCategories",
+      "on-the-nose / non-evil-failing comparison; D ≅ C^T rather than D ≃ C^T"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'strictly monadic' --include=*.v . — 0 hits",
+      "grep -rniE 'strict monadicity' --include=*.v . — 0 hits",
+      "grep -rniE 'StrictlyMonadic' --include=*.v . — 0 hits",
+      "grep -rniE 'strict_monadic' --include=*.v . — 0 hits",
+      "grep -rniE 'EM_Comparison.*Isomorphism' --include=*.v . — 0 hits",
+      "grep -rniE 'Monadic.*Isomorphism' --include=*.v . — 0 hits",
+      "grep -rn 'Monadic' --include=*.v Monad/ Theory/ Structure/ Construction/ Instance/ Adjunction/ — the only definition is Monad/Comparison.v:273 `Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)`, i.e. the EQUIVALENCE-valued notion only; no isomorphism-valued variant and no theorem exhibiting any comparison functor as an isomorphism",
+      "grep -rni 'isomorphism of categories' --include=*.v . — 6 hits, all unrelated to monadicity (Theory/Equivalence.v:81 discusses strict isomorphism of categories; Instance/StrictCat.v:38; Construction/Funny/{Closed,Swap}.v; Comonad/Coalgebra.v:240 `WCoalgebras ≅[Cat] CoEilenbergMoore`, an isomorphism between two PRESENTATIONS of coalgebras, not a monadic comparison)",
+      "grep -rn '@Isomorphism Cat' --include=*.v . — 4 hits (Comonad/Coalgebra.v, Theory/Equivalence.v, Construction/Comma/Isomorphism.v, Construction/Grothendieck/Strict.v); none is a monadic comparison functor",
+      "NOTE: the ingredients exist (Cat-isomorphism `≅[Cat]`, the strict `Instance/StrictCat.v`, and `Monadic`), but the item's definition — 'monadic + comparison is an isomorphism' — is nowhere formed, and no in-tree functor is shown strictly monadic"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. My independent searches: rg -i 'strictly monadic' over *.v = 0 hits; rg 'Monadic' finds exactly one definition, Monad/Comparison.v:273 `Definition Monadic (U : C ⟶ D) := ∃ F A, EquivalenceOfCategories (EM_Comparison A)` (verified at that line), equivalence-valued only. I additionally checked the one place a strict notion could hide: Theory/Equivalence.v:155-176 shows `≅[Cat]` is NOT strict in this library — Equivalence_to_Cat_Iso / Cat_Iso_to_Equivalence are mutually inverse (Cat's hom-setoid is Functor_Setoid), so a Cat-isomorphic comparison would still be only an equivalence; the on-the-nose notion lives in Instance/StrictCat.v and is never applied to a comparison functor. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:5.3:prop3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "idempotent monad",
+      "reflective subcategory is monadic",
+      "algebras for an idempotent monad = local objects",
+      "eta_C invertible iff C carries an algebra structure; structure map = eta_C^{-1}",
+      "IdempotentMonad / MLocal_Subcategory / Idempotent_Reflective / Idempotent_EM_Equivalence"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 464,
+        "symbol": "Idempotent_EM_Equivalence",
+        "intree_statement": "Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G.   (* idem_G : Sub C MLocal_Subcategory ⟶ EilenbergMoore M, under Context `{MM : @Monad C M}, `{IM : @IdempotentMonad C M MM} *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 345,
+        "symbol": "Idempotent_Reflective",
+        "intree_statement": "Definition Idempotent_Reflective : Reflective MLocal_Subcategory := @Build_Reflective C MLocal_Subcategory MLocal_Full idem_reflector idem_reflective_adj."
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 373,
+        "symbol": "algebra_ret_iso",
+        "intree_statement": "Definition algebra_ret_iso {a : C} (alg : @TAlgebra C M MM a) : IsIsomorphism (@ret C M MM a).   (* proof term: refine {| two_sided_inverse := @t_alg C M MM a alg |} — the algebra structure map IS the inverse of the unit *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 354,
+        "symbol": "local_algebra",
+        "intree_statement": "Definition local_algebra {b : C} (ob : IsIsomorphism (@ret C M MM b)) : @TAlgebra C M MM b.   (* refine {| t_alg := @two_sided_inverse C b (M b) (@ret C M MM b) ob |} *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(i) For an idempotent monad (T,eta,mu) on C, U^T : C^T -> C exhibits C^T as a reflective subcategory of C; an object c admits a T-algebra structure iff eta_c is invertible, and then the structure map is unique, namely eta_c^{-1}. (ii) The inclusion D -> C of a reflective subcategory is monadic: the comparison K : D -> C^L for the induced idempotent monad L is an equivalence of categories.",
+      "intree": "Class IdempotentMonad {C} (M : C ⟶ C) `{@Monad C M} := { idem_join_iso {x} : IsIsomorphism (@join C M _ x) }; MLocal_Subcategory := {| sobj := fun x => IsIsomorphism (@ret C M MM x); ... |}; local_algebra : IsIsomorphism (ret b) → TAlgebra M b (with t_alg := ret⁻¹); algebra_ret_iso : TAlgebra M a → IsIsomorphism (ret a) (with two_sided_inverse := t_alg); Idempotent_Reflective : Reflective MLocal_Subcategory; Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G",
+      "strength_comparison": "intree-weaker: clause (i) holds in substance but is routed through the M-LOCAL subcategory rather than stated of U^T : C^T ⟶ C itself, and the uniqueness of the algebra structure map is only implicit (algebra_ret_iso exhibits t_alg as A two-sided inverse of ret; no lemma names it as THE unique action). Clause (ii) is not stated: the in-tree equivalence is carried by the bespoke `idem_G : Sub C MLocal_Subcategory ⟶ EilenbergMoore M`, not by `EM_Comparison` of the reflective adjunction, and `Monadic (Incl C S)` is asserted nowhere."
+    },
+    "gap": "Clause (ii) is missing outright: there is no in-tree statement that the inclusion of a reflective subcategory is monadic. `Reflective_IdempotentMonad` (line 198) shows a reflective subcategory induces an idempotent monad, and `Idempotent_EM_Equivalence` (line 464) equates that monad's algebras with its M-local objects, but the two are never joined — nothing identifies a given `Sub C S` (S reflective) with `Sub C MLocal_Subcategory` of its induced monad, and `idem_G` is not `EM_Comparison (reflective_adj R)`, so `Monadic (Incl C S)` is never derived. Clause (i) additionally lacks (a) the statement in the form 'U^T : C^T ⟶ C is a reflective subcategory inclusion' and (b) an explicit uniqueness lemma for the algebra structure map.",
+    "negative_search_log": [
+      "grep -rn 'Reflective ' --include=*.v . — outside Construction/Reflective{,.Idempotent}.v the only occurrences are Construction/Localization.v:185,231 and Construction/Localization/Universal.v:38,76, all of which take `R : Reflective (C_W W)` as a HYPOTHESIS, never construct one",
+      "grep -rn 'Monadic' --include=*.v . — no occurrence of the form `Monadic (Incl ...)` or `Monadic` applied to a subcategory inclusion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL. I read Construction/Reflective/Idempotent.v in full: line numbers 345 (Idempotent_Reflective), 354 (local_algebra, t_alg := ret⁻¹), 373 (algebra_ret_iso, two_sided_inverse := t_alg), 464 (Idempotent_EM_Equivalence := FF_ESO_Equivalence idem_G) all check out and the quotes are accurate. Clause-(i) iff is genuinely in-tree in both directions; uniqueness of the action is only implicit (it follows from comp_inverse_unique, which the file itself uses at lines 110/126/361, but no lemma states `t_alg[alg] ≈ ret⁻¹`), so the recorded gap is honest and not overstated. Clause (ii): I independently confirmed there is no `Monadic (Incl ...)` anywhere and that idem_G is built by hand (line 411) rather than as EM_Comparison of reflective_adj — so the reflective-inclusion-is-monadic statement is genuinely absent. Also confirmed Construction/Reflective/Idempotent.v is registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:5.3:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kleisli category equivalent to Eilenberg-Moore for an idempotent monad",
+      "C_T ≃ C^T when T is idempotent",
+      "Kleisli adjunction is monadic",
+      "comparison K : C_T -> C^T full and faithful with image the free algebras (Lemma 5.2.14)",
+      "every algebra free / free algebras exhaust C^T"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'Kleisli.*idempotent' --include=*.v . — 0 hits",
+      "grep -rniE 'idempotent.*Kleisli' --include=*.v . — 0 hits",
+      "grep -rniE 'Kleisli_Comparison' --include=*.v . — 0 hits",
+      "grep -rniE 'Kleisli_EM' --include=*.v . — 0 hits",
+      "grep -rniE 'Kleisli.*full and faithful' --include=*.v . — 0 hits",
+      "grep -rn 'Kleisli' --include=*.v . (whole tree, ~60 hits) — Monad/Kleisli.v (the category), Monad/Kleisli/Adjunction.v (Kleisli_Free ⊣ Kleisli_Forget, Kleisli_Monad_agrees), Monad/Kleisli/{Premonoidal,Commutative}.v, Comonad/CoKleisli.v, plus Coq/Sets instance files. NO functor C_T ⟶ C^T is constructed anywhere, so Riehl's Lemma 5.2.14 (the comparison is full and faithful onto the free algebras) — the input this exercise builds on — is itself missing, and nothing relates the Kleisli category to idempotency",
+      "grep -rn 'idempotent' --include=*.v . — the idempotent-monad development (Construction/Reflective/Idempotent.v) never mentions the Kleisli category; Theory/Morphisms.v's `idempotent` is about endomorphisms f ∘ f ≈ f (Karoubi), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees, and my searches were stronger on the crux: there is NO functor Kleisli ⟶ EilenbergMoore anywhere in-tree (rg 'Kleisli.*EilenbergMoore|EilenbergMoore.*Kleisli|⟶ EilenbergMoore' returns only EM_Free at Monad/Eilenberg/Moore/Adjunction.v:79 and idem_G at Construction/Reflective/Idempotent.v:411). So the comparison C_T ⟶ C^T (Riehl 5.2.14) that this exercise builds on is itself missing, as the record says. Monad/Kleisli.v and Monad/Eilenberg/Moore.v only ASSERT the free-algebra embedding in prose — see the LIBRARY-DEFECT filed for that cross-reference. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:5.3:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "example of a reflective subcategory presented as algebras for an idempotent monad",
+      "sheaves in presheaves / cHaus in Top / Ab in Group as C^M",
+      "reflector-inclusion adjunction induces an idempotent monad, algebras recover the subcategory",
+      "concrete Reflective instance",
+      "localization / sheafification as a reflector"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 464,
+        "symbol": "Idempotent_EM_Equivalence",
+        "intree_statement": "Definition Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G := FF_ESO_Equivalence idem_G.   (* the general theorem the exercise asks to instantiate: C^M ≃ the M-local reflective subcategory *)"
+      },
+      {
+        "file": "Construction/Reflective/Idempotent.v",
+        "line": 198,
+        "symbol": "Reflective_IdempotentMonad",
+        "intree_statement": "Definition Reflective_IdempotentMonad : @IdempotentMonad C (Incl C S ◯ reflector R) Reflective_Monad.   (* under Context (R : Reflective S); Reflective_Monad := Adjunction_Induced_Monad (reflective_adj R) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Take a favourite reflective subcategory from Examples 4.6.13 and use Proposition 5.3.3 to present it as the category of algebras for an idempotent monad.",
+      "intree": "Reflective_IdempotentMonad : a reflective subcategory induces an idempotent monad; Idempotent_EM_Equivalence : EquivalenceOfCategories idem_G, the Eilenberg–Moore category of an idempotent monad is equivalent to its M-local subcategory",
+      "strength_comparison": "intree-weaker: the general apparatus the exercise invokes is in place, but the exercise's own content — a CONCRETE reflective subcategory carried through the correspondence — has no in-tree witness."
+    },
+    "gap": "No concrete reflective subcategory exists in the library. The only `Reflective` term ever CONSTRUCTED is `Idempotent_Reflective` (Construction/Reflective/Idempotent.v:345), which is the M-local subcategory of an abstract idempotent monad — circular for this exercise. Construction/Localization.v:185,231 and Construction/Localization/Universal.v:76 take `R : Reflective (C_W W)` as a hypothesis rather than building one, and Theory/Sheaf/Category.v supplies only the full inclusion of sheaves into presheaves with no sheafification reflector (deferred per the library's own ledger note). So no instantiation of Prop 5.3.3 at an example is possible in-tree as it stands.",
+    "negative_search_log": [
+      "grep -rn 'Reflective ' --include=*.v . — hypotheses only, outside Construction/Reflective/Idempotent.v",
+      "grep -rni 'reflective' --include=*.v . — Theory/Sheaf.v:83 mentions 'a reflective, left-exact localization' only in prose; no reflector is built"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED, with a recorded borderline. I independently verified that the only `Reflective` term ever constructed is Idempotent_Reflective (Construction/Reflective/Idempotent.v:345) and that Construction/Localization.v:185,231 and Construction/Localization/Universal.v:76 take `R : Reflective (C_W W)` as a hypothesis only — so no concrete example exists, exactly as the gap states. Borderline note: the evidence cited (Reflective_IdempotentMonad, Idempotent_EM_Equivalence) is the general apparatus that already scores under riehl:5.3:prop3; a stricter reading of the frozen definitions would call this exercise ABSENT since none of its own content (a concrete subcategory carried through the correspondence) is in-tree. PARTIAL is defensible and yields the same issue content, so I do not overturn."
+    }
+  },
+  {
+    "id": "riehl:5.3:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monadic functors reflect isomorphisms",
+      "monadic functors are conservative",
+      "ReflectsIsos U for monadic U",
+      "U^T is conservative (forgetful from Eilenberg-Moore reflects isos)",
+      "equivalences reflect isomorphisms; conservativity transports along the comparison"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 177,
+        "symbol": "em_forget_reflects_isos",
+        "intree_statement": "#[export] Instance em_forget_reflects_isos : ReflectsIsos (EM_Forget T).   (* under Context (T : D ⟶ D), `{H : @Monad D T} *)"
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 456,
+        "symbol": "equivalence_reflects_isos",
+        "intree_statement": "Definition equivalence_reflects_isos : ReflectsIsos F := ff_reflects_isos (HF := Equivalence_Full E) (HfF := Equivalence_Faithful E)."
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 198,
+        "symbol": "EM_Comparison_Forget",
+        "intree_statement": "Theorem EM_Comparison_Forget : @EM_Forget D (U ◯ F) Adjunction_Induced_Monad ◯ EM_Comparison ≈ U."
+      }
+    ],
+    "statement_record": {
+      "book": "Anticipating Lemma 5.6.1: a monadic functor U : D -> C reflects isomorphisms (is conservative) — if Uf is invertible in C then f is invertible in D.",
+      "intree": "em_forget_reflects_isos : ReflectsIsos (EM_Forget T); equivalence_reflects_isos : ReflectsIsos F (for F an equivalence); EM_Comparison_Forget : EM_Forget ◯ EM_Comparison ≈ U",
+      "strength_comparison": "intree-weaker: all three factors of the classical one-line proof (U ≈ U^T ◯ K, K an equivalence, U^T conservative) are proved separately, but their composite — the item's actual claim — is never formed."
+    },
+    "gap": "No in-tree implication `Monadic U → ReflectsIsos U`. The library also has no lemma that `ReflectsIsos` is closed under functor composition, and none that it transports along `≈` of functors, so the three cited ingredients cannot be chained by a bare `apply`. The closest implication in-tree is `creates_split_reflects_isos` (Monad/Monadicity/Beck.v:264): `CreatesUSplitCoequalizers U → ReflectsIsos U` — conservativity from Beck's CREATION hypothesis, not from monadicity; and Beck.v's own header states that transporting the converse (`monadic_creates`) along the comparison equivalence K, which would close the loop to a monadicity hypothesis, is 'deliberately left to a later development'.",
+    "negative_search_log": [
+      "grep -rn 'ReflectsIsos' --include=*.v . — 11 hits total: the class (Structure/Limit/Preservation.v:243), ff_reflects_isos / equivalence_reflects_isos (Theory/Equivalence/Limit.v:335,456), em_forget_reflects_isos (BeckObjects.v:177), creates_split_reflects_isos + beck_reflects (Beck.v:264,304), and three Context hypotheses (Crude.v:115, Lifting.v:497, Lawvere/Monad.v:89). None has `Monadic` as hypothesis"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Verified all three cited sites at the given lines: BeckObjects.v:177 (`#[export] Instance em_forget_reflects_isos : ReflectsIsos (EM_Forget T)`), Theory/Equivalence/Limit.v:456 (equivalence_reflects_isos, built from ff_reflects_isos at :335), Monad/Comparison.v:198 (EM_Comparison_Forget). I then hunted the one place a `Monadic → ReflectsIsos` derivation could hide: Monad/Lifting.v is the only consumer of `Monadic` (adjoint_lifting_monadic, line 526ff), and it uses M only through Equivalence_Full/Equivalence_Faithful of the comparison — ReflectsIsos there is a separate Context hypothesis (line 497). Confirmed by exhaustive rg that ReflectsIsos has 14 occurrences total, none a composition/transport lemma and none with `Monadic` as hypothesis. PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:5.4:def-presentation",
+    "classification": "ABSENT",
+    "aliases": [
+      "presentation of an abelian group by generators and relations, A = <G | R>",
+      "free abelian group functor Z[-], evaluation homomorphism ev : Z[G] -> A",
+      "coequalizer of ev : Z[R] -> Z[G] and the zero homomorphism / cokernel of ev",
+      "generators-and-relations presentation as a coequalizer of free objects",
+      "presentation of a monoid/group/module by generators and relations"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free abelian' --include=*.v . — 0 hits",
+      "grep -rniE 'AbelianGroup' --include=*.v . — 0 hits",
+      "grep -rniE 'FreeAbelian|FreeGroup' --include=*.v . — 0 hits",
+      "grep -rniE 'Z\\[G\\]' --include=*.v . — 0 hits",
+      "grep -rniE 'presentation of an abelian' --include=*.v . — 0 hits",
+      "grep -rniE 'relations.*coequalizer' --include=*.v . — 0 hits",
+      "ls Instance/ — no Ab, no Group, no Module, no Ring; the algebraic instances present are CMon (commutative monoids, Instance/CMon.v), FinSet, Sets, Coq, Rel, Poset, Proset, Two, Omega, Lambda, AST, ZX. Structure/Abelian.v is the ABELIAN CATEGORY axiomatics, not the category Ab; nothing constructs Ab or the free abelian group monad Z[-]",
+      "grep -rni 'generators and relations' --include=*.v . — 3 hits, all about a DIFFERENT subject: Instance/FinSet.v:73 and Construction/PROP/Presentation.v:48 (presenting a PROP by a symmetric monoidal theory, built as a hom-congruence quotient of the free PROP via Construction/Quotient.v, NOT as a coequalizer of free objects) and Construction/Free.v:67 (prose analogy)",
+      "NOTE: the nearest generic shape in-tree is Structure/Kernel.v:58 `Definition IsCokernel {x y q : C} (f : x ~> y) (e : y ~> q) : Type := IsCoequalizer f zero_mor q e` — 'coequalizer against the zero morphism', which is the categorical skeleton of the item's condition. But with no free abelian group functor, no evaluation homomorphism and no Ab, nothing that could be called a presentation of a group is definable in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Independently: rg -i 'free abelian|AbelianGroup|FreeAbelian|FreeGroup' = 0 hits; `ls Instance/*.v` shows no Ab/Grp/Module category (CMon is the only algebraic instance, and Structure/Abelian.v is the abelian-CATEGORY axiomatics, not Ab). Structure/Kernel.v:58 `IsCokernel f e := IsCoequalizer f zero_mor q e` is the only near-miss and the record already discloses it as such rather than claiming it as evidence. ABSENT stands; not OUT_OF_SCOPE — Ab is perfectly formalizable here, it simply is not built."
+    }
+  },
+  {
+    "id": "riehl:5.4:prop2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical presentation of an algebra by free algebras",
+      "every T-algebra is a coequalizer of free T-algebras",
+      "(T^2 A, mu_{TA}) =(Ta, mu_A)=> (TA, mu_A) --a-> (A,a) is a coequalizer in C^T",
+      "free presentation / Beck presentation / bar resolution first stage",
+      "coequalizer in the Eilenberg-Moore category"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 349,
+        "symbol": "created_is_coequalizer",
+        "intree_statement": "Definition created_is_coequalizer : IsCoequalizer f g (scoeq_obj SC; created_algebra) created_e_hom.   (* Context {a b : EilenbergMoore T} (f g : a ~> b) (SC : SplitCoequalizer (t_alg_hom[f]) (t_alg_hom[g])) — a U^T-split pair's split coequalizer downstairs lifts to a coequalizer IN C^T *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a : D} (α : TAlgebra T a) : SplitCoequalizer (@join D T H a) (fmap[T] (t_alg[α])).   (* scoeq_obj := a; scoeq_e := t_alg[α]; scoeq_s := ret; scoeq_t := ret *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a monad (T,eta,mu) on C and a T-algebra (A,a), the diagram (5.4.3) — the pair Ta, mu_A from the free algebra (T^2A, mu_{TA}) to the free algebra (TA, mu_A), followed by a : (TA,mu_A) ->> (A,a) — is a COEQUALIZER in the Eilenberg-Moore category C^T; so every algebra is canonically a quotient of free algebras, functorially in the algebra.",
+      "intree": "canonical_split : SplitCoequalizer (join a) (fmap[T] (t_alg[α]))  — the fork downstairs in C; created_is_coequalizer : IsCoequalizer f g (scoeq_obj SC; created_algebra) created_e_hom — any U^T-split pair of algebra homomorphisms has its split coequalizer lifted to a coequalizer in C^T",
+      "strength_comparison": "intree-weaker: the two halves that compose to the book's claim are both proved, but the composition is never performed. What IS asserted in C^T is the general creation statement over an arbitrary U^T-split pair; what is asserted about the canonical pair (mu_A, T a) is only that it is split-coequalized by a DOWNSTAIRS in C (that is Example 5.4.7, a different item)."
+    },
+    "gap": "The library never instantiates `created_is_coequalizer` / `em_forget_creates_split` at `canonical_split`, so there is no in-tree assertion that the canonical presentation is a coequalizer in C^T. Concretely missing: (a) the two legs mu_A and T a are never exhibited as EilenbergMoore MORPHISMS (T^2A, mu_{TA}) ⇉ (TA, mu_A) — i.e. as the counit of `EM_Adjunction` at `EM_Free a` and as `fmap[EM_Free] (t_alg[α])` — although both functors exist (Monad/Eilenberg/Moore/Adjunction.v:65,79); (b) consequently the `IsCoequalizer` statement (5.4.3) is nowhere formed; (c) the functoriality-in-the-algebra clause ('functorially in the algebra') is not stated at all. grep confirms `canonical_split` is referenced only from Beck.v:320 (`beck_split`) and from header comments, never combined with the creation theorem.",
+    "negative_search_log": [
+      "grep -rn 'canonical_split' --include=*.v . — 8 hits: definition (BeckObjects.v:75), use at Beck.v:320 inside `beck_split`, and 6 header-comment mentions; never applied to `em_forget_creates_split`",
+      "grep -rn 'IsCoequalizer' --include=*.v . — no occurrence whose parallel pair is the canonical free presentation of an algebra"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL for the same reason. Verified BeckObjects.v:75 (canonical_split, scoeq_obj := a, scoeq_e := t_alg[α], scoeq_s/scoeq_t := ret) and :349 (created_is_coequalizer) at the cited lines with accurate quotes. I independently enumerated all 40 `IsCoequalizer` occurrences in the tree: none has the canonical free presentation as its parallel pair, and the two legs μ_a and T α are never exhibited as EilenbergMoore morphisms, so the gap statement is exact. Minor inaccuracy in the negative log, immaterial: `canonical_split` occurs 7 times (Beck.v x3, BeckObjects.v x2, Crude.v x2), not 8; the substantive claim (never combined with em_forget_creates_split) is true."
+    }
+  },
+  {
+    "id": "riehl:5.4:def4",
+    "classification": "PRESENT",
+    "aliases": [
+      "split coequalizer diagram",
+      "split fork / contractible coequalizer",
+      "SplitCoequalizer record with sections s and t",
+      "fork (cone under a parallel pair): h f = h g",
+      "split pair with hs = id, gt = id, ft = sh"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 40,
+        "symbol": "SplitCoequalizer",
+        "intree_statement": "Record SplitCoequalizer {C : Category} {x y : C} (f g : x ~> y) := { scoeq_obj : C; scoeq_e : y ~> scoeq_obj; scoeq_s : scoeq_obj ~> y; scoeq_t : y ~> x; scoeq_law1 : scoeq_e ∘ f ≈ scoeq_e ∘ g; scoeq_law2 : scoeq_e ∘ scoeq_s ≈ id; scoeq_law3 : f ∘ scoeq_t ≈ id; scoeq_law4 : g ∘ scoeq_t ≈ scoeq_s ∘ scoeq_e }."
+      },
+      {
+        "file": "Structure/Coequalizer.v",
+        "line": 52,
+        "symbol": "IsCoequalizer",
+        "intree_statement": "Record IsCoequalizer {C : Category} {x y : C} (f g : x ~> y) (q : C) (e : y ~> q) := { cofork : e ∘ f ≈ e ∘ g; coeq_desc {z} (h : y ~> z) (Hh : h ∘ f ≈ h ∘ g) : ∃! u : q ~> z, u ∘ e ≈ h }.   (* the `cofork` field is Riehl's prose notion of a fork, i.e. a cone under the parallel pair *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A split coequalizer consists of f, g : x -> y, h : y -> z with sections t : y -> x and s : z -> y satisfying hf = hg, hs = id_z, gt = id_y, ft = sh. The condition hf = hg says (h,z) is a FORK, i.e. h is a cone under the pair.",
+      "intree": "Record SplitCoequalizer (f g : x ~> y) := { scoeq_obj; scoeq_e : y ~> scoeq_obj; scoeq_s : scoeq_obj ~> y; scoeq_t : y ~> x; scoeq_law1 : scoeq_e ∘ f ≈ scoeq_e ∘ g; scoeq_law2 : scoeq_e ∘ scoeq_s ≈ id; scoeq_law3 : f ∘ scoeq_t ≈ id; scoeq_law4 : g ∘ scoeq_t ≈ scoeq_s ∘ scoeq_e }",
+      "strength_comparison": "same (setoid rephrasing, ≈ for =). The only difference is the labelling of the two legs: Riehl asks the SECOND leg to retract t (gt = id_y, ft = sh) while the record asks the FIRST leg to (scoeq_law3 : f ∘ t ≈ id, scoeq_law4 : g ∘ t ≈ s ∘ e), a pure renaming of the unordered pair — BeckObjects.v's header calls out the convention explicitly. All four equations and both sections are present, and the fork condition is scoeq_law1 (matching the `cofork` field of IsCoequalizer)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Read Structure/Coequalizer/Split.v in full: the record at line 40 matches the quote verbatim (four laws, both sections), and Structure/Coequalizer.v:52 IsCoequalizer matches its quote (cofork + coeq_desc). The leg-order caveat in strength_comparison is accurate and is indeed disclosed in BeckObjects.v's header (lines 32-38): the library asks law3 of the FIRST leg (f ∘ t ≈ id, g ∘ t ≈ s ∘ e) where Riehl asks it of the second (gt = id, ft = sh) — a relabeling of the unordered pair, faithful. Both files are registered in _CoqProject."
+    }
+  },
+  {
+    "id": "riehl:5.4:lem6",
+    "classification": "PRESENT",
+    "aliases": [
+      "split coequalizers are absolute coequalizers",
+      "the underlying fork of a split coequalizer is a coequalizer",
+      "absolute colimit — preserved by every functor",
+      "functor preserves split coequalizer",
+      "Pare, absolute colimits"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 90,
+        "symbol": "split_coequalizer_is_coequalizer",
+        "intree_statement": "Theorem split_coequalizer_is_coequalizer {C : Category} {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) : IsCoequalizer f g (scoeq_obj S) (scoeq_e S)."
+      },
+      {
+        "file": "Structure/Coequalizer/Split.v",
+        "line": 132,
+        "symbol": "split_coequalizer_preserved",
+        "intree_statement": "Corollary split_coequalizer_preserved {C D : Category} (F : C ⟶ D) {x y : C} (f g : x ~> y) (S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S))."
+      }
+    ],
+    "statement_record": {
+      "book": "The underlying fork of a split coequalizer diagram is a coequalizer; moreover it is an ABSOLUTE colimit, i.e. preserved by any functor whatsoever.",
+      "intree": "split_coequalizer_is_coequalizer : IsCoequalizer f g (scoeq_obj S) (scoeq_e S); functor_preserves_split (line 104) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f) (fmap[F] g); split_coequalizer_preserved : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S))",
+      "strength_comparison": "same. Both clauses are proved, and the absoluteness clause is stated for an ARBITRARY functor F : C ⟶ D with no hypotheses, matching Riehl's 'any functor whatsoever'. The universal property is the elementary IsCoequalizer (cofork + unique descent), which is the setoid rendering of Riehl's."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Verified split_coequalizer_is_coequalizer at Split.v:90 and split_coequalizer_preserved at :132, plus functor_preserves_split at :104 (the absoluteness engine, `Defined` so the transported data stay conversion-visible). Absoluteness is stated for an arbitrary functor with no hypotheses, matching 'any functor whatsoever'; the descent proof in split_coeq_desc is the book's (h ∘ s, unique because e is split epi). No same-name-weaker-statement, no special-case restriction."
+    }
+  },
+  {
+    "id": "riehl:5.4:example7",
+    "classification": "PRESENT",
+    "aliases": [
+      "canonical split coequalizer of a T-algebra",
+      "T^2 A =(Ta, mu_A)=> TA -a-> A split by eta_A and eta_{TA}",
+      "canonical_split",
+      "the free presentation is split after applying U^T",
+      "the splittings do not lift to algebra maps"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a : D} (α : TAlgebra T a) : SplitCoequalizer (@join D T H a) (fmap[T] (t_alg[α])).   Proof: unshelve refine {| scoeq_obj := a ; scoeq_e := t_alg[α] ; scoeq_s := ret ; scoeq_t := ret |}; laws discharged by t_action (reversed), t_id, join_ret and fmap_ret (reversed)."
+      }
+    ],
+    "statement_record": {
+      "book": "For any algebra (A, a : TA -> A) of a monad (T,eta,mu) on C, the diagram T^2 A =(Ta, mu_A)=> TA -a-> A in C is a split coequalizer with splittings s = eta_A : A -> TA and t = eta_{TA} : TA -> T^2 A.",
+      "intree": "canonical_split {a} (α : TAlgebra T a) : SplitCoequalizer (join a) (fmap[T] (t_alg[α])), with scoeq_obj := a, scoeq_e := t_alg[α], scoeq_s := ret (= eta_a), scoeq_t := ret (= eta_{Ta})",
+      "strength_comparison": "same. The pair is listed as (mu_a, T alpha) rather than (T alpha, mu_a) — the leg order forced by the record's convention (law 3 asks the FIRST leg to retract the section, here the monad law join ∘ eta_{Ta} ≈ id), which BeckObjects.v's header states explicitly. Both splittings are the unit, as in the book."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. BeckObjects.v:75 verified: scoeq_s := ret is η_a : a ~> T a and scoeq_t := ret is η_{T a} : T a ~> T (T a), exactly Riehl's s and t, with the four laws discharged by t_action (reversed), t_id, join_ret and fmap_ret (reversed). The pair order (join, fmap α) vs the book's (Tα, μ) is the same relabeling disclosed under def4. The record honestly does NOT claim the book's trailing remark (that the splittings fail to lift to algebra maps) as in-tree — it is not, and it is not part of the formal statement."
+    }
+  },
+  {
+    "id": "riehl:5.4:def8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "U-split coequalizer / U-split pair",
+      "U creates coequalizers of U-split pairs",
+      "U strictly creates coequalizers of U-split pairs",
+      "CreatesUSplitCoequalizers",
+      "creation of colimits (Mac Lane's strict sense) vs iso-invariant creation"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { create_coeq {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) : ∃ (q : C) (e : y ~> q), IsCoequalizer f g q e ∧ (∃ i : @Isomorphism D (U q) (scoeq_obj S), to i ∘ fmap[U] e ≈ scoeq_e S); create_coeq_reflects {x y : C} (f g : x ~> y) (S : SplitCoequalizer (fmap[U] f) (fmap[U] g)) (q : C) (e : y ~> q) (He : e ∘ f ≈ e ∘ g) (i : @Isomorphism D (U q) (scoeq_obj S)) (Hi : to i ∘ fmap[U] e ≈ scoeq_e S) : IsCoequalizer f g q e }."
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 385,
+        "symbol": "CreatedSplitCoequalizer",
+        "intree_statement": "Record CreatedSplitCoequalizer : Type := { created_alg : @TAlgebra D T H (scoeq_obj SC); created_hom : b ~{EilenbergMoore T}~> (scoeq_obj SC; created_alg); created_hom_carrier : t_alg_hom[created_hom] ≈ scoeq_e SC; created_coequalizes : IsCoequalizer f g (scoeq_obj SC; created_alg) created_hom; created_alg_unique (alg' : @TAlgebra D T H (scoeq_obj SC)) : scoeq_e SC ∘ t_alg[`2 b] ≈ t_alg[alg'] ∘ fmap[T] (scoeq_e SC) → t_alg[alg'] ≈ t_alg[created_alg] }."
+      }
+    ],
+    "statement_record": {
+      "book": "For U : D -> C: (a) a U-SPLIT COEQUALIZER is a parallel pair f,g in D together with an extension of Uf, Ug to a split coequalizer in C; (b) U CREATES coequalizers of U-split pairs if every such admits a coequalizer in D whose U-image is isomorphic to the given fork, and any such fork in D is a coequalizer; (c) U STRICTLY CREATES them if every U-split coequalizer admits a UNIQUE lift to a coequalizer in D.",
+      "intree": "CreatesUSplitCoequalizers U, whose two fields `create_coeq` (existence up to a packaged comparison isomorphism i with to i ∘ fmap[U] e ≈ scoeq_e S) and `create_coeq_reflects` (every iso-compatible cofork upstairs is a coequalizer) render clauses (a)+(b); CreatedSplitCoequalizer, the on-the-nose unique-lift package, exists only inside the Eilenberg–Moore section of BeckObjects.v",
+      "strength_comparison": "same for clauses (a) and (b) — the U-split notion is exactly `SplitCoequalizer (fmap[U] f) (fmap[U] g)`, and the class's two fields are Riehl's existence and 'any such fork is a coequalizer' clauses; intree-weaker for clause (c)."
+    },
+    "gap": "Clause (c) — strict creation — has no definition for a general functor U. The library deliberately renders creation only in the iso-invariant form: Beck.v's header states 'Mac Lane's strict definition demands a unique on-the-nose lift of the colimiting cocone and that this lift be colimiting; in a setoid-based library ... the non-evil rendering asks instead that every iso-compatible lift be colimiting'. The on-the-nose unique-lift data (object pinned to scoeq_obj SC, carrier pinned to scoeq_e SC, action unique) exists only as `CreatedSplitCoequalizer` inside `Section CreatedCoequalizers` of BeckObjects.v, parameterised by a monad T and algebra homomorphisms — i.e. specialised to U = U^T, never abstracted over U. Clause (a) also has no standalone named definition ('U-split pair' is spelled out inline as the hypothesis type at each use site).",
+    "negative_search_log": [
+      "grep -rniE 'strictly create|StrictlyCreates' --include=*.v . — 0 hits",
+      "grep -rniE 'USplit|U-split' --include=*.v . — 13 hits, all `CreatesUSplitCoequalizers` and header prose in Beck.v / BeckObjects.v; no strict variant and no named `USplitPair` definition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL with the same gap. Verified Beck.v:164 CreatesUSplitCoequalizers (quote exact, both fields) and BeckObjects.v:385 CreatedSplitCoequalizer (quote exact, five fields). Clause (a) is the inline type `SplitCoequalizer (fmap[U] f) (fmap[U] g)` — faithful though unnamed; clause (b) matches both of Riehl's halves including the fork-level comparison iso `to i ∘ fmap[U] e ≈ scoeq_e S`. Clause (c): rg -i 'strictly create|StrictlyCreates|strict.*creat' = 0 hits, and Beck.v's header (lines 51-61) states the deliberate substitution of the iso-invariant rendering for Mac Lane's strict one — so the gap is the library's own disclosed design choice, correctly recorded rather than papered over."
+    }
+  },
+  {
+    "id": "riehl:5.4:prop9",
+    "classification": "PRESENT",
+    "aliases": [
+      "U^T strictly creates coequalizers of U^T-split pairs",
+      "the Eilenberg-Moore forgetful functor creates split coequalizers",
+      "em_forget_creates_split / monadic_creates",
+      "lift the algebra structure along an absolute coequalizer",
+      "created algebra on the coequalizer object"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 396,
+        "symbol": "em_forget_creates_split",
+        "intree_statement": "Theorem em_forget_creates_split : CreatedSplitCoequalizer.   (* Context {a b : EilenbergMoore T} (f g : a ~{EilenbergMoore T}~> b) (SC : SplitCoequalizer (t_alg_hom[f]) (t_alg_hom[g])) — i.e. for every U^T-split pair of algebra homomorphisms *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 385,
+        "symbol": "CreatedSplitCoequalizer",
+        "intree_statement": "Record CreatedSplitCoequalizer := { created_alg : @TAlgebra D T H (scoeq_obj SC); created_hom : b ~> (scoeq_obj SC; created_alg); created_hom_carrier : t_alg_hom[created_hom] ≈ scoeq_e SC; created_coequalizes : IsCoequalizer f g (scoeq_obj SC; created_alg) created_hom; created_alg_unique (alg') : scoeq_e SC ∘ t_alg[`2 b] ≈ t_alg[alg'] ∘ fmap[T] (scoeq_e SC) → t_alg[alg'] ≈ t_alg[created_alg] }.   (* the strictness: carrier object and coequalizing map on the nose, action unique *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 911,
+        "symbol": "monadic_creates",
+        "intree_statement": "Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)."
+      }
+    ],
+    "statement_record": {
+      "book": "For any monad (T,eta,mu) on C, the forgetful functor U^T : C^T -> C strictly creates coequalizers of U^T-split pairs.",
+      "intree": "em_forget_creates_split : CreatedSplitCoequalizer — for algebra homomorphisms f,g whose underlying pair carries a split coequalizer SC in C, there is an algebra `created_alg` on the object `scoeq_obj SC` and a homomorphism `created_hom` whose carrier IS `scoeq_e SC` (created_hom_carrier), which is a coequalizer in C^T (created_coequalizes), and whose action is the only one making e a homomorphism (created_alg_unique); packaged into the class as monadic_creates : CreatesUSplitCoequalizers (EM_Forget T)",
+      "strength_comparison": "same, at full strictness: the lifted object and coequalizing map are on the nose (not merely up to isomorphism) and the algebra action is unique, which is exactly Riehl's 'unique lift to a coequalizer in D'. `monadic_creates` additionally repackages the same content in the weaker, iso-invariant class form used by Beck's theorem."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT, and the strictness claim survives adversarial reading. em_forget_creates_split at BeckObjects.v:396 returns CreatedSplitCoequalizer whose `created_hom_carrier` pins the lifted map to scoeq_e SC ON THE NOSE (proved by `reflexivity` at line 401-402), whose carrier object is scoeq_obj SC definitionally, and whose `created_alg_unique` pins the action — jointly Riehl's 'unique lift to a coequalizer in D'. `created_coequalizes` supplies the coequalizer property in C^T. monadic_creates at Beck.v:911 is the weaker class repackaging, correctly described as additional rather than as the strict statement. Hypotheses match: for EVERY U^T-split pair of algebra homomorphisms, no extra completeness assumption."
+    }
+  },
+  {
+    "id": "riehl:5.4:cor10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "monadic adjunctions create coequalizers of U-split pairs",
+      "transport creation along the comparison equivalence K",
+      "counit presentation: FUFUD =(FU eps_D, eps_{FUD})=> FUD -eps_D-> D is a coequalizer",
+      "every object is a coequalizer of free objects (counit fork, (5.4.11))",
+      "an equivalence creates any colimit it preserves and reflects"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 911,
+        "symbol": "monadic_creates",
+        "intree_statement": "Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T).   (* clause (i) at the Eilenberg–Moore adjunction, the one monadic adjunction the library instantiates *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 317,
+        "symbol": "beck_split",
+        "intree_statement": "Definition beck_split (x : EM) : SplitCoequalizer (fmap[U] (crude_pair_l A x)) (fmap[U] (crude_pair_r A x)) := @canonical_split D (U ◯ F) HM (`1 x) (`2 x).   (* crude_pair_l A x = counit A (F (`1 x)), crude_pair_r A x = fmap[F] (t_alg[`2 x]); at x = EM_Comparison A c this is precisely the U-splitting of the counit fork (5.4.11) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If F ⊣ U : D -> C is monadic then (i) U creates coequalizers of U-split pairs (creation, not strict creation, since D is only equivalent to C^T), proved by transporting Proposition 5.4.9 along the equivalence K; and (ii) for any D in D the counit components form a coequalizer FUFUD ⇉ FUD -eps_D-> D, tagged (5.4.11), this fork being U-split by U eps_{FUD}, eta_{UD}, eta_{UFUD}.",
+      "intree": "monadic_creates : CreatesUSplitCoequalizers (EM_Forget T); beck_split (x : EM) : SplitCoequalizer (fmap[U] (counit A (F (`1 x)))) (fmap[U] (fmap[F] (t_alg[`2 x])))",
+      "strength_comparison": "intree-weaker: clause (i) is asserted only at the Eilenberg–Moore resolution — which is Proposition 5.4.9 repackaged, not the corollary — and clause (ii) is not asserted at all, only its U-splitness half (and that only inside the Beck section, for the presentation pair rather than named as the counit fork)."
+    },
+    "gap": "Neither clause holds for an arbitrary monadic adjunction. (i) The transport of `monadic_creates` along the comparison equivalence K, which is exactly what turns Prop 5.4.9 into this corollary, is explicitly deferred: Beck.v's header says 'Transporting this converse along the equivalence K, so that an arbitrary functor U that has a left adjoint with invertible comparison inherits the creation property (closing the loop to a single \"monadic iff creates\" equivalence), is deliberately left to a later development'. The library also lacks the enabling lemma 'an equivalence creates any colimit it preserves and reflects' (Riehl's Lemma 3.4.6) for coequalizers. (ii) There is no in-tree statement that eps_D : FUD -> D is a coequalizer of (FU eps_D, eps_{FUD}); `beck_split` supplies the U-splitting of that fork (at x = K c) but is stated inside `Section BeckMonadicity`, under both the adjunction A and the creation hypothesis CR, and the resulting coequalizer property is only obtained indirectly through `beck_theta` (Beck.v:640, an isomorphism G (K c) ≅ c with beck_theta c ∘ beck_e (K c) ≈ counit A c), never stated as clause (ii).",
+    "negative_search_log": [
+      "grep -rn 'IsCoequalizer' --include=*.v . — no occurrence whose coequalizing map is an adjunction counit component",
+      "grep -rn 'Monadic' --include=*.v . — `Monadic` (Monad/Comparison.v:273) is never used as a hypothesis of a creation or coequalizer statement; its only consumer is Monad/Lifting.v:529 (the Dubuc adjoint-triangle theorem)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL. I verified the deferral quote against Beck.v:105-111 — the transport of monadic_creates along the comparison equivalence K is explicitly 'deliberately left to a later development', so clause (i) for an arbitrary monadic adjunction is genuinely not in-tree. For clause (ii) I searched independently for a counit coequalizer: all 40 `IsCoequalizer` sites were inspected; the closest are Monad/Lifting.v:218/228 (lift_is_coeq), which is a CHOSEN reflexive coequalizer of the L0-transported presentation pair in B, not ε_D as a coequalizer in D — so it does not rescue (ii). crude_unit_cofork (Crude.v:492) gives only the cofork equation, and beck_theta (Beck.v:640) yields the coequalizer property of ε_c only indirectly and under the Beck section's hypotheses, exactly as the gap says."
+    }
+  },
+  {
+    "id": "riehl:5.4:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "the canonical presentation is a presentation by generators and relations in the usual sense",
+      "in Ab the coequalizer of f, g is the cokernel of f - g",
+      "coequalizer in a preadditive/additive category equals the cokernel of the difference",
+      "free abelian group on the underlying set, relations identifying a formal sum with its value",
+      "presentation <G | R> of an abelian group"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'free abelian|AbelianGroup|FreeAbelian|FreeGroup' --include=*.v . — 0 hits; ls Instance/ shows no Ab / Group / Module category at all (the algebraic instance present is CMon, commutative monoids)",
+      "grep -rniE 'presentation of an abelian' --include=*.v . — 0 hits",
+      "grep -rniE 'relations.*coequalizer' --include=*.v . — 0 hits",
+      "grep -rni 'generators and relations' --include=*.v . — 3 hits, all about presenting a PROP by a symmetric monoidal theory (Construction/PROP/Presentation.v:48, Instance/FinSet.v:73) or prose analogy (Construction/Free.v:67)",
+      "grep -rn 'coequalizer.*zero_mor\\|IsCokernel' --include=*.v Structure/ — Structure/Kernel.v:58 defines `IsCokernel f e := IsCoequalizer f zero_mor q e`, the abstract 'coequalizer against zero' shape; but nothing states 'coequalizer of f,g = cokernel of f - g' (that would need Structure/Additive.v's negation, and no such lemma exists), and there is no free abelian group functor to which the canonical presentation could be applied",
+      "PREREQUISITE MISSING: the exercise reads Proposition 5.4.2's canonical presentation in Ab; since riehl:5.4:prop2 is itself only PARTIAL in-tree and Ab does not exist in the library, neither half of this exercise has a counterpart"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Both halves need Ab, which does not exist in-tree (independently confirmed: no Ab/Grp/Module instance, no free abelian group functor). I also verified the record's secondary claim that no 'coequalizer of (f,g) = cokernel of f − g' lemma exists: Structure/Additive.v and Structure/Preadditive.v contain no coequalizer statement at all, and Structure/Kernel.v's only coequalizer content is IsCokernel/cokernel_epic. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:5.4:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "direct diagram-chase proof that the canonical presentation is a coequalizer in C^T",
+      "every algebra is a coequalizer of free algebras, proved directly",
+      "descent through the free presentation without invoking split coequalizers",
+      "coequalizer in the Eilenberg-Moore category",
+      "Prop 5.4.2 proved without Example 5.4.7 + Proposition 5.4.9"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 349,
+        "symbol": "created_is_coequalizer",
+        "intree_statement": "Definition created_is_coequalizer : IsCoequalizer f g (scoeq_obj SC; created_algebra) created_e_hom.   (* the lift of a U^T-split pair's split coequalizer to a coequalizer in C^T; instantiating it at `canonical_split` would yield the exercise's target statement *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a : D} (α : TAlgebra T a) : SplitCoequalizer (@join D T H a) (fmap[T] (t_alg[α]))."
+      }
+    ],
+    "statement_record": {
+      "book": "Prove Proposition 5.4.2 directly by a diagram chase, rather than deducing it from Example 5.4.7 and Proposition 5.4.9.",
+      "intree": "created_is_coequalizer : IsCoequalizer f g (scoeq_obj SC; created_algebra) created_e_hom, over an arbitrary U^T-split pair; canonical_split : SplitCoequalizer (join a) (fmap[T] (t_alg[α]))",
+      "strength_comparison": "intree-weaker: the target statement (Prop 5.4.2) is itself never formed in-tree, and the only in-tree route to it is precisely the route the exercise asks to avoid — via the split coequalizer (Example 5.4.7 = `canonical_split`) and creation (Proposition 5.4.9 = `em_forget_creates_split`)."
+    },
+    "gap": "The mathematical content — 'the canonical presentation T^2A ⇉ TA ↠ A is a coequalizer in C^T' — is not asserted anywhere in-tree (see riehl:5.4:prop2 for the same gap). Additionally, the exercise's distinctive demand, a DIRECT proof independent of split coequalizers and creation, is not met even in spirit: every coequalizer-in-C^T result in the library (`created_is_coequalizer`, `em_forget_creates_split`, `em_reflect_is_coeq`, `beck_is_coeq`) is proved by descending through a SplitCoequalizer downstairs and cancelling the split epimorphisms T e, T (T e) — i.e. exactly the 5.4.7 + 5.4.9 route.",
+    "negative_search_log": [
+      "grep -rn 'canonical_split' --include=*.v . — never combined with `em_forget_creates_split`; the coequalizer-in-C^T statement for the canonical pair is nowhere formed",
+      "grep -rn 'IsCoequalizer' --include=*.v . — every occurrence in the Eilenberg–Moore setting is parameterised by an abstract split pair, none by the canonical free presentation"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL, consistent with riehl:5.4:prop2. The target statement is not in-tree (verified under prop2), and the exercise's distinctive demand — a proof NOT routed through Example 5.4.7 + Proposition 5.4.9 — is met nowhere: I checked every coequalizer-in-C^T result (created_is_coequalizer BeckObjects.v:349, em_reflect_is_coeq Beck.v:895, beck_is_coeq Beck.v:337) and each descends through a SplitCoequalizer downstairs and cancels the split epis T e / T (T e), i.e. exactly the route the exercise forbids. The record states this accurately."
+    }
+  }
+]

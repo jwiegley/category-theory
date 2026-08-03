@@ -1,0 +1,438 @@
+[
+ {
+  "id": "maclane:IV.7:ex1",
+  "classification": "ABSENT",
+  "aliases": [
+   "copower (X · a), Set-tensoring of an object",
+   "set-indexed coproduct of X copies of a",
+   "cotensor / power a^X (the dual)",
+   "tensored / copowered category over Sets (Sets-enrichment)",
+   "the adjunction (- · a) ⊣ C(a, -) between Sets and C, with parameter a"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'copower' . -> 0 hits",
+   "grep -rn --include='*.v' -i 'copowered' . -> 0 hits",
+   "grep -rn --include='*.v' -i 'cotensor' . -> 0 hits (neither the copower nor its dual power/cotensor appears under that name)",
+   "grep -rn --include='*.v' -i 'tensored' . -> 15 hits, every one about tensoring MORPHISMS in the monoidal/premonoidal/PROP/Kleisli files (Structure/Binoidal.v, Structure/Premonoidal.v, Construction/PROP/*, Monad/Kleisli/Premonoidal.v, ...); none is a category tensored/copowered over Sets",
+   "grep -rn --include='*.v' -i 'indexed coproduct' . -> 0 hits; -i 'icoprod' -> 0; -i 'IsIndexedCoproduct' -> 0; -i 'Set-indexed' -> 0",
+   "Structure/Limit/Product.v:51 has the indexed PRODUCT API only (Record IsIndexedProduct, plus iprod/iprod_proj/iprod_ump as limits of DiscreteCat_Functor); grep over Structure/ and the whole tree finds no dual indexed-coproduct file, record, or accessor, so not even the underlying X-fold coproduct exists as a named notion",
+   "ls Structure/ Structure/Limit/ -> no Coproduct.v; Structure/Cocartesian.v:115 is binary coproducts + initial only (Notation 'Cocartesian C' := @Cartesian (C^op))",
+   "grep -rn --include='*.v' -i 'adjunction with a parameter' -> 0 hits; -i 'parametrized adjunction' -> 0 hits — the parameter framework the exercise asks the copower bijection to be read into does not exist either (cf. maclane:IV.7:thm3, PARTIAL, where only the cartesian-closed special case InternalHomFunctor witnesses it)",
+   "ADJACENCY (not the item): Structure/Limit/Weighted.v:370 'Definition WeightedColimit {J C} (W : (J^op) ⟶ Sets) (F : J ⟶ C) := @WeightedLimit (J^op) (C^op) W (F^op)' — the copower is exactly its J = 1 instance, but that instance is never formed and no copower notation/accessor is derived; Structure/Complete.v:119 'Definition Cocomplete {C} := ∀ (D : Category) (F : D ⟶ C), Colimit F' gives discrete-diagram colimits abstractly, but no in-tree term instantiates Colimit (DiscreteCat_Functor (fun _ => a)) and there is no C(X · a, c) ≅ Sets(X, C(a, c)) statement anywhere",
+   "CORROBORATION: doc/plan/books/ledger.tsv rows 242-243 already record this family as a filed gap — 'maclane:III.4:def4 PARTIAL #321' (powers exist only as unnamed instantiations of iprod at a constant family) and 'maclane:III.3:def3 ABSENT #321' (copowers), issue #321 'MacLane III.4: Powers and copowers of an object'. Unlike the power, the copower has no in-tree instantiation at all, since there is no indexed-coproduct dual of iprod."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently before opening the coverage file. My own searches: `rg -ni 'copower|co-power|cotensor|tensoring over|set-tensor'` over *.v -> 0 hits; `rg -ni 'icoprod|indexed coproduct|IsIndexedCoproduct|coproduct of copies|X-indexed'` -> 0 hits; `rg -ni 'with parameter|parametrized adjunction|parameterized adjunction|adjunction with a parameter'` -> 0 hits. Additional check the record does not state: `DiscreteCat_Functor` occurs at Adjunction/GAFT.v:249,251, Adjunction/SAFT.v:146,186, Theory/WeaklyInitial.v:90-91 and Structure/Limit/Product.v — always under `Limit`, never under `Colimit`, so not even the X-fold coproduct underlying a copower is instantiated anywhere. Cited adjacencies verified at the exact lines: Structure/Limit/Product.v:51 `Record IsIndexedProduct`, Structure/Limit/Weighted.v:370 `Definition WeightedColimit {J C} (W : (J^op) ⟶ Sets) (F : J ⟶ C) := @WeightedLimit (J^op) (C^op) W (F^op)`, Structure/Complete.v:119 `Cocomplete`, Structure/Cocartesian.v:115 `Notation 'Cocartesian' C := (@Cartesian (C^op))`. Ledger corroboration verified by reading doc/plan/books/ledger.tsv: line 242 is exactly `maclane:III.4:def4  PARTIAL  #321` and line 243 `maclane:III.3:def3  ABSENT  #321` (both 'MacLane III.4: Powers and copowers of an object'); line 241 is `maclane:III.3:def2  PARTIAL  #320` (indexed coproducts). So ABSENT here is consistent with the campaign's own earlier ABSENT for the copower itself, and the PARTIAL/ABSENT split against powers is justified by the presence of `iprod` and the absence of any dual."
+  }
+ },
+ {
+  "id": "maclane:IV.7:ex2",
+  "classification": "ABSENT",
+  "aliases": [
+   "unit of an adjunction with a parameter, eta_x : x -> G(p, F(x,p))",
+   "extranaturality / dinaturality of the unit in the parameter p",
+   "naturality of the adjunction transpose phi in the parameter",
+   "two-variable / parametrized adjunction unit",
+   "wedge condition on a unit family indexed by p"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'adjunction with a parameter' -> 0 hits; -i 'parametrized adjunction' -> 0 hits; -i 'parametri' -> only unrelated prose (Reynolds parametricity, Theory/Natural/Transformation.v:87; graded/'parametric' monads, Monad/Graded.v:13; 'parameterised comonad', Theory/Coq/Traversable.v:43)",
+   "grep -rn --include='*.v' -i 'partial adjoint' -> 0 hits; -i 'bifunctor adjunction' -> 0 hits; -i 'two-variable' -> 0 relevant hits",
+   "ls Adjunction/ -> Compose.v, Continuity.v, Diagonal/Product.v, GAFT.v, GAFT/Examples.v, Hom.v, Natural/Transformation{,/Opposite,/Universal}.v, Opposite.v, SAFT.v — no file about a family of adjunctions indexed by a parameter category, hence no unit carrying a parameter index",
+   "grep -n 'unit' Theory/Adjunction.v -> 'Definition unit {x : D} : x ~> U (F x) := ⌊id⌋' (line 214): the unit is a one-variable family for a single fixed adjunction, with no second (parameter) index and no extranaturality field; the derived corollaries (to_adj_unit 264, counit_fmap_unit 280, fmap_counit_unit 288) are all single-adjunction laws",
+   "grep -rn --include='*.v' -i 'exp_iso' Structure/Cartesian/Closed.v -> the per-parameter currying bijection x × y ~> z ≊ x ~> z^y exists, but it carries no statement of how its unit behaves as the parameter y varies",
+   "ADJACENCY (not the item): Theory/Dinatural.v:51 'Class Dinatural' with the dinaturality hexagon exists as a general notion (and Structure/Wedge.v / Structure/End.v use the wedge condition) — that is the shape the exercise's answer takes — but nothing connects it to an adjunction unit, because there is no parametrized adjunction in-tree to take the unit of"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Own searches: `rg -ni 'with parameter|parametrized adjunction|parameterized adjunction'` -> 0 hits; `rg -ni '\\bparameter\\b'` over *.v (excluding universe/implicit/inductive-parameter prose) -> 6 hits, none about adjunctions. Cited anchors verified: Theory/Adjunction.v:214 `Definition unit {x : D} : x ~> U (F x) := ⌊id⌋` is a single-index family with no parameter slot and no extranaturality/wedge field (the derived corollaries at 264/280/288 are single-adjunction laws — all three line numbers confirmed); Theory/Dinatural.v:51 `Class Dinatural` exists (as does Structure/Wedge.v and Structure/End.v), which is indeed the shape the exercise's answer takes, but nothing links it to an adjunction unit. One point strengthening the record: Structure/Cartesian/Closed.v:51 asks only for `exp_iso {x y z} : x × y ~> z ≊ x ~> z^y` with NO naturality field in any of the three variables, so even the paradigm parameterized adjunction in-tree carries no naturality-in-the-parameter statement to reuse."
+  }
+ },
+ {
+  "id": "maclane:IV.7:ex3",
+  "classification": "ABSENT",
+  "aliases": [
+   "functoriality of a choice of right adjoints, R : S^op -> X^A",
+   "the full subcategory of A^X of functors admitting a right adjoint",
+   "right-adjoint assignment as a functor (LAdj^op -> RAdj)",
+   "R sigma := the conjugate (mate) of sigma",
+   "adjoint-functor (pseudo)functor on the category of left adjoints"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'HasRightAdjoint' -> 0 hits; -i 'HasLeftAdjoint' -> 0; -i 'RightAdjoint' -> 0; -i 'IsLeftAdjoint' -> 0. The only 'LeftAdjoint' hits are LeftAdjointFunctorFromUniversalArrows (Theory/Universal/Arrow.v:185) and its three users (Construction/Free/Quiver.v:547, Monad/Lifting.v:454, Adjunction/GAFT.v:184), which build ONE left adjoint from universal arrows — not a functor on a category of adjoints",
+   "grep -rn --include='*.v' 'S^op ⟶' / '⟶ [A, X]' / '⟶ [C, D]' / '⟶ [D, C]' -> 0 hits: no functor in the tree lands in a functor category out of a category of adjunctions",
+   "grep -rn --include='*.v' -i 'conjugate' -> no definition of conjugate natural transformations anywhere; the hits are 'conjugated by the unitors/associator' (Theory/Bicategory/{Adjunction,Lax}.v), 'conjugate by a unit component' (Theory/Equivalence*.v), and the Instance/Adj.v caveat (lines 29-41) which states the conjugacy condition is deliberately NOT imposed",
+   "Construction/Subcategory.v:31 'Record Subcategory' + :50 'Sub' + :69 'Definition Full' provide the full-subcategory machinery, but grep finds no instance of it carving out the left adjoints inside a functor category [X, A]",
+   "ADJACENCY (not the item): Theory/Adjunction.v:364 'Theorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) : F ⊣ G → F ⊣ G' → G ≈ G'' (with :404 left_adjoint_iso and Theory/Bicategory/Adjunction.v:708 adjoint_unique) supplies uniqueness of the chosen adjoint up to natural isomorphism — the exercise's prerequisite — but nothing extends the choice to MORPHISMS (no R σ as the conjugate of σ), no functor laws are proved, and the two forgetful functors of maclane:IV.7:construction1 are likewise absent"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed, with one adjacency the record omits and one inaccurate log line. (a) OMITTED ADJACENCY: the closest in-tree analogue of the exercise's `R σ := the conjugate of σ` is Theory/Bicategory/Mates.v:476 `mate` (with Instance/Cat/Bicategory/Adjunction.v:260 `Cat_mate_unfold` giving the classical componentwise formula), which at a = b = Id supplies exactly the morphism assignment σ : F ⟹ F' ↦ τ : U ⟹ U'. The sibling records maclane:IV.7:def2 and :thm2 credit it, so this record's 'conjugate -> no definition anywhere' log line reads more absolutely than the tree warrants. The classification is unaffected: the item's substance is the FUNCTOR R : S^op ⟶ X^A — a full subcategory S of [X, A] cut out by 'has a right adjoint', a choice of RF on objects, and the two functor laws — and none of that exists, while Mates.v:52-56 explicitly descopes mate functoriality (descope ledger entry 10). Verified the record's own adjacency anchors: Theory/Adjunction.v:364 `right_adjoint_iso` / :404 `left_adjoint_iso`, Theory/Bicategory/Adjunction.v:708 `adjoint_unique`, Construction/Subcategory.v:31/50/69, Theory/Universal/Arrow.v:185 `LeftAdjointFunctorFromUniversalArrows`. (b) LOG INACCURACY (immaterial): \"grep '⟶ [C, D]' -> 0 hits: no functor in the tree lands in a functor category\" is false as a literal grep — `rg '⟶ \\['` hits 13 files, e.g. Functor/Diagonal.v:33 `Diagonal : C ⟶ [J, C]`, Functor/Hom.v:60 `Curried_Hom : C^op ⟶ [C, Sets]`, Theory/Kan/Extension.v:143 `Ran : [A, C] ⟶ [B, C]`, Instance/Cat/Bicategory.v:65 `Cat_Hcompose : ([D, E] ∏ [C, D]) ⟶ [C, E]`. The substantive claim — that none of them has a category of adjunctions as domain — I re-checked and it holds."
+  }
+ },
+ {
+  "id": "maclane:IV.7:ex4",
+  "classification": "PARTIAL",
+  "aliases": [
+   "adjoint square (Kelly)",
+   "mate / mates correspondence (Kelly-Street)",
+   "sigma : F'H => KF corresponds to tau : HG => G'K",
+   "conjugate pair bounded by a pair of functors H, K",
+   "2-cell transposition across two adjunctions in a bicategory"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 476,
+    "symbol": "mate",
+    "intree_statement": "Definition mate (σ : (f' ∘∘∘ a) ~> (b ∘∘∘ f)) : (a ∘∘∘ u) ~> (u' ∘∘∘ b) := postcomp_to Af (from (hassoc u' b f) ∘∘ precomp_to Af' σ)   [Section context: Af : BicatAdjunction f u, Af' : BicatAdjunction f' u', a : bicat x x', b : bicat y y']"
+   },
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 480,
+    "symbol": "mate_inv",
+    "intree_statement": "Definition mate_inv (τ : (a ∘∘∘ u) ~> (u' ∘∘∘ b)) : (f' ∘∘∘ a) ~> (b ∘∘∘ f) := precomp_from Af' (to (hassoc u' b f) ∘∘ postcomp_from Af τ)"
+   },
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 515,
+    "symbol": "mate_iso",
+    "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod := {| to := {| morphism := mate |}; from := {| morphism := mate_inv |} |}   — with Lemma mate_roundtrip_left (line 489) : mate_inv (mate σ) ≈ σ and Lemma mate_roundtrip_right (line 498) : mate (mate_inv τ) ≈ τ; mate_dom/mate_cod (lines 508/511) are the setoids of 2-cells (f' ∘∘∘ a) ~> (b ∘∘∘ f) and (a ∘∘∘ u) ~> (u' ∘∘∘ b)"
+   },
+   {
+    "file": "Instance/Cat/Bicategory/Adjunction.v",
+    "line": 244,
+    "symbol": "Cat_mate_unfold_raw",
+    "intree_statement": "Theorem Cat_mate_unfold_raw (Z : y) : transform[mate Af Af' σ] Z ≈ fmap[U'] (fmap[b] (adj_counit F U Z)) ∘ (fmap[U'] (σ (fobj[U] Z)) ∘ adj_unit F' U' (fobj[a] (fobj[U] Z)))   [Section context: σ : F' ◯ a ⟹ b ◯ F] — the unit/counit expression of the condition"
+   },
+   {
+    "file": "Instance/Cat/Bicategory/Adjunction.v",
+    "line": 260,
+    "symbol": "Cat_mate_unfold",
+    "intree_statement": "Theorem Cat_mate_unfold (Z : y) : transform[mate Af Af' σ] Z ≈ fmap[U'] (fmap[b] (adj_counit F U Z)) ∘ to adj[Cat_BicatAdjunction_Adjunction Af'] (σ (fobj[U] Z))   — the same formula phrased through the hom-set transpose ⌊−⌋ = to adj[-] of F' ⊣ U'"
+   },
+   {
+    "file": "Instance/Cat/Bicategory/Adjunction.v",
+    "line": 163,
+    "symbol": "Cat_BicatAdjunction_Adjunction_iff",
+    "intree_statement": "Theorem Cat_BicatAdjunction_Adjunction_iff : BicatAdjunction (B:=Cat_Bicategory) F U ↔ (F ⊣ U)   — so the whole mate apparatus applies verbatim to ordinary hom-set adjunctions between ordinary categories"
+   }
+  ],
+  "statement_record": {
+   "book": "An adjoint square consists of adjunctions <F,G,phi> : X -> A and <F',G',phi'> : X' -> A', functors H : X -> X' and K : A -> A', and natural transformations sigma : F'H -> KF and tau : HG -> G'K such that the hom-set square A(Fx,a) -> A'(F'Hx,Ka) -> X'(Hx,G'Ka) always commutes. Express this condition variously in terms of the units and counits, and prove that each of sigma, tau determines the other. (The case H = K = Id is the conjugate-pair theory of the text.)",
+   "intree": "In an arbitrary bicategory, for internal adjunctions f ⊣ u (from x to y) and f' ⊣ u' (from x' to y') and bounding 1-cells a : x ~~> x', b : y ~~> y', `mate` and `mate_inv` are mutually inverse (mate_roundtrip_left / mate_roundtrip_right) and are packaged as `mate_iso : Isomorphism Sets` between the 2-cell setoids {f' ∘ a ⟹ b ∘ f} and {a ∘ u ⟹ u' ∘ b}. Specialised to Cat (bicat C D ≡ [C,D] definitionally, BicatAdjunction ↔ F ⊣ U), with a := H and b := K these are exactly sigma : F'H ⟹ KF and tau : HG ⟹ G'K, and Cat_mate_unfold_raw gives the unit/counit formula tau_Z ≈ U'(K eps_Z) ∘ U'(sigma_{U Z}) ∘ eta'_{H (U Z)}, restated through the transpose phi' by Cat_mate_unfold.",
+   "strength_comparison": "Mixed. intree-stronger: the correspondence is proved over an ARBITRARY bicategory with arbitrary bounding 1-cells (Mac Lane's exercise is the B = Cat case), it is a full bijection of 2-cell hom-SETOIDS rather than only 'each determines the other', and substituting a = b = Id recovers the section's conjugate pairs. intree-weaker on the condition itself: Mac Lane DEFINES the adjoint square by the commuting hom-set square and asks it be re-expressed via units and counits, whereas in-tree the units/counits pasting IS the definition, the hom-set square is never stated (only its instance at f = ε, which is `Cat_mate_unfold_raw`), and no second equivalent unit/counit form is given. That missing equivalence is already ledgered at maclane:IV.7:def2 and maclane:IV.7:thm2 — the a = b = Id case, both PARTIAL — and since ex4's stated hypothesis IS that hom-set square, this item inherits the gap too: an item cannot be more completely formalized than the special case it generalizes. Its own delta over them, arbitrary bounding functors H and K, is present at full strength."
+  },
+  "gap": "Mac Lane's adjoint-square CONDITION is never stated in-tree, so what the library proves is a bijection between two 2-cell setoids, not that this bijection is the adjoint-square relation. Precisely: (1) No statement says the hom-set square commutes for ALL f : F x ~> a, i.e. that φ'(K f ∘ σ_x) ≈ τ_a ∘ H (φ f) as functions A(F x, a) → X'(H x, G' K a). At the single instance f = ε_a that square reduces to τ_a ≈ U'(K ε_a) ∘ U'(σ_{G a}) ∘ η'_{H (G a)}, which is verbatim `Cat_mate_unfold_raw` (Instance/Cat/Bicategory/Adjunction.v:244) — so the in-tree content is the value the square forces at one argument, taken as the definition of `mate`, with the 'for all f' half absent. (2) The exercise's first ask — express the condition VARIOUSLY through units and counits — has exactly one in-tree expression, the pasting composite that DEFINES `mate`/`mate_inv` (Mac Lane's (i)/(ii)); the counit and unit forms (his (iii) ε ∘ F τ ≈ ε' ∘ σ G' and (iv) G σ ∘ η ≈ τ F' ∘ η', here bounded by H and K) are nowhere stated; `mate_charac` (Theory/Bicategory/Adjunction.v:347) is only the degenerate f = f', σ = id case. (3) No ordinary-CT restatement over `F ⊣ U` exists: a consumer must transport along `Cat_BicatAdjunction_Adjunction_iff` (Instance/Cat/Bicategory/Adjunction.v:163) and then supply unitor/associator bookkeeping by hand, and there is no corollary specialising `mate_iso` to the shape (F' ◯ H ⟹ K ◯ F) ≅ (H ◯ G ⟹ G' ◯ K). The exercise's second ask — each of σ, τ determines the other — IS present at full strength and in greater generality: `mate_iso` with both round trips, over an arbitrary bicategory and arbitrary bounding 1-cells a, b. This gap is the same one already recorded at maclane:IV.7:def2 and maclane:IV.7:thm2, generalized to arbitrary H, K; Phase E should fold it into that issue rather than file a separate one.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'adjoint square' -> 0 hits (the notion carries no in-tree name; it is the a/b-bounded mate square of Theory/Bicategory/Mates.v)",
+   "PHASE D: verified `rg -ni 'adjoint square'` -> 0 hits and `rg -ci 'conjugate pair'` -> 0 files; enumerated every top-level Definition/Lemma/Theorem of Theory/Bicategory/Mates.v (522 lines) — no statement quantifies over the arguments f of the hom-set square, and no lemma relates `mate` to a commuting-square predicate. Anchor check: mate_cod is at line 510, not 511 as cited."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:PARTIAL",
+   "notes": "Evidence is accurate and the mate machinery really does instantiate to the exercise's shape (checked the types by hand in Cat: with x:=X, y:=A, x':=X', y':=A', f:=F, f':=F', a:=H, b:=K, `mate` sends σ : F'◯H ⟹ K◯F to τ : H◯G ⟹ G'◯K, exactly Mac Lane's σ and τ). Line numbers verified: Mates.v:476/480/489/498/515 and Instance/Cat/Bicategory/Adjunction.v:163/244/260 (the one slip: mate_cod is at line 510, the record says 511). What forces the downgrade is not the evidence but the scope of the claim. Mac Lane's adjoint square is DEFINED by the commuting hom-set square (for ALL f : F x ~> a), and the exercise asks (i) that the condition be re-expressed variously through units and counits and (ii) that each of σ, τ determine the other. Only (ii) is in-tree. I worked the square out by hand: at f = ε_a it collapses to τ_a = U'(K ε_a) ∘ U'(σ_{G a}) ∘ η'_{H (G a)}, which is verbatim `Cat_mate_unfold_raw` — so what the library has is the value the square forces at one instance, promoted to a definition, with the 'for all f' half never stated. Decisive consistency argument: maclane:IV.7:thm2 is the a = b = Id special case of this very item and is classified PARTIAL for precisely this missing equivalence (plus characterizations (iii)/(iv)); an item cannot be more completely formalized than the special case it generalizes. The classifier's rationale — that ex4's delta over def2/thm2 is covered at full strength — is a de-duplication argument about issue filing, not a classification argument, and the frozen definitions have no 'delta' notion. DEDUPE HINT for Phase E: the gap recorded here is the same gap as maclane:IV.7:def2 / :thm2 (generalized to bounding functors H, K) and should be folded into that issue, not filed separately."
+  }
+ },
+ {
+  "id": "maclane:IV.7:ex5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Palmquist bijection alpha : F'HG -> K  <->  beta : H -> G'KF",
+   "double transpose across two adjunctions",
+   "composite of the precomposition and postcomposition hom-adjunctions",
+   "two-sided mate / doctrinal transposition",
+   "bijection between the 2-cell setoids {F'HG => K} and {H => G'KF}"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 245,
+    "symbol": "precomp_left / precomp_right",
+    "intree_statement": "Lemma precomp_left {w} {c : bicat w x} {d : bicat w y} (σ : (f ∘∘∘ c) ~> d) : precomp_from (precomp_to σ) ≈ σ   (and Lemma precomp_right, line 306 : precomp_to (precomp_from τ) ≈ τ) — the bijection bicat(f ∘ c, d) ≅ bicat(c, u ∘ d) for an internal adjunction f ⊣ u, with precomp_to defined at line 183 as lwhisker u σ ∘∘ preΘ c"
+   },
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 390,
+    "symbol": "postcomp_left / postcomp_right",
+    "intree_statement": "Lemma postcomp_left {w} {c : bicat x w} {e : bicat y w} (β : c ~> (e ∘∘∘ f)) : postcomp_from (postcomp_to β) ≈ β   (and Lemma postcomp_right, line 450 : postcomp_to (postcomp_from γ) ≈ γ) — the bijection bicat(c, e ∘ f) ≅ bicat(c ∘ u, e), with postcomp_to defined at line 330 as postΛ e ∘∘ rwhisker β u"
+   },
+   {
+    "file": "Theory/Bicategory/Mates.v",
+    "line": 37,
+    "symbol": "header (the two hom-adjunctions)",
+    "intree_statement": "\"precomp :  bicat(f ∘ c, d)  ≅  bicat(c, u ∘ d)       (whisker by η, ε) / postcomp:  bicat(c, e ∘ f)  ≅  bicat(c ∘ u, e)       (whisker by ε, η) — each of which is a genuine bijection by the two triangle (zig-zag) identities of the adjunction, established here as precomp_left/precomp_right and postcomp_left/postcomp_right\""
+   },
+   {
+    "file": "Instance/Cat/Bicategory/Adjunction.v",
+    "line": 187,
+    "symbol": "Cat_precomp_to_component",
+    "intree_statement": "Lemma Cat_precomp_to_component {w0} {c : w0 ⟶ vx} {d : w0 ⟶ vy} (σ : F ◯ c ⟹ d) (t : w0) : transform[precomp_to A σ] t ≈ fmap[U] (σ t) ∘ adj_unit F U (fobj[c] t)   (and Cat_postcomp_to_component, line 214) — both factor bijections specialised to ordinary functors and natural transformations"
+   }
+  ],
+  "statement_record": {
+   "book": "Given the two adjunctions of Exercise 4 (<F,G> : X -> A and <F',G'> : X' -> A') together with functors H : X -> X' and K : A -> A', establish a bijection between natural transformations alpha : F'HG -> K and natural transformations beta : H -> G'KF.",
+   "intree": "The two constituent bijections exist at full strength in any bicategory: precomp_to/precomp_from with precomp_left/precomp_right give bicat(f ∘ c, d) ≅ bicat(c, u ∘ d), and postcomp_to/postcomp_from with postcomp_left/postcomp_right give bicat(c, e ∘ f) ≅ bicat(c ∘ u, e). Instantiating the first at f := F', u := G', c := H ∘ G, d := K and the second at f := F, u := G, c := H, e := G' ∘ K composes (through an associator) to precisely the Palmquist bijection {F'HG ⟹ K} ≅ {H ⟹ G'KF}. That composite is never formed in-tree.",
+   "strength_comparison": "intree-weaker: only the two factors of the required bijection are proven, never their composite. The exercise's own statement — a bijection between the transformations F'HG ⟹ K and H ⟹ G'KF — has no in-tree term, no round-trip lemmas and no Isomorphism-in-Sets packaging (contrast mate_iso at line 515, which does package the Exercise-4 bijection). The factors themselves are stronger than the exercise needs, holding over an arbitrary bicategory rather than only Cat."
+  },
+  "gap": "The composite bijection is not assembled. Concretely, missing: (1) forward and backward maps alpha ↦ beta and beta ↦ alpha, obtained by instantiating precomp at (c := a ∘∘∘ u, d := b) and postcomp at (c := a, e := u' ∘∘∘ b) — no such instantiation appears anywhere; (2) the associator bookkeeping that lines the two factors up (the analogue of the `from (hassoc u' b f)` splice used inside `mate`) for this shape; (3) the two round trips and their packaging as an Isomorphism in Sets between the 2-cell setoids {f' ∘ (a ∘ u) ⟹ b} and {a ⟹ (u' ∘ b) ∘ f}; (4) the Cat unfolding of that bijection to natural transformations F'HG ⟹ K and H ⟹ G'KF (Instance/Cat/Bicategory/Adjunction.v unfolds precomp_to, postcomp_to and mate, but not this composite).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'Palmquist' -> 0 hits",
+   "grep -rn --include='*.v' -i 'double mate' -> 0 hits; -i 'two-sided mate' -> 0 hits",
+   "grep -rn --include='*.v' \"F' ◯ H ◯ G\" and '◯ H ◯' -> 0 hits (no transformation of the shape F'HG ⟹ K occurs anywhere in the tree)",
+   "read Theory/Bicategory/Mates.v in full (522 lines): the only exported bijections are precomp_left/right, postcomp_left/right, mate_roundtrip_left/right and mate_iso; no further composite of the two hom-adjunctions is formed"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, and I derived the same factorization independently before reading the record: Nat(F'HG, K) ≅ Nat(HG, G'K) is `precomp` for F' ⊣ G' at c := H◯G, d := K, and Nat(H, G'KF) ≅ Nat(HG, G'K) is `postcomp` for F ⊣ G at c := H, e := G'◯K; the exercise's bijection is their composite modulo an associator, and no such composite is formed in-tree. All cited anchors verified at the exact lines: Mates.v:183 `precomp_to`, :245 `precomp_left`, :306 `precomp_right`, :330 `postcomp_to`, :390 `postcomp_left`, :450 `postcomp_right`; Instance/Cat/Bicategory/Adjunction.v:187 `Cat_precomp_to_component`, :214 `Cat_postcomp_to_component`. I enumerated every top-level Definition/Lemma/Theorem in Mates.v (522 lines) and confirm the only exported bijections are those two pairs plus mate_roundtrip_left/right and mate_iso — the record's 'read in full' claim holds. `rg -i 'Palmquist'` -> 0 hits, confirmed. The gap text's instantiation arithmetic in items (1)-(3) is internally consistent with the statement_record."
+  }
+ },
+ {
+  "id": "maclane:IV.8:thm1",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjunctions compose",
+   "composite adjunction F2F ⊣ G G2",
+   "adj_comp / Adjunction_Compose",
+   "unit of the composite = (G eta2 F) . eta; counit = eps2 . (F2 eps G2)",
+   "pasting of the two hom-set transposing isomorphisms"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Compose.v",
+    "line": 173,
+    "symbol": "Adjunction_Compose",
+    "intree_statement": "Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') := @Build_Adjunction E D (F' ◯ F) (U ◯ U') adj_compose_iso adj_compose_to_nat_l adj_compose_to_nat_r adj_compose_from_nat_l adj_compose_from_nat_r   [Section context: F : D ⟶ C, U : C ⟶ D, F' : C ⟶ E, U' : E ⟶ C, A : F ⊣ U, A' : F' ⊣ U']"
+   },
+   {
+    "file": "Adjunction/Compose.v",
+    "line": 105,
+    "symbol": "adj_compose_iso",
+    "intree_statement": "Definition adj_compose_iso (x : D) (y : E) : @Isomorphism Sets {| carrier := @hom E (F' (F x)) y; is_setoid := @homset E (F' (F x)) y |} {| carrier := @hom D x (U (U' y)); is_setoid := @homset D x (U (U' y)) |} := iso_compose (@adj _ _ _ _ A x (U' y)) (@adj _ _ _ _ A' (F x) y)   — literally MacLane's proof, the two hom-set bijections pasted"
+   },
+   {
+    "file": "Adjunction/Compose.v",
+    "line": 216,
+    "symbol": "Adjunction_Compose_unit",
+    "intree_statement": "Corollary Adjunction_Compose_unit {x : D} : @unit _ _ _ _ Adjunction_Compose x ≈ fmap[U] (@unit _ _ _ _ A' (F x)) ∘ @unit _ _ _ _ A x"
+   },
+   {
+    "file": "Adjunction/Compose.v",
+    "line": 224,
+    "symbol": "Adjunction_Compose_counit",
+    "intree_statement": "Corollary Adjunction_Compose_counit {y : E} : @counit _ _ _ _ Adjunction_Compose y ≈ @counit _ _ _ _ A' y ∘ fmap[F'] (@counit _ _ _ _ A (U' y))"
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 55,
+    "symbol": "adj_comp",
+    "intree_statement": "Program Definition adj_comp {C D E : Category} (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E) (X : F ⊣ U) (Y : F' ⊣ U') : F ◯ F' ⊣ U' ◯ U   — the second, independently pre-existing witness; Adjunction/Compose.v:201-211 proves Adjunction_Compose_adj_comp_to/_from (both transposes agree) by reflexivity"
+   },
+   {
+    "file": "Adjunction/Compose.v",
+    "line": 65,
+    "symbol": "Adjunction_Id",
+    "intree_statement": "Definition Adjunction_Id {C : Category} : Id[C] ⊣ Id[C] := adj_id   (with Adjunction_Id_unit / Adjunction_Id_counit ≈ id[x], both by reflexivity) — the identity for this composition"
+   }
+  ],
+  "statement_record": {
+   "book": "Theorem IV.8.1. Given adjunctions <F,G,eta,epsilon> : X -> A and <F2,G2,eta2,epsilon2> : A -> D, the composite functors yield an adjunction <F2 F, G G2, (G eta2 F) . eta, epsilon2 . (F2 epsilon G2)> : X -> D, proved by composing the hom-set isomorphisms D(F2 F x, d) ≅ A(F x, G2 d) ≅ X(x, G G2 d); alternatively the triangular identities may be checked directly.",
+   "intree": "Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U'), constructed as iso_compose of the two hom-setoid isomorphisms in Sets (adj_compose_iso), with all four transpose-naturality fields supplied explicitly; the unit and counit of the composite are proved to be fmap[U] (eta'_{F x}) ∘ eta_x and eps'_y ∘ fmap[F'] (eps_{U' y}).",
+   "strength_comparison": "same. The construction is MacLane's first route (composition of the two hom-set bijections), and both whiskering formulas are proved verbatim: (G eta2 F) . eta = fmap[U] eta' ∘ eta and epsilon2 . (F2 epsilon G2) = eps' ∘ fmap[F'] eps. The in-tree version additionally supplies the four transpose-naturality laws as standalone lemmas (adj_compose_{to,from}_nat_{l,r}), the identity adjunction as the unit of the composition (Adjunction_Id, reusing adj_id), and the definitional agreement of the tree's two composite witnesses. Naming note only: the library writes F : D ⟶ C for the LEFT adjoint of F ⊣ U, so its (F' ◯ F) ⊣ (U ◯ U') is MacLane's <F2 F, G G2> with the letters renamed."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; this was also my blind classification. Every citation verified at the exact line: Adjunction/Compose.v:65 `Adjunction_Id := adj_id`, :105 `adj_compose_iso ... := iso_compose (adj A x (U' y)) (adj A' (F x) y)`, :173 `Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')` built with all four naturality fields, :216 `Adjunction_Compose_unit ≈ fmap[U] (unit A' (F x)) ∘ unit A x`, :224 `Adjunction_Compose_counit ≈ counit A' y ∘ fmap[F'] (counit A (U' y))`, plus :201/:207 the definitional agreement with Instance/Adjoints.v:55 `adj_comp`. Those two corollaries are Mac Lane's (G η₂ F)·η and ε₂·(F₂ ε G₂) verbatim under the library's convention that the left adjoint of F ⊣ U is F : D ⟶ C, and the construction is literally Mac Lane's own proof route (pasting the two hom-setoid isomorphisms). Hygiene: Adjunction/Compose.v and Instance/Adjoints.v are both registered in _CoqProject (one line each) and both .vo files are present, so the evidence is compiled code, not orphaned. No weaker-same-name, special-case or missing-dual problem found."
+  }
+ },
+ {
+  "id": "maclane:IV.8:construction1",
+  "classification": "PRESENT",
+  "aliases": [
+   "the category Adj of categories and adjunctions",
+   "Adjoints (objects categories, arrows adjunctions)",
+   "adj_morphism: free_functor + forgetful_functor + adjunction",
+   "1-category underlying the 2-category of adjunctions",
+   "InvAdj (Heunen's involutive, choice-free refinement)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 133,
+    "symbol": "Adjoints",
+    "intree_statement": "Program Definition Adjoints : Category := {| obj := Category; hom := @adj_morphism; homset := @adj_morphism_setoid; id := fun X => {| free_functor := Id[X]; forgetful_functor := Id[X] |}; compose := fun A B C f g => {| adjunction := @adj_comp A B C (free_functor g) (forgetful_functor g) (free_functor f) (forgetful_functor f) (adjunction g) (adjunction f) |} |}   (all five category obligations discharged, lines 145-265)"
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 84,
+    "symbol": "adj_morphism",
+    "intree_statement": "Record adj_morphism {C : Category} {D : Category} := { free_functor : D ⟶ C; forgetful_functor : C ⟶ D; adjunction : free_functor ⊣ forgetful_functor }"
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 96,
+    "symbol": "adj_morphism_setoid",
+    "intree_statement": "Program Instance adj_morphism_setoid {C : Category} {D : Category} : Setoid (@adj_morphism C D) := { equiv := fun f g => (free_functor f ≅[Fun] free_functor g) * (forgetful_functor f ≅[Fun] forgetful_functor g) }"
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 26,
+    "symbol": "header",
+    "intree_statement": "\"This is exactly what is needed to organize categories and adjunctions into a category [Adjoints]:  objects  Categories / arrows  Adjunctions F ⊣ U between categories / identity  Id ⊣ Id / composition  F ⊣ U → F' ⊣ U' → F ◯ F' ⊣ U' ◯ U\""
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 42,
+    "symbol": "adj_id",
+    "intree_statement": "Program Instance adj_id {C : Category} : Id ⊣ Id   — the identity adjunction serving as the identity arrow of Adjoints"
+   }
+  ],
+  "statement_record": {
+   "book": "Using Theorem IV.8.1's composition, form the category Adj whose objects are all small categories and whose arrows X -> A are the adjunctions <F,G,eta,epsilon> : X -> A, composed as composite adjunctions, with the identity adjunction as the identity arrow for each category.",
+   "intree": "Adjoints : Category with obj := Category, hom C D := adj_morphism C D (a left adjoint, a right adjoint and a witness that they are adjoint), id := the identity adjunction Id ⊣ Id, and compose := adj_comp (the composite adjunction of Theorem IV.8.1); every category law is proved.",
+   "strength_comparison": "same in substance, with three presentational deviations, two disclosed in-file; the DIRECTION deviation is NOT disclosed — the file header (Instance/Adjoints.v:32-36) and the :82-83 comment both assert the LEFT adjoint is the forward direction, while adj_morphism actually runs arrows along the RIGHT adjoint (free_functor : D ⟶ C). Filed as a documentation fix on issue #395. (1) 'All small categories' is rendered as obj := Category under the library's universe polymorphism: Adjoints lives one level up, so its objects are exactly the categories of the lower level — the library's standard rendering of smallness. (2) The arrow DIRECTION follows the right adjoint (hom C D carries free_functor : D ⟶ C), so the in-tree category is MacLane's Adj with the arbitrary forward/backward choice made the other way; the file's closing note flags this as an arbitrary choice and points at Heunen's InvAdj as the choice-free refinement (explicitly not implemented). (3) Arrow equality is the hom-setoid 'both adjoint functors are naturally isomorphic', which is coarser than equality of adjunctions — it forgets the unit and counit, so for instance the distinct Id ⊣ Id adjunctions given by an automorphism theta of the identity functor and its inverse are identified. This matches Instance/Cat.v, whose homset is likewise Functor_Setoid, and is the library's uniform setoid rephrasing (needed for associativity to hold up to iso)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PRESENT confirmed; also my blind classification. Verified Instance/Adjoints.v:133 `Adjoints : Category` with obj := Category, hom := @adj_morphism (:84), homset := @adj_morphism_setoid (:96), id := Id ⊣ Id (:42 `adj_id`), compose := `adj_comp` (:55); all category obligations are discharged in the file (I read them) and the file is registered in _CoqProject with a present .vo. Both disclosed deviations independently confirmed: (1) `Record adj_morphism {C D} := { free_functor : D ⟶ C; forgetful_functor : C ⟶ D; ... }` means an arrow C ~> D runs forward along the RIGHT adjoint, i.e. the in-tree category is Mac Lane's Adj with the arbitrary direction choice made the other way — worth flagging that the file's own header sentence ('Choosing the left adjoint as the \"forward\" direction is an arbitrary but harmless convention') is at odds with the record it then defines; that is a comment slip in the library, not a defect in the construction or in this record, which describes the code correctly. (2) The hom-setoid identifies adjunctions whose left and right adjoints are separately naturally isomorphic, forgetting η/ε — the library's uniform setoid rephrasing (Instance/Cat.v does the same with Functor_Setoid), which the frozen definitions declare faithful. Smallness is rendered by universe polymorphism as obj := Category, the standard in-tree reading."
+  }
+ },
+ {
+  "id": "maclane:IV.8:thm2",
+  "classification": "ABSENT",
+  "aliases": [
+   "horizontal (Godement) composite of conjugate pairs is again conjugate",
+   "mates are closed under horizontal composition / pasting of mate squares",
+   "sigma2 sigma : F2F -> F2'F' and tau tau2 : G'G2' -> G G2 form a conjugate pair",
+   "functoriality of the mate correspondence under 1-cell composition",
+   "double category of adjunctions (Mte, Adj as a double category)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'conjugate pair' -> 0 hits; -i 'conjugate' -> no definition of conjugate natural transformations at all (only 'conjugated by the unitors/associator' in Theory/Bicategory/{Adjunction,Lax}.v, 'conjugate by a unit component' in Theory/Equivalence*.v, and the Instance/Adj.v:29-41 caveat stating conjugacy is NOT imposed on its homs)",
+   "grep -rn --include='*.v' -i 'mate_comp|mate.*compos|compos.*mate|mate.*paste' -> only the Theory/Bicategory/Mates.v:475/479 explanatory comments ('paste eta' on the left ...') and the matecell auxiliary of Theory/Bicategory/Adjunction.v:338/394 (used for adjoint_unique); no lemma composes two mates",
+   "grep -rn --include='*.v' -i 'mate.*bifunctor' -> 0 hits; -i 'adjoint square' -> 0 hits",
+   "read Theory/Bicategory/Mates.v in full: its own header, lines 52-56, DESCOPES exactly this theorem — \"the pasting/composition *functoriality* of mates (the double category of adjunctions) is deliberately out of scope (descope ledger entry 10); it is a follow-on that would ride a double-category framework\"",
+   "grep -rn --include='*.v' 'Build_Bicategory' -> the only bicategories in-tree are Cat_Bicategory (Instance/Cat/Bicategory.v:127), the one-object delooping of a monoidal category (Theory/Bicategory/OneObject.v:57) and the lax-transformation bicategory (Theory/Bicategory/Lax.v:178); none is a bicategory or double category of adjunctions in which this closure law could even be stated",
+   "ADJACENCY (not the item): both ingredients exist independently — the Godement horizontal composite nat_hcompose (Theory/Natural/Transformation.v:283) and hcomp2 (Theory/Bicategory.v:257), and composition of adjunctions (Adjunction/Compose.v:173, Instance/Adjoints.v:55) — but no statement anywhere relates a mate/conjugacy relation to either"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; also my blind classification. Independent checks: `rg -ci 'conjugate pair'` -> 0 files; `rg -ni 'conjugate'` over *.v returns only unitor/associator-conjugation prose, the Grothendieck/Fiber `conjugate_iso_id` helper, Instance/Adjoints.v:94 prose and the Instance/Adj.v:29-41 caveat stating the conjugacy condition is deliberately NOT imposed — so the theorem's subject matter is not even expressible as a predicate in-tree. Mates.v:52-56 verified to descope exactly this statement ('the pasting/composition *functoriality* of mates (the double category of adjunctions) is deliberately out of scope (descope ledger entry 10)'). The adjacency ingredients verified present but unrelated: Theory/Natural/Transformation.v:283 `nat_hcompose` (Godement), Theory/Bicategory.v:254 `hcompose`, and adjunction composition at Adjunction/Compose.v:173 / Instance/Adjoints.v:55. Two trivial anchor slips in the log: `matecell` is defined at Theory/Bicategory/Adjunction.v:330 (not 338 — 339 is `matecell_id`, 347 `mate_charac`), and there is no line 394 hit; neither affects the verdict."
+  }
+ },
+ {
+  "id": "maclane:IV.8:remark1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Adj is a 2-category / bicategory",
+   "hom-category Adj(X, A) = A^(adj)X of adjunctions and conjugate pairs",
+   "horizontal composition as a bifunctor Adj(A,D) x Adj(X,A) -> Adj(X,D)",
+   "Cat is two-dimensional (the comparison case in the remark)",
+   "2-category of adjunctions"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Bicategory.v",
+    "line": 254,
+    "symbol": "hcompose",
+    "intree_statement": "hcompose {x y z : bi0cell} : bicat y z ∏ bicat x y ⟶ bicat x z   (a field of Class Bicategory: horizontal composition IS a bifunctor between hom-categories, with hcomp2 := @fmap _ _ (@hcompose x y z) at line 257) — exactly the remark's shape, stated for a general bicategory"
+   },
+   {
+    "file": "Instance/Cat/Bicategory.v",
+    "line": 127,
+    "symbol": "Cat_Bicategory",
+    "intree_statement": "Definition Cat_Bicategory : Bicategory := Build_Bicategory Category (fun C D => @obj (@Fun C D)) (fun C D => @hom (@Fun C D)) (@Id) ...   — Cat as a bicategory with bicat C D ≡ [C, D] definitionally; this discharges the remark's closing clause 'as is Cat'"
+   },
+   {
+    "file": "Instance/Cat/Bicategory.v",
+    "line": 64,
+    "symbol": "Cat_Hcompose",
+    "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}   (file comment, lines 58-60: 'fmap_id is fmap id juggling; fmap_comp is the middle-four interchange law')"
+   },
+   {
+    "file": "Instance/Adj.v",
+    "line": 43,
+    "symbol": "Adj",
+    "intree_statement": "Program Definition Adj (C D : Category) : Category := {| obj := ∃ (F : D ⟶ C) (U : C ⟶ D), F ⊣ U; hom := fun x y => (`1 x ⟹ `1 y) ∧ (`1`2 x ⟹ `1`2 y); id := fun x => (nat_id, nat_id); compose := fun _ _ _ f g => (fst f ∙ fst g, snd f ∙ snd g) |}   — the hom-category exists, but with NO conjugacy condition on its arrows"
+   },
+   {
+    "file": "Instance/Adj.v",
+    "line": 29,
+    "symbol": "Adj (in-file caveat)",
+    "intree_statement": "\"CAVEAT ... the standard 'category of adjunctions' takes as a morphism (F ⊣ U) → (F' ⊣ U') a conjugate, or mate, pair of natural transformations ... The hom defined below imposes no such condition: it is the bare product setoid ([D,C] × [C,D]) of natural transformations restricted to the carrier of adjunction triples. This is why every category obligation discharges trivially. The construction is a genuine category but a coarser one than the conjugate-pair Adj(C,D); tightening the hom to mate pairs is left as future work.\""
+   },
+   {
+    "file": "Instance/Adjoints.v",
+    "line": 133,
+    "symbol": "Adjoints",
+    "intree_statement": "Program Definition Adjoints : Category := {| obj := Category; hom := @adj_morphism; homset := @adj_morphism_setoid; ... |}   — the 1-category whose hom-SETS the remark upgrades to categories"
+   }
+  ],
+  "statement_record": {
+   "book": "Each hom-set Adj(X, A) is itself a category, namely the category A^(adj)X of adjunctions and conjugate pairs under vertical composition, and horizontal composition is a bifunctor Adj(A, D) x Adj(X, A) -> Adj(X, D); hence Adj is a 'two-dimensional' category, as is Cat.",
+   "intree": "The 1-category Adjoints and, separately, a category Adj(C, D) of adjunctions both exist; the general definition of a bicategory has horizontal composition as a bifunctor of hom-categories (Theory/Bicategory.v:254); and Cat is exhibited as a bicategory (Cat_Bicategory) with Cat_Hcompose : [D,E] ∏ [C,D] ⟶ [C,E] whose fmap_comp obligation is the interchange law. Nothing assembles the adjunction data into a bicategory or 2-category.",
+   "strength_comparison": "intree-weaker on the remark's main clause, complete on its closing clause. 'As is Cat' is PRESENT at full strength (Cat_Bicategory plus Cat_Hcompose as a genuine bifunctor of hom-categories). 'Adj is two-dimensional' is not: the in-tree hom-category Instance/Adj.v is the conjugacy-FREE, strictly coarser category (per its own caveat), and the two levels — Instance/Adjoints.v's 1-category of adjunctions and Instance/Adj.v's hom-categories — are never connected to each other, nor to Theory/Bicategory.v."
+  },
+  "gap": "Three pieces missing. (1) The in-tree hom-category Adj(C,D) is not MacLane's A^(adj)X: its arrows are arbitrary pairs (sigma, tau) of natural transformations rather than conjugate/mate pairs (Instance/Adj.v caveat, lines 29-41), so it is strictly coarser; correspondingly the closure of conjugacy under vertical composition is never proved. (2) There is no horizontal composition of adjunctions at the 2-cell level and hence no bifunctor Adj(A,D) ∏ Adj(X,A) ⟶ Adj(X,D) — that is the content of maclane:IV.8:thm2 and maclane:IV.8:ex1, both ABSENT, and Theory/Bicategory/Mates.v's header explicitly descopes mate pasting functoriality (descope ledger entry 10). (3) No Bicategory (or strict 2-category) whose 0-cells are categories and whose 1-cells are adjunctions is built: grep 'Build_Bicategory' finds only Cat_Bicategory, the monoidal delooping (Theory/Bicategory/OneObject.v:57) and the lax-transformation bicategory (Theory/Bicategory/Lax.v:178).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i '2-category of adjunctions' -> 1 hit, and it is only a REFERENCE URL inside a comment: Instance/Adj.v:13 'nLab: https://ncatlab.org/nlab/show/2-category+of+adjunctions'; no such structure is constructed",
+   "grep -rn --include='*.v' -i 'TwoCategory' -> 0 hits (there is no strict 2-category class either; the library's higher structure is Theory/Bicategory.v)",
+   "grep -rn --include='*.v' -i 'Adj.*Bicategory' filtered to drop Adjunction/Adjoint matches -> 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed; also my blind classification, with the same three-way split (hom-category present but conjugacy-free, no horizontal bifunctor on adjunctions, 'as is Cat' fully present). Anchors verified: Theory/Bicategory.v:254 `hcompose {x y z} : bicat y z ∏ bicat x y ⟶ bicat x z` (the record cites hcomp2 at 257; it is actually at 261 — trivial), Instance/Cat/Bicategory.v:64 `Cat_Hcompose : ([D, E] ∏ [C, D]) ⟶ [C, E]` whose fmap_comp obligation is the middle-four law (file comment 57-60), :127 `Cat_Bicategory`, Instance/Adj.v:43 `Adj` with the caveat at 29-41, Instance/Adjoints.v:133 `Adjoints`. I independently confirmed `Adj` has no consumer outside its own file and that the only `Build_Bicategory` uses are Instance/Cat/Bicategory.v:128, Theory/Bicategory/OneObject.v:58 and Theory/Bicategory/Lax.v:178 (the record says OneObject.v:57 — the Definition head line; immaterial), so no bicategory has adjunctions as 1-cells. One log nit: `rg -i '2-category of adjunctions'` actually returns 0 hits, because the Instance/Adj.v:13 occurrence is the URL form `2-category+of+adjunctions`; the substantive claim (a reference URL only, nothing constructed) is correct as I verified by reading that line."
+  }
+ },
+ {
+  "id": "maclane:IV.8:ex1",
+  "classification": "ABSENT",
+  "aliases": [
+   "horizontal composition of conjugate pairs is a bifunctor",
+   "interchange law between horizontal and vertical composition of conjugate pairs",
+   "middle-four exchange for mate pairs",
+   "bifunctor Adj(A,D) x Adj(X,A) -> Adj(X,D)",
+   "functoriality of mate pasting"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'conjugate pair' -> 0 hits: the exercise's very subject matter, conjugate pairs, has no in-tree definition (cf. maclane:IV.7:def2, PARTIAL — the relation is only representable as tau ≈ mate sigma)",
+   "grep -rn --include='*.v' -i 'interchange.*conjugate' -> 0 hits; -i 'mate.*bifunctor' -> 0 hits; -i 'mate_comp|mate.*compos|compos.*mate' -> only comments in Theory/Bicategory/Mates.v and the matecell auxiliary of Theory/Bicategory/Adjunction.v:338",
+   "Theory/Bicategory/Mates.v header, lines 52-56, descopes precisely this: \"the pasting/composition *functoriality* of mates (the double category of adjunctions) is deliberately out of scope (descope ledger entry 10)\"",
+   "grep -rn --include='*.v' 'Build_Bicategory' -> no bicategory of adjunctions exists, so the domain Adj(A,D) ∏ Adj(X,A) of the asserted bifunctor cannot be written; and the in-tree Instance/Adj.v hom-category is the conjugacy-free coarser one, per its caveat at lines 29-41",
+   "ADJACENCY (not the item): the statement one level down IS present — Theory/Bicategory.v:254 makes hcompose a bifunctor bicat y z ∏ bicat x y ⟶ bicat x z in any bicategory, and Instance/Cat/Bicategory.v:64 Cat_Hcompose : ([D,E] ∏ [C,D]) ⟶ [C,E] has as its fmap_comp obligation exactly the middle-four interchange law for natural transformations (file comment lines 58-60; see also Theory/Natural/Transformation.v:281 'the two compositions satisfy the interchange law'). Nothing transports this to conjugate pairs."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; also my blind classification. `rg -ci 'conjugate pair'` -> 0 files, `rg -ni 'interchange'` returns the bifunctor/middle-four material (Functor/Bifunctor.v:19,24,66,101,114), the Cat bicategory (Instance/Cat/Bicategory.v:60), Instance/Fun.v:88,144 ('the defining formulas IS the interchange law'; Godement product) and Theory/Natural/Transformation.v:74,281 — every hit is about natural transformations or monoidal/PROP structure, none about conjugate or mate pairs. The adjacency the record flags is real and verified (Theory/Bicategory.v:254 makes hcompose a bifunctor in any bicategory; Cat_Hcompose's fmap_comp is the interchange law for natural transformations), and nothing transports it to conjugate pairs — which cannot even be typed, since the conjugacy predicate is undefined and Instance/Adj.v's hom-category is the conjugacy-free coarser one. Mates.v:52-56 descopes the functoriality this exercise asks for."
+  }
+ }
+]

@@ -1,0 +1,267 @@
+[
+  {
+    "id": "maclane:X.6:remark3",
+    "classification": "ABSENT",
+    "aliases": [
+      "finitely generated abelian groups dense in Ab",
+      "Z⊕Z dense in Ab",
+      "dense subcategory",
+      "dense functor / density",
+      "canonical colimit of representables",
+      "Ab(A,B) ≅ Nat(Ab(K-,A),Ab(K-,B))"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'dense|density' --include=*.v . (excluding Theory/Kan/Extension.v) -> 0 hits; the ONLY tree occurrence of dense/density/codense is the codensity-monad essay prose in Theory/Kan/Extension.v:85. No Dense/Density/Codense class, record, or definition exists anywhere.",
+      "grep -rn -iE '(Definition|Class|Record|Program (Definition|Instance)|Inductive) +[A-Za-z_]*[Dd]ens' --include=*.v . -> 0 hits (no density notion defined).",
+      "find . -name '*.v' | grep -iE 'Ab.v|Abelian|Grp|Group|Mod.v' plus grep 'category of abelian' -> no concrete category Ab of abelian groups exists. Structure/Abelian.v is the ABSTRACT abelian-category structure, not the concrete category Ab; Structure/Group.v is the group-object structure; Instance/CMon.v is commutative monoids. No Ab, no fin.gen. abelian groups subcategory.",
+      "Both pillars of the item are absent: (i) the density notion, and (ii) the concrete category Ab and its full subcategory of finitely generated abelian groups / the one-object subcategory Z⊕Z. The proven bijection Ab(A,B) ≅ Nat(Ab(K-,A),Ab(K-,B)) has no in-tree counterpart. Formalizable in principle (nothing size-obstructed), hence ABSENT not OUT_OF_SCOPE."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Independently confirmed: grep 'dense|density' finds only the codensity-monad essay (Theory/Kan/Extension.v); no Dense/Density class. No concrete category Ab of abelian groups (only Instance/CMon.v commutative monoids; Structure/Abelian.v is abstract abelian categories; Structure/Group.v is group-objects). Both pillars (density + Ab / fin.gen. subcat / Z⊕Z) absent. Formalizable, so ABSENT not OUT_OF_SCOPE."
+    }
+  },
+  {
+    "id": "maclane:X.6:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "R⊕R dense in R-Mod",
+      "one-object dense subcategory of modules",
+      "dense functor / density",
+      "category of R-modules",
+      "free module of rank 2 as a dense generator"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'dense|density' --include=*.v . -> only Theory/Kan/Extension.v:85 essay prose (codensity monad); NO density definition in-tree.",
+      "find . -name '*.v' | grep -iE 'Mod.v|Module|R-Mod' and grep -rln 'R-Mod|R-module|category of module' --include=*.v . -> no category of R-modules (R-Mod) exists in the tree. Instance/ lists Sets, Coq, Cat, Fun, CMon, Rel, Ens, FinSet, Two, Poset, Proset, Omega, One, Zero, ... but no Mod/R-Mod.",
+      "Both the density notion and the ambient category R-Mod (and its one-object full subcategory on R⊕R) are absent. Content is standard and formalizable, so ABSENT rather than OUT_OF_SCOPE."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. No density notion and no category R-Mod in Instance/ (verified: Sets, Coq, Cat, Fun, CMon, ... but no Mod). One-object subcat on R⊕R inexpressible."
+    }
+  },
+  {
+    "id": "maclane:X.6:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Z not dense in Ab",
+      "single object Z fails density",
+      "dense subcategory counterexample",
+      "dense functor / density",
+      "category of abelian groups Ab"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'dense|density' --include=*.v . -> only Theory/Kan/Extension.v:85 essay prose; no density definition.",
+      "No concrete category Ab of abelian groups in-tree (Structure/Abelian.v = abstract abelian categories; Structure/Group.v = group-object structure; Instance/CMon.v = commutative monoids). No object Z as an abelian group in a category Ab, no full subcategory on it.",
+      "The negative statement 'the one-object subcategory on Z is NOT dense in Ab' needs both the density notion and Ab; neither exists. Formalizable in principle => ABSENT, not OUT_OF_SCOPE."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Negative statement needs both density and Ab; neither present. Confirmed no Ab category, no density."
+    }
+  },
+  {
+    "id": "maclane:X.6:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "density descends to image category KM",
+      "image subcategory KM dense",
+      "dense functor / density",
+      "full image of a functor",
+      "essential image / replete image"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'dense|density' --include=*.v . -> only Theory/Kan/Extension.v:85 essay prose; no density definition, so the hypothesis 'K is dense' and conclusion 'KM is a dense subcategory' cannot even be stated.",
+      "grep -rn -iE 'image (category|subcategory)|KM|full image' --include=*.v . -> no 'image category of a functor' construction (Instance/Sets/Image.v is the epi-mono image factorization of a single morphism, unrelated).",
+      "Core content (transport of density along the image factorization of a functor) rests entirely on a density notion that is absent. ABSENT (formalizable, not OUT_OF_SCOPE)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. No density; no image-subcategory-of-a-functor construction (Construction/Subcategory.v is generic; Instance/Sets/Image.v is epi-mono factorization of a morphism, unrelated). Verified independently."
+    }
+  },
+  {
+    "id": "maclane:X.6:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "objects of M generate C",
+      "generating family / separating family",
+      "faithful c ↦ C(K-,c)",
+      "generator (dual of cogenerator)",
+      "jointly faithful representables C(Km,-)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE '(Class|Record|Definition) +[A-Za-z_]*([Gg]enerator|[Ss]eparator)' --include=*.v . -> ONLY Adjunction/SAFT.v:99 'Record Cogenerator', which is the DUAL concept (cog_separates: k∘f≈k∘g for all k:y→cog_obj j implies f≈g — post-composition into the family). No plain Generator/Separator (pre-composition, arrows OUT of the family) class exists.",
+      "grep -rn -iE 'jointly (epi|mono|faithful)|generating (family|set)|is a (generator|separator)' --include=*.v . -> only prose: Structure/Terminal.v:67 ('1 is a generator', essay about well-pointedness), Structure/Topos.v:91 ('small generating set', essay). Neither is a formal definition, and neither is the general 'subcategory M generates C' notion.",
+      "The specific characterization of the item — 'M generates C iff the functor C → Ens^{M^op}, c ↦ C(K-,c) is faithful' — has no in-tree counterpart; the functor c ↦ C(K-,c) is not formalized either. The only near-neighbour is the dual Cogenerator record (SAFT). ABSENT (dual-only near-miss noted; formalizable, not OUT_OF_SCOPE)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Verified Adjunction/SAFT.v:99 Record Cogenerator (cog_obj/cog_separates) is the DUAL (arrows INTO the family), not a generator/separator; no restricted-Yoneda functor c↦C(K-,c); 'generate/separating family' appears only as essay prose (Structure/Terminal.v, Structure/Topos.v). The biconditional is unstated."
+    }
+  },
+  {
+    "id": "maclane:X.6:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "density as a coend of copowers",
+      "c = ∫^m C(Km,c)·Km",
+      "canonical presentation by copowers",
+      "dense functor / density",
+      "copower / tensoring of a set with an object / coend wedge"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'dense|density' --include=*.v . -> only Theory/Kan/Extension.v:85 essay prose; no density notion, so 'K is dense iff c = ∫^m C(Km,c)·Km' cannot be stated.",
+      "grep -rn -iE 'copower|Copower|indexed coproduct|icoprod|set-indexed|tensoring' --include=*.v . -> no copower / set-indexed-coproduct primitive (the 'tensoring' hits are monoidal-tensor prose in PROP/Comonoid files, not the set·object copower).",
+      "Partial machinery present but insufficient: Structure/Coend.v supplies Coend/coend_obj/coend_inj/Build_Coend (line 136+), so the coend side of the formula could be written; but the density predicate it characterizes and the copower C(Km,c)·Km are both absent. ABSENT (formalizable, not OUT_OF_SCOPE)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Verified Structure/Coend.v supplies Coend/coend_obj/coend_inj/Build_Coend (partial machinery present, as classifier says), but copower (set·object) is absent (grep copower/cotensor -> 0 relevant) and density is absent, so the biconditional is inexpressible."
+    }
+  },
+  {
+    "id": "maclane:X.7:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "colimit as left Kan extension along terminal functor",
+      "limit as right Kan extension along Erase",
+      "Colim T = Lan_{K1} T (·)",
+      "Lim ≅ Ran (Erase) F",
+      "Kan_Limit",
+      "(co)limits are Kan extensions along M → 1"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt.  (* header: 'the limit of F is the right Kan extension of F along the unique functor to the terminal category 1 ... evaluating Ran E F at ttt yields the limit object' *)"
+      },
+      {
+        "file": "Instance/One.v",
+        "line": 47,
+        "symbol": "Erase",
+        "intree_statement": "Program Instance Erase `(C : Category) : C ⟶ 1 := { ... }  (* the terminal functor ! : C ⟶ 1, i.e. Mac Lane's K1 : M → 1 *)"
+      },
+      {
+        "file": "Structure/Limit.v",
+        "line": 158,
+        "symbol": "Colimit",
+        "intree_statement": "Definition Colimit `(F : J ⟶ C) := Limit (F^op).  (* colimits exist in-tree by duality, but no colimit=Lan-along-Erase theorem is proven *)"
+      }
+    ],
+    "statement_record": {
+      "book": "X.7 Theorem 1: a functor T : M → A has a colimit iff it has a left Kan extension along the unique K1 : M → 1, and then Colim T is the value of Lan_{K1} T at the object of 1; dually, right Kan extensions along K1 give limits.",
+      "intree": "Kan_Limit : Lim ≅ Ran (Erase J) F ttt, given `{Limit F} and `{RightKan (Erase J) C}.",
+      "strength_comparison": "intree-weaker: (a) only the DUAL half is proven — limit ≅ Ran along Erase; the primary colimit = Lan-along-K1 direction has no in-tree theorem (no Kan_Colimit; grep 'Kan.*Colim|colim.*Kan' -> essay mentions only). (b) The book's existence-biconditional and identity of universal properties ('has a colimit iff has a Kan extension') is reduced to an object isomorphism assuming BOTH a Limit and the GLOBAL RightKan (adjoint) already exist; existence-transfer is not derived. (c) It uses the global RightKan class (the full adjoint Induced ⊣ Ran), not the local Kan extension of the single functor F."
+    },
+    "gap": "The colimit-as-left-Kan-extension direction (Colim T = Lan_{Erase} T at the point of 1), which is Mac Lane's PRIMARY statement, is not formalized (no Kan_Colimit theorem). For the limit direction that IS proven (Kan_Limit), the result is only an object isomorphism under the joint hypotheses `{Limit F} and `{RightKan (Erase J) C}; the book's biconditional 'F has a limit iff Ran_{Erase} F exists' (existence transfer / identity of universal properties) and the local (single-functor) Kan-extension formulation are not established.",
+    "negative_search_log": [
+      "grep -rn -iE 'Kan_Colim|Colim.*Kan|Kan.*Colim|colimit.*left kan|left kan.*colim' --include=*.v . -> only essay-prose mentions (Theory/Kan/Extension.v:29, Structure/Limit.v:57); NO colimit-as-Lan theorem is proven."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees PARTIAL. Independently verified: Kan_Limit (Structure/Limit/Kan/Extension.v:46) is the ONLY Kan-(co)limit theorem — Lim ≅ Ran (Erase J) F ttt given `{Limit F} and the GLOBAL `{RightKan (Erase J) C}. Erase (Instance/One.v:47) is the terminal functor K₁; Colimit (Structure/Limit.v:158) exists by duality but no Kan_Colimit theorem (grep -> only essay prose). All three strength-comparison points accurate: dual-only, object-iso-given-both (not the existence biconditional), global (not local) Kan class. Gap precisely stated."
+    }
+  },
+  {
+    "id": "maclane:X.7:thm2",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjoint via Kan extension of the identity",
+      "G has left adjoint iff Ran_G 1_A exists and is preserved by G",
+      "F = Ran_G 1_A",
+      "preserves_right_Kan",
+      "formal criterion for an adjoint (Kan form)",
+      "all concepts are Kan extensions — adjoint functor theorem"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The theorem's distinctive content — 'F = Ran_G 1_A (the right Kan extension of the identity along G), which G preserves, is a left adjoint of G, and conversely' — is NOT proven in-tree. The one directly relevant attempt, Theory/Kan/Extension.v:386 'Theorem left_adjoints_preserve `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.', is ABANDONED (Abort. at line 438, three admits) so it is NOT in the environment; and it is only the 'adjoint ⟹ preserves' half, not the criterion.",
+      "grep -rnE '\\bRan\\b|\\bLan\\b|RightKan|LeftKan|preserves_(left|right)_Kan' --include=*.v . outside the two Kan files -> no use-site; Ran_G 1_A (Kan extension of the IDENTITY along a functor) is never instantiated, and no construction turns a preserved Ran into an adjunction.",
+      "Proven building block only: Theory/Kan/Extension.v:328 'Theorem left_adjoint_impl ... L ⊣ R -> [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)' (Qed at 374) — a hom-iso CONSEQUENCE of already having an adjoint, not a criterion FOR one. Definitions preserves_left_Kan (307) / preserves_right_Kan (313) exist as vocabulary but no theorem links them to adjoint existence.",
+      "Distinct, related-but-different machinery exists and must not be conflated: Adjunction/GAFT.v proves adjoint existence via a SolutionSet / weakly-initial family (Freyd), and Theory/Universal/Arrow.v's AdjunctionFromUniversalArrows; those correspond to the comma-limit 'formal criterion' (Mac Lane X.1 Theorem 2 / V.6), a SEPARATELY inventoried item, NOT the Kan-extension phrasing of X.7 Theorem 2. No in-tree statement matches the Ran-of-identity characterization. ABSENT."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Verified: left_adjoints_preserve (Theory/Kan/Extension.v:386) is Aborted at line 438 (not in environment, adjoint⇒preserves half only, and about LEFT Kan not Ran-of-identity); left_adjoint_impl (328, Qed 374) is only a hom-iso consequence of an existing adjoint. No construction turns a preserved Ran_G 1_A into an adjoint; Ran/Lan-of-identity never instantiated (grep -> 0). GAFT/SAFT are the comma-limit criterion (X.1 thm2 / V.6), a distinct item, correctly not conflated."
+    }
+  },
+  {
+    "id": "maclane:X.7:prop3",
+    "classification": "ABSENT",
+    "aliases": [
+      "left adjoint yields an absolute right Kan extension",
+      "Ran_G 1_A = F preserved by every functor",
+      "absolute Kan extension",
+      "adjoint gives absolute Ran of the identity",
+      "absolute colimit / absoluteness"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -i 'absolute' --include=*.v . -> matches are 'absolute colimit'/'absolute split coequalizer' (Structure/Coequalizer/Split.v, Construction/Karoubi.v:67, Monad/Monadicity/BeckObjects.v) — the notion of an ABSOLUTE KAN EXTENSION (preserved by every functor) is NOT defined, and 'absolute Kan' returns nothing.",
+      "The specific claim 'G has left adjoint F with counit ε ⟹ Ran_G 1_A exists, equals F with counit ε, and is absolute' has no in-tree counterpart: Ran_G 1_A (Kan extension of the identity along G) is never constructed, and the closest attempt, left_adjoints_preserve (Theory/Kan/Extension.v:386), is ABORTED (line 438).",
+      "left_adjoint_impl (Theory/Kan/Extension.v:328, Qed) gives only the adjoint hom-iso, not the absolute-Kan conclusion. ABSENT (formalizable; the absolute-colimit vocabulary is present but not the Kan-extension form)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Verified: 'absolute' occurs only for absolute colimits / split coequalizers (Structure/Coequalizer/Split.v, Construction/Karoubi.v, Monad/Monadicity/BeckObjects.v); no absolute-Kan notion. Ran_G 1_A never constructed; the relevant attempt (left_adjoints_preserve) is Aborted."
+    }
+  },
+  {
+    "id": "maclane:X.7:remark1",
+    "classification": "ABSENT",
+    "aliases": [
+      "Kan extension along the identity is the identity",
+      "Lan_I T = T",
+      "Ran_I T = T",
+      "Kan extension along Id",
+      "trivial Kan extension along identity functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn -iE 'Lan.*Id\\b|Ran.*Id\\b|Kan.*identity|identity.*Kan|Induced.*Id' --include=*.v . -> no lemma; matches are unrelated (Traversable sequence_Id, Yoneda 'transform ... A id', monoidal-strict identities). The specific statements Lan_I T ≈ T and Ran_I T ≈ T are neither stated nor proven.",
+      "No use-site of the Ran/Lan classes with F := Id exists (grep of Ran/Lan use-sites outside Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v -> none). Although the RightKan/LeftKan universal properties (Theory/Kan/Extension.v:140,222) would make this trivial (Induced = (−◦Id) is the identity functor, so its adjoints are the identity), the remark's content is not formalized. ABSENT (trivially derivable but not in-tree; formalizable, not OUT_OF_SCOPE)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees ABSENT. Verified: no Lan_I/Ran_I=identity lemma; grep for Ran/Lan-with-Id or Kan-along-identity use-sites -> 0 (only unrelated hits). Trivially derivable from the RightKan/LeftKan UMP but not stated in-tree."
+    }
+  }
+]

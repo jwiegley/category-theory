@@ -1,0 +1,449 @@
+[
+  {
+    "id": "7sketches:4.2.2:ex4.17",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrix multiplication in a quantale",
+      "(min,+) / tropical / min-plus matrix product",
+      "Cost-enriched category, Lawvere metric space, generalized metric space",
+      "V-matrix composition, hom-matrix M_X, distance matrix",
+      "shortest-path / Floyd-Warshall closure of a Cost matrix"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> 1 hit, Construction/Enriched.v:78, and it is a PROSE COMMENT ('preorder- and quantale-enriched categories'), not a definition; there is no Quantale class, record or instance anywhere in the tree",
+      "grep -rl 'Cost' --include='*.v' . -> only Comonad/Strong.v, and the match is the substring in 'costrength'/'costructure'; no Cost quantale ([0,inf], >=, +, 0) exists",
+      "grep -rnE --include='*.v' -i 'extended reals|Rbar|R_infty|nonneg' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'min, \\+|min-plus|tropical' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'metric' . -> 2 hits, both prose comments (Instance/Poset.v:77 'Lawvere metric space', Construction/Enriched.v:74-75 'generalized metric space'); no Lawvere metric space is constructed",
+      "grep -rln --include='*.v' -i 'matrix' . -> Functor/Hom/Yoneda.v, Theory/Profunctor.v, Instance/ZX.v, Structure/{Preadditive,Semiadditive,Bicartesian,Abelian}.v, Structure/Monoidal/{Traced,Braided}.v; all are either prose ('a profunctor is a matrix of sets') or the biproduct matrix calculus over a CMon-enriched base -- none is matrix multiplication over a quantale, and none supports numeric (min,+) arithmetic",
+      "grep -rnE --include='*.v' -i 'Kleene|shortest path|Floyd' . -> 0 hits",
+      "NOTE: the STRUCTURAL content the exercise checks (that pre/post-composing a profunctor with the hom-matrices returns it) is Lemma 4.27, recorded separately as PARTIAL against Construction/Profunctor/Laws.v; but the exercise's own content -- a concrete numeric computation of M_X^3 * M_Phi * M_Y^2 in Cost -- has no in-tree counterpart because the Cost quantale does not exist"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Independent searches: `rg -il quantale` -> 1 file (Construction/Enriched.v:78) and it is prose inside the enrichment essay, no Quantale class/record/instance; `rg -i '\\bCost\\b'` over *.v -> 10 hits, ALL the English word 'cost' (Monad/Graded.v:28, Instance/Sets.v:84, Construction/Cayley.v:87, Theory/Equivalence.v:92, ...) plus none is a quantale (the classifier's log says only Comonad/Strong.v via 'costrength'; my count is larger but the conclusion is identical and the classifier's conclusion stands); `rg -i 'min-plus|tropical'` -> 0 files; `rg -i matrix` over *.v -> 9 files, all biproduct-matrix-calculus or prose ('a profunctor is a matrix of sets', Theory/Profunctor.v:64), none a quantale matrix. No numeric (min,+) arithmetic anywhere. ABSENT is correct and the negative log is accurate."
+    }
+  },
+  {
+    "id": "7sketches:4.2.3:ex4.18",
+    "classification": "ABSENT",
+    "aliases": [
+      "feasibility relation, Bool-profunctor, Bool-enriched profunctor",
+      "monotone relation between preorders, weakening/order-compatible relation",
+      "left-total / entire / serial relation (the property that FAILS here)",
+      "profunctor condition Phi(p,q) monotone in p (op) and q",
+      "empty row of a relation matrix"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'feasib' . -> 0 hits (no feasibility relations anywhere)",
+      "grep -rn --include='*.v' -i 'V-profunctor' . -> 0 hits; grep -rn --include='*.v' -i 'enriched profunctor' . -> 0 hits; grep -rn --include='*.v' -i 'EnrichedProfunctor' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'entire|total relation|left-total|serial relation' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'empty relation' . -> 1 hit, Instance/Rel.v:84, a prose comment about the initial object of Rel; no assertion about a relation being empty at a given point",
+      "find . -iname '*rofunctor*' -> Theory/Profunctor.v, Theory/Profunctor/Adjunction.v, Construction/Profunctor/{Compose,Laws}.v -- all Sets-valued (Profunctor C D := (C^op nabla D) --> Sets); nothing Bool-valued, so the exercise's object (a Bool-profunctor drawn as a bridge diagram, with a node having no outgoing bridge) has no in-tree counterpart",
+      "grep -rnE --include='*.v' -i 'bridge diagram|distance matrix' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. `rg -i 'Feas|feasibility'` -> 0 files; `rg -i 'V-profunctor|enriched profunctor'` -> 0 hits; `rg -i 'monotone relation|weakening relation|order-compatible|up.?set|down-closed'` -> 0 hits. The only profunctor files are Theory/Profunctor{.v,/Adjunction.v} and Construction/Profunctor/{Compose,Laws}.v, all hard-wired Sets-valued via `Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets` (Theory/Profunctor.v:122, verified). Nothing Bool-valued, so the exercise's object does not exist. ABSENT correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.1:def4.21",
+    "classification": "PARTIAL",
+    "aliases": [
+      "profunctor composition, serial composition of profunctors",
+      "coend formula (Q o P)(c,e) = int^d P(c,d) x Q(d,e)",
+      "generalized matrix multiplication, join-of-tensors, sup-of-tensor",
+      "relational composition (V = Bool case): exists e, R a e /\\ S e b",
+      "bimodule/distributor tensor product over the middle category"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Compose.v",
+        "line": 267,
+        "symbol": "prof_compose",
+        "intree_statement": "Program Definition prof_compose : C ⇸ E := {| fobj := fun ce => coend_obj (SetsCoend (prof_integrand (fst ce) (snd ce))); fmap := fun x y f => prof_compose_map (fst x) (fst y) (snd x) (snd y) (fst f) (snd f) |}."
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}."
+      }
+    ],
+    "statement_record": {
+      "book": "For a quantale V and V-categories X, Y, Z, the composite of V-profunctors Phi : X -|-> Y and Psi : Y -|-> Z is (Phi ; Psi)(p,r) := JOIN over q in Y of Phi(p,q) tensor Psi(q,r) -- matrix multiplication in V; for V = Bool this is the big OR over way-points q of Phi(p,q) AND Psi(q,r).",
+      "intree": "prof_compose : C ⇸ E with (prof_compose P Q)(c,e) := coend_obj (SetsCoend (prof_integrand c e)), i.e. the coend ∫^d P(c,d) × Q(d,e) in Sets; and in Instance/Rel.v the Bool instance verbatim: compose f g a b := exists e, In y (g a) e ∧ In z (f e) b.",
+      "strength_comparison": "intree-weaker: the composition formula exists only at two fixed bases, never over a general quantale V. (i) prof_compose is the V = Sets case: the join over the way-point is a coend (colimit) in Sets, not a join in a quantale, and the in-tree Profunctor type is hard-wired to `(C^op ∏ D) ⟶ Sets` (Theory/Profunctor.v:122). (ii) Rel realises the V = Bool formula (4.20) literally, but only between DISCRETE Bool-categories -- Rel's objects are bare Coq types, so the profunctor/monotonicity side condition of Definition 4.8 is vacuous. Neither in-tree form is an instance of the other, and there is no quantale-parametric statement."
+    },
+    "gap": "There is no Quantale class in the tree at all (only a prose mention at Construction/Enriched.v:78), hence no V-profunctor type and no join-of-tensors composite over a general quantale V. What exists is (a) the V = Sets coend composite prof_compose, and (b) the V = Bool composite as relational composition in Instance/Rel.v, restricted to discrete objects. A faithful Definition 4.21 needs: a quantale (skeletal poset + monoidal + all joins with tensor distributing over them), V-profunctors between V-categories in the sense of Construction/Enriched.v's Enriched class, and the sup-of-tensor composite.",
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> only the comment Construction/Enriched.v:78",
+      "grep -rn --include='*.v' -i 'V-profunctor|enriched profunctor|EnrichedProfunctor' . -> 0 hits",
+      "find . -iname '*nriched*' -name '*.v' -> Construction/Enriched.v + Construction/Enriched/{Sets,Fun,Natural,Two,Compose}.v; none defines an enriched profunctor or module"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence items verified at the cited lines. Construction/Profunctor/Compose.v:267 is exactly `Program Definition prof_compose : C ⇸ E := {| fobj := fun ce => coend_obj (SetsCoend (prof_integrand (fst ce) (snd ce))); fmap := ... |}` (quote accurate). Instance/Rel.v:45 is exactly `Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; ... id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}` (quote accurate; all six category obligations are Qed-discharged, none Admitted). Both files ARE registered in _CoqProject (line 65 Construction/Profunctor/Compose.v, line 225 Instance/Rel.v). My blind pass found prof_compose independently and MISSED Instance/Rel.v — the classifier's Bool leg is a real find, not inflation. The strength_comparison is honest about the special-case restriction (Rel's objects are bare Coq types = discrete Bool-categories, so the Definition-4.8 monotonicity side condition is vacuous). PARTIAL correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.1:ex4.22",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cost-profunctor composite, (min,+) matrix product",
+      "shortest path through a way-point, triangle-inequality composition",
+      "Lawvere metric space bimodule composition",
+      "quantale matrix multiplication in ([0,inf], >=, +, 0)",
+      "distance-matrix product"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rl 'Cost' --include='*.v' . -> only Comonad/Strong.v (substring of 'costrength'); no Cost quantale exists",
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only (Construction/Enriched.v:78)",
+      "grep -rnE --include='*.v' -i 'min, \\+|min-plus|tropical|shortest path|Floyd|Kleene' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'metric' . -> only the prose comments Instance/Poset.v:77 and Construction/Enriched.v:74-75; no Lawvere metric space is constructed",
+      "grep -rnE --include='*.v' -i 'extended reals|Rbar|R_infty|nonneg' . -> 0 hits",
+      "NOTE: the general composition formula this exercise instantiates is recorded as PARTIAL under 7sketches:4.3.1:def4.21; the exercise's own content -- a concrete 4x4 numeric composite in Cost -- has no in-tree counterpart at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees; same negative searches as ex4.17. No Cost quantale, no extended reals, no distance matrices, no shortest-path/Kleene closure. The general formula is correctly cross-referenced to def4.21's PARTIAL rather than double-counted here. ABSENT correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:def-skeletal-quantale",
+    "classification": "PARTIAL",
+    "aliases": [
+      "skeletal preorder = poset (antisymmetry: x<=y and y<=x implies x=y)",
+      "skeletal category, skeleton, isomorphic objects are equal",
+      "Antisymmetric typeclass, PartialOrder",
+      "quantale = complete lattice + monoidal, suplattice, unital quantale",
+      "commutative monoidal closed poset with all joins"
+    ],
+    "evidence": [
+      {
+        "file": "Test/Poset.v",
+        "line": 102,
+        "symbol": "poset_nat_skeletal",
+        "intree_statement": "Lemma poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y."
+      },
+      {
+        "file": "Instance/Poset.v",
+        "line": 116,
+        "symbol": "Poset",
+        "intree_statement": "Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P."
+      }
+    ],
+    "statement_record": {
+      "book": "A preorder is SKELETAL when x <= y and y <= x imply x = y (i.e. it is a poset); a quantale is SKELETAL when its underlying preorder is skeletal. Bool and Cost are skeletal quantales. Skeletality is exactly the hypothesis that makes profunctor composition strictly (not merely up to iso) unital and associative.",
+      "intree": "poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y) -> (y ~{Poset_nat}~> x) -> x = y; and Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P.",
+      "strength_comparison": "intree-weaker in two independent ways. (1) The skeletal-PREORDER half is present in substance: the in-tree Poset construction takes exactly the book's condition as its `Antisymmetric C eq R` hypothesis (which unfolds to `forall x y, R x y -> R y x -> x = y`), and poset_nat_skeletal / poset_two_skeletal state that condition at the category level (mutually related objects are literally equal). (2) The QUANTALE half is entirely missing: there is no Quantale class, no completeness/join structure on a poset, and no instance recording Bool or Cost as a quantale -- so 'skeletal quantale' as a compound notion is undefined in-tree. Note also that skeletality of a general category (isomorphic objects are equal) is deliberately avoided by the library: Theory/Equivalence.v:92-98 records that skeletons are 'evil' and confines them to concrete instances."
+    },
+    "gap": "Only the skeletal-preorder (= poset) half is formalized, via the `Antisymmetric` hypothesis of Instance/Poset.v's Poset and the instance-level poset_nat_skeletal / poset_two_skeletal lemmas in Test/Poset.v. Missing: (a) any Quantale class (a skeletal poset that is a commutative monoidal category with all joins, tensor distributing over them); (b) the two named witnesses -- Bool and Cost -- as quantales (only the monoidal half of Bool exists, as the cartesian Two_Monoidal : @Monoidal _2 at Instance/Two/Monoidal.v:105; the walking arrow has no recorded join/cocartesian structure, grep 'Two_Cocartesian' -> 0 hits, and Cost does not exist at all); (c) any general definition of a skeletal preorder/quantale as a predicate rather than a hypothesis on a specific construction.",
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> only the prose comment Construction/Enriched.v:78",
+      "grep -rnE --include='*.v' -i 'suplattice|sup-lattice|complete lattice' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'Two_Cocartesian' . -> 0 hits (the walking arrow 2 carries Two_Cartesian/Two_Terminal and hence Two_Monoidal, but no joins)",
+      "grep -rn --include='*.v' -i 'skeletal|skeleton|antisymm' . -> Test/Poset.v (the two skeletality lemmas), Instance/{Poset,Proset,FinSet}.v, Theory/Equivalence.v (prose on why skeletons are avoided), Theory/Lawvere*.v (skeletal BASE THEORY in a different sense); no general skeletality predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence items verified verbatim: Test/Poset.v:102 `Lemma poset_nat_skeletal : forall x y : obj[Poset_nat], (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y.` and Instance/Poset.v:116-117 `Definition Poset {C : Type} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P.` (the classifier joined the two source lines; content exact). Both registered in _CoqProject (line 482 Test/Poset.v; Instance/Poset.v present). I independently confirmed the gap's key claim: `rg 'Two_Cocartesian|@Cocartesian _2|@Initial _2'` -> 0 hits, and Instance/Two/Monoidal.v carries only Two_Cartesian (line 80), Two_Terminal (98) and Two_Monoidal := Cartesian_Monoidal (105-106) — no join structure, so Bool is NOT in-tree as a quantale, only as a cartesian monoidal poset. `rg -i 'suplattice|complete lattice'` -> 0/2 files (the 2 are unrelated prose). I also independently confirmed Instance/Poset.v:20-22 itself names the notion ('antisymmetry ... only makes the resulting thin category skeletal ... nLab characterizes a poset as exactly a skeletal thin category'), which strengthens the skeletal-preorder leg. PARTIAL correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:thm4.23",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Prof_V, the category of V-categories and V-profunctors",
+      "bicategory Prof / Mod / Dist of profunctors",
+      "Rel, the category of sets and relations (V = Bool, discrete objects)",
+      "profunctor unitors and associator (prof_unit_left_iso, prof_assoc_iso)",
+      "Feas, category of preorders and feasibility relations"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}."
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 722,
+        "symbol": "prof_assoc_iso",
+        "intree_statement": "Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R).  (Context {C D E FF : Category} (P : C ⇸ D) (Q : D ⇸ E) (R : E ⇸ FF).)"
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.  (Context {C D : Category} (P : C ⇸ D); prof_id := Hom C.)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any SKELETAL quantale V there is a category Prof_V whose objects are V-categories, whose morphisms X -> Y are V-profunctors Phi : X -|-> Y, whose composition is the join-of-tensors of Definition 4.21 and whose identities are the unit profunctors U_X; unitality is Lemma 4.27 and associativity Lemma 4.31, both using skeletality to turn two-sided inequalities into equalities.",
+      "intree": "Rel : Category (objects Coq types, morphisms relations, id := Singleton, compose := exists e, g a e ∧ f e b -- a genuine CATEGORY, with all four laws discharged as Program obligations); together with prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R) and prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P at V = Sets.",
+      "strength_comparison": "intree-weaker on both legs. (a) Rel IS a category of Bool-profunctors with exactly the book's composition and identities, but its objects are bare types, i.e. only DISCRETE Bool-categories, not arbitrary preorders -- so it is Prof_Bool restricted to the discrete objects, and the Bool-profunctor side condition is vacuous on it. (b) The general profunctor development is at V = Sets and is DELIBERATELY not assembled into a category: Theory/Profunctor.v:31-38 states 'We never assemble a single category of all profunctors between all categories -- that would raise the universe level -- so the bicategory-lite composition and coherence live as lemmas in these per-pair functor categories.' Its laws are natural ISOS in [C^op ∏ D, Sets] (≅[Fun]), the correct notion at V = Sets but not the strict equalities skeletality buys the book. No Bicategory instance for Prof is registered either (grep for a Prof instance found only prose in Theory/{Bicategory,DoubleCategory}.v)."
+    },
+    "gap": "No Prof_V exists for a quantale V (no quantale, no V-profunctors). At V = Sets the composition, both unitors and the associator are proved (Construction/Profunctor/{Compose,Laws}.v) but are explicitly NOT packaged as a category or a Bicategory instance, on a stated universe-size ground. At V = Bool, Instance/Rel.v gives an honest category but only over discrete objects (bare Coq types), so the theorem's objects -- arbitrary V-categories, i.e. preorders in the Bool case -- are not covered.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'Prof\\b|Prof_' . | grep -v 'Profunctor|prof_' -> 2 hits, both prose comments (Theory/DoubleCategory.v:136, Theory/Bicategory.v:94); no Prof category or bicategory instance",
+      "grep -rn --include='*.v' -i 'Prof_V|Feas' . -> 0 hits",
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items verified: Instance/Rel.v:45 (exact), Construction/Profunctor/Laws.v:722 `Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R).` (exact, Context {C D E FF} verified at the section head), Laws.v:236 `Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.` (exact). The load-bearing disclosure quote is accurate: Theory/Profunctor.v:31-38 reads 'We never assemble a single category of all profunctors between all categories — that would raise the universe level — so the bicategory-lite composition and coherence live as lemmas in these per-pair functor categories'. I found a SECOND in-tree corroboration the classifier did not cite, worth carrying into the issue: Construction/Profunctor/Laws.v:43-44 states 'Assembling these into a [Bicategory] instance for the bicategory of profunctors is deferred; here we deliver the laws themselves.' Independent search for a Prof category/bicategory instance: 0 hits. PARTIAL correct and, if anything, conservatively stated."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:def4.24",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Feas, category of preorders and feasibility relations",
+      "Prof_Bool, Bool-enriched profunctors",
+      "Rel, category of sets and binary relations",
+      "monotone/order-compatible relations between preorders",
+      "the bicategory of preorders and weakening relations"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}."
+      },
+      {
+        "file": "Construction/Enriched/Two.v",
+        "line": 165,
+        "symbol": "Enriched_Two_preorder",
+        "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder."
+      }
+    ],
+    "statement_record": {
+      "book": "Feas := Prof_Bool: the category whose objects are preorders (Bool-categories) and whose morphisms are feasibility relations (Bool-profunctors), with composition the OR-of-ANDs formula (4.20) and identities the unit profunctors.",
+      "intree": "Rel : Category with id := Singleton (the diagonal) and compose f g a b := exists e, In y (g a) e ∧ In z (f e) b; plus Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder, which identifies Bool-categories (enrichments over the walking arrow under its cartesian monoidal structure) with preorders in both directions.",
+      "strength_comparison": "intree-weaker: Rel is exactly Feas restricted to DISCRETE objects. Its hom-sets are all relations A -> Ensemble B with no order-compatibility requirement, its objects are bare Coq types rather than preorders, and its identity is the equality relation rather than the order relation of a preorder. The two clauses of the definition are thus covered separately and neither fully: Enriched_Two_preorder supplies precisely the OBJECTS of Feas (Bool-categories = preorders, both directions, with the morphism leg EnrichedFunctor_Two_monotone at line 183), while Rel supplies the composition and identity law but over the wrong object class. Nothing in-tree assembles preorders as objects with Bool-profunctors as morphisms."
+    },
+    "gap": "Feas itself is not constructed. Missing: the hom-type of Bool-profunctors between two preorders (a relation Phi with the monotonicity condition p' <= p, q <= q', Phi(p,q) => Phi(p',q')), the proof that OR-of-ANDs composition preserves that condition, and the identity U_X = the order relation of X. Instance/Rel.v provides the composition and unit laws only for discrete preorders (bare types, identity = the diagonal), and Construction/Enriched/Two.v provides the objects (preorders = Bool-categories) with monotone maps rather than profunctors as morphisms.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'feasib' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'Feas|Prof_V' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'category of preorders|category of posets' . -> 0 hits (no Pos/Pre category exists either; Instance/Poset.v:116 builds a single poset AS a category, not the category of them)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CAVEAT (with a caveat on how thin the PARTIAL is). My blind pass classified this ABSENT; on reading the record I accept PARTIAL, but the reader should know it rests on two disjoint half-legs and NOT on any approximation of Feas. Both evidence items verified: Instance/Rel.v:45 (exact) and Construction/Enriched/Two.v:165 `Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.` (exact; the morphism leg EnrichedFunctor_Two_monotone is really at line 183 as claimed). The strength_comparison's honesty is what saves the PARTIAL: it states plainly that Rel is Feas restricted to DISCRETE objects (bare Coq types, identity = the diagonal Singleton rather than the order relation) and that 'Nothing in-tree assembles preorders as objects with Bool-profunctors as morphisms'. Verified independently that the missing hom-type has no counterpart: `rg -i 'monotone relation|weakening|order-compatible|feasib'` -> 0 hits, and there is no category-of-preorders either (Instance/Poset.v builds a poset AS a category, not Pos). Downstream issue writers should treat this as effectively a full gap."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:def4.25",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unit profunctor U_X, identity profunctor",
+      "hom-bifunctor as the unit for profunctor composition (Hom C)",
+      "Id_Profunctor / prof_id",
+      "the diagonal / equality relation as the identity of Rel (V = Bool, discrete)",
+      "the order relation of X viewed as a Bool-profunctor X -|-> X"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.  (Context {C D : Category} (P : C ⇸ D); prof_id {C : Category} : C ⇸ C := Hom C, Compose.v:342.)"
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 395,
+        "symbol": "prof_unit_right_iso",
+        "intree_statement": "Definition prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P."
+      }
+    ],
+    "statement_record": {
+      "book": "For a V-category X the UNIT PROFUNCTOR U_X : X -|-> X is defined by U_X(x,y) := X(x,y) -- the hom-object assignment of X viewed as a V-profunctor. It is the identity morphism of X in Prof_V, and composing any profunctor with it on either side returns that profunctor.",
+      "intree": "prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P and prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P, where the unit is taken to be the hom-bifunctor itself (prof_id {C : Category} : C ⇸ C := Hom C, Construction/Profunctor/Compose.v:342; likewise Id_Profunctor C := Hom C, Theory/Profunctor.v:132).",
+      "strength_comparison": "intree-weaker only in the base: the in-tree unit IS the book's U_X -- the hom assignment of the category itself, taken at the profunctor type C ⇸ C -- and both sides of its identity role are proved. But this is the V = Sets case (hom-SETOIDS, not hom-objects in a quantale); there is no V-enriched profunctor type, so U_X for a general V-category is undefined. The identity-role statement is a natural isomorphism ≅[Fun] rather than an equality, which is the correct notion of sameness of Sets-valued profunctors (Prof_Setoid := @Functor_Setoid (C^op ∏ D) Sets, Theory/Profunctor.v:165) but weaker than the strict equality the book's skeletality hypothesis delivers."
+    },
+    "gap": "The unit profunctor exists only at V = Sets (prof_id / Id_Profunctor := Hom C), and in the discrete Bool case as Rel's identity (id := Singleton, the diagonal, Instance/Rel.v:45). Missing: a V-enriched profunctor type over a quantale and its unit U_X(x,y) := X(x,y) -- in particular the Bool reading (U_X joins x to y exactly when x <= y) and the Cost reading (bridge length = distance X(x,y)) of Exercise 4.26 have no counterpart.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'unit profunctor|Unit_Profunctor' . -> 0 hits (only the prose 'the unit of this composition is the hom-bifunctor' at Theory/Profunctor.v:71)",
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only, so no V-enriched unit profunctor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence items verified at the cited lines (Laws.v:236 and Laws.v:395 `Definition prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P.`, exact). The unit identification is real: Construction/Profunctor/Compose.v:342 `Definition prof_id {C : Category} : C ⇸ C := Hom C.` — i.e. the in-tree unit IS the book's U_X(x,y) := X(x,y), read at V = Sets. Prof_Setoid is correctly cited: Theory/Profunctor.v:164-165 `Definition Prof_Setoid (C D : Category) : Setoid (C ⇸ D) := @Functor_Setoid (C^op ∏ D) Sets.` (the classifier cited 165; the Definition keyword is on 164 — a one-line offset, immaterial). One in-tree wart I surface separately in problems[]: Theory/Profunctor.v:132 also defines `Id_Profunctor (C : Category) : C ⇸ C := Hom C`, which is referenced nowhere outside its own file even though Compose.v imports Theory.Profunctor — the live unit is the duplicate prof_id. Does not affect the classification. PARTIAL correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:ex4.26",
+    "classification": "ABSENT",
+    "aliases": [
+      "unit profunctor of a Cost-category, distance matrix of a metric space",
+      "Lawvere metric space hom-object U_X(x,y) = d(x,y)",
+      "bridge diagram / two-copies-of-X picture of a profunctor",
+      "identity bimodule of a ([0,inf], >=, +)-enriched category",
+      "Cost-enriched hom matrix"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rl 'Cost' --include='*.v' . -> only Comonad/Strong.v (substring of 'costrength'/'costructure'); the Cost quantale does not exist",
+      "grep -rn --include='*.v' -i 'metric' . -> only the prose comments Instance/Poset.v:77 and Construction/Enriched.v:74-75; no Lawvere metric space / Cost-category is constructed",
+      "grep -rnE --include='*.v' -i 'bridge diagram|distance matrix' . -> 0 hits",
+      "grep -rn --include='*.v' -i 'unit profunctor|Unit_Profunctor' . -> 0 hits",
+      "NOTE: the general unit profunctor at V = Sets is recorded as PARTIAL under 7sketches:4.3.2:def4.25; the exercise's own content -- drawing the bridge diagram of U_X for a Cost-category, whose bridge lengths are the distances X(x,y) -- has no in-tree counterpart because Cost-categories do not exist"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees. Considered OUT_OF_SCOPE (the exercise literally says 'draw a diagram') and rejected it: the formalizable residue — the unit profunctor of a Cost-category, whose values are the distances X(x,y) — is perfectly statable once Cost exists, so the frozen 'sparingly' rule makes ABSENT the right call, and the classifier chose it. Negative searches reproduced: no Cost quantale, no Lawvere metric space constructed (the only 'metric' hits are prose at Instance/Poset.v:77 and Construction/Enriched.v:74-75), `rg -i 'bridge diagram'` -> 0."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:lem4.27",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unit law / unitality of profunctor composition, U_P ; Phi = Phi = Phi ; U_Q",
+      "co-Yoneda / ninja Yoneda unit reduction int^m C(c,m) x P(m,d) = P(c,d)",
+      "prof_unit_left_iso, prof_unit_right_iso, left and right unitor of Prof",
+      "id_left / id_right for relational composition (V = Bool, discrete)",
+      "hom-bimodule acts as the identity bimodule"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 236,
+        "symbol": "prof_unit_left_iso",
+        "intree_statement": "Definition prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P.  (Context {C D : Category} (P : C ⇸ D).)"
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 395,
+        "symbol": "prof_unit_right_iso",
+        "intree_statement": "Definition prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P."
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| ... id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}. (the id_left / id_right obligations are discharged, giving strict two-sided unitality of the OR-of-ANDs composite against the diagonal)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any V-profunctor Phi : P -|-> Q over a skeletal quantale V, U_P ; Phi = Phi = Phi ; U_Q. The proof shows both inequalities: one from the monoidal unit law together with I <= P(p,p) and the join being an upper bound (display 4.28), the converse from the universal property of the join together with the enriched-composition inequality P(p,p1) tensor Phi(p1,q) tensor Q(q,q) <= Phi(p,q) (display 4.29); skeletality upgrades the two inequalities to equality.",
+      "intree": "prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P and prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P, proved pointwise by the mutually inverse pair lu_to (the profunctor's own action, fmap[P] (g, id)) and lu_from (embedding b at the identity leg, ci (id[c], b)), Laws.v:129/138/146/213.",
+      "strength_comparison": "intree-weaker in base and in strictness; the ARGUMENT is the same. Base: V = Sets only -- there is no quantale-enriched profunctor, so the lemma as stated (for an arbitrary skeletal quantale) is not available. Strictness: the in-tree conclusion is a natural isomorphism ≅[Fun], not an equality; this is the faithful setoid/Sets rephrasing (natural iso is the library's equality of profunctors, Prof_Setoid, Theory/Profunctor.v:165), but the book's strict equality comes from skeletality and is not reproduced. Structure: lu_from corresponds exactly to display (4.28) (insert the identity, the Sets analogue of I <= P(p,p)) and lu_to to display (4.29) (the profunctor action), so both of the book's directions are present. Instance/Rel.v:45 does give the STRICT two-sided unit law, but only for V = Bool over discrete preorders."
+    },
+    "gap": "No quantale-enriched form of the lemma exists: there is no Quantale class and no V-profunctor type, so 'U_P ; Phi = Phi = Phi ; U_Q for a skeletal quantale V' cannot be stated in-tree. What is proved is (a) the V = Sets analogue, up to natural isomorphism rather than equality (skeletality plays no role -- Sets is not skeletal, and the co-Yoneda iso is the right statement there), and (b) the strict law for V = Bool between discrete objects, as Rel's id_left/id_right obligations.",
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only (Construction/Enriched.v:78)",
+      "grep -rn --include='*.v' -i 'V-profunctor|enriched profunctor|EnrichedProfunctor' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All three evidence items verified. Laws.v:236 and Laws.v:395 exact. The statement_record's proof-structure claim was checked against source and is accurate, not decorative: Laws.v:138-142 `Program Definition lu_from ... {| morphism := fun b => ci (II c d) c (id[c], b) |}` really is 'embed b at the identity leg' (the Sets analogue of display 4.28's I ≤ P(p,p) then join injection), and Laws.v:98-103 `lu_leg ... fmap[P] ((fst ga : m ~{C^op}~> c), id[d]) (snd ga)` with lu_to := coend_mediator (Laws.v:129-131) really is the profunctor reindexing action of display (4.29). Round trips closed at Laws.v:151-153 and Laws.v:213-214 (`lu_from_to_id : lu_from c d ∘[Sets] lu_to c d ≈ id`), all Qed, no Admitted. The strength_comparison's two honest weakenings (V = Sets only; natural iso ≅[Fun] not strict equality) are both real. PARTIAL correct."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:ex4.30",
+    "classification": "PARTIAL",
+    "aliases": [
+      "justification of the unit-law inequality chains (4.28) and (4.29)",
+      "I <= P(p,p) from the enriched identity eid : I ~> (x ~~> x)",
+      "join is an upper bound / universal property of the coend injection",
+      "the profunctor action inequality P(p,p1) (x) Phi(p1,q) (x) Q(q,q) <= Phi(p,q)",
+      "in Bool every step is an equality (idempotent/cartesian quantale collapse)"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 146,
+        "symbol": "lu_iso",
+        "intree_statement": "Program Definition lu_iso (c : C) (d : D) : @Isomorphism Sets (coend_apex_setoid (II c d)) (P (c, d)) := {| to := lu_to c d; from := lu_from c d |}.  (to := the mediator of lu_leg, whose leg at m sends (g,a) to fmap[P] (g, id[d]) a -- display (4.29); from := b |-> ci (II c d) c (id[c], b) -- display (4.28).)"
+      },
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 213,
+        "symbol": "lu_from_to_id",
+        "intree_statement": "Lemma lu_from_to_id (c : C) (d : D) : lu_from c d ∘[Sets] lu_to c d ≈ id."
+      }
+    ],
+    "statement_record": {
+      "book": "Three parts: (1) justify each of the four steps (=, <=, <=, =) in display (4.28), Phi(p,q) = I (x) Phi(p,q) <= P(p,p) (x) Phi(p,q) <= JOIN_{p1} P(p,p1) (x) Phi(p1,q) = (U_P ; Phi)(p,q); (2) show that when V = Bool each of those four steps is an EQUALITY, and explain why; (3) justify each of the three steps (=, <=, <=) in display (4.29).",
+      "intree": "lu_iso : @Isomorphism Sets (coend_apex_setoid (II c d)) (P (c,d)) with to := lu_to (the mediator of the leg (g,a) |-> fmap[P] (g, id[d]) a) and from := b |-> ci c (id[c], b); together with lu_from_to_id : lu_from ∘ lu_to ≈ id.",
+      "strength_comparison": "intree-weaker: the two directions the exercise asks to justify are present at V = Sets and only there. lu_from is the constructive content of display (4.28) -- 'insert the identity', the Sets analogue of I <= P(p,p) followed by the join/coend injection -- and lu_to (via lu_leg, Laws.v:98, and its cowedge condition lu_cowedge, Laws.v:110) is the constructive content of display (4.29), the profunctor's own reindexing action fmap[P] (g, id). What the in-tree proof does NOT contain is any inequality reasoning in a quantale (there is none to have), nor part (2): the Bool-specific claim that all four steps collapse to equalities has no in-tree counterpart, since there are no Bool-profunctors."
+    },
+    "gap": "Part (2) is entirely missing (no Bool quantale, no Bool-profunctors, hence no statement that the chain collapses to equalities when V = Bool). Parts (1) and (3) exist only as the V = Sets analogues: the two mutually inverse maps lu_from / lu_to of Construction/Profunctor/Laws.v realise the two displays constructively, but the steps are coend-mediator and functoriality reasoning rather than quantale inequalities, and there is no in-tree statement of the enriched-composition inequality P(p,p1) (x) Phi(p1,q) (x) Q(q,q) <= Phi(p,q) as such.",
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only, so displays (4.28)/(4.29) have no quantale-level home",
+      "grep -rn --include='*.v' -i 'feasib' . -> 0 hits (nothing about the Bool case of the chain)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CAVEAT (borderline — flagged for the ledger reader). My blind pass leaned ABSENT, on the ground that the exercise's own content is justification of QUANTALE inequality chains plus a Bool-collapse claim, none of which can even be stated in-tree, and that the classifier ruled ex4.17/ex4.22/ex4.26 ABSENT by exactly that reasoning ('the general result is PARTIAL elsewhere; the exercise's own content has no in-tree counterpart'). I confirm PARTIAL rather than overturn because the evidence is genuine and the gap field is unusually candid — it says outright that part (2) is 'entirely missing' and that parts (1)/(3) survive only as V = Sets coend-mediator reasoning rather than quantale inequalities. Evidence verified: Laws.v:146-150 `Program Definition lu_iso (c : C) (d : D) : @Isomorphism Sets (coend_apex_setoid (II c d)) (P (c, d)) := {| to := lu_to c d; from := lu_from c d |}` (exact) and Laws.v:213-214 lu_from_to_id (exact); lu_leg is at 98 and lu_cowedge at 110 as cited. Treat this item as 'ABSENT at the quantale level, with the V = Sets proof content in hand'."
+    }
+  },
+  {
+    "id": "7sketches:4.3.2:lem4.31",
+    "classification": "PARTIAL",
+    "aliases": [
+      "associativity of profunctor composition, (Phi;Psi);Upsilon = Phi;(Psi;Upsilon)",
+      "prof_assoc_iso, associator of the bicategory Prof",
+      "Fubini interchange / rebracketing of a double coend",
+      "comp_assoc for relational composition (V = Bool, discrete)",
+      "tensor distributes over joins in a quantale"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Profunctor/Laws.v",
+        "line": 722,
+        "symbol": "prof_assoc_iso",
+        "intree_statement": "Definition prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R).  (Context {C D E FF : Category} (P : C ⇸ D) (Q : D ⇸ E) (R : E ⇸ FF).)"
+      },
+      {
+        "file": "Instance/Rel.v",
+        "line": 45,
+        "symbol": "Rel",
+        "intree_statement": "Program Definition Rel : Category := {| ... compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}. (the comp_assoc obligation is discharged by firstorder, giving strict associativity of the OR-of-ANDs composite)"
+      }
+    ],
+    "statement_record": {
+      "book": "Serial composition of V-profunctors is associative: for Phi : P -|-> Q, Psi : Q -|-> R, Upsilon : R -|-> S over a skeletal quantale V, (Phi ; Psi) ; Upsilon = Phi ; (Psi ; Upsilon). The proof needs skeletality to upgrade two inequalities to an equality, and the fact that tensor distributes over joins in a quantale.",
+      "intree": "prof_assoc_iso : prof_compose (prof_compose P Q) R ≅[Fun] prof_compose P (prof_compose Q R), proved pointwise by the mutually inverse mediators A_to / A_from (Laws.v:516/620, with A_to_from_id and A_from_to_id at 626/632); and, at V = Bool over discrete objects, the comp_assoc obligation of Rel : Category.",
+      "strength_comparison": "intree-weaker in base and strictness. Base: V = Sets only; there is no quantale-enriched profunctor, so the lemma cannot be stated for an arbitrary skeletal quantale, and the 'tensor distributes over joins' hypothesis has no in-tree home. Strictness: the in-tree conclusion is a natural isomorphism ≅[Fun] (the Fubini-style rebracketing of the triple coend), not an equality -- which is the correct notion at V = Sets but not the strict associativity skeletality gives the book. Instance/Rel.v:45 does supply the STRICT associativity of the OR-of-ANDs composite, but only for V = Bool between discrete Bool-categories (bare types)."
+    },
+    "gap": "No quantale-level statement: with no Quantale class and no V-profunctors, '(Phi;Psi);Upsilon = Phi;(Psi;Upsilon) over a skeletal quantale' is unstatable in-tree. What exists is the V = Sets associator prof_assoc_iso (up to natural iso, via the double-coend rebracketing) and the strict Bool case for discrete objects inside Instance/Rel.v's comp_assoc obligation. Also missing: the distributivity of tensor over joins that the book's proof relies on.",
+    "negative_search_log": [
+      "grep -ril 'quantale' --include='*.v' . -> 1 prose comment only (Construction/Enriched.v:78)",
+      "grep -rn --include='*.v' -i 'V-profunctor|enriched profunctor' . -> 0 hits",
+      "grep -rnE --include='*.v' -i 'suplattice|complete lattice' . -> 0 hits (no join structure over which distributivity could be stated)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Both evidence items verified. Laws.v:722 prof_assoc_iso exact; the supporting mediators are where claimed (A_to at Laws.v:516, A_from at 620, A_to_from_id at 626-627, A_from_to_id at 632-633, both Qed). Instance/Rel.v's comp_assoc obligation is genuinely discharged (Rel.v:80-81, two `Next Obligation. firstorder. Qed.` closing comp_assoc and comp_assoc_sym), so the strict-Bool-on-discrete-objects leg is real. Independently reconfirmed the gap: no Quantale class, no join structure over which 'tensor distributes over joins' could be stated (`rg -i 'suplattice|complete lattice'` -> no usable hit). PARTIAL correct."
+    }
+  }
+]

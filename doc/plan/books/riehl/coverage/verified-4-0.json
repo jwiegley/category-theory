@@ -1,0 +1,420 @@
+[
+  {
+    "id": "riehl:4.0:construction-free-vector-space",
+    "classification": "ABSENT",
+    "aliases": [
+      "free vector space k[S] on a set; finite formal sums; basis",
+      "Vect_k, category of vector spaces; underlying-set functor U : Vect_k -> Set",
+      "free R-module R[X]; free module on a set; direct sum over X",
+      "linear map; k[f] determined on basis elements; functoriality of k[-]",
+      "free ⊣ forgetful; left adjoint to a forgetful functor; 'cofree' / right adjoint of U"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'vector space\\|Vect\\b\\|VectorSpace\\|linear map\\|k-module\\|R-module\\|free module' --include='*.v' . → 31 hits, EVERY ONE inside a comment or background essay (Theory/Functor.v:68, Theory/Equivalence.v:86, Construction/Enriched.v:46-47, Structure/Monoidal/CompactClosed.v:94, Structure/Abelian.v:69, Instance/ZX.v:38). No Coq declaration in the tree mentions vector spaces.",
+      "grep -rni 'free monoid\\|FreeMonoid\\|free group\\|FreeGroup\\|free abelian\\|group ring\\|Grothendieck group\\|group completion\\|extension of scalars\\|restriction of scalars' --include='*.v' . → comments only (Theory/Coq/List.v:25, Construction/PROP.v:32, Theory/Universal/Arrow.v:45, …).",
+      "ls Instance/ (full listing) → the only algebraic-structure instance category in the library is Instance/CMon.v (commutative monoids over setoids). There is no Vect, no Ab, no Mod, no Ring, no Grp.",
+      "grep -rn 'Adjunction\\b' --include='*.v' . | grep -E '(Definition|Instance|Theorem|Lemma|Corollary|Program)' AND grep -rn '⊣' restricted to declaration lines → the COMPLETE list of in-tree adjunction instances is: adj_id, Adjunction_Compose, Diagonal_Product_Adjunction, FreeForgetfulAdjunction (quivers→categories), Kleisli_Adjunction, EM_Adjunction, CoKleisli_Adjunction, CoEM_Adjunction, Card_Canon_Adjunction, transported_adj_*, adjoint_triangle, plus the class fields lan_adjoint/ran_adjoint. None involves vector spaces or modules.",
+      "NEAR MISS examined and rejected: Instance/Comp.v:92-133 constructs the free ALGEBRA `Free S X` on an arbitrary finitary signature with NO equations, with its universal property (`induced_hom : AlgHom Free A`, `from_free_unique`). A k-vector space is an algebra for an EQUATIONAL theory (module axioms), which that term-algebra construction does not produce; moreover no forgetful functor out of `Algs` is defined, so no adjunction is formed.",
+      "grep -rni 'no right adjoint\\|cofree' --include='*.v' . → only the Comonad/ cofree resolutions; the item's accompanying claim that U : Vect_k -> Set has NO right adjoint has no in-tree counterpart (the library proves no non-existence-of-adjoint result at all)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently and by the same route. My own searches: `rg -i 'vector space|Vect' --glob '*.v'` -> 20+ hits, every one inside a background essay or a stdlib import (Lib/Setoid.v imports Coq.Vectors.Fin, Theory/Sheaf.v imports Coq.Vectors.Vector -- both are the length-indexed vector TYPE, not linear algebra); `rg '^(Program )?(Definition|Instance) (Mon|Grp|Group|Ab|Ring|CRing|Mod|Vect)\\b'` -> only Theory/Algebra/Monoid/Hom.v:83 `Mon` (internal monoid objects) and Instance/Comp.v:382 `Group := Algebra GroupOp GroupEq` (a TYPE, not a category). No k, no scalars, no basis, no free module. I independently examined the same near miss the classifier flags (Instance/Comp.v FreeAlg, lines 83-133: `Free : OpAlgebra S`, `induced_hom : AlgHom Free A`, `from_free_unique`) and confirm both of its rejection grounds: (a) `Free` is the term algebra for an OpSignature with NO equations, whereas a k-vector space is an equational variety; (b) `Algs` (Instance/Comp.v:151) has Terminal/Cartesian/Closed/Initial/Cocartesian instances but NO forgetful functor to Coq or Sets, so no adjunction can be formed there -- verified by `rg 'Functor' Instance/Comp.v` -> 0 functor declarations. The accompanying footnote claim (U : Vect_k -> Set has no right adjoint) likewise has no counterpart: the library states no non-existence-of-adjoint result anywhere."
+    }
+  },
+  {
+    "id": "riehl:4.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjunction, hom-set (hom-isomorphism) definition",
+      "Adjunction class / F ⊣ G notation",
+      "Adjunction_Hom, hom_adj: natural isomorphism of hom-bifunctors D^op ∏ C ⟶ Sets",
+      "left adjoint / right adjoint",
+      "adjunct, transpose, ⌊f⌋ / ⌈f⌉ (to adj / from adj)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Hom.v",
+        "line": 72,
+        "symbol": "Adjunction_Hom",
+        "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }.  (with F : D ⟶ C, U : C ⟶ D)"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |} {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |} where \"⌊ f ⌋\" := (to adj f) and \"⌈ f ⌉\" := (from adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋; from_adj_nat_l …; from_adj_nat_r … }."
+      },
+      {
+        "file": "Adjunction/Hom.v",
+        "line": 223,
+        "symbol": "Adjunction_Hom_to_Universal",
+        "intree_statement": "Program Definition Adjunction_Hom_to_Universal : F ⊣ U := {| … |}   (with the converse Adjunction_Universal_to_Hom (A : F ⊣ U) : Adjunction_Hom at line 259) — the bifunctor-natural-iso presentation and the pointwise/transposition presentation are interderivable."
+      }
+    ],
+    "statement_record": {
+      "book": "An adjunction consists of functors F : C → D and G : D → C with a specified isomorphism D(Fc,d) ≅ C(c,Gd) for every c, d, natural in BOTH variables — equivalently a natural isomorphism of the two hom-bifunctors C^op × D → SET obtained by restricting D(−,−) along F × id and C(−,−) along id × G. F is left adjoint to G, G right adjoint to F, and corresponding morphisms f♯ : Fc → d, f♭ : c → Gd are adjuncts / transposes.",
+      "intree": "Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }; and, as the library's primitive, Class Adjunction := { adj {x y} : Isomorphism Sets (hom C (F x) y) (hom D x (U y)); to_adj_nat_l; to_adj_nat_r; from_adj_nat_l; from_adj_nat_r }.",
+      "strength_comparison": "same — Adjunction_Hom is Riehl's phrasing verbatim: a single isomorphism in the functor category [D^op ∏ C, Sets] between the two restricted hom-bifunctors (the library's D/C naming is the book's C/D swapped, since F : D ⟶ C here). Theory/Adjunction.v's primitive class states the same isomorphism pointwise in the category of setoids and spells naturality out as the four transposition equations (both variables, both transposes), the standard equivalent unpacking; the two are shown mutually derivable at Adjunction/Hom.v:223 and :259. The setoid rephrasing (hom-setoids with ≈ in place of SET-valued hom-sets) is faithful, and Riehl's parenthetical about the hom-sets possibly living in a larger universe is matched by the class's explicit universe parameters @{o3 p3 so sh sp} with the comment 'o3 p3 are universes larger than either C or D'. The transpose vocabulary is in force as the ⌊f⌋ / ⌈f⌉ notation."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT with exactly the same two witnesses. Line numbers verified by reading: Theory/Adjunction.v:130 is `Class Adjunction@{o3 p3 so sh sp} := {` with fields adj (:132), to_adj_nat_l (:141), to_adj_nat_r (:144), from_adj_nat_l (:150), from_adj_nat_r (:152); Adjunction/Hom.v:72 is `Class Adjunction_Hom := { hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U }`; Adjunction/Hom.v:223 `Adjunction_Hom_to_Universal : F ⊣ U` and :259 `Adjunction_Universal_to_Hom (A : F ⊣ U) : Adjunction_Hom` both present and both `Program Definition` (proved, not admitted). All quotes accurate. strength_comparison 'same' is honest: Adjunction_Hom IS the bifunctor-natural-isomorphism phrasing Riehl gives, and the universe remark is genuinely matched by the class's explicit @{o3 p3 so sh sp} annotation plus the source comment 'o3 p3 are universes larger than either C or D' (Theory/Adjunction.v:129). Both files registered in _CoqProject. Adjunct/transpose vocabulary confirmed live as ⌊f⌋/⌈f⌉ (Theory/Adjunction.v:126-127, 192-193). Hunted for a same-name-weaker-statement: none -- the class carries naturality in both variables, not one."
+    }
+  },
+  {
+    "id": "riehl:4.1:lem3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "naturality of adjoint transposition",
+      "to_adj_nat_l / to_adj_nat_r / from_adj_nat_l / from_adj_nat_r",
+      "commuting-square correspondence under transposition (display 4.1.4)",
+      "transpose of k ∘ f♯ is Gk ∘ f♭; transpose of f♯ ∘ Fh is f♭ ∘ h",
+      "Build_Adjunction' — bijections plus two naturality laws suffice"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 144,
+        "symbol": "to_adj_nat_r",
+        "intree_statement": "to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋   (field of Class Adjunction) — the book's 'the transpose of k ∘ f♯ is Gk ∘ f♭'."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 141,
+        "symbol": "to_adj_nat_l",
+        "intree_statement": "to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g   (field of Class Adjunction) — the book's 'the transpose of f♯ ∘ Fh is f♭ ∘ h'."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 156,
+        "symbol": "Build_Adjunction'",
+        "intree_statement": "Definition Build_Adjunction' (adj : forall x y, @Isomorphism Sets {| carrier := hom C (F x) y |} {| carrier := hom D x (U y) |}) (to_adj_nat_l : forall x y z (f : F y ~> z) (g : x ~> y), to (adj _ _) (f ∘ fmap[F] g) ≈ to (adj _ _) f ∘ g) (to_adj_nat_r : forall x y z (f : y ~> z) (g : F x ~> y), to (adj _ _) (f ∘ g) ≈ fmap[U] f ∘ to (adj _ _) g) : Adjunction."
+      }
+    ],
+    "statement_record": {
+      "book": "Given F : C → D, G : D → C and a family of bijections D(Fc,d) ≅ C(c,Gd) NOT assumed natural, naturality of the family is EQUIVALENT to: for all h : c' → c, k : d → d', f♯ : Fc → d, g♯ : Fc' → d', the square (Fh, f♯, g♯, k) commutes in D if and only if the transposed square (h, f♭, g♭, Gk) commutes in C. Separately the two naturality directions say that the transpose of k ∘ f♯ is Gk ∘ f♭ and the transpose of f♯ ∘ Fh is f♭ ∘ h.",
+      "intree": "to_adj_nat_r : ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋ ; to_adj_nat_l : ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g ; (dually from_adj_nat_l : ⌈f ∘ g⌉ ≈ ⌈f⌉ ∘ fmap[F] g, from_adj_nat_r : ⌈fmap[U] f ∘ g⌉ ≈ f ∘ ⌈g⌉), all as fields of Class Adjunction; Build_Adjunction' derives the two ⌈−⌉ laws from the two ⌊−⌋ laws.",
+      "strength_comparison": "intree-weaker: the library asserts exactly the two transposition formulas that the book gives as the unpacking of Lemma 4.1.3 (and their inverse-transpose duals), but never the lemma itself. Nothing in tree states the commuting-square correspondence of display (4.1.4) as a predicate, nothing states the biconditional 'square commutes in D ⟺ transposed square commutes in C', and nothing proves the converse direction (square correspondence ⇒ naturality). Build_Adjunction' is a strictly weaker sufficiency statement: it takes the family as already being an Isomorphism in Sets and merely derives the inverse-side naturality laws from the forward ones."
+    },
+    "gap": "The biconditional that IS Lemma 4.1.3 is missing. Present: the two naturality equations in transposition form (both transposes, both variables) as class fields, from which the square correspondence follows in one line since ⌊−⌋ is a bijection. Absent: (a) any formulation of the commuting-square correspondence of display (4.1.4); (b) the 'naturality ⟺ square correspondence' equivalence for a family of bijections not assumed natural; (c) the (b)⇒(a) converse direction. Exercise 4.1.i (prove the lemma) therefore has no in-tree discharge, and Exercise 4.1.vi (which the book proves FROM Lemma 4.1.3) has no in-tree route either.",
+    "negative_search_log": [
+      "grep -rn 'to_adj_nat\\|from_adj_nat' --include='*.v' . → only the four class fields and their uses in rewriting; no biconditional statement.",
+      "grep -rni 'commut.*square\\|square.*commut' --include='*.v' . in the adjunction files → Adjunction/Hom.v has only hom_unit_naturality_consequence / hom_counit_naturality_consequence (the unit/counit factorization formulas of §4.2), not a square correspondence."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same gap. Verified Theory/Adjunction.v:141 (to_adj_nat_l), :144 (to_adj_nat_r), :156 (Build_Adjunction') -- quotes accurate. The strength_comparison is honest and the gap statement is precise. Two additions from my pass that reinforce rather than change it: (i) the closest in-tree biconditional is `adj_univ` (Theory/Adjunction.v:195): `f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g` -- a transposition biconditional, but about a SINGLE morphism pair, not about two squares; (ii) the closest thing to Riehl's 'equivalence' framing is the round trip Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom (Adjunction/Hom.v:223, :259), which proves 'bifunctor naturality ⇔ the four pointwise transposition equations' -- adjacent to but not the same as Lemma 4.1.3's 'naturality ⇔ square correspondence for a family not assumed natural'. Neither undermines PARTIAL. Confirmed by reading that no in-tree statement quantifies over h, k, f♯, g♯ and asserts commutes-iff-commutes."
+    }
+  },
+  {
+    "id": "riehl:4.1:not5",
+    "classification": "PRESENT",
+    "aliases": [
+      "turnstile notation F ⊣ G",
+      "reverse turnstile G ⊢ F",
+      "⊥-decorated bidirectional adjunction diagram",
+      "adjoint pair notation / Kan's turnstile",
+      "F ∹ U (the library's OTHER adjunction notation)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 364,
+        "symbol": "right_adjoint_iso",
+        "intree_statement": "Theorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) : F ⊣ G → F ⊣ G' → G ≈ G'.  (an assertion written in the turnstile notation; the dual left_adjoint_iso at line 404 reads F ⊣ G → F' ⊣ G → F ≈ F')"
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets (hom C (F x) y) (hom D x (U y)); to_adj_nat_l …; to_adj_nat_r …; … } — the proposition that F ⊣ G abbreviates, via `Notation \"F ⊣ G\" := (@Adjunction _ _ F G) (at level 59) : category_scope` (Theory/Adjunction.v:357)."
+      }
+    ],
+    "statement_record": {
+      "book": "Notation 4.1.5: following Kan, the turnstile designates an adjoint pair — F ⊣ G, G ⊢ F, and each of four ⊥-decorated bidirectional diagrams between C and D, all assert that F : C → D is left adjoint to G : D → C. Intended for contexts with several adjoint functors at once.",
+      "intree": "Notation \"F ⊣ G\" := (@Adjunction _ _ F G) (at level 59) : category_scope. (Theory/Adjunction.v:357), used in assertions throughout, e.g. right_adjoint_iso : F ⊣ G → F ⊣ G' → G ≈ G' and Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U').",
+      "strength_comparison": "same for the turnstile itself: F ⊣ G is the library-wide notation for exactly the book's assertion, at a single fixed level, and is used in the statements of theorems, in class fields (lan_adjoint : Lan ⊣ Induced), and in the type of every adjunction instance. The book's purely typographic variants have no in-tree spelling — there is no reverse turnstile G ⊢ F and no ⊥-decorated diagram notation; note that the library's other adjunction notation, F ∹ U, is NOT a reversed turnstile but denotes the different (equivalent) unit/counit class Adjunction_Transform of Adjunction/Natural/Transformation.v."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT. Verified `Notation \"F ⊣ G\" := (@Adjunction _ _ F G) (at level 59) : category_scope` at Theory/Adjunction.v:357 exactly as quoted, plus `Notation \"adj[ A ]\"` at :358. right_adjoint_iso at :364 and left_adjoint_iso at :404 confirmed verbatim. The record's careful disclaimer about F ∹ U is CORRECT and worth keeping: F ∹ U is Adjunction_Transform (unit/counit form, Adjunction/Natural/Transformation.v), NOT a reverse turnstile -- a reader could easily mistake it. The book's four ⊥-decorated diagrams and the reverse turnstile G ⊢ F are typography with no formal content, so their absence does not weaken the classification."
+    }
+  },
+  {
+    "id": "riehl:4.1:example6",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top, category of topological spaces and continuous maps",
+      "underlying-set / forgetful functor U : Top → Set",
+      "discrete space functor D, D ⊣ U",
+      "indiscrete / codiscrete / trivial-topology functor I, U ⊣ I",
+      "adjoint triple discrete ⊣ forgetful ⊣ indiscrete"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'topolog\\|indiscrete\\|discrete space' --include='*.v' . → 30 hits, ALL in background essays and bibliography lines (Theory/Category.v:84, Theory/Sheaf.v:23-91, Construction/Karoubi.v:49, Theory/Multicategory.v:135). No declaration.",
+      "grep -rn ': Category' --include='*.v' . | grep -iE 'top|space|open' → 0 category declarations for topological spaces (the only hits are Structure/Topos.v and Construction/Funny/Comparison.v, unrelated).",
+      "grep -rni 'continuous' --include='*.v' . in the topology sense → the only in-tree 'continuous' is limit-preservation vocabulary (Adjunction/Continuity.v, Structure/Limit/Preservation.v), not continuity of maps of spaces.",
+      "Instance/Discrete.v exists but builds DiscreteCat (the discrete CATEGORY on a type, used as a limit shape in Structure/Limit/Product.v); it is not a discrete-space functor and there is no adjunction stated for it.",
+      "Consequence: neither of the two adjunctions Top(D S, T) ≅ Set(S, U T) and Set(U T, S) ≅ Top(T, I S) can even be typed in tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. My independent searches: `rg -i 'topolog|discrete space|indiscrete' --glob '*.v'` -> every hit is bibliography or essay prose; the single suggestive one, Structure/Discrete.v:23-24 ('A discrete category is the image of a set under the left adjoint Set ⟶ Cat; the dual (codiscrete / indiscrete) construction is the further right adjoint'), is a comment on the DISCRETE CATEGORY predicate, not on topological spaces, and Structure/Discrete.v contains exactly one declaration (`Definition Discrete (C : Category) := ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id`, line 28) with no functor and no adjunction. Instance/Discrete.v:37 `DiscreteCat` and :52 `DiscreteCat_Functor` exist but carry no adjunction either (`rg '⊣' Instance/Discrete.v` -> 0). No category of topological spaces exists, so neither hom-set isomorphism of Example 4.1.6 is typeable. Negative log accurate."
+    }
+  },
+  {
+    "id": "riehl:4.1:def-adjoint-triple",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjoint triple",
+      "adjoint string / adjoint sandwich",
+      "F ⊣ G ⊣ H, L ⊣ U ⊣ R",
+      "two adjunctions sharing a middle functor",
+      "triple of adjoint functors"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }.  — the left half of the only in-tree occurrence of the shape, Lan ⊣ Induced ⊣ Ran."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 140,
+        "symbol": "RightKan",
+        "intree_statement": "Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }.  — the right half, sharing the SAME middle functor Induced."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}.  — the shared middle functor of that triple (restriction/precomposition along F)."
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered prose definition: when three functors F, G, H define a pair of adjunctions F ⊣ G and G ⊣ H, this data collectively is called an adjoint triple.",
+      "intree": "No named notion. The data is expressible — `F ⊣ G` and `G ⊣ H` are both well-typed — and occurs once, split across two classes: `Class LeftKan := { Lan; lan_adjoint : Lan ⊣ Induced }` and `Class RightKan := { Ran; ran_adjoint : Induced ⊣ Ran }`, both over the same `Induced : [B,C] ⟶ [A,C]`.",
+      "strength_comparison": "intree-weaker: the shape exists but is never named, packaged as one datum, or exploited. There is no `AdjointTriple` class/record/notation, nothing assumes LeftKan and RightKan simultaneously, and neither class has a concrete in-tree instance, so no adjoint triple is ever exhibited."
+    },
+    "gap": "No in-tree definition names the composite datum: no class, record, definition or notation for 'adjoint triple'/'adjoint string', nothing that packages F ⊣ G together with G ⊣ H, and no consequence drawn from the pairing (Exercise 4.1.iv's induced LU ⊣ RU and UL ⊣ UR are likewise absent). The single in-tree occurrence of the SHAPE, Lan ⊣ Induced ⊣ Ran, is split across two independent classes that are never assumed together and that have no concrete instance anywhere. Every other candidate triple in the library exists only as a comment: `cod ⊣ ids ⊣ dom` (Construction/Arrow.v:62), `colim ⊣ Δ ⊣ lim` (Functor/Diagonal.v:28), `Σ_f ⊣ f* ⊣ Π_f` (Construction/Slice/Pullback.v:37, whose Base_Functor_Adjunction is COMMENTED OUT at line 121), `∃ ⊣ substitution ⊣ ∀` (Theory/Adjunction.v:76, Instance/Poset.v:70). Of the diagonal triple only the right half, Δ ⊣ ×, is proved (Adjunction/Diagonal/Product.v:36); there is no coproduct-to-diagonal adjunction to complete it.",
+    "negative_search_log": [
+      "grep -rni 'adjoint triple\\|triple of adjoint\\|adjoint string\\|adjoint sandwich' --include='*.v' . → 6 hits, all in comments (Comonad/Coalgebra.v:97, Theory/Adjunction.v:75-76, Instance/Poset.v:70, Construction/Arrow.v:62, Structure/Pullback.v:127, Instance/Fun.v:70).",
+      "grep -rn '⊣.*⊣' --include='*.v' . → every hit is a comment line; no declaration states two chained adjunctions."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass landed on ABSENT; the classifier's PARTIAL is BETTER and I withdraw mine. I had searched only for the NAME ('adjoint triple|adjoint string|triple adjunction' -> 6 comment hits, matching the record's log) and missed the structural witness the classifier found. Verified it by reading: Theory/Kan/Extension.v:127 `Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; ... |}`, :140 `Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }`, :222 `Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }` -- all three line numbers exact, all three quotes verbatim, and the two classes genuinely share the SAME middle functor Induced, so Lan ⊣ Induced ⊣ Ran is a real in-tree instance of the shape. The gap statement is accurate on every cited point, each of which I re-checked: Adjunction/Diagonal/Product.v:36 is `Diagonal_Product_Adjunction ... : Diagonal_Product C ⊣ ×(C)` (the RIGHT half Δ ⊣ × only, as claimed); Construction/Slice/Pullback.v:121-127 is the fully commented-out Base_Functor_Adjunction stub (and the stub even has the direction backwards, `Star_Functor f ⊣ Bang_Functor f`, which the file header at :38-40 itself flags); Construction/Arrow.v:62, Functor/Diagonal.v:28, Instance/Fun.v:70, Theory/Adjunction.v:76, Instance/Poset.v:70 are all comment-only. `rg 'LeftKan|RightKan' --glob '*.v'` outside Theory/Kan/Extension.v returns exactly one line, Structure/Limit/Kan/Extension.v:46, which takes `{@RightKan _ _ (Erase J) C}` as a HYPOTHESIS -- confirming 'no concrete instance anywhere'."
+    }
+  },
+  {
+    "id": "riehl:4.1:def-galois-connection",
+    "classification": "PARTIAL",
+    "aliases": [
+      "(monotone) Galois connection",
+      "lower adjoint / upper adjoint",
+      "adjunction between preorders / posets",
+      "Proset, Poset, thin category, order-preserving map",
+      "F a ≤ b ⟺ a ≤ G b"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => reflexivity x; compose := fun x y z f g => transitivity g f |}.  — the hom-TYPE is literally the order relation R, so a hom-setoid isomorphism between Proset categories IS the order biconditional."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 130,
+        "symbol": "Adjunction",
+        "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y |} {| carrier := @hom D x (U y) |}; to_adj_nat_l …; to_adj_nat_r …; … } — instantiated at C := Proset P, D := Proset Q this unfolds to a bijection R_Q (F x) y ≅ R_P x (G y), with all naturality obligations discharged by the trivially-true hom-setoid."
+      }
+    ],
+    "statement_record": {
+      "book": "An adjunction between preorders is called a (monotone) Galois connection: since functors between preorders are exactly order-preserving functions (Exercise 1.3.ii), an adjunction F ⊣ G between order-preserving F : A → B and G : B → A asserts precisely that F a ≤ b if and only if a ≤ G b, for all a ∈ A, b ∈ B. F is the lower adjoint, G the upper adjoint.",
+      "intree": "The two halves exist separately: `Proset (P : PreOrder R) : Category` with `hom := R` and a trivially-true hom-setoid, and `Class Adjunction` over arbitrary categories. Nothing in tree instantiates the second at the first, names the result, or states the biconditional.",
+      "strength_comparison": "intree-weaker: the specialization would be definitional (Proset's hom is the relation itself and its setoid identifies all proofs, so `Adjunction (Proset P) (Proset Q) F G` unfolds to exactly the pair of implications F a ≤ b → a ≤ G b and a ≤ G b → F a ≤ b, with naturality vacuous), but the library never performs it: no definition, no lemma, no instance."
+    },
+    "gap": "No in-tree assertion identifies adjunctions between preorders with Galois connections. Specifically absent: (a) any definition or notation named 'Galois connection' (monotone or antitone); (b) the 'lower adjoint'/'upper adjoint' vocabulary; (c) a lemma stating that `Adjunction (Proset P) (Proset Q) F G` is equivalent to `∀ a b, F a ≤ b ↔ a ≤ G b`; (d) any INSTANCE of an adjunction between two Proset/Poset categories anywhere in the tree (the only Proset instances are the order category on nat, Instance/Proset.v:47 and Instance/Poset.v:120, and the test witnesses Poset_nat / Poset_two, none of which carries a functor, let alone an adjoint pair); (e) the companion fact that functors between preorders are exactly order-preserving maps (the nearest in-tree statement is EnrichedFunctor_Two_monotone, Construction/Enriched/Two.v:183, which is about _2-ENRICHED functors, a different encoding of the same idea). The identification is asserted only in prose comments (Instance/Poset.v:47 'an adjunction between posets is exactly a monotone Galois connection', Theory/Adjunction.v:78), which the evidence contract excludes.",
+    "negative_search_log": [
+      "grep -rni 'galois' --include='*.v' . → 16 hits, ALL in background essays (Instance/Poset.v:37-100, Theory/Adjunction.v:78-79, Structure/Factorization.v:69, Adjunction/GAFT.v:136, Instance/Adjoints.v:280). No declaration.",
+      "grep -rn 'Proset\\|monotone\\|order-preserving\\|Monotone' --include='*.v' . → Proset is used only in Instance/Poset.v, Instance/Proset.v and Test/Poset.v; `MonotoneMap` (Construction/Enriched/Two.v:175) is about _2-enrichment, not about adjunctions.",
+      "grep -rn '^Program Definition\\|^Definition\\|^Theorem\\|^Lemma' Test/Poset.v → object/hom/skeletality witnesses only; no functor and no adjunction between order categories."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same reasoning. Verified Instance/Proset.v:33 `Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category` with `hom := R` and `homset := fun A B => {| Setoid.equiv := fun _ _ => True |}` -- quote accurate, and the observation that this makes an Adjunction between Prosets unfold definitionally to the order biconditional is correct. `rg -i 'galois' --glob '*.v'` reproduces the record's 16 comment-only hits (Instance/Poset.v:37-100, Theory/Adjunction.v:78-79, Structure/Factorization.v:69, Adjunction/GAFT.v:136, Instance/Adjoints.v:280, Structure/Limit.v:53). No GaloisConnection/lower_adjoint/upper_adjoint identifier exists. Independently confirmed gap clause (d): the only Proset/Poset objects in tree are LessThanEqualTo_Category (Instance/Proset.v:47 and Instance/Poset.v:120) plus the Test/Poset.v witnesses, and no functor is ever defined between two order categories, hence no adjunction instance. Gap clause (e) is also right: the nearest in-tree 'functors between preorders = monotone maps' statement is EnrichedFunctor_Two_monotone (Construction/Enriched/Two.v:183), which is about _2-ENRICHED functors -- a different encoding."
+    }
+  },
+  {
+    "id": "riehl:4.1:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "ceiling ⊣ inclusion ⊣ floor",
+      "floor function as right adjoint to Z ↪ R",
+      "ceiling function as left adjoint to Z ↪ R",
+      "Galois connection between the integers and the reals",
+      "rounding / integer part adjunction"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'floor\\|ceiling\\|ceil\\b' --include='*.v' . → 0 hits in the whole tree.",
+      "grep -rn 'Reals\\|Rdefinitions\\|R_scope' --include='*.v' . → 0 hits; the real numbers are not imported anywhere, so the poset R does not exist.",
+      "grep -rni 'galois' --include='*.v' . → comments only (see riehl:4.1:def-galois-connection).",
+      "The only in-tree order categories are Proset/Poset on nat (Instance/Proset.v:47, Instance/Poset.v:120) and the two-element Poset_two (Test/Poset.v:139); no functor is ever defined between two order categories, so neither the inclusion nor its two adjoints exists.",
+      "grep -rn '⊣' restricted to declarations → the full list of in-tree adjunction instances (adj_id, Adjunction_Compose, Diagonal_Product_Adjunction, FreeForgetfulAdjunction, Kleisli/EM/CoKleisli/CoEM, Card_Canon_Adjunction) contains nothing between order categories."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Independently reproduced both decisive negatives: `rg -i 'floor|ceiling|ceil\\b' --glob '*.v'` -> 0 hits tree-wide, and `rg 'Reals|Rdefinitions|R_scope|QArith' --glob '*.v'` -> 0 hits, so the poset ℝ does not exist in any form and neither the inclusion ℤ ↪ ℝ nor its two adjoints is typeable. The record's supporting claim that no adjunction instance in tree lies between order categories also holds (see the def-galois-connection note)."
+    }
+  },
+  {
+    "id": "riehl:4.1:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "direct image f_* ⊣ inverse image f^{-1} ⊣ dual image f_!",
+      "powerset poset PA ordered by inclusion; powerset functor",
+      "preimage / pullback along a function of sets",
+      "existential and universal image along f",
+      "image-preimage Galois connection"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'powerset\\|power set\\|direct image\\|inverse image\\|preimage\\|pre-image' --include='*.v' . → the 'preimage' hits are all about FULLNESS of functors (prefmap, Theory/Functor.v:332) or about chosen preimages in equivalence/image factorizations (Theory/Equivalence/FullFaithful.v, Instance/Sets/Image.v); none is a powerset functor and none is an adjunction.",
+      "grep -rn 'Pow\\b' --include='*.v' . → only Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` (the internal power OBJECT) and its FinSet examples; no external powerset poset, and no ∃/∀ adjoints to reindexing.",
+      "grep -rni 'Ensemble\\|subset' --include='*.v' . → Instance/Ens.v and Instance/Rel.v use Coq Ensembles, but `EnsT T` (Instance/Ens.v:56) is NOT the powerset poset: its objects are subsets of T while its morphisms are functions f : T → T with ∀ x, x ∈ A ↔ f x ∈ B, not inclusions, so it is not P(T) ordered by ⊆.",
+      "Theory/Subobject/Functor.v:180 `Sub : C^op ⟶ Sets` is the subobject-reindexing functor (the categorical f^{-1}) — a genuine relative of the middle leg — but no left or right adjoint to it is constructed anywhere (grep 'sub_reindex' → only functoriality lemmas sub_reindex_id, sub_reindex_comp, sub_reindex_respects_mor).",
+      "grep -rn '⊣' restricted to declarations → no adjunction instance in tree has powersets, images, or subobject lattices as its categories."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Reproduced the negative log independently: `rg -i 'powerset|power set|direct image|inverse image|preimage'` -> every 'preimage' hit is either functor FULLNESS (Theory/Functor.v:332 `prefmap {x y} (g : F x ~> F y) : x ~> y`) or a chosen preimage in equivalence/image machinery (Theory/Equivalence/FullFaithful.v, Instance/Sets/Image.v, Instance/Sets/Classifier.v) -- never a powerset functor. Verified the two cited near misses: Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a` is the internal power OBJECT with no ∃/∀ adjoints; Theory/Subobject/Functor.v:180 `Program Definition Sub : C^op ⟶ Sets` is genuine reindexing (the categorical f^{-1}) but `rg 'sub_reindex'` returns only functoriality lemmas, no adjoint. Instance/Ens.v:56 `EnsT (T : Type) : Category` is correctly rejected: its hom is `∃ f : T → T, ∀ x, x ∈ A ↔ x' ∈ B (f x)`, i.e. endofunctions of the carrier, NOT inclusions, so it is not P(T) ordered by ⊆. Note in passing that the poset shadow of this example, Σ_f ⊣ f*, is likewise unproved in tree (Construction/Slice/Pullback.v:121 commented out) -- consistent with ABSENT."
+    }
+  },
+  {
+    "id": "riehl:4.1:example9",
+    "classification": "ABSENT",
+    "aliases": [
+      "quantifiers as adjoints: ∃_X ⊣ Δ_X ⊣ ∀_X",
+      "predicate / propositional function p : X → Ω",
+      "object of truth values Ω = {⊥ ≤ ⊤}; Ω^X with the pointwise order",
+      "constant/weakening functor Δ_X : Ω → Ω^X",
+      "Lawvere hyperdoctrine, adjointness in foundations"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'quantif\\|hyperdoctrine\\|exists_\\|forall_\\|dependent sum\\|dependent product\\|base change' --include='*.v' . → the ∃ ⊣ substitution ⊣ ∀ triple appears ONLY in the background essays of Theory/Adjunction.v:75-77 and Instance/Poset.v:70-71; the `forall_distribute`/`distribute_forall` lemmas of Tools/Abstraction.v:152 are meta-level Coq logic bookkeeping (currying an implication past a ∀), not the adjunction.",
+      "Instance/Two.v:134 `_2 : Category` IS the book's Ω (the two-element order ⊥ ≤ ⊤, described in its header as 'the smallest object of truth values'), and Instance/Two/Monoidal.v proves Two_Cartesian / Two_Terminal — but there is no Ω^X (no exponential of _2 by a set, no functor category over a discrete X carrying the pointwise order stated as such) and no ∃_X, Δ_X, ∀_X functors.",
+      "Instance/Props.v:39 `Props : Category` (propositions ordered by entailment) has Terminal/Initial/Cartesian/Cocartesian/Closed instances but no quantifier functors and no adjunction.",
+      "grep -rn '⊣' restricted to declarations → no adjunction instance in tree involves quantifiers, predicates, or truth-value exponentials.",
+      "Structure/Topos.v carries a subobject classifier Ω and Pow a := Ω ^ a, but nothing states ∃_f ⊣ f* ⊣ ∀_f for it; the related slice-level triple Σ_f ⊣ f* ⊣ Π_f is a comment at Construction/Slice/Pullback.v:37 with its Base_Functor_Adjunction commented out at line 121."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Reproduced: the ∃ ⊣ substitution ⊣ ∀ triple appears ONLY as essay prose (Theory/Adjunction.v:75-77, Instance/Poset.v:70-71, Structure/Pullback.v:122-128, Construction/Slice.v:92-94, Structure/Topos.v:85). Verified both cited near misses. (i) Instance/Two.v:134 `Program Definition _2 : Category` IS the book's Ω and its header at :23 does read 'The smallest non-trivial shape, and the smallest object of truth values' (quote accurate); Instance/Two/Monoidal.v:80 Two_Cartesian and :98 Two_Terminal exist, but there is no Ω^X and no ∃_X/Δ_X/∀_X. (ii) Tools/Abstraction.v:145 `distribute_forall` and :152 `forall_distribute` are meta-level Coq implication-shuffling lemmas, correctly rejected -- I read both and they are `(a → ∀ x, P x) → (∀ x, a → P x)` and its converse, nothing categorical. Instance/Props.v:39 `Props : Category` has Terminal/Initial/Cartesian/Cocartesian/Closed instances and no quantifier functors, as claimed."
+    }
+  },
+  {
+    "id": "riehl:4.1:example10",
+    "classification": "ABSENT",
+    "aliases": [
+      "free ⊣ forgetful adjunctions (free monoid, free group, free ring, free abelian group, free R-module, free commutative ring)",
+      "pointed set X_+ = X + {*}; free pointed set",
+      "group ring Z[G]; units functor (−)^x : Ring → Group",
+      "group completion / Grothendieck group; Ab ↪ CMonoid, Group ↪ Monoid",
+      "restriction of scalars φ*, extension of scalars S ⊗_R −, induction along φ : H → G"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'free monoid\\|FreeMonoid\\|free group\\|FreeGroup\\|free abelian\\|group ring\\|Grothendieck group\\|group completion\\|extension of scalars\\|restriction of scalars' --include='*.v' . → every hit is a comment (Theory/Coq/List.v:25 'list is the underlying set of the free monoid', Theory/Coq/Foldable.v:30-41, Construction/PROP.v:32, Construction/Day.v:129, Construction/Funny/Comparison.v:76). No declaration constructs any of these free objects.",
+      "ls Instance/ + grep 'Class Group\\|Definition Group\\|Groups' → the tree has NO category of monoids-as-sets, groups, rings, commutative rings, abelian groups, or modules. `Instance/Comp.v:382 Definition Group := Algebra GroupOp GroupEq` is the TYPE of groups presented as an equational variety, with no category structure and no forgetful functor; `Structure/Group.v:109 Class GroupObject` is a group object internal to a monoidal category, again with no Grp category.",
+      "grep -rn '⊣' restricted to declarations → the complete list of in-tree adjunction instances is adj_id, Adjunction_Compose, Diagonal_Product_Adjunction, FreeForgetfulAdjunction, Kleisli_Adjunction, EM_Adjunction, CoKleisli_Adjunction, CoEM_Adjunction, Card_Canon_Adjunction, adjoint_triangle, transported_adj_*, lan_adjoint/ran_adjoint. NONE of the fourteen clauses is among them.",
+      "NEAR MISS 1, rejected: Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` is a genuine free ⊣ forgetful adjunction, but it is the free CATEGORY on a quiver — the content of Example 4.1.13, a different item — not any of the fourteen algebraic clauses.",
+      "NEAR MISS 2, rejected: Instance/Comp.v:92-133 gives the free ALGEBRA `Free S X` on a signature and its universal property (`induced_hom`, `from_free_unique`), but only for signatures with NO equations. Every clause of Example 4.1.10 is an equational variety (monoid, group, ring, module), which that term algebra does not produce; and no forgetful functor out of `Algs` is defined, so no adjunction is assembled.",
+      "NEAR MISS 3, rejected: the forgetful functors alone exist in two places — `Mon_Forget : Mon ⟶ C` (Theory/Algebra/Monoid/Hom.v:93, internal monoids) and `CMon_Forget : CMon ⟶ Sets` (Instance/CMon.v:169, commutative monoids over setoids) — but neither has an in-tree left adjoint (grep 'free' over Instance/CMon.v and Instance/CMon/*.v → 0 hits), so not even clause (ii) is half-proved in the sense the book asserts.",
+      "The closing observation of the example ('each of these is a monadic adjunction') has an in-tree ANALOGUE at the abstract level (Monad/Monadicity/Beck.v, Monad/Comparison.v) but no instance among the fourteen."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass initially leaned PARTIAL on the grounds that the generic free-⊣-forgetful SHAPE exists; on verification I withdraw that and confirm ABSENT. The item's formalizable content is the fourteen concrete algebraic adjunctions, and zero of them exist; the generic shape belongs to other items (Definition of free / Example 4.1.13), so counting it here would double-count. All three near-miss rejections independently verified: (1) Construction/Free/Quiver.v:550 `FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful` is real and proved (via AdjunctionFromUniversalArrows) but is the free CATEGORY on a quiver; (2) Instance/Comp.v:92-133 `Free`/`induced_hom`/`from_free_unique` is the equation-free term algebra and `Algs` (:151) has no forgetful functor at all -- `rg 'Functor' Instance/Comp.v` -> 0 declarations; (3) Theory/Algebra/Monoid/Hom.v:93 `Mon_Forget : Mon ⟶ C` and Instance/CMon.v:169 `CMon_Forget : CMon ⟶ Sets` both exist with no left adjoint (`rg -i 'free' Instance/CMon.v Instance/CMon/*.v` -> 0 hits), so not even clause (ii)/(x) is half-done. One further near miss I checked that the classifier did not list, with the same outcome: Theory/Coq/Foldable.v's essay (lines 30-41) says 'Folding is the universal property of the free monoid', but the file's own closing paragraph (lines 47-50) states the class is ops-only and 'records no laws ... any laws ... are stated in prose rather than enforced' -- so no free-monoid universal property is proved there either. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:4.1:example11",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Frobenius reciprocity",
+      "induction ⊣ restriction ⊣ coinduction (ind^G_H ⊣ res^G_H ⊣ coind^G_H)",
+      "restriction functor φ* : C^{BG} ⟶ C^{BH} along a group homomorphism",
+      "precomposition/restriction along a functor has left and right adjoints",
+      "left and right Kan extension along Bφ; Lan ⊣ φ* ⊣ Ran"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 222,
+        "symbol": "LeftKan",
+        "intree_statement": "Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }.  — the left adjoint of restriction along F : A ⟶ B (the book's induction ind ⊣ res)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 140,
+        "symbol": "RightKan",
+        "intree_statement": "Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }.  — the right adjoint of the same restriction functor (the book's coinduction res ⊣ coind)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 127,
+        "symbol": "Induced",
+        "intree_statement": "Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {| fobj := fun G => G ◯ F; fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |} |}.  — restriction (precomposition) along F, the functor of which the two adjoints above are taken; specializing F := Bφ and A := BH, B := BG gives exactly the book's φ*."
+      }
+    ],
+    "statement_record": {
+      "book": "For any complete and cocomplete category C and any group homomorphism φ : H → G, the restriction functor φ* : C^{BG} → C^{BH} admits both a left and a right adjoint (proved in Example 6.2.9). For a subgroup inclusion H ⊆ G these are induction ind^G_H and coinduction coind^G_H, so ind ⊣ res ⊣ coind. Taking C = Vect_k, the adjunction ind^G_H ⊣ res^G_H between H- and G-representations is Frobenius reciprocity.",
+      "intree": "Class LeftKan := { Lan : [A,C] ⟶ [B,C]; lan_adjoint : Lan ⊣ Induced } and Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }, over Induced := (− ◯ F) : [B,C] ⟶ [A,C].",
+      "strength_comparison": "intree-weaker on two counts. (1) EXISTENCE IS ASSUMED, NOT PROVED: LeftKan and RightKan are hypothesis classes; the library proves no theorem producing them from cocompleteness/completeness of C (Riehl's Example 6.2.9 / §6.2), and no concrete instance of either class exists in the tree (the only consumer, Structure/Limit/Kan/Extension.v:46 `Kan_Limit`, takes `{@RightKan _ _ (Erase J) C}` as a hypothesis too). (2) The general form is stated for restriction along an arbitrary functor F : A ⟶ B and so subsumes the book's φ* only after an instantiation that cannot be written, since none of BG, C^{BG}, group homomorphisms, or Vect_k exists in tree."
+    },
+    "gap": "Present: the general statement that restriction (precomposition) along a functor has a left and a right adjoint, in exactly the book's adjoint form, as the two Kan-extension classes over the shared Induced functor. Missing: (a) any EXISTENCE result — LeftKan/RightKan are assumed structure, no theorem derives them from (co)completeness of C, and no instance of either class is constructed anywhere in the tree, so the example's actual assertion ('φ* admits both adjoints') is nowhere proved; (b) the entire concrete setting — no delooping BG of a group (grep 'BG\\|delooping' → the only delooping in tree is monoidal-category-as-one-object-bicategory, Theory/Bicategory/OneObject.v), no group-object action category C^{BG}, no restriction functor along a group homomorphism, no ind/res/coind vocabulary; (c) Vect_k, hence no statement of Frobenius reciprocity at all (grep -i 'frobenius reciprocity' → 0 hits; Theory/Algebra/Frobenius.v concerns Frobenius ALGEBRAS/monoids, an unrelated notion).",
+    "negative_search_log": [
+      "grep -rni 'frobenius reciprocity\\|induction functor\\|coinduction\\|BG\\b\\|delooping\\|representation of a group\\|G-set' --include='*.v' . → no Frobenius reciprocity; 'coinduction' hits are about final coalgebras (Instance/Sets/Streams.v, Construction/FAlg.v); 'BG' hits are a comment in Theory/Functor.v:68 and the unrelated `BG` variable name in Construction/PROP/Universal.v; 'delooping' is monoidal→bicategory only.",
+      "grep -rn 'LeftKan\\|RightKan\\|LocalLeftKan\\|LocalRightKan' --include='*.v' . outside Theory/Kan/Extension.v → the sole use is Structure/Limit/Kan/Extension.v, which itself takes RightKan as a hypothesis; no instance is ever supplied."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass said ABSENT; I accept the classifier's PARTIAL, because the evidence is genuine in-tree code rather than prose: Theory/Kan/Extension.v:127 `Induced := (− ◯ F)` IS the restriction functor φ* stated at full generality, and :222/:140 state exactly 'restriction has a left adjoint' and 'restriction has a right adjoint' over that shared functor. Line numbers and quotes all verified verbatim. The strength_comparison is honest and does the real work -- it says plainly that (1) existence is ASSUMED (LeftKan/RightKan are hypothesis classes; `rg 'LeftKan|RightKan'` outside their defining file returns only Structure/Limit/Kan/Extension.v:46, which itself takes RightKan as a hypothesis, so no instance is ever supplied anywhere), and (2) the concrete setting is entirely missing. RESERVATION recorded for the issue writer: PARTIAL here is close to the ABSENT boundary, since nothing of the example's actual ASSERTION (that φ* has both adjoints) is proved -- the in-tree content is a definition plus two hypothesis classes. Verified gap clause (c): `rg -i 'frobenius reciprocity'` -> 0 hits, and Theory/Algebra/Frobenius.v is about Frobenius ALGEBRAS/monoids (2d TQFT), an unrelated notion, as the record says."
+    }
+  }
+]

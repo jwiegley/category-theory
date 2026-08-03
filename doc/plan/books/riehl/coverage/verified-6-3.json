@@ -1,0 +1,348 @@
+[
+  {
+    "id": "riehl:6.3:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "a functor preserves a left Kan extension",
+      "preserves_left_Kan / preserves_right_Kan",
+      "L preserves Lan_K F; (L·Lan_K F, Lη) is a left Kan extension",
+      "PreservesKanExtension / preservation of Kan extensions",
+      "dual: R preserves right Kan extensions (Ran)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 307,
+        "symbol": "preserves_left_Kan",
+        "intree_statement": "Definition preserves_left_Kan `(L : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!LeftKan K E) `(!LeftKan K F), L ◯ Lan K G ≈ Lan K (L ◯ G)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 313,
+        "symbol": "preserves_right_Kan",
+        "intree_statement": "Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G)."
+      }
+    ],
+    "statement_record": {
+      "book": "L : E ⟶ F PRESERVES the left Kan extension (Lan_K F, η) of F : C ⟶ E along K : C ⟶ D when the whiskered pair (L ∘ Lan_K F, Lη) is itself a left Kan extension of L∘F along K; the right-Kan dual is used throughout without separate statement.",
+      "intree": "preserves_left_Kan L := ∀ C D (G : C ⟶ E) (K : C ⟶ D), LeftKan K E → LeftKan K F → L ◯ Lan K G ≈ Lan K (L ◯ G)   (and the ≈-dual for Ran)",
+      "strength_comparison": "intree-weaker: two distinct weakenings. (i) NO COMPARISON CELL — the book requires the SPECIFIC pair (L ∘ Lan_K F, Lη) to satisfy the universal property, i.e. that the canonical comparison 2-cell induced by whiskering the unit be the extension; the in-tree definition only asserts that the two functors are naturally isomorphic (≈ on functors is `Functor_Setoid`, i.e. an unconstrained natural isomorphism, Theory/Functor.v:148) with no mention of η or of any coherence between the iso and the units. A functor could satisfy the in-tree condition by accident while failing the book's. (ii) GLOBAL-ONLY — the hypotheses are the class `LeftKan K` (`Lan ⊣ Induced`, Theory/Kan/Extension.v:222), i.e. the extension must exist for EVERY diagram simultaneously as an adjoint, on both sides; the book's notion applies to a single (possibly merely local) Kan extension. The in-tree definition cannot even be stated for `LocalLeftKan X` / `LocalRightKan X` (lines 234, 154), which is exactly the generality Definitions 6.3.5/6.3.6 need to define pointwise Kan extensions by preservation under representables."
+    },
+    "gap": "The in-tree `preserves_left_Kan`/`preserves_right_Kan` (a) drop the unit/comparison-cell clause, asserting a bare natural isomorphism of the two extending functors rather than that (L ∘ Lan_K F, Lη) enjoys the universal property, and (b) are quantified over GLOBAL Kan extensions (the adjoint classes `LeftKan`/`RightKan`) on both sides, so preservation of a single LOCAL Kan extension — the form Def 6.3.5/6.3.6 require — is not expressible.",
+    "negative_search_log": [
+      "grep -rIn --include=*.v -i 'pointwise Kan' . -- only a prose mention in Theory/DoubleCategory.v:140",
+      "grep -rIn --include=*.v 'PointwiseKan' . -- 0 hits",
+      "grep -rIn --include=*.v 'Kan' . -- 14 files; only Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v carry assertions"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (before opening coverage) reached the same PARTIAL. Evidence re-verified line-by-line: Theory/Kan/Extension.v:307 `preserves_left_Kan` and :313 `preserves_right_Kan` are verbatim as quoted; `Class LeftKan` is at :222, `LocalLeftKan` at :234, `LocalRightKan` at :154, so the global-vs-local gap claim is exact. The record's supporting citation `Functor_Setoid` at Theory/Functor.v:148 checks out at that precise line, and its `equiv` is indeed `{iso : forall x, F x = G x} & fmap coherence` with no reference to any unit -- so \"unconstrained natural isomorphism, no comparison cell\" is honest, not overstated. Also confirmed: `Lan K G` is only projectable from the `LeftKan K` class, so the definition genuinely cannot be restated over `LocalLeftKan`. Theory/Kan/Extension.v is registered in _CoqProject (line 445). Both definitions are dead code in-tree: their only intended consumer, `left_adjoints_preserve`, is Aborted (see lem2), so nothing in the library ever discharges either predicate."
+    }
+  },
+  {
+    "id": "riehl:6.3:lem2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "left adjoints preserve left Kan extensions",
+      "left_adjoints_preserve",
+      "right adjoints preserve right Kan extensions (dual)",
+      "LAPC / left adjoints preserve colimits (the weaker corollary Riehl rejects)",
+      "hom-iso [E,D](L◯G,H) ≅ [E,C](G,R◯H) — the functor-category lift of L ⊣ R"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 328,
+        "symbol": "left_adjoint_impl",
+        "intree_statement": "Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).   (* Qed *)"
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G."
+      },
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 202,
+        "symbol": "right_adjoint_preserves_limits",
+        "intree_statement": "Definition right_adjoint_preserves_limits : PreservesAllLimits U := fun J G => right_adjoint_preserves_limit G."
+      }
+    ],
+    "statement_record": {
+      "book": "Any left adjoint L : E ⟶ F preserves ALL left Kan extensions (not merely those arising as colimits via Thm 6.2.1, which would follow from cocontinuity); dually right adjoints preserve right Kan extensions. Two proofs: a chain of hom-set natural isomorphisms F^D(L·Lan_K F, H) ≅ E^D(Lan_K F, RH) ≅ E^C(F, RHK) ≅ F^C(LF, HK) identifying the image of the identity as Lη and concluding by Yoneda; and a pasting argument with the unit, counit and both triangle identities.",
+      "intree": "`Theorem left_adjoints_preserve `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.` is stated at Theory/Kan/Extension.v:386 but the script ends in `Abort.` at line 438 with three `admit`s — the constant is NOT added to the environment. What IS proved: `left_adjoint_impl` (the functor-category hom-isomorphism used as the middle link of the book's Proof 1) and, in Adjunction/Continuity.v, `left_adjoint_preserves_colimits` / `right_adjoint_preserves_limits`.",
+      "strength_comparison": "intree-weaker: the lemma itself is unproved (Aborted). Only (a) the auxiliary hom-iso of the book's Proof 1 and (b) the strictly weaker LAPC/RAPL corollary — precisely the consequence Riehl says is NOT enough, because it covers only the Kan extensions constructed as (co)limits by Theorem 6.2.1 — are in the environment. Neither proof route (Yoneda chain or pasting with the triangle identities) is completed, and neither the right-adjoint/right-Kan dual nor the identification of the transported identity with Lη appears anywhere."
+    },
+    "gap": "The lemma is an ABANDONED PROOF SKETCH: `left_adjoints_preserve` (Theory/Kan/Extension.v:386–438) carries three `admit`s and ends in `Abort.`, so no such theorem exists in the environment (the file's own comment at line 376 says so). Proved in-tree are only the auxiliary hom-set isomorphism `left_adjoint_impl` and the weaker cocontinuity statements `left_adjoint_preserves_colimits` / `right_adjoint_preserves_limits`, which Riehl explicitly distinguishes from this lemma. The dual clause (right adjoints preserve right Kan extensions) is not even stated.",
+    "negative_search_log": [
+      "grep -n 'Qed' around Theory/Kan/Extension.v:386-438 -- the block ends with `Abort.`, no Qed",
+      "grep -rIn --include=*.v 'preserves_left_Kan\\|preserves_right_Kan' . -- only the two Definitions and the aborted theorem"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL independently. Verified at source: `Theorem left_adjoints_preserve` begins at Theory/Kan/Extension.v:386 and the script ends `Abort.` at :438 with exactly three `admit`s (:433, :434, :437) -- the constant is NOT in the environment, and the file's own comment at :376-384 says so accurately (no library defect here; the disclosure is honest). `left_adjoint_impl` at :328 does end in `Qed` at :374 and is quoted correctly. Adjunction/Continuity.v citations both check out at the exact lines given: `right_adjoint_preserves_limits` at :202, `left_adjoint_preserves_colimits` at :223 (with `left_adjoint_preserves_colimit` at :217). The record's key honesty point is confirmed: LAPC/RAPL is the corollary Riehl explicitly says is insufficient (it only covers extensions built as (co)limits by Thm 6.2.1), and no dual statement `right adjoints preserve right Kan extensions` exists anywhere. PARTIAL is the right call rather than ABSENT, since Proof 1's middle hom-iso link is genuinely proved."
+    }
+  },
+  {
+    "id": "riehl:6.3:example3",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful functor U : Top ⟶ Set has left and right adjoints (discrete ⊣ U ⊣ indiscrete)",
+      "category of topological spaces Top",
+      "induced / coinduced G-space, G-set",
+      "restriction and (co)induction along a subgroup H ≤ G",
+      "underlying set of an induced G-space"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Category Top\\|Instance Top\\|Definition Top\\|Top :=' --include=*.v . -- 0 hits; there is no category of topological spaces in-tree (Instance/ contains only Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX)",
+      "grep -rIn --include=*.v -iE 'G-set|group action|BG\\b|delooping' . -- only Theory/Functor.v:68 prose about BG and the monoidal-category delooping of Theory/Bicategory/OneObject.v; no group is realized as a one-object category and no G-set category exists",
+      "grep -rIn --include=*.v -iE 'coinduc' . -- only CoInductive streams in Instance/Sets/Streams.v, unrelated",
+      "grep -rIn --include=*.v -i 'discrete' . -- Instance/Discrete.v is the discrete category on a type, not the discrete-topology adjoint",
+      "The premise (Lemma 6.3.2) is itself unproved in-tree (its `left_adjoints_preserve` is Aborted), so the example has no route to a witness even if Top existed."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own `ls Instance/*.v` returns exactly the 28 names the record lists (Adj Adjoints AST Cat CMon Comp Cones Coq Discrete Ens Fact FinSet Fun Lambda Omega One Parallel Poset Props Proset Rel Roof Sets Shapes StrictCat Two Zero ZX) -- no Top, and `rg -i 'topological space'` returns nothing. No G-set/G-space category and no discrete/indiscrete adjoint pair exist. Negative log is accurate."
+    }
+  },
+  {
+    "id": "riehl:6.3:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "forgetful functor U : Vect_k ⟶ Set preserves limits but not colimits",
+      "category of vector spaces over a field",
+      "underlying set of a direct sum is not the coproduct of the underlying sets",
+      "induced representation Ind_H^G / coinduced representation Coind_H^G",
+      "k-linear category, module category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn 'Vect\\|VectorSpace\\|k-linear' --include=*.v . restricted to Class/Definition/Instance -- only Instance/Shapes.v's `Vectors (a : Type)` (a category of length-indexed tries/vectors of data, unrelated to k-vector spaces)",
+      "grep -rIn --include=*.v -iE 'direct sum' . -- 0 relevant hits; the additive spine (Structure/Biproduct.v, Structure/Additive.v, Instance/CMon.v) has biproducts but no field, no Vect_k instance, and no forgetful functor to Sets on it",
+      "grep -rIn --include=*.v -iE 'G-set|representation of a group' . -- no group-representation category",
+      "grep -rIn --include=*.v -iE 'coinduc(ed|tion) (rep|module)' . -- 0 hits",
+      "The example's content (a preservation/non-preservation contrast for induced vs coinduced representations) requires both Vect_k and pointwise/comma-formula Kan extensions; neither exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -i 'Vect|vector space'` returns only prose mentions in Structure/Abelian.v, Structure/Group.v, Structure/Monoidal/{StarAutonomous,Symmetric,CompactClosed,Traced,Commutative}.v headers plus Coq.Vectors.Vector in Theory/Sheaf.v -- no category of vector spaces, no field, no forgetful functor from one. Negative log accurate."
+    }
+  },
+  {
+    "id": "riehl:6.3:def5",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise right Kan extension",
+      "Ran preserved by all covariant representables E(e,-)",
+      "PointwiseRightKan / pointwise_Ran",
+      "representably-defined Kan extension; Kan extension preserved by [Hom e,─]",
+      "Kelly's 'pointwise' vs 'weak' Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v -i 'pointwise' . -- 30+ hits, all about pointwise products/pointwise equality/pointwise iso families; the only Kan-related ones are prose: Theory/Kan/Extension.v:74 ('Pointwise, the left extension at b is a colimit over the comma category F ↓ b … a bridge not yet formalized'), Structure/Coend.v:110 ('the pointwise left Kan extension … Theory/Kan/Extension.v instead builds through an adjunction'), Theory/DoubleCategory.v:140",
+      "grep -rIn --include=*.v 'PointwiseKan\\|Pointwise_' . -- 0 hits",
+      "grep -rIn --include=*.v -iE 'preserved by.*representable|Kan.*representable' . -- 0 hits",
+      "grep -rIn --include=*.v 'Kan' . -- 14 files; the only Kan assertions in-tree are Theory/Kan/Extension.v (RightKan/LeftKan/LocalRightKan/LocalLeftKan/preserves_*_Kan/left_adjoint_impl) and Structure/Limit/Kan/Extension.v (Kan_Limit). None mentions representables.",
+      "The ingredients exist separately — the covariant representable `[Hom e,─]` (Functor/Hom.v:60, Curried_Hom) and a preservation notion for Kan extensions (Theory/Kan/Extension.v:313) — but no definition combines them, and `preserves_right_Kan` is global-only so it could not be used as-is."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -i pointwise --glob '*.v'` gives ~60 hits, every one about pointwise products / pointwise equality / pointwise iso families; the only Kan-adjacent ones are prose, and Theory/Kan/Extension.v:74-79 states outright that the comma/coend pointwise formulas are \"a bridge not yet formalized\". No predicate anywhere says a Kan extension is preserved by representables. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:def6",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise left Kan extension",
+      "Lan preserved by all contravariant representables E(-,e)",
+      "duality of Kan extensions under reversing 2-cells; (-)^op : CAT^co ⟶ CAT as a 2-functor",
+      "PointwiseLeftKan / pointwise_Lan",
+      "Lan_K F pointwise iff (Lan_K F)^op is a pointwise Ran over C^op, D^op"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v -i 'pointwise' . -- no pointwise Kan extension definition (see the def5 log; only prose mentions)",
+      "grep -rIn --include=*.v 'CAT\\^co\\|2-functor' . -- the 2-categorical opposite (-)^co is not formalized; Instance/Cat/Bicategory.v gives Cat as a bicategory but no `co` involution",
+      "grep -rIn --include=*.v -iE 'contravariant representable|Curried_CoHom' . -- Functor/Hom.v:146 defines `Curried_CoHom` (the contravariant hom), but nothing connects it to Kan extensions",
+      "grep -rIn --include=*.v 'Lan\\b' . -- only Theory/Kan/Extension.v's global `Lan` (the adjoint) and `LocalLan`; neither carries a pointwiseness predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Same search as def5; additionally `rg 'Lan\\b'` finds only the global `Lan` (adjoint projection) and `LocalLan`, neither carrying a pointwiseness predicate, and there is no (-)^co 2-categorical involution in Instance/Cat/Bicategory.v. The record's Functor/Hom.v citations are accurate: `Curried_Hom` at :60 and `Curried_CoHom` at :146. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:thm7",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise Kan extension = the (co)limit formula",
+      "Ran_K F(d) ≅ lim((d↓K) ⟶ C ⟶ E); Lan_K F(d) ≅ colim((K↓d) ⟶ C ⟶ E)",
+      "Kan extension by ends/coends: Ran_K F(d) = ∫_c F c ^ D(d,Kc)",
+      "representables preserve limits (covariant hom is continuous)",
+      "the two definitions of pointwise agree"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v 'Kan' Construction/ Structure/ -- no comma-category or (co)limit formula for Kan extensions anywhere; Structure/Coend.v:110-112 states in prose that the pointwise left Kan extension is NOT how Theory/Kan/Extension.v builds Kan extensions ('instead builds through an adjunction')",
+      "grep -rIn --include=*.v -iE 'comma.*Kan|Kan.*comma' . -- 0 hits",
+      "grep -rIn --include=*.v -i 'pointwise Kan' . -- only prose (Theory/DoubleCategory.v:140, Theory/Kan/Extension.v:74 which calls the coend bridge 'a bridge not yet formalized')",
+      "grep -rIn --include=*.v 'Lan_\\|Ran_' . -- no formula-level definitions",
+      "Nearest in-tree relatives, none of which assert this theorem: `Kan_Limit` (Structure/Limit/Kan/Extension.v:46) exhibits a LIMIT as Ran along the terminal functor J ⟶ 1 — the converse direction of a different (§6.2) statement; `WeightedLimit`/`conical_weighted` (Structure/Limit/Weighted.v:101,354) give Sets-weighted limits but only for the constant terminal weight, never for the weight D(d,K−); `right_adjoint_preserves_limits` (Adjunction/Continuity.v:202) yields continuity of representables only when the representable is exhibited as a right adjoint, which is not done in-tree."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified the record's three \"nearest relatives\" claims at source: `Kan_Limit` really is Structure/Limit/Kan/Extension.v:46 and is the only theorem in that 148-line file (a one-directional object iso `Lim = Ran (Erase J) F ttt`, the terminal-functor case, not the comma-formula theorem); `WeightedLimit` is at Structure/Limit/Weighted.v:101 and `conical_weighted` at :354, proved only for the constant/terminal weight; `right_adjoint_preserves_limits` at Adjunction/Continuity.v:202 never exhibits a representable as a right adjoint. No comma-category or (co)limit formula for Kan extensions exists in-tree. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:lem8",
+    "classification": "ABSENT",
+    "aliases": [
+      "Cone(e, F∘Π_d) ≅ Set^C(D(d,K−), E(e,F−))",
+      "cones over the comma-projection diagram as natural transformations of hom-functors",
+      "weighted-cone bijection with weight W = D(d,K−)",
+      "comma projection Π_d : d↓K ⟶ C",
+      "hom-functor / HomDiagram; Set^C(W, C(e,F−))"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v -iE 'comma.*Kan|Cone.*comma|Π_d|comma projection' . -- 0 hits relating comma projections to cones",
+      "grep -n 'Definition\\|Program Definition\\|Theorem\\|Lemma\\|Instance' Construction/Comma.v -- the projections `comma_proj`, `comma_proj1`, `comma_proj2` (lines 185, 196, 204) exist, but no diagram F ◯ comma_proj1 and no cone/hom bijection over one",
+      "grep -n 'Definition\\|Theorem\\|Lemma' Structure/Limit/Weighted.v -- `HomDiagram c F` (line 49) IS the functor E(e,F−) and the `WeightedLimit` class (line 101) is stated through [[[J,Sets]]](W, HomDiagram c F), i.e. exactly the right-hand side shape of the book's iso; but the only theorem proved is `conical_weighted` (line 354), for the CONSTANT terminal weight Δ(1), never for W = D(d,K−), and it never mentions a comma category",
+      "grep -n 'Lemma\\|Theorem' Structure/Cone/Const.v -- `Cone_Natural_Transform` and `Cone_Comma` relate cones to Δ(N) ⟹ F and to the comma (Δ ↓ Δ(F)); this is the comma of the DIAGONAL functor in [J,C], not the comma d↓K in D, and the classifying object is Δ, not D(d,K−)",
+      "The book's iso itself — cones over F∘Π_d versus C-natural transformations D(d,K−) ⟹ E(e,F−) — is nowhere asserted; only vocabulary for its right-hand side exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, having first checked the two plausible near-misses myself. (i) `Cone_Natural_Transform` / `Cone_Comma` (Structure/Cone/Const.v:53,72) and the upgraded `Cones_Comma` (Instance/Cones/Comma.v) relate cones to `D(N) => F` and to the comma of the DIAGONAL in [J,C] -- not to the comma d|K in D, and their classifying weight is the constant functor, not D(d,K-). (ii) `HomDiagram c F` (Structure/Limit/Weighted.v:49) is literally the right-hand functor E(e,F-) and `WeightedLimit` is stated through `[[[J,Sets]]](W, HomDiagram c F)`, so the RHS shape exists as vocabulary -- but no instance or theorem ever takes W := D(d,K-), and no diagram `F o comma_proj` appears anywhere. The record says exactly this. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:construction-cone-category",
+    "classification": "ABSENT",
+    "aliases": [
+      "cone category J^▷ (J with a freely adjoined terminal object)",
+      "J^◁ (freely adjoined initial object); the 'cocone shape'",
+      "pushout in Cat of J ⟶ J × 2 along J ⟶ 1; collapsing an end of the cylinder",
+      "augmented shape category; J_+ / J^+ / Lift J",
+      "the indexing category for cones under a J-shaped diagram"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v '▷|◁|triangleright|triangleleft|cone category|adjoined terminal|adjoined initial' . -- 0 hits",
+      "grep -rIn --include=*.v -i 'adjoin' . -- only Theory/Coq/Maybe.v (freely adjoined semigroup unit), Construction/Karoubi.v, Construction/Localization.v, Construction/PROP/Tietze.v; no category-level adjunction of an object",
+      "grep -n 'Definition\\|Program Definition' Instance/Cones.v -- `Cones F` (line 29) is the category of CONES OVER A FIXED DIAGRAM F, not the shape category J^▷; different object entirely",
+      "ls Construction/ -- no cone/augmentation construction (Arrow, Cayley, Chain, ColouredPROP, Comma, Coproduct, Cospan, Day, DecoratedCospan, Displayed, Enriched, FAlg, FCoalg, Free, Funny, Grothendieck, Groupoid, Indexed, Karoubi, Localization, Opposite, Product, Profunctor, PROP, Quotient, Reflective, Slice, Span, Sq, Subcategory)",
+      "grep -rn 'Pushout' --include=*.v Instance/Cat.v Instance/Cat/ -- no pushouts in Cat, so the construction's stated definition (a pushout in Cat) is not available either"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: `rg -i 'adjoin'` over *.v yields only Theory/Coq/Maybe.v:117-120 (freely adjoined semigroup unit) and unrelated Adjunction/* hits; no triangleright/triangleleft glyph or ASCII counterpart anywhere; Instance/Cat/ contains Bicategory, Cartesian, Cocartesian only -- Cocartesian is binary coproducts of categories, NOT pushouts, so the construction's stated definition (a pushout in Cat) has no ambient machinery either. `Cones F` (Instance/Cones.v:29) is the category of cones over a fixed diagram, a different object, as the record says. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:prop9",
+    "classification": "ABSENT",
+    "aliases": [
+      "C has all J-colimits iff restriction C^{J^▷} ⟶ C^J has a left adjoint",
+      "colim : C^J ⟶ C^{J^▷} as pointwise left Kan extension along J ↪ J^▷",
+      "dual: J-completeness iff restriction along J ↪ J^◁ has a right adjoint",
+      "colim ⊣ Δ ⊣ lim; C is J-cocomplete iff the diagonal has a left adjoint",
+      "Cor 6.2.14: Lan along a fully faithful K restricts to F on the image"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The statement's shape category J^▷ does not exist in-tree (see riehl:6.3:construction-cone-category), so neither the restriction functor C^{J^▷} ⟶ C^J nor its adjoint can be written down",
+      "grep -rIn --include=*.v 'Complete\\|Cocomplete' . | grep -i 'adjoin|⊣|Diagonal|Δ' -- 0 hits; `Complete`/`Cocomplete` (Structure/Complete.v:115,119) are defined as 'every diagram has a limit/colimit' and are never characterized by an adjoint",
+      "grep -n '⊣' Functor/Diagonal.v -- line 28 mentions 'colim ⊣ Δ ⊣ lim (C is J-cocomplete iff Δ has a left adjoint …)' but ONLY IN A COMMENT; the file's assertions are `Diagonal`, `Diagonal_Product`, `Δ`, `Diagonal_Product_Two`, `Transform_Const` — no adjunction is constructed",
+      "grep -n 'Lemma\\|Theorem' Structure/Cone/Const.v -- header line 24 again mentions 'the right adjoint Δ ⊣ lim' in prose only; the two lemmas are `Cone_Natural_Transform` and `Cone_Comma`",
+      "grep -rIn --include=*.v -i 'pointwise Kan' . -- pointwise Kan extensions, which the proposition names as the value of the adjoint, are absent (see riehl:6.3:def5/def6)",
+      "Nearest in-tree relative, NOT this statement: `Kan_Limit` (Structure/Limit/Kan/Extension.v:46) proves `Lim ≅ Ran (Erase J) F ttt` — a limit is a right Kan extension along J ⟶ 1. That is the §6.2 'limits as Kan extensions' result along the TERMINAL functor, a one-directional isomorphism of objects; it is neither the J ↪ J^▷ refinement (which carries the whole cone), nor an iff with (co)completeness, nor a pointwiseness claim."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified each of the record's negative claims at source: Structure/Complete.v defines `Complete` at :115 and `Cocomplete` at :119 purely as \"every diagram has a limit/colimit\", never by an adjoint; Functor/Diagonal.v:28 mentions `colim -| D -| lim` ONLY in the header comment -- the file's actual content is `Diagonal`, `Diagonal_Product`, the D notations, `Diagonal_Product_Two` and `Transform_Const`, with no adjunction; the only diagonal adjunction proved in-tree is the BINARY `Diagonal_Product_Adjunction` (Adjunction/Diagonal/Product.v:36), i.e. the two-object discrete shape, not general J and certainly not the J -> J^> refinement. Structure/Cone/Const.v:24's `D -| lim` is likewise prose. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "small copowers imply every right Kan extension is pointwise",
+      "copower / tensoring by a set: S · e = ∐_{S} e",
+      "power / cotensor: e^S = ∏_{S} e",
+      "Set-indexed products and coproducts (iprod / icoprod)",
+      "dual: small powers imply every left Kan extension is pointwise"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rIn --include=*.v -iE 'copower|tensoring by a set' . -- 0 hits",
+      "grep -rIn --include=*.v -i 'power' . -- all hits are unrelated: finite powers of an object in Theory/Multicategory/Endomorphism.v (`pow`), the Lawvere n-th power of the generic object, the topos power object `Pow a := Ω ^ a`, and Power (the author J. Power). No copower/cotensor notion",
+      "grep -rn 'iprod' --include=*.v . -- Structure/Limit/Product.v provides Set-indexed products as discrete-diagram limits (`iprod`/`iprod_proj`/`iprod_ump`), which could EXPRESS a power, but no power/copower abbreviation is defined and Adjunction/SAFT.v:188's `cogen_power` is an ad-hoc indexed product for the SAFT construction, not a general power",
+      "The conclusion of the exercise ('every right Kan extension with codomain E is pointwise') is unstatable: pointwise Kan extensions do not exist in-tree (see riehl:6.3:def5/def6)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -i 'copower|cotensor|tensoring by a set'` returns 0 relevant hits; every `power` hit is unrelated (Multicategory/Endomorphism.v `pow`, the Lawvere object powers, the topos `Pow a := O ^ a`, and the surname Power in the premonoidal citations), and Adjunction/SAFT.v:161 `cogen_power` is an ad-hoc hom-indexed product for the SAFT construction. Since the conclusion (\"pointwise\") is itself unstatable in-tree (def5/def6 ABSENT), ABSENT is right. Confirmed."
+    }
+  },
+  {
+    "id": "riehl:6.3:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "the stronger universal property of the colimit cone",
+      "C^{J^▷}(colim F, G) ≅ C^J(F, res G) for arbitrary G, not just constant cones",
+      "colimit cone is initial among ALL J^▷-diagrams under F, not only among cocones with constant legs",
+      "left Kan extension universal property vs ordinary colimit universal property",
+      "absolute / cofinal strengthening of the colimit UMP"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "The exercise asks for the universal property expressed by Proposition 6.3.9, which is itself ABSENT (no J^▷, no adjoint characterization of cocompleteness) — so its content has no in-tree counterpart",
+      "grep -rIn --include=*.v '▷|triangleright|cone category' . -- 0 hits",
+      "grep -rIn --include=*.v -iE 'absolute (colimit|kan)' . -- only Construction/Karoubi.v:67 and Structure/Coequalizer/Split.v:32 prose about split idempotents/absolute coequalizers; unrelated to the Kan-extension strengthening",
+      "grep -rIn --include=*.v -i 'restriction functor' . -- Theory/Adjunction.v:98 (prose) and Construction/ColouredPROP/BaseChange/Laws.v:478 (colour restriction, unrelated); the C^{J^▷} ⟶ C^J restriction does not exist",
+      "grep -n 'Class \\|Definition ' Structure/Limit.v Structure/Cone.v -- the only colimit universal property in-tree is the ordinary terminal-cone one (`Limit`, `IsALimit`, `ACone`, `ump_limits`); no strengthened variant"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. The exercise's content is parasitic on Prop 6.3.9 (ABSENT: no J^>, no adjoint characterization of cocompleteness), and the only colimit universal property in-tree is the ordinary terminal-/initial-cone one (`Limit`/`IsALimit`/`ump_limits` in Structure/Limit.v, `ACone` in Structure/Cone.v). No strengthened variant, no `C^{J^>} -> C^J` restriction functor. Confirmed."
+    }
+  }
+]

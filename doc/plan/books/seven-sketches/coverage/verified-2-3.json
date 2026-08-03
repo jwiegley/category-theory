@@ -1,0 +1,442 @@
+[
+ {
+  "id": "7sketches:2.3.1:def46",
+  "classification": "PRESENT",
+  "aliases": [
+   "V-category / category enriched in V (base of the enrichment)",
+   "enriched category class `Enriched K {Monoidal K}`, hom-object `ehom` / `(x ⟿ y)`",
+   "Bool-category / truth-value enrichment / 2-enriched (posetal, thin) category",
+   "quantale-enriched category; Lawvere generalized metric space (Cost-enriched)",
+   "Kelly enriched category: identity j_x : I ~> C(x,x), composition M : C(y,z) ⊗ C(x,y) ~> C(x,z)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched.v",
+    "line": 111,
+    "symbol": "Enriched",
+    "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K where \"a ⟿ b\" := (ehom a b); eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left {x y} : ecompose ∘ eid ⨂ id << I ⨂ (x ⟿ y) ~~> (x ⟿ y) >> unit_left; eid_right {x y} : ecompose ∘ id ⨂ eid << (x ⟿ y) ⨂ I ~~> (x ⟿ y) >> unit_right; ecompose_assoc {x y z w} : ecompose ∘ ecompose ⨂ id << ((z ⟿ w) ⨂ (y ⟿ z)) ⨂ (x ⟿ y) ~~> (x ⟿ w) >> ecompose ∘ id ⨂ ecompose ∘ tensor_assoc }"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 131,
+    "symbol": "Enriched_of_TwoPreorder",
+    "intree_statement": "Definition Enriched_of_TwoPreorder (P : TwoPreorder) : @Enriched _2 Two_Monoidal := @Build_Enriched _2 Two_Monoidal (tpre_carrier P) (ehom_of_le P) _ _ _ _ _  (eid built from tpre_refl, ecompose from tpre_trans, and the three coherence obligations closed by `apply two_thin`) — the class instantiated at a base that IS a monoidal preorder (V = Bool), which is the shape Def 2.46 assumes"
+   }
+  ],
+  "statement_record": {
+   "book": "Given a symmetric monoidal preorder V = (V, ≤, I, ⊗), a V-category X consists of a set Ob(X) and, for each ordered pair x, y of objects, a hom-OBJECT X(x,y) ∈ V, subject to exactly two inequalities and no equational data: (a) I ≤ X(x,x) for every x, and (b) X(x,y) ⊗ X(y,z) ≤ X(x,z) for all x, y, z. The book remarks that symmetry of V is not needed for the definition itself (only conditions (a)-(c) of Def 2.2), though it is needed later for products of V-categories.",
+   "intree": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left; eid_right; ecompose_assoc }",
+   "strength_comparison": "same in substance, intree-stronger in base generality. `ehom : eobj → eobj → K` is exactly clauses (i)-(ii) (the V-valued square matrix of hom-objects); `eid : I ~{K}~> (x ⟿ x)` is exactly axiom (a) I ≤ X(x,x) and `ecompose : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z)` exactly axiom (b) (the two tensor factors written in the opposite order — presentation only). The in-tree base is an arbitrary monoidal category and only `Monoidal` is required, NOT `SymmetricMonoidal`, matching the book's own remark that symmetry is not needed. Over a general (proof-relevant) base the class additionally DEMANDS the three Kelly coherence equations eid_left/eid_right/ecompose_assoc that Def 2.46 never states; over a preorder base these are vacuous and are discharged in-tree by thinness (Instance/Two/Monoidal.v:26 `two_thin : ∀ (f g : TwoHom x y), f = g`), so no extra hypothesis is imposed in the book's setting. Caveat (does not affect this item's claim but bites at Def 2.53): the library has no `MonoidalPreorder` class and no generic bridge turning a symmetric monoidal preorder into a thin monoidal category — a base must be hand-built, and exactly one such base exists in-tree, Two_Monoidal (Instance/Two/Monoidal.v:105, tensor := meet, unit := top). The book's parenthetical about products of V-categories has no in-tree counterpart (no product of enriched categories anywhere under Construction/Enriched/)."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' ': @Monoidal' . -- enumerated every monoidal base in tree: Sets, Coq, Par, StrictCat (Funny), _2 (Two_Monoidal), plus free/transported ones; _2 is the ONLY thin (preorder) base",
+   "grep -rn -iE --include='*.v' 'product of.*enriched|EnrichedProduct' . -- 0 hits (no product of V-categories)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL, then CONFIRMED PRESENT on inspection. Construction/Enriched.v:111 verified verbatim: `Class Enriched (K : Category) `{@Monoidal K}` with eobj/ehom/eid/ecompose plus eid_left/eid_right/ecompose_assoc; the quoted intree_statement is accurate line for line, and the base really requires only `Monoidal`, not `SymmetricMonoidal`, matching the book's own remark that symmetry is not needed for Def 2.46. ehom : eobj -> eobj -> K is clauses (i)-(ii); eid is axiom (a); ecompose is axiom (b) with the tensor factors in the opposite order (presentation only). Evidence 2 (Enriched_of_TwoPreorder, Two.v:131) verified, and the three coherence obligations are indeed closed by `apply two_thin` (Two.v:157-159), with two_thin : forall (f g : TwoHom x y), f = g at Instance/Two/Monoidal.v:26 — so over a thin base no hypothesis beyond the book's two inequalities is imposed. Both files are registered in _CoqProject (lines 30, 35, 240-241). My PARTIAL reading rested on the same caveat the record already discloses in strength_comparison — no MonoidalPreorder class, no generic bridge from a (symmetric) monoidal preorder to a thin monoidal category — and since the record books that gap as ACTIONABLE at def53 (PARTIAL) rather than swallowing it, PRESENT for the notion itself is honest bookkeeping and no coverage is lost. One nuance to the negative log's 'exactly one such base exists in-tree': accurate for DEFINED monoidal structures, but Instance/Props.v is a second thin category already carrying Props_Cartesian (line 69) and Props_Terminal (line 53), so a second monoidal-preorder base is one `Cartesian_Monoidal` application away — useful for whoever builds Cost. Absence of products of V-categories independently re-confirmed (0 hits)."
+  }
+ },
+ {
+  "id": "7sketches:2.3.1:example47",
+  "classification": "PRESENT",
+  "aliases": [
+   "preorder viewed as a Bool-enriched category (hom truth value)",
+   "`Enriched_of_TwoPreorder` / `ehom_of_le` (truth value of x ≤ y)",
+   "thin category of a preorder (`Proset`), posetal category",
+   "hom-matrix of a V-category (V-valued square matrix indexed by objects)",
+   "reflexivity = identity axiom, transitivity = composition axiom"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 131,
+    "symbol": "Enriched_of_TwoPreorder",
+    "intree_statement": "Definition Enriched_of_TwoPreorder (P : TwoPreorder) : @Enriched _2 Two_Monoidal, with `ehom := ehom_of_le P` (Two.v:98: `ehom_of_le P x y := match tpre_dec P x y with inl _ => TwoY | inr _ => TwoX end`), eid obtained by `rewrite (ehom_of_le_complete (tpre_refl P x)); exact TwoIdY` and ecompose by case analysis ending in `rewrite ... (ehom_of_le_complete (tpre_trans P x y z lyz lxy)); exact TwoIdY`"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 71,
+    "symbol": "TwoPreorder_of_Enriched",
+    "intree_statement": "Definition TwoPreorder_of_Enriched (E : @Enriched _2 Two_Monoidal) : TwoPreorder := {| tpre_carrier := @eobj _ _ E; tpre_le x y := @ehom _ _ E x y = TwoY; ... |} — reflexivity supplied by `two_from_top (@eid _ _ E x)` and transitivity by `@ecompose _ _ E x y z` after rewriting both hom truth values to TwoY: i.e. axiom (a) IS reflexivity and axiom (b) IS transitivity, the identification the example makes"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 104,
+    "symbol": "ehom_of_le_complete",
+    "intree_statement": "Lemma ehom_of_le_complete {P : TwoPreorder} {x y : tpre_carrier P} : tpre_le P x y → ehom_of_le P x y = TwoY  (with the companion `ehom_of_le_empty` at Two.v:122: (tpre_le P x y → False) → ehom_of_le P x y = TwoX) — the (x,y) entry of the truth-value matrix is `true` exactly when x ≤ y and `false` otherwise, the example's X(s,t) = true / X(t,s) = false computation"
+   }
+  ],
+  "statement_record": {
+   "book": "Worked instance of Def 2.46 at V = Bool: from the preorder generated by a Hasse diagram on {p,q,r,s,t}, build a Bool-category X with Ob(X) the five elements and X(x,y) := true if x ≤ y, false otherwise (so X(s,t) = true, X(t,s) = false); axiom (a) true ≤ X(x,x) is reflexivity and axiom (b) X(x,y) ∧ X(y,z) ≤ X(x,z) is transitivity, so both hold. Announces the correspondence runs both ways. Continues with the general convention of displaying a V-category as a square matrix indexed by objects whose (x,y) entry is X(x,y), here a 5×5 true/false matrix.",
+   "intree": "Enriched_of_TwoPreorder (P : TwoPreorder) : @Enriched _2 Two_Monoidal with ehom_of_le P x y = TwoY iff x ≤ y (ehom_of_le_complete / ehom_of_le_empty), eid from tpre_refl, ecompose from tpre_trans; conversely TwoPreorder_of_Enriched reads reflexivity off eid and transitivity off ecompose.",
+   "strength_comparison": "same in substance. The matrix presentation is literally the class field `ehom : eobj → eobj → K` (a V-valued function of two objects), so no separate device is needed, though there is no matrix notation and no concrete finite 5-element preorder instantiated in-tree (`grep -i hasse` : 0 hits; `grep -i matrix` finds only prose and the unrelated biproduct matrix calculus). One in-tree hypothesis the book does not carry: `TwoPreorder` (Two.v:60) includes `tpre_dec x y : tpre_le x y + (tpre_le x y → False)`, because constructively one must DECIDE x ≤ y to produce a truth value in _2; the file's own header discloses this. It is not an actionable coverage gap — the book's construction is classical and no axiom-free construction can do without the decision — and the converse direction supplies decidability for free (equality of TwoObj is decidable)."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i --include='*.v' 'hasse' . -- 0 hits (no Hasse-diagram presentation of a preorder)",
+   "grep -rn -i --include='*.v' 'matrix|matrices' . -- hits are background prose (Theory/Profunctor.v:54-69, Functor/Hom/Yoneda.v:89) and the biproduct matrix calculus (Structure/Semiadditive.v, Structure/Abelian.v:120); no V-matrix presentation of an enriched category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All three citations verified at the stated lines: Enriched_of_TwoPreorder (Two.v:131), TwoPreorder_of_Enriched (Two.v:71), ehom_of_le_complete (Two.v:104) with its companion ehom_of_le_empty (Two.v:122) and ehom_of_le itself (Two.v:98) — the quoted match-on-tpre_dec definition is exact, so the (x,y) entry is TwoY exactly when x <= y, the example's X(s,t) = true / X(t,s) = false computation. The identification 'axiom (a) IS reflexivity, axiom (b) IS transitivity' is literally how the two directions are built (eid via two_from_top/tpre_refl, ecompose via tpre_trans). The matrix presentation really is the field `ehom : eobj -> eobj -> K` and nothing else is needed; I independently confirmed 0 hits for 'hasse' and no V-matrix device anywhere. The disclosed extra hypothesis (tpre_dec, Two.v:65) is genuine and, for the literal base V = Bool, unavoidable constructively — producing an element of the two-element TwoObj from a Type-valued relation IS a decision — so it is a faithful constructive rendering rather than a coverage gap, as the record says. Not filed as a defect, but noted: the absent 5-element Hasse instance means no worked finite example computes in-tree."
+  }
+ },
+ {
+  "id": "7sketches:2.3.2:thm49",
+  "classification": "PARTIAL",
+  "aliases": [
+   "preorders are the same as Bool-categories / 2-enriched categories",
+   "`Enriched_Two_preorder` (enrichment over the walking arrow ↔ preorder)",
+   "thin / posetal category = preorder (Proset, Poset)",
+   "truth-value enrichment, Lawvere 1973 base V = 2",
+   "monotone map = Bool-enriched functor (morphism leg)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 165,
+    "symbol": "Enriched_Two_preorder",
+    "intree_statement": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder.  Proof. split. - exact TwoPreorder_of_Enriched. - exact Enriched_of_TwoPreorder. Defined.  (↔ is Lib/Foundation.v:72 `iffT`, i.e. maps in both directions)"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 71,
+    "symbol": "TwoPreorder_of_Enriched",
+    "intree_statement": "Definition TwoPreorder_of_Enriched (E : @Enriched _2 Two_Monoidal) : TwoPreorder with tpre_le x y := @ehom _ _ E x y = TwoY; reflexivity is `two_from_top (@eid _ _ E x)` (Two.v:38 `two_from_top : TwoHom TwoY z → z = TwoY`, so the unit law FORCES X(x,x) = true) and transitivity is `@ecompose _ _ E x y z` with both hom values rewritten to TwoY — precisely the argument the book's proof of Thm 2.49 gives"
+   },
+   {
+    "file": "Instance/Two/Monoidal.v",
+    "line": 105,
+    "symbol": "Two_Monoidal",
+    "intree_statement": "Definition Two_Monoidal : @Monoidal _2 := @Cartesian_Monoidal _2 Two_Cartesian Two_Terminal  (Two_Cartesian at line 80 has product_obj := two_meet, i.e. tensor = AND; Two_Terminal at line 98 has terminal_obj := TwoY, i.e. unit = true) — the base really is Bool = (B, ≤, true, ∧)"
+   }
+  ],
+  "statement_record": {
+   "book": "There is a one-to-one correspondence between preorders and Bool-categories. Forward: a preorder (P,≤) gives a Bool-category with Ob = P and X(x,y) := true iff x ≤ y. Backward: a Bool-category X gives a preorder on Ob(X) by x ≤ y iff X(x,y) = true; the axiom I ≤ X(x,x) forces X(x,x) = true (reflexivity) and X(x,y) ∧ X(y,z) ≤ X(x,z) forces transitivity. The text proves the backward direction and defers mutual-inverseness to Exercise 2.50.",
+   "intree": "Theorem Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder, with fst = TwoPreorder_of_Enriched (reflexivity from eid via two_from_top, transitivity from ecompose) and snd = Enriched_of_TwoPreorder.",
+   "strength_comparison": "intree-weaker on the theorem's own claim, intree-stronger on the morphism level. Both CONSTRUCTIONS are in tree and their derivations are the book's: TwoPreorder_of_Enriched reads reflexivity off eid via two_from_top (Two.v:38, TwoHom TwoY z -> z = TwoY) and transitivity off ecompose under the meet, and the base is genuinely Bool (Two_Monoidal, Instance/Two/Monoidal.v:105, tensor := two_meet = AND, unit := TwoY = true). What is NOT in tree is the theorem's actual assertion. (1) `<->` is iffT (Lib/Foundation.v:72), a bare pair of functions with no inverse laws, so 'one-to-one correspondence' is not stated — iffT is satisfied by translations that lose information, and the bijection is precisely the content the book defers to Ex 2.50, also PARTIAL. (2) The right-hand side is not 'preorders' but DECIDABLE preorders: `TwoPreorder` (Two.v:60) carries `tpre_dec x y : tpre_le x y + (tpre_le x y -> False)` (Two.v:65) as a field, a hypothesis the classical statement does not carry, so the in-tree correspondence ranges over strictly fewer objects. This second restriction is constructively unavoidable for the literal base V = Bool (producing an element of the two-element TwoObj from a Type-valued relation IS a decision) and is disclosed in the file header, so it is a faithful constructive rendering rather than the reason for the PARTIAL. intree-stronger: EnrichedFunctor_Two_monotone (Two.v:183) adds a morphism leg the book does not state here, `EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) <-> MonotoneMap P Q`."
+  },
+  "gap": "The 'one-to-one' half of the statement is missing. `Enriched_Two_preorder` (Construction/Enriched/Two.v:165) is `@Enriched _2 Two_Monoidal <-> TwoPreorder` with `<->` = iffT (Lib/Foundation.v:72), so it asserts only that each side can be translated into the other; nothing anywhere states that TwoPreorder_of_Enriched and Enriched_of_TwoPreorder are mutually inverse (no lemma in tree names both symbols), and therefore the theorem's claim that preorders and Bool-categories ARE the same thing is not formalized. This is the same missing content as 7sketches:2.3.2:ex50 and should be covered by one issue, not two: what is wanted is (a) tpre_le (TwoPreorder_of_Enriched (Enriched_of_TwoPreorder P)) x y <-> tpre_le P x y together with agreement of the decision procedure, and (b) ehom_of_le (TwoPreorder_of_Enriched E) x y = @ehom _ _ E x y, after which the correspondence can be packaged as a bijection/isomorphism rather than an iffT. Secondary, disclosed rather than actionable: the in-tree left-to-right leg only accepts DECIDABLE preorders (tpre_dec, Two.v:65), so the in-tree correspondence is 'Bool-enrichments <-> decidable preorders' — unavoidable at V = Bool, but it does mean the section title at Two.v:12 ('Categories enriched over 2 are exactly preorders') overstates what is proved.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'round|roundtrip|RoundTrip' Construction/Enriched/ Construction/Enriched.v -- only prose ('definitional round trip', Enriched.v:90); no inverse-pair lemma, which is why the bijectivity clause is booked at ex50",
+   "rg -n 'iffT' Lib/Foundation.v -- line 72 `Notation \"x ↔ y\" := (iffT x y)`: every in-tree `↔` is a bare pair of maps, so no `↔` statement can be read as a bijection (verifier's own check)",
+   "rg -n 'TwoPreorder_of_Enriched|Enriched_of_TwoPreorder' --glob '*.v' -- hits only in Construction/Enriched/Two.v (definitions at 71/131 and the two `exact` lines at 168/169); no lemma mentions both, hence no inverse law (verifier's own check)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:PARTIAL",
+   "notes": "Overturned PRESENT -> PARTIAL. The record's own facts support PARTIAL; only the boundary call differs, and the record's ex50 sibling already concedes the missing content ('never packaged as a bijection/isomorphism/equivalence'). Book Thm 2.49 STATES a one-to-one correspondence. In tree, Enriched_Two_preorder (Two.v:165, verified verbatim) is `@Enriched _2 Two_Monoidal <-> TwoPreorder` where `<->` is iffT (Lib/Foundation.v:72, confirmed: `Notation \"x <-> y\" := (iffT x y)`), i.e. a bare pair of functions carrying NO inverse laws — iffT permits translations that lose information, so 'one-to-one' is simply not asserted. That is a same-name-weaker-statement, the pattern this pass exists to catch, and classifying it PRESENT would tell a ledger reader there is nothing to do for the correspondence theorem itself. Second, independent shortfall found in my blind pass: the in-tree right-hand side is not 'preorders' but DECIDABLE preorders — `TwoPreorder` (Two.v:60) carries tpre_dec (Two.v:65) as a field — so the in-tree correspondence covers strictly fewer objects than the book's. I accept the record's defence that for the literal base V = Bool the decider is constructively unavoidable (one must compute an element of TwoObj), so this leg alone would not have overturned; the overturn rests on the bijectivity leg. Everything else verified and kept: Two_Monoidal (Instance/Two/Monoidal.v:105) really is Bool — Two_Cartesian:80 has product_obj := two_meet (= AND) and Two_Terminal:98 has terminal_obj := TwoY (= true); the backward derivation is the book's, two_from_top (Two.v:38) applied to eid forcing the diagonal and ecompose under the meet forcing transitivity; and EnrichedFunctor_Two_monotone (Two.v:183) is a genuine intree-stronger morphism leg the book does not state here. Phase E should cover this item together with ex50 — the bijectivity gap is one piece of work, not two. See also the library defect logged against Two.v:12, whose section title asserts the 'exactly' that the theorem does not prove."
+  },
+  "phase_c_classification": "PRESENT"
+ },
+ {
+  "id": "7sketches:2.3.2:ex50",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the preorder/Bool-category constructions are mutually inverse (bijection, not just maps both ways)",
+   "round trip / retraction: TwoPreorder_of_Enriched ∘ Enriched_of_TwoPreorder ≅ id",
+   "isomorphism of categories Preord ≅ Bool-Cat; equivalence of the two presentations",
+   "`ehom_of_le_complete` / `ehom_of_le_sound` (soundness and completeness of the truth-value encoding)",
+   "`Category_is_Enriched_over_Set` style definitional round trip"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 113,
+    "symbol": "ehom_of_le_sound",
+    "intree_statement": "Lemma ehom_of_le_sound {P : TwoPreorder} {x y : tpre_carrier P} : TwoHom TwoY (ehom_of_le P x y) → tpre_le P x y  — reading the built Bool-category back as an order recovers no MORE than the original relation"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 104,
+    "symbol": "ehom_of_le_complete",
+    "intree_statement": "Lemma ehom_of_le_complete {P : TwoPreorder} {x y : tpre_carrier P} : tpre_le P x y → ehom_of_le P x y = TwoY  — and no LESS; since `TwoPreorder_of_Enriched (Enriched_of_TwoPreorder P)` has tpre_le x y := (ehom_of_le P x y = TwoY), the two lemmas together give round trip (1) of the exercise up to logical equivalence of the relations"
+   }
+  ],
+  "statement_record": {
+   "book": "Show both round trips are identities: (1) a preorder (P,≤) turned into a Bool-category (Example 2.47) and back into a preorder (proof of Thm 2.49) is the original preorder; (2) a Bool-category turned into a preorder and back is the original Bool-category.",
+   "intree": "ehom_of_le_complete : tpre_le P x y → ehom_of_le P x y = TwoY, and ehom_of_le_sound : TwoHom TwoY (ehom_of_le P x y) → tpre_le P x y.",
+   "strength_comparison": "intree-weaker: only leg (1), and only pointwise on the relation rather than as a statement about the round trip. Neither leg is stated AS a round trip anywhere in tree — grep finds no lemma mentioning both TwoPreorder_of_Enriched and Enriched_of_TwoPreorder, and `Enriched_Two_preorder` is `iffT` (Lib/Foundation.v:72), which by construction carries no inverse laws. The two lemmas cited give leg (1) only up to iffT of the two relations (tpre_le P x y ↔ ehom_of_le P x y = TwoY), never as equality or isomorphism of the `TwoPreorder` records, and the other field of the record (tpre_dec) is never compared."
+  },
+  "gap": "Three specific things are missing. (1) No statement of round trip (1) as a round trip: nothing of the form `TwoPreorder_of_Enriched (Enriched_of_TwoPreorder P) ≅ P` (or an iffT of relations plus agreement of the decision procedure) exists; the cited lemmas are about `ehom_of_le` alone and a reader must assemble the composite by hand. (2) Round trip (2) is entirely absent: no lemma asserts `ehom_of_le (TwoPreorder_of_Enriched E) x y = @ehom _ _ E x y` (it is provable — tpre_dec of TwoPreorder_of_Enriched is by case analysis on ehom — but is nowhere stated), so 'you recover the original Bool-category' has no in-tree counterpart. (3) The correspondence is never packaged as a bijection/isomorphism/equivalence: `Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder` is iffT, exactly the weaker form that this exercise exists to strengthen. The same gap holds for the sibling correspondence `Category_is_Enriched_over_Set` (Construction/Enriched.v:163), also only iffT.",
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'round|roundtrip|RoundTrip' Construction/Enriched/ Construction/Enriched.v -- only the prose 'definitional round trip' at Enriched.v:90; no lemma",
+   "grep -n 'Theorem|Lemma|Definition|Corollary|Instance' Construction/Enriched/Sets.v -- only EF, EG, EnrichedTransform_is_Transform; no inverse-law lemmas",
+   "grep -rn 'iffT' Lib/Foundation.v -- `↔` is iffT (line 72), a bare pair of maps, so no in-tree `↔` statement can be read as a bijection"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass said ABSENT; CONFIRMED PARTIAL as the better-supported reading. The two cited lemmas are real and do compose into leg (1) at the relation level: ehom_of_le_complete (Two.v:104) gives tpre_le P x y -> ehom_of_le P x y = TwoY, and ehom_of_le_sound (Two.v:113) gives the converse modulo the trivial step from `ehom_of_le P x y = TwoY` to `TwoHom TwoY (ehom_of_le P x y)` (rewrite, then TwoIdY) — and since TwoPreorder_of_Enriched (Enriched_of_TwoPreorder P) has tpre_le x y := (ehom_of_le P x y = TwoY) by construction (Two.v:71-77), that is exactly round trip (1) up to iffT of the relations. So 'some of the item exists' holds. The three-part gap is accurate and I add nothing to it: no lemma names both TwoPreorder_of_Enriched and Enriched_of_TwoPreorder anywhere (re-confirmed), leg (2) is entirely absent, and the tpre_dec field is never compared — which matters here, because a genuine record-level round trip for leg (1) can only hold up to relation-equivalence: tpre_le is Type-valued and proof-relevant, so equality of TwoPreorder records is the wrong target and any issue filed from this record should ask for an iffT-of-relations plus agreement of the decision procedure, exactly as the gap text already says."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:def51",
+  "classification": "ABSENT",
+  "aliases": [
+   "metric space (X, d), distance function d : X × X → R≥0",
+   "extended metric space, d valued in [0, ∞]",
+   "pseudometric / quasi-metric / premetric / ultrametric space",
+   "the four axioms: d(x,x) = 0, separation, symmetry, triangle inequality",
+   "nonnegative real numbers as a structure (Reals, R≥0, Rle, Rplus)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i --include='*.v' 'metric' . -- every hit is prose: Construction/Enriched.v:49,75-77 (Lawvere 1973 background), Instance/Poset.v:76-77, Instance/Two.v:69-77; the rest are substring false positives ('symmetric', 'parametric'). No Definition/Class/Record",
+   "grep -rn -iE --include='*.v' 'metricspace|pseudometric|ultrametric|quasi-metric|quasimetric' . -- 0 hits",
+   "grep -rn -i --include='*.v' 'distance' . -- 3 hits, all in the Construction/Enriched.v header essay (lines 49, 76, 77)",
+   "grep -rn -i --include='*.v' 'triangle inequality' . -- 3 hits, all prose (Instance/Poset.v:76, Instance/Two.v:69, Construction/Enriched.v:76)",
+   "grep -rn --include='*.v' 'Require.*Reals|R_scope|Rle|Rplus|QArith|Rdefinitions' . -- 0 hits: the library never imports the reals or the rationals, so there is no carrier for d at all",
+   "grep -rn -i --include='*.v' 'infty|infinity' . -- 0 hits (no [0, ∞], hence no extended metric space either)",
+   "grep -rn -iE --include='*.v' 'nonnegative|non-negative|Rge|nnr' . -- no relevant hits",
+   "grep -rn -iE --include='*.v' 'separation axiom|symmetry axiom' . -- 0 relevant hits (only Construction/Cospan/Symmetric.v:36 about braid ∘ braid ≈ id)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; my blind pass agreed independently. I re-ran the load-bearing negatives with exact (non-case-folded) patterns, because a case-insensitive grep for 'Rle|R_scope' yields pure false positives here ('interleaved', 'functor_scope') that could mislead: `rg -n 'Require.*Reals|Rdefinitions|QArith|R_scope|Rplus|Rle\\b|Rabs'` -> 0 hits, `rg -n 'infty|Infinity'` -> 0 hits. So the library has no numeric carrier of any kind and neither d : X x X -> R_{>=0} nor its [0, infinity]-valued variant can be written. Every 'metric' hit is background prose (Construction/Enriched.v:40,49,74-77; Instance/Poset.v:39,75-77; Instance/Two.v:28,71; Theory/Profunctor.v:46,100; Construction/Karoubi.v:45,86) — comments, not formalization. Not OUT_OF_SCOPE: with the reals or a rational/extended-order carrier added this is ordinary formalizable content, so ABSENT is the right verdict."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:ex52",
+  "classification": "ABSENT",
+  "aliases": [
+   "Hausdorff distance between regions/subsets; worst-case (sup over A, inf over B) distance",
+   "asymmetric / directed distance, failure of the symmetry axiom (quasi-metric)",
+   "failure of separation: d(A, B) = 0 with A ≠ B (e.g. a subset of B)",
+   "region-to-region or set-to-set distance, powerset metric",
+   "d(Spain, US) vs d(US, Spain) style counterexample"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -iE --include='*.v' 'hausdorff|worst case|supremum|infimum' . -- 2 hits, both prose about compact Hausdorff SPACES (Theory/Monad.v:66, Theory/Equivalence.v:122); nothing about a distance between regions",
+   "grep -rn -i --include='*.v' 'distance' . -- 3 prose hits in Construction/Enriched.v only",
+   "grep -rn -iE --include='*.v' 'metricspace|pseudometric|quasi-metric|quasimetric' . -- 0 hits (no asymmetric-distance notion to exhibit a counterexample against)",
+   "grep -rn --include='*.v' 'Require.*Reals|Rle|Rplus' . -- 0 hits; with no numeric carrier the comparison d(A,B) > d(B,A) cannot even be stated",
+   "grep -rn -i --include='*.v' 'symmetry.*fail|asymmetr' . -- only Test/Poset.v:22-23, about the stdlib `Asymmetric` vs `Antisymmetric` confusion in an order relation, unrelated to distances"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed. Verified the log's one checkable claim exactly: `rg -ni 'hausdorff|worst case|supremum|infimum'` -> precisely 2 hits, Theory/Monad.v:66 and Theory/Equivalence.v:122, both prose about compact Hausdorff SPACES (Manes' triple-theoretic construction; Gelfand duality), nothing about a distance between regions. With no numeric carrier in tree (0 hits for the reals) the comparison d(Spain,US) vs d(US,Spain) cannot even be stated, and there is no set-to-set/quasi-metric notion to exhibit the failure of symmetry against. ABSENT rather than OUT_OF_SCOPE: this is a concrete counterexample exercise that becomes formalizable the moment a Cost-like base exists."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:def53",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Lawvere metric space = Cost-category (category enriched in Cost)",
+   "Cost = ([0, ∞], ≥, 0, +) — the cost/distance monoidal preorder with REVERSED order",
+   "generalized metric space (Lawvere 1973); quantale-enriched category",
+   "hemimetric / quasi-pseudometric with infinite distances allowed",
+   "enrichment over the interval [0, ∞] (composition = triangle inequality, unit = zero self-distance)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched.v",
+    "line": 111,
+    "symbol": "Enriched",
+    "intree_statement": "Class Enriched (K : Category) `{@Monoidal K} := { eobj : Type; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); ... }  — the generic V-category class of which a Lawvere metric space is by definition the instance at V = Cost: `ehom` would be d, `eid` the law 0 ≥ d(x,x), `ecompose` the triangle inequality d(x,y) + d(y,z) ≥ d(x,z)"
+   }
+  ],
+  "statement_record": {
+   "book": "A Lawvere metric space is by definition a Cost-category, where Cost = ([0,∞], ≥, 0, +) is the symmetric monoidal preorder of costs with the order REVERSED. Unpacked through Def 2.46: a set X = Ob(X) with d(x,y) := X(x,y) ∈ [0,∞] such that (a) 0 ≥ d(x,x), i.e. d(x,x) = 0, and (b) d(x,y) + d(y,z) ≥ d(x,z), the triangle inequality. Symmetry and separation are dropped and infinite distances allowed.",
+   "intree": "Class Enriched (K : Category) `{@Monoidal K} := { eobj; ehom : eobj → eobj → K; eid {x} : I ~{K}~> (x ⟿ x); ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z); eid_left; eid_right; ecompose_assoc }",
+   "strength_comparison": "intree-weaker: only the ambient V-category class exists, never this instance of it. The library carries the definition into which Cost would be plugged, and its header essay (Construction/Enriched.v:73-78) states the Lawvere reading verbatim in prose — hom-object = distance, ecompose = triangle inequality, eid = zero self-distance, citing Lawvere 1973 — but as a COMMENT; Instance/Two.v:69-77 likewise says 'over the interval [0, ∞] it produces metric spaces' and then discloses 'The library carries the first case [V = 2] in full', i.e. the Cost case not at all. So there is no in-tree Lawvere metric space, and no in-tree object whose distance data could be exhibited."
+  },
+  "gap": "The base Cost is entirely missing, and with it every consequence. Concretely: (1) no carrier — the library never imports the reals or rationals (`grep 'Require.*Reals|Rle|Rplus|QArith'` : 0 hits) and has no [0, ∞] (`grep -i 'infty|infinity'` : 0 hits), so the hom-objects of a Cost-category have nowhere to live; (2) no `MonoidalPreorder` class and no generic bridge from a symmetric monoidal preorder to a thin monoidal category — a base must be hand-built as a `Monoidal` on a thin `Category`, which is done exactly once in tree (Two_Monoidal, Instance/Two/Monoidal.v:105, for V = Bool), so even given a carrier the ORDER-REVERSED monoidal preorder ([0,∞], ≥, 0, +) would have to be constructed from scratch; (3) consequently no `Enriched Cost` instance, no d/eid/ecompose accessors in metric notation, and no counterpart of the Bool-case theorems (nothing like `Enriched_Two_preorder` for Cost, i.e. no 'Cost-categories are the same as Lawvere metric spaces' unpacking).",
+  "negative_search_log": [
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits",
+   "grep -rn -i --include='*.v' 'lawvere metric|generalized metric|extended metric' . -- 2 prose hits (Instance/Poset.v:77, Construction/Enriched.v:75)",
+   "grep -rn -i --include='*.v' 'quantale' . -- 1 prose hit (Construction/Enriched.v:78)",
+   "grep -rn --include='*.v' ': @Monoidal' . -- the complete list of monoidal bases: Sets, Coq, Par, StrictCat/Funny, _2, plus free/presented/transported ones; no numeric or order-theoretic base besides _2",
+   "grep -rn -iE --include='*.v' 'change of base|base change' . -- no enriched change-of-base machinery that could transport an enrichment into a Cost-like base"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed, and the split against def46 is coherent: def46 books the NOTION (present, Construction/Enriched.v:111) and def53 books the notion AT V = Cost (absent), which is where the missing monoidal-preorder base becomes actionable. All negatives re-run and confirmed: `rg -n '\\bCost\\b'` -> 0 hits, no reals/rationals imported, `rg -n 'infty|Infinity'` -> 0 hits, 'quantale' 1 prose hit (Enriched.v:78). The three-layer gap text is precise and I would file it as written. The prose-vs-code disclosure is fair and, on inspection, the library is honest about it in both directions: Construction/Enriched.v:73-78 states the Lawvere reading only as a comment, and Instance/Two.v:71-72 says explicitly 'over the interval [0, infinity] it produces metric spaces ... The library carries the first case in full', i.e. the Cost case not at all. One constructive addition for Phase E, from my def46 note: the base need not be built from scratch on a bare Category — the in-tree pattern is Cartesian + Terminal fed to Cartesian_Monoidal (Instance/Two/Monoidal.v:80,98,105), and for Cost the tensor is + rather than a meet, so a hand-built `Monoidal` on the order-reversed [0, infinity] is required, exactly as the gap says."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:example54",
+  "classification": "ABSENT",
+  "aliases": [
+   "the real line R as a metric space with d(x,y) = |y - x|",
+   "absolute-value / Euclidean metric on R; R as a Cost-category",
+   "R as a Lawvere metric space (instance of Def 2.53)",
+   "Instance/Reals, ordered field of reals as an in-tree object",
+   "|y - x| (absolute difference) as a distance"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' 'Require.*Reals|R_scope|Rle|Rplus|Rminus|Rabs|Rdefinitions|QArith' . -- 0 hits: the real numbers appear nowhere in the library, so R is not an in-tree object at all",
+   "ls Instance/ -- no Reals/R/Metric instance file (the numeric instances present are FinSet, Omega, Two, CMon, Coq, Sets, Ens, Rel, Proset, Poset)",
+   "grep -rn -i --include='*.v' 'absolute value|abs ' . -- 0 relevant hits",
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits, so no Cost-category instance of any kind",
+   "grep -rn -i --include='*.v' 'metric' . -- prose only (see def51 log)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed. Independently re-verified that the real numbers appear nowhere: exact-case `rg -n 'Require.*Reals|Rdefinitions|QArith|R_scope|Rplus|Rle\\b|Rabs'` -> 0 hits, and no Instance/Reals.v or metric instance exists (the numeric-flavoured instances are FinSet, Omega, Two, CMon, Coq, Sets, Ens, Rel, Proset, Poset). With no R and no Cost base, neither d(x,y) = |y - x| nor 'R is a Lawvere metric space' has any in-tree counterpart. ABSENT, not OUT_OF_SCOPE."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:ex55",
+  "classification": "ABSENT",
+  "aliases": [
+   "(R≥0, ≥, 0, +)-category vs Cost-category (Cost minus the point ∞)",
+   "finite-distance Lawvere metric space; every pair of points at finite distance",
+   "enrichment base lacking a top element (no ∞), 'connected' Lawvere metric space",
+   "change of base along the inclusion R≥0 ↪ [0, ∞]",
+   "comparison of two enrichment bases / when a V-category is a W-category"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; neither base of the comparison exists",
+   "grep -rn --include='*.v' 'Require.*Reals|Rle|Rplus|QArith' . -- 0 hits (no R≥0 either)",
+   "grep -rn -i --include='*.v' 'infty|infinity' . -- 0 hits, so the distinguishing point ∞ is not present to be excluded",
+   "grep -rn -iE --include='*.v' 'change of base|base change|basechange' . -- hits are all about pullback/cobase change of morphisms (Theory/Morphisms/Stability.v:215, Construction/Slice/Pullback.v:24) or ColouredPROP colour base change; nothing about comparing enrichment bases",
+   "grep -rn --include='*.v' ': @Monoidal' . -- only _2 among thin bases; no pair of numeric bases to compare"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed: neither side of the comparison exists — no Cost ([0, infinity], >=, 0, +) and no (R_{>=0}, >=, 0, +), since the reals are never imported and there is no 'infinity' token in tree, so the distinguishing point cannot even be excluded. I also confirmed the log's change-of-base finding: every 'base change' hit is pullback/cobase change of morphisms (Theory/Morphisms/Stability.v, Construction/Slice/Pullback.v) or ColouredPROP COLOUR base change (Construction/ColouredPROP/BaseChange.v) — none of it enriched change of base along a monoidal functor, which is the machinery this exercise's answer wants. Worth carrying into Phase E as a dependency note: the honest answer to Ex 2.55 needs enriched change of base, which is a third missing piece beyond the two bases."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:construction-graph-matrix",
+  "classification": "ABSENT",
+  "aliases": [
+   "M_G, the weight/adjacency matrix of a Cost-weighted graph (0 on the diagonal, ∞ off-edge)",
+   "adjacency matrix / incidence matrix of a directed graph",
+   "distance matrix d_G vs one-step matrix M_G; matrix over a quantale or semiring",
+   "V-matrix (hom-matrix) of a V-category, ehom as a matrix",
+   "edge family `edges : nodes → nodes → Type` of a quiver (the Set-valued analogue)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i --include='*.v' 'matrix|matrices' . -- no matrix data type anywhere; every hit is either background prose (Theory/Profunctor.v:54-69 'a profunctor is a matrix of sets', Functor/Hom/Yoneda.v:89-90, Instance/ZX.v:108-169) or the biproduct matrix CALCULUS on morphisms (Structure/Semiadditive.v:99,287-298, Structure/Bicartesian.v:34-36, Structure/Abelian.v:120, Structure/Preadditive.v:23) — none of it a matrix indexed by graph vertices",
+   "grep -rn -iE --include='*.v' 'weighted graph|shortest path|edge weight|adjacency' . -- 1 hit, a comment mentioning '[list (Fin n × Fin n)] adjacency generators' (Construction/PROP.v:270); no construction",
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits, and `grep -i 'infty|infinity'` -- 0 hits, so the two distinguished entries (0 on the diagonal, ∞ off-edge) have no in-tree values",
+   "grep -rn -iE --include='*.v' 'Vector\\.|Matrix' . -- only Theory/Sheaf.v's use of Coq.Vectors.Vector for covering families; no square-matrix type",
+   "closest in-tree shape, still not the item: `Class Quiver` (Construction/Free/Quiver.v:54) carries `edges : nodes → nodes → uedges`, a Set-valued edge family — the unweighted, Set-enriched analogue of M_G, with no weights, no 0/∞ conventions and no Cost base"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed; my blind pass reached the same verdict and the same nearest analogue. Verified Construction/Free/Quiver.v:54-58: `Class Quiver@{o h p}` with `edges : nodes -> nodes -> uedges` at line 57 — an unlabelled Set-valued edge family, the Set-enriched analogue of M_G with no weights and no 0/infinity conventions, correctly cited as 'closest shape, still not the item' rather than as evidence. Also verified there is no matrix DATATYPE: every 'matrix' hit is background prose or the biproduct matrix calculus on morphisms (Structure/Semiadditive.v, Structure/Bicartesian.v, Structure/Abelian.v, Structure/Preadditive.v), none of it indexed by graph vertices. The two distinguished entries of M_G (0 on the diagonal, infinity off-edge) have no in-tree values at all."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:construction-weighted-graph-metric",
+  "classification": "PARTIAL",
+  "aliases": [
+   "shortest-path (Lawvere) metric of a Cost-weighted graph; free Cost-category on a weighted graph",
+   "graph presentation of a V-category; free enriched category on a V-graph / V-quiver",
+   "Bool-weighted case: the preorder generated by a Hasse diagram (reflexive-transitive closure)",
+   "path category / free category on a quiver (the Set-weighted analogue)",
+   "infimum over directed paths, d(p,q) = ∞ when no path exists"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda/Multi.v",
+    "line": 74,
+    "symbol": "multi_PreOrder",
+    "intree_statement": "Program Instance multi_PreOrder `(R : crelation X) : PreOrder (multi R)  (with `Inductive multi (R : crelation X) : crelation X := multi_refl (x : X) : multi x x | multi_step (x y z : X) : R x y → multi y z → multi x z` at line 46 and `multi_trans` at line 61) — the Bool-weighted case of the construction: a directed graph R generates a preorder by closing under the empty path and path concatenation, exactly the Hasse-diagram case the item singles out"
+   },
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 131,
+    "symbol": "Enriched_of_TwoPreorder",
+    "intree_statement": "Definition Enriched_of_TwoPreorder (P : TwoPreorder) : @Enriched _2 Two_Monoidal — completes the Bool-weighted case to the enriched form: the generated preorder read as a Bool-category, hom-object true iff a path exists"
+   }
+  ],
+  "statement_record": {
+   "book": "From any Cost-weighted graph G — a directed graph whose edges carry labels in [0,∞], read as one-way roads of a given length — one forms a Lawvere metric space on the vertex set X by setting d_G(p,q) := the total length of a SHORTEST directed path p to q (0 via the empty path, ∞ when no path exists). This is the graph-presentation analogue of generating a preorder from a Hasse diagram; a Hasse diagram is exactly the Bool-weighted case (edges weighted true, absent edges false).",
+   "intree": "Inductive multi (R : crelation X) : crelation X := multi_refl : multi x x | multi_step : R x y → multi y z → multi x z, with multi_PreOrder `(R : crelation X) : PreOrder (multi R); and Enriched_of_TwoPreorder (P : TwoPreorder) : @Enriched _2 Two_Monoidal.",
+   "strength_comparison": "intree-weaker: only the Bool-weighted (unweighted) case exists, and only as an order-theoretic closure with no enriched-generation statement attached. `multi R` is the generated preorder of a graph (0-or-more edge steps), the Hasse-diagram case the item names, and Enriched_of_TwoPreorder turns a preorder into the corresponding Bool-category; but nothing weights the edges, nothing minimizes over paths, and nothing states the general construction as producing a V-category from a V-graph. The two in-tree legs are also not connected: multi_PreOrder lives in the lambda-calculus subtree (used for the reflexive-transitive closure of a reduction relation) and no file composes it with the enrichment machinery, and Enriched_of_TwoPreorder needs a DECIDABLE order while reachability under `multi R` is undecidable in general."
+  },
+  "gap": "The Cost-weighted case — the actual content of the item — is entirely missing, in three layers. (1) No Cost base (`grep '\\bCost\\b'` and `grep -i 'infty|infinity'`: 0 hits; the reals are never imported), so edge labels in [0,∞] and the value d_G(p,q) = ∞ cannot be written. (2) No weighted graph: `Class Quiver` (Construction/Free/Quiver.v:54) carries only `edges : nodes → nodes → uedges`, an unlabelled Set-valued edge family; `grep -iE 'weighted graph|shortest path|edge weight'` finds nothing but one comment. (3) No free-enriched-category construction: `FreeOnQuiver` (Construction/Free/Quiver.v:431, with FreeForgetfulAdjunction at line 550) gives the free ORDINARY category on a graph — paths as morphisms, i.e. the Set-enriched analogue where composition CONCATENATES rather than minimizes — and there is no free V-category on a V-graph, no infimum-over-paths, and no proof that the result satisfies the Cost enrichment axioms (d(x,x) = 0 and the triangle inequality). Also missing is the statement identifying the Bool-weighted case as an instance of the general construction: no in-tree lemma relates `multi R` to a free enrichment.",
+  "negative_search_log": [
+   "grep -rn -iE --include='*.v' 'weighted graph|shortest path|edge weight|adjacency' . -- 1 hit, a comment (Construction/PROP.v:270)",
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; grep -rn -i 'infty|infinity' . -- 0 hits",
+   "grep -rn -i --include='*.v' 'hasse' . -- 0 hits (the Bool-weighted presentation is never called that)",
+   "grep -rn -iE --include='*.v' 'free V-categor|free enriched|weighted categor' . -- 0 hits (no free enriched category on a graph)",
+   "grep -rn -iE --include='*.v' 'free category on a (graph|quiver)|path category|Quiver' . -- Construction/Free/Quiver.v only: Class Quiver:54, FreeOnQuiver:431, FreeForgetfulAdjunction:550 — the unweighted Set-enriched analogue"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "PARTIAL confirmed. My blind pass said ABSENT with FreeOnQuiver as the nearest analogue; the classifier found the better one, and it checks out: Instance/Lambda/Multi.v:46 `Inductive multi `(R : crelation X) : crelation X := multi_refl | multi_step`, multi_trans at line 61, multi_PreOrder at line 74 exactly as cited (file registered in _CoqProject:209) — the reflexive-transitive closure IS the preorder generated by a directed graph, i.e. the Bool-weighted case the item singles out, so 'some of the item exists' holds. The strength_comparison is unusually honest about how thin that leg is (lambda-calculus subtree, never composed with the enrichment machinery, and reachability under multi R is undecidable in general while Enriched_of_TwoPreorder demands a decider) and the three-layer gap is accurate: I re-verified FreeOnQuiver at Construction/Free/Quiver.v:431 and FreeForgetfulAdjunction at 550, which give the free ORDINARY category (paths concatenate) and not a free V-category on a V-graph, and 0 hits for 'weighted graph|shortest path|edge weight'. Caution for Phase E, which the gap text already implies: `multi` must not be presented as coverage of this item — it is the degenerate Bool case with no weights, no minimisation over paths and no enrichment statement attached."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:ex58",
+  "classification": "ABSENT",
+  "aliases": [
+   "shortest-path distance table of a Cost-weighted graph (fill out d_X)",
+   "all-pairs shortest paths / Floyd-Warshall style computation",
+   "distance matrix d_X of a four-vertex weighted graph",
+   "computing hom-objects of a Cost-category on a finite object set",
+   "decidable/computable metric on a finite vertex set"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -iE --include='*.v' 'shortest path|all.pairs|floyd|warshall|dijkstra' . -- 0 hits",
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; grep -rn -i 'infty|infinity' . -- 0 hits (the table's ∞ entries have no in-tree value)",
+   "grep -rn -iE --include='*.v' 'weighted graph|edge weight|distance' . -- only prose hits in Construction/Enriched.v and one comment in Construction/PROP.v:270",
+   "grep -rn -i --include='*.v' 'matrix|matrices' . -- no matrix/table datatype indexed by vertices (see the construction-graph-matrix log)",
+   "note: the library DOES have computable finite instances that could host such a table (Instance/FinSet.v with `eq_refl`-computing examples in Instance/FinSet/Topos.v), but nothing weighted, and no Cost base to compute in"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed: 0 hits for 'shortest path|all-pairs|floyd|warshall|dijkstra', no Cost base, no infinity value for the unreachable entries, and no vertex-indexed table datatype. The log's closing note is fair and useful — Instance/FinSet.v plus the eq_refl-computing examples of Instance/FinSet/Topos.v show the library CAN host a computable finite table, so the obstruction is the missing Cost base rather than any inability to compute; that makes this a downstream consequence of def53 for issue-dependency purposes."
+  }
+ },
+ {
+  "id": "7sketches:2.3.3:ex60",
+  "classification": "ABSENT",
+  "aliases": [
+   "fill out the one-step matrix M_X of a Cost-weighted graph",
+   "weight/adjacency matrix with 0 on the diagonal and ∞ where no edge exists",
+   "reading a V-matrix off a V-weighted graph (no computation required)",
+   "quiver edge family as a matrix; Fin-indexed square matrix",
+   "matrix over the Cost quantale (min-plus / tropical semiring)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn -i --include='*.v' 'matrix|matrices' . -- no matrix datatype; hits are background prose and the biproduct matrix calculus on morphisms (see the construction-graph-matrix log)",
+   "grep -rn -iE --include='*.v' 'adjacency|edge weight|weighted graph' . -- 1 comment hit (Construction/PROP.v:270)",
+   "grep -rn --include='*.v' '\\bCost\\b' . -- 0 hits; grep -rn -i 'infty|infinity' . -- 0 hits (no ∞ entry available)",
+   "grep -rn -iE --include='*.v' 'tropical|min.plus|semiring' . -- 0 hits",
+   "closest in-tree shape: `Class Quiver`'s `edges : nodes → nodes → uedges` (Construction/Free/Quiver.v:54-57), an unweighted Set-valued edge family with no diagonal or off-edge convention"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "ABSENT confirmed: no matrix datatype, no adjacency/weight construction, no Cost base and no infinity entry; the closest shape is again Quiver's unweighted `edges` family (Construction/Free/Quiver.v:54-57), correctly cited as a non-match. One inaccuracy in the negative log, immaterial to the verdict: it claims `grep -iE 'tropical|min.plus|semiring'` -> 0 hits, but 'semiring' does occur once, at Theory/Algebra.v:25 ('the identities of a rig (a semiring, ...)') — background prose about rig categories, nothing tropical and nothing min-plus, so the conclusion stands unchanged."
+  }
+ }
+]

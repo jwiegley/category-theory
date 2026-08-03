@@ -1,0 +1,429 @@
+[
+  {
+    "id": "maclane:II.4:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "R-Mod as full subcategory of Ab^R",
+      "module category",
+      "category of abelian groups Ab",
+      "ring as one-object preadditive/Ab-enriched category",
+      "additive functor category",
+      "Rng"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'R-Mod|Rng|Ring' . -- only prose mentions in background essays (Theory/Equivalence.v:79 'transport along R-Mod ≃ S-Mod', Structure/Abelian.v:69,111 cite R-Mod as motivation); no category of rings or modules is defined",
+      "grep -rn --include='*.v' -E '\\bAb\\b' . -- only 'Ab' as a local variable name in Theory/Bicategory/Adjunction.v (a BicatAdjunction binder); no category Ab of abelian groups exists in-tree",
+      "grep -rln --include='*.v' -E 'abelian group' . -- hits are Structure/Abelian.v (abelian CATEGORIES, essay-level references to Ab), Structure/Preadditive.v (CMon-enrichment of hom-sets), Instance/CMon.v (commutative monoids, not groups); none define Ab or modules",
+      "grep -rn --include='*.v' -iE 'additive functor|PreadditiveFunctor|one.object preadditive' . -- 0 hits; Structure/Preadditive.v has the Preadditive class only, no additive functors and no one-object (ring) reading",
+      "grep -rn --include='*.v' -iE 'monoid action|M-action|equivariant|group action' . -- only the symmetric-group action on multicategory contexts (Theory/Multicategory*), unrelated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently confirmed: no category Ab, no rings, no modules in-tree (rg 'R-Mod|RMod|module', '\\bAb\\b', 'ring' over *.v: only prose in Structure/Abelian.v, Theory/Equivalence.v:79 Morita essay, and the BicatAdjunction binder 'Ab' at Theory/Bicategory/Adjunction.v:331 — all verified). Structure/Group.v is group objects only; Instance/CMon.v is commutative monoids. Negative-log claims spot-checked and accurate."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "B^X for finite discrete X",
+      "finite power of a category",
+      "functor category out of a discrete category [DiscreteCat X, B]",
+      "Two_Discrete exponent",
+      "B x B x ... x B comparison"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'DiscreteCat' . -- Instance/Discrete.v defines DiscreteCat A and DiscreteCat_Functor (a function A → C extends to a functor); Structure/Limit/Product.v uses discrete diagrams for indexed products IN a category (a different statement); nowhere is the functor CATEGORY [DiscreteCat X, B] described, let alone identified with a finite power of B",
+      "grep -rn --include='*.v' -E 'Two_Discrete|TwoD' . -- Instance/Two/Discrete.v: Pick_Two builds a functor from a pair of objects (comment-level 'exactly an ordered pair'); Functor/Diagonal.v:78 Diagonal_Product_Two compares the two diagonal functors componentwise. Object-level near-misses only; no isomorphism/equivalence [X_disc, B] ≃ B ∏ ... ∏ B of categories, and natural transformations over a discrete shape are never characterized",
+      "grep -rn --include='*.v' -iE 'power of|finite power|B\\^X|C\\^n|copies of' . -- only object powers inside multicategories (Theory/Multicategory/Endomorphism.v pow) and Lawvere powers of the generic object; no powers of a category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search found the same ingredients and nothing more: DiscreteCat/DiscreteCat_Functor (Instance/Discrete.v:37,52), Two_Discrete/Pick_Two (Instance/Two/Discrete.v:58,111, one direction only, no bijection), Diagonal_Product_Two (Functor/Diagonal.v:78, verified). No iso/equivalence [DiscreteCat X, B] ≃ B^n exists; Structure/Limit/Product.v's discrete diagrams compute products IN a category, a different statement. ABSENT is correct — the exercise's content (the power description of the functor category) has no counterpart."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "graded abelian groups",
+      "Ab^N",
+      "grading by a discrete category",
+      "N-indexed families of abelian groups",
+      "graded objects"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'graded' . -- only Monad/Graded.v (graded/parametric monads indexed by a monoid, an unrelated concept) and incidental prose ('graded build-up' in Theory/Metacategory.v)",
+      "grep -rn --include='*.v' -iE 'graded abelian|grading|Ab\\^' . -- Monad/Graded.v grading of monads only; no graded abelian groups",
+      "grep -rn --include='*.v' -E '\\bAb\\b' . -- no category Ab exists in-tree (see maclane:II.4:ex1 log), so the functor category Ab^N cannot be present in any form"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirmed: 'graded' hits only Monad/Graded.v (monoid-graded monads, unrelated); no Ab category exists (see ex1), so Ab^N cannot be present in any form."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "functor category between preorders is a preorder",
+      "Q^P thin",
+      "monotone maps ordered pointwise",
+      "posetal functor category",
+      "thin category closure under exponentials"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'functor category.*preorder|preorder.*functor category|pointwise.*order' . -- 0 hits",
+      "grep -rn --include='*.v' -E 'Proset' . -- Instance/Proset.v (a preorder as a thin category) and Instance/Poset.v; both are object-level constructions, neither says anything about functor categories between them",
+      "grep -rn --include='*.v' -iE '\\bthin\\b' . -- thin-category instances (Proset, Omega, Props, _2) and prose; no lemma that [P, Q] is thin/a preorder when P, Q are",
+      "grep -rn --include='*.v' -iE 'monotone' . -- Construction/Enriched/Two.v EnrichedFunctor_Two_monotone identifies 2-enriched FUNCTORS with monotone maps (the morphism level of Prosets), but the order/preorder structure on the collection of monotone maps (the functor category Q^P) is never constructed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirmed: Instance/Proset.v/Instance/Poset.v build the thin category of a preorder (object level); Construction/Enriched/Two.v's EnrichedFunctor_Two_monotone identifies 2-enriched functors with monotone maps but never constructs the functor category Q^P or shows it thin. No pointwise-order-on-monotone-maps result anywhere."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "permutation representations Fin^G",
+      "G-sets",
+      "group action category",
+      "finite group acting on finite sets",
+      "category of groups Grp"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'permutation repr|G-set|group acting|\\bGrp\\b' . -- 0 relevant hits (only 'underlying-set functor' prose in Theory/Lawvere/*)",
+      "grep -rn --include='*.v' -iE 'group action|equivariant|monoid action|M-action' . -- only the symmetric-group action on multicategory input lists (Theory/Multicategory*.v msym), unrelated to G-sets",
+      "grep -rn --include='*.v' -iE '\\bGrp\\b|group object' . -- Structure/Group.v defines group OBJECTS internal to a cartesian category, not the category Grp and no actions; Instance/FinSet.v provides skeletal finite sets but no group ever acts on them in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirmed: no group-as-one-object-category, no G-sets, no Grp; Structure/Group.v is internal group objects, Instance/FinSet.v has no group actions; the only 'action' in-tree is the symmetric-group action on multicategory contexts (msym), unrelated."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex6",
+    "classification": "ABSENT",
+    "aliases": [
+      "matrix category Matr_K",
+      "equivalent matrices as isomorphic objects of (Matr_K)^2",
+      "similar matrices via (Matr_K)^M",
+      "infinite cyclic monoid action on matrices",
+      "category of matrices over a field"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'Matr|matrix|matrices' . -- all hits are prose/metaphor: Functor/Hom/Yoneda.v (matrix example in the essay), Theory/Profunctor.v ('matrix of sets'), Structure/Semiadditive.v (the biproduct 'matrix calculus' in an abstract semiadditive category), Instance/ZX.v (matrix bookkeeping remark); no category Matr_K of natural numbers and K-matrices exists",
+      "grep -rn --include='*.v' -iE 'similar matr|equivalent matr' . -- 0 hits",
+      "grep -rn --include='*.v' -iE 'infinite cyclic' . -- 0 hits; no in-tree monoid M = {1, m, m^2, ...} as a one-object category"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search confirmed: 'Matr' has zero hits in *.v; 'matrix' hits are prose/metaphor only (Yoneda essay, profunctor 'matrix of sets', semiadditive biproduct calculus, ZX bookkeeping). No category of K-matrices, no infinite cyclic monoid as a category."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "functors into the arrow category classify natural transformations",
+      "Arr(B) / B^2 / [2,B]",
+      "comma category (Id ↓ Id)",
+      "dom/cod projections and the generic arrow",
+      "H ↦ (S, T, τ) bijection"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Arrow.v",
+        "line": 110,
+        "symbol": "Arrow",
+        "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C])."
+      },
+      {
+        "file": "Construction/Comma.v",
+        "line": 214,
+        "symbol": "comma_proj_nat",
+        "intree_statement": "Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2. (at S = T = Id this is the generic arrow dom ⟹ cod of the arrow category)"
+      },
+      {
+        "file": "Construction/Arrow.v",
+        "line": 104,
+        "symbol": "(header disclosure)",
+        "intree_statement": "\"The [2, C] equivalence of the header, by contrast, remains documentation-level: no formal comparison with a functor category over the walking arrow [_2] of Instance/Two.v is developed in-tree\" — and the classification 'functors X ⟶ Arr(Y) correspond exactly to natural transformations' (line 50-52) is likewise stated only in the essay."
+      }
+    ],
+    "statement_record": {
+      "book": "Each functor H : C → B^2 determines two functors S, T : C → B and a natural transformation τ : S ⟹ T, and H ↦ (S, T, τ) is a bijection between functors C → B^2 and such triples.",
+      "intree": "The arrow category exists as Arrow := (Id[C] ↓ Id[C]) with projections comma_proj1/comma_proj2 (dom/cod) and the generic natural transformation comma_proj_nat : dom ⟹ cod; whiskering (whisker_right, Theory/Natural/Transformation.v:329) supplies the components of the forward assignment H ↦ (comma_proj1 ∘ H, comma_proj2 ∘ H, comma_proj_nat ⊲ H), but no lemma states it.",
+      "strength_comparison": "intree-weaker: only the ingredients of the forward direction exist; the classification bijection (inverse construction from a triple, and both round trips) is neither stated nor proven, and Construction/Arrow.v:104-108 explicitly discloses the correspondence as documentation-level. The book's B^2 = functor category [2, B] presentation is also unconnected to Arrow (no comparison [2,B] ≅ Arr(B))."
+    },
+    "gap": "The bijection theorem itself: no in-tree statement that H ↦ (dom ∘ H, cod ∘ H, comma_proj_nat ⊲ H) is a bijection (or equivalence/iso of categories/setoids) between functors C ⟶ Arrow(B) and triples (S, T, τ : S ⟹ T); the inverse construction from a triple is absent; and Arrow is never compared with the functor category [_2, B].",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -E 'comma_proj_nat' . -- defined once (Construction/Comma.v:214), used only in Arrow.v prose; never assembled into a classification statement",
+      "grep -rn --include='*.v' -iE 'arrow categor' . -- Construction/Arrow.v and Theory/Orthogonality.v (retracts in the arrow category) only; no functor-classification lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass found the same evidence: Arrow := (Id[C] ↓ Id[C]) at Construction/Arrow.v:110, comma_proj_nat at Construction/Comma.v:214 (both verified in situ), and the header's explicit disclosure (Arrow.v:104-108, quote accurate) that the [2,C]/classification reading is documentation-level. PARTIAL is right: the forward-direction ingredients (dom/cod projections, generic arrow, whiskering) genuinely exist, the bijection theorem does not. Gap statement is precise. I independently confirmed no other file assembles the classification (rg '⟶ Arrow|Arrow ⟶|⃗': only a comment in Construction/Displayed/Codomain.v:280)."
+    }
+  },
+  {
+    "id": "maclane:II.4:ex8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "exponential transpose relating C × 2 → B and C → B^2",
+      "currying/uncurrying in Cat",
+      "cylinder C × 2 vs arrow category encodings of a natural transformation",
+      "Cat cartesian closed exp_iso",
+      "universal natural transformation"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Cartesian/Closed.v",
+        "line": 47,
+        "symbol": "Cat_Closed",
+        "intree_statement": "#[export] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := { exponent_obj := @Fun; exp_iso := fun A B C => {| to := (currying: F : A × B ⟶ C ↦ x ↦ (y ↦ F (x, y))); from := (uncurrying) |} } — the natural bijection Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) with all round-trip laws proven."
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; ... |} — the walking arrow; instantiating Cat_Closed's exp_iso at B := _2 gives precisely the transpose between functors C ∏ _2 ⟶ B and functors C ⟶ [_2, B]."
+      }
+    ],
+    "statement_record": {
+      "book": "Relate the functor H : C → B^2 of Exercise 7 to the functor F : C × 2 → B of the cylinder construction: the two encodings of a natural transformation correspond under the exponential transpose.",
+      "intree": "The transpose machinery is present in full generality: Cat_Closed's exp_iso is the natural iso Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) (Instance/Cat/Cartesian/Closed.v:47), which at B := _2 relates functors C ∏ 2 ⟶ B to functors C ⟶ [2, B].",
+      "strength_comparison": "intree-weaker: the general transpose exists, but neither end is identified with natural transformations — the cylinder construction with its universal natural transformation (MacLane's display (3.6)) is absent, and the arrow-category classification of Exercise 7 is absent — so the exercise's actual comparison between the two ENCODINGS of a natural transformation is not formalized."
+    },
+    "gap": "The specialization: no cylinder construction C × 2 with universal natural transformation μ (grep for 'cylinder' and 'universal natural transformation' over *.v: 0 hits), no identification of functors C ⟶ [2,B] (or C ⟶ Arrow(B)) with triples (S, T, τ) (Construction/Arrow.v:104-108 discloses this as documentation-level), hence no theorem that the exp_iso transpose carries one encoding of a natural transformation to the other.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'cylinder|universal natural transformation' . -- 0 hits",
+      "grep -rn --include='*.v' -E '∏ _2|_2 ∏' . -- no development of C ∏ _2 as a cylinder"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same split: Cat_Closed with exp_iso = Hom_Cat(A × B, C) ≅ Hom_Cat(A, [B, C]) verified at Instance/Cat/Cartesian/Closed.v:47 (fully proven, registered in _CoqProject:168); _2 at Instance/Two.v:134. 'cylinder' and 'universal natural transformation': 0 hits, independently reproduced. The general transpose is present, the walking-arrow specialization and the identification of either side with natural-transformation data are absent — exactly the stated gap."
+    }
+  },
+  {
+    "id": "maclane:II.5:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "horizontal composition of natural transformations",
+      "Godement product",
+      "nat_hcompose",
+      "hcomp2 / star composition",
+      "whiskering factorization of the horizontal composite"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 283,
+        "symbol": "nat_hcompose",
+        "intree_statement": "Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E} (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {| transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x) |}. (naturality and its symmetric orientation discharged in the two obligations; the header at 275-281 records that by naturality of ε the component also equals fmap[K] (transform[η] x) ∘ transform[ε] (F x) — MacLane's two diagonal formulas, display (2))"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 196,
+        "symbol": "whisker_left_right",
+        "intree_statement": "Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C) (η : F ⟹ G) (θ : H ⟹ J) : (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η). (the agreement of the two whiskering factorizations, MacLane's display (3); nat_hcompose θ η is definitionally the right-hand factorization componentwise)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 64,
+        "symbol": "Cat_Hcompose",
+        "intree_statement": "Program Definition Cat_Hcompose {C D E : Category} : ([D, E] ∏ [C, D]) ⟶ [C, E] := {| fobj := fun p => fst p ◯ snd p; fmap := fun p q m => nat_hcompose (fst m) (snd m) |}. (fmap_id gives the identity law 1 ∘ 1 = 1; fmap_comp is the interchange)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 102,
+        "symbol": "Cat_hassoc_natural",
+        "intree_statement": "Lemma Cat_hassoc_natural (W X Y Z : Category) ... (θ : h ⟹ h') (γ : g ⟹ g') (η : f ⟹ f') : nat_compose (nat_hcompose θ (nat_hcompose γ η)) (from (nat_α f g h)) ≈ nat_compose (from (nat_α f' g' h')) (nat_hcompose (nat_hcompose θ γ) η). (associativity of the horizontal composite, conjugated by the associator whose components are identity-like)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given τ : S ⟹ T (functors C → B) and τ' : S' ⟹ T' (functors B → A), the horizontal composite τ' ∘ τ : S'S ⟹ T'T has component the common diagonal (τ' ∘ τ)c = T'τc ∘ τ'Sc = τ'Tc ∘ S'τc, is natural, and this composition is associative with identities 1_{I}; whiskering rewrites τ' ∘ τ = (T' ∘ τ)·(τ' ∘ S) = (τ' ∘ T)·(S' ∘ τ).",
+      "intree": "nat_hcompose (Theory/Natural/Transformation.v:283) constructs exactly this composite with naturality proven; its component is definitionally the second diagonal formula, the first following by naturality (recorded in the header and realized by whisker_left_right, Instance/Fun.v:196); identities and associativity are carried by Cat_Hcompose's functoriality (fmap_id) and the coherence lemmas Cat_hassoc_natural / Cat_hunit_left_natural / Cat_hunit_right_natural of Instance/Cat/Bicategory.v.",
+      "strength_comparison": "same in substance. One presentational delta: MacLane's on-the-nose associativity/unit equations for ∘ hold in-tree in the conjugated form (through nat_α/nat_λ/nat_ρ, whose components are identities up to fmap_id), because strictly equal functor composites are distinct Coq terms; this is the faithful type-theoretic rendering of the strict statement."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "All four evidence items verified at the cited lines: nat_hcompose at Theory/Natural/Transformation.v:283 with both naturality obligations, and the header (272-281) recording both diagonal formulas of display (2); whisker_left_right at Instance/Fun.v:196 (display (3)); Cat_Hcompose at Instance/Cat/Bicategory.v:64 (fmap_id = identity law); Cat_hassoc_natural at :102. Strength note is honest — associativity/units hold conjugated by nat_α/nat_λ/nat_ρ whose components are identity-like, the faithful rendering when functor-composite equality is unavailable. PRESENT is correct."
+    }
+  },
+  {
+    "id": "maclane:II.5:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "whiskering",
+      "horizontal composite with an identity transformation",
+      "S' ∘ τ and τ' ∘ T",
+      "whisker_left / whisker_right, lwhisker / rwhisker",
+      "functor symbol as its identity transformation"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 329,
+        "symbol": "whisker_right",
+        "intree_statement": "Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G) {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {| transform := λ x, N (X x); ... |}. Notation \"N ⊲ F\". (docstring: 'This is the horizontal composite of N with the identity transformation on X')"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 347,
+        "symbol": "whisker_left",
+        "intree_statement": "Program Definition whisker_left {C D : Category} {E : Category} (X : D ⟶ E) {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {| transform := λ x, fmap[X] (N x) |}. Notation \"F ⊳ N\"."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 196,
+        "symbol": "whisker_left_right",
+        "intree_statement": "Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C) (η : F ⟹ G) (θ : H ⟹ J) : (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η). (MacLane's display (3): the two whisker factorizations of the horizontal composite agree; nat_hcompose θ η is componentwise definitionally equal to the (θ ⊲ G) ∙ (H ⊳ η) side)"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 90,
+        "symbol": "lwhisker/rwhisker",
+        "intree_statement": "Definition lwhisker ... (η : f ~> f') : (g ∘∘∘ f) ~> (g ∘∘∘ f') := hcomp2 (bi2id (a:=g)) η. Definition rwhisker ... (θ : g ~> g') (f : bicat x y) : (g ∘∘∘ f) ~> (g' ∘∘∘ f) := hcomp2 θ (bi2id (a:=f)). (at bicategory generality, whiskering is literally DEFINED as the horizontal composite against an identity 2-cell — the book's convention verbatim)"
+      }
+    ],
+    "statement_record": {
+      "book": "Letting a functor symbol S also denote its identity natural transformation yields the whiskerings S' ∘ τ : S'S ⟹ S'T and τ' ∘ T : S'T ⟹ T'T, and the horizontal composite factors both ways: τ' ∘ τ = (T' ∘ τ)·(τ' ∘ S) = (τ' ∘ T)·(S' ∘ τ).",
+      "intree": "Both whiskerings exist with notations ⊲/⊳ (Theory/Natural/Transformation.v:329, 347), the factorization identity is whisker_left_right (Instance/Fun.v:196) with one side definitionally equal to nat_hcompose, and at bicategory generality lwhisker/rwhisker are defined as hcomp2 against bi2id with functoriality laws (lwhisker_comp, rwhisker_comp) plus the whisker_*_id/dist lemmas in Instance/Fun.v.",
+      "strength_comparison": "same. Minor note: at the Cat-specific level, that whisker_right N X coincides with nat_hcompose N (nat_id) is documented in the docstring and holds componentwise up to fmap_id rather than being a named lemma; the bicategory-level lwhisker/rwhisker make the coincidence definitional."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: whisker_right at Theory/Natural/Transformation.v:329 (notation ⊲, docstring 'horizontal composite of N with the identity transformation on X'), whisker_left at :347 (⊳), whisker_left_right at Instance/Fun.v:196, whisker_{right,left}_id at Fun.v:147,150 and _dist at :153,157, and the bicategory-level lwhisker/rwhisker at Theory/Bicategory/Adjunction.v:90-94 defined literally as hcomp2 against bi2id with lwhisker_comp:104/rwhisker_comp:113. The book's convention is captured definitionally at bicategory level and componentwise at the Cat level."
+    }
+  },
+  {
+    "id": "maclane:II.5:remark1",
+    "classification": "PRESENT",
+    "aliases": [
+      "interchange law",
+      "middle-four exchange",
+      "Godement product functoriality",
+      "hcomp2_comp",
+      "(τ'·σ') ∘ (τ·σ) = (τ' ∘ τ)·(σ' ∘ σ)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 79,
+        "symbol": "hcomp2_comp",
+        "intree_statement": "Lemma hcomp2_comp {x y z : bi0cell} {g g' g'' : bicat y z} {f f' f'' : bicat x y} (θ' : g' ~> g'') (θ : g ~> g') (η' : f' ~> f'') (η : f ~> f') : hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η. (the interchange law in an arbitrary bicategory; at Cat_Bicategory, hcomp2 computes to nat_hcompose and ∘∘ to nat_compose)"
+      },
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 76,
+        "symbol": "Cat_Hcompose (fmap_comp obligation)",
+        "intree_statement": "fmap_comp for Cat_Hcompose, proven at lines 76-83: instantiated, nat_hcompose (τ' ∙ σ') (τ ∙ σ) ≈ nat_hcompose τ' τ ∙ nat_hcompose σ' σ, since composition in [D,E] ∏ [C,D] is componentwise vertical composition; the file comment (lines 59-60) reads 'fmap_comp is the middle-four interchange law, discharged from naturality of the outer transformation'."
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 196,
+        "symbol": "whisker_left_right",
+        "intree_statement": "(J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η) — the whiskered form of interchange; the Fun.v header (lines 86-89) notes 'the agreement of its two defining formulas IS the interchange law ... [whisker_left_right] states its whiskered form here'."
+      }
+    ],
+    "statement_record": {
+      "book": "For vertically composable σ, τ (functors C → B) and σ', τ' (functors B → A), the interchange law (τ'·σ') ∘ (τ·σ) = (τ' ∘ τ)·(σ' ∘ σ) holds between vertical (·) and horizontal (∘) composition; proof by diagram left to the reader.",
+      "intree": "hcomp2_comp proves hcomp2 (θ' ∘∘ θ) (η' ∘∘ η) ≈ hcomp2 θ' η' ∘∘ hcomp2 θ η in any bicategory, and the Cat instance carries the concrete law as Cat_Hcompose's fmap_comp field (nat_hcompose of vertical composites ≈ vertical composite of nat_hcomposes), fully proven.",
+      "strength_comparison": "same — in fact intree-stronger in scope: the law is proven (MacLane leaves it to the reader) and holds at bicategory generality, with the Cat case rendered exactly as MacLane's own II.5 remark on partially-defined operations predicts: interchange = the horizontal-composition bifunctor preserving composition."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: hcomp2_comp at Theory/Bicategory/Adjunction.v:79 — statement matches the quote exactly, proven as fmap_comp of the hcompose bifunctor; Cat_Hcompose's fmap_comp obligation at Instance/Cat/Bicategory.v:76-83 is the concrete middle-four interchange for nat_hcompose/nat_compose (file comment at 59-60 confirms); whisker_left_right is the whiskered form as the Fun.v header (86-89) states. intree-stronger claim is fair: proven (book leaves it to the reader) and at bicategory generality."
+    }
+  },
+  {
+    "id": "maclane:II.5:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Cat is a 2-category",
+      "natural transformations form two interchanging categories",
+      "strict 2-category of categories/functors/natural transformations",
+      "Cat_Bicategory",
+      "double category of Cat under vertical and horizontal composition"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat/Bicategory.v",
+        "line": 127,
+        "symbol": "Cat_Bicategory",
+        "intree_statement": "Definition Cat_Bicategory : Bicategory := Build_Bicategory Category (fun C D => @obj (@Fun C D)) (fun C D => @hom (@Fun C D)) (@Id) ... (@Cat_Hcompose) (fun C D f => nat_ρ f) (fun C D f => nat_λ f) (fun W X Y Z h g f => iso_sym (nat_α f g h)) Cat_hunit_left_natural Cat_hunit_right_natural Cat_hassoc_natural Cat_triangle Cat_pentagon. (hom-categories are the functor categories [C, D] definitionally; all coherence proven)"
+      },
+      {
+        "file": "Instance/Fun.v",
+        "line": 108,
+        "symbol": "Fun",
+        "intree_statement": "Program Definition Fun : Category := {| obj := C ⟶ D; hom := @Transform C D; id := @nat_id C D; compose := @nat_compose C D |}. (the vertical category structure on natural transformations)"
+      },
+      {
+        "file": "Theory/Natural/Transformation.v",
+        "line": 72,
+        "symbol": "(header disclosure)",
+        "intree_statement": "\"horizontal composition [nat_hcompose] is the Godement product ... and the interchange law between the two makes Cat a strict 2-category (nLab, 'Godement product'), realized in this library as the motivating bicategory of Instance/Cat/Bicategory.v\""
+      },
+      {
+        "file": "Instance/StrictCat.v",
+        "line": 56,
+        "symbol": "StrictCat",
+        "intree_statement": "Instance StrictCat : Category := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; ... } (the strict 1-category of categories under strict functor equality — strictness at the 1-cell level only, no 2-cells)"
+      }
+    ],
+    "statement_record": {
+      "book": "The collection of all natural transformations (between small categories) is the arrow set of two different categories, under vertical composition · (objects: functors) and horizontal composition ∘ (objects: categories); the two compositions satisfy the interchange law, and every identity arrow for ∘ is also an identity for ·. In modern terms, Cat is a (strict) 2-category.",
+      "intree": "All the two-dimensional data and laws are formalized: vertical categories [C, D] (Fun), horizontal composition as the bifunctor Cat_Hcompose whose fmap_comp is the interchange law and whose fmap_id gives the identity coincidence, assembled into Cat_Bicategory with bicat C D ≡ [C, D] definitionally and triangle/pentagon coherence proven.",
+      "strength_comparison": "intree-weaker: MacLane's theorem asserts a STRICT 2-category (horizontal composition strictly associative and unital on the single set of all 2-cells); in-tree Cat carries only the weak Bicategory interface, with unitors/associator as explicit coherence isomorphisms."
+    },
+    "gap": "Strictness is never stated: there is no strict-2-category (or Cat-instantiated double-category) interface in-tree, no recorded lemma that Cat_Bicategory's coherence cells have identity components (true componentwise, up to fmap_id, but unstated), and no rendering of MacLane's single-arrow-set two-category formulation; the closest strict structure, StrictCat, is strict only at the 1-cell level (functors under Functor_StrictEq_Setoid) and carries no 2-cells, while the in-tree pseudo double category class (Theory/DoubleCategory.v) is instantiated at Sq C and cospans, not at Cat. Note the type-theoretic mitigation: on-the-nose equality of functor composites is unavailable in this setoid setting, so the bicategory-with-identity-component-coherence form is arguably the faithful presentation; the residual gap is that this strictness observation is nowhere formalized.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'two.category|2-category|strict 2' . -- all hits are prose (headers of Theory/Bicategory.v, Functor/Structure/Monoidal/*.v, Theory/Natural/Transformation.v); no Class/Definition of a strict 2-category exists",
+      "grep -rn --include='*.v' -iE 'interchange' . -- confirms the interchange side is present (Cat_Hcompose fmap_comp, hcomp2_comp, dinterchange for double categories) but no Cat instance of DoubleCategory"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified: Cat_Bicategory at Instance/Cat/Bicategory.v:127 with bicat C D ≡ [C, D] definitionally and all coherence proven; Fun at Instance/Fun.v:108; StrictCat at Instance/StrictCat.v:56-57 over Functor_StrictEq_Setoid (1-cell strictness only, no 2-cells) — all checked in situ. My blind pass weighed PRESENT (setoid-faithful reading: the coherence cells are componentwise identities) but agrees PARTIAL is the more defensible call: the book asserts STRICTNESS and the single-arrow-set two-category packaging, and in-tree neither a strict-2-category interface, nor an identity-component lemma for the coherence cells, nor a Cat instance of DoubleCategory exists. Gap statement is precise and already records the type-theoretic mitigation."
+    }
+  }
+]

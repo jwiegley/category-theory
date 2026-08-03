@@ -1,0 +1,575 @@
+[
+ {
+  "id": "awodey:9.1:construction-free-monoid-adjunction",
+  "classification": "PARTIAL",
+  "aliases": [
+   "free monoid on a set / underlying-set functor",
+   "free \u22a3 forgetful adjunction, F \u22a3 U",
+   "insertion of generators i_X : X -> UF(X); unit of a free construction",
+   "universal mapping property of the free object; UniversalArrow to a forgetful functor",
+   "list monoid / word monoid / Kleene star X*; Mon, Mon_Forget, FreeMonoid",
+   "phi(g) = U(g) o i_X as a hom-set bijection Hom_Mon(FX,M) \u2245 Hom_Sets(X,UM)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 550,
+    "symbol": "FreeForgetfulAdjunction",
+    "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .  (with FreeCatFunctor := LeftAdjointFunctorFromUniversalArrows Forgetful (fun _ => @UniversalArrowQuiverCat _))"
+   },
+   {
+    "file": "Construction/Free/Quiver.v",
+    "line": 518,
+    "symbol": "UniversalArrowQuiverCat",
+    "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  (built by universal_arrow_from_UMP from the insertion-of-generators map UnitQuiverCatAdjunction : QuiverHomomorphism G (QuiverOfCat FreeOnQuiver) and the unique factorization of every G \u21e8 U(C) as InducedFunctor F)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 264,
+    "symbol": "to_adj_unit",
+    "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7."
+   },
+   {
+    "file": "Theory/Algebra/Monoid/Hom.v",
+    "line": 93,
+    "symbol": "Mon_Forget",
+    "intree_statement": "Program Definition Mon_Forget : Mon \u27f6 C := {| fobj := fun X => `1 X; fmap := fun _ _ f => `1 f |}.  (over Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f } |}, line 83)"
+   }
+  ],
+  "statement_record": {
+   "book": "The paradigm adjunction: U : Mon -> Sets the underlying-set functor, F : Sets -> Mon the free-monoid functor, i_X : X -> UF(X) the insertion of generators, with the UMP that every f : X -> U(M) factors as U(g) o i_X for a unique monoid homomorphism g : F(X) -> M; equivalently phi(g) := U(g) o i_X is a bijection Hom_Mon(F X, M) \u2245 Hom_Sets(X, U M).",
+   "intree": "FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful, assembled by AdjunctionFromUniversalArrows from UniversalArrowQuiverCat (the UMP of the free category on a quiver), with the transpose formula to_adj_unit : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7.",
+   "strength_comparison": "intree-weaker: the free \u22a3 forgetful pattern, its UMP presentation and the transpose formula phi(g) = U(g) \u2218 \u03b7 are all in-tree at full strength, but the witness is the free CATEGORY on a quiver (Quiv -> StrictCat), not the free MONOID on a set. The internal-monoid category Mon(C) and its forgetful functor exist but carry no left adjoint."
+  },
+  "gap": "No free-monoid functor and no free \u22a3 underlying adjunction for monoids: Theory/Algebra/Monoid/Hom.v builds Mon(C) and Mon_Forget : Mon \u27f6 C but constructs no left adjoint; there is no list/word monoid as an object of Mon (Theory/Coq/List.v treats `list` only as a Coq type and calls it the free monoid in prose), and no instance of the insertion-of-generators arrow i_X : X ~> U(F X) in the monoid setting. The formalized instance of the paradigm is Construction/Free/Quiver.v's free category on a quiver, of which the free monoid is the one-object case \u2014 noted in that file's header prose but not proved.",
+  "negative_search_log": [
+   "grep -rni 'free monoid|FreeMonoid|free_monoid' --include='*.v' . -- hits are all header/comment prose (Theory/Coq/List.v, Theory/Coq/Foldable.v, Construction/Free.v:92, Construction/PROP.v, Construction/ColouredPROP.v); no definition or theorem",
+   "grep -rn 'Program Definition Mon|Definition Mon :|MonCat' --include='*.v' . -- only Theory/Algebra/Monoid/Hom.v:83 (internal monoids in a monoidal category) and 2-category-of-monoidal-categories prose",
+   "grep -rn '\u22a3' --include='*.v' . | grep -E 'Instance|Definition|Program' -- enumerated every in-tree adjunction; none has Mon or a free-monoid functor as an endpoint"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently. Verified Construction/Free/Quiver.v:546-551 (FreeCatFunctor := LeftAdjointFunctorFromUniversalArrows Forgetful ...; FreeForgetfulAdjunction := AdjunctionFromUniversalArrows _ _) and :518 (UniversalArrowQuiverCat) verbatim; Theory/Algebra/Monoid/Hom.v:83/93 give Mon(C) and Mon_Forget and I independently confirmed no left adjoint exists there (rg over the whole file: only MonoidHom, MonoidHom_id/_comp/_equiv, Mon, Mon_Forget, Mon_Forget_Faithful). My own searches for the free monoid: `rg -i 'free monoid'` -> 20 hits, ALL prose (Construction/Free.v:92 'The one-object case is the free monoid'; Theory/Coq/List/Proofs.v:21 'the underlying set of the free monoid on A'; Theory/Coq/Foldable.v:30-41 'Folding is the universal property of the free monoid' \u2014 and Foldable.v:49 itself discloses the class is ops-only with no laws). `find -iname '*monoid*'` -> no Instance/Mon.v, no free-monoid functor. `rg '\u22a3|\u2239' | rg 'Instance|Definition|Program'` (full enumeration of in-tree adjunctions) -> none has a monoid category as an endpoint. Gap statement is accurate and precisely scoped. All four cited files are registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:9.1:def1",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjunction via the unit (preliminary definition)",
+   "universal arrow / universal morphism from an object to a functor",
+   "UMP of the unit: unique g : F(C) -> D with f = U(g) o eta_C",
+   "left adjoint / right adjoint, F -| U, eta : 1_C => U o F",
+   "initial object of the comma category =(c) \u2193 U",
+   "AUniversalArrow, UniversalArrow, AdjunctionFromUniversalArrows"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 214,
+    "symbol": "AdjunctionFromUniversalArrows",
+    "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U."
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 158,
+    "symbol": "universal_arrow_from_UMP",
+    "intree_statement": "Definition universal_arrow_from_UMP (c : C) (F : D \u27f6 C) (d : D) (\u03b7 : c ~> fobj[F] d) (u : \u2200 (d' : D) (f : c ~> fobj[F] d'), \u2203! g : d ~> d', f \u2248 fmap[F] g \u2218 \u03b7) : UniversalArrow c F."
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 139,
+    "symbol": "ump_universal_arrows",
+    "intree_statement": "Corollary ump_universal_arrows `(c \u27ff F) `(h : c ~> F d) : \u2203! g : arrow_obj ~> d, h \u2248 fmap[F] g \u2218 arrow."
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 240,
+    "symbol": "AUniversalArrow",
+    "intree_statement": "Class AUniversalArrow (c : C) (F : D \u27f6 C) (a : D) := { universal_arrow : c ~> fobj[F] a ; universal_arrow_universal {d} {f : c ~> (fobj[F] d)} : Unique (fun g : hom a d => fmap[F] g \u2218 universal_arrow \u2248 f) }."
+   }
+  ],
+  "statement_record": {
+   "book": "An adjunction consists of F : C -> D, U : D -> C and eta : 1_C => U o F such that for every C, D and every f : C -> U(D) there is a unique g : F(C) -> D with f = U(g) o eta_C. F is the left adjoint, U the right adjoint, eta the unit; written F -| U.",
+   "intree": "universal_arrow_from_UMP takes exactly this data pointwise \u2014 an object d, a morphism \u03b7 : c ~> F d, and (\u2200 d' f, \u2203! g, f \u2248 fmap[F] g \u2218 \u03b7) \u2014 and AdjunctionFromUniversalArrows turns a family of such into a genuine Adjunction (F \u22a3 U notation of Theory/Adjunction.v).",
+   "strength_comparison": "same. Presentation differs: the in-tree unit is given pointwise (one universal arrow per object of C) and its naturality as Id \u27f9 U \u25ef F is derived rather than assumed \u2014 a weaker hypothesis for the same conclusion. The left adjoint is reconstructed as LeftAdjointFunctorFromUniversalArrows rather than taken as given, so for a pre-existing F the conclusion arrives up to natural isomorphism (left_adjoint_iso); no mathematical content of the definition is lost. Terminology (left/right adjoint, unit, F \u22a3 U) is fixed in Theory/Adjunction.v."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. All four evidence quotes verified verbatim at the cited lines of Theory/Universal/Arrow.v (127 UniversalArrow, 139 ump_universal_arrows, 158 universal_arrow_from_UMP, 214 AdjunctionFromUniversalArrows, 240 AUniversalArrow). The in-tree AUniversalArrow field `universal_arrow_universal : Unique (fun g => fmap[F] g \u2218 universal_arrow \u2248 f)` is exactly Awodey's UMP of the unit, and Theory/Adjunction.v:47-56 independently names the universal-arrow form as one of the three presentations the library formalizes. The strength_comparison is honest about the one real deviation \u2014 the left adjoint is REBUILT rather than taken as given \u2014 and that deviation is correctly escalated to a PARTIAL at awodey:9.2:prop4, where it becomes a theorem-level gap rather than a definitional one. Terminology (F \u22a3 U, unit, left/right adjoint) confirmed in Theory/Adjunction.v:214-218, 357."
+  }
+ },
+ {
+  "id": "awodey:9.1:example2",
+  "classification": "PARTIAL",
+  "aliases": [
+   "diagonal functor Delta : C -> C x C",
+   "binary product as right adjoint to the diagonal, Delta -| x",
+   "Diagonal_Product, InternalProductFunctor, \u00d7(C)",
+   "unit = diagonal arrow <1,1>; Cartesian / fork / ump_products",
+   "Delta has a right adjoint iff C has binary products"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/Diagonal/Product.v",
+    "line": 36,
+    "symbol": "Diagonal_Product_Adjunction",
+    "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C \u22a3 \u00d7(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f \u25b3 snd f |} ; from := {| morphism := fun f => (exl \u2218 f, exr \u2218 f) |} |} }."
+   },
+   {
+    "file": "Adjunction/GAFT/Examples.v",
+    "line": 65,
+    "symbol": "diagonal_unique",
+    "intree_statement": "Program Definition diagonal_unique (d : C) (d' : C \u220f C) (f : d ~> InternalProductFunctor C d') : \u2203! g : (d, d) ~{ C \u220f C }~> d', f \u2248 fmap[InternalProductFunctor C] g \u2218 (id[d] \u25b3 id[d]) := {| unique_obj := (exl \u2218 f, exr \u2218 f) |}."
+   },
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (\u2200 F : Two_Discrete \u27f6 C, Limit F) \u2194 @Cartesian C."
+   },
+   {
+    "file": "Adjunction/GAFT/Examples.v",
+    "line": 121,
+    "symbol": "diagonal_product_via_gaft_is_diagonal",
+    "intree_statement": "Definition diagonal_product_via_gaft_is_diagonal : projT1 diagonal_product_via_gaft \u2248 Diagonal_Product C := left_adjoint_iso (InternalProductFunctor C) (projT1 diagonal_product_via_gaft) (Diagonal_Product C) (projT2 diagonal_product_via_gaft) (Diagonal_Product_Adjunction C)."
+   }
+  ],
+  "statement_record": {
+   "book": "Delta : C -> C x C with Delta(C) = (C,C), Delta(f) = (f,f). Its right adjoint, if it exists, must be the binary product; the unit is the diagonal <1_C,1_C> : C -> C x C and the UMP is verified by (f_1 x f_2) o eta_C = <f_1,f_2>. Conclusion: Delta has a right adjoint iff C has binary products, and then Delta -| x.",
+   "intree": "Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C \u22a3 \u00d7(C), with the transposes f \u21a6 fst f \u25b3 snd f and h \u21a6 (exl \u2218 h, exr \u2218 h); diagonal_unique states the unit form, that every f : d ~> a \u00d7 b factors uniquely through id \u25b3 id.",
+   "strength_comparison": "intree-weaker: only the forward implication (C cartesian \u21d2 \u0394 \u22a3 \u00d7) is proved, under the hypothesis `{@Cartesian C}. The converse half of Awodey's biconditional \u2014 a right adjoint to \u0394 forces binary products \u2014 is nowhere in-tree in adjoint form; Cartesian_Limit gives the corresponding biconditional only in limit form (limits of all Two_Discrete diagrams \u2194 Cartesian C)."
+  },
+  "gap": "The 'only if' direction is missing: there is no in-tree theorem of the form (\u2203 R : C \u220f C \u27f6 C, Diagonal_Product C \u22a3 R) \u2192 @Cartesian C. Every in-tree route to \u0394 \u22a3 \u00d7 (Adjunction/Diagonal/Product.v, and the GAFT reconstruction in Adjunction/GAFT/Examples.v) assumes `{@Cartesian C} up front. The nearest biconditional, Cartesian_Limit, is stated over limits of two-object discrete diagrams, not over the existence of a right adjoint to the diagonal.",
+  "negative_search_log": [
+   "grep -rn 'Cartesian' --include='*.v' . | grep -i 'adjoint|\u22a3' -- 0 hits stating Cartesian as a CONCLUSION of an adjunction hypothesis",
+   "grep -rn '\u22a3' --include='*.v' . | grep -i diagonal -- only Diagonal_Product_Adjunction and GAFT/Examples.v prose"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass classified this PRESENT (on the strength of Diagonal_Product_Adjunction alone); on re-reading the inventory statement, which ends 'Delta has a right adjoint IF AND ONLY IF C has binary products', the classifier's PARTIAL is the stricter and correct call and I defer to it. Verified Adjunction/Diagonal/Product.v:36 verbatim (Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C \u22a3 \u00d7(C)) and Structure/Limit/Cartesian.v:39-40 verbatim (Cartesian_Limit : (\u2200 F : Two_Discrete \u27f6 C, Limit F) \u2194 @Cartesian C) \u2014 a genuine biconditional, but in limit form, exactly as the gap says. I independently confirmed the converse is absent: every in-tree route to \u0394 \u22a3 \u00d7 takes `{@Cartesian C} as a hypothesis (Adjunction/Diagonal/Product.v:36, and Adjunction/GAFT/Examples.v:55-56 opens with Context `{@Cartesian C}), and no statement of the form (\u2203 R, Diagonal_Product C \u22a3 R) \u2192 Cartesian C exists. SCOPING NOTE for Phase E: the principal content of the example \u2014 the adjunction \u0394 \u22a3 \u00d7 itself, plus the GAFT reconstruction and its \u2245 \u0394 identification at Adjunction/GAFT/Examples.v:110-124 \u2014 is in-tree at FULL strength; any issue filed here must be scoped to the 'only if' leg alone and must not read as though \u0394 \u22a3 \u00d7 were missing."
+  }
+ },
+ {
+  "id": "awodey:9.1:example3",
+  "classification": "ABSENT",
+  "aliases": [
+   "Pos, the category of posets and monotone maps",
+   "CPos, cocomplete posets and cocontinuous (join-preserving) maps; sup-lattices",
+   "free cocompletion of a poset; Low(P), the poset of lower / downward-closed sets",
+   "downset lattice, Alexandrov / Dedekind\u2013MacNeille style completion",
+   "left adjoint to the forgetful functor CPos -> Pos"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'lower set|downset|down-set|downward.closed|Low\\(P\\)|sup-lattice|suplattice|complete lattice|cocomplete poset|free cocompletion' --include='*.v' . -- 5 hits, all header prose (Theory/Sheaf.v:117, Instance/Fun.v:63, Construction/Slice.v:81 on the down-set reading of a slice, Structure/Complete.v:71, Construction/Day.v:111); no definition, lemma or instance",
+   "grep -rniE '\\bPos\\b|category of posets|monotone' --include='*.v' . -- Instance/Poset.v:116 defines `Poset` as the category BUILT FROM one poset (a (0,1)-category), Instance/Proset.v:33 likewise for a preorder; there is no category whose OBJECTS are posets, so no forgetful functor CPos \u27f6 Pos to be adjoint to",
+   "grep -rniE 'CPos|cocomplete poset|join-semilattice|sup lattice|\\bjoins\\b' --include='*.v' . -- no categorical hits (only Instance/Shapes.v's unrelated `Joins` constructor and comment prose)",
+   "grep -rn 'cocompletion' --include='*.v' . -- 3 hits, all comment prose; no theorem asserting any category is a free cocompletion",
+   "grep -n 'Definition|Class|Theorem' Structure/Complete.v -- `Complete`/`Cocomplete` are defined only as \u2200 D F, Limit F / Colimit F for categories, with no poset-level instance and no left adjoint to any forgetful functor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently and found no counterpart the classifier missed. My searches: `rg -i 'lower set|downset|down-set|downward.closed|cocomplete poset|free cocompletion|CPos'` -> 5 hits, all header prose (Theory/Sheaf.v:117, Instance/Fun.v:63, Construction/Slice.v:81, Structure/Monoidal/Traced.v:66, Construction/Day.v:111) \u2014 I re-ran this and reproduced the classifier's result. `rg 'Program Definition|Definition|Class' Instance/Poset.v` -> Poset is the category BUILT FROM one poset (line 116), confirmed, and Instance/Proset.v:33 is the same for a preorder; there is indeed no category whose objects are posets, hence no CPos \u27f6 Pos to be adjoint to. Structure/Complete.v:115/119 define Complete/Cocomplete only as \u2200 D F, Limit F / Colimit F, with no poset instance and no reflector. Negative_search_log is accurate as written."
+  }
+ },
+ {
+  "id": "awodey:9.2:prop4",
+  "classification": "PARTIAL",
+  "aliases": [
+   "unit definition equals hom-set definition of adjunction",
+   "adjunction equivalence: universal-arrow form \u27fa hom-set form",
+   "phi natural in both arguments; to_adj_nat_l / to_adj_nat_r",
+   "relating formulas phi(g) = U(g) o eta_C and eta_C = phi(1_{FC})",
+   "Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom; representable_adjunction",
+   "Adjunction_from_Transform / Adjunction_to_Transform (unit-counit round trip)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 214,
+    "symbol": "AdjunctionFromUniversalArrows",
+    "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U.  (the (1 \u21d2 2) leg: the unit's UMP at every object yields the natural hom-setoid isomorphism)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 264,
+    "symbol": "to_adj_unit",
+    "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7.  (Awodey's relating formula phi(g) = U(g) \u2218 eta_C, over Definition unit {x : D} : x ~> U (F x) := \u230aid\u230b, i.e. eta_C = phi(1_{FC}))"
+   },
+   {
+    "file": "Theory/Profunctor/Adjunction.v",
+    "line": 70,
+    "symbol": "representable_adjunction",
+    "intree_statement": "Definition representable_adjunction : (F \u22a3 U) \u2194 (Repr_left F \u2245[[D^op \u220f C, Sets]] Repr_right U) := (adjunction_to_repr_iso, repr_iso_to_adjunction).  (the library's primitive adjunction is equivalent to a hom-bifunctor iso natural in BOTH arguments \u2014 Awodey's condition (2) stated as naturality in D^op \u220f C)"
+   },
+   {
+    "file": "Adjunction/Natural/Transformation/Universal.v",
+    "line": 84,
+    "symbol": "Adjunction_to_Transform",
+    "intree_statement": "Program Definition Adjunction_to_Transform {A : F \u22a3 U} : F \u2239 U := {| Transformation.unit := {| transform := fun _ => unit |}; Transformation.counit := {| transform := fun _ => counit |} |}.  (with the converse Adjunction_from_Transform (A : F \u2239 U) : F \u22a3 U at line 42)"
+   }
+  ],
+  "statement_record": {
+   "book": "For F : C -> D, U : D -> C the following are equivalent: (1) there is eta : 1_C => U o F with the UMP of the unit; (2) there is phi : Hom_D(FC,D) \u2245 Hom_C(C,UD) natural in both C and D. They are related by phi(g) = U(g) o eta_C and eta_C = phi(1_{FC}).",
+   "intree": "The primitive Class Adjunction is condition (2) (a setoid iso adj {x y} with the four naturality fields to_adj_nat_l/to_adj_nat_r/from_adj_nat_l/from_adj_nat_r), re-packaged as a genuine both-arguments natural iso by representable_adjunction. The (1 \u21d2 2) leg is AdjunctionFromUniversalArrows; the relating formulas are Definition unit := \u230aid\u230b and to_adj_unit : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7.",
+   "strength_comparison": "intree-weaker: condition (2), the relating formulas, and the (1 \u21d2 2) direction are all present at full strength, but the biconditional as Awodey states it is never assembled. The complete in-tree round trip (Adjunction_from_Transform / Adjunction_to_Transform) is against the unit-AND-counit-with-triangles form F \u2239 U, which is a different, richer datum than Awodey's unit-with-UMP condition (1)."
+  },
+  "gap": "The (2 \u21d2 1) leg in Awodey's exact form is not stated: nothing in-tree asserts that, given F \u22a3 U, each unit component \u03b7_c is a universal arrow (i.e. builds \u2200 c, UniversalArrow c U, or \u2203! g : F c ~> d with f \u2248 fmap[U] g \u2218 \u03b7, from an Adjunction). It follows in one rewrite from adj_univ (Theory/Adjunction.v:195, f \u2248 \u2308g\u2309 \u2194 \u230af\u230b \u2248 g) and to_adj_unit, but is nowhere named. Symmetrically, the (1 \u21d2 2) leg reconstructs the left adjoint (LeftAdjointFunctorFromUniversalArrows) rather than concluding F \u22a3 U for the F given in condition (1). Consequently no in-tree statement has the shape ((1) \u2194 (2)); the only biconditionals available are Adjunction \u2194 Adjunction_Hom (Adjunction/Hom.v:223,259), Adjunction \u2194 F \u2239 U, and representable_adjunction \u2014 all between two forms of condition (2) or between (2) and the unit-counit form.",
+  "negative_search_log": [
+   "grep -rn 'UniversalArrow|universal_arrow' --include='*.v' . -- consumers are only Construction/Free/Quiver.v, Adjunction/GAFT*.v, Monad/Lifting.v and Structure/UniversalProperty/Universal/Arrow.v; none builds a UniversalArrow FROM an Adjunction",
+   "grep -rn '\u2203!' --include='*.v' Adjunction/ Theory/Adjunction.v Theory/Universal/ -- the only \u2203! in the adjunction files are ump_universal_arrows, universal_arrow_from_UMP's hypothesis, Adjunction/Continuity.v's RAPL mediator and GAFT/Examples.v's diagonal_unique; no unit-UMP-from-adjunction statement"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass leaned PRESENT; the classifier's PARTIAL survives adversarial checking and is the better call. I independently hunted for the missing (2 \u21d2 1) leg and reproduced its absence: `rg 'UniversalArrow'` over the whole tree returns only producers/consumers of universal arrows (Theory/Universal/Arrow.v, Adjunction/GAFT.v:183-185, Adjunction/GAFT/Examples.v:97, Monad/Lifting.v:445-457, Structure/UniversalProperty/Universal/Arrow.v) \u2014 nothing anywhere takes an `F \u22a3 U` and returns a `UniversalArrow c U` or an `\u2203! g, f \u2248 fmap[U] g \u2218 \u03b7`. Construction/Comma.v:87-89 states the correspondence only in prose ('A universal arrow from d to U is an initial object of =(d) \u2193 U, and a family of them assembles into an adjunction'), i.e. the forward leg only. The gap's claim that the missing step 'follows in one rewrite from adj_univ (Theory/Adjunction.v:195) and to_adj_unit (:264)' is correct \u2014 I checked both lines. Evidence quotes verified verbatim, including Theory/Profunctor/Adjunction.v:70-72 and Adjunction/Natural/Transformation/Universal.v:42/84. The record correctly distinguishes F \u2239 U (unit AND counit AND both triangles, Adjunction/Natural/Transformation.v:35-43) from Awodey's unit-with-UMP condition (1)."
+  }
+ },
+ {
+  "id": "awodey:9.2:cor5",
+  "classification": "PARTIAL",
+  "aliases": [
+   "counit form of the adjunction; epsilon : F o U => 1_D",
+   "UMP of the counit: unique f : C -> U(D) with g = epsilon_D o F(f)",
+   "co-universal arrow / terminal object of F \u2193 =(d)",
+   "psi(f) = epsilon_D o F(f), epsilon_D = psi(1_{UD})",
+   "duality: Opposite_Adjunction, F \u22a3 U \u21d2 U^op \u22a3 F^op"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 248,
+    "symbol": "adj_univ_impl",
+    "intree_statement": "Corollary adj_univ_impl {x y} (f : F x ~> y) (g : x ~> U y) : f \u2248 \u03b5 \u2218 fmap[F] g \u2194 \u230af\u230b \u2248 g.  (the counit UMP: since \u230a\u2212\u230b is a bijection, g = \u230af\u230b is the unique arrow with f \u2248 \u03b5 \u2218 fmap[F] g)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 272,
+    "symbol": "from_adj_counit",
+    "intree_statement": "Corollary from_adj_counit {x y} (f : x ~> U y) : \u2308f\u2309 \u2248 \u03b5 \u2218 fmap[F] f.  (Awodey's psi(f) = epsilon_D \u2218 F(f), over Definition counit {x : C} : F (U x) ~> x := \u2308id\u2309, i.e. epsilon_D = psi(1_{UD}))"
+   },
+   {
+    "file": "Adjunction/Opposite.v",
+    "line": 34,
+    "symbol": "Opposite_Adjunction",
+    "intree_statement": "Program Definition Opposite_Adjunction `(F : D \u27f6 C) `(U : C \u27f6 D) (A : F \u22a3 U) : U^op \u22a3 F^op := {| adj := fun x y => {| to := from (@adj _ _ _ _ A y x) ; from := to (@adj _ _ _ _ A y x) ; ... |} ; to_adj_nat_l := fun _ _ _ f g => @from_adj_nat_r _ _ _ _ A _ _ _ g f ; ... |}.  (the duality machinery Awodey's one-word proof invokes)"
+   },
+   {
+    "file": "Adjunction/Hom.v",
+    "line": 126,
+    "symbol": "hom_counit_naturality_consequence",
+    "intree_statement": "Theorem hom_counit_naturality_consequence {x y} (f : x ~> U y) : from hom_adj (x, y) f \u2248 hom_counit _ \u2218 fmap[F] f.  (the same relating formula for the hom-bifunctor form of condition (1))"
+   }
+  ],
+  "statement_record": {
+   "book": "Dual of Prop 9.4: (1) phi : Hom_D(FC,D) \u2245 Hom_C(C,UD) natural in both arguments; (2) there is epsilon : F o U => 1_D with the UMP that for every g : F(C) -> D there is a unique f : C -> U(D) with g = epsilon_D o F(f). Related by psi(f) = epsilon_D o F(f) and epsilon_D = psi(1_{UD}). Proof: duality.",
+   "intree": "adj_univ_impl : f \u2248 \u03b5 \u2218 fmap[F] g \u2194 \u230af\u230b \u2248 g is exactly the counit UMP read off an adjunction (existence and uniqueness together, since \u230a\u2212\u230b is a bijection); from_adj_counit : \u2308f\u2309 \u2248 \u03b5 \u2218 fmap[F] f is psi(f) = epsilon_D \u2218 F(f); counit := \u2308id\u2309 is epsilon_D = psi(1_{UD}); Opposite_Adjunction supplies the duality.",
+   "strength_comparison": "intree-weaker: the (1 \u21d2 2) direction is present at full strength, with both relating formulas and the duality tool. The (2 \u21d2 1) direction \u2014 counit + UMP reconstructs the natural hom-set isomorphism \u2014 has no in-tree counterpart."
+  },
+  "gap": "There is no dual of Theory/Universal/Arrow.v: no class of co-universal arrows (terminal objects of F \u2193 =(d)), no RightAdjointFunctorFromCoUniversalArrows, and no AdjunctionFromCoUniversalArrows. So the (2 \u21d2 1) leg of Corollary 9.5 \u2014 from a counit with its UMP, build phi \u2014 cannot be cited, even though Opposite_Adjunction would make it a one-line dualization of AdjunctionFromUniversalArrows. Also, no in-tree statement asserts that from F \u22a3 U each counit component \u03b5_d is a co-universal arrow packaged as such; only the equational form adj_univ_impl is available.",
+  "negative_search_log": [
+   "grep -rn 'UniversalArrow' --include='*.v' . -- only the covariant (initial-object) form exists; no CoUniversalArrow / TerminalArrow / couniversal in the tree",
+   "grep -rni 'couniversal|co-universal|terminal arrow|terminal object of .* \u2193' --include='*.v' . -- 0 hits",
+   "grep -rn '\u2203!' --include='*.v' Adjunction/ Theory/Adjunction.v -- no counit-UMP-to-adjunction constructor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same shape (counit direction present, dual universal arrow missing). Verified Theory/Adjunction.v:248-249 (adj_univ_impl : f \u2248 \u03b5 \u2218 fmap[F] g \u2194 \u230af\u230b \u2248 g), :272-273 (from_adj_counit), :215 (counit := \u2308id\u2309 \u2014 Awodey's \u03b5_D = \u03c8(1_{UD}) definitionally), Adjunction/Opposite.v:34-47, and Adjunction/Hom.v:126-134, all verbatim. I independently confirmed the (2 \u21d2 1) gap: `rg -i 'CoUniversalArrow|couniversal|UniversalArrowFrom|RightAdjointFunctorFrom'` -> 0 hits; the dual notion exists ONLY as prose in Theory/Universal/Arrow.v:23-24 ('The dual notion, a universal arrow from F to c, is a terminal object of F \u2193 =(c)'), with no class, no assembly, and no dualized AdjunctionFromUniversalArrows. Gap statement accurate."
+  }
+ },
+ {
+  "id": "awodey:9.2:def6",
+  "classification": "PRESENT",
+  "aliases": [
+   "official hom-set definition of adjunction",
+   "natural isomorphism phi : Hom_D(FC,D) \u2245 Hom_C(C,UD), natural in both arguments",
+   "Class Adjunction (adj + to_adj_nat_l/to_adj_nat_r/from_adj_nat_l/from_adj_nat_r)",
+   "Adjunction_Hom : Hom C \u25ef F^op \u220f\u27f6 Id \u2245 Hom D \u25ef Id^op \u220f\u27f6 U",
+   "unit eta_C = phi(1_{FC}) and counit epsilon_D = psi(1_{UD}) determined by phi"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 130,
+    "symbol": "Adjunction",
+    "intree_statement": "Class Adjunction := { adj {x y} : @Isomorphism Sets {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |} {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |} where \"\u230a f \u230b\" := (to adj f) and \"\u2308 f \u2309\" := (from adj f); to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) : \u230af \u2218 fmap[F] g\u230b \u2248 \u230af\u230b \u2218 g; to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) : \u230af \u2218 g\u230b \u2248 fmap[U] f \u2218 \u230ag\u230b; from_adj_nat_l ...; from_adj_nat_r ... }."
+   },
+   {
+    "file": "Adjunction/Hom.v",
+    "line": 72,
+    "symbol": "Adjunction_Hom",
+    "intree_statement": "Class Adjunction_Hom := { hom_adj : Hom C \u25ef F^op \u220f\u27f6 Id \u2245[[D^op \u220f C, Sets]] Hom D \u25ef Id^op \u220f\u27f6 U }.  (phi as a single natural isomorphism of hom-bifunctors D^op \u220f C \u27f6 Sets, with the round trip Adjunction_Hom_to_Universal at line 223 and Adjunction_Universal_to_Hom at line 259)"
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 264,
+    "symbol": "to_adj_unit",
+    "intree_statement": "Corollary to_adj_unit {x y} (f : F x ~> y) : \u230af\u230b \u2248 fmap[U] f \u2218 \u03b7.  (over Definition unit {x : D} : x ~> U (F x) := \u230aid\u230b and Definition counit {x : C} : F (U x) ~> x := \u2308id\u2309 \u2014 eta and epsilon DETERMINED by phi as Awodey requires, with the triangle identities counit_fmap_unit and fmap_counit_unit derived at lines 280 and 288)"
+   }
+  ],
+  "statement_record": {
+   "book": "The official definition: an adjunction is F : C -> D, U : D -> C together with a natural isomorphism phi : Hom_D(FC,D) \u2245 Hom_C(C,UD) (inverse psi), natural in both arguments; symmetric in F and U. The unit and counit are then determined by eta_C = phi(1_{FC}) and epsilon_D = psi(1_{UD}).",
+   "intree": "Class Adjunction takes exactly this as primitive \u2014 a family of Sets-isomorphisms of hom-setoids with naturality in both arguments recorded by the four to_/from_adj_nat_{l,r} fields \u2014 and defines unit := \u230aid\u230b, counit := \u2308id\u2309 from it. Adjunction_Hom states the same thing as a single natural iso in [D^op \u220f C, Sets], and the two are interconvertible (Adjunction_Hom_to_Universal / Adjunction_Universal_to_Hom).",
+   "strength_comparison": "same. The setoid rephrasing (hom-setoids and \u2248 in place of hom-sets and =) is the library's standard faithful encoding. If anything in-tree is stronger: naturality is available both as componentwise equations and, via Adjunction_Hom / representable_adjunction, as a bona fide natural isomorphism of bifunctors, and the triangle identities are derived as corollaries."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Theory/Adjunction.v:130-154 verified verbatim: the class carries the hom-setoid iso `adj` plus all four naturality fields, and the file header (:13-22) states exactly Awodey's Def 9.6 shape. \u03b7/\u03b5 are DETERMINED (Definition unit := \u230aid\u230b at :214, counit := \u2308id\u2309 at :215) rather than assumed, matching Awodey's 'then DETERMINED by' clause, and the triangle identities are derived corollaries at :280 and :288 \u2014 I read both proofs. Adjunction/Hom.v:72 supplies the bifunctor-level natural isomorphism form, with the round trips at :223 and :259, so the 'intree-stronger on naturality' remark is justified. Both files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:9.3:example7",
+  "classification": "PARTIAL",
+  "aliases": [
+   "exponential as right adjoint to the product functor, (- x A) -| (-)^A",
+   "currying / transpose; curry, uncurry, exp_iso",
+   "evaluation map as counit, eval : Y^A x A -> Y",
+   "UMP of the exponential: unique f-bar with f = eval o (f-bar x 1_A)",
+   "cartesian closed category; tensor-hom adjunction, internal hom"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Monoidal/Closed.v",
+    "line": 66,
+    "symbol": "ump_exponents'",
+    "intree_statement": "ump_exponents' {x y z} (f : x \u2a02 y ~> z) : \u2203! h : x ~> y \u21d2 z, f \u2248 eval' \u2218 (h \u2a02 id)  (field of Class ClosedMonoidal, line 46, alongside exp_iso {x y z} : x \u2a02 y ~> z \u224a x ~> y \u21d2 z and eval' {x y} : (x \u21d2 y) \u2a02 x ~> y := uncurry' id; the same pair appears in Class SymMonClosed, Structure/Monoidal/StarAutonomous.v:109/122)"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 43,
+    "symbol": "Closed",
+    "intree_statement": "Class Closed := { ... exp_iso {x y z} : x \u00d7 y ~> z \u224a x ~> z^y; curry' {x y z} : x \u00d7 y ~> z \u2192 x ~> z^y := to (@exp_iso x y z); uncurry' {x y z} : x ~> z^y \u2192 x \u00d7 y ~> z := from (@exp_iso x y z); eval' {x y} : y^x \u00d7 x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x \u00d7 y ~> z) : eval' \u2218 first (@curry' _ _ _ f) \u2248 f }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 165,
+    "symbol": "curry_comp_l",
+    "intree_statement": "Corollary curry_comp_l {x y z w : C} (f : y \u00d7 z ~> w) (g : x ~> y) : curry f \u2218 g \u2248 curry (f \u2218 first g).  (naturality of the transpose in the domain argument; naturality in the codomain is curry_comp at line 177, curry (f \u2218 g) \u2248 curry (f \u2218 eval) \u2218 curry g)"
+   }
+  ],
+  "statement_record": {
+   "book": "For C with binary products and fixed A, the functor - x A : C -> C has right adjoint (-)^A, the counit being evaluation epsilon : Y^A x A -> Y; the adjunction condition is exactly the UMP of the exponential \u2014 for every f : X x A -> Y a unique f-bar : X -> Y^A with f = epsilon o (f-bar x 1_A). Hence exponentials are precisely right adjoints to product functors.",
+   "intree": "ump_exponents' (ClosedMonoidal / SymMonClosed) : \u2203! h : x ~> y \u21d2 z, f \u2248 eval' \u2218 (h \u2a02 id) \u2014 Awodey's UMP verbatim, with eval' := uncurry' id as the counit \u2014 and exp_iso : x \u00d7 y ~> z \u224a x ~> z^y as the transposition bijection, whose naturality in both arguments is recorded equationally by curry_comp_l and curry_comp.",
+   "strength_comparison": "intree-weaker: the hom-set bijection, its two naturality equations, the evaluation counit and the unique-transpose UMP are all in-tree, but the statement is never packaged as an Adjunction. Note also that Structure/Cartesian/Closed.v's own ump_exponents' is only the beta equation eval \u2218 first (curry f) \u2248 f (uniqueness comes separately from curry_uncurry/uncurry_curry); the full \u2203! form lives in the monoidal-closed classes."
+  },
+  "gap": "No in-tree adjunction (\u2212 \u00d7 A) \u22a3 (\u2212)^A. Neither endpoint is defined as a functor C \u27f6 C: there is no product-with-a-fixed-object functor and no exponential functor (\u2212)^A (Structure/Cartesian/Closed.v provides only the object operation exponent_obj, the Proper instance exp_respects_iso, and the isos exp_prod_l/exp_prod_r/exp_swap/exp_one/one_exp; Functor/Structure/Cartesian/Closed.v defines ClosedFunctor, a functor PRESERVING closed structure, not the exponential functor). Consequently no `Instance ... \u22a3 ...` exists for the CCC transpose, the naturality that constitutes the adjunction is available only as the equations curry_comp_l / curry_comp, and Awodey's identification 'exponentials are exactly the right adjoints to product functors' is not stated in either direction.",
+  "negative_search_log": [
+   "grep -rn '\u22a3' --include='*.v' . | grep -E 'Instance|Definition|Program' -- enumerated all in-tree adjunctions; none has a product-with-A or exponential functor as endpoint. The four textual hits mentioning (- \u00d7 x) \u22a3 (x \u2192 -) (Instance/Coq.v:164, Instance/Props.v:92, Instance/Sets/Cartesian/Closed.v:24, Instance/Coq/Comonad/Store.v:28) are all header comments",
+   "grep -rn 'Exp\\b|Exp_Functor|ProductFunctor|Curried_Product' --include='*.v' Functor/ Structure/ Instance/ -- InternalProductFunctor is the BIFUNCTOR \u00d7(C) : C \u220f C \u27f6 C, not \u2212 \u00d7 A; no exponential functor anywhere",
+   "grep -n 'Class|Definition|Instance|Theorem|Lemma' Functor/Structure/Cartesian/Closed.v -- the file's sole class is ClosedFunctor"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with the same gap. Verified Structure/Cartesian/Closed.v:43-63 verbatim (the Closed class's ump_exponents' really is only the beta equation `eval' \u2218 first (curry' f) \u2248 f`, exactly as the strength_comparison discloses) and Structure/Monoidal/Closed.v:66-67 verbatim (ClosedMonoidal's ump_exponents' is the full `\u2203! h, f \u2248 eval' \u2218 (h \u2a02 id)`). curry_comp_l at :165 and curry_comp at :177 verified verbatim; the record's inline quotation of curry_comp is exact. I independently confirmed the functors are missing: `rg 'exponent_obj' | rg -i 'functor|fobj'` finds only Functor/Hom/Internal.v:42 (the internal-hom BIFUNCTOR [-,-] : C^op \u220f C \u27f6 C), Instance/Cat/Cartesian/Closed.v:48, Structure/Monoidal/StarAutonomous.v:230 and Structure/Monoidal/Internal/Product.v:444 \u2014 no (\u2212 \u00d7 A) and no (\u2212)^A as functors C \u27f6 C, and `rg 'Adjunction' Structure/Cartesian/Closed.v` -> 0 hits. NOTE for Phase E: Structure/Monoidal/Closed.v's ClosedMonoidal bundles CartesianMonoidal (its own header, :40-42), so the \u2203!-strength UMP cited as evidence #1 is available precisely in Awodey's cartesian setting \u2014 the evidence is apt, not a cross-setting substitution."
+  }
+ },
+ {
+  "id": "awodey:9.3:example8",
+  "classification": "PARTIAL",
+  "aliases": [
+   "terminal object as right adjoint to ! : C -> 1",
+   "Erase C : C \u27f6 1, the unique functor into the terminal category",
+   "Terminal class, terminal_obj, one, one_unique",
+   "terminal object = limit of the empty diagram",
+   "dual: initial object as left adjoint to !"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 33,
+    "symbol": "Terminal_Limit",
+    "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 \u27f6 C) : Limit F \u2194 @Terminal C.  (the same biconditional in limit form: 0 is the empty category, so [0, C] is the terminal category 1 and the constant-diagram functor C \u27f6 [0,C] is exactly ! : C \u27f6 1)"
+   },
+   {
+    "file": "Structure/Terminal.v",
+    "line": 107,
+    "symbol": "Terminal",
+    "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f \u2248 g }.  (the object whose existence Awodey equates with ! having a right adjoint; the bijection Hom_1(!C, *) \u2245 Hom_C(C, U*) is the contractibility of x ~> 1)"
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 47,
+    "symbol": "Erase",
+    "intree_statement": "Program Instance Erase `(C : Category) : C \u27f6 1 := { fobj := fun _ => ttt; fmap := fun _ _ _ => id }.  (the functor ! : C \u27f6 1 of the item; instantiated at line 54 as Cat's Terminal witness, terminal_obj := _1, one := Erase)"
+   }
+  ],
+  "statement_record": {
+   "book": "For the unique functor ! : C -> 1, a right adjoint is a functor U : 1 -> C, i.e. an object U(*), with a bijection between the single arrow !C -> * and the arrows C -> U(*); so U(*) must be terminal, and ! has a right adjoint iff C has a terminal object. (Dual left-adjoint/initial case left to the reader.)",
+   "intree": "Terminal_Limit (C : Category) (F : 0 \u27f6 C) : Limit F \u2194 @Terminal C, together with Class Terminal (terminal_obj, one, one_unique) and the functor Erase C : C \u27f6 1.",
+   "strength_comparison": "intree-weaker: the terminal object and its UMP are fully formalized, and the equivalence 'terminal object \u27fa universal property of the empty-shape limit' is proved as a genuine biconditional \u2014 which is the limit-form of the item, since [0,C] \u2245 1 makes the constant-diagram functor into ! itself. But the statement is never phrased as an adjunction to Erase."
+  },
+  "gap": "The adjoint characterization is absent. There is no functor 1 \u27f6 C picking out the terminal object, and no adjunction with Erase C as an endpoint (in either direction), so neither 'C terminal \u21d2 Erase C \u22a3 (pick 1)' nor its converse is stated. The in-tree substitute, Terminal_Limit, reaches the same biconditional through the empty diagram rather than through adjointness; the dual (initial object \u27fa left adjoint to !) is likewise only available as Structure/Initial.v's Terminal (C^op) plus Terminal_Limit dualized, never as an adjunction.",
+  "negative_search_log": [
+   "grep -rn 'Erase' --include='*.v' . -- 17 hits: Instance/One.v (definition, Cat's Terminal instance), Instance/StrictCat/Terminal.v, Instance/One/Diagonal.v (Diagonal_Unique : \u0394[J](d) \u2248[Cat] \u0394(d) \u2218[Cat] one), Structure/Limit/Kan/Extension.v (Kan_Limit and its proof). None is an adjunction with Erase as an endpoint at the C \u27f6 1 level",
+   "grep -rn '\u22a3' --include='*.v' . | grep -E 'Instance|Definition|Program' -- no adjunction whose left or right adjoint is Erase or a functor 1 \u27f6 C",
+   "grep -rn 'Terminal' --include='*.v' . | grep -i 'adjoint|\u22a3' -- 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "DISSENT RECORDED, verdict not overturned. My blind pass classified this ABSENT: no adjunction with Erase exists in either direction (`rg -i 'terminal.*adjoint|adjoint.*terminal|initial.*adjoint'` -> only GAFT prose; the full `rg '\u22a3'` enumeration of in-tree adjunctions has no Erase endpoint), and there is no functor 1 \u27f6 C picking out a terminal object. The classifier's PARTIAL rests on Terminal_Limit (Structure/Limit/Terminal.v:33-34, verified verbatim as a genuine \u2194) being the limit-form of the item. I accept that reading and confirm PARTIAL because the gap is stated completely and accurately. But one load-bearing step of the evidence ANNOTATION is NOT in-tree: the parenthetical '[0, C] is the terminal category 1 and the constant-diagram functor C \u27f6 [0,C] is exactly ! : C \u27f6 1' is the verifier's/classifier's own mathematics \u2014 I searched for it (`rg '\\[0, *C\\]'`, `rg '0 \u27f6'`) and found only Instance/Zero.v:37 (From_0) and Structure/Limit/Terminal.v:21 ('Here `0` is the empty category'); no [0,C] \u2245 1 is proved anywhere. A Phase-E issue must therefore NOT present Terminal_Limit as already covering the adjoint statement \u2014 the bridge from it to the adjunction is itself unformalized."
+  }
+ },
+ {
+  "id": "awodey:9.3:prop9",
+  "classification": "PRESENT",
+  "aliases": [
+   "adjoints are unique up to isomorphism",
+   "right_adjoint_iso / left_adjoint_iso",
+   "F -| U and F -| V implies U \u2245 V (natural isomorphism)",
+   "uniqueness of the adjoint by Yoneda from Hom(C,UD) \u2245 Hom(FC,D) \u2245 Hom(C,VD)",
+   "universal mapping property determines a functor up to iso"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 364,
+    "symbol": "right_adjoint_iso",
+    "intree_statement": "Theorem right_adjoint_iso `(F : C \u27f6 D) (G G' : D \u27f6 C) : F \u22a3 G \u2192 F \u22a3 G' \u2192 G \u2248 G'."
+   },
+   {
+    "file": "Theory/Adjunction.v",
+    "line": 404,
+    "symbol": "left_adjoint_iso",
+    "intree_statement": "Theorem left_adjoint_iso `(G : D \u27f6 C) (F F' : C \u27f6 D) : F \u22a3 G \u2192 F' \u22a3 G \u2192 F \u2248 F'."
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 148,
+    "symbol": "Functor_Setoid",
+    "intree_statement": "Program Instance Functor_Setoid {C D : Category} : Setoid (C \u27f6 D) := { equiv := fun F G => { iso : \u2200 x : C, F x \u2245 G x & \u2200 (x y : C) (f : x ~> y), fmap[F] f \u2248 from (iso y) \u2218 fmap[G] f \u2218 to (iso x) } }.  (fixes that the \u2248 in the two theorems above IS natural isomorphism of functors, i.e. Awodey's U \u2245 V natural in D)"
+   }
+  ],
+  "statement_record": {
+   "book": "Adjoints are unique up to isomorphism: if F -| U and F -| V then U \u2245 V. Proof by Hom_C(C,UD) \u2245 Hom_D(FC,D) \u2245 Hom_C(C,VD) naturally in C, hence UD \u2245 VD by Yoneda, naturally in D.",
+   "intree": "right_adjoint_iso : F \u22a3 G \u2192 F \u22a3 G' \u2192 G \u2248 G', where \u2248 on functors is by Functor_Setoid a family of object isomorphisms coherent with fmap \u2014 i.e. a natural isomorphism.",
+   "strength_comparison": "intree-stronger: Awodey states only the right-adjoint case (and remarks that the same holds for left adjoints); the library proves BOTH, right_adjoint_iso and left_adjoint_iso, each directly from the transpose laws rather than via Yoneda. The conclusion is the same natural isomorphism."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently; right_adjoint_iso (Theory/Adjunction.v:364-365) and left_adjoint_iso (:404-405) verified verbatim, and I read both proofs \u2014 each is discharged directly from to_adj_nat_l/r, from_adj_nat_l/r and the comp laws, so the 'not via Yoneda' remark is accurate. The intree-stronger claim checks out: Awodey states the right-adjoint case and only remarks on the left, while both are proved here. Theory/Functor.v:147-160 verified verbatim and does pin \u2248 on functors to natural isomorphism (a \u03a3-type of pointwise isos plus the naturality equation), so the conclusion really is Awodey's U \u2245 V natural in D. All three cited files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "awodey:9.3:construction-coproduct-diagonal",
+  "classification": "ABSENT",
+  "aliases": [
+   "binary coproduct as left adjoint to the diagonal, (+) -| Delta",
+   "codiagonal / fold functor; copairing, merge, \u25bd",
+   "Hom_C(X + Y, C) \u2245 Hom_C(X,C) x Hom_C(Y,C)",
+   "Cocartesian structure as a left adjoint to Diagonal_Product",
+   "dual of Diagonal_Product_Adjunction via Opposite_Adjunction"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Diagonal' --include='*.v' . | grep -iE 'adjunc|\u22a3|\u2239' -- only Diagonal_Product_Adjunction (the RIGHT adjoint, \u0394 \u22a3 \u00d7) plus header prose; no left adjoint to \u0394",
+   "grep -rn 'Cocartesian' --include='*.v' Adjunction/ -- 0 hits (the Adjunction/ directory never mentions coproducts as a structure)",
+   "grep -rniE 'coproduct.*(\u22a3|adjoint)|(\u22a3|adjoint).*coproduct' --include='*.v' . -- 2 hits, both comment prose: Adjunction/Diagonal/Product.v:19 ('so that, dually, the coproduct is left adjoint to \u0394') and Adjunction/GAFT/Examples.v:45 ('feeding \u0394 itself to GAFT would instead reconstruct the coproduct adjunction [(+) \u22a3 \u0394]') \u2014 explicitly a road not taken",
+   "grep -rniE 'codiagonal|\u2207' --include='*.v' . | grep -iE 'adjoint|\u22a3' -- 0 hits; Functor/Coproduct.v defines the codiagonal [Id,Id] : C \u2210 C \u27f6 C out of the coproduct CATEGORY, which is not the (+) : C \u220f C \u27f6 C of this item and carries no adjunction",
+   "grep -rn '\u22a3' --include='*.v' . | grep -E 'Instance|Definition|Program' -- full enumeration of in-tree adjunctions; none has a coproduct functor or Diagonal_Product as its right adjoint"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently and found no counterpart. I re-ran the decisive search \u2014 `rg '\u22a3|\u2239' --glob '*.v' | rg 'Instance|Definition|Theorem|Lemma|Program|Corollary'`, a full enumeration of in-tree adjunctions \u2014 and no entry has a coproduct functor or Diagonal_Product as an endpoint; the only two textual hits (Adjunction/Diagonal/Product.v:19 and Adjunction/GAFT/Examples.v:45) are prose, and the latter explicitly labels (+) \u22a3 \u0394 a road not taken. `rg 'Cocartesian' Adjunction/` -> 0 hits, reproduced. SIZING NOTE for Phase E: the dual is unusually cheap here \u2014 Structure/Cocartesian.v:115 defines `Cocartesian C` as literally `@Cartesian (C^op)`, so Diagonal_Product_Adjunction at C^op plus Opposite_Adjunction (Adjunction/Opposite.v:34) gives the statement modulo identifying (C^op \u220f C^op)^op with C \u220f C. That does not make it PRESENT (nothing in-tree states it), but it should shape the effort estimate."
+  }
+ },
+ {
+  "id": "awodey:9.3:construction-limit-colimit-adjoints",
+  "classification": "PARTIAL",
+  "aliases": [
+   "colim -| Delta -| lim for the constant-diagram functor Delta : C -> C^J",
+   "diagonal / constant-diagram functor Diagonal J : C \u27f6 [J, C]",
+   "limit as right adjoint, colimit as left adjoint to Delta",
+   "Kan extension along the terminal functor Erase J : J \u27f6 1; Ran/Lan, Induced = (\u2212 \u25ef F)",
+   "cone = natural transformation from Delta(N); C is J-(co)complete iff Delta has a right (left) adjoint"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Kan/Extension.v",
+    "line": 46,
+    "symbol": "Kan_Limit",
+    "intree_statement": "Theorem Kan_Limit `(F : J \u27f6 C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim \u2245 Ran (Erase J) F ttt.  (the limit object IS the value of the right adjoint of the constant-diagram functor)"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 140,
+    "symbol": "RightKan",
+    "intree_statement": "Class RightKan := { Ran : [A, C] \u27f6 [B, C]; ran_adjoint : Induced \u22a3 Ran }.  (at A := J, B := 1, F := Erase J, Induced = (\u2212 \u25ef Erase J) : [1,C] \u27f6 [J,C] is the constant-diagram functor, so ran_adjoint is \u0394 \u22a3 lim)"
+   },
+   {
+    "file": "Theory/Kan/Extension.v",
+    "line": 222,
+    "symbol": "LeftKan",
+    "intree_statement": "Class LeftKan := { Lan : [A, C] \u27f6 [B, C]; lan_adjoint : Lan \u22a3 Induced }.  (dually, colim \u22a3 \u0394)"
+   },
+   {
+    "file": "Structure/Cone/Const.v",
+    "line": 53,
+    "symbol": "Cone_Natural_Transform",
+    "intree_statement": "Lemma Cone_Natural_Transform `(F : [J, C]) : \u2200 N : C, \u0394[J](N) \u27f9 F \u2194 Cone[N] F.  (the hom-set half of the adjunction: maps out of the diagonal at N are exactly cones with apex N, so Limit's ump_limits is the required bijection C(N, lim F) \u2245 [J,C](\u0394 N, F))"
+   }
+  ],
+  "statement_record": {
+   "book": "For a small index category J and the constant-diagram functor Delta : C -> C^J, Delta has a left adjoint colim and a right adjoint lim, colim -| Delta -| lim, the left (right) adjoint existing iff C has all colimits (limits) of type J. Every particular limit and colimit met earlier is therefore an instance of an adjoint.",
+   "intree": "RightKan/LeftKan at F := Erase J : J \u27f6 1 give ran_adjoint : Induced \u22a3 Ran and lan_adjoint : Lan \u22a3 Induced with Induced = (\u2212 \u25ef Erase J) : [1,C] \u27f6 [J,C] the constant-diagram functor; Kan_Limit identifies (Ran (Erase J) F) ttt with the limit of F; Cone_Natural_Transform supplies the cone/transformation correspondence \u0394[J](N) \u27f9 F \u2194 Cone[N] F.",
+   "strength_comparison": "intree-weaker: the adjoint sandwich is available only in Kan-extension form, over Induced : [1,C] \u27f6 [J,C] rather than over Diagonal J : C \u27f6 [J,C], and the identification of the right-adjoint value with the limit is proved only object-by-object (Kan_Limit) with no colimit dual."
+  },
+  "gap": "Three things are missing. (1) No lim or colim FUNCTOR [J,C] \u27f6 C exists in-tree (grep for LimitFunctor/Limit_Functor/ColimitFunctor: 0 hits), so there is no adjunction whose endpoint is Diagonal J : C \u27f6 [J,C] \u2014 the in-tree adjunctions ran_adjoint/lan_adjoint are stated over Induced : [1,C] \u27f6 [J,C], and the equivalence [1,C] \u2243 C that would transport them to \u0394 is never applied (Instance/One/Diagonal.v proves only the pointwise \u0394[J](d) \u2248[Cat] \u0394(d) \u2218 one). (2) The biconditional '\u0394 has a right (left) adjoint iff C has all J-limits (J-colimits)' is nowhere stated in either direction; Structure/Complete.v defines Complete/Cocomplete but relates them to no adjunction. (3) Kan_Limit has no colimit dual (no Kan_Colimit), and it is an object isomorphism at a fixed F, not a natural iso of functors.",
+  "negative_search_log": [
+   "grep -rn 'LimitFunctor|Limit_Functor|ColimitFunctor|colimit_functor|lim :' --include='*.v' . -- 0 relevant hits; no limit/colimit functor exists",
+   "grep -rn '\u22a3' --include='*.v' . | grep -iE 'lim|colim|Diagonal' -- only Instance/Fun.v:70 and Functor/Diagonal.v:30, both header prose asserting colim \u22a3 \u0394 \u22a3 lim without proof",
+   "grep -n 'Theorem|Definition|Lemma|Corollary' Structure/Limit/Kan/Extension.v -- the file contains exactly one theorem, Kan_Limit; no colimit counterpart"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with the same three-part gap. Verified verbatim: Theory/Kan/Extension.v:127-130 (Induced := (\u2212 \u25ef F) : [B,C] \u27f6 [A,C]), :140-146 (RightKan with ran_adjoint : Induced \u22a3 Ran), :222-226 (LeftKan with lan_adjoint : Lan \u22a3 Induced), Structure/Limit/Kan/Extension.v:46-47 (Kan_Limit : Lim \u2245 Ran (Erase J) F ttt \u2014 an OBJECT iso at a fixed F, exactly as the gap says), and Structure/Cone/Const.v:53-54. I independently confirmed gap (1): `rg -i 'LimitFunctor|Limit_Functor|ColimitFunctor|Colimit_Functor'` -> 0 hits, and Instance/One/Diagonal.v contains exactly one result, Diagonal_Unique : \u0394[J](d) \u2248[Cat] \u0394(d) \u2218[Cat] one (a pointwise statement, not the equivalence [1,C] \u2243 C), so the transport from Induced to Diagonal J is genuinely never performed. Gap (2) confirmed: Structure/Complete.v:115/119 define Complete/Cocomplete with no adjunction anywhere in the file. Gap (3) confirmed: no Kan_Colimit in Structure/Limit/Kan/. LIBRARY-DEFECT filed separately on Structure/Limit.v:80-83, which asserts the adjoint assembly as background without disclosing it is unformalized in-tree \u2014 this record's gap is the accurate statement."
+  }
+ },
+ {
+  "id": "awodey:9.3:example10",
+  "classification": "ABSENT",
+  "aliases": [
+   "polynomial ring R[x] as a free construction; adjoining an indeterminate",
+   "category of (commutative) rings and ring homomorphisms; Rings",
+   "pointed rings Rings_*, objects (A,a), point-preserving homomorphisms",
+   "forgetful U : Rings_* -> Rings with left adjoint [x] : R |-> (R[x], x)",
+   "evaluation homomorphism a* : R[x] -> A with a*(x) = a, a* o eta = alpha"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE '\\bRings\\b|Ring_|CRing|pointed ring|indeterminate|R\\[x\\]' --include='*.v' . -- 0 hits naming a ring structure or a category of rings; the matches are all unrelated substrings (covering_family, coverage, 'rings, modules, Lie algebras' in a Lawvere-theory prose list, 'bimodules over rings' in a bicategory header)",
+   "rg -i 'polynomial' --include='*.v' -- returns 6 hits in 4 files, ALL header/essay prose (no polynomial-functor or polynomial-ring construction); verdict ABSENT stands. [CORRECTED on fess-aw9 F5: the log previously claimed 0 hits.]",
+   "grep -rn 'Class|Definition|Program Definition' --include='*.v' Theory/Algebra/ -- the algebraic structures in-tree are Monoid, CommutativeMonoid, Comonoid, CommutativeComonoid, Frobenius (all internal to a monoidal category); no ring, rig or semiring anywhere",
+   "grep -rn 'Instance/CMon' -- Instance/CMon.v gives commutative MONOIDS only (with biproducts, Instance/CMon/Biproduct.v); no multiplicative structure and no polynomial construction",
+   "grep -rniE 'pointed object|pointed category|category of pointed' --include='*.v' . -- 0 hits; there is no Rings_*-style category of pointed objects to carry the adjunction"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. My own searches: `rg -i 'polynomial|pointed ring|Rings|indeterminate'` -> no ring structure, no category of rings, no polynomial ring; `rg 'Class|Definition' Theory/Algebra/` -> the in-tree algebra is Monoid, CommutativeMonoid, Comonoid, CommutativeComonoid, Frobenius (all internal to a monoidal category), plus Instance/CMon.v (commutative monoids, additive only) \u2014 no rig, semiring or ring anywhere, hence no U : Rings_* \u27f6 Rings to carry the adjunction. Classification stands. ONE LOG INACCURACY (does not change the verdict, recorded in problems[]): the negative_search_log line \"grep -rniE 'polynomial' --include='*.v' . -- 0 hits\" is false \u2014 there are 6 hits (Theory/Adamek/Corollaries.v:69, Instance/Shapes.v:55-56, Instance/Coq/Lists.v:18, Structure/Monoidal/Braided.v:101,103), every one of them about polynomial ENDOFUNCTORS or knot polynomials, none about polynomial rings. The log line should read '6 hits, all polynomial endofunctors/knot polynomials, none a polynomial ring'."
+  }
+ }
+]

@@ -1,0 +1,545 @@
+[
+  {
+    "id": "riehl:1.0:def-group-extension",
+    "classification": "ABSENT",
+    "aliases": [
+      "group extension of H by G",
+      "short exact sequence 0 -> G -> E -> H -> 0",
+      "normal subgroup / quotient group E/G",
+      "equivalence of extensions (isomorphism commuting with inclusion and quotient)",
+      "Ext(H,G) / Ext group / Baer sum / Ab (category of abelian groups)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'short exact|exact sequence|group extension|normal subgroup|quotient group|Ext\\(' -- 4 hits, ALL prose comments (Theory/Category.v:48 and Theory/Functor.v:35 cite Eilenberg-Mac Lane's paper title 'Group Extensions and Homology'; Structure/Abelian.v:70 and Structure/Coend.v:63 mention exact sequences in background essays). No Definition/Class/Record.",
+      "rg -i --glob '*.v' -c -- 'group extension' => 2 files (both header essays); 'short exact' => 0 files; 'normal subgroup' => 0; 'quotient group' => 0; 'Baer' => 0",
+      "rg -n --glob '*.v' 'Exact|IsExact|exact_at|Definition exact' -- 0 hits: there is no exactness predicate anywhere in the tree (Structure/Kernel.v has kernels/cokernels and normal_mono/normal_epi, but never assembles them into an exact sequence).",
+      "rg -n --glob '*.v' '\\bExt\\b' -- 1 hit, a bibliographic comment (Structure/Coend.v:63, Yoneda 'On Ext and exact sequences'). No Ext functor, no Ext group.",
+      "rg -n --glob '*.v' -i 'Definition Grp|Groups|Instance Ab|Abelian group' plus rg -n 'Definition|Program Definition|Class|Record' Structure/Group.v -- there is no CATEGORY of groups anywhere. Two group notions exist and neither helps: 'Class GroupObject (grp : C)' (Structure/Group.v:109), a group OBJECT in a monoidal category; and 'Definition Group := Algebra GroupOp GroupEq' (Instance/Comp.v:382), a group as an equational algebra in the universal-algebra development (witness 'Definition Bool : Group', line 405), which is a Record and is never assembled into a category. [VERIFIER CORRECTION: the classifier's original line claimed GroupObject was the ONLY group notion in-tree.] Neither carries any notion of subgroup, normality of a subgroup, or quotient by a subgroup.",
+      "ls Instance/ -- the concrete categories are Sets, Coq, Ens, FinSet, Cat, StrictCat, Fun, CMon, Rel, Poset, Proset, Props, Two, One, Zero, Omega, Discrete, Parallel, Roof, Shapes, Lambda, ZX, AST. None is Ab or Grp."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. My own searches: rg -i 'exact sequence|short exact|Ext\\(|universal coefficient|group extension' over *.v -> 4 files, ALL background-essay prose (Theory/Category.v:48, Theory/Functor.v:35 cite the Eilenberg-Mac Lane 1942 paper TITLE; Structure/Abelian.v:70 and Structure/Coend.v:63 name exact sequences in essays). rg -i 'normal subgroup|quotient group|homolog|cohomolog|abelian group' -> essays only. No Ext, no exactness predicate, no Ab. CORRECTION to the record's negative_search_log (does not move the verdict): the claim that 'the ONLY group notion in-tree is Class GroupObject (Structure/Group.v:109)' is inaccurate - Instance/Comp.v:382 defines 'Definition Group := Algebra GroupOp GroupEq' (a group as an equational algebra over the universal-algebra development, with the worked witness 'Definition Bool : Group' at line 405). That second group notion still carries no subgroup, normality, quotient or Ext machinery, and varieties Algebra S E are never assembled into a category, so ABSENT stands. Corrected in place."
+    }
+  },
+  {
+    "id": "riehl:1.0:eq1",
+    "classification": "ABSENT",
+    "aliases": [
+      "universal coefficient theorem",
+      "singular homology H_n(X) / singular cohomology H^n(X;G)",
+      "0 -> Ext(H_{n-1}X, G) -> H^n(X,G) -> Hom(H_n X, G) -> 0",
+      "naturality of the universal-coefficient sequence in X",
+      "Ch_R / chain complex / derived functor Ext"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i --glob '*.v' -c -- 'universal coefficient' => 0 files.",
+      "rg -i --glob '*.v' -c -- 'singular' => 0 files; 'Baer' => 0 files.",
+      "rg -n --glob '*.v' -i 'cohomology|homology' -- 15 hits, every one inside a background-essay comment (Comonad/Core.v:104, Theory/Sheaf.v:68-75, Structure/Abelian.v:75, Structure/Limit.v:50, Structure/Topos.v:53, Structure/Group.v:53, Construction/Localization.v:99, Theory/Category.v:48, Theory/Functor.v:35). No homology or cohomology functor is defined.",
+      "rg -n --glob '*.v' 'Exact|IsExact' -- 0 hits, so the short exact sequence carrying the theorem cannot even be stated.",
+      "rg -i --glob '*.v' -c -- 'cochain' => 1 file, Construction/Chain.v:78 'Definition Cochain {C} `{@Terminal C} (F : C ⟶ C)' -- the DUAL of the omega-chain used for final coalgebras, unrelated to chain complexes of modules.",
+      "rg -n --glob '*.v' -i 'Ch_R|chain complex' -- 3 hits, all prose (Structure/Abelian.v:70, Construction/Enriched.v:47,71). There is no category of chain complexes."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. rg -i 'universal coefficient|singular|homology|cohomology' over *.v -> every hit is inside a background-essay comment; no homology/cohomology functor, no chain complexes of modules (Construction/Chain.v's Cochain is the dual omega-chain for final coalgebras, unrelated), and with no exactness predicate the sequence cannot even be stated. Negative log accurate as written."
+    }
+  },
+  {
+    "id": "riehl:1.1:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "category (objects, morphisms, domain/codomain, identity, composition)",
+      "Class Category / Record Category",
+      "unitality id_left / id_right; associativity comp_assoc",
+      "hom / hom-setoid / homset",
+      "metacategory, category axioms"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y); id {x} : x ~> x; compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z where \"f ∘ g\" := (compose f g); compose_respects {x y z} : Proper (equiv ==> equiv ==> equiv) (@compose x y z); dom {x y} (f : x ~> y) := x; cod {x y} (f : x ~> y) := y; id_left {x y} (f : x ~> y) : id ∘ f ≈ f; id_right {x y} (f : x ~> y) : f ∘ id ≈ f; comp_assoc {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h) }."
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 206,
+        "symbol": "Build_Category'",
+        "intree_statement": "Definition Build_Category' {obj} hom {homset} id compose {compose_respects} {id_left id_right comp_assoc} := {| obj := obj; hom := hom; homset := homset; id := id; compose := compose; compose_respects := compose_respects; id_left := id_left; id_right := id_right; comp_assoc := comp_assoc; comp_assoc_sym := fun _ _ _ _ _ _ _ => symmetry (@comp_assoc _ _ _ _ _ _ _) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "A category consists of objects and morphisms, with specified dom/cod for each morphism, a designated identity id_X for each object, and a specified composite gf for each composable pair, subject to unitality (id_Y f = f = f id_X) and associativity (h(gf) = (hg)f).",
+      "intree": "Class Category@{o h p | h <= p} := { obj : Type@{o}; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid (X ~> Y); id {x} : x ~> x; compose {x y z} : (y ~> z) → (x ~> y) → (x ~> z); compose_respects : Proper (equiv ==> equiv ==> equiv) compose; dom {x y} (f : x ~> y) := x; cod {x y} (f : x ~> y) := y; id_left : id ∘ f ≈ f; id_right : f ∘ id ≈ f; comp_assoc : f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h; comp_assoc_sym : (f ∘ g) ∘ h ≈ f ∘ (g ∘ h) }",
+      "strength_comparison": "same. Every clause of Definition 1.1.1 appears as a field: objects, hom indexed by dom/cod (with dom/cod recovered as the definitional projections at lines 127-128), id, compose, both unit laws, associativity. The two apparent extras are exactly the sanctioned setoid rephrasing and nothing more: (a) equality of morphisms is the hom-setoid ≈ rather than =, which forces the congruence field compose_respects (in Set-theoretic prose this is automatic); (b) comp_assoc_sym is provably redundant — Build_Category' (line 206) derives it from comp_assoc by symmetry — and exists only so that C^op^op = C holds by reflexivity, so it adds no mathematical content. The in-tree class is universe-polymorphic, i.e. it also covers Riehl's 'collection' reading of the object and morphism parameters."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently at the same site. Cited lines VERIFIED exactly: Theory/Category.v:111 is 'Class Category@{o h p | h <= p}' and Theory/Category.v:206 is 'Definition Build_Category''; both quotes are faithful to the source. Theory/Category.v is registered at _CoqProject:406. strength_comparison 'same' is honest: I independently checked that dom/cod are definitional projections in the class body (lines 127-128), that comp_assoc_sym is derived by symmetry inside Build_Category' (so it adds no content), and that compose_respects is the forced setoid congruence field, which is exactly the sanctioned hom-setoid rephrasing."
+    }
+  },
+  {
+    "id": "riehl:1.1:def-quiver",
+    "classification": "PARTIAL",
+    "aliases": [
+      "quiver / directed multigraph / directed graph with parallel edges and loops",
+      "reflexive quiver (distinguished identity endoarrow at each vertex)",
+      "underlying quiver / underlying graph of a category, forgetful functor Cat -> Quiv",
+      "path / free category on a quiver / path category",
+      "composite of a finite directed path of composable arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 54,
+        "symbol": "Quiver",
+        "intree_statement": "Class Quiver@{o h p} := { nodes : Type@{o}; uedges := Type@{h} : Type@{h+1}; edges : nodes → nodes → uedges; edgeset : ∀ X Y, Setoid@{h p} (edges X Y) }."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C.  [with FreeOnQuiver at line 431: Program Definition FreeOnQuiver : Category@{o h p} := {| obj := @nodes G; hom := tlist edges; homset := fun i j => {| equiv := tlist_quiver_equiv _ _ _ |}; id := fun _ => tnil; compose := fun _ _ _ f g => g +++ f |}]"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category@{o h p}) : Quiver@{o h p} := {| nodes := obj; edges := hom |}.  [and line 412: Definition Forgetful : @Functor StrictCat QuiverCategory, built from QuiverOfCat and QuiverHomomorphismOfFunctor]"
+      }
+    ],
+    "statement_record": {
+      "book": "A quiver is a directed graph that may contain parallel arrows and loops; a REFLEXIVE quiver additionally specifies a distinguished 'identity' endoarrow at each vertex. The objects and morphisms of a category form a reflexive quiver, and every finite directed path of composable arrows in that quiver has a well-defined composite — well-defined by associativity, and unchanged by inserting or deleting identity arrows.",
+      "intree": "Class Quiver := { nodes : Type; edges : nodes → nodes → Type; edgeset : ∀ X Y, Setoid (edges X Y) } ; QuiverOfCat (C : Category) : Quiver := {| nodes := obj; edges := hom |} ; FreeOnQuiver : Category with hom := tlist edges, id := tnil, compose := app ; InducedFunctor (F : QuiverHomomorphism G (QuiverOfCat C)) : Functor FreeOnQuiver C",
+      "strength_comparison": "intree-weaker: the bare-quiver clause and the path-composite clause are both fully present, but the REFLEXIVE quiver is not. `edges X Y` is an arbitrary setoid-indexed family, so parallel arrows and loops are allowed exactly as in the book. `InducedFunctor` maps a path (a `tlist` of composable edges) to its composite in C, and its fmap_id / fmap_comp obligations are precisely 'well-defined by associativity and unchanged by identities' (tnil is the identity of FreeOnQuiver, so inserting or deleting identity edges is definitionally inert). `QuiverOfCat` / `Forgetful : StrictCat ⟶ QuiverCategory` supply the underlying quiver of a category. What is missing is the reflexive structure: Riehl's claim is that a category's objects and morphisms form a REFLEXIVE quiver, and `QuiverOfCat` forgets the identity selection entirely."
+    },
+    "gap": "No notion of a reflexive quiver exists anywhere in the tree (rg -i 'reflexive quiver|reflexive graph' over *.v returns 0 hits), so there is no in-tree class carrying a distinguished endoarrow at each vertex, no category of reflexive quivers, and no statement that QuiverOfCat lands in reflexive quivers. Consequently the book's exact sentence ('the objects and morphisms of a category form a reflexive quiver') is not formalized — only its weaker bare-quiver shadow is.",
+    "negative_search_log": [
+      "rg -i --glob '*.v' -c -- 'reflexive quiver' => 0 files; rg -n --glob '*.v' -i 'reflexive quiver|reflexive graph' => 0 hits."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, on the same gap. Cited lines VERIFIED: Construction/Free/Quiver.v:54 'Class Quiver@{o h p}', :398 'Program Definition QuiverOfCat', :431 'Program Definition FreeOnQuiver', :464 'Definition InducedFunctor'; file registered at _CoqProject:72. I re-ran the negative search myself: rg -i 'reflexive quiver|reflexive graph' over *.v returns 0 hits (exit 1), so the reflexive-quiver gap is real and QuiverOfCat genuinely forgets the identity selection. I additionally confirmed the header's forward pointers are all live (UniversalArrowQuiverCat:518, UnitQuiverCatAdjunction:507, FreeForgetfulAdjunction:550, FreeSyntax/morDA present), so no stale-pointer defect here."
+    }
+  },
+  {
+    "id": "riehl:1.1:def-commute",
+    "classification": "PARTIAL",
+    "aliases": [
+      "commutes / commutative diagram / commuting square",
+      "parallel paths have the same composite",
+      "diagram chase, equational reasoning on composites",
+      "commuting-square condition (naturality square, pullback square)",
+      "double category of commuting squares Sq C"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Sq.v",
+        "line": 47,
+        "symbol": "Sq",
+        "intree_statement": "Program Definition Sq (C : Category) : DoubleCategory := {| dcat := C; dhor := fun a b => a ~{C}~> b; dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h; dsq_setoid := fun a b c d h u v k => trivial_setoid _; dhid := fun a => id[a]; dhcomp := fun a b c g f => g ∘ f |}."
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 53,
+        "symbol": "IsPullback",
+        "intree_statement": "Record IsPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) ... := { is_pullback_commutes : f ∘ p1 ≈ g ∘ p2; ... }."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 464,
+        "symbol": "InducedFunctor",
+        "intree_statement": "Definition InducedFunctor {C : Category} (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C.  [fmap sends a path of FreeOnQuiver, i.e. a tlist of composable edges, to its composite in C]"
+      }
+    ],
+    "statement_record": {
+      "book": "Two parallel directed paths of composable arrows in a category are said to COMMUTE when they have the same composite; this is the notion of commutativity used for all subsequent diagrams in the book.",
+      "intree": "dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h  (Construction/Sq.v:50, the squares of the double category Sq C) ; is_pullback_commutes : f ∘ p1 ≈ g ∘ p2 (Theory/Morphisms/Stability.v:55)",
+      "strength_comparison": "intree-weaker: only the SQUARE (length-two parallel paths) case is a named, first-class notion. `Sq C` makes commuting squares of C the 2-cells of a double category, closed under horizontal and vertical pasting, and `IsPullback` names its commuting-square field; the underlying comparison of composites is the hom-setoid ≈ of Theory/Category.v:116, which is exactly the book's 'same composite'. The general apparatus for the book's arbitrary-length parallel paths also exists — a path is a `tlist` of composable edges in `FreeOnQuiver`, and `InducedFunctor` computes its composite in C — but it is never used to define commutativity."
+    },
+    "gap": "There is no general in-tree predicate 'this diagram commutes' over an arbitrary indexing shape or quiver, i.e. no definition quantifying over all parallel directed paths of a diagram. Commutativity is only ever expressed either (a) in the square special case, as `Sq`'s `dsq h u v k := k ∘ u ≈ v ∘ h` or a named commuting field like `is_pullback_commutes`, or (b) ad hoc, by writing out a specific ≈-equation between two explicit composites at each use site. The one-line general definition the ingredients already support — `fmap[InducedFunctor D] p ≈ fmap[InducedFunctor D] q` for parallel paths p, q of a quiver-shaped diagram D — is not stated.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'Definition.*[Cc]ommut|Class.*[Cc]ommut|Record.*[Cc]ommut|commutes\\b' -- ~30 hits, every one a per-construction commuting-square lemma or field (rapl_med_commutes, lift_w_commutes, image_commutes, pullback_commutes, EM_Comparison_fmap_commutes, ...); none is a general definition of a commuting diagram."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "DISAGREEMENT RECORDED, NOT OVERTURNED. My blind pass leaned PRESENT on the reasoning that the book's 'commute' is definitionally the library's hom-setoid ≈ between two composites, which is how every commuting condition in the tree is in fact written. On review the classifier's PARTIAL is the more defensible reading under the frozen definitions: the item is a DEFINITION of a term, and there is genuinely no in-tree definition of it - no predicate quantifying over parallel directed paths of a diagram, only (a) the square special case as first-class data and (b) ad-hoc ≈-equations at use sites. The gap statement is precise and honest, including the observation that the general one-liner is already supported by FreeOnQuiver + InducedFunctor but never written. Cited lines VERIFIED: Construction/Sq.v:47 'Program Definition Sq', with dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h at line 50 exactly as quoted; Theory/Morphisms/Stability.v:53 'Record IsPullback' with is_pullback_commutes at line 55 as quoted. Both files registered (_CoqProject:70, :464)."
+    }
+  },
+  {
+    "id": "riehl:1.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "objects correspond bijectively to identity morphisms",
+      "arrows-only / object-free axiomatization of a category",
+      "metacategory (Mac Lane), Ehresmann, Freyd-Scedrov partial composition",
+      "identity characterized as a two-sided unit for composition",
+      "partial binary operation on arrows"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 212,
+        "symbol": "Category_from_Metacategory",
+        "intree_statement": "Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; homset := fun _ _ => {| equiv := fun f g => mor_arr f = mor_arr g |}; id := @identity; compose := @composition; compose_respects := @composition_respects; id_left := @composition_identity_left; id_right := @composition_identity_right; comp_assoc := @composition_associative; comp_assoc_sym := fun x y z w f g h => symmetry (@composition_associative x y z w f g h) |}."
+      },
+      {
+        "file": "Theory/Metacategory/ArrowsOnly.v",
+        "line": 93,
+        "symbol": "object",
+        "intree_statement": "Record object : Set := { obj_arr : arrow M; obj_def : composite M obj_arr obj_arr obj_arr; obj_id : is_identity M obj_arr }.  [and line 99: Record morphism (dom cod : object) : Set := { mor_arr : arrow M; mor_dom : composite M mor_arr (obj_arr dom) mor_arr; mor_cod : composite M (obj_arr cod) mor_arr mor_arr }]"
+      },
+      {
+        "file": "Theory/Metacategory.v",
+        "line": 261,
+        "symbol": "FromArrows",
+        "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M); homset := fun _ _ => {| Setoid.equiv := fun f g => `1 f = `1 g |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "The objects of a category are in bijective correspondence with its identity morphisms, an identity being uniquely characterized as a two-sided unit for composition. Consequently a category may equivalently be defined as a single collection of morphisms with a partially defined composition, certain morphisms serving both to detect composability and as two-sided identities (Ehresmann; Freyd-Scedrov).",
+      "intree": "Record object : Set := { obj_arr : arrow M; obj_def : composite M obj_arr obj_arr obj_arr; obj_id : is_identity M obj_arr } ; Program Definition Category_from_Metacategory : Category := {| obj := object; hom := morphism; ... |} ; Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; ... |}",
+      "strength_comparison": "intree-weaker (one direction only). The second half of the remark is genuinely formalized twice over: Theory/Metacategory.v and Theory/Metacategory/ArrowsOnly.v both take Mac Lane's arrows-only data (a set of arrows, a partial composition given as a finite map of composable pairs, and the derived predicate `identity u` / `is_identity u` saying u is a two-sided unit) and build a full `Category` from it, with the objects DEFINED to be exactly the identity arrows (`obj := ∃ i : arr M, identity M i`, resp. `Record object` bundling `is_identity`). What is not formalized is the correspondence itself as a bijection: there is no construction taking a `Category` back to a `Metacategory`, no round-trip isomorphism, and no lemma that the identity morphisms of a category are uniquely characterized as the two-sided units (rg for id_unique / unique_id / identity_unique returns nothing)."
+    },
+    "gap": "Three specific shortfalls. (1) Only the Metacategory -> Category direction exists; there is no Category -> Metacategory construction and no round trip, so the claimed BIJECTION between objects and identity morphisms is asserted only by definitional fiat (objects are defined to be identity arrows) rather than proved. The nearest thing to a round trip is the single hand-built pair Two_to_Two / Two_from_Two (Theory/Metacategory/ArrowsOnly.v:429, 508) for the two-object walking arrow. (2) No lemma states that an identity morphism of a Category is uniquely characterized as a two-sided unit for composition. (3) Theory/Metacategory.v's third axiom field `identity_law` is flagged in-file (line 184, 'jww (TODO)') as vacuously true because it uses -> where /\\ was meant; the file notes this does not affect FromArrows, which reads objects off `identity` directly, but it does mean the Mac Lane axiomatization as recorded there is not faithfully constrained. Theory/Metacategory/ArrowsOnly.v keeps the honest conditional guard.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'id_unique|unique_id|identity.*unique|two-sided unit' -- no lemma asserting uniqueness/characterization of identity morphisms in a Category; the 'two-sided unit' hits are prose in Structure/Group.v and Lib/TList.v.",
+      "rg -n --glob '*.v' 'e ∘ f ≈ f.*f ∘ e|is_identity|identity_unique|unit_unique' -- is_identity occurs only inside Theory/Metacategory/ArrowsOnly.v."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, citing Theory/Metacategory.v FromArrows for the same one-direction reason. Cited lines VERIFIED: Theory/Metacategory/ArrowsOnly.v:93 'Record object', :99 'Record morphism', :212 'Program Definition Category_from_Metacategory'; Theory/Metacategory.v:261 'Program Definition FromArrows'. Both files registered (_CoqProject:458, :459). I independently re-ran the negative search for a uniqueness-of-identity lemma (rg 'id_unique|identity.*unique|unique.*identit|two-sided unit' over *.v) and confirmed no such lemma exists on Category - the 'two-sided unit' hits are prose in Structure/Group.v and Lib/TList.v. The gap's point (3) about the vacuous identity_law is verified: the jww note sits at Theory/Metacategory.v:184 exactly as cited. See problems[] - the FILE HEADER at lines 25-27 nonetheless still claims the three axioms 'capture exactly a category', which the same file's line-184 note refutes."
+    }
+  },
+  {
+    "id": "riehl:1.1:example3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "concrete categories: Set, Top, Set_*, Group, Ring, Field, R-Mod, Vect_k, Ab, Ch_R, Graph, Quiver, Man, Meas, Poset, Model_T",
+      "category of sets and functions / category of setoids",
+      "category of quivers / Quiv",
+      "category of models of a theory / T-algebras",
+      "structure-preserving maps, forgetful functor to Set"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets.v",
+        "line": 188,
+        "symbol": "Sets",
+        "intree_statement": "Program Definition Sets@{o so} : Category@{so o o} := {| obj := SetoidObject@{o o} : Type@{so}; hom := λ x y, SetoidMorphism@{o o o} x y : Type@{o}; homset := @SetoidMorphism_Setoid@{o o o}; id := @setoid_morphism_id@{o o o}; compose := @setoid_morphism_compose@{o o o}; compose_respects := @setoid_morphism_compose_respects@{o o o} |}."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 358,
+        "symbol": "QuiverCategory",
+        "intree_statement": "#[export] Instance QuiverCategory : Category.  Proof. unshelve eapply (Build_Category' QuiverHomomorphism QuiverId (fun Q1 Q2 Q3 F G => @QuiverComp Q1 Q2 Q3 G F)). ...  [objects are Quivers, morphisms are QuiverHomomorphisms, i.e. node maps together with source/target-preserving edge maps]"
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 77,
+        "symbol": "Models",
+        "intree_statement": "Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub.  [Models_sub, line 68, is the full subcategory of the functor category [law_cat T, C] on those F carrying both a CartesianFunctor and a TerminalFunctor witness]"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 151,
+        "symbol": "Algs",
+        "intree_statement": "Program Definition Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; homset := AlgHom_Setoid; id := Alg_id; compose := Alg_comp |}.  [over Record OpAlgebra (S : OpSignature) (line 54) and Record AlgHom (line 64); with Record EqSignature (line 240), Record Algebra (S : OpSignature) (E : EqSignature S) (line 268) and the worked instance Definition Group := Algebra GroupOp GroupEq (line 382), Definition Bool : Group (line 405)]"
+      }
+    ],
+    "statement_record": {
+      "book": "Twelve concrete categories, each objects-plus-structure-preserving-maps: (i) Set; (ii) Top; (iii) Set_*, Top_*; (iv) Group, Ring, Field; (v) R-Mod, Vect_k, Ab, Mod_R; (vi) Ch_R; (vii) Graph; (viii) Quiver; (ix) Man; (x) Meas; (xi) Poset; (xii) Model_T for a first-order signature and theory, specializing to (iv),(v),(vi),(vii),(xi).",
+      "intree": "Sets : Category (objects SetoidObject, morphisms SetoidMorphism) ; QuiverCategory : Category (objects Quiver, morphisms QuiverHomomorphism) ; Models : Category := Sub (@Fun (@law_cat T) C) Models_sub ; Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; ... |} (Instance/Comp.v:151)",
+      "strength_comparison": "intree-weaker: 3 of the 12 clauses are witnessed, and one of those only in a restricted form. Clause (i) Set is present four times over — `Sets` (setoids and setoid maps, the library's working Set), `Coq` (Instance/Coq.v:120, types and functions with pointwise equality), `Ens` (Instance/Ens.v:34, Ensembles over a carrier type) and `FinSet` (Instance/FinSet.v:116, the skeletal finite version). Clause (viii) Quiver is present exactly as stated, with morphisms the source/target-preserving edge maps. Clause (xii) Model_T is present only for ALGEBRAIC (finite-product / Lawvere) theories, not for a general first-order signature with relation symbols: `Models` is the full subcategory of [law_cat T, C] on the finite-product-preserving functors, so the book's specialization of Model_T to (iv),(v),(vi),(vii),(xi) is not reproduced. Nine clauses have no counterpart at all. VERIFIER SUPPLEMENT: clause (xii) has a SECOND partial witness the classifier missed -- Instance/Comp.v's single-sorted universal algebra (OpSignature/OpAlgebra/AlgHom, the category Algs, EqSignature and varieties Algebra S E, with Group and Bool worked out) -- which is closer to the book's signature-and-theory phrasing than the Lawvere `Models` but is still equational-only (no relation symbols) and never assembles varieties into a category. The count of witnessed clauses is unchanged at 3 of 12."
+    },
+    "gap": "Nine of the twelve clauses are absent outright: (ii) Top, (iii) Set_* / Top_*, (iv) Group / Ring / Field AS CATEGORIES, (v) R-Mod / Vect_k / Ab / Mod_R, (vi) Ch_R, (vii) Graph, (ix) Man, (x) Meas, (xi) Poset (the CATEGORY of posets -- note that Instance/Poset.v:116 defines a single poset AS a category, which is the converse construction, Example 1.1.4(iii); and the header pointer to a [Pos] category at Instance/Poset.v:21 is stale, no such definition exists). The in-tree categories of algebraic structures are `CMon` (Instance/CMon.v:140, commutative monoids over setoids, with CMon_Forget : CMon -> Sets at line 169), `Mon` (Theory/Algebra/Monoid/Hom.v:83, monoid objects in a monoidal C) and `Algs` (Instance/Comp.v:151, algebras for a single-sorted operation signature) -- none of these is on Riehl's list. There is still no category of GROUPS: Structure/Group.v provides only `Class GroupObject` (a group object in a monoidal category) and Instance/Comp.v defines `Group := Algebra GroupOp GroupEq` as a RECORD without assembling varieties `Algebra S E` into a Category. Clause (xii) Model_T is half-covered twice over and in neither case fully: Theory/Lawvere/Model.v's `Models` covers finite-product (Lawvere) theories, and Instance/Comp.v's `Algs` + `EqSignature` covers single-sorted equational theories with an explicit signature -- neither admits relation symbols, and neither reproduces the book's specialization of Model_T to (iv),(v),(vi),(vii),(xi).",
+    "negative_search_log": [
+      "for p in 'Instance Top' 'continuous map' 'Definition Grp' 'Instance Ab' 'Instance Mod' 'Ch_R' 'Instance Graph' 'Instance Man' 'Instance Meas' 'Model_T' 'Mat_R'; rg -c --glob '*.v' -- $p -- 0 files for every one of these.",
+      "rg -i --glob '*.v' -c -- 'measurable space' => 1 file (Structure/Monoidal/Markov.v:59, a prose reference to the Markov-kernel example); 'Manifold' => 2 files, both background essays; 'abelian group' => 7 files, all background essays.",
+      "rg -n 'Definition|Program Definition|Class|Record' Structure/Group.v -- the file's only declaration is 'Class GroupObject (grp : C)' at line 109; no category of groups.",
+      "ls Instance/ -- confirms the complete list of concrete instances (Sets, Coq, Ens, FinSet, Cat, StrictCat, Fun, CMon, Rel, Poset, Proset, Props, Two, One, Zero, Omega, Discrete, Parallel, Roof, Shapes, Lambda, ZX, AST, Adj, Adjoints, Comp, Cones, Fact).",
+      "VERIFIER: rg -n 'Definition Group|Record Algebra|Program Definition Algs' Instance/Comp.v -- Algs:151, Algebra:268, Group:382 exist; rg for a Category over `Algebra S E` -- none, varieties are not assembled into a category, so 'no category of groups' stands.",
+      "VERIFIER: rg -n '\\[Pos\\]|Definition Pos|Instance Pos' --glob '*.v' -- the only hit is the header prose Instance/Poset.v:21 pointing at a [Pos] that does not exist; likewise [Ord] at Instance/Proset.v:19. Neither is a definition, so clause (xi) is genuinely absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Classification PARTIAL confirmed - my blind pass independently found only Set (Sets/Coq/Ens/FinSet) and Quiver among the twelve clauses. Cited lines VERIFIED: Instance/Sets.v:188 'Program Definition Sets@{o so}', Construction/Free/Quiver.v:358 '#[export] Instance QuiverCategory : Category', Theory/Lawvere/Model.v:77 'Definition Models' over Models_sub at :68; all registered. EVIDENCE SUPPLEMENT (added by me, classification unchanged): the classifier missed Instance/Comp.v (registered at _CoqProject:177), which develops single-sorted universal algebra - OpSignature, OpAlgebra (:54), AlgHom (:64), the CATEGORY 'Program Definition Algs : Category' (:151) with Algs_Terminal and Algs_Cartesian, plus EqSignature (:240), varieties 'Record Algebra (S)(E)' (:268) and the worked group example GroupOp/GroupEq/'Definition Group := Algebra GroupOp GroupEq' (:382), witness 'Definition Bool : Group' (:405). This is a second and closer partial witness for clause (xii) Model_T (equational/algebraic single-sorted theories with an explicit signature, still no relation symbols, and varieties are never assembled into a category, so clause (iv) Group remains uncovered as a CATEGORY). I therefore also corrected the gap's overstated sentence 'The only in-tree category of algebraic structures is CMon' - Algs is one. Nine clauses absent stands unchanged; see problems[] for the two stale [Pos]/[Ord] header pointers that would mislead a reader into thinking clause (xi) is covered."
+    }
+  },
+  {
+    "id": "riehl:1.1:example4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "abstract categories whose morphisms are not functions",
+      "Mat_R (objects the positive integers, morphisms matrices)",
+      "BG / delooping of a group or monoid / one-object category",
+      "a preorder or poset as a category; thin category",
+      "ordinals 0, 1, 2, omega as categories; discrete category; Htpy; Measure"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Proset.v",
+        "line": 33,
+        "symbol": "Proset",
+        "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x; compose := fun x y z f g => @transitivity A R (@PreOrder_Transitive A R P) x y z g f |}.  [and Instance/Poset.v:116: Definition Poset {C} `{R : relation C} `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P]"
+      },
+      {
+        "file": "Instance/Discrete.v",
+        "line": 37,
+        "symbol": "DiscreteCat",
+        "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality@{o h p} x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}."
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; homset := Morphism_equality; id := fun x => match x with TwoX => TwoIdX | TwoY => TwoIdY end; compose := ... |}.  [with Inductive TwoObj : Set := TwoX | TwoY and Inductive TwoHom : TwoObj → TwoObj → Set := TwoIdX | TwoIdY | TwoXY at lines 103, 105; the empty category _0 is Instance/Zero.v:28 and the point _1 is Instance/One.v:25]"
+      },
+      {
+        "file": "Instance/Omega.v",
+        "line": 72,
+        "symbol": "Omega",
+        "intree_statement": "Program Definition Omega@{o h p} : Category@{o h p} := {| obj := nat; hom := le_t@{h}; homset := Morphism_equality@{o h p}; id := fun _ => le_t_n@{h}; compose := fun _ _ _ f g => le_t_trans@{h} g f |}.  [with Definition omega_step (n : nat) : @hom Omega n (S n) := le_t_S le_t_n at line 85]"
+      }
+    ],
+    "statement_record": {
+      "book": "Seven categories whose morphisms are not functions: (i) Mat_R; (ii) BG for a group or monoid G, one object whose endomorphisms are the elements of G; (iii) a poset or preorder as a category, one arrow x -> y iff x <= y; (iv) an ordinal as the category of smaller ordinals, giving 0, 1, 2 and omega, the category freely generated by the quiver 0 -> 1 -> 2 -> ...; (v) a set as a DISCRETE category, every morphism an identity; (vi) Htpy and Htpy_*; (vii) Measure.",
+      "intree": "Proset (P : PreOrder R) : Category := {| obj := A; hom := R; homset := trivial; id := reflexivity; compose := transitivity |} ; DiscreteCat (A : Type) : Category := {| obj := A; hom := fun x y => x = y; ... |} ; _2 : Category (obj TwoObj, hom TwoHom) ; Omega : Category := {| obj := nat; hom := le_t; ... |}",
+      "strength_comparison": "intree-weaker: 3 of the 7 clauses. Clause (iii) is exactly as in the book, and in both the preorder form (`Proset`, whose thinness is enforced by the trivially-true hom-setoid) and the poset form (`Poset`, adding antisymmetry). Clause (iv) is present as four separate concrete categories rather than as a uniform ordinal construction: `_0` (Instance/Zero.v:28), `_1` (Instance/One.v:25), `_2` (Instance/Two.v:134) and `Omega` (Instance/Omega.v:72); and `Omega` is presented as the poset (nat, le_t) with `omega_step : n ~> S n` its generating morphism, NOT as the free category on the quiver 0 -> 1 -> 2 -> ... (that free-category presentation is available in principle via FreeOnQuiver but is not used, and no proof identifies the two). Clause (v) is exactly as in the book, with hom = equality proofs. Clauses (i), (ii), (vi) and (vii) have no counterpart."
+    },
+    "gap": "Four of the seven clauses are absent. (i) Mat_R: no matrix category anywhere (rg 'Mat_R' / 'Instance Mat' => 0 hits); the objects-are-naturals shape occurs in FinSet, ZX_Cat and the PROP development, but never with matrices over a ring as morphisms. (ii) BG: there is no general delooping of a group or monoid into a one-object category. The only one-object category in the tree is the ad-hoc `ListMon` (Construction/Funny/Comparison.v:81, obj := poly_unit, hom := list bool, compose := concatenation), the delooping of the free monoid on bool, written for a single counterexample; Theory/Bicategory/OneObject.v:56 deloops a MONOIDAL CATEGORY into a bicategory, which is one level up and not this clause. (vi) Htpy / Htpy_*: absent (rg -i 'Htpy' => 0 files), and it could not be built anyway since Top is absent — though the generic ingredient, quotienting a category by a hom-congruence, does exist (Construction/Quotient.v). (vii) Measure: absent. Additionally, clause (iv)'s characterization of omega as the category freely generated by the quiver 0 -> 1 -> 2 -> ... is not proved for the in-tree `Omega`.",
+    "negative_search_log": [
+      "rg -i --glob '*.v' -c -- 'Mat_R' => 0 files; 'Instance Mat' => 0 files; 'Htpy' => 0 files.",
+      "rg -n --glob '*.v' 'Mat_R|matrix|Matrix|Definition BG|one-object|one object|Monoid.*Category|delooping|Deloop' -- all hits are background-essay prose except Construction/Funny/Comparison.v:81 (ListMon) and Theory/Bicategory/OneObject.v:56 (Monoidal_OneObject_Bicategory).",
+      "rg -n 'obj *:= *poly_unit|obj *:= *unit|obj *:= *Datatypes.unit' --glob '*.v' -- 5 hits: Instance/One.v:26 (_1), Construction/Funny/Comparison.v:82 (ListMon), Theory/Multicategory/Endomorphism.v:1053 and Theory/Multicategory/Algebra.v:445 (one-object MULTIcategories), Instance/Coq.v:133 (terminal object, not a category)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently with the identical split (present: preorder/poset-as-category, 0/1/2/omega, discrete; absent: Mat_R, BG, Htpy, Measure). Cited lines VERIFIED: Instance/Proset.v:33 'Program Definition Proset', Instance/Poset.v:116 'Definition Poset', Instance/Discrete.v:37 'Program Definition DiscreteCat', Instance/Two.v:134 '_2' with TwoObj:103 / TwoHom:105, Instance/Zero.v:28 '_0', Instance/One.v:25 '_1', Instance/Omega.v:72 'Omega' with omega_step:85; all registered. I independently confirmed the BG gap: rg for delooping/one-object over *.v yields only Construction/Funny/Comparison.v:81 ListMon (obj := poly_unit, hom := list bool - the ad-hoc free-monoid delooping used for a single counterexample, exactly as the record says) and Theory/Bicategory/OneObject.v:56 Monoidal_OneObject_Bicategory (one level up). I also confirmed the record's careful caveat that no in-tree lemma identifies Omega with the free category on the quiver 0 -> 1 -> 2 -> ... . Note for completeness (does not change the verdict): Theory/Algebra/Monoid/Hom.v:83 defines 'Mon : Category', the category of monoid OBJECTS in C - that is the category OF monoids, not the delooping BG of a single monoid, so clause (ii) remains absent."
+    }
+  },
+  {
+    "id": "riehl:1.1:remark5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "size / set-theoretic foundations / Russell's paradox / no set of all sets",
+      "collection vs set; proper class",
+      "Grothendieck universe / inaccessible cardinal / V_kappa",
+      "universe polymorphism, universe levels, universe inconsistency",
+      "no category of all categories; Cat is not an object of itself"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "#[export] Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; compose_respects := @Compose_respects; id_left := @fun_equiv_id_left; id_right := @fun_equiv_id_right; comp_assoc := @fun_equiv_comp_assoc; comp_assoc_sym := fun a b c d f g h => symmetry (@fun_equiv_comp_assoc a b c d f g h) }."
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "Russell's paradox forbids a set of all sets, which is why Definition 1.1.1 says 'collection': in each category of Example 1.1.3 the objects do not form a set. The book adopts the working convention of sweeping foundational issues aside, assuming if pressed a countable sequence of inaccessible cardinals so that each V_kappa is a Grothendieck universe — doing set theory inside a universe and enlarging it as needed rather than parametrizing every definition by universe levels.",
+      "intree": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; hom : obj → obj → Type@{h}; ... } ; Instance Cat : Category := { obj := Category; hom := @Functor; ... }",
+      "strength_comparison": "intree-stronger on the paradox, absent on the convention. The size obstruction is not merely discussed but MECHANICALLY ENFORCED: `Class Category@{o h p}` is declared at `Type@{max(o+1,h+1,p+1)}`, strictly above the universe of its own objects, so when `Cat` sets `obj := Category` the inner categories necessarily sit at a level below Cat's own — a self-membership `Cat : Cat` is a universe inconsistency rejected by the kernel rather than a convention. In that sense the library realizes Riehl's 'collection' reading of Definition 1.1.1 exactly, with no axioms. But the remark's actual working convention is the OPPOSITE of the library's choice: Riehl declines to parametrize definitions by universe level and instead posits a countable tower of inaccessibles / Grothendieck universes; the library parametrizes every single definition by universe level and posits nothing."
+    },
+    "gap": "Two things in the remark have no in-tree counterpart. (1) There is no notion of a Grothendieck universe, an inaccessible cardinal, or a V_kappa anywhere in the tree, and no axiom asserting a tower of them — so the specific foundational device the remark adopts is not available, and cannot be compared against the library's universe-polymorphic alternative. (2) The remark's concrete claim, that the objects of each category in Example 1.1.3 fail to form a set, is not stated for any in-tree category (and mostly could not be, since nine of those twelve categories are themselves absent — see riehl:1.1:example3). The universe stratification is a relative size distinction between levels, not an absolute smallness predicate; see riehl:1.1:def6.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' -i 'Grothendieck universe|inaccessible|V_kappa|proper class|Russell' -- the only 'Grothendieck' hits in *.v are the Grothendieck CONSTRUCTION (Construction/Grothendieck*.v) and one prose mention at Instance/Cat.v:111; no universe axiom is declared.",
+      "rg -n 'Fail Check|universe inconsisten' --glob '*.v' -- the only universe-inconsistency locks in the tree are Test/ProbeFunnyPoly.v:69,77 (about the Funny tensor on StrictCat), not about Cat's self-membership."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, and on the same grounds (universe polymorphism realizes the size discipline; the Grothendieck-universe convention is absent and is in fact the opposite methodological choice). Cited lines VERIFIED: Instance/Cat.v:142 'Instance Cat : Category' with obj := Category, and Theory/Category.v:111 declaring the class at Type@{max(o+1,h+1,p+1)}. I independently read Instance/Cat.v's header (lines 11, 22-26) and it does say 'Cat is the category of all small categories' and explains that self-membership is blocked by universe polymorphism, corroborating the strength_comparison. I re-ran rg -i 'Grothendieck universe|inaccessible|V_kappa|proper class|Russell' over *.v: no universe axiom is declared anywhere. The PARTIAL rather than OUT_OF_SCOPE call is correct under the frozen rule that size/foundations items are usually PARTIAL in a universe-polymorphic library."
+    }
+  },
+  {
+    "id": "riehl:1.1:def6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "small category / a set's worth of arrows",
+      "ob C and mor C are sets; dom, cod : mor C -> ob C and id : ob C -> mor C in Set",
+      "Cat, the category of small categories",
+      "universe level, Type@{o}, universe-polymorphic size",
+      "internal category in Set / category object"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Cat.v",
+        "line": 142,
+        "symbol": "Cat",
+        "intree_statement": "#[export] Instance Cat : Category := { obj := Category; hom := @Functor; homset := @Functor_Setoid; id := @Id; compose := @Compose; ... }.  [with Class Category@{o h p} : Type@{max(o+1,h+1,p+1)} (Theory/Category.v:111), so the categories collected as obj[Cat] are exactly those at a strictly lower universe level]"
+      },
+      {
+        "file": "Instance/Two.v",
+        "line": 134,
+        "symbol": "_2",
+        "intree_statement": "Inductive TwoObj : Set := TwoX | TwoY.  Inductive TwoHom : TwoObj → TwoObj → Set := TwoIdX | TwoIdY | TwoXY.  Program Definition _2 : Category := {| obj := TwoObj; hom := TwoHom; homset := Morphism_equality; id := fun x => match x with TwoX => TwoIdX | TwoY => TwoIdY end; compose := ... |}."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 398,
+        "symbol": "QuiverOfCat",
+        "intree_statement": "Program Definition QuiverOfCat (C : Category@{o h p}) : Quiver@{o h p} := {| nodes := obj; edges := hom |}.  [Class Quiver := { nodes : Type; edges : nodes → nodes → Type; edgeset : ∀ X Y, Setoid (edges X Y) }, line 54]"
+      }
+    ],
+    "statement_record": {
+      "book": "A category is SMALL if it has only a set's worth of arrows. By Remark 1.1.2 it then has only a set's worth of objects, so a small category C is equivalently the data of a set ob C, a set mor C, and functions dom, cod : mor C -> ob C and id : ob C -> mor C (with dom and cod both retracting id) — all objects and morphisms of Set.",
+      "intree": "Class Category@{o h p | h <= p} := { obj : Type@{o}; hom : obj → obj → Type@{h}; ... } ; Instance Cat : Category := { obj := Category; hom := @Functor; ... } ; Inductive TwoObj : Set ; Inductive TwoHom : TwoObj → TwoObj → Set ; _2 : Category ; QuiverOfCat (C : Category) : Quiver := {| nodes := obj; edges := hom |}",
+      "strength_comparison": "intree-weaker: smallness exists only as a universe instantiation, never as a predicate. Because `obj : Type@{o}` and `hom : obj → obj → Type@{h}` are universe parameters, a category instantiated at `Set` genuinely has only a set's worth of objects and arrows — Instance/Two.v does exactly this, declaring `TwoObj : Set` and `TwoHom : TwoObj → TwoObj → Set` before building `_2`, and the same holds for `_0`, `_1`, `Omega` (obj := nat), `FinSet` (obj := nat) and `DiscreteCat A`. The large/small distinction is likewise enforced RELATIVELY by `Cat`, whose objects are precisely the categories at a strictly lower universe (Instance/Cat.v's own header calls this 'the category of all small categories', with self-membership blocked by universe inconsistency). What is missing is any way to speak about smallness: there is no `Small C` class or predicate anywhere in the tree, so no theorem can take smallness as a hypothesis or conclude it, and one cannot quantify over 'the small categories' as a subcollection of a fixed Category universe."
+    },
+    "gap": "(1) No `Small` predicate, class or record exists (rg 'SmallCategory|Small_|IsSmall|LocallySmall' over *.v => 0 hits); smallness is expressible only by choosing universe instantiations at definition sites, so it cannot appear as a hypothesis or a conclusion, and the relative stratification via `Cat` cannot be internalized as an absolute property. (2) The book's equivalent packaging of a small category as a set ob C, a set mor C and Set-arrows dom, cod, id is not in-tree: `QuiverOfCat` supplies the (nodes, edges) — i.e. (ob C, mor C with dom and cod) — half, but a Quiver carries no identity selection (see riehl:1.1:def-quiver: reflexive quivers are absent), so the `id : ob C -> mor C` retraction data and the retraction equations dom . id = cod . id = 1 are never stated. There is no notion of an internal category / category object in Set either. (3) The derivation the book takes from Remark 1.1.2 — a set's worth of arrows implies a set's worth of objects — is not proved, consistent with the missing objects/identities bijection recorded under riehl:1.1:remark2.",
+    "negative_search_log": [
+      "rg -n --glob '*.v' 'SmallCategory|Small_|IsSmall|small_|LocallySmall' -- 0 declaration hits; the only 'small' occurrences are the Wikipedia URL 'Category_of_small_categories' in Instance/Cat.v:9, Instance/Zero.v:13, Instance/One.v:12, Instance/StrictCat.v:12.",
+      "rg -n --glob '*.v' 'Small|small category|locally small' -- every remaining hit is background-essay prose (Structure/Complete.v:16,83,104,111; Functor/Hom.v:18; Functor/Representable.v:29; Construction/Enriched.v:26; Theory/Bicategory.v:89; Instance/Fun.v:62; Instance/Poset.v:84).",
+      "rg -n --glob '*.v' -i 'internal category|category object' -- no internal-category-in-Set construction."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently on the same reasoning (smallness is a universe instantiation, never a predicate). Cited lines VERIFIED: Instance/Cat.v:142, Instance/Two.v:134 with TwoObj/TwoHom declared at Set (lines 103,105), Construction/Free/Quiver.v:398 QuiverOfCat. I independently re-ran rg 'SmallCategory|Small_|IsSmall|LocallySmall|small_' over *.v and found no declaration; every remaining hit is essay prose or the 'Category_of_small_categories' Wikipedia URL. I additionally checked the strongest place a hidden smallness quantifier could lurk - Structure/Complete.v:115 reads 'Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F', quantifying over ALL categories at the ambient universe with no smallness side condition - which corroborates the record. The gap's point (2) is also correct: Quiver carries no identity selection, so the book's id : ob C -> mor C retraction data has no in-tree home, and rg -i 'internal category|category object' finds no internal-category-in-Set construction."
+    }
+  },
+  {
+    "id": "riehl:1.1:def7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "locally small category / hom-sets are sets",
+      "hom-set C(X,Y) is an object of Set",
+      "hom-functor Hom : C^op x C -> Set (requires local smallness)",
+      "homset : forall X Y, Setoid (X ~> Y)",
+      "small hom / Set-enriched category"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      },
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }."
+      }
+    ],
+    "statement_record": {
+      "book": "A category is LOCALLY SMALL if between any pair of objects there is only a set's worth of morphisms. None of the categories of Example 1.1.3 is small, but each is locally small.",
+      "intree": "Class Category@{o h p | h <= p} := { obj : Type@{o}; hom : obj → obj → Type@{h}; homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... } ; Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset C (fst p) (snd p) |}; ... |}",
+      "strength_comparison": "intree-stronger as an unconditional fact, intree-weaker as a definition. The CONTENT of local smallness is built into the class and holds for every category with no hypothesis: `hom : obj → obj → Type@{h}` puts each hom-collection at a single fixed universe level, and `Hom : C^op ∏ C ⟶ Sets` — which takes an ARBITRARY `C : Category` and no side condition — exhibits every hom-collection as an object of `Sets`, i.e. exactly Riehl's C(X,Y) in Set. That is stronger than the book's clause in the sense that no hypothesis is needed. But it is weaker as a formalization of the DEFINITION: there is no `LocallySmall` predicate, so 'locally small' is not a property a category may or may not have, and a non-locally-small category is not expressible at all within a fixed universe instantiation. Consequently downstream results that Riehl states under a local-smallness hypothesis (the hom-functor here, representability in Functor/Representable.v, Yoneda in Functor/Hom/Yoneda.v) are in-tree unconditional."
+    },
+    "gap": "There is no `LocallySmall` class, predicate or record in the tree, so (a) the book's distinction cannot be drawn — the sentence 'none of the categories of Example 1.1.3 is small, but each is locally small' has no in-tree statement, neither half of it; (b) local smallness cannot be assumed as a hypothesis where the book assumes it, nor concluded where the book concludes it; (c) the library's hom-collections are SETOIDS at universe level h, so what is really provided is that hom lands in `Sets` for the ambient level, a relative statement, not the absolute 'a set's worth of morphisms'. Riehl's own Remark 1.2.4 (that the local-smallness hypothesis is invoked only where genuinely needed) therefore has no in-tree analogue either.",
+    "negative_search_log": [
+      "rg -i --glob '*.v' -c -- 'LocallySmall' => 0 files; rg -n --glob '*.v' 'SmallCategory|Small_|IsSmall|LocallySmall' => 0 declaration hits.",
+      "rg -n --glob '*.v' 'locally small' -- 3 hits, all background-essay prose: Functor/Hom.v:18 ('For a (locally small) category C ...'), Functor/Representable.v:29, Construction/Enriched.v:26, Structure/Complete.v:83. None is a definition or a hypothesis."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently, with the same both-ways reading (unconditional in content, missing as a predicate). Cited lines VERIFIED: Functor/Hom.v:49 'Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets' - and I confirmed it takes an ARBITRARY C with no side condition, which is precisely what makes the local-smallness content unconditional; Theory/Category.v:111 for the hom field at Type@{h}. Both registered (_CoqProject:139, :406). rg -i 'LocallySmall' over *.v -> 0 hits, so no predicate exists and the book's discriminating sentence has no in-tree statement. The strength_comparison's simultaneous 'stronger as a fact / weaker as a definition' framing is honest and precise, not a hedge."
+    }
+  },
+  {
+    "id": "riehl:1.1:def8",
+    "classification": "PRESENT",
+    "aliases": [
+      "hom-set notation C(X,Y) / Hom(X,Y)",
+      "hom-set, homset, hom-object",
+      "x ~> y, x ~{C}~> y, hom[C] x y",
+      "hom-functor / Hom : C^op x C -> Set",
+      "morphism collection between a fixed pair of objects"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Category.v",
+        "line": 111,
+        "symbol": "Category",
+        "intree_statement": "Class Category@{o h p | h <= p} := { obj : Type@{o}; uhom := Type@{h} : Type@{h+1}; hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid@{h p} (X ~> Y); ... }.  [notations at lines 158-167: Notation \"hom[ C ]\" := (@hom C); Notation \"x ~> y\" := (@hom _ x y); Notation \"x ~{ C }~> y\" := (@hom C x y)]"
+      },
+      {
+        "file": "Functor/Hom.v",
+        "line": 49,
+        "symbol": "Hom",
+        "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p); is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Notation 1.1.8: for a locally small category C the set of morphisms from X to Y is written C(X,Y) or Hom(X,Y) — display (1.1.9) — and is called the HOM-SET whether or not its elements are homomorphisms of any kind; the same notation is adopted for the collection of morphisms between a fixed pair of objects even when C is not locally small.",
+      "intree": "hom : obj → obj → uhom where \"a ~> b\" := (hom a b); homset : ∀ X Y, Setoid (X ~> Y)  — with notations hom[ C ], x ~> y, x ~{ C }~> y — and Hom `(C : Category) : C^op ∏ C ⟶ Sets sending (a,b) to the setoid {| carrier := @hom C a b; is_setoid := @homset C a b |}",
+      "strength_comparison": "same. The notion the notation names — the collection of morphisms between a fixed pair of objects, as a first-class object — is a primitive field of the Category class, together with a dedicated notation family (hom[C], x ~> y, x ~{C}~> y, and the typed-equality form f << A ~~> B >> g at line 193). `Hom` then realizes Riehl's 'the hom-set is an object of Set' by exhibiting the hom-collection as an object of `Sets`. The only differences are presentational and are exactly the sanctioned setoid rephrasing: the hom-collection is a SETOID (a carrier plus ≈) rather than a bare set, and the ASCII/unicode spelling is `x ~{C}~> y` / `hom[C] x y` rather than C(X,Y) / Hom(X,Y). Riehl's final clause — that the same notation is used even when C is not locally small — is matched trivially, since the in-tree `hom` field is unconditional (see riehl:1.1:def7)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently. Cited lines VERIFIED: Theory/Category.v:111 for the hom / homset fields, and I checked the notation block myself - 'hom[ C ]' at line 160, 'x ~> y' at 163, 'x ~{ C }~> y' at 165, and the typed-equality form 'f << A ~~> B >> g' at 193, all inside the claimed 158-167/193 range. Functor/Hom.v:49 Hom verified. strength_comparison 'same' is honest: the hom-collection is a primitive field with a dedicated notation family, exhibited as an object of Sets by Hom, and the setoid-vs-set difference is exactly the sanctioned rephrasing. Riehl's trailing clause (same notation when C is not locally small) is matched trivially because the hom field is unconditional."
+    }
+  },
+  {
+    "id": "riehl:1.1:def10",
+    "classification": "PRESENT",
+    "aliases": [
+      "isomorphism / invertible morphism / iso",
+      "two-sided inverse, gf = id_X and fg = id_Y",
+      "isomorphic objects X ≅ Y",
+      "Class Isomorphism / IsIsomorphism / iso_to_from / iso_from_to",
+      "core groupoid, maximal subgroupoid"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 113,
+        "symbol": "Isomorphism",
+        "intree_statement": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id }.  Infix \"≅\" := Isomorphism (at level 91) : category_scope."
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 133,
+        "symbol": "IsIsomorphism",
+        "intree_statement": "Class IsIsomorphism {x y : C} (f : x ~> y) := { two_sided_inverse : y ~> x; is_right_inverse : f ∘ two_sided_inverse ≈ id; is_left_inverse : two_sided_inverse ∘ f ≈ id }.  [with Instance IsIsoToIso {x y} (f : x ~> y) (_ : IsIsomorphism f) : Isomorphism x y at line 141]"
+      },
+      {
+        "file": "Theory/Isomorphism.v",
+        "line": 187,
+        "symbol": "iso_equivalence",
+        "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }."
+      }
+    ],
+    "statement_record": {
+      "book": "An ISOMORPHISM in a category is a morphism f : X -> Y for which there exists g : Y -> X with gf = id_X and fg = id_Y. Objects X and Y are ISOMORPHIC, written X ≅ Y, when some isomorphism between them exists; a morphism f is said to define an isomorphism when it is one.",
+      "intree": "Class Isomorphism (x y : C) : Type := { to : x ~> y; from : y ~> x; iso_to_from : to ∘ from ≈ id; iso_from_to : from ∘ to ≈ id } ; Class IsIsomorphism {x y} (f : x ~> y) := { two_sided_inverse : y ~> x; is_right_inverse : f ∘ two_sided_inverse ≈ id; is_left_inverse : two_sided_inverse ∘ f ≈ id }",
+      "strength_comparison": "same. Both of the book's two phrasings are present and are linked: the object-level `Isomorphism x y` (notation x ≅ y) and the morphism-level predicate `IsIsomorphism f` ('f defines an isomorphism'), with `IsIsoToIso` converting the second into the first. The equations are the book's exactly, up to the setoid rephrasing (≈ for =). One presentational difference worth naming: the in-tree `x ≅ y` is a Type of isomorphism DATA (a chosen inverse pair) rather than the book's propositional 'there exists an isomorphism' — this is proof-relevant rather than truncated. It is immaterial to the content because inverses are unique: `comp_inverse_unique (f : x ~> y) (g g' : y ~> x) : f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'` (line 301), and `to_equiv_implies_iso_equiv` shows an isomorphism is determined by its `to` component alone. The book's implicit claim that ≅ is an equivalence relation on objects is proved as `iso_equivalence`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently at Theory/Isomorphism.v. Cited lines VERIFIED: :113 'Class Isomorphism (x y : C) : Type', :133 'Class IsIsomorphism {x y : C} (f : x ~> y)', :187 'iso_equivalence', :301 'Lemma comp_inverse_unique'; file registered at _CoqProject:444. One trivial off-by-one inside a bracketed aside: IsIsoToIso is at line 140, not 141 - immaterial, the symbol exists and does what is claimed. The record's honesty about the proof-relevant vs truncated difference (in-tree ≅ is chosen inverse DATA, not mere existence) is exactly right, and it correctly discharges the worry by citing comp_inverse_unique and to_equiv_implies_iso_equiv."
+    }
+  }
+]

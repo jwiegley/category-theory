@@ -1,0 +1,324 @@
+[
+  {
+    "id": "maclane:X.4:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "coends give the Lan_K colimits",
+      "agreement of coend formula (X.4.1) and colimit formula (X.3.10) for Lan",
+      "Lan_K T c = integral^m C(Km,c).Tm = colim over (K/c)",
+      "copower coend reduces to comma-category colimit",
+      "coend = colimit for left Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Assuming the coends of Theorem X.4.1 exist, prove they yield exactly the colimits required by the colimit formula (X.3.10) for Lan_K (i.e. the coend presentation of the left Kan extension agrees with its pointwise comma-category-colimit presentation).",
+      "intree": "(no in-tree counterpart: neither the coend formula for Lan nor the comma-category colimit formula for Lan is formalized; the two Lan presentations are not stated, so their agreement cannot be)",
+      "strength_comparison": "absent: the exercise presupposes both the X.4.1 coend formula and the X.3.10 comma-colimit formula for Lan_K, neither of which exists in-tree"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rliE 'kan.?ext|Ran|Lan' --include=*.v . -> only Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v are Kan-extension files",
+      "Theory/Kan/Extension.v builds Lan/Ran ONLY as global adjoints (Lan : [A,C] ⟶ [B,C], lan_adjoint : Lan ⊣ Induced); no colimit-over-(K/c) formula and no coend formula appear",
+      "Theory/Kan/Extension.v:74-79 header explicitly states: 'Pointwise, the left extension at b is a colimit over the comma category F ↓ b ... equivalently Kelly's coend and end formulas ... the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'",
+      "grep -rin 'copower' --include=*.v . -> 0 hits (the copower C(Km,c).Tm integrand cannot even be expressed in-tree)",
+      "grep in Construction/Comma/Limit.v for Ran/Lan/colimit -> none (it proves Comma_Complete, limits EXIST in comma categories, not the Lan comma-colimit formula)",
+      "Construction/Day.v realizes ONE coend that is a Lan (Day convolution as Lan of F⊗G along ⨂) but never proves the Day tensor equals a Kan extension; it is stated only in header prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search reproduced: no coend or comma-colimit formula for Lan; Theory/Kan/Extension.v:79 and Structure/Coend.v:110-112 both flag the pointwise-Lan coend formula as 'a bridge not yet formalized'. `copower` grep = 0 hits, so the (X.4.1)-vs-(X.3.10) agreement is inexpressible. Evidence/neg-log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.4:ex2",
+    "classification": "PRESENT",
+    "aliases": [
+      "Lan_K and Ran_K as functors of the variable T",
+      "functoriality of the Kan extension in T",
+      "Lan_K, Ran_K : A^M ⟶ A^C",
+      "left/right adjoint of the restriction functor A^K",
+      "Lan ⊣ Induced, Induced ⊣ Ran"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 143,
+        "symbol": "Ran (field of Class RightKan)",
+        "intree_statement": "Ran : [A, C] ⟶ [B, C];  (* the right Kan extension functor *)   ran_adjoint : Induced ⊣ Ran"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 223,
+        "symbol": "Lan (field of Class LeftKan)",
+        "intree_statement": "Lan : [A, C] ⟶ [B, C];  (* the left Kan extension functor *)   lan_adjoint : Lan ⊣ Induced"
+      }
+    ],
+    "statement_record": {
+      "book": "For fixed K, describe Lan_K T and Ran_K T, where they exist, as functors of the variable T (they are the left resp. right adjoint of the restriction functor A^K : A^C ⟶ A^M, hence functors A^M ⟶ A^C).",
+      "intree": "Class RightKan := { Ran : [A, C] ⟶ [B, C]; ran_adjoint : Induced ⊣ Ran }.  Class LeftKan := { Lan : [A, C] ⟶ [B, C]; lan_adjoint : Lan ⊣ Induced }.  where Induced = (− ◯ F) : [B,C] ⟶ [A,C] is the restriction functor.",
+      "strength_comparison": "same content (Lan_K, Ran_K are honest functors of T and are precisely the adjoints of restriction); intree-stronger in hypothesis: the global classes require ALL Kan extensions along K to exist so that Lan/Ran are total functors, whereas Mac Lane's 'where they exist' phrasing allows a partial functor on the subcategory of extendable T — the functoriality-in-T claim itself is identical"
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PRESENT. Blind search independently found Ran : [A,C] ⟶ [B,C] (line 143) and Lan : [A,C] ⟶ [B,C] (line 223) as the honest adjoint functors of the restriction Induced — exactly 'Lan_K T, Ran_K T as functors of the variable T'. Quotes verified verbatim. strength_comparison is honest: the intree global classes are STRONGER in hypothesis (require all extensions along K to exist) than Mac Lane's 'where they exist'; the functoriality-in-T content is identical, so PRESENT is warranted."
+    }
+  },
+  {
+    "id": "maclane:X.4:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "composition of right Kan extensions (Dubuc)",
+      "Ran_{LK} T exists iff Ran_L(Ran_K T) exists, and they are equal",
+      "iterated / pasted Kan extensions",
+      "functoriality of Ran under composition of the along-functor",
+      "Ran_L ∘ Ran_K = Ran_{L∘K}"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "(Dubuc.) Given that Ran_K T exists and L : C ⟶ D is any functor, prove Ran_{LK} T exists iff Ran_L(Ran_K T) exists, and that then the two functors together with their universal arrows are equal.",
+      "intree": "(no in-tree counterpart: there is no lemma about composing/pasting Kan extensions along composed functors)",
+      "strength_comparison": "absent: no statement relating Ran along L∘K to the iterate Ran_L ∘ Ran_K exists"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rinE 'Ran.*Ran|Lan.*Lan|Ran_\\{?LK|compos.*[Kk]an|[Kk]an.*compos' --include=*.v . -> no Kan-composition lemma (only unrelated 'transform'/'compose' noise)",
+      "Theory/Kan/Extension.v contains only Induced, RightKan/LeftKan, LocalRightKan/LocalLeftKan, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and the aborted left_adjoints_preserve — nothing about iterating extensions",
+      "Structure/Limit/Kan/Extension.v contains only Kan_Limit (limit = Ran along the terminal functor); no composition result",
+      "grep -rin 'Dubuc' across Kan files -> only Monad/Lifting.v (adjoint-triangle theorem), unrelated to Kan-extension composition"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search found no Kan composition/pasting lemma (Ran_{LK} vs Ran_L∘Ran_K). Verified 'Dubuc' occurs tree-wide only in Monad/Lifting.v (adjoint-triangle theorem) + citations in Structure/Terminal.v, Theory/Universal/Arrow.v — none about Kan-extension composition. neg-log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.4:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "left Kan extension as a coend in the functor category A^C (Ulmer; Day-Kelly)",
+      "Lan_K T = integral^m C(Km,-).Tm",
+      "bifunctor <m',m> |-> C(Km',-).Tm : M^op x M ⟶ A^C has a coend iff Lan_K T exists",
+      "coend presentation of Lan with copowers",
+      "Day-Kelly Kan-extension coend"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "(Ulmer; Day-Kelly.) If all copowers C(Km',c).Tm exist, show <m',m> |-> C(Km',-).Tm is the object part of a functor M^op x M ⟶ A^C; prove T has a left Kan extension along K iff this bifunctor has a coend in A^C, and then Lan_K T = integral^m C(Km,-).Tm, describing the universal arrow via the coend.",
+      "intree": "(no in-tree counterpart: the coend calculus (Structure/Coend.v, Instance/Sets/Coend.v) exists but is never connected to Lan; copowers C(Km',c).Tm are not defined, so the integrand bifunctor cannot be formed)",
+      "strength_comparison": "absent: the characterizing formula Lan_K T = integral^m C(Km,-).Tm is not stated; copowers (set-indexed coproducts tensoring an object) are entirely missing, so even the integrand is inexpressible"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'copower' --include=*.v . -> 0 hits; grep -rinE 'set.?tensor|tensoring|powering' -> only monoidal tensor-of-two-objects, never a set-copower",
+      "Structure/Coend.v provides coend_obj/coend_inj/coend_ump/Build_Coend for F : C^op ∏ C ⟶ D but has no Kan-extension consumer",
+      "Theory/Kan/Extension.v:74-79 and Structure/Coend.v:110-113 both explicitly flag the pointwise-Lan coend formula as the 'bridge not yet formalized' / 'the coend presentation ... that Theory/Kan/Extension.v instead builds through an adjunction'",
+      "Construction/Day.v is the only place a coend is-a-Lan, but it constructs the Day coend directly and does not prove Day = Lan_⨂(F⊗G)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search: `copower` = 0 hits; coend calculus (Structure/Coend.v) has no Kan consumer; the integrand C(Km',-)·Tm is inexpressible. Day.v realizes one coend that is mathematically a Lan but never proves Day = Lan (prose only). neg-log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.4:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "existence of Ran_K T via the end/limit formula in A^C (Ulmer)",
+      "Ran_K T = integral_m Tm^{C(-,Km)}",
+      "right Kan extension as an end of powers in the functor category",
+      "necessary-and-sufficient end condition for Ran_K T",
+      "dual of Day-Kelly Kan-extension coend"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "(Ulmer.) Dually to Exercise 4, obtain a necessary and sufficient condition for the existence of Ran_K T in terms of the limit/end formula Ran_K T = integral_m Tm^{C(-,Km)}, interpreted in the functor category A^C.",
+      "intree": "(no in-tree counterpart: the end calculus (Structure/End.v, Instance/Sets/End.v) exists but is never connected to Ran; powers a^X of an object by a set are not defined, so the integrand Tm^{C(-,Km)} cannot be formed)",
+      "strength_comparison": "absent: the end formula for Ran and the existence iff are not stated; powers (set-indexed products) are missing, so the integrand is inexpressible"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'copower' -> 0; no dual 'power a^X of object by set' construction found (grep for powering/tensoring returns only monoidal-tensor hits)",
+      "Structure/End.v / Instance/Sets/End.v provide the end but have no Kan-extension consumer",
+      "Theory/Kan/Extension.v:74-79 header: end/coend pointwise formulas are 'a bridge not yet formalized'; Structure/Coend.v:110-113 confirms the extension is built through an adjunction, not the end/coend",
+      "no theorem stating Ran_K T = integral_m Tm^{C(-,Km)} anywhere (grep of both Kan files and End files)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Dual of ex4; blind search found no end formula for Ran, no set-power a^X construction. Structure/End.v / Instance/Sets/End.v have no Kan consumer. neg-log accurate."
+    }
+  },
+  {
+    "id": "maclane:X.5:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "preservation of a right Kan extension by a functor",
+      "G preserves Ran_K T (with counit G(epsilon))",
+      "preserves_right_Kan / preserves_left_Kan",
+      "G o Ran_K T is a right Kan extension of GT along K",
+      "Kan-extension-preserving functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 313,
+        "symbol": "preserves_right_Kan",
+        "intree_statement": "Definition preserves_right_Kan `(R : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 307,
+        "symbol": "preserves_left_Kan",
+        "intree_statement": "Definition preserves_left_Kan `(L : E ⟶ F) := ∀ C D (G : C ⟶ E) (K : C ⟶ D) `(!LeftKan K E) `(!LeftKan K F), L ◯ Lan K G ≈ Lan K (L ◯ G)."
+      }
+    ],
+    "statement_record": {
+      "book": "Given C -K-> M -T-> A -G-> X and a right Kan extension Ran_K T with counit epsilon, G PRESERVES this right Kan extension when (G o Ran_K T, G(epsilon)) is itself a right Kan extension of GT along K; Mac Lane notes this is STRICTLY STRONGER than the bare isomorphism G o Ran_K T ~= Ran_K(GT).",
+      "intree": "preserves_right_Kan R := for all C D G K with global RightKan on E and F, R ◯ Ran K G ≈ Ran K (R ◯ G)  — where ≈ between functors is natural isomorphism (Functor_Setoid_Nat_Iso, Instance/Fun.v).",
+      "strength_comparison": "intree-WEAKER, on two axes. (1) It encodes exactly the bare natural isomorphism R ◯ Ran K G ≅ Ran K (R ◯ G) that Mac Lane explicitly calls out as strictly weaker than genuine preservation; it never asserts the canonical comparison (the whiskered counit G(epsilon)) is the one witnessing the Kan extension. (2) It quantifies over the GLOBAL adjoints RightKan K E, RightKan K F (all extensions along K exist) and is a 'preserves ALL' predicate on R, so it cannot express 'G preserves THIS particular local Ran_K T' — the LocalRightKan record with its counit ran_transform is present but no preservation predicate is defined over it."
+    },
+    "gap": "The library's preserves_right_Kan captures only the weak bare-natural-iso notion (R ◯ Ran ≅ Ran(R◯−)), not Mac Lane's counit-universality (G ∘ Ran_K T being a Kan extension with counit G·ε). It is also global-only (uses the RightKan adjoint classes, 'preserves all'), with no predicate for preservation of a single specified local Kan extension. Missing: (a) the strong counit-tracking definition; (b) its application to LocalRightKan; (c) the theorem that the two are inequivalent in general.",
+    "negative_search_log": [
+      "grep -rinE 'preserv.{0,30}[Kk]an' --include=*.v . -> only preserves_left_Kan / preserves_right_Kan (defs) and the aborted left_adjoints_preserve; no counit-based preservation predicate",
+      "no preservation predicate stated over LocalRightKan/ran_transform (the local counit) — checked Theory/Kan/Extension.v in full"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Blind search independently found preserves_right_Kan (line 313) / preserves_left_Kan (line 307) defined as the BARE natural iso R◯Ran K G ≈ Ran K(R◯G) — precisely the notion Mac Lane's def1 calls 'strictly stronger than the bare isomorphism' and thus the WEAKER one. The counit-tracking definition (G(ε) witnessing the extension) and any preservation predicate over the local LocalRightKan.ran_transform are genuinely absent. This is a same-name-weaker-statement; gap and dual-axis strength_comparison are accurate and honest."
+    }
+  },
+  {
+    "id": "maclane:X.5:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "right adjoints preserve right Kan extensions",
+      "left adjoints preserve left Kan extensions (dual)",
+      "adjunction promoted to functor categories: Nat(FH,L) ~= Nat(H,GL)",
+      "left_adjoint_impl / left_adjoints_preserve",
+      "L ⊣ R implies preserves_left_Kan L"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 328,
+        "symbol": "left_adjoint_impl",
+        "intree_statement": "Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).   (* PROVEN, Qed at line 374 *)"
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 386,
+        "symbol": "left_adjoints_preserve",
+        "intree_statement": "Theorem left_adjoints_preserve `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.  ... admit. admit. admit. Abort.  (* NOT in the environment: 3 admits, Abort at line 438 *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If G : A ⟶ X has a left adjoint F, then G preserves every right Kan extension that exists in A. Proof uses the adjunction bijection A(Fx,a) ~= X(x,Ga) promoted to Nat(FH,L) ~= Nat(H,GL) and the definition of the right Kan extension.",
+      "intree": "left_adjoint_impl (proven): L ⊣ R -> [E,D](L◯G,H) ≊ [E,C](G, R◯H) — exactly Mac Lane's promoted-adjunction bijection Nat(FH,L) ~= Nat(H,GL) (X.5 formula (2)). left_adjoints_preserve (Aborted): L ⊣ R → preserves_left_Kan L — the DUAL of thm1, attempted but abandoned with three admits, so introduced into no environment and adding no axioms.",
+      "strength_comparison": "intree-WEAKER/incomplete: the key proof ingredient (the hom-iso lemma left_adjoint_impl = X.5 (2)) is fully proven, but the preservation theorem itself is only set up and its (dual) proof left_adjoints_preserve is Aborted (3 admits); thus NO theorem 'adjoints preserve Kan extensions' is in the environment. Additionally the target predicate preserves_left_Kan is the weak bare-natural-iso notion (see def1)."
+    },
+    "gap": "The theorem is not proven: left_adjoints_preserve (the dual form, left adjoints preserve left Kan) is Aborted with three admits, and the right-adjoint/right-Kan form Mac Lane actually states is not even attempted. What exists: the preservation vocabulary (preserves_{left,right}_Kan) and the crucial hom-iso lemma left_adjoint_impl (= X.5 formula (2), proven). Remaining: discharge the three admitted isomorphism/identity obligations (the header notes Adjunction/Continuity.v's right_adjoint_preserves_limits is the natural toolkit) and, ideally, state the theorem against the strong (counit-tracking) preservation of def1.",
+    "negative_search_log": [
+      "grep -n 'Abort|Qed|admit' Theory/Kan/Extension.v -> left_adjoints_preserve ends in Abort (438) after admits at 433/435/437; left_adjoint_impl Qed at 374",
+      "grep -rinE 'preserv.{0,30}[Kk]an' -> no proven adjoint-preserves-Kan theorem anywhere else"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED PARTIAL. Blind search reproduced both cited symbols: left_adjoint_impl (Qed at 374) is exactly Mac Lane's X.5 formula (2) Nat(FH,L)≅Nat(H,GL) [with L:=F left adjoint, R:=G it reads [E,D](F◯H,L)≊[E,C](H,G◯L)], a proven, correctly-attributed component of THIS theorem; left_adjoints_preserve (386) is the DUAL and is Aborted (admits at 433/435/437, Abort 438), adding no axioms. The stated theorem (right adjoints preserve right Kan) is not in the environment. 'Some of the item exists' (the labeled formula (2)) with a precisely-stated gap → PARTIAL is defensible and the strength_comparison is scrupulously honest (explicitly: 'NO theorem adjoints preserve Kan extensions is in the environment')."
+    }
+  },
+  {
+    "id": "maclane:X.5:cor2",
+    "classification": "ABSENT",
+    "aliases": [
+      "representables preserve right Kan extensions",
+      "A(a,R-) is the right Kan extension of A(a,T-)",
+      "covariant hom-functor preserves Ran",
+      "copower X.a is left adjoint to representable A(a,-)",
+      "corepresentable Kan preservation"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "If R with counit epsilon : RK -> T is a right Kan extension and A has small hom-sets and all small copowers, then for each a in A the functor A(a,R-) : C -> Set is the right Kan extension of A(a,T-) : M -> Set with counit A(a,epsilon-); proved because A(a,-) has the left adjoint X |-> X.a (the copower).",
+      "intree": "(no in-tree counterpart: the covariant representable A(a,-) : A ⟶ Sets exists (Functor/Hom.v) but there is no theorem that it preserves Kan extensions, and copowers X.a — needed for its left adjoint — are not defined)",
+      "strength_comparison": "absent: neither the corollary's conclusion (A(a,R-) is Ran of A(a,T-)) nor its proof ingredient (copower left-adjoint to representable) exists; it is a corollary of X.5:thm1, whose in-tree proof is Aborted"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'copower' --include=*.v . -> 0 hits: the left adjoint X |-> X.a to A(a,-) cannot be formed",
+      "grep -rinE 'representabl.{0,40}(preserv|kan)|hom.{0,20}preserv' --include=*.v . -> no 'representable/hom-functor preserves Kan (or limits)' theorem",
+      "the corollary depends on maclane:X.5:thm1, whose only in-tree proof attempt (left_adjoints_preserve) is Aborted",
+      "Functor/Hom.v supplies the covariant hom A(a,-) : A ⟶ Sets, but no preservation statement is attached"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search: Functor/Hom.v supplies the covariant representable Hom(a,-):C⟶Sets but attaches NO Kan-preservation theorem; `copower` = 0 hits so the left adjoint X↦X·a is undefined; corollary depends on thm1 whose only proof attempt is Aborted. neg-log/evidence accurate."
+    }
+  },
+  {
+    "id": "maclane:X.5:def2",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise right Kan extension",
+      "Kan extension preserved by all representables A(a,-)",
+      "genuine / well-behaved / honest Kan extension",
+      "pointwise Ran",
+      "representably-preserved right Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "Given C -K-> M -T-> A with A having small hom-sets, a right Kan extension R of T along K is POINTWISE when it is preserved by all representable functors A(a,-) : A -> Set (a in A).",
+      "intree": "(no in-tree counterpart: 'pointwise Kan extension' is named only in header/motivational prose, never defined as a predicate)",
+      "strength_comparison": "absent: no in-tree definition of a pointwise Kan extension; the concept it would rest on (representables preserving Kan extensions, cor2) is itself absent"
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'pointwise' --include=*.v . -> only header prose: Theory/Kan/Extension.v:74 ('Pointwise, the left extension ...') and Theory/DoubleCategory.v:140 (equipments as the home for 'pointwise Kan extensions') — no definition; all other hits are 'pointwise product / pointwise equality / pointwise addition'",
+      "no predicate over LocalRightKan / RightKan asserting preservation by all representables (checked Theory/Kan/Extension.v in full)",
+      "Structure/Limit/Weighted.v (weighted limits by representability) never mentions Kan/pointwise/Ran — the natural home for a pointwise-as-weighted-limit definition, but the bridge is absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search: 'pointwise' appears only in motivational prose (Theory/Kan/Extension.v:74, Theory/DoubleCategory.v:140) and unrelated 'pointwise product/equality' hits; no predicate defines a pointwise/representably-preserved Kan extension. Verified Structure/Limit/Weighted.v (natural home) has ZERO Kan/pointwise/Ran mentions. Classifier correctly did NOT conflate LocalRightKan (single-functor universal property) with 'pointwise' — they are genuinely distinct. Accurate."
+    }
+  },
+  {
+    "id": "maclane:X.5:thm3",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise right Kan extension exists iff comma-category limits exist",
+      "Ran_K T is the pointwise limit over (c/K) (formula of Theorem X.3.1)",
+      "existence criterion for the pointwise Ran",
+      "b↓F limit formula for the right Kan extension",
+      "pointwise Ran = limit of (c ↓ K) -> M -T-> A"
+    ],
+    "evidence": [],
+    "statement_record": {
+      "book": "A functor T : M -> A has a POINTWISE right Kan extension along K : M -> C iff for every c in C the limit of the composite (c ↓ K) -> M -T-> A exists; when it does, Ran_K T is given by the limit formula of Theorem X.3.1.",
+      "intree": "(no in-tree counterpart: the general comma-category (c↓K) limit formula for Ran is not formalized, and the 'pointwise' notion it quantifies is undefined; the only Ran-as-limit result is Kan_Limit, the degenerate K = terminal-functor special case)",
+      "strength_comparison": "absent: all three of the theorem's ingredients — the pointwise notion (def2), the general comma-category limit formula (X.3.1), and the existence iff — are missing. The nearest in-tree result, Kan_Limit : Lim ≅ Ran (Erase J) F ttt (Structure/Limit/Kan/Extension.v:46), is the special case where K is the unique functor J ⟶ 1 (so the comma category degenerates to J and no pointwise/comma generality is involved); it is really the content of X.7:thm1, not X.5:thm3."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "grep -rin 'pointwise' --include=*.v . -> no pointwise-Kan definition (see def2 log)",
+      "Structure/Limit/Kan/Extension.v contains ONLY Kan_Limit (limit ≅ Ran along the terminal functor Erase J); no general Ran = lim over (c↓K) formula",
+      "Construction/Comma/Limit.v proves Comma_Complete (comma categories are complete), NOT that Ran is computed as a comma limit — no Ran/Lan/colimit symbols there",
+      "Theory/Kan/Extension.v:74-79 header: the pointwise limit-over-(b↓F) / end formula is 'a bridge not yet formalized'",
+      "grep -rinE 'representabl.{0,40}(preserv|kan)' -> the forward direction's tool ('A(a,-) preserves limits so the limit-formula extension is pointwise') is also absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED ABSENT. Blind search: no pointwise notion, no general (c↓K) comma-limit formula for Ran. The nearest result Kan_Limit (Structure/Limit/Kan/Extension.v:46, Lim ≅ Ran(Erase J)F ttt) is only the terminal-functor K=!:J⟶1 special case (comma degenerates to J) — genuinely the content of X.7:thm1, not the general X.5:thm3. Construction/Comma/Limit.v proves Comma_Complete, not a Ran-as-comma-limit formula. Sophisticated, accurate distinction."
+    }
+  }
+]

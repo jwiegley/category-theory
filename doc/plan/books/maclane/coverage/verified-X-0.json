@@ -1,0 +1,282 @@
+[
+  {
+    "id": "maclane:X.1:remark1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "diagonal functor adjunction",
+      "Colim ⊣ Δ ⊣ Lim",
+      "Δ : C ⟶ [J,C] has Lim as right adjoint and Colim as left adjoint",
+      "constant-diagram functor adjoint sandwich",
+      "coproduct ⊣ diagonal ⊣ product (binary case)"
+    ],
+    "evidence": [
+      {
+        "file": "Functor/Diagonal.v",
+        "line": 33,
+        "symbol": "Diagonal",
+        "intree_statement": "Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := { fobj := fun x => {| fobj := fun _ => x ; fmap := fun _ _ _ => id[x] |}; ... }  (the general diagonal Δ[J], notation Δ(c))"
+      },
+      {
+        "file": "Adjunction/Diagonal/Product.v",
+        "line": 36,
+        "symbol": "Diagonal_Product_Adjunction",
+        "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C)  (the binary-product special case Δ ⊣ ×)"
+      },
+      {
+        "file": "Structure/Limit/Kan/Extension.v",
+        "line": 46,
+        "symbol": "Kan_Limit",
+        "intree_statement": "Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} : Lim ≅ Ran (Erase J) F ttt  (limit as pointwise value of the right Kan extension along the terminal functor, via ran_adjoint : Induced ⊣ Ran)"
+      }
+    ],
+    "statement_record": {
+      "book": "The diagonal (constant-diagram) functor Δ : C ⟶ C^J has the colimit functor as a left adjoint and the limit functor as a right adjoint, Colim ⊣ Δ ⊣ Lim, whenever the J-indexed (co)limits exist; this is the adjoint characterization of (co)limits.",
+      "intree": "General Δ = Diagonal J : C ⟶ [J,C] (Functor/Diagonal.v:33); the binary special case Diagonal_Product C ⊣ ×(C) (Adjunction/Diagonal/Product.v:36); and Kan_Limit exhibiting Lim ≅ Ran(Erase J) F via ran_adjoint : Induced ⊣ Ran (Structure/Limit/Kan/Extension.v).",
+      "strength_comparison": "intree-weaker: the general J-indexed adjunction Colim ⊣ Δ ⊣ Lim is not an in-tree theorem. Only the binary (co)product special case (J discrete of size 2) is a genuine adjunction. Limits/colimits are existence classes (Structure/Limit.v's Limit), not functors [J,C] ⟶ C adjoint to Δ. The Kan route yields Lim ≅ Ran(Erase J) F pointwise via ran_adjoint : Induced ⊣ Ran, but that is stated as precomposition ⊣ Ran under a standing RightKan hypothesis, not literally as Δ ⊣ Lim, and gives no Colim ⊣ Δ statement."
+    },
+    "gap": "The general adjoint characterization Colim ⊣ Δ ⊣ Lim for an arbitrary diagram shape J is not established as a theorem. There is no in-tree Lim/Colim functor [J,C] ⟶ C carrying an adjunction to the diagonal Δ : C ⟶ [J,C]; limits/colimits exist only as the per-diagram existence class Limit F. The general fact appears only in prose (Functor/Diagonal.v:30, Instance/Fun.v:70, Structure/Limit.v:80-82). Present concretely: the binary product adjunction Δ ⊣ × (and the Kan-extension form Induced ⊣ Ran giving Lim pointwise).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. All three evidence lines verified exact and files built (.vo present): Functor/Diagonal.v:33 (general Δ), Adjunction/Diagonal/Product.v:36 (binary Δ ⊣ × — the only genuine literal adjunction), Structure/Limit/Kan/Extension.v:46 (Kan_Limit). Limit is a per-diagram existence Class (Structure/Limit.v:113), not a functor adjoint to the literal Diagonal. I dug into the Kan route to test a possible PRESENT: ran_adjoint : Induced ⊣ Ran (Theory/Kan/Extension.v:145) with F = Erase does specialize toward Δ ⊣ Lim under [1,C] ≅ C, but (a) it is the general precomposition-Kan adjunction, never packaged as a named Δ ⊣ Lim; (b) Kan_Limit only extracts a pointwise object iso for a single diagram, not the adjunction; (c) the colimit side (lan_adjoint : Lan ⊣ Induced exists as general machinery, Theory/Kan/Extension.v:222) is never specialized to a Colim ⊣ Δ statement, and no full sandwich exists. The classifier's strength_comparison is honest on all of this. PARTIAL is the correct call. Prose 'colim ⊣ Δ ⊣ lim' comments describe the mathematics without falsely claiming formalization — no library defect."
+    }
+  },
+  {
+    "id": "maclane:X.1:remark2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "initial object as a limit of the identity functor",
+      "e = Lim Id_C",
+      "initial object as colimit of the empty functor 0 ⟶ C",
+      "terminal object = limit of the empty diagram (dual)",
+      "Lim Id"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Terminal.v",
+        "line": 33,
+        "symbol": "Terminal_Limit",
+        "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C  (terminal object = limit of the empty diagram; dually an initial object is the colimit of the empty diagram, per the file header and Structure/Initial.v)"
+      }
+    ],
+    "statement_record": {
+      "book": "An initial object of C is simultaneously the colimit of the empty functor 0 ⟶ C and the limit of the identity functor Id_C; conversely e = Lim Id_C whenever that limit exists.",
+      "intree": "Terminal_Limit : for F : 0 ⟶ C, Limit F ↔ Terminal C — i.e. the terminal object is the limit of the empty diagram (dually, initial = colimit of the empty diagram). No result equates an initial object with the limit of the identity functor.",
+      "strength_comparison": "intree-weaker: only the empty-diagram conjunct is present (terminal = limit of empty diagram, hence dually initial = colimit of empty diagram). The distinctive conjunct e = Lim Id_C — the initial object as the limit of the whole identity functor — has no in-tree counterpart."
+    },
+    "gap": "The claim 'initial object = limit of the identity functor Id_C' (e = Lim Id_C when the limit exists) is absent: there is no in-tree result about limits of the identity functor, and no theorem connecting such a limit to an initial object (this is Lemma 1's content, also absent — maclane:X.1:lem1). Only the trivial conjunct (initial object = colimit of the empty diagram) is present, as the dual of Terminal_Limit.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. Terminal_Limit verified at Structure/Limit/Terminal.v:33 (file built): the theorem is universally quantified over C, so applying it at C^op gives Colimit-of-empty ↔ Initial C — the empty-diagram conjunct is genuinely present in substance, not mere prose. The distinctive conjunct e = Lim Id_C (limit of the identity functor = initial object) has no in-tree counterpart; my blind searches for 'Limit Id', 'limit of the identity', cone-over-identity all came back empty, matching lem1's absence. PARTIAL with the stated precise gap is the honest, most-informative classification."
+    }
+  },
+  {
+    "id": "maclane:X.1:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "limiting cone over the identity yields an initial object",
+      "limit of the identity functor is an initial object",
+      "cone d ⇒ Id_C whose restriction is limiting ⟹ d initial",
+      "initial object from a limiting cone",
+      "Lim Id_C = initial object"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Limit\\s*\\(?Id|Limit\\s+Id|Colimit\\s+Id|@Limit.*Id\\[|Lim.*Id\\[C\\]|Id\\[C\\].*Lim' -- 0 hits (no limit of the identity functor anywhere)",
+      "rg -ni 'limiting cone.*initial|cone.*Id_C|d => Id|=> Id\\[' -- only unrelated hits (monoidal/graded id[.] noise); no cone-over-identity-implies-initial result",
+      "rg -ni 'limit of the identity|identity.*limit|initial.*limit|limit.*initial' -- only 'initial = colimit of empty diagram' prose and initial-algebra/colimit noise; nothing lifting a limit of Id (or of a comma projection) to an initial object",
+      "rg -ni 'limit|identity functor|cone' Structure/Initial.v -- only 'colimit of the empty diagram' (line 33) and 'initial cocone' (line 48); no limiting-cone-gives-initial lemma",
+      "Building blocks exist (Structure/Cone.v cones, Structure/Limit.v Limit, Structure/Initial.v Initial) but the implication of Lemma 1 — a limiting cone over (a subdiagram of) Id_C forces initiality — is not stated or proved."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My own searches for cone-over-identity / limit-of-Id / 'limiting cone ⟹ initial' returned nothing; the only initial-object construction in-tree is the Freyd product-then-equalizer of Theory/WeaklyInitial.v (initial_from_weakly_initial), which is Mac Lane V.6, NOT X.1's limit-of-the-identity route. Negative search log is accurate and the building-block files it cites are the right ones. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.1:thm2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "formal criterion for the existence of a left adjoint",
+      "left adjoint iff preserves limits and comma has a limit",
+      "Fx = Lim(Q : (x↓G) ⟶ A)",
+      "universal arrow from comma-category limit",
+      "adjoint functor theorem (formal / pre-solution-set form)",
+      "RAPL converse via comma limits"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 183,
+        "symbol": "rapl_is_alimit",
+        "intree_statement": "Definition rapl_is_alimit : IsALimit (U ◯ G) (U L) := ...  (RAPL: a right adjoint U carries a limit L of G to a limit of U ◯ G — the forward conjunct (i) 'G preserves limits')"
+      },
+      {
+        "file": "Theory/Universal/Arrow.v",
+        "line": 214,
+        "symbol": "AdjunctionFromUniversalArrows",
+        "intree_statement": "Definition AdjunctionFromUniversalArrows (H : forall c : C, UniversalArrow c U) : @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U  (a universal arrow at every object assembles into a left adjoint — Mac Lane IV.1.2, the reverse-direction engine)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U)  (the comma category is complete when C is complete and U preserves image-limits)"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor G : A ⟶ X has a left adjoint iff (i) G preserves all limits existing in A and (ii) for each x the comma projection Q : (x↓G) ⟶ A has a limit in A; and then Fx = Lim(Q) with the transpose of g : x ⟶ Ga given by the limiting-cone leg λ_g : Fx ⟶ Qg = a.",
+      "intree": "rapl_is_alimit (right adjoints preserve limits); AdjunctionFromUniversalArrows (universal arrows at every object ⟹ a left adjoint); Comma_Complete (comma category is complete under C complete + U preserves image-limits); GAFT (Adjunction/GAFT.v:241): Complete C + PreservesImageLimit U + a SolutionSet at each d ⟹ { F : D ⟶ C & F ⊣ U }.",
+      "strength_comparison": "intree-weaker: the forward conjunct (i) is exactly RAPL (rapl_is_alimit) and is fully proven. The reverse direction is available only through the universal-arrow engine (AdjunctionFromUniversalArrows), whose in-tree source of universal arrows is GAFT — the size-repaired Freyd theorem requiring the STRONGER hypotheses 'C complete + a solution set at each object' and Freyd's product-then-equalizer construction, not Theorem 2's hypothesis (ii) 'the comma projection has a limit'. Theorem 2's distinctive construction Fx = Lim(Q : (x↓G) ⟶ A) and its underlying Lemma-1 lifting (a limit of the comma projection is an initial object of the comma) are absent, and the biconditional is not stated as a formal criterion."
+    },
+    "gap": "Missing: (a) the reverse construction Fx = Lim(Q:(x↓G)⟶A) building the universal arrow as the limit of the comma projection, which rests on Lemma 1 (maclane:X.1:lem1, absent); and (b) the biconditional 'G has a left adjoint ⟺ (i)+(ii)' as a formal criterion. The in-tree adjoint-existence route is GAFT (Adjunction/GAFT.v), which reaches F ⊣ U only under strictly stronger hypotheses (completeness of C + a per-object solution set) than Theorem 2's (ii). Present: the forward conjunct RAPL, the universal-arrow⟹adjunction assembly, and comma-category completeness.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached PARTIAL. All three evidence lines verified exact and files built: rapl_is_alimit (Adjunction/Continuity.v:183, forward conjunct RAPL), AdjunctionFromUniversalArrows (Theory/Universal/Arrow.v:214, reverse assembly via UniversalArrow = initial object of the comma), Comma_Complete (Construction/Comma/Limit.v:245 — confirmed it requires full @Complete C, not the single comma limit of Mac Lane's (ii), substantiating the 'stronger hypotheses' gap). Confirmed the only in-tree adjoint-existence route is GAFT (Adjunction/GAFT.v:241) via SolutionSet + Freyd product-then-equalizer (initial_from_weakly_initial), NOT the Fx = Lim(Q over comma) construction, which would require lem1 (absent). PARTIAL with the precise gap is honest and consistent."
+    }
+  },
+  {
+    "id": "maclane:X.1:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "dual of Theorem 2",
+      "formal criterion for the existence of a right adjoint",
+      "right adjoint iff preserves colimits and comma has a colimit",
+      "Ux = Colim of the comma projection",
+      "LAPC converse via comma colimits",
+      "co-universal / terminal arrows assemble a right adjoint"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Continuity.v",
+        "line": 223,
+        "symbol": "left_adjoint_preserves_colimits",
+        "intree_statement": "Definition left_adjoint_preserves_colimits (A : F ⊣ U) : PreservesAllColimits F := fun J G => left_adjoint_preserves_colimit A G  (LAPC: a functor with a right adjoint preserves colimits — the forward conjunct of the dual criterion)"
+      }
+    ],
+    "statement_record": {
+      "book": "The dual of Theorem 2: a functor has a right adjoint iff it preserves all existing colimits and each relevant comma projection has a colimit; the right adjoint is then computed pointwise as that colimit.",
+      "intree": "left_adjoint_preserves_colimits : F ⊣ U ⟹ PreservesAllColimits F (a functor with a right adjoint, i.e. a left adjoint, preserves colimits) — obtained by duality from RAPL.",
+      "strength_comparison": "intree-weaker: only the forward conjunct (LAPC — a functor possessing a right adjoint preserves colimits) is proven. The dual reverse construction (Ux = Colim of the comma projection) is absent, as is the dual assembly 'right adjoint from co-universal (terminal) arrows' — Theory/Universal/Arrow.v builds only LeftAdjointFunctorFromUniversalArrows/AdjunctionFromUniversalArrows; the terminal-arrow dual (terminal object of F ↓ =(c)) is mentioned only in a header comment (Theory/Universal/Arrow.v:24), never constructed. The dual biconditional is not stated."
+    },
+    "gap": "The dual formal criterion is not in-tree beyond its forward half. Missing: the pointwise construction Ux = Colim of the comma projection (dual of Lemma 1 / thm2, absent) and the dual universal-arrow assembly producing a right adjoint from co-universal (terminal) arrows — only the left-adjoint-from-universal-arrows direction exists. Present: LAPC (left_adjoint_preserves_colimits), the dual of the forward preservation conjunct.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass concurs with PARTIAL. left_adjoint_preserves_colimits verified at Adjunction/Continuity.v:223 (file built): F ⊣ U ⟹ PreservesAllColimits F is exactly the forward conjunct of the dual criterion (G with a right adjoint preserves colimits), a principled parallel to thm2's RAPL. The dual reverse construction (Ux = Colim of comma projection) and a right-adjoint-from-terminal-arrows assembly are genuinely absent — Theory/Universal/Arrow.v only builds the left-adjoint-from-universal-arrows direction. PARTIAL is consistent with the thm2 treatment and honest."
+    }
+  },
+  {
+    "id": "maclane:X.1:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Bénabou formal criterion for representability",
+      "K : C ⟶ Set representable iff K preserves limits and (*/K) has a limit",
+      "representable functor from a comma-category limit",
+      "representability via limit preservation",
+      "representing object as Lim of the comma (*/K)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'benabou|bénabou' -- 0 hits",
+      "rg -n 'Representable|represents|Repr' (defs) -- only Functor/Representable.v:46 `Class Representable (F : C ⟶ Sets) := { repr_obj : C; represented : [Hom repr_obj,─] ≅ F }` (the NOTION of representability, i.e. the object of the criterion, not the criterion)",
+      "rg -ni 'representable\\b.*(iff|↔|<->)|(iff|↔).*representable' -- 0 hits (no representability biconditional/criterion)",
+      "rg -l 'PreservesLimit' -- {Adjunction/Continuity, Structure/Limit, Structure/Limit/Preservation, Theory/Equivalence/Limit, Construction/Comma/Limit}.v only; none states 'hom-functor / representable preserves limits' (the forward half of the criterion)",
+      "rg -ni 'Hom.*Preserv|Preserv.*Hom|representable.*preserv|preserv.*representable' -- 0 hits; Functor/Hom.v and Functor/Hom/Yoneda.v prove no limit-preservation, only Yoneda",
+      "rg -ni 'representable|preserv|universal element' Structure/UniversalProperty.v -- only the Yoneda/universal-element characterization of representability (a DIFFERENT criterion), not preservation of limits + comma limit",
+      "Neither direction of Bénabou's criterion is in-tree, nor its distinctive construction (representing object = Lim of (*/K)); only the definition Representable and the orthogonal Yoneda universal-element form exist."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. I confirmed the key discriminator: hom-functor / representable preserving limits is NOT proven anywhere (my search of Functor/Hom.v and Functor/Hom/Yoneda.v found only 'preserves morphism equivalences' Proper-noise and Yoneda, no limit preservation) — so even the FORWARD conjunct of Bénabou's criterion is absent, which correctly distinguishes ex2 (ABSENT) from thm2 (PARTIAL, whose forward conjunct RAPL is present). Only the bare notion Class Representable (Functor/Representable.v:46) exists. Negative search log accurate; ABSENT confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.1:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "formal criterion for the existence of a universal arrow",
+      "universal arrow from x to G exists iff X(x,G−) preserves limits and (x↓G) has a limit",
+      "universal arrow as a comma-category limit",
+      "pointwise version of Theorem 2",
+      "initial object of (x↓G) from a limit"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'UniversalArrow|universal_arrow' -- Theory/Universal/Arrow.v defines the NOTION: `Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... }` (universal arrow = initial object of the comma), and universal_arrow_from_UMP; but NO existence criterion via limit preservation + comma limit",
+      "rg -ni 'Hom.*Preserv|Preserv.*Hom|representable.*preserv' -- 0 hits; X(x,G−) preserving limits (the forward hypothesis) is not proven anywhere",
+      "rg -n 'Limit\\s*\\(?Id|@Limit.*Id\\[' and 'limiting cone.*initial' -- 0 hits; the reverse construction (a limit of the comma projection Q:(x↓G)⟶A gives the initial object of the comma) is exactly Lemma 1 (maclane:X.1:lem1) and is absent",
+      "Comma_Complete (Construction/Comma/Limit.v:245) builds ALL limits in (=(d)↓U) from Complete C + PreservesImageLimit U — it does not state the existence criterion 'the comma projection has a limit ⟹ a universal arrow exists', and requires full completeness of C rather than the single comma limit of hypothesis (ii)",
+      "Neither direction of the criterion, nor its construction, is in-tree; only the universal-arrow notion (as a comma-initial object) exists."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. The UniversalArrow notion (Theory/Universal/Arrow.v:127, as an initial object of the comma =(c) ↓ F) is a building block, not the existence CRITERION; the criterion (X(x,G-) preserves limits + comma has a limit ⟹ universal arrow exists) is wholly absent, and its forward conjunct (hom-functor preserves limits) is not in-tree — verified alongside ex2. The reverse construction rests on lem1 (absent). Consistent with ex2's ABSENT (only the bare notion present). Confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.1:ex4",
+    "classification": "ABSENT",
+    "aliases": [
+      "refinement of the formal existence criteria",
+      "weaken 'G preserves all limits' to 'G preserves the particular limits required in (ii)'",
+      "weaken 'K preserves all limits' to 'K preserves the limit of Q'",
+      "minimal preservation hypothesis for the adjoint/representability criterion",
+      "sharpening of Theorem 2 hypothesis (i)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "This exercise refines the hypotheses of Theorem 2 (maclane:X.1:thm2, PARTIAL) and Exercise 2 (maclane:X.1:ex2, ABSENT) — replacing 'preserves ALL limits' by 'preserves the SPECIFIC limit of the comma projection Q'.",
+      "rg -n 'PreservesImageLimit|PreservesLimit|preserves the particular|preserve.*required' -- PreservesImageLimit/PreservesLimit exist as preservation vocabulary, but there is no theorem giving the criterion under the WEAKENED, single-diagram preservation hypothesis of this exercise",
+      "Since the criteria being refined are not themselves stated in-tree (thm2's biconditional and ex2's representability criterion are absent), the weakened-hypothesis versions have no in-tree counterpart",
+      "rg -ni 'as faithful as|weaken.*hypothesis|preserves the limit of Q' -- 0 relevant hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass concurs with ABSENT. ex4 sharpens the hypotheses of thm2 (PARTIAL) and ex2 (ABSENT); since neither criterion is stated in-tree as a biconditional, the weakened-hypothesis refinements have no counterpart. The preservation vocabulary (PreservesLimit/PreservesImageLimit) exists but no theorem states the criterion under the single-diagram weakened hypothesis. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:X.1:ex5",
+    "classification": "ABSENT",
+    "aliases": [
+      "Bénabou: freely adjoining an object to encode a Set-valued functor",
+      "collage / cograph of the functor K : C ⟶ Set",
+      "C_K with C_K(∞,c) = Kc, C_K(c,∞) = ∅, C_K(∞,∞) = *",
+      "K representable iff the inclusion J_K : C ⟶ C_K has a left adjoint",
+      "gluing an extra terminal-ish object onto a category (profunctor collage)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'collage|cograph|gluing|glue.*categor' -- 0 hits (no collage/cograph of a functor or profunctor)",
+      "rg -ni 'adjoin|freely add|new object|add.*object.*category|C_K|adjoined' -- only unrelated 'adjoint' text; no construction that adjoins a single object to a category with hom-sets given by a functor K",
+      "rg -ni 'profunctor.*categor|two-sided' -- Theory/Profunctor.v defines profunctors C ⇸ D := C^op ∏ D ⟶ Sets and their composition/representables, but no collage/cograph category built from a profunctor (the C_K of this exercise is the collage of K : 1 ⇸ C)",
+      "The exercise's construction C_K (freely adjoining ∞ with C_K(∞,c) = Kc) and the equivalence 'K representable ⟺ J_K has a left adjoint' have no in-tree counterpart; the closest primitives (Representable, Adjunction, Profunctor) exist but the collage category and the theorem are absent"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass independently reached ABSENT. My searches for collage/cograph/adjoin-object/new-object found only Theory/Coq/Maybe.v (freely adjoining a semigroup unit — unrelated) and generic 'adjoint' prose; no construction glues a single object ∞ onto a category with hom-sets given by a functor K, and no 'K representable iff J_K has a left adjoint' theorem. Theory/Profunctor.v exists but builds no collage. Negative search log accurate; ABSENT confirmed."
+    }
+  }
+]

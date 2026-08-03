@@ -1,0 +1,440 @@
+[
+ {
+  "id": "7sketches:6.2.3:ex6.28",
+  "classification": "ABSENT",
+  "aliases": [
+   "pushout over the initial object is the coproduct",
+   "coproduct as a pushout of the canonical span 0 -> X, 0 -> Y",
+   "IsPushout zero zero <-> Coprod / Pushout_of_Initial / coproduct_is_pushout",
+   "the pushout square over 0 commutes by uniqueness of maps out of the initial object (zero_unique)",
+   "dual form: a pullback over the terminal object is the binary product"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'pushout.*initial|initial.*pushout' — 2 hits, both prose comments (Construction/DecoratedCospan.v:31, Construction/Cospan/Hypergraph.v:2049 listing hypotheses); no lemma",
+   "rg -n --glob '*.v' 'Coproduct_Pushout|Pushout_Coproduct|pushout_is_coproduct|coproduct_is_pushout|Pushout_of_Initial|coproduct_pushout|pushout_initial' — 0 hits",
+   "rg -n --glob '*.v' -i 'pushout.*coproduct|coproduct.*pushout' — 6 hits, all in Construction/Cospan/* : Bridging.v:34 is a COMMENT ('the pushout over the initial object'), Hypergraph.v:489-707 is 'pushout of two covers ≅ coproduct of pushouts' (a different statement), Symmetric.v:30 is a header note; no lemma identifying a pushout over 0 with the coproduct",
+   "rg -n --glob '*.v' 'IsPushout.*zero|zero.*IsPushout' — 0 hits",
+   "rg -n --glob '*.v' -i 'pullback.*terminal|terminal.*pullback|product.*pullback' (the dual, which would transport to C^op) — hits are Structure/Regular.v:28-30 and Structure/Pullback.v:255-271 header prose only; no lemma proving 'pullback over 1 = product'",
+   "Read Structure/Pushout.v in full (pushout_ump, pushout_med, pushout_med_eq, HasPushouts) and Structure/Cocartesian.v (Coprod, merge, inl/inr, coprod_zero_l/r): both APIs exist independently, nothing connects them"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same verdict independently. My own searches: rg -ln 'Pushout' (Structure/Pushout.v, Instance/Sets/Pushout.v, Instance/FinSet/Pushout.v, the Cospan/DecoratedCospan families); rg -i 'pushout.*coproduct|coproduct.*pushout' -> the only substantive hits are Construction/Cospan/Hypergraph.v:489-707 (PushoutCoproductCompat: 'the pushout of two covers is iso to the coproduct of pushouts', a DIFFERENT statement about the tensor bifunctor) and Construction/Cospan/Bridging.v:34, which is prose ('the binary coproduct [+], i.e. the pushout over the initial object') with no accompanying lemma; rg 'initial' over Structure/Pushout.v + Structure/Cocartesian.v + Structure/Initial.v -> Structure/Pushout.v:20 uses 'initial' only in the sense 'universal (initial) among such cocones'. I also read Structure/Pushout.v in full (174 lines): it defines IsPushout/pushout_apex/pushout_in1/in2/commutes/ump/med/med_in1/med_in2/med_unique/med_eq and HasPushouts, and nothing there mentions Initial or Cocartesian; the file does not even Require Structure/Initial.v or Structure/Cocartesian.v. The dual (pullback over the terminal object is the binary product) is likewise unproved: Structure/Pullback.v's only lemma-level content past the class is pullback_unique (:182) and Pullback_to_WeakPullback (:239); the product reduction lives at :255-274 as a Wikipedia quote under a stale 'jww (2017-06-02)' marker. ABSENT confirmed; negative_search_log is accurate."
+  }
+ },
+ {
+  "id": "7sketches:6.2.3:example6.29",
+  "classification": "ABSENT",
+  "aliases": [
+   "pushout of an infinite span collapsing to a singleton / one-element set",
+   "pushout of nat <- nat -> nat along floor(a/2) and floor((a+1)/2)",
+   "quotient of the disjoint union of two copies of nat by the generated equivalence is a point",
+   "connectedness of the bipartite graph induced by a span (all elements identified)",
+   "Sets_HasPushouts computed at a concrete infinite span; Nat.div2"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'div2|Nat.div|floor' -i — 0 hits; the two halving functions of the example do not occur in the tree",
+   "rg -n --glob '*.v' -i 'singleton pushout|one-element' — 'one-element' hits are all about the terminal object/FinSet 1 (Instance/FinSet.v fin1_unique, Instance/Sets.v), never about a pushout apex",
+   "rg -n 'Example|Compute' Instance/Sets/Pushout.v Instance/FinSet/Pushout.v — no worked pushout computations at all in either file (FinSet's only Examples are the fin_split/merge codec sanity checks in Instance/FinSet.v)",
+   "Read Instance/Sets/Pushout.v in full: the GENERAL construction is there (pushout_eq inductive with po_glue, Sets_HasPushouts at line 185) but no instance is evaluated, and there is no lemma of the shape 'this apex is terminal/a singleton'",
+   "rg -n --glob '*.v' -i 'collapse' — 105 files, inspected the pushout/colimit-relevant ones (Structure/Complete.v Freyd collapse, Instance/Sets/Classifier.v level collapse); none is a pushout computation"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees. The item is a concrete computation (the pushout of nat <-floor(a/2)- nat -floor((a+1)/2)-> nat collapses to a point). In-tree only the GENERAL Sets pushout exists: I read Instance/Sets/Pushout.v lines 1-110 and confirm the apex is (carrier B + carrier C) under the inductive pushout_eq with po_glue, with Sets_HasPushouts at :185; there is no evaluated instance, no Example/Compute, and no lemma asserting an apex is a singleton. The classifier's 'div2|Nat.div|floor -> 0 hits' claim matches my reading of the tree (no arithmetic halving functions anywhere near the pushout files). ABSENT confirmed; this is genuinely formalizable (Instance/Sets or Instance/Coq would host it), so ABSENT rather than OUT_OF_SCOPE is right."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:def-finite-category",
+  "classification": "PARTIAL",
+  "aliases": [
+   "finite category (finitely many morphisms)",
+   "FiniteCategory / IsFinite / Finite class on Category",
+   "small category given as finite data — Metacategory (arrows-only, finite composition table)",
+   "objects are the identity arrows, hence finitely many objects",
+   "cardinality of a category / counting morphisms (Fin.t, finite map M.t)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 133,
+    "symbol": "Metacategory",
+    "intree_statement": "Record Metacategory := { arr := nat; pairs : M.t arr; composite (f g h : arr) := M.MapsTo (f, g) h pairs; identity (u : arr) := (∀ (f : arr), composite f u f) ∧ (∀ (g : arr), composite u g g); composition_law (k g f kg gf : arr) : composite k g kg -> composite g f gf -> ∀ kgf, composite kg f kgf ↔ composite k gf kgf; triple_composition ...; identity_law ... }"
+   },
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 261,
+    "symbol": "FromArrows",
+    "intree_statement": "Program Definition FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M); homset := fun _ _ => {| Setoid.equiv := fun f g => `1 f = `1 g |} |}"
+   },
+   {
+    "file": "Theory/Metacategory.v",
+    "line": 447,
+    "symbol": "ThreeArrows_card_3",
+    "intree_statement": "Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3%nat.  (with Definition cardinality (M : Metacategory) : nat := M.cardinal (P.filter (fun '(dom, cod) v => ((dom =? v) && (cod =? v))%bool) (pairs M)), i.e. the count of IDENTITY entries)"
+   }
+  ],
+  "statement_record": {
+   "book": "A category J is finite when it has finitely many morphisms; a footnote observes that J then has finitely many objects too, since every object contributes its own identity morphism.",
+   "intree": "Record Metacategory := { arr := nat; pairs : M.t arr; ... } together with FromArrows (M : Metacategory) : Category := {| obj := ∃ i : arr M, identity M i; hom := fun x y => ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M) |} and cardinality M := M.cardinal (P.filter (identity-entries) (pairs M)).",
+   "strength_comparison": "intree-weaker: finiteness is a PRESENTATION (a category built from a finite composition table), not a PREDICATE on an arbitrary category. Nothing in-tree asserts of a given [J : Category] that its morphisms are finite in number, and nothing proves the footnote's implication morphisms-finite ⇒ objects-finite. The footnote's identification of objects with identity arrows IS realized, both as [FromArrows]'s [obj := ∃ i, identity M i] and as [cardinality]'s filter on identity entries."
+  },
+  "gap": "No finiteness predicate on categories exists: there is no [FiniteCategory J], no [Finite]/[IsFinite] class, and no lemma 'J has finitely many morphisms → J has finitely many objects'. What exists is (a) concrete finite index categories used as limit/colimit shapes — [_0] (Instance/Zero.v), [_1] (Instance/One.v), [Two_Discrete], [Roof] (Instance/Roof.v), [Parallel] (Instance/Parallel.v) — none carrying a finiteness certificate, and (b) the arrows-only [Metacategory] presentation, whose [pairs] is a finite map and whose [cardinality] counts identity arrows, but whose induced [FromArrows] hom type is a subtype of [nat] that is never proved finite. Consequently Definition 6.30's quantification 'for every finite J' cannot be expressed.",
+  "negative_search_log": [
+   "rg -c --glob '*.v' 'FiniteCategory' — 0 hits",
+   "rg -n --glob '*.v' -i 'finite category|finitely many morphisms|IsFinite' — only prose (Theory/Metacategory/DecideExample.v:23 'the n-object finite category'), no definition",
+   "rg -n --glob '*.v' -i 'finitely many' — 1 hit, Instance/Lambda/Norm.v:56 (reduction steps), unrelated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Classification CONFIRMED as PARTIAL, but the strength_comparison contains a materially FALSE clause that must not be carried into any downstream issue. First, the citations check out mechanically: Theory/Metacategory.v:133 Record Metacategory (with arr := nat, pairs : M.t arr, composite, identity), :261 Program Definition FromArrows, :415 Definition cardinality, :447 Lemma ThreeArrows_card_3 (genuinely Qed'd at :525); the file is registered in _CoqProject:458. My own blind pass did NOT surface Metacategory (I searched 'finite category|finitely many morphisms|FiniteCategory|FinCat|IsFinite' and got only prose), so this is a real find by the classifier and I credit it. CORRECTION (does not change the verdict): the strength_comparison asserts \"The footnote's identification of objects with identity arrows IS realized, both as [FromArrows]'s [obj := exists i, identity M i] and as [cardinality]'s filter on identity entries.\" The FIRST half is VACUOUS. Metacategory.v:157-158 defines identity u := (forall f : arr, composite f u f) /\\ (forall g : arr, composite u g g) with NO definedness guard, over arr := nat; since pairs : M.t arr is a finite map, no u can satisfy it. Hence [exists i, identity M i] is provably EMPTY and FromArrows M is the empty category for EVERY M (including Three := FromArrows ThreeArrows). This is already proved in-tree by the audit probe doc/plan/books/probes/S8-metacategory-vacuity.v (identity_unsatisfiable, FromArrows_no_objects, Three_is_empty), and the file's own comment at :146-156 wrongly claims the guard-free encoding 'is sound for the finite, explicitly-enumerated metacategories built here'. Reported to problems[] as a LIBRARY-DEFECT. What survives as PARTIAL evidence is therefore only: (a) the Metacategory record itself, whose pairs : M.t arr IS genuine finite data (a category presented by a finite composition table), and (b) cardinality + ThreeArrows_card_3, a syntactic count of the (i,i) |-> i table entries that is independent of the unsatisfiable identity predicate and does compute. Two further caveats the record should have named: Metacategory is declared inside the module functor `Module Metacategory (M : WSfun PNN)` (Metacategory.v:121) which the library never applies outside its own file, and the file's own header at :112-115 states 'The module stands apart from the working library: nothing in Instance/, Construction/ or Structure/ depends on it.' The recorded gap (no finiteness PREDICATE on an arbitrary Category, no 'finitely many morphisms => finitely many objects' lemma, so Definition 6.30's 'for every finite J' is unstatable) is exactly right and is unaffected. Note the parallel Theory/Metacategory/ArrowsOnly.v keeps the conditional guard and is NOT vacuous; it was not cited but is the healthier witness."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:def6.30",
+  "classification": "PARTIAL",
+  "aliases": [
+   "category with finite colimits / finitely cocomplete",
+   "HasFiniteColimits / FinitelyCocomplete / Cocomplete",
+   "colimit of D : J -> C exists for every finite J",
+   "colimit = initial object of the category of cocones (dual of limit = terminal cone)",
+   "dual: finitely complete / lex category"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Complete.v",
+    "line": 119,
+    "symbol": "Cocomplete",
+    "intree_statement": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F."
+   },
+   {
+    "file": "Instance/Cones/Limit.v",
+    "line": 37,
+    "symbol": "Limit_Cones",
+    "intree_statement": "Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} : Limit F := {| limit_cone := @terminal_obj _ T; ump_limits := fun N => {| unique_obj := `1 (@one _ T N); unique_property := `2 (@one _ T N); uniqueness := fun v H => @one_unique _ T N (@one _ T N) (v; H) |} |}"
+   }
+  ],
+  "statement_record": {
+   "book": "C has finite colimits when colim D exists for every finite category J (finitely many morphisms) and every diagram D : J -> C; the surrounding prose recalls that a colimit of D is an initial object in the category of cocones over D.",
+   "intree": "Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.  — with Colimit F := Limit (F^op) and the cocone-initiality characterization available only in its dual form, Limit_Cones : Terminal (Cones F) → Limit F.",
+   "strength_comparison": "intree-stronger as a hypothesis, intree-weaker as a notion: [Cocomplete] demands a colimit for EVERY (universe-small) shape D, so it strictly implies 'has finite colimits'; but the book's weaker, finiteness-restricted property cannot be written down at all, since there is no finiteness predicate to restrict D by (see 7sketches:6.2.4:def-finite-category). The header of Structure/Complete.v is explicit that the size discipline is carried implicitly by universe polymorphism, not by any smallness/finiteness datum."
+  },
+  "gap": "The finiteness restriction is missing. In-tree there is exactly one quantified colimit hypothesis, the unrestricted [Cocomplete]; nothing restricts the index category, so 'C has finite colimits' is not a statable property. Downstream consumers that actually want finite colimits take the individual shapes as separate hypotheses instead — e.g. Construction/Cospan/Hypergraph.v carries [Cocartesian C] + [Initial C] + [HasPushouts C] and calls this 'finite colimits' in its header (line 41) without ever forming the notion. Also, the prose characterization 'a colimit is an initial object of the category of cocones' is proved only in its dual (terminal cone / limit) form.",
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'FinitelyCocomplete|HasFiniteColimits|FiniteColimit|finite_colimit' — 0 hits",
+   "rg -n --glob '*.v' -i 'finite colimits' — 2 hits, both header prose in Construction/Cospan/{Symmetric,Hypergraph}.v listing initial+coproducts+pushouts as hypotheses"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently and for the same reason. Citations verified: Structure/Complete.v:119 `Definition Cocomplete {C : Category} := forall (D : Category) (F : D --> C), Colimit F.` (exact quote, correct line); Instance/Cones/Limit.v:37 Limit_Cones, quoted body matches verbatim including the unique_obj/unique_property/uniqueness triple. The strength_comparison's appeal to the header is accurate: Structure/Complete.v:27-35 states 'both sources restrict J (here D) to be *small* ... the size discipline is instead carried implicitly by the library's universe polymorphism ... So these state \"has a limit for every (suitably small) diagram\"'. I independently confirmed the two load-bearing negatives: rg 'Cocomplete' over the whole tree returns only Structure/Complete.v:{22,32,99,119} and Theory/Adamek/Corollaries.v:{51,61} (the latter a HYPOTHESIS `(CC : @Cocomplete C)` in adamek_cocomplete, never an instance); and there is no FiniteColimit/HasFiniteColimits/FinitelyCocomplete name anywhere. The gap's Cospan cross-reference is real: Construction/Cospan/Hypergraph.v:41 reads 'Given a category [C] with finite colimits (an initial object [0], binary coproducts [+], and binary pushouts)' — i.e. the header names the Prop-6.32(2)-style generators and calls them 'finite colimits' without the notion existing. I checked whether this gloss is itself wrong and it is not (it is a true statement of Borceux 2.8.2), so it is not a library defect, only evidence for the recorded gap. Also confirmed the prose side of the gap: the 'colimit = initial object of the category of cocones' direction is only a comment (Instance/Cones/Limit.v:34-36), though Cocones itself DOES exist (Instance/Cones.v:46, `Definition Cocones \\`(F : J --> C) := Cones (F^op)`), so that pointer is not stale."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:example6.31",
+  "classification": "PARTIAL",
+  "aliases": [
+   "initial object is the colimit of the empty diagram",
+   "nullary coproduct / empty colimit",
+   "Initial_Colimit / Colimit_Initial / Colimit (F : 0 ⟶ C) ↔ Initial C",
+   "dual: terminal object is the limit of the empty diagram (Terminal_Limit)",
+   "a cocone over the empty diagram is just an object, so the initial cocone is the initial object"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Limit/Terminal.v",
+    "line": 33,
+    "symbol": "Terminal_Limit",
+    "intree_statement": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.   (here 0 is the empty category _0 of Instance/Zero.v: obj := Empty_set, hom := fun _ _ => Empty_set)"
+   }
+  ],
+  "statement_record": {
+   "book": "The initial object of C, when it exists, is precisely the colimit of the unique functor from the empty category into C: a cocone over that functor is just an object of C, so the initial cocone is the initial object; hence initial objects are finite colimits.",
+   "intree": "Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F ↔ @Terminal C.",
+   "strength_comparison": "intree-weaker: only the DUAL is asserted. The in-tree theorem is the terminal-object/limit half of the same fact; the initial-object/colimit half is stated nowhere, only asserted in a header comment (Structure/Limit/Terminal.v:29-31, 'Dually, an initial object is the colimit of the empty diagram') and in Structure/Initial.v:33-34, neither of which is a proof-carrying constant."
+  },
+  "gap": "The colimit form is never instantiated. [Initial C] is literally notation for [@Terminal (C^op)] (Structure/Initial.v:97) and [Colimit F] is [Limit (F^op)] (Structure/Limit.v:158), so the book's statement is [Terminal_Limit] applied at [C^op] — but that instantiation additionally requires identifying [0^op] with [0] (the empty category read in the opposite direction), which is done nowhere in the tree. No [Initial_Colimit], no colimit-of-the-empty-diagram lemma, and no statement that the initial object is a FINITE colimit (the finiteness notion itself being absent).",
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Initial_Colimit|Colimit_Initial' — 0 hits",
+   "rg -n --glob '*.v' -i 'initial object.*colimit|colimit.*initial object' — hits at Structure/Initial.v:33, Structure/Limit/Terminal.v:29, Instance/Cones.v:45, Instance/Cones/Limit.v:34, Structure/BiCCC.v:32 — every one a comment, no assertion"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, and hit the same subtlety the classifier records. Citation verified: Structure/Limit/Terminal.v:33 `Theorem Terminal_Limit (C : Category) (F : 0 --> C) : Limit F <-> @Terminal C.` (Qed, over Instance/Zero.v's _0 with obj := Empty_set); registered at _CoqProject:331. I independently confirmed there is no Initial_Colimit / colimit-of-the-empty-diagram statement: rg 'Terminal_Limit' over the tree returns exactly three hits, the theorem itself and two comments (Structure/Terminal.v:51, Structure/Limit/Terminal.v:22); nothing consumes it and nothing dualizes it. The gap's technical point is correct and is the crux: `Initial C` is literally Notation for `@Terminal (C^op)` (Structure/Initial.v:96 and :98 — the record says :97, which is the notation's `(at level 9)` continuation line, a harmless off-by-one in gap prose, not in evidence) and `Colimit F := Limit (F^op)` (Structure/Limit.v:158, last line of the file). So Terminal_Limit at C^op would give the book's statement PROVIDED 0^op is identified with 0, and no such identification exists in-tree; nothing applies Terminal_Limit in the opposite category. I considered overturning to PRESENT on the grounds that the library's duality architecture makes this a definitional re-reading, and rejected it: Terminal_Limit is stated for `F : 0 --> C`, whereas the colimit form needs `F^op : 0^op --> C^op`, and the tree contains no `0^op = 0` lemma, no Opposite-of-Zero instance, and no use of Terminal_Limit at any opposite category. PARTIAL is the honest verdict."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:prop6.32",
+  "classification": "ABSENT",
+  "aliases": [
+   "generators for finite colimits: finite colimits ⟺ initial + pushouts ⟺ coequalizers + finite coproducts",
+   "a category with finite coproducts and coequalizers is finitely cocomplete",
+   "colimits from coproducts and coequalizers (Borceux 2.8.2, Mac Lane V.2 dual)",
+   "dual: finite limits ⟺ terminal + pullbacks ⟺ equalizers + finite products",
+   "Cocomplete_of_Coproducts_Coequalizers / colimits_from_pushouts"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'Cocomplete_of|colimits_from|generat.*colimit|colimit.*generat|coequalizer.*coproduct.*colimit' — the single hit is Structure/Topos.v:91 (prose about a small generating set); no generation theorem",
+   "rg -n --glob '*.v' -i 'products and equalizers|limit.*equalizer.*product' — hits are all header prose citing Mac Lane V.2.1 / Riehl 3.4.12 as MOTIVATION (Structure/Complete.v:51-52, Structure/Equalizer.v:80, Structure/Limit.v:71); the reduction itself is not formalized. Structure/Topos.v:23 states the in-tree gap explicitly: 'the reduction of pullbacks to products and equalizers (and conversely) is not [formalized]', which is why ElementaryTopos carries terminal+products+pullbacks separately",
+   "Near-misses inspected and rejected as evidence: Structure/Limit/Terminal.v:33 (Terminal_Limit) and Structure/Limit/Cartesian.v:39 (Cartesian_Limit) are single-SHAPE correspondences (empty diagram ↔ terminal, two-object discrete diagram ↔ binary product), not the inductive generation of arbitrary finite (co)limits; Adjunction/GAFT.v:193 Complete_HasEqualizers is only the trivial direction (all limits ⇒ equalizers) from the unrestricted hypothesis, and is on the limit side",
+   "rg -n --glob '*.v' 'HasCoequalizers ' — only Structure/Coequalizer.v:68 (the class) and Structure/Coequalizer/Reflexive.v:76 (derivation of reflexive coequalizers); no theorem building colimits from coequalizers"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees: this is the single largest gap in the batch and it is genuinely empty in-tree. My own searches found no generation theorem in either direction (colimits from initial+pushouts, or from coequalizers+finite coproducts) and no dual either. I independently verified the classifier's three sharpest supporting facts: (1) the 'existence theorem for limits' appears in the tree only as prose — rg 'existence theorem' returns Structure/Pullback.v:272 and Structure/Limit.v:{94,103}, all header text; Structure/Pullback.v:267 even carries a stale `(* jww (2017-06-02): *)` marker directly above the Wikipedia quote of the theorem, i.e. it is an acknowledged un-formalized TODO. (2) Structure/Topos.v:22-23 discloses the same gap in the opposite direction ('the reduction of pullbacks to products and equalizers (and conversely) is not [formalized]'), which is why ElementaryTopos carries terminal+products+pullbacks separately. (3) HasCoequalizers (Structure/Coequalizer.v:68) is a class with exactly one derivation (HasCoequalizers_HasReflexiveCoequalizers, Structure/Coequalizer/Reflexive.v:76) and NO instance anywhere in the tree, so clause (3) has no consumer either. The near-miss rejections are correct: Terminal_Limit (Structure/Limit/Terminal.v:33) and Cartesian_Limit (Structure/Limit/Cartesian.v:39 — verified verbatim: `(forall F : Two_Discrete --> C, Limit F) <-> @Cartesian C`) are single-shape correspondences, not inductive generation; Adjunction/GAFT.v:193 Complete_HasEqualizers is the trivial direction from an unrestricted hypothesis. ABSENT confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:example6.33",
+  "classification": "ABSENT",
+  "aliases": [
+   "a finite colimit computed as an iterated pushout / pushout of pushouts",
+   "colimit of a finite diagram built by repeatedly taking pushouts of spans",
+   "pushout pasting / composition law for pushouts (pushout_paste dual)",
+   "gluing construction: the apex of the iterated pushout is the colimit of the whole diagram",
+   "inductive reduction underlying 'initial + pushouts ⇒ finite colimits'"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'iterated pushout|pushout of pushouts|pushout_pasting' — 2 hits: Construction/Cospan/Double.v:769 (a comment about a three-fold iterated pushout in the coherence proof) and Construction/Cospan/Category.v:318 (a deferred-refactoring comment naming a lemma [pushout_pasting_med] that DOES NOT EXIST in the tree)",
+   "rg -n --glob '*.v' -i 'pushout.*colimit|colimit.*pushout' — Structure/Pushout.v:14, Structure/Pullback/Limit.v:57-60, Instance/Roof.v:21, Structure/Coequalizer.v:30; all either comments or the bare naming alias 'Definition Pushout_Limit (F : Span C) := Colimit F', which asserts nothing",
+   "rg -n --glob '*.v' 'Lemma pullback_paste|Lemma pullback_unpaste' — Theory/Morphisms/Stability.v:106,160 exist for PULLBACKS only; no dual pushout-pasting lemma, and pasting is in any case not the claim (which is that the iterated apex satisfies the colimit UMP of the ORIGINAL finite diagram)",
+   "Near-miss inspected and rejected: Construction/Cospan/Category.v:327 cospan_compose_assoc asserts only that the two iterated-pushout apexes obtained from three composable cospans are cospan-equivalent (isomorphic); it never exhibits either apex as a colimit of the underlying five-object diagram, and its own header notes the proof is a 175-line inline construction rather than an application of any general principle",
+   "rg -n --glob '*.v' -i 'finite colimits' — only Cospan header prose; no construction of a colimit from a finite family of pushouts"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees. Verified the two near-miss citations by opening them. Construction/Cospan/Category.v:310-326: the comment does name [pushout_pasting_med] as a lemma that 'should shrink this proof', and rg confirms the name occurs nowhere else in the tree — but the same comment says 'Deferred to a follow-up PR; the present proof is correct and self-contained', so it is an honest deferral, NOT a stale pointer, and I am not filing it as a library defect. Construction/Cospan/Category.v:327 cospan_compose_assoc indeed only asserts cospan_equiv of two iterated-pushout apexes, never a colimit UMP over the underlying diagram. Theory/Morphisms/Stability.v:106,160 do carry pullback_paste/pullback_unpaste for PULLBACKS with no pushout dual, as recorded — and in any case pasting is not this item's claim. ABSENT confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:ex6.35",
+  "classification": "ABSENT",
+  "aliases": [
+   "verify the pushout-of-pushouts satisfies the colimit universal property",
+   "iterated pushout apex is the colimit of the original finite diagram",
+   "colimit UMP for a glued/iterated pushout cocone",
+   "mediating morphism out of a pushout of pushouts (pushout_med composed twice)",
+   "colimit_med / ump_colimit for a diagram assembled from spans"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "Same searches as 7sketches:6.2.4:example6.33 (this exercise is the verification of that example's claim): rg -n --glob '*.v' -i 'iterated pushout|pushout of pushouts|pushout_pasting|pushout.*colimit|colimit.*pushout' — no assertion that an iterated pushout apex carries the colimit UMP of a larger diagram",
+   "rg -n --glob '*.v' 'colimit_med|ump_colimit|IsAColimit' — Structure/Limit/Preservation.v:130-181 supplies the generic colimit accessors (IsAColimit, colimit_inj, ump_colimit, colimit_med, colimit_med_unique) and Structure/Coequalizer.v:275 is_coequalizer_colimit instantiates them at the walking parallel pair; nothing instantiates them at a diagram built from pushouts",
+   "rg -n --glob '*.v' 'Cocone' -l and read Structure/Cone.v / Instance/Cones.v: the cocone API exists but no cocone is ever built by gluing pushout injections"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees; this is the verification half of example6.33 and stands or falls with it. Verified the generic-accessor citation: Structure/Limit/Preservation.v:130 `Definition IsAColimit \\`(F : J --> C) (c : C) : Type := IsALimit (F^op) c` with colimit_inj (:135), ump_colimit (:147), colimit_med (:152), colimit_med_commutes (:156), colimit_med_unique (:160), colimit_med_eq (:166) — the API exists exactly as described. Verified Structure/Coequalizer.v:275 `Definition is_coequalizer_colimit ... : Coequalizer (APair f g)` — the only in-tree instantiation of that API at a concrete shape, and it is the walking parallel pair, not a pushout-built diagram. ABSENT confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:cor6.36",
+  "classification": "PARTIAL",
+  "aliases": [
+   "FinSet and Set have all finite colimits",
+   "Set/FinSet is finitely cocomplete (initial object + all pushouts)",
+   "Sets_HasPushouts / FinSet_HasPushouts / Sets_Initial / FinSet_Initial",
+   "Cocomplete Sets / Cocomplete FinSet",
+   "quotients of disjoint unions exist in Set"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 185,
+    "symbol": "Sets_HasPushouts",
+    "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; pullback_commutes := _; ump_pullbacks := _ |} |}"
+   },
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 513,
+    "symbol": "FinSet_HasPushouts",
+    "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }"
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 265,
+    "symbol": "Sets_Initial",
+    "intree_statement": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }"
+   },
+   {
+    "file": "Instance/FinSet.v",
+    "line": 223,
+    "symbol": "FinSet_Initial",
+    "intree_statement": "#[export] Instance FinSet_Initial : Initial FinSet := @Build_Terminal (FinSet^op) 0%nat (fun x (v : Fin.t 0) => Fin.case0 (fun _ => Fin.t x) v) (fun x f g i => Fin.case0 (fun j => f j = g j) i)."
+   }
+  ],
+  "statement_record": {
+   "book": "FinSet and Set have all finite colimits; this follows from Proposition 6.32(2), since both have already been shown to have an initial object (the empty set) and all pushouts (quotients of disjoint unions).",
+   "intree": "Sets_HasPushouts : HasPushouts Sets and FinSet_HasPushouts : HasPushouts FinSet, together with Sets_Initial : @Initial Sets (carrier False) and FinSet_Initial : Initial FinSet (the object 0); binary coproducts are Sets_Cocartesian (Instance/Sets/Cocartesian.v:28) and FinSet_Cocartesian (Instance/FinSet.v:250).",
+   "strength_comparison": "intree-weaker: exactly the HYPOTHESES of the book's proof are in-tree, for both categories, and by exactly the book's construction (the Sets pushout apex is B + C quotiented by the inductively generated equivalence with the glue constructor po_glue : inl (f a) ~ inr (g a); the FinSet pushout is the counted quotient of Fin.t (y + z)). The CONCLUSION is not stated for either category — no finite-colimit property and no Cocomplete instance exists for Sets or FinSet."
+  },
+  "gap": "Neither the conclusion nor the inference is in-tree. (a) There is no notion of 'has finite colimits' to conclude (see def6.30), and there is no [Cocomplete Sets] or [Cocomplete FinSet] instance — [Cocomplete] is instantiated nowhere in the tree. (b) The bridge, Proposition 6.32 (initial + pushouts ⇒ finite colimits), is entirely absent, so the present data cannot be assembled into the corollary. (c) On the clause-(3) route, neither category has a [HasCoequalizers] instance ([HasCoequalizers] is instantiated nowhere). What IS present for both is the clause-(2) data: initial object, binary coproducts, and all binary pushouts.",
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Cocomplete' — only Structure/Complete.v:119 (definition) and Theory/Adamek/Corollaries.v:61 (used as a HYPOTHESIS, not supplied); no instance for Sets or FinSet",
+   "rg -n --glob '*.v' 'HasCoequalizers ' — only the class and the reflexive derivation; no Sets/FinSet instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently with the same four evidence items. All citations verified verbatim and in place: Instance/Sets/Pushout.v:185 Sets_HasPushouts; Instance/FinSet/Pushout.v:513 FinSet_HasPushouts; Instance/Sets.v:265 Sets_Initial (carrier False, both obligations Qed'd); Instance/FinSet.v:223 FinSet_Initial (Build_Terminal (FinSet^op) 0%nat with Fin.case0). Coproducts likewise: Instance/Sets/Cocartesian.v:28 and Instance/FinSet.v:250 (product_obj := (m+n)%nat, exl := Fin.L, exr := Fin.R). All five files are registered in _CoqProject (:237, :198, :230, and Instance/Sets.v / Instance/FinSet.v). The strength_comparison's claim that the in-tree pushouts are built by the BOOK's construction is accurate and I checked it directly: Instance/Sets/Pushout.v:51-72 is the sum carrier quotiented by an inductive relation whose only non-structural constructor is po_glue : pushout_eq (inl (f a)) (inr (g a)), i.e. literally 'disjoint union modulo the equivalence generated by f a ~ g a'; the header at :16-29 says so. I independently confirmed the three legs of the gap: Cocomplete is instantiated nowhere (only Structure/Complete.v:119 and a hypothesis position in Theory/Adamek/Corollaries.v:61); HasCoequalizers is instantiated nowhere; and there is no occurrence of the identifier Colimit anywhere under Instance/ (rg 'Colimit' Instance/ -g '*.v' returns zero hits), which is decisive for 'no colimit is ever constructed in a concrete category'. PARTIAL confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:thm6.37",
+  "classification": "PARTIAL",
+  "aliases": [
+   "formula for colimits in Set: quotient of the coproduct by the generated equivalence relation",
+   "colim D = (Σ_{v ∈ V} D v)/~ where (v,d) ~ (w,e) whenever D(a)(d) = e for an arrow a : v → w",
+   "a finite colimit is a quotient of a coproduct (dual of: a finite limit is a subset of a product)",
+   "Sets_Colimit / colimit construction in Sets / cocompleteness of Set",
+   "connected components of the category of elements; disjoint union modulo the smallest equivalence"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 185,
+    "symbol": "Sets_HasPushouts",
+    "intree_statement": "#[export] Program Instance Sets_HasPushouts : HasPushouts Sets := {| pushout := fun X Y Z f g => {| Pull := pushout_apex_setoid f g; pullback_fst := pushout_inl_mor f g; pullback_snd := pushout_inr_mor f g; ... |} |}   — where pushout_apex_setoid has carrier (carrier B + carrier C) under the inductive relation Inductive pushout_eq (Instance/Sets/Pushout.v:51) generated by po_inl_cong, po_inr_cong, po_sym, po_trans and the glue rule | po_glue : forall a : carrier A, pushout_eq (inl (f a)) (inr (g a))"
+   },
+   {
+    "file": "Instance/Sets/Coend.v",
+    "line": 163,
+    "symbol": "SetsCoend",
+    "intree_statement": "Definition SetsCoend : Coend F.   — built over Inductive coend_sum (line 69), the object-indexed sum Σ x : C, F(x,x), quotiented by Inductive coend_eq (line 75), the equivalence generated by exactly the (di)naturality relation, with coend_apex_setoid, coend_inj_mor and the UMP mediator"
+   }
+  ],
+  "statement_record": {
+   "book": "For J presented by a finite graph (V, A, s, t) with equations and D : J -> Set, the set of pairs (v, d) with v ∈ V, d ∈ D(v), quotiented by the equivalence relation generated by (v,d) ~ (w,e) whenever some arrow a : v → w has D(a)(d) = e, together with the class maps D(v) → quotient, is a colimit of D. Dually to the finite-limit formula (a subset of a product), a finite colimit is a quotient of a coproduct.",
+   "intree": "The formula is realized shape-by-shape, not in general: Sets_HasPushouts builds the pushout apex as the sum carrier (carrier B + carrier C) modulo the inductively generated equivalence whose only non-structural constructor is po_glue : pushout_eq (inl (f a)) (inr (g a)) — literally 'the disjoint union modulo the equivalence relation generated by f a ~ g a'; SetsCoend builds the coend as Σ x : C, F(x,x) modulo the equivalence generated by the dinaturality relation.",
+   "strength_comparison": "intree-weaker: no theorem quantifies over a general diagram D : J ⟶ Sets. The two in-tree instances use exactly the book's recipe (sum of the fibres, quotient by the relation generated by the diagram's arrows, realized as an inductive setoid so the construction stays funext-free), but at the fixed span shape and at the coend shape respectively. Note the coend quotients by DInaturality (a twisted, two-sided relation), so it is not an instance of the book's one-sided formula, only its closest general-shape analogue."
+  },
+  "gap": "There is no construction of [Colimit D] for a general [D : J ⟶ Sets], hence no [Cocomplete Sets]; and there is no notion of a category presented by a finite graph with equations that could serve as the theorem's index (the free category on a quiver, Construction/Free/Quiver.v [FreeOnQuiver], exists but carries no equations, no finiteness, and is never used as a diagram shape for a colimit). The dual half the book appeals to — 'a finite limit is a subset of a product' — is likewise only instantiated (Instance/Sets/End.v builds the end as the sub-setoid of compatible families), never proved as a general formula.",
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Sets_Colimit|Sets_Limit|Colimit .*Sets|colimits? in \\[?Sets' -i — 0 assertions; Structure/Limit/Weighted.v's Sets hits are about Sets-VALUED weights, not colimits in Sets",
+   "rg -n --glob '*.v' 'Cocomplete' — instantiated nowhere"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees (I had it as ABSENT/PARTIAL borderline; PARTIAL with this evidence and this gap is the better call). Citations verified: Instance/Sets/Pushout.v:185 + the Inductive pushout_eq at :51 with po_glue at :63; Instance/Sets/Coend.v:163 `Definition SetsCoend : Coend F`, over Inductive coend_sum at :68-69 (`| ci : forall x : C, F (x, x) -> coend_sum`) and Inductive coend_eq at :75 with ce_point/ce_glue/ce_sym/ce_trans — the record says line 69 and 75, off by one on the first only because it cites the constructor rather than the Inductive keyword. Both files registered (_CoqProject:237, :231). The strength_comparison's caveat that the coend quotients by a TWO-SIDED dinaturality relation (ce_glue : coend_eq (ci x (bimap[F] (op f) id a)) (ci y (bimap[F] id f a))) and so is not an instance of the book's one-sided formula is correct and honest — I verified the constructor. I checked the gap's FreeOnQuiver citation because it looked like the kind of thing that gets invented: it is real — Construction/Free/Quiver.v:431 `Program Definition FreeOnQuiver : Category`, registered at _CoqProject:72 — and the claim that it is never used as a diagram shape holds: its only uses outside its own file are Check commands in Test/Issue138.v:90,96. It genuinely carries no equations and no finiteness. PARTIAL confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:example6.38",
+  "classification": "PRESENT",
+  "aliases": [
+   "the initial object of Set is the empty set",
+   "colimit over the empty graph is the empty set",
+   "Sets_Initial / empty setoid / False carrier",
+   "nullary coproduct in Set",
+   "the formula of Theorem 6.37 with no vertices"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 265,
+    "symbol": "Sets_Initial",
+    "intree_statement": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }   (with the unique map out of it built by False elimination, and uniqueness by contradiction)"
+   }
+  ],
+  "statement_record": {
+   "book": "Since an initial object is the colimit over the empty graph, the formula of Theorem 6.37 has no vertices to range over, so the resulting set of pairs is empty: the initial object of Set is the empty set.",
+   "intree": "Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }",
+   "strength_comparison": "same for the conclusion — the empty setoid (carrier False) is proved to be the initial object of Sets, with the universal property discharged, and setoid-rephrasing is faithful here since the empty setoid has no elements to compare. The book's ROUTE (reading the answer off Theorem 6.37's formula at the empty graph) is not available in-tree: the general formula is absent (recorded under 7sketches:6.2.4:thm6.37) and the 'initial object = colimit of the empty diagram' step is only proved dually (recorded under 7sketches:6.2.4:example6.31). The in-tree proof is direct."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. Instance/Sets.v:263-274 verified verbatim: `#[export] Program Instance Sets_Initial : @Initial Sets := { terminal_obj := {| carrier := False |}; one := _ }` with both obligations closed by Qed (the morphism by contradiction + proper, uniqueness by contradiction). `@Initial Sets` is Notation for `@Terminal (Sets^op)` (Structure/Initial.v:98), so this is exactly 'the empty setoid is initial in Sets', universal property included. I interrogated the PRESENT/PARTIAL asymmetry against the sibling record example6.39 and found it principled rather than sloppy: example6.38's premise clause ('an initial object is the colimit over the empty graph') is separately owned by 7sketches:6.2.4:example6.31, which IS filed PARTIAL in this same batch, so nothing is lost by calling 6.38 PRESENT; whereas example6.39's premise clause has no other owner (see that record's note). The strength_comparison already discloses that the book's ROUTE via Theorem 6.37 is unavailable in-tree and that the in-tree proof is direct. PRESENT confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:example6.39",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the coproduct in Set is the disjoint union",
+   "colimit over the two-vertex discrete graph is the coproduct",
+   "Sets_Cocartesian / sum setoid / inl-inr injections",
+   "discrete diagram colimit / indexed coproduct as a colimit of a discrete diagram",
+   "dual: Cartesian_Limit — binary products are limits over Two_Discrete"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets/Cocartesian.v",
+    "line": 28,
+    "symbol": "Sets_Cocartesian",
+    "intree_statement": "Program Instance Sets_Cocartesian : @Cocartesian Sets := { product_obj := fun x y => {| carrier := (carrier x + carrier y)%type ; is_setoid := {| equiv := fun z w => match z, w with inl z, inl w => @equiv _ x z w | inr z, inr w => @equiv _ y z w | _, _ => False end |} |}; fork := fun _ _ _ f g => {| morphism := fun x => match x with inl x => f x | inr x => g x end |}; exl := fun _ _ => {| morphism := Datatypes.inl |}; exr := fun _ _ => {| morphism := Datatypes.inr |} }   (Cocartesian C is notation for @Cartesian (C^op), so exl/exr ARE the coproduct injections and fork IS the copairing)"
+   },
+   {
+    "file": "Structure/Limit/Cartesian.v",
+    "line": 39,
+    "symbol": "Cartesian_Limit",
+    "intree_statement": "Theorem Cartesian_Limit (C : Category) : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C."
+   }
+  ],
+  "statement_record": {
+   "book": "A coproduct is a colimit over the graph with two vertices and no arrows; a diagram on it is a choice of two sets X and Y; since there are no arrows the equivalence relation of Theorem 6.37 is vacuous, so the colimit is the disjoint union of X and Y.",
+   "intree": "Sets_Cocartesian exhibits the sum setoid (carrier x + carrier y, with cross-summand pairs identified with False) as the coproduct in Sets, injections inl/inr and copairing by case split; separately, Cartesian_Limit : (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C ties two-object DISCRETE diagrams to binary products.",
+   "strength_comparison": "intree-weaker on the second clause: the Set-level answer (coproduct = disjoint union, with its full universal property) matches the book exactly, but the identification of a binary coproduct with a colimit over the two-object discrete diagram is asserted only in the DUAL, limit/product form. [Cocartesian C] is notation for [@Cartesian (C^op)], so [Cartesian_Limit] at [C^op] would give the coproduct form — but that instantiation additionally needs [Two_Discrete^op] identified with [Two_Discrete], which is done nowhere."
+  },
+  "gap": "The 'coproduct is the colimit over the two-vertex discrete graph' clause is not stated: only its dual [Cartesian_Limit] is proved, and no coproduct/colimit instance of it exists (grep for Cocartesian_Colimit / IsIndexedCoproduct / HasIndexedCoproducts returns nothing — Structure/Limit/Product.v develops indexed PRODUCTS as limits of discrete diagrams, with no dual file). The route by which the book gets the answer, the Theorem 6.37 formula, is separately absent. The Set-level content itself (disjoint union with the coproduct UMP) is fully present, for FinSet too (FinSet_Cocartesian, Instance/FinSet.v:250).",
+  "negative_search_log": [
+   "rg -n --glob '*.v' -i 'Cocartesian_Colimit|Colimit.*Cocartesian|coproduct.*colimit|icoprod|IsIndexedCoproduct|HasIndexedCoproducts' — 0 hits; Structure/Limit/Product.v has only the product side (IsIndexedProduct, iprod, limit_is_indexed_product, HasIndexedProducts)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass had this as PRESENT on the Set-level conclusion, and I initially flagged the PRESENT(6.38)/PARTIAL(6.39) split as an inconsistency. On investigation the split is CORRECT and I withdraw the objection. Reason: 6.38's colimit-shape premise ('initial = colimit over the empty graph') is separately owned by 7sketches:6.2.4:example6.31 (filed PARTIAL in this batch), so 6.38 loses nothing by being PRESENT. 6.39's colimit-shape premise ('a coproduct is a colimit over the two-vertex discrete graph') has NO other owner: I grepped the merged inventory for every Ch-6 item whose statement mentions both a colimit and a coproduct/discrete shape, and the only items are prop6.32, thm6.37, example6.39, def6.45 and def6.75; the cross-referenced 7sketches:6.2.2:example6.14 is filed PRESENT in coverage-6-1.json with a book statement that is purely set-level ('in FinSet and in Set the coproduct of A and B is their disjoint union'), carrying no colimit clause. So if 6.39 were PRESENT the discrete-diagram-colimit gap would be lost entirely. Citations verified: Instance/Sets/Cocartesian.v:28 Sets_Cocartesian, quoted body matches (sum carrier, cross-summand equiv := False, fork by case split, exl/exr := inl/inr); Structure/Limit/Cartesian.v:39 `Theorem Cartesian_Limit (C : Category) : (forall F : Two_Discrete --> C, Limit F) <-> @Cartesian C` verbatim, registered at _CoqProject:326. The gap's negative (no Cocartesian_Colimit, no indexed-coproduct dual of Structure/Limit/Product.v) matches my own search. PARTIAL confirmed."
+  }
+ },
+ {
+  "id": "7sketches:6.2.4:example6.40",
+  "classification": "ABSENT",
+  "aliases": [
+   "the colimit of a one-object diagram is that object",
+   "colimit / limit over the terminal category 1 is D(*)",
+   "[1, C] ≃ C — functors out of the point category pick out objects",
+   "Limit_One / One_Limit / Colimit (D : 1 ⟶ C) ≅ D tt",
+   "a diagram of shape the trivial/terminal category is just an object"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'Limit_One|One_Limit' — 0 hits",
+   "rg -n --glob '*.v' '\\[1, C\\]' — 2 hits, Instance/One.v:22 and Instance/One/Diagonal.v:30, both COMMENTS ('functors out of 1 pick out objects of the target, so [1, C] ≃ C'); no equivalence is constructed",
+   "rg -n '^(Program |#\\[export\\] )?(Definition|Theorem|Lemma|Instance|Corollary|Class|Record) ' Instance/One.v — the file's entire content is _1 (the point category), Erase (C ⟶ 1) and Cat_Terminal; nothing about diagrams indexed by 1",
+   "Read Instance/One/Diagonal.v in full: its only assertion is Corollary Diagonal_Unique (J C : Category) {D : Category} (d : D) : Δ[J](d) ≈[Cat] Δ(d) ∘[Cat] one — the constant diagram factors through 1. That is about constant diagrams OUT of an arbitrary J, not about the (co)limit of a diagram whose SHAPE is 1, and it asserts nothing about limits or colimits",
+   "rg -n --glob '*.v' -i 'terminal category.*limit|colimit.*one object' — 1 hit, Structure/Limit/Kan/Extension.v:23, a comment that the (co)limit is the Kan extension along the unique functor TO 1 (the opposite direction from this example)",
+   "rg -n --glob '*.v' 'Colimit\\b' across the tree — every occurrence is generic (Structure/Limit, Preservation, Adamek, Equivalence/Limit) or shape-specific for spans/parallel pairs; none instantiates the shape at _1"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass agrees. I re-ran the decisive searches myself: no Limit_One/One_Limit; `[1, C] ~= C` occurs only as prose at Instance/One.v:22 and Instance/One/Diagonal.v:30; Instance/One.v contains exactly _1 (:25), Erase (:47) and Cat_Terminal (:54) and nothing about diagrams of shape 1; Instance/One/Diagonal.v's sole assertion is Corollary Diagonal_Unique (:33) `Delta[J](d) ~= Delta(d) o one`, which is about constant diagrams OUT of J, not about a diagram whose shape is 1 — the classifier's reading is exact. Structure/Limit/Kan/Extension.v:46 Kan_Limit uses Erase J : J --> 1 as the functor one takes the Kan extension ALONG, the opposite direction from this example, as the record says. ABSENT confirmed; the item is plainly formalizable (it is the colimit analogue of the trivial-shape reduction), so not OUT_OF_SCOPE."
+  }
+ }
+]

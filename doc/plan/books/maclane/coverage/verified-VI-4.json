@@ -1,0 +1,546 @@
+[
+  {
+    "id": "maclane:VI.7:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Beck's monadicity theorem",
+      "Beck's theorem",
+      "precise tripleability theorem",
+      "PTT",
+      "monadicity theorem",
+      "K is an isomorphism iff G creates coequalizers",
+      "creates U-split coequalizers",
+      "creates absolute coequalizers"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Context (A : F ⊣ U). Context (CR : CreatesUSplitCoequalizers U). Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse ; equivalence_counit := beck_equivalence_counit ; equivalence_unit := beck_equivalence_unit |}."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers (U : C ⟶ D) := { create_coeq {x y}(f g : x ~> y)(S : SplitCoequalizer (fmap[U] f)(fmap[U] g)) : ∃ q e, IsCoequalizer f g q e ∧ (∃ i : U q ≅ scoeq_obj S, to i ∘ fmap[U] e ≈ scoeq_e S) ; create_coeq_reflects ... : IsCoequalizer f g q e }."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 911,
+        "symbol": "monadic_creates",
+        "intree_statement": "Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T).  (* the converse, only for the Eilenberg–Moore forgetful functor U^T of an arbitrary monad T *)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 273,
+        "symbol": "Monadic",
+        "intree_statement": "Definition Monadic (U : C ⟶ D) : Type := ∃ (F : D ⟶ C)(A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).  (* monadic = comparison is an EQUIVALENCE, Barr–Wells variant *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 601,
+        "symbol": "crude_monadicity",
+        "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A)  under Context (RC : HasReflexiveCoequalizers C)(pres : PreservesReflexiveCoequalizers U)(refl : ReflectsIsos U).  (* an alternative sufficient-condition monadicity theorem *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Beck's Theorem 1: for an adjunction ⟨F,G,η,ε⟩:X⇀A with induced monad T, TFAE: (i) the comparison K:A→X^T is an isomorphism of categories; (ii) G creates coequalizers for exactly those pairs f,g whose ⟨Gf,Gg⟩ has an ABSOLUTE coequalizer; (iii) the same with 'absolute' replaced by 'split' coequalizer.",
+      "intree": "beck_monadicity: CreatesUSplitCoequalizers U ⇒ EquivalenceOfCategories (EM_Comparison A); monadic_creates: EM_Forget T creates U^T-split coequalizers.",
+      "strength_comparison": "intree-weaker: three genuine deviations. (1) The deep forward direction (iii)⇒(i) is present in full generality, but the conclusion is 'K is an EQUIVALENCE' (EquivalenceOfCategories) rather than Mac Lane's 'K is an ISOMORPHISM of categories' — this is the setoid-faithful/non-evil rendering (the header of Beck.v discloses that strict on-the-nose creation is replaced by iso-compatible creation), but it means the library realizes the Exercise-6 equivalence conclusion, not Theorem 1's strict-iso conclusion. (2) The converse (i)⇒(iii) is proved ONLY for the Eilenberg–Moore forgetful U^T (monadic_creates); the transport to a general monadic U 'closing the loop to a single monadic-iff-creates equivalence' is explicitly 'deliberately left to a later development' (Beck.v header lines 105-111), so the full biconditional for a general adjunction is not closed. (3) Condition (ii) with ABSOLUTE coequalizers is not stated as a separate equivalent clause; only the U-split clause (iii) is developed (split ⇒ absolute is present as split_coequalizer_preserved, but the (ii)⟺(iii) equivalence is not formalized). The mathematically deep and useful content — sufficiency of creation of U-split coequalizers for monadicity — is fully in-tree."
+    },
+    "gap": "Full biconditional not closed for a general adjunction: (a) conclusion is K-equivalence not strict K-isomorphism [defensible as setoid-faithful]; (b) the necessity direction 'monadic U ⇒ U creates U-split coequalizers' is proved only for U = U^T (monadic_creates), not transported to a general monadic U; (c) the absolute-coequalizer condition (ii) is not formalized as an equivalent to the split-coequalizer condition (iii).",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind read of Beck.v: beck_monadicity:739 (CreatesUSplitCoequalizers U -> EquivalenceOfCategories (EM_Comparison A)) and monadic_creates:911 (U^T-only converse) both present, no Admitted. The three stated gaps are real: conclusion is EQUIVALENCE not iso-of-categories (Mac Lane thm1 says iso; the equivalence conclusion is actually the ex6 version), converse (i)=>(iii) is U^T-only with the general transport explicitly deferred (Beck.v header lines 105-111), and the absolute-coequalizer clause (ii) is not formalized (only SplitCoequalizer exists; split=>absolute via split_coequalizer_preserved but (ii)<=>(iii) not shown). PARTIAL correct."
+    }
+  },
+  {
+    "id": "maclane:VI.7:construction1",
+    "classification": "PRESENT",
+    "aliases": [
+      "canonical presentation of an object",
+      "canonical presentation",
+      "presentation by free objects",
+      "bar resolution first step",
+      "FGFGa => FGa -> a fork",
+      "counit fork",
+      "canonical split fork after G"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 492,
+        "symbol": "crude_unit_cofork",
+        "intree_statement": "Lemma crude_unit_cofork (c : C) : counit A c ∘ counit A (F (U c)) ≈ counit A c ∘ fmap[F] (fmap[U] (counit A c)).  (* ε_c coforks the pair ε_{FUc}, F(U ε_c) : F U F U c ⇉ F U c — i.e. the object c's canonical presentation FGFGc ⇉ FGc → c *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a}(α : TAlgebra T a) : SplitCoequalizer (join a) (fmap[T] (t_alg[α])) with scoeq_e := t_alg[α], sections η_a and η_{Ta}.  (* at α := U ε_c of the comparison algebra K c = (U c, U ε_c), this is the G/U-image of the object fork, exhibited as a SPLIT coequalizer *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 306,
+        "symbol": "crude_alpha_cofork",
+        "intree_statement": "Lemma crude_alpha_cofork (x : EM) : t_alg[`2 x] ∘ fmap[U](counit A (F (`1 x))) ≈ t_alg[`2 x] ∘ fmap[U](fmap[F](t_alg[`2 x])).  (* algebra-side cofork: the U-image presentation pair coforked by α *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 99,
+        "symbol": "canonical_reflexive",
+        "intree_statement": "Definition canonical_reflexive {a}(α : TAlgebra T a) : ReflexivePair (join a)(fmap[T](t_alg[α])) with common section fmap[T] ret."
+      }
+    ],
+    "statement_record": {
+      "book": "For each object a of A the adjunction ⟨F,G,ε,η⟩ yields a fork FGFGa ⇉ FGa → a with the two parallel arrows ε_{FGa} and FG(ε_a), coequalized by ε_a — the canonical presentation of a (for A = Grp the free-group presentation). Applying G gives a SPLIT fork, the canonical presentation of the T-algebra ⟨Ga, Gε_a⟩.",
+      "intree": "crude_unit_cofork: ε_c ∘ ε_{FUc} ≈ ε_c ∘ F(U ε_c) [ε_c coforks the pair]; canonical_split at α = U ε_c: the U-image pair join_{Uc}, T(U ε_c) is a SplitCoequalizer coequalized by U ε_c.",
+      "strength_comparison": "same (setoid rephrasing). The two structural claims of the construction are both in-tree: the object-level cofork law (crude_unit_cofork is exactly 'ε_a coforks FGFGa ⇉ FGa', with G = U), and 'applying G/U yields a SPLIT coequalizer' (canonical_split at the comparison algebra U ε_c, whose U-image legs are definitionally join = U ε F and T = U F). The construction is assembled from these two named results rather than bundled into a single 'CanonicalPresentation' record, and — matching Mac Lane, who does not claim ε_a is a coequalizer upstairs for a general A (that universality is the monadicity content, established only under the theorem's hypotheses) — the in-tree material likewise states the fork/cofork and its split-after-U property, not upstairs universality. The Grp free-group example is book prose, not formalized."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. crude_unit_cofork:492 is exactly the object fork ε_c coforking (ε_{FUc}, F(Uε_c)) = FGFGc=>FGc->c coequalized by ε_c; canonical_split:75 at the comparison algebra (t_alg=Uε_c) gives the U-image split coequalizer, and beck_split(Kc) instantiates it. Both structural claims of the construction are in-tree; Mac Lane's construction claims no upstairs universality (that is the monadicity content), so the setoid rendering is faithful. PRESENT correct."
+    }
+  },
+  {
+    "id": "maclane:VI.7:def1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comparison of adjunctions",
+      "morphism of adjunctions",
+      "map of adjunctions",
+      "comparison of resolutions",
+      "map of resolutions of a monad",
+      "comparison functor between two resolutions"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Comparison.v",
+        "line": 186,
+        "symbol": "EM_Comparison",
+        "intree_statement": "Definition EM_Comparison : C ⟶ EilenbergMoore (U ◯ F) (Adjunction_Induced_Monad).  (* the concrete comparison K from the given resolution A to the terminal resolution X^T *)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 198,
+        "symbol": "EM_Comparison_Forget",
+        "intree_statement": "Theorem EM_Comparison_Forget : EM_Forget (U ◯ F) HM ◯ EM_Comparison ≈ U.  (* the law G'∘M = G' of a comparison: U^T ∘ K ≈ U *)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 260,
+        "symbol": "EM_Comparison_Free",
+        "intree_statement": "Theorem EM_Comparison_Free : EM_Comparison ◯ F ≈ EM_Free (U ◯ F) HM.  (* the law M∘F' = F of a comparison: K ∘ F ≈ F^T *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given adjunctions ⟨F,G,η,ε⟩:X⇀A and ⟨F',G',η',ε'⟩:X⇀A' inducing the SAME monad T on X, a comparison (of F' to F) is a functor M:A'→A with M∘F' = F and G∘M = G'. Such an M is a morphism of adjunctions and hence satisfies M∘ε' = ε∘M.",
+      "intree": "EM_Comparison K : C ⟶ X^T with EM_Comparison_Free (K∘F ≈ F^T) and EM_Comparison_Forget (U^T∘K ≈ U).",
+      "strength_comparison": "intree-weaker: no general definition of 'a comparison of two adjunctions defining the same monad' (searches for 'morphism/map/comparison of adjunctions', 'resolution' turned up only concrete resolutions and the specific K). What IS in-tree is exactly one instance of the definitional shape — the Eilenberg–Moore comparison K from an arbitrary resolution A to the terminal resolution X^T — carrying both of def1's structural commuting laws: EM_Comparison_Free is M∘F'=F and EM_Comparison_Forget is G∘M=G'. The general abstraction (a named notion parameterized over two arbitrary resolutions) is absent, and the derived property 'M is a morphism of adjunctions, hence M∘ε'=ε∘M' is not stated for K."
+    },
+    "gap": "The general definition 'comparison / morphism of two resolutions of a monad' is not abstracted; only the concrete Eilenberg–Moore comparison K exists, with its two commuting laws (EM_Comparison_Free = M∘F'=F, EM_Comparison_Forget = G∘M=G'). The compatibility conclusion M∘ε' = ε∘M is not formalized.",
+    "negative_search_log": [
+      "rg -n -i 'morphism of adjunction|map of adjunction|comparison of adjunction|adjunction morphism|MorphAdj|morph_adj' -- 0 hits",
+      "rg -n -i 'resolution' -- only Comonad/Duality.v and Monad/*/Adjunction.v prose about initial/terminal Kleisli/EM resolutions; no general comparison-of-resolutions definition",
+      "rg -n -i 'kleisli_comparison|Kleisli_L|comparison' Monad/Kleisli* -- 0 hits (the Kleisli comparison L of VI.5 thm2 is not carried under this name)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. EM_Comparison:186 with EM_Comparison_Free:260 (K∘F≈F^T = M∘F'=F) and EM_Comparison_Forget:198 (U^T∘K≈U = G∘M=G') is the one concrete comparison, carrying both def1 commuting laws. Verified no other comparison exists (0 hits for Kleisli comparison / morphism-of-adjunctions), and M∘ε'=ε∘M is not stated. General comparison-of-two-resolutions notion absent. PARTIAL correct."
+    }
+  },
+  {
+    "id": "maclane:VI.7:lem1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comparison lemma",
+      "existence and uniqueness of the comparison",
+      "unique comparison under creation",
+      "quasi-inverse of K",
+      "comparison from a resolution to a creating resolution"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 443,
+        "symbol": "Beck_Inverse",
+        "intree_statement": "Context (A : F ⊣ U)(CR : CreatesUSplitCoequalizers U). Definition Beck_Inverse : EM ⟶ C := Build_Functor EM C beck_G_obj (fun x y h => beck_G_map h) ...  (* the comparison X^T ⟶ A, built from creation of U-split coequalizers *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse ; ... |}.  (* Beck_Inverse is not merely a comparison but a quasi-inverse of K *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 280,
+        "symbol": "Crude_Inverse",
+        "intree_statement": "Definition Crude_Inverse : EM ⟶ C  (* the analogous comparison built under the reflexive-coequalizer/conservativity hypotheses *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If G satisfies hypothesis (iii) of Beck's theorem (creates coequalizers of pairs with a split coequalizer under G), then for any other adjunction ⟨F',G',η',ε'⟩ defining the same monad T there is a UNIQUE comparison M:A'→A. Applied to the Eilenberg–Moore adjunction (which satisfies (iii)) this reproves the §3 comparison theorem; it also supplies the M used in (iii)⇒(i).",
+      "intree": "Beck_Inverse : X^T ⟶ A, constructed under CreatesUSplitCoequalizers U, and shown (beck_monadicity) to be a quasi-inverse of K.",
+      "strength_comparison": "intree-weaker: the key instance of lem1 (the other adjunction A' being the Eilenberg–Moore resolution X^T) is realized by Beck_Inverse — built exactly under the creation hypothesis lem1 uses — but it is produced as a full quasi-inverse of K (an equivalence), not as 'the unique comparison M:A'→A' in the def1 sense with its comparison laws M∘F'=F, G∘M=G' and a uniqueness clause. The general statement over an ARBITRARY resolution A' is not formalized, and lem1's remark that specializing to the EM adjunction reproves the §3 comparison theorem is not the route taken (the library builds K directly in Monad/Comparison.v). The mediator θ_c out of the created coequalizer (beck_theta) is the concrete manifestation of the comparison's action, but 'unique comparison functor' as a packaged existence/uniqueness result is absent."
+    },
+    "gap": "Only the terminal instance (A' = X^T) is realized, as the quasi-inverse Beck_Inverse rather than as 'the unique comparison M' with the def1 commuting laws and a uniqueness statement; the general form over an arbitrary resolution A', and the explicit existence/uniqueness-of-comparison lemma, are not in-tree.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (borderline). Beck_Inverse:443 realizes the A'=X^T instance of lem1 (a functor X^T->C built under CreatesUSplitCoequalizers, shown quasi-inverse of K by beck_monadicity), which is a genuine partial. But it is packaged as a quasi-inverse, not as 'the unique comparison M with M∘F^T=F, U∘M=U^T and a uniqueness clause', and the general statement over an arbitrary resolution A' is absent. PARTIAL defensible (sits near ABSENT for the general/uniqueness content)."
+    }
+  },
+  {
+    "id": "maclane:VI.7:def2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "reflects colimits",
+      "reflects coequalizers",
+      "reflects isomorphisms",
+      "conservative functor",
+      "reflects limits",
+      "colimit-reflecting functor",
+      "iso-reflecting functor"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Limit/Preservation.v",
+        "line": 243,
+        "symbol": "ReflectsIsos",
+        "intree_statement": "Class ReflectsIsos (F : C ⟶ D) := { reflects_iso {x y}(f : x ~> y) : IsIsomorphism (fmap[F] f) → IsIsomorphism f }.  (* reflects isomorphisms = conservative *)"
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 401,
+        "symbol": "ff_reflects_limit",
+        "intree_statement": "Definition ff_reflects_limit : IsALimit G (vertex_obj[N])  (* for full+faithful F, given a cone N whose F-image is a limit with matching legs, N is a limit — reflection of limits, only for FF functors, stated inline *)"
+      },
+      {
+        "file": "Theory/Equivalence/Limit.v",
+        "line": 568,
+        "symbol": "equivalence_reflects_colimits",
+        "intree_statement": "Definition equivalence_reflects_colimits {J}{G : J ⟶ C}(N : Cocone G)(HL : IsAColimit (F ◯ G)(F (vertex_obj[N])))(Hinjs : ...) : IsAColimit G (vertex_obj[N]).  (* colimit reflection, only for an equivalence F *)"
+      }
+    ],
+    "statement_record": {
+      "book": "A functor G:A→X reflects colimits of T:J→A when every cone λ:T→a whose image G·λ is a colimiting cone in X is already colimiting in A. Specializations: G reflects coequalizers (a fork sent to a coequalizer is a coequalizer) and G reflects isomorphisms (Gt iso ⇒ t iso).",
+      "intree": "ReflectsIsos (a class); ff_reflects_limit / equivalence_reflects_(co)limits (reflection of (co)limits stated inline only for full+faithful / equivalence functors).",
+      "strength_comparison": "intree-weaker: of the three notions def2 introduces, only 'reflects isomorphisms' is a first-class reusable predicate (ReflectsIsos). 'Reflects colimits' exists only as the unfolded conclusion of theorems about full+faithful (ff_reflects_limit) and equivalence (equivalence_reflects_colimits) functors — there is no standalone predicate 'G reflects colimits/coequalizers' parameterizable over an arbitrary G, and no named 'reflects coequalizers' specialization at all. So the general definition and its coequalizer specialization are absent as definitions; only the conservative-functor definition and reflection theorems for the FF/equivalence special case are present."
+    },
+    "gap": "Only 'reflects isomorphisms' is defined as a general predicate (ReflectsIsos). There is no standalone definition of 'reflects colimits' or its 'reflects coequalizers' specialization over an arbitrary functor; reflection of (co)limits appears only inside theorems whose hypothesis is that the functor is full+faithful or an equivalence.",
+    "negative_search_log": [
+      "rg -n -i 'reflectscolimit|reflectslimit|reflectscoequal|reflects_coequal|reflects_colimit|Class Reflects|Definition Reflects' -- only ReflectsIsos (class) and the FF/equivalence reflection theorems; no general reflects-(co)limit/coequalizer predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. ReflectsIsos:243 is the iso-specialization as a first-class predicate (present). Verified the general reflects-colimits/coequalizers is absent: ff_reflects_limit:401 lives in a Full+Faithful section and equivalence_reflects_colimits:568 requires an EquivalenceOfCategories context — genuinely special-case, not a predicate over an arbitrary G; 0 hits for any ReflectsColimit/ReflectsCoequalizer/ReflectsLimit class. PARTIAL correct."
+    }
+  },
+  {
+    "id": "maclane:VI.7:def3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "CTT",
+      "VTT",
+      "PTT",
+      "crude tripleability",
+      "vulgar tripleability",
+      "precise tripleability",
+      "crude tripleable functor",
+      "vulgar tripleable functor",
+      "precise tripleable functor",
+      "tripleability property"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 601,
+        "symbol": "crude_monadicity",
+        "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A)  under (RC : HasReflexiveCoequalizers C)(pres : PreservesReflexiveCoequalizers U)(refl : ReflectsIsos U).  (* the crude / CTT-flavoured monadicity THEOREM *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A)  under CreatesUSplitCoequalizers U.  (* the precise / PTT-flavoured monadicity THEOREM *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 100,
+        "symbol": "PreservesReflexiveCoequalizers",
+        "intree_statement": "Definition PreservesReflexiveCoequalizers (U : C ⟶ D) : Type := ∀ x y (f g)(ReflexivePair f g) q e, IsCoequalizer f g q e → IsCoequalizer (fmap[U] f)(fmap[U] g)(U q)(fmap[U] e)."
+      }
+    ],
+    "statement_record": {
+      "book": "For G:A→X let C_G (resp. S_G) be the set of parallel pairs whose ⟨Gf,Gg⟩ has a coequalizer (resp. a split coequalizer). G is CTT (crude tripleable) if G has a left adjoint, preserves and reflects coequalizers of all pairs in C_G, and A has coequalizers of all pairs in C_G. G is VTT (vulgar tripleable): left adjoint, reflects coequalizers of pairs in S_G, A has split coequalizers of pairs in S_G. G is PTT (precise tripleable): left adjoint, preserves and reflects coequalizers of pairs in S_G, A has coequalizers of pairs in S_G. Both CTT and VTT imply PTT.",
+      "intree": "crude_monadicity (equivalence from reflexive-coequalizers + preserves-reflexive-coequalizers + reflects-isos); beck_monadicity (equivalence from creation of U-split coequalizers). No CTT/VTT/PTT predicates, no C_G/S_G index sets, no VTT.",
+      "strength_comparison": "intree-weaker: def3 defines three named tripleability PREDICATES together with the pair-index sets C_G and S_G. None of the predicates is defined in-tree, C_G/S_G are not introduced, and 'vulgar tripleable' (VTT) has no counterpart at all (searches for VTT/CTT/PTT/vulgar: 0 hits). What exists is the CONTENT of the crude (CTT-flavoured) and precise (PTT-flavoured) monadicity THEOREMS: beck_monadicity is essentially the PTT theorem (creation packages 'has + preserves + reflects' for the split-under-U pairs), while crude_monadicity is a crude-monadicity theorem but under a DIFFERENT hypothesis packaging than Mac Lane's CTT — reflexive coequalizers + reflects-ISOS, rather than 'coequalizers of all pairs in C_G + preserves and reflects coequalizers'. Consequently the exercises ex7/ex8 (CTT⇒equivalence, VTT⇒equivalence) that consume these predicates are not what is proven."
+    },
+    "gap": "The three tripleability predicates CTT/VTT/PTT and the index sets C_G, S_G are not defined; VTT has no in-tree counterpart. Only the crude and precise monadicity THEOREMS exist (crude_monadicity, beck_monadicity), and under hypothesis packagings (reflexive coequalizers + reflects-isos; creation of U-split coequalizers) that differ from Mac Lane's C_G/S_G-indexed preserve-and-reflect formulations.",
+    "negative_search_log": [
+      "rg -n -i '\\bCTT\\b|\\bVTT\\b|\\bPTT\\b|vulgar|precise tripl|crude tripl' -- only 'crude_monadicity' as a theorem name; no predicate definitions and no VTT/vulgar occurrence anywhere"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (borderline-generous). No CTT/VTT/PTT predicates, no C_G/S_G index sets, VTT wholly absent (0 hits for VTT/vulgar/CTT/PTT/tripleable). PARTIAL rests on genuine definitional fragments encoding the sufficient-condition CONTENT: PreservesReflexiveCoequalizers:100 (preserves coeqs of a class of pairs) and CreatesUSplitCoequalizers:164 (has+preserves+reflects of S_G/U-split pairs, non-evilly), with the left adjoint standing in context. Under the frozen 'some of the item exists' rule this is defensibly PARTIAL over ABSENT; the record transparently states no predicates/sets/VTT exist."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "creates implies reflects coequalizers",
+      "creation entails reflection",
+      "creates coequalizers ⇒ reflects coequalizers",
+      "creation of coequalizers reflection"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 264,
+        "symbol": "creates_split_reflects_isos",
+        "intree_statement": "Lemma creates_split_reflects_isos (U : C ⟶ D)(CR : CreatesUSplitCoequalizers U) : ReflectsIsos U.  (* creation of U-split coequalizers ⇒ reflection of ISOMORPHISMS *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 172,
+        "symbol": "create_coeq_reflects",
+        "intree_statement": "create_coeq_reflects {x y}(f g)(S : SplitCoequalizer (fmap[U] f)(fmap[U] g))(q)(e)(He : e∘f ≈ e∘g)(i : U q ≅ scoeq_obj S)(Hi : to i ∘ fmap[U] e ≈ scoeq_e S) : IsCoequalizer f g q e.  (* a reflection clause built INTO the creation class, for U-split pairs *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 895,
+        "symbol": "em_reflect_is_coeq",
+        "intree_statement": "Definition em_reflect_is_coeq : IsCoequalizer f g q e  (* the reflection half of monadic_creates: a U^T-split cofork over the split coequalizer, up to iso, is a coequalizer in X^T *)"
+      }
+    ],
+    "statement_record": {
+      "book": "If G creates coequalizers, prove that G also reflects coequalizers (of parallel pairs).",
+      "intree": "creates_split_reflects_isos: creation of U-split coequalizers ⇒ ReflectsIsos; create_coeq_reflects: a reflection clause is a definitional FIELD of the U-split creation class.",
+      "strength_comparison": "intree-weaker: the general implication 'creates coequalizers ⇒ reflects coequalizers' is not proved, because neither general notion exists (no standalone 'creates coequalizers' nor 'reflects coequalizers'). The reflection-from-creation IDEA is present in two restricted forms: (i) creates_split_reflects_isos derives reflection of ISOMORPHISMS (not coequalizers) from creation of U-split coequalizers; (ii) the creation class CreatesUSplitCoequalizers carries a reflection clause (create_coeq_reflects) as a definitional field for U-split pairs — reflection is assumed as part of creation, for split pairs, rather than derived for general coequalizers. em_reflect_is_coeq is the concrete reflection-of-coequalizers step, but only inside monadic_creates for U^T."
+    },
+    "gap": "Only reflection of ISOMORPHISMS is DERIVED from creation (creates_split_reflects_isos); reflection of coequalizers from creation is not proved as a general implication — it is instead built into the U-split creation class as an assumed field (create_coeq_reflects) and realized concretely only for U^T (em_reflect_is_coeq). Neither a general 'creates coequalizers' nor a general 'reflects coequalizers' notion exists.",
+    "negative_search_log": [
+      "rg -n -i 'creates.*coequal|creates_coequal' -- only CreatesUSplitCoequalizers (U-split only)",
+      "rg -n -i 'reflect.*coequal|reflect.*colimit' -- no general reflects-coequalizers predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (borderline). The exact implication 'general creates-coeq => reflects-coeq' is neither stated nor provable (no general creates-coequalizers, no reflects-coequalizers). PARTIAL rests on creates_split_reflects_isos:264 — a genuine creation=>reflection(of ISOS) theorem — plus em_reflect_is_coeq:895 (reflection of coeqs, but only inside monadic_creates for U^T). Caveat (record discloses it): the strongest-looking evidence create_coeq_reflects:172 is reflection ASSUMED as a class field, not derived. Distinction from ex3(ABSENT) is coherent: ex1 has a creation=>reflection cousin; ex3 has none. PARTIAL defensible."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Weak Tripleability Theorem",
+      "WTT",
+      "Beck's thesis WTT",
+      "left adjoint to the comparison functor",
+      "K has a left adjoint from coequalizers",
+      "unit iso from preservation",
+      "counit iso from reflection"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 601,
+        "symbol": "crude_monadicity",
+        "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A)  under (RC : HasReflexiveCoequalizers C)(pres : PreservesReflexiveCoequalizers U)(refl : ReflectsIsos U)."
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 280,
+        "symbol": "Crude_Inverse",
+        "intree_statement": "Definition Crude_Inverse : EM ⟶ C  (* the quasi-inverse of K, built from reflexive coequalizers of the canonical presentation *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 176,
+        "symbol": "crude_is_coeq",
+        "intree_statement": "Definition crude_is_coeq (x : EM) : IsCoequalizer (crude_pair_l x)(crude_pair_r x)(crude_G_obj x)(crude_e x).  (* the chosen coequalizer that defines the quasi-inverse's value G(x) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Given the adjunction and comparison K, give a direct proof that: (a) if A has all coequalizers then K has a left adjoint L; (b) if in addition G preserves all coequalizers then the unit is an isomorphism I ≅ K∘L; (c) if in addition G reflects all coequalizers then the counit is an isomorphism L∘K ≅ I.",
+      "intree": "crude_monadicity builds a quasi-inverse Crude_Inverse of K and proves a full EquivalenceOfCategories, from HasReflexiveCoequalizers C + PreservesReflexiveCoequalizers U + ReflectsIsos U.",
+      "strength_comparison": "intree-weaker/differently-packaged: the library never isolates 'K has a left adjoint' (part a) as a construction from coequalizers alone, nor the graded improvements (b) unit-iso-from-preservation and (c) counit-iso-from-reflection. Instead crude_monadicity constructs the quasi-inverse Crude_Inverse and proves BOTH natural-iso cells at once, i.e. the full equivalence — the (c)-level endpoint — under a DIFFERENT hypothesis packaging: reflexive coequalizers (not all coequalizers), preservation of reflexive coequalizers (matching b's role), and reflection of ISOMORPHISMS (not reflection of all coequalizers, which is ex2's part-c hypothesis). So the WTT's distinctive pedagogical deliverable — the incrementally-built left adjoint L to K and its stepwise upgrade — is not in-tree; only the combined equivalence under related, but not identical, hypotheses."
+    },
+    "gap": "The incremental construction is not isolated: (a) 'K has a left adjoint from coequalizers alone' and (b) 'unit iso from preservation' are not separated out; crude_monadicity delivers the full equivalence at once, under reflexive-coequalizers + preserves-reflexive-coequalizers + reflects-ISOS rather than ex2's all-coequalizers + preserves-all + reflects-all-coequalizers.",
+    "negative_search_log": [
+      "rg -n -i 'left adjoint.*comparison|comparison.*left adjoint|adjoint to K|K has a left' -- no explicit left-adjoint-to-K construction"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED (borderline). The graded WTT deliverable — (a) K has a left adjoint L from all-coequalizers, (b) unit iso from preserves-all, (c) counit iso from reflects-all — is not isolated anywhere. crude_monadicity:601 delivers the full equivalence endpoint via the quasi-inverse Crude_Inverse under DIFFERENT hypotheses (reflexive coeqs + preserves-reflexive-coeqs + reflects-ISOS, not all-coeqs + preserves-all + reflects-all-coeqs). The quasi-inverse construction (crude_is_coeq) and equivalence genuinely overlap ex2's territory, so PARTIAL is defensible; the distinctive incremental left-adjoint content is absent."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "preserves and reflects-isos gives reflects coequalizers",
+      "conservative plus cocomplete plus preserves implies reflects colimits",
+      "reflection of coequalizers from preservation and conservativity",
+      "reflects isomorphisms implies reflects coequalizers under preservation"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'reflect.*coequal|reflect.*colimit|reflects all' --glob '*.v' -- only ReflectsIsos, ff_reflects_limit and equivalence_reflects_(co)limits; no general 'reflects coequalizers' target exists, so ex3's conclusion cannot even be stated in-tree",
+      "rg -n -i 'preserves all coequal|conservative' --glob '*.v' -- no lemma of the form 'preserves + reflects-isos + has-coequalizers ⇒ reflects coequalizers'",
+      "rg -n 'ReflectsIsos' --glob '*.v' -- reflects-isos is taken as a PRIMITIVE hypothesis in crude_monadicity (Crude.v:115) and never upgraded to reflection of coequalizers; the library sidesteps ex3 entirely",
+      "The standard lemma (a category with coequalizers, F preserving them and conservative ⇒ F reflects them) is not present in any form (Structure/Limit/Preservation.v, Theory/Equivalence/Limit.v checked)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Blind search agrees with the classifier: no reflects-coequalizers target exists (so ex3's conclusion is unstatable), and no lemma of the form 'preserves-all-coeq + reflects-isos => reflects-coeq'. PreservesColimit and ReflectsIsos exist as ingredients but the implication is nowhere. ABSENT correct. (Consistent with ex1 PARTIAL because ex3, unlike ex1, has no related creation/preservation=>reflection theorem.)"
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "canonical presentation of a T-algebra",
+      "algebra as coequalizer of free algebras",
+      "M as a coequalizer FGFx => Fx -> M(x,h)",
+      "bar resolution of an algebra",
+      "presentation of an algebra by frees"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 337,
+        "symbol": "beck_is_coeq",
+        "intree_statement": "Definition beck_is_coeq (x : EM) : IsCoequalizer (crude_pair_l A x)(crude_pair_r A x)(beck_G_obj x)(beck_e x).  (* with crude_pair_l = ε_{Fx}, crude_pair_r = F(t_alg)=F h, beck_G_obj = M(x,h) — i.e. M(x,h) IS the coequalizer FGFx ⇉ Fx → M(x,h) *)"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 176,
+        "symbol": "crude_is_coeq",
+        "intree_statement": "Definition crude_is_coeq (x : EM) : IsCoequalizer (crude_pair_l x)(crude_pair_r x)(crude_G_obj x)(crude_e x).  (* same identification of the quasi-inverse's value as this coequalizer, under the crude hypotheses *)"
+      },
+      {
+        "file": "Monad/Monadicity/BeckObjects.v",
+        "line": 75,
+        "symbol": "canonical_split",
+        "intree_statement": "Definition canonical_split {a}(α : TAlgebra T a) : SplitCoequalizer (join a)(fmap[T] (t_alg[α]))  with scoeq_e = t_alg[α].  (* the DOWNSTAIRS (D-level) split fork T²x ⇉ Tx → x coequalized by h=α — the U-image of the X^T-level algebra presentation *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(a) Show the canonical presentation of a T-algebra ⟨x,h⟩ is ⟨T²x,μ_{Tx}⟩ ⇉ ⟨Tx,μ_x⟩ → ⟨x,h⟩ (parallel arrows μ_x and Th, coequalized by h). (b) Show the comparison functor M:X^T→A in Beck's theorem appears as a coequalizer diagram FGFx ⇉ Fx → M(x,h) (parallel arrows ε_{Fx} and Fh).",
+      "intree": "beck_is_coeq / crude_is_coeq: M(x,h) = the quasi-inverse's value is IsCoequalizer of ε_{Fx}, F h at beck_e/crude_e; canonical_split: the D-level split fork μ_x, Tx-side coequalized by h.",
+      "strength_comparison": "mixed. Part (b) is present essentially verbatim: the quasi-inverse's value G(x,h)=M(x,h) is defined AS the coequalizer of ε_{Fx} and Fh (crude_pair_l/crude_pair_r) with coequalizing map beck_e/crude_e — this is exactly 'M appears as the coequalizer FGFx ⇉ Fx → M(x,h)'. Part (a) is present only at the U-image (downstairs, D-level) as canonical_split — the split fork μ_a, Tα coequalized by α = h — which is the U-image of the intended X^T-level presentation; the X^T-level statement '⟨T²x,μ_{Tx}⟩ ⇉ ⟨Tx,μ_x⟩ → ⟨x,h⟩ is a coequalizer of FREE algebras in X^T' is not instantiated in-tree (the machinery created_is_coequalizer exists but is not applied to this canonical free-algebra presentation)."
+    },
+    "gap": "Part (b) fully present (M(x,h) as the coequalizer of ε_{Fx}, Fh). Part (a) present only as the D-level split fork (canonical_split); the X^T-level coequalizer of free algebras ⟨T²x,μ_{Tx}⟩ ⇉ ⟨Tx,μ_x⟩ → ⟨x,h⟩ is not stated as such.",
+    "negative_search_log": [
+      "rg -n -i 'free algebra|presentation|coequalizer of free|every algebra' Monad/ -- the free-algebra presentation appears as canonical_split (D-level) and as beck/crude_is_coeq (M as coequalizer); no explicit 'algebra is a coequalizer of free algebras in X^T' lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Part (b) is verbatim present: beck_is_coeq:337 / crude_is_coeq:176 define M(x,h)=G(x) AS IsCoequalizer of crude_pair_l=ε_{Fx}, crude_pair_r=F(t_alg)=Fh at beck_e/crude_e — exactly 'M appears as FGFx=>Fx->M(x,h)'. Part (a) present only at the U-image downstairs (canonical_split:75, split fork μ,Tα coequalized by α=h); the X^T-level coequalizer of free algebras is not instantiated (created_is_coequalizer exists but is not applied to this presentation). Mixed => PARTIAL correct."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "left adjoint to K from split-under-G pairs",
+      "precise tripleability construction",
+      "left adjoint to comparison from U-split coequalizers",
+      "unit iso from preservation of split-pair coequalizers",
+      "counit iso from reflection"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A)  under CreatesUSplitCoequalizers U.  (* built from coequalizers of pairs whose U-image is split — exactly ex5's set P *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 458,
+        "symbol": "beck_U_coeq",
+        "intree_statement": "Definition beck_U_coeq (x : EM) : IsCoequalizer (fmap[U](counit A (F (`1 x))))(fmap[U](fmap[F](t_alg[`2 x])))(U (beck_G_obj x))(fmap[U](beck_e x)).  (* U preserves the defining coequalizer, by transport along the created iso — the (b) step *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 727,
+        "symbol": "beck_equivalence_unit",
+        "intree_statement": "Definition beck_equivalence_unit : Id[C] ≈ Beck_Inverse ◯ K.  (* unit iso; beck_equivalence_counit (line 621) gives the counit iso *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Let P be the set of pairs f,g:a⇉b with ⟨Gf,Gg⟩ having a split coequalizer. Using Exercise 4(b): (a) if A has coequalizers of all pairs in P, then K has a left adjoint M; (b) if in addition G preserves coequalizers of pairs in P, the unit η:I→K∘M is an isomorphism; (c) if in addition G reflects coequalizers of pairs in P, the counit M∘K→I is an isomorphism.",
+      "intree": "beck_monadicity constructs Beck_Inverse and proves the full EquivalenceOfCategories from CreatesUSplitCoequalizers U (creation of coequalizers of U-split, i.e. P, pairs), including beck_U_coeq (preservation via transport), beck_equivalence_unit and beck_equivalence_counit.",
+      "strength_comparison": "intree-weaker/differently-packaged: the Beck construction is precisely built over ex5's set P (pairs whose U-image is split-coequalized) via ex4(b)'s presentation, and its internal steps mirror ex5 — the created coequalizer gives the quasi-inverse (a), beck_U_coeq is the downstairs preserved coequalizer (b), and the unit/counit isos are established (a-c endpoints). But the library BUNDLES existence+preservation+reflection into the single 'creation' hypothesis and delivers the full equivalence, rather than isolating (a) 'K has a left adjoint from coequalizers of P-pairs alone', (b) 'unit iso from preservation', (c) 'counit iso from reflection' as separate implications under incrementally-added hypotheses. Reflection of isomorphisms is derived from creation (creates_split_reflects_isos) rather than assumed as 'G reflects coequalizers of P-pairs'."
+    },
+    "gap": "The (a)/(b)/(c) decomposition under separately-added hypotheses is not isolated; beck_monadicity delivers the full equivalence from a single creation hypothesis (which packages existence+preservation+reflection for U-split pairs), so 'K has a left adjoint' is never produced as a standalone intermediate.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. beck_monadicity is literally built over ex5's set P (pairs whose U-image is split-coequalized): beck_U_coeq:458 is the downstairs preserved coequalizer (b-step, via transport along the created iso), and beck_equivalence_unit:727 / beck_equivalence_counit:621 are the unit/counit isos ((b)/(c) endpoints). The (a)/(b)/(c) decomposition under separately-added hypotheses is not isolated (creation bundles has+preserves+reflects). PARTIAL correct; arguably the most fully-covered exercise in the batch."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Beck's theorem up to equivalence",
+      "equivalence-form monadicity",
+      "K equivalence iff G preserves and reflects split/absolute coequalizers",
+      "precise tripleability theorem equivalence version",
+      "monadicity up to equivalence"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A)  under CreatesUSplitCoequalizers U.  (* K is an EQUIVALENCE from creation of U-split coequalizers — the (iii)⇒(i) direction of the equivalence-form theorem *)"
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 273,
+        "symbol": "Monadic",
+        "intree_statement": "Definition Monadic (U : C ⟶ D) : Type := ∃ F (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A).  (* monadicity DEFINED via equivalence of K, matching ex6's condition (i) *)"
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 911,
+        "symbol": "monadic_creates",
+        "intree_statement": "Theorem monadic_creates : CreatesUSplitCoequalizers (EM_Forget T).  (* partial converse (i)⇒(iii), only for U^T *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Using Exercise 5 and Theorem IV.4.1, prove the equivalence-version of Beck's theorem: given the adjunction data, TFAE — (i) the comparison K:A→X^T is an EQUIVALENCE of categories; (ii) for every pair f,g whose ⟨Gf,Gg⟩ has an ABSOLUTE coequalizer, A has a coequalizer of f,g and G preserves and reflects coequalizers of such pairs; (iii) the same with 'absolute' replaced by 'split' coequalizer.",
+      "intree": "beck_monadicity: creation of U-split coequalizers ⇒ EquivalenceOfCategories (EM_Comparison A); Monadic defined as K being an equivalence; monadic_creates: U^T creates U^T-split coequalizers.",
+      "strength_comparison": "intree-weaker: the conclusion matches ex6 exactly (K is an EQUIVALENCE, and 'monadic' is literally defined this way in Monad/Comparison.v). The forward direction (iii)⇒(i) is fully in-tree as beck_monadicity. Three gaps remain versus the full biconditional: (1) the hypothesis is phrased as 'creates U-split coequalizers' (CreatesUSplitCoequalizers) rather than ex6's (iii) 'A has coequalizers of split-under-G pairs AND G preserves and reflects coequalizers of such pairs' — the two are morally the same (creation packages has+preserves+reflects, non-evilly) but are not shown identical in-tree; (2) condition (ii) with ABSOLUTE coequalizers is not stated or shown equivalent to (iii); (3) the converse (i)⇒(iii) is only proved for U = U^T (monadic_creates), not for a general adjunction with K an equivalence (the transport is explicitly deferred, Beck.v header)."
+    },
+    "gap": "Only (iii)⇒(i) is fully proved (beck_monadicity), with the (iii) hypothesis packaged as 'creates U-split coequalizers' rather than 'has + preserves + reflects'. The absolute-coequalizer condition (ii) is not formalized, and the converse (i)⇒(iii) is proved only for U^T (monadic_creates), not transported to a general monadic adjunction.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "CONFIRMED. Conclusion matches ex6 exactly: K is an EQUIVALENCE (Monadic:273 is defined precisely this way), and the (iii)=>(i) direction is fully in-tree as beck_monadicity:739. The three stated gaps are real: hypothesis is packaged as CreatesUSplitCoequalizers rather than 'has+preserves+reflects coeqs of split-under-G pairs' (morally equal, not shown identical), the absolute-coequalizer clause (ii) is absent, and the converse (i)=>(iii) is proved only for U^T (monadic_creates:911). PARTIAL correct — closer to its conclusion than thm1 is to the iso conclusion."
+    }
+  }
+]

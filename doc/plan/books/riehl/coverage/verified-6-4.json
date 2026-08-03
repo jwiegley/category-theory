@@ -1,0 +1,298 @@
+[
+  {
+    "id": "riehl:6.4:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "class of weak equivalences; weak equivalence; W-map",
+      "2-of-6 property; two-out-of-six; (and its weaker relative 2-of-3 / two-out-of-three)",
+      "likely Coq encoding: `Class WeakEquivalences {C} (W : MorphismClass C) := { we_id : ...; we_two_of_six : ... }`",
+      "library naming convention: a `MorphismClass C := forall x y, (x ~> y) -> Type` carrying closure axioms (cf. `OFS`'s `ofs_e_respects`)",
+      "saturated class of morphisms; class containing the identities and closed under 2-of-6; dual form: the same class in C^op (2-of-6 is self-dual)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n '2-of-6|2 of 6|two.out.of.six|two.of.six|2-of-3|two.out.of.three' --glob '*.v'  ->  0 hits in the whole tree (484 .v files). The 2-of-6 property, and even the weaker 2-of-3, appear nowhere.",
+      "rg -c -i 'weak equivalence' --glob '*.v'  ->  4 files, ALL PROSE: Structure/Factorization.v:104 (Quillen model-structure citation), Theory/Kan/Extension.v:94 (the Riehl §6.4 pointer itself), Construction/Localization.v:57,77 (motivation for localizing), Test/Issue138.v:15,40 (uses 'weak equivalence' for Cat's identification of functors up to natural iso, unrelated). No Definition/Class/Record named or axiomatizing weak equivalences.",
+      "rg -i -n 'homotopical|relative categor|marked categor|model categor|Quillen' --glob '*.v'  ->  only the four prose citations above; no category-with-weak-equivalences structure.",
+      "rg -n 'MorphismClass' --glob '*.v'  ->  the in-tree carrier is Theory/Morphisms/Classes.v:28 `Definition MorphismClass (C : Category) := forall x y : C, (x ~> y) -> Type.` It is COMPLETELY UNAXIOMATIZED: the file defines MonoClass/EpiClass/IsoClass/SplitMonoClass/SplitEpiClass and proves only the inclusions between them. The only consumers are Structure/Factorization.v (OFS, whose sole closure axiom is respect for the hom-setoid `ofs_e_respects`), Structure/Regular/Factorization.v (RegularEpiClass) and Construction/Localization.v (the class W to be inverted, again with no axioms). Rejected as evidence: it is the bare carrier type, asserting neither identity-containment nor any cancellation/closure property, so a reader following the pointer would land on nothing that bears on Definition 6.4.1's content.",
+      "rg -i -n 'saturat|closed under composition|cancell' --glob '*.v'  ->  closure lemmas exist only for monos/epis (Theory/Morphisms.v:200,211) and strong epis (Structure/Factorization/StrongEpi.v: composition + right cancellation); none is a 2-of-6 statement, and none is stated for an abstract class."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed. rg -i '2-of-6|2-out-of-6|two out of six|2-of-3|two-of-three' over the whole tree -> 0 hits (independently rerun), so neither 2-of-6 nor the weaker 2-of-3 is stated anywhere. Read Theory/Morphisms/Classes.v in full (101 lines): MorphismClass at :28 is the bare carrier `forall x y : C, (x ~> y) -> Type` and the file proves ONLY the Iso/SplitMono/Mono and Iso/SplitEpi/Epi inclusions; there is no identity-containment or closure axiom on any class, and its three consumers (Structure/Factorization.v OFS at :144, whose only closure field is `ofs_e_respects` at :145, Structure/Regular/Factorization.v, Construction/Localization.v) all take the class unaxiomatized. I briefly weighed PARTIAL on the grounds that MorphismClass is the carrier the definition constrains, but the entire mathematical content of 6.4.1 (identities + 2-of-6) is absent and the classifier's log already preserves the MorphismClass pointer for the Phase E issue writer, so ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:6.4:lem2",
+    "classification": "ABSENT",
+    "aliases": [
+      "(i) a class with identities satisfying 2-of-6 contains all isomorphisms",
+      "(ii) the isomorphisms satisfy 2-of-6 / IsoClass is a class of weak equivalences",
+      "(iii) the class of morphisms inverted by a functor satisfies 2-of-6 ('F-local equivalences', 'the class F^{-1}(Iso)')",
+      "likely Coq encoding: `Lemma iso_two_of_six`, `Lemma inverted_class_two_of_six {F : C ⟶ D}`, `Definition InvertedBy F : MorphismClass C := fun _ _ f => IsIsomorphism (fmap[F] f)`",
+      "related in-tree vocabulary: IsoClass, ReflectsIsos (conservative functor), fmap preserves isomorphisms"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n '2-of-6|two.out.of.six|2-of-3' --glob '*.v'  ->  0 hits, so none of the three clauses can be stated in-tree, let alone proved.",
+      "rg -n '^Lemma|^Theorem|^Corollary|^Definition|^Program Definition|^Instance' Theory/Isomorphism.v  ->  the iso API is iso_id / iso_sym / iso_compose / iso_equivalence / comp_inverse_unique / iso-implies-monic-and-epic. There is NO cancellation lemma of the 2-of-3 shape ('if g ∘ f and g are isos then f is'), which clause (ii) needs, and no statement about a CLASS of morphisms at all.",
+      "rg -i -n 'preserves.*iso|reflects.*iso|conservative' --glob '*.v'  ->  the nearest in-tree notion is Structure/Limit/Preservation.v:243 `Class ReflectsIsos {C D} (F : C ⟶ D) := { reflects_iso ... }` — a functor REFLECTING isos, the converse direction to clause (iii), and about single morphisms rather than the 2-of-6 closure of the inverted class.",
+      "rg -n 'MorphismClass' --glob '*.v'  ->  no in-tree definition packages 'the morphisms a functor inverts' as a MorphismClass. The closest is the SECTION HYPOTHESIS Construction/Localization/Universal.v:144 `Context (GW : forall (a b : C) (w : a ~> b), W a b w -> IsIsomorphism (fmap[G] w))`, which is a Context declaration (explicitly not admissible evidence) and asserts only that a GIVEN class is inverted, never that the inverted class is closed under 2-of-6.",
+      "rg -i -n 'contains all iso|contains the iso|IsoClass' --glob '*.v'  ->  IsoClass occurs only at Theory/Morphisms/Classes.v:39 as `fun _ _ f => IsIsomorphism f`, with the inclusion lemmas iso_in_split_mono/iso_in_split_epi/iso_in_mono/iso_in_epi; nothing states minimality or 2-of-6 for it."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Verified Theory/Morphisms/Classes.v:39 IsoClass is `fun _ _ f => IsIsomorphism f` with only the four inclusion lemmas (iso_in_split_mono/iso_in_split_epi/iso_in_mono/iso_in_epi) -- no 2-of-3-shaped cancellation, no minimality, no closure. Confirmed Structure/Limit/Preservation.v:243 `Class ReflectsIsos` exists and is the CONVERSE direction to clause (iii). Confirmed the nearest thing to 'the class a functor inverts' is the section hypothesis Construction/Localization/Universal.v:144 `Context (GW : forall a b (w : a ~> b), W a b w -> IsIsomorphism (fmap[G] w))`, which is a hypothesis on a GIVEN class, not the inverted class packaged as a MorphismClass. Also checked Theory/Morphisms.v:200/:211 (epi_compose/monic_compose) -- composition closure only."
+    }
+  },
+  {
+    "id": "riehl:6.4:def3",
+    "classification": "ABSENT",
+    "aliases": [
+      "homotopical category = category equipped with a class of weak equivalences",
+      "relative category; category with weak equivalences; marked category",
+      "homotopical functor = functor preserving weak equivalences (F(W_C) ⊆ W_D)",
+      "likely Coq encoding: `Class HomotopicalCategory := { hcat : Category; we : MorphismClass hcat; ... }` and `Class HomotopicalFunctor (F : C ⟶ D) := { preserves_we : forall x y f, W_C x y f -> W_D _ _ (fmap[F] f) }`",
+      "in-tree neighbours to check: MorphismClass-parameterized structures (OFS), wide subcategories (Construction/Subcategory.v), PreservesLimit-style 'preserves a class' vocabulary"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'homotopical' --glob '*.v'  ->  4 hits, ALL inside background-essay comments (Structure/Factorization.v:104, Construction/Localization.v:107, Construction/Arrow.v:65, Theory/Kan/Extension.v:52). No Class, Record, Definition or Instance of a homotopical category or a homotopical functor.",
+      "rg -i -n 'relative categor|marked categor|category with weak|equipped with a class' --glob '*.v'  ->  0 hits.",
+      "rg -n 'MorphismClass' --glob '*.v'  ->  no structure in-tree BUNDLES a category with a distinguished class of morphisms as a single object of study. Construction/Localization.v and Structure/Factorization.v both take the class as a separate parameter (`{W : MorphismClass C}`, `(E M : MorphismClass C)`), and neither imposes the weak-equivalence axioms.",
+      "rg -i -n 'preserves.*mono|preserves.*epi|preserves.*class|preserves the weak' --glob '*.v'  ->  the preservation vocabulary in-tree (Structure/Limit/Preservation.v) is entirely about LIMITS/COLIMITS and about ReflectsIsos; there is no notion of a functor preserving a given MorphismClass, which is exactly what 'homotopical functor' is.",
+      "NOTE on the closest relative: Construction/Localization/Universal.v:144 hypothesizes a functor that sends W-maps to ISOMORPHISMS (a W-inverting functor, Riehl's condition on the codomain of the localization), NOT a functor sending W-maps to W-maps (a homotopical functor). The two notions coincide only when the target carries the minimal structure; nothing in-tree states either."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Independently reran rg -i 'homotopical' --glob '*.v': every hit is background-essay prose (Structure/Factorization.v:104 Quillen model structures, Construction/Arrow.v:65 Quillen lifting problems, Theory/Kan/Extension.v:52 Kan's extension condition, Construction/Localization.v:107 Bousfield). No Class/Record bundles a category with a distinguished morphism class, and there is no 'functor preserves a MorphismClass' predicate anywhere; the preservation vocabulary (Structure/Limit/Preservation.v) is limits/colimits plus ReflectsIsos. The record's NOTE distinguishing W-inverting from W-preserving is correct and is the right distinction to carry into Phase E."
+    }
+  },
+  {
+    "id": "riehl:6.4:example4",
+    "classification": "ABSENT",
+    "aliases": [
+      "minimal homotopical structure; default homotopical structure",
+      "the weak equivalences are exactly the isomorphisms; minimal class of weak equivalences",
+      "'the isomorphisms form the smallest class of weak equivalences' (minimality: from Lemma 6.4.2(i)+(ii))",
+      "likely Coq encoding: `Definition Minimal_WE {C} : MorphismClass C := IsoClass` plus a minimality lemma `forall W, WeakEquivalences W -> forall f, IsIsomorphism f -> W _ _ f`",
+      "consequence form: localizing at the isomorphisms gives HoC ≅ C (γ an isomorphism of categories)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'minimal homotopical|minimal class|smallest class|default.*weak equivalence' --glob '*.v'  ->  0 hits.",
+      "rg -n 'IsoClass' --glob '*.v'  ->  only Theory/Morphisms/Classes.v:39 `Definition IsoClass {C} : MorphismClass C := fun _ _ f => IsIsomorphism f`. Rejected as evidence: that is a bare naming alias (exactly the forbidden `Definition Foo F := Limit F` shape) and it asserts nothing about minimality among weak-equivalence classes — the actual content of Example 6.4.4 — which is unstatable in-tree because no weak-equivalence axioms exist (see riehl:6.4:def1).",
+      "rg -i -n '2-of-6|two.out.of.six' --glob '*.v'  ->  0 hits, so Lemma 6.4.2(i)+(ii), on which the minimality claim rests, is absent as well.",
+      "rg -i -n 'localiz' --glob '*.v'  ->  the in-tree localization (Construction/Localization.v, Construction/Localization/Universal.v) never instantiates W at the isomorphisms, and proves no 'localizing at the isos changes nothing' corollary."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. IsoClass (Theory/Morphisms/Classes.v:39) is the natural in-tree carrier for the minimal structure, but the content of 6.4.4 is MINIMALITY among weak-equivalence classes, which is unstatable while 6.4.2 is absent; and no in-tree localization instantiates W at IsoClass or proves HoC = C in that case (checked Construction/Localization{,/Universal}.v end to end). Rejection of IsoClass as evidence is honest. Phase E should nevertheless build the example on IsoClass rather than a fresh definition."
+    }
+  },
+  {
+    "id": "riehl:6.4:def5",
+    "classification": "PARTIAL",
+    "aliases": [
+      "homotopy category HoC; localization C[W^{-1}]; category of fractions",
+      "localization functor gamma : C -> HoC; universal W-inverting functor",
+      "universal property: initial among categories under C admitting a functor that inverts the weak equivalences",
+      "in-tree naming: `reflector R` (the localization functor), `C_W W` (the full subcategory of W-local objects standing in for HoC), `localization_universal`, `reflector_inverts_W`",
+      "reflective localization; orthogonal-subcategory localization; idempotent-monad localization"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Localization/Universal.v",
+        "line": 188,
+        "symbol": "localization_universal",
+        "intree_statement": "Theorem localization_universal : { G' : Su ⟶ E & (G ≈ G' ◯ Refl) * (∀ H : Su ⟶ E, G ≈ H ◯ Refl → H ≈ G') }.   [Su := Sub C (C_W W), Refl := reflector R; under Context (R : Reflective (C_W W)), (G : C ⟶ E), (GW : ∀ a b (w : a ~> b), W a b w → IsIsomorphism (fmap[G] w)), (Hunit : ∀ c, W c (Iota (Refl c)) (unit ... c))]"
+      },
+      {
+        "file": "Construction/Localization.v",
+        "line": 241,
+        "symbol": "reflector_inverts_W",
+        "intree_statement": "Theorem reflector_inverts_W {a b : C} (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w).   [under Context {W : MorphismClass C} (R : Reflective (C_W W)), Refl := reflector R]"
+      }
+    ],
+    "statement_record": {
+      "book": "Every homotopical category C has an associated homotopy category HoC, characterized by the universal property of being initial among categories E equipped with a homotopical functor C -> E (a functor carrying the weak equivalences of C to isomorphisms); the universal functor gamma : C -> HoC is the localization functor. A footnote flags that in the interesting cases C is large and HoC is a priori not locally small.",
+      "intree": "Theorem localization_universal : { G' : Su ⟶ E & (G ≈ G' ◯ Refl) * (∀ H : Su ⟶ E, G ≈ H ◯ Refl → H ≈ G') } — i.e. every W-inverting G : C ⟶ E factors as G' ◯ (reflector R) with G' unique up to natural isomorphism (functor-setoid ≈ in [Su,E] IS natural iso, Functor_Setoid_Nat_Iso); complemented by Theorem reflector_inverts_W : IsIsomorphism (fmap[reflector R] w) for every w in W, so the in-tree localization functor is itself W-inverting.",
+      "strength_comparison": "intree-weaker: three genuine hypotheses/weakenings. (1) EXISTENCE IS ASSUMED, NOT PROVED — the in-tree localization exists only when the full subcategory C_W W of W-local objects is REFLECTIVE (`Context (R : Reflective (C_W W))`); Riehl asserts HoC exists for EVERY homotopical category (via the Gabriel-Zisman construction, which the header of Universal.v:34-37 declares out of scope, ledger entry 15). (2) EXTRA HYPOTHESIS `Hunit`: the reflection units must themselves lie in W — the file's own 'honest saturation condition making C_W W the localization AT W'. (3) UNIQUENESS IS UP TO NATURAL ISOMORPHISM (`H ≈ G'` in the functor setoid), whereas Riehl's initiality gives a strict bijection between functors HoC -> E and W-inverting functors C -> E; the in-tree statement gives no bijection and does not identify the factorization on the nose. Not weaker in one respect: W is an arbitrary MorphismClass, so no 2-of-6 hypothesis is needed. The size footnote is a non-issue here — the library is universe-polymorphic and the reflective reading sidesteps the smallness questions (Localization.v:92-94)."
+    },
+    "gap": "The homotopy category is realized only in the REFLECTIVE (orthogonal-subcategory) form: HoC is taken to be the full subcategory C_W W of W-local objects, and its existence is a HYPOTHESIS (`Reflective (C_W W)`) rather than a theorem, so no homotopy category is constructed for a general homotopical category. The universal property additionally requires that the reflection units lie in W (`Hunit`), and delivers uniqueness only up to natural isomorphism rather than the strict initiality (bijection of functor sets) that Definition 6.4.5 states. Nothing in-tree names a 'homotopy category', a 'localization functor gamma' attached to a class of weak equivalences, or proves initiality in the category of categories under C.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same PARTIAL independently. EVIDENCE CHECKED AT SOURCE: Construction/Localization/Universal.v:188 is verbatim `Theorem localization_universal : { G' : Su ⟶ E & (G ≈ G' ◯ Refl) * (forall H : Su ⟶ E, G ≈ H ◯ Refl -> H ≈ G') }` under Context R : Reflective (C_W W) (:76), G (:141), GW (:144), Hunit (:148-150) -- all four hypotheses are real and correctly reported. Construction/Localization.v:241 is verbatim `Theorem reflector_inverts_W {a b : C} (w : a ~> b) (Hw : W a b w) : IsIsomorphism (fmap[Refl] w)`. Both files ARE registered in _CoqProject (lines 56 and 57) and both .vo artifacts exist. The 'functor setoid = natural iso' claim is backed: Instance/Fun.v:255 `Theorem Functor_Setoid_Nat_Iso`, and Universal.v's own proofs (reflection_retract :126, localization_factors :163) exhibit `≈` by supplying a family of isos plus a coherence square, so uniqueness really is only up to natural iso. The three weakenings in strength_comparison (existence assumed via Reflective, extra Hunit saturation hypothesis, uniqueness up to nat-iso rather than initiality/bijection) are each verified and none is overstated. Universal.v's own header (:30-38) concedes the scope restriction in the same terms."
+    }
+  },
+  {
+    "id": "riehl:6.4:construction-gabriel-zisman-hoc",
+    "classification": "ABSENT",
+    "aliases": [
+      "Gabriel-Zisman construction; category of fractions C[W^{-1}]",
+      "zig-zag construction of the homotopy category; finite zig-zags modulo relations; formal inverses",
+      "calculus of fractions; Ore condition; spans/roofs presentation of the localization",
+      "likely Coq encoding: free category on the quiver of C plus a reversed arrow for each W-map, quotiented by a hom-congruence (Construction/Free.v + Construction/Quotient.v)",
+      "identity-on-objects localization functor gamma sending f to the unary forward zig-zag"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'zig-?zag' --glob '*.v'  ->  ~35 hits, EVERY ONE of them the adjunction triangle identities ('zig-zag identities' in Theory/Adjunction.v, Monad/*, Theory/Bicategory/*, Comonad/Duality.v, Structure/Monoidal/CompactClosed.v) or the double-category vertical zigzag (Theory/DoubleCategory/Companion.v). None is a zig-zag of morphisms presenting a localization.",
+      "rg -i -n 'fraction|Gabriel|Zisman|formally invert' --glob '*.v'  ->  hits are PROSE ONLY: Construction/Localization.v:61-83 (Gabriel-Zisman historical essay, 'its morphisms finite zig-zags modulo relations') and Construction/Localization/Universal.v:34-37, which states in so many words: 'The zig-zag calculus of fractions — the syntactic construction of C[W^-1] out of formal composites of W-arrows and their formal inverses — is out of this file's scope (ledger entry 15)'. An explicit in-tree DEFERRAL, not a formalization.",
+      "rg -i -n 'localiz' --glob '*.v'  ->  the only localization in-tree is the reflective/orthogonal-subcategory one (Construction/Localization.v: WLocal, C_W, reflector_inverts_W; Construction/Localization/Universal.v: localization_universal), which does not construct HoC and instead assumes reflectivity.",
+      "INGREDIENTS PRESENT BUT UNCOMBINED (checked, not evidence): Construction/Free.v:118 `Free` (the free category on a quiver, with FreeFunctor and the Free ⊣ Forgetful adjunction in Construction/Free/Quiver.v:550) and Construction/Quotient.v:254 `Quotient C R` with QuotientProj/QuotientLift and its UMP. Nothing assembles them into a category of fractions: no adjoining of formal inverses for a class W, no relations (a)/(b)/(c), no identity-on-objects gamma into such a quotient."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Independently confirmed the explicit in-tree deferral at Construction/Localization/Universal.v:35-38 ('The zig-zag calculus of fractions -- the syntactic construction of C[W^-1] out of formal composites of W-arrows and their formal inverses -- is out of this file's scope (ledger entry 15)'). Every rg hit for 'zig-zag' is the adjunction triangle identities or DoubleCategory/Companion.v's vertical zigzag. I additionally checked Instance/Roof.v in case 'roof' meant the calculus-of-fractions roof: it is the WALKING SPAN shape category (RNeg <- RZero -> RPos, header lines 6-25), unrelated. Ingredient inventory is right in substance; ONE IMPRECISION in the (non-evidence) note: Construction/Free.v:118 `Free` is the free category on the underlying quiver OF C specifically, whereas the free category on an ARBITRARY quiver is `FreeOnQuiver` in Construction/Free/Quiver.v (Section Free, :426 ff.), with FreeCatFunctor at :546 and FreeForgetfulAdjunction at :550 over StrictCat (not Cat). The Phase E issue should cite Free/Quiver.v for the general construction."
+    }
+  },
+  {
+    "id": "riehl:6.4:remark6",
+    "classification": "ABSENT",
+    "aliases": [
+      "2-dimensional universal property of the localization; local isomorphism of functor categories",
+      "precomposition with gamma is a bijection on natural transformations; gamma^* is fully faithful",
+      "HoD^{HoC} is (isomorphic to) the full subcategory of HoD^C spanned by the homotopical functors",
+      "likely Coq encoding: `Instance Induced_Full`, `Instance Induced_Faithful` for the restriction functor `Induced := (− ◯ gamma) : [HoC, E] ⟶ [C, E]`, or an isomorphism of functor categories onto a Subcategory of [C,E]",
+      "restriction/precomposition functor along a localization; 2-categorical localization in Cat"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Induced' --glob '*.v'  ->  the precomposition functor exists only as Theory/Kan/Extension.v:127 `Program Definition Induced : ([B,C]) ⟶ ([A,C]) := {| fobj := fun G => G ◯ F; ... |}`, and the ONLY facts proved about it are that its adjoints are the Kan extensions (RightKan/LeftKan, lines 140/222). Nothing states that Induced is full, faithful, or bijective on natural transformations for any F, let alone for a localization.",
+      "rg -n 'Instance .*Faithful|Definition.*Faithful|Lemma.*Faithful' --glob '*.v'  ->  the fully-faithful results in-tree are for Yoneda (Functor/Hom.v:85), Karoubi_Embed (Construction/Karoubi.v:214), Sheaves_Incl (Theory/Sheaf/Category.v:103), forgetful functors from Mon/Comon/CMon, the EM comparison (Monad/Lifting.v:508) and the Grothendieck round-trip comparison. None concerns precomposition along a localization.",
+      "rg -i -n 'bijection.*natural transformation|natural transformation.*bijection|full subcategory spanned' --glob '*.v'  ->  1 hit, Functor/Hom/Yoneda.v:19, and it is the Yoneda lemma's bijection (comment line), unrelated.",
+      "rg -i -n 'homotopical functors|2-dimensional|two-dimensional' --glob '*.v'  ->  0 hits. The full subcategory machinery exists generically (Construction/Subcategory.v), but no instance spans the homotopical functors inside a functor category.",
+      "NOTE: the in-tree universal property (Construction/Localization/Universal.v:188) is strictly 1-dimensional — existence of a factorization plus uniqueness of the factoring FUNCTOR up to natural iso. It says nothing about natural transformations between such functors, which is the entire content of Remark 6.4.6."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Verified by exhaustive grep that `Induced` (the precomposition functor, Theory/Kan/Extension.v:127) occurs ONLY in Theory/Kan/Extension.v and one comment in Structure/Limit/Kan/Extension.v; every other tree hit of 'Induced' is Adjunction_Induced_Monad in Monad/Comparison.v and Monad/Lifting.v, unrelated. The only facts proved about Induced are lines 145 (`ran_adjoint : Induced ⊣ Ran`) and 225 (`lan_adjoint : Lan ⊣ Induced`); nothing asserts fullness, faithfulness, or a bijection on natural transformations for precomposition along any functor, let alone a localization. The record's closing NOTE that localization_universal is strictly 1-dimensional is accurate."
+    }
+  },
+  {
+    "id": "riehl:6.4:example7",
+    "classification": "ABSENT",
+    "aliases": [
+      "Ch_R / Ch(R) — the category of chain complexes of R-modules; differential graded modules",
+      "chain homotopy equivalence as a weak equivalence",
+      "quasi-isomorphism (chain map inducing an isomorphism on homology); derived category D(R)",
+      "homology functor H_n : Ch_R -> Ab (Riehl's Example 1.3.2(viii))",
+      "likely Coq encoding: a `Category ChainComplex` with `d ∘ d ≈ 0` over an Additive/Abelian base, plus `Definition QuasiIso : MorphismClass ChainComplex`"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'chain complex|Ch_R|Ch\\(R\\)|differential graded|\\bdg-' --glob '*.v'  ->  PROSE ONLY: Structure/Abelian.v:70, Construction/Enriched.v:47,71, Construction/Localization.v:58,80,99. No category of chain complexes is constructed anywhere in the tree.",
+      "rg -i -n 'quasi.?iso' --glob '*.v'  ->  3 hits, all inside the Construction/Localization.v background essay (lines 58, 80, 99). No definition.",
+      "rg -i -n 'homology|cohomolog' --glob '*.v'  ->  all hits are historical prose (Structure/Abelian.v, Theory/Functor.v:49, Theory/Category.v:48, Theory/Sheaf.v, Comonad/*). There is no homology functor in-tree, so 'quasi-isomorphism' has no carrier.",
+      "rg -i -n 'chain homotopy|homotopy equivalence' --glob '*.v'  ->  2 hits, both prose (Structure/Monoid.v:59 about homotopy classes; Construction/Localization.v:77 about weak homotopy equivalences).",
+      "rg -i -n 'R-Mod|\\bModule\\b|abelian group|\\bring\\b' --glob '*.v'  ->  no category of R-modules and no category of abelian groups exists. The additive spine (Structure/Preadditive.v, Structure/Additive.v, Structure/Abelian.v) is axiomatic, and its ONLY concrete witness is Instance/CMon.v (commutative monoids over setoids) with Instance/CMon/Biproduct.v — no Ab, no R-Mod, hence no Ch_R.",
+      "The whole Instance/ directory was listed: Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX — no algebraic category of complexes."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. Independently listed Instance/ (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX) -- confirmed no Ab, no R-Mod, no complexes; the only concrete additive witness is Instance/CMon.v. Every 'chain complex'/'quasi-isomorphism'/'homology' hit in the tree is background prose (Structure/Abelian.v, Construction/Localization.v:58,80,99, Construction/Enriched.v). Nothing to overturn."
+    }
+  },
+  {
+    "id": "riehl:6.4:example8",
+    "classification": "ABSENT",
+    "aliases": [
+      "Top — the category of topological spaces and continuous maps",
+      "homotopy equivalence; weak homotopy equivalence (isomorphism on all homotopy groups pi_n)",
+      "the homotopy category of spaces Ho(Top); Htpy_CW — CW complexes and homotopy classes of maps",
+      "Whitehead's theorem; CW approximation; singular simplicial set",
+      "likely Coq encoding: `Instance Top : Category` with `Definition WeakHtpyEquiv : MorphismClass Top`, plus an equivalence `Ho(Top) ≃ Htpy_CW`"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'topolog|open set|continuous map' --glob '*.v'  ->  only prose (Theory/Algebra/Frobenius.v on TQFT, Structure/Limit.v:50 on Cech cohomology, Theory/Multicategory.v:135 on Boardman-Vogt). There is NO category Top in the tree; the Instance/ directory listing (Adj … ZX, enumerated in riehl:6.4:example7's log) contains no topological instance.",
+      "rg -i -n 'homotopy group|CW complex|Htpy|Whitehead|singular' --glob '*.v'  ->  homotopy groups appear only in prose (Structure/Group.v:76, Theory/Kan/Extension.v:53); 'CW', 'Htpy' and 'Whitehead' have 0 hits.",
+      "rg -i -n 'weak homotopy equivalence|homotopy equivalence|homotopy class' --glob '*.v'  ->  2 prose hits only (Construction/Localization.v:77, Structure/Monoid.v:59).",
+      "rg -i -n 'simplicial|nerve|geometric realization' --glob '*.v'  ->  'simplicial' occurs only in the bar-resolution prose of Comonad/Core.v:103 and Comonad/Coalgebra.v:100; 'nerve'/'geometric realization' only in Theory/Kan/Extension.v's essay. No simplicial machinery.",
+      "rg -i -n 'homotopy categ' --glob '*.v'  ->  2 prose hits: Structure/Group.v:55 and Instance/StrictCat.v:36 ('Cat … identifies functors up to natural isomorphism … making it the homotopy category Ho(Cat)'). That comment is about Cat, not Top, and is a comment, not an assertion; the second clause of this example (Ho(Top) ≃ Htpy_CW) has no in-tree counterpart of any kind."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. No Top, no homotopy groups, no CW/Whitehead/simplicial machinery; all hits are prose. I re-read the one hit that could have looked like counter-evidence, Instance/StrictCat.v:33-40, and it is a COMMENT contrasting Cat's Functor_Setoid with StrictCat's Functor_StrictEq_Setoid ('making it the homotopy category Ho(Cat)') -- about Cat, not Top, and asserting nothing formal. Classifier characterized it correctly."
+    }
+  },
+  {
+    "id": "riehl:6.4:def9",
+    "classification": "ABSENT",
+    "aliases": [
+      "total left derived functor LF; total right derived functor RF",
+      "derived functor as a Kan extension along the localization: LF := Ran_gamma(delta ∘ F), RF := Lan_gamma(delta ∘ F)",
+      "likely Coq encoding: `Definition TotalLeftDerived (F : C ⟶ D) `{LocalRightKan gamma (delta ◯ F)} : HoC ⟶ HoD := LocalRan`",
+      "absolute / point-set derived functor; Quillen derived functor of a left Quillen functor",
+      "equivalently: a homotopical functor C -> HoD terminal (resp. initial) among such under delta ∘ F"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'derived functor' --glob '*.v'  ->  5 hits, ALL PROSE: Structure/Abelian.v:70,78,101,103 (Cartan-Eilenberg / Tohoku history) and Theory/Kan/Extension.v:94, which says 'total derived functors are Kan extensions along localization at the weak equivalences (Riehl, Category Theory in Context, §6.4)' — a comment citing exactly this item as NOT formalized.",
+      "rg -i -n '\\bLF\\b|\\bRF\\b|LeftDerived|RightDerived|Derived' --glob '*.v'  ->  the only 'Derived' identifier in the tree is Theory/Category/Raw.v:110 `Program Definition DerivedEquivalence` (deriving a setoid equivalence for a raw category), entirely unrelated.",
+      "rg -n 'LocalRightKan|LocalLeftKan|RightKan|LeftKan|Ran |Lan ' --glob '*.v'  ->  Kan extensions exist in full (Theory/Kan/Extension.v:140 `Class RightKan`, :154 `Class LocalRightKan (X : A ⟶ C)` with `ran_transform` and `ump_ran`, :222 `Class LeftKan`, :234 `Class LocalLeftKan`), and Structure/Limit/Kan/Extension.v derives Kan_Limit. But NO file forms a Kan extension ALONG A LOCALIZATION FUNCTOR: the only occurrences of the two ideas together are the comment at Theory/Kan/Extension.v:94 and the (unrelated) mention of Localization.v at Adjunction/GAFT.v:133.",
+      "rg -i -n 'localiz' --glob '*.v'  ->  Construction/Localization{,/Universal}.v never mention Kan extensions, functors between two localized categories, or a comparison 2-cell; there is no gamma/delta pair anywhere.",
+      "Both ingredients are therefore in-tree and never combined: the definiendum (a total derived functor) has no counterpart, no name, and no API. Classified ABSENT rather than PARTIAL because the general Kan-extension classes are a PREREQUISITE of Definition 6.4.9, not a part of it — nothing in-tree mentions deriving a functor, the handedness convention, or the passage through localizations."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT, and the ABSENT-over-PARTIAL reasoning is sound. Verified the ingredients really are present and really are never combined: Theory/Kan/Extension.v:154 `Class LocalRightKan (X : A ⟶ C)` with `ran_transform : LocalRan ◯ F ⟹ X` and `ump_ran`, :234 `Class LocalLeftKan` with `lan_transform`/`ump_lan` -- so Definition 6.4.9 is EXPRESSIBLE in-tree (as LocalRightKan gamma (delta ◯ F)) but is nowhere written, named, or given an API; expressible is not formalized. Verified the cited comment verbatim at Theory/Kan/Extension.v:94: 'total derived functors are Kan extensions along localization at the weak equivalences (Riehl, Category Theory in Context, §6.4)' -- i.e. the library itself cites this very item as motivation, not as content. Also confirmed Theory/Category/Raw.v:110 `DerivedEquivalence` is an unrelated setoid construction."
+    }
+  },
+  {
+    "id": "riehl:6.4:def10",
+    "classification": "ABSENT",
+    "aliases": [
+      "point-set left derived functor (LF : C ⟶ D homotopical with lambda : LF => F)",
+      "point-set right derived functor (RF : C ⟶ D homotopical with rho : F => RF)",
+      "lift of a total derived functor along the localization delta; derived functor at the point-set level",
+      "likely Coq encoding: `Record PointSetLeftDerived (F : C ⟶ D) := { psl_functor : C ⟶ D; psl_homotopical : ...; psl_nat : psl_functor ⟹ F; psl_is_total : ... }`",
+      "cofibrant/fibrant replacement functor; Quillen's Q and R functors as point-set derived functors"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i -n 'point.set|pointset' --glob '*.v'  ->  0 hits.",
+      "rg -i -n 'derived functor|Derived' --glob '*.v'  ->  as logged for riehl:6.4:def9: only historical prose plus the unrelated `DerivedEquivalence` in Theory/Category/Raw.v:110. Nothing defines a derived functor at any level, so the point-set refinement has nothing to refine.",
+      "rg -i -n 'homotopical' --glob '*.v'  ->  4 prose hits only; the notion of a homotopical functor (a required component of Definition 6.4.10) is itself absent — see riehl:6.4:def3.",
+      "rg -i -n 'cofibrant|fibrant|replacement|resolution' --glob '*.v'  ->  'resolution' occurs only in the monad-resolution sense (Kleisli/Eilenberg-Moore, Comonad/Duality.v); no cofibrant/fibrant replacement anywhere.",
+      "rg -i -n 'localiz' --glob '*.v'  ->  the in-tree localization (Construction/Localization{,/Universal}.v) has no notion of lifting a functor ALONG the localization, which is the defining clause ('delta.LF together with delta.lambda define a total left derived functor')."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed: ABSENT. 'point-set' has 0 tree hits; no derived functor of any kind exists (see def9); the required component 'homotopical functor' is itself absent (def3); and the in-tree localization has no notion of lifting a functor along the localization. No cofibrant/fibrant replacement anywhere -- 'resolution' in-tree means Kleisli/Eilenberg-Moore monad resolutions only."
+    }
+  }
+]

@@ -1,0 +1,396 @@
+[
+  {
+    "id": "awodey:7.9:example26",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Par / PAR / Pfn — category of sets and partial maps",
+      "Kleisli category of the maybe/option (partiality, exception) monad",
+      "Sets_* / Set_• — category of pointed sets and point-preserving maps",
+      "coslice 1/Set (pointed objects as a comma category)",
+      "domain of definition U_f; partial function A ⇀ B; A → 1 + B"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Sets/Par.v",
+        "line": 27,
+        "symbol": "Part",
+        "intree_statement": "Program Definition Part : Category := {| obj := Sets; hom := fun x y => @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y)); homset := fun x y => @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |} |}.  (* identity obligation: exact (Some X); composition obligation: destruct (g X) as [b|] => f b | None *)"
+      },
+      {
+        "file": "Instance/Coq/Par.v",
+        "line": 53,
+        "symbol": "Par",
+        "intree_statement": "Program Definition Par : Category := {| obj := Type; hom := fun A B => A ~> option B; homset := fun P Q => {| equiv := fun f g => ∀ x, f x = g x |}; id := λ _, Some; compose := fun x y z f g => option_bind f ∘ g |}."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 169,
+        "symbol": "Coslice",
+        "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+      }
+    ],
+    "statement_record": {
+      "book": "Two categories are constructed. (a) Par: objects are sets; an arrow f : A → B is a partial function, i.e. a function |f| : U_f → B on a subset U_f ⊆ A; 1_A is the total identity; the composite g∘f has domain |f|^{-1}(U_g), obtained as the pullback of U_g ↪ B along |f|, and composition is associative with the identities as units. (b) Sets_*: objects are pointed sets (A,a), arrows are functions f : A → B with f(a) = b.",
+      "intree": "[Part] : Category with obj := Sets, hom x y := SetoidMorphism x (option y), id := Some, compose := Kleisli bind — 'This is the category PAR (also written Par or Pfn) of setoids and partial maps ... a partial map A ⇀ B is encoded as a total setoid map A → option B'; and [Par] : Category with obj := Type, hom A B := A → option B, id := Some, compose := option_bind f ∘ g. For (b) only the generic [Coslice C c] : Category exists.",
+      "strength_comparison": "intree-weaker: clause (a) is PRESENT twice over (setoids in Instance/Sets/Par.v, Coq Types in Instance/Coq/Par.v), with the standard Kleisli-of-option encoding replacing the subset-domain presentation — a faithful rephrasing, and the category laws (id_left/id_right/comp_assoc) are discharged, so the associativity-and-units content of the book item is proven. Clause (b) has no in-tree counterpart beyond the generic coslice construction: [Coslice] is never instantiated at (Sets, 1), so there is no category of pointed sets, no point-preserving-map hom-setoid, and no assertion identifying Coslice Sets 1 with Sets_*."
+    },
+    "gap": "Sets_* (pointed sets and point-preserving maps) is never constructed. Construction/Slice.v's generic `Coslice c ̸co C` would yield it as `Coslice Sets 1` — the file's own header essay says so in prose at line 82 ('pointed sets are the coslice of Set under the one-point set') — but no such instantiation exists anywhere in the tree, so the second half of the example has no in-tree object of study. Secondarily, Par's composition is not exhibited as the pullback of the inclusion U_g ↪ B along |f|: the encoding trades domains-of-definition for `option`, and no lemma connects Instance/Sets/Par.v to Structure/Pullback.v.",
+    "negative_search_log": [
+      "rg -n -i 'partial (map|function|arrow)' --glob '*.v' — 16 hits; the two category definitions are Instance/Sets/Par.v:27 and Instance/Coq/Par.v:53, the rest are header prose",
+      "rg -n -i 'pointed' --glob '*.v' — 25 hits; all are pointed ENDOfunctors (Instance/Fun.v:230 Pointed, :240 WellPointed) or header prose (Instance/Coq/Par.v:34-36, Construction/Slice.v:82, Theory/Coq/Maybe.v:29); no pointed-set category",
+      "rg -n -i 'basepoint|base point|Sets_\\*|PointedSet' --glob '*.v' — 10 hits, all comments",
+      "rg -n 'Coslice|coslice' --glob '*.v' — 5 hits, all inside Construction/Slice.v (generic Definition at 169 + Comma_Coslice at 181); zero instantiations"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Independent blind pass reached PARTIAL before opening coverage-7-4.json. My searches: `rg -il 'partial (map|function)'` -> Instance/Coq/Par.v, Instance/Sets/Par.v, Instance/Coq/ParE.v, Theory/Coq/Maybe.v (+ prose); `rg -in 'Pointed'` -> only Instance/Fun.v:230/240 pointed/well-pointed ENDOfunctors plus header prose; `rg -n 'Coslice'` -> Construction/Slice.v only, never instantiated. Cited evidence re-opened and quotes verified verbatim: Instance/Sets/Par.v:27 `Program Definition Part : Category` (obj := Sets, hom := SetoidMorphism x (option y)); Instance/Coq/Par.v:53 `Program Definition Par : Category` (obj := Type, hom := A -> option B, id := Some, compose := option_bind f o g); Construction/Slice.v:169 `Coslice`. Both Par files are registered in _CoqProject (lines 189, 236). strength_comparison is honest: clause (a) genuinely present twice with the category laws discharged (I read the id_left/id_right/comp_assoc obligations in both files), clause (b) genuinely missing. Cross-check of the file's own cross-reference integrity: Instance/Coq/Par.v:222-227 points at `to_from_impossible`/`from_to_impossible` in Instance/Sets/Par.v -- both exist (lines 240, 269), so no stale pointer. The header remark at Instance/Coq/Par.v:34-36 ('equivalent to the category of pointed sets') is a mathematical statement about the category, not a claim that the equivalence is built, so it is not a library defect."
+    }
+  },
+  {
+    "id": "awodey:7.9:prop27",
+    "classification": "ABSENT",
+    "aliases": [
+      "Par ≃ Sets_* (partial maps equivalent to pointed sets)",
+      "adjoining a disjoint basepoint, A ↦ A_* = A ⊔ {*}",
+      "free pointed set / forget-the-basepoint functors",
+      "Kleisli(option) ≃ 1/Set",
+      "equivalence but not isomorphism of categories (pseudo-inverse functors)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Par|Part' --glob '*.v' | grep -i 'equiv|≃|≅' — 0 relevant hits (only 'Paré 1985' in Theory/Bicategory.v:113 and ParHom in Instance/Parallel.v:85)",
+      "rg -n 'Coslice' --glob '*.v' — 5 hits, all the generic definition in Construction/Slice.v; never instantiated at Sets, so the right-hand side of the equivalence does not exist in-tree",
+      "rg -n -i 'pointed' --glob '*.v' — only pointed ENDOfunctors (Instance/Fun.v:230/240) and header prose; no functor F : Par ⟶ Sets_*, no G : Sets_* ⟶ Par",
+      "rg -n -i 'basepoint|base point' --glob '*.v' — 10 hits, all comments; the A ↦ A ⊔ {*} functor is not defined",
+      "rg -n 'Kleisli' --glob '*.v' | grep -i 'option|maybe' — 6 hits, all header prose in Instance/Coq/Par.v, Instance/Sets/Par.v, Theory/Coq/Maybe.v",
+      "rg -n -i 'pointed object|PointedObject' --glob '*.v' — 3 hits, all comments (Theory/Coq/Maybe.v:29 'its algebras are the pointed objects', Instance/Coq/ParE.v:180, Theory/Displayed.v:104)",
+      "NEAR MISS, prose only: Instance/Coq/Par.v:34-36 asserts exactly this proposition in a comment — 'This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps: the object [A] realizes the pointed set [option A = A ⊔ {None}] with basepoint [None]' — but there is no EquivalenceOfCategories instance, no witnessing functors, and no natural isomorphism anywhere in the tree. The equivalence machinery it would need does exist (Theory/Equivalence.v:151 EquivalenceOfCategories, Theory/Equivalence/Bundled.v:36 CategoryEquivalence), and the Par side exists (Instance/Sets/Par.v:27, Instance/Coq/Par.v:53); only the proposition itself is missing."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Searches run: `rg -n 'CategoryEquivalence|\\u2243'` (all hits are the generic Theory/Equivalence/Bundled.v apparatus plus prose -- Construction/Slice.v:75, Instance/One.v:22, Grothendieck/Fiber.v:36 -- none involving Par); `rg -n 'Coslice'` (Construction/Slice.v only, zero instantiations, so the codomain of the claimed equivalence does not exist); `rg -in 'pointed|basepoint'` (endofunctors + prose only). The classifier's NEAR MISS entry is accurate and I independently found the same prose at Instance/Coq/Par.v:34-36; there is no witnessing functor, no natural isomorphism, no EquivalenceOfCategories instance. ABSENT with a populated negative_search_log is the correct record shape here."
+    }
+  },
+  {
+    "id": "awodey:7.9:example28",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Sets^I ≃ Sets/I (families vs bundles)",
+      "slice / over category C/c; indexed family of objects",
+      "fibre functor α ↦ (α^{-1}{i})_{i∈I}; total-space functor (A_i) ↦ ∐A_i → I",
+      "base change / reindexing / pullback functor f^* : E/F ⟶ E/E",
+      "family fibration; codomain fibration; self-indexing"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice/Pullback.v",
+        "line": 67,
+        "symbol": "Star_Functor",
+        "intree_statement": "Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g.  Program Definition Star_Functor `(f : c ~> a) : @Slice C a ⟶ @Slice C c := {| fobj := λ '(_; h), let pull : Pullback h f := pullbacks h f in (Pull h f pull; pullback_snd h f pull); fmap := λ '(a; x) '(b; y) '(g; H), ... (unique_obj uniq; snd (unique_property uniq)) |}."
+      },
+      {
+        "file": "Construction/Slice.v",
+        "line": 123,
+        "symbol": "Slice",
+        "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}."
+      },
+      {
+        "file": "Instance/Discrete.v",
+        "line": 37,
+        "symbol": "DiscreteCat",
+        "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := ... (with Instance/Fun.v:108 Program Definition Fun : Category and Notation \"[ C , D ]\" := (@Fun C D), so that Sets^I is expressible as [DiscreteCat I, Sets])"
+      }
+    ],
+    "statement_record": {
+      "book": "For a set I viewed as a discrete category, Sets^I is the category of I-indexed families of sets and I-indexed families of functions, and it is equivalent (not isomorphic) to the slice Sets/I, via Φ((A_i)) = (∐_i A_i → I) and Ψ(α : A → I) = (α^{-1}{i})_i. More generally the slice E/E makes 'E-indexed family of objects of E' precise in any category E, where the functor-category presentation is unavailable; and if E has pullbacks, reindexing along f : E → F is the pullback functor f^* : E/F ⟶ E/E.",
+      "intree": "Slice C c is defined as the category of objects-over-c; Star_Functor f : Slice C a ⟶ Slice C c is the base-change/pullback functor f^*, with its action on morphisms produced by the pullback UMP (ump_pullbacks) under the standing Hypothesis that the relevant pullbacks exist; DiscreteCat A and the functor category [C, D] both exist, so [DiscreteCat I, Sets] is expressible.",
+      "strength_comparison": "intree-weaker overall: the slice-as-indexed-family clause and the reindexing-by-pullback clause are PRESENT (Slice, Star_Functor), and Star_Functor is if anything stated more generally than the book (any C with the assumed pullbacks, any f, not merely Sets). But the headline equivalence Sets^I ≃ Sets/I is entirely absent — neither comparison functor is defined and no naturality is proven — and the Σ_f ⊣ f^* adjunction that the surrounding development would need is only a COMMENTED-OUT stub (Base_Functor_Adjunction) in the same file."
+    },
+    "gap": "The equivalence Sets^I ≃ Sets/I itself is nowhere in-tree. Neither of the two witnessing functors exists: there is no coproduct-of-an-I-indexed-family construction with its indexing projection (Φ) and no fibre functor α ↦ (α^{-1}{i})_i (Ψ), hence no unit/counit natural isomorphisms and no EquivalenceOfCategories instance. The claim appears only as header prose at Construction/Slice.v:73-77 ('an object of Set/I is the same data as an I-indexed family of sets ... an equivalence Set/I ≃ Set^I'). Additionally the adjunction Σ_f ⊣ f^* accompanying the base-change clause is a commented stub, not a theorem.",
+    "negative_search_log": [
+      "rg -n -i 'indexed famil|family of sets|Sets\\^I|fibre famil|fiber famil' --glob '*.v' — 10 hits; the only relevant ones are prose (Construction/Slice.v:73-77, Construction/Grothendieck.v:64)",
+      "rg -n -i 'Slice' --glob '*.v' | grep -i 'equiv|≃|≅' — 1 hit, Construction/Comma.v:46, about C̸c ≅ (Id ↓ =(c)), not about Sets^I"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Verified every citation by opening the file: Construction/Slice.v:123 `Program Definition Slice` (obj := exists a, a ~> c) -- exact; Construction/Slice/Pullback.v:67 `Star_Functor` under `Hypothesis pullbacks` -- exact; Instance/Discrete.v:37 `Program Definition DiscreteCat@{o h p}` -- exact; Instance/Fun.v:108 `Program Definition Fun : Category` -- exact. All three files are in _CoqProject. I independently confirmed the headline equivalence is prose-only: Construction/Slice.v:73-77 states 'an equivalence Set/I \\u2243 Set^I' citing Leinster, and `rg -n '\\u2243'` finds no Sets^I/Sets/I theorem. The gap's secondary claim also checks out and is if anything understated: Construction/Slice/Pullback.v:122-129 is a fully commented-out `Base_Functor_Adjunction` stub, and its header (lines 32-40) both asserts Sigma_f -| f* and discloses that the live statement is only sketched -- honest disclosure, not a defect."
+    }
+  },
+  {
+    "id": "awodey:7.9:example29",
+    "classification": "PARTIAL",
+    "aliases": [
+      "duality theorem as an equivalence C ≃ D^op",
+      "dual equivalence / contravariant equivalence",
+      "opposite category D^op, C^op^op = C",
+      "equivalence versus isomorphism versus equality of categories",
+      "Stone duality (Boolean algebras vs Stone spaces) as the motivating instance"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 151,
+        "symbol": "EquivalenceOfCategories",
+        "intree_statement": "Class EquivalenceOfCategories {C D : Category} (F : C ⟶ D) := { quasi_inverse : D ⟶ C; equivalence_counit : F ◯ quasi_inverse ≈ Id[D]; equivalence_unit : Id[C] ≈ quasi_inverse ◯ F }.  (bundled as Theory/Equivalence/Bundled.v:36 Definition CategoryEquivalence (C D : Category) : Type := ∃ F : C ⟶ D, EquivalenceOfCategories F, with Notation \"C ≃ D\")"
+      },
+      {
+        "file": "Theory/Equivalence.v",
+        "line": 163,
+        "symbol": "Equivalence_to_Cat_Iso",
+        "intree_statement": "Definition Equivalence_to_Cat_Iso {C D : Category} {F : C ⟶ D} (E : EquivalenceOfCategories F) : C ≅[Cat] D := @Build_Isomorphism Cat C D F (@quasi_inverse C D F E) (@equivalence_counit C D F E) (symmetry (@equivalence_unit C D F E)).  (converse at :172 Cat_Iso_to_Equivalence; round trips at :182, :187)"
+      },
+      {
+        "file": "Construction/Opposite.v",
+        "line": 126,
+        "symbol": "op_invol",
+        "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C.  (over Definition Opposite `(C : Category) : Category at :106, with Notation \"C ^op\")"
+      }
+    ],
+    "statement_record": {
+      "book": "A large class of examples of equivalences comes from classical duality theorems; these are typically NOT isomorphisms C ≅ D^op (still less equalities C = D^op) but equivalences C ≃ D^op, because the construction establishing the duality recovers the original object only up to isomorphism. The finite boolean-algebra result to follow is a special case of Stone Duality.",
+      "intree": "The vocabulary the example needs is all present and asserted: C ≃ D as ∃F, EquivalenceOfCategories F; C^op with (C^op)^op = C on the nose; and the equivalence/isomorphism gradation realized concretely as Cat versus StrictCat — Equivalence_to_Cat_Iso/Cat_Iso_to_Equivalence assert that an equivalence IS precisely an isomorphism in Cat (whose hom-setoid Functor_Setoid identifies functors up to natural isomorphism), while Instance/StrictCat.v:57 Instance StrictCat := { obj := Category; hom := @Functor; homset := @Functor_StrictEq_Setoid; ... } is the strict 1-category 'in which an isomorphism is a genuine (on-the-nose) isomorphism of categories'.",
+      "strength_comparison": "intree-weaker: every ingredient of the example's assertion is formalized, but the assertion itself — that duality theorems take the shape C ≃ D^op and are not on-the-nose isomorphisms — is nowhere instantiated. Note a presentational subtlety the reader must not miss: because Cat's hom-setoid is up-to-natural-isomorphism, the library's `≅[Cat]` already MEANS equivalence, so the distinction the example draws lives between StrictCat and Cat, not between `≅` and `≃`; a naive reading of an in-tree `C ≅[Cat] D` as 'isomorphism of categories' in Awodey's sense would be wrong."
+    },
+    "gap": "No duality theorem of the shape C ≃ D^op (or C ≅[Cat] D^op) is proven anywhere in-tree: there is no concrete pair of categories exhibited as equivalent to an opposite. The two candidates are prose only — the self-duality of relations is stated in Instance/Rel.v:38's header ('self-duality `Rel ≅ Rel^op`') with no corresponding functor or isomorphism among that file's definitions (Rel:45, Rel_Initial:90, Rel_Cartesian:97, Rel_Cocartesian:127, Rel_Closed:146, Relation_Functor:167), and Stone duality appears only in Theory/Equivalence.v:119-122's background essay. So the example's motivational claim about the SHAPE of duality results is expressible in-tree but unwitnessed.",
+    "negative_search_log": [
+      "rg -n '\\^op' --glob '*.v' | grep -i '≃|Equivalence\\b' — hits are all Theory/Equivalence/Limit.v machinery (EquivalenceOfCategories_op at :526 dualizes an equivalence) and Adjunction/Opposite.v prose; no C ≃ D^op instance",
+      "rg -n -i 'self-dual|selfdual|dual.*≅|≅.*\\^op|≅\\[Cat\\]' --glob '*.v' — 30 hits; the ≅[Cat] ones are Comonad/Coalgebra.v:304, Instance/Cones/Comma.v:73, Construction/Comma/Adjunction.v:864, Construction/Funny/{Swap,Unitors,Associator,Closed}.v — none has an opposite category on either side",
+      "rg -n -i 'stone' --glob '*.v' — only Theory/Equivalence.v:120 (essay), plus 'stepping-stone'/'Rosetta Stone'/'capstone' false positives"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Citations verified verbatim: Theory/Equivalence.v:151 `Class EquivalenceOfCategories` (quasi_inverse / equivalence_counit / equivalence_unit), :163 `Definition Equivalence_to_Cat_Iso ... : C \\u2245[Cat] D`, and the converse at :172 plus round trips at :182/:187; Construction/Opposite.v:126 `Lemma op_invol : (C^op)^op = C`. The strength_comparison's load-bearing presentational claim is CORRECT and I checked it independently: Instance/Cat.v:145 sets `homset := @Functor_Setoid` and Theory/Functor.v:148 defines Functor_Setoid's equiv as a natural isomorphism family, while Instance/StrictCat.v:59 uses `@Functor_StrictEq_Setoid` -- so in-tree `\\u2245[Cat]` really does mean equivalence and the book's iso-vs-equivalence distinction lives at Cat-vs-StrictCat. I re-ran the negative search for any duality-shaped theorem: `rg -n '\\u2245\\[Cat\\]' | grep op` returns nothing and no `C \\u2243 D^op` exists; the Instance/Rel.v:38 self-duality remark is explicitly scoped by lines 41-44 ('None of that extra structure is built here'), so it is disclosed, not a stale claim."
+    }
+  },
+  {
+    "id": "awodey:7.9:prop30",
+    "classification": "ABSENT",
+    "aliases": [
+      "finite Stone duality: BA_fin ≃ Sets_fin^op",
+      "category of Boolean algebras BoolAlg / BA and boolean homomorphisms",
+      "contravariant powerset functor P : Sets_fin^op ⟶ BA_fin",
+      "atoms functor A(B) = {a : 0 < a and (b < a → b = 0)}; ultrafilter functor Ult = Hom(−,2)",
+      "α_X : X ≅ A(P X) (atoms of a powerset are singletons); β_B : B ≅ P(A B)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'boolean algebra|BoolAlg|\\bBA\\b' --glob '*.v' — 5 hits, ALL header prose: Structure/Cocartesian.v:100, Theory/Equivalence.v:120-121, Instance/Two.v:85-87, Theory/Lawvere.v (list of algebraic theories). No Class, Record, Definition or Instance for a Boolean algebra or its category",
+      "rg -n -i 'BooleanAlgebra|BA_fin|complete atomic' --glob '*.v' — 0 hits",
+      "rg -n -i 'ultrafilter' --glob '*.v' — 3 hits, all prose about the ultrafilter MONAD (Theory/Monad.v:65, Theory/Kan/Extension.v:39 and :86); no Ult functor, no filter/ultrafilter definition",
+      "rg -n -i '\\batoms?\\b' --glob '*.v' — 1 hit, Solver/Reify.v:33 'a morphism atom reifies to [Morph n]' (unrelated reification jargon)",
+      "rg -n -i 'powerset|power set|power object|\\bPow\\b' --glob '*.v' — the only power construct is Structure/Topos.v:129 Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := Ω ^ a (power OBJECT in an elementary topos) and Theory/Multicategory/Endomorphism.v:69 Fixpoint pow (n-fold product); neither is a functor Sets^op ⟶ BoolAlg",
+      "rg -n -i 'lattice|meet\\b|\\bjoin\\b|join-prime' --glob '*.v' — no order-theoretic lattice development; 'join' hits are the monad multiplication",
+      "rg -n -i 'Heyting|frame\\b|locale' --glob '*.v' — Heyting appears only in prose (Structure/Topos.v, Theory/Sheaf.v, Instance/Two.v:85, Theory/Lawvere.v) plus Instance/Props.v's nLab link; no algebraic-lattice category",
+      "rg -n -i 'stone' --glob '*.v' — no Stone duality, no Stone spaces (all hits are 'stepping-stone', 'Rosetta Stone', 'capstone', or the Theory/Equivalence.v:120 essay citation)",
+      "NOTE: the Sets_fin side has a carrier — Instance/FinSet.v defines skeletal FinSet with computable coproducts (FinSet_Cocartesian:250) and Instance/FinSet/Topos.v assembles FinSet_Topos — but nothing on the Boolean-algebra side exists, and no equivalence FinSet^op ≃ anything is stated"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, before reading the coverage file. My own searches: `rg -iln 'boolean'` -> 16 files, every hit prose (Theory/Equivalence.v:120 Stone citation, Instance/Two.v:85-88 'Boolean algebra [_2]' as a posetal-category aside, Theory/Lawvere.v:87 list of algebraic theories); `rg -in 'ultrafilter'` -> exactly 3 hits, all about the ultrafilter MONAD (Theory/Monad.v:65, Theory/Kan/Extension.v:39, :86) -- I reproduced the classifier's count exactly; `rg -in '\\batom'` -> 1 hit, Solver/Reify.v:33 (reification jargon); `rg -in '\\batomic\\b'` -> 0 hits; `rg -in 'lattice|Heyting'` -> prose only. No Class/Record/Definition for a Boolean algebra, no homomorphism type, no atoms or ultrafilter functor, no powerset functor Sets^op -> BA. The FinSet remark in the log is accurate (Instance/FinSet.v:250 FinSet_Cocartesian verified), but supplies only the Sets_fin side. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "awodey:7.9:lem31",
+    "classification": "ABSENT",
+    "aliases": [
+      "atoms of a finite boolean algebra correspond to its ultrafilters",
+      "principal ultrafilter / principal up-set ↑a = {b : a ≤ b}",
+      "ultrafilter U ↦ ⋀U (meet of a finite filter lies in the filter)",
+      "prime filter / maximal filter in a boolean algebra",
+      "atom a: 0 < a and (b < a → b = 0)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'ultrafilter' --glob '*.v' — 3 hits, all header prose about the ultrafilter monad (Theory/Monad.v:65, Theory/Kan/Extension.v:39, :86); no filter, ultrafilter, or prime-filter definition",
+      "rg -n -i '\\bfilter\\b' --glob '*.v' — hits are Coq stdlib FMap/list `filter` (Lib/FMapExt.v, Theory/Coq/Map.v:457, Theory/Metacategory.v) and a comment about digital filters (Comonad/CoKleisli.v:80); no order-theoretic filter",
+      "rg -n -i '\\batoms?\\b' --glob '*.v' — 1 hit, Solver/Reify.v:33 (unrelated)",
+      "rg -n -i 'boolean algebra|BoolAlg' --glob '*.v' — 5 hits, all prose; no Boolean algebra structure exists, so 'the atoms of B' and 'the ultrafilters in B' are not even statable",
+      "rg -n -i 'lattice|meet\\b|join-prime|up-set|upset|down-set|principal' --glob '*.v' — no lattice/order development beyond Instance/Poset.v and Instance/Proset.v (bare (pre)orders as categories, no meets/joins/complements)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -in 'ultrafilter'` -> 3 prose hits (ultrafilter monad only); `rg -in 'filter'` -> Coq stdlib FMap/list `filter` in Lib/FMapExt.v and a digital-filter comment, no order-theoretic filter; `rg -in '\\batom'` -> Solver/Reify.v:33 only; no Boolean algebra structure exists so 'the atoms of B' and 'the ultrafilters in B' are not even statable, exactly as the record says. Instance/Poset.v and Instance/Proset.v give bare (pre)orders as categories with no meets, joins or complements -- I confirmed by reading their headers. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "awodey:7.9:lem32",
+    "classification": "ABSENT",
+    "aliases": [
+      "every element of a finite boolean algebra is the join of the atoms below it",
+      "atomicity / atomistic lattice",
+      "atoms are join-prime: a ≤ b ∨ b' implies a ≤ b or a ≤ b'",
+      "β_B : B ≅ P(A(B)) is an isomorphism of boolean algebras",
+      "join of a subset of atoms as the inverse of b ↦ {a ∈ A(B) : a ≤ b}"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i '\\batoms?\\b|atomic' --glob '*.v' — 1 relevant-looking hit, Solver/Reify.v:33 'morphism atom' (reification jargon), plus 'atomic' nowhere as an order-theoretic property",
+      "rg -n -i 'join-prime|joinprime' --glob '*.v' — 0 hits",
+      "rg -n -i 'boolean algebra|BooleanAlgebra|complement' --glob '*.v' — no Boolean algebra structure; complements appear only as coproduct/subobject vocabulary",
+      "rg -n -i 'lattice|\\bjoin\\b|meet\\b' --glob '*.v' — 'join' is always the monad multiplication (Comonad/Core.v, Monad/Compose.v); 'lattice' occurs only in prose (Structure/Complete.v, Structure/Limit.v about Scott domains)",
+      "NOTE: the nearest in-tree analogues are order-as-category instances (Instance/Poset.v, Instance/Proset.v, Instance/Two.v) and coproducts-as-joins prose (Structure/Cocartesian.v), none of which asserts an atomicity or join-primeness fact"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -in '\\batomic\\b'` -> 0 hits in .v files (I ran this verbatim); `rg -in 'join-prime'` -> 0 hits; 'join' occurrences are the monad multiplication (e.g. option_join in Instance/Coq/Par.v:45). No Boolean algebra, no lattice-order development, hence no atomicity or join-primeness statement and no beta_B : B \\u2245 P(A(B)). ABSENT confirmed."
+    }
+  },
+  {
+    "id": "awodey:7.9:remark-caba",
+    "classification": "ABSENT",
+    "aliases": [
+      "caBA ≃ Sets^op (complete atomic boolean algebras)",
+      "complete boolean algebra; complete homomorphism (preserves arbitrary joins)",
+      "atomic boolean algebra (every nonzero element dominates an atom)",
+      "full Stone Duality: BoolAlg ≃ StoneSpace^op",
+      "Stone space / profinite space / totally disconnected compact Hausdorff space"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'complete atomic|caBA|complete boolean' --glob '*.v' — 0 hits",
+      "rg -n -i 'boolean algebra|BoolAlg' --glob '*.v' — 5 hits, all header prose; no Boolean algebra class, no homomorphisms, no category",
+      "rg -n -i 'stone' --glob '*.v' — only 'stepping-stone'/'Rosetta Stone'/'capstone' plus the Theory/Equivalence.v:119-122 essay citation of Stone 1936; no Stone spaces, no topological-space category at all",
+      "rg -n -i 'compact|Hausdorff|topolog' --glob '*.v' — topological spaces are referenced only in prose (Theory/Monad.v:65 on compact Hausdorff spaces as ultrafilter-monad algebras); there is no Top instance in Instance/",
+      "rg -n -i 'ultrafilter|\\batoms?\\b' --glob '*.v' — as above, prose/unrelated only",
+      "NOTE: Sets and FinSet exist (Instance/Sets.v, Instance/FinSet.v) and Construction/Opposite.v supplies Sets^op, so the right-hand side of caBA ≃ Sets^op is available; the entire left-hand side and the equivalence are missing"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -in 'complete atomic|caBA'` -> 0 hits; `rg -in 'stone'` -> only 'stepping-stone'/'Rosetta Stone'/'capstone'/'milestone' plus the Theory/Equivalence.v:119-124 background essay citing Stone 1936; `rg -in 'Instance Top\\b|Definition Top\\b'` -> 0 hits, confirming there is no category of topological spaces at all, so the Stone-space side of the full duality is not statable either. The record's NOTE that Sets/FinSet and Construction/Opposite.v supply the right-hand side is accurate. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "awodey:7:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "exponential law A^(B+C) ≅ A^B × A^C",
+      "exp_coprod / hom out of a coproduct / co-universal property of +",
+      "representable functors preserve limits; Hom(B+C, A) ≅ Hom(B,A) × Hom(C,A)",
+      "distributivity in a bicartesian closed category",
+      "powerset law P(A+B) ≅ P(A) × P(B); 2^(A+B) ≅ 2^A × 2^B"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 134,
+        "symbol": "exp_coprod",
+        "intree_statement": "#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z := { to := curry (eval ∘ second inl) △ curry (eval ∘ second inr); from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r) }.  (in a Section with Context `{@Cartesian C}, `{@Cocartesian C}, `{@Closed C _}; both round-trip obligations are proved)"
+      },
+      {
+        "file": "Instance/Coq.v",
+        "line": 167,
+        "symbol": "Coq_Closed",
+        "intree_statement": "Program Instance Coq_Closed : @Closed Coq _ := { ... }  (with Coq_Cartesian at :141 and Coq_Cocartesian at :199, so exp_coprod instantiates at Coq, giving A^(B+C) ≅ A^B × A^C for Coq types; FinSet likewise has FinSet_Cocartesian at Instance/FinSet.v:250 and the exponential codecs of Instance/FinSet/Closed.v)"
+      }
+    ],
+    "statement_record": {
+      "book": "Using that representable functors preserve finite limits, show that for any sets A, B, C there is an isomorphism A^(B+C) ≅ A^B × A^C; then conclude that for any sets A, B the powersets satisfy P(A+B) ≅ P(A) × P(B).",
+      "intree": "exp_coprod {x y z : C} : x^(y + z) ≅ x^y × x^z, proven for an arbitrary category that is Cartesian, Cocartesian and Closed, with explicit to/from morphisms and both round trips discharged; re-exposed as a goal in Theory/Algebra.v:86 ('Goal ∀ x y z : C, x^(y + z) ≅ x^y × x^z. auto. Qed.').",
+      "strength_comparison": "intree-stronger on the first clause: the book asks for sets, the library proves it for any bicartesian closed category (hence for Coq, and for FinSet), and it is an ISOMORPHISM WITH NAMED MAPS rather than a bijection of hom-sets. intree-weaker on the route and the second clause: the argument is by currying, not by 'representable functors preserve finite limits' (no such theorem exists in-tree), and the powerset corollary is never drawn."
+    },
+    "gap": "The powerset half — P(A+B) ≅ P(A) × P(B) — is not stated. There is no powerset object or powerset functor on Sets or Coq anywhere in the tree; the only power construct is `Pow a := Ω ^ a` inside `ElementaryTopos` (Structure/Topos.v:129), and `ElementaryTopos` carries terminal + products + pullbacks only, no coproducts, so `Pow (a + b)` is not typable from that class alone. It could be run inside `FinSet_Topos` (Instance/FinSet/Topos.v), which does have `FinSet_Cocartesian`, but no such corollary appears. Separately, the book's stated METHOD is not in-tree: `rg -n -i 'representable' | grep -i 'limit|preserv|continuous'` returns no theorem that a representable functor (or Hom(−,x)) preserves limits — only RAPL for right adjoints (Adjunction/Continuity.v:198-202) — so the exercise's actual instruction ('using that representable functors preserve finite limits') has no formal counterpart.",
+    "negative_search_log": [
+      "rg -n -i 'powerset|power set|power object|\\bPow\\b' --glob '*.v' — only Structure/Topos.v:129 Pow := Ω^a and Theory/Multicategory/Endomorphism.v:69 pow (n-fold product); no P(A+B) statement",
+      "rg -n -i 'representable' --glob '*.v' | grep -i 'limit|preserv|continuous' — 2 hits, both prose (Adjunction/GAFT.v:122, Theory/Universal/Arrow.v:25); no theorem",
+      "rg -n 'Hom.*continuous|hom_preserves|Hom_Preserves' --glob '*.v' -i — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT-leaning-PARTIAL and I settle on CONFIRMING PARTIAL. Citations verified verbatim: Structure/BiCCC.v:134 `#[export] Program Instance exp_coprod {x y z : C} : x^(y + z) \\u2245 x^y \\u00d7 x^z` with the stated to/from and BOTH round-trip obligations proved (I read them at 141-205), inside `Section BiCCC` with `Context {C : Category}` + `@Cartesian C` + `@Cocartesian C` + `@Closed C _` (lines 39-44); Instance/Coq.v:167 `Coq_Closed` with `exponent_obj := Basics.arrow` (so x^y is y -> x), Coq_Cartesian:141, Coq_Cocartesian:199; Instance/FinSet.v:250 FinSet_Cocartesian; and the re-exposure `Goal \\u2200 x y z : C, x^(y + z) \\u2245 x^y \\u00d7 x^z. auto. Qed.` is exactly at Theory/Algebra.v:86 (I counted the line). All files registered in _CoqProject. I independently reproduced the two negative searches: no theorem that representables/hom-functors preserve limits exists (only RAPL at Adjunction/Continuity.v:198-202), and no powerset object/functor on Sets or Coq exists. NOTE FOR THE ISSUE WRITER, in the interest of not overstating the gap: the missing corollary is thin -- with Coq's `x^y := y -> x`, `exp_coprod` at `x := Prop` IS literally P(B+C) \\u2245 P(B) \\u00d7 P(C); what is absent is the named powerset object and the stated corollary, not new mathematics. The route mismatch (currying vs 'representables preserve finite limits') is a presentation difference and would not by itself justify PARTIAL under the frozen definitions; the un-drawn second clause does."
+    }
+  },
+  {
+    "id": "awodey:7:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Stone representation map φ_B : B → P(Ult(B)), b ↦ {V ∈ Ult(B) : b ∈ V}",
+      "naturality of the unit into the double dual, Id ⟹ P^BA ∘ Ult^op",
+      "double-dual natural transformation / canonical map x → x**",
+      "dual adjunction with a schizophrenic (dualizing) object 2",
+      "Hom_Sets(Hom_BA(B,2),2) — the double dual of a boolean algebra"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'boolean algebra|BoolAlg|BooleanAlgebra' --glob '*.v' — 5 hits, all header prose; no boolean algebra structure, no homomorphisms h : A → B, so the square F(h) ∘ φ_A = φ_B ∘ h is not statable",
+      "rg -n -i 'ultrafilter' --glob '*.v' — 3 prose hits about the ultrafilter monad only; no Ult functor",
+      "rg -n -i 'powerset|power set|\\bPow\\b' --glob '*.v' — only Structure/Topos.v:129 Pow := Ω^a; no P^BA : Sets^op ⟶ BA",
+      "rg -n -i 'double.dual' --glob '*.v' — 4 files. NEAR MISS examined and rejected: Structure/Monoidal/StarAutonomous.v:252 Definition double_dual (d : C) : C ⟶ C := dual d ◯ (dual d)^op, with Class StarAutonomous fields star_double_dual {x : C} : x ≅ double_dual dualizer x (:269) and star_double_dual_natural (:272-276). This is a DIFFERENT and strictly stronger hypothesis: it lives in a symmetric monoidal closed category (SymMonClosed, :109), it demands the canonical map be an ISOMORPHISM, and it is a class FIELD (an assumption) rather than a derived naturality. Awodey's φ_B is not invertible in general — its injectivity is the content of Stone's representation theorem — so StarAutonomous does not model this exercise. The remaining hits (Construction/Opposite.v:51, Theory/Natural/Transformation.v:48-52, Theory/Kan/Extension.v:90) are header prose about the double-dual example from Eilenberg–Mac Lane",
+      "rg -n -i 'schizophrenic|dualizing object' --glob '*.v' — dualizing object appears only inside StarAutonomous; no dual-adjunction / schizophrenic-object machinery",
+      "NOTE: the general vocabulary (natural transformations, adjunction units, Opposite, functor composition) all exists, but nothing instantiates it at boolean algebras or at any hom(−,2)-style dual pair"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. `rg -in 'boolean algebra'` -> 5 prose hits only; `rg -in 'ultrafilter'` -> 3 monad-prose hits; `rg -in 'powerset|power object|\\bPow\\b'` -> only Structure/Topos.v:129 `Definition Pow {C} {H : ElementaryTopos C} (a : C) : C := \\u03a9 ^ a` (verified at that exact line) and Theory/Multicategory/Endomorphism.v's n-fold `pow`. I independently examined the StarAutonomous near miss and agree with the rejection for the reason given: `star_double_dual` is a CLASS FIELD demanding an ISO in a symmetric monoidal closed category, whereas Awodey's phi_B is a plain (non-invertible) natural transformation whose injectivity is the content of the representation theorem -- the in-tree structure is a strictly different, stronger hypothesis, not a formalization of this exercise. ABSENT confirmed."
+    }
+  },
+  {
+    "id": "awodey:7:ex3",
+    "classification": "PARTIAL",
+    "aliases": [
+      "forgetful functor U : Groups ⟶ Monoids, V : Monoids ⟶ Sets",
+      "underlying-set functor; Mon_Forget / CMon_Forget / Grp_Forget",
+      "Full, Faithful, fully faithful functor",
+      "injective/surjective on objects; injective/surjective on arrows",
+      "group object with a monoid reduct (GroupObject >-> MonoidObject)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 101,
+        "symbol": "Mon_Forget_Faithful",
+        "intree_statement": "#[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget.  Proof. constructor. intros X Y f g E. exact E. Qed.  (where Faithful is Theory/Functor.v:342 Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g })"
+      },
+      {
+        "file": "Theory/Algebra/Monoid/Hom.v",
+        "line": 93,
+        "symbol": "Mon_Forget",
+        "intree_statement": "Program Definition Mon_Forget : Mon ⟶ C := {| fobj := fun X => `1 X; fmap := fun _ _ f => `1 f |}.  (over :83 Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |} ... |}, in Context `{M : @Monoidal C}; at C = Sets this is Awodey's V : Monoids ⟶ Sets)"
+      },
+      {
+        "file": "Structure/Group.v",
+        "line": 109,
+        "symbol": "GroupObject",
+        "intree_statement": "Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate; right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate }.  Coercion groupobject_is_monoid : GroupObject >-> MonoidObject.  (:126 — the object-level 'a group is a monoid', i.e. U on objects only)"
+      }
+    ],
+    "statement_record": {
+      "book": "For the forgetful functors U : Groups ⟶ Monoids and V : Monoids ⟶ Sets, decide for each of the six properties — faithful, full, injective on arrows, surjective on arrows, injective on objects, surjective on objects — whether it holds.",
+      "intree": "Mon : Category (internal monoids in a monoidal C) with Mon_Forget : Mon ⟶ C and Mon_Forget_Faithful : Faithful Mon_Forget, proved because morphism equivalence in Mon IS equivalence of the underlying C-morphisms. GroupObject exists as a class with a coercion to MonoidObject, but no category of groups and no functor between them.",
+      "strength_comparison": "intree-weaker: exactly one of the twelve determinations the exercise requires is settled (V is faithful), and it is settled in greater generality than the book asks (any monoidal C, not just Sets). Nothing at all is settled about U, because there is no category of groups and no forgetful functor Groups ⟶ Monoids; and four of the six properties have no in-tree vocabulary whatsoever."
+    },
+    "gap": "Only one of the exercise's twelve determinations exists in-tree. (a) There is no category of groups: Structure/Group.v gives the class GroupObject (with a coercion GroupObject >-> MonoidObject, which is U on objects) but no Grp category and no functor U : Grp ⟶ Mon, so none of U's six properties — in particular the interesting answer, that U is FULL because a monoid homomorphism between groups automatically preserves inverses — is stated or proved. (b) For V, only faithfulness is proved; the mathematically interesting negative answers (V is not full, not surjective on arrows, not surjective on objects) are absent, and the library never proves any functor NOT full. (c) Four of the six properties are not expressible: Theory/Functor.v defines only Full (:331, as a chosen section prefmap of fmap) and Faithful (:342, as injectivity of fmap); there is no predicate for a functor being injective on arrows, surjective on arrows, injective on objects, or surjective on objects, and the only in-tree object-level condition is EssentiallySurjective (Theory/Equivalence.v:141), which is strictly weaker than surjective-on-objects. (d) Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets is a genuine Monoids-to-Sets forgetful functor for commutative monoids, but its faithfulness is asserted only in the surrounding comment, never proved.",
+    "negative_search_log": [
+      "rg -n -i '\\bGroups\\b|category of groups|GroupObject|Class Group' --glob '*.v' — GroupObject is a class in Structure/Group.v:109 only; every 'Groups' hit is bibliographic prose (Mac Lane, 'Duality for groups'); no Grp category, no Grp forgetful functor",
+      "rg -n -i 'injective on objects|surjective on objects|InjectiveOnObjects|SurjectiveOnObjects' --glob '*.v' — 0 hits; the only injective/surjective classes are Lib/Setoid.v:117/121 for setoid FUNCTIONS, used in Instance/Sets.v:401 (bijection ⇒ iso), not for functors",
+      "rg -n 'Class Full|Class Faithful' --glob '*.v' — Theory/Functor.v:331 and :342 only (plus the Test/FullIssue118.v duplicate); no third functor-injectivity/surjectivity notion",
+      "rg -n 'Forget' --glob '*.v' | grep 'Instance\\|Definition\\|Lemma\\|Theorem' — the faithful forgetful functors proved in-tree are Mon_Forget_Faithful (Theory/Algebra/Monoid/Hom.v:101) and Comon_Forget_Faithful (Theory/Algebra/Comonoid/Hom.v:224); CMon_Forget (Instance/CMon.v:169) has no faithfulness lemma"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL independently. Citations verified: Theory/Algebra/Monoid/Hom.v:83 `Mon : Category` (obj := { x : C & Monoid x }), :93 `Mon_Forget : Mon \\u27f6 C`, :101 `#[export] Instance Mon_Forget_Faithful : Faithful Mon_Forget` with the two-line proof exactly as quoted; Theory/Functor.v:331 `Class Full` (prefmap + fmap_sur) and :342 `Class Faithful` (fmap_inj) -- quoted correctly; Theory/Equivalence.v:141 `Class EssentiallySurjective`; Lib/Setoid.v:117 `Class injective` / :121 `Class surjective` (for setoid FUNCTIONS, not functors) -- all exact. Structure/Group.v:109 `Class GroupObject` is exact; the `Coercion groupobject_is_monoid : GroupObject >-> MonoidObject` is at line 127, not 126 (harmless one-line drift, content confirmed present). I independently confirmed gap (d): `rg -n 'Faithful|Full' Instance/CMon.v` returns NOTHING, so `CMon_Forget` (Instance/CMon.v:169) indeed has no faithfulness lemma -- its comment at 167-168 says 'It is faithful by construction' as a mathematical remark without claiming an in-tree lemma, so this is not a library defect, only an un-drawn easy corollary. I also confirmed Sets is monoidal (Instance/Sets.v:283 Sets_Product_Monoidal), so the record's 'at C = Sets this is Awodey's V : Monoids \\u27f6 Sets' reading is legitimate. No category of groups and no U : Grp \\u27f6 Mon exists (`rg -in '\\bGroups\\b|category of groups'` -> bibliographic prose only). PARTIAL confirmed."
+    }
+  }
+]

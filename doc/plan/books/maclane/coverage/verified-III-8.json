@@ -1,0 +1,259 @@
+[
+  {
+    "id": "maclane:III.6:def1",
+    "classification": "PRESENT",
+    "aliases": ["MonoidObject", "monoid object", "internal monoid", "monoid in a monoidal category", "Monoid (cartesian specialization)"],
+    "evidence": [
+      {"file": "Structure/Monoid.v", "line": 124, "symbol": "MonoidObject",
+       "intree_statement": "Class MonoidObject (mon : C) := { mempty : I ~> mon; mappend : mon ⨂ mon ~> mon; mempty_left : mappend ∘ bimap mempty id ≈ to (@unit_left C _ mon); mempty_right : mappend ∘ bimap id mempty ≈ to (@unit_right C _ mon); mappend_assoc : mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc }"},
+      {"file": "Structure/Monoid.v", "line": 173, "symbol": "Monoid",
+       "intree_statement": "Definition Monoid := @MonoidObject C CC_Monoidal.  (* under Context `{@Cartesian C} `{@Terminal C}: tensor = categorical product ×, unit = terminal object 1 *)"},
+      {"file": "Structure/Monoidal/Internal/Product.v", "line": 54, "symbol": "CC_Monoidal",
+       "intree_statement": "Program Definition CC_Monoidal : @Monoidal C := {| tensor := InternalProductFunctor C; I := 1 |}  (* the cartesian monoidal structure: tensor := ×, I := 1 *)"}
+    ],
+    "statement_record": {
+      "book": "In a category C with finite products and terminal object t, a monoid is a triple (c, mu : c x c -> c, eta : t -> c) with the associativity square commuting modulo the canonical associator of III.5 Prop 1, and the two unit diagrams mu∘(eta×1) = lambda, mu∘(1×eta) = rho.",
+      "intree": "Class MonoidObject over any Monoidal C: mempty : I ~> mon, mappend : mon ⨂ mon ~> mon, with mempty_left/mempty_right equal to the unitors and mappend_assoc conjugated by tensor_assoc; the cartesian case of the book is exactly `Definition Monoid := @MonoidObject C CC_Monoidal` (Structure/Monoid.v:173).",
+      "strength_comparison": "intree-stronger: defined over an arbitrary monoidal category (Bénabou-level generality); Mac Lane's finite-products setting is recovered verbatim as the CC_Monoidal specialization `Monoid`, with the same three laws (unitors and associator inserted exactly as in the book). Setoid ≈ replaces = per library convention."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same evidence independently (MonoidObject at Structure/Monoid.v:124, cartesian Monoid at :173). Verified CC_Monoidal is at Structure/Monoidal/Internal/Product.v:54 with tensor := InternalProductFunctor, I := 1. All three files registered in _CoqProject. Note the library also carries a sibling internal-monoid class Theory/Algebra/Monoid.v:44 (Monoid with mu/eta), used by the Mon category — a duplication, not a gap."}
+  },
+  {
+    "id": "maclane:III.6:def2",
+    "classification": "PRESENT",
+    "aliases": ["GroupObject", "group object", "internal group", "inverse/antipode morphism", "Hopf-type inverse law"],
+    "evidence": [
+      {"file": "Structure/Group.v", "line": 109, "symbol": "GroupObject",
+       "intree_statement": "Class GroupObject (grp : C) := { groupobject_is_monoid : MonoidObject grp; inverse : grp ~> grp; left_inverse : mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate; right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate }  (* Context `{@CartesianMonoidal C} *)"},
+      {"file": "Structure/Group/Proofs.v", "line": 94, "symbol": "left_inverse_unique",
+       "intree_statement": "Lemma left_inverse_unique ... (uniqueness of left inverses, the internal 'yx = I implies y = x⁻¹')"},
+      {"file": "Structure/Group/Proofs.v", "line": 170, "symbol": "mappend_inverse",
+       "intree_statement": "Lemma mappend_inverse : mappend ∘ inverse[grp] ⨂ inverse[grp] ≈ inverse[grp] ∘ mappend ∘ braid"}
+    ],
+    "statement_record": {
+      "book": "A group in C (finite products, terminal t) is a monoid (c, mu, eta) with an arrow zeta : c -> c (right inverse) such that mu ∘ (1 × zeta) ∘ delta_c = eta ∘ (the unique arrow c -> t).",
+      "intree": "GroupObject over CartesianMonoidal C: a MonoidObject plus inverse : grp ~> grp satisfying BOTH left_inverse and right_inverse laws mappend ∘ (inverse ⨂ id) ∘ ∆ ≈ mempty ∘ eliminate and mappend ∘ (id ⨂ inverse) ∘ ∆ ≈ mempty ∘ eliminate; the right_inverse field is literally Mac Lane's diagram.",
+      "strength_comparison": "intree-stronger as a class demand: Mac Lane requires only the right-inverse diagram, the in-tree class requires the two-sided form (the standard nLab/Wikipedia definition). The two are classically equivalent (a one-sided inverse in a monoid is automatically two-sided), but that equivalence is not proven in-tree; every book group object still yields an in-tree one after the routine two-sidedness derivation, and the in-tree definition matches the book's in substance."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same class at Structure/Group.v:109 over CartesianMonoidal (∆/eliminate copy-discard vocabulary = Mac Lane's δ and unique c→t). Verified both Proofs.v lemmas at lines 94 and 170. The strength_comparison honestly discloses the two-sided-vs-one-sided delta and that the classical equivalence is not derived in-tree; this is a presentation difference, PRESENT is right."}
+  },
+  {
+    "id": "maclane:III.6:remark1",
+    "classification": "PARTIAL",
+    "aliases": ["internalization of algebraic structures", "internal algebra", "Lawvere theory model", "Models T C", "finite-product theory", "ring object / lattice object"],
+    "evidence": [
+      {"file": "Theory/Lawvere/Model.v", "line": 50, "symbol": "Model",
+       "intree_statement": "Record Model := { model_fun : @law_cat T ⟶ C; model_cartesian : @CartesianFunctor (@law_cat T) C model_fun (@law_cartesian T) _; model_terminal : @TerminalFunctor (@law_cat T) C model_fun (@law_terminal T) _ }  (* a model of a Lawvere theory T in a cartesian category C is a finite-product-preserving functor *)"},
+      {"file": "Theory/Lawvere/Model.v", "line": 77, "symbol": "Models",
+       "intree_statement": "Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub.  (* the category of models, a full subcategory of the functor category *)"},
+      {"file": "Structure/Monoid.v", "line": 124, "symbol": "MonoidObject",
+       "intree_statement": "Class MonoidObject (mon : C) := { ... }  (* hand-rolled internalization instance: monoids *)"},
+      {"file": "Structure/Group.v", "line": 109, "symbol": "GroupObject",
+       "intree_statement": "Class GroupObject (grp : C) := { ... }  (* hand-rolled internalization instance: groups *)"}
+    ],
+    "statement_record": {
+      "book": "By similar commutative diagrams one may define rings in C, lattices in C, and generally internalize any algebraic system given by finitary operations and equational identities.",
+      "intree": "The general scheme exists in its modern form: a model of any Lawvere theory T in any cartesian C is a finite-product-preserving functor law_cat T ⟶ C (Theory/Lawvere/Model.v), with the category Models T C; individually internalized structures in-tree are monoid, group, (commutative) comonoid, and Frobenius objects (Structure/Monoid.v, Structure/Group.v, Theory/Algebra/*).",
+      "strength_comparison": "intree-stronger on the scheme (a precise functorial semantics for arbitrary finite-product theories, where the book only gestures), intree-weaker on the examples: no ring object or lattice object is defined, and no machinery derives a Lawvere theory from a raw signature-plus-equations presentation."
+    },
+    "gap": "The remark's named examples (rings in C, lattices in C) have no in-tree counterpart; presentations by generators and equations exist for PROPs (Construction/PROP/Presentation.v) but not for Lawvere theories, so 'any algebraic system' is covered only when its Lawvere theory is separately supplied; and no bridge theorem identifies the hand-rolled MonoidObject/GroupObject classes with models of the corresponding theories.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reached the same PARTIAL via the same route (Theory/Algebra/* internalizations + Lawvere models as the general scheme). Verified Record Model at Theory/Lawvere/Model.v:50 with exactly the three cited fields, and Models at :77. Gap statement is accurate: rg found no ring/lattice object and no Lawvere-theory-from-presentation machinery."}
+  },
+  {
+    "id": "maclane:III.6:prop1",
+    "classification": "ABSENT",
+    "aliases": ["group object iff representable hom-functor is a group", "monoid object via C(-,c)", "functor-of-points characterization", "group in Set^(C^op)", "Yoneda transfer of algebraic structure"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'MonoidObject|GroupObject' — hits only in Structure/Monoid.v, Structure/Group.v, Structure/Group/Proofs.v, Theory/Algebra/Monoid.v, Monad/Monoid.v, Instance/StrictCat/Premonoid.v; none states a representable-functor transfer",
+      "grep -rn --include='*.v' -iE 'representable.*(monoid|group)|(monoid|group).*representable' — only unrelated hits (Theory/Multicategory/Representable.v is representable multicategories; Construction/Day.v's representable unit; Adjunction/GAFT.v prose)",
+      "grep -rn --include='*.v' -iE 'naturally in|group structure on|monoid structure on' — Structure/Group.v:28 is the only relevant hit: 'equivalently, [grp] is a group object iff each hom Hom(X, grp) is a group naturally in X' — a header COMMENT, no formal statement or proof",
+      "grep -rn --include='*.v' -iE 'group in (the )?functor category|monoid in (the )?functor category' — 0 hits",
+      "grep -rn --include='*.v' -iE 'pointwise (group|monoid)|group in Set|group object in' — prose header hits only (Structure/Group.v, Theory/Coq/Semigroup.v)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently found only the Structure/Group.v:28 header comment asserting the functor-of-points equivalence, with no formal counterpart; also checked Functor/Representable.v and Instance/Fun/Cartesian.v (pointwise cartesian structure on functor categories exists there, but no monoid/group-object transfer theorem is built on it)."}
+  },
+  {
+    "id": "maclane:III.6:remark2",
+    "classification": "ABSENT",
+    "aliases": ["group object without finite products", "group structure on the presheaf C(-,c)", "representable group in Set^(C^op) over product-less base", "pointwise products in the presheaf category as surrogate"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'without finite products|lacks finite products' — 0 hits",
+      "grep -rn --include='*.v' -iE 'MonoidObject|GroupObject' — the six using files all assume a Monoidal/CartesianMonoidal base on C itself; no definition routes group structure through the presheaf category to drop the finite-products hypothesis",
+      "grep -rn --include='*.v' -iE 'group in (the )?functor category|monoid in (the )?functor category' — 0 hits",
+      "grep -rn --include='*.v' -iE 'representable.*(monoid|group)|(monoid|group).*representable' — no relevant hits (see maclane:III.6:prop1 log; this remark depends on that absent proposition's machinery)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees: every internal-structure class in-tree presupposes (cartesian) monoidal structure on C itself; nothing defines group-ness of c through C(-,c) in the presheaf category. The prerequisite prop1 machinery is itself absent."}
+  },
+  {
+    "id": "maclane:III.6:ex1",
+    "classification": "PARTIAL",
+    "aliases": ["category of monoids in C", "Mon(C)", "MonoidHom", "internal-monoid category has finite products", "Product_Monoid"],
+    "evidence": [
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 34, "symbol": "MonoidHom",
+       "intree_statement": "Class MonoidHom {x y : C} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) := { hom_mu : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f); hom_eta : f ∘ eta[Mx] ≈ eta[My] }"},
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 83, "symbol": "Mon",
+       "intree_statement": "Program Definition Mon : Category := {| obj := { x : C & Monoid x }; hom := fun X Y => { f : `1 X ~> `1 Y & MonoidHom `2 X `2 Y f }; ... |}  (* plus Mon_Forget : Mon ⟶ C, faithful (line 101) *)"},
+      {"file": "Structure/Monoid.v", "line": 179, "symbol": "Product_Monoid",
+       "intree_statement": "Program Instance Product_Monoid `(X : Monoid x) `(Y : Monoid y) : @MonoidObject C CC_Monoidal (x × y)  (* componentwise monoid on the product carrier *)"},
+      {"file": "Instance/CMon/Biproduct.v", "line": 167, "symbol": "CMon_product",
+       "intree_statement": "Definition CMon_product (M N : CMonObject) : CMonObject  (* with CMon_Terminal (line 120): finite (bi)products for the concrete category of commutative monoids in Sets *)"}
+    ],
+    "statement_record": {
+      "book": "Describe the category of monoids in C (morphisms = arrows commuting with multiplication and unit) and show it has finite products (C with finite products and terminal object).",
+      "intree": "Mon(C) is fully constructed — MonoidHom with the two preservation laws, identity/composition closure, the sigma-packaged category Mon, and the faithful forgetful Mon ⟶ C — at the generality of any monoidal C, subsuming the cartesian case via CC_Monoidal; Product_Monoid gives the componentwise monoid structure on x × y.",
+      "strength_comparison": "intree-stronger on the 'describe the category' half (arbitrary monoidal base); intree-weaker on the conclusion: no Terminal or Cartesian instance is proven for Mon(C), so the exercise's finite-products claim is not established there."
+    },
+    "gap": "Finite products of Mon(C) are unproven: no Terminal/Cartesian structure on Mon; Product_Monoid supplies only the candidate carrier (and lives on Structure/Monoid.v's sibling MonoidObject class, never wired into the Mon category of Theory/Algebra/Monoid/Hom.v). The finite-products conclusion exists in-tree only for the concrete category CMon of commutative monoid objects in Sets (Instance/CMon/Biproduct.v), not for Mon(C) over an arbitrary cartesian C.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same split: Mon category verified in full at Theory/Algebra/Monoid/Hom.v (MonoidHom :34, Mon :83, Mon_Forget :93, faithful :101); rg 'Cartesian|Terminal' over Theory/Algebra/ returns no instance on Mon. Verified CMon_Terminal at Instance/CMon/Biproduct.v:120 and CMon_product at :167. The gap statement correctly flags the sibling-class wiring issue (Product_Monoid is on Structure/Monoid.v's MonoidObject, not the Monoid class underlying Mon)."}
+  },
+  {
+    "id": "maclane:III.6:ex2",
+    "classification": "ABSENT",
+    "aliases": ["category of groups in C", "Grp(C)", "GroupHom", "group-object category has finite products", "product of group objects"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rln --include='*.v' -E 'GroupObject' — only Structure/Group.v (the class) and Structure/Group/Proofs.v (derived identities); no category of group objects is ever formed",
+      "grep -rn --include='*.v' -iE 'category of groups|GroupHom|Grp\\(' — 0 hits",
+      "grep -rn --include='*.v' -E 'Definition Grp|Instance Grp|Grp :' — 0 hits (no category Grp in Instance/ at all; full Instance/ listing checked)",
+      "Theory/Algebra/ contains Monoid/Hom.v (category Mon) and Comonoid/Hom.v, but no Group/Hom.v analogue — directory listing checked"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass ran rg -i 'GroupHom|group hom|category of group' across the tree: 0 relevant hits (only a prose aside in Construction/Groupoid.v:94 noting no category of groupoids exists in-tree either). No Grp(C), so the finite-products conclusion has no carrier."}
+  },
+  {
+    "id": "maclane:III.6:ex3",
+    "classification": "ABSENT",
+    "aliases": ["group object in Set^B", "pointwise group structure on a functor", "functor into groups", "group-valued functor equivalence", "pointwise monoid in a functor category"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -iE 'pointwise (group|monoid)|group in Set|group object in' — only prose header hits (Structure/Group.v history essay, Theory/Coq/Semigroup.v); no formal statement",
+      "grep -rn --include='*.v' -iE 'group in (the )?functor category|monoid in (the )?functor category' — 0 hits",
+      "grep -rln --include='*.v' -E 'MonoidObject|GroupObject' — none of the six using files instantiates the classes at a functor category with pointwise cartesian structure (Monad/Monoid.v is the COMPOSITION tensor on [C,C], a different monoidal structure, not the pointwise product of Set^B)",
+      "grep -rn --include='*.v' -iE 'abelian group object|group.*abelian.*interchange' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass agrees. The pointwise cartesian structure on functor categories DOES exist (Instance/Fun/Cartesian.v), so the ambient for this exercise is available, but no monoid/group object is ever instantiated there and no pointwise characterization is stated. The Monad/Monoid.v caveat in the log is correct: that is the composition tensor, not the pointwise product."}
+  },
+  {
+    "id": "maclane:III.6:ex4",
+    "classification": "ABSENT",
+    "aliases": ["groups in Grp are abelian", "Eckmann-Hilton argument", "interchange law", "two compatible multiplications coincide and commute", "abelian group object"],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -i 'GroupHom|category of group' — 0 relevant hits: no category Grp and no category of group objects exists in-tree, so 'a group in Grp' has no formal carrier in either direction",
+      "rg -i '\\bGrp\\b' — comment-only hits: Structure/Group.v:71-77 (header essay recording 'A group object in Grp itself is an abelian group' with the Eckmann-Hilton citation, as history) and Structure/Complete.v prose",
+      "rg -i 'abelian group object|group.*abelian.*interchange' — 0 hits",
+      "rg -in 'Eckmann|Hilton' — Structure/Group.v essay + Structure/Abelian.v:124 prose + Structure/Semiadditive.v:500-534: conv_interchange (:503), conv_conv_pr (:515), conv_comm (:524), conv_assoc (:534) formalize the Eckmann-Hilton interchange argument, but for the two hom-set convolutions of a bicartesian category with invertible comparison — no group objects, no Grp, not either direction of this exercise"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "OVERTURNED:ABSENT", "notes": "Coverage said PARTIAL citing Structure/Semiadditive.v's conv_interchange/conv_conv_pr/conv_comm, but its own gap field conceded 'Neither direction of the actual statement exists': no Grp, no group objects in a category of groups, no abelian-group characterization in either direction. The Semiadditive lemmas are the exercise's standard proof ENGINE applied to hom-set convolutions in a different context — related machinery, not 'some of the item'. By the classifier's own standard on the sibling items (ex3 and prop1 were ruled ABSENT despite adjacent machinery/comments), ex4 is ABSENT. The Eckmann-Hilton pointer is preserved here in the negative_search_log for the future issue draft; verified all three cited Semiadditive lemmas exist at lines 503/515/524 (plus conv_assoc at 534)."}
+  },
+  {
+    "id": "maclane:III.7:thm1",
+    "classification": "PARTIAL",
+    "aliases": ["density theorem", "co-Yoneda lemma", "ninja Yoneda", "every functor is a colimit of representables", "coend of representables", "coyoneda_reduction"],
+    "evidence": [
+      {"file": "Theory/Coend/Yoneda.v", "line": 174, "symbol": "coyoneda_reduction",
+       "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c  (* where YoI (x,y) = C(x,c) × F y, i.e. ∫^x C(x,c) × F x ≅ F c, for F : C ⟶ Sets and each c : C; funext-free over the concrete coend of Instance/Sets/Coend.v *)"},
+      {"file": "Theory/Coend/Yoneda.v", "line": 146, "symbol": "coyoneda_iso",
+       "intree_statement": "Program Definition coyoneda_iso : @Isomorphism Sets (coend_apex_setoid YoI) (F c) := {| to := coy_to; from := coy_from |}  (* mediator legs (g,a) ↦ fmap[F] g a; inverse b ↦ ci c (id, b) *)"},
+      {"file": "Structure/Coend.v", "line": 102, "symbol": "(header)",
+       "intree_statement": "'Its basic reduction is the co-Yoneda, or \"ninja Yoneda\", lemma — every functor is a coend of representables, ∫^{c'} C(c', c) · F c' ≅ F c — proven in Sets in Theory/Coend/Yoneda.v'"}
+    ],
+    "statement_record": {
+      "book": "Any K : D -> Set from a small category D is, canonically, a colimit of representables D(d,-): index by the category of elements J = (1 ↓ K), form the diagram M : J^op -> Set^D sending (d,x) to D(d,-), and the Yoneda-derived cone from M to K is colimiting in the functor category.",
+      "intree": "coyoneda_reduction: for any category C, F : C ⟶ Sets and c : C, the concrete Sets-coend ∫^x C(x,c) × F x is isomorphic to F c — the coend rendering of the same density content, one object at a time.",
+      "strength_comparison": "intree-weaker in form: only the pointwise coend identity is proven; the iso is not stated natural in c, there is no functor-level isomorphism in [D, Sets], no category-of-elements index, no diagram of representables, and no colimiting-cone statement — the book's canonical colimit presentation (equivalent by general theory) is not constructed. intree-stronger on smallness: no small-D hypothesis, universe polymorphism infers the constraints."
+    },
+    "gap": "The functor-level statement is missing: no category of elements for a Sets-valued functor (see maclane:III.7:construction1), no diagram M : J^op ⟶ [D, Sets] of representables, no colimit in the functor category, and no naturality in c of coyoneda_iso. Only the object-wise coend form ∫^x C(x,c) × F x ≅ F c exists (plus its inline reuses in Construction/Day.v and Construction/Profunctor/Laws.v).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass reached the same PARTIAL on the same evidence. Verified: YoI at Theory/Coend/Yoneda.v:77 is C(x,c) × F y for covariant F : C ⟶ Sets fixed c (Section context at :67-71, so no naturality in c is even stateable there), coyoneda_iso at :146, coyoneda_reduction at :174; Structure/Coend.v header quote at :101-104 matches verbatim. Classification is honest: the coend form is the theorem's content pointwise, the book's canonical colimit-over-elements presentation is genuinely absent."}
+  },
+  {
+    "id": "maclane:III.7:construction1",
+    "classification": "PARTIAL",
+    "aliases": ["category of elements", "el(K)", "comma category (1 ↓ K) / (∗ ↓ K)", "Grothendieck construction of a Set-valued functor", "discrete opfibration"],
+    "evidence": [
+      {"file": "Construction/Comma.v", "line": 127, "symbol": "Comma",
+       "intree_statement": "Program Definition Comma : Category := {| obj := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p); hom := fun x y => ∃ f ..., `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x; ... |}  (* the comma category S ↓ T for arbitrary S : A ⟶ C, T : B ⟶ C — Mac Lane defines the category of elements as exactly the comma (1 ↓ K) *)"},
+      {"file": "Construction/Grothendieck.v", "line": 107, "symbol": "(header)",
+       "intree_statement": "'Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F), whose projection is a discrete opfibration and whose objects pair an element of the functor with the object it lies over' (prose acknowledgment; the general Grothendieck construction over IndexedCat is built in this file)"}
+    ],
+    "statement_record": {
+      "book": "For K : D -> Set, the category of elements is the comma category 1 ↓ K: objects are pairs (d, x) with x in K d; arrows f : (d,x) -> (d',x') are arrows f : d -> d' of D with K(f)(x) = x'.",
+      "intree": "Both generic machines that subsume it exist — the fully general comma category S ↓ T (Construction/Comma.v) and the Grothendieck construction of an indexed category (Construction/Grothendieck.v), whose header explicitly names el(F) as the discrete-fibre special case — but the specialization itself is never taken.",
+      "strength_comparison": "intree-weaker: no in-tree definition of the category of elements of a Sets-valued functor; the comma form would need the select functor 1 ⟶ Sets at the one-point setoid (not defined), and the Grothendieck path would need a discrete/setoid-fibre IndexedCat built from a Sets-valued functor (not defined). What exists is strictly more general machinery plus a prose pointer."
+    },
+    "gap": "The instantiation el(K) is absent: no (∗ ↓ K) comma instance for K : D ⟶ Sets, no discrete-fibre specialization of Grothendieck, no projection functor el(K) ⟶ D, and hence no diagram shape for the density theorem (maclane:III.7:thm1). Searches: grep -iE 'category of elements|CategoryOfElements' → only the Construction/Grothendieck.v:108 comment; grep -E 'el\\(' → same comment only.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same two generic machines and the same prose-only el(F) mention (Construction/Grothendieck.v:107-111); verified Comma at Construction/Comma.v:127. One overstatement in strength_comparison, not classification-changing: a generic constant/diagonal functor DOES exist (Functor/Diagonal.v:33, Diagonal {C} (J) : C ⟶ [J, C], with Instance/One.v imported at :52), so the missing 'select functor 1 ⟶ Sets at the one-point setoid' is a trivial instantiation away rather than undefined machinery — the point stands that el(K) itself is never assembled. PARTIAL with a precisely stated gap is correct."}
+  },
+  {
+    "id": "maclane:III.7:remark1",
+    "classification": "PARTIAL",
+    "aliases": ["dual density theorem", "presheaf as colimit of representables", "contravariant co-Yoneda", "∫^x C(c,x) × F x ≅ F c", "coyoneda at C^op"],
+    "evidence": [
+      {"file": "Theory/Coend/Yoneda.v", "line": 69, "symbol": "Section Yoneda (Context)",
+       "intree_statement": "Context {C : Category}. Context (F : C ⟶ Sets). Context (c : C).  (* coyoneda_reduction (line 174) is proven for an ARBITRARY category C, so instantiating C := D^op yields the contravariant form ∫^x D(c,x) × F x ≅ F c for a presheaf F : D^op ⟶ Sets *)"},
+      {"file": "Theory/Coend/Yoneda.v", "line": 174, "symbol": "coyoneda_reduction",
+       "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c"}
+    ],
+    "statement_record": {
+      "book": "Dually, any contravariant functor D^op -> Set (D small) can be represented as a colimit of a diagram of contravariant representables hom(-, d).",
+      "intree": "The coend engine is variance-agnostic: coyoneda_reduction holds for every category C and F : C ⟶ Sets, so the presheaf case is the instantiation at C := D^op; the dual statement is however never spelled out as its own artifact.",
+      "strength_comparison": "intree-weaker, exactly as for maclane:III.7:thm1: only the pointwise coend form (obtainable by instantiation, not explicitly stated for presheaves); no dual category of elements, no colimit-of-contravariant-representables diagram, no functor-level isomorphism in [D^op, Sets]."
+    },
+    "gap": "Same gap as maclane:III.7:thm1 transported by duality, plus the dual instantiation itself is not written down: no named lemma for presheaves, no colimit form, no naturality in c. (The library's Presheaves = [U^op, C] vocabulary exists — Theory/Sheaf.v:127 — but is never combined with the coend reduction into the dual density statement.)",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass made the identical argument: the Section context at Theory/Coend/Yoneda.v:69-71 fixes only an arbitrary C, so C := D^op literally yields the contravariant form (Coend is defined over any category), yet no named presheaf-variance artifact exists. PARTIAL with the same gap as thm1 is the right call; a bare ABSENT would ignore that the dual is a zero-content instantiation of an in-tree theorem."}
+  },
+  {
+    "id": "maclane:III.7:def1",
+    "classification": "PRESENT",
+    "aliases": ["Presheaf", "Presheaves", "C-hat", "[C^op, Sets]", "Copresheaf / Copresheaves"],
+    "evidence": [
+      {"file": "Theory/Sheaf.v", "line": 124, "symbol": "Presheaf",
+       "intree_statement": "Definition Presheaf (U C : Category) := U^op ⟶ C."},
+      {"file": "Theory/Sheaf.v", "line": 127, "symbol": "Presheaves",
+       "intree_statement": "Definition Presheaves {U C : Category} := [U^op, C].  (* the category of C-valued presheaves on U, via the functor category Instance/Fun.v; Copresheaf/Copresheaves (lines 130-133) are the covariant variants *)"},
+      {"file": "Functor/Hom/Yoneda.v", "line": 133, "symbol": "Yoneda_Lemma",
+       "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A  (* the Set(oid)-valued case Presheaves = [C^op, Sets] in live use as the ambient of the Yoneda lemma *)"}
+    ],
+    "statement_record": {
+      "book": "For C a small category, a contravariant functor F : C^op -> Set is a presheaf (restriction-maps intuition), and the functor category Set^(C^op) of all presheaves is written C-hat; sheaves are forward-referenced.",
+      "intree": "Presheaf (U C : Category) := U^op ⟶ C and Presheaves := [U^op, C], with the Set-valued case (C := Sets) the working instance throughout (Yoneda in Functor/Hom/Yoneda.v, sheaves on the same vocabulary in Theory/Sheaf.v — including the restriction-map intuition in its header and the sheaf forward-development the book only references).",
+      "strength_comparison": "intree-stronger: presheaves are C-valued (the book's Set-valued C-hat is the Sets instantiation), the smallness hypothesis is dispensed with via universe-polymorphic hom-setoids, and the forward-referenced sheaf theory is actually developed (Theory/Sheaf.v, Theory/Sheaf/Category.v, with its disclosed per-leg predicate caveat)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass found the same definitions independently (Theory/Sheaf.v:124 Presheaf, :127 Presheaves, :133 Copresheaves; Sheaf class at :192 covering the book's forward reference). Verified the Yoneda_Lemma statement over Presheaves at Functor/Hom/Yoneda.v:133-134 (coverage cited line 134; the Program Instance opens at 133 — off by one, quote accurate). All files registered in _CoqProject."}
+  }
+]

@@ -1,0 +1,1913 @@
+{
+ "book": "maclane",
+ "range": {
+  "pdf_start": 169,
+  "pdf_end": 198
+ },
+ "pages": [
+  {
+   "pdf_page": 169,
+   "book_page": "161",
+   "empty": false,
+   "items": [
+    "maclane:VII.1:def1"
+   ],
+   "notes": "Chapter VII opener 'Monoids' + motivational intro (skipped as prose) + section 'VII.1 Monoidal Categories' header; definition of strict monoidal category begins."
+  },
+  {
+   "pdf_page": 170,
+   "book_page": "162",
+   "empty": false,
+   "items": [
+    "maclane:VII.1:def1",
+    "maclane:VII.1:def2"
+   ],
+   "notes": "strict monoidal cat def completes (assoc/unit/interchange, eqs 1-3); relaxed monoidal category def begins with alpha and pentagon (eqs 4-5)."
+  },
+  {
+   "pdf_page": 171,
+   "book_page": "163",
+   "empty": false,
+   "items": [
+    "maclane:VII.1:def2",
+    "maclane:VII.1:construction1",
+    "maclane:VII.1:remark1"
+   ],
+   "notes": "monoidal cat def completes (triangle eq7, lambda_e=rho_e eq8, derived diagrams eq9 = Ex1); cartesian/cocartesian monoidal construction; tensor examples begin (Ab)."
+  },
+  {
+   "pdf_page": 172,
+   "book_page": "164",
+   "empty": false,
+   "items": [
+    "maclane:VII.1:remark1",
+    "maclane:VII.1:def3",
+    "maclane:VII.1:construction2",
+    "maclane:VII.1:remark2"
+   ],
+   "notes": "tensor examples continue (K-Mod, K-algebras, R-R bimodules); strict morphism of monoidal cats (eqs 10-11); Moncat category; Isbell no-strictification argument."
+  },
+  {
+   "pdf_page": 173,
+   "book_page": "165",
+   "empty": false,
+   "items": [
+    "maclane:VII.1:ex1",
+    "maclane:VII.1:ex2",
+    "maclane:VII.1:ex3",
+    "maclane:VII.1:ex4",
+    "maclane:VII.1:ex5",
+    "maclane:VII.1:ex6",
+    "maclane:VII.2:def1",
+    "maclane:VII.2:construction1"
+   ],
+   "notes": "VII.1 Exercises 1-6; then section 'VII.2 Coherence' begins: binary word definition and the category W (free monoidal category on one generator)."
+  },
+  {
+   "pdf_page": 174,
+   "book_page": "166",
+   "empty": false,
+   "items": [
+    "maclane:VII.2:construction1",
+    "maclane:VII.2:thm1"
+   ],
+   "notes": "W construction closes with the freeness statement; Theorem 1 (W is free monoidal on (-)) stated, proof (basic graph G_n, rank) begins."
+  },
+  {
+   "pdf_page": 175,
+   "book_page": "167",
+   "empty": false,
+   "items": [
+    "maclane:VII.2:thm1"
+   ],
+   "notes": "Theorem 1 proof continues (directed-path induction on rank, case analysis of beta/gamma)."
+  },
+  {
+   "pdf_page": 176,
+   "book_page": "168",
+   "empty": false,
+   "items": [
+    "maclane:VII.2:thm1"
+   ],
+   "notes": "Theorem 1 proof completes (folds in lambda, rho via G'_n); prose transition to the graph/functor (w_B) reformulation that sets up the Corollary."
+  },
+  {
+   "pdf_page": 177,
+   "book_page": "169",
+   "empty": false,
+   "items": [
+    "maclane:VII.2:cor1"
+   ],
+   "notes": "word-functor w_B:B^n->B (eqs 1-2); Corollary (canonical maps can_B(v,w), eq 3) stated; proof via the category It(B) begins."
+  },
+  {
+   "pdf_page": 178,
+   "book_page": "170",
+   "empty": false,
+   "items": [
+    "maclane:VII.2:cor1",
+    "maclane:VII.2:ex1",
+    "maclane:VII.2:ex2",
+    "maclane:VII.2:ex3",
+    "maclane:VII.3:def1"
+   ],
+   "notes": "Corollary completes (values of can_B on alpha/lambda/rho; every diagram of word-functors commutes); VII.2 Exercises 1-3; then section 'VII.3 Monoids' begins: monoid in a monoidal category (diagrams 1-2)."
+  },
+  {
+   "pdf_page": 179,
+   "book_page": "171",
+   "empty": false,
+   "items": [
+    "maclane:VII.3:def1",
+    "maclane:VII.3:def2",
+    "maclane:VII.3:construction1",
+    "maclane:VII.3:remark1",
+    "maclane:VII.3:prop1"
+   ],
+   "notes": "monoid def completes; morphism of monoids; category Mon_B + forgetful U; examples table (monads/rings/algebras/comonoids/...); Proposition 1 (General Associative Law) stated, proof begins."
+  },
+  {
+   "pdf_page": 180,
+   "book_page": "172",
+   "empty": false,
+   "items": [
+    "maclane:VII.3:prop1",
+    "maclane:VII.3:thm2"
+   ],
+   "notes": "Prop 1 discussion (n-th power b^n, mu^(n), eqs 5-7); Theorem 2 (Construction of free monoids) stated, proof (coproduct powers) begins."
+  },
+  {
+   "pdf_page": 181,
+   "book_page": "173",
+   "empty": false,
+   "items": [
+    "maclane:VII.3:thm2",
+    "maclane:VII.3:ex1",
+    "maclane:VII.3:ex2",
+    "maclane:VII.3:ex3"
+   ],
+   "notes": "Theorem 2 proof completes (free monoid = coproduct of powers; specializes to word monoids, tensor algebra); VII.3 Exercises 1-3."
+  },
+  {
+   "pdf_page": 182,
+   "book_page": "174",
+   "empty": false,
+   "items": [
+    "maclane:VII.4:def1",
+    "maclane:VII.4:def2",
+    "maclane:VII.4:construction1",
+    "maclane:VII.4:def3",
+    "maclane:VII.4:ex1",
+    "maclane:VII.4:ex2"
+   ],
+   "notes": "section 'VII.4 Actions' begins: left action of a monoid (eq1), morphism of actions, category cLact + forgetful + left adjoint, right actions/bimodules; VII.4 Exercises 1-2 begin."
+  },
+  {
+   "pdf_page": 183,
+   "book_page": "175",
+   "empty": false,
+   "items": [
+    "maclane:VII.4:ex3",
+    "maclane:VII.4:ex4",
+    "maclane:VII.4:ex5",
+    "maclane:VII.4:ex6",
+    "maclane:VII.4:ex7",
+    "maclane:VII.5:construction1",
+    "maclane:VII.5:prop1"
+   ],
+   "notes": "VII.4 Exercises 3-7; then section 'VII.5 The Simplicial Category' begins: the category Delta (finite ordinals, ordinal addition, universal monoid) and Proposition 1 (universal property) stated."
+  },
+  {
+   "pdf_page": 184,
+   "book_page": "176",
+   "empty": false,
+   "items": [
+    "maclane:VII.5:prop1",
+    "maclane:VII.5:construction2"
+   ],
+   "notes": "Prop 1 proof completes (free-monoid characterization of Delta, eqs 2-3); epi-mono factorization of monotone maps and the coface maps delta_i (eqs 4-5) introduced. Codegeneracies sigma_i, the unique-factorization Lemma, and simplicial identities (eqs 6-13) start on PDF 185 (printed 177) = next agent's range."
+  },
+  {
+   "pdf_page": 185,
+   "book_page": "177",
+   "empty": false,
+   "items": [
+    "maclane:VII.5:lem-normalform"
+   ],
+   "notes": "The codegeneracy operators sigma_i (6)-(9) and the broader 'another description of the arrows of Delta' narrative begin on printed 176 (PDF 184, context) with the coface maps delta_i; recorded by the adjacent range. Only the unique-representation Lemma starts here."
+  },
+  {
+   "pdf_page": 186,
+   "book_page": "178",
+   "empty": false,
+   "items": [
+    "maclane:VII.5:prop2",
+    "maclane:VII.5:construction-geometric",
+    "maclane:VII.5:def-deltaplus",
+    "maclane:VII.5:def-simplicialset",
+    "maclane:VII.5:def-simplicialobject"
+   ],
+   "notes": "def-simplicialobject begins at the foot of the page and continues onto printed 179."
+  },
+  {
+   "pdf_page": 187,
+   "book_page": "179",
+   "empty": false,
+   "items": [
+    "maclane:VII.5:def-augmented",
+    "maclane:VII.5:construction-homology"
+   ],
+   "notes": "Top of page completes def-simplicialobject (from printed 178), including the traditional face/degeneracy operators and the dual simplicial identities (11op)-(13op)."
+  },
+  {
+   "pdf_page": 188,
+   "book_page": "180",
+   "empty": false,
+   "items": [
+    "maclane:VII.5:construction-singular",
+    "maclane:VII.5:remark-protean",
+    "maclane:VII.5:ex1",
+    "maclane:VII.5:ex2",
+    "maclane:VII.5:ex3",
+    "maclane:VII.5:ex4",
+    "maclane:VII.6:def-comonad"
+   ],
+   "notes": "Section VII.5 ends (exercises 1-4); section VII.6 'Monads and Homology' begins; def-comonad continues onto printed 181."
+  },
+  {
+   "pdf_page": 189,
+   "book_page": "181",
+   "empty": false,
+   "items": [
+    "maclane:VII.6:remark-universal-comonoid",
+    "maclane:VII.6:construction-smpl",
+    "maclane:VII.6:construction-resolution"
+   ],
+   "notes": "Top of page completes def-comonad (comonad axioms (1), from printed 180)."
+  },
+  {
+   "pdf_page": 190,
+   "book_page": "182",
+   "empty": false,
+   "items": [
+    "maclane:VII.6:construction-monoidring",
+    "maclane:VII.6:construction-freemodule",
+    "maclane:VII.6:construction-barresolution"
+   ],
+   "notes": "The 'cohomology of groups' worked example; construction-barresolution continues onto printed 183."
+  },
+  {
+   "pdf_page": 191,
+   "book_page": "183",
+   "empty": false,
+   "items": [
+    "maclane:VII.6:construction-groupcohomology",
+    "maclane:VII.6:remark-grouphomology"
+   ],
+   "notes": "Top of page completes construction-barresolution (degeneracies s_i, free resolution, from printed 182). Section VII.6 ends here with no exercises."
+  },
+  {
+   "pdf_page": 192,
+   "book_page": "184",
+   "empty": false,
+   "items": [
+    "maclane:VII.7:def-symmetric",
+    "maclane:VII.7:remark-symmetric",
+    "maclane:VII.7:def-closed",
+    "maclane:VII.7:def-enriched"
+   ],
+   "notes": "Section VII.7 'Closed Categories' begins; def-enriched continues onto printed 185."
+  },
+  {
+   "pdf_page": 193,
+   "book_page": "185",
+   "empty": false,
+   "items": [
+    "maclane:VII.8:construction-compactopen",
+    "maclane:VII.8:def-compactlygenerated",
+    "maclane:VII.8:prop1"
+   ],
+   "notes": "Top of page completes def-enriched (from printed 184). Section VII.8 'Compactly Generated Spaces' begins; prop1 proof continues onto printed 186."
+  },
+  {
+   "pdf_page": 194,
+   "book_page": "186",
+   "empty": false,
+   "items": [
+    "maclane:VII.8:construction-kelleyfication",
+    "maclane:VII.8:prop2"
+   ],
+   "notes": "Top of page continues/completes prop1 proof (from printed 185), constructing the Kelleyfication functor K; prop2 proof continues onto printed 187."
+  },
+  {
+   "pdf_page": 195,
+   "book_page": "187",
+   "empty": false,
+   "items": [
+    "maclane:VII.8:thm3"
+   ],
+   "notes": "Top of page completes prop2 proof (coequalizers, from printed 186); illustrative X//A identification space skipped; thm3 proof continues onto printed 188."
+  },
+  {
+   "pdf_page": 196,
+   "book_page": "188",
+   "empty": false,
+   "items": [
+    "maclane:VII.8:ex1",
+    "maclane:VII.8:ex2",
+    "maclane:VII.8:ex3",
+    "maclane:VII.8:ex4",
+    "maclane:VII.8:ex5",
+    "maclane:VII.9:def-pointed"
+   ],
+   "notes": "Top of page completes thm3 (exponential law (7), from printed 187). Section VII.8 ends (exercises 1-5); section VII.9 'Loops and Suspensions' begins; def-pointed continues onto printed 189."
+  },
+  {
+   "pdf_page": 197,
+   "book_page": "189",
+   "empty": false,
+   "items": [
+    "maclane:VII.9:def-smash",
+    "maclane:VII.9:def-suspension-loop"
+   ],
+   "notes": "Top of page completes def-pointed (from printed 188)."
+  },
+  {
+   "pdf_page": 198,
+   "book_page": "190",
+   "empty": false,
+   "items": [
+    "maclane:VII.9:ex1",
+    "maclane:VII.9:ex2",
+    "maclane:VII.9:ex3",
+    "maclane:VII.9:ex4",
+    "maclane:VII.9:ex5"
+   ],
+   "notes": "Section VII.9 and chapter VII end (exercises 1-5); the end-of-chapter unnumbered 'Notes.' block is historical prose, not inventoried."
+  }
+ ],
+ "items": [
+  {
+   "id": "maclane:VII.1:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "strict monoidal category",
+   "statement_summary": "A strict monoidal category <B,box,e> is a category B with a bifunctor box:BxB->B that is strictly associative (box(box x 1) = box(1 x box), i.e. (a box b) box c = a box (b box c) on objects and arrows) and an object e that is a strict two-sided unit (box(e x 1) = id_B = box(1 x e), i.e. e box c = c = c box e and 1_e box f = f = f box 1_e). Being a bifunctor forces the interchange law 1_a box 1_b = 1_{a box b} and (f' box g')(f box g) = (f'f) box (g'g).",
+   "book_section": "VII.1",
+   "book_page": "161",
+   "pdf_pages": [
+    169,
+    170
+   ],
+   "cross_refs": [],
+   "flags": [
+    "unnumbered-definition",
+    "definition-in-running-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "monoidal category (relaxed)",
+   "statement_summary": "A monoidal category <B,box,e,alpha,lambda,rho> is a category B with a bifunctor box:BxB->B, a unit object e, and three natural isomorphisms: associator alpha_{a,b,c}: a box (b box c) ~= (a box b) box c, left unit lambda_a: e box a ~= a, right unit rho_a: a box e ~= a, subject to the pentagon coherence diagram (over four objects), the triangle diagram relating alpha,lambda,rho, and lambda_e = rho_e : e box e -> e. Associative and unital up to coherent natural isomorphism.",
+   "book_section": "VII.1",
+   "book_page": "162",
+   "pdf_pages": [
+    170,
+    171
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def1"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "definition-in-running-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "cartesian and cocartesian monoidal structure",
+   "statement_summary": "Any category with finite products is monoidal: take a box b = a chosen binary product, e = a terminal object, and alpha,lambda,rho the unique isomorphisms commuting with the projections; the pentagon and triangle then commute automatically. Dually, any category with finite coproducts is monoidal with box = coproduct and e = an initial object.",
+   "book_section": "VII.1",
+   "book_page": "163",
+   "pdf_pages": [
+    171
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2",
+    "maclane:III.5:prop1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "tensor-product monoidal categories",
+   "statement_summary": "Standard tensor products are monoidal categories: <Ab,tensor,Z> with associator forced by the universal property of the tensor product of abelian groups (universal among bilinear maps) and lambda:Z tensor A ~= A, rho:A tensor Z ~= A; likewise <K-Mod, tensor_K, K> for a commutative ring K, the category of K-algebras under tensor, graded and differential graded K-modules, and R-R bimodules under tensor_R.",
+   "book_section": "VII.1",
+   "book_page": "163",
+   "pdf_pages": [
+    171,
+    172
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": [
+    "examples-illustrating-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:def3",
+   "kind": "definition",
+   "number": null,
+   "name": "strict morphism of monoidal categories",
+   "statement_summary": "A strict morphism T:(B,box,e,alpha,lambda,rho)->(B',box',e',alpha',lambda',rho') is a functor T:B->B' strictly preserving the structure: T(a box b) = Ta box' Tb, T(f box g) = Tf box' Tg, Te = e', and T applied to alpha,lambda,rho equals alpha',lambda',rho' on components. Non-strict (relaxed) morphisms drop the alpha,lambda,rho conditions.",
+   "book_section": "VII.1",
+   "book_page": "164",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:construction2",
+   "kind": "construction",
+   "number": null,
+   "name": "Moncat, the category of small monoidal categories",
+   "statement_summary": "Moncat is the category of all small monoidal categories with strict morphisms as arrows; it has finite products, and the one-object monoidal category 1 (with its evident strict structure) is terminal. It contains a full subcategory of the strict monoidal categories.",
+   "book_section": "VII.1",
+   "book_page": "164",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def3"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:remark2",
+   "kind": "remark",
+   "number": null,
+   "name": "Isbell: cannot strictify by identifying isomorphic objects",
+   "statement_summary": "A monoidal category cannot be strictified merely by identifying all isomorphic objects (Isbell's argument): in the skeleton Set_0 of Set under x, a denumerable set D has D ~= DxD, and if the associator were the identity map compatible with the three projections one would derive f x (g x h) = (f x g) x h and, using p_1,p_2 epi, both f x g = f and f x g = g for all endomaps of D, an absurdity; similarly for the skeleton of <Ab,tensor>.",
+   "book_section": "VII.1",
+   "book_page": "164",
+   "pdf_pages": [
+    172
+   ],
+   "cross_refs": [],
+   "flags": [
+    "impossibility-argument"
+   ]
+  },
+  {
+   "id": "maclane:VII.1:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "pentagon+triangle imply the secondary unit coherences",
+   "statement_summary": "Prove that the pentagon (5) and triangle (7) imply the two derived unit-coherence diagrams (9); hint uses the pentagon at a=b=e and naturality to deduce (lambda box 1) alpha = lambda.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.1:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "product in Moncat",
+   "statement_summary": "Construct the product in Moncat of two monoidal categories.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:construction2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.1:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "opposite of a monoidal category is monoidal",
+   "statement_summary": "For B monoidal, show that B^op carries the evident monoidal structure.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.1:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "functor category is monoidal; exponential law is monoidal iso",
+   "statement_summary": "For B monoidal and C any category, show the functor category B^C is monoidal with pointwise product (S box T)c = Sc box Tc and constant unit functor e:C->B, and that the adjunction/exponential B^{CxD} ~= (B^C)^D is an isomorphism of monoidal categories.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2",
+    "maclane:VII.1:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.1:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "one-object strict monoidal category (Eckmann-Hilton)",
+   "statement_summary": "Prove that a strict monoidal category with one object is a set (its arrows) equipped with two binary operations, composition and box, satisfying the interchange law and sharing a common two-sided unit id_e; cf. Exercise 5 of II.5.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.1:ex6",
+   "kind": "exercise",
+   "number": "6",
+   "name": "independence of pentagon and triangle axioms",
+   "statement_summary": "Show by examples that the pentagon axiom (5) and the triangle axiom (7) are independent.",
+   "book_section": "VII.1",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.2:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "binary word",
+   "statement_summary": "Binary words (formal iterated products of a placeholder) defined by recursion: the length-0 word is e_0 (the empty word); the length-1 word is (-) (the placeholder/variable); if v,w are binary words of lengths m,n then v box w = (v) box (w) is a binary word of length m+n. These are the well-formed formal products with chosen parenthesization and specified e_0 slots.",
+   "book_section": "VII.2",
+   "book_page": "165",
+   "pdf_pages": [
+    173
+   ],
+   "cross_refs": [],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.2:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "the category W (free monoidal category on one generator)",
+   "statement_summary": "W is the category whose objects are binary words and with exactly one arrow v->w between any two words of the same length (a preorder-groupoid: every arrow invertible and unique); it is a monoidal category under v,w |-> v box w with unit e_0 and with alpha,lambda,rho the unique such arrows. By construction every diagram in W commutes.",
+   "book_section": "VII.2",
+   "book_page": "165",
+   "pdf_pages": [
+    173,
+    174
+   ],
+   "cross_refs": [
+    "maclane:VII.2:def1",
+    "maclane:VII.1:def2"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.2:thm1",
+   "kind": "theorem",
+   "number": "1",
+   "name": "W is the free monoidal category on one generator",
+   "statement_summary": "For any monoidal category B and any object b in B there is a unique morphism W->B of monoidal categories sending (-) |-> b (equivalently, substituting b into all blanks: (e_0)_b = e, (-)_b = b, (v box w)_b = v_b box w_b). Proof constructs the basic graph G_n of length-n words with basic alpha^{+-1} arrows, shows any two composite paths agree (associativity coherence), then folds in lambda,rho via G'_n.",
+   "book_section": "VII.2",
+   "book_page": "166",
+   "pdf_pages": [
+    174,
+    175,
+    176
+   ],
+   "cross_refs": [
+    "maclane:VII.2:construction1",
+    "maclane:VII.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.2:cor1",
+   "kind": "corollary",
+   "number": null,
+   "name": "coherence: canonical maps between word-functors",
+   "statement_summary": "For a monoidal category B there is a function assigning to each pair of words v,w of the same length n a unique natural isomorphism can_B(v,w): v_B => w_B between the induced functors B^n->B (the canonical map), such that the identity e->e, the identity on the unit functor I_B, and alpha, alpha^{-1}, lambda, lambda^{-1}, rho, rho^{-1} are canonical, and canonical maps are closed under composite and under box-product. Consequently every diagram whose vertices are word-functors w_B and whose edges are built from 1, id, alpha, lambda, rho and their box-products commutes. Proof uses the auxiliary category It(B).",
+   "book_section": "VII.2",
+   "book_page": "169",
+   "pdf_pages": [
+    177,
+    178
+   ],
+   "cross_refs": [
+    "maclane:VII.2:thm1"
+   ],
+   "flags": [
+    "unnumbered-corollary"
+   ]
+  },
+  {
+   "id": "maclane:VII.2:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "canonical maps between length-5 words (associahedron)",
+   "statement_summary": "Draw the diagram of all canonical maps between binary words of length 5; it is a polyhedral subdivision of the sphere into 19 regions -- 16 pentagons (instances of alpha) and 3 squares (naturality).",
+   "book_section": "VII.2",
+   "book_page": "170",
+   "pdf_pages": [
+    178
+   ],
+   "cross_refs": [
+    "maclane:VII.2:cor1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.2:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "Stasheff associahedron on the n-sphere",
+   "statement_summary": "(Stasheff 1963) Show that the diagram of all canonical maps between words of length n+3 can be regarded as a polyhedral subdivision of the surface of the n-sphere (the associahedron).",
+   "book_section": "VII.2",
+   "book_page": "170",
+   "pdf_pages": [
+    178
+   ],
+   "cross_refs": [
+    "maclane:VII.2:cor1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.2:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "free monoidal category on a set X",
+   "statement_summary": "Construct the free monoidal category on any set X and prove its universal property; hint: objects are words with each x in X a length-1 word, with a surjection W_X -> M_X onto the free monoid on X, and a unique arrow v->w iff v,w have the same image in M_X.",
+   "book_section": "VII.2",
+   "book_page": "170",
+   "pdf_pages": [
+    178
+   ],
+   "cross_refs": [
+    "maclane:VII.2:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.3:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "monoid in a monoidal category",
+   "statement_summary": "A monoid c in a monoidal category <B,box,e> is an object c with arrows mu: c box c -> c and eta: e -> c such that the associativity square (mu o (1 box mu) = mu o (mu box 1) o alpha : c box (c box c) -> c) and the two unit triangles (mu o (eta box 1) = lambda from e box c, and mu o (1 box eta) = rho from c box e) commute.",
+   "book_section": "VII.3",
+   "book_page": "170",
+   "pdf_pages": [
+    178,
+    179
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def2"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.3:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "morphism of monoids",
+   "statement_summary": "A morphism f: <c,mu,eta> -> <c',mu',eta'> of monoids is an arrow f: c -> c' with f mu = mu' (f box f) and f eta = eta'.",
+   "book_section": "VII.3",
+   "book_page": "171",
+   "pdf_pages": [
+    179
+   ],
+   "cross_refs": [
+    "maclane:VII.3:def1"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.3:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "category Mon_B of monoids and its forgetful functor",
+   "statement_summary": "The monoids in B and their morphisms form a category Mon_B, with a forgetful functor U: Mon_B -> B given by <c,mu,eta> |-> c.",
+   "book_section": "VII.3",
+   "book_page": "171",
+   "pdf_pages": [
+    179
+   ],
+   "cross_refs": [
+    "maclane:VII.3:def1",
+    "maclane:VII.3:def2"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.3:remark1",
+   "kind": "remark",
+   "number": null,
+   "name": "monoids-in-B recover standard algebraic structures",
+   "statement_summary": "Monoids in various monoidal categories specialize to familiar structures: in <Set,x,1> ordinary monoids; in <Top,x,*> topological monoids; in the endofunctor category <C^C,compose,Id> monads; in <Ab,tensor,Z> rings; in <K-Mod,tensor_K,K> K-algebras; graded modules give graded algebras; DG-K-Mod give differential graded K-algebras; in <B^op,box^op,e> comonoids in B; in <K-Mod^op,...> K-coalgebras; in <Cat,x,1> strict monoidal categories; in <O-Grph,x_O,O->O> categories.",
+   "book_section": "VII.3",
+   "book_page": "171",
+   "pdf_pages": [
+    179
+   ],
+   "cross_refs": [
+    "maclane:VII.3:def1"
+   ],
+   "flags": [
+    "examples-table"
+   ]
+  },
+  {
+   "id": "maclane:VII.3:prop1",
+   "kind": "proposition",
+   "number": "1",
+   "name": "General Associative Law for a monoid",
+   "statement_summary": "(General Associative Law) For a monoid <c,mu,eta> in B, the iterated products mu_v, mu_w for any two words v,w of the same length n satisfy mu_w o can_c(v,w) = mu_v : v_c -> c, where can_c(v,w): v_c -> w_c is the canonical arrow of Theorem VII.2.1. Equivalently the n-fold product mu^{(n)}: c^n -> c is well defined and mu^{(n)}(mu^{(k1)} box ... box mu^{(kn)}) = mu^{(k1+...+kn)}. Proof: the monoid axioms are the alpha,lambda,rho cases, extended by induction over canonical maps.",
+   "book_section": "VII.3",
+   "book_page": "171",
+   "pdf_pages": [
+    179,
+    180
+   ],
+   "cross_refs": [
+    "maclane:VII.2:thm1",
+    "maclane:VII.2:cor1",
+    "maclane:VII.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.3:thm2",
+   "kind": "theorem",
+   "number": "2",
+   "name": "construction of free monoids",
+   "statement_summary": "If the monoidal category B has denumerable (countable) coproducts and every functor a box - and - box a preserves them, then the forgetful U: Mon_B -> B has a left adjoint; the free monoid on a is coproduct_n a^n (a^n the n-th box-power) with multiplication by juxtaposition a^m box a^n ~= a^{m+n} and unit the injection e = a^0 -> coproduct_n a^n. Specializes to: the free monoid on a set (B=Set), the tensor algebra sum_n A^n on a K-module (B=K-Mod), differential graded tensor algebras, and free topological monoids. Note: when a box - and - box a have right adjoints they automatically preserve coproducts.",
+   "book_section": "VII.3",
+   "book_page": "172",
+   "pdf_pages": [
+    180,
+    181
+   ],
+   "cross_refs": [
+    "maclane:VII.3:construction1",
+    "maclane:VII.3:def1"
+   ],
+   "flags": [
+    "book-number-2-from-shared-section-counter"
+   ]
+  },
+  {
+   "id": "maclane:VII.3:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "Mon_B inherits finite products",
+   "statement_summary": "Prove that if B has finite products then so does Mon_B.",
+   "book_section": "VII.3",
+   "book_page": "173",
+   "pdf_pages": [
+    181
+   ],
+   "cross_refs": [
+    "maclane:VII.3:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.3:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "coherence theorem for monoids",
+   "statement_summary": "(Coherence for monoids) Interpret Proposition 1 (canonical maps mu_w) as a coherence theorem: in the graph with vertices the binary words and edges the arrows v_c -> w_c that are 1, mu, eta, instances of alpha, lambda, rho and their box-products, show any two paths w -> (-) have equal composite, but that this fails when the target is (-) box (-) of length 2.",
+   "book_section": "VII.3",
+   "book_page": "173",
+   "pdf_pages": [
+    181
+   ],
+   "cross_refs": [
+    "maclane:VII.3:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.3:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "substitution of words in a word",
+   "statement_summary": "(Substitution of words) (a) Each word u of length n gives a functor u_W: W^n -> W; for words v_1,...,v_n the word u_W(v_1,...,v_n) has length the sum of the lengths of the v_i (substitute the v_i into u's n blanks). (b) For w = u_W(v_1,...,v_n) show the canonical maps satisfy mu_w = mu_u o (mu_{v1} box ... box mu_{vn}) o (appropriate canonical map), and that this generalizes Proposition 1.",
+   "book_section": "VII.3",
+   "book_page": "173",
+   "pdf_pages": [
+    181
+   ],
+   "cross_refs": [
+    "maclane:VII.3:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:def1",
+   "kind": "definition",
+   "number": null,
+   "name": "left action of a monoid on an object",
+   "statement_summary": "In a fixed monoidal category B, a left action of a monoid <c,mu,eta> on an object a in B is an arrow nu: c box a -> a such that the associativity square (nu o (1 box nu) = nu o (mu box 1) o alpha : c box (c box a) -> a) and the unit triangle (nu o (eta box 1) = lambda : e box a -> a) commute. Example: c acts on itself by mu (the left regular representation).",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.3:def1"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.4:def2",
+   "kind": "definition",
+   "number": null,
+   "name": "morphism of left actions",
+   "statement_summary": "A morphism f: nu -> nu' of left c-actions is an arrow f: a -> a' with nu' o (1 box f) = f o nu : c box a -> a'.",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.4:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "category cLact of left actions with forgetful and free functors",
+   "statement_summary": "Left c-actions and their morphisms form a category cLact; the forgetful functor cLact -> B (<nu: c box a -> a> |-> a) has a left adjoint b |-> c box b, whose action of c on c box b is the composite c box (c box b) -> (c box c) box b -> c box b via alpha and mu. This includes ordinary monoid-on-set actions, left R-modules, G-modules, and DG-algebra actions.",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1",
+    "maclane:VII.4:def2"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.4:def3",
+   "kind": "definition",
+   "number": null,
+   "name": "right action and bimodule",
+   "statement_summary": "A right action of c on b is an arrow sigma: b box c -> b defined dually to a left action (associativity and unit compatibility); a commuting left-and-right action of c on a gives the analog of a bimodule (a two-sided module).",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "maclane:VII.4:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "monad action on an endofunctor vs lifting to algebras",
+   "statement_summary": "(Dubuc 1970) For a monad <T,eta,mu> in a category X, show that T has an action on an endofunctor S: X -> X iff S lifts to the category X^T of T-algebras as S = G^T S', and that such actions correspond one-to-one with the liftings S': X -> X^T.",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "strict monoidal category acting on a category",
+   "statement_summary": "Let a small strict monoidal category B (a monoid in <Cat,x,...>) act on a category C; define the action of a monoid in B on an object of C, and use this to extend Exercise 1 to functors S: A -> X from any category A.",
+   "book_section": "VII.4",
+   "book_page": "174",
+   "pdf_pages": [
+    182
+   ],
+   "cross_refs": [
+    "maclane:VII.4:ex1",
+    "maclane:VII.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "actions of a K-coalgebra",
+   "statement_summary": "Describe the actions of a K-coalgebra (i.e. actions in the sense of this section when the monoid is a coalgebra / comonoid).",
+   "book_section": "VII.4",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "cLact inherits coproducts preserved by forgetful",
+   "statement_summary": "If B has coproducts preserved by every functor a box -, show that cLact has coproducts and that the forgetful functor cLact -> B preserves them.",
+   "book_section": "VII.4",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.4:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "cLact inherits finite products",
+   "statement_summary": "If the base category B has finite products, so does cLact, in such a way that the product projections a x a' -> a and a x a' -> a' (in B) become morphisms of actions in cLact.",
+   "book_section": "VII.4",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.4:construction1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex6",
+   "kind": "exercise",
+   "number": "6",
+   "name": "tensor product of a right module by a left module",
+   "statement_summary": "(Generalizing the tensor product of modules) If B has coequalizers, c is a monoid, sigma: b box c -> b a right action and nu: c box a -> a a left action, construct the tensor product b box_c a as the coequalizer of the two maps b box (c box a) => b box a given by the two actions, and prove that box_c is a functor Ract_c x cLact -> B.",
+   "book_section": "VII.4",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1",
+    "maclane:VII.4:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.4:ex7",
+   "kind": "exercise",
+   "number": "7",
+   "name": "coherence result for an action",
+   "statement_summary": "(Coherence for an action) Given a left action nu: c box a -> a of a monoid c, describe the properties of the canonical maps nu_w: w_{c,a} -> a for words w of length >= 1 whose last argument is (-) (define this notion), where w_{c,a} results from substituting a for the last argument and c for all other arguments of w.",
+   "book_section": "VII.4",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:construction1",
+   "kind": "construction",
+   "number": null,
+   "name": "the simplicial category Delta and its universal monoid",
+   "statement_summary": "Delta is the strict monoidal category whose objects are the finite ordinals n = {0,...,n-1} and whose arrows are the weakly monotone functions f: n -> n' (i <= j implies f i <= f j), with monoidal product ordinal addition +: Delta x Delta -> Delta (on objects n+m; on arrows, f+g places g beside f) and unit object 0; here 0 is initial and 1 is terminal. The unique arrows mu: 2 -> 1 and eta: 0 -> 1 make <1,mu,eta> a monoid in Delta, the universal monoid.",
+   "book_section": "VII.5",
+   "book_page": "175",
+   "pdf_pages": [
+    183
+   ],
+   "cross_refs": [
+    "maclane:VII.1:def1",
+    "maclane:VII.3:def1"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:prop1",
+   "kind": "proposition",
+   "number": "1",
+   "name": "universal property of the simplicial category Delta",
+   "statement_summary": "Given a monoid <c,mu',eta'> in a strict monoidal category <B,box,e>, there is a unique strict monoidal morphism F: <Delta,+,0> -> <B,box,e> with F1 = c, F mu = mu', F eta = eta'. Hence Delta's objects form the free monoid on 1 under +, and its arrows are generated by + and composition from mu: 2 -> 1 and eta: 0 -> 1 subject to the associative and unit laws; any arrow f: m -> n is a sum of iterated products mu^{(m_i)} of mu and eta.",
+   "book_section": "VII.5",
+   "book_page": "175",
+   "pdf_pages": [
+    183,
+    184
+   ],
+   "cross_refs": [
+    "maclane:VII.5:construction1",
+    "maclane:VII.3:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:construction2",
+   "kind": "construction",
+   "number": null,
+   "name": "coface maps and epi-mono factorization in Delta",
+   "statement_summary": "Every monotone f: n -> n' factors as f = g o h with h surjective monotone and g injective monotone (g determined by its image, a subset of n'). The injective monotone maps n -> n+1 are the n+1 coface maps delta_i^n: n -> n+1 (i = 0,...,n) whose image omits i, i.e. delta_i^n{0,...,n-1} = {0,...,i-hat,...,n}. (The codegeneracies sigma_i, the unique-factorization Lemma, and the simplicial identities continue on printed page 177 / PDF 185, outside this range.)",
+   "book_section": "VII.5",
+   "book_page": "176",
+   "pdf_pages": [
+    184
+   ],
+   "cross_refs": [
+    "maclane:VII.5:construction1"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "presentation-continues-pdf185-next-agent"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:lem-normalform",
+   "kind": "lemma",
+   "number": null,
+   "name": "unique normal-form (epi-mono) representation of arrows in Delta",
+   "statement_summary": "In the simplicial category Delta, every arrow f : n -> n' factors uniquely as a composite of cofaces then codegeneracies, f = delta_{i_1} o ... o delta_{i_k} o sigma_{j_1} o ... o sigma_{j_h}, with n - h + k = n' and strictly decreasing/increasing subscript strings n' > i_1 > ... > i_k >= 0 and 0 <= j_1 < ... < j_h <= n-1. The proof derives the cosimplicial identities: (11) delta_i delta_j = delta_{j+1} delta_i for i<=j; (12) sigma_j sigma_i = sigma_i sigma_{j+1} for i<=j; (13) sigma_j delta_i = delta_i sigma_{j-1} (i<j), = 1 (i=j or i=j+1), = delta_{i-1} sigma_j (i>j+1).",
+   "book_section": "VII.5",
+   "book_page": "177",
+   "pdf_pages": [
+    185
+   ],
+   "cross_refs": [
+    "maclane:VII.5:prop2"
+   ],
+   "flags": [
+    "unnumbered-lemma"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:prop2",
+   "kind": "proposition",
+   "number": "2",
+   "name": "generators and relations for Delta",
+   "statement_summary": "The category Delta (objects all finite ordinals) is generated by the coface arrows delta_i^n : n -> n+1 and codegeneracy arrows sigma_j^n : n+1 -> n subject exactly to the cosimplicial relations (11), (12), and (13); i.e. Delta is presented by these generators and simplicial identities.",
+   "book_section": "VII.5",
+   "book_page": "178",
+   "pdf_pages": [
+    186
+   ],
+   "cross_refs": [
+    "maclane:VII.5:lem-normalform"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:construction-geometric",
+   "kind": "construction",
+   "number": null,
+   "name": "geometric-realization functor Delta -> Top (affine simplices)",
+   "statement_summary": "A functor Delta : Delta -> Top exhibiting Delta as a subcategory of Top: the ordinal 0 goes to the empty space, and n+1 to the standard n-dimensional affine simplex {(t_0,...,t_n) in R^{n+1} : t_i >= 0, sum t_i = 1} (barycentric coordinates); an arrow f : n+1 -> m+1 goes to the affine map (t_0,...,t_n) |-> (s_0,...,s_m) with s_j = sum_{f i = j} t_i. Cofaces delta_i realize as the i-th face inclusion. (Verifying functoriality is left as an inline exercise.)",
+   "book_section": "VII.5",
+   "book_page": "178",
+   "pdf_pages": [
+    186
+   ],
+   "cross_refs": [
+    "maclane:VII.5:construction-singular"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:def-deltaplus",
+   "kind": "definition",
+   "number": null,
+   "name": "the subcategory Delta^+ of positive ordinals",
+   "statement_summary": "Delta^+ denotes the full subcategory of Delta on the positive ordinals {1,2,3,...} (omitting only 0). Topologists relabel its objects by geometric dimension as {0,1,2,...} and call it Delta; Mac Lane retains the full Delta (which includes the ordinal 0) so that all face and degeneracy operations arise from the binary product mu and unit eta.",
+   "book_section": "VII.5",
+   "book_page": "178",
+   "pdf_pages": [
+    186
+   ],
+   "cross_refs": [
+    "maclane:VII.5:def-simplicialset",
+    "maclane:VII.5:def-simplicialobject"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:def-simplicialset",
+   "kind": "definition",
+   "number": null,
+   "name": "simplicial set",
+   "statement_summary": "A simplicial set is a contravariant functor Delta^+ -> Set (equivalently a functor (Delta^+)^op -> Set).",
+   "book_section": "VII.5",
+   "book_page": "178",
+   "pdf_pages": [
+    186
+   ],
+   "cross_refs": [
+    "maclane:VII.5:def-deltaplus",
+    "maclane:VII.5:def-simplicialobject"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:def-simplicialobject",
+   "kind": "definition",
+   "number": null,
+   "name": "simplicial object and its face/degeneracy description",
+   "statement_summary": "A simplicial object in a category X is a functor S : (Delta^+)^op -> X; a morphism of simplicial objects is a natural transformation. Writing n+1 |-> S_n (object of n-simplices), delta_i |-> d_i, sigma_j |-> s_j, this is equivalently a sequence S_0, S_1, ... with face operators d_i : S_n -> S_{n-1} (i=0..n, n>0) and degeneracies s_i : S_n -> S_{n+1} (i=0..n, n>=0) satisfying the simplicial identities dual to (11)-(13): (11op) d_i d_{j+1} = d_j d_i for i<=j; (12op) s_i s_j = s_{j+1} s_i for i<=j; (13op) d_i s_j = s_{j-1} d_i (i<j), = 1 (i=j or i=j+1), = s_j d_{i-1} (i>j+1).",
+   "book_section": "VII.5",
+   "book_page": "178",
+   "pdf_pages": [
+    186,
+    187
+   ],
+   "cross_refs": [
+    "maclane:VII.5:def-deltaplus",
+    "maclane:VII.5:def-simplicialset",
+    "maclane:VII.5:def-augmented"
+   ],
+   "flags": [
+    "definition-in-prose",
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:def-augmented",
+   "kind": "definition",
+   "number": null,
+   "name": "augmented simplicial object and augmentation",
+   "statement_summary": "An augmented simplicial object in X is a functor S' : Delta^op -> X (over the full Delta, including 0). A simplicial object S is augmented by choosing an object S_{-1} and an arrow eps : S_0 -> S_{-1} with eps d_0 = eps d_1 : S_1 -> S_{-1} (so S'(delta_0) = eps); such eps is an augmentation of S.",
+   "book_section": "VII.5",
+   "book_page": "179",
+   "pdf_pages": [
+    187
+   ],
+   "cross_refs": [
+    "maclane:VII.5:def-simplicialobject"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:construction-homology",
+   "kind": "construction",
+   "number": null,
+   "name": "homology of a simplicial object in an abelian category",
+   "statement_summary": "For a simplicial object S in an abelian category A, the alternating sums d = d_0 - d_1 + ... + (-1)^{n+1} d_{n+1} : S_{n+1} -> S_n give a boundary with dd = 0 (from (11op)), making the sequence (15) S_0 <- S_1 <- S_2 <- ... a chain complex; its homology is H_0(S) = S_0/Im(d : S_1 -> S_0) and H_n(S) = Ker(d : S_n -> S_{n-1})/Im(d : S_{n+1} -> S_n) for n>0. An augmentation eps of S augments the complex (eps d = 0), giving H_0(S) -> S_{-1}.",
+   "book_section": "VII.5",
+   "book_page": "179",
+   "pdf_pages": [
+    187
+   ],
+   "cross_refs": [
+    "maclane:VII.5:def-simplicialobject",
+    "maclane:VII.5:construction-singular"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:construction-singular",
+   "kind": "construction",
+   "number": null,
+   "name": "singular chain complex and singular homology of a space",
+   "statement_summary": "The composite functor Delta^op x Top --hom(Delta -, -)--> Set --Z--> Ab (Z = free abelian group on a set) assigns to each space X an augmented simplicial abelian group S(X): an arrow h in hom(Delta_{n+1}, X) is a singular n-simplex and S_{n+1} is the free abelian group on them. Its associated chain complex (via construction-homology) is the singular chain complex of X, with homology the singular homology of X.",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [
+    "maclane:VII.5:construction-geometric",
+    "maclane:VII.5:construction-homology"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.5:remark-protean",
+   "kind": "remark",
+   "number": null,
+   "name": "four characterizations of Delta",
+   "statement_summary": "Summary of the structural roles of Delta: (a) it is the category of finite ordinals, a full subcategory of Ord (all linearly ordered sets); (b) it is a full subcategory of Cat when each ordinal n is read as a finite preorder category (objects 0,1,2,...); (c) it is the strict monoidal category containing the universal monoid, its arrows being all iterated multiplications mu^{(m_0)} + ... + mu^{(m_{n-1})}; (d) it is a subcategory of Top consisting of the standard ordered simplices with order-preserving affine maps.",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [
+    "maclane:VII.5:construction-geometric",
+    "maclane:VII.5:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "monic/epi in Delta = injective/surjective",
+   "statement_summary": "Show that an arrow f : n -> n' in Delta is monic (resp. epi) if and only if the underlying monotone function f is injective (resp. surjective).",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "the monic subcategory Delta_mon",
+   "statement_summary": "(a) Show the subcategory Delta_mon of all monics in Delta is generated by the coface arrows delta_i subject to the relations (11). (b) Show every arrow of Delta_mon is uniquely an iterated sum of eta : 0 -> 1 and id : 1 -> 1.",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "the epi subcategory Delta_epi and universal semigroup",
+   "statement_summary": "(a) Show the subcategory Delta_epi of all epis in Delta is generated by the codegeneracy arrows sigma_i subject to the relations (12), and that Delta_epi is a strict monoidal category. (b) Defining a semigroup <c, mu> in a strict monoidal category <C, box, e> as an object c with an associative arrow mu : c box c -> c (mu(mu box 1) = mu(1 box mu)), show that 2 -> 1 is a universal semigroup in Delta_epi.",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.5:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "simplicial sets are small-complete",
+   "statement_summary": "Show that the category of simplicial objects in Set is small-complete.",
+   "book_section": "VII.5",
+   "book_page": "180",
+   "pdf_pages": [
+    188
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.6:def-comonad",
+   "kind": "definition",
+   "number": null,
+   "name": "comonad (dual of monad)",
+   "statement_summary": "A comonad L = <L, eps, delta> in a category A is an endofunctor L : A -> A with natural transformations eps : L -> Id_A (counit) and delta : L -> L^2 (comultiplication) satisfying coassociativity delta L . delta = L delta . delta : L -> L^3 and the counit laws eps L . delta = 1_L = L eps . delta : L -> L (equations (1)). Equivalently L is a comonoid in the strict monoidal category A^A of endofunctors under composition. This is the formal dual of the monad definition (VI.1).",
+   "book_section": "VII.6",
+   "book_page": "180",
+   "pdf_pages": [
+    188,
+    189
+   ],
+   "cross_refs": [
+    "maclane:VI.1:def-monad",
+    "maclane:VII.6:construction-smpl"
+   ],
+   "flags": [
+    "definition-in-prose",
+    "spans-page-boundary",
+    "recap-by-duality"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:remark-universal-comonoid",
+   "kind": "remark",
+   "number": null,
+   "name": "comonads as augmented simplicial objects (dual universal property of Delta)",
+   "statement_summary": "Delta contains the universal monoid <1, 0->1, 1+1->1>, so Delta^op contains the universal comonoid <1, 1->0, 1->1+1>. By the dual of Theorem 5.1, any comonad in a strict monoidal category <B, box, e> determines a unique monoidal morphism Delta^op -> B carrying the universal comonoid to it; this morphism is an augmented simplicial object in B (and (Delta^+)^op -> B is a simplicial object).",
+   "book_section": "VII.6",
+   "book_page": "181",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "maclane:VII.6:def-comonad",
+    "maclane:VII.5:prop1",
+    "maclane:VII.5:def-augmented"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.6:construction-smpl",
+   "kind": "construction",
+   "number": null,
+   "name": "Smp L: the simplicial object of a comonad",
+   "statement_summary": "A comonad <L, eps, delta> in A (a comonoid in A^A) determines an augmented simplicial object Smp L : Delta^op -> A^A with n |-> L^n = L o ... o L, augmentation eps, degeneracy delta = s_0 : L -> L^2, and higher faces/degeneracies (duals of (8),(9)) given by d_i^n = L^i eps L^{n-i} : L^{n+1} -> L^n (i=0..n) (2) and s_i^n = L^i delta L^{n-i-1} : L^n -> L^{n+1} (i=0..n-1) (3). Written Smp L = { L <= L^2 <= L^3 ... ; L -> L^2 => L^3 ... }.",
+   "book_section": "VII.6",
+   "book_page": "181",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "maclane:VII.6:def-comonad",
+    "maclane:VII.6:remark-universal-comonoid",
+    "maclane:VII.6:construction-resolution"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:construction-resolution",
+   "kind": "construction",
+   "number": null,
+   "name": "comonad bar-resolution chain complex L^* a",
+   "statement_summary": "If A is an Ab-category (e.g. abelian) and L a comonad, the simplicial identities make the alternating sums d = d_0 - d_1 + ... + (-1)^n d_n : L^{n+1} a -> L^n a satisfy dd = 0, giving a chain complex L^* a : L a <- L^2 a <- L^3 a <- ... with augmentation eps_a : L a -> a. This standard resolution of a is used to build derived functors and cohomology functors.",
+   "book_section": "VII.6",
+   "book_page": "181",
+   "pdf_pages": [
+    189
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-smpl",
+    "maclane:VII.5:construction-homology"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:construction-monoidring",
+   "kind": "construction",
+   "number": null,
+   "name": "monoid-ring / group-ring functor Z : Mon -> Rng",
+   "statement_summary": "The forgetful functor U : Rng -> Mon (forget addition) has (by the adjoint functor theorem) a left adjoint Z sending each monoid M to the monoid ring ZM. For a multiplicative group Pi, Z Pi is the group ring: its additive group is the free abelian group on Pi and its multiplication is the unique bilinear extension of the product of Pi.",
+   "book_section": "VII.6",
+   "book_page": "182",
+   "pdf_pages": [
+    190
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-freemodule"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:construction-freemodule",
+   "kind": "construction",
+   "number": null,
+   "name": "free Pi-module functor Z(Pi) (x) - : Ab -> Pi-Mod",
+   "statement_summary": "The forgetful functor U : Pi-Mod -> Ab has a left adjoint Z(Pi) (x) - sending an abelian group B to the Pi-module Z(Pi) (x) B. The unit is eta : B -> Z(Pi) (x) B, b |-> 1 (x) b, and the counit is eps : Z(Pi) (x) U A -> A, x (x) a |-> x a.",
+   "book_section": "VII.6",
+   "book_page": "182",
+   "pdf_pages": [
+    190
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-monoidring",
+    "maclane:VII.6:construction-barresolution"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:construction-barresolution",
+   "kind": "construction",
+   "number": null,
+   "name": "bar resolution of the trivial module Z (standard resolution for group (co)homology)",
+   "statement_summary": "The composite Pi-Mod -> Ab -> Pi-Mod gives a comonad <L, eps, delta> with L = Z(Pi) (x) - and delta_A : L A -> L^2 A, x (x) a |-> x (x) 1 (x) a. Applying Smp L to the trivial module A = Z (x.m = m) yields, since Z(Pi) (x) Z = Z(Pi), the simplicial object Z(Pi) <= Z(Pi)^{(2)} <= ... <= Z(Pi)^{(n)} <= Z(Pi)^{(n+1)} ... where Z(Pi)^{(n)} is the n-fold tensor power, free abelian on bar symbols x[x_1|...|x_n], with Pi-action y.x[x_1|...|x_n] = yx[x_1|...|x_n], faces d_0 = x x_1[x_2|...], d_i = x[...|x_i x_{i+1}|...] (0<i<n), d_n = x[x_1|...|x_{n-1}], and degeneracies s_i inserting a 1. The associated augmented complex Z <- Z(Pi) <- Z(Pi)^{(2)} <- ... is the standard free resolution of the trivial Pi-module Z (Mac Lane 1963, Thm IV.5.1).",
+   "book_section": "VII.6",
+   "book_page": "182",
+   "pdf_pages": [
+    190,
+    191
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-smpl",
+    "maclane:VII.6:construction-freemodule",
+    "maclane:VII.6:construction-groupcohomology"
+   ],
+   "flags": [
+    "unnumbered-construction",
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:construction-groupcohomology",
+   "kind": "construction",
+   "number": null,
+   "name": "cohomology of a group H^n(Pi, A)",
+   "statement_summary": "For a Pi-module A, applying hom_Pi(-, A) to the standard resolution (dropping the augmentation) yields a cochain complex hom_Pi(Z(Pi), A) -> hom_Pi(Z(Pi)^{(2)}, A) -> ... with coboundary delta = hom_Pi(d, A); its cohomology groups are the group cohomology H^n(Pi, A). Identifications: H^0(Pi, A) = {a : x a = a for all x} (invariants); H^1 = crossed homomorphisms Pi -> A modulo principal ones; H^2 = group extensions of the additive group A by Pi with the Pi-action given by conjugation.",
+   "book_section": "VII.6",
+   "book_page": "183",
+   "pdf_pages": [
+    191
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-barresolution",
+    "maclane:VII.6:remark-grouphomology"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.6:remark-grouphomology",
+   "kind": "remark",
+   "number": null,
+   "name": "homology of a group H_n(Pi, C)",
+   "statement_summary": "For a right Pi-module C, applying the covariant additive functor C (x)_Pi - to the standard resolution and taking homology of the resulting complex in Ab gives the group homology H_n(Pi, C). Examples: H_0(Pi, Z) = Z and H_1(Pi, Z) = Pi/[Pi, Pi], the factor commutator (abelianization) of Pi.",
+   "book_section": "VII.6",
+   "book_page": "183",
+   "pdf_pages": [
+    191
+   ],
+   "cross_refs": [
+    "maclane:VII.6:construction-barresolution"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.7:def-symmetric",
+   "kind": "definition",
+   "number": null,
+   "name": "symmetric monoidal category",
+   "statement_summary": "A monoidal category B is symmetric when equipped with isomorphisms gamma_{a,b} : a box b ~= b box a natural in a, b, satisfying: gamma_{a,b} o gamma_{b,a} = 1 (1); the unit-compatibility rho_b = lambda_b o gamma_{b,e} : b box e ~= b (2); and the hexagon coherence diagram (3) relating gamma with the associator on a box (b box c). These conditions are exactly the symmetry axioms.",
+   "book_section": "VII.7",
+   "book_page": "184",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "maclane:VII.7:def-closed",
+    "maclane:VII.7:remark-symmetric"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.7:remark-symmetric",
+   "kind": "remark",
+   "number": null,
+   "name": "coherence for symmetric monoidal categories; product/coproduct are symmetric",
+   "statement_summary": "The symmetry conditions suffice (Mac Lane 1963b) to prove that 'all' relevant diagrams commute, a coherence theorem analogous to that of section VII.2. Moreover any monoidal category whose tensor box is the categorical product or coproduct is automatically symmetric, taking gamma : a x b ~= b x a to be the canonical isomorphism commuting with the projections. (Elaborated in Chapter XI.)",
+   "book_section": "VII.7",
+   "book_page": "184",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "maclane:VII.7:def-symmetric"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.7:def-closed",
+   "kind": "definition",
+   "number": null,
+   "name": "closed category (symmetric monoidal closed)",
+   "statement_summary": "A closed category V is a symmetric monoidal category in which each functor - box b : V -> V has a specified right adjoint (-)^b : V -> V (an internal hom functor). Examples: <Ab, (x)> is closed with A^B = hom(B, A); <K-Mod, (x)_K> for any commutative ring K; and the cartesian closed categories Set and Cat.",
+   "book_section": "VII.7",
+   "book_page": "184",
+   "pdf_pages": [
+    192
+   ],
+   "cross_refs": [
+    "maclane:VII.7:def-symmetric",
+    "maclane:VII.7:def-enriched"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.7:def-enriched",
+   "kind": "definition",
+   "number": null,
+   "name": "enriched category (B-category / V-category)",
+   "statement_summary": "Relative to a monoidal category B, a B-category (V-category, category enriched over B) consists of a set R of objects, a hom-object R(r,s) in B for each pair, composition arrows R(s,t) box R(r,s) -> R(r,t), and unit arrows e -> R(r,r), subject to the usual associativity and unit axioms. This has only hom-objects, not hom-sets; applying a functor U : B -> Set (e.g. U = B(e, -)) to the hom-objects yields an ordinary underlying category U R 'enriched' by the R(r,s). The full theory works when B is closed, not merely monoidal.",
+   "book_section": "VII.7",
+   "book_page": "184",
+   "pdf_pages": [
+    192,
+    193
+   ],
+   "cross_refs": [
+    "maclane:VII.7:def-closed"
+   ],
+   "flags": [
+    "definition-in-prose",
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:construction-compactopen",
+   "kind": "construction",
+   "number": null,
+   "name": "compact-open function space and the local-compactness adjunction",
+   "statement_summary": "Recalling the Set cartesian-closed adjunction Set(X x Y, Z) ~= Set(X, Z^Y) (1) via f |-> f^# with (f^# x) y = f(x,y), one topologizes Top(Y,Z) as Cop(Y,Z) with the compact-open topology (subbase N(C,U) = {continuous h : hC subset U} for C compact in Y, U open in Z). The exponential adjunction then restricts to a homeomorphism Top(X x Y, Z) ~= Top(X, Cop(Y,Z)) (2) provided Y is locally compact Hausdorff.",
+   "book_section": "VII.8",
+   "book_page": "185",
+   "pdf_pages": [
+    193
+   ],
+   "cross_refs": [
+    "maclane:VII.8:thm3"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:def-compactlygenerated",
+   "kind": "definition",
+   "number": null,
+   "name": "compactly generated space and the category CGHaus",
+   "statement_summary": "A topological space X is compactly generated when every subset A of X that meets each compact subset C in a (relatively) closed set is itself closed. CGHaus denotes the category of compactly generated Hausdorff spaces (Kelley spaces) with all continuous functions as arrows.",
+   "book_section": "VII.8",
+   "book_page": "185",
+   "pdf_pages": [
+    193
+   ],
+   "cross_refs": [
+    "maclane:VII.8:prop1"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:prop1",
+   "kind": "proposition",
+   "number": "1",
+   "name": "CGHaus is coreflective in Haus",
+   "statement_summary": "CGHaus is a full coreflective subcategory of Haus; the coreflection is witnessed by the Kelleyfication counit eps_Y : KY -> Y (universal from the inclusion's right adjoint K).",
+   "book_section": "VII.8",
+   "book_page": "185",
+   "pdf_pages": [
+    193,
+    194
+   ],
+   "cross_refs": [
+    "maclane:VII.8:construction-kelleyfication",
+    "maclane:VII.8:def-compactlygenerated"
+   ],
+   "flags": [
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:construction-kelleyfication",
+   "kind": "construction",
+   "number": null,
+   "name": "the Kelleyfication functor K : Haus -> CGHaus",
+   "statement_summary": "For each Hausdorff space Y, KY has the same points, with A closed in KY iff A intersect C is closed in Y for every compact C subset Y. Then KY is compactly generated Hausdorff and the identity eps_Y : KY -> Y is continuous and universal from K, i.e. the counit of the coreflection (K is right adjoint to the inclusion CGHaus -> Haus). A map g : Y -> Z is continuous as g eps : KY -> Z iff g is continuous on all compact subsets of Y; metrizable and locally compact Hausdorff spaces are compactly generated.",
+   "book_section": "VII.8",
+   "book_page": "186",
+   "pdf_pages": [
+    194
+   ],
+   "cross_refs": [
+    "maclane:VII.8:prop1",
+    "maclane:VII.8:prop2",
+    "maclane:VII.8:thm3"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:prop2",
+   "kind": "proposition",
+   "number": "2",
+   "name": "CGHaus is complete and cocomplete",
+   "statement_summary": "CGHaus is (small) complete and cocomplete. Completeness: Haus is complete and the right adjoint K preserves limits; in particular the product in CGHaus is the Kelleyfication box, X box Y = K(X x Y) (4), of the ordinary Haus product. Cocompleteness: coproducts (disjoint unions) of compactly generated spaces are compactly generated, and the coequalizer of a parallel pair, formed in Haus, already lies in CGHaus (shown via the K-counit being monic and iso onto the Haus coequalizer).",
+   "book_section": "VII.8",
+   "book_page": "186",
+   "pdf_pages": [
+    194,
+    195
+   ],
+   "cross_refs": [
+    "maclane:VII.8:construction-kelleyfication",
+    "maclane:VII.8:prop1"
+   ],
+   "flags": [
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:thm3",
+   "kind": "theorem",
+   "number": "3",
+   "name": "CGHaus is cartesian closed",
+   "statement_summary": "CGHaus is a cartesian closed category. For compactly generated Hausdorff X, Y the exponential is X^Y = K(Cop(Y,X)) (5), the Kelleyfication of the compact-open function space, with evaluation e : X^Y box Y -> X, <f,y> |-> f y, shown continuous and universal, yielding the natural bijection CGHaus(Z box Y, X) ~= CGHaus(Z, X^Y) (6). One also gets the exponential-law homeomorphism X^{Z box Y} ~= (X^Y)^Z (7).",
+   "book_section": "VII.8",
+   "book_page": "187",
+   "pdf_pages": [
+    195,
+    196
+   ],
+   "cross_refs": [
+    "maclane:VII.8:construction-kelleyfication",
+    "maclane:VII.8:construction-compactopen",
+    "maclane:VII.8:prop2",
+    "maclane:VII.7:def-closed"
+   ],
+   "flags": [
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.8:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "KY as colimit of compact subspaces",
+   "statement_summary": "If Y is Hausdorff, show that KY is the colimit (in Haus) of the diagram of compact subspaces of Y ordered by inclusion.",
+   "book_section": "VII.8",
+   "book_page": "188",
+   "pdf_pages": [
+    196
+   ],
+   "cross_refs": [
+    "maclane:VII.8:construction-kelleyfication"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.8:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "closed/open subsets are compactly generated",
+   "statement_summary": "Prove that a closed (or open) subset of a space X in CGHaus, with the usual subspace topology, is itself in CGHaus.",
+   "book_section": "VII.8",
+   "book_page": "188",
+   "pdf_pages": [
+    196
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.8:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "inclusion CGHaus -> Haus creates colimits",
+   "statement_summary": "Prove that the inclusion functor CGHaus -> Haus creates colimits.",
+   "book_section": "VII.8",
+   "book_page": "188",
+   "pdf_pages": [
+    196
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.8:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "box-product agrees with x for locally compact factor",
+   "statement_summary": "If Z is locally compact Hausdorff and X in CGHaus, prove that the CGHaus product Z box X equals the ordinary product Z x X.",
+   "book_section": "VII.8",
+   "book_page": "188",
+   "pdf_pages": [
+    196
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.8:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "alternative description of CGHaus",
+   "statement_summary": "Prove that CGHaus is equivalent to the category whose objects are all Hausdorff spaces and whose arrows f : X -> Y are all functions that are continuous on compact sets.",
+   "book_section": "VII.8",
+   "book_page": "188",
+   "pdf_pages": [
+    196
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.9:def-pointed",
+   "kind": "definition",
+   "number": null,
+   "name": "pointed compactly generated spaces CGHaus_* and pointed function space",
+   "statement_summary": "CGHaus_* is the category of pointed compactly generated Hausdorff spaces: objects are X in CGHaus with a chosen base point *_X, arrows are base-point-preserving continuous maps. The pointed function space X^{(*)Y} is the subspace of X^Y of base-point-preserving maps; being a closed subspace it is compactly generated, with base point the constant map Y -> *_X. The standard adjunction restricts to base-point-preserving transposes.",
+   "book_section": "VII.9",
+   "book_page": "188",
+   "pdf_pages": [
+    196,
+    197
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-smash"
+   ],
+   "flags": [
+    "definition-in-prose",
+    "spans-page-boundary"
+   ]
+  },
+  {
+   "id": "maclane:VII.9:def-smash",
+   "kind": "definition",
+   "number": null,
+   "name": "wedge, smash product, and the smash-hom adjunction",
+   "statement_summary": "In CGHaus_*, the wedge is Z v Y = (Z box *) union (* box Y) inside Z box Y, and the smash product is the identification space Z ^ Y = (Z box Y)/[(Z box *) union (* box Y)] (collapsing the wedge to a point; also written Z # Y). Base-point-preserving maps out of Z box Y are exactly those collapsing the wedge, giving the adjunction CGHaus_*(Z ^ Y, X) ~= CGHaus_*(Z, X^{(*)Y}) (1); i.e. (- ^ Y) is left adjoint to (-)^{(*)Y}.",
+   "book_section": "VII.9",
+   "book_page": "189",
+   "pdf_pages": [
+    197
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-pointed",
+    "maclane:VII.9:def-suspension-loop"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.9:def-suspension-loop",
+   "kind": "definition",
+   "number": null,
+   "name": "reduced suspension Sigma and loop space Omega with Sigma -| Omega",
+   "statement_summary": "With the circle S^1 = I/{0,1} (base point 0 = +1), the reduced suspension and loop-space functors CGHaus_* -> CGHaus_* are Sigma X = X ^ S^1 and Omega X = X^{(*)S^1}; by the smash adjunction Sigma is left adjoint to Omega. Points of Omega X are based loops f : I -> X with f(0)=f(1)=*_X; Sigma X is the cylinder X x I with X x {0}, X x {1} and * x I collapsed (the double cone over X). Then Sigma^n S^1 is the (n+1)-sphere; the unit X -> Omega Sigma X sends x to the cone generator through x. By iteration Sigma^n is left adjoint to Omega^n, with unit X -> Omega^n Sigma^n X factoring as X -> Omega Sigma X -> ... , and Omega^n (a right adjoint) preserves products: Omega^n(X box Y) ~= Omega^n X box Omega^n Y.",
+   "book_section": "VII.9",
+   "book_page": "189",
+   "pdf_pages": [
+    197
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-smash"
+   ],
+   "flags": [
+    "definition-in-prose"
+   ]
+  },
+  {
+   "id": "maclane:VII.9:ex1",
+   "kind": "exercise",
+   "number": "1",
+   "name": "left adjoint of Set_*(S, -)",
+   "statement_summary": "Construct a left adjoint for the functor Set_*(S, -) : Set_* -> Set_* (on pointed sets).",
+   "book_section": "VII.9",
+   "book_page": "190",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.9:ex2",
+   "kind": "exercise",
+   "number": "2",
+   "name": "smash makes CGHaus_* symmetric monoidal",
+   "statement_summary": "Show that the smash product on CGHaus_* is commutative and associative up to natural isomorphisms making CGHaus_* a symmetric monoidal category whose unit is the two-point (pointed) space.",
+   "book_section": "VII.9",
+   "book_page": "190",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-smash"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.9:ex3",
+   "kind": "exercise",
+   "number": "3",
+   "name": "a functor in Top_* with no right adjoint",
+   "statement_summary": "In Top_* (pointed spaces), show the cartesian-product functor - x Y has no right adjoint, because it fails to preserve coproducts. [operator recovered from PDF 198: it is x (categorical product), NOT the smash ^; smash by contrast IS closed.]",
+   "book_section": "VII.9",
+   "book_page": "190",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.9:ex4",
+   "kind": "exercise",
+   "number": "4",
+   "name": "loop space as pullback of the path fibration",
+   "statement_summary": "The path-space functor P (on pointed CG Hausdorff spaces) has PX = X^{(*)I} (with 0 the base point of I); f |-> f(1) defines a natural transformation pi : P -> Id. Show that Omega is obtained as the pullback of the diagram P -> Id <- * (the point). Classically Omega X is the fibre of pi_X : PX -> X.",
+   "book_section": "VII.9",
+   "book_page": "190",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-suspension-loop"
+   ],
+   "flags": []
+  },
+  {
+   "id": "maclane:VII.9:ex5",
+   "kind": "exercise",
+   "number": "5",
+   "name": "counit of the Sigma-Omega adjunction",
+   "statement_summary": "Describe the counit of the suspension-loop (Sigma -| Omega) adjunction.",
+   "book_section": "VII.9",
+   "book_page": "190",
+   "pdf_pages": [
+    198
+   ],
+   "cross_refs": [
+    "maclane:VII.9:def-suspension-loop"
+   ],
+   "flags": []
+  }
+ ]
+}

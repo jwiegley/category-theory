@@ -1,0 +1,92 @@
+[
+  {
+    "item_id": "awodey:3.1:prop1",
+    "issue": 266,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.1, Proposition 3.1, printed page 58, PDF page 67 (item `awodey:3.1:prop1`). Awodey's *formal duality*: the syntactic dual `Σ*` of an elementary category-theory sentence `Σ` (swap composition order `g∘f ↔ f∘g`, swap `dom ↔ cod`), together with the self-duality of the axioms (`CT* = CT`), so that `C ⊢ Σ` implies `C ⊢ Σ*`. This is the same duality-principle obligation as MacLane II.1 (a deep embedding of the elementary statement language plus the dual-statement operator); the semantic core (`op_invol : (C^op)^op = C`, `Construction/Opposite.v:126`) is already present. No new aspect beyond MacLane II.1."
+  },
+  {
+    "item_id": "awodey:3.1:prop2",
+    "issue": 266,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.1, Proposition 3.2, printed page 59, PDF page 68 (item `awodey:3.1:prop2`). Awodey's *conceptual duality*: if a statement `Σ` holds for all categories then so does its dual `Σ*` (proof: `Σ` holds in every `C^op`, and `(C^op)^op = C`). Same meta-level duality-principle obligation as MacLane II.1; realized per-instance in-tree via `op_invol` and `C^op`-instantiation. No new aspect."
+  },
+  {
+    "item_id": "awodey:3.2:remark-finite-copower",
+    "issue": 321,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, unnumbered remark, printed page 61, PDF page 70 (item `awodey:3.2:remark-finite-copower`). Awodey observes that in **Sets** every finite set `A` is a coproduct of copies of the terminal object, `A ≅ 1 + 1 + ⋯ + 1` (`n = |A|`), i.e. a copower of `1`, motivating `2 = 1+1`, `3 = 1+1+1`, …. This is the copower construction of MacLane III.4 applied to the terminal object; no copower operation currently exists in-tree. New aspect (a downstream instance): the specific decomposition of a finite set as the `n`-fold copower of `1` in **Sets**/**FinSet**, worth adding once copowers land."
+  },
+  {
+    "item_id": "awodey:3.2:example5",
+    "issue": 328,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.5, printed pages 61–62, PDF pages 70–71 (item `awodey:3.2:example5`). The coproduct of two free monoids satisfies `M(A) + M(B) ≅ M(A+B)` in **Mon** — a special case of coproducts in **Mon**. New aspect: the corollary that the free-monoid functor `M : Sets → Mon` preserves coproducts, which follows from left adjoints preserving colimits (LAPC, `Adjunction/Continuity.v`) once the free-monoid adjunction and the **Mon** coproduct of this issue are in place; note this in the DoD."
+  },
+  {
+    "item_id": "awodey:3.2:example6",
+    "issue": 324,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.6, printed page 62, PDF page 71 (item `awodey:3.2:example6`). The coproduct in **Top** of two spaces is their disjoint union (with `O(X+Y) ≅ O(X) × O(Y)`); the example also notes coproducts of posets by juxtaposition and rooted posets by basepoint identification. This is the **Top** case of coproducts in the familiar topological categories; no category **Top** exists in-tree yet. No new aspect beyond MacLane III.3."
+  },
+  {
+    "item_id": "awodey:3.2:example9",
+    "issue": 328,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.9, printed pages 63–64, PDF pages 72–73 (item `awodey:3.2:example9`). The coproduct of two monoids `A, B` is `M(|A|+|B|)/∼`, the free monoid on words over the disjoint union of underlying sets modulo the least congruence collapsing units and adjacent same-side letters, with copairing `[f,g]` lifted from the free monoid. This is exactly the coproduct in **Mon**; no category **Mon** with coproducts exists in-tree. No new aspect beyond MacLane III.3."
+  },
+  {
+    "item_id": "awodey:3.2:construction-free-product-groups",
+    "issue": 324,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, unnumbered construction, printed page 64, PDF page 73 (item `awodey:3.2:construction-free-product-groups`). The monoid-coproduct construction also gives coproducts in **Groups**, where the coproduct is the *free product* `A ⊕ B`. This is the **Grp** case of coproducts in the familiar algebraic categories; no category of groups exists in-tree (only group *objects*, `Structure/Group.v`). No new aspect beyond MacLane III.3."
+  },
+  {
+    "item_id": "awodey:3.2:example10",
+    "issue": 324,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.10, printed page 64, PDF page 73 (item `awodey:3.2:example10`). Because the free product need not be abelian, the coproduct in **Ab** is instead the direct sum on the underlying product set, with injections `a ↦ (a, 0)`, `b ↦ (0, b)` and copairing `(a,b) ↦ f a + g b`. This is the **Ab** case of coproducts in the familiar algebraic categories; the identical direct-sum-as-coproduct is already in-tree for commutative monoids (`Instance/CMon/Biproduct.v`: `CMon_inl`/`CMon_inr`, `CMon_bi_is_coproduct`), but the category **Ab** of abelian groups does not exist in-tree. No new aspect beyond MacLane III.3."
+  },
+  {
+    "item_id": "awodey:3.2:prop11",
+    "issue": 534,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Proposition 3.11, printed page 65, PDF page 74 (item `awodey:3.2:prop11`). In **Ab** the binary coproduct and binary product are canonically isomorphic, `A + B ≅ A × B`, via `θ = [⟨1,0⟩, ⟨0,1⟩]`. This is the product/biproduct/coproduct coincidence of an additive (Ab-enriched) setting; it is already in-tree both generically (`Structure/Biproduct.v`, `Structure/Semiadditive.v`) and concretely for commutative monoids (`Instance/CMon/Biproduct.v`: `CMon_Biproduct`, `CMon_Biproducts`). The specific category **Ab** is not formalized in-tree. No new aspect beyond MacLane VIII.2."
+  },
+  {
+    "item_id": "awodey:3.2:example7",
+    "issue": 422,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.2, Example 3.7, printed page 63, PDF page 72 (item `awodey:3.2:example7`). In a poset viewed as a category, the coproduct of `p, q` is their join `p ∨ q` (least upper bound). This is the order-dual of \"products in a preorder are greatest lower bounds\": whereas MacLane V.2 covers the meet/glb (product) direction, Awodey states the join/lub (coproduct) direction. New aspect: the dual coproduct-in-a-preorder = join statement over `Instance/Poset.v`'s `Proset` (in-tree only the concrete `Props_Cocartesian` = disjunction instance, `Instance/Props.v:80`, witnesses it) — add the join direction alongside the glb direction."
+  },
+  {
+    "item_id": "awodey:3.3:example14",
+    "issue": 407,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.3, Example 3.14, printed page 67, PDF pages 76–77 (item `awodey:3.3:example14`). In **Sets** the equalizer of `f, g : A → B` is the inclusion of the equationally-defined subset `{x ∈ A | f x = g x}`, with unique factorization because the inclusion is monic. \"**Sets** has equalizers\" is the same obligation as completing the limits of **Sets** (MacLane V.1); **Sets** currently carries no equalizer construction (`Instance/Sets/` has no Equalizer file). New aspect: the concrete `{x | f x ≈ g x}` subsetoid presentation of the equalizer in **Sets** — record it as the concrete witness when #407 is worked, and it is the equalizer used by the sibling Awodey issue on subsets-as-equalizers-of-characteristic-functions."
+  },
+  {
+    "item_id": "awodey:3.4:example16",
+    "issue": 530,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Example 3.16, printed page 69, PDF page 78 (item `awodey:3.4:example16`). In **Ab** the equalizer of `f, g` is the kernel `ker(f − g)`, i.e. the equalizer of `h = f − g` against the zero map — exactly the equalizers-as-kernels-of-differences obligation. The abstract identity `IsKernel f i := IsEqualizer f zero_mor k i` is in-tree (`Structure/Kernel.v:53`), but the `f, g = ker(f − g)` direction (needing subtraction) and the category **Ab** are absent. New aspect: the example also gives equalizers in **Pos**, **Mon**, and **Top** as the underlying-set equalizer subset with induced structure (order/submonoid/subspace); these ride on the respective category constructions (Pos = #641, Top = MacLane I.7 = #259, and a category **Mon**) and are illustration-level once those categories exist."
+  },
+  {
+    "item_id": "awodey:3.4:example19",
+    "issue": 315,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Example 3.19, printed page 71, PDF pages 80–81 (item `awodey:3.4:example19`). For an equivalence relation `R ⊆ X × X` with projections `r₁, r₂ : R ⇉ X`, the canonical projection `π : X → X/R` is the coequalizer of `r₁, r₂` in **Sets**; `f` factors through `π` iff `f` respects `R` (iff `f r₁ = f r₂`), the mediator unique because `π` is epic. This is the **Sets** quotient-as-coequalizer obligation; in-tree the generated-equivalence quotient exists only for pushouts (`Instance/Sets/Pushout.v`) and there is no `HasCoequalizers Sets`. No new aspect beyond the MacLane III.1 Sets-coequalizer work."
+  },
+  {
+    "item_id": "awodey:3.4:construction-sets-coeq",
+    "issue": 315,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, unnumbered construction, printed page 72, PDF page 81 (item `awodey:3.4:construction-sets-coeq`). The coequalizer in **Sets** of `f, g : A ⇉ B` is `B` quotiented by the equivalence relation generated by the equations `f x = g x`. Same obligation as the MacLane III.1 Sets-coequalizer work; the generated-equivalence quotient technique is in-tree for pushouts only (`Instance/Sets/Pushout.v`), with no `HasCoequalizers Sets`. No new aspect."
+  },
+  {
+    "item_id": "awodey:3:ex4",
+    "issue": 315,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 4, printed page 76, PDF page 85 (item `awodey:3:ex4`). Prove **Sets** has all coequalizers by constructing the coequalizer of `f, g : A ⇉ B` as `Q = B/(f=g)`, the quotient by the intersection of all equivalence relations on `B` containing the pairs `(f x, g x)`. This is the same `HasCoequalizers Sets` obligation as the MacLane III.1 Sets-coequalizer work (the generated-equivalence quotient is in-tree for pushouts only). No new aspect."
+  },
+  {
+    "item_id": "awodey:3:ex2",
+    "issue": 530,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 2, printed page 76, PDF page 85 (item `awodey:3:ex2`). Show the category **Ab** of abelian groups has all equalizers. The equalizer of `f, g` in **Ab** is `ker(f − g)` — the equalizers-as-kernels-of-differences obligation — but no category **Ab** exists in-tree (`Instance/CMon` is commutative monoids, without inverses, and carries no equalizer content). No new aspect beyond MacLane VIII.1 (plus the category **Ab**, MacLane I.7 = #256)."
+  },
+  {
+    "item_id": "awodey:3.4:prop22",
+    "issue": 479,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.4, Proposition 3.22, printed pages 74–75, PDF pages 83–84 (item `awodey:3.4:prop22`). Every monoid `M` is a coequalizer of free monoids, `M ≅ F(G)/(r₁=r₂)`, via the bar resolution `T²M ⇉ TM → M` (`T = M(|−|)`) exhibited as a coequalizer of monoids. This is the canonical U-split-coequalizer presentation of an algebra (Awodey's monoid case of \"algebraic quotients as coequalizers split under the forgetful functor\"). The general monadic form is already in-tree and stronger: `canonical_split` (`Monad/Monadicity/BeckObjects.v:75`) exhibits every T-algebra's presentation `μ_a, Tα ⇉ Ta → a` as a *split* (hence absolute) coequalizer. The concrete monoid instance is absent (no category **Mon**, no free-monoid monad). New aspect: instantiating the canonical presentation for the free-monoid monad / **Mon** (MacLane VI.4 monoid monad = #471) to realize `M ≅ F(G)/(r₁=r₂)`."
+  },
+  {
+    "item_id": "awodey:3:ex3",
+    "issue": 479,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* (2nd ed.), Chapter 3 \"Duality\", §3.5, Exercise 3, printed page 76, PDF page 85 (item `awodey:3:ex3`). For the canonical coequalizer presentation `T²M ⇉ TM → M` of a monoid (Prop 3.22), show coequalizers of this form are preserved by the forgetful functor **Mon → Sets**. The abstract reason is in-tree and stronger: the presentation is a *split* coequalizer (`canonical_split`, `Monad/Monadicity/BeckObjects.v:75`), and every functor preserves split coequalizers (`functor_preserves_split`, `Structure/Coequalizer/Split.v:104`), so absolute coequalizers are preserved by any functor. Missing only the concrete forgetful functor **Mon → Sets** to instantiate the exercise. No new aspect beyond the MacLane VI.6 algebraic-quotient split-coequalizer work (plus the category **Mon**)."
+  }
+]

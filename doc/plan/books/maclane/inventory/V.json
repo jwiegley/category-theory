@@ -1,0 +1,2466 @@
+{
+  "book": "maclane",
+  "range": {
+    "pdf_start": 118,
+    "pdf_end": 145
+  },
+  "pages": [
+    {
+      "pdf_page": 118,
+      "book_page": "109",
+      "empty": false,
+      "items": [
+        "maclane:V.1:def1",
+        "maclane:V.1:def2",
+        "maclane:V.1:construction1"
+      ],
+      "notes": "Chapter V opener (title 'V. Limits' + one paragraph of chapter overview, not inventoried) followed by section 1 'Creation of Limits'. Contains displayed diagram (1): the omega-chain of sets with the inclusion of the matching-string subset into the product. Fully legible."
+    },
+    {
+      "pdf_page": 119,
+      "book_page": "110",
+      "empty": false,
+      "items": [
+        "maclane:V.1:thm1",
+        "maclane:V.1:remark1",
+        "maclane:V.1:construction2"
+      ],
+      "notes": "Completes the omega-limit construction begun on printed 109 (maclane:V.1:construction1 continues here). Illustrative sentence 'if J is discrete, Cone(*,F) is just the cartesian product' folded into thm1's summary."
+    },
+    {
+      "pdf_page": 120,
+      "book_page": "111",
+      "empty": false,
+      "items": [
+        "maclane:V.1:construction3",
+        "maclane:V.1:thm2"
+      ],
+      "notes": "maclane:V.1:construction2 (p-adic integers) concludes at the top of this page with the termwise ring operations. A one-line pointer that formal power series rings are also limits refers forward to Exercise V.1.7."
+    },
+    {
+      "pdf_page": 121,
+      "book_page": "112",
+      "empty": false,
+      "items": [
+        "maclane:V.1:def3",
+        "maclane:V.1:thm3",
+        "maclane:V.1:ex1",
+        "maclane:V.1:ex2",
+        "maclane:V.1:ex3",
+        "maclane:V.1:ex4",
+        "maclane:V.1:ex5",
+        "maclane:V.1:ex6",
+        "maclane:V.1:ex7",
+        "maclane:V.1:ex8"
+      ],
+      "notes": "Section 2 'Limits by Products and Equalizers' opens at the foot of the page with motivating prose (the Set limit as an equalizer inside a product); that prose is the informal shadow of maclane:V.2:thm2 and is not inventoried separately."
+    },
+    {
+      "pdf_page": 122,
+      "book_page": "113",
+      "empty": false,
+      "items": [
+        "maclane:V.2:thm1",
+        "maclane:V.2:thm2",
+        "maclane:V.2:cor1",
+        "maclane:V.2:def1",
+        "maclane:V.2:cor2",
+        "maclane:V.2:remark1"
+      ],
+      "notes": "Displayed diagram (1) (the parallel pair f, g between the two products and its equalizer e) is legible. Numbering anomaly: the corollaries restart their own count (Corollary 1, Corollary 2) while Proposition 3 on the next page continues the Theorem 1 / Theorem 2 sequence."
+    },
+    {
+      "pdf_page": 123,
+      "book_page": "114",
+      "empty": false,
+      "items": [
+        "maclane:V.2:prop3",
+        "maclane:V.2:ex1",
+        "maclane:V.2:ex2",
+        "maclane:V.2:ex3",
+        "maclane:V.2:ex4"
+      ],
+      "notes": "maclane:V.2:remark1 (products in a preorder are meets) begins on printed 113 and finishes in the first two lines here. Exercises 3 and 4 carry commutative diagrams; both legible."
+    },
+    {
+      "pdf_page": 124,
+      "book_page": "115",
+      "empty": false,
+      "items": [
+        "maclane:V.2:ex5",
+        "maclane:V.3:construction1",
+        "maclane:V.3:thm1"
+      ],
+      "notes": "Section 3 'Limits with Parameters' opens here. The large triangular cone diagram in the proof of Theorem 1 is legible (subscripts p, q, j, k readable)."
+    },
+    {
+      "pdf_page": 125,
+      "book_page": "116",
+      "empty": false,
+      "items": [
+        "maclane:V.3:cor1",
+        "maclane:V.3:thm2",
+        "maclane:V.4:def1",
+        "maclane:V.4:def2",
+        "maclane:V.4:thm1",
+        "maclane:V.4:remark1"
+      ],
+      "notes": "Proof of maclane:V.3:thm1 concludes at the top. Section 4 'Preservation of Limits' opens mid-page. The Corollary of section 3 is printed unnumbered ('Corollary.')."
+    },
+    {
+      "pdf_page": 126,
+      "book_page": "117",
+      "empty": false,
+      "items": [
+        "maclane:V.4:remark2",
+        "maclane:V.4:remark3",
+        "maclane:V.4:thm2"
+      ],
+      "notes": "Proof of maclane:V.4:thm1 concludes at the top. Displayed equations (1) Lim C(c,F-) = C(c,Lim F), (2) the product form, and (3) C(Colim F,c) = Lim C(F-,c)."
+    },
+    {
+      "pdf_page": 127,
+      "book_page": "118",
+      "empty": false,
+      "items": [
+        "maclane:V.4:def3",
+        "maclane:V.4:def4",
+        "maclane:V.4:ex1",
+        "maclane:V.4:ex2",
+        "maclane:V.4:ex3",
+        "maclane:V.4:ex4",
+        "maclane:V.4:ex5",
+        "maclane:V.5:thm1"
+      ],
+      "notes": "Illustrative claim that in R-Mod the projectives are the direct summands of free modules is asserted without proof and treated as motivational, not inventoried. Section 5 'Adjoints on Limits' opens at the foot of the page."
+    },
+    {
+      "pdf_page": 128,
+      "book_page": "119",
+      "empty": false,
+      "items": [
+        "maclane:V.5:construction1",
+        "maclane:V.5:remark1",
+        "maclane:V.5:cor1"
+      ],
+      "notes": "Proof of maclane:V.5:thm1 concludes at the top with two illustrating diagrams (in A and in X). The square of adjoint pairs between X^J / A^J and X / A is legible."
+    },
+    {
+      "pdf_page": 129,
+      "book_page": "120",
+      "empty": false,
+      "items": [
+        "maclane:V.5:ex1",
+        "maclane:V.5:ex2",
+        "maclane:V.5:ex3",
+        "maclane:V.5:ex4",
+        "maclane:V.6:thm1",
+        "maclane:V.6:def1"
+      ],
+      "notes": "Opening paragraph (forgetful functors in algebra preserve products, kernels, equalizers) is motivational and not inventoried. Section 6 'Freyd's Adjoint Functor Theorem' opens mid-page."
+    },
+    {
+      "pdf_page": 130,
+      "book_page": "121",
+      "empty": false,
+      "items": [
+        "maclane:V.6:thm2",
+        "maclane:V.6:def2",
+        "maclane:V.6:lem1"
+      ],
+      "notes": "Proof of maclane:V.6:thm1 concludes at the top with the equalizer figure (u -e1-> v =f,g=> d, s : v -> u, w = Prod k_i). A pointer says the proof is reformulated in section X.2."
+    },
+    {
+      "pdf_page": 131,
+      "book_page": "122",
+      "empty": false,
+      "items": [
+        "maclane:V.6:thm3",
+        "maclane:V.6:def3"
+      ],
+      "notes": "Proof of maclane:V.6:lem1 occupies most of the page (two displayed diagram groups, legible). A one-line pointer says the creation argument extends to any limit (Exercise V.6.1, which falls outside this range). Theorem 3 is stated at the foot of the page; its proof runs onto PDF 132 (printed 123), outside this range."
+    },
+    {
+      "pdf_page": 132,
+      "book_page": "123",
+      "empty": false,
+      "items": [
+        "maclane:V.6:remark-ord-counterexample",
+        "maclane:V.6:remark-comp-bool",
+        "maclane:V.6:construction-free-group"
+      ],
+      "notes": "Page opens with the proof of Theorem 3 (Representability Theorem), whose statement begins on PDF 131 (printed 122) and therefore belongs to the adjacent range; not recorded here."
+    },
+    {
+      "pdf_page": 133,
+      "book_page": "124",
+      "empty": false,
+      "items": [
+        "maclane:V.6:def-algebraic-type",
+        "maclane:V.6:def-derived-operator",
+        "maclane:V.6:def-omega-e-algebra",
+        "maclane:V.6:construction-variety",
+        "maclane:V.6:construction-free-algebra"
+      ],
+      "notes": "Dense page of running-prose definitions of universal algebra; nothing is set off as a numbered or boldface block."
+    },
+    {
+      "pdf_page": 134,
+      "book_page": "125",
+      "empty": false,
+      "items": [
+        "maclane:V.6:construction-stone-cech-discrete",
+        "maclane:V.6:ex1",
+        "maclane:V.6:ex2",
+        "maclane:V.6:ex3",
+        "maclane:V.6:ex4"
+      ],
+      "notes": "Top of page continues the free-algebra construction started on PDF 133; section V.6 exercises 1-4 close the page."
+    },
+    {
+      "pdf_page": 135,
+      "book_page": "126",
+      "empty": false,
+      "items": [
+        "maclane:V.7:def1",
+        "maclane:V.7:lem1",
+        "maclane:V.7:def2",
+        "maclane:V.7:def3"
+      ],
+      "notes": "Section 7 'Subobjects and Generators' opens here."
+    },
+    {
+      "pdf_page": 136,
+      "book_page": "127",
+      "empty": false,
+      "items": [
+        "maclane:V.7:def4",
+        "maclane:V.7:def5",
+        "maclane:V.7:def6",
+        "maclane:V.7:lem2"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 137,
+      "book_page": "128",
+      "empty": false,
+      "items": [
+        "maclane:V.7:remark1",
+        "maclane:V.7:construction1",
+        "maclane:V.7:ex1",
+        "maclane:V.7:ex2",
+        "maclane:V.7:ex3",
+        "maclane:V.7:ex4",
+        "maclane:V.8:thm1"
+      ],
+      "notes": "Section 8 'The Special Adjoint Functor Theorem' opens at the foot of this page with Theorem 1, whose statement runs over onto PDF 138."
+    },
+    {
+      "pdf_page": 138,
+      "book_page": "129",
+      "empty": false,
+      "items": [
+        "maclane:V.8:thm2",
+        "maclane:V.8:lem1"
+      ],
+      "notes": "Carries the tail of Theorem 1's statement plus its full proof; Theorem 2 and the unnumbered comma-category monic Lemma both start here and run onto PDF 139."
+    },
+    {
+      "pdf_page": 139,
+      "book_page": "130",
+      "empty": false,
+      "items": [
+        "maclane:V.8:def1",
+        "maclane:V.8:cor1"
+      ],
+      "notes": "Continues the Lemma proof and the Theorem 2 proof from PDF 138."
+    },
+    {
+      "pdf_page": 140,
+      "book_page": "131",
+      "empty": false,
+      "items": [
+        "maclane:V.8:construction1",
+        "maclane:V.8:thm-watt",
+        "maclane:V.8:ex1",
+        "maclane:V.8:ex2"
+      ],
+      "notes": "Two paragraphs of terminology commentary (on 'locally small' vs 'well-powered', and on deducing SAFT from AFT via Freyd 1964 / Schubert 1970) are skipped as non-formalizable prose."
+    },
+    {
+      "pdf_page": 141,
+      "book_page": "132",
+      "empty": false,
+      "items": [
+        "maclane:V.8:ex3",
+        "maclane:V.8:ex4",
+        "maclane:V.9:construction1",
+        "maclane:V.9:construction2"
+      ],
+      "notes": "Section 9 'Adjoints in Topology' opens midway. The one-sentence recap of the category Top (small spaces, continuous maps) is treated as a back-reference to its Chapter I definition and folded into construction1 rather than duplicated."
+    },
+    {
+      "pdf_page": 142,
+      "book_page": "133",
+      "empty": false,
+      "items": [
+        "maclane:V.9:prop1",
+        "maclane:V.9:remark1",
+        "maclane:V.9:construction3"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 143,
+      "book_page": "134",
+      "empty": false,
+      "items": [
+        "maclane:V.9:remark2",
+        "maclane:V.9:construction4",
+        "maclane:V.9:construction5",
+        "maclane:V.9:construction6"
+      ],
+      "notes": "Top of page completes the quotient-topology adjunction begun on PDF 142."
+    },
+    {
+      "pdf_page": 144,
+      "book_page": "135",
+      "empty": false,
+      "items": [
+        "maclane:V.9:prop2",
+        "maclane:V.9:ex1",
+        "maclane:V.9:ex2",
+        "maclane:V.9:ex3"
+      ],
+      "notes": "A closing one-line forward pointer ('compactly generated Hausdorff spaces are cartesian closed, section VII.8') is not inventoried here; the item belongs to VII.8."
+    },
+    {
+      "pdf_page": 145,
+      "book_page": "136",
+      "empty": false,
+      "items": [
+        "maclane:V.9:ex4",
+        "maclane:V.9:ex5"
+      ],
+      "notes": "Carries parts (b) and (c) of Exercise 3 (recorded under PDF 144) and the chapter-final unnumbered 'Notes.' block of historical prose (Bourbaki 1957, Freyd 1964, Kelly), not inventoriable. Chapter V ends here."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:V.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "small-complete (complete) category",
+      "statement_summary": "A category C is small-complete, usually just called complete, when every small diagram in C has a limit in C; equivalently, when every functor F : J -> C out of a SMALL index category J has a limit. Mac Lane announces that Set, Grp, Ab and many algebraic categories satisfy this.",
+      "book_section": "V.1",
+      "book_page": "109",
+      "pdf_pages": [
+        118
+      ],
+      "cross_refs": [],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "the ordinal category omega",
+      "statement_summary": "omega denotes the linearly ordered set of all finite ordinals viewed as a category, namely the free category generated by the infinite chain graph 0 -> 1 -> 2 -> 3 -> ...; diagrams indexed by omega^op are the inverse sequences used throughout the section.",
+      "book_section": "V.1",
+      "book_page": "109",
+      "pdf_pages": [
+        118
+      ],
+      "cross_refs": [],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.1:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "inverse limit of a sequence of sets as the set of matching strings",
+      "statement_summary": "For F : omega^op -> Set given by sets F_n and maps f_n : F_{n+1} -> F_n, form the product set Prod_i F_i of all strings x = (x_0, x_1, ...) with x_n in F_n, and take the subset L of strings that MATCH, i.e. f_n x_{n+1} = x_n for every n. The maps mu_n : L -> F_n, x |-> x_n, satisfy f_n mu_{n+1} = mu_n and so form a cone mu from vertex L to base F; any cone tau from a set M factors uniquely through L by m |-> (tau_n m), so mu is a limiting cone and L = Lim F. Mac Lane then observes that a matching string is exactly a cone from the one-point set *, so L = Cone(*, F), and notes the same recipe works for an arbitrary index category in place of omega^op.",
+      "book_section": "V.1",
+      "book_page": "109",
+      "pdf_pages": [
+        118,
+        119
+      ],
+      "cross_refs": [
+        "maclane:V.1:def2",
+        "maclane:V.1:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.1:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "Completeness of Set",
+      "statement_summary": "If J is a small category, every functor F : J -> Set has a limit, and that limit may be taken to be the set Cone(*, F) of all cones from the one-point set * to F; the limiting cone v has components v_j : Cone(*, F) -> F_j sending a cone sigma to its component sigma_j. Consequently Set is small-complete. Special case noted: when J is discrete, Cone(*, F) is just the cartesian product of the F_j. Proof: Cone(*,F) is a small set hence an object of Set; v is a cone by the cone condition F_u sigma_j = sigma_k; universality sends x in X to the cone tau x.",
+      "book_section": "V.1",
+      "book_page": "110",
+      "pdf_pages": [
+        119
+      ],
+      "cross_refs": [
+        "maclane:V.1:construction1",
+        "maclane:V.1:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "cones are represented by Cone(*,F); Delta is left adjoint to Lim in Set",
+      "statement_summary": "The crux of the proof of Theorem 1 is a natural bijection Cone(X, F) = Set(X, Cone(*, F)) for every set X, obtained by tau |-> h with h x = tau x. Since a J-cone from X is exactly a natural transformation from the constant diagram, this rewrites as Nat(Delta X, F) = Set(X, Cone(*, F)), i.e. an adjunction exhibiting Cone(*, F) as Lim F; so by the very definition of limit, Lim F = Cone(*, F).",
+      "book_section": "V.1",
+      "book_page": "110",
+      "pdf_pages": [
+        119
+      ],
+      "cross_refs": [
+        "maclane:V.1:thm1"
+      ],
+      "flags": [
+        "extracted-from-proof"
+      ]
+    },
+    {
+      "id": "maclane:V.1:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "the ring Z_p of p-adic integers as an inverse limit in Rng",
+      "statement_summary": "For a prime p take F : omega^op -> Rng with F_n = Z/p^n Z and transition maps the canonical projections Z/p^{n+1}Z -> Z/p^n Z. Then Z_p := Lim F exists; an element is a cone from *, i.e. a sequence lambda = (lambda_0, lambda_1, ...) of integers with lambda_{n+1} congruent to lambda_n mod p^n, two such being equal when they agree mod p^n for all n. Termwise formulas (lambda + mu)_n = lambda_n + mu_n and (lambda mu)_n = lambda_n mu_n make Z_p a ring, the ring of p-adic integers, and this limit description determines it completely (a quicker route than the valuation/Cauchy-sequence definition).",
+      "book_section": "V.1",
+      "book_page": "110",
+      "pdf_pages": [
+        119,
+        120
+      ],
+      "cross_refs": [
+        "maclane:V.1:construction1",
+        "maclane:V.1:ex6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.1:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "the p-adic solenoid as a limit in Top",
+      "statement_summary": "In Top take F : omega^op -> Top with every F_n the circle S^1 and every f_n : S^1 -> S^1 the continuous map wrapping the domain circle uniformly p times around the codomain circle. The underlying inverse limit set L becomes a topological space when given the coarsest topology making all projections mu_n : L -> S^1 continuous; this L is the limit in Top, known as the p-adic solenoid.",
+      "book_section": "V.1",
+      "book_page": "111",
+      "pdf_pages": [
+        120
+      ],
+      "cross_refs": [
+        "maclane:V.1:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.1:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "the forgetful functor Grp -> Set lifts limits uniquely",
+      "statement_summary": "Let U : Grp -> Set be the forgetful functor and H : J -> Grp a functor such that the composite UH has a limit L with limiting cone v : L => UH in Set. Then there is EXACTLY ONE group structure on the set L making every component v_j : L -> UH_j a group homomorphism, and with that structure L together with v is a limit of H in Grp. Proof: take L = Cone(*, UH), define the product of cones componentwise, (sigma tau)_j = sigma_j tau_j, and inverses componentwise; uniqueness is forced by requiring each v_j to be a homomorphism. Universality: for a cone lambda from a group G, the unique Set-mediating map h : UG -> L is multiplicative because each lambda_j is.",
+      "book_section": "V.1",
+      "book_page": "111",
+      "pdf_pages": [
+        120
+      ],
+      "cross_refs": [
+        "maclane:V.1:thm1",
+        "maclane:V.1:def3",
+        "maclane:V.1:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "a functor creates limits (and creates products / finite limits / colimits)",
+      "statement_summary": "A functor V : A -> X CREATES LIMITS for a functor F : J -> A when (i) for every limiting cone tau : x => VF in X there is exactly one pair (a, sigma) consisting of an object a of A and a cone sigma : a => F with Va = x and V sigma = tau, and (ii) that unique cone sigma is itself a limiting cone in A. Variants defined by restricting J: V creates products (J discrete), V creates finite limits (J finite), and V creates colimits (all arrows reversed). Mac Lane stresses that creation says nothing unless the composite VF already HAS a limit: creation only produces limits for those F whose image diagram has one.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:thm2",
+        "maclane:V.4:thm2"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.1:thm3",
+      "kind": "theorem",
+      "number": "3",
+      "name": "Grp -> Set creates limits",
+      "statement_summary": "The forgetful functor U : Grp -> Set creates limits; this is a restatement of Theorem 2 in the creation vocabulary. The same argument applies verbatim to the forgetful functors of Rng, Ab, R-Mod and similar algebraic categories to Set.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:thm2",
+        "maclane:V.1:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "comma projection (x downto C) -> C creates limits",
+      "statement_summary": "Prove that the projection functor from the comma category (x downto C) to C creates limits.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:def3",
+        "maclane:V.6:lem1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "CompHaus -> Set creates limits",
+      "statement_summary": "For CompHaus the full subcategory of Top on all compact Hausdorff spaces, show that the forgetful functor CompHaus -> Set creates limits.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "the arrow category projection creates limits",
+      "statement_summary": "For any category X, show that the projection X^2 -> X x X from the arrow category, sending an arrow f : x -> y of X to the pair (x, y) of its domain and codomain, creates limits.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "finite sets are finitely complete",
+      "statement_summary": "Prove that the category of all small finite sets is finitely complete, i.e. has all limits of diagrams indexed by finite categories.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "Cat is small-complete",
+      "statement_summary": "Show that Cat, the category of small categories and functors, is small-complete.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "p-adic digit expansion",
+      "statement_summary": "Show that every p-adic integer lambda is determined by a string of digits a_i in {0, 1, ..., p-1} with lambda_n congruent to a_0 + a_1 p + ... + a_{n-1} p^{n-1} mod p^n, and that addition and multiplication of p-adic integers correspond to the schoolbook operations on base-p 'decimals' ... a_n ... a_0 that extend infinitely to the LEFT.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "formal power series as an inverse limit of truncated polynomial rings",
+      "statement_summary": "Let K[x] be the polynomial ring over a commutative ring K and F : omega^op -> Rng the functor with F_n = K[x]/(x^n) (the principal ideal generated by x^n) and the evident truncation projections. Prove that Lim F is the ring of formal power series in x with coefficients in K.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.1:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "Set is cocomplete",
+      "statement_summary": "Show that the category of sets is cocomplete, i.e. has colimits of all small diagrams.",
+      "book_section": "V.1",
+      "book_page": "112",
+      "pdf_pages": [
+        121
+      ],
+      "cross_refs": [
+        "maclane:V.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "existence of limits from products and equalizers",
+      "statement_summary": "Let C and J be categories. If C has equalizers of all parallel pairs of arrows and has products indexed by the SET obj(J) of objects of J and by the SET arr(J) of arrows of J, then every functor F : J -> C has a limit in C. Proof sketch: form Prod_{i in obj J} F_i and Prod_{u : j -> k in arr J} F_{cod u}; the projections induce unique arrows f, g from the first product to the second, determined by p_u f = p_{cod u} and p_u g = F_u composed with p_{dom u}; an equalizer e : d -> Prod_i F_i of f and g yields mu_i = p_i e, which is a cone from d to F, and every cone factors uniquely through the product and hence through e, so d with mu is a limit.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm2",
+        "maclane:V.2:cor1",
+        "maclane:V.2:cor2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "Limits by products and equalizers, continued (explicit description)",
+      "statement_summary": "Explicit form of Theorem 1: the limit of F : J -> C is the equalizer e of the parallel pair f, g : Prod_{i in obj J} F_i -> Prod_{u in arr J} F_{cod u} determined by p_u f = p_{cod u} and p_u g = F_u composed with p_{dom u}; the limiting cone is mu_j = p_j e for each object j of J.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:cor1",
+      "kind": "corollary",
+      "number": "1",
+      "name": "terminal object + binary products + equalizers give finite limits",
+      "statement_summary": "If a category C has a terminal object, equalizers of all parallel pairs of arrows, and products of all PAIRS of objects, then C has all finite limits.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm1",
+        "maclane:V.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "finite limit",
+      "statement_summary": "A finite limit means the limit of a functor J -> C in which the index category J is finite.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "maclane:V.2:cor1"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.2:cor2",
+      "kind": "corollary",
+      "number": "2",
+      "name": "equalizers + small products give small-completeness",
+      "statement_summary": "If C has equalizers of all parallel pairs of arrows and all small products, then C is small-complete. Mac Lane notes this reproves that Set is small-complete.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm1",
+        "maclane:V.1:def1",
+        "maclane:V.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "products in a preorder are meets, coproducts are joins",
+      "statement_summary": "In a preorder P, a product of a family a_j (j in J) is an object d with d <= a_j for all j such that c <= a_j for all j implies c <= d; that is, a product is exactly a greatest lower bound (meet) of the family, and dually a coproduct is exactly a least upper bound (join). Completeness is therefore chiefly useful for large categories and preorders.",
+      "book_section": "V.2",
+      "book_page": "113",
+      "pdf_pages": [
+        122,
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.2:prop3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:prop3",
+      "kind": "proposition",
+      "number": "3",
+      "name": "Freyd: a small small-complete category is a complete preorder",
+      "statement_summary": "A SMALL category C that is small-complete is necessarily a preorder, and one in which every small set of elements has a greatest lower bound. Proof by cardinality: if C were not a preorder there would be distinct parallel arrows f, g : a -> b; for any small set J the product Prod_J b of copies of b exists, and an arrow a -> Prod_J b is determined by its components, each of which may independently be f or g, giving at least 2^J arrows from a; choosing J of cardinality larger than arr C contradicts smallness of C.",
+      "book_section": "V.2",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.2:remark1",
+        "maclane:V.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "Manes: completeness from equalizers of pairs with a common left inverse",
+      "statement_summary": "Call a parallel pair f, g : a -> b in C one with a COMMON LEFT INVERSE when some h : b -> a satisfies h f = 1 = h g. (a) Prove that a category C having all small products and equalizers of exactly those parallel pairs that have a common left inverse is small complete (hint: the pair f, g built in the proof of Theorem 1 does have a common left inverse). (b) In Set, show that a parallel pair f, g : X -> Y has a common RIGHT inverse if and only if the induced (f,g) : X -> Y x Y has image containing the diagonal {(y,y) : y in Y}.",
+      "book_section": "V.2",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "completeness of a product category",
+      "statement_summary": "Prove that if C_1 and C_2 are complete (respectively cocomplete) then so is the product category C_1 x C_2.",
+      "book_section": "V.2",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Lim and Colim as functors C^J -> C",
+      "statement_summary": "(Lim and Colim as functors.) Given F, F' : J -> C with limiting cones mu, mu' (respectively colimiting cones v, v'), show that every natural transformation beta : F => F' determines a unique arrow Lim beta (respectively Colim beta) making the evident square commute, where Delta : C -> C^J is the diagonal functor. Conclude that if C is complete then Lim (respectively Colim) is a functor C^J -> C.",
+      "book_section": "V.2",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.2:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "the canonical comparison arrow for limits of composites",
+      "statement_summary": "(Limits of composites.) For composable functors W : J' -> J, F : J -> C, H : C -> C', with limiting cones v for F and v' for HFW, observe that Delta_{J'}(Hc) equals H composed with Delta_J c composed with W, and show there is a unique CANONICAL arrow t : H(Lim F) -> Lim(HFW) making the stated diagram of cones commute. Dually construct s : Colim(HFW) -> H(Colim F).",
+      "book_section": "V.2",
+      "book_page": "114",
+      "pdf_pages": [
+        123
+      ],
+      "cross_refs": [
+        "maclane:V.4:ex5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.2:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "Lim as a functor on the category of all diagrams in C",
+      "statement_summary": "(Limit as a functor on the comma category of all diagrams in C.) (a) Interpreting the functor W of Exercise 4 as an arrow of the comma category (Cat downto C), show that for C complete Lim is a functor from (Cat downto C)^op to C. (b) Let the 'super-comma' category have as objects the functors F : J -> C and as arrows (beta, W) : F' -> F the pairs consisting of a functor W : J' -> J and a natural transformation beta : FW => F'; combine Exercises 3 and 4 to show that for C complete Lim is a functor from the opposite of that category to C. Dualize.",
+      "book_section": "V.2",
+      "book_page": "115",
+      "pdf_pages": [
+        124
+      ],
+      "cross_refs": [
+        "maclane:V.2:ex3",
+        "maclane:V.2:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the evaluation functor E_p : X^P -> X and the parameter/adjunct passage",
+      "statement_summary": "Setting for limits with parameters: a bifunctor T : J x P -> X such that T(-, p) : J -> X has a limit for each parameter p should yield a functor P -> X with object part p |-> Lim_j T(j, p). Rather than argue directly, replace T by its adjunct S : J -> X^P under the exponential adjunction Cat(J x P, X) = Cat(J, X^P). For each object p of P there is an evaluation functor E_p : X^P -> X, defined on objects by E_p H = H_p and on arrows (natural transformations) sigma : H => H' by E_p sigma = sigma_p : H_p -> H'_p.",
+      "book_section": "V.3",
+      "book_page": "115",
+      "pdf_pages": [
+        124
+      ],
+      "cross_refs": [
+        "maclane:V.3:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "recalled-from-earlier-chapter"
+      ]
+    },
+    {
+      "id": "maclane:V.3:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "limits with parameters / pointwise limits in a functor category",
+      "statement_summary": "Let S : J -> X^P be a functor such that for every object p of P the composite E_p S : J -> X has a limit L_p with limiting cone tau_p : L_p => E_p S. Then there is a UNIQUE functor L : P -> X whose object function is p |-> L_p such that p |-> tau_p is a natural transformation tau : Delta L = Delta_J L => S; moreover this tau is a limiting cone from the vertex L in X^P to the base S. The arrow part of L is forced: for h : p -> q in P, L_h : L_p -> L_q is the unique arrow with tau_q j composed with L_h = S_h j composed with tau_p j for all j. Equivalently E_p(Lim S) = Lim(E_p S): limits in a functor category are computed POINTWISE, provided the pointwise limits exist.",
+      "book_section": "V.3",
+      "book_page": "115",
+      "pdf_pages": [
+        124,
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.3:construction1",
+        "maclane:V.3:cor1",
+        "maclane:V.3:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.3:cor1",
+      "kind": "corollary",
+      "number": null,
+      "name": "functor categories inherit small-completeness",
+      "statement_summary": "If X is small-complete then so is every functor category X^P.",
+      "book_section": "V.3",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.3:thm1",
+        "maclane:V.1:def1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.3:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "restriction along the discrete subcategory creates limits",
+      "statement_summary": "For any categories X and P, write |P| for the discrete subcategory of P consisting of all objects of P and only their identity arrows. The inclusion i : |P| -> P induces, by precomposition, a functor i* = X^i : X^P -> X^{|P|} which CREATES limits. This recasts Theorem 1 (pointwise computation of limits in a functor category) as an instance of creation of limits.",
+      "book_section": "V.3",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.3:thm1",
+        "maclane:V.1:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "a functor preserves limits",
+      "statement_summary": "A functor H : C -> D preserves the limits of functors F : J -> C when for every limiting cone v : b => F in C the image Hv : Hb => HF is a limiting cone in D. Mac Lane emphasises this demands more than H sending limit objects to limit objects: H must carry limiting CONES to limiting cones.",
+      "book_section": "V.4",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.4:def2",
+        "maclane:V.4:ex5"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "continuous functor",
+      "statement_summary": "A functor is called continuous when it preserves all SMALL limits.",
+      "book_section": "V.4",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.4:def1"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.4:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "covariant hom-functors preserve limits",
+      "statement_summary": "For any category C with small hom-sets and any object c, the covariant hom-functor C(c, -) : C -> Set preserves ALL limits that exist in C, in particular all small limits. Proof: given a limiting cone v : Lim F => F in C, applying C(c,-) gives a cone v_* in Set; for any competing cone tau from a set X, each element x of X yields a cone tau x from c, hence by universality a unique arrow h_x : c -> Lim F with v_i h_x = tau_i x, and x |-> h_x is the unique mediating function.",
+      "book_section": "V.4",
+      "book_page": "116",
+      "pdf_pages": [
+        125,
+        126
+      ],
+      "cross_refs": [
+        "maclane:V.4:remark1",
+        "maclane:V.4:remark2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "hom-functors into a larger universe of sets also preserve limits",
+      "statement_summary": "The same proof gives a more general statement: if C has hom-sets lying in Ens, and Ens is any category of sets in which Ens(X, Y) consists of ALL functions from X to Y, then every hom-functor C(c, -) : C -> Ens preserves all limits that exist in C.",
+      "book_section": "V.4",
+      "book_page": "116",
+      "pdf_pages": [
+        125
+      ],
+      "cross_refs": [
+        "maclane:V.4:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "limits computed representably: Lim C(c, F-) = C(c, Lim F)",
+      "statement_summary": "An alternative proof of Theorem 1 runs through the identification of a cone lambda : c => F in C with a cone from the one-point set to C(c, F-) in Set, giving Cone(X, C(c, F-)) = Set(X, Cone(*, C(c,F-))) = Set(X, Cone(c,F)) = Set(X, C(c, Lim F)); hence the natural isomorphism Lim C(c, F-) = C(c, Lim F), with the correct limiting cone. Some authors turn this equation into the DEFINITION of limits in C in terms of limits in Set; e.g. a product of objects a_i in C is characterised by Prod_i C(c, a_i) = C(c, Prod_i a_i) naturally in c.",
+      "book_section": "V.4",
+      "book_page": "117",
+      "pdf_pages": [
+        126
+      ],
+      "cross_refs": [
+        "maclane:V.4:thm1",
+        "maclane:V.1:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "contravariant hom carries colimits to limits",
+      "statement_summary": "Since the contravariant hom-functor is C(-, c) = C^op(c, -) : C^op -> Set, Theorem 1 applied in C^op says it carries small colimits in C (and their colimiting cones) to limits in Set (and limiting cones). Instances: the universal property of a coproduct gives C(Coprod_j a_j, c) = Prod_j C(a_j, c), and more generally the colimit of any F : J -> C is determined by C(Colim F, c) = Lim C(F-, c).",
+      "book_section": "V.4",
+      "book_page": "117",
+      "pdf_pages": [
+        126
+      ],
+      "cross_refs": [
+        "maclane:V.4:thm1",
+        "maclane:V.4:remark2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "creation plus existence implies preservation",
+      "statement_summary": "If V : A -> X creates limits for F : J -> A and the composite VF : J -> X has a limit, then V preserves the limit of F. In particular, if V creates all small limits and X is small-complete, then A is small-complete too and V is continuous. Proof: let tau : a => F and sigma : x => VF be limiting cones in A and X; creation gives a unique cone rho : b => F over sigma with V rho = sigma, and rho is limiting; uniqueness of limits up to isomorphism yields theta : b iso a with tau theta = rho, whence V theta : Vb iso Va carries sigma to V tau, so V tau is limiting.",
+      "book_section": "V.4",
+      "book_page": "117",
+      "pdf_pages": [
+        126
+      ],
+      "cross_refs": [
+        "maclane:V.1:def3",
+        "maclane:V.4:def1",
+        "maclane:V.4:def2",
+        "maclane:V.1:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "projective object",
+      "statement_summary": "In any category an object p is PROJECTIVE when every arrow h : p -> c factors through every epi g : b -> c, i.e. h = g h' for some h' : p -> b. Equivalently, g epi implies that hom(p, g) : hom(p, b) -> hom(p, c) is epi (surjective) in Set; that is, p is projective exactly when hom(p, -) preserves epis.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.4:def4",
+        "maclane:V.4:thm1"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.4:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "injective object",
+      "statement_summary": "Dually to projectivity, an object q is INJECTIVE when the contravariant hom-functor hom(-, q) carries monics to epis; equivalently every arrow into q extends along any monic.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.4:def3"
+      ],
+      "flags": [
+        "definition-in-prose",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "composites of continuous functors",
+      "statement_summary": "Prove that the composite of two continuous functors is continuous.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "continuity from preservation of products and equalizers",
+      "statement_summary": "If C is complete and H : C -> D preserves all small products and all equalizers of parallel pairs, prove that H is continuous.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.2:thm1",
+        "maclane:V.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "the free abelian group functor is not continuous",
+      "statement_summary": "Show that the functor F : Set -> Ab sending a set X to the free abelian group generated by X is not continuous.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "product with a set preserves colimits",
+      "statement_summary": "For any small set X, show that the functor X x - : Set -> Set (product with X) preserves all colimits.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.5:ex1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "preservation as invertibility of the canonical comparison arrow",
+      "statement_summary": "(Preservation of Limits.) Given H : C -> C' and F : J -> C such that both F and HF have limits, show that H preserves the limits of F if and only if the canonical arrow H(Lim F) -> Lim(HF) of Exercise V.2.4 is an isomorphism \u2014 the natural way to phrase preservation when both categories come with specified limits.",
+      "book_section": "V.4",
+      "book_page": "118",
+      "pdf_pages": [
+        127
+      ],
+      "cross_refs": [
+        "maclane:V.2:ex4",
+        "maclane:V.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "right adjoints preserve limits (RAPL)",
+      "statement_summary": "If G : A -> X has a left adjoint F and T : J -> A has a limiting cone tau : a => T in A, then G tau : Ga => GT is a limiting cone in X; hence a right adjoint preserves every limit that exists in its domain. Proof: G tau is a cone in X; for a competing cone sigma : x => GT, transposing each component across the adjunction yields a cone Fx => T in A, universality of tau gives a unique arrow Fx -> a over it, and transposing back gives the unique arrow h : x -> Ga with (G tau) h = sigma, which is exactly universality of G tau.",
+      "book_section": "V.5",
+      "book_page": "118",
+      "pdf_pages": [
+        127,
+        128
+      ],
+      "cross_refs": [
+        "maclane:V.4:def1",
+        "maclane:V.5:construction1",
+        "maclane:V.5:cor1",
+        "maclane:V.6:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "adjunctions pass to functor categories",
+      "statement_summary": "Given an adjunction (F, G, eta, epsilon) : X -> A and any index category J, one forms the functor categories X^J and A^J and the induced data (F^J, G^J, eta^J, epsilon^J) : X^J -> A^J, where F^J(S) = FS for S : J -> X and eta^J S = eta S : S => GFS, etc. The triangular identities for eta and epsilon give the corresponding identities for eta^J and epsilon^J, so this is again an adjunction: adjunctions pass to functor categories.",
+      "book_section": "V.5",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "maclane:V.5:remark1",
+        "maclane:V.5:thm1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Lim composed with G^J is naturally isomorphic to G composed with Lim",
+      "statement_summary": "Sophisticated recasting of Theorem 1 using Delta left adjoint to Lim. In the square of adjoint pairs relating (F^J, G^J) : X^J -> A^J to (F, G) : X -> A along the diagonal/limit adjunctions, one has F^J Delta = Delta F, so the square of LEFT adjoints commutes; since composites of adjoints are adjoints and right adjoints are unique up to natural isomorphism, Lim composed with G^J is naturally isomorphic to G composed with Lim. Hence for T : J -> A with limit a, Ga = G Lim T = Lim G^J(T) = Lim GT. The same argument shows G carries limiting CONES to limiting cones, the limiting cone being the value at T of the counit of the adjunction Delta left adjoint to Lim.",
+      "book_section": "V.5",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "maclane:V.5:thm1",
+        "maclane:V.5:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:cor1",
+      "kind": "corollary",
+      "number": null,
+      "name": "left adjoints preserve colimits (dual of Theorem 1)",
+      "statement_summary": "Dual of Theorem 1: any functor P that HAS a right adjoint (equivalently, is a left adjoint) preserves all colimits that exist in its domain \u2014 coproducts, coequalizers, and so on. Illustration: the coproduct (free product) of two free groups is again free, on the disjoint union of the generating sets.",
+      "book_section": "V.5",
+      "book_page": "119",
+      "pdf_pages": [
+        128
+      ],
+      "cross_refs": [
+        "maclane:V.5:thm1"
+      ],
+      "flags": [
+        "unnumbered",
+        "stated-by-duality"
+      ]
+    },
+    {
+      "id": "maclane:V.5:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "X x - on Set has no left adjoint unless X is a point",
+      "statement_summary": "Show that for a fixed set X the functor X x - : Set -> Set cannot have a left adjoint unless X is a one-point set.",
+      "book_section": "V.5",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "maclane:V.5:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "the vector-space dual functor has no right adjoint",
+      "statement_summary": "For the dualization functor D : Vct^op -> Vct of section IV.2 (example 2), show that D has no right adjoint, and hence in particular that D is not the left adjoint of D^op.",
+      "book_section": "V.5",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "maclane:V.5:cor1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "a full reflective subcategory of a cocomplete category is cocomplete",
+      "statement_summary": "If C is a full and reflective subcategory of a small-cocomplete category D, prove that C is small-cocomplete.",
+      "book_section": "V.5",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "maclane:V.5:cor1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.5:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Set^op is not cartesian closed",
+      "statement_summary": "Prove that Set^op is not cartesian closed.",
+      "book_section": "V.5",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "maclane:V.5:cor1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "Existence of an initial object",
+      "statement_summary": "Let D be a small-complete category with small hom-sets. Then D has an initial object IF AND ONLY IF it satisfies the Solution Set Condition (a small weakly initial family). Necessity: an initial object k, indexed by a one-point set, is such a family. Sufficiency: form w = Prod_i k_i, note every object d receives an arrow w -> k_i -> d, then let e : v -> w be the equalizer of the SET of all endomorphisms of w (small since D has small hom-sets, and existing since D is complete); v is initial. Uniqueness of arrows out of v: given f, g : v -> d take their equalizer e_1 : u -> v, use an arrow s : w -> u to see that e e_1 s is an endomorphism of w, so e e_1 s e = 1_w e = e 1_v; e monic gives e_1 s e = 1_v, so the monic equalizer e_1 has a right inverse hence is an isomorphism, forcing f = g.",
+      "book_section": "V.6",
+      "book_page": "120",
+      "pdf_pages": [
+        129,
+        130
+      ],
+      "cross_refs": [
+        "maclane:V.6:def1",
+        "maclane:V.6:thm2",
+        "maclane:V.6:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "Solution Set Condition (for the existence of an initial object)",
+      "statement_summary": "A category D satisfies the SOLUTION SET CONDITION when there exists a small set I and an I-indexed family of objects k_i of D such that for every object d of D there is some index i and some arrow k_i -> d; i.e. D has a small WEAKLY INITIAL family of objects.",
+      "book_section": "V.6",
+      "book_page": "120",
+      "pdf_pages": [
+        129
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm1",
+        "maclane:V.6:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "labelled-display-inside-theorem"
+      ]
+    },
+    {
+      "id": "maclane:V.6:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "The Freyd Adjoint Functor Theorem (GAFT)",
+      "statement_summary": "Let A be a small-complete category with small hom-sets. A functor G : A -> X has a left adjoint IF AND ONLY IF G preserves all small limits and satisfies the Solution Set Condition. Necessity: a left adjoint forces preservation of all limits existing in A, and the universal arrow eta_x : x -> GFx is a one-element solution set. Sufficiency: it suffices to construct a universal arrow x -> Ga for each object x of X, since then G has a left adjoint by the pointwise construction of adjoints; such a universal arrow is precisely an initial object of the comma category D = (x downto G). The solution set condition for G is exactly that condition for D; D has small hom-sets because A does; and D is small-complete because it has small products and equalizers of parallel pairs, created by the projection Q : (x downto G) -> A. Theorem 1 then supplies the initial object.",
+      "book_section": "V.6",
+      "book_page": "121",
+      "pdf_pages": [
+        130,
+        131
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm1",
+        "maclane:V.6:def2",
+        "maclane:V.6:lem1",
+        "maclane:V.5:thm1",
+        "maclane:V.2:thm1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "Solution Set Condition for a functor G : A -> X",
+      "statement_summary": "A functor G : A -> X satisfies the SOLUTION SET CONDITION when for each object x of X there is a small set I and an I-indexed family of arrows f_i : x -> G a_i such that EVERY arrow h : x -> Ga factors as h = (Gt) composed with f_i for some index i and some arrow t : a_i -> a of A.",
+      "book_section": "V.6",
+      "book_page": "121",
+      "pdf_pages": [
+        130
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.6:def1"
+      ],
+      "flags": [
+        "unnumbered",
+        "labelled-display-inside-theorem"
+      ]
+    },
+    {
+      "id": "maclane:V.6:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "the comma projection creates products and equalizers preserved by G",
+      "statement_summary": "If G : A -> X preserves all small products (respectively, all equalizers), then for each object x of X the projection functor Q : (x downto G) -> A, sending an object (s : x -> Ga) to a, CREATES all small products (respectively, all equalizers). Proof for products: given a J-indexed family f_j : x -> G a_j with a product diagram p_j : Prod a_j -> a_j in A, since G preserves products the G p_j form a product diagram in X, so there is a unique f : x -> G(Prod a_j) with (G p_j) f = f_j; this exhibits p_j : f -> f_j as the unique cone in (x downto G) lying over the given one, and it is a product diagram there. Similarly for the equalizer e of s, t : f -> g: G e equalizes Gs and Gt in X, so the arrow f factors uniquely through Ge, giving an object of the comma category whose Q-projection is e; a chase shows e is an equalizer in (x downto G). Mac Lane notes the argument works for creation of ANY limit (Exercise V.6.1).",
+      "book_section": "V.6",
+      "book_page": "121",
+      "pdf_pages": [
+        130,
+        131
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.1:def3",
+        "maclane:V.1:ex1"
+      ],
+      "flags": [
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:V.6:thm3",
+      "kind": "theorem",
+      "number": "3",
+      "name": "The Representability Theorem",
+      "statement_summary": "Let D be a small-complete category with small hom-sets. A functor K : D -> Set is representable IF AND ONLY IF K preserves all small limits (is continuous) and satisfies the Solution Set Condition for K. This is another reformulation of Theorem 1: a representation of K is a universal arrow from the one-point set * to K, hence an initial object of the comma category (* downto K), which is small-complete because K is assumed continuous; conversely a representable K is necessarily continuous.",
+      "book_section": "V.6",
+      "book_page": "122",
+      "pdf_pages": [
+        131,
+        132
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm1",
+        "maclane:V.6:def3",
+        "maclane:V.4:thm1"
+      ],
+      "flags": [
+        "proof-continues-past-range"
+      ]
+    },
+    {
+      "id": "maclane:V.6:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "Solution Set Condition for a Set-valued functor K",
+      "statement_summary": "A functor K : D -> Set satisfies the SOLUTION SET CONDITION when there exists a small set S of objects of D such that for every object d of D and every element x of Kd there are an object s in S, an element y of Ks, and an arrow f : s -> d with (Kf) y = x.",
+      "book_section": "V.6",
+      "book_page": "122",
+      "pdf_pages": [
+        131
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm3",
+        "maclane:V.6:def1",
+        "maclane:V.6:def2"
+      ],
+      "flags": [
+        "unnumbered",
+        "labelled-display-inside-theorem"
+      ]
+    },
+    {
+      "id": "maclane:V.6:remark-ord-counterexample",
+      "kind": "remark",
+      "number": null,
+      "name": "necessity of the solution set condition (ordinals counterexample)",
+      "statement_summary": "The solution set condition cannot be dropped from any of the three existence theorems of this section. Witness: let Ord be the ordered class of all small ordinals viewed as a category whose hom-set Ord(alpha,beta) is a one-point set when alpha <= beta and empty otherwise; Ord^op is small-complete because the product of any small set of ordinals is their least upper bound. The functor K : Ord^op -> Set constant at the one-point set is continuous, yet not representable: a representation Ord^op(beta,-) would force beta to be a largest small ordinal, which is impossible. So continuity alone does not imply representability.",
+      "book_section": "V.6",
+      "book_page": "123",
+      "pdf_pages": [
+        132
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm3",
+        "maclane:V.6:thm2",
+        "maclane:V.6:thm1"
+      ],
+      "flags": [
+        "unnumbered-remark",
+        "counterexample",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:remark-comp-bool",
+      "kind": "remark",
+      "number": null,
+      "name": "complete Boolean algebras: continuity without a left adjoint",
+      "statement_summary": "A second demonstration that some solution set condition is indispensable. Citing Solovay (1966): for a denumerable set D there exist arbitrarily large complete Boolean algebras generated by D, so no free complete Boolean algebra on D exists. Consequently the forgetful functor from the category of complete Boolean algebras to Set has no left adjoint even though it is continuous and its domain is small-complete.",
+      "book_section": "V.6",
+      "book_page": "123",
+      "pdf_pages": [
+        132
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.6:remark-ord-counterexample"
+      ],
+      "flags": [
+        "unnumbered-remark",
+        "counterexample",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:construction-free-group",
+      "kind": "construction",
+      "number": null,
+      "name": "free group functor F : Set -> Grp obtained from the adjoint functor theorem",
+      "statement_summary": "Application of Freyd's adjoint functor theorem to the forgetful functor U : Grp -> Set. Since U creates all limits (Theorem V.1.3), Grp is small-complete and U is continuous; a solution set for each set X is exhibited by observing that any function f : X -> UG factors through the subgroup S of G generated by f(X), whose elements are finite products of the generators and their inverses, so |S| is bounded by a cardinal depending only on X. Taking one representative of each isomorphism class of such groups yields a small set of groups, and the set of all functions X -> US is a solution set. Hence a left adjoint F : Set -> Grp exists, assigning to X the free group on X, with no explicit word-equivalence-class construction needed. It is further argued that the universal arrow X -> UFX is injective: given x /= y in X pick a group H with two distinct elements h /= k and a function f : X -> UH with f x = h, f y = k; since f must factor through the universal arrow, that arrow separates x and y.",
+      "book_section": "V.6",
+      "book_page": "123",
+      "pdf_pages": [
+        132
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.1:thm3"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:def-algebraic-type",
+      "kind": "definition",
+      "number": null,
+      "name": "type of an algebraic system; graded set of operators; arity; action of Omega on a set",
+      "statement_summary": "Defined in running prose. A type tau of an algebraic system consists of a set Omega of operators together with a set E of identities. Omega is a graded set: a set equipped with a function assigning to each omega in Omega a natural number n called its arity (arity 2 = binary operator, arity 3 = ternary, and so on). An action A of Omega on a set S is a function assigning to each operator omega of arity n an n-ary operation omega_A : S^n -> S, where S^n is the n-fold cartesian product.",
+      "book_section": "V.6",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "maclane:V.6:def-derived-operator",
+        "maclane:V.6:def-omega-e-algebra"
+      ],
+      "flags": [
+        "definition-in-running-prose",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:def-derived-operator",
+      "kind": "definition",
+      "number": null,
+      "name": "derived operators Lambda of a graded set Omega; composition and substitution",
+      "statement_summary": "Defined in running prose. From a set Omega of operators one forms the set Lambda of all derived operators, closed under two clauses: (composition) given omega of arity n and derived operators lambda_1,...,lambda_n of arities m_1,...,m_n, the composite omega(lambda_1,...,lambda_n) is derived of arity m_1 + ... + m_n; (substitution) given lambda of arity n and any function f : n -> m between the finite sets {1,...,n} and {1,...,m}, substitution of f into lambda yields a derived operator theta of arity m, described on variables by theta(x_1,...,x_m) = lambda(x_{f1},...,x_{fn}). The claim recorded is that every action A of Omega on a set S extends uniquely to an action of Lambda on S. Mac Lane refers the reader to standard universal-algebra treatments (Cohn 1965, Graetzer 1968) for the abstract formulation.",
+      "book_section": "V.6",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "maclane:V.6:def-algebraic-type"
+      ],
+      "flags": [
+        "definition-in-running-prose",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:def-omega-e-algebra",
+      "kind": "definition",
+      "number": null,
+      "name": "identities; satisfaction; <Omega,E>-algebra and its morphisms",
+      "statement_summary": "Defined in running prose. The set E of identities for algebraic systems of type tau is a set of ordered pairs <lambda,mu> of derived operators of the same arity n. An action A of Omega on S satisfies the identity <lambda,mu> when the induced operations agree: lambda_A = mu_A : S^n -> S. An algebra A of type tau (an <Omega,E>-algebra) is a set S together with an action A of Omega on S satisfying every identity in E; S is called the underlying set and written |A|. A morphism g : A -> A' of <Omega,E>-algebras is a function g : S -> S' between underlying sets preserving all operators of Omega (and hence all derived operators of Lambda), i.e. g(omega_A(a_1,...,a_n)) = omega_{A'}(g a_1,...,g a_n) for all a_i, displayed as equation (1).",
+      "book_section": "V.6",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "maclane:V.6:def-algebraic-type",
+        "maclane:V.6:def-derived-operator",
+        "maclane:V.6:construction-variety"
+      ],
+      "flags": [
+        "definition-in-running-prose",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:construction-variety",
+      "kind": "construction",
+      "number": null,
+      "name": "the category <Omega,E>-Alg of algebras of a type: variety / equational class",
+      "statement_summary": "The collection of all small <Omega,E>-algebras with the operator-preserving functions as arrows forms a category, written <Omega,E>-Alg and called a variety or equational class of algebras. Composition and identities are those of underlying functions. Examples subsumed: Grp, Rng, Ab, and less familiar ones such as nilpotent groups of specified class. Grp is presented explicitly by three operators in Omega of arities 2, 1 and 0 (product, inverse, unit) with E the identities e x = x = x e, x x^{-1} = e = x^{-1} x, and associativity.",
+      "book_section": "V.6",
+      "book_page": "124",
+      "pdf_pages": [
+        133
+      ],
+      "cross_refs": [
+        "maclane:V.6:def-omega-e-algebra"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:construction-free-algebra",
+      "kind": "construction",
+      "number": null,
+      "name": "free algebra functor for a variety: left adjoint to <Omega,E>-Alg -> Set",
+      "statement_summary": "Asserted for any variety of algebras: the adjoint functor theorem yields a left adjoint to the forgetful functor <Omega,E>-Alg -> Set, the solution set being obtained exactly as in the group case (the sub-algebra generated by the image, see the cardinality argument of section 7). Hence for every set X there exist the free ring, free abelian group, free R-module, etc. on X. Boundary of the result: it does not produce free fields, because the multiplicative inverse of a field is not everywhere defined so fields do not form an algebraic system in this sense (and indeed free fields do not exist).",
+      "book_section": "V.6",
+      "book_page": "124",
+      "pdf_pages": [
+        133,
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.6:construction-variety",
+        "maclane:V.7:remark1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:construction-stone-cech-discrete",
+      "kind": "construction",
+      "number": null,
+      "name": "left adjoint to V : Comp Haus -> Set (Stone-Cech compactification of a discrete space)",
+      "statement_summary": "A second illustration of the adjoint functor theorem, applied to the forgetful functor V : Comp Haus -> Set from compact Hausdorff spaces (displayed as equation (2)). Verification of the hypotheses: the product topology on the cartesian product of underlying sets is Hausdorff and, by Tychonoff, compact, so Comp Haus has all small products and V not merely preserves but creates them (the product topology is the coarsest making all projections continuous, and any other compact topology with all p_i continuous gives a continuous bijection from a compact to a Hausdorff space, hence a homeomorphism); a similar argument shows V creates equalizers, hence all small limits. Solution set: for a set S it suffices to consider f : S -> VX with f(S) dense in X; then for each x in X the family Lx = {D : D subset of S and x in closure of f(D)} is a non-void set of subsets of S, and distinct points x /= x' of the Hausdorff X are separated by disjoint open U, U' giving Lx /= Lx'; so L injects X into the double power set of S, and taking all subsets of that double power set with all topologies and all functions gives a small solution set. The adjoint functor theorem therefore supplies a left adjoint to V, sending a set S to the Stone-Cech compactification of the discrete topology on S.",
+      "book_section": "V.6",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.8:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "comma-category projection creates small limits",
+      "statement_summary": "For G : A -> X continuous, show that the projection functor (x down-arrow G) -> A from the comma category creates all small limits.",
+      "book_section": "V.6",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "left adjoints to Rng->Set, Rng->Ab, Cat->Grph by the AFT",
+      "statement_summary": "Use the adjoint functor theorem to produce a left adjoint for each of the forgetful functors Rng -> Set, Rng -> Ab, and Cat -> Grph, and compare the results with the standard explicit constructions of those adjoints (free ring, tensor/monoid ring, free category on a graph).",
+      "book_section": "V.6",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "creation of limits is stable under pullback in Cat",
+      "statement_summary": "Given a pullback square in Cat with H' : A' -> A along the top, G' : A' -> X' and G : A -> X vertical, and H : X' -> X along the bottom, prove that if H creates limits and G preserves them, then H' creates limits.",
+      "book_section": "V.6",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.6:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "second proof that (x down G) -> A creates limits",
+      "statement_summary": "Use Exercise 3 together with the fact that the slice projection (x down-arrow X) -> X creates limits to give a new proof of the statement of Exercise 1.",
+      "book_section": "V.6",
+      "book_page": "125",
+      "pdf_pages": [
+        134
+      ],
+      "cross_refs": [
+        "maclane:V.6:ex1",
+        "maclane:V.6:ex3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "subobject (equivalence class of monics)",
+      "statement_summary": "Let A be any category. For monics u : s -> a and v : t -> a with common codomain a, write u <= v when u factors through v, i.e. u = v u' for some arrow u' (which is then necessarily also monic). Mutual factorization u <= v and v <= u defines an equivalence relation, written u == v, on the monics with codomain a; the equivalence classes are the subobjects of a. Equivalently a monic u : s -> a is identified with the class of all v = u theta for theta : s' -> s invertible. Noted: these categorical subobjects agree with the element-defined ones in Rng, Grp, Ab and R-Mod, but not in Top (where monics are injective continuous maps, not necessarily subspace embeddings).",
+      "book_section": "V.7",
+      "book_page": "126",
+      "pdf_pages": [
+        135
+      ],
+      "cross_refs": [
+        "maclane:V.7:def2",
+        "maclane:V.7:def3",
+        "maclane:V.8:def1"
+      ],
+      "flags": [
+        "unnumbered-definition"
+      ]
+    },
+    {
+      "id": "maclane:V.7:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "pullbacks of monics are monic",
+      "statement_summary": "Unnumbered Lemma. In any pullback square with vertex p, projections f' : p -> t and g' : p -> s, and given arrows f : s -> a and g : t -> a (so g f' = f g'), if f is monic then f' is monic, and dually if g is monic then g' is monic. Proof: for a parallel pair h, k into p with f' h = f' k, composing gives g f' h = g f' k, hence f g' h = f g' k; f monic gives g' h = g' k; the two equations together with the universal property of the pullback force h = k.",
+      "book_section": "V.7",
+      "book_page": "126",
+      "pdf_pages": [
+        135
+      ],
+      "cross_refs": [
+        "maclane:V.7:def2",
+        "maclane:V.8:thm2"
+      ],
+      "flags": [
+        "unnumbered-lemma"
+      ]
+    },
+    {
+      "id": "maclane:V.7:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "intersection and union of subobjects",
+      "statement_summary": "The set of subobjects of an object a is partially ordered by the factorization relation u <= v. If A has pullbacks, the pullback of two subobjects u : s -> a and v : t -> a yields (by the preceding Lemma) a monic w : p -> a with w <= u and w <= v; it is their intersection, i.e. their meet or greatest lower bound in that partial order. More generally, for a J-indexed family of subobjects u_i : s_i -> a, the wide pullback of all these arrows, when it exists, is their intersection. The union (join or least upper bound) of subobjects exists only under added hypotheses.",
+      "book_section": "V.7",
+      "book_page": "126",
+      "pdf_pages": [
+        135
+      ],
+      "cross_refs": [
+        "maclane:V.7:def1",
+        "maclane:V.7:lem1",
+        "maclane:V.8:thm1",
+        "maclane:V.8:thm2"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.7:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "quotient object (dual of subobject)",
+      "statement_summary": "Dually to subobjects: two epis r, s with common domain a are equivalent when r = theta s for some invertible theta; the equivalence classes of such epis are the quotient objects of a, partially ordered by r <= s, which holds when r factors through s as r = r' s. This definition is simpler than the usual one via quotients by equivalence relations and agrees with the usual notion in categories where epis are onto. Illustration in Grp: every quotient object of a group G is represented by the projection p : G -> G/N onto the factor group by a normal subgroup N, and G/M <= G/N holds if and only if M contains N (so the order on quotients is reversed relative to 'more is divided out').",
+      "book_section": "V.7",
+      "book_page": "126",
+      "pdf_pages": [
+        135,
+        136
+      ],
+      "cross_refs": [
+        "maclane:V.7:def1"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.7:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "generating set (separating set) of objects",
+      "statement_summary": "A set S of objects of a category C generates C when for every parallel pair h, h' : c -> d of arrows of C with h /= h' there exist s in S and an arrow f : s -> c with h f /= h' f. Mac Lane remarks the established term 'generates' is poorly chosen and 'separates' would have been better. The definition includes the case of a single object s generating C. Examples: the one-point set generates Set; Z generates Ab and Grp; R generates R-Mod; the set of finite cyclic groups generates the category of all finite abelian groups (and of all torsion abelian groups).",
+      "book_section": "V.7",
+      "book_page": "127",
+      "pdf_pages": [
+        136
+      ],
+      "cross_refs": [
+        "maclane:V.7:def5"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.7:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "cogenerating set; cogenerator",
+      "statement_summary": "Dual to a generating set: a set Q of objects is a cogenerating set for C when for every parallel pair h, h' : a -> b with h /= h' there exist q in Q and an arrow g : b -> q with g h /= g h'. A single object q is a cogenerator when {q} is a cogenerating set. Example: any two-point set is a cogenerator in Set.",
+      "book_section": "V.7",
+      "book_page": "127",
+      "pdf_pages": [
+        136
+      ],
+      "cross_refs": [
+        "maclane:V.7:def4",
+        "maclane:V.8:thm1",
+        "maclane:V.8:thm2"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.7:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "spanning arrow (an arrow f : x -> Ga spans a)",
+      "statement_summary": "Given any functor G : A -> X, an arrow f : x -> Ga of X is said to span a when there is no proper monomorphism s -> a in A (proper meaning a subobject strictly below the identity subobject) such that f factors through the image Gs -> Ga. Spanning arrows are the intended raw material for solution sets.",
+      "book_section": "V.7",
+      "book_page": "127",
+      "pdf_pages": [
+        136
+      ],
+      "cross_refs": [
+        "maclane:V.7:lem2",
+        "maclane:V.7:def1"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.7:lem2",
+      "kind": "lemma",
+      "number": null,
+      "name": "every arrow factors through a spanning arrow",
+      "statement_summary": "Unnumbered Lemma. Let A be a category in which every set of subobjects of an object a has a pullback (an intersection). If G : A -> X preserves all these pullbacks, then every arrow h : x -> Ga of X factors through an arrow f : x -> Gb which spans b. Proof: take the set of all subobjects u_j : s_j -> a through which h factors as h = G(u_j) h_j, and let v : b -> a be the pullback (intersection) of all the u_j; since G preserves that pullback, Gv : Gb -> Ga is still a pullback of the G(u_j), so h factors through Gv via some f : x -> Gb, and by construction f spans b. Consequence recorded in the text: a solution set for x may be taken to be the set of all arrows out of x which span.",
+      "book_section": "V.7",
+      "book_page": "127",
+      "pdf_pages": [
+        136
+      ],
+      "cross_refs": [
+        "maclane:V.7:def6",
+        "maclane:V.7:def2",
+        "maclane:V.6:thm2"
+      ],
+      "flags": [
+        "unnumbered-lemma"
+      ]
+    },
+    {
+      "id": "maclane:V.7:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "solution set for a variety via generated subalgebras",
+      "statement_summary": "Application of the spanning-arrow lemma to the category Alg_tau of algebras of a given type. For an arrow f : S -> GA in Set, the algebra A contains the subalgebra A_f of all elements obtained from elements of f(S) by iterated application of operators in Omega; the cardinal of A_f is bounded by those of S and Omega. Since f factors through S -> G A_f, these factored arrows out of S form a small set, which is a solution set for the forgetful functor G : Alg_tau -> Set. They are spanning arrows in the sense of the lemma provided a subobject of a is redefined to be a morphism u : s -> a for which Gu is injective in Set.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.7:lem2",
+        "maclane:V.6:construction-free-algebra",
+        "maclane:V.6:construction-variety"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "maclane:V.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "tensor product of modules from the adjoint functor theorem",
+      "statement_summary": "Existence of tensor products of modules obtained categorically. For modules A and B over a commutative ring K, a tensor product is a universal element of the set Bilin(A,B;C) of bilinear functions beta : A x B -> C into a third K-module C; Bilin(A,B;-) is (the object part of) a functor of C. To get a solution set it suffices to consider only the bilinear beta which span C, i.e. do not factor through a proper submodule of C; such a C consists of all finite sums of the form sum beta(a_i,b_i), which bounds its cardinality and gives the solution set condition. Since K-Mod is small-complete and Bilin(A,B;-) : K-Mod -> Set is continuous, the adjoint functor theorem yields a universal bilinear map A x B -> A tensor B. The point stressed is that the explicit construction by generators and relations is unnecessary: all properties of the tensor product follow from the universal property.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.7:def6",
+        "maclane:V.7:lem2",
+        "maclane:V.8:ex3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.7:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "free product of groups as a coproduct, via the AFT",
+      "statement_summary": "Use the adjoint functor theorem to construct the coproduct in Grp (the coproduct G + H in Grp is usually called the free product). Using the product G x H, show also that the two coproduct injections G -> G + H and H -> G + H are monic, and that their images intersect in the identity subgroup.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.7:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "coproduct of rings",
+      "statement_summary": "Carry out a construction similar to Exercise 1 for the coproduct of rings.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.7:ex1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.7:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "construction of A tensor_R B over a noncommutative ring",
+      "statement_summary": "For R a ring, A a right R-module and B a left R-module, use the adjoint functor theorem to construct A tensor_R B: an abelian group with a function <a,b> |-> a tensor b that is biadditive and satisfies a r tensor b = a tensor r b for all a in A, r in R, b in B, and is universal with these properties. Prove that A tensor_R B is spanned, as an abelian group, by the elements a tensor b. If S -> R is a morphism of rings, examine the relation between A tensor_S B and A tensor_R B.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.7:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.7:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "coequalizers in a variety by the AFT",
+      "statement_summary": "Construct coequalizers in Alg_tau (the category of algebras of a given type) by means of the adjoint functor theorem.",
+      "book_section": "V.7",
+      "book_page": "128",
+      "pdf_pages": [
+        137
+      ],
+      "cross_refs": [
+        "maclane:V.6:construction-variety",
+        "maclane:V.6:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:thm1",
+      "kind": "theorem",
+      "number": "1",
+      "name": "Special Initial-Object Theorem",
+      "statement_summary": "If a category D is small-complete, has small hom-sets, and possesses a small cogenerating set Q, and if moreover every set of subobjects of each object d of D has an intersection, then D has an initial object. Proof sketch given: form the product q_0 = product over q in Q of the objects of the cogenerating set, and let r be the intersection of all subobjects of q_0. For any object d there is at most one arrow r -> d, since two distinct arrows would have an equalizer that is a proper mono into r and hence a subobject of q_0 strictly smaller than the intersection r. To get existence, for each d take the set H of all arrows h : d -> q with q in Q, form the small product over H, let j : d -> product_H q have components h; since Q cogenerates, j is monic. Pull j back along the arrow k : q_0 -> product_H q whose h-component is the projection p_q, obtaining c with j' : c -> q_0 monic (pullback of a monic); c is thus a subobject of q_0, so the intersection r admits an arrow r -> c, and the composite r -> c -> d is the desired arrow. Hence r is initial.",
+      "book_section": "V.8",
+      "book_page": "128",
+      "pdf_pages": [
+        137,
+        138
+      ],
+      "cross_refs": [
+        "maclane:V.7:def5",
+        "maclane:V.7:def2",
+        "maclane:V.7:lem1",
+        "maclane:V.8:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:thm2",
+      "kind": "theorem",
+      "number": "2",
+      "name": "The Special Adjoint Functor Theorem (SAFT)",
+      "statement_summary": "Let A be small-complete with small hom-sets and a small cogenerating set Q, and suppose every set of subobjects of an object of A has a pullback (hence an intersection). Let X have small hom-sets. Then a functor G : A -> X has a left adjoint if and only if G preserves all small limits and all pullbacks of families of monics. Necessity is immediate since right adjoints preserve limits. Sufficiency: it suffices to construct an initial object in each comma category (x down-arrow G), and the proof verifies the hypotheses of Theorem 1 there: subobjects in (x down G) are exactly the arrows monic in A (see the accompanying Lemma); the set Q' of all objects k : x -> Gq with q in Q is small (X has small hom-sets) and cogenerates (x down G); A small-complete plus G continuous make (x down G) small-complete; and intersections of families of subobjects in (x down G) are obtained by pulling back the corresponding families of monics in A, using that G preserves those pullbacks and that the comma projection creates them.",
+      "book_section": "V.8",
+      "book_page": "129",
+      "pdf_pages": [
+        138,
+        139
+      ],
+      "cross_refs": [
+        "maclane:V.8:thm1",
+        "maclane:V.8:lem1",
+        "maclane:V.8:cor1",
+        "maclane:V.6:thm2",
+        "maclane:V.7:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "monics in the comma category (x down G)",
+      "statement_summary": "Unnumbered Lemma inside the proof of Theorem 2. An arrow h from <f : x -> Ga, a> to <f' : x -> Ga', a'> in the comma category (x down-arrow G) is monic if and only if the underlying arrow h : a -> a' is monic in A. The forward-trivial direction is that h monic in A implies h monic in the comma category. Conversely, h monic in A means exactly that its kernel pair (the pullback of h with itself) is the identity pair 1_a, 1_a; the comma projection (x down G) -> A, <f : x -> Ga, a> |-> a, creates all limits (by the lemma of section 6), in particular kernel pairs, and A has all kernel pairs, so the projection preserves kernel pairs, in particular the pair 1_a, 1_a; therefore it carries monics in (x down G) to monics in A.",
+      "book_section": "V.8",
+      "book_page": "129",
+      "pdf_pages": [
+        138,
+        139
+      ],
+      "cross_refs": [
+        "maclane:V.8:thm2",
+        "maclane:V.4:thm2"
+      ],
+      "flags": [
+        "unnumbered-lemma"
+      ]
+    },
+    {
+      "id": "maclane:V.8:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "well-powered and co-well-powered category",
+      "statement_summary": "A category A is well-powered when the subobjects of each object a can be indexed by a small set: there is for each a a small set J_a and a bijection from J_a onto the set of all subobjects of a. The dual notion is co-well-powered (quotient objects of each object form a small set). Top, Grp, R-Mod and many other familiar large categories are well-powered. Recorded consequence: if A is well-powered and small-complete, then every set of subobjects of an object has an intersection, formed by the usual pullback, so the extra hypothesis of Theorems 1 and 2 is automatic.",
+      "book_section": "V.8",
+      "book_page": "130",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "maclane:V.7:def1",
+        "maclane:V.7:def2",
+        "maclane:V.8:cor1"
+      ],
+      "flags": [
+        "definition-in-running-prose"
+      ]
+    },
+    {
+      "id": "maclane:V.8:cor1",
+      "kind": "corollary",
+      "number": null,
+      "name": "classical form of the Special Adjoint Functor Theorem",
+      "statement_summary": "Corollary (unnumbered in the running text but labelled 'Corollary'). If A is small-complete, well-powered, with small hom-sets and a small cogenerating set, and X has small hom-sets, then a functor G : A -> X has a left adjoint if and only if it is continuous (preserves all small limits). In particular, every continuous functor K : A -> Set is representable. Mac Lane notes this classical form (often called SAFT) frequently appears without an explicit small-hom-set hypothesis in sources restricted to locally small categories.",
+      "book_section": "V.8",
+      "book_page": "130",
+      "pdf_pages": [
+        139
+      ],
+      "cross_refs": [
+        "maclane:V.8:thm2",
+        "maclane:V.8:def1",
+        "maclane:V.6:thm3"
+      ],
+      "flags": [
+        "unnumbered-corollary"
+      ]
+    },
+    {
+      "id": "maclane:V.8:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "Stone-Cech compactification as the left adjoint to Comp Haus subset Top",
+      "statement_summary": "Typical application of SAFT: the inclusion functor G : Comp Haus -> Top of the full subcategory of compact Hausdorff spaces (displayed as equation (1)). Comp Haus is small-complete and has small hom-sets; by Urysohn's lemma, for any two distinct points x /= y of a compact Hausdorff space X there is a continuous f : X -> I to the unit interval with f x = 0 and f y = 1, so I is a cogenerator for Comp Haus. The special adjoint functor theorem therefore yields a left adjoint to the inclusion; this left adjoint (or its restriction to the full subcategory of completely regular spaces) is the Stone-Cech compactification, subsuming the discrete case treated in section 6.",
+      "book_section": "V.8",
+      "book_page": "131",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "maclane:V.8:thm2",
+        "maclane:V.8:cor1",
+        "maclane:V.6:construction-stone-cech-discrete",
+        "maclane:V.8:ex4"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.8:thm-watt",
+      "kind": "theorem",
+      "number": null,
+      "name": "Watt's Theorem (1960): representability of continuous additive functors on R-Mod",
+      "statement_summary": "Named but unnumbered result derived from SAFT. Any ring R is a generator in R-Mod, hence a cogenerator in (R-Mod)^op. It follows that every contravariant additive functor T on R-Mod to Ab which carries small colimits to limits is representable: T is naturally isomorphic to hom_R(-, C) for some R-module C. Proof sketch: by SAFT, T : (R-Mod)^op -> Ab has a left adjoint F; since T is additive, the adjunction bijection Ab(G, TA) = hom_R(A, FG) (for G in Ab, A in R-Mod) is an isomorphism of additive groups; taking G = Z gives TA = Ab(Z, TA) = hom_R(A, FZ), so C = FZ.",
+      "book_section": "V.8",
+      "book_page": "131",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "maclane:V.8:thm2",
+        "maclane:V.7:def4",
+        "maclane:V.7:def5",
+        "maclane:V.8:ex3"
+      ],
+      "flags": [
+        "unnumbered-theorem",
+        "id-uses-slug-not-ordinal"
+      ]
+    },
+    {
+      "id": "maclane:V.8:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "left adjoint of a Set-valued functor versus representability",
+      "statement_summary": "Let K : A -> Set be any functor. Prove that if K has a left adjoint then K is representable. Conversely, if A has all small copowers and K is representable as K = A(a,-) for some object a, prove that K has a left adjoint, namely the functor assigning to each set X the small copower X . a.",
+      "book_section": "V.8",
+      "book_page": "131",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "hom-tensor adjunctions and the injective cogenerator hom_Z(R, Q/Z)",
+      "statement_summary": "For A a left R-module, B a right R-module and G an abelian group: (a) establish the adjunctions hom_R(A, hom_Z(B,G)) = hom_Z(B tensor_R A, G) = hom_R(B, hom_Z(A,G)), where hom_Z(B,G) carries a suitable left or right R-module structure and hom_R denotes the hom-set in R-Mod. (b) Given that the additive group Q/Z of rationals modulo 1 is an injective cogenerator of Ab, use (a) to prove that hom_Z(R, Q/Z) is an injective cogenerator of R-Mod, where 'injective' is the notion defined in section IV.4.",
+      "book_section": "V.8",
+      "book_page": "131",
+      "pdf_pages": [
+        140
+      ],
+      "cross_refs": [
+        "maclane:V.7:def5",
+        "maclane:V.8:ex3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "Watt's theorem via Exercise 2(b) and SAFT",
+      "statement_summary": "Use Exercise 2(b) together with the special adjoint functor theorem to prove that any continuous additive functor T : R-Mod -> Ab is representable (this is Watt's theorem).",
+      "book_section": "V.8",
+      "book_page": "132",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "maclane:V.8:ex2",
+        "maclane:V.8:thm-watt",
+        "maclane:V.8:thm2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.8:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "injectivity of the Stone-Cech unit for completely regular spaces",
+      "statement_summary": "(Stone-Cech compactification.) If X is a completely regular topological space, show that the universal arrow X -> GFX for the left adjoint F to the inclusion (1) is an injection, using the Urysohn lemma in the form: for x /= y in a completely regular X there is a continuous f : X -> I with f x /= f y, I the unit interval. The exercise adds the observation that classical sources describe the compactification only for completely regular X, and that this restriction is needless, arising from considering only universal injections rather than universal arrows.",
+      "book_section": "V.8",
+      "book_page": "132",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "maclane:V.8:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "discrete -| forgetful -| indiscrete for Top -> Set",
+      "statement_summary": "Section 9 opens by recalling Top: objects all small topological spaces, arrows all continuous maps. The standard (nameless) forgetful functor G : Top -> Set sends X to its set GX of points; it is faithful and has a left adjoint D assigning to each set S the discrete topology on S (all subsets open). Consequently G preserves all limits that exist in Top, which explains why the underlying set of a product of spaces is the cartesian product of the underlying sets. G also has a right adjoint D' assigning to each set S the indiscrete topology (only S and the empty set open); consequently G preserves all colimits that exist in Top, which explains why the coproduct of two spaces is a topology on the disjoint union of the underlying sets.",
+      "book_section": "V.9",
+      "book_page": "132",
+      "pdf_pages": [
+        141
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction2",
+        "maclane:V.9:remark1",
+        "maclane:V.9:ex2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "subspace topology as a right-adjoint-right-inverse to the sliced forgetful functor",
+      "statement_summary": "For a fixed space X the forgetful functor G induces a functor G down X : (Top down-arrow X) -> (Set down-arrow GX), sending an object f : Y -> X to Gf and an arrow h to Gh (displayed as diagram (1)). This functor has a right adjoint L: an object t : S -> GX of (Set down GX) is topologized by declaring the open sets of S to be exactly the preimages t^{-1}U for U open in X, giving a space LS for which t becomes continuous Lt : LS -> X. When S is a subset of GX this is precisely the usual subspace topology. Universal property / adjunction: any continuous f : Y -> X whose underlying function factors as Gf = t . s in Set has s : Y -> LS continuous; equivalently hom(Gf, t) = hom(f, Lt). Moreover (G down X) . L = Id, so L is a right-adjoint-right-inverse to G down X. Emphasized: the universal property refers not only to other subspaces of X but to arbitrary spaces Y and arbitrary continuous f : Y -> X with image contained in S.",
+      "book_section": "V.9",
+      "book_page": "132",
+      "pdf_pages": [
+        141,
+        142
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction1",
+        "maclane:V.9:prop1",
+        "maclane:V.9:construction3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:prop1",
+      "kind": "proposition",
+      "number": "1",
+      "name": "equalizers from a faithful functor with sliced right-adjoint-right-inverses",
+      "statement_summary": "Proposition 1. Let G : C -> D be a faithful functor, let D have equalizers, and suppose that for each object c of C the induced functor (G down c) : (C down c) -> (D down Gc) has a right-adjoint-right-inverse L. Then C has equalizers. Proof: for a parallel pair f, f' : x -> y in C, apply G, take the equalizer s : S -> Gx of Gf and Gf' in D, and use the universal property of the adjunction to see that Lt : Ls -> x is an equalizer of f and f' in C. Remark attached: this is an element-free version of the usual construction of the equalizer in Top as the set of points where f and f' agree, given the subspace topology; the adjunction explains why the subspace topology is the right choice.",
+      "book_section": "V.9",
+      "book_page": "133",
+      "pdf_pages": [
+        142
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction2",
+        "maclane:V.9:remark2",
+        "maclane:V.9:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Top is complete; products by the initial (weakest) topology",
+      "statement_summary": "Top is complete, and to prove it one needs only equalizers of parallel pairs (supplied by Proposition 1) and products. The product of a family X_i, i in J, of spaces is constructed by taking the product of the underlying sets and equipping it with the universal (weakest) topology making all projections p_i continuous. The general fact behind this - that for spaces X_i, a set S and functions t_i : S -> GX_i there is a universal topology on S with exactly the open sets required to make all t_i continuous - is stated to admit a categorical formulation (developed as Exercise 3).",
+      "book_section": "V.9",
+      "book_page": "133",
+      "pdf_pages": [
+        142
+      ],
+      "cross_refs": [
+        "maclane:V.9:prop1",
+        "maclane:V.9:ex3",
+        "maclane:V.9:construction1"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "maclane:V.9:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "quotient (identification) topology as a left-adjoint-right-inverse",
+      "statement_summary": "Dual to the subspace construction. For a fixed space X the functor (X down-arrow G) : (X down Top) -> (GX down Set) has a left adjoint M: an object of (GX down Set) is a function t : GX -> S to a set S; topologize S by declaring open exactly those subsets V of S with t^{-1}V open in X, giving the space MS, so that t becomes a continuous map Mt : X -> MS. When t is surjective this is the familiar quotient or identification topology on S. Moreover, if f : X -> Y is continuous and Gf = k . t for some function k, then k : MS -> Y is continuous; the assignment k |-> k is the adjunction (X down Top)(Mt, f) = (GX down Set)(t, Gf), whose unit is the identity map, so M is a left-adjoint-right-inverse to X down G.",
+      "book_section": "V.9",
+      "book_page": "133",
+      "pdf_pages": [
+        142,
+        143
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction2",
+        "maclane:V.9:remark2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "Top has coequalizers and is cocomplete (dual of Proposition 1)",
+      "statement_summary": "Since Proposition 1 was proved purely from the axioms for a category, its dual holds as well: if G : C -> D is faithful, D has coequalizers, and each (c down G) : (c down C) -> (Gc down D) has a left-adjoint-right-inverse, then C has coequalizers. The dual proposition together with the quotient-topology adjunction proves that Top has coequalizers, and similar constructions yield coproducts (disjoint unions) and general colimits, so Top is cocomplete.",
+      "book_section": "V.9",
+      "book_page": "134",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "maclane:V.9:prop1",
+        "maclane:V.9:construction3",
+        "maclane:V.9:remark1"
+      ],
+      "flags": [
+        "unnumbered-remark"
+      ]
+    },
+    {
+      "id": "maclane:V.9:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "gluing along an open cover: the restriction equalizer and the cover diagram colimit",
+      "statement_summary": "Let {U_i : i in J} be an open cover of a space X. The classical gluing lemma - a J-indexed family of continuous maps f_i : U_i -> Y assembles into a single continuous f on X exactly when f_i and f_j agree on U_i intersect U_j for all i, j - is expressed by saying that the diagram Top(X,Y) -> product_i Top(U_i,Y) => product_{i,j} Top(U_i intersect U_j, Y), with the two parallel arrows given by restriction, is an equalizer (in Set) for every Y. Equivalently, X is the colimit in Top, with colimiting cone the inclusions U_i -> X, of the functor U : J' -> Top, where J' is the category whose objects are the pairs <i,j> and the single indices <i>, whose non-identity arrows are <i,j> -> <i> and <i,j> -> <j>, and where U<i,j> = U_i intersect U_j, U<i> = U_i, with U sending the non-identity arrows to the inclusion maps. (This is the sheaf/descent condition for Top in equalizer form.)",
+      "book_section": "V.9",
+      "book_page": "134",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "maclane:V.9:remark2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "collapsing a subset to a point: X/A as a coequalizer",
+      "statement_summary": "The space X/A obtained from a space X by collapsing a subset A to a single point is a coequalizer in Top: take the (large) parallel family of arrows from the one-point space * to X, one arrow for each point a of A, and X -> X/A is their coequalizer. This construction is used in homotopy theory.",
+      "book_section": "V.9",
+      "book_page": "134",
+      "pdf_pages": [
+        143
+      ],
+      "cross_refs": [
+        "maclane:V.9:remark2",
+        "maclane:V.9:construction6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:construction6",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Top^(2) of pairs and the adjunction X/A -| (Y |-> <Y,*>)",
+      "statement_summary": "Define Top^(2) to be the category whose objects are pairs <X,A> consisting of a space X and a subset A, and whose arrows <X,A> -> <X',A'> are the continuous maps X -> X' carrying A into A'. Then for Y a pointed topological space the defining property of X/A reads Top_*(X/A, Y) = Top^(2)(<X,A>, <Y,*>), where Top_* is the category of pointed spaces. Thus the functor <X,A> |-> X/A is left adjoint to the functor Y |-> <Y,*> sending each pointed space to the pair consisting of its underlying space and its basepoint.",
+      "book_section": "V.9",
+      "book_page": "134",
+      "pdf_pages": [
+        143,
+        144
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction5"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:V.9:prop2",
+      "kind": "proposition",
+      "number": "2",
+      "name": "Haus is complete and cocomplete; reflection of Top onto Haus",
+      "statement_summary": "Proposition 2. Haus, the full subcategory of all Hausdorff spaces in Top, is complete and cocomplete, and the inclusion functor Haus -> Top has a left adjoint H, as does the forgetful functor Haus -> Set. Proof by the adjoint functor theorem: any product of Hausdorff spaces or subspace of one is Hausdorff, so Haus is complete and the inclusion is continuous; for the solution set, any continuous map from a space X to a Hausdorff Y factors through its image, a subspace of Y and hence a quotient set of X with some topology, so up to isomorphism there is only a small set of Hausdorff surjective quotients X -> Y, giving the solution set condition. The resulting left adjoint H sends X to a Hausdorff space HX with universal continuous eta : X -> HX; universality forces eta to be a surjection, so HX is the largest Hausdorff quotient of X, and if X is already Hausdorff then HX = X with eta the identity, making H a left-adjoint-left-inverse of the inclusion. Consequences recorded: since H is a left adjoint it preserves colimits, so Haus has all small colimits; the coproduct in Haus is the coproduct in Top (a coproduct of Hausdorff spaces is Hausdorff), while a coequalizer in Haus is the largest Hausdorff quotient of the corresponding coequalizer in Top.",
+      "book_section": "V.9",
+      "book_page": "135",
+      "pdf_pages": [
+        144
+      ],
+      "cross_refs": [
+        "maclane:V.6:thm2",
+        "maclane:V.9:ex5",
+        "maclane:V.9:remark2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "connected components functor on locally connected spaces",
+      "statement_summary": "For L conn the full subcategory of locally connected spaces in Top, prove that the discrete-space functor D : Set -> L conn has a left adjoint C assigning to each space X the set of its connected components, but show that this functor C can itself have no left adjoint (it misbehaves on equalizers).",
+      "book_section": "V.9",
+      "book_page": "135",
+      "pdf_pages": [
+        144
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "the indiscrete-topology functor has no right adjoint",
+      "statement_summary": "Show that the right adjoint D' : Set -> Top of the forgetful functor (the indiscrete-topology functor) has itself no right adjoint, by exhibiting its misbehavior on coproducts.",
+      "book_section": "V.9",
+      "book_page": "135",
+      "pdf_pages": [
+        144
+      ],
+      "cross_refs": [
+        "maclane:V.9:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "categorical construction of products in Top via cone-comma adjoints",
+      "statement_summary": "(Categorical construction of the usual products in Top.) (a) For diagonal functors Delta : C -> C^J and Delta' : D -> D^J and an object T of C^J, each functor G : C -> D induces G_* : (Delta down T) -> (Delta' down GT) sending a cone <tau : c -> T> to <G tau : Gc -> GT>. Prove that if G_* has a left adjoint and GT has a limit in D, then T has a limit in C. (b) For G the forgetful functor Top -> Set and J discrete, construct a left adjoint to G_*, showing that it puts on a set S the weakest topology making a given J-indexed family of functions f_j : S -> GX_j continuous. (c) Conclude that Top has all the usual products.",
+      "book_section": "V.9",
+      "book_page": "135",
+      "pdf_pages": [
+        144,
+        145
+      ],
+      "cross_refs": [
+        "maclane:V.9:remark1",
+        "maclane:V.9:construction1"
+      ],
+      "flags": [
+        "spans-page-break"
+      ]
+    },
+    {
+      "id": "maclane:V.9:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "reflections along the separation-axiom inclusions Top_{n+1} -> Top_n",
+      "statement_summary": "Construct left adjoints for each of the inclusion functors Top_{n+1} -> Top_n for n = 0,1,2,3, where Top_n denotes the full subcategory of all T_n-spaces in Top, with T_4 = Normal, T_3 = Regular, T_2 = Hausdorff, and so on.",
+      "book_section": "V.9",
+      "book_page": "136",
+      "pdf_pages": [
+        145
+      ],
+      "cross_refs": [
+        "maclane:V.9:prop2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:V.9:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "the inclusion Haus -> Top has no right adjoint",
+      "statement_summary": "Show that the inclusion Haus -> Top has no right adjoint, by showing that a coequalizer in Top of Hausdorff spaces need not be Hausdorff. Conclude also that the forgetful functor Haus -> Set has no right adjoint.",
+      "book_section": "V.9",
+      "book_page": "136",
+      "pdf_pages": [
+        145
+      ],
+      "cross_refs": [
+        "maclane:V.9:prop2"
+      ],
+      "flags": []
+    }
+  ]
+}

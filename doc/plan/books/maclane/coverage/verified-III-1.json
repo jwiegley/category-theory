@@ -1,0 +1,345 @@
+[
+ {
+  "id": "maclane:III.1:def3",
+  "classification": "PARTIAL",
+  "aliases": [
+   "couniversal arrow",
+   "CouniversalArrow",
+   "universal arrow from a functor to an object",
+   "terminal object of the comma category F ↓ =(c)",
+   "UniversalArrow dualized via ^op / Cocomma",
+   "RightAdjointFunctorFromCouniversalArrows (counit-side assembly)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 127,
+    "symbol": "UniversalArrow",
+    "intree_statement": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); arrow_obj := snd (`1 (@initial_obj _ arrow_initial)); arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial) }  (the PRIMAL direction only)"
+   },
+   {
+    "file": "Theory/Universal/Arrow.v",
+    "line": 23,
+    "symbol": "(header comment)",
+    "intree_statement": "\"The dual notion, a universal arrow from F to c, is a terminal object of F ↓ =(c).\"  (comment only; never formalized)"
+   },
+   {
+    "file": "Construction/Comma.v",
+    "line": 254,
+    "symbol": "Cocomma",
+    "intree_statement": "Definition Cocomma {S : A ⟶ C} {T : B ⟶ C} := @Comma (B^op) (A^op) (C^op) (T^op) (S^op)  (the op-comma infrastructure through which the dual is expressible)"
+   }
+  ],
+  "statement_record": {
+   "book": "Dual of the universal arrow: given S : D -> C and c in C, a universal arrow from S to c is a pair <r, v : S r -> c> such that every f : S d -> c factors as f = v ∘ S f' for a unique f' : d -> r.",
+   "intree": "Class UniversalArrow (c : C) (F : D ⟶ C) := { arrow_initial : @Initial (=(c) ↓ F); ... } plus the header comment 'The dual notion, a universal arrow from F to c, is a terminal object of F ↓ =(c).'",
+   "strength_comparison": "intree-weaker: only the primal direction (from an object to a functor) is formalized, with initiality packaging, ump_universal_arrows, and the left-adjoint assembly AdjunctionFromUniversalArrows. The dual is acknowledged in a comment and is expressible as @UniversalArrow (C^op) (D^op) c (F^op) via the library's definitional duality (C^op^op = C), but no in-tree development names, instantiates, or provides API for it."
+  },
+  "gap": "No formalized couniversal-arrow notion: rg finds no CouniversalArrow, no terminal-object-of-(F ↓ =(c)) packaging, no dual of ump_universal_arrows, and no RightAdjointFunctorFromCouniversalArrows / right-adjoint counterpart of AdjunctionFromUniversalArrows (searched 'couniversal|CouniversalArrow|RightAdjointFunctorFrom' over *.v — 0 hits). The dual exists only as a header comment plus an unexploited ^op instantiation route (Cocomma).",
+  "negative_search_log": [
+   "rg -i 'couniversal|co-universal' --glob '*.v' -- 0 hits",
+   "rg 'RightAdjointFunctorFrom|CouniversalArrow' --glob '*.v' -- 0 hits",
+   "rg 'UniversalArrow' --glob '*.v' -- all hits are the primal class or its consumers (GAFT.v, Monad/Lifting.v, Construction/Free/Quiver.v, Structure/UniversalProperty/Universal/Arrow.v); none instantiate the dual at opposite categories"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass independently reached PARTIAL: rg -il 'universal.?arrow|couniversal' surfaced the same 15 files; the primal Class UniversalArrow verified at Theory/Universal/Arrow.v:127 (with AUniversalArrow at 240) and the dual exists only in the header comment (lines 23-24). Verified no dual formalization: rg 'couniversal|CoUniversal|RightAdjointFunctorFrom' -> 0 hits; no in-tree instantiation of UniversalArrow at opposite categories (rg 'UniversalArrow' | grep -i op -> comments/notation only). Corrected evidence line: Definition Cocomma starts at Construction/Comma.v:254 (record said 255). All evidence files registered in _CoqProject."
+  }
+ },
+ {
+  "id": "maclane:III.1:construction7",
+  "classification": "PRESENT",
+  "aliases": [
+   "diagonal functor Δ : C ⟶ C ∏ C",
+   "Diagonal_Product",
+   "product projections universal property (fork / exl / exr / ump_products)",
+   "Δ ⊣ × adjunction (Diagonal_Product_Adjunction)",
+   "product as right adjoint to the diagonal"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Diagonal.v",
+    "line": 46,
+    "symbol": "Diagonal_Product",
+    "intree_statement": "Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.  (c ↦ (c, c); the binary diagonal; the general Δ into [J, C] is Diagonal at line 33)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 136,
+    "symbol": "ump_products",
+    "intree_statement": "ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)  (the pointwise universal property of the projections: unique factorization of any pair f, g through exl, exr)"
+   },
+   {
+    "file": "Adjunction/Diagonal/Product.v",
+    "line": 36,
+    "symbol": "Diagonal_Product_Adjunction",
+    "intree_statement": "Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} : Diagonal_Product C ⊣ ×(C) := { adj := fun _ _ => {| to := {| morphism := fun f => fst f △ snd f |}; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |} }  (hom-set bijection (Δ x ~> p) ≅ (x ~> ×(C) p) natural in both variables)"
+   }
+  ],
+  "statement_record": {
+   "book": "The diagonal functor Δ : C -> C x C sends c to <c, c>; the product projections p : a x b -> a, q : a x b -> b form a universal arrow from Δ to the object <a, b>: any f : c -> a, g : c -> b yield a unique h : c -> a x b with p h = f and q h = g.",
+   "intree": "ump_products : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g), plus Diagonal_Product_Adjunction : Diagonal_Product C ⊣ ×(C) with transposes (f, g) ↦ f △ g and h ↦ (exl ∘ h, exr ∘ h).",
+   "strength_comparison": "intree-stronger: the book's pointwise couniversal-arrow property is exactly ump_products (an iff giving existence and uniqueness of the mediating h up to ≈), and the library additionally packages the whole family as the adjunction Δ ⊣ ×(C) with hom-set bijections natural in both variables, whose counit components are the projection pairs (exl, exr). The book's couniversal-arrow PHRASING per se is not used (see maclane:III.1:def3), but the statement content matches up to setoid presentation."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass independently found the same three witnesses and verified all at the cited lines: Diagonal_Product (Functor/Diagonal.v:46, with the file's lines 59-66 quoting exactly this Mac Lane/Wikipedia statement), ump_products (Structure/Cartesian.v:136, quote exact), Diagonal_Product_Adjunction (Adjunction/Diagonal/Product.v:36-41, quote exact). Blind pass additionally found Adjunction/GAFT/Examples.v diagonal_unique (the unit-direction universal arrow d ~> x(C) in universal_arrow_from_UMP shape), further supporting PRESENT. strength_comparison honestly discloses that the couniversal-arrow PHRASING is deferred to def3's PARTIAL."
+  }
+ },
+ {
+  "id": "maclane:III.1:remark4",
+  "classification": "PARTIAL",
+  "aliases": [
+   "kernel as universal (arrow/element)",
+   "IsKernel / kernel_desc",
+   "kernel = equalizer of f with the zero morphism",
+   "difference kernel with zero object",
+   "universal element of a contravariant kill-f functor",
+   "normal monomorphism"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Kernel.v",
+    "line": 53,
+    "symbol": "IsKernel",
+    "intree_statement": "Definition IsKernel {x y k : C} (f : x ~> y) (i : k ~> x) : Type := IsEqualizer f zero_mor k i.  (in Section with Context `{Z : @ZeroObject C})"
+   },
+   {
+    "file": "Structure/Kernel.v",
+    "line": 118,
+    "symbol": "kernel_desc",
+    "intree_statement": "Lemma kernel_desc {x y k : C} {f : x ~> y} {i : k ~> x} (K : IsKernel f i) {z : C} (h : z ~> x) (Hh : f ∘ h ≈ zero_mor) : ∃! u : z ~> k, i ∘ u ≈ h.  (the universal property in the zero-composite phrasing)"
+   },
+   {
+    "file": "Structure/Kernel.v",
+    "line": 98,
+    "symbol": "kernel_monic",
+    "intree_statement": "Lemma kernel_monic ... (K : IsKernel f i) : Monic i."
+   }
+  ],
+  "statement_record": {
+   "book": "The kernel of a homomorphism (in Ab, Grp, Rng, R-Mod, ...) is a universal — more exactly, a universal (arrow) for a suitable contravariant functor; the functor is not spelled out in the text.",
+   "intree": "IsKernel f i := IsEqualizer f zero_mor k i, with kernel_desc : any h with f ∘ h ≈ 0 factors uniquely through the kernel inclusion, and kernel_monic.",
+   "strength_comparison": "intree captures the universal characterization abstractly and completely for categories with a zero object (kernel = equalizer of f against zero_mor, with unique factorization); intree-weaker relative to the remark's scope: MacLane's contravariant-functor universal also covers his listed Rng, where zero morphisms are unavailable and the kernel is not an equalizer-with-zero, and none of the remark's concrete algebraic categories (Ab, Grp, Rng, R-Mod) exist in-tree to instantiate the notion."
+  },
+  "gap": "Only the zero-object equalizer form is formalized. The 'suitable contravariant functor' packaging (a universal element of d ↦ {h : d -> a | f ∘ h = 0}-style Set-valued functor, which also handles kernels in Rng without zero morphisms) is not formalized, and no in-tree algebraic category (Ab, Grp, Rng, R-Mod) exists in which the remark's concrete kernels live; the nearest concrete semiadditive witness, Instance/CMon.v, carries no kernel development.",
+  "negative_search_log": [
+   "rg -i 'kernel' --glob '*.v' -l -- hits are Structure/Kernel.v (categorical kernels), Structure/Abelian.v, Structure/Regular.v (kernel pairs); no contravariant-functor universal-element packaging",
+   "rg '\\bRng\\b|\\bGrp\\b' --glob '*.v' -- comments/essays only; no such categories in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Verified IsKernel at Structure/Kernel.v:53, kernel_monic at 98, kernel_desc at 118 with the quoted statement exact (existsUnique u, i o u ~ h from f o h ~ zero_mor). Blind pass agreed PARTIAL: the categorical kernel-as-universal is fully present for zero-object categories, but none of the remark's concrete categories (Ab, Grp, Rng, R-Mod) exist in-tree and the 'suitable contravariant functor' packaging is not formalized. The Rng caveat in strength_comparison (no zero morphisms there) is a correct and honest observation."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex1",
+  "classification": "ABSENT",
+  "aliases": [
+   "integral group ring / monoid ring",
+   "group algebra",
+   "tensor algebra T(V)",
+   "exterior algebra Λ(V) / Grassmann algebra",
+   "free associative algebra as universal arrow"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'group ring|monoid ring|group algebra' --glob '*.v' -- only a background-essay mention of group algebras of finite groups in Theory/Algebra/Frobenius.v:57; no construction",
+   "rg -i 'tensor algebra|exterior algebra' --glob '*.v' -- 0 hits",
+   "rg -i 'free algebra' --glob '*.v' -- all hits are F-algebra / monad-algebra material (free algebra (T a, μ) in Monad/Eilenberg/Moore/Adjunction.v, signature algebras in Instance/Comp.v), not associative algebras over a ring",
+   "no categories of rings, K-algebras, or vector spaces exist in Instance/ (directory listing checked), so none of the three constructions can even be stated in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind searches agreed: rg -i 'group ring|tensor algebra|exterior algebra|monoid ring' -> 0 constructions (re-verified the only nearby hit is a background-essay mention of group algebras at Theory/Algebra/Frobenius.v:57); Instance/ directory listing has no categories of rings, K-algebras, or vector spaces, so the three constructions cannot be stated in-tree."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex2",
+  "classification": "PARTIAL",
+  "aliases": [
+   "contravariant power-set functor P : Set^op -> Set",
+   "universal element <2, {1}> / subsets classified by characteristic maps",
+   "subobject classifier Ω, truth, char",
+   "Sub : C^op ⟶ Sets representability (Sub ≅ Hom(-, Ω))",
+   "classifier_classifies / sets_char_subobject / FinSet_Classifier"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 44,
+    "symbol": "SubobjectClassifier",
+    "intree_statement": "Class SubobjectClassifier := { Ω : C; truth : 1 ~> Ω; char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω; char_pullback : IsPullback (char m M) truth u m one; char_unique : IsPullback h truth u m one → h ≈ char m M }"
+   },
+   {
+    "file": "Structure/SubobjectClassifier.v",
+    "line": 187,
+    "symbol": "classifier_classifies",
+    "intree_statement": "Theorem classifier_classifies (x : C) : @Isomorphism Sets {| carrier := SubObj x |} {| carrier := x ~> Ω |}.  (per-object classification theorem)"
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 180,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : C^op ⟶ Sets := {| fobj := fun x : C => {| carrier := SubObj x; ... |}; fmap := ... sub_reindex (unop f) ... |}  (the in-tree contravariant subobject presheaf, the library's counterpart of the power-set functor)"
+   },
+   {
+    "file": "Instance/FinSet/Classifier.v",
+    "line": 353,
+    "symbol": "FinSet_Classifier",
+    "intree_statement": "#[export] Program Instance FinSet_Classifier : @SubobjectClassifier FinSet FinSet_Terminal := {| Ω := 2%nat; truth := fun _ => fin_true; char := ... fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b)) |}  (the classical two-valued answer, decidably, on finite sets)"
+   },
+   {
+    "file": "Instance/Sets/Classifier.v",
+    "line": 341,
+    "symbol": "sets_char_subobject",
+    "intree_statement": "Theorem sets_char_subobject@{o so} {A B : SetoidObject@{o o}} (m : A ~{Sets@{o so}}~> B) (Hm : @Monic Sets@{o so} A B m) : @equiv _ (@SubObj_Setoid Sets@{o so} B) (Build_SubObj ... m ...) (Build_SubObj ... (Sets_Image m) ...)  (with sets_char_pullback line 224 and sets_char_unique line 283: the cross-universe classifier theorems for Sets, truth values in PropSetoid one universe up)"
+   }
+  ],
+  "statement_record": {
+   "book": "Find a universal element for the contravariant power-set functor P : Set^op -> Set (classically <2, {1}>: every subset S of X is the preimage of {1} under a unique characteristic function X -> 2).",
+   "intree": "SubobjectClassifier (Ω, truth, char with classifying pullback and uniqueness) with classifier_classifies : SubObj x ≅ (x ~> Ω) in Sets; instantiated for FinSet with Ω = 2 (FinSet_Classifier); for Sets itself as the cross-universe theorems sets_char_pullback / sets_char_unique / sets_char_subobject with truth-value setoid PropSetoid one universe up; the contravariant Sub : C^op ⟶ Sets presheaf plays the power-set functor's role.",
+   "strength_comparison": "intree-weaker on the literal exercise, stronger on generality: the classification content (subobjects of X correspond uniquely to maps X -> Ω with truth pullback) is fully formalized — abstractly, with the classical two-valued answer realized as a genuine instance only over FinSet, and over Sets only as cross-universe theorems (the file proves the truth-value object cannot fit at one universe level, so no one-level universal element of a Sets-valued power-set functor exists there). No power-set functor with a III.1-style universal element is stated as such, and classifier_classifies is per-object rather than the natural isomorphism Sub ≅ Hom(-, Ω) of functors."
+  },
+  "gap": "Missing pieces relative to the exercise as posed: (1) no power-set functor on Sets/Coq with an III.1-universal-element statement — the content is carried by the subobject-classifier apparatus instead; (2) for Sets the classifier is deliberately NOT an instance (PropSetoid lives one universe up; disclosed size obstruction), so the universal element exists at one level only over FinSet (Ω = 2, finite sets); (3) representability is stated per-object (classifier_classifies), not as a natural isomorphism between the Sub presheaf and Hom(-, Ω).",
+  "negative_search_log": [
+   "rg -i 'powerset|power set|power-set' --glob '*.v' -- only Structure/Topos.v:75 (Pow a := Ω ^ a, the categorical power object) and Instance/Poset.v essay comments; no power-set FUNCTOR on a set category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. All five evidence quotes verified at the cited lines: SubobjectClassifier class (Structure/SubobjectClassifier.v:44, fields match), classifier_classifies (187), Sub presheaf (Theory/Subobject/Functor.v:180), FinSet_Classifier with Omega := 2 (Instance/FinSet/Classifier.v:353), sets_char_subobject (Instance/Sets/Classifier.v:341; sets_char_pullback 224 and sets_char_unique 283 also verified). Blind pass agreed PARTIAL: no power-set functor on a set category ('power.?set' hits only the Topos.v Pow comment and Instance/Poset.v), and I verified no Sub ~ Hom(-,Omega) natural-iso statement exists, so the per-object gap claim stands. All files in _CoqProject."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex3",
+  "classification": "ABSENT",
+  "aliases": [
+   "abelianization (universal arrow to Ab -> Grp)",
+   "free ring on an abelian group (Rng -> Ab)",
+   "discrete topological space (universal arrow to Top -> Set)",
+   "adding a disjoint basepoint / option / Maybe (Set_* -> Set)",
+   "forgetful functors from algebraic/topological categories with left adjoints"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'abelianization|abelianisation' --glob '*.v' -- 1 hit: Construction/Localization.v:106, a background comment listing abelianizations as an example of reflective localization; no construction",
+   "rg '\\bGrp\\b|\\bTop\\b|\\bRng\\b' --glob '*.v' (filtered of citation URLs) -- comments/essays only (Structure/Group.v, Structure/Complete.v; Solver's Top is a propositional-formula constructor, unrelated); Instance/ directory listing confirms no categories of groups, abelian groups, rings, or topological spaces exist in-tree (Structure/Group.v is group OBJECTS in a monoidal category)",
+   "rg -i 'pointed' --glob '*.v' -- Instance/Coq/Par.v is partial maps, stated in a comment (lines 34-35) to be equivalent to pointed sets, but carries no forgetful functor to Sets/Coq and no universal arrow to one; Instance/Fun.v's Pointed is pointed endofunctors, unrelated",
+   "rg -i 'free group|discrete topolog|free ring|free abelian' --glob '*.v' -- history-essay comments only (Theory/Universal/Arrow.v:39-46, Structure/Terminal.v:34)",
+   "rg -i '\\bMaybe\\b|\\boption\\b' --glob '*.v' -l -- option appears as a datatype in Lib/ and in Instance/Coq/Par.v's realization, but no free-pointed-object universal arrow is stated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass agreed ABSENT: no Grp/Ab/Rng/Top/Set* categories in Instance/ (listing checked); abelianization/discrete-topology/pointed-set hits are comments only. Additionally verified the nearest-miss route the classifier flagged: rg 'Adjunction|adjoint' over Instance/Coq/Par.v and Instance/Sets/Par.v -> 0 hits, so not even the Set_* -> Set fragment (free pointed object / Maybe) exists as a universal arrow or adjunction."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex4",
+  "classification": "ABSENT",
+  "aliases": [
+   "second/third group isomorphism theorems",
+   "Noether isomorphism theorems",
+   "quotient group G/N universal property",
+   "normal subgroup / coset projection",
+   "isomorphism theorems derived from universality"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'isomorphism theorem|Noether' --glob '*.v' -- 0 hits",
+   "rg -i 'normal subgroup|quotient group|coset' --glob '*.v' -- 0 hits",
+   "rg '\\bGrp\\b' --glob '*.v' -- comments only; no category of groups exists in-tree (Structure/Group.v defines group objects in a cartesian/monoidal category, with no quotient machinery)",
+   "rg -i 'quotient' --glob '*.v' -l -- hits are categorical quotients (Construction/Quotient.v: quotient of a category's hom-setoids by a congruence; PROP/ColouredPROP presentations), not group quotients"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Re-ran the logged searches: 'isomorphism theorem|Noether' -> 0 hits, 'normal subgroup|quotient group|coset' -> 0 hits. Structure/Group.v is group objects in a category with no quotient machinery; Construction/Quotient.v is hom-congruence quotients of categories. Blind pass agreed ABSENT."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex5",
+  "classification": "ABSENT",
+  "aliases": [
+   "quotient module A/S universal property",
+   "submodule / K-module / R-Mod",
+   "module isomorphism theorems",
+   "universal element of the kill-S functor on modules"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'submodule|quotient module|R-Mod' --glob '*.v' -- only background-essay comments (Structure/Abelian.v:69,111); no construction",
+   "rg -i '\\bmodules?\\b' --glob '*.v' (filtered of 'this module' code-unit usages) -- only essay mentions of module categories (Structure/Abelian.v:68-112, Structure/Complete.v:55); no category of R-modules exists in-tree",
+   "rg -i 'isomorphism theorem' --glob '*.v' -- 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass agreed ABSENT: R-Mod appears only in background essays (Structure/Abelian.v:69,111; Theory/Equivalence.v:79); no module categories, no quotient modules, 'isomorphism theorem' -> 0 hits."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex6",
+  "classification": "ABSENT",
+  "aliases": [
+   "quotient ring R/I by a two-sided ideal",
+   "ideal (ring theory)",
+   "Rng / category of rings",
+   "ring quotient universal property"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i '\\bideal\\b' --glob '*.v' -- 0 relevant hits (matches are 'two-sided unit/inverse' phrases about monoids and isomorphisms)",
+   "rg -i 'quotient ring' --glob '*.v' -- 0 hits",
+   "rg '\\bRng\\b' --glob '*.v' -- appears only in citation/essay comments; no category of rings in-tree",
+   "nearest miss inspected: Construction/Quotient.v is a quotient of a CATEGORY's hom-setoids by a hom-congruence with a factorization universal property — not ring quotients"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Blind pass agreed ABSENT: 'quotient ring|two-sided ideal' -> 0 hits; Rng only in essay comments; Construction/Quotient.v correctly identified as a non-counterpart (categorical hom-quotients)."
+  }
+ },
+ {
+  "id": "maclane:III.1:ex7",
+  "classification": "ABSENT",
+  "aliases": [
+   "polynomial ring K[x] in an indeterminate",
+   "free commutative K-algebra on one generator",
+   "monoid algebra of the naturals",
+   "polynomial algebra as universal arrow",
+   "adjoint to the forgetful functor CRng-under-K -> Set (choosing an element)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -i 'polynomial' --glob '*.v' -- all hits are polynomial ENDOFUNCTORS/containers (Instance/Coq/Lists.v:18, Instance/Shapes.v:55-56, Theory/Adamek/Corollaries.v:69) or link polynomials in a braided-monoidal essay (Structure/Monoidal/Braided.v:101-103); no polynomial rings",
+   "rg -i 'indeterminate|monoid algebra' --glob '*.v' -- 0 hits",
+   "rg -i 'free commutative|free K-algebra|free ring' --glob '*.v' -- only 'COFREE COMMUTATIVE COMONOID' in a Construction/ColouredPROP/LNL.v comment, unrelated",
+   "no categories of (commutative) rings or K-algebras exist in Instance/ (directory listing checked), so the construction cannot currently be stated in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "CONFIRMED. Re-ran 'indeterminate|monoid algebra' -> 0 hits; blind 'polynomial' search confirmed all hits are polynomial endofunctors/containers (Instance/Coq/Lists.v, Instance/Shapes.v, Theory/Adamek/Corollaries.v), not polynomial rings; no (commutative) ring or K-algebra categories in-tree."
+  }
+ }
+]

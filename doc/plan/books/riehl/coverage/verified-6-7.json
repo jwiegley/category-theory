@@ -1,0 +1,284 @@
+[
+  {
+    "id": "riehl:6.5:def10",
+    "classification": "PARTIAL",
+    "aliases": [
+      "codensity monad",
+      "Ran_G G / right Kan extension of a functor along itself",
+      "Codensity (Kmett-style rank-2 encoding)",
+      "monad induced by a right adjoint (GF), Adjunction_Monad / Adjunction_Induced_Monad",
+      "Mac Lane Exercise X.7.3 monad",
+      "pointwise right Kan extension defining a monad"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Adjunction.v",
+        "line": 48,
+        "symbol": "Adjunction_Monad",
+        "intree_statement": "Context {C D : Category} {F : D ⟶ C} {U : C ⟶ D}.  Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F)."
+      },
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 154,
+        "symbol": "LocalRightKan",
+        "intree_statement": "Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F) }."
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 123,
+        "symbol": "Adjunction_Induced_Monad",
+        "intree_statement": "Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => @unit _ _ _ _ A x) (fun x => fmap[U] (@counit _ _ _ _ A (F x))) ... (* ret = η, join = U ε F *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For G : D ⟶ C the codensity monad is T := Ran_G G, the right Kan extension of G along ITSELF (when it exists, e.g. as a pointwise Kan extension when C has enough limits), with 2-cell ε : TG ⟹ G; the unit η : id_C ⟹ T and multiplication μ : T² ⟹ T are the unique factorizations through ε of id_G and of the pasted double-ε composite. Preceding prose: a right adjoint G with left adjoint F induces the monad GF, and a general G still induces a monad on C via Ran_G G.",
+      "intree": "Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).  Class LocalRightKan (X : A ⟶ C) := { LocalRan : B ⟶ C; ran_transform : LocalRan ◯ F ⟹ X; ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) : (∃! δ, μ ≈ ran_transform ∙ δ ⊲ F) }.  (Also Class RightKan := { Ran : [A,C] ⟶ [B,C]; ran_adjoint : Induced ⊣ Ran }.)",
+      "strength_comparison": "intree-weaker: only the adjoint special case and the raw machinery are in force. The clause 'a right adjoint induces the monad GF' is fully proved twice (Adjunction_Monad from the hom-set form, Adjunction_Induced_Monad transparently with ret = η, join = U ε F), and right Kan extensions are defined both globally (Ran, as the right adjoint to precomposition) and locally with exactly the universal property the book's η/μ factorizations use (ump_ran gives the unique δ factoring μ through the counit). But nothing in-tree instantiates the extension at X := G along F := G, and no monad structure is derived from ε : Ran_G G ◯ G ⟹ G. The word 'codensity' appears in the tree only in the Theory/Kan/Extension.v header prose (lines 35, 39, 83, 103, 105, 108), never in a statement."
+    },
+    "gap": "The codensity monad itself is not constructed: there is no in-tree term forming T := Ran_G G (the local or global right Kan extension of a functor along ITSELF), no ε : TG ⟹ G accessor at that instantiation, and no derivation of η : Id ⟹ T and μ : T² ⟹ T as the unique ump_ran factorizations (hence no monad-axiom proof, Riehl's Exercise 6.5.viii). Also absent is any pointwise/limit-formula version of Ran (the footnote's 'sufficient limits' clause): Structure/Limit/Kan/Extension.v relates Ran only to limits along the terminal functor (Kan_Limit), and the Kelly end/coend formula for Ran is explicitly flagged in the header as 'a bridge not yet formalized'. What is present is (a) the GF special case and (b) the Kan-extension UMP the definition would be built from.",
+    "negative_search_log": [
+      "rg -ni 'codensity|codense' --glob '*.v' -- 7 hits, ALL inside the Theory/Kan/Extension.v comment header (35, 39, 83, 85, 103, 105, 108); no definition, lemma or class",
+      "rg -ni 'Ran_?G|along itself|self.?Kan' --glob '*.v' -- no Kan-extension-along-itself construction (hits are 'pullback of f along itself' in Structure/Regular*.v)",
+      "rg -n 'LocalRightKan|LocalLeftKan|RightKan|LeftKan|ran_transform|lan_transform' --glob '*.v' outside Theory/Kan/Extension.v -- ONE hit: Structure/Limit/Kan/Extension.v:46 Kan_Limit; the Kan classes have no other consumer in the tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-6-7.json) independently reached ABSENT-leaning-PARTIAL by the same route: rg -in 'Codensity' --glob '*.v' returns 7 hits, ALL inside the Theory/Kan/Extension.v comment header (35, 39, 83, 85, 103, 105, 108) and none in a statement; rg for LocalRightKan|LocalRan|LocalLeftKan|LocalLan|RightKan|LeftKan outside Theory/Kan/Extension.v returns exactly ONE hit (Structure/Limit/Kan/Extension.v:46, Kan_Limit), so no in-tree term instantiates Ran at X := G along F := G. PARTIAL survives under the frozen definition because the inventoried item explicitly carries the preceding clause 'a right adjoint G induces the monad GF', and that clause is proved in-tree twice. All three evidence citations verified at the exact cited lines: Monad/Adjunction.v:48 'Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).' (quote accurate); Monad/Comparison.v:123 'Definition Adjunction_Induced_Monad : @Monad D (U ◯ F) := @Build_Monad D (U ◯ F) (fun x => @unit ... A x) (fun x => fmap[U] (@counit ... A (F x))) ...' with the in-file comment '(* ret = η *) / (* join = U ε F *)' — quote accurate; Theory/Kan/Extension.v:154 Class LocalRightKan with ran_transform : LocalRan ◯ F ⟹ X and ump_ran giving the unique δ — quote accurate. strength_comparison is honest: it names the special-case-only restriction itself rather than letting the GF case stand in for the general construction. All cited files are registered in _CoqProject and compiled (.vo present). No same-name-weaker-statement: nothing in-tree is named 'codensity' at all."
+    }
+  },
+  {
+    "id": "riehl:6.5:def-codense",
+    "classification": "ABSENT",
+    "aliases": [
+      "codense functor",
+      "codensity monad is trivial / Ran_G G ≅ Id",
+      "dense functor (dual), dense subcategory",
+      "adequate functor (Isbell's older name)",
+      "Ran of a functor along itself is the identity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'codensity|codense' --glob '*.v' -- 7 hits, all comment prose in Theory/Kan/Extension.v; line 85 only says the codensity monad measures 'how far G is from being codense', which is a comment, not a definition",
+      "rg -ni '\\bdense\\b' --glob '*.v' -- ZERO hits in the whole tree (so neither the dual notion 'dense functor'/'dense subcategory' nor 'density' is defined)",
+      "rg -ni 'adequate' --glob '*.v' -- no Isbell-style 'adequate functor' notion",
+      "rg -ni 'Ran_?G|along itself|self.?Kan' --glob '*.v' -- no construction of Ran of a functor along itself, hence nothing that could be asserted to be the identity",
+      "rg -n 'LocalRightKan|RightKan' --glob '*.v' -- only Theory/Kan/Extension.v (definitions) and Structure/Limit/Kan/Extension.v:46 (Kan_Limit); no instance whose LocalRan is Id"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Negative log re-run and confirmed exactly: `rg -ni 'codensity|codense' --glob '*.v'` = 7 hits, all Theory/Kan/Extension.v header prose (line 85 'measuring how far G is from being codense' is a comment); `rg -ni '\\bdense\\b' --glob '*.v'` = 0 hits tree-wide (I re-ran it and also `rg -nio '\\bdense\\w*'` = 0), so neither the notion nor its dual exists; no construction of Ran of a functor along itself exists to be asserted equal to Id. Nothing to overturn."
+    }
+  },
+  {
+    "id": "riehl:6.5:example11",
+    "classification": "ABSENT",
+    "aliases": [
+      "category of fields / Field",
+      "CRing, commutative rings",
+      "free field / no left adjoint to the inclusion of fields",
+      "field of fractions Frac(A/p), integral domain",
+      "Spec(A), prime ideals, product over Spec",
+      "codensity monad of an inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Ring' --glob '*.v' -- ZERO hits: the library has no ring theory at all (the algebraic instances are Structure/Group.v, Structure/Monoid.v and Instance/CMon.v for commutative monoids)",
+      "rg -ni '\\bCRing\\b|commutative ring|\\bField\\b|integral domain|prime ideal|field of fractions|\\bSpec\\b|localization of a ring' --glob '*.v' -- only false positives on record 'field' (Coq record fields) in Adjunction/*.v, Comonad/Duality.v, etc.; no mathematical field or ring",
+      "rg -ni 'codensity|codense' --glob '*.v' -- comment-only (Theory/Kan/Extension.v header), so even the ambient notion this example computes is unavailable",
+      "ls Instance/ -- no Ring, Field, CRing, or Domain instance directory (Adj, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. The strongest negative claim was re-run and holds literally: `rg -n 'Ring' --glob '*.v'` = 0 hits in the entire tree (no ring theory of any kind), and `rg -in 'CRing|\\bField\\b|Frac|prime ideal|Spec'` produced only Coq record-field false positives (Adjunction/Compose.v, Solver/*, etc.). Instance/ listing re-checked against the record's enumeration — it matches (Adj, Adjoints, AST, Cat, CMon, Comp, Cones, Coq, Discrete, Ens, Fact, FinSet, Fun, Lambda, Omega, One, Parallel, Poset, Props, Proset, Rel, Roof, Sets, Shapes, StrictCat, Two, Zero, ZX); the only algebraic instance is Instance/CMon.v (commutative monoids). Not OUT_OF_SCOPE: fields and commutative rings are perfectly formalizable here (CMon already is), they are simply not present."
+    }
+  },
+  {
+    "id": "riehl:6.5:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "ultrafilter monad, beta / Stone-Čech monad",
+      "codensity monad of Fin ↪ Set",
+      "FinSet inclusion into Sets (FinSet ⟶ Sets)",
+      "compact Hausdorff spaces as algebras of beta",
+      "natural transformations Set(X, I−) ⟹ I−, Kennison–Gildenhuys"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'ultrafilter|Stone|compact Hausdorff' --glob '*.v' -- the only 'ultrafilter' hit is Theory/Monad.v:65, a comment ('the algebras of the ultrafilter monad are exactly the compact ...'); the Stone hits are bibliography lines (Baez–Stay Rosetta Stone, Stone duality prose in Theory/Equivalence.v)",
+      "rg -ni 'filter\\b|principal filter|prime filter' --glob '*.v' -- nothing defining filters or ultrafilters on a set",
+      "rg -n 'FinSet ⟶ Sets|FinSet_to_Sets|Fin ⟶' --glob '*.v' -- ZERO hits: there is no in-tree functor from the skeletal Instance/FinSet.v into Instance/Sets.v to take the codensity monad of",
+      "rg -ni 'codensity|codense' --glob '*.v' -- comment-only in Theory/Kan/Extension.v (line 86 mentions this very example in prose: 'For the inclusion of finite sets into sets it is the ultrafilter monad'), never a statement",
+      "rg -n 'LocalRightKan|RightKan' --glob '*.v' -- no instance of a Kan extension in Sets at all"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Verified: the only 'ultrafilter' occurrences are prose — Theory/Monad.v:65 (Manes citation in the background essay) and Theory/Kan/Extension.v:39,86 (Leinster citation and the sentence naming this very example). Independently confirmed the record's sharpest claim: there is NO functor from Instance/FinSet.v into Instance/Sets.v anywhere (`rg -n 'FinSet' --glob '*.v' | rg -i sets` yields only Theory/Lawvere/Sets.v, Structure/Pullback.v prose and Construction/PROP/Signature.v prose), so the codensity monad of Fin ↪ Set has no in-tree functor to be taken of, quite apart from the missing codensity construction. No filters/ultrafilters/Stone duality objects in-tree."
+    }
+  },
+  {
+    "id": "riehl:6.5:example13",
+    "classification": "ABSENT",
+    "aliases": [
+      "Giry monad",
+      "probability monad / distribution monad on measurable spaces",
+      "Meas, measurable space, sigma-algebra, Borel",
+      "convex spaces, affine maps, powers of the unit interval",
+      "finitely additive probability measures",
+      "codensity monad of a subcategory inclusion"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'giry' --glob '*.v' -- 2 hits, both comment lines in Structure/Monoidal/Markov.v (56: an nLab URL; 65: prose 'the Kleisli category of the Giry monad'); no Giry monad is constructed",
+      "rg -n 'Meas\\b|sigma-algebra|Borel|measurable space' --glob '*.v' -- 1 hit, the Markov.v:59 comment; there is no category of measurable spaces",
+      "rg -ni 'unit interval|affine map|convex' --glob '*.v' -- ZERO hits, so neither the subcategory C of finite powers of [0,1] nor its affine maps exist",
+      "rg -ni 'probability' --glob '*.v' -- only comment/essay prose in Structure/Cartesian.v, Structure/Terminal.v, Monad/Thunkable.v, Structure/Monoidal/Markov*.v; the in-tree development (Markov categories, Structure/Monoidal/Markov.v) is an AXIOMATIC abstraction of such a Kleisli category, with no measure-theoretic model and no monad",
+      "rg -ni 'codensity|codense' --glob '*.v' -- comment-only, so the ambient construction is unavailable"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently (searched Giry|measurable|sigma-algebra|Borel|convex|affine|unit interval|probability). Confirmed the two Giry hits are Structure/Monoidal/Markov.v:56 (nLab URL) and :65 (prose). Worth recording in the record's favour rather than against the library: Markov.v:68-70 itself discloses 'None of these is formalized in this library; the sole in-tree instance route is [Markov_of_Cartesian], so Stoch stands here as the intended model rather than a constructed one' — the header is honest, so no library defect. `rg -ni 'convex|affine map|unit interval|Borel'` = 0 hits, so the subcategory C of the example (finite powers of [0,1] and affine maps) is entirely absent."
+    }
+  },
+  {
+    "id": "riehl:6.5:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "absolute right Kan extension",
+      "counit exhibits F as Ran_G(id_D)",
+      "adjunctions are Kan extensions (Prop 6.5.2(i))",
+      "Kan extension preserved by every functor",
+      "preserves_right_Kan / preserves_left_Kan",
+      "pasting-diagram proof of an absolute Kan extension"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'absolute' --glob '*.v' -- 11 hits across 6 files, ALL about absolute COLIMITS: Structure/Coequalizer/Split.v (split coequalizers are absolute, split_coequalizer_preserved), Monad/Monadicity/BeckObjects.v, Construction/Karoubi.v (splitting an idempotent is an absolute colimit), Comonad/Coalgebra.v, Instance/Coq/Comonad/Store.v, Construction/Slice.v — none about Kan extensions; there is no 'absolute Kan extension' notion in-tree",
+      "rg -ni 'adjunction.*kan extension|kan extension.*adjunction' --glob '*.v' -- ZERO hits: no theorem that an adjunction's counit/unit exhibits a Kan extension (i.e. Riehl 6.5.2(i) itself is not in the tree)",
+      "rg -n 'preserves_right_Kan|preserves_left_Kan' --glob '*.v' -- only Theory/Kan/Extension.v:307/313 (the two predicate DEFINITIONS) plus the aborted sketch at line 386-438 (`left_adjoints_preserve` ends in `Abort.`, so it is not in the environment); preservation by a GIVEN functor is defined, absoluteness (preservation by EVERY functor) is not, and no functor is proved to preserve any Kan extension",
+      "rg -n 'LocalRightKan|ran_transform' --glob '*.v' -- no instance builds a LocalRightKan from an adjunction; the only consumer of the Kan classes anywhere is Structure/Limit/Kan/Extension.v:46 (Kan_Limit)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-verified: `rg -ni 'absolute' --glob '*.v'` hits are all about absolute COLIMITS (Structure/Coequalizer/Split.v:9,32,98; Monad/Monadicity/BeckObjects.v:53,200; Construction/Karoubi.v:67-70; Comonad/Coalgebra.v:102; Instance/Coq/Comonad/Store.v:71; Construction/Slice.v:69) — there is no absolute Kan extension notion. `rg -ni 'adjunction.*kan extension|kan extension.*adjunction' --glob '*.v'` re-run: literally 0 hits, so Proposition 6.5.2(i) (the statement this exercise re-proves) is itself not in the tree. preserves_right_Kan/preserves_left_Kan (Theory/Kan/Extension.v:307,313) are bare predicate definitions with no instance, and the only theorem that would use them, left_adjoints_preserve (line 386), ends in `Abort.` at line 438 — correctly and explicitly disclosed by the comment at lines 376-384, so this is NOT a library defect. No LocalRightKan is ever built from an adjunction."
+    }
+  },
+  {
+    "id": "riehl:6.5:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "colimit cone / cocone for the density theorem",
+      "every presheaf is a colimit of representables",
+      "co-Yoneda (ninja Yoneda) coend ∫^x C(x,c) × F x ≅ F c",
+      "category of elements ∫F, Grothendieck construction of a presheaf",
+      "coend injections / cowedge legs",
+      "canonical colimit of representables, free cocompletion"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 174,
+        "symbol": "coyoneda_reduction",
+        "intree_statement": "Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.   (* with YoI : C^op ∏ C ⟶ Sets, YoI (x,y) = C(x,c) × F y, i.e. ∫^x C(x,c) × F x ≅ F c *)"
+      },
+      {
+        "file": "Theory/Coend/Yoneda.v",
+        "line": 118,
+        "symbol": "coy_cowedge",
+        "intree_statement": "Lemma coy_cowedge : Cowedge_cond YoI (F c) coy_leg.   (* coy_leg (x) : C(x,c) × F x ~> F c is (g, a) ↦ fmap[F] g a — the cocone leg at x, and coy_cowedge is its compatibility (co-dinaturality) condition *)"
+      },
+      {
+        "file": "Structure/Coend.v",
+        "line": 182,
+        "symbol": "coend_ump",
+        "intree_statement": "Lemma coend_ump (E : Coend F) (w : D) (i : ∀ x : C, F (x, x) ~{D}~> w) (cond : Cowedge_cond w i) : ∃! u : coend_obj E ~{D}~> w, ∀ x : C, u ∘ coend_inj E ≈ i x."
+      }
+    ],
+    "statement_record": {
+      "book": "Use the Yoneda lemma to define the colimit cone for the canonical colimit of Theorem 6.5.7 — i.e. exhibit the cocone whose legs go from the representables indexed by (the opposite of) the category of elements of F to F, witnessing F = colim of that diagram of representables.",
+      "intree": "Lemma coy_cowedge : Cowedge_cond YoI (F c) coy_leg, where coy_leg x : C(x,c) × F x ~> F c is (g,a) ↦ fmap[F] g a; together with Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c and the colimit-style universal property Lemma coend_ump ... : ∃! u : coend_obj E ~> w, ∀ x, u ∘ coend_inj E ≈ i x.",
+      "strength_comparison": "intree-weaker: the density cocone exists only in pointwise coend form. The legs coy_leg x — defined exactly by the Yoneda recipe (g, a) ↦ F(g)(a), which IS the cone the exercise asks for — are indexed by objects x of C with the cowedge (co-dinaturality) condition standing in for functoriality over the category of elements, and the apex is the SET F c rather than the presheaf F. The universal property is the coend UMP (coend_ump), a genuine colimit-style ∃! over cowedges. The book's formulation lives in the functor category ([C,Set]-valued colimit of a diagram of representables indexed by (∫F)^op) and that formulation is not in the tree."
+    },
+    "gap": "Three things are missing relative to the book's cone: (1) there is no category of elements ∫F — rg -ni 'category of elements' returns nothing, and Construction/Grothendieck.v is built over IndexedCat : B ⟶ Cat, not over a Sets-valued presheaf — so the indexing category of Riehl's diagram does not exist; (2) the statement is pointwise in Sets at a fixed object c (∫^x C(x,c) × F x ≅ F c) rather than an isomorphism/colimit in the functor category, and nothing asserts that the diagram takes values in the subcategory of representables; (3) no `Colimit` instance (Structure/Limit.v) is produced from this cocone — the universal property available is the coend/cowedge one (coend_ump), not a Cocone/Colimit over a diagram, so 'F is the colimit of representables' is never stated as such. Note also that only the covariant Sets-valued case is developed (Theory/Coend/Yoneda.v, over Instance/Sets/Coend.v); the presheaf-side dual is not separately stated.",
+    "negative_search_log": [
+      "rg -ni 'category of elements|Elements' --glob '*.v' -- no category-of-elements construction (hits are FMap `elements`, prose about 'global elements')",
+      "rg -ni 'colimit of representable|density theorem|\\bdense\\b' --glob '*.v' -- ZERO hits for all three",
+      "rg -ni 'free cocompletion' --glob '*.v' -- only Instance/Fun.v header prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL confirmed, with one correction to the gap prose. My blind pass leaned ABSENT and then found the same co-Yoneda evidence, so PARTIAL is defensible and I do not overturn: coy_leg IS the Yoneda-defined cocone leg the exercise asks for, in coend clothing. Evidence verified at the exact cited lines: Theory/Coend/Yoneda.v:106 'Program Definition coy_leg (x : C) : SetoidMorphism (YoI (x, x)) (F c) := {| morphism := fun ga => fmap[F] (fst ga) (snd ga) |}' and :118 'Lemma coy_cowedge : Cowedge_cond YoI (F c) coy_leg.'; :174 'Definition coyoneda_reduction : coend_obj (SetsCoend YoI) ≅[Sets] F c := coyoneda_iso.'; Structure/Coend.v:182 'Lemma coend_ump (E : Coend F) (w : D) (i : ∀ x : C, F (x, x) ~{D}~> w) (cond : Cowedge_cond w i) : ∃! u : coend_obj E ~{D}~> w, ∀ x : C, u ∘ coend_inj E ≈ i x.' — all three quotes accurate; both files are in _CoqProject and compiled. CORRECTION (gap clause 3): 'only the covariant Sets-valued case is developed ...; the presheaf-side dual is not separately stated' overstates the deficiency — C is an arbitrary Context variable in Theory/Coend/Yoneda.v (Section Yoneda, `Context {C : Category}`), so instantiating C := D^op gives the presheaf form of the reduction verbatim; no separate dual is needed. The three substantive gaps stand and I re-verified each: no category of elements anywhere (`rg -ni 'category of elements'` = 0; Construction/Grothendieck.v is built over IndexedCat, not over a Sets-valued presheaf), the statement is pointwise in Sets at a fixed c rather than an iso in the functor category, and no Cocone/Colimit instance is produced from the cowedge."
+    }
+  },
+  {
+    "id": "riehl:6.5:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "Set^C is cartesian closed (Lemma 4.4.11)",
+      "presheaf/functor category exponential G^F, internal hom of presheaves",
+      "G^F(c) := {C(c,−) × F ⇒ G}",
+      "Functor_Category_Closed / Fun_Closed / Presheaf_Closed",
+      "density argument reducing {H × F ⇒ G} ≅ {H ⇒ G^F} to representable H",
+      "−×F ⊣ (−)^F in a functor category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "Target statement (Lemma 4.4.11, read off the PDF, printed p. 152: 'For any small category C, the functor category Set^C is cartesian closed', with G^F(c) := {C(c,−) × F ⇒ G}) is NOT in the tree: rg -n 'Program Instance.*Closed|Instance.*: @Closed' --glob '*.v' returns exactly Instance/Rel.v:146, Structure/Cartesian/Closed/Product.v:43, Instance/FinSet/Closed.v:132, Instance/Coq.v:167, Instance/Comp.v:190, Instance/AST.v:177, Instance/Cat/Cartesian/Closed.v:47, Instance/Lambda.v:291, Instance/Sets/Cartesian/Closed.v:38, Instance/Props.v:94 — no functor/presheaf category among them (Cat_Closed asserts Cat is cartesian closed with [C,D] as the exponential OBJECT, a different claim)",
+      "ls Instance/Fun/ -- contains only Cartesian.v; Instance/Fun/Cartesian.v:111 gives `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` (pointwise PRODUCTS only). Instance/Fun.v:104-107 states the missing piece in prose: 'when C is small and D is cartesian closed and complete, [C,D] is cartesian closed ...; Instance/Fun/Cartesian.v instantiates the cartesian case.'",
+      "rg -n 'Fun_Closed|Presheaf.*Closed|Nat_Closed|exponent.*Transform' --glob '*.v' -- ZERO hits: no exponential of functors/presheaves anywhere",
+      "rg -ni 'density theorem|colimit of representable|\\bdense\\b' --glob '*.v' -- ZERO hits, so the density argument the exercise asks to run does not exist either (only the pointwise co-Yoneda coend of Theory/Coend/Yoneda.v, which is not applied to any internal-hom computation)",
+      "rg -n 'Structure/Topos.v topos_closed' -- Structure/Topos.v:116 takes `topos_closed : @Closed C topos_cartesian` as a HYPOTHESIS field; the only concrete topos witness is Instance/FinSet/Topos.v (skeletal finite sets), not a presheaf topos"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently, by first identifying the target: I pulled riehl:4.4:lem11 out of doc/plan/books/riehl/inventory/inventory-4.json ('For any small category C, the functor category Set^C is cartesian closed', with G^F(c) := {C(c,−) × F ⇒ G}), then searched for a closed structure on functor/presheaf categories and found none. Re-ran the record's census `rg -n 'Program Instance.*Closed|Instance.*: @Closed'`: Structure/Cartesian/Closed/Product.v:43, Instance/AST.v:177, Instance/Rel.v:146, Instance/Comp.v:190, Instance/FinSet/Closed.v:132, Instance/Coq.v:167, Instance/Lambda.v:291, Instance/Props.v:94, Instance/Cat/Cartesian/Closed.v:47, Instance/Sets/Cartesian/Closed.v:38 — no functor/presheaf category among them, and the record is right that Cat_Closed (the exponential OBJECT in Cat being [C,D]) is a different claim. ls Instance/Fun/ = Cartesian.v only, whose sole instance is Instance/Fun/Cartesian.v:111 Functor_Category_Cartesian (pointwise PRODUCTS). The Instance/Fun.v prose quote is accurate (lines 104-106: 'when C is small and D is cartesian closed and complete, `[C, D]` is cartesian closed (nLab, \"functor category\"); Instance/Fun/Cartesian.v instantiates the cartesian case.') and is honest — it claims only the cartesian case, so no library defect. The density tool the exercise wants is likewise absent (`rg -ni '\\bdense\\b'` = 0)."
+    }
+  },
+  {
+    "id": "riehl:6.5:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "O(X) ⟶ Top/X, the open-set inclusion",
+      "Top, category of topological spaces; slice Top/X, spaces over X",
+      "étale space / espace étalé, local homeomorphism",
+      "sheaves on a space ≃ étale spaces over X (adjoint equivalence)",
+      "Lan along Yoneda gives an adjunction Set^{O(X)^op} ⇄ Top/X (nerve/realization)",
+      "restriction of an adjunction to an adjoint equivalence on the fixed subcategories (Lemma 4.2.11)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni 'topolog' --glob '*.v' -- only bibliography/essay prose (Structure/Pullback.v, Structure/Limit.v, Structure/Group.v, Instance/Two.v, Structure/Topos.v); there is NO category Top of topological spaces in the tree, hence no slice Top/X (Construction/Slice.v:80 mentions 'subcategory of Top/X' only in a comment about bundles)",
+      "rg -ni 'etale|étale|local homeomorphism|espace étalé|stalk|germ' --glob '*.v' -- 2 hits, both bibliography lines in Structure/Topos.v (SGA 4 title, 'étale cohomology'); no étale space, no local homeomorphism",
+      "rg -ni 'open subset|frame of opens|Locale' --glob '*.v' -- ZERO hits: the poset O(X) of opens is not constructed (Instance/Poset.v and Instance/Proset.v give abstract posets only)",
+      "rg -n 'Lan .*Yoneda|Yoneda.*Lan' --glob '*.v' and rg -ni 'nerve|realization' --glob '*.v' -- no left Kan extension along the Yoneda embedding and no nerve/realization adjunction, so Proposition 6.5.9 (the tool the exercise applies) has no in-tree instance to apply",
+      "rg -ni 'restricts to an (adjoint )?equivalence|fixed subcategor' --glob '*.v' -- ZERO hits: Riehl's Lemma 4.2.11 (every adjunction restricts to an adjoint equivalence between the full subcategories where the unit/counit are isos) is not in the tree either, although Theory/Equivalence/Adjoint.v does have adjoint equivalences",
+      "Nearby but not the item: Theory/Sheaf/Category.v:81 `Definition Sheaves : Category := Sub (@Presheaves C Sets) Sheaves_sub` builds sheaves as a full subcategory of presheaves over an ABSTRACT site (with a disclosed per-leg approximation of the sheaf condition); it is never instantiated at O(X) and is never compared with any category of spaces"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT independently. Re-verified every leg: there is no category Top (`rg -in 'Topological'` returns only bibliography/essay prose; Construction/Slice.v:80 'covering spaces of X form a full subcategory of Top/X' is an essay sentence about the general slice construction, not an in-tree object); `rg -ni 'locale|frame of opens|open subset'` = 0 hits, so O(X) does not exist; no étale space/local homeomorphism/stalk/germ outside the SGA 4 bibliography lines in Structure/Topos.v; and independently confirmed `rg -ni 'restricts to an|fixed subcategor'` = 0 hits, i.e. Riehl's Lemma 4.2.11 (an adjunction restricts to an adjoint equivalence on the fixed subcategories) is absent too, so both tools this exercise composes are missing. The 'nearby but not the item' note about Theory/Sheaf/Category.v:81 is accurate: Sheaves is Sub (@Presheaves C Sets) Sheaves_sub over an abstract Site, never instantiated at O(X) and never compared with any category of spaces. Not OUT_OF_SCOPE: Top and O(X) are ordinary formalizable categories here."
+    }
+  }
+]

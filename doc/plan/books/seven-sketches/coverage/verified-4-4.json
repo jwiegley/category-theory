@@ -1,0 +1,214 @@
+[
+  {
+    "id": "7sketches:4.5.1:example4.61",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Corel / category of corelations",
+      "corelation = equivalence relation on the disjoint union A u B",
+      "jointly-epic (jointly-surjective) cospan of finite sets",
+      "hypergraph category / special commutative Frobenius on every object",
+      "compact closed category in which every object is its own dual (self-dual, X^* := X)",
+      "cospan category Cospan(FinSet) under (initial object, coproduct)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 303,
+        "symbol": "Hypergraph_CompactClosed",
+        "intree_statement": "Context {C : Category}. Context `{S : @SymmetricMonoidal C}. Context `{H : @Hypergraph C S}. Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {| dual := fun X => X; cc_unit := fun X => hcc_unit X (F := scfa X); cc_counit := fun X => hcc_counit X (F := scfa X); snake_left := hypergraph_snake_left; snake_right := hypergraph_snake_right |}. -- with hcc_unit X := scfa_delta F ∘ scfa_eta F : I ~> X ⨂ X and hcc_counit X := scfa_epsilon F ∘ scfa_mu F : X ⨂ X ~> I"
+      },
+      {
+        "file": "Construction/Cospan/HypergraphInstance.v",
+        "line": 703,
+        "symbol": "Cospan_Hypergraph",
+        "intree_statement": "Context {C : Category}. Context `{H_Coc : @Cocartesian C}. Context `{H_Ini : @Initial C}. Context (HP : HasPushouts C). #[export] Program Instance Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) := {| scfa := cospan_scfa HP ; scfa_tensor_mu := ... ; scfa_unit_epsilon := cospan_scfa_unit_epsilon |}."
+      },
+      {
+        "file": "Construction/Cospan/Hypergraph.v",
+        "line": 1973,
+        "symbol": "Cospan_Monoidal",
+        "intree_statement": "#[export] Program Instance Cospan_Monoidal : @Monoidal (CospanCat C HP) := {| I := (@Cospan_unit_obj C H_Ini : CospanCat C HP); tensor := Cospan_Bifunctor HP; unit_left := fun X => mor_iso_lift (@coprod_zero_l C H_Coc H_Ini X); unit_right := fun X => mor_iso_lift (@coprod_zero_r C H_Coc H_Ini X); tensor_assoc := fun X Y Z => mor_iso_lift (@coprod_assoc C H_Coc X Y Z) |}. -- i.e. unit = initial object, tensor = coproduct; upgraded to SymmetricMonoidal by Cospan_SymmetricMonoidal (Construction/Cospan/Symmetric.v:398)."
+      },
+      {
+        "file": "Construction/Cospan/Corelation.v",
+        "line": 259,
+        "symbol": "CorelCat",
+        "intree_statement": "Context {C : Category}. Context `{H_Coc : @Cocartesian C}. Context (HP : HasPushouts C). Context `{CC : @CorelComposable C H_Coc HP}. Program Definition CorelCat : Category := {| obj := @obj C; hom := fun X Y => CorelationArrow X Y; homset := fun X Y => @CorelationArrow_Setoid C _ X Y; id := fun X => corelation_id X; compose := fun X Y Z g f => corelation_compose g f; ... |}. -- where Record CorelationArrow (X Y : C) := { corelation_cospan : CospanArrow X Y; corelation_copairing_epic : Epic (cospan_in1 _ ▽ cospan_in2 _) }."
+      }
+    ],
+    "statement_record": {
+      "book": "Corel — finite sets as objects, a corelation A -> B being an equivalence relation on the disjoint union A u B, composed by transitive closure of the union and restriction — is a category; it is symmetric monoidal under (empty set, disjoint union); and this monoidal category is compact closed with every finite set its own dual, unit eta_A : 0 -> A u A and counit epsilon_A : A u A -> 0 both given by the equivalence relation whose classes are the pairs {(a,1),(a,2)}.",
+      "intree": "Hypergraph_CompactClosed : @CompactClosed C S with dual := fun X => X, cc_unit X := scfa_delta ∘ scfa_eta : I ~> X ⨂ X, cc_counit X := scfa_epsilon ∘ scfa_mu : X ⨂ X ~> I, both snake laws discharged; together with Cospan_Hypergraph : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) and Cospan_Monoidal with I := initial object, tensor := coproduct. Corelations themselves are a category CorelCat (jointly-epic cospans) with no monoidal structure.",
+      "strength_comparison": "intree-stronger in generality on the compact-closed clause (EVERY hypergraph category is compact closed and self-dual, with the cup/cap the book draws, for any base C with an initial object, coproducts and pushouts — FinSet included, via FinSet_HasPushouts); intree-weaker in SUBJECT: the whole symmetric-monoidal + hypergraph + compact-closed tower is carried by CospanCat C, never by CorelCat. Corel is only the jointly-epic quotient of Cospan, and in-tree that quotient is neither a monoidal category nor even instantiated (CorelCat needs a CorelComposable instance, of which there is none)."
+    },
+    "gap": "Three precise omissions. (1) CorelCat carries NO Monoidal / SymmetricMonoidal / Hypergraph / CompactClosed instance: grep for CorelCat outside Construction/Cospan/Corelation.v returns only prose. The self-dual cup/cap and the snake laws are proved for CospanCat C (via Cospan_Hypergraph + Hypergraph_CompactClosed), not for the corelation quotient. (2) No CorelComposable instance exists for any concrete category (the file's own closing note flags this as the outstanding obligation, and Instance/Sets/Pushout.v:41,221 refer to it as future work), so the book's concrete Corel(FinSet) is not a category in-tree at all — only the parametric CorelCat is. (3) The book's presentation of a corelation as an equivalence relation on A u B (and of composition as transitive closure of the union) is never identified with the jointly-epic-cospan presentation; Instance/FinSet/Pushout.v computes connected components for pushouts but no lemma states the Corel(FinSet) hom-set bijection.",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'corelation' . — hits only Construction/Cospan/Corelation.v (definition + CorelCat) and prose cross-references in Cospan/Category.v, Cospan/BlackBox.v, Instance/Sets/Pushout.v",
+      "grep -rn --include='*.v' 'CorelCat\\|CorelComposable' . — no Monoidal/Hypergraph/CompactClosed instance and no concrete CorelComposable instance anywhere",
+      "grep -rn --include='*.v' 'CompactClosed' . — the only CompactClosed instance in the whole tree is Hypergraph_CompactClosed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-4-4.json) reached PARTIAL independently. Alias expansion: corelation, Corel, jointly-epic cospan, equivalence relation on A u B, compact closed, self-dual, cup/cap, coevaluation, dual object, snake. Searches run: rg -il 'corelation|Corel\\b' (5 files: Theory/Algebra/Frobenius.v, Instance/Sets/Pushout.v, Construction/Cospan/{BlackBox,Category,Corelation}.v); rg -il 'compact.?closed|CompactClosed' (7 files); rg -n 'CorelCat|CorelComposable|CorelationArrow' (only Construction/Cospan/Corelation.v + prose in Instance/Sets/Pushout.v); rg -n 'Instance.*CorelComposable|Program Instance.*Corel' (0 real instances). Every cited location checked and accurate: Structure/Monoidal/CompactClosed.v:303 Hypergraph_CompactClosed (dual := fun X => X, both snake fields discharged by hypergraph_snake_left/right at :241/:273); Construction/Cospan/HypergraphInstance.v:703 Cospan_Hypergraph over (CospanCat C HP, Cospan_SymmetricMonoidal HP) with all nine scfa_* fields (the record's '...' elision is faithful); Construction/Cospan/Hypergraph.v:1973 Cospan_Monoidal with I := Cospan_unit_obj (initial) and tensor := Cospan_Bifunctor; Cospan_SymmetricMonoidal at Construction/Cospan/Symmetric.v:398 as cited; Construction/Cospan/Corelation.v:259 CorelCat with the quoted CorelationArrow record (copairing Epic). All four cited files are registered in _CoqProject (lines 74-81, 363). The three-part gap is exact and I independently reproduced each part: (1) no Monoidal/Hypergraph/CompactClosed instance mentions CorelCat; (2) CorelComposable has NO instance anywhere in the tree, so CorelCat is uninhabited in-tree (Corelation.v:306-324 admits this in its own closing note); (3) no lemma identifies the equivalence-relation-on-A+B presentation with the jointly-epic-cospan one. strength_comparison honest: it flags the subject mismatch (CospanCat, not Corel) rather than hiding it behind the genuine intree-stronger generality. Not a same-name-weaker or special-case-only trap. Two library defects surfaced while confirming this record are recorded in problems[]."
+    }
+  },
+  {
+    "id": "7sketches:4.5.1:ex4.62",
+    "classification": "PARTIAL",
+    "aliases": [
+      "snake equations / zigzag identities / yanking / triangle identities for a duality",
+      "cup and counit for a self-dual object (X^* = X)",
+      "unit eta : I -> X ⨂ X and counit epsilon : X ⨂ X -> I in Corel(3)",
+      "compact closed structure on cospans/corelations of finite sets",
+      "only one snake needs checking because the dual is the object itself"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 241,
+        "symbol": "hypergraph_snake_left",
+        "intree_statement": "Context `{S : @SymmetricMonoidal C}. Context `{H : @Hypergraph C S}. Lemma hypergraph_snake_left (X : C) : to (@unit_left C _ X) ∘ bimap (hcc_counit X (F := scfa X)) id[X] ∘ from (@tensor_assoc C _ X X X) ∘ bimap id[X] (hcc_unit X (F := scfa X)) ∘ from (@unit_right C _ X) ≈ id[X]. Proof. ... Qed."
+      },
+      {
+        "file": "Structure/Monoidal/CompactClosed.v",
+        "line": 273,
+        "symbol": "hypergraph_snake_right",
+        "intree_statement": "Lemma hypergraph_snake_right (X : C) : to (@unit_right C _ X) ∘ bimap id[X] (hcc_counit X (F := scfa X)) ∘ to (@tensor_assoc C _ X X X) ∘ bimap (hcc_unit X (F := scfa X)) id[X] ∘ from (@unit_left C _ X) ≈ id[X]. Proof. ... Qed."
+      },
+      {
+        "file": "Instance/FinSet/Pushout.v",
+        "line": 513,
+        "symbol": "FinSet_HasPushouts",
+        "intree_statement": "#[export] Program Instance FinSet_HasPushouts : HasPushouts FinSet := { pushout := fun x y z f g => {| Pull := po_apex f g; pullback_fst := po_in1 f g; pullback_snd := po_in2 f g |} }. -- the instance that makes CospanCat FinSet (hence the concrete three-element case) exist, apex computed as the connected components of the coproduct."
+      }
+    ],
+    "statement_record": {
+      "book": "For the three-element set 3 in Corel: draw the unit corelation 0 -> 3 u 3 and the counit 3 u 3 -> 0, and check that the snake equations (4.59) hold; since every object of Corel is its own dual, only one of the two equations needs to be checked.",
+      "intree": "hypergraph_snake_left / hypergraph_snake_right prove BOTH snake laws, for EVERY object X of an arbitrary hypergraph category, with cup hcc_unit X := scfa_delta ∘ scfa_eta and cap hcc_counit X := scfa_epsilon ∘ scfa_mu — the exact self-dual cup/cap the exercise asks about.",
+      "strength_comparison": "intree-stronger in scope (universally quantified over all objects of every hypergraph category rather than a single three-element object, and both snake laws proved rather than one); intree-weaker in setting (the ambient category is CospanCat C, not the corelation quotient Corel — see the gap on Example 4.61 — and no concrete FinSet object is ever instantiated, so nothing in-tree is specialized to 3)."
+    },
+    "gap": "Two precise omissions. (1) The ambient category: the snake laws are available for CospanCat FinSet (via Cospan_Hypergraph + Hypergraph_CompactClosed + FinSet_HasPushouts) but never for CorelCat, which has no compact-closed structure and no concrete instance at all; the book's exercise is about Corel. (2) The exercise's own observation — that self-duality (X^* = X) makes one snake equation suffice — has no in-tree counterpart: snake_left and snake_right are two independent fields of Class CompactClosed and are proved by two separate calculations (hypergraph_snake_left, hypergraph_snake_right), with no lemma deriving either from the other under dual X = X. Also nothing instantiates the general lemmas at a concrete finite object (no example/test file mentions CospanCat FinSet outside prose).",
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'snake\\|zig-?zag' . — only Structure/Monoidal/CompactClosed.v (class fields snake_left/snake_right and the two hypergraph lemmas), Structure/Monoidal/Collapse.v (bend_snake, snake_left_from — consumers, not concrete instances) and prose in Theory/Algebra/Frobenius.v",
+      "grep -rn --include='*.v' 'cc_unit\\|cc_counit' . — used only in Structure/Monoidal/Collapse.v (Abramsky no-cloning collapse); no concrete finite-set instantiation",
+      "grep -rln --include='*.v' 'CospanCat FinSet\\|Cospan.*FinSet' . — four files, all prose references; no worked three-element (or any concrete) example"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind pass leaned ABSENT; on review PARTIAL is the better call and I do not overturn. Rationale: the mathematical content the exercise asks a reader to check -- that the self-dual cup hcc_unit X = delta o eta and cap hcc_counit X = epsilon o mu satisfy the snake identities -- IS proved in-tree, generically, at Structure/Monoidal/CompactClosed.v:241 (hypergraph_snake_left) and :273 (hypergraph_snake_right); both verified verbatim, both closed by Qed. That is 'some of the item exists' under the frozen definition, and it is consistent with example4.61 being PARTIAL on the same evidence. Instance/FinSet/Pushout.v:513 FinSet_HasPushouts verified present (apex by connected components: ustep/components_idem/components_resp), registered at _CoqProject:198, so CospanCat FinSet does exist -- the classifier does not overstate it as Corel. Both gap clauses independently confirmed: (a) no compact-closed structure on CorelCat and no CorelComposable instance; (b) no lemma derives one snake from the other under dual X = X -- snake_left/snake_right are two independent Class CompactClosed fields and Structure/Monoidal/Collapse.v's bend_snake:331, snake_left_from:409, spectator_snake:421 are all consumers of snake_left only, never a derivation of snake_right. The negative log's characterisation of Collapse.v as 'consumers, not concrete instances' is accurate. No concrete 3-element (or any finite) instantiation exists; correctly disclosed."
+    }
+  },
+  {
+    "id": "7sketches:4.5.2:thm4.63",
+    "classification": "ABSENT",
+    "aliases": [
+      "Prof_V — the category (bicategory) of V-categories and V-profunctors",
+      "V-profunctor / enriched profunctor / distributor / V-bimodule / V-module",
+      "Prof is compact closed; X^op is the dual of X; duality of the hom-profunctor",
+      "quantale / skeletal quantale / commutative unital quantale as the enriching base",
+      "Feas = Prof_Bool; feasibility relations; co-design",
+      "product of V-categories (X x Y)((x,y),(x',y')) := X(x,x') ⨂ Y(y,y'); unit V-category 1 with 1(1,1) = I"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'quantale' . — 1 hit, Construction/Enriched.v:78, a prose sentence in the header essay ('preorder- and quantale-enriched categories'); no Quantale class, no skeletality condition",
+      "grep -rn --include='*.v' -i 'Prof_V\\|ProfV\\|Prof_Bool\\|Prof_Cost' . — 0 hits",
+      "grep -rn --include='*.v' -i 'EnrichedProfunctor\\|enriched profunctor\\|V-profunctor' . — 0 hits",
+      "grep -rn --include='*.v' -i 'distributor\\|bimodule' . — 13 hits, ALL prose (Theory/Profunctor.v header synonyms, Theory/DoubleCategory.v and Theory/Bicategory.v motivation, Theory/Algebra/Frobenius.v); no definition",
+      "grep -rn --include='*.v' -i 'Feas\\|feasibility\\|co-?design' . — 0 hits",
+      "grep -rn --include='*.v' 'Monoidal.*Prof\\|Prof.*Monoidal\\|profunctor.*tensor\\|tensor.*profunctor' . — 0 hits: there is no monoidal product on profunctors of any kind",
+      "grep -rn --include='*.v' 'CompactClosed' . — the only instance in the tree is Hypergraph_CompactClosed (cospans/hypergraph categories); nothing about profunctors",
+      "Read Theory/Profunctor.v — the in-tree profunctor is Sets-valued only: 'Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets' (line 122). There is no V parameter, and Prof_Setoid (line 165) is explicitly 'a plain setoid handle, not a registered category instance', so Prof is not even assembled as a category or bicategory in-tree",
+      "Read Construction/Profunctor/Laws.v — prof_unit_left_iso / prof_unit_right_iso / prof_assoc_iso are the unitors and associator of profunctor COMPOSITION (the bicategory structure of Thm 4.23), not of a monoidal PRODUCT of V-categories; rejected as same-name-but-different",
+      "grep -rn --include='*.v' -i 'Enriched' Construction/Enriched.v — Class Enriched (K : Category) `{@Monoidal K} exists (V-categories over any monoidal base, so quantale-enriched categories are expressible), and Enriched_Two_preorder proves Enriched over 2 ↔ preorder; but there is no opposite of a V-category, no product of V-categories, no unit V-category, and no V-profunctor, so the theorem's subject Prof_V does not exist for any V"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same conclusion. My independent searches: rg -il 'Profunctor' (13 files), rg -in 'quantale' (1 hit, Construction/Enriched.v:78, prose in the header essay -- verified), rg -in 'Feas|feasib' (0 hits), rg -n 'Prof_|ProfCat' (only prose), rg -n 'Monoidal' over Theory/Profunctor.v + Construction/Profunctor/*.v + Theory/Profunctor/*.v (0 hits). Independently confirmed the two load-bearing negatives: (i) Theory/Profunctor.v:122 fixes the base to Sets -- 'Definition Profunctor (C D : Category) := (C^op ∏ D) ⟶ Sets' -- there is no V parameter, and :165 Prof_Setoid is indeed only a setoid handle ('not a registered category instance'), quoted accurately; (ii) enumerating Construction/Enriched.v and Construction/Enriched/{Two,Natural,Sets,Compose,Fun}.v gives Class Enriched:111, Class EnrichedFunctor:145, EnrichedTransform, EnrichedId/Compose/Whisker*, Enriched_Fun and the Two/Sets theorems -- and NOTHING else: no enriched opposite, no product of V-categories, no unit V-category, no V-profunctor. So the theorem's subject Prof_V does not exist for any V, and its conclusion (compact closedness) has no profunctor-side counterpart -- rg 'CompactClosed' finds Hypergraph_CompactClosed as the only instance in the tree. I considered overturning to PARTIAL on the strength of Construction/Profunctor/{Compose,Laws}.v (composition, prof_unit_left_iso, prof_unit_right_iso, prof_assoc_iso) but rejected it: that material is the Sets-valued instance of Theorem 4.23 (a separate inventory item and this record's own cross_ref), not of the compact-closed upgrade, and counting it here would double-count. The classifier saw and explicitly rejected it as same-name-but-different -- correct."
+    }
+  },
+  {
+    "id": "7sketches:4.5.2:ex4.64",
+    "classification": "ABSENT",
+    "aliases": [
+      "monoidal product in Prof_Bool / Feas",
+      "product preorder X x Y as monoidal product of resource preorders",
+      "product of Bool-categories / product of V-categories",
+      "product of feasibility relations Phi x Psi",
+      "product of profunctors (Phi x Psi)((x1,y1),(x2,y2)) := Phi(x1,x2) ⨂ Psi(y1,y2)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Feas\\|feasibility\\|resource preorder\\|available given' . — 0 hits for the feasibility vocabulary (the only 'resource' hits are linear-logic prose in Structure/Monoidal.v:91,93, Structure/Monoidal/Symmetric.v:79, Theory/Multicategory.v:171, Theory/Algebra/Frobenius.v:120)",
+      "grep -rn --include='*.v' -i 'Prof_Bool\\|Bool.*enrich\\|monotone relation' . — 0 hits",
+      "grep -rn --include='*.v' 'profunctor.*tensor\\|tensor.*profunctor\\|Monoidal.*Prof' . — 0 hits; no product of profunctors of any kind, so Phi x Psi has no in-tree counterpart",
+      "grep -rn --include='*.v' -i 'product of V-categories\\|EnrichedProduct\\|Enriched.*Product' . — 0 relevant hits; Construction/Enriched.v defines only Class Enriched and Class EnrichedFunctor, with no product of enriched categories",
+      "Checked Construction/Product.v (product of ORDINARY categories C ∏ D) and Construction/Enriched/Two.v (Enriched_Two_preorder : Enriched over 2 ↔ TwoPreorder). Even combining them, no in-tree statement identifies the product preorder as a monoidal product in any category of (Bool-)profunctors — the exercise's formalizable residue is exactly the product clause of Theorem 4.63, which is itself absent",
+      "Note: the exercise's remaining content is an interpretive reading (why the product preorder 'makes sense' as combined resources); the only formalizable part is the Prof_Bool monoidal product, hence ABSENT rather than OUT_OF_SCOPE"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed there is no counterpart; my only hesitation was ABSENT vs OUT_OF_SCOPE, and the record's own closing log entry addresses exactly that and resolves it correctly. Independently reproduced: rg -in 'Feas|feasib' -> 0 hits; rg -in 'Prof_Bool' -> 0 hits; no product of profunctors anywhere; Construction/Enriched.v has no product of enriched categories. ABSENT is the right call under the frozen definitions: the exercise does have a formalizable residue (the product clause of Thm 4.63 read at V = Bool), so it is not 'not meaningfully formalizable' -- OUT_OF_SCOPE would have been an over-use. The interpretive half is correctly identified as prose without being used to inflate the classification."
+    }
+  },
+  {
+    "id": "7sketches:4.5.2:ex4.65",
+    "classification": "ABSENT",
+    "aliases": [
+      "unitor profunctors X x 1 -|-> X and 1 x X -|-> X in Prof_V",
+      "monoidal unit of Prof_V is the one-object V-category 1 with 1(1,1) = I",
+      "left/right unitor isomorphism for the monoidal product of V-categories",
+      "iso in the (bi)category of profunctors / adjoint equivalence of profunctors",
+      "C ∏ 1 ≅ C (product with the terminal category)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'Prof_V\\|EnrichedProfunctor\\|V-profunctor' . — 0 hits: there are no V-profunctors, so no unitor can be stated in Prof_V",
+      "grep -rn --include='*.v' 'Monoidal.*Prof\\|Prof.*Monoidal\\|profunctor.*tensor' . — 0 hits: profunctors carry no monoidal product, hence no unitors for one",
+      "Read Construction/Profunctor/Laws.v:236 prof_unit_left_iso : prof_compose prof_id P ≅[Fun] P and :395 prof_unit_right_iso : prof_compose P prof_id ≅[Fun] P — SAME-NAME-BUT-DIFFERENT: these are the unit laws of profunctor COMPOSITION with prof_id = Hom C, i.e. the bicategory unitors of Theorem 4.23, not the isomorphisms X x 1 -|-> X for the monoidal PRODUCT of V-categories that this exercise asks for. Rejected as evidence",
+      "grep -rn --include='*.v' -i 'Enriched_One\\|unit V-category\\|EnrichedTerminal' . — 0 hits: the one-object V-category with hom object I is not defined",
+      "grep -rn --include='*.v' 'Cat_Terminal\\|Cat_Cartesian\\|Cartesian_Monoidal' . — Instance/One.v:54 Cat_Terminal (terminal category _1) and Instance/Cat/Cartesian.v:39 Cat_Cartesian exist, so C ∏ 1 ≅ C is available at the level of Cat via the generic Cartesian_Monoidal; but that is an isomorphism of CATEGORIES (functors), not a profunctor isomorphism in Prof, and no in-tree result transports Cat-isos into Prof (the embedding Cat ⟶ Prof is not formalized — Repr_left/Repr_right exist as definitions but nothing asserts functoriality into a category of profunctors)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Highest-risk record in the batch, and the classifier handled it correctly. Before opening the coverage file I had independently flagged the exact trap: Construction/Profunctor/Laws.v:236 prof_unit_left_iso (prof_compose prof_id P ≅[Fun] P) and :395 prof_unit_right_iso (prof_compose P prof_id ≅[Fun] P) are the unit laws of profunctor COMPOSITION -- the bicategory-of-profunctors unitors of Thm 4.23 -- whereas the exercise asks for X x 1 -|-> X and 1 x X -|-> X, the unitors of the monoidal PRODUCT of V-categories. Different structure, coincidentally similar name. The record identifies and rejects it explicitly, so no same-name-weaker inflation occurred. Its two positive side-claims are also accurate and correctly held short of evidence: Instance/One.v:54 Cat_Terminal (terminal_obj := _1, the category _1 at :25) and Instance/Cat/Cartesian.v:39 Cat_Cartesian both exist and are registered (_CoqProject:219, and Instance/Cat/Cartesian.v via the Instance block); Cartesian_Monoidal is real (Structure/Monoidal/Cartesian.v:49, Definition Cartesian_Monoidal := CC_Monoidal, deliberately not an Instance). The record's point that these give an iso of CATEGORIES, not a profunctor iso, and that no Cat -> Prof transport exists in-tree, is correct: Repr_left/Repr_right (Theory/Profunctor.v:155,158) are bare definitions with no functoriality statement."
+    }
+  },
+  {
+    "id": "7sketches:4.5.2:ex4.66",
+    "classification": "ABSENT",
+    "aliases": [
+      "snake equations for eta_X : 1 -|-> X^op x X and epsilon_X : X x X^op -|-> 1 in Prof_V",
+      "X^op is the dual of X in Prof (duality of V-categories)",
+      "zigzag/triangle identities for the hom-profunctor unit and counit",
+      "hom-profunctor X(x,x') as unit/counit of a compact-closed duality",
+      "compact closed structure on the bicategory of profunctors"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' -i 'snake\\|zig-?zag' . — the only snake equations in the tree are Structure/Monoidal/CompactClosed.v's class fields snake_left/snake_right and the hypergraph lemmas hypergraph_snake_left/right (cospans/Frobenius setting), plus their consumers in Structure/Monoidal/Collapse.v. None mentions profunctors",
+      "grep -rn --include='*.v' -i 'V-profunctor\\|EnrichedProfunctor\\|Prof_V' . — 0 hits: the eta_X / epsilon_X of this exercise have no in-tree type to inhabit",
+      "grep -rn --include='*.v' -i 'enriched opposite\\|Enriched_op\\|opposite.*enriched' . — 0 hits: the opposite X^op of a V-category is not defined (Construction/Opposite.v is for ordinary categories only), so the proposed dual does not exist",
+      "grep -rn --include='*.v' 'CompactClosed' . — the only CompactClosed instance is Hypergraph_CompactClosed; nothing claims compact closure for profunctors",
+      "Checked Theory/Profunctor.v:132 Id_Profunctor C := Hom C : C ⇸ C — the hom-bifunctor (c,c') ↦ C(c,c') is exactly the FORMULA the book uses for eta_X and epsilon_X in the V = Sets case, but it is introduced only as the unit for profunctor composition (a bare alias for Functor/Hom.v's Hom C); nothing anywhere asserts that it satisfies snake/zigzag identities against a dual X^op, and V is fixed to Sets. Not sufficient for PARTIAL"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. Independently checked the one near-miss the record also found and correctly refused: Theory/Profunctor.v:132 'Definition Id_Profunctor (C : Category) : C ⇸ C := Hom C' with Hom C : C^op ∏ C ⟶ Sets (Functor/Hom.v:49) is literally the eta_X(1,x,x') := X(x,x') formula at V = Sets -- but it is introduced only as the unit for profunctor composition, nothing anywhere states a snake/zigzag identity for it against a dual, and there is no dual to state it against: rg for an enriched opposite returns 0 hits and Construction/Opposite.v is for ordinary categories only. Holding this at ABSENT rather than promoting the bare formula to PARTIAL is the honest call -- a definition without the required API is not the item. Also independently confirmed rg 'CompactClosed' turns up nothing profunctor-related; the only instance in the tree is Hypergraph_CompactClosed."
+    }
+  }
+]

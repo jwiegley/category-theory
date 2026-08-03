@@ -1,0 +1,2298 @@
+{
+  "book": "maclane",
+  "range": {
+    "pdf_start": 17,
+    "pdf_end": 40
+  },
+  "pages": [
+    {
+      "pdf_page": 17,
+      "book_page": "7",
+      "empty": false,
+      "items": [
+        "maclane:I.1:def1",
+        "maclane:I.1:def2"
+      ],
+      "notes": "Chapter I opens; section I.1 begins. Associativity axiom (Eq. 1) here; unit law (Eq. 2) on next page."
+    },
+    {
+      "pdf_page": 18,
+      "book_page": "8",
+      "empty": false,
+      "items": [
+        "maclane:I.1:def3",
+        "maclane:I.1:remark1",
+        "maclane:I.1:construction1"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 19,
+      "book_page": "9",
+      "empty": false,
+      "items": [
+        "maclane:I.1:construction2",
+        "maclane:I.1:def4",
+        "maclane:I.1:prop1"
+      ],
+      "notes": "Set-theoretic conventions (identity function 1_S, inclusion/insertion function, composite of functions, left-to-right application order) are established in prose and folded into construction1 rather than inventoried separately. Composition circles print faintly in this scan but all statements are legible."
+    },
+    {
+      "pdf_page": 20,
+      "book_page": "10",
+      "empty": false,
+      "items": [
+        "maclane:I.2:def1",
+        "maclane:I.2:def2",
+        "maclane:I.2:def3",
+        "maclane:I.2:remark1",
+        "maclane:I.2:construction1"
+      ],
+      "notes": "Section I.2 begins."
+    },
+    {
+      "pdf_page": 21,
+      "book_page": "11",
+      "empty": false,
+      "items": [
+        "maclane:I.2:construction2",
+        "maclane:I.2:construction3",
+        "maclane:I.2:construction4",
+        "maclane:I.2:construction5",
+        "maclane:I.2:construction6",
+        "maclane:I.2:construction7",
+        "maclane:I.2:def4",
+        "maclane:I.2:construction8"
+      ],
+      "notes": "Finite categories 3 and the parallel-arrow category (top of page) are the tail of construction1, recorded under PDF 20."
+    },
+    {
+      "pdf_page": 22,
+      "book_page": "12",
+      "empty": false,
+      "items": [
+        "maclane:I.2:construction9",
+        "maclane:I.2:construction10",
+        "maclane:I.2:construction11",
+        "maclane:I.2:construction12"
+      ],
+      "notes": "No exercise block ends I.2; section I.3 begins on the next page."
+    },
+    {
+      "pdf_page": 23,
+      "book_page": "13",
+      "empty": false,
+      "items": [
+        "maclane:I.3:def1",
+        "maclane:I.3:construction1"
+      ],
+      "notes": "The singular-homology / homotopy-group passage (H_n : Top->Ab, Toph->Grp; pi_n : Top*->Grp; Eilenberg-Steenrod axioms) is motivational prose citing external algebraic topology and was deliberately not inventoried."
+    },
+    {
+      "pdf_page": 24,
+      "book_page": "14",
+      "empty": false,
+      "items": [
+        "maclane:I.3:construction2",
+        "maclane:I.3:construction3",
+        "maclane:I.3:remark1",
+        "maclane:I.3:def2",
+        "maclane:I.3:construction4",
+        "maclane:I.3:construction5",
+        "maclane:I.3:def3",
+        "maclane:I.3:def4"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 25,
+      "book_page": "15",
+      "empty": false,
+      "items": [
+        "maclane:I.3:def5",
+        "maclane:I.3:remark2",
+        "maclane:I.3:def6",
+        "maclane:I.3:ex1",
+        "maclane:I.3:ex2",
+        "maclane:I.3:ex3",
+        "maclane:I.3:ex4",
+        "maclane:I.3:ex5"
+      ],
+      "notes": "Section I.3 exercises 1-5 complete on this page."
+    },
+    {
+      "pdf_page": 26,
+      "book_page": "16",
+      "empty": false,
+      "items": [
+        "maclane:I.4:def1",
+        "maclane:I.4:def2",
+        "maclane:I.4:construction1",
+        "maclane:I.4:construction2"
+      ],
+      "notes": "Section I.4 begins."
+    },
+    {
+      "pdf_page": 27,
+      "book_page": "17",
+      "empty": false,
+      "items": [
+        "maclane:I.4:construction3",
+        "maclane:I.4:remark1",
+        "maclane:I.4:remark2",
+        "maclane:I.4:construction4"
+      ],
+      "notes": null
+    },
+    {
+      "pdf_page": 28,
+      "book_page": "18",
+      "empty": false,
+      "items": [
+        "maclane:I.4:def3",
+        "maclane:I.4:ex1",
+        "maclane:I.4:ex2",
+        "maclane:I.4:ex3"
+      ],
+      "notes": "I.4 exercises 1-3 complete here; exercises 4-6 begin on PDF 29 (printed 19), outside this agent's owned range, and belong to the neighboring agent. The Eilenberg-Mac Lane closing quote is historical prose, not inventoried."
+    },
+    {
+      "pdf_page": 29,
+      "book_page": "19",
+      "empty": false,
+      "items": [
+        "maclane:I.4:ex4",
+        "maclane:I.4:ex5",
+        "maclane:I.4:ex6",
+        "maclane:I.5:def1",
+        "maclane:I.5:def2",
+        "maclane:I.5:def3",
+        "maclane:I.5:def4",
+        "maclane:I.5:def5"
+      ],
+      "notes": "I.4 exercises 1-3 start on PDF 28 (outside owned range, other agent's). Section I.5 begins mid-page."
+    },
+    {
+      "pdf_page": 30,
+      "book_page": "20",
+      "empty": false,
+      "items": [
+        "maclane:I.5:def6",
+        "maclane:I.5:def7",
+        "maclane:I.5:def8",
+        "maclane:I.5:def9",
+        "maclane:I.5:construction1",
+        "maclane:I.5:remark1"
+      ]
+    },
+    {
+      "pdf_page": 31,
+      "book_page": "21",
+      "empty": false,
+      "items": [
+        "maclane:I.5:ex1",
+        "maclane:I.5:ex2",
+        "maclane:I.5:ex3",
+        "maclane:I.5:ex4",
+        "maclane:I.5:ex5",
+        "maclane:I.5:ex6",
+        "maclane:I.5:ex7",
+        "maclane:I.5:ex8",
+        "maclane:I.5:ex9"
+      ],
+      "notes": "Section I.6 opens mid-page with motivational prose on the comprehension principle; its first inventoriable item (the universe definition) starts on PDF 32."
+    },
+    {
+      "pdf_page": 32,
+      "book_page": "22",
+      "empty": false,
+      "items": [
+        "maclane:I.6:def1",
+        "maclane:I.6:def2",
+        "maclane:I.6:construction1",
+        "maclane:I.6:def3",
+        "maclane:I.6:construction2",
+        "maclane:I.6:def4",
+        "maclane:I.6:remark1"
+      ]
+    },
+    {
+      "pdf_page": 33,
+      "book_page": "23",
+      "empty": false,
+      "items": [
+        "maclane:I.6:remark2",
+        "maclane:I.6:def5",
+        "maclane:I.6:def6",
+        "maclane:I.6:construction3",
+        "maclane:I.6:construction4"
+      ]
+    },
+    {
+      "pdf_page": 34,
+      "book_page": "24",
+      "empty": false,
+      "items": [
+        "maclane:I.6:remark3",
+        "maclane:I.6:ex1",
+        "maclane:I.6:ex2",
+        "maclane:I.7:construction1",
+        "maclane:I.7:prop1"
+      ],
+      "notes": "Section I.7 begins near page bottom."
+    },
+    {
+      "pdf_page": 35,
+      "book_page": "25",
+      "empty": false,
+      "items": [
+        "maclane:I.7:def1",
+        "maclane:I.7:construction2",
+        "maclane:I.7:construction3",
+        "maclane:I.7:construction4",
+        "maclane:I.7:construction5"
+      ]
+    },
+    {
+      "pdf_page": 36,
+      "book_page": "26",
+      "empty": false,
+      "items": [
+        "maclane:I.7:construction6",
+        "maclane:I.7:prop2",
+        "maclane:I.7:construction7",
+        "maclane:I.7:construction8",
+        "maclane:I.7:def2",
+        "maclane:I.7:remark1"
+      ],
+      "notes": "Section I.7 has no exercise block (consistent with the book, not a scan gap)."
+    },
+    {
+      "pdf_page": 37,
+      "book_page": "27",
+      "empty": false,
+      "items": [
+        "maclane:I.8:def1",
+        "maclane:I.8:def2",
+        "maclane:I.8:remark1"
+      ]
+    },
+    {
+      "pdf_page": 38,
+      "book_page": "28",
+      "empty": false,
+      "items": [
+        "maclane:I.8:def3",
+        "maclane:I.8:remark2",
+        "maclane:I.8:def4",
+        "maclane:I.8:def5"
+      ]
+    },
+    {
+      "pdf_page": 39,
+      "book_page": "29",
+      "empty": false,
+      "items": [
+        "maclane:I.8:remark3",
+        "maclane:I.8:def6",
+        "maclane:I.8:construction1"
+      ],
+      "notes": "The chapter-end Notes (historical/bibliographic remarks) begin on this page; purely historical, not inventoried."
+    },
+    {
+      "pdf_page": 40,
+      "book_page": "30",
+      "empty": true,
+      "items": [],
+      "notes": "Continuation and end of the historical Notes (naming history, foundations opinions, Ehresmann/Noether attribution); no formalizable mathematical content. Chapter I ends here. Section I.8 has no exercise block (consistent with the book)."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:I.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "metagraph",
+      "statement_summary": "A metagraph consists of objects a, b, c, ... and arrows f, g, h, ... with two operations: domain and codomain, assigning to each arrow f objects dom f and cod f; displayed as f : a -> b with a = dom f the source and b = cod f the target.",
+      "book_section": "I.1",
+      "book_page": "7",
+      "pdf_pages": [
+        17
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "metacategory",
+      "statement_summary": "A metacategory is a metagraph with two further operations: identity, assigning each object a an arrow id_a = 1_a : a -> a, and composition, assigning each pair (g, f) with dom g = cod f a composite g . f : dom f -> cod g; subject to two axioms: associativity, k.(g.f) = (k.g).f for every composable configuration a -f-> b -g-> c -k-> d, and the unit law, 1_b . f = f and g . 1_b = g for all f : a -> b and g : b -> c. Stated axiomatically, with no set theory.",
+      "book_section": "I.1",
+      "book_page": "7",
+      "pdf_pages": [
+        17,
+        18
+      ],
+      "cross_refs": [
+        "maclane:I.1:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "commutative diagram",
+      "statement_summary": "A diagram of vertices (labelled by objects) and directed edges (labelled by arrows) is commutative when, for each pair of vertices c and c', any two paths of directed edges from c to c' yield, by composing their labels, equal arrows c -> c'.",
+      "book_section": "I.1",
+      "book_page": "8",
+      "pdf_pages": [
+        18
+      ],
+      "cross_refs": [
+        "maclane:I.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "uniqueness of identity arrows",
+      "statement_summary": "For any object b of a metacategory, the identity arrow 1_b is uniquely determined by the unit-law properties; consequently one may identify the identity arrow with the object itself, writing 1_b = b = id_b.",
+      "book_section": "I.1",
+      "book_page": "8",
+      "pdf_pages": [
+        18
+      ],
+      "cross_refs": [
+        "maclane:I.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.1:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "metacategory of sets",
+      "statement_summary": "The metacategory of all sets: objects all sets, arrows all functions, where a function f : X -> Y carries a specified domain X, specified codomain Y, and a rule x |-> fx; identities are the identity functions 1_S : S -> S and composition is the usual composite (g . f)x = g(fx). Functions with distinct codomains are distinct (inclusion vs identity).",
+      "book_section": "I.1",
+      "book_page": "8",
+      "pdf_pages": [
+        18,
+        19
+      ],
+      "cross_refs": [
+        "maclane:I.1:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.1:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "metacategories of structured sets (groups, spaces, etc.)",
+      "statement_summary": "Further metacategories built the same way: all groups with group homomorphisms as arrows; all topological spaces with continuous functions; all compact Hausdorff spaces with the same arrows; all ringed spaces with their morphisms. The arrows of any metacategory are called its morphisms.",
+      "book_section": "I.1",
+      "book_page": "9",
+      "pdf_pages": [
+        19
+      ],
+      "cross_refs": [
+        "maclane:I.1:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.1:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "arrows-only metacategory",
+      "statement_summary": "An arrows-only metacategory: data are arrows, certain ordered composable pairs (g, f), and an operation assigning each composable pair a composite g . f. An identity is defined as an arrow u with f . u = f whenever f . u is defined and u . g = g whenever u . g is defined. Axioms: (i) (k.g).f is defined iff k.(g.f) is defined, and then they are equal (written kgf); (ii) kgf is defined whenever both k.g and g.f are defined; (iii) for each arrow g there exist identity arrows u, u' with u'.g and g.u defined. Axiom (iii) forces u and u' to be unique, giving each arrow a domain and a codomain.",
+      "book_section": "I.1",
+      "book_page": "9",
+      "pdf_pages": [
+        19
+      ],
+      "cross_refs": [
+        "maclane:I.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.1:prop1",
+      "kind": "proposition",
+      "number": null,
+      "name": "equivalence of the two axiomatizations",
+      "statement_summary": "The arrows-only axioms are equivalent to the objects-and-arrows axioms: given a metacategory of objects and arrows, its arrows with the given composition satisfy the arrows-only axioms; conversely, an arrows-only metacategory satisfies the objects-and-arrows axioms when its identity arrows are taken as the objects. Proof left as an (unnumbered, inline) exercise.",
+      "book_section": "I.1",
+      "book_page": "9",
+      "pdf_pages": [
+        19
+      ],
+      "cross_refs": [
+        "maclane:I.1:def2",
+        "maclane:I.1:def4"
+      ],
+      "flags": [
+        "proof-as-exercise",
+        "unnumbered"
+      ]
+    },
+    {
+      "id": "maclane:I.2:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "directed graph (diagram scheme); composable pairs",
+      "statement_summary": "A directed graph (diagram scheme) is a set O of objects, a set A of arrows, and two functions dom, cod : A -> O. Its set of composable pairs is A x_O A = {(g, f) | g, f in A, dom g = cod f}, called the product over O.",
+      "book_section": "I.2",
+      "book_page": "10",
+      "pdf_pages": [
+        20
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.2:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "category (interpretation of the axioms in set theory)",
+      "statement_summary": "A category is a directed graph equipped with two further functions: id : O -> A (c |-> id_c) and composition A x_O A -> A ((g, f) |-> g.f), such that dom(id a) = a = cod(id a), dom(g.f) = dom f, cod(g.f) = cod g for all objects a and composable pairs (g, f), and the associativity and unit axioms of I.1 hold. Notation: c in C for objects, f in C for arrows; A and O usually suppressed.",
+      "book_section": "I.2",
+      "book_page": "10",
+      "pdf_pages": [
+        20
+      ],
+      "cross_refs": [
+        "maclane:I.2:def1",
+        "maclane:I.1:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.2:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "hom-set hom(b, c)",
+      "statement_summary": "For objects b, c of a category C, hom(b, c) = {f | f in C, dom f = b, cod f = c}, the set of arrows from b to c. Noted in passing that categories can alternatively be defined directly in terms of composition acting on hom-sets (section I.8), a custom this book does not follow.",
+      "book_section": "I.2",
+      "book_page": "10",
+      "pdf_pages": [
+        20
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "a category is a monoid for the product over O",
+      "statement_summary": "The definition of a category amounts to saying that a category is a monoid for the product x_O, in the general sense of monoid (monoid object) described in the book's introduction; to be observed later.",
+      "book_section": "I.2",
+      "book_page": "10",
+      "pdf_pages": [
+        20
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2",
+        "maclane:I.2:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "finite categories 0, 1, 2, 3, and the parallel pair",
+      "statement_summary": "The basic finite categories: 0 the empty category (no objects, no arrows); 1 with one object and only its identity; 2 with two objects a, b and exactly one non-identity arrow a -> b; 3 with three objects and non-identity arrows forming a commuting triangle; and the category with two objects a, b and exactly two non-identity arrows a => b (defining the term 'parallel arrows'). In each case composition is uniquely determined.",
+      "book_section": "I.2",
+      "book_page": "10",
+      "pdf_pages": [
+        20,
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "discrete categories = sets",
+      "statement_summary": "A category is discrete when every arrow is an identity. Every set X becomes a discrete category by adding one identity arrow x -> x per element, and every discrete category is determined by its set of objects; thus discrete categories correspond exactly to sets.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "monoids as one-object categories",
+      "statement_summary": "A monoid is a category with one object, determined by its set M of arrows, identity arrow, and composition: equivalently a set M with an associative binary operation M x M -> M possessing a unit, i.e. exactly a semigroup with identity element. Conversely, for any category C and any object a in C, the set hom(a, a) of arrows a -> a is a monoid.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2",
+        "maclane:I.2:def3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "groups as one-object categories",
+      "statement_summary": "A group is a category with one object in which every arrow has a (two-sided) inverse under composition.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "matrix category Matr_K",
+      "statement_summary": "For each commutative ring K, the category Matr_K of all rectangular matrices with entries in K: objects are all positive integers m, n, ...; each m x n matrix A is an arrow A : n -> m; composition is the usual matrix product.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction6",
+      "kind": "construction",
+      "number": null,
+      "name": "Ens_V, sets within a set V",
+      "statement_summary": "For any set V of sets, Ens_V is the category with objects all sets X in V and arrows all functions f : X -> Y with the usual composition; Ens denotes any one of these categories.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction7",
+      "kind": "construction",
+      "number": null,
+      "name": "preorders as categories (both directions)",
+      "statement_summary": "A preorder is a category P in which, for any pair of objects p, p', there is at most one arrow p -> p'. Defining p <= p' iff there is an arrow p -> p' yields a reflexive (identities) and transitive (composition) binary relation on the objects. Conversely, any set P with a reflexive transitive relation determines a preorder whose arrows p -> p' are exactly the pairs with p <= p': transitivity gives the unique composition, reflexivity the identities. A bijective correspondence between preordered sets and such categories.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "partial orders; linear orders",
+      "statement_summary": "Partial orders are preorders satisfying the added antisymmetry axiom: p <= p' and p' <= p imply p = p'. Linear orders are partial orders that are total: for any p, p', either p <= p' or p' <= p.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.2:construction8",
+      "kind": "construction",
+      "number": null,
+      "name": "ordinal numbers as categories; the order omega",
+      "statement_summary": "Each ordinal n is regarded as the linearly ordered set {0, 1, ..., n-1} of all preceding ordinals (0 the empty set; omega = {0, 1, 2, ...} the first infinite ordinal), hence as a category (a preorder); the categories 1, 2, 3 are the preorders belonging to ordinals 1, 2, 3. As a category, omega is the linear order 0 -> 1 -> 2 -> 3 -> ... with all composites and identity arrows.",
+      "book_section": "I.2",
+      "book_page": "11",
+      "pdf_pages": [
+        21,
+        22
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction7",
+        "maclane:I.2:def4",
+        "maclane:I.2:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction9",
+      "kind": "construction",
+      "number": null,
+      "name": "the simplicial category Delta",
+      "statement_summary": "Delta is the category with objects all finite ordinals and arrows f : m -> n all order-preserving functions (i <= j in m implies f i <= f j in n); sometimes called the simplicial category, central in Chapter VII.",
+      "book_section": "I.2",
+      "book_page": "12",
+      "pdf_pages": [
+        22
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction10",
+      "kind": "construction",
+      "number": null,
+      "name": "Finord = Set_omega",
+      "statement_summary": "Finord = Set_omega is the category with objects all finite ordinals n and arrows f : m -> n all functions from m to n; essentially the category of all finite sets, using exactly one finite set n for each finite cardinal number n.",
+      "book_section": "I.2",
+      "book_page": "12",
+      "pdf_pages": [
+        22
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction11",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Set of small sets via a universe",
+      "statement_summary": "Beyond the metacategory of all sets (not a set), an actual category Set is obtained by assuming a big enough set U, the universe, calling a set small iff it is a member of U, and taking Set to be the category whose set of objects is U (all small sets) with arrows all functions from one small set to another; details deferred to section I.7. The device underlies the construction of other familiar large categories.",
+      "book_section": "I.2",
+      "book_page": "12",
+      "pdf_pages": [
+        22
+      ],
+      "cross_refs": [
+        "maclane:I.1:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.2:construction12",
+      "kind": "construction",
+      "number": null,
+      "name": "roster of standard large categories",
+      "statement_summary": "The standard large categories built on small structures: Set (small sets, all functions); Set* (pointed small sets, base-point-preserving functions); Ens (sets and functions within a variable set V); Cat (small categories, functors); Mon (small monoids, monoid morphisms); Grp (small groups, group morphisms); Ab (small additive abelian groups); Rng (small rings, unit-preserving ring morphisms); CRng (small commutative rings); R-Mod (small left R-modules, linear maps); Mod-R (small right R-modules); K-Mod (small modules over a commutative ring K); Top (small topological spaces, continuous maps); Toph (spaces with homotopy classes of maps as arrows); Top* (pointed spaces, base-point-preserving maps).",
+      "book_section": "I.2",
+      "book_page": "12",
+      "pdf_pages": [
+        22
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction11"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "functor",
+      "statement_summary": "A functor T : C -> B, a morphism of categories, consists of an object function c |-> Tc and an arrow function sending f : c -> c' to Tf : Tc -> Tc', such that T(1_c) = 1_{Tc} and T(g.f) = Tg . Tf whenever g.f is defined. Equivalently, in arrows-only form: a function T on arrows carrying each identity of C to an identity of B and each composable pair (g, f) to a composable pair (Tg, Tf) with T(g.f) = Tg . Tf.",
+      "book_section": "I.3",
+      "book_page": "13",
+      "pdf_pages": [
+        23
+      ],
+      "cross_refs": [
+        "maclane:I.2:def2",
+        "maclane:I.1:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "power-set functor P : Set -> Set",
+      "statement_summary": "The power-set functor P : Set -> Set: each set X goes to its power set PX (all subsets S of X); each f : X -> Y goes to Pf : PX -> PY sending each S subset of X to its image fS subset of Y. Since P(1_X) = 1_{PX} and P(g.f) = Pg . Pf, this is a functor.",
+      "book_section": "I.3",
+      "book_page": "13",
+      "pdf_pages": [
+        23
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "general linear group functor GL_n : CRng -> Grp",
+      "statement_summary": "For each natural number n, GL_n : CRng -> Grp: a commutative ring K goes to the group GL_n(K) of non-singular n x n matrices with entries in K; each ring homomorphism f : K -> K' induces (entrywise, in the evident way) a group homomorphism GL_n f : GL_n(K) -> GL_n(K').",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "commutator and factor-commutator functors",
+      "statement_summary": "For any group G, the commutator subgroup [G, G] (generated by products of commutators x y x^{-1} y^{-1}) is normal in G; since any homomorphism carries commutators to commutators, G |-> [G, G] is a functor Grp -> Grp, and G |-> G/[G, G] is the factor-commutator functor Grp -> Ab.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "the center is not functorial",
+      "statement_summary": "The center Z(G) = {a in G | ax = xa for all x} does not naturally define a functor Grp -> Grp, because a homomorphism G -> H may carry an element in the center of G to an element not in the center of H. (The stronger no-functor statement is Exercise I.3.4.)",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:ex4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "forgetful (underlying) functor",
+      "statement_summary": "A functor which simply forgets some or all of the structure of an algebraic object is a forgetful or underlying functor. Examples: U : Grp -> Set assigns to each group its set of elements and to each group morphism the same function; U : Rng -> Ab assigns to each ring its additive abelian group and to each ring morphism the same function regarded as a morphism of addition.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "composition of functors; identity functors",
+      "statement_summary": "Given functors T : C -> B and S : B -> A, the functions c |-> S(Tc) and f |-> S(Tf) define the composite functor S . T : C -> A. This composition is associative, and for each category B the identity functor I_B : B -> B acts as identity for it.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "the metacategory of all categories; the category Cat",
+      "statement_summary": "With functor composition and identity functors one has the metacategory of all categories (objects all categories, arrows all functors), and similarly the category Cat of all small categories - but not a category of all categories.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:construction4",
+        "maclane:I.2:construction12"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.3:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "isomorphism of categories",
+      "statement_summary": "An isomorphism T : C -> B of categories is a functor that is a bijection both on objects and on arrows; equivalently, a functor T is an isomorphism iff there is a functor S : B -> C with both composites S.T and T.S identity functors; S is then the two-sided inverse S = T^{-1}.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24
+      ],
+      "cross_refs": [
+        "maclane:I.3:construction4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "full functor",
+      "statement_summary": "A functor T : C -> B is full when for every pair of objects c, c' of C and every arrow g : Tc -> Tc' of B there is an arrow f : c -> c' of C with g = Tf. The composite of two full functors is full.",
+      "book_section": "I.3",
+      "book_page": "14",
+      "pdf_pages": [
+        24,
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "faithful functor (embedding)",
+      "statement_summary": "A functor T : C -> B is faithful (an embedding) when for every pair of objects c, c' and every pair of parallel arrows f1, f2 : c -> c' of C, Tf1 = Tf2 implies f1 = f2. Composites of faithful functors are faithful. The forgetful functor Grp -> Set is faithful but not full and not a bijection on objects.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1",
+        "maclane:I.3:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "hom-set characterization of full and faithful",
+      "statement_summary": "For objects c, c' of C, a functor T : C -> B induces the function T_{c,c'} : hom(c, c') -> hom(Tc, Tc'), f |-> Tf. T is full iff every T_{c,c'} is surjective, and faithful iff every T_{c,c'} is injective. For a fully faithful functor every T_{c,c'} is a bijection, yet T need not be an isomorphism of categories, since objects of B may lie outside the image of T.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.2:def3",
+        "maclane:I.3:def4",
+        "maclane:I.3:def5",
+        "maclane:I.3:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "subcategory; inclusion functor; full subcategory",
+      "statement_summary": "A subcategory S of C is a collection of some objects and some arrows of C containing, for each of its arrows f, the objects dom f and cod f; for each of its objects s, the identity 1_s; and for each composable pair of its arrows, their composite. These closure conditions make S a category, and the inclusion map S -> C a functor, automatically faithful. S is a full subcategory when the inclusion functor is full; a full subcategory is determined by its set of objects alone (all C-arrows between them are included). Example: Set_f, all finite sets, is a full subcategory of Set.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:def4",
+        "maclane:I.3:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "field of quotients and Lie algebra as functors",
+      "statement_summary": "Show how each of the following constructions can be regarded as a functor: the field of quotients of an integral domain; the Lie algebra of a Lie group.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "functors out of 1, 2, 3",
+      "statement_summary": "Show that functors 1 -> C, 2 -> C, and 3 -> C correspond respectively to objects, arrows, and composable pairs of arrows in C.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction1",
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "functors between special categories",
+      "statement_summary": "Interpret 'functor' between special types of categories: (a) a functor between two preorders is a monotone function T (p <= p' implies Tp <= Tp'); (b) a functor between two groups (one-object categories) is a morphism of groups; (c) for G a group, a functor G -> Set is a permutation representation of G, and a functor G -> Matr_K is a matrix representation of G.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction7",
+        "maclane:I.2:construction4",
+        "maclane:I.2:construction5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "no center functor",
+      "statement_summary": "Prove there is no functor Grp -> Ab sending each group G to its center; hint: consider the composite S2 -> S3 -> S2 of maps of symmetric groups.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:remark1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.3:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "distinct functors with identity object function",
+      "statement_summary": "Find two different functors T : Grp -> Grp whose object function is the identity, T(G) = G for every group G.",
+      "book_section": "I.3",
+      "book_page": "15",
+      "pdf_pages": [
+        25
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "natural transformation",
+      "statement_summary": "Given functors S, T : C -> B, a natural transformation tau : S -> T (dotted arrow) assigns to each object c of C an arrow tau_c = tau c : Sc -> Tc of B such that every arrow f : c -> c' of C yields a commutative square: tau_{c'} . Sf = Tf . tau_c. One then says tau_c is natural in c; the arrows tau_a, tau_b, ... are the components of tau; a natural transformation is also called a morphism of functors. Intuition: tau translates the picture S of C in B to the picture T, all squares (and parallelograms) commuting.",
+      "book_section": "I.4",
+      "book_page": "16",
+      "pdf_pages": [
+        26
+      ],
+      "cross_refs": [
+        "maclane:I.3:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "natural isomorphism (natural equivalence)",
+      "statement_summary": "A natural transformation tau : S -> T with every component tau_c invertible in B is a natural equivalence, or better a natural isomorphism, written tau : S iso T; the inverses (tau_c)^{-1} are then the components of a natural isomorphism tau^{-1} : T -> S.",
+      "book_section": "I.4",
+      "book_page": "16",
+      "pdf_pages": [
+        26
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the determinant as a natural transformation",
+      "statement_summary": "For each commutative ring K, det_K : GL_n(K) -> K* (the group of units of K) is a group morphism, since a matrix M is non-singular exactly when det_K M is a unit. Because the determinant is given by the same polynomial formula for all rings, every morphism f : K -> K' of commutative rings makes the square det_{K'} . GL_n f = f* . det_K commute; hence det : GL_n -> (-)* is a natural transformation between the functors GL_n and units, both CRng -> Grp.",
+      "book_section": "I.4",
+      "book_page": "16",
+      "pdf_pages": [
+        26
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1",
+        "maclane:I.3:construction2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.4:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "projection to the factor-commutator group is natural",
+      "statement_summary": "For each group G the projection p_G : G -> G/[G, G] defines a natural transformation p from the identity functor on Grp to the factor-commutator functor Grp -> Ab -> Grp: each group homomorphism f : G -> H induces the evident f' on quotients making p_H . f = f' . p_G commute.",
+      "book_section": "I.4",
+      "book_page": "16",
+      "pdf_pages": [
+        26,
+        27
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1",
+        "maclane:I.3:construction3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.4:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "character groups and the natural map into the double character group",
+      "statement_summary": "In Ab, let D(G) = hom(G, R/Z), the character group of G (R/Z the reals mod 1). Each arrow f : G' -> G determines Df : DG -> DG' in the opposite direction by (Df)t = t.f, with D(g.f) = Df . Dg; so D is not a functor Ab -> Ab (it is contravariant, cf. II.2). But the twice-iterated G |-> D(DG) and the identity I(G) = G are both functors Ab -> Ab, and tau_G : G -> D(DG), defined by (tau_G g)t = t(g) for each character t in DG, is a natural transformation tau : I -> DD, expressing that its definition needs no choice of bases or generators. For finite G, tau_G is an isomorphism; hence restricting to the category Ab_f of finite abelian groups, tau is a natural isomorphism.",
+      "book_section": "I.4",
+      "book_page": "17",
+      "pdf_pages": [
+        27
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1",
+        "maclane:I.4:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "non-naturality of the isomorphism with the single character group",
+      "statement_summary": "Each finite abelian group G admits an isomorphism sigma_G : G iso DG to its character group, but only via a representation of G as a direct product of cyclic groups, and it cannot be natural. Precisely: make D a covariant functor D' : Ab_{f,i} -> Ab_{f,i} on the category of finite abelian groups with arrows only the isomorphisms, by D'G = DG and D'f = D(f^{-1}); then sigma : I -> D' is a map of functors but is not a natural transformation.",
+      "book_section": "I.4",
+      "book_page": "17",
+      "pdf_pages": [
+        27
+      ],
+      "cross_refs": [
+        "maclane:I.4:construction3",
+        "maclane:I.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "double dual of a finite-dimensional vector space",
+      "statement_summary": "A parallel example: the familiar natural isomorphism of a finite-dimensional vector space to its double dual (natural, unlike the basis-dependent isomorphism to the single dual).",
+      "book_section": "I.4",
+      "book_page": "17",
+      "pdf_pages": [
+        27
+      ],
+      "cross_refs": [
+        "maclane:I.4:construction3",
+        "maclane:I.4:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "Finord vs Set_f: inclusion, cardinal functor, natural isomorphism",
+      "statement_summary": "Comparing Finord (finite ordinals) with Set_f (all finite sets in a universe): every ordinal n is a finite set, so the inclusion S : Finord -> Set_f is a functor. Each finite set X determines its cardinal #X; choosing for each X a bijection theta_X : X -> #X and setting #f = theta_Y . f . theta_X^{-1} for f : X -> Y makes # : Set_f -> Finord a functor with all theta squares commuting. Taking theta the identity on ordinals gives # . S = I', the identity functor of Finord; S . # is not the identity functor I of Set_f, but theta : I -> S . # is a natural isomorphism. Summary: I iso S . #, I' = # . S.",
+      "book_section": "I.4",
+      "book_page": "17",
+      "pdf_pages": [
+        27,
+        28
+      ],
+      "cross_refs": [
+        "maclane:I.2:construction10",
+        "maclane:I.4:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "equivalence of categories",
+      "statement_summary": "An equivalence between categories C and D is a pair of functors S : C -> D, T : D -> C together with natural isomorphisms I_C iso T . S and I_D iso S . T. This notion (examined in IV.4) allows comparison of categories which are alike but of very different sizes, as in the Finord / Set_f example.",
+      "book_section": "I.4",
+      "book_page": "18",
+      "pdf_pages": [
+        28
+      ],
+      "cross_refs": [
+        "maclane:I.4:def2",
+        "maclane:I.4:construction4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "exponential functor and evaluation",
+      "statement_summary": "For a fixed set S, let X^S be the set of all functions h : S -> X. Show X |-> X^S is the object function of a functor Set -> Set, and that evaluation e_X : X^S x S -> X, defined by e(h, s) = h(s), is a natural transformation (natural in X).",
+      "book_section": "I.4",
+      "book_page": "18",
+      "pdf_pages": [
+        28
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "product with a fixed group; naturality in the fixed factor",
+      "statement_summary": "For a fixed group H, show that G |-> H x G defines a functor H x - : Grp -> Grp, and that each group morphism f : H -> K defines a natural transformation H x - -> K x -.",
+      "book_section": "I.4",
+      "book_page": "18",
+      "pdf_pages": [
+        28
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "natural transformations between group homomorphisms = conjugacy",
+      "statement_summary": "For groups B and C regarded as one-object categories and functors S, T : B -> C (i.e. group homomorphisms), show that a natural transformation S -> T exists iff S and T are conjugate: iff there is an element h in C with Tg = h(Sg)h^{-1} for all g in B.",
+      "book_section": "I.4",
+      "book_page": "18",
+      "pdf_pages": [
+        28
+      ],
+      "cross_refs": [
+        "maclane:I.4:def1",
+        "maclane:I.2:construction4",
+        "maclane:I.3:ex3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "natural transformations into a preorder",
+      "statement_summary": "For functors S, T : C -> P with C any category and P a preorder regarded as a category, a natural transformation S -> T exists if and only if Sc <= Tc for every object c of C; when it exists it is unique.",
+      "book_section": "I.4",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "arrows-only description of natural transformations",
+      "statement_summary": "Every natural transformation tau : S -> T (S, T : C -> B) defines a function on arrows sending each f : c -> c' of C to an arrow tau f : Sc -> Tc' of B such that Tg . tau f = tau(g f) = tau g . Sf for every composable pair <g, f>; conversely, every function on arrows with this property arises from a unique natural transformation, whose components are tau_c = tau(1_c). This gives an arrows-only presentation of natural transformations.",
+      "book_section": "I.4",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.4:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "finite-dimensional vector spaces equivalent to Matr_F",
+      "statement_summary": "For a field F, the category of all finite-dimensional vector spaces over F with all linear transformations as morphisms is equivalent (in the sense of equivalence of categories just defined) to the matrix category Matr_F of section I.2 (objects natural numbers, arrows matrices).",
+      "book_section": "I.4",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "invertible arrow (isomorphism), inverse",
+      "statement_summary": "An arrow e : a -> b is invertible in C when there is e' : b -> a with e' e = 1_a and e e' = 1_b; such an e' is unique when it exists and is written e^{-1}. Also records: (e1 e2)^{-1} = e2^{-1} e1^{-1} whenever the composite e1 e2 is defined and both factors are invertible.",
+      "book_section": "I.5",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "isomorphic objects",
+      "statement_summary": "Objects a and b of C are isomorphic (written a iso b) when there exists an invertible arrow (isomorphism) e : a -> b. The isomorphism relation on objects is reflexive, symmetric, and transitive.",
+      "book_section": "I.5",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [
+        "maclane:I.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "monic arrow",
+      "statement_summary": "An arrow m : a -> b is monic in C when for any two parallel arrows f1, f2 : d -> a, m . f1 = m . f2 implies f1 = f2 (m is left cancellable). Noted: in Set and in Grp the monic arrows are precisely the injective functions/homomorphisms.",
+      "book_section": "I.5",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "epi arrow",
+      "statement_summary": "An arrow h : a -> b is epi in C when for any two arrows g1, g2 : b -> c, g1 . h = g2 . h implies g1 = g2 (h is right cancellable). Noted: in Set the epi arrows are precisely the surjective functions.",
+      "book_section": "I.5",
+      "book_page": "19",
+      "pdf_pages": [
+        29
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "section, retraction, split epi, split monic",
+      "statement_summary": "For h : a -> b, a right inverse (section) is r : b -> a with h r = 1_b; a left inverse is called a retraction for h. An arrow with a right inverse is epi (the converse holds in Set but fails in Grp); an arrow with a left inverse is monic. When g h = 1_a, g is called a split epi, h a split monic, and the composite f = h g is an idempotent.",
+      "book_section": "I.5",
+      "book_page": "19",
+      "pdf_pages": [
+        29,
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def3",
+        "maclane:I.5:def4",
+        "maclane:I.5:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "idempotent, split idempotent",
+      "statement_summary": "An arrow f : b -> b is idempotent when f . f = f; an idempotent f is said to split when there exist arrows g and h with f = h g and g h = 1.",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def7",
+      "kind": "definition",
+      "number": null,
+      "name": "terminal object, initial object",
+      "statement_summary": "An object t is terminal in C when every object a has exactly one arrow a -> t; then the only arrow t -> t is the identity and any two terminal objects are isomorphic. Dually, s is initial when every object a has exactly one arrow s -> a. Examples: in Set the empty set is initial and any one-point set is terminal; in Grp the one-element group is both initial and terminal.",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def8",
+      "kind": "definition",
+      "number": null,
+      "name": "null (zero) object, zero arrow",
+      "statement_summary": "A null (zero) object z in C is one that is both initial and terminal. A null object is unique up to isomorphism, and for any objects a, b there is a unique arrow a -> z -> b, the zero arrow from a to b; any composite of an arrow with a zero arrow is itself a zero arrow. Examples: Ab, R-Mod (zero group/module), Set_* (one-point set).",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:def9",
+      "kind": "definition",
+      "number": null,
+      "name": "groupoid",
+      "statement_summary": "A groupoid is a category in which every arrow is invertible.",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "fundamental groupoid pi(X) of a topological space",
+      "statement_summary": "For a topological space X, the fundamental groupoid pi(X) has as objects the points of X and as arrows x -> x' the homotopy classes (rel endpoints) of paths from x to x'; composition is path concatenation given by the explicit reparametrization formula (1) (first path on [0,1/2], second on [1/2,1]), which is well defined on homotopy classes; every arrow is invertible (reverse the path), so pi(X) is a groupoid.",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def9"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "structure of connected groupoids; fundamental group",
+      "statement_summary": "In a groupoid G each object x determines a group hom_G(x, x); any arrow f : x -> x' induces an isomorphism hom_G(x, x) iso hom_G(x', x') by conjugation g |-> f g f^{-1}. G is connected when any two objects are joined by an arrow; a connected groupoid is determined up to isomorphism by a single group hom_G(x, x) together with its set of objects. Hence the fundamental groupoid pi(X) of a path-connected space X is determined by the set of points of X and the fundamental group hom_{pi(X)}(x, x).",
+      "book_section": "I.5",
+      "book_page": "20",
+      "pdf_pages": [
+        30
+      ],
+      "cross_refs": [
+        "maclane:I.5:def9",
+        "maclane:I.5:construction1"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "maclane:I.5:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "epi + monic but not invertible",
+      "statement_summary": "Exhibit a category containing an arrow that is both epi and monic but not invertible (suggested example: the inclusion of a dense subset of a topological space, in a suitable category).",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def3",
+        "maclane:I.5:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "composites of monics and of epis",
+      "statement_summary": "The composite of two monic arrows is monic; likewise the composite of two epi arrows is epi.",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def3",
+        "maclane:I.5:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex3",
+      "kind": "exercise",
+      "number": "3",
+      "name": "monic composite forces monic first factor",
+      "statement_summary": "If a composite g . f is monic then so is f; the exercise also asks whether the same holds for g (it need not).",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex4",
+      "kind": "exercise",
+      "number": "4",
+      "name": "Z -> Q is epi in Rng",
+      "statement_summary": "The inclusion of the ring of integers Z into the field of rationals Q is an epi arrow in the category Rng of rings, although not surjective.",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.7:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex5",
+      "kind": "exercise",
+      "number": "5",
+      "name": "epis in Grp are surjective",
+      "statement_summary": "In the category Grp of groups, every epi arrow is a surjective homomorphism. (A hint outlines the argument: given phi : G -> H with image M a proper subgroup, either use the index-2 factor group H/M, or build two distinct maps of H into the permutation group Perm H, agreeing on the image, via a cosets construction and conjugation by a chosen permutation.)",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex6",
+      "kind": "exercise",
+      "number": "6",
+      "name": "idempotents split in Set",
+      "statement_summary": "In the category Set, every idempotent arrow splits (factors as f = h g with g h = 1).",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def6"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex7",
+      "kind": "exercise",
+      "number": "7",
+      "name": "regular arrows (von Neumann regularity)",
+      "statement_summary": "Call an arrow f : a -> b in a category C regular when there exists g : b -> a with f g f = f. Show f is regular whenever it has either a left or a right inverse, and prove that in Set every arrow f : a -> b with a nonempty is regular.",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex8",
+      "kind": "exercise",
+      "number": "8",
+      "name": "natural numbers as initial pointed-set-with-endomap",
+      "statement_summary": "In the category whose objects are triples <X, e, t> (X a set, e in X, t : X -> X) and whose arrows <X, e, t> -> <X', e', t'> are functions f : X -> X' with f e = e' and f t = t' f, the triple (natural numbers, e = 0, t = successor) is an initial object (a Peano/natural-numbers-object universal property).",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def7"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.5:ex9",
+      "kind": "exercise",
+      "number": "9",
+      "name": "faithful functors reflect monics",
+      "statement_summary": "If a functor T : C -> B is faithful and T f is monic in B, then f is monic in C.",
+      "book_section": "I.5",
+      "book_page": "21",
+      "pdf_pages": [
+        31
+      ],
+      "cross_refs": [
+        "maclane:I.5:def3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "universe",
+      "statement_summary": "A universe is a set U with the (somewhat redundant) properties: (i) x in u in U implies x in U (transitivity); (ii) u, v in U imply {u, v}, <u, v>, and u x v are in U; (iii) x in U implies the power set of x and the union of x are in U; (iv) omega (the set of all finite ordinals) is in U; (v) if f : a -> b is surjective with a in U and b a subset of U, then b in U. These closure properties ensure the standard set operations applied to elements of U produce elements of U.",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "small set, small function",
+      "statement_summary": "With a fixed universe U, a small set is a set u in U (a member of U, not a set of small cardinality). A function f : u -> v between small sets is small since it can be coded as the ordered triple <u, G_f, v> with graph G_f a subset of u x v, itself an element of U; the set A of all small functions is then a legitimate set by limited comprehension.",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Set of all small sets",
+      "statement_summary": "The category Set is defined to have as its set of objects the universe U (all small sets) and as its set of arrows the set A of all small functions, with usual composition. Henceforth Set denotes this category.",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1",
+        "maclane:I.6:def2"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.6:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "small group",
+      "statement_summary": "A small group is a small set with a group structure: an ordered pair <u, m> where u is a small set and m : u x u -> u is a binary operation satisfying the group axioms; every small group is an element of U.",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [
+        "maclane:I.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Grp of all small groups",
+      "statement_summary": "The set of all small groups and the set of all homomorphisms between small groups constitute the category Grp; the same process constructs the category of all small mathematical objects of any other given type (e.g. Cat of all small categories, formed later).",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [
+        "maclane:I.6:def3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.6:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "small category",
+      "statement_summary": "A category is small when the set of its arrows and the set of its objects are both small sets (elements of the universe U).",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32
+      ],
+      "cross_refs": [
+        "maclane:I.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "Set and Grp are not small",
+      "statement_summary": "Set is not a small category: its set of objects U is not a small set, since U in U would contradict the axiom of regularity (which forbids infinite descending membership chains). Similarly Grp is not small.",
+      "book_section": "I.6",
+      "book_page": "22",
+      "pdf_pages": [
+        32,
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def4",
+        "maclane:I.6:construction1",
+        "maclane:I.6:construction2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "axiomatic foundation: ZFC plus one universe",
+      "statement_summary": "The foundation assumed is the standard Zermelo-Fraenkel axioms (extensionality, null set, pairing/ordered-pair/power-set/union closure, infinity, choice, regularity, and replacement — stated: for a set a and a property phi(x, y) functional for x in a and total on a, the collection of the corresponding y is a set) plus the existence of one set U that is a universe. Replacement implies the comprehension-for-elements principle; the universe conditions imply all small sets x in U themselves satisfy the ZF axioms (condition (v) of the universe corresponding to replacement); one universe suffices for the usual purposes of category theory.",
+      "book_section": "I.6",
+      "book_page": "23",
+      "pdf_pages": [
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "class, proper class",
+      "statement_summary": "Relative to the universe U, a class C is any subset of U. By transitivity every small set (element of U) is also a class; classes that are not small sets (such as U itself) are called proper classes. Together the small sets and the classes satisfy the standard Godel-Bernays axioms.",
+      "book_section": "I.6",
+      "book_page": "23",
+      "pdf_pages": [
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1",
+        "maclane:I.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "large category",
+      "statement_summary": "A large category is one in which both the set of objects and the set of arrows are classes (proper or otherwise). The categories Set, Grp, etc. have proper classes of objects and arrows, hence are large categories in this sense.",
+      "book_section": "I.6",
+      "book_page": "23",
+      "pdf_pages": [
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Cls of all classes",
+      "statement_summary": "Cls is the category whose objects are all classes and whose arrows are all functions f : C -> C' between classes. Its collection of objects is the power set of U, which is not a class (its cardinal exceeds that of U), so Cls is a category that is not itself given by classes.",
+      "book_section": "I.6",
+      "book_page": "23",
+      "pdf_pages": [
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def5"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.6:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "the category Cat' of all large categories",
+      "statement_summary": "Cat' denotes the category of all large categories; it is a useful category which is not a class.",
+      "book_section": "I.6",
+      "book_page": "23",
+      "pdf_pages": [
+        33
+      ],
+      "cross_refs": [
+        "maclane:I.6:def6"
+      ],
+      "flags": [
+        "unnumbered-construction",
+        "sketched-only"
+      ]
+    },
+    {
+      "id": "maclane:I.6:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "limits of one universe; Grothendieck's alternative",
+      "statement_summary": "The one-universe foundation accurately handles the category of all small sets and all small groups but provides no set representing the metacategory of all sets or of all groups. Grothendieck's alternative axiom — every set X is a member of some universe U — gives for each universe a category of the groups in it, but still no category of all groups. This motivates set-free, first-order axiomatizations: category axioms on undefined terms (object, arrow, composite, identity, domain, codomain), and elementary (first-order) axioms for the category of all sets as an alternative to membership axioms (elementary topos, Mac Lane-Moerdijk).",
+      "book_section": "I.6",
+      "book_page": "24",
+      "pdf_pages": [
+        34
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "universes are closed under small cartesian products",
+      "statement_summary": "Given a universe U and a function f : I -> b with domain I in U and every value f_i an element of U (i in I), the usual cartesian product Prod_i f_i is an element of U.",
+      "book_section": "I.6",
+      "book_page": "24",
+      "pdf_pages": [
+        34
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.6:ex2",
+      "kind": "exercise",
+      "number": "2",
+      "name": "union closure characterizes the universe conditions",
+      "statement_summary": "(a) Given a universe U and f : I -> b with I in U and each f_i in U, the usual union of the f_i is a set of U. (b) This single closure property may replace condition (v) and the condition 'x in U implies the union of x is in U' in the definition of a universe.",
+      "book_section": "I.6",
+      "book_page": "24",
+      "pdf_pages": [
+        34
+      ],
+      "cross_refs": [
+        "maclane:I.6:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "Ab, the category of small abelian groups",
+      "statement_summary": "Ab has as objects all small (additive) abelian groups and as arrows all homomorphisms between them, with usual composition. In Ab the zero group is both initial and terminal (a null object).",
+      "book_section": "I.7",
+      "book_page": "24",
+      "pdf_pages": [
+        34
+      ],
+      "cross_refs": [
+        "maclane:I.6:def2",
+        "maclane:I.5:def8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:prop1",
+      "kind": "proposition",
+      "number": null,
+      "name": "monics and epis in Ab",
+      "statement_summary": "In Ab an arrow is monic if and only if it is a monomorphism (injective), and epi if and only if it is an epimorphism (surjective). The nontrivial direction (epi implies onto) is proved: if f : A -> B is not surjective, the quotient B/fA is nonzero, so the projection p : B -> B/fA and the zero morphism are two distinct arrows with p f = 0 f, contradicting f epi.",
+      "book_section": "I.7",
+      "book_page": "24",
+      "pdf_pages": [
+        34,
+        35
+      ],
+      "cross_refs": [
+        "maclane:I.7:construction1",
+        "maclane:I.5:def3",
+        "maclane:I.5:def4"
+      ],
+      "flags": [
+        "unnumbered-prose-proposition"
+      ]
+    },
+    {
+      "id": "maclane:I.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "small ring",
+      "statement_summary": "A small ring R is a small set with binary operations of addition and multiplication satisfying the usual ring axioms, including a two-sided identity 1 for multiplication.",
+      "book_section": "I.7",
+      "book_page": "25",
+      "pdf_pages": [
+        35
+      ],
+      "cross_refs": [
+        "maclane:I.6:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.7:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "Rng, the category of small rings",
+      "statement_summary": "Rng has as objects all small rings (with unit) and as arrows the ring homomorphisms required to carry the unit of the source to the unit of the target. In Rng the zero ring is terminal and Z is initial (the unique arrow carries 1 to the unit); monic arrows are precisely the ring monomorphisms; every surjective ring homomorphism is epi, but the inclusion Z -> Q is epi without being surjective.",
+      "book_section": "I.7",
+      "book_page": "25",
+      "pdf_pages": [
+        35
+      ],
+      "cross_refs": [
+        "maclane:I.7:def1",
+        "maclane:I.5:ex4"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "R-Mod and variants (Mod-R, R-Mod-S, Vct_F)",
+      "statement_summary": "For a small ring R, the category R-Mod has as objects all small left R-modules and as arrows all R-linear maps; in it monics are the monomorphisms, epis the epimorphisms, and the zero module is a null object. For a field F, F-Mod (also written Vct_F) is the category of vector spaces over F. Mod-R denotes right R-modules; for rings R, S, R-Mod-S denotes small R-S-bimodules (left R-, right S-modules A with r(a s) = (r a) s for all r, a, s). Categories of small algebraic objects of any type are constructed similarly.",
+      "book_section": "I.7",
+      "book_page": "25",
+      "pdf_pages": [
+        35
+      ],
+      "cross_refs": [
+        "maclane:I.7:def1",
+        "maclane:I.5:def8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction4",
+      "kind": "construction",
+      "number": null,
+      "name": "Top, the category of small topological spaces",
+      "statement_summary": "Top has as objects all small topological spaces and as morphisms all continuous maps. Its monics are the injections and its epis the surjections; the one-point space is terminal and the empty space initial. One may similarly form the categories of all small Hausdorff spaces or of all small compact Hausdorff spaces.",
+      "book_section": "I.7",
+      "book_page": "25",
+      "pdf_pages": [
+        35
+      ],
+      "cross_refs": [
+        "maclane:I.5:def7"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction5",
+      "kind": "construction",
+      "number": null,
+      "name": "Toph, the homotopy category of spaces",
+      "statement_summary": "Toph has as objects all small topological spaces and as morphisms X -> Y the homotopy classes of continuous maps f : X -> Y (homotopic maps determine the same morphism); composition is composition of homotopy classes. In Toph the homotopy class of an injection need not be monic (e.g. the bounding circle of a disc), exhibiting a category whose arrows are not functions. Other homotopy-theoretic categories mentioned: CW-complexes, simplicial sets, compactly generated spaces, Kan complexes.",
+      "book_section": "I.7",
+      "book_page": "25",
+      "pdf_pages": [
+        35,
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.7:construction4",
+        "maclane:I.5:def3"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction6",
+      "kind": "construction",
+      "number": null,
+      "name": "Set_*, the category of small pointed sets",
+      "statement_summary": "A pointed set is a nonvoid set P with a selected base point *_P; Set_* has as objects all small pointed sets and as morphisms the functions carrying base point to base point. The one-point set {*} is both initial and terminal (a null object) in Set_*.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.5:def8"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:prop2",
+      "kind": "proposition",
+      "number": null,
+      "name": "monic/epi/invertible characterization in Set_*",
+      "statement_summary": "In Set_*, a morphism f is monic if and only if it has a left inverse, epi if and only if it has a right inverse, and invertible if and only if it is both monic and epi.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.7:construction6",
+        "maclane:I.5:def5"
+      ],
+      "flags": [
+        "unnumbered-prose-proposition",
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction7",
+      "kind": "construction",
+      "number": null,
+      "name": "Top_* and Toph_*, pointed spaces and their homotopy category",
+      "statement_summary": "Top_* has as objects small topological spaces with a designated base point and as morphisms the continuous maps preserving base points; Toph_* has the same objects with morphisms the homotopy classes of base-point-preserving continuous maps, where the homotopies themselves preserve base points. Both arise in homotopy theory where a base point is needed to define fundamental and higher homotopy groups.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.7:construction4",
+        "maclane:I.7:construction5",
+        "maclane:I.5:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:construction8",
+      "kind": "construction",
+      "number": null,
+      "name": "Rel, the category of sets and relations",
+      "statement_summary": "Rel has as objects all small sets and as arrows R : X -> Y the binary relations R subset of X x Y; the composite of R : X -> Y and S : Y -> Z is the relative product S . R = {<x, z> | exists y with <x, y> in R and <y, z> in S}; the identity on X is the identity relation {<x, x>}. The category axioms hold; Rel contains Set as a subcategory (each function interpreted as its graph relation); Rel carries the extra structure of a converse relation R-dagger : Y -> X for each R : X -> Y.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.6:construction1"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    },
+    {
+      "id": "maclane:I.7:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "concrete category",
+      "statement_summary": "A concrete category is a pair <C, U> where C is a category and U : C -> Set is a faithful functor. Equivalently (identifying each arrow f with the function U f): a category in which every object c comes with an underlying set U c, every arrow b -> c is an actual function U b -> U c, and composition of arrows is composition of functions.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.6:construction1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.7:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "concreteness of the large categories; Toph and Rel are not concrete",
+      "statement_summary": "Many of the explicit large categories of this section are concrete relative to their evident forgetful functor to Set, but this is not so for Toph or for Rel (no faithful underlying-set functor); the notion of category is simpler and more abstract than that of concrete category.",
+      "book_section": "I.7",
+      "book_page": "26",
+      "pdf_pages": [
+        36
+      ],
+      "cross_refs": [
+        "maclane:I.7:def2",
+        "maclane:I.7:construction5",
+        "maclane:I.7:construction8"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "maclane:I.8:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "hom-set",
+      "statement_summary": "For objects a and b of a category C, the hom-set hom_C(a, b) is the set of all arrows of C with domain a and codomain b; notation variants C(a, b), hom(a, b), (a, b), (a, b)_C.",
+      "book_section": "I.8",
+      "book_page": "27",
+      "pdf_pages": [
+        37
+      ],
+      "cross_refs": [],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "category defined by hom-sets",
+      "statement_summary": "A (small) category may be given by hom-set data: (i) a set of objects; (ii) a function assigning to each ordered pair <a, b> of objects a set hom(a, b); (iii) for each ordered triple <a, b, c> a composition function hom(b, c) x hom(a, b) -> hom(a, c), <g, f> |-> g . f; (iv) for each object b an identity element 1_b in hom(b, b); subject to the associativity and unit axioms (associativity restatable as a commutative diagram of products of hom-sets) plus the disjointness axiom (v): <a, b> different from <a', b'> implies hom(a, b) and hom(a', b') are disjoint.",
+      "book_section": "I.8",
+      "book_page": "27",
+      "pdf_pages": [
+        37
+      ],
+      "cross_refs": [
+        "maclane:I.8:def1"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "equivalence with the arrows-only definition; forcing disjointness",
+      "statement_summary": "The hom-set definition of a category is equivalent to the original arrows-and-objects definition of section I.2. The disjointness axiom (v) only ensures each arrow has a definite domain and codomain: if it fails, it can be reinstated by relabelling — replace each hom(a, b) by {a} x hom(a, b) x {b}, tagging each arrow with its domain and codomain. Some authors omit axiom (v).",
+      "book_section": "I.8",
+      "book_page": "27",
+      "pdf_pages": [
+        37
+      ],
+      "cross_refs": [
+        "maclane:I.8:def2"
+      ],
+      "flags": [
+        "stated-without-proof"
+      ]
+    },
+    {
+      "id": "maclane:I.8:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "functor described via hom-sets",
+      "statement_summary": "A functor T : C -> B in hom-set terms is an object function T together with a collection of functions T_{c,c'} : C(c, c') -> B(T c, T c') (f |-> T f) such that each T_{c,c} carries 1_c to 1_{Tc} and every square relating the composition functions of C and B to T_{c',c''} x T_{c,c'} and T_{c,c''} commutes.",
+      "book_section": "I.8",
+      "book_page": "28",
+      "pdf_pages": [
+        38
+      ],
+      "cross_refs": [
+        "maclane:I.8:def2"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "natural transformations via hom-sets (reader task)",
+      "statement_summary": "The reader is left to describe a natural transformation tau : S -> T in hom-set terms, as a family of assignments expressed through functions C(c, c') -> B(S c, T c').",
+      "book_section": "I.8",
+      "book_page": "28",
+      "pdf_pages": [
+        38
+      ],
+      "cross_refs": [
+        "maclane:I.8:def3"
+      ],
+      "flags": [
+        "reader-exercise-in-prose"
+      ]
+    },
+    {
+      "id": "maclane:I.8:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "Ab-category (preadditive category)",
+      "statement_summary": "An Ab-category (preadditive category) is a category A in which each hom-set A(a, b) is an additive abelian group and composition is bilinear: for f, f' : a -> b and g, g' : b -> c, (g + g') . (f + f') = g . f + g . f' + g' . f + g' . f'. Examples: Ab, R-Mod, Mod-R.",
+      "book_section": "I.8",
+      "book_page": "28",
+      "pdf_pages": [
+        38
+      ],
+      "cross_refs": [
+        "maclane:I.8:def1",
+        "maclane:I.7:construction1",
+        "maclane:I.7:construction3"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "Ab-category via tensor product data",
+      "statement_summary": "Because composition is bilinear it factors as a linear map A(b, c) tensor A(a, b) -> A(a, c) (tensor over Z), and an Ab-category can be defined completely in these terms without presupposing a category: (i) a set of objects; (ii) an abelian group A(b, c) for each ordered pair; (iii) for each ordered triple a composition morphism of abelian groups A(b, c) tensor A(a, b) -> A(a, c), g tensor f |-> g . f; (iv) for each object a morphism Z -> A(a, a) (determined by the image of 1, written 1_a); satisfying the associative and unit laws for composition, stated equationally or by diagrams.",
+      "book_section": "I.8",
+      "book_page": "28",
+      "pdf_pages": [
+        38,
+        39
+      ],
+      "cross_refs": [
+        "maclane:I.8:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:remark3",
+      "kind": "remark",
+      "number": null,
+      "name": "enriched categories",
+      "statement_summary": "The tensor-data definition of an Ab-category is the definition of category-by-hom-sets with (Set, cartesian product, one-point set) replaced by (Ab, tensor product, Z). This generalizes evidently to categories A whose hom-objects A(a, b) live in any category equipped with a multiplication like tensor and a unit like Z: these are the enriched categories (Kelly).",
+      "book_section": "I.8",
+      "book_page": "29",
+      "pdf_pages": [
+        39
+      ],
+      "cross_refs": [
+        "maclane:I.8:def2",
+        "maclane:I.8:def5"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:def6",
+      "kind": "definition",
+      "number": null,
+      "name": "additive functor",
+      "statement_summary": "For Ab-categories A and B, a functor T : A -> B is additive when every function T : A(a, a') -> B(T a, T a') is a homomorphism of abelian groups, i.e. T(f + f') = T f + T f' for all parallel pairs f, f'. The composite of additive functors is additive.",
+      "book_section": "I.8",
+      "book_page": "29",
+      "pdf_pages": [
+        39
+      ],
+      "cross_refs": [
+        "maclane:I.8:def4"
+      ],
+      "flags": []
+    },
+    {
+      "id": "maclane:I.8:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "Ab-cat, the category of small Ab-categories",
+      "statement_summary": "Ab-cat denotes the category of all small Ab-categories, with arrows the additive functors between them.",
+      "book_section": "I.8",
+      "book_page": "29",
+      "pdf_pages": [
+        39
+      ],
+      "cross_refs": [
+        "maclane:I.8:def4",
+        "maclane:I.8:def6"
+      ],
+      "flags": [
+        "unnumbered-construction"
+      ]
+    }
+  ]
+}

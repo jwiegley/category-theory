@@ -1,0 +1,22 @@
+[
+  {
+    "item_id": "maclane:II.2:construction2",
+    "issue": 227,
+    "append_block": "### Also covered by\nMac Lane §II.2 (book p. 33, PDF 43), item `maclane:II.2:construction2`: the *contravariant* power-set functor — object action the power set, arrow action the inverse image f^{-1} : P(Y) -> P(X), a functor Set^op -> Set. New aspect beyond the covariant functor already in scope here: the inverse-image arrow action and contravariant functoriality (one PR reasonably builds both functors over the same power-set carrier). Note the categorical generalization already in-tree: `Sub : C^op ⟶ Sets` by pullback reindexing (Theory/Subobject/Functor.v:180) and the topos-level `Pow a := Ω ^ a` (Structure/Topos.v:129); what this issue adds is the concrete Set-level instance, covariant and now also contravariant, neither of which is instantiated at Coq/Sets/FinSet today."
+  },
+  {
+    "item_id": "maclane:II.2:construction3",
+    "issue": 237,
+    "append_block": "### Also covered by\nMac Lane §II.2 (book pp. 33–34, PDF 43–44), item `maclane:II.2:construction3`: the dual-vector-space assignment V |-> V*, f |-> f* as a contravariant endofunctor on the category of *all* vector spaces over a fixed field. New aspect beyond the double-dual natural isomorphism already in scope here: the single-dual contravariant functor must be constructed first (it is the raw material of the double-dual functor), and II.2 asks for it on all vector spaces, not only the finite-dimensional fragment — the resolving PR should expose the dual functor as a named artifact, with the finite-dimensional restriction feeding the double-dual isomorphism."
+  },
+  {
+    "item_id": "maclane:II.3:ex4",
+    "issue": 221,
+    "append_block": "### Also covered by\nMac Lane §II.3 Exercise 4 (book p. 40, PDF 50), item `maclane:II.3:ex4`: describe the opposite of the matrix category. New aspect beyond constructing Matr_K: the standard answer — transposition induces an isomorphism between Matr_K^op and Matr_K (dimensions swap roles; composition reverses to the transposed product) — should be recorded as a named self-duality result in the same PR that builds Matr_K."
+  },
+  {
+    "item_id": "maclane:II.8:remark1",
+    "issue": 260,
+    "append_block": "### Also covered by\nMac Lane §II.8 (book pp. 51–52, PDF 61–62), item `maclane:II.8:remark1`: the homotopy category Toph arises as the quotient category of Top by the homotopy congruence (homotopy is already an equivalence relation preserved by composition, so no least-congruence completion is needed). New aspect: the resolving PR should construct Toph by instantiating the in-tree hom-congruence quotient machinery (`HomCongruence`/`Quotient`, Construction/Quotient.v:226/254) at the homotopy relation, rather than building the quotient by hand — recording homotopy-is-a-congruence as a named lemma."
+  }
+]

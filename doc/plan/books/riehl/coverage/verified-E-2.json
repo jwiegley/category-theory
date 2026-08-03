@@ -1,0 +1,361 @@
+[
+ {
+  "id": "riehl:E.4:def-presheaf",
+  "classification": "PRESENT",
+  "aliases": [
+   "presheaf on C",
+   "contravariant set-valued functor C^op ⟶ Set",
+   "Presheaf / Presheaves (Theory/Sheaf.v), Copresheaf",
+   "functor category [C^op, Sets] (Instance/Fun.v), Set^{C^op}",
+   "diagram category / target of the Yoneda embedding"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 124,
+    "symbol": "Presheaf",
+    "intree_statement": "Definition Presheaf (U C : Category) := U^op ⟶ C."
+   },
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 127,
+    "symbol": "Presheaves",
+    "intree_statement": "Definition Presheaves {U C : Category} := [U^op, C].   (* [_,_] is the functor category of Instance/Fun.v; at C := Sets this is Set^{U^op} *)"
+   },
+   {
+    "file": "Functor/Hom/Yoneda.v",
+    "line": 133,
+    "symbol": "Yoneda_Lemma",
+    "intree_statement": "Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := { to := {| morphism := fun x => transform[x] A id |}; ... }   (* the presheaf category is in force as a genuine category: [Presheaves X Y] is its hom-setoid of natural transformations *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a small category C, a presheaf on C is a contravariant set-valued functor on C, i.e. an object of the functor category Set^{C^op}.",
+   "intree": "Definition Presheaf (U C : Category) := U^op ⟶ C.  Definition Presheaves {U C : Category} := [U^op, C].",
+   "strength_comparison": "same, and in-tree strictly more general on two axes. (i) The value category is arbitrary (C), Riehl's case being C := Sets, which the library instantiates wherever it matters (Theory/Sheaf.v:192's Sheaf takes a Presheaf C Sets; Theory/Sheaf/Category.v works over Presheaves C Sets). (ii) SMALLNESS of the base is not required, and cannot be: the library tracks size by universe polymorphism (universes {o h p} on Category) rather than by a smallness predicate, so [U^op, C] is formed for any U at whatever universe level results. That is a generalization, not a weakening — every small C admits the construction. The contravariance is literal (U^op via Construction/Opposite.v, where C^op^op = C by reflexivity), and the covariant variant is declared alongside as Copresheaf/Copresheaves (Theory/Sheaf.v:130,133)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached the same evidence independently. Verified in-tree at the cited lines: Theory/Sheaf.v:124 `Definition Presheaf (U C : Category) := U^op ⟶ C.`, :127 `Definition Presheaves {U C : Category} := [U^op, C].` (and :130 Copresheaf, :133 Copresheaves) — quotes are exact. Functor/Hom/Yoneda.v:133 `Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A` is verbatim, and it does use `Presheaves` applied to two functors, i.e. as a genuine category's hom-setoid, so the definition is not a dead abbreviation. Both files are registered in _CoqProject. Contravariance is literal via Construction/Opposite.v:106-110 (`hom x y := hom y x`, `compose f g := g ∘ f`). The strength_comparison's two generalization axes (arbitrary value category; smallness by universe polymorphism rather than a predicate) are accurate and are generalizations, not weakenings — PRESENT is right under the frozen definition."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-grothendieck-topos",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Grothendieck topos",
+   "reflective full subcategory of a presheaf category / left-exact localization",
+   "Reflective (reflector ⊣ Incl), reflective_adj, Localization",
+   "sheaf topos, category of sheaves on a site, Sheaves_Incl",
+   "lex reflector / left-exact left adjoint / finite-limit-preserving functor"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Reflective.v",
+    "line": 60,
+    "symbol": "Reflective",
+    "intree_statement": "Record Reflective {C : Category} (S : Subcategory C) := { reflective_full : Construction.Subcategory.Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }."
+   },
+   {
+    "file": "Theory/Sheaf/Category.v",
+    "line": 94,
+    "symbol": "Sheaves_Full",
+    "intree_statement": "Lemma Sheaves_Full : Functor.Full Sheaves_Incl.   (* with Sheaves_Incl : Sheaves ⟶ @Presheaves C Sets, Sheaves := Sub (@Presheaves C Sets) Sheaves_sub, and Sheaves_Faithful at line 103 — i.e. Sheaves really is a FULL subcategory of the presheaf category *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A Grothendieck topos is a reflective full subcategory E ⊆ Set^{C^op} of a presheaf category on a small category C — the inclusion has a left adjoint L — subject to the further requirement that L preserves finite limits.",
+   "intree": "Record Reflective {C : Category} (S : Subcategory C) := { reflective_full : Full C S; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }; together with Sheaves := Sub (@Presheaves C Sets) Sheaves_sub and Sheaves_Full : Functor.Full Sheaves_Incl.",
+   "strength_comparison": "intree-weaker: the two structural ingredients (a full subcategory of a presheaf category; a reflection reflector ⊣ Incl) are each in force, but the definition itself — their conjunction plus LEFT-EXACTNESS of the reflector — is nowhere stated, and its distinctive clause is nowhere named (though, per the Phase-D correction in `gap`, it is assemblable from TerminalFunctor + CartesianFunctor + cospan-shaped PreservesLimit). Note the shape mismatch too: Reflective is stated for a Subcategory S of C (a selected-objects/selected-morphisms record, Construction/Subcategory.v), so an arbitrary category E equipped with a fully faithful embedding into presheaves would first have to be presented as such a Subcategory."
+  },
+  "gap": "Three distinct pieces are missing. (1) No definition named or bundled as a Grothendieck topos exists: `grep -rn 'GrothendieckTopos\\|Grothendieck_Topos' --include='*.v' .` returns 0 hits, and the only two occurrences of the phrase 'Grothendieck topos' are prose (Theory/Sheaf.v:83, Structure/Topos.v:54). (2) The left-exactness clause has NO in-tree counterpart: there is no predicate for a functor preserving finite limits, and none can be assembled from Structure/Limit/Preservation.v, whose PreservesLimit (line 48) / PreservesAllLimits (line 229) are indexed by a diagram functor G : J ⟶ C with no finiteness condition available on J (`grep -rn 'PreservesFinite\\|FiniteLimits\\|left exact' --include='*.v' .` — 0 hits; 'finite limits' occurs only in prose headers). (3) No instance: the one candidate reflective subcategory of presheaves, Sheaves, has no reflector — sheafification (the left adjoint to Sheaves_Incl) is an explicit named deferral, ledger entry 1 (Theory/Sheaf/Category.v:49-51), so `Reflective Sheaves_sub` is never inhabited. [PHASE-D CORRECTION to piece (2): the claim that left-exactness has NO in-tree counterpart and is 'not even expressible' is overstated. Finite-limit preservation IS partly bundled and wholly assemblable: Functor/Structure/Terminal.v:43 Class TerminalFunctor (comparison iso 1 ≅ F 1 plus fmap_one) and Functor/Structure/Cartesian.v:49 Class CartesianFunctor (comparison iso F (x × y) ≅ F x × F y plus fmap_exl/fmap_exr/fmap_fork) are exactly preservation of the nullary and binary products, and preservation of pullbacks is statable as PreservesLimit (Structure/Limit/Preservation.v:48) at cospan-shaped diagrams over Instance/Roof.v (whose header records that a limit over a functor out of Roof^op is a pullback, cf. Structure/Pullback/Limit.v). Since Structure/Topos.v:20-25 itself DEFINES 'finite limits' for topos purposes as terminal + binary products + pullbacks, a lex-reflector predicate is a conjunction of existing pieces. What remains true, and is the real gap, is that no such predicate is NAMED or BUNDLED, and no finiteness condition on an arbitrary shape category J exists.]",
+  "negative_search_log": [
+   "grep -rn 'GrothendieckTopos\\|Grothendieck_Topos' --include='*.v' . — 0 hits",
+   "grep -rniF 'left exact' --include='*.v' . — 0 hits; grep -rniF 'lex reflector' — 0 hits",
+   "grep -rn 'PreservesFinite\\|FiniteLimits\\|finite limits' --include='*.v' . — 5 hits, all in comment headers (Structure/Topos.v:20,58; Structure/Regular.v:30,62; Structure/Pullback.v:272)",
+   "grep -rniF 'sheafification' --include='*.v' . — 6 hits, all prose; Theory/Sheaf/Category.v:49-51 records it as ledger deferral 1"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Classification PARTIAL confirmed; evidence checks out but ONE GAP CLAIM IS OVERSTATED and I have corrected it in the record. Verified: Construction/Reflective.v:60 `Record Reflective {C : Category} (S : Subcategory C) := { reflective_full; reflector : C ⟶ Sub C S; reflective_adj : reflector ⊣ Incl C S }` — exact. Theory/Sheaf/Category.v:94 `Lemma Sheaves_Full : Functor.Full Sheaves_Incl.` — exact, with Sheaves_Incl at :84 and Sheaves_Faithful at :103. My own blind greps reproduce 0 hits for GrothendieckTopos/Grothendieck_Topos and confirm the only two 'Grothendieck topos' occurrences are prose (Theory/Sheaf.v:83, Structure/Topos.v:54). Sheafification is a disclosed ledger-1 deferral (Theory/Sheaf/Category.v:47,49-51), so `Reflective Sheaves_sub` is indeed uninhabited. CORRECTION (recorded in `gap`, original text preserved as a prefix): the claim that left-exactness 'is not even expressible' / 'no predicate for a functor preserving finite limits' is FALSE as stated. Functor/Structure/Terminal.v:43 `Class TerminalFunctor` (F 1 ≅ 1 with the coherence law) and Functor/Structure/Cartesian.v:49 `Class CartesianFunctor` (F (x × y) ≅ F x × F y with fmap_exl/fmap_exr/fmap_fork) ARE finite-limit-preservation predicates for the terminal object and binary products; and pullback preservation is expressible as `PreservesLimit G F` (Structure/Limit/Preservation.v:48) at a cospan diagram G : Roof^op ⟶ C, the shape category Instance/Roof.v existing precisely for that (its header points at Structure/Pullback/Limit.v). Since Structure/Topos.v:20-25 itself takes 'finite limits' to MEAN terminal + binary products + pullbacks, left-exactness of the reflector is assemblable in-tree as TerminalFunctor + CartesianFunctor + cospan-shaped PreservesLimit. What is genuinely true is the narrower claim: no such predicate is BUNDLED or NAMED, and no finiteness condition on an arbitrary shape J exists. This does not move the classification (no Grothendieck-topos definition exists), but it materially changes the work-to-be-done a Phase-E issue would describe."
+  }
+ },
+ {
+  "id": "riehl:E.4:remark-cocomplete-and-elementary",
+  "classification": "PARTIAL",
+  "aliases": [
+   "a Grothendieck topos is cocomplete",
+   "reflector as left Kan extension along Yoneda / free cocompletion (Lan, LeftKan)",
+   "every Grothendieck topos is an elementary topos",
+   "FinSet / Fin is an elementary topos but not a Grothendieck topos",
+   "Fin is neither complete nor cocomplete (no infinite products/coproducts)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Topos.v",
+    "line": 38,
+    "symbol": "FinSet_Topos",
+    "intree_statement": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := FinSet_Terminal; topos_cartesian := FinSet_Cartesian; topos_pullbacks := FinSet_Pullbacks; topos_closed := FinSet_Closed; topos_classifier := FinSet_Classifier |}.   (* skeletal finite sets ARE an elementary topos, with Pow 2 = 4 by eq_refl at line 52 *)"
+   }
+  ],
+  "statement_record": {
+   "book": "(1) A Grothendieck topos is cocomplete, so its defining adjunction can instead be produced from the composite of the reflector with the Yoneda embedding, the reflector being the left Kan extension of that functor on representables. (2) Every Grothendieck topos is an elementary topos. (3) The converse fails: Fin is an elementary topos that is not a Grothendieck topos, one reason being that it is neither complete nor cocomplete.",
+   "intree": "Definition FinSet_Topos : ElementaryTopos FinSet := {| topos_terminal := ...; topos_classifier := FinSet_Classifier |}.",
+   "strength_comparison": "intree-weaker: only the POSITIVE half of clause (3) is asserted — skeletal finite sets form an elementary topos, and with a computing witness (Pow 2 = 4 by eq_refl). Clauses (1) and (2), and the negative half of (3), have no in-tree counterpart. In-tree the elementary-topos class also carries finite limits explicitly as terminal + binary products + pullbacks (Structure/Topos.v:112-118), with the header at lines 22-25 disclosing that the pullback/equalizer reduction is not formalized; that is a presentational difference, not a weakening of what FinSet_Topos asserts."
+  },
+  "gap": "Clause (1) is entirely absent: Cocomplete exists only as a definition schema (Structure/Complete.v:119, `Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F`) with NO inhabitant anywhere — `grep -rn '@Cocomplete\\|: Cocomplete' --include='*.v' .` finds only the definition itself and the hypothesis position in Theory/Adamek/Corollaries.v:61 — so 'a Grothendieck topos is cocomplete' cannot even be stated (there is no Grothendieck topos either, see riehl:E.4:def-grothendieck-topos), and the 'reflector = Lan along Yoneda' reformulation is missing: Theory/Kan/Extension.v:222 has the LeftKan class, but nothing connects it to the Yoneda embedding of Functor/Hom/Yoneda.v (`grep -rniF 'free cocompletion' --include='*.v' .` — 1 hit, prose only, Theory/Sheaf.v:117). Clause (2) is absent for want of the antecedent notion. The negative half of clause (3) — that FinSet is neither complete nor cocomplete, and hence not a Grothendieck topos — is absent: FinSet is shown to have finite products, chosen pullbacks, exponentials, coproducts and pushouts, but no in-tree statement denies it infinite (co)products or any other property.",
+  "negative_search_log": [
+   "grep -rn '@Cocomplete\\|: Cocomplete\\|Cocomplete ' --include='*.v' . — the only hits are Structure/Complete.v:119 (the definition) and Theory/Adamek/Corollaries.v:51,61 (a hypothesis); no instance is ever constructed",
+   "grep -rniF 'free cocompletion' --include='*.v' . — 1 hit, Theory/Sheaf.v:117, prose",
+   "grep -rn 'Lan \\|LeftKan' --include='*.v' . — Theory/Kan/Extension.v only; no Yoneda connection"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently found FinSet_Topos as the only in-tree touchpoint. Verified Instance/FinSet/Topos.v:38 `Definition FinSet_Topos : ElementaryTopos FinSet := {| ... |}` and the computing sanity checks at :52 (`@Pow FinSet FinSet_Topos 2%nat = 4%nat := eq_refl`) and :54 — quote accurate. Structure/Topos.v:112 is indeed `Class ElementaryTopos` with the five fields cited, and the header's finite-limits disclosure is at :20-25 (the record says 22-25; off by two lines, immaterial). Independently confirmed the gap: `Cocomplete` (Structure/Complete.v:119) has NO inhabitant anywhere — the only other occurrences are Theory/Adamek/Corollaries.v:51 (prose) and :61 (a hypothesis binder). 'free cocompletion' occurs once, prose only (Theory/Sheaf.v:117); Theory/Kan/Extension.v has Lan/Ran but nothing ties either to Functor/Hom/Yoneda.v's embedding, so clause (1) is genuinely unstatable. Clause (2) has no antecedent. The negative half of clause (3) (Fin not complete/cocomplete, hence not Grothendieck) is absent: I found no in-tree statement denying FinSet any infinite (co)product. PARTIAL on the strength of the positive half of clause (3) is the honest call and is consistent with how the batch treats named-counterpart-exists cases."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-site",
+  "classification": "PARTIAL",
+  "aliases": [
+   "site",
+   "Grothendieck topology / coverage / pretopology",
+   "covering family {U_i → U}",
+   "Class Site, coverage, coverage_condition (Theory/Sheaf.v)",
+   "sieve / covering sieve"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 159,
+    "symbol": "Site",
+    "intree_statement": "Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition (u : C) (fs : covering_family u) (v : C) (g : v ~> u) : ∃ hs : covering_family v, ForallT (λ '(vⱼ; hⱼ), ExistsT (λ '(uᵢ; fᵢ), ∃ k : vⱼ ~> uᵢ, fᵢ ∘ k ≈ g ∘ hⱼ) (`2 fs)) (`2 hs) }."
+   }
+  ],
+  "statement_record": {
+   "book": "A site is a small category C equipped, for each object U, with a specified COLLECTION of covering families {U_i → U} of morphisms into U, these collections required to satisfy a weak pullback condition.",
+   "intree": "Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition ... : ∃ hs : covering_family v, ForallT (λ '(vⱼ; hⱼ), ExistsT (λ '(uᵢ; fᵢ), ∃ k, fᵢ ∘ k ≈ g ∘ hⱼ) (`2 fs)) (`2 hs) }.",
+   "strength_comparison": "intree-weaker on the data, faithful on the axiom. The axiom coverage_condition is exactly the weak/factorization form Riehl alludes to — given a covering family of u and any g : v ~> u there is a covering family of v each of whose legs composes with g so as to factor through some leg of the original — which is the classical coverage axiom and does NOT demand actual pullbacks, matching 'weak pullback condition'. The DATA is strictly weaker: coverage supplies ONE covering family per object rather than a collection of them, and each family is finite (a Vector.t), whereas Riehl's covering families are arbitrary. The in-tree comment at Theory/Sheaf.v:164-166 concedes this in so many words."
+  },
+  "gap": "Two concrete deficits. (1) Data: `coverage (u : C) : covering_family u` selects EXACTLY ONE covering family per object; a genuine coverage/Grothendieck topology assigns a collection (a Type or set of families) to each object, so the in-tree class cannot express 'U is covered by this family AND by that other one'. The file says so itself at Theory/Sheaf.v:164-166 ('less general than a full coverage'), as does Theory/Sheaf/Category.v:29-31. (2) Each covering family is a FINITE vector (sigT (Vector.t ...)), excluding infinite covers — the open covers of the motivating topological example are not in general finite. Additionally, no Site instance exists anywhere in the tree (`grep -rn 'Site' --include='*.v' .` yields only the class, its uses inside Theory/Sheaf.v, and the Context binder at Theory/Sheaf/Category.v:68), and smallness of C is not tracked (universe polymorphism instead of a smallness predicate — a generalization, not a defect).",
+  "negative_search_log": [
+   "grep -rniE 'sieve|grothendieck topolog|coverage' --include='*.v' . — the only code hits are Theory/Sheaf.v's coverage/coverage_condition; 'sieve' appears once, in prose (Construction/Localization.v:101)",
+   "grep -rn 'Site\\b' --include='*.v' . — 6 hits: the class (Theory/Sheaf.v:159), its use in Sheaf (192), two comment mentions, and Theory/Sheaf/Category.v:29,68; NO instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found the same `Class Site` and reached the same PARTIAL. Verified Theory/Sheaf.v:159 `Class Site (C : Category) := { covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u)); coverage (u : C) : covering_family u; coverage_condition ... }` — the quoted body matches the source at :159-179 exactly, including the ForallT/ExistsT factorization form. The two stated deficits are real and both are self-disclosed: the single-family restriction at Theory/Sheaf.v:164-166 ('less general than a full coverage', line 166 verbatim) and Theory/Sheaf/Category.v:29-31; finiteness is forced by `Vector.t`. Independently confirmed NO `Site` instance exists anywhere (the only occurrences are the class, its use in `Sheaf` at :192, comments, and the Context binder at Theory/Sheaf/Category.v:68) — so the class is never exercised. 'sieve' appears once, prose, in Construction/Localization.v. The strength_comparison correctly separates a faithful axiom from strictly weaker data; that is honest, not generous."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-sheaf",
+  "classification": "PARTIAL",
+  "aliases": [
+   "sheaf on a topological space, sheaf condition",
+   "equalizer condition P(U) ⇉ ∏ P(U_α) ⇉ ∏ P(U_α ∩ U_β)",
+   "unique gluing / matching family / descent condition",
+   "Class Sheaf, restriction (Theory/Sheaf.v)",
+   "poset of opens O(X), presheaf on O(X), separated presheaf"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Sheaf.v",
+    "line": 192,
+    "symbol": "Sheaf",
+    "intree_statement": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, let '(i; f) := coverage u in ForallT (λ '(uᵢ; fᵢ), ∀ xᵢ : X uᵢ, (∀ (v : C) (g : v ~> uᵢ), ForallT (λ '(uⱼ; fⱼ), ∀ h : v ~> uⱼ, fᵢ ∘ g ≈ fⱼ ∘ h → ∀ xⱼ : X uⱼ, fmap[X] g xᵢ ≈ fmap[X] h xⱼ) f) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ) f }."
+   }
+  ],
+  "statement_record": {
+   "book": "Taking C := O(X), the poset of opens of a space X, a presheaf P assigns a set P(U) to each open with restriction maps along inclusions; P is a SHEAF exactly when, for every open cover {U_α} of every open U, the fork P(U) → ∏_α P(U_α) ⇉ ∏_{α,β} P(U_α ∩ U_β) given by the two restrictions is an equalizer in Set.",
+   "intree": "Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ∀ u : C, ... ∀ xᵢ : X uᵢ, (compatibility antecedent) → ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ }.",
+   "strength_comparison": "intree-weaker, and materially so. The in-tree predicate is the abstract-site unique-gluing form (∃! x with prescribed restrictions), not the equalizer fork, and it is stated over the single chosen covering family of a Site rather than over all open covers. Worse, the library's own review (Theory/Sheaf/Category.v:32-42) establishes that the condition as written is not the textbook one even for that one family: the gluing clause is PER-LEG (one section over one uᵢ, not a simultaneous matching family), and the compatibility antecedent quantifies over ALL sections xⱼ of the other leg, so instantiating v := uᵢ, g := h := id and j := i forces xᵢ ≈ xⱼ for every xⱼ : X uᵢ — the hypothesis is satisfiable only when X uᵢ is a subsingleton, making the condition vacuous at any covered object with two inequivalent sections."
+  },
+  "gap": "Three separable deficits. (1) Presentation: the equalizer-fork formulation Riehl gives — the canonical fork into ∏_α P(U_α) ⇉ ∏_{α,β} P(U_α ∩ U_β) being an equalizer — is not stated; the in-tree condition is the element-level unique-gluing form, and no lemma relates the two (the library has Structure/Equalizer.v and Structure/Limit/Product.v but never assembles the sheaf fork). (2) Correctness: by the library's own analysis at Theory/Sheaf/Category.v:32-42 the in-tree gluing clause is per-leg and its compatibility antecedent is mis-quantified, so it is VACUOUS beyond subsingleton fibres; re-founding Sheaf on honest matching families is a named deferral (ledger entry 1, Theory/Sheaf/Category.v:46-47). (3) The motivating example is absent: there is no poset of opens O(X) and no topological space anywhere in the tree, hence no site instance to run the definition on.",
+  "negative_search_log": [
+   "grep -rniE 'topological space|open set|Locale|Frame\\b|Opens' --include='*.v' . — no hits denoting a space or a lattice of opens (the 'Frame' hits are Instance/Lambda/Full.v evaluation frames)",
+   "grep -rn 'Site' --include='*.v' . — no Site instance exists, so Sheaf is never instantiated"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reasons. Verified Theory/Sheaf.v:192 `Class Sheaf `{@Site C} (X : Presheaf C Sets) := { restriction : ... }` — quote matches :192-215 including the per-leg `∀ xᵢ : X uᵢ` placement and the `∃! x : X u, fmap[X] fᵢ x ≈ xᵢ` conclusion sitting INSIDE the outer ForallT, which is exactly what makes the condition per-leg. The vacuity analysis cited to Theory/Sheaf/Category.v:32-42 is present verbatim there ('instantiating [v := u_i], [g := h := id] and the SAME leg [j := i] ... satisfiable only when [X u_i] is a subsingleton'), and the ledger-1 deferral is at :46-47. Independently confirmed the negative log: no topological space, locale, frame-of-opens or O(X) anywhere (the only `Frame` hits are Instance/Lambda/Full.v evaluation frames), and no `Site` instance, so the motivating example cannot be run. The equalizer-fork presentation Riehl gives is genuinely unassembled (Structure/Equalizer.v and Structure/Limit/Product.v exist but are never combined into a sheaf fork). Note the defect I filed in problems[]: the comment block at Theory/Sheaf.v:181-190 states the CLASSICAL simultaneous-matching-family condition, contradicting the per-leg code it introduces."
+  }
+ },
+ {
+  "id": "riehl:E.4:thm1",
+  "classification": "ABSENT",
+  "aliases": [
+   "Giraud's theorem",
+   "characterization of Grothendieck toposes (SGA4 IV.1.2)",
+   "exactness properties + small generating set ⇒ topos of sheaves on a site",
+   "Giraud axioms: locally small, finite limits, disjoint universal coproducts, effective equivalence relations, every epi regular, separating set",
+   "infinitary pretopos with a generating set / lextensive + exact"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniF 'Giraud' --include='*.v' . — 2 hits, BOTH prose: Structure/Topos.v:90 ('Giraud's theorem (1972) closes the circle: an elementary topos with a small generating set, all small colimits, coproducts disjoint and universal, and equivalence relations effective is exactly a category of sheaves on a small site') and Construction/Grothendieck.v:72 (the historical Jean Giraud, on fibrations). Neither is a Coq statement.",
+   "grep -rn 'GrothendieckTopos\\|Grothendieck_Topos' --include='*.v' . — 0 hits; the antecedent/consequent of the biconditional is itself undefined (see riehl:E.4:def-grothendieck-topos)",
+   "grep -rniF 'disjoint coproduct' --include='*.v' . — 0 hits; grep -rniF 'lextensive' — 0 hits; grep -rniF 'universal colimit' — 0 hits; grep -rniF 'effective equivalence' — 0 hits; grep -rniF 'separating set' — 0 hits",
+   "grep -rniF 'pretopos' --include='*.v' . — 3 hits, all prose in Instance/Sets.v and Instance/Sets/Classifier.v",
+   "grep -rn 'locally small\\|LocallySmall' --include='*.v' . — no predicate; size is handled by universe polymorphism, so clause (i) has no statable counterpart either",
+   "Read Structure/Topos.v (whole file): the only topos definition in the tree is Class ElementaryTopos (line 112); there is no sheaf-side characterization and no biconditional of any kind."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind search found no counterpart the classifier missed. Independently reproduced: `Giraud` occurs exactly twice in .v files, both prose — Structure/Topos.v:90-93 (the quoted sentence is verbatim: 'an elementary topos with a small generating set, all small colimits, coproducts disjoint and universal, and equivalence relations effective is exactly a category of sheaves on a small site') and Construction/Grothendieck.v:72 (the historical Jean Giraud, on fibrations). No biconditional, no Coq statement, and every one of the six clauses' technical terms is separately absent (see the four definition records in this batch). 'locally small' occurs 4 times, all prose, so clause (i) has no statable counterpart — correctly attributed to universe-polymorphic size handling rather than a smallness predicate, which under the frozen rules keeps this ABSENT rather than OUT_OF_SCOPE. Minor negative-log inaccuracy, not classification-affecting: 'pretopos' has 5 .v hits, not 3 (the two extra are Construction/Cospan/Corelation.v:33,134), all still prose."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-disjoint-coproduct",
+  "classification": "ABSENT",
+  "aliases": [
+   "disjoint coproduct / disjoint sum",
+   "coproduct injections are monic",
+   "pullback of distinct coproduct inclusions is initial (inl ×_{x+y} inr ≅ 0)",
+   "extensive / lextensive category, disjoint union of objects",
+   "Monic inl, inl_monic, disjointness axiom"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniF 'disjoint coproduct' --include='*.v' . — 0 hits; grep -rniF 'lextensive' — 0 hits; grep -rniF 'extensive' — 2 hits, both prose (Structure/Initial.v:29 'used extensively by Bourbaki', Structure/Cocartesian.v:103 citing Lack–Walters, 'Introduction to extensive and distributive categories' — a citation only, no definition)",
+   "grep -n 'Class \\|Record \\|Definition \\|Theorem \\|Lemma \\|Instance \\|Corollary ' Structure/Cocartesian.v — the file defines Coprod, merge, inl, inr, left, right, cover, paws and their calculus (inl_merge, merge_comp, left_comp, ...); NOTHING asserts monicity of inl/inr or computes a pullback of inl against inr",
+   "grep -rni 'monic' --include='*.v' Structure/Cocartesian.v — 0 hits",
+   "grep -rn 'Monic inl\\|Monic (inl\\|inl_monic' --include='*.v' . — 0 hits",
+   "grep -rniE 'strict initial|initial object.*pullback|pullback.*initial object' --include='*.v' . — 0 hits; nothing pulls a coproduct inclusion back against another, in Structure/Pullback.v, Theory/Morphisms/Stability.v, or any Instance"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees: ABSENT. Independently verified the load-bearing negatives — Structure/Cocartesian.v contains ZERO occurrences of 'monic' (grep -c -i monic = 0), and there is no `Monic inl` / `Monic inr` / `inl_monic` anywhere in the tree; nothing pulls one coproduct inclusion back against another in Structure/Pullback.v, Theory/Morphisms/Stability.v, or any Instance; there is no strict-initial-object statement. 'extensive' appears twice, both prose (Structure/Initial.v:29 is the unrelated adverb; Structure/Cocartesian.v:103 is a bare Lack–Walters citation with no definition following). The ambient ingredients (Cocartesian coproducts, Monic, HasPullbacks, Initial) all exist, but under the line this batch draws consistently — PARTIAL for a NAMED counterpart or exact dual, ABSENT for generic ambient vocabulary — ABSENT is right. A Phase-E issue can nevertheless be built entirely from existing pieces; that is a cost note, not a coverage claim."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-universal-colimit",
+  "classification": "ABSENT",
+  "aliases": [
+   "universal colimit / stable colimit",
+   "colimits stable under pullback / under base change",
+   "pullback functor f* preserves colimits (Star_Functor cocontinuous)",
+   "van Kampen colimit, descent condition for colimits",
+   "pullback-stable class of cones"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniF 'universal colimit' --include='*.v' . — 0 hits; grep -rniF 'stable colimit' — 0 hits; grep -rniF 'van Kampen colimit' — 0 hits (Construction/Groupoid.v:61 mentions the van Kampen THEOREM in prose, unrelated)",
+   "grep -rniE 'stable under pullback|colimit.*stable' --include='*.v' . — the hits are all about MORPHISM classes, not colimit cones: Theory/Morphisms/Stability.v:226 monic_pullback_stable, :264 iso_pullback_stable, Structure/Regular.v:79 regular_stable (pulling a regular epi back along g yields a regular epi). NEAREST MISS and not the item: regular_stable asserts that the pulled-back map coequalizes SOME pair, not that the pullbacks of a given colimit cone's legs form a colimit cone over the pulled-back diagram.",
+   "grep -n 'Definition \\|Program Definition ' Construction/Slice/Pullback.v — only Bang_Functor (Σ_f) and Star_Functor (f*); no cocontinuity statement for Star_Functor, and no adjoint to it is constructed",
+   "grep -n 'Class \\|Definition ' Structure/Limit/Preservation.v — PreservesLimit/PreservesColimit/PreservesAllColimits are all about a FUNCTOR preserving a colimit; none is instantiated at a base-change functor, and no notion quantifies a colimit cone against pullback along an arbitrary B → A",
+   "grep -rniF 'descent' --include='*.v' . — 89 hits, every one the word 'descent' in the elementary sense of a map descending through an epi/coequalizer (Structure/Regular.v, Structure/Coequalizer.v); no descent condition for colimits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees: ABSENT, and the classifier already logged the nearest miss I found. Independently verified that every 'stable under pullback' hit concerns a MORPHISM class, never a colimit cone: Theory/Morphisms/Stability.v:226 `monic_pullback_stable`, :264 `iso_pullback_stable`, and Structure/Regular.v:79 `regular_stable {x y z} (f : x ~> z) (g : y ~> z) : RegularEpi f → RegularEpi (pullback_snd f g (pullback f g))` — which asserts the pulled-back map coequalizes SOME pair, strictly weaker than 'the pullbacks of a given colimit cone's legs form a colimit cone over the pulled-back diagram'. The classifier's characterization of that distinction is exact. Confirmed Construction/Slice/Pullback.v defines only `Bang_Functor` (:50) and `Star_Functor` (:67), with the would-be adjunction commented out at :114-121, so no cocontinuity of base change is available either. The 'descent' count of 89 is exactly right (I reproduced it) and all are the elementary sense."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-effective-equivalence-relation",
+  "classification": "ABSENT",
+  "aliases": [
+   "effective equivalence relation",
+   "internal equivalence relation (reflexive, symmetric, transitive mono R ↪ A × A)",
+   "arises as a kernel pair / is the kernel pair of its coequalizer",
+   "kernel_pair, congruence, internal congruence",
+   "exact category / effective epimorphism"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniF 'effective equivalence' --include='*.v' . — 0 hits; grep -rniF 'effective' — 3 hits, none relevant (Functor/Hom.v:43 'effectively our bifunctor'; Structure/Topos.v:92 the prose Giraud sentence; Structure/Complete.v:103 Hyland's effective topos)",
+   "grep -rniF 'internal equivalence relation' --include='*.v' . — 0 hits; grep -rniF 'internal relation' — 0 hits",
+   "grep -rni 'EquivalenceRelation|equivalence relation' --include='*.v' . — every hit refers to the SETOID equivalence ≈ on hom-sets or on carriers (Theory/Category.v:89, Instance/Sets.v:115, Construction/Quotient.v hom-congruences), never to a subobject R ↪ A × A internal to a category",
+   "grep -rn 'kernel_pair\\|KernelPair' --include='*.v' . — kernel pairs DO exist (Structure/Regular.v:46, `Definition kernel_pair {C} `{HasPullbacks C} {x y} (f : x ~> y) : Pullback f f := pullback f f`, consumed by the Regular class's regular_coeq field and by Structure/Regular/Factorization.v), but nothing states that a given relation IS a kernel pair, because there is no notion of relation to be one. The definiendum of Riehl's item therefore has no in-tree subject.",
+   "ls Instance/ | grep -i rel — Instance/Rel.v is the category of sets-and-relations, not internal relations in a category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search found nothing the classifier missed; ABSENT stands, though I record that PARTIAL would also have been defensible and the difference matters for issue scoping. Independently reproduced: 'effective' occurs exactly 3 times in .v files, none relevant (Structure/Complete.v:103 Hyland's effective topos; Structure/Topos.v:92 the prose Giraud sentence; Functor/Hom.v:43 the adverb) — count exact. There is NO internal equivalence relation (no mono R ↪ A × A with reflexivity/symmetry/transitivity data anywhere; every 'equivalence relation' hit is the setoid ≈ on hom-sets or carriers), hence the definiendum has no subject, which is the classifier's stated ground and it is correct. The one genuinely adjacent construct — Structure/Regular.v:46 `Definition kernel_pair {C} `{H : @HasPullbacks C} {x y} (f : x ~> y) : Pullback f f`, verified verbatim, consumed by the `Regular` class field `regular_coeq` (:71-76) and by Structure/Regular/Factorization.v:128 — is the very notion Riehl's definition is phrased in terms of, and the classifier did log it. Reviewer note for Phase E: 'effective' is therefore one predicate away from statable ONCE internal equivalence relations exist, and `kernel_pair` is the piece to build on."
+  }
+ },
+ {
+  "id": "riehl:E.4:def-separating-set",
+  "classification": "PARTIAL",
+  "aliases": [
+   "separating set / separating family / generating set of objects",
+   "jointly separating: f ≠ g : B ⇉ A ⇒ ∃ G, h : G → B with fh ≠ gh",
+   "generator, small generating set, dense/strong generator",
+   "representables C(G,-) jointly faithful",
+   "DUAL: cogenerating family, Cogenerator, cog_separates (Adjunction/SAFT.v)"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 99,
+    "symbol": "Cogenerator",
+    "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }."
+   },
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 223,
+    "symbol": "cogenerator_canonical_monic",
+    "intree_statement": "Lemma cogenerator_canonical_monic {C : Category} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c).   (* proof consumes cog_separates directly: `apply (cog_separates G g1 g2); intros j k` — the separation content is genuinely in force, not inert *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A separating set for E is a set of objects that is jointly separating: for any parallel pair f ≠ g : B ⇉ A there is an object G in the set and a map h : G → B with f∘h ≠ g∘h. Equivalently the representables E(G,−) jointly reflect equality of morphisms.",
+   "intree": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }.",
+   "strength_comparison": "intree-weaker only by variance, and that gap is closable definitionally. What is declared is the DUAL notion — a family into which arrows out of the codomain jointly detect equality, i.e. the representables C(−, G_j) jointly faithful. Instantiating this same record at C^op yields Riehl's separating set on the nose, because Construction/Opposite.v:106-111 defines the opposite category with `hom x y := hom y x` and `compose f g := g ∘ f` DEFINITIONALLY: at C^op, `cog_separates` reads `forall (f g : y ~> x), (forall j (k : cog_obj j ~> y), f ∘ k ≈ g ∘ k) -> f ≈ g`, which is exactly the contrapositive of the book's condition. Modulo that instantiation the strength is identical, including the packaging of the family as an index Type (smallness supplied as data, as elsewhere in SAFT), and the in-tree form is stated as the contrapositive (agreement ⇒ equality) rather than with the existential."
+  },
+  "gap": "No in-tree definition, notation, or consumer names the covariant separating/generating set. Only the dual (Cogenerator) is declared, and it is used only in its dual role (Adjunction/SAFT.v builds the product of the cogenerating family and shows the canonical map into it monic). The library's own idiom for putting a dual notion in force is to DECLARE it at the opposite category — Structure/Initial.v (Initial C unfolds to Terminal (C^op)), Construction/Reflective.v:85 (Coreflective S := @Reflective (C^op) (op_subcategory S)), Comonad := @Monad (C^op) (M^op) — and that declaration is simply not made here, so `Cogenerator (C^op)` is a term a reader must form for himself; nothing in-tree ever does. Consequently no lemma about separating sets (in particular none of the roles Giraud's condition (vi) plays) exists, and there is no instance of a separating set for any concrete category.",
+  "negative_search_log": [
+   "grep -rniF 'separating set' --include='*.v' . — 0 hits; grep -rniF 'separating family' — 0 hits; grep -rniF 'generating set' — 2 hits, both prose (Structure/Topos.v:91 the Giraud sentence, Structure/Complete.v:84 'a cogenerating set')",
+   "grep -rn 'Cogenerator' --include='*.v' . — Adjunction/SAFT.v only (record at :99, uses at :146-276) plus a prose mention in Adjunction/GAFT.v:119; no covariant counterpart",
+   "grep -rniF 'jointly' --include='*.v' . — every hit is prose except Construction/Cospan/Double.v's pushout_jointly_epic (unrelated); the relevant one, Adjunction/SAFT.v:97, glosses Cogenerator as 'the representables C(-, cog_obj j) are jointly faithful', confirming the declared notion is the dual"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "This is the dual-assumed-but-absent trap and the classifier handled it correctly; my blind pass reached the same PARTIAL. Verified Adjunction/SAFT.v:99 `Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }` — exact. Verified :223 `Lemma cogenerator_canonical_monic {C} (comp : @Complete C) (G : Cogenerator C) (c : C) : Monic (cogen_canonical comp G c)` and that its proof body really does `apply (cog_separates G g1 g2); intros j k`, so `cog_separates` is NOT an inert field — the separation content is genuinely in force, as claimed. I independently CHECKED THE DUALIZATION ARITHMETIC the strength_comparison rests on and it is correct: Construction/Opposite.v:106-110 gives `hom x y := hom y x` and `compose f g := g ∘ f` definitionally, so at C^op the field reads, in C, `forall (f g : y ~> x), (forall j (k : cog_obj j ~> y), f ∘ k ≈ g ∘ k) -> f ≈ g` — precisely the contrapositive of Riehl's separating set, with the family packaged as a small index Type. The gap statement is also accurate: the library's own idiom is to DECLARE the dual at the opposite (Initial/Terminal, Coreflective at Construction/Reflective.v:85, Comonad), and that declaration is simply not made — `Cogenerator` occurs only in Adjunction/SAFT.v (:99 and :146-276) plus a prose mention at Adjunction/GAFT.v:119, and there is no `Generator`/`SeparatingSet`/`separating_set` anywhere. No instance of a separating set exists for any concrete category. PARTIAL rather than PRESENT is the right side of the line: the notion is one definitional instantiation away, but nothing in-tree names, states, or uses it."
+  }
+ },
+ {
+  "id": "riehl:E.4:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "slice of a Grothendieck topos is a Grothendieck topos",
+   "fundamental theorem of topos theory (E/B is a topos)",
+   "Slice C c / Construction/Slice.v, overcategory",
+   "ElementaryTopos (Slice E B)",
+   "Giraud axioms hold in a slice (coproducts, equivalence relations, separating set in E/B)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rniE 'Slice.*Topos|Topos.*Slice|slice topos|fundamental theorem of topos' --include='*.v' . — 2 hits, BOTH prose: Construction/Slice.v:109 and Structure/Topos.v:96, each merely reciting that 'the fundamental theorem of topos theory states that every slice of a topos is again a topos' (McLarty) and naming ElementaryTopos as a target. No Coq statement.",
+   "grep -n 'Definition \\|Program Definition \\|Program Instance \\|Lemma \\|Theorem ' Construction/Slice.v — the file provides only Slice, Comma_Slice, Coslice, Comma_Coslice; Construction/Slice/Pullback.v adds Bang_Functor and Star_Functor. No structure (terminal, cartesian, closed, classifier) is transported to a slice anywhere.",
+   "grep -rn 'ElementaryTopos' --include='*.v' . — the class (Structure/Topos.v:112), its projections, Pow/relations_iso, and the single witness FinSet_Topos (Instance/FinSet/Topos.v:38). No slice instance.",
+   "grep -rn 'GrothendieckTopos' --include='*.v' . — 0 hits, so the exercise's subject is undefined in-tree even before the slice construction (see riehl:E.4:def-grothendieck-topos)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees: ABSENT, doubly so — the exercise's subject (Grothendieck topos) is undefined in-tree, and even the elementary-topos analogue is unproven. Independently verified Construction/Slice.v provides only `Slice`, `Comma_Slice`, `Coslice`, `Comma_Coslice`, with Construction/Slice/Pullback.v adding `Bang_Functor` (:50) and `Star_Functor` (:67); no terminal, cartesian, closed or classifier structure is transported to a slice anywhere. `ElementaryTopos` (Structure/Topos.v:112) has exactly one witness in the whole tree, `FinSet_Topos` (Instance/FinSet/Topos.v:38) — no slice instance. Construction/Slice.v:113-115 says so in its own words: the fundamental theorem 'remains the headline theorem about this construction not yet formalized here'. See the LIBRARY-DEFECT filed against Structure/Topos.v:95-98, whose looser phrasing of the same fact could be read as claiming the theorem is in force."
+  }
+ }
+]

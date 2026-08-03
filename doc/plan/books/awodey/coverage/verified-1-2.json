@@ -1,0 +1,253 @@
+[
+  {
+    "id": "awodey:1.5:construction-aut",
+    "classification": "PARTIAL",
+    "aliases": ["Aut(X)", "automorphism group", "group of permutations", "core groupoid endo-homset", "isomorphisms of an object", "Sym(X)"],
+    "evidence": [
+      {"file": "Construction/Groupoid.v", "line": 103, "symbol": "Groupoid",
+       "intree_statement": "Program Definition Groupoid (C : Category) : Category := {| obj := @obj C; hom := @Isomorphism C; homset := @iso_setoid C; id := @iso_id C; compose := @iso_compose C |}.  -- the core groupoid, whose endo-homset Hom(X,X) is exactly the isomorphisms X ≅ X, i.e. Aut(X)"},
+      {"file": "Theory/Isomorphism.v", "line": 149, "symbol": "iso_id / iso_sym / iso_compose",
+       "intree_statement": "iso_id {x} : x ≅ x ; iso_sym {x y} (f : x ≅ y) : y ≅ x ; iso_compose {x y z} (f : y ≅ z) (g : x ≅ y) : x ≅ z  -- identity, inverse and composition of isomorphisms, i.e. the group operations on Aut(X); packaged as an Equivalence at line 188"}
+    ],
+    "statement_record": {
+      "book": "Aut(X) is the group of automorphisms (permutations) of X — the isomorphisms of X in the ambient category (Sets), with unit 1_X, closed under composition and inverses; a group of permutations is a subgroup G ⊆ Aut(X).",
+      "intree": "The core groupoid (Construction/Groupoid.v) has hom X Y := Isomorphism X Y, id := iso_id, compose := iso_compose, and iso_sym provides inverses; iso_id/iso_sym/iso_compose are packaged as an Equivalence on objects (Theory/Isomorphism.v:188). So Hom_{Groupoid C}(X,X) is the automorphism monoid with every element invertible.",
+      "strength_comparison": "intree-weaker: the data and laws of Aut(X) (isos X≅X, composition, identity 1_X, inverse) are all present per-object, but Aut(X) is never packaged/named as a group (no `Aut` identifier exists in the tree), and there is no notion of a 'group of permutations' / subgroup G ⊆ Aut(X); there is also no concrete category of groups to house it. The general (any ambient category) form is broader than Awodey's Sets-specific Aut(X)=permutations of the underlying set."
+    },
+    "gap": "Aut(X) is not bundled as a named group object/instance — only its underlying data (the endo-homset of isos with iso_compose/iso_id/iso_sym) exists. Missing: (a) 'Aut(X) is a group' as a packaged statement; (b) the permutation-group / subgroup-of-Aut notion; (c) the Sets-specific reading Aut(X) = permutations (bijections) of the underlying set.",
+    "negative_search_log": [
+      "grep -rn --include=*.v '\\bAut\\b' . -> 0 hits (no automorphism-group identifier anywhere)",
+      "grep -rn --include=*.v -iE 'automorphism|permutation|symmetric group' . -> only comment mentions (Functor/Hom/Yoneda.v, Cayley.v headers), no construction",
+      "grep -rn --include=*.v -E 'Instance.*Groups|category of groups|Definition Sym|group of permutations' . -> 0 (only SymmetricMonoidal false positives)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently leaned ABSENT (no `Aut` identifier; 0 hits), but the classifier is right that the core groupoid genuinely houses the automorphism-group DATA. Verified evidence: Construction/Groupoid.v:103 Groupoid (hom:=@Isomorphism C, homset:=@iso_setoid C, id:=@iso_id C, compose:=@iso_compose C); Theory/Isomorphism.v:113 Class Isomorphism, iso_id:149 / iso_sym:156 / iso_compose:166, iso_equivalence:187 (classifier said 188, off by 1). Hom_{Groupoid}(X,X) = the isos X≅X, all invertible = Aut(X)'s data. Gap accurate: no named group packaging, no permutation subgroup, no concrete Groups. PARTIAL is the honest call over ABSENT; all cited files registered in _CoqProject."}
+  },
+  {
+    "id": "awodey:1.5:def-group-hom",
+    "classification": "PARTIAL",
+    "aliases": ["group homomorphism", "GroupHom", "homomorphism of groups", "monoid homomorphism of underlying monoids", "preserves inverses h(g^-1)=h(g)^-1", "morphism of group objects"],
+    "evidence": [
+      {"file": "Theory/Algebra/Monoid/Hom.v", "line": 34, "symbol": "MonoidHom",
+       "intree_statement": "Class MonoidHom {x y : C} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) : Type := { hom_mu : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f); hom_eta : f ∘ eta[Mx] ≈ eta[My] }.  -- internal monoid homomorphism; internal monoids + homs form a category Mon(C) (line 85)"},
+      {"file": "Structure/Group/Proofs.v", "line": 170, "symbol": "mappend_inverse",
+       "intree_statement": "Lemma mappend_inverse : mappend ∘ inverse[grp] ⨂ inverse[grp] ≈ inverse[grp] ∘ mappend ∘ braid.  -- the inversion map is an anti-homomorphism (a fact ABOUT a group object's own inverse, not about a homomorphism preserving inverses)"}
+    ],
+    "statement_record": {
+      "book": "A homomorphism of groups h:G→H is a homomorphism of the underlying monoids; it necessarily also preserves inverses, h(g^-1) = h(g)^-1.",
+      "intree": "MonoidHom (Theory/Algebra/Monoid/Hom.v) is the internal monoid-homomorphism class (preserves mu and eta) for monoid objects of Theory.Algebra.Monoid; GroupObject (Structure/Group.v:109) adds an inversion morphism but over the DIFFERENT class MonoidObject of Structure/Monoid.v.",
+      "strength_comparison": "intree-weaker: the definitional core ('group hom = monoid hom of the underlying monoids') exists only as the internal MonoidHom, and no GroupHom is defined (grep 'GroupHom' -> 0 hits). The 'automatically preserves inverses' conclusion h∘ι ≈ ι∘h is NOT proven for any homomorphism. Same-name-weaker trap: the two internal-monoid classes are distinct (Structure/Monoid.MonoidObject used by GroupObject vs Theory/Algebra/Monoid.Monoid used by MonoidHom), so MonoidHom does not even directly apply to a GroupObject's underlying monoid. There is no concrete category of groups."
+    },
+    "gap": "No GroupHom (homomorphism of group objects/groups) is defined, and the theorem that a monoid homomorphism between group objects preserves the inverse (h(g^-1)=h(g)^-1) is not stated or proved. Only the internal MonoidHom exists, over a monoid-object class distinct from the one GroupObject builds on.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -E 'GroupHom|Group.*homomorphism|homomorphism.*group' . -> 0 hits",
+      "grep -n 'Class MonoidObject|Class Monoid ' Structure/Monoid.v Theory/Algebra/Monoid.v -> two distinct classes (Structure/Monoid.v:124 MonoidObject; Theory/Algebra/Monoid.v:44 Monoid)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass MISSED Theory/Algebra/Monoid/Hom.v and wrongly leaned ABSENT (I only grepped Structure/Monoid.v, which has MonoidObject and no hom). Verified: Class MonoidHom IS at line 34 (classifier correct) with fields hom_mu/hom_eta exactly as quoted; the internal-monoids category Mon is at line 83 (classifier said 85, off by 2). The same-name-weaker trap is real and correctly flagged: MonoidHom is over Theory.Algebra.Monoid.Monoid, distinct from Structure.Monoid.MonoidObject that GroupObject builds on; 'preserves inverses' is unproven; GroupHom has 0 hits. PARTIAL correct; file registered."}
+  },
+  {
+    "id": "awodey:1.5:thm-cayley",
+    "classification": "PARTIAL",
+    "aliases": ["Cayley's theorem", "left regular representation", "G embeds in Sym(G)", "group of permutations", "Yoneda embedding (one-object case)", "Cayley representation"],
+    "evidence": [
+      {"file": "Construction/Cayley.v", "line": 158, "symbol": "To_Cayley / From_Cayley",
+       "intree_statement": "Program Instance To_Cayley : C ⟶ Cayley := { fobj := fun x => x; fmap := fun _ _ f => (fun _ k => k ∘ f; _) }.  ... Program Instance From_Cayley : Cayley ⟶ C := { fmap := fun _ y f => `1 f y (id C y) }.  Header: 'To_Cayley and From_Cayley witness that this embedding is (split) faithful: From_Cayley (To_Cayley f) ≈ f'; and 'Cayley's theorem (group version) says every group G embeds into the symmetric group Sym(G) via left multiplication ... Reading a category C as a many-object monoid, the corresponding statement is the covariant Yoneda embedding.'"}
+    ],
+    "statement_record": {
+      "book": "Every group G is isomorphic to a group of permutations: the Cayley representation Ḡ ⊆ Aut(G) sends g to left-translation ḡ(h)=g·h, and i(g)=ḡ, j(ḡ)=g are mutually inverse group homomorphisms.",
+      "intree": "Construction/Cayley.v builds the many-object (categorical) Cayley/Yoneda representation of an arbitrary category C: a morphism x~>y is the post-composition action f:∀r,(y~>r)→(x~>r), with To_Cayley faithful (From_Cayley∘To_Cayley ≈ Id). The file is explicitly named for and motivated by group Cayley as its one-object special case.",
+      "strength_comparison": "intree-weaker (for the group statement) / intree-more-general (as a theorem): the categorical Cayley of Cayley.v subsumes group Cayley (a group is a one-object groupoid, on which To_Cayley gives the left-regular representation into permutations of the underlying arrow-set), but the group-specific statement 'G ≅ a group of permutations' is never instantiated — there is no category of groups, no Sym(G), no Aut(G), and Cayley gives split faithfulness rather than a stated isomorphism onto a permutation subgroup."
+    },
+    "gap": "The group-specific Cayley theorem (every group is isomorphic to a group of permutations) is not instantiated: there is no concrete category of groups, no symmetric group Sym(G), no Aut(G), and no derivation of group Cayley as the one-object case of Construction/Cayley.v. Only the general categorical form (a faithful many-object Yoneda/Cayley embedding) is in-tree.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -E 'Instance.*Groups|category of groups|Definition Sym|Symmetric_Group|Permutation_Group|group of permutations' . -> 0 (SymmetricMonoidal false positives only)",
+      "grep -rn --include=*.v '\\bAut\\b' . -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Verified Construction/Cayley.v: To_Cayley:158, From_Cayley:169 as quoted; the 'split faithful' From_Cayley(To_Cayley f) ≈ f is asserted in the header (lines 38-39) and a comment (line 168 'From_Cayley ∘ To_Cayley = Id'), NOT a named lemma — it holds definitionally (id ∘ f), so the characterization is true though not backed by a stated Lemma (Cayley_Right/Left are the only lemmas). The group statement (G≅perm group, Sym(G), Aut(G), a Groups category) is genuinely absent (0 hits; only header comments). Categorical Cayley is a real in-tree generalization, so PARTIAL is more honest than my blind ABSENT lean. File registered."}
+  },
+  {
+    "id": "awodey:1.5:remark5",
+    "classification": "PRESENT",
+    "aliases": ["isomorphism relative to an ambient category", "iso is category-dependent", "≅[C]", "two levels of isomorphism", "Sets-iso vs Groups-iso"],
+    "evidence": [
+      {"file": "Theory/Isomorphism.v", "line": 113, "symbol": "Isomorphism",
+       "intree_statement": "Class Isomorphism (x y : C) : Type := { ... }  -- defined inside a `Context {C : Category}`, so every isomorphism is intrinsically relative to a chosen ambient category C"},
+      {"file": "Theory/Isomorphism.v", "line": 242, "symbol": "≅[C] notation",
+       "intree_statement": "Notation \"x ≅[ C ] y\" := (@Isomorphism C%category x%object y%object)  -- the ambient category is an explicit parameter of the isomorphism relation, used pervasively (e.g. ≅[Cat], ≅[Sets])"}
+    ],
+    "statement_record": {
+      "book": "Warning: Cayley's proof mixes two notions of isomorphism in different categories — permutations of the underlying set are isos in Sets, while G ≅ Ḡ is an iso in Groups. Isomorphism is always relative to an ambient category.",
+      "intree": "Isomorphism is a per-category class (Class Isomorphism inside Context {C:Category}), and the notation x ≅[C] y makes the ambient category an explicit argument. The library cannot even state an isomorphism without fixing the ambient category.",
+      "strength_comparison": "same (conceptual content): the remark's mathematical takeaway — isomorphism is always relative to an ambient category — is faithfully and structurally embodied by the per-category Isomorphism class and the ≅[C] notation. The specific Sets-vs-Groups illustration is not instantiated (Groups is not an in-tree category), but that is an illustration of the principle, not separate mathematical content."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass leaned ABSENT on the ground that a Warning has no theorem to match, but on reflection PRESENT-by-embodiment is the best fit among the four frozen labels. Verified Theory/Isomorphism.v:113 Class Isomorphism (x y : C) inside Context {C:Category}; notation `x ≅[ C ] y` at line 243 (classifier said 242, off by 1). The remark's substance — iso is inexpressible without an ambient category — is pervasively realized (≅[Cat], ≅[Sets]). The Sets-vs-Groups illustration is not instantiated (no in-tree Groups), correctly downgraded to illustration. Not ABSENT (the principle IS realized) and not OUT_OF_SCOPE (squarely in scope). CONFIRMED PRESENT."}
+  },
+  {
+    "id": "awodey:1.5:thm6",
+    "classification": "PARTIAL",
+    "aliases": ["every small-hom category is isomorphic to a concrete category", "Cayley representation of a category", "faithful functor to Sets", "Yoneda embedding full and faithful", "C embeds into presheaves", "concrete category"],
+    "evidence": [
+      {"file": "Functor/Hom.v", "line": 96, "symbol": "Yoneda_Full / Yoneda_Faithful",
+       "intree_statement": "Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).  Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).  where Curried_Hom C : C^op ⟶ [C, Sets] (line 60) — the Yoneda embedding is full and faithful into the presheaf category"},
+      {"file": "Functor/Hom/Yoneda.v", "line": 253, "symbol": "Covariant_Yoneda_Embedding",
+       "intree_statement": "Program Instance Covariant_Yoneda_Embedding `(C : Category) : ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.  -- hom-set iso realizing full-faithfulness of the covariant representable embedding"},
+      {"file": "Construction/Cayley.v", "line": 114, "symbol": "Cayley / To_Cayley",
+       "intree_statement": "Program Instance Cayley : Category := { obj := C; hom := fun x y => { f : ∀ r, (y ~> r) → (x ~> r) & ... naturality/Yoneda law } }.  To_Cayley : C ⟶ Cayley faithful — the concrete image of the covariant Yoneda embedding, framed as the many-object Cayley representation"}
+    ],
+    "statement_record": {
+      "book": "Every category C whose arrows form a set is isomorphic to a category of sets and functions (a concrete category). Proof: the Cayley representation Č sends each object C to Č = {f | cod f = C} and each arrow g:C→D to ḡ:Č→Ḓ, f↦g∘f; the set-of-arrows hypothesis makes each Č a set.",
+      "intree": "The (covariant) Yoneda embedding is full and faithful (Yoneda_Full, Yoneda_Faithful on Curried_Hom : C^op ⟶ [C,Sets]; Covariant_Yoneda_Embedding as a hom-iso), and Construction/Cayley.v realizes it concretely with a faithful To_Cayley : C ⟶ Cayley.",
+      "strength_comparison": "intree-different-target: the in-tree embedding is full+faithful into the PRESHEAF category [C, Sets] (objects are set-valued functors), not the single faithful functor C → Sets that Awodey's Č gives, and its conclusion is full-faithfulness (equivalence onto image) rather than the literal 'isomorphic to a subcategory of Sets/functions'. The object-level construction Č = {f | cod f = C} : C → Sets is not built, and the set-of-arrows smallness hypothesis is not threaded (the library uses universe polymorphism instead). Full-faithfulness into presheaves is in some respects stronger, but it is not Awodey's Set-valued concrete-representation statement."
+    },
+    "gap": "The specific Awodey form is not stated: (a) no single faithful functor C → Sets (the Č = union of hom-into-C representation); (b) the target of the in-tree embedding is the functor/presheaf category [C,Sets], not a subcategory of Sets; (c) the conclusion 'C is isomorphic to a category of sets and functions' is present only as full-and-faithful Yoneda (equivalence onto image) plus the abstract Cayley category, not as an isomorphism onto a concrete subcategory of Sets; (d) the set-of-arrows smallness hypothesis is not modeled.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -iE 'concrete categ|ConcreteCategory|faithful functor into|faithful.*to Sets' . -> 0 (no ConcreteCategory notion)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently arrived at PARTIAL. Verified: Functor/Hom.v Curried_Hom:60 (C^op ⟶ [C,Sets]), Yoneda_Faithful:85, Yoneda_Full:96 (classifier anchored both at 96; Faithful is at 85 — both exist and are named); Functor/Hom/Yoneda.v:253 Covariant_Yoneda_Embedding (quote matches line 254); Construction/Cayley.v:114 Cayley. Gap is accurate and honest: target is the presheaf category [C,Sets], not a subcategory of Sets; conclusion is full-faithfulness, not the Č:C→Sets iso onto a concrete Set-subcategory; smallness not threaded. Cayley only proves split-faithfulness, not the full C≅image iso, and keeps abstract (non-set) objects. PARTIAL confirmed; files registered."}
+  },
+  {
+    "id": "awodey:1.5:remark7",
+    "classification": "ABSENT",
+    "aliases": ["concrete category (separating/generating object)", "well-pointed category", "terminal object is a generator/separator", "fx=gx for all x:T→C implies f=g", "test object", "extensionality of arrows via a generator"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=*.v -iE 'separator|separating|generator\\b|well.?pointed|concrete categ|ConcreteCategory' . -> the only 'generator' hits are free-generation/generators-of-structures (Coend, PROP, Solver), not categorical separators; no 'separator'/'separating' notion exists",
+      "Instance/Fun.v:240 defines `Class WellPointed` — FALSE FRIEND: it is a well-pointed pointed ENDOFUNCTOR (the two whiskerings of `point` agree), for the monad theory, NOT a well-pointed category (terminal object as generator)",
+      "Theory/Functor.v:342 `Class Faithful` exists, but the specific remark-7 notion 'concrete = terminal object T is a generator, i.e. fx=gx for all x:T→C implies f=g' is not defined; no test-object extensionality principle is stated",
+      "grep -rn --include=*.v -iE 'well.?pointed|generator' Structure/ Theory/ -> no category-level separator/generator/well-pointedness"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently agreed ABSENT. Verified the WellPointed false-friend: Instance/Fun.v:240 `Class WellPointed `{@Pointed C F}` is a well-pointed pointed ENDOFUNCTOR (Class Pointed at 230 over F : C ⟶ C), NOT a well-pointed category — correctly flagged. No separator/generator/concrete-category/test-object notion exists; the remark-7 principle (terminal T a generator: ∀x:T→C, fx=gx ⟹ f=g) is unstated. Structure/Terminal.v only mentions 'well-pointed topos' in prose. ABSENT confirmed."}
+  },
+  {
+    "id": "awodey:1.6:construction-product",
+    "classification": "PRESENT",
+    "aliases": ["product category C×D", "C ∏ D", "componentwise composition", "projection functors π₁ π₂", "Fst Snd", "product in Cat"],
+    "evidence": [
+      {"file": "Construction/Product.v", "line": 95, "symbol": "Product",
+       "intree_statement": "Definition Product (C D : Category) : Category := {| obj := C * D; hom := fun x y => (fst x ~> fst y) * (snd x ~> snd y); id := fun _ => (id, id); compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g); ... |}.  Notation \"C ∏ D\" (line 142)"},
+      {"file": "Construction/Product.v", "line": 149, "symbol": "Fst / Snd",
+       "intree_statement": "Program Instance Fst {C D : Category} : C ∏ D ⟶ C := { fobj := fst; fmap := fun _ _ => fst }.  Program Instance Snd {C D} : C ∏ D ⟶ D := { fobj := snd; fmap := fun _ _ => snd }.  -- the projection functors π₁, π₂"}
+    ],
+    "statement_record": {
+      "book": "C×D has objects (C,D) and arrows (f,g):(C,D)→(C',D') with componentwise composition and identities; projection functors π₁:C×D→C, π₂:C×D→D. For groups G,H the product category is the direct product G×H.",
+      "intree": "Product (C ∏ D) with obj := C*D, componentwise hom, id := (id,id), compose componentwise (Construction/Product.v:95); projection functors Fst (π₁) and Snd (π₂) at lines 149/157.",
+      "strength_comparison": "same: objects, componentwise composition/identity, the setoid on morphisms, and both projection functors match Awodey exactly. The 'G×H = direct product of groups' aside is not applicable (no concrete groups), but it is an illustration, not part of the construction's content."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently PRESENT. Verified Construction/Product.v:95 Definition Product (componentwise obj/hom/id/compose, morphism setoid), Fst:149 and Snd:157 projection functors (fobj/fmap = fst/snd), matching Awodey's π₁/π₂ exactly. Direct-product-of-groups aside is an illustration (no concrete groups). File registered. All evidence exact and accurate."}
+  },
+  {
+    "id": "awodey:1.6:construction-opposite",
+    "classification": "PRESENT",
+    "aliases": ["opposite category C^op", "dual category", "arrows reversed", "C^op^op = C", "op_invol", "duality"],
+    "evidence": [
+      {"file": "Construction/Opposite.v", "line": 106, "symbol": "Opposite",
+       "intree_statement": "Definition Opposite `(C : Category) : Category := {| ... hom[C^op] x y := hom[C] y x, identities unchanged, composition reversed ... |}.  Notation \"C ^op\" (line 123)"},
+      {"file": "Construction/Opposite.v", "line": 126, "symbol": "op_invol",
+       "intree_statement": "Lemma op_invol {C : Category} : (C^op)^op = C.  -- duality built in so the double opposite is C on the nose (provable by reflexivity, per the header)"}
+    ],
+    "statement_record": {
+      "book": "C^op has the same objects as C, with every arrow formally reversed (f:C→D in C^op is f:D→C in C); composition and units are defined from C by reversal. Duality theorems assert a category is (a subcategory of) the opposite of another.",
+      "intree": "Opposite C^op keeps objects, sets hom[C^op] x y := hom[C] y x, keeps identities and reverses composition (Construction/Opposite.v:106); op_invol gives (C^op)^op = C.",
+      "strength_comparison": "intree-stronger: matches Awodey's construction exactly and additionally makes the involution (C^op)^op = C hold definitionally/by reflexivity (op_invol), which Awodey does not state. The general duality-theorem discussion is expository."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently PRESENT. Verified Construction/Opposite.v:106 Definition Opposite (hom x y := hom C y x, id unchanged, compose reversed, comp_assoc↔comp_assoc_sym swapped) and op_invol:126 (C^op)^op = C (Qed). Matches Awodey exactly. CAVEAT on the strength_comparison's 'hold definitionally/by reflexivity': op_invol is actually proven by `unfold Opposite; simpl; destruct C; simpl; f_equal`, NOT `reflexivity` — the full-record equality needs eta-expansion. Field-level convertibility does hold definitionally (which is what powers the built-in duality), so this is a documentation imprecision, not a soundness gap. See problems[]. Classification PRESENT unaffected; file registered."}
+  },
+  {
+    "id": "awodey:1.6:construction-arrow-category",
+    "classification": "PRESENT",
+    "aliases": ["arrow category C^→", "Arr(C)", "[2,C]", "comma category Id↓Id", "commuting squares", "dom/cod functors"],
+    "evidence": [
+      {"file": "Construction/Arrow.v", "line": 110, "symbol": "Arrow",
+       "intree_statement": "Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).  Notation \"C ⃗\" (line 112).  Header: objects are morphisms of C, a morphism (f:a₀~>a₁)→(g:b₀~>b₁) is a pair (u,v) with g∘u ≈ v∘f (commuting square); dom and cod are comma_proj1 and comma_proj2"},
+      {"file": "Construction/Comma.v", "line": 196, "symbol": "comma_proj1 / comma_proj2",
+       "intree_statement": "Program Instance comma_proj1 : Comma ⟶ A := {| ... |}.  Program Instance comma_proj2 : Comma ⟶ B := {| ... |}.  -- specialized to S=T=Id these are the dom, cod : C ⃗ ⟶ C functors"}
+    ],
+    "statement_record": {
+      "book": "C^→ has the arrows of C as objects; a morphism from f:A→B to f':A'→B' is a pair (g₁,g₂) with a commuting square g₂∘f = f'∘g₁; identity on f is (1_A,1_B), composition componentwise; functors dom, cod: C^→ → C return domain and codomain.",
+      "intree": "Arrow := (Id[C] ↓ Id[C]) (Construction/Arrow.v:110): objects collapse to plain morphisms a~>b, morphisms are commuting squares g∘u ≈ v∘f; dom = comma_proj1, cod = comma_proj2 (Construction/Comma.v:196/204).",
+      "strength_comparison": "same: presenting the arrow category as the comma (Id↓Id) yields exactly Awodey's objects (arrows of C), morphisms (commuting squares), identities and componentwise composition; the dom/cod functors are the comma projections. Setoid rephrasing (≈ for the square) is faithful."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently PRESENT (found the dedicated Construction/Arrow.v). Verified Arrow.v:110 `Definition Arrow := (Id[C] ↓ Id[C])`; the header documents objects=morphisms and morphisms=commuting squares g∘u ≈ v∘f. dom/cod are the generic comma projections comma_proj1:196 / comma_proj2:204 in Construction/Comma.v (both are functors Comma ⟶ A/B, specialize to dom/cod at S=T=Id). Faithful setoid rephrasing. Both files registered. CONFIRMED."}
+  },
+  {
+    "id": "awodey:1.6:construction-slice-category",
+    "classification": "PRESENT",
+    "aliases": ["slice category C/c", "over category", "comma Id↓Δ(c)", "objects are arrows into c", "forgetful functor U:C/c→C", "codomain fibration fibre"],
+    "evidence": [
+      {"file": "Construction/Slice.v", "line": 123, "symbol": "Slice",
+       "intree_statement": "Program Definition Slice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, a ~> c; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}.  Notation \"C ̸ c\" (line 132)"},
+      {"file": "Construction/Slice.v", "line": 140, "symbol": "Comma_Slice",
+       "intree_statement": "Program Instance Comma_Slice `(C : Category) `(c : C) : C ̸ c ≅[Cat] (Id ↓ =(c)).  Header: 'The forgetful functor C/c ⟶ C sending (a,g) to a is the comma projection comma_proj1 transported across Comma_Slice'"}
+    ],
+    "statement_record": {
+      "book": "For an object C, C/C has as objects the arrows f with cod(f)=C, and a morphism from f:X→C to f':X'→C is g:X→X' with f'∘g=f; forgetful functor U:C/C→C sends (a,g) to a.",
+      "intree": "Slice C ̸ c has obj := ∃ a, a~>c and hom x y := ∃ f, `2 y ∘ f ≈ `2 x (the commuting triangle g'∘f ≈ g), id and compose from C (Construction/Slice.v:123); it is proved ≅[Cat] the comma (Id ↓ =(c)) (Comma_Slice), and the forgetful C/c ⟶ C is comma_proj1 transported.",
+      "strength_comparison": "same: objects (arrows into c), morphisms (commuting triangles, ≈ for proof-irrelevant equality), identity and composition match Awodey exactly; the forgetful functor to C is available as the comma projection. The P/p ≅ down(p) poset aside is expository."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently PRESENT. Verified Construction/Slice.v:123 Slice (obj ∃a:C, a~>c; hom ∃f, `2 y ∘ f ≈ `2 x — the commuting triangle; id/compose from C) and Comma_Slice:140 (Slice ≅[Cat] (Id ↓ =(c))). Matches Awodey. MINOR: the forgetful U:C/c⟶C is NOT a standalone instance in Slice.v — it is available as comma_proj1 transported across Comma_Slice, which the header states accurately (no overclaim). Not a defect. File registered. CONFIRMED."}
+  },
+  {
+    "id": "awodey:1.6:construction-coslice-category",
+    "classification": "PRESENT",
+    "aliases": ["coslice category C\\C", "under category", "comma Δ(c)↓Id", "objects are arrows out of c", "(C^op/c)^op", "dual of slice"],
+    "evidence": [
+      {"file": "Construction/Slice.v", "line": 169, "symbol": "Coslice",
+       "intree_statement": "Program Definition Coslice `(C : Category) `(c : C) : Category := {| obj := ∃ a : C, c ~> a; hom := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x; id := fun _ => (id; _); compose := fun _ _ _ f g => (`1 f ∘ `1 g; _) |}.  Notation \"c ̸co C\" (line 178)"},
+      {"file": "Construction/Slice.v", "line": 181, "symbol": "Comma_Coslice",
+       "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id).  -- the coslice as the comma of Δ(c) against the identity"}
+    ],
+    "statement_record": {
+      "book": "C\\C has as objects the arrows f with dom(f)=C, and a morphism from f:C→X to f':C→X' is h:X→X' with h∘f=f'; it is the dual of the slice, definable as (C^op/C)^op.",
+      "intree": "Coslice c ̸co C has obj := ∃ a, c~>a and hom x y := ∃ f, `2 y ≈ f ∘ `2 x (i.e. h∘ι = ι'), id/compose from C (Construction/Slice.v:169); proved ≅[Cat] the comma (=(c) ↓ Id) (Comma_Coslice).",
+      "strength_comparison": "same: objects (arrows out of c), morphisms (commuting triangles h∘ι = ι'), identities and composition match Awodey. The library defines it directly (and via the comma) rather than as (C^op/c)^op, but that is a presentation choice; the resulting category is the same."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently PRESENT. Verified Construction/Slice.v:169 Coslice (obj ∃a:C, c~>a; hom ∃f, `2 y ≈ f ∘ `2 x — the under-triangle h∘ι=ι'; id/compose from C) and Comma_Coslice:181 (Coslice ≅[Cat] (=(c) ↓ Id)). Matches Awodey. The library defines Coslice DIRECTLY rather than as (C^op/c)^op — a faithful presentation choice; the dual character is realized via the comma iso. File registered. CONFIRMED."}
+  },
+  {
+    "id": "awodey:1.6:example8",
+    "classification": "PARTIAL",
+    "aliases": ["category of pointed sets Sets_*", "based sets", "basepoint-preserving maps", "coslice 1\\Sets", "Sets under a singleton", "Kleisli category of Maybe / partial functions"],
+    "evidence": [
+      {"file": "Instance/Coq/Par.v", "line": 34, "symbol": "Par (header)",
+       "intree_statement": "Header of Par: 'This is equivalent (not isomorphic) to the category of pointed sets and basepoint-preserving maps: the object [A] realizes the pointed set [option A = A ⊔ {None}] with basepoint [None].'  Par := Kleisli category of the option monad (line 53)"},
+      {"file": "Construction/Slice.v", "line": 82, "symbol": "Coslice (pointed-sets note)",
+       "intree_statement": "Header: 'The dual [Coslice] captures pointed structures: pointed sets are the coslice of Set under the singleton.'  -- the general Coslice (line 169) makes 1\\Sets constructible, but the identification is stated only as motivation"}
+    ],
+    "statement_record": {
+      "book": "Sets_* has pointed sets (A,a) as objects and basepoint-preserving functions f:A→B (f(a)=b) as morphisms; it is isomorphic to the coslice 1\\Sets (Sets under a singleton), since a:1→A corresponds to an element a∈A.",
+      "intree": "A category equivalent to pointed sets exists as Instance/Coq/Par.v (the Kleisli category of the option monad over Coq Types; header: 'equivalent (not isomorphic) to the category of pointed sets'), and the general Coslice construction (Construction/Slice.v:169) makes the coslice 1\\Sets expressible; the Slice.v header notes pointed sets = coslice of Set under a singleton.",
+      "strength_comparison": "intree-weaker: no literal category Sets_* of pointed sets (objects = pointed sets, morphisms = basepoint-preserving maps) is built, and the isomorphism Sets_* ≅ 1\\Sets is not formalized. The closest realization (Par) has plain Coq Types as objects and partial functions as morphisms and is only EQUIVALENT (explicitly not isomorphic) to pointed sets, over Coq Types rather than the setoid category Sets, and it is not related to the coslice."
+    },
+    "gap": "Neither the pointed-sets category Sets_* (with pointed sets as objects and basepoint-preserving maps) nor the isomorphism Sets_* ≅ 1\\Sets (coslice under a singleton) is formalized. What exists is (a) the general Coslice construction (so 1\\Sets is expressible) and (b) Instance/Coq/Par.v, a category only EQUIVALENT (not isomorphic) to pointed sets, over Coq Types and via partial functions rather than basepoint-preserving maps.",
+    "negative_search_log": [
+      "grep -rn --include=*.v -iE 'pointed|basepoint|Sets_star' . -> pointed sets appear only as (i) motivation in Construction/Slice.v:82, (ii) an equivalence remark in Instance/Coq/Par.v:34 and Instance/Coq/ParE.v, (iii) unrelated 'pointed endofunctor' machinery (Instance/Fun.v, Monad/Transformer.v); no Sets_* instance and no Sets_* ≅ 1\\Sets theorem",
+      "grep -rn --include=*.v -E 'Instance.*Pointed|Sets_\\*|pointed set' . -> no category-of-pointed-sets instance"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass leaned ABSENT but flagged PARTIAL as defensible; on verification PARTIAL is the more honest call. Verified Instance/Coq/Par.v header (lines 5-7, classifier cited 34 — the substantive 'equivalent (not isomorphic) to the category of pointed sets' claim IS in the header; Par := option-Kleisli category at line 24) and Slice.v:82 pointed-sets/coslice note. The coslice SIDE of Awodey's identity is genuinely constructible: `1 ̸co Sets` via the generic Coslice (Slice.v:169). Missing: the literal Sets_* category and the iso Sets_*≅1\\Sets; Par is only an EQUIVALENCE, over Coq Types via partial maps, unrelated to the coslice. Gap accurate. Existence is thin but real (generic coslice + Par-equivalence), so PARTIAL over ABSENT. Files registered."}
+  }
+]

@@ -1,0 +1,301 @@
+[
+ {
+  "id": "riehl:3.7:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "limit of the identity functor (lim Id_C) is the initial object",
+   "weakly initial object / cone over Id_C",
+   "a functor preserving all limits need not preserve initial objects",
+   "PreservesAllLimits + Initial / preserves the initial object",
+   "large limit; limit of a diagram indexed by the ambient category itself"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n 'Limit \\(Id|Limit Id|Limit (\\(@)?Identity|IsALimit .*Id\\b' --glob '*.v' -- 0 hits: nothing anywhere takes a limit of an identity functor",
+   "rg -ni 'identity functor' --glob '*.v' | grep -i 'limit|initial' -- 0 hits",
+   "rg -ni 'preserves.?(terminal|initial)|preserve the (terminal|initial)' --glob '*.v' -- 0 hits: the library has no statement that any functor does or does not preserve initial/terminal objects",
+   "rg -n -i 'weakly.initial|WeaklyInitial' --glob '*.v' -l -- Adjunction/GAFT.v, Structure/{Equalizer,Terminal,Initial,Complete}.v, Theory/WeaklyInitial.v. Read Theory/WeaklyInitial.v: it defines Record WeaklyInitialFamily (an index Type, a family of objects, and for each c a chosen member with an arrow into c) and Theorem initial_from_weakly_initial (Freyd's product+equalizer construction). This is a DIFFERENT use of 'weakly initial' from Lemma 3.7.1's cone-summit-over-Id_C, and says nothing about limits of the identity functor.",
+   "rg -n '^(Program )?(Definition|Class|Record|Theorem|Lemma|Corollary|Instance|Program Instance)' Structure/Limit/Terminal.v -- only Terminal_Limit (C : Category) (F : 0 ⟶ C) : Limit F <-> @Terminal C, i.e. the empty-diagram case; no identity-diagram case and no preservation clause",
+   "rg -n '^(Program )?(Definition|...)' Structure/Limit/Preservation.v -- PreservesLimit / PreservesColimit / PreservesAllLimits / PreservesAllColimits exist, but no instance or non-instance is ever exhibited for initial objects, and no counterexample functor is constructed anywhere in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the discriminating searches: rg -ni 'filtered|weakly initial|identity functor' and rg -n 'Limit .*Id' find no counterpart of Lemma 3.7.1 (limit of Id_C = initial object), and no functor is ever exhibited in-tree that preserves all limits yet fails to preserve the initial object; Theory/WeaklyInitial.v's WeaklyInitialFamily is the Freyd product+equalizer input to GAFT, an unrelated use of the phrase, exactly as the Phase-C log says. ONE LOG CORRECTION (does not move the classification): the log's sentence 'the library has no statement that any functor does or does not preserve initial/terminal objects' is too strong as written. Functor/Structure/Terminal.v:43 defines Class TerminalFunctor (the comparison iso 1 ≅ F 1 plus fmap_one) and lines 59-62 define the notation 'InitialFunctor F := @TerminalFunctor _ _ (F^op) _ _', and that property is CONSUMED as a hypothesis at Theory/Lawvere/Model.v:57,72 (models are Cartesian+Terminal-preserving functors). So the PROPERTY 'preserves the initial/terminal object' does exist in-tree as vocabulary; what is absent is any theorem or counterexample relating it to preserving all limits, which is the exercise's content. The Phase-C regexes as quoted do legitimately return 0 hits (the file's prose reads 'preserves the initial object', which neither 'preserves.?(terminal|initial)' nor 'preserve the (terminal|initial)' matches) — an alias-coverage miss, not a false report."
+  }
+ },
+ {
+  "id": "riehl:3.8:thm1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Fubini theorem for limits / iterated limits",
+   "limits commute with limits; colimits commute with colimits",
+   "lim_I lim_J F iso lim_{I x J} F iso lim_J lim_I F",
+   "limit over a product indexing category / double limit / bilimit",
+   "coend Fubini (the dual, colimit-side instance): int^{(c,d)} H iso int^c int^d H"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Coend/Fubini.v",
+    "line": 449,
+    "symbol": "coend_fubini",
+    "intree_statement": "Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner) := {| to := fwd; from := bwd; iso_to_from := fubini_to_from; iso_from_to := fubini_from_to |}   (* for H : (C ∏ D)^op ∏ (C ∏ D) ⟶ Sets, with Inner : C^op ∏ C ⟶ Sets the inner coend ∫^d H((−,d),(−,d)); file header: \"the Fubini isomorphism [coend_fubini] [∫^{(c,d)} H ≅ ∫^c ∫^d H]\" *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a two-variable diagram F : I x J -> C, if the iterated limits lim_I lim_J F and lim_J lim_I F exist then they are isomorphic to each other and both compute lim_{I x J} F: limits commute with limits (dually, colimits commute with colimits).",
+   "intree": "Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner), for H : (C ∏ D)^op ∏ (C ∏ D) ⟶ Sets and Inner the inner-coend profunctor — i.e. ∫^{(c,d)} H ≅ ∫^c ∫^d H.",
+   "strength_comparison": "intree-weaker: (a) it is the DUAL (colimit) side only, and only for COENDS — colimits over a twisted-arrow shape with a dinaturality relation — not for arbitrary conical Limit/Colimit diagrams over a product indexing category; (b) it is proved only for Sets-valued integrands, over the concrete inductive-quotient SetsCoend of Instance/Sets/Coend.v, the file header itself deferring \"the abstract interchange theorem for coends valued in an arbitrary cocomplete category\" (ledger 6); (c) it gives the product-shape ≅ iterated-shape isomorphism in one order only, not the symmetric two-iterated-orders comparison Riehl states; (d) it says nothing about EXISTENCE — Riehl's hypothesis/conclusion structure (\"if the iterated limits exist, they define lim_{I x J}\") is not stated in a form applicable to the in-tree Limit class."
+  },
+  "gap": "No interchange theorem for the library's own Limit/Colimit classes: nothing anywhere states lim_{I ∏ J} F ≅ lim_I (lim_J F) for a diagram F : I ∏ J ⟶ C, and there is no construction of the intermediate diagram lim_J F(−, j) : I ⟶ C that Riehl builds via Proposition 3.3.1. The only in-tree Fubini is coend-shaped, Sets-valued and colimit-side (Theory/Coend/Fubini.v); Construction/Day.v:70-72 explicitly notes that even that theorem \"does not apply directly\" to a doubly-nested integrand over a product category.",
+  "negative_search_log": [
+   "rg -n -i 'fubini|iterated limit|limits commute|commute with limits|interchange' --glob '*.v' -- the only limit-relevant hits are Theory/Coend/Fubini.v and Construction/Day.v; every other 'interchange' hit is the middle-four/bifunctor law or the displayed-category dtransport interchange",
+   "rg -n 'Limit \\(|Limit \\{|Colimit \\(' --glob '*.v' | grep '∏' -- 0 hits: no limit or colimit is ever taken over a product indexing category",
+   "rg -n -i 'double limit|bilimit|limit of limits|lim.*lim|colim.*colim' --glob '*.v' -- no statement combining two nested limits",
+   "checked Structure/Cartesian/Product.v (limits in a product CATEGORY are pointwise) — a different statement: the product is in the TARGET, not the indexing category, so it does not bear on 3.8.1"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Evidence verified at the cited location. Theory/Coend/Fubini.v line 449 is exactly 'Definition coend_fubini : coend_obj (SetsCoend H) ≅[Sets] coend_obj (SetsCoend Inner) := {| to := fwd; from := bwd; iso_to_from := fubini_to_from; iso_from_to := fubini_from_to |}', with Context (H : (C ∏ D)^op ∏ (C ∏ D) ⟶ Sets) at line 51 — the quote in the record is accurate. The file's SCOPE header (lines 16-25) states verbatim that it proves '∫^{(c,d)} H ≅ ∫^c ∫^d H' over the concrete SetsCoend and that 'the abstract interchange theorem for coends valued in an arbitrary cocomplete category ... is deferred (ledger 6)', so the strength_comparison's disclosure is the file's own. Registered: _CoqProject line 409. My blind pass had initially written ABSENT; on inspection PARTIAL is the better call and I confirm it, because coend_fubini IS the interchange over a PRODUCT indexing category (coends over C ∏ D vs iterated coends) — the classic 'special-case-only' shape of PARTIAL rather than an unrelated tool: it is the dual (colimit) side, in the coend/dinatural calculus, Sets-valued, and in one bracketing order only. Nothing in-tree states lim_{I ∏ J} F ≅ lim_I lim_J F for the library's own Limit/Colimit classes; independently confirmed by rg over Structure/Limit*, Structure/Limit/{Preservation,Weighted,Product,Terminal,Cartesian,Kan/Extension}.v. TRAP CHECKED AND AVOIDED BY THE CLASSIFIER: Structure/Cartesian/Product.v:34 and Structure/Cartesian/Closed/Product.v:19 both contain the sentence 'limits ... in a product category are taken factorwise', which is about limits IN C ∏ D (product in the TARGET), not limits INDEXED BY I ∏ J; the Phase-C log explicitly records this distinction and did not cite them."
+  }
+ },
+ {
+  "id": "riehl:3.8:lem3",
+  "classification": "ABSENT",
+  "aliases": [
+   "canonical map kappa : colim_I lim_J F -> lim_J colim_I F",
+   "colimit-limit interchange comparison morphism",
+   "exchange / interchange map between mixed limits and colimits",
+   "mapping-out (colimit) vs mapping-in (limit) universal property comparison",
+   "Fubini comparison for a mixed iterated limit/colimit"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'colimit.*limit interchange|interchange law for limits|exchange map|canonical.*colim|colim_lim|lim_colim' --glob '*.v' -- 0 hits",
+   "rg -n -i 'canonical (comparison|map)|comparison map' --glob '*.v' -- all hits are unrelated: SAFT's cogen_canonical (c into a power of a cogenerating family), Semiadditive's coproduct-to-product comparison x + y ~> x × y, Beck's Eilenberg-Moore comparison, StarAutonomous's double-dual map, Theory/Coend/Fubini.v's fwd/bwd (coend-to-iterated-coend, no limit involved)",
+   "rg -n -i 'double limit|bilimit|limit of limits|lim.*lim|colim.*colim' --glob '*.v' -- no in-tree statement nests a limit inside a colimit or vice versa",
+   "rg -n 'Limit \\(|Limit \\{|Colimit \\(' --glob '*.v' | grep '∏' -- 0 hits: no diagram indexed by a product category is ever considered, so the bifunctor F : I ∏ J ⟶ C that the lemma is about does not occur",
+   "inspected Structure/Limit/Preservation.v, Structure/Limit/Weighted.v and Adjunction/Continuity.v: they relate a single limit to its image under a functor (PreservesLimit, rapl_limit) — no map between a colimit of limits and a limit of colimits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Independent blind search agrees, and found nothing the classifier missed. Re-ran: rg -in 'canonical map|comparison map|interchange|exchange' --glob '*.v' — every hit is unrelated (Semiadditive's coproduct→product comparison, Beck's EM comparison, StarAutonomous's double-dual, bicategorical/premonoidal/bicartesian interchange laws, Displayed's dtransport interchange, Theory/Multicategory's mcast commutations). No morphism anywhere in the tree has a colimit as source and a limit as target, and no diagram is ever indexed by a product category, so the bifunctor F : I ∏ J ⟶ C the lemma is about does not occur. Note for Phase E: this item is the hinge — cor4, example6, remark5, thm9 and exii all specialize or use κ, so all five inherit its absence."
+  }
+ },
+ {
+  "id": "riehl:3.8:cor4",
+  "classification": "ABSENT",
+  "aliases": [
+   "sup_x inf_y f <= inf_y sup_x f (minimax / weak-duality inequality)",
+   "limits in a poset are infima, colimits are suprema",
+   "meet / join / greatest lower bound / least upper bound as limit/colimit",
+   "the poset (R, <=) as a category; complete lattice",
+   "specialization of the colim-lim comparison kappa to a thin category"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'liminf|limsup|lim inf|lim sup|Rbar|extended real|Coq.Reals' --glob '*.v' -- only one prose hit (Construction/Enriched.v mentioning enrichment over the non-negative extended reals); no real numbers are ever imported or used",
+   "rg -ni '\\bsup\\b|\\binf\\b' --glob '*.v' -- every hit is either the journal abbreviation 'Inf. Comput.' or the identifier Sup in CSubSig/SubSig (signature inclusion); no supremum/infimum anywhere",
+   "rg -ni '\\bmeet\\b|\\bjoin\\b|greatest lower bound|least upper bound|lattice' --glob '*.v' -- 'join' is always the monad multiplication; 'meet'/'lattice' occur only in header prose (Structure/Cocartesian.v:70 'join in a poset', Structure/Complete.v:71 'complete lattices'); no definition or theorem",
+   "read Instance/Poset.v and Instance/Proset.v in full: they contain exactly Definition Proset, Definition Poset and the example LessThanEqualTo_Category. No limit, colimit, meet or join is ever computed in a thin category; Test/Poset.v only checks objects, homs, skeletality",
+   "rg -ni 'colimit.*limit interchange|canonical.*colim|colim_lim' --glob '*.v' -- 0 hits, so the Lemma 3.8.3 this corollary specializes is itself absent (see riehl:3.8:lem3)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees. Verified the two load-bearing negatives myself: (i) the library imports no real numbers — rg -ln 'Reals|R_scope|Rle' --glob '*.v' returns only Construction/Enriched.v, and there only in header prose about Lawvere metric spaces (enrichment in [0,∞]); (ii) rg -ni '\\bsup\\b|\\binf\\b' returns only the journal abbreviation 'Inf. Comput.' and the identifier Sup in Construction/{PROP,ColouredPROP}/Signature.v's SubSig/CSubSig (signature inclusion), i.e. no order-theoretic supremum or infimum. Instance/Poset.v and Instance/Proset.v really do contain only Definition Proset / Definition Poset / LessThanEqualTo_Category with no (co)limit computed in a thin category. NOT out of scope: the library has posets and universe polymorphism, so a poset-level sup-inf ≤ inf-sup is formalizable once κ (lem3) exists — ABSENT is the right verdict, not OUT_OF_SCOPE."
+  }
+ },
+ {
+  "id": "riehl:3.8:remark5",
+  "classification": "ABSENT",
+  "aliases": [
+   "the analyst's epsilon-free proof of sup inf <= inf sup is the categorical one",
+   "unwinding the colim-lim comparison in a poset",
+   "transitivity as composition; inf_Y f(x,-) <= f(x,y) <= sup_X f(-,y)",
+   "universal property of the supremum / infimum used as a proof principle",
+   "thin-category collapse of the mediating-morphism argument"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni '\\bsup\\b|\\binf\\b|liminf|limsup|extended real|Coq.Reals' --glob '*.v' -- no suprema, infima or real numbers anywhere (only 'Inf. Comput.' citations and the Sup identifier of CSubSig)",
+   "rg -ni '\\bmeet\\b|\\bjoin\\b|greatest lower bound|least upper bound|lattice' --glob '*.v' -- no order-theoretic meet/join definitions; only header prose",
+   "rg -ni 'colimit.*limit interchange|canonical.*colim|exchange map|colim_lim|lim_colim' --glob '*.v' -- 0 hits: the Lemma 3.8.3 proof this remark unwinds does not exist in-tree",
+   "read Instance/Poset.v: the 'order theory as category theory' dictionary is stated only in the header essay (product = meet, limit over a subset = greatest lower bound); no corresponding lemma is proved, so there is nothing asserting the collapse this remark describes"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees: this remark is the unwound proof of Lemma 3.8.3 specialized to a poset, and both the lemma (riehl:3.8:lem3) and the poset limit/colimit dictionary are absent — Instance/Poset.v states the product = meet / limit = glb reading in header prose only, with no lemma. Considered and rejected OUT_OF_SCOPE: the remark's mathematical content (inf_Y f(x,-) ≤ f(x,y) ≤ sup_X f(-,y), then transitivity = composition) is perfectly formalizable in a thin category, so under the frozen definition it is ABSENT, not out of scope. Phase E should expect this item to be absorbed by whatever issue covers lem3/cor4 rather than filed on its own."
+  }
+ },
+ {
+  "id": "riehl:3.8:example6",
+  "classification": "ABSENT",
+  "aliases": [
+   "the extended real line R-bar as a complete and cocomplete poset category",
+   "limit of a function into R-bar is its infimum, colimit its supremum",
+   "lim inf / lim sup as an iterated colimit of limits and limit of colimits",
+   "a sequence N -> R-bar as a diagram; convergence iff liminf = limsup",
+   "complete lattice / Complete + Cocomplete instance for a thin category"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'liminf|limsup|lim inf|lim sup|Rbar|extended real|Coq.Reals|monotone sequence' --glob '*.v' -- 0 relevant hits; the single 'extended real' hit is header prose in Construction/Enriched.v about Lawvere metric spaces",
+   "rg -ni '\\bsup\\b|\\binf\\b' --glob '*.v' -- no supremum/infimum in the library",
+   "rg -n 'Proset|Poset' --glob '*.v' -l -- Adjunction/GAFT.v, Test/Poset.v, Construction/Enriched.v, Instance/{Two,Poset,Proset,Props}.v. None of these carries a Complete or Cocomplete instance; grep for 'Complete' in those files: no instance of Structure/Complete.v's Complete/Cocomplete is ever built for a thin category",
+   "rg -n 'Definition Complete|Definition Cocomplete' Structure/Complete.v -- Complete := ∀ (D : Category) (F : D ⟶ C), Limit F is only a hypothesis former; the file header explicitly notes no concrete inhabitant is constructed in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind search agrees — no reals, no liminf/limsup, no complete thin category anywhere. ONE LOG CORRECTION (classification unaffected): the last negative_search_log entry says Structure/Complete.v's 'file header explicitly notes no concrete inhabitant is constructed in-tree'. I read Structure/Complete.v in full: it says no such thing. Lines 115/119 define Complete/Cocomplete, and the header (lines 60-110) discusses Freyd's thinness collapse, the universe ledger, and the in-tree CONSUMERS (Complete_HasEqualizers, Comma_Complete, cogen_prod/cogen_power, adamek_cocomplete). The CLAIM ITSELF is nevertheless true and I verified it independently: rg for definitions of type @Complete/@Cocomplete finds only hypothesis binders (Adjunction/GAFT.v:242, Adjunction/SAFT.v:145-275, Construction/Comma/Limit.v:124) and the conditional Comma_Complete; no unconditional instance exists, in particular none for a poset."
+  }
+ },
+ {
+  "id": "riehl:3.8:def7",
+  "classification": "ABSENT",
+  "aliases": [
+   "filtered category (cone under every finite diagram)",
+   "directed / cofiltered category; ind-object, Ind-completion",
+   "kappa-filtered category for a regular cardinal kappa",
+   "finitary functor / filtered-colimit-preserving functor",
+   "Cocone over every finite diagram; FiniteCategory predicate"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'filtered' --glob '*.v' -- exactly ONE hit, Comonad/CoKleisli.v:81, in prose about a 'filtered stream'; no categorical filteredness anywhere",
+   "rg -ni 'cofiltered|ind-object|Ind-completion|kappa-filtered' --glob '*.v' -- 0 hits each",
+   "rg -ni 'directed' --glob '*.v' -- hits are 'directed diagram' prose in Structure/Limit.v's history essay, plus 'directed' as an adjective in Lib/TList.v, Instance/Two.v; no directed/filtered predicate is defined",
+   "rg -ni 'finitary' --glob '*.v' -- Theory/Monad.v, Theory/Lawvere.v, Theory/Lawvere/Monad.v — all header prose ('Linton proved finitary monads on Set equivalent to Lawvere theories'); Theory/Lawvere/Monad.v:59-62 explicitly defers the finitary side (ledger 2). No definition of 'finitary' as filtered-colimit preservation exists",
+   "rg -n 'FiniteCategory|finite category|FinitelyComplete|finite limits' --glob '*.v' -- no finiteness predicate on a category; 'finite limits' appears only as prose or as the terminal+products+pullbacks bundle of Structure/Topos.v, so even the finite-diagram notion Definition 3.8.7 quantifies over is missing"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "The strongest negative in the batch and independently reproduced: rg -ni 'filtered' over all .v files returns exactly one hit, Comonad/CoKleisli.v:81, in a coeffect essay about a 'filtered stream'. 'cofiltered', 'ind-object', 'Ind-completion', 'sifted', 'cofinal' and 'final functor' all return 0. There is also no finiteness predicate on an indexing category ('finite limits' appears only as prose or as Structure/Topos.v's terminal+products+pullbacks bundle), so BOTH halves of Definition 3.8.7 — filteredness and the finite-diagram notion it quantifies over — are missing. Minor log slip, no effect: the log attributes a 'directed diagram' prose hit to Structure/Limit.v; rg -in 'directed' actually hits Lib/NETList.v:20, Lib/TList.v:19, Construction/Arrow.v:50, Structure/Distributive.v:29, Instance/Two.v:80,83 — none of them a filteredness surrogate, so the conclusion stands."
+  }
+ },
+ {
+  "id": "riehl:3.8:example8",
+  "classification": "ABSENT",
+  "aliases": [
+   "omega (and any non-empty ordinal category) is filtered",
+   "the one-object category with a non-identity idempotent is filtered",
+   "the walking parallel pair is not filtered",
+   "the span / walking span category is not filtered",
+   "discrete categories other than 1 are not filtered"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'filtered' --glob '*.v' -- 1 hit (Comonad/CoKleisli.v:81, 'filtered stream'); the predicate the example instantiates does not exist, so no instance or non-instance can be stated",
+   "rg -ni 'cofiltered|directed' --glob '*.v' -- no filteredness surrogate",
+   "the SHAPE categories the example ranges over DO exist — Instance/Omega.v (the ordinal ω with a Type-valued le_t), Instance/Parallel.v (walking parallel pair), Instance/Roof.v (the walking cospan/span shape), Instance/Discrete.v (DiscreteCat) — but grepping each of these files for 'filtered', 'cone under', 'cocone' yields no filteredness claim about any of them",
+   "rg -n -i 'idempotent' --glob '*.v' -l -- Theory/Morphisms.v (SplitIdempotent), Construction/Karoubi.v, Construction/Reflective/Idempotent.v, Structure/Coequalizer/Split.v etc.; none states that the one-object idempotent monoid is a filtered indexing category"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Confirmed, and the classifier's honest note that the SHAPE categories exist is accurate: I verified Instance/Omega.v:72 (Omega, the ordinal ω over the Type-valued le_t), Instance/Parallel.v (the walking parallel pair, header 'two objects and two parallel non-identity arrows'), Instance/Roof.v:80 (the walking span RNeg ← RZero → RPos) and Instance/Discrete.v:37 (DiscreteCat) all exist and are registered. Since the predicate 'filtered' does not exist (riehl:3.8:def7), none of them can carry, or fail to carry, the claim; and no one-object idempotent-monoid category is constructed anywhere (rg for a delooping/BM construction over Instance/ and Construction/ finds none). ABSENT stands: this item is cheap to close once def7 lands, since four of the five witnesses are already in-tree."
+  }
+ },
+ {
+  "id": "riehl:3.8:thm9",
+  "classification": "ABSENT",
+  "aliases": [
+   "filtered colimits commute with finite limits in Set",
+   "kappa : colim_J lim_I F -> lim_I colim_J F is a bijection for I finite, J filtered",
+   "explicit description of a filtered colimit in Set as a quotient of the coproduct",
+   "finite limits and filtered colimits commute in a category of models / algebras",
+   "flat functor / Ind-completion exactness"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -ni 'filtered' --glob '*.v' -- 1 irrelevant hit (Comonad/CoKleisli.v:81); neither hypothesis of the theorem is expressible in-tree",
+   "rg -n 'FiniteCategory|finite category|FinitelyComplete|finite limits' --glob '*.v' -- no finiteness predicate on an indexing category",
+   "rg -ni 'colimit.*limit interchange|canonical.*colim|exchange map|colim_lim|lim_colim' --glob '*.v' -- 0 hits: the comparison map kappa of Lemma 3.8.3 that this theorem asserts to be a bijection is itself absent",
+   "rg -n 'Limit \\(|Limit \\{|Colimit \\(' --glob '*.v' | grep '∏' -- 0 hits: no diagram indexed by a product category I ∏ J occurs anywhere",
+   "checked Instance/Sets/Coend.v / Instance/Sets/End.v (the concrete Sets colimit/limit machinery, an inductive setoid quotient by dinaturality) — the quotient description exists only for coends, and nothing states an exactness or commutation property of it"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Confirmed. Neither hypothesis is expressible in-tree (no Filtered, no finite-index predicate) and the conclusion's subject — κ of Lemma 3.8.3 — is itself absent. I also checked the one place a Set-level colimit description does exist: Instance/Sets/Coend.v builds the coend as an inductive setoid quotient by exactly the dinaturality relation, and Instance/Sets/End.v the end as the subsetoid of compatible families; neither states any exactness/commutation property, and neither is a general filtered-colimit-as-quotient description. Riehl's follow-on remark (limits and filtered colimits are created in Set for models of an algebraic theory, her Thm 5.6.5) is likewise absent: Theory/Lawvere/Monad.v:59-62 explicitly defers the finitary side to ledger 2."
+  }
+ },
+ {
+  "id": "riehl:3.8:exi",
+  "classification": "ABSENT",
+  "aliases": [
+   "splittings of idempotents commute with limits and colimits of any shape",
+   "absolute limit / absolute colimit (preserved by every functor)",
+   "split idempotent as both an equalizer and a coequalizer of (id, e)",
+   "split coequalizer / split fork absoluteness",
+   "Karoubi envelope, Cauchy completion, idempotent splitting"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n -i 'absolute' --glob '*.v' -- Structure/Coequalizer/Split.v (the one real development), plus prose in Construction/Karoubi.v:67-70, Comonad/Coalgebra.v:102, Monad/Monadicity/BeckObjects.v:53,200, Construction/Slice.v:69",
+   "rg -n -i 'split.?equalizer|SplitFork|split_fork' --glob '*.v' -- no split EQUALIZER anywhere; the only split_fork is Structure/Cartesian.v:433, a product-pairing identity unrelated to forks over a parallel pair",
+   "rg -n 'SplitIdempotent|split_idempotent' --glob '*.v' -- Theory/Morphisms.v:85 (the class: r, s with s∘r ≈ split_idem and r∘s ≈ id), Construction/Karoubi.v:228 (karoubi_idem_splits), Construction/Karoubi/Universal.v, Instance/Sets/Karoubi.v — none relates the splitting to a limit, a colimit, or functor preservation",
+   "rg -n -i 'preserv' Construction/Karoubi.v Construction/Karoubi/Universal.v Theory/Morphisms.v -- 2 prose hits only, no lemma",
+   "VERIFIER (nearest in-tree relative, retained from the overturned PARTIAL): Structure/Coequalizer/Split.v:90 Theorem split_coequalizer_is_coequalizer and :132 Corollary split_coequalizer_preserved (F : C ⟶ D) ... : IsCoequalizer (fmap[F] f) (fmap[F] g) (F (scoeq_obj S)) (fmap[F] (scoeq_e S)) — split coequalizers of an arbitrary parallel pair are absolute. Registered at _CoqProject:308. This is the TOOL the exercise's prerequisite (riehl:3.4:exvi, already PARTIAL on these same two symbols) invokes; it is not a part of 3.8.i's own statement, which is why the record is ABSENT rather than PARTIAL.",
+   "VERIFIER (Phase C's gap text, preserved verbatim so Phase E keeps the work list): The conclusion of the exercise — splitting idempotents commutes with limits and colimits of every shape — is nowhere stated. Missing links: (a) a lemma exhibiting SplitIdempotent's splitting object as an instance of SplitCoequalizer for the pair (id, split_idem) (and dually as a split equalizer); (b) the limit-side absoluteness (no Structure/Equalizer/Split.v exists — rg 'split.?equalizer|SplitFork' finds only Structure/Cartesian.v's unrelated split_fork lemma about product pairings); (c) the commutation statement itself, which would need the mixed limit/colimit interchange vocabulary the library does not have (see riehl:3.8:lem3). Construction/Karoubi.v:67 asserts 'splitting an idempotent is an absolute colimit' only in header prose, and Construction/Karoubi/Universal.v proves no preservation lemma.",
+   "VERIFIER (Phase C's strength_comparison, preserved verbatim): intree-weaker: the library proves only the ABSOLUTENESS ingredient, and only on the colimit side. (i) It is stated for an arbitrary split parallel pair (data e, s, t with four equations), never specialized to the idempotent pair (id_A, s∘r) that the exercise is about, so the split-idempotent instance is not exhibited. (ii) There is no dual split-EQUALIZER file: the limit half of Exercise 3.4.vi (B is also the limit of the idempotent diagram, absolutely) has no in-tree counterpart, and Theory/Morphisms.v's SplitIdempotent class carries no equalizer/coequalizer or preservation statement. (iii) Nothing states the exercise's actual CONCLUSION — that forming splittings commutes with limits and colimits of arbitrary shape.",
+   "VERIFIER: rg -in 'limit|colimit|equalizer|coequalizer' Construction/Karoubi.v Construction/Karoubi/Universal.v Instance/Sets/Karoubi.v — 2 hits, both header prose at Karoubi.v:67-70; the Karoubi development proves no preservation or (co)limit lemma.",
+   "VERIFIER: rg -n 'SplitEqualizer|split_equalizer' --glob '*.v' — 0 hits; rg -in 'split.?equalizer' — 1 prose hit, Comonad/Coalgebra.v:89, in a passage that states 'None of this is formalized in this file'."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "Phase C classified PARTIAL on Structure/Coequalizer/Split.v (split_coequalizer_is_coequalizer at line 90 and split_coequalizer_preserved at line 132 — both citations are accurate, the quotes are verbatim, and the file is registered at _CoqProject line 308). The evidence is real but it is NOT part of THIS item, so PARTIAL over-reads it. Exercise 3.8.i's own content is a COMMUTATION statement: forming the splitting of an idempotent commutes with limits and colimits of every shape. Zero of that is in-tree: (a) no absolute-(co)limit definition exists at all — the sibling record riehl:3.4:def-absolute (verified-3-6.json, PARTIAL/CONFIRMED) establishes precisely this, 'There is no definition of an absolute (co)limit'; (b) no term builds a SplitCoequalizer from a SplitIdempotent, so the splitting is never exhibited as a (co)limit — Theory/Morphisms.v:85's SplitIdempotent class carries r, s and the two equations and nothing else, and Construction/Karoubi.v / Karoubi/Universal.v / Instance/Sets/Karoubi.v contain NO occurrence of 'limit', 'colimit', 'equalizer' or 'coequalizer' except the header prose at Karoubi.v:67 ('splitting an idempotent is an absolute colimit'); (c) the commutation vocabulary the conclusion needs does not exist (see riehl:3.8:lem3, ABSENT). The cited theorem is about split coequalizers of an ARBITRARY parallel pair — a tool the exercise's PREREQUISITE (riehl:3.4:exvi) invokes, and that item is already recorded PARTIAL on exactly these two symbols in verified-3-6.json. Counting the same two symbols again for 3.8.i double-counts a prerequisite as content. Consistency check inside this very batch: riehl:3.7:exi has the identical shape (its vocabulary — PreservesAllLimits, InitialFunctor — exists, its claim does not) and Phase C correctly called it ABSENT. Fields corrected: classification → ABSENT, evidence → [] and statement_record/gap → null per the ABSENT schema, with the Split.v pointer and the whole of Phase C's gap text preserved as VERIFIER entries in negative_search_log so nothing is lost to Phase E. Minor slip in the Phase-C log, corrected there too: 'no split EQUALIZER anywhere' — rg -in 'split.?equalizer' does hit Comonad/Coalgebra.v:89 ('with split equalizers in the role that split coequalizers play for monads'), which is prose in a passage that itself says 'None of this is formalized in this file'; the substantive claim (no split-equalizer DEVELOPMENT, no SplitEqualizer identifier) is correct."
+  },
+  "phase_c_classification": "PARTIAL"
+ },
+ {
+  "id": "riehl:3.8:exii",
+  "classification": "ABSENT",
+  "aliases": [
+   "BG-indexed limits commute with BH-indexed colimits in Set for coprime |G|, |H|",
+   "group as a one-object category BG / delooping; G-sets as functors BG -> Set",
+   "fixed points as the limit and orbits as the colimit of a G-set diagram",
+   "coprime orders / gcd(|G|,|H|) = 1",
+   "commuting limits and colimits over group-shaped indexing categories"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "rg -n --glob '*.v' 'coprime|gcd|group order|G-set|orbit' -- 0 hits for each (the single 'Burnside' hit, Construction/Cayley.v:60, is a historical remark on the naming of Cayley's theorem)",
+   "rg -n --glob '*.v' 'BG' -- 3 hits: Theory/Functor.v:68 prose ('a functor from a one-object category BG to vector spaces is a representation') and two occurrences of a BraidedMonoidalFunctor variable named BG in Construction/{PROP,ColouredPROP}/Universal.v; no delooping construction and no G-set diagram",
+   "rg -ni 'fixed point' --glob '*.v' -- all hits are least/greatest fixed points of endofunctors (Lambek, Adamek, Store comonad); nothing about fixed points of a group action as a limit",
+   "rg -ni 'colimit.*limit interchange|canonical.*colim|colim_lim|lim_colim' --glob '*.v' -- 0 hits: the ambient 'limits of shape I commute with colimits of shape J' vocabulary that this exercise instantiates does not exist in-tree",
+   "rg -n 'Limit \\(|Limit \\{|Colimit \\(' --glob '*.v' | grep '∏' -- 0 hits: no diagram over a product indexing category BG ∏ BH"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Confirmed by blind search. Independently verified the decisive negative: the library has NO delooping — I enumerated every 'Definition/Program Definition ... : Category' in Instance/ and Construction/ (Adjoints, Cones, Tries, Vectors, Rel, Fun, _0, Adj, Free, FreeSyntax, ZX_Cat, Ens, EnsT, FinSet, Algs, Comp, Lambda, Sets, Fact, FAlg, Roof, Karoubi, DiscreteCat, Omega, Arrow, Product, Quotient, CMon, LessThanEqualTo_Category) and none is the one-object category BG of a group or monoid. Construction/Cayley.v is the Yoneda image of a category, not a delooping, and its header only cites the one-object reading rhetorically. No G-sets, no orbits/fixed points as colimit/limit, no coprimality or arithmetic on group orders (rg 'coprime|gcd|orbit|G-set' → 0). The ambient 'shape-I limits commute with shape-J colimits' vocabulary this exercise instantiates is absent too (riehl:3.8:lem3), so the item is doubly ABSENT."
+  }
+ }
+]

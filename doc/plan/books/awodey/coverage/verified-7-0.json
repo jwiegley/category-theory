@@ -1,0 +1,485 @@
+[
+ {
+  "id": "awodey:7.1:construction-cat-equalizer",
+  "classification": "ABSENT",
+  "aliases": [
+   "equalizer of two functors in Cat",
+   "Cat_Equalizer / Equalizer Cat",
+   "the subcategory on which F and G agree (F x = G x, F f = G f)",
+   "Limit of a Parallel diagram in Cat / IsEqualizer for functors",
+   "inserter / equifier (2-categorical cousins)"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rho 'Cat_[A-Za-z_]*' --include='*.v' . | sort -u  -- the complete list of Cat-level instances is Cat_Cartesian, Cat_Cocartesian, Cat_Terminal, Cat_Initial, Cat_Monoidal/Braided/Symmetric/Closed, Cat_Bicategory, Cat_Discrete-related; there is NO Cat_Equalizer and no Cat_Limit/Cat_Complete",
+   "grep -rn 'Equalizer' --include='*.v' . | grep -i 'instance|Program Definition|Definition|Theorem'  -- hits only Structure/Equalizer.v (Equalizer F := Limit F), Structure/Equalizer/Fork.v, Structure/Kernel.v, Adjunction/GAFT.v (Complete_HasEqualizers); none in Instance/Cat*",
+   "grep -rni 'equali' --include='*.v' Instance/  -- 0 hits about equalizers (all hits are the word 'equality')",
+   "grep -rni 'Cat_Complete|Complete Cat|Cat is complete|limits in Cat|equalizer of functors|Eq_Functor|agree_sub|Equifier' --include='*.v' .  -- 0 relevant hits",
+   "grep -rni 'inserter' --include='*.v' .  -- 0 hits",
+   "grep -rni 'iso-comma' --include='*.v' .  -- 0 hits",
+   "Construction/Subcategory.v read in full: it supplies the generic Subcategory/Sub/Incl machinery in which such an equalizer would be built, but no instance of it is the equalizer of a parallel pair of functors."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Re-ran the negative log: no Cat_Equalizer/Cat_Limit/Cat_Complete symbol exists; the only Cat-level structure instances are Cat_Cartesian (Instance/Cat/Cartesian.v:39), Cat_Cocartesian (Instance/Cat/Cocartesian.v:40), Cat_Terminal (Instance/One.v:54), Cat_Initial (Instance/Zero.v:44) and Cat_Closed (Instance/Cat/Cartesian/Closed.v:47). Construction/Subcategory.v is indeed the only machinery in which such an equalizer could be phrased and it is never so instantiated. ADDITION to the log the classifier did not make: the strict ambient in which Awodey's construction lives (F x = G x on the nose) is Instance/StrictCat.v, whose only structure in-tree is StrictCat_Terminal (Instance/StrictCat/Terminal.v:36) plus the Funny/Premonoid files -- no products, no equalizers, no limits at all. So the gap is present in BOTH candidate ambients; this is worth carrying into the issue because the library's Cat identifies functors only up to natural iso, so a faithful rendering of the book's strict equalizer belongs in StrictCat."
+  }
+ },
+ {
+  "id": "awodey:7.1:remark-cat-complete",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Cat has finite products and coproducts",
+   "Cat_Cartesian / Cat_Cocartesian / Cat_Terminal / Cat_Initial",
+   "Cat is complete (has all limits)",
+   "product category C x D, coproduct (disjoint-union) category C + D, terminal category 1, empty category 0",
+   "small products/coproducts of categories; coequalizers of categories"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Cat/Cartesian.v",
+    "line": 39,
+    "symbol": "Cat_Cartesian",
+    "intree_statement": "#[export] Program Instance Cat_Cartesian : @Cartesian Cat := { product_obj := @Product; fork := fun _ _ _ F G => {| fobj := fun x => (F x, G x); fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |}; exl := fun _ _ => {| fobj := fst; fmap := fun _ _ => fst |}; exr := fun _ _ => {| fobj := snd; fmap := fun _ _ => snd |} }"
+   },
+   {
+    "file": "Instance/Cat/Cocartesian.v",
+    "line": 40,
+    "symbol": "Cat_Cocartesian",
+    "intree_statement": "#[export] Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := fun _ _ _ F G => {| fobj := fun x => match x with Datatypes.inl x => F x | Datatypes.inr x => G x end; fmap := ... |} }"
+   },
+   {
+    "file": "Instance/One.v",
+    "line": 54,
+    "symbol": "Cat_Terminal",
+    "intree_statement": "#[export] Program Instance Cat_Terminal : @Terminal Cat := { terminal_obj := _1;  (* the terminal category 1 *) one := Erase  (* the unique functor ! : C ⟶ 1 *) }"
+   },
+   {
+    "file": "Instance/Zero.v",
+    "line": 44,
+    "symbol": "Cat_Initial",
+    "intree_statement": "#[export] Program Instance Cat_Initial : @Initial Cat := { terminal_obj := _0; one := From_0 }"
+   }
+  ],
+  "statement_record": {
+   "book": "Cat has an initial category 0 and binary coproducts C + D, a terminal category 1 and binary products C x D, and likewise all small products and coproducts; together with the equalizer construction this gives Cat all limits. Coequalizers of categories are noted to be much harder to describe.",
+   "intree": "Cat_Cartesian : @Cartesian Cat; Cat_Cocartesian : @Cocartesian Cat; Cat_Terminal : @Terminal Cat (terminal_obj := _1); Cat_Initial : @Initial Cat (terminal_obj := _0)",
+   "strength_comparison": "intree-weaker: only the FINITE (binary + nullary) products and coproducts are in-tree. There is no indexed/small product or coproduct of a family of categories, no equalizer in Cat, and no `Complete Cat`/`Cocomplete Cat` witness (Structure/Complete.v:115 defines `Complete {C} := ∀ D (F : D ⟶ C), Limit F` but Cat is never shown to satisfy it). The coequalizer caveat is likewise unaddressed."
+  },
+  "gap": "The headline conclusion — Cat has ALL limits — is not in-tree. Missing: (a) small/indexed products and coproducts of families of categories (only binary versions exist); (b) equalizers of parallel functors (see awodey:7.1:construction-cat-equalizer); (c) any `Complete Cat` instance assembling these into completeness; (d) the remark that coequalizers of categories are hard (nothing about colimits in Cat beyond binary coproducts and 0).",
+  "negative_search_log": [
+   "grep -rho 'Cat_[A-Za-z_]*' --include='*.v' . | sort -u  -- no Cat_Equalizer, Cat_Limit, Cat_Complete, Cat_Product_Indexed",
+   "grep -rn 'Complete|Cocomplete' --include='*.v' Instance/  -- 0 hits (Structure/Complete.v is never instantiated at Cat)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "All four cited lines verified verbatim (Instance/Cat/Cartesian.v:39, Instance/Cat/Cocartesian.v:40, Instance/One.v:54, Instance/Zero.v:44); all files registered in _CoqProject. Structure/Complete.v:115 is exactly 'Definition Complete {C : Category} := forall (D : Category) (F : D ⟶ C), Limit F' and is never instantiated at Cat -- confirmed by grep over Instance/. strength_comparison is honest: it does not oversell the binary/nullary instances as completeness. Independent blind pass produced the same PARTIAL with the same three missing pieces (small products/coproducts, equalizers, Complete Cat)."
+  }
+ },
+ {
+  "id": "awodey:7.1:def-subcategory",
+  "classification": "PRESENT",
+  "aliases": [
+   "subcategory",
+   "Subcategory record / Sub category / Incl inclusion functor",
+   "sub-collection of objects and arrows closed under id and composition",
+   "wide (lluf) subcategory, replete subcategory",
+   "monomorphism in Cat (abstract characterization)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 31,
+    "symbol": "Subcategory",
+    "intree_statement": "Record Subcategory := { sobj : C → Type; shom {x y : C} : sobj x → sobj y → (x ~> y) → Type; scomp {x y z : C} (ox : sobj x) (oy : sobj y) (oz : sobj z) {f : y ~> z} {g : x ~> y} : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid {x : C} (ox : sobj x) : shom ox ox (@id C x) }"
+   },
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 50,
+    "symbol": "Sub",
+    "intree_statement": "Program Definition Sub : Category := {| obj := { x : C & sobj S x }; hom := fun x y => { f : `1 x ~> `1 y & shom S `2 x `2 y f }; homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |}; id := fun x => (id; sid S `2 x); compose := fun x y z f g => (`1 f ∘ `1 g; scomp S `2 x `2 y `2 z `2 f `2 g) |}"
+   },
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 59,
+    "symbol": "Incl",
+    "intree_statement": "Program Instance Incl : Sub ⟶ C := { fobj := fun x => `1 x; fmap := fun x y f => `1 f }"
+   }
+  ],
+  "statement_record": {
+   "book": "A subcategory of C is a choice of some objects U_0 ⊆ C_0 and some arrows U_1 ⊆ C_1, closed under dom, cod, id and composition, together with the evident inclusion functor i : U → C, which is monic; abstractly, subcategories are the monomorphisms in Cat.",
+   "intree": "Record Subcategory := { sobj : C → Type; shom {x y} : sobj x → sobj y → (x ~> y) → Type; scomp ... : shom oy oz f → shom ox oy g → shom ox oz (f ∘ g); sid (ox : sobj x) : shom ox ox (@id C x) } together with `Sub : Category` and `Incl : Sub ⟶ C`.",
+   "strength_comparison": "same for the concrete definition: sobj/shom are the two subcollections, scomp/sid the closure conditions, and dom/cod closure holds by construction because shom is indexed only by already-selected objects (stated in the file header). intree-weaker on the aside: neither the abstract characterization 'subcategory = mono in Cat' nor the monicity of Incl is asserted anywhere; even generic faithfulness of Incl is only remarked in a comment, the sole proved instance being Sheaves_Faithful (Theory/Sheaf/Category.v:103). The in-tree record is Type-valued (proof-relevant selection) rather than a subset, which is the standard constructive rephrasing."
+  },
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Faithful (Incl|Faithful.*Incl|Incl.*Faithful' --include='*.v' .  -- only Theory/Sheaf/Category.v:103 (Sheaves_Faithful), no generic lemma",
+   "grep -rn 'Incl' --include='*.v' . | grep -i 'monic|mono'  -- 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Construction/Subcategory.v read in full (95 lines): Record Subcategory:31, Sub:50, Incl:59 all match the quoted text; registered at _CoqProject:71. The concrete definition and its inclusion functor are present in substance, so PRESENT stands under the frozen definition. The strength_comparison is honest that the abstract 'subcategory = mono in Cat' aside and the monicity/faithfulness of Incl are unproved. I considered overturning to PARTIAL on that aside but did not: Awodey's operative definition is the concrete one, which is fully realized. The missing generic 'Faithful Incl' is routed to the LIBRARY-DEFECT channel instead (two files cite a generic faithful Incl that does not exist as a lemma, and Theory/Sheaf/Category.v:103 re-proves the generic one-liner ad hoc)."
+  }
+ },
+ {
+  "id": "awodey:7.1:def1",
+  "classification": "PARTIAL",
+  "aliases": [
+   "faithful functor (hom-map injective)",
+   "full functor (hom-map surjective)",
+   "injective/surjective on objects (fobj injective/surjective)",
+   "injective/surjective on arrows (F_1 : C_1 → D_1)",
+   "essentially surjective (the standard weakening of surjective-on-objects)"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Functor.v",
+    "line": 331,
+    "symbol": "Full",
+    "intree_statement": "Class Full `(F : C ⟶ D) := { prefmap {x y} (g : F x ~> F y) : x ~> y;  (* chosen preimage of g under fmap *) fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g  (* prefmap is a section of fmap *) }"
+   },
+   {
+    "file": "Theory/Functor.v",
+    "line": 342,
+    "symbol": "Faithful",
+    "intree_statement": "Class Faithful `(F : C ⟶ D) := { fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g  (* injectivity of fmap[F] *) }"
+   }
+  ],
+  "statement_record": {
+   "book": "Definition 7.1. F : C → D is injective (surjective) on objects if F_0 : C_0 → D_0 is; injective (surjective) on arrows if F_1 : C_1 → D_1 is; faithful if every hom-map F_{A,B} : Hom_C(A,B) → Hom_D(FA,FB) is injective; full if every F_{A,B} is surjective.",
+   "intree": "Class Faithful : fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g.  Class Full : prefmap {x y} (g : F x ~> F y) : x ~> y with fmap_sur : fmap[F] (prefmap g) ≈ g.",
+   "strength_comparison": "same for faithful (hom-map injectivity, with ≈ replacing =, the faithful setoid rephrasing). For full, intree-STRONGER/split: fullness is witnessed by a chosen section prefmap rather than by a bare surjectivity proposition (a deliberate choice-carrying house style, documented at Theory/Functor.v:320-330 and Theory/Equivalence.v:38). The other two clauses of the definition have no in-tree counterpart."
+  },
+  "gap": "Only two of the four notions are defined. There is no in-tree notion of a functor being injective or surjective ON OBJECTS (no predicate on fobj at all), and none of being injective or surjective ON ARROWS — the library has no global arrow collection C_1 (homs are indexed families, `hom : obj → obj → Type`), so the arrow-level clause would first have to be phrased over the total space `{x & {y & x ~> y}}`. The only object-level relative is `EssentiallySurjective` (Theory/Equivalence.v:141), which is the up-to-iso weakening, not Awodey's strict surjectivity on objects.",
+  "negative_search_log": [
+   "grep -rni 'InjectiveOnObjects|injective on objects' --include='*.v' .  -- 0 hits",
+   "grep -rni 'SurjectiveOnObjects|surjective on objects' --include='*.v' .  -- only prose in Theory/Lawvere/Sets.v:39 and Construction/Grothendieck/RoundTrip.v:55, no definition",
+   "grep -rn 'Injective\\b' --include='*.v' .  -- 0 hits",
+   "grep -rn 'Surjective\\b' --include='*.v' .  -- only EssentiallySurjective",
+   "grep -rni 'injective on arrows|injective_on|surjective_on|inj_obj|obj_inj' --include='*.v' .  -- 0 hits",
+   "grep -rn 'fobj_inj|fobj_injective' --include='*.v' .  -- 0 hits"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Theory/Functor.v:331 (Full) and :342 (Faithful) verified verbatim, including the choice-carrying prefmap/fmap_sur shape and the issue-#118 header explaining why prefmap_respects/id/comp were dropped. The 'intree-STRONGER/split' reading of Full is correct: a section of fmap is strictly more than surjectivity of fmap, and the library documents this as house style. Re-ran the negative log: rg for Injective/Surjective across Lib/ and Theory/ returns only EssentiallySurjective (Theory/Equivalence.v:141) and an unrelated 'Surjective pairing' comment; there is no predicate on fobj and no total arrow space. Gap statement is precise and matches my blind result."
+  }
+ },
+ {
+  "id": "awodey:7.1:construction-codiagonal",
+  "classification": "PARTIAL",
+  "aliases": [
+   "codiagonal functor ∇ : C + C ⟶ C",
+   "fold functor [Id, Id] out of the coproduct category",
+   "copairing of the identity with itself",
+   "CoproductFunctor",
+   "faithful but not injective on arrows (the separating claim)"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Coproduct.v",
+    "line": 61,
+    "symbol": "CoproductFunctor",
+    "intree_statement": "#[export] Program Instance CoproductFunctor : C ∐ C ⟶ C := { fobj := sum_obj;    (* inl x, inr x ↦ x *) fmap := sum_map;    (* identity on each summand's morphisms *) }"
+   },
+   {
+    "file": "Instance/Cat/Cocartesian.v",
+    "line": 40,
+    "symbol": "Cat_Cocartesian",
+    "intree_statement": "#[export] Program Instance Cat_Cocartesian : @Cocartesian Cat := { product_obj := @Coproduct; fork := fun _ _ _ F G => {| fobj := fun x => match x with Datatypes.inl x => F x | Datatypes.inr x => G x end; ... |} }"
+   }
+  ],
+  "statement_record": {
+   "book": "The codiagonal ∇ : C + C → C is the functor induced out of the coproduct by 1_C on each summand; it witnesses that faithfulness is strictly weaker than injectivity on arrows, being faithful yet identifying the two copies of each arrow.",
+   "intree": "CoproductFunctor : C ∐ C ⟶ C with fobj := sum_obj (inl x, inr x ↦ x) and fmap := sum_map (identity on each summand's hom-set; the cross-summand homs are False and eliminated by [!]).  Cat_Cocartesian makes C ∐ C the coproduct of C with itself in Cat, so ∇ is the copairing induced by Id on each summand.",
+   "strength_comparison": "same for the construction itself (the file header states explicitly that it is the copairing [Id, Id] furnished by the universal property of the coproduct in Cat). intree-weaker on the point of the example: nothing about faithfulness or non-injectivity on arrows is asserted for it."
+  },
+  "gap": "The functor exists but the property it is introduced to exhibit does not. There is no `Faithful CoproductFunctor` instance, and — since the library has no predicate for a functor being injective on arrows (see awodey:7.1:def1) — no way in-tree to even state that ∇ fails it. The separation 'faithful ⊅ injective on arrows' is therefore entirely unformalized. (Note the in-tree definition is stated directly by case analysis rather than obtained from the coproduct UMP, and it carries an unused `@Cocartesian C` hypothesis retained only to record the intended setting.)",
+  "negative_search_log": [
+   "grep -rn 'CoproductFunctor' --include='*.v' .  -- defined only at Functor/Coproduct.v:61; no Faithful/Full instance for it anywhere",
+   "grep -rni 'codiagonal' --include='*.v' .  -- Functor/Coproduct.v plus cocartesian ∇ = id ▽ id (a different, morphism-level notion, disclaimed in the file header)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Functor/Coproduct.v:61 verified verbatim; file registered at _CoqProject:137. Confirmed there is no Faithful/Full instance for CoproductFunctor anywhere, and (per awodey:7.1:def1) no way to state 'injective on arrows', so the separating point of the example is genuinely unformalized -- PARTIAL is right. The parenthetical about the unused @Cocartesian C hypothesis is accurate and is disclosed in the file header, so it is not a defect. However the header's claim that the functor is 'furnished by the universal property of the coproduct in Cat' and is 'the unique functor with [Id,Id] o inl = Id and [Id,Id] o inr = Id' is NOT backed by the file (see problems[]); that strengthens, not weakens, the PARTIAL verdict."
+  }
+ },
+ {
+  "id": "awodey:7.1:def-full-subcategory",
+  "classification": "PARTIAL",
+  "aliases": [
+   "full subcategory",
+   "Subcategory.Full predicate",
+   "full and faithful inclusion U ↪ C",
+   "Full_Implies_Full_Functor",
+   "replete / wide subcategory (neighbouring notions)"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 74,
+    "symbol": "Full_Implies_Full_Functor",
+    "intree_statement": "Lemma Full_Implies_Full_Functor : Full → Functor.Full Incl."
+   },
+   {
+    "file": "Construction/Subcategory.v",
+    "line": 69,
+    "symbol": "Full",
+    "intree_statement": "Definition Full : Type := ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f."
+   }
+  ],
+  "statement_record": {
+   "book": "A full subcategory U ↪ C consists of some objects of C together with ALL C-arrows between them (which automatically satisfies the subcategory closure conditions); its inclusion is full and faithful.",
+   "intree": "Definition Full : Type := ∀ (x y : C) (ox : sobj S x) (oy : sobj S y) (f : x ~> y), shom S ox oy f;  Lemma Full_Implies_Full_Functor : Full → Functor.Full Incl.",
+   "strength_comparison": "same for the definition and for the 'inclusion is full' half. intree-weaker on two secondary points: (i) generic faithfulness of Incl is never stated — it is remarked in the header comment (Construction/Subcategory.v:26-28: 'that inclusion is always faithful, since on each hom-set it is the first projection out of a sigma type') and proved only for one instance, Sheaves_Faithful (Theory/Sheaf/Category.v:103); (ii) in-tree `Full` is a PREDICATE on an already-supplied Subcategory rather than a constructor turning a subclass of objects into a subcategory, so the book's observation that fullness makes the closure conditions automatic is not itself formalized (each user still supplies trivial scomp/sid, e.g. Theory/Sheaf/Category.v:74 and Theory/Lawvere/Model.v:68)."
+  },
+  "gap": "fess-aw7 MEDIUM-4: generic Faithful Incl is asserted in Construction/Subcategory.v's header but nowhere proved (defect A20), and neither illustration (Sets_fin into Sets full+faithful; Groups into Sets faithful-not-full) exists in-tree.",
+  "negative_search_log": [
+   "grep -rn 'Faithful (Incl|Incl.*Faithful' --include='*.v' .  -- only Sheaves_Faithful, no generic lemma",
+   "grep -rn 'Sets_fin|FinSet.*Sets' --include='*.v' .  -- the illustration Sets_fin ↪ Sets (full+faithful) and Groups → Sets (faithful, not full) have no in-tree counterparts; Instance/FinSet.v is skeletal FinSet with no functor into Sets"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Construction/Subcategory.v:69 (Definition Full) and :74 (Full_Implies_Full_Functor) verified verbatim; the proof discharges Functor.Full Incl by exhibiting the preimage and reflexivity. The 'inclusion is full' half is genuinely proved, so PRESENT stands. Point (ii) of the strength_comparison is correct and non-obvious: in-tree Full is a predicate on an already-built Subcategory, so the book's observation that fullness makes the closure conditions automatic is not itself formalized -- Theory/Sheaf/Category.v:74 and Theory/Lawvere/Model.v:68 do indeed each supply trivial scomp/sid by hand. The unproved faithful half of 'full and faithful' goes to the LIBRARY-DEFECT channel rather than downgrading the record."
+  },
+  "phase_c_classification": "PRESENT"
+ },
+ {
+  "id": "awodey:7.1:example2",
+  "classification": "PARTIAL",
+  "aliases": [
+   "groups/monoids as one-object categories (delooping BG, BM)",
+   "posets as thin categories; P : Pos ⟶ Cat full and faithful",
+   "discrete category functor S : Sets ⟶ Cat",
+   "functor between poset-categories = monotone map",
+   "functor between one-object categories = monoid/group homomorphism"
+  ],
+  "evidence": [
+   {
+    "file": "Construction/Enriched/Two.v",
+    "line": 183,
+    "symbol": "EnrichedFunctor_Two_monotone",
+    "intree_statement": "Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) ↔ MonotoneMap P Q."
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := @reflexivity A R _; compose := fun x y z f g => @transitivity A R _ x y z g f |}"
+   },
+   {
+    "file": "Instance/Discrete.v",
+    "line": 37,
+    "symbol": "DiscreteCat",
+    "intree_statement": "Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {| obj := A; hom := fun x y => x = y; homset := fun x y => Morphism_equality@{o h p} x y; id := fun _ => eq_refl; compose := fun _ _ _ g f => eq_trans f g |}"
+   }
+  ],
+  "statement_record": {
+   "book": "Example 7.2: G : Groups ⟶ Cat (a group as its one-object category) is full and faithful, since a functor G(A) → G(B) is exactly a group homomorphism A → B; likewise for monoids; P : Pos ⟶ Cat is full and faithful since a functor between posets is exactly a monotone map; and so is the discrete-category functor S : Sets ⟶ Cat.",
+   "intree": "EnrichedFunctor_Two_monotone : EnrichedFunctor _2 (…P) (…Q) ↔ MonotoneMap P Q, over Enriched_Two_preorder : @Enriched _2 Two_Monoidal ↔ TwoPreorder; plus the object-level constructions Proset (a preorder yields a thin category) and DiscreteCat (a Type yields a discrete category).",
+   "strength_comparison": "intree-weaker in ambient and in scope. The monotone-map correspondence is proved for functors ENRICHED over the walking arrow 2 between 2-enrichments of preorders — not for ordinary functors between the thin categories Proset P, and the two presentations are never connected in-tree. The Proset/DiscreteCat constructions supply only the OBJECT part of P and S; neither is packaged as a functor into Cat, and neither is shown full or faithful."
+  },
+  "gap": "No clause of the example is stated as a full-and-faithful embedding into Cat. Missing: (a) there is no category of groups or of monoids at all (grep for Grp/Groups returns only prose; Theory/Algebra/Monoid/Hom.v's `Mon` is the category of monoid OBJECTS in a monoidal C, not Set-monoids with a functor to Cat), and no delooping construction turning a monoid/group into a one-object category; (b) there is no category Pos of posets and monotone maps, hence no functor P : Pos ⟶ Cat; (c) there is no functor S : Sets ⟶ Cat built from DiscreteCat (only `DiscreteCat_Functor : (A → C) → DiscreteCat A ⟶ C`, the adjunction's other leg, and Instance/Discrete.v's header calls the Set ⟶ Cat left adjoint out of scope, 'at the level of a single functor'); (d) consequently no Full/Faithful instance is proved for any of the four embeddings.",
+  "negative_search_log": [
+   "grep -rn 'Grp\\b|Groups' --include='*.v' .  -- prose only (Structure/Group.v header, Structure/Complete.v:55); no category of groups",
+   "grep -rni 'delooping|one-object' --include='*.v' .  -- prose plus Theory/Bicategory/OneObject.v (monoidal category as one-object BICATEGORY), never a monoid/group as a one-object CATEGORY",
+   "grep -rn 'Category :=' --include='*.v' . | grep -i 'monoid|group'  -- Theory/Algebra/Monoid/Hom.v:83 (Mon = monoid objects in C), Instance/CMon.v:140; no BM/BG delooping",
+   "grep -rn 'Sets ⟶ Cat' --include='*.v' .  -- 0 hits",
+   "grep -rn 'Cat_Discrete' --include='*.v' .  -- 0 hits (the symbol does not exist)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Evidence verified: Construction/Enriched/Two.v:183 is 'Theorem EnrichedFunctor_Two_monotone (P Q : TwoPreorder) : EnrichedFunctor _2 (snd Enriched_Two_preorder P) (snd Enriched_Two_preorder Q) <-> MonotoneMap P Q' with MonotoneMap defined at :175; Instance/Proset.v:33 and Instance/Discrete.v:37 match their quotes; Instance/Discrete.v:31 does say the Set ⟶ Cat left adjoint is present only 'at the level of a single functor'. This record sits close to the ABSENT boundary and I tested it hard: the reason it stays PARTIAL rather than being overturned is that EnrichedFunctor_Two_monotone formalizes the SAME mathematical content as the example's Pos clause ('a functor between posets is exactly a monotone map'), as a two-directional iff, merely in the 2-enriched presentation -- and the strength_comparison discloses that the presentations are never bridged in-tree. Verified independently that no Grp/Mon/Pos category and no delooping exist, and that Instance/FinSet.v has no functor into Sets (rg '⟶ Sets' over Instance/FinSet*.v: 0 hits), so the def-full-subcategory illustrations are absent too."
+  }
+ },
+ {
+  "id": "awodey:7.1:construction-linear-representation",
+  "classification": "ABSENT",
+  "aliases": [
+   "functor out of a group = representation of G in C",
+   "linear representation of a group; G ⟶ FdVect",
+   "delooping BG; one-object category of a group",
+   "category of finite-dimensional real vector spaces and linear maps (Vect, FdVect)",
+   "a functor from a group into a poset is trivial"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni 'Vect' --include='*.v' .  -- only Coq.Vectors.Vector in Theory/Sheaf.v and the prose mention at Theory/Functor.v:68; no category of vector spaces",
+   "grep -rni 'vector space' --include='*.v' .  -- prose only (Theory/Functor.v:68, Theory/Equivalence.v:86, Construction/Enriched.v:46 …)",
+   "grep -rni 'linear map' --include='*.v' .  -- prose only",
+   "grep -rni 'representation of' --include='*.v' .  -- Functor/Representable.v (representation of a Sets-valued functor, a different notion), Construction/Cayley.v; nothing about group representations",
+   "grep -rni 'matrix|GL(' --include='*.v' .  -- prose only (Yoneda/profunctor essays)",
+   "grep -rni 'delooping|one-object' --include='*.v' .  -- no construction of a group as a one-object category, so the source of such a functor cannot even be formed",
+   "Theory/Functor.v:68 names the fact ('a functor from a one-object category BG to vector spaces is precisely a linear representation of the group G') in a header COMMENT only — no assertion."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Confirmed there is no category of vector spaces (rg Vect: only Coq.Vectors.Vector in Theory/Sheaf.v and prose), no group representation anywhere (rg -i 'representation' with representable/representing/presentation filtered out: 0 hits), and no monoid/group-as-one-object-category construction (rg 'Category :=' filtered on monoid|group yields only Theory/Algebra/Monoid/Hom.v Mon = monoid OBJECTS and Instance/CMon.v). Theory/Functor.v:68 does name the fact in a header essay only, as the record states. Note Theory/Bicategory/OneObject.v is a monoidal category as a one-object BICATEGORY -- the wrong direction of delooping for this item, correctly excluded."
+  }
+ },
+ {
+  "id": "awodey:7.1:construction-poset-to-group",
+  "classification": "ABSENT",
+  "aliases": [
+   "functor from a poset to a group",
+   "cocycle condition g_{p,p} = u, g_{q,r} · g_{p,q} = g_{p,r}",
+   "monotone family of group elements; subtraction as a functor",
+   "functor out of a thin category into a one-object category",
+   "(R, ≤) ⟶ (R, +) with g_{x,y} = y − x"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rni 'cocycle' --include='*.v' .  -- Theory/Displayed.v:50, Theory/DoubleCategory/Companion.v:68 and Construction/Indexed.v (2-cocycle COUNTERMODELS and the IndexedCat associativity cocycle) — all unrelated to functors out of a poset",
+   "grep -rn 'Category :=' --include='*.v' . | grep -i 'monoid|group'  -- no delooping of a group as a one-object category, so the target of such a functor cannot be formed",
+   "grep -rni 'delooping|one-object' --include='*.v' .  -- prose only; Theory/Bicategory/OneObject.v is monoidal-category-as-bicategory",
+   "grep -rn 'Proset|Poset' --include='*.v' .  -- Instance/Proset.v and Instance/Poset.v build the SOURCE thin category, but no functor out of one into a group is constructed anywhere",
+   "grep -rni 'Grp\\b|Groups' --include='*.v' .  -- 0 definitions"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. The SOURCE exists (Instance/Poset.v:116 Poset, Instance/Proset.v:33 Proset both turn an order into a category) but the TARGET (a group as a one-object category) does not, so the functor cannot be formed; verified the three cocycle hits (Theory/Displayed.v:50, Theory/DoubleCategory/Companion.v:68, Construction/Grothendieck.v:220) are all unrelated 2-cocycle countermodels or the IndexedCat associativity cocycle. No subtraction-as-functor anywhere."
+  }
+ },
+ {
+  "id": "awodey:7.2:construction-representable-covariant",
+  "classification": "PRESENT",
+  "aliases": [
+   "covariant hom-functor Hom_C(C, −) : C ⟶ Sets",
+   "Curried_Hom / [Hom A,─]",
+   "corepresentable functor; post-composition action",
+   "hom-bifunctor Hom : C^op ∏ C ⟶ Sets",
+   "Yoneda embedding (the curried packaging)"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom.v",
+    "line": 60,
+    "symbol": "Curried_Hom",
+    "intree_statement": "Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {| fobj := fun x => {| fobj := fun y => {| carrier := @hom C x y ; is_setoid := @homset C x y |}; fmap := fun y z (f : y ~{C}~> z) => {| morphism := fun (g : x ~{C}~> y) => (f ∘ g) : x ~{C}~> z |} |}; fmap := fun x y (f : x ~{C^op}~> y) => {| transform := fun _ => {| morphism := fun g => g ∘ op f |} |} |}   (with Notation \"[Hom A , ─]\" := (@Curried_Hom _ A))"
+   },
+   {
+    "file": "Functor/Hom.v",
+    "line": 49,
+    "symbol": "Hom",
+    "intree_statement": "Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {| fobj := fun p => {| carrier := @hom C (fst p) (snd p) ; is_setoid := @homset (C) (fst p) (snd p) |}; fmap := fun x y (f : x ~{C^op ∏ C}~> y) => {| morphism := fun g => snd f ∘ g ∘ fst f |} |}"
+   }
+  ],
+  "statement_record": {
+   "book": "For a locally small category C and an object C, the covariant representable Hom_C(C, −) : C ⟶ Sets sends X to the set Hom_C(C, X) and an arrow to post-composition with it.",
+   "intree": "Curried_Hom C : C^op ⟶ [C, Sets] whose value at x is the functor y ↦ hom C x y with fmap f g = f ∘ g (post-composition); packaged as the notation [Hom A,─]. The uncurried bifunctor Hom C : C^op ∏ C ⟶ Sets is also supplied.",
+   "strength_comparison": "same, with the standard setoid rephrasing: 'locally small' is realised by hom-setoids landing in Sets (the category of setoids, Instance/Sets.v) rather than by a size side-condition, and the object action carries the hom-setoid `is_setoid := @homset C x y` alongside the carrier. intree-stronger in packaging: the family is delivered curried as a single functor C^op ⟶ [C, Sets], i.e. functorially in the representing object as well, which the book only introduces later."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Functor/Hom.v:49 (Hom) and :60 (Curried_Hom) verified verbatim, including the notation '[Hom A , ─]' at :80 and the covariant action fmap f g = f o g (post-composition) -- exactly the book's construction. File registered in _CoqProject. The 'intree-stronger in packaging' claim is fair: Curried_Hom is functorial in the representing object as well, and is immediately used as the Yoneda embedding (Yoneda_Faithful at :84, Yoneda_Full at :97). Local smallness being realized by hom-setoids landing in Sets rather than by a size side-condition is the faithful setoid rephrasing and does not weaken the item. Independent blind pass reached PRESENT with the same two symbols."
+  }
+ },
+ {
+  "id": "awodey:7.2:def-generator",
+  "classification": "PARTIAL",
+  "aliases": [
+   "generator / separator of a category",
+   "Hom(C, −) is faithful",
+   "arrows are distinguished by generalized elements based at C",
+   "generating family; jointly faithful representables",
+   "cogenerator / coseparator (the dual, and its family form)"
+  ],
+  "evidence": [
+   {
+    "file": "Adjunction/SAFT.v",
+    "line": 99,
+    "symbol": "Cogenerator",
+    "intree_statement": "Record Cogenerator {C : Category} := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : forall (x y : C) (f g : x ~> y), (forall (j : cog_index) (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }"
+   }
+  ],
+  "statement_record": {
+   "book": "An object C of a locally small category is a generator if Hom_C(C, −) is faithful; equivalently, for parallel f ≠ g : X → Y there is x : C → X with f ∘ x ≠ g ∘ x. Examples: 1 in Sets, the free group F(1) in Grp.",
+   "intree": "Record Cogenerator := { cog_index : Type; cog_obj : cog_index -> C; cog_separates : ∀ x y (f g : x ~> y), (∀ j (k : y ~> cog_obj j), k ∘ f ≈ k ∘ g) -> f ≈ g }, described in the file as 'the representables C(−, cog_obj j) are jointly faithful'.",
+   "strength_comparison": "intree-weaker AND dual: the in-tree notion is the COgenerating FAMILY (separation by arrows OUT of the codomain into family members), the exact op-dual of the book's generator; instantiating it at C^op does unfold to a generating family for C, but that reading is nowhere stated in-tree. It is also a family rather than a single object, and it is stated as the elementwise separation condition only — the equivalent formulation 'the representable is faithful' is not asserted, and no link to Functor/Hom.v's Curried_Hom or to Theory/Functor.v's Faithful class is made."
+  },
+  "gap": "There is no `Generator`/`Separator` definition in-tree: only the dual `Cogenerator`, only in family form, and only inside Adjunction/SAFT.v as an input datum to the special adjoint functor theorem. Missing: (i) the notion for a single object; (ii) the covariant (generator) orientation; (iii) the equivalence 'C is a generator ⟺ Faithful ([Hom C,─])' connecting it to Theory/Functor.v:342 and Functor/Hom.v:60 — the SAFT record's own header calls the joint-faithfulness reading a paraphrase and never proves it; (iv) both examples (1 generates Sets; F(1) generates Grp — the library has no Grp at all).",
+  "negative_search_log": [
+   "grep -rn 'generator' --include='*.v' .  -- all hits are PROP/operad 'generators' of a signature, unrelated",
+   "grep -rn 'separator|Separator|Generator' --include='*.v' .  -- 0 hits for the categorical notion (only 'Generator computation rules' comments in Cospan/ColouredPROP)",
+   "grep -rni 'separates|separating family|jointly faithful' --include='*.v' .  -- Adjunction/SAFT.v (cog_separates) and Theory/Lawvere/Sets.v:61 (prod_separates, about products) only",
+   "grep -rni 'global element|well-pointed' --include='*.v' .  -- Structure/Terminal.v:66-68 discusses well-pointedness in a header essay; no definition, no 1-is-a-generator statement for Sets"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Adjunction/SAFT.v:99 verified verbatim, and the surrounding header (:94-98) does describe it as 'the representables C(-, cog_obj j) are jointly faithful' without proving that reading. My blind pass independently found Cogenerator as the only counterpart and reached the same PARTIAL. I explicitly checked the dual-assumed-but-absent trap: instantiating Cogenerator at C^op does unfold to a generating family for C, but no in-tree definition, lemma or comment performs that instantiation, so the record is right not to credit it as coverage. Also confirmed the examples are absent: Structure/Terminal.v:66-68 discusses well-pointedness in an essay only, with no '1 is a generator in Sets' statement, and there is no Grp for F(1)."
+  }
+ },
+ {
+  "id": "awodey:7.2:construction-free-group-natural-iso",
+  "classification": "ABSENT",
+  "aliases": [
+   "Hom_Grp(F(1), G) ≅ U(G) naturally in G",
+   "the forgetful functor is representable by the free object on one generator",
+   "free group on one generator; free/forgetful adjunction F ⊣ U",
+   "Representable U with repr_obj = F(1)",
+   "naturality square h_* ∘ − = U(h) ∘ −"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'Free.*Group|FreeGroup|free group' --include='*.v' .  -- only prose (Theory/Universal/Arrow.v:45, Structure/Terminal.v:34); no free group construction",
+   "grep -rni 'Grp\\b|Groups' --include='*.v' .  -- no category of groups, hence no forgetful functor Grp ⟶ Sets",
+   "grep -rn 'Representable' --include='*.v' .  -- the class exists (Functor/Representable.v:46) but is NEVER instantiated anywhere in the tree; no functor is ever exhibited as representable",
+   "grep -rni 'forget' --include='*.v' . | grep -i 'adjunc|⊣|free'  -- the only free⊣forgetful adjunction is FreeForgetfulAdjunction : FreeCatFunctor ⊣ Forgetful (Construction/Free/Quiver.v:550, quivers ⊣ strict categories); it is a different adjunction, its representing object is not a free object on one generator, and no hom-iso of the shape Hom(F 1, −) ≅ U is extracted from it",
+   "grep -rni 'underlying set functor|underlying-set|ev1' --include='*.v' .  -- Theory/Lawvere/Sets.v supplies ev1 : Models T Sets ⟶ Sets, but it is defined as evaluation at law_of_nat 1 and is never shown representable"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. Verified the strongest claim in the negative log -- that the Representable class (Functor/Representable.v:46) is NEVER instantiated: rg 'Representable' across the tree with Functor/Representable.v excluded returns only prose, Theory/Multicategory/Representable.v (RepresentableMulticategory, an unrelated notion) and Theory/Profunctor{,/Adjunction}.v's representable PROFUNCTORS -- no 'Representable F' instance for any Sets-valued functor. Also verified Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets exists but has NO free left adjoint and is never shown representable, which is the nearest structural relative and does not change the verdict."
+  }
+ },
+ {
+  "id": "awodey:7.2:remark-representables-preserve-limits",
+  "classification": "ABSENT",
+  "aliases": [
+   "representable functors preserve limits; hom-functors are continuous",
+   "Hom(A, −) preserves all limits; Hom(A, lim F) ≅ lim Hom(A, F −)",
+   "RAPL (right adjoints preserve limits) specialized to a representable",
+   "the forgetful functor Grp ⟶ Sets preserves limits",
+   "concrete category = faithful functor to Sets"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn 'PreservesLimit|PreservesAllLimits|PreservesImageLimit' --include='*.v' .  -- class at Structure/Limit/Preservation.v:48; inhabited ONLY by right_adjoint_preserves_limit(s) (Adjunction/Continuity.v:199,202), equivalence_preserves_limit(s) (Theory/Equivalence/Limit.v:421,427) and the cone-level PreservesImageLimit of Construction/Comma/Limit.v:110 used by GAFT/SAFT.  No hom-functor / representable instance anywhere.",
+   "grep -rni 'representable.*preserv|preserv.*representable|hom.*continuous' --include='*.v' .  -- 0 hits.  Hom(A,-) is never shown continuous and never exhibited as a right adjoint (no copowers/tensoring in-tree).",
+   "grep -rni 'Hom' --include='*.v' Structure/Limit.v Structure/Limit/*.v Adjunction/Continuity.v  -- only HomDiagram / HomDiagram_precompose in Structure/Limit/Weighted.v.  NEAR MISS, NOT A COUNTERPART: WeightedLimit.wlim_iso (Structure/Limit/Weighted.v:102) gives [J,Sets](W, HomDiagram c F) ≅ C(c, wlim_obj) in Sets, i.e. maps into the limit classify cones; the cone setoid is never itself identified as a limit in Sets, so this classifies rather than preserves.  Same for Structure/UniversalProperty/Limit.v (Hom(c,z) ≅ Cone(c,F): representability of the cone presheaf, not preservation).",
+   "grep -rn 'Complete|Limit' --include='*.v' Instance/Sets.v Instance/Sets/*.v  -- one prose hit (Instance/Sets.v:80); limits in Sets are not developed, so the target limit of the composite diagram cannot presently be produced.",
+   "grep -rni 'Grp\\b|Groups' --include='*.v' .  -- prose only (Structure/Group.v header, Structure/Complete.v:55, Construction/Groupoid.v:23); no category of groups, hence no U : Grp ⟶ Sets and no clause (2).",
+   "grep -rni 'concrete categ' --include='*.v' .  -- informal prose only (FinSet/Cospan headers); no definition of a concrete category, so clause (3)'s identification cannot be stated.",
+   "grep -rn 'Representable' --include='*.v' . (Functor/Representable.v excluded)  -- the class (Functor/Representable.v:46) is never instantiated for any functor, so 'this representable is faithful' has no in-tree subject.",
+   "NEAREST IN-TREE RELATIVE, NOT A COUNTERPART (carried over from Phase C, which had classified on it): Theory/Lawvere/Sets.v:83 ev1 : Models T Sets ⟶ Sets and :105 Theorem ev1_Faithful : Faithful ev1, under Context (reach : forall x : @law_cat T, { n : nat & law_of_nat n = x }).  This is a faithful underlying-set functor for models of an ARBITRARY Lawvere theory -- a different category, a different functor, defined as evaluation at law_of_nat 1 and never shown representable.  It instantiates the concreteness phenomenon but no clause of Awodey's remark.  Instance/CMon.v:169 CMon_Forget : CMon ⟶ Sets is a second such relative (faithful by construction per its comment, though no Faithful instance is proved, and it has no free left adjoint)."
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "OVERTURNED:ABSENT",
+   "notes": "Overturned PARTIAL -> ABSENT. The remark makes three assertions and the record's own gap field concedes that all three are unformalized: (1) representable functors preserve all limits -- 'nowhere asserted'; (2) U : Grp ⟶ Sets preserves all limits -- no Grp exists; (3) faithfulness of the representable is the precise form of Grp's concreteness -- no definition of concrete category, and no functor in the tree is ever exhibited as representable. The sole evidence offered, ev1_Faithful (Theory/Lawvere/Sets.v:105, verified verbatim, under the reachability hypothesis at :101), is faithfulness of an EVALUATION functor on models of an arbitrary Lawvere theory: a different category, a different functor, and a functor never shown representable. That is an analogue of the concreteness PHENOMENON, not a partial formalization of any clause of this item, so under the frozen definition ('PARTIAL = some of the item exists') the record is ABSENT. Contrast awodey:7.1:example2, which I left at PARTIAL because its evidence (EnrichedFunctor_Two_monotone) is the same claim in a different presentation rather than a different claim. I independently re-verified the negative side: PreservesLimit (Structure/Limit/Preservation.v:48) is inhabited only at Adjunction/Continuity.v:202 (right adjoints) and Theory/Equivalence/Limit.v:421 (equivalences); Hom(A,-) is never shown continuous or a right adjoint; rg 'Complete|Limit' over Instance/Sets.v and Instance/Sets/*.v yields one prose hit only. The near-miss the record correctly identifies -- Structure/Limit/Weighted.v's wlim_iso, C(c, wlim_obj) ≅ [J,Sets](W, HomDiagram c F), verified at :102-108 -- classifies cones, it does not exhibit the cone setoid as a limit in Sets, so it stops short of preservation. All of this is preserved below in negative_search_log; the ev1 pointer is retained there as an explicitly-labelled non-counterpart so no information from Phase C is lost."
+  },
+  "phase_c_classification": "PARTIAL"
+ }
+]

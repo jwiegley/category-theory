@@ -1,0 +1,2992 @@
+{
+ "book": "riehl",
+ "range": {
+  "pdf_start": 101,
+  "pdf_end": 150
+ },
+ "pages": [
+  {
+   "pdf_page": 101,
+   "book_page": "81",
+   "empty": false,
+   "items": [],
+   "notes": "Chapter 3 opener: title, Mac Lane epigraph [ML98a], and unnumbered roadmap prose surveying sections 3.1-3.5. No numbered environments and no numbered displays; the chapter-intro prose here carries no (3.0.n) tag (unlike Chapter 1's (1.0.1))."
+  },
+  {
+   "pdf_page": 102,
+   "book_page": "82",
+   "empty": false,
+   "items": [
+    "riehl:3.1:def1",
+    "riehl:3.1:def2"
+   ],
+   "notes": "End of chapter roadmap prose (sections 3.6-3.8), then the section 3.1 heading. NUMBER 3.1.3 IS CONSUMED BY A NUMBERED DISPLAY: the commuting triangle lambda_k = Ff . lambda_j expressing the cone naturality condition, tagged (3.1.3) in the left margin. It is the defining condition of the enclosing Definition 3.1.2, so it is NOT recorded as a separate item even though it is back-referenced (Definitions 3.1.13 and 3.1.15 both cite it). The dual cone-under triangle immediately below is UNnumbered."
+  },
+  {
+   "pdf_page": 103,
+   "book_page": "83",
+   "empty": false,
+   "items": [
+    "riehl:3.1:def5",
+    "riehl:3.1:def2"
+   ],
+   "notes": "NUMBER 3.1.4 IS CONSUMED BY A NUMBERED DISPLAY: the omega-shaped (Z,<=)-indexed cone diagram with summit c over ... F_-2 -> F_-1 -> F_0 -> F_1 -> F_2 ...; the dual cone-under diagram below it is unnumbered. (3.1.4) restates the enclosing prose, is back-referenced only by Remark 3.1.8, and carries no claim distinct from Definition 3.1.2, so no equation item is minted. Footnote 1 (per-chapter footnote numbering) records the smallness/local-smallness hypothesis needed for Cone(c,F) to be a set."
+  },
+  {
+   "pdf_page": 104,
+   "book_page": "84",
+   "empty": false,
+   "items": [
+    "riehl:3.1:def6",
+    "riehl:3.1:prop7"
+   ],
+   "notes": "Includes an unnumbered display of the morphism-of-cones picture over the (Z,<=)-diagram, and unnumbered prose on the notation lim_J F / colim_J F."
+  },
+  {
+   "pdf_page": 105,
+   "book_page": "85",
+   "empty": false,
+   "items": [
+    "riehl:3.1:remark8",
+    "riehl:3.1:def9",
+    "riehl:3.1:example10"
+   ],
+   "notes": "Footnotes 2 and 3 (per-chapter numbering) point to Exercise 3.6.vi and gloss 'coarsest/finest'. Example 3.1.10 continues onto PDF 106."
+  },
+  {
+   "pdf_page": 106,
+   "book_page": "86",
+   "empty": false,
+   "items": [
+    "riehl:3.1:def11",
+    "riehl:3.1:example12",
+    "riehl:3.1:def13",
+    "riehl:3.1:example14",
+    "riehl:3.1:def15",
+    "riehl:3.1:example10"
+   ],
+   "notes": "Opens with the tail of Example 3.1.10 (box topology fails the universal property for infinite index sets). The equalizer diagram and its universal-property diagram on this page are UNnumbered. Definition 3.1.15 (pullback) starts here and continues onto PDF 107."
+  },
+  {
+   "pdf_page": 107,
+   "book_page": "87",
+   "empty": false,
+   "items": [
+    "riehl:3.1:eq17",
+    "riehl:3.1:example18",
+    "riehl:3.1:example19",
+    "riehl:3.1:def15"
+   ],
+   "notes": "NUMBER 3.1.16 IS CONSUMED BY A NUMBERED DISPLAY: the cospan cone with summit D whose two triangles commute; it is the cone condition of the enclosing Definition 3.1.15 and so gets no item, though it is back-referenced twice on this page. NUMBER 3.1.17 IS ALSO A NUMBERED DISPLAY, but it is not inside any numbered environment and it introduces the bold term 'fiber' of f over a as the pullback along a point, so it IS recorded (as kind equation, riehl:3.1:eq17) per the distinct-claim rule. Unnumbered prose after Example 3.1.18 states that pullbacks of monomorphisms are monomorphisms (deferred to Exercise 3.1.v). Example 3.1.19 continues onto PDF 108."
+  },
+  {
+   "pdf_page": 108,
+   "book_page": "88",
+   "empty": false,
+   "items": [
+    "riehl:3.1:def21",
+    "riehl:3.1:example22",
+    "riehl:3.1:def23",
+    "riehl:3.1:example19"
+   ],
+   "notes": "NUMBER 3.1.20 IS CONSUMED BY A NUMBERED DISPLAY: the pullback square of Z -m-> Z <-n- Z with legs a, b; it belongs to the enclosing Example 3.1.19, so no separate item (it is back-referenced by Exercise 3.1.viii). Footnotes 4 and 5 record the sign ambiguity and point to Exercise 3.1.vii. Definition 3.1.23 (a FIVE-BULLET dualization) starts here and continues onto PDF 109."
+  },
+  {
+   "pdf_page": 109,
+   "book_page": "89",
+   "empty": false,
+   "items": [
+    "riehl:3.1:example24",
+    "riehl:3.1:example25",
+    "riehl:3.1:example26",
+    "riehl:3.1:def23"
+   ],
+   "notes": "Carries bullets 3-5 of Definition 3.1.23 (coequalizer/fork, pushout/span, sequential colimit) plus unnumbered prose that each colimit shape is the opposite of the corresponding limit shape. Example 3.1.26 continues onto PDF 110."
+  },
+  {
+   "pdf_page": 110,
+   "book_page": "90",
+   "empty": false,
+   "items": [
+    "riehl:3.1:remark27",
+    "riehl:3.1:def-direct-sums",
+    "riehl:3.1:example26"
+   ],
+   "notes": "Ends with the tail of Example 3.1.26 (CW complex as colimit of skeleta) and motivating prose on component functions. Remark 3.1.27 and the ensuing unnumbered direct-sums discussion both continue onto PDF 111; footnote 6 explains the index-variable convention."
+  },
+  {
+   "pdf_page": 111,
+   "book_page": "91",
+   "empty": false,
+   "items": [
+    "riehl:3.1:lem28",
+    "riehl:3.1:remark27",
+    "riehl:3.1:def-direct-sums"
+   ],
+   "notes": "Carries the tail of Remark 3.1.27 / the unnumbered direct-sum material (identity-matrix comparison map, matrix multiplication) recorded under PDF 110. Footnote 7 forward-references abelian categories (Definition E.5.1); footnote 8 notes hom-sets become commutative monoids."
+  },
+  {
+   "pdf_page": 112,
+   "book_page": "92",
+   "empty": false,
+   "items": [
+    "riehl:3.1:exi",
+    "riehl:3.1:exii",
+    "riehl:3.1:exiii",
+    "riehl:3.1:exiv",
+    "riehl:3.1:exv",
+    "riehl:3.1:exvi",
+    "riehl:3.1:exvii",
+    "riehl:3.1:exviii",
+    "riehl:3.1:exix"
+   ],
+   "notes": "Section 3.1 closes with unnumbered strategy prose (guess-and-check vs. building limits from simpler limits; footnote 9), then the unnumbered 'Exercises.' heading. Exercises i-ix are here; x-xii continue on PDF 113. Section 3.1's arabic counter ends at Lemma 3.1.28 with NO trailing numbered display."
+  },
+  {
+   "pdf_page": 113,
+   "book_page": "93",
+   "empty": false,
+   "items": [
+    "riehl:3.1:exx",
+    "riehl:3.1:exxi",
+    "riehl:3.1:exxii",
+    "riehl:3.2:def1",
+    "riehl:3.2:def3"
+   ],
+   "notes": "Exercises 3.1.x-3.1.xii complete section 3.1's 12-exercise block, then the section 3.2 heading. NUMBER 3.2.2 IS CONSUMED BY A NUMBERED DISPLAY: lim F ~= Set(*, lim F) ~= Cone(*, F). It is back-referenced ('take (3.2.2) as an explicit constructive definition') but its content is exactly what Definition 3.2.3 then posits, so no separate equation item."
+  },
+  {
+   "pdf_page": 114,
+   "book_page": "94",
+   "empty": false,
+   "items": [
+    "riehl:3.2:thm4",
+    "riehl:3.2:example5",
+    "riehl:3.2:example6",
+    "riehl:3.2:example7",
+    "riehl:3.2:def3"
+   ],
+   "notes": "Opens with the unnumbered cone-triangle verification for Definition 3.2.3. Unnumbered prose between Theorem 3.2.4 and its proof stresses that the smallness hypothesis is essential and that section 3.7 will show Set has some but not all large limits."
+  },
+  {
+   "pdf_page": 115,
+   "book_page": "95",
+   "empty": false,
+   "items": [
+    "riehl:3.2:example8",
+    "riehl:3.2:example9",
+    "riehl:3.2:example10",
+    "riehl:3.2:thm11"
+   ],
+   "notes": "Unnumbered prose between Example 3.2.10 and Theorem 3.2.11 exhibits the pullback as the equalizer of f.pi_B, g.pi_C : B x C => A. NUMBER 3.2.12 IS CONSUMED BY A NUMBERED DISPLAY: the equalizer diagram lim_J F >-> prod_{j in ob J} Fj => prod_{f in mor J} F(cod f) that IS the statement of Theorem 3.2.11, so it gets no separate item despite being back-referenced by Remark 3.2.13 and Exercise 3.2.ii. Theorem 3.2.11's proof runs onto PDF 116."
+  },
+  {
+   "pdf_page": 116,
+   "book_page": "96",
+   "empty": false,
+   "items": [
+    "riehl:3.2:remark13",
+    "riehl:3.2:example14",
+    "riehl:3.2:thm11"
+   ],
+   "notes": "Example 3.2.14 continues onto PDF 117."
+  },
+  {
+   "pdf_page": 117,
+   "book_page": "97",
+   "empty": false,
+   "items": [
+    "riehl:3.2:exi",
+    "riehl:3.2:exii",
+    "riehl:3.2:example14"
+   ],
+   "notes": "Carries the tail of Example 3.2.14 (splitting the idempotent, retract characterization, converse direction deferred to Exercise 3.4.vi), then the unnumbered 'Exercises.' heading; exercises iii-vi continue on PDF 118. Section 3.2's arabic counter ends at Example 3.2.14 with no trailing display."
+  },
+  {
+   "pdf_page": 118,
+   "book_page": "98",
+   "empty": false,
+   "items": [
+    "riehl:3.2:exiii",
+    "riehl:3.2:exiv",
+    "riehl:3.2:exv",
+    "riehl:3.2:exvi",
+    "riehl:3.3:prop1",
+    "riehl:3.2:exii"
+   ],
+   "notes": "Exercise 3.2.ii's tail (restriction to atomic morphisms) opens the page. Section 3.3 heading follows Exercise 3.2.vi; Proposition 3.3.1 starts here, its proof on PDF 119."
+  },
+  {
+   "pdf_page": 119,
+   "book_page": "99",
+   "empty": false,
+   "items": [
+    "riehl:3.3:example2",
+    "riehl:3.3:prop1"
+   ],
+   "notes": "Unnumbered prose notes the limit functor requires a choice (axiom of choice) and points to anafunctors [Mak96]. Contains the proof of Proposition 3.3.1 with an unnumbered cube-of-pullbacks illustration. Example 3.3.2 continues onto PDF 120."
+  },
+  {
+   "pdf_page": 120,
+   "book_page": "100",
+   "empty": false,
+   "items": [
+    "riehl:3.3:cor3",
+    "riehl:3.3:example4",
+    "riehl:3.3:example5",
+    "riehl:3.3:example2"
+   ],
+   "notes": "Unnumbered prose credits [EM45, 21.2] with the directed-diagram case of Corollary 3.3.3. Example 3.3.5 continues onto PDF 121."
+  },
+  {
+   "pdf_page": 121,
+   "book_page": "101",
+   "empty": false,
+   "items": [
+    "riehl:3.3:lem6",
+    "riehl:3.3:example7",
+    "riehl:3.3:example5"
+   ],
+   "notes": "Carries the tail of Example 3.3.5 (species; unlabeled F-structures as colim of BS_n -> Fin_iso -> Fin; footnote 10) plus unnumbered warnings on chosen limits, citing Freyd-Scedrov [FS90 section 1.4] that canonical pullbacks can be chosen compatibly horizontally but not simultaneously vertically. Example 3.3.7 continues onto PDF 122."
+  },
+  {
+   "pdf_page": 122,
+   "book_page": "102",
+   "empty": false,
+   "items": [
+    "riehl:3.3:exi",
+    "riehl:3.3:exii",
+    "riehl:3.3:example7"
+   ],
+   "notes": "Tail of Example 3.3.7 (the two ternary product cones and the contradiction pi_1 = pi_2 = id_C; footnote 11 cites [cli21, 3.1] on subterminality), then the unnumbered 'Exercises.' heading with exactly two exercises, matching the calibrated count 3.3:2. Section 3.3's arabic counter ends at Example 3.3.7 with no trailing display."
+  },
+  {
+   "pdf_page": 123,
+   "book_page": "103",
+   "empty": false,
+   "items": [
+    "riehl:3.4:construction-canonical-comparison",
+    "riehl:3.4:def1"
+   ],
+   "notes": "Section 3.4 heading and warm-up prose: the image of a pullback square is a commutative square but need not be a pullback; whiskering gives the image cone F.lambda with F.Delta c = Delta Fc. Definition 3.4.1 begins here (its 'preserves' bullet) and its 'reflects'/'creates' bullets are on PDF 124, outside this range; it is recorded once here with pdf_pages [123,124]. Items STARTING on PDF 124 (Remark 3.4.2, Lemma 3.4.3, Definition 3.4.4) belong to the adjacent range and are not recorded."
+  },
+  {
+   "pdf_page": 124,
+   "book_page": "104",
+   "empty": false,
+   "items": [
+    "riehl:3.4:remark2",
+    "riehl:3.4:lem3",
+    "riehl:3.4:def4",
+    "riehl:3.4:def1"
+   ],
+   "notes": "Page opens with the second and third bullets ('reflects', 'creates') of DEFINITION 3.4.1, which STARTS on PDF 123 (printed 103) and therefore belongs to the adjacent agent's range; not recorded here. Footnote 12 (per-chapter footnote numbering) explains that creation implies reflection but only conditional preservation - it is a footnote marker, not an item number. Definition 3.4.4 begins at the foot of this page and finishes on PDF 125."
+  },
+  {
+   "pdf_page": 125,
+   "book_page": "105",
+   "empty": false,
+   "items": [
+    "riehl:3.4:lem5",
+    "riehl:3.4:lem6",
+    "riehl:3.4:def7",
+    "riehl:3.4:def-connected",
+    "riehl:3.4:def4"
+   ],
+   "notes": "Top of page completes DEFINITION 3.4.4 (started PDF 124) with the sheaf clause and an UNNUMBERED equalizer display F(U) -> prod F(U_i) => prod F(U_i cap U_j). Footnote 13 discusses why U must be presented as a colimit over pairwise intersections rather than a coproduct. The final paragraph makes an unnumbered running-prose definition of 'connected category' / 'connected diagram', recorded as riehl:3.4:def-connected."
+  },
+  {
+   "pdf_page": 126,
+   "book_page": "106",
+   "empty": false,
+   "items": [
+    "riehl:3.4:prop8"
+   ],
+   "notes": "Proposition 3.4.8 and its full proof occupy the page. Closing prose sets up Proposition 3.4.9 by viewing ob A as a maximal discrete subcategory ob A -> A; no separate item minted for that remark."
+  },
+  {
+   "pdf_page": 127,
+   "book_page": "107",
+   "empty": false,
+   "items": [
+    "riehl:3.4:prop9"
+   ],
+   "notes": "Proposition 3.4.9 (two-clause statement) plus proof. Footnote 14 refers back to Proposition 3.3.1. Closing paragraph stresses that strict creation is vacuous when the codomain limits do not exist - expository, no item minted."
+  },
+  {
+   "pdf_page": 128,
+   "book_page": "108",
+   "empty": false,
+   "items": [
+    "riehl:3.4:example10",
+    "riehl:3.4:exi",
+    "riehl:3.4:exii",
+    "riehl:3.4:exiii",
+    "riehl:3.4:exiv",
+    "riehl:3.4:exv",
+    "riehl:3.4:exvi"
+   ],
+   "notes": "'Exercises.' heading (unnumbered) opens the section's exercise block; six exercises 3.4.i-3.4.vi, matching the calibrated count for 3.4. Exercise 3.4.vi begins here (parts (i)) and continues onto PDF 129 (parts (ii),(iii)). NUMBERING: section 3.4 runs 3.4.1-3.4.10 with EVERY number carried by a named environment - no numbered displays are consumed anywhere in 3.4."
+  },
+  {
+   "pdf_page": 129,
+   "book_page": "109",
+   "empty": false,
+   "items": [
+    "riehl:3.4:def-absolute",
+    "riehl:3.5:eq1",
+    "riehl:3.5:thm2",
+    "riehl:3.4:exvi"
+   ],
+   "notes": "Top of page completes Exercise 3.4.vi parts (ii) and (iii); part (iii) coins the term 'absolute co/limits' in bold, recorded as the unnumbered definition riehl:3.4:def-absolute. Section 3.5 heading follows. NUMBER 3.5.1 IS A NUMBERED DISPLAY, not an environment - it is recorded as an equation item because it states lim_J C(X,F-) iso Cone(X,F) in running prose (no enclosing item) and is back-referenced by Exercise 3.5.i. NUMBER 3.5.3 IS ALSO A NUMBERED DISPLAY, sitting INSIDE the statement of Theorem 3.5.2; it carries no claim distinct from that theorem, so it is deliberately NOT minted as an item - do not read 3.5.3 as a missing environment. Footnote 15 extends (3.5.1) to large diagrams."
+  },
+  {
+   "pdf_page": 130,
+   "book_page": "110",
+   "empty": false,
+   "items": [
+    "riehl:3.5:example4",
+    "riehl:3.5:thm5",
+    "riehl:3.5:thm2"
+   ],
+   "notes": "Page begins with the tail of the proof of Theorem 3.5.2 (a commuting triangle of natural isomorphisms, unnumbered). Prose names the natural isomorphism (3.5.3) 'the representable universal property of the limit' - a named phrase, not a new environment. Theorem 3.5.5 starts here with clause (i); clause (ii) is on PDF 131."
+  },
+  {
+   "pdf_page": 131,
+   "book_page": "111",
+   "empty": false,
+   "items": [
+    "riehl:3.5:thm6",
+    "riehl:3.5:example7",
+    "riehl:3.5:example8",
+    "riehl:3.5:thm5"
+   ],
+   "notes": "Clause (ii) of Theorem 3.5.5 and its QED box open the page. An UNNUMBERED display lim_{J^op} C(F-,X) iso Cone(F,X) precedes Theorem 3.5.6. Prose names 'the representable universal property of the colimit'."
+  },
+  {
+   "pdf_page": 132,
+   "book_page": "112",
+   "empty": false,
+   "items": [
+    "riehl:3.5:example9",
+    "riehl:3.5:thm10",
+    "riehl:3.5:thm11"
+   ],
+   "notes": "NUMBER 3.5.12 IS CONSUMED BY A NUMBERED DISPLAY at the foot of the page: the coproduct/coequalizer diagram defining the maps d and c inside the PROOF of Theorem 3.5.11. It is a construction step, not a claim distinct from its enclosing theorem, so no item is minted for it - 3.5.12 is not a missing environment."
+  },
+  {
+   "pdf_page": 133,
+   "book_page": "113",
+   "empty": false,
+   "items": [
+    "riehl:3.5:remark14",
+    "riehl:3.5:thm11"
+   ],
+   "notes": "NUMBER 3.5.13 IS CONSUMED BY A NUMBERED DISPLAY: the equalizer diagram in Set^C obtained by applying the Yoneda embedding to (3.5.12), again inside the proof of Theorem 3.5.11. No item minted. Remark 3.5.14 (on generalized elements) begins here and continues on PDF 134. Footnote 16 on composition order."
+  },
+  {
+   "pdf_page": 134,
+   "book_page": "114",
+   "empty": false,
+   "items": [
+    "riehl:3.5:lem15",
+    "riehl:3.5:lem16",
+    "riehl:3.5:remark14"
+   ],
+   "notes": "Remark 3.5.14 concludes at the top. Lemma 3.5.16 statement is on this page; its proof runs onto PDF 135."
+  },
+  {
+   "pdf_page": 135,
+   "book_page": "115",
+   "empty": false,
+   "items": [
+    "riehl:3.5:def-finite-diagram",
+    "riehl:3.5:thm17",
+    "riehl:3.5:exi",
+    "riehl:3.5:exii",
+    "riehl:3.5:exiii",
+    "riehl:3.6:def-continuous",
+    "riehl:3.6:prop1",
+    "riehl:3.5:lem16"
+   ],
+   "notes": "Proof of Lemma 3.5.16 completes; an unnumbered running-prose definition of a FINITE diagram (indexing category with finitely many morphisms) precedes Theorem 3.5.17. 'Exercises.' block for 3.5 has exactly three exercises, matching the calibrated count. Section 3.6 heading follows, whose opening prose defines CONTINUOUS / COCONTINUOUS functors (recorded as an unnumbered definition) while recalling complete/cocomplete from Definition 3.2.1. Proposition 3.6.1 is stated at the foot; its proof is on PDF 136. NUMBERING: section 3.5 runs 3.5.1-3.5.17 with 1, 3, 12 and 13 carried by numbered DISPLAYS and the other thirteen numbers by environments."
+  },
+  {
+   "pdf_page": 136,
+   "book_page": "116",
+   "empty": false,
+   "items": [
+    "riehl:3.6:prop2",
+    "riehl:3.6:example3",
+    "riehl:3.6:example4",
+    "riehl:3.6:prop1"
+   ],
+   "notes": "Proof of Proposition 3.6.1 opens the page. Example 3.6.4 starts at the foot and continues on PDF 137."
+  },
+  {
+   "pdf_page": 137,
+   "book_page": "117",
+   "empty": false,
+   "items": [
+    "riehl:3.6:prop5",
+    "riehl:3.6:prop6",
+    "riehl:3.6:example4"
+   ],
+   "notes": "Top of the page completes Example 3.6.4 (PConf_n(X), the configuration space Conf_n(X) := colim(BS_n -> Top)). Footnotes 17 (Set_*, Top_* are slice categories) and 18 (the 'V' notation for coproducts of based objects). Proof of Proposition 3.6.6 finishes on this page."
+  },
+  {
+   "pdf_page": 138,
+   "book_page": "118",
+   "empty": false,
+   "items": [
+    "riehl:3.6:example7",
+    "riehl:3.6:construction-cat-coproducts",
+    "riehl:3.6:example8",
+    "riehl:3.6:remark9"
+   ],
+   "notes": "Between Examples 3.6.7 and 3.6.8 an unnumbered paragraph asserts that Cat is cocomplete and that coproducts in Cat are the decomposition of a category into its connected components; recorded as riehl:3.6:construction-cat-coproducts. Remark 3.6.9 begins at the foot and continues on PDF 139. Prose also defers the general cocompleteness of Cat to Corollary 4.6.15 (forward reference, no item)."
+  },
+  {
+   "pdf_page": 139,
+   "book_page": "119",
+   "empty": false,
+   "items": [
+    "riehl:3.6:prop10",
+    "riehl:3.6:example11",
+    "riehl:3.6:remark9"
+   ],
+   "notes": "Remark 3.6.9 finishes at the top (the locally small category E whose pushout collapse leaves CAT without a pushout). An unnumbered sentence observes that completeness/cocompleteness are equivalence-invariant, so a preorder is complete/cocomplete iff its skeleton is - an immediate consequence of Lemma 3.4.6, no separate item minted. Example 3.6.11 begins here and runs through PDF 141. Footnotes 19 (subobject, forward ref to Definition 4.7.8) and 20 (Fawcett quotation)."
+  },
+  {
+   "pdf_page": 140,
+   "book_page": "120",
+   "empty": false,
+   "items": [
+    "riehl:3.6:example11"
+   ],
+   "notes": "Entirely the middle of Example 3.6.11: clauses (i) reflexivity map rho, (ii) symmetry map sigma, (iii) transitivity map tau (domain R x_X R), then the in-category definition of an EQUIVALENCE RELATION as a subobject (s,t): R -> X x X with rho, sigma, tau, and the quotient object e: X ->> X/R as the coequalizer of s,t. Recorded once under its starting page (PDF 139), not duplicated here. No numbered environment starts on this page."
+  },
+  {
+   "pdf_page": 141,
+   "book_page": "121",
+   "empty": false,
+   "items": [
+    "riehl:3.6:exi",
+    "riehl:3.6:exii",
+    "riehl:3.6:exiii",
+    "riehl:3.6:exiv",
+    "riehl:3.6:example11"
+   ],
+   "notes": "Example 3.6.11 concludes with the unique factorization X ->> X/R >-> Y and the image factorization discussion (Grothendieck topos / regular category). 'Exercises.' block for 3.6 opens; exercises 3.6.i-3.6.iv start here, 3.6.v-3.6.ix on PDF 142."
+  },
+  {
+   "pdf_page": 142,
+   "book_page": "122",
+   "empty": false,
+   "items": [
+    "riehl:3.6:exv",
+    "riehl:3.6:exvi",
+    "riehl:3.6:exvii",
+    "riehl:3.6:exviii",
+    "riehl:3.6:exix"
+   ],
+   "notes": "NUMBER 3.6.12 IS CONSUMED BY A NUMBERED DISPLAY sitting INSIDE Exercise 3.6.v - the internal-category diagram C_0 <= C_1 <= C_1 x_{C_0} C_1 presenting a double category. This is also the TRAILING number of section 3.6: the section's arabic counter runs 3.6.1-3.6.12 and ENDS on a display, so there is no environment 3.6.12 and none should be invented. Footnote 21 credits Ehresmann [Ehr63]. Exercise 3.6.ix begins here with parts (i)-(iii) and continues on PDF 143 with (iv)-(vii). Nine exercises total for 3.6, matching the calibrated count."
+  },
+  {
+   "pdf_page": 143,
+   "book_page": "123",
+   "empty": false,
+   "items": [
+    "riehl:3.7:lem1",
+    "riehl:3.6:exix"
+   ],
+   "notes": "Top of page completes Exercise 3.6.ix parts (iv)-(vii), including the in-prose definition of a TRIVIAL fiber space (already coined on PDF 142) and the non-full subcategory Top^2_pb of pullback squares; all recorded as part of riehl:3.6:exix. Section 3.7 'Matters of size' heading follows. Lemma 3.7.1 (two clauses) is stated here; its proof runs onto PDF 144."
+  },
+  {
+   "pdf_page": 144,
+   "book_page": "124",
+   "empty": false,
+   "items": [
+    "riehl:3.7:def2",
+    "riehl:3.7:prop3",
+    "riehl:3.7:example4",
+    "riehl:3.7:lem1"
+   ],
+   "notes": "Proof of Lemma 3.7.1 concludes at the top. Definition 3.7.2 is followed by an unnumbered sentence extending 'cardinality' to a small diagram (folded into the definition's summary). Example 3.7.4 begins and ENDS on this page. NUMBERING: section 3.7 runs 3.7.1-3.7.4, all four carried by environments; no numbered displays."
+  },
+  {
+   "pdf_page": 145,
+   "book_page": "125",
+   "empty": false,
+   "items": [
+    "riehl:3.7:exi",
+    "riehl:3.8:thm1"
+   ],
+   "notes": "'Exercises.' block for 3.7 contains exactly one exercise, matching the calibrated count. Section 3.8 heading follows. Theorem 3.8.1 is stated here; its proof is on PDF 146. Two large unnumbered illustrative diagrams (I x J and the two orders of computing its limit) close the page."
+  },
+  {
+   "pdf_page": 146,
+   "book_page": "126",
+   "empty": false,
+   "items": [
+    "riehl:3.8:lem3",
+    "riehl:3.8:thm1"
+   ],
+   "notes": "Proof of Theorem 3.8.1 occupies the top. NUMBER 3.8.2 IS CONSUMED BY A NUMBERED DISPLAY in running prose after that proof: the pair of commuting squares of natural isomorphisms lim_I lim_J iso lim_J lim_I (and the colimit dual) between limit/colimit functors. It restates Theorem 3.8.1 at the level of chosen limit functors rather than making a distinct back-referenced claim, so no item is minted - 3.8.2 is not a missing environment. Lemma 3.8.3 is stated here; its proof runs onto PDF 147."
+  },
+  {
+   "pdf_page": 147,
+   "book_page": "127",
+   "empty": false,
+   "items": [
+    "riehl:3.8:cor4",
+    "riehl:3.8:remark5",
+    "riehl:3.8:example6",
+    "riehl:3.8:lem3"
+   ],
+   "notes": "Proof of Lemma 3.8.3 completes at the top. Example 3.8.6 begins here and continues on PDF 148."
+  },
+  {
+   "pdf_page": 148,
+   "book_page": "128",
+   "empty": false,
+   "items": [
+    "riehl:3.8:def7",
+    "riehl:3.8:example8",
+    "riehl:3.8:thm9",
+    "riehl:3.8:example6"
+   ],
+   "notes": "Example 3.8.6 concludes with liminf <= limsup as an instance of Lemma 3.8.3. Footnote 22 gives the kappa-filtered generalization of Definition 3.8.7. Theorem 3.8.9 is stated here with an unnumbered lead-in observation about filtered colimits in Set; its proof spans onto PDF 149."
+  },
+  {
+   "pdf_page": 149,
+   "book_page": "129",
+   "empty": false,
+   "items": [
+    "riehl:3.8:exi",
+    "riehl:3.8:exii",
+    "riehl:3.8:thm9"
+   ],
+   "notes": "Closing unnumbered paragraph notes the proof of Theorem 3.8.9 is not categorical and that in categories of models for an algebraic theory limits and filtered colimits are created in Set (Theorem 5.6.5) - forward-referencing exposition, no item minted. 'Exercises.' block for 3.8 has exactly two exercises, matching the calibrated count. NUMBERING: section 3.8 runs 3.8.1-3.8.9 with 2 carried by a numbered display and the other eight by environments. Last text page of Chapter 3."
+  },
+  {
+   "pdf_page": 150,
+   "book_page": "130",
+   "empty": true,
+   "items": [],
+   "notes": "Blank trailing verso of Chapter 3 (counted in the pagination, as recorded in the pagemap). Zero content."
+  }
+ ],
+ "items": [
+  {
+   "id": "riehl:3.1:def1",
+   "kind": "definition",
+   "number": "3.1.1",
+   "name": "constant functor, constant diagram functor, constant natural transformation",
+   "statement_summary": "For categories J and C and an object c of C, the constant functor Delta c : J -> C sends every object of J to c and every morphism of J to id_c. The constant diagram functor Delta : C -> C^J sends an object c to Delta c and a morphism f : c -> c' to the constant natural transformation Delta f : Delta c => Delta c' each of whose components is f.",
+   "book_section": "3.1",
+   "book_page": "82",
+   "pdf_pages": [
+    102
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def2",
+   "kind": "definition",
+   "number": "3.1.2",
+   "name": "cone over a diagram (summit/apex, legs); cone under a diagram (nadir); cocone",
+   "statement_summary": "A cone over a diagram F : J -> C with summit (apex) c is a natural transformation lambda : Delta c => F; its components lambda_j : c -> Fj are the legs. Explicitly, a J-indexed family of morphisms lambda_j : c -> Fj is a cone iff for every morphism f : j -> k in J one has Ff . lambda_j = lambda_k (the triangle numbered (3.1.3)). Dually a cone under F with nadir c is a natural transformation lambda : F => Delta c with legs lambda_j : Fj -> c satisfying lambda_k . Ff = lambda_j. Cones under F are also called cocones; a cone under F : J -> C is precisely a cone over F viewed as a functor J^op -> C^op.",
+   "book_section": "3.1",
+   "book_page": "82",
+   "pdf_pages": [
+    102,
+    103
+   ],
+   "cross_refs": [
+    "riehl:3.1:def1"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:def5",
+   "kind": "definition",
+   "number": "3.1.5",
+   "name": "limits and colimits I (as representations of the cone functor)",
+   "statement_summary": "For any diagram F : J -> C there is a functor Cone(-,F) := Hom(Delta(-),F) : C^op -> Set sending c to the set of cones over F with summit c, and sending f : c -> d to the precomposition map f* : Cone(d,F) -> Cone(c,F) taking a cone mu with summit d to mu . Delta f. A limit of F is a representation for Cone(-,F): by the Yoneda lemma it consists of an object lim F of C together with a universal cone lambda : Delta lim F => F (the limit cone) inducing a natural isomorphism C(-, lim F) =~ Cone(-,F). Dually Cone(F,-) := Hom(F, Delta(-)) : C -> Set sends c to the set of cones under F with nadir c, a colimit of F is a representation for it, consisting of colim F together with a universal colimit cone lambda : F => Delta colim F giving C(colim F, -) =~ Cone(F,-). A footnote records that J small and C locally small suffice for these to be sets.",
+   "book_section": "3.1",
+   "book_page": "83",
+   "pdf_pages": [
+    103
+   ],
+   "cross_refs": [
+    "riehl:3.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def6",
+   "kind": "definition",
+   "number": "3.1.6",
+   "name": "limits and colimits II (terminal/initial object in the category of cones)",
+   "statement_summary": "A limit of F : J -> C is a terminal object in the category of cones over F, i.e. in the category of elements of Cone(-,F); objects are cones over F with arbitrary summit and a morphism from lambda : Delta c => F to mu : Delta d => F is a morphism f : c -> d in C with mu_j . f = lambda_j for every object j of J (each leg of the domain cone factors through the corresponding leg of the codomain cone). Such a terminal object yields a limit object lim F with a specified limit cone. Dually a colimit is an initial object in the category of cones under F, where a morphism from lambda : F => Delta c to mu : F => Delta d is f : c -> d with mu_j = f . lambda_j, yielding colim F with a specified colimit cone.",
+   "book_section": "3.1",
+   "book_page": "84",
+   "pdf_pages": [
+    104
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:prop7",
+   "kind": "proposition",
+   "number": "3.1.7",
+   "name": "essential uniqueness of limits and colimits",
+   "statement_summary": "Given any two limit cones lambda : Delta l => F and lambda' : Delta l' => F over a common diagram F, there is a unique isomorphism l =~ l' commuting with the legs of the two limit cones. Proof: both cones are terminal objects in the category of cones over F, and terminal objects in any category form a contractible groupoid. The accompanying remark notes this does not prohibit the limit object from having nontrivial automorphisms (each gives a different limit cone), but the only automorphism of l commuting with the specified cone lambda is the identity. Dual statement for colimits.",
+   "book_section": "3.1",
+   "book_page": "84",
+   "pdf_pages": [
+    104
+   ],
+   "cross_refs": [
+    "riehl:3.1:def6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def9",
+   "kind": "definition",
+   "number": "3.1.9",
+   "name": "product, product projections",
+   "statement_summary": "A product is a limit of a diagram indexed by a discrete category (only identity morphisms). Such a diagram is just a J-indexed family of objects F_j of C, and a cone over it is a family of morphisms lambda_j : c -> F_j subject to no further constraint. The limit is written prod_{j in J} F_j and the legs of the limit cone are the (product) projections pi_k : prod_j F_j -> F_k. The universal property says composition with the projections defines a natural isomorphism C(c, prod_j F_j) =~ prod_{k in J} C(c, F_k) =~ Cone(c,F).",
+   "book_section": "3.1",
+   "book_page": "85",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example10",
+   "kind": "example",
+   "number": "3.1.10",
+   "name": "products of topological spaces",
+   "statement_summary": "The product of spaces X and Y in Top is a space X x Y with continuous projections pi_X, pi_Y such that for any space A with continuous f : A -> X and g : A -> Y there is a unique continuous h : A -> X x Y over f and g. Taking A to be the point (which represents the underlying-set functor U : Top -> Set) gives Top(*, X x Y) =~ Top(*,X) x Top(*,Y), so the points are the cartesian product of the underlying sets. Taking A to be the underlying set with varying topologies forces the topology on X x Y to be the coarsest making both projections continuous; likewise for an arbitrary family (X_j)_{j in J} the product carries the coarsest topology making every pi_k continuous. The box topology agrees with the product topology for finite indexing sets but fails the universal property of Definition 3.1.9 when J is infinite.",
+   "book_section": "3.1",
+   "book_page": "85",
+   "pdf_pages": [
+    105,
+    106
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:remark8",
+   "kind": "remark",
+   "number": "3.1.8",
+   "name": "limit and colimit diagrams; cones as diagrams on an augmented shape",
+   "statement_summary": "A diagram together with a limit cone over it is called a limit diagram; a diagram together with a colimit cone under it is a colimit diagram. A J-indexed diagram together with a cone OVER it is the same thing as a diagram indexed by the category obtained from J by freely adjoining an initial object (with J a full subcategory); dually a J-indexed diagram together with a cone UNDER it is a diagram indexed by J with a freely adjoined terminal object. A footnote defers the explicit construction of these augmented indexing categories to Exercise 3.6.vi.",
+   "book_section": "3.1",
+   "book_page": "85",
+   "pdf_pages": [
+    105
+   ],
+   "cross_refs": [
+    "riehl:3.1:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def11",
+   "kind": "definition",
+   "number": "3.1.11",
+   "name": "terminal object as the limit of the empty diagram",
+   "statement_summary": "A terminal object is the special case of a product where the indexing (discrete) category is empty. A cone over the empty diagram is just an object of the target category (its summit) with no further data, and every morphism of summits is a map of empty cones, so the category of cones over the empty diagram is isomorphic to the ambient category; hence the limit of the empty diagram is exactly a terminal object in the sense of Definition 1.6.14.",
+   "book_section": "3.1",
+   "book_page": "86",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9",
+    "riehl:3.1:def6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def13",
+   "kind": "definition",
+   "number": "3.1.13",
+   "name": "equalizer, parallel pair, equalizer diagram",
+   "statement_summary": "An equalizer is a limit of a diagram indexed by the parallel pair category (two objects and two parallel non-identity morphisms). Such a diagram in C is a parallel pair f,g : A => B. A cone with summit C consists of a : C -> A and b : C -> B with f.a = b and g.a = b, so b is redundant and the cone is equivalent to a single morphism a : C -> A satisfying f.a = g.a. The equalizer h : E -> A is the universal such morphism; the limit diagram E -h-> A =(f,g)=> B is called an equalizer diagram, and its universal property says any a : C -> A with f.a = g.a factors uniquely as a = h.k for a unique k : C -> E.",
+   "book_section": "3.1",
+   "book_page": "86",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def15",
+   "kind": "definition",
+   "number": "3.1.15",
+   "name": "pullback, cospan, fiber product",
+   "statement_summary": "A pullback is a limit of a cospan, the diagram shape indexed by the poset with two non-identity morphisms into a common codomain. For a cospan B -f-> A <-g- C, a cone with summit D is a triple of morphisms (one per object of the indexing category) making both triangles of the numbered diagram (3.1.16) commute; equivalently it is a pair b : D -> B, c : D -> C making a commutative square f.b = g.c. The pullback is the universal such cone: a commutative square f.h = g.k on an object P such that every commutative square over the cospan factors uniquely through the pullback cone's legs. The corner symbol marks a square as a pullback (limit diagram) rather than merely commutative. P is also called the fiber product, written B x_A C; its precise relationship to products is treated in sections 3.2 and 3.5 (see Lemma 3.5.15).",
+   "book_section": "3.1",
+   "book_page": "86",
+   "pdf_pages": [
+    106,
+    107
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:example12",
+   "kind": "example",
+   "number": "3.1.12",
+   "name": "the terminal category 1",
+   "statement_summary": "The category 1 with a single object and only its identity morphism is the terminal category: it is the terminal object in Cat, and also in CAT.",
+   "book_section": "3.1",
+   "book_page": "86",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "riehl:3.1:def11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example14",
+   "kind": "example",
+   "number": "3.1.14",
+   "name": "equalizers in Group: kernels and difference kernels",
+   "statement_summary": "The equalizer of a group homomorphism phi : G -> H and the trivial homomorphism e : G -> H is the kernel of phi, the leg of the limit cone being the inclusion ker phi -> G. More generally, the equalizer of a parallel pair phi, psi : G => H is the subgroup of elements g with phi(g) = psi(g); when H is abelian this is the kernel of phi - psi. The accompanying prose notes this is no accident: the leg of any equalizer is always a monomorphism (deferred to Exercise 3.1.iv).",
+   "book_section": "3.1",
+   "book_page": "86",
+   "pdf_pages": [
+    106
+   ],
+   "cross_refs": [
+    "riehl:3.1:def13",
+    "riehl:3.1:exiv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:eq17",
+   "kind": "equation",
+   "number": "3.1.17",
+   "name": "fiber of a morphism over a point (pullback along a global element)",
+   "statement_summary": "Numbered display, not an environment: in a category with a terminal object *, the pullback of f : B -> A along a global element a : * -> A is denoted B_a and is defined to be the fiber of f over a. This is the only place the term 'fiber' is introduced; the number 3.1.17 belongs to the display, which sits in running prose outside any numbered environment, hence it is recorded as an equation item rather than noted as a mere consumed number.",
+   "book_section": "3.1",
+   "book_page": "87",
+   "pdf_pages": [
+    107
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15",
+    "riehl:3.1:def11"
+   ],
+   "flags": [
+    "numbered-display-carrying-a-definition"
+   ]
+  },
+  {
+   "id": "riehl:3.1:example18",
+   "kind": "example",
+   "number": "3.1.18",
+   "name": "fiber of the exponential covering map R -> S^1",
+   "statement_summary": "For the continuous quotient map rho : R -> S^1 sending t to e^{2 pi i t}, the pullback of rho along the point 1 in S^1 (i.e. the fiber of rho over 1) is the discrete subspace Z of R. Following prose observes that fibers of a map define subspaces of its domain because the pullback of a monomorphism B >-> A along any C -> A is a monomorphism B x_A C >-> C (deferred to Exercise 3.1.v).",
+   "book_section": "3.1",
+   "book_page": "87",
+   "pdf_pages": [
+    107
+   ],
+   "cross_refs": [
+    "riehl:3.1:eq17",
+    "riehl:3.1:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example19",
+   "kind": "example",
+   "number": "3.1.19",
+   "name": "pullback of multiplication maps in Ab computes the least common multiple",
+   "statement_summary": "Since Z represents the forgetful functor U : Ab -> Set, homomorphisms Z -> Z of abelian groups correspond to integers n. Elements of the pullback of Z -m-> Z <-n- Z are pairs (x,y) with n x = m y; assuming m and n are not both zero the pullback is isomorphic to Z, and the legs a, b of the pullback cone (numbered display (3.1.20)) are the unique integers with m a = n b equal to the least common multiple of n and m. A footnote notes the universal property only pins the pair (a,b) down up to a compatible choice of sign (Exercise 3.1.viii).",
+   "book_section": "3.1",
+   "book_page": "87",
+   "pdf_pages": [
+    107,
+    108
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15",
+    "riehl:3.1:exviii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:def21",
+   "kind": "definition",
+   "number": "3.1.21",
+   "name": "inverse limit (limit of a tower indexed by omega^op)",
+   "statement_summary": "The limit of a diagram indexed by omega^op is called an inverse limit; the term is sometimes used loosely for limits of any shape. An omega^op-indexed diagram is a tower ... -> F_3 -> F_2 -> F_1 -> F_0 (composites and identities not displayed); a cone over it extends this data to a diagram of shape (omega + 1)^op, i.e. a new object 'all the way to the left' with morphisms making every triangle commute. The inverse limit, written lim_{<-} F_n, is the terminal such cone. Analogous remarks apply for any limit ordinal alpha in place of omega (a footnote points to Exercise 3.1.vii for why successor ordinals are uninteresting).",
+   "book_section": "3.1",
+   "book_page": "88",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5",
+    "riehl:3.1:exvii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:def23",
+   "kind": "definition",
+   "number": "3.1.23",
+   "name": "colimit notions by duality: coproduct, initial object, coequalizer, pushout, sequential colimit",
+   "statement_summary": "Dualizes Definitions 3.1.9, 3.1.11, 3.1.13, 3.1.15 and 3.1.21 in FIVE bullets, all recorded here. (i) A coproduct coprod_{j in J} A_j is the colimit of a family (A_j) indexed by a discrete category; the legs of the colimit cone iota_k : A_k -> coprod_j A_j are the coproduct inclusions, which are often but not always monomorphisms (Exercise 3.1.ix). (ii) An initial object is the colimit of the empty diagram. (iii) A coequalizer is the colimit of a diagram indexed by the parallel pair category: the coequalizer of f,g : A => B is the universal h : B -> C with h.f = h.g, and the colimit diagram A => B -h-> C is a coequalizer diagram, diagrams of this shape also being called forks. (iv) A pushout is the colimit of a span (shape given by the poset with two non-identity morphisms out of a common domain); dualizing the pullback convention, the corner symbol marks a commutative square as a pushout, i.e. the universal commutative square under the two given maps. (v) The colimit of a diagram indexed by the ordinal omega, i.e. of a sequence F_0 -> F_1 -> F_2 -> ..., is a sequential colimit or direct limit, written colim F_n, and is the universal extension of the data to a diagram of shape omega + 1; 'direct limit' is sometimes used for colimits of any shape. Closing prose notes each colimit shape is the opposite of the corresponding limit shape and that Exercise 3.1.vii explains why omega and the span shape index colimit but not limit diagrams.",
+   "book_section": "3.1",
+   "book_page": "88",
+   "pdf_pages": [
+    108,
+    109
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9",
+    "riehl:3.1:def11",
+    "riehl:3.1:def13",
+    "riehl:3.1:def15",
+    "riehl:3.1:def21"
+   ],
+   "flags": [
+    "multi-clause-item-5-bullets",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:example22",
+   "kind": "example",
+   "number": "3.1.22",
+   "name": "p-adic integers as an inverse limit",
+   "statement_summary": "The p-adic integers Z_p are defined to be the inverse limit of the omega^op-indexed diagram of rings Z/p^n with the canonical quotient maps ... -> Z/p^3 -> Z/p^2 -> Z/p.",
+   "book_section": "3.1",
+   "book_page": "88",
+   "pdf_pages": [
+    108
+   ],
+   "cross_refs": [
+    "riehl:3.1:def21"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example24",
+   "kind": "example",
+   "number": "3.1.24",
+   "name": "wedge of circles and the torus as pushouts in Top",
+   "statement_summary": "The figure eight (wedge of two circles) S^1 v S^1 is the pushout of the span S^1 <- * -> S^1 in unbased spaces, equivalently the coproduct of S^1 with itself in based spaces. A further pushout in Top of the span D^2 <-i- S^1 -(a b a^{-1} b^{-1})-> S^1 v S^1, where i is the inclusion of the circle as the boundary of the disk and the attaching map is the commutator loop, defines the torus T =~ S^1 x S^1.",
+   "book_section": "3.1",
+   "book_page": "89",
+   "pdf_pages": [
+    109
+   ],
+   "cross_refs": [
+    "riehl:3.1:def23"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example25",
+   "kind": "example",
+   "number": "3.1.25",
+   "name": "cokernel as a coequalizer in Group",
+   "statement_summary": "The coequalizer of a group homomorphism phi : G -> H together with the trivial homomorphism e : G -> H defines the cokernel: the quotient of H by the normal subgroup generated by the image of phi.",
+   "book_section": "3.1",
+   "book_page": "89",
+   "pdf_pages": [
+    109
+   ],
+   "cross_refs": [
+    "riehl:3.1:def23",
+    "riehl:3.1:example14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:example26",
+   "kind": "example",
+   "number": "3.1.26",
+   "name": "sequential colimit of sets and inclusions; CW complexes",
+   "statement_summary": "The colimit of a sequence of sets and inclusions X_0 -> X_1 -> X_2 -> ... is their union (union over n >= 0 of X_n). For instance a CW complex is the colimit of its n-skeleta, the subspaces built by attaching cells of dimension at most n.",
+   "book_section": "3.1",
+   "book_page": "89",
+   "pdf_pages": [
+    109,
+    110
+   ],
+   "cross_refs": [
+    "riehl:3.1:def23"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:def-direct-sums",
+   "kind": "definition",
+   "number": null,
+   "name": "direct sum (biproduct) and matrix composition",
+   "statement_summary": "Unnumbered definition made in running prose (it follows Remark 3.1.27 and may be read as its continuation, since the book supplies no environment end marker). In categories such as Ab, R-Mod or Ch_R, which have a zero homomorphism between any pair of objects, the canonical 'identity matrix' morphism coprod_{i in I} A_i -> prod_{i in I} A_i, whose components are zero maps off the diagonal and identities on it, is an isomorphism for finite I; the common value is written oplus_{i in I} A_i and called the direct sum. Under this identification, morphisms between finite direct sums are represented by matrices of component maps and composition is computed by matrix multiplication, the (i,k) entry of the composite being sum_j g_{(j,k)} f_{(i,j)}, itself defined as the composite through the diagonal/codiagonal maps. Footnotes add that the identity matrix is an isomorphism in any abelian category (Definition E.5.1) and that with direct sums each hom-set becomes a commutative monoid.",
+   "book_section": "3.1",
+   "book_page": "90",
+   "pdf_pages": [
+    110,
+    111
+   ],
+   "cross_refs": [
+    "riehl:3.1:remark27"
+   ],
+   "flags": [
+    "unnumbered-definition-in-prose",
+    "possibly-part-of-remark-3.1.27",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:remark27",
+   "kind": "remark",
+   "number": "3.1.27",
+   "name": "the universal properties of the product and the coproduct; matrices of component maps",
+   "statement_summary": "Three parts. (i) In any category with coproducts, morphisms f : coprod_{i in I} A_i -> X correspond naturally and bijectively to I-indexed families (f_i : A_i -> X), the i'-component being the restriction along the inclusion iota_{i'}; i.e. C(coprod_i A_i, X) =~ prod_i C(A_i, X). (ii) Dually, in any category with products, morphisms g : X -> prod_{j in J} B_j correspond naturally and bijectively to J-indexed families (g_j : X -> B_j) via composition with the projections; i.e. C(X, prod_j B_j) =~ prod_j C(X,B_j). (iii) Combining the two, a single morphism from a coproduct to a product coprod_{i in I} A_i -> prod_{j in J} B_j is determined by an (I x J)-indexed matrix of component maps f_{(i',j')} : A_{i'} -> B_{j'}.",
+   "book_section": "3.1",
+   "book_page": "90",
+   "pdf_pages": [
+    110,
+    111
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9",
+    "riehl:3.1:def23"
+   ],
+   "flags": [
+    "multi-clause-item-3-parts",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.1:lem28",
+   "kind": "lemma",
+   "number": "3.1.28",
+   "name": "maps into a limit (out of a colimit) are determined by their composites with the legs",
+   "statement_summary": "A parallel pair of morphisms into a limit object are equal if and only if their composites with the legs of the limit cone are equal. Dually, a parallel pair of morphisms out of a colimit object are equal if and only if their composites with the legs of the colimit cone are equal. Proof: for f,g : X => lim F, the limit cone induces a natural isomorphism C(X, lim F) =~ Cone(X,F) sending f and g to lambda.Delta f and lambda.Delta g; since this is a bijection, f = g iff those cones agree, and two natural transformations agree iff their components do, i.e. iff lambda_j f = lambda_j g for all j. Generalizes Lemma 1.6.17 and is used to prove commutativity of diagrams whose initial vertex is a colimit or terminal vertex is a limit.",
+   "book_section": "3.1",
+   "book_page": "91",
+   "pdf_pages": [
+    111
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exi",
+   "kind": "exercise",
+   "number": "3.1.i",
+   "name": "limits and colimits in a poset",
+   "statement_summary": "For a diagram F : J -> P valued in a poset (P, <=), and anticipating Proposition 3.6.10, characterize the limit and the colimit in order-theoretic language (greatest lower bound / least upper bound of the image).",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exii",
+   "kind": "exercise",
+   "number": "3.1.ii",
+   "name": "direct proof of essential uniqueness",
+   "statement_summary": "Give a direct proof of Proposition 3.1.7 by using the universal properties of each of a pair of limit cones lambda : Delta l => F and lambda' : Delta l' => F to construct the unique isomorphism l =~ l' between their summits commuting with the cone legs.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:prop7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exiii",
+   "kind": "exercise",
+   "number": "3.1.iii",
+   "name": "the category of cones as a comma category",
+   "statement_summary": "Prove that the category of cones over a diagram F in C^J is isomorphic to the comma category Delta / F formed from the constant diagram functor Delta : C -> C^J and the functor F : 1 -> C^J picking out the diagram. Argue by duality that the category of cones under F is the comma category F / Delta.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def6",
+    "riehl:3.1:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exiv",
+   "kind": "exercise",
+   "number": "3.1.iv",
+   "name": "equalizers are monomorphisms",
+   "statement_summary": "Prove that if E -h-> A =(f,g)=> B is an equalizer diagram then h is a monomorphism.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exix",
+   "kind": "exercise",
+   "number": "3.1.ix",
+   "name": "coproduct inclusions are split monomorphisms over a zero object",
+   "statement_summary": "In a category with a zero object, prove that the legs (inclusions) of a coproduct cone are split monomorphisms. Asks whether the result extends to other categorical contexts.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def23"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exv",
+   "kind": "exercise",
+   "number": "3.1.v",
+   "name": "monomorphisms are stable under pullback",
+   "statement_summary": "Prove that if a square with legs k : P -> C, h : P -> B over a cospan f : B -> A, g : C -> A is a pullback square and f is a monomorphism, then the opposite leg k is a monomorphism.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exvi",
+   "kind": "exercise",
+   "number": "3.1.vi",
+   "name": "pullback composition and cancelation",
+   "statement_summary": "Consider a commutative rectangle made of two adjacent squares whose right-hand square is a pullback. Show that the left-hand square is a pullback if and only if the composite rectangle is a pullback. These are known as pullback composition and cancelation.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exvii",
+   "kind": "exercise",
+   "number": "3.1.vii",
+   "name": "limits over shapes with an initial object",
+   "statement_summary": "Show that if the indexing category J has an initial object, then the limit of any functor indexed by J is the value of that functor at the initial object. Apply the dual of this result to describe the colimit of a diagram indexed by a successor ordinal.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:def21"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exviii",
+   "kind": "exercise",
+   "number": "3.1.viii",
+   "name": "sign ambiguity in the lcm pullback",
+   "statement_summary": "If positive integers (a,b) satisfy the universal property expressed by the pullback display (3.1.20), show that (-a,-b) satisfies the same universal property, and explain why this observation does not make the pullback ill-defined.",
+   "book_section": "3.1",
+   "book_page": "92",
+   "pdf_pages": [
+    112
+   ],
+   "cross_refs": [
+    "riehl:3.1:example19",
+    "riehl:3.1:prop7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exx",
+   "kind": "exercise",
+   "number": "3.1.x",
+   "name": "the product of categories is the categorical product in Cat",
+   "statement_summary": "Prove that the product of categories introduced in Definition 1.3.12 defines the product in the category of categories, and define an analogous product of an indexed family of categories.",
+   "book_section": "3.1",
+   "book_page": "93",
+   "pdf_pages": [
+    113
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exxi",
+   "kind": "exercise",
+   "number": "3.1.xi",
+   "name": "coproducts in Group, Ab and CRing",
+   "statement_summary": "Identify the coproduct in the categories of groups, of abelian groups, and of commutative rings (free product, direct sum, tensor product respectively).",
+   "book_section": "3.1",
+   "book_page": "93",
+   "pdf_pages": [
+    113
+   ],
+   "cross_refs": [
+    "riehl:3.1:def23"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.1:exxii",
+   "kind": "exercise",
+   "number": "3.1.xii",
+   "name": "limits are invariant under equivalence of the indexing category",
+   "statement_summary": "Suppose E : I -> J is an equivalence between small categories and F : J -> C is a diagram. Show that the category of J-shaped cones over F is equivalent to the category of I-shaped cones over FE, and use this equivalence to describe the relationship between the limits of F and the limits of FE.",
+   "book_section": "3.1",
+   "book_page": "93",
+   "pdf_pages": [
+    113
+   ],
+   "cross_refs": [
+    "riehl:3.1:def6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:def1",
+   "kind": "definition",
+   "number": "3.2.1",
+   "name": "small diagram; complete category; cocomplete category",
+   "statement_summary": "A diagram is small if its indexing category is a small category. A category C is complete if it admits limits of all small diagrams valued in C, and cocomplete if it admits colimits of all small diagrams valued in C.",
+   "book_section": "3.2",
+   "book_page": "93",
+   "pdf_pages": [
+    113
+   ],
+   "cross_refs": [
+    "riehl:3.1:def5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:def3",
+   "kind": "definition",
+   "number": "3.2.3",
+   "name": "small set-valued limits (explicit construction of lim F in Set)",
+   "statement_summary": "For any small diagram F : J -> Set, define lim F := Cone(*, F), the set of cones over F with summit the singleton set *. The legs of the limit cone, indexed by objects j of J, are the functions lambda_j : lim F -> Fj sending a cone mu : Delta * => F to its jth leg mu_j : * -> Fj, regarded as an element of Fj. The motivating display (3.2.2) is lim F =~ Set(*, lim F) =~ Cone(*,F), obtained because * represents the identity functor on Set, allowing elements x of X to be conflated with morphisms x : * -> X.",
+   "book_section": "3.2",
+   "book_page": "93",
+   "pdf_pages": [
+    113,
+    114
+   ],
+   "cross_refs": [
+    "riehl:3.2:def1",
+    "riehl:3.1:def5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.2:example5",
+   "kind": "example",
+   "number": "3.2.5",
+   "name": "products in Set are cartesian products",
+   "statement_summary": "By Theorem 3.2.4, the product of sets A_j indexed by a set J is the set of cones with summit * over the discrete J-indexed diagram, and such a cone is just a J-tuple of elements; hence the categorical product in Set coincides with the usual cartesian product prod_{j in J} A_j = {(a_j in A_j)_{j in J}}.",
+   "book_section": "3.2",
+   "book_page": "94",
+   "pdf_pages": [
+    114
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.1:def9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:example6",
+   "kind": "example",
+   "number": "3.2.6",
+   "name": "the terminal object in Set is a singleton",
+   "statement_summary": "The terminal object in Set is the set of cones over the empty diagram with summit *; there is a unique such cone since its data consists only of a choice of summit, proving again that the terminal object of Set is a singleton set.",
+   "book_section": "3.2",
+   "book_page": "94",
+   "pdf_pages": [
+    114
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.1:def11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:example7",
+   "kind": "example",
+   "number": "3.2.7",
+   "name": "equalizers in Set",
+   "statement_summary": "Given a parallel pair of functions f,g : X => Y, their equalizer is the set of cones with summit *, i.e. the set of maps x : * -> X with f x = g x; in familiar notation E = {x in X | f(x) = g(x)}.",
+   "book_section": "3.2",
+   "book_page": "94",
+   "pdf_pages": [
+    114
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.1:def13"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:thm4",
+   "kind": "theorem",
+   "number": "3.2.4",
+   "name": "Set is complete",
+   "statement_summary": "The category Set is complete, admitting all small limits. Proof: given a cone zeta : Delta X => F with generic summit X, each element x of X (as a map x : * -> X) restricts zeta to a cone zeta.Delta x with summit *, and defining f(x) := zeta.Delta x gives the unique factorization of zeta through the cone lambda of Definition 3.2.3, since lambda_j(f(x)) = zeta_j . x forces this formula. Surrounding prose stresses the smallness hypothesis: if J is small then Set^J is locally small so Cone(*,F) is a set; section 3.7 shows Set has certain, but not all, large limits.",
+   "book_section": "3.2",
+   "book_page": "94",
+   "pdf_pages": [
+    114
+   ],
+   "cross_refs": [
+    "riehl:3.2:def3",
+    "riehl:3.2:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:example10",
+   "kind": "example",
+   "number": "3.2.10",
+   "name": "the limit of a G-set is its set of fixed points",
+   "statement_summary": "The limit of a left G-set X : BG -> Set is the set of cones with summit *; a map x : * -> X is such a cone if and only if g . x = x for all g in G, so lim X =~ X^G, the set of G-fixed points of X.",
+   "book_section": "3.2",
+   "book_page": "95",
+   "pdf_pages": [
+    115
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:example8",
+   "kind": "example",
+   "number": "3.2.8",
+   "name": "inverse limits of towers of sets",
+   "statement_summary": "Elements of the limit of a diagram F : omega^op -> Set are cones with summit *, i.e. tuples of elements (x_n in F_n) making every triangle commute; hence lim F = {(x_n)_n in prod_{n in omega} F_n | f_{n,n-1}(x_n) = x_{n-1}}, the set of compatible sequences.",
+   "book_section": "3.2",
+   "book_page": "95",
+   "pdf_pages": [
+    115
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.1:def21"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:example9",
+   "kind": "example",
+   "number": "3.2.9",
+   "name": "pullbacks in Set",
+   "statement_summary": "Elements of the pullback of a cospan of functions B -f-> A <-g- C are cones with summit *, i.e. commutative squares, whose data is a pair (b,c) with f(b) = g(c); hence B x_A C = {(b,c) in B x C | f(b) = g(c)}. Following prose observes that comparing this with Examples 3.2.5 and 3.2.7 exhibits the pullback as the equalizer of the pair f.pi_B, g.pi_C : B x C => A, and that Example 3.2.8 likewise realizes an inverse limit as a subset of a product.",
+   "book_section": "3.2",
+   "book_page": "95",
+   "pdf_pages": [
+    115
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.1:def15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:thm11",
+   "kind": "theorem",
+   "number": "3.2.11",
+   "name": "every small limit in Set is an equalizer of a pair of maps between products",
+   "statement_summary": "Any small limit in Set may be expressed as an equalizer of a pair of maps between products: for any small F : J -> Set there is an equalizer diagram (numbered display (3.2.12)) lim_J F >-> prod_{j in ob J} Fj =(c,d)=> prod_{f in mor J} F(cod f). Proof: elements of the limit are cones with summit * over F, whose data is an element lambda_j of each Fj, i.e. an element of the left-hand product, subject to Ff(lambda_{dom f}) = lambda_{cod f} for each morphism f; c sends (lambda_j) to (lambda_{cod f})_f and d sends it to (Ff(lambda_{dom f}))_f, so the equalizer is exactly the set of cone-compatible tuples.",
+   "book_section": "3.2",
+   "book_page": "95",
+   "pdf_pages": [
+    115,
+    116
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm4",
+    "riehl:3.2:example5",
+    "riehl:3.2:example7"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.2:example14",
+   "kind": "example",
+   "number": "3.2.14",
+   "name": "idempotents, their fixed points, and splitting idempotents as retracts",
+   "statement_summary": "An idempotent is an endomorphism e : A -> A with e.e = e. Its limit in Set (the limit of the corresponding one-object diagram) is the set of cones with summit *, i.e. the fixed-point set {a in A | ea = a}, denoted A^e. Alternatively, by Theorem 3.2.11 in the simplified form of Exercise 3.2.ii, A^e is the equalizer of id_A, e : A => A via s : A^e >-> A; since e is a cone over that parallel pair, e factors as e = s r for a unique r, which is said to split the idempotent, and s r s = e s = s together with uniqueness gives r s = id_{A^e}, so A^e is a retract of A. Conversely any retract diagram B -s-> A -r->> B with r s = id_B gives an idempotent s r on A split by B, and B >-s-> A =(id_A, sr)=> A is an equalizer diagram (Exercise 3.4.vi).",
+   "book_section": "3.2",
+   "book_page": "96",
+   "pdf_pages": [
+    116,
+    117
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm11",
+    "riehl:3.2:exii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.2:remark13",
+   "kind": "remark",
+   "number": "3.2.13",
+   "name": "categorical description of the parallel pair in the limit-as-equalizer formula",
+   "statement_summary": "The maps c and d of the equalizer diagram of Theorem 3.2.11 can be defined without elements, using the universal property of the product prod_{f in mor J} F(cod f) (Remark 3.1.27): it suffices to specify each component, i.e. the composite with pi_f for f in mor J. The component of c at f is the projection pi_{cod f} from prod_j Fj; the component of d at f is the projection pi_{dom f} followed by Ff : F(dom f) -> F(cod f). Acting on elements, these categorical descriptions agree with the explicit ones. This remark is what allows Theorem 3.2.11 to be generalized to categories other than Set, and by duality yields a formula for constructing colimits (Theorem 3.5.11).",
+   "book_section": "3.2",
+   "book_page": "96",
+   "pdf_pages": [
+    116
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm11",
+    "riehl:3.1:remark27"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:exi",
+   "kind": "exercise",
+   "number": "3.2.i",
+   "name": "small categories as diagrams in Set; categories internal to E",
+   "statement_summary": "A small category can be redefined as a particular diagram in Set: the data is a pair of sets ob C and mor C with functions dom, cod : mor C -> ob C and id : ob C -> mor C, together with a composition function yet to be defined. Use a pullback to define the set of composable pairs of morphisms, which serves as the domain of the composition function, and formulate the category axioms as commutative diagrams in Set. Replacing Set by a category E with pullbacks defines a category internal to E.",
+   "book_section": "3.2",
+   "book_page": "97",
+   "pdf_pages": [
+    117
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:exii",
+   "kind": "exercise",
+   "number": "3.2.ii",
+   "name": "smaller equalizer presentation of a set-valued limit",
+   "statement_summary": "Show that for any small diagram F : J -> Set the equalizer diagram (3.2.12) can be modified to a slightly smaller equalizer diagram lim_J F >-> prod_{j in ob J} Fj => prod_{f in mor J minus ob J} F(cod f) in which the second product is indexed only by non-identity morphisms. Argue that the indexing set can be restricted further to only 'atomic' morphisms: those non-identity morphisms that cannot be factored as a composite of non-identity morphisms.",
+   "book_section": "3.2",
+   "book_page": "97",
+   "pdf_pages": [
+    117,
+    118
+   ],
+   "cross_refs": [
+    "riehl:3.2:thm11"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.2:exiii",
+   "kind": "exercise",
+   "number": "3.2.iii",
+   "name": "the set of commutative squares as a pullback",
+   "statement_summary": "For any pair of morphisms f : a -> b and g : c -> d in a locally small category C, construct the set Sq(f,g) of commutative squares from f to g as a pullback in Set.",
+   "book_section": "3.2",
+   "book_page": "98",
+   "pdf_pages": [
+    118
+   ],
+   "cross_refs": [
+    "riehl:3.1:def15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:exiv",
+   "kind": "exercise",
+   "number": "3.2.iv",
+   "name": "the set of natural transformations as a small limit in Set",
+   "statement_summary": "Generalize Exercise 3.2.iii to show that for any small category J, locally small category C, and parallel pair of functors F,G : J => C, the set Hom(F,G) of natural transformations from F to G can be defined as a small limit in Set. Hint: the diagram whose limit is Hom(F,G) is indexed by a category whose objects are the morphisms of J and which has morphisms id_x -> f and id_y -> f for every f : x -> y in J.",
+   "book_section": "3.2",
+   "book_page": "98",
+   "pdf_pages": [
+    118
+   ],
+   "cross_refs": [
+    "riehl:3.2:exiii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:exv",
+   "kind": "exercise",
+   "number": "3.2.v",
+   "name": "equalizer formula for the set of natural transformations",
+   "statement_summary": "Show that for any small J, locally small C, and parallel pair F,G : J => C there is an equalizer diagram Hom(F,G) >-> prod_{j in ob J} C(Fj,Gj) => prod_{f : j -> j' in mor J} C(Fj, Gj'), where the two maps are induced by post-composition with Gf and pre-composition with Ff. Note this is not the equalizer obtained by applying Theorem 3.2.11 to the diagram of Exercise 3.2.iv; it is a second, independent formula.",
+   "book_section": "3.2",
+   "book_page": "98",
+   "pdf_pages": [
+    118
+   ],
+   "cross_refs": [
+    "riehl:3.2:exiv",
+    "riehl:3.2:thm11"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.2:exvi",
+   "kind": "exercise",
+   "number": "3.2.vi",
+   "name": "limits of set-valued functors as sections of the category of elements",
+   "statement_summary": "Prove that the limit of any small diagram F : C -> Set is isomorphic to the set of functors C -> (category of elements of F) that define a section of the canonical projection from the category of elements to C. Using this description, define the limit cone.",
+   "book_section": "3.2",
+   "book_page": "98",
+   "pdf_pages": [
+    118
+   ],
+   "cross_refs": [
+    "riehl:3.2:def3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.3:prop1",
+   "kind": "proposition",
+   "number": "3.3.1",
+   "name": "the limit functor",
+   "statement_summary": "If C has all J-shaped limits, then a choice of a limit for each diagram defines the action on objects of a functor lim : C^J -> C. More generally, for any categories C and J there is a limit functor defined on the full subcategory of C^J spanned by those diagrams whose limit exists. Proof: choose a limit cone epsilon : Delta(lim F) => F for each F; for alpha : F => G the composite alpha . epsilon is a cone over G with summit lim F, which factors uniquely through the chosen limit cone for G, defining lim alpha : lim F -> lim G. Uniqueness of these factorizations gives lim(id_F) = id_{lim F} and lim(beta . alpha) = lim beta . lim alpha, so this is functorial. Prose notes the functor is not canonical (it needs a choice, i.e. the axiom of choice), which can be avoided by treating limits as anafunctors [Mak96]. Dual statement for colimits.",
+   "book_section": "3.3",
+   "book_page": "98",
+   "pdf_pages": [
+    118,
+    119
+   ],
+   "cross_refs": [
+    "riehl:3.1:prop7",
+    "riehl:3.1:def5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.3:example2",
+   "kind": "example",
+   "number": "3.3.2",
+   "name": "the path components functor as a colimit functor",
+   "statement_summary": "The functor Path : Top -> Set carries a space X to Top(I,X) for I the standard unit interval. Precomposing with the endpoint inclusions 0,1 : * => I defines a functor P : Top -> Set^{parallel pair} carrying X to the parallel pair Path(X) =(ev_0, ev_1)=> Point(X) evaluating a path at its endpoints. The coequalizer of this pair is the set pi_0 X of path components of X, the quotient of the set of points by the relation identifying points joined by a path; by Proposition 3.3.1 the assignment is functorial, defining the path components functor pi_0 = colim . P : Top -> Set.",
+   "book_section": "3.3",
+   "book_page": "99",
+   "pdf_pages": [
+    119,
+    120
+   ],
+   "cross_refs": [
+    "riehl:3.3:prop1",
+    "riehl:3.1:def23"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.3:cor3",
+   "kind": "corollary",
+   "number": "3.3.3",
+   "name": "naturally isomorphic diagrams have isomorphic limits and colimits",
+   "statement_summary": "A natural isomorphism between diagrams (of a common shape) induces a naturally-defined isomorphism between their limits, or between their colimits, whenever these exist. Proof: the construction of Proposition 3.3.1 defines a limit functor on the full subcategory of C^J spanned by diagrams admitting limits, and every functor preserves isomorphisms (Lemma 1.3.8). Surrounding prose notes that a natural transformation between diagrams always induces a morphism between their limits (or colimits) whenever these exist, whether or not the ambient category has all such limits, and that naturality (not merely objectwise isomorphism) is genuinely necessary; [EM45, 21.2] proved the directed-diagram case.",
+   "book_section": "3.3",
+   "book_page": "100",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "riehl:3.3:prop1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.3:example4",
+   "kind": "example",
+   "number": "3.3.4",
+   "name": "G-sets: objectwise versus natural isomorphism, and their fixed points and orbits",
+   "statement_summary": "For a group G, two G-sets X,Y : BG => Set are objectwise isomorphic exactly when their underlying sets are isomorphic, whereas they are naturally isomorphic exactly when there is a G-equivariant bijection X -> Y, a strictly stronger condition. Concretely, for G = Z/2 the two-element set 2 with trivial action and the two-element set 2' where the generator swaps the elements are objectwise isomorphic but not naturally isomorphic. Their limits are fixed-point sets (Example 3.2.10) and their colimits are orbit sets (Exercise 3.6.i): lim 2 has two elements while lim 2' is empty; colim 2 has two elements while colim 2' is a singleton, showing that objectwise isomorphism does not suffice in Corollary 3.3.3.",
+   "book_section": "3.3",
+   "book_page": "100",
+   "pdf_pages": [
+    120
+   ],
+   "cross_refs": [
+    "riehl:3.3:cor3",
+    "riehl:3.2:example10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.3:example5",
+   "kind": "example",
+   "number": "3.3.5",
+   "name": "permutations versus total orderings on finite sets; species and unlabeled structures",
+   "statement_summary": "To a finite set X associate Sym(X), its set of permutations, and Ord(X), its set of total orderings; both have |X|! elements. Both are functorial not on all maps of finite sets but on the bijections: Sym : Fin_iso -> Fin acts by conjugation and Ord : Fin_iso -> Fin acts by translation. The objectwise isomorphism Sym(X) =~ Ord(X) is not natural, and limits or colimits of restrictions of these diagrams need not be isomorphic. The continuation on the next page defines (in prose) a species to be a functor F : Fin_iso -> Fin, the image F(n) being the labeled F-structures on n, and the set of unlabeled F-structures on n to be the colimit of the restricted diagram BS_n -> Fin_iso -F-> Fin along the symmetric group S_n regarded as the automorphisms of n; the unlabeled Sym-structures on n are the conjugacy classes of permutations of n elements, whereas the unlabeled Ord-structures are trivial (all linear orders are isomorphic). Reference [Joy81].",
+   "book_section": "3.3",
+   "book_page": "100",
+   "pdf_pages": [
+    120,
+    121
+   ],
+   "cross_refs": [
+    "riehl:3.3:cor3"
+   ],
+   "flags": [
+    "contains-unnumbered-definition-in-prose-species",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.3:example7",
+   "kind": "example",
+   "number": "3.3.7",
+   "name": "a chosen product for which the associativity isomorphism is not the identity",
+   "statement_summary": "Let C be a countably infinite set. Since C x C is countably infinite, one may choose a product cone in Set with summit C itself, C <-pi_1- C -pi_2-> C. The projections are epimorphisms but not isomorphisms (their fibers are countably infinite), and considering the cone formed by identity morphisms shows the pair has a common section delta : C -> C. This binary product cone induces a ternary product cone with summit C in two ways, as C x (C x C) and as (C x C) x C, with the three projections to the left, central and right copies computed by the displayed trees. There is a unique morphism from the left-hand cone to the right-hand cone commuting with the three projections; if it were the identity the cone legs would agree (pi_1 = pi_1 pi_1, pi_1 pi_2 = pi_2 pi_1, pi_2 pi_2 = pi_2), and since delta is a section of both pi_1 and pi_2 it would follow that pi_1 = pi_2 = id_C, contradicting that the identity span is not a product cone. Hence alpha need not be an identity even when the objects coincide. Footnote 11 cites clingman [cli21, 3.1]: the induced map is an identity iff C(-,C) is subterminal.",
+   "book_section": "3.3",
+   "book_page": "101",
+   "pdf_pages": [
+    121,
+    122
+   ],
+   "cross_refs": [
+    "riehl:3.3:lem6"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.3:lem6",
+   "kind": "lemma",
+   "number": "3.3.6",
+   "name": "associativity of binary products up to unique natural isomorphism",
+   "statement_summary": "For any triple of objects X, Y, Z in a category with binary products, there is a unique natural isomorphism alpha_{X,Y,Z} : X x (Y x Z) =~ (X x Y) x Z commuting with the projections to X, Y and Z. Proof deferred to Exercise 3.3.ii. Discussion: the product is thereby naturally associative, so any iteration of binary products can be used to define n-ary products; even when the underlying objects are literally equal (as in a skeletal category) alpha need not be the identity, and alpha_{X,Y,Z} is the identity if and only if the projections from each iterated product to X, Y and Z agree. Attributed to Isbell [Isb69], clarified by clingman [cli21].",
+   "book_section": "3.3",
+   "book_page": "101",
+   "pdf_pages": [
+    121
+   ],
+   "cross_refs": [
+    "riehl:3.1:def9",
+    "riehl:3.3:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.3:exi",
+   "kind": "exercise",
+   "number": "3.3.i",
+   "name": "the product bifunctor and functoriality of f x g",
+   "statement_summary": "Let C be a category with binary products. Specialize Proposition 3.3.1 to define a product bifunctor - x - : C x C -> C. Explain how a pair of morphisms f : A -> B and g : C -> D induces f x g : A x C -> B x D commuting with the product projections as displayed, and demonstrate the commutativity of the square expressing f x g as both (f x D)(A x g) and (B x g)(f x C).",
+   "book_section": "3.3",
+   "book_page": "102",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "riehl:3.3:prop1",
+    "riehl:3.1:def9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.3:exii",
+   "kind": "exercise",
+   "number": "3.3.ii",
+   "name": "prove associativity of products and the pentagon of associators",
+   "statement_summary": "Prove Lemma 3.3.6, and show in addition that the unique natural isomorphisms assemble into a commuting diagram (the pentagon) of natural isomorphisms relating the five bracketings of iterated binary products of any quadruple of objects W, X, Y, Z.",
+   "book_section": "3.3",
+   "book_page": "102",
+   "pdf_pages": [
+    122
+   ],
+   "cross_refs": [
+    "riehl:3.3:lem6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:construction-canonical-comparison",
+   "kind": "construction",
+   "number": null,
+   "name": "image of a cone under a functor and the canonical comparison map",
+   "statement_summary": "Unnumbered construction developed in the opening prose of section 3.4, and used by the numbered results that follow. For F : C -> D, the image of a diagram K : J -> C is the diagram FK : J -> D, and the image of a cone lambda : Delta c => K is the whiskered natural transformation F lambda : Delta Fc => FK, a cone over FK with summit Fc and legs (F lambda_j : Fc -> FKj); this uses the identity F . Delta c = Delta Fc. The image of a limit cone need not be a limit cone; when lim FK exists there is a canonical comparison map kappa : F lim K -> lim FK, the unique morphism factoring the image of the limit cone of K through the limit cone of FK. Dually for colimits (Exercise 3.4.i). The warm-up case is the pullback: F carries a pullback square over a cospan f,g to a commutative square, and when the pullback of Ff, Fg exists there is a canonical map F(X x_Z Y) -> FX x_{FZ} FY.",
+   "book_section": "3.4",
+   "book_page": "103",
+   "pdf_pages": [
+    123
+   ],
+   "cross_refs": [
+    "riehl:3.1:def2",
+    "riehl:3.1:def15"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:3.4:def1",
+   "kind": "definition",
+   "number": "3.4.1",
+   "name": "functors that preserve, reflect, or create limits (and dually colimits)",
+   "statement_summary": "THREE-CLAUSE definition; the 'preserves' clause is on printed p.103 and the 'reflects' and 'creates' clauses are on printed p.104. For any diagram K : J -> C, a functor F : C -> D (i) PRESERVES limits of K if the image under F of any limit cone over K is a limit cone over the composite diagram FK; (ii) REFLECTS limits of K if every cone over K whose image under F is a limit cone for FK was already a limit cone over K; (iii) CREATES limits of K if, whenever FK has a limit in D, then K has a limit as well, and moreover a cone over K is a limit cone if and only if its image under F is a limit cone. A footnote warns the third condition is subtlest: creation implies reflection, but preservation is only required when the limit of FK exists. Following prose extends the vocabulary to classes of diagrams (of a given shape or size), dualizes everything to colimits, and notes that Exercise 1.5.iv shows a fully faithful functor preserves, reflects and creates isomorphisms.",
+   "book_section": "3.4",
+   "book_page": "103",
+   "pdf_pages": [
+    123,
+    124
+   ],
+   "cross_refs": [
+    "riehl:3.4:construction-canonical-comparison"
+   ],
+   "flags": [
+    "multi-clause-item-3-bullets",
+    "spans-range-boundary-clauses-ii-iii-on-pdf-124",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.4:def4",
+   "kind": "definition",
+   "number": "3.4.4",
+   "name": "open cover and sheaf on a topological space",
+   "statement_summary": "For a topological space X, let O(X) be the poset of open subsets ordered by inclusion, regarded as a category. An I-indexed family of open subsets U_i contained in U COVERS U if the diagram consisting of the U_i together with the inclusions of their pairwise intersections U_i cap U_j has colimit U in O(X). A presheaf F: O(X)^op -> Set is a SHEAF if it preserves these colimits, i.e. carries them to limits in Set. By Theorem 3.2.11 this is equivalent to requiring, for every open cover {U_i} of U, that F(U) -> prod_i F(U_i) => prod_{i,j} F(U_i cap U_j) be an equalizer diagram (the two parallel maps being restriction along U_i cap U_j -> U_i and along U_i cap U_j -> U_j). A footnote stresses that U must be presented as such a colimit and not as the coproduct of the U_i.",
+   "book_section": "3.4",
+   "book_page": "104",
+   "pdf_pages": [
+    124,
+    125
+   ],
+   "cross_refs": [],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.4:lem3",
+   "kind": "lemma",
+   "number": "3.4.3",
+   "name": "preservation via invertibility of the canonical comparison map",
+   "statement_summary": "Let F: C -> D be a functor between categories that both admit J-shaped limits. Then F preserves the J-shaped limit of a diagram K: J -> C if and only if the canonical comparison map kappa: F(lim_J K) -> lim_J FK, induced by the image under F of the limit cone in C factoring through the limit cone in D, is an isomorphism. Proof is deferred to Exercise 3.4.i (which also asks for the dual colimit statement).",
+   "book_section": "3.4",
+   "book_page": "104",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "riehl:3.4:exi"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:remark2",
+   "kind": "remark",
+   "number": "3.4.2",
+   "name": "upstairs/downstairs metaphor for preservation, reflection, creation",
+   "statement_summary": "Expository remark giving intuition for Definition 3.4.1 by picturing F: C -> D as mapping 'upstairs' (C) to 'downstairs' (D), with an upstairs diagram K: J -> C sitting above the downstairs diagram FK. Restates the three conditions: F preserves limits when every upstairs limit cone maps to a downstairs limit cone; F reflects limits when an upstairs cone whose image is a downstairs limit cone is already an upstairs limit cone; F creates limits when the mere existence of a downstairs limit cone forces an upstairs limit cone to exist, in which case limits are both preserved and reflected. Illustrated by three pullback-square pictures. Carries the derivable content 'creates implies preserves and reflects' but no new definition.",
+   "book_section": "3.4",
+   "book_page": "104",
+   "pdf_pages": [
+    124
+   ],
+   "cross_refs": [
+    "riehl:3.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:def-connected",
+   "kind": "definition",
+   "number": null,
+   "name": "connected category and connected diagram",
+   "statement_summary": "Unnumbered running-prose definition. A category J is CONNECTED if it is non-empty and if, in its underlying quiver (i.e. ignoring direction of arrows), every pair of objects is joined by a finite zig-zag of morphisms. A diagram is CONNECTED if it is indexed by a connected category. This is the hypothesis under which the forgetful functor from a coslice creates colimits in Proposition 3.4.8.",
+   "book_section": "3.4",
+   "book_page": "105",
+   "pdf_pages": [
+    125
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop8"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:3.4:def7",
+   "kind": "definition",
+   "number": "3.4.7",
+   "name": "strictly creates limits",
+   "statement_summary": "A functor F: C -> D STRICTLY CREATES limits for a given class of diagrams if for every diagram K: J -> C in the class and every limit cone over FK: J -> D, (a) there exists a UNIQUE lift of that cone to a cone over K in C, and (b) this lift is itself a limit cone in C. Riehl flags this as an 'evil' (non-isomorphism-invariant) strictification of creation, not typically satisfied by equivalences, but appearing in other categorical settings.",
+   "book_section": "3.4",
+   "book_page": "105",
+   "pdf_pages": [
+    125
+   ],
+   "cross_refs": [
+    "riehl:3.4:lem6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:lem5",
+   "kind": "lemma",
+   "number": "3.4.5",
+   "name": "fully faithful functors reflect limits and colimits",
+   "statement_summary": "Any full and faithful functor F: C -> D reflects any limits and colimits that are present in its codomain. Proof: a cone lambda: Delta c => K over K: J -> C is a limit cone exactly when every other cone mu: Delta x => K factors uniquely through lambda; if F lambda is a limit cone in D then any mu has F mu factoring uniquely through F lambda, and full faithfulness lifts that factorization uniquely to C.",
+   "book_section": "3.4",
+   "book_page": "105",
+   "pdf_pages": [
+    125
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:lem6",
+   "kind": "lemma",
+   "number": "3.4.6",
+   "name": "equivalences preserve, reflect, and create limits and colimits",
+   "statement_summary": "Any equivalence of categories F: C -> D preserves, reflects, and creates any limits and colimits that are present in its domain or codomain. Proof uses Lemma 3.4.5 for reflection, and essential surjectivity plus full faithfulness to show that any cone mu: Delta d => FK over an image diagram is isomorphic to a cone in the image of F, whose legs lift uniquely to a cone in C; preservation and creation follow.",
+   "book_section": "3.4",
+   "book_page": "105",
+   "pdf_pages": [
+    125
+   ],
+   "cross_refs": [
+    "riehl:3.4:lem5"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:prop8",
+   "kind": "proposition",
+   "number": "3.4.8",
+   "name": "the coslice projection strictly creates limits and connected colimits",
+   "statement_summary": "For any object c in C, the forgetful (projection) functor Pi: c/C -> C strictly creates limits and connected colimits. Consequently the coslice category c/C possesses any limits and any connected colimits that C admits. Proof: a J-shaped diagram in c/C is a functor K: J -> C together with a cone kappa: Delta c => K; given a limit cone lambda: Delta l => K in C, the unique factorization t: c -> l of kappa through lambda gives the unique lift, which is a limit cone in c/C, and Pi preserves it. For colimits, when J is connected and mu: K => Delta p is a colimit cone in C, the lifted object is the composite mu_j . kappa_j: c -> p, independent of j precisely by connectedness, and cone factorizations lift uniquely because c sits 'on the other side of the diagram'. A generalization to the category of elements appears as Exercise 3.4.ii.",
+   "book_section": "3.4",
+   "book_page": "106",
+   "pdf_pages": [
+    126
+   ],
+   "cross_refs": [
+    "riehl:3.4:def7",
+    "riehl:3.4:def-connected",
+    "riehl:3.4:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:prop9",
+   "kind": "proposition",
+   "number": "3.4.9",
+   "name": "pointwise limits and colimits in functor categories",
+   "statement_summary": "If A is small, then the forgetful/evaluation functor ev: C^A -> C^{ob A} strictly creates all limits and colimits. Hence, in two clauses: (i) C^A admits any limits and colimits that C possesses; and (ii) these limits and colimits are POINTWISE-DEFINED, meaning that for each object a of A the evaluation functor ev_a: C^A -> C preserves all limits and colimits existing in C. Proof constructs lim_J F objectwise as a |-> lim_{j in J} F(j,a) using the isomorphism C^{ob A} iso prod_{ob A} C, extends it to a functor A -> C by swapping variables and composing with the limit functor of Proposition 3.3.1, builds the limit cone componentwise, and checks the universal property componentwise since natural transformations are equal iff their components are. Riehl notes the converse caveat: if C lacks certain limits the statement is vacuous and gives no information about C^A.",
+   "book_section": "3.4",
+   "book_page": "107",
+   "pdf_pages": [
+    127
+   ],
+   "cross_refs": [
+    "riehl:3.4:def7",
+    "riehl:3.4:exv"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:example10",
+   "kind": "example",
+   "number": "3.4.10",
+   "name": "non-pointwise limits and colimits in a diagram category",
+   "statement_summary": "Counterexample showing that limits and colimits that DO exist in a diagram category need not be pointwise. Take the poset with four objects n, w, e, s and morphisms n -> w, n -> e, s -> w, s -> e; it lacks binary products (meets) and coproducts (joins) of the incomparable pairs {w,e} and {n,s}. Its category of arrows again has some but not all binary products and coproducts, some of which fail to be pointwise: the product of the arrows n -> w and n -> e is the identity arrow on n (a stand-in for the meet of w and e 'containing n'), and the coproduct of the arrows n -> e and s -> e is the identity arrow on e (a stand-in for the join of n and s 'within e').",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exi",
+   "kind": "exercise",
+   "number": "3.4.i",
+   "name": "dual of Lemma 3.4.3 for colimits",
+   "statement_summary": "Prove Lemma 3.4.3 in the dual. For any diagram K: J -> C and any functor F: C -> D: (i) define a canonical comparison map kappa: colim FK -> F colim K, assuming both colimits exist; (ii) show that F preserves the colimit of K exactly when this map is an isomorphism.",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exii",
+   "kind": "exercise",
+   "number": "3.4.ii",
+   "name": "the category of elements projection creates limits and connected colimits",
+   "statement_summary": "Generalize Proposition 3.4.8: show that for any F: C -> Set the projection functor Pi from the category of elements of F to C (i) strictly creates all limits that C admits AND that F preserves, and (ii) strictly creates all connected colimits that C admits.",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop8",
+    "riehl:3.4:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exiii",
+   "kind": "exercise",
+   "number": "3.4.iii",
+   "name": "creation from preservation plus conservativity",
+   "statement_summary": "Prove that F: C -> D creates limits for a particular class of diagrams provided both (i) C has those limits and F preserves them, and (ii) F reflects isomorphisms (i.e. is conservative).",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exiv",
+   "kind": "exercise",
+   "number": "3.4.iv",
+   "name": "pointed forgetful functors fail to preserve coproducts",
+   "statement_summary": "Show that the forgetful functors U: Set_* -> Set and U: Top_* -> Top fail to preserve coproducts, and explain why this demonstrates that the connectedness hypothesis in Proposition 3.4.8 is necessary.",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop8",
+    "riehl:3.4:def-connected"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exv",
+   "kind": "exercise",
+   "number": "3.4.v",
+   "name": "projections from a product of categories jointly create limits",
+   "statement_summary": "Consider a product prod_{i in I} C_i of categories. (i) Show that each projection functor pi_k: prod_i C_i -> C_k preserves limits. (ii) Show that the projection functors JOINTLY CREATE LIMITS: for any diagram F: J -> prod_i C_i, if each component diagram pi_k F: J -> C_k has a limit, then those limits define the components of a limit for F. Conclude that a product of categories has a given class of limits or colimits if and only if each component category does.",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.4:exvi",
+   "kind": "exercise",
+   "number": "3.4.vi",
+   "name": "split idempotents give absolute limits and colimits",
+   "statement_summary": "Consider a retract diagram B >-s-> A -r->> B with r s = id_B, so that s r is a split idempotent on A. Three parts. (i) Prove that B >-s-> A => A (parallel pair id_A, s r) and A => A -r->> B (same parallel pair) respectively define an equalizer and a coequalizer diagram. (ii) Prove that B is BOTH the limit and the colimit of the diagram defined by the idempotent s r. (iii) Prove that these limits and colimits are preserved by ANY functor; co/limits with this property are called ABSOLUTE co/limits. Parts (ii) and (iii) are printed on the following page (printed 109).",
+   "book_section": "3.4",
+   "book_page": "108",
+   "pdf_pages": [
+    128,
+    129
+   ],
+   "cross_refs": [
+    "riehl:3.4:def-absolute",
+    "riehl:3.8:exi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.4:def-absolute",
+   "kind": "definition",
+   "number": null,
+   "name": "absolute limits and colimits",
+   "statement_summary": "Unnumbered in-prose definition, coined inside part (iii) of Exercise 3.4.vi: a limit or colimit is ABSOLUTE if it is preserved by every functor out of the ambient category. The exercise's split-idempotent equalizer/coequalizer is the motivating instance.",
+   "book_section": "3.4",
+   "book_page": "109",
+   "pdf_pages": [
+    129
+   ],
+   "cross_refs": [
+    "riehl:3.4:exvi"
+   ],
+   "flags": [
+    "unnumbered-definition",
+    "defined-inside-exercise-3.4.vi"
+   ]
+  },
+  {
+   "id": "riehl:3.5:eq1",
+   "kind": "equation",
+   "number": "3.5.1",
+   "name": "limit of the hom-diagram is the set of cones",
+   "statement_summary": "Numbered display standing in running prose (no enclosing environment) and back-referenced by Exercise 3.5.i. For a small diagram F: J -> C in a locally small category C and an object X of C, the composite C(X,F-) := C(X,-) . F: J -> Set has a limit by Theorem 3.2.4, and Theorem 3.2.11 computes it: an element of lim_J C(X,F-) is a tuple (lambda_j: X -> F j)_{j in J} in prod_j C(X,F j) such that F f . lambda_j = lambda_k for every non-identity f: j -> k. Hence lim_J C(X,F-) is isomorphic to Cone(X,F), the set of cones over F with summit X. A footnote extends the isomorphism to large diagrams whose limit exists.",
+   "book_section": "3.5",
+   "book_page": "109",
+   "pdf_pages": [
+    129
+   ],
+   "cross_refs": [
+    "riehl:3.5:exi",
+    "riehl:3.5:thm2"
+   ],
+   "flags": [
+    "numbered-display"
+   ]
+  },
+  {
+   "id": "riehl:3.5:thm2",
+   "kind": "theorem",
+   "number": "3.5.2",
+   "name": "covariant representables preserve limits",
+   "statement_summary": "For a diagram F: J -> C in a locally small category whose limit exists, the canonical map induced by the limit cone is a natural isomorphism C(X, lim_J F) -> lim_J C(X,F-) for every object X of C (this is the numbered display (3.5.3), which consumes number 3 of the section). Consequently every covariant representable functor C(X,-): C -> Set preserves any limits that exist in C, sending them to limits in Set. Proof: the comparison map of section 3.4 is shown to fit in a commuting triangle with the isomorphism lim_J C(X,F-) iso Cone(X,F) of (3.5.1) and the isomorphism encoding the universal property of the limit cone (Definition 3.1.5) - commutativity by Yoneda, or because all three maps commute with the monomorphic inclusions into prod_j C(X,F j) - hence it is an isomorphism, and Lemma 3.4.3 concludes preservation.",
+   "book_section": "3.5",
+   "book_page": "109",
+   "pdf_pages": [
+    129,
+    130
+   ],
+   "cross_refs": [
+    "riehl:3.5:eq1",
+    "riehl:3.4:lem3"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.5:example4",
+   "kind": "example",
+   "number": "3.5.4",
+   "name": "powers (cotensors)",
+   "statement_summary": "Iterated products of a single object A of C are called POWERS or COTENSORS; for a set I the I-indexed power is written prod_I A or A^I. Its representable universal property is the natural isomorphism C(X, A^I) iso C(X,A)^I: a map h: X -> A^I is exactly an I-indexed family of maps h_i: X -> A obtained by composing with the product projections ev_i: A^I -> A. In Set this agrees with exponential notation - A^I is the set of functions from I to A and ev_i evaluates at i.",
+   "book_section": "3.5",
+   "book_page": "110",
+   "pdf_pages": [
+    130
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm2",
+    "riehl:3.7:prop3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:thm5",
+   "kind": "theorem",
+   "number": "3.5.5",
+   "name": "the covariant Yoneda embedding preserves and reflects limits",
+   "statement_summary": "Let C be any locally small category. Two clauses. (i) Covariant representable functors C(X,-) preserve all limits that exist in C. (ii) The covariant Yoneda embedding y: C -> Set^{C^op} both PRESERVES and REFLECTS limits: a cone over a diagram in C is a limit cone if and only if its image is a limit cone in Set^{C^op}. The proof of (ii) combines preservation - limits in Set^{C^op} are computed pointwise in Set by Proposition 3.4.9, and pointwise the claim is (i) - with reflection, since the Yoneda embedding is full and faithful and Lemma 3.4.5 applies. Riehl records immediately afterwards that the Yoneda embedding does NOT create limits (Exercise 3.5.ii).",
+   "book_section": "3.5",
+   "book_page": "110",
+   "pdf_pages": [
+    130,
+    131
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm2",
+    "riehl:3.4:prop9",
+    "riehl:3.4:lem5",
+    "riehl:3.5:exii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.5:example7",
+   "kind": "example",
+   "number": "3.5.7",
+   "name": "representable universal property of the binary coproduct",
+   "statement_summary": "For any triple of objects X, Y, Z in a locally small category C, the representable universal property of the coproduct is the natural isomorphism C(X + Y, Z) iso C(X,Z) x C(Y,Z): the set of maps out of a coproduct is the product of a pair of hom-sets. This answers the puzzle posed in Exercise 2.4.x.",
+   "book_section": "3.5",
+   "book_page": "111",
+   "pdf_pages": [
+    131
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:example8",
+   "kind": "example",
+   "number": "3.5.8",
+   "name": "copowers (tensors)",
+   "statement_summary": "Iterated coproducts of a single object A of C are called COPOWERS or TENSORS; for a set I the I-indexed copower is written coprod_I A or I . A. Its representable universal property is the natural isomorphism C(coprod_I A, X) iso C(A,X)^I: a map h out of the copower is exactly an I-indexed family h_i: A -> X obtained by composing with the coproduct inclusions. In Set the copower coprod_I A is the dependent sum of the constant family, isomorphic to I x A.",
+   "book_section": "3.5",
+   "book_page": "111",
+   "pdf_pages": [
+    131
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm6",
+    "riehl:3.5:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:thm6",
+   "kind": "theorem",
+   "number": "3.5.6",
+   "name": "contravariant representables carry colimits to limits",
+   "statement_summary": "For any diagram F: J -> C in a locally small category whose colimit exists, the canonical map induced by the colimit cone is a natural isomorphism C(colim_J F, X) iso lim_{J^op} C(F-, X) for every object X of C. Hence contravariant representable functors C(-,X): C^op -> Set send any colimits existing in C to limits in Set. This is the dual of Theorem 3.5.2, obtained from the observation that an element of lim_{J^op} C(F-,X) is precisely a cone under F with nadir X.",
+   "book_section": "3.5",
+   "book_page": "111",
+   "pdf_pages": [
+    131
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:example9",
+   "kind": "example",
+   "number": "3.5.9",
+   "name": "representable universal property of the pushout",
+   "statement_summary": "For a pushout square with maps f: U -> V, g: U -> W, h: V -> P, k: W -> P, the representable universal property asserts that for every object X of C the hom-set C(P,X) is the PULLBACK of C(h,X): C(P,X) -> C(V,X) and C(g,X): C(W,X) -> C(U,X) along C(f,X): C(V,X) -> C(U,X) - i.e. maps out of a pushout are pairs of maps out of V and W agreeing after restriction along U.",
+   "book_section": "3.5",
+   "book_page": "112",
+   "pdf_pages": [
+    132
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:thm10",
+   "kind": "theorem",
+   "number": "3.5.10",
+   "name": "the contravariant Yoneda embedding preserves and reflects colimits",
+   "statement_summary": "Dual of Theorem 3.5.5. Let C be any locally small category. (i) Contravariant representable functors C(-,X) carry colimits in C to limits in Set. (ii) The contravariant Yoneda embedding y: C^op -> Set^C both preserves and reflects limits; equivalently, a cone under a diagram in C is a colimit cone if and only if its image defines a limit cone in Set^C.",
+   "book_section": "3.5",
+   "book_page": "112",
+   "pdf_pages": [
+    132
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm5",
+    "riehl:3.5:thm6"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:thm11",
+   "kind": "theorem",
+   "number": "3.5.11",
+   "name": "colimits from coproducts and coequalizers; limits from products and equalizers",
+   "statement_summary": "The colimit of any small diagram F: J -> C may be expressed as a coequalizer of a pair of maps d, c: coprod_{f in mor J} F(dom f) => coprod_{j in ob J} F j between coproducts, provided these colimits exist; the component of d at f is the coproduct inclusion at dom f, while the component of c at f is F f followed by the inclusion at cod f. IN PARTICULAR, ANY CATEGORY WITH SMALL COPRODUCTS AND COEQUALIZERS IS COCOMPLETE. Dually, the limit of any small diagram is an equalizer of a pair of maps between products whenever these limits exist, and ANY CATEGORY WITH SMALL PRODUCTS AND EQUALIZERS IS COMPLETE. The proof (assuming C locally small, extendable to large C by passing to a higher universe) applies the contravariant Yoneda embedding to carry the coequalizer diagram (3.5.12) to an equalizer diagram (3.5.13) in Set^C, uses Proposition 3.4.9 to evaluate pointwise, recognizes the resulting Set-level equalizer as lim_{J^op} C(F-,X) via Theorem 3.2.11, and concludes by Theorem 3.5.6.",
+   "book_section": "3.5",
+   "book_page": "112",
+   "pdf_pages": [
+    132,
+    133
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm10",
+    "riehl:3.5:thm6",
+    "riehl:3.4:prop9",
+    "riehl:3.5:remark14"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.5:remark14",
+   "kind": "remark",
+   "number": "3.5.14",
+   "name": "the philosophy of generalized elements",
+   "statement_summary": "Remark on generalized elements (attributed to Lawvere). Elements of a set A correspond to morphisms a: * -> A, and composition with f: A -> B encodes f(a); in any category C an (X-shaped) GENERALIZED ELEMENT of A is a morphism a: X -> A, and morphisms f: A -> B act on X-shaped elements by composition. The contravariant represented functor C(-,A): C^op -> Set sends X to the set of X-shaped generalized elements of A, and since the Yoneda embedding is full and faithful no information about A is lost by replacing A with this functor. Two formalizable consequences: (a) to prove f = g for a parallel pair f, g: A => B it suffices that they induce the same function on generalized elements of every shape; (b) to prove a cone with summit A is a limit cone it suffices that for generalized elements of every shape the induced functions define a limit cone in Set. Also observes that Theorem 3.5.11 could instead be proved directly in C, and that the strategy 'verify in Set, then apply representability' is exactly this philosophy.",
+   "book_section": "3.5",
+   "book_page": "113",
+   "pdf_pages": [
+    133,
+    134
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm11",
+    "riehl:3.5:thm5"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.5:lem15",
+   "kind": "lemma",
+   "number": "3.5.15",
+   "name": "products as (wide) pullbacks over a terminal object",
+   "statement_summary": "In any category with a terminal object *, the pullback of the cospan A -> * <- B defines the binary product A x B (with the pullback legs as the product projections). More generally, the product of an I-indexed family of objects (A_i) may be constructed as the WIDE PULLBACK of the diagram given by the family of morphisms (!: A_i -> *)_{i in I}. Proof: a cone with summit X over that diagram is exactly an I-indexed family of maps lambda_i: X -> A_i, since the codomain of every morphism in the diagram is terminal and imposes no commutativity condition; the same data is a cone over the discrete family, so the two limits are isomorphic. Corollary noted in prose: any category with pullbacks and a terminal object has all binary, hence by iteration all finite, products.",
+   "book_section": "3.5",
+   "book_page": "114",
+   "pdf_pages": [
+    134
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm17"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:lem16",
+   "kind": "lemma",
+   "number": "3.5.16",
+   "name": "equalizers from binary products and pullbacks",
+   "statement_summary": "In any category with binary products, the pullback of (f,g): A -> B x B along the diagonal (id_B, id_B): B -> B x B defines an equalizer e: E -> A of the parallel pair f, g: A => B. Proof (a generalized-element argument): the representable universal properties of the product (Example 3.5.4 / Theorem 3.5.5(i)) and of the pullback give a pullback square of hom-sets Hom(X,E) -> Hom(X,A), Hom(X,B) -> Hom(X,B) x Hom(X,B); by the description of pullbacks in Set, composing with e identifies Hom(X,E) with the subset of Hom(X,A) of those a with f a = g a, so Hom(X,E) -> Hom(X,A) => Hom(X,B) is an equalizer for every X, and Theorem 3.5.5(ii) transfers the conclusion back to C.",
+   "book_section": "3.5",
+   "book_page": "114",
+   "pdf_pages": [
+    134,
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm5",
+    "riehl:3.5:thm17"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.5:def-finite-diagram",
+   "kind": "definition",
+   "number": null,
+   "name": "finite diagram",
+   "statement_summary": "Unnumbered running-prose definition: a diagram is FINITE if its indexing category contains only finitely many morphisms. This is the notion of finiteness used in Theorem 3.5.17 ('all finite limits') and, via Definition 3.8.7, in the definition of a filtered category.",
+   "book_section": "3.5",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm17",
+    "riehl:3.8:def7"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:3.5:exi",
+   "kind": "exercise",
+   "number": "3.5.i",
+   "name": "naturality of the cone isomorphism",
+   "statement_summary": "Show that the isomorphism (3.5.1), lim_J C(X,F-) iso Cone(X,F), is natural in X.",
+   "book_section": "3.5",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:eq1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:exii",
+   "kind": "exercise",
+   "number": "3.5.ii",
+   "name": "the Yoneda embedding does not create limits",
+   "statement_summary": "Explain in your own words why the Yoneda embedding y: C -> Set^{C^op} preserves and reflects but does NOT create limits, and find an explicit counterexample to creation.",
+   "book_section": "3.5",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm5",
+    "riehl:3.4:def1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:exiii",
+   "kind": "exercise",
+   "number": "3.5.iii",
+   "name": "representable definition of monomorphisms and epimorphisms",
+   "statement_summary": "Explain how monomorphisms and epimorphisms in an arbitrary category C can both be defined representably in terms of monomorphisms (injections) in Set, i.e. via injectivity of the induced maps on hom-sets C(X,-) resp. C(-,X).",
+   "book_section": "3.5",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:remark14"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.5:thm17",
+   "kind": "theorem",
+   "number": "3.5.17",
+   "name": "finite limits from pullbacks and a terminal object",
+   "statement_summary": "Any category with pullbacks and a terminal object has all FINITE limits (a diagram being finite when its indexing category has only finitely many morphisms). Dually, any category with pushouts and an initial object has all finite colimits. Immediate from Lemmas 3.5.15 and 3.5.16 together with the finite case of Theorem 3.5.11 (finite products plus equalizers give finite limits).",
+   "book_section": "3.5",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:lem15",
+    "riehl:3.5:lem16",
+    "riehl:3.5:thm11",
+    "riehl:3.5:def-finite-diagram"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:def-continuous",
+   "kind": "definition",
+   "number": null,
+   "name": "continuous and cocontinuous functors (and complete/cocomplete recalled)",
+   "statement_summary": "Unnumbered running-prose definitions opening section 3.6. A category is COMPLETE (resp. COCOMPLETE) if it has all small limits (resp. all small colimits) - recalled from Definition 3.2.1. A functor is CONTINUOUS (resp. COCONTINUOUS) if it preserves all small limits (resp. all small colimits). The section then verifies completeness and cocompleteness for Set, Top, Set_*, Top_*, Cat and posets, mostly reducing to Theorems 3.5.11 and 3.5.17 (checking only a handful of cases).",
+   "book_section": "3.6",
+   "book_page": "115",
+   "pdf_pages": [
+    135
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm11",
+    "riehl:3.5:thm17",
+    "riehl:3.6:prop2"
+   ],
+   "flags": [
+    "unnumbered-definition"
+   ]
+  },
+  {
+   "id": "riehl:3.6:prop1",
+   "kind": "proposition",
+   "number": "3.6.1",
+   "name": "Set is cocomplete",
+   "statement_summary": "The category Set is cocomplete. Proof: by Theorem 3.5.11 it suffices that Set have small coproducts and coequalizers. Coproducts are disjoint unions; the coequalizer of a parallel pair f, g: A => B is the quotient B/~ of B by the equivalence relation generated by f(a) ~ g(a) for each a in A. (Completeness of Set is already Theorem 3.2.4.)",
+   "book_section": "3.6",
+   "book_page": "115",
+   "pdf_pages": [
+    135,
+    136
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm11"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.6:example3",
+   "kind": "example",
+   "number": "3.6.3",
+   "name": "limits and colimits in Top are topologized set-level limits; the p-adic solenoid",
+   "statement_summary": "Any limit or colimit in Top can be constructed as in the proof of Proposition 3.6.2: form the limit or colimit of the diagram of underlying sets and topologize with the coarsest (for limits) resp. finest (for colimits) topology making the legs of the cone continuous. Illustration: the diagram omega^op -> Top whose objects are circles S^1 and whose generating maps are the p-th power (covering) maps wrapping the domain circle uniformly p times around the codomain circle; its inverse limit is the p-ADIC SOLENOID.",
+   "book_section": "3.6",
+   "book_page": "116",
+   "pdf_pages": [
+    136
+   ],
+   "cross_refs": [
+    "riehl:3.6:prop2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:example4",
+   "kind": "example",
+   "number": "3.6.4",
+   "name": "configuration spaces of n points",
+   "statement_summary": "The space of (unordered) CONFIGURATIONS of n points in a space X has as points the collections of n distinct points of X, topologized so that two configurations are close when there is a bijection between their points pairwise close. Formally, the SPACE OF ORDERED CONFIGURATIONS is the subspace PConf_n(X) := {(x_1,...,x_n) in X^n : x_i =/= x_j for all i =/= j} of X^n, the complement of the fat diagonal. The symmetric group S_n acts on X^n by permuting coordinates and this action restricts to PConf_n(X), i.e. gives a diagram PConf_n(X): B S_n -> Top; the space of configurations is the colimit Conf_n(X) := colim(B S_n -> Top). Exercise 3.6.i describes its underlying set.",
+   "book_section": "3.6",
+   "book_page": "116",
+   "pdf_pages": [
+    136,
+    137
+   ],
+   "cross_refs": [
+    "riehl:3.6:exi",
+    "riehl:3.6:exviii"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.6:prop2",
+   "kind": "proposition",
+   "number": "3.6.2",
+   "name": "Top is complete and cocomplete; the underlying-set functor is continuous and cocontinuous",
+   "statement_summary": "The category Top of topological spaces is complete and cocomplete, and the underlying set functor U: Top -> Set is continuous and cocontinuous. Proof: U is represented by the singleton space, so by Theorem 3.5.2 any limits in Top must be formed by topologizing the limit of the underlying-set diagram. Concretely the product carries the product (coarsest making all projections continuous) topology and the equalizer E subset X the subspace (coarsest making E -> X continuous) topology; dually the coproduct carries the finest topology making all inclusions continuous (disjoint unions of bases form a basis) and the coequalizer the quotient topology on Y/~ (a subset is open iff its preimage is). Theorem 3.5.11 and its dual then give all small limits and colimits, and the explicit constructions show U preserves them.",
+   "book_section": "3.6",
+   "book_page": "116",
+   "pdf_pages": [
+    136
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm2",
+    "riehl:3.5:thm11",
+    "riehl:3.6:def-continuous"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:prop5",
+   "kind": "proposition",
+   "number": "3.6.5",
+   "name": "slices of a bicomplete category are bicomplete",
+   "statement_summary": "If C is complete and cocomplete, then so are the slice categories c/C and C/c for any object c of C. Proof (the two statements being dual, only c/C is treated): by Proposition 3.4.8 the forgetful functor Pi: c/C -> C creates all limits and all CONNECTED colimits, so c/C is complete and has all connected colimits; it remains to supply coproducts. The empty coproduct is the initial object id_c, and a coproduct of a non-empty family c -> x_alpha is constructed as a WIDE PUSHOUT under c (dualizing Lemma 3.5.15): the map from c to the wide pushout of the diagram formed by those morphisms. A footnote observes that when C is concrete and c represents the underlying-set functor, c/C is a category of 'based objects' whose coproduct is usually written with the wedge symbol.",
+   "book_section": "3.6",
+   "book_page": "117",
+   "pdf_pages": [
+    137
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop8",
+    "riehl:3.5:lem15"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:prop6",
+   "kind": "proposition",
+   "number": "3.6.6",
+   "name": "Cat and CAT are complete",
+   "statement_summary": "The categories Cat (small categories) and CAT (locally small categories) are complete. Lead-in argument: the functors ob, mor: Cat => Set are represented by the ordinal categories 1 and 2, so by Theorem 3.5.5(i) both preserve limits - the object set of a limit of categories is the limit of the underlying object-sets and its morphism set the limit of the underlying morphism-sets; domains, codomains, identities and composition are likewise preserved since each is expressible as a natural transformation between representables (Example 2.2.9, using the category 3 for composition). Proof: higher-arity products of categories are given by Definition 1.3.12, and the equalizer E -> C => D of a parallel pair of functors F, G is the subcategory of C on the objects c with F c = G c and the morphisms f with F f = G f; Theorem 3.5.11 then yields all small limits.",
+   "book_section": "3.6",
+   "book_page": "117",
+   "pdf_pages": [
+    137
+   ],
+   "cross_refs": [
+    "riehl:3.5:thm5",
+    "riehl:3.5:thm11",
+    "riehl:3.6:remark9"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:construction-cat-coproducts",
+   "kind": "construction",
+   "number": null,
+   "name": "coproducts in Cat via connected components",
+   "statement_summary": "Unnumbered prose construction: coproducts in Cat are straightforward - any small category is uniquely expressible as a coproduct of its CONNECTED COMPONENTS, so the coproduct of a family of categories is their disjoint union. Combined with Lemma 3.5.16 this reduces cocompleteness of Cat to the construction of pushouts, which Riehl notes are considerably more complicated than the corresponding limit notions; the general proof is deferred to Corollary 4.6.15.",
+   "book_section": "3.6",
+   "book_page": "118",
+   "pdf_pages": [
+    138
+   ],
+   "cross_refs": [
+    "riehl:3.4:def-connected",
+    "riehl:3.5:lem16",
+    "riehl:3.6:example8"
+   ],
+   "flags": [
+    "unnumbered-construction"
+   ]
+  },
+  {
+   "id": "riehl:3.6:example7",
+   "kind": "example",
+   "number": "3.6.7",
+   "name": "the category of elements as a pullback in CAT",
+   "statement_summary": "For any functor F: C -> Set, the pullback in CAT of C -F-> Set <-U- Set_* is the category whose objects are pairs (c, (X,x)) with F c = X and whose morphisms are pairs (f: c -> c', g: (X,x) -> (X',x')) with F f = U g - that is, the CATEGORY OF ELEMENTS int F, with the pullback projection being the canonical functor Pi: int F -> C. The analogous pullback along F: C^op -> Set defines the category of elements of a contravariant functor. Riehl adds that U: Set_* -> Set, being the projection from the category of elements of the identity functor on sets, is in some sense the universal discrete left fibration.",
+   "book_section": "3.6",
+   "book_page": "118",
+   "pdf_pages": [
+    138
+   ],
+   "cross_refs": [
+    "riehl:3.6:prop6",
+    "riehl:3.4:exii"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:example8",
+   "kind": "example",
+   "number": "3.6.8",
+   "name": "pushouts in Cat computing BN and BZ",
+   "statement_summary": "Computes two pushouts in Cat. The pushout of 1 + 1 -> 2 along 1 + 1 -> 1 is the one-object category BN: a functor out of it corresponds to a cone under the span 1 <- 1 + 1 -> 2, i.e. an endomorphism f of an object of the target, and since no relations may be imposed on the composites f . f ... f, BN is the free category on one object and one non-identity morphism - equivalently the monoid N of natural numbers under addition, as one-object categories are monoids. Replacing the walking arrow 2 by the walking isomorphism I (two objects, two non-identity morphisms in opposite directions that are inverse isomorphisms) yields the pushout B Z, the group of integers under addition.",
+   "book_section": "3.6",
+   "book_page": "118",
+   "pdf_pages": [
+    138
+   ],
+   "cross_refs": [
+    "riehl:3.6:construction-cat-coproducts"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:remark9",
+   "kind": "remark",
+   "number": "3.6.9",
+   "name": "CAT is not cocomplete",
+   "statement_summary": "By contrast with Cat, the category CAT of locally small categories is NOT cocomplete. It has coproducts, constructed as in Cat, but certain small colimits of locally small categories produce more than a set's worth of morphisms between a fixed pair of objects. Explicit counterexample: let E be a category with more than a set's worth of objects, each carrying a generating non-identity endomorphism and with no morphisms between distinct objects; E is locally small since each hom-set is empty or isomorphic to the monoid N. The pushout of ob E -> 1 along ob E -> E collapses all objects of E to a single object P, whose endomorphism 'set' contains a distinct non-identity endomorphism for every object of E together with all finite composites; as E has more than a set's worth of objects, P is not locally small, and CAT does not contain a pushout of this cospan.",
+   "book_section": "3.6",
+   "book_page": "118",
+   "pdf_pages": [
+    138,
+    139
+   ],
+   "cross_refs": [
+    "riehl:3.6:prop6",
+    "riehl:3.7:prop3"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.6:example11",
+   "kind": "example",
+   "number": "3.6.11",
+   "name": "kernel pairs, internal equivalence relations, quotients, and image factorization",
+   "statement_summary": "Long multi-clause example: in any category with finite limits and colimits, a morphism f: X -> Y may be factored through its IMAGE, generalizing the image factorization of a function. Contents, in order: (a) the KERNEL PAIR of f is the pullback (s,t): R => X of f along itself; (s,t): R -> X x X is a monomorphism, so R is a subobject of X x X and hence a RELATION on X, which on generalized elements identifies x, x': Z => X exactly when f x = f x'. (b) The subobjects arising as kernel pairs are EQUIVALENCE RELATIONS in the following categorical sense, given by three clauses: (i) a reflexivity map rho: X -> R that is a section of both s and t, factoring the diagonal (id_X, id_X): X -> X x X; (ii) a symmetry map sigma: R -> R with t sigma = s and s sigma = t; (iii) a transitivity map tau: R x_X R -> R, defined on the pullback of t along s by the universal property, with s tau = s s-bar and t tau = t t-bar. (c) DEFINITION (in prose): an EQUIVALENCE RELATION in a category C with finite limits is a subobject (s,t): R -> X x X equipped with maps rho, sigma, tau commuting with s and t as in (i)-(iii). (d) When it exists, the coequalizer of s, t: R => X of an equivalence relation defines a QUOTIENT OBJECT e: X ->> X/R; in Set, X/R is the set of R-equivalence classes. (e) For equivalence relations arising as kernel pairs there is a unique factorization f = m e through X/R; in good situations (C a Grothendieck topos, or more generally a REGULAR category) m is a monomorphism and this is the IMAGE FACTORIZATION, exhibiting the image X/R as a subobject of Y. Footnotes recall that a monomorphism with codomain c is a subobject (Definition 4.7.8) and quote Fawcett.",
+   "book_section": "3.6",
+   "book_page": "119",
+   "pdf_pages": [
+    139,
+    140,
+    141
+   ],
+   "cross_refs": [
+    "riehl:3.5:lem15",
+    "riehl:3.5:lem16"
+   ],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.6:prop10",
+   "kind": "proposition",
+   "number": "3.6.10",
+   "name": "a poset is bicomplete iff it is a complete lattice",
+   "statement_summary": "A poset P is complete and cocomplete as a category if and only if it is a COMPLETE LATTICE, i.e. if and only if every subset A of P has both an infimum (greatest lower bound) and a supremum (least upper bound). Proof: in any poset or preorder, a limit of a diagram is an infimum of its objects and a colimit a supremum, since all diagrams in a preorder commute and the presence of morphisms in the diagram is immaterial; any collection of morphisms with common domain forms a cone over the diagram on its codomains. Preceded by the unnumbered observation that completeness and cocompleteness are equivalence-invariant, so a preorder is complete and cocomplete iff its skeleton (a poset) is.",
+   "book_section": "3.6",
+   "book_page": "119",
+   "pdf_pages": [
+    139
+   ],
+   "cross_refs": [
+    "riehl:3.4:lem6",
+    "riehl:3.7:prop3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:exi",
+   "kind": "exercise",
+   "number": "3.6.i",
+   "name": "colimit of a G-set diagram",
+   "statement_summary": "Let G be a group regarded as the one-object category BG. Describe the colimit of a diagram X: BG -> Set in group-theoretic terms (the set of orbits), as was done for the limit - the set of fixed points - in Example 3.2.10.",
+   "book_section": "3.6",
+   "book_page": "121",
+   "pdf_pages": [
+    141
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:exii",
+   "kind": "exercise",
+   "number": "3.6.ii",
+   "name": "colimits in Set as connected components of the category of elements",
+   "statement_summary": "Prove that the colimit of any small diagram F: C -> Set is isomorphic to the set pi_0(int F) of connected components of the category of elements of F, and identify the colimit cone.",
+   "book_section": "3.6",
+   "book_page": "121",
+   "pdf_pages": [
+    141
+   ],
+   "cross_refs": [
+    "riehl:3.6:example7",
+    "riehl:3.4:def-connected"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:exiii",
+   "kind": "exercise",
+   "number": "3.6.iii",
+   "name": "products, coproducts, and the smash product in sets and partial functions",
+   "statement_summary": "Recall from Exercise 1.6.iii that the category of sets and partial functions has a zero object. Three parts. (i) Give a formula for the binary coproduct A v B of two objects in this category. (ii) Give a formula for the binary product A x B. (iii) The identity matrix defines a canonical map I: A v B -> A x B from the coproduct to the product whose components are identity maps or zero maps (Remark 3.1.27); the SMASH PRODUCT A ^ B is defined by the pushout of I along the unique map A v B -> 0 to the zero object. Give a formula for A ^ B in the category of sets and partial functions.",
+   "book_section": "3.6",
+   "book_page": "121",
+   "pdf_pages": [
+    141
+   ],
+   "cross_refs": [],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:3.6:exiv",
+   "kind": "exercise",
+   "number": "3.6.iv",
+   "name": "completeness of Quiver, rQuiver, and the failure for Graph",
+   "statement_summary": "Three parts. (i) Prove that the category Quiver of quivers is complete and cocomplete and explain how to construct its limits and colimits (hint: use Proposition 3.4.9, since Quiver is a presheaf category). (ii) The related category rQuiver of REFLEXIVE QUIVERS - each vertex carrying a specified endoarrow - is complete and cocomplete for the same reason; calculate the product of the walking arrow with itself in both Quiver and rQuiver. (iii) Find explicit examples showing that the category Graph is NEITHER complete NOR cocomplete; calculate the product of the walking edge with itself, or argue that such a product does not exist.",
+   "book_section": "3.6",
+   "book_page": "121",
+   "pdf_pages": [
+    141
+   ],
+   "cross_refs": [
+    "riehl:3.4:prop9"
+   ],
+   "flags": [
+    "multi-clause"
+   ]
+  },
+  {
+   "id": "riehl:3.6:exix",
+   "kind": "exercise",
+   "number": "3.6.ix",
+   "name": "fiber spaces, trivial fiber spaces, and sections functors",
+   "statement_summary": "Following [Gro58], define a FIBER SPACE to be a morphism p: E -> B in Top; a map of fiber spaces is a commutative square, so the category of fiber spaces is the arrow category Top^2, and Top/B denotes the non-full subcategory of fiber spaces over B whose maps have identity codomain component. Seven parts. (i) Prove that a map of fiber spaces (g: E' -> E over f: B' -> B) induces a canonical map from the fiber over a point b in B' to the fiber over its image f(b) in B, as defined by display (3.1.17). (ii) Prove that the fibers of a product of fiber spaces are the products of the fibers. A projection pi_B: B x F -> B is then called a TRIVIAL FIBER SPACE over B, a definition making sense for any space F. (iii) Show that the fiber of a trivial fiber space B x F -> B is isomorphic to F. (iv) Characterize the isomorphisms in Top/B between two trivial fiber spaces with a priori distinct fibers over B. (v) Prove that the assignment to a fiber space over B of its set of continuous SECTIONS defines a functor Pi_B: Top/B -> Set. (vi) Consider the non-full subcategory Top^2_pb of fiber spaces whose morphisms are the PULLBACK squares; prove that the assignment of the set of continuous sections defines a functor Pi: (Top^2_pb)^op -> Set. (vii) Describe the compatibility between the actions of these two 'sections' functors with respect to a map g of fiber spaces p and q over B and pullbacks along f: B' -> B.",
+   "book_section": "3.6",
+   "book_page": "122",
+   "pdf_pages": [
+    142,
+    143
+   ],
+   "cross_refs": [],
+   "flags": [
+    "multi-clause",
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.6:exv",
+   "kind": "exercise",
+   "number": "3.6.v",
+   "name": "double categories as internal categories in Cat",
+   "statement_summary": "A DOUBLE CATEGORY is an internal category in Cat, whose basic data is the numbered diagram (3.6.12) of categories and functors: dom, cod: C_1 => C_0, id: C_0 -> C_1, and comp: C_1 x_{C_0} C_1 -> C_1. Referring to Exercise 3.2.i, unpack this definition into more elementary data and operations involving objects and 'horizontal morphisms' (the objects and morphisms of C_0) together with 'vertical morphisms' and 'squares' (the objects and morphisms of C_1), equipped with domains, codomains, identities and compositions defined both internally to C_0 and C_1 and by the functors in the diagram. Footnote credits Ehresmann [Ehr63] and [KS74].",
+   "book_section": "3.6",
+   "book_page": "122",
+   "pdf_pages": [
+    142
+   ],
+   "cross_refs": [],
+   "flags": [
+    "contains-numbered-display-3.6.12"
+   ]
+  },
+  {
+   "id": "riehl:3.6:exvi",
+   "kind": "exercise",
+   "number": "3.6.vi",
+   "name": "cone-shape categories as pushouts in Cat",
+   "statement_summary": "For a small category J, define a pair of functors i_0, i_1: J => J x 2 so that the pushouts in Cat of J -> 1 along i_0 resp. i_1 define a pair of categories (written J with a right- resp. left-pointing triangle superscript) that encode the shapes of CONES over or under a diagram of shape J. Show furthermore that the objects picked out by the two functors s and n out of 1 respectively define an initial object in the first cone-shape category and a terminal object in the second. Remark 3.1.8 gives an informal description of these categories.",
+   "book_section": "3.6",
+   "book_page": "122",
+   "pdf_pages": [
+    142
+   ],
+   "cross_refs": [],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:exvii",
+   "kind": "exercise",
+   "number": "3.6.vii",
+   "name": "limits and colimits in the divisibility poset",
+   "statement_summary": "Describe the limits and colimits in the poset of natural numbers ordered by k <= n if and only if k divides n (limits are greatest common divisors, colimits least common multiples).",
+   "book_section": "3.6",
+   "book_page": "122",
+   "pdf_pages": [
+    142
+   ],
+   "cross_refs": [
+    "riehl:3.6:prop10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.6:exviii",
+   "kind": "exercise",
+   "number": "3.6.viii",
+   "name": "functoriality of ordered configuration spaces",
+   "statement_summary": "Define a contravariant functor PConf_bullet(X): Fin_mono^op -> Top, from the category of finite sets and injections to topological spaces, sending an n-element set to the space PConf_n(X) constructed in Example 3.6.4. Explain why this functor does NOT induce a similar functor sending an n-element set to the unordered configuration space Conf_n(X).",
+   "book_section": "3.6",
+   "book_page": "122",
+   "pdf_pages": [
+    142
+   ],
+   "cross_refs": [
+    "riehl:3.6:example4"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.7:lem1",
+   "kind": "lemma",
+   "number": "3.7.1",
+   "name": "the limit of the identity functor is the initial object",
+   "statement_summary": "For any category C, two clauses. (i) The summit of any cone over the identity functor id_C defines a WEAKLY INITIAL object of C, admitting at least one morphism to every object c; if moreover the cone leg indexed by the summit object is the identity, then the cone is a limit cone and its summit is initial in C. (ii) The identity functor id_C: C -> C admits a limit if and only if C has an initial object. Proof: for (i), given a cone (lambda_c: l -> c)_{c in C}, commutativity of the limit cone gives f lambda_l = lambda_c for every f: l -> c, so lambda_l = id_l forces lambda_c to be the unique such morphism. For the forward direction of (ii), applying the cone condition to lambda_l as a morphism in the diagram gives lambda_c lambda_l = lambda_c, so lambda_l is a factorization of lambda through itself and uniqueness of factorizations gives lambda_l = id_l. For the converse, the unique maps out of an initial object i assemble into a cone iota: Delta i => id_C whose component at i is the identity, and any cone lambda: Delta l => id_C factors through iota via lambda_i, uniquely because the component at i is the identity. Note: this exhibits a naturally occurring LARGE limit.",
+   "book_section": "3.7",
+   "book_page": "123",
+   "pdf_pages": [
+    143,
+    144
+   ],
+   "cross_refs": [
+    "riehl:3.7:exi"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.7:def2",
+   "kind": "definition",
+   "number": "3.7.2",
+   "name": "cardinality of a small category and of a small diagram",
+   "statement_summary": "The CARDINALITY of a small category is the cardinality of the set of its MORPHISMS. Accompanying prose extends the notion: the cardinality of a small diagram is the cardinality of its indexing category. This is the size measure used to state Proposition 3.7.3.",
+   "book_section": "3.7",
+   "book_page": "124",
+   "pdf_pages": [
+    144
+   ],
+   "cross_refs": [
+    "riehl:3.7:prop3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.7:example4",
+   "kind": "example",
+   "number": "3.7.4",
+   "name": "large products in Set that do and do not exist",
+   "statement_summary": "In Set some large families of sets have a product while others do not. Set DOES admit a product of ALL of its objects: since the empty set appears in the discrete diagram and a function into the empty set exists only from the empty set, the summit of any cone over the family of all sets must be empty; as the empty set is initial in Set there is a unique cone with that summit, which is therefore the limit cone. By contrast the product of all NON-EMPTY sets does NOT exist: if a product cone with legs pi_X: P -> X existed for all non-empty X, then P(P) appears in the diagram and by Cantor diagonalization pi_{P(P)}: P -> P(P) is not surjective, missing some d in P(P); using the axiom of global choice to select an element of every other set in the diagram produces a cone with summit the singleton that cannot factor through pi, since d is not in the image of pi_{P(P)}.",
+   "book_section": "3.7",
+   "book_page": "124",
+   "pdf_pages": [
+    144
+   ],
+   "cross_refs": [
+    "riehl:3.7:prop3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.7:prop3",
+   "kind": "proposition",
+   "number": "3.7.3",
+   "name": "Freyd: a category with large enough products is a preorder",
+   "statement_summary": "(Freyd.) Any category that admits products of families of objects that are as large as its cardinality is a preorder. Proof: let kappa be the cardinality of the set of morphisms of a small category C and suppose there is a parallel pair f, g: B => A with f =/= g. By the universal property of the kappa-indexed power A^kappa (Example 3.5.4) there are 2^kappa distinct morphisms B -> A^kappa whose components are each either f or g, so by Cantor's diagonalization |C(B, A^kappa)| >= 2^kappa > kappa = |mor C|, contradicting that C(B, A^kappa) is a subset of mor C. Riehl notes the dual argument with copowers of size kappa, and that Proposition 3.6.10 shows a preorder CAN have all limits and colimits of unrestricted size precisely when it is a complete lattice.",
+   "book_section": "3.7",
+   "book_page": "124",
+   "pdf_pages": [
+    144
+   ],
+   "cross_refs": [
+    "riehl:3.5:example4",
+    "riehl:3.6:prop10",
+    "riehl:3.7:def2"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.7:exi",
+   "kind": "exercise",
+   "number": "3.7.i",
+   "name": "limit-preserving functors need not preserve initial objects",
+   "statement_summary": "There are functors that preserve all limits with no size restrictions but do not preserve initial objects (see Theorem 4.6.2 and the examples that follow). Explain why this statement does not contradict Lemma 3.7.1.",
+   "book_section": "3.7",
+   "book_page": "125",
+   "pdf_pages": [
+    145
+   ],
+   "cross_refs": [
+    "riehl:3.7:lem1"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:thm1",
+   "kind": "theorem",
+   "number": "3.8.1",
+   "name": "limits commute with limits (Fubini for iterated limits)",
+   "statement_summary": "If the iterated limits lim_I lim_J F and lim_J lim_I F associated to a diagram F: I x J -> C exist in C, then they are isomorphic and define the limit lim_{I x J} F. Lead-in: a two-variable functor F: I x J -> C may equally be regarded as F: I -> C^J or F: J -> C^I under the isomorphisms (C^J)^I iso C^{I x J} iso (C^I)^J (Exercise 1.7.vi); if each lim_{j in J} F(i,j) exists then by Proposition 3.3.1 these assemble into a diagram lim_J F(-,j): I -> C, whose limit, when it exists, is isomorphic to lim_{(i,j)} F(i,j) and to the other iterated limit. Proof: by symmetry of the product of categories and the Yoneda lemma it suffices to exhibit natural isomorphisms of the represented functors in Set^{C^op}, obtained by chaining the defining universal property of limits (Definition 3.1.5) with the full faithfulness of C^{I x J} iso (C^I)^J and the commutativity of the constant-diagram functors Delta_I, Delta_J, Delta_{I x J}. Illustrated by computing a limit over I x J (I the equalizer shape, J the pullback shape) either as the equalizer of the maps between two pullbacks or as the pullback of the maps between three equalizers.",
+   "book_section": "3.8",
+   "book_page": "125",
+   "pdf_pages": [
+    145,
+    146
+   ],
+   "cross_refs": [
+    "riehl:3.8:lem3"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.8:lem3",
+   "kind": "lemma",
+   "number": "3.8.3",
+   "name": "canonical map from a colimit of limits to a limit of colimits",
+   "statement_summary": "For any bifunctor F: I x J -> C such that the displayed limits and colimits exist, there is a canonical map kappa: colim_{i in I} lim_{j in J} F(i,j) -> lim_{j in J} colim_{i in I} F(i,j). The direction is dictated by colimits having a 'mapping out' and limits a 'mapping in' universal property. Proof: define components kappa_{i,j} as the composite of the limit-cone leg pi_{i,j}: lim_{j'} F(i,j') -> F(i,j) with the colimit-cone leg iota_{i,j}: F(i,j) -> colim_{i'} F(i',j); functoriality of F in both variables makes the kappa_{i,j} assemble into cones defining kappa_i and then kappa. Preceded by the general observation that limits commute with limits and colimits with colimits (Theorem 3.8.1 and its dual), while limits and colimits seldom commute with each other.",
+   "book_section": "3.8",
+   "book_page": "126",
+   "pdf_pages": [
+    146,
+    147
+   ],
+   "cross_refs": [
+    "riehl:3.8:thm1",
+    "riehl:3.8:cor4",
+    "riehl:3.8:thm9"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.8:cor4",
+   "kind": "corollary",
+   "number": "3.8.4",
+   "name": "sup-inf is at most inf-sup",
+   "statement_summary": "For any pair of sets X and Y and any function f: X x Y -> R, sup_{x in X} inf_{y in Y} f(x,y) <= inf_{y in Y} sup_{x in X} f(x,y), whenever these infima and suprema exist. Proof: specialize Lemma 3.8.3 to the poset category (R, <=), in which limits are infima and colimits suprema; the existence of the canonical map kappa: sup_X inf_Y f -> inf_Y sup_X f in that poset is exactly the displayed inequality.",
+   "book_section": "3.8",
+   "book_page": "127",
+   "pdf_pages": [
+    147
+   ],
+   "cross_refs": [
+    "riehl:3.8:lem3",
+    "riehl:3.6:prop10"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:example6",
+   "kind": "example",
+   "number": "3.8.6",
+   "name": "the extended real line; lim inf and lim sup as iterated colimits and limits",
+   "statement_summary": "Consider the extended real line R-bar := R union {-infinity, +infinity} with -infinity <= x <= +infinity for all real x. As a category it is complete and cocomplete: the limit of a function f: X -> R-bar is its infimum and the colimit its supremum, and these are the ordinary real numbers when the range of f is bounded - the point of working in R-bar being that boundedness hypotheses may be dropped and all limits and colimits exist. A function x: N -> R-bar is a sequence (x_n); regarding it as a bifunctor N x N -> N -> R-bar over the discrete category N x N, the LIM INF and LIM SUP are lim inf_n x_n = sup_{n>=0} inf_{m>=n} x_m = sup_{n>=0} inf_{m>=0} x_{n+m} = colim_n lim_m x_{n+m} and lim sup_n x_n = inf_{n>=0} sup_{m>=n} x_m = inf_{n>=0} sup_{m>=0} x_{n+m} = lim_n colim_m x_{n+m}. Lemma 3.8.3 then applies to give lim inf_n x_n <= lim sup_n x_n, and the limit of the sequence exists exactly when this inequality is an equality.",
+   "book_section": "3.8",
+   "book_page": "127",
+   "pdf_pages": [
+    147,
+    148
+   ],
+   "cross_refs": [
+    "riehl:3.8:lem3",
+    "riehl:3.6:prop10"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.8:remark5",
+   "kind": "remark",
+   "number": "3.8.5",
+   "name": "the analyst's proof of sup-inf <= inf-sup is the categorical one",
+   "statement_summary": "The direct proof of Corollary 3.8.4 that would be given in a real analysis course is in fact the categorical proof of Lemma 3.8.3 unwound. Showing sup_X inf_Y f is bounded above by a quantity amounts, by the universal property of the supremum, to showing inf_Y f(x,-) is bounded above by it for each x in X; dually showing inf_Y sup_X f is bounded below by a quantity amounts to showing sup_X f(-,y) is bounded below by it for each y. So it suffices to prove inf_Y f(x,-) <= sup_X f(-,y) for each x and y, which follows by transitivity - i.e. composition - of inf_Y f(x,-) <= f(x,y) <= sup_X f(-,y).",
+   "book_section": "3.8",
+   "book_page": "127",
+   "pdf_pages": [
+    147
+   ],
+   "cross_refs": [
+    "riehl:3.8:cor4",
+    "riehl:3.8:lem3"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:def7",
+   "kind": "definition",
+   "number": "3.8.7",
+   "name": "filtered category",
+   "statement_summary": "A category J is FILTERED if there is a cone under every FINITE diagram in J (finiteness in the sense of section 3.5: the indexing category has only finitely many morphisms). A footnote generalizes: replacing the smallest infinite cardinal omega by a regular cardinal kappa, a category is KAPPA-FILTERED if there is a cone under any diagram with fewer than kappa morphisms.",
+   "book_section": "3.8",
+   "book_page": "128",
+   "pdf_pages": [
+    148
+   ],
+   "cross_refs": [
+    "riehl:3.5:def-finite-diagram",
+    "riehl:3.8:thm9",
+    "riehl:3.8:example8"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:example8",
+   "kind": "example",
+   "number": "3.8.8",
+   "name": "filtered and non-filtered categories",
+   "statement_summary": "The category omega (and more generally any non-empty ordinal category) is filtered, as is the category with one object and one non-identity idempotent. The parallel pair category (two objects, two parallel non-identity arrows), the span category, and every discrete category other than the terminal category 1 are NOT filtered.",
+   "book_section": "3.8",
+   "book_page": "128",
+   "pdf_pages": [
+    148
+   ],
+   "cross_refs": [
+    "riehl:3.8:def7"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:thm9",
+   "kind": "theorem",
+   "number": "3.8.9",
+   "name": "filtered colimits commute with finite limits in Set",
+   "statement_summary": "Filtered colimits commute with finite limits in Set: for I a finite category, J a small filtered category and any functor F: I x J -> Set, the canonical map kappa: colim_{j in J} lim_{i in I} F(i,j) -> lim_{i in I} colim_{j in J} F(i,j) of Lemma 3.8.3 is a bijection. The proof rests on the explicit description of a filtered colimit in Set as the quotient of the coproduct in which x in F j and y in F k are identified precisely when there are maps f: j -> t and g: k -> t in J with F f(x) = F g(y); more generally any finite collection of elements identified in the colimit maps to a common element in some F t. Surjectivity: an element of the right-hand side is a cone with summit the singleton over the colimits; as I is finite it is given by finitely many elements satisfying finitely many compatibility conditions, and filteredness supplies a sufficiently large t in J at which they are simultaneously represented and assemble into a cone, i.e. an element of lim_i F(i,t). Injectivity: two elements of the left-hand side represented at j and k with a common image under kappa admit, for each i, some t_i identifying their components; finiteness of I plus filteredness of J gives a single t working for all i, so they already agree on the left. Riehl notes the proof is not categorical, but that in categories of models for an algebraic theory limits and filtered colimits are created in Set (Theorem 5.6.5), so finite limits and filtered colimits commute there as well.",
+   "book_section": "3.8",
+   "book_page": "128",
+   "pdf_pages": [
+    148,
+    149
+   ],
+   "cross_refs": [
+    "riehl:3.8:lem3",
+    "riehl:3.8:def7"
+   ],
+   "flags": [
+    "spans-page-break"
+   ]
+  },
+  {
+   "id": "riehl:3.8:exi",
+   "kind": "exercise",
+   "number": "3.8.i",
+   "name": "idempotent splittings commute with all limits and colimits",
+   "statement_summary": "Use the results of Exercise 3.4.vi to conclude that splittings of idempotents commute with both limits and colimits of any shape.",
+   "book_section": "3.8",
+   "book_page": "129",
+   "pdf_pages": [
+    149
+   ],
+   "cross_refs": [
+    "riehl:3.4:exvi",
+    "riehl:3.4:def-absolute"
+   ],
+   "flags": []
+  },
+  {
+   "id": "riehl:3.8:exii",
+   "kind": "exercise",
+   "number": "3.8.ii",
+   "name": "coprime group actions: BG-limits commute with BH-colimits",
+   "statement_summary": "Show that if G and H are groups whose orders are coprime, then BG-indexed limits commute with BH-indexed colimits in Set. Reference [BJLS15] is given for more examples of this flavor.",
+   "book_section": "3.8",
+   "book_page": "129",
+   "pdf_pages": [
+    149
+   ],
+   "cross_refs": [
+    "riehl:3.8:lem3",
+    "riehl:3.6:exi"
+   ],
+   "flags": []
+  }
+ ]
+}

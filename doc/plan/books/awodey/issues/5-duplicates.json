@@ -1,0 +1,122 @@
+[
+  {
+    "item_id": "awodey:5.1:prop-factor-through-mono-is-mono",
+    "issue": 250,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.1 (printed p. 95, PDF p. 104), item `awodey:5.1:prop-factor-through-mono-is-mono` — if a subobject `m : M ↣ X` factors through a subobject `m' : M' ↣ X` via `f` (so `m' ∘ f ≈ m`), then `f` is itself monic; hence `M` is a subobject of `M'`, not merely of `X`. This is exactly the cancellation lemma `Monic (g ∘ f) → Monic f` already scoped here (the in-tree inventory has only the closure direction, `monic_compose`, `Theory/Morphisms.v:212`). One increment that this issue can settle in passing:\n\n- [ ] (from Awodey §5.1) `Theory/Subobject.v:56` asserts this fact in prose with no in-tree proof — once the cancellation lemma lands, either derive the subobject corollary there or rewrite that comment to cite the proof"
+  },
+  {
+    "item_id": "awodey:5.2:prop7",
+    "issue": 326,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.2 Proposition 5.7 (printed p. 98, PDF pp. 107–108), item `awodey:5.2:prop7` — in a category with binary products and equalizers, an equalizer of `f ∘ π₁` and `g ∘ π₂` is a pullback of `f` and `g`, and conversely. The forward direction is precisely this issue's `Cartesian + HasEqualizers ⇒ HasPullbacks` reduction (the in-tree state is unchanged: `Structure/Pullback.v:254-274` still carries it only as `jww` TODO comments, and `Structure/Topos.v:22-26` discloses the whole reduction as unformalized). The converse direction is a different statement from the Exercise-9 route already scoped here, so it needs its own line:\n\n- [ ] (from Awodey §5.2) the converse: given a pullback `(E, p₁, p₂)` of `f` and `g`, the induced `⟨p₁,p₂⟩ : E → A × B` is an equalizer of `f ∘ π₁` and `g ∘ π₂` — exhibiting the pullback as the subobject of the product on which the two arrows agree (uniqueness uses that an equalizer is monic, `Structure/Equalizer/Fork.v:83`)"
+  },
+  {
+    "item_id": "awodey:5.2:cor8",
+    "issue": 326,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.2 Corollary 5.8 (printed p. 100, PDF p. 109), item `awodey:5.2:cor8` — a category with binary products and equalizers has all pullbacks. This is verbatim the `Cartesian + HasEqualizers ⇒ HasPullbacks` deliverable already scoped by this issue; the existing Definition of Done covers it, so no additional checkbox — recording the Awodey §5.2 citation only."
+  },
+  {
+    "item_id": "awodey:5.2:construction-pullback-in-sets",
+    "issue": 333,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.2 (printed p. 100, PDF p. 109), item `awodey:5.2:construction-pullback-in-sets` — the pullback in `Sets` as the subset of the product on which the two maps agree, with the inclusion and the two coordinate projections as the pullback cone. This is exactly the `Sets_HasPullbacks` deliverable already scoped here (the only in-tree witness today remains the skeletal `FinSet_Pullbacks`, `Instance/FinSet/Classifier.v:264`, whose `finset_pb_pred` at `:257` is literally the agreement predicate on the encoded product). No additional checkbox — recording the Awodey §5.2 citation only.\n\nOne presentational note for the implementer: Awodey obtains the construction by *instantiating* the products-plus-equalizers recipe (his Corollary 5.8, filed as #326), so if that reduction lands first, this instance can be read off it rather than rebuilt by hand."
+  },
+  {
+    "item_id": "awodey:5.2:example9",
+    "issue": 333,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.2 Example 5.9 (printed p. 100, PDF p. 109), item `awodey:5.2:example9` — for `f : A → B` and a subset `V ⊆ B`, the preimage square (with the inclusions of `V` and of `f⁻¹(V)` and the evident restriction of `f`) is a pullback in `Sets`. The abstract consequence Awodey then draws — that the pullback of a subobject along `f` determines a subobject up to isomorphism — is already in-tree (`Theory/Subobject/Functor.v:46`, `sub_reindex_transport`); what is missing is the concrete `Sets` identification, which belongs with the `Sets` pullbacks delivered here:\n\n- [ ] (from Awodey §5.2) in `Sets`, the pullback of a subset inclusion `V ↪ B` along `f : A → B` is the preimage `{a | f a ∈ V}`, together with the elementwise criterion: `z : Z → A` factors through the preimage iff `f ∘ z` factors through `V` (today only the classifier instance of this square exists, `Instance/Sets/Classifier.v:224`, and it lives one universe up)"
+  },
+  {
+    "item_id": "awodey:5.3:example14",
+    "issue": 311,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.3 Example 5.14 (printed pp. 104–106, PDF pp. 113–115), item `awodey:5.3:example14` — characteristic functions in `Sets`: a subset is the pullback of the truth arrow along its characteristic map, the correspondence between subsets and maps into the two-element set, substitution modelled by pullback (via the two-pullbacks lemma), and finally the punchline that the correspondence is NATURAL in the object. The classifier content is in-tree abstractly (`Structure/SubobjectClassifier.v:44`, `:187`) and concretely for `FinSet`; substitution-as-pullback is `Theory/Subobject/Functor.v:152` (`sub_reindex_comp`, proved exactly by the pasting lemma the book invokes); the `Sets`-level square is #402's territory. The one clause with no in-tree form is the naturality, which is precisely the upgrade this issue already plans:\n\n- [ ] (from Awodey §5.3) upgrade the per-object `classifier_classifies` (`Structure/SubobjectClassifier.v:187`) to a natural isomorphism `Sub ≅ Hom(−, Ω)` of functors `C^op ⟶ Sets` — Awodey's Example 5.14(v) makes the point explicitly that naturality is strictly stronger than an object-wise bijection, and both functors already exist in-tree (`Theory/Subobject/Functor.v:180`)"
+  },
+  {
+    "item_id": "awodey:5.4:prop16",
+    "issue": 326,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 Proposition 5.16 (printed p. 107, PDF pp. 116–117), item `awodey:5.4:prop16` — a category has finite products and equalizers iff it has pullbacks and a terminal object; the converse direction builds the binary product as a pullback over the terminal object and the equalizer of `f, g` as the pullback of `⟨f,g⟩` along the diagonal. Both directions are already scoped here (the `HasPullbacks + Terminal ⇒ Cartesian`/`HasEqualizers` reduction and its converse); the existing Definition of Done covers them, so no additional checkbox. Recording the Awodey §5.4 citation only, and noting that Awodey's packaging of the result as a statement about *all finite limits* rides on the finiteness predicate filed as #417."
+  },
+  {
+    "item_id": "awodey:5.4:def18",
+    "issue": 417,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 Definition 5.18 (printed p. 109, PDF p. 118), item `awodey:5.4:def18` — a limit is a terminal object in the category of cones, and a finite limit is a limit of a diagram over a finite index category. The second sentence is exactly the notion this issue defines (there is still no finiteness predicate on an index category anywhere in the tree), so it needs no separate deliverable. The first sentence is only half-realized in-tree and is worth one line here, since a finite-limit development will be stating and consuming the cone characterization anyway:\n\n- [ ] (from Awodey §5.4) the converse packaging of \"a limit is a terminal cone\": `Limit F → Terminal (Cones F)` — only the other direction exists (`Limit_Cones`, `Instance/Cones/Limit.v:37`), so the book's defining formulation and the library's `Limit` class (`Structure/Limit.v:113`) are not yet proved equivalent (a pure repackaging; may equally be discharged alongside the cone-level work of #427)"
+  },
+  {
+    "item_id": "awodey:5.4:def-all-finite-limits",
+    "issue": 417,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 (printed p. 111, PDF p. 120), item `awodey:5.4:def-all-finite-limits` — the definition, stated in running prose to fix the hypothesis of his Proposition 5.23, that a category has all finite limits when every diagram over a finite index category has a limit. This is verbatim the `FinitelyComplete` deliverable already scoped here, including the reconciliation with the surrogate packages that carry terminal + products + pullbacks as separate fields (`Structure/Regular.v:66`, `Structure/Topos.v:112`, the latter disclosing the gap at `:22-23`). No additional checkbox — recording the Awodey §5.4 citation only."
+  },
+  {
+    "item_id": "awodey:5.4:prop23",
+    "issue": 416,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 Proposition 5.23 (printed pp. 111–112, PDF pp. 120–121), item `awodey:5.4:prop23` — a category has all finite limits iff it has all finite products and all equalizers, proved by the explicit construction: the product over the objects of the index category, the product over its arrows, the two canonical comparison maps, and the equalizer of those, with the limiting cone read off the object projections. This is the same construction (at the same generality of index) already scoped here; the only difference is that Awodey states it for finite diagrams, whose finiteness predicate is #417's deliverable. The existing Definition of Done covers the construction, so no additional checkbox — recording the Awodey §5.4 citation only."
+  },
+  {
+    "item_id": "awodey:5.4:cor24",
+    "issue": 416,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 Corollary 5.24 (printed p. 112, PDF p. 121), item `awodey:5.4:cor24` — the same construction gives limits of any given size from equalizers and products of that size. This issue's plan already uses the size-free indexed products of `Structure/Limit/Product.v:93` (`iprod`, over an arbitrary index type — the file notes that no finiteness is assumed), so the corollary's content is covered; the cardinality bookkeeping Awodey attaches to it is not expressible in this library, which substitutes universe polymorphism for smallness (disclosed at `Structure/Complete.v:29-31` and `Adjunction/SAFT.v:56`). No additional checkbox — recording the Awodey §5.4 citation only."
+  },
+  {
+    "item_id": "awodey:5.4:thm25",
+    "issue": 416,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.4 Theorem 5.25 (printed p. 112, PDF p. 121), item `awodey:5.4:thm25` — the dual: a category has all finite colimits iff it has finite coproducts and coequalizers, equivalently pushouts and an initial object; and colimits of a given size from coproducts of that size and coequalizers. This issue's work item already promises the dual (`coequalizers plus small coproducts give Cocomplete`), and the library's duality is definitional (`Colimit F := Limit (F^op)`, `Structure/Limit.v:158`), so the theorem itself needs no extra deliverable — but the dual is currently not even *statable* at a given size, which is one clean increment:\n\n- [ ] (from Awodey §5.4) add the missing dual vocabulary `HasIndexedCoproducts` (dual of `Structure/Limit/Product.v:128`; `icoprod`/`HasIndexedCoproducts` have zero hits tree-wide today) so that \"coproducts of a given size\" can be stated as a hypothesis of the dual construction\n\nNote also that the pushouts-plus-initial form of the dual is the `C^op` reading of #326's reductions, and that the Cospan development currently *assumes* exactly this reduction as a hypothesis pack (`Construction/Cospan/Symmetric.v:29`, `Construction/Cospan/Hypergraph.v:41` take `Initial`, `Cocartesian` and `HasPushouts` separately)."
+  },
+  {
+    "item_id": "awodey:5.5:def26",
+    "issue": 427,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.5 Definition 5.26 (printed p. 112, PDF p. 121), item `awodey:5.5:def26` — a functor preserves limits of a given type when the IMAGE cone of every limiting cone is limiting, and is continuous when it preserves all limits. This is the same obligation as the cone-level definition already scoped here, including the per-diagram form and the colimit dual (the in-tree situation is unchanged: the named class `Structure/Limit/Preservation.v:48` is apex-only, and the faithful cone-level rendering exists only as `Construction/Comma/Limit.v:110`, bound to a section-fixed functor and quantifying the shape internally). Two notes rather than new mathematics:\n\n- Awodey's phrasing goes through the canonical comparison `F(lim D) → lim(F D)`, which is never constructed in-tree; building it is the natural way to state the definition and to explain why the apex-only class is too weak.\n\n- [ ] (from Awodey §5.5) documentation defect to fix in the same PR: `Structure/Limit/Preservation.v` presents the apex-only `PreservesAllLimits` (`:229`) as \"continuous\", although the library itself discloses that class as insufficient (`Construction/Comma/Limit.v:54`) and refuses to use it for GAFT/SAFT — the naming should follow the cone-level class once it lands"
+  },
+  {
+    "item_id": "awodey:5.5:prop27",
+    "issue": 428,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.5 Proposition 5.27 (printed p. 113, PDF p. 122), item `awodey:5.5:prop27` — the covariant representable preserves ALL limits, proved by reduction to a singleton hom-set at the terminal object, the product formula, and the observation that postcomposition with an equalizer is an equalizer in `Sets`. This is the same theorem already scoped here; no additional deliverable. Two implementation notes: the hom-side bijection is in-tree as `Structure/UniversalProperty/Limit.v:141` (`LimitIsUniversalProperty`, the natural iso between hom into the limit and the cone setoid `Structure/Cone.v:79`), which is the fragment to build on; and of the three ingredients of Awodey's own proof, `Sets` already has the terminal object (`Instance/Sets.v:248`) and binary products (`Instance/Sets/Cartesian.v:32`), so what the proof route needs additionally is equalizers in `Sets` and the general `Sets` limit."
+  },
+  {
+    "item_id": "awodey:5.5:cor29",
+    "issue": 428,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.5 Corollary 5.29 (printed p. 114, PDF p. 123), item `awodey:5.5:cor29` — a contravariant representable carries colimits in the base to limits in `Sets`. This is the contravariant clause already scoped here (work item 3). In-tree the elementwise half exists as `Structure/Limit/Preservation.v:147` (`ump_colimit`, maps out of a colimit correspond to cocones) and the library's duality is definitional, so the inference from the covariant theorem costs one instantiation at the opposite category; the missing links are inherited from the primal statement (limits in `Sets`, and a preservation witness at a hom functor — `Functor/Hom.v:146`'s `Curried_CoHom` has no consumer beyond Yoneda). No additional checkbox — recording the Awodey §5.5 citation only."
+  },
+  {
+    "item_id": "awodey:5.5:remark-hom-coproduct",
+    "issue": 428,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.5 (printed p. 114, PDF p. 123), item `awodey:5.5:remark-hom-coproduct` — the coproduct instance of the contravariant theorem: precomposition with the injections gives a canonical isomorphism between maps out of a coproduct and pairs of maps out of the summands. This is verbatim the coproduct instance already scoped here (work item 3, as a natural isomorphism of `Sets`-objects). In-tree it exists today only as the never-performed `C^op` instantiation of `Adjunction/Diagonal/Product.v:36` (there is no `Cocartesian` companion file), plus the elementwise `merge`/`inl_merge`/`inr_merge` calculus at `Structure/Cocartesian.v:131`. Awodey's second consequence — the exponent law — is already in-tree in a stronger, object-level form (`Structure/BiCCC.v:134`, `exp_coprod : x^(y+z) ≅ x^y × x^z`, over the live cartesian-closed development). His first consequence, about ultrafilters, is tracked separately on #654. No additional checkbox here — recording the Awodey §5.5 citation only."
+  },
+  {
+    "item_id": "awodey:5.5:remark-hom-coproduct",
+    "issue": 654,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.5 (printed p. 114, PDF p. 123), item `awodey:5.5:remark-hom-coproduct` — one consequence Awodey draws from the hom-out-of-a-coproduct isomorphism concerns exactly the machinery scoped by this issue: the ultrafilter functor is representable (ultrafilters of a Boolean algebra are the homomorphisms into the two-element algebra), so it carries coproducts of Boolean algebras to products of ultrafilter sets. The general hom-coproduct isomorphism itself is filed as part of #428; the Boolean-algebra instance needs this issue's `Bool` and ultrafilter machinery:\n\n- [ ] (from Awodey §5.5) the ultrafilters of a coproduct `A + B` of Boolean algebras correspond to pairs of ultrafilters, one on each summand — the instance of \"contravariant representables carry colimits to limits\" (#428) at the representable ultrafilter functor"
+  },
+  {
+    "item_id": "awodey:5.6:def31",
+    "issue": 406,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.6 Definition 5.31 (printed p. 119, PDF p. 128), item `awodey:5.6:def31` — a functor creates limits of a given type when every limiting cone downstairs has a unique lift upstairs and that lift is itself limiting; dually for colimits. This is the same general creation predicate already scoped here, with the same two clauses. The in-tree situation is unchanged: creation exists only in instantiated form (`Monad/Monadicity/Beck.v:164`, shape-fixed and with the on-the-nose clause deliberately relaxed to an iso-compatible one per its header at `:52`), plus the existence-only `Theory/Equivalence/Limit.v:486`, plus the unpackaged argument inside `Construction/Comma/Limit.v` whose only export is `Comma_Complete` (`:245`). The naming defect around `equivalence_creates_limits` is already a checkbox in this issue's Definition of Done, so no additional deliverable — recording the Awodey §5.6 citation only."
+  },
+  {
+    "item_id": "awodey:5.6:prop32",
+    "issue": 411,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.6 Proposition 5.32 (printed p. 119, PDF p. 128), item `awodey:5.6:prop32` — the underlying-set functor of groups creates all limits (and, separately, ω-colimits), with the same argument applying to any equationally axiomatized algebraic structure. The limits half is verbatim this issue's Theorem-3 content, including the reusability clause (the plan already asks that the argument be left in a shape a general variety can instantiate). The ω-colimit half is the filtered-colimit creation theorem filed as #561, so it is tracked there rather than here; no additional checkbox on this issue — recording the Awodey §5.6 citation only."
+  },
+  {
+    "item_id": "awodey:5.6:example30",
+    "issue": 561,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.6 Example 5.30 (printed pp. 117–118, PDF pp. 126–127), item `awodey:5.6:example30` — the direct limit of a sequence of groups, constructed as the quotient of the disjoint sum of the stages by the relation identifying an element with its image, with the group operation computed on representatives from a common stage, and with the universal property holding even at the level of underlying *functions*. Awodey presents it precisely as the ω-instance of \"the algebraic forgetful functor creates filtered colimits\", the theorem scoped here. The concrete instance is a distinct deliverable from the general creation theorem, so it gets its own line:\n\n- [ ] (from Awodey §5.6) the ω-chain (direct limit) instance: the colimit of a sequence of groups is computed on underlying sets — elements are classes of elements of the stages, identified when they agree at some later stage — with the mediating homomorphism unique already as a function"
+  },
+  {
+    "item_id": "awodey:5.6:remark-ab-coproduct",
+    "issue": 561,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.6 (printed p. 119, PDF p. 128), item `awodey:5.6:remark-ab-coproduct` — the counterpoint that bounds this issue's theorem: the underlying-set functor of an algebraic category does NOT create all colimits, the witness being that the coproduct of abelian groups has the PRODUCT of the underlying sets as its carrier. The positive half of that witness is already in-tree for commutative monoids (`Instance/CMon/Biproduct.v:442`, `CMon_Biproduct`: the direct product setoid is simultaneously a product and a coproduct; abstractly `Structure/Semiadditive.v:288`, `can_comparison`), but the punchline is never drawn — no statement anywhere compares the image of a coproduct under `CMon_Forget` (`Instance/CMon.v:169`) with the `Sets` coproduct of the carriers. Recording it here so that the scope of \"creates filtered colimits\" is delimited by a proved fact rather than by silence:\n\n- [ ] (from Awodey §5.6) the negative counterpoint: the underlying-set functor of an algebraic category does not preserve (hence does not create) binary coproducts — witnessed in-tree by `CMon_Biproduct`, whose coproduct carrier is the product setoid, not the `Sets` coproduct of the carriers"
+  },
+  {
+    "item_id": "awodey:5.6:construction-covariant-powerset",
+    "issue": 227,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.6 (printed p. 120, PDF p. 129), item `awodey:5.6:construction-covariant-powerset` — the covariant powerset functor, sending a set to its powerset and a function to its direct-image action, explicitly contrasted with the contravariant inverse-image version. This is verbatim the functor already scoped here (the in-tree situation is unchanged: the only `Pow` is the internal power object `Structure/Topos.v:129`, with no action on morphisms, and `Theory/Subobject/Functor.v:180`'s `Sub` is the contravariant one). No additional checkbox — recording the Awodey §5.6 citation only, and noting that Awodey uses this functor to build the cumulative hierarchy, which is filed as a separate Awodey Chapter 5 issue depending on this one."
+  },
+  {
+    "item_id": "awodey:5:ex3",
+    "issue": 326,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.7 Exercise 3 (printed p. 124, PDF p. 133), item `awodey:5:ex3` — a category with pullbacks and binary products has equalizers: the equalizer of `f, g : A → B` is obtained as the pullback of the diagonal `⟨1_B,1_B⟩` along `⟨f,g⟩`. This is the same construction as the `HasPullbacks ⇒ HasEqualizers` reduction already scoped here (Mac Lane pulls back the pairings `⟨1,f⟩` and `⟨1,g⟩`; Awodey pulls the diagonal back along `⟨f,g⟩` — the same square read the other way). The existing Definition of Done covers it, so no additional checkbox — recording the Awodey §5.7 citation only."
+  },
+  {
+    "item_id": "awodey:5:ex5",
+    "issue": 326,
+    "append_block": "### Also covered by\n\nAwodey, *Category Theory* §5.7 Exercise 5 (printed p. 125, PDF pp. 134–135), item `awodey:5:ex5` — (a) dualize the pullback definition to obtain the pushout, and (b) construct pushouts from coproducts and coequalizers, by duality. Part (a) is already fully in-tree and needs nothing: `Structure/Pushout.v:47` defines `IsPushout f g := @Pullback (C^op) …` literally by duality, with the covariant accessor layer, `pushout_ump` at `:72` proved by `exact (@ump_pullbacks (C^op) …)`, `HasPushouts` at `:148`, and both transfer directions at `:158`/`:168`. Part (b) is exactly the `Cocartesian + HasCoequalizers ⇒ HasPushouts` reduction already scoped by this issue (and today no `HasPushouts` instance is derived that way — `Instance/FinSet/Pushout.v` and `Instance/Sets/Pushout.v` build theirs by hand). No additional checkbox — recording the Awodey §5.7 citation only."
+  }
+]

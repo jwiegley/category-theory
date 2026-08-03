@@ -1,0 +1,417 @@
+[
+  {
+    "id": "7sketches:5.3.1:def5.36",
+    "classification": "PARTIAL",
+    "aliases": [
+      "rig",
+      "semiring / semi-ring",
+      "ring without negatives",
+      "commutative monoid + monoid + two-sided distributivity + annihilating 0",
+      "one-object CMon-enriched category (delooping of a rig)",
+      "Preadditive (this library's name for CMon-enrichment)",
+      "rig category / bicartesian closed category (the categorified form)"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Preadditive.v",
+        "line": 34,
+        "symbol": "Preadditive",
+        "intree_statement": "Class Preadditive (C : Category) := { padd {x y : C} : (x ~> y) -> (x ~> y) -> (x ~> y); pzero {x y : C} : x ~> y; padd_assoc (f g h : x ~> y) : padd (padd f g) h ≈ padd f (padd g h); padd_comm (f g : x ~> y) : padd f g ≈ padd g f; padd_zero_left (f : x ~> y) : padd pzero f ≈ f; compose_padd_left (h : y ~> z) (f g : x ~> y) : h ∘ padd f g ≈ padd (h ∘ f) (h ∘ g); compose_padd_right (f g : y ~> z) (h : x ~> y) : padd f g ∘ h ≈ padd (f ∘ h) (g ∘ h); compose_pzero_left (f : x ~> y) : @pzero y z ∘ f ≈ pzero; compose_pzero_right (f : y ~> z) : f ∘ @pzero x y ≈ pzero }"
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 32,
+        "symbol": "CMonObject",
+        "intree_statement": "Record CMonObject := { cmon_setoid :> SetoidObject; cmon_zero : carrier cmon_setoid; cmon_plus : carrier cmon_setoid → carrier cmon_setoid → carrier cmon_setoid; cmon_plus_respects : Proper (equiv ==> equiv ==> equiv) cmon_plus; cmon_plus_assoc : ∀ a b c, cmon_plus (cmon_plus a b) c ≈ cmon_plus a (cmon_plus b c); cmon_plus_comm : ∀ a b, cmon_plus a b ≈ cmon_plus b a; cmon_plus_zero_l : ∀ a, cmon_plus cmon_zero a ≈ a }"
+      }
+    ],
+    "statement_record": {
+      "book": "A rig (R, 0, +, 1, ·) is a set R with two distinguished elements and two binary operations such that (a) (R, +, 0) is a commutative monoid; (b) (R, ·, 1) is a monoid, with commutativity of · deliberately NOT required; (c) · distributes over + on both sides; (d) 0 annihilates: a·0 = 0 = 0·a.",
+      "intree": "Class Preadditive (C : Category) := { padd ...; pzero ...; padd_assoc; padd_comm; padd_zero_left; compose_padd_left : h ∘ padd f g ≈ padd (h ∘ f) (h ∘ g); compose_padd_right : padd f g ∘ h ≈ padd (f ∘ h) (g ∘ h); compose_pzero_left : pzero ∘ f ≈ pzero; compose_pzero_right : f ∘ pzero ≈ pzero }",
+      "strength_comparison": "intree-weaker: all four rig clauses are present, but only as the hom-setoid laws of a CMon-enriched CATEGORY. Specialised to a one-object category (padd = +, pzero = 0, ∘ = ·, id = 1) Preadditive is EXACTLY Definition 5.36 — clause (a) is padd_assoc/padd_comm/padd_zero_left, (b) is the category's comp_assoc/id_left/id_right, (c) is compose_padd_left/right, (d) is compose_pzero_left/right — and, as in the book, multiplication (composition) is not required commutative. That delooping is never stated in-tree and no set-level Rig/Semiring record exists. Instance/CMon.v's CMonObject supplies clause (a) alone on a bare setoid carrier. The other rig-shaped in-tree development, the categorified 'high-school algebra' of a bicartesian closed category (Structure/Cartesian.v prod_assoc/prod_one_l/prod_comm, Structure/Cocartesian.v coprod_assoc/coprod_comm/coprod_zero_l, Structure/BiCCC.v prod_coprod_l/prod_zero_l, indexed by Theory/Algebra.v), is strictly NARROWER than Def 5.36 rather than weaker: prod_comm forces commutative multiplication, so it cannot model the non-commutative rigs (Example 5.40) that the definition is shaped to admit."
+    },
+    "gap": "No standalone rig/semiring structure anywhere in the tree (`rg -n '\\brig\\b|semiring' -g '*.v'` finds only two comment lines in Theory/Algebra.v). The rig axioms exist only (i) as the hom-level enrichment laws of Structure/Preadditive.v over a whole category — the one-object specialisation that would make a rig is never taken, and there is no Rig record, no rig homomorphism, and no rig instance; and (ii) up to isomorphism in a bicartesian closed category, where commutativity of multiplication is additionally forced. Missing: a `Rig` class (carrier setoid, 0, +, 1, *, the four clauses), the `Rig`/one-object-`Preadditive` bridge, and the synonym note that a rig is a ring without negatives (Structure/Additive.v gives that comparison only categorically).",
+    "negative_search_log": [
+      "rg -n -i '\\brig\\b|semiring|semi-ring' -g '*.v' -> 2 hits, both comment lines (Theory/Algebra.v:16, :25)",
+      "rg -n 'Class Rig|Record Rig|Class Semiring|Record Semiring' -g '*.v' -> 0 hits",
+      "rg -n 'Class Monoid|Record Monoid|Class CommutativeMonoid|Record CMon' -g '*.v' -> Structure/Monoid.v MonoidObject, Theory/Algebra/Monoid.v Monoid, Theory/Algebra/CommutativeMonoid.v CommutativeMonoid, Instance/CMon.v CMonObject, Theory/Coq/Monoid.v Monoid (all monoid-only; none carries a second operation)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run before opening coverage-5-3.json) independently reached PARTIAL on the same two files. My searches: `rg -il -tcoq 'semiring|semi-ring|\\brig\\b'` -> exactly one file, Theory/Algebra.v, and only its header prose (lines 16, 25); `rg -n '\\b(Class|Record|Structure|Definition|Inductive)\\s+\\w*[Rr]ing\\b' -g '*.v'` -> 0 hits, so no Rig/Semiring/Ring structure exists. Cited evidence verified verbatim: Structure/Preadditive.v:34 is `Class Preadditive (C : Category) := {` and its fields are exactly rig clause (a) (padd_assoc/padd_comm/padd_zero_left), (c) (compose_padd_left/right) and (d) (compose_pzero_left/right), with (b) supplied by the ambient category laws; Instance/CMon.v:32 is `Record CMonObject := {` with the quoted fields. The 'BiCCC route is NARROWER, not weaker' point checks out: prod_comm exists at Structure/Cartesian.v:479 and does force commutative multiplication. Both files registered in _CoqProject (lines 294, 164). strength_comparison is honest; nothing overturned."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:example5.37",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the natural numbers form a rig",
+      "(N, 0, +, 1, *) semiring",
+      "nat with Nat.add and Nat.mul",
+      "rig of isomorphism classes of finite sets (categorification)",
+      "skeletal FinSet as a bicartesian closed category"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/FinSet.v",
+        "line": 250,
+        "symbol": "FinSet_Cocartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; fork := fun x y z (f : Fin.t y → Fin.t x) (g : Fin.t z → Fin.t x) p => match fin_split p with | inl a => f a | inr b => g b end; exl := fun x y => Fin.L y; exr := fun x y => Fin.R x |}"
+      },
+      {
+        "file": "Instance/FinSet/Product.v",
+        "line": 105,
+        "symbol": "FinSet_Cartesian",
+        "intree_statement": "#[export] Program Instance FinSet_Cartesian : @Cartesian FinSet := {| product_obj := fun m n => (m * n)%nat; fork := fun x y z (f : Fin.t x → Fin.t y) (g : Fin.t x → Fin.t z) i => fin_pair (f i) (g i); exl := fun y z (p : Fin.t (y * z)) => fst (fin_unpair p); exr := fun y z (p : Fin.t (y * z)) => snd (fin_unpair p) |}"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 46,
+        "symbol": "prod_coprod_l",
+        "intree_statement": "#[export] Program Instance prod_coprod_l {x y z : C} : (y + z) × x ≅ y × x + z × x := { to := uncurry (curry inl ▽ curry inr); from := first inl ▽ first inr }"
+      },
+      {
+        "file": "Structure/BiCCC.v",
+        "line": 208,
+        "symbol": "prod_zero_l",
+        "intree_statement": "#[export] Program Instance prod_zero_l {x : C} : 0 × x ≅ 0 := { to := uncurry zero; from := zero }"
+      }
+    ],
+    "statement_record": {
+      "book": "The natural numbers (N, 0, +, 1, ·) with the usual addition and multiplication form a rig.",
+      "intree": "FinSet_Cocartesian : @Cocartesian FinSet with product_obj := fun m n => (m + n)%nat, and FinSet_Cartesian : @Cartesian FinSet with product_obj := fun m n => (m * n)%nat, over FinSet_Initial (0) and FinSet_Terminal (1); FinSet is closed (FinSet_Closed : @Closed FinSet FinSet_Cartesian, exponent_obj := fun m n => (n ^ m)%nat), hence bicartesian closed, so the generic rig-law isomorphisms coprod_zero_l (Structure/Cocartesian.v:375), coprod_comm (:393), coprod_assoc (:399), prod_one_l (Structure/Cartesian.v:451), prod_assoc (:485), prod_coprod_l (Structure/BiCCC.v:46) and prod_zero_l (:208) all instantiate at objects that ARE the naturals.",
+      "strength_comparison": "intree-weaker: the library never asserts that (N,0,+,1,*) satisfies the rig axioms. What it asserts is the categorified statement — that on the SKELETAL category FinSet, whose objects are literally `nat`, Nat.add is the coproduct, Nat.mul is the product, 0 is initial and 1 is terminal — from which every rig law holds only UP TO ISOMORPHISM of finite sets. Two unit laws are additionally recorded on the nose as object equalities (Instance/FinSet/Product.v:145 `FinSet_prod_one_l (n : nat) : @product_obj FinSet FinSet_Cartesian (@terminal_obj FinSet FinSet_Terminal) n = n`, by Nat.mul_1_l). The decategorification step — that iso in skeletal FinSet implies equality of naturals — is not proven in-tree, and there is no Rig structure for N to be an instance of."
+    },
+    "gap": "No rig instance for the naturals: there is no Rig/Semiring class, and no in-tree lemma pack stating associativity/commutativity/unit/distributivity/annihilation for Nat.add and Nat.mul (the tree consumes Coq stdlib's Nat.add_assoc, Nat.add_comm, Nat.mul_1_l etc. pointwise, e.g. Instance/FinSet/Product.v:145, but never assembles them). Present instead is the categorified witness: FinSet is bicartesian closed with coproduct m+n, product m*n, initial 0, terminal 1 — the rig laws hold there as isomorphisms, and the passage from those isomorphisms to equalities of naturals (skeletality of FinSet) is not formalized.",
+    "negative_search_log": [
+      "rg -n -i '\\brig\\b|semiring' -g '*.v' -> comments only",
+      "rg -n 'Nat.add|Nat.mul' -g '*.v' -> uses of stdlib arithmetic in PROP/FinSet arity bookkeeping; no rig-law assembly for nat"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind call was ABSENT (no Rig class, and no in-tree assembly of the rig laws for Nat.add/Nat.mul). I did NOT find the categorified witness the classifier cites, and on inspection it is real and correctly quoted, which is why PARTIAL stands over my blind ABSENT: Instance/FinSet.v:250 `#[export] Program Instance FinSet_Cocartesian : @Cocartesian FinSet := {| product_obj := fun m n => (m + n)%nat; ... |}` and Instance/FinSet/Product.v:105 `FinSet_Cartesian ... product_obj := fun m n => (m * n)%nat` are verbatim, Instance/FinSet/Closed.v:132-133 gives `FinSet_Closed : @Closed FinSet FinSet_Cartesian` with `exponent_obj := fun m n => (n ^ m)%nat`, and Instance/FinSet/Product.v:145 `FinSet_prod_one_l ... = n` closes by Nat.mul_1_l as claimed. The generic rig-law isomorphisms are at exactly the cited lines (Structure/Cocartesian.v:375/393/399, Structure/Cartesian.v:451/485, Structure/BiCCC.v:46/208). Since FinSet's objects ARE nat, the rig laws for + and * hold up to iso on the actual carrier; the record names the decategorification gap explicitly, so it is not inflation. All files _CoqProject-registered."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:example5.38",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the Booleans form a rig",
+      "(B, false, OR, true, AND)",
+      "Boolean semiring / two-element rig",
+      "bool with orb and andb",
+      "bounded distributive lattice as a rig",
+      "Heyting algebra of truth values (Props)"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Graded.v",
+        "line": 268,
+        "symbol": "AndGrade",
+        "intree_statement": "Definition AndGrade : GradeMonoid := {| grade := bool; gunit := true; gmul := andb; gmul_assoc := fun a b c => match a with true => eq_refl | false => eq_refl end; gmul_unit_l := fun a => eq_refl; gmul_unit_r := fun a => match a with true => eq_refl | false => eq_refl end |}  (* GradeMonoid's fields are gmul_assoc : gmul (gmul a b) c = gmul a (gmul b c), gmul_unit_l : gmul gunit a = a, gmul_unit_r : gmul a gunit = a *)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 80,
+        "symbol": "Props_Cocartesian",
+        "intree_statement": "#[export] Program Instance Props_Cocartesian : @Cocartesian Props := { product_obj := or; fork := fun _ _ _ f g x => match x with or_introl v => f v | or_intror v => g v end; exl := fun _ _ p => or_introl p; exr := fun _ _ p => or_intror p }  (* with Props_Initial (line 61) : terminal_obj := False *)"
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "#[export] Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }  (* with Props_Terminal (line 53) : terminal_obj := True *)"
+      }
+    ],
+    "statement_record": {
+      "book": "The Booleans form a rig (B, false, ∨, true, ∧): disjunction is the additive operation with unit false, conjunction the multiplicative operation with unit true.",
+      "intree": "AndGrade : GradeMonoid := {| grade := bool; gunit := true; gmul := andb; ... |} (the multiplicative monoid (B, ∧, true) on the actual carrier `bool`, with associativity and both unit laws); and, on truth values, Props_Cocartesian (P + Q = P ∨ Q) over Props_Initial (0 = False) together with Props_Cartesian (P × Q = P ∧ Q) over Props_Terminal (1 = True), with Props_Closed (Instance/Props.v:94) making Props bicartesian closed so that prod_coprod_l and prod_zero_l apply.",
+      "strength_comparison": "intree-weaker on both routes. The `bool` route (AndGrade) supplies only rig clause (b): the additive commutative monoid (bool, orb, false) is nowhere asserted, and neither distributivity nor annihilation for booleans appears. The truth-value route supplies all four operations and both units and makes every rig law hold up to ≅ (which in the thin category Props is bi-implication, the right notion of equality for a preorder), but its carrier is `Prop`, not `bool` — constructively Props is a Heyting PREalgebra with far more than two ≅-classes, so what is witnessed is 'a bounded distributive lattice is a rig', not 'the two-element Boolean rig'. Neither route names a rig, because no Rig structure exists."
+    },
+    "gap": "The Boolean rig itself is absent. On `bool` only the multiplicative monoid (bool, andb, true) is in-tree (Monad/Graded.v:268, as a grading monoid for the exception monad); (bool, orb, false) and the distributivity/annihilation laws for booleans are nowhere. On truth values Instance/Props.v gives the full Heyting-prealgebra structure (False/∨/True/∧/→) so the rig laws hold up to logical equivalence, but the object is `Prop`, not the two-element algebra, and the rig axioms are never stated for it. Missing: a Rig class, the instance (bool, false, orb, true, andb), and the identification of that instance with the initial/Boolean quantale.",
+    "negative_search_log": [
+      "rg -n 'orb|andb' -g '*.v' -> only Monad/Graded.v (AndGrade, ExcT) — no orb monoid anywhere",
+      "rg -n 'Two_Initial|Two_Cocartesian|two_join' -g '*.v' -> 0 hits (Instance/Two/Monoidal.v provides only Two_Cartesian (two_meet) and Two_Terminal, so the walking arrow carries ∧ but not ∨)",
+      "rg -n -i '\\brig\\b|semiring' -g '*.v' -> comments only"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind call was ABSENT; the record's PARTIAL rests on a genuine fragment that I verified. Monad/Graded.v:268 is verbatim `Definition AndGrade : GradeMonoid := {| grade := bool; gunit := true; gmul := andb; ... |}` — the multiplicative monoid (B, AND, true) on the actual `bool` carrier, i.e. rig clause (b). Instance/Props.v:53/61/69/80/94 are exactly Props_Terminal/Props_Initial/Props_Cartesian/Props_Cocartesian/Props_Closed as cited. I re-ran the two decisive negative searches myself: `rg -n '\\borb\\b|\\bandb\\b' -g '*.v'` hits ONLY Monad/Graded.v (there is no `orb` anywhere in the tree, so the additive half of the Boolean rig is genuinely missing), and `rg -n 'Two_Initial|Two_Cocartesian|two_join' -g '*.v'` -> 0 hits, confirming the walking arrow carries meet but no join. Thin PARTIAL, but the strength_comparison states precisely that ('what is witnessed is a bounded distributive lattice is a rig, not the two-element Boolean rig')."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:example5.39",
+    "classification": "ABSENT",
+    "aliases": [
+      "every quantale determines a rig",
+      "quantale",
+      "unital/commutative quantale",
+      "sup-lattice with a monoid structure",
+      "complete lattice / complete join-semilattice",
+      "monoidal poset with all joins",
+      "closed monoidal preorder (Lawvere's V)",
+      "V = (V, ≤, I, ⊗) enriching base"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'quantale' -g '*.v' -> 1 hit, a comment (Construction/Enriched.v:78, 'preorder- and quantale-enriched categories'); no class, record, or instance",
+      "rg -n -i 'sup lattice|suplattice|complete lattice|join-semilattice' -g '*.v' -> 'complete lattice' appears twice, both comments (Structure/Complete.v:71, Instance/Poset.v:93); the others 0 hits",
+      "rg -n -i 'arbitrary join|complete join|least upper bound|join of the empty|bottom element' -g '*.v' -> 0 hits",
+      "rg -n -i 'monoidal poset|closed poset' -g '*.v' -> 0 hits",
+      "rg -n -i '\\brig\\b|semiring|semi-ring' -g '*.v' -> 2 comment hits only (Theory/Algebra.v), so the target of the construction is absent too",
+      "rg -n 'Two_Initial|Two_Cocartesian' -g '*.v' -> 0 hits; the one in-tree candidate base for enrichment, Instance/Two/Monoidal.v's Two_Monoidal, is cartesian (meet) with no joins and no initial object, so not even the Boolean quantale is available",
+      "Instance/Poset.v and Instance/Proset.v define posets/preorders as categories but assert no completeness (no colimits/joins) and carry no monoidal product"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: ABSENT. My independent searches reproduce the log exactly — `rg -iln 'quantale' -g '*.v'` -> one file, Construction/Enriched.v, a single prose line (:78, 'preorder- and quantale-enriched categories'); `rg -ni 'complete lattice' -g '*.v'` -> two prose hits, Instance/Poset.v:93 and Structure/Complete.v:71; `rg 'Two_Initial|Two_Cocartesian|two_join'` -> 0 hits, so even the Boolean quantale has no base. Both ends of the construction (quantale and rig) are missing, so ABSENT is right and the negative log is accurate."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:example5.40",
+    "classification": "PARTIAL",
+    "aliases": [
+      "square matrices over a rig form a rig",
+      "Mat_n(R)",
+      "matrix rig / matrix semiring",
+      "matrix calculus of biproducts",
+      "hom-set of a CMon-enriched category with n-fold biproducts",
+      "non-commutative rig example"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 101,
+        "symbol": "bi_copair_pair",
+        "intree_statement": "Lemma bi_copair_pair {x y z w : C} (B : Biproduct x y) (u : x ~> w) (v : y ~> w) (f : z ~> x) (g : z ~> y) : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g).  (* in a Preadditive C with a ZeroObject: 'Copairing against pairing computes the matrix product' *)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 86,
+        "symbol": "bi_pair_decomp",
+        "intree_statement": "Lemma bi_pair_decomp {x y z : C} (B : Biproduct x y) (f : z ~> x) (g : z ~> y) : bi_pair B f g ≈ padd (bi_inl B ∘ f) (bi_inr B ∘ g)."
+      }
+    ],
+    "statement_record": {
+      "book": "For a rig R and n : N, the set Mat_n(R) of n×n matrices M : {1..n}×{1..n} → R is again a rig, with entrywise addition (M+N)(i,j) := M(i,j)+N(i,j), product (M·N)(i,j) := Σ_k M(i,k)·N(k,j), and the zero matrix as additive unit; Mat_n(R) is generally non-commutative, which is why Definition 5.36 does not demand commutative multiplication.",
+      "intree": "bi_copair_pair : bi_copair B u v ∘ bi_pair B f g ≈ padd (u ∘ f) (v ∘ g), and bi_pair_decomp : bi_pair B f g ≈ padd (bi_inl B ∘ f) (bi_inr B ∘ g), both in a category that is Preadditive (CMon-enriched, Structure/Preadditive.v:34) with a ZeroObject and a chosen Biproduct.",
+      "strength_comparison": "intree-weaker: this is the n = 2 fragment of the matrix calculus, and it lives in hom-setoids of a category rather than over an abstract rig. bi_copair_pair is exactly the 1×2-row-against-2×1-column instance of (M·N)(i,j) = Σ_k M(i,k)·N(k,j), and bi_pair_decomp exhibits a column as the padd of its entries (so addition of matrices is entrywise padd). Nothing states that the resulting collection is itself a rig; there is no Mat_n(R) type, no n-fold biproduct (Structure/Biproduct.v:42 defines only the binary `Biproduct x y`), and no non-commutativity claim."
+    },
+    "gap": "No Mat_n(R): no rig to take entries from, no type of n×n matrices, no entrywise-addition/Σ-product definitions, and no theorem that matrices form a rig. What exists is the binary biproduct matrix calculus inside a CMon-enriched category — bi_pair_decomp (a matrix is the padd of its entries) and bi_copair_pair (the 2-term matrix product) — plus the enrichment laws of Structure/Preadditive.v that would give the rig axioms once n-fold biproducts existed. Also missing: n-ary biproducts (only binary `Biproduct` is defined), and the point of the example, that Mat_n(N) is non-commutative.",
+    "negative_search_log": [
+      "rg -n -i 'matrix|matrices' -g '*.v' -> 20 hits, all comments except the Semiadditive/Bicartesian lemma bodies cited above; no Mat_n construction",
+      "rg -n -i 'Mat_n|MatN|square matrix' -g '*.v' -> 0 hits",
+      "rg -n -i 'noncommutative|non-commutative' -g '*.v' -> 4 hits, all comments"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Confirmed, but flagged as the WEAKEST PARTIAL in this batch — my blind call was ABSENT. The cited evidence is real and correctly quoted: Structure/Semiadditive.v:86 `Lemma bi_pair_decomp` and :101 `Lemma bi_copair_pair` are at those exact lines, and Structure/Biproduct.v:42 is `Record Biproduct (x y : C) := {`, confirming the record's claim that only the BINARY biproduct exists (no n-ary form). What that yields is the n=2 shadow of (M.N)(i,j) = sum_k M(i,k).N(k,j) inside the hom-setoids of a CMon-enriched category — no Mat_n type, no rig of entries, no 'matrices form a rig' theorem, and no non-commutativity witness. The gap field says exactly this, so the record is honest rather than inflated; Phase E should treat the item as effectively from-scratch (the biproduct calculus is reusable machinery, not a partial statement of the theorem)."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:ex5.41",
+    "classification": "PARTIAL",
+    "aliases": [
+      "identity matrix in Mat_n(R)",
+      "multiplicative unit of the matrix rig",
+      "Kronecker delta matrix (1 on the diagonal, 0 off it)",
+      "canonical comparison coproduct → product ((id,0),(0,id))",
+      "Mat_n(N) is not commutative"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 299,
+        "symbol": "exl_can_inl",
+        "intree_statement": "Lemma exl_can_inl {x y : C} : exl ∘ can_comparison x y ∘ inl ≈ id.  (* can_comparison x y := (id △ zero_mor) ▽ (zero_mor △ id) : x + y ~> x × y, Structure/Semiadditive.v:288 *)"
+      },
+      {
+        "file": "Structure/Semiadditive.v",
+        "line": 305,
+        "symbol": "exr_can_inl",
+        "intree_statement": "Lemma exr_can_inl {x y : C} : exr ∘ can_comparison x y ∘ inl ≈ zero_mor.  (* with exl_can_inr ≈ zero_mor (line 311) and exr_can_inr ≈ id (line 317) *)"
+      }
+    ],
+    "statement_record": {
+      "book": "(1) Since Mat_n(R) is a rig, identify its multiplicative identity 1 ∈ Mat_n(R) — the identity matrix, with 1 on the diagonal and 0 elsewhere. (2) Choose an n and exhibit explicitly that Mat_n(N) is not commutative.",
+      "intree": "exl ∘ can_comparison x y ∘ inl ≈ id, exr ∘ can_comparison x y ∘ inl ≈ zero_mor, exl ∘ can_comparison x y ∘ inr ≈ zero_mor, exr ∘ can_comparison x y ∘ inr ≈ id — the four matrix entries of can_comparison x y := (id △ zero_mor) ▽ (zero_mor △ id).",
+      "strength_comparison": "intree-weaker: these four lemmas do compute the entries of the 2×2 identity matrix (diagonal = id, off-diagonal = zero_mor), which is the answer to part (1) at n = 2. But can_comparison is introduced as the canonical comparison morphism from the coproduct to the product (its invertibility is the hypothesis of bicartesian_preadditive, Structure/Semiadditive.v:573), and the library never says it is the multiplicative unit of a matrix rig — there being no matrix rig. Part (2) has no counterpart at all; indeed the in-tree categorified rig (a bicartesian closed category) has commutative multiplication by prod_comm, so it cannot host a non-commutativity witness."
+    },
+    "gap": "Part (1) is present only in disguise and only at n = 2: the entries of Structure/Semiadditive.v's `can_comparison` are proved to be id on the diagonal and zero_mor off it, but this morphism is never identified as the multiplicative identity of a matrix rig (no Mat_n(R) exists, and no n-ary biproduct). Part (2) — an explicit pair of matrices over N with M·N ≠ N·M — is entirely absent, and cannot be phrased at all until a rig and Mat_n are defined.",
+    "negative_search_log": [
+      "rg -n -i 'identity matrix' -g '*.v' -> 2 hits, both comments (Structure/Semiadditive.v:287, Functor/Hom/Yoneda.v:90)",
+      "rg -n -i 'noncommutative|non-commutative' -g '*.v' -> 4 hits, all comments; no counterexample or apartness statement",
+      "rg -n -i 'Mat_n|MatN|square matrix' -g '*.v' -> 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Same caveat as example5.40 (my blind call was ABSENT; PARTIAL is defensible but thin). Verified verbatim: Structure/Semiadditive.v:288 `Definition can_comparison (x y : C) : x + y ~{C}~> x * y := (id /\\ zero_mor) \\/ (zero_mor /\\ id)` (the comment at :287 does call it 'the identity matrix ((id, 0), (0, id))'), and all four entry lemmas at the cited lines :299 exl_can_inl ~ id, :305 exr_can_inl ~ zero_mor, :311 exl_can_inr ~ zero_mor, :317 exr_can_inr ~ id. The hypothesis-context claim also checks: Structure/Semiadditive.v:573 is `Definition bicartesian_preadditive : Preadditive C := {| ... |}`, where invertibility of can_comparison is the standing assumption. Part (2) (an explicit non-commuting pair over N) has no counterpart, exactly as the gap states."
+    }
+  },
+  {
+    "id": "7sketches:5.3.1:example5.42",
+    "classification": "PARTIAL",
+    "aliases": [
+      "every ring is a rig",
+      "a rig is a ring without negatives",
+      "ring / commutative ring / field",
+      "the reals (R, 0, +, 1, ·) form a rig",
+      "Ab-enrichment vs CMon-enrichment (Additive vs Preadditive)",
+      "abelian group as a commutative monoid with inverses"
+    ],
+    "evidence": [
+      {
+        "file": "Structure/Additive.v",
+        "line": 34,
+        "symbol": "Additive",
+        "intree_statement": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg {x y : C} : (x ~> y) -> (x ~> y); pneg_respects {x y : C} : Proper (equiv ==> equiv) (@pneg x y); padd_pneg {x y : C} (f : x ~> y) : padd f (pneg f) ≈ pzero }"
+      }
+    ],
+    "statement_record": {
+      "book": "Any ring forms a rig — in particular the reals (R, 0, +, 1, ·) — the difference being that a ring additionally has additive inverses; hence the mnemonic that a rig is a ring without negatives.",
+      "intree": "Class Additive (C : Category) := { additive_zero : @ZeroObject C; additive_preadditive : @Preadditive C; additive_biproducts : @HasBiproducts C additive_zero; pneg : (x ~> y) -> (x ~> y); pneg_respects; padd_pneg (f : x ~> y) : padd f (pneg f) ≈ pzero }, with `#[export] Existing Instance additive_preadditive`.",
+      "strength_comparison": "intree-weaker: the containment 'ring = rig + negatives' IS asserted, but one categorical level up and for many objects — an Additive (Ab-enriched) category is by construction a Preadditive (CMon-enriched) one plus a pointwise inverse pneg satisfying padd f (pneg f) ≈ pzero, and the exported instance lets every rig-level (Preadditive) lemma fire on an additive category. Specialised to one object this is exactly Example 5.42; that specialisation is never taken, there is no set-level Ring or Rig, and no concrete additive category exists in-tree (`rg ': @?Additive'` finds only the field abelian_additive of Structure/Abelian.v:138), so neither ℝ nor ℤ nor any other ring witnesses it."
+    },
+    "gap": "No set-level ring and no set-level rig, hence no statement 'every ring is a rig' at the level the book states it, and no ℝ (or ℤ, or any concrete ring) in the tree. What is present is the categorified inclusion: Structure/Additive.v:34 defines an additive category as a preadditive one carrying negation (padd_pneg), with additive_preadditive exported so the CMon-level laws apply — i.e. 'Ab-enriched implies CMon-enriched'. Missing: the Rig and Ring structures, the forgetful Ring → Rig, and any inhabitant (the only in-tree Preadditive instance is Instance/CMon/Biproduct.v:573 CMon_Preadditive, which has no negation; there is no Additive instance at all).",
+    "negative_search_log": [
+      "rg -n -i '\\bring\\b' -g '*.v' (filtered for false positives like 'string') -> 11 hits, all comments; no Ring class or instance",
+      "rg -n ': @?Additive ' -g '*.v' -> only Structure/Abelian.v:138 `abelian_additive : @Additive C` (a field, not an instance); no concrete additive category",
+      "rg -n -i 'real number|Rdefinitions|\\bR\\b field' -g '*.v' -> no reals anywhere in the tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Verified Structure/Additive.v:34 `Class Additive (C : Category) := {` with `additive_preadditive : @Preadditive C` at :36 and `padd_pneg (f : x ~> y) : padd f (pneg f) ~= pzero` at :47 — so the containment 'ring = rig + negatives' really is asserted, one categorical level up, definitionally. I independently confirmed the two inhabitation claims that make this only PARTIAL: `rg -n ': @?Preadditive|Instance.*Preadditive' -g '*.v'` shows the ONLY concrete instance in the tree is Instance/CMon/Biproduct.v:573 `#[export] Instance CMon_Preadditive : Preadditive CMon` (Structure/Semiadditive.v:573 bicartesian_preadditive is a derived definition under hypotheses, not an instance), and `rg -n ': @?Additive' -g '*.v'` finds only the field Structure/Abelian.v:138 `abelian_additive : @Additive C` plus context binders in Structure/Additive.v:63/143/148 — no concrete additive category, hence no ring witness at all. Also confirmed no reals and no Ring class anywhere."
+    }
+  },
+  {
+    "id": "7sketches:5.3.2:ex5.43",
+    "classification": "ABSENT",
+    "aliases": [
+      "evaluate a signal flow graph",
+      "semantics of a signal flow graph over N",
+      "sum-over-paths / path-sum evaluation",
+      "amplify (scalar multiplication), copy (black dot), add (white dot)",
+      "interpretation of a free-PROP term in a matrix PROP",
+      "SFG_R → Mat(R) semantics functor"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'signal flow|signal-flow|flow graph' -g '*.v' -> 4 hits, all comments citing Bonchi–Sobociński–Zanasi or Fong–Spivak in file headers (Structure/Monoidal/Symmetric.v:62, Construction/DecoratedCospan.v:90, Construction/ColouredPROP.v:34, Construction/ColouredPROP/Linear.v:104)",
+      "rg -n -i 'SFG|amplif' -g '*.v' -> 0 hits",
+      "rg -n -i 'sum over paths|sum-over-paths|black dot|white dot' -g '*.v' -> 0 hits",
+      "rg -n -i 'matrix|matrices' -g '*.v' -> no matrix semantics; no target category for an evaluation",
+      "The generic apparatus that an evaluation would use does exist (Construction/PROP/Interp.v:892 `Valuation`, :1030 `interp_sound`, and the universal property in Construction/PROP/Universal.v), but no signal-flow signature, no rig of scalars, and no evaluation of any such diagram is in the tree, so no part of this exercise's content is formalized."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: ABSENT. `rg -ni 'sfg' -g '*.v'` -> 0 hits; `rg -iln 'amplif' -g '*.v'` -> 0 hits; no evaluation of any diagram over a rig exists. I also confirmed the 'generic apparatus exists' remark: Construction/PROP/Interp.v:892 is `Definition Valuation : Type :=` and :1030 is `Theorem interp_sound {m n : nat} {s t : Term S m n} : TermEq S s t -> interp s ~= interp t`. ONE NON-MATERIAL INACCURACY in the negative log: it reports '4 hits' for signal flow and lists Structure/Monoidal/Symmetric.v:62, Construction/DecoratedCospan.v:90, Construction/ColouredPROP.v:34, Construction/ColouredPROP/Linear.v:104; a hyphen-tolerant search (`rg -ni 'signal[- ]flow'`) returns SIX prose hits, adding Structure/Monoidal/HypergraphFunctor.v:43 and Construction/DecoratedCospan/Symmetric.v:46, and the Linear.v occurrence actually spans lines 103-104. Every one of the six is header prose citing Bonchi-Sobocinski-Zanasi or Fong-Spivak, so the classification is unaffected."
+    }
+  },
+  {
+    "id": "7sketches:5.3.2:example5.44",
+    "classification": "ABSENT",
+    "aliases": [
+      "linear system of differential equations as a signal flow graph",
+      "rig of differential operators R[D]",
+      "Laplace transform / formal variable D for d/dt",
+      "polynomial rig in a formal variable",
+      "amplifier labelled by a polynomial scalar"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'differential' -g '*.v' -> 2 hits, both comments (Comonad/Coalgebra.v:105 on PDEs, Construction/Groupoid.v:65 on differential geometry)",
+      "rg -n -i 'Laplace|differential operator|formal variable|linear system|derivative' -g '*.v' -> 0 hits",
+      "rg -n -i 'polynomial' -g '*.v' -> 6 hits, all comments about polynomial ENDOFUNCTORS (Instance/Coq/Lists.v, Instance/Shapes.v, Theory/Adamek/Corollaries.v) — no polynomial rig",
+      "rg -n -i 'signal flow|signal-flow|SFG|amplif' -g '*.v' -> comments only / 0 hits, so the diagram side is absent as well",
+      "rg -n -i '\\brig\\b|semiring' -g '*.v' -> comments only, so the scalar side is absent as well"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: ABSENT. Verified the log: `rg -ni 'differential' -g '*.v'` -> exactly 2 hits, both prose (Construction/Groupoid.v:65 on differential geometry, Comonad/Coalgebra.v:105 on PDEs); no Laplace transform, no formal differentiation operator, no polynomial rig, and no signal-flow side either. Both the scalar side (a rig of differential operators) and the diagram side are missing, so there is nothing to be PARTIAL about."
+    }
+  },
+  {
+    "id": "7sketches:5.3.2:def5.45",
+    "classification": "PARTIAL",
+    "aliases": [
+      "generating signature G_R for signal flow graphs",
+      "SFG_R := Free(G_R)",
+      "prop signature with arity functions s,t : G → N",
+      "free PROP on a signature",
+      "generators add (2→1), zero (0→1), copy (1→2), discard (1→0), amplify_a (1→1)",
+      "symmetric monoidal theory / one-sorted signature"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/PROP/Instance.v",
+        "line": 82,
+        "symbol": "FreePROP",
+        "intree_statement": "Definition FreePROP : PROP := {| prop_cat := FreeCat S; prop_strict := FreeCat_Strict S; prop_symmetric := FreeCat_Symmetric S; prop_monoidal_coherence := eq_refl; prop_of_nat := fun n : nat => n; prop_unit_zero := eq_refl; prop_tensor_plus := fun m n => eq_refl |}  (* Context (S : Signature) *)"
+      },
+      {
+        "file": "Construction/PROP/Signature.v",
+        "line": 68,
+        "symbol": "Single_Sig",
+        "intree_statement": "Definition Single_Sig (m n : nat) : Signature := fun a b => if Nat.eqb a m then if Nat.eqb b n then unit else Empty_set else Empty_set.  (* over Definition Signature : Type := nat -> nat -> Type, line 50 *)"
+      },
+      {
+        "file": "Construction/PROP/Signature.v",
+        "line": 79,
+        "symbol": "Sum_Sig",
+        "intree_statement": "Definition Sum_Sig (S T : Signature) : Signature := fun m n => sum (S m n) (T m n)."
+      }
+    ],
+    "statement_record": {
+      "book": "For a rig R, the prop signature G_R consists of four fixed generator icons — add (2→1), zero (0→1), copy (1→2), discard (1→0) — together with one amplification icon a (1→1) for each a ∈ R, the arity functions s,t : G_R → N reading off the dangling wires on each side; a simplified (feedback-free) signal flow graph is a morphism of the free prop on this signature, and SFG_R := Free(G_R).",
+      "intree": "Definition Signature : Type := nat -> nat -> Type (a generator family indexed by its input/output arity, i.e. the fibrewise form of s,t : G → N); Single_Sig m n : Signature isolating one generator of arity (m,n); Sum_Sig S T : Signature for disjoint union; and Definition FreePROP : PROP := {| prop_cat := FreeCat S; prop_strict := FreeCat_Strict S; prop_symmetric := FreeCat_Symmetric S; ... |} for the free PROP on any signature S.",
+      "strength_comparison": "same, for the Free(−) half: the in-tree Signature/FreePROP pair is exactly the book's 'prop signature' + 'free prop on it', with arities encoded fibrewise (Sig m n is the TYPE of generators m→n) rather than as functions s,t out of a single set — a faithful rephrasing that even makes the R-indexed amplifier family expressible directly (`fun a b => if (a,b) = (1,1) then R else Empty_set`). intree-weaker for the item as a whole: the specific signature G_R and the PROP SFG_R are not defined anywhere, and no rig R exists to index the amplifiers."
+    },
+    "gap": "The general machinery is complete — `Signature` (Construction/PROP/Signature.v:50) with `Single_Sig`/`Sum_Sig` constructors, and `FreePROP S : PROP` (Construction/PROP/Instance.v:82) with its universal property (Construction/PROP/Universal.v) — but the particular signature G_R (add 2→1, zero 0→1, copy 1→2, discard 1→0, plus an R-indexed family of 1→1 amplifiers) and the abbreviation SFG_R := FreePROP G_R do not exist in the tree; nor does the rig R that indexes the amplifiers (see item def5.36). The only concrete generator signatures in-tree are Empty_Sig, Single_Sig, the coloured supply generators (Construction/ColouredPROP/Supply/Instance.v:114 SupplyExtSig, dup/del per copyable colour) and Instance/ZX.v.",
+    "negative_search_log": [
+      "rg -n -i 'SFG|amplif|signal flow' -g '*.v' -> 0 hits for the first two; 'signal flow' only in header comments",
+      "rg -n 'Definition .*_Sig|: Signature' -g '*.v' -> Empty_Sig, Single_Sig, Sum_Sig, SubSig (Construction/PROP/Signature.v), Empty_CSig / SupplyExtSig / USig (ColouredPROP) — no add/zero/copy/discard/amplify signature"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Identical to my blind call (PARTIAL), reached before reading the coverage file. Verified verbatim: Construction/PROP/Signature.v:50 `Definition Signature : Type := nat -> nat -> Type`, :68 `Single_Sig`, :79 `Sum_Sig`, and Construction/PROP/Instance.v:82 `Definition FreePROP : PROP := {| prop_cat := FreeCat S; ... prop_monoidal_coherence := eq_refl; ... |}` under `Context (S : Signature)`. The 'fibrewise arities are a faithful rephrasing of s,t : G -> N' claim is correct, and the R-indexed amplifier family really is expressible in that encoding. The gap's inventory of existing concrete signatures also checks out: Empty_Sig/Single_Sig/Sum_Sig/SubSig, Construction/ColouredPROP/Supply/Instance.v:114 `Definition SupplyExtSig : CSignature Colour := Sum_CSig S SupplyGen`, and Instance/ZX.v (whose generators are Z/X spiders and Hadamard, NOT add/zero/copy/discard/amplify) — no G_R and no SFG_R anywhere. Minor schema nit, not a defect: strength_comparison opens 'same, for the Free(-) half' before delivering the required 'intree-weaker' verdict for the item as a whole."
+    }
+  },
+  {
+    "id": "7sketches:5.3.2:example5.46",
+    "classification": "OUT_OF_SCOPE",
+    "aliases": [
+      "drawing convention for morphisms of Free(G_R)",
+      "port graph / wiring diagram rendering",
+      "labelled boxes vs bare icons",
+      "string-diagram notation for free PROP morphisms"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'port graph|wiring diagram|labelled box|labeled box' -g '*.v' -> 0 hits",
+      "rg -n -i 'string diagram' -g '*.v' -> 14 hits, all header prose describing the intended reading of terms; no graphical representation is formalized"
+    ],
+    "out_of_scope_reason": "The item is a typographical convention — draw the vertices of a Free(G_R) morphism as bare icons instead of labelled boxes — with no propositional content; the library represents free-PROP morphisms as the inductive syntax `Term S m n` (Construction/PROP/Term.v) and renders nothing graphically. (The substantive nearby theorem, that morphisms of a free PROP correspond to port graphs / open hypergraphs up to isomorphism, is NOT what Example 5.46 asserts and is likewise not in-tree.)",
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agrees: OUT_OF_SCOPE, and the justification is legitimate under the frozen definition. The item asserts only a drawing convention (render each vertex of a Free(G_R) morphism as a bare icon rather than a labelled box) and carries no propositional content; the library represents free-PROP morphisms as the inductive syntax `Term S m n` (Construction/PROP/Term.v) and renders nothing graphically, so there is no faithful in-tree rephrasing to be had. I checked that the record does not smuggle in the substantive neighbour: it explicitly disclaims the port-graph/open-hypergraph correspondence theorem as NOT what 5.46 asserts, and I confirmed that theorem is likewise absent (`rg -ni 'port graph|wiring diagram' -g '*.v'` -> 0 hits). This is one of the rare items where OUT_OF_SCOPE is not a size/foundations dodge."
+    }
+  }
+]

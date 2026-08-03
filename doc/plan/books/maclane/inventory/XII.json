@@ -1,0 +1,599 @@
+{
+  "book": "maclane",
+  "range": {"pdf_start": 274, "pdf_end": 294},
+  "pages": [
+    {
+      "pdf_page": 274,
+      "book_page": "267",
+      "empty": false,
+      "items": ["maclane:XII.1:def1"],
+      "notes": "Chapter XII opener + chapter intro prose (motivational, not inventoriable) + start of section 1 Internal Categories; the internal-category definition begins here (ambient E finitely complete, structure maps (1), composition pullback (2))."
+    },
+    {
+      "pdf_page": 275,
+      "book_page": "268",
+      "empty": false,
+      "items": ["maclane:XII.1:def1", "maclane:XII.1:remark1", "maclane:XII.1:remark2"],
+      "notes": "Internal-category definition concludes: the four commuting axioms (3)-(6). Remark that a category object in Set is an ordinary small category. Category-object-in-Grp discussion begins."
+    },
+    {
+      "pdf_page": 276,
+      "book_page": "269",
+      "empty": false,
+      "items": ["maclane:XII.1:remark2", "maclane:XII.1:def2", "maclane:XII.1:def3", "maclane:XII.1:def4"],
+      "notes": "Grp = Cat interchange concludes (plus the general interchange-of-structures principle). Internal functor (7). Internal natural transformation asserted only (not developed). Left C-object / internal diagram begins (coproduct (8), action map (9))."
+    },
+    {
+      "pdf_page": 277,
+      "book_page": "270",
+      "empty": false,
+      "items": ["maclane:XII.1:def4", "maclane:XII.1:def5", "maclane:XII.2:construction1"],
+      "notes": "Left C-object concludes (action-over-C0 (10), unit/assoc laws (11)). Morphism of left C-objects (12). Section 2 The Nerve of a Category begins (C2 = C1 x_{C0} C1 pullback of composable pairs)."
+    },
+    {
+      "pdf_page": 278,
+      "book_page": "271",
+      "empty": false,
+      "items": ["maclane:XII.2:construction1", "maclane:XII.2:remark1"],
+      "notes": "Nerve simplicial-set structure: iterated pullback Cn (2), face operators (3), degeneracies (4), simplicial identities. Nerve of an internal category is a simplicial object in E."
+    },
+    {
+      "pdf_page": 279,
+      "book_page": "272",
+      "empty": false,
+      "items": ["maclane:XII.2:ex1", "maclane:XII.3:construction1", "maclane:XII.3:construction2"],
+      "notes": "Section 2 Exercise 1. Section 3 2-Categories opens with two motivating example 2-categories: CAT (natural transformations as 2-cells) and Top (homotopies)."
+    },
+    {
+      "pdf_page": 280,
+      "book_page": "273",
+      "empty": false,
+      "items": ["maclane:XII.3:construction2", "maclane:XII.3:def1"],
+      "notes": "Top/homotopy 2-category example concludes (needs homotopy classes for associativity). General notion and the elementary definition of a 2-category begins: 2-cells (1)-(2), horizontal composite (3)-(4)."
+    },
+    {
+      "pdf_page": 281,
+      "book_page": "274",
+      "empty": false,
+      "items": ["maclane:XII.3:def1"],
+      "notes": "Continuation of the 2-category definition: vertical composition (5), vertical identities, the two horizontal-vertical axioms (6), and the middle-four interchange (7)-(9). No new item starts on this page."
+    },
+    {
+      "pdf_page": 282,
+      "book_page": "275",
+      "empty": false,
+      "items": ["maclane:XII.3:def1", "maclane:XII.3:def2"],
+      "notes": "Elementary 2-category definition concludes (whisker (10)-(11)); explicit naming of the CAT and Top examples. Equivalent hom-category (Cat-enriched) formulation begins: bifunctor K (12), Ua (13), data (i)-(iv)."
+    },
+    {
+      "pdf_page": 283,
+      "book_page": "276",
+      "empty": false,
+      "items": ["maclane:XII.3:def2", "maclane:XII.3:remark1", "maclane:XII.4:def1"],
+      "notes": "Hom-category formulation concludes (equivalence of the two axiom sets). Remark introducing categories enriched in a monoidal V (Kelly 1982, Dubuc 1970). Section 4 Operations in 2-Categories begins with adjunction in a 2-category: unit/counit (1)."
+    },
+    {
+      "pdf_page": 284,
+      "book_page": "277",
+      "empty": false,
+      "items": ["maclane:XII.4:def1", "maclane:XII.4:def2"],
+      "notes": "Adjunction triangle identities (2)-(5) conclude (reduces to ordinary adjunction in CAT). Right Kan extension in a 2-category begins (config (6), universal r/epsilon (7)-(8)); its concluding sentence is on PDF 285."
+    },
+    {
+      "pdf_page": 285,
+      "book_page": "278",
+      "empty": false,
+      "items": ["maclane:XII.4:def2", "maclane:XII.4:def3", "maclane:XII.4:def4", "maclane:XII.4:construction1", "maclane:XII.4:def5"],
+      "notes": "Still in XII.4 'Operations in 2-Categories'. Page OPENS with the tail of the right-Kan-extension-in-a-2-category (def2, started on PDF 284). Then: 2-functor (def3), 2-natural transformation (def4), the 2-category 2-Cat (construction1), and modification (def5, spans onto 286). NOTE: agent B originally re-used ids def1/def2/def3 for 2-functor/2-nat/modification; merged here as def3/def4/def5 to resolve collision with agent A's XII.4 adjunction/right-Kan defs."
+    },
+    {
+      "pdf_page": 286,
+      "book_page": "279",
+      "empty": false,
+      "items": ["maclane:XII.4:def5", "maclane:XII.4:remark1", "maclane:XII.5:def1", "maclane:XII.5:def2", "maclane:XII.5:remark1"],
+      "notes": "Top completes the modification (def5, eq (10), the cube picture) begun on 285, then the XII.4 closing remark (modification as a 3-cell; 2-category = Cat-enriched, 3-category = 2-Cat-enriched). Section XII.5 'Single-Set Categories' begins: single-set (arrows-only) category, single-set functor, and the equivalence-to-two-sorted-definition remark."
+    },
+    {
+      "pdf_page": 287,
+      "book_page": "280",
+      "empty": false,
+      "items": ["maclane:XII.5:def3", "maclane:XII.5:def4", "maclane:XII.5:def5"],
+      "notes": "Single-set 2-category (two commuting category structures on the 2-cell set, interchange law), then single-set n-category and omega-category. End of XII.5; no exercises."
+    },
+    {
+      "pdf_page": 288,
+      "book_page": "281",
+      "empty": false,
+      "items": ["maclane:XII.6:def1"],
+      "notes": "Section XII.6 'Bicategories' begins. The bicategory definition (0/1/2-cells, hom-categories B(a,b), horizontal-composition bifunctor *, identity 1-cells, associator/unitors, pentagon+triangle) starts here and spans to 289."
+    },
+    {
+      "pdf_page": 289,
+      "book_page": "282",
+      "empty": false,
+      "items": ["maclane:XII.6:def1", "maclane:XII.6:remark1"],
+      "notes": "Bicategory coherence axioms (pentagon (7), triangle (8)) and the alpha/lambda/rho naturality complete def1 (continued from 288). The two-duals remark starts at the foot of the page (opposite by reversing 1-cells vs. by reversing 2-cells) and continues to 290."
+    },
+    {
+      "pdf_page": 290,
+      "book_page": "283",
+      "empty": false,
+      "items": ["maclane:XII.6:remark1", "maclane:XII.7:construction1", "maclane:XII.7:construction2", "maclane:XII.7:construction3"],
+      "notes": "Two-duals remark completes at top. A 'functor between bicategories' is mentioned but explicitly LEFT UNDEFINED (pointer to Benabou [1967]) - not inventoried. Section XII.7 'Examples of Bicategories' begins: monoidal-category-as-one-0-cell-bicategory, the ring/bimodule bicategory, and the Span(C) construction (introduced here; spans 290-292)."
+    },
+    {
+      "pdf_page": 291,
+      "book_page": "284",
+      "empty": false,
+      "items": ["maclane:XII.7:def1", "maclane:XII.7:construction3"],
+      "notes": "The notion of a span is formally defined here (pair of arrows from a common vertex). Span(C) bicategory details (0/1/2-cells, vertical composite of middle arrows, horizontal composite by canonical pullback, associativity setup) continue from 290."
+    },
+    {
+      "pdf_page": 292,
+      "book_page": "285",
+      "empty": false,
+      "items": ["maclane:XII.7:construction3", "maclane:XII.8:def1", "maclane:XII.8:lem1", "maclane:XII.8:thm1"],
+      "notes": "Span(C) completes at top (associator alpha from pullback uniqueness, unitor lambda from identity spans). The 'bicategory = weak 2-category' naming + weak-n-category/theoretical-physics pointer (Baez et al.) is terminological/historical - not inventoried. Section XII.8 'Crossed Modules and Categories in Grp' begins: crossed-module definition; the main theorem (crossed modules ~ category objects in Grp, per G. Janelidze) and its supporting lemma are both STATED here and span to 294."
+    },
+    {
+      "pdf_page": 293,
+      "book_page": "286",
+      "empty": false,
+      "items": ["maclane:XII.8:lem1", "maclane:XII.8:thm1"],
+      "notes": "Continuation only (no new item starts): derivation via the middle-four interchange that the categorical composition is forced to g o f = f * 1_b^{-1} * g, and the commutator condition (4). Also the aside that inversion ( )^{-1}: C -> C is a functor when C is a group object."
+    },
+    {
+      "pdf_page": 294,
+      "book_page": "287",
+      "empty": false,
+      "items": ["maclane:XII.8:lem1", "maclane:XII.8:thm1"],
+      "notes": "Completion only (no new item starts): the symmetric composition formula, the converse construction gamma(g,f)=f*1_b^{-1}*g, the crossed module H=ker d0, P=C0, partial=d1|ker d0 via the i-split short exact sequence 1 -> ker d0 -> C1 -> C0 -> 1, and the concluding categorical equivalence. End of Chapter XII: no Notes block and no exercises on this page."
+    }
+  ],
+  "items": [
+    {
+      "id": "maclane:XII.1:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "internal category (category object in E)",
+      "statement_summary": "In a finitely complete ambient category E, an internal category (category object) is data C = (C0, C1, i, d0, d1, gamma): an object C0 of objects and an object C1 of arrows; maps i:C0->C1 (identities), d0:C1->C0 (domain), d1:C1->C0 (codomain), and a composition gamma:C1 x_{C0} C1 -> C1 defined on the pullback of composable arrows; subject to four commuting conditions expressing the category axioms: identity arrows have matching domain/codomain (d0 i = 1 = d1 i), identities act as left/right units for gamma, gamma has the expected domain and codomain, and gamma is associative via the triple pullback C1 x C1 x C1. This is the same data as the graph-with-composition description of a category (II.7.3).",
+      "book_section": "XII.1",
+      "book_page": "267",
+      "pdf_pages": [274, 275],
+      "cross_refs": ["maclane:II.7", "maclane:XII.1:remark1", "maclane:XII.1:remark2"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.1:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "internal category in Set is an ordinary small category",
+      "statement_summary": "A category object (internal category) in Set is precisely an ordinary small category: the four commuting conditions of the definition are exactly the usual category axioms.",
+      "book_section": "XII.1",
+      "book_page": "268",
+      "pdf_pages": [275],
+      "cross_refs": ["maclane:XII.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.1:remark2",
+      "kind": "remark",
+      "number": null,
+      "name": "category object in Grp equals group object in Cat (interchange of structures)",
+      "statement_summary": "A category object in Grp -- a category in which both the object-set C0 and the arrow-set C1 are groups and all structure maps i, d0, d1, gamma are group homomorphisms -- is the same thing as a group object in Cat (a monoid/group internal to Cat). More generally the interchange principle: the category of X-objects in the category of Y-objects coincides with the category of Y-objects in the category of X-objects.",
+      "book_section": "XII.1",
+      "book_page": "268",
+      "pdf_pages": [275, 276],
+      "cross_refs": ["maclane:XII.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.1:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "internal functor",
+      "statement_summary": "An internal functor f:C->D between internal categories in E is a pair of E-maps f0:C0->D0 (object part) and f1:C1->D1 (arrow part) making the evident diagrams (7) commute: f1 commutes with the two composition maps gammaC, gammaD, with the domain and codomain maps d0, d1, and with the identity-inclusions i.",
+      "book_section": "XII.1",
+      "book_page": "269",
+      "pdf_pages": [276],
+      "cross_refs": ["maclane:XII.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.1:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "internal natural transformation (between internal functors)",
+      "statement_summary": "An internal natural transformation between two internal functors C->D in E. MacLane only asserts that it can be readily described in analogy with the internal-functor definition; the defining diagrams are not written out.",
+      "book_section": "XII.1",
+      "book_page": "269",
+      "pdf_pages": [276],
+      "cross_refs": ["maclane:XII.1:def2"],
+      "flags": ["sketched-only", "unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.1:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "left C-object (internal diagram / internal base-valued functor)",
+      "statement_summary": "Given an internal category C in E, a left C-object (also called an internal diagram, or internal base-valued functor) is an object pi:H->C0 over C0 together with an action map mu:C1 x_{C0} H -> H, where the pullback is formed via the domain map d0:C1->C0 and mu is a map over C0 (10), satisfying a unit law and an associativity law like a group acting on a set (11). When E = Set this is exactly a Set-valued functor on C: the object-function H0:C0->Set is replaced by the coproduct pi:(coproduct over c of H0 c)->C0 (8) with an action of arrows.",
+      "book_section": "XII.1",
+      "book_page": "269",
+      "pdf_pages": [276, 277],
+      "cross_refs": ["maclane:XII.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.1:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "morphism of left C-objects (internal natural transformation of internal diagrams)",
+      "statement_summary": "A morphism phi:H->K of left C-objects is an E-map phi over C0 (pi commuting) that also commutes with the two action maps mu (diagrams (12)). For ordinary Set-valued functors H, K this is exactly a natural transformation (first square: phi sends H(c) to K(c); second square: compatibility with the arrow-action i.e. naturality).",
+      "book_section": "XII.1",
+      "book_page": "270",
+      "pdf_pages": [277],
+      "cross_refs": ["maclane:XII.1:def4"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.2:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "nerve of a category (simplicial set)",
+      "statement_summary": "For a small category C, the sequence of sets C0, C1, C2 = C1 x_{C0} C1, ..., Cn = n-fold iterated pullback of strings of n composable arrows, forms a simplicial set (the nerve): the face operators di:Cn->Cn-1 delete a boundary arrow when i=0 or i=n and compose the i-th adjacent pair when 0<i<n (3), and the degeneracies sj:Cn->Cn+1 insert an identity arrow at position j (4); these satisfy the simplicial (VII.5) face/degeneracy identities.",
+      "book_section": "XII.2",
+      "book_page": "270",
+      "pdf_pages": [277, 278],
+      "cross_refs": ["maclane:XII.1:def1", "maclane:VII.5"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.2:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "nerve of an internal category is a simplicial object",
+      "statement_summary": "The same nerve construction applied to an internal category in an ambient category E yields a simplicial object in E (rather than a simplicial set).",
+      "book_section": "XII.2",
+      "book_page": "271",
+      "pdf_pages": [278],
+      "cross_refs": ["maclane:XII.2:construction1", "maclane:XII.1:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.2:ex1",
+      "kind": "exercise",
+      "number": "1",
+      "name": "verify the simplicial identities for the nerve",
+      "statement_summary": "Exercise: verify the face and degeneracy identities for the nerve's face operators di and degeneracy operators sj as defined above.",
+      "book_section": "XII.2",
+      "book_page": "272",
+      "pdf_pages": [279],
+      "cross_refs": ["maclane:XII.2:construction1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.3:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "CAT as a 2-category",
+      "statement_summary": "Functors, with natural transformations as 2-cells, form a 2-category (later named CAT): categories as objects, functors as 1-cells, natural transformations as 2-cells; the vertical composite of sigma:R=>S and tau:S=>T is (tau . sigma)c = tau c o sigma c, and the horizontal composite of sigma, sigma' is (sigma' o sigma)c = sigma' S c o R' sigma c; both compositions are associative and satisfy the interchange law (Theorem II.5.1).",
+      "book_section": "XII.3",
+      "book_page": "272",
+      "pdf_pages": [279],
+      "cross_refs": ["maclane:II.4", "maclane:II.5", "maclane:XII.3:def1"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.3:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "topological spaces with homotopy classes of homotopies as a 2-category",
+      "statement_summary": "Topological spaces, continuous maps, and homotopy classes of homotopies form a 2-category: a homotopy theta:X x I -> Y between maps f,g (with theta(x,0)=f(x), theta(x,1)=g(x)) is a 2-cell; there is a vertical composite of homotopies and a horizontal composite theta' o theta : f'f ~ g'g. Because the naive concatenation vertical composite is not associative, one must take homotopy CLASSES of homotopies as the 2-cells; horizontal composition commutes with vertical.",
+      "book_section": "XII.3",
+      "book_page": "272",
+      "pdf_pages": [279, 280],
+      "cross_refs": ["maclane:XII.3:def1"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.3:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "2-category (elementary definition)",
+      "statement_summary": "A 2-category is an ordinary category C of objects (0-cells) and horizontal arrows (1-cells), augmented with 2-cells alpha:f=>g between parallel 1-cells f,g:a->b, carrying two compositions: (1) a horizontal composite alpha' o alpha of 2-cells matching the composition of 1-cells, with for each object b an identity 2-cell 1_{1b} acting as a two-sided identity (domain and codomain are functors from 2-cells to 1-cells); (2) for each ordered pair (a,b) a vertical composition beta . alpha making the 2-cells a->b a category, with vertical identity 2-cells 1f:f=>f. Two axioms link them: the horizontal composite of vertical identities is a vertical identity (1_{f'f} = 1_{f'} o 1_f), and the middle-four interchange (beta' o beta) . (alpha' o alpha) = (beta' . alpha') o (beta . alpha). Whiskering a 2-cell by a 1-cell (f' o alpha) is the special case of horizontal composition with a vertical identity.",
+      "book_section": "XII.3",
+      "book_page": "273",
+      "pdf_pages": [280, 281, 282],
+      "cross_refs": ["maclane:II.5", "maclane:XII.3:construction1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.3:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "2-category via hom-categories (Cat-enriched formulation)",
+      "statement_summary": "An equivalent hom-object formulation of a 2-category, parallel to the hom-set definition of a category (I.8): the data are (i) a set of objects a,b,c,...; (ii) for each ordered pair (a,b) a category T(a,b) (its arrows are the 2-cells, under vertical composition); (iii) for each ordered triple (a,b,c) a composition functor K_{a,b,c}:T(b,c) x T(a,b) -> T(a,c) (horizontal composition, a bifunctor); (iv) for each object a a functor Ua:1 -> T(a,a) picking the identity 1-cell. These satisfy associativity of K and left/right identity via Ua. This set of axioms is equivalent to the elementary definition and exhibits a 2-category as a category with hom-objects enriched in CAT.",
+      "book_section": "XII.3",
+      "book_page": "275",
+      "pdf_pages": [282, 283],
+      "cross_refs": ["maclane:XII.3:def1", "maclane:I.8"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.3:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "categories enriched in a monoidal category V",
+      "statement_summary": "The hom-objects T(a,b) of a 2-category are objects of CAT, so one says the hom-sets are enriched in CAT. More generally, replacing CAT by any monoidal category V and taking the hom-objects to be objects of V gives the notion of a category enriched in V (a V-category), with composition and identities as V-morphisms; the case V = Ab gives Ab-categories. References Kelly (1982) and Dubuc (1970).",
+      "book_section": "XII.3",
+      "book_page": "276",
+      "pdf_pages": [283],
+      "cross_refs": ["maclane:XII.3:def2", "maclane:VII.7", "maclane:I.8"],
+      "flags": ["pointer-only"]
+    },
+    {
+      "id": "maclane:XII.4:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "adjunction in a 2-category",
+      "statement_summary": "In an arbitrary 2-category, two 1-cells f:a->b and g:b->a in opposite directions are adjoint (f left adjoint to g) when there are 2-cells eta:1a => gf (unit) and epsilon:fg => 1b (counit) satisfying the two triangular identities (epsilon f) . (f eta) = 1f : f => f and (g epsilon) . (eta g) = 1g : g => g. In the 2-category CAT these two equations are exactly the triangle laws of an ordinary adjunction of functors (IV.1.9).",
+      "book_section": "XII.4",
+      "book_page": "276",
+      "pdf_pages": [283, 284],
+      "cross_refs": ["maclane:IV.1", "maclane:XII.3:def1"],
+      "flags": []
+    },
+    {
+      "id": "maclane:XII.4:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "right Kan extension in a 2-category",
+      "statement_summary": "In a 2-category, given objects m, c, a and 1-cells k:m->c and t:m->a, a right Kan extension of t along k is a 1-cell r:c->a together with a 2-cell epsilon:rk => t that is universal: for every 2-cell alpha:sk => t (with s:c->a) there is a unique 2-cell sigma:s => r such that alpha factors as epsilon composed with sigma whiskered by k. Thus r and epsilon are the universal way of filling the triangle, unique up to the 2-cell sigma; this lifts the right Kan extension of X.3 to any 2-category.",
+      "book_section": "XII.4",
+      "book_page": "277",
+      "pdf_pages": [284, 285],
+      "cross_refs": ["maclane:X.3", "maclane:XII.3:def1"],
+      "flags": ["multi-page"]
+    },
+    {
+      "id": "maclane:XII.4:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "2-functor",
+      "statement_summary": "A 2-functor F: T -> U between 2-categories is a triple of maps on 0-cells (objects), 1-cells (arrows), and 2-cells that preserves all the 2-categorical structure: domains, codomains, identities, and the (horizontal and vertical) composites in every dimension.",
+      "book_section": "XII.4",
+      "book_page": "278",
+      "pdf_pages": [285],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "prose-definition", "renumbered-from-agentB-def1"]
+    },
+    {
+      "id": "maclane:XII.4:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "2-natural transformation",
+      "statement_summary": "For 2-functors F, G: T -> U, a 2-natural transformation theta: F => G assigns to each object a a 1-cell theta_a: Fa -> Ga such that for every 2-cell alpha: f => g of T the whiskered 2-cells agree (equation (9): the (theta,Falpha) composite equals the (Galpha,theta) composite). Restricted to 1-cells, theta is an ordinary natural transformation of the underlying functors.",
+      "book_section": "XII.4",
+      "book_page": "278",
+      "pdf_pages": [285],
+      "cross_refs": ["maclane:XII.4:def3"],
+      "flags": ["unnumbered-definition", "prose-definition", "renumbered-from-agentB-def2"]
+    },
+    {
+      "id": "maclane:XII.4:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "the 2-category 2-Cat",
+      "statement_summary": "2-categories, 2-functors, and 2-natural transformations form the 0-cells, 1-cells, and 2-cells of a 2-category, denoted 2-Cat.",
+      "book_section": "XII.4",
+      "book_page": "278",
+      "pdf_pages": [285],
+      "cross_refs": ["maclane:XII.4:def3", "maclane:XII.4:def4"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.4:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "modification",
+      "statement_summary": "Given 2-natural transformations theta, phi: F => G between 2-functors F, G: T -> U, a modification mu: theta => phi assigns to each object a a 2-cell mu_a: theta_a => phi_a such that for every 2-cell alpha: f => g the two pasted 2-composites agree (equation (10)); pictured as the front-then-bottom face equalling the top-then-back face of a cube.",
+      "book_section": "XII.4",
+      "book_page": "278",
+      "pdf_pages": [285, 286],
+      "cross_refs": ["maclane:XII.4:def4"],
+      "flags": ["unnumbered-definition", "prose-definition", "multi-page", "renumbered-from-agentB-def3"]
+    },
+    {
+      "id": "maclane:XII.4:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "modification as 3-cell; 3-category via enrichment",
+      "statement_summary": "A modification is regarded as a 3-cell mu: theta => phi. Iterating the enriched-hom viewpoint, a 2-category is a category with hom-sets enriched in Cat, and a 3-category is defined as a category with hom-sets enriched in 2-Cat.",
+      "book_section": "XII.4",
+      "book_page": "279",
+      "pdf_pages": [286],
+      "cross_refs": ["maclane:XII.4:construction1"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:XII.5:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "single-set (arrows-only) category",
+      "statement_summary": "A category presented as one set C of arrows with source/target functions s,t: C -> C and a partial composition x#y defined iff s x = t y, subject to: s(x#y)=s y and t(x#y)=t x; x#(s x)=x and (t x)#x=x; associativity (x#y)#z=x#(y#z) whenever either side is defined; and s s x = s x = t s x, t t x = t x = s t x. An element x is an identity iff x = s x iff x = t x.",
+      "book_section": "XII.5",
+      "book_page": "279",
+      "pdf_pages": [286],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.5:def2",
+      "kind": "definition",
+      "number": null,
+      "name": "functor between single-set categories",
+      "statement_summary": "For single-set categories C, D, a functor F: C -> D is a function on the arrow-sets commuting with source and target (s F = F s and t F = F t) and preserving partial composition, F(x#y)=F x # F y whenever x#y is defined (definedness of the right side following from commutation with s,t).",
+      "book_section": "XII.5",
+      "book_page": "279",
+      "pdf_pages": [286],
+      "cross_refs": ["maclane:XII.5:def1"],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.5:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "single-set definition equivalent to the two-sorted one",
+      "statement_summary": "The single-set (arrows-only) definition of a category, and of a functor, is equivalent to the standard two-sorted definition that uses a separate set of objects and set of arrows.",
+      "book_section": "XII.5",
+      "book_page": "279",
+      "pdf_pages": [286],
+      "cross_refs": ["maclane:XII.5:def1", "maclane:XII.5:def2"],
+      "flags": ["unnumbered"]
+    },
+    {
+      "id": "maclane:XII.5:def3",
+      "kind": "definition",
+      "number": null,
+      "name": "single-set 2-category",
+      "statement_summary": "A 2-category presented as one set X of 2-cells carrying two single-set category structures -- 'horizontal' (#0, s0, t0) and 'vertical' (#1, s1, t1) -- each satisfying the single-set category axioms, plus: (i) every identity of the 0-structure is an identity of the 1-structure, and (ii) the two structures commute, i.e. s0s1=s1s0, s0t1=t1s0, t0s1=s1t0, t0t1=t1t0 (7), and the interchange (x #_a u) #_b (y #_a v) = (x #_b y) #_a (u #_b v) with t_a(x #_b y)=(t_a x) #_b (t_a y) and s_a(x #_b y)=(s_a x) #_b (s_a y) for a,b in {0,1}, whenever both sides are defined (8).",
+      "book_section": "XII.5",
+      "book_page": "280",
+      "pdf_pages": [287],
+      "cross_refs": ["maclane:XII.5:def1"],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.5:def4",
+      "kind": "definition",
+      "number": null,
+      "name": "single-set n-category",
+      "statement_summary": "An n-category is a set X equipped with n category structures (#i, si, ti), i=0,...,n-1, that pairwise commute (interchange) and satisfy that an identity for structure i is also an identity for every structure j>i; equivalently each pair (#i, #j) with j>i forms a 2-category.",
+      "book_section": "XII.5",
+      "book_page": "280",
+      "pdf_pages": [287],
+      "cross_refs": ["maclane:XII.5:def3"],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.5:def5",
+      "kind": "definition",
+      "number": null,
+      "name": "omega-category",
+      "statement_summary": "An omega-category is the extension of the single-set n-category to infinitely many commuting category structures (#i, si, ti) for i=0,1,2,..., with each lower-index identity being an identity for all higher-index structures.",
+      "book_section": "XII.5",
+      "book_page": "280",
+      "pdf_pages": [287],
+      "cross_refs": ["maclane:XII.5:def4"],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.6:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "bicategory",
+      "statement_summary": "A bicategory B has 0-cells, 1-cells, and 2-cells; for each ordered pair (a,b) an ordinary category B(a,b) whose objects are 1-cells a->b and whose arrows are 2-cells (this gives vertical composition and identities 1_f); for each triple (a,b,c) a horizontal-composition bifunctor *: B(b,c) x B(a,b) -> B(a,c); an identity 1-cell 1_a for each 0-cell; and natural isomorphisms -- associator alpha relating (h*g)*f and h*(g*f), left unitor lambda: 1_b*f => f, right unitor rho: f*1_a => f -- subject to the pentagon coherence axiom (7) and the triangle axiom (8). Associativity and units hold only up to these coherent invertible 2-cells.",
+      "book_section": "XII.6",
+      "book_page": "281",
+      "pdf_pages": [288, 289],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "prose-definition", "multi-page"]
+    },
+    {
+      "id": "maclane:XII.6:remark1",
+      "kind": "remark",
+      "number": null,
+      "name": "two duals of a bicategory",
+      "statement_summary": "A bicategory (or a 2-category) admits two distinct opposite/dual constructions: one obtained by reversing the 1-cells (arrows), the other by reversing the 2-cells.",
+      "book_section": "XII.6",
+      "book_page": "282",
+      "pdf_pages": [289, 290],
+      "cross_refs": ["maclane:XII.6:def1"],
+      "flags": ["unnumbered", "multi-page"]
+    },
+    {
+      "id": "maclane:XII.7:construction1",
+      "kind": "construction",
+      "number": null,
+      "name": "monoidal category as a one-0-cell bicategory",
+      "statement_summary": "Any monoidal category M is a bicategory with a single 0-cell whose 1-cells are the objects of M (horizontal composition = tensor product) and whose 2-cells are the arrows of M, with M's associativity and unit isomorphisms serving as alpha, lambda, rho; conversely every bicategory with just one 0-cell is such a monoidal category. Consequently the monoidal-category coherence theorem yields a coherence result for alpha, lambda, rho in bicategories.",
+      "book_section": "XII.7",
+      "book_page": "283",
+      "pdf_pages": [290],
+      "cross_refs": ["maclane:XII.6:def1"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.7:construction2",
+      "kind": "construction",
+      "number": null,
+      "name": "bicategory of rings and bimodules",
+      "statement_summary": "The bicategory whose 0-cells are rings R,S,T, whose 1-cells R->S are (S,R)-bimodules, and whose 2-cells are bimodule homomorphisms; horizontal composition of 1-cells is the tensor product of bimodules over the middle ring (associativity from the module isomorphism (C tensor_T B) tensor_S A ~ C tensor_T (B tensor_S A)), and vertical composition is ordinary composition of bimodule homomorphisms.",
+      "book_section": "XII.7",
+      "book_page": "283",
+      "pdf_pages": [290],
+      "cross_refs": ["maclane:XII.6:def1"],
+      "flags": ["unnumbered-construction"]
+    },
+    {
+      "id": "maclane:XII.7:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "span",
+      "statement_summary": "A span from a to b in a category C is a pair of arrows out of a common vertex v, namely v->a and v->b.",
+      "book_section": "XII.7",
+      "book_page": "284",
+      "pdf_pages": [291],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.7:construction3",
+      "kind": "construction",
+      "number": null,
+      "name": "the bicategory Span(C)",
+      "statement_summary": "For a category C with all pullbacks and a chosen 'canonical' pullback for each cospan, Span(C) is the bicategory whose 0-cells are objects of C, 1-cells are spans a<-v->b, and 2-cells from one span to another are arrows x: v->v' of C making both triangles commute; vertical composition composes the middle arrows (in C), and horizontal composition of spans is formed by the canonical pullback of the two inner legs. The associator alpha comes from uniqueness of pullbacks up to isomorphism (whence the pentagon holds) and the unitor lambda from identity spans; remaining axioms left to the reader.",
+      "book_section": "XII.7",
+      "book_page": "283",
+      "pdf_pages": [290, 291, 292],
+      "cross_refs": ["maclane:XII.6:def1", "maclane:XII.7:def1"],
+      "flags": ["unnumbered-construction", "multi-page"]
+    },
+    {
+      "id": "maclane:XII.8:def1",
+      "kind": "definition",
+      "number": null,
+      "name": "crossed module",
+      "statement_summary": "A crossed module is a pair of groups H, P together with an action of P on H (written h |-> h^p) and a homomorphism d: H -> P respecting the action, satisfying h^1 = h, (h^p)^q = h^{pq}, (hk)^p = h^p k^p, and the equivariance d(h^p) = p (d h) p^{-1}.",
+      "book_section": "XII.8",
+      "book_page": "285",
+      "pdf_pages": [292],
+      "cross_refs": [],
+      "flags": ["unnumbered-definition", "prose-definition"]
+    },
+    {
+      "id": "maclane:XII.8:lem1",
+      "kind": "lemma",
+      "number": null,
+      "name": "a category object in Grp is determined by its underlying reflexive graph",
+      "statement_summary": "An internal category in Grp (groups C0, C1; homomorphisms d0, d1: C1 -> C0, i: C0 -> C1, and composition gamma) is completely determined by the reflexive graph C1 =>=> C0 with section i satisfying d0 i = 1 = d1 i (3) and the commutator condition [ker d0, ker d1] = 1 (4): using the middle-four interchange, the composition is forced to g o f = f * 1_b^{-1} * g (also = g * 1_b^{-1} * f), and conversely this formula on any such diagram defines a valid internal-category composition gamma(g,f) = f * 1_b^{-1} * g.",
+      "book_section": "XII.8",
+      "book_page": "285",
+      "pdf_pages": [292, 293, 294],
+      "cross_refs": ["maclane:XII.8:thm1"],
+      "flags": ["unnumbered", "multi-page"]
+    },
+    {
+      "id": "maclane:XII.8:thm1",
+      "kind": "theorem",
+      "number": null,
+      "name": "crossed modules are equivalent to category objects in Grp",
+      "statement_summary": "The category of crossed modules is categorically equivalent to the category of internal categories in Grp (equivalently, of reflexive-graph diagrams C1 =>=> C0 with section i satisfying d0 i = 1 = d1 i and [ker d0, ker d1] = 1). The correspondence sends such a diagram to the crossed module d = d1|_{ker d0}: H = ker d0 -> P = C0, with C0 acting on ker d0 by conjugation through i, via the i-split short exact sequence 1 -> ker d0 -> C1 -> C0 -> 1; conversely a crossed module yields such a split extension. (Proof attributed to G. Janelidze.)",
+      "book_section": "XII.8",
+      "book_page": "285",
+      "pdf_pages": [292, 293, 294],
+      "cross_refs": ["maclane:XII.8:def1", "maclane:XII.8:lem1"],
+      "flags": ["unnumbered", "multi-page"]
+    }
+  ]
+}

@@ -1,0 +1,555 @@
+[
+  {
+    "id": "riehl:4.3:prop1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "uniqueness of adjoints up to unique natural isomorphism",
+      "left_adjoint_iso / right_adjoint_iso (two adjoints are naturally isomorphic)",
+      "adjoint_unique (bicategorical: two right adjoints of f are isomorphic)",
+      "matecell / mate of the identity 2-cell, mate_charac (uniqueness clause)",
+      "compatibility of the comparison with units and counits"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 404,
+        "symbol": "left_adjoint_iso",
+        "intree_statement": "Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) : F ⊣ G → F' ⊣ G → F ≈ F'.  (≈ on functors is Functor_Setoid, Theory/Functor.v:148: `{ iso : ∀ x : C, F x ≅ G x & ∀ x y (f : x ~> y), fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }`, i.e. a natural isomorphism.)"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 708,
+        "symbol": "adjoint_unique",
+        "intree_statement": "Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ≅[bicat y x] b.  (Built as Build_Isomorphism with `matecell Aa Ab` / `matecell Ab Aa`, the mate of the identity.)"
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 347,
+        "symbol": "mate_charac",
+        "intree_statement": "Lemma mate_charac {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) (γ : a ~> b) : rwhisker γ f ∘∘ uη Aa ≈ uη Ab → γ ≈ matecell Aa Ab.  — the UNIQUENESS clause: any unit-compatible comparison 2-cell IS the mate."
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 636,
+        "symbol": "mate_unit_compat",
+        "intree_statement": "Lemma mate_unit_compat {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : rwhisker (matecell Aa Ab) f ∘∘ uη Aa ≈ uη Ab.  — the comparison 2-cell commutes with the two units."
+      }
+    ],
+    "statement_record": {
+      "book": "If F and F' are both left adjoint to G then F ≅ F' naturally, and there is a UNIQUE natural isomorphism θ : F ⇒ F' compatible with the units and the counits of the two adjunctions ((Gθ)·η = η' and ε'·(θG) = ε).",
+      "intree": "Theory/Adjunction.v:404 `left_adjoint_iso : F ⊣ G → F' ⊣ G → F ≈ F'` (bare natural isomorphism, no compatibility, no uniqueness). At bicategory generality, for the DUAL side: Theory/Bicategory/Adjunction.v:708 `adjoint_unique : BicatAdjunction f a → BicatAdjunction f b → a ≅[bicat y x] b`, whose comparison cell satisfies `mate_unit_compat : rwhisker (matecell Aa Ab) f ∘∘ uη Aa ≈ uη Ab` and is characterized uniquely by `mate_charac`.",
+      "strength_comparison": "intree-weaker on the book's own side, intree-stronger on the dual side: the plain natural-isomorphism clause is proved for LEFT adjoints in Cat (`left_adjoint_iso`) and for RIGHT adjoints in Cat (`right_adjoint_iso`, Theory/Adjunction.v:364), but with NO unit/counit compatibility and NO uniqueness. The full 'unique compatible comparison' package exists only in the bicategorical file, only for two RIGHT adjoints of a fixed 1-cell (Riehl's dual statement), and only for the UNIT half of the compatibility."
+    },
+    "gap": "Three things are missing. (1) On the book's side (two left adjoints F, F' of a fixed G in Cat) nothing states that the isomorphism produced by `left_adjoint_iso` commutes with the units/counits, and nothing states it is the unique such isomorphism — the theorem returns a bare `F ≈ F'`. (2) The bicategorical package (`adjoint_unique` + `mate_unit_compat` + `mate_charac`) is stated for two RIGHT adjoints a, b of a fixed f; it can be read in Cat through `Cat_BicatAdjunction_Adjunction_iff` (Instance/Cat/Bicategory/Adjunction.v:163), but no in-tree lemma dualizes it back to the left-adjoint statement (there is no opposite-bicategory construction; `Adjunction/Opposite.v` only dualizes hom-set adjunctions in Cat). (3) Even the bicategorical version proves only the UNIT-compatibility half; the counit compatibility ε' ∘ (θ ⊳ G) ≈ ε is not stated anywhere.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL. All four cited sites verified verbatim at the cited lines: Theory/Adjunction.v:404 left_adjoint_iso (and :364 right_adjoint_iso), Theory/Functor.v:148 Functor_Setoid (equiv IS a natural isomorphism, so the '≈' reading is faithful), Theory/Bicategory/Adjunction.v:708 adjoint_unique, :347 mate_charac, :636 mate_unit_compat. Gap clause (3) independently confirmed: I enumerated every top-level assertion in Theory/Bicategory/Adjunction.v and there is NO counit-compatibility lemma — mate_unit_compat is the only compatibility statement. Gap clause (2) confirmed: no bicategory-op construction exists in-tree (the 'bicategory-level op' text at Construction/Opposite.v:88 is about agda-categories, not this library). ONE REFINEMENT to gap clause (2), not affecting the verdict: the dual IS assemblable from existing in-tree parts — Adjunction/Opposite.v:34 Opposite_Adjunction turns F ⊣ G and F' ⊣ G into G^op ⊣ F^op and G^op ⊣ F'^op, making F^op, F'^op two RIGHT adjoints of one left adjoint, to which adjoint_unique applies through Instance/Cat/Bicategory/Adjunction.v:163 Cat_BicatAdjunction_Adjunction_iff. Nothing in-tree performs that composition, so 'no in-tree lemma dualizes it' remains true and PARTIAL stands."
+    }
+  },
+  {
+    "id": "riehl:4.3:prop4",
+    "classification": "PRESENT",
+    "aliases": [
+      "adjunctions compose",
+      "Adjunction_Compose / adj_comp",
+      "composite adjunction F'F ⊣ GG'",
+      "composite unit and counit (whiskered pastings)",
+      "Adj as a category (composition of 1-cells)"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 173,
+        "symbol": "Adjunction_Compose",
+        "intree_statement": "Definition Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U') := @Build_Adjunction E D (F' ◯ F) (U ◯ U') adj_compose_iso adj_compose_to_nat_l adj_compose_to_nat_r adj_compose_from_nat_l adj_compose_from_nat_r.  (Context: F : D ⟶ C, U : C ⟶ D, A : F ⊣ U; F' : C ⟶ E, U' : E ⟶ C, A' : F' ⊣ U'.)"
+      },
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 216,
+        "symbol": "Adjunction_Compose_unit",
+        "intree_statement": "Corollary Adjunction_Compose_unit {x : D} : @unit _ _ _ _ Adjunction_Compose x ≈ fmap[U] (@unit _ _ _ _ A' (F x)) ∘ @unit _ _ _ _ A x."
+      },
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 224,
+        "symbol": "Adjunction_Compose_counit",
+        "intree_statement": "Corollary Adjunction_Compose_counit {y : E} : @counit _ _ _ _ Adjunction_Compose y ≈ @counit _ _ _ _ A' y ∘ fmap[F'] (@counit _ _ _ _ A (U' y))."
+      }
+    ],
+    "statement_record": {
+      "book": "Given adjunctions F ⊣ G (C ↔ D) and F' ⊣ G' (D ↔ E), the composite F'F is left adjoint to GG'; Proof 1 pastes the two hom-set isomorphisms E(F'Fc,e) ≅ D(Fc,G'e) ≅ C(c,GG'e); Proof 2 exhibits the unit as G(η')F ∘ η and the counit as ε' ∘ F'(ε)G'.",
+      "intree": "`Adjunction_Compose : (F' ◯ F) ⊣ (U ◯ U')`, assembled from `adj_compose_iso := iso_compose (adj A x (U' y)) (adj A' (F x) y)` (the pasted hom-setoid isomorphism, Riehl's Proof 1) with all four naturality fields; and the two corollaries identifying its unit as `fmap[U] (unit A' (F x)) ∘ unit A x` and its counit as `counit A' y ∘ fmap[F'] (counit A (U' y))` (Riehl's Proof 2 formulas verbatim).",
+      "strength_comparison": "same — both of Riehl's proofs are represented (the hom-set paste is the construction, the unit/counit formulas are proved as corollaries). Additionally `Instance/Adjoints.v:58 adj_comp` gives the same composite by a second route and `Adjunction_Compose_adj_comp_to/_from` prove the two agree definitionally."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PRESENT. Verified Adjunction/Compose.v:173 Adjunction_Compose (all five fields supplied), :216/:224 the unit/counit corollaries quoted exactly, and :105 adj_compose_iso := iso_compose (adj A x (U' y)) (adj A' (F x) y) — so the strength_comparison claim that Riehl's Proof 1 is the construction and Proof 2 the corollaries is accurate. Second route Instance/Adjoints.v:55 adj_comp and the two definitional-agreement corollaries (:201/:207) also verified. No same-name-weaker-statement, no special-casing: the statement is fully general in F, U, F', U'."
+    }
+  },
+  {
+    "id": "riehl:4.3:prop5",
+    "classification": "PRESENT",
+    "aliases": [
+      "any equivalence can be promoted to an adjoint equivalence",
+      "AdjointEquivalence / Equivalence_to_AdjointEquivalence",
+      "adjoint equivalence, triangle identities for an equivalence",
+      "an equivalence inverse is both left and right adjoint",
+      "quasi-inverse, EquivalenceOfCategories"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 333,
+        "symbol": "Equivalence_to_AdjointEquivalence",
+        "intree_statement": "Theorem Equivalence_to_AdjointEquivalence `(E : @EquivalenceOfCategories C D F) : AdjointEquivalence F (@quasi_inverse C D F E).  where `Class AdjointEquivalence F U := { adj_equivalence : F ⊣ U; adj_equiv_unit_iso (x : C) : IsIsomorphism (unit adj_equivalence x); adj_equiv_counit_iso (y : D) : IsIsomorphism (counit adj_equivalence y) }` (line 69)."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 414,
+        "symbol": "AdjointEquivalence_swap_adjunction",
+        "intree_statement": "Definition AdjointEquivalence_swap_adjunction `(A : @AdjointEquivalence C D F U) : U ⊣ F := @adj_equivalence D C U F (AdjointEquivalence_swap A).  — with `adj_equivalence : F ⊣ U` this gives both F ⊣ U and U ⊣ F for the same pair, i.e. the equivalence inverse is simultaneously left and right adjoint."
+      },
+      {
+        "file": "Theory/Equivalence/Adjoint.v",
+        "line": 223,
+        "symbol": "equiv_adjunction",
+        "intree_statement": "Definition equiv_adjunction `(E : @EquivalenceOfCategories C D F) : F ⊣ @quasi_inverse C D F E := @Build_Adjunction' D C F (quasi_inverse) (equiv_adj_iso E) (equiv_adj_to_nat_l E) (equiv_adj_to_nat_r E)."
+      }
+    ],
+    "statement_record": {
+      "book": "Any equivalence F : C ↔ D : G with η : id ≅ GF, ε : FG ≅ id can be promoted to an adjoint equivalence, in which the natural isomorphisms satisfy the triangle identities, by replacing one of the two originally specified isomorphisms. Consequently an equivalence may be regarded as either a left or a right adjoint, and any chosen equivalence inverse is both left and right adjoint to F.",
+      "intree": "`Equivalence_to_AdjointEquivalence : EquivalenceOfCategories F → AdjointEquivalence F (quasi_inverse …)` — the same functor and the same quasi-inverse, now carrying a genuine hom-set adjunction `F ⊣ U` (hence the triangle identities `counit_fmap_unit` / `fmap_counit_unit` of Theory/Adjunction.v) whose unit and counit are componentwise invertible; plus `AdjointEquivalence_swap_adjunction : U ⊣ F` for the second clause.",
+      "strength_comparison": "same. Presentation differs: the library builds the transposing hom-setoid isomorphism outright from fullness/faithfulness/essential-surjectivity (file header lines 23-48: 'The route is direct — it does not rectify one of the two comparison cells through the triangle identities'), where Riehl rectifies ε by ε ∘ Fγ⁻¹; the conclusion (the promoted adjoint equivalence on the same functor and quasi-inverse) is identical. `equiv_adjunction_counit_at` (line 233) additionally shows the promoted counit is the original counit-cell component on the nose, matching Riehl's Proof 2 (which keeps η)."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PRESENT. Verified Theory/Equivalence/Adjoint.v:69 (Class AdjointEquivalence, three fields exactly as quoted), :333 Equivalence_to_AdjointEquivalence (ends in Defined, built from equiv_adjunction + the two iso witnesses), :223 equiv_adjunction, :414 AdjointEquivalence_swap_adjunction : U ⊣ F. The 'triangle identities' clause is honest: AdjointEquivalence carries a genuine F ⊣ U, whose triangles are Theory/Adjunction.v:280/:288. Also verified the header's transparency claim it depends on — Theory/Equivalence/FullFaithful.v:214 Equivalence_Full and :221 Equivalence_EssSurj both genuinely end in Defined, so the file's stated route is real. Presentation differs from Riehl's rectification proof, which the strength_comparison discloses; conclusion is identical."
+    }
+  },
+  {
+    "id": "riehl:4.3:prop6",
+    "classification": "PARTIAL",
+    "aliases": [
+      "postcomposition adjunction F_* ⊣ G_* on functor categories C^J, D^J",
+      "precomposition adjunction G^* ⊣ F^* on E^C, E^D",
+      "whiskering an adjunction, induced adjunction on [J,C] and [J,D]",
+      "hom-adjunction of an internal adjunction (precomp/postcomp)",
+      "Induced := (− ◯ F) : [B,C] ⟶ [A,C]"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 328,
+        "symbol": "left_adjoint_impl",
+        "intree_statement": "Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).  — the hom-setoid bijection (an Isomorphism in Sets) underlying the POSTCOMPOSITION adjunction L_* ⊣ R_* between [E,C] and [E,D]."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 390,
+        "symbol": "postcomp_left",
+        "intree_statement": "Lemma postcomp_left {w} {c : bicat x w} {e : bicat y w} (β : c ~> (e ∘∘∘ f)) : postcomp_from (postcomp_to β) ≈ β.  — one round trip of the bijection `bicat(c, e∘f) ≅ bicat(c∘u, e)`, which in Cat_Bicategory reads Nat(c, e ◯ F) ≅ Nat(c ◯ U, e), i.e. the hom-set data of Riehl's PRECOMPOSITION adjunction U^* ⊣ F^* between E^C and E^D."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 450,
+        "symbol": "postcomp_right",
+        "intree_statement": "Lemma postcomp_right {w} {c : bicat x w} {e : bicat y w} (γ : (c ∘∘∘ u) ~> e) : postcomp_to (postcomp_from γ) ≈ γ.  — the other round trip, completing the bijection for clause (b)."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 245,
+        "symbol": "precomp_left",
+        "intree_statement": "Lemma precomp_left {w} {c : bicat w x} {d : bicat w y} (σ : (f ∘∘∘ c) ~> d) : precomp_from (precomp_to σ) ≈ σ.  — one round trip of `bicat(f∘c, d) ≅ bicat(c, u∘d)`, i.e. in Cat Nat(F ◯ c, d) ≅ Nat(c, U ◯ d): the hom-set data of clause (a), F_* ⊣ U_*. Companion round trip `precomp_right` at line 306."
+      }
+    ],
+    "statement_record": {
+      "book": "Given F ⊣ G between C and D: (a) postcomposition gives F_* ⊣ G_* between C^J and D^J for any small J; (b) precomposition gives G^* ⊣ F^* between E^C and E^D for any locally small E. A third proof observes that an adjunction is data internal to the 2-category CAT and that (−)^J and E^(−) are 2-functors, which preserve such data.",
+      "intree": "Both hom-set bijections exist but neither is packaged as an `Adjunction`. Clause (a) in Cat: `left_adjoint_impl : L ⊣ R → [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)` (an Isomorphism in Sets, for each fixed G and H). Clauses (a) and (b) at bicategory generality: the two hom-adjunctions of Theory/Bicategory/Mates.v, `precomp_to`/`precomp_from` with `precomp_left`/`precomp_right` (bicat(f∘c,d) ≅ bicat(c,u∘d)) and `postcomp_to`/`postcomp_from` with `postcomp_left`/`postcomp_right` (bicat(c,e∘f) ≅ bicat(c∘u,e)), each built from the unit/counit and proved bijective from the two triangle identities.",
+      "strength_comparison": "intree-weaker: what is proved is the family of hom-set bijections, not the ADJUNCTION between the functor categories. The bijections are stated pointwise in the two functor arguments and their naturality in those arguments is never asserted, so no `F_* ⊣ G_*` or `G^* ⊣ F^*` term exists to be produced. The bicategorical route is more general in the base (any bicategory, not just Cat) but delivers only the hom-level bijection, matching Riehl's remark that the syntactic proof internalizes."
+    },
+    "gap": "No `Adjunction` instance between functor categories is constructed for either clause. Concretely: the functors themselves exist (`Cat_Hcompose : ([D,E] ∏ [C,D]) ⟶ [C,E]` in Instance/Cat/Bicategory.v:64 supplies F_* and F^* by partial application, and `Induced := (− ◯ F) : [B,C] ⟶ [A,C]` in Theory/Kan/Extension.v:127), but nothing asserts `F_* ⊣ G_*` or `G^* ⊣ F^*`. The missing ingredient is naturality of the hom bijection in the two functor variables: `left_adjoint_impl` fixes G and H, and the `precomp_*`/`postcomp_*` lemmas fix c and d. The third proof route (2-functoriality of (−)^J and E^(−), and preservation of internal adjunctions by 2-functors) is entirely absent — see riehl:4.3:def-2-functor.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL, same gap I reached blind. Verified Theory/Kan/Extension.v:328 left_adjoint_impl (Isomorphism in Sets at FIXED G and H — no naturality in either functor variable), and Theory/Bicategory/Mates.v:245/:306/:390/:450 the four round trips. Independently confirmed the absence: rg for a postcomposition functor ('fobj := fun G => F ◯ G') has 0 hits — the only composition-shaped functor on functor categories is Theory/Kan/Extension.v:128 Induced := (− ◯ F), the PREcomposition one, and Instance/Cat/Bicategory.v:64 Cat_Hcompose (verified at that line). No Adjunction whose two functors are F_*/G_* or G^*/F^* exists. Also checked the Kan route as a possible upgrade: RightKan/LeftKan posit Induced ⊣ Ran as a CLASS FIELD, and no in-tree instance builds one from an adjunction (the only instances are RightKan_to_LocalRightKan at :180 and its dual at :249), so 4.3.6(b) is not obtained that way either."
+    }
+  },
+  {
+    "id": "riehl:4.3:def-2-functor",
+    "classification": "PARTIAL",
+    "aliases": [
+      "2-functor, strict 2-functor",
+      "pseudofunctor / weak 2-functor / homomorphism of bicategories",
+      "morphism of 2-categories",
+      "Cat-enriched functor (EnrichedFunctor over V = Cat)",
+      "lax functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Pseudofunctor.v",
+        "line": 147,
+        "symbol": "Pseudofunctor",
+        "intree_statement": "Class Pseudofunctor (B B' : Bicategory) := { pf0 : bi0cell B → bi0cell B'; pf1 {x y} : bicat B x y ⟶ bicat B' (pf0 x) (pf0 y); pf_id {x} : pf1 (bi1id) ≅ bi1id; pf_comp {x y z} (g f) : pf1 (g ∘∘∘ f) ≅ (pf1 g ∘∘∘ pf1 f); pf_comp_natural …; pf_assoc_coherence …; pf_unit_left …; pf_unit_right … }"
+      },
+      {
+        "file": "Theory/Bicategory/Pseudofunctor.v",
+        "line": 463,
+        "symbol": "Compose_Pseudofunctor",
+        "intree_statement": "Program Definition Compose_Pseudofunctor : Pseudofunctor B B''  (with `Identity_Pseudofunctor` at line 227) — the composition/identity structure making the notion a genuine morphism calculus between bicategories."
+      }
+    ],
+    "statement_record": {
+      "book": "A 2-functor is a morphism between 2-categories: a map on objects, 1-morphisms and 2-morphisms preserving composition and identities at all levels. (Used immediately, via the 2-dimensional analogue of Lemma 1.6.5, to conclude that 2-functors preserve adjunctions.)",
+      "intree": "`Class Pseudofunctor (B B' : Bicategory)` — an action `pf0` on 0-cells, a hom-FUNCTOR `pf1` (so 1- and 2-cells, functorially), and preservation of identities and horizontal composition up to specified INVERTIBLE 2-cells `pf_id`, `pf_comp`, subject to naturality, an associativity hexagon and two unit coherences.",
+      "strength_comparison": "intree-weaker in kind, not merely in degree: the in-tree notion is the WEAK one (preservation up to coherent invertible 2-cell), between BICATEGORIES; Riehl's 2-functor preserves composition and identities STRICTLY, between strict 2-categories. A strict 2-functor is a pseudofunctor with pf_id and pf_comp identities, but nothing in-tree pins them down, and there is no strict-2-category class to state the strict notion over."
+    },
+    "gap": "There is no strict 2-category and no strict 2-functor in the tree (grep for 'strict 2-functor', 'Strict2Functor', 'TwoFunctor', 'TwoCategory', 'StrictBicat' finds only prose mentions in Theory/Bicategory.v and Construction/Grothendieck/RoundTrip.v). The Cat-enriched route (`Construction/Enriched.v:145 EnrichedFunctor K C D` at K = Cat, which would be the strict notion) is never instantiated with Cat. Most importantly for the use Riehl makes of the definition: no in-tree lemma says a pseudofunctor (or 2-functor) sends an internal adjunction to an internal adjunction — grep 'Pseudofunctor' finds no interaction with `BicatAdjunction` — so the third proof of Proposition 4.3.6 has no in-tree counterpart, and neither (−)^J nor E^(−) is built as a (pseudo)functor Cat ⟶ Cat.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL. Verified Theory/Bicategory/Pseudofunctor.v:147 Class Pseudofunctor (field names pf0/pf1/pf_id/pf_comp/pf_comp_natural/pf_assoc_coherence/pf_unit_left/pf_unit_right as quoted), :227 Identity_Pseudofunctor, :463 Compose_Pseudofunctor. Negative searches re-run independently: 'Strict2Functor', 'TwoFunctor', 'TwoCategory', 'StrictBicat' all 0 hits; 'strict 2-functor' has exactly one hit, prose at Construction/Grothendieck/RoundTrip.v:76 (the classifier also named Theory/Bicategory.v, which in fact says 'strict 2-CATEGORY' at :53 — immaterial). Construction/Enriched.v:145 EnrichedFunctor verified at that line and never instantiated at V = Cat. Confirmed the load-bearing sub-claim: no lemma anywhere relates Pseudofunctor to BicatAdjunction (BicatAdjunction occurs only in Theory/Bicategory/{Adjunction,Mates}.v and Instance/Cat/Bicategory/Adjunction.v), so the third proof of 4.3.6 has no in-tree counterpart. The 'weaker in kind, not degree' framing is honest — the in-tree notion is weak, over bicategories, not strict over 2-categories."
+    }
+  },
+  {
+    "id": "riehl:4.3:prop7",
+    "classification": "PRESENT",
+    "aliases": [
+      "mates correspondence",
+      "mate / mate_iso / Kelly–Street mates",
+      "bijection between 2-cells FH ⇒ KF' and HG' ⇒ GK",
+      "adjoint transposition of a natural transformation across a square",
+      "Beck–Chevalley cell / transposed square"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod := {| to := {| morphism := mate |}; from := {| morphism := mate_inv |} |}  with `mate_dom := {| carrier := (f' ∘∘∘ a) ~{bicat x y'}~> (b ∘∘∘ f) |}` and `mate_cod := {| carrier := (a ∘∘∘ u) ~{bicat y x'}~> (u' ∘∘∘ b) |}`; obligations discharged by `mate_roundtrip_right` (line 498) and `mate_roundtrip_left` (line 489). Context: `Af : BicatAdjunction f u`, `Af' : BicatAdjunction f' u'`, arbitrary 1-cells a : x ~~> x', b : y ~~> y' with NO commutativity assumed."
+      },
+      {
+        "file": "Instance/Cat/Bicategory/Adjunction.v",
+        "line": 244,
+        "symbol": "Cat_mate_unfold_raw",
+        "intree_statement": "Theorem Cat_mate_unfold_raw (Z : y) : transform[mate Af Af' σ] Z ≈ fmap[U'] (fmap[b] (adj_counit F U Z)) ∘ (fmap[U'] (σ (fobj[U] Z)) ∘ adj_unit F' U' (fobj[a] (fobj[U] Z))).  — Riehl's explicit Proof-2 formula α♭ := G'K ∘ (Gα♯G') ∘ (ηHG'), specialized to Cat; `Cat_mate_unfold` (line 260) restates it through the hom-set transpose ⌊−⌋."
+      }
+    ],
+    "statement_record": {
+      "book": "Given F ⊣ G (C ↔ D) and F' ⊣ G' (C' ↔ D') and functors H : C' → C, K : D' → D with no assumed commutativity, there is a bijection between natural transformations α♯ : FH ⇒ KF' and α♭ : HG' ⇒ GK, implemented by transposing across both adjunctions; corresponding transformations are called mates. Proof 1 factors it as D^{C'}(FH,KF') ≅ C^{C'}(H,GKF') ≅ C^{D'}(HG',GK) through the post- and precomposition adjunctions of 4.3.6; Proof 2 gives explicit unit/counit pasting formulas and checks they are mutually inverse.",
+      "intree": "`mate_iso : Isomorphism Sets ((f' ∘∘∘ a) ~> (b ∘∘∘ f)) ((a ∘∘∘ u) ~> (u' ∘∘∘ b))` in an arbitrary bicategory, with `mate σ := postcomp_to Af (from (hassoc u' b f) ∘∘ precomp_to Af' σ)` — literally Riehl's Proof-1 factorization through the two hom-adjunctions — and both round trips (`mate_roundtrip_left/right`) derived from the zig-zag identities, i.e. Riehl's Proof 2. In Cat the mate unfolds to Riehl's explicit formula (`Cat_mate_unfold_raw`).",
+      "strength_comparison": "intree-stronger: proved for internal adjunctions in an arbitrary BICATEGORY (Riehl states it only in Cat), and specialized back to Cat through `Cat_BicatAdjunction_Adjunction_iff` (Instance/Cat/Bicategory/Adjunction.v:163) plus the two unfolding theorems. Orientation matches after relabelling primes: with (Riehl F,G,C,D) ↦ (f',u',x',y'), (Riehl F',G',C',D') ↦ (f,u,x,y), (H,K) ↦ (a,b), α♯ : FH ⇒ KF' is `f'∘a ⇒ b∘f` and α♭ : HG' ⇒ GK is `a∘u ⇒ u'∘b`."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PRESENT. Verified Theory/Bicategory/Mates.v:515 mate_iso with mate_dom/mate_cod at :508/:510, obligations closed by mate_roundtrip_right (:498) and mate_roundtrip_left (:489); the Section context at :468-:474 confirms a, b are arbitrary 1-cells with NO commutativity assumed, matching Riehl's hypothesis-free square. mate at :476 is literally postcomp_to Af (from (hassoc u' b f) ∘∘ precomp_to Af' σ) — Riehl's Proof-1 factorization. Cat_mate_unfold_raw verified at Instance/Cat/Bicategory/Adjunction.v:244 and Cat_mate_unfold at :260. I re-derived the relabelling independently and it checks out: with (F,G,C,D) ↦ (f',u',x',y'), (F',G') ↦ (f,u), (H,K) ↦ (a,b), the in-tree formula fmap[U'](fmap[b] ε_Z) ∘ fmap[U'](σ (U Z)) ∘ η'(a (U Z)) is exactly Riehl's α♭ = GKε' ∘ Gα♯G' ∘ ηHG'. NIT (no verdict impact): the evidence prose renders that formula as 'α♭ := G'K ∘ (Gα♯G') ∘ (ηHG')' — the first factor should be GKε', not G'K. The Coq quote itself is correct."
+    }
+  },
+  {
+    "id": "riehl:4.3:def-conjugate",
+    "classification": "PARTIAL",
+    "aliases": [
+      "conjugate natural transformations",
+      "mate at H = K = identity",
+      "bijection {F ⇒ F'} ≅ {G' ⇒ G} between transformations of left and right adjoints",
+      "morphism of adjunctions / map of adjunctions",
+      "matecell (conjugate of the identity)"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod  — the bijection ((f' ∘∘∘ a) ~> (b ∘∘∘ f)) ≅ ((a ∘∘∘ u) ~> (u' ∘∘∘ b)) for ARBITRARY 1-cells a, b; the conjugate correspondence is its instance a = b = bi1id."
+      },
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 330,
+        "symbol": "matecell",
+        "intree_statement": "Definition matecell {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ~{bicat y x}~> b := to (hunit_right b) ∘∘ lwhisker b (uε Aa) ∘∘ to (hassoc b f a) ∘∘ rwhisker (uη Ab) a ∘∘ from (hunit_left a).  — the conjugate of the identity 2-cell on the shared left adjoint f, i.e. the conjugate construction at H = K = id in the special case F = F'."
+      }
+    ],
+    "statement_record": {
+      "book": "Specializing Proposition 4.3.7 to H and K identities gives a bijection between natural transformations α♯ : F ⇒ F' between left adjoints and natural transformations α♭ : G' ⇒ G between their right adjoints, pointing the other way; corresponding transformations are called conjugates.",
+      "intree": "No statement names or isolates conjugates. The general `mate_iso` covers the case a = b = bi1id, and `matecell` is exactly the conjugate of an identity 2-cell (built from the two units/counits), used to prove `adjoint_unique`.",
+      "strength_comparison": "intree-weaker as a statement: the general mates bijection is present at full strength, but the conjugate specialization is never stated. At a = b = bi1id the in-tree bijection reads `(f' ∘∘∘ bi1id) ~> (bi1id ∘∘∘ f)` ≅ `(bi1id ∘∘∘ u) ~> (u' ∘∘∘ bi1id)`, so recovering Riehl's `F ⇒ F'` ≅ `G' ⇒ G` still requires composing with the unitor isomorphisms — bookkeeping that no in-tree lemma performs."
+    },
+    "gap": "There is no corollary specializing `mate_iso` to identity 1-cells, hence no in-tree statement of the conjugate bijection {F ⇒ F'} ≅ {G' ⇒ G} and no in-tree use of the word 'conjugate' in this sense (grep 'conjugate' over *.v returns only unrelated 'conjugated by an isomorphism' uses). Related and deliberate: `Instance/Adj.v:43 Adj (C D : Category)`, the category of adjunctions between two fixed categories, takes as a morphism an arbitrary PAIR (σ : F ⟹ F', τ : U ⟹ U') with no conjugacy condition imposed — its own header records this as a known coarsening whose tightening to mate pairs is future work.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL. Verified mate_iso (Mates.v:515) and matecell (Theory/Bicategory/Adjunction.v:330, quoted verbatim). The unitor-bookkeeping point is real and I checked it: at a = b = bi1id the in-tree bijection is between (f' ∘∘∘ bi1id) ~> (bi1id ∘∘∘ f) and (bi1id ∘∘∘ u) ~> (u' ∘∘∘ bi1id), so Riehl's F ⟹ F' ≅ G' ⟹ G needs conjugation by hunit_left/hunit_right, which no in-tree lemma performs. Independently confirmed the negative: every occurrence of 'conjugate' in *.v is either 'conjugated by an isomorphism' (Beck.v, Comonoid/Hom.v, Karoubi/Universal.v, BaseChange/Laws.v, Thunkable.v) or the two prose mentions the record cites. Instance/Adj.v:43 Adj verified at that line, and its header (lines 29-41) does record that the conjugacy condition is NOT imposed."
+    }
+  },
+  {
+    "id": "riehl:4.3:remark8",
+    "classification": "PARTIAL",
+    "aliases": [
+      "adjunctions internal to a 2-category / bicategory",
+      "BicatAdjunction, internal adjunction",
+      "syntactic vs Yoneda-style proofs",
+      "representable definition of adjunctions in a 2-category",
+      "hom-adjunctions induced by an internal adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 708,
+        "symbol": "adjoint_unique",
+        "intree_statement": "Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ≅[bicat y x] b.  — Proposition 4.3.1's content proved for adjunctions internal to an ARBITRARY bicategory B (Context {B : Bicategory} at line 318), exactly the internalization the remark asserts."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 515,
+        "symbol": "mate_iso",
+        "intree_statement": "Program Definition mate_iso : @Isomorphism Sets mate_dom mate_cod  — Proposition 4.3.7 proved for internal adjunctions in an arbitrary bicategory (Context {B : Bicategory} at line 469)."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 245,
+        "symbol": "precomp_left",
+        "intree_statement": "Lemma precomp_left … : precomp_from (precomp_to σ) ≈ σ  (with `precomp_right`, `postcomp_left`, `postcomp_right`) — an internal adjunction f ⊣ u in any bicategory induces bijections bicat(f∘c,d) ≅ bicat(c,u∘d) and bicat(c,e∘f) ≅ bicat(c∘u,e) on the hom-categories: the representable/Yoneda-style reading of an internal adjunction that the second half of the remark describes."
+      }
+    ],
+    "statement_record": {
+      "book": "The 'syntactic' proofs of Propositions 4.3.1, 4.3.4, 4.3.5, 4.3.6 and 4.3.7 apply verbatim to adjunctions internal to any 2-category, not only Cat — a reason to prefer them to the Yoneda-style arguments. Conversely the Yoneda-style arguments bootstrap from Cat to a general 2-category, because adjunctions and equivalences in a 2-category are defined representably in terms of adjunctions and equivalences in Cat ('all theorems are Yoneda').",
+      "intree": "`BicatAdjunction` (Theory/Bicategory/Adjunction.v:270) is the internal adjunction in an arbitrary bicategory, and two of the five cited results are indeed proved at that generality: `adjoint_unique` (4.3.1) and `mate_iso` (4.3.7). The representable direction is present as the induced hom-level bijections `precomp_*`/`postcomp_*`.",
+      "strength_comparison": "intree-stronger where present (bicategories are weaker than the strict 2-categories the remark speaks of, so the internalization is proved in more generality), but incomplete in extent: only 2 of the 5 cited propositions are internalized, and the representable characterization is proved in one direction only."
+    },
+    "gap": "Three of the five results the remark covers have no bicategory-internal counterpart: composition of internal adjunctions (4.3.4 — grep finds no composition operation on `BicatAdjunction`), promotion of an internal equivalence to an internal adjoint equivalence (4.3.5 — no internal-equivalence class at all), and the induced hom-category adjunctions (4.3.6). The converse half of the remark — that adjunctions in a 2-category are DEFINED representably, so a Cat-level theorem transfers — is proved only in the forward direction (an internal adjunction induces the hom bijections `precomp_*`/`postcomp_*`); nothing states that a coherent family of hom-level adjunctions conversely yields an internal adjunction.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL. The 'internalized for 2 of 5' accounting is exactly what I found independently. Verified the two positives at bicategory generality (Context {B : Bicategory} at Theory/Bicategory/Adjunction.v:318 for adjoint_unique and at Theory/Bicategory/Mates.v:469 for mate_iso) and the three negatives: no composition operation on BicatAdjunction (the class at :270 has no companion Compose_BicatAdjunction; grep of BicatAdjunction across the tree confines it to three files), no internal-equivalence class, no internal 4.3.6. The remark's converse (representable DEFINITION of internal adjunctions) is indeed only forward: precomp_*/postcomp_* go from an internal adjunction to hom bijections and nothing goes back. The observation that bicategories are MORE general than the strict 2-categories the remark speaks of is correct and correctly flagged as intree-stronger-where-present."
+    }
+  },
+  {
+    "id": "riehl:4.3:exi",
+    "classification": "PRESENT",
+    "aliases": [
+      "triangle identities for the composite adjunction",
+      "zig-zag identities, counit_fmap_unit / fmap_counit_unit",
+      "composite unit η̄ = G(η')F ∘ η and counit ε̄ = ε' ∘ F'(ε)G'",
+      "Adjunction_Compose_unit / Adjunction_Compose_counit",
+      "unit-counit definition of a composed adjunction"
+    ],
+    "evidence": [
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 216,
+        "symbol": "Adjunction_Compose_unit",
+        "intree_statement": "Corollary Adjunction_Compose_unit {x : D} : @unit _ _ _ _ Adjunction_Compose x ≈ fmap[U] (@unit _ _ _ _ A' (F x)) ∘ @unit _ _ _ _ A x.  — the composite adjunction's unit IS Riehl's η̄."
+      },
+      {
+        "file": "Adjunction/Compose.v",
+        "line": 224,
+        "symbol": "Adjunction_Compose_counit",
+        "intree_statement": "Corollary Adjunction_Compose_counit {y : E} : @counit _ _ _ _ Adjunction_Compose y ≈ @counit _ _ _ _ A' y ∘ fmap[F'] (@counit _ _ _ _ A (U' y)).  — the composite adjunction's counit IS Riehl's ε̄."
+      },
+      {
+        "file": "Theory/Adjunction.v",
+        "line": 280,
+        "symbol": "counit_fmap_unit",
+        "intree_statement": "Corollary counit_fmap_unit {x} : ε ∘ fmap[F] η ≈ id[F x].  (Companion `fmap_counit_unit {x} : fmap[U] ε ∘ η ≈ id[U x]` at line 288.)  Both are proved for an arbitrary `Adjunction`, hence in particular for `Adjunction_Compose`, whose ε and η are the composites above."
+      }
+    ],
+    "statement_record": {
+      "book": "Complete the second proof of Proposition 4.3.4 by verifying the triangle identities for the composite unit η̄ = G(η')F ∘ η and counit ε̄ = ε' ∘ F'(ε)G'.",
+      "intree": "`Adjunction_Compose_unit` / `Adjunction_Compose_counit` identify the unit and counit of `Adjunction_Compose` with exactly those whiskered composites, and `counit_fmap_unit : ε ∘ fmap[F] η ≈ id[F x]` / `fmap_counit_unit : fmap[U] ε ∘ η ≈ id[U x]` are proved for an arbitrary adjunction, so both triangles hold of η̄ and ε̄ by instantiation at `Adjunction_Compose`.",
+      "strength_comparison": "same conclusion, obtained in the opposite logical direction: the library defines the composite adjunction by pasting hom-set isomorphisms and derives the triangle identities generically, where the exercise verifies the triangles by hand to CONSTRUCT the composite adjunction. Nothing is assumed that Riehl does not assume, and the exercise's asserted equations (both triangles for η̄ and ε̄) are available in-tree by composing the three cited results."
+    },
+    "gap": null,
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PRESENT. Verified Adjunction/Compose.v:216/:224 (unit and counit of the composite ARE Riehl's η̄ and ε̄, proved by to_adj_unit / from_adj_counit) and Theory/Adjunction.v:280 counit_fmap_unit / :288 fmap_counit_unit, both stated for an arbitrary Adjunction and hence instantiable at Adjunction_Compose. The strength_comparison is honest about the reversed logical direction (library derives the triangles from a hom-set construction; the exercise verifies them to build the composite). Nothing is assumed beyond Riehl's hypotheses, so PRESENT is right rather than PARTIAL."
+    }
+  },
+  {
+    "id": "riehl:4.3:exii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "unit/counit proof of the induced functor-category adjunctions",
+      "whiskered unit and counit, preΘ / preΞ / postΠ / postΛ",
+      "F_* ⊣ G_* and G^* ⊣ F^* via η and ε",
+      "whiskering an adjunction into [J,C] ↔ [J,D]",
+      "triangle identities whiskered by a functor"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 245,
+        "symbol": "precomp_left",
+        "intree_statement": "Lemma precomp_left {w} {c : bicat w x} {d : bicat w y} (σ : (f ∘∘∘ c) ~> d) : precomp_from (precomp_to σ) ≈ σ.  — where `precomp_to σ := lwhisker u σ ∘∘ preΘ c` and `preΘ c := to (hassoc u f c) ∘∘ rwhisker η c ∘∘ from (hunit_left c)`, i.e. the transposes are built from the whiskered UNIT η and COUNIT ε exactly as the exercise asks."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 306,
+        "symbol": "precomp_right",
+        "intree_statement": "Lemma precomp_right {w} {c : bicat w x} {d : bicat w y} (τ : c ~> (u ∘∘∘ d)) : precomp_to (precomp_from τ) ≈ τ.  — the second round trip; together with precomp_left this gives clause (a)'s bijection."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 199,
+        "symbol": "precomp_zig_id",
+        "intree_statement": "Lemma precomp_zig_id {w} (c : bicat w x) : preΞ (f ∘∘∘ c) ∘∘ lwhisker f (preΘ c) ≈ bi2id.  — the whiskered TRIANGLE IDENTITY that drives the argument, reduced to `adj_triangle_left` of the underlying adjunction (companion `precomp_zag_id` at line 260, and `postcomp_zig_id`/`postcomp_zag_id` at 344/404)."
+      },
+      {
+        "file": "Theory/Bicategory/Mates.v",
+        "line": 390,
+        "symbol": "postcomp_left",
+        "intree_statement": "Lemma postcomp_left {w} {c : bicat x w} {e : bicat y w} (β : c ~> (e ∘∘∘ f)) : postcomp_from (postcomp_to β) ≈ β.  — with `postcomp_right` (line 450), clause (b)'s bijection, again built from η and ε (`postΠ`, `postΛ`)."
+      }
+    ],
+    "statement_record": {
+      "book": "Use the unit and counit associated to an adjunction to prove Proposition 4.3.6 (the induced post- and precomposition adjunctions between functor categories).",
+      "intree": "The unit/counit route is carried out in full at bicategory generality: `preΘ`/`preΞ` and `postΠ`/`postΛ` are the whiskered unit and counit, `precomp_to`/`precomp_from` and `postcomp_to`/`postcomp_from` the resulting transposes, and the round trips `precomp_left`/`precomp_right`, `postcomp_left`/`postcomp_right` are reduced to the whiskered triangle identities `precomp_zig_id`/`precomp_zag_id` and `postcomp_zig_id`/`postcomp_zag_id`.",
+      "strength_comparison": "intree-weaker in conclusion, stronger in setting: the exercise's METHOD (build the transposes from η and ε, verify them mutually inverse from the triangle identities) is fully realized, but the CONCLUSION it is asked to establish — that the induced maps of functor categories form an adjunction — is not reached, only the hom-level bijection is."
+    },
+    "gap": "Same gap as riehl:4.3:prop6: the unit/counit construction stops at a bijection of 2-cell setoids for each fixed pair (c, d) resp. (c, e). Neither `F_* ⊣ G_*` nor `G^* ⊣ F^*` is assembled, because naturality of the bijection in the functor variables is nowhere asserted (the `precomp_slide`/`postcomp_slide` lemmas are naturality of the individual cells preΞ/postΛ used inside the round-trip proofs, not naturality of the transposition).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL, inheriting prop6's gap, which is the correct treatment. Verified that the transposes really are built from the whiskered unit/counit as claimed: Theory/Bicategory/Mates.v:176 preΘ, :180 preΞ, :183/:186 precomp_to/from, :323 postΛ, :327 postΠ, :330/:333 postcomp_to/from, with the round trips reduced to precomp_zig_id (:199) / precomp_zag_id (:260) / postcomp_zig_id (:344) / postcomp_zag_id (:404), each in turn reduced to adj_triangle_left/right. So the exercise's METHOD is genuinely realized. The gap's distinction between precomp_slide (naturality of the individual cell, used inside the round-trip proof) and naturality of the TRANSPOSITION is accurate — I read both slide lemmas to check."
+    }
+  },
+  {
+    "id": "riehl:4.3:exiii",
+    "classification": "PARTIAL",
+    "aliases": [
+      "hom-set proof of the postcomposition adjunction F_* ⊣ G_*",
+      "natural bijection [J,D](F ◯ G, H) ≅ [J,C](G, U ◯ H)",
+      "left_adjoint_impl",
+      "adjunction lifted to functor categories via hom-sets",
+      "transposition applied componentwise to a natural transformation"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Kan/Extension.v",
+        "line": 328,
+        "symbol": "left_adjoint_impl",
+        "intree_statement": "Theorem left_adjoint_impl `(L : C ⟶ D) : ∀ R : D ⟶ C, L ⊣ R -> ∀ {E} (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).  — an Isomorphism in Sets between the two natural-transformation setoids, built componentwise from the hom-set transposes of L ⊣ R (the proof rewrites with `to_adj_nat_l`, `to_adj_nat_r`, `from_adj_nat_l`, `from_adj_nat_r` to discharge naturality of the transposed transformation)."
+      }
+    ],
+    "statement_record": {
+      "book": "Use the natural bijection between hom-sets to prove the first half of Proposition 4.3.6: an adjunction F ⊣ G induces an adjunction F_* ⊣ G_* by postcomposition.",
+      "intree": "`left_adjoint_impl : L ⊣ R → ∀ E (G : E ⟶ C) (H : E ⟶ D), [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H)` — precisely the hom-set argument the exercise prescribes, applying the transpose to each component of a natural transformation and deducing naturality of the result from the adjunction's four naturality laws.",
+      "strength_comparison": "intree-weaker: the bijection of hom-setoids is established for each fixed pair of functors G, H, but it is not shown natural in G and H and is never packaged as an `Adjunction` between `[E,C]` and `[E,D]`. The exercise asks for the adjunction itself."
+    },
+    "gap": "`left_adjoint_impl` delivers the hom-setoid bijection only, at fixed G and H; no naturality in either functor variable is stated, and no `Adjunction` term `L_* ⊣ R_*` between the functor categories is produced anywhere in the tree. (Verifier correction to the original wording: the tree DOES contain adjunctions whose two functors have functor-category domains — `ran_adjoint : Induced ⊣ Ran` and `lan_adjoint`, Theory/Kan/Extension.v:146/:170 — but these are CLASS FIELDS of RightKan/LeftKan, i.e. hypotheses, and no in-tree instance derives one from an adjunction L ⊣ R, so nothing supplies the postcomposition adjunction.) The postcomposition functors themselves do exist (`Cat_Hcompose : ([D,E] ∏ [C,D]) ⟶ [C,E]`, Instance/Cat/Bicategory.v:64), so only the naturality-plus-packaging step is missing.",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: PARTIAL. left_adjoint_impl verified at Theory/Kan/Extension.v:328 (rg confirms the Theorem keyword is on 328), and its proof does exactly what the exercise prescribes — componentwise transposition with naturality discharged by to_adj_nat_l/r and from_adj_nat_l/r. FIELD AMENDED BY VERIFIER: the gap's parenthetical claim that a grep for '⊣' 'finds no adjunction whose two functors have functor-category domains' is FALSE — Theory/Kan/Extension.v:146 has ran_adjoint : Induced ⊣ Ran with Induced : [B,C] ⟶ [A,C] and Ran : [A,C] ⟶ [B,C] (and dually lan_adjoint). I removed that parenthetical and replaced it with the accurate statement. The classification is unaffected: ran_adjoint/lan_adjoint are CLASS FIELDS (hypotheses of RightKan/LeftKan), not adjunctions derived from L ⊣ R, and no in-tree instance produces one from an adjunction — so no L_* ⊣ R_* term exists."
+    }
+  },
+  {
+    "id": "riehl:4.3:exiv",
+    "classification": "PARTIAL",
+    "aliases": [
+      "conjugate of a natural isomorphism is a natural isomorphism",
+      "mate of an isomorphism need not be an isomorphism",
+      "mate_iso / matecell invertibility",
+      "adjoint_unique (the identity conjugate is invertible)",
+      "iso-reflection along the mates bijection"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Bicategory/Adjunction.v",
+        "line": 708,
+        "symbol": "adjoint_unique",
+        "intree_statement": "Theorem adjoint_unique {a b : bicat y x} (Aa : BicatAdjunction f a) (Ab : BicatAdjunction f b) : a ≅[bicat y x] b.  — proved by exhibiting `matecell Aa Ab` and `matecell Ab Aa` as mutually inverse (via `mate_charac` and `mate_unit_compat`): i.e. the conjugate of the IDENTITY 2-cell on the shared left adjoint f is invertible, the α = id instance of the exercise's forward direction."
+      }
+    ],
+    "statement_record": {
+      "book": "Show that a natural transformation between left adjoints is an isomorphism if and only if its conjugate between the right adjoints is an isomorphism. Then find an example showing that the mate of a natural isomorphism (with H, K not identities) need not be an isomorphism.",
+      "intree": "Only the instance α = id[f]: `adjoint_unique` proves that the conjugate 2-cell `matecell Aa Ab` comparing two right adjoints of a shared left adjoint is invertible. No general statement relating invertibility of a 2-cell to invertibility of its mate or conjugate, in either direction.",
+      "strength_comparison": "intree-weaker: a single instance of one direction of the 'iff', with the source transformation forced to be an identity (hence the two left adjoints forced to be equal), instead of the general biconditional over arbitrary α : F ⇒ F'."
+    },
+    "gap": "The general biconditional is absent in both directions: nothing states `IsIsomorphism α → IsIsomorphism (mate α)` or its converse, and `mate_iso` is a bijection of 2-cell SETOIDS which says nothing about invertibility of individual 2-cells. Only the α = id case appears, as the invertibility of `matecell` inside `adjoint_unique`. The second half of the exercise — a counterexample showing the mate of a natural isomorphism need not be invertible when H, K are not identities — has no in-tree counterpart at all (no counterexample material accompanies Theory/Bicategory/Mates.v).",
+    "negative_search_log": null,
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. My blind pass said ABSENT; the record says PARTIAL. On review I ACCEPT PARTIAL and do not overturn. The evidence is genuine: adjoint_unique (Theory/Bicategory/Adjunction.v:708) proves matecell Aa Ab and matecell Ab Aa mutually inverse, and matecell is by construction the conjugate of the identity 2-cell on the shared left adjoint — i.e. precisely the α = id instance of the exercise's forward direction ('α iso ⇒ conjugate iso'). That is thin but real, and the gap states the limitation exactly: no general implication in either direction, and no counterexample material for the second half. I independently confirmed the negatives — no lemma of the form IsIsomorphism α → IsIsomorphism (mate α) exists, and mate_iso is a bijection of setoids that says nothing about invertibility of individual 2-cells. This is a defensible PARTIAL/ABSENT boundary call with an honest gap."
+    }
+  },
+  {
+    "id": "riehl:4.3:exv",
+    "classification": "ABSENT",
+    "aliases": [
+      "functoriality of the mates correspondence",
+      "mates commute with horizontal composition / horizontal pasting of squares",
+      "mates commute with vertical composition of adjunctions / vertical pasting",
+      "mate_compose / mate_hcomp / mate_vcomp / mate_paste",
+      "pasting calculus for mates (Kelly–Street 2.2)"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' 'mate_compose' . — 0 hits",
+      "grep -rn --include='*.v' 'mate_functorial' . — 0 hits",
+      "grep -rn --include='*.v' 'mate_hcomp' . — 0 hits",
+      "grep -rn --include='*.v' 'mate_vcomp' . — 0 hits",
+      "grep -rn --include='*.v' 'mate_paste' . — 0 hits",
+      "grep -rn --include='*.v' 'mate' . — hits confined to Theory/Bicategory/Mates.v, Theory/Bicategory/Adjunction.v, Instance/Cat/Bicategory/Adjunction.v (the bijection and its Cat unfolding) plus one prose mention in Instance/Adj.v:30 and one in Instance/Coq/Comonad/Traced.v:66; none states any composition law",
+      "grep -n 'Theorem|Lemma|Definition|Program' Theory/Bicategory/Mates.v — the file's complete assertion list is precomp_*/postcomp_* (the two hom-adjunctions), mate, mate_inv, mate_roundtrip_left, mate_roundtrip_right, mate_dom, mate_cod, mate_iso; no composition/pasting law appears",
+      "grep -rn --include='*.v' 'horizontal pasting' . — only Construction/Sq.v:28 and Theory/DoubleCategory.v:242, about squares in a double category, not about mates",
+      "grep -rn --include='*.v' 'vertical pasting' . — only Theory/DoubleCategory.v:354, Theory/DoubleCategory/Companion.v:61, Construction/Cospan/Double.v:638; unrelated to mates",
+      "Theory/Bicategory/Mates.v header lines 52-55 records the descope explicitly: 'The pasting/composition *functoriality* of mates (the double category of adjunctions) is deliberately out of scope (descope ledger entry 10)' — confirming the absence is intentional, not an oversight of the search"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: ABSENT. I re-ran the negative searches myself: mate_compose / mate_functorial / mate_hcomp / mate_vcomp / mate_paste all 0 hits. I also verified the 'mate occurrences confined' claim by an independent rg -l '\\bmate' over *.v — the extra files it turns up (Biproduct.v, CopyDiscard.v, Naturality.v, Freyd.v, Displayed.v, Tactics.v, Two.v, Tietze.v) all match only 'material'/'materialise', so the substance of the claim holds. I enumerated every top-level assertion in Theory/Bicategory/Mates.v and the list is exactly precomp_*/postcomp_*/mate/mate_inv/mate_roundtrip_*/mate_dom/mate_cod/mate_iso — no composition or pasting law. The header descope at Mates.v:52-55 is verified verbatim, and its 'ledger entry 10' pointer is LIVE, not stale: doc/classical-completion-plan.md:1739 records 'beyond the bijection: ledger entry 10'."
+    }
+  },
+  {
+    "id": "riehl:4.3:exvi",
+    "classification": "ABSENT",
+    "aliases": [
+      "double category of categories, functors, adjunctions and mates",
+      "Adj as a double category / Adj_Double / Double_Adj",
+      "vertical morphisms are adjunctions, squares are mates",
+      "isomorphism of the two double categories of α♯-squares and α♭-squares (Kelly–Street 2.2)",
+      "double category instance built from adjunctions"
+    ],
+    "evidence": null,
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include='*.v' ': DoubleCategory' . — the only DoubleCategory INSTANCES in the tree are Construction/Sq.v:47 `Sq (C : Category) : DoubleCategory` (commuting squares) and Construction/Cospan/Double.v:929 `Cospan_Double : DoubleCategory`; neither has adjunctions as vertical morphisms",
+      "grep -rn --include='*.v' 'double category of adjunctions' . — one hit only, the descope note at Theory/Bicategory/Mates.v:54 declaring it out of scope",
+      "grep -rn --include='*.v' 'Adj_Double' . — 0 hits",
+      "grep -rn --include='*.v' 'Double_Adj' . — 0 hits",
+      "grep -rn --include='*.v' 'AdjDouble' . — 0 hits",
+      "grep -rn --include='*.v' 'vertical morphisms are adjunctions' . — 0 hits",
+      "grep -rn --include='*.v' 'squares are mates' . — 0 hits",
+      "grep -rn --include='*.v' 'DoubleFunctor' . — 0 hits (so the alternative formulation of footnote 7, an isomorphism between two double categories, has no vehicle either)",
+      "grep -rn --include='*.v' 'BicatAdjunction' . — occurrences are confined to Theory/Bicategory/Adjunction.v, Theory/Bicategory/Mates.v and Instance/Cat/Bicategory/Adjunction.v; adjunctions are never used as the 1-cells or vertical cells of any assembled structure (Instance/Adjoints.v does make categories-and-adjunctions a 1-CATEGORY, but with no squares and no mates)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-4-3.json). Searches: rg 'adjoint_unique|adjoints are unique|unique up to'; rg 'right_adjoint_iso|left_adjoint_iso'; full read of Adjunction/Compose.v and Theory/Equivalence/Adjoint.v item lists; rg -i 'postcomposition|precomposition' and 'fobj := fun G'; rg '2-functor|Pseudofunctor'; rg -i 'conjugate'; rg -i 'double categor'; rg ': DoubleCategory'; rg 'mate_(compose|hcomp|vcomp|paste|functorial)'; rg 'strict 2-functor|Strict2Functor|TwoFunctor|TwoCategory|StrictBicat'; _CoqProject registration checked for every cited file (all 11 registered exactly once). My independent classifications were: prop1 PARTIAL, prop4 PRESENT, prop5 PRESENT, prop6 PARTIAL, def-2-functor PARTIAL, prop7 PRESENT, def-conjugate PARTIAL, remark8 PARTIAL, exi PRESENT, exii PARTIAL, exiii PARTIAL, exiv ABSENT, exv ABSENT, exvi ABSENT. Agreement: ABSENT. Independently verified: rg ': DoubleCategory' finds exactly two instances in the tree, Construction/Sq.v:47 Sq and Construction/Cospan/Double.v:929 Cospan_Double, neither with adjunctions as vertical morphisms; Adj_Double / Double_Adj / AdjDouble / DoubleFunctor all 0 hits, so footnote 7's alternative (an isomorphism of two double categories) has no vehicle either. Instance/Adjoints.v:133 Adjoints does make categories-and-adjunctions a 1-category with no squares, as the log says. Note for issue drafting: the DoubleCategory FRAMEWORK does exist (Theory/DoubleCategory.v, with Companion.v), so the gap is the instance, not the setting — this is a buildable item, not a foundational one."
+    }
+  }
+]

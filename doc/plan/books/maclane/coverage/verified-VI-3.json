@@ -1,0 +1,193 @@
+[
+  {
+    "id": "maclane:VI.6:def1",
+    "classification": "PRESENT",
+    "aliases": ["fork", "cofork", "coforking map", "coequalizing map", "cocone over a parallel pair", "cowedge", "e with e∘d0 = e∘d1"],
+    "evidence": [
+      {"file": "Structure/Coequalizer.v", "line": 55, "symbol": "IsCoequalizer.cofork",
+       "intree_statement": "cofork : e ∘ f ≈ e ∘ g  (* the coequalizing map absorbs the parallel pair *)  — the fork equation, a named field of Record IsCoequalizer {C}{x y}(f g : x ~> y)(q : C)(e : y ~> q)"},
+      {"file": "Structure/Coequalizer.v", "line": 177, "symbol": "cofork_cocone",
+       "intree_statement": "Definition cofork_cocone {z}(h : y ~> z)(Hh : h ∘ f ≈ h ∘ g) : Cocone (APair f g) := ... — realizes Mac Lane's 'equivalently a cocone from the parallel-pair diagram': any coforking map is a cocone over APair f g (the walking parallel pair, Instance/Parallel.v)"},
+      {"file": "Structure/Coequalizer/Split.v", "line": 47, "symbol": "SplitCoequalizer.scoeq_law1",
+       "intree_statement": "scoeq_law1 : scoeq_e ∘ f ≈ scoeq_e ∘ g  (* e coforks the pair *)"}
+    ],
+    "statement_record": {
+      "book": "A fork on a parallel pair d0,d1 : a ⇒ b is an arrow e : b → c with e∘d0 = e∘d1; equivalently a cocone from the parallel-pair diagram to the vertex c.",
+      "intree": "The fork equation 'e ∘ f ≈ e ∘ g' is the named field `cofork` of `IsCoequalizer` and the law `scoeq_law1` of `SplitCoequalizer`; `cofork_cocone h Hh : Cocone (APair f g)` turns any coforking map (h with h∘f≈h∘g, no universality required) into a cocone over the walking parallel pair, giving the 'equivalently a cocone' reading verbatim.",
+      "strength_comparison": "same — faithful setoid rephrasing (= replaced by ≈). Mac Lane's fork-as-diagram and fork-as-cocone are both realized; the only difference is presentational (no dedicated `Record Fork`; a fork is the coforking equation / a `Cocone (APair f g)`)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Verified Coequalizer.v:55 `cofork : e ∘ f ≈ e ∘ g` (field of Record IsCoequalizer, read directly), Coequalizer.v:177 `cofork_cocone ... : Cocone (APair f g)` (the fork-as-cocone reformulation, first-class), and Split.v:47 `scoeq_law1`. Load-bearing pointers verified: `ParObj := ParX | ParY` with ParOne/ParTwo in Instance/Parallel.v; `Cocone F := Cone (F^op)` at Cone.v:72; `Coequalizer F := Colimit F` at Equalizer.v:126 — the header's `Coequalizer (APair f g) := Colimit (APair f g)` pointer is accurate. Mac Lane's def1 is a bare notion (equation + cocone equivalence); both halves are formalized, only bundled under `cofork`/`cofork_cocone` rather than a standalone `Record Fork` — a faithful presentational rephrasing blessed by the setoid clause. No standalone Fork record is warranted or missing in substance."}
+  },
+  {
+    "id": "maclane:VI.6:def2",
+    "classification": "PARTIAL",
+    "aliases": ["absolute coequalizer", "absolute colimit", "absolute coequaliser", "functor-preserved coequalizer", "coequalizer preserved by every functor", "Paré absolute colimit"],
+    "evidence": [
+      {"file": "Structure/Coequalizer/Split.v", "line": 104, "symbol": "functor_preserves_split",
+       "intree_statement": "Theorem functor_preserves_split {C D}(F : C ⟶ D){x y}(f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f)(fmap[F] g). — the defining content of 'absolute' (preservation by an ARBITRARY functor F), proven for split coequalizers"},
+      {"file": "Structure/Coequalizer/Split.v", "line": 132, "symbol": "split_coequalizer_preserved",
+       "intree_statement": "Corollary split_coequalizer_preserved {C D}(F : C ⟶ D){x y}(f g : x ~> y)(S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f)(fmap[F] g)(F (scoeq_obj S))(fmap[F] (scoeq_e S)). — for arbitrary F, the image fork is a coequalizer"},
+      {"file": "Structure/Coequalizer/Split.v", "line": 32, "symbol": "(header essay)",
+       "intree_statement": "'Colimits preserved by all functors in this way are called *absolute* (Paré, \"On absolute colimits\", 1971; nLab: absolute colimit), and split coequalizers are the archetypal example.' — the notion is named in prose only"}
+    ],
+    "statement_record": {
+      "book": "An arrow e is an absolute coequalizer of d0,d1 in C if for every functor T : C → X the image fork Ta ⇒ Tb → Tc has Te a coequalizer of T d0, T d1; in particular an absolute coequalizer is a coequalizer. Absolute colimits/limits are defined analogously (Paré 1971).",
+      "intree": "There is no first-class predicate `AbsoluteCoequalizer e`. The universal-over-functors property that DEFINES 'absolute' is instantiated only at split coequalizers: `functor_preserves_split`/`split_coequalizer_preserved` prove, for an arbitrary F, that F carries the split fork to a (split) coequalizer. 'Absolute (co)limit' otherwise appears only in prose (Split.v header; Karoubi.v:67 'Splitting an idempotent is an absolute colimit').",
+      "strength_comparison": "intree-weaker: the defining ∀-functor-preservation content exists, but ONLY as a proven property of split coequalizers (the archetype), never as a reusable/hypothesizable definition for a general e. One cannot state 'e is an absolute coequalizer' anywhere in the tree, and general absolute (co)limits are prose-only."
+    },
+    "gap": "No standalone definition `AbsoluteCoequalizer f g q e := ∀ (X : Category)(T : C ⟶ X), IsCoequalizer (fmap T f)(fmap T g)(T q)(fmap T e)` (nor a general `AbsoluteColimit`). The quantified-over-all-functors notion is realized only for split coequalizers via `functor_preserves_split`/`split_coequalizer_preserved`; the word 'absolute' occurs only in header essays (Structure/Coequalizer/Split.v, Construction/Karoubi.v). So def2's concept is provable-in-substance for its one Mac Lane instance but is not first-class.",
+    "negative_search_log": [
+      "grep -rniE 'Definition Absolute|Record Absolute|Class Absolute|AbsoluteCoequalizer|Absolute_' --include='*.v' . -> 0 hits (no definition; concept named only in prose)",
+      "grep -rniE 'absolute.?coequalizer|absolute.?colimit|absolute.?limit' --include='*.v' -l . -> Construction/Karoubi.v (prose: 'splitting an idempotent is an absolute colimit'), Structure/Coequalizer/Split.v (prose header + the preservation theorems) — no predicate"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "My blind pass initially LEANED ABSENT (the definition of 'absolute coequalizer' as a predicate on a general e is nowhere written) but explicitly flagged PARTIAL as defensible. On reflection PARTIAL is the more honest call and I CONFIRM it: (1) the ∀-functor-preservation content — the mathematical heart of 'absolute' — is not mere machinery but an actual proof, `functor_preserves_split`/`split_coequalizer_preserved` (verified at Split.v:104 and :132, both quantifying F universally over all functors), instantiated at Mac Lane's own archetypal in-section example; (2) 'in particular an absolute coequalizer is a coequalizer' is realized by `split_coequalizer_is_coequalizer`; (3) the gap is stated precisely and does not overclaim — it says outright 'One cannot state e is an absolute coequalizer anywhere in the tree.' Independently confirmed there is NO `Definition/Record/Class Absolute*` anywhere (grep returned 0), and the Karoubi.v:67 absolute-colimit prose citation is accurate. Under the frozen definitions PARTIAL (some exists + precise gap) fits better than ABSENT (no counterpart), since a genuine counterpart to the core content exists, just un-abstracted."}
+  },
+  {
+    "id": "maclane:VI.6:def3",
+    "classification": "PRESENT",
+    "aliases": ["split fork", "split coequalizer diagram", "contractible coequalizer (data)", "SplitCoequalizer", "split cofork", "e with sections s and t"],
+    "evidence": [
+      {"file": "Structure/Coequalizer/Split.v", "line": 40, "symbol": "SplitCoequalizer",
+       "intree_statement": "Record SplitCoequalizer {C}{x y}(f g : x ~> y) := { scoeq_obj : C; scoeq_e : y ~> scoeq_obj; scoeq_s : scoeq_obj ~> y; scoeq_t : y ~> x; scoeq_law1 : scoeq_e ∘ f ≈ scoeq_e ∘ g; scoeq_law2 : scoeq_e ∘ scoeq_s ≈ id; scoeq_law3 : f ∘ scoeq_t ≈ id; scoeq_law4 : g ∘ scoeq_t ≈ scoeq_s ∘ scoeq_e }"}
+    ],
+    "statement_record": {
+      "book": "A split fork is a fork (d0,d1,e) equipped with t : b → a and s : c → b satisfying e∘d0 = e∘d1, e∘s = 1_c, d0∘t = 1_b, and d1∘t = s∘e; s and t 'split' the fork, and e is then a split epi with right inverse s.",
+      "intree": "`SplitCoequalizer f g` bundles the object scoeq_obj (=c), coequalizing map scoeq_e (=e), section scoeq_s (=s), section scoeq_t (=t), and the four laws: law1 e∘d0≈e∘d1, law2 e∘s≈id, law3 d0∘t≈id, law4 d1∘t≈s∘e (here f=d0, g=d1).",
+      "strength_comparison": "same — the four laws are Mac Lane's four split-fork equations verbatim (with = → ≈). The library bundles the whole split fork into one record named `SplitCoequalizer`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Read Split.v:40-51 directly and verified the four laws map 1:1 onto Mac Lane's split-fork equations, with types checked leg-by-leg: c=scoeq_obj, b=y, a=x, e:b→c=scoeq_e:y~>scoeq_obj, s:c→b=scoeq_s:scoeq_obj~>y, t:b→a=scoeq_t:y~>x; law1 e∘d0≈e∘d1, law2 e∘s≈id, law3 d0∘t≈id (f=d0), law4 d1∘t≈s∘e (g=d1). Exact match. Only wrinkle: the record is named `SplitCoequalizer` (Mac Lane's def4 term) but holds the split-FORK data (def3); the Split.v header describes exactly this data (verified lines 14-18), matching nLab's 'split coequalizer' page. Presentational, not a strength difference."}
+  },
+  {
+    "id": "maclane:VI.6:lem1",
+    "classification": "PRESENT",
+    "aliases": ["in a split fork e is the coequalizer", "split coequalizer is a coequalizer", "split_coequalizer_is_coequalizer", "descent through a split coequalizer", "h factors as h∘s"],
+    "evidence": [
+      {"file": "Structure/Coequalizer/Split.v", "line": 90, "symbol": "split_coequalizer_is_coequalizer",
+       "intree_statement": "Theorem split_coequalizer_is_coequalizer {C}{x y}(f g : x ~> y)(S : SplitCoequalizer f g) : IsCoequalizer f g (scoeq_obj S)(scoeq_e S)."},
+      {"file": "Structure/Coequalizer/Split.v", "line": 66, "symbol": "split_coeq_desc",
+       "intree_statement": "Lemma split_coeq_desc (S : SplitCoequalizer f g){z}(h : y ~> z)(Hh : h ∘ f ≈ h ∘ g) : ∃! u : scoeq_obj S ~> z, u ∘ scoeq_e S ≈ h. — descent as h∘s, unique by law2 (Mac Lane's 'any f with f∘d0=f∘d1 factors as (f∘s)∘e, uniquely')"}
+    ],
+    "statement_record": {
+      "book": "In every split fork, e is the coequalizer of d0 and d1: any h with h∘d0 = h∘d1 factors as h = (h∘s)∘e, and any factorization h = k∘e forces k = h∘s.",
+      "intree": "`split_coequalizer_is_coequalizer` delivers the elementary universal property `IsCoequalizer f g (scoeq_obj S)(scoeq_e S)`; its descent lemma `split_coeq_desc` builds the mediator h∘scoeq_s and proves uniqueness via scoeq_law2 — exactly Mac Lane's argument.",
+      "strength_comparison": "same — the existence-and-uniqueness of descent is Mac Lane's proof line for line (h∘s the mediator; law4/law3/cofork give the triangle; law2 gives uniqueness)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Read the full proofs at Split.v:66-96. `split_coeq_desc` uses mediator `h ∘ scoeq_s S`; the triangle uses law4 (s∘e=g∘t), the cofork hypothesis (h∘g=h∘f), and law3 (f∘t=id) — precisely Mac Lane's chain; uniqueness rewrites v∘(e∘s) via law2 (e∘s=id) to h∘s. `split_coequalizer_is_coequalizer` packages this as `IsCoequalizer f g (scoeq_obj S)(scoeq_e S)`. Match is line-for-line. The header's descent computation comment (Split.v:24) is also arithmetically correct."}
+  },
+  {
+    "id": "maclane:VI.6:def4",
+    "classification": "PRESENT",
+    "aliases": ["split coequalizer", "split coequaliser", "the arrow e of a split fork", "SplitCoequalizer.scoeq_e", "coequalizer split by sections"],
+    "evidence": [
+      {"file": "Structure/Coequalizer/Split.v", "line": 40, "symbol": "SplitCoequalizer",
+       "intree_statement": "Record SplitCoequalizer {C}{x y}(f g : x ~> y) := { scoeq_obj : C; scoeq_e : y ~> scoeq_obj; ... } — the distinguished arrow scoeq_e (: y ~> scoeq_obj) IS the split coequalizer of the pair; the record witnesses that some split fork on f,g carries it"},
+      {"file": "Structure/Coequalizer/Split.v", "line": 43, "symbol": "SplitCoequalizer.scoeq_e",
+       "intree_statement": "scoeq_e : y ~> scoeq_obj;   (* the coequalizing map *)"}
+    ],
+    "statement_record": {
+      "book": "A split coequalizer of d0,d1 is the arrow e of some split fork on d0,d1.",
+      "intree": "Providing `S : SplitCoequalizer f g` exhibits precisely a split fork on f,g; its arrow `scoeq_e S : y ~> scoeq_obj S` is Mac Lane's split coequalizer. The library conflates def3 (the split fork) and def4 (its arrow e) into the single record, the standard and faithful encoding.",
+      "strength_comparison": "same — 'the arrow e of some split fork' is exactly scoeq_e of an inhabitant of `SplitCoequalizer f g`."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. `scoeq_e S : y ~> scoeq_obj S` (Split.v:43) is exactly Mac Lane's 'the arrow e of some split fork.' The classifier is honest that the library conflates def3 (fork data) and def4 (its arrow e) into one record `SplitCoequalizer`; this is the standard nLab encoding and faithful. No separate definition is missing."}
+  },
+  {
+    "id": "maclane:VI.6:cor1",
+    "classification": "PRESENT",
+    "aliases": ["in a split fork e is an absolute coequalizer", "split coequalizers are absolute", "functor preserves split coequalizer", "split_coequalizer_preserved", "functor_preserves_split", "absoluteness of split forks"],
+    "evidence": [
+      {"file": "Structure/Coequalizer/Split.v", "line": 132, "symbol": "split_coequalizer_preserved",
+       "intree_statement": "Corollary split_coequalizer_preserved {C D}(F : C ⟶ D){x y}(f g : x ~> y)(S : SplitCoequalizer f g) : IsCoequalizer (fmap[F] f)(fmap[F] g)(F (scoeq_obj S))(fmap[F] (scoeq_e S))."},
+      {"file": "Structure/Coequalizer/Split.v", "line": 104, "symbol": "functor_preserves_split",
+       "intree_statement": "Theorem functor_preserves_split (F : C ⟶ D)(f g : x ~> y) : SplitCoequalizer f g → SplitCoequalizer (fmap[F] f)(fmap[F] g). — every functor carries a split fork to a split fork (each law by functoriality), whence to a coequalizer"}
+    ],
+    "statement_record": {
+      "book": "In every split fork, e is an absolute coequalizer of d0 and d1: since the split-fork equations are composites-and-identities only, every functor preserves them, so the image fork is again a split fork, hence a coequalizer.",
+      "intree": "`split_coequalizer_preserved` states, for an ARBITRARY functor F (a parameter), that the image fork is an `IsCoequalizer`; `functor_preserves_split` first shows the image is again a `SplitCoequalizer`, exactly Mac Lane's 'the image fork is again a split fork'. Universally quantifying F over all functors is the unfolding of 'e is absolute'.",
+      "strength_comparison": "same content; if anything intree-stronger at the intermediate step — `functor_preserves_split` shows the image is again SPLIT (not merely a coequalizer). Difference from the book: 'absolute' is expressed as universal preservation over F rather than via a named `AbsoluteCoequalizer` predicate (see def2's PARTIAL)."
+    },
+    "gap": null,
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached PRESENT. Read Split.v:104-139: `functor_preserves_split` pushes each of the four data through `fmap` and re-derives each law by functoriality (fmap_comp/fmap_id) — exactly Mac Lane's 'image fork is again a split fork'; `split_coequalizer_preserved` then concludes `IsCoequalizer` for an arbitrary parameter F, which is the unfolding of 'e is absolute'. Consistency with def2's PARTIAL confirmed: cor1 is fully proven for the SPLIT case (universally over F), while def2's PARTIAL is only about the absence of a general `AbsoluteCoequalizer` predicate for an arbitrary e — no contradiction. The 'intree-stronger at the intermediate step' remark is accurate."}
+  },
+  {
+    "id": "maclane:VI.6:remark1",
+    "classification": "ABSENT",
+    "aliases": ["split fork in Cat", "arrow category C^2 ⇒ C → 1", "domain and codomain functors as a parallel pair", "C→1 coequalizes dom,cod", "terminal object splits the fork in Cat", "Arrow(C) dom/cod fork"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'SplitCoequalizer|split fork|fork' --include='*.v' Instance/Cat*/ Instance/Cat.v -> only Instance/Cat/Cartesian.v:26,41 and Cocartesian.v:22,42, where `fork` is the Cartesian PRODUCT pairing ⟨F,G⟩ / copairing [F,G] — NOT Mac Lane's coequalizer split-fork; no SplitCoequalizer is ever built in Cat",
+      "grep -rniE 'SplitCoequalizer' --include='*.v' -l . -> Structure/Coequalizer/Split.v, Monad/Monadicity/BeckObjects.v, Monad/Monadicity/Beck.v only — no Cat instance",
+      "INGREDIENTS EXIST but the example is not assembled: Construction/Arrow.v:110 `Definition Arrow {C} := (Id[C] ↓ Id[C])` (the arrow category C⃗) with dom/cod as the comma projections comma_proj1/comma_proj2 (header, lines 30-32, 58-62); Instance/One.v:54 `Program Instance Cat_Terminal : @Terminal Cat` and `one[C] : C ⟶ 1`. No in-tree construction assembles (dom, cod : C⃗ ⇉ C), the fork to 1, or the split-when-C-has-a-terminal-object claim.",
+      "The specific worked example 'C⃗ ⇒ C → 1 is a fork in Cat, split when C has a terminal object' has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached ABSENT. Confirmed no SplitCoequalizer is instantiated in Cat. Verified the classifier's cited ingredients: `Definition Arrow {C} := (Id[C] ↓ Id[C])` at Arrow.v:110 (exact), `Program Instance Cat_Terminal : @Terminal Cat` at One.v:54, and that the `fork` hits in Instance/Cat/Cartesian.v:26,41 are the Cartesian product pairing ⟨F,G⟩ (verified: '⟨F, G⟩ := fork F G'), a different 'fork.' The specific example C⃗ ⇉ C → 1 split by a terminal object is not assembled anywhere. ABSENT is correct; the negative log's ingredient citations are all accurate (not a defect — the library correctly does not claim to have this example)."}
+  },
+  {
+    "id": "maclane:VI.6:remark2",
+    "classification": "ABSENT",
+    "aliases": ["quotient group as a coequalizer", "Grp", "category of groups", "normal subgroup", "semidirect product G⋉N", "coset projection G → G/N", "fork becomes split under the forgetful Grp → Set"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bGrp\\b|category of groups|Instance.*Group|Group.*Category' --include='*.v' -l . -> Structure/Group.v (GROUP OBJECTS in a cartesian monoidal category, per its header lines 8-31 — NOT the category Grp of groups-and-homomorphisms), Construction/Groupoid.v (groupoids, unrelated), plus prose/example mentions (Theory/Metacategory.v, Awodey citation in Structure/Group.v:68); no `Grp : Category`",
+      "grep -rniE 'normal subgroup|quotient group|semidirect' --include='*.v' -l . -> Construction/Grothendieck.v only, at :115 ('semidirect product' of a fibered-category-over-a-ring construction) — unrelated to Mac Lane's Grp coequalizer example",
+      "grep -rniE 'homomorphism' --include='*.v' Instance/ -> Instance/Sets.v (setoid maps), Instance/Comp.v (operation-algebra homs of a signature), Instance/CMon.v (commutative-monoid homs); no groups-and-homomorphisms category",
+      "grep -rniE 'Program Instance.*Grp|Definition Grp|Groups.*Category' --include='*.v' . -> 0 category definitions",
+      "No category Grp, no normal-subgroup / semidirect-product / quotient-group machinery, and no proof that a quotient-group projection is a coequalizer that becomes split under Grp→Set. Entirely absent."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached ABSENT. Confirmed there is no Instance/ file for groups/rings at all (ls Instance shows none), and no category `Grp`. Verified Structure/Group.v is about GROUP OBJECTS in a category with finite products ('A group object in a category with finite products', header lines 13,28,82), not the category of groups-and-homomorphisms; its 'Grp' tokens (lines 63,72) are prose. No normal subgroup / semidirect product / quotient-group machinery. ABSENT is correct."}
+  },
+  {
+    "id": "maclane:VI.6:ex1",
+    "classification": "ABSENT",
+    "aliases": ["quotient ring as a coequalizer", "Rng", "category of rings", "ideal", "quotient ring R/A", "ring coequalizer split under Rng → Set", "R/A projection"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE '\\bRng\\b|category of rings|Instance.*Ring' --include='*.v' -l . -> Comonad/Strong.v, Construction/Opposite/Monoidal.v, Construction/Grothendieck/Fibration.v, Lib/Setoid.v, Structure/Cartesian.v, Structure/Monoidal/{CopyDiscard,Cartesian}.v etc. — all are prose/token mentions (e.g. the 'Ab⇀Rng' example named in comments, 'a Rng' asides); none defines a category of rings",
+      "grep -rniE 'Program Instance.*Rng|Definition Rng|Rings.*Category' --include='*.v' . -> 0 category definitions",
+      "grep -rniE 'ideal|quotient ring' --include='*.v' -l . -> Construction/Grothendieck.v (a ring-indexed fibration, unrelated); no ideal-quotient construction",
+      "No category Rng, no ideals, no quotient rings, and no proof that R/A is a coequalizer split under Rng→Set. Entirely absent (the ingredients — a ring category, ideals — are not in the library, which has only CMon among algebraic-structure categories)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached ABSENT. Confirmed no category Rng and no Instance file for rings; the only algebraic-structure category among Instance/ is CMon (commutative monoids). No ideals, no quotient rings, no split-under-forgetful proof. The 'Ab⇀Rng' phrases elsewhere are comment examples, not a Rng category. ABSENT is correct."}
+  },
+  {
+    "id": "maclane:VI.6:ex2",
+    "classification": "ABSENT",
+    "aliases": ["contractible pair", "Beck pair", "split pair", "G-split pair", "contractible coequalizer pair", "pair with t : b→a, d0∘t = 1", "reflexive pair (near-miss)"],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniE 'contractible' --include='*.v' . -> only Structure/Terminal.v, Instance/One.v, Instance/StrictCat/Terminal.v, Theory/Multicategory/Operad.v — all about contractibility of a terminal hom / poly_unit, NONE is Beck's contractible parallel pair",
+      "grep -rniE 'split pair|g-split|u-split' --include='*.v' . -> Monad/Monadicity/Beck.v and BeckObjects.v use 'U-split pair' (a pair whose U-IMAGE has a split coequalizer, framing `CreatesUSplitCoequalizers`), which is a different device — not a standalone contractible-pair definition, and no ex2-style (a)/(b) claims about it",
+      "NEAR-MISS 1 (distinct notion): Structure/Coequalizer/Reflexive.v:40 `Record ReflexivePair {C}{x y}(f g : x ~> y) := { refl_section : y ~> x; refl_section_f : f ∘ refl_section ≈ id; refl_section_g : g ∘ refl_section ≈ id }` — a COMMON section splitting BOTH d0 and d1. Beck-contractibility asks only d0∘t = 1 plus a cross-relation (d1∘t related to the fork), so ReflexivePair is a genuinely different (not merely weaker) notion.",
+      "NEAR-MISS 2 (part (a)'s data, not isolated): the contractibility datum of a split fork is exactly the fields Structure/Coequalizer/Split.v:45 scoeq_t (t), :49 scoeq_law3 (d0∘t ≈ id), :50 scoeq_law4 (d1∘t ≈ s∘e) of `SplitCoequalizer`, but these are never extracted/stated as 'the underlying pair is contractible'.",
+      "Part (b) — 'a contractible pair possessing a coequalizer has a split coequalizer' — has NO in-tree counterpart. The exercise's defining notion (contractible/Beck pair) and its substantive claim (b) are both absent; only part (a)'s data coincidentally lives inside SplitCoequalizer."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {"verdict": "CONFIRMED", "notes": "Blind pass independently reached ABSENT. Confirmed 'contractible' appears in-tree only for terminal-hom / poly_unit contractibility, never for a parallel pair. Read Structure/Coequalizer/Reflexive.v fully: `ReflexivePair` requires a COMMON section (f∘s≈id AND g∘s≈id) — a genuinely different notion from Beck-contractibility (t with d0∘t=1 plus a cross-relation), so it is not even a weakening; the classifier's NEAR-MISS 1 is accurate. Verified 'U-split pair'/`CreatesUSplitCoequalizers` in Beck.v (:164) is the U-image device, not a standalone contractible-pair definition. Part (b) has no counterpart. ABSENT is correct. (Aside: the inventory's own scan-artifact note on ex2's second equation 'd1.t = d0.d1' being non-composable is a source-legibility issue, not a library matter, and does not affect this ABSENT verdict.)"}
+  }
+]

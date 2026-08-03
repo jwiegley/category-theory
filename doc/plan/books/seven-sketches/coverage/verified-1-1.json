@@ -1,0 +1,456 @@
+[
+ {
+  "id": "7sketches:1.2.1:def12",
+  "classification": "PRESENT",
+  "aliases": [
+   "relation between two sets",
+   "binary relation / endorelation (Y = X)",
+   "subset R ⊆ X × Y",
+   "Rel, the category of sets and relations",
+   "A → Ensemble B / A → B → Prop / crelation A",
+   "graph of a function"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Rel.v",
+    "line": 45,
+    "symbol": "Rel",
+    "intree_statement": "Program Definition Rel : Category := {| obj := @obj Coq; hom := fun A B => A ~> Ensemble B; (* a relation `R ⊆ A × B`, curried *) homset := fun P Q => {| equiv := fun f g => ∀ x y, f x y ↔ g x y |}; id := Singleton; compose := fun x y z f g a b => (exists e : y, In y (g a) e ∧ In z (f e) b)%type |}."
+   },
+   {
+    "file": "Instance/Rel.v",
+    "line": 161,
+    "symbol": "some_number",
+    "intree_statement": "Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat."
+   }
+  ],
+  "statement_record": {
+   "book": "For sets X and Y, a relation between X and Y is a subset R ⊆ X × Y; a binary relation on X is the case Y = X, i.e. a subset R ⊆ X × X. The following prose fixes the infix convention: pick a symbol ⋆ and write a ⋆ b for (a, b) ∈ R.",
+   "intree": "hom := fun A B => A ~> Ensemble B  (* a relation `R ⊆ A × B`, curried *)  … together with the Y = X instance  Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.",
+   "strength_comparison": "same, modulo currying. The library never forms X × Y and takes a subset of it; it uses the equivalent curried predicate A → Ensemble B ≡ A → B → Prop, and Instance/Rel.v's own header states the identification ('arrows: relations R ⊆ A × B, as A → Ensemble B'). The homogeneous Y = X case is the same type at A = B and is instantiated concretely by some_number. There is no standalone `Definition relation X Y` in-tree — the notion is carried by Rel's hom type and by stdlib `relation`/`crelation`, which the whole library uses — but nothing in the item is weakened; the infix convention the definition sets up is realized library-wide (`≈`, `~>`, `≤`)."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass (run before opening coverage-1-1.json) reached PRESENT independently and landed on the same primary evidence. My searches: `ls Instance/*.v` + `find -iname 'Rel*.v'` -> Instance/Rel.v; read it in full; `rg -n 'crelation|Relation_Definitions|: relation'` -> Lib/Setoid.v:33 `equiv : crelation A`, Instance/Proset.v:33 and Instance/Poset.v:116 both quantified over `{R : relation A}`. Citations verified line-exact: Instance/Rel.v:45 is `Program Definition Rel : Category := {|` and line 47 carries the quoted comment `hom := fun A B => A ~> Ensemble B; (* a relation `R subset A x B`, curried *)`; Instance/Rel.v:161 is `Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.` Both quotes accurate. Instance/Rel.v is registered at _CoqProject:225. Traps checked and cleared: (a) same-name-weaker -- no competing `Definition relation` shadows the notion; the record already discloses that no standalone definition exists and that the notion is carried by Rel's hom type plus stdlib `relation`/`crelation`, which is honest; (b) definition-without-API -- Rel's hom type is exercised (relational composition, Rel_Initial at :90, Relation_Functor at :167, and the homogeneous Y = X instance `some_number`), so this is not a dead definition; (c) the curried A -> Ensemble B vs subset-of-A x B rephrasing is faithful and the file's own header (:29) states the identification. strength_comparison 'same, modulo currying' is honest."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:example13",
+  "classification": "PRESENT",
+  "aliases": [
+   "≤ as a binary relation / Nat.le / le_t",
+   "preorder, proset, thin category",
+   "equality as a relation / eq_Setoid",
+   "strict order <",
+   "divisibility m | n / Nat.divide / dvd",
+   "approximate equality ≈"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Proset.v",
+    "line": 47,
+    "symbol": "LessThanEqualTo_Category",
+    "intree_statement": "Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder.  (built by Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; … |} at line 33)"
+   },
+   {
+    "file": "Instance/Rel.v",
+    "line": 161,
+    "symbol": "some_number",
+    "intree_statement": "Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat."
+   },
+   {
+    "file": "Lib/Setoid.v",
+    "line": 65,
+    "symbol": "eq_Setoid",
+    "intree_statement": "Definition eq_Setoid@{u} (A : Type@{u}) : Setoid@{u u} A := Build_Setoid@{u _} A (λ f g, eq f g) eq_equivalence@{u u}."
+   }
+  ],
+  "statement_record": {
+   "book": "The usual ordering on ℝ is a binary relation on ℝ written infix as ≤ (one writes 5 ≤ 6, not (5,6) ∈ R). Other relations conventionally written infix: =, ≈, <, >. In number theory divisibility is a binary relation on ℕ written 5 | 10.",
+   "intree": "Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder.  /  Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.  /  Definition eq_Setoid (A : Type) : Setoid A := Build_Setoid A (λ f g, eq f g) eq_equivalence.",
+   "strength_comparison": "same on the ≤, = and < illustrations, with ℕ in place of ℝ (Instance/Proset.v also carries the ≤ example explicitly, and Instance/Omega.v:29 gives a second order relation, the Type-valued `Inductive le_t (n : nat) : nat → Type`). The point of the example — that a binary relation is written infix — is realized library-wide (the notation `f ≈ g := equiv f g` at Lib/Setoid.v:42, `~>`, `≤`). intree-weaker on two illustrations only: divisibility (0 hits for divide/divisib/dvd/Nat.divide across all .v files) and approximate equality have no in-tree counterpart; these are missing exhibits, not missing content."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently. My searches: `rg -in 'divisib|divides|Nat.divide|\\bdvd\\b'` -> 0 hits (reproduces the record's own negative claim); `rg -n 'le_t|Definition' Instance/Omega.v` -> Type-valued order on nat; read Instance/Proset.v head. Citations verified line-exact: Instance/Proset.v:47-48 is `Definition LessThanEqualTo_Category : Category := @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder.` (with `Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R)` at :33, exactly as cited); Instance/Rel.v:161 `some_number`; Lib/Setoid.v:65 `Definition eq_Setoid@{u} (A : Type@{u}) : Setoid@{u u} A := Build_Setoid@{u _} A (fun f g => eq f g) eq_equivalence@{u u}.`; Lib/Setoid.v:42 `Notation \"f ~~ g\" := (equiv f g)` (the `f (approx) g` notation) confirmed. ONE CITATION SLIP, immaterial: the strength_comparison says `Instance/Omega.v:29 gives ... Inductive le_t`; the actual line is 28. Substance unaffected -- `Inductive le_t@{u} (n : nat) : nat -> Type@{u}` is there. Judgement call recorded: the strength_comparison itself concedes 'intree-weaker on two illustrations only' (divisibility, approximate equality), so a PARTIAL reading is arguable; PRESENT is nevertheless correct under the frozen definition, because the item's substance -- that familiar orders and equalities ARE binary relations and are written infix -- is realized in-tree three times over (<= via Proset/Nat.le, < via some_number as a genuine Rel morphism, = via eq_Setoid), and the missing exhibits carry no content the item does not already illustrate."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:def14",
+  "classification": "ABSENT",
+  "aliases": [
+   "partition of a set",
+   "parts / blocks / cells of a partition",
+   "indexed family of nonempty subsets A_p",
+   "cover plus pairwise disjointness",
+   "set of equivalence classes",
+   "fibres of a surjection",
+   "partitions identified up to relabelling of parts"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'partition' . → 4 hits, all Theory/Coq/List.v:391 `Definition partition {a} (p : a → bool) : list a → list a * list a` plus its two Proofs.v lemmas: a two-way filter of a list by a boolean predicate, not a decomposition of a set into blocks",
+   "grep -rn --include='*.v' -i '\\bparts\\b' → 18 hits, all unrelated (Theory/Displayed.v 'displayed parts', Structure/Factorization.v 'surjective and injective parts' of a factorization, ColouredPROP 'the parts' supplies)",
+   "grep -rn --include='*.v' -i 'blocks' → 16 hits, all Test/*.v comment banners ('BLOCK A138') and proof-block prose",
+   "grep -rn --include='*.v' -i 'block' / -i 'cell' → no partition-block notion (cell hits are 2-cells of bicategories)",
+   "grep -rn --include='*.v' -i 'disjoint' → only Theory/Multicategory's disjoint-associativity shape; no disjointness condition on a family of subsets",
+   "grep -rn --include='*.v' -i 'cover' / 'covering' / 'jointly' / 'sieve' → only Grothendieck-topology covering families (Theory/Sheaf.v:26) and pushout_jointly_epic; no cover-plus-disjointness of a family of subsets",
+   "grep -rn --include='*.v' -i 'same part' / 'same_part' / 'class_of' / 'equiv_class' / 'EquivClass' / 'quotient_set' / 'quotient set' → 0 hits (only Lib/Setoid.v:18 prose 'setoids stand in for quotient sets')",
+   "grep -rn --include='*.v' -i 'relabel' → 5 hits, all the symmetric-group relabelling of multicategory contexts and ColouredPROP/Relabel.v colour renaming; nothing about identifying partitions up to relabelling of parts",
+   "NEAR MISS, explicitly not the item: Instance/FinSet/Pushout.v computes connected-component labels of a finite generated equivalence (po_lab:399, po_isrep:402, po_apex:406, po_cls:420) and its prose says the idempotent labeling's 'fibres are exactly the classes' (line 265) — but that claim is only a comment, no lemma asserts a partition, there is no notion of a family of parts, no nonemptiness/cover/pairwise-disjointness conditions, and no identification of two partitions up to relabelling"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently, with the same near miss. My searches: `rg -in 'partition'` -> exactly 4 hits, all Theory/Coq/List.v:391 `Definition partition {a} (p : a -> bool) : list a -> list a * list a` and its two Proofs.v lemmas at :436-443 -- a boolean two-way list filter, no relation to a decomposition of a set into blocks; confirmed by reading the line. `rg -l 'Quotient'` -> 27 files, all category-level or PROP/ColouredPROP term quotients. The only substantive candidate I found on my own is the one the record already names as an explicit NEAR MISS and correctly excludes: Instance/FinSet/Pushout.v's union-find labeling (po_lab:399, po_isrep:402, po_apex:406, po_cls:420, apex_cover:459) computes connected-component classes, but no notion of a family of parts, no nonemptiness/cover/pairwise-disjointness conditions, and no relabelling identification exist anywhere. ONE QUOTING SLIP in the negative log, immaterial: it attributes the phrase 'fibres are exactly the classes' to Instance/FinSet/Pushout.v:265; line 265 actually reads 'and its fibres are the connected components generated by the edges', and the quoted wording ('the fold over all edges yields an idempotent map whose fibres are exactly the classes') is in the file header near line 45. The log's substantive point -- that this is comment prose with no lemma asserting a partition -- is correct at both locations."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:ex16",
+  "classification": "ABSENT",
+  "aliases": [
+   "uniqueness of the matching part label",
+   "two partitions with the same blocks induce a bijection of index sets",
+   "partition equality up to relabelling",
+   "reindexing / renaming a partition",
+   "injectivity of p ↦ A_p on part labels"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "Depends entirely on the partition vocabulary, which is absent — see the def14 log: grep -i 'partition' → only Theory/Coq/List.v's boolean list filter; grep -i 'parts'/'blocks'/'cells' → no partition parts",
+   "grep -rn --include='*.v' -i 'relabel' → 5 hits, all multicategory symmetric-action relabelling and ColouredPROP colour renaming; nothing about part labels",
+   "grep -rn --include='*.v' -i 'at most one' → no uniqueness-of-index statement; the library's uniqueness idiom is Lib/Setoid.v:97 `Class Unique`, never applied to partition labels",
+   "grep -rn --include='*.v' -i 'bijection' / 'bijective' → hits are Instance/Sets.v:400 bijective_is_iso, Construction/Funny/Comparison.v 'bijective on objects', Theory/Bicategory/Mates.v's bijection of 2-cell setoids; none concerns index sets of partitions"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently: the item is parasitic on def14's partition vocabulary, which does not exist (see my def14 log). Independently re-ran `rg -in 'relabel'` -> only multicategory symmetric-action relabelling and Construction/ColouredPROP/Relabel.v colour renaming, as the record says; `rg -in 'bijection|bijective'` -> Instance/Sets.v:400 bijective_is_iso, Construction/Funny/Comparison.v and Structure/Premonoidal/Freyd.v 'bijective on objects', Theory/Bicategory/Mates.v 2-cell-setoid bijection -- none about index sets of partitions. Lib/Setoid.v:97 `Class Unique` verified as the library's uniqueness idiom (line-exact) and is indeed never applied to part labels. Nothing my blind pass found was missed by the classifier."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:ex17",
+  "classification": "ABSENT",
+  "aliases": [
+   "the 'lie in a common part' relation of a partition",
+   "same-block relation",
+   "equivalence relation induced by a partition",
+   "enumerating the pairs of a finite relation",
+   "reflexive pairs a ~ a of a finite equivalence"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "The item's content is the same-part relation of a displayed finite partition; the partition vocabulary is absent — see the def14 log (grep -i 'partition' → only Theory/Coq/List.v's boolean filter; 'parts'/'blocks' unrelated)",
+   "grep -rn --include='*.v' -i 'same part' / 'same_part' → 0 hits",
+   "grep -rn --include='*.v' -i 'connected component' → 2 hits, both Instance/FinSet/Pushout.v comments (lines 265, 405) about the union-find labeling; no relation-enumeration statement",
+   "No worked finite enumeration of a relation's pairs exists: the finite computational Examples in-tree are Instance/FinSet.v:220 `Example fin_split_computes` (a codec round trip) and Instance/FinSet/Topos.v's `Pow 2 = 4` sanity checks, none of which lists the pairs of an equivalence relation"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently (a finite enumeration of the same-part relation of a displayed partition; the partition notion is absent and no in-tree Example enumerates the pairs of an equivalence). ONE CITATION SLIP, immaterial: the log cites 'Instance/FinSet.v:220 Example fin_split_computes'; the actual line is 215 (`rg -n '^Example' Instance/FinSet.v` -> 215 fin_split_computes, 291 merge_computes, 296 merge_computes_inl; line 220 is a comment inside the Initial/Terminal section). The substantive point -- that the in-tree finite computational Examples are codec round trips, not relation enumerations -- holds, and I confirmed all three Examples are of that kind. Note the item is formalizable in principle (decidable finite relation over Fin.t), so ABSENT rather than OUT_OF_SCOPE is the right call."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:def18",
+  "classification": "PRESENT",
+  "aliases": [
+   "equivalence relation",
+   "reflexive symmetric transitive relation",
+   "Setoid (Bishop set)",
+   "Equivalence / crelation",
+   "hom-setoid ≈",
+   "congruence"
+  ],
+  "evidence": [
+   {
+    "file": "Lib/Setoid.v",
+    "line": 32,
+    "symbol": "Setoid",
+    "intree_statement": "Class Setoid A := { equiv : crelation A; (* the equivalence ≈ on A *) setoid_equiv : Equivalence equiv (* refl/symm/trans laws for ≈ *) }."
+   },
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 187,
+    "symbol": "iso_equivalence",
+    "intree_statement": "#[export] Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := fun _ _ _ g f => iso_compose f g }."
+   }
+  ],
+  "statement_record": {
+   "book": "An equivalence relation on a set A is a binary relation ~ on A satisfying: a ~ a for all a (reflexivity); a ~ b iff b ~ a (symmetry); a ~ b and b ~ c imply a ~ c (transitivity).",
+   "intree": "Class Setoid A := { equiv : crelation A; setoid_equiv : Equivalence equiv } — and, as a worked assertion that a given binary relation satisfies exactly the three laws, `Program Instance iso_equivalence : Equivalence Isomorphism := { Equivalence_Reflexive := @iso_id; Equivalence_Symmetric := @iso_sym; Equivalence_Transitive := … }`.",
+   "strength_comparison": "same three laws. Two presentation differences, neither weakening: (i) the library packages carrier-plus-chosen-relation as one structure (a Setoid) rather than a property of a given relation, but the bare property is available as `Equivalence R` for any R (Coq's Type-valued CRelationClasses, re-exported through Lib/Foundation.v:2 CMorphisms) and is asserted in-tree of concrete relations — iso_equivalence above, Quotient_equivalence at Construction/Quotient.v:241, and every `homset` field of a Category; (ii) `equiv : crelation A` is Type-valued, i.e. proof-relevant, so the relation is not literally a subset of A × A (Lib/Setoid.v's header says this is deliberate, so equivalence proofs may carry computational content) — a strengthening in data, harmless for the definition. In-tree symmetry is the single implication a ≈ b → b ≈ a, equivalent to the book's biconditional. This is the library's foundational structure: every hom is a setoid, so morphism equality throughout is a chosen equivalence relation."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently on the same evidence. Citations verified line-exact: Lib/Setoid.v:32-34 `Class Setoid A := { equiv : crelation A; setoid_equiv : Equivalence equiv }` with the three laws spelled out verbatim in the immediately preceding header at Lib/Setoid.v:28-31 ('reflexivity x ~~ x / symmetry x ~~ y -> y ~~ x / transitivity x ~~ y -> y ~~ z -> x ~~ z'); Theory/Isomorphism.v:187-191 `iso_equivalence : Equivalence Isomorphism` with the three fields exactly as quoted. Corroborating pointers in the strength_comparison also check out: Construction/Quotient.v:241-242 `Lemma Quotient_equivalence ... (x y : C) : Equivalence (R x y)` (line-exact) and Lib/Foundation.v:2 `From Coq Require Export CMorphisms` (line-exact). Trap check: the Type-valued `crelation` is a strengthening in DATA only, disclosed by the record; symmetry as a single implication is equivalent to the book's biconditional given the relation is symmetric-closed -- standard, correctly noted. Definition-without-API is decisively cleared: every hom-setoid in the library is an instance."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:prop19",
+  "classification": "ABSENT",
+  "aliases": [
+   "partitions correspond bijectively to equivalence relations",
+   "quotient ↔ equivalence-relation correspondence",
+   "closed and connected subsets are the parts",
+   "kernel pair / internal equivalence relation on an object",
+   "effective equivalence relation, exact category",
+   "equivalence classes are the blocks"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "One side of the claimed bijection — partitions — does not exist in-tree at all; see the def14 log (grep -i 'partition'/'parts'/'blocks'/'cover'/'disjoint' produce no partition notion)",
+   "grep -rn --include='*.v' -i 'equivalence relation' → 36 hits, every one about the setoid/hom equivalence carried by a type or hom-set (Lib/Setoid.v, Instance/Sets.v, Theory/Category.v:28, PROP/TermEq.v, Instance/Sets/Pushout.v); none is an internal equivalence relation on an object, and none states a correspondence with anything",
+   "grep -rn --include='*.v' -i 'effective' → 1 hit, Structure/Topos.v:92, prose recalling Giraud's theorem ('equivalence relations effective'); no formalization",
+   "grep -rn --include='*.v' -i 'internal relation' / 'exact category' → 0 hits",
+   "grep -rn --include='*.v' -i 'kernel pair' → NEAR MISS only: Structure/Regular.v:46 `Definition kernel_pair {C} `{HasPullbacks C} {x y} (f : x ~> y) : Pullback f f := pullback f f` is the relation induced by a MAP, and Structure/Regular.v:66 `Class Regular`'s field regular_coeq asserts every kernel pair has a coequalizer, with Structure/Regular.v:144 regular_epi_of_kernel_coeq going relation → quotient. These give neither direction of a bijection between partitions and equivalence relations: there is no notion of an arbitrary internal equivalence relation on an object, no round trip, and no uniqueness statement",
+   "grep -rn --include='*.v' -i 'closed connected' → 0 hits (the book's proof device)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently. One side of the bijection (partitions) does not exist; and there is no internal-equivalence-relation-on-an-object notion to pair with it. I independently verified the record's near-miss citations line-exact: Structure/Regular.v:46-47 `Definition kernel_pair {C} `{H : @HasPullbacks C} {x y} (f : x ~> y) : Pullback f f := pullback f f`, Structure/Regular.v:66 `Class Regular (C : Category) := {`, Structure/Regular.v:144 `Definition regular_epi_of_kernel_coeq`. Also verified Structure/Topos.v:92 does contain the Giraud prose 'equivalence relations effective' with no formalization, and Theory/Sheaf.v:26 is coverage/covering-family prose. My own extra probe: `rg -n 'Coequalizer' Instance/Sets*.v Instance/Sets/*.v` -> 0 hits, i.e. Sets has no coequalizer instance either, so even the quotient-as-coequalizer-of-an-equivalence route is unavailable. The classifier missed nothing I found."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:ex20",
+  "classification": "ABSENT",
+  "aliases": [
+   "closed and connected subsets form a partition",
+   "equivalence classes are nonempty, pairwise disjoint and cover",
+   "saturated subset of an equivalence relation",
+   "connected component of a relation",
+   "well-definedness of the quotient partition"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'closed connected' → 0 hits; grep -i 'connected' → only Instance/FinSet/Pushout.v's connected-component comments (265, 405) and unrelated prose",
+   "grep -rn --include='*.v' -i 'saturated' → 2 hits, both Construction/Localization*.v prose about saturated classes of morphisms, unrelated",
+   "grep -rn --include='*.v' -i 'partition' → only Theory/Coq/List.v's boolean list filter, so the conclusion of the exercise has no target notion (see the def14 log)",
+   "grep -rn --include='*.v' -i 'disjoint' → only Theory/Multicategory's disjoint-associativity shape; no pairwise-disjointness statement about subsets",
+   "grep -rn --include='*.v' -i 'nonempty' / 'cover' → no nonemptiness-plus-covering conditions on a family of subsets; the only covering statements are Grothendieck-topology covering families (Theory/Sheaf.v) and Instance/FinSet/Pushout.v:459 apex_cover, which says the two coproduct injections hit every class of ONE specific finite quotient — not that a family of parts covers a set"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently (conclusion is 'these form a partition', and the partition notion is absent; the book's 'closed and connected subset' device has 0 hits). I verified the log's one substantive near-miss citation: Instance/FinSet/Pushout.v:459 `Lemma apex_cover` exists at that exact line and is indeed about the two coproduct injections hitting every class of one specific finite quotient, not about a family of parts covering a set. 'saturated' hits are Construction/Localization* prose, as claimed. Nothing missed."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:def21",
+  "classification": "PARTIAL",
+  "aliases": [
+   "quotient of a set by an equivalence relation",
+   "A/~",
+   "set of equivalence classes",
+   "quotient map / canonical projection",
+   "setoid quotient (same carrier, coarser ≈)",
+   "coequalizer of a kernel pair"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/FinSet/Pushout.v",
+    "line": 420,
+    "symbol": "po_cls (with po_apex, po_cls_rep)",
+    "intree_statement": "Definition po_apex : nat := fin_countP po_isrep.  (line 406, 'the number of representatives, that is, the number of connected components')  …  Definition po_cls (p : Fin.t (y + z)) : Fin.t po_apex := fin_rank po_isrep (po_lab p) (po_isrep_lab p).  …  Lemma po_cls_rep (k : Fin.t po_apex) : po_cls (fin_select po_isrep k) = k.  (line 445)"
+   },
+   {
+    "file": "Instance/Sets/Pushout.v",
+    "line": 91,
+    "symbol": "pushout_apex_setoid",
+    "intree_statement": "Program Definition pushout_apex_setoid {A B C : SetoidObject} (f : SetoidMorphism A B) (g : SetoidMorphism A C) : SetoidObject := {| carrier := Datatypes.sum (carrier B) (carrier C); is_setoid := {| equiv := pushout_eq f g; setoid_equiv := _ |} |}."
+   },
+   {
+    "file": "Construction/Quotient.v",
+    "line": 254,
+    "symbol": "Quotient (with Quotient_equivalence, QuotientLift_unique)",
+    "intree_statement": "Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category := {| obj := @obj C; hom := @hom C; homset := fun x y => {| equiv := R x y; setoid_equiv := Quotient_equivalence x y |}; id := @id C; compose := @compose C; … |}  — with Lemma Quotient_equivalence … (x y : C) : Equivalence (R x y) (line 241) and Lemma QuotientLift_unique (line 334) for the universal property."
+   }
+  ],
+  "statement_record": {
+   "book": "Given a set A and an equivalence relation ~ on A, the quotient A/~ is the set of parts of the corresponding partition — i.e. the set of equivalence classes, presented via partitions rather than via classes directly.",
+   "intree": "Instance/FinSet/Pushout.v: `Definition po_apex : nat := fin_countP po_isrep` (the number of classes) with `Definition po_cls (p : Fin.t (y + z)) : Fin.t po_apex := …` (each element to its class) and `Lemma po_cls_rep (k : Fin.t po_apex) : po_cls (fin_select po_isrep k) = k`.  Instance/Sets/Pushout.v: `pushout_apex_setoid … : SetoidObject := {| carrier := carrier B + carrier C; is_setoid := {| equiv := pushout_eq f g |} |}`.  Construction/Quotient.v: `Quotient C R … : Category` with homset equiv coarsened from ≈ to R.",
+   "strength_comparison": "intree-weaker: the item is a general construction A/~ and the library has no such operator. What exists is (a) the setoid idiom — a quotient is another choice of ≈ on the same carrier (stated as design in Instance/Sets.v:66 and Theory/Category.v:93 and realized generically at HOM level by Construction/Quotient.v's Quotient, including its UMP) and (b) two per-instance set-level quotients by a specifically generated equivalence: pushout_apex_setoid in Sets (carrier B + C, equiv the inductively generated pushout_eq) and the coend quotient at Instance/Sets/Coend.v:93. Only the skeletal-FinSet pushout actually produces the book's SET OF PARTS: po_apex counts the classes and po_cls is the quotient map, with po_cls_rep exhibiting a representative of each class. Note the same-name-but-weaker trap: Construction/Quotient.v's `Quotient` is a quotient of a CATEGORY by a hom-congruence, not of a set by an equivalence relation, and Structure/Regular.v's regular_coeq gives coequalizers only of kernel pairs (relations induced by a map), never of an arbitrary equivalence relation."
+  },
+  "gap": "No general quotient of a set by an equivalence relation: there is no operator taking a SetoidObject A and an equivalence relation R on its carrier (coarser than ≈) to A/R, and no generic quotient map with its universal property in Sets. Each site rebuilds one for its own generated relation (Instance/Sets/Pushout.v, Instance/Sets/Coend.v), and the 'set of parts / set of classes' presentation the book actually gives exists only in skeletal FinSet for the pushout-generated relation (po_apex/po_cls). Because def14 (partition) is absent, the book's route — quotient := set of parts of the corresponding partition — cannot be stated at all; the in-tree quotients are all class-free (same carrier, coarser ≈) except the FinSet one, which is class-based but not general.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, with a gap statement of the same shape (quotient realized by coarsening ~~ on the same carrier rather than as a set of classes; the class-set presentation exists only in skeletal FinSet). All three evidence citations verified line-exact: Instance/FinSet/Pushout.v:406 `Definition po_apex : nat := fin_countP po_isrep`, :420 `Definition po_cls`, :445 `Lemma po_cls_rep`; Instance/Sets/Pushout.v:91 `Program Definition pushout_apex_setoid` (:90 is its docstring); Construction/Quotient.v:254 `Definition Quotient (C : Category) (R : HomRel C)` with homset `{| equiv := R x y; setoid_equiv := Quotient_equivalence x y |}`, plus :241 Quotient_equivalence and :334 QuotientLift_unique. Corroborating pointers also line-exact: Instance/Sets.v:66 'a quotient is just another choice of ~~ on the same carrier', Theory/Category.v:93 'has no quotient types, so a hom cannot be quotiented after the fact', Instance/Sets/Coend.v:93 `coend_apex_setoid`. The same-name-weaker trap the record flags is real and I confirmed it by reading Construction/Quotient.v:212-262: HomRel is Prop-valued by design (:221), HomCongruence has cong_incl/sym/trans/comp (:226-233), and `Quotient` keeps obj and hom of C and only coarsens the hom-setoid -- so it is a quotient of a CATEGORY whose set-level content is exactly 'recarrier the setoid', never a set of classes. The Quotient.v header's five advertised deliverables all exist (Quotient:254, QuotientProj:294, Quotient_iso:303, QuotientLift:313, Quotient_bifunctor:351), so no header defect there. gap statement is precise and honest; PARTIAL rather than ABSENT is right because the library HAS a working quotient discipline and one genuine class-set construction, and rather than PRESENT because no general A/~ operator exists."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:def22",
+  "classification": "PARTIAL",
+  "aliases": [
+   "function as a total single-valued relation",
+   "functional relation / graph of a function",
+   "SetoidMorphism (setoid map)",
+   "preimage / fibre f⁻¹(t) / inverse image",
+   "surjection, injection, bijection",
+   "epi, mono, iso in Sets"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Sets.v",
+    "line": 400,
+    "symbol": "bijective_is_iso",
+    "intree_statement": "Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h."
+   },
+   {
+    "file": "Lib/Setoid.v",
+    "line": 117,
+    "symbol": "injective",
+    "intree_statement": "Class injective {A : Type} `{Setoid A} {B : Type} `{Setoid B} (f : A -> B) := { inj {x y} : f x ≈ f y -> x ≈ y }."
+   },
+   {
+    "file": "Lib/Setoid.v",
+    "line": 121,
+    "symbol": "surjective",
+    "intree_statement": "Class surjective {A : Type} {B : Type} `{Setoid B} (f : A -> B) := { surj {y} : { x & f x ≈ y} }."
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 121,
+    "symbol": "SetoidMorphism",
+    "intree_statement": "Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := { morphism :> x → y; proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism }."
+   },
+   {
+    "file": "Theory/Subobject/Functor.v",
+    "line": 35,
+    "symbol": "sub_reindex",
+    "intree_statement": "Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := {| sub_dom := Pull f (sub_mono u) (pullback f (sub_mono u)); sub_mono := pullback_fst f (sub_mono u) (pullback f (sub_mono u)); sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u)) |}."
+   }
+  ],
+  "statement_record": {
+   "book": "A function S → T is a subset F ⊆ S × T such that for every s ∈ S there is a UNIQUE t ∈ T with (s,t) ∈ F; notation F(s) = t. For t ∈ T the preimage of t is { s ∈ S | F(s) = t }. F is surjective when every t has some s with F(s) = t; injective when F(s₁) = F(s₂) forces s₁ = s₂; bijective when both.",
+   "intree": "`Class injective … := { inj {x y} : f x ≈ f y -> x ≈ y }`; `Class surjective … := { surj {y} : { x & f x ≈ y} }`; `Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) : injective h -> surjective h -> IsIsomorphism h`; `Record SetoidMorphism … := { morphism :> x → y; proper_morphism :> Proper (respectful equiv equiv) morphism }`; `Definition sub_reindex {x y : C} (f : y ~> x) (u : SubObj x) : SubObj y := …` (preimage of a subobject along f, via the chosen pullback).",
+   "strength_comparison": "Injectivity and surjectivity are faithful setoid rephrasings (≈ for =); `surjective`'s chosen preimage `{ x & f x ≈ y }` is exactly the constructive existential, since in this library ∃ IS sigT (Lib/Foundation.v:61), so it is not a hidden strengthening. Bijectivity appears only as the conjunction of hypotheses of bijective_is_iso, which additionally supplies the inverse function with no appeal to choice. Functions are primitive (a Coq function plus a respectfulness certificate), NOT defined relationally: only the forward direction functions → relations is formalized, as `Program Instance Relation_Functor : Coq ⟶ Rel` sending f to its graph (Instance/Rel.v:167). intree-weaker on preimage: sub_reindex is the preimage of a SUBOBJECT along a morphism and needs chosen pullbacks; the book's element-indexed fibre is not it. The concrete-instance companions are Instance/Sets.v:369 injectivity_is_monic (injective ↔ Monic, an iff) and Instance/FinSet/Classifier.v:335 finset_monic_iff_injective."
+  },
+  "gap": "Three specific pieces are missing. (1) The relational definition of a function is absent: there is no predicate 'F ⊆ S × T is total and single-valued' and no theorem that such an F yields a function — greps for 'functional', 'single-valued', 'graph' turn up only Instance/Rel.v:167 Relation_Functor (functions → relations, the converse direction only). (2) The preimage of an ELEMENT, f⁻¹(t) = { s | f s ≈ t }, is defined nowhere; the nearest in-tree constructions are sub_reindex (preimage of a subobject, requiring HasPullbacks), the image `Sets_Image := ∃ y : Y, ∃ x : X, f x ≈ y` (Instance/Sets/Image.v:75) and char_setoid's image predicate `λ b, ∃ a, m a ≈ b` (Instance/Sets/Classifier.v:186) — all image-side, not fibre-side. (3) `bijective` is not a named predicate; the notion exists only as the two hypotheses of bijective_is_iso, and the converse (an iso of Sets is injective and surjective) is not stated.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently and enumerated the same three missing pieces (relational/single-valued definition of a function; the element-indexed preimage; a named `bijective`). All five evidence citations verified line-exact: Lib/Setoid.v:117 `Class injective ... := { inj {x y} : f x ~~ f y -> x ~~ y }`, Lib/Setoid.v:121 `Class surjective ... := { surj {y} : { x & f x ~~ y} }`, Instance/Sets.v:400-401 `Lemma bijective_is_iso ... : injective h -> surjective h -> IsIsomorphism h`, Instance/Sets.v:121 `Record SetoidMorphism`, Theory/Subobject/Functor.v:35 `Definition sub_reindex`. Corroborating pointers also line-exact: Instance/Rel.v:167 Relation_Functor, Instance/Sets.v:369 injectivity_is_monic (an iff), Instance/FinSet/Classifier.v:335 finset_monic_iff_injective, Instance/Sets/Image.v:75 Sets_Image, Instance/Sets/Classifier.v:186 char_setoid. I independently reproduced the three negative greps ('single-valued' -> 1 unrelated hit in Instance/Lambda/Full.v:50; 'functional relation' -> 0; 'preimage' -> only chosen-preimage prose, sub_reindex-style pullback preimages and Theory/Functor.v:332 prefmap). STRENGTH_COMPARISON CORRECTION (does not change the classification, so no field overwrite): the record asserts that `surjective`'s `{ x & f x ~~ y }` 'is exactly the constructive existential, since in this library ~E IS sigT (Lib/Foundation.v:61), so it is not a hidden strengthening'. The notation chain is real (Lib/Foundation.v:61 binds 'exists' to sigT and :66 routes the Unicode existential through it), but the conclusion understates the difference AGAINST THE BOOK: relative to Seven Sketches' plain 'for every t there exists s', the in-tree class is SPLIT surjectivity, and the library itself says so twice -- Lib/Setoid.v:120 '[f] is (split) surjective: every [y] has a chosen preimage up to ~~' and Theory/Equivalence.v:38-40 'stated in the split, choice-carrying house style ... the split [surjective] class of Lib/Setoid.v'. So the honest reading is 'intree-stronger on surjectivity (split/choice-carrying, constructively stronger than a bare existential), intree-weaker on the relational definition of a function, on the element preimage, and on a named `bijective`'. Everything else in the record is accurate."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:example23",
+  "classification": "PRESENT",
+  "aliases": [
+   "identity function",
+   "id_X is bijective",
+   "identity morphism is an isomorphism",
+   "id is monic and epic",
+   "setoid_morphism_id"
+  ],
+  "evidence": [
+   {
+    "file": "Theory/Isomorphism.v",
+    "line": 149,
+    "symbol": "iso_id",
+    "intree_statement": "#[export] Program Instance iso_id {x : C} : x ≅ x := { to := id; from := id }."
+   },
+   {
+    "file": "Theory/Morphisms.v",
+    "line": 135,
+    "symbol": "id_monic / id_epic",
+    "intree_statement": "Corollary id_monic : ∀ x, Monic (id (x:=x)).  …  Corollary id_epic : ∀ x, Epic (id (x:=x)).  (line 142)"
+   },
+   {
+    "file": "Instance/Sets.v",
+    "line": 155,
+    "symbol": "setoid_morphism_id",
+    "intree_statement": "Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} : SetoidMorphism@{o h p} x x := {| morphism := Datatypes.id |}."
+   }
+  ],
+  "statement_record": {
+   "book": "For any set X the identity function id_X sends each element to itself, and it is bijective.",
+   "intree": "`Program Instance iso_id {x : C} : x ≅ x := { to := id; from := id }` (so in Sets the identity setoid map has a two-sided inverse), `Corollary id_monic : ∀ x, Monic (id (x:=x))` and `Corollary id_epic : ∀ x, Epic (id (x:=x))`, over `Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {| morphism := Datatypes.id |}`.",
+   "strength_comparison": "same in substance. The in-tree form is categorical: the identity is an isomorphism in ANY category (iso_id), hence in Sets, where an isomorphism is a two-sided-inverse bijection of setoids — the same notion the library uses for bijection (bijective_is_iso, Instance/Sets.v:400). The elementwise injective half is moreover immediate from id_monic through the iff injectivity_is_monic (Instance/Sets.v:369). intree-weaker only in phrasing: no lemma literally reads `injective (id) ∧ surjective (id)`, and the converse iso → injective ∧ surjective is not stated in-tree (only bijective → iso is), so the elementwise reading is one trivial step away rather than transcribed."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PRESENT independently on the same evidence (iso_id + id_monic/id_epic + the identity setoid map). Citations verified line-exact: Theory/Isomorphism.v:149 `#[export] Program Instance iso_id {x : C} : x ~= x`, Theory/Morphisms.v:135 `Corollary id_monic : forall x, Monic (id (x:=x))` and :142 `Corollary id_epic`, Instance/Sets.v:155 `Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} : SetoidMorphism@{o h p} x x := {| morphism := Datatypes.id |}`. The strength_comparison is unusually candid for a PRESENT record -- it states outright that no lemma reads `injective id /\\ surjective id` and that the converse (iso -> injective /\\ surjective) is unstated -- and I independently confirmed both: `rg` for injective/surjective instances finds NO instance for id anywhere, and Instance/Sets.v carries only bijective -> iso (:400), never the converse. PRESENT still holds under the frozen definition: the identity morphism is primitive (Theory/Category.v:118), it is an isomorphism in every category, and in Sets an isomorphism is precisely the library's own notion of bijection (bijective_is_iso), so the item is formalized in substance with only a phrasing gap."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:ex24",
+  "classification": "ABSENT",
+  "aliases": [
+   "injective but not surjective",
+   "surjective but not injective",
+   "independence of injectivity and surjectivity",
+   "mono that is not an iso / epi that is not an iso",
+   "deciding whether a relation is a function",
+   "classifying a relation as injective / surjective / bijective / neither"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'not surjective' / 'not injective' / 'non-surjective' / 'not epic' / 'not monic' / 'not an iso' / '¬ *Epic' / '¬ *Monic' → 0 hits: no separating example is asserted anywhere",
+   "grep -rn --include='*.v' '≇' / -i 'not isomorphic' → 0 real hits (only Instance/Coq/Par.v:34 prose 'equivalent (not isomorphic) to the category of pointed sets')",
+   "grep -rn --include='*.v' '→ False' / '-> False' → the library DOES prove negative statements (Instance/Two.v:122 TwoHom_Y_X_absurd, Instance/Roof.v:60-75, Construction/Funny/Comparison.v:144 funny_diagonals_distinct and :155 non-faithfulness, Construction/ColouredPROP/Linear.v:165) — but none of them is about a function between sets failing injectivity or surjectivity",
+   "NEAR MISS, not the item: Instance/FinSet/Pushout.v:196 `Lemma fin_FS_inj {n} (x y : Fin.t n) : Fin.FS x = Fin.FS y → x = y` gives an injective map Fin.t n → Fin.t (S n) that is in fact not surjective, and Instance/Sets/Image.v:113 Sets_Image_epi_epic gives a surjection — but neither non-surjectivity nor non-injectivity is ever proved, which is the whole content of the exercise",
+   "Clauses (3)-(4) of the exercise need the relational definition of a function to decide whether a displayed relation IS one; grep -i 'functional' / 'single-valued' / 'graph' → no such predicate exists (only Instance/Rel.v:167 Relation_Functor, functions → relations)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently, and independently found the same single near miss: Instance/FinSet/Pushout.v:196 `Lemma fin_FS_inj {n : nat} (x y : Fin.t n) : Fin.FS x = Fin.FS y -> x = y` (verified line-exact) gives an injective map that happens not to be surjective, but non-surjectivity is never asserted, which is the whole content of parts (1)-(2). Parts (3)-(4) additionally need the relational definition of a function to decide whether a displayed relation IS one -- absent, as verified under def22. I spot-verified the log's demonstration that the library does prove negative statements when it wants to: Instance/Two.v:122 `Lemma TwoHom_Y_X_absurd : TwoHom TwoY TwoX -> False`, Construction/Funny/Comparison.v:144 `Theorem funny_diagonals_distinct : feq diagLR diagRL -> False` and :155 `Corollary FunnyToProduct_not_faithful` -- all line-exact, and none about a function failing injectivity or surjectivity. So the ABSENT call is not an artifact of the library being unable to state negations."
+  }
+ },
+ {
+  "id": "7sketches:1.2.1:ex25",
+  "classification": "ABSENT",
+  "aliases": [
+   "a set with a function to ∅ is empty",
+   "strict initial object",
+   "0 is strict / nothing maps into the empty set",
+   "x ~> 0 implies x ≅ 0",
+   "A → False implies A uninhabited",
+   "empty type / False as initial object"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rn --include='*.v' -i 'strict initial' / 'strictly initial' / 'strict_initial' → 0 hits",
+   "Read Structure/Initial.v in full: it provides only `initial_obj` (106), `zero {x} : initial_obj ~> x` (109), `zero_unique {x} (f g : initial_obj ~> x) : f ≈ g` (112) and `zero_comp : f ∘ zero ≈ zero` (124) — every statement is about maps OUT OF 0; nothing constrains a map INTO 0",
+   "grep -rn --include='*.v' 'initial_obj' / '~> 0' / '≅ 0' → no lemma of the shape (x ~> initial_obj) → x ≅ initial_obj in any file",
+   "The concrete initial objects exist but say nothing about strictness: Instance/Sets.v:265 Sets_Initial (carrier False), Instance/Coq.v:187 Coq_Initial, Instance/FinSet.v:223 FinSet_Initial (Fin.t 0), Instance/Rel.v:90 Rel_Initial, Instance/Props.v:61 Props_Initial",
+   "NEAR MISS, not the item: Structure/BiCCC.v:208 `Program Instance prod_zero_l {x : C} : 0 × x ≅ 0` (the annihilation law, replayed as a Goal at Theory/Algebra.v:73) plus zero_unique would yield strictness in two lines in any BiCCC — but the implication is never drawn, and no file states that a set admitting a map to the empty set is empty",
+   "grep -rn --include='*.v' -i 'uninhabited' / 'is empty' / 'no elements' → only unrelated hom-set emptiness prose (Construction/Coproduct.v:15, ColouredPROP/Linear.v, Instance/Two/Discrete.v:108)"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached ABSENT independently: `rg -in 'strict initial|strictly initial'` -> 0 hits, and no lemma of shape (x ~> 0) -> x ~= 0 exists. I read Structure/Initial.v in full and confirm the record's inventory line-exact: initial_obj:106, zero:109, zero_unique:112, zero_comp:124 -- every statement concerns maps OUT OF 0, nothing constrains a map INTO 0. Concrete initial objects verified: Instance/Sets.v:265 Sets_Initial, Instance/Coq.v:187 Coq_Initial, Instance/FinSet.v:223 FinSet_Initial, Instance/Rel.v:90 Rel_Initial, Instance/Props.v:61 Props_Initial -- none says anything about strictness. The near miss is verified and correctly excluded: Structure/BiCCC.v:208 `#[export] Program Instance prod_zero_l {x : C} : 0 x x ~= 0` exists (the annihilation law), replayed as a bare Goal in Theory/Algebra.v:73-74 (the record cites :73, which is `x x 0 ~= 0`; the `0 x x ~= 0` twin is :74 -- immaterial, both are there), and together with zero_unique it would give strictness in two lines, but the implication is never drawn. ABSENT, not OUT_OF_SCOPE: the statement is trivially formalizable in this setting (A -> False makes A uninhabited), it simply is not stated."
+  }
+ }
+]

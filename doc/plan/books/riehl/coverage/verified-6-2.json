@@ -1,0 +1,215 @@
+[
+  {
+    "id": "riehl:6.2:example9",
+    "classification": "ABSENT",
+    "aliases": [
+      "induction / coinduction of group representations along a subgroup inclusion (ind^G_H ⊣ res^G_H ⊣ coind^G_H)",
+      "Frobenius reciprocity; induced representation; coinduced representation",
+      "C^{BG} — the category of G-objects / functors out of a delooped group; G-sets, G-spaces, G-representations",
+      "ind^G_H X as the coequalizer of ∐_{G×H} X ⇉ ∐_G X, and ind^G_H X ≅ ∐_{G/H} X (dually the equalizer prod_G X ⇉ prod_{H×G} X and coind ≅ ∏_{H\\G} X)",
+      "left / right Kan extension along the delooping inclusion BH → BG computed by the comma-category (co)limit formula"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'coinduc|ind\\^|induced_rep|induction of|restriction functor' . — hits only Instance/Sets/Streams.v (CoInductive streams), Construction/ColouredPROP/BaseChange/Laws.v (colour restriction functor), and prose in Theory/Adjunction.v; no representation-theoretic induction anywhere",
+      "grep -rn --include=\"*.v\" -iE '\\bGroup\\b|G-set|Gset|group action|equivariant|representation' . — 'equivariant' occurs only as mcomp_equivariant (symmetric-group action on multicategory contexts, Theory/Multicategory*.v); 'representation' only in the representable-functor/Cayley sense; no category of G-objects",
+      "grep -rn --include=\"*.v\" -iE 'deloop|one-object|BG\\b|classifying' . — the only delooping in-tree is Theory/Bicategory/OneObject.v (a MONOIDAL category as a one-object BICATEGORY); no construction turning a group/monoid into a one-object CATEGORY BG, so C^{BG} cannot even be stated",
+      "grep -rn --include=\"*.v\" -E '^(Definition|Theorem|Lemma|Class|Record|Program Instance|Instance)' Structure/Group.v — the only group notion in-tree is 'Class GroupObject (grp : C)' (an internal group object in a cartesian category); there is no group action, no C^{BG}, no restriction/induction functors",
+      "grep -rn --include=\"*.v\" -iE 'Frobenius reciprocity|induced representation|action groupoid|coset|subgroup' . — 0 hits for the first three; 'subgroup' occurs only in prose (Instance/Poset.v Galois-connection essay, Construction/Cayley.v header)",
+      "grep -rn --include=\"*.v\" -iE 'Vect|vector space|k-linear' . — only prose mentions (Theory/Functor.v, Theory/Equivalence.v headers); no category of vector spaces, so clause (d) (finite-index ind ≅ coind in Vect_k) has no home",
+      "grep -rn --include=\"*.v\" -E 'LocalLeftKan|LocalRightKan|LeftKan|RightKan|Lan |Ran ' . — Kan extensions occur ONLY in Theory/Kan/Extension.v (the classes) and Structure/Limit/Kan/Extension.v (Kan_Limit); no comma-category (co)limit formula exists to compute any Kan extension, which is the whole method of this example. Theory/Kan/Extension.v:74-79 states explicitly that the pointwise colimit-over-comma / coend formula is 'a bridge not yet formalized'"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific blind searches: `rg -i 'induced representation|induction functor|coinduc|restriction functor|ind\\^|res\\^'` -> only Instance/Sets/Streams.v (CoInductive), ColouredPROP/BaseChange/Laws.v (colour restriction), prose in Theory/Adjunction.v. `rg -il 'delooping|one-object|BG\\b|group as a category'` -> the only delooping is Theory/Bicategory/OneObject.v (monoidal category as a one-object BICATEGORY), not a group as a one-object category, so C^{BG} is not expressible. Structure/Group.v verified to contain exactly one class, 'Class GroupObject (grp : C)' at line 109 -- an internal group object, with no action, no coset, no orbit. No Vect_k. Classifier's negative log checked line by line and accurate."
+    }
+  },
+  {
+    "id": "riehl:6.2:example12",
+    "classification": "ABSENT",
+    "aliases": [
+      "fixed-point functor X ↦ X^H as a right Kan extension",
+      "orbit category O_G (objects the G-sets G/H, morphisms G-equivariant maps)",
+      "Ran along BG^op → O_G; limit over the action groupoid of G/H",
+      "fundamental theorem of Galois theory (intermediate fields ↔ subgroups), Field^E_F, O_G^op ≅ Field^E_F",
+      "category of elements of a G-set / translation groupoid"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'orbit|fixed.point|galois|field' . — 'field' hits are all Coq RECORD FIELDS; 'Galois' appears only in the Instance/Poset.v background essay about Galois CONNECTIONS (adjunctions between posets), which cites the fundamental theorem of Galois theory purely as etymology and asserts nothing about it",
+      "grep -rn --include=\"*.v\" -iE 'orbit category|fixed.point functor|action groupoid' . — 0 hits",
+      "grep -rn --include=\"*.v\" -iE '\\bGroup\\b|G-set|group action|equivariant' . — no G-sets, no group actions; Structure/Group.v provides only 'Class GroupObject' (internal group object), with no action or orbit machinery",
+      "grep -rn --include=\"*.v\" -iE 'deloop|one-object|BG\\b' . — no delooping of a group to a one-object category, so neither BG^op nor Set^{BG} is expressible",
+      "grep -rn --include=\"*.v\" -iE 'Vect|vector space|field extension|separable|algebraic closure' . — no algebra of fields in-tree; the Galois special case has no carrier",
+      "grep -rn --include=\"*.v\" -E 'LocalRightKan|RightKan|Ran ' . — right Kan extensions exist only as the class Theory/Kan/Extension.v:140 (Ran as right adjoint to Induced) and Theory/Kan/Extension.v:154 (LocalRightKan by counit UMP); nothing computes a Ran as a limit over a comma category, the method this example depends on"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: `rg -i 'orbit categ|fixed[- ]point functor|Galois'` -> Galois appears only in background essays about Galois CONNECTIONS between posets (Instance/Poset.v:37-100, Theory/Adjunction.v:78-79, Structure/Factorization.v:69, Adjunction/GAFT.v:136, Structure/Limit.v:53, Instance/Adjoints.v:280); none asserts anything about field extensions or the fundamental theorem. No G-sets, no action groupoid, no orbit category, no category of fields. Cited anchors spot-checked: Theory/Kan/Extension.v:140 = 'Class RightKan := {', :154 = 'Class LocalRightKan (X : A ⟶ C) := {' -- both accurate."
+    }
+  },
+  {
+    "id": "riehl:6.2:example13",
+    "classification": "ABSENT",
+    "aliases": [
+      "n-truncation of simplicial sets = restriction along Δ_{≤n} ↪ Δ",
+      "n-skeleton sk_n (comonad) and n-coskeleton cosk_n (monad), with sk_n ⊣ cosk_n",
+      "simplicial sets = presheaves on the simplex category Δ; Set^{Δ^op}",
+      "Lan_{i_n} ⊣ i_n^* ⊣ Ran_{i_n} — the adjoint triple from restriction along a full subcategory inclusion of presheaf categories",
+      "induced comonad L∘M left adjoint to induced monad R∘M for an adjoint triple L ⊣ M ⊣ R"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'simplicial|simplex|Delta_|skeleton|coskeleton|truncat|augmented' . — 'simplicial' occurs only in background prose (Theory/Kan/Extension.v, Instance/FinSet.v, Construction/Enriched.v, Structure/Coend.v); 'skeleton' only in the equivalence-theory essay and as 'work-order skeleton'; 'coskeleton' 0 hits; 'truncat' only about list zip and the Ho(Cat) 1-truncation prose. There is no simplex category Δ, no Δ_{≤n}, no simplicial sets",
+      "grep -rn --include=\"*.v\" -iE 'simplicial set|n-truncated|sk_n|cosk' . — 0 asserting hits",
+      "grep -rn --include=\"*.v\" -E 'LeftKan|RightKan|Lan |Ran ' . — the abstract triple Lan ⊣ Induced ⊣ Ran exists only as the CLASSES Theory/Kan/Extension.v:222 (LeftKan) and :140 (RightKan); nothing instantiates them for any presheaf category, and Corollary 6.2.7-style existence (small domain + (co)complete target ⇒ the adjoints exist) is not proved in-tree, so the adjoints this example invokes are not available",
+      "grep -rn --include=\"*.v\" -iE 'adjoint triple|triple adjunction' . — only prose mentions (Comonad/Coalgebra.v:97, Theory/Adjunction.v:75, Instance/Poset.v:70, Construction/Arrow.v:61, Structure/Pullback.v:127); no theorem about an adjoint triple",
+      "grep -rn --include=\"*.v\" -E 'Adjunction_Induced_Monad|Adjunction_Comonad' . — the induced monad and the induced comonad of a SINGLE adjunction exist (Comonad/Duality.v:170, Theory/Lawvere/Monad.v:74), but there is no statement that for an adjoint triple the induced comonad is left adjoint to the induced monad (the sk_n ⊣ cosk_n clause)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: `rg -in 'simplicial|coskelet|n-skelet|truncation'` over all .v -> 9 hits, every one inside a background essay (Structure/Group.v:47, Comonad/Core.v:103, Comonad/Coalgebra.v:100, Structure/Coend.v:113, Construction/Enriched.v:72, Theory/Kan/Extension.v:47,91, Instance/Cat.v:32, Instance/FinSet.v:87). 'coskeleton' has zero hits. There is no simplex category Δ and no Δ_{≤n} (Instance/FinSet.v:89 only remarks in prose that Δ embeds into FinSet). Independently confirmed the classifier's second claim: `rg -in 'comonad.*left adjoint.*monad|induced comonad.*monad'` -> 0 hits, so the sk_n ⊣ cosk_n clause (Riehl Exercise 4.1.iv) has no abstract in-tree form either, even though Adjunction_Comonad (Comonad/Duality.v:170) and Adjunction_Induced_Monad exist separately. Anchors verified."
+    }
+  },
+  {
+    "id": "riehl:6.2:cor14",
+    "classification": "ABSENT",
+    "aliases": [
+      "pointwise Kan extension along a fully faithful functor has invertible unit/counit (genuinely extends F)",
+      "Lan_K F ∘ K ≅ F for K fully faithful; ε : Ran_K F ∘ K ≅ F",
+      "Lan_K is fully faithful; the adjunction Lan_K ⊣ K^* is (co)reflective",
+      "unit of an adjunction is an isomorphism ⟺ the left adjoint is fully faithful (Riehl Lemma 4.6.11); reflective / coreflective subcategory",
+      "colimit over a category with a terminal object is computed at that object (C/c has terminal id_c)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'pointwise' . — 40+ hits, NONE defining a pointwise Kan extension. Theory/Kan/Extension.v:148 uses 'pointwise-free' for the LOCAL Kan extension (a UMP-style notion, not the (co)limit-over-comma notion), and Theory/Kan/Extension.v:74-79 says of the pointwise colimit/coend formula that 'the coend calculus … is the in-tree machinery those formulas would rest on, a bridge not yet formalized'. Definition 6.2.6 (pointwise Kan extension) therefore has no in-tree counterpart, and this corollary's hypothesis cannot be stated",
+      "grep -rn --include=\"*.v\" -E 'LocalLeftKan|LocalRightKan|LeftKan|RightKan|Lan |Ran ' . | grep -v Theory/Kan/Extension.v — the ONLY Kan statement outside the definition file is Structure/Limit/Kan/Extension.v:46 'Theorem Kan_Limit … Lim ≅ Ran (Erase J) F ttt'. No theorem anywhere hypothesizes anything about K (fully faithful or otherwise)",
+      "grep -rn --include=\"*.v\" -iE 'fully.faithful|Full.*Faithful' . | grep -iE 'unit|counit|iso|reflect' — hits are Theory/Functor.v:355 (FullyFaithful reflects isomorphisms), Theory/Equivalence/FullFaithful.v (ff+eso ⇒ equivalence), Theory/Equivalence/Limit.v:296 (ff functors reflect limits), Construction/Grothendieck/RoundTrip.v; none concerns Kan extensions or the invertibility of a Kan-extension unit",
+      "NEAR MISS, examined and rejected: Construction/Reflective.v:92 'Lemma reflective_counit_iso {C} {S : Subcategory C} (R : Reflective S) (x : Sub C S) : reflector R (Incl C S x) ≅[Sub C S] x'. This is the counit-iso lemma for a FULL REFLECTIVE SUBCATEGORY inclusion, not the Kan-extension statement: its K is the inclusion of a subcategory of C (not an arbitrary fully faithful K : C ⟶ D), the adjunction is reflector ⊣ Incl (not Lan_K ⊣ K^* between FUNCTOR categories), and no pointwise hypothesis or (co)limit formula appears. It asserts neither clause (a) nor clause (b) of the corollary",
+      "grep -rn --include=\"*.v\" -iE 'terminal object.*colimit|colimit.*terminal object|C/c|slice.*terminal' . — the proof ingredient (a colimit over a category with terminal object is its value there; Riehl Exercise 3.1.vii) also has no in-tree statement",
+      "grep -rn --include=\"*.v\" -l 'Kan' . — 14 files; all but Theory/Kan/Extension.v and Structure/Limit/Kan/Extension.v mention Kan only in background prose"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: I read all 438 lines of Theory/Kan/Extension.v and all of Structure/Limit/Kan/Extension.v. No theorem anywhere hypothesizes anything about the functor K along which one extends, fully faithful or otherwise; there is no statement that a Kan-extension unit/counit is invertible, and no statement that Lan_K is fully faithful. I hit the same near miss the classifier flagged and reject it for the same reason: Construction/Reflective.v:92 'Lemma reflective_counit_iso ... : reflector R (Incl C S x) ≅[Sub C S] x' is about a full reflective SUBCATEGORY inclusion (adjunction reflector ⊣ Incl inside C), not about Lan_K ⊣ K^* between functor categories, and carries no pointwise hypothesis; it asserts neither clause (a) nor clause (b). Also checked the proof ingredients separately: no 'colimit over a category with a terminal object' lemma, and no general 'unit iso ⟺ left adjoint fully faithful' lemma (Riehl 4.6.11) -- the only Full/Faithful results are Theory/Functor.v:355 FullyFaithful (reflects isos), Theory/Equivalence/FullFaithful.v (ff+eso ⇒ equivalence) and Theory/Equivalence/Limit.v:296 (ff reflect limits). Every cited line number verified verbatim."
+    }
+  },
+  {
+    "id": "riehl:6.2:example15",
+    "classification": "ABSENT",
+    "aliases": [
+      "counterexample: a non-pointwise left Kan extension along a fully faithful functor whose unit is not invertible",
+      "Kan extension along the inclusion 1 + 1 ↪ walking span (l ← m → r)",
+      "finite explicit counterexample category with five objects and four non-identity morphisms",
+      "Lan exists but is not pointwise (target lacks an initial object)",
+      "sharpness / necessity of the pointwise hypothesis in Corollary 6.2.14"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'pointwise' . — no pointwise Kan extension notion in-tree (Theory/Kan/Extension.v:74-79 records the colimit formula as 'a bridge not yet formalized'), so the very distinction this counterexample draws (Kan extension that is NOT pointwise) is inexpressible",
+      "grep -rn --include=\"*.v\" -E 'LocalLeftKan|LeftKan|Lan ' . — the only in-tree Lan statements are the class definitions in Theory/Kan/Extension.v; there is no worked example or counterexample of a Kan extension anywhere in the tree",
+      "grep -rn --include=\"*.v\" -iE 'walking|span|cospan' . — Instance/Two.v (walking arrow), Instance/Parallel.v (walking parallel pair), Instance/Roof.v (the roof/span shape) and Construction/Cospan/ exist as SHAPE categories, but none is used to build a Kan-extension counterexample; the 1 + 1 ↪ span inclusion and the five-object category E of the example do not occur",
+      "grep -rn --include=\"*.v\" -iE 'counterexample|countermodel' . — countermodels in-tree concern displayed-category cocycles (Theory/Displayed.v) and Funny/StrictCat coherence, not Kan extensions",
+      "grep -rn --include=\"*.v\" -iE 'fully.faithful' . | grep -i kan — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: since the pointwise/non-pointwise distinction does not exist in-tree, the counterexample is inexpressible as stated. Independently confirmed there is no worked Kan-extension example or counterexample anywhere: the only consumers of the Kan classes are Structure/Limit/Kan/Extension.v's Kan_Limit and the Abort-ed left_adjoints_preserve sketch. Shape categories do exist (Instance/Two.v, Instance/Parallel.v, Instance/Roof.v -- verified Instance/Roof.v:28 'Inductive RoofObj := RNeg | RZero | RPos', the walking span), but none is used against a Kan extension, and the five-object category E of the example does not occur."
+    }
+  },
+  {
+    "id": "riehl:6.2:exi",
+    "classification": "ABSENT",
+    "aliases": [
+      "the coequalizer/terminal-object fork Kan extensions are POINTWISE",
+      "Kan extension along the inclusion of the walking parallel pair into the free fork category",
+      "the comma-category colimit formula of Theorem 6.2.1 recovers the coequalizer construction",
+      "colimit over K ↓ d computing Lan at each object; Ran computing the terminal fork",
+      "free fork / cone under a parallel pair as a shape category"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -i 'pointwise' . — no pointwise Kan extension definition in-tree; Theory/Kan/Extension.v:74-79 declares the comma-category colimit formula an unformalized bridge. The exercise's entire content (checking pointwiseness via the Theorem 6.2.1 formula) is therefore unstatable",
+      "grep -rn --include=\"*.v\" -iE 'coequalizer.*Kan|Kan.*coequalizer' . — 0 hits",
+      "grep -rn --include=\"*.v\" -iE 'fork' . — 'fork' in-tree means the cartesian PAIRING ⟨f,g⟩ (fmap_fork, fork_comp) plus the elementary equalizer/coequalizer fork APIs Structure/Equalizer/Fork.v and Structure/Coequalizer.v; there is no FREE FORK CATEGORY (parallel pair together with a cone under it) to serve as the codomain D of the inclusion K",
+      "PARTIAL BACKGROUND ONLY (not the claim): Instance/Parallel.v defines the walking parallel pair, and Structure/Coequalizer.v:188 'Lemma colimit_coequalizes' / :226 'coequalizer_is_coequalizer' relate colimits of a Parallel-shaped diagram to coequalizers. Neither mentions Kan extensions, so neither asserts any part of this exercise",
+      "grep -rn --include=\"*.v\" -E 'LeftKan|RightKan|LocalLeftKan|LocalRightKan' . | grep -v Theory/Kan/Extension.v — only Structure/Limit/Kan/Extension.v (Kan_Limit); no Kan extension is ever computed along a shape-category inclusion"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: independently verified there is NO free-fork index category in-tree. `rg -in 'free fork|walking fork|fork categ'` -> 0 hits; the files matching 'Fork' are the cartesian pairing (fmap_fork/fork_comp) and the elementary Structure/Equalizer/Fork.v cofork/fork APIs (IsEqualizer at :52, fork_cone at :176, limit_equalizes at :187), none of which is an index category with a cone object. Instance/Parallel.v does supply the walking parallel pair (the domain of the exercise's inclusion K) and Structure/Coequalizer.v:188 colimit_coequalizes / :226 coequalizer_is_coequalizer relate Parallel-shaped colimits to coequalizers -- both citations verified verbatim -- but neither mentions Kan extensions, so the exercise's actual claim (pointwiseness of the fork Kan extensions) has no in-tree counterpart. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:6.2:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "left and right adjoints of the vertex-set functor U : Quiver ⟶ Set",
+      "discrete (edgeless) graph as the left adjoint; complete/indiscrete graph (one edge per ordered pair) as the right adjoint",
+      "quivers as presheaves / functors from the two-object shape A ⇉ V into Set; graph homomorphisms as natural transformations",
+      "restriction along the functor 1 ⟶ (A ⇉ V) picking out V, with its Kan extensions",
+      "free ⊣ underlying ⊣ cofree triple on the object/vertex set"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'quiver|graph|free category on' . — the only quiver development is Construction/Free/Quiver.v (Quiver, QuiverHomomorphism, QuiverCategory) with Construction/Free/Quiver.v:412 'Forgetful : StrictCat ⟶ QuiverCategory', :546 FreeCatFunctor and :550 FreeForgetfulAdjunction. That is the FREE CATEGORY adjunction between StrictCat and QuiverCategory — a different pair of functors from the exercise's U : Quiver ⟶ Set",
+      "grep -n -iE 'node|vertex|Forgetful|to Set|discrete|codiscrete|indiscrete' Construction/Free/Quiver.v — 'nodes' is a field of the Quiver record; there is NO functor QuiverCategory ⟶ Sets extracting the node set, hence no functor whose adjoints could be computed",
+      "grep -rn --include=\"*.v\" -iE 'codiscrete|indiscrete|chaotic' . — hits are the codiscrete 2-cell SETOID in Theory/Bicategory/Lax.v and the 'chaotic groupoid' prose in Construction/Funny.v / Instance/StrictCat/Funny.v; no indiscrete/complete quiver or category construction, so the right adjoint of the exercise has no in-tree carrier",
+      "grep -rn --include=\"*.v\" -E 'QuiverCategory' . — used only in Construction/Free/Quiver.v and Test/Issue138.v (typing probes for Forgetful/FreeCatFunctor); nothing else consumes it",
+      "grep -rn --include=\"*.v\" -E 'LeftKan|RightKan|Lan |Ran ' . — no Kan extension is ever computed along a functor out of the terminal category (other than Kan_Limit, which goes INTO 1), so the exercise's method is also unavailable",
+      "grep -rn --include=\"*.v\" -E 'DiscreteCat' . — Instance/Discrete.v builds a discrete CATEGORY on a Type and Theory/WeaklyInitial.v uses it for indexed products; there is no adjunction exhibiting it as left adjoint to an underlying-object-set functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: I found ONE near miss the classifier did not cite, examined it, and it does not change the verdict: Instance/Parallel.v:166 'Program Definition Presheaf_Graph : Parallel^op ⟶ Sets' -- a single concrete graph presheaf (vertices := nat, edges := nat*nat, with fst/snd as source/target), i.e. one OBJECT of the exercise's category, not the category Quiver = [A ⇉ V, Set] itself, and with no vertex-set functor and no adjoints. Separately confirmed the classifier's reading of Construction/Free/Quiver.v: it uses the edge-indexed-by-endpoints presentation (Class Quiver with nodes/edges/edgeset), and its adjunction is FreeCatFunctor ⊣ Forgetful between QuiverCategory and StrictCat (Construction/Free/Quiver.v:412, :546, :550 -- all three lines verified), which is Riehl's free-category adjunction, a different pair from U : Quiver ⟶ Set. `rg 'QuiverCategory'` outside that file -> only Test/Issue138.v typing probes (lines 45, 65, 69-70). No node-set functor, no discrete/indiscrete quiver. ABSENT stands."
+    }
+  },
+  {
+    "id": "riehl:6.2:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "conditions under which Lan and Ran of a monotone map along Q ↪ R coincide",
+      "monotone function between posets viewed as a functor; poset/preorder as a category",
+      "extension of a monotone map from the rationals to the reals; sup/inf (colimit/limit) formulae in a poset",
+      "left and right Kan extension along a (dense) order embedding agreeing — continuity of the extension",
+      "Kan extensions in a thin category = joins and meets"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rn --include=\"*.v\" -iE 'rational|\\breal\\b|monotone' . — 'real' hits are all English prose ('real tactic', 'real content'); 'monotone' occurs only in Instance/Proset.v:20 (prosets with monotone maps as morphisms) and Construction/Enriched/Two.v's EnrichedFunctor_Two_monotone. There is no ordered field, no ℚ, no ℝ, and no inclusion ℚ ↪ ℝ in-tree",
+      "grep -rn --include=\"*.v\" -iE 'exponential.*2\\^|2\\^x' . — the only hit is Instance/FinSet/Closed.v:178 about the finite exponential 2^2 = Fin.t 4; the analytic exponential of Example 6.2.8, which this exercise generalizes, is absent",
+      "grep -rn --include=\"*.v\" -E 'LeftKan|RightKan|LocalLeftKan|LocalRightKan|Lan |Ran ' . — Kan extensions appear only in Theory/Kan/Extension.v (classes) and Structure/Limit/Kan/Extension.v (Kan_Limit). Nothing states when a left and a right Kan extension along a common functor coincide, in any setting, thin or not",
+      "grep -rn --include=\"*.v\" -i 'pointwise' . — no pointwise/(co)limit formula for Kan extensions, so the sup-vs-inf comparison that drives the exercise cannot be formulated",
+      "grep -rn --include=\"*.v\" -iE 'Poset|Proset' -l . — Instance/Poset.v and Instance/Proset.v give the CATEGORIES of posets/prosets and treat adjunctions between thin categories as Galois connections, but contain no Kan extension statement and no completeness/density hypotheses on an order embedding"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass (run BEFORE opening coverage-6-2.json) independently reached ABSENT for all eight 6.2 items. Root finding, established without the classifier: the entire in-tree Kan-extension development is two files -- Theory/Kan/Extension.v (Induced, RightKan/LeftKan as the two adjoints of precomposition, LocalRightKan/LocalLeftKan by UMP, preserves_left_Kan/preserves_right_Kan, left_adjoint_impl, and left_adjoints_preserve which is Abort-ed and so not in the environment) and Structure/Limit/Kan/Extension.v (Kan_Limit alone). Verified by `rg -l 'Lan|Ran|LeftKan|RightKan|LocalLan|LocalRan'` over all .v -> exactly those two files; the other 12 files matching 'Kan' mention it only in background prose. Both files ARE registered in _CoqProject (lines 330, 445). There is no pointwise Kan extension (Riehl Def 6.2.6) and no comma-category (co)limit formula (Riehl Thm 6.2.1) -- Theory/Kan/Extension.v:74-79 says so in its own header ('the coend calculus ... is the in-tree machinery those formulas would rest on, a bridge not yet formalized'). Item-specific: no Kan extension is stated in any thin/ordered setting, and nothing anywhere says when a left and a right Kan extension along a common functor coincide. CORRECTION to the classifier's negative log (does not change the verdict, and if anything the in-tree encoding is CLOSER than the log implies): the log says 'Instance/Poset.v and Instance/Proset.v give the CATEGORIES of posets/prosets'. They do not. Instance/Proset.v:33 'Program Definition Proset {A} {R} (P : PreOrder R) : Category' and Instance/Poset.v:116 'Definition Poset ... : Category := Proset P' build a single preorder/poset AS a thin category (with LessThanEqualTo_Category := (nat, ≤) as the example) -- exactly the encoding this exercise needs for (Q,≤) → (R,≤). What is missing is everything else: no ℚ, no ℝ, no order embedding, no monotone-map-as-functor Kan extension, no sup/inf formula. ABSENT confirmed."
+    }
+  }
+]

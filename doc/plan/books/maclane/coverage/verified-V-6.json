@@ -1,0 +1,489 @@
+[
+  {
+    "id": "maclane:V.6:def-omega-e-algebra",
+    "classification": "PRESENT",
+    "aliases": [
+      "operator domain / signature / OpSignature / Signature",
+      "Omega-algebra / algebra of a signature / OpAlgebra / algebraic structure",
+      "identity / equation / law / axiom / EqSignature / EqSystem / equational axiom",
+      "satisfaction of an identity / model of an equational theory / Algebra S E",
+      "homomorphism of algebras / operator-preserving map / AlgHom / algebra morphism"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 46,
+        "symbol": "OpSignature",
+        "intree_statement": "Record OpSignature := { operation : Type ; arity : operation → Type }.  (* \"The main trick is that the arity of an operation is *not* a number but rather a type.\" *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 55,
+        "symbol": "OpAlgebra",
+        "intree_statement": "Record OpAlgebra (S : OpSignature) := { carrier :> Type ; op : ∀ o : operation S, (arity o → carrier) → carrier (* no equations *) }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 64,
+        "symbol": "AlgHom / op_commute",
+        "intree_statement": "Record AlgHom {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) := { map :> A → B ; op_commute : ∀ (o : operation S) (args : arity o → A), map (op A o args) = op B o (fun x => map (args x)) }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 240,
+        "symbol": "EqSignature",
+        "intree_statement": "Record EqSignature (S : OpSignature) := { eq :> Type ; eq_arity : eq → Type ; lhs : ∀ (A : OpAlgebra S) (e : eq), (eq_arity e → A) → A ; rhs : ∀ (A : OpAlgebra S) (e : eq), (eq_arity e → A) → A ; lhs_natural : ∀ A B (f : AlgHom A B) e args, f (lhs A e args) = lhs B e (fun i => f (args i)) ; rhs_natural : ... }.  (* \"we require that the lhs and rhs are natural transformations ... This way it's impossible to write down strange equations that involve something other than the operations.\" *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 268,
+        "symbol": "Algebra",
+        "intree_statement": "Record Algebra (S : OpSignature) (E : EqSignature S) := { alg :> OpAlgebra S ; equations : ∀ (e : E) (args : eq_arity e → alg), lhs e args = rhs e args }."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 382,
+        "symbol": "Group",
+        "intree_statement": "Definition Group := Algebra GroupOp GroupEq.  (* GroupOp: operations one/mul/inv of arities nullary/binary/unary; GroupEq: assoc, unit_left, unit_right, inv_left, inv_right *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For a type tau given by an operator domain Omega, a set E of identities is a set of pairs <lambda,mu> of derived operators of the same arity n; an action A of Omega on a set S satisfies <lambda,mu> when lambda_A = mu_A : S^n -> S.  An <Omega,E>-algebra is a set S with an action of Omega satisfying every identity in E, |A| its underlying set.  A morphism g : A -> A' is a function on underlying sets with g(omega_A(a_1,...,a_n)) = omega_{A'}(g a_1,...,g a_n) for every operator omega (equation (1)), hence preserving all derived operators.",
+      "intree": "Instance/Comp.v (module UniversalAlgebra, header: \"This file develops finitary (single-sorted) universal algebra in the style of nLab's 'variety of algebras'\"): [OpSignature] = Omega with arities; [OpAlgebra] = an action, op : ∀ o, (arity o → carrier) → carrier; [EqSignature] = E, each equation given by naturally-varying lhs/rhs families; [Algebra S E] = an OpAlgebra whose `equations` field asserts lhs e args = rhs e args for every equation and every argument tuple; [AlgHom] with `op_commute` = equation (1) verbatim.",
+      "strength_comparison": "same in substance, with two presentational deviations, both recorded: (i) intree-stronger on arities — an arity is an arbitrary Type rather than a natural number, so infinitary operations are allowed (Mac Lane's finitary case is the special case arity o := Fin n, and S^n is encoded as (arity o → S)); (ii) identities are encoded SEMANTICALLY rather than syntactically — instead of a pair of derived operators, an EqSignature supplies lhs/rhs polymorphic in the algebra plus the naturality fields lhs_natural/rhs_natural.  That encoding is equivalent to Mac Lane's given the free algebra of the same file ([Free S X], line 92): a natural family (arity e → A) → A applied to the generators of [Free S (eq_arity e)] is exactly a derived operator, and naturality recovers its value on every algebra.  The library never states that correspondence, so the identification is mathematical rather than in-tree.  Carriers are bare Types compared with Leibniz `=`, matching Mac Lane's Set-based reading (no setoid quotient, so this is not the library's usual ≈ rephrasing); no separate notion `|A|` beyond the `carrier :>` coercion.  Note this development is NOT reached from the Lawvere spine — Theory/Lawvere.v deliberately works presentation-free and never defines a signature-with-identities."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni --type-add 'coq:*.v' -tcoq 'signature' -l — hits Construction/PROP/Signature.v (symmetric-monoidal signatures, arities are pairs of naturals, linear terms) and Instance/Comp.v (the match used here)",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'variety|equational' -l — Instance/Comp.v, Theory/Lawvere.v (prose), Construction/PROP/Presentation.v (EqSystem over PROP terms)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently and by the same route. My searches: `rg -il 'arity|signature'` (40 files, Instance/Comp.v the only single-sorted universal-algebra site); `rg -in 'variety|equational class'`; `rg -in 'universal algebra'` (Instance/Comp.v:9,16,34 + prose in Theory/Lawvere.v, Theory/Functor.v, Instance/FinSet.v). Every cited location re-opened and every quote checked verbatim: OpSignature record opens at Instance/Comp.v:45 (the `operation : Type` field is the cited 46), OpAlgebra record at :54 (carrier at the cited 55), AlgHom+op_commute at :64, EqSignature at :240, Algebra at :268, Group at :382 — all quotes accurate, including the two in-file comments. Instance/Comp.v is registered in _CoqProject (line 177) and has a committed .vo. Adversarial checks that came back clean: (a) morphisms of E-algebras are available even though AlgHom is declared only on OpAlgebra, because `alg :> OpAlgebra S` is a coercion — the required API is not missing; (b) the file header's inventory of what is proved about Algs (terminal, binary products, initial) matches the code — Algs_Closed (:190) and Algs_Cocartesian (:224) are COMMENTED OUT and are correspondingly NOT claimed in the header, so there is no same-name-weaker-statement trap here; (c) the record's claim that the Lawvere spine never defines a signature-with-identities is true — Theory/Lawvere.v contains exactly one declaration, `Class LawvereTheory` at :116. The semantic (naturality-based) encoding of identities is a presentation choice that is provably equivalent to Mac Lane's pairs-of-derived-operators, and the record already discloses that the equivalence is mathematical rather than in-tree; the accompanying derived-operator notion is a separate inventory item, so it is not this record's burden. The functional-extensionality use is confined to from_free_unique (:130) in the Instance layer, permitted by docs/AXIOMS.md, and is disclosed in the neighbouring record."
+    }
+  },
+  {
+    "id": "maclane:V.6:construction-variety",
+    "classification": "PARTIAL",
+    "aliases": [
+      "<Omega,E>-Alg / category of algebras / Algs / Algebras",
+      "variety / equational class / equational category",
+      "Grp / Rng / Ab / R-Mod as categories",
+      "Models T C (functorial-semantics surrogate) / category of models of a Lawvere theory",
+      "CMon (commutative monoids) as a concrete variety"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 151,
+        "symbol": "Algs",
+        "intree_statement": "Program Definition Algs : Category := {| obj := OpAlgebra S; hom := AlgHom; homset := AlgHom_Setoid; id := Alg_id; compose := Alg_comp |}.  (* \"The category [Algs] for an algebraic signature S has as objects all algebras of that signature, and as morphisms all homomorphisms between them.\" *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 434,
+        "symbol": "Product",
+        "intree_statement": "Definition Product {S : OpSignature} {E : EqSignature S} (I : Type) : (I → Algebra S E) → Algebra S E.  (* products of E-satisfying algebras are E-satisfying, via lhs_natural/rhs_natural at each projection *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 382,
+        "symbol": "Group / Bool",
+        "intree_statement": "Definition Group := Algebra GroupOp GroupEq.  ... Definition Bool : Group.  (* Mac Lane's very presentation of Grp — three operators of arities 2, 1, 0 plus the unit/inverse/associativity identities — is written out at Instance/Comp.v:285-382, but only as a TYPE of groups *)"
+      },
+      {
+        "file": "Instance/CMon.v",
+        "line": 140,
+        "symbol": "CMon",
+        "intree_statement": "Program Definition CMon : Category := {| obj := CMonObject; hom := CMonHom; ... |}.  (* one concrete variety realized as a category, with CMon_Forget : CMon ⟶ Sets at line 169 *)"
+      },
+      {
+        "file": "Theory/Lawvere/Model.v",
+        "line": 77,
+        "symbol": "Models",
+        "intree_statement": "Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub.  (* the FULL subcategory of finite-product-preserving functors — the presentation-free surrogate for a variety *)"
+      }
+    ],
+    "statement_record": {
+      "book": "All small <Omega,E>-algebras with the operator-preserving functions as arrows form a category, written <Omega,E>-Alg, called a variety or equational class; composition and identities are those of the underlying functions.  Grp, Rng, Ab and e.g. nilpotent groups of a given class are instances, Grp being presented by three operators of arities 2, 1, 0 with the unit, inverse and associativity identities.",
+      "intree": "Instance/Comp.v builds [Algs], the category whose objects are [OpAlgebra S] (a signature-action with NO identities imposed) and whose morphisms are [AlgHom]s, with identity/composition the underlying functions; it is shown Terminal, Cartesian and Initial.  The E-side exists only as the record [Algebra S E] (a Type, not the object type of any category) plus [Product] closing E-algebras under products.",
+      "strength_comparison": "intree-weaker: [Algs] is <Omega,∅>-Alg, the equation-free case.  No category anywhere in the tree has [Algebra S E] as its objects, so the variety / equational class itself — the item's actual subject — is never formed, and none of Mac Lane's named instances (Grp, Rng, Ab) exists as a category.  The functorial-semantics surrogate [Models T C] is a genuine category of algebras but is indexed by a presentation-free Lawvere theory, and the equivalence between the two presentations is not in-tree; [CMon] is one hand-rolled variety with no connection to Instance/Comp.v."
+    },
+    "gap": "The full subcategory of [Algs] cut out by the equations is never constructed: there is no `Category` whose objects are `Algebra S E`, so `<Omega,E>-Alg` does not exist in-tree.  Concretely missing: (1) the variety category itself (a ~10-line full-subcategory of `Algs` on the E-satisfying objects, or the analogue of `Models_sub` from Theory/Lawvere/Model.v); (2) any instantiation of it — `Group := Algebra GroupOp GroupEq` is defined but `Grp` as a category is not, and Rng/Ab/R-Mod do not exist at all (rg -w -i 'ring|rings' over *.v finds only prose in comments); (3) the identification of `Models T Sets` with a presented variety.",
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'obj *:= *Algebra|obj *:= *OpAlgebra' — single hit Instance/Comp.v:152 `obj := OpAlgebra S` (the equation-free category)",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Algs' — occurs only inside Instance/Comp.v; nothing downstream consumes it",
+      "rg -n --type-add 'coq:*.v' -tcoq -w -i 'ring|rings' — prose comments only (Structure/Abelian.v, Theory/Lawvere.v, ...); no Rng, no Ab, no R-Mod"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same gap. Independent searches: `rg -n 'Algs'` (occurrences confined to Instance/Comp.v — nothing downstream consumes the category), `rg -n 'Algebra S E|obj := Algebra'` (the only hits are the record declaration at :268, the Product signature at :435, and `Group := Algebra GroupOp GroupEq` at :382), `rg -in 'Grp|AbGrp|Abelian group|category of groups'` (five hits, all prose in Structure/Group.v, Structure/Complete.v, Structure/Closed.v, Construction/Groupoid.v). Confirmed at source that Instance/Comp.v:152 reads `obj := OpAlgebra S`, i.e. the built category is the equation-free case, exactly as the record says. Evidence re-opened: Algs at :151 ✓, Product at :434 ✓, Group/Bool at :382/:405 ✓, CMon at Instance/CMon.v:140 (`Program Definition CMon : Category`) ✓, Models at Theory/Lawvere/Model.v:77 (`Definition Models : Category := Sub (@Fun (@law_cat T) C) Models_sub`) ✓ — all registered in _CoqProject. strength_comparison is honest, including the point that Models T C is presentation-free and that CMon is hand-rolled with no link to Instance/Comp.v. Adversarial check: I looked for any full-subcategory instance over the E-satisfying objects (the Models_sub pattern) and found none, so the gap statement is exact. One in-file wording issue found while confirming is logged in problems[]."
+    }
+  },
+  {
+    "id": "maclane:V.6:construction-free-algebra",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free algebra / free <Omega,E>-algebra / Free / term algebra / Tree",
+      "left adjoint to the forgetful functor / Free ⊣ Forgetful / free-forgetful adjunction",
+      "free ring / free abelian group / free R-module / free monoid",
+      "solution set for the forgetful functor / subalgebra generated by the image",
+      "universal arrow from a set to U / UniversalArrow / induced_hom"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Comp.v",
+        "line": 92,
+        "symbol": "Free / Tree",
+        "intree_statement": "Inductive Tree : Type := | generator : X → Tree | node : ∀ (o : operation S), (arity o → Tree) → Tree.  Definition Free : OpAlgebra S := {| carrier := Tree; op := node |}.  (* \"The free algebra for a given signature [S] generated by [X].\" *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 108,
+        "symbol": "induced_hom / from_free_unique",
+        "intree_statement": "Definition induced_hom : AlgHom Free A.  ... Theorem from_free_unique (f g : AlgHom Free A) : (∀ x : X, f (generator x) = g (generator x)) → f ≈ g.  (* \"We show that the free algebra has the desired universal property.\" *)"
+      },
+      {
+        "file": "Adjunction/GAFT.v",
+        "line": 241,
+        "symbol": "GAFT",
+        "intree_statement": "Theorem GAFT {C D : Category} (U : C ⟶ D) (comp : @Complete C) (cont : @PreservesImageLimit C D U) (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }.  (* the theorem the item invokes is in-tree and proved *)"
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 209,
+        "symbol": "Algs_Initial",
+        "intree_statement": "Program Instance Algs_Initial : Initial Algs := { terminal_obj := Free S False; one := fun x => induced_hom S False x (False_rect _) }.  (* comment: \"The free functor is left adjoint to the forgetful functor and so preserves colimits\" — asserted in prose, never constructed *)"
+      }
+    ],
+    "statement_record": {
+      "book": "For any variety of algebras the adjoint functor theorem produces a left adjoint to the forgetful functor <Omega,E>-Alg -> Set, the solution set being the subalgebra generated by the image (the cardinality argument of section 7).  Hence for every set X there exist the free ring, free abelian group, free R-module on X.  It does not apply to fields, whose multiplicative inverse is not everywhere defined, and free fields indeed do not exist.",
+      "intree": "Instance/Comp.v constructs, for a SIGNATURE S and a type X, the term algebra [Free S X] with its universal property in element form: every h : X → A extends to [induced_hom : AlgHom Free A], and [from_free_unique] shows two homomorphisms out of Free agreeing on generators are equal.  Adjunction/GAFT.v proves GAFT itself in full.",
+      "strength_comparison": "intree-weaker on four counts: the free object is built only for the equation-free case (E is never quotiented in); the universal property is stated pointwise on generators rather than as a functor or an adjunction; there is no forgetful functor out of [Algs] at all, so `Free ⊣ U` cannot even be typed; and the construction is direct, not obtained from GAFT — GAFT is proved but never applied to any algebraic forgetful functor.  Additionally [from_free_unique] invokes functional extensionality (in-file note: \"jww (2020-02-23): How to remove this axiom? ... genuinely needs functional extensionality\"), so unlike the core theory this leg is not axiom-free."
+    },
+    "gap": "Missing, in order of size: (1) the free <Omega,E>-algebra — [Free S X] is not quotiented by the congruence generated by E, so no free object of a variety exists; (2) the forgetful functor `Algs ⟶ Sets` (or `⟶ Coq`) and the free FUNCTOR `Sets ⟶ Algs`, hence the adjunction `Free ⊣ U` (only three free/forgetful adjunctions exist in-tree: Construction/Free/Quiver.v's FreeForgetfulAdjunction, Monad/Kleisli/Adjunction.v, Monad/Eilenberg/Moore/Adjunction.v — none over a variety); (3) the SolutionSet instance for such a U, i.e. the subalgebra generated by the image plus its cardinality bound — 'subalgebra' does not occur anywhere in the tree; (4) every named consequence (free ring, free abelian group, free R-module) and the field non-example.  GAFT's only worked instance is Δ ⊣ (×) in Adjunction/GAFT/Examples.v.",
+    "negative_search_log": [
+      "rg -ni --type-add 'coq:*.v' -tcoq 'subalgebra|generated by' — no subalgebra notion; 'generated by' only in FinSet/Pushout, PROP and Karoubi prose",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Adjunction [A-Za-z_]*Free|Free.*⊣|⊣ .*Forget|Forget.*⊣' — FreeForgetfulAdjunction (quivers), Kleisli_Adjunction, EM_Adjunction, CoKleisli/CoEM duals; none for algebras of a signature",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'free algebra|free monoid|free group|free ring|free module' -l — Instance/Comp.v plus prose mentions in Structure/Monoid.v, Construction/Cayley.v"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same gap decomposition. Independent searches: `rg -n 'Forget[a-zA-Z_]*\\s*:\\s*.*⟶|Definition Forget'` (Kleisli_Forget, EM_Forget, CoKleisli_Forget, CoEM_Forget, Mon_Forget, Comon_Forget, CMon_Forget, Drinfeld_Forget, Forgetful of Free/Quiver.v — none out of an algebra-of-a-signature category); `rg -n '⊣' | rg -i 'forget|free'` (same four resolutions plus FreeForgetfulAdjunction); `rg -in 'subalgebra|generated by'` (no subalgebra notion anywhere — only prose in Theory/Lawvere.v:89); `rg -ln 'SolutionSet'` → Adjunction/GAFT.v, Adjunction/SAFT.v, Instance/Poset.v, and the Poset hit is prose in a header essay, not an instance. Independently confirmed the crux: Theory/Lawvere/Monad.v takes `Context (L : Sets ⟶ Models T Sets)` and `Context (adj : L ⊣ ev1 T)` at lines 67-68 — the free-algebra left adjoint is a HYPOTHESIS, never constructed — which is a second, stronger witness for the record's gap (2) than the one it cites. Evidence re-opened: Free/Tree at Instance/Comp.v:88-95 ✓, induced_hom/from_free_unique at :108/:116 ✓, GAFT at Adjunction/GAFT.v:241 with the quoted signature verbatim ✓, Algs_Initial at :209 with the quoted prose comment verbatim at :211-212 ✓. The claim that GAFT's only worked instance is Δ ⊣ (×) checks out: Adjunction/GAFT/Examples.v declares only diagonal_unique, diagonal_UA, diagonal_product_via_gaft, diagonal_product_via_gaft_is_diagonal."
+    }
+  },
+  {
+    "id": "maclane:V.6:construction-stone-cech-discrete",
+    "classification": "ABSENT",
+    "aliases": [
+      "Comp Haus / CompHaus / category of compact Hausdorff spaces",
+      "Stone-Cech compactification / beta / beta S",
+      "Top / topological space / continuous map / open set",
+      "Tychonoff theorem / product topology / compactness",
+      "ultrafilter monad / filter / discrete topology",
+      "left adjoint to the underlying-set functor on spaces"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'comphaus|Comp *Haus|open set|neighbourhood|neighborhood' — 0 hits",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'topolog|hausdorff|compact space|tychonoff|ultrafilter|stone.?cech|Stone' -l — 20+ files, every hit is a prose comment (e.g. Theory/Monad.v:65 'the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces (Manes...)', Theory/Equivalence.v:122 'commutative C*-algebras against compact Hausdorff', Structure/Monoidal.v:58 'Rosetta Stone'); no definition",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'compactification' — 2 hits, both prose in Theory/Universal/Arrow.v:40,46 ('the Stone–Čech compactification in the 1930s')",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'Tychonoff' — 0 hits",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'discrete topology|discrete space' — 0 hits (Instance/Discrete.v is the discrete CATEGORY on a type, unrelated)",
+      "ls Instance/ — no Top, no Space, no CompHaus; the concrete instances are Sets, Coq, Cat, Fun, FinSet, CMon, Rel, Poset, Proset, Lambda, ZX, Ens, Comp, Omega, Two, One, Zero, Parallel, Roof, Shapes, Props, Discrete, StrictCat, AST, Adj/Adjoints, Cones, Fact"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. My search: `rg -in 'topolog|Hausdorff|compact Haus|CompHaus|Stone|Cech|Čech|Tychonoff|open set'` filtered for compact-closed false positives — roughly 30 hits, every one prose inside a header essay (Theory/Monad.v:66 on Manes and the ultrafilter monad, Theory/Equivalence.v:120-122 on Stone duality and commutative C*-algebras, Structure/Monoidal/Symmetric.v:90 'Rosetta Stone', Construction/Enriched.v:70 'K = Top', Structure/Group.v:46 'topological groups in Top'). Zero definitions. Spot-checked the classifier's compactification hits: Theory/Universal/Arrow.v carries 'the Stone–Čech compactification in the 1930s' and Samuel's 'Čech compactification' at exactly the cited lines 40 and 46 ✓. `ls Instance/*.v` independently confirms no Top / Space / CompHaus. OUT_OF_SCOPE would have been wrong and was correctly not used: a category of compact Hausdorff spaces is formalizable here (nothing about it needs proper classes the library cannot express), and the consuming machinery — GAFT plus Comma_Complete — is already in-tree; only the topological instance layer is missing. ABSENT with an evidence-free record is the right shape, and the negative_search_log satisfies the schema requirement."
+    }
+  },
+  {
+    "id": "maclane:V.6:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "comma projection creates limits / (x ↓ G) → A creates limits",
+      "Comma_Complete / comma_limit / limits in a comma category",
+      "comma_proj2 / projection functor of a comma category",
+      "created limit / creation of limits / CreatesLimits",
+      "continuous functor / PreservesLimit / PreservesImageLimit"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K."
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 159,
+        "symbol": "apex_obj / apex_leg / comma_limit",
+        "intree_statement": "Definition apex_obj : (=(d) ↓ U) := ((ttt, vertex_obj[Ldiag]); phi).  Definition apex_leg (j : J) := ((ttt, limit_leg (limit_is_alimit Ldiag) j); _).  Definition comma_limit : Limit K := @Build_Limit J (=(d) ↓ U) K apex_cone comma_ump.  (* the built limit literally lies over the C-limit Ldiag, legs and all *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 110,
+        "symbol": "PreservesImageLimit",
+        "intree_statement": "Definition PreservesImageLimit : Type := ∀ (J : Category) (G : J ⟶ C) (L : Limit G) (N : Cone (U ◯ G)), ∃! φ : vertex_obj[N] ~{D}~> U L, ∀ x : J, image_leg L x ∘ φ ≈ cone_leg N x.  (* the honest cone-level reading of 'U is continuous' *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U."
+      }
+    ],
+    "statement_record": {
+      "book": "For G : A -> X continuous, the projection functor (x ↓ G) -> A creates all small limits.",
+      "intree": "Construction/Comma/Limit.v, titled \"Creation of limits in a comma category [=(d) ↓ U]\", proves that [=(d) ↓ U] is complete when C is complete and U satisfies [PreservesImageLimit]; the limit it exhibits has apex ((ttt, Ldiag); phi) with legs the projected C-legs, i.e. it lies over the chosen C-limit.  Construction/Comma.v:100 asserts in prose that \"the projection [comma_proj2] creates the limits\".",
+      "strength_comparison": "intree-weaker in two respects.  (i) Conclusion: what is proved is EXISTENCE of limits in the comma category (@Complete (=(d) ↓ U)), not CREATION.  Creation additionally requires that, given a limit cone of the projected diagram in A, the lift to the comma category is UNIQUE, and that a comma cone whose projection is a limit is itself a limit; neither is stated, and no `CreatesLimits` predicate exists anywhere in the library (`rg -i 'creates? (all )?(small )?limits'` returns only prose, plus the Beck-specific `CreatesUSplitCoequalizers` of Monad/Monadicity/Beck.v:164 and `equivalence_creates_limits` of Theory/Equivalence/Limit.v:486).  There is also no lemma relating the constructed apex to `comma_proj2` at all.  (ii) Hypotheses: the in-tree result demands `@Complete C` (A has ALL small limits) as a section variable, whereas creation is a per-diagram statement consuming only the limit of the projected diagram.  Hypothesis-side match is otherwise exact: `=(d) ↓ U` with the constant functor on the left is precisely Mac Lane's (x ↓ G), and `PreservesImageLimit` is the correct cone-level rendering of 'G continuous' (the file argues at length why the in-tree apex-only `PreservesLimit` would be insufficient)."
+    },
+    "gap": "The creation property proper is not formalized: (1) no `CreatesLimits` predicate for a functor exists in the library; (2) no statement that `comma_proj2` carries `comma_limit` to the given C-limit, nor that the lift is unique over a given limit cone (the objects `apex_obj`/`apex_leg` make this a short proof, but it is not done); (3) no reflection clause (a comma cone projecting to a limit is a limit); (4) the hypothesis is global completeness of A rather than the existence of the one relevant limit.",
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'creates? (all )?(small )?limits' — 3 hits, all prose (Theory/Equivalence/Limit.v:18,69; Structure/Complete.v:58)",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Definition Creates|Class Creates|CreatesLimits|CreatesLimit ' — only Monad/Monadicity/Beck.v:164 CreatesUSplitCoequalizers"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL for the same two reasons (creation not stated; global `Complete C` hypothesis instead of a per-diagram limit). Independent searches: `rg -in 'Creates|creates'` -l → nine files, and `rg -n 'Class Creates|Definition Creates|CreatesLimits?'` → exactly one declaration in the whole tree, `CreatesUSplitCoequalizers` at Monad/Monadicity/Beck.v:164, which I read in full: it is a coequalizer-specific class with a lift clause plus a reflection clause (create_coeq / create_coeq_reflects), i.e. the library knows how to state creation properly and simply has not done so for limits. The one formal creation-flavoured limit result is `equivalence_creates_limits` (Theory/Equivalence/Limit.v:486), which is a transport along an equivalence, not a predicate on a functor. I also grepped every use of `comma_proj2` in the tree: 14 hits, and the only ones that pair it with limits are the two prose lines (Construction/Comma/Limit.v:33 and Construction/Comma.v:100) — there is genuinely no lemma connecting comma_proj2 to the constructed limit, confirming the record's gap (2). Evidence re-opened and quotes checked: Comma_Complete at :245 verbatim ✓, apex_obj at :159 verbatim ✓ (apex_leg is at :163; the cited 159 anchors the block, and the paraphrased body matches the `unshelve refine ((ttt, limit_leg (limit_is_alimit Ldiag) j); _)` at :165), PreservesImageLimit at :110 verbatim ✓, right_adjoint_PreservesImageLimit at :264 ✓. The hypothesis-side match is as claimed: the comma is built on the constant functor `=(d)`, matching Mac Lane's (x ↓ G) exactly. The header's use of the word 'creates' is logged in problems[] as a documentation overclaim."
+    }
+  },
+  {
+    "id": "maclane:V.6:ex2",
+    "classification": "PARTIAL",
+    "aliases": [
+      "free category on a graph / FreeOnQuiver / FreeCatFunctor / path category",
+      "Grph / Quiv / QuiverCategory / graph / quiver",
+      "forgetful functor Cat -> Grph / underlying graph / Forgetful",
+      "free ring / tensor ring / monoid ring / Rng -> Set / Rng -> Ab",
+      "left adjoint via the adjoint functor theorem / GAFT applied to a forgetful functor"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 550,
+        "symbol": "FreeForgetfulAdjunction",
+        "intree_statement": "Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ ."
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 412,
+        "symbol": "Forgetful",
+        "intree_statement": "Definition Forgetful : @Functor StrictCat QuiverCategory.  (* object part QuiverOfCat C := {| nodes := obj; edges := hom |} *)"
+      },
+      {
+        "file": "Construction/Free/Quiver.v",
+        "line": 518,
+        "symbol": "UniversalArrowQuiverCat",
+        "intree_statement": "Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful.  (* every quiver homomorphism G ⇨ U(C) factors uniquely through the unit as a functor InducedFunctor *)"
+      },
+      {
+        "file": "Test/Issue138.v",
+        "line": 75,
+        "symbol": "Forgetful variance guard",
+        "intree_statement": "Fail Check (Forgetful : Cat ⟶ QuiverCategory).  (* line 82: Check (FreeForgetfulAdjunction : FreeCatFunctor ⊣ Forgetful). *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Use the adjoint functor theorem to produce a left adjoint for each of the forgetful functors Rng -> Set, Rng -> Ab and Cat -> Grph, and compare the results with the usual explicit constructions (free ring, monoid/tensor ring, free category on a graph).",
+      "intree": "Construction/Free/Quiver.v builds the free category on a quiver as the category of composable paths ([FreeOnQuiver], tlist of edges), proves the universal property ([UniversalArrowQuiverCat]) and packages the adjunction [FreeForgetfulAdjunction : FreeCatFunctor ⊣ Forgetful] with [Forgetful : StrictCat ⟶ QuiverCategory].",
+      "strength_comparison": "intree-weaker on three counts.  (i) Only one of the three forgetful functors is treated: Rng -> Set and Rng -> Ab cannot be stated because there is no ring or abelian-group category in the tree.  (ii) The adjoint is obtained by the EXPLICIT path construction, not by the adjoint functor theorem — no SolutionSet is exhibited for `Forgetful`, so the exercise's actual task (run the AFT, then compare with the explicit construction) is not performed; GAFT's sole worked instance in-tree is Δ ⊣ (×) (Adjunction/GAFT/Examples.v).  (iii) The forgetful functor is defined on StrictCat, not Cat: Test/Issue138.v pins `Fail Check (Forgetful : Cat ⟶ QuiverCategory)` because a functor's object map into quiver nodes needs strict equality of objects, so the adjunction is Grph ⊣⊢ StrictCat rather than Grph ⊣⊢ Cat."
+    },
+    "gap": "Missing: (1) Rng and Ab as categories, hence both ring-side forgetful functors and their free objects (free ring on a set, monoid/tensor ring on an abelian group); (2) any application of GAFT/SAFT to a forgetful functor of this kind — no `SolutionSet` instance is constructed for `Forgetful : StrictCat ⟶ QuiverCategory` and no comparison of an AFT-produced adjoint with `FreeCatFunctor`; (3) the Cat (as opposed to StrictCat) version of the graph adjunction, which Test/Issue138.v documents as unavailable in this library's weak-equivalence setting.",
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq -w -i 'ring|rings' — prose comments only; no Rng/Ring category, no Ab",
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'quiver|Grph|free category' — QuiverCategory/FreeOnQuiver in Construction/Free/Quiver.v, Solver prose; no separate Grph",
+      "rg -n 'SolutionSet' --type-add 'coq:*.v' -tcoq — Adjunction/GAFT.v (definition + use) and Adjunction/SAFT.v only; no instance for a forgetful functor"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PARTIAL with the same three-count gap. Independent searches: `rg -in 'Rng|Ring'` -l (20+ files, every hit an ordinary English word or prose — no ring category), `ls Instance/*.v` (no Rng, no Ab, no Mod), `rg -in 'Grph|graph|quiver|free category'` (QuiverCategory / FreeOnQuiver / FreeCatFunctor in Construction/Free/Quiver.v, plus Solver and Lib/TList prose). Evidence re-opened at source: Construction/Free/Quiver.v:412 `Definition Forgetful : @Functor StrictCat QuiverCategory` ✓, :518 `Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat G Forgetful` ✓, :550 `Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful := AdjunctionFromUniversalArrows _ _ .` — quoted verbatim, exact line ✓. Test/Issue138.v:75 `Fail Check (Forgetful : Cat ⟶ QuiverCategory)` and :82 `Check (FreeForgetfulAdjunction : FreeCatFunctor ⊣ Forgetful)` both verified; both files are in _CoqProject (lines 72 and 481). The StrictCat-vs-Cat point in the strength_comparison is accurate and is exactly what Issue138 locks in. The 'not via the AFT' point is the honest crux and is correctly stated: no SolutionSet is built for Forgetful, and the free category is obtained from the universal-arrow route (LeftAdjointFunctorFromUniversalArrows at :546), not from GAFT."
+    }
+  },
+  {
+    "id": "maclane:V.6:ex3",
+    "classification": "ABSENT",
+    "aliases": [
+      "creation of limits is stable under pullback / pullback of a creating functor",
+      "pullback square in Cat / pullback of categories / strict pullback / iso-comma category",
+      "H creates limits and G preserves them implies H' creates limits",
+      "CreatesLimits / created limit / limit-creating functor",
+      "base change of a functor along a functor / fibre product of categories"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'Definition Creates|Class Creates|CreatesLimits|CreatesLimit ' — only Monad/Monadicity/Beck.v:164 `CreatesUSplitCoequalizers` (a Beck-specific coequalizer-creation class, not limits, not a general predicate)",
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'creates? (all )?(small )?limits' — 3 hits, all prose (Theory/Equivalence/Limit.v:18,69; Structure/Complete.v:58); the only formal creation-flavoured result is `equivalence_creates_limits` (Theory/Equivalence/Limit.v:486), for equivalences only",
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'pullback' Instance/Cat.v Instance/Cat/*.v Instance/StrictCat.v — 0 hits; ls Instance/Cat shows only Bicategory, Cartesian, Cartesian/Closed, Cocartesian, so Cat carries products but no pullbacks",
+      "rg -n --type-add 'coq:*.v' -tcoq 'HasPullbacks' -l — Structure/{Pullback,Topos,SubobjectClassifier,Pushout,Coequalizer,Regular}.v, Instance/FinSet/Classifier.v, Construction/{Displayed/Codomain,Span/Category}.v, Theory/Subobject/Functor.v — never for Cat or StrictCat",
+      "rg -ni --type-add 'coq:*.v' -tcoq 'iso-comma|strict pullback|pullback of categories' — 0 hits",
+      "rg -n --type-add 'coq:*.v' -tcoq -i 'lifts limits|lifted limit|ReflectsLimit|reflects limits' — 0 hits"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached ABSENT. My independent searches reproduce the record's log: the tree declares no creation-of-limits predicate (only Monad/Monadicity/Beck.v:164's coequalizer-specific CreatesUSplitCoequalizers), and Cat carries no pullbacks — `ls Instance/Cat/` shows only Bicategory, Cartesian (+ Cartesian/Closed), Cocartesian, and `rg -in pullback Instance/Cat.v Instance/Cat/*.v Instance/StrictCat.v` returns 0 hits, so the square the exercise quantifies over cannot even be written. Considered and rejected upgrading to PARTIAL on the strength of the in-tree preservation vocabulary (PreservesImageLimit / Structure/Limit/Preservation.v): preservation is a generic ingredient shared with a dozen other items and carries none of this item's distinctive content (base change of a creating functor), so crediting it would inflate the ledger. Also rejected OUT_OF_SCOPE: pullbacks of categories are perfectly expressible here (Instance/Cat is a genuine category with products), so the item is formalizable and simply unformalized. The evidence-free ABSENT record with its six-line negative log is the right shape."
+    }
+  },
+  {
+    "id": "maclane:V.6:ex4",
+    "classification": "PARTIAL",
+    "aliases": [
+      "slice/coslice projection creates limits / (x ↓ X) → X creates limits",
+      "under category / coslice / Coslice / c ̸co C / =(c) ↓ Id",
+      "second proof of comma projection creates limits",
+      "Comma_Complete instantiated at U := Id",
+      "created limit / CreatesLimits"
+    ],
+    "evidence": [
+      {
+        "file": "Construction/Slice.v",
+        "line": 181,
+        "symbol": "Comma_Coslice",
+        "intree_statement": "Program Instance Comma_Coslice `(C : Category) `(c : C) : c ̸co C ≅[Cat] (=(c) ↓ Id) := { to := ...; from := ... }.  (* the under-category (x ↓ X) is the comma =(x) ↓ Id, exactly the shape Construction/Comma/Limit.v treats *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 245,
+        "symbol": "Comma_Complete",
+        "intree_statement": "Definition Comma_Complete (HU : PreservesImageLimit) (HC : @Complete C) : @Complete (=(d) ↓ U) := fun J K => comma_limit HC HU K.  (* at U := Id this would give limits in the coslice, but the instantiation is never made *)"
+      },
+      {
+        "file": "Construction/Comma/Limit.v",
+        "line": 264,
+        "symbol": "right_adjoint_PreservesImageLimit",
+        "intree_statement": "Definition right_adjoint_PreservesImageLimit {C D} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) : @PreservesImageLimit C D U.  (* with adj_id : Id ⊣ Id of Instance/Adjoints.v:42 this would discharge the hypothesis for U := Id *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Using Exercise 3 together with the fact that the projection (x ↓ X) -> X creates limits, give a second proof of Exercise 1 (that (x ↓ G) -> A creates all small limits for G continuous).",
+      "intree": "The conclusion is covered exactly to the extent Exercise 1 is: Construction/Comma/Limit.v proves `Comma_Complete`, completeness (not creation) of `=(d) ↓ U`.  The auxiliary object of the second proof exists as a category — `Comma_Coslice` identifies the under-category with `=(c) ↓ Id` — and `Comma_Complete` together with `right_adjoint_PreservesImageLimit adj_id` would yield its completeness, but that instantiation is not made and creation is never stated.",
+      "strength_comparison": "intree-weaker: the shared conclusion is only present in its completeness form (see maclane:V.6:ex1), and NEITHER ingredient of the intended second route is in-tree — the pullback-stability of creation (Exercise 3) is wholly absent, and the coslice-projection creation lemma is not stated (nor even its completeness corollary, which would be a two-line instantiation)."
+    },
+    "gap": "The second proof itself is absent.  Specifically missing: (1) the statement that the coslice projection `Coslice C c ⟶ C` (equivalently `comma_proj2 : =(c) ↓ Id ⟶ C`) creates limits — not even the weaker `@Complete (=(c) ↓ Id)` is derived, although `Comma_Complete (right_adjoint_PreservesImageLimit adj_id) HC` would give it; (2) Exercise 3's pullback-stability of creation, which is entirely absent (no pullbacks in Cat, no CreatesLimits predicate — see maclane:V.6:ex3); (3) the derivation of Exercise 1 from those two, and indeed any creation statement at all.",
+    "negative_search_log": [
+      "rg -n -i 'limit|complete|cone' Construction/Slice.v — 0 hits; Slice.v proves no limit properties of Slice/Coslice",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Definition Creates|Class Creates|CreatesLimits|CreatesLimit ' — only Monad/Monadicity/Beck.v:164",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Comma_Complete' — Adjunction/GAFT.v and Construction/Comma/Limit.v only; never instantiated at U := Id"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "DISSENT RECORDED, RECORD LEFT STANDING. My blind pass classified this ABSENT: the exercise's distinctive content is a proof route (Exercise 3 plus 'the coslice projection creates limits'), and BOTH ingredients are missing — Construction/Slice.v proves no limit property whatever (`rg -n 'limit|complete|cone' Construction/Slice.v` → 0 hits; the file declares only Slice, Comma_Slice, Coslice, Comma_Coslice), and Exercise 3 is wholly absent. I nevertheless confirm PARTIAL rather than overturn, because the record does not overclaim anywhere: its strength_comparison says in terms that NEITHER ingredient of the intended route is in-tree, and the PARTIAL rests on two things that genuinely exist and that I verified at source — Construction/Slice.v:181 `Program Instance Comma_Coslice : c ̸co C ≅[Cat] (=(c) ↓ Id)`, which supplies the auxiliary identification the second proof needs, and Instance/Adjoints.v:42 `Program Instance adj_id : Id ⊣ Id`, which with right_adjoint_PreservesImageLimit (Construction/Comma/Limit.v:264) would discharge the hypothesis of Comma_Complete at U := Id in two lines. The shared conclusion is also carried at exactly the strength credited to maclane:V.6:ex1, which is PARTIAL, so classifying ex4 strictly below ex1 would be incoherent. Reader of the ledger should note the asymmetry with ex3 (ABSENT): the difference is that ex4's CONCLUSION is partially in-tree while ex3's conclusion — a stability theorem about creating functors — is not in-tree at all. All three cited evidence locations verified; all cited files registered in _CoqProject."
+    }
+  },
+  {
+    "id": "maclane:V.7:def1",
+    "classification": "PRESENT",
+    "aliases": [
+      "subobject / SubObj / equivalence class of monics",
+      "mono into a / Monic / monomorphism with fixed codomain",
+      "factorization order on monics / u ≤ v / sub_le",
+      "quotient of monos by mutual factorization / sub_equiv_iff_mutual",
+      "monos modulo isomorphism of domains / Sub : C^op ⟶ Sets"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Subobject.v",
+        "line": 15,
+        "symbol": "SubObj",
+        "intree_statement": "Record SubObj {C : Category} (x : C) := { sub_dom : C; sub_mono : sub_dom ~> x; sub_is_monic : Monic sub_mono }."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 33,
+        "symbol": "SubObj_Setoid",
+        "intree_statement": "#[export] Program Instance SubObj_Setoid : Setoid (SubObj x) := { equiv := fun u v => { i : sub_dom u ≅ sub_dom v & sub_mono v ∘ to i ≈ sub_mono u } }.  (* header: \"Here the setoid structure itself carries the quotient: two monos into x are equivalent when there is an isomorphism of their domains commuting with them over x.\" *)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 59,
+        "symbol": "sub_le",
+        "intree_statement": "Definition sub_le (u v : SubObj x) : Type := { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.  (* \"The preorder on subobjects: u ≤ v when the mono of u factors through the mono of v.\" with sub_le_refl / sub_le_trans *)"
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 93,
+        "symbol": "sub_equiv_iff_mutual",
+        "intree_statement": "Theorem sub_equiv_iff_mutual (u v : SubObj x) : (u ≈ v) ↔ (sub_le u v * sub_le v u)."
+      },
+      {
+        "file": "Theory/Subobject.v",
+        "line": 78,
+        "symbol": "sub_le_unique",
+        "intree_statement": "Lemma sub_le_unique (u v : SubObj x) (k k' : sub_dom u ~> sub_dom v) : sub_mono v ∘ k ≈ sub_mono u → sub_mono v ∘ k' ≈ sub_mono u → k ≈ k'."
+      }
+    ],
+    "statement_record": {
+      "book": "In any category A, for monics u : s -> a and v : t -> a write u <= v when u = v u' for some u' (necessarily monic).  Mutual factorization u <= v and v <= u is an equivalence relation u == v on monics with codomain a; its classes are the subobjects of a.  Equivalently, u is identified with all v = u theta for theta invertible.  These agree with element-defined subobjects in Rng, Grp, Ab, R-Mod, but not in Top.",
+      "intree": "Theory/Subobject.v: [SubObj x] bundles a domain, a mono into x and its monicity; the hom-setoid equivalence on [SubObj x] IS the identification 'isomorphism of domains commuting over x' (Mac Lane's second, theta-form); [sub_le] is the factorization preorder (reflexive, transitive); [sub_equiv_iff_mutual] proves the two agree — u ≈ v iff u ≤ v and v ≤ u; [sub_le_unique] gives uniqueness of the factorizing map.",
+      "strength_comparison": "same.  The setoid-quotient rendering is faithful and is in fact stronger than a bare quotient: it proves the equivalence generated by mutual factorization coincides with the iso-of-domains relation Mac Lane offers as the alternative description, in both directions and data-carrying (`Defined`).  Two Mac Lane side remarks are not formalized: the parenthetical that the factorizing u' is itself monic (the library has `monic_compose` at Theory/Morphisms.v:212 but no left-cancellation lemma `Monic (f ∘ g) → Monic g`), and the comparison with element-defined subobjects in Rng/Grp/Ab/R-Mod versus Top, which cannot be stated since none of those categories exists in-tree.  Neither is part of the definition."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -ni --type-add 'coq:*.v' -tcoq 'subobject' -l — Theory/Subobject.v, Theory/Subobject/Functor.v, Structure/{SubobjectClassifier,Topos,Pullback,Terminal,Equalizer}.v, Adjunction/{GAFT,SAFT}.v, Instance/{Sets,FinSet,...}; Theory/Subobject.v is the definitional site",
+      "rg -n --type-add 'coq:*.v' -tcoq 'Monic \\(f ∘ g\\)|monic_cancel' — no left-cancellation lemma for monics"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT independently, on the same file, before opening the coverage record. I read Theory/Subobject.v end to end (118 lines). Every cited line is exact: SubObj record at :15 ✓, SubObj_Setoid at :33 with the equiv field quoted verbatim ✓, sub_le at :59 ✓, sub_le_unique at :78 ✓, sub_equiv_iff_mutual at :93 ✓ (`(u ≈ v) ↔ (sub_le u v * sub_le v u)`, and it does end in Defined, as the strength_comparison claims). The header quote at :10-13 is verbatim. File registered in _CoqProject (line 465). Adversarial checks: (a) no competing/weaker definitional site — `rg -in subobject -l` returns Theory/Subobject.v, Theory/Subobject/Functor.v and consumers (Structure/SubobjectClassifier.v, Structure/Topos.v, Adjunction/SAFT.v), all of which import rather than redefine; (b) the definition does come with the required API (preorder + the quotient theorem + mediator uniqueness), so this is not a definition-without-API case; (c) I independently confirmed the record's own honesty note — Theory/Morphisms.v has monic_compose at :212 but no left-cancellation `Monic (f ∘ g) → Monic g`, so Mac Lane's parenthetical that the factorizing u' is monic is indeed unformalized. That parenthetical is not part of the definition and does not move the classification."
+    }
+  },
+  {
+    "id": "maclane:V.7:lem1",
+    "classification": "PRESENT",
+    "aliases": [
+      "pullbacks of monics are monic / monos are stable under pullback",
+      "monic_pullback_stable / base change preserves monomorphisms",
+      "pullback-stable morphism class / stability under base change",
+      "IsPullback / Pullback square universal property",
+      "dual: the other projection is monic when the other leg is"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 226,
+        "symbol": "monic_pullback_stable",
+        "intree_statement": "Lemma monic_pullback_stable {C : Category} {x y z : C} (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).  (* header comment gives the square: P --snd--> y, P --fst--> x, f : x ~> z, m : y ~> z, 'with m monic, the projection opposite m is monic as well' *)"
+      },
+      {
+        "file": "Theory/Morphisms/Stability.v",
+        "line": 71,
+        "symbol": "is_pullback_pullback",
+        "intree_statement": "Definition is_pullback_pullback {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z} {P : C} {p1 : P ~> x} {p2 : P ~> y} (H : IsPullback f g P p1 p2) : Pullback f g := {| Pull := P; pullback_fst := p1; pullback_snd := p2; ... |}.  (* lets the lemma apply to ANY given pullback square, not just a bundled one *)"
+      },
+      {
+        "file": "Theory/Subobject/Functor.v",
+        "line": 38,
+        "symbol": "sub_reindex",
+        "intree_statement": "sub_is_monic := monic_pullback_stable f (sub_mono u) (sub_is_monic u) (pullback f (sub_mono u))  (* the lemma is load-bearing: it is what makes Sub : C^op ⟶ Sets reindexing well-defined, exactly Mac Lane's use of it *)"
+      }
+    ],
+    "statement_record": {
+      "book": "Unnumbered Lemma.  In a pullback square with vertex p, projections f' : p -> t and g' : p -> s over f : s -> a and g : t -> a (so g f' = f g'), if f is monic then f' is monic; dually, if g is monic then g' is monic.",
+      "intree": "Theory/Morphisms/Stability.v: `Lemma monic_pullback_stable (f : x ~> z) (m : y ~> z) (Hm : Monic m) (P : Pullback f m) : Monic (pullback_fst f m P).`  The proof is Mac Lane's: m cancels on the other projection to give `snd ∘ g1 ≈ snd ∘ g2`, then both g1 and g2 mediate the same cone and the pullback's uniqueness forces g1 ≈ g2.",
+      "strength_comparison": "same.  The single in-tree statement is exactly Mac Lane's, with names transposed (his monic leg f : s -> a is the in-tree m : y ~> z, and his conclusion f' : p -> t is `pullback_fst`, the projection opposite the monic leg).  The bundled `Pullback f m` record is a hypothesis here, and `is_pullback_pullback` converts any apex-pinned square, so 'in any pullback square' is fully covered.  One presentational shortfall: Mac Lane's 'and dually' half is not separately packaged, and the library has no pullback-symmetry lemma (`rg 'pullback_sym|pullback_swap|IsPullback_sym'` → 0 hits), so obtaining it requires rebuilding a `Pullback m f` from a `Pullback f m` by swapping the two projections — a mechanical five-line repackaging, not a mathematical gap."
+    },
+    "gap": null,
+    "negative_search_log": [
+      "rg -n --type-add 'coq:*.v' -tcoq 'pullback_sym|pullback_swap|IsPullback_sym|Pullback_swap' — 0 hits (no symmetry lemma for pullback squares)",
+      "rg -n --type-add 'coq:*.v' -tcoq 'pullback_snd.*Monic|Monic \\(pullback_snd' — 0 hits (the dual projection is never given its own statement)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached PRESENT on the same lemma. `rg -n 'Monic \\(pullback'` over the whole tree returns exactly one hit, Theory/Morphisms/Stability.v:228 — so the record's claim that the dual orientation is nowhere stated is exact, and I independently confirmed there is no pullback-symmetry lemma (`rg -in 'symm|swap|flip' Structure/Pullback.v Theory/Morphisms/Stability.v` yields only tactic uses of `symmetry`). I read the proof at :226-259: it is Mac Lane's argument verbatim (cancel m on the other projection, then both competitors mediate the same cone and ump_pullbacks forces equality). Cited support verified: is_pullback_pullback at Theory/Morphisms/Stability.v:71 ✓ (so the lemma does apply to any apex-pinned square, not only to a bundled Pullback — the record's 'in any pullback square' claim survives), and the load-bearing use at Theory/Subobject/Functor.v:38 inside sub_reindex ✓, quoted accurately. Both files in _CoqProject (464, 466). Considered downgrading to PARTIAL over the missing dual half and rejected it: Mac Lane himself discharges that half with the single word 'dually', the in-tree shortfall is a five-line repackaging of a `Pullback f m` into a `Pullback m f`, and the record already discloses it precisely in strength_comparison and the negative log rather than hiding it behind 'same'."
+    }
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "item_id": "7sketches:5.2.3:example5.19",
+    "issue": 763,
+    "part": "reflexive-transitive closure as the free preorder",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Example 5.19 (printed p. 153; PDF pp. 165–166; item `7sketches:5.2.3:example5.19`) recalls the same construction — the reflexive-transitive closure of a relation `R ⊆ P × P` as the *free* (minimally constrained) preorder containing `R` — as the running illustration of freeness before generalising it to props. Nothing new is demanded of the closure itself; the chapter uses it only to motivate free props.\n\nOne aspect the later section adds is a framing rather than a theorem: it explains freeness as \"the extra inequalities impose no further constraints on maps **out** of `P`\", which is the adjunction this issue proves, read in the direction that Exercises 5.20 and 5.21 then exercise.\n\nIn-tree anchor unchanged from the coverage pass: `Instance/Lambda/Multi.v:46` (`multi`), `:53` (`multi_R`), `:74` (`multi_PreOrder`) construct the closure and prove it is a preorder containing `R`; the minimality/least-closure half is asserted only in that file's prose comment and remains this issue's obligation.\n"
+  },
+  {
+    "item_id": "7sketches:5.2.3:example5.19",
+    "issue": 768,
+    "part": "graph -> relation -> preorder route",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Example 5.19 (printed p. 153; PDF pp. 165–166; item `7sketches:5.2.3:example5.19`) restates the graph-to-preorder route this issue covers: a graph `(V, A, s, t)` is first read as the relation `{(s a, t a) : a ∈ A} ⊆ V × V` and then closed under reflexivity and transitivity, giving the preorder it presents. The presentation is identical to the Chapter 1 one; no new obligation is added.\n"
+  },
+  {
+    "item_id": "7sketches:5.2.3:ex5.20",
+    "issue": 763,
+    "part": "",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Exercise 5.20 (printed p. 154; PDF p. 166; item `7sketches:5.2.3:ex5.20`) states the universal property of the free preorder in elementwise form: for a set `P`, a relation `R ⊆ P × P`, the preorder `(P, ≤_P)` given by its reflexive-transitive closure, an arbitrary preorder `(Q, ≤_Q)` and a not-necessarily-monotone function `f : P → Q`, (1) if `R(x,y)` implies `f x ≤_Q f y` for all `x, y` then `f` is monotone `(P, ≤_P) → (Q, ≤_Q)`, and (2) conversely, if `f` is monotone then `R(x,y)` implies `f x ≤_Q f y`. The two together are the adjunction this issue establishes, transposed at a single object.\n\n- [ ] (from Seven Sketches §5.2.3) the elementwise corollary of the adjunction: both directions stated as a bijection between `R`-respecting functions `P → Q` and monotone maps `(P, ≤_P) → (Q, ≤_Q)`, for an arbitrary preorder `(Q, ≤_Q)` — the form Exercise 5.20 asks for, if the issue's own Definition of Done states the adjunction only at the level of the two categories.\n"
+  },
+  {
+    "item_id": "7sketches:5.2.3:ex5.21",
+    "issue": 763,
+    "part": "",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Exercise 5.21 (printed p. 154; PDF p. 166; item `7sketches:5.2.3:ex5.21`) is the negative half of the same adjunction: with `P`, `R`, `Q` as in Exercise 5.20 but a function `g : Q → P` in the *opposite* direction, it asks whether (1) \"`a ≤_Q b` implies `(g a, g b) ∈ R`\" makes `g` monotone `(Q, ≤_Q) → (P, ≤_P)`, and (2) whether monotonicity of `g` conversely forces that condition. Both answers are negative, and the moral drawn is that freeness concerns maps *out*, not maps *in* — which is precisely why the closure is a **left** adjoint.\n\nThis is a formalizable increment beyond proving the adjunction: it needs explicit counterexamples, not just the universal property.\n\n- [ ] (from Seven Sketches §5.2.3) counterexamples showing that both implications fail for maps *into* the free preorder — a concrete `P`, `R`, `Q` and `g : Q → P` refuting each direction, recorded next to the adjunction so the left/right asymmetry is machine-checked rather than only explained.\n"
+  },
+  {
+    "item_id": "7sketches:5.2.3:ex5.24",
+    "issue": 802,
+    "part": "free monoid on one generator is (ℕ, +, 0)",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Exercise 5.24 (printed p. 155; PDF p. 167; item `7sketches:5.2.3:ex5.24`) reaches the same identification by the route this issue formalizes: for a set `A`, let `Loop(A)` be the graph with one vertex and one loop per element of `A`; the free category on `Loop(A)` has one object, hence is a monoid — the free monoid on `A`. Parts (1) and (2) of the exercise ask for the elements of the free monoid on a one-element set and for the well-known monoid isomorphic to it, i.e. exactly the additive naturals.\n\nIn-tree, the graph and the one-object property are already machine-checked: `Test/Issue138.v:87` builds `Loop({a})` as `Build_Quiver_Standard_Eq Datatypes.unit (fun _ _ => Datatypes.unit)` and `:95` records `obj[FreeOnQuiver B138_loop] = Datatypes.unit` by `eq_refl`, over `FreeOnQuiver` (`Construction/Free/Quiver.v:431`). What is missing is the monoid layer — there is no delooping in tree (\"a one-object category is a monoid\" appears only in prose comments), which is the obligation of #220.\n\n- [ ] (from Seven Sketches §5.2.3) the identification stated at the *monoid* level, not only the category level: the endomorphism monoid of the free category on `Loop({a})` is isomorphic to `(ℕ, +, 0)`, via the delooping of #220 — if this issue's Definition of Done stops at the free category on a single loop.\n"
+  },
+  {
+    "item_id": "7sketches:5.2.3:ex5.24",
+    "issue": 296,
+    "part": "free monoid on two generators is the word monoid",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.2.3, Exercise 5.24 (printed p. 155; PDF p. 167; item `7sketches:5.2.3:ex5.24`) asks in part (3) for the elements of the free monoid on a two-element set, i.e. the words over `{a, b}` — the general free monoid whose universal property this issue establishes, at a concrete generating set. The book's construction route is via the free category on the one-vertex loop graph, so the free-monoid functor obtained here should be reconciled with that route (the delooping is #220, and the one-generator case is #802).\n\nCurrent in-tree state, from the Chapter 5 coverage pass: there is no free monoid and no left adjoint to any forgetful functor out of monoids — `Theory/Algebra/Monoid/Hom.v` supplies `Mon` and `Mon_Forget` only, and `Instance/CMon.v` likewise supplies `CMon` and `CMon_Forget` only. The word monoid exists only incidentally, as `ListMon` (`Construction/Funny/Comparison.v:81`, `obj := poly_unit`, `hom := list bool`), which is never identified as a free monoid, and the list monoid laws are available only as the generic `tlist_app_assoc` / `tlist_app_tnil_l/r` of `Lib/TList.v`.\n\n- [ ] (from Seven Sketches §5.2.3) the concrete computation at a two-element generating set: the free monoid on `{a, b}` is the monoid of words, with `ListMon` (`Construction/Funny/Comparison.v:81`) identified as an instance rather than left as a coincidence.\n"
+  },
+  {
+    "item_id": "7sketches:5.4.2:example5.66",
+    "issue": 500,
+    "part": "",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.4.2, Example 5.66 (printed p. 172; PDF p. 184; item `7sketches:5.4.2:example5.66`) unpacks a monoid object in the cartesian monoidal category of sets and finds exactly an ordinary monoid: a set `M`, a binary operation `μ : M × M → M`, an element `η(1) = e`, with associativity and two-sided unitality — the same obligation this issue covers, at the `(Set, ×, 1)` instance.\n\nCurrent in-tree state, from the Chapter 5 coverage pass: no statement unpacks a monoid object at the cartesian monoidal structure into an ordinary monoid, or builds one from an ordinary monoid. `Structure/Monoid.v:173` is the bare naming alias `Definition Monoid := @MonoidObject C CC_Monoidal`, which asserts nothing; neither `Sets_Product_Monoidal` (`Instance/Sets.v:283`) nor `Coq_Monoidal` (`Instance/Coq.v:159`) carries a single `MonoidObject` instance; and the ordinary-monoid records that do exist are unsuitable — `GradeMonoid` (`Monad/Graded.v:70`) is phrased with propositional `=` on a Coq type and is never connected to `MonoidObject`, while `Theory/Coq/Monoid.v:37` is ops-only (its own header states the laws are \"stated in prose rather than enforced\"). The library proves this exact kind of unpacking at *other* tensors — `Monoid_Monad` (`Monad/Monoid.v:40`) at the composition tensor, and `StrictPremonoidal_of_Monoid` / `Monoid_of_StrictPremonoidal` (`Instance/StrictCat/Premonoid.v:136`, `:145`, `:165`) at the funny tensor — so only the `(Set, ×, 1)` instance of the pattern is missing.\n"
+  },
+  {
+    "item_id": "7sketches:5.4.2:ex5.67",
+    "issue": 500,
+    "part": "",
+    "append_block": "### Also covered by\n\nSeven Sketches §5.4.2, Exercise 5.67 (printed p. 172; PDF p. 184; item `7sketches:5.4.2:ex5.67`) asks for two concrete instances of the same unpacking: the real numbers under multiplication with unit `1`, and under addition with unit `0`, each verified against all three conditions of the book's monoid-object definition (associativity, unitality, commutativity), hence each a commutative monoid object in sets.\n\nThis adds a concrete-instance obligation that the general correspondence does not by itself discharge: the library imports no real-number theory at all (`rg 'Reals|R_scope|Rdefinitions|QArith'` over all `.v` files returns nothing), so the carrier has to be brought in, and any stdlib axioms it brings must be disclosed per `docs/AXIOMS.md`.\n\n- [ ] (from Seven Sketches §5.4.2) the two commutative-monoid-object witnesses on the reals — `(ℝ, ×, 1)` and `(ℝ, +, 0)` — in the cartesian monoidal category of setoids, with the stdlib axioms the `Reals` import introduces disclosed, or an explicit note recording why a different concrete carrier was substituted.\n"
+  }
+]

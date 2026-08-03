@@ -1,0 +1,7 @@
+[
+  {
+    "item_id": "maclane:VII.1:remark1",
+    "issue": 265,
+    "append_block": "### Also covered by\n\nMac Lane VII.1 (book pp. 163-164, PDF 171-172; item `maclane:VII.1:remark1`) revisits the tensor product of abelian groups from the monoidal-category viewpoint: it exhibits `<Ab, tensor, Z>` as a (symmetric) monoidal category, the associator being forced by the universal property of `A tensor B` among bilinear maps and the unitors by `Z tensor A =~ A`. This is the same mathematical obligation as the tensor product of abelian groups and Ab-enrichment already tracked here from I.8. **New aspect added by VII.1:** the section additionally lists a whole family of further tensor-product monoidal categories built the same way -- `<K-Mod, tensor_K, K>` for a commutative ring K, the category of K-algebras under `tensor`, graded and differential-graded K-modules, and R-R bimodules under `tensor_R`. Each of those presupposes the corresponding underlying category (the module categories are tracked separately under #258) and is out of scope for this issue beyond the `Ab` case; they are recorded here only so the VII.1 revisit and its extra examples are not lost."
+  }
+]

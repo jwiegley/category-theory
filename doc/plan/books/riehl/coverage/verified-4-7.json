@@ -1,0 +1,333 @@
+[
+  {
+    "id": "riehl:4.5:lem9",
+    "classification": "ABSENT",
+    "aliases": [
+      "slices of a presheaf category are presheaf categories",
+      "category of elements / el(X) / ∫X / Grothendieck construction of a presheaf",
+      "Set^{C^op}/X ≃ Set^{(∫X)^op}",
+      "fundamental theorem of presheaf toposes; discrete opfibration over C",
+      "Set/I ≃ Set^I (the C = 1 special case: families of sets)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'category of elements' --glob '*.v' -> 1 hit, Construction/Grothendieck.v:108, and it is HEADER PROSE ('Restricting the fibres to sets, viewed as discrete categories, recovers the category of elements el(F)'); no Definition/Instance of el(-) or ∫X for a Set-valued functor exists anywhere",
+      "rg -n -i 'el_of|elements' --glob '*.v' -> 46 files, all 'elements' in prose or stdlib FMap lemmas (Theory/Metacategory.v M.elements); no category-of-elements construction",
+      "rg -n -i 'discrete opfibration' --glob '*.v' -> 1 hit, Construction/Grothendieck.v:109, prose only",
+      "rg -n -i 'presheaf.*slice|slice.*presheaf' --glob '*.v' -> 0 hits",
+      "rg -l 'Slice' --glob '*.v' -> exactly 7 files (Construction/Slice.v, Construction/Slice/Pullback.v, Construction/Comma.v, Construction/Arrow.v, Construction/Displayed/Codomain.v, Structure/Pullback.v, Structure/Topos.v); none mentions functor/presheaf categories, and no slice of [C, D] is ever formed",
+      "rg -n 'Slice.*Fun|Fun.*Slice' --glob '*.v' -> 7 files, every hit is either the word 'functor' in prose or Functor/Construction/Product.v; no equivalence is stated",
+      "rg -n -i 'family of sets|Set\\^I|indexed family' --glob '*.v' -> the C = 1 special case Set/I ≃ Set^I appears ONLY as prose in Construction/Slice.v:73-77 ('an equivalence Set/I ≃ Set^I (Leinster …)'), never as an in-tree statement",
+      "Construction/Grothendieck.v does supply the general Grothendieck construction (Grothendieck, Grothendieck_Proj) and Construction/Grothendieck/Fiber.v the fibre equivalence, but no instantiation at a Set-valued presheaf and no comparison with a slice of a functor category; the substrate exists, the item's equivalence does not"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass reached the same ABSENT verdict independently. Re-ran every cited command: `rg -l 'Slice' -g '*.v'` returns EXACTLY the 7 files claimed (Construction/Arrow.v, Construction/Comma.v, Construction/Displayed/Codomain.v, Construction/Slice.v, Construction/Slice/Pullback.v, Structure/Pullback.v, Structure/Topos.v) and none forms a slice of a functor category; Construction/Grothendieck.v:108 is verbatim header prose ('recovers the category of elements el(F)') with no Definition/Instance behind it. Corroborating cross-book evidence the classifier did not cite: the IDENTICAL statement in the Awodey pass, `awodey:9.7:lem23` ('A slice of a presheaf category is again a presheaf category'), is already ledgered ABSENT against issue #733 (doc/plan/books/ledger.tsv:1373) — Phase E should route this Riehl item to #733 as a duplicate rather than file a new issue. Note also that `riehl:2.4:def1` (the category of elements itself) is ledgered PARTIAL against #345, so the definitional prerequisite of this lemma already has a home; only the equivalence is missing.\n\nIndependent Phase-D blind pass (searches run BEFORE opening coverage-4-7.json): rg -in 'beck.?chevalley' (3 hits, all prose: Comonad/Coalgebra.v:94, Theory/Bicategory.v:104, one MacLane issue draft); rg -in 'locally cartesian|lccc|LocallyCartesian' (comment prose only in Structure/Pullback.v:126, Instance/Cat.v:129, Instance/Sets.v:97, Construction/Slice.v:91 — no class, no instance); rg -in 'pushforward|dependent product|dependent sum|Pi_f|Sigma_f|base change' (no Pi_f functor anywhere; Construction/ColouredPROP/BaseChange is colour base change, unrelated); rg -n 'Bang_Functor|Star_Functor' (definitions at Construction/Slice/Pullback.v:50 and :67 only, adjunction stub commented out at :121-127); rg -in 'category of elements|Elements|Grothendieck' (el(-) exists only as header prose, Construction/Grothendieck.v:108); rg -n 'Presheaves|Presheaf' (Theory/Sheaf.v:124/127 define Presheaf/Presheaves, no closed structure); rg -in 'skolem|axiom of choice' (0 Skolem hits); rg -in 'quantifier|hyperdoctrine|exists_|forall_' (Lawvere prose only); rg -il 'quiver' (Construction/Free/Quiver.v with QuiverCategory:358, Instance/Parallel.v Presheaf_Graph, Construction/Free.v, Lib/*, Solver/*, Test/*); rg -n ': @Closed' (16 instances: Rel, Coq, FinSet, Algs, Sets, AST, Props, Cat, Lambda, C x D — none on @Fun); rg -n 'Terminal' Instance/Fun.v Instance/Fun/*.v (0 hits); rg -l 'Slice' -g '*.v' (exactly 7 files). Preliminary blind verdict was ABSENT for all twelve."
+    }
+  },
+  {
+    "id": "riehl:4.5:example10",
+    "classification": "ABSENT",
+    "aliases": [
+      "presheaf categories are (locally) cartesian closed",
+      "[C^op, Sets] cartesian closed; exponential of presheaves",
+      "@Closed (@Fun C D) / Functor_Category_Closed / Presheaf_Closed",
+      "pointwise inheritance of cartesian closure by functor categories",
+      "Set^C cartesian closed (covariant dual)"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'exponent_obj|: @Closed' --glob '*.v' -> 16 hits: Rel_Closed, Coq_Closed, FinSet_Closed, Algs_Closed, Sets_Closed, Hom_Closed (AST), Props_Closed, Cat_Closed, Lambda_Closed, Product_Closed (C ∏ D), plus topos_closed as a Topos field. NOT ONE is on @Fun C D, so no functor/presheaf category is shown cartesian closed",
+      "rg -n 'Terminal' Instance/Fun.v Instance/Fun/*.v -> 0 hits (verified); Instance/Fun/ contains only Cartesian.v, so [C, D] is not even shown to have a terminal object",
+      "rg -n -i 'locally cartesian|LCCC|LocallyCartesian' --glob '*.v' -> header prose only (Construction/Slice.v:91, Structure/Pullback.v:126, Instance/Cat.v:129, Instance/Sets.v:97). There is no LocallyCartesianClosed class, predicate or instance, and no Π_f functor, so 'locally cartesian closed' is not statable in-tree at all",
+      "rg -n -i 'exponential.*presheaf|presheaf.*exponential' --glob '*.v' -> 0 hits",
+      "NEAR MISS, recorded so the pointer is not lost (this was Phase C's sole evidence): Instance/Fun/Cartesian.v:111 `Instance Functor_Category_Cartesian (C D : Category) (_ : @Cartesian D) : @Cartesian (@Fun C D)` — verified present and exactly as quoted, giving POINTWISE BINARY PRODUCTS in a functor category. This is the prerequisite instance needed merely to STATE `@Closed (@Fun C D) _`; it establishes no clause of Example 4.5.10",
+      "Lemma 4.5.9 (riehl:4.5:lem9), on which the example's local-cartesian-closure argument rests, is itself ABSENT, as is Lemma 4.5.3(ii)'s route to cartesian closure",
+      "Cross-book corroboration: the identical statements awodey:9.7:example22 and awodey:9.7:cor24 ('Presheaf categories are locally cartesian closed') are ledgered ABSENT against issue #734 (doc/plan/books/ledger.tsv:1374-1375); awodey:8.6:prop8/cor9 ('colimits in a functor category are pointwise') are ledgered ABSENT against #715"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "OVERTURNED:ABSENT",
+      "notes": "Phase C said PARTIAL on the strength of Instance/Fun/Cartesian.v:111 Functor_Category_Cartesian. The evidence is real and the quote is accurate — I opened the file and confirmed the instance and its pointwise product/split definition at that exact line. But the record is internally inconsistent: its own `gap` field opens 'Neither clause of the example is established.' Under the frozen definition PARTIAL requires that SOME OF THE ITEM exist, and no clause, and no instance of any clause, does. Binary products in [C, D] are the prerequisite `@Cartesian` instance that the library's own `@Closed C CA` signature demands before cartesian closure can even be TYPED — a precondition, not a fragment of the theorem. There is no @Terminal on @Fun either, so not even 'finite products pointwise' holds; there are no exponentials on any functor category; there is no LocallyCartesianClosed notion and no Π_f, so the example's headline claim is not statable; and Lemma 4.5.9, its stated input, is ABSENT. Cross-book consistency confirms: the identical statement awodey:9.7:example22 / cor24 is ledgered ABSENT (#734, ledger.tsv:1374-1375). Contrast riehl:4.5:exi, which I CONFIRMED as PARTIAL because there a genuine special case of the claim (the X = 1 fibre) is fully proven in-tree — the distinction I applied throughout this batch is 'an instance of the claim is proven' (PARTIAL) versus 'only ambient prerequisites exist' (ABSENT). The Functor_Category_Cartesian pointer is preserved verbatim in negative_search_log so the issue draft's 'Current state in the library' section loses nothing. Phase E: route to existing issue #734 as a duplicate."
+    },
+    "phase_c_classification": "PARTIAL"
+  },
+  {
+    "id": "riehl:4.5:example11",
+    "classification": "ABSENT",
+    "aliases": [
+      "adjoint triple Σ_δ ⊣ Δ_δ ⊣ Π_δ on slices of Quiver",
+      "Quiver / Quiv / directed multigraph category; walking arrow quiver; bipartite quivers",
+      "Quiver/A, Quiver/dA slice categories; join of two sets of vertices",
+      "dependent sum / base change / dependent product along a quiver map",
+      "Set × Set ≃ Quiver/dA"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'quiver' --glob '*.v' -> Construction/Free/Quiver.v (Class Quiver, QuiverCategory, FreeCatFunctor, FreeForgetfulAdjunction), Lib/TList.v, Lib/NETList.v, Solver/Expr.v, Test/Issue138.v. The category Quiv exists (Construction/Free/Quiver.v:358 QuiverCategory), but is presented as a class of node/edge data, never as a presheaf category, and no slice of it is ever formed",
+      "rg -n 'Quiver.*Slice|Slice.*Quiver' --glob '*.v' -> 0 hits",
+      "rg -n -i 'bipartite|join of|discrete subquiver' --glob '*.v' -> 0 relevant hits",
+      "rg -n -i 'pushforward|dependent product|Pi_f|Π_f' --glob '*.v' -> only header prose (Construction/Slice.v:91-92, Structure/Pullback.v:128) plus unrelated fibration 'pushforward' language in Construction/Grothendieck/RoundTrip.v; no Π functor exists anywhere",
+      "rg -n 'Bang_Functor|Star_Functor' --glob '*.v' -> defined in Construction/Slice/Pullback.v:50 and :67, but the adjunction between them is a COMMENTED-OUT stub (lines 121-127), so not even the first two legs of the triple are proved for any category, let alone for Quiver",
+      "Instance/Two.v supplies the walking arrow as a CATEGORY (_2), but no walking-arrow quiver, no inclusion of its discrete subquiver, and no induced functors"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). The classifier's most load-bearing claim is CORRECT and was worth double-checking, because my own first-pass `rg -il quiver | head -20` truncated it away: Construction/Free/Quiver.v DOES exist, IS registered in _CoqProject:72, and defines `#[export] Instance QuiverCategory : Category` at line 358 (with Class Quiver, QuiverHomomorphism:205, Forgetful:412, FreeCatFunctor:546, FreeForgetfulAdjunction:550) — exactly as the negative log states. Quiv is therefore an in-tree category, but it is built from node/edge class data, never identified with a presheaf category, and no slice of it is ever formed (`rg -n 'Quiver.*Slice|Slice.*Quiver'` -> 0). Additional in-tree material the classifier did not surface, and which strengthens rather than weakens ABSENT: Instance/Parallel.v:155-166 explicitly identifies presheaves on the walking parallel pair WITH quivers ('a presheaf on the parallel-pair category x ⇉ y is a graph (quiver)') and builds one such presheaf, `Presheaf_Graph : Parallel^op ⟶ Sets` — but that is a single hand-built presheaf with nat/nat*nat carriers, not the category Quiv-as-presheaves, and it carries no slices and no adjoint triple. Confirmed the Σ ⊣ Δ adjunction is a commented-out stub at Construction/Slice/Pullback.v:121-127 and that no Π functor exists anywhere."
+    }
+  },
+  {
+    "id": "riehl:4.5:def-beck-chevalley",
+    "classification": "ABSENT",
+    "aliases": [
+      "Beck-Chevalley isomorphism / Beck-Chevalley condition",
+      "base-change / mate isomorphism β : Σ_h Δ_k ⇒ Δ_f Σ_g",
+      "γ : Δ_g Π_f ⇒ Π_k Δ_h (the conjugate / right-adjoint form)",
+      "smooth and proper base change; commutation of pullback with dependent sum",
+      "BC square, distributivity of substitution over quantifiers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Beck.?Chevalley|beck_chevalley' --glob '*.v' -> exactly 2 hits, both HEADER PROSE: Theory/Bicategory.v:104 (citing Kelly-Street on 'lifts, transports, and Beck-Chevalley squares') and Comonad/Coalgebra.v:94 ('a bifibration satisfying the Beck-Chevalley condition'). No definition, no named isomorphism",
+      "rg -n -i 'base change.*iso|BC_iso' --glob '*.v' -> 0 hits",
+      "rg -n -i 'mate' --glob '*.v' -> Theory/Bicategory/Mates.v does supply the general mates correspondence (mate, mate_iso, mate_roundtrip_{left,right}), which is the machinery the book uses to DEFINE β, but nothing instantiates it at slice categories and no Beck-Chevalley transformation is named or constructed",
+      "rg -n -i 'pushforward|dependent product|Π_f' --glob '*.v' -> no Π_f functor exists, so γ cannot even be typed in-tree"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). `rg -in 'beck.?chevalley'` over the whole tree returns exactly the two .v hits claimed — Theory/Bicategory.v:104 ('the 2-categorical toolkit for lifts, transports, and Beck-Chevalley squares (Kelly, Street 1974)') and Comonad/Coalgebra.v:94 ('a bifibration satisfying the Beck–Chevalley condition') — plus one MacLane issue draft. I read both passages: each is background prose that cites the condition without claiming it is formalized, so neither is a header overclaim. The classifier is also right that Theory/Bicategory/Mates.v supplies the general Kelly–Street mates calculus (mate, mate_iso, mate_roundtrip_left/right, verified in the file header at lines 16-64) that the book uses to DEFINE β — the machinery is present, the instantiation at slice categories is not, and γ cannot even be typed since no Π_f exists."
+    }
+  },
+  {
+    "id": "riehl:4.5:lem12",
+    "classification": "ABSENT",
+    "aliases": [
+      "Beck-Chevalley natural transformations for a commuting square",
+      "β : Σ_h Δ_k ⇒ Δ_f Σ_g invertible when the square is a pullback",
+      "γ : Δ_g Π_f ⇒ Π_k Δ_h, the conjugate transformation",
+      "mate of the identity Σ_f Σ_h = Σ_g Σ_k; pullback squares commute with base change",
+      "pullback pasting / comparison of two pullbacks of gc along f"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Beck.?Chevalley' --glob '*.v' -> 2 hits, both comments (Theory/Bicategory.v:104, Comonad/Coalgebra.v:94)",
+      "rg -n 'Bang_Functor|Star_Functor' --glob '*.v' -> Σ_f (Construction/Slice/Pullback.v:50) and f* (:67) exist as functors, but NO natural transformation between composites of them is ever built, and the file's own adjunction stub Base_Functor_Adjunction (lines 121-127) is commented out",
+      "rg -n -i 'pushforward|dependent product|Pi_f' --glob '*.v' -> Π_f absent, so γ is not statable",
+      "rg -n 'pullback_paste|pullback_unpaste|pullback_transport|IsPullback' Theory/Morphisms/Stability.v -> the pullback pasting/stability toolkit exists (pullback_paste:106, pullback_unpaste:160, pullback_transport:329, monic_pullback_stable:226), i.e. the ingredients of the invertibility proof, but no statement relating slice functors along a commuting square",
+      "rg -n -i 'locally cartesian' --glob '*.v' -> no LCCC class, so the lemma's ambient hypothesis has no in-tree formulation"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). I considered and rejected upgrading to PARTIAL on the strength of Theory/Bicategory/Mates.v (β is 'the mate of the identity' in Riehl's proof) and of the pullback toolkit: every cited line number in Theory/Morphisms/Stability.v checks out exactly — pullback_paste:106, pullback_unpaste:160, monic_pullback_stable:226, pullback_transport:329. But β and γ are natural transformations between COMPOSITES OF SLICE FUNCTORS, and none of the four ingredients exists: no Σ_f ⊣ Δ_f adjunction (the stub at Construction/Slice/Pullback.v:121-127 is commented out, and it even states the adjunction backwards as `Star_Functor f ⊣ Bang_Functor f`, which the file's own header at :38-40 flags as wrong), no Π_f at all, no LCCC hypothesis to assume, and no transformation of any kind between composites of Bang_Functor/Star_Functor (`rg -n 'Bang_Functor|Star_Functor'` — the only non-comment occurrences in the whole tree are the two definitions and the `f !` notation). Generic mates plus generic pullback pasting are ambient tooling, not a fragment of the lemma."
+    }
+  },
+  {
+    "id": "riehl:4.5:cor13",
+    "classification": "ABSENT",
+    "aliases": [
+      "pullback functor preserves cartesian closed structure of slices",
+      "Δ_f is a cartesian closed functor / preserves exponentials between slices",
+      "base change commutes with product and exponential; Δ_f(a × -) ≅ Δ_f a × Δ_f(-)",
+      "ClosedFunctor / CartesianFunctor applied to Star_Functor",
+      "product with a = Σ_a Δ_a, exponential with a = Π_a Δ_a"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Star_Functor' --glob '*.v' -> only Construction/Slice/Pullback.v (definition at :67 plus header prose); no lemma about what it preserves",
+      "rg -n 'ClosedFunctor|CartesianFunctor' --glob '*.v' -> Functor/Structure/Cartesian/Closed.v:49 defines the class ClosedFunctor and Functor/Structure/Cartesian.v the cartesian one, but neither is ever instantiated at a slice-category functor (no instance mentions Slice or Star_Functor)",
+      "rg -n -i 'slice.*closed|closed.*slice' --glob '*.v' -> 0 hits; no slice category is ever shown cartesian or cartesian closed",
+      "rg -n -i 'pushforward|Π_f|dependent product' --glob '*.v' -> Π_a absent, so the 'exponential with a = Π_a Δ_a' factorization the proof relies on cannot be stated",
+      "rg -n 'Beck.?Chevalley' --glob '*.v' -> Lemma 4.5.12, the corollary's only input, is itself absent (comments only)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). Verified the cited classes exist and are never instantiated at a slice functor: Functor/Structure/Cartesian/Closed.v:49 `Class ClosedFunctor` (inside Section ClosedFunctor, over a `@CartesianFunctor` context at :45) and Functor/Structure/Cartesian.v:49 `Class CartesianFunctor` — the line numbers are exact. `rg -n 'Star_Functor'` confirms no lemma anywhere states what base change preserves, and no slice category is given cartesian or cartesian closed structure. The corollary's two inputs (Lemma 4.5.12 and the Σ_a Δ_a / Π_a Δ_a factorizations of product and exponential in a slice) are both absent, the second necessarily so since Π does not exist."
+    }
+  },
+  {
+    "id": "riehl:4.5:lem14",
+    "classification": "ABSENT",
+    "aliases": [
+      "distributivity of dependent product over dependent sum",
+      "Π_a Σ_b ≅ Σ_{Π_a b} Π_e ε^* (distributivity law in an LCCC)",
+      "dependent choice / Π-Σ distributive law; polynomial functor composition",
+      "counit ε : Δ_a Π_a b -> b and the associated map e",
+      "distributive law of Π over Σ; Beck distributivity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'pushforward|dependent product|Pi_f|Π_f' --glob '*.v' -> no dependent-product (Π) functor between slices exists in-tree; only prose in Construction/Slice.v:91 and Structure/Pullback.v:128",
+      "rg -n -i 'distribut' --glob '*.v' -> Structure/Distributive.v defines only Class Distributive with distr_prod_coprod : x × (y + z) ≅ x × y + x × z and distr_zero : x × 0 ≅ 0 — products over COPRODUCTS, an unrelated law; no Π-over-Σ statement anywhere",
+      "rg -n -i 'polynomial functor|container' --glob '*.v' -> 0 relevant hits (the usual alternative home for this distributivity)",
+      "rg -n 'Bang_Functor|Star_Functor' --glob '*.v' -> Σ and Δ exist as bare functors with no adjunction, so neither the counit ε nor the map e of the statement can be formed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). The most valuable claim here is the distinguishing one, and it is accurate: Structure/Distributive.v:44-48 defines `Class Distributive` with exactly `distr_prod_coprod {x y z} : @Isomorphism C (x × (y + z)) (x × y + x × z)` and `distr_zero {x} : x × 0 ≅ 0` — distributivity of PRODUCT over COPRODUCT, an unrelated law that an alias-only search would have mistaken for a hit. No Π-over-Σ statement exists, no Π functor exists to state either side, and with the Σ_f ⊣ Δ_f adjunction commented out there is no counit ε and no map e to build the statement from. Also checked the usual alternative home: no polynomial-functor or container development in-tree."
+    }
+  },
+  {
+    "id": "riehl:4.5:construction-type-theoretic-ac",
+    "classification": "ABSENT",
+    "aliases": [
+      "type theoretic axiom of choice; type-theoretic AC",
+      "Skolem function / Skolemization",
+      "Π_{a∈A} Σ_{b∈B} C(a,b) ≅ Σ_{f∈B^A} Π_{a∈A} C(a, f(a))",
+      "distributivity instance at the evaluation map A × B <- A × B^A -> B^A",
+      "Σ and Π as constructive existential and universal quantifiers"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'skolem' --glob '*.v' -> 0 hits",
+      "rg -n -i 'type theoretic axiom|type-theoretic axiom' --glob '*.v' -> 0 hits",
+      "rg -n -i 'axiom of choice|choice' --glob '*.v' -> hits are all unrelated ('a choice of coequalizer', 'the axiom of choice' as a caveat in Structure/Factorization.v:112 and Structure/Topos.v:82); docs/AXIOMS.md:173-174 lists dependent_choice/unique_choice only as stdlib axioms the audited core does NOT use",
+      "rg -n 'sigT' --glob 'Lib/*.v' -> only the ∃/`1/`2 notation machinery of Lib/Foundation.v; no Skolem-shaped lemma (forall a, {b & C a b}) -> {f & forall a, C a (f a)} is stated, even in the Coq/Sets instance layer",
+      "rg -n -i 'quantifier' --glob '*.v' -> Theory/Adjunction.v:75-76, Structure/Pullback.v:122, Structure/Topos.v:85, Instance/Poset.v:70, Construction/Slice.v:93 — every one is header prose citing Lawvere's ∃ ⊣ substitution ⊣ ∀; nothing formalized",
+      "Lemma 4.5.14, of which this is the specialization, is itself absent, and no Π functor exists to state either side of the isomorphism"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT); `rg -in 'skolem'` returns 0 hits tree-wide, independently reproduced. Verified the docs/AXIOMS.md citation: lines 173-174 do list `dependent_choice` and `unique_choice`, and they appear there as stdlib axioms enumerated by the audit, not as anything the library proves or uses in the certified core — so the classifier's reading is honest. Also confirmed the five 'quantifier' prose sites (Theory/Adjunction.v:75-76, Structure/Pullback.v:122-124, Structure/Topos.v:85, Instance/Poset.v:70, Construction/Slice.v:93): every one cites Lawvere's ∃ ⊣ substitution ⊣ ∀ as background and none formalizes it. The Skolem-shaped Coq lemma (∀ a, {b & C a b}) → {f & ∀ a, C a (f a)} is likewise nowhere stated, even in the Instance/Coq or Instance/Sets layers where it would be axiom-free."
+    }
+  },
+  {
+    "id": "riehl:4.5:exi",
+    "classification": "PARTIAL",
+    "aliases": [
+      "the poset Ω^X of predicates on a set X is cartesian closed",
+      "Heyting algebra of subsets / subobject lattice of X; power set as a CCC",
+      "quantifier adjoint triple ∃_i ⊣ Δ_i ⊣ ∀_i along a monomorphism i : Q >-> X",
+      "implication as q ⇒ r = ∀_i Δ_i r; conjunction as p ∧ q = ∃_i Δ_i r",
+      "Lawvere hyperdoctrine; Props / Heyting prealgebra"
+    ],
+    "evidence": [
+      {
+        "file": "Instance/Props.v",
+        "line": 94,
+        "symbol": "Props_Closed",
+        "intree_statement": "Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }."
+      },
+      {
+        "file": "Instance/Props.v",
+        "line": 69,
+        "symbol": "Props_Cartesian",
+        "intree_statement": "Program Instance Props_Cartesian : @Cartesian Props := { product_obj := and; fork := fun _ _ _ f g x => conj (f x) (g x); exl := fun _ _ p => proj1 p; exr := fun _ _ p => proj2 p }."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise 4.5.i: verify that the category Ω^X of predicates on a set X is cartesian closed, with conjunction p ∧ q = ∃_i Δ_i r and implication q ⇒ r = ∀_i Δ_i r computed from the quantifier adjoint triple ∃_i ⊣ Δ_i ⊣ ∀_i associated to the monomorphism i : Q >-> X naming a predicate's truth set.",
+      "intree": "Props (Instance/Props.v) is the thin category of propositions ordered by implication; Props_Cartesian makes conjunction the binary product and Props_Closed makes implication the exponential, exp_iso being the currying bijection Hom(R ∧ P, Q) ≅ Hom(R, P → Q).",
+      "strength_comparison": "intree-weaker: only the UNINDEXED truth-value case is covered — Props is Ω itself (equivalently Ω^1, the fibre over a point), a Heyting prealgebra whose ∧ and ⇒ are given DIRECTLY as Coq's `and` and `impl`, not derived from any quantifier adjunction. The exercise's actual content — the X-indexed category of predicates and the derivation of ∧ and ⇒ from ∃_i ⊣ Δ_i ⊣ ∀_i — is not present."
+    },
+    "gap": "Missing: (i) the category Ω^X for a general set X (no in-tree construction of predicates-on-X as a category; Functor_Category_Cartesian would give @Cartesian [Discrete X, Props] but there is no @Closed instance on any functor category, so even cartesian closure of Ω^X for general X is unavailable); (ii) the quantifier adjoint triple ∃_i ⊣ Δ_i ⊣ ∀_i along a monomorphism — `rg -i 'quantifier'` finds only header prose (Theory/Adjunction.v:75, Structure/Pullback.v:122, Instance/Poset.v:70, Construction/Slice.v:93) citing Lawvere, with no formalization; (iii) hence the exercise's actual claim, that ∧ and ⇒ in Ω^X ARE ∃_i Δ_i and ∀_i Δ_i, is unproven. Only the degenerate X = 1 fibre exists.",
+    "negative_search_log": [
+      "rg -n -i 'quantifier|hyperdoctrine' --glob '*.v' -> prose only, no ∃/∀ adjoints formalized",
+      "rg -n -i 'predicate' --glob '*.v' -> all hits are the word used for Coq predicates (IsPullback, Discrete, HasPushouts, ...); no category of predicates on a set",
+      "rg -n 'SubObj' --glob '*.v' | grep -i 'cartesian|closed|heyting|lattice' -> 0 hits; Theory/Subobject.v's SubObj setoid is never given lattice or Heyting structure"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "PARTIAL stands, but only just, and the record must be read with the caveat below. Evidence verified at the exact cited lines: Instance/Props.v:69 `Program Instance Props_Cartesian` (product_obj := and, fork := conj, exl := proj1, exr := proj2) and Instance/Props.v:94 `Program Instance Props_Closed : @Closed Props _` (exponent_obj := Basics.impl, exp_iso the currying bijection) — both quotes are accurate, and Props_Terminal/Props_Cocartesian/Props_Initial sit alongside, so Props is a genuine Heyting prealgebra in-tree. PARTIAL is defensible because Props IS the exercise's category Ω^X at X = 1 (the subobject lattice of the point), i.e. a fully proven SPECIAL CASE of the exercise's first claim — that is the line I drew between PARTIAL and ABSENT throughout this batch, and it is why I overturned example10 but not this. CAVEAT for Phase E, which the record's own gap field states correctly: at X = 1 the exercise's actual CONTENT is vacuous — the only subobjects of the point are 0 and 1, and Props_Closed defines implication DIRECTLY as Basics.impl rather than deriving it as ∀_i Δ_i. The X-indexed category Ω^X and the quantifier adjoint triple ∃_i ⊣ Δ_i ⊣ ∀_i are both entirely absent (independently reconfirmed: no hyperdoctrine, no ∃/∀ adjoints, and Theory/Subobject.v's SubObj setoid is never given lattice or Heyting structure). The issue this generates is a from-scratch build, not a completion. One correction to the gap text: it says Functor_Category_Cartesian 'would give @Cartesian [Discrete X, Props]' — accurate, and I confirmed there is no matching @Closed or @Terminal on @Fun, so that route is indeed unavailable."
+    }
+  },
+  {
+    "id": "riehl:4.5:exii",
+    "classification": "ABSENT",
+    "aliases": [
+      "functoriality of Σ, Δ, Π in the base morphism",
+      "Σ_{gf} = Σ_g Σ_f (post-composition composes strictly)",
+      "Δ_{gf} ≅ Δ_f Δ_g (pullback pseudofunctoriality / base change is a pseudofunctor)",
+      "Π_{gf} ≅ Π_g Π_f",
+      "self-indexing C/(-) as a (pseudo)functor; codomain fibration cleaving is not split"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n 'Bang_Functor|Star_Functor' --glob '*.v' -> 12 hits total; the only non-comment ones are the two DEFINITIONS (Construction/Slice/Pullback.v:50, :67) and the notation at :60. No lemma states any composition law for either, and neither functor is used anywhere else in the tree",
+      "rg -n -i 'pushforward|dependent product|Pi_f|Π_f' --glob '*.v' -> Π does not exist, so the third clause is not even statable",
+      "rg -n 'codomain_cleaving|SplitCleaving' --glob '*.v' -> Construction/Displayed/Codomain.v:204 codomain_cleaving and :232 codomain_cleaving_pullbacks give the codomain fibration's chosen lifts, the nearest relative of Δ_{gf} ≅ Δ_f Δ_g, but they assert only that lifts are cartesian iff the squares are pullbacks — no composition/pseudofunctoriality comparison is stated",
+      "rg -n -i 'pseudofunctor' --glob '*.v' -> Theory/Bicategory/Pseudofunctor.v and Construction/Indexed.v exist generically, but neither is instantiated at the self-indexing C/(-)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). Independently reproduced the decisive negative: across the whole tree `rg -n 'Bang_Functor|Star_Functor'` yields only the two definitions (Construction/Slice/Pullback.v:50, :67), the `f !` notation at :60, the commented adjunction stub, and header prose in Construction/Slice.v and Structure/Pullback.v — neither functor is consumed anywhere in the library and no composition law is stated for either, so not even the strict clause Σ_{gf} = Σ_g Σ_f is present. Verified the nearest-relative citation: Construction/Displayed/Codomain.v:204 `codomain_cleaving` and :232 `codomain_cleaving_pullbacks` are at exactly those lines and assert only cartesian-lifts-iff-pullbacks, with no pseudofunctoriality comparison. Π does not exist, so the third clause is not statable."
+    }
+  },
+  {
+    "id": "riehl:4.5:exiii",
+    "classification": "ABSENT",
+    "aliases": [
+      "action of the pushforward functor Π_f on morphisms",
+      "Π_f u as an object of C/(Π_f B); dependent product of a slice morphism",
+      "counit ε : Δ_f Π_f B -> B of Δ_f ⊣ Π_f and pullback along it",
+      "Π along g : Δ_f Π_f B -> Π_f B of the pulled-back u",
+      "dependent product on the arrow/slice of a slice"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'pushforward|dependent product|Pi_f|Π_f' --glob '*.v' -> no Π_f functor anywhere; the only mentions are header prose (Construction/Slice.v:91-92, Structure/Pullback.v:128) and unrelated fibration 'pushforward' vocabulary in Construction/Grothendieck/RoundTrip.v",
+      "rg -n 'Bang_Functor|Star_Functor' --glob '*.v' -> Σ_f and f* exist but their adjunction is a commented-out stub (Construction/Slice/Pullback.v:121-127), so there is no counit ε to pull back along",
+      "rg -n -i 'locally cartesian' --glob '*.v' -> no LCCC class; the exercise's ambient hypothesis has no in-tree formulation",
+      "rg -n -i 'slice of a slice|C/B.*C/Y' --glob '*.v' -> 0 hits; slices of slices are never formed"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). Confirmed no Π_f/pushforward functor between slices exists tree-wide; the 'pushforward' vocabulary in Construction/Grothendieck/RoundTrip.v is opcartesian-lift language for fibrations, correctly excluded. With the Σ_f ⊣ Δ_f adjunction commented out at Construction/Slice/Pullback.v:121-127 there is no counit ε : Δ_f Π_f B → B to pull back along, so neither side of the exercise's identification can be formed. Slices of slices are never constructed. Nothing found that Phase C missed."
+    }
+  },
+  {
+    "id": "riehl:4.5:exiv",
+    "classification": "ABSENT",
+    "aliases": [
+      "reflexive quivers / rQuiver / reflexive directed graphs",
+      "adjoint triple Σ_δ ⊣ Δ_δ ⊣ Π_δ for reflexive quivers",
+      "presheaves on the reflexive-arrow shape; degeneracy/identity edge",
+      "slices rQuiver/A and rQuiver/dA",
+      "walking arrow with specified endoarrows"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "rg -n -i 'rQuiver|reflexive quiver' --glob '*.v' -> 0 hits",
+      "rg -n -i 'reflexive graph|reflexive.*edge|degeneracy' --glob '*.v' -> 0 relevant hits (Structure/Coequalizer/Reflexive.v is about reflexive PAIRS of parallel morphisms, an unrelated notion)",
+      "rg -n -i 'quiver' --glob '*.v' -> only plain (non-reflexive) quivers in Construction/Free/Quiver.v, Lib/TList.v, Lib/NETList.v, Solver/Expr.v, Test/Issue138.v",
+      "rg -n -i 'pushforward|Π_f|dependent product' --glob '*.v' -> no Π functor exists, so the triple cannot be stated for any category",
+      "Example 4.5.11, which this exercise redoes in a variant category, is itself ABSENT"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind pass agreed (ABSENT). `rg -in 'rQuiver|reflexive quiver'` -> 0 hits, independently reproduced. Verified the correctly-excluded near-collision: Structure/Coequalizer/Reflexive.v is about reflexive PAIRS of parallel morphisms (a common section), an entirely different notion from a reflexive quiver's specified endoarrow at each vertex — a plausible alias trap the classifier avoided. Construction/Free/Quiver.v's Quiver class has no reflexivity/degeneracy field. No Π functor exists, so the adjoint triple is unstatable for any category, and Example 4.5.11, which this exercise varies, is itself ABSENT."
+    }
+  }
+]

@@ -1,0 +1,564 @@
+[
+ {
+  "id": "awodey:6.3:remark-ipc-derived-rules",
+  "classification": "PARTIAL",
+  "aliases": [
+   "derived rules of the entailment calculus / sequent-style derived rules",
+   "evaluation entailment (p⇒q)∧p ⊢ q = counit of the product-exponential adjunction = [eval]",
+   "modus ponens on global elements (1 ~> q^p together with 1 ~> p gives 1 ~> q)",
+   "projections p∧q ⊢ p, p∧q ⊢ q = [exl]/[exr] of Structure/Cartesian.v",
+   "unit law p ⊣⊢ ⊤∧p = the left unitor [prod_one_l] : 1 × x ≅ x",
+   "internalised projection ⊤ ⊢ (p∧q)⇒p = the name/global element curry (exl ∘ exr) : 1 ~> p^(p×q)",
+   "deduction theorem / currying adjunction (− × p) ⊣ (− ^ p)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 75,
+    "symbol": "eval",
+    "intree_statement": "Definition eval {x y} : y^x × x ~> y := uncurry id."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 141,
+    "symbol": "eval_first",
+    "intree_statement": "Corollary eval_first {x y z : C} (f : x ~> z^y) : eval ∘ first f ≈ uncurry f."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 127,
+    "symbol": "exl / exr",
+    "intree_statement": "exl {x y} : x × y ~> x;             (* first projection  (left) *)  exr {x y} : x × y ~> y;             (* second projection (right) *)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 451,
+    "symbol": "prod_one_l",
+    "intree_statement": "#[export] Program Instance prod_one_l {x : C} : 1 × x ≅ x := { to := exr; from := one △ id }."
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }.  (* the concrete cartesian closed poset: Props is thin, hom P ~> Q is entailment, header line 37: \"cartesian closure is exactly the adjunction (R ∧ P) ⊢ Q ↔ R ⊢ (P → Q), the deduction theorem\" *)"
+   }
+  ],
+  "statement_record": {
+   "book": "From the six primitive entailment rules for IPC one derives: the evaluation entailment (p⇒q)∧p ⊢ q; modus ponens as a rule (⊤ ⊢ p⇒q and ⊤ ⊢ p give ⊤ ⊢ q); the two projections p∧q ⊢ p and p∧q ⊢ q; the interderivability p ⊣⊢ ⊤∧p; and the internalised projection ⊤ ⊢ (p∧q)⇒p. Equivalently: these are the standard consequences of the meet/implication adjunctions in a cartesian closed poset.",
+   "intree": "Definition eval {x y} : y^x × x ~> y := uncurry id.  /  exl {x y} : x × y ~> x; exr {x y} : x × y ~> y;  /  #[export] Program Instance prod_one_l {x : C} : 1 × x ≅ x := { to := exr; from := one △ id }.",
+   "strength_comparison": "mixed. intree-stronger where present: [eval], [exl], [exr] and [prod_one_l] are proved for an ARBITRARY Cartesian+Closed category, so the poset-collapsed forms Awodey states (three of his five derived rules) follow by instantiating at any cartesian closed poset — Instance/Props.v:94 is such an instance in-tree, and being thin it turns each morphism into the corresponding entailment and the iso prod_one_l into interderivability. intree-weaker overall: there is NO entailment calculus in-tree, so 'derivable from the six primitive rules' is not a formalizable in-tree claim, and the two rules that quantify over global elements — modus ponens in rule form, and the internalised projection ⊤ ⊢ (p∧q)⇒p — have no in-tree statement at all (the terms curry (exl ∘ exr) : 1 ~> p^(p×q) and eval ∘ (f △ g) : 1 ~> q are expressible but are never written down or named)."
+  },
+  "gap": "Three of the five derived rules (evaluation, the two projections, p ⊣⊢ ⊤∧p) exist in-tree as named constructions valid in every cartesian closed category — eval (Structure/Cartesian/Closed.v:75), exl/exr (Structure/Cartesian.v:127-128), prod_one_l (Structure/Cartesian.v:451) — and Instance/Props.v:94 supplies a cartesian closed poset where they read as entailments. Missing: (a) the calculus itself — no inductive entailment/turnstile relation with the six primitive rules exists anywhere in the tree, so no rule can be stated as 'derived'; (b) the modus-ponens rule and the internalised projection ⊤ ⊢ (p∧q)⇒p, both phrased via global elements 1 ~> −, are never stated or named; (c) no in-tree statement of any of these in poset/entailment form, only in the proof-relevant categorical form.",
+  "negative_search_log": [
+   "grep -rn -i 'entail|modus ponens|deduction theorem|turnstile' --include=*.v . — only prose: Instance/Props.v:23,37, Instance/Poset.v:104,107, Theory/Orthogonality.v:149 (unrelated); no inductive entailment relation",
+   "grep -rn 'curry exl|curry exr|curry (exl|curry (exr' --include=*.v . — the only hits are inside exp_one/one_exp (Structure/Cartesian/Closed.v:389,415); no internalised-projection global element",
+   "grep -rn -i 'combinator' --include=*.v . — Tools/Abstraction.v, Instance/AST.v, Instance/Lambda.v prose only; no K/S/modus-ponens combinator lemmas"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL independently, same evidence. All five citations verified at source: Structure/Cartesian/Closed.v:75 `Definition eval {x y} : y^x × x ~> y := uncurry id.` verbatim; Closed.v:141 `Corollary eval_first ... : eval ∘ first f ≈ uncurry f.` verbatim; Structure/Cartesian.v:127-128 exl/exr verbatim; Structure/Cartesian.v:451-454 `prod_one_l {x} : 1 × x ≅ x := { to := exr; from := one △ id }` verbatim (under `Context `{@Terminal C}` at 449); Instance/Props.v:94 Props_Closed verbatim, and the header's deduction-theorem sentence is at Props.v:36-37 as quoted. My own greps reproduce the negative log: no inductive entailment/turnstile relation anywhere (`heyting` = 7 comment-only hits; no `Inductive Formula`; Lib/MapDecide.v:150 `Inductive formula` is the finite-map decision procedure, unrelated), and `curry (exl`/`curry exl` occurs only inside exp_one/one_exp obligations (Closed.v:389,415). Strength_comparison is honest: it says plainly that three of five rules exist only in general categorical form and that modus ponens and ⊤ ⊢ (p∧q)⇒p are expressible but never written. Files all registered in _CoqProject; no Admitted/Axiom in any cited file."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-positive-ipc-axioms",
+  "classification": "PARTIAL",
+  "aliases": [
+   "Hilbert axioms for implication / axiom schemes K and S",
+   "p ⇒ p (identity axiom, the I combinator, type of λx.x)",
+   "p ⇒ (q ⇒ p) (weakening axiom, the K combinator, curry ∘ exl)",
+   "(p ⇒ (q ⇒ r)) ⇒ ((p ⇒ q) ⇒ (p ⇒ r)) (distribution axiom, the S combinator)",
+   "positive propositional logic / implicational fragment holds in every cartesian closed poset",
+   "Curry–Howard: axioms as inhabited exponential objects / global elements 1 ~> ..."
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda.v",
+    "line": 137,
+    "symbol": "identity",
+    "intree_statement": "Definition identity Γ τ : Exp Γ (τ ⟶ τ) := LAM (VAR ZV).   (* the I combinator: a closed term of type τ ⟶ τ, i.e. a Curry–Howard witness of axiom (i) p ⇒ p *)"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 310,
+    "symbol": "exp_prod_r",
+    "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }.   (* the distributivity Awodey uses to derive axiom (iii) *)"
+   },
+   {
+    "file": "Functor/Hom/Internal.v",
+    "line": 40,
+    "symbol": "InternalHomFunctor",
+    "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}.   (* the monotonicity rule Awodey's derivation of (iii) also uses *)"
+   }
+  ],
+  "statement_record": {
+   "book": "The three usual implication axioms of positive propositional logic — (i) p ⇒ p; (ii) p ⇒ (q ⇒ p); (iii) (p ⇒ (q ⇒ r)) ⇒ ((p ⇒ q) ⇒ (p ⇒ r)) — are derivable from the six entailment rules, i.e. hold in every cartesian closed poset; (i) and (ii) from reflexivity, the projections and the implication adjunction, (iii) from distributivity of ⇒ over ∧ on the right together with monotonicity of ⇒ in its right argument.",
+   "intree": "Definition identity Γ τ : Exp Γ (τ ⟶ τ) := LAM (VAR ZV).   (only axiom (i), and only as the identity morphism of one particular syntactic CCC)",
+   "strength_comparison": "intree-weaker, substantially. Only axiom (i) has an in-tree witness, and only as the identity morphism / I-combinator of one concrete model (Instance/Lambda.v:137) — it is introduced as the category identity, never as a logical axiom, and never as a statement about arbitrary cartesian closed posets. Axioms (ii) and (iii) are stated nowhere in any form. The exact two ingredients Awodey uses for (iii) ARE in-tree in full generality — exp_prod_r (Structure/Cartesian/Closed.v:310) and the internal-hom functoriality (Functor/Hom/Internal.v:40) — but they are never assembled into the axiom, and no global element 1 ~> ((q^p)^(r^q))^... of any of the three shapes is constructed."
+  },
+  "gap": "None of the three axioms is stated in-tree as a theorem, in either of the two possible phrasings (an entailment ⊤ ⊢ φ in a cartesian closed poset, or a global element 1 ~> φ in a general CCC). Only (i) has any witness — the identity morphism of Instance/Lambda.v:137, which under Curry–Howard is a proof term of p ⇒ p in one particular model. (ii) and (iii) are absent outright. There is also no in-tree entailment calculus, so 'derivable from the six rules' is not statable.",
+  "negative_search_log": [
+   "grep -rn -i 'combinator' --include=*.v . — Tools/Abstraction.v:15,34,51,122, Instance/AST.v:25,38, Instance/Lambda.v:67,88,111 — all prose or CCC-combinator compilation; no K/S combinator terms",
+   "grep -rn 'curry exl|curry exr|curry (exl|curry (exr' --include=*.v . — only exp_one/one_exp obligations",
+   "grep -rn -i 'entail|modus ponens|axiom scheme|Hilbert' --include=*.v . — prose only",
+   "grep -rn -i 'propositional calculus|propositional variable|IPC' --include=*.v . — 1 prose hit (Instance/Props.v:27), no syntax"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Borderline PARTIAL/ABSENT; my blind pass wrote 'ABSENT-leaning-PARTIAL' and I accept PARTIAL because the record is explicit that NONE of the three axioms is stated in-tree, so nothing is over-claimed. Evidence checked: Instance/Lambda.v:137 `Definition identity Γ τ : Exp Γ (τ ⟶ τ) := LAM (VAR ZV).` verbatim (the trailing '(* the I combinator ... *)' inside the quote field is the classifier's gloss, NOT file text — see problems[]); Closed.v:310 exp_prod_r and Functor/Hom/Internal.v:40 InternalHomFunctor verbatim at those lines. Same-name-weaker trap checked and DISCLOSED by the record itself: `identity` is a category identity arrow x ~> x in one syntactic model, not a global element 1 ~> x^x, so it is a Curry–Howard witness only under the propositions-as-types reading — the record says exactly this. My independent greps confirm no K/S combinator terms, no `1 ~> _^_` global-element lemma of any of the three shapes, and no axiom-scheme vocabulary outside prose."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-implication-distributes",
+  "classification": "PRESENT",
+  "aliases": [
+   "implication distributes over meet on the right: a ⇒ (b ∧ c) ⊣⊢ (a⇒b) ∧ (a⇒c)",
+   "(B × C)^A ≅ B^A × C^A (Awodey exercise 6.1(a))",
+   "exp_prod_r / exponential of a product / right adjoints preserve products",
+   "internal hom preserves products in its second argument",
+   "curry (exl ∘ eval) △ curry (exr ∘ eval)"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 310,
+    "symbol": "exp_prod_r",
+    "intree_statement": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 44,
+    "symbol": "exponent_obj",
+    "intree_statement": "exponent_obj : obj → obj → obj    (* internal hom; y ^ x = exponent_obj x y *)   (* so (y × z)^x is x ⇒ (y ∧ z) and y^x × z^x is (x⇒y) ∧ (x⇒z) *)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; ... }   (* Props is a thin bicartesian closed category — a cartesian closed poset — at which exp_prod_r instantiates to the poset statement *)"
+   }
+  ],
+  "statement_record": {
+   "book": "In a Heyting algebra (equivalently a cartesian closed poset), a ⇒ (b ∧ c) is interderivable with (a ⇒ b) ∧ (a ⇒ c); the poset shadow of the general cartesian-closed isomorphism (B × C)^A ≅ B^A × C^A (exercise 6.1(a)).",
+   "intree": "#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }.",
+   "strength_comparison": "intree-stronger. The in-tree statement is Awodey's general cartesian-closed isomorphism itself (the exercise, not just its poset shadow), proved for an arbitrary Cartesian+Closed category with both directions given explicitly and both round-trips discharged (obligations at lines 315-333). Awodey's remark is recovered by instantiating at any cartesian closed poset: Instance/Props.v:39/69/94 is such an instance in-tree, and since its homs are trivial setoids the isomorphism collapses to mutual entailment. Checked for the same-name-but-weaker trap: no extra hypotheses beyond Cartesian + Closed, no naturality weakening at issue (the statement is an object-level iso in both the book and the tree), and the orientation matches — [exponent_obj x y] displays as y^x, so (y × z)^x is exactly x ⇒ (y ∧ z). The only presentational difference is that the poset/interderivability form is nowhere written separately."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass found the same single piece of evidence before opening the coverage file. Structure/Cartesian/Closed.v:310-313 reads `#[export] Program Instance exp_prod_r {x y z : C} : (y × z)^x ≅ y^x × z^x := { to := curry (exl ∘ eval) △ curry (exr ∘ eval); from := curry (uncurry exl △ uncurry exr) }.` — quote verbatim, both obligations closed with Qed (no Admitted anywhere in the file). Orientation double-checked against the class's own note (Closed.v:39-41, `exponent_obj x y` displays as y^x): (y × z)^x is x ⇒ (y ∧ z) and y^x × z^x is (x⇒y) ∧ (x⇒z), so the in-tree iso is Awodey's ex. 6.1(a) on the nose and its poset shadow is the remark. Hypotheses are exactly Cartesian + Closed — no extra assumptions, no special case. Instance/Props.v (thin, lines 39/69/94) is a genuine in-tree cartesian closed poset at which to instantiate. Structure/Cartesian/Closed.v and Instance/Props.v are both in _CoqProject. PRESENT stands."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-implication-monotone",
+  "classification": "PRESENT",
+  "aliases": [
+   "monotonicity of implication in its right argument: a ⊢ b implies (p⇒a) ⊢ (p⇒b) — eq. (6.2)",
+   "exponentiation by a fixed object is a functor (poset case of Awodey Prop 6.6)",
+   "(−)^p / (p ⇒ −) as an endofunctor; internal hom covariant in its second argument",
+   "InternalHomFunctor / [−,−] : C^op ∏ C ⟶ C",
+   "fmap of the exponential; post-composition action curry (g ∘ eval)"
+  ],
+  "evidence": [
+   {
+    "file": "Functor/Hom/Internal.v",
+    "line": 40,
+    "symbol": "InternalHomFunctor",
+    "intree_statement": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}.   (* header line 28: [f, g] := curry (g ∘ eval ∘ second f) : b ^ a ~> b' ^ a', which pre-composes by f in the exponent and post-composes by g in the base *)"
+   },
+   {
+    "file": "Structure/Closed.v",
+    "line": 124,
+    "symbol": "Curry",
+    "intree_statement": "Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] := {| fobj := fun x => {| fobj := fun y => F (x, y); fmap := fun y z (f : y ~{D}~> z) => fmap[F] (id[x], f) |}; ... |}.   (* so Curry (InternalHomFunctor C) p : C ⟶ C is the functor (p ⇒ −) *)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; ... }   (* the cartesian closed poset at which the functor action collapses to monotonicity of ⇒ in its right argument *)"
+   }
+  ],
+  "statement_record": {
+   "book": "If a ⊢ b then (p ⇒ a) ⊢ (p ⇒ b) — displayed as equation (6.2) — identified as the poset special case of Proposition 6.6, that exponentiation by a fixed object is a functor, i.e. the action of (p ⇒ −) on morphisms specialised to a preorder.",
+   "intree": "Program Definition InternalHomFunctor `(C : Category) {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {| fobj := fun p => @exponent_obj C E O (fst p) (snd p); fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f)) |}.",
+   "strength_comparison": "intree-stronger. The tree proves functoriality of the internal hom in BOTH arguments simultaneously (contravariant in the exponent, covariant in the base) for an arbitrary Cartesian+Closed category, with fmap_respects, fmap_id and fmap_comp discharged (obligations at lines 46-68); Awodey's Prop 6.6 covariant slot is the special case f := id, whose action is curry (g ∘ eval ∘ second id) : b^a ~> b'^a — exactly eq. (6.2) before poset collapse. Instantiating at a cartesian closed poset (Instance/Props.v:94, thin) turns that morphism into the entailment (p⇒a) ⊢ (p⇒b). Checked for the same-name-but-weaker trap: hypotheses are exactly Cartesian + Closed, matching the book's ambient CCC; nothing apex-only or one-sided. The single presentational shortfall is naming: the library ships no standalone abbreviation for the one-variable functor (−)^p; it is obtained either as fmap[InternalHomFunctor] at (id, g) or by Curry (InternalHomFunctor C) p (Structure/Closed.v:124), which are in different files and never composed in-tree."
+  },
+  "gap": null,
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass independently landed on Functor/Hom/Internal.v as the counterpart. Verified: `Program Definition InternalHomFunctor` begins at line 40 with fobj/fmap exactly as quoted, and its three obligations (fmap_respects, fmap_id, fmap_comp) are all Qed — so functoriality is genuinely proved, not postulated; the header's formula [f,g] := curry (g ∘ eval ∘ second f) : b^a ~> b'^a' type-checks as described (second f : b^a × a' ~> b^a × a, then eval, then g). Awodey's eq. (6.2) is the f := id slot. Second citation checked: Structure/Closed.v:124 `Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E]` is live and Qed-complete even though the rest of that file's Class Closed is commented out — the record's use of it is legitimate, and its caveat that the one-variable functor (−)^p is never named in-tree is accurate. Registered in _CoqProject. PRESENT stands."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-positive-fragment",
+  "classification": "PARTIAL",
+  "aliases": [
+   "positive fragment of IPC = cartesian closed poset",
+   "full IPC = Heyting algebra; Heyting prealgebra / bicartesian closed thin category",
+   "syntax↔algebra correspondence by two mutually inverse constructions",
+   "adjoining ⊥ and ∨ = adjoining an initial object and finite coproducts (Initial + Cocartesian)",
+   "BiCCC / bicartesian closed category; thin / posetal category (Proset, Poset)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Props.v",
+    "line": 39,
+    "symbol": "Props",
+    "intree_statement": "Program Definition Props : Category := {| obj := Prop; hom := Basics.impl; homset := fun P Q => {| equiv := fun f g => True |}; id := fun _ x => x; compose := fun _ _ _ g f x => g (f x) |}.   (* thin, so a cartesian closed poset once the structure below is added *)"
+   },
+   {
+    "file": "Instance/Props.v",
+    "line": 94,
+    "symbol": "Props_Closed",
+    "intree_statement": "#[export] Program Instance Props_Closed : @Closed Props _ := { exponent_obj := Basics.impl; exp_iso := fun _ _ _ => {| to := {| morphism := fun f a b => f (conj a b) |} ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |} }.   (* with Props_Terminal:53, Props_Initial:61, Props_Cartesian:69, Props_Cocartesian:80 this is the full bicartesian closed thin category — the header at line 27 calls it 'a Heyting prealgebra — modelling intuitionistic propositional logic' *)"
+   },
+   {
+    "file": "Instance/Proset.v",
+    "line": 33,
+    "symbol": "Proset",
+    "intree_statement": "Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) : Category := {| obj := A; hom := R; homset := fun A B => {| Setoid.equiv := fun _ _ => True |}; id := ...; compose := ... |}.   (* preorders as thin categories; Instance/Poset.v:116 adds antisymmetry *)"
+   },
+   {
+    "file": "Instance/AST.v",
+    "line": 127,
+    "symbol": "AST",
+    "intree_statement": "#[export] Program Instance AST : Category := { obj := Obj; hom := Hom; id := @Id; compose := @Compose; homset := ... }   (* header line 14: 'The free bicartesian closed category, presented syntactically' — a syntactic BiCCC over the type formers 1, ×, ^, 0, +, i.e. the proof-relevant analogue of the algebra side, but NOT thin *)"
+   }
+  ],
+  "statement_record": {
+   "book": "The positive fragment of intuitionistic propositional calculus — ⊤, ∧, ⇒ only — corresponds exactly to the notion of a cartesian closed poset; adjoining ⊥ and ∨ on the logical side corresponds to adjoining finite joins on the algebraic side, giving an exact correspondence between full IPC and Heyting algebras, effected by two mutually inverse constructions (calculus ↦ algebra, algebra ↦ calculus).",
+   "intree": "(* Equipped with the logical connectives below it is a bicartesian closed thin category — a Heyting prealgebra — modelling intuitionistic propositional logic:  1 = True (terminal), 0 = False (initial), P × Q = P ∧ Q (product), P + Q = P ∨ Q (coproduct), Q ^ P = P → Q (exponent) *)  [Instance/Props.v:27-35, a comment; the five Program Instances at lines 53/61/69/80/94 are the formal content]",
+   "strength_comparison": "intree-weaker. What is formalised is one direction's worth of vocabulary and a single model: 'cartesian closed poset' is expressible as Proset/Poset + Terminal + Cartesian + Closed and is realised concretely by Instance/Props.v (with ⊥ and ∨ present, so the FULL Heyting-prealgebra structure, not merely the positive fragment); Structure/BiCCC.v carries bicartesian closed categories generally. What is NOT formalised is either side of the correspondence: there is no propositional syntax (no formulas, no entailment relation), no `HeytingAlgebra` class (grep 'Heyting' returns 7 hits, all prose), no `Thin` predicate, and neither of the two mutually inverse constructions. The exactness claim appears in-tree only as prose (Instance/Props.v:27, Instance/Two.v:86 'a Heyting algebra is a skeletal thin finitely-cocomplete cartesian-closed category')."
+  },
+  "gap": "The algebraic side is available only as (a) an unnamed combination of existing classes — a thin category with Terminal+Cartesian+Closed (+Initial+Cocartesian for the full case) — and (b) one concrete witness, Instance/Props.v. There is no class named or characterised as a Heyting algebra, no skeletality/thinness predicate tying it to posets, no propositional-calculus syntax, and neither construction of the claimed bijective correspondence (calculus ↦ algebra, algebra ↦ calculus) is formalised. The correspondence statement itself exists only in file comments.",
+  "negative_search_log": [
+   "grep -ric 'HeytingAlgebra' --include=*.v . — 0 hits",
+   "grep -rn -i 'heyting' --include=*.v . — 7 hits, all inside comments (Theory/Sheaf.v:85, Theory/Lawvere.v:87, Instance/Two.v:86, Instance/Props.v:15,17,27, Structure/Topos.v:81)",
+   "grep -rn -i 'propositional calculus|propositional variable|IPC|formula' --include=*.v . — no propositional syntax anywhere; 'formula' hits are all 'formulation'/'formulas' in prose",
+   "grep -rn -i 'lattice|complete lattice|Boolean algebra|frame|locale' --include=*.v . — prose only; no order-theoretic algebra classes"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL for the same reason (a model but no correspondence). Negative log reproduced EXACTLY by my own grep: `heyting` case-insensitive over *.v gives precisely 7 hits, all comments — Instance/Props.v:15,17,27, Instance/Two.v:86, Theory/Sheaf.v:85, Theory/Lawvere.v:87, Structure/Topos.v:81 — and 0 hits for HeytingAlgebra; no propositional syntax anywhere. Evidence verified: Instance/Props.v:39 Props, :53 Terminal, :61 Initial, :69 Cartesian, :80 Cocartesian, :94 Closed (the full bicartesian closed thin category, header line 27 'a Heyting prealgebra'); Instance/Proset.v:33 Proset with the trivial hom-setoid; Instance/Poset.v:116 Poset; Instance/AST.v:127 AST. One imprecision, not affecting the verdict: strength_comparison says 'Structure/BiCCC.v carries bicartesian closed categories generally' — BiCCC.v defines NO class, it is a file of derived isos (prod_coprod_l/r:46,90, exp_coprod:134, prod_zero_l/r:208,221, exp_zero:236, BiCCC_Distributive:257) over an assumed Cartesian+Closed+Cocartesian+Initial+Terminal context. The gap field states the situation correctly ('an unnamed combination of existing classes')."
+  }
+ },
+ {
+  "id": "awodey:6.3:construction-lindenbaum-tarski",
+  "classification": "ABSENT",
+  "aliases": [
+   "Lindenbaum–Tarski algebra HA(L) / Lindenbaum algebra of a calculus",
+   "quotient of formulas by interderivability / provable equivalence",
+   "term model / syntactic algebra of a propositional theory",
+   "[p] ≤ [q] iff p ⊢ q; provability as [p] = 1",
+   "quotient by a congruence: Construction/Quotient.v Quotient, Construction/PROP/Presentation.v PresentedCat"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -ric 'lindenbaum' --include=*.v . — 0 hits",
+   "grep -rn -i 'tarski' --include=*.v . — 3 hits, all Knaster–Tarski fixed-point prose (Instance/Poset.v:93, Construction/FAlg.v:43, Instance/Poset.v:66 Tarski's consequence operator); none is the Lindenbaum–Tarski algebra",
+   "grep -ric 'HeytingAlgebra' --include=*.v . — 0 hits; grep -rn -i 'heyting' — 7 hits, all comments",
+   "grep -rn -i 'interderiv' --include=*.v . — 3 hits (Functor/Strong.v:36, Theory/Displayed.v:65, Construction/Indexed.v:130), all unrelated uses of 'interderivable' about coherence phrasings",
+   "grep -rn -i 'propositional calculus|propositional variable|formula|IPC' --include=*.v . — no propositional syntax; nothing to quotient",
+   "grep -rn -i 'provabl' --include=*.v . — 29 hits, all metatheoretic remarks about Coq provability (e.g. Instance/Sets.v:65, Construction/Funny/Closed.v:39); no object-level provability predicate",
+   "grep -rn -i 'generators and relations|by generators' --include=*.v . — Instance/FinSet.v:73, Construction/Free.v:67, Construction/PROP/Presentation.v:48, Construction/ColouredPROP/Presentation.v:51 — presentations exist ONLY for monoids/PROPs/coloured PROPs, never for a propositional algebra",
+   "read Construction/Quotient.v:245-270 — Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category quotients a category's HOM-setoids by a congruence; it is the generic machinery an in-tree Lindenbaum–Tarski construction could use, but it quotients morphisms of a category, not formulas of a calculus, and is never applied to logic",
+   "read Construction/PROP/Presentation.v:180 — Definition PresentedCat : Category, the syntactic category of terms modulo a symmetric-monoidal theory congruence: the closest structural analogue in-tree (syntax quotiented by provable equality), but for PROPs, not for propositional formulas"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "My blind pass ran the same searches BEFORE reading the record and also found nothing: no `lindenbaum` (0 hits), no propositional formulas, no derivability relation, no interderivability quotient; the only 'generators and relations' machinery is for monoids/free categories/PROPs/coloured PROPs. Both 'closest analogue' pointers verified at source: Construction/Quotient.v `Definition Quotient (C : Category) (R : HomRel C) `{@HomCongruence C R} : Category` is at line ~254 (inside the cited 245-270 window) and quotients hom-setoids, never formulas; Construction/PROP/Presentation.v:180 `Definition PresentedCat : Category := @Quotient (FreeCat Σ) ... TermEqW_Congruence` verbatim. Minor log inaccuracy (verdict unaffected): the Tarski hits in Instance/Poset.v are at lines 65 and 93, not 66 and 93; Construction/FAlg.v:43 is right; all three are Knaster–Tarski/consequence-operator prose as claimed. ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:6.3:prop11",
+  "classification": "ABSENT",
+  "aliases": [
+   "completeness of IPC for Heyting-algebra models",
+   "if p is true (= ⊤) in every Heyting algebra then p is provable",
+   "semantic completeness / algebraic completeness / soundness-and-completeness for propositional logic",
+   "validity in all models implies derivability",
+   "the Lindenbaum–Tarski algebra as the canonical/term model witnessing completeness"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -rnE '^(Theorem|Lemma|Proposition|Corollary) [A-Za-z_]*complet' --include=*.v . — 4 hits, none logical: Theory/Adamek/Corollaries.v:59 adamek_cocomplete, Instance/FinSet/Classifier.v:94 fin_existsb_complete, Construction/Karoubi/Universal.v:499 cauchy_complete_embed_equiv, Construction/Enriched/Two.v:104 ehom_of_le_complete",
+   "grep -rn -i 'completeness|complete with respect' --include=*.v . — all prose; notably Instance/Lambda/Sound.v:38 states outright 'This gives soundness of the model; completeness is Lambek's theorem (the syntax is the free CCC, Sem.v)' — i.e. the analogous completeness is explicitly NOT proved in-tree",
+   "grep -rn -i 'heyting' --include=*.v . — 7 comment-only hits; no Heyting-algebra models to be complete for",
+   "grep -rn -i 'lindenbaum|propositional calculus|IPC|provabl' --include=*.v . — no calculus, no provability predicate, so neither side of the completeness statement is expressible in-tree",
+   "read Instance/AST.v:29-39 — the only in-tree completeness-shaped claim is a PROSE assertion that AST's 'agree under every interpretation' hom-equivalence 'coincides with equality of arrows in the free BiCCC'; it is asserted, not proved, and concerns the free BiCCC rather than Heyting algebras",
+   "grep -rn -i 'completeness' Instance/ZX.v — background-essay discussion of ZX-calculus completeness results in the literature; no in-tree theorem"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: ABSENT, same reasoning — neither side of the completeness statement is expressible in-tree (no provability predicate, no Heyting-algebra models). The distinctive negative-log claim was re-run verbatim: `grep -rnE '^(Theorem|Lemma|Proposition|Corollary) [A-Za-z_]*complet' --include='*.v'` returns exactly the four hits listed (Theory/Adamek/Corollaries.v:59, Instance/FinSet/Classifier.v:94, Construction/Karoubi/Universal.v:499, Construction/Enriched/Two.v:104), none logical. The Instance/Lambda/Sound.v pointer is accurate and is the sharpest evidence in the record: line 38 reads '...gives soundness of the model; completeness is Lambek's theorem (the syntax is the free CCC, Sem.v)', i.e. the library states in its own prose that the analogous completeness is not proved. ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:6.3:remark-ha-presentation-ump",
+  "classification": "ABSENT",
+  "aliases": [
+   "Heyting algebra presented by generators and relations",
+   "universal mapping property of HA(L) / free Heyting algebra on generators subject to relations",
+   "unique Heyting-algebra homomorphism extending an assignment of generators",
+   "presented algebra UMP (cf. presented monoid, presented PROP)",
+   "Heyting-algebra homomorphism / morphism of Heyting algebras"
+  ],
+  "evidence": [],
+  "statement_record": null,
+  "gap": null,
+  "negative_search_log": [
+   "grep -ric 'HeytingAlgebra' --include=*.v . — 0 hits; grep -rn -i 'heyting' — 7 comment-only hits, so there is no notion of Heyting algebra, let alone of its homomorphisms, to present",
+   "grep -ric 'free Heyting' --include=*.v . — 0 hits",
+   "grep -rn -i 'generators and relations|by generators' --include=*.v . — Instance/FinSet.v:73, Construction/Free.v:67, Construction/PROP/Presentation.v:48, Construction/ColouredPROP/Presentation.v:51; presentations exist for free categories, PROPs and coloured PROPs only",
+   "read Construction/PROP/Presentation/Universal.v:40,180,194,340,346 — a genuine presentation-with-universal-property development (ESound, interpW_sound, PresentedInterp, Presented_factor, uniqueness) — the exact structural analogue of the remark, but for symmetric monoidal theories over a signature, never instantiated at a propositional calculus or an algebraic order structure",
+   "grep -ric 'lindenbaum' --include=*.v . — 0 hits, so the specific presented object HA(L) does not exist either",
+   "grep -rn -i 'propositional calculus|propositional variable|formula' --include=*.v . — no generators (propositional variables) and no relations (extra axioms) in-tree"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: ABSENT, identical reasoning. Confirmed there is no Heyting-algebra object in-tree at all, hence no notion of Heyting-algebra homomorphism and no presented HA(L) to carry a UMP; the propositional variables (generators) and extra axioms (relations) have no in-tree representation. The structural analogue cited is real and correctly scoped: Construction/PROP/Presentation/Universal.v does carry a genuine presentation-with-universal-property development for symmetric monoidal theories, and it is never instantiated at a propositional calculus or any order-theoretic algebra. ABSENT stands."
+  }
+ },
+ {
+  "id": "awodey:6.4:prop12",
+  "classification": "PARTIAL",
+  "aliases": [
+   "equational characterization of cartesian closed categories / CCCs as an algebraic (essentially algebraic) theory",
+   "operations-and-equations presentation: !_C unique; p1⟨f,g⟩=f, p2⟨f,g⟩=g, ⟨p1 h, p2 h⟩=h; ε∘(f~ × 1)=f, (ε∘(g×1))~=g",
+   "beta and eta laws for products and exponentials / surjective pairing",
+   "Class Terminal / Class Cartesian / Class Closed with ump_products and ump_exponents",
+   "equivalence of the equational definition with the universal-property (representability / right-adjoint) definition"
+  ],
+  "evidence": [
+   {
+    "file": "Structure/Terminal.v",
+    "line": 107,
+    "symbol": "Terminal",
+    "intree_statement": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }.   (* Awodey's clause (1): a distinguished 1 with !_C, every f : C ~> 1 equal to it *)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 121,
+    "symbol": "Cartesian",
+    "intree_statement": "Class Cartesian := { product_obj : obj → obj → obj where \"x × y\" := (product_obj x y); fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; exl {x y} : x × y ~> x; exr {x y} : x × y ~> y; fork_respects : ∀ x y z, Proper (equiv ==> equiv ==> equiv) (@fork x y z); ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) }."
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 211,
+    "symbol": "exl_fork / exr_fork / fork_exl_exr",
+    "intree_statement": "Corollary exl_fork {x z w : C} (f : x ~> z) (g : x ~> w) : exl ∘ f △ g ≈ f.   [line 220] Corollary exr_fork ... : exr ∘ f △ g ≈ g.   [line 261] Corollary fork_exl_exr {x y : C} : exl △ exr ≈ @id _ (x × y).   (* precisely Awodey's three product equations, derived from ump_products *)"
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 43,
+    "symbol": "Closed",
+    "intree_statement": "Class Closed := { exponent_obj : obj → obj → obj where \"y ^ x\" := (exponent_obj x y); exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; curry' {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z); uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z); eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (@curry' _ _ _ f) ≈ f }."
+   },
+   {
+    "file": "Structure/Cartesian/Closed.v",
+    "line": 101,
+    "symbol": "curry_uncurry / eval_first",
+    "intree_statement": "Corollary curry_uncurry {x y z} (f : x ~> z^y) : curry (uncurry f) ≈ f.   [line 141] Corollary eval_first {x y z : C} (f : x ~> z^y) : eval ∘ first f ≈ uncurry f.   (* together these give Awodey's second exponential equation (ε ∘ (g × 1_A))~ = g, since curry (eval ∘ first g) ≈ curry (uncurry g) ≈ g *)"
+   },
+   {
+    "file": "Structure/Cartesian.v",
+    "line": 172,
+    "symbol": "first",
+    "intree_statement": "Definition first {x y z : C} (f : x ~> y) : x × z ~> y × z := f ∘ exl △ exr.   (* Awodey's g × 1_A := ⟨g p1, p2⟩, verbatim *)"
+   },
+   {
+    "file": "Structure/UniversalProperty/Cartesian.v",
+    "line": 60,
+    "symbol": "CartesianProductIsUniversalProperty",
+    "intree_statement": "Proposition CartesianProductIsUniversalProperty : IsUniversalProperty C^op (fun z => IsCartesianProduct x y z) (fun z => CartesianProductStructuresEquiv x y z).   (* identifies the operations-and-equations predicate IsCartesianProduct with the representability iso Hom(−,z) ≅ Hom(−,x) × Hom(−,y): the one clause of Prop 6.12 for which the equational⇔UMP equivalence IS proved in-tree *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A category C is cartesian closed if and only if it carries the following operations-and-equations structure: (1) an object 1 with !_C : C → 1 such that every f : C → 1 equals !_C; (2) for each A,B an object A × B with p1, p2 and, for each f : Z → A, g : Z → B, an arrow ⟨f,g⟩ satisfying p1⟨f,g⟩ = f, p2⟨f,g⟩ = g and ⟨p1 h, p2 h⟩ = h; (3) for each A,B an object B^A with ε : B^A × A → B and, for each f : Z × A → B, a transpose f~ : Z → B^A satisfying ε ∘ (f~ × 1_A) = f and (ε ∘ (g × 1_A))~ = g, where g × 1_A := ⟨g p1, p2⟩. The proof is routine and left to the reader.",
+   "intree": "Class Terminal := { terminal_obj : C; one {x} : x ~> terminal_obj; one_unique {x} (f g : x ~> terminal_obj) : f ≈ g }.  /  Class Cartesian := { product_obj; fork; exl; exr; fork_respects; ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) }.  /  Class Closed := { exponent_obj; exp_iso {x y z} : x × y ~> z ≊ x ~> z^y; ...; ump_exponents' {x y z} (f : x × y ~> z) : eval' ∘ first (curry' f) ≈ f }.",
+   "strength_comparison": "same on the structure side, intree-weaker on the biconditional. Clause by clause the match is exact: (1) is one_unique verbatim; (2) is ump_products, whose left-to-right direction yields exl_fork and exr_fork and whose right-to-left direction yields fork_exl_exr, all three named in-tree, and Awodey's g × 1_A := ⟨g p1, p2⟩ is the in-tree [first] verbatim (Structure/Cartesian.v:172); (3) is ump_exponents' for ε ∘ (f~ × 1_A) = f, with the second equation (ε ∘ (g × 1_A))~ = g obtained from eval_first followed by curry_uncurry. Additionally the in-tree classes carry Proper/respectfulness fields (fork_respects, curry_respects, uncurry_respects) that Awodey has no need of, because this library uses setoid homs rather than equality — a faithful setoid rephrasing, not a strengthening or weakening. What is NOT in-tree is the 'if and only if': the library has exactly one definition of cartesian closure, this one, so the equivalence with a universal-property-only definition is definitional rather than proved. The single independent reconciliation is for binary products, where CartesianProductIsUniversalProperty identifies the equational predicate with representability of Hom(−,x) × Hom(−,y); there is no counterpart for the terminal object or for exponentials — in particular no in-tree Adjunction instance (− × y) ⊣ (− ^ y) exists anywhere (the adjunction is only ever described in comments)."
+  },
+  "gap": "Every operation and every equation in Awodey's list is in-tree, as a class field or a named corollary. What is missing is the proposition's biconditional content: no second, universal-property-only definition of cartesian closure exists in the library against which the equational one could be compared, so 'C is cartesian closed iff it carries this structure' is definitional in-tree, not a theorem. Only the binary-product clause has an in-tree equational⇔UMP equivalence (Structure/UniversalProperty/Cartesian.v:60, via representability); nothing analogous is proved for the terminal object or the exponential, and the exponential's adjunction formulation (− × y) ⊣ (− ^ y) is never built as an in-tree Adjunction.",
+  "negative_search_log": [
+   "grep -rn '⊣' --include=*.v . | grep -i 'exp|closed|curry|prod' — every hit is a comment describing (− × y) ⊣ (− ^ y) (Structure/Cartesian/Closed.v:34,47; Structure/Monoidal/Closed.v:33,52; Instance/Sets/Cartesian/Closed.v:24; Comonad/Duality.v:95); no Adjunction instance is constructed",
+   "grep -rn 'IsUniversalProperty' --include=*.v . — instantiated only for cartesian products (Structure/UniversalProperty/Cartesian.v:60), limits (Structure/UniversalProperty/Limit.v:141) and universal arrows (Structure/UniversalProperty/Universal/Arrow.v:61); never for exponentials or terminal objects"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass reached PARTIAL with the same diagnosis (the library's classes ARE the equational presentation; the 'iff' is definitional, not a theorem). Clause-by-clause verification at source: Structure/Terminal.v:107-112 Class Terminal with `one_unique {x} (f g : x ~> terminal_obj) : f ≈ g` verbatim = Awodey (1); Structure/Cartesian.v:121-138 Class Cartesian with the ump_products biconditional verbatim, and its three consequences named at 211 (exl_fork), 220 (exr_fork), 261 (fork_exl_exr) = Awodey (2); Structure/Cartesian.v:172 `Definition first {x y z : C} (f : x ~> y) : x × z ~> y × z := (f ∘ exl) △ exr` = Awodey's g × 1_A := ⟨g p1, p2⟩ (the record's quote drops the inner parens, harmless); Structure/Cartesian/Closed.v:43-63 Class Closed with ump_exponents' verbatim, plus 101 curry_uncurry and 141 eval_first, which do compose to Awodey's second exponential equation. Structure/UniversalProperty/Cartesian.v:60 `Proposition CartesianProductIsUniversalProperty` verified verbatim. I independently checked the record's load-bearing NEGATIVE claim that no (− × y) ⊣ (− ^ y) Adjunction instance exists: cross-referencing every file mentioning Adjunction against those mentioning Closed/exponent_obj/curry leaves only prose hits plus Construction/Funny/Closed.v, which states at line 39 that the hom-setoid adjunction for the funny tensor is unprovable in this metatheory — Adjunction/Diagonal/Product.v is Δ ⊣ ×, not the exponential adjunction. The claim holds. Setoid-specific extra fields (fork_respects, curry_respects, uncurry_respects) are correctly described as faithful rephrasing rather than strengthening."
+  }
+ },
+ {
+  "id": "awodey:6.5:def-typed-lambda-calculus",
+  "classification": "PARTIAL",
+  "aliases": [
+   "simply typed lambda calculus (STLC) — types, terms, equations",
+   "typed lambda theory / lambda-calculus with products; basic types and typed constants",
+   "term formers ⟨a,b⟩, fst, snd, application, abstraction",
+   "equations: fst⟨a,b⟩ = a, snd⟨a,b⟩ = b, surjective pairing ⟨fst c, snd c⟩ = c, beta, eta",
+   "intrinsically-typed de Bruijn syntax Exp Γ τ; Instance/Lambda/Ty.v, Exp.v, Step.v"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda/Ty.v",
+    "line": 33,
+    "symbol": "Ty",
+    "intree_statement": "Inductive Ty : Set := | TyUnit : Ty (* unit type: terminal object *) | TyPair : Ty → Ty → Ty (* product type: categorical product *) | TyArrow : Ty → Ty → Ty. (* arrow type: exponential / hom *)   (* header line 20: 'There are no extra base types: [TyUnit] is the only ground type' *)"
+   },
+   {
+    "file": "Instance/Lambda/Exp.v",
+    "line": 67,
+    "symbol": "Exp",
+    "intree_statement": "Inductive Exp Γ : Ty → Set := | EUnit : Exp Γ TyUnit | Pair {τ1 τ2} : Exp Γ τ1 → Exp Γ τ2 → Exp Γ (TyPair τ1 τ2) | Fst {τ1 τ2} : Exp Γ (TyPair τ1 τ2) → Exp Γ τ1 | Snd {τ1 τ2} : Exp Γ (TyPair τ1 τ2) → Exp Γ τ2 | VAR {τ} : Var Γ τ → Exp Γ τ | LAM {dom cod} : Exp (dom :: Γ) cod → Exp Γ (dom ⟶ cod) | APP {dom cod} : Exp Γ (dom ⟶ cod) → Exp Γ dom → Exp Γ cod."
+   },
+   {
+    "file": "Instance/Lambda/Step.v",
+    "line": 71,
+    "symbol": "Step",
+    "intree_statement": "Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Set := ... | ST_FstPair Γ τ1 τ2 (v1 : Exp Γ τ1) (v2 : Exp Γ τ2) : ValueP v1 → ValueP v2 → Fst (Pair v1 v2) ---> v1 | ST_SndPair ... Snd (Pair v1 v2) ---> v2 | ST_Beta Γ dom cod (e : Exp (dom :: Γ) cod) (v : Exp Γ dom) : ValueP v → APP (LAM e) v ---> SubExp {|| v ||} e | ...   (* the only in-tree relation on terms; call-by-value, no surjective pairing, no eta *)"
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 154,
+    "symbol": "Exp_Setoid",
+    "intree_statement": "#[export] Program Instance Exp_Setoid {Γ dom cod} : Setoid (Exp Γ (dom ⟶ cod)) := { equiv := λ f g, ∀ E, SemExp f E ≈ SemExp g E }.   (* the equality actually used: agreement of denotations in the standard model, not provability in the calculus *)"
+   }
+  ],
+  "statement_record": {
+   "book": "A typed lambda-calculus consists of TYPES built from basic types and closed under A × B and A → B; TERMS, namely variables of each type, possibly typed constants, and the formation rules ⟨a,b⟩ : A × B, fst(c) : A, snd(c) : B, application c a : B, abstraction λx.b : A → B; and EQUATIONS between terms: fst⟨a,b⟩ = a, snd⟨a,b⟩ = b, ⟨fst(c), snd(c)⟩ = c (surjective pairing), (λx.b)a = b[a/x] (beta), and λx. c x = c when x does not occur in c (eta).",
+   "intree": "Inductive Ty : Set := TyUnit | TyPair : Ty → Ty → Ty | TyArrow : Ty → Ty → Ty.   /   Inductive Exp Γ : Ty → Set := EUnit | Pair | Fst | Snd | VAR | LAM | APP.   /   Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Set := ... ST_FstPair (values only) | ST_SndPair (values only) | ST_Beta (value argument only) | congruence rules.",
+   "strength_comparison": "syntax: same (all seven term formers and both type formers, in intrinsically-typed de Bruijn form with typing built into the GADT). equations: intree-weaker in three specific ways. (a) No basic types and no typed constants — TyUnit is the only ground type, so the in-tree calculus is over the empty signature, whereas Awodey's definition takes arbitrary basic types and constants (the sibling files' vestigial `HostExprsSem A` context, Instance/Lambda.v:134-135, is documented at lines 52-56 as an unused extension point). (b) There is no equational theory at all: the only term relation is a CALL-BY-VALUE small-step reduction, in which ST_FstPair/ST_SndPair are restricted to value components and ST_Beta to a value argument, so it does not even contain Awodey's fst/snd/beta equations at arbitrary terms, and it contains neither surjective pairing ⟨fst c, snd c⟩ = c nor eta λx. c x = c. (c) In place of the equations the development uses a DENOTATIONAL equality (Exp_Setoid: agreement of SemExp on every environment), which identifies strictly more terms than βη — stated in-tree at Instance/Lambda.v:93-95, 'the standard model identifies more terms than βη-conversion does'."
+  },
+  "gap": "Types and terms match Awodey exactly, but (i) the type grammar has a single ground type and no typed constants (Instance/Lambda/Ty.v:20 header), so the parameterisation over basic types/constants of the book's definition is absent; (ii) none of Awodey's five equations is axiomatised — the tree offers only a CBV reduction relation (Instance/Lambda/Step.v:71) which restricts fst/snd/beta to values and omits surjective pairing and eta entirely, plus a denotational hom-equality (Instance/Lambda.v:154) that is strictly coarser than βη. There is therefore no in-tree notion of 'the equation a = b is provable in L'.",
+  "negative_search_log": [
+   "grep -rn 'eta|surjective' Instance/Lambda/*.v — surjective_pairing appears once, at Instance/Lambda.v:279, as a Coq lemma used to discharge a model-side obligation, not as a syntactic rule; no eta rule anywhere",
+   "grep -rn -i 'constant' Instance/Lambda/Ty.v Instance/Lambda/Exp.v — no typed-constant former"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PARTIAL, same three gaps. Verified: Instance/Lambda/Ty.v:33 `Inductive Ty : Set := TyUnit | TyPair | TyArrow` verbatim with the header's 'There are no extra base types' at line 20; Instance/Lambda/Exp.v:67 `Inductive Exp Γ : Ty → Set` with all seven formers verbatim; Instance/Lambda/Step.v:71 `Inductive Step` — I read all of ST_Pair1/2, ST_Fst1, ST_FstPair, ST_Snd1, ST_SndPair, ST_Beta, ST_AppL, ST_AppR and confirm the record's characterization exactly: call-by-value (ValueP guards on ST_FstPair/ST_SndPair components and on ST_Beta's argument), NO surjective pairing, NO eta; Instance/Lambda.v:154 Exp_Setoid verbatim; :279 `apply surjective_pairing.` is indeed a Coq lemma discharging a model-side obligation, not a syntactic rule. The `HostExprsSem` extension-point claim was independently checked: grep over all *.v shows the identifier occurs only in Instance/Lambda.v:51,52,135 and a back-reference in Instance/Lambda/Log.v:44, i.e. it really is undefined and vestigial as the header says. PARTIAL with those three gaps is right."
+  }
+ },
+ {
+  "id": "awodey:6.5:construction-category-of-types",
+  "classification": "PARTIAL",
+  "aliases": [
+   "category of types C(L) of a lambda-calculus / syntactic category / term model / classifying category",
+   "objects = types, arrows = closed terms of function type modulo provable equality",
+   "1_A = [λx.x], c ∘ b = λx. c (b x)",
+   "Lambda Γ (Instance/Lambda.v) / AST (Instance/AST.v)",
+   "free cartesian closed category on a lambda theory (Lambek)"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda.v",
+    "line": 226,
+    "symbol": "Lambda",
+    "intree_statement": "Program Definition Lambda Γ : Category := {| obj := Ty; hom := λ A B : Ty, Exp Γ (A ⟶ B); homset := @Exp_Setoid Γ; id := @identity Γ; compose := @composition Γ; compose_respects := @composition_respects Γ; id_left := ...; id_right := ...; comp_assoc := ...; comp_assoc_sym := ... |}."
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 137,
+    "symbol": "identity / composition",
+    "intree_statement": "Definition identity Γ τ : Exp Γ (τ ⟶ τ) := LAM (VAR ZV).   [line 139] Definition composition {Γ τ τ' τ''} (f : Exp Γ (τ' ⟶ τ'')) (g : Exp Γ (τ ⟶ τ')) : Exp Γ (τ ⟶ τ'') := LAM (APP (wk f) (APP (wk g) (VAR ZV))).   (* exactly Awodey's 1_A = λx.x and c ∘ b = λx. c (b x) *)"
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 154,
+    "symbol": "Exp_Setoid",
+    "intree_statement": "#[export] Program Instance Exp_Setoid {Γ dom cod} : Setoid (Exp Γ (dom ⟶ cod)) := { equiv := λ f g, ∀ E, SemExp f E ≈ SemExp g E }."
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 242,
+    "symbol": "Lambda_Terminal / Lambda_Cartesian",
+    "intree_statement": "#[export] Program Instance Lambda_Terminal Γ : @Terminal (Lambda Γ) := { terminal_obj := TyUnit; one := λ _, LAM EUnit }.   [line 252] #[export] Program Instance Lambda_Cartesian Γ : @Cartesian (Lambda Γ) := { product_obj := TyPair; fork := λ _ _ _ f g, LAM (Pair (APP (wk f) (VAR ZV)) (APP (wk g) (VAR ZV))); exl := λ _ _, LAM (Fst (VAR ZV)); exr := λ _ _, LAM (Snd (VAR ZV)) }."
+   },
+   {
+    "file": "Instance/AST.v",
+    "line": 127,
+    "symbol": "AST",
+    "intree_statement": "#[export] Program Instance AST : Category := { obj := Obj; hom := Hom; id := @Id; compose := @Compose; homset := fun _ _ => {| equiv := fun f g => ∀ (C : Category) (A : @Cartesian C) `(@Closed C A) `(@Cocartesian C) `(@Terminal C) `(@Initial C), interp f ≈ interp g |} }.   (* the second in-tree syntactic CCC: combinator syntax, quotiented by agreement under EVERY bicartesian-closed interpretation *)"
+   }
+  ],
+  "statement_record": {
+   "book": "For a lambda-calculus L, the category of types C(L) has as objects the types of L; as arrows A → B the equivalence classes [c] of closed terms c : A → B, where [a] = [b] iff the equation a = b is provable in L; identity 1_A = [λx.x]; and composition c ∘ b = λx. c (b x). It is a well-defined category with binary products from the product types and pairing/projections, and a terminal object is easily added.",
+   "intree": "Program Definition Lambda Γ : Category := {| obj := Ty; hom := λ A B : Ty, Exp Γ (A ⟶ B); homset := @Exp_Setoid Γ; id := @identity Γ; compose := @composition Γ; ... |}   with   identity Γ τ := LAM (VAR ZV),   composition f g := LAM (APP (wk f) (APP (wk g) (VAR ZV))),   Exp_Setoid equiv := λ f g, ∀ E, SemExp f E ≈ SemExp g E.",
+   "strength_comparison": "intree-weaker on exactly the quotient. Objects (Ty), identity (λx.x) and composition (λx. f (g x)) are Awodey's verbatim, and the promised structure is delivered — products via TyPair with pairing/Fst/Snd (Lambda_Cartesian:252) and the terminal object Awodey says is 'easily added' (Lambda_Terminal:242). But the hom-setoid is DENOTATIONAL: f ≈ g means SemExp f and SemExp g agree on every environment in the standard model, not that the equation f = g is provable in L; the file itself states the consequence at lines 93-96, 'with [TyUnit] the only base type, the standard model identifies more terms than βη-conversion does. It follows that [Lambda Γ] is the image of the syntactic category inside the standard model, not the free cartesian closed category of Lambek's theorem on the nose.' Second difference: homs are Exp Γ (A ⟶ B), i.e. OPEN terms in a fixed ambient context Γ, rather than closed terms; Γ := [] would recover closed terms but is never taken. Nothing in-tree is stronger than the book here."
+  },
+  "gap": "The construction exists (Instance/Lambda.v:226) with Awodey's objects, identity, composition, products and terminal object, but the arrow equivalence is not the syntactic quotient by provable equality: it is denotational agreement in the standard model (Exp_Setoid, line 154), which the file's own header (lines 93-96) records as identifying strictly more terms than βη, so Lambda Γ is 'the image of the syntactic category inside the standard model, not the free cartesian closed category'. Secondarily, homs are open terms in a fixed context Γ rather than closed terms (Γ is never instantiated to []). The one other in-tree syntactic CCC, Instance/AST.v:127, is likewise quotiented semantically (agreement under every bicartesian-closed interpretation), and is combinator-based rather than lambda-based.",
+  "negative_search_log": [
+   "grep -rn 'Quotient' Instance/Lambda*.v Instance/AST.v — no use of Construction/Quotient.v's hom-congruence quotient; neither syntactic category is built as a quotient by a provability congruence"
+  ],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "Blind pass: PARTIAL, and I identified the same single decisive divergence (denotational vs provable equality) before reading the record. Verified: Instance/Lambda.v:226 `Program Definition Lambda Γ : Category := {| obj := Ty; hom := λ A B : Ty, Exp Γ (A ⟶ B); homset := @Exp_Setoid Γ; id := @identity Γ; compose := @composition Γ; ... |}` verbatim; :137 identity = LAM (VAR ZV) and :139 composition = LAM (APP (wk f) (APP (wk g) (VAR ZV))) — Awodey's 1_A = [λx.x] and c ∘ b = λx. c (b x) on the nose; :242 Lambda_Terminal and :252 Lambda_Cartesian verbatim; :154 Exp_Setoid verbatim. The header quote used in strength_comparison is accurate: Instance/Lambda.v:92-96 reads 'with [TyUnit] the only base type, the standard model identifies more terms than βη-conversion does. It follows that [Lambda Γ] is the image of the syntactic category inside the standard model, not the free cartesian closed category of Lambek's theorem on the nose.' The secondary open-vs-closed-terms observation is correct (Γ is a parameter and never instantiated to []). Instance/AST.v:127's homset really is 'agree under every bicartesian-closed interpretation', quoted verbatim. This is the library disclosing its own limitation, so it is a documented divergence rather than a defect."
+  }
+ },
+ {
+  "id": "awodey:6.5:prop-category-of-types-ccc",
+  "classification": "PARTIAL",
+  "aliases": [
+   "the category of types C(L) is cartesian closed",
+   "exponentials are the function types, B^A := A → B",
+   "evaluation ε = λz. fst(z) snd(z); transpose f~ = λz λx. f⟨z,x⟩",
+   "Lambda_Closed / Hom_Closed — the syntactic CCC of the STLC",
+   "Curry–Howard–Lambek: STLC is the internal language of cartesian closed categories"
+  ],
+  "evidence": [
+   {
+    "file": "Instance/Lambda.v",
+    "line": 291,
+    "symbol": "Lambda_Closed",
+    "intree_statement": "#[export] Program Instance Lambda_Closed Γ : @Closed (Lambda Γ) _ := { exponent_obj := TyArrow; (* the function type is the exponential object *) exp_iso := λ _ _ _, (* the natural iso `Hom(a×b,c) ≅ Hom(a,b⟶c)` *) {| to := {| morphism := curry |} ; from := {| morphism := uncurry |} |} }."
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 282,
+    "symbol": "curry / uncurry",
+    "intree_statement": "Definition curry {Γ a b c} (f : Exp Γ (a × b ⟶ c)) : Exp Γ (a ⟶ b ⟶ c) := LAM (LAM (APP (wk (wk f)) (Pair (VAR (SV ZV)) (VAR ZV)))).   [line 285] Definition uncurry {Γ a b c} (f : Exp Γ (a ⟶ b ⟶ c)) : Exp Γ (a × b ⟶ c) := LAM (APP (APP (wk f) (Fst (VAR ZV))) (Snd (VAR ZV))).   (* Awodey's f~ = λz λx. f⟨z,x⟩ and his ε = λz. fst(z) snd(z), written as de Bruijn terms *)"
+   },
+   {
+    "file": "Instance/AST.v",
+    "line": 177,
+    "symbol": "Hom_Closed",
+    "intree_statement": "#[export] Program Instance Hom_Closed : @Closed AST _ := { exponent_obj := Exp_; exp_iso := fun x y z => {| to := {| morphism := @Curry x y z |} ; from := {| morphism := @Uncurry x y z |} |} }.   (* the combinator-syntax analogue: the free BiCCC is cartesian closed *)"
+   },
+   {
+    "file": "Instance/Lambda.v",
+    "line": 154,
+    "symbol": "Exp_Setoid",
+    "intree_statement": "#[export] Program Instance Exp_Setoid {Γ dom cod} : Setoid (Exp Γ (dom ⟶ cod)) := { equiv := λ f g, ∀ E, SemExp f E ≈ SemExp g E }.   (* the ambient equality relative to which Lambda_Closed's obligations are discharged *)"
+   }
+  ],
+  "statement_record": {
+   "book": "The category of types C(L) of any lambda-calculus L is cartesian closed: exponentials are the function types B^A := A → B, evaluation is ε = λz. fst(z) snd(z) : B^A × A → B, and the transpose of f : Z × A → B is f~ = λz λx. f⟨z,x⟩ : Z → B^A. The two equations of Prop 6.12 — ε ∘ (f~ × 1_A) = f and (ε ∘ (g × 1_A))~ = g — are verified by explicit lambda-calculus computation using α × β = λw. ⟨α fst(w), β snd(w)⟩.",
+   "intree": "#[export] Program Instance Lambda_Closed Γ : @Closed (Lambda Γ) _ := { exponent_obj := TyArrow; exp_iso := λ _ _ _, {| to := {| morphism := curry |} ; from := {| morphism := uncurry |} |} }   with   curry f := LAM (LAM (APP (wk (wk f)) (Pair (VAR (SV ZV)) (VAR ZV))))   and   uncurry f := LAM (APP (APP (wk f) (Fst (VAR ZV))) (Snd (VAR ZV))).",
+   "strength_comparison": "conclusion shape: same — exponent_obj is literally the function type former TyArrow, and the transposes are Awodey's own lambda terms (curry = λz. λx. f⟨z,x⟩; uncurry = λw. f (fst w) (snd w), the uncurried form of his ε = λz. fst(z) snd(z)); the two equations Awodey verifies are exactly the in-tree obligations of exp_iso (iso_to_from/iso_from_to) together with ump_exponents'. intree-weaker on what the theorem is about and how it is proved: the ambient category is Lambda Γ, whose homs are open terms in a fixed context quotiented DENOTATIONALLY (Exp_Setoid), so the proved statement is 'the syntactic category modulo standard-model equality is cartesian closed', not Awodey's 'terms modulo provable equality in L form a CCC'; correspondingly the obligations (lines 297-340) are discharged by SemExp/renaming rewriting in the model, and one of them uses `extensionality` (lines 299, 313), rather than by the calculus's own equational computation. The gap is inherited from the construction (awodey:6.5:construction-category-of-types) and is disclosed in-tree at Instance/Lambda.v:93-96. The parallel result for combinator syntax, Instance/AST.v:177, has the same character: its hom-equality is agreement under every bicartesian-closed interpretation."
+  },
+  "gap": "The cartesian closed structure IS constructed and proved (Instance/Lambda.v:291, with exponent_obj := TyArrow and Awodey's transposes as the curry/uncurry terms), but for a category whose hom-equivalence is denotational rather than the book's quotient by provable equality, so the theorem proved is about the image of the syntax in the standard model, not about C(L). The verification is model-theoretic (SemExp rewriting, with functional extensionality invoked in two obligations) rather than the lambda-calculus computation Awodey performs; and, as for the underlying construction, the calculus carries no basic types or constants.",
+  "negative_search_log": [],
+  "out_of_scope_reason": null,
+  "verifier": {
+   "verdict": "CONFIRMED",
+   "notes": "DIVERGENCE, resolved in the classifier's favour. My blind pass leaned PRESENT: Instance/Lambda.v:291 `Program Instance Lambda_Closed Γ : @Closed (Lambda Γ) _ := { exponent_obj := TyArrow; exp_iso := ... {| to := {| morphism := curry |}; from := {| morphism := uncurry |} |} }` is verbatim correct, curry (:282) and uncurry (:285) are literally Awodey's λz.λx. f⟨z,x⟩ and the uncurried form of his ε = λz. fst(z) snd(z) in de Bruijn form, all five obligations are Qed, and nothing in the file is Admitted — so the conclusion 'the category of types is cartesian closed' IS proved. I accept PARTIAL because the divergence is inherited from the SUBJECT of the theorem: the category it is proved about (Lambda Γ, hom-setoid = denotational agreement, Exp_Setoid:154) is not Awodey's C(L) (closed terms modulo provable equality), so a PRESENT verdict would silently import the item-11 gap. The record states this precisely and does not overclaim. Two supporting checks: `extensionality` really is used in the Lambda_Closed obligations at lines 299 and 313 as claimed, and that dependency is properly disclosed in docs/AXIOMS.md:182-190 (functional_extensionality_dep, naming `Instance/Lambda.*` explicitly), so it is a documented instance-layer axiom use, not an undisclosed one. Instance/AST.v:177 Hom_Closed verified verbatim as the parallel combinator-syntax witness."
+  }
+ }
+]

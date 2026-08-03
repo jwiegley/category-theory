@@ -1,0 +1,356 @@
+[
+  {
+    "id": "maclane:VI.7:ex7",
+    "classification": "PARTIAL",
+    "aliases": [
+      "Crude Tripleability Theorem",
+      "CTT",
+      "crude monadicity theorem",
+      "Barr-Beck crude tripleability",
+      "reflexive coequalizers + conservative => monadic",
+      "crude_monadicity"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 601,
+        "symbol": "crude_monadicity",
+        "intree_statement": "Definition crude_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Crude_Inverse ; equivalence_counit := crude_equivalence_counit ; equivalence_unit := crude_equivalence_unit |}.  [Context (A : F ⊣ U); (RC : HasReflexiveCoequalizers C); (pres : PreservesReflexiveCoequalizers U); (refl : ReflectsIsos U)]"
+      },
+      {
+        "file": "Monad/Monadicity/Crude.v",
+        "line": 100,
+        "symbol": "PreservesReflexiveCoequalizers",
+        "intree_statement": "Definition PreservesReflexiveCoequalizers {C D : Category} (U : C ⟶ D) : Type := ∀ (x y : C) (f g : x ~{C}~> y), ReflexivePair f g → ∀ (q : C) (e : y ~{C}~> q), IsCoequalizer f g q e → IsCoequalizer (fmap[U] f) (fmap[U] g) (U q) (fmap[U] e)."
+      },
+      {
+        "file": "Monad/Comparison.v",
+        "line": 273,
+        "symbol": "Monadic",
+        "intree_statement": "Definition Monadic {C D : Category} (U : C ⟶ D) : Type := ∃ (F : D ⟶ C) (A : F ⊣ U), EquivalenceOfCategories (EM_Comparison A)."
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise VI.7.7 (Crude Tripleability Theorem, Barr-Beck): if G:A→X is CTT (per Def VI.7.3: G has a left adjoint; A has coequalizers of all pairs in C_G = pairs whose G-image has a coequalizer in X; and G both preserves and reflects coequalizers of all pairs in C_G), then the comparison functor K:A→X^T is an equivalence of categories.",
+      "intree": "crude_monadicity : EquivalenceOfCategories (EM_Comparison A), given F ⊣ U, HasReflexiveCoequalizers C, U preserves reflexive coequalizers (elementary form), and U reflects isomorphisms.",
+      "strength_comparison": "same conclusion (the comparison K is an equivalence of categories); intree-different hypothesis packaging: the in-tree theorem is the standard Barr-Wells reflexive-coequalizer form (C has reflexive coequalizers + U preserves them + U conservative), whereas MacLane's Def VI.7.3 CTT is packaged over the class C_G of all pairs whose image has a coequalizer with 'G preserves and reflects coequalizers of C_G pairs'. These are recognized equal-strength standard formulations of 'crude tripleability' (MacLane's Def VI.7.3 explicitly defers to 'more authoritative CTT/VTT definitions in Barr-Wells 1985', which is the reflexive form proved here), but they are not literally the same hypothesis set."
+    },
+    "gap": "MacLane's own Def VI.7.3 CTT hypotheses (the class C_G of all pairs whose G-image has a coequalizer; the requirement that G both preserve AND reflect coequalizers of C_G pairs; that A have coequalizers of C_G pairs) are NOT the ones formalized. The in-tree crude_monadicity instead assumes reflexive coequalizers in C, U-preservation of them, and U conservative (reflects isos). The conclusion (K an equivalence) matches exactly, and the two hypothesis sets are the standard equivalent 'crude' criteria, but MacLane's C_G-class preserve+reflect packaging is not literally reproduced.",
+    "negative_search_log": [],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search independently found crude_monadicity (Crude.v:601) as the ONLY crude-tripleability theorem; verified it concludes EquivalenceOfCategories (EM_Comparison A) under reflexive-coequalizer + U-preservation + reflects-isos hypotheses, NOT MacLane's Def VI.7.3 C_G-quantified CTT (the CTT/VTT/PTT vocabulary is unformalized: 0 hits). Monadic (Comparison.v:273) and PreservesReflexiveCoequalizers (Crude.v:100) evidence quotes verified verbatim; Crude.v registered in _CoqProject (line 270). PARTIAL with its honest 'different hypothesis packaging' gap confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex8",
+    "classification": "ABSENT",
+    "aliases": [
+      "Vulgar Tripleability Theorem",
+      "VTT",
+      "vulgar monadicity",
+      "reflects coequalizers of split pairs + A has split coequalizers => equivalence",
+      "vulgar_monadicity"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw 'vulgar|tripleable|tripleability' --include=*.v . => 0 hits (no 'vulgar', no 'tripleable/tripleability' identifier or prose anywhere in the tree)",
+      "grep -rnE '\\b(CTT|VTT|PTT)\\b' --include=*.v . => 0 hits (the three tripleability-property names of Def VI.7.3 are not defined as classes or symbols)",
+      "grep -rnE '_monadicity\\b' --include=*.v . => only crude_monadicity (Monad/Monadicity/Crude.v:601), beck_monadicity (Monad/Monadicity/Beck.v:739), Lawvere_crude_monadicity (Theory/Lawvere/Monad.v:91). None is the vulgar variant.",
+      "The library's monadicity theorems are crude_monadicity (reflexive coequalizers + conservative) and beck_monadicity (creates U-split coequalizers, i.e. the precise/PTT master theorem). VTT's distinctive profile (G reflects — but need NOT preserve — coequalizers of pairs split under G, while A is required to have those split coequalizers) is a different, cruder sufficient condition that is not formalized as such."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: grep for vulgar/VTT/tripleable over the .v tree = 0 hits; the only *_monadicity symbols are crude_monadicity, beck_monadicity, Lawvere_crude_monadicity, none the vulgar variant. VTT absent. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex9",
+    "classification": "ABSENT",
+    "aliases": [
+      "composite of tripleable functors",
+      "CTT then PTT then VTT composite is PTT",
+      "monadic functors compose",
+      "composite of monadic adjunctions is monadic",
+      "closure of tripleability under composition"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE '\\b(CTT|VTT|PTT)\\b' --include=*.v . => 0 hits (the CTT/VTT/PTT vocabulary this exercise composes is entirely undefined)",
+      "grep -rniE '(compos).*(monadic|tripleab)|(monadic|tripleab).*(compos)' --include=*.v . => 0 hits (no theorem that a composite of monadic/tripleable functors is monadic/tripleable of any flavor)",
+      "grep -rni 'compos' --include=*.v Monad/ Adjunction/ Structure/Coequalizer* Structure/Limit/Preservation.v | grep -i 'monadic|creates|reflect|preserv|triple|coequal' => only Monad/Lifting.v (Dubuc adjoint-lifting, a different result) and Kleisli premonoidal composition-preservation; no monadicity-under-composition lemma",
+      "Adjunction/Compose.v defines Adjunction_Compose ((F'◯F) ⊣ (U◯U')) but proves nothing about the composite being monadic. No PTT/VTT/CTT class exists to state or prove this composition result."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no composite-tripleability theorem in Monad/Monadicity/ or elsewhere (all 'composite/compose' hits are proof-internal functor composites). Adjunction/Compose.v exists and proves F'◯F ⊣ U◯U' but carries no monadicity-preservation content, as the record states. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex10",
+    "classification": "ABSENT",
+    "aliases": [
+      "composite of two VTT functors is VTT",
+      "vulgar tripleability closed under composition",
+      "composite of vulgar-monadic functors",
+      "VTT compose VTT"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rniw 'vulgar|tripleable|tripleability' --include=*.v . => 0 hits (VTT is undefined)",
+      "grep -rnE '\\b(CTT|VTT|PTT)\\b' --include=*.v . => 0 hits",
+      "grep -rniE '(compos).*(monadic|tripleab)|(monadic|tripleab).*(compos)' --include=*.v . => 0 hits (no composition-closure result for any tripleability flavor)",
+      "The VTT property and any theorem that VTT functors compose to a VTT functor have no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no VTT class and no composite-of-two-VTT theorem anywhere. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.7:ex11",
+    "classification": "ABSENT",
+    "aliases": [
+      "composite of two CTT functors is CTT",
+      "crude tripleability closed under composition",
+      "composite of crude-monadic functors is crude-monadic",
+      "CTT compose CTT"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rnE '\\b(CTT|VTT|PTT)\\b' --include=*.v . => 0 hits (CTT is undefined as a class)",
+      "grep -rniE '(compos).*(monadic|tripleab)|(monadic|tripleab).*(compos)' --include=*.v . => 0 hits",
+      "crude_monadicity exists (Monad/Monadicity/Crude.v:601) but there is NO 'composite of crude-monadic functors is crude-monadic' theorem; the crude hypotheses (reflexive coequalizers, U-preservation, conservativity) are not shown closed under composition.",
+      "Adjunction/Compose.v composes adjunctions but carries no monadicity/tripleability-preservation content."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search agrees: no CTT class and no composite-of-two-CTT theorem; crude_monadicity is not shown closed under composition. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.8:thm1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "algebras of a variety are T-algebras",
+      "Omega-E-Alg is monadic over Set",
+      "equational category is monadic over Set",
+      "variety comparison functor is an isomorphism",
+      "algebraic categories are Eilenberg-Moore categories",
+      "Lawvere theory / finitary monad correspondence"
+    ],
+    "evidence": [
+      {
+        "file": "Theory/Lawvere/Monad.v",
+        "line": 91,
+        "symbol": "Lawvere_crude_monadicity",
+        "intree_statement": "Corollary Lawvere_crude_monadicity : EquivalenceOfCategories Lawvere_EM_Comparison.  [Context (T : LawvereTheory); (L : Sets ⟶ Models T Sets); (adj : L ⊣ ev1 T); (RC : HasReflexiveCoequalizers (Models T Sets)); (pres : PreservesReflexiveCoequalizers (ev1 T)); (refl : ReflectsIsos (ev1 T))]  — 'so [Models T Sets] is monadic over [Sets]'"
+      },
+      {
+        "file": "Theory/Lawvere/Monad.v",
+        "line": 78,
+        "symbol": "Lawvere_EM_Comparison",
+        "intree_statement": "Definition Lawvere_EM_Comparison : Models T Sets ⟶ @EilenbergMoore Sets (ev1 T ◯ L) Lawvere_Monad := EM_Comparison adj."
+      },
+      {
+        "file": "Instance/Comp.v",
+        "line": 268,
+        "symbol": "Algebra (variety category)",
+        "intree_statement": "Record Algebra (S : OpSignature) (E : EqSignature S) := ... ; Program Definition Algs : Category := ... (universal-algebra variety category over Type, with Terminal/Cartesian/Initial/Closed/Cocartesian instances) — but NOT connected to any monad or Eilenberg-Moore comparison."
+      }
+    ],
+    "statement_record": {
+      "book": "Theorem VI.8.1: for a set Omega of operators and a set E of identities, with G the forgetful functor from the category <Omega,E>-Alg of small algebras to Set and T the induced monad on Set, the comparison functor K : <Omega,E>-Alg → Set^T is an ISOMORPHISM of categories (proved via Beck's theorem: G creates coequalizers of pairs whose underlying maps have an absolute coequalizer e, transporting each n-ary operation along e^n).",
+      "intree": "Lawvere_crude_monadicity : the comparison Models T Sets → (Eilenberg-Moore of the induced monad) is an EQUIVALENCE of categories, given a Lawvere theory T, a left adjoint L ⊣ ev1 T supplied as DATA, and the crude hypotheses (reflexive coequalizers, ev1-preservation, ev1-conservativity) supplied as DATA.",
+      "strength_comparison": "intree-weaker on three axes: (1) strength — the in-tree result concludes an EQUIVALENCE, not the isomorphism of categories MacLane proves; (2) hypothesis-scoped — the underlying free/forgetful adjunction (L ⊣ ev1 T) and all crude-monadicity hypotheses are taken as given DATA, none discharged for the algebraic case, whereas MacLane proves the theorem outright by Beck's criterion; (3) presentation — the in-tree object is Models T Sets (Cartesian+Terminal-preserving functors out of a Lawvere theory, over setoids Sets), not the syntactic <Omega,E>-Alg signature-with-identities category, and the separately-existing Instance/Comp.v variety category is entirely disconnected from the monad/EM machinery."
+    },
+    "gap": "No in-tree theorem states that the forgetful functor of a variety (equational category) to Set is monadic with the comparison an ISOMORPHISM. The closest, Theory/Lawvere/Monad.v's Lawvere_crude_monadicity, (a) gives only an EQUIVALENCE, (b) is hypothesis-scoped — the free-model left adjoint L ⊣ ev1 T and the crude hypotheses are all assumed as data rather than proven, and (c) works with Lawvere-theory models over setoids, not <Omega,E> signature presentations. Instance/Comp.v builds the variety category Algebra S E (over Type, strict =) but never connects it to a monad, Set^T, or the comparison functor; its free-functor-is-left-adjoint remark (lines 210-211) is a comment, not a formalized adjunction. The Linton/finitary-monad-Lawvere equivalence is explicitly ledgered as deferred (Theory/Lawvere/Monad.v: 'The full finitary-monad <-> Lawvere-theory EQUIVALENCE ... is deferred (ledger 2)').",
+    "negative_search_log": [
+      "grep -rni 'Algs.*monad|variety.*monad|OpAlgebra.*Eilenberg|Algebra S E.*monad' --include=*.v . => 0 hits (the Instance/Comp.v variety category is never tied to monadicity)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "My blind search initially timed out on the variety terms and MISSED Instance/Comp.v; on verification Comp.v exists (registered _CoqProject:177) with OpSignature/OpAlgebra/Algs/EqSignature/Algebra S E — a genuine <Ω,E>-Alg category over Type — but grep for monad|eilenberg|comparison|adjunc = 0 hits, so the classifier's 'disconnected from monadicity' is honest (the free-object universal property in the FreeAlg section is not packaged as an adjunction/monad). Lawvere_crude_monadicity (Lawvere/Monad.v:91) verified: EquivalenceOfCategories, hypothesis-scoped (L ⊣ ev1 plus RC/pres/refl as Context), over Lawvere Models not Ω-E signatures, equivalence not isomorphism. PARTIAL with its precise three-axis gap confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.8:ex1",
+    "classification": "PARTIAL",
+    "aliases": [
+      "variety monadicity via split coequalizers",
+      "Theorem VI.8.1 via split coequalizers",
+      "operation transport along a split fork",
+      "coset-product construction of algebra operations",
+      "Beck precise monadicity applied to a variety"
+    ],
+    "evidence": [
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 739,
+        "symbol": "beck_monadicity",
+        "intree_statement": "Definition beck_monadicity : EquivalenceOfCategories (EM_Comparison A) := {| quasi_inverse := Beck_Inverse ; ... |}.  [Context (A : F ⊣ U); (CR : CreatesUSplitCoequalizers U)] — the precise Beck theorem via SPLIT coequalizers, exactly the proof route this exercise asks for."
+      },
+      {
+        "file": "Monad/Monadicity/Beck.v",
+        "line": 164,
+        "symbol": "CreatesUSplitCoequalizers",
+        "intree_statement": "Class CreatesUSplitCoequalizers {C D : Category} (U : C ⟶ D) := { ... (for every parallel pair whose U-image carries a SplitCoequalizer, U creates a coequalizer upstairs lying over it) ... }."
+      },
+      {
+        "file": "Theory/Lawvere/Monad.v",
+        "line": 91,
+        "symbol": "Lawvere_crude_monadicity",
+        "intree_statement": "Corollary Lawvere_crude_monadicity : EquivalenceOfCategories Lawvere_EM_Comparison. (scoped algebraic monadicity, equivalence form — see VI.8:thm1)"
+      }
+    ],
+    "statement_record": {
+      "book": "Exercise VI.8.1: reprove Theorem VI.8.1 (the variety comparison K : <Omega,E>-Alg → Set^T is an isomorphism) using SPLIT coequalizers instead of absolute ones — given a splitting <s,t> of the canonical fork (1), define each operation on the codomain X by omega_X(x1,...,xn) = e . omega_B(s x1,...,s xn); for n=2 this is the usual product of cosets of a normal subgroup.",
+      "intree": "beck_monadicity : EquivalenceOfCategories (EM_Comparison A) under CreatesUSplitCoequalizers U — the general precise monadicity theorem via split coequalizers, and the split-coequalizer API (Structure/Coequalizer/Split.v) it consumes. The scoped Lawvere_crude_monadicity gives an equivalence for algebraic-theory models.",
+      "strength_comparison": "intree-partial: the SPLIT-coequalizer monadicity TOOL (beck_monadicity, via CreatesUSplitCoequalizers, with the SplitCoequalizer/split-fork calculus) is fully present and is exactly the mechanism the exercise names; but it is proven only as an abstract theorem, never instantiated to a variety, and the exercise's explicit operation-transport formula omega_X = e . omega_B(s -,...) for the split-fork splitting is not carried out. The variety-monadicity target itself is only PARTIAL (see VI.8:thm1), with equivalence-not-isomorphism strength."
+    },
+    "gap": "Same target gap as VI.8:thm1 (no proven variety-is-monadic-over-Set with an isomorphism comparison), PLUS the specific split-coequalizer construction the exercise requests: the explicit definition of each n-ary operation on the quotient via a splitting <s,t> of the canonical fork (omega_X(x1..xn) = e . omega_B(s x1,...,s xn)) is nowhere carried out. The general split-coequalizer monadicity theorem (beck_monadicity) is present as the reusable tool, but it is not applied to any <Omega,E>-variety.",
+    "negative_search_log": [
+      "grep -rni 'Algs.*monad|variety.*monad|OpAlgebra.*Eilenberg' --include=*.v . => 0 hits (no variety wired to split-coequalizer monadicity)"
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "beck_monadicity (Beck.v:739) verified as split-coequalizer monadicity via CreatesUSplitCoequalizers (Beck.v:164) — the general tool the exercise names. Borderline call: ex1's distinctive content (the variety instantiation and the coset-product operation-transport formula ω_X = e·ω_B(s x1,...)) is genuinely absent; PARTIAL rests on inheriting thm1's PARTIAL status plus the general (VI.7-level) split-coequalizer machinery. Internally consistent with thm1 PARTIAL and the gap honestly states the variety application is never carried out. Confirmed."
+    }
+  },
+  {
+    "id": "maclane:VI.8:ex2",
+    "classification": "ABSENT",
+    "aliases": [
+      "Beck's theorem for K-Alg over K-Mod",
+      "associative K-algebras monadic over K-modules",
+      "forgetful K-Alg -> K-Mod is monadic",
+      "tensor-algebra monad on K-Mod",
+      "commutative ring K, category of K-algebras"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rli 'module|R-Mod|K-Alg|abelian group' --include=*.v Instance/ => only Instance/Comp.v (universal algebra, no K-Mod), Instance/ZX.v and Instance/Lambda/* ('module' meaning Coq modules / unrelated) — no K-Mod or K-Alg category",
+      "ls Instance/ | grep -i 'mod|ab|ring|vect|grp|mon' => only CMon (commutative monoids); there is no Mod, Module, Ab, Ring, Vect, or Grp instance in the tree",
+      "The categories the exercise is about (K-Mod and K-Alg for a commutative ring K, and the forgetful functor between them) are not defined anywhere. Beck's theorem exists in general form (beck_monadicity, Monad/Monadicity/Beck.v:739; crude_monadicity, Crude.v:601), but the specific K-Alg -> K-Mod instance and its objects have no in-tree counterpart.",
+      "The R-tensor monad remark of MacLane VI.2 (algebras of R⊗(-) on Ab are R-modules) is likewise not formalized: grep confirms no Ab category and no R⊗(-) monad instance."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no K-Mod/K-Alg/R-Mod/Ab/Ring/Vect/Grp category (Instance/ has only CMon); Structure/Monoid.v 'module' match is background-essay prose. The forgetful K-Alg→K-Mod and its objects have no in-tree counterpart. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VI.9:thm1",
+    "classification": "ABSENT",
+    "aliases": [
+      "compact Hausdorff spaces are monadic over Set",
+      "CmptHaus -> Set is monadic",
+      "ultrafilter monad, algebras are compact Hausdorff (Manes)",
+      "Stone-Cech compactification as free functor",
+      "beta-compactification left adjoint to forgetful"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'compact|hausdorff|topolog|stone.cech|kuratowski|quotient topology' --include=*.v . => matches ONLY in background-essay comments: Theory/Monad.v:65-66 ('the algebras of the ultrafilter monad are exactly the compact Hausdorff spaces (Manes ...)'), Theory/Equivalence.v:122 (C*-algebras vs compact Hausdorff, comment), Theory/Universal/Arrow.v:40,46 (Stone-Cech, comment), Theory/Kan/Extension.v:39,86 (ultrafilter/codensity monad, comment). No code.",
+      "grep -rniw 'continuous|Hausdorff|compact' --include=*.v . (excluding compact-closed) => 16 hits, ALL either comments (compact Hausdorff / C*-algebra prose) or the category-theoretic sense of 'continuous functor' = limit-preserving (Structure/Limit/Preservation.v, Theory/Adjunction.v, GAFT). None is topological.",
+      "grep -rnE '^\\s*(Program )?(Definition|Instance).*(Top|Topolog|Compact|Hausdorff|Closure)' --include=*.v . => only FinSet_Topos / ElementaryTopos (elementary TOPOS theory, not topological spaces), Lambda Closure (lambda-calc closures), Pow (power object). No Top category, no CmptHaus category.",
+      "ls Instance/ | grep -i top => none. There is no category of topological spaces, no compact Hausdorff spaces, and no Stone-Cech compactification anywhere in the tree; the Manes ultrafilter-monad/compact-Hausdorff result is cited only as unformalized motivation."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: every compact/Hausdorff/topolog/ultrafilter/Stone-Čech hit is background-essay PROSE (Theory/Monad.v:65-66, Equivalence.v:122, Universal/Arrow.v:40/46, Kan/Extension.v:39/86); no Top or CmptHaus category, no Stone-Čech, no code. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VI.9:def1",
+    "classification": "ABSENT",
+    "aliases": [
+      "topological space as a closure space",
+      "Kuratowski closure operator on subsets",
+      "continuous map (closure-preserving)",
+      "closed map (closure-reflecting)",
+      "closure-space reformulation of topology"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'kuratowski|closure space|closure operation|open set|closed set' --include=*.v . => 0 code hits (only unrelated prose); no Kuratowski closure axioms (emptyset-bar=emptyset, S subset Sbar, Sbar-bar=Sbar, (S∪T)-bar=Sbar∪Tbar) formalized on the powerset of a set",
+      "grep -rniw 'continuous|Hausdorff|compact' --include=*.v . => 'continuous' occurs only as the category-theoretic limit-preserving-functor notion, never as a topological continuous-map (closure-preserving) definition; no 'closed map' notion exists",
+      "NOTE on the near-miss: the library DOES have closure operators abstractly as monads on a poset / idempotent monads (Theory/Monad.v VI.1 remark, Construction/Reflective/Idempotent.v), but that is a monad on a preorder, NOT a topological closure space (a Kuratowski closure on the subsets of a fixed set with continuous/closed maps between them). The proof-internal topological setup of MacLane VI.9 has no in-tree counterpart.",
+      "grep -rnE '^\\s*(Program )?(Definition|Instance|Record).*(Topolog|Closure|Continuous|ClosedMap)' --include=*.v . => nothing topological (only Lambda Closure, unrelated)."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no Kuratowski closure space, no continuous/closed map on subsets of a fixed set; 'continuous' appears only as the limit-preserving-functor sense. The near-miss note (preorder-closure monads / idempotent monads are a different concept from a topological closure space) is accurate. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VI.9:lem1",
+    "classification": "ABSENT",
+    "aliases": [
+      "continuous image of a compact set is compact / closed map from compact to Hausdorff",
+      "compact-to-Hausdorff continuous map is closed",
+      "closed-map lemma",
+      "compactness implies closedness of continuous maps"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'compact|hausdorff|topolog' --include=*.v . => only background-essay comments (see VI.9:thm1 log); no compactness predicate, no Hausdorff predicate, no closed-map notion in code",
+      "grep -rniw 'compact|Hausdorff' --include=*.v . (excluding compact-closed monoidal categories) => all hits are comments or the unrelated 'compact closed' / 'dagger compact' monoidal-category notion; none is point-set compactness or the Hausdorff separation axiom",
+      "The lemma's ingredients — compact spaces, Hausdorff spaces, continuous maps, closed maps — are entirely absent from the tree (no topology development), so the lemma 'a continuous map from a compact space to a Hausdorff space is closed' has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no compactness predicate, no Hausdorff predicate, no closed-map notion (all compact/Hausdorff hits are prose or the compact-closed monoidal sense). The lemma's ingredients are entirely absent. Confirmed ABSENT."
+    }
+  },
+  {
+    "id": "maclane:VI.9:ex1",
+    "classification": "ABSENT",
+    "aliases": [
+      "quotient topology on the coequalizer object W",
+      "final topology along e : Y -> W",
+      "coequalizer carries the quotient topology",
+      "open iff preimage open"
+    ],
+    "evidence": [],
+    "statement_record": null,
+    "gap": null,
+    "negative_search_log": [
+      "grep -rni 'quotient topology|topolog|open set|final topology' --include=*.v . => 0 code hits (only unrelated prose / Grothendieck-topology comments in Theory/Sheaf.v, which concern sites, not point-set quotient topology)",
+      "grep -rni 'compact|hausdorff' --include=*.v . => only comments (see VI.9:thm1 log); the whole compact-Hausdorff monadicity proof, including its coequalizer object W and topology, is unformalized",
+      "This exercise refers to the object W constructed in the proof of Theorem VI.9.1, which itself is ABSENT (no topology, no CmptHaus category, no Stone-Cech). With neither the space W nor any notion of quotient/final topology in the tree, the exercise's content has no in-tree counterpart."
+    ],
+    "out_of_scope_reason": null,
+    "verifier": {
+      "verdict": "CONFIRMED",
+      "notes": "Blind search: no quotient/final topology and no coequalizer object W with a topology (the proof of an already-absent theorem). Confirmed ABSENT."
+    }
+  }
+]
