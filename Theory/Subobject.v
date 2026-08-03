@@ -77,8 +77,12 @@ Defined.
 (* Awodey, *Category Theory*, §5.1: a factorization BETWEEN subobjects is
    itself monic, so u ≤ v exhibits sub_dom u as a subobject of sub_dom v and
    not merely of x.  The file used to assert this in the header prose above
-   with nothing in tree to back it; it is [monic_cancel] applied to the
-   factoring equation, sub_mono u being monic by assumption. *)
+   with nothing in tree to back it.  The argument is the one [monic_cancel]
+   packages -- sub_mono u is monic, and it factors as sub_mono v ∘ k -- but it
+   is run inline here rather than by calling that lemma, because invoking it
+   would need to rewrite under [Monic] along the factoring equation and the
+   only ≈-transports for [Monic] in tree (Structure/Abelian.v,
+   Structure/Regular/Factorization.v) are both downstream of this file. *)
 Lemma sub_le_monic (u v : SubObj x) (H : sub_le u v) : Monic `1 H.
 Proof.
   destruct H as [k Hk]; simpl.

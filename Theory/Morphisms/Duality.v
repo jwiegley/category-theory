@@ -2,6 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Construction.Opposite.
+Require Import Category.Construction.Subcategory.
 
 Generalizable All Variables.
 
@@ -20,8 +21,10 @@ Generalizable All Variables.
 
    WHY NOT IN Theory/Morphisms.v.  Duality needs [Opposite], and
    Construction/Opposite.v requires Theory/Isomorphism.v, which requires
-   Theory/Morphisms.v.  Adding the import there is therefore a cycle -- Rocq
-   reports "Cannot load a library with the same name as the current one".
+   Theory/Morphisms.v.  Adding the import there is therefore a cycle, and Rocq
+   rejects it (the exact message depends on which .vo files are present -- a
+   self-require complaint on a clean tree, an inconsistent-assumptions error
+   against a stale Morphisms.vo -- but it is refused either way).
    Since the cancellation lemmas are consumed low in the tree (by
    Structure/Factorization/StrongEpi.v and Theory/Subobject.v), they have to
    live below the opposite category, and the dual derivation has to live above
@@ -87,3 +90,42 @@ Definition monic_compose_agrees {C : Category} {x y z : C}
   (Monic f → Monic g → Monic (f ∘ g)) *
   (Monic f → Monic g → Monic (f ∘ g)) :=
   (@monic_compose C x y z f g, @monic_compose_op C x y z f g).
+
+(** ** The wide subcategories of monos and of epis *)
+
+(* Riehl, CTiC, §1.2 (Exercise 1.2.ii): the monomorphisms of C form a wide
+   subcategory -- wide because every identity is monic, a subcategory because
+   monos compose.  Those are exactly [id_monic] and [monic_compose], so the
+   record below has no proof content of its own; the point is that the two
+   closure lemmas are precisely the subcategory axioms. *)
+Definition MonoSub (C : Category) : Subcategory C := {|
+  sobj  := fun _ => poly_unit;
+  shom  := fun x y _ _ f => Monic f;
+  scomp := fun x y z _ _ _ f g Hf Hg => monic_compose Hf Hg;
+  sid   := fun x _ => id_monic x
+|}.
+
+Definition MonoSub_Wide (C : Category) : Wide C (MonoSub C) :=
+  fun _ => ttt.
+
+(* The dual, obtained through C^op rather than reproved: an epimorphism of C
+   is a monomorphism of C^op, so [EpiSub] transports [MonoSub (C^op)] back
+   along the bridges above rather than repeating the closure arguments.  Note
+   the composition order flips in the opposite category, which is why the
+   [scomp] field below feeds its two arguments in the other order. *)
+Definition EpiSub (C : Category) : Subcategory C.
+Proof.
+  unshelve refine {| sobj := fun _ => poly_unit
+                   ; shom := fun x y _ _ f => Epic f |}.
+  - (* closure under composition, from [monic_compose] read in C^op *)
+    intros x y z ox oy oz f g Hf Hg.
+    exact (Epic_of_op_Monic (f ∘ g)
+             (@monic_compose (C^op) z y x g f
+                (op_Monic_of_Epic g Hg) (op_Monic_of_Epic f Hf))).
+  - (* identities, from [id_monic] read in C^op *)
+    intros x ox.
+    exact (Epic_of_op_Monic (@id C x) (@id_monic (C^op) x)).
+Defined.
+
+Definition EpiSub_Wide (C : Category) : Wide C (EpiSub C) :=
+  fun _ => ttt.
