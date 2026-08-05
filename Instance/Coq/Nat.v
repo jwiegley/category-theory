@@ -62,7 +62,9 @@ Generalizable All Variables.
        criterion for this functor: a representation of [Endos_Forget] makes the
        algebra built from the representing object and its universal element
        initial in [FAlg NatF].  [nat_initial_via_universal_element] is
-       [nat_initial] obtained that way, and [nat_initial_agree] checks by
+       a second, independent construction of the same initial object through
+       that criterion (its mediator is [nat_iter], not [nat_fold]; the two
+       records are distinct terms), and [nat_initial_agree] checks by
        [reflexivity] that the two constructions name the same algebra. *)
 
 (* Where the statement comes from, and what it is used for
@@ -72,7 +74,8 @@ Generalizable All Variables.
               Springer GTM 5, 1998, §I.5, Exercise 8, p. 21
    Book:      Awodey, "Category Theory" (1st ed., Carnegie Mellon
               pre-print, September 2005), §10.5 and Exercise 10.6.1(c)
-   Book:      Riehl, "Category Theory in Context", Dover 2016,
+   Book:      Riehl, "Category Theory in Context" (2nd ed. numbering,
+              per issue #252),
               Example 2.1.1 and Example 2.4.11
    Paper:     Lawvere, "An elementary theory of the category of sets",
               PNAS 52, 1964
