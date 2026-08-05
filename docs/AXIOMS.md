@@ -149,6 +149,12 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+
+The target additionally audits three CONCRETE results (not parametric
+over abstract structure, and belonging to no numbered phase), because
+they are the headline statements of the preorder-transformation
+development:
+
 - `proset_transform_iff` and `proset_transform_unique`
   (`Instance/Proset/Transform.v`) — existence and uniqueness of a
   natural transformation into a preorder (Mac Lane §I.4, exercise 4)

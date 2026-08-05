@@ -50,11 +50,21 @@ Generalizable All Variables.
    order are not equal in Coq's intensional sense, and nothing in this file
    claims they are; they are equal in the hom-setoid of the functor category,
    which is the library's notion of sameness for morphisms throughout (see
-   [Transform_Setoid] in Theory/Natural/Transformation.v).  Every comparison of
-   two morphisms below therefore uses [≈].  A few statements do use [=], but
-   never as a stand-in for that comparison: they are round-trip identities for
-   the translation functions, or agreements of object and arrow parts, and each
-   is flagged where it appears. *)
+   [Transform_Setoid] in Theory/Natural/Transformation.v).  Every comparison
+   of two morphisms below uses [≈] WHEREVER THE COMPARISON IS WHAT IS AT
+   STAKE — uniqueness, thinness, the isomorphism laws.
+
+   There is exactly one deliberate exception, and an audit of the first
+   commit was right to insist it be named rather than covered by a
+   universal: [endo_of_monotone_of_endo_fmap] states an [=] between two
+   morphisms of [Nat_Proset].  It is stated that way because it is the
+   informative form.  Its [≈] counterpart is vacuous — [≈] between [Proset]
+   morphisms is the total relation, so the [≈] version would hold of any two
+   morphisms whatever — whereas the [=] version says something real: the
+   arrow part of the round trip is the ORIGINAL arrow, on the nose.  The
+   remaining [=] statements in this file are round-trip identities for the
+   translation functions and an object-part agreement, and each is flagged
+   where it appears. *)
 
 (* What the exercise buys, and where the dual argument stops
 
@@ -137,7 +147,8 @@ Definition proset_pointwise_of {S T : C ⟶ Proset P}
            (N : S ⟹ T) : proset_pointwise S T :=
   fun c => transform N c.
 
-(* The existence criterion.  [↔] is [iffT] (Lib/Foundation.v), the Type-valued
+(* The existence criterion.  [↔] is notation (declared in Lib/Foundation.v)
+   for [iffT] of Coq.Classes.CRelationClasses, the Type-valued
    biconditional the library uses for statements whose two directions carry
    computational content — here the two translations just given. *)
 
@@ -155,7 +166,16 @@ Proof. exact (@proset_pointwise_of S T, @proset_transform S T). Qed.
    functions, and its [≈] counterpart would be vacuous here, since [≈] between
    two families of [Proset] morphisms is the total relation.  Everywhere the
    comparison of two morphisms is what is at stake — uniqueness, thinness, the
-   isomorphism laws — the statements below use [≈]. *)
+   isomorphism laws — the statements below use [≈].
+
+   AND THE SECOND ROUND TRIP IS VACUOUS, which the first commit advertised as
+   though it were evidence of invertibility.  It is not: it is
+   [proset_transform_unique] wearing a round-trip costume.  Its proof is
+   [fun _ => I], and the same proof establishes `M ≈ N` for ANY two
+   transformations between the same functors, related to the translations or
+   not.  The informative half of the pair is therefore the [=] statement
+   alone; the [≈] statement is kept because the shape of a round trip is
+   what a reader looks for, but it carries no information beyond thinness. *)
 
 Theorem proset_pointwise_of_transform {S T : C ⟶ Proset P}
         (H : proset_pointwise S T) :
@@ -248,12 +268,22 @@ Defined.
    object parts are equal by [eq_refl] — both composites are literally the
    identity on objects — and the morphism condition is trivial because both
    categories are thin.  This is stronger than the [Cat] statement — strict
-   equality of functors implies natural isomorphism but not conversely, as the
-   header of Instance/StrictCat.v records — and it is worth having precisely
-   because [≅[Cat]] in this library IS equivalence of categories
-   (Instance/Cat.v), never an on-the-nose isomorphism.  It is still *not* the
-   assertion that the two composite functors are equal as records, which would
-   need function extensionality to identify their proof fields. *)
+   equality of functors implies natural isomorphism (Instance/StrictCat.v's
+   header) and the converse fails (Instance/Cat.v, which is where that
+   failure is actually recorded) — and it is worth having precisely because
+   [≅[Cat]] in this library IS equivalence of categories, never an
+   on-the-nose isomorphism.  It is still *not* the assertion that the two
+   composite functors are equal as records, which would need function
+   extensionality to identify their proof fields.
+
+   A reader should also not over-read the strict form HERE.  Because both
+   categories are thin, the arrow-agreement leg of the strict hom-setoid is
+   the trivial relation, so what this theorem asserts beyond the [Cat] form
+   is that the two comparison functors agree with the identity ON OBJECTS,
+   definitionally.  That is a real strengthening and it is why the object leg
+   is [eq_refl], but it is not a bijection of hom-sets — thin categories have
+   nothing to bijate.  The content of the comparison lives in the functors
+   themselves, which carry the criterion. *)
 
 Theorem Fun_Proset_strict_iso : [C, Proset P] ≅[StrictCat] Fun_Proset.
 Proof.
