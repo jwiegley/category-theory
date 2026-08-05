@@ -74,7 +74,24 @@ Generalizable All Variables.
       complementing open" — not respect `≈`, and the natural isomorphism
       at the end of this file would have no inverse.  Riehl's statement is
       classical; what is proved below is its constructive rendering, and
-      this paragraph is the disclosure of the difference. *)
+      this paragraph is the disclosure of the difference.
+
+      The disclosure has a CONSEQUENCE that must be stated just as
+      plainly (the audit of the first commit insisted, correctly): with
+      this setoid, [ClosedSets X] is [OpenSets X] carrying an extra field
+      the equivalence never inspects, both round trips of the duality
+      copy the compared component verbatim, and the natural isomorphism
+      at the end of the file is, extensionally, the identity dressed as
+      complementation.  The constructive CONTENT of the duality therefore
+      lives in the one-directional lemmas
+      ([closed_order_implies_inclusion], [closed_equiv_implies_pred_equiv])
+      and in the closing section, which prices the classical reading
+      exactly: a predicate-comparing setoid is EQUIVALENT to
+      double-negation elimination ([pred_comparison_forces_DNE]), and
+      under that explicit hypothesis the two-sided classical
+      correspondence is recovered
+      ([closed_inclusion_implies_order_classical],
+      [closed_pred_equiv_implies_equiv_classical]). *)
 
 (** ** Opens and closed sets of a space *)
 
@@ -354,3 +371,70 @@ Program Definition complement_natural : OpensF ≅[Fun] ClosedsF := {|
 |}.
 Next Obligation. intros X C y; split; exact (fun h => h). Qed.
 Next Obligation. intros X U y; split; exact (fun h => h). Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** The exact price of the classical reading *)
+
+(* Design note 2 chose to compare closed sets through their complementing
+   opens and disclosed what that choice buys and what it costs.  This
+   closing section (its first theorem supplied by the audit of the first
+   commit) makes the cost precise rather than rhetorical.
+
+   If agreement of the closed PREDICATES implied agreement of the
+   complementing opens — the respectfulness a predicate-comparing setoid
+   would need — then double negation would be eliminable at every Type.
+   The probe is the one-point space with the constant predicates `P` and
+   `¬¬P`: their negations are equivalent outright, so the hypothetical
+   implication hands back `P ↔ ¬¬P` at the point. *)
+Theorem pred_comparison_forces_DNE :
+  (∀ (X : TopSpace) (C D : ClosedSet X),
+      (∀ x : X, closed_pred C x ↔ closed_pred D x) →
+      (∀ x : X, closed_compl C x ↔ closed_compl D x)) →
+  ∀ P : Type, ¬ ¬ P → P.
+Proof.
+  intros Hconv P.
+  pose (CP := open_complement (X:=Point_Top)
+                ((fun _ : Point_Top => P); open_const Point_Top P)).
+  pose (CN := open_complement (X:=Point_Top)
+                ((fun _ : Point_Top => (¬ ¬ P : Type));
+                 open_const Point_Top (¬ ¬ P : Type))).
+  assert (Hpred : ∀ x : Point_Top, closed_pred CP x ↔ closed_pred CN x).
+  { intro x; split.
+    - intros np nnp; exact (nnp np).
+    - intros nnnp p; exact (nnnp (fun np => np p)). }
+  exact (snd (Hconv Point_Top CP CN Hpred ttt)).
+Qed.
+
+(* Under double-negation elimination as an EXPLICIT HYPOTHESIS — taken as a
+   hypothesis and never as an axiom, the same discipline the library
+   applies to UIP and to choice — the two constructively one-directional
+   implications become equivalences, and Riehl's classical statement is
+   recovered in full. *)
+Section Classical.
+
+Hypothesis DNE : ∀ P : Type, ¬ ¬ P → P.
+
+Lemma closed_inclusion_implies_order_classical
+  {X : TopSpace} (C D : ClosedSet X) :
+  (∀ x : X, closed_pred C x → closed_pred D x) →
+  (∀ x : X, closed_compl D x → closed_compl C x).
+Proof using DNE.
+  intros Hincl x Hd.
+  apply (DNE (closed_compl C x)).
+  intro Hnc.
+  exact (fst (closed_agree D x) (Hincl x (snd (closed_agree C x) Hnc)) Hd).
+Qed.
+
+Lemma closed_pred_equiv_implies_equiv_classical
+  {X : TopSpace} (C D : ClosedSet X) :
+  (∀ x : X, closed_pred C x ↔ closed_pred D x) →
+  (∀ x : X, closed_compl C x ↔ closed_compl D x).
+Proof using DNE.
+  intros H x; split.
+  - intro Hc; exact (closed_inclusion_implies_order_classical D C
+                       (fun y => snd (H y)) x Hc).
+  - intro Hd; exact (closed_inclusion_implies_order_classical C D
+                       (fun y => fst (H y)) x Hd).
+Qed.
+
+End Classical.
