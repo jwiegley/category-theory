@@ -112,7 +112,18 @@ Context {T : C ⟶ D}.
    the family through T, [τ_arr_right] absorbs a pre-composition through
    S; together they are Mac Lane's displayed chain, and [τ_arr_splice]
    below states that chain as the single equation it is usually written
-   as. *)
+   as.
+
+   A universe note, since the parent file is careful about this and a
+   reader comparing the two will notice the difference.  Where
+   Theory/Natural/Transformation.v declares its six universes up front and
+   keeps the hom and proof levels of each category independent, the record
+   below lets them be inferred, and inference collapses the hom level onto
+   the proof level in both categories.  So [Transform] applies at strictly
+   more instantiations than [ArrowTransform] does.  Nothing here needs the
+   extra generality, and the correspondence theorems below are stated at
+   the shared instantiation, but the asymmetry is real and is recorded
+   rather than papered over. *)
 
 Record ArrowTransform := {
   τ_arr {c c' : C} (f : c ~> c') : S c ~> T c';
@@ -291,7 +302,15 @@ Qed.
    unique — with [Arrows_to_Transform_to_Arrows] for existence, this is
    Mac Lane's "arises from a unique natural transformation".
    [Transform_unique_arrows]: and the family induced by a transformation is
-   unique. *)
+   unique.
+
+   These four are COROLLARIES, not four independent facts: each follows
+   mechanically from the two round trips together with the two
+   respectfulness instances, as an audit of the first commit verified by
+   re-deriving all of them.  They are stated separately because each is
+   the form some downstream argument will want, and because
+   [Arrows_unique_transform] is literally the uniqueness clause of Mac
+   Lane's exercise. *)
 
 Theorem Transform_determined_by_arrows (N M : S ⟹ T) :
   Transform_to_Arrows N ≈ Transform_to_Arrows M → N ≈ M.
@@ -501,6 +520,18 @@ Section Independence.
    only along the codomain, and in the walking arrow 2 the two come apart
    at the non-identity arrow TwoXY : TwoX ~> TwoY. *)
 
+(* A LIMITATION of these two countermodels, disclosed because an audit of
+   the first commit called it out: their respectfulness lemmas below hold
+   for a reason that has nothing to do with the families.  The hom-setoid
+   of the walking arrow is Leibniz equality (Instance/Two.v's
+   Morphism_equality), so EVERY function out of one of its hom-types
+   respects `≈` automatically.  The two lemmas therefore establish that
+   independence survives the presence of a respectfulness field, which is
+   what they are for, but they are not evidence that these particular
+   families are well behaved.  The closing section of this file supplies
+   countermodels over a hom-setoid that genuinely quotients, where
+   respectfulness is a real constraint. *)
+
 Definition dom_family {c c' : _2} (f : c ~> c') : ConstX c ~> ConstY c' :=
   match c with
   | TwoX => par_one
@@ -556,3 +587,106 @@ Proof.
 Qed.
 
 End Independence.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Neither law alone implies respectfulness *)
+
+(* [τ_arr_respects] above derives respectfulness of the family from the two
+   splice laws TOGETHER, and the derivation visibly uses both: each law
+   supplies one leg of the detour through the padded term `f ∘ id`.  That
+   left open whether one law alone might already suffice by some other
+   route.  It does not, in either direction, and this section settles it
+   with countermodels.  (The first commit of this file left the question
+   open; an audit resolved it and the argument is integrated here.)
+
+   The question cannot even be POSED over the walking arrow used above,
+   because its hom-setoid is Leibniz equality and respectfulness there is
+   free.  What is needed is a base category whose hom-setoid genuinely
+   quotients — two arrows that Rocq can tell apart but that the setoid
+   identifies.  The blur categories below are the minimal such thing: one
+   object, two arrows, ALL arrows equivalent.  Their composition is chosen
+   degenerate in the two possible ways, which is exactly what makes one
+   splice law hold trivially while respectfulness collapses. *)
+
+Program Definition BlurRight : Category := {|
+  obj     := unit;
+  hom     := fun _ _ => bool;
+  homset  := fun _ _ => {| equiv := fun _ _ => True |};
+  id      := fun _ => true;
+  compose := fun _ _ _ g f => f          (* right-zero: the composite is f *)
+|}.
+
+Program Definition BlurLeft : Category := {|
+  obj     := unit;
+  hom     := fun _ _ => bool;
+  homset  := fun _ _ => {| equiv := fun _ _ => True |};
+  id      := fun _ => true;
+  compose := fun _ _ _ g f => g          (* left-zero: the composite is g *)
+|}.
+
+(* The separating pair is the same one the independence countermodels use:
+   the two distinct arrows ParX ~> ParY of the parallel-pair category. *)
+Lemma par_one_two_distinct : ¬ (par_one ≈ par_two).
+Proof. intros H; unfold par_one, par_two in H; simpl in H; discriminate. Qed.
+
+Section LeftLawAlone.
+
+Notation SR := (Δ[BlurRight](parX)).
+Notation TR := (Δ[BlurRight](parY)).
+
+Definition blur_right_family {c c' : BlurRight} (f : c ~> c') : SR c ~> TR c' :=
+  if f then par_one else par_two.
+
+(* It satisfies the LEFT splice law in full generality: with right-zero
+   composition the law reads τ f ≈ τ f. *)
+Lemma blur_right_left {c c' c'' : BlurRight} (g : c' ~> c'') (f : c ~> c') :
+  fmap[TR] g ∘ blur_right_family f ≈ blur_right_family (g ∘ f).
+Proof. apply id_left. Qed.
+
+(* Yet it is not respectful: the two arrows are `≈` and their images are
+   not.  So the LEFT law alone does not imply respectfulness. *)
+Theorem left_law_alone_gives_no_respect :
+  ¬ (∀ c c' : BlurRight, Proper (equiv ==> equiv) (@blur_right_family c c')).
+Proof.
+  intros H.
+  apply par_one_two_distinct.
+  exact (H tt tt true false I).
+Qed.
+
+End LeftLawAlone.
+
+Section RightLawAlone.
+
+Notation SL := (Δ[BlurLeft](parX)).
+Notation TL := (Δ[BlurLeft](parY)).
+
+Definition blur_left_family {c c' : BlurLeft} (f : c ~> c') : SL c ~> TL c' :=
+  if f then par_one else par_two.
+
+(* The mirror image: with left-zero composition the RIGHT law reads
+   τ g ≈ τ g. *)
+Lemma blur_left_right {c c' c'' : BlurLeft} (g : c' ~> c'') (f : c ~> c') :
+  blur_left_family (g ∘ f) ≈ blur_left_family g ∘ fmap[SL] f.
+Proof. symmetry; apply id_right. Qed.
+
+Theorem right_law_alone_gives_no_respect :
+  ¬ (∀ c c' : BlurLeft, Proper (equiv ==> equiv) (@blur_left_family c c')).
+Proof.
+  intros H.
+  apply par_one_two_distinct.
+  exact (H tt tt true false I).
+Qed.
+
+End RightLawAlone.
+
+(* The countermodels are non-degenerate in the way that matters: the two
+   arrows really are identified by the setoid, and really are distinguished
+   by the family. *)
+Example blur_arrows_equivalent :
+  (true : @hom BlurRight tt tt) ≈ (false : @hom BlurRight tt tt).
+Proof. exact I. Qed.
+
+Example blur_family_separates :
+  blur_right_family (c:=tt) (c':=tt) true
+    <> blur_right_family (c:=tt) (c':=tt) false.
+Proof. simpl; unfold par_one, par_two; discriminate. Qed.
