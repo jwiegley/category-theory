@@ -34,7 +34,7 @@ Generalizable All Variables.
    unit and the operation; two morphisms are equivalent when their
    underlying maps agree pointwise.  The file is modelled directly on
    Instance/CMon.v, whose [CMonObject] / [CMonHom] / [CMon] triple
-   (Instance/CMon.v:32, :58, :140) it mirrors field for field, including
+   (Instance/CMon.v:32, :58, :140) it mirrors CMon at the hom record and the category; the object records differ by design (commutativity there, inversion here), including
    the universe discipline: nothing here is annotated, so [Grp] is
    universe-polymorphic exactly as [CMon] is.
 
@@ -126,7 +126,7 @@ Generalizable All Variables.
    this is genuinely a theorem rather than a definition -- the same
    statement is false for epimorphisms in many algebraic categories (the
    inclusion of the integers into the rationals is epic in rings without
-   being surjective, Riehl's Exercise 1.2.iv).  One direction is soft:
+   being surjective, Riehl's Exercises 1.2.iv and 1.6.v(ii)).  One direction is soft:
    an injection is monic in any concrete category, and it is proved here
    directly, by evaluating the two competing maps at a point.  Riehl's
    Exercise 1.6.iv is the abstract route to the same direction -- any
@@ -959,12 +959,17 @@ Qed.
 
 (** ** Reconciliation with the internal [GroupObject] of Structure/Group.v *)
 
-(* The cartesian monoidal structure on [Sets], assembled from
-   [Sets_Cartesian] (Instance/Sets/Cartesian.v:32) and [Sets_Terminal] by
-   the generic construction at Structure/Monoidal/Internal/Product.v:54
-   and :435.  These are deliberately NOT registered as instances: the rest
-   of the tree resolves monoidal structure on [Sets] through other routes,
-   and adding a second path here would change resolution elsewhere. *)
+(* A NOTE ON DUPLICATION, for the reader who greps.  The tree already carries
+   a monoidal structure with the same underlying data at Instance/Sets.v:283,
+   the exported instance [Sets_Product_Monoidal].  The definition below is a
+   DISTINCT, NON-CONVERTIBLE term (their units agree by reflexivity; their
+   tensors do not -- one is a Program-built bifunctor, the other the CC_
+   composite), assembled through CC_Monoidal because [GroupObject] needs a
+   [CartesianMonoidal], which the tree does not otherwise provide for [Sets].
+   It is deliberately a plain Definition, not an instance: registering a
+   second [@Monoidal Sets] path would change typeclass resolution elsewhere.
+   No comparison isomorphism between the two structures is proved here; a
+   consumer needing one should build it or unify the two upstream. *)
 Definition Sets_prod_Monoidal : @Monoidal Sets :=
   @CC_Monoidal Sets Sets_Cartesian Sets_Terminal.
 
@@ -1065,3 +1070,97 @@ Example Grp_GroupObject_roundtrip_inv (G : GrpObject) (a : carrier G) :
   grp_inv (GroupObject_GrpObject (grp_setoid G) (Grp_GroupObject G)) a
     ≈ grp_inv G a.
 Proof. reflexivity. Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** A nontrivial witness: Z/2, and non-vacuity of the machinery *)
+
+(* Everything above is proved for all groups but, before this section, the
+   file constructed only the one-element group -- so nothing in the tree
+   DEMONSTRATED the biconditional, the products, or the opposite functor on a
+   non-degenerate object.  Z/2 on bool closes that gap (the construction and
+   the non-vacuity corollaries below were supplied by the audit of the
+   previous commit).  The second reconciliation round trip is recorded here
+   as well. *)
+
+Program Definition bool_setoid : Setoid bool := {| equiv := @eq bool |}.
+
+Definition Z2 : GrpObject.
+Proof.
+  unshelve notypeclasses refine {|
+    grp_setoid := {| carrier := bool ; is_setoid := bool_setoid |};
+    grp_unit := false;
+    grp_mul  := xorb;
+    grp_inv  := fun b => b
+  |}.
+  - intros x y Hxy u v Huv; simpl in *; subst; reflexivity.
+  - intros a b c; simpl; now destruct a, b, c.
+  - intros a; simpl; now destruct a.
+  - intros a; simpl; now destruct a.
+Defined.
+
+(* Z2 is genuinely nontrivial. *)
+Lemma Z2_nontrivial : (@equiv _ (grp_setoid Z2) true false) -> False.
+Proof. simpl. discriminate. Qed.
+
+(* The unique hom Z2 ~> 1 is NOT injective ... *)
+Lemma Z2_to_one_not_injective :
+  (forall a b : carrier Z2, grp_map (Grp_one Z2) a ≈ grp_map (Grp_one Z2) b -> a ≈ b) -> False.
+Proof.
+  intro Hinj.
+  apply Z2_nontrivial.
+  apply Hinj.
+  simpl. reflexivity.
+Qed.
+
+(* ... hence NOT monic.  So `Monic` in Grp is a non-vacuous predicate. *)
+Theorem Monic_in_Grp_is_not_vacuous : Monic (Grp_one Z2) -> False.
+Proof.
+  intro Hm.
+  apply Z2_to_one_not_injective.
+  destruct (Grp_injectivity_is_monic (Grp_one Z2)) as [_ Hback].
+  exact (Hback Hm).
+Qed.
+
+(* And some map IS monic: the identity on Z2. *)
+Theorem Monic_in_Grp_is_inhabited : @Monic Grp Z2 Z2 (@id Grp Z2).
+Proof. apply (@id_monic Grp Z2). Qed.
+
+(* The kernel probe is non-degenerate: the kernel of Z2 ~> 1 contains a
+   non-unit element. *)
+Definition ker_true : carrier (Grp_kernel (Grp_one Z2)).
+Proof. exists true. simpl. reflexivity. Defined.
+
+Lemma Grp_kernel_nondegenerate :
+  (@equiv _ (grp_setoid (Grp_kernel (Grp_one Z2)))
+        ker_true (grp_unit (Grp_kernel (Grp_one Z2)))) -> False.
+Proof. simpl. discriminate. Qed.
+
+(* ===================================================================== *)
+(* E: the OTHER round trip, GroupObject -> GrpObject -> GroupObject.      *)
+(*    Is it provable?  (It is NOT stated in Instance/Grp.v.)              *)
+(* ===================================================================== *)
+
+Example rt_back_unit (X : Sets) (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
+  @mempty Sets Sets_prod_Monoidal X
+     (Grp_MonoidObject (GroupObject_GrpObject X GO))
+  ≈ @mempty Sets Sets_prod_Monoidal X GO.
+Proof. intro u; destruct u; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
+
+Example rt_back_mul (X : Sets) (GO : @GroupObject Sets Sets_CartesianMonoidal X) :
+  @mappend Sets Sets_prod_Monoidal X
+     (Grp_MonoidObject (GroupObject_GrpObject X GO))
+  ≈ @mappend Sets Sets_prod_Monoidal X GO.
+Proof. intro p; destruct p; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
+
+Section RTInv.
+#[local] Existing Instance Sets_CartesianMonoidal.
+Context (X : Sets).
+Context `{GO : @GroupObject Sets Sets_CartesianMonoidal X}.
+Example rt_back_inv : Grp_inverse_map (GroupObject_GrpObject X GO) ≈ inverse[X].
+Proof. intro a; destruct GO as [mon inv Hl Hr]; destruct mon; reflexivity. Qed.
+End RTInv.
+
+(* ===================================================================== *)
+(* Is Grp_Op an involution on the nose?                                   *)
+(* ===================================================================== *)
+
