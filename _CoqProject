@@ -189,6 +189,7 @@ Instance/Coq/Comonad/Traced.v
 Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
+Instance/EnsV.v
 Instance/Fact.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
