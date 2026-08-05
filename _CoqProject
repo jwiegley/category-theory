@@ -457,6 +457,7 @@ Theory/Multicategory/Algebra.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
+Theory/Metacategory/General.v
 Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
