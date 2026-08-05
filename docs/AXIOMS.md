@@ -149,6 +149,12 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+- `proset_transform_iff` and `proset_transform_unique`
+  (`Instance/Proset/Transform.v`) — existence and uniqueness of a
+  natural transformation into a preorder (Mac Lane §I.4, exercise 4)
+- `proset_out_not_unique` (`Instance/Proset/Transform.v`) — the
+  refutation of the dual: two distinct transformations *out of* a
+  preorder
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

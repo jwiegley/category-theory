@@ -222,6 +222,7 @@ Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Transform.v
 Instance/Rel.v
 Instance/Roof.v
 Instance/Sets.v

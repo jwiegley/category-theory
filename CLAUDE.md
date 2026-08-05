@@ -161,6 +161,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Instance/Coq.v**: Category of Coq types and functions
 - **Instance/Cat.v**: Category of categories
 - **Instance/Fun.v**: Functor categories [C, D]
+- **Instance/Proset/Transform.v**: Natural transformations into a preorder (Mac Lane §I.4 ex. 4) — the existence criterion `(S ⟹ T) ↔ ∀ c, S c ≤ T c` as an `iffT` with both round trips, uniqueness up to `≈`, and hence thinness of `[C, Proset P]`; the pointwise order on functors makes that functor category a proset, identified with it both as `≅[Cat]` and as the sharper `≅[StrictCat]` (identity on objects, so `eq_refl` discharges the object leg); at the naturals this is `[ℕ≤, ℕ≤] ≅[Cat] MonotoneProset`, the preorder of monotone maps ordered pointwise (`≅[Cat]` only — the strict version would need funext for the rebuilt functor-law fields; the on-the-nose content is isolated in `monotone_of_endo_of_monotone` and `endo_of_monotone_of_endo`). The dual is refuted: two transformations out of `(ℕ, ≤)` into `Parallel` proved distinct in the transformation setoid (`proset_out_not_unique`, Seven Sketches Exercise 3.58)
 - **Instance/Lambda/**: Full lambda calculus formalization
 
 ### Applied Programming (Theory/Coq/)
