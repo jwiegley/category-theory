@@ -1049,9 +1049,12 @@ Qed.
    generating steps, and the composites they generate. *)
 (* Full @{o h p} profiles, so the exported shapes sit beside _1@{o h p} and
    Omega@{o h p} rather than collapsing h and p as inference would.  (A
-   different three-object category already exists in tree:
-   Theory/Metacategory.v's [Three], built arrows-only from a composition
-   table; no comparison is attempted here.) *)
+   related construction exists in tree: Theory/Metacategory.v's [Three],
+   built arrows-only from a composition table.  It is NOT a rival
+   three-object category: under that file's unguarded [identity] field no
+   arrow of its table is an identity, so [Three] has no objects at all --
+   a machine-checked fact recorded in that file's header.  No comparison
+   is attempted here.) *)
 Definition _3@{o h p} : Category@{o h p} := Ordinal@{o h p} 3.
 Definition _4@{o h p} : Category@{o h p} := Ordinal@{o h p} 4.
 
