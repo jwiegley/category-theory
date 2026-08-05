@@ -62,8 +62,10 @@ Import EqNotations.
    are not thereby equal.  Taking [f := id] shows the point concretely: the
    witness is some [H : x = x] with [id ≈ rew H in id], which does not force
    [H = eq_refl].  So the obstruction is a property of the *target's strict
-   hom-setoid*, not an artifact of any particular proof, and no rearrangement
-   of the argument removes it.
+   hom-setoid*, not an artifact of any particular proof — and that is a
+   theorem, not an impression: [Discrete_DiscreteRigid_forces_UIP] below shows
+   that if every [Discrete] category were [DiscreteRigid], uniqueness of
+   identity proofs would hold for every type.
 
    ** The hypothesis actually taken: rigidity, not UIP
 
@@ -121,13 +123,27 @@ Import EqNotations.
    The reason is structural: subsingleton homs plus invertibility says [C] is
    *essentially* discrete — equivalent, given a choice of representatives, to
    the discrete category on its iso-classes — not isomorphic to
-   [DiscreteCat (obj C)].  The indiscrete category on a two-element set is
-   equivalent to [1], not to the discrete category on two points.  So the
-   restatement is a different notion, correctly weaker in the
-   equivalence-invariant direction and incomparable to [Discrete] as stated.
+   [DiscreteCat (obj C)].  So the restatement is a different notion, and the
+   two are INDEPENDENT in a precise sense proved below: the direction
+   [DiscreteUpToIso → Discrete] is refuted outright by [Indiscrete bool],
+   while the direction [Discrete → DiscreteUpToIso] is unprovable in bare
+   Rocq — [Discrete_DiscreteUpToIso_forces_UIP] shows it entails UIP for
+   every type — yet true under UIP ([Discrete_DiscreteUpToIso]).  Neither
+   contains the other constructively; one inclusion holds exactly when UIP
+   does.
 
    [Indiscrete] is defined here only as that separating witness; it has no
    other use in the library at present. *)
+
+(* Why a separate file rather than extending Instance/Discrete.v, as the
+   issue's work-plan suggested: NOT layering -- Instance/Discrete.v,
+   Instance/Cat.v and Instance/StrictCat.v are independent siblings, and
+   adding the imports there would create no cycle.  The reason is cost to
+   consumers: Instance/Discrete.v is imported by Adjunction/GAFT.v,
+   Adjunction/SAFT.v, Structure/Limit/Product.v and Theory/WeaklyInitial.v,
+   and extending it would drag Instance/Cat, Instance/StrictCat and the
+   Eqdep_dec development into all four of those dependency cones for the
+   sake of theorems none of them consume. *)
 
 (** ** Transported identities *)
 
@@ -364,6 +380,36 @@ Qed.
 (* One arrow between any two objects; the codiscrete/indiscrete right adjoint
    to the underlying-set functor, included here only as the separating
    witness. *)
+(* The same reverse-mathematics argument for the PRIMARY hypothesis: if every
+   [Discrete] category were [DiscreteRigid], UIP would hold for every type.
+   The countermodel makes the premise of rigidity vacuous: objects [A],
+   morphisms equality proofs, but the hom-setoid INDISCRETE, so that any two
+   parallel arrows are equivalent.  Such a category is [Discrete] -- the
+   morphism is its own witness -- while its rigidity is literally UIP on [A].
+   Hence [DiscreteRigid] is a genuine extra hypothesis of [Discrete_iso], not
+   a deficiency of its proof. *)
+Program Definition Blurry (A : Type) : Category := {|
+  obj     := A;
+  hom     := fun x y => x = y;
+  homset  := fun x y => {| equiv := fun _ _ => True |};
+  id      := fun x => eq_refl;
+  compose := fun x y z (g : y = z) (f : x = y) => eq_trans f g
+|}.
+
+Lemma Blurry_Discrete (A : Type) : Discrete (Blurry A).
+Proof. intros x y f. exists f. exact I. Qed.
+
+Lemma Blurry_Rigid_is_UIP (A : Type) :
+  DiscreteRigid (Blurry A) → ∀ (x y : A) (p q : x = y), p = q.
+Proof. intros r x y p q. exact (r x y p q I). Qed.
+
+Theorem Discrete_DiscreteRigid_forces_UIP
+  (K : ∀ C : Category, Discrete C → DiscreteRigid C) :
+  ∀ (A : Type) (x y : A) (p q : x = y), p = q.
+Proof.
+  intros A. apply Blurry_Rigid_is_UIP. apply K, Blurry_Discrete.
+Qed.
+
 Program Definition Indiscrete (A : Type) : Category := {|
   obj     := A;
   hom     := fun _ _ => unit;
