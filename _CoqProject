@@ -465,6 +465,7 @@ Theory/Morphisms/Stability.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
 Theory/Natural/Transformation.v
+Theory/Natural/Transformation/Arrows.v
 Theory/Naturality.v
 Theory/Orthogonality.v
 Theory/Profunctor.v

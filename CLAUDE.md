@@ -110,7 +110,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 ### Theory Core
 - **Theory/Category.v**: Defines categories with setoid hom-sets
 - **Theory/Functor.v**: Functors preserve equivalence
-- **Theory/Natural/Transformation.v**: Natural transformations
+- **Theory/Natural/Transformation.v**: Natural transformations — the arrows-only (object-free) presentation is Theory/Natural/Transformation/Arrows.v (Mac Lane §I.4 exercise 5): `ArrowTransform` indexes a morphism `S c ~> T c'` by each arrow `f : c ~> c'` under two splice laws, with the round trip to `Transform` (components `τ_arr id`) both ways, the four uniqueness statements, and the correspondence packaged as an `Isomorphism` in `Sets` between the two setoids. Two results worth knowing: respectfulness of the family in its arrow argument is DERIVABLE from the two laws rather than extra data (each law supplies one leg of the detour through `f ∘ id`), and the two splice laws are genuinely INDEPENDENT — `dom_family`/`cod_family` over the parallel-pair category satisfy one and refute the other, both respectfully, so neither field can be dropped. This is unlike `naturality`/`naturality_sym` in the parent file, which are one equation in two orientations
 - **Theory/Adjunction.v**: The most important concept - adjunctions
 - **Theory/Monad.v**: Monads as endofunctors with structure
 - **Monad/Strong.v**: Strong monads — a monad whose functor carries a tensorial strength compatible with η and μ (Kock/Moggi)
