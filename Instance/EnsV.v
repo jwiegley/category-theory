@@ -14,7 +14,8 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/full+subcategory
    nLab: https://ncatlab.org/nlab/show/type+universe
 
-   Mac Lane's construction, in his own terms: for any set V of sets, Ens_V is
+   Mac Lane's construction, as this repo's catalog summarizes it: for any set
+   V of sets, Ens_V is
    the category with objects all sets X in V and arrows all functions
    f : X → Y with the usual composition; "Ens" then denotes any one of these
    categories. The point is the word ALL — the arrows carry no side condition
@@ -78,15 +79,21 @@ Generalizable All Variables.
    which is a conversion check on the whole [Category] record, subsuming
    agreement of every field — objects, homs, hom-setoids together with their
    [Equivalence] proofs, identity, composition, and all four laws. This is
-   strictly stronger than an isomorphism in Cat, and stronger than field-wise
-   agreement. It is available for two reasons. First, Lib.v sets [Primitive
-   Projections], which is what gives [Category] definitional eta: a record
-   declared without that flag does not have it, and the let-in fields [uhom],
-   [dom] and [cod] do not obstruct it. Second, [Spanned] never builds a field —
-   it takes each one to be the corresponding field of the ambient category read
-   along [El] — so at El := λ T, T every field beta-reduces to a bare projection
-   and eta collapses the reassembled record back to [Coq] itself. The same
-   holds one universe over for [Sets] ([EnsV_Sets_recovers_Sets]). What is
+   strictly stronger than an isomorphism in Cat. (It is not stronger than
+   field-wise agreement: with definitional eta the two are equivalent.)
+
+   The mechanism deserves a precise account, because an earlier draft got it
+   wrong. For the two INSTANCE equalities below, eta is not what does the
+   work: [Coq] and [Sets] are transparent constants whose bodies are literal
+   records, so the check is constructor-against-constructor by delta, iota
+   and beta alone. Where primitive-projection eta (Lib.v's [Primitive
+   Projections]; the let-in fields [uhom], [dom], [cod] do not obstruct it on
+   Rocq 9.1) becomes load-bearing is the GENERAL statement, where the ambient
+   category is a variable and no delta is available:
+   [Spanned_recovers_ambient] proves [@Spanned C (@obj C) (λ x, x) = C] for
+   every C by the same one-line [eq_refl], and the two instance equalities
+   are its corollaries. The same holds one universe over for [Sets]
+   ([EnsV_Sets_recovers_Sets]). What is
    claimed is exactly what [eq_refl] checks: convertibility of the two
    [Category] values. Nothing is claimed about the two definitions' proof terms
    being syntactically the same, and the recovery is not vacuous — a family
@@ -236,8 +243,18 @@ Definition EnsV_Sets_equiv_is_pointwise {V : Type} (El : V → SetoidObject)
 
    The measured strength is therefore definitional equality of the two
    categories, which is strictly stronger than an isomorphism in Cat and
-   strictly stronger than field-wise agreement: any statement whatever about
+   equivalent (under eta) to field-wise agreement: any statement whatever about
    [Coq] transports to [EnsV (λ T : Type, T)] by conversion alone. *)
+(* The general form, for ANY ambient category: spanning C by its own objects
+   along the identity family gives back C on the nose.  This is the statement
+   for which definitional eta on [Category] is genuinely load-bearing -- C is
+   a variable here, so no delta unfolding is available and the conversion
+   must go record-against-eta-expansion.  The two named recoveries below are
+   its instances (each also checkable by delta alone, their ambients being
+   transparent constants). *)
+Definition Spanned_recovers_ambient {C : Category} :
+  @Spanned C (@obj C) (λ x, x) = C := eq_refl.
+
 Definition EnsV_recovers_Coq : EnsV (λ T : Type, T) = Coq := eq_refl.
 
 (* The same one universe over, for the setoid-flavoured variant and [Sets]. *)
