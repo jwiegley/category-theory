@@ -222,6 +222,7 @@ Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Order.v
 Instance/Rel.v
 Instance/Roof.v
 Instance/Sets.v
@@ -312,6 +313,7 @@ Structure/Cone/Const.v
 Structure/Cone/Natural/Transformation.v
 Structure/Constant.v
 Structure/Discrete.v
+Structure/Thin.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
