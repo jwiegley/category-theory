@@ -101,12 +101,16 @@ Generalizable All Variables.
    the swap on the two-element set is the smallest witness that the
    difference is real.
 
-   NOTE on names: the identifier [delta] is already taken in tree, by the
-   comultiplication of a comonoid (Theory/Algebra/Comonoid.v:41).  The
-   generators here are therefore [sface] and [sdegen] at the categorical
-   level and [fin_skip], [fin_dup] at the level of underlying functions,
-   and the category itself is [Simplex] rather than [Delta].  No [Delta]
-   identifier exists in tree, and none is introduced. *)
+   NOTE on names: the name this category usually gets is Δ, and THAT is the
+   collision that matters -- [Δ] in this tree is the diagonal functor
+   (Functor/Diagonal.v:57, with notations Δ[J](c) and Δ(c) at :50/:54).
+   Lowercase [delta] is also taken, by comonoid comultiplication
+   (Theory/Algebra/Comonoid.v:41), though capitalization would keep them
+   apart.  The generators here are therefore [sface] and [sdegen] at the
+   categorical level and [fin_skip], [fin_dup] at the level of underlying
+   functions, and the category itself is [Simplex].  (No ASCII [Delta]
+   identifier exists in tree, and none is introduced -- but that spelling
+   was never the live conflict.) *)
 
 (** ** The order on a finite ordinal
 
@@ -388,8 +392,8 @@ Example sdegen_repeats_at_2 :
 
 (** ** The five simplicial identities
 
-    Mac Lane §VII.5 states them, in the cosimplicial form appropriate to Δ
-    itself (nLab, "simplex category"), as
+    The nLab ("simplex category") states them, in the cosimplicial form
+    appropriate to Δ itself, as
 
       (1)  δ_j ∘ δ_i = δ_i ∘ δ_{j-1}        for i < j
       (2)  σ_j ∘ σ_i = σ_i ∘ σ_{j+1}        for i ≤ j
@@ -401,7 +405,10 @@ Example sdegen_repeats_at_2 :
     an index carries the size of the ordinal it indexes.  Each identity is
     therefore reindexed to its equivalent shift-free form, substituting
     [j := j+1] in (1) and (3) and [i := i+1] in (5), which replaces every
-    [_-1] by an increment on the other side:
+    [_-1] by an increment on the other side.  The reindexed (1) below is
+    not a departure from the book: it is Mac Lane's own equation (11) of
+    §VII.5 (delta_i delta_j = delta_{j+1} delta_i for i <= j) on the nose,
+    and the reindexed (2)-(5) likewise match his (12)-(13):
 
       (1)  δ_i ∘ δ_j = δ_{j+1} ∘ δ_i        for i ≤ j
       (2)  σ_j ∘ σ_i = σ_i ∘ σ_{j+1}        for i ≤ j
