@@ -41,8 +41,10 @@ Generalizable All Variables.
    all four: [Ordinal 0 ≅ _0], [Ordinal 1 ≅ _1], [Ordinal 2 ≅ _2] in
    [Cat], and an embedding [Ordinal n ⟶ Omega] exhibiting each finite
    stage inside ω.  (That ω is the colimit of the finite stages is true
-   and standard, but it is not proven here — the tree's ω-colimits are
-   Construction/Chain.v's, indexed the other way round.)
+   and standard, but it is not proven here — Construction/Chain.v's
+   chains are the nearest in-tree machinery, and they are the
+   initial-algebra chain over a functor rather than general ω-colimit
+   apparatus.)
 
    NAMING, stated loudly because the sources differ.  [Ordinal n] has n
    OBJECTS.  So [Ordinal 0] is empty, [Ordinal 1] is the point,
@@ -70,8 +72,11 @@ Generalizable All Variables.
    constructor and so leaves the numeric value stuck on a variable.
    That single reduction is what lets the embedding functors act as the
    IDENTITY on morphisms, and what lets the universal property below be
-   stated and proven without transporting morphisms along equalities of
-   objects.
+   STATED without transporting morphisms along equalities of objects.
+   (The statements are transport-free; some proofs behind the
+   every-functor-comes-from-a-path half do rewrite along object
+   equalities internally -- [ord_clamp_step] and [ord_functor_iso] --
+   and that is disclosed where they occur.)
 
    THE ORDER is Instance/Omega.v's [le_t], applied to the underlying
    values, and not the standard library's [le].  The reasons are the
@@ -111,27 +116,43 @@ Generalizable All Variables.
    than checked case by case (the exercise issue #224 cites from
    Fong and Spivak, Seven Sketches, §3.2.1); (5) the universal property
    making [Ordinal (S n)] the free category on the linear quiver with n
-   edges (Riehl §1.6), stated directly because the tree carries no
-   free-category machinery; (6) its specialization to shape 4.
+   edges (Riehl §1.6), stated directly at the level of [Cat]; (6) its
+   specialization to shape 4.
 
    UNIVERSES.  The explicit annotations on [Ord_obj] and [Ordinal] are
-   there for the reason Instance/Omega.v gives for [Omega@{o h p}]:
-   left to inference, Coq collapses the three parameters of [Category]
-   into one and the family is issued as [Ordinal@{u}], which still
+   there because, left to inference, Coq collapses the three parameters
+   of [Category] into one and the family is issued as [Ordinal@{u}]
+   (measured, not asserted -- an unannotated copy elaborates at
+   [Category@{u Set Set}]).  Instance/Omega.v annotates [Omega@{o h p}]
+   for its own, different reason, recorded in its header: under the
+   library-wide [Set Universe Polymorphism] a strictly-bound family must
+   instantiate every polymorphic constant it mentions.  Unannotated,
+   [Ordinal@{u}] would still
    serves as a diagram shape but is strictly less general than the
    [_1@{o h p}] and [Omega@{o h p}] it is meant to sit beside.  With
    them the family is [Ordinal@{o h p}], and it is usable as a shape
    over targets of any size, [Cat] included.
 
-   ON THE STRENGTH OF (5).  The library has no free-category
-   construction, so the property is stated as a bijection.  Over a fixed
+   ON THE STRENGTH OF (5).  The tree DOES carry free-category
+   machinery -- Construction/Free/Quiver.v has [FreeOnQuiver] with its
+   universal arrow ([UniversalArrowQuiverCat]) and the free/forgetful
+   adjunction ([FreeForgetfulAdjunction]), and Construction/Free.v has the
+   path category -- but that universal property lives in [StrictCat] under
+   [Functor_StrictEq_Setoid], on-the-nose equality of functors.  The
+   property proved HERE is the [Cat]-level one, up to [Functor_Setoid],
+   which the StrictCat development does not provide; the literal
+   identification [FreeOnQuiver (linear quiver) ≅ Ordinal (S n)] in
+   StrictCat is a further theorem that is NOT delivered in this file and
+   remains open.  Over a fixed
    assignment of objects [X : nat → C], a "path of n composable arrows"
    is an [OrdSteps n X], and the functorial actions on morphisms over
    the same [X] are the [OrdArrows n X] satisfying the two functor laws.
    [arrows_of_steps] and [steps_of_arrows] are mutually inverse up to
    pointwise ≈ ([steps_arrows_steps], [arrows_steps_arrows]); this is
-   the free property, and it is transport-free.  It is then transported
-   to genuine functors: [Functor_of_Steps] turns a path into a functor
+   the free property at the level of raw actions, and it is
+   transport-free; it is a self-contained reading, and the functor-level
+   results below are proved directly rather than through it.
+   [Functor_of_Steps] turns a path into a functor
    [Ordinal (S n) ⟶ C] whose action on the generating steps is the path
    ([Functor_of_Steps_step]); [Functor_of_Steps_of_Functor] shows every
    functor out of [Ordinal (S n)] is [Functor_Setoid]-equivalent to one
@@ -356,6 +377,9 @@ Fixpoint chain_fmap {C : Category} {n : nat} {X : nat → C} (s : OrdSteps n X)
   | le_t_S f' => fun H => s _ H ∘ chain_fmap s f' (le_t_trans (le_t_S le_t_n) H)
   end.
 
+(* Definitional sanity pin (unused below; the [eq_refl]-style check that the
+   fold sends reflexivity to the identity, kept so a refactor that breaks it
+   is caught here rather than downstream). *)
 Lemma chain_fmap_id {C : Category} {n} {X : nat → C} (s : OrdSteps n X)
   (i : nat) (H : le_t i n) : chain_fmap s (@le_t_n i) H ≈ id.
 Proof. reflexivity. Qed.
@@ -635,6 +659,8 @@ Definition ord_mor_of_coords {n} (i j : nat) (f : le_t i j) (H : le_t (S j) n) :
   existT _ (ord_at i (le_t_trans (le_t_SS f) H))
            (existT _ (ord_at j H) f).
 
+(* Definitional sanity pin for the coordinate round trip (unused below;
+   [ord_mor_of_pair] re-derives the fact inline where it is consumed). *)
 Theorem ord_coords_onto {n} (i j : nat) (f : le_t i j) (H : le_t (S j) n) :
   ord_coords (ord_mor_of_coords i j f H) = (i, j).
 Proof. reflexivity. Qed.
@@ -660,8 +686,12 @@ Fixpoint ord_pairs (n : nat) : list (nat * nat) :=
   end.
 
 (* These two list lemmas are proven locally rather than imported: the stdlib
-   renamed [app_length] to [length_app] and [map_length] to [length_map] in
-   8.20, so either name would be wrong on one end of the supported range. *)
+   renamed [app_length]/[map_length] to [length_app]/[length_map] in 8.20.
+   The old names still resolve (deprecated) on 9.1, but the new ones are
+   absent on 8.19, and depending on either pair ties this file to one end of
+   the supported range; a local two-liner does not.
+   Construction/ColouredPROP/UnitBridge.v carries the same lemma as
+   [len_app] with the same rationale. *)
 Lemma ord_len_app {A} (l l' : list A) :
   (length (app l l') = length l + length l')%nat.
 Proof. induction l as [| a l IH]; simpl; auto. Qed.
@@ -938,9 +968,9 @@ Next Obligation.
 Qed.
 
 (* Thinness of [_2].  Instance/Two/Monoidal.v proves the same statement, under
-   the name [two_thin]; it is reproven here in three lines from that file's own
-   [TwoHom_inv] so that Instance/Ordinal.v need not require the monoidal
-   tower. *)
+   the name [two_thin]; it is reproven here in three lines from
+   Instance/Two.v's [TwoHom_inv] -- the inversion principle both proofs rest
+   on -- so that Instance/Ordinal.v need not require the monoidal tower. *)
 Lemma ord_two_thin {a b : TwoObj} (f g : TwoHom a b) : f = g.
 Proof.
   pose proof (TwoHom_inv a b f) as Hf.
@@ -1017,8 +1047,13 @@ Qed.
 (* [_3] continues the sequence [_0], [_1], [_2]: three objects, two generating
    steps.  [_4] is the shape Riehl §1.6 calls 4 — four objects, three
    generating steps, and the composites they generate. *)
-Definition _3 : Category := Ordinal 3.
-Definition _4 : Category := Ordinal 4.
+(* Full @{o h p} profiles, so the exported shapes sit beside _1@{o h p} and
+   Omega@{o h p} rather than collapsing h and p as inference would.  (A
+   different three-object category already exists in tree:
+   Theory/Metacategory.v's [Three], built arrows-only from a composition
+   table; no comparison is attempted here.) *)
+Definition _3@{o h p} : Category@{o h p} := Ordinal@{o h p} 3.
+Definition _4@{o h p} : Category@{o h p} := Ordinal@{o h p} 4.
 
 Definition three_steps {C : Category} (X : nat → C)
   (f0 : X 0%nat ~> X 1%nat) (f1 : X 1%nat ~> X 2%nat) (f2 : X 2%nat ~> X 3%nat) :
