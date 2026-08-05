@@ -224,6 +224,7 @@ Instance/Props.v
 Instance/Proset.v
 Instance/Rel.v
 Instance/Roof.v
+Instance/Simplex.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
