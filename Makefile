@@ -206,6 +206,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Require Import Category.Instance.Sets.Pointed.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.Part.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -227,6 +228,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions PointedSets.'; \
 	  echo 'Print Assumptions PointedSets_Zero.'; \
 	  echo 'Print Assumptions pointed_balanced.'; \
+	  echo 'Print Assumptions pointed_monic_iff.'; \
+	  echo 'Print Assumptions pointed_epic_iff.'; \
+	  echo 'Print Assumptions pointed_part_equivalence.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

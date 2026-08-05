@@ -20,8 +20,25 @@ Generalizable All Variables.
    The header of Construction/Slice.v records the standard reading — "pointed
    sets are the coslice of Set under the one-point set" — and Awodey gives the
    same example (1st ed., §7.9 Example 7.26).  This file turns that sentence
-   into a theorem: [Pointed_Coslice_iso] is an ISOMORPHISM in Cat, not merely
-   an equivalence.
+   into a theorem: [Pointed_Coslice_iso] exhibits `PointedSets ≅[Cat] Coslice
+   Sets SetsOne`.
+
+   WHAT THAT STRENGTH IS, EXACTLY (the first commit of this file got this
+   wrong and an audit corrected it).  An isomorphism in this library's [Cat]
+   IS an equivalence of categories, because [Functor_Setoid] identifies
+   functors that are merely naturally isomorphic — Instance/Cat.v:28-30 says
+   so in as many words, and Theory/Equivalence.v:163,172 ships the
+   interconversion pair [Equivalence_to_Cat_Iso]/[Cat_Iso_to_Equivalence]
+   with both round trips.  So `≅[Cat]` here is NOT the on-the-nose
+   isomorphism of categories that Awodey's §1.6 Example 1.8 asserts, and
+   nothing in this file should be read as claiming it.  A strict
+   isomorphism would have to be stated in Instance/StrictCat.v's
+   [StrictCat], and the obstruction to it is recorded below: the coslice
+   round trip replaces a structure map `m` by the constant map at `m ttt`,
+   which agrees with `m` up to `≈` but is not the same function, so
+   identifying the two is a function-extensionality step this library
+   deliberately does not take.  The equivalence is therefore the honest
+   strength, not a weakening of something already available.
 
    The content is the translation between the two ways of naming a point.  A
    basepoint of A is an element; a coslice object is a morphism 1 ~> A out of

@@ -31,10 +31,15 @@ Generalizable All Variables.
 
    The witnesses are the two-element pointed set [PointedBool] ([bool] pointed
    at [false]) and the three-element [PointedThree] ([option bool] pointed at
-   [None]), both under Leibniz equality, and EVERYTHING BELOW COMPUTES: the
+   [None]), both under Leibniz equality.  THE TWO SPLITTINGS COMPUTE: the
    retraction of a concrete monic and the section of a concrete epic are
    evaluated at each point by [reflexivity], which is why the two splitting
-   theorems of Instance/Sets/Pointed.v end in [Defined].  The section is the
+   theorems of Instance/Sets/Pointed.v end in [Defined].  That claim is
+   scoped deliberately, and an audit of the first commit was right to
+   insist on the scope: the inverse produced by [pointed_balanced] does NOT
+   reduce, because that theorem ends in [Qed] and is opaque, so the closing
+   section's [pointed_swap_inverse_at_true] is proved by an algebraic
+   argument rather than by computation.  The section is the
    more instructive of the two, since it exhibits both branches of the
    construction: the basepoint is sent to the basepoint by fiat, and [true] to
    the FIRST element of the enumeration lying over it.

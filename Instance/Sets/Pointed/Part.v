@@ -37,8 +37,8 @@ Generalizable All Variables.
    quasi-inverse sending (B, b0) to the apartness sub-setoid { b : B | b ≉ b0 }
    ([Apart]).  Classically that hypothesis always holds, so what is proved
    here IS the textbook statement; constructively, the decidable objects are
-   precisely where the classical picture survives.  Instance/Sets/Pointed/
-   Finite.v exhibits objects satisfying it.
+   precisely where the classical picture survives.  Objects satisfying it are
+   exhibited in the companion file Finite.v of this directory.
 
    Why the equivalence is not an isomorphism is visible in the round trip:
    [Apart] of (option A, None) is A only up to isomorphism, since its elements

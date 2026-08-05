@@ -111,7 +111,11 @@ Generalizable All Variables.
      choice"), so no hypothesis-free proof can exist.  The obstruction is
      visible at exactly one point: a section must be RESPECTFUL, and when [f]
      is not injective two `≈`-related points of the codomain can have entirely
-     unrelated preimages.  A first-preimage search over a fixed enumeration
+     unrelated preimages.  The closing section of this file makes the price
+     precise in-tree rather than by citation: dropping either splitting
+     hypothesis yields informative excluded middle
+     ([unconditional_monic_split_gives_IEM],
+     [unconditional_epic_split_gives_IEM]).  A first-preimage search over a fixed enumeration
      removes it, because the index it selects depends on the argument only
      through its `≈`-class — [pointed_search_respects] proves this up to
      Leibniz equality, not merely up to `≈`.  The basepoint is special-cased,
@@ -878,3 +882,163 @@ Proof.
       destruct (pointed_search_complete f deq (enum_list E) b a
                   (enum_covers E a) Ha Hs).
 Defined.
+
+(* ------------------------------------------------------------------------ *)
+(** ** The two splitting hypotheses are necessary, in-tree *)
+
+(* The header above prices the two splitting converses by CITATION: in Set,
+   "every epimorphism splits" is the axiom of choice.  That is a fact about
+   Set, quoted from outside; an audit of the first commit observed that the
+   file asserted it without in-tree evidence, and supplied the evidence.
+   It is integrated here.
+
+   The two theorems below show that dropping either hypothesis is not a
+   matter of finding a cleverer proof: a hypothesis-free splitting for
+   Set_* yields INFORMATIVE excluded middle, `∀ P : Prop, P + ¬P`, which is
+   not provable in Rocq's core logic.  The probes are the pointed sets built
+   over an arbitrary proposition P — `option P` based at `None` for the
+   monic side, and the two-point set glued by P for the epic side — so
+   deciding the splitting decides P.
+
+   This is the same discipline applied elsewhere in the tree: rather than
+   claim an impossibility, exhibit the principle the missing hypothesis is
+   equivalent to. *)
+
+Definition InformativeEM := ∀ P : Prop, P + ¬ P.
+
+Section Necessity.
+
+(* The monic side: `option P` based at `None`, mapping to the two-point set
+   by forgetting the proof.  It is injective for every P, hence monic. *)
+
+Definition optP_rel (P : Prop) (u v : option P) : Type :=
+  match u, v with
+  | Datatypes.Some _, Datatypes.Some _ => True
+  | Datatypes.None,   Datatypes.None   => True
+  | _, _ => False
+  end.
+
+Definition optP_setoid (P : Prop) : Setoid (option P).
+Proof.
+  refine {| equiv := optP_rel P |}.
+  constructor.
+  - intros x; destruct x; exact I.
+  - intros x y H; destruct x, y; try exact I; exact H.
+  - intros x y z H1 H2; destruct x, y, z; try exact I; contradiction.
+Defined.
+
+Definition OptP (P : Prop) : PointedSetoid := {|
+  pointed_setoid := {| carrier := option P ; is_setoid := optP_setoid P |};
+  pt := Datatypes.None
+|}.
+
+Definition optP_fun (P : Prop) (u : option P) : option poly_unit :=
+  match u with
+  | Datatypes.Some _ => Datatypes.Some ttt
+  | Datatypes.None   => Datatypes.None
+  end.
+
+Definition optP_map (P : Prop) :
+  SetoidMorphism (pointed_setoid (OptP P)) (pointed_setoid PointedTwo).
+Proof.
+  refine {| morphism := optP_fun P |}.
+  intros x y H; destruct x, y; simpl in *; try contradiction; try reflexivity;
+    try exact I.
+Defined.
+
+Definition optP_f (P : Prop) : OptP P ~{PointedSets}~> PointedTwo :=
+  Build_PointedMorphism _ _ (optP_map P) I.
+
+Lemma optP_injective (P : Prop) : PointedInjective (optP_f P).
+Proof. intros x y H; destruct x, y; simpl in *; try exact I; contradiction. Qed.
+
+Definition optP_monic (P : Prop) : Monic (optP_f P) :=
+  fst (pointed_monic_iff (optP_f P)) (optP_injective P).
+
+(* Dropping [ImageDecidable] from [pointed_monic_split] decides every
+   proposition: the retraction's value at the free point says whether P
+   holds. *)
+Theorem unconditional_monic_split_gives_IEM :
+  (∀ (X Y : PointedSetoid) (g : X ~{PointedSets}~> Y), Monic g → Section g)
+  → InformativeEM.
+Proof.
+  intros H P.
+  destruct (H _ _ (optP_f P) (optP_monic P)) as [r Hr].
+  destruct (pointed_map r (Datatypes.Some ttt)) as [p|] eqn:Heq.
+  - left; exact p.
+  - right; intro p.
+    pose proof (Hr (Datatypes.Some p)) as Hp; simpl in Hp.
+    change (optP_fun P (Datatypes.Some p)) with (Datatypes.Some ttt) in Hp.
+    rewrite Heq in Hp.
+    exact Hp.
+Qed.
+
+(* The epic side: the two-point set with its two points glued exactly when P
+   holds.  The identity carrier map into it is surjective, hence epic. *)
+
+Definition glueP_rel (P : Prop) (u v : option poly_unit) : Type :=
+  match u, v with
+  | Datatypes.Some _, Datatypes.Some _ => True
+  | Datatypes.None,   Datatypes.None   => True
+  | _, _ => P
+  end.
+
+Definition glueP_setoid (P : Prop) : Setoid (option poly_unit).
+Proof.
+  refine {| equiv := glueP_rel P |}.
+  constructor.
+  - intros x; destruct x; exact I.
+  - intros x y H; destruct x, y; try exact I; exact H.
+  - intros x y z H1 H2; destruct x, y, z; try exact I;
+      first [ exact H1 | exact H2 ].
+Defined.
+
+Definition GlueP (P : Prop) : PointedSetoid := {|
+  pointed_setoid := {| carrier := option poly_unit
+                     ; is_setoid := glueP_setoid P |};
+  pt := Datatypes.None
+|}.
+
+Definition glueP_map (P : Prop) :
+  SetoidMorphism (pointed_setoid PointedTwo) (pointed_setoid (GlueP P)).
+Proof.
+  refine {| morphism := fun u : option poly_unit => u |}.
+  intros x y H; destruct x, y; simpl in *; try contradiction; try reflexivity;
+    try exact I.
+Defined.
+
+Definition glueP_f (P : Prop) : PointedTwo ~{PointedSets}~> GlueP P :=
+  Build_PointedMorphism _ _ (glueP_map P) I.
+
+Lemma glueP_surjective (P : Prop) : PointedSurjective (glueP_f P).
+Proof. intro b; exists b; destruct b; exact I. Qed.
+
+Definition glueP_epic (P : Prop) : Epic (glueP_f P) :=
+  fst (pointed_epic_iff (glueP_f P)) (glueP_surjective P).
+
+(* Dropping the enumeration and decidable equality from [pointed_epic_split]
+   likewise decides every proposition: a section either sends the glued
+   point to a free point, refuting P by respectfulness, or to the
+   basepoint, in which case the retract law establishes P. *)
+Theorem unconditional_epic_split_gives_IEM :
+  (∀ (X Y : PointedSetoid) (g : X ~{PointedSets}~> Y), Epic g → Retraction g)
+  → InformativeEM.
+Proof.
+  intros H P.
+  destruct (H _ _ (glueP_f P) (glueP_epic P)) as [s Hs].
+  pose proof (preserves_pt s) as Hpt; simpl in Hpt.
+  destruct (pointed_map s Datatypes.None) as [v|] eqn:Heq2;
+    [ simpl in Hpt; contradiction | ].
+  destruct (pointed_map s (Datatypes.Some ttt)) as [u|] eqn:Heq.
+  - right; intro p.
+    pose proof (proper_morphism (pointed_map s)
+                  (Datatypes.Some ttt) Datatypes.None p) as Hresp.
+    rewrite Heq, Heq2 in Hresp.
+    exact Hresp.
+  - left.
+    pose proof (Hs (Datatypes.Some ttt)) as Hp; simpl in Hp.
+    rewrite Heq in Hp.
+    exact Hp.
+Qed.
+
+End Necessity.
