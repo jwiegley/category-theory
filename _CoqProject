@@ -182,6 +182,7 @@ Instance/Coq.v
 Instance/Discrete.v
 Instance/Coq/Applicative.v
 Instance/Coq/Lists.v
+Instance/Coq/Nat.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v
 Instance/Coq/Comonad/Store.v
