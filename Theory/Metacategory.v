@@ -196,11 +196,13 @@ Record Metacategory := {
   (* jww (TODO): The use of [->] below should be [/\]. The current form is
      vacuously true (any non-identity [u] makes the implication trivially
      hold), so this axiom imposes no real constraint. Substituting [/\] is not
-     by itself a repair, and reworking [check_structure] would not be enough:
-     the axiom would then quantify over all of [nat] while each table below
-     mentions finitely many arrows, and an arrow occurring in no composable
-     pair has no flanking identities, so no example here could satisfy it. The
-     arrow type has to be cut down to the support of the table first. The
+     by itself a repair, and in THIS file even cutting the arrow type down to
+     the table's support would not suffice: the [identity] field above drops
+     Mac Lane's definedness guards, and under the unguarded reading no arrow
+     of the tables below is an identity even restricted to the support -- so
+     the conjunctive axiom would have no witnesses to point at. A faithful
+     repair here must both restore the guards on [identity] and bound the
+     quantifiers, in that order. The
      mistake does not affect [FromArrows], which builds its category from
      [obj := ∃ i, identity M i], not from [identity_law] — though note that
      with the unguarded [identity] above, that object type is empty for every

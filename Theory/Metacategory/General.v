@@ -60,7 +60,7 @@ Generalizable All Variables.
    defined AND (k∙g)∙f is defined", so that each half also ASSERTS the
    definedness of the other association. Both sibling files instead state the
    biconditional under the hypothesis that k∙g and g∙f are BOTH already
-   defined (Theory/Metacategory.v:167-170,
+   defined (Theory/Metacategory.v:179-182,
    Theory/Metacategory/ArrowsOnly.v:60-63), which is strictly weaker. The
    difference is not cosmetic: under the weaker reading Mac Lane's remark that
    the identities flanking an arrow are unique is refutable, and
@@ -71,7 +71,7 @@ Generalizable All Variables.
 
    Axiom (iii) is a CONJUNCTION, as Mac Lane states it. Both sibling files
    encode it with implications where the conjunction belongs, and both say so
-   in place (Theory/Metacategory.v:184-190,
+   in place (Theory/Metacategory.v:196-207,
    Theory/Metacategory/ArrowsOnly.v:77-83): as written there the axiom is
    satisfied by any non-identity witness and so constrains nothing. It is a
    real axiom here, and it is load-bearing — [mident_idem] derives u∙u = u for
@@ -93,10 +93,12 @@ Generalizable All Variables.
    issue arises (Construction/Grothendieck/Strict.v, whose constructors take
    fibrewise UIP and discharge it by an inline axiom-free Hedberg;
    Theory/Multicategory/Representable.v, which threads UIP on object lists).
-   It is used at exactly ONE place here, [Arr_comp_unique]: without it the
+   It is used at exactly TWO places here.  [Arr_comp_unique]: without it the
    composite of a composable pair is only well defined relative to a chosen
-   identification of the endpoints. Every other field of [ToArrows] is proved
-   without it.
+   identification of the endpoints.  And [ToArrows_fmap_inj] -- which IS
+   [ToArrows_Faithful] -- where it collapses the two homogeneous equality
+   proofs a bundled morphism carries; faithfulness of the comparison rests on
+   it.  Every other field of [ToArrows] is proved without it.
 
    THE ROUND TRIP, AND ITS EXACT STRENGTH. On the category side,
    [ToArrows_Equivalence] proves that [ToArrows_Functor], which sends x to the
@@ -110,15 +112,19 @@ Generalizable All Variables.
    separately and are available on their own — [ToArrows_Full],
    [ToArrows_Faithful], [ToArrows_EssentiallySurjective].
 
-   On the metacategory side the composite passage cannot be formed at all:
-   [ToArrows] would have to be applied to [Category_from_Metacategory M],
-   whose objects carry those same proof components, and an h-set hypothesis
-   for THAT object type is not available (it would require proof irrelevance
-   for [mident]). What is proved instead is exactly the content such a round
-   trip would have, and it needs no hypothesis: [arrow_realized] shows every
-   arrow of [M] underlies a morphism of the reconstruction, and
-   [arrow_endpoints] shows that ≈-equal arrows have ≈-equal endpoints, so the
-   correspondence is bijective up to ≈ with the endpoints determined. That
+   On the metacategory side the composite passage CAN be formed, under the
+   analogous hypothesis on the reconstruction's objects:
+   [MetaRoundTrip] below applies [ToArrows] to
+   [Category_from_Metacategory M], and [MetaRoundTrip_Equivalence] is the
+   category-level equivalence at that instance.  What this file does NOT
+   define is a notion of equivalence OF METACATEGORIES, so no
+   metacategory-level comparison of [MetaRoundTrip M] with [M] is stated --
+   that comparison has nowhere to live until such a notion exists.  What is
+   proved instead, hypothesis-free, is the content such a comparison would
+   need: [arrow_realized] shows every arrow of [M] underlies a morphism of
+   the reconstruction, and [arrow_endpoints] shows that ≈-equal arrows have
+   ≈-equal endpoints -- the correspondence is surjective up to ≈ with
+   endpoints determined (injectivity up to [Arr_eq] is NOT proved here). That
    second half is precisely Mac Lane's uniqueness remark
    ([mident_unique_src], [mident_unique_tgt]) in use, and
    [arrow_endpoints_iso] upgrades it to canonical isomorphisms of objects via
@@ -841,3 +847,24 @@ Proof.
     + exact ((Ag; I), (Ag; I)).
   - intro Habs; simpl in Habs; discriminate.
 Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** The metacategory-side composite *)
+
+(* The composite passage on the metacategory side, formed under the same
+   shape of hypothesis the file already takes for [ToArrows]: uniqueness of
+   identity proofs on the RECONSTRUCTION's objects.  (An earlier revision of
+   this header claimed the composite could not be formed at all; that was
+   false, and the audit that caught it supplied these two definitions.)  No
+   metacategory-level comparison with [M] is stated, because this file
+   defines no notion of equivalence of metacategories -- see the header. *)
+Definition MetaRoundTrip (M : Metacategory)
+  (mobj_uip : ∀ (x y : mobject M) (p q : x = y), p = q) : Metacategory :=
+  @ToArrows (Category_from_Metacategory M) mobj_uip.
+
+Definition MetaRoundTrip_Equivalence (M : Metacategory)
+  (mobj_uip : ∀ (x y : mobject M) (p q : x = y), p = q) :
+  EquivalenceOfCategories
+    (@ToArrows_Functor (Category_from_Metacategory M) mobj_uip) :=
+  @ToArrows_Equivalence (Category_from_Metacategory M) mobj_uip.
+
