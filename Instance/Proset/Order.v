@@ -7,6 +7,7 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Structure.Thin.
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Limit.
+Require Import Category.Structure.Limit.Preservation.
 Require Import Category.Instance.Cat.
 Require Import Category.Instance.Discrete.
 Require Import Category.Instance.Proset.
@@ -47,7 +48,7 @@ Generalizable All Variables.
 
      - [hom_preorder_Proset] recovers R from [Proset P] up to pointwise
        logical equivalence, not up to equality of relations.  The gap is
-       exactly Coq's Prop/Type divide: Structure/Thin.v's [hom_preorder]
+       exactly Coq's Prop/Type divide: Structure/Thin.v's [thin_preorder]
        squashes the hom into [inhabited], and [inhabited (R x y)] is not the
        same term as [R x y].  [hom_preorder_Proset_eq] then shows that
        propositional and functional extensionality — taken as explicit
@@ -118,9 +119,16 @@ Generalizable All Variables.
    SCOPE NOTE on the general identification lemma.  The library contains no
    thin-category-wide "a limit is a meet" lemma: a case-insensitive search of
    every .v file for [infimum], [supremum], "greatest lower" and "least
-   upper" returns exactly one hit, the prose of Instance/Poset.v:51.  The
-   general lemma is tracked as issue #737, which has not landed at the time
-   of writing.  The two theorems below are therefore
+   upper" returns exactly one hit, the prose comment at Instance/Poset.v:51.
+   The general identification lemma belongs to issue #422 (MacLane V.2:
+   products in a preorder are greatest lower bounds), whose suggested module
+   is Instance/Proset/Limit.v -- this same directory.  The two theorems below
+   ARE that dictionary at binary discrete shape, proved here because this
+   issue's checkbox needs them; whoever takes #422 should consume and
+   generalize them rather than restate them (issue #737, the poset adjoint
+   functor theorem, consumes #422's lemma and explicitly forbids a second
+   copy).  #223's own checkbox text attributed the lemma to #737; that
+   attribution was wrong at the source.  The two theorems are accordingly
    proved DIRECTLY, at the two-object discrete shape, over an arbitrary
    preorder (totality is not needed for the identification — only for
    existence, which is [TotalOrder_meet] and [TotalOrder_join]).  When the
@@ -130,7 +138,7 @@ Generalizable All Variables.
    WHAT IS NOT CLAIMED.  The correspondence proved here is between preorders
    and thin categories one object-set at a time.  It is not lifted to an
    equivalence between a category of preorders and a category of thin
-   categories, and no adjunction between [Proset] and [hom_preorder] is
+   categories, and no adjunction between [Proset] and [thin_preorder] is
    stated.  The morphism leg of the correspondence already exists in another
    guise: Construction/Enriched/Two.v:175-215 identifies enriched functors
    between preorders enriched in the walking arrow with monotone maps. *)
@@ -175,7 +183,7 @@ Proof. intro i; exact (H x y (to i) (from i)). Qed.
    since the goal [R x y] is itself a Prop), backward is [inhabits]. *)
 Theorem hom_preorder_Proset {A : Type} {R : relation A} (P : PreOrder R)
         (x y : A) :
-  hom_preorder (Proset P) x y ↔ R x y.
+  thin_preorder (Proset P) x y ↔ R x y.
 Proof.
   split.
   - intro H; destruct H as [r]; exact r.
@@ -183,7 +191,7 @@ Proof.
 Qed.
 
 (* Measuring the gap.  The recovery above is NOT an equality of relations:
-   [hom_preorder (Proset P)] is the relation [fun x y => inhabited (R x y)],
+   [thin_preorder (Proset P)] is the relation [fun x y => inhabited (R x y)],
    a different term from [R].  Under propositional and functional
    extensionality it becomes one, and both are taken here as explicit
    hypotheses of the lemma — nothing is assumed globally, and
@@ -191,7 +199,7 @@ Qed.
 Theorem hom_preorder_Proset_eq {A : Type} {R : relation A} (P : PreOrder R)
         (prop_ext : ∀ p q : Prop, (p <-> q) → p = q)
         (fun_ext : ∀ f g : A → A → Prop, (∀ x y : A, f x y = g x y) → f = g) :
-  hom_preorder (Proset P) = R.
+  thin_preorder (Proset P) = R.
 Proof.
   apply fun_ext; intros x y.
   apply prop_ext; split.
@@ -205,8 +213,8 @@ Qed.
    objects, sending an arrow to the fact that it exists.  Every obligation is
    an equation in the target hom-setoid, which Instance/Proset.v:39 declares
    to be [True]. *)
-Program Definition hom_Proset_Functor (C : Category) :
-  C ⟶ Proset (hom_PreOrder C) := {|
+Program Definition thin_to_Proset_Functor (C : Category) :
+  C ⟶ Proset (thin_PreOrder C) := {|
   fobj := fun x => x;
   fmap := fun x y f => inhabits f
 |}.
@@ -215,7 +223,7 @@ Program Definition hom_Proset_Functor (C : Category) :
    hypothesis of [fmap_inj] is an equation in the trivial setoid, so it is
    free, and its conclusion is thinness.  Backward: immediate. *)
 Theorem hom_Proset_Faithful_iff_Thin (C : Category) :
-  Faithful (hom_Proset_Functor C) ↔ Thin C.
+  Faithful (thin_to_Proset_Functor C) ↔ Thin C.
 Proof.
   split.
   - intros F x y f g.
@@ -238,7 +246,7 @@ Definition proset_HomChoice {A : Type} {R : relation A} (P : PreOrder R) :
    [Thin C]. *)
 Program Definition Proset_hom_Functor {C : Category}
         (T : Thin C) (ch : HomChoice C) :
-  Proset (hom_PreOrder C) ⟶ C := {|
+  Proset (thin_PreOrder C) ⟶ C := {|
   fobj := fun x => x;
   fmap := fun x y h => ch x y h
 |}.
@@ -250,8 +258,8 @@ Program Definition Proset_hom_Functor {C : Category}
    tactic. *)
 Program Definition thin_Proset_iso {C : Category}
         (T : Thin C) (ch : HomChoice C) :
-  C ≅[Cat] Proset (hom_PreOrder C) := {|
-  to   := hom_Proset_Functor C;
+  C ≅[Cat] Proset (thin_PreOrder C) := {|
+  to   := thin_to_Proset_Functor C;
   from := Proset_hom_Functor T ch
 |}.
 
@@ -259,31 +267,36 @@ Program Definition thin_Proset_iso {C : Category}
 
     Instance/Cat.v:28-30 records that `≅[Cat]` means equivalence of
     categories, because [Functor_Setoid] compares functors up to natural
-    isomorphism.  The three facts below say more: the comparison is the
-    identity on objects on the nose, and the two morphism actions invert each
-    other up to `≈`. *)
+    isomorphism.  The first two facts below say more: the comparison is the
+    identity on objects on the nose, and the C-side morphism round trip holds
+    up to `≈` with real content (it is discharged by thinness of C).  The
+    third is recorded for symmetry only and is VACUOUS: the Proset-side
+    hom-setoid is Instance/Proset.v:39's constantly-[True] relation, so ANY
+    two parallel morphisms there are `≈`, and the lemma would hold with both
+    functors replaced by arbitrary maps. *)
 
 Lemma thin_Proset_iso_obj {C : Category} (T : Thin C) (ch : HomChoice C)
       (x : C) :
-  (fobj[hom_Proset_Functor C] x = x) ∧
+  (fobj[thin_to_Proset_Functor C] x = x) ∧
   (fobj[Proset_hom_Functor T ch] x = x).
 Proof. split; reflexivity. Qed.
 
 Lemma thin_Proset_roundtrip_hom {C : Category} (T : Thin C) (ch : HomChoice C)
       {x y : C} (f : x ~> y) :
-  fmap[Proset_hom_Functor T ch] (fmap[hom_Proset_Functor C] f) ≈ f.
+  fmap[Proset_hom_Functor T ch] (fmap[thin_to_Proset_Functor C] f) ≈ f.
 Proof. apply T. Qed.
 
+(* Vacuous, per the note above -- kept only so both directions are named. *)
 Lemma Proset_thin_roundtrip_hom {C : Category} (T : Thin C) (ch : HomChoice C)
-      {x y : C} (h : x ~{Proset (hom_PreOrder C)}~> y) :
-  fmap[hom_Proset_Functor C] (fmap[Proset_hom_Functor T ch] h) ≈ h.
+      {x y : C} (h : x ~{Proset (thin_PreOrder C)}~> y) :
+  fmap[thin_to_Proset_Functor C] (fmap[Proset_hom_Functor T ch] h) ≈ h.
 Proof. exact I. Qed.
 
 (* The hypothesis-free corollary: a proset is recovered from its own
    hom-preorder, with [proset_HomChoice] supplying the only hypothesis and
    [proset_thin] the other. *)
 Definition Proset_roundtrip {A : Type} {R : relation A} (P : PreOrder R) :
-  Proset P ≅[Cat] Proset (hom_PreOrder (Proset P)) :=
+  Proset P ≅[Cat] Proset (thin_PreOrder (Proset P)) :=
   thin_Proset_iso (proset_thin P) (proset_HomChoice P).
 
 (** ** Order reversal: the opposite of a thin category (Riehl §1.2) *)
@@ -708,6 +721,10 @@ Qed.
    [IsALimit ((PairDiagram P x y)^op) m]; unfolding, its legs are arrows
    x ~> m and y ~> m of [Proset P], i.e. upper bounds, and its mediator is
    the least-upper-bound clause. *)
+(* The apex-pinned colimit notion below is spelled out by hand; the library
+   already names it -- Structure/Limit/Preservation.v:130's
+   [IsAColimit F c := IsALimit (F^op) c] -- and [supremum_iff_IsAColimit]
+   restates the theorem through that name. *)
 Theorem supremum_iff_colimit {A : Type} {R : relation A} (P : PreOrder R)
         (x y m : A) :
   IsSupremum R x y m ↔ IsALimit ((PairDiagram P x y)^op) m.
@@ -935,3 +952,29 @@ Definition thin_poset_nat :
   Thin Category.Instance.Poset.LessThanEqualTo_Category :=
   poset_thin PeanoNat.Nat.le_preorder
     (partial_order_antisym PeanoNat.Nat.le_partialorder).
+
+(* The colimit half restated through the library's own apex-pinned name
+   (Structure/Limit/Preservation.v:130), as promised above. *)
+Corollary supremum_iff_IsAColimit {A : Type} {R : relation A} (P : PreOrder R)
+        (x y m : A) :
+  IsSupremum R x y m ↔ IsAColimit (PairDiagram P x y) m.
+Proof. exact (supremum_iff_colimit P x y m). Qed.
+
+(* The "no third name" claim above, pinned rather than asserted: the
+   TotalOrder route lands on the SAME category both existing files define. *)
+Example Nat_TotalOrder_Category_is_Poset :
+  Nat_TotalOrder_Category = Category.Instance.Poset.LessThanEqualTo_Category
+  := eq_refl.
+
+(* The discrete preorder really is the order-theoretic shadow of
+   Instance/Discrete.v's DiscreteCat: the squashed ∃-a-morphism preorder of
+   [DiscreteCat A] is exactly [discrete_rel A].  (An arrow of [DiscreteCat A]
+   IS an equality proof, so inhabitation of the hom is equality.) *)
+Lemma thin_preorder_DiscreteCat {A : Type} (x y : A) :
+  thin_preorder (DiscreteCat A) x y ↔ discrete_rel A x y.
+Proof.
+  split.
+  - intros [e]; exact e.
+  - intro e; exact (inhabits e).
+Qed.
+

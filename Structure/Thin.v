@@ -52,18 +52,18 @@ Generalizable All Variables.
    The second half of the file goes back the other way.  Every category C
    carries a preorder on its objects, "x ≤ y when there is an arrow x ~> y".
    Since Coq's [relation] is Prop-valued while a hom lives in [Type], the
-   passage squashes: [hom_preorder] uses [inhabited].  That squash is the
+   passage squashes: [thin_preorder] uses [inhabited].  That squash is the
    whole content of the round trip measured in Instance/Proset/Order.v — it
    is invertible on a [Proset], whose homs are already Props, and in general
    it is not, which is why [HomChoice] is introduced here as an explicit
    hypothesis rather than assumed.
 
-   NOTE on instance resolution: [hom_PreOrder] is deliberately left a plain
+   NOTE on instance resolution: [thin_PreOrder] is deliberately left a plain
    [Definition] rather than being registered as a typeclass instance, and is
    passed explicitly at each use.  That matches how the tree already handles
    [PreOrder] arguments — Instance/Poset.v:121 hands [PeanoNat.Nat.le_preorder]
    to [Poset] by hand — and it keeps a rule whose conclusion is
-   [PreOrder (hom_preorder ?C)] out of the search space for [PreOrder] goals
+   [PreOrder (thin_preorder ?C)] out of the search space for [PreOrder] goals
    whose relation is still a metavariable. *)
 
 (* A category is thin when parallel morphisms are identified by the hom-setoid
@@ -112,23 +112,31 @@ Definition thin_iso {C : Category} (T : Thin C) {x y : C}
    ; iso_to_from := T y y (f ∘ g) id
    ; iso_from_to := T x x (g ∘ f) id |}.
 
-(* Conversely an isomorphism supplies the opposing pair, with no thinness
-   needed; [to] and [from] are the two morphisms. *)
-Definition iso_opposing_pair {C : Category} {x y : C} (i : x ≅ y) :
-  (x ~> y) * (y ~> x) := (to i, from i).
-
 (** ** The hom-preorder of a category *)
 
-(* "x ≤ y when C has an arrow x ~> y."  Coq's [relation A] is [A → A → Prop]
-   whereas [hom] lands in [Type], so the existence of an arrow is recorded by
-   [inhabited]; see the header for what that costs. *)
-Definition hom_preorder (C : Category) : relation (obj[C]) :=
+(* The ∃-a-morphism preorder on objects, squashed to Prop.
+
+   The library ALREADY carries a preorder of this shape at the Type level:
+   Theory/Category.v:282's exported instance [hom_preorder : PreOrder hom[C]]
+   over CRelationClasses, whose "proofs" are the morphisms themselves.  That
+   instance is deliberately NOT reused here, and the reason is the honest
+   version of this file's choice story: fed to a Type-valued preorder, the
+   reconstruction below would need no [HomChoice] at all -- the witness IS the
+   morphism.  What forces the squash is Instance/Proset.v:33's [Proset], which
+   is hard-wired to [Relation_Definitions.relation], i.e. Prop-valued; a
+   Prop-squashed relation is the only thing it accepts, and recovering a
+   morphism from the squash is then a genuine choice.  (Instance/Omega.v:17-21
+   documents the same Prop-vs-Type obstruction and routes around it with a
+   bespoke Type-valued order; here the point is precisely to meet [Proset]
+   where it is.)  The new name [thin_preorder] avoids shadowing the exported
+   instance. *)
+Definition thin_preorder (C : Category) : relation (obj[C]) :=
   fun x y => inhabited (x ~{C}~> y).
 
 (* It is a preorder: reflexivity is the identity arrow, transitivity is
    composition.  The [inhabited] witnesses may be eliminated here because the
    goal is itself a Prop. *)
-Definition hom_PreOrder (C : Category) : PreOrder (hom_preorder C).
+Definition thin_PreOrder (C : Category) : PreOrder (thin_preorder C).
 Proof.
   constructor.
   - intro x; exact (inhabits (@id C x)).
@@ -142,7 +150,7 @@ Defined.
    reduce to [inhabited (y ~{C}~> x)].  [Basics.flip] is the stdlib operation
    [flip R x y = R y x]. *)
 Lemma hom_preorder_op (C : Category) (x y : obj[C]) :
-  hom_preorder (C^op) x y = Basics.flip (hom_preorder C) x y.
+  thin_preorder (C^op) x y = Basics.flip (thin_preorder C) x y.
 Proof. reflexivity. Qed.
 
 (* Choosing an arrow from the bare knowledge that one exists.  This is
@@ -157,4 +165,4 @@ Proof. reflexivity. Qed.
    What is claimed here is only that the obvious definition does not
    typecheck; no impossibility theorem is being asserted. *)
 Definition HomChoice (C : Category) : Type :=
-  ∀ (x y : obj[C]), hom_preorder C x y → x ~{C}~> y.
+  ∀ (x y : obj[C]), thin_preorder C x y → x ~{C}~> y.
