@@ -55,8 +55,11 @@ Generalizable All Variables.
    WHY THIS FILE LIVES HERE.  Theory/Category/ collects re-presentations of
    the [Category] class itself: Theory/Category/Raw.v strips the hom-setoid
    and the laws, Theory/Category/Semi.v drops the identities.  This file adds
-   the two-sorted monoid presentation, and like its siblings its payload is a
-   round trip with [Category].  It is NOT Construction/Span/Monoid.v: nothing
+   the two-sorted monoid presentation, and its payload is a
+   comparison with [Category] -- Raw.v rebuilds a [Category] from raw data
+   plus externally supplied laws, Semi.v projects one down to a semigroupoid,
+   each one-directional; this file is the first whose payload is a round trip
+   in both directions.  It is NOT Construction/Span/Monoid.v: nothing
    here is a construction performed inside an ambient category, and
    Construction/Span/Category.v is about spans in a category, which is a
    different (and heavier) subject.
@@ -102,8 +105,11 @@ Generalizable All Variables.
       at once from UIP on the objects ([HomRigid_of_ObjUIP]), which in turn is
       axiom-free by Hedberg whenever object equality is decidable -- the
       discipline of Construction/Grothendieck/Strict.v and Instance/FinSet.v.
-      It is a HYPOTHESIS here, never an [Axiom].  The obstruction is real and
-      is isolated at [Category_SpanMonoid]'s [sm_mul_respects]: multiplying
+      It is a HYPOTHESIS here, never an [Axiom].  The obstruction is real --
+      needed by [arrow_mul_respects] and [arrow_mul_assoc], see NOTE 3 -- and
+      genuine: [arrow_mul_respects_forces_UIP] at the end of this file proves
+      that discharging it uniformly in C would entail uniqueness of identity
+      proofs for every type.  The shape of the problem: multiplying
       along two different proofs of the same composability equation composes
       with two transports of one arrow that differ by a loop at the
       INTERMEDIATE object, and the arrow equivalence's freedom to choose paths
@@ -116,9 +122,15 @@ Generalizable All Variables.
       On arrows, one composite of each round trip is the identity on the nose
       and the other only up to the relevant `≈`; that is exactly what is
       proved below, and no more is claimed.  Starting from a [Category] the
-      comparison assembles into an ISOMORPHISM in [Cat]
-      ([Category_monoid_iso]), not merely an equivalence, because both
-      functors are the identity on objects.
+      comparison assembles into an isomorphism in [Cat]
+      ([Category_monoid_iso]).  In this library that is the same strength as
+      an equivalence of categories -- Cat's hom-setoid is [Functor_Setoid],
+      so a [≅[Cat]] IS an equivalence (Instance/Cat.v, Theory/Equivalence.v's
+      [Cat_Iso_to_Equivalence]/[Equivalence_to_Cat_Iso]) -- and it is the
+      strongest packaging the library offers, a [StrictCat] isomorphism being
+      out of reach without funext.  What is genuinely extra lives in the
+      construction rather than the type: both functors are the identity on
+      objects, and one hom round trip is definitional ([rb_from_to]).
 
    UNIVERSES (measured, not asserted -- read off [About] with [Set Printing
    Universes]).
@@ -133,7 +145,9 @@ Generalizable All Variables.
    - [Category_Graph@{a p _ o} : Category@{o p p} → Graph@{o a p}] with the
      constraints o ≤ a and p ≤ a: the bundled-arrow sort ∃ x y, x ~> y sits
      at the maximum of the object and hom universes, and nowhere higher.
-     There is no successor bump in either direction, and [Category_Graph] and
+     No successor bump reaches the printed types in either direction
+     (auxiliary universes with strict bounds do occur in the constraint sets,
+     e.g. [Category_Graph]'s, but none appears in a type), and [Category_Graph] and
      [Category_SpanMonoid] impose NO relation between the object and hom
      levels of the category they start from.
 
@@ -328,22 +342,22 @@ Proof. intros Hg Hf; now apply Hm; split. Qed.
    The proofs are kept as data so that they may be used to build the
    composability witness; they are invisible to the hom-setoid, which compares
    only the underlying arrows. *)
-Definition SpanArrow (G : Graph) (x y : gobj G) : Type :=
+Definition SMHom (G : Graph) (x y : gobj G) : Type :=
   { a : garr G & (gdom a = x) ∧ (gcod a = y) }.
 
-Definition sa_arr {G : Graph} {x y : gobj G} (f : SpanArrow G x y) : garr G := `1 f.
-Definition sa_dom {G : Graph} {x y : gobj G} (f : SpanArrow G x y)
+Definition sa_arr {G : Graph} {x y : gobj G} (f : SMHom G x y) : garr G := `1 f.
+Definition sa_dom {G : Graph} {x y : gobj G} (f : SMHom G x y)
   : gdom (sa_arr f) = x := fst (`2 f).
-Definition sa_cod {G : Graph} {x y : gobj G} (f : SpanArrow G x y)
+Definition sa_cod {G : Graph} {x y : gobj G} (f : SMHom G x y)
   : gcod (sa_arr f) = y := snd (`2 f).
 
 (* The hom-setoid compares only the underlying arrows: the endpoint proofs are
    invisible to it. *)
 Definition SpanArrow_equiv {G : Graph} {x y : gobj G}
-           (f g : SpanArrow G x y) : Type := sa_arr f ≈ sa_arr g.
+           (f g : SMHom G x y) : Type := sa_arr f ≈ sa_arr g.
 
 Definition SpanArrow_Setoid (G : Graph) (x y : gobj G)
-  : Setoid (SpanArrow G x y).
+  : Setoid (SMHom G x y).
 Proof.
   refine {| equiv := @SpanArrow_equiv G x y; setoid_equiv := _ |}.
   unfold SpanArrow_equiv.
@@ -354,21 +368,21 @@ Proof.
 Defined.
 
 (* The identity at x is the unit e x, carrying its two boundary laws. *)
-Definition span_id {G : Graph} (M : SpanMonoid G) (x : gobj G) : SpanArrow G x x :=
+Definition smc_id {G : Graph} (M : SpanMonoid G) (x : gobj G) : SMHom G x x :=
   (sm_unit M x; (sm_unit_dom M x, sm_unit_cod M x)).
 
 (* Two homs that meet at y are composable in the graph: their endpoint proofs
    compose to the required equation `dom g = cod f`. *)
-Definition span_match {G : Graph} {x y z : gobj G}
-           (g : SpanArrow G y z) (f : SpanArrow G x y)
+Definition smc_match {G : Graph} {x y z : gobj G}
+           (g : SMHom G y z) (f : SMHom G x y)
   : gdom (sa_arr g) = gcod (sa_arr f) :=
   eq_trans (sa_dom g) (eq_sym (sa_cod f)).
 
 (* Composition is the monoid multiplication; the boundary laws of the
    multiplication supply the endpoint proofs of the result. *)
-Definition span_compose {G : Graph} (M : SpanMonoid G) {x y z : gobj G}
-           (g : SpanArrow G y z) (f : SpanArrow G x y) : SpanArrow G x z :=
-  (sm_mul M (sa_arr g) (sa_arr f) (span_match g f);
+Definition smc_compose {G : Graph} (M : SpanMonoid G) {x y z : gobj G}
+           (g : SMHom G y z) (f : SMHom G x y) : SMHom G x z :=
+  (sm_mul M (sa_arr g) (sa_arr f) (smc_match g f);
     (eq_trans (sm_mul_dom M _ _ _) (sa_dom f),
      eq_trans (sm_mul_cod M _ _ _) (sa_cod g))).
 
@@ -376,34 +390,34 @@ Definition span_compose {G : Graph} (M : SpanMonoid G) {x y z : gobj G}
    on [gobj] beyond its being a [Type].  Every law follows from the
    corresponding [SpanMonoid] field, the proof-independence of
    [sm_mul_respects] absorbing the fact that the composability witness built
-   by [span_match] depends on the endpoint proofs carried by the homs, which
+   by [smc_match] depends on the endpoint proofs carried by the homs, which
    the hom-setoid cannot see. *)
 Definition Category_from_SpanMonoid {G : Graph} (M : SpanMonoid G) : Category.
 Proof.
-  unshelve refine (Build_Category' (SpanArrow G) (span_id M) (@span_compose G M)).
+  unshelve refine (Build_Category' (SMHom G) (smc_id M) (@smc_compose G M)).
   - exact (SpanArrow_Setoid G).
   - proper.
-    unfold span_compose, sa_arr; simpl.
+    unfold smc_compose, sa_arr; simpl.
     now apply (sm_mul_respects M).
   - intros x y f.
-    unfold span_compose, span_id, sa_arr; simpl.
+    unfold smc_compose, smc_id, sa_arr; simpl.
     destruct f as [a [pd pc]]; simpl in *.
     destruct pc.
     now apply (sm_id_left M).
   - intros x y f.
-    unfold span_compose, span_id, sa_arr; simpl.
+    unfold smc_compose, smc_id, sa_arr; simpl.
     destruct f as [a [pd pc]]; simpl in *.
     destruct pd.
     now apply (sm_id_right M).
   - intros x y z w f g h.
-    unfold span_compose, sa_arr; simpl.
+    unfold smc_compose, sa_arr; simpl.
     apply (sm_assoc M).
 Defined.
 
 (** ** Bundled arrows, and transport along object equalities *)
 
 (* The bundled-arrow sigma ∃ x y, x ~> y, as a record. *)
-Record Arrow (C : Category) := {
+Record BundledArrow (C : Category) := {
   asrc : C;
   atgt : C;
   aarr : asrc ~> atgt
@@ -412,7 +426,7 @@ Record Arrow (C : Category) := {
 Arguments asrc {_} _.
 Arguments atgt {_} _.
 Arguments aarr {_} _.
-Arguments Build_Arrow {_} _ _ _.
+Arguments Build_BundledArrow {_} _ _ _.
 
 (* The groupoid laws for [eq] that the transport pack needs.  Each is proved by
    [destruct] with both endpoints universally quantified, which is what makes
@@ -487,13 +501,13 @@ Proof. destruct u; reflexivity. Qed.
 (* Two bundled arrows are equivalent when there are equalities of their
    endpoints carrying one to the other up to `≈`.  The equalities are kept as
    data ([sigT], not [ex]) so the witnesses can be chosen and reused. *)
-Definition Arrow_equiv {C : Category} (a b : Arrow C) : Type :=
+Definition BundledArrow_equiv {C : Category} (a b : BundledArrow C) : Type :=
   { p : asrc a = asrc b &
   { q : atgt a = atgt b & hom_transport p q (aarr a) ≈ aarr b }}.
 
-Definition Arrow_Setoid (C : Category) : Setoid (Arrow C).
+Definition BundledArrow_Setoid (C : Category) : Setoid (BundledArrow C).
 Proof.
-  refine {| equiv := @Arrow_equiv C; setoid_equiv := _ |}.
+  refine {| equiv := @BundledArrow_equiv C; setoid_equiv := _ |}.
   constructor; repeat intro.
   - exists eq_refl, eq_refl; reflexivity.
   - destruct X as [p [q H]].
@@ -509,8 +523,8 @@ Defined.
 Definition Category_Graph (C : Category) : Graph.
 Proof.
   unshelve refine {| gobj := obj[C]
-                   ; garr := Arrow C
-                   ; garr_setoid := Arrow_Setoid C
+                   ; garr := BundledArrow C
+                   ; garr_setoid := BundledArrow_Setoid C
                    ; gdom := @asrc C
                    ; gcod := @atgt C |}.
   - intros a b H; exact (`1 H).
@@ -571,12 +585,12 @@ Qed.
 (* The unit is the identity arrow; the multiplication is composition, after
    transporting the inner arrow's codomain to the outer arrow's domain along
    the composability proof. *)
-Definition arrow_unit {C : Category} (x : C) : Arrow C :=
-  Build_Arrow x x (id[x]).
+Definition arrow_unit {C : Category} (x : C) : BundledArrow C :=
+  Build_BundledArrow x x (id[x]).
 
-Definition arrow_mul {C : Category} (g f : Arrow C) (p : asrc g = atgt f)
-  : Arrow C :=
-  Build_Arrow (asrc f) (atgt g)
+Definition arrow_mul {C : Category} (g f : BundledArrow C) (p : asrc g = atgt f)
+  : BundledArrow C :=
+  Build_BundledArrow (asrc f) (atgt g)
     (aarr g ∘ hom_transport eq_refl (eq_sym p) (aarr f)).
 
 (* The two unit laws hold WITHOUT rigidity.  The trick is that the arrow
@@ -585,21 +599,21 @@ Definition arrow_mul {C : Category} (g f : Arrow C) (p : asrc g = atgt f)
    transports cancel by [eq_trans_sym_l] / [hom_transport_id].  This is worth
    isolating, because it confines the obstruction of [arrow_mul_respects]
    below to that one law rather than to the correspondence at large. *)
-Lemma arrow_mul_id_left {C : Category} (f : Arrow C) (p : atgt f = atgt f) :
-  Arrow_equiv (arrow_mul (arrow_unit (atgt f)) f p) f.
+Lemma arrow_mul_id_left {C : Category} (f : BundledArrow C) (p : atgt f = atgt f) :
+  BundledArrow_equiv (arrow_mul (arrow_unit (atgt f)) f p) f.
 Proof.
   destruct f as [xf yf φf]; simpl in *.
-  unfold Arrow_equiv, arrow_mul, arrow_unit; simpl.
+  unfold BundledArrow_equiv, arrow_mul, arrow_unit; simpl.
   exists eq_refl, p.
   rewrite id_left, hom_transport_trans, eq_trans_sym_l, eq_trans_id_l.
   now rewrite hom_transport_refl.
 Qed.
 
-Lemma arrow_mul_id_right {C : Category} (f : Arrow C) (p : asrc f = asrc f) :
-  Arrow_equiv (arrow_mul f (arrow_unit (asrc f)) p) f.
+Lemma arrow_mul_id_right {C : Category} (f : BundledArrow C) (p : asrc f = asrc f) :
+  BundledArrow_equiv (arrow_mul f (arrow_unit (asrc f)) p) f.
 Proof.
   destruct f as [xf yf φf]; simpl in *.
-  unfold Arrow_equiv, arrow_mul, arrow_unit; simpl.
+  unfold BundledArrow_equiv, arrow_mul, arrow_unit; simpl.
   exists (eq_sym p), eq_refl.
   rewrite hom_transport_comp, hom_transport_refl, hom_transport_trans.
   rewrite eq_trans_id_l, eq_trans_id_r, hom_transport_id.
@@ -613,21 +627,25 @@ Qed.
    the INTERMEDIATE object -- the object where the two arrows meet.  The arrow
    equivalence is free to pick paths at the source and the target of the
    composite, but neither is the intermediate object, so that freedom cannot
-   repair the discrepancy.  (This is an account of why the proof needs the
-   hypothesis, not a proof that the hypothesis is unavoidable: exhibiting a
-   category in which the two composites genuinely differ would need a model in
-   which [eq] on objects is not a proposition, which Coq alone cannot supply.)
+   repair the discrepancy.  And the hypothesis is unavoidable, not merely
+   convenient: [arrow_mul_respects_forces_UIP] at the end of this file shows
+   that proving [arrow_mul_respects] without it, uniformly in C, entails
+   uniqueness of identity proofs for every type.  The countermodel is chosen
+   so the composite lands in a RIGID corner: objects [option A], where
+   [None]'s loop space is provably contractible by an encode-decode argument,
+   pinning the setoid freedom at the outer objects while the intermediate
+   object [Some a] keeps the loops of A.
 
-   The exact tally over the four laws of [SpanMonoid], as proved here: the two
+   The exact tally over the eight law fields of [SpanMonoid], as proved: the two
    unit laws are rigidity-free ([arrow_mul_id_left], [arrow_mul_id_right]);
    [arrow_mul_respects] and [arrow_mul_assoc] both use it, the latter because
    the record quantifies over ARBITRARY witnesses for the two derived
    composability equations, so the same intermediate-object discrepancy
    arises there too. *)
 Lemma arrow_mul_respects {C : Category} (rigid : HomRigid C)
-      (g g' f f' : Arrow C) (p : asrc g = atgt f) (p' : asrc g' = atgt f') :
-  Arrow_equiv g g' → Arrow_equiv f f' →
-  Arrow_equiv (arrow_mul g f p) (arrow_mul g' f' p').
+      (g g' f f' : BundledArrow C) (p : asrc g = atgt f) (p' : asrc g' = atgt f') :
+  BundledArrow_equiv g g' → BundledArrow_equiv f f' →
+  BundledArrow_equiv (arrow_mul g f p) (arrow_mul g' f' p').
 Proof.
   destruct g as [xg yg φg], g' as [xg' yg' φg'],
            f as [xf yf φf], f' as [xf' yf' φf']; simpl in *.
@@ -635,7 +653,7 @@ Proof.
   destruct pg, qg, pf, qf.
   rewrite hom_transport_refl in Hg.
   rewrite hom_transport_refl in Hf.
-  unfold Arrow_equiv, arrow_mul; simpl.
+  unfold BundledArrow_equiv, arrow_mul; simpl.
   exists eq_refl, eq_refl.
   rewrite hom_transport_refl, Hg, Hf.
   now rewrite (rigid xf xf yf xg eq_refl eq_refl (eq_sym p) (eq_sym p') φf').
@@ -646,13 +664,13 @@ Qed.
    laws of [arrow_mul] hold by [eq_refl] here.  They are separate arguments
    precisely because they are separate PROOFS. *)
 Lemma arrow_mul_assoc {C : Category} (rigid : HomRigid C)
-      (h g f : Arrow C) (p : asrc h = atgt g) (q : asrc g = atgt f)
+      (h g f : BundledArrow C) (p : asrc h = atgt g) (q : asrc g = atgt f)
       (pl : asrc g = atgt f) (pr : asrc h = atgt g) :
-  Arrow_equiv (arrow_mul h (arrow_mul g f q) pr)
+  BundledArrow_equiv (arrow_mul h (arrow_mul g f q) pr)
               (arrow_mul (arrow_mul h g p) f pl).
 Proof.
   destruct h as [xh yh χ], g as [xg yg γ], f as [xf yf φ]; simpl in *.
-  unfold Arrow_equiv, arrow_mul; simpl.
+  unfold BundledArrow_equiv, arrow_mul; simpl.
   exists eq_refl, eq_refl.
   rewrite hom_transport_refl.
   rewrite (rigid xf xf yg xh eq_refl eq_refl (eq_sym pr) (eq_sym p)
@@ -713,7 +731,7 @@ Proof. apply (sm_mul_respects M); reflexivity. Qed.
 (* Now the graph round trip: bundle an arrow with the endpoints its own
    boundary maps assign to it, and unbundle by forgetting them again. *)
 Definition sm_bundle (a : garr G) : garr (Category_Graph C') :=
-  @Build_Arrow (Category_from_SpanMonoid M)
+  @Build_BundledArrow (Category_from_SpanMonoid M)
     (gdom a) (gcod a) (a; (eq_refl, eq_refl)).
 
 Definition sm_unbundle (u : garr (Category_Graph C')) : garr G := sa_arr (aarr u).
@@ -801,7 +819,7 @@ Lemma Category_roundtrip_obj : obj[Rebuilt] = obj[C].
 Proof. reflexivity. Qed.
 
 Definition rb_to {x y : C} (f : x ~> y) : x ~{Rebuilt}~> y :=
-  (Build_Arrow x y f; (eq_refl, eq_refl)).
+  (Build_BundledArrow x y f; (eq_refl, eq_refl)).
 
 Definition rb_from {x y : C} (h : x ~{Rebuilt}~> y) : x ~> y :=
   @hom_transport C _ _ _ _ (sa_dom h) (sa_cod h) (aarr (sa_arr h)).
@@ -852,13 +870,15 @@ Proof.
     apply (hom_transport_compose_compare rigid).
 Defined.
 
-(* NOTE 4.  The round trip is an ISOMORPHISM of categories in [Cat], not
-   merely an equivalence: both object maps are the identity function on
-   obj[C], so the comparison isomorphisms are identities and only the two hom
-   round trips above are at issue.  Recall the strength of those: one leg is
-   the identity on the nose ([rb_from_to]) and the other holds up to `≈`
-   ([rb_to_from]).  Cat's hom-setoid identifies functors up to natural
-   isomorphism, which is exactly enough to package that. *)
+(* NOTE 4.  The round trip packages as an isomorphism in [Cat].  In this
+   library that is the SAME strength as an equivalence of categories: Cat's
+   hom-setoid is [Functor_Setoid], which identifies functors up to natural
+   isomorphism, and Theory/Equivalence.v converts [≅[Cat]] to
+   [EquivalenceOfCategories] and back.  It is nevertheless the strongest
+   packaging available -- a [StrictCat] isomorphism would need funext -- and
+   the genuinely extra content is in the construction: both object maps are
+   the identity function on obj[C], one hom leg is the identity on the nose
+   ([rb_from_to]), and the other holds per hom-setoid ([rb_to_from]). *)
 Definition Category_monoid_iso : C ≅[Cat] Rebuilt.
 Proof.
   unshelve refine (@Build_Isomorphism Cat C Rebuilt Rebuild_to Rebuild_from _ _).
@@ -873,3 +893,154 @@ Proof.
 Defined.
 
 End CategoryRoundTrip.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Necessity of [HomRigid]: a reverse-mathematics theorem *)
+
+(* NOTE 3 explains why [arrow_mul_respects] consumes rigidity; this section
+   shows the consumption is unavoidable.  If the multiplication respected
+   [BundledArrow_equiv] uniformly in C WITHOUT the hypothesis, uniqueness of
+   identity proofs would follow for every type.
+
+   The countermodel is built so the composite lands in a RIGID corner.  Its
+   objects are [option A]: the loop space of [None] is contractible for every
+   A, by the encode-decode argument below, so the arrow equivalence has no
+   freedom at the outer objects of the test composite -- while the
+   intermediate object [Some a] keeps the loops of A, which is where the two
+   composability proofs are allowed to differ.  (The technique follows
+   Instance/Discrete/Reconstruct.v's [Discrete_DiscreteRigid_forces_UIP]; the
+   extra encode-decode step is needed here precisely because this file's
+   setoid gives freedom at TWO objects rather than none.) *)
+
+Lemma etr_assoc {X : Type} {u v w z : X} (i : u = v) (j : v = w) (k : w = z) :
+  eq_trans i (eq_trans j k) = eq_trans (eq_trans i j) k.
+Proof. destruct i, j, k; reflexivity. Qed.
+
+#[local] Set Default Proof Using "All".
+
+Section Countermodel.
+
+(* An arbitrary type with an arbitrary point. *)
+Context (A : Type) (a : A).
+
+(* Objects: [option A].  [None] is a RIGID point -- its loop space is
+   provably contractible ([none_loop]) whatever A is -- while [Some a] is
+   FLOPPY: its loops are exactly the loops of A at a. *)
+Definition ob : Type := option A.
+Definition pt (x : ob) : A := match x with None => a | Some b => b end.
+
+Definition PtCat : Category.
+Proof.
+  unshelve refine (Build_Category' (fun x y : ob => pt x = pt y)
+                     (fun _ => eq_refl)
+                     (fun x y z (g : pt y = pt z) (f : pt x = pt y) =>
+                        eq_trans f g)).
+  - intros x y.
+    exact {| equiv := @eq (pt x = pt y); setoid_equiv := eq_equivalence |}.
+  - intros x y z g g2 Hg f f2 Hf; simpl in *; now subst.
+  - intros; apply eq_trans_id_r.
+  - intros; apply eq_trans_id_l.
+  - intros; symmetry; apply etr_assoc.
+Defined.
+
+(** The loop space of [None] is contractible, constructively, for every A. *)
+Definition ocode (y : ob) : Type :=
+  match y with None => unit | Some _ => Empty_set end.
+
+Definition oenc {y : ob} (e : @eq ob None y) : ocode y :=
+  match e in (_ = z) return ocode z with eq_refl => tt end.
+
+Definition odec {y : ob} (c : ocode y) : @eq ob None y :=
+  match y return ocode y -> @eq ob None y with
+  | None   => fun _ => eq_refl
+  | Some _ => fun c => match c with end
+  end c.
+
+Lemma odec_oenc {y : ob} (e : @eq ob None y) : odec (oenc e) = e.
+Proof. destruct e; reflexivity. Qed.
+
+Lemma none_loop (e : @eq ob None None) : e = eq_refl.
+Proof. exact (eq_sym (odec_oenc e)). Qed.
+
+(** [f_equal pt] undoes [f_equal Some]; general in both endpoints. *)
+Lemma pt_Some {u v : A} (w : u = v) : f_equal pt (f_equal (@Some A) w) = w.
+Proof. destruct w; reflexivity. Qed.
+
+Lemma pt_sym {x y : ob} (w : x = y) :
+  f_equal pt (eq_sym w) = eq_sym (f_equal pt w).
+Proof. destruct w; reflexivity. Qed.
+
+(** How [hom_transport] computes in PtCat. *)
+Lemma ht_pt {x y y' : ob} (q : y = y') (h : x ~{PtCat}~> y) :
+  @hom_transport PtCat x x y y' eq_refl q h = eq_trans h (f_equal pt q).
+Proof. destruct q; reflexivity. Qed.
+
+(** The two test arrows: [fA : None -> Some a] and [gA : Some a -> None].
+    Their composite lands in the RIGID corner [None -> None]. *)
+Definition fA : BundledArrow PtCat := @Build_BundledArrow PtCat None (Some a) eq_refl.
+Definition gA : BundledArrow PtCat := @Build_BundledArrow PtCat (Some a) None eq_refl.
+
+Lemma fA_self : BundledArrow_equiv fA fA.
+Proof. exists eq_refl, eq_refl; reflexivity. Qed.
+
+Lemma gA_self : BundledArrow_equiv gA gA.
+Proof. exists eq_refl, eq_refl; reflexivity. Qed.
+
+Lemma forces_loop
+  (K : forall (C : Category) (g g' f f' : BundledArrow C)
+              (p : asrc g = atgt f) (p' : asrc g' = atgt f'),
+       BundledArrow_equiv g g' -> BundledArrow_equiv f f' ->
+       BundledArrow_equiv (arrow_mul g f p) (arrow_mul g' f' p'))
+  (e : a = a) : e = eq_refl.
+Proof.
+  pose (p  := f_equal (@Some A) e : @eq ob (Some a) (Some a)).
+  pose (p' := eq_refl : @eq ob (Some a) (Some a)).
+  specialize (K PtCat gA gA fA fA p p' gA_self fA_self).
+  destruct K as [P [Q H]].
+  rewrite (none_loop P), (none_loop Q) in H.
+  assert (H2 :
+    eq_trans (@hom_transport PtCat None None (Some a) (Some a)
+                eq_refl (eq_sym p) (eq_refl : pt None = pt (Some a)))
+             (eq_refl : pt (Some a) = pt None)
+  = eq_trans (@hom_transport PtCat None None (Some a) (Some a)
+                eq_refl (eq_sym p') (eq_refl : pt None = pt (Some a)))
+             (eq_refl : pt (Some a) = pt None)) by exact H.
+  rewrite !(ht_pt _ (eq_refl : pt None = pt (Some a))) in H2.
+  rewrite !eq_trans_id_l, !eq_trans_id_r in H2.
+  rewrite !pt_sym in H2.
+  unfold p, p' in H2.
+  rewrite pt_Some in H2.
+  simpl in H2.
+  rewrite <- (eq_sym_involutive e), H2.
+  reflexivity.
+Qed.
+
+End Countermodel.
+
+(** * The necessity theorem.
+
+    If the multiplication [arrow_mul] of Theory/Category/Monoid.v respected
+    [BundledArrow_equiv] WITHOUT the [HomRigid] hypothesis -- i.e. if
+    [arrow_mul_respects] held with its [rigid] argument dropped -- then UIP
+    would hold for every type.  So the hypothesis isolated at
+    [sm_mul_respects] is not an artefact of the chosen proof. *)
+Theorem arrow_mul_respects_forces_UIP
+  (K : forall (C : Category) (g g' f f' : BundledArrow C)
+              (p : asrc g = atgt f) (p' : asrc g' = atgt f'),
+       BundledArrow_equiv g g' -> BundledArrow_equiv f f' ->
+       BundledArrow_equiv (arrow_mul g f p) (arrow_mul g' f' p')) :
+  forall (A : Type) (a : A) (e : a = a), e = eq_refl.
+Proof. intros A a e; exact (forces_loop A a K e). Qed.
+
+(* ... and hence full UIP / HomRigid for every category. *)
+Corollary arrow_mul_respects_forces_UIP'
+  (K : forall (C : Category) (g g' f f' : BundledArrow C)
+              (p : asrc g = atgt f) (p' : asrc g' = atgt f'),
+       BundledArrow_equiv g g' -> BundledArrow_equiv f f' ->
+       BundledArrow_equiv (arrow_mul g f p) (arrow_mul g' f' p')) :
+  forall (A : Type) (x y : A) (u v : x = y), u = v.
+Proof.
+  intros A x y u v.
+  destruct u.
+  symmetry; apply (arrow_mul_respects_forces_UIP K).
+Qed.
