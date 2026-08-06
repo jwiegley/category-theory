@@ -205,6 +205,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Concrete.'; \
+	  echo 'Require Import Category.Instance.Concrete.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Concrete.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +226,20 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Concrete.'; \
+	  echo 'Print Assumptions Concrete_of_Separator.'; \
+	  echo 'Print Assumptions Concrete_of_WellPointed.'; \
+	  echo 'Print Assumptions Sets_Concrete.'; \
+	  echo 'Print Assumptions Sets_Concrete_Points.'; \
+	  echo 'Print Assumptions Coq_Concrete.'; \
+	  echo 'Print Assumptions CMon_Concrete.'; \
+	  echo 'Print Assumptions Rel_Concrete.'; \
+	  echo 'Print Assumptions Rel_hom_is_not_a_function.'; \
+	  echo 'Print Assumptions Rel_subsingleton_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverVertices_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverArrows_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverElements_faithful_under_NodeUIP.'; \
+	  echo 'Print Assumptions SetQuiver_Concrete.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
