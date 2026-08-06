@@ -143,13 +143,26 @@ Generalizable All Variables.
    only part that would bear on the present file, and it partially applies a
    bifunctor already presented as C ∏ C ⟶ C or C ⟶ [C, C]. The exponential in
    [Closed] is neither: it is a bare object operation [exponent_obj] plus the
-   iso [exp_iso], with functoriality nowhere assumed, so there is no bifunctor
-   to partially apply until one is built. Building [Exp_Functor] directly also
-   keeps [fmap] definitionally equal to curry (f ∘ eval), which is what lets
-   the adjunction's naturality fields discharge by the existing [Closed]
-   corollaries and lets the counit be [eval] on the nose. The [Mapping]-based
-   [ArityOne] instances would give a naturality *statement* but no functor,
-   and [Adjunction] needs functors. *)
+   iso [exp_iso], with functoriality nowhere assumed. (The tree does build a
+   bifunctor of the right mathematical content — [InternalHomFunctor] of
+   Functor/Hom/Internal.v, cited above — but at shape C^op ∏ C ⟶ C, which is
+   not one of the two shapes those instances accept.) The [Mapping]-based
+   [ArityOne] instances would in any case give a naturality *statement* but
+   no functor, and [Adjunction] needs functors.
+
+   WHAT DEFINING [Exp_Functor] DIRECTLY ACTUALLY BUYS, stated precisely
+   because the first commit of this file overstated it and an audit
+   disproved the overstatement by construction. It does NOT buy the
+   definitional counit: the counit is ⌈id⌉, which depends only on [adj]'s
+   [from] field being [uncurry] and on eval := uncurry id, so it comes out
+   [eval] by conversion for ANY right adjoint with the same transposes —
+   the audit assembled the adjunction through [InternalHomFunctor] instead
+   and all four corollaries below still closed by [reflexivity]. What the
+   direct definition buys is that the four naturality fields discharge from
+   the [Closed] corollaries VERBATIM: routed through the bifunctor, two of
+   them additionally need [second_id] and [id_right] rewritten away, since
+   that route inserts a [second (op id)]. That is a real but modest
+   convenience, and it is the whole of it. *)
 
 Section CurryAdjunction.
 
@@ -241,7 +254,10 @@ Proof. reflexivity. Qed.
 (* The transposes of the adjunction are [curry] and [uncurry] on the nose:
    ⌊-⌋ = to adj is currying and ⌈-⌉ = from adj is uncurrying. Stated with ≈
    between arrows of C, as required; both hold by [reflexivity] because
-   [Curry_Adjunction]'s [adj] field is [exp_iso] itself. *)
+   [Curry_Adjunction]'s [adj] field has [curry] and [uncurry] as its two
+   directions. (Not because that field IS [exp_iso], as the first commit
+   said: it is a freshly built [Isomorphism] wrapping the same two maps,
+   and [reflexivity] does not identify the two records.) *)
 Corollary curry_adj_to {x y : C} (f : x × S ~> y) :
   to (@adj _ _ _ _ Curry_Adjunction x y) f ≈ curry f.
 Proof. reflexivity. Qed.
@@ -314,7 +330,13 @@ Next Obligation. rewrite first_id, id_right; apply uncurry_curry. Qed.
    Functor/Representable.v had no inhabitants anywhere in the tree; this is
    the first, and it says exactly what Riehl's Example 2.1.6(iv) says: the
    functor C(− × S, B) is represented by B^S. The base category of the
-   instance is C^op, since the functor is contravariant in C. *)
+   instance is C^op, since the functor is contravariant in C.
+
+   Scope the claim correctly: it is THIS class that was uninhabited. The
+   tree does carry representability content elsewhere, under a different
+   class — Structure/UniversalProperty.v's [IsUniversalProperty] also
+   requires a natural iso out of a hom-functor, and it has three instances
+   (cartesian products, limits, universal arrows). *)
 #[export] Program Instance Curry_Representable : Representable Curry_Presheaf := {|
   repr_obj := B ^ S;
   represented := Curry_Representation

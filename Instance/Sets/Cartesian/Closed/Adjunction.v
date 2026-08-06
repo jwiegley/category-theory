@@ -12,6 +12,8 @@ Require Import Category.Structure.Cartesian.Closed.Adjunction.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
 Require Import Category.Instance.Sets.Cartesian.Closed.
+Require Import Category.Structure.Limit.Preservation.
+Require Import Category.Adjunction.Continuity.
 
 Generalizable All Variables.
 
@@ -39,9 +41,11 @@ Generalizable All Variables.
    [reflexivity] there is a claim about computation in this model; the variant
    [Sets_counit_apply_eq] states it with Leibniz =, which is strictly stronger
    than the ≈ form and is legitimate here only because both sides are carrier
-   elements that happen to be convertible. Every = appearing in this file and
-   in Structure/Cartesian/Closed/Adjunction.v relates elements of a carrier
-   type; no morphism is compared with = in either file. This is a statement
+   elements that happen to be convertible. Every = appearing in this file
+   relates elements of a carrier type, and the one = in
+   Structure/Cartesian/Closed/Adjunction.v relates two OBJECTS of a
+   category (this library has no ≈ on objects), as that file says at the
+   site. No morphism is compared with = in either file. This is a statement
    about these two files, not a claim about the rest of the library.
 
    The middle of the file discharges the vacuity worry. A hom-setoid whose ≈
@@ -191,3 +195,38 @@ Example Sets_repr_plus :
   transform (to (Curry_Representation NatSet NatSet)) NatSet (curry plus_map)
     ≈ plus_map.
 Proof. exact (uncurry_curry plus_map). Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Mac Lane §V.4, exercise 4: X × − preserves all colimits *)
+
+(* Book:  Mac Lane, "Categories for the Working Mathematician", 2nd ed.,
+          Springer 1998, §V.4, exercise 4
+
+   The exercise asks for the fact that `X × −` on Set preserves all small
+   colimits.  With the currying adjunction in place it is a corollary and
+   not a construction: `− × X` is a left adjoint, and left adjoints
+   preserve colimits — the in-tree [left_adjoint_preserves_colimits] of
+   Adjunction/Continuity.v.
+
+   It is recorded here rather than left implicit because, before this file,
+   no tensor or exponential adjunction was instantiated anywhere in the
+   tree, so no colimit-preservation witness of this kind existed to be
+   consumed.  (An audit of the first commit observed that the issue asks
+   for this in prose rather than in a checkbox, and that the first commit
+   had passed over it while disclosing a different, unrequested corollary.
+   Both corrections are made here.)
+
+   The statement is for `− × X` rather than `X × −`; the two agree up to
+   the symmetry of the product, which this library does not silently
+   identify. *)
+
+Definition Sets_prod_preserves_colimits (X : Sets) :
+  PreservesAllColimits (Prod_Functor X) :=
+  @left_adjoint_preserves_colimits _ _ _ _ (Curry_Adjunction X).
+
+(* And the same corollary over an arbitrary cartesian closed category, since
+   the adjunction was established there. *)
+Definition CCC_prod_preserves_colimits
+  {C : Category} `{@Cartesian C} `{@Closed C _} (S : C) :
+  PreservesAllColimits (Prod_Functor S) :=
+  @left_adjoint_preserves_colimits _ _ _ _ (Curry_Adjunction S).

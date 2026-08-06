@@ -139,15 +139,24 @@ Example: `f ∘[C] g` specifies category C when needed.
   Theory/Adjunction.v — `curry`/`uncurry` as the transposes and `eval` as
   counit, all three by `reflexivity`, with the triangle identities inherited
   from the general theory; this turns the prose remark of Theory/Adjunction.v
-  (lines 93-94) into a theorem. `Curry_Representable` is the tree's first
-  `Representable` instance (and its first consumer: resolution finds it, and
-  the class's `Representable_to_obj` coercion reads the representing object
-  back), witnessing Riehl's Example 2.1.6(iv) — the presheaf
+  (lines 93-94) into a theorem. `Curry_Representable` is the first instance of
+  `Functor/Representable.v`'s class (and its first consumer: resolution finds
+  it, and the class's `Representable_to_obj` coercion reads the representing
+  object back), witnessing Riehl's Example 2.1.6(iv) — the presheaf
   `C(− × S, B) : C^op ⟶ Sets` is represented by `B^S`, with the Yoneda
-  universal element `eval` (`Curry_repr_universal`). The `Sets` model,
-  where the counit computes to `e(h, s) = h s` and the transpose of addition
-  on a `nat` setoid witnesses non-vacuity, is
-  Instance/Sets/Cartesian/Closed/Adjunction.v
+  universal element `eval` (`Curry_repr_universal`). That is a claim about
+  THAT class: representability content also lives under
+  `Structure/UniversalProperty.v`'s `IsUniversalProperty`, which has three
+  instances. Note also that the counit's being `eval` on the nose is a
+  consequence of the transposes alone, not of defining the exponential
+  endofunctor directly — what the direct definition buys is that the four
+  naturality fields discharge from the `Closed` corollaries verbatim
+  (audit-corrected). The `Sets` model, where the counit computes to
+  `e(h, s) = h s` and the transpose of addition on a `nat` setoid witnesses
+  non-vacuity, is Instance/Sets/Cartesian/Closed/Adjunction.v, which also
+  carries the Mac Lane §V.4 corollary that `− × X` preserves all colimits
+  (`Sets_prod_preserves_colimits`, `CCC_prod_preserves_colimits`) — the
+  library's only colimit-preservation witness of this kind
 - **Structure/Monoidal.v**: Tensor products with coherence
 - **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
 - **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)

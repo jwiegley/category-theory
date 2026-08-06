@@ -206,6 +206,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Require Import Category.Structure.Cartesian.Closed.Adjunction.'; \
+	  echo 'Require Import Category.Instance.Sets.Cartesian.Closed.Adjunction.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -228,6 +229,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions eval_natural.'; \
 	  echo 'Print Assumptions Curry_Adjunction.'; \
 	  echo 'Print Assumptions Curry_Representable.'; \
+	  echo 'Print Assumptions Sets_prod_preserves_colimits.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
