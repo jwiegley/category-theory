@@ -51,7 +51,10 @@ Generalizable All Variables.
    Note the setoid discipline of this library.  `Sets` (Instance/Sets.v) is
    the category of setoids, so "the underlying set" is a carrier type plus an
    equivalence relation, and "actual function" means a setoid map.  Equality
-   of arrows is `≈` throughout, never `=`.  Concretely, faithfulness reads
+   of arrows in THIS FILE and its two companions is `≈` throughout, never
+   `=` — a claim about these three files only, not about the library, which
+   does state a few deliberate arrow equalities elsewhere (for instance
+   Construction/Quotient.v's cast-irrelevance lemmas).  Concretely, faithfulness reads
    `fmap f ≈ fmap g → f ≈ g` with `≈` at both ends: the `Sets`-side `≈` is
    pointwise equivalence of setoid maps, the `C`-side `≈` is `C`'s hom-setoid.
 

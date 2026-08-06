@@ -94,12 +94,22 @@ Generalizable All Variables.
    `Eqdep_dec.UIP_dec` — the same device Construction/Quotient.v uses for
    `obj_uip`.
 
-   An unrestricted `Concrete QuiverCategory` is therefore NOT claimed here.
-   Whether one exists is left open: the argument above is an obstruction to
-   this particular proof, not a refutation, and no counterexample is given
-   (constructing one would need a node type with a provably non-trivial
-   identity type, which is not available in this library's axiom-free
-   setting).
+   An unrestricted `Concrete QuiverCategory` is therefore NOT claimed here,
+   and the restriction is NOT a shortcut: the closing section of this file
+   proves that `Faithful QuiverElements` IMPLIES UIP, so the hypothesis is
+   forced rather than convenient. (The first commit said only that this was
+   an obstruction to the proof rather than a refutation; an audit closed
+   the loop, and its argument is integrated below.) Since UIP is
+   independent of Rocq's logic, `Faithful QuiverElements` is not provable
+   here, and concreteness of `QuiverCategory` VIA THIS FUNCTOR is
+   unreachable axiom-free.
+
+   Whether some OTHER functor to `Sets` concretizes `QuiverCategory` is
+   still left open. No such functor is known to the author of this file,
+   and there is a structural reason for pessimism — pointwise data over any
+   carrier yields equalities one element at a time, whereas the target
+   requires a single node family coherent with every edge at once — but no
+   non-existence proof is offered.
 
    Obligation discipline: this file sets `Obligation Tactic := idtac`, so
    every proof below introduces its own variables and none depends on a
@@ -470,7 +480,10 @@ Qed.
 (* Quivers whose node type satisfies uniqueness of identity proofs — Riehl's
    quivers, whose vertices form a set.  Every morphism between two of them is
    retained ([SetQuivers_Full]), so this is a full subcategory in the sense of
-   Construction/Subcategory.v.  Its objects are PAIRS of a quiver and a
+   Construction/Subcategory.  [SetQuivers_Full] is recorded because a reader
+   will want it, but no proof below consumes it: what the results actually
+   rest on is that [Sub]'s hom-setoid is DEFINITIONALLY the base one, so no
+   transfer lemma is needed.v.  Its objects are PAIRS of a quiver and a
    [NodeUIP] witness, so the object map of the inclusion forgets a proof
    component and injectivity of that map is NOT claimed; what is used below is
    only that the inclusion is faithful (and full, by [SetQuivers_Full]). *)
@@ -557,3 +570,116 @@ Qed.
 Lemma SetQuiverCat_two_arrows :
   @id SetQuiverCat LoopSetQuiver ≈ (loop_swap; ttt) → False.
 Proof. exact loop_swap_distinct. Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** The node-UIP hypothesis is necessary, not merely convenient *)
+
+(* The restriction to `NodeUIP` above is forced. If the disjoint-union
+   functor were faithful on ALL quivers, UIP would follow — so, UIP being
+   independent of Rocq's logic, that faithfulness is not provable and
+   `Concrete QuiverCategory` is unreachable through this functor.
+
+   The witness is a single quiver whose edges record BOTH endpoints:
+   over a node type N with a distinguished c, take `edges x y := (c = x) *
+   (c = y)`. Two endomorphisms constant at c differ by transporting the
+   edge along a loop. The disjoint-union functor identifies them, because
+   on the arrow summand it is enough to supply the loop itself. But
+   equality in `QuiverCategory` demands ONE shared node family coherent
+   with every edge simultaneously, and a single loop cannot satisfy the
+   source constraint and the target constraint at once unless it is
+   trivial. That last step is [uip_key] below, isolated so the arithmetic
+   is visible. *)
+
+Lemma uip_transport_id {A} {c a : A} (p : c = a) :
+  Logic.transport (fun s => c = s) p eq_refl = p.
+Proof. destruct p; reflexivity. Qed.
+
+Lemma uip_transport_l {A} {c : A} {K : Type} {a a2 : A}
+      (p : a = a2) (u : c = a) (v : K) :
+  Logic.transport (fun s => ((c = s) * K)%type) p (u, v)
+  = (Logic.transport (fun s => c = s) p u, v).
+Proof. destruct p; reflexivity. Qed.
+
+Lemma uip_transport_r {A} {c : A} {K : Type} {b b2 : A}
+      (q : b = b2) (u : K) (v : c = b) :
+  Logic.transport (fun t => (K * (c = t))%type) q (u, v)
+  = (u, Logic.transport (fun t => c = t) q v).
+Proof. destruct q; reflexivity. Qed.
+
+(* One shared loop cannot meet the source and the target constraint at
+   once unless the loop it is compared against is trivial. *)
+Lemma uip_key {A} {c : A} (shared loop : c = c) :
+  Logic.transport (fun t : A => ((c = c) * (c = t))%type) shared
+    (eq_refl, eq_refl)
+  = Logic.transport (fun s : A => ((c = s) * (c = c))%type) (eq_sym shared)
+      (Logic.transport (fun s : A => ((c = s) * (c = c))%type) loop
+         (eq_refl, eq_refl))
+  → loop = eq_refl.
+Proof.
+  rewrite (uip_transport_r (c:=c) (K:=(c=c)) shared eq_refl eq_refl).
+  rewrite (uip_transport_l (c:=c) (K:=(c=c)) loop eq_refl eq_refl).
+  rewrite (uip_transport_l (c:=c) (K:=(c=c)) (eq_sym shared)
+                (Logic.transport (fun s => c = s) loop eq_refl) eq_refl).
+  rewrite !uip_transport_id.
+  intro H.
+  pose proof (f_equal fst H) as H1.
+  pose proof (f_equal snd H) as H2.
+  simpl in H1, H2.
+  rewrite H2 in H1.
+  simpl in H1.
+  exact (eq_sym H1).
+Qed.
+
+Section UIPNecessity.
+
+Context (N : Set) (c : N) (loop : c = c).
+
+(* The probe quiver: edges from x to y record proofs that c is BOTH x and
+   y, so an edge constrains its two endpoints independently. *)
+Definition UIPQuiver : Quiver :=
+  Build_Quiver_Standard_Eq N (fun x y => ((c = x) * (c = y))%type).
+
+Definition uip_edge_id : @edges UIPQuiver c c := (eq_refl, eq_refl).
+Definition uip_edge_moved : @edges UIPQuiver c c :=
+  @qmove UIPQuiver c c c c loop eq_refl uip_edge_id.
+
+Program Definition uip_hom_id : UIPQuiver ~{QuiverCategory}~> UIPQuiver :=
+  {| fnodes := fun _ => c ; fedgemap := fun _ _ _ => uip_edge_id |}.
+Program Definition uip_hom_moved : UIPQuiver ~{QuiverCategory}~> UIPQuiver :=
+  {| fnodes := fun _ => c ; fedgemap := fun _ _ _ => uip_edge_moved |}.
+
+(* The disjoint-union functor cannot tell them apart. *)
+Lemma uip_homs_agree_on_elements :
+  fmap[QuiverElements] uip_hom_id ≈ fmap[QuiverElements] uip_hom_moved.
+Proof.
+  intro z; destruct z as [n|u]; simpl.
+  - reflexivity.
+  - destruct u as [a b e]; simpl.
+    exact (existT _ loop (existT _ eq_refl eq_refl)).
+Qed.
+
+(* But the quiver category equates them only when the loop is trivial. *)
+Lemma uip_homs_equal_forces_trivial :
+  uip_hom_id ≈ uip_hom_moved → loop = eq_refl.
+Proof.
+  intros [shared coh].
+  specialize (coh c c (eq_refl, eq_refl)).
+  simpl in coh.
+  unfold Logic.transport_r, uip_edge_moved, qmove, uip_edge_id in coh;
+    simpl in coh.
+  exact (uip_key (shared c) loop coh).
+Qed.
+
+End UIPNecessity.
+
+(* Hence the hypothesis under which [QuiverElements] was proved faithful is
+   exactly what that faithfulness would give back. *)
+Theorem faithful_QuiverElements_implies_UIP :
+  Faithful QuiverElements →
+  ∀ (N : Set) (c : N) (loop : c = c), loop = eq_refl.
+Proof.
+  intros HF N c loop.
+  apply (uip_homs_equal_forces_trivial N c loop).
+  apply (fmap_inj (F:=QuiverElements)).
+  apply uip_homs_agree_on_elements.
+Qed.

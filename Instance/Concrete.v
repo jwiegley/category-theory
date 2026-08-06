@@ -63,11 +63,16 @@ Generalizable All Variables.
    The negative half of Mac Lane's §I.7 remark, for Rel
    ---------------------------------------------------
 
-   Mac Lane lists Rel alongside Toph as a category that is not concrete.  Read
-   literally — "Rel has no faithful functor to sets" — that is too strong,
-   and this file does not assert it: [Rel_Concrete] below exhibits a faithful
-   functor.  What is true, and what is proved here, concerns the EVIDENT
-   candidate, the assignment sending a set to itself:
+   Rel is commonly quoted alongside Toph as a category that "is not
+   concrete".  Read literally — "Rel has no faithful functor to sets" —
+   that quotation is too strong, and this file does not assert it:
+   [Rel_Concrete] below exhibits a faithful functor.  The target of the
+   correction is that FOLKLORE reading, not Mac Lane's own sentence, which
+   (as the issue filing this work summarizes it) already scopes the claim
+   to the evident forgetful functor; an audit of the first commit was right
+   to insist the distinction be drawn, since the primary text was not
+   available to check.  What is true, and what is proved here, concerns the
+   EVIDENT candidate, the assignment sending a set to itself:
 
    [Rel_hom_is_not_a_function] — the elementary obstruction.  Instance/Rel.v's
      `some_number` (line 161), the strict order `<` on nat, is a morphism of
@@ -98,7 +103,10 @@ Generalizable All Variables.
    homotopy category has no faithful functor to sets — is out of scope, is
    not proved, and is not assumed.  The library has no homotopy category, so
    the statement is not expressible in-tree at all.  Theory/Concrete.v's
-   header records the same deferral.
+   header records the same deferral.  It becomes STATEABLE once the
+   homotopy-category construction of Mac Lane's §I.7 lands (catalog item
+   `maclane:I.7:construction5`, filed as issue #260); until then there is
+   no object in the tree for the theorem to be about.
 
    Vacuity
    -------
@@ -114,7 +122,8 @@ Generalizable All Variables.
    it.  `Coq`'s own hom-equivalence is pointwise `=`, which is exactly the
    hom-equivalence of the image setoids, so this functor neither adds nor
    loses information on arrows. *)
-Program Definition Coq_Underlying : Coq ⟶ Sets := {|
+Program Definition Coq_Underlying@{u u0 +} :
+  Coq@{u u0 u0 u0} ⟶ Sets@{u0 u} := {|
   fobj := fun A => {| carrier   := A
                     ; is_setoid := {| equiv        := @eq A
                                     ; setoid_equiv := eq_equivalence |} |};
@@ -127,15 +136,16 @@ Next Obligation. intros A B C f g a; reflexivity. Qed.
 
 (* Faithfulness is the identity implication: both `≈`s unfold to pointwise
    Leibniz equality of the same function. *)
-#[export] Instance Coq_Underlying_Faithful : Faithful Coq_Underlying.
+#[export] Instance Coq_Underlying_Faithful@{u u0 +} :
+  Faithful Coq_Underlying@{u u0} .
 Proof.
   constructor; intros A B f g Hfg.
   exact Hfg.
 Qed.
 
-#[export] Instance Coq_Concrete : Concrete Coq := {|
-  underlying          := Coq_Underlying;
-  underlying_faithful := Coq_Underlying_Faithful
+#[export] Instance Coq_Concrete@{u u0 +} : Concrete Coq@{u u0 u0 u0} := {|
+  underlying          := Coq_Underlying@{u u0};
+  underlying_faithful := Coq_Underlying_Faithful@{u u0}
 |}.
 
 (* Non-vacuity for [Coq_Concrete]: `negb` and the identity are parallel arrows
