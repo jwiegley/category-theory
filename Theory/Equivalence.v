@@ -278,3 +278,32 @@ Definition EquivalenceOfCategories_Id {C : Category} :
   @Build_EquivalenceOfCategories C C Id[C] Id[C]
     (fun_equiv_id_left Id[C])
     (symmetry (fun_equiv_id_left Id[C])).
+
+(* Essential surjectivity is closed under composition.
+
+   Book: Riehl, "Category Theory in Context", Dover 2016, §1.5,
+         Exercise 1.5.vi(i), printed p. 38
+
+   This is the third clause of that exercise, alongside the closure of
+   fullness and of faithfulness ([Full_Compose] and [Faithful_Compose],
+   Theory/Functor.v).  Given e : E, pull it back twice — first along F, then
+   along G — and paste the two witnessing isomorphisms: F carries G's
+   isomorphism forward (functors preserve isomorphisms, [fobj_iso]) to land at
+   F applied to F's own chosen preimage of e, from where F's own isomorphism
+   finishes the trip to e.  The
+   choices compose because [EssentiallySurjective] is the split form, carrying
+   a chosen preimage rather than a bare existence statement.
+
+   Stated at the end of the file rather than beside the class so that the two
+   class definitions above stay adjacent. *)
+
+#[export] Program Instance EssentiallySurjective_Compose
+  {C D E : Category} (F : D ⟶ E) (G : C ⟶ D)
+  `{@EssentiallySurjective D E F} `{@EssentiallySurjective C D G} :
+  EssentiallySurjective (F ◯ G) := {|
+  eso_obj := fun e => eso_obj (F:=G) (eso_obj (F:=F) e)
+|}.
+Next Obligation.
+  exact (iso_compose (eso_iso (F:=F) d)
+           (fobj_iso F _ _ (eso_iso (F:=G) (eso_obj (F:=F) d)))).
+Defined.
