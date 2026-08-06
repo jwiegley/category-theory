@@ -41,6 +41,7 @@ result about something the library actually contains.
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
 | `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `grp_not_epic_of_witness`, `grp_epic_iff_surjective` | a homomorphism together with an element proved outside its image. For the biconditional, `GrpImageStable` on top — but under `Epic f` that premise is EQUIVALENT to its own conclusion (`stability_is_the_conclusion`), so it is not an independent hypothesis | Two witnesses, deliberately not interchangeable. `grp_two_incl`, the inclusion of Z/2 as a factor of Z/2 x Z/2 (`Instance/Grp/Epi.v`), exhibits the missing element, the decidability of image membership, and the non-identity of both the action and the twist — but its image is NORMAL, so the equivariance step degenerates there and the whole image acts as the identity (`grp_two_incl_image_acts_trivially`). `grp_two_sym3`, Z/2 into the symmetric group of a three-letter setoid, supplies the NON-NORMAL image at which that step has content (`grp_two_sym3_image_acts_nontrivially`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 

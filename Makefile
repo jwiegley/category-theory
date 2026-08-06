@@ -198,6 +198,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
 	  echo 'Require Import Category.Instance.Grp.'; \
+	  echo 'Require Import Category.Instance.Grp.Epi.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -218,6 +219,19 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Grp.'; \
 	  echo 'Print Assumptions Grp_Forget.'; \
 	  echo 'Print Assumptions Grp_Zero.'; \
+	  echo 'Print Assumptions grp_not_epic_of_witness.'; \
+	  echo 'Print Assumptions grp_epic_image_dense.'; \
+	  echo 'Print Assumptions grp_surjective_is_epic.'; \
+	  echo 'Print Assumptions grp_epic_iff_surjective.'; \
+	  echo 'Print Assumptions stability_is_the_conclusion.'; \
+	  echo 'Print Assumptions weaker_is_the_conclusion.'; \
+	  echo 'Print Assumptions transposition_decides_image.'; \
+	  echo 'Print Assumptions grp_two_incl_not_epic.'; \
+	  echo 'Print Assumptions grp_two_incl_monic.'; \
+	  echo 'Print Assumptions grp_two_incl_image_acts_trivially.'; \
+	  echo 'Print Assumptions grp_two_sym3_image_acts_nontrivially.'; \
+	  echo 'Print Assumptions grp_two_sym3_not_epic.'; \
+	  echo 'Print Assumptions grp_two_epic_monic_incomparable.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \

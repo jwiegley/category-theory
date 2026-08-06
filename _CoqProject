@@ -200,6 +200,7 @@ Instance/FinSet/Topos.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Grp.v
+Instance/Grp/Epi.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
 Instance/Lambda/Example.v
