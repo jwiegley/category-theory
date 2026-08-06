@@ -70,6 +70,7 @@ Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
 Construction/Free/Quiver.v
+Construction/Free/TwoFunctors.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
 Construction/Cospan/Double.v
@@ -158,6 +159,7 @@ Functor/Structure/Monoidal/Strict.v
 Functor/Structure/Terminal.v
 Functor/Traversable.v
 Functor/Traversable/Product.v
+Functor/Twist.v
 Instance/AST.v
 Instance/Adj.v
 Instance/Adjoints.v
@@ -200,6 +202,7 @@ Instance/FinSet/Topos.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Grp.v
+Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
 Instance/Lambda/Example.v
