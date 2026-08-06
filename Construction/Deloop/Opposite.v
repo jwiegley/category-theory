@@ -6,6 +6,7 @@ Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 Require Import Category.Construction.Deloop.
 Require Import Category.Instance.Cat.
+Require Import Category.Instance.StrictCat.
 
 Generalizable All Variables.
 
@@ -59,7 +60,15 @@ Program Definition Deloop_op_from (M : MonObject) :
   fmap := fun _ _ f => f
 |}.
 
-(* Riehl Example 1.2.2(iii) as an isomorphism of categories. *)
+(* Riehl Example 1.2.2(iii).  NOTE THE STRENGTH, which the first version of
+   this file got wrong: `≅[Cat]` in this library IS equivalence of
+   categories, because Cat's hom-setoid identifies naturally isomorphic
+   functors (Instance/Cat.v), so the statement below is NOT an isomorphism
+   of categories.  Here the stronger statement is available and is given
+   immediately after: the two categories agree on objects, homs, hom-setoid,
+   identities and composition, so the comparison is an isomorphism in
+   StrictCat ([Deloop_op_strict]).  (Correction prompted by the groupoid
+   work that consumes this file.) *)
 Program Definition Deloop_op (M : MonObject) :
   (Deloop M)^op ≅[Cat] Deloop (MonObject_op M) := {|
   to   := Deloop_op_to M;
@@ -84,3 +93,18 @@ Definition GrpObject_op (G : GrpObject) : GrpObject := {|
   grp_inv_l  := fun a => grp_inv_r (g:=G) a;
   grp_inv_r  := fun a => grp_inv_l (g:=G) a
 |}.
+
+(* The strict form.  Both comparison functors are the identity on objects
+   and on morphisms, so the object component of StrictCat's hom-setoid is
+   [eq_refl], the transports vanish, and what remains is reflexivity of the
+   morphism.  This is the genuine "isomorphism of categories" that the
+   comment above previously — and wrongly — attached to the [Cat] form. *)
+Program Definition Deloop_op_strict (M : MonObject) :
+  (Deloop M)^op ≅[StrictCat] Deloop (MonObject_op M) := {|
+  to   := Deloop_op_to M;
+  from := Deloop_op_from M
+|}.
+(* Both round-trip obligations are discharged by the library's default
+   obligation tactic: the comparison functors are the identity on objects
+   AND on morphisms, so the two sides are convertible and nothing is left
+   to prove. *)
