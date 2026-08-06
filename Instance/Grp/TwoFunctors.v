@@ -33,10 +33,14 @@ Generalizable All Variables.
      - [S3]: the symmetric group on three letters, presented as the
        semidirect product of a rotation of order three by a reflection of
        order two, over a carrier with decidable equality.  Its setoid IS
-       propositional equality ([S3_equiv_is_eq] and [S3_eq_is_equiv] below
-       record that in both directions), so a computation refuting an
-       equation of carrier elements is a statement about the hom-setoid of
-       [Grp], not about how a term happens to be written.  [S3] is
+       propositional equality -- literally, not merely extensionally: the
+       two relations are CONVERTIBLE, so [S3_equiv_is_eq] and
+       [S3_eq_is_equiv] below are each the identity coercion, and calling
+       them a record "in both directions" inflates them (an audit said so
+       and was right; the underlying fact is stronger than the pair of
+       lemmas suggests).  So a computation refuting an equation of carrier
+       elements is a statement about the hom-setoid of [Grp], not about
+       how a term happens to be written.  [S3] is
        nonabelian ([S3_nonabelian]), which is exactly what the witness
        needs.
 
@@ -73,27 +77,49 @@ Generalizable All Variables.
    the datum [S3_two_functors_distinct] consumes.
 
    SCOPE, STATED PLAINLY.  Mac Lane's exercise is posed for the whole
-   category of groups.  The classical solutions choose, for each group, an
-   automorphism to conjugate by; that choice is a use of a choice
-   principle, and this library is axiom-free (docs/AXIOMS.md).  No such
-   family over all of [Grp] is constructed here, and none is claimed to
-   exist or not to exist in Rocq.  What is constructed is the same twist
-   over the full subcategory of [Grp] on the single object S3, where the
-   family is one honest inner automorphism, plus the two collapse theorems
-   above which show what goes wrong with the uniform candidates.  The
-   companion witness in Construction/Free/TwoFunctors.v (Fong and Spivak's
-   Exercise 3.40) needs no groups at all.
+   category of groups.  What is constructed here is the same twist over
+   the full subcategory of [Grp] on the single object S3, where the family
+   is one honest inner automorphism, plus the two collapse theorems above
+   which show what goes wrong with the uniform candidates.  The companion
+   witness in Construction/Free/TwoFunctors.v (Fong and Spivak's Exercise
+   3.40) needs no groups at all.
 
-   A second obstacle to a separation over the whole of [Grp] is worth
-   recording, since it is a property of the strict setoid rather than of
-   groups.  The object component of a [Functor_StrictEq_Setoid] witness is
-   an ARBITRARY proof of [F x = G x]; for two functors that share the
-   identity object function these are loops [G = G] in [GrpObject].
-   Refuting strict equality therefore means refuting every such loop, not
-   only [eq_refl].  The witnesses below sidestep this because their object
-   types have decidable equality, so Hedberg collapses every loop
-   ([uip_of_dec] of Functor/Twist.v); this file provides no such principle
-   for [GrpObject] and does not need one.
+   WHAT EXACTLY IS MISSING, and it is one principle rather than a vague
+   appeal to choice.  An audit of the first commit built the [Grp]-wide
+   pair using nothing from this file except [Twist], [Twist_not_strict_id],
+   [uip_of_dec] and [Grp_conj_iso], adding only a decision procedure for
+   equality of [GrpObject]s: with one in hand, the family that conjugates
+   at S3 and is the identity elsewhere is definable, and the resulting
+   endofunctor of [Grp] has the identity object function, is equal to [Id]
+   in [Cat] and distinct from it in [StrictCat].  Reading the axioms off
+   that construction gives exactly two, [classic] and
+   [constructive_indefinite_description] -- so the barrier really is a
+   choice principle, as the informal story says, and this library is
+   axiom-free (docs/AXIOMS.md).
+
+   The machinery in Functor/Twist.v is therefore exactly one principle
+   short of the exercise as posed, and that principle is the object
+   discriminator, not anything about twists.
+
+   AND THE OBSTRUCTION CANNOT BE UPGRADED TO A THEOREM, which is worth
+   saying because the reflex elsewhere in this development is to convert
+   "we could not" into "it cannot" by counterexample.  Here that move is
+   unavailable: since the separating endofunctor exists in every model of
+   Rocq extended by classical epsilon, the statement "every endofunctor of
+   [Grp] with the identity object function is strictly [Id]" is NOT
+   provable in Rocq, modulo the relative consistency of that extension.
+   So nothing is claimed to exist or not to exist here, and nothing can be.
+
+   A CONSEQUENCE OF THE SAME PRINCIPLE, not a second obstacle.  The first
+   commit recorded separately that the object component of a
+   [Functor_StrictEq_Setoid] witness is an ARBITRARY proof of [F x = G x] --
+   for functors sharing the identity object function, a loop [G = G] in
+   [GrpObject] -- so that refuting strict equality means refuting every
+   such loop rather than only [eq_refl].  That is accurate, but it is not
+   an independent barrier: the same decision procedure that supplies the
+   discriminator collapses every loop through Hedberg, via this
+   development's own [uip_of_dec] in Functor/Twist.v.  The witnesses below
+   sidestep it because their object types have decidable equality.
 
    STRICT VERSUS WEAK.  The distinctness is stated in
    [Functor_StrictEq_Setoid] (Theory/Functor.v:508), the hom-setoid of
@@ -325,7 +351,14 @@ Next Obligation.
 Qed.
 
 (* The object map is injective, so [GrpAt G] is a subcategory of [Grp] in
-   the strict sense of the word and not merely a category mapping into it;
+   the strict sense of the word and not merely a category mapping into it.
+   NOTE HOW LITTLE THIS COSTS, since an audit rightly asked: the object
+   type of [GrpAt G] is [poly_unit], so any two objects are equal and the
+   injectivity hypothesis is discarded outright; fullness and faithfulness
+   are definitional too, the hom-type being [Grp]'s own on the nose.  All
+   three are worth stating -- they are what "full subcategory" means, and
+   this development has been strict about the word -- but none of the
+   three has content.  What follows;
    with fullness and faithfulness above, it is the full subcategory on G. *)
 Lemma GrpAt_Incl_injective_on_objects (G : GrpObject) (x y : GrpAt G) :
   fobj[GrpAt_Incl G] x = fobj[GrpAt_Incl G] y → x = y.
