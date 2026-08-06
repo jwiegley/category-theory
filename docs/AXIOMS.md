@@ -149,6 +149,10 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+- `Exp_Functor`, `eval_natural`, `Curry_Adjunction`,
+  `Curry_Representable` (`Structure/Cartesian/Closed/Adjunction.v`) —
+  the currying adjunction `(− × S) ⊣ (−)^S` with `eval` as counit, and
+  the representation of `C(− × S, B)` by `B^S`
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

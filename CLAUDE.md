@@ -129,7 +129,25 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Structure/Cartesian.v**: Products via universal property
 - **Structure/Cartesian/Closed.v**: Exponentials and internal hom (the live
   cartesian-closed development; `Structure/Closed.v` is an incomplete
-  Eilenberg–Kelly stub whose `Class Closed` is not yet in force)
+  Eilenberg–Kelly stub whose `Class Closed` is not yet in force). The currying
+  adjunction is packaged in Structure/Cartesian/Closed/Adjunction.v: the
+  endofunctors `Prod_Functor S = (− × S)` and `Exp_Functor S = (−)^S` (the
+  latter the partial application of Functor/Hom/Internal.v's internal-hom
+  bifunctor, `Exp_Functor_InternalHom`), the named naturality lemma
+  `eval_natural` with its bundled `eval_Transform : (−)^S × S ⟹ Id`, and
+  `Curry_Adjunction : Prod_Functor S ⊣ Exp_Functor S` in the hom-set form of
+  Theory/Adjunction.v — `curry`/`uncurry` as the transposes and `eval` as
+  counit, all three by `reflexivity`, with the triangle identities inherited
+  from the general theory; this turns the prose remark of Theory/Adjunction.v
+  (lines 93-94) into a theorem. `Curry_Representable` is the tree's first
+  `Representable` instance (and its first consumer: resolution finds it, and
+  the class's `Representable_to_obj` coercion reads the representing object
+  back), witnessing Riehl's Example 2.1.6(iv) — the presheaf
+  `C(− × S, B) : C^op ⟶ Sets` is represented by `B^S`, with the Yoneda
+  universal element `eval` (`Curry_repr_universal`). The `Sets` model,
+  where the counit computes to `e(h, s) = h s` and the transpose of addition
+  on a `nat` setoid witnesses non-vacuity, is
+  Instance/Sets/Cartesian/Closed/Adjunction.v
 - **Structure/Monoidal.v**: Tensor products with coherence
 - **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
 - **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)
