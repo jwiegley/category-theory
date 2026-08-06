@@ -49,10 +49,16 @@ Generalizable All Variables.
    presented with two different enumerations and yield two objects with the
    same image under the inclusion; [FinSets_bool] and [FinSets_bool_dup]
    below do exactly that, and [FinSets_bool_same_image] records that their
-   images agree on the nose.  Whether those two objects are themselves
-   distinct is not decided here — deciding it would need proof irrelevance for
-   the [sobj] component, which this library does not assume — and in any case
-   they are isomorphic in the subcategory ([FinSets_bool_iso]).  Nothing in
+   images agree on the nose.  Those two objects ARE provably distinct, and the
+   first commit of this file had this backwards: it said deciding the
+   question would need proof irrelevance for the [sobj] component.  Proof
+   irrelevance would be needed to prove them EQUAL.  Distinctness is
+   immediate, with no axiom, because [FiniteSetoid] carries its enumeration
+   as DATA and the length of that enumeration separates them —
+   [FinSets_bool_distinct] below.  They are nonetheless isomorphic in the
+   subcategory ([FinSets_bool_iso]), which is the point: the inclusion is
+   fully faithful without being injective on objects.  (Correction due to an
+   audit of the first commit.)  Nothing in
    the [Subcategory] record of Construction/Subcategory.v forces [sobj] to be
    subsingleton-valued, so this is a feature of the apparatus rather than of
    finiteness.
@@ -199,4 +205,20 @@ Proof.
   apply (fst (injectivity_is_monic Sets_negb)).
   intros a b Hab; destruct a, b; simpl in *;
     solve [ reflexivity | discriminate ].
+Qed.
+
+(* The separating measurement promised in the header: the length of the
+   chosen enumeration.  This is well-typed with no proof irrelevance, no
+   UIP and no axiom — the enumeration is data, not a proof. *)
+Definition enum_len (s : FinSetsCat) : nat := length (projT1 (projT2 s)).
+
+(* So the two objects over the same setoid are genuinely different objects,
+   even though the inclusion sends them to the same object of [Sets] and
+   they are isomorphic in the subcategory. *)
+Theorem FinSets_bool_distinct : FinSets_bool = FinSets_bool_dup → False.
+Proof.
+  intro Heq.
+  assert (H : enum_len FinSets_bool = enum_len FinSets_bool_dup)
+    by (rewrite Heq; reflexivity).
+  simpl in H; discriminate.
 Qed.

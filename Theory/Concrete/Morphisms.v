@@ -53,25 +53,28 @@ Section ConcreteMorphisms.
 Context {C : Category}.
 Context `{Con : @Concrete C}.
 
-(* Injective underlying function implies monic.  Cancelling `f` on the left of
-   `f ∘ g1 ≈ f ∘ g2` is done element by element: at each point of the
-   underlying set of the source, both sides are `f`'s function applied to the
-   corresponding point of `g1` and `g2`, so injectivity separates them, and
-   [concrete_arrow_eq] lifts the pointwise conclusion back to `C`. *)
+(* Injective underlying function implies monic.  This IS a corollary of
+   [faithful_reflects_monic]: the underlying functor is faithful by
+   assumption, injectivity of the underlying function makes its image monic
+   in [Sets] by [injectivity_is_monic], and reflection carries that back to
+   `C`.  The first commit of this file proved it from scratch instead, and
+   then described it as derived from the reflection lemma — an audit caught
+   the discrepancy, so the proof now matches the description.
+
+   NOTE THE ASYMMETRY with the epic direction below, which CANNOT take this
+   route: Instance/Sets.v's [surjectivity_is_epic] terminates in an
+   incomplete sketch and does not enter the environment, so there is no
+   independent "surjective implies epic" in [Sets] to reflect through.  That
+   direction is therefore proved directly here, and [Sets_surjective_epic]
+   below is obtained FROM it rather than the other way round. *)
 Lemma concrete_injective_monic {x y : C} (f : x ~> y) :
   injective (concrete_fun f) → Monic f.
 Proof.
   intros Hinj.
-  destruct Hinj as [Hinj].
-  constructor; intros z g1 g2 Hg.
-  apply concrete_arrow_eq; intro a.
-  apply Hinj.
-  (* Both sides are the underlying function of a composite, by [fmap_comp]. *)
-  transitivity (concrete_fun (f ∘ g1) a).
-  { symmetry; exact (fmap_comp (Functor:=underlying) f g1 a). }
-  transitivity (concrete_fun (f ∘ g2) a).
-  { exact (concrete_fun_respects _ _ Hg a). }
-  exact (fmap_comp (Functor:=underlying) f g2 a).
+  apply (faithful_reflects_monic underlying (H:=underlying_faithful) f).
+  apply (fst (injectivity_is_monic (fmap[underlying] f))).
+  intros a b Hab.
+  exact (inj (injective:=Hinj) Hab).
 Qed.
 
 (* Surjective underlying function implies epic: the mirror image.  A point of

@@ -143,7 +143,13 @@ Definition ShomRespects : Type :=
 (* The converse of [Full_Implies_Full_Functor] under that hypothesis, which
    with it completes the "full subcategory iff full inclusion" biconditional.
    Only the hypothesis's transport along ≈ is used; the two directions are
-   otherwise independent. *)
+   otherwise independent.
+
+   The hypothesis is NECESSARY, not merely convenient:
+   Construction/Subcategory/FullConverse.v exhibits a subcategory whose
+   inclusion is full as a functor while the subcategory is not full as data,
+   over a hom-setoid with two classes, refuting the unhypothesised converse
+   outright. *)
 
 Lemma Full_Functor_Implies_Full : ShomRespects → Functor.Full Incl → Full.
 Proof.

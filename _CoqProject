@@ -70,6 +70,7 @@ Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
 Construction/Subcategory/Finite.v
+Construction/Subcategory/FullConverse.v
 Construction/Free/Quiver.v
 Construction/Free/Quiver/Concrete.v
 Construction/Span/Category.v
