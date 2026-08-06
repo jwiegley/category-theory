@@ -102,10 +102,18 @@ Generalizable All Variables.
    interpreted as pullback, and in homotopy type theory the display
    maps are the fibrations (Taylor, "Practical Foundations of
    Mathematics", CUP 1999; nLab, display map).  The [2, C] equivalence
-   of the header, by contrast, remains documentation-level: no formal
-   comparison with a functor category over the walking arrow [_2] of
-   Instance/Two.v is developed in-tree, and the codomain isomorphism
-   above is the comparison this library actually proves. *)
+   of the header is proven in Theory/Shapes.v as
+   [Two_Fun_Arrow : [_2, C] ≅[Cat] Arrow C], over the walking arrow [_2]
+   of Instance/Two.v.  Read its strength precisely: [≅[Cat]] here is an
+   EQUIVALENCE of categories, since Instance/Cat.v identifies functors up
+   to natural isomorphism.  One of the two round trips is strict --
+   [Arrow_Fun_Arrow_strict] there says the composite
+   Arrow C -> [_2, C] -> Arrow C is [Functor_StrictEq_Setoid]-equal to the
+   identity -- while the other is witnessed by a family of natural
+   isomorphisms whose components are identities, and no more; that file's
+   header records exactly what would be needed for a [StrictCat]
+   isomorphism, which is not claimed.  The codomain isomorphism above is
+   the separate comparison with the displayed presentation. *)
 
 Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).
 

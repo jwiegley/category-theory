@@ -18,7 +18,11 @@ Generalizable All Variables.
    2 is the "walking arrow": a functor 2 ⟶ C is exactly a choice of one
    morphism of C (the image of TwoXY), so functors out of 2 classify the
    morphisms of C, and the functor category [2, C] is the arrow category of
-   C (objects = arrows of C, morphisms = commutative squares). *)
+   C (objects = arrows of C, morphisms = commutative squares).  Both halves
+   of that sentence are theorems in Theory/Shapes.v: [Walk] and [arrow_of]
+   with their round trips for the first, and [Two_Fun_Arrow] for the
+   second, the latter an equivalence of categories in the sense of
+   Instance/Cat.v rather than an isomorphism of categories. *)
 
 (* The smallest non-trivial shape, and the smallest object of truth values
 
