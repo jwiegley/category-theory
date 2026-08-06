@@ -32,14 +32,22 @@ Generalizable All Variables.
    [SetoidObject] (Instance/Sets.v:113), a natural number, and an
    isomorphism in [Sets] from the setoid to the canonical one — Mac Lane's
    chosen bijection [θ_X : X ≅ #X].  Morphisms, identities, composition
-   and the hom-setoid are those of [Sets] verbatim, so [Set_f] is the full
-   subcategory of [Sets] on the objects carrying such a witness, and an
-   isomorphism of [Set_f] is an isomorphism of [Sets] on the nose
+   and the hom-setoid are those of [Sets] verbatim, so the evident functor
+   [Set_f ⟶ Sets] is FULLY FAITHFUL — but it is NOT injective on objects,
+   so [Set_f] is not a subcategory of [Sets].  An audit of the first commit
+   was right to insist on the distinction, and the file's own centrepiece
+   depends on it: [two_swap] and [finset_obj 2] have the SAME underlying
+   setoid and differ only in the bijection they carry, which is exactly
+   what makes the counit at [two_swap] a transposition rather than an
+   identity.  Were [Set_f] a full subcategory of [Sets], those two objects
+   would be one object and the asymmetry below would collapse.  An
+   isomorphism of [Set_f] is nonetheless an isomorphism of [Sets] on the
+   nose
    ([setf_iso] and [sets_iso] repackage the same four fields and carry no
    content of their own).  Finiteness is meant in the setoid sense —
    finitely many equivalence classes — so a carrier may be infinite;
    [parity_two] below is [nat] under equality of parity, an object of
-   [Set_f] of setf_cardinality 2.
+   [Set_f] of cardinality 2.
 
    THE WITNESS IS DATA, NOT AN ASSERTION.  [fs_theta] is a field of the
    object record, so the cardinal functor [Card] can read it off and act
@@ -87,7 +95,9 @@ Generalizable All Variables.
      map and its morphism map are Leibniz-equal to the identity's, by
      [eq_refl] ([Card_Incl_fobj_strict], [Card_Incl_fmap_strict]), and the
      comparison cell that [FF_ESO_Equivalence] computes at every object is
-     literally the identity morphism ([Incl_unit_is_identity]).  This is
+     literally the identity morphism ([Incl_unit_is_identity]) — its
+     COMPONENTS are, in both directions; the isomorphism RECORD is not
+     [iso_id], since the two carry different proof fields.  This is
      the effect of giving the canonical objects the identity bijection.
    - [FinSet_Incl ◯ Card] is compared to the identity only by the natural
      isomorphism [Incl_Card_theta], whose components are the chosen
@@ -121,10 +131,16 @@ Generalizable All Variables.
    WHERE [=] APPEARS, AND WHY.  Morphisms are compared with ≈ throughout;
    the exceptions are deliberate and each is flagged where it is stated.
    (a) Equality of OBJECTS is the point of [FinSet_skeletal] and of the
-   setf_cardinality theorems — there [=] is what is being proved.  (b) The
-   strictness lemmas of the asymmetry section compare morphisms and
-   functor components with [=]; each is genuinely stronger than the ≈ or ≅
-   statement it refines, and says so at the statement.  (c) Equations
+   cardinality theorems — there [=] is what is being proved.  (b) The
+   strictness lemmas compare morphisms and functor components with [=];
+   each is genuinely stronger than the ≈ or ≅ statement it refines, and
+   says so at the statement.  Most of them sit in the asymmetry section,
+   but not all — [Card_quasi_inverse_fmap] is one and appears with the
+   equivalence.  (b') Beyond those five classes the file also states a few
+   equalities of Types and of booleans (carrier identifications, and the
+   counting kit's list lengths); they are not comparisons of categorical
+   data at all, and are listed here only so this taxonomy is not read as
+   exhaustive.  (c) Equations
    between ELEMENTS of a canonical setoid [fin_setoid n] are written [=]
    because [Fin_Setoid]'s equivalence IS Leibniz equality, so there [=] and
    ≈ are the same relation and nothing is being strengthened.  (d) Two
@@ -149,10 +165,11 @@ Generalizable All Variables.
    categorical form.  To say that a finite set has n elements is to
    choose a bijection with the standard n-element set; Cantor's move
    was to make the number secondary and the bijection primary, so that
-   two sets have the same setf_cardinality precisely when some bijection
+   two sets have the same cardinality precisely when some bijection
    exists (Fong and Spivak, Seven Sketches in Compositionality, CUP
-   2019, §3.2.5, present setf_cardinality in exactly this isomorphism-class
-   reading).  The categorical statement adds functoriality: the
+   2019, §3.2.5, present cardinality in exactly this isomorphism-class
+   reading; the in-file constant is named [setf_cardinality] only to avoid
+   shadowing an unrelated [cardinality] in Theory/Metacategory.v).  The categorical statement adds functoriality: the
    assignment of a number to a set is not merely well defined on
    isomorphism classes, it is a functor, and the choice of bijections
    through which it acts on maps is invisible in the result up to
@@ -337,8 +354,9 @@ Record FinSetoid : Type := {
 }.
 
 (* Morphisms, identities, composition, hom-setoid and all five laws are
-   [Sets]' own, so this is literally the full subcategory of [Sets] on the
-   objects that carry a finiteness witness.  Nothing is re-proved. *)
+   [Sets]' own, so nothing is re-proved and the forgetful functor to [Sets]
+   is fully faithful.  It is NOT a subcategory: the object map forgets the
+   carried bijection and is therefore not injective (see the header). *)
 Definition Set_f : Category := {|
   obj := FinSetoid;
   hom := fun A B => fs_obj A ~{Sets}~> fs_obj B;
@@ -680,6 +698,10 @@ Proof.
   discriminate H.
 Qed.
 
+(* PROJECTION, not computation: the statement is [2 = 2], so the only
+   content here is that the hypothesis typechecks — that a non-identity
+   isomorphism can be supplied. The inhabitation evidence proper is
+   [FinSet_swap_iso] together with [FinSet_swap_not_identity]. *)
 Example FinSet_skeletal_at_swap : (2 = 2)%nat :=
   FinSet_skeletal FinSet_swap_iso.
 
@@ -713,6 +735,10 @@ Qed.
    same underlying setoid, so the IDENTITY function is a morphism between
    them — and [# f = θ_Y ∘ f ∘ θ_X⁻¹] conjugates it into the
    transposition.  This is the conjugation formula doing something. *)
+(* PROJECTION, not computation: [Card]'s object part IS [fs_card], so this
+   reads off a field rather than exercising the functor. The computational
+   evidence is [Card_parity_succ_F1]/[_FS] below, which run through the
+   enumeration. *)
 Example Card_two_swap : Card two_swap = 2%nat := eq_refl.
 
 Example Card_conjugates_theta :
@@ -749,7 +775,7 @@ Qed.
 (** ** A finite setoid whose carrier is infinite *)
 
 (* [nat] under equality of parity: two equivalence classes, infinitely
-   many inhabitants.  It is an object of [Set_f] of setf_cardinality 2, so
+   many inhabitants.  It is an object of [Set_f] of cardinality 2, so
    [Set_f] is not a relabelling of [FinSet] — and the cardinal functor
    computes on it. *)
 Program Definition parity_setoid : SetoidObject := {|
@@ -820,6 +846,10 @@ Definition parity_succ : parity_two ~{Set_f}~> parity_two :=
 
 (* The carrier is [nat]: an object of [Set_f] is finite in the setoid sense
    — finitely many EQUIVALENCE CLASSES — so its carrier type need not be. *)
+(* PROJECTION: an identification of carriers, holding because [parity_two]
+   was built over [parity_setoid] whose carrier is [nat]. It records that a
+   two-element object may have an infinite carrier; it proves nothing about
+   the finiteness witness. *)
 Example parity_carrier_is_nat : carrier (fs_obj parity_two) = nat := eq_refl.
 
 (* The round trip at [parity_two] is the identity only up to ≈: it sends 3
@@ -830,6 +860,10 @@ Example parity_carrier_is_nat : carrier (fs_obj parity_two) = nat := eq_refl.
 Example parity_round_trip_moves_3 :
   parity_index (parity_enum 3) = 1%nat := eq_refl.
 
+(* PROJECTION, for the same reason as [Card_two_swap]: [setf_cardinality]
+   is defined as [fs_card], so this reads off the carried index. What makes
+   the index CORRECT is [setf_cardinality_unique], and what computes is
+   [Card_parity_succ_F1]/[_FS]. *)
 Example cardinality_parity_two : setf_cardinality parity_two = 2%nat := eq_refl.
 
 Example Card_parity_succ_F1 :
