@@ -104,7 +104,9 @@ Generalizable All Variables.
    Mathematics", CUP 1999; nLab, display map).  The [2, C] equivalence
    of the header is proven in Theory/Shapes.v as
    [Two_Fun_Arrow : [_2, C] ≅[Cat] Arrow C], over the walking arrow [_2]
-   of Instance/Two.v.  Read its strength precisely: [≅[Cat]] here is an
+   of Instance/Two.v, for [C : Category@{o Set Set}] -- a restriction that
+   side genuinely forces, since Instance/Fun.v's [Fun] identifies the hom
+   universes of source and target while [_2]'s homs live in [Set].  Read its strength precisely: [≅[Cat]] here is an
    EQUIVALENCE of categories, since Instance/Cat.v identifies functors up
    to natural isomorphism.  One of the two round trips is strict --
    [Arrow_Fun_Arrow_strict] there says the composite

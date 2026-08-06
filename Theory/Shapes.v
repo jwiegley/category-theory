@@ -66,9 +66,14 @@ Generalizable All Variables.
                                [pair_snd]   [Functor_of_Pair_snd],
                                             [Functor_of_Pair_of_Functor]
 
-   In each row one round trip holds definitionally (the extracted datum IS
-   the datum that was fed in) and the other is the substantive one: it
-   recovers a functor from what it does on the generators.  For [_1] and
+   In the [_1] and [_2] rows one round trip holds definitionally (the
+   extracted datum IS the datum that was fed in) and the other is the
+   substantive one: it recovers a functor from what it does on the
+   generators.  The [_3] row has NO definitional side -- the table above
+   never marked one, and an audit caught the prose here claiming otherwise
+   -- because [Functor_of_Pair]'s action on a step runs through
+   Instance/Ordinal.v's [Functor_of_Steps_step], which consumes [id_right]
+   and [le_t_irr].  For [_1] and
    [_2] the substantive direction is proven at [Functor_StrictEq_Setoid],
    the STRICT functor equality of Theory/Functor.v -- equal object maps on
    the nose, morphism maps agreeing after transport -- which is finer than
@@ -129,30 +134,50 @@ Generalizable All Variables.
    setoid discipline.  This remark is scoped to this file and says nothing
    about the rest of the tree.
 
-   UNIVERSES, measured with [Set Printing Universes] rather than asserted.
-   The two-map correspondences are not pinned: [Point] and [One_Eval] take
-   [C : Category@{o h h}], [Walk] takes [C : Category@{o h h}], and
-   [Functor_of_Pair] takes [C : Category@{o h h}] while producing a functor
-   out of [_3@{u Set Set}] -- the same source profile that
+   UNIVERSES.  This paragraph was headed "measured, not asserted" in the
+   first commit and an audit then refuted two of its measurements, which is
+   a fair reminder that a claim of rigour is not rigour.  What follows is
+   the corrected account.
+
+   THE CONSTRUCTIONS are free: [Point], [Walk], [One_Eval] and
+   [Functor_of_Pair] all take [C : Category@{o h h}].  [Functor_of_Pair]
+   produces a functor out of [_3@{u Set Set}] -- the same source profile
    Instance/Ordinal.v's own [Functor_of_Steps] and [Functor_of_Triple]
-   already carry.  Five constants ARE pinned -- [One_Const], [One_Fun_iso],
-   [Arrow_of_Fun], [Fun_of_Arrow] and [Two_Fun_Arrow] -- and are stated for
-   [C : Category@{o Set Set}].  All five mention a functor category, but so
-   does [One_Eval], which is not pinned, so mentioning one is not by itself
-   the cause; no attempt is made here to characterize which occurrences
-   force it.  For the [_2] side the restriction is genuinely forced, and
-   that much was tested directly: Instance/Fun.v's [Fun] carries the
-   constraint [u0 = u2], identifying the hom universes of source and
-   target, and Instance/Two.v's [_2] is
+   already carry.
+
+   THE THEOREMS ABOUT THEM ARE NOT.  Fifteen constants are stated for
+   [C : Category@{o Set Set}], not the five the first commit named: besides
+   [One_Const], [One_Fun_iso], [Arrow_of_Fun], [Fun_of_Arrow] and
+   [Two_Fun_Arrow], the pinned set includes [point_of_Point],
+   [Point_point_of_strict], [Point_point_of], [Point_equiv_iso],
+   [Point_point_of_iso], [Walk_arrow_of_strict], [Walk_arrow_of],
+   [Arrow_Fun_Arrow_strict], [Walk_arrow_of_iso] and
+   [Functor_of_Pair_of_Functor].  Three of those are the substantive round
+   trips, so it is wrong to say the correspondences are unpinned: you may
+   BUILD the functors at any universe, but the round-trip theorems apply
+   only at the restricted profile.
+
+   FOR THE [_2] SIDE THE RESTRICTION IS FORCED, and that much was tested:
+   Instance/Fun.v's [Fun] carries the constraint [u0 = u2], identifying the
+   hom universes of source and target, and Instance/Two.v's [_2] is
    [Category@{u Set Set}] because [TwoHom] lands in [Set], so writing
    [[_2, C]] with [C : Category@{o h p}] is rejected with "Cannot enforce
-   Set = h".  For the [_1] side the [Set] is Coq's minimization of the free
-   hom universe of [_1] rather than anything intrinsic -- [_1@{o h p}] is
-   polymorphic -- but an annotated variant was tried and is rejected at
-   [One_Const], so the restriction stands and is disclosed rather than
-   worked around.  It does not empty the statements:
-   [Two_Fun_Arrow_at_three] and [One_Fun_iso_at_three] instantiate both at
-   the three-object ordinal.
+   Set = h".
+
+   FOR THE [_1] SIDE IT IS NOT FORCED, contrary to what the first commit
+   claimed.  That commit said an annotated variant had been tried and was
+   rejected at [One_Const]; the audit built one that compiles end to end,
+   including the strict round trip, over [Category@{u u u}] with
+   [Set < u].  Note the trade rather than the strict improvement: that
+   variant identifies the object and hom universes where this file's form
+   identifies the hom universe with [Set], so neither statement subsumes
+   the other.  The [Set] form is kept here because it is what the [_2]
+   side forces and matching the two keeps the file uniform -- a deliberate
+   choice, now stated as one instead of as an obstruction.
+
+   The restriction does not empty the statements: [Two_Fun_Arrow_at_three]
+   and [One_Fun_iso_at_three] instantiate both at the three-object
+   ordinal.
 
    INSTANTIATIONS.  The three Seven Sketches items are the three concrete
    exercises of the correspondences.  Example 3.36 draws functors from the
