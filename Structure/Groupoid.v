@@ -386,7 +386,7 @@ Definition vertex_group {C : Category} (G : IsGroupoid C) (x : C) : GrpObject :=
    field.  The whole records are NOT equal: the law fields of
    [vertex_group ... ] are the opaque obligation proofs of
    [Deloop_group_invertible], not the law fields of G, and [GrpObject] carries
-   no proof irrelevance — the same distinction Construction/Deloop.v draws for
+   no proof irrelevance — the same distinction Construction/Deloop/Opposite.v draws for
    [MonObject_op].  Each [=] below is therefore an equality of a DATA field,
    which is strictly stronger than `≈` on that field and is what [eq_refl]
    can supply. *)
@@ -500,12 +500,24 @@ Arguments conjugation {C} G {x x'} f.
    otherwise.  That dependence is the categorical form of the base-point
    dependence of the fundamental group.
 
-   VACUITY.  With x' := x and f := id the statement degenerates to the
-   identity automorphism of hom(x, x), so the content is entirely in the
-   case of two DISTINCT objects.  That case is witnessed:
-   [Bool_Wide_conjugation] in Structure/Groupoid/Connected.v conjugates
-   between the vertex groups at [true] and [false] of a two-object
-   groupoid. *)
+   VACUITY, stated correctly at the second attempt.  With f := id the
+   statement degenerates to the identity automorphism of hom(x, x).  The
+   first version of this note then claimed the content lies in the case of
+   two DISTINCT objects, and pointed at [Bool_Wide_conjugation] as the
+   witness.  An audit refuted both halves.
+
+   The dividing line is ABELIAN versus NONABELIAN, not same-object versus
+   distinct-object: conjugation by a non-central endomorphism f : x ~> x is
+   already a nontrivial inner automorphism, while conjugation in an abelian
+   vertex group is the identity however distinct the objects are.  And
+   [Bool_Wide_conjugation] is exactly that degenerate case — its vertex
+   group is Z/2, so its underlying map is provably the identity; it
+   witnesses the two-object TYPING and nothing more.
+
+   The honest witness is [S3_conjugation_not_identity] at the end of this
+   file, over the symmetric group on three letters, which this work adds
+   because the tree previously contained no nonabelian group at all — so no
+   non-identity conjugation was expressible anywhere. *)
 Definition conjugation_iso {C : Category} (G : IsGroupoid C) {x x' : C}
   (f : x ~> x') : MonIso (vertex_group G x) (vertex_group G x').
 Proof.
@@ -670,3 +682,81 @@ Example Z3_inv_1 : grp_inv (g:=Z3_Grp) Z3_1 = Z3_2 := eq_refl.
 
 Lemma Z3_inv_moves : grp_inv (g:=Z3_Grp) Z3_1 <> Z3_1.
 Proof. discriminate. Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** A nonabelian group, and a conjugation that genuinely moves an element *)
+
+(* The vacuity note on [conjugation_iso] above originally pointed at
+   [Bool_Wide_conjugation] as the witness escaping the degenerate case.  An
+   audit refuted that: Z/2 is abelian, so conjugation there is the identity
+   map, and the witness supplied only the two-distinct-object TYPING.  Worse,
+   the whole tree contained no nonabelian group, so no non-identity
+   conjugation could be exhibited at all.
+
+   The audit also identified the real dividing line, which the original note
+   got wrong: it is abelian versus nonabelian, NOT same-object versus
+   distinct-object.  Conjugation by a non-central endomorphism is already a
+   nontrivial inner automorphism.
+
+   So this section builds the tree's first nonabelian group — the symmetric
+   group on three letters, as a six-element enumeration with an explicit
+   multiplication table — and exhibits conjugation moving an element. *)
+
+Inductive S3 : Set :=
+  | S3_e | S3_r | S3_rr | S3_a | S3_b | S3_c.
+
+(* r is a 3-cycle, rr its square; a, b, c are the three transpositions. *)
+Definition S3_mul (x y : S3) : S3 :=
+  match x, y with
+  | S3_e,  y    => y
+  | x,     S3_e => x
+  | S3_r,  S3_r  => S3_rr | S3_r,  S3_rr => S3_e
+  | S3_rr, S3_r  => S3_e  | S3_rr, S3_rr => S3_r
+  | S3_r,  S3_a  => S3_b  | S3_r,  S3_b  => S3_c  | S3_r,  S3_c  => S3_a
+  | S3_rr, S3_a  => S3_c  | S3_rr, S3_b  => S3_a  | S3_rr, S3_c  => S3_b
+  | S3_a,  S3_r  => S3_c  | S3_b,  S3_r  => S3_a  | S3_c,  S3_r  => S3_b
+  | S3_a,  S3_rr => S3_b  | S3_b,  S3_rr => S3_c  | S3_c,  S3_rr => S3_a
+  | S3_a,  S3_a  => S3_e  | S3_b,  S3_b  => S3_e  | S3_c,  S3_c  => S3_e
+  | S3_a,  S3_b  => S3_rr | S3_b,  S3_c  => S3_rr | S3_c,  S3_a  => S3_rr
+  | S3_a,  S3_c  => S3_r  | S3_b,  S3_a  => S3_r  | S3_c,  S3_b  => S3_r
+  end.
+
+Definition S3_inv (x : S3) : S3 :=
+  match x with
+  | S3_e => S3_e | S3_r => S3_rr | S3_rr => S3_r
+  | S3_a => S3_a | S3_b => S3_b  | S3_c  => S3_c
+  end.
+
+Program Definition S3_Mon : MonObject := {|
+  mon_setoid := {| carrier := S3
+                 ; is_setoid := {| equiv := eq
+                                 ; setoid_equiv := eq_equivalence |} |};
+  mon_unit   := S3_e;
+  mon_op     := S3_mul
+|}.
+Next Obligation. intros a b c; now destruct a, b, c. Qed.
+Next Obligation. intros a; now destruct a. Qed.
+Next Obligation. intros a; now destruct a. Qed.
+
+Program Definition S3_Grp : GrpObject := {|
+  grp_monoid := S3_Mon;
+  grp_inv    := S3_inv
+|}.
+Next Obligation. intros a; now destruct a. Qed.
+Next Obligation. intros a; now destruct a. Qed.
+
+(* It is genuinely nonabelian — the two three-cycles conjugate the
+   transpositions around, which is exactly what Z/2 and Z/3 cannot do. *)
+Theorem S3_not_abelian : S3_mul S3_r S3_a = S3_mul S3_a S3_r → False.
+Proof. simpl; discriminate. Qed.
+
+Definition deloop_S3_groupoid : IsGroupoid (Deloop S3_Grp) :=
+  Deloop_IsGroupoid S3_Grp.
+
+(* THE WITNESS THE VACUITY NOTE NEEDED.  Conjugating the transposition [a]
+   by the three-cycle [r] inside the delooping of S3 moves it to [c]: the
+   automorphism is not the identity, so [conjugation_iso] has content that
+   no abelian witness can display. *)
+Example S3_conjugation_not_identity :
+  conjugate deloop_S3_groupoid (x:=ttt) (x':=ttt) S3_r S3_a = S3_a → False.
+Proof. simpl; discriminate. Qed.
