@@ -322,6 +322,9 @@ Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
 Structure/Group/Proofs.v
+Structure/Groupoid.v
+Structure/Groupoid/Connected.v
+Structure/Groupoid/Inversion.v
 Structure/Initial.v
 Structure/Kernel.v
 Structure/Limit.v
