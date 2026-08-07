@@ -210,6 +210,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Groupoid.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Basepoint.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -239,6 +240,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugation_iso.'; \
 	  echo 'Print Assumptions core_is_groupoid.'; \
 	  echo 'Print Assumptions Inversion_iso.'; \
+	  echo 'Print Assumptions deloop_ff_moniso.'; \
+	  echo 'Print Assumptions connected_vertex_moniso.'; \
+	  echo 'Print Assumptions Bool_Wide_vertex_moniso.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

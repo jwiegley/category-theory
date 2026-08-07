@@ -40,7 +40,8 @@ result about something the library actually contains.
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
-| `connected_deloop_equiv` | a connected groupoid (`IsGroupoid C` + `Connected C`); `connected_iff_deloop_equiv` needs only `IsGroupoid C`, since it CONCLUDES connectedness in one direction | `Bool_Wide := WideDeloop Bool_Xor_Grp bool` (`Structure/Groupoid/Connected.v`): two objects, eight arrows, vertex group Z/2, with the equivalence instantiated at both objects (`Bool_Wide_structure`, `Bool_Wide_structure_false`). The hypothesis is also shown necessary: `Two_Discrete_no_deloop_equivalence` refutes the conclusion for the disconnected two-object discrete groupoid |
+| `connected_deloop_equiv`, `connected_vertex_moniso` | a connected groupoid (`IsGroupoid C` + `Connected C`); `connected_iff_deloop_equiv` needs only `IsGroupoid C`, since it CONCLUDES connectedness in one direction | `Bool_Wide := WideDeloop Bool_Xor_Grp bool` (`Structure/Groupoid/Connected.v`): two objects, eight arrows, vertex group Z/2, with the equivalence instantiated at both objects (`Bool_Wide_structure`, `Bool_Wide_structure_false`) and the vertex-group isomorphism at `Bool_Wide_vertex_moniso` (`Structure/Groupoid/Basepoint.v`). A second witness: `FundamentalGroupoid TwoPoint_Indiscrete` is connected, and `TwoPoint_Indiscrete_inclusion_equivalence` instantiates the structure theorem there. The hypothesis is also shown necessary: `Two_Discrete_no_deloop_equivalence` refutes the conclusion for the disconnected two-object discrete groupoid. For `connected_vertex_moniso` read the fundamental-groupoid note below: the premise is witnessed, the conclusion is not yet exercised |
+| `FundamentalGroupoid`, `fundamental_groupoid_is_groupoid`, `fundamental_group_basepoint_independent`, `fundamental_group_inclusion_equivalence` | `PathConnected X` for the last two (the first two need only a `TopSpace`) | `TwoPoint_Indiscrete_pathconnected` (`Instance/Top/FundamentalGroupoid.v`), the indiscrete topology on two points, with the base-point isomorphism instantiated at `TwoPoint_Indiscrete_basepoint_iso`. The premise is shown to be a real restriction rather than a formality: `Bool_Discrete_pi_not_connected` refutes connectedness of π for the DISCRETE topology on the same setoid of points (`bool_carriers_agree` holds by `eq_refl`), so π is reading the topology and not the underlying set. See the fundamental-groupoid note below for what is still missing |
 | `conjugation_iso` (conjugation is a group isomorphism of vertex groups) | a groupoid with a NONABELIAN vertex group, without which the automorphism is the identity | `Deloop S3_Grp` (`Structure/Groupoid.v`) — the tree's first nonabelian group, added with this work; `S3_conjugation_not_identity` exhibits conjugation moving an element |
 | `Inversion_iso` (a groupoid is isomorphic to its opposite, in `StrictCat`) | `IsGroupoid C` | `core_is_groupoid C` for every `C`; `Deloop Z3_Grp` for a case where the morphism map is not the identity (`Z3_inversion_not_identity`) |
 | `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
@@ -80,6 +81,38 @@ numbers and therefore sit below its homs.  `FinSet_HasPushouts`
 `Cospan_Hypergraph` together with both spider results now instantiate over
 `FinSet` — each reported "Closed under the global context" — which is why
 they appear in the witnessed table above.
+
+### The fundamental-groupoid note
+
+Two limits of the π₁ development belong here rather than only in the file
+headers, because the gap between them is exactly what this document exists to
+keep visible.
+
+**No space with a nontrivial fundamental group is exhibited.**  Both witnesses
+above have trivial vertex groups at *every* base point, and both facts are
+proved rather than assumed (`Bool_Discrete_loops_trivial`,
+`TwoPoint_Indiscrete_loops_trivial`).  So
+`fundamental_group_basepoint_independent` is witnessed in the strict sense
+this document uses — its premise is met by an object the library builds, and
+that premise is shown to be a genuine restriction — while the isomorphism it
+produces happens to run between two trivial groups.  Reaching a nontrivial one
+means building S¹ and computing π₁(S¹) ≅ ℤ, which needs covering-space theory;
+nothing in the tree attempts it.  The witnessed pair is a contrast in
+*connectedness* and in nothing else.
+
+**A witnessed premise is not an exercised conclusion.**
+`connected_vertex_moniso` is instantiated at `Bool_Wide`
+(`Bool_Wide_vertex_moniso`), which satisfies both hypotheses; but `WideDeloop`
+fixes the hom type uniformly, so the two vertex groups being compared are the
+*same* monoid, and the resulting type is already inhabited by the identity
+maps — `Bool_Wide_vertex_moniso_trivial` records exactly that, with no appeal
+to connectedness or to the structure theorem.  The fundamental-groupoid
+witness improves on this in one respect (the two vertex groups then have
+different carriers, so the identity does not typecheck) and not in the other
+(both groups are trivial).  A witness that made the conclusion informative
+would need a connected groupoid whose vertex group both depends on the object
+and is nonabelian; `S3_Grp` supplies such a group but nothing in the tree
+spreads it over objects non-uniformly.
 
 ## Maintaining this table
 
