@@ -105,10 +105,10 @@ Generalizable All Variables.
    size, not a gap in the formalization.  Because `≈` is Type-valued,
    its proofs carry data: [bijective_is_iso] turns a surjectivity
    witness into an honest inverse function with no appeal to choice,
-   the choice having been data all along.  The remaining working
-   completeness of [Sets] is built piecewise under Instance/Sets/ —
-   products and exponentials, pushouts, and Cauchy completeness through
-   the splitting of idempotents in Instance/Sets/Karoubi.v. *)
+   the choice having been data all along.  [Sets] is complete
+   (Instance/Sets/Complete.v); its remaining structure is built piecewise
+   under Instance/Sets/ — products and exponentials, small indexed
+   (co)products, pushouts, and Cauchy completeness (Karoubi.v). *)
 
 Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
   carrier :> Type@{o};               (* the underlying type (Bishop carrier) *)

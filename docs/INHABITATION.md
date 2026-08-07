@@ -37,27 +37,56 @@ result about something the library actually contains.
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
 | `GAFT_from_initials` | a family of comma-initial objects | `InternalProductFunctor` (`Adjunction/GAFT/Examples.v`) |
+| `GAFT` (solution-set form) | `Complete C` + `PreservesImageLimit U` + `SolutionSet U d` | all three at `U := Id : Sets ⟶ Sets` (`Adjunction/GAFT/Sets.v`); see the GAFT note below |
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
-Each result here is proven, but its distinctive hypothesis has no inhabitant
-anywhere in the library, so no concrete object exercises it.  These are
-honest conditionals — "given such-and-such structure, the following holds" —
-and nothing proven elsewhere secretly depends on their being inhabited.
+Each result here is proven, but the premise package named below is not met
+as a whole by anything the library builds: at least one component has no
+in-tree inhabitant, so no concrete object exercises the result.  (Where a
+row's package names several premises, some may be witnessed individually;
+what is missing is a simultaneous witness.)  These are honest conditionals —
+"given such-and-such structure, the following holds" — and nothing proven
+elsewhere secretly depends on their being inhabited.
 
 | Result | Distinctive premise | Status of the premise |
 |--------|---------------------|-----------------------|
-| `GAFT` (solution-set form) | `Complete C` | no `Complete`/`Cocomplete` instance exists in-tree |
-| `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |
+| `SAFT` | `Complete C` + `PreservesImageLimit U` + `Cogenerator C` + `SubobjectIndex` + `SubobjectCover` | the first two are witnessed (`Sets_Complete`; `right_adjoint_PreservesImageLimit`), but no `Cogenerator`, `SubobjectIndex` or `SubobjectCover` exists in-tree, so `SAFT` is never applied.  `SAFT` takes no `SolutionSet` — it builds one itself, by `SAFT_solution_set` (`Adjunction/SAFT.v:252`) |
 | `RoundTrip_Equivalence` | a `SplitCleaving` of the required shape | never inhabited in that shape |
 | `beck_monadicity` | `CreatesUSplitCoequalizers` composed from the engine | never assembled; `Id` is shown monadic by a direct proof (`Monad/Monadicity/Examples.v`), bypassing the coequalizer machinery |
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
+
+### The GAFT note
+
+`GAFT` (`Adjunction/GAFT.v:241`) takes three premises, and each now has an
+in-tree supply:
+
+* `Complete C` — `Sets_Complete` (`Instance/Sets/Complete.v`), the library's
+  first `Complete` instance.
+* `PreservesImageLimit U` — `right_adjoint_PreservesImageLimit`
+  (`Construction/Comma/Limit.v:264`), which discharges it for *every* right
+  adjoint; `adj_id` (`Instance/Adjoints.v:42`) and `Diagonal_Product C ⊣ ×(C)`
+  (`Adjunction/Diagonal/Product.v`) are concrete adjunctions to feed it.  This
+  bridge predates the `Complete` instance.
+* `SolutionSet U d` — constructible, and constructed at `Id` as
+  `Sets_Id_SolutionSet` (`Adjunction/GAFT/Sets.v`).
+
+`GAFT_at_Sets_Id` (`Adjunction/GAFT/Sets.v`) assembles the three and runs the
+theorem, so `GAFT` is applied in-tree and its row belongs above.  Read the
+row with two qualifications, both disclosed in that file's header.  The
+functor is `Id`, so the adjoint produced is `Id` again — proved, as
+`GAFT_at_Sets_Id_is_Id` — and the demonstration is that the premises are
+simultaneously satisfiable, not that a new adjunction was found.  And `GAFT`
+is a `Qed`-opaque theorem whose frozen universe context pins both categories'
+hom *and* proof universes to `Set`, so the application lands at `Sets@{Set _}`
+— one instantiation of the polymorphic `Sets` at which `Sets_Complete` itself
+is stated, and the smallest.
 
 ### The cospan universe note
 

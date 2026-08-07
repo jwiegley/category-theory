@@ -205,6 +205,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Sets.Products.'; \
+	  echo 'Require Import Category.Instance.Sets.Complete.'; \
+	  echo 'Require Import Category.Adjunction.GAFT.Sets.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +226,19 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Sets_HasIndexedProducts.'; \
+	  echo 'Print Assumptions Sets_HasIndexedCoproducts.'; \
+	  echo 'Print Assumptions Sets_Complete.'; \
+	  echo 'Print Assumptions Sets_exponent_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Sets_constant_iprod_exponent.'; \
+	  echo 'Print Assumptions Sets_iprod_bool.'; \
+	  echo 'Print Assumptions Sets_iprod_nat.'; \
+	  echo 'Print Assumptions Sets_icoprod_bool.'; \
+	  echo 'Print Assumptions Sets_icoprod_nat.'; \
+	  echo 'Print Assumptions Sets_endo_iprod_ump.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id_is_Id.'; \
+	  echo 'Print Assumptions Sets_HasEqualizers.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
