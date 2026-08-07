@@ -197,6 +197,7 @@ Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
+Instance/FinSet/Regular.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
@@ -236,6 +237,8 @@ Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
+Instance/Sets/Split.v
+Instance/Sets/Regular.v
 Instance/Shapes.v
 Instance/Two.v
 Instance/Two/Monoidal.v

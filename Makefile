@@ -205,6 +205,11 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Morphisms.'; \
+	  echo 'Require Import Category.Instance.Two.'; \
+	  echo 'Require Import Category.Instance.FinSet.Regular.'; \
+	  echo 'Require Import Category.Instance.Sets.Split.'; \
+	  echo 'Require Import Category.Instance.Sets.Regular.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +228,30 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions split_pair_idempotent.'; \
+	  echo 'Print Assumptions split_idem_Idempotent.'; \
+	  echo 'Print Assumptions RegularMorphism.'; \
+	  echo 'Print Assumptions regular_of_section.'; \
+	  echo 'Print Assumptions regular_of_retraction.'; \
+	  echo 'Print Assumptions regular_composites_idempotent.'; \
+	  echo 'Print Assumptions regular_epic_retraction.'; \
+	  echo 'Print Assumptions regular_monic_section.'; \
+	  echo 'Print Assumptions finset_regular.'; \
+	  echo 'Print Assumptions finset_regular_not_split.'; \
+	  echo 'Print Assumptions finset_split_pair_nontrivial.'; \
+	  echo 'Print Assumptions finset_empty_to_one_not_regular.'; \
+	  echo 'Print Assumptions finset_every_epi_splits.'; \
+	  echo 'Print Assumptions two_epic_not_regular.'; \
+	  echo 'Print Assumptions sets_split_pair_not_iso.'; \
+	  echo 'Print Assumptions sets_split_mono_not_iso.'; \
+	  echo 'Print Assumptions sets_split_epi_not_iso.'; \
+	  echo 'Print Assumptions sets_two_card.'; \
+	  echo 'Print Assumptions sets_three_card.'; \
+	  echo 'Print Assumptions sets_coarsen_regular_iff_dec.'; \
+	  echo 'Print Assumptions sets_coarsen_not_regular_absurd.'; \
+	  echo 'Print Assumptions blanket_regularity_entails_splitting.'; \
+	  echo 'Print Assumptions blanket_splitting_entails_LEM.'; \
+	  echo 'Print Assumptions blanket_regularity_entails_LEM.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
