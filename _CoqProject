@@ -27,6 +27,7 @@ Construction/Coproduct.v
 Construction/Day.v
 Construction/Deloop.v
 Construction/Deloop/Opposite.v
+Construction/Deloop/Transform.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
