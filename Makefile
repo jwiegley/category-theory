@@ -205,6 +205,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Sets.Powerset.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +224,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Powerset.'; \
+	  echo 'Print Assumptions Powerset_op.'; \
+	  echo 'Print Assumptions Powerset_Singleton.'; \
+	  echo 'Print Assumptions Powerset_injective_reflects.'; \
+	  echo 'Print Assumptions Powerset_merges_fibre.'; \
+	  echo 'Print Assumptions Powerset_direct_ne_inverse.'; \
+	  echo 'Print Assumptions Powerset_Prop.'; \
+	  echo 'Print Assumptions Powerset_Prop_Singleton.'; \
+	  echo 'Print Assumptions Powerset_Prop_Monad_statement.'; \
+	  echo 'Print Assumptions Powerset_Prop_FAlg.'; \
+	  echo 'Print Assumptions Powerset_Prop_singletons_distinct.'; \
+	  echo 'Print Assumptions Powerset_truncate.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

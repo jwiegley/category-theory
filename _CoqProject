@@ -234,6 +234,7 @@ Instance/Sets/Image.v
 Instance/Sets/Classifier.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
+Instance/Sets/Powerset.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v
