@@ -239,6 +239,8 @@ Instance/Sets/Par.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v
+Instance/Top.v
+Instance/Top/Closed.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v

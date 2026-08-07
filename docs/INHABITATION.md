@@ -43,6 +43,7 @@ result about something the library actually contains.
 | `connected_deloop_equiv` | a connected groupoid (`IsGroupoid C` + `Connected C`); `connected_iff_deloop_equiv` needs only `IsGroupoid C`, since it CONCLUDES connectedness in one direction | `Bool_Wide := WideDeloop Bool_Xor_Grp bool` (`Structure/Groupoid/Connected.v`): two objects, eight arrows, vertex group Z/2, with the equivalence instantiated at both objects (`Bool_Wide_structure`, `Bool_Wide_structure_false`). The hypothesis is also shown necessary: `Two_Discrete_no_deloop_equivalence` refutes the conclusion for the disconnected two-object discrete groupoid |
 | `conjugation_iso` (conjugation is a group isomorphism of vertex groups) | a groupoid with a NONABELIAN vertex group, without which the automorphism is the identity | `Deloop S3_Grp` (`Structure/Groupoid.v`) — the tree's first nonabelian group, added with this work; `S3_conjugation_not_identity` exhibits conjugation moving an element |
 | `Inversion_iso` (a groupoid is isomorphic to its opposite, in `StrictCat`) | `IsGroupoid C` | `core_is_groupoid C` for every `C`; `Deloop Z3_Grp` for a case where the morphism map is not the identity (`Z3_inversion_not_identity`) |
+| `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
