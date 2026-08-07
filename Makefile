@@ -205,6 +205,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Construction.PreorderReflection.'; \
+	  echo 'Require Import Category.Theory.Diagram.'; \
+	  echo 'Require Import Category.Theory.Diagram.Examples.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +226,36 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions PreorderReflect.'; \
+	  echo 'Print Assumptions preorder_reflect_thin.'; \
+	  echo 'Print Assumptions Reflect.'; \
+	  echo 'Print Assumptions commutative_shape_factors.'; \
+	  echo 'Print Assumptions factors_commutative_shape.'; \
+	  echo "Print Assumptions factors_commutative_shape'."; \
+	  echo 'Print Assumptions commutative_factors.'; \
+	  echo 'Print Assumptions loop_commutative_iff.'; \
+	  echo 'Print Assumptions commutes_iff_factors.'; \
+	  echo 'Print Assumptions shape_factor_functor.'; \
+	  echo 'Print Assumptions ThinLift.'; \
+	  echo 'Print Assumptions ThinLift_unique.'; \
+	  echo 'Print Assumptions sq_endo_paths_are_nil.'; \
+	  echo 'Print Assumptions tri_endo_paths_are_nil.'; \
+	  echo 'Print Assumptions Commutative.'; \
+	  echo 'Print Assumptions CommutativeShape.'; \
+	  echo 'Print Assumptions dpath.'; \
+	  echo 'Print Assumptions commutative_iff_shape.'; \
+	  echo 'Print Assumptions shape_iff_commutative.'; \
+	  echo 'Print Assumptions functor_of_diagram_of_functor.'; \
+	  echo 'Print Assumptions diagram_of_functor_of_diagram.'; \
+	  echo 'Print Assumptions faithful_reflects_commutative.'; \
+	  echo 'Print Assumptions faithful_reflects_commutative_shape.'; \
+	  echo 'Print Assumptions functor_preserves_commutative.'; \
+	  echo 'Print Assumptions square_commutative_iff.'; \
+	  echo 'Print Assumptions triangle_commutative_iff.'; \
+	  echo 'Print Assumptions naturality_square_commutative_iff.'; \
+	  echo 'Print Assumptions commutative_dterm.'; \
+	  echo 'Print Assumptions coq_square_commutative.'; \
+	  echo 'Print Assumptions coq_square_not_commutative.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
