@@ -198,6 +198,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
 	  echo 'Require Import Category.Instance.Grp.'; \
+	  echo 'Require Import Category.Functor.Product.Fixed.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -218,6 +219,15 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Grp.'; \
 	  echo 'Print Assumptions Grp_Forget.'; \
 	  echo 'Print Assumptions Grp_Zero.'; \
+	  echo 'Print Assumptions fixed_product_functor.'; \
+	  echo 'Print Assumptions fixed_product_transform.'; \
+	  echo 'Print Assumptions fixed_product_transform_faithful.'; \
+	  echo 'Print Assumptions alt_transform.'; \
+	  echo 'Print Assumptions alt_is_inj_left.'; \
+	  echo 'Print Assumptions Grp_fixed_product.'; \
+	  echo 'Print Assumptions Grp_fixed_product_transform.'; \
+	  echo 'Print Assumptions Grp_fixed_product_transform_not_id.'; \
+	  echo 'Print Assumptions Grp_Z2_zero_not_iso.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \

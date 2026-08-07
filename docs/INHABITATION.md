@@ -41,6 +41,7 @@ result about something the library actually contains.
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
 | `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `fixed_product_functor`, `fixed_product_transform` | a `Cartesian` category, and an `f : H ~> K` that is not invertible | `Grp` via `Grp_Cartesian`, instantiated as `Grp_fixed_product`/`Grp_fixed_product_transform` (`Functor/Product/Fixed.v`); the zero endomorphism `Grp_Z2_zero` of `Z/2` witnesses non-degeneracy — `Grp_Z2_zero_not_iso` and `Grp_fixed_product_transform_not_id` |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 

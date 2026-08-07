@@ -141,6 +141,7 @@ Functor/Hom/Internal.v
 Functor/Hom/Yoneda.v
 Functor/Opposite.v
 Functor/Product.v
+Functor/Product/Fixed.v
 Functor/Product/Internal.v
 Functor/Representable.v
 Functor/Strong.v
