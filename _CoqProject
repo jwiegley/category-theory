@@ -221,6 +221,7 @@ Instance/One.v
 Instance/One/Diagonal.v
 Instance/Parallel.v
 Instance/Poset.v
+Instance/Proset/Galois.v
 Instance/Props.v
 Instance/Proset.v
 Instance/Rel.v
