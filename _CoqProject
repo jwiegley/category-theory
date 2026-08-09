@@ -220,6 +220,7 @@ Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
 Instance/Parallel.v
+Instance/Pos.v
 Instance/Poset.v
 Instance/Props.v
 Instance/Proset.v
