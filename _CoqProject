@@ -29,6 +29,7 @@ Construction/Deloop.v
 Construction/Deloop/Opposite.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
+Construction/Elements.v
 Construction/Enriched.v
 Construction/Enriched/Natural.v
 Construction/Enriched/Compose.v
