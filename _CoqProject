@@ -222,6 +222,7 @@ Instance/Lambda/Value.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
+Instance/Ordinal.v
 Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
