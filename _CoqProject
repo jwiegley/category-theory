@@ -1,5 +1,6 @@
 -R . Category
 Adjunction/Diagonal/Product.v
+Adjunction/Diagonal/Coproduct.v
 Adjunction/Hom.v
 Adjunction/Compose.v
 Adjunction/Continuity.v

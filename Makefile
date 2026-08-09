@@ -198,6 +198,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Require Import Category.Adjunction.Diagonal.Coproduct.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Markov.Fox.'; \
@@ -223,6 +224,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Diagonal_Coproduct_Adjunction.'; \
+	  echo 'Print Assumptions coproduct_unit_is_unit.'; \
+	  echo 'Print Assumptions coproduct_counit_is_counit.'; \
+	  echo 'Print Assumptions coproduct_unit_components.'; \
+	  echo 'Print Assumptions sets_coproduct_diagonal.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
