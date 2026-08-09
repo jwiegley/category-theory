@@ -47,9 +47,14 @@ Generalizable All Variables.
    between posets is exactly a monotone Galois connection
    (Theory/Adjunction.v); a monad is a closure operator, the unit giving
    extensivity and the multiplication idempotency (Theory/Monad.v); a
-   product is a meet, and more generally the limit over a subset is its
-   greatest lower bound (nLab, "meet"); a coproduct is a join
-   (Structure/Cocartesian.v).  Theorems proved for categories thereby
+   product is a meet, and more generally the limit of a diagram is the
+   greatest lower bound of its objects (nLab, "meet"), while a coproduct
+   is a join (Structure/Cocartesian.v).  The meet/join entries are no
+   longer remarks: Instance/Proset/Limit.v proves both readings —
+   [proset_limit_iff_glb] for limits/meets and [proset_colimit_iff_lub]
+   for colimits/joins — over [Proset] at an arbitrary diagram shape, and
+   they apply here since [Poset P] below is [Proset P].  Theorems proved for
+   categories thereby
    specialize to classical order theory, and intuitions trained on
    orders lift to categories with proof relevance switched on.
 
