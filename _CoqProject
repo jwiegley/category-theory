@@ -465,6 +465,7 @@ Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
 Theory/Morphisms/Classes.v
+Theory/Morphisms/Duality.v
 Theory/Morphisms/Stability.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
