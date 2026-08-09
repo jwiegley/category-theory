@@ -99,6 +99,13 @@ Definition poset_nat_comp_0_2 : (0 ~{Poset_nat}~> 2)%nat :=
 Definition poset_nat_antisym : Antisymmetric nat eq PeanoNat.Nat.le :=
   partial_order_antisym PeanoNat.Nat.le_partialorder.
 
+(* Retained as a regression guard.  The library-proper statement is
+   [Proset_Skeletal_iff_Antisymmetric] (Instance/Proset/Skeletal.v), which
+   proves this proposition and [Skeletal (Proset P)] mutually derivable --
+   not definitionally equal, since an isomorphism is a record and not a
+   pair of [R]-proofs.  For this instance the exact counterpart is
+   [Nat_le_Skeletal]. *)
+
 Lemma poset_nat_skeletal :
   forall x y : obj[Poset_nat],
     (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y.
@@ -146,6 +153,13 @@ Definition poset_two_hom : (lo ~{Poset_two}~> hi) := I.
 
 Theorem poset_two_is_inhabited : inhabited obj[Poset_two].
 Proof. exact (inhabits lo). Qed.
+
+(* Retained as a regression guard.  The library-proper statement is
+   [Proset_Skeletal_iff_Antisymmetric] (Instance/Proset/Skeletal.v), which
+   proves this proposition and [Skeletal (Proset P)] mutually derivable --
+   not definitionally equal, since an isomorphism is a record and not a
+   pair of [R]-proofs.  For this instance the exact counterpart is
+   [Poset_Skeletal]. *)
 
 Lemma poset_two_skeletal :
   forall x y : obj[Poset_two],

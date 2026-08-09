@@ -40,6 +40,7 @@ result about something the library actually contains.
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
+| `skeleton_inclusion_is_equivalence`, `skeletons_are_isomorphic`, `skeletons_isomorphic_iff_equivalent` | a `Skeleton C` — a full subcategory with one chosen representative per isomorphism class, and its uniqueness | `Indiscrete_bool_Skeleton` (`Theory/Skeleton/Separation.v`), a category that is NOT skeletal whose skeleton is exhibited on the nose as `1` (`Indiscrete_bool_skeleton_is_One`); plus `Skeleton_of_Skeletal`, applied in tree at `FinSet` (`FinSet_Skeletal`, `FinSet_Skeleton`) and at any `Poset` (`Proset_Skeleton`), and available at `1`, `2` and `DiscreteCat A` from `One_Skeletal`, `Two_Skeletal` and `DiscreteCat_Skeletal` |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
@@ -77,6 +78,23 @@ numbers and therefore sit below its homs.  `FinSet_HasPushouts`
 `Cospan_Hypergraph` together with both spider results now instantiate over
 `FinSet` — each reported "Closed under the global context" — which is why
 they appear in the witnessed table above.
+
+### The skeleton choice note
+
+The `Skeleton` record is inhabited in-tree, but it is not dischargeable
+uniformly: "every category has a skeleton" is equivalent to the axiom of
+choice, a caveat `Theory/Equivalence.v` has recorded since long before this
+development, and `Theory/Skeleton.v` accordingly never produces a
+`Skeleton C` for an arbitrary `C`.  Two things keep the packaging honest.
+The uniqueness clause is stated at the level of `Sub`'s objects rather than
+their carriers, and that strengthening is necessary rather than convenient:
+`skeleton0_skeletal_forces_UIP` shows the carrier-level weakening cannot
+yield skeletality of the subcategory without entailing UIP for every type,
+by a free-loop-space countermodel over `DiscreteCat`, while
+`skeleton0_is_skeletal_carrier` shows the carrier statement itself still
+holds.  And every witness supplied is a category whose representatives can
+be named explicitly — `Indiscrete bool` chooses `true`, a skeletal category
+chooses itself — so no witness in the table smuggles a choice principle.
 
 ## Maintaining this table
 

@@ -23,10 +23,15 @@ Context (C : Category).
 
    These conditions make D a category in its own right ([Sub] below) for which
    the inclusion D ⟶ C ([Incl]) is a functor; that inclusion is always
-   faithful, since on each hom-set it is the first projection out of a sigma
-   type. A subcategory is full when [shom] retains every C-morphism between
-   selected objects ([Full]), and wide (lluf) when [sobj] selects every object
-   of C ([Wide]). *)
+   faithful ([Incl_Faithful]), since on each hom-set it is the first
+   projection out of a sigma type. A subcategory is full when [shom] retains
+   every C-morphism between selected objects ([Full]), and wide (lluf) when
+   [sobj] selects every object of C ([Wide]).  In a full subcategory an
+   ambient isomorphism lifts ([Full_sub_iso]) and, in particular, two
+   membership proofs for one object give isomorphic objects of [Sub]
+   ([Full_membership_iso]) — which is why a skeleton's uniqueness clause is
+   stated at the level of [Sub]'s objects rather than their carriers
+   (Theory/Skeleton.v). *)
 
 Record Subcategory := {
   sobj : C → Type;                  (* sub-collection of the objects of C *)
@@ -61,6 +66,15 @@ Program Instance Incl : Sub ⟶ C := {
   fmap := fun x y f => `1 f
 }.
 
+(* The inclusion is faithful for every subcategory, full or not: on hom-sets
+   it is the first projection out of a sigma type, and [Sub]'s hom-setoid
+   compares exactly those first projections.  This is a plain [Definition]
+   rather than an [Instance], following [Full_Implies_Full_Functor] below:
+   registering it would put a [Faithful] goal into typeclass search for
+   every consumer of this file, for no gain. *)
+
+Program Definition Incl_Faithful : Faithful Incl := {| fmap_inj := _ |}.
+
 (* Additionally, we say that D is...
 
    A full subcategory if for any x and y in D, every morphism f : x → y in C
@@ -80,6 +94,31 @@ Proof.
     apply X; auto.
   - reflexivity.
 Qed.
+
+(* In a full subcategory every ambient isomorphism between selected objects
+   lifts, because both legs are retained by [Full] and the two laws are
+   compared by [Sub]'s hom-setoid, i.e. on carriers. *)
+
+Program Definition Full_sub_iso (full : Full) {x y : C}
+        (ox : sobj S x) (oy : sobj S y) (f : x ≅ y) :
+  ((x; ox) : Sub) ≅[Sub] (y; oy) := {|
+  to   := (to f; full x y ox oy (to f));
+  from := (from f; full y x oy ox (from f))
+|}.
+Next Obligation. apply iso_to_from. Qed.
+Next Obligation. apply iso_from_to. Qed.
+
+(* The special case at the identity: two membership proofs for one object
+   give isomorphic — never equal — objects of [Sub].  Theory/Skeleton.v
+   quotes this when explaining why a skeleton's uniqueness clause is stated
+   at the level of [Sub]'s objects rather than their carriers.  Provided
+   for reference; it is [Full_sub_iso] at [iso_id]. *)
+
+Program Definition Full_membership_iso (full : Full) (x : C)
+        (p q : sobj S x) : ((x; p) : Sub) ≅[Sub] (x; q) := {|
+  to   := (id[x]; full x x p q id);
+  from := (id[x]; full x x q p id)
+|}.
 
 (* A replete subcategory if for any x in D and any isomorphism f : x ≅ y in C,
    both y and f are also in D. *)

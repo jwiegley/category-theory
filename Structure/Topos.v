@@ -101,7 +101,8 @@ Generalizable All Variables.
    vocabulary through well-poweredness.  Computationally Ω is a type of
    truth values and the classifying [char] is the decision procedure of a
    subobject, so the classification isomorphism reads a subobject as its
-   own membership predicate.  Skeletal FinSet makes this literal: Ω is 2,
+   own membership predicate.  Skeletal FinSet makes this literal
+   ([FinSet_Skeletal], Instance/FinSet/Skeleton.v): Ω is 2,
    the classifying map is a decidable finite search, and the assembled
    [ElementaryTopos] witness [FinSet_Topos] of Instance/FinSet/Topos.v
    reduces, with [Pow] 2 evaluating to 4 by eq_refl.  In Sets the

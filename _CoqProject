@@ -202,6 +202,7 @@ Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
+Instance/FinSet/Skeleton.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
@@ -228,6 +229,7 @@ Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Skeletal.v
 Instance/Rel.v
 Instance/Roof.v
 Instance/Sets.v
@@ -483,6 +485,8 @@ Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Sheaf/Category.v
+Theory/Skeleton.v
+Theory/Skeleton/Separation.v
 Theory/Universal/Arrow.v
 Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v

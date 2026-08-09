@@ -18,7 +18,9 @@ Generalizable All Variables.
    to the underlying [Category] construction (the hom-sets are unchanged); it
    only makes the resulting thin category skeletal, so that isomorphic objects
    are equal. nLab characterizes a poset as exactly "a skeletal thin category",
-   equivalently "a skeletal (0,1)-category". (See also [Pos], the category of
+   equivalently "a skeletal (0,1)-category".  Both directions are proved as
+   [Proset_Skeletal_iff_Antisymmetric] in Instance/Proset/Skeletal.v. (See
+   also [Pos], the category of
    posets, whose objects are posets and whose morphisms are monotone maps.)
 
    Wikipedia: "Every poset (and every preorder) may be considered as a category

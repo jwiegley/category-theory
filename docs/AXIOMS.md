@@ -150,6 +150,15 @@ each reported "Closed under the global context":
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
 
+The skeleton development (Mac Lane §IV.4) adds:
+
+- `skeleton_inclusion_is_equivalence`, `skeletons_are_isomorphic`,
+  `skeletons_isomorphic_iff_equivalent`, `skeletal_equivalence_is_isomorphism`,
+  `skeleton0_skeletal_forces_UIP` (`Theory/Skeleton.v`)
+- `skeletality_is_not_equivalence_invariant` (`Theory/Skeleton/Separation.v`)
+- `FinSet_Skeletal` (`Instance/FinSet/Skeleton.v`)
+- `Proset_Skeletal_iff_Antisymmetric` (`Instance/Proset/Skeletal.v`)
+
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
 assumption set of these specific headline definitions only — it is not
