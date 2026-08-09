@@ -410,6 +410,7 @@ Theory/Bicategory/Adjunction.v
 Theory/Bicategory/Mates.v
 Theory/Bicategory/OneObject.v
 Theory/Category.v
+Theory/Category/Monoid.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
 Theory/Coend/Fubini.v
