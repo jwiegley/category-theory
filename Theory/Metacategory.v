@@ -20,12 +20,24 @@ Generalizable All Variables.
    Mac Lane (Categories for the Working Mathematician, I.1, "arrows-only"
    description). A category is presented purely by a collection of arrows
    together with a partial composition (a partial magma on arrows); there is
-   no separate sort of objects. Objects are recovered as the identity arrows:
-   an arrow [u] is an identity when [f ∘ u ≈ f] whenever [f ∘ u] is defined and
-   [u ∘ g ≈ g] whenever [u ∘ g] is defined. The three axioms (matchability,
-   associativity, and existence of identities) then capture exactly a
-   category. [FromArrows] below shows that every such metacategory yields a
+   no separate sort of objects. Objects are recovered as the identity arrows.
+   Mac Lane's notion of identity is conditional — [u] is an identity when
+   [f ∘ u ≈ f] whenever [f ∘ u] is defined, and [u ∘ g ≈ g] whenever [u ∘ g]
+   is defined — but the [identity] field below drops both guards and demands
+   the two equations for EVERY arrow (see the note there). Two consequences
+   are worth stating plainly. First, over a finite table of composable pairs
+   that condition cannot be met at all, since it requires an entry [(f, u)]
+   for every [f : nat]: no arrow of [ZeroArrows], [OneArrow], [TwoArrows] or
+   [ThreeArrows] is an identity in this sense, so each category [FromArrows]
+   builds from them — [Three] included — has no objects. Second, the three
+   axioms below are NOT shown here to capture exactly a category: neither
+   direction is proved, and the third axiom [identity_law] is moreover vacuous
+   as written (again, see its note). What [FromArrows] does establish is the
+   one direction, that every metacategory in the present sense yields a
    [Category] whose objects are the identity arrows [∃ i, identity M i].
+   Theory/Metacategory/General.v carries the axioms over an arbitrary arrow
+   type with neither defect, and proves both passages together with the sense
+   in which they are mutually inverse.
 
    This module shows that an "arrows-only" metacategory is sufficient to
    define a category. The axioms defined by Mac Lane are used, with the
@@ -183,11 +195,18 @@ Record Metacategory := {
      that u'∙g and g∙u are defined." *)
   (* jww (TODO): The use of [->] below should be [/\]. The current form is
      vacuously true (any non-identity [u] makes the implication trivially
-     hold), so this axiom imposes no real constraint. Fixing requires
-     reworking the [check_structure] tactic and providing explicit identity
-     witnesses for the example metacategories below. The mistake does not
-     affect [FromArrows], which builds its category from
-     [obj := ∃ i, identity M i], not from [identity_law]. *)
+     hold), so this axiom imposes no real constraint. Substituting [/\] is not
+     by itself a repair, and in THIS file even cutting the arrow type down to
+     the table's support would not suffice: the [identity] field above drops
+     Mac Lane's definedness guards, and under the unguarded reading no arrow
+     of the tables below is an identity even restricted to the support -- so
+     the conjunctive axiom would have no witnesses to point at. A faithful
+     repair here must both restore the guards on [identity] and bound the
+     quantifiers, in that order. The
+     mistake does not affect [FromArrows], which builds its category from
+     [obj := ∃ i, identity M i], not from [identity_law] — though note that
+     with the unguarded [identity] above, that object type is empty for every
+     example in this file. *)
   identity_law (g : arr) :
     ∃ u,  identity u  ->
     ∃ u', identity u' ->
