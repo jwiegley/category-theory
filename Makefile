@@ -206,6 +206,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.SubobjectClassifier.'; \
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
+	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
@@ -228,6 +229,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions classifier_classifies.'; \
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
+	  echo 'Print Assumptions Conjugate.'; \
+	  echo 'Print Assumptions conjugate_characterizations.'; \
+	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
 	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
 	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
