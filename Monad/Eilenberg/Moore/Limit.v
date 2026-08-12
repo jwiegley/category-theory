@@ -55,7 +55,8 @@ Generalizable All Variables.
    CreatesColimit (APair f g) U], routed through
    [split_coequalizer_is_coequalizer] (Structure/Coequalizer/Split.v) and
    the op repackaging of Structure/Limit/Creation.v; it is recorded here
-   rather than shipped, and the issue's request for it is unmet.  Neither Beck.v nor
+   rather than shipped, and the issue's request for it is unmet — descope
+   ledger entry 18 (doc/classical-completion-plan.md §5).  Neither Beck.v nor
    BeckObjects.v is modified: [CreatedSplitCoequalizer]
    (Monad/Monadicity/BeckObjects.v:385) is the same pattern at one shape,
    its [created_hom_carrier] being the [slift_legs] clause and its
