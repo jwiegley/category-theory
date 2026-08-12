@@ -32,7 +32,7 @@ result about something the library actually contains.
 | Result | Distinctive premise | In-tree witness |
 |--------|---------------------|-----------------|
 | `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`) |
-| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), streams (`Instance/Sets/Streams.v`) |
+| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), `nat` (`Instance/Coq/Nat.v`), streams (`Instance/Sets/Streams.v`) |
 | `monadic_creates` | a `Monad` with its Eilenberg–Moore adjunction | `Id_Monad` (`Monad/Strong.v`) |
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
@@ -40,6 +40,13 @@ result about something the library actually contains.
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
+| `connected_deloop_equiv` | a connected groupoid (`IsGroupoid C` + `Connected C`); `connected_iff_deloop_equiv` needs only `IsGroupoid C`, since it CONCLUDES connectedness in one direction | `Bool_Wide := WideDeloop Bool_Xor_Grp bool` (`Structure/Groupoid/Connected.v`): two objects, eight arrows, vertex group Z/2, with the equivalence instantiated at both objects (`Bool_Wide_structure`, `Bool_Wide_structure_false`). The hypothesis is also shown necessary: `Two_Discrete_no_deloop_equivalence` refutes the conclusion for the disconnected two-object discrete groupoid |
+| `conjugation_iso` (conjugation is a group isomorphism of vertex groups) | a groupoid with a NONABELIAN vertex group, without which the automorphism is the identity | `Deloop S3_Grp` (`Structure/Groupoid.v`) — the tree's first nonabelian group, added with this work; `S3_conjugation_not_identity` exhibits conjugation moving an element |
+| `Inversion_iso` (a groupoid is isomorphic to its opposite, in `StrictCat`) | `IsGroupoid C` | `core_is_groupoid C` for every `C`; `Deloop Z3_Grp` for a case where the morphism map is not the identity (`Z3_inversion_not_identity`) |
+| `Curry_Adjunction`, `Curry_Representable` | a cartesian closed category | `Sets` via `Sets_Closed` (`Instance/Sets/Cartesian/Closed.v`), instantiated with computing counit and a concrete transposed arrow in `Instance/Sets/Cartesian/Closed/Adjunction.v` |
+| `pointed_monic_split`, `pointed_epic_split` | decidable image membership / decidable equality + an enumeration | `PointedBool`, `PointedThree` (`Instance/Sets/Pointed/Finite.v`), with the retraction and section computed by `reflexivity` |
+| `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
@@ -57,7 +64,9 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
+| `pointed_part_equivalence` | the GLOBAL basepoint decidability `∀ Z, DecidablePt Z` | uninhabited: finiteness discharges only the per-object form (`PointedBool`, `PointedThree`); the global form is classically automatic but follows from no finite witness. The functor's full-and-faithfulness (`Part_to_Pointed_Full`/`_Faithful`) is unconditional |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
+| `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
 
 ### The cospan universe note
 
