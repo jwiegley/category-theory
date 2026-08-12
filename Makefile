@@ -197,6 +197,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
+	  echo 'Require Import Category.Instance.Top.'; \
+	  echo 'Require Import Category.Instance.Top.Closed.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -204,7 +206,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.SubobjectClassifier.'; \
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
+	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -214,6 +218,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions ZX_Cat.'; \
 	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
 	  echo 'Print Assumptions lambek.'; \
+	  echo 'Print Assumptions Top.'; \
+	  echo 'Print Assumptions top_epic_iff.'; \
+	  echo 'Print Assumptions complement_natural.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \
@@ -222,7 +229,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions classifier_classifies.'; \
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
+	  echo 'Print Assumptions Conjugate.'; \
+	  echo 'Print Assumptions conjugate_characterizations.'; \
+	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
+	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
