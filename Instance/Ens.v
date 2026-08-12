@@ -31,6 +31,15 @@ Generalizable All Variables.
    on the whole carrier type. Identity and composition are the identity function
    and ordinary function composition. *)
 
+(* Cross-reference: Mac Lane's Ens_V — objects the members of a set V of sets,
+   arrows ALL functions between them (CWM 2nd ed., §I.2, printed p. 11) — is a
+   DIFFERENT construction from the two categories below, and it lives in
+   Instance/EnsV.v. There an object is a code x : V decoded by El : V → Type,
+   and a morphism x ~> y is an arbitrary function El x → El y with no side
+   condition at all; here a morphism carries the constraint A = f⁻¹(B). Both are
+   kept: [Ens] and [EnsT] record membership preservation-and-reflection, while
+   [EnsV] records Mac Lane's set-sized sub-universe of the category of sets. *)
+
 Program Definition Ens : Category := {|
   obj     := ∃ T : Type, Ensemble T;
   hom     := fun A B =>
