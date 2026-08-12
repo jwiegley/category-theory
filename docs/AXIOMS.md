@@ -149,6 +149,10 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+- `Conjugate`, `conjugate_characterizations` and `conjugate_bijection`
+  (`Adjunction/Conjugate.v`) — Mac Lane §IV.7 conjugate natural
+  transformations: the hom-set square, its four equivalent
+  characterizations, and the conjugation bijection
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

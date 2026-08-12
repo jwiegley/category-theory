@@ -22,16 +22,13 @@ Generalizable All Variables.
     category; [two_thin] below says any two such morphisms coincide, so each
     obligation is discharged uniformly. *)
 
-(* Any two parallel morphisms of [_2] are equal: the category is thin. *)
+(* Any two parallel morphisms of [_2] are equal: the category is thin.  The
+   argument now lives upstream as [Two_thin] in Instance/Two.v, where the
+   bimorphism witness needs it; this name is kept so existing callers here are
+   undisturbed.  [_2]'s homset IS [Morphism_equality], i.e. [eq], so the two
+   statements coincide. *)
 Lemma two_thin {x y : TwoObj} (f g : TwoHom x y) : f = g.
-Proof.
-  pose proof (TwoHom_inv _ _ f) as Hf.
-  pose proof (TwoHom_inv _ _ g) as Hg.
-  destruct x, y; simpl in *; try contradiction.
-  - now rewrite Hf, Hg.
-  - now rewrite Hf, Hg.
-  - now rewrite Hf, Hg.
-Qed.
+Proof. exact (Two_thin f g). Qed.
 
 (* The binary meet (product object): TwoX is the bottom, TwoY the top. *)
 Definition two_meet (x y : TwoObj) : TwoObj :=
