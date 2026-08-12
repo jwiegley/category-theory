@@ -216,6 +216,7 @@ Instance/FinSet/Skeleton.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Grp.v
+Instance/Grp/Epi.v
 Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
