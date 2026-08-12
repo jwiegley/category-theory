@@ -531,6 +531,7 @@ Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Sheaf/Category.v
+Theory/Size.v
 Theory/Shapes.v
 Theory/Universal/Arrow.v
 Theory/WeaklyInitial.v
@@ -543,5 +544,6 @@ Test/Poset.v
 Test/Issue139.v
 Test/Issue213.v
 Test/ProbeFunnyPoly.v
+Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

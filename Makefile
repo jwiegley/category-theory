@@ -213,6 +213,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Size.'; \
 	  echo 'Require Import Category.Construction.PreorderReflection.'; \
 	  echo 'Require Import Category.Theory.Diagram.'; \
 	  echo 'Require Import Category.Theory.Diagram.Examples.'; \
@@ -299,6 +300,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Small.'; \
+	  echo 'Print Assumptions LocallySmall.'; \
+	  echo 'Print Assumptions locally_small_ambient.'; \
+	  echo 'Print Assumptions One_Small.'; \
+	  echo 'Print Assumptions ArrowQuiverOfCat.'; \
 	  echo 'Print Assumptions PreorderReflect.'; \
 	  echo 'Print Assumptions preorder_reflect_thin.'; \
 	  echo 'Print Assumptions Reflect.'; \
