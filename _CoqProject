@@ -172,6 +172,7 @@ Functor/Traversable.v
 Functor/Traversable/Product.v
 Functor/Twist.v
 Instance/AST.v
+Instance/Ab.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
