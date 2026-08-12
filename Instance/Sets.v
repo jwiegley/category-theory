@@ -97,12 +97,17 @@ Generalizable All Variables.
    the category of setoids is a ΠW-pretopos, a locally cartesian closed
    pretopos with W-types and a predicative analogue of a topos (van den
    Berg, "Predicative toposes", arXiv:1207.0959 (2012), after Moerdijk
-   and Palmgren 1999/2000).  Predicativity is visible at the end of
-   this file: the reverse direction of [surjectivity_is_epic] needs a
-   truth-value object one universe up, so that lemma never enters the
-   environment, and the cross-universe classifier theorems live in
-   Instance/Sets/Classifier.v instead — a theorem-shaped fact about
-   size, not a gap in the formalization.  Because `≈` is Type-valued,
+   and Palmgren 1999/2000).  Predicativity is visible in the subobject
+   classifier: its characteristic maps must receive a [Type]-valued
+   truth value, so the classifier for [Sets] lives one universe up and
+   Instance/Sets/Classifier.v states it as cross-universe theorems
+   rather than as an instance — a theorem-shaped fact about size, not a
+   gap in the formalization.  That obstruction is genuinely about the
+   classifier and does not spread: [surjectivity_is_epic] at the end of
+   this file was long believed to inherit it, but the classical
+   truth-value probe is not the only one available, and the cokernel
+   pair used below stays at the universe of the carriers.  Because `≈`
+   is Type-valued,
    its proofs carry data: [bijective_is_iso] turns a surjectivity
    witness into an honest inverse function with no appeal to choice,
    the choice having been data all along.  The remaining working
@@ -410,22 +415,97 @@ Defined.
 
 
 (* In Set the epimorphisms are exactly the surjections (see the Wikipedia and
-   nLab pages cited in the file header), so the statement below is correct.
-   The forward direction (surjective → epic) is proved; the reverse direction
-   is abandoned (this lemma ends in a non-completing tactic), so
-   [surjectivity_is_epic] does NOT enter the environment and nothing downstream
-   relies on it.
+   nLab pages cited in the file header).  This file used to state the
+   biconditional and abandon the proof, so NEITHER direction entered the
+   environment -- not even the forward one, whose script was complete but
+   stranded inside the abandoned block.  Both directions are proved below, at
+   the universe of A and B.
 
-   The classical argument distinguishes a point not in the image with the
-   characteristic map of the image versus the constant map into a truth-value
-   object. Realising that truth-value object here runs into a size obstruction:
-   the natural choice has carrier [Type] (or [Prop]) with `≈` taken to be `↔`,
-   but such an object does not fit as an [obj[Sets]] at the same universe as
-   [A] and [B] — Set's subobject classifier lives one universe up. The
-   cross-universe classifier theorems making this precise — [PropSetoid],
-   [char_setoid], [sets_char_pullback], [sets_char_unique] — are proved in
-   Instance/Sets/Classifier.v. Companion results [injectivity_is_monic] and
-   [bijective_is_iso] above are fully proved. *)
+   The abandoned attempt (and the header note that went with it) reached for
+   the classical probe: distinguish a point outside the image using the
+   characteristic map of the image against a constant map into a truth-value
+   object.  THAT probe genuinely does not fit here -- its object has carrier
+   [Type] with `≈` taken to be `↔`, and no such object is an [obj[Sets]] at the
+   universe of A and B, since Set's subobject classifier lives one level up
+   (Instance/Sets/Classifier.v).
+
+   But epis-are-surjections does not inherit that obstruction, because the
+   truth-value object is not the only available probe.  The COKERNEL PAIR of h
+   with itself does the same work and stays at the universe of B: take two
+   copies of B glued exactly along the image of h, i.e. `carrier B + carrier B`
+   under [ckrel] below.  The predicate [Im b := ∃ a, h a ≈ b] is
+   [Type]-valued at the SAME level as the carriers -- `carrier A` is there
+   already, and `equiv` on a [SetoidObject@{p p}] is a [crelation] at that
+   level -- so nothing ever needs [Type@{p} : Type@{p}].  The two inclusions
+   agree after h (each `h a` is in the image, witnessed by `a`), so right
+   cancellation identifies them on all of B, and the [Im] component of the
+   resulting equivalence at b IS the preimage.
+
+   The argument is constructive: `∃` is [sigT] here (Lib/Foundation.v), so the
+   preimage is genuinely extracted rather than merely asserted, and no choice
+   principle is used. *)
+
+Section CokernelPair.
+
+Universes h p.
+Context {A B : SetoidObject@{p p}}.
+Context (f : A ~{Sets@{p h}}~> B).
+
+(* Membership in the image of f, at the level of the carriers. *)
+Definition Im (b : carrier B) : Type@{p} := ∃ a : carrier A, f a ≈ b.
+
+Lemma Im_resp (x y : carrier B) : x ≈ y → Im x → Im y.
+Proof. intros E [a Ha]; exists a; transitivity x; assumption. Qed.
+
+(* Two copies of B, identified across the copies exactly on the image. *)
+Definition ckrel (u v : (carrier B + carrier B)%type) : Type@{p} :=
+  match u, v with
+  | inl x, inl y => x ≈ y
+  | inr x, inr y => x ≈ y
+  | inl x, inr y => prod (x ≈ y) (Im x)
+  | inr x, inl y => prod (x ≈ y) (Im x)
+  end.
+
+Lemma ckrel_equiv : Equivalence ckrel.
+Proof.
+  constructor.
+  - intro u; destruct u; simpl; reflexivity.
+  - intros u v; destruct u, v; simpl; intro H;
+      try (symmetry; assumption);
+      destruct H as [E I]; split;
+      [ symmetry; assumption | eapply Im_resp; eassumption
+      | symmetry; assumption | eapply Im_resp; eassumption ].
+  - intros u v w; destruct u, v, w; simpl; intros H1 H2;
+      repeat match goal with [ X : prod _ _ |- _ ] => destruct X end;
+      try (etransitivity; eassumption);
+      split; try (etransitivity; eassumption); try assumption;
+      try (eapply Im_resp; [ symmetry; eassumption | assumption ]).
+Qed.
+
+Definition CKSetoid : SetoidObject@{p p} :=
+  {| carrier := (carrier B + carrier B)%type;
+     is_setoid := {| equiv := ckrel; setoid_equiv := ckrel_equiv |} |}.
+
+Definition ck_left : B ~{Sets@{p h}}~> CKSetoid.
+Proof.
+  refine {| morphism := fun b => inl b |}; repeat intro; simpl; assumption.
+Defined.
+
+Definition ck_right : B ~{Sets@{p h}}~> CKSetoid.
+Proof.
+  refine {| morphism := fun b => inr b |}; repeat intro; simpl; assumption.
+Defined.
+
+(* The two inclusions agree after f: every f a lies in the image, by a. *)
+Lemma ck_agree : ck_left ∘[Sets@{p h}] f ≈ ck_right ∘[Sets@{p h}] f.
+Proof.
+  intro a; simpl; split; [ reflexivity | exists a; reflexivity ].
+Qed.
+
+End CokernelPair.
+
+(* Mac Lane, CWM 2nd ed., §I.5, printed p. 19: in Set the epis are exactly the
+   surjections.  Both directions, at one universe. *)
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
   (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
@@ -439,41 +519,31 @@ Proof.
     destruct HA as [? HA].
     rewrite <- HA.
     apply HB.
-  - (* This constructive proof was given by
-       aws (https://mathoverflow.net/users/30790/aws)
-       In the category of sets epimorphisms are surjective - Constructive Proof?
-       URL (version: 2014-08-18): https://mathoverflow.net/q/178786 *)
-    intros [epic] ?.
-    given (C : SetoidObject). {
-      refine {|
-        carrier := Type;
-        is_setoid := {|
-          equiv p q := p ↔ q
-        |}
-      |}.
-      equivalence.
-    }
+  - intros E b.
+    exact (snd (@epic _ _ _ _ E (CKSetoid h)
+                  (ck_left h) (ck_right h) (ck_agree h) b)).
+Defined.
 
-    (* given (f : B ~{Sets}~> C). { *)
-    (*   refine {| *)
-    (*     morphism := λ b, ∃ a, h a ≈ b *)
-    (*   |}. *)
-    (* } *)
-    (* given (g : B ~{Sets}~> C). { *)
-    (*   refine {| *)
-    (*     morphism := λ _, True *)
-    (*   |}. *)
-    (* } *)
-    (* specialize (epic C f g). *)
-    (* enough ((f ∘[Sets] h) ≈ (g ∘[Sets] h)). { *)
-    (*   specialize (epic X b); clear X. *)
-    (*   unfold f, g in epic. *)
-    (*   simpl in *. *)
-    (*   now rewrite epic. *)
-    (* } *)
-    (* intro. *)
-    (* unfold f, g; simpl. *)
-Abort.
+(* The two halves under their own names, for callers that want just one. *)
+Definition surjective_implies_epic@{h p} {A B : SetoidObject@{p p}}
+  (h : A ~{Sets}~> B) : (∀ b, ∃ a, h a ≈ b)%type → Epic@{h p} h :=
+  fst (surjectivity_is_epic@{h p} h).
+
+Definition epic_implies_surjective@{h p} {A B : SetoidObject@{p p}}
+  (h : A ~{Sets}~> B) : Epic@{h p} h → (∀ b, ∃ a, h a ≈ b)%type :=
+  snd (surjectivity_is_epic@{h p} h).
+
+(* Sets is balanced: a map that is both monic and epic is an isomorphism.
+   Monicity gives injectivity ([injectivity_is_monic]), epicness gives the
+   preimages, and [bijective_is_iso] assembles a two-sided inverse -- with no
+   appeal to choice, the preimages having been data all along. *)
+Definition Sets_balanced@{h p} {A B : SetoidObject@{p p}}
+  (h : A ~{Sets@{p h}}~> B)
+  (Hm : @Monic Sets@{p h} A B h) (He : @Epic@{h p} Sets@{p h} A B h) :
+  @IsIsomorphism Sets@{p h} A B h :=
+  bijective_is_iso h
+    {| inj := λ x y, snd (injectivity_is_monic h) Hm x y |}
+    {| surj := λ b, epic_implies_surjective@{h p} h He b |}.
 
 (* ------------------------------------------------------------------------ *)
 (** ** The cancellation lemmas do not cancel the other factor *)
