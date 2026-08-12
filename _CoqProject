@@ -207,6 +207,7 @@ Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
+Instance/FinSet/Skeleton.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Grp.v

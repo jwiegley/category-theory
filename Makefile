@@ -211,6 +211,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
 	  echo 'Require Import Category.Structure.Cartesian.Closed.Adjunction.'; \
 	  echo 'Require Import Category.Instance.Sets.Cartesian.Closed.Adjunction.'; \
 	  echo 'Require Import Category.Instance.Proset.Transform.'; \
@@ -248,6 +249,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions FinSet_Setf_Equivalence.'; \
+	  echo 'Print Assumptions FinSet_skeletal.'; \
+	  echo 'Print Assumptions setf_cardinality_iso_invariant.'; \
 	  echo 'Print Assumptions Exp_Functor.'; \
 	  echo 'Print Assumptions eval_natural.'; \
 	  echo 'Print Assumptions Curry_Adjunction.'; \
