@@ -213,6 +213,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Sets.Products.'; \
+	  echo 'Require Import Category.Instance.Sets.Complete.'; \
+	  echo 'Require Import Category.Adjunction.GAFT.Sets.'; \
 	  echo 'Require Import Category.Theory.Morphisms.'; \
 	  echo 'Require Import Category.Instance.Two.'; \
 	  echo 'Require Import Category.Instance.FinSet.Regular.'; \
@@ -291,6 +294,19 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Sets_HasIndexedProducts.'; \
+	  echo 'Print Assumptions Sets_HasIndexedCoproducts.'; \
+	  echo 'Print Assumptions Sets_Complete.'; \
+	  echo 'Print Assumptions Sets_exponent_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Sets_constant_iprod_exponent.'; \
+	  echo 'Print Assumptions Sets_iprod_bool.'; \
+	  echo 'Print Assumptions Sets_iprod_nat.'; \
+	  echo 'Print Assumptions Sets_icoprod_bool.'; \
+	  echo 'Print Assumptions Sets_icoprod_nat.'; \
+	  echo 'Print Assumptions Sets_endo_iprod_ump.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id_is_Id.'; \
+	  echo 'Print Assumptions Sets_HasEqualizers.'; \
 	  echo 'Print Assumptions split_pair_idempotent.'; \
 	  echo 'Print Assumptions split_idem_Idempotent.'; \
 	  echo 'Print Assumptions RegularMorphism.'; \

@@ -6,6 +6,7 @@ Adjunction/Conjugate.v
 Adjunction/Continuity.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
+Adjunction/GAFT/Sets.v
 Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
@@ -254,6 +255,8 @@ Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cartesian/Closed/Adjunction.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/Products.v
+Instance/Sets/Complete.v
 Instance/Sets/Coend.v
 Instance/Sets/End.v
 Instance/Sets/Image.v
@@ -366,6 +369,7 @@ Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
 Structure/Limit/Product.v
+Structure/Limit/Coproduct.v
 Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Terminal.v
