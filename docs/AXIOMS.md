@@ -168,6 +168,18 @@ the same object function and different arrow functions — each likewise
 - `free_two_functors_distinct` (`Construction/Free/TwoFunctors.v`) —
   the group-free witness of Fong and Spivak's Exercise 3.40
 
+The target additionally audits three CONCRETE results (not parametric
+over abstract structure, and belonging to no numbered phase), because
+they are the headline statements of the preorder-transformation
+development:
+
+- `proset_transform_iff` and `proset_transform_unique`
+  (`Instance/Proset/Transform.v`) — existence and uniqueness of a
+  natural transformation into a preorder (Mac Lane §I.4, exercise 4)
+- `proset_out_not_unique` (`Instance/Proset/Transform.v`) — the
+  refutation of the dual: two distinct transformations *out of* a
+  preorder
+
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
 assumption set of these specific headline definitions only — it is not
