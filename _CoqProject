@@ -72,8 +72,11 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
+Construction/Subcategory/Finite.v
+Construction/Subcategory/FullConverse.v
 Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
+Construction/Free/Quiver/Concrete.v
 Construction/Free/TwoFunctors.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
@@ -185,6 +188,7 @@ Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
 Instance/Cones/Limit.v
+Instance/Concrete.v
 Instance/Coq.v
 Instance/Discrete.v
 Instance/Discrete/Reconstruct.v
@@ -436,6 +440,8 @@ Theory/Category/Monoid.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
 Theory/Coend/Fubini.v
+Theory/Concrete.v
+Theory/Concrete/Morphisms.v
 Theory/Coend/Yoneda.v
 Theory/Coq.v
 Theory/Coq/Applicative.v

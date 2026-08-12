@@ -211,6 +211,14 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Concrete.'; \
+	  echo 'Require Import Category.Instance.Concrete.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Concrete.'; \
+	  echo 'Require Import Category.Theory.Functor.'; \
+	  echo 'Require Import Category.Theory.Equivalence.'; \
+	  echo 'Require Import Category.Theory.Concrete.Morphisms.'; \
+	  echo 'Require Import Category.Construction.Subcategory.'; \
+	  echo 'Require Import Category.Construction.Subcategory.Finite.'; \
 	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
 	  echo 'Require Import Category.Structure.Cartesian.Closed.Adjunction.'; \
 	  echo 'Require Import Category.Instance.Sets.Cartesian.Closed.Adjunction.'; \
@@ -249,6 +257,39 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Concrete.'; \
+	  echo 'Print Assumptions Concrete_of_Separator.'; \
+	  echo 'Print Assumptions Concrete_of_WellPointed.'; \
+	  echo 'Print Assumptions Sets_Concrete.'; \
+	  echo 'Print Assumptions Sets_Concrete_Points.'; \
+	  echo 'Print Assumptions Coq_Concrete.'; \
+	  echo 'Print Assumptions CMon_Concrete.'; \
+	  echo 'Print Assumptions Rel_Concrete.'; \
+	  echo 'Print Assumptions Rel_hom_is_not_a_function.'; \
+	  echo 'Print Assumptions Rel_subsingleton_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverVertices_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverArrows_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverElements_faithful_under_NodeUIP.'; \
+	  echo 'Print Assumptions SetQuiver_Concrete.'; \
+	  echo 'Print Assumptions Full_Compose.'; \
+	  echo 'Print Assumptions Faithful_Compose.'; \
+	  echo 'Print Assumptions faithful_reflects_monic.'; \
+	  echo 'Print Assumptions faithful_reflects_epic.'; \
+	  echo 'Print Assumptions EssentiallySurjective_Compose.'; \
+	  echo 'Print Assumptions Incl_Faithful.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full_upto.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full.'; \
+	  echo 'Print Assumptions concrete_injective_monic.'; \
+	  echo 'Print Assumptions concrete_surjective_epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic.'; \
+	  echo 'Print Assumptions Coq_pred_Epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic_reflected.'; \
+	  echo 'Print Assumptions Coq_pred_Epic_reflected.'; \
+	  echo 'Print Assumptions FinSets_Full_Functor.'; \
+	  echo 'Print Assumptions FinSets_Faithful.'; \
+	  echo 'Print Assumptions FinSets_Full_roundtrip.'; \
+	  echo 'Print Assumptions FinSets_two_arrows.'; \
+	  echo 'Print Assumptions FinSets_negb_Monic.'; \
 	  echo 'Print Assumptions FinSet_Setf_Equivalence.'; \
 	  echo 'Print Assumptions FinSet_skeletal.'; \
 	  echo 'Print Assumptions setf_cardinality_iso_invariant.'; \
