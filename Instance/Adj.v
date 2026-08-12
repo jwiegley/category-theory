@@ -31,14 +31,27 @@ Generalizable All Variables.
    pair of natural transformations — σ and τ are required to correspond under
    the two hom-set transposes, equivalently (writing τ in the opposite
    direction, U' ⟹ U) one is the mate of the other through the units and
-   counits.  The hom defined below imposes no such condition: it is the bare
-   product setoid ([D,C] × [C,D]) of natural transformations restricted to the
+   counits.  That condition is now in tree and named: [Conjugate] of
+   Adjunction/Conjugate.v is Mac Lane's §IV.7 hom-set square quantified over
+   every transposable arrow, [conjugate_characterizations] proves the four
+   equivalent pasting forms, and [conjugate_bijection] pairs each
+   transformation of left adjoints with its one and only conjugate.  The hom
+   defined below still imposes no such condition: it is the bare product
+   setoid ([D,C] × [C,D]) of natural transformations restricted to the
    carrier of adjunction triples.  This is why every category obligation
-   discharges trivially.  The construction is a genuine category but a coarser
-   one than the conjugate-pair Adj(C,D); tightening the hom to mate pairs is
-   left as future work.  The code is unchanged because Wikipedia does not treat
-   morphisms of adjunctions, so the two reference sources do not jointly
-   contradict it. *)
+   discharges trivially.  The construction is a genuine category but a
+   coarser one than the conjugate-pair Adj(C,D).  Tightening it is more than
+   adding a side condition to the pair below: both components here are
+   covariant, while a conjugate pair reverses exactly one leg:
+   [Conjugate A A'] pairs σ : F' ⟹ F with τ : U ⟹ U', and the equivalent
+   Riehl labelling [Conjugate A' A] pairs σ : F ⟹ F' with τ : U' ⟹ U.
+   Either way the hom has to be retyped before [Conjugate] can be imposed
+   on it.
+   Once retyped, [conjugate_id] and [conjugate_compose] are exactly the
+   identity and composition closure such a category needs; that refactor is
+   left as future work.  The code is unchanged because Wikipedia does not
+   treat morphisms of adjunctions, so the two reference sources do not
+   jointly contradict it. *)
 
 Program Definition Adj (C D : Category) : Category := {|
   obj := ∃ (F : D ⟶ C) (U : C ⟶ D), F ⊣ U;
