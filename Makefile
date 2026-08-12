@@ -211,6 +211,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Structure.Groupoid.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
+	  echo 'Require Import Category.Construction.Deloop.Transform.'; \
 	  echo 'Require Import Category.Theory.Concrete.'; \
 	  echo 'Require Import Category.Instance.Concrete.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Concrete.'; \
@@ -257,6 +261,27 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions connected_deloop_equiv.'; \
+	  echo 'Print Assumptions connected_iff_deloop_equiv.'; \
+	  echo 'Print Assumptions deloop_groupoid_iff.'; \
+	  echo 'Print Assumptions deloop_nat_not_groupoid.'; \
+	  echo 'Print Assumptions deloop_bool_groupoid.'; \
+	  echo 'Print Assumptions conjugation_iso.'; \
+	  echo 'Print Assumptions core_is_groupoid.'; \
+	  echo 'Print Assumptions Inversion_iso.'; \
+	  echo 'Print Assumptions transform_iff_conjugate.'; \
+	  echo 'Print Assumptions transform_iff_conjugate_SWAPPED.'; \
+	  echo 'Print Assumptions transform_iff_intertwines.'; \
+	  echo 'Print Assumptions transform_intertwiner_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_hom.'; \
+	  echo 'Print Assumptions Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions Deloop_Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions abelian_conjugates_agree.'; \
+	  echo 'Print Assumptions S3_conjugating_transform.'; \
+	  echo 'Print Assumptions S3_conjugation_needs_nonabelian.'; \
+	  echo 'Print Assumptions Deloop_S3_two_objects.'; \
+	  echo 'Print Assumptions Deloop_Fun_S3_not_deloop.'; \
 	  echo 'Print Assumptions Concrete.'; \
 	  echo 'Print Assumptions Concrete_of_Separator.'; \
 	  echo 'Print Assumptions Concrete_of_WellPointed.'; \
