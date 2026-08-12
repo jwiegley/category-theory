@@ -213,6 +213,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Sets.Powerset.'; \
 	  echo 'Require Import Category.Instance.Sets.Products.'; \
 	  echo 'Require Import Category.Instance.Sets.Complete.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.Sets.'; \
@@ -294,6 +295,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Powerset.'; \
+	  echo 'Print Assumptions Powerset_op.'; \
+	  echo 'Print Assumptions Powerset_Singleton.'; \
+	  echo 'Print Assumptions Powerset_injective_reflects.'; \
+	  echo 'Print Assumptions Powerset_merges_fibre.'; \
+	  echo 'Print Assumptions Powerset_direct_ne_inverse.'; \
+	  echo 'Print Assumptions Powerset_Prop.'; \
+	  echo 'Print Assumptions Powerset_Prop_Singleton.'; \
+	  echo 'Print Assumptions Powerset_Prop_Monad_statement.'; \
+	  echo 'Print Assumptions Powerset_Prop_FAlg.'; \
+	  echo 'Print Assumptions Powerset_Prop_singletons_distinct.'; \
+	  echo 'Print Assumptions Powerset_truncate.'; \
 	  echo 'Print Assumptions Sets_HasIndexedProducts.'; \
 	  echo 'Print Assumptions Sets_HasIndexedCoproducts.'; \
 	  echo 'Print Assumptions Sets_Complete.'; \
