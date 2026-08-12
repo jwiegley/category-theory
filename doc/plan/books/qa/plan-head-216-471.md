@@ -129,7 +129,7 @@ Append the checkbox at the end of the named append block.
 | #216 | `Construction/Sq.v:47` → `:50`; `Structure/Cone.v:24` → `:30`. **Also** the §3.3.4 checkbox: `the construction requested by the Seven Sketches §3.2.3 preorder-reflection issue, which must land first.` → `the construction requested by #803 (Seven Sketches 3.2.3: the preorder reflection of a category), which must land before THIS CHECKBOX can be discharged — the rest of this issue is independent of it.` (leave Dependencies `None`; #803's own blockers are [299, 223], so a hard edge would serialise badly) |
 | #359 | `Structure/Monoidal/StarAutonomous.v:271` → `:269` |
 | #372 | `Instance/Proset.v:20` → `:33` (Current state); `its own header says` → `its own header at \`:19\`–\`:20\` says`; Reviewer-checks `\`Instance/Proset.v:20\` flags` → `\`Instance/Proset.v:19\`–\`:20\` flags` |
-| #382 | both occurrences of `Instance/Ens.v:55` → `:56` |
+| #382 | both occurrences of `Instance/Ens.v:64` → `:56` |
 | #452 | `\`Theory/WeaklyInitial.v:89\` (\`initial_from_weakly_initial\`), \`:119\`\n(\`SubobjectIndex\`)` → `\`Theory/WeaklyInitial.v:89\` (\`initial_from_weakly_initial\`), \`Adjunction/SAFT.v:119\`\n(\`SubobjectIndex\`)` |
 | #435 | `printed pp. 251–253, PDF pp. 260–261` → `printed pp. 251–253, PDF pp. 260–262` |
 | #227 | Replace the shared-module note body with the corrected six-issue roster (#704 is *Awodey 7.5*, not 7.2, and is not about Boolean algebras; add #750, #871, #1005) |

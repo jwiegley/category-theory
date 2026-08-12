@@ -21,7 +21,7 @@ A subcategory that keeps every object of the ambient category and restricts only
 
 ## Current state in the library
 
-The two principal categories of the passage are already in-tree: `Sets` (the category of setoids) at `Instance/Sets.v:188`, `FinSet` (the skeleton of finite sets) at `Instance/FinSet.v:116`, with the bare-type variant `Coq` at `Instance/Coq.v:120` and the Ensembles variant `Ens` at `Instance/Ens.v:34`. Monomorphisms of `Sets` are already characterised as the injective maps: `injectivity_is_monic` at `Instance/Sets.v:369`.
+The two principal categories of the passage are already in-tree: `Sets` (the category of setoids) at `Instance/Sets.v:188`, `FinSet` (the skeleton of finite sets) at `Instance/FinSet.v:116`, with the bare-type variant `Coq` at `Instance/Coq.v:120` and the Ensembles variant `Ens` at `Instance/Ens.v:43`. Monomorphisms of `Sets` are already characterised as the injective maps: `injectivity_is_monic` at `Instance/Sets.v:369`.
 
 What is **absent** is any of the *arrow-restricted* wide subcategories the section describes: no category of sets with only injective functions, and none for the fibre-cardinality restrictions (fibres all ≤ 2 / all finite / all infinite). A whole-tree search for a fibre- or injection-restricted category of sets returned only unrelated pullback/coend fibre material (verified in the coverage record for §1.4).
 

@@ -264,6 +264,23 @@ Corollary cod_comp {x y z : C} (g : y ~> z) (f : x ~> y) :
   dom g = cod f ↔ cod (g ∘ f) = cod g.
 Proof. split; auto. Qed.
 
+(* Riehl, "Category Theory in Context", §1.1: the identity at an object is
+   unique. An endomorphism that is a two-sided unit is [id] — and either half
+   of that hypothesis already suffices, since testing it against [id] itself
+   collapses it to a unit law. *)
+Corollary id_unique_left {x : C} (u : x ~> x) :
+  (∀ (y : C) (f : x ~> y), f ∘ u ≈ f) → u ≈ id.
+Proof. intro H; rewrite <- (id_left u); apply H. Qed.
+
+Corollary id_unique_right {x : C} (u : x ~> x) :
+  (∀ (y : C) (f : y ~> x), u ∘ f ≈ f) → u ≈ id.
+Proof. intro H; rewrite <- (id_right u); apply H. Qed.
+
+Corollary id_unique {x : C} (u : x ~> x) :
+  ((∀ (y : C) (f : x ~> y), f ∘ u ≈ f) ∧ (∀ (y : C) (f : y ~> x), u ∘ f ≈ f)) →
+  u ≈ id.
+Proof. intros [H _]; now apply id_unique_left. Qed.
+
 End Category.
 
 Arguments dom {_%_category _%_object _%_object} _%_morphism.

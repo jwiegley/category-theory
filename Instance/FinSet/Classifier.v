@@ -409,3 +409,93 @@ Next Obligation.
     rewrite (fin_existsb_complete _ (unique_obj U Fin.F1) Ht') in E.
     discriminate E.
 Qed.
+
+(** ** Epimorphisms in FinSet are exactly the surjections
+
+    The dual of [finset_monic_iff_injective], and the reason the skeleton
+    is worth having: the hard direction probes the epi with two maps INTO
+    Ω = 2 — the characteristic map of the image of f (the very [char] of
+    [FinSet_Classifier] below, with the mono hypothesis dropped) against
+    the constant [fin_true].  They agree after precomposition with f
+    because every f a is in the image of f, so epicness forces the
+    characteristic map to be constantly [fin_true]; [fin_existsb_sound]
+    then returns the preimage as DATA.
+
+    Compare [surjectivity_is_epic] in [Instance/Sets.v].  It reaches the
+    same biconditional, but it cannot use this probe: the truth-value
+    object it would need has carrier [Type] with `≈` taken to be `↔`,
+    which does not fit as an [obj[Sets]] at the universe of the given
+    objects — Set's classifier lives one universe up (the cross-universe
+    theorems are in Instance/Sets/Classifier.v).  It substitutes a
+    cokernel pair, which stays at the universe of the carriers.  Here no
+    substitution is needed: Ω = 2 is an honest object of the category
+    itself and the search over it is decidable, so the probe below IS the
+    classifier's own [char], constructively and with no choice principle:
+    [∃] is [sigT] and [fin_existsb_sound] ends in [Defined]. *)
+
+Lemma finset_epic_iff_surjective {m n : nat} (f : m ~{FinSet}~> n) :
+  (∀ b : Fin.t n, ∃ a : Fin.t m, f a = b) ↔ Epic f.
+Proof.
+  split.
+  - intro surj.
+    constructor; intros z g1 g2 Hg b.
+    destruct (surj b) as [a Ha].
+    rewrite <- Ha.
+    exact (Hg a).
+  - intros E b.
+    (* the characteristic map of the image of f, probed against the
+       constant [fin_true] *)
+    pose (chi := fun b' : Fin.t n =>
+                   fin_of_bool (fin_existsb (fun a => fin_eqb (f a) b'))).
+    assert (Heq : chi b = fin_true). {
+      refine (epic (Epic:=E) 2%nat chi (fun _ => fin_true) _ b).
+      (* the two probes agree on the image: f a witnesses its own test *)
+      intro a; simpl; unfold chi.
+      now rewrite (fin_existsb_complete (fun a' => fin_eqb (f a') (f a)) a
+                     (fin_eqb_refl (f a))).
+    }
+    unfold chi in Heq.
+    apply fin_of_bool_true in Heq.
+    destruct (fin_existsb_sound _ Heq) as [a Ha].
+    exact (a; fin_eqb_eq _ _ Ha).
+Defined.
+
+(* Acceptance tests.  The image test computes: the map 1 ~> 2 constantly
+   [fin_true] never hits [fin_false], by [eq_refl] — so it is not epic. *)
+Example finset_const_true_misses_false :
+  fin_existsb (fun a : Fin.t 1 => fin_eqb ((fun _ => fin_true) a) fin_false)
+  = false := eq_refl.
+
+Example finset_const_true_not_epic :
+  ¬ Epic ((fun _ => fin_true) : 1%nat ~{FinSet}~> 2%nat).
+Proof.
+  intro E.
+  destruct (snd (finset_epic_iff_surjective
+                   ((fun _ => fin_true) : 1%nat ~{FinSet}~> 2%nat))
+              E fin_false) as [a Ha].
+  discriminate Ha.
+Qed.
+
+(* And an epi that is not an iso: the test "is this position the first?"
+   collapses 3 onto 2, hitting both truth values. *)
+Example finset_collapse_epic :
+  Epic ((fun i => fin_of_bool (fin_eqb i (Fin.F1 : Fin.t 3)))
+          : 3%nat ~{FinSet}~> 2%nat).
+Proof.
+  apply (fst (finset_epic_iff_surjective _)); intro b.
+  destruct (fin2_cases b) as [Ht | Hf].
+  - exact (Fin.F1; eq_sym Ht).
+  - exact (Fin.FS Fin.F1; eq_sym Hf).
+Qed.
+
+(* And the preimage is not merely asserted to exist -- it reduces.  The
+   collapse map above sends position 2 to [fin_false]; recovering that witness
+   from the epi hypothesis is a closed computation, which is why
+   [finset_epic_iff_surjective] ends in [Defined] rather than [Qed]. *)
+Example finset_collapse_preimage_computes :
+  projT1 (snd (finset_epic_iff_surjective
+                 ((fun i => fin_of_bool (fin_eqb i (Fin.F1 : Fin.t 3)))
+                    : 3%nat ~{FinSet}~> 2%nat))
+            finset_collapse_epic fin_false)
+  = Fin.FS Fin.F1 := eq_refl.
+

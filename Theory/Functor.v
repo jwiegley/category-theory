@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
 Require Import Equations.Prop.Logic.
 
@@ -368,6 +369,103 @@ Proof.
        rewrite fmap_comp, !fmap_sur, fmap_id;
        apply iso_from_to).
 Defined.
+
+(* Fullness and faithfulness are LOCAL conditions, and both are closed under
+   composition of functors.
+
+   Book: Riehl, "Category Theory in Context", Dover 2016, §1.5, Remark 1.5.8,
+         printed p. 33, and Exercise 1.5.vi(i), printed p. 38
+   Book: Mac Lane, "Categories for the Working Mathematician", 2nd ed., GTM 5,
+         Springer 1998, §I.3, printed pp. 14-15
+
+   Riehl's Remark 1.5.8 stresses that neither condition is a global statement
+   about the whole collection of morphisms: a faithful functor need not be
+   injective on morphisms overall, and a full functor need not be surjective
+   on morphisms overall.  That locality is definitional in the two classes
+   just above — [fmap_inj] quantifies its two morphisms over a COMMON pair
+   (x, y), and [prefmap] is only ever handed an arrow whose endpoints are
+   already of the form (F x, F y).
+
+   Exercise 1.5.vi(i) asks for the two closure properties below.  Note that
+   [Full] here is the split, choice-carrying form, so [Full_Compose] must
+   actually compose the two chosen sections; under a bare surjectivity
+   proposition it would instead be a chain of two existential eliminations.
+   The exercise's third clause, closure of essential surjectivity, is
+   [EssentiallySurjective_Compose] in Theory/Equivalence.v, where that class
+   is defined; its part (ii), transitivity of equivalence of categories, was
+   already in the library as [Equivalence_trans]
+   (Theory/Equivalence/Bundled.v). *)
+
+#[export] Program Instance Full_Compose {C D E : Category}
+  (F : D ⟶ E) (G : C ⟶ D) `{@Full _ _ F} `{@Full _ _ G} : Full (F ◯ G) := {|
+  prefmap := fun _ _ g => prefmap (F:=G) (prefmap (F:=F) g)  (* G's after F's *)
+|}.
+Next Obligation.
+  (* The goal is fmap[F] (fmap[G] (prefmap (prefmap g))) ≈ g.  Cancel G's
+     section underneath fmap[F] — legitimate because [fmap_respects] makes
+     fmap[F] a setoid morphism — and then F's. *)
+  rewrite fmap_sur.
+  apply fmap_sur.
+Qed.
+
+#[export] Instance Faithful_Compose {C D E : Category}
+  (F : D ⟶ E) (G : C ⟶ D) `{@Faithful _ _ F} `{@Faithful _ _ G} :
+  Faithful (F ◯ G).
+Proof.
+  constructor; intros x y f g Hfg.
+  (* fmap[F ◯ G] h is fmap[F] (fmap[G] h) definitionally, so the hypothesis
+     is already F's injectivity premise at the pair (G x, G y). *)
+  apply (fmap_inj (F:=G)).
+  apply (fmap_inj (F:=F)).
+  exact Hfg.
+Qed.
+
+(* nLab: https://ncatlab.org/nlab/show/faithful+functor
+   Book: Mac Lane, "Categories for the Working Mathematician", 2nd ed., GTM 5,
+         Springer 1998, §I.5, Exercise 9, printed p. 21
+   Book: Riehl, "Category Theory in Context", Dover 2016, §1.6,
+         Exercise 1.6.iv, printed p. 47
+
+   A faithful functor REFLECTS monomorphisms: if the image fmap[F] f is left-
+   cancellable in D, then f was already left-cancellable in C.  Given a pair
+   g1, g2 with f ∘ g1 ≈ f ∘ g2, push it through F ([fmap_comp]) to cancel
+   fmap[F] f, then pull the resulting fmap[F] g1 ≈ fmap[F] g2 back through
+   injectivity ([fmap_inj]).  Each hypothesis is used at exactly one step of
+   that proof: monicity of the image performs the cancellation, faithfulness
+   transports the cancelled equation from D back to C.
+
+   [Monic] and [Epic] are the left- and right-cancellation classes of
+   Theory/Morphisms.v (imported at the head of this file for these two
+   lemmas).  Neither of the two nearest in-tree results says this:
+   Theory/Adjunction.v's [adj_monic] concerns the ADJUNCT of a monic under a
+   faithfulness hypothesis, and Theory/Equivalence/FullFaithful.v cancels
+   isomorphism-induced monos and epis. *)
+Lemma faithful_reflects_monic `(F : C ⟶ D) `{@Faithful _ _ F}
+      {x y : C} (f : x ~> y) : Morphisms.Monic (fmap[F] f) → Morphisms.Monic f.
+Proof.
+  intros [Hmonic].
+  constructor; intros z g1 g2 Hg.
+  apply (fmap_inj (F:=F)).
+  apply (Hmonic (F z)).
+  rewrite <- !fmap_comp.
+  now rewrite Hg.
+Qed.
+
+(* The dual, right-cancellation reading of the same argument.  It is proved
+   directly, by mirroring the proof above, rather than transported across
+   C^op: the opposite-category apparatus lives in Construction/Opposite.v and
+   the opposite of a functor in Functor/Opposite.v's [Opposite_Functor], both
+   later layers than this core file, and the direct proof is short. *)
+Lemma faithful_reflects_epic `(F : C ⟶ D) `{@Faithful _ _ F}
+      {x y : C} (f : x ~> y) : Morphisms.Epic (fmap[F] f) → Morphisms.Epic f.
+Proof.
+  intros [Hepic].
+  constructor; intros z g1 g2 Hg.
+  apply (fmap_inj (F:=F)).
+  apply (Hepic (F z)).
+  rewrite <- !fmap_comp.
+  now rewrite Hg.
+Qed.
 
 (* nLab: https://ncatlab.org/nlab/show/algebra+over+an+endofunctor
    Wikipedia: https://en.wikipedia.org/wiki/F-algebra
