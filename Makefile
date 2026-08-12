@@ -197,6 +197,11 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
+	  echo 'Require Import Category.Instance.Grp.'; \
+	  echo 'Require Import Category.Instance.Top.'; \
+	  echo 'Require Import Category.Instance.Top.Closed.'; \
+	  echo 'Require Import Category.Instance.Grp.TwoFunctors.'; \
+	  echo 'Require Import Category.Construction.Free.TwoFunctors.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -204,6 +209,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.SubobjectClassifier.'; \
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
+	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Require Import Category.Theory.Concrete.'; \
 	  echo 'Require Import Category.Instance.Concrete.'; \
@@ -213,6 +219,13 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Concrete.Morphisms.'; \
 	  echo 'Require Import Category.Construction.Subcategory.'; \
 	  echo 'Require Import Category.Construction.Subcategory.Finite.'; \
+	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
+	  echo 'Require Import Category.Structure.Cartesian.Closed.Adjunction.'; \
+	  echo 'Require Import Category.Instance.Sets.Cartesian.Closed.Adjunction.'; \
+	  echo 'Require Import Category.Instance.Proset.Transform.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.Part.'; \
+	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -222,6 +235,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions ZX_Cat.'; \
 	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
 	  echo 'Print Assumptions lambek.'; \
+	  echo 'Print Assumptions Grp.'; \
+	  echo 'Print Assumptions Grp_Forget.'; \
+	  echo 'Print Assumptions Grp_Zero.'; \
+	  echo 'Print Assumptions Top.'; \
+	  echo 'Print Assumptions top_epic_iff.'; \
+	  echo 'Print Assumptions complement_natural.'; \
+	  echo 'Print Assumptions S3_two_functors_distinct.'; \
+	  echo 'Print Assumptions S3_two_functors_weakly_equal.'; \
+	  echo 'Print Assumptions Grp_op_twist_is_Id.'; \
+	  echo 'Print Assumptions free_two_functors_distinct.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \
@@ -230,6 +253,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions classifier_classifies.'; \
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
+	  echo 'Print Assumptions Conjugate.'; \
+	  echo 'Print Assumptions conjugate_characterizations.'; \
+	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
 	  echo 'Print Assumptions Concrete.'; \
 	  echo 'Print Assumptions Concrete_of_Separator.'; \
@@ -264,6 +290,25 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions FinSets_Full_roundtrip.'; \
 	  echo 'Print Assumptions FinSets_two_arrows.'; \
 	  echo 'Print Assumptions FinSets_negb_Monic.'; \
+	  echo 'Print Assumptions FinSet_Setf_Equivalence.'; \
+	  echo 'Print Assumptions FinSet_skeletal.'; \
+	  echo 'Print Assumptions setf_cardinality_iso_invariant.'; \
+	  echo 'Print Assumptions Exp_Functor.'; \
+	  echo 'Print Assumptions eval_natural.'; \
+	  echo 'Print Assumptions Curry_Adjunction.'; \
+	  echo 'Print Assumptions Curry_Representable.'; \
+	  echo 'Print Assumptions Sets_prod_preserves_colimits.'; \
+	  echo 'Print Assumptions proset_transform_iff.'; \
+	  echo 'Print Assumptions proset_transform_unique.'; \
+	  echo 'Print Assumptions proset_out_not_unique.'; \
+	  echo 'Print Assumptions PointedSets.'; \
+	  echo 'Print Assumptions PointedSets_Zero.'; \
+	  echo 'Print Assumptions pointed_balanced.'; \
+	  echo 'Print Assumptions pointed_monic_iff.'; \
+	  echo 'Print Assumptions pointed_epic_iff.'; \
+	  echo 'Print Assumptions pointed_part_equivalence.'; \
+	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
+	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
