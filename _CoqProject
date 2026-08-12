@@ -23,6 +23,7 @@ Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Limit.v
+Construction/Comma/Creation.v
 Construction/Coproduct.v
 Construction/Day.v
 Construction/Deloop.v
@@ -265,6 +266,8 @@ Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
 Monad/Eilenberg/Moore/Adjunction.v
+Monad/Eilenberg/Moore/Limit.v
+Monad/Eilenberg/Moore/Limit/Examples.v
 Monad/Graded.v
 Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v
@@ -331,6 +334,7 @@ Structure/Initial.v
 Structure/Kernel.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
+Structure/Limit/Creation.v
 Structure/Limit/Preservation.v
 Structure/Limit/Product.v
 Structure/Limit/Weighted.v
@@ -448,6 +452,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Equivalence/Creation.v
 Theory/Equivalence/Terminal.v
 Theory/Fibration.v
 Theory/Functor.v

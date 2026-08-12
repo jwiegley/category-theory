@@ -205,6 +205,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Structure.Limit.Creation.'; \
+	  echo 'Require Import Category.Monad.Eilenberg.Moore.Limit.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -223,6 +225,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions CreatesLimit.'; \
+	  echo 'Print Assumptions creation_preserves_limit.'; \
+	  echo 'Print Assumptions creates_limits_Complete.'; \
+	  echo 'Print Assumptions em_forget_CreatesAllLimits.'; \
+	  echo 'Print Assumptions EM_Complete.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

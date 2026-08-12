@@ -40,6 +40,7 @@ result about something the library actually contains.
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
+| `CreatesLimit`, `StrictlyCreatesLimit`, `creation_preserves_limit` | a functor that creates limits | `EM_Forget` for any monad (`Monad/Eilenberg/Moore/Limit.v`), instantiated with no remaining hypothesis at `Id_Monad` over `Coq` with `Coq_Terminal` downstairs (`Monad/Eilenberg/Moore/Limit/Examples.v`); also `Id[C]` via equivalences (`Theory/Equivalence/Creation.v`), and `comma_proj2` (`Construction/Comma/Creation.v`) under the same `Complete C` premise as the `GAFT` row |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
@@ -59,6 +60,7 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
 | `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
+| `creates_limits_Complete`, `EM_Complete` (§V.4 Thm 2, completeness half) | `Complete` on the base category | no `Complete`/`Cocomplete` instance exists in-tree, the same status as the `GAFT` row; the per-diagram creation results above are witnessed and are what the development exercises |
 
 ### The cospan universe note
 
