@@ -70,6 +70,7 @@ Construction/Product/Comma.v
 Construction/Profunctor/Compose.v
 Construction/Profunctor/Laws.v
 Construction/Quotient.v
+Construction/PreorderReflection.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Sq.v
@@ -480,6 +481,8 @@ Theory/Coq/Semigroup.v
 Theory/Coq/Traversable.v
 Theory/Coq/Tuple.v
 Theory/Coq/Tuple/Proofs.v
+Theory/Diagram.v
+Theory/Diagram/Examples.v
 Theory/Dinatural.v
 Theory/Displayed.v
 Theory/DoubleCategory.v
