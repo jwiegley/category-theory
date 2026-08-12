@@ -53,9 +53,10 @@ Next Obligation.
 Qed.
 
 (* The preorder on subobjects: u ≤ v when the mono of u factors through the
-   mono of v. The factorization is automatically monic-through, and unique
-   (sub_le_unique below), so this is a genuine preorder whose induced
-   equivalence is exactly the setoid equivalence above. *)
+   mono of v. The factorization is automatically monic ([sub_le_monic] below,
+   Awodey §5.1) and unique ([sub_le_unique] below), so this is a genuine
+   preorder whose induced equivalence is exactly the setoid equivalence
+   above. *)
 Definition sub_le (u v : SubObj x) : Type :=
   { k : sub_dom u ~> sub_dom v & sub_mono v ∘ k ≈ sub_mono u }.
 
@@ -72,6 +73,24 @@ Proof.
   rewrite comp_assoc.
   now rewrite Hl.
 Defined.
+
+(* Awodey, *Category Theory*, §5.1: a factorization BETWEEN subobjects is
+   itself monic, so u ≤ v exhibits sub_dom u as a subobject of sub_dom v and
+   not merely of x.  The file used to assert this in the header prose above
+   with nothing in tree to back it.  The argument is the one [monic_cancel]
+   packages -- sub_mono u is monic, and it factors as sub_mono v ∘ k -- but it
+   is run inline here rather than by calling that lemma, because invoking it
+   would need to rewrite under [Monic] along the factoring equation and the
+   only ≈-transports for [Monic] in tree (Structure/Abelian.v,
+   Structure/Regular/Factorization.v) are both downstream of this file. *)
+Lemma sub_le_monic (u v : SubObj x) (H : sub_le u v) : Monic `1 H.
+Proof.
+  destruct H as [k Hk]; simpl.
+  constructor; intros z g1 g2 Hg.
+  apply (@monic _ _ _ (sub_mono u) (sub_is_monic u) z g1 g2).
+  rewrite <- Hk, <- !comp_assoc.
+  now rewrite Hg.
+Qed.
 
 (* Mediating morphisms are unique: any two factorizations of sub_mono u
    through sub_mono v agree, by monicity of sub_mono v. *)
