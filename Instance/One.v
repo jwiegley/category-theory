@@ -20,6 +20,10 @@ Generalizable All Variables.
    1 is the terminal object of Cat: for every category C there is a unique
    functor `! : C ⟶ 1` ([Erase]), sending every object and morphism to [ttt].
    Dually, functors *out* of 1 pick out objects of the target, so [1, C] ≃ C.
+   Theory/Shapes.v proves both readings: [Point] and [point_of] with their
+   round trips for the objects, and [One_Fun_iso : [_1, C] ≅[Cat] C] for the
+   functor category — an equivalence of categories in the sense of
+   Instance/Cat.v, not an isomorphism of categories.
    The dual notion — the initial/empty category 0 — lives in Instance/Zero.v. *)
 
 Program Definition _1@{o h p} : Category@{o h p} := {|

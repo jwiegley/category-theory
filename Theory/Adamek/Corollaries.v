@@ -75,9 +75,14 @@ Qed.
    [unit × X ≅ X]; that file carries the fully worked initial-algebra proof for
    [ListF A] (with [list A] the carrier), so the analogous [nat] initiality for
    [NatF] is exactly the [A := unit] reading of it.  Only the functor [NatF]
-   itself is formalized below; the initial-algebra theorem [nat ≅ μ NatF] is
-   not stated in the tree — it is recorded here as the informal cross-reference
-   to [ListF A], not as a proven result. *)
+   itself is formalized below; the initiality is proven in Instance/Coq/Nat.v,
+   where [nat_initial : @Initial (FAlg NatF)] exhibits [nat] with [O]/[S] as
+   the initial [NatF]-algebra — existence of the mediator by primitive
+   recursion, uniqueness by induction — and [nat_lambek] reads off the Lambek
+   isomorphism [1 + nat ≅ nat].  As with [list A], that proof is direct and
+   does not route through [adamek]: no [AdamekData] witness is constructed
+   anywhere in the tree, so the ω-colimit route stays conditional and the
+   concrete initial algebras are established by hand. *)
 
 (* Keep obligation handling explicit and predictable (as in Instance/Coq/Lists.v):
    surface each functor law as its own obligation rather than letting the ambient
