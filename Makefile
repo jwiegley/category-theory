@@ -208,6 +208,11 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Concrete.'; \
 	  echo 'Require Import Category.Instance.Concrete.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Concrete.'; \
+	  echo 'Require Import Category.Theory.Functor.'; \
+	  echo 'Require Import Category.Theory.Equivalence.'; \
+	  echo 'Require Import Category.Theory.Concrete.Morphisms.'; \
+	  echo 'Require Import Category.Construction.Subcategory.'; \
+	  echo 'Require Import Category.Construction.Subcategory.Finite.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -240,6 +245,25 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions QuiverArrows_not_Faithful.'; \
 	  echo 'Print Assumptions QuiverElements_faithful_under_NodeUIP.'; \
 	  echo 'Print Assumptions SetQuiver_Concrete.'; \
+	  echo 'Print Assumptions Full_Compose.'; \
+	  echo 'Print Assumptions Faithful_Compose.'; \
+	  echo 'Print Assumptions faithful_reflects_monic.'; \
+	  echo 'Print Assumptions faithful_reflects_epic.'; \
+	  echo 'Print Assumptions EssentiallySurjective_Compose.'; \
+	  echo 'Print Assumptions Incl_Faithful.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full_upto.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full.'; \
+	  echo 'Print Assumptions concrete_injective_monic.'; \
+	  echo 'Print Assumptions concrete_surjective_epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic.'; \
+	  echo 'Print Assumptions Coq_pred_Epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic_reflected.'; \
+	  echo 'Print Assumptions Coq_pred_Epic_reflected.'; \
+	  echo 'Print Assumptions FinSets_Full_Functor.'; \
+	  echo 'Print Assumptions FinSets_Faithful.'; \
+	  echo 'Print Assumptions FinSets_Full_roundtrip.'; \
+	  echo 'Print Assumptions FinSets_two_arrows.'; \
+	  echo 'Print Assumptions FinSets_negb_Monic.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
