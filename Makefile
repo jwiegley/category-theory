@@ -211,6 +211,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Shapes.'; \
 	  echo 'Require Import Category.Structure.Groupoid.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
@@ -261,6 +262,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Point_point_of_strict.'; \
+	  echo 'Print Assumptions Walk_arrow_of_strict.'; \
+	  echo 'Print Assumptions Two_Fun_Arrow.'; \
+	  echo 'Print Assumptions Functor_of_Pair_of_Functor.'; \
+	  echo 'Print Assumptions two_three_enumeration.'; \
+	  echo 'Print Assumptions Sets_point_separates.'; \
 	  echo 'Print Assumptions connected_deloop_equiv.'; \
 	  echo 'Print Assumptions connected_iff_deloop_equiv.'; \
 	  echo 'Print Assumptions deloop_groupoid_iff.'; \
