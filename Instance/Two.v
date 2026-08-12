@@ -18,7 +18,11 @@ Generalizable All Variables.
    2 is the "walking arrow": a functor 2 ⟶ C is exactly a choice of one
    morphism of C (the image of TwoXY), so functors out of 2 classify the
    morphisms of C, and the functor category [2, C] is the arrow category of
-   C (objects = arrows of C, morphisms = commutative squares). *)
+   C (objects = arrows of C, morphisms = commutative squares).  Both halves
+   of that sentence are theorems in Theory/Shapes.v: [Walk] and [arrow_of]
+   with their round trips for the first, and [Two_Fun_Arrow] for the
+   second, the latter an equivalence of categories in the sense of
+   Instance/Cat.v rather than an isomorphism of categories. *)
 
 (* The smallest non-trivial shape, and the smallest object of truth values
 
@@ -90,7 +94,8 @@ Generalizable All Variables.
 
    Computationally, thinness means the hom is proof-irrelevant, a mere
    proposition, so [_2] is a (0,1)-category.  Instance/Two/Monoidal.v makes
-   this concrete: [two_thin] says any two parallel arrows coincide, which
+   this concrete: [Two_thin] below says any two parallel arrows coincide
+   (Instance/Two/Monoidal.v's [two_thin] is now that lemma re-exported), which
    discharges every coherence obligation uniformly and is why the strict
    [Morphism_equality] setoid recorded above suffices.  Two consequences
    follow.  A functor out of [_2] materializes one morphism together with
@@ -165,6 +170,64 @@ Next Obligation. destruct f; auto. Qed.
 Next Obligation. destruct f; auto. Qed.
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition; auto with *. Qed.
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** A bimorphism that is not an isomorphism *)
+
+(* Mac Lane, CWM 2nd ed., §I.5 Exercise 3: there are categories carrying an
+   arrow that is both monic and epic yet has no inverse, so "bimorphic ⇒ iso"
+   -- the property called BALANCEDness (nLab: balanced category) -- is not a
+   theorem of category theory.  [Bimorphic] is defined in Theory/Morphisms.v
+   and, before this, was never instantiated anywhere in the tree, so the
+   library had no witness that the notion is even inhabited, let alone that it
+   is strictly weaker than invertibility.
+
+   The interval category 2 supplies the cheapest one.  [TwoXY] is monic and
+   epic for the same degenerate reason -- 2 is thin, so any two parallel
+   arrows are equal outright -- and it is not invertible because there is no
+   arrow TwoY ~> TwoX at all ([TwoHom_Y_X_absurd]).
+
+   Balancedness is a property of particular categories rather than of the
+   notion of arrow, and 2 is a category where it does not hold.  For the
+   contrast, [Sets] IS balanced in tree: [Sets_balanced]
+   (Instance/Sets.v) assembles [Monic f -> Epic f -> IsIsomorphism f] from
+   [injectivity_is_monic] and [epic_implies_surjective] via [bijective_is_iso].
+   An earlier revision of this comment said the second half was unavailable --
+   "the direction abandoned at Instance/Sets.v:476" -- and that was true when
+   written; it was proved subsequently.  So the contrast is genuine and
+   sharper than first stated: [2] is not balanced while [Sets] is. *)
+
+Require Import Category.Theory.Morphisms.
+Require Import Category.Theory.Isomorphism.
+
+(* Any two parallel arrows of 2 agree: the category is thin. *)
+Lemma Two_thin {x y : TwoObj} (f g : x ~{_2}~> y) : f ≈ g.
+Proof.
+  destruct x, y.
+  - now rewrite (TwoHom_inv _ _ f), (TwoHom_inv _ _ g).
+  - now rewrite (TwoHom_inv _ _ f), (TwoHom_inv _ _ g).
+  - contradiction (TwoHom_Y_X_absurd f).
+  - now rewrite (TwoHom_inv _ _ f), (TwoHom_inv _ _ g).
+Qed.
+
+Definition TwoXY_monic : @Monic _2 TwoX TwoY TwoXY.
+Proof. constructor; intros z g1 g2 _; apply Two_thin. Qed.
+
+Definition TwoXY_epic : @Epic _2 TwoX TwoY TwoXY.
+Proof. constructor; intros z g1 g2 _; apply Two_thin. Qed.
+
+Definition TwoXY_bimorphic : @Bimorphic _2 TwoX TwoY TwoXY :=
+  (TwoXY_epic, TwoXY_monic).
+
+(* But it has no inverse: an inverse would be an arrow TwoY ~> TwoX. *)
+Lemma TwoXY_not_iso : @IsIsomorphism _2 TwoX TwoY TwoXY → False.
+Proof. intros [g _ _]; exact (TwoHom_Y_X_absurd g). Qed.
+
+(* The exercise, packaged: 2 is not balanced. *)
+Definition two_bimorphic_not_iso :
+  @Bimorphic _2 TwoX TwoY TwoXY * (@IsIsomorphism _2 TwoX TwoY TwoXY → False) :=
+  (TwoXY_bimorphic, TwoXY_not_iso).
+
 
 Require Import Category.Instance.Sets.
 

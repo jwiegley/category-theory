@@ -208,6 +208,45 @@ Proof.
   reassociate_left.
 Qed.
 
+(* Epimorphisms cancel on the LEFT: if a composite is epic, the arrow applied
+   LAST is epic.  (Mac Lane, CWM 2nd ed., §I.5 Exercise 1; Riehl, CTiC, Lemma
+   1.2.11(ii'); Awodey §2.9 Exercise 2(c).)  Anything g1, g2 agreeing after f
+   already agrees after f ∘ g, and the composite cancels.
+
+   Note the asymmetry: nothing follows about g.  A composite can be epic with
+   its FIRST factor far from epic -- see [sets_epic_left_factor_only] in
+   Instance/Sets.v for a witness. *)
+Definition epic_cancel {x y z : C} {f : y ~> z} {g : x ~> y} :
+  Epic (f ∘ g) → Epic f.
+Proof.
+  intro H; constructor; intros w g1 g2 Hgg.
+  apply (@epic x z (f ∘ g) H w g1 g2).
+  rewrite !comp_assoc.
+  now rewrite Hgg.
+Qed.
+
+(* Monomorphisms cancel on the RIGHT: if a composite is monic, the arrow
+   applied FIRST is monic.  (Mac Lane §I.5 Exercise 1; Riehl Lemma 1.2.11(ii);
+   Awodey §2.9 Exercise 2(b), and §5.1 for the subobject reading -- a
+   factorization between subobjects is automatically monic, recorded as
+   [sub_le_monic] in Theory/Subobject.v.)
+
+   This is the exact dual of [epic_cancel], and Riehl's section is about
+   deriving one from the other through C^op rather than proving both.  That
+   derivation cannot be performed HERE: Construction/Opposite.v requires
+   Theory/Isomorphism.v, which requires this file, so importing the opposite
+   category into it is a cycle (verified).  The dual route is carried out one
+   layer up instead, in Theory/Morphisms/Duality.v, where [monic_cancel_op]
+   re-derives this statement from [epic_cancel] with no second argument. *)
+Definition monic_cancel {x y z : C} {f : y ~> z} {g : x ~> y} :
+  Monic (f ∘ g) → Monic g.
+Proof.
+  intro H; constructor; intros w g1 g2 Hgg.
+  apply (@monic x z (f ∘ g) H w g1 g2).
+  rewrite <- !comp_assoc.
+  now rewrite Hgg.
+Qed.
+
 (* Monomorphisms are closed under composition. *)
 Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} :
   Monic f → Monic g → Monic (f ∘ g).
