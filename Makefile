@@ -226,6 +226,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Groupoid.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Basepoint.'; \
 	  echo 'Require Import Category.Construction.Deloop.Transform.'; \
 	  echo 'Require Import Category.Theory.Concrete.'; \
 	  echo 'Require Import Category.Instance.Concrete.'; \
@@ -358,6 +359,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugation_iso.'; \
 	  echo 'Print Assumptions core_is_groupoid.'; \
 	  echo 'Print Assumptions Inversion_iso.'; \
+	  echo 'Print Assumptions deloop_ff_moniso.'; \
+	  echo 'Print Assumptions connected_vertex_moniso.'; \
+	  echo 'Print Assumptions Bool_Wide_vertex_moniso.'; \
 	  echo 'Print Assumptions transform_iff_conjugate.'; \
 	  echo 'Print Assumptions transform_iff_conjugate_SWAPPED.'; \
 	  echo 'Print Assumptions transform_iff_intertwines.'; \

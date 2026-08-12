@@ -252,6 +252,101 @@ the global context".  Known live uses:
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).
   `Instance/Shapes.v` likewise depends on `eq_rect_eq` (verify:
   `Print Assumptions Category.Instance.Shapes.Tries_Cartesian`).
+- **The standard-library reals (`ClassicalDedekindReals.sig_forall_dec`,
+  `ClassicalDedekindReals.sig_not_dec`,
+  `FunctionalExtensionality.functional_extensionality_dep`)** —
+  `Instance/Top/Interval.v` builds the unit interval `[0,1]` and the
+  unit square out of `Coq.Reals`, and
+  `Instance/Top/FundamentalGroupoid.v` builds the fundamental groupoid
+  on them.  These are the only two files in the tree that import the
+  reals (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and neither
+  declares an axiom of its own; what they inherit is the axiom set of
+  the standard library's own construction of `R`.  The cost splits in
+  two, and both halves are measured rather than estimated:
+
+  - `π(X)` itself, its groupoid structure and the base-point
+    corollary carry **two** axioms — `sig_forall_dec` and
+    `functional_extensionality_dep` (verify:
+    `Print Assumptions Category.Instance.Top.FundamentalGroupoid.FundamentalGroupoid`,
+    and likewise for `fundamental_groupoid_is_groupoid` and
+    `fundamental_group_basepoint_independent`).
+  - The results that go through the least-upper-bound property
+    (`Raxioms.completeness`) carry a **third**, `sig_not_dec`.
+    `Print Assumptions` was run over every constant of both files,
+    and this third axiom is carried by exactly **eight** of them, all
+    in `Instance/Top/FundamentalGroupoid.v` and none in
+    `Instance/Top/Interval.v`:
+
+    | constant | role |
+    |---|---|
+    | `gval_endpoints` | the least-upper-bound argument itself |
+    | `f_endpoints` | its endpoint corollary |
+    | `interval_to_discrete_constant_dec` | the theorem they establish: every continuous map from `[0,1]` into a discrete space with decidable equality is constant |
+    | `interval_to_discrete_constant` | that theorem at the two-point discrete space |
+    | `no_path_true_false` | non-vacuity: the discrete witness |
+    | `Bool_Discrete_not_pathconnected` | " |
+    | `Bool_Discrete_pi_not_connected` | " |
+    | `Bool_Discrete_loops_trivial` | " |
+
+    Verify any of them with, e.g.,
+    `Print Assumptions Category.Instance.Top.FundamentalGroupoid.interval_to_discrete_constant`.
+
+  **The per-file split, measured per constant.**  Each constant of all
+  three files of that development was measured individually — no class
+  was inferred from a headline, and nothing was sampled.
+
+  `Instance/Top/FundamentalGroupoid.v` has **113** constants: the 108
+  recorded in its `.glob` file, together with the five Program
+  obligations `FundamentalGroupoid_obligation_1` .. `_5` that the
+  `Program Definition` of π(X) generates and that no `.glob` sweep
+  sees.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 1 | closed under the global context | `bool_carriers_agree` |
+  | 1 | `sig_forall_dec` only | `const_arrow_eval` |
+  | 103 | the two | 98 glob-recorded constants and all five obligations |
+  | 8 | the three | the table above |
+
+  `Instance/Top/Interval.v` has **160** constants and no Program
+  obligations.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 1 | closed under the global context | `rf_id` |
+  | 34 | `sig_forall_dec` only | the 34 named below |
+  | 125 | the two | all the rest |
+  | 0 | the three | — |
+
+  The 34 that carry `sig_forall_dec` alone, in full, are
+  `BallSpace`, `ball_carrier`, `bdist`, `bdist_zero`, `bdist_sym`,
+  `bdist_tri`, `ball_open`, `ball_respects`, `ball_proper`,
+  `ball_union`, `bs_fst`, `bs_snd`, `BSprod_Object`, `BSprod_Setoid`,
+  `BSprod_equiv`, `BSprod_equiv_Equivalence`, `BSprod_pt`, `hfun`,
+  `Ipt`, `Ipt_Object`, `Ipt_Setoid`, `Ipt_equiv`,
+  `Ipt_equiv_Equivalence`, `ipt_lo`, `ipt_hi`, `ival`, `ival_I_zero`,
+  `ival_I_one`, `I_point`, `I_rev_eval`, `rf_zero`, `rf_rev`,
+  `sq_pt_s` and `sq_pt_t`.
+
+  An earlier edition of this section said the remaining constants of
+  each file carried "exactly the two"; for the 34 above and for
+  `const_arrow_eval` that is false.  The direction of the error was to
+  over-report the cost, so nothing that rested on it was unsound, but
+  it was a figure inferred rather than measured and it is corrected
+  here.
+
+  The purely categorical part of that development, the base-point
+  independence theorem for connected groupoids in
+  `Structure/Groupoid/Basepoint.v`, imports no reals: all **27** of its
+  constants report "Closed under the global context" (verify:
+  `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
+  and because they do, that file *is* wired into the
+  `print-assumptions` make target, alongside its `Structure/Groupoid`
+  siblings.  The two files that import the reals are not: that target
+  permits only the three ZX `Phase` parameters, and the instance-layer
+  stdlib axioms listed in this section are documented here instead,
+  exactly as the `Instance/Coq` and `Instance/Lambda` entries above
+  are.
 
 Two entries that earlier editions of this table listed are *not* live
 uses, and are corrected here:
