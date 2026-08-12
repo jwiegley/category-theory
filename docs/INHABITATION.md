@@ -32,7 +32,7 @@ result about something the library actually contains.
 | Result | Distinctive premise | In-tree witness |
 |--------|---------------------|-----------------|
 | `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`) |
-| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), streams (`Instance/Sets/Streams.v`) |
+| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), `nat` (`Instance/Coq/Nat.v`), streams (`Instance/Sets/Streams.v`) |
 | `monadic_creates` | a `Monad` with its Eilenberg–Moore adjunction | `Id_Monad` (`Monad/Strong.v`) |
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
@@ -44,6 +44,11 @@ result about something the library actually contains.
 | `FundamentalGroupoid`, `fundamental_groupoid_is_groupoid`, `fundamental_group_basepoint_independent`, `fundamental_group_inclusion_equivalence` | `PathConnected X` for the last two (the first two need only a `TopSpace`) | `TwoPoint_Indiscrete_pathconnected` (`Instance/Top/FundamentalGroupoid.v`), the indiscrete topology on two points, with the base-point isomorphism instantiated at `TwoPoint_Indiscrete_basepoint_iso`. The premise is shown to be a real restriction rather than a formality: `Bool_Discrete_pi_not_connected` refutes connectedness of π for the DISCRETE topology on the same setoid of points (`bool_carriers_agree` holds by `eq_refl`), so π is reading the topology and not the underlying set. See the fundamental-groupoid note below for what is still missing |
 | `conjugation_iso` (conjugation is a group isomorphism of vertex groups) | a groupoid with a NONABELIAN vertex group, without which the automorphism is the identity | `Deloop S3_Grp` (`Structure/Groupoid.v`) — the tree's first nonabelian group, added with this work; `S3_conjugation_not_identity` exhibits conjugation moving an element |
 | `Inversion_iso` (a groupoid is isomorphic to its opposite, in `StrictCat`) | `IsGroupoid C` | `core_is_groupoid C` for every `C`; `Deloop Z3_Grp` for a case where the morphism map is not the identity (`Z3_inversion_not_identity`) |
+| `Curry_Adjunction`, `Curry_Representable` | a cartesian closed category | `Sets` via `Sets_Closed` (`Instance/Sets/Cartesian/Closed.v`), instantiated with computing counit and a concrete transposed arrow in `Instance/Sets/Cartesian/Closed/Adjunction.v` |
+| `pointed_monic_split`, `pointed_epic_split` | decidable image membership / decidable equality + an enumeration | `PointedBool`, `PointedThree` (`Instance/Sets/Pointed/Finite.v`), with the retraction and section computed by `reflexivity` |
+| `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `fixed_product_functor`, `fixed_product_transform` | a `Cartesian` category, and an `f : H ~> K` that is not invertible | `Grp` via `Grp_Cartesian`, instantiated as `Grp_fixed_product`/`Grp_fixed_product_transform` (`Functor/Product/Fixed.v`); the zero endomorphism `Grp_Z2_zero` of `Z/2` witnesses non-degeneracy — `Grp_Z2_zero_not_iso` and `Grp_fixed_product_transform_not_id` |
+| `grp_not_epic_of_witness`, `grp_epic_iff_surjective` | a homomorphism together with an element proved outside its image. For the biconditional, `GrpImageStable` on top — but under `Epic f` that premise is EQUIVALENT to its own conclusion (`stability_is_the_conclusion`), so it is not an independent hypothesis | Two witnesses, deliberately not interchangeable. `grp_two_incl`, the inclusion of Z/2 as a factor of Z/2 x Z/2 (`Instance/Grp/Epi.v`), exhibits the missing element, the decidability of image membership, and the non-identity of both the action and the twist — but its image is NORMAL, so the equivariance step degenerates there and the whole image acts as the identity (`grp_two_incl_image_acts_trivially`). `grp_two_sym3`, Z/2 into the symmetric group of a three-letter setoid, supplies the NON-NORMAL image at which that step has content (`grp_two_sym3_image_acts_nontrivially`) |
 | `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
@@ -62,7 +67,9 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
+| `pointed_part_equivalence` | the GLOBAL basepoint decidability `∀ Z, DecidablePt Z` | uninhabited: finiteness discharges only the per-object form (`PointedBool`, `PointedThree`); the global form is classically automatic but follows from no finite witness. The functor's full-and-faithfulness (`Part_to_Pointed_Full`/`_Faithful`) is unconditional |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
+| `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
 
 ### The cospan universe note
 
@@ -81,6 +88,14 @@ numbers and therefore sit below its homs.  `FinSet_HasPushouts`
 `Cospan_Hypergraph` together with both spider results now instantiate over
 `FinSet` — each reported "Closed under the global context" — which is why
 they appear in the witnessed table above.
+
+## Maintaining this table
+
+When a new headline result is added, record here whether its distinctive
+premise is witnessed in-tree, and by what.  When a previously conditional
+premise gains an instance, move its row up.  The intent is that a reader can
+tell at a glance which results are demonstrated over a concrete model and
+which are proven parametrically and await one.
 
 ### The fundamental-groupoid note
 

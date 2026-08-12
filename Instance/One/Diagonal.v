@@ -28,7 +28,9 @@ Generalizable All Variables.
    isomorphism (Cat's hom-setoid identifies functors up to natural iso) is the
    identity iso [iso_id] at every j : J, and naturality is discharged by [cat].
    This is the J-indexed analogue of [1, C] ≃ C: every constant diagram is an
-   object of D inflated along the unique map to 1. *)
+   object of D inflated along the unique map to 1.  That analogue is itself a
+   theorem, Theory/Shapes.v's [One_Fun_iso], proven there over that file's own
+   name [Point d] for the constant functor 1 ⟶ D on d. *)
 
 Corollary Diagonal_Unique (J C : Category) {D : Category} (d : D) :
   Δ[J](d) ≈[Cat] Δ(d) ∘[Cat] one.
