@@ -208,6 +208,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Groupoid.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
 	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
+	  echo 'Require Import Category.Construction.Deloop.Transform.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -234,6 +235,19 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugation_iso.'; \
 	  echo 'Print Assumptions core_is_groupoid.'; \
 	  echo 'Print Assumptions Inversion_iso.'; \
+	  echo 'Print Assumptions transform_iff_conjugate.'; \
+	  echo 'Print Assumptions transform_iff_conjugate_SWAPPED.'; \
+	  echo 'Print Assumptions transform_iff_intertwines.'; \
+	  echo 'Print Assumptions transform_intertwiner_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_hom.'; \
+	  echo 'Print Assumptions Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions Deloop_Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions abelian_conjugates_agree.'; \
+	  echo 'Print Assumptions S3_conjugating_transform.'; \
+	  echo 'Print Assumptions S3_conjugation_needs_nonabelian.'; \
+	  echo 'Print Assumptions Deloop_S3_two_objects.'; \
+	  echo 'Print Assumptions Deloop_Fun_S3_not_deloop.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
