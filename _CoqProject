@@ -243,6 +243,7 @@ Instance/Simplex.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
+Instance/Sets/Cartesian/Closed/Adjunction.v
 Instance/Sets/Cocartesian.v
 Instance/Sets/Coend.v
 Instance/Sets/End.v
@@ -321,6 +322,7 @@ Structure/Premonoidal/Centre.v
 Structure/Premonoidal/Freyd.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
+Structure/Cartesian/Closed/Adjunction.v
 Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
