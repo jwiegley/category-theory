@@ -213,6 +213,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Proset.Galois.'; \
 	  echo 'Require Import Category.Instance.Ab.'; \
 	  echo 'Require Import Category.Theory.Size.'; \
 	  echo 'Require Import Category.Construction.PreorderReflection.'; \
@@ -301,6 +302,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions GaloisAdjunction.'; \
+	  echo 'Print Assumptions GaloisOfAdjunction.'; \
+	  echo 'Print Assumptions galois_round_trip.'; \
+	  echo 'Print Assumptions thin_side_condition.'; \
 	  echo 'Print Assumptions Ab.'; \
 	  echo 'Print Assumptions Ab_Zero.'; \
 	  echo 'Print Assumptions ab_monic_iff_injective.'; \

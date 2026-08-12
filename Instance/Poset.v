@@ -44,8 +44,9 @@ Generalizable All Variables.
    commutes and every coherence condition holds vacuously.  Each
    categorical concept therefore collapses to its order-theoretic
    shadow, and [Poset] installs the resulting dictionary: an adjunction
-   between posets is exactly a monotone Galois connection
-   (Theory/Adjunction.v); a monad is a closure operator, the unit giving
+   between posets is exactly a monotone Galois connection -- proved in
+   both directions at Instance/Proset/Galois.v ([GaloisAdjunction],
+   [GaloisOfAdjunction]), rather than only asserted here; a monad is a closure operator, the unit giving
    extensivity and the multiplication idempotency (Theory/Monad.v); a
    product is a meet, and more generally the limit over a subset is its
    greatest lower bound (nLab, "meet"); a coproduct is a join
