@@ -213,6 +213,7 @@ Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
+Instance/FinSet/Regular.v
 Instance/FinSet/Skeleton.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
@@ -265,6 +266,8 @@ Instance/Sets/Pointed/Finite.v
 Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
+Instance/Sets/Split.v
+Instance/Sets/Regular.v
 Instance/Shapes.v
 Instance/Top.v
 Instance/Top/Closed.v
