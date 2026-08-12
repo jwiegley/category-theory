@@ -109,7 +109,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 
 ### Theory Core
 - **Theory/Category.v**: Defines categories with setoid hom-sets
-- **Theory/Functor.v**: Functors preserve equivalence
+- **Theory/Functor.v**: Functors preserve equivalence — with the §I.3/§I.5 closure and reflection results: `Full_Compose`/`Faithful_Compose`, and `faithful_reflects_monic`/`_epic` (a faithful functor reflects both cancellation properties), from which the concrete-category corollary in Theory/Concrete/Morphisms.v follows. Subcategory inclusions are faithful generically (`Incl_Faithful`, Construction/Subcategory.v); the converse "full inclusion ⟹ full subcategory" needs the selected morphisms to be closed under `≈`, which the `Subcategory` record does not supply and which Construction/Subcategory/FullConverse.v proves NECESSARY by counterexample
 - **Theory/Natural/Transformation.v**: Natural transformations
 - **Theory/Adjunction.v**: The most important concept - adjunctions
 - **Theory/Monad.v**: Monads as endofunctors with structure

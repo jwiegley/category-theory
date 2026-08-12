@@ -69,6 +69,8 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
+Construction/Subcategory/Finite.v
+Construction/Subcategory/FullConverse.v
 Construction/Free/Quiver.v
 Construction/Free/Quiver/Concrete.v
 Construction/Span/Category.v
@@ -410,6 +412,7 @@ Theory/Category/Raw.v
 Theory/Category/Semi.v
 Theory/Coend/Fubini.v
 Theory/Concrete.v
+Theory/Concrete/Morphisms.v
 Theory/Coend/Yoneda.v
 Theory/Coq.v
 Theory/Coq/Applicative.v
