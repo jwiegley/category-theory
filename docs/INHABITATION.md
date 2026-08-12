@@ -32,32 +32,72 @@ result about something the library actually contains.
 | Result | Distinctive premise | In-tree witness |
 |--------|---------------------|-----------------|
 | `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`) |
-| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), streams (`Instance/Sets/Streams.v`) |
+| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), `nat` (`Instance/Coq/Nat.v`), streams (`Instance/Sets/Streams.v`) |
 | `monadic_creates` | a `Monad` with its Eilenberg–Moore adjunction | `Id_Monad` (`Monad/Strong.v`) |
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
 | `GAFT_from_initials` | a family of comma-initial objects | `InternalProductFunctor` (`Adjunction/GAFT/Examples.v`) |
+| `GAFT` (solution-set form) | `Complete C` + `PreservesImageLimit U` + `SolutionSet U d` | all three at `U := Id : Sets ⟶ Sets` (`Adjunction/GAFT/Sets.v`); see the GAFT note below |
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
+| `connected_deloop_equiv` | a connected groupoid (`IsGroupoid C` + `Connected C`); `connected_iff_deloop_equiv` needs only `IsGroupoid C`, since it CONCLUDES connectedness in one direction | `Bool_Wide := WideDeloop Bool_Xor_Grp bool` (`Structure/Groupoid/Connected.v`): two objects, eight arrows, vertex group Z/2, with the equivalence instantiated at both objects (`Bool_Wide_structure`, `Bool_Wide_structure_false`). The hypothesis is also shown necessary: `Two_Discrete_no_deloop_equivalence` refutes the conclusion for the disconnected two-object discrete groupoid |
+| `conjugation_iso` (conjugation is a group isomorphism of vertex groups) | a groupoid with a NONABELIAN vertex group, without which the automorphism is the identity | `Deloop S3_Grp` (`Structure/Groupoid.v`) — the tree's first nonabelian group, added with this work; `S3_conjugation_not_identity` exhibits conjugation moving an element |
+| `Inversion_iso` (a groupoid is isomorphic to its opposite, in `StrictCat`) | `IsGroupoid C` | `core_is_groupoid C` for every `C`; `Deloop Z3_Grp` for a case where the morphism map is not the identity (`Z3_inversion_not_identity`) |
+| `Curry_Adjunction`, `Curry_Representable` | a cartesian closed category | `Sets` via `Sets_Closed` (`Instance/Sets/Cartesian/Closed.v`), instantiated with computing counit and a concrete transposed arrow in `Instance/Sets/Cartesian/Closed/Adjunction.v` |
+| `pointed_monic_split`, `pointed_epic_split` | decidable image membership / decidable equality + an enumeration | `PointedBool`, `PointedThree` (`Instance/Sets/Pointed/Finite.v`), with the retraction and section computed by `reflexivity` |
+| `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `fixed_product_functor`, `fixed_product_transform` | a `Cartesian` category, and an `f : H ~> K` that is not invertible | `Grp` via `Grp_Cartesian`, instantiated as `Grp_fixed_product`/`Grp_fixed_product_transform` (`Functor/Product/Fixed.v`); the zero endomorphism `Grp_Z2_zero` of `Z/2` witnesses non-degeneracy — `Grp_Z2_zero_not_iso` and `Grp_fixed_product_transform_not_id` |
+| `grp_not_epic_of_witness`, `grp_epic_iff_surjective` | a homomorphism together with an element proved outside its image. For the biconditional, `GrpImageStable` on top — but under `Epic f` that premise is EQUIVALENT to its own conclusion (`stability_is_the_conclusion`), so it is not an independent hypothesis | Two witnesses, deliberately not interchangeable. `grp_two_incl`, the inclusion of Z/2 as a factor of Z/2 x Z/2 (`Instance/Grp/Epi.v`), exhibits the missing element, the decidability of image membership, and the non-identity of both the action and the twist — but its image is NORMAL, so the equivariance step degenerates there and the whole image acts as the identity (`grp_two_incl_image_acts_trivially`). `grp_two_sym3`, Z/2 into the symmetric group of a three-letter setoid, supplies the NON-NORMAL image at which that step has content (`grp_two_sym3_image_acts_nontrivially`) |
+| `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
-Each result here is proven, but its distinctive hypothesis has no inhabitant
-anywhere in the library, so no concrete object exercises it.  These are
-honest conditionals — "given such-and-such structure, the following holds" —
-and nothing proven elsewhere secretly depends on their being inhabited.
+Each result here is proven, but the premise package named below is not met
+as a whole by anything the library builds: at least one component has no
+in-tree inhabitant, so no concrete object exercises the result.  (Where a
+row's package names several premises, some may be witnessed individually;
+what is missing is a simultaneous witness.)  These are honest conditionals —
+"given such-and-such structure, the following holds" — and nothing proven
+elsewhere secretly depends on their being inhabited.
 
 | Result | Distinctive premise | Status of the premise |
 |--------|---------------------|-----------------------|
-| `GAFT` (solution-set form) | `Complete C` | no `Complete`/`Cocomplete` instance exists in-tree |
-| `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |
+| `SAFT` | `Complete C` + `PreservesImageLimit U` + `Cogenerator C` + `SubobjectIndex` + `SubobjectCover` | the first two are witnessed (`Sets_Complete`; `right_adjoint_PreservesImageLimit`), but no `Cogenerator`, `SubobjectIndex` or `SubobjectCover` exists in-tree, so `SAFT` is never applied.  `SAFT` takes no `SolutionSet` — it builds one itself, by `SAFT_solution_set` (`Adjunction/SAFT.v:252`) |
 | `RoundTrip_Equivalence` | a `SplitCleaving` of the required shape | never inhabited in that shape |
 | `beck_monadicity` | `CreatesUSplitCoequalizers` composed from the engine | never assembled; `Id` is shown monadic by a direct proof (`Monad/Monadicity/Examples.v`), bypassing the coequalizer machinery |
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
+| `pointed_part_equivalence` | the GLOBAL basepoint decidability `∀ Z, DecidablePt Z` | uninhabited: finiteness discharges only the per-object form (`PointedBool`, `PointedThree`); the global form is classically automatic but follows from no finite witness. The functor's full-and-faithfulness (`Part_to_Pointed_Full`/`_Faithful`) is unconditional |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
+| `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
+
+### The GAFT note
+
+`GAFT` (`Adjunction/GAFT.v:241`) takes three premises, and each now has an
+in-tree supply:
+
+* `Complete C` — `Sets_Complete` (`Instance/Sets/Complete.v`), the library's
+  first `Complete` instance.
+* `PreservesImageLimit U` — `right_adjoint_PreservesImageLimit`
+  (`Construction/Comma/Limit.v:264`), which discharges it for *every* right
+  adjoint; `adj_id` (`Instance/Adjoints.v:42`) and `Diagonal_Product C ⊣ ×(C)`
+  (`Adjunction/Diagonal/Product.v`) are concrete adjunctions to feed it.  This
+  bridge predates the `Complete` instance.
+* `SolutionSet U d` — constructible, and constructed at `Id` as
+  `Sets_Id_SolutionSet` (`Adjunction/GAFT/Sets.v`).
+
+`GAFT_at_Sets_Id` (`Adjunction/GAFT/Sets.v`) assembles the three and runs the
+theorem, so `GAFT` is applied in-tree and its row belongs above.  Read the
+row with two qualifications, both disclosed in that file's header.  The
+functor is `Id`, so the adjoint produced is `Id` again — proved, as
+`GAFT_at_Sets_Id_is_Id` — and the demonstration is that the premises are
+simultaneously satisfiable, not that a new adjunction was found.  And `GAFT`
+is a `Qed`-opaque theorem whose frozen universe context pins both categories'
+hom *and* proof universes to `Set`, so the application lands at `Sets@{Set _}`
+— one instantiation of the polymorphic `Sets` at which `Sets_Complete` itself
+is stated, and the smallest.
 
 ### The cospan universe note
 
