@@ -1288,7 +1288,7 @@ instance is realized on the thin category `Props` (`Instance/Props.v:39`, homs
 There is, however, **no powerset-of-a-set preorder in-tree** (0 hits for
 `powerset`/`power set` outside `Structure/Topos.v`'s internal power *object*
 `Pow a := Ω ^ a`, :129, and 0 hits for `Included`, `Ensembles.Intersection`,
-`inclusion order`). `Instance/Ens.v:56` `EnsT T` has subsets as objects, but a
+`inclusion order`). `Instance/Ens.v:65` `EnsT T` has subsets as objects, but a
 morphism is a *function* `f : T → T` with `∀ x, x ∈ A ↔ f x ∈ B` — a preimage
 condition, not an inclusion — and it carries no `Terminal`/`Cartesian` instance.
 `Theory/Subobject.v:59,62,67` gives the inclusion preorder on subobjects
@@ -2815,7 +2815,7 @@ Both are quantales, so both are covered by the same V-weighted-graph machinery
 
 Neither base exists, and no enrichment is ever computed from a labelled graph.
 
-- No powerset preorder. `Instance/Ens.v:56` (`EnsT T`) has the right objects
+- No powerset preorder. `Instance/Ens.v:65` (`EnsT T`) has the right objects
   (`Ensemble T`) but its morphisms are carrier functions `f : T → T` with
   `∀ x, x ∈ A ↔ f x ∈ B`, i.e. preimage conditions rather than inclusions, and it
   carries no `Terminal`/`Cartesian` instance; `rg -in 'powerset|power set'`
@@ -2860,7 +2860,7 @@ enrichment computations in `Instance/Quantale/Examples/Graphs.v`.
 5. Record both bases in the same file as the running non-`Bool`, non-`Cost`
    examples, so the change-of-base issues have more than two bases to work with.
 
-In-tree donors: `Instance/Ens.v:56`, `Instance/Two/Monoidal.v:37`,
+In-tree donors: `Instance/Ens.v:65`, `Instance/Two/Monoidal.v:37`,
 `Instance/Omega.v:72`, `Construction/Free/Quiver.v:54,431`, `Lib/TList.v:47`,
 `Construction/Enriched.v:111`, the V-weighted-graph machinery of the §2.3.3 and
 §2.5.3 issues, the powerset preorder of #382.
