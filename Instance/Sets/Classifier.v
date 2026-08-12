@@ -37,10 +37,12 @@ Generalizable All Variables.
    obj[Sets@{o so}] (which is SetoidObject@{o o}).  Taking Prop as the
    carrier instead is not an escape: landing ∃ a, m a ≈ b in Prop would
    require truncating a Type-valued sigma, and the pullback property below
-   must extract the witness back out of the truth value.  This is exactly
-   the size obstruction recorded at the end of Instance/Sets.v (in the note
-   on the reverse direction of epis-are-surjections); this file upgrades
-   that remark to the theorems it gestures at.
+   must extract the witness back out of the truth value.
+
+   This obstruction is specific to the classifier, and the end of this file
+   records where its reach stops: epis-are-surjections was long thought to
+   inherit it, but that theorem has a probe which is not a truth-value
+   object, and it is proved at one universe in Instance/Sets.v.
 
    WHAT IS TRUE, AND WHERE EACH PIECE LIVES:
 
@@ -370,3 +372,65 @@ Proof.
   exists iso.
   exact (Sets_Image_comm m).
 Defined.
+
+(** ** The lift is inert for epicness *)
+
+(* A note on scope, because this file is where one would expect the
+   epis-are-surjections theorem to live.  It is NOT here: it is proved at one
+   universe in Instance/Sets.v as [surjectivity_is_epic], using the cokernel
+   pair of h with itself rather than a truth-value object.
+
+   That is worth saying plainly, because the opposite was believed for a long
+   time -- long enough that Instance/Sets.v carried an abandoned proof and a
+   header note blaming size.  The classifier obstruction this file opens with
+   is real: a characteristic map must receive a [Type@{o}]-valued truth value,
+   and no object of Sets@{o so} carries one.  But epis-are-surjections does
+   NOT inherit it.  The classical truth-value probe is only one probe; the
+   cokernel pair `carrier B + carrier B`, glued along the image of h, tests
+   the same thing and never leaves the universe of the carriers.
+
+   What this file can still contribute is that lifting is inert for epicness:
+   being epic against level-o probes and being epic against level-so probes
+   are the same condition.  One direction uses this file's own machinery --
+   [char_setoid] against the constantly-true map -- and the other goes through
+   the one-universe theorem, whose cokernel-pair probe is itself level-o. *)
+
+(* The constantly-true probe: the terminal map followed by [sets_true]. *)
+Definition sets_all_true@{o so sso} (X : SetoidObject@{so so}) :
+  X ~{Sets@{so sso}}~> PropSetoid@{o so} :=
+  sets_true@{o so} ∘[Sets@{so sso}] sets_to_unit@{so}.
+
+Theorem lifted_epic_implies_epic@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B)
+  (H : @Epic@{sso so} Sets@{so sso}
+         (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+         (SetoidMorphism_Lift@{o so} h)) :
+  @Epic@{so o} Sets@{o so} A B h.
+Proof.
+  apply (surjective_implies_epic@{so o} h).
+  intro b.
+  assert (Hcomm :
+    char_setoid@{o so} h ∘[Sets@{so sso}] SetoidMorphism_Lift@{o so} h
+      ≈ sets_all_true@{o so sso} (Setoid_Lift@{o so} B)
+          ∘[Sets@{so sso}] SetoidMorphism_Lift@{o so} h). {
+    intro a; split.
+    - intros _; exact ttt.
+    - intros _; exists a; reflexivity.
+  }
+  exact (snd (@epic _ _ _ _ H PropSetoid@{o so}
+                (char_setoid@{o so} h)
+                (sets_all_true@{o so sso} (Setoid_Lift@{o so} B))
+                Hcomm b) ttt).
+Qed.
+
+Theorem epic_implies_lifted_epic@{o so sso} {A B : SetoidObject@{o o}}
+  (h : A ~{Sets@{o so}}~> B) (H : @Epic@{so o} Sets@{o so} A B h) :
+  @Epic@{sso so} Sets@{so sso}
+    (Setoid_Lift@{o so} A) (Setoid_Lift@{o so} B)
+    (SetoidMorphism_Lift@{o so} h).
+Proof.
+  constructor; intros z g1 g2 Hg b.
+  destruct (epic_implies_surjective@{so o} h H b) as [a Ha].
+  rewrite <- Ha.
+  exact (Hg a).
+Qed.
