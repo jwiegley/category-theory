@@ -11,8 +11,8 @@ The headline definitions checked by the `print-assumptions` make
 target — `Hypergraph`, `PROP`, `Cospan_Hypergraph`,
 `DecoratedCospan_Hypergraph`, `spider_collapse`, `spider_frobenius`,
 `Hypergraph_CompactClosed`, and `ZX_Cat` — together with the phase
-5-17 flagship theorems added to the target and listed under
-[How to audit](#how-to-audit) — are reported as CLOSED UNDER THE
+5-17 flagship theorems and the further definitions added to the target,
+all listed under [How to audit](#how-to-audit) — are reported as CLOSED UNDER THE
 GLOBAL CONTEXT (with the sole exception of `ZX_Cat`, which lists the
 three `Phase` parameters described below).  This can be verified by
 
@@ -149,6 +149,31 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+
+The target further covers the Mac Lane exercise layer — the category of
+groups, and the fixed-factor product functor built over it.  These sit
+outside the `Theory/`/`Structure/`/`Construction/` scope in which the
+library's zero-axiom claim holds: `Instance/Grp.v` is squarely in the
+instance layer, which *is* permitted stdlib axioms, and
+`Functor/Product/Fixed.v` is a `Functor/` file that depends on it.  The
+definitions below are audited precisely because, permission
+notwithstanding, each of them turns out to need no axiom at all.  This
+is a claim about these named definitions, not about every definition in
+either file:
+
+- `Grp`, `Grp_Forget`, `Grp_Zero` (`Instance/Grp.v`) — the category of
+  groups, its underlying-set functor, and its zero object
+- `fixed_product_functor`, `fixed_product_transform`,
+  `fixed_product_transform_faithful`, `alt_transform`,
+  `alt_is_inj_left` (`Functor/Product/Fixed.v`) — the fixed-factor
+  product functor `H × −`, the induced transformation `H × − ⟹ K × −`,
+  its faithfulness in `f`, the `split f id` spelling of the component,
+  and its agreement on the nose with the binoidal composite the tree
+  already reaches
+- `Grp_fixed_product`, `Grp_fixed_product_transform`,
+  `Grp_fixed_product_transform_not_id`, `Grp_Z2_zero_not_iso`
+  (`Functor/Product/Fixed.v`) — the same two constructions instantiated
+  at `Grp`, together with the two non-vacuity witnesses at `Z/2`
 - `Exp_Functor`, `eval_natural`, `Curry_Adjunction`,
   `Curry_Representable` (`Structure/Cartesian/Closed/Adjunction.v`) —
   the currying adjunction `(− × S) ⊣ (−)^S` with `eval` as counit, and
