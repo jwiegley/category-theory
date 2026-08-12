@@ -2,6 +2,7 @@
 Adjunction/Diagonal/Product.v
 Adjunction/Hom.v
 Adjunction/Compose.v
+Adjunction/Conjugate.v
 Adjunction/Continuity.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
@@ -25,6 +26,8 @@ Construction/Comma/Natural/Transformation.v
 Construction/Comma/Limit.v
 Construction/Coproduct.v
 Construction/Day.v
+Construction/Deloop.v
+Construction/Deloop/Opposite.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
@@ -69,7 +72,9 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Sq.v
 Construction/Subcategory.v
+Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
+Construction/Free/TwoFunctors.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
 Construction/Cospan/Double.v
@@ -158,6 +163,7 @@ Functor/Structure/Monoidal/Strict.v
 Functor/Structure/Terminal.v
 Functor/Traversable.v
 Functor/Traversable/Product.v
+Functor/Twist.v
 Instance/AST.v
 Instance/Adj.v
 Instance/Adjoints.v
@@ -169,6 +175,7 @@ Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
 Instance/Cat/Bicategory.v
 Instance/Cat/Bicategory/Adjunction.v
+Instance/Cat/Bicategory/Conjugate.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -180,8 +187,10 @@ Instance/Cones/Comma.v
 Instance/Cones/Limit.v
 Instance/Coq.v
 Instance/Discrete.v
+Instance/Discrete/Reconstruct.v
 Instance/Coq/Applicative.v
 Instance/Coq/Lists.v
+Instance/Coq/Nat.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v
 Instance/Coq/Comonad/Store.v
@@ -189,6 +198,7 @@ Instance/Coq/Comonad/Traced.v
 Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
+Instance/EnsV.v
 Instance/Fact.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
@@ -199,6 +209,8 @@ Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
+Instance/Grp.v
+Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
 Instance/Lambda/Example.v
@@ -218,12 +230,15 @@ Instance/Lambda/Value.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
+Instance/Ordinal.v
 Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Order.v
 Instance/Rel.v
 Instance/Roof.v
+Instance/Simplex.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
@@ -241,6 +256,8 @@ Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v
+Instance/Top.v
+Instance/Top/Closed.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -291,6 +308,7 @@ Solver/Reify.v
 Structure/Abelian.v
 Structure/Additive.v
 Structure/BiCCC.v
+Structure/BiCCC/Strict.v
 Structure/Bicartesian.v
 Structure/Binoidal.v
 Structure/Binoidal/Central.v
@@ -316,6 +334,7 @@ Structure/Cone/Const.v
 Structure/Cone/Natural/Transformation.v
 Structure/Constant.v
 Structure/Discrete.v
+Structure/Thin.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
@@ -383,6 +402,7 @@ Structure/UniversalProperty.v
 Structure/UniversalProperty/Cartesian.v
 Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
+Structure/UniversalProperty/Terminal.v
 Structure/Wedge.v
 Structure/ZeroObject.v
 Theory.v
@@ -408,6 +428,7 @@ Theory/Bicategory/Adjunction.v
 Theory/Bicategory/Mates.v
 Theory/Bicategory/OneObject.v
 Theory/Category.v
+Theory/Category/Monoid.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
 Theory/Coend/Fubini.v
@@ -443,6 +464,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Equivalence/Terminal.v
 Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
@@ -461,14 +483,17 @@ Theory/Multicategory/Algebra.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
+Theory/Metacategory/General.v
 Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
 Theory/Morphisms/Classes.v
+Theory/Morphisms/Duality.v
 Theory/Morphisms/Stability.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
 Theory/Natural/Transformation.v
+Theory/Natural/Transformation/Arrows.v
 Theory/Naturality.v
 Theory/Orthogonality.v
 Theory/Profunctor.v

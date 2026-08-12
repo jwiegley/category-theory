@@ -149,6 +149,24 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+- `Conjugate`, `conjugate_characterizations` and `conjugate_bijection`
+  (`Adjunction/Conjugate.v`) — Mac Lane §IV.7 conjugate natural
+  transformations: the hom-set square, its four equivalent
+  characterizations, and the conjugation bijection
+
+The target also covers the Mac Lane I.3 witnesses — two functors with
+the same object function and different arrow functions — each likewise
+"Closed under the global context":
+
+- `S3_two_functors_distinct` and `S3_two_functors_weakly_equal`
+  (`Instance/Grp/TwoFunctors.v`) — the strict separation, and the weak
+  (natural-isomorphism) identification, of the conjugation-twisted pair
+  over the full subcategory of `Grp` on the symmetric group S3
+- `Grp_op_twist_is_Id` (`Instance/Grp/TwoFunctors.v`) — the collapse of
+  the inversion twist of the whole of `Grp`, which is why that uniform
+  candidate does not separate anything
+- `free_two_functors_distinct` (`Construction/Free/TwoFunctors.v`) —
+  the group-free witness of Fong and Spivak's Exercise 3.40
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

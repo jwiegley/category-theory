@@ -32,7 +32,7 @@ result about something the library actually contains.
 | Result | Distinctive premise | In-tree witness |
 |--------|---------------------|-----------------|
 | `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`) |
-| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), streams (`Instance/Sets/Streams.v`) |
+| `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), `nat` (`Instance/Coq/Nat.v`), streams (`Instance/Sets/Streams.v`) |
 | `monadic_creates` | a `Monad` with its Eilenberg–Moore adjunction | `Id_Monad` (`Monad/Strong.v`) |
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
@@ -41,6 +41,8 @@ result about something the library actually contains.
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
 | `pointed_monic_split`, `pointed_epic_split` | decidable image membership / decidable equality + an enumeration | `PointedBool`, `PointedThree` (`Instance/Sets/Pointed/Finite.v`), with the retraction and section computed by `reflexivity` |
+| `Grp_injectivity_is_monic`, `Grp_Cartesian`, `Grp_Op` | a nontrivial group | `Z2` on `bool` (`Instance/Grp.v`), with `Monic_in_Grp_is_not_vacuous` and the kernel shown non-degenerate |
+| `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
@@ -60,6 +62,7 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
 | `pointed_part_equivalence` | the GLOBAL basepoint decidability `∀ Z, DecidablePt Z` | uninhabited: finiteness discharges only the per-object form (`PointedBool`, `PointedThree`); the global form is classically automatic but follows from no finite witness. The functor's full-and-faithfulness (`Part_to_Pointed_Full`/`_Faithful`) is unconditional |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
+| `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
 
 ### The cospan universe note
 
