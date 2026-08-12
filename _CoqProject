@@ -249,6 +249,10 @@ Instance/Sets/Image.v
 Instance/Sets/Classifier.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
+Instance/Sets/Pointed.v
+Instance/Sets/Pointed/Coslice.v
+Instance/Sets/Pointed/Finite.v
+Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v

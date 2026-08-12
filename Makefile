@@ -211,6 +211,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.Part.'; \
 	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
@@ -243,6 +245,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions PointedSets.'; \
+	  echo 'Print Assumptions PointedSets_Zero.'; \
+	  echo 'Print Assumptions pointed_balanced.'; \
+	  echo 'Print Assumptions pointed_monic_iff.'; \
+	  echo 'Print Assumptions pointed_epic_iff.'; \
+	  echo 'Print Assumptions pointed_part_equivalence.'; \
 	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
 	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
 	} > $$d/pa.v; \
