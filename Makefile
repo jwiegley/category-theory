@@ -198,6 +198,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
 	  echo 'Require Import Category.Instance.Grp.'; \
+	  echo 'Require Import Category.Instance.Grp.TwoFunctors.'; \
+	  echo 'Require Import Category.Construction.Free.TwoFunctors.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -218,6 +220,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Grp.'; \
 	  echo 'Print Assumptions Grp_Forget.'; \
 	  echo 'Print Assumptions Grp_Zero.'; \
+	  echo 'Print Assumptions S3_two_functors_distinct.'; \
+	  echo 'Print Assumptions S3_two_functors_weakly_equal.'; \
+	  echo 'Print Assumptions Grp_op_twist_is_Id.'; \
+	  echo 'Print Assumptions free_two_functors_distinct.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \
