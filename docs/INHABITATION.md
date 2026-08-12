@@ -40,6 +40,7 @@ result about something the library actually contains.
 | `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
+| `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 

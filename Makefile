@@ -197,6 +197,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
+	  echo 'Require Import Category.Instance.Top.'; \
+	  echo 'Require Import Category.Instance.Top.Closed.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
@@ -214,6 +216,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions ZX_Cat.'; \
 	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
 	  echo 'Print Assumptions lambek.'; \
+	  echo 'Print Assumptions Top.'; \
+	  echo 'Print Assumptions top_epic_iff.'; \
+	  echo 'Print Assumptions complement_natural.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \
