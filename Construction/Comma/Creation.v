@@ -38,15 +38,16 @@ Generalizable All Variables.
    where the other binds a cone and an [IsLimitCone]).  So GAFT and SAFT
    already speak the general vocabulary under an older name.
 
-   Second, the created lift lies over the CHOSEN limit [Ldiag] on the nose —
-   [comma_strict_apex] and [comma_strict_legs] are [eq_refl] — while the
-   class instance is stated for an arbitrary limiting cone downstairs, where
-   the comparison is the canonical isomorphism between two limits of the
-   same diagram.  Stating strict creation for an arbitrary downstairs limit
-   would require [Ldiag] to become a section parameter of
-   Construction/Comma/Limit.v rather than the chosen [HC J Gdiag]; that
-   generalization leaves the exported type of [Comma_Complete] unchanged,
-   but it edits working code and is left as a separate proposal.
+   Second, the created lift lies over an ARBITRARY downstairs limit [L] on
+   the nose — [comma_strict_apex] and [comma_strict_legs] are [eq_refl] for
+   every [L], not merely for the one a [Complete C] happens to choose.  That
+   is the generalization this file's header previously deferred: [Limit.v]
+   now takes [Ldiag] as a section parameter instead of computing it as
+   [HC J Gdiag], so [comma_limit] is parameterized by the limit it is built
+   from and the projection lands on that limit definitionally.  The exported
+   type of [Comma_Complete] is unchanged by the move — it simply supplies
+   [HC J (Gdiag K)] as the parameter — so Adjunction/GAFT.v and
+   Adjunction/SAFT.v are untouched.
 
    On the house rule that morphisms are compared with [≈]: [comma_strict_legs]
    is the one statement here that writes [=] between morphisms, and it does
@@ -145,22 +146,27 @@ Section CommaCreates.
 Context {C D : Category}.
 Context {U : C ⟶ D}.
 Context {d : D}.
-Context (HC : @Complete C).
 Context (HU : @PreservesImageLimit C D U).
 Context {J : Category}.
 Context (K : J ⟶ (=(d) ↓ U)).
 
-(* The image of the comma limit cone IS the chosen downstairs limit cone,
-   by conversion. *)
+(* An ARBITRARY limit of the base diagram downstairs.  This used to be the
+   chosen [Ldiag HC K] coming from a [Complete C]; making it a parameter is
+   what upgrades the strictness statements below from "at the chosen limit"
+   to "at every limit". *)
+Context (L : Limit (Gdiag K)).
+
+(* The image of the comma limit cone IS that downstairs limit cone, by
+   conversion. *)
 
 Definition comma_image_limitcone :
-  IsLimitCone (FCone comma_proj2 (@limit_cone _ _ _ (comma_limit HC HU K)))
-  := fun N => @ump_limit _ _ _ _ (limit_is_alimit (Ldiag HC K)) N.
+  IsLimitCone (FCone comma_proj2 (@limit_cone _ _ _ (comma_limit HU K L)))
+  := fun N => @ump_limit _ _ _ _ (limit_is_alimit L) N.
 
 Definition comma_CreatesLimit : CreatesLimit K comma_proj2.
-Proof using HC HU.
+Proof using HU L.
   unshelve refine
-    {| creates_lift := fun _ _ => @limit_cone _ _ _ (comma_limit HC HU K) |}.
+    {| creates_lift := fun _ _ => @limit_cone _ _ _ (comma_limit HU K L) |}.
   - intros N HN.
     exact (limitcone_iso comma_image_limitcone HN).
   - exact (comma_creates_reflect HU K).
@@ -168,16 +174,23 @@ Defined.
 
 End CommaCreates.
 
-(** ** Strictness at the chosen limit: apex and legs on the nose *)
+(** ** Strictness at EVERY limit: apex and legs on the nose *)
+
+(* These now quantify over an arbitrary downstairs limit [L] rather than the
+   one chosen by a [Complete C].  The witnesses are still [eq_refl]: the
+   comma limit is BUILT from [L], so the projection lands on [L]'s apex and
+   legs definitionally, whichever limit [L] is.  This is Mac Lane's [F σ = τ]
+   at full strength, and it is what the header of this file previously
+   deferred as a separate proposal. *)
 
 Definition comma_strict_apex {C D : Category} {U : C ⟶ D} {d : D}
-  (HC : @Complete C) (HU : @PreservesImageLimit C D U)
-  {J : Category} (K : J ⟶ (=(d) ↓ U)) :
-  comma_proj2 (vertex_obj[comma_limit HC HU K]) = vertex_obj[Ldiag HC K]
+  (HU : @PreservesImageLimit C D U)
+  {J : Category} (K : J ⟶ (=(d) ↓ U)) (L : Limit (Gdiag K)) :
+  comma_proj2 (vertex_obj[comma_limit HU K L]) = vertex_obj[L]
   := eq_refl.
 
 Definition comma_strict_legs {C D : Category} {U : C ⟶ D} {d : D}
-  (HC : @Complete C) (HU : @PreservesImageLimit C D U)
-  {J : Category} (K : J ⟶ (=(d) ↓ U)) (j : J) :
-  fmap[comma_proj2] (cone_leg (comma_limit HC HU K) j)
-    = limit_leg (limit_is_alimit (Ldiag HC K)) j := eq_refl.
+  (HU : @PreservesImageLimit C D U)
+  {J : Category} (K : J ⟶ (=(d) ↓ U)) (L : Limit (Gdiag K)) (j : J) :
+  fmap[comma_proj2] (cone_leg (comma_limit HU K L) j)
+    = limit_leg (limit_is_alimit L) j := eq_refl.
