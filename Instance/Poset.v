@@ -18,8 +18,10 @@ Generalizable All Variables.
    to the underlying [Category] construction (the hom-sets are unchanged); it
    only makes the resulting thin category skeletal, so that isomorphic objects
    are equal. nLab characterizes a poset as exactly "a skeletal thin category",
-   equivalently "a skeletal (0,1)-category". (See also [Pos], the category of
-   posets, whose objects are posets and whose morphisms are monotone maps.)
+   equivalently "a skeletal (0,1)-category". (See Instance/Pos.v for [Pos], the
+   category whose OBJECTS are posets and whose morphisms are monotone maps --
+   a different construction from this one, which turns a single poset into a
+   thin category.)
 
    Wikipedia: "Every poset (and every preorder) may be considered as a category
    in which every hom-set has at most one element. More explicitly, let
@@ -44,8 +46,9 @@ Generalizable All Variables.
    commutes and every coherence condition holds vacuously.  Each
    categorical concept therefore collapses to its order-theoretic
    shadow, and [Poset] installs the resulting dictionary: an adjunction
-   between posets is exactly a monotone Galois connection
-   (Theory/Adjunction.v); a monad is a closure operator, the unit giving
+   between posets is exactly a monotone Galois connection -- proved in
+   both directions at Instance/Proset/Galois.v ([GaloisAdjunction],
+   [GaloisOfAdjunction]), rather than only asserted here; a monad is a closure operator, the unit giving
    extensivity and the multiplication idempotency (Theory/Monad.v); a
    product is a meet, and more generally the limit over a subset is its
    greatest lower bound (nLab, "meet"); a coproduct is a join

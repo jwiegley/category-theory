@@ -592,7 +592,7 @@ counterpart lives one categorical level up.
   EQUIVALENCE. `rg -n 'sub_le' Theory/Subobject/Functor.v` returns 0 hits, so the
   statement `sub_le u v → sub_le (sub_reindex f u) (sub_reindex f v)` appears
   nowhere: "well-defined" is proved while "monotone", the exercise's actual
-  deliverable, is not. (`Instance/Ens.v:44-66`'s hom condition
+  deliverable, is not. (`Instance/Ens.v:53-75`'s hom condition
   `∀ x, x ∈ A ↔ f x ∈ B`, i.e. `A = f⁻¹ B`, is the one place a preimage of a
   subset appears at all — a constraint on morphisms, not an operator, over
   unordered objects.)
@@ -2550,7 +2550,7 @@ is nowhere.
   never on the boolean predicates `Fin.t n → bool` (`rg -n 'Included'` = 0 hits).
   `Structure/SubobjectClassifier.v:187` (`classifier_classifies`) is an
   isomorphism of SETOIDS and is order-forgetting.
-  `Instance/Ens.v:56` (`EnsT T`) has the subsets of a fixed type as objects but
+  `Instance/Ens.v:65` (`EnsT T`) has the subsets of a fixed type as objects but
   its homs are membership-preserving-and-reflecting endofunctions
   (`∃ f : T → T, ∀ x, x ∈ A ↔ f x ∈ B`, which at `f := id` force extensional
   equality), so it is not the inclusion order either. Building the powerset
