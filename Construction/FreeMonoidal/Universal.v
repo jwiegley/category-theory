@@ -802,6 +802,92 @@ Proof.
     reflexivity.
 Qed.
 
+(* Two cast-naturality squares along a length equality, both by destruct
+   over bare naturals. *)
+Lemma thc_nfword_cast (m n : nat) (e : m = n) :
+  thc (nfword n) ∘ id_cast (f_equal (fun i => G (nfword i)) e)
+    ≈ id_cast (f_equal (fun i => subst b (nfword i)) e) ∘ thc (nfword m).
+Proof. destruct e; simpl; now rewrite id_left, id_right. Qed.
+
+Lemma sigma_nfword_cast (m n : nat) (e : m = n) :
+  sigma n ∘ id_cast (f_equal (fun i => subst b (nfword i)) e)
+    ≈ id_cast (f_equal (fun i => nf b i I) e) ∘ sigma m.
+Proof. destruct e; simpl; now rewrite id_left, id_right. Qed.
+
+(* Mac Lane's uniqueness: on EVERY arrow, G agrees with substitution across
+   the object agreement.  W is thin, so the proof decomposes the arrow
+   through the normalisers — for free — and the three squares compose. *)
+Theorem Subst_unique {v w : Word} (p : v ~{W}~> w) :
+  fmap[Subst] p ∘ thc v ≈ thc w ∘ fmap[G] p.
+Proof.
+  assert (GG : fmap[G] (to (canW w)) ∘ fmap[G] (from (canW w)) ≈ id).
+  { rewrite <- fmap_comp.
+    rewrite (@G_irr (nfword (wlen w)) (nfword (wlen w)) _
+               (@id W (nfword (wlen w)))).
+    apply fmap_id. }
+  assert (SQf : thc w ∘ fmap[G] (from (canW w))
+            ≈ from (can b w) ∘ sigma (wlen w) ∘ thc (nfword (wlen w))).
+  { transitivity
+      (from (can b w)
+         ∘ (sigma (wlen w) ∘ thc (nfword (wlen w)) ∘ fmap[G] (to (canW w)))
+         ∘ fmap[G] (from (canW w))).
+    { symmetry.
+      rewrite <- (canW_unique w).
+      rewrite !comp_assoc.
+      rewrite iso_from_to.
+      now rewrite id_left. }
+    rewrite !comp_assoc.
+    rewrite <- (comp_assoc _ (fmap[G] (to (canW w)))
+                  (fmap[G] (from (canW w)))).
+    rewrite GG.
+    now rewrite id_right. }
+  rewrite (@G_irr v w _
+             (from (canW w) ∘ (nfword_arrow p ∘ to (canW v)))).
+  rewrite !fmap_comp.
+  rewrite !comp_assoc.
+  rewrite SQf.
+  rewrite (G_nfword_cast p).
+  rewrite <- (comp_assoc _ (thc (nfword (wlen w)))
+                (id_cast (f_equal (fun i => G (nfword i)) p))).
+  rewrite (thc_nfword_cast (wlen v) (wlen w) p).
+  rewrite (comp_assoc _ (id_cast (f_equal (fun i => subst b (nfword i)) p))
+                        (thc (nfword (wlen v)))).
+  rewrite <- (comp_assoc (from (can b w)) (sigma (wlen w))
+                (id_cast (f_equal (fun i => subst b (nfword i)) p))).
+  rewrite (sigma_nfword_cast (wlen v) (wlen w) p).
+  rewrite !comp_assoc.
+  rewrite <- (comp_assoc _ (sigma (wlen v)) (thc (nfword (wlen v)))).
+  rewrite <- (comp_assoc _ (sigma (wlen v) ∘ thc (nfword (wlen v)))
+                (fmap[G] (to (canW v)))).
+  rewrite <- (canW_unique v).
+  rewrite !comp_assoc.
+  reflexivity.
+Qed.
+
 End Uniqueness.
+
+(** ** Theorem 1, packaged
+
+    [maclane:VII.2:thm1]: substitution is a strict monoidal functor sending
+    the generator to [b] — with both object equations [eq_refl] — and it is
+    the ONLY one: any strict monoidal [G] with [G WI = b] agrees with it on
+    objects by a derived Leibniz equality and on every arrow up to transport
+    along that equality. *)
+Theorem FreeMonoidal_universal :
+  (((@StrictMonoidalFunctor W B W_Monoidal MB Subst) *
+    (Subst WI = b)) *
+   (forall (G : W ⟶ B)
+           (SG : @StrictMonoidalFunctor W B W_Monoidal MB G)
+           (Hb : G WI = b),
+      (forall w : Word, G w = subst b w) *
+      (forall (v w : Word) (p : v ~{W}~> w),
+         fmap[Subst] p ∘ id_cast (Theta G SG Hb v)
+           ≈ id_cast (Theta G SG Hb w) ∘ fmap[G] p)))%type.
+Proof.
+  split.
+  - exact (Subst_Strict, eq_refl).
+  - intros G SG Hb.
+    exact (Theta G SG Hb, fun v w p => Subst_unique G SG Hb p).
+Qed.
 
 End Universal.
