@@ -50,6 +50,7 @@ result about something the library actually contains.
 | `fixed_product_functor`, `fixed_product_transform` | a `Cartesian` category, and an `f : H ~> K` that is not invertible | `Grp` via `Grp_Cartesian`, instantiated as `Grp_fixed_product`/`Grp_fixed_product_transform` (`Functor/Product/Fixed.v`); the zero endomorphism `Grp_Z2_zero` of `Z/2` witnesses non-degeneracy — `Grp_Z2_zero_not_iso` and `Grp_fixed_product_transform_not_id` |
 | `grp_not_epic_of_witness`, `grp_epic_iff_surjective` | a homomorphism together with an element proved outside its image. For the biconditional, `GrpImageStable` on top — but under `Epic f` that premise is EQUIVALENT to its own conclusion (`stability_is_the_conclusion`), so it is not an independent hypothesis | Two witnesses, deliberately not interchangeable. `grp_two_incl`, the inclusion of Z/2 as a factor of Z/2 x Z/2 (`Instance/Grp/Epi.v`), exhibits the missing element, the decidability of image membership, and the non-identity of both the action and the twist — but its image is NORMAL, so the equivariance step degenerates there and the whole image acts as the identity (`grp_two_incl_image_acts_trivially`). `grp_two_sym3`, Z/2 into the symmetric group of a three-letter setoid, supplies the NON-NORMAL image at which that step has content (`grp_two_sym3_image_acts_nontrivially`) |
 | `Hausdorff_Subcategory`, `CompactHausdorff_Subcategory` | a Hausdorff / compact space | `Bool_Discrete_Hausdorff` (two points, with `TwoPoint_Indiscrete_not_Hausdorff` refuting the indiscrete twin) and `Point_Compact` (`Instance/Top.v`) |
+| `skeleton_inclusion_is_equivalence`, `skeletons_are_isomorphic`, `skeletons_isomorphic_iff_equivalent` | a `Skeleton C` — a full subcategory with one chosen representative per isomorphism class, and its uniqueness | `Indiscrete_bool_Skeleton` (`Theory/Skeleton/Separation.v`), a category that is NOT skeletal whose skeleton is exhibited on the nose as `1` (`Indiscrete_bool_skeleton_is_One`); plus `Skeleton_of_Skeletal`, applied in tree at `FinSet` (`FinSet_Skeletal`, `FinSet_Skeleton`) and at any `Poset` (`Proset_Skeleton`), and available at `1`, `2` and `DiscreteCat A` from `One_Skeletal`, `Two_Skeletal` and `DiscreteCat_Skeletal` |
 
 ## Conditional results (no in-tree witness of the distinctive premise)
 
@@ -88,6 +89,23 @@ numbers and therefore sit below its homs.  `FinSet_HasPushouts`
 `Cospan_Hypergraph` together with both spider results now instantiate over
 `FinSet` — each reported "Closed under the global context" — which is why
 they appear in the witnessed table above.
+
+### The skeleton choice note
+
+The `Skeleton` record is inhabited in-tree, but it is not dischargeable
+uniformly: "every category has a skeleton" is equivalent to the axiom of
+choice, a caveat `Theory/Equivalence.v` has recorded since long before this
+development, and `Theory/Skeleton.v` accordingly never produces a
+`Skeleton C` for an arbitrary `C`.  Two things keep the packaging honest.
+The uniqueness clause is stated at the level of `Sub`'s objects rather than
+their carriers, and that strengthening is necessary rather than convenient:
+`skeleton0_skeletal_forces_UIP` shows the carrier-level weakening cannot
+yield skeletality of the subcategory without entailing UIP for every type,
+by a free-loop-space countermodel over `DiscreteCat`, while
+`skeleton0_is_skeletal_carrier` shows the carrier statement itself still
+holds.  And every witness supplied is a category whose representatives can
+be named explicitly — `Indiscrete bool` chooses `true`, a skeletal category
+chooses itself — so no witness in the table smuggles a choice principle.
 
 ## Maintaining this table
 

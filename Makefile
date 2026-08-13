@@ -214,6 +214,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Theory.Skeleton.'; \
+	  echo 'Require Import Category.Theory.Skeleton.Separation.'; \
+	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
+	  echo 'Require Import Category.Instance.Proset.Skeletal.'; \
 	  echo 'Require Import Category.Construction.Quotient.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Presented.'; \
 	  echo 'Require Import Category.Instance.Proset.Limit.'; \
@@ -308,6 +312,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions skeleton_inclusion_is_equivalence.'; \
+	  echo 'Print Assumptions skeletons_are_isomorphic.'; \
+	  echo 'Print Assumptions skeletons_isomorphic_iff_equivalent.'; \
+	  echo 'Print Assumptions skeletal_equivalence_is_isomorphism.'; \
+	  echo 'Print Assumptions skeleton0_skeletal_forces_UIP.'; \
+	  echo 'Print Assumptions skeletality_is_not_equivalence_invariant.'; \
+	  echo 'Print Assumptions FinSet_Skeletal.'; \
+	  echo 'Print Assumptions Proset_Skeletal_iff_Antisymmetric.'; \
 	  echo 'Print Assumptions CongClosure_Congruence.'; \
 	  echo 'Print Assumptions cc_least.'; \
 	  echo 'Print Assumptions cc_kernel.'; \

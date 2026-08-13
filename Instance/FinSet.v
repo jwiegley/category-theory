@@ -22,7 +22,9 @@ Generalizable All Variables.
    the morphisms [m ~> n] are all functions [Fin.t m → Fin.t n].  Hom-setoids
    are pointwise Leibniz equality (via [fun_setoid] over the discrete
    [Fin_Setoid]), so this is an ordinary — non-quotient — category presented
-   in the library's setoid discipline.
+   in the library's setoid discipline.  That FinSet is skeletal — that
+   isomorphic objects are equal — is proved in Instance/FinSet/Skeleton.v
+   ([FinSet_Skeletal]).
 
    FinSet is the PROP for commutative monoids: its coproduct-induced monoidal
    structure (tensor on objects is [plus]) makes every object a commutative

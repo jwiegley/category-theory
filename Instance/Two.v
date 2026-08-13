@@ -90,7 +90,8 @@ Generalizable All Variables.
    cartesian monoidal category, a Heyting algebra is a skeletal thin
    finitely-cocomplete cartesian-closed category, and a Boolean algebra a
    skeletal thin finitely-cocomplete star-autonomous one (Wikipedia,
-   "Posetal category").
+   "Posetal category").  That [_2] itself is skeletal is [Two_Skeletal]
+   (Theory/Skeleton/Separation.v).
 
    Computationally, thinness means the hom is proof-irrelevant, a mere
    proposition, so [_2] is a (0,1)-category.  Instance/Two/Monoidal.v makes

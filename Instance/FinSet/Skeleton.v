@@ -11,6 +11,7 @@ Require Import Category.Instance.FinSet.
 Require Import Coq.Vectors.Fin.
 Require Import Coq.Lists.List.
 Require Import Coq.Arith.PeanoNat.
+Require Import Category.Theory.Skeleton.
 
 Generalizable All Variables.
 
@@ -878,3 +879,23 @@ Example Card_parity_succ_FS :
 Example counit_at_parity_two :
   to (@equivalence_counit_at FinSet Set_f FinSet_Incl
         FinSet_Setf_Equivalence parity_two) Fin.F1 = 0%nat := eq_refl.
+
+(** ** Bridge to the general skeleton theory *)
+
+(* [Skeletal C] (Theory/Skeleton.v) is by definition [∀ x y, x ≅ y → x = y],
+   which is exactly [FinSet_skeletal] above with its binders made explicit.
+   The two were proved independently -- this file's concrete counting
+   argument, and the general theory's abstract class -- so the bridge is a
+   restatement, not a second proof: [FinSet] is the tree's witness that the
+   [Skeletal] class is inhabited by a category whose skeletality is a real
+   theorem rather than a definitional accident.
+
+   [FinSet_Skeleton] then packages [FinSet] as a [Skeleton] of itself via
+   [Skeleton_of_Skeletal]; that is the trivial route, and the non-trivial
+   witness for the [Skeleton] record lives in Theory/Skeleton/Separation.v. *)
+
+Theorem FinSet_Skeletal : Skeletal FinSet.
+Proof. intros m n i; exact (FinSet_skeletal i). Qed.
+
+Definition FinSet_Skeleton : Skeleton FinSet :=
+  Skeleton_of_Skeletal FinSet_Skeletal.

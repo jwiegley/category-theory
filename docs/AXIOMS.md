@@ -150,6 +150,15 @@ each reported "Closed under the global context":
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
 
+The skeleton development (Mac Lane §IV.4) adds:
+
+- `skeleton_inclusion_is_equivalence`, `skeletons_are_isomorphic`,
+  `skeletons_isomorphic_iff_equivalent`, `skeletal_equivalence_is_isomorphism`,
+  `skeleton0_skeletal_forces_UIP` (`Theory/Skeleton.v`)
+- `skeletality_is_not_equivalence_invariant` (`Theory/Skeleton/Separation.v`)
+- `FinSet_Skeletal` (`Instance/FinSet/Skeleton.v`)
+- `Proset_Skeletal_iff_Antisymmetric` (`Instance/Proset/Skeletal.v`)
+
 The target further covers the Mac Lane exercise layer — the category of
 groups, and the fixed-factor product functor built over it.  These sit
 outside the `Theory/`/`Structure/`/`Construction/` scope in which the

@@ -44,7 +44,8 @@ Definition FinSet_initial_strict {x : FinSet}
 (* Concretely in the skeletal model: an object of [FinSet] is a natural
    number, the initial object is [0], and a morphism [x ~> 0] is a function
    [Fin.t x -> Fin.t 0].  Strictness says [x] must itself be [0], which we can
-   state as a genuine equality of objects because [FinSet] is skeletal. *)
+   state as a genuine equality of objects because [FinSet] is skeletal
+   ([FinSet_Skeletal], Instance/FinSet/Skeleton.v). *)
 Lemma FinSet_initial_strict_zero (x : nat)
   (f : x ~{FinSet}~> @initial_obj FinSet FinSet_Initial) : x = 0%nat.
 Proof.
