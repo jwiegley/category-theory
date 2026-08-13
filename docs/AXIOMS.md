@@ -110,6 +110,12 @@ important to keep them apart.
    than satisfied.  In neither case does the audit establish that any
    inhabitant exists.
 
+   `CreatesLimit` is likewise a `Class` type, so its entry in the audit
+   certifies nothing on its own; the inhabitant to read alongside it is
+   `em_forget_CreatesAllLimits`, which is audited here too, and the
+   fully concrete instantiation at `Id_Monad` over `Coq` recorded in
+   [INHABITATION.md](INHABITATION.md).
+
 ## How to audit
 
 Run
@@ -149,6 +155,12 @@ each reported "Closed under the global context":
 - `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
 - `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
   epi-mono factorization mediator
+- `CreatesLimit`, `creation_preserves_limit` and
+  `creates_limits_Complete` (`Structure/Limit/Creation.v`) — creation
+  of limits and Mac Lane's §V.4 Theorem 2
+- `em_forget_CreatesAllLimits` and `EM_Complete`
+  (`Monad/Eilenberg/Moore/Limit.v`) — limits of algebras are
+  computed on carriers
 
 The skeleton development (Mac Lane §IV.4) adds:
 

@@ -2466,6 +2466,28 @@ through `Admitted`.
     rule applies to every fallback form: whatever lands compiles with zero
     admits/axioms; what does not land is withheld and escalated, never stubbed.
 
+18. **Beck-to-general creation bridge** (issue #406 work item 4 edge). The issue
+    asks that `CreatesUSplitCoequalizers` (`Monad/Monadicity/Beck.v:164`) be
+    recorded as an instance of the general creation class. An INSTANCE is
+    provably unavailable: that class quantifies over pairs supplied with a
+    `SplitCoequalizer` of their `U`-image, which is strictly more data than a
+    colimiting cocone, and `U ◯ APair f g` is not convertible with
+    `APair (fmap[U] f) (fmap[U] g)`. The honest form is a class-indexed
+    restriction lemma, stated in full in the header of
+    `Monad/Eilenberg/Moore/Limit.v`:
+    `CreatesUSplitCoequalizers U → ∀ {x y} (f g : x ~> y),
+    SplitCoequalizer (fmap[U] f) (fmap[U] g) → CreatesColimit (APair f g) U`,
+    routed through `split_coequalizer_is_coequalizer`
+    (`Structure/Coequalizer/Split.v`) and the op repackaging of
+    `Structure/Limit/Creation.v`. Costed at 150-250 lines across three seams and
+    declined because it has NO in-tree consumer: Beck's monadicity theorem
+    consumes `CreatesUSplitCoequalizers` directly, so the lemma buys vocabulary
+    coherence rather than capability. Delivered instead: the general classes
+    themselves, with `EM_Forget` STRICTLY creating every limit
+    (`em_forget_StrictlyCreatesLimit`, `EM_Complete`) — strictly stronger than
+    the declined bridge for the same functor. Issue #406's DoD box 11 is
+    therefore UNMET and recorded as such rather than ticked.
+
 ## 6. Execution mechanics
 
 ### 6.1 Branching and stacking

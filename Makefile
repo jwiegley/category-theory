@@ -214,6 +214,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Structure.Limit.Creation.'; \
+	  echo 'Require Import Category.Monad.Eilenberg.Moore.Limit.'; \
 	  echo 'Require Import Category.Theory.Skeleton.'; \
 	  echo 'Require Import Category.Theory.Skeleton.Separation.'; \
 	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
@@ -312,6 +314,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions CreatesLimit.'; \
+	  echo 'Print Assumptions creation_preserves_limit.'; \
+	  echo 'Print Assumptions creates_limits_Complete.'; \
+	  echo 'Print Assumptions em_forget_CreatesAllLimits.'; \
+	  echo 'Print Assumptions EM_Complete.'; \
 	  echo 'Print Assumptions skeleton_inclusion_is_equivalence.'; \
 	  echo 'Print Assumptions skeletons_are_isomorphic.'; \
 	  echo 'Print Assumptions skeletons_isomorphic_iff_equivalent.'; \
