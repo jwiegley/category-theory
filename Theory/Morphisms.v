@@ -79,8 +79,11 @@ Class Retraction `(f : x ~> y) := {
    retraction `split_idem_r : x ~> y` followed by a section
    `split_idem_s : y ~> x`, with `split_idem_s ∘ split_idem_r ≈ split_idem`
    (split_idem_sr) and `split_idem_r ∘ split_idem_s ≈ id` (split_idem_rs). The
-   second law forces `split_idem` to be idempotent. The mediating object y is
-   exposed as `split_idem_retract`. *)
+   two laws TOGETHER force `split_idem` to be idempotent, and neither does so
+   alone: `split_idem_rs` does not mention `split_idem` at all, and
+   `split_idem_sr` only names it. The derivation is `split_idem_Idempotent`
+   below, and it uses both. The mediating object y is exposed as
+   `split_idem_retract`. *)
 
 Class SplitIdempotent {x y : C} := {
   split_idem_retract := y;                  (* the splitting object y *)
@@ -257,6 +260,209 @@ Proof.
   apply monic1, monic0.
   reassociate_right.
 Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Split pairs and the idempotents they produce *)
+
+(* Mac Lane, CWM 2nd ed., §I.5 ("Monics, Epis, and Zeros"), printed p. 19.
+   CITED BY LOCATION; the printed text was not consulted and no sentence of
+   it is reproduced here.  The in-tree catalog entry indexes the item as
+   [maclane:I.5:def5] and summarizes it as: "When g h = 1_a, g is called a
+   split epi, h a split monic, and the composite f = h g is an idempotent"
+   (doc/plan/books/maclane/inventory/I.json, id maclane:I.5:def5) -- the
+   letter names of the lemma below are that summary's.
+   nLab: https://ncatlab.org/nlab/show/split+epimorphism
+   nLab: https://ncatlab.org/nlab/show/idempotent
+
+   The nLab page on split epimorphisms records the same fact in the form
+   "the pair (e,s) is a splitting of the idempotent s∘e : A→A" (retrieved
+   2026-08).
+
+   Half of a one-sided inverse pair is an idempotent.  If g ∘ h ≈ id then the
+   OTHER composite h ∘ g absorbs itself, because the inner g ∘ h cancels:
+
+     (h ∘ g) ∘ (h ∘ g) ≈ h ∘ (g ∘ h) ∘ g ≈ h ∘ id ∘ g ≈ h ∘ g.
+
+   Nothing forces h ∘ g to be the identity in turn; when it is not, the
+   idempotent is a genuinely non-trivial one.  Two files exhibit such a pair
+   and REFUTE the identity for the other composite, so this lemma is not
+   witnessed by identities alone: Instance/FinSet/Regular.v
+   ([finset_point]/[finset_bang], with [finset_collapse_not_id]) and
+   Instance/Sets/Split.v ([sets_incl23]/[sets_retr32], with
+   [sets_incl_retr_not_id]). *)
+
+Lemma split_pair_idempotent {x y : C} (g : x ~> y) (h : y ~> x) :
+  g ∘ h ≈ id → Idempotent (h ∘ g).
+Proof.
+  intro Hgh.
+  constructor.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc g h g).
+  rewrite Hgh, id_left.
+  reflexivity.
+Qed.
+
+(* Idempotence transports along `≈`, the hom-setoid equivalence. *)
+Lemma idempotent_respects {x : C} (f g : x ~> x) :
+  f ≈ g → Idempotent f → Idempotent g.
+Proof.
+  intros Hfg [Hf].
+  constructor.
+  rewrite <- Hfg.
+  exact Hf.
+Qed.
+
+(* [SplitIdempotent] above states the two splitting laws, and its header
+   points here for the idempotence they force.  This is that derivation: the
+   retraction/section pair r, s satisfies r ∘ s ≈ id, so s ∘ r is idempotent
+   by [split_pair_idempotent], and s ∘ r ≈ split_idem transports it -- one
+   splitting law for each step, which is why neither law alone would do.
+   Before this lemma nothing in the tree derived the idempotence of a
+   [SplitIdempotent]'s [split_idem] field.
+   The class was CONCLUDED in exactly two places -- [id_idem] (:129 of this
+   file) and [Extend_idem] (Construction/Karoubi/Universal.v:163, the image of
+   a Karoubi object's idempotent under a functor) -- and every remaining
+   occurrence of it was a HYPOTHESIS (Construction/Karoubi.v:227,
+   Construction/Karoubi/Universal.v:54, Instance/Sets/Karoubi.v:54,61,81). *)
+Lemma split_idem_Idempotent {x y : C} (S : @SplitIdempotent x y) :
+  Idempotent (@split_idem x y S).
+Proof.
+  apply (idempotent_respects (@split_idem_s x y S ∘ @split_idem_r x y S)).
+  - exact (@split_idem_sr x y S).
+  - exact (split_pair_idempotent _ _ (@split_idem_rs x y S)).
+Qed.
+
+(* ------------------------------------------------------------------------ *)
+(** ** Regular (von Neumann regular) arrows *)
+
+(* Mac Lane, CWM 2nd ed., §I.5 Exercise 7, printed p. 21 -- again CITED BY
+   LOCATION, not quoted; the printed text was not consulted.  The in-tree
+   catalog summarizes the exercise as: "Call an arrow f : a -> b in a
+   category C regular when there exists g : b -> a with f g f = f.  Show f is
+   regular whenever it has either a left or a right inverse, and prove that
+   in Set every arrow f : a -> b with a nonempty is regular"
+   (doc/plan/books/maclane/inventory/I.json, id maclane:I.5:ex7).
+   Wikipedia: https://en.wikipedia.org/wiki/Regular_semigroup
+   Wikipedia: https://en.wikipedia.org/wiki/Von_Neumann_regular_ring
+
+   An arrow f is REGULAR when some g runs backwards along it well enough to
+   reproduce f, i.e. f ∘ g ∘ f ≈ f.  The equation is von Neumann's, from
+   ring theory: a ring is regular when for every a there is an x with
+   a = a x a (von Neumann, "On Regular Rings", Proc. Natl. Acad. Sci. USA
+   22(12), 1936, pp. 707-713), and modern usage says VON NEUMANN REGULAR to
+   keep the notion apart from the unrelated regular rings of commutative
+   algebra (Wikipedia, "Von Neumann regular ring", retrieved 2026-08).  The
+   semigroup version -- an element a with a x a = a -- was adapted from that
+   ring condition and introduced by J. A. Green, "On the structure of
+   semigroups" (1951), at David Rees's suggestion (Wikipedia, "Regular
+   semigroup", retrieved 2026-08).  The two articles name the witness x
+   differently: "weak inverse" for rings, "pseudoinverse" for semigroups.
+   Neither calls it a quasi-inverse, so PSEUDOINVERSE is the word used
+   throughout this development.
+
+   The pseudoinverse g need not be unique, and neither composite f ∘ g nor
+   g ∘ f need be an identity.  What they are is idempotent, which is the
+   content of [regular_composites_idempotent] below -- a direct computation
+   from the regularity law, NOT an instance of [split_pair_idempotent] above
+   (that lemma wants one of the composites to be the identity outright, which
+   is precisely what regularity drops).
+
+   Regularity is weaker than either one-sided invertibility:
+   [regular_of_section] and [regular_of_retraction] below give both
+   implications, and Instance/FinSet/Regular.v exhibits an arrow that is
+   regular yet neither a section nor a retraction ([finset_shift3]).  It is
+   also a real restriction on an arrow rather than a triviality, and two
+   categories witness that: Instance/Two.v exhibits an arrow of the interval
+   category that is monic and epic and NOT regular ([TwoXY_not_regular]), and
+   Instance/FinSet/Regular.v refutes regularity for the unique arrow 0 → 1
+   ([finset_empty_to_one_not_regular]).  Both work for the same blunt reason,
+   that the only candidate pseudoinverse would be an arrow the category does
+   not have; Instance/Sets/Regular.v shows the bluntness is forced rather
+   than convenient, since over [Sets] regularity can be undecided
+   ([sets_coarsen_not_regular_absurd]).
+
+   The definition is stated with the library's `∃`, which is Type-valued
+   (`sigT`, Lib/Foundation.v:61,66), so a regularity witness is DATA: the
+   pseudoinverse can be projected out and computed with.  That is what makes
+   the FinSet result of Instance/FinSet/Regular.v an executable finite search
+   rather than a bare existence claim, and it is why the four constructions
+   below that PRODUCE such data -- [regular_of_section],
+   [regular_of_retraction], [regular_epic_retraction] and
+   [regular_monic_section] -- end in [Defined] rather than [Qed]. *)
+
+Definition RegularMorphism `(f : x ~> y) := ∃ g : y ~> x, f ∘ g ∘ f ≈ f.
+
+(* An arrow with a LEFT inverse is regular: the left inverse is already a
+   pseudoinverse, since f ∘ (s ∘ f) ≈ f ∘ id ≈ f. *)
+Definition regular_of_section `(f : x ~> y) : Section f → RegularMorphism f.
+Proof.
+  intros [s Hs].
+  exists s.
+  rewrite <- comp_assoc, Hs.
+  apply id_right.
+Defined.
+
+(* An arrow with a RIGHT inverse is regular: dually, (f ∘ r) ∘ f ≈ id ∘ f. *)
+Definition regular_of_retraction `(f : x ~> y) :
+  Retraction f → RegularMorphism f.
+Proof.
+  intros [r Hr].
+  exists r.
+  rewrite Hr.
+  apply id_left.
+Defined.
+
+(* Both composites built from a pseudoinverse are idempotent:
+     (f ∘ g) ∘ (f ∘ g) ≈ ((f ∘ g) ∘ f) ∘ g ≈ f ∘ g,
+     (g ∘ f) ∘ (g ∘ f) ≈ g ∘ ((f ∘ g) ∘ f) ≈ g ∘ f.
+   Proved here from the regularity law alone.  (The Wikipedia "Regular
+   semigroup" article states the corresponding semigroup fact for a PROPER
+   inverse b -- one satisfying both a b a = a and b a b = b -- rather than
+   for an arbitrary pseudoinverse; the computation above shows the weaker
+   hypothesis already suffices, so no claim is being borrowed here.) *)
+Lemma regular_composites_idempotent {x y : C} (f : x ~> y) (g : y ~> x) :
+  f ∘ g ∘ f ≈ f → Idempotent (f ∘ g) ∧ Idempotent (g ∘ f).
+Proof.
+  intro Hg.
+  split; constructor.
+  - rewrite (comp_assoc (f ∘ g) f g), Hg.
+    reflexivity.
+  - rewrite <- comp_assoc, (comp_assoc f g f), Hg.
+    reflexivity.
+Qed.
+
+(* Under a cancellation hypothesis the converses hold.  These two lemmas are
+   what make the choice discussion of Instance/FinSet/Regular.v and
+   Instance/Sets/Regular.v precise rather than hand-waved:
+   [regular_epic_retraction], quantified over the arrows of [Sets], IS the
+   implication [blanket_regularity_entails_splitting] from the blanket
+   principle "every arrow with inhabited domain is regular" to "every such
+   epimorphism splits", and over [Sets] the latter already decides every
+   proposition ([blanket_splitting_entails_LEM]).  A regular EPI splits:
+   cancel f on the right of (f ∘ g) ∘ f ≈ id ∘ f. *)
+Definition regular_epic_retraction `(f : x ~> y) :
+  RegularMorphism f → Epic f → Retraction f.
+Proof.
+  intros [g Hg] E.
+  exists g.
+  apply (@epic x y f E y (f ∘ g) id).
+  rewrite Hg.
+  symmetry.
+  apply id_left.
+Defined.
+
+(* Dually, a regular MONO splits: cancel f on the left of
+   f ∘ (g ∘ f) ≈ f ∘ id. *)
+Definition regular_monic_section `(f : x ~> y) :
+  RegularMorphism f → Monic f → Section f.
+Proof.
+  intros [g Hg] M.
+  exists g.
+  apply (@monic x y f M x (g ∘ f) id).
+  rewrite comp_assoc, Hg.
+  symmetry.
+  apply id_right.
+Defined.
 
 End Morphisms.
 

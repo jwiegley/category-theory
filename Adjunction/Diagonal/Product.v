@@ -16,7 +16,9 @@ Generalizable All Variables.
 
    In a cartesian category C the binary product functor ×(C) : C ∏ C ⟶ C is
    right adjoint to the binary diagonal Δ = Diagonal_Product C : C ⟶ C ∏ C
-   (so that, dually, the coproduct is left adjoint to Δ): nLab records that
+   (so that, dually, the coproduct is left adjoint to Δ -- that dual half is
+   Adjunction/Diagonal/Coproduct.v's [Diagonal_Coproduct_Adjunction]): nLab
+   records that
    "C is J-cocomplete (J-complete) iff Δ has a left (right) adjoint", and the
    two-object discrete case is exactly the binary product/coproduct. The
    adjunction is presented here in hom-set form, as the family of bijections

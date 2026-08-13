@@ -16,8 +16,9 @@ Generalizable All Variables.
    relation [R], not necessarily antisymmetric) forms a category. Its objects
    are the elements of [A], and there is a (unique) morphism [x ~> y] exactly
    when [R x y] holds: identities come from reflexivity and composition from
-   transitivity. See also [Ord], for the category of preordered sets (where
-   the prosets are the objects, and morphisms are monotone mappings).
+   transitivity. See Instance/Pos.v for [Pos], the category whose
+   objects are posets.  The preorder analogue [Ord] does not exist yet; it is
+   jwiegley/category-theory#786, which depends on #641.
 
    Because antisymmetry is not required, distinct objects [x] and [y] may be
    isomorphic (when both [R x y] and [R y x] hold) without being equal; this
