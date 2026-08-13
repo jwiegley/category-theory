@@ -94,6 +94,25 @@ Fixpoint nfword (n : nat) : Word :=
 Lemma wlen_nfword (n : nat) : wlen (nfword n) = n.
 Proof. induction n; simpl; auto. Qed.
 
+(** ** A generic helper: the tensor of two isomorphisms
+
+    Stated over an arbitrary monoidal category because both [W] below and the
+    target [B] of the freeness theorem use it.  It duplicates the [iso_bimap]
+    of Structure/Monoidal/Drinfeld.v:82 on purpose: importing Drinfeld here
+    would drag half-braidings into every consumer of the word datatype, and
+    Drinfeld is not edited by this development. *)
+Program Definition tensor_iso {C : Category} `{@Monoidal C} {x y z w : C}
+  (i : x ≅ y) (j : z ≅ w) : (x ⨂ z) ≅ (y ⨂ w) := {|
+  to   := to i ⨂ to j;
+  from := from i ⨂ from j
+|}.
+Next Obligation.
+  rewrite <- bimap_comp, !iso_to_from; now rewrite bimap_id_id.
+Qed.
+Next Obligation.
+  rewrite <- bimap_comp, !iso_from_to; now rewrite bimap_id_id.
+Qed.
+
 (** ** The category W *)
 
 (* One arrow per pair of equal-length words.  The hom is a proposition and the
