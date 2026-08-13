@@ -499,6 +499,19 @@ Lemma id_cast_tensor_match {Y Y' : B} (e : Y = Y') :
     ≈ bimap id[b] (id_cast e).
 Proof. destruct e; simpl; now rewrite bimap_id_id. Qed.
 
+(* The tensor of two object agreements is the agreement at the tensor,
+   across the strictness cast. *)
+Lemma thc_tensor (v u : Word) :
+  bimap (thc v) (thc u)
+    ≈ thc (WT v u) ∘ id_cast (@strict_ap_obj _ _ _ _ G SG v u).
+Proof.
+  simpl.
+  rewrite <- id_cast_trans, id_cast_tensor_eq.
+  rewrite <- comp_assoc.
+  rewrite id_cast_inv_l.
+  now rewrite id_right.
+Qed.
+
 (* The join square: G carries the W-side join to the B-side join, across the
    object agreement.  Induction on m; the base is SG's left unitality, the
    step is SG's associativity coherence. *)
@@ -578,15 +591,6 @@ Proof.
     (* Split the inner layer of composite casts as well. *)
     rewrite <- !id_cast_trans.
     rewrite !id_cast_tensor_eq.
-    (* Relate the tensor of agreements to the agreement at the tensor. *)
-    assert (THC : forall v u : Word,
-      bimap (thc v) (thc u)
-        ≈ thc (WT v u) ∘ id_cast (@strict_ap_obj _ _ _ _ G SG v u)).
-    { intros v u; simpl.
-      rewrite <- id_cast_trans, id_cast_tensor_eq.
-      rewrite <- comp_assoc.
-      rewrite id_cast_inv_l.
-      now rewrite id_right. }
     rewrite <- (id_right (thc (nfword n))).
     rewrite bimap_comp.
     normal.
@@ -602,7 +606,7 @@ Proof.
     normal.
     rewrite (bimap_comp (id_cast (subst_nfword m)) (thc (nfword m))
                         (id_cast (subst_nfword n)) (thc (nfword n))).
-    rewrite (THC (nfword m) (nfword n)).
+    rewrite (thc_tensor (nfword m) (nfword n)).
     rewrite (comp_assoc (sigma m ⨂ sigma n)
                (thc (WT (nfword m) (nfword n)))).
     rewrite (comp_assoc (to (J b m n I))
@@ -685,6 +689,115 @@ Proof.
     rewrite id_cast_inv_l, id_right.
     rewrite <- (id_right (id_cast Hb)).
     rewrite bimap_comp.
+    normal.
+    reflexivity.
+Qed.
+
+(* The normaliser square: G agrees with the canonical normalisation maps,
+   across the object agreement.  Structural induction; the generator case is
+   SG's right unitality read backwards through the iso inverses, the tensor
+   case is [strict_fmap_bimap] + the tensored IHs + [JW_unique]. *)
+Lemma canW_unique (w : Word) :
+  to (can b w) ∘ thc w
+    ≈ sigma (wlen w) ∘ thc (nfword (wlen w)) ∘ fmap[G] (to (canW w)).
+Proof.
+  induction w as [ | | v IHv u IHu ]; simpl.
+  - (* WE: everything is an identity; the fmap argument is W's identity by
+       conversion, but its implicit endpoints resist rewriting — go through
+       change + fmap_id. *)
+    rewrite !id_left.
+    symmetry.
+    etransitivity; [| apply id_right ].
+    apply compose_respects; [ reflexivity |].
+    change (fmap[G] (@id W WE) ≈ @id B (fobj[G] WE)).
+    apply fmap_id.
+  - (* WI: SG's right unitality, inverted. *)
+    pose proof (@monoidal_unit_right _ _ _ _ G
+                  (@strict_functor_is_monoidal _ _ _ _ G SG) WI) as UR.
+    assert (GRinv : fmap[G] (from (@unit_right W W_Monoidal WI))
+                      ∘ fmap[G] (to (@unit_right W W_Monoidal WI)) ≈ id).
+    { rewrite <- fmap_comp.
+      rewrite (@G_irr (WT WI WE) (WT WI WE) _ (@id W (WT WI WE))).
+      apply fmap_id. }
+    assert (K : fmap[G] (from (@unit_right W W_Monoidal WI))
+                  ∘ to (@unit_right B MB (G WI))
+              ≈ to (@ap_iso _ _ _ _ G
+                      (@strict_functor_is_monoidal _ _ _ _ G SG) WI WE)
+                  ∘ bimap id (to (@pure_iso _ _ _ _ G
+                      (@strict_functor_is_monoidal _ _ _ _ G SG)))).
+    { rewrite UR.
+      rewrite !comp_assoc.
+      rewrite GRinv.
+      now rewrite id_left. }
+    assert (GFR : fmap[G] (from (@unit_right W W_Monoidal WI))
+              ≈ to (@ap_iso _ _ _ _ G
+                      (@strict_functor_is_monoidal _ _ _ _ G SG) WI WE)
+                  ∘ bimap id (to (@pure_iso _ _ _ _ G
+                      (@strict_functor_is_monoidal _ _ _ _ G SG)))
+                  ∘ from (@unit_right B MB (G WI))).
+    { symmetry.
+      rewrite <- K.
+      rewrite <- comp_assoc.
+      rewrite iso_to_from.
+      now rewrite id_right. }
+    clear K.
+    rewrite (@G_irr WI (WT WI WE) _ (from (@unit_right W W_Monoidal WI))).
+    rewrite GFR.
+    rewrite id_left.
+    rewrite <- id_cast_trans.
+    rewrite id_cast_tensor_eq.
+    pose proof (@strict_ap_iso_id _ _ _ _ G SG WI WE) as CA.
+    pose proof (@strict_pure_iso_id _ _ _ _ G SG) as CP.
+    rewrite CA, CP.
+    rewrite !id_cast_match.
+    rewrite !comp_assoc.
+    rewrite <- (comp_assoc _
+                  (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG WI WE)))
+                  (id_cast (@strict_ap_obj _ _ _ _ G SG WI WE))).
+    rewrite id_cast_inv_l, id_right.
+    rewrite <- bimap_comp.
+    rewrite id_cast_inv_l.
+    normal.
+    rewrite (from_unit_right_natural (id_cast Hb)).
+    reflexivity.
+  - (* WT: expand G over the composite and the component bimap, tensor the
+       IHs, and finish with the join square. *)
+    rewrite (@G_irr (WT v u) (nfword (wlen v + wlen u)) _
+               (to (JW (wlen v) (wlen u))
+                  ∘ bimap[W_tensor] (to (canW v)) (to (canW u)))).
+    rewrite fmap_comp.
+    assert (GBc : fmap[G] (bimap[W_tensor] (to (canW v)) (to (canW u)))
+              ≈ id_cast (@strict_ap_obj _ _ _ _ G SG
+                           (nfword (wlen v)) (nfword (wlen u)))
+                  ∘ bimap (fmap[G] (to (canW v))) (fmap[G] (to (canW u)))
+                  ∘ id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG v u))).
+    { symmetry.
+      rewrite (strict_fmap_bimap (to (canW v)) (to (canW u))).
+      rewrite <- comp_assoc.
+      rewrite id_cast_inv_r.
+      rewrite id_right.
+      apply G_irr. }
+    rewrite GBc.
+    rewrite <- !id_cast_trans.
+    rewrite !id_cast_tensor_eq.
+    rewrite (comp_assoc _ (bimap (thc v) (thc u))
+               (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG v u)))).
+    rewrite <- (comp_assoc (to (J b (wlen v) (wlen u) I))
+                  (bimap (to (can b v)) (to (can b u)))
+                  (bimap (thc v) (thc u))).
+    rewrite <- bimap_comp.
+    rewrite IHv, IHu.
+    rewrite (bimap_comp
+               (id_cast (subst_nfword (wlen v)) ∘ thc (nfword (wlen v)))
+               (fmap[G] (to (canW v)))
+               (id_cast (subst_nfword (wlen u)) ∘ thc (nfword (wlen u)))
+               (fmap[G] (to (canW u)))).
+    rewrite (bimap_comp
+               (id_cast (subst_nfword (wlen v))) (thc (nfword (wlen v)))
+               (id_cast (subst_nfword (wlen u))) (thc (nfword (wlen u)))).
+    rewrite (thc_tensor (nfword (wlen v)) (nfword (wlen u))).
+    rewrite !comp_assoc.
+    rewrite (JW_unique (wlen v) (wlen u)).
     normal.
     reflexivity.
 Qed.
