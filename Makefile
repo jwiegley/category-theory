@@ -214,6 +214,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Construction.Quotient.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Presented.'; \
 	  echo 'Require Import Category.Instance.Proset.Limit.'; \
 	  echo 'Require Import Category.Construction.Elements.'; \
 	  echo 'Require Import Category.Instance.Pos.'; \
@@ -306,6 +308,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions CongClosure_Congruence.'; \
+	  echo 'Print Assumptions cc_least.'; \
+	  echo 'Print Assumptions cc_kernel.'; \
+	  echo 'Print Assumptions presented_universal.'; \
+	  echo 'Print Assumptions ord3_relation_holds.'; \
+	  echo 'Print Assumptions QuotientCongLift.'; \
+	  echo 'Print Assumptions free_square_diagonals_distinct.'; \
+	  echo 'Print Assumptions presented_no_eqns_separates.'; \
 	  echo 'Print Assumptions proset_limit_iff_glb.'; \
 	  echo 'Print Assumptions proset_colimit_iff_lub.'; \
 	  echo 'Print Assumptions proset_Complete_iff_all_meets.'; \
