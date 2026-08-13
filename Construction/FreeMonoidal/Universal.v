@@ -483,6 +483,15 @@ Lemma id_cast_sym_match {X Y : B} (e : X = Y) :
     = id_cast (eq_sym e).
 Proof. destruct e; reflexivity. Qed.
 
+(* [sigma (S k)] and its kin display as the partially-reduced [tensor_eq]
+   match; this is that shape's split lemma. *)
+Lemma id_cast_tensor_match {Y Y' : B} (e : Y = Y') :
+  id_cast (match e in _ = o
+           return ((b ⨂ Y)%object = (b ⨂ o)%object)
+           with eq_refl => eq_refl end)
+    ≈ bimap id[b] (id_cast e).
+Proof. destruct e; simpl; now rewrite bimap_id_id. Qed.
+
 End Uniqueness.
 
 End Universal.
