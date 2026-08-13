@@ -121,14 +121,16 @@ Definition image_is_alimit (HU : PreservesImageLimit)
 
 Section Create.
 
-Context (HC : @Complete C).
 Context (HU : PreservesImageLimit).
 Context {J : Category}.
 Context (K : J ⟶ (=(d) ↓ U)).
 
-(* The base diagram in C and its limit. *)
+(* The base diagram in C. *)
 Definition Gdiag : J ⟶ C := comma_proj2 ◯ K.
-Definition Ldiag : Limit Gdiag := HC J Gdiag.
+
+(* GENERALIZED: an arbitrary limit of the base diagram, in place of a
+   [Complete C] hypothesis. *)
+Context (Ldiag : Limit Gdiag).
 
 (* The cone over [U ◯ Gdiag] with apex [d] built from the [d]-legs of K. *)
 Definition base_leg (j : J) : d ~{D}~> (U ◯ Gdiag) j := `2 (K j).
@@ -245,7 +247,7 @@ End Create.
 Definition Comma_Complete
   (HU : PreservesImageLimit) (HC : @Complete C) :
   @Complete (=(d) ↓ U) :=
-  fun J K => comma_limit HC HU K.
+  fun J K => comma_limit HU K (HC J (Gdiag K)).
 
 End CommaLimit.
 
