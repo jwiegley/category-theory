@@ -19,9 +19,10 @@ Generalizable All Variables.
    only makes the resulting thin category skeletal, so that isomorphic objects
    are equal. nLab characterizes a poset as exactly "a skeletal thin category",
    equivalently "a skeletal (0,1)-category".  Both directions are proved as
-   [Proset_Skeletal_iff_Antisymmetric] in Instance/Proset/Skeletal.v. (See
-   also [Pos], the category of
-   posets, whose objects are posets and whose morphisms are monotone maps.)
+   [Proset_Skeletal_iff_Antisymmetric] in Instance/Proset/Skeletal.v. (See Instance/Pos.v for [Pos], the
+   category whose OBJECTS are posets and whose morphisms are monotone maps --
+   a different construction from this one, which turns a single poset into a
+   thin category.)
 
    Wikipedia: "Every poset (and every preorder) may be considered as a category
    in which every hom-set has at most one element. More explicitly, let
@@ -46,12 +47,18 @@ Generalizable All Variables.
    commutes and every coherence condition holds vacuously.  Each
    categorical concept therefore collapses to its order-theoretic
    shadow, and [Poset] installs the resulting dictionary: an adjunction
-   between posets is exactly a monotone Galois connection
-   (Theory/Adjunction.v); a monad is a closure operator, the unit giving
+   between posets is exactly a monotone Galois connection -- proved in
+   both directions at Instance/Proset/Galois.v ([GaloisAdjunction],
+   [GaloisOfAdjunction]), rather than only asserted here; a monad is a closure operator, the unit giving
    extensivity and the multiplication idempotency (Theory/Monad.v); a
-   product is a meet, and more generally the limit over a subset is its
-   greatest lower bound (nLab, "meet"); a coproduct is a join
-   (Structure/Cocartesian.v).  Theorems proved for categories thereby
+   product is a meet, and more generally the limit of a diagram is the
+   greatest lower bound of its objects (nLab, "meet"), while a coproduct
+   is a join (Structure/Cocartesian.v).  The meet/join entries are no
+   longer remarks: Instance/Proset/Limit.v proves both readings —
+   [proset_limit_iff_glb] for limits/meets and [proset_colimit_iff_lub]
+   for colimits/joins — over [Proset] at an arbitrary diagram shape, and
+   they apply here since [Poset P] below is [Proset P].  Theorems proved for
+   categories thereby
    specialize to classical order theory, and intuitions trained on
    orders lift to categories with proof relevance switched on.
 

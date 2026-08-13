@@ -2469,7 +2469,7 @@ Absent, and even the carrier is missing.
 - Searches for "direct image" and "inverse image" over all `.v` files return nothing.
 - `Theory/Subobject/Functor.v:35` (`sub_reindex`) with `Sub : C^op ⟶ Sets` at `:180` is the inverse-image half in subobject form, but has no left adjoint (that file contains no adjoint at all).
 - `Instance/Sets/Image.v:143` (`Sets_Image_Factorization`) is an epi-mono factorisation of a single morphism, not an image functor.
-- `Instance/Ens.v:55` declares `EnsT (T : Type)` whose objects are subsets of a fixed type, but its morphisms are not inclusions, so it is neither thin nor the inclusion order.
+- `Instance/Ens.v:64` declares `EnsT (T : Type)` whose objects are subsets of a fixed type, but its morphisms are not inclusions, so it is neither thin nor the inclusion order.
 
 The powerset of a set, ordered by inclusion, does not exist as a category in the tree. That carrier is what several other Chapter IV items need, so it is the main deliverable here.
 
@@ -2508,7 +2508,7 @@ Print Assumptions Powerset.
 Print Assumptions image_preimage_adjunction.
 ```
 
-Reviewer checks: the order is inclusion (contrast `Instance/Ens.v:55`, whose homs are not inclusions); the adjunction direction matches the book.
+Reviewer checks: the order is inclusion (contrast `Instance/Ens.v:64`, whose homs are not inclusions); the adjunction direction matches the book.
 
 ## Dependencies
 

@@ -74,13 +74,28 @@ Record Metacategory := {
      source identity and a target identity whose composites with [f] recover
      [f]. As currently written, however, this axiom is vacuous.
 
-     jww (TODO): The two [->] below should be [/\]. The current form is
-     vacuously true (any non-identity [u]/[u'] makes the implications
-     trivially hold), so this axiom imposes no real constraint. Fixing
-     requires manually supplying identity witnesses for each example
-     metacategory in this file. The mistake does not affect
-     [Category_from_Metacategory], which builds its category from objects
-     [{i | is_identity i}], not from [identity_law]. *)
+     jww (TODO): The two [->] below should be [/\], and the current form does
+     impose no constraint — arrow [1%N] of [Two] is genuinely not an identity,
+     so it witnesses the existential and discharges both implications. But
+     that substitution alone is not a repair: with conjunctions the axiom
+     quantifies over all of [N], while [composable_pairs n] mentions finitely
+     many arrows, so an arrow occurring in no composable pair ([100%N], say)
+     has no flanking identities and the record becomes uninhabitable by every
+     model in this file. A faithful repair must first fix the arrow type:
+     either relativize the axiom to arrows that occur in [pairs], or take
+     [arrow] to be the support of the table rather than all of [N]. Only then
+     does the remaining work — supplying identity witnesses for each example
+     metacategory — become possible. Theory/Metacategory/General.v states the
+     axiom in Mac Lane's conjunctive form over an arrow type that is exactly
+     the arrows.
+
+     The defect does not affect [Category_from_Metacategory], which builds its
+     category from objects [{i | is_identity i}], not from [identity_law].
+     Note however that the [obj_def] field of [object] is doing the work this
+     axiom should do: it is what excludes arrows that are identities only
+     vacuously (every arrow absent from [pairs] satisfies [is_identity]). In
+     General.v, where the axiom is conjunctive, [obj_def] is derivable and the
+     object record carries only the identity proof. *)
   identity_law (x y f : arrow) : composite x y f ->
     ∃ u u', is_identity u → is_identity u' ->
       composite f u f ∧ composite u' f f
