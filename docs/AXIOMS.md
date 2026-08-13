@@ -11,8 +11,8 @@ The headline definitions checked by the `print-assumptions` make
 target — `Hypergraph`, `PROP`, `Cospan_Hypergraph`,
 `DecoratedCospan_Hypergraph`, `spider_collapse`, `spider_frobenius`,
 `Hypergraph_CompactClosed`, and `ZX_Cat` — together with the phase
-5-17 flagship theorems added to the target and listed under
-[How to audit](#how-to-audit) — are reported as CLOSED UNDER THE
+5-17 flagship theorems and the further definitions added to the target,
+all listed under [How to audit](#how-to-audit) — are reported as CLOSED UNDER THE
 GLOBAL CONTEXT (with the sole exception of `ZX_Cat`, which lists the
 three `Phase` parameters described below).  This can be verified by
 
@@ -162,6 +162,74 @@ each reported "Closed under the global context":
   (`Monad/Eilenberg/Moore/Limit.v`) — limits of algebras are
   computed on carriers
 
+The skeleton development (Mac Lane §IV.4) adds:
+
+- `skeleton_inclusion_is_equivalence`, `skeletons_are_isomorphic`,
+  `skeletons_isomorphic_iff_equivalent`, `skeletal_equivalence_is_isomorphism`,
+  `skeleton0_skeletal_forces_UIP` (`Theory/Skeleton.v`)
+- `skeletality_is_not_equivalence_invariant` (`Theory/Skeleton/Separation.v`)
+- `FinSet_Skeletal` (`Instance/FinSet/Skeleton.v`)
+- `Proset_Skeletal_iff_Antisymmetric` (`Instance/Proset/Skeletal.v`)
+
+The target further covers the Mac Lane exercise layer — the category of
+groups, and the fixed-factor product functor built over it.  These sit
+outside the `Theory/`/`Structure/`/`Construction/` scope in which the
+library's zero-axiom claim holds: `Instance/Grp.v` is squarely in the
+instance layer, which *is* permitted stdlib axioms, and
+`Functor/Product/Fixed.v` is a `Functor/` file that depends on it.  The
+definitions below are audited precisely because, permission
+notwithstanding, each of them turns out to need no axiom at all.  This
+is a claim about these named definitions, not about every definition in
+either file:
+
+- `Grp`, `Grp_Forget`, `Grp_Zero` (`Instance/Grp.v`) — the category of
+  groups, its underlying-set functor, and its zero object
+- `fixed_product_functor`, `fixed_product_transform`,
+  `fixed_product_transform_faithful`, `alt_transform`,
+  `alt_is_inj_left` (`Functor/Product/Fixed.v`) — the fixed-factor
+  product functor `H × −`, the induced transformation `H × − ⟹ K × −`,
+  its faithfulness in `f`, the `split f id` spelling of the component,
+  and its agreement on the nose with the binoidal composite the tree
+  already reaches
+- `Grp_fixed_product`, `Grp_fixed_product_transform`,
+  `Grp_fixed_product_transform_not_id`, `Grp_Z2_zero_not_iso`
+  (`Functor/Product/Fixed.v`) — the same two constructions instantiated
+  at `Grp`, together with the two non-vacuity witnesses at `Z/2`
+- `Exp_Functor`, `eval_natural`, `Curry_Adjunction`,
+  `Curry_Representable` (`Structure/Cartesian/Closed/Adjunction.v`) —
+  the currying adjunction `(− × S) ⊣ (−)^S` with `eval` as counit, and
+  the representation of `C(− × S, B)` by `B^S`
+- `Conjugate`, `conjugate_characterizations` and `conjugate_bijection`
+  (`Adjunction/Conjugate.v`) — Mac Lane §IV.7 conjugate natural
+  transformations: the hom-set square, its four equivalent
+  characterizations, and the conjugation bijection
+
+The target also covers the Mac Lane I.3 witnesses — two functors with
+the same object function and different arrow functions — each likewise
+"Closed under the global context":
+
+- `S3_two_functors_distinct` and `S3_two_functors_weakly_equal`
+  (`Instance/Grp/TwoFunctors.v`) — the strict separation, and the weak
+  (natural-isomorphism) identification, of the conjugation-twisted pair
+  over the full subcategory of `Grp` on the symmetric group S3
+- `Grp_op_twist_is_Id` (`Instance/Grp/TwoFunctors.v`) — the collapse of
+  the inversion twist of the whole of `Grp`, which is why that uniform
+  candidate does not separate anything
+- `free_two_functors_distinct` (`Construction/Free/TwoFunctors.v`) —
+  the group-free witness of Fong and Spivak's Exercise 3.40
+
+The target additionally audits three CONCRETE results (not parametric
+over abstract structure, and belonging to no numbered phase), because
+they are the headline statements of the preorder-transformation
+development:
+
+- `proset_transform_iff` and `proset_transform_unique`
+  (`Instance/Proset/Transform.v`) — existence and uniqueness of a
+  natural transformation into a preorder (Mac Lane §I.4, exercise 4)
+- `proset_out_not_unique` (`Instance/Proset/Transform.v`) — the
+  refutation of the dual: two distinct transformations *out of* a
+  preorder
+
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
 assumption set of these specific headline definitions only — it is not
@@ -205,6 +273,101 @@ the global context".  Known live uses:
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).
   `Instance/Shapes.v` likewise depends on `eq_rect_eq` (verify:
   `Print Assumptions Category.Instance.Shapes.Tries_Cartesian`).
+- **The standard-library reals (`ClassicalDedekindReals.sig_forall_dec`,
+  `ClassicalDedekindReals.sig_not_dec`,
+  `FunctionalExtensionality.functional_extensionality_dep`)** —
+  `Instance/Top/Interval.v` builds the unit interval `[0,1]` and the
+  unit square out of `Coq.Reals`, and
+  `Instance/Top/FundamentalGroupoid.v` builds the fundamental groupoid
+  on them.  These are the only two files in the tree that import the
+  reals (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and neither
+  declares an axiom of its own; what they inherit is the axiom set of
+  the standard library's own construction of `R`.  The cost splits in
+  two, and both halves are measured rather than estimated:
+
+  - `π(X)` itself, its groupoid structure and the base-point
+    corollary carry **two** axioms — `sig_forall_dec` and
+    `functional_extensionality_dep` (verify:
+    `Print Assumptions Category.Instance.Top.FundamentalGroupoid.FundamentalGroupoid`,
+    and likewise for `fundamental_groupoid_is_groupoid` and
+    `fundamental_group_basepoint_independent`).
+  - The results that go through the least-upper-bound property
+    (`Raxioms.completeness`) carry a **third**, `sig_not_dec`.
+    `Print Assumptions` was run over every constant of both files,
+    and this third axiom is carried by exactly **eight** of them, all
+    in `Instance/Top/FundamentalGroupoid.v` and none in
+    `Instance/Top/Interval.v`:
+
+    | constant | role |
+    |---|---|
+    | `gval_endpoints` | the least-upper-bound argument itself |
+    | `f_endpoints` | its endpoint corollary |
+    | `interval_to_discrete_constant_dec` | the theorem they establish: every continuous map from `[0,1]` into a discrete space with decidable equality is constant |
+    | `interval_to_discrete_constant` | that theorem at the two-point discrete space |
+    | `no_path_true_false` | non-vacuity: the discrete witness |
+    | `Bool_Discrete_not_pathconnected` | " |
+    | `Bool_Discrete_pi_not_connected` | " |
+    | `Bool_Discrete_loops_trivial` | " |
+
+    Verify any of them with, e.g.,
+    `Print Assumptions Category.Instance.Top.FundamentalGroupoid.interval_to_discrete_constant`.
+
+  **The per-file split, measured per constant.**  Each constant of all
+  three files of that development was measured individually — no class
+  was inferred from a headline, and nothing was sampled.
+
+  `Instance/Top/FundamentalGroupoid.v` has **113** constants: the 108
+  recorded in its `.glob` file, together with the five Program
+  obligations `FundamentalGroupoid_obligation_1` .. `_5` that the
+  `Program Definition` of π(X) generates and that no `.glob` sweep
+  sees.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 1 | closed under the global context | `bool_carriers_agree` |
+  | 1 | `sig_forall_dec` only | `const_arrow_eval` |
+  | 103 | the two | 98 glob-recorded constants and all five obligations |
+  | 8 | the three | the table above |
+
+  `Instance/Top/Interval.v` has **160** constants and no Program
+  obligations.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 1 | closed under the global context | `rf_id` |
+  | 34 | `sig_forall_dec` only | the 34 named below |
+  | 125 | the two | all the rest |
+  | 0 | the three | — |
+
+  The 34 that carry `sig_forall_dec` alone, in full, are
+  `BallSpace`, `ball_carrier`, `bdist`, `bdist_zero`, `bdist_sym`,
+  `bdist_tri`, `ball_open`, `ball_respects`, `ball_proper`,
+  `ball_union`, `bs_fst`, `bs_snd`, `BSprod_Object`, `BSprod_Setoid`,
+  `BSprod_equiv`, `BSprod_equiv_Equivalence`, `BSprod_pt`, `hfun`,
+  `Ipt`, `Ipt_Object`, `Ipt_Setoid`, `Ipt_equiv`,
+  `Ipt_equiv_Equivalence`, `ipt_lo`, `ipt_hi`, `ival`, `ival_I_zero`,
+  `ival_I_one`, `I_point`, `I_rev_eval`, `rf_zero`, `rf_rev`,
+  `sq_pt_s` and `sq_pt_t`.
+
+  An earlier edition of this section said the remaining constants of
+  each file carried "exactly the two"; for the 34 above and for
+  `const_arrow_eval` that is false.  The direction of the error was to
+  over-report the cost, so nothing that rested on it was unsound, but
+  it was a figure inferred rather than measured and it is corrected
+  here.
+
+  The purely categorical part of that development, the base-point
+  independence theorem for connected groupoids in
+  `Structure/Groupoid/Basepoint.v`, imports no reals: all **27** of its
+  constants report "Closed under the global context" (verify:
+  `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
+  and because they do, that file *is* wired into the
+  `print-assumptions` make target, alongside its `Structure/Groupoid`
+  siblings.  The two files that import the reals are not: that target
+  permits only the three ZX `Phase` parameters, and the instance-layer
+  stdlib axioms listed in this section are documented here instead,
+  exactly as the `Instance/Coq` and `Instance/Lambda` entries above
+  are.
 
 Two entries that earlier editions of this table listed are *not* live
 uses, and are corrected here:

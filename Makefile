@@ -197,16 +197,70 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
 	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Require Import Category.Theory.Lambek.'; \
+	  echo 'Require Import Category.Instance.Grp.'; \
+	  echo 'Require Import Category.Functor.Product.Fixed.'; \
+	  echo 'Require Import Category.Instance.Grp.Epi.'; \
+	  echo 'Require Import Category.Instance.Top.'; \
+	  echo 'Require Import Category.Instance.Top.Closed.'; \
+	  echo 'Require Import Category.Instance.Grp.TwoFunctors.'; \
+	  echo 'Require Import Category.Construction.Free.TwoFunctors.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Require Import Category.Adjunction.Diagonal.Coproduct.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Markov.Fox.'; \
 	  echo 'Require Import Category.Structure.SubobjectClassifier.'; \
 	  echo 'Require Import Category.Structure.Topos.'; \
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
+	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Require Import Category.Structure.Limit.Creation.'; \
 	  echo 'Require Import Category.Monad.Eilenberg.Moore.Limit.'; \
+	  echo 'Require Import Category.Theory.Skeleton.'; \
+	  echo 'Require Import Category.Theory.Skeleton.Separation.'; \
+	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
+	  echo 'Require Import Category.Instance.Proset.Skeletal.'; \
+	  echo 'Require Import Category.Construction.Quotient.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Presented.'; \
+	  echo 'Require Import Category.Instance.Proset.Limit.'; \
+	  echo 'Require Import Category.Construction.Elements.'; \
+	  echo 'Require Import Category.Instance.Pos.'; \
+	  echo 'Require Import Category.Instance.Proset.Galois.'; \
+	  echo 'Require Import Category.Instance.Ab.'; \
+	  echo 'Require Import Category.Theory.Size.'; \
+	  echo 'Require Import Category.Construction.PreorderReflection.'; \
+	  echo 'Require Import Category.Theory.Diagram.'; \
+	  echo 'Require Import Category.Theory.Diagram.Examples.'; \
+	  echo 'Require Import Category.Instance.Sets.Powerset.'; \
+	  echo 'Require Import Category.Instance.Sets.Products.'; \
+	  echo 'Require Import Category.Instance.Sets.Complete.'; \
+	  echo 'Require Import Category.Adjunction.GAFT.Sets.'; \
+	  echo 'Require Import Category.Theory.Morphisms.'; \
+	  echo 'Require Import Category.Instance.Two.'; \
+	  echo 'Require Import Category.Instance.FinSet.Regular.'; \
+	  echo 'Require Import Category.Instance.Sets.Split.'; \
+	  echo 'Require Import Category.Instance.Sets.Regular.'; \
+	  echo 'Require Import Category.Theory.Shapes.'; \
+	  echo 'Require Import Category.Structure.Groupoid.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Connected.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Inversion.'; \
+	  echo 'Require Import Category.Structure.Groupoid.Basepoint.'; \
+	  echo 'Require Import Category.Construction.Deloop.Transform.'; \
+	  echo 'Require Import Category.Theory.Concrete.'; \
+	  echo 'Require Import Category.Instance.Concrete.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Concrete.'; \
+	  echo 'Require Import Category.Theory.Functor.'; \
+	  echo 'Require Import Category.Theory.Equivalence.'; \
+	  echo 'Require Import Category.Theory.Concrete.Morphisms.'; \
+	  echo 'Require Import Category.Construction.Subcategory.'; \
+	  echo 'Require Import Category.Construction.Subcategory.Finite.'; \
+	  echo 'Require Import Category.Instance.FinSet.Skeleton.'; \
+	  echo 'Require Import Category.Structure.Cartesian.Closed.Adjunction.'; \
+	  echo 'Require Import Category.Instance.Sets.Cartesian.Closed.Adjunction.'; \
+	  echo 'Require Import Category.Instance.Proset.Transform.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.Part.'; \
+	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -216,6 +270,38 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions ZX_Cat.'; \
 	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
 	  echo 'Print Assumptions lambek.'; \
+	  echo 'Print Assumptions Grp.'; \
+	  echo 'Print Assumptions Grp_Forget.'; \
+	  echo 'Print Assumptions Grp_Zero.'; \
+	  echo 'Print Assumptions fixed_product_functor.'; \
+	  echo 'Print Assumptions fixed_product_transform.'; \
+	  echo 'Print Assumptions fixed_product_transform_faithful.'; \
+	  echo 'Print Assumptions alt_transform.'; \
+	  echo 'Print Assumptions alt_is_inj_left.'; \
+	  echo 'Print Assumptions Grp_fixed_product.'; \
+	  echo 'Print Assumptions Grp_fixed_product_transform.'; \
+	  echo 'Print Assumptions Grp_fixed_product_transform_not_id.'; \
+	  echo 'Print Assumptions Grp_Z2_zero_not_iso.'; \
+	  echo 'Print Assumptions grp_not_epic_of_witness.'; \
+	  echo 'Print Assumptions grp_epic_image_dense.'; \
+	  echo 'Print Assumptions grp_surjective_is_epic.'; \
+	  echo 'Print Assumptions grp_epic_iff_surjective.'; \
+	  echo 'Print Assumptions stability_is_the_conclusion.'; \
+	  echo 'Print Assumptions weaker_is_the_conclusion.'; \
+	  echo 'Print Assumptions transposition_decides_image.'; \
+	  echo 'Print Assumptions grp_two_incl_not_epic.'; \
+	  echo 'Print Assumptions grp_two_incl_monic.'; \
+	  echo 'Print Assumptions grp_two_incl_image_acts_trivially.'; \
+	  echo 'Print Assumptions grp_two_sym3_image_acts_nontrivially.'; \
+	  echo 'Print Assumptions grp_two_sym3_not_epic.'; \
+	  echo 'Print Assumptions grp_two_epic_monic_incomparable.'; \
+	  echo 'Print Assumptions Top.'; \
+	  echo 'Print Assumptions top_epic_iff.'; \
+	  echo 'Print Assumptions complement_natural.'; \
+	  echo 'Print Assumptions S3_two_functors_distinct.'; \
+	  echo 'Print Assumptions S3_two_functors_weakly_equal.'; \
+	  echo 'Print Assumptions Grp_op_twist_is_Id.'; \
+	  echo 'Print Assumptions free_two_functors_distinct.'; \
 	  echo 'Print Assumptions GAFT.'; \
 	  echo 'Print Assumptions beck_monadicity.'; \
 	  echo 'Print Assumptions monadic_creates.'; \
@@ -224,12 +310,221 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions classifier_classifies.'; \
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
+	  echo 'Print Assumptions Conjugate.'; \
+	  echo 'Print Assumptions conjugate_characterizations.'; \
+	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
 	  echo 'Print Assumptions CreatesLimit.'; \
 	  echo 'Print Assumptions creation_preserves_limit.'; \
 	  echo 'Print Assumptions creates_limits_Complete.'; \
 	  echo 'Print Assumptions em_forget_CreatesAllLimits.'; \
 	  echo 'Print Assumptions EM_Complete.'; \
+	  echo 'Print Assumptions skeleton_inclusion_is_equivalence.'; \
+	  echo 'Print Assumptions skeletons_are_isomorphic.'; \
+	  echo 'Print Assumptions skeletons_isomorphic_iff_equivalent.'; \
+	  echo 'Print Assumptions skeletal_equivalence_is_isomorphism.'; \
+	  echo 'Print Assumptions skeleton0_skeletal_forces_UIP.'; \
+	  echo 'Print Assumptions skeletality_is_not_equivalence_invariant.'; \
+	  echo 'Print Assumptions FinSet_Skeletal.'; \
+	  echo 'Print Assumptions Proset_Skeletal_iff_Antisymmetric.'; \
+	  echo 'Print Assumptions CongClosure_Congruence.'; \
+	  echo 'Print Assumptions cc_least.'; \
+	  echo 'Print Assumptions cc_kernel.'; \
+	  echo 'Print Assumptions presented_universal.'; \
+	  echo 'Print Assumptions ord3_relation_holds.'; \
+	  echo 'Print Assumptions QuotientCongLift.'; \
+	  echo 'Print Assumptions free_square_diagonals_distinct.'; \
+	  echo 'Print Assumptions presented_no_eqns_separates.'; \
+	  echo 'Print Assumptions proset_limit_iff_glb.'; \
+	  echo 'Print Assumptions proset_colimit_iff_lub.'; \
+	  echo 'Print Assumptions proset_Complete_iff_all_meets.'; \
+	  echo 'Print Assumptions proset_Cocomplete_iff_all_joins.'; \
+	  echo 'Print Assumptions Nat_no_Terminal.'; \
+	  echo 'Print Assumptions Elements.'; \
+	  echo 'Print Assumptions Elements_proj.'; \
+	  echo 'Print Assumptions Elements_Comma.'; \
+	  echo 'Print Assumptions Diagonal_Coproduct_Adjunction.'; \
+	  echo 'Print Assumptions coproduct_unit_is_unit.'; \
+	  echo 'Print Assumptions coproduct_counit_is_counit.'; \
+	  echo 'Print Assumptions coproduct_unit_components.'; \
+	  echo 'Print Assumptions sets_coproduct_diagonal.'; \
+	  echo 'Print Assumptions Pos.'; \
+	  echo 'Print Assumptions Pos_Forget.'; \
+	  echo 'Print Assumptions MonotoneAsFunctor.'; \
+	  echo 'Print Assumptions GaloisAdjunction.'; \
+	  echo 'Print Assumptions GaloisOfAdjunction.'; \
+	  echo 'Print Assumptions galois_round_trip.'; \
+	  echo 'Print Assumptions thin_side_condition.'; \
+	  echo 'Print Assumptions Ab.'; \
+	  echo 'Print Assumptions Ab_Zero.'; \
+	  echo 'Print Assumptions ab_monic_iff_injective.'; \
+	  echo 'Print Assumptions ab_epic_iff_surjective.'; \
+	  echo 'Print Assumptions Small.'; \
+	  echo 'Print Assumptions LocallySmall.'; \
+	  echo 'Print Assumptions locally_small_ambient.'; \
+	  echo 'Print Assumptions One_Small.'; \
+	  echo 'Print Assumptions ArrowQuiverOfCat.'; \
+	  echo 'Print Assumptions PreorderReflect.'; \
+	  echo 'Print Assumptions preorder_reflect_thin.'; \
+	  echo 'Print Assumptions Reflect.'; \
+	  echo 'Print Assumptions commutative_shape_factors.'; \
+	  echo 'Print Assumptions factors_commutative_shape.'; \
+	  echo "Print Assumptions factors_commutative_shape'."; \
+	  echo 'Print Assumptions commutative_factors.'; \
+	  echo 'Print Assumptions loop_commutative_iff.'; \
+	  echo 'Print Assumptions commutes_iff_factors.'; \
+	  echo 'Print Assumptions shape_factor_functor.'; \
+	  echo 'Print Assumptions ThinLift.'; \
+	  echo 'Print Assumptions ThinLift_unique.'; \
+	  echo 'Print Assumptions sq_endo_paths_are_nil.'; \
+	  echo 'Print Assumptions tri_endo_paths_are_nil.'; \
+	  echo 'Print Assumptions Commutative.'; \
+	  echo 'Print Assumptions CommutativeShape.'; \
+	  echo 'Print Assumptions dpath.'; \
+	  echo 'Print Assumptions commutative_iff_shape.'; \
+	  echo 'Print Assumptions shape_iff_commutative.'; \
+	  echo 'Print Assumptions functor_of_diagram_of_functor.'; \
+	  echo 'Print Assumptions diagram_of_functor_of_diagram.'; \
+	  echo 'Print Assumptions faithful_reflects_commutative.'; \
+	  echo 'Print Assumptions faithful_reflects_commutative_shape.'; \
+	  echo 'Print Assumptions functor_preserves_commutative.'; \
+	  echo 'Print Assumptions square_commutative_iff.'; \
+	  echo 'Print Assumptions triangle_commutative_iff.'; \
+	  echo 'Print Assumptions naturality_square_commutative_iff.'; \
+	  echo 'Print Assumptions commutative_dterm.'; \
+	  echo 'Print Assumptions coq_square_commutative.'; \
+	  echo 'Print Assumptions coq_square_not_commutative.'; \
+	  echo 'Print Assumptions Powerset.'; \
+	  echo 'Print Assumptions Powerset_op.'; \
+	  echo 'Print Assumptions Powerset_Singleton.'; \
+	  echo 'Print Assumptions Powerset_injective_reflects.'; \
+	  echo 'Print Assumptions Powerset_merges_fibre.'; \
+	  echo 'Print Assumptions Powerset_direct_ne_inverse.'; \
+	  echo 'Print Assumptions Powerset_Prop.'; \
+	  echo 'Print Assumptions Powerset_Prop_Singleton.'; \
+	  echo 'Print Assumptions Powerset_Prop_Monad_statement.'; \
+	  echo 'Print Assumptions Powerset_Prop_FAlg.'; \
+	  echo 'Print Assumptions Powerset_Prop_singletons_distinct.'; \
+	  echo 'Print Assumptions Powerset_truncate.'; \
+	  echo 'Print Assumptions Sets_HasIndexedProducts.'; \
+	  echo 'Print Assumptions Sets_HasIndexedCoproducts.'; \
+	  echo 'Print Assumptions Sets_Complete.'; \
+	  echo 'Print Assumptions Sets_exponent_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Sets_constant_iprod_exponent.'; \
+	  echo 'Print Assumptions Sets_iprod_bool.'; \
+	  echo 'Print Assumptions Sets_iprod_nat.'; \
+	  echo 'Print Assumptions Sets_icoprod_bool.'; \
+	  echo 'Print Assumptions Sets_icoprod_nat.'; \
+	  echo 'Print Assumptions Sets_endo_iprod_ump.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id.'; \
+	  echo 'Print Assumptions GAFT_at_Sets_Id_is_Id.'; \
+	  echo 'Print Assumptions Sets_HasEqualizers.'; \
+	  echo 'Print Assumptions split_pair_idempotent.'; \
+	  echo 'Print Assumptions split_idem_Idempotent.'; \
+	  echo 'Print Assumptions RegularMorphism.'; \
+	  echo 'Print Assumptions regular_of_section.'; \
+	  echo 'Print Assumptions regular_of_retraction.'; \
+	  echo 'Print Assumptions regular_composites_idempotent.'; \
+	  echo 'Print Assumptions regular_epic_retraction.'; \
+	  echo 'Print Assumptions regular_monic_section.'; \
+	  echo 'Print Assumptions finset_regular.'; \
+	  echo 'Print Assumptions finset_regular_not_split.'; \
+	  echo 'Print Assumptions finset_split_pair_nontrivial.'; \
+	  echo 'Print Assumptions finset_empty_to_one_not_regular.'; \
+	  echo 'Print Assumptions finset_every_epi_splits.'; \
+	  echo 'Print Assumptions two_epic_not_regular.'; \
+	  echo 'Print Assumptions sets_split_pair_not_iso.'; \
+	  echo 'Print Assumptions sets_split_mono_not_iso.'; \
+	  echo 'Print Assumptions sets_split_epi_not_iso.'; \
+	  echo 'Print Assumptions sets_two_card.'; \
+	  echo 'Print Assumptions sets_three_card.'; \
+	  echo 'Print Assumptions sets_coarsen_regular_iff_dec.'; \
+	  echo 'Print Assumptions sets_coarsen_not_regular_absurd.'; \
+	  echo 'Print Assumptions blanket_regularity_entails_splitting.'; \
+	  echo 'Print Assumptions blanket_splitting_entails_LEM.'; \
+	  echo 'Print Assumptions blanket_regularity_entails_LEM.'; \
+	  echo 'Print Assumptions Point_point_of_strict.'; \
+	  echo 'Print Assumptions Walk_arrow_of_strict.'; \
+	  echo 'Print Assumptions Two_Fun_Arrow.'; \
+	  echo 'Print Assumptions Functor_of_Pair_of_Functor.'; \
+	  echo 'Print Assumptions two_three_enumeration.'; \
+	  echo 'Print Assumptions Sets_point_separates.'; \
+	  echo 'Print Assumptions connected_deloop_equiv.'; \
+	  echo 'Print Assumptions connected_iff_deloop_equiv.'; \
+	  echo 'Print Assumptions deloop_groupoid_iff.'; \
+	  echo 'Print Assumptions deloop_nat_not_groupoid.'; \
+	  echo 'Print Assumptions deloop_bool_groupoid.'; \
+	  echo 'Print Assumptions conjugation_iso.'; \
+	  echo 'Print Assumptions core_is_groupoid.'; \
+	  echo 'Print Assumptions Inversion_iso.'; \
+	  echo 'Print Assumptions deloop_ff_moniso.'; \
+	  echo 'Print Assumptions connected_vertex_moniso.'; \
+	  echo 'Print Assumptions Bool_Wide_vertex_moniso.'; \
+	  echo 'Print Assumptions transform_iff_conjugate.'; \
+	  echo 'Print Assumptions transform_iff_conjugate_SWAPPED.'; \
+	  echo 'Print Assumptions transform_iff_intertwines.'; \
+	  echo 'Print Assumptions transform_intertwiner_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_iso.'; \
+	  echo 'Print Assumptions transform_conjugator_hom.'; \
+	  echo 'Print Assumptions Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions Deloop_Fun_IsGroupoid.'; \
+	  echo 'Print Assumptions abelian_conjugates_agree.'; \
+	  echo 'Print Assumptions S3_conjugating_transform.'; \
+	  echo 'Print Assumptions S3_conjugation_needs_nonabelian.'; \
+	  echo 'Print Assumptions Deloop_S3_two_objects.'; \
+	  echo 'Print Assumptions Deloop_Fun_S3_not_deloop.'; \
+	  echo 'Print Assumptions Concrete.'; \
+	  echo 'Print Assumptions Concrete_of_Separator.'; \
+	  echo 'Print Assumptions Concrete_of_WellPointed.'; \
+	  echo 'Print Assumptions Sets_Concrete.'; \
+	  echo 'Print Assumptions Sets_Concrete_Points.'; \
+	  echo 'Print Assumptions Coq_Concrete.'; \
+	  echo 'Print Assumptions CMon_Concrete.'; \
+	  echo 'Print Assumptions Rel_Concrete.'; \
+	  echo 'Print Assumptions Rel_hom_is_not_a_function.'; \
+	  echo 'Print Assumptions Rel_subsingleton_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverVertices_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverArrows_not_Faithful.'; \
+	  echo 'Print Assumptions QuiverElements_faithful_under_NodeUIP.'; \
+	  echo 'Print Assumptions SetQuiver_Concrete.'; \
+	  echo 'Print Assumptions Full_Compose.'; \
+	  echo 'Print Assumptions Faithful_Compose.'; \
+	  echo 'Print Assumptions faithful_reflects_monic.'; \
+	  echo 'Print Assumptions faithful_reflects_epic.'; \
+	  echo 'Print Assumptions EssentiallySurjective_Compose.'; \
+	  echo 'Print Assumptions Incl_Faithful.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full_upto.'; \
+	  echo 'Print Assumptions Full_Functor_Implies_Full.'; \
+	  echo 'Print Assumptions concrete_injective_monic.'; \
+	  echo 'Print Assumptions concrete_surjective_epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic.'; \
+	  echo 'Print Assumptions Coq_pred_Epic.'; \
+	  echo 'Print Assumptions Coq_bool_to_nat_Monic_reflected.'; \
+	  echo 'Print Assumptions Coq_pred_Epic_reflected.'; \
+	  echo 'Print Assumptions FinSets_Full_Functor.'; \
+	  echo 'Print Assumptions FinSets_Faithful.'; \
+	  echo 'Print Assumptions FinSets_Full_roundtrip.'; \
+	  echo 'Print Assumptions FinSets_two_arrows.'; \
+	  echo 'Print Assumptions FinSets_negb_Monic.'; \
+	  echo 'Print Assumptions FinSet_Setf_Equivalence.'; \
+	  echo 'Print Assumptions FinSet_skeletal.'; \
+	  echo 'Print Assumptions setf_cardinality_iso_invariant.'; \
+	  echo 'Print Assumptions Exp_Functor.'; \
+	  echo 'Print Assumptions eval_natural.'; \
+	  echo 'Print Assumptions Curry_Adjunction.'; \
+	  echo 'Print Assumptions Curry_Representable.'; \
+	  echo 'Print Assumptions Sets_prod_preserves_colimits.'; \
+	  echo 'Print Assumptions proset_transform_iff.'; \
+	  echo 'Print Assumptions proset_transform_unique.'; \
+	  echo 'Print Assumptions proset_out_not_unique.'; \
+	  echo 'Print Assumptions PointedSets.'; \
+	  echo 'Print Assumptions PointedSets_Zero.'; \
+	  echo 'Print Assumptions pointed_balanced.'; \
+	  echo 'Print Assumptions pointed_monic_iff.'; \
+	  echo 'Print Assumptions pointed_epic_iff.'; \
+	  echo 'Print Assumptions pointed_part_equivalence.'; \
+	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
+	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

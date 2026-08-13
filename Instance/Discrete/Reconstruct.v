@@ -132,8 +132,11 @@ Import EqNotations.
    contains the other constructively; one inclusion holds exactly when UIP
    does.
 
-   [Indiscrete] is defined here only as that separating witness; it has no
-   other use in the library at present. *)
+   [Indiscrete] was introduced here as that separating witness.  It now has a
+   second use: it is the non-skeletal half of the equivalence-invariance
+   separation of Theory/Skeleton/Separation.v, where [Indiscrete bool] is
+   equivalent to [1] yet not skeletal, and where its skeleton is exhibited on
+   the nose as [1] ([Indiscrete_bool_skeleton_is_One]). *)
 
 (* Why a separate file rather than extending Instance/Discrete.v, as the
    issue's work-plan suggested: NOT layering -- Instance/Discrete.v,

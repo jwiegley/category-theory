@@ -90,14 +90,27 @@ Generalizable All Variables.
    cartesian closure, being a topos all transport across it — and the
    properties it does not preserve are the ones the principle of
    equivalence brands "evil".  Skeletons measure the cost of
-   strictifying anyway: every category is equivalent to its skeleton,
-   yet the statement that every category has one is itself equivalent to
-   the axiom of choice, skeletality is not equivalence-invariant, and
-   even a skeletal category has no product on the nose (nLab, "skeleton
-   of a category").  The library accordingly states every law up to ≈
-   and confines skeletons to concrete instances such as
-   Instance/FinSet.v, where positional objects let the [FinSet_Topos]
-   examples compute by eq_refl (Instance/FinSet/Topos.v).
+   strictifying anyway: every category is equivalent to each of its
+   skeletons, yet the EXISTENCE claim — that every category has one —
+   is itself equivalent to the axiom of choice, skeletality is not
+   equivalence-invariant, and even a skeletal category has no product
+   on the nose (nLab, "skeleton of a category").  The library
+   accordingly states every law up to ≈ and never asserts that
+   existence: Theory/Skeleton.v carries the [Skeletal] predicate and
+   packages "A is a skeleton of C" as DATA — a full subcategory with a
+   chosen representative and its uniqueness — so that everything true
+   of a GIVEN skeleton is proved there, choice-free
+   ([skeleton_inclusion_is_equivalence], [skeletons_are_isomorphic]),
+   while no [Skeleton C] is ever produced for an arbitrary C.  That
+   skeletality is not equivalence-invariant is itself a theorem
+   ([skeletality_is_not_equivalence_invariant] of
+   Theory/Skeleton/Separation.v, separating [1] from the indiscrete
+   category on [bool]), complemented by [Skeletal_StrictCat_invariant],
+   which shows the predicate IS invariant under isomorphism of
+   categories.  The concrete instances remain the computing witnesses:
+   Instance/FinSet.v, proved skeletal in Instance/FinSet/Skeleton.v,
+   where positional objects let the [FinSet_Topos] examples compute by
+   eq_refl (Instance/FinSet/Topos.v).
 
    The choice content of the classical characterization dictates the
    split shape of [EssentiallySurjective].  That every fully faithful,
@@ -278,3 +291,32 @@ Definition EquivalenceOfCategories_Id {C : Category} :
   @Build_EquivalenceOfCategories C C Id[C] Id[C]
     (fun_equiv_id_left Id[C])
     (symmetry (fun_equiv_id_left Id[C])).
+
+(* Essential surjectivity is closed under composition.
+
+   Book: Riehl, "Category Theory in Context", Dover 2016, §1.5,
+         Exercise 1.5.vi(i), printed p. 38
+
+   This is the third clause of that exercise, alongside the closure of
+   fullness and of faithfulness ([Full_Compose] and [Faithful_Compose],
+   Theory/Functor.v).  Given e : E, pull it back twice — first along F, then
+   along G — and paste the two witnessing isomorphisms: F carries G's
+   isomorphism forward (functors preserve isomorphisms, [fobj_iso]) to land at
+   F applied to F's own chosen preimage of e, from where F's own isomorphism
+   finishes the trip to e.  The
+   choices compose because [EssentiallySurjective] is the split form, carrying
+   a chosen preimage rather than a bare existence statement.
+
+   Stated at the end of the file rather than beside the class so that the two
+   class definitions above stay adjacent. *)
+
+#[export] Program Instance EssentiallySurjective_Compose
+  {C D E : Category} (F : D ⟶ E) (G : C ⟶ D)
+  `{@EssentiallySurjective D E F} `{@EssentiallySurjective C D G} :
+  EssentiallySurjective (F ◯ G) := {|
+  eso_obj := fun e => eso_obj (F:=G) (eso_obj (F:=F) e)
+|}.
+Next Obligation.
+  exact (iso_compose (eso_iso (F:=F) d)
+           (fobj_iso F _ _ (eso_iso (F:=G) (eso_obj (F:=F) d)))).
+Defined.

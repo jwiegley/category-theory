@@ -18,7 +18,11 @@ Generalizable All Variables.
    2 is the "walking arrow": a functor 2 ⟶ C is exactly a choice of one
    morphism of C (the image of TwoXY), so functors out of 2 classify the
    morphisms of C, and the functor category [2, C] is the arrow category of
-   C (objects = arrows of C, morphisms = commutative squares). *)
+   C (objects = arrows of C, morphisms = commutative squares).  Both halves
+   of that sentence are theorems in Theory/Shapes.v: [Walk] and [arrow_of]
+   with their round trips for the first, and [Two_Fun_Arrow] for the
+   second, the latter an equivalence of categories in the sense of
+   Instance/Cat.v rather than an isomorphism of categories. *)
 
 (* The smallest non-trivial shape, and the smallest object of truth values
 
@@ -86,7 +90,8 @@ Generalizable All Variables.
    cartesian monoidal category, a Heyting algebra is a skeletal thin
    finitely-cocomplete cartesian-closed category, and a Boolean algebra a
    skeletal thin finitely-cocomplete star-autonomous one (Wikipedia,
-   "Posetal category").
+   "Posetal category").  That [_2] itself is skeletal is [Two_Skeletal]
+   (Theory/Skeleton/Separation.v).
 
    Computationally, thinness means the hom is proof-irrelevant, a mere
    proposition, so [_2] is a (0,1)-category.  Instance/Two/Monoidal.v makes
@@ -223,6 +228,74 @@ Proof. intros [g _ _]; exact (TwoHom_Y_X_absurd g). Qed.
 Definition two_bimorphic_not_iso :
   @Bimorphic _2 TwoX TwoY TwoXY * (@IsIsomorphism _2 TwoX TwoY TwoXY → False) :=
   (TwoXY_bimorphic, TwoXY_not_iso).
+
+
+(* Mac Lane, CWM 2nd ed., §I.5, printed p. 19.  CITED BY LOCATION; the printed
+   text was not consulted.  The in-tree catalog entry for the item
+   (doc/plan/books/maclane/inventory/I.json, id maclane:I.5:def5) records the
+   aside that an arrow with a right inverse is epi, and that the converse
+   holds in Set but not in Grp (paraphrased, not quoted).
+
+   Mac Lane's own counterexample is out of reach in this tree, which has no
+   category of groups.  Structure/Group.v defines group OBJECTS in a
+   cartesian monoidal category, not Grp.  Instance/Comp.v comes closest and
+   still misses: it has a TYPE of groups ([Group], :382, algebras for the
+   group signature and its equations, :268) and a CATEGORY [Algs] (:151), but
+   the objects of [Algs] are [OpAlgebra S] -- structures for a signature with
+   the equations dropped -- so instantiating it at the group signature does
+   not produce Grp.  Categories of algebras the tree does have, several of
+   them: [Models T C] for a Lawvere theory (Theory/Lawvere/Model.v:77),
+   [OperadAlgebras] for an operad (Theory/Multicategory/Algebra.v:417),
+   [FAlg F] for an endofunctor (Construction/FAlg.v:114), [Algs] again, and
+   the commutative monoids of Instance/CMon.v, which is the one carried far
+   enough to serve as the tree's semiadditive witness.  None of them is Grp,
+   and none is instantiated at the group signature anywhere in the tree:
+   [GroupOp] (Instance/Comp.v:298) is used to build the TYPE [Group] (:382)
+   and the single algebra [BoolOp] (:395), never the category [Algs] and
+   never a Lawvere theory.
+
+   The interval category gives a blunter counterexample, for the same reason
+   it refutes balancedness above: [TwoXY] is epic, and there is no arrow
+   TwoY ~> TwoX at all, so nothing can serve as a right inverse.  The same
+   observation rules out regularity in the sense of Theory/Morphisms.v, since
+   a pseudoinverse for [TwoXY] would also have to be an arrow TwoY ~> TwoX.
+   So [RegularMorphism] is a real condition on an arrow: it is not satisfied
+   by every arrow of every category, and in particular not by every
+   epimorphism.
+
+   Both halves of the witness are degenerate, and both degeneracies are worth
+   naming.  [TwoXY] is epic because 2 is THIN, so [TwoXY_epic] proves nothing
+   about cancellation; and it is non-regular because the reverse hom-set is
+   EMPTY, so [TwoXY_not_regular] proves nothing about pseudoinverses.  The
+   tree's other refutation of regularity has the same shape --
+   [finset_empty_to_one_not_regular] (Instance/FinSet/Regular.v) again has an
+   empty reverse hom-set -- and that is not a coincidence to be corrected by
+   looking harder.  Over [Sets] the empty hom-set is what makes such a
+   refutation available at all: [sets_coarsen_not_regular_absurd]
+   (Instance/Sets/Regular.v) exhibits an arrow with INHABITED domain and
+   INHABITED reverse hom-set whose non-regularity is refutable outright, its
+   regularity being exactly the decidability of an arbitrary proposition
+   ([sets_coarsen_regular_iff_dec]).  Where that proposition is undecided,
+   neither answer can be proved, so the degeneracy above is a fact about the
+   setting rather than a shortcut taken here. *)
+
+Lemma TwoXY_not_regular : @RegularMorphism _2 TwoX TwoY TwoXY → False.
+Proof. intros [g _]; exact (TwoHom_Y_X_absurd g). Qed.
+
+(* Both one-sided splittings are ruled out through regularity, rather than by
+   repeating the argument: a section or a retraction is regular. *)
+Lemma TwoXY_not_retraction : @Retraction _2 TwoX TwoY TwoXY → False.
+Proof. intro R; exact (TwoXY_not_regular (regular_of_retraction _ R)). Qed.
+
+Lemma TwoXY_not_section : @Section _2 TwoX TwoY TwoXY → False.
+Proof. intro S; exact (TwoXY_not_regular (regular_of_section _ S)). Qed.
+
+(* Packaged: an arrow that is epic, does not split, and is not regular. *)
+Definition two_epic_not_regular :
+  @Epic _2 TwoX TwoY TwoXY
+  * (@Retraction _2 TwoX TwoY TwoXY → False)
+  * (@RegularMorphism _2 TwoX TwoY TwoXY → False) :=
+  (TwoXY_epic, TwoXY_not_retraction, TwoXY_not_regular).
 
 
 Require Import Category.Instance.Sets.
