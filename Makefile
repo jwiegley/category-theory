@@ -214,6 +214,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Construction.Elements.'; \
 	  echo 'Require Import Category.Instance.Pos.'; \
 	  echo 'Require Import Category.Instance.Proset.Galois.'; \
 	  echo 'Require Import Category.Instance.Ab.'; \
@@ -304,6 +305,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Elements.'; \
+	  echo 'Print Assumptions Elements_proj.'; \
+	  echo 'Print Assumptions Elements_Comma.'; \
 	  echo 'Print Assumptions Diagonal_Coproduct_Adjunction.'; \
 	  echo 'Print Assumptions coproduct_unit_is_unit.'; \
 	  echo 'Print Assumptions coproduct_counit_is_counit.'; \
