@@ -362,4 +362,127 @@ Corollary Subst_unit_right_word :
     ≈ to (@unit_right B MB b).
 Proof. apply Subst_unit_right. Qed.
 
+(** ** Uniqueness
+
+    Any strict monoidal functor sending the generator to [b] agrees with
+    [Subst] — on objects by a derived Leibniz equality [Theta], on morphisms
+    up to conjugation by the [Theta]-transports.  The statements are given in
+    SQUARE form ([id_cast (Theta -)] naturality squares) rather than through
+    [hom_cast], because squares compose; the [hom_cast] reading is recovered
+    by composing with the invertible casts. *)
+
+(* The W-side mirrors of the join and the normaliser.  Their RECURSIVE
+   STRUCTURE is the point (each branch is a structure map of W, which [G]'s
+   strictness translates), not the underlying arrows — W is thin. *)
+Fixpoint JW (m n : nat) : WT (nfword m) (nfword n) ≅[W] nfword (m + n) :=
+  match m with
+  | O   => @unit_left W W_Monoidal (nfword n)
+  | S k => @tensor_iso W W_Monoidal WI WI _ _ iso_id (JW k n)
+             ⊙ @tensor_assoc W W_Monoidal WI (nfword k) (nfword n)
+  end.
+
+Fixpoint canW (w : Word) : w ≅[W] nfword (wlen w) :=
+  match w with
+  | WE     => iso_id
+  | WI     => iso_sym (@unit_right W W_Monoidal WI)
+  | WT v u => JW (wlen v) (wlen u)
+                ⊙ @tensor_iso W W_Monoidal
+                    v (nfword (wlen v)) u (nfword (wlen u))
+                    (canW v) (canW u)
+  end.
+
+(* Transparent tensor-congruence for object equalities.  [f_equal2] is
+   opaque (Qed) in the stdlib, so casts along it can only be discharged by
+   UIP — unavailable at an arbitrary [B].  This match-defined twin reduces. *)
+Definition tensor_eq {X X' Y Y' : B} (e1 : X = X') (e2 : Y = Y') :
+  (X ⨂ Y)%object = (X' ⨂ Y')%object :=
+  match e1 with eq_refl => match e2 with eq_refl => eq_refl end end.
+
+Lemma id_cast_tensor_eq {X X' Y Y' : B} (e1 : X = X') (e2 : Y = Y') :
+  id_cast (tensor_eq e1 e2) ≈ bimap (id_cast e1) (id_cast e2).
+Proof. destruct e1, e2; simpl; now rewrite bimap_id_id. Qed.
+
+Section Uniqueness.
+
+Context (G : W ⟶ B).
+Context (SG : @StrictMonoidalFunctor W B W_Monoidal MB G).
+Context (Hb : G WI = b).
+
+(* Object agreement, DERIVED from strictness plus the single generator
+   datum — where the PROP development takes the whole family as a
+   hypothesis. *)
+Fixpoint Theta (w : Word) : G w = subst b w :=
+  match w with
+  | WE     => eq_sym (@strict_pure_obj _ _ _ _ G SG)
+  | WI     => Hb
+  | WT v u => eq_trans
+                (eq_sym (@strict_ap_obj _ _ _ _ G SG v u))
+                (tensor_eq (Theta v) (Theta u))
+  end.
+
+(* Mac Lane's T(f □ g) = Tf □' Tg, extracted from strictness once: the
+   naturality square of the tensor comparison, with both components rewritten
+   to transported identities. *)
+Lemma strict_fmap_bimap {v v' u u' : Word}
+  (f : v ~{W}~> v') (g : u ~{W}~> u') :
+  id_cast (@strict_ap_obj _ _ _ _ G SG v' u')
+      ∘ bimap (fmap[G] f) (fmap[G] g)
+    ≈ fmap[G] (fmap[W_tensor] ((f, g) : (v, u) ~{W ∏ W}~> (v', u')))
+        ∘ id_cast (@strict_ap_obj _ _ _ _ G SG v u).
+Proof.
+  pose proof (naturality
+                (to (@ap_functor_iso _ _ _ _ G
+                       (@strict_functor_is_monoidal _ _ _ _ G SG)))
+                (v, u) (v', u') (f, g)) as N.
+  simpl in N.
+  rewrite <- (@strict_ap_iso_id _ _ _ _ G SG v' u').
+  rewrite <- (@strict_ap_iso_id _ _ _ _ G SG v u).
+  symmetry in N; exact N.
+Qed.
+
+(* W is thin, so G cannot distinguish parallel arrows — the license to pick
+   the structurally convenient representative in every proof below. *)
+Lemma G_irr {v w : Word} (p q : v ~{W}~> w) : fmap[G] p ≈ fmap[G] q.
+Proof. apply fmap_respects; constructor. Qed.
+
+(* The canonical arrow between normalised words of equal length, and its
+   G-image: a transported identity.  Stated over bare naturals so [destruct]
+   applies. *)
+Definition nfword_arrow {m n : nat} (e : m = n) :
+  nfword m ~{W}~> nfword n :=
+  match e in _ = k return nfword m ~{W}~> nfword k with
+  | eq_refl => eq_refl
+  end.
+
+Lemma G_nfword_cast {m n : nat} (e : m = n) :
+  fmap[G] (nfword_arrow e)
+    ≈ id_cast (f_equal (fun i => G (nfword i)) e).
+Proof.
+  destruct e; simpl.
+  change (fmap[G] (@id W (nfword m)) ≈ id).
+  apply fmap_id.
+Qed.
+
+(* Shorthand for the object-agreement transport. *)
+Notation thc w := (id_cast (Theta w)).
+
+(* [subst (nfword n) = nf n I] holds by induction, NOT by conversion — at an
+   open [n] neither side reduces.  Transparent so its casts destruct. *)
+Fixpoint subst_nfword (n : nat) : subst b (nfword n) = nf b n I :=
+  match n with
+  | O   => eq_refl
+  | S k => tensor_eq eq_refl (subst_nfword k)
+  end.
+
+Notation sigma n := (id_cast (subst_nfword n)).
+
+(* Bridge: the [from]-direction matches of Strict.v are the casts along the
+   symmetric equalities. *)
+Lemma id_cast_sym_match {X Y : B} (e : X = Y) :
+  (match e in _ = T return T ~{B}~> X with eq_refl => id end)
+    = id_cast (eq_sym e).
+Proof. destruct e; reflexivity. Qed.
+
+End Uniqueness.
+
 End Universal.
