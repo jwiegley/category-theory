@@ -2488,6 +2488,22 @@ through `Admitted`.
     the declined bridge for the same functor. Issue #406's DoD box 11 is
     therefore UNMET and recorded as such rather than ticked.
 
+19. **Uniqueness up to monoidal natural isomorphism for W** (issue #496 tail).
+    Mac Lane VII.2 Theorem 1 is proven in full against STRICT monoidal
+    functors (`Construction/FreeMonoidal/Universal.v`,
+    `FreeMonoidal_universal`) — which is Mac Lane's own morphism notion, his
+    Moncat taking strict morphisms as arrows (maclane:VII.1:construction2),
+    and the only notion under which on-the-nose uniqueness holds. The
+    companion statement — every STRONG monoidal functor sending the
+    generator to `b` is monoidally naturally isomorphic to `Subst` — has no
+    home in the tree: Theory/Natural/Transformation/Monoidal.v defines
+    `LaxMonoidal_Transform` for lax functors only, and there is no
+    monoidal-natural-transformation class for strong functors and no MonCat.
+    Building `θ w : G w ≅ subst w` by induction and proving its monoidal
+    naturality is a development of comparable size to the uniqueness half
+    plus a new class; it is withheld rather than approximated, and becomes
+    available work once the missing class exists.
+
 ## 6. Execution mechanics
 
 ### 6.1 Branching and stacking
