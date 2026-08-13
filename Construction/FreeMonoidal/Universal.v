@@ -476,6 +476,13 @@ Fixpoint subst_nfword (n : nat) : subst b (nfword n) = nf b n I :=
 
 Notation sigma n := (id_cast (subst_nfword n)).
 
+(* Bridges: Strict.v's transported-identity matches ARE [id_cast] — the
+   to-direction definitionally, the from-direction along the symmetric
+   equality.  Stated as Leibniz equalities so they rewrite match-forms into
+   cast-forms that the kit lemmas can see. *)
+Lemma id_cast_match {X Y : B} (e : X = Y) :
+  (match e in _ = T return X ~{B}~> T with eq_refl => id end) = id_cast e.
+Proof. reflexivity. Qed.
 (* Bridge: the [from]-direction matches of Strict.v are the casts along the
    symmetric equalities. *)
 Lemma id_cast_sym_match {X Y : B} (e : X = Y) :
@@ -491,6 +498,196 @@ Lemma id_cast_tensor_match {Y Y' : B} (e : Y = Y') :
            with eq_refl => eq_refl end)
     ≈ bimap id[b] (id_cast e).
 Proof. destruct e; simpl; now rewrite bimap_id_id. Qed.
+
+(* The join square: G carries the W-side join to the B-side join, across the
+   object agreement.  Induction on m; the base is SG's left unitality, the
+   step is SG's associativity coherence. *)
+Lemma JW_unique (m n : nat) :
+  to (J b m n I)
+      ∘ bimap (sigma m) (sigma n)
+      ∘ thc (WT (nfword m) (nfword n))
+    ≈ sigma (m + n) ∘ thc (nfword (m + n)) ∘ fmap[G] (to (JW m n)).
+Proof.
+  induction m; simpl.
+  - (* SG's left unitality, solved for the G-image of the W-side unitor in
+       ISO form first (pure inverse cancellations), converting the inverses
+       to transported identities only at the interface. *)
+    pose proof (@monoidal_unit_left _ _ _ _ G
+                  (@strict_functor_is_monoidal _ _ _ _ G SG) (nfword n)) as UL.
+    assert (GL : fmap[G] (to (@unit_left W W_Monoidal (nfword n)))
+              ≈ to (@unit_left B MB (G (nfword n)))
+                  ∘ bimap (from (@pure_iso _ _ _ _ G
+                            (@strict_functor_is_monoidal _ _ _ _ G SG))) id
+                  ∘ from (@ap_iso _ _ _ _ G
+                            (@strict_functor_is_monoidal _ _ _ _ G SG)
+                            WE (nfword n))).
+    { symmetry.
+      rewrite UL.
+      etransitivity; [| apply id_right ].
+      rewrite <- !comp_assoc.
+      apply compose_respects; [ reflexivity |].
+      rewrite (comp_assoc (bimap (to (@pure_iso _ _ _ _ G _)) id)
+                          (bimap (from (@pure_iso _ _ _ _ G _)) id)).
+      rewrite <- bimap_comp.
+      rewrite iso_to_from.
+      normal.
+      rewrite iso_to_from.
+      reflexivity. }
+    rewrite GL.
+    rewrite (@strict_ap_iso_from _ _ _ _ G SG WE (nfword n)).
+    rewrite (@strict_pure_iso_from _ _ _ _ G SG).
+    rewrite !id_cast_sym_match.
+    (* Split the composite object-agreement cast. *)
+    rewrite <- id_cast_trans.
+    rewrite id_cast_tensor_eq.
+    (* Carry the agreement across the left unitor by naturality. *)
+    rewrite !comp_assoc.
+    rewrite (to_unit_left_natural (id_cast (subst_nfword n) ∘ thc (nfword n))).
+    rewrite <- (comp_assoc _
+                  (bimap id (id_cast (subst_nfword n) ∘ thc (nfword n)))
+                  (bimap (id_cast (eq_sym (@strict_pure_obj _ _ _ _ G SG))) id)).
+    rewrite bimap_id_left_right.
+    (* Fuse the left side's cast pair into the same shape. *)
+    rewrite <- (comp_assoc _
+                  (bimap (id_cast (subst_nfword 0)) (id_cast (subst_nfword n)))
+                  (bimap (id_cast (eq_sym (@strict_pure_obj _ _ _ _ G SG)))
+                         (thc (nfword n)))).
+    rewrite <- bimap_comp.
+    normal.
+    change (id_cast (subst_nfword 0)) with (@id B (@I B MB)).
+    normal.
+    reflexivity.
+  - (* Split G over the S-branch composite, solve SG's associativity law for
+       the G-image of the W-side associator, and reduce to the IH. *)
+    (* simpl dissolved W's composition into eq_trans; thinness lets us swap
+       in the explicit composite representative before splitting G over it. *)
+    rewrite (G_irr _ (bimap (@id W WI) (to (JW m n))
+                        ∘ to (@tensor_assoc W W_Monoidal
+                                WI (nfword m) (nfword n)))).
+    rewrite fmap_comp.
+    pose proof (@monoidal_assoc _ _ _ _ G
+                  (@strict_functor_is_monoidal _ _ _ _ G SG)
+                  WI (nfword m) (nfword n)) as MA.
+    simpl in MA.
+    (* LHS -> RHS.  Split every composite cast, push the associator across
+       the components, fold the IH back in, then let strictness translate the
+       remaining G-images. *)
+    rewrite <- !id_cast_trans.
+    rewrite !id_cast_tensor_eq.
+    rewrite !id_cast_tensor_match.
+    (* Split the inner layer of composite casts as well. *)
+    rewrite <- !id_cast_trans.
+    rewrite !id_cast_tensor_eq.
+    (* Relate the tensor of agreements to the agreement at the tensor. *)
+    assert (THC : forall v u : Word,
+      bimap (thc v) (thc u)
+        ≈ thc (WT v u) ∘ id_cast (@strict_ap_obj _ _ _ _ G SG v u)).
+    { intros v u; simpl.
+      rewrite <- id_cast_trans, id_cast_tensor_eq.
+      rewrite <- comp_assoc.
+      rewrite id_cast_inv_l.
+      now rewrite id_right. }
+    rewrite <- (id_right (thc (nfword n))).
+    rewrite bimap_comp.
+    normal.
+    rewrite <- (id_right (sigma n ∘ thc (nfword n))).
+    rewrite bimap_comp.
+    rewrite !comp_assoc.
+    rewrite <- (comp_assoc _ (to tensor_assoc)
+                  (bimap (bimap (id_cast Hb) (sigma m ∘ thc (nfword m)))
+                         (sigma n ∘ thc (nfword n)))).
+    rewrite <- (to_tensor_assoc_natural
+                  (id_cast Hb) (sigma m ∘ thc (nfword m))
+                  (sigma n ∘ thc (nfword n))).
+    normal.
+    rewrite (bimap_comp (id_cast (subst_nfword m)) (thc (nfword m))
+                        (id_cast (subst_nfword n)) (thc (nfword n))).
+    rewrite (THC (nfword m) (nfword n)).
+    rewrite (comp_assoc (sigma m ⨂ sigma n)
+               (thc (WT (nfword m) (nfword n)))).
+    rewrite (comp_assoc (to (J b m n I))
+               (sigma m ⨂ sigma n ∘ thc (WT (nfword m) (nfword n)))).
+    rewrite (comp_assoc (to (J b m n I)) (sigma m ⨂ sigma n)).
+    rewrite IHm.
+    (* Expand G over the bimap via strictness. *)
+    assert (GB : fmap[G] (bimap (@id W WI) (to (JW m n)))
+              ≈ id_cast (@strict_ap_obj _ _ _ _ G SG WI (nfword (m + n)))
+                  ∘ bimap (fmap[G] (@id W WI)) (fmap[G] (to (JW m n)))
+                  ∘ id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                               WI (WT (nfword m) (nfword n))))).
+    { symmetry.
+      rewrite (strict_fmap_bimap (@id W WI) (to (JW m n))).
+      rewrite <- comp_assoc.
+      rewrite id_cast_inv_r.
+      now rewrite id_right. }
+    rewrite (G_irr (fmap[W_tensor]
+                      ((@id W WI, to (JW m n))
+                        : (WI, WT (nfword m) (nfword n)) ~{W ∏ W}~>
+                          (WI, nfword (m + n))))
+                   (bimap (@id W WI) (to (JW m n)))) in GB.
+    rewrite GB.
+    rewrite fmap_id.
+    (* Cancel the adjacent inverse pair the GB insertion created. *)
+    rewrite !comp_assoc.
+    rewrite <- (comp_assoc _
+                  (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                               WI (nfword (m + n)))))
+                  (id_cast (@strict_ap_obj _ _ _ _ G SG WI (nfword (m + n))))).
+    rewrite id_cast_inv_l, id_right.
+    (* The G-image of the W-associator, in all-cast form, from MA. *)
+    assert (GAc : fmap[G] (to (@tensor_assoc W W_Monoidal
+                                 WI (nfword m) (nfword n)))
+              ≈ id_cast (@strict_ap_obj _ _ _ _ G SG
+                           WI (WT (nfword m) (nfword n)))
+                  ∘ bimap id (id_cast (@strict_ap_obj _ _ _ _ G SG
+                           (nfword m) (nfword n)))
+                  ∘ to (@tensor_assoc B MB (G WI) (G (nfword m)) (G (nfword n)))
+                  ∘ bimap (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                           WI (nfword m)))) id
+                  ∘ id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                           (WT WI (nfword m)) (nfword n)))).
+    { pose proof (@strict_ap_iso_id _ _ _ _ G SG WI (nfword m)) as C2.
+      pose proof (@strict_ap_iso_id _ _ _ _ G SG
+                    (WT WI (nfword m)) (nfword n)) as C4.
+      pose proof (@strict_ap_iso_id _ _ _ _ G SG
+                    WI (WT (nfword m) (nfword n))) as C1.
+      pose proof (@strict_ap_iso_id _ _ _ _ G SG (nfword m) (nfword n)) as Cmn.
+      simpl in C1, C2, C4, Cmn.
+      rewrite C1, C2, C4, Cmn in MA.
+      rewrite !id_cast_match in MA.
+      rewrite (@G_irr (WT (WT WI (nfword m)) (nfword n))
+                      (WT WI (WT (nfword m) (nfword n))) _
+                 (Compat.eq_sym
+                    (Nat.add_assoc 1 (wlen (nfword m)) (wlen (nfword n))))).
+      symmetry.
+      rewrite <- MA.
+      etransitivity; [| apply id_right ].
+      rewrite <- !comp_assoc.
+      apply compose_respects; [ reflexivity |].
+      rewrite (comp_assoc
+                 (bimap (id_cast (@strict_ap_obj _ _ _ _ G SG WI (nfword m))) id)
+                 (bimap (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                            WI (nfword m)))) id)).
+      rewrite <- bimap_comp.
+      rewrite id_cast_inv_r.
+      normal.
+      rewrite id_cast_inv_r.
+      reflexivity. }
+    rewrite GAc.
+    (* Cancel the WT-pair the GAc insertion created, split the leftover inner
+       cast on the left, and the two sides fuse to the same normal form. *)
+    rewrite !comp_assoc.
+    rewrite <- (comp_assoc _
+                  (id_cast (eq_sym (@strict_ap_obj _ _ _ _ G SG
+                               WI (WT (nfword m) (nfword n)))))
+                  (id_cast (@strict_ap_obj _ _ _ _ G SG
+                               WI (WT (nfword m) (nfword n))))).
+    rewrite id_cast_inv_l, id_right.
+    rewrite <- (id_right (id_cast Hb)).
+    rewrite bimap_comp.
+    normal.
+    reflexivity.
+Qed.
 
 End Uniqueness.
 
