@@ -213,6 +213,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Pos.'; \
 	  echo 'Require Import Category.Instance.Proset.Galois.'; \
 	  echo 'Require Import Category.Instance.Ab.'; \
 	  echo 'Require Import Category.Theory.Size.'; \
@@ -302,6 +303,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Pos.'; \
+	  echo 'Print Assumptions Pos_Forget.'; \
+	  echo 'Print Assumptions MonotoneAsFunctor.'; \
 	  echo 'Print Assumptions GaloisAdjunction.'; \
 	  echo 'Print Assumptions GaloisOfAdjunction.'; \
 	  echo 'Print Assumptions galois_round_trip.'; \

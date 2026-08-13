@@ -244,6 +244,7 @@ Instance/One.v
 Instance/One/Diagonal.v
 Instance/Ordinal.v
 Instance/Parallel.v
+Instance/Pos.v
 Instance/Poset.v
 Instance/Proset/Galois.v
 Instance/Props.v
