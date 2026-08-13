@@ -76,7 +76,10 @@ Generalizable All Variables.
    ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine, a triple that
    reappears as dependent sum and product in type theory and as base
    change in geometry.  Between posets, an adjunction is exactly a Galois
-   connection, whose antitone variant recovers classical Galois theory;
+   connection -- proved both ways at Instance/Proset/Galois.v, where the
+   coherence fields of this class are also shown to be vacuous over a thin
+   target while the hom-set iso is not ([succ_not_self_adjoint]) -- whose
+   antitone variant recovers classical Galois theory;
    on this special case rests abstract interpretation (Cousot and Cousot,
    "Abstract interpretation: a unified lattice model for static analysis
    of programs by construction or approximation of fixpoints", POPL 1977),
