@@ -309,7 +309,7 @@ deps_pending: []
 For any set `V` of sets, `Ens_V` is the category whose objects are the members of `V` and whose arrows are *all* functions between them — Mac Lane's device for set-sized sub-universes of the category of sets. See https://ncatlab.org/nlab/show/category+of+sets.
 
 ## Current state in the library
-Verified PARTIAL. The namesake `Ens` (`Instance/Ens.v:34`) deliberately alters the morphisms — whole-carrier functions preserving *and reflecting* membership (`A = f⁻¹(B)`), with the header stating "This file does NOT build that classical category directly"; `EnsT` (`Instance/Ens.v:56`) fixes one carrier. The faithful "all sets bounded by a size parameter, all functions" categories exist only with the bound fixed at a universe level (`Instance/Coq.v:120`, `Instance/Sets.v:188`), not at an arbitrary member-family `V`.
+Verified PARTIAL. The namesake `Ens` (`Instance/Ens.v:43`) deliberately alters the morphisms — whole-carrier functions preserving *and reflecting* membership (`A = f⁻¹(B)`), with the header stating "This file does NOT build that classical category directly"; `EnsT` (`Instance/Ens.v:65`) fixes one carrier. The faithful "all sets bounded by a size parameter, all functions" categories exist only with the bound fixed at a universe level (`Instance/Coq.v:120`, `Instance/Sets.v:188`), not at an arbitrary member-family `V`.
 
 ## Work to be done
 - In `Instance/Ens.v` (extend) or `Instance/EnsV.v` (new): a category parameterized by a family `V` rendered type-theoretically as a type of codes with decoding `El : V → Type` (or `→ SetoidObject`): objects the codes, `hom x y :=` all functions `El x → El y` (setoid maps in the `Sets` variant), usual composition.
@@ -501,7 +501,7 @@ deps_pending: []
 Mac Lane's standing roster of large categories of small structures — Set, Set*, Ens, Cat, Mon, Grp, Ab, Rng, CRng, R-Mod, Mod-R, K-Mod, Top, Toph, Top* (and, in I.1, the metacategories of groups, spaces, compact Hausdorff spaces, ringed spaces). See https://ncatlab.org/nlab/show/Grp and https://ncatlab.org/nlab/show/Top.
 
 ## Current state in the library
-Present counterparts (verified): Set as `Coq` (`Instance/Coq.v:120`) and `Sets` (`Instance/Sets.v:188`); Cat as `Cat` (`Instance/Cat.v:142`, the Ho(Cat) presentation) and `StrictCat` (`Instance/StrictCat.v:56`, the textbook strict 1-category); `Ens` with disclosed non-classical morphisms (`Instance/Ens.v:34`); Mon as internal `Mon(C)` (`Theory/Algebra/Monoid/Hom.v:83`, not instantiated/named at `Sets`) plus `CMon` (`Instance/CMon.v:140`); Set* only via `Par`'s prose-claimed equivalence (`Instance/Coq/Par.v:53`, header lines 34–36). Verified missing: Grp, Ab, Rng, CRng, all module categories, Top, Toph, Top* (zero definitional hits tree-wide).
+Present counterparts (verified): Set as `Coq` (`Instance/Coq.v:120`) and `Sets` (`Instance/Sets.v:188`); Cat as `Cat` (`Instance/Cat.v:142`, the Ho(Cat) presentation) and `StrictCat` (`Instance/StrictCat.v:56`, the textbook strict 1-category); `Ens` with disclosed non-classical morphisms (`Instance/Ens.v:43`); Mon as internal `Mon(C)` (`Theory/Algebra/Monoid/Hom.v:83`, not instantiated/named at `Sets`) plus `CMon` (`Instance/CMon.v:140`); Set* only via `Par`'s prose-claimed equivalence (`Instance/Coq/Par.v:53`, header lines 34–36). Verified missing: Grp, Ab, Rng, CRng, all module categories, Top, Toph, Top* (zero definitional hits tree-wide).
 
 ## Work to be done
 This is the integration issue over the specific construction issues (see Dependencies). Residual work once they land:

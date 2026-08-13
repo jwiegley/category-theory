@@ -73,9 +73,10 @@ Generalizable All Variables.
    carries this as [adamek], proven from the leg-agreement hypothesis
    [AdamekData], over the diagram [Chain] (Construction/Chain.v) indexed by
    the ordinal ω (Instance/Omega.v).  The option endofunctor [NatF] in
-   Theory/Adamek/Corollaries.v records the endofunctor side, though only
-   the functor is formalized there; its [nat] initiality is left as a
-   cross-reference to the list algebra, not a proven theorem.  The
+   Theory/Adamek/Corollaries.v records the endofunctor side, and its [nat]
+   initiality is proven in Instance/Coq/Nat.v -- [nat_initial] exhibits
+   (nat, O/S) as the initial [NatF]-algebra, with [nat_lambek] the Lambek
+   isomorphism read off it.  The
    book-length account is Adámek and Trnková, Automata and Algebras in
    Categories (1990).
 
