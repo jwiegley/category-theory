@@ -43,7 +43,12 @@ Generalizable All Variables.
    diagonal).  Taking [U := ×(C)] rather than the literal symbol [Δ] is forced by
    the *direction* GAFT produces; feeding [Δ] itself to GAFT would instead
    reconstruct the coproduct adjunction [(+) ⊣ Δ], a different, equally genuine
-   left adjoint.  The conclusion delivered here is the full, honest adjunction
+   left adjoint; that adjunction is now in the tree, supplied directly rather
+   than through GAFT, as Adjunction/Diagonal/Coproduct.v's
+   [Diagonal_Coproduct_Adjunction], with sanity instantiations at [Coq] and
+   [Sets] at the end of that file -- reconstructing it through GAFT is not
+   undertaken in this file.  The conclusion delivered here is the full, honest
+   adjunction
    [F ⊣ ×(C)] with no hypothesis weakened; the produced [F] is opaque (GAFT ends
    in [Qed]) and only *provably* the diagonal, so this file also exhibits, as
    [diagonal_product_via_gaft_is_diagonal], the natural isomorphism [F ≅ Δ] that

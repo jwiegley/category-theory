@@ -205,6 +205,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Grp.TwoFunctors.'; \
 	  echo 'Require Import Category.Construction.Free.TwoFunctors.'; \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Require Import Category.Adjunction.Diagonal.Coproduct.'; \
 	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
 	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Markov.Fox.'; \
@@ -303,6 +304,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions Diagonal_Coproduct_Adjunction.'; \
+	  echo 'Print Assumptions coproduct_unit_is_unit.'; \
+	  echo 'Print Assumptions coproduct_counit_is_counit.'; \
+	  echo 'Print Assumptions coproduct_unit_components.'; \
+	  echo 'Print Assumptions sets_coproduct_diagonal.'; \
 	  echo 'Print Assumptions Pos.'; \
 	  echo 'Print Assumptions Pos_Forget.'; \
 	  echo 'Print Assumptions MonotoneAsFunctor.'; \
