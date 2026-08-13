@@ -251,6 +251,7 @@ Instance/Poset.v
 Instance/Proset/Galois.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Limit.v
 Instance/Proset/Transform.v
 Instance/Proset/Order.v
 Instance/Rel.v

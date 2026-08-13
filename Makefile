@@ -214,6 +214,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
 	  echo 'Require Import Category.Adjunction.Conjugate.'; \
 	  echo 'Require Import Category.Structure.Abelian.'; \
+	  echo 'Require Import Category.Instance.Proset.Limit.'; \
 	  echo 'Require Import Category.Construction.Elements.'; \
 	  echo 'Require Import Category.Instance.Pos.'; \
 	  echo 'Require Import Category.Instance.Proset.Galois.'; \
@@ -305,6 +306,11 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions conjugate_characterizations.'; \
 	  echo 'Print Assumptions conjugate_bijection.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
+	  echo 'Print Assumptions proset_limit_iff_glb.'; \
+	  echo 'Print Assumptions proset_colimit_iff_lub.'; \
+	  echo 'Print Assumptions proset_Complete_iff_all_meets.'; \
+	  echo 'Print Assumptions proset_Cocomplete_iff_all_joins.'; \
+	  echo 'Print Assumptions Nat_no_Terminal.'; \
 	  echo 'Print Assumptions Elements.'; \
 	  echo 'Print Assumptions Elements_proj.'; \
 	  echo 'Print Assumptions Elements_Comma.'; \
