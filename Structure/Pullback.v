@@ -208,7 +208,7 @@ Proof.
       * rewrite comp_assoc, HPfst; exact HQfst.
       * rewrite comp_assoc, HPsnd; exact HQsnd.
     + apply (uniqueness HPP); split; apply id_right.
-Qed.
+Defined.
 
 (** A category has all binary pullbacks if every cospan has a pullback.
     This is the dual of [HasPushouts] in [Structure/Pushout.v]. *)

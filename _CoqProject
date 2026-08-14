@@ -400,6 +400,8 @@ Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Kan/Pointwise.v
 Structure/Limit/Terminal.v
+Structure/Limit/Unique.v
+Structure/Limit/Unique/Compat.v
 Structure/Monoid.v
 Structure/Monoidal.v
 Structure/Monoidal/Balanced.v
