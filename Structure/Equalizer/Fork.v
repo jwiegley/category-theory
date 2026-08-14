@@ -130,7 +130,7 @@ Proof.
       exact (unique_property D12).
     + apply (uniqueness D11).
       apply id_right.
-Qed.
+Defined.
 
 (** ** From a forking map to a cone over the walking parallel pair *)
 
