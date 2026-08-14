@@ -305,7 +305,7 @@ Definition functor_of_matrix_rep {M : MonObject} {R : RigObject}
 Definition matrix_rep_of_functor {M : MonObject} {R : RigObject}
   (F : Deloop M ⟶ Matr R) : MatrixRep M R :=
   existT (fun n : nat => MonHom M (hom_monoid (Matr R) n))
-    (F ttt) (hom_monoid_of_functor (C := Matr R) F).
+    (F ttt : nat) (hom_monoid_of_functor (C := Matr R) F).
 
 Lemma matrix_rep_dimension {M : MonObject} {R : RigObject}
   (F : Deloop M ⟶ Matr R) :

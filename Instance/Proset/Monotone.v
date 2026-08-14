@@ -193,16 +193,19 @@ Example Seventeen_TwentyFour_top : Seventeen_TwentyFour TwoY = 24%nat
 Definition nondecreasing (f : nat → nat) : Type :=
   ∀ m n : nat, (m <= n)%nat → (f m <= f n)%nat.
 
-(* The component types are ascribed explicitly: [x ~> y] in
-   [LessThanEqualTo_Category] IS [x <= y], but Coq 8.19/8.20's
-   unifier does not unfold the [hom] projection when inferring the
-   sigma's family, while the ascription routes through ordinary
-   conversion, which every supported version performs. *)
+(* The pair is built with the family and both component types
+   explicit: [x ~> y] in [LessThanEqualTo_Category] IS [x <= y] and
+   its objects ARE [nat], but Coq 8.19/8.20's unifier declines to
+   unfold the [hom] and [obj] projections inside the evar problems
+   that infer a sigma pair's parts, while ascriptions route the same
+   identifications through ordinary conversion, which every supported
+   version performs. *)
 Definition nondecreasing_of_endo
   (F : LessThanEqualTo_Category ⟶ LessThanEqualTo_Category) :
   { f : nat → nat & nondecreasing f } :=
-  (fobj[F]; fun m n (h : (m <= n)%nat) =>
-              (fmap[F] h : (fobj[F] m <= fobj[F] n)%nat)).
+  existT nondecreasing (fobj[F] : nat → nat)
+    (fun m n (h : (m <= n)%nat) =>
+       (fmap[F] h : (fobj[F] m <= fobj[F] n)%nat)).
 
 Definition endo_of_nondecreasing
   (f : { f : nat → nat & nondecreasing f }) :
