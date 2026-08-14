@@ -29,7 +29,10 @@ Generalizable All Variables.
    side ([compose_pneg_left], [compose_pneg_right]), extending the
    bilinearity of composition from addition to subtraction.  Subtraction
    [psub] is sugar for adding the negation; it joins `+` and `0` in
-   [addition_scope]. *)
+   [addition_scope].
+   The bare Ab-enriched notion — group homs with bilinear composition
+   and NO zero object or biproducts — is Structure/AbCategory.v's
+   [AbEnriched]; every [Additive] category is an instance of it. *)
 
 Class Additive (C : Category) := {
   additive_zero : @ZeroObject C;

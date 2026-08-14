@@ -350,6 +350,7 @@ Solver/Expr.v
 Solver/Normal.v
 Solver/Reify.v
 Structure/Abelian.v
+Structure/AbCategory.v
 Structure/Additive.v
 Structure/BiCCC.v
 Structure/BiCCC/Strict.v

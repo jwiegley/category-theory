@@ -15,7 +15,9 @@
     one of its five fields, reached transitively through [abelian_additive],
     alongside kernels, cokernels and normality of monos and epis.  This file
     instantiates NONE of [Preadditive], [Additive] or [Abelian] (see SCOPE),
-    so it claims to witness none of them.
+    so it claims to witness none of them; the [Preadditive] instance has
+    since landed as Structure/AbCategory.v's [Ab_Preadditive], alongside
+    the Ab-enrichment witness [Ab_AbEnriched].
 
     Cited by location only: the printed text was not consulted while writing
     this file.  The locations follow issue jwiegley/category-theory#256.
@@ -81,7 +83,9 @@
 
 (*  SCOPE.  Issue #256 also asks for [Ab] as a [Preadditive] instance and for a
     forgetful [Ab ⟶ Grp] alongside [Ab ⟶ Sets].  NEITHER is delivered here.
-    [Structure/Preadditive.v] is available and the instance was not attempted;
+    [Structure/Preadditive.v]'s instance has since landed as
+    Structure/AbCategory.v's [Ab_Preadditive] (with the Ab-enrichment
+    [Ab_AbEnriched]);
     [Ab ⟶ Grp] had no target when this file
     was written; the category of groups has since landed
     (Instance/Grp.v) and the inclusion is
