@@ -277,13 +277,15 @@ the global context".  Known live uses:
   `ClassicalDedekindReals.sig_not_dec`,
   `FunctionalExtensionality.functional_extensionality_dep`)** —
   `Instance/Top/Interval.v` builds the unit interval `[0,1]` and the
-  unit square out of `Coq.Reals`, and
+  unit square out of `Coq.Reals`,
   `Instance/Top/FundamentalGroupoid.v` builds the fundamental groupoid
-  on them.  These are the only two files in the tree that import the
-  reals (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and neither
-  declares an axiom of its own; what they inherit is the axiom set of
-  the standard library's own construction of `R`.  The cost splits in
-  two, and both halves are measured rather than estimated:
+  on them, and `Instance/Top/Presheaf.v` builds the real line `R_Top`
+  and the presheaf of continuous real-valued functions on it.  These
+  are the only three files in the tree that import the reals (verify:
+  `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an axiom of
+  its own; what they inherit is the axiom set of the standard
+  library's own construction of `R`.  The cost splits in two, and both
+  halves are measured rather than estimated:
 
   - `π(X)` itself, its groupoid structure and the base-point
     corollary carry **two** axioms — `sig_forall_dec` and
@@ -349,6 +351,22 @@ the global context".  Known live uses:
   `ival_I_one`, `I_point`, `I_rev_eval`, `rf_zero`, `rf_rev`,
   `sq_pt_s` and `sq_pt_t`.
 
+  `Instance/Top/Presheaf.v` has **54** constants: the 36 recorded in
+  its `.glob` file together with the 18 Program obligations of its six
+  `Program` definitions.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 33 | closed under the global context | the open-subspace machinery — `SubCar` through `sub_map`, the subspace-topology correspondence (`sub_ext_contained`, `sub_ext_recovers`, `sub_open_of_open`, `sub_ext_of_open`), `whole_open` and `OpenSub_whole_iso`, obligations included — and the setoid packaging of `R` (`R_equiv`, `R_equiv_Equivalence`, `R_Setoid`, `R_Object`), which names the type but computes nothing with it |
+  | 21 | the two | everything that computes with `R`: `BS_R_zero`, `BS_R_sym`, `BS_R_tri`, `BS_R`, `R_Top`, `SectionsOb`, `ContinuousPresheaf`, `const_section`, `const_restrict`, `Maps_to_R`, `global_sections_iso`, obligations included |
+  | 0 | `sig_forall_dec` alone, or the three | — |
+
+  In particular nothing in the file goes through the least-upper-bound
+  property, so `sig_not_dec` is not incurred, and the open-subspace
+  topology (design note 1 of the file's header) is axiom-free — it is
+  the 21 real-computing constants, not the subspace machinery, that
+  price Mac Lane's example.
+
   An earlier edition of this section said the remaining constants of
   each file carried "exactly the two"; for the 34 above and for
   `const_arrow_eval` that is false.  The direction of the error was to
@@ -363,7 +381,7 @@ the global context".  Known live uses:
   `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
   and because they do, that file *is* wired into the
   `print-assumptions` make target, alongside its `Structure/Groupoid`
-  siblings.  The two files that import the reals are not: that target
+  siblings.  The three files that import the reals are not: that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
