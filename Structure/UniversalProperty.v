@@ -7,6 +7,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Hom.
 Require Import Category.Functor.Hom.Yoneda.
+Require Import Category.Functor.Hom.Yoneda.Iso.
 Require Import Category.Instance.Sets.
 Require Import Category.Construction.Groupoid.
 
@@ -106,55 +107,17 @@ Section UniversalProperty.
     (H : IsUniversalProperty C P eqP).
 
   (* A representing object is unique up to isomorphism: given t : P c, every
-     other v with a proof Pv is isomorphic to c.  The mediating iso is obtained
-     by transporting the representations of c and v across each other and
-     pulling the result back through the (fully faithful) Yoneda embedding. *)
+     other v with a proof Pv is isomorphic to c.  The mediating iso is the
+     explicit inverse pair of the two representations — evaluation at the
+     identity through the Yoneda embedding — packaged once and for all as
+     Functor/Hom/Yoneda/Iso.v's [repr_pair_iso], which this proof consumes
+     where it previously inlined the construction. *)
   Proposition univ_property_unique (c : C) (t : P c) : @Unique obj[C] (ob_setoid) P.
   Proof using eqP H.
     exists c ; [exact t |].
     intros v Pv.
-    set (a1 := to (repr_equivalence c)). set (a2 := to(repr_equivalence v)).
-    set (b1 := a1 t). set (b2 := a2 Pv). unfold a1, a2 in *. clear a1 a2;
-      unfold carrier in b1, b2.
-    unshelve econstructor.
-    - exact (@two_sided_inverse _ _ _ _  (Yoneda_Embedding' C v c) (from b1 ∘ to b2)).
-    - exact (@two_sided_inverse _ _ _ _ (Yoneda_Embedding' C c v) (from b2 ∘ to b1)).
-    - abstract(apply (@fmap_inj _ _ (Curried_Hom C) _);
-      set (j := ( _ ( compose  _ _)));
-      set (j' := ( _ ( compose  _ _)));
-      change j with (op j);
-      change j' with (op j');
-      set (m := @fmap_comp _ _ C v c v (op j') (op j));
-      rewrite m;
-      unfold op, j, j';
-      rewrite (@is_right_inverse  _ _ _ _ (Yoneda_Embedding' C v c) (from b1 ∘ b2));
-      rewrite (@is_right_inverse  _ _ _ _ (Yoneda_Embedding' C c v) (from b2 ∘ b1));
-      simpl; intros x f; unfold op; rewrite id_right;
-      set (ab := (iso_to_from b1));
-      simpl in ab; rewrite ab;
-      rewrite (@fmap_id _ _ repr_functor x (to b2 x f));
-      simpl; clear ab;
-      set (ab' := (iso_from_to b2));
-      simpl in ab'; rewrite ab'; rewrite id_left;
-      reflexivity).
-    - abstract(apply (@fmap_inj _ _ (Curried_Hom C) _);
-      set (j := ( _ ( compose  _ _)));
-      set (j' := ( _ ( compose  _ _)));
-      change j with (op j);
-      change j' with (op j');
-      set (m := @fmap_comp _ _ C c v c (op j') (op j));
-      rewrite m;
-      unfold op, j, j';
-      rewrite (@is_right_inverse  _ _ _ _ (Yoneda_Embedding' C v c) (from b1 ∘ b2));
-      rewrite (@is_right_inverse  _ _ _ _ (Yoneda_Embedding' C c v) (from b2 ∘ b1));
-      simpl; intros x f; unfold op; rewrite id_right;
-      set (ab := (iso_to_from b2));
-      simpl in ab; rewrite ab;
-      rewrite (@fmap_id _ _ repr_functor x (to b1 x f));
-      simpl; clear ab;
-      set (ab' := (iso_from_to b1));
-      simpl in ab'; rewrite ab'; rewrite id_left;
-      reflexivity).
+    exact (repr_pair_iso (to (repr_equivalence c) t)
+                         (to (repr_equivalence v) Pv)).
   Defined.
 
   (* P is invariant under isomorphism: an iso c ≅ d transports a proof of P c to

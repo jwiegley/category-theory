@@ -155,6 +155,7 @@ Functor/Diagonal.v
 Functor/Hom.v
 Functor/Hom/Internal.v
 Functor/Hom/Yoneda.v
+Functor/Hom/Yoneda/Iso.v
 Functor/Opposite.v
 Functor/Product.v
 Functor/Product/Fixed.v

@@ -73,8 +73,10 @@ Generalizable All Variables.
    Riehl calls the result "arguably the most important result in category
    theory", and its weight is carried by a chain of corollaries.  Full
    faithfulness of the embedding ([Yoneda_Full] and [Yoneda_Faithful] in
-   Functor/Hom.v) yields that [Hom ─,A] ≅ [Hom ─,B] exactly when A ≅ B:
-   an object is determined, up to isomorphism, by the totality of maps
+   Functor/Hom.v) yields that [Hom ─,A] ≅ [Hom ─,B] exactly when A ≅ B —
+   stated and proved, with the data-level bijection, as
+   Functor/Hom/Yoneda/Iso.v's [iso_iff_representably_iso] and
+   [representable_iso_setoid].  An object is determined, up to isomorphism, by the totality of maps
    into it — probes by the other objects of the category suffice to
    distinguish it (nLab, Corollary II).  Tai-Danae Bradley states the
    perspective as slogans: mathematical objects are completely determined
