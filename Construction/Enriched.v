@@ -25,7 +25,9 @@ Reserved Infix "⟿" (at level 90, right associativity).
 
    Taking K = Set recovers ordinary (locally small) categories: hom-objects
    become hom-sets, eid picks out an element, and ecompose a function.
-   Taking K = Ab gives preadditive categories, with bilinear composition. *)
+   Taking K = Ab gives preadditive categories, with bilinear composition —
+   made literally computational in Construction/Enriched/Ab.v over
+   Instance/Ab/Monoidal.v's ⟨Ab, ⊗, ℤ⟩. *)
 
 (* Why enrichment, and the bases that tune it
 
@@ -105,7 +107,9 @@ Reserved Infix "⟿" (at level 90, right associativity).
    identity and composite functors of Construction/Enriched/Compose.v, the
    ordinary functor category of Construction/Enriched/Fun.v, and the
    hand-built CMon-enriched example of Structure/Preadditive.v (with
-   the standalone Ab-enriched class in Structure/AbCategory.v, and
+   the standalone Ab-enriched class in Structure/AbCategory.v — proved
+   equivalent to enrichment over ⟨Ab, ⊗, ℤ⟩ by Construction/Enriched/Ab.v's
+   [Enriched_Ab_iff_AbEnriched] — and
    Structure/Additive.v bundling it with a zero object and
    biproducts); Instance/Poset.v reads posets as truth-value
    enrichment. *)
