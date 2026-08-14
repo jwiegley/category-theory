@@ -285,6 +285,7 @@ Instance/Sets/Regular.v
 Instance/Shapes.v
 Instance/Top.v
 Instance/Top/Closed.v
+Instance/Top/Forgetful.v
 Instance/Top/Interval.v
 Instance/Top/FundamentalGroupoid.v
 Instance/Two.v
