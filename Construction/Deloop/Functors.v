@@ -298,9 +298,14 @@ Definition functor_of_matrix_rep {M : MonObject} {R : RigObject}
   (ρ : MatrixRep M R) : Deloop M ⟶ Matr R :=
   functor_of_hom_monoid (C := Matr R) (`1 ρ) (`2 ρ).
 
+(* The sigma's family is supplied explicitly rather than left to
+   unification: inferring it requires unfolding [obj] at [Matr R],
+   which Coq 8.19/8.20's unifier declines in evar problems (the same
+   version split as Monotone.v's [nondecreasing_of_endo]). *)
 Definition matrix_rep_of_functor {M : MonObject} {R : RigObject}
   (F : Deloop M ⟶ Matr R) : MatrixRep M R :=
-  (F ttt; hom_monoid_of_functor (C := Matr R) F).
+  existT (fun n : nat => MonHom M (hom_monoid (Matr R) n))
+    (F ttt) (hom_monoid_of_functor (C := Matr R) F).
 
 Lemma matrix_rep_dimension {M : MonObject} {R : RigObject}
   (F : Deloop M ⟶ Matr R) :
