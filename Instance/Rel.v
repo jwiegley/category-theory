@@ -36,11 +36,13 @@ Local Set Warnings "-intuition-auto-with-star".
    REL is a dagger category: the converse `R† = { (b, a) | (a, b) ∈ R }` is an
    involution with `(S ∘ R)† = R† ∘ S†`, and the dagger witnesses the
    self-duality `Rel ≅ Rel^op`. It is moreover locally posetal (relations
-   ordered by inclusion) and dagger-compact closed. None of that extra
-   structure is built here; this file constructs the bare category, its initial
-   object (the empty set, which is in fact a zero object — see [Rel_Initial]),
-   and the wide embedding `Coq ⟶ Rel` of functions as relations. The category
-   laws hold with no axioms. *)
+   ordered by inclusion) and dagger-compact closed. This file constructs the
+   bare category, its initial object, and the wide embedding `Coq ⟶ Rel` of
+   functions as relations; the converse/dagger structure, the self-duality
+   in Cat, the faithfulness of the embedding, and the terminal/zero-object
+   completion live in Instance/Rel/Dagger.v (over Structure/Dagger.v's
+   [DaggerCategory] class). Local posetality and compact closure remain
+   unformalized. The category laws hold with no axioms. *)
 
 Program Definition Rel : Category := {|
   obj     := @obj Coq;                  (* objects are Coq types (sets)        *)
@@ -82,8 +84,9 @@ Next Obligation. firstorder. Qed.
 
 (* The initial object of REL is the empty set [False]: the only relation
    `∅ ~> A` is the empty relation, and it is forced. (Dually the empty set is
-   also terminal, so it is in fact a zero object; only the initial half is
-   recorded here.) Since [Initial Rel] unfolds to [Terminal (Rel^op)], the
+   also terminal, so it is in fact a zero object; the terminal half and the
+   bundled [ZeroObject] are Instance/Rel/Dagger.v's [Rel_Terminal] and
+   [Rel_Zero].) Since [Initial Rel] unfolds to [Terminal (Rel^op)], the
    primitive field names below are the C^op-side [terminal_obj]/[one]; the
    C-side names [initial_obj]/[zero] are recovered by Structure/Initial.v. *)
 #[export]
