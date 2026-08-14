@@ -89,7 +89,10 @@ Generalizable All Variables.
    uniformly on matrices with n rows is left multiplication by a fixed
    matrix, found by applying the operation to the identity matrix —
    evaluation at the identity being precisely the forward map of the
-   lemma (Riehl, Corollary 2.2.10).
+   lemma (Riehl, Corollary 2.2.10); no longer only prose: this is
+   Instance/Matr/Yoneda.v's [row_operations_are_left_multiplication],
+   derived from [Yoneda_Embedding] below over the matrix category of
+   Instance/Matr.v.
 
    Within the library the lemma is the engine of representability.
    Structure/UniversalProperty.v consumes [Yoneda_Lemma] and
