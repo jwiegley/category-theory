@@ -453,6 +453,8 @@ Theory/Adjunction.v
 Theory/Algebra.v
 Theory/Algebra/Monoid.v
 Theory/Algebra/Monoid/Hom.v
+Theory/Algebra/Rig.v
+Theory/Algebra/Rig/Connections.v
 Theory/Algebra/Comonoid.v
 Theory/Algebra/Comonoid/Hom.v
 Theory/Algebra/Comonoid/Tensor.v
