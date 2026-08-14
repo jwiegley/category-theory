@@ -391,6 +391,7 @@ Structure/Limit/Product.v
 Structure/Limit/Coproduct.v
 Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
+Structure/Limit/Kan/Pointwise.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
 Structure/Monoidal.v

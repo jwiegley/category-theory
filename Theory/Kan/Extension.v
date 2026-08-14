@@ -74,9 +74,13 @@ Generalizable All Variables.
    [left_adjoint_impl] appear below.  Pointwise, the left extension at
    b is a colimit over the comma category F ↓ b and the right a limit
    over b ↓ F, equivalently Kelly's coend and end formulas (nLab, "Kan
-   extension"); the coend calculus of Structure/Coend.v and
-   Instance/Sets/{End,Coend}.v is the in-tree machinery those formulas
-   would rest on, a bridge not yet formalized.
+   extension").  The comma-category formulas are formalized in
+   Structure/Limit/Kan/Pointwise.v ([Pointwise_LocalRightKan] and
+   [Pointwise_LocalLeftKan], inhabiting the local classes below from
+   per-object comma (co)limits); the coend calculus of Structure/Coend.v
+   and Instance/Sets/{End,Coend}.v is the in-tree machinery the
+   COEND/END formulas would rest on, the half of the bridge still not
+   formalized.
 
    Much of the utility lies where adjoints do not exist.  The right Kan
    extension of a functor G along itself is always a monad — the
