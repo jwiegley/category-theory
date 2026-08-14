@@ -243,6 +243,7 @@ Instance/Lambda/Step.v
 Instance/Lambda/Sub.v
 Instance/Lambda/Ty.v
 Instance/Lambda/Value.v
+Instance/Matr.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
