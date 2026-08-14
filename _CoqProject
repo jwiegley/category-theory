@@ -166,6 +166,7 @@ Functor/Strong/Product.v
 Functor/Structure/Cartesian.v
 Functor/Structure/Cartesian/Closed.v
 Functor/Structure/Constant.v
+Structure/Dagger.v
 Functor/Structure/Monoidal.v
 Functor/Structure/Monoidal/Braided.v
 Functor/Structure/Monoidal/Hypergraph.v
@@ -263,6 +264,7 @@ Instance/Proset/Limit.v
 Instance/Proset/Transform.v
 Instance/Proset/Order.v
 Instance/Rel.v
+Instance/Rel/Dagger.v
 Instance/Rng.v
 Instance/Rng/Frac.v
 Instance/Roof.v
