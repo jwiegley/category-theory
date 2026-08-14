@@ -44,7 +44,7 @@ Generalizable All Variables.
 
     THE INVOLUTION'S STRENGTH.  (C^op)^op = C holds DEFINITIONALLY at
     an abstract category — record eta makes [eq_refl] typecheck — and
-    only the opaque CONSTANT [op_invol] fails to unfold.  The
+    only the opaque CONSTANT [op_invol] declines to unfold.  The
     identity-on-objects functors [op_invol_to]/[op_invol_from] and the
     packaged [op_invol_iso] are therefore conveniences for downstream
     quotability, not necessities ([iso_id] alone would close
