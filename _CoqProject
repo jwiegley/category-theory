@@ -228,6 +228,7 @@ Instance/FinSet/Regular.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Grp.v
+Instance/Grp/Abelianization.v
 Instance/Grp/Center.v
 Instance/Grp/Epi.v
 Instance/Grp/TwoFunctors.v

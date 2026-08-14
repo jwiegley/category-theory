@@ -82,9 +82,11 @@
 (*  SCOPE.  Issue #256 also asks for [Ab] as a [Preadditive] instance and for a
     forgetful [Ab ⟶ Grp] alongside [Ab ⟶ Sets].  NEITHER is delivered here.
     [Structure/Preadditive.v] is available and the instance was not attempted;
-    [Ab ⟶ Grp] has no target, since no category of groups exists in this tree
-    (it is proposed by a separate, unmerged change).  Only [Ab_Forget : Ab ⟶
-    Sets] is provided.  *)
+    [Ab ⟶ Grp] had no target when this file
+    was written; the category of groups has since landed
+    (Instance/Grp.v) and the inclusion is
+    Instance/Grp/Abelianization.v's [Ab_to_Grp].  Only [Ab_Forget :
+    Ab ⟶ Sets] is provided here.  *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
