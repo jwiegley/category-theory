@@ -66,6 +66,8 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |
 | `RoundTrip_Equivalence` | a `SplitCleaving` of the required shape | never inhabited in that shape |
 | `beck_monadicity` | `CreatesUSplitCoequalizers` composed from the engine | never assembled; `Id` is shown monadic by a direct proof (`Monad/Monadicity/Examples.v`), bypassing the coequalizer machinery |
+| `Pointwise_LocalRightKan` | `∀ b, Limit (X ◯ comma_proj2)` over `=(b) ↓ F` | no in-tree inhabitant; `Structure/Limit/Kan/Pointwise.v` is a leaf module, nothing instantiates it |
+| `Pointwise_LocalLeftKan` | `∀ b, Colimit (X ◯ comma_proj1)` over `F ↓ =(b)` | same: the dual premise is likewise never inhabited |
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
