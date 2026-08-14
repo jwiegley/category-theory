@@ -104,8 +104,10 @@ Reserved Infix "⟿" (at level 90, right associativity).
    [EnrichedTransform_is_Transform] (Construction/Enriched/Sets.v), the
    identity and composite functors of Construction/Enriched/Compose.v, the
    ordinary functor category of Construction/Enriched/Fun.v, and the
-   hand-built Ab-enriched example of Structure/Preadditive.v and
-   Structure/Additive.v; Instance/Poset.v reads posets as truth-value
+   hand-built CMon-enriched example of Structure/Preadditive.v (with
+   the standalone Ab-enriched class in Structure/AbCategory.v, and
+   Structure/Additive.v bundling it with a zero object and
+   biproducts); Instance/Poset.v reads posets as truth-value
    enrichment. *)
 
 Class Enriched (K : Category) `{@Monoidal K} := {

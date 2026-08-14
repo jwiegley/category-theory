@@ -19,7 +19,9 @@ Generalizable All Variables.
    addition on both sides, and the zero morphism absorbs composition on
    both sides.  Additive inverses are deliberately not demanded, so the
    class is precisely enrichment in commutative monoids (CMon-enrichment);
-   every Ab-enriched category is an instance, and this much structure
+   every Ab-enriched category is an instance (the standalone
+   Ab-enriched class — this plus negation, nothing more — is
+   Structure/AbCategory.v's [AbEnriched]), and this much structure
    already supports biproducts and the matrix calculus.  The laws are
    self-dual, so C^op is preadditive whenever C is.
 
