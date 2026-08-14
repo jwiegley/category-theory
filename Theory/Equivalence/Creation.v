@@ -46,17 +46,10 @@ Generalizable All Variables.
    offered as a [CreatesLimit] witness only; the strict class is witnessed
    at generality by [EM_Forget] (Monad/Eilenberg/Moore/Limit.v).
 
-   [right_adjoint_PreservesLimitCone] is the cone-level reading of RAPL and
-   is a one-line term over [rapl_ump] (Adjunction/Continuity.v:176); its
-   natural home is Adjunction/Continuity.v and it is placed here only to
-   keep this change additive. *)
+   The cone-level reading of RAPL, [right_adjoint_PreservesLimitCone],
+   lives at its natural home in Adjunction/Continuity.v. *)
 
 (** ** Right adjoints preserve limiting cones, not merely limit apexes *)
-
-Definition right_adjoint_PreservesLimitCone
-  {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U)
-  {J : Category} (G : J ⟶ C) : PreservesLimitCone G U :=
-  fun N HN => rapl_ump A G (@Build_Limit J C G N HN).
 
 Section EquivCreates.
 

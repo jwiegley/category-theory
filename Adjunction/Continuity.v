@@ -193,6 +193,22 @@ Definition rapl_limit : Limit (U ◯ G) :=
 
 End Diagram.
 
+(** ** Right adjoints preserve limiting CONES, not merely limit apexes *)
+
+(* [rapl_ump] already has the [IsLimitCone] shape: its legs [rapl_leg] are
+   [fmap[U]] of the given legs, which is definitionally what [FCone]'s legs
+   are, so the cone-level reading of RAPL is a repackaging of the cone as a
+   [Limit] record and nothing more.  This is the statement
+   Construction/Comma/Limit.v identified as the operative one, and it is
+   what [PreservesImageLimit] there has always been. *)
+
+Definition right_adjoint_PreservesLimitCone {J : Category} (G : J ⟶ C) :
+  PreservesLimitCone G U :=
+  fun N HN => rapl_ump G (@Build_Limit J C G N HN).
+
+Definition right_adjoint_Continuous : ContinuousFunctor U :=
+  fun J G => right_adjoint_PreservesLimitCone G.
+
 (** ** Right adjoints preserve limits *)
 
 Definition right_adjoint_preserves_limit {J : Category} (G : J ⟶ C) :
@@ -224,6 +240,22 @@ Definition left_adjoint_preserves_colimits
   {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) :
   PreservesAllColimits F :=
   fun J G => left_adjoint_preserves_colimit A G.
+
+(** ** Left adjoints preserve colimiting COCONES *)
+
+Definition left_adjoint_PreservesColimitCocone
+  {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U)
+  {J : Category} (G : J ⟶ D) : PreservesColimitCocone G F.
+Proof.
+  intros N HN M.
+  exact (right_adjoint_PreservesLimitCone (Opposite_Adjunction F U A)
+           (Opposite_Functor G) N HN (cone_op_comp M)).
+Defined.
+
+Definition left_adjoint_Cocontinuous
+  {C D : Category} {F : D ⟶ C} {U : C ⟶ D} (A : F ⊣ U) :
+  CocontinuousFunctor F :=
+  fun J G => left_adjoint_PreservesColimitCocone A G.
 
 (* Covariant accessor: the image of a colimit apex under the left adjoint,
    pinned as a colimit of the composite diagram via the covariant reading
