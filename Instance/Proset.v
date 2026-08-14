@@ -17,8 +17,9 @@ Generalizable All Variables.
    are the elements of [A], and there is a (unique) morphism [x ~> y] exactly
    when [R x y] holds: identities come from reflexivity and composition from
    transitivity. See Instance/Pos.v for [Pos], the category whose
-   objects are posets.  The preorder analogue [Ord] does not exist yet; it is
-   jwiegley/category-theory#786, which depends on #641.
+   objects are posets.  The preorder analogue (an Ord category) does
+   not exist yet; it is jwiegley/category-theory#786, which depends on
+   #641.
 
    Because antisymmetry is not required, distinct objects [x] and [y] may be
    isomorphic (when both [R x y] and [R y x] hold) without being equal; this

@@ -30,6 +30,7 @@ Construction/Comma/Creation.v
 Construction/Coproduct.v
 Construction/Day.v
 Construction/Deloop.v
+Construction/Deloop/Functors.v
 Construction/Deloop/Opposite.v
 Construction/Deloop/Transform.v
 Construction/Displayed/Codomain.v
@@ -255,6 +256,7 @@ Instance/Poset.v
 Instance/Proset/Galois.v
 Instance/Props.v
 Instance/Proset.v
+Instance/Proset/Monotone.v
 Instance/Proset/Skeletal.v
 Instance/Proset/Limit.v
 Instance/Proset/Transform.v
