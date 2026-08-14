@@ -57,14 +57,13 @@ Generalizable All Variables.
 
 (** ** [PreservesImageLimit] is cone-level preservation at every shape *)
 
-Definition PreservesImageLimit_PreservesLimitCone
+Definition PreservesImageLimit_Continuous
   {C D : Category} {U : C ⟶ D} (H : @PreservesImageLimit C D U) :
-  ∀ (J : Category) (K : J ⟶ C), PreservesLimitCone K U :=
+  ContinuousFunctor U :=
   fun J K N HN => H J K (@Build_Limit J C K N HN).
 
-Definition PreservesLimitCone_PreservesImageLimit
-  {C D : Category} {U : C ⟶ D}
-  (H : ∀ (J : Category) (K : J ⟶ C), PreservesLimitCone K U) :
+Definition Continuous_PreservesImageLimit
+  {C D : Category} {U : C ⟶ D} (H : ContinuousFunctor U) :
   @PreservesImageLimit C D U :=
   fun J K L => H J K (@limit_cone _ _ _ L) (limit_limitcone L).
 

@@ -257,42 +257,6 @@ End DiagramIso.
 
 (** ** The image of a cone under a functor *)
 
-(* Any functor sends cones over G to cones over F ◯ G, by applying
-   [fmap[F]] to every leg.  This is the cone whose limiting behaviour the
-   reflection statements below hypothesize. *)
-
-Section ImageCone.
-
-Context {J : Category}.
-Context {C D : Category}.
-Context (F : C ⟶ D).
-Context {G : J ⟶ C}.
-
-Definition fmap_cone_leg (N : Cone G) (x : J) :
-  F (vertex_obj[N]) ~{D}~> (F ◯ G) x :=
-  fmap[F] (cone_leg N x).
-
-Lemma fmap_cone_coherence (N : Cone G) {x y : J} (f : x ~{J}~> y) :
-  fmap[F ◯ G] f ∘ fmap_cone_leg N x ≈ fmap_cone_leg N y.
-Proof using Type.
-  unfold fmap_cone_leg; simpl.
-  rewrite <- fmap_comp.
-  now rewrite (cone_leg_coherence N f).
-Qed.
-
-Definition fmap_cone (N : Cone G) : Cone (F ◯ G) :=
-  @Build_Cone J D (F ◯ G) (F (vertex_obj[N]))
-    (@Build_ACone J D (F (vertex_obj[N])) (F ◯ G) (fmap_cone_leg N)
-       (fun x y f => fmap_cone_coherence N f)).
-
-(* The legs of the image cone, in rewriting-friendly form. *)
-
-Lemma fmap_cone_leg_eq (N : Cone G) (x : J) :
-  cone_leg (fmap_cone N) x ≈ fmap[F] (cone_leg N x).
-Proof. reflexivity. Qed.
-
-End ImageCone.
-
 (** ** Fully faithful functors reflect isomorphisms and limits *)
 
 Section FullyFaithful.
@@ -355,7 +319,7 @@ Context (Hlegs : ∀ x : J, limit_leg HL x ≈ fmap[F] (cone_leg N x)).
 
 Definition ff_reflect_med (M : Cone G) :
   vertex_obj[M] ~{C}~> vertex_obj[N] :=
-  prefmap (limit_med HL (fmap_cone F M)).
+  prefmap (limit_med HL (FCone F M)).
 
 Lemma ff_reflect_med_commutes (M : Cone G) :
   ∀ x : J, cone_leg N x ∘ ff_reflect_med M ≈ cone_leg M x.
@@ -366,8 +330,8 @@ Proof using HF HfF HL Hlegs.
   unfold ff_reflect_med.
   rewrite fmap_sur.
   rewrite <- (Hlegs x).
-  rewrite (limit_med_commutes HL (fmap_cone F M) x).
-  exact (fmap_cone_leg_eq F M x).
+  rewrite (limit_med_commutes HL (FCone F M) x).
+  exact (FCone_leg F M x).
 Qed.
 
 Lemma ff_reflect_med_unique (M : Cone G)
@@ -379,9 +343,9 @@ Proof using HF HfF HL Hlegs.
   apply fmap_inj.
   unfold ff_reflect_med.
   rewrite fmap_sur.
-  apply (limit_med_unique HL (fmap_cone F M) (fmap[F] v)).
+  apply (limit_med_unique HL (FCone F M) (fmap[F] v)).
   intro x.
-  rewrite (fmap_cone_leg_eq F M x).
+  rewrite (FCone_leg F M x).
   rewrite (Hlegs x).
   rewrite <- (Hv x).
   rewrite fmap_comp.
@@ -528,28 +492,6 @@ Definition EquivalenceOfCategories_op {C D : Category} {F : C ⟶ D}
     ((@quasi_inverse C D F E)^op)
     (equivalence_counit_op E)
     (equivalence_unit_op E).
-
-(* (F ◯ G)^op and F^op ◯ G^op share their object and morphism maps but
-   differ in the proofs of functoriality, so an apex-pinned limit witness
-   over the one repackages field by field as a witness over the other
-   (the [preserves_colimit] precedent in Structure/Limit/Preservation.v).
-   No destructuring: everything is spelled with projections, so the
-   result stays convertible with the input on legs and mediators. *)
-
-Definition isalimit_op_comp {J C D : Category} {G : J ⟶ C} {F : C ⟶ D}
-  {c : D} (H : IsALimit ((F ◯ G)^op) c) : IsALimit (F^op ◯ G^op) c :=
-  @Build_IsALimit (J^op) (D^op) (F^op ◯ G^op) c
-    (@Build_ACone (J^op) (D^op) c (F^op ◯ G^op)
-       (fun x => @vertex_map _ _ _ _ (@limit_acone _ _ _ _ H) x)
-       (fun x y f =>
-          @cone_coherence _ _ _ _ (@limit_acone _ _ _ _ H) x y f))
-    (fun N =>
-       @ump_limit _ _ _ _ H
-         (@Build_Cone (J^op) (D^op) ((F ◯ G)^op) (@vertex_obj _ _ _ N)
-            (@Build_ACone (J^op) (D^op) (@vertex_obj _ _ _ N) ((F ◯ G)^op)
-               (fun x => @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x)
-               (fun x y f =>
-                  @cone_coherence _ _ _ _ (@coneFrom _ _ _ N) x y f)))).
 
 (** ** Equivalences and colimits, by op *)
 

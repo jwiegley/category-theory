@@ -42,7 +42,10 @@ Generalizable All Variables.
 
    The discharge [PreservesColimit -> AdamekData] is therefore not carried in
    this file, and [Theory/Adamek/Corollaries.v] does not supply it either: it
-   is deferred as a fast-follow (ledger 17; see the matching note in that file).
+   is deferred as a fast-follow (ledger 17; see the matching note in that
+   file).  The cocone-level class [PreservesColimitCocone]
+   (Structure/Limit/Preservation.v) is the vocabulary that discharge would
+   be stated in; the ledger entry stays open until it is written.
    The [AdamekData] interface is the load-bearing contract in the interim. *)
 
 (* Shift of an order proof [m ≤ n] to [S m ≤ S n], by recursion on the
