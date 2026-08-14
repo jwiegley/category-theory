@@ -120,8 +120,20 @@ Generalizable All Variables.
    and the elementary topos development (Structure/Topos.v). *)
 
 (* A C-valued presheaf on some category U.
-  C is often taken to be Sets. *)
-Definition Presheaf (U C : Category) := U^op ⟶ C.
+  C is often taken to be Sets.
+
+  The universe annotation keeps the two categories' levels independent:
+  left to inference, minimization had identified U's hom and proof levels
+  with C's — one shared level across both Category instances — which for
+  a Sets target pins the elements of its objects to the site's homs,
+  shutting out exactly the typical case of a sections presheaf: a small
+  site with values one level up (Instance/Top/Presheaf.v's
+  [ContinuousPresheaf], whose sections are hom-setoids of [Top]).  Every
+  instantiation at shared levels is still available.  [Presheaves] below
+  and the copresheaf pair remain inference-minimized; the consumer file
+  discloses the consequence. *)
+Definition Presheaf@{u1 u2 u3 u4 u5 u6 +}
+  (U : Category@{u1 u2 u3}) (C : Category@{u4 u5 u6}) := U^op ⟶ C.
 
 (* The category of C-valued presheaves on a category U. *)
 Definition Presheaves {U C : Category} := [U^op, C].
