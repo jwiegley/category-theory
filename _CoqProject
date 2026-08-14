@@ -263,6 +263,7 @@ Instance/Proset/Transform.v
 Instance/Proset/Order.v
 Instance/Rel.v
 Instance/Rng.v
+Instance/Rng/Frac.v
 Instance/Roof.v
 Instance/Simplex.v
 Instance/Sets.v
