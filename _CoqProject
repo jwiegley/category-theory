@@ -261,6 +261,8 @@ Instance/Lambda/Sub.v
 Instance/Lambda/Ty.v
 Instance/Lambda/Value.v
 Instance/Matr.v
+Instance/Matr/Determinant.v
+Instance/Matr/GL.v
 Instance/Matr/Yoneda.v
 Instance/Omega.v
 Instance/One.v
