@@ -230,6 +230,9 @@ Instance/Ens.v
 Instance/EnsV.v
 Instance/Fact.v
 Instance/FdVect.v
+Instance/FdVect/DoubleDual.v
+Instance/FdVect/NonNatural.v
+Instance/FdVect/Tensor.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
