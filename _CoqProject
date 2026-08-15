@@ -265,6 +265,7 @@ Instance/Proset/Galois.v
 Instance/Props.v
 Instance/Proset.v
 Instance/Proset/Monotone.v
+Instance/Proset/Closure.v
 Instance/Proset/Skeletal.v
 Instance/Proset/Limit.v
 Instance/Proset/Transform.v
