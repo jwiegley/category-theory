@@ -14,6 +14,7 @@ Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
 Adjunction/Opposite.v
 Construction/Arrow.v
+Construction/Arrow/Functor.v
 Comonad/Core.v
 Comonad/CoKleisli.v
 Comonad/Coalgebra.v
