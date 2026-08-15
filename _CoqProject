@@ -553,6 +553,7 @@ Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/General.v
+Theory/Metacategory/ETAC.v
 Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
