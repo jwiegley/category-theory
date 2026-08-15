@@ -115,7 +115,18 @@ Generalizable All Variables.
    isomorphisms whose components are identities, and no more; that file's
    header records exactly what would be needed for a [StrictCat]
    isomorphism, which is not claimed.  The codomain isomorphism above is
-   the separate comparison with the displayed presentation. *)
+   the separate comparison with the displayed presentation.
+
+   Mac Lane's Exercise II.4.7 — functors INTO the arrow category are
+   exactly natural transformations — is Construction/Arrow/Functor.v:
+   extraction [Arrow_extract] (boundary functors plus the generic arrow
+   assembled into a transformation), introduction [Arrow_intro] (a
+   transformation materialized as a functor, naturality supplying the
+   squares), and the bijection [Arrow_classification] as a setoid
+   isomorphism in Sets; unlike the [_2] comparison it carries no
+   Set-level universe pin (the library's ambient h = p constraint
+   from [Functor] still applies), never leaving the comma
+   presentation. *)
 
 Definition Arrow {C : Category} : Category := (Id[C] ↓ Id[C]).
 
