@@ -150,6 +150,7 @@ Construction/Cospan/BlackBox.v
 Instance/ZX.v
 Functor/Applicative.v
 Functor/Bifunctor.v
+Functor/Bifunctor/Partial.v
 Functor/Construction/Product.v
 Functor/Construction/Product/Monoidal.v
 Functor/Construction/Product/Strong.v
