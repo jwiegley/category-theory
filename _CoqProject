@@ -39,6 +39,7 @@ Construction/Elements.v
 Construction/Enriched.v
 Construction/Enriched/Natural.v
 Construction/Enriched/Compose.v
+Construction/Enriched/Ab.v
 Construction/Enriched/Fun.v
 Construction/Enriched/Sets.v
 Construction/Enriched/Two.v
@@ -180,6 +181,8 @@ Functor/Traversable/Product.v
 Functor/Twist.v
 Instance/AST.v
 Instance/Ab.v
+Instance/Ab/Tensor.v
+Instance/Ab/Monoidal.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v

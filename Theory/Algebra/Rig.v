@@ -521,34 +521,76 @@ Next Obligation. intros R S T f g a; simpl; reflexivity. Qed.
 
 (** ** The integers: an axiom-free ring witness *)
 
+(* The equality is Type-ascribed (the Ipt_equiv/R_equiv precedent of
+   Instance/Top/Interval.v and Instance/Top/Presheaf.v) so the setoid's
+   proof level floats instead of being pinned at the level of Prop-valued
+   [eq] — pinning it would force every abelian group sharing an [AbHom]
+   with ℤ down to Set, which is exactly the tensor-unit situation of
+   Instance/Ab/Monoidal.v. *)
+Definition Z_eqT (x y : Z) : Type := x = y.
+
+Lemma Z_eqT_Equivalence : Equivalence Z_eqT.
+Proof.
+  constructor; unfold Z_eqT.
+  - intro x; reflexivity.
+  - intros x y H; now symmetry.
+  - intros x y z H1 H2; now transitivity y.
+Qed.
+
 Definition Z_setoid_object : SetoidObject := {|
   carrier := Z;
-  is_setoid := {| equiv := @eq Z; setoid_equiv := eq_equivalence |}
+  is_setoid := {| equiv := Z_eqT; setoid_equiv := Z_eqT_Equivalence |}
 |}.
 
-Program Definition Int_Rig : RigObject := {|
-  rig_setoid := Z_setoid_object;
+Lemma Z_add_respectful : ∀ a b : Z, Z_eqT a b →
+  ∀ c d : Z, Z_eqT c d → Z_eqT (Z.add a c) (Z.add b d).
+Proof.
+  intros a b Hab c d Hcd; unfold Z_eqT in *; now subst.
+Qed.
+
+Lemma Z_mul_respectful : ∀ a b : Z, Z_eqT a b →
+  ∀ c d : Z, Z_eqT c d → Z_eqT (Z.mul a c) (Z.mul b d).
+Proof.
+  intros a b Hab c d Hcd; unfold Z_eqT in *; now subst.
+Qed.
+
+Lemma Z_opp_respectful : ∀ a b : Z, Z_eqT a b → Z_eqT (Z.opp a) (Z.opp b).
+Proof.
+  intros a b Hab; unfold Z_eqT in *; now subst.
+Qed.
+
+(* Plain definitions with explicit proof terms: the stdlib equalities land
+   in the Type-ascribed [Z_eqT] by conversion, and the explicit universe
+   binders keep the setoid's levels parameters rather than letting
+   minimization collapse them to Set — which would drag every abelian
+   group sharing a hom with ℤ down with it (the tensor-unit situation of
+   Instance/Ab/Monoidal.v). *)
+Definition Int_Rig@{o p q | o <= q, p <= q +} : RigObject@{o p q} := {|
+  rig_setoid := Z_setoid_object@{o p};
   rig_zero := 0%Z;
   rig_add := Z.add;
   rig_one := 1%Z;
-  rig_mul := Z.mul
+  rig_mul := Z.mul;
+  rig_add_respects := Z_add_respectful;
+  rig_mul_respects := Z_mul_respectful;
+  rig_add_assoc := fun a b c => eq_sym (Z.add_assoc a b c);
+  rig_add_comm := Z.add_comm;
+  rig_add_zero_l := Z.add_0_l;
+  rig_mul_assoc := fun a b c => eq_sym (Z.mul_assoc a b c);
+  rig_mul_one_l := Z.mul_1_l;
+  rig_mul_one_r := Z.mul_1_r;
+  rig_distr_l := Z.mul_add_distr_l;
+  rig_distr_r := Z.mul_add_distr_r;
+  rig_mul_zero_l := Z.mul_0_l;
+  rig_mul_zero_r := Z.mul_0_r
 |}.
-Next Obligation. intros a b c; simpl; now rewrite Z.add_assoc. Qed.
-Next Obligation. intros a b; simpl; apply Z.add_comm. Qed.
-Next Obligation. intros a; simpl; apply Z.add_0_l. Qed.
-Next Obligation. intros a b c; simpl; now rewrite Z.mul_assoc. Qed.
-Next Obligation. intros a; simpl; apply Z.mul_1_l. Qed.
-Next Obligation. intros a; simpl; apply Z.mul_1_r. Qed.
-Next Obligation. intros a b c; simpl; apply Z.mul_add_distr_l. Qed.
-Next Obligation. intros a b c; simpl; now rewrite Z.mul_add_distr_r. Qed.
-Next Obligation. intros a; simpl; reflexivity. Qed.
-Next Obligation. intros a; destruct a; reflexivity. Qed.
 
-Program Definition Int_Ring : RingObject := {|
-  ring_rig := Int_Rig;
-  ring_neg := Z.opp
+Definition Int_Ring@{o p q | o <= q, p <= q +} : RingObject@{o p q} := {|
+  ring_rig := Int_Rig@{o p q};
+  ring_neg := Z.opp;
+  ring_neg_respects := Z_opp_respectful;
+  ring_neg_l := Z.add_opp_diag_l
 |}.
-Next Obligation. intros a; simpl; now rewrite Z.add_opp_diag_l. Qed.
 
 (** ** The naturals are initial (Exercise 6.7, part 2) *)
 
