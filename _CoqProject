@@ -72,6 +72,7 @@ Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Special.v
+Construction/Product/Indexed.v
 Construction/Product/Comma.v
 Construction/Profunctor/Compose.v
 Construction/Profunctor/Laws.v
