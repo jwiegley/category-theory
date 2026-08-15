@@ -188,6 +188,9 @@ Functor/Twist.v
 Instance/AST.v
 Instance/Ab.v
 Instance/Ab/Tensor.v
+Instance/Ab/Character.v
+Instance/Ab/Character/Finite.v
+Instance/Ab/Character/NonNatural.v
 Instance/Ab/Monoidal.v
 Instance/Adj.v
 Instance/Adjoints.v
