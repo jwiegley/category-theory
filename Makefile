@@ -261,6 +261,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Pointed.'; \
 	  echo 'Require Import Category.Instance.Sets.Pointed.Part.'; \
 	  echo 'Require Import Category.Theory.Natural.Transformation.Arrows.'; \
+	  echo 'Require Import Category.Instance.FdVect.'; \
+	  echo 'Require Import Category.Instance.FdVect.DoubleDual.'; \
+	  echo 'Require Import Category.Instance.FdVect.NonNatural.'; \
+	  echo 'Require Import Category.Instance.FdVect.Tensor.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -525,6 +529,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions pointed_part_equivalence.'; \
 	  echo 'Print Assumptions Transform_to_Arrows_to_Transform.'; \
 	  echo 'Print Assumptions Arrows_to_Transform_to_Arrows.'; \
+	  echo 'Print Assumptions FdVect_Matr_Equivalence.'; \
+	  echo 'Print Assumptions double_dual_natural.'; \
+	  echo 'Print Assumptions double_dual_iso.'; \
+	  echo 'Print Assumptions sigma_not_natural.'; \
+	  echo 'Print Assumptions sigma_categorical_not_natural.'; \
+	  echo 'Print Assumptions diag_transform_zero.'; \
+	  echo 'Print Assumptions diag_transform_zero_Q.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
