@@ -2,7 +2,10 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Opposite.
+Require Import Category.Construction.Product.
 
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Relations.Relation_Definitions.
@@ -166,3 +169,45 @@ Proof. reflexivity. Qed.
    typecheck; no impossibility theorem is being asserted. *)
 Definition HomChoice (C : Category) : Type :=
   ∀ (x y : obj[C]), thin_preorder C x y → x ~{C}~> y.
+
+(** ** Closure of thinness (Mac Lane §II.3 Ex. 2 / §II.4 Ex. 4, structural halves) *)
+
+#[local] Obligation Tactic := idtac.
+
+(* Products of thin categories are thin: parallel pairs are componentwise
+   parallel.  Instance/Proset/Closure.v instantiates this at preorders. *)
+Lemma Thin_Product {C D : Category} :
+  Thin C → Thin D → Thin (C ∏ D).
+Proof.
+  intros TC TD [a b] [c d] [f g] [f' g']; split.
+  - exact (TC a c f f').
+  - exact (TD b d g g').
+Qed.
+
+(* Into a thin target, any component family is natural — both naturality
+   squares are equations between parallel morphisms.  Functors into thin
+   categories are therefore compared by their object actions alone. *)
+Program Definition thin_natural {C D : Category} (TD : Thin D)
+  (F G : C ⟶ D) (η : ∀ x : C, F x ~> G x) : F ⟹ G := {|
+  transform := η
+|}.
+Next Obligation.
+  intros C D TD F G η x y f.
+  exact (TD _ _ _ _).
+Qed.
+Next Obligation.
+  intros C D TD F G η x y f.
+  exact (TD _ _ _ _).
+Qed.
+
+(* Parallel natural transformations into a thin target agree pointwise:
+   their components are parallel.  (The functor-category packaging of
+   this — a functor category into a thin target is thin — lives in
+   Instance/Proset/Closure.v, where [Fun] is available.) *)
+Lemma Thin_Transform {C D : Category} (TD : Thin D)
+  (F G : C ⟶ D) (σ τ : F ⟹ G) :
+  ∀ x : C, transform σ x ≈ transform τ x.
+Proof.
+  intro x.
+  exact (TD _ _ _ _).
+Qed.
