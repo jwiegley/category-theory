@@ -292,6 +292,7 @@ Instance/Rel.v
 Instance/Rel/Dagger.v
 Instance/Rng.v
 Instance/Rng/Frac.v
+Instance/Rng/Mod.v
 Instance/Roof.v
 Instance/Simplex.v
 Instance/Sets.v
