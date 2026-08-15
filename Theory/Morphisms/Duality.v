@@ -129,3 +129,44 @@ Defined.
 
 Definition EpiSub_Wide (C : Category) : Wide C (EpiSub C) :=
   fun _ => ttt.
+
+(* The inverse-pair rows of Mac Lane §II.1's dualization table (extended
+   by §IV.3 Exercise 1): a left inverse in C is a right inverse in C^op
+   and conversely — the composites are literally the same, only read
+   through the opposite composition.  All four directions, mirroring the
+   Monic/Epic quartet above; each law is the other side's law by
+   conversion, so every obligation is an [exact]. *)
+
+#[local] Obligation Tactic := idtac.
+
+Program Definition op_Retraction_of_Section {C : Category} {x y : C}
+  (f : x ~> y) (S : Section f) : @Retraction (C^op) y x f := {|
+  retract := @section C x y f S
+|}.
+Next Obligation.
+  intros; exact (@section_comp C x y f S).
+Qed.
+
+Program Definition Section_of_op_Retraction {C : Category} {x y : C}
+  (f : x ~> y) (R : @Retraction (C^op) y x f) : Section f := {|
+  section := @retract (C^op) y x f R
+|}.
+Next Obligation.
+  intros; exact (@retract_comp (C^op) y x f R).
+Qed.
+
+Program Definition op_Section_of_Retraction {C : Category} {x y : C}
+  (f : x ~> y) (R : Retraction f) : @Section (C^op) y x f := {|
+  section := @retract C x y f R
+|}.
+Next Obligation.
+  intros; exact (@retract_comp C x y f R).
+Qed.
+
+Program Definition Retraction_of_op_Section {C : Category} {x y : C}
+  (f : x ~> y) (S : @Section (C^op) y x f) : Retraction f := {|
+  retract := @section (C^op) y x f S
+|}.
+Next Obligation.
+  intros; exact (@section_comp (C^op) y x f S).
+Qed.

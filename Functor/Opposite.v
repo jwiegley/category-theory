@@ -55,3 +55,36 @@ Proof. reflexivity. Qed.
 
 Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) :
   F y ~{D}~> F x := fmap (op f).
+
+(* The fullness and faithfulness rows of Mac Lane §IV.3 Exercise 1's
+   dualization table, for an ARBITRARY functor — previously reachable
+   only through the equivalence detour of Theory/Equivalence/Limit.v.
+   The op-functor's hom-action at (x, y) is the original's at (y, x), so
+   each property transports by reindexing, in both directions; every
+   obligation is an [exact] at the swapped indices. *)
+
+#[local] Obligation Tactic := idtac.
+
+Program Definition Full_op `{F : C ⟶ D} (H : Full F) : Full (F^op) := {|
+  prefmap := fun x y g => @prefmap _ _ F H y x g
+|}.
+Next Obligation.
+  intros; exact (@fmap_sur _ _ F H y x g).
+Qed.
+
+Program Definition Full_of_op `{F : C ⟶ D} (H : Full (F^op)) : Full F := {|
+  prefmap := fun x y g => @prefmap _ _ (F^op) H y x g
+|}.
+Next Obligation.
+  intros; exact (@fmap_sur _ _ (F^op) H y x g).
+Qed.
+
+Program Definition Faithful_op `{F : C ⟶ D} (H : Faithful F) :
+  Faithful (F^op) := {|
+  fmap_inj := fun x y f g => @fmap_inj _ _ F H y x f g
+|}.
+
+Program Definition Faithful_of_op `{F : C ⟶ D} (H : Faithful (F^op)) :
+  Faithful F := {|
+  fmap_inj := fun x y f g => @fmap_inj _ _ (F^op) H y x f g
+|}.
