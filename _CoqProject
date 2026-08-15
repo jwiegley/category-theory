@@ -308,6 +308,7 @@ Instance/Top/Forgetful.v
 Instance/Top/Interval.v
 Instance/Top/FundamentalGroupoid.v
 Instance/Top/Presheaf.v
+Instance/Top/ContinuousRing.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v

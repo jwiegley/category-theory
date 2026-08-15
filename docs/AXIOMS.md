@@ -279,11 +279,13 @@ the global context".  Known live uses:
   `Instance/Top/Interval.v` builds the unit interval `[0,1]` and the
   unit square out of `Coq.Reals`,
   `Instance/Top/FundamentalGroupoid.v` builds the fundamental groupoid
-  on them, and `Instance/Top/Presheaf.v` builds the real line `R_Top`
-  and the presheaf of continuous real-valued functions on it.  These
-  are the only three files in the tree that import the reals (verify:
-  `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an axiom of
-  its own; what they inherit is the axiom set of the standard
+  on them, `Instance/Top/Presheaf.v` builds the real line `R_Top`
+  and the presheaf of continuous real-valued functions on it, and
+  `Instance/Top/ContinuousRing.v` builds the pointwise ring C(X) of
+  continuous real-valued functions with its contravariant functor.
+  These are the only four files in the tree that import the reals
+  (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an
+  axiom of its own; what they inherit is the axiom set of the standard
   library's own construction of `R`.  The cost splits in two, and both
   halves are measured rather than estimated:
 
@@ -367,6 +369,22 @@ the global context".  Known live uses:
   the 21 real-computing constants, not the subspace machinery, that
   price Mac Lane's example.
 
+  `Instance/Top/ContinuousRing.v` has **38** constants: the 8 recorded
+  in its `.glob` file (`ball_around`, `cr_plus`, `cr_mult`, `cr_neg`,
+  `cr_const`, `CRingOb`, `CRing_precomp`, `ContinuousRingFunctor`)
+  together with the 30 Program obligations of its seven `Program`
+  definitions.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 0 | closed under the global context | — |
+  | 36 | the two | everything whose proof computes with an `R`-valued map |
+  | 2 | `sig_forall_dec` alone | `CRing_precomp_obligation_2`/`_4` — the zero- and one-preservation laws, pointwise reflexivity with no funext |
+  | 0 | the three | — |
+
+  Nothing goes through the least-upper-bound property; the continuity
+  arguments are ball arithmetic with radius carried as data.
+
   An earlier edition of this section said the remaining constants of
   each file carried "exactly the two"; for the 34 above and for
   `const_arrow_eval` that is false.  The direction of the error was to
@@ -381,7 +399,7 @@ the global context".  Known live uses:
   `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
   and because they do, that file *is* wired into the
   `print-assumptions` make target, alongside its `Structure/Groupoid`
-  siblings.  The three files that import the reals are not: that target
+  siblings.  The four files that import the reals are not: that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
