@@ -229,6 +229,7 @@ Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/EnsV.v
 Instance/Fact.v
+Instance/FdVect.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
