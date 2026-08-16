@@ -266,6 +266,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.FdVect.NonNatural.'; \
 	  echo 'Require Import Category.Instance.FdVect.Tensor.'; \
 	  echo 'Require Import Category.Instance.Rng.Mod.'; \
+	  echo 'Require Import Category.Instance.Rep.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -544,6 +545,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Restrict.'; \
 	  echo 'Print Assumptions ModIndexed.'; \
 	  echo 'Print Assumptions OpModIndexed.'; \
+	  echo 'Print Assumptions Rep_Fun_equiv.'; \
+	  echo 'Print Assumptions thin_group_functor_trivial.'; \
+	  echo 'Print Assumptions sign_rep_nontrivial.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
