@@ -279,6 +279,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Cat.Exponential.'; \
 	  echo 'Require Import Category.Theory.EckmannHilton.'; \
 	  echo 'Require Import Category.Functor.Hom.Induced.'; \
+	  echo 'Require Import Category.Theory.Centre.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -590,6 +591,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Cat_exp_prod_l_natural.'; \
 	  echo 'Print Assumptions eckmann_hilton.'; \
 	  echo 'Print Assumptions hom_action.'; \
+	  echo 'Print Assumptions centre_monoid.'; \
+	  echo 'Print Assumptions centre_commutative.'; \
+	  echo 'Print Assumptions centre_commutative_EH.'; \
+	  echo 'Print Assumptions centre_interchange.'; \
+	  echo 'Print Assumptions centre_interchange_forces_commutative.'; \
+	  echo 'Print Assumptions centre_Sets_trivial.'; \
+	  echo 'Print Assumptions centre_Coq_trivial.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
