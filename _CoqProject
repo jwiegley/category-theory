@@ -206,6 +206,7 @@ Instance/Cat/Bicategory.v
 Instance/Cat/Opposite.v
 Instance/Cat/Bicategory/Adjunction.v
 Instance/Cat/Bicategory/Conjugate.v
+Instance/Cat/TwoCategory.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -551,6 +552,7 @@ Theory/Dinatural.v
 Theory/Displayed.v
 Theory/DoubleCategory.v
 Theory/DoubleCategory/Companion.v
+Theory/TwoCategory.v
 Theory/Equivalence.v
 Theory/Equivalence/FullFaithful.v
 Theory/Equivalence/Adjoint.v
