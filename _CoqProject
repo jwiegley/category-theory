@@ -527,6 +527,7 @@ Theory/Category.v
 Theory/Category/Monoid.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
+Theory/Centre.v
 Theory/Coend/Fubini.v
 Theory/Concrete.v
 Theory/Concrete/Morphisms.v
