@@ -271,6 +271,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Field.'; \
 	  echo 'Require Import Category.Instance.Roster.'; \
 	  echo 'Require Import Category.Instance.Ab.Graded.'; \
+	  echo 'Require Import Category.Instance.Matr.FunExercises.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -564,6 +565,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Graded_Fun_equiv.'; \
 	  echo 'Print Assumptions GradedAb.'; \
 	  echo 'Print Assumptions GradedAb_shift.'; \
+	  echo 'Print Assumptions matrix_similarity_iso.'; \
+	  echo 'Print Assumptions matrix_equivalence_iso.'; \
+	  echo 'Print Assumptions matrix_equivalence_iso_Fun.'; \
+	  echo 'Print Assumptions equivalence_is_weaker_than_similarity.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
