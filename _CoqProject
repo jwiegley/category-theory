@@ -335,6 +335,7 @@ Instance/Top/FundamentalGroupoid.v
 Instance/Top/Homotopy.v
 Instance/Top/Presheaf.v
 Instance/Top/ContinuousRing.v
+Instance/Top/LoopSpace.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v

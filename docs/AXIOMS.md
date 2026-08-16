@@ -285,8 +285,11 @@ the global context".  Known live uses:
   continuous real-valued functions with its contravariant functor, and
   `Instance/Top/Homotopy.v` builds the homotopy relation over the
   interval, the homotopy categories `Toph`/`Toph_pointed` as
-  hom-congruence quotients, and the pointed category `Top_pointed`.
-  These are the only five files in the tree that import the reals
+  hom-congruence quotients, and the pointed category `Top_pointed`,
+  and `Instance/Top/LoopSpace.v` builds the two operations on loops at
+  the unit of a topological group and derives the abelian fundamental
+  group.
+  These are the only six files in the tree that import the reals
   (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an
   axiom of its own; what they inherit is the axiom set of the standard
   library's own construction of `R`.  The cost splits in two, and both
@@ -405,6 +408,33 @@ the global context".  Known live uses:
   incurred anywhere in the file.  Verify e.g. with
   `Print Assumptions Category.Instance.Top.Homotopy.Toph` (the two)
   and `Print Assumptions Category.Instance.Top.Homotopy.Top_pointed`
+  (closed).
+
+  `Instance/Top/LoopSpace.v` has **52** constants — the 16 `def`, 21
+  `prf`, 13 `proj` and 2 `rec` entries of its `.glob` — and no Program
+  obligations, the file using no `Program` at all.  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 23 | closed under the global context | the entire abstract spine: the records `HTopMonoid` and `TopGroup` with all thirteen of their projections, `open_of_nbhds`, the pointwise-product machinery (`mult_fun`, `mult_fun_proper`, `mult_setoid_map`, `mult_open`, `mult_arrow`, `mult_arrow_eval`) and `tg_inv_nbhd` |
+  | 27 | the two | everything that touches a loop or the real line: `loop_mult` with its endpoint lemmas and `loop_mult_eval`, `loop_mult_respects`, the two strict unit laws, `loop_interchange`, `loops_eckmann_hilton` and the three conclusions read off it (`loop_mult_concat_agree`, `loop_mult_comm`, `loop_mult_assoc`), `loop_concat_comm` (a separate `eh_g_comm` instantiation), `pi1_topgroup_abelian`, `pi1_TopGroup_abelian`, the two `eq_refl` unfoldings `pi1_mon_op_is_concat`/`pi1_mon_unit_is_const`, and the reals witness `R_ball_open`, `R_plus_cont`, `R_opp_cont`, `R_TopMonoid`, `R_TopGroup`, its three `eq_refl` acceptance tests, `R_loop_mult_eval` and `pi1_R_abelian` |
+  | 2 | `sig_forall_dec` alone | `R_plus_proper` and `R_opp_proper` — respectfulness at `R`'s setoid, which names the type without computing with it |
+  | 0 | the three | — |
+
+  The 23 closed constants are worth reading off rather than passing
+  over: a topological monoid, its continuity certificate and the
+  pointwise product of two arrows into it mention no interval, so the
+  whole abstract layer of the development is axiom-free and only the
+  loop layer pays.  That is the same split `Instance/Top/Homotopy.v`
+  shows, where `Top_pointed` is closed and `Toph` is not.
+
+  Nothing goes through the least-upper-bound property — the interval
+  enters only as a parameter domain and the reals witness is ball
+  arithmetic with the radius carried as data — so `sig_not_dec` is not
+  incurred anywhere in the file.  Verify the headline with
+  `Print Assumptions Category.Instance.Top.LoopSpace.pi1_topgroup_abelian`
+  (the two) and the abstract layer with
+  `Print Assumptions Category.Instance.Top.LoopSpace.mult_arrow`
   (closed).
 
   `Instance/Roster.v` (the roster index) re-exports six constants that
