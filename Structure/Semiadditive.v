@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Theory.EckmannHilton.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Morphisms.
@@ -511,35 +512,48 @@ Proof.
   reflexivity.
 Qed.
 
-(* Eckmann–Hilton, first consequence: the two convolutions coincide. *)
+(* The three consequences below are the abstract Eckmann–Hilton argument of
+   Theory/EckmannHilton.v, read at the hom-setoid [x ~> y] with [conv] and
+   [conv_pr] as the two operations.  Everything that argument asks for is
+   already in hand: respectfulness is [conv_respects]/[conv_pr_respects],
+   the four unit laws are the [conv_*_zero_*] lemmas above, and interchange
+   is [conv_interchange].  Note that BOTH units are [zero_mor] here, so the
+   abstract theorem's first conclusion ([eh_units], that the two units
+   coincide) is [reflexivity] in this instance and is never invoked
+   directly (the abstract proofs still route through it internally). *)
+
+(* Eckmann–Hilton, first consequence: the two convolutions coincide.  Via
+   the abstract [eh_ops] of Theory/EckmannHilton.v. *)
 Lemma conv_conv_pr {x y : C} (f g : x ~> y) : conv f g ≈ conv_pr f g.
 Proof.
-  transitivity (conv (conv_pr f zero_mor) (conv_pr zero_mor g)).
-  - now rewrite conv_pr_zero_right, conv_pr_zero_left.
-  - rewrite conv_interchange.
-    now rewrite conv_zero_right, conv_zero_left.
+  exact (eh_ops (@conv x y) (@conv_pr x y) zero_mor zero_mor
+                (@conv_respects x y) (@conv_pr_respects x y)
+                (@conv_zero_left x y) (@conv_zero_right x y)
+                (@conv_pr_zero_left x y) (@conv_pr_zero_right x y)
+                (@conv_interchange x y) f g).
 Qed.
 
-(* Eckmann–Hilton, second consequence: convolution is commutative. *)
+(* Eckmann–Hilton, second consequence: convolution is commutative.  Via the
+   abstract [eh_comm] of Theory/EckmannHilton.v. *)
 Lemma conv_comm {x y : C} (f g : x ~> y) : conv f g ≈ conv g f.
 Proof.
-  transitivity (conv (conv_pr zero_mor f) (conv_pr g zero_mor)).
-  - now rewrite conv_pr_zero_left, conv_pr_zero_right.
-  - rewrite conv_interchange.
-    rewrite conv_zero_left, conv_zero_right.
-    now rewrite <- conv_conv_pr.
+  exact (eh_comm (@conv x y) (@conv_pr x y) zero_mor zero_mor
+                 (@conv_respects x y) (@conv_pr_respects x y)
+                 (@conv_zero_left x y) (@conv_zero_right x y)
+                 (@conv_pr_zero_left x y) (@conv_pr_zero_right x y)
+                 (@conv_interchange x y) f g).
 Qed.
 
-(* Eckmann–Hilton, third consequence: convolution is associative. *)
+(* Eckmann–Hilton, third consequence: convolution is associative.  Via the
+   abstract [eh_assoc] of Theory/EckmannHilton.v. *)
 Lemma conv_assoc {x y : C} (f g h : x ~> y) :
   conv (conv f g) h ≈ conv f (conv g h).
 Proof.
-  transitivity (conv (conv_pr f zero_mor) (conv_pr g h)).
-  - rewrite conv_interchange.
-    rewrite conv_zero_left.
-    now rewrite <- conv_conv_pr.
-  - rewrite conv_pr_zero_right.
-    now rewrite <- conv_conv_pr.
+  exact (eh_assoc (@conv x y) (@conv_pr x y) zero_mor zero_mor
+                  (@conv_respects x y) (@conv_pr_respects x y)
+                  (@conv_zero_left x y) (@conv_zero_right x y)
+                  (@conv_pr_zero_left x y) (@conv_pr_zero_right x y)
+                  (@conv_interchange x y) f g h).
 Qed.
 
 (* Composition distributes over convolution on the left (computed in the
