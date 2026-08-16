@@ -278,6 +278,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.FinSet.Decategorify.'; \
 	  echo 'Require Import Category.Instance.Cat.Exponential.'; \
 	  echo 'Require Import Category.Theory.EckmannHilton.'; \
+	  echo 'Require Import Category.Functor.Hom.Induced.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -588,6 +589,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions nat_exp_coprod.'; \
 	  echo 'Print Assumptions Cat_exp_prod_l_natural.'; \
 	  echo 'Print Assumptions eckmann_hilton.'; \
+	  echo 'Print Assumptions hom_action.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
