@@ -280,6 +280,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.EckmannHilton.'; \
 	  echo 'Require Import Category.Functor.Hom.Induced.'; \
 	  echo 'Require Import Category.Theory.Centre.'; \
+	  echo 'Require Import Category.Construction.Slice.Terminal.'; \
+	  echo 'Require Import Category.Construction.Comma.Special.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -598,6 +600,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions centre_interchange_forces_commutative.'; \
 	  echo 'Print Assumptions centre_Sets_trivial.'; \
 	  echo 'Print Assumptions centre_Coq_trivial.'; \
+	  echo 'Print Assumptions Slice_Terminal.'; \
+	  echo 'Print Assumptions Coslice_Initial.'; \
+	  echo 'Print Assumptions Comma_Discrete_Hom.'; \
+	  echo 'Print Assumptions Comma_Discrete_Hom_eq.'; \
+	  echo 'Print Assumptions comma_discrete_iso_forces_UIP.'; \
+	  echo 'Print Assumptions Blur_no_discrete_iso.'; \
+	  echo 'Print Assumptions slice_terminal_not_strict.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
