@@ -325,6 +325,7 @@ Instance/Top/Closed.v
 Instance/Top/Forgetful.v
 Instance/Top/Interval.v
 Instance/Top/FundamentalGroupoid.v
+Instance/Top/Homotopy.v
 Instance/Top/Presheaf.v
 Instance/Top/ContinuousRing.v
 Instance/Two.v
