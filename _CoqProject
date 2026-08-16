@@ -290,6 +290,7 @@ Instance/Proset/Transform.v
 Instance/Proset/Order.v
 Instance/Rel.v
 Instance/Rel/Dagger.v
+Instance/Rep.v
 Instance/Rng.v
 Instance/Rng/Frac.v
 Instance/Rng/Mod.v
