@@ -202,6 +202,7 @@ Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
+Instance/Cat/Exponential.v
 Instance/Cat/Bicategory.v
 Instance/Cat/Opposite.v
 Instance/Cat/Bicategory/Adjunction.v
@@ -246,6 +247,7 @@ Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
 Instance/FinSet/Skeleton.v
 Instance/FinSet/Regular.v
+Instance/FinSet/Decategorify.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Discrete.v
@@ -399,6 +401,7 @@ Structure/Premonoidal/Freyd.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
 Structure/Cartesian/Closed/Adjunction.v
+Structure/Cartesian/Closed/Natural.v
 Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
