@@ -274,6 +274,7 @@ Instance/Matr.v
 Instance/Matr/Determinant.v
 Instance/Matr/GL.v
 Instance/Matr/Yoneda.v
+Instance/Matr/FunExercises.v
 Instance/Mod.v
 Instance/Omega.v
 Instance/One.v
