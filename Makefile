@@ -274,6 +274,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Matr.FunExercises.'; \
 	  echo 'Require Import Category.Theory.TwoCategory.'; \
 	  echo 'Require Import Category.Instance.Cat.TwoCategory.'; \
+	  echo 'Require Import Category.Structure.Cartesian.Closed.Natural.'; \
+	  echo 'Require Import Category.Instance.FinSet.Decategorify.'; \
+	  echo 'Require Import Category.Instance.Cat.Exponential.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -576,6 +579,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions twocategory_def3.'; \
 	  echo 'Print Assumptions NatSq_not_a_two_category.'; \
 	  echo 'Print Assumptions NatPlus_StrictBase.'; \
+	  echo 'Print Assumptions exp_prod_l_natural.'; \
+	  echo 'Print Assumptions exp_prod_r_natural.'; \
+	  echo 'Print Assumptions prod_coprod_r_natural.'; \
+	  echo 'Print Assumptions exp_coprod_natural.'; \
+	  echo 'Print Assumptions Card_Groupoid.'; \
+	  echo 'Print Assumptions nat_exp_coprod.'; \
+	  echo 'Print Assumptions Cat_exp_prod_l_natural.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
