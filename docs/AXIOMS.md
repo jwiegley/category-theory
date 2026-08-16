@@ -282,8 +282,11 @@ the global context".  Known live uses:
   on them, `Instance/Top/Presheaf.v` builds the real line `R_Top`
   and the presheaf of continuous real-valued functions on it, and
   `Instance/Top/ContinuousRing.v` builds the pointwise ring C(X) of
-  continuous real-valued functions with its contravariant functor.
-  These are the only four files in the tree that import the reals
+  continuous real-valued functions with its contravariant functor, and
+  `Instance/Top/Homotopy.v` builds the homotopy relation over the
+  interval, the homotopy categories `Toph`/`Toph_pointed` as
+  hom-congruence quotients, and the pointed category `Top_pointed`.
+  These are the only five files in the tree that import the reals
   (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an
   axiom of its own; what they inherit is the axiom set of the standard
   library's own construction of `R`.  The cost splits in two, and both
@@ -384,6 +387,25 @@ the global context".  Known live uses:
 
   Nothing goes through the least-upper-bound property; the continuity
   arguments are ball arithmetic with radius carried as data.
+
+  `Instance/Top/Homotopy.v` has **77** constants: the 69 its `.glob`
+  records as def/prf/proj/inst entries, the 4 record types it records
+  as `rec` entries, and the 4 Program obligations of `Top_pointed`,
+  which appear in no `.glob` entry of any kind (each measured
+  directly under its fully qualified name).  They split
+
+  | count | assumption set | which |
+  |---|---|---|
+  | 17 | closed under the global context | the entire `Top_pointed` spine — `PointedTop`, `PointedMap`, their four projections, `PointedMap_Setoid` with its `Equivalence`, `ptop_id`, `ptop_compose`, `ptop_compose_respects`, `Top_pointed` and its four obligations — plus `top_const`; pointed spaces mention no interval |
+  | 60 | the two | everything the homotopy relation touches: the `Homotopy` record and its four congruence constructions, `homotopic`, `homotopy_congruence`, `Toph`, `TophProj`, the based family, `based_homotopic`, `based_homotopy_congruence`, `Toph_pointed`, the interval witnesses, and the homotopy-equivalence bridge through `interval_iso_point_in_Toph` |
+  | 0 | `sig_forall_dec` alone, or the three | — |
+
+  Nothing goes through the least-upper-bound property (the interval
+  enters only as a parameter domain), so `sig_not_dec` is not
+  incurred anywhere in the file.  Verify e.g. with
+  `Print Assumptions Category.Instance.Top.Homotopy.Toph` (the two)
+  and `Print Assumptions Category.Instance.Top.Homotopy.Top_pointed`
+  (closed).
 
   An earlier edition of this section said the remaining constants of
   each file carried "exactly the two"; for the 34 above and for
