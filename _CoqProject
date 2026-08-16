@@ -160,6 +160,7 @@ Functor/Construction/Product/Strong.v
 Functor/Coproduct.v
 Functor/Diagonal.v
 Functor/Hom.v
+Functor/Hom/Induced.v
 Functor/Hom/Internal.v
 Functor/Hom/Yoneda.v
 Functor/Hom/Yoneda/Iso.v
