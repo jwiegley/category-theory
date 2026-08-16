@@ -192,6 +192,7 @@ Instance/Ab/Character.v
 Instance/Ab/Character/Finite.v
 Instance/Ab/Character/NonNatural.v
 Instance/Ab/Monoidal.v
+Instance/Ab/ModFunctor.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
