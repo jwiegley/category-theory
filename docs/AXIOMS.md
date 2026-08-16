@@ -407,6 +407,16 @@ the global context".  Known live uses:
   and `Print Assumptions Category.Instance.Top.Homotopy.Top_pointed`
   (closed).
 
+  `Instance/Roster.v` (the roster index) re-exports six constants that
+  carry axioms, all ALIASES of constants already priced above: its four
+  `roster_Toph*` entries inherit `Instance/Top/Homotopy.v`'s two reals
+  axioms, and its two `roster_Group_variety*` entries inherit
+  `Instance/Comp.v`'s `functional_extensionality_dep` (spent in
+  `GroupEq`'s naturality alone — `Algs` and `GroupOp` themselves are
+  closed).  Every other constant of Roster.v and every constant of
+  `Instance/Field.v` is closed under the global context; the six
+  exceptions are segregated at the ends of their sections in the file.
+
   An earlier edition of this section said the remaining constants of
   each file carried "exactly the two"; for the 34 above and for
   `const_arrow_eval` that is false.  The direction of the error was to

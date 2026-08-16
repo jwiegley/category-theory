@@ -268,6 +268,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Rng.Mod.'; \
 	  echo 'Require Import Category.Instance.Rep.'; \
 	  echo 'Require Import Category.Instance.Ab.ModFunctor.'; \
+	  echo 'Require Import Category.Instance.Field.'; \
+	  echo 'Require Import Category.Instance.Roster.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -552,6 +554,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions RMod_AbFun_equiv.'; \
 	  echo 'Print Assumptions DeloopRing_AbEnriched.'; \
 	  echo 'Print Assumptions AbFunAdd_proper.'; \
+	  echo 'Print Assumptions Field.'; \
+	  echo 'Print Assumptions field_hom_distinct.'; \
+	  echo 'Print Assumptions field_every_monic.'; \
+	  echo 'Print Assumptions Q_hom_monic.'; \
+	  echo 'Print Assumptions Q_endo_id.'; \
+	  echo 'Print Assumptions Mon_Sets.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

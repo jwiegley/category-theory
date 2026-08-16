@@ -230,6 +230,7 @@ Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/EnsV.v
 Instance/Fact.v
+Instance/Field.v
 Instance/FdVect.v
 Instance/FdVect/DoubleDual.v
 Instance/FdVect/NonNatural.v
@@ -295,6 +296,7 @@ Instance/Rep.v
 Instance/Rng.v
 Instance/Rng/Frac.v
 Instance/Rng/Mod.v
+Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
 Instance/Sets.v
