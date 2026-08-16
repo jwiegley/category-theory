@@ -60,6 +60,8 @@ anywhere in the library, so no concrete object exercises it.  These are
 honest conditionals — "given such-and-such structure, the following holds" —
 and nothing proven elsewhere secretly depends on their being inhabited.
 
+| `field_every_monic` (`Instance/Field.v`) | the blanket premise `∀ F : FieldObject, FieldStable F` (¬¬-stability of `≈` in every source field) | uninhabited as a blanket: no uniform discharge exists, and `stability_is_the_conclusion` shows the per-square instance is the conclusion restated. The PER-OBJECT form is discharged where it matters — `field_dec_stable` from decidable equality gives `Q_Field_stable`, so `Q_hom_monic` (every hom out of ℚ is monic) is unconditional, covering every `FieldObject` in the tree; the unconditional apartness form `field_hom_distinct` needs no hypothesis at all |
+
 | Result | Distinctive premise | Status of the premise |
 |--------|---------------------|-----------------------|
 | `GAFT` (solution-set form) | `Complete C` | no `Complete`/`Cocomplete` instance exists in-tree |
