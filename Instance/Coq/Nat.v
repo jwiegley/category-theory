@@ -426,8 +426,17 @@ Proof. reflexivity. Qed.
    element to the other (that is [alg_hom_clauses]/[clauses_alg_hom] above), so
    this is exactly the statement that a universal element is initial in the
    category of elements — with the category of elements presented concretely as
-   [FAlg NatF] rather than built as a general construction, which the tree does
-   not carry. *)
+   [FAlg NatF] rather than built as a general construction.
+
+   ERRATUM (#303).  The clause that used to close that sentence, "which the
+   tree does not carry", was true when written (commit 30c01af0, 2026-08-05)
+   and went stale four days later: [Construction/Elements.v] landed the general
+   category of elements on 2026-08-09 (f2177328), and
+   Theory/Universal/Element/Elements.v now states Riehl 2.4.8 — a universal
+   element is an initial object of it — over that general construction.  What
+   is still NOT built is the comparison [Elements Endos_Forget ≃ FAlg NatF], so
+   [repr_initial] below is neither re-derived nor made redundant by it; the two
+   remain independent statements. *)
 
 Section UniversalElement.
 

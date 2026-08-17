@@ -298,6 +298,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Square.Rectangle.'; \
 	  echo 'Require Import Category.Theory.Universal.Arrow.Dual.'; \
 	  echo 'Require Import Category.Theory.Universal.Arrow.Dual.Examples.'; \
+	  echo 'Require Import Category.Theory.Universal.Element.'; \
+	  echo 'Require Import Category.Theory.Universal.Element.Elements.'; \
+	  echo 'Require Import Category.Theory.Universal.Element.Examples.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -763,6 +766,44 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.product_via_couniversal_is_product.'; \
 	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.Sets_product_CUA.'; \
 	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.Sets_product_via_couniversal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.UniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElementEquiv.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement_of_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.UniversalElement_of_AUniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.global_element.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.global_elements_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.ue_mate.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.ue_transform.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.ue_representation.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement_of_repr.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.aue_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.aue_mate_IsIso.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement_of_mate.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.ue_yoneda_obj.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.rby_agrees.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_yoneda.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_representation.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.representation_of_universal_element.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_of_representation.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.UniversalElement_of_Representable.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Representable_of_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.ue_med.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_unique.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement_of_AUniversalArrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalArrow_of_AUniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.HomAfter.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalElement_of_hom.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.AUniversalArrow_of_hom.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.universal_element_arrow_subsumption.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.subsumption_composite.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Elements.Elements_Initial.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Elements.AUniversalElement_of_Elements_Initial.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Elements.UniversalElement_of_Elements_Initial.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_ue_factor.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_Elements_Initial.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
