@@ -315,6 +315,9 @@ Instance/Rng/Mod.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
+Instance/Square.v
+Instance/Square/Product.v
+Instance/Square/Rectangle.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
@@ -634,6 +637,7 @@ Test/Issue213.v
 Test/ProbeFunnyPoly.v
 Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
+Test/ProbeSquare.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
