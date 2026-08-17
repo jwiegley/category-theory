@@ -286,6 +286,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Comma.Natural.Transformation.'; \
 	  echo 'Require Import Category.Construction.Comma.Functorial.'; \
 	  echo 'Require Import Category.Instance.Rng.Algebras.'; \
+	  echo 'Require Import Category.Theory.OGraph.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -638,6 +639,17 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Int_KAlg.'; \
 	  echo 'Print Assumptions Q_KAlg.'; \
 	  echo 'Print Assumptions Z_KAlg.'; \
+	  echo 'Print Assumptions OGrph.'; \
+	  echo 'Print Assumptions OGraph_prod.'; \
+	  echo 'Print Assumptions OGrph_Monoidal.'; \
+	  echo 'Print Assumptions OMonoid.'; \
+	  echo 'Print Assumptions MonoidOfCat.'; \
+	  echo 'Print Assumptions CategoryOfOMonoid.'; \
+	  echo 'Print Assumptions category_is_monoid_in_OGrph.'; \
+	  echo 'Print Assumptions ocat_roundtrip_iso.'; \
+	  echo 'Print Assumptions OGrph_Quiver_Faithful.'; \
+	  echo 'Print Assumptions Monoid_of_MonObject.'; \
+	  echo 'Print Assumptions coarse_respectfulness_entails_UIP.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
