@@ -627,6 +627,9 @@ Theory/Shapes.v
 Theory/Universal/Arrow.v
 Theory/Universal/Arrow/Dual.v
 Theory/Universal/Arrow/Dual/Examples.v
+Theory/Universal/Element.v
+Theory/Universal/Element/Elements.v
+Theory/Universal/Element/Examples.v
 Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
@@ -641,6 +644,7 @@ Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
 Test/ProbeSquare.v
 Test/ProbeCouniversal.v
+Test/ProbeUniversalElement.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
