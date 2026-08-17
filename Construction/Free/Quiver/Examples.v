@@ -109,40 +109,61 @@ Generalizable All Variables.
    classical reasoning is used anywhere in this file; every named constant and
    every Program obligation reports "Closed under the global context".
 
-   UNIVERSES, measured and attributed.  Every identification below in whose
-   statement a quiver appears is stated at [Category@{Set Set Set}], and this is
-   FORCED rather than an artifact of minimization.  [Build_Quiver_Standard_Eq] (Construction/Free/Quiver.v:194),
-   the tree's only smart constructor for a quiver with a strict edge setoid,
-   has type [... -> Quiver@{u u0 Set}]: its PROOF universe is pinned to [Set].
-   [FreeOnQuiver@{o h p}] carries the constraints [o <= h] and [h <= p] (they
-   are printed in its own universe context), so [p = Set] forces [h <= Set], and
-   [o <= h] then pulls the object universe down with it.  Attempting to state
-   [ordinal_free] over universes declared by [Universes o h] is therefore
-   rejected outright.  The reproducible evidence for the pin, rather than any
-   particular error text (the message varies with the probe's shape, so no
-   quotation of it is given here): [LinQuiver@{o h} m : Quiver@{o h h}] is
-   REJECTED while [Quiver@{o h Set}] is accepted -- the pin already bites at
-   the quiver -- and letting the universes be inferred typechecks only by
-   silently forcing them, the resulting constant printing the constraints
-   [Set = o] and [Set = h].
+   UNIVERSES.  ERRATUM, and the pin is GONE.  An earlier revision of this
+   header recorded that every identification below in whose statement a
+   quiver appears was confined to [Category@{Set Set Set}], that this was
+   FORCED rather than an artifact of minimization, and that lifting the
+   restriction "would mean changing [Build_Quiver_Standard_Eq] ... and is out
+   of scope here".  The diagnosis was right and the pin was real:
+   [Build_Quiver_Standard_Eq] elaborated to [... -> Quiver@{u u0 Set}], its
+   PROOF universe silently minimized to [Set] because its edge setoid was
+   built from [Corelib.Classes.CRelationClasses.eq_equivalence@{u}], which
+   carries ONE universe binder and so cannot separate the carrier's level from
+   the proof level.  [FreeOnQuiver@{o h p}]'s constraints [o <= h] and
+   [h <= p] then pulled the whole statement down to [Set].
 
-   The consequence is that these are identifications of SMALL categories at the
-   [Set] level, and that a consumer wanting them at a larger level cannot get
-   there by instantiation.  Lifting the restriction would mean changing
-   [Build_Quiver_Standard_Eq], which is shared with FIVE files outside
-   Construction/Free/Quiver.v itself -- Construction/Free/Quiver/Concrete.v,
-   Construction/Free/Quiver/Presented.v, Construction/Free/TwoFunctors.v,
-   Theory/Diagram.v and Test/Issue138.v -- and is out of scope here.  Two contrasts are worth recording.  The engine is NOT pinned:
-   [graded_free_thin@{u u0 u1}] is stated over an arbitrary
-   [Quiver@{u u0 u1}], so thinness of a graded quiver's free category is
-   available at any level, and only the instances built through
-   [Build_Quiver_Standard_Eq] are confined.  And [Ordinal_2_strict_iso], the
-   one identification below in whose statement no quiver appears, leaves the
-   OBJECT universe free -- [Ordinal@{u0 Set Set} 2] against [_2@{u0 u1}] --
-   its hom and proof universes being pinned instead by [_2]'s own
-   [TwoHom : TwoObj -> TwoObj -> Set].  [linear_hom_iff] escapes nothing: it
-   carries no universe binders at all ([@{}]), i.e. it is monomorphic.  Those
-   are the constants measured; no claim is made about any other.
+   That change has since been made, in the course of issue #300
+   (Instance/Square.v, which needs functors out of a PRESENTED quiver into an
+   arbitrary target and so met the same pin from the other side).
+   [Build_Quiver_Standard_Eq@{o h p}] now names its proof universe and spends
+   the polymorphism of Lib/Setoid.v's own [eq_equivalence@{t u}], which was
+   introduced for exactly this purpose.
+
+   WHAT THE LIFT DOES AND DOES NOT BUY — stated carefully, because an earlier
+   draft of this very erratum overstated it and had to be corrected in turn.
+   The lift is at the CONSTRUCTOR, and the probe that actually demonstrates it
+   is [FreeOnQuiver@{uo uh up} (LinQuiver@{uo uh up} 3)]: accepted now,
+   REJECTED before the lift with [Cannot enforce Set = up].  [LinQuiver] gains
+   a third binder ([ArrowQuiver] likewise, 2 -> 3), and [linear_hom_iff], which
+   carried no binders at all, now carries [@{u}] and is stated over
+   [FreeOnQuiver@{u u u}] — that is a genuine change wrought BY this commit,
+   not a correction of an earlier mis-measurement.
+
+   What the lift does NOT do is move the identifications below.  Their
+   STATEMENTS were not touched, so elaboration still minimizes them:
+   [ordinal_free] reads [Isomorphism@{u Set Set} (FreeOnQuiver@{Set Set Set}
+   (LinQuiver@{Set Set Set} m)) (Ordinal@{Set Set Set} m)] both before and
+   after, and [arrow_free_Cat] likewise.  Their outer binders
+   ([ordinal_free@{u u0 u1}] and so on) were instantiable above [Set] BEFORE
+   the lift too, so accepting [Constraint Set < o] on them demonstrates
+   nothing; the categories are hard-coded at [Set] inside the statement and no
+   instantiation of the binders can move them.  So the earlier note's closing
+   caveat STANDS and is repeated here deliberately: these are identifications
+   of SMALL categories at the [Set] level, and a consumer wanting them at a
+   larger level cannot get there by instantiation — only by restating them.
+   What the lift changes is that a NEWLY WRITTEN statement over these quivers
+   may now be stated at an arbitrary level, which is what Instance/Square.v
+   needs and what the old constructor made impossible.
+
+   Two further corrections to the earlier note, of different kinds.  Genuine
+   error: it read [Ordinal_2_strict_iso]'s hom and proof universes as pinned by
+   [_2]'s own [TwoHom : TwoObj -> TwoObj -> Set], but landing in [Set] forces
+   only [Set <= h], not [h = Set], and the probe accepted a strictly larger
+   instance BEFORE the lift as well.  Not an error: its record of
+   [linear_hom_iff] as [@{}] was correct when written, and became stale only
+   because this commit changed that constant.  [graded_free_thin@{u u0 u1}] was
+   never pinned, being stated over an arbitrary [Quiver@{u u0 u1}].  Those are
+   the constants measured; no claim is made about any other.
 
    WHAT IS NOT HERE.  The loop example, per the delegation above.  A bijection
    between paths and ordinal arrows on the nose: what is proved is that the two
@@ -360,8 +381,8 @@ Definition arrow_free_Cat : FreeOnQuiver ArrowQuiver ≅[Cat] _2 :=
 Definition linear_edges@{o h} {m : nat} (x y : Ord_obj@{o} m) : Type@{h} :=
   (S (ord_val x) = ord_val y)%nat.
 
-Definition LinQuiver@{o h} (m : nat) : Quiver@{o h Set} :=
-  Build_Quiver_Standard_Eq@{o h} (Ord_obj@{o} m) (@linear_edges@{o h} m).
+Definition LinQuiver@{o h p} (m : nat) : Quiver@{o h p} :=
+  Build_Quiver_Standard_Eq@{o h p} (Ord_obj@{o} m) (@linear_edges@{o h} m).
 
 Lemma linear_edge_rank {m} (x y : LinQuiver m) :
   @edges (LinQuiver m) x y → ord_val y = S (ord_val x).

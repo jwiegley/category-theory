@@ -191,12 +191,23 @@ Section Quiver.
   Defined.
 End Quiver.
 
-Definition Build_Quiver_Standard_Eq ( node_type : Type )
-  ( edge_type : node_type -> node_type -> Type ) : Quiver :=
+(* The universe annotations are load-bearing, not decoration.  Left to
+   inference the edge setoid's PROOF universe minimizes to [Set], which pins
+   it in the resulting [Quiver@{o h Set}]; and since [InducedFunctor] below
+   identifies the target category's hom and proof universes with the quiver's,
+   that pin propagates to every functor out of a free or presented category
+   built this way, restricting its target to [Category@{o Set Set}].  Naming
+   [p] keeps it a parameter.  ([eq_equivalence] of Lib/Setoid.v is already
+   polymorphic for exactly this reason; what was missing was spending its
+   polymorphism here.) *)
+Definition Build_Quiver_Standard_Eq@{o h p} ( node_type : Type@{o} )
+  ( edge_type : node_type -> node_type -> Type@{h} ) : Quiver@{o h p} :=
   {|
     nodes := node_type ;
     edges := edge_type;
-    edgeset := fun _ _ => {| equiv := eq; setoid_equiv := eq_equivalence |}
+    edgeset := fun X Y =>
+      @Build_Setoid@{h p} (edge_type X Y) (@eq (edge_type X Y))
+        (@Category.Lib.Setoid.eq_equivalence@{h p} (edge_type X Y))
   |}.
 
 (* A quiver homomorphism G ⇨ G': a map on nodes together with, for each pair

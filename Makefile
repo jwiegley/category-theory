@@ -293,6 +293,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Free.Quiver.Constructions.'; \
 	  echo 'Require Import Category.Construction.Free.Groupoid.'; \
 	  echo 'Require Import Category.Instance.Grp.Free.'; \
+	  echo 'Require Import Category.Instance.Square.'; \
+	  echo 'Require Import Category.Instance.Square.Product.'; \
+	  echo 'Require Import Category.Instance.Square.Rectangle.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -704,6 +707,34 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions free_group_fmap_generators.'; \
 	  echo 'Print Assumptions free_group_two_generators_nonabelian.'; \
 	  echo 'Print Assumptions free_group_two_generators_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Square.'; \
+	  echo 'Print Assumptions Category.Instance.Square.wsq_classify.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Square_Thin.'; \
+	  echo 'Print Assumptions Category.Instance.Square.wsq_pairs_sound.'; \
+	  echo 'Print Assumptions Category.Instance.Square.wsq_pairs_complete.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_arrow_total_9.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_identity_total_4.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_nonidentity_total_5.'; \
+	  echo 'Print Assumptions Category.Instance.Square.free_square_arrow_total_10.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_quotient_merges_one.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Square.wsq_path_rank.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_hom_length.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_length_invariant.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_no_collapse.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_diagonal_is_two_steps.'; \
+	  echo 'Print Assumptions Category.Instance.Square.square_no_diagonal_edge.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Product.Square_2x2_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Product.prod22_arrow_total_9.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Product.square_22_counts_agree.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.paste_squares.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_outer_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_outer_two_ways.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.RectFunctor.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_arrow_total_18.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_identity_total_6.'; \
+	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_nonidentity_total_12.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
