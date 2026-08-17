@@ -291,6 +291,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Universal.Arrow.'; \
 	  echo 'Require Import Category.Instance.Coq.Monoid.Free.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Constructions.'; \
+	  echo 'Require Import Category.Construction.Free.Groupoid.'; \
+	  echo 'Require Import Category.Instance.Grp.Free.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -677,6 +679,31 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Forgetful_preserves_op_fmap.'; \
 	  echo 'Print Assumptions QuiverPair_Fst.'; \
 	  echo 'Print Assumptions QuiverPair_unique.'; \
+	  echo 'Print Assumptions FreeGroupoid.'; \
+	  echo 'Print Assumptions FreeGroupoid_IsGroupoid.'; \
+	  echo 'Print Assumptions FreeGroupoidUnit.'; \
+	  echo 'Print Assumptions FreeGroupoidFunctor.'; \
+	  echo 'Print Assumptions FreeGroupoidFunctor_unique.'; \
+	  echo 'Print Assumptions free_groupoid_universal.'; \
+	  echo 'Print Assumptions fg_restrict_recovers.'; \
+	  echo 'Print Assumptions fg_restrict_recovers_strict.'; \
+	  echo 'Print Assumptions fg_extend_restrict.'; \
+	  echo 'Print Assumptions free_signed_not_groupoid.'; \
+	  echo 'Print Assumptions free_signed_no_cancellation.'; \
+	  echo 'Print Assumptions fg_proj_not_faithful.'; \
+	  echo 'Print Assumptions loop_generator_not_identity.'; \
+	  echo 'Print Assumptions FreeGrpObject.'; \
+	  echo 'Print Assumptions fg_insert.'; \
+	  echo 'Print Assumptions free_group_universal.'; \
+	  echo 'Print Assumptions free_group_AUniversalArrow.'; \
+	  echo 'Print Assumptions FreeGrp.'; \
+	  echo 'Print Assumptions free_group_adjunction.'; \
+	  echo 'Print Assumptions free_group_counit_evaluates.'; \
+	  echo 'Print Assumptions free_group_triangle_left.'; \
+	  echo 'Print Assumptions free_group_triangle_right.'; \
+	  echo 'Print Assumptions free_group_fmap_generators.'; \
+	  echo 'Print Assumptions free_group_two_generators_nonabelian.'; \
+	  echo 'Print Assumptions free_group_two_generators_distinct.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
