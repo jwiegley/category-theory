@@ -173,6 +173,116 @@ Proof.
       exact (uniqueness (u d' f) _ h_eq).
 Defined.
 
+(** ** Uniqueness up to a unique isomorphism *)
+
+(* Awodey, "Category Theory" (1st ed., Carnegie Mellon pre-print, September
+   2005), Proposition 1.10, printed p. 22, states for free monoids what holds
+   of every universal arrow: two solutions of the same universal mapping
+   problem are connected by exactly one isomorphism COMPATIBLE WITH the
+   universal arrows.  The compatibility clause is not decoration.  The
+   header of this file already observes that a universal arrow is an initial
+   object of a comma category and that uniqueness is therefore "the generic
+   initial-object argument"; [initial_unique_up_to_unique_iso]
+   (Structure/Initial.v) carries out that argument, but it lives in the comma
+   category =(c) ↓ F and its uniqueness clause ranges over comma
+   isomorphisms.  Read down in D — which is where a consumer wants it, since
+   the object of interest is [arrow_obj], not the comma pair — the predicate
+   [True] would be FALSE: [arrow_obj] can have automorphisms (the free monoid
+   on two generators has one exchanging them), and those are isomorphisms
+   between the two universal objects that do not commute with the arrows.
+   What is unique is the isomorphism satisfying
+   [fmap[F] (to i) ∘ arrow₁ ≈ arrow₂], and that is the statement proved here.
+
+   The proof does not go through the comma category at all: it is the
+   two-line mediator argument run on [ump_universal_arrows], with
+   [to_equiv_implies_iso_equiv] (Theory/Isomorphism.v) supplying the step
+   from agreement of the [to] components to equality in [iso_setoid].  Both
+   encodings of the notion are covered — [universal_arrow_unique] for the
+   comma-packaged [UniversalArrow], where the object is projected out, and
+   [auniversal_arrow_unique] for [AUniversalArrow], where it is named. *)
+
+Section UniversalArrowUnique.
+
+Context {c : C}.
+Context {F : D ⟶ C}.
+
+(* The canonical mediating morphism: the unique factorization of the second
+   universal arrow through the first. *)
+Definition ua_med (U1 U2 : UniversalArrow c F)
+  : @arrow_obj c F U1 ~{D}~> @arrow_obj c F U2 :=
+  unique_obj (@ump_universal_arrows c F U1 (@arrow_obj c F U2) (@arrow c F U2)).
+
+Lemma ua_med_commutes (U1 U2 : UniversalArrow c F) :
+  fmap[F] (ua_med U1 U2) ∘ @arrow c F U1 ≈ @arrow c F U2.
+Proof.
+  symmetry.
+  exact (unique_property
+           (@ump_universal_arrows c F U1 (@arrow_obj c F U2) (@arrow c F U2))).
+Qed.
+
+(* Any morphism commuting with the two universal arrows IS the mediator. *)
+Lemma ua_med_unique (U1 U2 : UniversalArrow c F)
+      (g : @arrow_obj c F U1 ~{D}~> @arrow_obj c F U2) :
+  fmap[F] g ∘ @arrow c F U1 ≈ @arrow c F U2 → ua_med U1 U2 ≈ g.
+Proof.
+  intro Hg.
+  exact (uniqueness
+           (@ump_universal_arrows c F U1 (@arrow_obj c F U2) (@arrow c F U2))
+           g (symmetry Hg)).
+Qed.
+
+Lemma ua_med_id (U1 : UniversalArrow c F) : ua_med U1 U1 ≈ id.
+Proof.
+  apply ua_med_unique.
+  rewrite fmap_id.
+  apply id_left.
+Qed.
+
+Lemma ua_med_comp (U1 U2 U3 : UniversalArrow c F) :
+  ua_med U2 U3 ∘ ua_med U1 U2 ≈ ua_med U1 U3.
+Proof.
+  symmetry.
+  apply ua_med_unique.
+  rewrite fmap_comp, <- comp_assoc.
+  rewrite ua_med_commutes.
+  apply ua_med_commutes.
+Qed.
+
+(* The two mediators are mutually inverse, so the universal objects are
+   isomorphic. *)
+Program Definition universal_arrow_iso (U1 U2 : UniversalArrow c F)
+  : @arrow_obj c F U1 ≅ @arrow_obj c F U2 := {|
+  to   := ua_med U1 U2;
+  from := ua_med U2 U1
+|}.
+Next Obligation. rewrite ua_med_comp; apply ua_med_id. Qed.
+Next Obligation. rewrite ua_med_comp; apply ua_med_id. Qed.
+
+(* An isomorphism is determined by its [to] component
+   ([to_equiv_implies_iso_equiv]), so compatibility with the universal
+   arrows pins it down completely. *)
+Lemma universal_arrow_iso_unique (U1 U2 : UniversalArrow c F)
+      (v : @arrow_obj c F U1 ≅ @arrow_obj c F U2) :
+  fmap[F] (to v) ∘ @arrow c F U1 ≈ @arrow c F U2 →
+  universal_arrow_iso U1 U2 ≈ v.
+Proof.
+  intro Hv.
+  apply to_equiv_implies_iso_equiv; simpl.
+  now apply ua_med_unique.
+Qed.
+
+(* Awodey's Proposition 1.10 in general form: exactly one isomorphism of the
+   universal objects carries the first universal arrow to the second. *)
+Program Definition universal_arrow_unique (U1 U2 : UniversalArrow c F) :
+  Unique (fun i : @arrow_obj c F U1 ≅ @arrow_obj c F U2 =>
+            fmap[F] (to i) ∘ @arrow c F U1 ≈ @arrow c F U2) := {|
+  unique_obj      := universal_arrow_iso U1 U2;
+  unique_property := ua_med_commutes U1 U2
+|}.
+Next Obligation. exact (universal_arrow_iso_unique U1 U2 v X). Qed.
+
+End UniversalArrowUnique.
+
 Context (U : @Functor D C).
 
 Arguments arrow : clear implicits.
@@ -248,5 +358,93 @@ Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := {
 #[export] Program Instance AUniversalArrowEquiv (c : C) (F : D ⟶ C) (a : D) :
   Setoid (AUniversalArrow c F a) :=
   {| equiv := fun X Y => (@universal_arrow _ _ _ X) ≈ (@universal_arrow _ _ _ Y) |}.
+
+(* [universal_arrow_unique] restated for the direct encoding, where the
+   universal object is a parameter rather than a projection.  This is the
+   shape Awodey's Proposition 1.10 has: two monoids M and N, each carrying a
+   generator insertion that satisfies the UMP, are connected by exactly one
+   isomorphism commuting with the two insertions.  Nothing here is inherited
+   from the block above; [AUniversalArrow]'s own uniqueness field is the
+   entire proof, and its orientation
+   ([fmap[F] g ∘ universal_arrow ≈ f]) already matches, so no [symmetry] is
+   needed where the comma-packaged version needed one. *)
+
+Section AUniversalArrowUnique.
+
+Context {c : C}.
+Context {F : D ⟶ C}.
+
+Definition aua_med {a b : D} (U1 : AUniversalArrow c F a)
+           (U2 : AUniversalArrow c F b) : a ~{D}~> b :=
+  unique_obj (@universal_arrow_universal c F a U1 b
+                (@universal_arrow c F b U2)).
+
+Lemma aua_med_commutes {a b : D} (U1 : AUniversalArrow c F a)
+      (U2 : AUniversalArrow c F b) :
+  fmap[F] (aua_med U1 U2) ∘ @universal_arrow c F a U1
+    ≈ @universal_arrow c F b U2.
+Proof.
+  exact (unique_property
+           (@universal_arrow_universal c F a U1 b (@universal_arrow c F b U2))).
+Qed.
+
+Lemma aua_med_unique {a b : D} (U1 : AUniversalArrow c F a)
+      (U2 : AUniversalArrow c F b) (g : a ~{D}~> b) :
+  fmap[F] g ∘ @universal_arrow c F a U1 ≈ @universal_arrow c F b U2 →
+  aua_med U1 U2 ≈ g.
+Proof.
+  intro Hg.
+  exact (uniqueness
+           (@universal_arrow_universal c F a U1 b (@universal_arrow c F b U2))
+           g Hg).
+Qed.
+
+Lemma aua_med_id {a : D} (U1 : AUniversalArrow c F a) : aua_med U1 U1 ≈ id.
+Proof.
+  apply aua_med_unique.
+  rewrite fmap_id.
+  apply id_left.
+Qed.
+
+Lemma aua_med_comp {a b e : D} (U1 : AUniversalArrow c F a)
+      (U2 : AUniversalArrow c F b) (U3 : AUniversalArrow c F e) :
+  aua_med U2 U3 ∘ aua_med U1 U2 ≈ aua_med U1 U3.
+Proof.
+  symmetry.
+  apply aua_med_unique.
+  rewrite fmap_comp, <- comp_assoc.
+  rewrite aua_med_commutes.
+  apply aua_med_commutes.
+Qed.
+
+Program Definition auniversal_arrow_iso {a b : D} (U1 : AUniversalArrow c F a)
+        (U2 : AUniversalArrow c F b) : a ≅ b := {|
+  to   := aua_med U1 U2;
+  from := aua_med U2 U1
+|}.
+Next Obligation. rewrite aua_med_comp; apply aua_med_id. Qed.
+Next Obligation. rewrite aua_med_comp; apply aua_med_id. Qed.
+
+Lemma auniversal_arrow_iso_unique {a b : D} (U1 : AUniversalArrow c F a)
+      (U2 : AUniversalArrow c F b) (v : a ≅ b) :
+  fmap[F] (to v) ∘ @universal_arrow c F a U1 ≈ @universal_arrow c F b U2 →
+  auniversal_arrow_iso U1 U2 ≈ v.
+Proof.
+  intro Hv.
+  apply to_equiv_implies_iso_equiv; simpl.
+  now apply aua_med_unique.
+Qed.
+
+Program Definition auniversal_arrow_unique {a b : D}
+        (U1 : AUniversalArrow c F a) (U2 : AUniversalArrow c F b) :
+  Unique (fun i : a ≅ b =>
+            fmap[F] (to i) ∘ @universal_arrow c F a U1
+              ≈ @universal_arrow c F b U2) := {|
+  unique_obj      := auniversal_arrow_iso U1 U2;
+  unique_property := aua_med_commutes U1 U2
+|}.
+Next Obligation. exact (auniversal_arrow_iso_unique U1 U2 v X). Qed.
+
+End AUniversalArrowUnique.
 
 End UniversalArrow.
