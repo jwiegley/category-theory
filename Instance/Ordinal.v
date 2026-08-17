@@ -142,8 +142,16 @@ Generalizable All Variables.
    property proved HERE is the [Cat]-level one, up to [Functor_Setoid],
    which the StrictCat development does not provide; the literal
    identification [FreeOnQuiver (linear quiver) ≅ Ordinal (S n)] in
-   StrictCat is a further theorem that is NOT delivered in this file and
-   remains open.  Over a fixed
+   StrictCat is a further theorem, still not delivered in THIS file, but
+   it is no longer open: it is [ordinal_free] in
+   Construction/Free/Quiver/Examples.v, which proves
+   [FreeOnQuiver (LinQuiver m) ≅[StrictCat] Ordinal m] for every m, the
+   empty ordinal included.  That statement is pinned to
+   [Category@{Set Set Set}] -- the free side's universes are forced there
+   by [Build_Quiver_Standard_Eq] (Construction/Free/Quiver.v:194), whose
+   result type is [Quiver@{u u0 Set}] -- whereas [Ordinal@{o h p}] here
+   stays polymorphic, so the identification does not narrow this family.
+   Over a fixed
    assignment of objects [X : nat → C], a "path of n composable arrows"
    is an [OrdSteps n X], and the functorial actions on morphisms over
    the same [X] are the [OrdArrows n X] satisfying the two functor laws.

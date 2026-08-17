@@ -95,6 +95,7 @@ Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
 Construction/Free/Quiver/Presented.v
 Construction/Free/Quiver/Concrete.v
+Construction/Free/Quiver/Examples.v
 Construction/Free/TwoFunctors.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
