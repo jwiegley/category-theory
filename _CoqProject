@@ -229,6 +229,7 @@ Instance/Discrete.v
 Instance/Discrete/Reconstruct.v
 Instance/Coq/Applicative.v
 Instance/Coq/Lists.v
+Instance/Coq/Monoid/Free.v
 Instance/Coq/Nat.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v

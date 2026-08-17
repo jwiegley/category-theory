@@ -288,6 +288,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Rng.Algebras.'; \
 	  echo 'Require Import Category.Theory.OGraph.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Examples.'; \
+	  echo 'Require Import Category.Theory.Universal.Arrow.'; \
+	  echo 'Require Import Category.Instance.Coq.Monoid.Free.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -658,6 +660,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions chain_free.'; \
 	  echo 'Print Assumptions linear_hom_iff.'; \
 	  echo 'Print Assumptions Ordinal_2_strict_iso.'; \
+	  echo 'Print Assumptions universal_arrow_unique.'; \
+	  echo 'Print Assumptions auniversal_arrow_unique.'; \
+	  echo 'Print Assumptions free_monoid_universal.'; \
+	  echo 'Print Assumptions free_monoid_adjunction.'; \
+	  echo 'Print Assumptions free_monoid_unique_iso.'; \
+	  echo 'Print Assumptions free_monoid_counit_epic.'; \
+	  echo 'Print Assumptions AMon_initial_universal_arrow.'; \
+	  echo 'Print Assumptions insert_Transform.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
