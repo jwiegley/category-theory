@@ -93,6 +93,7 @@ Construction/Subcategory/Finite.v
 Construction/Subcategory/FullConverse.v
 Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
+Construction/Free/Groupoid.v
 Construction/Free/Quiver/Constructions.v
 Construction/Free/Quiver/Presented.v
 Construction/Free/Quiver/Concrete.v
@@ -264,6 +265,7 @@ Instance/Grp.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Center.v
 Instance/Grp/Epi.v
+Instance/Grp/Free.v
 Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
@@ -630,6 +632,7 @@ Test/Poset.v
 Test/Issue139.v
 Test/Issue213.v
 Test/ProbeFunnyPoly.v
+Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
 Test/Size.v
 Tools/Abstraction.v
