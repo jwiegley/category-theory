@@ -625,6 +625,8 @@ Theory/Skeleton/Separation.v
 Theory/Size.v
 Theory/Shapes.v
 Theory/Universal/Arrow.v
+Theory/Universal/Arrow/Dual.v
+Theory/Universal/Arrow/Dual/Examples.v
 Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
@@ -638,6 +640,7 @@ Test/ProbeFunnyPoly.v
 Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
 Test/ProbeSquare.v
+Test/ProbeCouniversal.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

@@ -296,6 +296,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Square.'; \
 	  echo 'Require Import Category.Instance.Square.Product.'; \
 	  echo 'Require Import Category.Instance.Square.Rectangle.'; \
+	  echo 'Require Import Category.Theory.Universal.Arrow.Dual.'; \
+	  echo 'Require Import Category.Theory.Universal.Arrow.Dual.Examples.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -735,6 +737,32 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_arrow_total_18.'; \
 	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_identity_total_6.'; \
 	  echo 'Print Assumptions Category.Instance.Square.Rectangle.rect_nonidentity_total_12.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.CouniversalArrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.coarrow_obj.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.coarrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.ump_couniversal_arrows.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_from_UMP.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_terminal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_of_terminal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.terminal_is_initial_op.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.cua_med.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_unique.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.RightAdjointFunctorFromCouniversalArrows.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.AdjunctionFromCouniversalArrows.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.counit_couniversal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.ACouniversalArrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.couniversal_arrow_couniversal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.acouniversal_arrow_unique.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.ACouniversalArrow_of_CouniversalArrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.CouniversalArrow_of_ACouniversalArrow.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.product_CUA.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.product_terminal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.product_via_couniversal.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.product_via_couniversal_is_product.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.Sets_product_CUA.'; \
+	  echo 'Print Assumptions Category.Theory.Universal.Arrow.Dual.Examples.Sets_product_via_couniversal.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
