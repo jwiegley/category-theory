@@ -290,6 +290,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Free.Quiver.Examples.'; \
 	  echo 'Require Import Category.Theory.Universal.Arrow.'; \
 	  echo 'Require Import Category.Instance.Coq.Monoid.Free.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Constructions.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -668,6 +669,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions free_monoid_counit_epic.'; \
 	  echo 'Print Assumptions AMon_initial_universal_arrow.'; \
 	  echo 'Print Assumptions insert_Transform.'; \
+	  echo 'Print Assumptions QuiverOp.'; \
+	  echo 'Print Assumptions QuiverProd.'; \
+	  echo 'Print Assumptions QuiverOp_invol.'; \
+	  echo 'Print Assumptions Forgetful_preserves_op.'; \
+	  echo 'Print Assumptions Forgetful_preserves_prod.'; \
+	  echo 'Print Assumptions Forgetful_preserves_op_fmap.'; \
+	  echo 'Print Assumptions QuiverPair_Fst.'; \
+	  echo 'Print Assumptions QuiverPair_unique.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

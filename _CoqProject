@@ -93,6 +93,7 @@ Construction/Subcategory/Finite.v
 Construction/Subcategory/FullConverse.v
 Construction/Subcategory/Terminal.v
 Construction/Free/Quiver.v
+Construction/Free/Quiver/Constructions.v
 Construction/Free/Quiver/Presented.v
 Construction/Free/Quiver/Concrete.v
 Construction/Free/Quiver/Examples.v
@@ -629,6 +630,7 @@ Test/Poset.v
 Test/Issue139.v
 Test/Issue213.v
 Test/ProbeFunnyPoly.v
+Test/ProbeQuiverConstructions.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
