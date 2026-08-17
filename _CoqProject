@@ -30,6 +30,7 @@ Construction/Comma/Limit.v
 Construction/Comma/Creation.v
 Construction/Comma/Special.v
 Construction/Comma/Diagram.v
+Construction/Comma/Functorial.v
 Construction/Cylinder.v
 Construction/Cylinder/Arrow.v
 Construction/Coproduct.v
