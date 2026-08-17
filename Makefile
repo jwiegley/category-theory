@@ -301,6 +301,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Universal.Element.'; \
 	  echo 'Require Import Category.Theory.Universal.Element.Elements.'; \
 	  echo 'Require Import Category.Theory.Universal.Element.Examples.'; \
+	  echo 'Require Import Category.Structure.Kernel.'; \
+	  echo 'Require Import Category.Structure.Kernel.Universal.'; \
+	  echo 'Require Import Category.Structure.Kernel.Universal.Examples.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -804,6 +807,39 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_UniversalElement.'; \
 	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_ue_factor.'; \
 	  echo 'Print Assumptions Category.Theory.Universal.Element.Examples.nat_Elements_Initial.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.ZeroMorphisms.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.ZeroMorphisms_of_ZeroObject.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.KillPresheaf.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.IsKernelOf.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_aue.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.aue_kernel.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_round_mediator.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.aue_kernel_round_mediator.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_universal_element_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_Representable.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_representation.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_iff_representable.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_universal_element.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kernel_representable.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.ForkPresheaf.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.equalizer_aue.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.aue_equalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.equalizer_universal_element_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.equalizer_Representable.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.kill_fork_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_kernel_IsKernel.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_kernel_aue.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_kernel_Representable.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_kernel_representation.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_kernel_round.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_parity.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_parity_med.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.ab_parity_universal_element.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_no_hom_zero_to_Z.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_no_zero_morphisms.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_no_zero_object.'; \
+	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_fork_presheaf.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

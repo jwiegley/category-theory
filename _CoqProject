@@ -446,6 +446,8 @@ Structure/Groupoid/Connected.v
 Structure/Groupoid/Inversion.v
 Structure/Initial.v
 Structure/Kernel.v
+Structure/Kernel/Universal.v
+Structure/Kernel/Universal/Examples.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Creation.v
@@ -645,6 +647,7 @@ Test/ProbeQuiverConstructions.v
 Test/ProbeSquare.v
 Test/ProbeCouniversal.v
 Test/ProbeUniversalElement.v
+Test/ProbeKernelUniversal.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
