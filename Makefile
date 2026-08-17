@@ -285,6 +285,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Comma.Diagram.'; \
 	  echo 'Require Import Category.Construction.Comma.Natural.Transformation.'; \
 	  echo 'Require Import Category.Construction.Comma.Functorial.'; \
+	  echo 'Require Import Category.Instance.Rng.Algebras.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -630,6 +631,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Comma_Bifunctor_Iso.'; \
 	  echo 'Print Assumptions Comma_reindex.'; \
 	  echo 'Print Assumptions Comma_reindex_recovers_Comma_map.'; \
+	  echo 'Print Assumptions KAlg.'; \
+	  echo 'Print Assumptions KAlg_Coslice_strict_iso.'; \
+	  echo 'Print Assumptions KAlg_Coslice_iso.'; \
+	  echo 'Print Assumptions KAlg_Comma_iso.'; \
+	  echo 'Print Assumptions Int_KAlg.'; \
+	  echo 'Print Assumptions Q_KAlg.'; \
+	  echo 'Print Assumptions Z_KAlg.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
