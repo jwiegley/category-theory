@@ -287,6 +287,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Comma.Functorial.'; \
 	  echo 'Require Import Category.Instance.Rng.Algebras.'; \
 	  echo 'Require Import Category.Theory.OGraph.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Examples.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -650,6 +651,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions OGrph_Quiver_Faithful.'; \
 	  echo 'Print Assumptions Monoid_of_MonObject.'; \
 	  echo 'Print Assumptions coarse_respectfulness_entails_UIP.'; \
+	  echo 'Print Assumptions graded_free_thin.'; \
+	  echo 'Print Assumptions arrow_free.'; \
+	  echo 'Print Assumptions ordinal_free.'; \
+	  echo 'Print Assumptions ordinal_free_Cat.'; \
+	  echo 'Print Assumptions chain_free.'; \
+	  echo 'Print Assumptions linear_hom_iff.'; \
+	  echo 'Print Assumptions Ordinal_2_strict_iso.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
