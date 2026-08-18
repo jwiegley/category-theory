@@ -304,6 +304,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Kernel.'; \
 	  echo 'Require Import Category.Structure.Kernel.Universal.'; \
 	  echo 'Require Import Category.Structure.Kernel.Universal.Examples.'; \
+	  echo 'Require Import Category.Instance.Mod.'; \
+	  echo 'Require Import Category.Instance.FdVect.'; \
+	  echo 'Require Import Category.Instance.Mod.Free.'; \
+	  echo 'Require Import Category.Instance.Vect.Free.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -840,6 +844,48 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_no_zero_morphisms.'; \
 	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_no_zero_object.'; \
 	  echo 'Print Assumptions Category.Structure.Kernel.Universal.Examples.Rng_fork_presheaf.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.FreeModObject.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_insert.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_extend.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_extend_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_AUniversalArrow.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.FreeMod.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_counit_evaluates.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_fmap_generators.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_transpose_extend.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_extend_transpose.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_naturality_in_set.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_naturality_in_module.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_triangle_left.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_triangle_right.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.fv_normal_form.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_scalars_faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_basis_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.free_module_two_independent.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.int_free_basis_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.int_free_two_independent.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Free.int_free_scalars_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.Vct_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.FreeVectObject.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_insert.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_AUniversalArrow.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.FreeVect.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_counit_evaluates.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_fmap_generators.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_naturality_in_set.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_naturality_in_space.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_triangle_left.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_triangle_right.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_finite_combination.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_basis_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_basis_independent.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_half_not_one.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
