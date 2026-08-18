@@ -317,10 +317,13 @@ Instance/Rel/Dagger.v
 Instance/Rep.v
 Instance/Rng.v
 Instance/Rng/Algebras.v
+Instance/Rng/Algebras/Associative.v
 Instance/Rng/Frac.v
 Instance/Rng/Mod.v
 Instance/Rng/Pointed.v
 Instance/Rng/Polynomial.v
+Instance/Rng/MonoidRing.v
+Instance/Rng/GroupRing.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -364,6 +367,7 @@ Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
 Instance/Vect/Free.v
 Instance/Vect/Tensor.v
+Instance/Vect/TensorAlgebra.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -664,6 +668,7 @@ Test/ProbeModTensor.v
 Test/ProbeFieldFrac.v
 Test/ProbeMet.v
 Test/ProbePolynomial.v
+Test/ProbeAlgebras.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
