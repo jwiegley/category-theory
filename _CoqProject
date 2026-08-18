@@ -289,6 +289,9 @@ Instance/Matr/Determinant.v
 Instance/Matr/GL.v
 Instance/Matr/Yoneda.v
 Instance/Matr/FunExercises.v
+Instance/Met.v
+Instance/Met/Extended.v
+Instance/Met/Completion.v
 Instance/Mod.v
 Instance/Mod/Free.v
 Instance/Mod/Tensor.v
@@ -656,6 +659,7 @@ Test/ProbeKernelUniversal.v
 Test/ProbeFreeVect.v
 Test/ProbeModTensor.v
 Test/ProbeFieldFrac.v
+Test/ProbeMet.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

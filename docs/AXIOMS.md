@@ -288,9 +288,16 @@ the global context".  Known live uses:
   hom-congruence quotients, and the pointed category `Top_pointed`,
   and `Instance/Top/LoopSpace.v` builds the two operations on loops at
   the unit of a topological group and derives the abelian fundamental
-  group.
-  These are the only six files in the tree that import the reals
-  (verify: `rg -l 'Coq.Reals' --glob '*.v' .`), and none declares an
+  group.  Three more arrived with the metric-space development:
+  `Instance/Met.v` (metric spaces, isometries, the category `Met`, the
+  complete full subcategory `CMet`), `Instance/Met/Extended.v`
+  (extended metric spaces valued in `[0, ∞]`), and
+  `Instance/Met/Completion.v` (the completion by Cauchy sequences and
+  its universal arrow).
+  These are the only nine DEVELOPMENT files in the tree that import the
+  reals (verify: `rg -l 'Coq.Reals' --glob '*.v' --glob '!Test/**' .`;
+  the unrestricted form returns ten, the tenth being
+  `Test/ProbeMet.v`, which imports them to state its probes), and none declares an
   axiom of its own; what they inherit is the axiom set of the standard
   library's own construction of `R`.  The cost splits in two, and both
   halves are measured rather than estimated:
@@ -461,11 +468,63 @@ the global context".  Known live uses:
   `Print Assumptions Category.Structure.Groupoid.Basepoint.connected_vertex_moniso`),
   and because they do, that file *is* wired into the
   `print-assumptions` make target, alongside its `Structure/Groupoid`
-  siblings.  The four files that import the reals are not: that target
+  siblings.  The nine files that import the reals are not: that target
   permits only the three ZX `Phase` parameters, and the instance-layer
   stdlib axioms listed in this section are documented here instead,
   exactly as the `Instance/Coq` and `Instance/Lambda` entries above
   are.
+
+### The metric-space development, measured per constant
+
+`Instance/Met.v`, `Instance/Met/Extended.v` and
+`Instance/Met/Completion.v` were audited constant by constant rather
+than sampled, and the split is worth recording because it locates the
+cost precisely, in four tiers rather than three: mentioning the *type*
+`R` is free; using any real constant, operation or ordering costs
+`sig_forall_dec`; *proving* with the standard library's real lemmas
+adds `functional_extensionality_dep`; and only the least-upper-bound
+property (`R_complete`) adds `sig_not_dec`.  (Measured directly:
+`Definition t : Type := R` is Closed, while `Definition t : R := 0`,
+`x <= y` and `x + y` each carry `sig_forall_dec` alone — so it is the
+*proofs*, not the arithmetic, that buy the second axiom.)
+
+- **`Instance/Met.v`** — 63 constants: 2 report "Closed under the
+  global context" (`R_Setoid`, `Nat_Setoid`), 32 carry
+  `sig_forall_dec` alone, 27 carry `sig_forall_dec` with
+  `functional_extensionality_dep`, and **exactly two carry
+  `sig_not_dec`** — `R_Metric_MComplete` and `R_CMet`, which are the
+  two that call `R_complete`.  (Verified independently over all 54
+  `.glob`-visible constants: exactly two `sig_not_dec`, exactly two
+  Closed.  The remaining nine of the 63 are the RECORD PROJECTIONS —
+  `met_carrier`, `dist`, `dist_proper`, `dist_refl`, `dist_separates`,
+  `dist_sym`, `dist_triangle`, `isometry_map`, `isometry_dist` — and NOT
+  `Program` obligations, which are excluded from these counts
+  altogether: there are nine of those across the three files, eight in
+  `Instance/Met.v` and one in `Instance/Met/Completion.v`, and all of
+  them fall in the one- or two-axiom buckets with no `sig_not_dec`.  So
+  "184 constants" is the count under that convention rather than
+  literally every constant.)
+- **`Instance/Met/Extended.v`** — 55 constants: 5 Closed (`RFin_inj`,
+  `RFin_neq_RInf`, `Rinf_finite_dec`, `Rinf_plus_RInf_l`,
+  `bool_setoid_object`), 43 `sig_forall_dec` alone, 7 with
+  `functional_extensionality_dep`.  **No constant carries
+  `sig_not_dec`** — the extended-metric layer never touches
+  completeness.
+- **`Instance/Met/Completion.v`** — 66 constants: 9 `sig_forall_dec`
+  alone, 16 with `functional_extensionality_dep`, and 41 with all
+  three.  The headline artifacts — `Completion`,
+  `Completion_MComplete`, `eta`, `ext`, both universal-arrow
+  encodings, `completion_unique` and `cdist` — all carry the full
+  three-axiom set, which is expected: the completion's distance *is*
+  `R_complete` applied to a Cauchy sequence of reals.
+
+None of the three is wired into the `print-assumptions` gate, and that
+is deliberate rather than an oversight: that target fails on **any**
+reported axiom other than the three documented ZX `Phase` parameters
+(see the `unexpected=` filter in the `Makefile`), so a reals-based
+development cannot be audited by it.  None of the six pre-existing
+reals files is in the gate either, for the same reason.  The
+measurement above is what stands in its place.
 
 Two entries that earlier editions of this table listed are *not* live
 uses, and are corrected here:
