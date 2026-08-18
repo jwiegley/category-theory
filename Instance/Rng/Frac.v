@@ -29,10 +29,16 @@ Generalizable All Variables.
     homomorphisms carrying an injectivity field ([DomHom]).  In-tree
     the identification "monomorphism = injection" is available in the
     direction that matters — [rng_injective_monic] (Instance/Rng.v)
-    shows every [DomHom]'s underlying map is monic in [Rng] — while
-    the converse (monic ⇒ injective) is deferred there pending the
-    free ring ℤ[x], so injectivity is carried as data rather than
-    reconstructed from the categorical property.
+    shows every [DomHom]'s underlying map is monic in [Rng].  The
+    converse (monic ⇒ injective) was deferred when this was written,
+    pending the free ring ℤ[x]; it is now proved, as
+    [rng_monic_injective] in Instance/Rng/Polynomial.v.  Injectivity
+    remains carried as DATA in [DomHom] rather than reconstructed from
+    the categorical property, and that is now a choice rather than a
+    necessity: the construction below consumes the injectivity witness
+    directly at several sites here and downstream in
+    Instance/Field/Frac.v, so recovering it from a [Monic] hypothesis at
+    each use would buy nothing.
 
     CONSTRUCTIVE CHOICE, disclosed.  An integral domain is presented
     with CANCELLATION as the defining field ([dom_cancel]: c ≉ 0 and

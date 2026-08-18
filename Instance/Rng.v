@@ -62,18 +62,35 @@ Generalizable All Variables.
     two-sided inverses are unique; no fraction ever needs to be chosen,
     only cancelled.  The non-surjectivity half exhibits 1/2.
 
-    SCOPE NOTE, disclosed.  "Monics are exactly the injections" ships
-    here in the direction that needs no new machinery: injective ⇒ monic
-    ([rng_injective_monic]), plus surjective ⇒ epi ([rng_surjective_epic],
-    whose converse is REFUTED by the headline theorem).  The converse
-    monic ⇒ injective requires probing with the free ring on one
-    generator — the polynomial ring ℤ[x], which does not exist in-tree —
-    exactly as Instance/Sets.v probes with the singleton and
-    Instance/Top.v with the point space; it is deferred to the future
-    free-ring development rather than asserted.  (The issue's own
-    verification list names [Rng], [CRng], [Rng_Initial_Z],
-    [Rng_Terminal_zero] and [ZtoQ_epi_not_surjective] as the audited
-    artifacts.) *)
+    SCOPE NOTE, disclosed, and a DEFERRAL SINCE DISCHARGED.  "Monics are
+    exactly the injections" ships here in the direction that needs no new
+    machinery: injective ⇒ monic ([rng_injective_monic]), plus
+    surjective ⇒ epi ([rng_surjective_epic], whose converse is REFUTED by
+    the headline theorem).  The converse monic ⇒ injective requires
+    probing with the free ring on one generator — the polynomial ring
+    ℤ[x] — exactly as Instance/Sets.v probes with the singleton and
+    Instance/Top.v with the point space.  That probe did not exist when
+    this file was written and the result was deferred here; it exists
+    now, and the result is PROVED, in Instance/Rng/Polynomial.v.
+
+    What landed is STRONGER than what was deferred, in two respects worth
+    stating rather than leaving for a reader to notice.  First, it is a
+    BICONDITIONAL: [rng_monic_iff_injective] pairs the new
+    [rng_monic_injective] with this file's [rng_injective_monic], so
+    "monics are exactly the injections" is now the whole sentence and not
+    half of it.  Second, it holds over ALL of [Rng] and not merely over
+    [CRng].  The evaluation homomorphism out of ℤ[x] needs its target
+    element to commute with the image of the coefficients, which over an
+    arbitrary non-commutative ring is not automatic; Polynomial.v's
+    [zring_central] supplies it, the integers being central in every
+    unital ring, so ℤ[x] is free on one generator in the category of all
+    unital rings and the probe is available at every object of [Rng].
+
+    The statement cannot live in this file: ℤ[x] is built downstream of
+    [Rng_Initial_Z] and [CRng], both of which it consumes, so it lives
+    where its probe does.  (The issue's own verification list names
+    [Rng], [CRng], [Rng_Initial_Z], [Rng_Terminal_zero] and
+    [ZtoQ_epi_not_surjective] as the audited artifacts.) *)
 
 (** ** The category, under Mac Lane's name *)
 

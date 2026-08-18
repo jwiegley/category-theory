@@ -313,6 +313,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Field.'; \
 	  echo 'Require Import Category.Instance.Rng.Frac.'; \
 	  echo 'Require Import Category.Instance.Field.Frac.'; \
+	  echo 'Require Import Category.Instance.Rng.Polynomial.'; \
+	  echo 'Require Import Category.Instance.Rng.Pointed.'; \
+	  echo 'Require Import Category.Instance.Mod.Representable.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -979,6 +982,74 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_Z_half.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_Z_three.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_embed_Z_not_surjective.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.PTerm.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pt_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pe_mul_zero_l.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.pe_const_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.PolyRig.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.PolyRing.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_comm.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_const.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_x.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.peval.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.peval_comm.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.peval_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_extend.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_extend_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.rig_iter_central.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zring_central.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.PolyAlg.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.KAlg_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.kalg_eval.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_representation.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_representable.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_auniversal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.ZPoly.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_eval.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_hom_const.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_representation.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_representable.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_auniversal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.rng_monic_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.rng_monic_iff_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_hom_value_central.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_const_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_const_monic.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.poly_x_not_constant.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_x_not_constant.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_x_nonzero.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Polynomial.zpoly_x_not_one.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.CRng_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.CRngPt.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.CRngPt_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.PolyCRng.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.PolyPt.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.PolyPointed.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_transpose_is_evaluation.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_adj_transpose_evaluates.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.poly_pointed_fmap_const.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.Pointed.zpoly_pointed_eval.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.rmod_by_element.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.rmod_out_of_ring.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.ring_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.rmod_representation.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.rmod_representable.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.ring_auniversal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.ring_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.free_one_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.free_one_generator_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Representable.free_one_generator_iso_unique.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

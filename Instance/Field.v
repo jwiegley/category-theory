@@ -102,9 +102,13 @@ Generalizable All Variables.
 
     THE CONVERSE IS NOT CLAIMED.  "Monic ⟺ injective" would need the
     monic ⇒ injective direction, and that needs a probe object — the
-    free field on one generator, which does not exist in this tree, just
-    as Instance/Rng.v defers its monic ⇒ injective to the polynomial
-    ring ℤ[x] and Instance/Sets.v probes with the singleton.  Riehl's
+    free field on one generator, which does not exist in this tree.  The
+    analogous probes elsewhere show what is missing rather than that the
+    pattern is unavailable: Instance/Sets.v probes with the singleton,
+    and Instance/Rng.v's own monic ⇒ injective — deferred there when this
+    was written, pending the polynomial ring ℤ[x] — is now proved, as
+    [rng_monic_injective] in Instance/Rng/Polynomial.v, using exactly
+    that probe.  No such object is available for fields.  Riehl's
     exercise concludes that every morphism is monic, and that is what is
     delivered.
 

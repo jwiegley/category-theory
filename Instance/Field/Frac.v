@@ -68,10 +68,12 @@ Generalizable All Variables.
     correction is repeated here because a header is where a reader
     looks.  Already present and REUSED rather than rebuilt:
     Instance/Rng/Frac.v's [IntDom] — integral domains with injective
-    ring homomorphisms, which is Mac Lane's Dom_m modulo the
-    monic-implies-injective converse that Instance/Rng/Frac.v defers
-    pending the free ring ℤ[x] (injective-implies-monic IS proved
-    there, as [DomHom_monic]) — with [DomObject],
+    ring homomorphisms, which is Mac Lane's Dom_m; the
+    monic-implies-injective converse was outstanding when this was
+    written, pending the free ring ℤ[x], and is now proved as
+    [rng_monic_injective] in Instance/Rng/Polynomial.v, while
+    injective-implies-monic is Instance/Rng/Frac.v's [DomHom_monic] —
+    with [DomObject],
     [DomHom], the fraction ring [FracRing], the embedding [frac_embed]
     and its injectivity [frac_embed_inj]; Instance/Field.v's [Field]
     with [Field_Rng], [Field_Forget], the ¬¬-stability analysis, ℚ and
