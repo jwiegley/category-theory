@@ -308,6 +308,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.FdVect.'; \
 	  echo 'Require Import Category.Instance.Mod.Free.'; \
 	  echo 'Require Import Category.Instance.Vect.Free.'; \
+	  echo 'Require Import Category.Instance.Mod.Tensor.'; \
+	  echo 'Require Import Category.Instance.Vect.Tensor.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -886,6 +888,54 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_basis_distinct.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_basis_independent.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.Free.free_vect_half_not_one.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.RBilinear.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_zero_l.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_zero_r.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_neg_l.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_neg_r.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_commutator.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_commutator_annihilates.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.rbl_commutator_from_commutativity.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.TensorMod.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_balanced.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_zero_l.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_zero_r.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_neg_l.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_neg_r.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_commutator.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_med.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_med_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_hom_ext.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.Bilin.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_factor.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_factor_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.tensor_factor_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.Int_mul_bilinear.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.int_tensor_gen_nonzero.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.int_tensor_gen_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.int_tensor_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Tensor.Int_tensor_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.VctBilinear.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.VctBilin.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.VctTensor.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_UniversalElement.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_factor.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_factor_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_tensor_factor_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.vct_commutator_vacuous.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.Q_Vct.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.Q_mul_bilinear.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_gen_nonzero.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_half_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_smul_half.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_smul_half_moves.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Vect.Tensor.Q_tensor_iso.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
