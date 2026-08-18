@@ -294,6 +294,7 @@ Instance/Met/Extended.v
 Instance/Met/Completion.v
 Instance/Mod.v
 Instance/Mod/Free.v
+Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
 Instance/Omega.v
 Instance/One.v
@@ -318,6 +319,8 @@ Instance/Rng.v
 Instance/Rng/Algebras.v
 Instance/Rng/Frac.v
 Instance/Rng/Mod.v
+Instance/Rng/Pointed.v
+Instance/Rng/Polynomial.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -660,6 +663,7 @@ Test/ProbeFreeVect.v
 Test/ProbeModTensor.v
 Test/ProbeFieldFrac.v
 Test/ProbeMet.v
+Test/ProbePolynomial.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
