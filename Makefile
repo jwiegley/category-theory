@@ -310,6 +310,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Vect.Free.'; \
 	  echo 'Require Import Category.Instance.Mod.Tensor.'; \
 	  echo 'Require Import Category.Instance.Vect.Tensor.'; \
+	  echo 'Require Import Category.Instance.Field.'; \
+	  echo 'Require Import Category.Instance.Rng.Frac.'; \
+	  echo 'Require Import Category.Instance.Field.Frac.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -936,6 +939,46 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_smul_half_moves.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.Tensor.q_tensor_unit.'; \
 	  echo 'Print Assumptions Category.Instance.Vect.Tensor.Q_tensor_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.field_dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.IntDom_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.Field_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.StableField.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.StableField_IntDom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.StableField_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.Field_IntDom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_hom_den_nonzero.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_embed.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_embed_den.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_ump.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.DomZeroDec.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.dom_zero_dec_eq_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.FracField.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.FracField_stable.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.FracStableField.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.ZtoF2.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.ZtoF2_not_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_DomHom_Z_F2.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.IntDom_Dom_not_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.IntDom_Incl_not_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_field_over_Q_and_F2.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_field_maps_to_all_fields.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_universal_arrow_Z_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_auniversal_arrow_Z_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_universal_arrow_Z_Dom_stable.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.no_auniversal_arrow_Z_Dom_stable.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.Int_zero_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.Frac_Z.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.ZtoQ_Dom.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_universal_over_monos_not_over_all.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_Z_half.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_extend_Z_three.'; \
+	  echo 'Print Assumptions Category.Instance.Field.Frac.frac_embed_Z_not_surjective.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
