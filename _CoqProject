@@ -243,6 +243,7 @@ Instance/Ens.v
 Instance/EnsV.v
 Instance/Fact.v
 Instance/Field.v
+Instance/Field/Frac.v
 Instance/FdVect.v
 Instance/FdVect/DoubleDual.v
 Instance/FdVect/NonNatural.v
@@ -654,6 +655,7 @@ Test/ProbeUniversalElement.v
 Test/ProbeKernelUniversal.v
 Test/ProbeFreeVect.v
 Test/ProbeModTensor.v
+Test/ProbeFieldFrac.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
