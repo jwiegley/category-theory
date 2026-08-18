@@ -289,6 +289,7 @@ Instance/Matr/GL.v
 Instance/Matr/Yoneda.v
 Instance/Matr/FunExercises.v
 Instance/Mod.v
+Instance/Mod/Free.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
@@ -353,6 +354,7 @@ Instance/Top/LoopSpace.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
+Instance/Vect/Free.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -648,6 +650,7 @@ Test/ProbeSquare.v
 Test/ProbeCouniversal.v
 Test/ProbeUniversalElement.v
 Test/ProbeKernelUniversal.v
+Test/ProbeFreeVect.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
