@@ -161,6 +161,7 @@ Instance/ZX.v
 Functor/Applicative.v
 Functor/Bifunctor.v
 Functor/Bifunctor/Partial.v
+Functor/Construction/Postcompose.v
 Functor/Construction/Product.v
 Functor/Construction/Product/Monoidal.v
 Functor/Construction/Product/Strong.v
@@ -694,6 +695,7 @@ Test/ProbeModQuotient.v
 Test/ProbeGrpCongruence.v
 Test/ProbeYonedaNatural.v
 Test/ProbeRepresentableInduced.v
+Test/ProbePostcompose.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
