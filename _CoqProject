@@ -266,6 +266,7 @@ Instance/Fun/Action.v
 Instance/Grp.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Center.v
+Instance/Grp/Congruence.v
 Instance/Grp/Epi.v
 Instance/Grp/Free.v
 Instance/Grp/Quotient.v
@@ -677,6 +678,7 @@ Test/ProbePolynomial.v
 Test/ProbeAlgebras.v
 Test/ProbePowersetUniversal.v
 Test/ProbeGrpQuotient.v
+Test/ProbeGrpCongruence.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

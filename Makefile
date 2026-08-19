@@ -326,6 +326,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Grp.Quotient.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.Isomorphism.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.Colimit.'; \
+	  echo 'Require Import Category.Instance.Grp.Congruence.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1237,6 +1238,32 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_IsCokernel.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_least.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.S3_refl_closure_contains_rotation.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.grp_deloop_GrpObject.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_GrpObject_agrees.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_rel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_congruence.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_quotient.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.quot_rel_flip.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.cong_ns.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_of_cong_of_ns.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.cong_of_ns_of_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_cong_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.congruence_normal_subgroup.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.congruence_iff_normal.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_quotient_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_quotient_Cat_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_hom.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.kernel_ns.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.kernel_ns_iff.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.kernel_cong_iff.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.cat_med.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.cat_med_is_quot_med.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.hom_theorem_via_quotient_category.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.hom_theorem_from_category.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.A3_separates_reflection.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.A3_proj_not_faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.S3_refl_sub_no_congruence.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.coset_orientations_differ.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
