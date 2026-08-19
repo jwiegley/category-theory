@@ -327,6 +327,11 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Grp.Quotient.Isomorphism.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.Colimit.'; \
 	  echo 'Require Import Category.Instance.Grp.Congruence.'; \
+	  echo 'Require Import Category.Instance.Ab.Subtract.'; \
+	  echo 'Require Import Category.Instance.Mod.Quotient.'; \
+	  echo 'Require Import Category.Instance.Mod.Quotient.Isomorphism.'; \
+	  echo 'Require Import Category.Instance.Rng.Quotient.'; \
+	  echo 'Require Import Category.Instance.Rng.Quotient.OneSided.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1264,6 +1269,77 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.A3_proj_not_faithful.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.S3_refl_sub_no_congruence.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.coset_orientations_differ.'; \
+	  echo 'Print Assumptions ab_sub.'; \
+	  echo 'Print Assumptions ab_sub_plus.'; \
+	  echo 'Print Assumptions ab_sub_eq_zero_iff.'; \
+	  echo 'Print Assumptions ab_map_sub.'; \
+	  echo 'Print Assumptions Submodule.'; \
+	  echo 'Print Assumptions smod_neg.'; \
+	  echo 'Print Assumptions smod_normal.'; \
+	  echo 'Print Assumptions SubmoduleMod.'; \
+	  echo 'Print Assumptions smod_incl_monic.'; \
+	  echo 'Print Assumptions QuotientMod.'; \
+	  echo 'Print Assumptions mquot_proj.'; \
+	  echo 'Print Assumptions mquot_proj_kernel.'; \
+	  echo 'Print Assumptions mquot_proj_epic.'; \
+	  echo 'Print Assumptions MKillsFunctor.'; \
+	  echo 'Print Assumptions mquot_universal_element.'; \
+	  echo 'Print Assumptions mod_hom_theorem.'; \
+	  echo 'Print Assumptions KernelSub.'; \
+	  echo 'Print Assumptions ImageSubmod.'; \
+	  echo 'Print Assumptions rmod_quotient_relations_agree.'; \
+	  echo 'Print Assumptions RModQuotient_is_quotient_by_image.'; \
+	  echo 'Print Assumptions mquot_congr.'; \
+	  echo 'Print Assumptions EvenSub.'; \
+	  echo 'Print Assumptions EvenSub_proper.'; \
+	  echo 'Print Assumptions Z_mod_2Z_not_collapsed.'; \
+	  echo 'Print Assumptions mquot_proj_EvenSub_not_injective.'; \
+	  echo 'Print Assumptions mod_image_universal_element.'; \
+	  echo 'Print Assumptions mod_first_isomorphism_theorem.'; \
+	  echo 'Print Assumptions mod_first_isomorphism_unique.'; \
+	  echo 'Print Assumptions mod_factorization.'; \
+	  echo 'Print Assumptions mod_monic_iff_kernel_trivial.'; \
+	  echo 'Print Assumptions mod_third_isomorphism_theorem.'; \
+	  echo 'Print Assumptions mod_third_isomorphism_unique.'; \
+	  echo 'Print Assumptions mod_second_isomorphism_theorem.'; \
+	  echo 'Print Assumptions mod_second_isomorphism_theorem_literal.'; \
+	  echo 'Print Assumptions SubmoduleSum.'; \
+	  echo 'Print Assumptions SubmoduleSum_comm.'; \
+	  echo 'Print Assumptions Z_first_iso_nondegenerate.'; \
+	  echo 'Print Assumptions Z_third_iso_nondegenerate.'; \
+	  echo 'Print Assumptions Z_second_iso_nondegenerate.'; \
+	  echo 'Print Assumptions Z_second_iso_codomain_nondegenerate.'; \
+	  echo 'Print Assumptions Ideal.'; \
+	  echo 'Print Assumptions LeftIdeal.'; \
+	  echo 'Print Assumptions idl_neg.'; \
+	  echo 'Print Assumptions rig_mul_sub_expand.'; \
+	  echo 'Print Assumptions rquot_rel_mul.'; \
+	  echo 'Print Assumptions QuotientRing.'; \
+	  echo 'Print Assumptions rquot_proj.'; \
+	  echo 'Print Assumptions rquot_proj_kernel.'; \
+	  echo 'Print Assumptions rquot_proj_epic.'; \
+	  echo 'Print Assumptions RKillsFunctor.'; \
+	  echo 'Print Assumptions rquot_universal_element.'; \
+	  echo 'Print Assumptions ring_hom_theorem.'; \
+	  echo 'Print Assumptions KernelIdeal.'; \
+	  echo 'Print Assumptions rquot_congr.'; \
+	  echo 'Print Assumptions ideal_mul_congruence.'; \
+	  echo 'Print Assumptions EvenIdeal.'; \
+	  echo 'Print Assumptions EvenIdeal_proper.'; \
+	  echo 'Print Assumptions Z2_ring_not_collapsed.'; \
+	  echo 'Print Assumptions Z2_ring_one_plus_one.'; \
+	  echo 'Print Assumptions Z2_ring_one_times_one.'; \
+	  echo 'Print Assumptions Z6_to_Z2_five_is_one.'; \
+	  echo 'Print Assumptions Z6_to_Z2_identifies_three_and_one.'; \
+	  echo 'Print Assumptions E11Left.'; \
+	  echo 'Print Assumptions ut2_e11_not_right_absorbing.'; \
+	  echo 'Print Assumptions E11Left_is_not_an_Ideal.'; \
+	  echo 'Print Assumptions ut2_left_ideal_not_mul_congruence.'; \
+	  echo 'Print Assumptions StrictUpper.'; \
+	  echo 'Print Assumptions StrictUpper_congruence.'; \
+	  echo 'Print Assumptions UT2_mod_strict_not_collapsed.'; \
+	  echo 'Print Assumptions UT2_mod_strict_nonzero.'; \
+	  echo 'Print Assumptions UT2_mod_strict_commutative.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
