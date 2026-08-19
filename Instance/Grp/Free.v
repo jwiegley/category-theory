@@ -88,9 +88,10 @@ Generalizable All Variables.
     right-handed laws and respectfulness of inversion being derived.  [Grp]
     is the category of the LATTER, so that is the record this adjunction
     must be stated over, and it is why the import order at the top of this
-    file is deliberate.  The only bridge between them in tree is
-    [Instance/Rep.v]'s [grp_mon], which reads Instance/Grp.v's record as a
-    [MonObject]; it drops the inverse, so it does NOT supply
+    file is deliberate.  The only bridge between them when this file was
+    written was [Instance/Rep.v]'s [grp_mon], which reads Instance/Grp.v's
+    record as a [MonObject] (Instance/Grp/Congruence.v later supplies the
+    record-to-record converter [grp_deloop_GrpObject]); it drops the inverse, so it does NOT supply
     [Deloop_IsGroupoid]'s hypothesis (that lemma is stated over Deloop's
     [GrpObject]), and its file in any case sits on top of the module and
     matrix stack, which nothing here needs.  [grp_deloop_monoid] and
