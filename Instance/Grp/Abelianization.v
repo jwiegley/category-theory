@@ -10,6 +10,7 @@ Require Import Category.Instance.Grp.
 Require Import Category.Instance.Grp.TwoFunctors.
 Require Import Category.Instance.Grp.Epi.
 Require Import Category.Instance.Grp.Center.
+Require Import Category.Instance.Grp.Quotient.
 
 Generalizable All Variables.
 
@@ -68,17 +69,39 @@ Generalizable All Variables.
     Abelianization ⊣ Ab_to_Grp packages that descent and is not built
     here.
 
-    SCOPE OF THE QUOTIENT, disclosed.  The issue hoped the quotient
-    infrastructure could be kept reusable over an abstract normal
-    subgroup (it would also serve maclane:I.5:ex5 and
-    maclane:I.7:prop1).  Here it is SPECIALIZED to [InCommutator]: the
-    five congruence proofs below consume only the normal-subgroup
-    interface (≈-saturation, unit, closure under product and inverse,
-    normality), so a generic [NormalSubgroup]-quotient is extractable
-    by abstraction over exactly those five facts — but it is not
-    extracted, and the tree currently holds three unshared quotient
-    constructions (Instance/Ab.v's [ab_coset_eq], Instance/Grp/Epi.v's
-    [Grp_Coset], and this one).  Unifying them is future work.
+    SCOPE OF THE QUOTIENT — THE EXTRACTION HAS NOW BEEN CARRIED OUT.
+    This paragraph previously disclosed that the quotient here was
+    SPECIALIZED to [InCommutator], that the five congruence proofs
+    below consume only the normal-subgroup interface (≈-saturation,
+    unit, closure under product and inverse, normality), that a
+    generic [NormalSubgroup]-quotient was therefore extractable by
+    abstraction over exactly those five facts, and that unifying the
+    tree's quotient constructions was future work.
+
+    Instance/Grp/Quotient.v (issue #313) performs that extraction.
+    [Subgroup] and [NormalSubgroup] there are exactly those five laws;
+    [CommutatorNS] below packages [InCommutator] as one, using the
+    five facts this file already proved and adding nothing; and
+    [abel_eq] is [quot_rel] at that normal subgroup, by convertibility
+    ([abel_eq_is_quot_rel]).  The six lemmas that follow keep their
+    statements unchanged and are now one-line citations of the generic
+    ones, so this file no longer carries a quotient construction of
+    its own.
+
+    THE OTHER TWO CONSTRUCTIONS the paragraph named are NOT unified,
+    and re-reading their record types shows why the count of "three
+    unshared quotient constructions" was itself imprecise.
+    Instance/Grp/Epi.v:433's [Grp_Coset] is a [SetoidObject] and not a
+    [GrpObject] at all: it is the coset space of the image of an
+    arbitrary homomorphism, and that file's argument exists precisely
+    for the case where the image is NOT normal (its :171, :1488 and
+    :1644).  It is therefore not an instance of a normal-subgroup
+    quotient and cannot be made one.  Instance/Ab.v:427's
+    [ab_coset_eq] IS a quotient group, but of an [AbObject], and Ab.v
+    sits upstream of Instance/Grp.v with the only bridge
+    ([Ab_to_GrpOb]) living in this file; routing it through
+    Instance/Grp/Quotient.v would move that bridge upstream and give
+    Ab.v a dependency on Grp.  That is left undone deliberately.
 
     NON-DEGENERACY, witnessed: [commutator_GrpTwo_proper] (in an
     abelian group the subgroup omits the nonidentity),
@@ -165,99 +188,58 @@ Proof.
   - now rewrite <- (proper_morphism (grp_map f) a b Hab).
 Qed.
 
+(** ** The commutator subgroup as a normal subgroup *)
+
+(* The five facts above and in [Instance/Grp.v], packaged as
+   Instance/Grp/Quotient.v's interface.  Nothing new is proved: the
+   fields ARE [inc_resp], [inc_unit], [inc_mul], [inc_inv] and
+   [conj_commutator]. *)
+Definition CommutatorNS (G : GrpObject) : NormalSubgroup G :=
+  {| ns_sub := {| sub_mem := InCommutator G
+                ; sub_resp := fun a b Hab Ha => inc_resp Hab Ha
+                ; sub_unit := inc_unit
+                ; sub_mul := fun a b Ha Hb => inc_mul Ha Hb
+                ; sub_inv := fun a Ha => inc_inv Ha |}
+   ; ns_conj := fun t a Ha => conj_commutator G t a Ha |}.
+
 (** ** The quotient relation *)
 
 Definition abel_eq (G : GrpObject) (a b : carrier G) : Type :=
   InCommutator G (grp_mul G a (grp_inv G b)).
 
+(* [abel_eq] IS the generic quotient relation at [CommutatorNS], by
+   convertibility -- the [eq_refl] exception to the `≈` discipline, and
+   what licenses the six one-line proofs below. *)
+Example abel_eq_is_quot_rel (G : GrpObject) (a b : carrier G) :
+  abel_eq G a b = quot_rel (CommutatorNS G) a b.
+Proof. reflexivity. Qed.
+
 (* The finer relation implies the coarser one. *)
 Lemma abel_eq_of_eq (G : GrpObject) (a b : carrier G) :
   a ≈ b → abel_eq G a b.
-Proof.
-  intro Hab; unfold abel_eq.
-  apply (inc_resp (a := grp_unit G)); [| exact inc_unit ].
-  rewrite Hab.
-  symmetry; apply (grp_mul_inv_r G).
-Qed.
+Proof. exact (quot_rel_of_equiv (CommutatorNS G) a b). Qed.
 
 Lemma abel_eq_refl (G : GrpObject) (a : carrier G) : abel_eq G a a.
-Proof. apply abel_eq_of_eq; reflexivity. Qed.
+Proof. exact (quot_rel_refl (CommutatorNS G) a). Qed.
 
 Lemma abel_eq_sym (G : GrpObject) (a b : carrier G) :
   abel_eq G a b → abel_eq G b a.
-Proof.
-  unfold abel_eq; intro K.
-  apply (inc_resp (a := grp_inv G (grp_mul G a (grp_inv G b)))).
-  - rewrite (grp_inv_mul G a (grp_inv G b)).
-    rewrite (grp_inv_inv G b).
-    reflexivity.
-  - exact (inc_inv K).
-Qed.
+Proof. exact (quot_rel_sym (CommutatorNS G) a b). Qed.
 
 Lemma abel_eq_trans (G : GrpObject) (a b c : carrier G) :
   abel_eq G a b → abel_eq G b c → abel_eq G a c.
-Proof.
-  unfold abel_eq; intros K1 K2.
-  apply (inc_resp
-           (a := grp_mul G (grp_mul G a (grp_inv G b))
-                   (grp_mul G b (grp_inv G c)))).
-  - rewrite (grp_mul_assoc G a (grp_inv G b)
-               (grp_mul G b (grp_inv G c))).
-    rewrite <- (grp_mul_assoc G (grp_inv G b) b (grp_inv G c)).
-    rewrite (grp_mul_inv_l G b).
-    rewrite (grp_mul_unit_l G (grp_inv G c)).
-    reflexivity.
-  - exact (inc_mul K1 K2).
-Qed.
+Proof. exact (quot_rel_trans (CommutatorNS G) a b c). Qed.
 
 (* The operations respect the quotient relation; multiplication and
    inversion are where normality earns its keep. *)
 Lemma abel_eq_mul (G : GrpObject) (a a' b b' : carrier G) :
   abel_eq G a a' → abel_eq G b b' →
   abel_eq G (grp_mul G a b) (grp_mul G a' b').
-Proof.
-  unfold abel_eq; intros K1 K2.
-  apply (inc_resp
-           (a := grp_mul G
-                   (grp_mul G (grp_mul G a (grp_mul G b (grp_inv G b')))
-                      (grp_inv G a))
-                   (grp_mul G a (grp_inv G a')))).
-  - rewrite (grp_inv_mul G a' b').
-    rewrite (grp_mul_assoc G
-               (grp_mul G a (grp_mul G b (grp_inv G b')))
-               (grp_inv G a) (grp_mul G a (grp_inv G a'))).
-    rewrite <- (grp_mul_assoc G (grp_inv G a) a (grp_inv G a')).
-    rewrite (grp_mul_inv_l G a).
-    rewrite (grp_mul_unit_l G (grp_inv G a')).
-    rewrite (grp_mul_assoc G a (grp_mul G b (grp_inv G b'))
-               (grp_inv G a')).
-    rewrite (grp_mul_assoc G b (grp_inv G b') (grp_inv G a')).
-    rewrite (grp_mul_assoc G a b
-               (grp_mul G (grp_inv G b') (grp_inv G a'))).
-    reflexivity.
-  - exact (inc_mul (conj_commutator G a _ K2) K1).
-Qed.
+Proof. exact (quot_rel_mul (CommutatorNS G) a a' b b'). Qed.
 
 Lemma abel_eq_inv (G : GrpObject) (a a' : carrier G) :
   abel_eq G a a' → abel_eq G (grp_inv G a) (grp_inv G a').
-Proof.
-  unfold abel_eq; intros K.
-  apply (inc_resp
-           (a := grp_mul G
-                   (grp_mul G (grp_inv G a)
-                      (grp_inv G (grp_mul G a (grp_inv G a'))))
-                   (grp_inv G (grp_inv G a)))).
-  - rewrite (grp_inv_mul G a (grp_inv G a')).
-    rewrite (grp_inv_inv G a').
-    rewrite (grp_inv_inv G a).
-    rewrite <- (grp_mul_assoc G (grp_inv G a) a' (grp_inv G a)).
-    rewrite (grp_mul_assoc G (grp_mul G (grp_inv G a) a')
-               (grp_inv G a) a).
-    rewrite (grp_mul_inv_l G a).
-    rewrite (grp_mul_unit_r G (grp_mul G (grp_inv G a) a')).
-    reflexivity.
-  - exact (conj_commutator G (grp_inv G a) _ (inc_inv K)).
-Qed.
+Proof. exact (quot_rel_inv (CommutatorNS G) a a'). Qed.
 
 (** ** The abelianization of a group *)
 

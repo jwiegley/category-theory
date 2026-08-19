@@ -323,6 +323,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
 	  echo 'Require Import Category.Structure.SubobjectClassifier.Natural.'; \
 	  echo 'Require Import Category.Instance.FinSet.Powerset.'; \
+	  echo 'Require Import Category.Instance.Grp.Quotient.'; \
+	  echo 'Require Import Category.Instance.Grp.Quotient.Isomorphism.'; \
+	  echo 'Require Import Category.Instance.Grp.Quotient.Colimit.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1214,6 +1217,26 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.finpow_codec.'; \
 	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_natural.'; \
 	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_powerset.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.QuotientGrp.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.KillsFunctor.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.hom_theorem.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.KernelNS.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_congr.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.S3_mod_A3_not_collapsed.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.S3_refl_sub_not_normal.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.image_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.first_isomorphism_theorem.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.factorization.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.monic_iff_kernel_trivial.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.third_isomorphism_theorem.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.second_isomorphism_theorem.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.second_isomorphism_theorem_literal.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.quot_IsCokernel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_IsCokernel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_least.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.S3_refl_closure_contains_rotation.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
