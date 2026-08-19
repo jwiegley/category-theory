@@ -360,6 +360,10 @@ Instance/Sets/Pointed/Coslice.v
 Instance/Sets/Pointed/Finite.v
 Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
+Instance/Sets/Quotient.v
+Instance/Sets/Quotient/Partition.v
+Instance/Sets/Coequalizer.v
+Instance/Sets/Coequalizer/Interconnect.v
 Instance/Sets/Streams.v
 Instance/Sets/Split.v
 Instance/Sets/Regular.v
@@ -672,6 +676,7 @@ Test/ProbeFunnyPoly.v
 Test/ProbeFreeGroupoid.v
 Test/ProbeQuiverConstructions.v
 Test/ProbeSquare.v
+Test/ProbeSetsQuotient.v
 Test/ProbeCouniversal.v
 Test/ProbeUniversalElement.v
 Test/ProbeKernelUniversal.v
