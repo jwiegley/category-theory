@@ -177,6 +177,7 @@ Functor/Product.v
 Functor/Product/Fixed.v
 Functor/Product/Internal.v
 Functor/Representable.v
+Functor/Representable/Functorial.v
 Functor/Strong.v
 Functor/Strong/Product.v
 Functor/Structure/Cartesian.v
@@ -692,6 +693,7 @@ Test/ProbeGrpQuotient.v
 Test/ProbeModQuotient.v
 Test/ProbeGrpCongruence.v
 Test/ProbeYonedaNatural.v
+Test/ProbeRepresentableInduced.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
