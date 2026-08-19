@@ -339,6 +339,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Functor.Hom.Yoneda.Natural.'; \
 	  echo 'Require Import Category.Functor.Representable.'; \
 	  echo 'Require Import Category.Functor.Representable.Functorial.'; \
+	  echo 'Require Import Category.Functor.Construction.Postcompose.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1482,6 +1483,25 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions wit_ev_induced.'; \
 	  echo 'Print Assumptions wit_ev_tau_not_id.'; \
 	  echo 'Print Assumptions wit_ev_induced_not_id.'; \
+	  echo 'Print Assumptions Postcompose.'; \
+	  echo 'Print Assumptions Postcompose_Faithful.'; \
+	  echo 'Print Assumptions Postcompose_Full.'; \
+	  echo 'Print Assumptions postcompose_hom_iso.'; \
+	  echo 'Print Assumptions postcompose_nat_bijection.'; \
+	  echo 'Print Assumptions PostcomposeViaHcompose.'; \
+	  echo 'Print Assumptions postcompose_via_hcompose_fmap.'; \
+	  echo 'Print Assumptions postcompose_via_hcompose_equiv.'; \
+	  echo 'Print Assumptions sub_postcompose_Full.'; \
+	  echo 'Print Assumptions sub_postcompose_Faithful.'; \
+	  echo 'Print Assumptions sub_postcompose_hom_iso.'; \
+	  echo 'Print Assumptions finpost_hom_iso.'; \
+	  echo 'Print Assumptions finpost_preimage_component.'; \
+	  echo 'Print Assumptions finpost_theta_not_id.'; \
+	  echo 'Print Assumptions finpost_image_not_id.'; \
+	  echo 'Print Assumptions finpost_preimage_not_id.'; \
+	  echo 'Print Assumptions DiscToTwo_Faithful.'; \
+	  echo 'Print Assumptions DiscToTwo_not_Full.'; \
+	  echo 'Print Assumptions postcompose_full_needs_full.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
