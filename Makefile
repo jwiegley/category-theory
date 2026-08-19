@@ -320,6 +320,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Vect.TensorAlgebra.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
+	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
+	  echo 'Require Import Category.Structure.SubobjectClassifier.Natural.'; \
+	  echo 'Require Import Category.Instance.FinSet.Powerset.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1191,6 +1194,26 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.GroupRing.GroupRingFunctor.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.GroupRing.grp_ring_adjunction.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.GroupRing.grp_ring_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.Powerset_Prop_op.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.Powerset_Prop_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.Powerset_representation.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.Powerset_Prop_Representable.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.powerset_truth_bijection.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.powerset_inverse_ne_direct.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Powerset.Universal.Powerset_subset_roundtrip.'; \
+	  echo 'Print Assumptions Category.Structure.SubobjectClassifier.Natural.char_reindex.'; \
+	  echo 'Print Assumptions Category.Structure.SubobjectClassifier.Natural.classifier_char_transform.'; \
+	  echo 'Print Assumptions Category.Structure.SubobjectClassifier.Natural.classifier_pullback_transform.'; \
+	  echo 'Print Assumptions Category.Structure.SubobjectClassifier.Natural.Sub_classifier_natural.'; \
+	  echo 'Print Assumptions Category.Structure.SubobjectClassifier.Natural.Sub_Representable.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinPowerset.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinPowerset_Sets.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinPowerset_universal_element.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinPowerset_representation.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinPowerset_Representable.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.finpow_codec.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_natural.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Powerset.FinSet_Sub_powerset.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

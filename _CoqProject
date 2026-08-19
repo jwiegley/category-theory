@@ -253,6 +253,7 @@ Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
 Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
+Instance/FinSet/Powerset.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
 Instance/FinSet/Skeleton.v
@@ -344,6 +345,7 @@ Instance/Sets/Classifier.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
+Instance/Sets/Powerset/Universal.v
 Instance/Sets/Pointed.v
 Instance/Sets/Pointed/Coslice.v
 Instance/Sets/Pointed/Finite.v
@@ -514,6 +516,7 @@ Structure/Monoidal/HypergraphFunctor.v
 Structure/Monoidal/Strict.v
 Structure/Pullback.v
 Structure/SubobjectClassifier.v
+Structure/SubobjectClassifier/Natural.v
 Structure/Topos.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
@@ -669,6 +672,7 @@ Test/ProbeFieldFrac.v
 Test/ProbeMet.v
 Test/ProbePolynomial.v
 Test/ProbeAlgebras.v
+Test/ProbePowersetUniversal.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
