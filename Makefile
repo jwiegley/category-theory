@@ -336,6 +336,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Quotient.Partition.'; \
 	  echo 'Require Import Category.Instance.Sets.Coequalizer.'; \
 	  echo 'Require Import Category.Instance.Sets.Coequalizer.Interconnect.'; \
+	  echo 'Require Import Category.Functor.Hom.Yoneda.Natural.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1392,6 +1393,55 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions ic_terminal_cases.'; \
 	  echo 'Print Assumptions ic_terminal_distinct.'; \
 	  echo 'Print Assumptions ic_rep_of_label.'; \
+	  echo 'Print Assumptions YoEval.'; \
+	  echo 'Print Assumptions YoEvalAt.'; \
+	  echo 'Print Assumptions YoEvalAt_Representable.'; \
+	  echo 'Print Assumptions YoEvalPre.'; \
+	  echo 'Print Assumptions YoNat.'; \
+	  echo 'Print Assumptions YoNatPre.'; \
+	  echo 'Print Assumptions Yoneda_Lemma_derived.'; \
+	  echo 'Print Assumptions Yoneda_op.'; \
+	  echo 'Print Assumptions yo_eval_at_map.'; \
+	  echo 'Print Assumptions yo_eval_at_obj.'; \
+	  echo 'Print Assumptions yo_eval_map.'; \
+	  echo 'Print Assumptions yo_eval_map_alt.'; \
+	  echo 'Print Assumptions yo_eval_map_comp.'; \
+	  echo 'Print Assumptions yo_eval_map_id.'; \
+	  echo 'Print Assumptions yo_eval_map_respects.'; \
+	  echo 'Print Assumptions yo_eval_obj.'; \
+	  echo 'Print Assumptions yo_eval_pre_obj.'; \
+	  echo 'Print Assumptions yo_nat_map.'; \
+	  echo 'Print Assumptions yo_nat_map_agrees.'; \
+	  echo 'Print Assumptions yo_nat_obj.'; \
+	  echo 'Print Assumptions yo_nat_obj_agrees.'; \
+	  echo 'Print Assumptions yo_nat_pre_obj.'; \
+	  echo 'Print Assumptions yo_repr_naturality_strict.'; \
+	  echo 'Print Assumptions yo_repr_obj.'; \
+	  echo 'Print Assumptions yo_wit_alpha.'; \
+	  echo 'Print Assumptions yo_wit_alpha_distinct.'; \
+	  echo 'Print Assumptions yo_wit_alpha_not_id.'; \
+	  echo 'Print Assumptions yo_wit_arrow_not_id.'; \
+	  echo 'Print Assumptions yo_wit_eval_map_not_id.'; \
+	  echo 'Print Assumptions yo_wit_eval_obj_nontrivial.'; \
+	  echo 'Print Assumptions yo_wit_nat_map_not_id.'; \
+	  echo 'Print Assumptions yo_wit_repr_obj.'; \
+	  echo 'Print Assumptions yo_wit_repr_to.'; \
+	  echo 'Print Assumptions yo_wit_square.'; \
+	  echo 'Print Assumptions yo_wit_square_left.'; \
+	  echo 'Print Assumptions yo_wit_square_right.'; \
+	  echo 'Print Assumptions yo_wit_to_alpha_2.'; \
+	  echo 'Print Assumptions yo_wit_to_alpha_5.'; \
+	  echo 'Print Assumptions yoneda_eval_at_identity.'; \
+	  echo 'Print Assumptions yoneda_lemma_derived_agrees.'; \
+	  echo 'Print Assumptions yoneda_lemma_derived_from_at.'; \
+	  echo 'Print Assumptions yoneda_lemma_derived_to.'; \
+	  echo 'Print Assumptions yoneda_natural.'; \
+	  echo 'Print Assumptions yoneda_natural_from_component.'; \
+	  echo 'Print Assumptions yoneda_natural_pre.'; \
+	  echo 'Print Assumptions yoneda_natural_pre_from_component.'; \
+	  echo 'Print Assumptions yoneda_natural_pre_to_component.'; \
+	  echo 'Print Assumptions yoneda_natural_square.'; \
+	  echo 'Print Assumptions yoneda_natural_to_component.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

@@ -16,10 +16,10 @@ Generalizable All Variables.
    Wikipedia: https://en.wikipedia.org/wiki/Yoneda_lemma
 
    For a presheaf F : C^op ⟶ Sets and an object A, the Yoneda lemma is the
-   natural bijection between natural transformations out of the representable
+   bijection between natural transformations out of the representable
    [Hom ─,A] and elements of F A:
 
-       Nat([Hom ─,A], F) ≅ F A,      natural in both A and F.
+       Nat([Hom ─,A], F) ≅ F A.
 
    Here the left-hand side is written [Presheaves [Hom ─,A] F]: the Category
    [Presheaves] = [C^op, Sets] coerces (via [Curried_Hom]) to a functor whose
@@ -29,6 +29,25 @@ Generalizable All Variables.
    the transformation whose component at x carries φ : x ~> A to fmap[F] φ y.
    [Covariant_Yoneda_Lemma] is the dual for a copresheaf F : C ⟶ Sets and the
    covariant representable [Hom A,─].
+
+   WHAT THIS FILE PROVES AND WHERE NATURALITY LIVES. The two instances below
+   are per-pair: for each F and each A they give an isomorphism of setoids,
+   with F a section parameter and A universally quantified. They do not by
+   themselves say that the family is natural in A or in F — a family of
+   isomorphisms is strictly weaker than an isomorphism of functors, and this
+   library carries counterexamples separating the two
+   (Instance/Ab/Character/NonNatural.v, Instance/FdVect/NonNatural.v). The
+   naturality clause of Mac Lane §III.2 Lemma 2, Awodey §8.3 Lemma 8.2 and
+   Riehl §2.2 Theorem 2.2.4 — "natural in both A and F" — is
+   Functor/Hom/Yoneda/Natural.v's [yoneda_natural], an isomorphism of
+   bifunctors [C, Sets] ∏ C ⟶ Sets whose components are literally
+   [Covariant_Yoneda_Lemma] below; the presheaf orientation is
+   [yoneda_natural_pre] there, and [Yoneda_Lemma_derived] there records that
+   [Yoneda_Lemma] is [Covariant_Yoneda_Lemma] at C^op up to conversion, the
+   derivation these two separately-discharged instances do not perform. Note
+   that those results are stated over a category whose object, hom and proof
+   universes are identified, a restriction inherited from the two instances
+   below and measured in Test/ProbeYonedaNatural.v.
 
    Specialising F to a representable recovers the Yoneda embedding as a fully
    faithful functor (see [Yoneda_Full] and [Yoneda_Faithful] in Functor/Hom.v):
