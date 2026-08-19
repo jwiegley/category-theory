@@ -332,6 +332,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Mod.Quotient.Isomorphism.'; \
 	  echo 'Require Import Category.Instance.Rng.Quotient.'; \
 	  echo 'Require Import Category.Instance.Rng.Quotient.OneSided.'; \
+	  echo 'Require Import Category.Instance.Sets.Quotient.'; \
+	  echo 'Require Import Category.Instance.Sets.Quotient.Partition.'; \
+	  echo 'Require Import Category.Instance.Sets.Coequalizer.'; \
+	  echo 'Require Import Category.Instance.Sets.Coequalizer.Interconnect.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -357,7 +361,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions grp_epic_image_dense.'; \
 	  echo 'Print Assumptions grp_surjective_is_epic.'; \
 	  echo 'Print Assumptions grp_epic_iff_surjective.'; \
-	  echo 'Print Assumptions stability_is_the_conclusion.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.stability_is_the_conclusion.'; \
+	  echo 'Print Assumptions Category.Instance.Field.stability_is_the_conclusion.'; \
 	  echo 'Print Assumptions weaker_is_the_conclusion.'; \
 	  echo 'Print Assumptions transposition_decides_image.'; \
 	  echo 'Print Assumptions grp_two_incl_not_epic.'; \
@@ -1340,6 +1345,53 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions UT2_mod_strict_not_collapsed.'; \
 	  echo 'Print Assumptions UT2_mod_strict_nonzero.'; \
 	  echo 'Print Assumptions UT2_mod_strict_commutative.'; \
+	  echo 'Print Assumptions coarser_iff_respects.'; \
+	  echo 'Print Assumptions SetsQuotient.'; \
+	  echo 'Print Assumptions sets_quot_proj.'; \
+	  echo 'Print Assumptions RespFunctor.'; \
+	  echo 'Print Assumptions sets_quot_med.'; \
+	  echo 'Print Assumptions sets_quot_universal_element.'; \
+	  echo 'Print Assumptions sets_quot_Representable.'; \
+	  echo 'Print Assumptions sets_quot_representation.'; \
+	  echo 'Print Assumptions sets_quot_finest_eq.'; \
+	  echo 'Print Assumptions sets_quot_total_collapses.'; \
+	  echo 'Print Assumptions nat_parity_separates.'; \
+	  echo 'Print Assumptions nat_parity_not_finest.'; \
+	  echo 'Print Assumptions nat_parity_not_coarsest.'; \
+	  echo 'Print Assumptions coeq_rel_Equivalence.'; \
+	  echo 'Print Assumptions coeq_rel_respects.'; \
+	  echo 'Print Assumptions sets_coeq_IsCoequalizer.'; \
+	  echo 'Print Assumptions Sets_HasCoequalizers.'; \
+	  echo 'Print Assumptions SetsRelObj.'; \
+	  echo 'Print Assumptions sets_rel_IsCoequalizer.'; \
+	  echo 'Print Assumptions sets_rel_coeq_rel_iff.'; \
+	  echo 'Print Assumptions sets_rel_coeq_iso.'; \
+	  echo 'Print Assumptions bool_flip_merges.'; \
+	  echo 'Print Assumptions coeq_rel_diagonal.'; \
+	  echo 'Print Assumptions bool_id_coeq_separates.'; \
+	  echo 'Print Assumptions bool_legs_distinct.'; \
+	  echo 'Print Assumptions sets_part_pred.'; \
+	  echo 'Print Assumptions sets_part_shared_elem.'; \
+	  echo 'Print Assumptions SetsParts.'; \
+	  echo 'Print Assumptions sets_part_of.'; \
+	  echo 'Print Assumptions sets_part_of_surjective.'; \
+	  echo 'Print Assumptions sets_part_of_squash.'; \
+	  echo 'Print Assumptions prop_rel_squash_stable.'; \
+	  echo 'Print Assumptions partition_stability_is_the_conclusion.'; \
+	  echo 'Print Assumptions sets_partition_iso.'; \
+	  echo 'Print Assumptions SetsPartsProp.'; \
+	  echo 'Print Assumptions sets_parts_forget.'; \
+	  echo 'Print Assumptions sets_part_of_prop_surjective.'; \
+	  echo 'Print Assumptions nat_parity_partition_iso.'; \
+	  echo 'Print Assumptions nat_parity_parts_separate.'; \
+	  echo 'Print Assumptions Interconnect.'; \
+	  echo 'Print Assumptions interconnect_med.'; \
+	  echo 'Print Assumptions interconnect_iso.'; \
+	  echo 'Print Assumptions port_P0_P2_merged.'; \
+	  echo 'Print Assumptions port_P0_P3_apart.'; \
+	  echo 'Print Assumptions ic_terminal_cases.'; \
+	  echo 'Print Assumptions ic_terminal_distinct.'; \
+	  echo 'Print Assumptions ic_rep_of_label.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
