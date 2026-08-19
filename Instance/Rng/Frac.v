@@ -209,7 +209,19 @@ Next Obligation. intros D E F G f g h x; simpl; reflexivity. Qed.
    non-injective homomorphism between domains, such as ℤ → ℤ/2ℤ, has
    no preimage — but the tree has no quotient rings yet, so no
    counterexample object is available and non-fullness is left
-   unstated rather than asserted. *)
+   unstated rather than asserted.
+
+   ERRATUM, appended rather than rewritten so that
+   Instance/Field/Frac.v's QUOTATION of the sentence above stays an
+   accurate quotation.  Both clauses have since been overtaken.  (1) The
+   deferral itself was DISCHARGED in Instance/Field/Frac.v by
+   [IntDom_Incl_not_Full], which needed no quotient ring at all: F₂ is a
+   field, hence a domain, and [ZtoF2] is a homomorphism into it with no
+   [IntDom] preimage.  (2) The tree DOES now have quotient rings —
+   Instance/Rng/Quotient.v builds R/I for a two-sided ideal I with its
+   universal property, and ℤ/2ℤ is its worked witness — so the
+   counterexample object the sentence above wished for is available too,
+   though it is no longer needed. *)
 Program Definition IntDom_Incl : IntDom ⟶ CRng := {|
   fobj := fun D => (dom_ring D; dom_comm D);
   fmap := fun _ _ f => (dom_map f; I)

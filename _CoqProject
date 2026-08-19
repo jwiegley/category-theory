@@ -202,6 +202,7 @@ Instance/Ab/Character/NonNatural.v
 Instance/Ab/Monoidal.v
 Instance/Ab/ModFunctor.v
 Instance/Ab/Graded.v
+Instance/Ab/Subtract.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
@@ -301,6 +302,8 @@ Instance/Mod.v
 Instance/Mod/Free.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
+Instance/Mod/Quotient.v
+Instance/Mod/Quotient/Isomorphism.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
@@ -329,6 +332,8 @@ Instance/Rng/Pointed.v
 Instance/Rng/Polynomial.v
 Instance/Rng/MonoidRing.v
 Instance/Rng/GroupRing.v
+Instance/Rng/Quotient.v
+Instance/Rng/Quotient/OneSided.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -678,6 +683,7 @@ Test/ProbePolynomial.v
 Test/ProbeAlgebras.v
 Test/ProbePowersetUniversal.v
 Test/ProbeGrpQuotient.v
+Test/ProbeModQuotient.v
 Test/ProbeGrpCongruence.v
 Test/Size.v
 Tools/Abstraction.v
