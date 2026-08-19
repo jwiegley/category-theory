@@ -332,11 +332,17 @@ Next Obligation. rewrite first_id, id_right; apply uncurry_curry. Qed.
    functor C(− × S, B) is represented by B^S. The base category of the
    instance is C^op, since the functor is contravariant in C.
 
-   Scope the claim correctly: it is THIS class that was uninhabited. The
-   tree does carry representability content elsewhere, under a different
-   class — Structure/UniversalProperty.v's [IsUniversalProperty] also
-   requires a natural iso out of a hom-functor, and it has three instances
-   (cartesian products, limits, universal arrows). *)
+   Scope the claim correctly: it is THIS class that was uninhabited, and the
+   claim is about the state of the tree when this instance was written — the
+   tautological [Hom_Representable] has since been added beside the class
+   itself, deliberately as a plain [Definition] rather than an [Instance] so
+   that resolution below is unaffected. The tree does carry representability
+   content elsewhere, under a different class — Structure/UniversalProperty.v's
+   [IsUniversalProperty] also requires a natural iso out of a hom-functor, and
+   it has three instances (cartesian products, limits, universal arrows); the
+   passage between that class and this one is
+   Functor/Representable/Functorial.v's [Representable_of_UnivProperty] and
+   [UnivProperty_of_Representable]. *)
 #[export] Program Instance Curry_Representable : Representable Curry_Presheaf := {|
   repr_obj := B ^ S;
   represented := Curry_Representation

@@ -337,6 +337,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Coequalizer.'; \
 	  echo 'Require Import Category.Instance.Sets.Coequalizer.Interconnect.'; \
 	  echo 'Require Import Category.Functor.Hom.Yoneda.Natural.'; \
+	  echo 'Require Import Category.Functor.Representable.'; \
+	  echo 'Require Import Category.Functor.Representable.Functorial.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1442,6 +1444,44 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions yoneda_natural_pre_to_component.'; \
 	  echo 'Print Assumptions yoneda_natural_square.'; \
 	  echo 'Print Assumptions yoneda_natural_to_component.'; \
+	  echo 'Print Assumptions hom_transform_precomp.'; \
+	  echo 'Print Assumptions repr_transport.'; \
+	  echo 'Print Assumptions repr_induced.'; \
+	  echo 'Print Assumptions ReprCompatible.'; \
+	  echo 'Print Assumptions repr_compatible_at.'; \
+	  echo 'Print Assumptions repr_compatible_of_at.'; \
+	  echo 'Print Assumptions repr_induced_compatible.'; \
+	  echo 'Print Assumptions repr_induced_unique.'; \
+	  echo 'Print Assumptions repr_induced_universal.'; \
+	  echo 'Print Assumptions repr_induced_respects.'; \
+	  echo 'Print Assumptions repr_induced_id.'; \
+	  echo 'Print Assumptions repr_induced_comp.'; \
+	  echo 'Print Assumptions repr_induced_iso.'; \
+	  echo 'Print Assumptions repr_unique_iso.'; \
+	  echo 'Print Assumptions repr_unique_iso_universal.'; \
+	  echo 'Print Assumptions Hom_Representable.'; \
+	  echo 'Print Assumptions repr_induced_hom.'; \
+	  echo 'Print Assumptions repr_induced_is_yoneda_transpose.'; \
+	  echo 'Print Assumptions repr_of_representation.'; \
+	  echo 'Print Assumptions Representable_of_UnivProperty.'; \
+	  echo 'Print Assumptions UnivProperty_of_Representable.'; \
+	  echo 'Print Assumptions up_unique_obj_is_repr_pair_iso.'; \
+	  echo 'Print Assumptions repr_pair_iso_from_is_induced.'; \
+	  echo 'Print Assumptions repr_pair_iso_to_is_induced.'; \
+	  echo 'Print Assumptions univ_property_iso_from_is_induced.'; \
+	  echo 'Print Assumptions ReprSubcat.'; \
+	  echo 'Print Assumptions ReprCat.'; \
+	  echo 'Print Assumptions ReprObjFunctor.'; \
+	  echo 'Print Assumptions ReprObj_Full.'; \
+	  echo 'Print Assumptions ReprObj_Faithful.'; \
+	  echo 'Print Assumptions wit_tau.'; \
+	  echo 'Print Assumptions wit_induced_computes.'; \
+	  echo 'Print Assumptions wit_tau_not_id.'; \
+	  echo 'Print Assumptions wit_induced_not_id.'; \
+	  echo 'Print Assumptions wit_ev_tau.'; \
+	  echo 'Print Assumptions wit_ev_induced.'; \
+	  echo 'Print Assumptions wit_ev_tau_not_id.'; \
+	  echo 'Print Assumptions wit_ev_induced_not_id.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
