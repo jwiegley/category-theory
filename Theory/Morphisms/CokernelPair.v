@@ -265,8 +265,10 @@ Generalizable All Variables.
      cokernel pair is anything in particular, nor that f is a regular epi
      when it coequalizes its own kernel pair.
 
-   - No [HasPushouts] instance is added; the three that exist (Sets,
-     FinSet, Proset) are untouched.
+   - No [HasPushouts] instance is added; the five that exist (Sets,
+     FinSet, Proset, Grp, Top) are untouched.  The last two arrived after
+     this file (Instance/Grp/Pushout.v, Instance/Top/Pushout.v); the count
+     read three when this note was written.
 
    - The [Top] and [Sets/Pointed] cokernel pairs are NOT identified with
      this API.  Only the [Sets] one is, in Instance/Sets/CokernelPair.v.
