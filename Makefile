@@ -361,6 +361,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Top.Pushout.'; \
 	  echo 'Require Import Category.Structure.Pullback.Reduction.'; \
 	  echo 'Require Import Category.Structure.Pullback.Wide.'; \
+	  echo 'Require Import Category.Instance.Matr.Elimination.'; \
+	  echo 'Require Import Category.Instance.Matr.Coequalizer.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1637,6 +1639,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions HasPushouts_of_Cocartesian_HasCoequalizers.'; \
 	  echo 'Print Assumptions IsWidePullback.'; \
 	  echo 'Print Assumptions wide_pullback_product.'; \
+	  echo 'Print Assumptions left_null_basis.'; \
+	  echo 'Print Assumptions left_null_basis_diff.'; \
+	  echo 'Print Assumptions matr_IsCoequalizer.'; \
+	  echo 'Print Assumptions Matr_HasCoequalizers.'; \
+	  echo 'Print Assumptions matr_coeq_epic.'; \
+	  echo 'Print Assumptions matr_coeq_iso.'; \
+	  echo 'Print Assumptions matr_coeq_colimit.'; \
+	  echo 'Print Assumptions Matr_op_HasEqualizers.'; \
 	  echo 'Print Assumptions product_wide_pullback.'; \
 	  echo 'Print Assumptions wide_pullback_empty_terminal.'; \
 	  echo 'Print Assumptions terminal_wide_pullback_empty.'; \
