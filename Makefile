@@ -356,6 +356,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Mod.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Top.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Top.Wedge.'; \
+	  echo 'Require Import Category.Structure.Pushout.Split.'; \
+	  echo 'Require Import Category.Instance.Grp.Pushout.'; \
+	  echo 'Require Import Category.Instance.Top.Pushout.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1701,6 +1704,22 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions wedge_basepoints_identified.'; \
 	  echo 'Print Assumptions wedge_is_not_sum.'; \
 	  echo 'Print Assumptions wedge_non_basepoints_differ.'; \
+	  echo 'Print Assumptions pushout_both_Monic.'; \
+	  echo 'Print Assumptions pushout_in1_Section_of_Retraction.'; \
+	  echo 'Print Assumptions AmalgamGrp.'; \
+	  echo 'Print Assumptions Grp_HasPushouts.'; \
+	  echo 'Print Assumptions Grp_split_legs_monic_injections.'; \
+	  echo 'Print Assumptions Grp_free_product_injections_Monic.'; \
+	  echo 'Print Assumptions Grp_Cocartesian.'; \
+	  echo 'Print Assumptions fp_generators_distinct.'; \
+	  echo 'Print Assumptions amalgam_over_Z2_merges.'; \
+	  echo 'Print Assumptions Pushout_Top.'; \
+	  echo 'Print Assumptions Top_HasPushouts.'; \
+	  echo 'Print Assumptions Top_po_square.'; \
+	  echo 'Print Assumptions adjunction_glues.'; \
+	  echo 'Print Assumptions empty_span_keeps_summands_apart.'; \
+	  echo 'Print Assumptions point_span_merges.'; \
+	  echo 'Print Assumptions Top_pushout_empty_iso.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

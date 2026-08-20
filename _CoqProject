@@ -276,6 +276,7 @@ Instance/Grp/Center.v
 Instance/Grp/Congruence.v
 Instance/Grp/Epi.v
 Instance/Grp/Free.v
+Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
 Instance/Grp/Quotient/Isomorphism.v
@@ -379,6 +380,7 @@ Instance/Sets/Regular.v
 Instance/Shapes.v
 Instance/Top.v
 Instance/Top/Coproduct.v
+Instance/Top/Pushout.v
 Instance/Top/Closed.v
 Instance/Top/Forgetful.v
 Instance/Top/Interval.v
@@ -550,6 +552,7 @@ Structure/SubobjectClassifier/Natural.v
 Structure/Topos.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
+Structure/Pushout/Split.v
 Structure/Regular.v
 Structure/Regular/Factorization.v
 Structure/Semiadditive.v
@@ -706,6 +709,7 @@ Test/ProbeMet.v
 Test/ProbePolynomial.v
 Test/ProbeAlgebras.v
 Test/ProbeCoproduct.v
+Test/ProbePushoutGrpTop.v
 Test/ProbePowersetUniversal.v
 Test/ProbeGrpQuotient.v
 Test/ProbeModQuotient.v
