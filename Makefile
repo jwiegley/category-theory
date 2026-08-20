@@ -363,6 +363,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Pullback.Wide.'; \
 	  echo 'Require Import Category.Instance.Matr.Elimination.'; \
 	  echo 'Require Import Category.Instance.Matr.Coequalizer.'; \
+	  echo 'Require Import Category.Instance.Mon.Coproduct.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Coproduct.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1643,6 +1645,15 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions left_null_basis_diff.'; \
 	  echo 'Print Assumptions matr_IsCoequalizer.'; \
 	  echo 'Print Assumptions Matr_HasCoequalizers.'; \
+	  echo 'Print Assumptions FreeProd.'; \
+	  echo 'Print Assumptions Mon_Sets_Cocartesian.'; \
+	  echo 'Print Assumptions Mon_Sets_Initial.'; \
+	  echo 'Print Assumptions fp_injections_Monic.'; \
+	  echo 'Print Assumptions fp_generators_do_not_commute.'; \
+	  echo 'Print Assumptions QuiverCoprod.'; \
+	  echo 'Print Assumptions QuiverCategory_Cocartesian.'; \
+	  echo 'Print Assumptions QuiverCopair_unique.'; \
+	  echo 'Print Assumptions QuiverOfCat_Coproduct_iso.'; \
 	  echo 'Print Assumptions matr_coeq_epic.'; \
 	  echo 'Print Assumptions matr_coeq_iso.'; \
 	  echo 'Print Assumptions matr_coeq_colimit.'; \

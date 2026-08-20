@@ -97,6 +97,7 @@ Construction/Free/Quiver.v
 Construction/Free/Groupoid.v
 Construction/Free/Quiver/Constructions.v
 Construction/Free/Quiver/Presented.v
+Construction/Free/Quiver/Coproduct.v
 Construction/Free/Quiver/Concrete.v
 Construction/Free/Quiver/Examples.v
 Construction/Free/TwoFunctors.v
@@ -345,6 +346,7 @@ Instance/Rng/MonoidRing.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
+Instance/Mon/Coproduct.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -728,6 +730,7 @@ Test/ProbeWideParallel.v
 Test/ProbeCokernelPair.v
 Test/ProbeReduction.v
 Test/ProbeMatrCoeq.v
+Test/ProbeCoproduct328.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
