@@ -369,6 +369,7 @@ Instance/Sets/Quotient.v
 Instance/Sets/Quotient/Partition.v
 Instance/Sets/Coequalizer.v
 Instance/Sets/Coequalizer/Interconnect.v
+Instance/Sets/CokernelPair.v
 Instance/Sets/Streams.v
 Instance/Sets/Split.v
 Instance/Sets/Regular.v
@@ -651,6 +652,7 @@ Theory/Morphisms.v
 Theory/Morphisms/Classes.v
 Theory/Morphisms/Duality.v
 Theory/Morphisms/Stability.v
+Theory/Morphisms/CokernelPair.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
 Theory/Natural/Transformation.v
@@ -708,6 +710,7 @@ Test/ProbeCoyoneda.v
 Test/ProbeIndexedHom.v
 Test/ProbePower.v
 Test/ProbeWideParallel.v
+Test/ProbeCokernelPair.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
