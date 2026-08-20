@@ -199,6 +199,7 @@ Functor/Traversable/Product.v
 Functor/Twist.v
 Instance/AST.v
 Instance/Ab.v
+Instance/Ab/Coproduct.v
 Instance/Ab/Tensor.v
 Instance/Ab/Character.v
 Instance/Ab/Character/Finite.v
@@ -211,6 +212,7 @@ Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
 Instance/CMon/Biproduct.v
+Instance/CMon/Coproduct.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
@@ -303,6 +305,7 @@ Instance/Met.v
 Instance/Met/Extended.v
 Instance/Met/Completion.v
 Instance/Mod.v
+Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
@@ -375,11 +378,13 @@ Instance/Sets/Split.v
 Instance/Sets/Regular.v
 Instance/Shapes.v
 Instance/Top.v
+Instance/Top/Coproduct.v
 Instance/Top/Closed.v
 Instance/Top/Forgetful.v
 Instance/Top/Interval.v
 Instance/Top/FundamentalGroupoid.v
 Instance/Top/Homotopy.v
+Instance/Top/Wedge.v
 Instance/Top/Presheaf.v
 Instance/Top/ContinuousRing.v
 Instance/Top/LoopSpace.v
@@ -444,6 +449,7 @@ Structure/Bicartesian.v
 Structure/Binoidal.v
 Structure/Binoidal/Central.v
 Structure/Biproduct.v
+Structure/Biproduct/Cartesian.v
 Structure/Preadditive.v
 Structure/Premonoidal.v
 Structure/Premonoidal/Monoidal.v
@@ -699,6 +705,7 @@ Test/ProbeFieldFrac.v
 Test/ProbeMet.v
 Test/ProbePolynomial.v
 Test/ProbeAlgebras.v
+Test/ProbeCoproduct.v
 Test/ProbePowersetUniversal.v
 Test/ProbeGrpQuotient.v
 Test/ProbeModQuotient.v

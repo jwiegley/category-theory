@@ -350,6 +350,12 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.WeaklyInitial.Wide.'; \
 	  echo 'Require Import Category.Theory.Morphisms.CokernelPair.'; \
 	  echo 'Require Import Category.Instance.Sets.CokernelPair.'; \
+	  echo 'Require Import Category.Structure.Biproduct.Cartesian.'; \
+	  echo 'Require Import Category.Instance.CMon.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Ab.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Mod.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Top.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Top.Wedge.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1660,6 +1666,41 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions sets_pick_true_ckp_nontrivial.'; \
 	  echo 'Print Assumptions sets_pick_true_not_pushout_square.'; \
 	  echo 'Print Assumptions sets_pick_true_not_epic_via_ckp.'; \
+	  echo 'Print Assumptions biproduct_Cartesian.'; \
+	  echo 'Print Assumptions biproduct_Cocartesian.'; \
+	  echo 'Print Assumptions biproduct_fork.'; \
+	  echo 'Print Assumptions biproduct_merge.'; \
+	  echo 'Print Assumptions biproduct_ump.'; \
+	  echo 'Print Assumptions biproduct_coump.'; \
+	  echo 'Print Assumptions biproduct_roundtrip_inl.'; \
+	  echo 'Print Assumptions biproduct_roundtrip_inr.'; \
+	  echo 'Print Assumptions CMon_Cartesian.'; \
+	  echo 'Print Assumptions CMon_Cocartesian.'; \
+	  echo 'Print Assumptions Ab_product.'; \
+	  echo 'Print Assumptions Ab_Biproducts.'; \
+	  echo 'Print Assumptions Ab_Cartesian.'; \
+	  echo 'Print Assumptions Ab_Cocartesian.'; \
+	  echo 'Print Assumptions ab_coprod_injections_differ.'; \
+	  echo 'Print Assumptions RMod_product.'; \
+	  echo 'Print Assumptions RMod_Biproducts.'; \
+	  echo 'Print Assumptions RMod_Cartesian.'; \
+	  echo 'Print Assumptions RMod_Cocartesian.'; \
+	  echo 'Print Assumptions rmod_coprod_injections_differ.'; \
+	  echo 'Print Assumptions Sum_Top.'; \
+	  echo 'Print Assumptions Top_inl.'; \
+	  echo 'Print Assumptions Top_inr.'; \
+	  echo 'Print Assumptions Top_merge.'; \
+	  echo 'Print Assumptions Top_Cocartesian.'; \
+	  echo 'Print Assumptions sum_of_discrete.'; \
+	  echo 'Print Assumptions point_sum_injections_differ.'; \
+	  echo 'Print Assumptions WedgeSum.'; \
+	  echo 'Print Assumptions Wedge_inl.'; \
+	  echo 'Print Assumptions Wedge_inr.'; \
+	  echo 'Print Assumptions Wedge_merge.'; \
+	  echo 'Print Assumptions Top_pointed_Cocartesian.'; \
+	  echo 'Print Assumptions wedge_basepoints_identified.'; \
+	  echo 'Print Assumptions wedge_is_not_sum.'; \
+	  echo 'Print Assumptions wedge_non_basepoints_differ.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
