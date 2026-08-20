@@ -299,6 +299,8 @@ Instance/Lambda/Ty.v
 Instance/Lambda/Value.v
 Instance/Matr.v
 Instance/Matr/Determinant.v
+Instance/Matr/Elimination.v
+Instance/Matr/Coequalizer.v
 Instance/Matr/GL.v
 Instance/Matr/Yoneda.v
 Instance/Matr/FunExercises.v
@@ -725,6 +727,7 @@ Test/ProbePower.v
 Test/ProbeWideParallel.v
 Test/ProbeCokernelPair.v
 Test/ProbeReduction.v
+Test/ProbeMatrCoeq.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
