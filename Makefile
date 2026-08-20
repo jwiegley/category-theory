@@ -341,6 +341,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Functor.Representable.Functorial.'; \
 	  echo 'Require Import Category.Functor.Construction.Postcompose.'; \
 	  echo 'Require Import Category.Construction.Elements.Kan.'; \
+	  echo 'Require Import Category.Structure.Limit.Indexed.Hom.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1515,6 +1516,26 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions kan_cone_of_transform.'; \
 	  echo 'Print Assumptions kan_cone_transform_iso.'; \
 	  echo 'Print Assumptions kan_iso_transform.'; \
+	  echo 'Print Assumptions iprod_hom_functor.'; \
+	  echo 'Print Assumptions iprod_hom_transform.'; \
+	  echo 'Print Assumptions iprod_hom_iso.'; \
+	  echo 'Print Assumptions iprod_of_hom_iso.'; \
+	  echo 'Print Assumptions iprod_iff_hom_iso.'; \
+	  echo 'Print Assumptions iprod_hom_iso_from_is_desc.'; \
+	  echo 'Print Assumptions icoprod_hom_functor.'; \
+	  echo 'Print Assumptions icoprod_hom_transform.'; \
+	  echo 'Print Assumptions icoprod_hom_iso.'; \
+	  echo 'Print Assumptions icoprod_of_hom_iso.'; \
+	  echo 'Print Assumptions icoprod_iff_hom_iso.'; \
+	  echo 'Print Assumptions icoprod_hom_iso_from_is_desc.'; \
+	  echo 'Print Assumptions limit_hom_iso.'; \
+	  echo 'Print Assumptions colimit_hom_iso.'; \
+	  echo 'Print Assumptions indexed_product_hom_iso.'; \
+	  echo 'Print Assumptions indexed_coproduct_hom_iso.'; \
+	  echo 'Print Assumptions Sets_iprod_hom_iso.'; \
+	  echo 'Print Assumptions Sets_icoprod_hom_iso.'; \
+	  echo 'Print Assumptions Sets_bad_not_iprod.'; \
+	  echo 'Print Assumptions Sets_bad_not_icoprod.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
