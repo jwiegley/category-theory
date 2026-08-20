@@ -348,6 +348,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Equalizer.Wide.'; \
 	  echo 'Require Import Category.Structure.Coequalizer.Wide.'; \
 	  echo 'Require Import Category.Theory.WeaklyInitial.Wide.'; \
+	  echo 'Require Import Category.Theory.Morphisms.CokernelPair.'; \
+	  echo 'Require Import Category.Instance.Sets.CokernelPair.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1597,6 +1599,67 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions wide_unpointed_coround_trip_gives_hom.'; \
 	  echo 'Print Assumptions wide_coround_trip_needs_point.'; \
 	  echo 'Print Assumptions initial_from_weakly_initial_wide.'; \
+	  echo 'Print Assumptions IsPushoutSquare.'; \
+	  echo 'Print Assumptions Build_IsPushoutSquare.'; \
+	  echo 'Print Assumptions is_pushout_square_commutes.'; \
+	  echo 'Print Assumptions is_pushout_square_ump.'; \
+	  echo 'Print Assumptions pushout_square_med.'; \
+	  echo 'Print Assumptions pushout_square_med_in1.'; \
+	  echo 'Print Assumptions pushout_square_med_in2.'; \
+	  echo 'Print Assumptions pushout_square_med_unique.'; \
+	  echo 'Print Assumptions pushout_square_med_eq.'; \
+	  echo 'Print Assumptions pushout_is_pushout_square.'; \
+	  echo 'Print Assumptions is_pushout_square_pushout.'; \
+	  echo 'Print Assumptions cokernel_pair.'; \
+	  echo 'Print Assumptions IsCokernelPair.'; \
+	  echo 'Print Assumptions ckp_obj.'; \
+	  echo 'Print Assumptions ckp_left.'; \
+	  echo 'Print Assumptions ckp_right.'; \
+	  echo 'Print Assumptions ckp_commutes.'; \
+	  echo 'Print Assumptions ckp_ump.'; \
+	  echo 'Print Assumptions ckp_med.'; \
+	  echo 'Print Assumptions ckp_med_left.'; \
+	  echo 'Print Assumptions ckp_med_right.'; \
+	  echo 'Print Assumptions ckp_med_unique.'; \
+	  echo 'Print Assumptions ckp_med_eq.'; \
+	  echo 'Print Assumptions ckp_IsCokernelPair.'; \
+	  echo 'Print Assumptions epic_pushout_square.'; \
+	  echo 'Print Assumptions pushout_square_epic.'; \
+	  echo 'Print Assumptions epic_iff_pushout_square.'; \
+	  echo 'Print Assumptions epic_ckp_trivial.'; \
+	  echo 'Print Assumptions ckp_trivial_epic.'; \
+	  echo 'Print Assumptions epic_iff_cokernel_pair_trivial.'; \
+	  echo 'Print Assumptions epic_ckp_left_iso.'; \
+	  echo 'Print Assumptions ckp_left_iso_epic.'; \
+	  echo 'Print Assumptions epic_iff_cokernel_pair_left_iso.'; \
+	  echo 'Print Assumptions epic_iff_chosen_ckp_trivial.'; \
+	  echo 'Print Assumptions epic_iff_chosen_ckp_left_iso.'; \
+	  echo 'Print Assumptions op_collapse_pushout_square.'; \
+	  echo 'Print Assumptions op_collapse_cokernel_pair.'; \
+	  echo 'Print Assumptions op_collapse_ckp_left.'; \
+	  echo 'Print Assumptions op_collapse_ckp_right.'; \
+	  echo 'Print Assumptions IsIsomorphism_of_op.'; \
+	  echo 'Print Assumptions op_IsIsomorphism_of.'; \
+	  echo 'Print Assumptions monic_iff_pullback_square.'; \
+	  echo 'Print Assumptions monic_iff_kernel_pair_trivial.'; \
+	  echo 'Print Assumptions monic_iff_kernel_pair_fst_iso.'; \
+	  echo 'Print Assumptions sets_ck_fun.'; \
+	  echo 'Print Assumptions sets_ck_respects.'; \
+	  echo 'Print Assumptions sets_ck_med.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.CokernelPair.sets_ck_med_obligation_1.'; \
+	  echo 'Print Assumptions sets_ck_med_left.'; \
+	  echo 'Print Assumptions sets_ck_med_right.'; \
+	  echo 'Print Assumptions sets_ck_ump.'; \
+	  echo 'Print Assumptions sets_ck_IsCokernelPair.'; \
+	  echo 'Print Assumptions sets_ck_med_inl.'; \
+	  echo 'Print Assumptions sets_ck_med_inr.'; \
+	  echo 'Print Assumptions sets_collapse_surjective.'; \
+	  echo 'Print Assumptions sets_collapse_epic.'; \
+	  echo 'Print Assumptions sets_collapse_ckp_trivial.'; \
+	  echo 'Print Assumptions sets_collapse_pushout_square.'; \
+	  echo 'Print Assumptions sets_pick_true_ckp_nontrivial.'; \
+	  echo 'Print Assumptions sets_pick_true_not_pushout_square.'; \
+	  echo 'Print Assumptions sets_pick_true_not_epic_via_ckp.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
