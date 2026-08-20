@@ -313,6 +313,7 @@ Instance/One.v
 Instance/One/Diagonal.v
 Instance/Ordinal.v
 Instance/Parallel.v
+Instance/Parallel/Wide.v
 Instance/Pos.v
 Instance/Poset.v
 Instance/Proset/Galois.v
@@ -459,6 +460,7 @@ Structure/Coend.v
 Structure/Coequalizer.v
 Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
+Structure/Coequalizer/Wide.v
 Structure/Complete.v
 Structure/Cone.v
 Structure/Cone/Const.v
@@ -470,6 +472,7 @@ Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
 Structure/Equalizer/Fork.v
+Structure/Equalizer/Wide.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
@@ -671,6 +674,7 @@ Theory/Universal/Element.v
 Theory/Universal/Element/Elements.v
 Theory/Universal/Element/Examples.v
 Theory/WeaklyInitial.v
+Theory/WeaklyInitial/Wide.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/FullIssue118.v
@@ -703,6 +707,7 @@ Test/ProbePostcompose.v
 Test/ProbeCoyoneda.v
 Test/ProbeIndexedHom.v
 Test/ProbePower.v
+Test/ProbeWideParallel.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
