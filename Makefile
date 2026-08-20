@@ -359,6 +359,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Pushout.Split.'; \
 	  echo 'Require Import Category.Instance.Grp.Pushout.'; \
 	  echo 'Require Import Category.Instance.Top.Pushout.'; \
+	  echo 'Require Import Category.Structure.Pullback.Reduction.'; \
+	  echo 'Require Import Category.Structure.Pullback.Wide.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1621,6 +1623,23 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions is_pushout_square_pushout.'; \
 	  echo 'Print Assumptions cokernel_pair.'; \
 	  echo 'Print Assumptions IsCokernelPair.'; \
+	  echo 'Print Assumptions pullback_of_equalizer.'; \
+	  echo 'Print Assumptions HasPullbacks_of_Cartesian_HasEqualizers.'; \
+	  echo 'Print Assumptions equalizer_of_pullback.'; \
+	  echo 'Print Assumptions kernel_pair_IsEqualizer.'; \
+	  echo 'Print Assumptions equalizer_of_pullback_maclane.'; \
+	  echo 'Print Assumptions equalizer_of_pullback_awodey.'; \
+	  echo 'Print Assumptions maclane_awodey_iso.'; \
+	  echo 'Print Assumptions maclane_awodey_iso_commutes.'; \
+	  echo 'Print Assumptions product_of_pullback.'; \
+	  echo 'Print Assumptions Cartesian_of_HasPullbacks_Terminal.'; \
+	  echo 'Print Assumptions HasEqualizers_of_HasPullbacks_Terminal.'; \
+	  echo 'Print Assumptions HasPushouts_of_Cocartesian_HasCoequalizers.'; \
+	  echo 'Print Assumptions IsWidePullback.'; \
+	  echo 'Print Assumptions wide_pullback_product.'; \
+	  echo 'Print Assumptions product_wide_pullback.'; \
+	  echo 'Print Assumptions wide_pullback_empty_terminal.'; \
+	  echo 'Print Assumptions terminal_wide_pullback_empty.'; \
 	  echo 'Print Assumptions ckp_obj.'; \
 	  echo 'Print Assumptions ckp_left.'; \
 	  echo 'Print Assumptions ckp_right.'; \

@@ -251,7 +251,15 @@ Proof.
   exact (unique_property U).
 Defined.
 
-(* jww (2017-06-01): TODO *)
+(* Both reductions sketched below are now PROVED, in
+   [Structure/Pullback/Reduction.v]; the two dated TODO markers that stood
+   here since 2017 are retired accordingly.  The terminal-object
+   trivialization is [product_of_pullback] (apex-pinned, landing in
+   [IsCartesianProduct]) and
+   [Cartesian_of_HasPullbacks_Terminal]; the wide generalization -- an
+   [I]-indexed product as the wide pullback over the terminal object, Riehl
+   2nd ed. Lemma 3.5.15 -- is [wide_pullback_product] in
+   [Structure/Pullback/Wide.v]. *)
 (* Wikipedia: "The pullback is similar to the product, but not the same. One
    may obtain the product by "forgetting" that the morphisms f and g exist,
    and forgetting that the object Z exists. One is then left with a discrete
@@ -264,7 +272,13 @@ Defined.
    determined and thus carry no information, and the pullback of this cospan
    can be seen to be the product of X and Y." *)
 
-(* jww (2017-06-02): *)
+(* Also PROVED in [Structure/Pullback/Reduction.v]: [pullback_of_equalizer]
+   with [HasPullbacks_of_Cartesian_HasEqualizers] for the direction quoted
+   below, and [equalizer_of_pullback] for the converse (Awodey 2nd ed. Prop.
+   5.7).  Read the last sentence of the quotation with care: this file does
+   NOT establish the general "all finite limits" claim -- only the binary and
+   parallel-pair generators are related, and no finite-shape induction is
+   performed anywhere in the library. *)
 (* Wikipedia: "... another way of characterizing the pullback: as the
    equalizer of the morphisms f ∘ p1, g ∘ p2 : X × Y → Z where X × Y is the
    binary product of X and Y and p1 and p2 are the natural projections. This

@@ -19,10 +19,24 @@ Generalizable All Variables.
 
    An elementary topos is a category with finite limits that is cartesian
    closed and has a subobject classifier.  Finite limits are carried
-   EXPLICITLY here as terminal object + binary products + pullbacks: the
-   reduction of pullbacks to products and equalizers (and conversely) is not
-   formalized in this library, so we do not pretend one component subsumes
-   another, and we deliberately do not add equalizers to the class.
+   EXPLICITLY here as terminal object + binary products + pullbacks, and we
+   deliberately do not add equalizers to the class.
+
+   That redundancy is now a CHOICE rather than a gap.  The reduction of
+   pullbacks to products and equalizers, and its converse, ARE formalized --
+   [Structure/Pullback/Reduction.v]'s [pullback_of_equalizer] /
+   [HasPullbacks_of_Cartesian_HasEqualizers] and [equalizer_of_pullback], with
+   [Cartesian_of_HasPullbacks_Terminal] and
+   [HasEqualizers_of_HasPullbacks_Terminal] going the other way.  The class
+   keeps its components explicit anyway, so that an instance may supply
+   whichever it computes with and no consumer pays for a reduction it does not
+   want.
+
+   Scope that precisely, because the redundancy claim is narrower than "finite
+   limits are redundant": what is related is the BINARY and PARALLEL-PAIR
+   generators.  No finite-shape induction is performed anywhere in this
+   library, so "has all finite limits" is NOT derived from the class's fields
+   here, and no such theorem is claimed.
 
    Universe note: the class is a plain record of the component classes, each
    universe-polymorphic over the ambient category; it introduces no universe
