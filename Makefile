@@ -344,6 +344,10 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Limit.Indexed.Hom.'; \
 	  echo 'Require Import Category.Structure.Limit.Power.'; \
 	  echo 'Require Import Category.Structure.Limit.Power.Hom.'; \
+	  echo 'Require Import Category.Instance.Parallel.Wide.'; \
+	  echo 'Require Import Category.Structure.Equalizer.Wide.'; \
+	  echo 'Require Import Category.Structure.Coequalizer.Wide.'; \
+	  echo 'Require Import Category.Theory.WeaklyInitial.Wide.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1559,6 +1563,40 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Sets_copower_fin.'; \
 	  echo 'Print Assumptions Sets_copower_two.'; \
 	  echo 'Print Assumptions Sets_copower_three_distinct.'; \
+	  echo 'Print Assumptions WParHom.'; \
+	  echo 'Print Assumptions WParHom_Y_X_absurd.'; \
+	  echo 'Print Assumptions WideParallel.'; \
+	  echo 'Print Assumptions AWide.'; \
+	  echo 'Print Assumptions Wide_of_Par.'; \
+	  echo 'Print Assumptions Par_of_Wide.'; \
+	  echo 'Print Assumptions WideParallel_bool_Parallel.'; \
+	  echo 'Print Assumptions WideParallel_bool_Parallel_Cat.'; \
+	  echo 'Print Assumptions AWide_bool_APair.'; \
+	  echo 'Print Assumptions WideEqualizer.'; \
+	  echo 'Print Assumptions IsWideEqualizer.'; \
+	  echo 'Print Assumptions HasWideEqualizers.'; \
+	  echo 'Print Assumptions wide_equalizer_monic.'; \
+	  echo 'Print Assumptions wide_equalizer_unique.'; \
+	  echo 'Print Assumptions wide_limit_equalizes.'; \
+	  echo 'Print Assumptions wfork_cone.'; \
+	  echo 'Print Assumptions wide_equalizer_is_equalizer.'; \
+	  echo 'Print Assumptions is_wide_equalizer_limit.'; \
+	  echo 'Print Assumptions wide_empty_id_IsWideEqualizer.'; \
+	  echo 'Print Assumptions wide_unpointed_round_trip_gives_hom.'; \
+	  echo 'Print Assumptions wide_round_trip_needs_point.'; \
+	  echo 'Print Assumptions WideCoequalizer.'; \
+	  echo 'Print Assumptions IsWideCoequalizer.'; \
+	  echo 'Print Assumptions HasWideCoequalizers.'; \
+	  echo 'Print Assumptions wide_coequalizer_epic.'; \
+	  echo 'Print Assumptions wide_coequalizer_unique.'; \
+	  echo 'Print Assumptions wide_colimit_coequalizes.'; \
+	  echo 'Print Assumptions wcofork_cocone.'; \
+	  echo 'Print Assumptions wide_coequalizer_is_coequalizer.'; \
+	  echo 'Print Assumptions is_wide_coequalizer_colimit.'; \
+	  echo 'Print Assumptions wide_empty_id_IsWideCoequalizer.'; \
+	  echo 'Print Assumptions wide_unpointed_coround_trip_gives_hom.'; \
+	  echo 'Print Assumptions wide_coround_trip_needs_point.'; \
+	  echo 'Print Assumptions initial_from_weakly_initial_wide.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
