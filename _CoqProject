@@ -490,6 +490,8 @@ Structure/Limit/Preservation/Separation.v
 Structure/Limit/Product.v
 Structure/Limit/Coproduct.v
 Structure/Limit/Indexed/Hom.v
+Structure/Limit/Power.v
+Structure/Limit/Power/Hom.v
 Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Kan/Pointwise.v
@@ -700,6 +702,7 @@ Test/ProbeRepresentableInduced.v
 Test/ProbePostcompose.v
 Test/ProbeCoyoneda.v
 Test/ProbeIndexedHom.v
+Test/ProbePower.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
