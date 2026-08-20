@@ -342,6 +342,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Functor.Construction.Postcompose.'; \
 	  echo 'Require Import Category.Construction.Elements.Kan.'; \
 	  echo 'Require Import Category.Structure.Limit.Indexed.Hom.'; \
+	  echo 'Require Import Category.Structure.Limit.Power.'; \
+	  echo 'Require Import Category.Structure.Limit.Power.Hom.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1536,6 +1538,27 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Sets_icoprod_hom_iso.'; \
 	  echo 'Print Assumptions Sets_bad_not_iprod.'; \
 	  echo 'Print Assumptions Sets_bad_not_icoprod.'; \
+	  echo 'Print Assumptions power.'; \
+	  echo 'Print Assumptions copower.'; \
+	  echo 'Print Assumptions power_ump.'; \
+	  echo 'Print Assumptions copower_ump.'; \
+	  echo 'Print Assumptions power_ump_of_limit.'; \
+	  echo 'Print Assumptions copower_ump_of_colimit.'; \
+	  echo 'Print Assumptions power_hom_iso.'; \
+	  echo 'Print Assumptions copower_hom_iso.'; \
+	  echo 'Print Assumptions power_hom_iso_at.'; \
+	  echo 'Print Assumptions copower_hom_iso_at.'; \
+	  echo 'Print Assumptions power_iff_hom_iso.'; \
+	  echo 'Print Assumptions copower_iff_hom_iso.'; \
+	  echo 'Print Assumptions class_power_hom_iso.'; \
+	  echo 'Print Assumptions class_copower_hom_iso.'; \
+	  echo 'Print Assumptions Sets_power_exponent.'; \
+	  echo 'Print Assumptions Sets_power_ev_is_exponent_eval.'; \
+	  echo 'Print Assumptions Sets_copower_prod.'; \
+	  echo 'Print Assumptions Sets_copower_one.'; \
+	  echo 'Print Assumptions Sets_copower_fin.'; \
+	  echo 'Print Assumptions Sets_copower_two.'; \
+	  echo 'Print Assumptions Sets_copower_three_distinct.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

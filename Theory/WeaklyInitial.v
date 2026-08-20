@@ -6,6 +6,7 @@ Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Limit.
 Require Import Category.Structure.Limit.Product.
+Require Import Category.Structure.Limit.Power.
 Require Import Category.Structure.Equalizer.Fork.
 Require Import Category.Instance.Discrete.
 Require Import Category.Construction.Opposite.
@@ -49,7 +50,19 @@ Generalizable All Variables.
    the index (hence the relevant universe constraints) in the caller's
    hands.  Supplying [Pe] separately from [P] strengthens the hypotheses
    (an honest, leaner input) and never weakens the conclusion, which remains
-   a full [Initial C]. *)
+   a full [Initial C].
+
+   [Pe]'s family is CONSTANT -- [fun _ : P0 ~> P0 => P0] -- so [Pe] is a
+   POWER of [P0] in the sense of Mac Lane III.3/III.4, and the proof below
+   says so, through Structure/Limit/Power.v's [power_of_limit],
+   [power_ev_of_limit] and [power_ump_of_limit].  Those are [iprod],
+   [iprod_proj] and [iprod_ump] at the constant family, supplied by [:=], so
+   the change is by conversion and the statement of the theorem is unaffected
+   -- [Pe]'s type is written out in full above and is untouched.  [P]'s family
+   [wif_obj W] genuinely varies and stays an indexed product.  Only
+   Structure/Limit/Power.v is Required, not its Structure/Limit/Power/Hom.v
+   satellite, which is what keeps [Instance/Sets] off this file's dependency
+   closure and hence off the GAFT critical path. *)
 
 (* A weakly initial family: an index [Type], a family of objects, and for
    every object [c] a *choice* of covering member together with an arrow
@@ -95,31 +108,37 @@ Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C)
 Proof.
   (* Abbreviate the product object and fold it into [Pe]'s index. *)
   set (P0 := iprod (wif_obj W) P) in *.
-  set (Endo := fun _ : (P0 ~> P0) => P0) in *.
 
-  (* Weak initiality of [P0]: a chosen map into every object. *)
+  (* Weak initiality of [P0]: a chosen map into every object.  [wif_obj W] is
+     a genuinely varying family, so this stays an indexed PRODUCT; it is only
+     [Pe] below whose family is constant. *)
   pose (wmap := fun c : C =>
           projT2 (wif_cover W c)
             ∘ iprod_proj (wif_obj W) P (projT1 (wif_cover W c))).
 
   (* The tupling of all endomorphisms, and of the constant identity family,
-     through the endomorphism-indexed product [Pe]. *)
-  destruct (iprod_ump Endo Pe P0 (fun u => u)) as [m Hm0 _].
-  destruct (iprod_ump Endo Pe P0 (fun _ => id[P0])) as [d Hd0 _].
+     through the endomorphism-indexed POWER [Pe] -- the family there is
+     [fun _ : P0 ~> P0 => P0], constant, so Structure/Limit/Power.v's
+     vocabulary applies and is used.  Every step below is the same term as
+     before, read through that vocabulary: [power_of_limit],
+     [power_ev_of_limit] and [power_ump_of_limit] are [iprod], [iprod_proj]
+     and [iprod_ump] at the constant family, supplied by [:=]. *)
+  destruct (power_ump_of_limit P0 Pe P0 (fun u => u)) as [m Hm0 _].
+  destruct (power_ump_of_limit P0 Pe P0 (fun _ => id[P0])) as [d Hd0 _].
   (* beta-normalized reads of the two universal families *)
-  assert (Hm : ∀ u : P0 ~> P0, iprod_proj Endo Pe u ∘ m ≈ u)
+  assert (Hm : ∀ u : P0 ~> P0, power_ev_of_limit P0 Pe u ∘ m ≈ u)
     by exact Hm0.
-  assert (Hd : ∀ u : P0 ~> P0, iprod_proj Endo Pe u ∘ d ≈ id[P0])
+  assert (Hd : ∀ u : P0 ~> P0, power_ev_of_limit P0 Pe u ∘ d ≈ id[P0])
     by exact Hd0.
 
   (* The binary equalizer of the two tuplings. *)
-  destruct (@equalizer C E P0 (iprod Endo Pe) m d) as [I [e Eeq]].
+  destruct (@equalizer C E P0 (power_of_limit P0 Pe) m d) as [I [e Eeq]].
 
   (* Every endomorphism of [P0] is absorbed by the equalizer inclusion. *)
   assert (endo_absorb : ∀ u : P0 ~> P0, u ∘ e ≈ e).
   { intro u.
-    assert (Hu : iprod_proj Endo Pe u ∘ (m ∘ e)
-                   ≈ iprod_proj Endo Pe u ∘ (d ∘ e)).
+    assert (Hu : power_ev_of_limit P0 Pe u ∘ (m ∘ e)
+                   ≈ power_ev_of_limit P0 Pe u ∘ (d ∘ e)).
     { rewrite (fork_eq Eeq); reflexivity. }
     rewrite !comp_assoc in Hu.
     rewrite (Hm u) in Hu.
