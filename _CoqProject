@@ -42,6 +42,7 @@ Construction/Deloop/Transform.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Elements.v
+Construction/Elements/Kan.v
 Construction/Enriched.v
 Construction/Enriched/Natural.v
 Construction/Enriched/Compose.v
@@ -696,6 +697,7 @@ Test/ProbeGrpCongruence.v
 Test/ProbeYonedaNatural.v
 Test/ProbeRepresentableInduced.v
 Test/ProbePostcompose.v
+Test/ProbeCoyoneda.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
