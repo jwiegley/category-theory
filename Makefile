@@ -340,6 +340,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Functor.Representable.'; \
 	  echo 'Require Import Category.Functor.Representable.Functorial.'; \
 	  echo 'Require Import Category.Functor.Construction.Postcompose.'; \
+	  echo 'Require Import Category.Construction.Elements.Kan.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1502,6 +1503,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions DiscToTwo_Faithful.'; \
 	  echo 'Print Assumptions DiscToTwo_not_Full.'; \
 	  echo 'Print Assumptions postcompose_full_needs_full.'; \
+	  echo 'Print Assumptions kan_cone_of_nat.'; \
+	  echo 'Print Assumptions kan_nat_of_cone.'; \
+	  echo 'Print Assumptions kan_nat_cone_nat.'; \
+	  echo 'Print Assumptions kan_cone_nat_cone.'; \
+	  echo 'Print Assumptions KanNat.'; \
+	  echo 'Print Assumptions KanCone.'; \
+	  echo 'Print Assumptions kan_iso_at.'; \
+	  echo 'Print Assumptions kan_coyoneda.'; \
+	  echo 'Print Assumptions kan_transform_of_cone.'; \
+	  echo 'Print Assumptions kan_cone_of_transform.'; \
+	  echo 'Print Assumptions kan_cone_transform_iso.'; \
+	  echo 'Print Assumptions kan_iso_transform.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
