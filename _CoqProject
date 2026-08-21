@@ -360,6 +360,8 @@ Instance/Sets/Cartesian/Closed/Adjunction.v
 Instance/Sets/Cocartesian.v
 Instance/Sets/Products.v
 Instance/Sets/Complete.v
+Instance/Sets/Cocomplete.v
+Instance/Sets/Chain.v
 Instance/Sets/Coend.v
 Instance/Sets/End.v
 Instance/Sets/Image.v
@@ -731,6 +733,7 @@ Test/ProbeCokernelPair.v
 Test/ProbeReduction.v
 Test/ProbeMatrCoeq.v
 Test/ProbeCoproduct328.v
+Test/ProbeCocomplete329.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
