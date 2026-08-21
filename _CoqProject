@@ -209,6 +209,7 @@ Instance/Ab/Monoidal.v
 Instance/Ab/ModFunctor.v
 Instance/Ab/Graded.v
 Instance/Ab/Subtract.v
+Instance/Ab/DirectedColimit.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
@@ -734,6 +735,7 @@ Test/ProbeReduction.v
 Test/ProbeMatrCoeq.v
 Test/ProbeCoproduct328.v
 Test/ProbeCocomplete329.v
+Test/ProbeDirectedColimit330.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
