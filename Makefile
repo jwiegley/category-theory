@@ -365,6 +365,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Matr.Coequalizer.'; \
 	  echo 'Require Import Category.Instance.Mon.Coproduct.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Sets.Cocomplete.'; \
+	  echo 'Require Import Category.Instance.Sets.Chain.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1652,6 +1654,13 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions fp_generators_do_not_commute.'; \
 	  echo 'Print Assumptions QuiverCoprod.'; \
 	  echo 'Print Assumptions QuiverCategory_Cocartesian.'; \
+	  echo 'Print Assumptions Sets_Cocomplete.'; \
+	  echo 'Print Assumptions Sets_Colimit.'; \
+	  echo 'Print Assumptions two_fibres_not_collapsed.'; \
+	  echo 'Print Assumptions omega_stages_merged.'; \
+	  echo 'Print Assumptions omega_stages_apart_in_coproduct.'; \
+	  echo 'Print Assumptions Sets_Omega_Colimit.'; \
+	  echo 'Print Assumptions Sets_Chain_Colimit.'; \
 	  echo 'Print Assumptions QuiverCopair_unique.'; \
 	  echo 'Print Assumptions QuiverOfCat_Coproduct_iso.'; \
 	  echo 'Print Assumptions matr_coeq_epic.'; \

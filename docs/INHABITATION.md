@@ -65,7 +65,7 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 
 | Result | Distinctive premise | Status of the premise |
 |--------|---------------------|-----------------------|
-| `GAFT` (solution-set form) | `Complete C` | no `Complete`/`Cocomplete` instance exists in-tree |
+| `GAFT` (solution-set form) | `Complete C` | witnessed at `Sets` — `Sets_Complete` (`Instance/Sets/Complete.v`) and, since #329, `Sets_Cocomplete` (`Instance/Sets/Cocomplete.v`), the first hypothesis-free inhabitant of either class; the theorem is stated for an arbitrary `C`, and no OTHER category has one. This cell read "no `Complete`/`Cocomplete` instance exists in-tree" until #329: the `Cocomplete` half was falsified by that issue, the `Complete` half had already been stale since `Sets_Complete` landed |
 | `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |
 | `RoundTrip_Equivalence` | a `SplitCleaving` of the required shape | never inhabited in that shape |
 | `beck_monadicity` | `CreatesUSplitCoequalizers` composed from the engine | never assembled; `Id` is shown monadic by a direct proof (`Monad/Monadicity/Examples.v`), bypassing the coequalizer machinery |
@@ -77,7 +77,7 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `pointed_part_equivalence` | the GLOBAL basepoint decidability `∀ Z, DecidablePt Z` | uninhabited: finiteness discharges only the per-object form (`PointedBool`, `PointedThree`); the global form is classically automatic but follows from no finite witness. The functor's full-and-faithfulness (`Part_to_Pointed_Full`/`_Faithful`) is unconditional |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
 | `Category_SpanMonoid`, `Category_monoid_iso` (`Theory/Category/Monoid.v`) | `HomRigid C` | no in-tree category is given a `HomRigid` witness; `HomRigid_of_ObjUIP` + Hedberg would supply one for any category with decidable object equality, but the application is never made — and the necessity theorem `arrow_mul_respects_forces_UIP` shows the premise cannot be discharged uniformly |
-| `creates_limits_Complete`, `EM_Complete` (§V.4 Thm 2, completeness half) | `Complete` on the base category | no `Complete`/`Cocomplete` instance exists in-tree, the same status as the `GAFT` row; the per-diagram creation results above are witnessed and are what the development exercises |
+| `creates_limits_Complete`, `EM_Complete` (§V.4 Thm 2, completeness half) | `Complete` on the base category | witnessed at `Sets` only, the same status as the `GAFT` row (see that row for the correction history); the per-diagram creation results above are witnessed and are what the development exercises |
 
 ### The cospan universe note
 
