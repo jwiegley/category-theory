@@ -367,6 +367,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Free.Quiver.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Sets.Cocomplete.'; \
 	  echo 'Require Import Category.Instance.Sets.Chain.'; \
+	  echo 'Require Import Category.Instance.Ab.DirectedColimit.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1769,6 +1770,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions empty_span_keeps_summands_apart.'; \
 	  echo 'Print Assumptions point_span_merges.'; \
 	  echo 'Print Assumptions Top_pushout_empty_iso.'; \
+	  echo 'Print Assumptions ab_fg_colimit.'; \
+	  echo 'Print Assumptions ab_fg_isacolimit.'; \
+	  echo 'Print Assumptions FGSub_directed.'; \
+	  echo 'Print Assumptions FGSub_Thin.'; \
+	  echo 'Print Assumptions gen_least.'; \
+	  echo 'Print Assumptions Zsub_incomparable.'; \
+	  echo 'Print Assumptions Zjoin_strictly_larger.'; \
+	  echo 'Print Assumptions Ztwo_dup_iso.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
