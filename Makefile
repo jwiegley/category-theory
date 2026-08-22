@@ -368,6 +368,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Cocomplete.'; \
 	  echo 'Require Import Category.Instance.Sets.Chain.'; \
 	  echo 'Require Import Category.Instance.Ab.DirectedColimit.'; \
+	  echo 'Require Import Category.Functor.Hom.Limit.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1778,6 +1779,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Zsub_incomparable.'; \
 	  echo 'Print Assumptions Zjoin_strictly_larger.'; \
 	  echo 'Print Assumptions Ztwo_dup_iso.'; \
+	  echo 'Print Assumptions hom_PreservesLimitCone.'; \
+	  echo 'Print Assumptions hom_ContinuousFunctor.'; \
+	  echo 'Print Assumptions hom_IsIndexedProduct.'; \
+	  echo 'Print Assumptions hom_IsCartesianProduct.'; \
+	  echo 'Print Assumptions cohom_colimit_to_limit.'; \
+	  echo 'Print Assumptions cohom_IsIndexedProduct.'; \
+	  echo 'Print Assumptions hom_preserved_mediator.'; \
+	  echo 'Print Assumptions coq_hom_product.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
