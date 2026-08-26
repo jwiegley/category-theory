@@ -369,6 +369,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Chain.'; \
 	  echo 'Require Import Category.Instance.Ab.DirectedColimit.'; \
 	  echo 'Require Import Category.Functor.Hom.Limit.'; \
+	  echo 'Require Import Category.Construction.Free.Quiver.Limit.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1787,6 +1788,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions cohom_IsIndexedProduct.'; \
 	  echo 'Print Assumptions hom_preserved_mediator.'; \
 	  echo 'Print Assumptions coq_hom_product.'; \
+	  echo 'Print Assumptions graph_limitcone.'; \
+	  echo 'Print Assumptions limitcone_graph_limit.'; \
+	  echo 'Print Assumptions graph_limit_iff_limitcone.'; \
+	  echo 'Print Assumptions ACone_of_AGraphCone.'; \
+	  echo 'Print Assumptions AGraphCone_of_ACone.'; \
+	  echo 'Print Assumptions gcone_dpath.'; \
+	  echo 'Print Assumptions triangle_graph_limit.'; \
+	  echo 'Print Assumptions loop_paths_distinct.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
