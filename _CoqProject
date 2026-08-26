@@ -100,6 +100,7 @@ Construction/Free/Quiver/Presented.v
 Construction/Free/Quiver/Coproduct.v
 Construction/Free/Quiver/Concrete.v
 Construction/Free/Quiver/Examples.v
+Construction/Free/Quiver/Limit.v
 Construction/Free/TwoFunctors.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
@@ -738,6 +739,7 @@ Test/ProbeCoproduct328.v
 Test/ProbeCocomplete329.v
 Test/ProbeDirectedColimit330.v
 Test/ProbeHomLimit331.v
+Test/ProbeQuiverLimit332.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
