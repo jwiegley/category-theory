@@ -370,6 +370,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Ab.DirectedColimit.'; \
 	  echo 'Require Import Category.Functor.Hom.Limit.'; \
 	  echo 'Require Import Category.Construction.Free.Quiver.Limit.'; \
+	  echo 'Require Import Category.Instance.Sets.Pullback.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1796,6 +1797,15 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions gcone_dpath.'; \
 	  echo 'Print Assumptions triangle_graph_limit.'; \
 	  echo 'Print Assumptions loop_paths_distinct.'; \
+	  echo 'Print Assumptions Sets_HasPullbacks.'; \
+	  echo 'Print Assumptions Sets_IsPullback.'; \
+	  echo 'Print Assumptions sets_kernel_pair_obj.'; \
+	  echo 'Print Assumptions sets_ker_trans.'; \
+	  echo 'Print Assumptions sets_pullback_is_equalizer.'; \
+	  echo 'Print Assumptions sets_equalizer_is_pullback.'; \
+	  echo 'Print Assumptions sets_preimage_IsPullback.'; \
+	  echo 'Print Assumptions sets_preimage_criterion.'; \
+	  echo 'Print Assumptions even_ker_not_diagonal.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

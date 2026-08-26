@@ -386,6 +386,7 @@ Instance/Sets/CokernelPair.v
 Instance/Sets/Streams.v
 Instance/Sets/Split.v
 Instance/Sets/Regular.v
+Instance/Sets/Pullback.v
 Instance/Shapes.v
 Instance/Top.v
 Instance/Top/Coproduct.v
@@ -740,6 +741,7 @@ Test/ProbeCocomplete329.v
 Test/ProbeDirectedColimit330.v
 Test/ProbeHomLimit331.v
 Test/ProbeQuiverLimit332.v
+Test/ProbeSetsPullback333.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
