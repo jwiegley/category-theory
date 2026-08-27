@@ -372,6 +372,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Free.Quiver.Limit.'; \
 	  echo 'Require Import Category.Instance.Sets.Pullback.'; \
 	  echo 'Require Import Category.Structure.Limit.Initial.'; \
+	  echo 'Require Import Category.Structure.Limit.Product.Finite.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1816,6 +1817,17 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Ordinal_Succ_Terminal.'; \
 	  echo 'Print Assumptions ordinal_succ_IsAColimit.'; \
 	  echo 'Print Assumptions Omega_no_Terminal.'; \
+	  echo 'Print Assumptions fin_prod.'; \
+	  echo 'Print Assumptions fin_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Cartesian_Terminal_HasFiniteProducts.'; \
+	  echo 'Print Assumptions HasFiniteProducts_iff.'; \
+	  echo 'Print Assumptions iprod_unique_iso.'; \
+	  echo 'Print Assumptions fin_prod_unique_iso.'; \
+	  echo 'Print Assumptions awodey_IsIndexedProduct.'; \
+	  echo 'Print Assumptions awodey_fold_iso.'; \
+	  echo 'Print Assumptions fin_zero_IsTerminalObj.'; \
+	  echo 'Print Assumptions fin_two_IsCartesianProduct.'; \
+	  echo 'Print Assumptions Cocartesian_Initial_HasFiniteCoproducts.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
