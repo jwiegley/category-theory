@@ -15,10 +15,19 @@
     neither, `data_psh_data_law_control` being a control for the LAW
     FIELD rather than for the record.)
 
-    This file supplies the OTHER kind, which a
-    library file cannot state: FORMABILITY.  Stating it needs a section
-    declaring universe levels strictly apart, and a library file cannot
-    carry such a `Constraint` without constraining itself.
+    This file supplies the OTHER kind: FORMABILITY, which needs a
+    section declaring universe levels strictly apart.
+
+    CORRECTION, added later: this file originally said a library file
+    "cannot state" that kind, because it "cannot carry such a
+    `Constraint` without constraining itself".  THAT IS FALSE.
+    `Instance/Fun/Group.v` (issue #342) carries exactly such probes
+    in-file, as `Universes`/`Constraint` inside a `Section` with
+    `Context` variables and `Check` controls; the declarations are
+    discharged at `End`, and a downstream consumer that imports the file
+    can still declare its own levels strictly apart.  Measured, not
+    assumed.  A separate Test file is therefore a CHOICE, not a
+    necessity.
 
     THREE NEGATIVES, ALL FORMABILITY, plus a POSITIVE MEASUREMENT.
 

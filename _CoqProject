@@ -277,6 +277,7 @@ Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
 Instance/Fun/Discrete.v
+Instance/Fun/Group.v
 Instance/Fun/Action.v
 Instance/Grp.v
 Instance/Grp/Abelianization.v

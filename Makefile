@@ -378,6 +378,24 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
 	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Fun.Terminal.'; \
+	  echo 'Require Import Category.Instance.Fun.Group.'; \
+	  echo 'Print Assumptions PointwiseMonoid.'; \
+	  echo 'Print Assumptions PointwiseGroup.'; \
+	  echo 'Print Assumptions monoid_object_iff_pointwise.'; \
+	  echo 'Print Assumptions group_object_iff_pointwise.'; \
+	  echo 'Print Assumptions monoid_object_pointwise.'; \
+	  echo 'Print Assumptions pointwise_MonoidObject.'; \
+	  echo 'Print Assumptions group_object_pointwise.'; \
+	  echo 'Print Assumptions pointwise_GroupObject.'; \
+	  echo 'Print Assumptions pointwise_GrpObject.'; \
+	  echo 'Print Assumptions pointwise_GrpHom.'; \
+	  echo 'Print Assumptions PointwiseGrpFunctor.'; \
+	  echo 'Print Assumptions grp_functor_PointwiseGroup.'; \
+	  echo 'Print Assumptions grp_functor_GroupObject.'; \
+	  echo 'Print Assumptions pointwise_MonObject.'; \
+	  echo 'Print Assumptions Und_GroupObject.'; \
+	  echo 'Print Assumptions representably_monoid_iff_pointwise.'; \
+	  echo 'Print Assumptions representably_group_iff_pointwise.'; \
 	  echo 'Require Import Category.Structure.Group.Representable.'; \
 	  echo 'Require Import Category.Theory.Lawvere.Model.Closure.'; \
 	  echo 'Print Assumptions HomMonoidData.'; \
