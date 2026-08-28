@@ -378,6 +378,31 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
 	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Fun.Terminal.'; \
+	  echo 'Require Import Category.Structure.Group.Representable.'; \
+	  echo 'Require Import Category.Theory.Lawvere.Model.Closure.'; \
+	  echo 'Print Assumptions HomMonoidData.'; \
+	  echo 'Print Assumptions HomGroupData.'; \
+	  echo 'Print Assumptions monoid_object_iff_representable.'; \
+	  echo 'Print Assumptions group_object_iff_representable.'; \
+	  echo 'Print Assumptions monoid_object_representable.'; \
+	  echo 'Print Assumptions representable_monoid_object.'; \
+	  echo 'Print Assumptions group_object_representable.'; \
+	  echo 'Print Assumptions representable_group_object.'; \
+	  echo 'Print Assumptions RepresentablyMonoid.'; \
+	  echo 'Print Assumptions RepresentablyGroup.'; \
+	  echo 'Print Assumptions group_object_hom_data.'; \
+	  echo 'Print Assumptions RepPresheaf_Group.'; \
+	  echo 'Print Assumptions psh_group_hom_data.'; \
+	  echo 'Print Assumptions data_GroupObject.'; \
+	  echo 'Print Assumptions HomGrpObject.'; \
+	  echo 'Print Assumptions HomGrpHom.'; \
+	  echo 'Print Assumptions HomGrpFunctor.'; \
+	  echo 'Print Assumptions exp_MonoidObject.'; \
+	  echo 'Print Assumptions exp_GroupObject.'; \
+	  echo 'Print Assumptions sets_hom_iprod_iso.'; \
+	  echo 'Print Assumptions CartesianFunctor_Compose.'; \
+	  echo 'Print Assumptions TerminalFunctor_Compose.'; \
+	  echo 'Print Assumptions Model_Compose.'; \
 	  echo 'Require Import Category.Structure.Ring.'; \
 	  echo 'Require Import Category.Structure.Lattice.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
