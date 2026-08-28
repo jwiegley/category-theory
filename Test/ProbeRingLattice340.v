@@ -8,8 +8,18 @@
     and internal `Monoid` record respectively; each was stripped and each
     gives exactly one `cannot unify`, zero universe and zero typing
     errors).  This file pins what they CANNOT state: the universe
-    boundary, which needs a section declaring levels strictly apart, and
-    which a library file cannot carry without constraining itself.
+    boundary, which needs a section declaring levels strictly apart.
+
+    CORRECTION, added later: this file originally continued "...which a
+    library file cannot carry without constraining itself."  THAT IS
+    FALSE.  `Instance/Fun/Group.v` (issue #342) carries exactly such
+    probes in-file, as `Universes`/`Constraint` inside a `Section` with
+    `Context` variables and `Check` controls; the declarations are
+    discharged at `End`, and a downstream consumer that imports the file
+    can still declare its own levels strictly apart.  Measured, not
+    assumed.  So a separate Test file is a CHOICE here, not a necessity,
+    and the in-file form is arguably better since it keeps a refutation
+    beside what it refutes.
 
     THREE NEGATIVES, ALL FORMABILITY, plus a POSITIVE MEASUREMENT.
 
