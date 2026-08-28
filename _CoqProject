@@ -596,6 +596,7 @@ Theory/Algebra.v
 Theory/Algebra/Monoid.v
 Theory/Algebra/Monoid/Hom.v
 Theory/Algebra/Monoid/Product.v
+Theory/Algebra/Group/Hom.v
 Theory/Algebra/Rig.v
 Theory/Algebra/Rig/Connections.v
 Theory/Algebra/Comonoid.v
