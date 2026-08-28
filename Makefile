@@ -378,6 +378,25 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
 	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Fun.Terminal.'; \
+	  echo 'Require Import Category.Theory.Algebra.Monoid.Product.'; \
+	  echo 'Print Assumptions Monoid_Product.'; \
+	  echo 'Print Assumptions Mon_Cartesian.'; \
+	  echo 'Print Assumptions Terminal_Monoid.'; \
+	  echo 'Print Assumptions Mon_Terminal.'; \
+	  echo 'Print Assumptions mon_exl_hom.'; \
+	  echo 'Print Assumptions mon_exr_hom.'; \
+	  echo 'Print Assumptions mon_fork_hom.'; \
+	  echo 'Print Assumptions mon_one_hom.'; \
+	  echo 'Print Assumptions Monoid_of_MonoidObject.'; \
+	  echo 'Print Assumptions MonoidObject_of_Monoid.'; \
+	  echo 'Print Assumptions monoid_round.'; \
+	  echo 'Print Assumptions monoid_object_round.'; \
+	  echo 'Print Assumptions Product_Monoid_as_Monoid.'; \
+	  echo 'Print Assumptions Monoid_Product_eta_is_Product_Monoid.'; \
+	  echo 'Print Assumptions Mon_Forget_product.'; \
+	  echo 'Print Assumptions Mon_Forget_terminal.'; \
+	  echo 'Print Assumptions Mon_Sets_Cartesian.'; \
+	  echo 'Print Assumptions Mon_Sets_Terminal.'; \
 	  echo 'Require Import Category.Instance.Fun.Group.'; \
 	  echo 'Print Assumptions PointwiseMonoid.'; \
 	  echo 'Print Assumptions PointwiseGroup.'; \
