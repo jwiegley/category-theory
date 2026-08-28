@@ -373,6 +373,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Pullback.'; \
 	  echo 'Require Import Category.Structure.Limit.Initial.'; \
 	  echo 'Require Import Category.Structure.Limit.Product.Finite.'; \
+	  echo 'Require Import Category.Structure.Bicartesian.Matrix.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1828,6 +1829,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions fin_zero_IsTerminalObj.'; \
 	  echo 'Print Assumptions fin_two_IsCartesianProduct.'; \
 	  echo 'Print Assumptions Cocartesian_Initial_HasFiniteCoproducts.'; \
+	  echo 'Print Assumptions matrix_ext.'; \
+	  echo 'Print Assumptions matrix_determined.'; \
+	  echo 'Print Assumptions matrix_ump.'; \
+	  echo 'Print Assumptions matrix_mor_entry.'; \
+	  echo 'Print Assumptions can_matrix.'; \
+	  echo 'Print Assumptions can_matrix_diag.'; \
+	  echo 'Print Assumptions can_matrix_off.'; \
+	  echo 'Print Assumptions can_matrix_ump.'; \
+	  echo 'Print Assumptions binary_can_is_can_comparison.'; \
+	  echo 'Print Assumptions indexed_inj_Monic.'; \
+	  echo 'Print Assumptions inl_Monic.'; \
+	  echo 'Print Assumptions fin_matrix_ext.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
