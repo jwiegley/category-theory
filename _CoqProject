@@ -34,6 +34,7 @@ Construction/Comma/Functorial.v
 Construction/Cylinder.v
 Construction/Cylinder/Arrow.v
 Construction/Coproduct.v
+Construction/Coproduct/Indexed.v
 Construction/Day.v
 Construction/Deloop.v
 Construction/Deloop/Functors.v
@@ -228,6 +229,7 @@ Instance/Cat/Bicategory/Adjunction.v
 Instance/Cat/Bicategory/Conjugate.v
 Instance/Cat/TwoCategory.v
 Instance/Cat/Pullback.v
+Instance/Cat/Coproduct.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -750,6 +752,7 @@ Test/ProbeLimitInitial334.v
 Test/ProbeFiniteProducts335.v
 Test/ProbeMatrix336.v
 Test/ProbeCatPullback337.v
+Test/ProbeCatCoproduct338.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
