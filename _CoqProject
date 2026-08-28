@@ -512,6 +512,7 @@ Structure/Limit/Preservation/Separation.v
 Structure/Limit/Product.v
 Structure/Limit/Coproduct.v
 Structure/Limit/Product/Finite.v
+Structure/Bicartesian/Matrix.v
 Structure/Limit/Indexed/Hom.v
 Structure/Limit/Power.v
 Structure/Limit/Power/Hom.v
@@ -746,6 +747,7 @@ Test/ProbeQuiverLimit332.v
 Test/ProbeSetsPullback333.v
 Test/ProbeLimitInitial334.v
 Test/ProbeFiniteProducts335.v
+Test/ProbeMatrix336.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
