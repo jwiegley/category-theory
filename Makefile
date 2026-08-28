@@ -375,6 +375,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Limit.Product.Finite.'; \
 	  echo 'Require Import Category.Structure.Bicartesian.Matrix.'; \
 	  echo 'Require Import Category.Instance.Cat.Pullback.'; \
+	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
+	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1857,6 +1859,22 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions FP_uniqueness_forces_UIP.'; \
 	  echo 'Print Assumptions Slice_IsPullback.'; \
 	  echo 'Print Assumptions Coslice_IsPullback.'; \
+	  echo 'Print Assumptions SigmaCat.'; \
+	  echo 'Print Assumptions SigmaCat_inj.'; \
+	  echo 'Print Assumptions SigmaCat_case.'; \
+	  echo 'Print Assumptions SigmaCat_case_inj.'; \
+	  echo 'Print Assumptions SigmaCat_case_unique.'; \
+	  echo 'Print Assumptions SigmaCat_ump.'; \
+	  echo 'Print Assumptions SigmaCat_inj_Full.'; \
+	  echo 'Print Assumptions sigma_inj_Full_forces_UIP.'; \
+	  echo 'Print Assumptions SigmaCat_const_inj_Faithful.'; \
+	  echo 'Print Assumptions SigmaCat_inj_Faithful.'; \
+	  echo 'Print Assumptions Faithful_cancel.'; \
+	  echo 'Print Assumptions sigma_hom_cross_empty.'; \
+	  echo 'Print Assumptions SigmaCat_IsIndexedCoproduct.'; \
+	  echo 'Print Assumptions Cat_HasIndexedCoproducts.'; \
+	  echo 'Print Assumptions SigmaBool_strict_iso.'; \
+	  echo 'Print Assumptions inj_Full_forces_UIP_at_One.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
