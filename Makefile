@@ -423,6 +423,28 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions GrpCat_Forget_terminal.'; \
 	  echo 'Print Assumptions GrpCat_Cartesian_tensor.'; \
 	  echo 'Print Assumptions GrpCat_Terminal_unit.'; \
+	  echo 'Require Import Category.Instance.Grp.EckmannHilton.'; \
+	  echo 'Print Assumptions GrpS.'; \
+	  echo 'Print Assumptions GrpCM.'; \
+	  echo 'Print Assumptions AbelianGrp.'; \
+	  echo 'Print Assumptions gob_interchange.'; \
+	  echo 'Print Assumptions gob_units_agree.'; \
+	  echo 'Print Assumptions gob_mul_agrees.'; \
+	  echo 'Print Assumptions gob_mul_comm.'; \
+	  echo 'Print Assumptions gob_inv_agrees.'; \
+	  echo 'Print Assumptions group_object_abelian.'; \
+	  echo 'Print Assumptions group_object_structure_forced.'; \
+	  echo 'Print Assumptions group_object_mul_unique.'; \
+	  echo 'Print Assumptions group_object_unit_unique.'; \
+	  echo 'Print Assumptions group_object_inverse_unique.'; \
+	  echo 'Print Assumptions abelian_GroupObject.'; \
+	  echo 'Print Assumptions abelian_iff_group_object.'; \
+	  echo 'Print Assumptions maclane_III_6_ex4.'; \
+	  echo 'Print Assumptions trivial_GroupObject_degenerate.'; \
+	  echo 'Print Assumptions Z2_GroupObject.'; \
+	  echo 'Print Assumptions Z2_GroupObject_nondegenerate.'; \
+	  echo 'Print Assumptions Sym3_not_abelian.'; \
+	  echo 'Print Assumptions Sym3_no_group_object.'; \
 	  echo 'Require Import Category.Instance.Fun.Group.'; \
 	  echo 'Print Assumptions PointwiseMonoid.'; \
 	  echo 'Print Assumptions PointwiseGroup.'; \

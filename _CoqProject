@@ -283,6 +283,7 @@ Instance/Grp.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Center.v
 Instance/Grp/Congruence.v
+Instance/Grp/EckmannHilton.v
 Instance/Grp/Epi.v
 Instance/Grp/Free.v
 Instance/Grp/Pushout.v
