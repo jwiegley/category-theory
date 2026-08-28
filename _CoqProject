@@ -500,6 +500,7 @@ Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
 Structure/Group/Proofs.v
+Structure/Group/Representable.v
 Structure/Groupoid.v
 Structure/Groupoid/Basepoint.v
 Structure/Groupoid/Connected.v
@@ -662,6 +663,7 @@ Theory/Isomorphism.v
 Theory/Kan/Extension.v
 Theory/Lawvere.v
 Theory/Lawvere/Model.v
+Theory/Lawvere/Model/Closure.v
 Theory/Lawvere/Sets.v
 Theory/Lawvere/Monad.v
 Theory/Lawvere/PROP.v
@@ -758,6 +760,7 @@ Test/ProbeCatPullback337.v
 Test/ProbeCatCoproduct338.v
 Test/ProbeFunTerminal339.v
 Test/ProbeRingLattice340.v
+Test/ProbeGroupRepr341.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
