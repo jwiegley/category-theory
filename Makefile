@@ -397,6 +397,32 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Mon_Forget_terminal.'; \
 	  echo 'Print Assumptions Mon_Sets_Cartesian.'; \
 	  echo 'Print Assumptions Mon_Sets_Terminal.'; \
+	  echo 'Require Import Category.Theory.Algebra.Group.Hom.'; \
+	  echo 'Print Assumptions group_monoid.'; \
+	  echo 'Print Assumptions group_inverse.'; \
+	  echo 'Print Assumptions GroupHom.'; \
+	  echo 'Print Assumptions group_hom_mappend.'; \
+	  echo 'Print Assumptions group_hom_mempty.'; \
+	  echo 'Print Assumptions GroupHom_inverse.'; \
+	  echo 'Print Assumptions GroupHom_id.'; \
+	  echo 'Print Assumptions GroupHom_comp.'; \
+	  echo 'Print Assumptions GroupHom_equiv.'; \
+	  echo 'Print Assumptions GrpCat.'; \
+	  echo 'Print Assumptions GrpCat_Forget.'; \
+	  echo 'Print Assumptions GrpCat_Forget_Faithful.'; \
+	  echo 'Print Assumptions GrpCat_Mon.'; \
+	  echo 'Print Assumptions GrpCat_Mon_Faithful.'; \
+	  echo 'Print Assumptions GrpCat_Mon_Full.'; \
+	  echo 'Print Assumptions forget_compose_strict.'; \
+	  echo 'Print Assumptions GroupObject_Product.'; \
+	  echo 'Print Assumptions grp_prod_monoid.'; \
+	  echo 'Print Assumptions GrpCat_Cartesian.'; \
+	  echo 'Print Assumptions GroupObject_Terminal.'; \
+	  echo 'Print Assumptions GrpCat_Terminal.'; \
+	  echo 'Print Assumptions GrpCat_Forget_product.'; \
+	  echo 'Print Assumptions GrpCat_Forget_terminal.'; \
+	  echo 'Print Assumptions GrpCat_Cartesian_tensor.'; \
+	  echo 'Print Assumptions GrpCat_Terminal_unit.'; \
 	  echo 'Require Import Category.Instance.Fun.Group.'; \
 	  echo 'Print Assumptions PointwiseMonoid.'; \
 	  echo 'Print Assumptions PointwiseGroup.'; \
