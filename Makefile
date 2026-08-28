@@ -377,6 +377,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Cat.Pullback.'; \
 	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
 	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
+	  echo 'Require Import Category.Instance.Fun.Terminal.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1875,6 +1876,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Cat_HasIndexedCoproducts.'; \
 	  echo 'Print Assumptions SigmaBool_strict_iso.'; \
 	  echo 'Print Assumptions inj_Full_forces_UIP_at_One.'; \
+	  echo 'Print Assumptions Functor_Category_Terminal.'; \
+	  echo 'Print Assumptions Constant_Functor.'; \
+	  echo 'Print Assumptions Constant_Terminal_Functor.'; \
+	  echo 'Print Assumptions Fun_iprod.'; \
+	  echo 'Print Assumptions Fun_iprod_proj.'; \
+	  echo 'Print Assumptions Fun_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Fun_HasIndexedProducts.'; \
+	  echo 'Print Assumptions iprod_jointly_monic.'; \
+	  echo 'Print Assumptions cartesian_bool_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Fun_bool_iprod_iso.'; \
+	  echo 'Print Assumptions terminal_empty_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Fun_empty_iprod_terminal.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

@@ -275,6 +275,7 @@ Instance/FinSet/Regular.v
 Instance/FinSet/Decategorify.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
+Instance/Fun/Terminal.v
 Instance/Fun/Discrete.v
 Instance/Fun/Action.v
 Instance/Grp.v
@@ -753,6 +754,7 @@ Test/ProbeFiniteProducts335.v
 Test/ProbeMatrix336.v
 Test/ProbeCatPullback337.v
 Test/ProbeCatCoproduct338.v
+Test/ProbeFunTerminal339.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
