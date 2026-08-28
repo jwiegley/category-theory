@@ -528,6 +528,8 @@ Structure/Limit/Unique.v
 Structure/Limit/Unique/Compat.v
 Structure/Limit/Initial.v
 Structure/Monoid.v
+Structure/Ring.v
+Structure/Lattice.v
 Structure/Monoidal.v
 Structure/Monoidal/Balanced.v
 Structure/Monoidal/Braided.v
@@ -755,6 +757,7 @@ Test/ProbeMatrix336.v
 Test/ProbeCatPullback337.v
 Test/ProbeCatCoproduct338.v
 Test/ProbeFunTerminal339.v
+Test/ProbeRingLattice340.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

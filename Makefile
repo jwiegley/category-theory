@@ -378,6 +378,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Coproduct.Indexed.'; \
 	  echo 'Require Import Category.Instance.Cat.Coproduct.'; \
 	  echo 'Require Import Category.Instance.Fun.Terminal.'; \
+	  echo 'Require Import Category.Structure.Ring.'; \
+	  echo 'Require Import Category.Structure.Lattice.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1888,6 +1890,26 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Fun_bool_iprod_iso.'; \
 	  echo 'Print Assumptions terminal_empty_IsIndexedProduct.'; \
 	  echo 'Print Assumptions Fun_empty_iprod_terminal.'; \
+	  echo 'Print Assumptions InternalSemiring.'; \
+	  echo 'Print Assumptions InternalRing.'; \
+	  echo 'Print Assumptions ring_annihilate_l.'; \
+	  echo 'Print Assumptions ring_annihilate_r.'; \
+	  echo 'Print Assumptions ring_cancel_idem.'; \
+	  echo 'Print Assumptions InternalRing_InternalSemiring.'; \
+	  echo 'Print Assumptions InternalRing_GroupObject.'; \
+	  echo 'Print Assumptions Sets_InternalSemiring.'; \
+	  echo 'Print Assumptions Sets_InternalRing.'; \
+	  echo 'Print Assumptions InternalSemilattice.'; \
+	  echo 'Print Assumptions InternalLattice.'; \
+	  echo 'Print Assumptions lattice_join_idem.'; \
+	  echo 'Print Assumptions lattice_meet_idem.'; \
+	  echo 'Print Assumptions lattice_bot_meet.'; \
+	  echo 'Print Assumptions lattice_top_join.'; \
+	  echo 'Print Assumptions Sets_InternalLattice.'; \
+	  echo 'Print Assumptions nat_plus_not_distributive.'; \
+	  echo 'Print Assumptions bool_or_not_annihilating.'; \
+	  echo 'Print Assumptions bool_join_not_absorbing.'; \
+	  echo 'Print Assumptions bool_xor_not_idempotent.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
