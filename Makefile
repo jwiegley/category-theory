@@ -374,6 +374,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Structure.Limit.Initial.'; \
 	  echo 'Require Import Category.Structure.Limit.Product.Finite.'; \
 	  echo 'Require Import Category.Structure.Bicartesian.Matrix.'; \
+	  echo 'Require Import Category.Instance.Cat.Pullback.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -1841,6 +1842,21 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions indexed_inj_Monic.'; \
 	  echo 'Print Assumptions inl_Monic.'; \
 	  echo 'Print Assumptions fin_matrix_ext.'; \
+	  echo 'Print Assumptions FibreProduct.'; \
+	  echo 'Print Assumptions FP_fst.'; \
+	  echo 'Print Assumptions FP_snd.'; \
+	  echo 'Print Assumptions FP_commutes_strict.'; \
+	  echo 'Print Assumptions FP_med.'; \
+	  echo 'Print Assumptions FP_med_unique.'; \
+	  echo 'Print Assumptions FibreProduct_IsPullback.'; \
+	  echo 'Print Assumptions FibreProduct_IsPullback_dec.'; \
+	  echo 'Print Assumptions StrictCat_HasPullbacks.'; \
+	  echo 'Print Assumptions FibreProduct_not_Cat_pullback.'; \
+	  echo 'Print Assumptions point_cospan_Cat_IsPullback.'; \
+	  echo 'Print Assumptions IB_FibreProduct_empty.'; \
+	  echo 'Print Assumptions FP_uniqueness_forces_UIP.'; \
+	  echo 'Print Assumptions Slice_IsPullback.'; \
+	  echo 'Print Assumptions Coslice_IsPullback.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
