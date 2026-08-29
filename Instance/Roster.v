@@ -307,10 +307,12 @@ Example roster_Set_f : Category := Set_f.
 Example roster_FinSet_Incl : FinSet ⟶ Set_f := FinSet_Incl.
 
 (* Mac Lane's Set_*: pointed sets and basepoint-preserving maps.  The
-   underlying-set functor is not packaged in Instance/Sets/Pointed.v
-   and is not built here; the coslice presentation
-   ([Pointed_Coslice_iso], Instance/Sets/Pointed/Coslice.v) is the
-   route to one. *)
+   underlying-set functor is still not packaged in
+   Instance/Sets/Pointed.v and is not built here, but it now EXISTS:
+   [Pointed_Forget], Instance/Sets/Pointed/Free.v, built directly for
+   Mac Lane III.1 Ex 3's basepoint row.  The coslice presentation
+   ([Pointed_Coslice_iso], Instance/Sets/Pointed/Coslice.v) remains an
+   alternative route and is not the one taken. *)
 Example roster_PointedSets : Category := PointedSets.
 
 (* Partial maps, in both readings: over setoids and over types. *)
