@@ -447,4 +447,124 @@ Next Obligation. exact (auniversal_arrow_iso_unique U1 U2 v X). Qed.
 
 End AUniversalArrowUnique.
 
+(** ** The two packagings of a universal arrow are interchangeable *)
+
+(* Mac Lane, CWM 2nd ed., §IV.1, Corollary 2 (book p. 85), runs the chain "a
+   representation of X(x, G−) at every x" ⟹ "a universal arrow at every x" ⟹
+   "a left adjoint".  In this file the last step is
+   [AdjunctionFromUniversalArrows], which consumes [UniversalArrow] — the
+   comma-initial packaging.  The representability side arrives at the OTHER
+   one: [AUniversalArrow] is what
+   [Structure/UniversalProperty/Universal/Arrow.v]'s
+   [UniversalArrowIsUniversalProperty] is stated over, and what
+   [Theory/Universal/Element.v]'s [universal_element_arrow_subsumption]
+   reaches from a universal element.
+
+   Both classes have been in this file since it was written, each with its own
+   mediator kit ([ua_med] against [aua_med]) and its own uniqueness theorem
+   ([universal_arrow_unique] against [auniversal_arrow_unique]) — and nothing
+   converted between them, so the chain could not be run end to end.  These
+   two passages close that gap.
+
+   They are not a new idea, and the file is careful to say so:
+   Theory/Universal/Arrow/Dual.v already carries the COUNIVERSAL twin, as
+   [ACouniversalArrow_of_CouniversalArrow] and
+   [CouniversalArrow_of_ACouniversalArrow], with the same two strict
+   readbacks recorded there ([..._arrow] and [..._obj]).  What was missing
+   was the PRIMAL side — the one this file's own two classes need — so what
+   follows is the mirror of an existing passage rather than an invention.
+
+   They differ in more than packaging, which is why neither is a coercion.
+   [UniversalArrow] HIDES its object: [arrow_obj] is a projection out of an
+   initial object of =(c) ↓ F, so the object is whatever the comma category
+   supplies.  [AUniversalArrow] takes the object as a PARAMETER, so its type
+   mentions it.  The forward passage therefore forgets an index and the
+   backward passage invents one — and that asymmetry is exactly why the two
+   round trips below are not the same statement.
+
+   The orientations differ too, and each passage pays for it twice:
+   [ump_universal_arrows] concludes [h ≈ fmap[F] g ∘ arrow] while
+   [universal_arrow_universal] concludes [fmap[F] g ∘ universal_arrow ≈ f], so
+   a [symmetry] is spent in each of the two proof fields of [Unique].  The
+   file's own remark at [auniversal_arrow_unique] records the same mismatch
+   seen from the other side. *)
+
+Section UniversalArrowPackaging.
+
+Context {c : C}.
+Context {F : D ⟶ C}.
+
+(* Naming the object and its factorization property is enough to rebuild the
+   comma-initial packaging: this is [universal_arrow_from_UMP] fed the class's
+   own two fields. *)
+Definition ua_of_aua {a : D} (W : AUniversalArrow c F a) : UniversalArrow c F.
+Proof.
+  unshelve eapply (universal_arrow_from_UMP c F a (@universal_arrow c F a W)).
+  intros d' f.
+  unshelve econstructor.
+  - exact (unique_obj (@universal_arrow_universal c F a W d' f)).
+  - simpl; symmetry.
+    exact (unique_property (@universal_arrow_universal c F a W d' f)).
+  - simpl; intros v Hv.
+    apply (uniqueness (@universal_arrow_universal c F a W d' f)).
+    now symmetry.
+Defined.
+
+(* And conversely, the projected object and arrow carry the direct form, with
+   the uniqueness clause read off [ump_universal_arrows]. *)
+Definition aua_of_ua (W : UniversalArrow c F)
+  : AUniversalArrow c F (@arrow_obj c F W).
+Proof.
+  unshelve econstructor.
+  - exact (@arrow c F W).
+  - intros d f.
+    unshelve econstructor.
+    + exact (unique_obj (ump_universal_arrows W f)).
+    + simpl; symmetry.
+      exact (unique_property (ump_universal_arrows W f)).
+    + simpl; intros v Hv.
+      apply (uniqueness (ump_universal_arrows W f)).
+      now symmetry.
+Defined.
+
+(* STRENGTH, measured strict-first.  The forward passage disturbs neither the
+   object nor the arrow: [universal_arrow_from_UMP] builds the comma object as
+   ((ttt, a); η), so both projections return what they were given. *)
+Example ua_of_aua_obj {a : D} (W : AUniversalArrow c F a) :
+  @arrow_obj c F (ua_of_aua W) = a := eq_refl.
+
+Example ua_of_aua_arrow {a : D} (W : AUniversalArrow c F a) :
+  @arrow c F (ua_of_aua W) = @universal_arrow c F a W := eq_refl.
+
+(* Because the object returns on the nose, the round trip STARTING from the
+   direct packaging lands back at the SAME index [a] — it typechecks against
+   [AUniversalArrow c F a] with no transport — and returns the underlying
+   morphism unchanged. *)
+Example aua_ua_round_arrow {a : D} (W : AUniversalArrow c F a) :
+  @universal_arrow c F a (aua_of_ua (ua_of_aua W))
+    = @universal_arrow c F a W := eq_refl.
+
+(* Hence at [AUniversalArrowEquiv] — which compares the underlying morphism
+   and nothing else, the uniqueness field carrying no further data — that
+   round trip is the identity. *)
+Lemma aua_ua_round {a : D} (W : AUniversalArrow c F a) :
+  aua_of_ua (ua_of_aua W) ≈ W.
+Proof. simpl; reflexivity. Qed.
+
+(* The other composite is weaker, and the difference is real rather than an
+   artifact of how it is stated.  [ua_of_aua (aua_of_ua W)] rebuilds the whole
+   [Initial] record of the comma category from the UMP, so the [arrow_initial]
+   field is a different term and the two [UniversalArrow]s are NOT
+   [eq_refl]-equal — pinned as a conversion negative in
+   Test/ProbeRepresentability348.v.  What does survive is everything a
+   consumer reads: both derived projections return on the nose.  [Setoid]
+   there is no help either, [UniversalArrow] carrying none. *)
+Example ua_aua_round_obj (W : UniversalArrow c F) :
+  @arrow_obj c F (ua_of_aua (aua_of_ua W)) = @arrow_obj c F W := eq_refl.
+
+Example ua_aua_round_arrow (W : UniversalArrow c F) :
+  @arrow c F (ua_of_aua (aua_of_ua W)) = @arrow c F W := eq_refl.
+
+End UniversalArrowPackaging.
+
 End UniversalArrow.

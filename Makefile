@@ -328,6 +328,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Mod.Extension.'; \
 	  echo 'Require Import Category.Instance.Grp.Completion.'; \
 	  echo 'Require Import Category.Adjunction.Determination.'; \
+	  echo 'Require Import Category.Adjunction.Representability.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2101,6 +2102,24 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions right_adjoint_of_counit_iso.'; \
 	  echo 'Print Assumptions couniversal_of_counit_iso.'; \
 	  echo 'Print Assumptions unit_presentation_of_adjunction.'; \
+	  echo 'Print Assumptions ua_of_aua.'; \
+	  echo 'Print Assumptions aua_of_ua.'; \
+	  echo 'Print Assumptions adj_unit_auniversal.'; \
+	  echo 'Print Assumptions adj_unit_universal.'; \
+	  echo 'Print Assumptions adj_representable.'; \
+	  echo 'Print Assumptions auniversal_of_representable.'; \
+	  echo 'Print Assumptions universal_of_representable.'; \
+	  echo 'Print Assumptions left_adjoint_of_representable.'; \
+	  echo 'Print Assumptions adjunction_of_representable.'; \
+	  echo 'Print Assumptions adjunction_iff_pointwise_representable.'; \
+	  echo 'Print Assumptions coadjunction_iff_pointwise_representable.'; \
+	  echo 'Print Assumptions CoHomBefore.'; \
+	  echo 'Print Assumptions right_adjoint_of_corepresentable.'; \
+	  echo 'Print Assumptions adjunction_of_corepresentable.'; \
+	  echo 'Print Assumptions adj_corepresentable.'; \
+	  echo 'Print Assumptions unit_square_forces_fmap.'; \
+	  echo 'Print Assumptions adjunction_of_natural_universal.'; \
+	  echo 'Print Assumptions left_adjoint_of_representable_fmap_unique.'; \
 	  echo 'Print Assumptions adjunction_of_unit_presentation.'; \
 	  echo 'Print Assumptions adj_left_compare.'; \
 	  echo 'Print Assumptions adj_left_compare_unit.'; \
