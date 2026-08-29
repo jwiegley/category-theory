@@ -327,6 +327,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.CMon.Grothendieck.'; \
 	  echo 'Require Import Category.Instance.Mod.Extension.'; \
 	  echo 'Require Import Category.Instance.Grp.Completion.'; \
+	  echo 'Require Import Category.Adjunction.Determination.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2091,6 +2092,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions CompletionFunctor.'; \
 	  echo 'Print Assumptions completion_universal_arrow.'; \
 	  echo 'Print Assumptions completion_adjunction.'; \
+	  echo 'Print Assumptions adj_counit_couniversal.'; \
+	  echo 'Print Assumptions adj_counit_couniversal_med.'; \
+	  echo 'Print Assumptions adj_counit_factor_unique.'; \
+	  echo 'Print Assumptions counit_couniversal_family.'; \
+	  echo 'Print Assumptions right_adjoint_of_counit.'; \
+	  echo 'Print Assumptions adjunction_of_counit.'; \
+	  echo 'Print Assumptions right_adjoint_of_counit_iso.'; \
+	  echo 'Print Assumptions couniversal_of_counit_iso.'; \
+	  echo 'Print Assumptions unit_presentation_of_adjunction.'; \
+	  echo 'Print Assumptions adjunction_of_unit_presentation.'; \
 	  echo 'Print Assumptions adj_left_compare.'; \
 	  echo 'Print Assumptions adj_left_compare_unit.'; \
 	  echo 'Print Assumptions adj_left_compare_natural.'; \
