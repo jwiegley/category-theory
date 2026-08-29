@@ -333,6 +333,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Pare.'; \
 	  echo 'Require Import Category.Theory.Connected.Components.'; \
 	  echo 'Require Import Category.Adjunction.Diagonal.Limit.'; \
+	  echo 'Require Import Category.Adjunction.Diagonal.Finite.'; \
 	  echo 'Require Import Category.Theory.Equivalence.Colimit.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
@@ -2272,6 +2273,46 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions two_transport_moves_inj.'; \
 	  echo 'Print Assumptions two_shift_induced_computes.'; \
 	  echo 'Print Assumptions two_shift_induced_not_iso.'; \
+	  echo 'Print Assumptions EqualizerFunctor.'; \
+	  echo 'Print Assumptions CoequalizerFunctor.'; \
+	  echo 'Print Assumptions PullbackFunctor.'; \
+	  echo 'Print Assumptions PushoutFunctor.'; \
+	  echo 'Print Assumptions Diagonal_Equalizer_Adjunction.'; \
+	  echo 'Print Assumptions Coequalizer_Diagonal_Adjunction.'; \
+	  echo 'Print Assumptions Diagonal_Pullback_Adjunction.'; \
+	  echo 'Print Assumptions Pushout_Diagonal_Adjunction.'; \
+	  echo 'Print Assumptions eq_arrow.'; \
+	  echo 'Print Assumptions coeq_arrow.'; \
+	  echo 'Print Assumptions pb_fst.'; \
+	  echo 'Print Assumptions pb_snd.'; \
+	  echo 'Print Assumptions pushout_inj1.'; \
+	  echo 'Print Assumptions pushout_inj2.'; \
+	  echo 'Print Assumptions eq_counit_IsEqualizer.'; \
+	  echo 'Print Assumptions coeq_unit_IsCoequalizer.'; \
+	  echo 'Print Assumptions pb_counit_IsPullback.'; \
+	  echo 'Print Assumptions po_unit_IsPushoutSquare.'; \
+	  echo 'Print Assumptions HasLimitsOfShape_HasEqualizers.'; \
+	  echo 'Print Assumptions HasColimitsOfShape_HasCoequalizers.'; \
+	  echo 'Print Assumptions HasLimitsOfShape_HasPullbacks.'; \
+	  echo 'Print Assumptions HasColimitsOfShape_HasPushouts.'; \
+	  echo 'Print Assumptions ShapeLinked.'; \
+	  echo 'Print Assumptions dia_unit.'; \
+	  echo 'Print Assumptions dia_counit.'; \
+	  echo 'Print Assumptions dia_unit_iso.'; \
+	  echo 'Print Assumptions dia_counit_iso.'; \
+	  echo 'Print Assumptions Parallel_linked.'; \
+	  echo 'Print Assumptions Roof_linked.'; \
+	  echo 'Print Assumptions Roofop_linked.'; \
+	  echo 'Print Assumptions eq_unit_iso.'; \
+	  echo 'Print Assumptions coeq_counit_iso.'; \
+	  echo 'Print Assumptions pb_unit_iso.'; \
+	  echo 'Print Assumptions po_counit_iso.'; \
+	  echo 'Print Assumptions equalizer_of_equal_pair.'; \
+	  echo 'Print Assumptions pullback_of_identity.'; \
+	  echo 'Print Assumptions DiagSets_HasEqualizers.'; \
+	  echo 'Print Assumptions DiagSets_HasCoequalizers.'; \
+	  echo 'Print Assumptions sets_equalizer_two_elements.'; \
+	  echo 'Print Assumptions sets_coequalizer_two_elements.'; \
 	  echo 'Print Assumptions terminal_connected.'; \
 	  echo 'Print Assumptions initial_connected.'; \
 	  echo 'Print Assumptions One_Connected.'; \
