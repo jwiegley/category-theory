@@ -638,6 +638,7 @@ Theory/Concrete.v
 Theory/Concrete/Morphisms.v
 Theory/Coend/Yoneda.v
 Theory/Density.v
+Theory/Connected/Components.v
 Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
@@ -786,6 +787,7 @@ Test/ProbeDetermination347.v
 Test/ProbeRepresentability348.v
 Test/ProbeAdditive349.v
 Test/ProbePare350.v
+Test/ProbeConnected352.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

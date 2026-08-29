@@ -331,6 +331,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Representability.'; \
 	  echo 'Require Import Category.Adjunction.Additive.'; \
 	  echo 'Require Import Category.Adjunction.Pare.'; \
+	  echo 'Require Import Category.Theory.Connected.Components.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2173,6 +2174,46 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions free_ring_composites_agree.'; \
 	  echo 'Print Assumptions free_ring_composites_agree_unit.'; \
 	  echo 'Print Assumptions free_ring_comparison.'; \
+	  echo 'Print Assumptions zigzag_fmap.'; \
+	  echo 'Print Assumptions zigzag_fmap_id.'; \
+	  echo 'Print Assumptions zigzag_fmap_compose.'; \
+	  echo 'Print Assumptions zigzag_fmap_trans.'; \
+	  echo 'Print Assumptions zigzag_fmap_sym.'; \
+	  echo 'Print Assumptions connected_image.'; \
+	  echo 'Print Assumptions eso_connected.'; \
+	  echo 'Print Assumptions equivalence_connected.'; \
+	  echo 'Print Assumptions zigzag_Equivalence.'; \
+	  echo 'Print Assumptions ObjSetoid.'; \
+	  echo 'Print Assumptions pi0.'; \
+	  echo 'Print Assumptions pi0_proj.'; \
+	  echo 'Print Assumptions pi0_fmap.'; \
+	  echo 'Print Assumptions Pi0.'; \
+	  echo 'Print Assumptions connected_iff_pi0_subsingleton.'; \
+	  echo 'Print Assumptions ComponentSub.'; \
+	  echo 'Print Assumptions ConnectedComponent.'; \
+	  echo 'Print Assumptions Component_Incl.'; \
+	  echo 'Print Assumptions Component_Incl_Full.'; \
+	  echo 'Print Assumptions Component_Incl_Faithful.'; \
+	  echo 'Print Assumptions Component_Connected.'; \
+	  echo 'Print Assumptions Component_reindex_equiv.'; \
+	  echo 'Print Assumptions connected_Component_equiv.'; \
+	  echo 'Print Assumptions ConnectedNonempty.'; \
+	  echo 'Print Assumptions Zero_Connected.'; \
+	  echo 'Print Assumptions Zero_not_ConnectedNonempty.'; \
+	  echo 'Print Assumptions connected_readings_differ.'; \
+	  echo 'Print Assumptions connected_nonempty_iff_pi0_singleton.'; \
+	  echo 'Print Assumptions terminal_connected.'; \
+	  echo 'Print Assumptions initial_connected.'; \
+	  echo 'Print Assumptions One_Connected.'; \
+	  echo 'Print Assumptions DiscreteCat_connected_iff.'; \
+	  echo 'Print Assumptions DiscreteCat_ConnectedNonempty_iff.'; \
+	  echo 'Print Assumptions groupoid_connected_iff_arrow.'; \
+	  echo 'Print Assumptions Parallel_Connected.'; \
+	  echo 'Print Assumptions DiscreteCat_bool_not_connected.'; \
+	  echo 'Print Assumptions pi0_bool_separates.'; \
+	  echo 'Print Assumptions component_bool_excludes_false.'; \
+	  echo 'Print Assumptions image_connected_not_connected.'; \
+	  echo 'Print Assumptions One_to_bool_not_ESO.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
