@@ -286,3 +286,14 @@ Check @image_connected_not_connected.
 Check @DiscreteCat_bool_not_connected.
 Check @Parallel_Connected.
 Check @Pi0.
+
+(* Controls for the connected-diagram section (Riehl §3.4).  These guard
+   the derived notion the same way: a rename in the target breaks here. *)
+Check @ConnectedDiagram.
+Check @ConnectedNonemptyDiagram.
+Check @connected_diagram_of_nonempty.
+Check @connected_diagram_reindex.
+Check @connected_diagram_pi0.
+Check @pi0_connected_diagram.
+Check @Parallel_ConnectedDiagram.
+Check @bool_diagram_not_connected.

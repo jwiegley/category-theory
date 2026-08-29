@@ -2214,6 +2214,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions component_bool_excludes_false.'; \
 	  echo 'Print Assumptions image_connected_not_connected.'; \
 	  echo 'Print Assumptions One_to_bool_not_ESO.'; \
+	  echo 'Print Assumptions ConnectedDiagram.'; \
+	  echo 'Print Assumptions ConnectedNonemptyDiagram.'; \
+	  echo 'Print Assumptions connected_diagram_of_nonempty.'; \
+	  echo 'Print Assumptions connected_diagram_reindex.'; \
+	  echo 'Print Assumptions connected_diagram_pi0.'; \
+	  echo 'Print Assumptions pi0_connected_diagram.'; \
+	  echo 'Print Assumptions Parallel_ConnectedDiagram.'; \
+	  echo 'Print Assumptions bool_diagram_not_connected.'; \
+	  echo 'Print Assumptions connected_diagram_is_index.'; \
+	  echo 'Print Assumptions connected_nonempty_diagram_is_index.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

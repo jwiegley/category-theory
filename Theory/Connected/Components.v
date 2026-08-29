@@ -212,7 +212,11 @@ Generalizable All Variables.
 
 (* Strengths, measured [eq_refl] first
 
-   HELD.  None is [t = t] with a notation expanded on one side.  Seven name
+   HELD — nine here, and two more with the connected-diagram section at the
+   end of the file ([connected_diagram_is_index] and
+   [connected_nonempty_diagram_is_index], each naming the new constant
+   against the donor predicate applied to the index), so eleven in all.
+   None is [t = t] with a notation expanded on one side.  Nine name
    the constant they are about against a DONOR constant; the other two,
    [pi0_proj_at] and [pi0_fmap_at], name it against a bound variable
    (applied, in the second case), which is equally not a tautology but is a
@@ -250,17 +254,17 @@ Generalizable All Variables.
      and [respectful], not the term — the shape
      Instance/Sets/Quotient.v:243-248 records at [sets_quot_proj]. *)
 
-(* STATUS: axiom-free.  95 constants — 80 named, 12 [Program] obligations,
+(* STATUS: axiom-free.  105 constants — 90 named, 12 [Program] obligations,
    the two projections [cn_obj] and [cn_zigzag], and the constructor
    [Build_ConnectedNonempty] — each measured separately by [Print
-   Assumptions] at its fully qualified name, all 95 reporting "Closed under
+   Assumptions] at its fully qualified name, all 105 reporting "Closed under
    the global context".  READ THE GRADE: that is a ONE-TIME measurement of
-   all 95; the [make print-assumptions] gate carries FORTY of them
+   all 105; the [make print-assumptions] gate carries FIFTY of them
    permanently, the other 55 being measured once here.  [Print Module] lists
-   94 of them, omitting only the constructor, and renders the [Qed] results
+   104 of them, omitting only the constructor, and renders the [Qed] results
    as opaque declarations, a display convention and not an axiom.  Note
    that it WRAPS the [Record] line, so a line-anchored sweep of its output
-   reports 93 and misses [ConnectedNonempty] — the counting hazard this
+   reports 103 and misses [ConnectedNonempty] — the counting hazard this
    tree records elsewhere for universe instances, met here at a record. *)
 
 (* What is NOT delivered
@@ -1020,3 +1024,85 @@ Proof.
   pose proof (to (@eso_iso _ _ One_to_bool E false)) as H.
   discriminate H.
 Qed.
+
+(** ** Connected diagrams (Riehl §3.4)
+
+   Riehl's running definition derives a notion for DIAGRAMS from the one
+   for categories: a diagram is connected when its INDEXING category is.
+   That is the form her Propositions 3.4.8 and 3.6.5 quantify over, and it
+   is what makes "a connected limit is computed from any one component" a
+   statement one can even write down.
+
+   It is a property of the SHAPE alone.  Nothing here looks at the target,
+   which is why [ConnectedDiagram] is a plain definition unfolding to the
+   indexing category's own predicate rather than a new inductive, and why
+   [connected_diagram_reindex] below is the identity function: two
+   diagrams on one shape are connected together or not at all.
+
+   The two readings of connectedness separate here exactly as they do for
+   categories — see [connected_readings_differ] above — so both are named,
+   and the passage between them is the categorical one applied at the
+   index.  READ THE NAMES CAREFULLY, BECAUSE THE UNQUALIFIED ONE IS NOT
+   HERS: Riehl's own definition is the INHABITED one ("a category is
+   connected if it is NON-EMPTY and any two objects are joined by a finite
+   zigzag"), so the notion this section is named after is
+   [ConnectedNonemptyDiagram].  [ConnectedDiagram] is the BARE in-tree
+   reading, which holds vacuously at the empty shape.  The nomenclature is
+   inherited from Structure/Groupoid/Connected.v rather than chosen here,
+   and it is disclosed rather than repaired: renaming the donor's
+   [Connected] is out of scope for this file. *)
+
+Definition ConnectedDiagram {J C : Category} (D : J ⟶ C) : Type :=
+  Connected J.
+
+Definition ConnectedNonemptyDiagram {J C : Category} (D : J ⟶ C) : Type :=
+  ConnectedNonempty J.
+
+(* Each IS the indexing category's predicate, by conversion.  Neither is a
+   tautology: each names the new constant on one side and the donor
+   predicate applied to the index on the other. *)
+Example connected_diagram_is_index {J C : Category} (D : J ⟶ C) :
+  ConnectedDiagram D = Connected J := eq_refl.
+
+Example connected_nonempty_diagram_is_index {J C : Category} (D : J ⟶ C) :
+  ConnectedNonemptyDiagram D = ConnectedNonempty J := eq_refl.
+
+(* The inhabited reading implies the bare one, at the index. *)
+Definition connected_diagram_of_nonempty {J C : Category} (D : J ⟶ C)
+  (K : ConnectedNonemptyDiagram D) : ConnectedDiagram D :=
+  connected_of_nonempty K.
+
+(* Connectedness never looks at the target: any two diagrams on the same
+   shape are connected together or not at all.  The proof is the identity,
+   which is the honest content of the remark. *)
+Definition connected_diagram_reindex {J C E : Category}
+  (D : J ⟶ C) (D' : J ⟶ E) (K : ConnectedDiagram D) : ConnectedDiagram D'
+  := K.
+
+(* π₀ of the shape is a subsingleton exactly when the diagram is
+   connected — the [connected_iff_pi0_subsingleton] biconditional read at
+   the index. *)
+Definition connected_diagram_pi0 {J C : Category} (D : J ⟶ C)
+  (K : ConnectedDiagram D) : pi0_subsingleton J :=
+  connected_pi0_subsingleton K.
+
+Definition pi0_connected_diagram {J C : Category} (D : J ⟶ C)
+  (H : pi0_subsingleton J) : ConnectedDiagram D :=
+  pi0_subsingleton_connected H.
+
+(* Witnesses, positive and negative, on the two shapes this file already
+   exercises.  Both are pure instantiation: no new connectedness argument
+   is made for a diagram that was not already made for its shape. *)
+Definition Parallel_ConnectedDiagram {C : Category} (D : Parallel ⟶ C) :
+  ConnectedDiagram D := Parallel_Connected.
+
+Definition bool_diagram_not_connected {C : Category}
+  (D : DiscreteCat bool ⟶ C) : ConnectedDiagram D → False :=
+  DiscreteCat_bool_not_connected.
+
+(* NOT delivered here: no connected LIMIT.  The reason connected diagrams
+   matter — Riehl's Propositions 3.4.8 and 3.6.5, where the coslice
+   projection creates colimits and a connected limit is computed from one
+   component — needs limit machinery this file does not touch, and neither
+   proposition is stated.  What is supplied is the hypothesis they
+   quantify over. *)
