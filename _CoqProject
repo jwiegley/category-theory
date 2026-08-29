@@ -1,6 +1,7 @@
 -R . Category
 Adjunction/Diagonal/Product.v
 Adjunction/Diagonal/Limit.v
+Adjunction/Diagonal/Finite.v
 Adjunction/Diagonal/Coproduct.v
 Adjunction/Hom.v
 Adjunction/Compose.v
@@ -791,6 +792,7 @@ Test/ProbeAdditive349.v
 Test/ProbePare350.v
 Test/ProbeConnected352.v
 Test/ProbeDiagonalLimit353.v
+Test/ProbeDiagonalFinite354.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
