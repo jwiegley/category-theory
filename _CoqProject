@@ -3,6 +3,7 @@ Adjunction/Diagonal/Product.v
 Adjunction/Diagonal/Coproduct.v
 Adjunction/Hom.v
 Adjunction/Compose.v
+Adjunction/Determination.v
 Adjunction/Conjugate.v
 Adjunction/Continuity.v
 Adjunction/GAFT.v
@@ -778,6 +779,7 @@ Test/ProbeRingLattice340.v
 Test/ProbeGroupRepr341.v
 Test/ProbeFreeRing400.v
 Test/ProbeUniversalArrows312.v
+Test/ProbeDetermination347.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
