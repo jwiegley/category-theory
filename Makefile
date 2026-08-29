@@ -329,6 +329,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Grp.Completion.'; \
 	  echo 'Require Import Category.Adjunction.Determination.'; \
 	  echo 'Require Import Category.Adjunction.Representability.'; \
+	  echo 'Require Import Category.Adjunction.Additive.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2120,6 +2121,23 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions unit_square_forces_fmap.'; \
 	  echo 'Print Assumptions adjunction_of_natural_universal.'; \
 	  echo 'Print Assumptions left_adjoint_of_representable_fmap_unique.'; \
+	  echo 'Print Assumptions to_adj_padd.'; \
+	  echo 'Print Assumptions to_adj_pzero.'; \
+	  echo 'Print Assumptions to_adj_abneg.'; \
+	  echo 'Print Assumptions from_adj_padd.'; \
+	  echo 'Print Assumptions left_adjoint_fmap_padd.'; \
+	  echo 'Print Assumptions left_adjoint_additive.'; \
+	  echo 'Print Assumptions hom_ab.'; \
+	  echo 'Print Assumptions adj_hom_ab_iso.'; \
+	  echo 'Print Assumptions Preadditive_op.'; \
+	  echo 'Print Assumptions AbEnriched_op.'; \
+	  echo 'Print Assumptions AdditiveFunctor_op.'; \
+	  echo 'Print Assumptions right_adjoint_additive.'; \
+	  echo 'Print Assumptions biproduct_of_coproduct.'; \
+	  echo 'Print Assumptions adj_image_biproduct.'; \
+	  echo 'Print Assumptions fmap_padd_of_preserved_coproduct.'; \
+	  echo 'Print Assumptions left_adjoint_fmap_padd_biproduct.'; \
+	  echo 'Print Assumptions left_adjoint_additive_of_biproducts.'; \
 	  echo 'Print Assumptions adjunction_of_unit_presentation.'; \
 	  echo 'Print Assumptions adj_left_compare.'; \
 	  echo 'Print Assumptions adj_left_compare_unit.'; \
