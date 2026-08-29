@@ -318,6 +318,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Mod.Representable.'; \
 	  echo 'Require Import Category.Instance.Rng.Algebras.Associative.'; \
 	  echo 'Require Import Category.Instance.Vect.TensorAlgebra.'; \
+	  echo 'Require Import Category.Instance.Ab.Free.'; \
+	  echo 'Require Import Category.Instance.Mon.Free.'; \
+	  echo 'Require Import Category.Instance.Rng.Free.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2043,6 +2046,38 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions bool_or_not_annihilating.'; \
 	  echo 'Print Assumptions bool_join_not_absorbing.'; \
 	  echo 'Print Assumptions bool_xor_not_idempotent.'; \
+	  echo 'Print Assumptions FreeAbObject.'; \
+	  echo 'Print Assumptions free_ab_insert.'; \
+	  echo 'Print Assumptions free_ab_extend.'; \
+	  echo 'Print Assumptions free_ab_extend_unique.'; \
+	  echo 'Print Assumptions FreeAb.'; \
+	  echo 'Print Assumptions free_ab_adjunction.'; \
+	  echo 'Print Assumptions FreeMonSetsObject.'; \
+	  echo 'Print Assumptions free_mon_insert.'; \
+	  echo 'Print Assumptions free_mon_extend.'; \
+	  echo 'Print Assumptions free_mon_extend_unique.'; \
+	  echo 'Print Assumptions FreeMonSets.'; \
+	  echo 'Print Assumptions free_mon_sets_adjunction.'; \
+	  echo 'Print Assumptions FreeRngAb.'; \
+	  echo 'Print Assumptions free_rng_ab_adjunction.'; \
+	  echo 'Print Assumptions FreeRngAbObject.'; \
+	  echo 'Print Assumptions free_rng_ab_insert.'; \
+	  echo 'Print Assumptions free_rng_ab_extend.'; \
+	  echo 'Print Assumptions free_rng_ab_extend_unique.'; \
+	  echo 'Print Assumptions adj_left_compare.'; \
+	  echo 'Print Assumptions adj_left_compare_unit.'; \
+	  echo 'Print Assumptions adj_left_compare_natural.'; \
+	  echo 'Print Assumptions left_adjoints_agree.'; \
+	  echo 'Print Assumptions RngUnderlyingAb.'; \
+	  echo 'Print Assumptions RngUnderlyingMon.'; \
+	  echo 'Print Assumptions free_ring_via_ab.'; \
+	  echo 'Print Assumptions free_ring_via_ab_adjunction.'; \
+	  echo 'Print Assumptions free_ring_via_mon.'; \
+	  echo 'Print Assumptions free_ring_via_mon_adjunction.'; \
+	  echo 'Print Assumptions free_ring_via_mon_adjunction_ab.'; \
+	  echo 'Print Assumptions free_ring_composites_agree.'; \
+	  echo 'Print Assumptions free_ring_composites_agree_unit.'; \
+	  echo 'Print Assumptions free_ring_comparison.'; \
 	} > $$d/pa.v; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

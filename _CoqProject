@@ -204,6 +204,7 @@ Functor/Twist.v
 Instance/AST.v
 Instance/Ab.v
 Instance/Ab/Coproduct.v
+Instance/Ab/Free.v
 Instance/Ab/Tensor.v
 Instance/Ab/Character.v
 Instance/Ab/Character/Finite.v
@@ -352,10 +353,12 @@ Instance/Rng/Mod.v
 Instance/Rng/Pointed.v
 Instance/Rng/Polynomial.v
 Instance/Rng/MonoidRing.v
+Instance/Rng/Free.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
 Instance/Mon/Coproduct.v
+Instance/Mon/Free.v
 Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
@@ -767,6 +770,7 @@ Test/ProbeCatCoproduct338.v
 Test/ProbeFunTerminal339.v
 Test/ProbeRingLattice340.v
 Test/ProbeGroupRepr341.v
+Test/ProbeFreeRing400.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
