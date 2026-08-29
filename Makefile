@@ -332,6 +332,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Additive.'; \
 	  echo 'Require Import Category.Adjunction.Pare.'; \
 	  echo 'Require Import Category.Theory.Connected.Components.'; \
+	  echo 'Require Import Category.Adjunction.Diagonal.Limit.'; \
+	  echo 'Require Import Category.Theory.Equivalence.Colimit.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2202,6 +2204,74 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Zero_not_ConnectedNonempty.'; \
 	  echo 'Print Assumptions connected_readings_differ.'; \
 	  echo 'Print Assumptions connected_nonempty_iff_pi0_singleton.'; \
+	  echo 'Print Assumptions HasLimitsOfShape.'; \
+	  echo 'Print Assumptions HasColimitsOfShape.'; \
+	  echo 'Print Assumptions Complete_HasLimitsOfShape.'; \
+	  echo 'Print Assumptions Cocomplete_HasColimitsOfShape.'; \
+	  echo 'Print Assumptions LimitFunctor.'; \
+	  echo 'Print Assumptions ColimitFunctor.'; \
+	  echo 'Print Assumptions Diagonal_Limit_Adjunction.'; \
+	  echo 'Print Assumptions Colimit_Diagonal_Adjunction.'; \
+	  echo 'Print Assumptions limits_iff_diagonal_right_adjoint.'; \
+	  echo 'Print Assumptions colimits_iff_diagonal_left_adjoint.'; \
+	  echo 'Print Assumptions Diagonal_right_adjoint_HasLimits.'; \
+	  echo 'Print Assumptions Diagonal_left_adjoint_HasColimits.'; \
+	  echo 'Print Assumptions lim_counit.'; \
+	  echo 'Print Assumptions colim_unit.'; \
+	  echo 'Print Assumptions lim_counit_is_limit_leg.'; \
+	  echo 'Print Assumptions colim_unit_is_colimit_inj.'; \
+	  echo 'Print Assumptions lim_counit_component_strict.'; \
+	  echo 'Print Assumptions colim_unit_component_strict.'; \
+	  echo 'Print Assumptions Lim_map.'; \
+	  echo 'Print Assumptions Colim_map.'; \
+	  echo 'Print Assumptions Lim_map_commutes.'; \
+	  echo 'Print Assumptions Lim_map_unique.'; \
+	  echo 'Print Assumptions Colim_map_commutes.'; \
+	  echo 'Print Assumptions Colim_map_unique.'; \
+	  echo 'Print Assumptions Erase_right_adjoint_iff_Terminal.'; \
+	  echo 'Print Assumptions Erase_left_adjoint_iff_Initial.'; \
+	  echo 'Print Assumptions Terminal_Erase_Adjunction.'; \
+	  echo 'Print Assumptions Initial_Erase_Adjunction.'; \
+	  echo 'Print Assumptions Erase_right_adjoint_value.'; \
+	  echo 'Print Assumptions Erase_left_adjoint_value.'; \
+	  echo 'Print Assumptions Terminal_Erase_value.'; \
+	  echo 'Print Assumptions Initial_Erase_value.'; \
+	  echo 'Print Assumptions HasLimitsOfShape_0_iff_Terminal.'; \
+	  echo 'Print Assumptions Terminal_iff_Diagonal_0_right_adjoint.'; \
+	  echo 'Print Assumptions lim_Ran_iso.'; \
+	  echo 'Print Assumptions diagonal_induced_iso.'; \
+	  echo 'Print Assumptions Cocone_Natural_Transform.'; \
+	  echo 'Print Assumptions Sets_Diagonal_Limit_Adjunction.'; \
+	  echo 'Print Assumptions Sets_Colimit_Diagonal_Adjunction.'; \
+	  echo 'Print Assumptions sets_bool_lim_two_elements.'; \
+	  echo 'Print Assumptions lim_one_iso.'; \
+	  echo 'Print Assumptions Opposite_Functor_respects.'; \
+	  echo 'Print Assumptions Opposite_Functor_Proper.'; \
+	  echo 'Print Assumptions Opposite_Functor_reflects.'; \
+	  echo 'Print Assumptions cocone_transport.'; \
+	  echo 'Print Assumptions cocone_transport_inv.'; \
+	  echo 'Print Assumptions isacolimit_transport.'; \
+	  echo 'Print Assumptions colimit_transport.'; \
+	  echo 'Print Assumptions colimit_transport_apex.'; \
+	  echo 'Print Assumptions cone_along.'; \
+	  echo 'Print Assumptions limit_induced.'; \
+	  echo 'Print Assumptions limit_induced_commutes.'; \
+	  echo 'Print Assumptions limit_induced_unique.'; \
+	  echo 'Print Assumptions limit_induced_id.'; \
+	  echo 'Print Assumptions limit_induced_comp.'; \
+	  echo 'Print Assumptions colimit_induced.'; \
+	  echo 'Print Assumptions colimit_induced_commutes.'; \
+	  echo 'Print Assumptions colimit_induced_unique.'; \
+	  echo 'Print Assumptions fun_equiv_transform.'; \
+	  echo 'Print Assumptions cone_along_is_cone_transport.'; \
+	  echo 'Print Assumptions limit_induced_of_transport.'; \
+	  echo 'Print Assumptions two_endo.'; \
+	  echo 'Print Assumptions two_IsALimit.'; \
+	  echo 'Print Assumptions two_IsAColimit.'; \
+	  echo 'Print Assumptions two_diagrams_differ.'; \
+	  echo 'Print Assumptions two_transport_moves_inj.'; \
+	  echo 'Print Assumptions two_shift_induced_computes.'; \
+	  echo 'Print Assumptions two_shift_induced_not_iso.'; \
 	  echo 'Print Assumptions terminal_connected.'; \
 	  echo 'Print Assumptions initial_connected.'; \
 	  echo 'Print Assumptions One_Connected.'; \
