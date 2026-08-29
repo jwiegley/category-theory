@@ -624,6 +624,7 @@ Theory/Coend/Fubini.v
 Theory/Concrete.v
 Theory/Concrete/Morphisms.v
 Theory/Coend/Yoneda.v
+Theory/Density.v
 Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
@@ -715,6 +716,7 @@ Theory/WeaklyInitial.v
 Theory/WeaklyInitial/Wide.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
+Test/ProbeDensity346.v
 Test/FullIssue118.v
 Test/HypergraphPROPResolution.v
 Test/Issue138.v

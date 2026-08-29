@@ -445,6 +445,29 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Z2_GroupObject_nondegenerate.'; \
 	  echo 'Print Assumptions Sym3_not_abelian.'; \
 	  echo 'Print Assumptions Sym3_no_group_object.'; \
+	  echo 'Require Import Category.Theory.Density.'; \
+	  echo 'Print Assumptions DensityDiagram.'; \
+	  echo 'Print Assumptions DensityCocone.'; \
+	  echo 'Print Assumptions density_inj.'; \
+	  echo 'Print Assumptions density.'; \
+	  echo 'Print Assumptions density_IsAColimit.'; \
+	  echo 'Print Assumptions DensityColimit.'; \
+	  echo 'Print Assumptions density_med.'; \
+	  echo 'Print Assumptions density_med_commutes.'; \
+	  echo 'Print Assumptions density_med_uniq.'; \
+	  echo 'Print Assumptions density_elements_covered.'; \
+	  echo 'Print Assumptions density_jointly_epic.'; \
+	  echo 'Print Assumptions presheaf_index.'; \
+	  echo 'Print Assumptions PDensityDiagram.'; \
+	  echo 'Print Assumptions PDensityCocone.'; \
+	  echo 'Print Assumptions presheaf_density.'; \
+	  echo 'Print Assumptions coy_leg_is_density_inj.'; \
+	  echo 'Print Assumptions coy_leg_natural_in_apex.'; \
+	  echo 'Print Assumptions coy_leg_natural_witness.'; \
+	  echo 'Print Assumptions KBool.'; \
+	  echo 'Print Assumptions kbool_not_representable.'; \
+	  echo 'Print Assumptions kbool_no_hom_et_ef.'; \
+	  echo 'Print Assumptions neg_med_not_id.'; \
 	  echo 'Require Import Category.Instance.Fun.Group.'; \
 	  echo 'Print Assumptions PointwiseMonoid.'; \
 	  echo 'Print Assumptions PointwiseGroup.'; \
