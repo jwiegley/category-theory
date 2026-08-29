@@ -6,6 +6,7 @@ Adjunction/Compose.v
 Adjunction/Determination.v
 Adjunction/Representability.v
 Adjunction/Additive.v
+Adjunction/Pare.v
 Adjunction/Conjugate.v
 Adjunction/Continuity.v
 Adjunction/GAFT.v
@@ -784,6 +785,7 @@ Test/ProbeUniversalArrows312.v
 Test/ProbeDetermination347.v
 Test/ProbeRepresentability348.v
 Test/ProbeAdditive349.v
+Test/ProbePare350.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

@@ -330,6 +330,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Determination.'; \
 	  echo 'Require Import Category.Adjunction.Representability.'; \
 	  echo 'Require Import Category.Adjunction.Additive.'; \
+	  echo 'Require Import Category.Adjunction.Pare.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2138,6 +2139,25 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions fmap_padd_of_preserved_coproduct.'; \
 	  echo 'Print Assumptions left_adjoint_fmap_padd_biproduct.'; \
 	  echo 'Print Assumptions left_adjoint_additive_of_biproducts.'; \
+	  echo 'Print Assumptions PareData.'; \
+	  echo 'Print Assumptions pare_idem.'; \
+	  echo 'Print Assumptions pare_idem_Idempotent.'; \
+	  echo 'Print Assumptions pare_unit.'; \
+	  echo 'Print Assumptions pare_counit.'; \
+	  echo 'Print Assumptions pare_Adjunction.'; \
+	  echo 'Print Assumptions pare_r.'; \
+	  echo 'Print Assumptions pare_s.'; \
+	  echo 'Print Assumptions pare_SplitIdempotent.'; \
+	  echo 'Print Assumptions PareSplits.'; \
+	  echo 'Print Assumptions PareLeftAdjoint.'; \
+	  echo 'Print Assumptions pare_adjunction_of_split.'; \
+	  echo 'Print Assumptions pare_splits_of_adjunction.'; \
+	  echo 'Print Assumptions pare_left_adjoint_iff_splits.'; \
+	  echo 'Print Assumptions pare_splits_of_CauchyComplete.'; \
+	  echo 'Print Assumptions pare_left_adjoint_of_CauchyComplete.'; \
+	  echo 'Print Assumptions pare_of_adjunction.'; \
+	  echo 'Print Assumptions pare_triv.'; \
+	  echo 'Print Assumptions pare_triv_left_adjoint.'; \
 	  echo 'Print Assumptions adjunction_of_unit_presentation.'; \
 	  echo 'Print Assumptions adj_left_compare.'; \
 	  echo 'Print Assumptions adj_left_compare_unit.'; \
