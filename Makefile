@@ -321,6 +321,12 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Ab.Free.'; \
 	  echo 'Require Import Category.Instance.Mon.Free.'; \
 	  echo 'Require Import Category.Instance.Rng.Free.'; \
+	  echo 'Require Import Category.Instance.Grp.Abelianize.'; \
+	  echo 'Require Import Category.Instance.Sets.Pointed.Free.'; \
+	  echo 'Require Import Category.Instance.Top.Discrete.'; \
+	  echo 'Require Import Category.Instance.CMon.Grothendieck.'; \
+	  echo 'Require Import Category.Instance.Mod.Extension.'; \
+	  echo 'Require Import Category.Instance.Grp.Completion.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2064,6 +2070,27 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions free_rng_ab_insert.'; \
 	  echo 'Print Assumptions free_rng_ab_extend.'; \
 	  echo 'Print Assumptions free_rng_ab_extend_unique.'; \
+	  echo 'Print Assumptions abelianize_universal_arrow.'; \
+	  echo 'Print Assumptions abelianize_adjunction.'; \
+	  echo 'Print Assumptions abelianize_counit.'; \
+	  echo 'Print Assumptions abelianize_adjunction_via_transform.'; \
+	  echo 'Print Assumptions abelianize_routes_agree.'; \
+	  echo 'Print Assumptions Pointed_Forget.'; \
+	  echo 'Print Assumptions FreePointed.'; \
+	  echo 'Print Assumptions free_pointed_universal_arrow.'; \
+	  echo 'Print Assumptions free_pointed_adjunction.'; \
+	  echo 'Print Assumptions disc_extend.'; \
+	  echo 'Print Assumptions discrete_universal.'; \
+	  echo 'Print Assumptions disc_unit.'; \
+	  echo 'Print Assumptions GrothendieckFunctor.'; \
+	  echo 'Print Assumptions groth_universal_arrow.'; \
+	  echo 'Print Assumptions grothendieck_adjunction.'; \
+	  echo 'Print Assumptions ExtendScalars.'; \
+	  echo 'Print Assumptions extend_universal_arrow.'; \
+	  echo 'Print Assumptions extend_restrict_adjunction.'; \
+	  echo 'Print Assumptions CompletionFunctor.'; \
+	  echo 'Print Assumptions completion_universal_arrow.'; \
+	  echo 'Print Assumptions completion_adjunction.'; \
 	  echo 'Print Assumptions adj_left_compare.'; \
 	  echo 'Print Assumptions adj_left_compare_unit.'; \
 	  echo 'Print Assumptions adj_left_compare_natural.'; \

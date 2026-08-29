@@ -218,6 +218,7 @@ Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
 Instance/CMon/Biproduct.v
+Instance/CMon/Grothendieck.v
 Instance/CMon/Coproduct.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
@@ -282,11 +283,13 @@ Instance/Fun/Group.v
 Instance/Fun/Action.v
 Instance/Grp.v
 Instance/Grp/Abelianization.v
+Instance/Grp/Abelianize.v
 Instance/Grp/Center.v
 Instance/Grp/Congruence.v
 Instance/Grp/EckmannHilton.v
 Instance/Grp/Epi.v
 Instance/Grp/Free.v
+Instance/Grp/Completion.v
 Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
@@ -323,6 +326,7 @@ Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
+Instance/Mod/Extension.v
 Instance/Mod/Quotient.v
 Instance/Mod/Quotient/Isomorphism.v
 Instance/Omega.v
@@ -383,6 +387,7 @@ Instance/Sets/Par.v
 Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
 Instance/Sets/Pointed.v
+Instance/Sets/Pointed/Free.v
 Instance/Sets/Pointed/Coslice.v
 Instance/Sets/Pointed/Finite.v
 Instance/Sets/Pointed/Part.v
@@ -402,6 +407,7 @@ Instance/Top/Coproduct.v
 Instance/Top/Pushout.v
 Instance/Top/Closed.v
 Instance/Top/Forgetful.v
+Instance/Top/Discrete.v
 Instance/Top/Interval.v
 Instance/Top/FundamentalGroupoid.v
 Instance/Top/Homotopy.v
@@ -771,6 +777,7 @@ Test/ProbeFunTerminal339.v
 Test/ProbeRingLattice340.v
 Test/ProbeGroupRepr341.v
 Test/ProbeFreeRing400.v
+Test/ProbeUniversalArrows312.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
