@@ -1,5 +1,6 @@
 -R . Category
 Adjunction/Diagonal/Product.v
+Adjunction/Diagonal/Limit.v
 Adjunction/Diagonal/Coproduct.v
 Adjunction/Hom.v
 Adjunction/Compose.v
@@ -674,6 +675,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Equivalence/Colimit.v
 Theory/Equivalence/Creation.v
 Theory/Equivalence/Terminal.v
 Theory/Fibration.v
@@ -788,6 +790,7 @@ Test/ProbeRepresentability348.v
 Test/ProbeAdditive349.v
 Test/ProbePare350.v
 Test/ProbeConnected352.v
+Test/ProbeDiagonalLimit353.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
