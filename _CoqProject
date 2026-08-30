@@ -545,6 +545,7 @@ Structure/Limit/Terminal.v
 Structure/Limit/Unique.v
 Structure/Limit/Unique/Compat.v
 Structure/Limit/Initial.v
+Structure/Limit/Components.v
 Structure/Monoid.v
 Structure/Ring.v
 Structure/Lattice.v
@@ -793,6 +794,7 @@ Test/ProbePare350.v
 Test/ProbeConnected352.v
 Test/ProbeDiagonalLimit353.v
 Test/ProbeDiagonalFinite354.v
+Test/ProbeComponents355.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
