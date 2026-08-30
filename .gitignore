@@ -47,3 +47,4 @@ build-timing.log
 doc/plan/books/qa/all-findings.json
 doc/plan/books/qa/all-verdicts.json
 doc/plan/books/qa/findings-tail-*.json
+.pa-tmp/

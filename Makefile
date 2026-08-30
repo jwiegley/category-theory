@@ -187,7 +187,8 @@ print-assumptions: category-theory
 	@echo "============================================================"
 	@echo "Print Assumptions audit"
 	@echo "============================================================"
-	@d=`mktemp -d`; { \
+	@rm -rf .pa-tmp && mkdir -p .pa-tmp
+	@{ \
 	  echo 'Require Import Category.Lib.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.'; \
 	  echo 'Require Import Category.Structure.Monoidal.CompactClosed.'; \
@@ -335,6 +336,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Diagonal.Limit.'; \
 	  echo 'Require Import Category.Adjunction.Diagonal.Finite.'; \
 	  echo 'Require Import Category.Theory.Equivalence.Colimit.'; \
+	  echo 'Require Import Category.Structure.Limit.Components.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -687,6 +689,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Sets_icoprod_nat.'; \
 	  echo 'Print Assumptions Sets_endo_iprod_ump.'; \
 	  echo 'Print Assumptions GAFT_at_Sets_Id.'; \
+	} > .pa-tmp/pa.v
+	@{ \
 	  echo 'Print Assumptions GAFT_at_Sets_Id_is_Id.'; \
 	  echo 'Print Assumptions Sets_HasEqualizers.'; \
 	  echo 'Print Assumptions split_pair_idempotent.'; \
@@ -1187,6 +1191,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_field_over_Q_and_F2.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_field_maps_to_all_fields.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_universal_arrow_Z_Dom.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_auniversal_arrow_Z_Dom.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_universal_arrow_Z_Dom_stable.'; \
 	  echo 'Print Assumptions Category.Instance.Field.Frac.no_auniversal_arrow_Z_Dom_stable.'; \
@@ -1687,6 +1693,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions finpost_hom_iso.'; \
 	  echo 'Print Assumptions finpost_preimage_component.'; \
 	  echo 'Print Assumptions finpost_theta_not_id.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
 	  echo 'Print Assumptions finpost_image_not_id.'; \
 	  echo 'Print Assumptions finpost_preimage_not_id.'; \
 	  echo 'Print Assumptions DiscToTwo_Faithful.'; \
@@ -2187,6 +2195,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions equivalence_connected.'; \
 	  echo 'Print Assumptions zigzag_Equivalence.'; \
 	  echo 'Print Assumptions ObjSetoid.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
 	  echo 'Print Assumptions pi0.'; \
 	  echo 'Print Assumptions pi0_proj.'; \
 	  echo 'Print Assumptions pi0_fmap.'; \
@@ -2335,7 +2345,59 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions bool_diagram_not_connected.'; \
 	  echo 'Print Assumptions connected_diagram_is_index.'; \
 	  echo 'Print Assumptions connected_nonempty_diagram_is_index.'; \
-	} > $$d/pa.v; \
+	  echo 'Print Assumptions summand.'; \
+	  echo 'Print Assumptions coprod_leg.'; \
+	  echo 'Print Assumptions coprod_med.'; \
+	  echo 'Print Assumptions coprod_med_commutes.'; \
+	  echo 'Print Assumptions coprod_med_unique.'; \
+	  echo 'Print Assumptions coprod_IsALimit.'; \
+	  echo 'Print Assumptions coprod_IsALimit_leg.'; \
+	  echo 'Print Assumptions coprod_IsALimit_med.'; \
+	  echo 'Print Assumptions coprod_IsLimitCone.'; \
+	  echo 'Print Assumptions coprod_Limit.'; \
+	  echo 'Print Assumptions coprod_proj_is_restriction.'; \
+	  echo 'Print Assumptions coprod_limit_iso.'; \
+	  echo 'Print Assumptions coprod_limit_iso_legs.'; \
+	  echo 'Print Assumptions coprod_limit_iso_unique.'; \
+	  echo 'Print Assumptions coprod_IsALimit_HasIndexedProducts.'; \
+	  echo 'Print Assumptions coprod_IsALimit_iprod.'; \
+	  echo 'Print Assumptions coprod_Limit_iprod.'; \
+	  echo 'Print Assumptions ComponentDecomposition.'; \
+	  echo 'Print Assumptions cd_index.'; \
+	  echo 'Print Assumptions cd_rep.'; \
+	  echo 'Print Assumptions cd_part.'; \
+	  echo 'Print Assumptions cd_join.'; \
+	  echo 'Print Assumptions cd_sep.'; \
+	  echo 'Print Assumptions cd_comp.'; \
+	  echo 'Print Assumptions cd_sum.'; \
+	  echo 'Print Assumptions cd_compare.'; \
+	  echo 'Print Assumptions cd_comp_Connected.'; \
+	  echo 'Print Assumptions cd_compare_ESO.'; \
+	  echo 'Print Assumptions cd_compare_Full.'; \
+	  echo 'Print Assumptions cd_compare_Faithful.'; \
+	  echo 'Print Assumptions cd_equivalence.'; \
+	  echo 'Print Assumptions cd_bundled_equivalence.'; \
+	  echo 'Print Assumptions cd_transfer.'; \
+	  echo 'Print Assumptions cd_transfer_round.'; \
+	  echo 'Print Assumptions cd_transfer_part.'; \
+	  echo 'Print Assumptions xfer_IsALimit.'; \
+	  echo 'Print Assumptions component_diagram.'; \
+	  echo 'Print Assumptions component_diagram_equiv.'; \
+	  echo 'Print Assumptions components_IsALimit.'; \
+	  echo 'Print Assumptions components_Limit.'; \
+	  echo 'Print Assumptions components_IsALimit_HasIndexedProducts.'; \
+	  echo 'Print Assumptions Two_Connected.'; \
+	  echo 'Print Assumptions Two_Decomposition.'; \
+	  echo 'Print Assumptions Two_cd_equivalence.'; \
+	  echo 'Print Assumptions TwoSum_not_connected.'; \
+	  echo 'Print Assumptions TwoSum_cd_equivalence.'; \
+	  echo 'Print Assumptions naive_pi0_sum_not_connected.'; \
+	  echo 'Print Assumptions no_ESO_into_naive_pi0_sum.'; \
+	  echo 'Print Assumptions CoqPair_IsALimit.'; \
+	  echo 'Print Assumptions CoqPair_med_computes.'; \
+	  echo 'Print Assumptions CoqPair_apex_two_elements.'; \
+	} >> .pa-tmp/pa.v
+	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
 	if [ $$rc -ne 0 ]; then \
