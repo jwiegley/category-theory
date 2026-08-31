@@ -346,6 +346,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
 	  echo 'Require Import Category.Adjunction.Right.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Dual.'; \
+	  echo 'Require Import Category.Instance.Mod.Monoidal.'; \
+	  echo 'Require Import Category.Instance.Mod.Closed.'; \
 	  echo 'Require Import Category.Structure.SubobjectClassifier.Natural.'; \
 	  echo 'Require Import Category.Instance.FinSet.Powerset.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.'; \
@@ -2486,6 +2488,29 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions dual_adjunction.'; \
 	  echo 'Print Assumptions StarAutonomous_of_dd_unit.'; \
 	  echo 'Print Assumptions dual_AdjointEquivalence.'; \
+	  echo 'Print Assumptions ModTensor.'; \
+	  echo 'Print Assumptions ModMonoidal.'; \
+	  echo 'Print Assumptions ModBraided.'; \
+	  echo 'Print Assumptions ModSymmetric.'; \
+	  echo 'Print Assumptions ModAssoc.'; \
+	  echo 'Print Assumptions ModUnitLeft.'; \
+	  echo 'Print Assumptions ModUnitRight.'; \
+	  echo 'Print Assumptions tensor_hom_ext_ll.'; \
+	  echo 'Print Assumptions HomMod.'; \
+	  echo 'Print Assumptions hm_curry.'; \
+	  echo 'Print Assumptions hm_uncurry.'; \
+	  echo 'Print Assumptions hm_uncurry_curry.'; \
+	  echo 'Print Assumptions hm_curry_uncurry.'; \
+	  echo 'Print Assumptions exp_iso_Mod.'; \
+	  echo 'Print Assumptions eval_Mod.'; \
+	  echo 'Print Assumptions ump_exponents_Mod.'; \
+	  echo 'Print Assumptions RMod_SymMonClosed.'; \
+	  echo 'Print Assumptions cur_natural_V.'; \
+	  echo 'Print Assumptions cur_natural_W.'; \
+	  echo 'Print Assumptions cur_natural_X.'; \
+	  echo 'Print Assumptions unc_natural_V.'; \
+	  echo 'Print Assumptions unc_natural_W.'; \
+	  echo 'Print Assumptions unc_natural_X.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
