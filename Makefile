@@ -337,6 +337,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Diagonal.Finite.'; \
 	  echo 'Require Import Category.Theory.Equivalence.Colimit.'; \
 	  echo 'Require Import Category.Structure.Limit.Components.'; \
+	  echo 'Require Import Category.Structure.Limit.Constant.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2396,6 +2397,38 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions CoqPair_IsALimit.'; \
 	  echo 'Print Assumptions CoqPair_med_computes.'; \
 	  echo 'Print Assumptions CoqPair_apex_two_elements.'; \
+	  echo 'Print Assumptions const_acone.'; \
+	  echo 'Print Assumptions const_cone.'; \
+	  echo 'Print Assumptions const_IsALimit.'; \
+	  echo 'Print Assumptions const_IsLimitCone.'; \
+	  echo 'Print Assumptions const_Limit.'; \
+	  echo 'Print Assumptions const_acocone.'; \
+	  echo 'Print Assumptions const_cocone.'; \
+	  echo 'Print Assumptions const_IsAColimit.'; \
+	  echo 'Print Assumptions const_IsColimitCocone.'; \
+	  echo 'Print Assumptions leg_zigzag.'; \
+	  echo 'Print Assumptions const_cone_step.'; \
+	  echo 'Print Assumptions const_cone_zigzag.'; \
+	  echo 'Print Assumptions const_cocone_step.'; \
+	  echo 'Print Assumptions const_cocone_zigzag.'; \
+	  echo 'Print Assumptions Diagonal_Faithful.'; \
+	  echo 'Print Assumptions Diagonal_Full.'; \
+	  echo 'Print Assumptions Diagonal_Full_via_limit.'; \
+	  echo 'Print Assumptions const_AbsoluteLimit.'; \
+	  echo 'Print Assumptions const_AbsoluteColimit.'; \
+	  echo 'Print Assumptions TwoX_not_terminal.'; \
+	  echo 'Print Assumptions zero_const_limit_IsTerminalObj.'; \
+	  echo 'Print Assumptions const_limit_not_from_bare_connected.'; \
+	  echo 'Print Assumptions two_discrete_const_not_limit.'; \
+	  echo 'Print Assumptions const_limit_not_from_point_alone.'; \
+	  echo 'Print Assumptions td_const_IsALimit_product.'; \
+	  echo 'Print Assumptions Diagonal_Zero_not_Faithful.'; \
+	  echo 'Print Assumptions Diagonal_Two_Discrete_not_Full.'; \
+	  echo 'Print Assumptions const_Colimit.'; \
+	  echo 'Print Assumptions const_unit.'; \
+	  echo 'Print Assumptions const_counit.'; \
+	  echo 'Print Assumptions const_unit_iso.'; \
+	  echo 'Print Assumptions const_counit_iso.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
