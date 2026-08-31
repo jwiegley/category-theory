@@ -327,6 +327,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Top.Discrete.'; \
 	  echo 'Require Import Category.Instance.CMon.Grothendieck.'; \
 	  echo 'Require Import Category.Instance.Mod.Extension.'; \
+	  echo 'Require Import Category.Instance.Mod.BaseChange.'; \
+	  echo 'Require Import Category.Instance.Mod.Coextension.'; \
 	  echo 'Require Import Category.Instance.Grp.Completion.'; \
 	  echo 'Require Import Category.Adjunction.Determination.'; \
 	  echo 'Require Import Category.Adjunction.Representability.'; \
@@ -2511,6 +2513,28 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions unc_natural_V.'; \
 	  echo 'Print Assumptions unc_natural_W.'; \
 	  echo 'Print Assumptions unc_natural_X.'; \
+	  echo 'Print Assumptions ZExtObj.'; \
+	  echo 'Print Assumptions ZExt.'; \
+	  echo 'Print Assumptions zext_act.'; \
+	  echo 'Print Assumptions zext_to.'; \
+	  echo 'Print Assumptions zext_from.'; \
+	  echo 'Print Assumptions zext_unit.'; \
+	  echo 'Print Assumptions zext_counit.'; \
+	  echo 'Print Assumptions zext_adjunction.'; \
+	  echo 'Print Assumptions zext_unit_is_gen.'; \
+	  echo 'Print Assumptions zext_counit_is_smul.'; \
+	  echo 'Print Assumptions ZIntExt.'; \
+	  echo 'Print Assumptions CoextObj.'; \
+	  echo 'Print Assumptions Coextension.'; \
+	  echo 'Print Assumptions coex_act.'; \
+	  echo 'Print Assumptions coex_to.'; \
+	  echo 'Print Assumptions coex_from.'; \
+	  echo 'Print Assumptions coex_unit.'; \
+	  echo 'Print Assumptions coex_counit.'; \
+	  echo 'Print Assumptions coex_adjunction.'; \
+	  echo 'Print Assumptions coex_counit_is_eval_at_one.'; \
+	  echo 'Print Assumptions coex_unit_is_smul.'; \
+	  echo 'Print Assumptions CoextInt.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

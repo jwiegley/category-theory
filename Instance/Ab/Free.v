@@ -84,9 +84,12 @@ Generalizable All Variables.
     DERIVED from it at R := ℤ, and that is a measurement rather than a
     preference: the free abelian group on X is the free ℤ-module on X,
     but transporting the universal property across needs a passage
-    Ab → RMod ℤ giving every abelian group its ℤ-action, and the tree
-    has only the forgetful direction ([RMod_Forget_Ab],
-    Instance/Mod.v:300) -- Instance/Mod/Tensor.v's header records the
+    Ab → RMod ℤ giving every abelian group its ℤ-action, and no such
+    passage exists ([RMod_Forget_Ab], Instance/Mod.v:300, is the
+    forgetful direction; Instance/Mod/BaseChange.v's [ZExt Int_Ring]
+    does run Ab → RMod ℤ but sends A to ℤ ⊗ A, not to A carrying its
+    own ℤ-action, so it is not the passage wanted here)
+    -- Instance/Mod/Tensor.v's header records the
     same absence.  The reduction is therefore unavailable in tree; it is
     NOT claimed to be unavailable in principle.
 
