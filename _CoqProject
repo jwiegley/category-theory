@@ -19,6 +19,7 @@ Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
 Adjunction/Opposite.v
+Adjunction/Right.v
 Construction/Arrow.v
 Construction/Arrow/Functor.v
 Comonad/Core.v
@@ -800,6 +801,7 @@ Test/ProbeDiagonalLimit353.v
 Test/ProbeDiagonalFinite354.v
 Test/ProbeComponents355.v
 Test/ProbeConstant356.v
+Test/ProbeRight358.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

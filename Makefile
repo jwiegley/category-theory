@@ -344,6 +344,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
+	  echo 'Require Import Category.Adjunction.Right.'; \
 	  echo 'Require Import Category.Structure.SubobjectClassifier.Natural.'; \
 	  echo 'Require Import Category.Instance.FinSet.Powerset.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.'; \
@@ -2453,6 +2454,25 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Indisc_Faithful.'; \
 	  echo 'Print Assumptions Cat_Disc_Full.'; \
 	  echo 'Print Assumptions ind_bool_connected.'; \
+	  echo 'Print Assumptions AdjointOnTheRight.'; \
+	  echo 'Print Assumptions AdjointOnTheLeft.'; \
+	  echo 'Print Assumptions Adjunction_of_AdjointOnTheRight.'; \
+	  echo 'Print Assumptions AdjointOnTheRight_of_Adjunction.'; \
+	  echo 'Print Assumptions Adjunction_of_AdjointOnTheLeft.'; \
+	  echo 'Print Assumptions AdjointOnTheLeft_of_Adjunction.'; \
+	  echo 'Print Assumptions AdjointOnTheRight_sym.'; \
+	  echo 'Print Assumptions AdjointOnTheLeft_sym.'; \
+	  echo 'Print Assumptions right_does_not_imply_left.'; \
+	  echo 'Print Assumptions Chain3_AdjointOnTheRight.'; \
+	  echo 'Print Assumptions Chain3_not_AdjointOnTheLeft.'; \
+	  echo 'Print Assumptions right_does_not_imply_left_in_Sets.'; \
+	  echo 'Print Assumptions Powerset_not_AdjointOnTheLeft.'; \
+	  echo 'Print Assumptions MutuallyRightAdjoint.'; \
+	  echo 'Print Assumptions MutuallyLeftAdjoint.'; \
+	  echo 'Print Assumptions AdjointOnTheRight_of_MutuallyRightAdjoint.'; \
+	  echo 'Print Assumptions MutuallyRightAdjoint_of_AdjointOnTheRight.'; \
+	  echo 'Print Assumptions AdjointOnTheLeft_of_MutuallyLeftAdjoint.'; \
+	  echo 'Print Assumptions MutuallyLeftAdjoint_of_AdjointOnTheLeft.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
