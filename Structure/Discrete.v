@@ -20,8 +20,13 @@ Import EqNotations.
    `x = y` rather than isomorphism violates the principle of equivalence — the
    caveat recorded in the [jww] note below; the equivalence-respecting variant
    would replace `x = y` with an isomorphism `x ≅ y`. A discrete category is
-   the image of a set under the left adjoint `Set ⟶ Cat`; the dual (codiscrete
-   / indiscrete) construction is the further right adjoint. *)
+   the image of a set under the left adjoint, and the dual (codiscrete /
+   indiscrete) construction is the further right adjoint; both adjunctions
+   are now proved -- [Disc_Objects_Adjunction] (Instance/Cat/Objects.v) and
+   [Objects_Indisc_Adjunction] (Instance/Indiscrete.v), composing as
+   [adjoint_string]. The ambient is [Coq]/[StrictCat], NOT `Set ⟶ Cat`:
+   [objects_not_functorial_over_Cat] refutes an objects functor on [Cat],
+   and [disc_carrier_not_Sets_functor] refutes the [Sets] target. *)
 
 (* A discrete category has no arrows except for identity morphisms. *)
 

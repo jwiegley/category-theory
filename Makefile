@@ -338,6 +338,9 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Theory.Equivalence.Colimit.'; \
 	  echo 'Require Import Category.Structure.Limit.Components.'; \
 	  echo 'Require Import Category.Structure.Limit.Constant.'; \
+	  echo 'Require Import Category.Instance.Cat.Objects.'; \
+	  echo 'Require Import Category.Instance.Indiscrete.'; \
+	  echo 'Require Import Category.Instance.Cat.Components.'; \
 	  echo 'Require Import Category.Instance.Rng.MonoidRing.'; \
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
@@ -2429,6 +2432,27 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions const_counit.'; \
 	  echo 'Print Assumptions const_unit_iso.'; \
 	  echo 'Print Assumptions const_counit_iso.'; \
+	  echo 'Print Assumptions StrictCat_Objects.'; \
+	  echo 'Print Assumptions StrictCat_Disc.'; \
+	  echo 'Print Assumptions StrictCat_Indisc.'; \
+	  echo 'Print Assumptions disc_ext.'; \
+	  echo 'Print Assumptions Disc_Objects_Adjunction.'; \
+	  echo 'Print Assumptions Objects_Indisc_Adjunction.'; \
+	  echo 'Print Assumptions Components_Disc_Adjunction.'; \
+	  echo 'Print Assumptions adjoint_string.'; \
+	  echo 'Print Assumptions objects_not_functorial_over_Cat.'; \
+	  echo 'Print Assumptions swap_iso_in_Cat.'; \
+	  echo 'Print Assumptions disc_carrier_not_Sets_functor.'; \
+	  echo 'Print Assumptions ind_carrier_not_Sets_functor.'; \
+	  echo 'Print Assumptions Objects_not_Faithful.'; \
+	  echo 'Print Assumptions disc_indisc_not_iso.'; \
+	  echo 'Print Assumptions Cat_Disc.'; \
+	  echo 'Print Assumptions Disc_Full.'; \
+	  echo 'Print Assumptions Disc_Faithful.'; \
+	  echo 'Print Assumptions Indisc_Full.'; \
+	  echo 'Print Assumptions Indisc_Faithful.'; \
+	  echo 'Print Assumptions Cat_Disc_Full.'; \
+	  echo 'Print Assumptions ind_bool_connected.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
