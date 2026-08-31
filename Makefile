@@ -345,6 +345,7 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Rng.GroupRing.'; \
 	  echo 'Require Import Category.Instance.Sets.Powerset.Universal.'; \
 	  echo 'Require Import Category.Adjunction.Right.'; \
+	  echo 'Require Import Category.Structure.Monoidal.Dual.'; \
 	  echo 'Require Import Category.Structure.SubobjectClassifier.Natural.'; \
 	  echo 'Require Import Category.Instance.FinSet.Powerset.'; \
 	  echo 'Require Import Category.Instance.Grp.Quotient.'; \
@@ -2473,6 +2474,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions MutuallyRightAdjoint_of_AdjointOnTheRight.'; \
 	  echo 'Print Assumptions AdjointOnTheLeft_of_MutuallyLeftAdjoint.'; \
 	  echo 'Print Assumptions MutuallyLeftAdjoint_of_AdjointOnTheLeft.'; \
+	  echo 'Print Assumptions dual_uncur.'; \
+	  echo 'Print Assumptions dual_transpose.'; \
+	  echo 'Print Assumptions dual_transpose_invol.'; \
+	  echo 'Print Assumptions dual_transpose_nat_dom.'; \
+	  echo 'Print Assumptions dual_transpose_nat_cod.'; \
+	  echo 'Print Assumptions dual_self_adjoint_on_the_right.'; \
+	  echo 'Print Assumptions dd_unit.'; \
+	  echo 'Print Assumptions dd_unit_natural.'; \
+	  echo 'Print Assumptions double_dual_unit.'; \
+	  echo 'Print Assumptions dual_adjunction.'; \
+	  echo 'Print Assumptions StarAutonomous_of_dd_unit.'; \
+	  echo 'Print Assumptions dual_AdjointEquivalence.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

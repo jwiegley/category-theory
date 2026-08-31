@@ -582,6 +582,7 @@ Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/StarAutonomous.v
+Structure/Monoidal/Dual.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Traced.v
 Structure/Monoidal/CompactClosed.v
@@ -802,6 +803,7 @@ Test/ProbeDiagonalFinite354.v
 Test/ProbeComponents355.v
 Test/ProbeConstant356.v
 Test/ProbeRight358.v
+Test/ProbeDual359.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
