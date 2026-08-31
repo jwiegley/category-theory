@@ -547,6 +547,9 @@ Structure/Limit/Unique/Compat.v
 Structure/Limit/Initial.v
 Structure/Limit/Components.v
 Structure/Limit/Constant.v
+Instance/Cat/Objects.v
+Instance/Indiscrete.v
+Instance/Cat/Components.v
 Structure/Monoid.v
 Structure/Ring.v
 Structure/Lattice.v
