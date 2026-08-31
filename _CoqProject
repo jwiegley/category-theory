@@ -333,6 +333,8 @@ Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
+Instance/Mod/Monoidal.v
+Instance/Mod/Closed.v
 Instance/Mod/Extension.v
 Instance/Mod/Quotient.v
 Instance/Mod/Quotient/Isomorphism.v
