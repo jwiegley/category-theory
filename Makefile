@@ -321,6 +321,36 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Vect.TensorAlgebra.'; \
 	  echo 'Require Import Category.Instance.Lie.'; \
 	  echo 'Require Import Category.Adjunction.Enveloping.'; \
+	  echo 'Require Import Category.Instance.Rg.'; \
+	  echo 'Require Import Category.Adjunction.Unitalization.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.rg_mul_zero_l.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.rg_mul_zero_r.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.rg_map_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.ring_rg.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rng_Forget_Rg.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rng_Forget_Rg_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rng_Forget_Rg_not_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rg_Terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rg_Initial.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rg_Zero.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.Rng_Rg_zero_object_contrast.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.TwoZ_Rg.'; \
+	  echo 'Print Assumptions Category.Instance.Rg.TwoZ_not_unital.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.rg_zsmul_mul_l.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.rg_zsmul_mul_r.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.zsmul_mul.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.zring_is_zsmul_one.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.Dorroh.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.dorroh_insert.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.dorroh_extend.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.dorroh_extend_unique.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.dorroh_universal.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.DorrohFunctor.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.unitalization_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.Unitalization.dorroh_insert_Monic.'; \
 	  echo 'Require Import Category.Instance.Ab.Free.'; \
 	  echo 'Require Import Category.Instance.Mon.Free.'; \
 	  echo 'Require Import Category.Instance.Rng.Free.'; \

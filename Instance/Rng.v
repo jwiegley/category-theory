@@ -38,8 +38,13 @@ Generalizable All Variables.
     CLASS keeps the name [Ring]/[RingObject] (seventeen Seven Sketches
     issues consume it under that name); the CATEGORY answers to both,
     with [Rng] the Mac Lane-side entry point.  The category of
-    NON-unital rings is future #362's [Rg], whence the forgetful
-    functor's direction will be unambiguous.
+    NON-unital rings is Instance/Rg.v's [Rg], with the forgetful
+    functor [Rng_Forget_Rg : Rng ⟶ Rg] there, so the direction is
+    unambiguous.  That file also proves the two categories are not
+    interchangeable: [Rg] has a ZERO object (the zero rng is initial
+    AND terminal, a rng homomorphism not being required to preserve 1)
+    where [Rng] has ℤ initial and the zero ring terminal, which do not
+    coincide.
 
     CONTENT.  Beyond the category itself: the forgetful functors to [Ab]
     (the additive abelian group, Instance/Ab.v) and to [Sets]; the zero

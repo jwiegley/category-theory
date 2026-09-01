@@ -434,6 +434,8 @@ Instance/Vect/Tensor.v
 Instance/Vect/TensorAlgebra.v
 Instance/Lie.v
 Adjunction/Enveloping.v
+Instance/Rg.v
+Adjunction/Unitalization.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
