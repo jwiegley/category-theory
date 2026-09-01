@@ -319,6 +319,8 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Instance.Mod.Representable.'; \
 	  echo 'Require Import Category.Instance.Rng.Algebras.Associative.'; \
 	  echo 'Require Import Category.Instance.Vect.TensorAlgebra.'; \
+	  echo 'Require Import Category.Instance.Lie.'; \
+	  echo 'Require Import Category.Adjunction.Enveloping.'; \
 	  echo 'Require Import Category.Instance.Ab.Free.'; \
 	  echo 'Require Import Category.Instance.Mon.Free.'; \
 	  echo 'Require Import Category.Instance.Rng.Free.'; \
@@ -2535,6 +2537,26 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions coex_counit_is_eval_at_one.'; \
 	  echo 'Print Assumptions coex_unit_is_smul.'; \
 	  echo 'Print Assumptions CoextInt.'; \
+	  echo 'Print Assumptions LieObject.'; \
+	  echo 'Print Assumptions LieHom.'; \
+	  echo 'Print Assumptions Lie.'; \
+	  echo 'Print Assumptions lie_antisym_of_alt.'; \
+	  echo 'Print Assumptions lie_br_smul_r.'; \
+	  echo 'Print Assumptions CommutatorFunctor.'; \
+	  echo 'Print Assumptions lie_comm_underlying.'; \
+	  echo 'Print Assumptions Lie_UT2.'; \
+	  echo 'Print Assumptions lie_ut2_not_abelian.'; \
+	  echo 'Print Assumptions CommutatorFunctor_Faithful.'; \
+	  echo 'Print Assumptions CommutatorFunctor_not_Full.'; \
+	  echo 'Print Assumptions UEnvAlg.'; \
+	  echo 'Print Assumptions uenv_insert.'; \
+	  echo 'Print Assumptions EnvelopingFunctor.'; \
+	  echo 'Print Assumptions uenv_universal.'; \
+	  echo 'Print Assumptions enveloping_adjunction.'; \
+	  echo 'Print Assumptions uenv_unit_is_gen.'; \
+	  echo 'Print Assumptions uenv_universal_med.'; \
+	  echo 'Print Assumptions uenv_universal_arrow.'; \
+	  echo 'Print Assumptions uenv_auniversal_arrow.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
