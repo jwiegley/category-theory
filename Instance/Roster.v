@@ -462,14 +462,21 @@ Example roster_Category_from_Metacategory (M : Metacategory) : Category :=
     [Top] they differ AND there is provably no zero object.  In [Field]
     NEITHER exists.
 
-    THE UNITAL-RING DISCRIMINATION, disclosed.  ℤ is initial in [Rng]
-    and the zero ring is terminal, both exhibited below.  What makes
-    this the discriminating case in the books — that dropping the unit
-    from the morphism notion changes the answer, so that Rng and the
-    non-unital Rg have different initial objects — is NOT checkable
-    here: the tree has no category of non-unital rings, which is future
-    #362's [Rg] (Instance/Rng.v's header names it).  The unital half is
-    what is exhibited; the contrast is prose. *)
+    THE UNITAL-RING DISCRIMINATION.  ℤ is initial in [Rng] and the
+    zero ring is terminal, both exhibited below.  What makes this the
+    discriminating case in the books — that dropping the unit from the
+    morphism notion changes the answer — IS now checkable: [Rg], the
+    category of non-unital rings, is Instance/Rg.v, and there the zero
+    rng is BOTH initial and terminal, since a rng homomorphism is not
+    required to preserve 1.  So [Rg] has a zero object, and [Rng]
+    does not -- the latter being
+    Structure/Kernel/Universal/Examples.v:359's [Rng_no_zero_object].
+    Instance/Rg.v's [Rng_Rg_zero_object_contrast] pairs the zero object
+    with the sharper elementary fact that no unital homomorphism runs
+    from the zero ring to Z, which is what forces terminal and initial
+    apart here; this roster is not extended to [Rg] itself, which would
+    pull Instance/Rg.v into a file that already carries most of the
+    library.  The contrast is no longer prose. *)
 
 (* Sets and the strict variant: the two differ. *)
 Example roster_Sets_Terminal : @Terminal Sets := Sets_Terminal.
@@ -492,8 +499,9 @@ Example roster_RMod_Zero (R : RingObject) : ZeroObject (RMod R) :=
   RMod_Zero R.
 
 (* Rings: ℤ initial, the zero ring terminal — and they do NOT coincide,
-   which is why no [ZeroObject Rng] is cited.  See the disclosure above
-   on what the non-unital contrast would take. *)
+   which is why no [ZeroObject Rng] is cited.  The non-unital contrast
+   named in the disclosure above is proved in Instance/Rg.v
+   ([Rg_Zero], [Rng_Rg_zero_object_contrast]). *)
 Example roster_Rng_Terminal : @Terminal Rng := Rng_Terminal_zero.
 Example roster_Rng_Initial : @Initial Rng := Rng_Initial_Z.
 
