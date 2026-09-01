@@ -436,6 +436,7 @@ Instance/Lie.v
 Adjunction/Enveloping.v
 Instance/Rg.v
 Adjunction/Unitalization.v
+Instance/Monoid/Translation.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
