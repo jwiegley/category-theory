@@ -323,6 +323,23 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Adjunction.Enveloping.'; \
 	  echo 'Require Import Category.Instance.Rg.'; \
 	  echo 'Require Import Category.Adjunction.Unitalization.'; \
+	  echo 'Require Import Category.Instance.Monoid.Translation.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonDiscrete.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonDiscreteStrict.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonMult.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.LeftTranslation.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.RightTranslation.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonDiscrete_thin.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.left_translation_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.right_translation_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.mon_group_iff_left_translation_adjoints.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.mon_group_iff_right_translation_adjoints.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.mon_group_iff_left_translation_adjoints_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.strict_left_translation_adjoints_MonInverses.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonInverses_of_right_inverses.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonUIP_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.nat_no_right_adjoints.'; \
+	  echo 'Print Assumptions Category.Instance.Monoid.Translation.Z3_left_adjunction.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
