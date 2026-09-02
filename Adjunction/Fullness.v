@@ -263,7 +263,7 @@ Generalizable All Variables.
 
    - Mac Lane §IV.3 Theorem 1 (G faithful ⟺ every ε_a epi; G full ⟺
      every ε_a split monic, whose forward half IS (A) here; hence full and
-     faithful ⟺ ε an isomorphism) is issue #367's, not this file's.
+     faithful ⟺ ε an isomorphism) is Adjunction/FullFaithful.v's (#367).
      Nothing here states or uses a faithfulness characterisation; the one
      [Faithful] stated here is refuted ([Erase_PointedSets_not_Faithful]).
    - No CONVERSE: it is not shown that invertibility of Uε forces either

@@ -483,6 +483,50 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_component_not_surjective.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_nat.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_not_Epic.'; \
+	  echo 'Require Import Category.Functor.Hom.Transfer.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.epic_of_hom_transfer_monic.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_at_id.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_component.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_component_injective_iff.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_component_surjective_iff.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_epic_iff_section.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_epic_of_section.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_is_fmap.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_is_fmap_value.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_monic_iff_epic.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.hom_transfer_monic_of_epic.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Transfer.section_of_hom_transfer_epic.'; \
+	  echo 'Require Import Category.Adjunction.FullFaithful.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.Epic_Section_IsIsomorphism.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.counit_epic_of_faithful.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.counit_precomp_is_from_adj_fmap_U.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.counit_section_via_transfer.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.counit_transfer_epic_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.counit_transfer_monic_of_faithful.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.faithful_of_counit_epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.fmap_U_is_transfer_then_transpose.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.from_adj_epic_of_epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.from_adj_epic_of_epic_direct.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.from_adj_id_is_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.full_data_of_counit_section.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.full_of_counit_section.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.left_adjoint_faithful_iff_unit_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.left_adjoint_full_iff_unit_split_epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.left_adjoint_fully_faithful_iff_unit_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.op_counit_is_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.op_unit_is_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.reflection_counit_Epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.reflective_counit_IsIsomorphism_general.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.reflective_counit_Isomorphism_general.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.reflective_incl_Faithful.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.reflective_incl_Full.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.right_adjoint_faithful_iff_counit_epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.right_adjoint_faithful_iff_from_adj_epic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.right_adjoint_full_iff_counit_split_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.right_adjoint_fully_faithful_iff_counit_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.transfer_at_counit_is_precomp.'; \
+	  echo 'Print Assumptions Category.Adjunction.FullFaithful.unit_retract_agrees.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
