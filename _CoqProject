@@ -286,6 +286,7 @@ Instance/FinSet/Decategorify.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
+Instance/Fun/Morphisms.v
 Instance/Fun/Discrete.v
 Instance/Fun/Group.v
 Instance/Fun/Action.v
@@ -818,6 +819,7 @@ Test/ProbeRight358.v
 Test/ProbeDual359.v
 Test/ProbeSliceAdjunction365.v
 Test/ProbeFullness368.v
+Test/ProbeMorphisms369.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

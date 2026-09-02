@@ -430,6 +430,59 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_iso_of_full_right.'; \
 	  echo 'Print Assumptions Category.Adjunction.Fullness.zero_erase_adjunction.'; \
 	  echo 'Print Assumptions Category.Adjunction.Fullness.zero_erase_fmap_counit_IsIsomorphism.'; \
+	  echo 'Require Import Category.Instance.Fun.Morphisms.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.CkLeft.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.CkRight.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.CokerPair.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.KerFst.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.KerPair.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.KerSnd.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.TwoBool.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.TwoOne.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.TwoTwoX.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.TwoTwoY.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ck_Im_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ck_agree_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ck_fun.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ck_fun_proper.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ck_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.collapse_Epic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.componentwise_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.const_fun.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.equiv_iso_from_is_nat_inverse.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.equiv_iso_to_is_theta.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ker_agree.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ker_fun.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ker_fun_proper.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ker_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.ker_map_ok.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.nat_inv_natural.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.nat_inverse.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.nat_iso_family.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.nat_iso_iff_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.nat_iso_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.pick_true_Monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.pointwise_epic_is_epic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.pointwise_monic_is_monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.presheaf_epic_iff_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.presheaf_epic_iff_surjective.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.presheaf_monic_iff_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.presheaf_monic_iff_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.sets_functor_epic_iff_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.sets_functor_epic_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.sets_functor_monic_iff_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.sets_functor_monic_pointwise.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.theta_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_arrow_Epic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_arrow_Monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_collapse.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_collapse_Epic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_collapse_not_Monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_Monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_component_not_surjective.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Morphisms.two_pick_not_Epic.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
