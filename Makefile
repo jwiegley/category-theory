@@ -740,6 +740,31 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.Kolmogorov.tri_respects.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Kolmogorov.tri_union.'; \
 	  echo 'Print Assumptions Category.Instance.Top.Kolmogorov.tri_whole.'; \
+	  echo 'Require Import Category.Construction.Reflective.Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_incl_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Incl_Full.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_to_adj_inj.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_lift_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_lift_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_compare.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_compare_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_compare_unit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_unit_compare.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_cone_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_cone_iso_to.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_cone_iso_from.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_ReflectsLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_inherits_limits.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_inherits_limits_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_inherits_limits_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Incl_PreservesLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_two_routes_agree.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_CreatesLimitsOfShape.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Incl_continuous.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
