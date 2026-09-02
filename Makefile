@@ -357,6 +357,34 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_collapse_unit_not_iso.'; \
 	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_pick_unit_iso.'; \
 	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_pick_not_iso.'; \
+	  echo 'Require Import Category.Construction.Slice.Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Coslice_Proj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Coslice_Coprod.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Coslice_Projection_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_projection_unit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_projection_counit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Slice_Proj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Slice_Prod.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Slice_Projection_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_projection_unit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_projection_counit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_proj_left_adjoint_iff_terminal.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_proj_right_adjoint_iff_initial.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_left_adjoint_terminal.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_terminal_left_adjoint.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_terminal_left_adjoint_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_right_adjoint_initial.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_initial_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_initial_right_adjoint_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.slice_id_IsTerminalObj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.coslice_id_IsInitialObj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Sets_Coslice_Projection_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.Sets_Slice_Projection_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_slice_proj_no_left_adjoint.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_coslice_proj_no_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_slice_proj_left_adjoint_at_terminal.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_coslice_proj_right_adjoint_at_initial.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_coslice_unit_not_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
