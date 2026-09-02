@@ -14,6 +14,7 @@ Adjunction/Continuity.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
+Adjunction/LeftInverse.v
 Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
@@ -834,6 +835,7 @@ Test/ProbeOrd372.v
 Test/ProbeKolmogorov372.v
 Test/ProbeReflectiveLimit373.v
 Test/ProbeDense375.v
+Test/ProbeLeftInverse376.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
