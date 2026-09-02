@@ -96,6 +96,7 @@ Construction/PreorderReflection.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Slice/Terminal.v
+Construction/Slice/Adjunction.v
 Construction/Sq.v
 Construction/Subcategory.v
 Construction/Subcategory/Finite.v
@@ -814,6 +815,7 @@ Test/ProbeComponents355.v
 Test/ProbeConstant356.v
 Test/ProbeRight358.v
 Test/ProbeDual359.v
+Test/ProbeSliceAdjunction365.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
