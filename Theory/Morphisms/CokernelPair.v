@@ -255,10 +255,10 @@ Generalizable All Variables.
    ------------------------------------------------------------------
    ** NOT DELIVERED (scoped)
 
-   - No functoriality: the cokernel pair is not exhibited as a functor on
-     the arrow category, and no adjunction with an equalizer functor is
-     built.  That is issue #364's obligation, which is written to CONSUME
-     this file's [cokernel_pair] rather than redefine it.
+   - No functoriality HERE: the functor on the arrow category and its
+     adjunction with the equalizer functor are Adjunction/CokernelPair.v
+     (#364), which CONSUMES this file's [cokernel_pair] and ckp_*
+     accessors rather than redefining them -- a division of labour.
 
    - No relation to [RegularEpi] or to [Structure/Regular.v]'s
      [regular_coeq]: it is NOT proved here that the coequalizer of a

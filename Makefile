@@ -340,6 +340,23 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Monoid.Translation.MonUIP_dec.'; \
 	  echo 'Print Assumptions Category.Instance.Monoid.Translation.nat_no_right_adjoints.'; \
 	  echo 'Print Assumptions Category.Instance.Monoid.Translation.Z3_left_adjunction.'; \
+	  echo 'Require Import Category.Adjunction.CokernelPair.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.CokernelPairFunctor.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.EqualizerArrowFunctor.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.CokernelPair_Equalizer_Adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.cokernel_pair_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.cokernel_pair_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.ckp_class_unit_agrees.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.ckp_class_counit_agrees.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.ckp_unit_snd_strict.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.ckp_counit_X_strict.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.unit_iso_iff_regular.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.split_mono_regular.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.split_mono_unit_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.eqa_dom_functor.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_collapse_unit_not_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_pick_unit_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.CokernelPair.sets_pick_not_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
