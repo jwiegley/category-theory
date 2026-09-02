@@ -385,6 +385,51 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_slice_proj_left_adjoint_at_terminal.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_coslice_proj_right_adjoint_at_initial.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Adjunction.sets_coslice_unit_not_iso.'; \
+	  echo 'Require Import Category.Adjunction.Fullness.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.Erase_PointedSets_not_Faithful.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.Full_Erase_of_ZeroObject.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.counit_at_F_IsIsomorphism_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.counit_inv_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.counit_inv_of_full_right_comp.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.counit_inv_of_full_right_fmap.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.counit_split_mono_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.equiv_fmap_counit_IsIsomorphism.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.equiv_fmap_counit_inverse.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.equiv_fmap_counit_inverse_agrees.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.fmap_counit_IsIsomorphism_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.fmap_unit_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.fmap_unit_counit_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.fmap_unit_counit_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.pointed_counit_not_IsIsomorphism.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.reflective_fmap_counit_IsIsomorphism.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.reflective_fmap_counit_inverse.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.split_inverses_agree.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_at_UF_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_at_U_IsIsomorphism_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_epic_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_epic_of_full_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_fmap_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_fmap_counit_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_fmap_counit_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_inv_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_inv_of_full_left_comp.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_inv_of_full_left_fmap.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_iso_of_full_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.unit_split_epi_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit_F.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit_is_whisker_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit_iso_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit_iso_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_counit_iso_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_F.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_is_whisker_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_iso_of_full.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_iso_of_full_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.whiskered_unit_iso_of_full_right.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.zero_erase_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.Fullness.zero_erase_fmap_counit_IsIsomorphism.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
