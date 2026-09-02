@@ -527,6 +527,62 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.FullFaithful.right_adjoint_fully_faithful_iff_counit_iso.'; \
 	  echo 'Print Assumptions Category.Adjunction.FullFaithful.transfer_at_counit_is_precomp.'; \
 	  echo 'Print Assumptions Category.Adjunction.FullFaithful.unit_retract_agrees.'; \
+	  echo 'Require Import Category.Instance.Ab.TorsionFree.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.AbModTorsion.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.AbModTorsion_TorsionFree.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.MixedAb.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionAb.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFreeAb.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFreeMod.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_Incl_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_Incl_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_Reflective.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_Sub.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_adj.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionFree_reflector.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.TorsionSub.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZAb_TF.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZAb_TorsionFree.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZAb_reflect_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZAb_torsion_trivial.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZAb_torsionfree_elt.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZMod2_all_torsion.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZMod2_not_TorsionFree.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.ZMod2_quot_collapses.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_gen_not_quot_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_gen_not_torsion.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_quot_merges.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_tors.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_tors_not_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.mixed_tors_torsion.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.nat_smul_ZAb.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.nat_smul_quot.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.nat_smul_quot_two.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.quot_eq_elim.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.quot_eq_intro.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.quot_plus_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.quot_zero_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_arrow_is_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_arrow_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_incl.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_kills.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_med.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_mem.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_plus.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_reflector_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_resp.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_scale.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_unit_is_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_unit_is_proj_hom.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_universal.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsion_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.TorsionFree.torsionfree_reflect_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \

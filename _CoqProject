@@ -223,6 +223,7 @@ Instance/Ab/ModFunctor.v
 Instance/Ab/Graded.v
 Instance/Ab/Subtract.v
 Instance/Ab/DirectedColimit.v
+Instance/Ab/TorsionFree.v
 Instance/Adj.v
 Instance/Adjoints.v
 Instance/CMon.v
@@ -823,6 +824,7 @@ Test/ProbeSliceAdjunction365.v
 Test/ProbeFullness368.v
 Test/ProbeMorphisms369.v
 Test/ProbeFullFaithful367.v
+Test/ProbeTorsionFree371.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
