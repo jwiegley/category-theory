@@ -439,6 +439,7 @@ Instance/Rg.v
 Adjunction/Unitalization.v
 Instance/Monoid/Translation.v
 Adjunction/CokernelPair.v
+Adjunction/Fullness.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -816,6 +817,7 @@ Test/ProbeConstant356.v
 Test/ProbeRight358.v
 Test/ProbeDual359.v
 Test/ProbeSliceAdjunction365.v
+Test/ProbeFullness368.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
