@@ -708,6 +708,7 @@ Theory/Equivalence/Limit.v
 Theory/Equivalence/Colimit.v
 Theory/Equivalence/Creation.v
 Theory/Equivalence/Terminal.v
+Theory/Equivalence/Strict.v
 Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
@@ -836,6 +837,7 @@ Test/ProbeKolmogorov372.v
 Test/ProbeReflectiveLimit373.v
 Test/ProbeDense375.v
 Test/ProbeLeftInverse376.v
+Test/ProbeStrict377.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
