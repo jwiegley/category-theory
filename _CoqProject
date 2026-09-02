@@ -185,6 +185,7 @@ Functor/Hom/Internal.v
 Functor/Hom/Yoneda.v
 Functor/Hom/Yoneda/Iso.v
 Functor/Hom/Limit.v
+Functor/Hom/Transfer.v
 Functor/Hom/Yoneda/Natural.v
 Functor/Opposite.v
 Functor/Product.v
@@ -441,6 +442,7 @@ Adjunction/Unitalization.v
 Instance/Monoid/Translation.v
 Adjunction/CokernelPair.v
 Adjunction/Fullness.v
+Adjunction/FullFaithful.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -820,6 +822,7 @@ Test/ProbeDual359.v
 Test/ProbeSliceAdjunction365.v
 Test/ProbeFullness368.v
 Test/ProbeMorphisms369.v
+Test/ProbeFullFaithful367.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
