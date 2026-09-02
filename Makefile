@@ -765,6 +765,33 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_CreatesAllLimits.'; \
 	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Complete.'; \
 	  echo 'Print Assumptions Category.Construction.Reflective.Limit.reflective_Incl_continuous.'; \
+	  echo 'Require Import Category.Construction.Subcategory.Dense.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.ESO_iso_dense.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.ESO_iso_dense_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.ESO_round_whole.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.IsoDense.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_counit_Isomorphism.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_counit_Isomorphism_to.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_counit_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_full_subcategory_reflective.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_incl_adjoint_equivalence.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_incl_equivalence.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_incl_quasi_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflective_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflective_full.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflective_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflective_reflector.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflector.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.dense_reflector_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.iso_dense_ESO.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.iso_dense_ESO_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.iso_dense_round_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.skeleton_IsoDense.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.skeleton_reflective.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.skeleton_reflective_full.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.skeleton_reflector_is_skel_reflect.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Dense.skeleton_reflector_obj.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
