@@ -100,6 +100,7 @@ Construction/Slice/Terminal.v
 Construction/Slice/Adjunction.v
 Construction/Sq.v
 Construction/Subcategory.v
+Construction/Subcategory/Dense.v
 Construction/Subcategory/Finite.v
 Construction/Subcategory/FullConverse.v
 Construction/Subcategory/Terminal.v
@@ -832,6 +833,7 @@ Test/ProbeTorsionFree371.v
 Test/ProbeOrd372.v
 Test/ProbeKolmogorov372.v
 Test/ProbeReflectiveLimit373.v
+Test/ProbeDense375.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
