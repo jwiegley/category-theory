@@ -137,8 +137,10 @@ Generalizable All Variables.
     nothing to the category produced, and it is not the category of
     posets under another name.  The category whose OBJECTS are posets
     is Instance/Pos.v's [Pos].  Riehl 1.1.3's "Poset" clause is [Pos];
-    Mac Lane's "Preord" is [Proset].  Both are exhibited below, side by
-    side, so the distinction is visible rather than folklore.
+    Mac Lane's "Preord" is Instance/Ord.v's [Ord] (#372), NOT [Proset],
+    which is ONE preorder.  [Pos] and [Proset] are exhibited below, side
+    by side; [Ord] is NOT exhibited here (it would add Instance/Ord.v to
+    this file's closure and move its measured counts), which is disclosed.
 
     RIEHL 1.1.4, the non-concrete entries.  Clause (i), the matrix
     category Mat_R, is [Matr] (Instance/Matr.v).  Clause (ii), the
@@ -410,7 +412,7 @@ Example roster_Rig_Forget_Mon : Rig ⟶ Mon_Sets := Rig_Forget_Mon.
 
 (** ** Order categories, and the Poset/Proset erratum *)
 
-(* ONE preorder as a thin category — Mac Lane's Preord entry.  The
+(* ONE preorder as a thin category (Mac Lane's Preord is [Ord]).  The
    witness is (ℕ, ≤). *)
 Example roster_Proset {A : Type} {R : A → A → Prop}
   (P : RelationClasses.PreOrder R) : Category := Proset P.

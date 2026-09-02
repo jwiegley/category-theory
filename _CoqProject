@@ -348,6 +348,8 @@ Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
 Instance/Ordinal.v
+Instance/Ord.v
+Instance/Ord/Poset.v
 Instance/Parallel.v
 Instance/Parallel/Wide.v
 Instance/Pos.v
@@ -430,6 +432,7 @@ Instance/Top/Wedge.v
 Instance/Top/Presheaf.v
 Instance/Top/ContinuousRing.v
 Instance/Top/LoopSpace.v
+Instance/Top/Kolmogorov.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -825,6 +828,8 @@ Test/ProbeFullness368.v
 Test/ProbeMorphisms369.v
 Test/ProbeFullFaithful367.v
 Test/ProbeTorsionFree371.v
+Test/ProbeOrd372.v
+Test/ProbeKolmogorov372.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
