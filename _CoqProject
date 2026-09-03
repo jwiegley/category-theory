@@ -305,6 +305,7 @@ Instance/Grp/Congruence.v
 Instance/Grp/EckmannHilton.v
 Instance/Grp/Epi.v
 Instance/Grp/Free.v
+Instance/Grp/Galois.v
 Instance/Grp/Completion.v
 Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
@@ -847,6 +848,7 @@ Test/ProbeStrict377.v
 Test/ProbeConnected378.v
 Test/ProbeAdjointCompose379.v
 Test/ProbePowerset382.v
+Test/ProbeGalois381.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
