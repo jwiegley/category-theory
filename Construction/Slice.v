@@ -86,9 +86,10 @@ Generalizable All Variables.
    f : a ~> b induces the post-composition functor Σ_f : C/a ⟶ C/b —
    here [Bang_Functor] in Construction/Slice/Pullback.v — and, when C
    has pullbacks, the base change functor f^* in the other direction
-   ([Star_Functor], same file), with the adjunction Σ_f ⊣ f^* recorded
-   in that file's header (nLab, "dependent sum").  When every f^* has a
-   further right adjoint Π_f, C is locally cartesian closed.  The triple
+   ([Star_Functor], same file), with the adjunction Σ_f ⊣ f^* PROVED
+   there as [Base_Functor_Adjunction] (nLab, "dependent sum").  When
+   every f^* has a further right adjoint Π_f, C is locally cartesian
+   closed.  The triple
    Σ_f ⊣ f^* ⊣ Π_f descends from Lawvere's identification of the
    quantifiers as adjoints to substitution (Lawvere, "Adjointness in
    Foundations", Dialectica 1969), and it interprets dependent type

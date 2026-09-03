@@ -127,7 +127,8 @@ Generalizable All Variables.
    Proc. Camb. Phil. Soc. 95, 1984), reading the adjoint triple
    Σ_f ⊣ f* ⊣ Π_f as dependent sum, substitution, and dependent product.
    The base-change functor between slices, with its left adjoint, is built
-   in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor];
+   in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor],
+   proved there as [Base_Functor_Adjunction] (dependent sum on the LEFT);
    topos theory rests on the same operation, for
    Structure/SubobjectClassifier.v exhibits every mono as a pullback of
    [truth] in exactly one way, and Theory/Subobject/Functor.v obtains the

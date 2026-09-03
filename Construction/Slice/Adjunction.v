@@ -221,8 +221,9 @@ Generalizable All Variables.
 
    (3) The issue's Mac Lane section says "A search over slice, coslice and
    comma files for [⊣] finds only the commented-out slice base-change
-   stub".  The stub is real (Construction/Slice/Pullback.v:121-122,
-   [Base_Functor_Adjunction], commented out), but
+   stub".  The stub was real when that was written; it has since been
+   deleted and the theorem proved, as Construction/Slice/Pullback.v's
+   [Base_Functor_Adjunction].  Even then,
    Construction/Comma/Adjunction.v carries live [⊣] results throughout,
    among them [Comma_Functor_F_Id_Id_G] at :835 and Lawvere's
    biconditional [Adjunction_Comma] at :904 -- as the issue's own
