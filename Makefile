@@ -1036,6 +1036,53 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.Diagonal.Connected.two_discrete_no_lali.'; \
 	  echo 'Print Assumptions Category.Adjunction.Diagonal.Connected.two_discrete_no_constant_colimits.'; \
 	  echo 'Print Assumptions Category.Adjunction.Diagonal.Connected.two_discrete_objects_distinct.'; \
+	  echo 'Require Import Category.Theory.Equivalence.Adjoint.Compose.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_adjunction.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_assoc_counit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_assoc_unit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_counit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_counit_clause.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_counit_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_counit_transpose.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_id_left_counit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_id_left_unit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_id_right_counit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_id_right_unit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_unit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_unit_clause.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_unit_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_unit_transpose.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_via_equivalence.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Compose_via_quasi_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_adjunction.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_counit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_counit_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit_inverse.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_swap_readback.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_along.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_comp.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_comp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_comp_obligation_2.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_fmap.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_fmap_obligation_1.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_fmap_obligation_2.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_id.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_id_obligation_1.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_id_obligation_2.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.adjoint_equivalence_compose_adj.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.adjoint_equivalence_compose_counit_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.adjoint_equivalence_compose_unit_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.assoc_left.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.assoc_right.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_square.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_square_adjunction.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_square_moves.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_square_not_id.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_square_unit_codomain.'; \
+	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.indiscrete_swap.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgObject.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.RgHom.'; \
 	  echo 'Print Assumptions Category.Instance.Rg.Rg.'; \
