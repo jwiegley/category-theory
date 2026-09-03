@@ -85,6 +85,7 @@ Construction/Localization/Universal.v
 Construction/Karoubi/Universal.v
 Construction/Reflective.v
 Construction/Reflective/Idempotent.v
+Construction/Reflective/FixedPoints.v
 Construction/Reflective/Limit.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
@@ -361,6 +362,7 @@ Instance/Parallel/Wide.v
 Instance/Pos.v
 Instance/Poset.v
 Instance/Proset/Galois.v
+Instance/Proset/Galois/FixedPoints.v
 Instance/Props.v
 Instance/Proset.v
 Instance/Proset/Monotone.v
@@ -853,6 +855,7 @@ Test/ProbePowerset382.v
 Test/ProbeGalois381.v
 Test/ProbeQuantifier384.v
 Test/ProbePerp385.v
+Test/ProbeFixedPoints386.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
