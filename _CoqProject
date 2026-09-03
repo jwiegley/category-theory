@@ -411,6 +411,7 @@ Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
 Instance/Powerset.v
 Instance/Powerset/Subobject.v
+Instance/Powerset/Quantifier.v
 Instance/Sets/Pointed.v
 Instance/Sets/Pointed/Free.v
 Instance/Sets/Pointed/Coslice.v
@@ -849,6 +850,7 @@ Test/ProbeConnected378.v
 Test/ProbeAdjointCompose379.v
 Test/ProbePowerset382.v
 Test/ProbeGalois381.v
+Test/ProbeQuantifier384.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
