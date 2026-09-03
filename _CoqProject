@@ -371,6 +371,7 @@ Instance/Proset/Skeletal.v
 Instance/Proset/Limit.v
 Instance/Proset/Transform.v
 Instance/Proset/Order.v
+Instance/Theory/Lindenbaum.v
 Instance/Rel.v
 Instance/Rel/Dagger.v
 Instance/Rep.v
@@ -857,6 +858,7 @@ Test/ProbeQuantifier384.v
 Test/ProbePerp385.v
 Test/ProbeFixedPoints386.v
 Test/ProbeBaseChange387.v
+Test/ProbeLindenbaum390.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
