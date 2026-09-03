@@ -3878,6 +3878,54 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Proset.Galois.FixedPoints.preimage_closed_r.'; \
 	  echo 'Print Assumptions Category.Instance.Proset.Galois.FixedPoints.preimage_image_preimage.'; \
 	  echo 'Print Assumptions Category.Instance.Proset.Galois.FixedPoints.unit_fixed_iff_closed_r.'; \
+	  echo 'Require Import Category.Construction.Slice.Pullback.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor_obligation_4.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Bang_Functor_obligation_5.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Base_Functor_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Star_Functor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Star_Functor_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Star_Functor_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.Star_Functor_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_counit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_counit_is_counit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_counit_is_fst.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_counit_mor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_counit_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_is_mediator.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_is_unit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_mor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_mor_residue.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_residue.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.bang_star_unit_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_at.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_at_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_at_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_from.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_from_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_to.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_adj_to_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_from.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_from_ok.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_from_to.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_nat_r_fst.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_nat_r_snd.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_from.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_fst.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_mor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_mor_unique.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_to_snd.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.base_ump.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.star_fmap_fst.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.star_fmap_mor.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Pullback.star_fmap_snd.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

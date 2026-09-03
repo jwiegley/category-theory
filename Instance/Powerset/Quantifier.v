@@ -252,10 +252,11 @@ Generalizable All Variables.
     cited, not rebuilt, and the finite-code adjunction is NOT built here:
     the setoid-level one is the deliverable.
 
-    Work item 4 -- the slice-level generalization -- is NOT built.
-    Construction/Slice/Pullback.v:50 has [Bang_Functor] (Sigma_f) and :67
-    [Star_Functor] for f^*, its adjunction is a commented stub (:121-:127),
-    and no Pi_f exists anywhere.  #387 owns it.
+    Work item 4 -- the slice-level generalization -- is NOT built here.
+    Construction/Slice/Pullback.v has [Bang_Functor] (Sigma_f) and
+    [Star_Functor] for f^*, and #387 has since PROVED their adjunction
+    there as [Base_Functor_Adjunction]; no Pi_f exists anywhere, so the
+    triple is still incomplete on the slice side.
 
     ** WHAT IS DELIVERED, WITH GRADES
 

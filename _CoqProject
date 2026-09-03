@@ -856,6 +856,7 @@ Test/ProbeGalois381.v
 Test/ProbeQuantifier384.v
 Test/ProbePerp385.v
 Test/ProbeFixedPoints386.v
+Test/ProbeBaseChange387.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
