@@ -1062,6 +1062,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit_inverse.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_swap_readback.'; \
+	} > .pa-tmp/pa.v
+	@{ \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_along.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_comp.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_comp_obligation_1.'; \
@@ -1935,7 +1937,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Sets_icoprod_nat.'; \
 	  echo 'Print Assumptions Sets_endo_iprod_ump.'; \
 	  echo 'Print Assumptions GAFT_at_Sets_Id.'; \
-	} > .pa-tmp/pa.v
+	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Print Assumptions GAFT_at_Sets_Id_is_Id.'; \
 	  echo 'Print Assumptions Sets_HasEqualizers.'; \
