@@ -3,6 +3,7 @@ Adjunction/Diagonal/Product.v
 Adjunction/Diagonal/Limit.v
 Adjunction/Diagonal/Finite.v
 Adjunction/Diagonal/Coproduct.v
+Adjunction/Diagonal/Connected.v
 Adjunction/Hom.v
 Adjunction/Compose.v
 Adjunction/Determination.v
@@ -838,6 +839,7 @@ Test/ProbeReflectiveLimit373.v
 Test/ProbeDense375.v
 Test/ProbeLeftInverse376.v
 Test/ProbeStrict377.v
+Test/ProbeConnected378.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
