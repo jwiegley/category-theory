@@ -4080,6 +4080,50 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Cartesian.Closed.Composition.uncurry_internal_compose.'; \
 	  echo 'Print Assumptions Category.Structure.Cartesian.Closed.Composition.uncurry_internal_compose_raw.'; \
 	  echo 'Print Assumptions Category.Structure.Cartesian.Closed.Composition.uncurry_internal_id.'; \
+	  echo 'Require Import Category.Instance.Fun.Closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Alpha.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Alpha_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Alpha_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Alpha_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.FinSet_is_cartesian_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PMap.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PObj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PQNat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PQNat_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PQNat_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PQNat_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PresheafP.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PresheafP_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PresheafP_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.PresheafQ.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoFun_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.TwoOpInitial.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_fam.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_fam_F1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_index.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.alpha_index_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.awodey_pointwise_not_exponential.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.ccc_point.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.ccc_point_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.exp_card.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fin_no_nat_injection.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.finset_point_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_const_point.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_const_point_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_hom_point.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_hom_point_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_not_cartesian_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.fun_pointwise_not_cartesian_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.nodup_map_inj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.objectwise_candidate.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.objectwise_candidate_subsingleton.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.pq_point.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.pq_point_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.two_elt.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.two_map.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

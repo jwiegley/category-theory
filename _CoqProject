@@ -294,6 +294,7 @@ Instance/FinSet/Subsets.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
+Instance/Fun/Closed.v
 Instance/Fun/Morphisms.v
 Instance/Fun/Discrete.v
 Instance/Fun/Group.v
@@ -861,6 +862,7 @@ Test/ProbeFixedPoints386.v
 Test/ProbeBaseChange387.v
 Test/ProbeLindenbaum390.v
 Test/ProbeComposition391.v
+Test/ProbeFunClosed392.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
