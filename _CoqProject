@@ -464,6 +464,7 @@ Adjunction/CokernelPair.v
 Adjunction/Fullness.v
 Adjunction/FullFaithful.v
 Adjunction/Map.v
+Adjunction/Parameter.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -867,6 +868,7 @@ Test/ProbeComposition391.v
 Test/ProbeFunClosed392.v
 Test/ProbeMapAdj393.v
 Test/ProbeAdjCat395.v
+Test/ProbeParameter396.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
