@@ -462,6 +462,7 @@ Instance/Monoid/Translation.v
 Adjunction/CokernelPair.v
 Adjunction/Fullness.v
 Adjunction/FullFaithful.v
+Adjunction/Map.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -863,6 +864,7 @@ Test/ProbeBaseChange387.v
 Test/ProbeLindenbaum390.v
 Test/ProbeComposition391.v
 Test/ProbeFunClosed392.v
+Test/ProbeMapAdj393.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
