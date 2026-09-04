@@ -230,6 +230,7 @@ Instance/Ab/Subtract.v
 Instance/Ab/DirectedColimit.v
 Instance/Ab/TorsionFree.v
 Instance/Adj.v
+Instance/Adj/Forgetful.v
 Instance/Adjoints.v
 Instance/CMon.v
 Instance/CMon/Biproduct.v
@@ -865,6 +866,7 @@ Test/ProbeLindenbaum390.v
 Test/ProbeComposition391.v
 Test/ProbeFunClosed392.v
 Test/ProbeMapAdj393.v
+Test/ProbeAdjCat395.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

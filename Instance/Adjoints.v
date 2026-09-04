@@ -31,10 +31,38 @@ Generalizable All Variables.
        composition    F ⊣ U → F' ⊣ U' → F ◯ F' ⊣ U' ◯ U
 
    Two adjunctions are identified when their left and right adjoints are
-   correspondingly naturally isomorphic ([adj_morphism_setoid]). Choosing the
-   left adjoint as the "forward" direction is an arbitrary but harmless
-   convention; see the closing note on InvAdj for the involutive refinement that
-   removes the choice. *)
+   correspondingly naturally isomorphic ([adj_morphism_setoid]).
+
+   WHICH ADJOINT POINTS FORWARD.  The choice is arbitrary, but it has to be
+   named correctly, and the code makes the opposite one from what this
+   header used to claim.  [adj_morphism] below declares
+   [free_functor : D ⟶ C] and [forgetful_functor : C ⟶ D], and [Adjoints]
+   sets [hom := @adj_morphism]; so an arrow C ~> D of [Adjoints] carries
+   its RIGHT adjoint pointing FORWARD, C ⟶ D, and its LEFT adjoint
+   pointing BACKWARD, D ⟶ C.  Measured out of tree, this file carrying no
+   probe: for f : X ~> Y in [Adjoints] the ascription
+   [forgetful_functor f : X ⟶ Y] typechecks and [free_functor f : X ⟶ Y]
+   is rejected.  The composition displayed above
+   agrees: along A ~> B ~> C the right adjoints compose covariantly, to
+   U' ◯ U : A ⟶ C, and the left adjoints contravariantly, to
+   F ◯ F' : C ⟶ A.
+
+   WHICH OF MAC LANE'S TWO ORIENTATIONS THIS IS.  §IV.7, book p. 101, meets
+   the ANALOGOUS choice for the category of adjunctions between two FIXED
+   categories -- analogous and not the same, his axis being which way a
+   natural TRANSFORMATION runs and this one which way a FUNCTOR runs --
+   and displays BOTH readings as forgetful
+   functors: A^X ← A^(adj)X reads off the LEFT adjoints, covariantly, while
+   [A^(adj)X]^op → X^A reads off the RIGHT adjoints and is therefore
+   displayed on the OPPOSITE category.  So in his A^(adj)X the left adjoint
+   is the forward one, and in [A^(adj)X]^op the right adjoint is.
+   [Adjoints] is a different category -- its objects are categories, not
+   adjunctions between one fixed pair -- but on this one axis it matches
+   the SECOND: right adjoint forward, like [A^(adj)X]^op.  Mac Lane's
+   A^(adj)X itself is Instance/Adj.v's [Adj C D], which takes the FIRST
+   orientation, and the two functors he displays are
+   Instance/Adj/Forgetful.v.  See the closing note on InvAdj for the
+   involutive refinement that removes the choice altogether. *)
 
 (* The identity functor is its own left and right adjoint: the transpose iso
    F x ~> y ≅ x ~> U y is the identity on hom-sets when F = U = Id. *)
@@ -79,8 +107,11 @@ Next Obligation. rewrite <- !from_adj_nat_r; reflexivity. Qed.
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
   (at level 30, right associativity) : category_scope.
 
-(* An arrow C ⇸ D in [Adjoints]: a left/right adjoint pair, the left adjoint
-   ("free") taken as the forward direction. *)
+(* An arrow C ⇸ D in [Adjoints]: a left/right adjoint pair whose FORWARD
+   direction is the RIGHT adjoint, [forgetful_functor : C ⟶ D]; the left
+   adjoint ("free") points backward, D ⟶ C.  See the header for how this
+   sits against Mac Lane's two orientations.  Only this description is
+   corrected here; the record itself is unchanged. *)
 Record adj_morphism {C : Category} {D : Category} := {
   free_functor : D ⟶ C;                       (* the left adjoint  *)
   forgetful_functor : C ⟶ D;                  (* the right adjoint *)
