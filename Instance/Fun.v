@@ -102,8 +102,18 @@ Context {D : Category}.
    colimits of a given shape, so does `[C, D]`, computed pointwise (with
    the caveat that an incomplete D can possess accidental limits that are
    not pointwise), and when C is small and D is cartesian closed and
-   complete, `[C, D]` is cartesian closed (nLab, "functor category");
-   Instance/Fun/Cartesian.v instantiates the cartesian case. *)
+   complete, `[C, D]` is cartesian closed (nLab, "functor category").
+   That last clause alone is not inherited, and its hypothesis on D is
+   not decorative: Instance/Fun/Closed.v exhibits a C (small in the
+   ordinary sense -- its objects are the naturals -- though smallness is
+   nowhere formalized in this tree) and a
+   cartesian closed D for which `[C, D]` carries no cartesian closed
+   structure at all, so completeness of D may not simply be dropped;
+   and it shows besides that where such an exponential does exist it
+   need not be computed pointwise.  The structure that IS inherited
+   pointwise is instantiated in Instance/Fun/Cartesian.v (binary
+   products) and in Instance/Fun/Terminal.v (the terminal object and
+   indexed products). *)
 
 Program Definition Fun : Category := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
