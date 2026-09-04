@@ -4207,6 +4207,51 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.Map.map_squares.'; \
 	  echo 'Print Assumptions Category.Adjunction.Map.map_unit.'; \
 	  echo 'Print Assumptions Category.Adjunction.Map.map_unit_to_hom.'; \
+	  echo 'Require Import Category.Instance.Adj.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.AdjObj.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_5.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_6.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Adj_obligation_7.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Build_ConjPair.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.ConjPair.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.ConjPair_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.ConjPair_Setoid_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adj_compose_sigma.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adj_compose_tau.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adj_id_sigma.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adj_id_tau.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adjobj_adj.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adjobj_left.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.adjobj_right.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.conj_left.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.conj_pair_law.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.conj_pair_left_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.conj_pair_right_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.conj_right.'; \
+	  echo 'Require Import Category.Instance.Adj.Forgetful.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_Faithful_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_Full_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_Full_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetLeft_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_Faithful_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_Full_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_Full_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Adj.Forgetful.AdjForgetRight_obligation_3.'; \
 	  echo 'Print Assumptions Category.Adjunction.Map.mapadj_two_swap_moves.'; \
 	  echo 'Print Assumptions Category.Adjunction.Map.mapadj_two_swap_not_identity.'; \
 	  echo 'Print Assumptions Category.Adjunction.Map.prod_adj_iso.'; \

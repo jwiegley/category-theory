@@ -183,11 +183,13 @@ Generalizable All Variables.
    ordinary-vocabulary shadow of [mate] is Conjugate.v's [conj_mate], and
    the relation to THAT is the on-the-nose identification above.
 
-   RELATION TO Instance/Adj.v.  That file's [Adj] (:56) takes as its hom the
-   bare product setoid of pairs of natural transformations, and its CAVEAT
-   block (:29) says so and names [Conjugate] as the condition it does not
-   impose.  Retyping that hom is explicitly future work there and is NOT
-   attempted here; this file adds no instance and changes no other file.
+   RELATION TO Instance/Adj.v.  That file's [Adj] now takes as its hom
+   exactly the conjugate pairs -- Mac Lane's own arrows of the category of
+   adjunctions -- carrying the hom-set square as a field, so the CAVEAT it
+   used to hold, recording a bare product setoid with no such condition, is
+   discharged.  The identity-bounding-functor case of this file's
+   [MapAdjHom] is that same square, which is what [map_adj_hom_is_conjugate]
+   records above.  This file adds no instance and changes no other file.
 
    UNIVERSES, read off both the binder and the constraint block.
    [AdjSquares@{u u0 u1 u2 u3 u4}] is over C : Category@{u u0 u0},
