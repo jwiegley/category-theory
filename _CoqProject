@@ -525,6 +525,7 @@ Structure/Premonoidal/Freyd.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
 Structure/Cartesian/Closed/Adjunction.v
+Structure/Cartesian/Closed/Composition.v
 Structure/Cartesian/Closed/Natural.v
 Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
@@ -859,6 +860,7 @@ Test/ProbePerp385.v
 Test/ProbeFixedPoints386.v
 Test/ProbeBaseChange387.v
 Test/ProbeLindenbaum390.v
+Test/ProbeComposition391.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
