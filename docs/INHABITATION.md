@@ -31,7 +31,7 @@ result about something the library actually contains.
 
 | Result | Distinctive premise | In-tree witness |
 |--------|---------------------|-----------------|
-| `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`) |
+| `classifier_classifies`, `relations_iso` | an `ElementaryTopos` | `FinSet_Topos` (`Instance/FinSet/Topos.v`); at `Sets` the theorem is not even STATABLE — its own construction builds a setoid whose carrier is `SubObj x`, forcing objects ≤ homs, while `Sets@{o so} : Category@{so o o}` has o < so (a universe inconsistency, pinned in `Test/ProbeClassifier402.v` against `char_reindex` as the accepted control) — so `FinSet_Topos` remains the only in-tree witness even now that `Instance/Sets/Classifier/OneLevel.v` supplies a conditional `SubobjectClassifier Sets` |
 | `lambek`, `lambek_final` | an initial `F`-algebra / final `F`-coalgebra | `list A` (`Instance/Coq/Lists.v`), `nat` (`Instance/Coq/Nat.v`), streams (`Instance/Sets/Streams.v`) |
 | `monadic_creates` | a `Monad` with its Eilenberg–Moore adjunction | `Id_Monad` (`Monad/Strong.v`) |
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
@@ -67,6 +67,7 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 |--------|---------------------|-----------------------|
 | `GAFT` (solution-set form) | `Complete C` | witnessed at `Sets` — `Sets_Complete` (`Instance/Sets/Complete.v`) and, since #329, `Sets_Cocomplete` (`Instance/Sets/Cocomplete.v`), the first hypothesis-free inhabitant of either class; the theorem is stated for an arbitrary `C`, and no OTHER category has one. This cell read "no `Complete`/`Cocomplete` instance exists in-tree" until #329: the `Cocomplete` half was falsified by that issue, the `Complete` half had already been stale since `Sets_Complete` landed |
 | `SAFT` | `SolutionSet` + `Cogenerator` + `SubobjectIndex` | none of the three is inhabited; `SAFT` is never applied |
+| `Sets_Classifier`, `Sets_Classifier_dec` (`Instance/Sets/Classifier/OneLevel.v`) | `Untruncate` (every impredicative truncation at level o inverts) / `DecImage` (every mono's image is decidable) | no axiom-free in-tree inhabitant of either; both follow from informative excluded middle at level o (`IEM`), and `DecImage` is equivalent to it (`DecImage_iff_IEM`); the classical instance compiles out of tree on exactly `classic` + `constructive_indefinite_description` (re-measured against the shipped `Sets_Classifier_IEM`) and is not shipped; the unconditional instance is neither built nor refuted |
 | `RoundTrip_Equivalence` | a `SplitCleaving` of the required shape | never inhabited in that shape |
 | `beck_monadicity` | `CreatesUSplitCoequalizers` composed from the engine | never assembled; `Id` is shown monadic by a direct proof (`Monad/Monadicity/Examples.v`), bypassing the coequalizer machinery |
 | `Pointwise_LocalRightKan` | `∀ b, Limit (X ◯ comma_proj2)` over `=(b) ↓ F` | no in-tree inhabitant; `Structure/Limit/Kan/Pointwise.v` is a leaf module, nothing instantiates it |

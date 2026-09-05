@@ -14,22 +14,33 @@ Generalizable All Variables.
 (* nLab:      https://ncatlab.org/nlab/show/subobject+classifier
    Wikipedia: https://en.wikipedia.org/wiki/Subobject_classifier
 
-   A subobject classifier for a category C is an object Ω together with a
-   point true : 1 ~> Ω such that every monomorphism m : A ~> B arises as the
-   pullback of true along a unique characteristic map χ_m : B ~> Ω.  This
-   file proves the classifier theorems for the setoid category [Sets] — as
-   honest CROSS-UNIVERSE theorems, not as a [SubobjectClassifier Sets]
-   instance at a single level: the canonical candidate provably cannot fit
-   at one level (below), and no other route is available here.  (That NO
-   small classifier can exist over predicative Type — setoids there form a
-   ΠW-pretopos, and a classifier needs impredicativity — is standard but
-   is folklore relative to this development: it is not proven in-tree, and
-   this file does not claim it as a theorem.)
+   A subobject classifier for a category C is an object Ω together with a point
+   true : 1 ~> Ω such that every monomorphism m : A ~> B arises as the pullback
+   of true along a unique characteristic map χ_m : B ~> Ω.  This file proves the
+   classifier theorems for the setoid category [Sets] — as honest CROSS-UNIVERSE
+   theorems, not as a [SubobjectClassifier Sets] instance at a single level: the
+   canonical candidate provably cannot fit at one level (below).  A DIFFERENT
+   candidate does fit, CONDITIONALLY: Instance/Sets/Classifier/OneLevel.v
+   delivers a genuine [SubobjectClassifier Sets] instance at one universe level
+   under an explicit hypothesis — [Untruncate] (every impredicative truncation
+   at level o can be inverted) or, with a two-element truth object, [DecImage]
+   (every mono's image membership is decidable), each implied by informative
+   excluded middle at level o — and proves there that a one-level classifier for
+   [Sets] is inter-derivable with a resizing-shaped structure.  Neither
+   hypothesis has an axiom-free inhabitant in this tree, so nothing below is
+   weakened: the theorems in this file stay unconditional, and they are related
+   to that instance as one story — its characteristic map is the truncation of
+   [char_setoid] below, at [eq_refl] on values.  (That NO small classifier can
+   exist over predicative Type — setoids there form a ΠW-pretopos, and a
+   classifier needs impredicativity — is standard but is folklore relative to
+   this development: it is not proven in-tree, and this file does not claim it
+   as a theorem.)
 
-   WHY ONE LEVEL DOES NOT SUFFICE.  Morphism equivalence `≈` in this library
-   is Type@{o}-valued (a [crelation]; see Lib/Setoid.v — equivalence proofs
-   may carry computational content), so the characteristic predicate of a
-   mono m : A ~> B in Sets@{o so}, namely λ b, ∃ a, m a ≈ b, is itself a
+   WHY ONE LEVEL DOES NOT SUFFICE UNCONDITIONALLY.  Morphism equivalence
+   `≈` in this library is Type@{o}-valued (a [crelation]; see
+   Lib/Setoid.v — equivalence proofs may carry computational content), so
+   the characteristic predicate of a mono m : A ~> B in Sets@{o so},
+   namely λ b, ∃ a, m a ≈ b, is itself a
    Type@{o}-valued predicate on the carrier of B.  A truth-value object able
    to receive this predicate must have carrier Type@{o} (with equivalence
    iffT), and Type@{o} : Type@{o+1} — one universe up — so the resulting
@@ -141,7 +152,13 @@ Definition SetoidMorphism_Lift@{o so} {X Y : SetoidObject@{o o}}
    size-wise, but could not receive the Type@{o}-valued characteristic
    predicate λ b, ∃ a, m a ≈ b without truncating away the witness that
    [sets_char_pullback] and [sets_char_unique] must recover; Type@{o} with
-   iffT is the strongest formulation the universe checker accepts. *)
+   iffT is the strongest formulation the universe checker accepts WITHOUT
+   a hypothesis.  With one, the truncated [Powerset_Omega] of
+   Instance/Sets/Powerset/Universal.v — carrier [Prop], hence an object of
+   [Sets] at level o — serves at ONE level instead, once the truncation
+   can be inverted; that is exactly what
+   Instance/Sets/Classifier/OneLevel.v's [Untruncate] buys, and its
+   [Sets_Classifier] is the resulting instance. *)
 
 Definition PropSetoid_equiv@{o so} : crelation@{so so} Type@{o} :=
   λ P Q : Type@{o}, P ↔ Q.

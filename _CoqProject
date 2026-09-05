@@ -413,6 +413,7 @@ Instance/Sets/Coend.v
 Instance/Sets/End.v
 Instance/Sets/Image.v
 Instance/Sets/Classifier.v
+Instance/Sets/Classifier/OneLevel.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
@@ -880,6 +881,7 @@ Test/ProbeChoice397.v
 Test/ProbeSquare398.v
 Test/ProbeAdjBicat399.v
 Test/ProbeBimodule401.v
+Test/ProbeClassifier402.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
