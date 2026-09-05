@@ -119,9 +119,9 @@ Generalizable All Variables.
      file.
 
    • "The closest in-tree analogue of the arrow part is the mate operator
-     (Theory/Bicategory/Mates.v:476 ...)" -- both cited lines are
+     (Theory/Bicategory/Mates.v:486 ...)" -- both cited lines are
      accurate but the conclusion is not.  The closest analogue is not
-     bicategorical at all: Adjunction/Conjugate.v:328's
+     bicategorical at all: Adjunction/Conjugate.v:333's
      [conj_mate (A : F ⊣ U) (A' : F' ⊣ U') (σ : F' ⟹ F) : U ⟹ U'] IS the
      arrow part, over arbitrary C and D and with no bicategorical
      machinery.  Every [fmap] below is that constant.
@@ -129,11 +129,11 @@ Generalizable All Variables.
    • "What is entirely missing is ... the choice of a right adjoint on
      objects, and the two functor laws." -- the first clause (the
      subcategory) is right; these two are not.
-     Instance/Adj/Forgetful.v:101's [AdjForgetRight C D] already has
+     Instance/Adj/Forgetful.v:106's [AdjForgetRight C D] already has
      [fobj := adjobj_right] -- the chosen right adjoint, objects of
      [Adj C D] carrying the choice as data -- with both functor laws
      beside it, and the two laws in the form this file consumes are
-     Adjunction/Conjugate.v:486's [conj_mate_id] and :489's
+     Adjunction/Conjugate.v:491's [conj_mate_id] and :494's
      [conj_mate_compose].
 
    • Not in the issue at all, and the strongest prior art:
@@ -151,7 +151,7 @@ Generalizable All Variables.
      is answered NOT DISCHARGED below.
 
    THE MATES DESCOPE IS NOT DISCHARGED HERE, AND Theory/Bicategory/Mates.v
-   IS NOT EDITED.  Descope ledger entry 10
+   WAS NOT EDITED BY THIS FILE.  Descope ledger entry 10
    (doc/plan/00-CONVENTIONS.md:579-581, "Mates beyond the bijection")
    descopes the double category of
    adjunctions and PASTING functoriality of mates in an ARBITRARY
@@ -161,7 +161,10 @@ Generalizable All Variables.
    [conjugate_id]/[conjugate_compose] "are the identity-bounding-cell
    shadow of the pasting functoriality that Mates.v deliberately leaves
    out of scope" and that "they do not discharge that entry".  So there
-   is nothing to update, and nothing is updated.
+   was nothing for this file to update, and it updated nothing.
+   (Instance/Adj/Bicategory.v (#399) later narrows Mates.v's note, on the
+   strength of its own Cat-level bifunctoriality result, again without
+   discharging the entry.)
 
    THE REVIEWER CHECKS.
 

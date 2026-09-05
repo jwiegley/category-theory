@@ -24,7 +24,7 @@ Generalizable All Variables.
    Adjunction/Square.v develops Mac Lane §IV.7 Exercises 4 and 5 in
    ordinary-category vocabulary, with no bicategorical machinery, so that
    it applies to categories of any size.  This file reconciles that
-   development with Theory/Bicategory/Mates.v:476 [mate] and :480
+   development with Theory/Bicategory/Mates.v:486 [mate] and :490
    [mate_inv] read in Cat, of which it is the ordinary-functor case, and
    it is the sibling of Instance/Cat/Bicategory/Conjugate.v, which does
    the same for the identity-bounding-cell development of
@@ -72,8 +72,11 @@ Generalizable All Variables.
    NOT DELIVERED.  Nothing relates the two PASTINGS of
    Adjunction/Square.v to any bicategorical composition, so
    Theory/Bicategory/Mates.v's descope ledger 10 — pasting functoriality
-   in an ARBITRARY bicategory — is untouched, and Mates.v is not edited.
-   No comparison with :515 [mate_iso] as an isomorphism of setoids, so
+   in an ARBITRARY bicategory — was left untouched by this file, which did
+   not edit Mates.v; Instance/Adj/Bicategory.v (#399) later narrows that
+   note without discharging the entry, and its arbitrary-bicategory half
+   remains open.
+   No comparison with :525 [mate_iso] as an isomorphism of setoids, so
    Adjunction/Square.v's [square_bijection] is not identified with it.  No
    [mate_inv] component lemma is added to the donor file.  Nothing is
    registered as an [Instance], and there is no concrete witness. *)

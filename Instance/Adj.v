@@ -100,9 +100,9 @@ Generalizable All Variables.
    are discharged by naming a theorem that was ALREADY IN TREE before this
    file was retyped, and neither is re-proved here:
 
-       Adjunction/Conjugate.v:466  conjugate_id
+       Adjunction/Conjugate.v:471  conjugate_id
          : Conjugate A1 A1 nat_id nat_id
-       Adjunction/Conjugate.v:474  conjugate_compose
+       Adjunction/Conjugate.v:479  conjugate_compose
          : Conjugate A1 A2 sigma tau → Conjugate A2 A3 sigma' tau'
            → Conjugate A1 A3 (sigma ∙ sigma') (tau' ∙ tau)
 
@@ -152,15 +152,24 @@ Generalizable All Variables.
    [ConjPair] has primitive projections, so a projection of a record
    literal reduces whatever the opacity of the third field.
 
-   NOT DELIVERED HERE: no 2-categorical structure and no comparison with
-   Theory/Bicategory/Mates.v or with Instance/Cat/Bicategory/Conjugate.v;
-   no relation to Adjunction/Map.v's maps of adjunctions, whose
+   THE 2-CATEGORICAL STRUCTURE IS NOT HERE, BUT IT EXISTS.  Mac Lane's
+   §IV.8 Theorem 2 and Exercise 1 -- horizontal composition of conjugate
+   pairs, its bifunctoriality, and the interchange law -- are
+   Instance/Adj/Bicategory.v, which assembles [Adj_Bicategory] with the
+   categories [Adj C D] built here as its hom-categories (its
+   [Adj_bicat_is_Adj] records that at [eq_refl]).  Nothing in THIS file
+   consumes or mentions that structure; the sentence this paragraph used
+   to carry, that no 2-categorical structure existed at all, is no longer
+   true of the tree and has been replaced.
+
+   NOT DELIVERED HERE: no comparison with Theory/Bicategory/Mates.v or
+   with Instance/Cat/Bicategory/Conjugate.v; no relation to
+   Adjunction/Map.v's maps of adjunctions, whose
    identity-bounding-functor case is this file's hom (that file's
    [map_adj_hom_is_conjugate] records the identification, and nothing here
-   consumes it); nothing about limits, colimits or any structure on
-   [Adj C D] itself; and no concrete witness at a named pair of
-   categories.  The two forgetful functors of the same page are
-   Instance/Adj/Forgetful.v. *)
+   consumes it); nothing about limits or colimits of [Adj C D]; and no
+   concrete witness at a named pair of categories.  The two forgetful
+   functors of the same page are Instance/Adj/Forgetful.v. *)
 
 (* An object of the category: a left adjoint, a right adjoint, and an
    adjunction between them.  `∃` here is [sigT], so the adjunction is data

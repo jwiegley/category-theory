@@ -53,7 +53,17 @@ Notation "f ∘∘∘ g" := (hcompose (f, g)) : category_scope.
    over an arbitrary bicategory. The pasting/composition *functoriality* of
    mates (the double category of adjunctions) is deliberately out of scope
    (descope ledger entry 10); it is a follow-on that would ride a double-category
-   framework. The heart of the two hom-adjunctions is a pair of whiskered
+   framework. That entry is now NARROWED, though not discharged. Its Cat-level
+   content, stated in ordinary-category vocabulary rather than over an arbitrary
+   bicategory, is delivered elsewhere: `Adjunction/Square.v` proves that mates
+   commute with the horizontal and vertical pasting of adjoint squares (#398),
+   and `Instance/Adj/Bicategory.v` proves that horizontal composition of
+   conjugate pairs is a bifunctor and assembles `Adj_Bicategory` (#399). What
+   remains out of scope here is exactly what the entry names and those two files
+   disclaim: the double category of adjunctions, and the statement in an
+   ARBITRARY bicategory.
+
+   The heart of the two hom-adjunctions is a pair of whiskered
    triangle identities (`precomp_zig_id`/`precomp_zag_id`,
    `postcomp_zig_id`/`postcomp_zag_id`), each reduced to `adj_triangle_left` or
    `adj_triangle_right` of the underlying adjunction through the reusable

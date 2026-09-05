@@ -231,6 +231,7 @@ Instance/Ab/DirectedColimit.v
 Instance/Ab/TorsionFree.v
 Instance/Adj.v
 Instance/Adj/Forgetful.v
+Instance/Adj/Bicategory.v
 Instance/Adjoints.v
 Instance/CMon.v
 Instance/CMon/Biproduct.v
@@ -876,6 +877,7 @@ Test/ProbeParameter396.v
 Test/ProbeCopower366.v
 Test/ProbeChoice397.v
 Test/ProbeSquare398.v
+Test/ProbeAdjBicat399.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

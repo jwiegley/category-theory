@@ -50,7 +50,7 @@ Generalizable All Variables.
    evaluating the square at a universal arrow: at k := ε for τ, at k := id
    for σ.  The two operators [conj_mate] and [conj_mate_inv] package that as
    [conjugate_bijection], an isomorphism in Sets of the two transformation
-   setoids, shaped after Mates.v:515 [mate_iso].
+   setoids, shaped after Mates.v:525 [mate_iso].
 
    WHY THIS LIVES HERE, IN ORDINARY VOCABULARY.  Mates.v already delivers the
    bijection over an arbitrary bicategory with arbitrary bounding 1-cells,
@@ -93,7 +93,12 @@ Generalizable All Variables.
    shadow of the pasting functoriality that Mates.v deliberately leaves out
    of scope (its descope ledger entry 10, the double category of
    adjunctions).  They do not discharge that entry; the general bicategorical
-   statement remains out of scope there.
+   statement remains out of scope there.  They are also the VERTICAL half of
+   what Instance/Adj/Bicategory.v (#399) later completes: that file adds the
+   HORIZONTAL composition of conjugate pairs, proves it a bifunctor and
+   derives the interchange law from it, and narrows Mates.v's note
+   accordingly — again without discharging entry 10, whose
+   arbitrary-bicategory and double-category content stays open.
 
    (3) [conjugate_invertible_iff] is pointwise: it converts a componentwise
    two-sided inverse for σ into one for τ and back, using only the square and
