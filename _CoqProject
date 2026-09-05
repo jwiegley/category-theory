@@ -245,6 +245,7 @@ Instance/Cat/Bicategory.v
 Instance/Cat/Opposite.v
 Instance/Cat/Bicategory/Adjunction.v
 Instance/Cat/Bicategory/Conjugate.v
+Instance/Cat/Bicategory/Square.v
 Instance/Cat/TwoCategory.v
 Instance/Cat/Pullback.v
 Instance/Cat/Coproduct.v
@@ -466,6 +467,7 @@ Adjunction/FullFaithful.v
 Adjunction/Map.v
 Adjunction/Parameter.v
 Adjunction/Choice.v
+Adjunction/Square.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -873,6 +875,7 @@ Test/ProbeAdjCat395.v
 Test/ProbeParameter396.v
 Test/ProbeCopower366.v
 Test/ProbeChoice397.v
+Test/ProbeSquare398.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
