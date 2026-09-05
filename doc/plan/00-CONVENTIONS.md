@@ -579,6 +579,13 @@ through `Admitted`.
 10. **Mates beyond the bijection** (item 12 edge). The bijection and round trips
     are committed (Phase 13); the double category of adjunctions and pasting
     functoriality of mates is follow-on (and would slot into Phase 15's framework).
+    Narrowed, not discharged, by `Adjunction/Square.v` (#398: mates commute
+    with the horizontal and vertical pasting of adjoint squares) and
+    `Instance/Adj/Bicategory.v` (#399: horizontal composition of conjugate
+    pairs is a bifunctor, and `Adj_Bicategory` assembles categories,
+    adjunctions and conjugate pairs) — the Cat-level statement in ordinary
+    vocabulary is delivered; the double category of adjunctions and the
+    statement in an arbitrary bicategory remain open.
 11. **V-enriched functor-category hom-objects and full V-weighted limits** (item 14
     edge). Needs ends in the base V plus underlying-category machinery. Delivered:
     the ordinary category of V-functors and V-natural transformations, V=Sets

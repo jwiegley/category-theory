@@ -26,7 +26,7 @@ Generalizable All Variables.
    Adjunction/Conjugate.v develops Mac Lane §IV.7 in ordinary-category
    vocabulary, with no bicategorical machinery, so that it applies to
    categories of any size.  This file reconciles that development with
-   Theory/Bicategory/Mates.v:476 [mate], of which it is the case where both
+   Theory/Bicategory/Mates.v:486 [mate], of which it is the case where both
    bounding 1-cells are identities.
 
    Two things have to be arranged.  First, the types differ: an ordinary

@@ -60,7 +60,7 @@ Generalizable All Variables.
    inverse transposes) and Mac Lane's two unit/counit forms
    [AdjointSquareUnit] and [AdjointSquareCounit]; the two mate operators
    [sq_mate] and [sq_mate_inv], defined by the transpose exactly as
-   Adjunction/Conjugate.v:328/:345 defines [conj_mate]/[conj_mate_inv];
+   Adjunction/Conjugate.v:333/:350 defines [conj_mate]/[conj_mate_inv];
    and the ledger of passages between the four forms, in which EVERY
    hypothesis is an explicit argument so that each type records what it
    consumes.  [adjoint_square_iff_mate] and [adjoint_square_iff_mate_inv]
@@ -74,7 +74,7 @@ Generalizable All Variables.
 
    (C) [Transform]-typed wrappers [SqMate]/[SqMateInv] and the bijection
    [square_bijection] : sq_dom ≅ sq_cod in Sets, packaged with
-   Adjunction/Conjugate.v:440's inline [{| carrier := … |}] idiom.
+   Adjunction/Conjugate.v:445's inline [{| carrier := … |}] idiom.
 
    (D) Palmquist's bijection [palmquist_bijection], built DIRECTLY with
    both round trips, together with the two generic factor bijections
@@ -136,7 +136,7 @@ Generalizable All Variables.
    it becomes the invertible-comparison instance, [square_is_map_adj_hom].
 
    The two naturality donors are consumed rather than copied:
-   Adjunction/Conjugate.v:161's [conj_unit_nat] and :168's
+   Adjunction/Conjugate.v:166's [conj_unit_nat] and :173's
    [conj_counit_nat] discharge with only one adjunction and are used as
    [conj_unit_nat A g] / [conj_counit_nat A f].
 
@@ -153,7 +153,7 @@ Generalizable All Variables.
    [sq_unit_iff_counit].  This mirrors Map.v's ledger; the ADDITION beyond
    it is [sq_hom_iff_from], which consumes neither and which Map.v does not
    state at all (its identity-bounding-functor case is
-   Adjunction/Conjugate.v:145's [conjugate_iff_from]).
+   Adjunction/Conjugate.v:150's [conjugate_iff_from]).
 
    ** Strengths, strict first
 
@@ -256,9 +256,13 @@ Generalizable All Variables.
    compatibility LAWS in ordinary-category vocabulary: the Cat case of
    Riehl's bicategorical statement, though nothing here is formed in Cat.
    Theory/Bicategory/Mates.v's descope ledger 10, which is about an
-   ARBITRARY bicategory, is untouched and that file is not edited.  No
+   ARBITRARY bicategory, was left untouched by this file and that file was
+   not edited by it; Instance/Adj/Bicategory.v (#399) later narrows that
+   note — citing this file's two pasting laws alongside its own
+   bifunctoriality result — without discharging the entry, whose
+   arbitrary-bicategory and double-category content remains open.  No
    pasting for [sq_mate_inv]; nothing relates either pasting to
-   Adjunction/Conjugate.v:474's [conjugate_compose]; no naturality of any
+   Adjunction/Conjugate.v:479's [conjugate_compose]; no naturality of any
    of the identifications in the bounding functors; no concrete witness at
    a named pair of adjunctions; nothing is registered as an [Instance].
    The comparison with Theory/Bicategory/Mates.v's [mate] is NOT here: it
@@ -278,10 +282,10 @@ Generalizable All Variables.
    one in-tree expression" is stale twice over: Map.v:294/:299 state the
    unit and counit forms with six passages between them at :304, :313,
    :328, :339, :355 and :361, and at H = K = Id
-   Adjunction/Conjugate.v:309's [conjugate_characterizations] gives four
+   Adjunction/Conjugate.v:314's [conjugate_characterizations] gives four
    equivalent forms.  And its "nor the packaging as an isomorphism of
    setoids" overlooks the precedent this file copies,
-   Adjunction/Conjugate.v:445's [conjugate_bijection].  Two further notes.
+   Adjunction/Conjugate.v:450's [conjugate_bijection].  Two further notes.
    The Riehl checkbox's command
    [rg 'mate_compose|mate_functorial|mate_hcomp|mate_vcomp'] is claimed to
    return no hits; as written, un-anchored, and run over the tree EXCLUDING

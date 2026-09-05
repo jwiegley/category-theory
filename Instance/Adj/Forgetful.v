@@ -81,8 +81,13 @@ Generalizable All Variables.
    is in the image", which is not stated anywhere below.  No equivalence
    of [Adj C D] with any subcategory is claimed.  Nothing relates these to
    Instance/Adjoints.v, whose objects are categories rather than
-   adjunctions between two fixed ones, nor to the 2-categorical picture of
-   Theory/Bicategory/Mates.v.  No naturality of either functor in C or D
+   adjunctions between two fixed ones.  The 2-categorical structure on
+   [Adj] now EXISTS -- Instance/Adj/Bicategory.v's [Adj_Bicategory], whose
+   hom-categories are these very [Adj C D] -- and these two functors are
+   still not related to it: neither is exhibited as a pseudofunctor, as a
+   lax or oplax transformation, or as compatible with horizontal
+   composition in any form, and Theory/Bicategory/Mates.v's picture is
+   likewise untouched here.  No naturality of either functor in C or D
    is stated, and there is no concrete witness at a named pair of
    categories. *)
 
