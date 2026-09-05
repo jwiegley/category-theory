@@ -577,6 +577,7 @@ Structure/Bicartesian/Matrix.v
 Structure/Limit/Indexed/Hom.v
 Structure/Limit/Power.v
 Structure/Limit/Power/Hom.v
+Structure/Limit/Power/Adjunction.v
 Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Kan/Pointwise.v
@@ -869,6 +870,7 @@ Test/ProbeFunClosed392.v
 Test/ProbeMapAdj393.v
 Test/ProbeAdjCat395.v
 Test/ProbeParameter396.v
+Test/ProbeCopower366.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
