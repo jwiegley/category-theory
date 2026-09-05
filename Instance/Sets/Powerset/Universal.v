@@ -698,15 +698,19 @@ Qed.
    level suffices here, and why the two results coexist without either
    weakening the other.
 
-   READ THAT COMPARISON PRECISELY: NO IMPOSSIBILITY IS PROVED.  What is
-   measured is that Classifier.v's construction consumes a witness and
-   this one does not.  Whether some OTHER construction yields a one-level
-   [SubobjectClassifier Sets] is not settled here — it was not attempted,
-   and nothing below rules it out.  The issue asked for a note on why
-   [Sets] may support only the cross-universe reading for the CLASSIFIER
-   even where the power-set universal element works at one level; this
-   paragraph is that note, and it is a note about a construction, not a
-   theorem about the category.
+   READ THAT COMPARISON PRECISELY: NO IMPOSSIBILITY IS PROVED.  What is measured
+   is that Classifier.v's construction consumes a witness and this one does not.
+   Whether some OTHER construction yields a one-level [SubobjectClassifier Sets]
+   was not settled here — it was not attempted below, and nothing below rules it
+   out.  It is answered CONDITIONALLY in Instance/Sets/Classifier/OneLevel.v:
+   the instance whose Ω is [Powerset_Omega] exists under [Untruncate], i.e.
+   exactly when the impredicative truncation used here can be inverted, and what
+   that hypothesis buys is precisely the composite "in the other direction" left
+   unproven in the next paragraph.  NO IMPOSSIBILITY IS PROVED there either.
+   The issue asked for a note on why [Sets] may support only the cross-universe
+   reading for the CLASSIFIER even where the power-set universal element works
+   at one level; this paragraph is that note, and it is a note about a
+   construction, not a theorem about the category.
 
    THE CONSEQUENCE, AND THE HONEST LIMIT.  This file does NOT produce a
    [SubobjectClassifier Sets] instance, and no such instance follows from

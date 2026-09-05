@@ -102,7 +102,12 @@ Generalizable All Variables.
    truth value, so the classifier for [Sets] lives one universe up and
    Instance/Sets/Classifier.v states it as cross-universe theorems
    rather than as an instance — a theorem-shaped fact about size, not a
-   gap in the formalization.  That obstruction is genuinely about the
+   gap in the formalization.  A one-level instance does exist
+   CONDITIONALLY, in Instance/Sets/Classifier/OneLevel.v, under a
+   hypothesis this tree does not inhabit axiom-free (every impredicative
+   truncation at level o inverts, or every mono's image membership is
+   decidable — each implied by informative excluded middle at level o).
+   That obstruction is genuinely about the
    classifier and does not spread: [surjectivity_is_epic] at the end of
    this file was long believed to inherit it, but the classical
    truth-value probe is not the only one available, and the cokernel
@@ -427,7 +432,8 @@ Defined.
    object.  THAT probe genuinely does not fit here -- its object has carrier
    [Type] with `≈` taken to be `↔`, and no such object is an [obj[Sets]] at the
    universe of A and B, since Set's subobject classifier lives one level up
-   (Instance/Sets/Classifier.v).
+   (Instance/Sets/Classifier.v; a one-level instance exists only
+   conditionally, in Instance/Sets/Classifier/OneLevel.v).
 
    But epis-are-surjections does not inherit that obstruction, because the
    truth-value object is not the only available probe.  The COKERNEL PAIR of h
