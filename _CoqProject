@@ -465,6 +465,7 @@ Adjunction/Fullness.v
 Adjunction/FullFaithful.v
 Adjunction/Map.v
 Adjunction/Parameter.v
+Adjunction/Choice.v
 Instance/Zero.v
 Lib.v
 Lib/Datatypes.v
@@ -871,6 +872,7 @@ Test/ProbeMapAdj393.v
 Test/ProbeAdjCat395.v
 Test/ProbeParameter396.v
 Test/ProbeCopower366.v
+Test/ProbeChoice397.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
