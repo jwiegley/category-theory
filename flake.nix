@@ -225,7 +225,7 @@
             fi
             echo "No Admitted. proof holes."
             current=$(find . -name '*.v' -print0 \
-              | xargs -0 grep -ciE '([^_]admit|Abort\.)' 2>/dev/null \
+              | xargs -0 grep -ciE '(Admitted\.|[^_]admit|Abort\.)' 2>/dev/null \
               | awk -F: '{s+=$2} END {print s+0}')
             baseline=$(cat .admitted-baseline 2>/dev/null || echo 0)
             echo "Aborted-sketch count: $current, Baseline: $baseline"

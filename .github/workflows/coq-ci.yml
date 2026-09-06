@@ -14,6 +14,8 @@ jobs:
         run: make bench-config-check
       - name: Bench build-config guard self-test (reject path, issue #158)
         run: make bench-config-check-selftest
+      - name: CLAUDE.md file-count guard
+        run: make claude-md-counts-check
 
   build:
     runs-on: ubuntu-latest

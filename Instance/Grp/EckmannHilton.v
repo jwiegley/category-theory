@@ -345,10 +345,18 @@ Local Set Default Proof Using "All".
    [make print-assumptions] gate compiles every audited module into ONE
    scope, and Structure/Abelian.v IS required there, so a bare
    [Print Assumptions Abelian.] would resolve to whichever of the two was
-   imported last and could silently audit the wrong constant.  The tree
-   already carries one latent collision of exactly this shape
-   ([BoolSet], Instance/Sets/Quotient.v and Instance/Sets/Pullback.v, both
-   pulled into that same scope), and a second one on a name as central as
+   imported last and could silently audit the wrong constant.  That is not
+   a remote hazard: a sweep of the 277 modules the gate pulls into its one
+   scope counts THIRTY-TWO top-level names declared in two of them at once,
+   of which three were audited under a bare name -- and one of those three,
+   [fp_generators_distinct], was resolving to Instance/Mon/Coproduct.v's
+   monoid theorem where the surrounding gate block plainly means
+   Instance/Grp/Pushout.v's group one.  All three now carry fully-qualified
+   gate entries, which is the only spelling immune to Require-order drift,
+   and the twenty-nine others stay latent because no gate entry names them.
+   [BoolSet] was one of those (declared in both Instance/Sets/Quotient.v and
+   Instance/Sets/Pullback.v until the Pullback.v one was renamed
+   [PbBoolSet]), and a second collision on a name as central as
    [Abelian] is not worth the aesthetics.  [grp_ab_inverse] and
    [eh_probe_instrument] carry suffixes for a WEAKER reason, and an audit
    corrected an earlier draft that said "for the same reason": they collided
