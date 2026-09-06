@@ -105,15 +105,24 @@ Context {D : Category}.
    complete, `[C, D]` is cartesian closed (nLab, "functor category").
    That last clause alone is not inherited, and its hypothesis on D is
    not decorative: Instance/Fun/Closed.v exhibits a C (small in the
-   ordinary sense -- its objects are the naturals -- though smallness is
-   nowhere formalized in this tree) and a
+   ordinary sense -- its objects are the naturals) and a
    cartesian closed D for which `[C, D]` carries no cartesian closed
    structure at all, so completeness of D may not simply be dropped;
    and it shows besides that where such an exponential does exist it
-   need not be computed pointwise.  The structure that IS inherited
-   pointwise is instantiated in Instance/Fun/Cartesian.v (binary
-   products) and in Instance/Fun/Terminal.v (the terminal object and
-   indexed products). *)
+   need not be computed pointwise.  The nLab clause in its GENERAL form
+   is still cited rather than proved here; what IS proved, for the
+   presheaf case D := Sets, is Instance/Fun/Exponential.v's
+   `Functor_Category_Closed`, the first clause of Awodey's Theorem 8.14
+   and Riehl's Lemma 4.4.11, whose exponential is the display-(8.5)
+   formula `Q^P(c) = Nat(y c × P, Q)` and is NOT computed pointwise.
+   Smallness is not a class here but a measured universe bound -- that
+   file's constants carry C's object universe at or below the carrier
+   universe of `Sets`, which is what Awodey's "for any small category C"
+   comes to in this library -- and there is besides a `Class Small` in
+   Theory/Size.v, so the two readings of the word are kept apart rather
+   than said to be absent.  The structure that IS inherited pointwise is
+   instantiated in Instance/Fun/Cartesian.v (binary products) and in
+   Instance/Fun/Terminal.v (the terminal object and indexed products). *)
 
 Program Definition Fun : Category := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)

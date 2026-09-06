@@ -298,6 +298,7 @@ Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
 Instance/Fun/Closed.v
+Instance/Fun/Exponential.v
 Instance/Fun/Morphisms.v
 Instance/Fun/Discrete.v
 Instance/Fun/Group.v
@@ -891,6 +892,7 @@ Test/ProbeBimodule401.v
 Test/ProbeClassifier402.v
 Test/ProbeFunClassifier403.v
 Test/ProbeToposColimits405.v
+Test/ProbePresheafExp718.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
