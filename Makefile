@@ -37,7 +37,7 @@ minimize-requires:
 	    $(COQ_TOOLS)/minimize-requires.py -i -R . Category {} ::: \
 	    $$(find . -name '*.v')
 
-lint: todo bench-config-check
+lint: todo bench-config-check claude-md-counts-check
 	@echo "Lint checks complete."
 
 format-check:
@@ -55,13 +55,17 @@ format:
 	@find . -name '*.v' -exec perl -pi -e 's/[ \t]+$$//' {} +
 	@echo "Done."
 
-# Count only the harmless aborted-sketch markers ([admit] inside an
-# [Abort.]-terminated proof, and the [Abort.]s themselves).  A live proof
-# hole is caught separately and unconditionally by [admitted-check] below,
-# so it is deliberately excluded from this count.
+# The aborted-sketch budget.  The count uses the SAME criterion as the
+# lefthook [admitted] hook and the flake's [admitted-check] (case-insensitive,
+# no word boundary, [Admitted.] included), so the three gates cannot disagree
+# about the number (maintainer decision, 2026-09-06; before it this target
+# used the narrower '[^_]admit\b' and the flake a third variant).  A live
+# proof hole is still caught separately and unconditionally by
+# [admitted-check] below, so on a clean tree this is the number of
+# [Abort.]-terminated sketches plus the [admit]s inside them.
 admitted-count:
-	@find . -name '*.v' -print0 | xargs -0 grep -ciE '([^_]admit\b|Abort\.)' 2>/dev/null \
-		| awk -F: '{s+=$$2} END {print s}'
+	@find . -name '*.v' -print0 | xargs -0 grep -ciE '(Admitted\.|[^_]admit|Abort\.)' 2>/dev/null \
+		| awk -F: '{s+=$$2} END {print s+0}'
 
 # Two independent gates, kept apart so a safe construct is never scored the
 # same as an unsafe one:
@@ -176,7 +180,35 @@ timing-report: build-timing.log
 build-strict: Makefile.coq
 	$(MAKE) -f Makefile.coq COQEXTRAFLAGS="-w +default"
 
-check: format-check admitted-check bench-config-check category-theory print-assumptions
+# Keep CLAUDE.md's preamble honest about the size of the tree (maintainer
+# decision, 2026-09-06): its sentence "contains N proof files (the
+# `_CoqProject` build set -- M `.v` files exist on disk" must agree with
+# _CoqProject and with the checkout.  Pure file inspection, so it runs on a
+# bare runner without the Coq toolchain, like bench-config-check.
+claude-md-counts-check:
+	@echo "Checking CLAUDE.md's file counts against _CoqProject and the tree..."
+	@stated_built=$$(grep -oE 'contains [0-9]+ proof files' CLAUDE.md | head -1 | grep -oE '[0-9]+'); \
+	stated_disk=$$(grep -oE '[0-9]+ `\.v` files exist on disk' CLAUDE.md | head -1 | grep -oE '^[0-9]+'); \
+	built=$$(grep -cE '\.v[[:space:]]*$$' _CoqProject); \
+	disk=$$(find . -name '*.v' -not -path './.git/*' -not -path './.pa-tmp/*' \
+		| wc -l | tr -d ' '); \
+	rc=0; \
+	if [ -z "$$stated_built" ] || [ -z "$$stated_disk" ]; then \
+		echo "ERROR: could not find the file-count sentence in CLAUDE.md's preamble"; \
+		exit 1; \
+	fi; \
+	if [ "$$stated_built" != "$$built" ]; then \
+		echo "ERROR: CLAUDE.md says $$stated_built proof files; _CoqProject lists $$built"; rc=1; \
+	fi; \
+	if [ "$$stated_disk" != "$$disk" ]; then \
+		echo "ERROR: CLAUDE.md says $$stated_disk .v files on disk; the tree has $$disk"; rc=1; \
+	fi; \
+	if [ "$$rc" -eq 0 ]; then \
+		echo "CLAUDE.md file counts agree ($$built built, $$disk on disk)."; \
+	fi; \
+	exit $$rc
+
+check: format-check admitted-check bench-config-check claude-md-counts-check category-theory print-assumptions
 	@echo "All checks passed."
 
 # Print Print-Assumptions output for the library's key definitions.
@@ -2010,8 +2042,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions QuiverArrows_not_Faithful.'; \
 	  echo 'Print Assumptions QuiverElements_faithful_under_NodeUIP.'; \
 	  echo 'Print Assumptions SetQuiver_Concrete.'; \
-	  echo 'Print Assumptions Full_Compose.'; \
-	  echo 'Print Assumptions Faithful_Compose.'; \
+	  echo 'Print Assumptions Category.Theory.Functor.Full_Compose.'; \
+	  echo 'Print Assumptions Category.Theory.Functor.Faithful_Compose.'; \
+	  echo 'Print Assumptions Category.Structure.Groupoid.Basepoint.Full_Compose.'; \
+	  echo 'Print Assumptions Category.Structure.Groupoid.Basepoint.Faithful_Compose.'; \
 	  echo 'Print Assumptions faithful_reflects_monic.'; \
 	  echo 'Print Assumptions faithful_reflects_epic.'; \
 	  echo 'Print Assumptions EssentiallySurjective_Compose.'; \
@@ -3571,7 +3605,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Grp_split_legs_monic_injections.'; \
 	  echo 'Print Assumptions Grp_free_product_injections_Monic.'; \
 	  echo 'Print Assumptions Grp_Cocartesian.'; \
-	  echo 'Print Assumptions fp_generators_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Pushout.fp_generators_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Mon.Coproduct.fp_generators_distinct.'; \
 	  echo 'Print Assumptions amalgam_over_Z2_merges.'; \
 	  echo 'Print Assumptions Pushout_Top.'; \
 	  echo 'Print Assumptions Top_HasPushouts.'; \
@@ -5837,4 +5872,5 @@ force _CoqProject Makefile: ;
 	@+$(MAKE) -f Makefile.coq $@
 
 .PHONY: all clean force lint format-check format admitted-count admitted-check
-.PHONY: bench-config-check bench-config-check-selftest timing timing-report build-strict check print-assumptions
+.PHONY: bench-config-check bench-config-check-selftest timing timing-report
+.PHONY: claude-md-counts-check build-strict check print-assumptions

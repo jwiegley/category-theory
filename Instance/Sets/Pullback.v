@@ -176,7 +176,7 @@ Generalizable All Variables.
        paragraph below.  [graph_even] is the pullback of [Nat.even] along the
        identity of [bool], so its agreement subset is the graph of
        [Nat.even]; two of its elements are exhibited, a third pair is
-       shown excluded, and the mediator out of [NatSet] evaluates on
+       shown excluded, and the mediator out of [PbNatSet] evaluates on
        closed input.  [sets_ker evenM] identifies 0 and 2, and
        [even_ker_not_diagonal] proves the relation is therefore NOT the
        diagonal; the symmetry and transitivity arrows are evaluated on
@@ -260,7 +260,7 @@ Generalizable All Variables.
    [SubsetOf@{u u0 u1}] leaves the MEMBERSHIP universe [u0] free; it is
    forming [sub_obj] that bounds it by the carrier universe, and the
    bound is [u1 <= u0] in that constant's own block.  The concrete
-   witnesses of (E) are polymorphic too -- [NatSet@{u u0}] has [u0 < u],
+   witnesses of (E) are polymorphic too -- [PbNatSet@{u u0}] has [u0 < u],
    five stdlib donor bounds and no identification -- because they are over
    [eq_Setoid] (Lib/Setoid.v:65), which is universe-polymorphic, rather
    than by resolving [eq_equivalence] at an unannotated binder.
@@ -683,19 +683,19 @@ End Preimage.
 (* Two discrete setoids, over [eq_Setoid] of Lib/Setoid.v so that `≈` is
    Leibniz equality on the carriers and the equations below are genuine
    computations rather than instances of a coarse relation. *)
-Definition NatSet : Sets :=
+Definition PbNatSet : Sets :=
   {| carrier := nat; is_setoid := eq_Setoid nat |}.
 
-Definition BoolSet : Sets :=
+Definition PbBoolSet : Sets :=
   {| carrier := bool; is_setoid := eq_Setoid bool |}.
 
-Definition evenM : NatSet ~{Sets}~> BoolSet.
+Definition evenM : PbNatSet ~{Sets}~> PbBoolSet.
 Proof.
   unshelve refine {| morphism := Nat.even |};
   try (intros n m H; rewrite H; reflexivity).
 Defined.
 
-Definition idB : BoolSet ~{Sets}~> BoolSet.
+Definition idB : PbBoolSet ~{Sets}~> PbBoolSet.
 Proof.
   unshelve refine {| morphism := fun c : bool => c |};
   try (intros c c' H; exact H).
@@ -716,21 +716,21 @@ Example graph_even_3_snd :
 
 (* (3, true) is NOT in the agreement subset: no witness can be supplied. *)
 Lemma graph_even_excludes_3_true :
-  @equiv _ BoolSet (evenM 3%nat) (idB true) → False.
+  @equiv _ PbBoolSet (evenM 3%nat) (idB true) → False.
 Proof. discriminate. Qed.
 
 (** ** The mediator computes *)
 
-Lemma even_square : evenM ∘ id[NatSet] ≈ idB ∘ evenM.
+Lemma even_square : evenM ∘ id[PbNatSet] ≈ idB ∘ evenM.
 Proof. intros n; reflexivity. Qed.
 
-Definition even_med : NatSet ~{Sets}~> graph_even :=
-  sets_pb_med evenM idB id[NatSet] evenM even_square.
+Definition even_med : PbNatSet ~{Sets}~> graph_even :=
+  sets_pb_med evenM idB id[PbNatSet] evenM even_square.
 
 (* The mediator produced by the universal property IS that map. *)
 Definition even_med_is_ump :
   unique_obj (ump_pullbacks evenM idB (Sets_Pullback evenM idB)
-                            NatSet id[NatSet] evenM even_square)
+                            PbNatSet id[PbNatSet] evenM even_square)
   = even_med := eq_refl.
 
 Example even_med_5_fst :
@@ -749,7 +749,7 @@ Example even_ker_02_snd : sets_ker_snd evenM even_ker_02 = 2%nat := eq_refl.
 
 (* So the relation genuinely identifies two distinct elements. *)
 Lemma even_ker_not_diagonal :
-  @equiv _ NatSet (sets_ker_fst evenM even_ker_02)
+  @equiv _ PbNatSet (sets_ker_fst evenM even_ker_02)
                   (sets_ker_snd evenM even_ker_02) → False.
 Proof. discriminate. Qed.
 
@@ -777,14 +777,14 @@ Example even_ker_trans_snd :
 
 (** ** The preimage of a subset *)
 
-Definition TrueSub : SubsetOf BoolSet.
+Definition TrueSub : SubsetOf PbBoolSet.
 Proof.
-  refine (Build_SubsetOf BoolSet (fun c : bool => c = true) _).
+  refine (Build_SubsetOf PbBoolSet (fun c : bool => c = true) _).
   intros u v Huv Hm; rewrite <- Huv; exact Hm.
 Defined.
 
 (* The preimage of {true} along [evenM] is the set of even naturals. *)
-Definition even_preimage : SubsetOf NatSet := sets_preimage evenM TrueSub.
+Definition even_preimage : SubsetOf PbNatSet := sets_preimage evenM TrueSub.
 
 Example even_preimage_4 : carrier (sub_obj even_preimage) := (4%nat; eq_refl).
 
@@ -793,7 +793,7 @@ Proof. discriminate. Qed.
 
 (* A non-constant map into the preimage, and the criterion carrying it
    downstairs. *)
-Definition chooseM : BoolSet ~{Sets}~> NatSet.
+Definition chooseM : PbBoolSet ~{Sets}~> PbNatSet.
 Proof.
   unshelve refine {| morphism := fun c : bool => if c then 4%nat else 2%nat |};
   try (intros c c' H; rewrite H; reflexivity).
@@ -821,7 +821,7 @@ Example choose_downstairs_false :
 
 (* The criterion is not vacuous in the negative direction either: the
    constant 3 does not factor through the preimage. *)
-Definition constThree : BoolSet ~{Sets}~> NatSet.
+Definition constThree : PbBoolSet ~{Sets}~> PbNatSet.
 Proof.
   unshelve refine {| morphism := fun _ : bool => 3%nat |};
   try (intros c c' H; reflexivity).

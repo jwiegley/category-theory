@@ -17,6 +17,9 @@ pre-commit:
     bench-config:
       glob: "{_CoqProject,*.opam,dune,dune-project}"
       run: make -s bench-config-check
+    claude-md-counts:
+      glob: "{CLAUDE.md,_CoqProject,*.v}"
+      run: make -s claude-md-counts-check
     nix-build:
       glob: "*.{v,nix}"
       run: nix build --no-warn-dirty 2>&1

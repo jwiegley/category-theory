@@ -28,6 +28,9 @@ make install
 
 # Check for admitted proofs or TODOs
 make todo
+
+# Guard the preamble's file counts against _CoqProject and the tree
+make claude-md-counts-check
 ```
 
 ### Single File Development
