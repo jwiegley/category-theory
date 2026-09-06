@@ -297,7 +297,8 @@ Generalizable All Variables.
 
      No general "limits in [C, D] are pointwise" theorem -- only the
      nullary and the arbitrary-index-product shapes.  No colimits, no
-     equalizers, no pullbacks, no exponentials.  No [Cartesian] or
+     equalizers, no exponentials (pullbacks are now
+     Instance/Fun/Pullback.v).  No [Cartesian] or
      [Complete] instance is derived for [C, D] from these.  No
      functoriality or naturality of [Fun_iprod] in the family or the
      index.  No proof that [HasIndexedProducts D] alone yields

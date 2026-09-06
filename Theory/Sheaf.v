@@ -77,7 +77,8 @@ Generalizable All Variables.
    Weil conjectures, Grothendieck replaced open covers by covering
    families in an abstract category — a Grothendieck topology, hence a
    site — first as a pretopology in Artin's 1962 Harvard notes and then
-   through sieves in SGA 4 (nLab, "Grothendieck topology").
+   through sieves in SGA 4 (nLab, "Grothendieck topology"); sieves
+   themselves are Theory/Sieve.v.
 
    The utility runs well past geometry.  For a site the sheaves form a
    Grothendieck topos: a reflective, left-exact localization of a
@@ -85,7 +86,13 @@ Generalizable All Variables.
    higher-order intuitionistic logic whose truth values form a Heyting
    algebra rather than two points (Mac Lane, Moerdijk, "Sheaves in
    Geometry and Logic: A First Introduction to Topos Theory", Springer
-   1992).  Such a topos is read as the sheaf theory of a generalized
+   1992).  The subobject classifier of the presheaf category is now
+   proved in tree: Instance/Fun/Classifier.v's [Fun_Classifier]
+   classifies subobjects in [[C^op, Sets]] over the sieve presheaf of
+   Theory/Sieve.v, conditionally on #402's [Untruncate].  Nothing below
+   consumes it — this file's [Class Site] is untouched — and the sheaf
+   topos, the localization and the Heyting structure remain narrative
+   prose.  Such a topos is read as the sheaf theory of a generalized
    space, and for a subcanonical topology the Yoneda map composed with
    sheafification embeds that space fully faithfully into its own sheaves
    (nLab, "Grothendieck topology").  Fong and Spivak model a behavior

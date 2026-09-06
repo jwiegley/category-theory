@@ -61,7 +61,13 @@ Generalizable All Variables.
    [FinSet_Classifier] (whose [truth] is [fin_true]) and everything below
    put [true] — here [ptrue], resp. [Powerset_truth_point] — ON the
    subset.  The two conventions differ by the swap 0 ↔ 1, an automorphism
-   of the two-element truth object, and this file follows the tree.
+   of the two-element truth object, and this file follows the tree.  Read
+   that swap as one of NAMES: [fin_true] is [Fin.F1], the first element
+   of [Fin.t 2], so as a numeral it is Mac Lane's 0 and only its name is
+   Seven Sketches'; neither [ptrue] nor [Powerset_truth_point] carries a
+   numeral at all (a measurement made while landing
+   Instance/Fun/Classifier.v, whose sieve classifier carries none
+   either).
 
    WHAT IS DELIVERED, AND AT WHICH STRENGTH.  A genuine
    [@SubobjectClassifier Sets@{o so} Sets_Terminal] instance at ONE

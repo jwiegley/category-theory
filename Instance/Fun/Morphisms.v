@@ -312,17 +312,21 @@ Generalizable All Variables.
    NOT DELIVERED
 
    No converse at a general target, and no separating example refuting
-   one — see THE MONOMORPHISM DECISION above.  No functor-category
-   pullback, pushout, [HasPullbacks] or [HasPushouts] instance: the two
-   functors here are the pointwise (co)limit OBJECTS with their legs,
+   one — see THE MONOMORPHISM DECISION above.  Pullbacks for a functor
+   category are now Instance/Fun/Pullback.v's [Fun_HasPullbacks], and
+   pushouts are still none; the two functors HERE are unaffected by
+   that — they remain the pointwise (co)limit OBJECTS with their legs,
    and no universal property is claimed for either in `[C, Sets]`.  No
    identification of [KerPair] with [Structure/Regular.v]'s generic
    [kernel_pair] one level up, and none with [CokerPair] and
    [Theory/Morphisms/CokernelPair.v]'s [cokernel_pair].  No statement
    that [KerPair] or [CokerPair] is functorial in θ.  No Yoneda or
-   representability route and no comparison with one.  No subobject
-   classifier and no subobject lattice for presheaves — (D) is the input
-   that work will cite, not that work.  Nothing about split monos,
+   representability route and no comparison with one.  The subobject
+   classifier for presheaves is now Instance/Fun/Classifier.v's
+   [Fun_Classifier], which cites (D) at three sites — the mediator's
+   respectfulness, its naturality and the uniqueness clause — and a
+   fourth in its re-annotated [Fun_Classifier_small]; there is still no
+   subobject lattice for presheaves.  Nothing about split monos,
    split epis, regular or effective epis, or balancedness of `[C, D]`.
    No witness at a shape other than [_2], and no witness with a
    non-constant functor. *)
