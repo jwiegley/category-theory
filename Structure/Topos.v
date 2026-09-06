@@ -34,9 +34,17 @@ Generalizable All Variables.
 
    Scope that precisely, because the redundancy claim is narrower than "finite
    limits are redundant": what is related is the BINARY and PARALLEL-PAIR
-   generators.  No finite-shape induction is performed anywhere in this
-   library, so "has all finite limits" is NOT derived from the class's fields
-   here, and no such theorem is claimed.
+   generators.  Equalizers ARE now derived for every topos, as
+   [Structure/Topos/Monadic.v]'s [topos_HasEqualizers], and finite
+   completeness is stated there at the level of the four elementary
+   generators -- terminal object, binary products, pullbacks, equalizers --
+   as [topos_finitely_complete].  What is still not performed anywhere in
+   this library is a finite-shape induction, so a [Limit]-shaped "has all
+   finite limits" is NOT derived from the class's fields and no such theorem
+   is claimed.  Finite COLIMITS are [Structure/Topos/Colimits.v]'s
+   [topos_has_finite_colimits] -- Paré's theorem, through the monadic
+   power-object functor of [Structure/Topos/Monadic.v] -- again at generator
+   level: initial object, binary coproducts, coequalizers, pushouts.
 
    Universe note: the class is a plain record of the component classes, each
    universe-polymorphic over the ambient category; it introduces no universe

@@ -641,6 +641,9 @@ Structure/Pullback.v
 Structure/SubobjectClassifier.v
 Structure/SubobjectClassifier/Natural.v
 Structure/Topos.v
+Structure/Topos/Power.v
+Structure/Topos/Monadic.v
+Structure/Topos/Colimits.v
 Structure/Pullback/Limit.v
 Structure/Pullback/Reduction.v
 Structure/Pullback/Wide.v
@@ -733,6 +736,7 @@ Theory/Equivalence/Limit.v
 Theory/Equivalence/Colimit.v
 Theory/Equivalence/Creation.v
 Theory/Equivalence/Terminal.v
+Theory/Equivalence/Pullback.v
 Theory/Equivalence/Adjoint/Compose.v
 Theory/Equivalence/Strict.v
 Theory/Fibration.v
@@ -886,6 +890,7 @@ Test/ProbeAdjBicat399.v
 Test/ProbeBimodule401.v
 Test/ProbeClassifier402.v
 Test/ProbeFunClassifier403.v
+Test/ProbeToposColimits405.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
