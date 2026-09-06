@@ -302,6 +302,8 @@ Instance/Fun/Morphisms.v
 Instance/Fun/Discrete.v
 Instance/Fun/Group.v
 Instance/Fun/Action.v
+Instance/Fun/Pullback.v
+Instance/Fun/Classifier.v
 Instance/Grp.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Abelianize.v
@@ -773,6 +775,7 @@ Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Sheaf/Category.v
+Theory/Sieve.v
 Theory/Skeleton.v
 Theory/Skeleton/Separation.v
 Theory/Size.v
@@ -882,6 +885,7 @@ Test/ProbeSquare398.v
 Test/ProbeAdjBicat399.v
 Test/ProbeBimodule401.v
 Test/ProbeClassifier402.v
+Test/ProbeFunClassifier403.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
