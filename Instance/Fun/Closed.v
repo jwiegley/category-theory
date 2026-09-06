@@ -16,6 +16,7 @@ Require Import Category.Instance.Sets.Cartesian.Closed.
 Require Import Category.Instance.Fun.
 Require Import Category.Instance.Fun.Cartesian.
 Require Import Category.Instance.Fun.Terminal.
+Require Import Category.Instance.Fun.Exponential.
 Require Import Category.Instance.Omega.
 Require Import Category.Instance.FinSet.
 Require Import Category.Instance.FinSet.Product.
@@ -86,8 +87,9 @@ Generalizable All Variables.
 
      (i)  the CONCLUSION can be false -- [A] cartesian closed and [J] a
           perfectly ordinary index category (small in the ordinary
-          sense, its objects being the naturals, though smallness is
-          nowhere formalized in this tree), yet [A^J] carries no
+          sense, its objects being the naturals; Theory/Size.v's
+          [Class Small] is the tree's formal reading of the word and
+          is not consumed here), yet [A^J] carries no
           cartesian closed structure at all; and
 
      (ii) even when [A^J] IS cartesian closed, its exponential is not
@@ -173,12 +175,18 @@ Generalizable All Variables.
    formalize the sentence "it is not functorial"; it formalizes a
    statement that makes the sentence moot.
 
-   THAT SECOND THEOREM IS CONDITIONAL, and the hypothesis is not
-   witnessed anywhere in this tree.  It is stated for an arbitrary
-   [@Closed ([_2^op, Sets]) CC]; presheaf categories ARE cartesian
-   closed mathematically, but nothing in tree proves it -- that is
-   issue #718's result -- so the hypothesis is NOT claimed inhabited
-   here.  Application one has no such caveat: it is unconditional.
+   THAT SECOND THEOREM IS STATED CONDITIONALLY, AND ITS HYPOTHESIS IS
+   NOW DISCHARGED.  It is stated for an arbitrary
+   [@Closed ([_2^op, Sets]) CC].  When this file was written nothing in
+   tree witnessed that hypothesis; issue #718 has since landed the
+   witness, in Instance/Fun/Exponential.v, whose
+   [Functor_Category_Closed] gives a genuine cartesian closed structure
+   on any presheaf category.  Section G below instantiates section F at
+   it, so [awodey_pointwise_not_exponential_unconditional] carries no
+   hypothesis at all.  Nothing in sections A-F changed: the conditional
+   statements are kept exactly as they were, and the instantiation is
+   additive.  Application one had no such caveat to begin with: it is
+   unconditional.
 
    UNIVERSES, MEASURED.  Both ambient categories elaborate, and the
    measurement was made before any content was written.
@@ -225,16 +233,28 @@ Generalizable All Variables.
 
    WHAT IS NOT DELIVERED -- read this as the scope of the file.
 
-     * The POSITIVE companion is NOT here.  Nothing below proves that
-       [C] small and [D] cartesian closed and COMPLETE gives [C, D]
-       cartesian closed, and no attempt is made at it.
+     * The POSITIVE companion IN ITS GENERAL FORM is NOT here.  Nothing
+       below proves that [C] small and [D] cartesian closed and COMPLETE
+       gives [C, D] cartesian closed, and no attempt is made at it.
 
-     * The presheaf case of that positive theorem belongs to issue #718,
-       whose suggested module is THIS SAME FILE.  Room is deliberately
-       left for it: the two negative theorems here scope the positive
-       one (they say which hypotheses may not be dropped) rather than
-       colliding with it, and section F is stated CONDITIONALLY on
-       exactly the cartesian closure #718 would supply.
+     * The PRESHEAF case of that positive theorem -- [D := Sets] -- is
+       issue #718's, and it landed in Instance/Fun/Exponential.v rather
+       than in this file, on a measured closure argument.  Before that
+       file existed this one's transitive dependency closure was 81
+       modules and Instance/Fun/Exponential.v's is 62; twenty modules
+       lie in the first and not the second (the chains beneath
+       Instance/FinSet with its Closed, Product and Skeleton satellites
+       -- Theory/Skeleton, Instance/StrictCat and the equivalence
+       modules arrive through the last -- and beneath Instance/Omega,
+       Structure/Limit/Initial and Instance/Two/Monoidal, which sections
+       D, E and F need and the positive theorem does not) and exactly
+       one lies in the second and not the first
+       (Functor/Hom.v), so a consumer of the exponential would have paid
+       19 net extra modules to get it from here.  Requiring it from here
+       instead takes this file's closure from 81 to 83 -- the new file
+       plus Functor/Hom.v.  The two negative theorems here scope the
+       positive one (they say which hypotheses may not be dropped)
+       rather than colliding with it, and section G below consumes it.
 
      * No end formula, limit formula, or any other construction of
        exponentials in a functor category is built.
@@ -694,3 +714,44 @@ Proof.
 Qed.
 
 End AwodeyPointwise.
+
+(** ** G: section F, unconditionally *)
+
+(* Instance/Fun/Exponential.v supplies the hypothesis section F is
+   stated over.  Both constants below are the section's theorems applied
+   to the pointwise cartesian structure and to that file's cartesian
+   closed structure over it; neither re-proves anything, and section F is
+   untouched.
+
+   THE UNIVERSE PIN IS [_2]'s, NOT INTRODUCED HERE.  The header records
+   that [_2^op, Sets] elaborates only at [Sets@{Set _}], because [_2]'s
+   homs are the literal [Set] and [Fun] identifies source and target hom
+   universes.  Instance/Fun/Exponential.v's instance is polymorphic
+   enough to be instantiated there -- measured: [Psh2_Closed] elaborates
+   at [Closed@{u Set u}] with [Set < u] its only strict constraint -- so
+   the corollary below is about presheaves valued in setoids whose
+   carrier lives in [Set], exactly as section F already was. *)
+
+Definition Psh2_Cart : @Cartesian ([_2^op, Sets]) :=
+  @Functor_Category_Cartesian (_2^op) Sets Sets_Cartesian.
+
+Definition Psh2_Closed : @Closed ([_2^op, Sets]) Psh2_Cart :=
+  Functor_Category_Closed _2.
+
+(* Two provably distinct points of (Q^P) TwoY, with no hypothesis. *)
+Definition pq_point_distinct_unconditional :
+  pq_point Psh2_Cart Psh2_Closed true
+    ≈ pq_point Psh2_Cart Psh2_Closed false -> False
+  := pq_point_distinct Psh2_Cart Psh2_Closed.
+
+(* Awodey's objectwise no-go, with no hypothesis: the value at [TwoY] of
+   the ACTUAL exponential of the presheaf category is not isomorphic to
+   the objectwise candidate Q(TwoY)^{P(TwoY)}.  Note that
+   [objectwise_candidate] takes no argument -- it mentions neither
+   section variable, being built entirely in [Sets] -- so only the left
+   side of the comparison moves when the hypothesis is discharged. *)
+Definition awodey_pointwise_not_exponential_unconditional :
+  @Isomorphism Sets
+    ((@exponent_obj _ Psh2_Cart Psh2_Closed PresheafP PresheafQ) TwoY)
+    objectwise_candidate -> False
+  := awodey_pointwise_not_exponential Psh2_Cart Psh2_Closed.

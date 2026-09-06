@@ -5759,6 +5759,60 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Equivalence.Pullback.HasPullbacks_transport.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Pullback.HasPullbacks_transport_obj.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Fun.Exponential.'; \
+	  echo 'Require Import Category.Instance.Fun.Closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp_fmap.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.PshExp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_inner_comp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_inner_comp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_inner.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_comp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_comp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.from_exp_comp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.from_exp_comp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.from_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.from_to_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_from_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_exp_iso_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_exp_iso_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_exp_iso_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_exp_iso_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_exp_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.to_exp_natural_X.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.from_exp_natural_X.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.Functor_Category_Closed_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.Functor_Category_Closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.Functor_Category_Closed_cov.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.exp_obj_is_display85.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.exponent_obj_is_PshExp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.curry_is_to_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.uncurry_is_from_exp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.eval_is_at_identity.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.presheaf_terminal_is_donor.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_to_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_to_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_to.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_from_comp_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_from_comp.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_from_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_from_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_from_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_from.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_iso_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_iso_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Exponential.one_exp_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Psh2_Cart.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.Psh2_Closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.pq_point_distinct_unconditional.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Closed.awodey_pointwise_not_exponential_unconditional.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
