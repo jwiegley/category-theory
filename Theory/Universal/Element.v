@@ -966,3 +966,68 @@ Corollary subsumption_composite {C D : Category} (S : D ⟶ C) (c : C) (a : D)
         (AUniversalElement_of_hom S c U)) ttt : c ~{C}~> fobj[S] a)
   = @universal_arrow C D c S a U.
 Proof. reflexivity. Qed.
+
+(** ** Naturality of the global-elements isomorphism *)
+
+(* Riehl, _Category Theory in Context_, 2nd ed., SS3.2, printed pp. 93-94:
+   the display [lim F ≅ Set( *, lim F) ≅ Cone( *, F)] that motivates the
+   cone-set construction of Instance/Sets/Complete.v.  Its FIRST
+   isomorphism is [global_elements_iso] above -- the OBJECT-LEVEL statement
+   pre-existed this addition, was declared at the [global_elements_iso]
+   above, and is already described by this file's own header.  What was
+   missing, and is added here, is only Riehl's "natural in X": nothing in
+   the tree exhibited [GlobalElements] as a FUNCTOR, so the isomorphism was
+   a FAMILY and not a natural one.
+
+   [GlobalElements] IS the representable [Hom 1,─] on the nose, and
+   [SetsOne] IS the terminal object on the nose -- both recorded by
+   [eq_refl] below -- so the functor is already in the tree and the
+   naturality statement is an isomorphism in [[Sets, Sets]] between it and
+   the identity.  Five of the six clauses are closed by the file's default
+   obligation tactic -- the tree-wide one, this file setting none -- and NOT
+   by [reflexivity], which an earlier revision of this sentence claimed and
+   did not measure; the comment at the definition itself says the weaker
+   thing.  The sixth is the singleton's unique-inhabitant property, spent in
+   one [destruct u] exactly as [global_elements_iso]'s own second clause
+   spends it.
+
+   THIS IS NOT NEEDED BY THE CONE-SET LIMIT, and is delivered because
+   Riehl's checkbox asks for it.  Instance/Sets/Complete.v's construction
+   spends the singleton directly, by the same [destruct], and does not
+   Require this module; consuming it there instead would cost that file
+   NINETEEN further modules of closure (33 to 52, measured by set
+   difference; an earlier revision said sixteen). *)
+
+(* [SetsOne] is the terminal setoid.  Read this at its true strength: it
+   holds by DELTA, not by computation -- Construction/Elements.v declares
+   [SetsOne := @terminal_obj Sets Sets_Terminal], so [Print SetsOne] answers
+   [1] -- so it pins that this file's [SetsOne] is still that definition and
+   nothing more.  It is kept as that guard rather than presented as a
+   measurement.  The next Example is not of this kind. *)
+Example setsone_is_terminal :
+  SetsOne = @terminal_obj Sets Sets_Terminal := eq_refl.
+
+(* [GlobalElements] is the representable [Hom 1,─]. *)
+Example global_elements_is_hom (X : obj[Sets]) :
+  GlobalElements X = fobj[fobj[Curried_Hom Sets] SetsOne] X := eq_refl.
+
+(* Riehl's first isomorphism, natural in X. *)
+Program Definition global_elements_natural :
+  @Isomorphism ([Sets, Sets]) (fobj[Curried_Hom Sets] SetsOne) Id[Sets] := {|
+  to   := {| transform := global_elements_to |};
+  from := {| transform := global_elements_from |}
+|}.
+(* Five of the six obligations -- both naturality squares of each
+   transformation, and one inverse law -- are closed by the file's default
+   obligation tactic.  The sixth is the singleton step. *)
+Next Obligation.
+  match goal with [ H : poly_unit |- _ ] => destruct H end; reflexivity.
+Qed.
+
+(* Its components are the pre-existing maps, on the nose. *)
+Example global_elements_natural_to (X : obj[Sets]) :
+  transform[to global_elements_natural] X = global_elements_to X := eq_refl.
+
+Example global_elements_natural_from (X : obj[Sets]) :
+  transform[from global_elements_natural] X = global_elements_from X
+  := eq_refl.

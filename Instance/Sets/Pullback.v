@@ -78,7 +78,7 @@ Generalizable All Variables.
    DESCRIPTION -- not an opaque one, a transparent one that unfolds to
    something else.  [Sets_HasEqualizers] is [Complete_HasEqualizers
    Sets_Complete], so its equalizer is the limit of the walking parallel
-   pair as Instance/Sets/Complete.v:193 builds it, and with
+   pair as Instance/Sets/Complete.v:196 builds it, and with
 
      Definition Derived : @HasPullbacks Sets :=
        @HasPullbacks_of_Cartesian_HasEqualizers Sets _ Sets_HasEqualizers.
@@ -280,7 +280,7 @@ Generalizable All Variables.
        carrier construction would be this one, and what is missing is the
        topology side.
      - No [Complete]-style packaging: nothing here relates
-       [Sets_HasPullbacks] to [Sets_Complete] (Instance/Sets/Complete.v:193)
+       [Sets_HasPullbacks] to [Sets_Complete] (Instance/Sets/Complete.v:196)
        or to [Sets_HasEqualizers], and in particular the pullback built
        here is NOT proved isomorphic to the derived one.  The two are
        isomorphic by [pullback_unique], but that composition is not
