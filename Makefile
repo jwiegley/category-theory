@@ -6067,6 +6067,69 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Universal.Element.global_elements_natural_to.'; \
 	  echo 'Print Assumptions Category.Theory.Universal.Element.setsone_is_terminal.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Sets.InverseLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.ConstTower.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_Limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_Limit_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_Limit_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_limit_iso_cone_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_limit_iso_cone_limit_legs.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_limit_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.Sets_tower_limit_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.StreamTower.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.cochain_inverse_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.cochain_stage_succ.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.cochain_stage_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.cochain_tower_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.const_string.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.const_string_compat.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.const_string_coord.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.const_string_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.const_tower_fmap.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.inverse_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.inverse_limit_is_tower.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.step_is_le_t_S.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_to_tower.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_to_tower_coord.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_to_tower_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_to_tower_one.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_tower_succ.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_tower_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_trunc.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_trunc_compat.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.stream_trunc_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_acone.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_acone_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_bwd.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_bwd_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_bwd_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_bwd_underlying.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_compat.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_compat_all.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_ext.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_fwd.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_fwd_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_fwd_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_fwd_underlying.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_inner_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_iso_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_iso_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_limit_leg.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_med.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_med_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_med_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_med_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_obj_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_proj_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_step.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.InverseLimit.tower_step_is_omega_step.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
