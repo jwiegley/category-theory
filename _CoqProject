@@ -305,6 +305,7 @@ Instance/Fun/Group.v
 Instance/Fun/Action.v
 Instance/Fun/Pullback.v
 Instance/Fun/Classifier.v
+Instance/Fun/Topos.v
 Instance/Grp.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Abelianize.v
@@ -417,6 +418,7 @@ Instance/Sets/End.v
 Instance/Sets/Image.v
 Instance/Sets/Classifier.v
 Instance/Sets/Classifier/OneLevel.v
+Instance/Sets/Topos.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
@@ -893,6 +895,7 @@ Test/ProbeClassifier402.v
 Test/ProbeFunClassifier403.v
 Test/ProbeToposColimits405.v
 Test/ProbePresheafExp718.v
+Test/ProbeToposInstances404.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

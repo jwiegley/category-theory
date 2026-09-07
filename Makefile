@@ -5848,6 +5848,77 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.pq_point_distinct_unconditional.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Closed.awodey_pointwise_not_exponential_unconditional.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Fun.Topos.'; \
+	  echo 'Require Import Category.Instance.Sets.Topos.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_op_invol.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.Presheaf_Topos.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.Presheaf_Topos_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.Copresheaf_Topos.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.Copresheaf_Topos_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_cartesian.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_pullbacks.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_classifier.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_exponent.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_omega.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_truth.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_topos_pow.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_terminal_is_donor.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_pullback_is_donor.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.copsh_topos_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.copsh_topos_classifier.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.copsh_is_psh_at_op.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_is_copsh_at_op.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.copsh_iem_is_psh_iem_at_op.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_truth_is_total_sieve.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_char_is_awodey_sieve.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Topos.psh_omega_is_restriction.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.Sets_Topos.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.Sets_Topos_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.Sets_Topos_IEM.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_cartesian.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_pullbacks.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_classifier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.sets_topos_dec_classifier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_terminal_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_terminal_is_donor.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_terminal_singleton.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.PBONE.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_fst.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_snd.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_to_prod.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_sq.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_from_prod.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pullback_over_one_is_product.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_to_exl.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_to_exr.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_from_fst.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_from_snd.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.pbone_from_computes.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_pullback_is_topos_pullback.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_omega_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_omega_dec_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_truth_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_omega_U.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_truth_U.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_truth_monic.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_char_rule_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_char_rule_U.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_char_dec_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_char_U_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_classifying_square.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_classifying_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_pow_is_powerset.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_pow_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_pow_dec_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_eval_is_application.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Topos.app1_eval_dec_is_application.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

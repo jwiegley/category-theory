@@ -73,11 +73,17 @@ important to keep them apart.
    under the global context" report certifies a result about something
    the library actually contains.  The genuine example is
    `classifier_classifies`: it is proven for any `ElementaryTopos`, and
-   the library exhibits one — `FinSet_Topos : ElementaryTopos FinSet`
-   in `Instance/FinSet/Topos.v` — whose sanity examples compute by
-   `eq_refl` (for instance `Pow 2 = 4`).  A full ledger of which
-   headline results carry an in-tree witness and which are
-   conditional-only is kept in [INHABITATION.md](INHABITATION.md).
+   the library exhibits one unconditionally — `FinSet_Topos :
+   ElementaryTopos FinSet` in `Instance/FinSet/Topos.v` — whose sanity
+   examples compute by `eq_refl` (for instance `Pow 2 = 4`).  It also
+   exhibits two CONDITIONAL ones, `Sets_Topos` (`Instance/Sets/Topos.v`)
+   and `Presheaf_Topos` (`Instance/Fun/Topos.v`), each resting on a
+   hypothesis with no axiom-free in-tree inhabitant; they leave this
+   example untouched, since `classifier_classifies` is refused at both
+   on universe grounds (pinned in `Test/ProbeToposInstances404.v`).  A
+   full ledger of which headline results carry an in-tree witness and
+   which are conditional-only is kept in
+   [INHABITATION.md](INHABITATION.md).
 
    Note that feeding `Cospan_Hypergraph` the `Sets` pushout instance
    `Sets_HasPushouts`, as earlier editions of this file suggested, does

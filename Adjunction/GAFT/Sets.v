@@ -101,7 +101,7 @@ Generalizable All Variables.
 
    [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
    category into a [HasEqualizers] one.  At [Sets_Complete] it yields
-   [Sets_HasEqualizers], the tree's only inhabitant of that class.  It is left
+   [Sets_HasEqualizers], the only such LIBRARY-file inhabitant.  It is left
    a [Definition] rather than an [Instance]: no in-tree consumer resolves
    [HasEqualizers] by typeclass search -- [Theory/WeaklyInitial.v:94] takes it
    as an explicit argument and [GAFT] passes [Complete_HasEqualizers] by hand
@@ -174,3 +174,12 @@ Definition GAFT_at_Sets_Id_is_Id : projT1 GAFT_at_Sets_Id ≈ @Id Sets :=
    by [Complete_HasEqualizers].  Kept a [Definition]; see the header. *)
 Definition Sets_HasEqualizers : HasEqualizers Sets :=
   Complete_HasEqualizers Sets_Complete.
+
+(* SINCE #404 THAT IS THE ONLY LIBRARY-FILE INHABITANT, NOT THE ONLY ONE:
+   Test/ProbeToposInstances404.v derives a second, CONDITIONAL one at
+   [Sets] -- [topos_HasEqualizers] (Structure/Topos/Monadic.v) at
+   Instance/Sets/Topos.v's [Sets_Topos], which rests on [Untruncate].  The
+   two are NOT compared: their types line up and no agreement proof is
+   built.  This note is placed after the definition rather than in the
+   header so that the line number of [Sets_HasEqualizers] does not move,
+   six in-tree citations naming it. *)

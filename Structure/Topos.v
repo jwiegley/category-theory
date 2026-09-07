@@ -128,9 +128,24 @@ Generalizable All Variables.
    the classifying map is a decidable finite search, and the assembled
    [ElementaryTopos] witness [FinSet_Topos] of Instance/FinSet/Topos.v
    reduces, with [Pow] 2 evaluating to 4 by eq_refl.  In Sets the
-   truth-value setoid lives one universe up, so the classifier survives
-   as the cross-universe theorems of Instance/Sets/Classifier.v rather
-   than a single instance. *)
+   truth-value setoid of Instance/Sets/Classifier.v lives one universe
+   up, and those cross-universe theorems are still what that file
+   proves; but a ONE-LEVEL classifier does exist CONDITIONALLY, in
+   Instance/Sets/Classifier/OneLevel.v under [Untruncate] or
+   [DecImage] (neither inhabited axiom-free in this tree), and with it
+   Instance/Sets/Topos.v assembles a whole conditional
+   [ElementaryTopos Sets] -- where [Pow] b is [Powerset_Prop_obj] b by
+   eq_refl, Mac Lane's "P b, the set of all subsets s of b" being
+   definitional there.  Instance/Fun/Topos.v does the same for presheaf
+   categories over Instance/Fun/Classifier.v's sieve classifier, and
+   Seven Sketches' covariant reading with it.  READ THE REACH OF THOSE
+   TWO EXACTLY: both are genuine inhabitants of this class, so [Pow] and
+   the results of Structure/Topos/{Monadic,Colimits}.v apply at them,
+   but NEITHER [classifier_classifies] NOR [relations_iso] is statable
+   at either -- both carry objects <= homs, which neither [Sets] nor a
+   presheaf category satisfies -- so the FinSet witness is still the
+   only one for those two, and the four refusals are pinned in
+   Test/ProbeToposInstances404.v. *)
 
 Class ElementaryTopos (C : Category) := {
   topos_terminal   : @Terminal C;
