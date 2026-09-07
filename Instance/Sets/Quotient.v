@@ -154,9 +154,9 @@ Generalizable All Variables.
      Instance/Sets/Coequalizer.v, which is this file's only in-tree
      consumer.
 
-   * NO [Cocomplete Sets].  This file supplies one colimit shape's object,
-     not the general construction; Instance/Sets/Complete.v:106 records
-     that the general one is not attempted, and that note stands.
+   * NO [Cocomplete Sets] IN THIS FILE.  It supplies one colimit shape's
+     object, not the general construction; that is at
+     Instance/Sets/Cocomplete.v:484, as Instance/Sets/Complete.v:109 says.
 
    * NO FUNCTORIALITY IN THE RELATION.  A refinement R ⊆ R' induces a map
      A/R -> A/R', and that map is not built; nor is any comparison with

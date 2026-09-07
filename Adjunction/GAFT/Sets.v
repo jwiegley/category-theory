@@ -101,13 +101,13 @@ Generalizable All Variables.
 
    [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
    category into a [HasEqualizers] one.  At [Sets_Complete] it yields
-   [Sets_HasEqualizers], the only such LIBRARY-file inhabitant.  It is left
-   a [Definition] rather than an [Instance]: no in-tree consumer resolves
-   [HasEqualizers] by typeclass search -- [Theory/WeaklyInitial.v:94] takes it
-   as an explicit argument and [GAFT] passes [Complete_HasEqualizers] by hand
-   -- so registering it would add resolution surface with no consumer.  Unlike
-   [GAFT_at_Sets_Id] it carries no [Set] pinning; it stands at the same
-   [Sets@{u0 u}] as [Sets_Complete].
+   [Sets_HasEqualizers], one of THREE library-file inhabitants -- see the
+   note below the definition.  It is left a [Definition], not an [Instance]:
+   no in-tree consumer resolves [HasEqualizers] by typeclass search
+   (Theory/WeaklyInitial.v takes it as an explicit argument and [GAFT]
+   passes [Complete_HasEqualizers] by hand), so registering it would add
+   resolution surface with no consumer.  Unlike [GAFT_at_Sets_Id] it carries
+   no [Set] pinning; it stands at the same [Sets@{u0 u}] as [Sets_Complete].
 
    STATUS: axiom-free.  [Print Assumptions] reports "Closed under the global
    context" for every constant below; the Makefile's [print-assumptions]
@@ -170,16 +170,24 @@ Definition GAFT_at_Sets_Id_is_Id : projT1 GAFT_at_Sets_Id ≈ @Id Sets :=
 
 (** ** By-product: equalizers in [Sets] *)
 
-(* The first [HasEqualizers] inhabitant in the library, read off completeness
-   by [Complete_HasEqualizers].  Kept a [Definition]; see the header. *)
+(* Read off completeness by [Complete_HasEqualizers]; NOT the first and not
+   the only inhabitant -- see the note below.  Kept a [Definition]. *)
 Definition Sets_HasEqualizers : HasEqualizers Sets :=
   Complete_HasEqualizers Sets_Complete.
 
-(* SINCE #404 THAT IS THE ONLY LIBRARY-FILE INHABITANT, NOT THE ONLY ONE:
-   Test/ProbeToposInstances404.v derives a second, CONDITIONAL one at
-   [Sets] -- [topos_HasEqualizers] (Structure/Topos/Monadic.v) at
-   Instance/Sets/Topos.v's [Sets_Topos], which rests on [Untruncate].  The
-   two are NOT compared: their types line up and no agreement proof is
-   built.  This note is placed after the definition rather than in the
-   header so that the line number of [Sets_HasEqualizers] does not move,
-   six in-tree citations naming it. *)
+(* IT IS NOT THE ONLY ONE, IN EITHER SENSE.  THREE library files inhabit
+   [HasEqualizers Sets]: this one, [SetsEqualizers]
+   (Adjunction/CokernelPair.v:1119, whose own comment at :1114 calls its
+   route "the cheapest of the three in-tree routes"), and
+   [DiagSets_HasEqualizers] (Adjunction/Diagonal/Finite.v:1129); all three
+   are registered in _CoqProject.  Test/ProbeToposInstances404.v adds a
+   fourth, CONDITIONAL one resting on [Untruncate].  None of the four is
+   compared with any other: their types line up and no agreement proof is
+   built.  An earlier revision of this note, and of the header sentence
+   above, called this the only library-file inhabitant; that was false when
+   written -- the other two predate it -- and is corrected here rather than
+   amended away.  The note stays below the definition so that the line
+   number of [Sets_HasEqualizers] does not move.  State the criterion, since
+   the number moves with it: FIVE `.v` files cited that line number before
+   this change, seven occurrences counting CLAUDE.md's two, and
+   Instance/Sets/Cone.v is the sixth `.v` citation. *)

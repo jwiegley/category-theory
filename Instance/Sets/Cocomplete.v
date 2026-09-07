@@ -32,17 +32,17 @@ Generalizable All Variables.
    (Structure/Limit.v:158): an oracle assigning a chosen colimit to every
    diagram.  This file inhabits it at [Sets], as the mirror of
    Instance/Sets/Complete.v.  Five in-tree notes across four files record
-   the absence this answers -- Instance/Sets/Complete.v:106 ("[Cocomplete
-   Sets] is NOT provided"), Instance/Sets/Coequalizer.v:62 and :144,
-   Instance/Sets/Quotient.v:157, and Instance/Sets/Products.v:236, whose
-   "cocompleteness is not addressed at all, here or anywhere else in the
-   tree" is the flattest of the five -- and it sits in the very file that
-   supplies [Sets_icoprod_obj], this construction's own donor.  None of
-   those files is edited here: the notes are left UNCORRECTED, and every
-   one of them is now STALE.  An earlier draft of this paragraph counted
-   THREE and said the notes "still stand as written" -- wrong twice over,
-   missing Products.v:236 and Coequalizer.v:144, and phrasing staleness in
-   words that read as continued truth.
+   the absence this answers -- Instance/Sets/Complete.v:109,
+   Instance/Sets/Coequalizer.v:62 and :144, Instance/Sets/Quotient.v:157,
+   and Instance/Sets/Products.v:236, whose "cocompleteness is not
+   addressed at all, here or anywhere else in the tree" is the flattest
+   of the five -- and it sits in the very file that supplies
+   [Sets_icoprod_obj], this construction's own donor.  None was edited
+   when this file landed, and all five were STALE.  THREE have since been
+   corrected in place and now point HERE (Complete.v:109, and with it
+   Coequalizer.v:62 and Quotient.v:157); Coequalizer.v:144 and
+   Products.v:236 still read as absences.  An earlier draft counted THREE
+   notes and said they "still stand as written" -- wrong twice over.
 
    THE CONSTRUCTION
 
@@ -91,7 +91,7 @@ Generalizable All Variables.
 
    NO DUALITY SHORTCUT FROM [Sets_Complete] -- MEASURED, NOT ASSUMED
 
-   [Sets_Complete] (Instance/Sets/Complete.v:193) supplies a [Limit F] for
+   [Sets_Complete] (Instance/Sets/Complete.v:196) supplies a [Limit F] for
    every [F : D ⟶ Sets].  A colimit of [F] is a limit of [F^op], and
    [F^op] is a diagram into [Sets^op]; no instantiation of [Sets_Complete]
    has that type.  Elaborating
@@ -116,7 +116,7 @@ Generalizable All Variables.
 
    It is NOT routed through "a category with all small coproducts and
    coequalizers is cocomplete".  That theorem is in this development in
-   neither variance: on the limit side Instance/Sets/Complete.v:44-59
+   neither variance: on the limit side Instance/Sets/Complete.v:47-62
    already records its absence, and dually no constant here or elsewhere
    derives [Cocomplete] from [HasIndexedCoproducts] and [HasCoequalizers].
    In particular [Sets_HasCoequalizers] (Instance/Sets/Coequalizer.v:293)

@@ -59,11 +59,11 @@ Generalizable All Variables.
    [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
    category into one with equalizers, and Adjunction/GAFT/Sets.v:175
    applies it to [Sets_Complete] to get [Sets_HasEqualizers].  The dual
-   route is not available: [Cocomplete Sets] is NOT in tree, and
-   Instance/Sets/Complete.v:106 says so and says why -- colimits of
-   setoids need exactly the quotient this file's donor supplies.  So the
-   coequalizer has to be built by hand, and the hand-built object is what
-   a later [Cocomplete Sets] would itself need.
+   route was not available when this file was written: [Cocomplete Sets]
+   did not exist.  It does now (Instance/Sets/Cocomplete.v:484), built
+   from the layer beneath this file's donor rather than from the
+   coequalizer -- so this paragraph's old forecast, that the hand-built
+   object "is what a later [Cocomplete Sets] would itself need", is wrong.
 
    Before this file the tree had no [HasCoequalizers] inhabitant at all.
    The name occurred as the class ([Structure/Coequalizer.v:68]), as the

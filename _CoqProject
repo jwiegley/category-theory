@@ -411,6 +411,7 @@ Instance/Sets/Cartesian/Closed/Adjunction.v
 Instance/Sets/Cocartesian.v
 Instance/Sets/Products.v
 Instance/Sets/Complete.v
+Instance/Sets/Cone.v
 Instance/Sets/Cocomplete.v
 Instance/Sets/Chain.v
 Instance/Sets/Coend.v
@@ -896,6 +897,7 @@ Test/ProbeFunClassifier403.v
 Test/ProbeToposColimits405.v
 Test/ProbePresheafExp718.v
 Test/ProbeToposInstances404.v
+Test/ProbeConeSets407.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
