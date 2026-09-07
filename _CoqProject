@@ -396,6 +396,7 @@ Instance/Rng/Free.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
+Instance/Rng/Zp.v
 Instance/Mon/Coproduct.v
 Instance/Mon/Free.v
 Instance/Roster.v
@@ -906,3 +907,4 @@ Tools/Represented.v
 Construction/FreeMonoidal.v
 Construction/FreeMonoidal/Normal.v
 Construction/FreeMonoidal/Universal.v
+Test/ProbeZp409.v
