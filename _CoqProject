@@ -316,6 +316,7 @@ Instance/Grp/Epi.v
 Instance/Grp/Free.v
 Instance/Grp/Galois.v
 Instance/Grp/Completion.v
+Instance/Grp/Limit.v
 Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
@@ -904,6 +905,7 @@ Test/ProbePresheafExp718.v
 Test/ProbeToposInstances404.v
 Test/ProbeConeSets407.v
 Test/ProbeInverseLimit408.v
+Test/ProbeGrpLimit411.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
