@@ -403,6 +403,9 @@ Instance/Roster.v
 Instance/Roof.v
 Instance/Simplex.v
 Instance/Square.v
+Instance/Presented/Cyclic.v
+Instance/WalkingIso.v
+Instance/Presented/Three.v
 Instance/Square/Product.v
 Instance/Square/Rectangle.v
 Instance/Sets.v
