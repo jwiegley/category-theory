@@ -594,6 +594,7 @@ Structure/Limit/Product.v
 Structure/Limit/Coproduct.v
 Structure/Limit/FromProducts.v
 Structure/Limit/Product/Finite.v
+Structure/Limit/Finite.v
 Structure/Bicartesian/Matrix.v
 Structure/Limit/Indexed/Hom.v
 Structure/Limit/Power.v
@@ -912,6 +913,7 @@ Test/ProbeGrpLimit411.v
 Test/ProbeProductLimit418.v
 Test/ProbeArrowLimit412.v
 Test/ProbeFromProducts416.v
+Test/ProbeFinite417.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

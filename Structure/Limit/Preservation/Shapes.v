@@ -42,10 +42,10 @@ Definition Continuous_PreservesProductCones {C D : Category} {F : C ⟶ D}
 
 (** ** Finite shapes *)
 
-(* The tree has had no finiteness predicate on shapes
-   (Structure/Limit/Creation.v:133-138 records the gap; Structure/Topos.v and
-   Structure/Regular.v spell "finite limits" as terminal, products and
-   pullbacks).  This is one, in the enumeration form of
+(* Structure/Limit/Finite.v's [FiniteCategory] is now the tree's finiteness
+   predicate on shapes (Structure/Limit/Creation.v:134-138 points at it;
+   Structure/Topos.v and Structure/Regular.v once spelled "finite limits" as
+   terminal, products, pullbacks).  A second, in the enumeration form of
    Construction/Subcategory/Finite.v:92 and Construction/Free/Quiver/
    Presented.v:155: finitely many objects, and finitely many arrows in each
    hom UP TO [≈], which is the only reading the setoid setting supports.

@@ -38,13 +38,13 @@ Generalizable All Variables.
    [Structure/Topos/Monadic.v]'s [topos_HasEqualizers], and finite
    completeness is stated there at the level of the four elementary
    generators -- terminal object, binary products, pullbacks, equalizers --
-   as [topos_finitely_complete].  What is still not performed anywhere in
-   this library is a finite-shape induction, so a [Limit]-shaped "has all
-   finite limits" is NOT derived from the class's fields and no such theorem
-   is claimed.  Finite COLIMITS are [Structure/Topos/Colimits.v]'s
-   [topos_has_finite_colimits] -- Paré's theorem, through the monadic
-   power-object functor of [Structure/Topos/Monadic.v] -- again at generator
-   level: initial object, binary coproducts, coequalizers, pushouts.
+   as [topos_finitely_complete].  The [Limit]-shaped reading is now
+   [Structure/Limit/Finite.v]'s [FinitelyComplete], which
+   [finitely_complete_of_pullbacks_terminal] derives from the class's
+   terminal object and pullbacks.  Finite COLIMITS are Structure/Topos/
+   Colimits.v's [topos_has_finite_colimits] -- Paré's theorem, through the
+   monadic power-object functor of [Structure/Topos/Monadic.v] -- again at
+   generator level: initial object, binary coproducts, coequalizers, pushouts.
 
    Universe note: the class is a plain record of the component classes, each
    universe-polymorphic over the ambient category; it introduces no universe

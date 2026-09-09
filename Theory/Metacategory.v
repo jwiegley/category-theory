@@ -161,11 +161,11 @@ Record Metacategory := {
      encoding below drops the definedness guard and instead requires
      [composite f u f] (and [composite u g g]) for *every* arrow, i.e. that
      [f ∙ u] and [u ∙ g] are defined and equal to [f]/[g] for all [f]/[g]. This
-     is strictly stronger than Mac Lane's notion but is sound for the finite,
-     explicitly-enumerated metacategories built here, and it is what the
-     [FromArrows] obligations below rely on (they apply these universally). The
-     parallel development in Theory/Metacategory/ArrowsOnly.v keeps the
-     conditional guard, [defined f u → composite f u f]. *)
+     is strictly stronger than Mac Lane's notion and is NOT satisfiable over a
+     finite table (see the file header: no enumerated arrow is an identity in
+     this sense, so [FromArrows] yields the empty category); the [FromArrows]
+     obligations below rely on it all the same. The parallel development in
+     Theory/Metacategory/ArrowsOnly.v keeps the guard, [defined f u → ...]. *)
   identity (u : arr) :=
     (∀ (f : arr), composite f u f) ∧ (∀ (g : arr), composite u g g);
 

@@ -41,6 +41,8 @@ Next Obligation.
 Qed.
 
 (* The category of cocones over F is dually the category of cones over the
-   opposite diagram F^op : J^op ⟶ C^op, whose objects are the cocones over F
-   (legs F x ~> apex; see [Cocone]). Its initial object is the colimit of F. *)
+   opposite diagram F^op : J^op ⟶ C^op: its objects are the cocones over F
+   (see [Cocone]), its arrows apex maps in C^op, and its TERMINAL object is
+   the colimit of F -- "initial in the category of cocones" reads as terminal
+   here because the arrows run in C^op (see Cones/Limit, [Cocones_Colimit]). *)
 Definition Cocones `(F : J ⟶ C) := Cones (F^op).

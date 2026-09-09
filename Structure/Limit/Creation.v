@@ -132,9 +132,9 @@ Generalizable All Variables.
    no explicit smallness hypothesis (Structure/Complete.v:27-37), so
    "creates all small limits" here reads as "creates limits of every shape
    the use site's universes allow".  Creation of finite limits is out of
-   scope: the tree has no finiteness predicate on shapes
-   (Structure/Topos.v and Structure/Regular.v spell finite limits as
-   terminal, products and pullbacks), and [CreatesLimitsOfShape] at a
+   scope here: the finiteness predicate on shapes is now
+   [Structure/Limit/Finite.v]'s [FiniteCategory] (it postdates this file,
+   which quantifies over no shape class), and [CreatesLimitsOfShape] at a
    named shape is what is offered instead.  [(F ◯ K)^op] and
    [F^op ◯ K^op] are not convertible, so the colimit side repackages cones
    field by field, following [preserves_colimit]
