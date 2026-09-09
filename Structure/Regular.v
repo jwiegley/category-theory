@@ -25,9 +25,9 @@ Generalizable All Variables.
 
    For the finite-completeness clause we package a terminal object together
    with all pullbacks ([regular_terminal], [regular_pullbacks]).  This is
-   the standard economical presentation: binary products are pullbacks over
-   the terminal object, and equalizers are pullbacks of the induced
-   pairings, so a terminal object and pullbacks generate all finite limits.
+   the standard economical presentation, and it is a theorem here:
+   [Structure/Limit/Finite.v]'s [finitely_complete_of_pullbacks_terminal]
+   turns the two fields into every finite limit ([FinitelyComplete]).
 
    The theorems below place the regular epimorphisms among the epimorphism
    classes: every regular epimorphism is epic ([regular_epi_epic], read off
