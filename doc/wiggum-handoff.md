@@ -81,7 +81,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
    Implementer rules: no Admitted/Axiom/etc.; MISSING-item escalation per
    plan §6; comments avoid make-todo words; portability: no 9.x-only
    stdlib names (plan §2 gate).
-3. Integrate (main loop, not agents): _CoqProject entries, CLAUDE.md
+3. Integrate (main loop, not agents): _CoqProject entries, docs/INDEX.md
    Key Files if the phase says so, full `nix develop -c make`,
    `make todo` campaign-silence check, 8.19/8.20 keep-going harvest in a
    detached worktree (plan §2.3), `nix build && nix flake check`.

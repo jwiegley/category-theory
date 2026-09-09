@@ -20,6 +20,9 @@ pre-commit:
     claude-md-counts:
       glob: "{CLAUDE.md,_CoqProject,*.v}"
       run: make -s claude-md-counts-check
+    index-check:
+      glob: "docs/INDEX.md"
+      run: make -s index-check
     nix-build:
       glob: "*.{v,nix}"
       run: nix build --no-warn-dirty 2>&1

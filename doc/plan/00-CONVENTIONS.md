@@ -398,8 +398,8 @@ Phase 8's image factorization avoids it); Bicategory coherence (Phase 13).
   nix builds are too slow per-commit); run `nix build` and `nix flake check` once
   per phase before pushing (Section 2.2 step 6 — no `.#category-theory` attribute
   exists).
-- Each phase ends with a `docs(CLAUDE)` commit adding a Key Files entry for the
-  phase's development to `CLAUDE.md` (follow the style of the existing
+- Each phase ends with a `docs(INDEX)` commit adding a Key Files entry for the
+  phase's development to `docs/INDEX.md` (follow the style of the existing
   Premonoidal/PROP entries).
 - Full mechanics, PR stacking, and the escalation discipline: Section 6.
 
@@ -436,9 +436,9 @@ Comment-edit commits that retire in-tree promissory notes (Moore.v header,
 Bicartesian.v:18, Adjunction.v RAPL note, Sets.v:348) ride WITH the commit that
 delivers the artifact, in the same commit.
 
-Each phase closes with `docs(CLAUDE): index the <topic> development` adding the
-phase's Key Files entry to `CLAUDE.md`, following the existing Premonoidal/PROP
-entry style.
+Each phase closes with `docs(INDEX): index the <topic> development` adding the
+phase's Key Files entry to `docs/INDEX.md` (the former `CLAUDE.md` section),
+following the existing Premonoidal/PROP entry style.
 
 Before pushing a phase: the full Section 2.2 gate, including
 `nix build && nix flake check` and both Docker-version worktree builds

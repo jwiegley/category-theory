@@ -102,7 +102,7 @@ Return: output_path, summary (totals by kind and per section), item_count, probl
 const CLASS_DEFS = `Classification definitions (frozen): PRESENT = formalized in-tree in substance (statement matches up to presentation; setoid rephrasing with hom-setoids and ≈ instead of = is faithful); PARTIAL = some of the item exists, the gap must be stated precisely; ABSENT = no in-tree counterpart; OUT_OF_SCOPE = not meaningfully formalizable in this library's setting (use SPARINGLY, one-line justification required; note the library HAS universe polymorphism, so size/foundations discussions are often PARTIAL or PRESENT, not OUT_OF_SCOPE).`
 
 function covPrompt(ids, k) {
-  return `You are a Phase-C coverage-classification agent. The library: ${REPO} (Coq/Rocq category theory, ~484 .v files; its CLAUDE.md Key Files index is a MAP to start from, but NEVER conclude ABSENT from the index alone — always search the whole tree). Read ${SCHEMAS} (section "Coverage record") and the merged inventory ${SCRATCH}/inventory-${R}.json first.
+  return `You are a Phase-C coverage-classification agent. The library: ${REPO} (Coq/Rocq category theory, ~920 .v files; its docs/INDEX.md Key Files index is a MAP to start from, but NEVER conclude ABSENT from the index alone — always search the whole tree). Read ${SCHEMAS} (section "Coverage record") and the merged inventory ${SCRATCH}/inventory-${R}.json first.
 
 Your items (classify EVERY one): ${JSON.stringify(ids)}
 
