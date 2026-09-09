@@ -73,8 +73,13 @@ Unset Transparent Obligations.
    chosen limits of [Fst ◯ (comma_proj ◯ K)] and [Snd ◯ (comma_proj ◯ K)].
    The [Id] instantiation needs [Id_PreservesLimitCone], which the tree
    did not have (measured: no constant of the shape [PreservesLimitCone _
-   Id] anywhere); it is declared at the head of this file and belongs
-   beside [PreservesLimitCone] in Structure/Limit/Preservation.v, where it
+   Id] anywhere; the nearest neighbour, Theory/Equivalence/Creation.v:102's
+   [Id_CreatesAllLimits], does not serve, because turning creation into
+   cone-level preservation through Structure/Limit/Creation.v:205's
+   [creation_preserves_limit] costs an extra [L : Limit (F ◯ K)] that the
+   new lemma does not need); it is declared at the head of this file and
+   belongs beside [PreservesLimitCone] in Structure/Limit/Preservation.v,
+   where it
    is not placed only because that module is upstream of most of the tree
    and the move would cost a wide rebuild for one twelve-line lemma.
 
@@ -90,7 +95,9 @@ Unset Transparent Obligations.
    Structure/Limit/Preservation.v supplies [limit_med_eq].  The ONE-SIDED
    donor the issue points at, Construction/Comma/Creation.v's
    [comma_CreatesLimit] for [comma_proj2 : (=(d) ↓ U) ⟶ C], is NOT
-   consumed and its [apex_obj]/[apex_leg] are not reused: those are stated
+   consumed, and the [apex_obj]/[apex_leg] beneath it — declared in
+   Construction/Comma/Limit.v (:161, :165), the module Creation.v builds
+   on, and not in Creation.v itself — are not reused: those are stated
    over the constant-domain comma, whose objects are [(ttt, b)]-pairs and
    whose lifting argument goes through the fixed [Gdiag]; the two-sided
    projection needs the domain half to vary, and the argument here is the
@@ -106,26 +113,37 @@ Unset Transparent Obligations.
    record [FCone comma_proj (comma_lift_cone N HN) = N] is refused at
    [eq_refl] although apex and every leg are [N]'s on the nose — the
    coherence field is a rebuilt proof and [≈] is Type-valued — pinned
-   with those two controls.  Non-vacuity COMPUTES: over [Coq] at the shape
-   [_1], with the diagram constant at the arrow [negb] and the limiting
-   cone Structure/Limit/Initial.v's [initial_cone] (whose mediator is
-   definitionally the leg), the created arrow IS [negb] at [eq_refl], and
-   [true ↦ false], [false ↦ true] by computation; it lives in the probe
-   because it costs [Instance/Coq], [Instance/One] and
-   [Structure/Limit/Initial] and this file should not.
+   with those two controls.  Non-vacuity COMPUTES, at a shape that is
+   DEGENERATE and labelled so: over [Coq] at the point shape [_1] (one
+   object, one arrow, so cone coherence is vacuous and the comparison
+   arrow is the diagram's own), with the diagram constant at the arrow
+   [negb] and the limiting cone Structure/Limit/Initial.v's [initial_cone]
+   (whose mediator is definitionally the leg), the created arrow IS [negb]
+   at [eq_refl], and [true ↦ false], [false ↦ true] by computation — what
+   that shows is that the whole chain REDUCES, not that a non-trivial
+   limit is computed; it lives in the probe because it costs
+   [Instance/Coq], [Instance/One] and [Structure/Limit/Initial] and this
+   file should not.
 
    UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK.  Every one of the 24
    constants of the two-sided section binds [A : Category@{u u0 u0}],
    [B : Category@{u1 u2 u2}], [C : Category@{u3 u4 u4}],
    [J : Category@{u5 u6 u6}] — hom identified with proof in the BINDER,
    with no such equation in any block.  EIGHTEEN of them carry the block
-   equations [u0 = u2], [u0 = u4], [u0 = u6] and [u0 = u9] (the comma's
-   own level), so the four categories' hom-and-proof levels collapse to
-   one; the SIX cone-building constants of the two halves — [cod_leg],
-   [cod_coherence], [cod_cone], [dom_leg], [dom_coherence], [dom_cone] —
-   carry [u2 = u4], [u2 = u6], [u2 = u9] instead and leave A's hom level
-   [u0] only BOUNDED; the ten [Section Lift] constants add [u15 = u20] and
-   [u17 = u18] on auxiliary levels that occur in no binder.  No equation
+   equations [u0 = u2], [u0 = u4], [u0 = u6] and [u0 = u9], so the four
+   categories' hom-and-proof levels collapse to one — [u9] is NOT the
+   comma category's own level (that category sits at
+   [Category@{u7 u4 u4}], its hom level being C's [u4], and [u7] carries
+   no equation anywhere) but the level instantiating [comma_proj2]'s own
+   universe [u6], an auxiliary bounded below by A's and B's hom levels
+   (a mislabel the fess audit caught); the SIX cone-building constants of
+   the two halves — [cod_leg], [cod_coherence], [cod_cone], [dom_leg],
+   [dom_coherence], [dom_cone] — carry [u2 = u4], [u2 = u6], [u2 = u9]
+   instead and leave A's hom level [u0] only BOUNDED; the ten
+   [Section Lift] constants add [u15 = u20] and [u17 = u18] on auxiliary
+   levels that occur in no [Category] binder (they sit inside the
+   [PreservesLimitCone], [Compose] and [IsLimitCone] instances of the
+   [HT] and [HN] binders).  No equation
    in any of the 31 blocks touches an OBJECT universe.  The collapse is
    NOT the comma category's doing: [Comma@{…}] binds [A], [B] and [C] at
    three separate hom levels and [Su ↓ Tu] is ACCEPTED at [ah < bh]; it is
@@ -156,7 +174,10 @@ Unset Transparent Obligations.
    compiling and is [Defined] by the data convention only.  Transitive
    in-project closure 33 modules excluding this file (probe 65), measured
    per [Require]: Construction/Product/Limit costs 6, Construction/Arrow
-   1, every other [Require] 0.
+   1, every other [Require] 0.  [make todo] grows by the probe's
+   refutation commands and the prose lines naming that token, this file
+   contributing ZERO — so the issue's "adds no new hits" box is NOT met
+   as written; CLAUDE.md carries the exact figure.
 
    NOT DELIVERED.  Colimits: no [Arrow_Cocomplete] and no dual of the
    two-sided statement — it would need [S] to preserve the COLIMIT of the
@@ -165,9 +186,11 @@ Unset Transparent Obligations.
    development is attempted here.  No converse: nothing says [T] MUST
    preserve the limit for [comma_proj] to create it.  No comparison of
    [Arrow_Complete]'s limits with the one-sided [Comma_Complete]'s, and no
-   identification of [Fst ◯ comma_proj] with [comma_proj1] (or
-   [Arrow_dom]) beyond their agreeing actions — the readbacks are stated
-   in the [Fst ◯ (comma_proj ◯ K)] form [Product_Complete] chooses.  No
+   identification of [Fst ◯ comma_proj] with [comma_proj1] beyond their
+   agreeing actions (both exhibited at [eq_refl] in the probe, mirroring
+   the [Snd] pair), and none with [Arrow_dom] at all — the readbacks are
+   stated in the [Fst ◯ (comma_proj ◯ K)] form [Product_Complete] chooses.
+   No
    functoriality of the lift in [K], no naturality of the comparison
    arrow, and nothing registered as an [Instance]: a chosen limit must not
    become globally resolvable. *)

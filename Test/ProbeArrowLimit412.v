@@ -46,7 +46,9 @@ Generalizable All Variables.
                    functor RECORD although both actions agree at [eq_refl]
                    (the two controls): [Compose]'s three law fields are
                    separate opaque obligations.  This is why the target
-                   repackages [FCone Snd N] as [cod_cone N].
+                   repackages [FCone Snd N] as [cod_cone N].  The same two
+                   action controls are shipped for the [Fst]/[comma_proj1]
+                   side, which the target's NOT DELIVERED paragraph cites.
      N3  TYPING    Supplying preservation on the DOMAIN side — a
                    [PreservesLimitCone (comma_proj1 ◯ K) S] — where the
                    theorem asks for [T] is a has-type mismatch between two
@@ -60,12 +62,18 @@ Generalizable All Variables.
      N4  UNIVERSE  At a shape whose homs are declared strictly BELOW the
                    factors' homs, [Su ↓ Tu], the diagram [K] and a [Cone]
                    over it are ACCEPTED while the composite [comma_proj ◯ K]
-                   is refused — [Compose] is declared over three categories
-                   sharing ONE hom-and-proof level — and
-                   [comma_proj_CreatesLimit] is refused with it, firing at
-                   that composite.  The comma category is NOT a donor: at
-                   [ah < bh] (the two factors' homs declared apart)
-                   [Su ↓ Tu] is accepted, the control at the end.
+                   is refused, firing at [K] with [Cannot enforce ch = jh]
+                   — [Compose] is declared over three categories sharing
+                   ONE hom-and-proof level.  [comma_proj_CreatesLimit] is
+                   refused too, but NOT at that composite: it fires at its
+                   shape argument [Ju], with [Cannot enforce jh = ah], its
+                   own block equation [u0 = u6] met at an already-refused
+                   argument (the #340 shape).  So the second [Fail] pins
+                   the inherited boundary and does not independently
+                   corroborate the [Compose] attribution, which rests on
+                   the donor [Fail] alone.  The comma category is NOT a
+                   donor: at [ah < bh] (the two factors' homs declared
+                   apart) [Su ↓ Tu] is accepted, the control at the end.
 
    Every constant a negative names also appears in a [Check] outside every
    [Fail], so a rename breaks this file loudly instead of turning a [Fail]
@@ -89,6 +97,7 @@ Check @Cone.
 Check @cone_leg.
 Check @vertex_obj.
 Check @Snd.
+Check @Fst.
 Check @Compose.
 Check @PreservesLimitCone.
 Check @IsLimitCone.
@@ -125,6 +134,14 @@ Example probe412_ctrl_fmap :
 
 (* N2: CONVERSION — not as records. *)
 Fail Example probe412_n2 : Snd ◯ (comma_proj ◯ K) = comma_proj2 ◯ K := eq_refl.
+
+(* Controls for the DOMAIN side, which the target's NOT DELIVERED paragraph
+   cites: the two domain-diagram functors also agree on both actions. *)
+Example probe412_ctrl_fobj1 :
+  fobj[Fst ◯ (comma_proj ◯ K)] = fobj[comma_proj1 ◯ K] := eq_refl.
+
+Example probe412_ctrl_fmap1 :
+  @fmap _ _ (Fst ◯ (comma_proj ◯ K)) = @fmap _ _ (comma_proj1 ◯ K) := eq_refl.
 
 End Records.
 
@@ -167,7 +184,7 @@ Check (@Cone Ju (Su ↓ Tu) K).
 (* N4: UNIVERSE — the donor. *)
 Fail Check (comma_proj ◯ K).
 
-(* Inherited. *)
+(* Inherited: fires at the shape argument [Ju], [Cannot enforce jh = ah]. *)
 Fail Check (@comma_proj_CreatesLimit Au Au Cu Su Tu Ju K).
 
 End UniverseBoundary.
