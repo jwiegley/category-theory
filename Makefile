@@ -6767,6 +6767,71 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.sets_med_eq.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Limit.sets_pre.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Product.Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Complete_op_of_Cocomplete.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Fst_PreservesLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.PiCat_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.PiCat_JointlyCreateLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.PiCat_Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.PiCat_Limit_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.ProdFactor.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.ProdProj.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Cocartesian.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Cocartesian_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Cocomplete.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Complete_Fst.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Complete_Snd.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Initial.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Initial_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_JointlyCreateLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Limit_Fst.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Limit_Fst_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Limit_Snd.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Limit_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Terminal.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Terminal_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Product_Terminal_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.Snd_PreservesLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.const_pair.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pair_const.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pair_const_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_IsLimitCone_med.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_cone_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_cone_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_cone_proj_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_cone_proj_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.pi_reflect.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_IsLimitCone_med.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_fst_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_fst_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_snd_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_cone_snd_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.prod_reflect.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.repack_fst.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.repack_fst_inv.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.repack_snd.'; \
+	  echo 'Print Assumptions Category.Construction.Product.Limit.repack_snd_inv.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.JointlyCreateLimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.Build_JointlyCreateLimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_lift.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_lift_over.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_reflect.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_limiting.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_lift_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.jcreates_limit_lift.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.JointlyCreateLimit_of_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Creation.CreatesLimit_of_JointlyCreateLimit.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
