@@ -64,8 +64,13 @@ Open Scope category_scope.
    [Generates] quantifies over it: [fc_Generates] destructs the witness and
    feeds [gen_equiv]/[gen_idx], which a [Prop]-valued coverage could not do
    (large elimination) — which is exactly why the unregistered
-   Structure/Limit/Preservation/Shapes.v's [FiniteShape], whose coverage is
-   [List.In] in [Prop], is NOT consumed here and is disclosed instead.
+   Structure/Limit/Preservation/Shapes.v's [FiniteShape] is NOT consumed here
+   and is disclosed instead: its object coverage [fs_objs_all] is a
+   [Prop]-valued [List.In], and its arrow coverage [fs_homs_all] is a [sigT]
+   (Type-valued, so it does eliminate into [Type]) whose membership
+   component is again a [Prop]-valued [List.In], from which no [Fin.t] index
+   is recoverable — an earlier draft called the whole coverage "[List.In] in
+   [Prop]", which a fess audit refuted for the arrow half.
    (ii) "Finitely many" is UP TO [≈], the only reading a setoid supports,
    and the enumeration is a RETRACTION, not a bijection: one arrow may be
    hit by several indices, so [fc_size] is an upper bound on the number of
@@ -100,9 +105,12 @@ Open Scope category_scope.
    [fl_cone]/[fl_limiting] are #416's [pe_cone]/[pe_limiting] at the
    generating family [fc_arrow] with [fc_Generates] discharging the
    coverage.  So [finite_limit : Limit F] is built from THREE finite
-   products and TWO equalizers, all indexed by [Fin.t (fc_size HJ)] — the
-   reviewer's check that the predicate is consumed rather than placeholdered
-   — with [finite_limit_apex] and [finite_limit_leg] reading the apex and
+   products and TWO equalizers — [fl_P0] and [fl_Q] indexed by
+   [Fin.t (fc_size HJ)], the retract product [fl_P] indexed by [obj J] and
+   itself built from a [Fin.t]-indexed product plus the retract equalizer,
+   then [fl_eq] — the reviewer's check that the predicate is consumed
+   rather than placeholdered — with [finite_limit_apex] and
+   [finite_limit_leg] reading the apex and
    the legs back at [eq_refl].  [finitely_complete_from_generators
    (T : Terminal C) (CP : Cartesian C) (HEq : HasEqualizers C)] (the pinned
    name) is that at [Cartesian_Terminal_HasFiniteProducts], and
@@ -139,8 +147,13 @@ Open Scope category_scope.
    u3} : Category@{u3 u2 u2} → Type@{u}] keeps the ambient OBJECT universe
    free and puts the shape's hom at the ambient's hom (the [Limit]
    vocabulary's identification, #416's measurement), the shape's object
-   universe strictly below the sort; the whole [fl_*]/[finite_limit] family
-   carries the one block equation [u2 = u5] saying the same.  TWO
+   universe strictly below the sort; of the twenty-four [fl_*]/
+   [finite_limit] constants exactly FIVE — [finite_limit],
+   [finite_limit_apex], [finite_limit_leg], [fl_cone] and [fl_limiting] —
+   carry the one block equation [u2 = u5] saying the same, the other
+   nineteen ([fl_P0], [fl_P], [fl_Q], [fl_s], [fl_t], [fl_eq], …) carrying
+   no equation at all (a first draft said "the whole family"; a fess audit
+   counted).  TWO
    measurements decide the converse's route.  First, the small shapes
    SPLIT: [Roof@{u u0} : Category@{u u0 u0}] and [Parallel] are FREE, while
    Instance/Two.v's [_2], [Two_Discrete] and Instance/Zero.v's [_0] are
@@ -156,15 +169,19 @@ Open Scope category_scope.
    dragged [empty_cone], [FinitelyComplete_Terminal] and the biconditional
    down to a [Set]-homed ambient; the explicit binders on those four are
    what lifts it, and the bare clone is pinned against them
-   (Test/ProbeFinite417.v N6).  Every headline is now over
+   (Test/ProbeFinite417.v N7).  Every headline is now over
    [Category@{co ch ch}] with [co] free.
 
    THE CONE-CATEGORY READINGS (Instance/Cones/Limit.v).  Awodey's defining
    formulation, "a limit is a terminal object in the category of cones",
    had only the direction [Limit_Cones : Terminal (Cones F) → Limit F];
    [Cones_Limit] is the other, and the round trips return the cone, every
-   mediator, the terminal cone and every unique arrow at [eq_refl] (whole
-   records refuted, pinned).  The colimit half needed a CORRECTION rather
+   mediator, the terminal cone and the APEX MAP of every unique arrow at
+   [eq_refl] — the whole unique arrow is re-paired, stdlib [sigT] having no
+   eta, so only its first projection converts (the probe's [p417_round_one]
+   checks exactly that; a first draft of this sentence said "every unique
+   arrow"), whole records refuted, pinned.  The colimit half needed a
+   CORRECTION rather
    than a dual: with [Cocones F := Cones (F^op)] (Instance/Cones.v) a cocone
    morphism is an arrow of [C^op], so the colimit is the TERMINAL object of
    [Cocones F], and the comment there saying "initial" was wrong.  Delivered
@@ -193,11 +210,16 @@ Open Scope category_scope.
    0; nine [Defined] tokens, of which exactly ONE is load-bearing by
    flipping each ALONE to [Qed] — [empty_cone], whose [Qed] form stops
    [FinitelyComplete_Terminal] in this very file — the other eight
-   ([EmptyDiagram], [FinitelyComplete_Terminal], the two biconditionals and
-   the four shape witnesses) flipping with the file and the probe intact,
-   kept [Defined] by the data convention only; [make todo] grows by 18, ALL
-   in the probe (13 [Fail] commands and 5 header lines naming the token),
-   this file and the six prose-edited files contributing ZERO.
+   ([FiniteCategory_op], [EmptyDiagram], [FinitelyComplete_Terminal], the
+   two biconditionals and the three [Defined] shape witnesses
+   [Roof_FiniteCategory], [Two_FiniteCategory], [Parallel_FiniteCategory];
+   [EmptyShape_FiniteCategory] and [Cospan_FiniteCategory] are [:=] terms)
+   flipping with the file and the probe intact, kept [Defined] by the data
+   convention only; [make todo] grows by 18, ALL in the probe (13
+   refutation commands and 5 header lines naming the token), this file and
+   the six prose-edited files contributing ZERO — a sentence that is true
+   only because it does not itself spell the token: a first draft did, was
+   the one library hit (19, not 18), and a fess audit caught it.
 
    NOT DELIVERED.  No class bundling finite completeness (a plain
    [Definition], nothing registered as an [Instance], a chosen limit not

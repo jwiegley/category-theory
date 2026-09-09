@@ -150,8 +150,9 @@ Section Cones.
   Fail Example p417_initial_is_not_terminal :
     @Initial (Cocones F) = @Terminal (Cocones F) := eq_refl.
 
-  (* The literal passage the issue asks for, [Initial (Cocones F) → Colimit F],
-     is refused: the hypothesis has the WRONG type for [Colimit_Cocones]. *)
+  (* N2 TYPING: the literal passage the issue asks for,
+     [Initial (Cocones F) → Colimit F], is refused — the hypothesis has the
+     WRONG type for [Colimit_Cocones], a plain has-type mismatch. *)
   Fail Definition p417_colimit_of_initial (I : @Initial (Cocones F)) :
     Colimit F := Colimit_Cocones F I.
 
@@ -166,7 +167,7 @@ Section Cones.
     unique_obj (@ump_limits _ _ _ (@Limit_Cones _ _ F (Cones_Limit F L)) N)
     = unique_obj (@ump_limits _ _ _ L N) := eq_refl.
 
-  (* N2 CONVERSION: the whole [Limit] record is rebuilt. *)
+  (* N3 CONVERSION: the whole [Limit] record is rebuilt. *)
   Fail Example p417_round_limit_record :
     @Limit_Cones _ _ F (Cones_Limit F L) = L := eq_refl.
 
@@ -181,24 +182,27 @@ Section Cones.
     `1 (@one _ (Cones_Limit F (@Limit_Cones _ _ F T)) N) = `1 (@one _ T N)
     := eq_refl.
 
-  (* N3 CONVERSION: the whole [Terminal] record is rebuilt. *)
+  (* N4 CONVERSION: the whole [Terminal] record is rebuilt. *)
   Fail Example p417_round_terminal_record :
     Cones_Limit F (@Limit_Cones _ _ F T) = T := eq_refl.
 End Cones.
 
-(** ** B: finite completeness is not completeness (TYPING) *)
+(** ** B: finite completeness is not completeness (N5 CONVERSION, N6 TYPING) *)
 
 Section NotComplete.
   Context {C : Category} (FC : @FinitelyComplete C).
 
-  (* N4 TYPING: a finitely complete category is not thereby complete. *)
+  (* N5 CONVERSION: a finitely complete category is not thereby complete —
+     a has-type mismatch whose [cannot unify] clause compares the SECOND
+     binders ([J ⟶ C] against [FiniteCategory J]), classified by the
+     clause as the header table has it. *)
   Fail Definition p417_fc_is_complete : @Complete C := FC.
 
   (* Control: the other direction is the target's own passage. *)
   Definition p417_complete_fc (HC : @Complete C) : @FinitelyComplete C :=
     Complete_FinitelyComplete HC.
 
-  (* N5 TYPING: the generator corollary fed coequalizers where it asks for
+  (* N6 TYPING: the generator corollary fed coequalizers where it asks for
      equalizers. *)
   Fail Definition p417_wrong_generator (T : @Terminal C) (CP : @Cartesian C)
     (HCo : HasCoequalizers C) : @FinitelyComplete C :=
@@ -237,10 +241,10 @@ Section UnivPin.
   Context (DP : Parallel ⟶ Cu).
   Check (FC Parallel Parallel_FiniteCategory DP).
 
-  (* N6 UNIVERSE: the bare clone pins the ambient at [Set]. *)
+  (* N7 UNIVERSE: the bare clone pins the ambient at [Set]. *)
   Fail Check (EmptyDiagram_bare Cu).
 
-  (* N7 UNIVERSE: [_2] is a [Category@{u Set Set}], so a limit over it — and
+  (* N8 UNIVERSE: [_2] is a [Category@{u Set Set}], so a limit over it — and
      hence [FC] at it — is refused at this ambient, though the diagram
      itself is accepted. *)
   Context (D2 : _2 ⟶ Cu).
@@ -256,7 +260,7 @@ Section HomProof.
   Context (x y : Jv) (f : x ~> y).
   Check f.
   Check (id[x]).
-  (* N8 UNIVERSE: [FiniteCategory] identifies the shape's hom and proof
+  (* N9 UNIVERSE: [FiniteCategory] identifies the shape's hom and proof
      universes (through [ArrowIx]; measured). *)
   Fail Check (@ArrowIx Jv).
   Fail Check (FiniteCategory Jv).
@@ -279,7 +283,7 @@ Definition topos_FinitelyComplete {C : Category} (T : ElementaryTopos C) :
   @FinitelyComplete C :=
   finitely_complete_of_pullbacks_terminal topos_pullbacks topos_terminal.
 
-(* N9 CONVERSION: the terminal object recovered from the empty finite limit
+(* N10 CONVERSION: the terminal object recovered from the empty finite limit
    at [FinSet] does NOT compute to the numeral [1] — the chain runs through
    the chosen equalizer of [HasEqualizers_of_HasPullbacks_Terminal], whose
    object is opaque (see the diagnosis in the header). *)
