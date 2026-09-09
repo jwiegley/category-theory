@@ -92,6 +92,7 @@ Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Special.v
 Construction/Product/Indexed.v
+Construction/Product/Limit.v
 Construction/Product/Comma.v
 Construction/Profunctor/Compose.v
 Construction/Profunctor/Laws.v
@@ -906,6 +907,7 @@ Test/ProbeToposInstances404.v
 Test/ProbeConeSets407.v
 Test/ProbeInverseLimit408.v
 Test/ProbeGrpLimit411.v
+Test/ProbeProductLimit418.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

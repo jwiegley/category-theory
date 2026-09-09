@@ -438,3 +438,81 @@ End Dual.
 Definition creates_colimits_Cocomplete {C D : Category} (F : C ⟶ D)
   (HD : @Cocomplete D) (CR : CreatesAllColimits F) : @Cocomplete C :=
   fun J K => creates_colimit_lift (CR J K) (HD J (F ◯ K)).
+
+(** ** Jointly created limits (Riehl §3.4 Exercise 3.4.v) *)
+
+(* A FAMILY of functors [F i : C ⟶ D i] jointly creates the limit of [K]
+   when a family of limiting cones over the images, one for every [i],
+   lifts to a cone over [K] whose [i]-th image is the [i]-th given cone
+   up to cone isomorphism, and a cone upstairs ALL of whose images are
+   limiting is itself limiting.  This is [CreatesLimit] with the single
+   functor replaced by a family; the two bridges below record that
+   [CreatesLimit K F] is exactly the case of a one-member family.  Its
+   motivating instance is the family of projections out of a product of
+   categories (Construction/Product/Limit.v), which is what makes "limits
+   in a product category are computed componentwise" a creation statement
+   rather than a construction.  Mac Lane's remaining clauses — the lift
+   is limiting, and any cone over the given family is canonically
+   isomorphic to it — are derived exactly as for [CreatesLimit]. *)
+
+Class JointlyCreateLimit {J C : Category} (K : J ⟶ C)
+  {I : Type} {D : I → Category} (F : ∀ i : I, C ⟶ D i) := {
+  jcreates_lift (N : ∀ i : I, Cone (F i ◯ K))
+    (HN : ∀ i : I, IsLimitCone (N i)) : Cone K;
+  jcreates_lift_over (N : ∀ i : I, Cone (F i ◯ K))
+    (HN : ∀ i : I, IsLimitCone (N i)) (i : I) :
+    ConeIso (FCone (F i) (jcreates_lift N HN)) (N i);
+  jcreates_reflect (M : Cone K) :
+    (∀ i : I, IsLimitCone (FCone (F i) M)) → IsLimitCone M
+}.
+
+Definition jcreates_limiting {J C : Category} {K : J ⟶ C}
+  {I : Type} {D : I → Category} {F : ∀ i : I, C ⟶ D i}
+  (JC : JointlyCreateLimit K F)
+  (N : ∀ i : I, Cone (F i ◯ K)) (HN : ∀ i : I, IsLimitCone (N i)) :
+  IsLimitCone (jcreates_lift N HN) :=
+  jcreates_reflect (jcreates_lift N HN)
+    (fun i => limitcone_transport
+                (ConeIso_sym (jcreates_lift_over N HN i)) (HN i)).
+
+Definition jcreates_lift_unique {J C : Category} {K : J ⟶ C}
+  {I : Type} {D : I → Category} {F : ∀ i : I, C ⟶ D i}
+  (JC : JointlyCreateLimit K F)
+  (N : ∀ i : I, Cone (F i ◯ K)) (HN : ∀ i : I, IsLimitCone (N i))
+  (M : Cone K) (j : ∀ i : I, ConeIso (FCone (F i) M) (N i)) :
+  ConeIso M (jcreates_lift N HN) :=
+  limitcone_iso
+    (jcreates_reflect M
+       (fun i => limitcone_transport (ConeIso_sym (j i)) (HN i)))
+    (jcreates_limiting JC N HN).
+
+Definition jcreates_limit_lift {J C : Category} {K : J ⟶ C}
+  {I : Type} {D : I → Category} {F : ∀ i : I, C ⟶ D i}
+  (JC : JointlyCreateLimit K F) (L : ∀ i : I, Limit (F i ◯ K)) : Limit K :=
+  @Build_Limit J C K
+    (jcreates_lift (fun i => @limit_cone _ _ _ (L i))
+       (fun i => limit_limitcone (L i)))
+    (jcreates_limiting JC _ _).
+
+(* A single functor is a one-member family, both ways.  [unit] is the
+   index; the reflection clause and the lift are literally the same data. *)
+
+Definition JointlyCreateLimit_of_CreatesLimit {J C D : Category}
+  {K : J ⟶ C} {F : C ⟶ D} (CR : CreatesLimit K F) :
+  JointlyCreateLimit K (fun _ : unit => F) := {|
+  jcreates_lift := fun N HN => creates_lift (N tt) (HN tt);
+  jcreates_lift_over := fun N HN i =>
+    match i as u
+      return ConeIso (FCone F (creates_lift (N tt) (HN tt))) (N u)
+    with tt => creates_lift_over (N tt) (HN tt) end;
+  jcreates_reflect := fun M H => creates_reflect M (H tt)
+|}.
+
+Definition CreatesLimit_of_JointlyCreateLimit {J C D : Category}
+  {K : J ⟶ C} {F : C ⟶ D}
+  (JC : JointlyCreateLimit K (fun _ : unit => F)) : CreatesLimit K F := {|
+  creates_lift := fun N HN => jcreates_lift (fun _ => N) (fun _ => HN);
+  creates_lift_over := fun N HN =>
+    jcreates_lift_over (fun _ => N) (fun _ => HN) tt;
+  creates_reflect := fun M H => jcreates_reflect M (fun _ => H)
+|}.
