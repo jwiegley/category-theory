@@ -88,12 +88,12 @@ Open Scope category_scope.
    of [F] over the OBJECTS of [J], but the enumeration indexes ARROWS.  So
    Section RetractProduct proves, over an arbitrary category, that a product
    over an index [A] together with ONE equalizer — of the identity against
-   the canonical idempotent [rp_r := ⟨ cast ∘ proj (idx (of a)) ⟩_a] — is a
-   product over any retract [B] of [A] (maps [of : A → B], [idx : B → A],
-   [rt : of (idx b) = b]); nothing in it is about finiteness, and the
+   the canonical idempotent [rp_r := ⟨ cast ∘ proj (idx (down a)) ⟩_a] — is a
+   product over any retract [B] of [A] (maps [down : A → B], [idx : B → A],
+   [rt : down (idx b) = b]); nothing in it is about finiteness, and the
    chosen-structure form [retract_product]/[retract_product_ump] under
    [HasEqualizers] is what the corollary applies at [A := Fin.t fc_size],
-   [B := obj J], [of := fc_dom], [idx := fc_obj_idx].
+   [B := obj J], [down := fc_dom], [idx := fc_obj_idx].
 
    THE COROLLARY CONSUMES THE ENUMERATION.  In Section FiniteLimit, under
    [HasFiniteProducts C] (Structure/Limit/Product/Finite.v, #335's fold of
@@ -388,23 +388,23 @@ Section RetractProduct.
 #[local] Set Default Proof Using "All".
 
 Context {C : Category}.
-Context {A B : Type} (of : A → B) (idx : B → A)
-  (rt : ∀ b : B, of (idx b) = b).
+Context {A B : Type} (down : A → B) (idx : B → A)
+  (rt : ∀ b : B, down (idx b) = b).
 Context (fam : B → C).
-Context {P : C} (proj : ∀ a : A, P ~> fam (of a))
-  (HP : IsIndexedProduct (fun a : A => fam (of a)) P proj).
+Context {P : C} (proj : ∀ a : A, P ~> fam (down a))
+  (HP : IsIndexedProduct (fun a : A => fam (down a)) P proj).
 
 (* The transport along the retraction, as a cast. *)
 
-Definition rp_cast (b : B) : fam (of (idx b)) ~> fam b :=
+Definition rp_cast (b : B) : fam (down (idx b)) ~> fam b :=
   id_cast (f_equal fam (rt b)).
 
 Lemma rp_cast_family {c : C} (h : ∀ b : B, c ~> fam b) (b : B) :
-  rp_cast b ∘ h (of (idx b)) ≈ h b.
+  rp_cast b ∘ h (down (idx b)) ≈ h b.
 Proof.
   unfold rp_cast.
   generalize (rt b).
-  generalize (of (idx b)).
+  generalize (down (idx b)).
   intros b' e.
   destruct e.
   cat.
@@ -414,10 +414,10 @@ Qed.
    representative. *)
 
 Definition rp_r : P ~> P :=
-  unique_obj (iprod_desc HP (fun a => rp_cast (of a) ∘ proj (idx (of a)))).
+  unique_obj (iprod_desc HP (fun a => rp_cast (down a) ∘ proj (idx (down a)))).
 
 Lemma rp_r_proj (a : A) :
-  proj a ∘ rp_r ≈ rp_cast (of a) ∘ proj (idx (of a)).
+  proj a ∘ rp_r ≈ rp_cast (down a) ∘ proj (idx (down a)).
 Proof. exact (unique_property (iprod_desc HP _) a). Qed.
 
 (* An equalizer of [id] and [r]. *)
@@ -435,10 +435,10 @@ Proof.
 Qed.
 
 Definition rp_tuple {c : C} (h : ∀ b : B, c ~> fam b) : c ~> P :=
-  unique_obj (iprod_desc HP (fun a => h (of a))).
+  unique_obj (iprod_desc HP (fun a => h (down a))).
 
 Lemma rp_tuple_proj {c : C} (h : ∀ b : B, c ~> fam b) (a : A) :
-  proj a ∘ rp_tuple h ≈ h (of a).
+  proj a ∘ rp_tuple h ≈ h (down a).
 Proof. exact (unique_property (iprod_desc HP _) a). Qed.
 
 Lemma rp_tuple_equalizes {c : C} (h : ∀ b : B, c ~> fam b) :
@@ -474,7 +474,7 @@ Proof.
   rewrite rp_med_incl.
   apply (pe_iprod_ext HP); intro a.
   rewrite rp_tuple_proj.
-  rewrite <- (Hv (of a)).
+  rewrite <- (Hv (down a)).
   unfold rp_proj.
   transitivity (proj a ∘ ((rp_r ∘ e) ∘ v)).
   - rewrite comp_assoc, comp_assoc, rp_r_proj.
@@ -497,25 +497,25 @@ End RetractProduct.
 Section RetractProductChosen.
 
 Context {C : Category} (HEq : HasEqualizers C).
-Context {A B : Type} (of : A → B) (idx : B → A)
-  (rt : ∀ b : B, of (idx b) = b).
+Context {A B : Type} (down : A → B) (idx : B → A)
+  (rt : ∀ b : B, down (idx b) = b).
 Context (fam : B → C).
-Context {P : C} (proj : ∀ a : A, P ~> fam (of a))
-  (HP : IsIndexedProduct (fun a : A => fam (of a)) P proj).
+Context {P : C} (proj : ∀ a : A, P ~> fam (down a))
+  (HP : IsIndexedProduct (fun a : A => fam (down a)) P proj).
 
 Definition retract_equalizer :=
-  @equalizer C HEq P P id (rp_r of idx rt fam proj HP).
+  @equalizer C HEq P P id (rp_r down idx rt fam proj HP).
 
 Definition retract_product : C := `1 retract_equalizer.
 
 Definition retract_incl : retract_product ~> P := `1 (`2 retract_equalizer).
 
 Definition retract_product_proj (b : B) : retract_product ~> fam b :=
-  rp_proj of idx rt fam proj retract_incl b.
+  rp_proj down idx rt fam proj retract_incl b.
 
 Definition retract_product_ump :
   IsIndexedProduct fam retract_product retract_product_proj :=
-  rp_IsIndexedProduct of idx rt fam proj HP retract_incl
+  rp_IsIndexedProduct down idx rt fam proj HP retract_incl
     (`2 (`2 retract_equalizer)).
 
 End RetractProductChosen.
