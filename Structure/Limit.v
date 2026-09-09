@@ -67,9 +67,9 @@ Generalizable All Variables.
    [Limit] over [Parallel]), pullbacks (J a cospan,
    Structure/Pullback/Limit.v), and the classical inverse limits above
    (J a directed poset, read contravariantly).  Whatever is proved once
-   about [Limit] — uniqueness up to unique isomorphism, preservation,
-   construction from products and equalizers — thereby specializes to
-   each of these at no further cost.
+   about [Limit] — uniqueness up to unique isomorphism (Limit/Unique.v),
+   preservation (Limit/Preservation.v), construction from products and
+   equalizers (Limit/FromProducts.v) — specializes to each at no cost.
 
    Two reformulations knit the concept into the rest of the theory.
    Instance/Cones/Limit.v turns the terminal-cone slogan of the header
@@ -92,8 +92,8 @@ Generalizable All Variables.
    colimits, with no size restriction (Riehl, Theorem 4.6.2) — proved
    in-tree as Adjunction/Continuity.v's [rapl_is_alimit] and its duals.
    Together with the existence theorem — a category with products and
-   equalizers has all limits (Riehl, Theorem 3.5.11, dual form) — these
-   make limits the everyday currency of adjunction arguments.
+   equalizers has all limits (Riehl, Theorem 3.5.11, dual form; in-tree
+   [Complete_from_products_equalizers]) — these carry adjunction arguments.
 
    The computational reading is concrete.  Products are pair types and
    the terminal object is unit (the reading Instance/Coq.v realizes); an
