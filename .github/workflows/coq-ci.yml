@@ -16,6 +16,8 @@ jobs:
         run: make bench-config-check-selftest
       - name: CLAUDE.md file-count guard
         run: make claude-md-counts-check
+      - name: docs/INDEX.md section-heading guard
+        run: make index-check
 
   build:
     runs-on: ubuntu-latest
