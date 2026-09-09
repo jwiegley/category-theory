@@ -31,11 +31,12 @@ Generalizable All Variables.
    the target, because an in-file [Fail] renames in lockstep with the
    constant it guards and so cannot detect a rename.
 
-   SIX negatives of TWO kinds — five CONVERSION, one UNIVERSE (pinned by
-   TWO [Fail] commands, the donor and the inherited refusal) — told apart
-   by the error TEXT rather than by label, plus one scope-free instrument
-   check: seven [Fail] commands beyond the instrument.  The kinds were read
-   off the messages actually produced by stripping each [Fail] in turn.
+   SEVEN negatives of TWO kinds — five CONVERSION, two UNIVERSE (each
+   pinned by TWO [Fail] commands, the donor and an inherited refusal) —
+   told apart by the error TEXT rather than by label, plus one scope-free
+   instrument check: nine [Fail] commands beyond the instrument.  The
+   kinds were read off the messages actually produced by stripping each
+   [Fail] in turn.
    Note N5 in particular: it LOOKS like a typing negative (a wrong
    ascription) but its message carries a [cannot unify] clause, and a
    TYPING negative in this tree is a has-type mismatch with NO such
@@ -80,6 +81,22 @@ Generalizable All Variables.
                    [u0 = u6], the shape's hom level against both factors'
                    and the product's).  [prod_cone K] is refused at the same
                    levels, firing at that composite.
+     N7  UNIVERSE  The [PiCat] half carries a SECOND identification the
+                   binary half does not, on the INDEX: at an index type
+                   declared strictly ABOVE the factors' hom-and-proof level,
+                   [PiCat Du] itself is ACCEPTED (its block is bounds only)
+                   while [PiCat_Proj Du] is refused with [Cannot enforce dh
+                   = … because dh < ii] — that constant's own binder reads
+                   [C : I → Category@{u1 u u}], index at hom level — and so
+                   is [PiCat_Complete], whose BINDER reads
+                   [D : I → Category@{u5 u u}] with no block equation at all;
+                   both refusals fire at the argument [Du], so the inherited
+                   constant is not measured apart from the donor.  Every
+                   [PiCat]-side constant of the target (twelve) carries it,
+                   eleven in the block ([u = u1], [u = u3], [u = u5] in
+                   [pi_cone]) and [PiCat_Complete] in the binder alone.
+                   Found by the fess audit of the first commit, whose
+                   header attributed everything to [Compose].
 
    Each negative was stripped ONE AT A TIME in a copy of this WHOLE file —
    not a preamble-plus-command scratch, which would drop the [Section]'s
@@ -110,6 +127,7 @@ Check @vertex_obj.
 Check @pi_cone.
 Check @PiCat.
 Check @PiCat_Proj.
+Check @PiCat_Complete.
 Check @Opposite.
 Check @Product.
 Check @Product_Opposite.
@@ -211,9 +229,11 @@ Context (Cu : Category@{co ch ch}).
 Context (Du : Category@{do dh dh}).
 Context (K : Ju ⟶ Cu ∏ Du).
 
-(* Controls: the diagram and a cone over it are formable at these levels. *)
+(* Controls: the diagram, a cone over it, and the projection ALONE are all
+   formable at these levels — so neither [K] nor [Fst] is the donor. *)
 Check K.
 Check (@Cone Ju (Cu ∏ Du) K).
+Check (@Fst Cu Du).
 
 (* N6: UNIVERSE — the donor: [Compose] wants one hom level for all three
    categories. *)
@@ -223,3 +243,28 @@ Fail Check (Fst ◯ K).
 Fail Check (prod_cone K).
 
 End UniverseBoundary.
+
+(** ** N7: the index boundary of the [PiCat] half, with [PiCat] itself as the
+       control *)
+
+Section IndexBoundary.
+
+Universes pi_i pi_h.
+Constraint pi_h < pi_i.
+
+Context (Iu : Type@{pi_i}).
+Context (Du : Iu -> Category@{pi_i pi_h pi_h}).
+
+(* Control: the set-indexed product itself is formable at an index declared
+   strictly above the factors' homs — its block carries bounds only. *)
+Check (PiCat Du).
+
+(* N7: UNIVERSE — the donor: [PiCat_Proj]'s binder [C : I → Category@{u1 u u}]
+   puts the index at the factors' hom-and-proof level. *)
+Fail Check (PiCat_Proj Du).
+
+(* Inherited: [PiCat_Complete] reads [D : I → Category@{u5 u u}] in its
+   BINDER with no block equation, and is refused at its [Du] argument. *)
+Fail Check (@PiCat_Complete Iu Du).
+
+End IndexBoundary.

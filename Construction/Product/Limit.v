@@ -112,8 +112,11 @@ Generalizable All Variables.
        [j = i], and so needs decidable equality on [I] together with a
        transport of the spliced component — neither of which the binary
        case, where the two factors are told apart by the type checker,
-       has to pay.  It is stated at [bool] (through [ProdProj]) and left
-       open at a general [I].
+       has to pay.  It is delivered for the BINARY product only, as
+       [Fst_PreservesLimitCone] and [Snd_PreservesLimitCone] stated for the
+       two projections directly — not as a family and not through
+       [ProdProj], which packages the pair for clause (ii) alone — and is
+       left open at a general [I].
      - [PiCat_Cocomplete].  [(PiCat D)^op] and [PiCat (fun i => (D i)^op)]
        agree on objects, homs, identities and composition but NOT as
        records: [PiCat]'s law fields are [Program] obligations, so the two
@@ -153,18 +156,38 @@ Generalizable All Variables.
    by flipping each alone).
 
    UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK.  [Product] is fully
-   polymorphic and [PiCat] bounds only by the index, but every constant
-   here that mentions a composite [Fst ◯ K] or [PiCat_Proj D i ◯ K]
-   identifies the SHAPE's hom level with every factor's and the product's,
-   and hom with proof — [prod_cone]'s block carries [u0 = u2], [u0 = u4],
-   [u0 = u6] over the binders [J : Category@{u u0 u0}],
-   [C : Category@{u1 u2 u2}], [D : Category@{u3 u4 u4}] — and that is
-   [Compose]'s doing, which is declared over three categories sharing ONE
+   polymorphic and [PiCat] ITSELF bounds only by the index (its block is
+   four bounds and no equation), but every constant here that mentions a
+   composite [Fst ◯ K] or [PiCat_Proj D i ◯ K] identifies the SHAPE's hom
+   level with every factor's and the product's, and hom with proof —
+   [prod_cone]'s block carries [u0 = u2], [u0 = u4], [u0 = u6] over the
+   binders [J : Category@{u u0 u0}], [C : Category@{u1 u2 u2}],
+   [D : Category@{u3 u4 u4}] — and on the binary side that is [Compose]'s
+   doing, which is declared over three categories sharing ONE
    hom-and-proof level: at a shape whose homs are declared strictly below
    the factors' homs, the diagram [K : Ju ⟶ Cu ∏ Du] and a [Cone] over it
-   are accepted while [Fst ◯ K] is refused (pinned in the probe with those
-   two as controls).  The OBJECT universes of the shape, both factors and
-   the product stay free of one another, only bounded.  The completeness
+   are accepted while [Fst ◯ K] is refused (pinned in the probe as N6 with
+   those two as controls).  THE [PiCat] SIDE CARRIES A SECOND
+   IDENTIFICATION THE BINARY SIDE DOES NOT, AND IT RESTRICTS THE INDEX:
+   all twelve [PiCat]-side constants put the index type's universe at the
+   factors' hom-and-proof level — eleven in the BLOCK ([pi_cone] carries
+   [u = u1], [u = u3], [u = u5] over [I : Type@{u}] and
+   [D : I → Category@{u0 u1 u1}]) and [PiCat_Complete] in its BINDER
+   alone ([D : I → Category@{u5 u u}] with NO block equation, so a
+   block-only reader sees nothing) — so [I] must live at exactly the hom
+   level of the factors.  The donor is [PiCat_Proj], whose own binder is
+   [C : I → Category@{u1 u u}], and NOT [Compose]: at an index declared
+   strictly above the factors' homs, [PiCat Du] is accepted while
+   [PiCat_Proj Du], [pi_cone] and [PiCat_Complete] are each refused with
+   [Cannot enforce dh = … because dh < ii], every refusal firing at the
+   argument [Du] (pinned in the probe as N7 with [PiCat] as the control;
+   the inherited constants cannot be tested apart from the donor, so
+   whether any identifies anything of its own is not measured).  The
+   first commit's header attributed everything to [Compose] and said
+   nothing of this; a fess audit found it.  The donor is unannotated and
+   the restriction is NOT claimed unavoidable.  The OBJECT universes of
+   the shape, both factors and the product stay free of one another, only
+   bounded.  The completeness
    statements additionally read [C] and [D] at one hom level in the
    BINDER with no block equation at all, [Complete]'s own shape; no
    word-bounded [Set] occurs in the binder or block of any of the 52
@@ -174,8 +197,11 @@ Generalizable All Variables.
    unlisted [Build_*] — are closed under the global context and gated in
    [make print-assumptions] fully qualified, as are the ten new constants
    of Structure/Limit/Creation.v; the transitive in-project closure is 29
-   modules excluding this file (Construction/Product/Indexed alone is 18,
-   Structure/Limit/Creation alone 24). *)
+   modules excluding this file; on the same convention, excluding itself,
+   Construction/Product/Indexed's own closure is 17 and
+   Structure/Limit/Creation's 23 (a first draft gave 18 and 24, counting
+   each file in its own closure, a convention shift a fess audit
+   caught). *)
 
 (** ** Cones over a diagram in a binary product *)
 
