@@ -165,8 +165,13 @@ Open Scope category_scope.
    ([Category@{u5 u8 u8}], [Category@{u4 u8 u8}]) with bounds only, as do
    [PreservesIndexedProducts] and [PreservesEqualizers]. [pe_cone] and
    [pe_limiting] bind [J : Category@{u u0 u0}], [C : Category@{u1 u0 u0}]
-   with bounds only and the index [I : Type@{u3}] FREE; [Gen]'s block is
-   LITERALLY EMPTY; [Generates] and [ArrowIx] carry bounds only;
+   — the shape's hom level identified with the ambient's IN THE BINDER,
+   which is why probe N7's [pe_cone] refusal fires at the ambient
+   argument with the same message as [Limit]'s and corroborates nothing
+   about which donor forces it — with bounds only, and the family's index
+   [I : Type@{u3}] free of any identification (bounded above by two
+   auxiliary levels, [Generates]'s and [IsIndexedProduct]'s); [Gen]'s
+   block is LITERALLY EMPTY; [Generates] and [ArrowIx] carry bounds only;
    [pe_gen_restrict_iso] adds [u = u5] (the family's index universe, the
    class supplying ONE index universe per instance).  The hom = proof
    identification has SIX donors each refused alone at [ch < cp] with
@@ -198,8 +203,9 @@ Open Scope category_scope.
    Test/ProbeFromProducts416.v carries 16 refutation commands = 1
    instrument + 15 commands pinning EIGHT negatives of THREE kinds told
    apart by the error TEXT — 3 CONVERSION (N1–N3), 2 TYPING (N4–N5; N5's
-   message carries a trailing [cannot unify] on the two hom FAMILIES
-   [hom[C]] and [hom[C^op]], not on two inhabitants of one type), 3
+   message carries a trailing [cannot unify] on the two hom FAMILIES —
+   [hom[C]] against [hom[C^op]], the latter printed unfolded as
+   [λ x y, y ~> x] — not on two inhabitants of one type), 3
    UNIVERSE (N6–N8, ten commands) — each stripped ONE AT A TIME in a copy
    of the whole file and compiled alone with its error read; guard
    coverage measured mechanically (40 identifiers inside a refutation
@@ -207,10 +213,16 @@ Open Scope category_scope.
    the three refuting [Example] names and the instrument's absent name);
    rename-simulated 7/7 over the target constants the negatives name,
    every break on a [Check] line.
-   The probe also carries the [Sets] instantiation (a SECOND inhabitant
-   of [@Complete Sets], not compared with [Sets_Complete]) and the
-   walking-arrow generating family: [_2] has three arrows and the
-   one-index family at its non-identity arrow generates.
+   The probe also carries the [Sets] instantiation — a SECOND inhabitant
+   of [@Complete Sets], not compared with [Sets_Complete] and built
+   WITHOUT it: products from Instance/Sets/Products.v, equalizers from
+   Instance/Sets/Pullback.v's pullbacks through
+   [HasEqualizers_of_HasPullbacks_Terminal], and Instance/Sets/Complete.v
+   measured absent from the probe's closure (an audit caught a draft
+   that fed it Adjunction/GAFT/Sets.v's [Sets_HasEqualizers], which IS
+   [Complete_HasEqualizers Sets_Complete]) — and the walking-arrow
+   generating family: [_2] has three arrows and the one-index family at
+   its non-identity arrow generates.
 
    PROSE REPOINTED in the same commit: Structure/Complete.v:49-62 (line
    neutral, its :58-60 and :64-72 being cited elsewhere), whose closing
@@ -229,8 +241,9 @@ Open Scope category_scope.
    Proposition 5.23 is about FINITE diagrams, whose finiteness predicate
    is #417's, and Corollary 5.24's cardinality bookkeeping is replaced
    by universe polymorphism); no [Set] instantiation IN THIS FILE and no
-   computing witness (the [Sets] limit here is an equalizer inside
-   Instance/Sets/Complete.v's compatible-family setoid, whose elements
+   computing witness (the probe's [Sets] limit is an equalizer built as
+   a pullback in Instance/Sets/Pullback.v's agreement sub-setoid over
+   Instance/Sets/Products.v's dependent-function product, whose elements
    are not written down); no comparison of the [Sets] instantiation with
    [Sets_Complete]; no shape shown to satisfy the atomic factorization
    hypothesis and no decision procedure for identities; no converse

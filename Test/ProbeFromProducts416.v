@@ -16,7 +16,7 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Structure.Limit.FromProducts.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Products.
-Require Import Category.Adjunction.GAFT.Sets.
+Require Import Category.Instance.Sets.Pullback.
 Require Import Category.Instance.Two.
 
 Generalizable All Variables.
@@ -73,12 +73,20 @@ Open Scope category_scope.
                    in the target carries, none introduced there.
      N7  UNIVERSE  At a shape whose homs are declared strictly BELOW the
                    ambient category's, the diagram, a [Cone] over it and
-                   the arrow index [ArrowIx] are ACCEPTED while [Limit],
-                   [IsLimitCone] and, inheriting, [pe_cone] are refused —
-                   the shape-hom = ambient-hom identification is the limit
-                   vocabulary's, and [pe_cone] fires at its diagram
-                   argument (the #340 shape: an already-refused argument,
-                   so it does not corroborate the attribution).
+                   the arrow index [ArrowIx] are ACCEPTED while [Limit]
+                   and [IsLimitCone] are refused — the shape-hom =
+                   ambient-hom identification is the limit vocabulary's.
+                   [pe_cone] is refused there too, at its AMBIENT
+                   argument [Cu] with the same [Cannot enforce ch = jh]
+                   (no argument of it is already refused: [Fu], [Cone Ju
+                   Cu Fu] and [ArrowIx Ju] all pass): the identification
+                   sits in [pe_cone]'s OWN binder, [{J : Category@{u u0
+                   u0}} {C : Category@{u1 u0 u0}}], whose donor is not
+                   isolated here, and since [Cone] is accepted at those
+                   levels this refusal corroborates nothing about the
+                   attribution to [Limit]/[IsLimitCone].  (An earlier
+                   draft said it fired at the diagram argument; an audit
+                   stripped the command and read the message.)
      N8  UNIVERSE  At a category whose hom level is declared strictly above
                    [Set], the class [HasIndexedProducts], its
                    [indexed_product] and [Complete_from_products_equalizers]
@@ -289,12 +297,20 @@ End AboveSet.
 
 (* Riehl's Theorem 3.2.11 is the general theorem at [Sets]: a SECOND
    inhabitant of [@Complete Sets] beside Instance/Sets/Complete.v's
-   [Sets_Complete], NOT compared with it — the two choose their limits
-   independently. *)
+   [Sets_Complete], NOT compared with it — and built WITHOUT it.  The
+   products are Instance/Sets/Products.v's [Sets_HasIndexedProducts] and
+   the equalizers are [HasEqualizers_of_HasPullbacks_Terminal] at
+   Instance/Sets/Pullback.v's [Sets_HasPullbacks] (the route
+   Adjunction/CokernelPair.v takes), so Instance/Sets/Complete.v is
+   absent from this file's closure (coqdep: 47 modules).  The obvious
+   supply, Adjunction/GAFT/Sets.v's [Sets_HasEqualizers], would NOT do:
+   it is [Complete_HasEqualizers Sets_Complete], equalizers read off the
+   very inhabitant this one stands beside — an audit caught a first
+   draft that used it while calling the two "independent". *)
 
 Definition sets_pe_complete : @Complete Sets :=
   Complete_from_products_equalizers Sets_HasIndexedProducts
-    Sets_HasEqualizers.
+    (HasEqualizers_of_HasPullbacks_Terminal Sets_HasPullbacks).
 
 Check sets_pe_complete.
 
@@ -341,5 +357,6 @@ Check (nonid_Generates two_isid_dec).
    canonically isomorphic, as a cone, to the full construction. *)
 
 Check (fun F : _2 ⟶ Sets =>
-  pe_gen_restrict_iso Sets_HasIndexedProducts Sets_HasEqualizers F
+  pe_gen_restrict_iso Sets_HasIndexedProducts
+    (HasEqualizers_of_HasPullbacks_Terminal Sets_HasPullbacks) F
     two_Generates).
