@@ -57,9 +57,9 @@ Generalizable All Variables.
    limits and colimits objectwise from the category of sets (nLab,
    "category of presheaves"), and monadic functors create limits, so
    algebras for a monad on a complete category are again complete (nLab,
-   "complete category").  The products half of the reduction lives
-   in-tree as [iprod] in Structure/Limit/Product.v, limits of discrete
-   diagrams.
+   "complete category").  The reduction is Structure/Limit/FromProducts.v's
+   [Complete_from_products_equalizers] over [HasIndexedProducts] and
+   [HasEqualizers], each limit the equalizer [limit_of_products_equalizer].
 
    The smallness discipline the header describes is not decoration.
    Freyd proved that a category with products of families as large as its

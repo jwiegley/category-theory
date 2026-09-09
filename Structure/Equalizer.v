@@ -87,9 +87,16 @@ Generalizable All Variables.
    taking the product and then the joint equalizer of all its
    endomorphisms, monicity of the equalizer supplying the uniqueness half
    (nLab, "adjoint functor theorem").  Both arguments run in this
-   library: [initial_from_weakly_initial] in Theory/WeaklyInitial.v
+   library.  The reduction is Structure/Limit/FromProducts.v: each limit
+   is the equalizer [limit_of_products_equalizer] between the product over
+   the objects and the product over the arrows of the shape,
+   [Complete_from_products_equalizers] packages that as [Complete], and a
+   functor preserving both primitives is continuous
+   ([continuous_from_products_equalizers]).  Freyd's step is
+   [initial_from_weakly_initial] in Theory/WeaklyInitial.v, which
    consumes [HasEqualizers], and Adjunction/GAFT.v extracts that supply
-   from completeness as [Complete_HasEqualizers].
+   from completeness as [Complete_HasEqualizers], the reduction's
+   converse.
 
    Dually, [Coequalizer] is the categorical quotient.  In Set the
    coequalizer of f and g is the quotient of y by the equivalence relation
