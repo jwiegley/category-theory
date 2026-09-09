@@ -24,6 +24,7 @@ Adjunction/Opposite.v
 Adjunction/Right.v
 Construction/Arrow.v
 Construction/Arrow/Functor.v
+Construction/Arrow/Limit.v
 Comonad/Core.v
 Comonad/CoKleisli.v
 Comonad/Coalgebra.v
@@ -908,6 +909,7 @@ Test/ProbeConeSets407.v
 Test/ProbeInverseLimit408.v
 Test/ProbeGrpLimit411.v
 Test/ProbeProductLimit418.v
+Test/ProbeArrowLimit412.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

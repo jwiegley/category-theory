@@ -6832,6 +6832,40 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Creation.JointlyCreateLimit_of_CreatesLimit.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Creation.CreatesLimit_of_JointlyCreateLimit.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Arrow.Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.Arrow_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.Arrow_Complete_cod.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.Arrow_Complete_dom.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.arrow_proj_creates_all_limits.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.arrow_proj_creates_limits.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.arrow_proj_strictly_creates_limits.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.cod_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.cod_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.cod_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.cod_limiting.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_apex_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_arrow.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_arrow_commutes.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_arrow_unique.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_leg_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_lift_StrictLift.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_Limit.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_Limit_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_Limit_arrow.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_reflect.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.comma_proj_StrictlyCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.dom_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.dom_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.dom_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.Id_PreservesLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Arrow.Limit.tcod_limiting.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
