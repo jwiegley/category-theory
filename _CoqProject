@@ -252,6 +252,7 @@ Instance/Cat/Bicategory/Square.v
 Instance/Cat/TwoCategory.v
 Instance/Cat/Pullback.v
 Instance/Cat/Coproduct.v
+Instance/Cat/Limit.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -913,6 +914,7 @@ Test/ProbeGrpLimit411.v
 Test/ProbeProductLimit418.v
 Test/ProbeArrowLimit412.v
 Test/ProbeFromProducts416.v
+Test/ProbeCatLimit414.v
 Test/ProbeFinite417.v
 Test/Size.v
 Tools/Abstraction.v

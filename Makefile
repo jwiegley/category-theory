@@ -7087,6 +7087,67 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cones.Limit.initial_op_is_terminal.'; \
 	  echo 'Print Assumptions Category.Instance.Cones.Limit.Limit_Cones.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Cat.Limit.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Cat_HasIndexedProducts.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Chaotic.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.chaotic_unit_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.chaotic_unit_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_false.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_points_equiv.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_points_equiv_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_points_equiv_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_points_equiv_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticBool_true.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.ChaoticPt_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.DepFunext.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_fmap_hom_cast.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_IsEqualizer.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_incl.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_loop_functor_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_incl.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_med_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_obj_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.eq_then_equiv.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.Eq_uniqueness_forces_UIP.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqCat.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqCat_ChaoticBool_empty.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqCat_equiv_of_incl.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqCat_not_Cat_equalizer.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqIncl.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqSub.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqSub_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.EqSub_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.hom_cast_pi.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.hom_cast_pi_ext.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_obj_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.pi_point_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_IsIndexedProduct_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_Pair_Proj_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_ump_unique_strict.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.PiCat_uniqueness_forces_funext.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.StrictCat_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.StrictCat_HasEqualizers.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Limit.StrictCat_HasIndexedProducts.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
