@@ -79,7 +79,8 @@ Generalizable All Variables.
     left adjoint at the singleton as its representing object ([eq_refl]).
     Riehl 4.7.14 is the same passage after SAFT: [saft_representable].
     CONVERSE: it CANNOT be run with the tree's copowers.  Every copower in
-    tree (Structure/Limit/Power.v, #366) is indexed by a bare [Type] and so
+    tree (Structure/Limit/Power.v, which came from #321; #366 added
+    Structure/Limit/Power/Adjunction.v) is indexed by a bare [Type] and so
     yields plain functions out of the index, where a [Sets]-valued
     adjunction needs setoid morphisms respecting [≈]; a setoid-indexed
     copower does not exist in tree (probe N5 pins the mismatch).  So the
@@ -88,7 +89,10 @@ Generalizable All Variables.
     [adjunction_iff_pointwise_representable] consumes it — which makes the
     hypothesis, by that same biconditional, "the represented functor has a
     left adjoint".  That is disclosed rather than hidden: the conditional
-    is honest, not deep.
+    is honest, not deep.  Two further disclosures: the hypothesis is
+    STRONGER than what is used ([cop] is applied only at the representing
+    object), and no inhabitant of it is built by any route — none is shown
+    impossible either.
 
     WITNESSES.  Two, both with every premise discharged in tree.  The
     points functor [Sets_points := Hom(1,−)] on [Sets]: its element-wise
@@ -110,17 +114,25 @@ Generalizable All Variables.
     relate [AUniversalArrow SetsOne H r] and [AUniversalElement H r] with
     [eq_refl] and [≈] round trips); "nothing produces a [Representable]
     from anything, and in particular not from an adjunction; no file even
-    imports it" (14 sites conclude [Representable], one of them
-    Adjunction/Representability.v:268's [adj_representable]); "no category
+    imports it" (at the parent commit 26 constants across 19 files conclude
+    [Representable] — counted by taking each [Definition]/[Theorem]/[Lemma]/
+    [Corollary]/[Instance] head with comments stripped and testing whether
+    the conclusion begins with [Representable] — and 33 files [Require] it;
+    one of the 26 is Adjunction/Representability.v:268's [adj_representable],
+    an adjunction-sourced instance); "no category
     of elements for a [Sets]-valued functor" (Construction/Elements.v has
     [Elements], [ElementsComma] and the proved comparison
     [Elements_Comma]); and "#366 is the filed obligation" for copowers
     (#366 landed).  STALE LINE NUMBERS: [Representable] is
-    Functor/Representable.v:51, not :46 (the issue cites :46 six times);
+    Functor/Representable.v:51, not :46 (the issue cites :46 five times, at
+    its lines 18, 83, 120, 147 and 162);
     [representability_by_yoneda] is Structure/UniversalProperty.v:73, not
     :67-72; Instance/Sets.v:248 is :258 and the object wanted is
     Construction/Elements.v:230's [SetsOne]; Adjunction/Continuity.v:202 is
-    :208-218; Construction/Comma/Limit.v:245 is :247;
+    :205-:218 ([right_adjoint_PreservesLimitCone] :205,
+    [right_adjoint_Continuous] :209, [right_adjoint_preserves_limit] :214,
+    [right_adjoint_preserves_limits] :218; the cited :202 is header prose);
+    Construction/Comma/Limit.v:245 is :247;
     Theory/WeaklyInitial.v:89 is :102.  Correct as cited: GAFT.v:159 and
     :241, SAFT.v:274, Theory/Profunctor/Adjunction.v:70.  The
     [Sets_global_points] named in the issue's Verification block exists
@@ -150,9 +162,10 @@ Generalizable All Variables.
     the global context", zero `Axioms:` lines; the `make print-assumptions`
     gate carries the 38 and the 2.  Four `Defined` in this file, each
     LOAD-BEARING (flipped to `Qed` one at a time in a copy of the whole
-    file: [sols_of_esols] and [esols_of_sols] stop their index and element
-    readbacks, [representability_iff] stops
-    [representability_iff_fst], and [Sets_points_esol] stops
+    file, compilation halting at the first readback that reads the flipped
+    constant's components back: [sols_of_esols] stops [sols_of_esols_index],
+    [esols_of_sols] stops [esols_of_sols_index], [representability_iff] stops
+    [representability_iff_fst] and [Sets_points_esol] stops
     [Sets_points_esol_obj]); eight `Qed`, all of them [homafter_whisker]'s
     obligations.  GAFT.v's [comma_initial_of_sols] is [Defined] because it
     produces DATA, matching [wif_of_sols] beside it, but the flip is NOT
@@ -160,10 +173,13 @@ Generalizable All Variables.
     disclosed here rather than claimed.  Closure 99 excluding self
     (Functor/Hom/Continuous.v 10 at the margin, Adjunction/GAFT/Sets.v 2,
     Adjunction/Representability.v 2, Construction/Comma/Creation.v 2,
-    Adjunction/SAFT.v 1, the other twenty-one `Require`s 0; none is
-    droppable).  Zero name collisions for the 38 names (`grep -rlw
-    --include='*.v'`).  Test/ProbeRepresentability437.v mirrors this file's
-    `Require` list and carries 6 refutation commands = 1 instrument + N1-N2
+    Adjunction/SAFT.v 1, and 22 of the 27 `Require`s at margin 0; none is
+    droppable).  Adjunction/Representability.v's own closure is 39 excluding
+    self, and requiring this file's imports there would take it to 98 — the
+    reason this is a satellite.  Zero name collisions for the 38 names
+    (`grep -rlw --include='*.v'`).  Test/ProbeRepresentability437.v mirrors
+    this file's `Require` list and carries 6 refutation commands = 1
+    instrument + N1-N2
     CONVERSION (the two solution-set records are not the same type;
     [HomAfter K 1] is not [K]) + N3, N5 TYPING (the apex-only
     [PreservesAllLimits] does not ascribe where the cone-level
@@ -173,8 +189,9 @@ Generalizable All Variables.
     a time in a copy of the whole file beside its accepted control; seven
     `eq_refl` readbacks; guard coverage 34/24 with ten exhaustive
     exceptions (identifier tokens inside the six refutation commands /
-    also named outside them, comments stripped: two keywords, four bound
-    variables and the four refuted names); rename-simulated 14 library
+    also named outside them, comments stripped: three keywords ([Definition],
+    the refutation keyword, [Type]), three bound variables ([X], [b], [cop])
+    and the four refuted names); rename-simulated 14 library
     names — [ElementSolutionSet], [SolutionSet], [SetsOne], [HomAfter],
     [Curried_Hom], [Compose], [representability_theorem],
     [PreservesAllLimits], [PreservesImageLimit], [Complete],
@@ -195,9 +212,12 @@ Generalizable All Variables.
     of any construction here; no edit to Functor/Representable.v,
     Theory/Universal/Element.v, Construction/Elements.v,
     Functor/Hom/Continuous.v, Adjunction/SAFT.v,
-    Adjunction/Representability.v, Instance/Sets/Complete.v or
-    Adjunction/GAFT/Sets.v, and none to Adjunction/GAFT.v above its last
-    line. *)
+    Adjunction/Representability.v, and none to Adjunction/GAFT.v above its
+    last line.  Instance/Sets/Complete.v and Adjunction/GAFT/Sets.v ARE
+    edited, one sentence each and line-count-preserving: both said [SAFT]
+    was never applied, which [saft_representable] makes false, and the
+    citations into those files (all at lines below the corrections) still
+    land. *)
 
 Section Definition3.
 
@@ -396,7 +416,8 @@ Definition saft_representable {C : Category} (K : C ⟶ Sets)
 
 (** ** §V.8 Exercise 1, converse: copowers give the left adjoint
 
-    The tree's copowers (Structure/Limit/Power.v, #366) are indexed by a
+    The tree's copowers (Structure/Limit/Power.v from #321, with #366's
+    Structure/Limit/Power/Adjunction.v) are indexed by a
     bare [Type] and so yield plain functions out of the index, where a
     [Sets]-valued adjunction needs setoid morphisms respecting [≈]; a
     setoid-indexed copower is not in the tree.  [HasSetsCopowers] is that

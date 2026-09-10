@@ -102,9 +102,9 @@ Generalizable All Variables.
    Adjunction/GAFT/Sets.v), and the functor applied to is [Id], so the
    adjoint produced is [Id] again.  The application demonstrates that the
    premises are simultaneously satisfiable in-tree; it does not produce a new
-   adjunction.  [SAFT] remains unapplied: it wants a [Cogenerator], a
-   [SubobjectIndex] and a [SubobjectCover] besides, and none of the three has
-   an in-tree inhabitant.
+   adjunction.  [SAFT] is applied only by #437's [saft_representable], and
+   conditionally: it wants a [Cogenerator], a [SubobjectIndex] and a
+   [SubobjectCover] besides, and none of the three has an in-tree inhabitant.
 
    [Cocomplete Sets] is not provided BY THIS FILE.  It is NOT missing from
    the tree, correcting what this sentence used to say: Instance/Sets/

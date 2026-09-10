@@ -26,7 +26,7 @@ Generalizable All Variables.
                         → { F : D ⟶ C & F ⊣ U }
 
    and before this file no closed constant of the library applied it.
-   [Adjunction/SAFT.v:278] does call it, but [SAFT] is itself never applied;
+   [Adjunction/SAFT.v:278] does call it, and [SAFT] is applied since #437;
    [Adjunction/GAFT/Examples.v] exercises the universal-arrow half
    [GAFT_from_initials], which consumes comma-category initial objects
    directly and so meets none of the three premises above.  This file applies
