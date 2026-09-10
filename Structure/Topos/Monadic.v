@@ -167,8 +167,8 @@ Definition topos_HasEqualizers : @HasEqualizers C :=
 
 (* The appended Seven Sketches checkbox, at generator level: terminal
    object, binary products, pullbacks, equalizers.  NO finite-shape
-   induction is performed, so this is NOT a [Limit]-shaped "all finite
-   limits" and no such statement is made anywhere in this library.
+   induction is performed here, so this is NOT a [Limit]-shaped "all finite
+   limits"; that statement is Structure/Limit/Finite.v's [FinitelyComplete].
 
    That checkbox asks this to close a reduction Structure/Topos.v's header
    "records as not formalized"; the premise is stale -- since #326 that header
