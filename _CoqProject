@@ -288,6 +288,7 @@ Instance/Field.v
 Instance/Field/Frac.v
 Instance/FdVect.v
 Instance/FdVect/DoubleDual.v
+Instance/FdVect/NoRightAdjoint.v
 Instance/FdVect/NonNatural.v
 Instance/FdVect/Tensor.v
 Instance/FinSet.v
@@ -364,6 +365,7 @@ Instance/Met/Completion.v
 Instance/Mod.v
 Instance/Mod/Coproduct.v
 Instance/Mod/Free.v
+Instance/Mod/Product.v
 Instance/Mod/Representable.v
 Instance/Mod/Tensor.v
 Instance/Mod/Monoidal.v
@@ -947,6 +949,7 @@ Test/ProbeFunLimit425.v
 Test/ProbeFunctorCategory431.v
 Test/ProbeFunCreation426.v
 Test/ProbeNoAdjoint432.v
+Test/ProbeDualNoRightAdjoint433.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
