@@ -595,6 +595,7 @@ Structure/Limit/Creation.v
 Structure/Limit/Preservation.v
 Structure/Limit/Preservation/Separation.v
 Structure/Limit/Product.v
+Structure/Limit/Comparison.v
 Structure/Limit/Coproduct.v
 Structure/Limit/FromProducts.v
 Structure/Limit/Product/Finite.v
@@ -921,6 +922,7 @@ Test/ProbeCatLimit414.v
 Test/ProbeFinite417.v
 Test/ProbeFinSetLimit415.v
 Test/ProbeCompHaus413.v
+Test/ProbeComparison419.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

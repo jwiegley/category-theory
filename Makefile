@@ -7233,6 +7233,66 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Incl_CreatesLimit.'; \
 	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Complete_of.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Limit.Comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_cone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_fam.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_image_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_image_cone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_proj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.ColimitCocone_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.colimitcocone_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.comparison_iso_ColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.comparison_iso_of_PreservesColimitCocone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_comp_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_comp_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_id_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_id_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cone_reindex_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.const_image_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.const_image_iso_component.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_cone_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_IsIndexedProduct_of_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_IsLimitCone_of_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.DiscreteCat_Functor'.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.IsIndexedProduct_binary.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.IsIndexedProduct_nullary.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_cone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_fam.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_image_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_image_cone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_proj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.preserves_colimit_iff_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.preserves_iff_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.PreservesColimitCocone_of_comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.PreservesLimitCone_of_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.PreservesLimitCone_of_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.pullback_comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.pullback_comparison_is.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.rapl_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.reindex_comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.reindex_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.reindex_comparison_iso_LimitCone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_comparison.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_comparison_exl.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_comparison_exr.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.binary_comparison_fork.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cartesian_functor_iff_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cartesian_functor_iff_preserves_binary_products.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cocone_comparison_commutes.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.cocone_comparison_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.reindex_comparison_commutes.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.reindex_comparison_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_comparison_one.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_functor_iff_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_functor_iff_preserves_terminal.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
