@@ -1,12 +1,10 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
-Require Import Category.Theory.Functor.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.CMon.
 Require Import Category.Instance.Ab.
-Require Import Category.Instance.Rng.
 Require Import Category.Instance.Mod.
+Require Import Category.Structure.Limit.Product.
 Require Import Category.Theory.Algebra.Rig.
 
 Generalizable All Variables.
@@ -14,11 +12,11 @@ Generalizable All Variables.
 (** * Indexed products of modules
 
     The product ∏_{i∈I} V_i of an arbitrary family of R-modules, with every
-    operation pointwise, and its universal property in the two clauses
-    Structure/Limit/Product.v's [IsIndexedProduct] asks for.  Written for
-    Instance/FdVect/NoRightAdjoint.v (#433), which needs the countable
-    power F^ℕ as an object of [RMod (field_ring F)]; nothing here is
-    specific to fields or to ℕ.
+    operation pointwise, and its universal property — in the two clauses,
+    and assembled into Structure/Limit/Product.v's [IsIndexedProduct].
+    Written for Instance/FdVect/NoRightAdjoint.v (#433), which needs the
+    countable power F^ℕ as an object of [RMod (field_ring F)]; nothing here
+    is specific to fields or to ℕ.
 
     BEFORE THIS FILE the tree had no indexed product or coproduct in any
     algebraic category: Instance/Mod/Coproduct.v's [RMod_Biproduct] and
@@ -36,12 +34,14 @@ Generalizable All Variables.
     [modprod_cmon], the abelian group [modprod_ab], the module [ProdMod],
     the projections [prod_proj i : RModHom ProdMod (V i)], the mediator
     [prod_tuple f : RModHom Z ProdMod] out of a family [f : ∀ i, RModHom Z
-    (V i)], and the two clauses of the universal property,
-    [prod_tuple_proj] ([prod_proj i ∘ prod_tuple f ≈ f i], stated as a
-    composite in [RMod R]) and [prod_tuple_unique] (any [u] with the same
-    projections is [≈ prod_tuple f]) — both [reflexivity] pointwise,
-    because the projections compute: [prod_proj_component] reads
-    [cmon_map (rm_hom (prod_proj i)) f = f i] by [eq_refl].
+    (V i)], the two clauses of the universal property, [prod_tuple_proj]
+    ([prod_proj i ∘ prod_tuple f ≈ f i], stated as a composite in [RMod R])
+    and [prod_tuple_unique] (any [u] with the same projections is [≈
+    prod_tuple f]) — both [reflexivity] pointwise, because the projections
+    compute: [prod_proj_component] reads [cmon_map (rm_hom (prod_proj i)) f
+    = f i] by [eq_refl] — and their assembly [ProdMod_IsIndexedProduct :
+    IsIndexedProduct V ProdMod prod_proj], whose mediator IS [prod_tuple]
+    ([prod_iprod_mediator], by [eq_refl]).
 
     NOT DELIVERED.  The [HasIndexedProducts (RMod R)] instance itself — not
     attempted: #433 needs only the one product, and Instance/Sets/Products.v
@@ -52,27 +52,33 @@ Generalizable All Variables.
     identification of the binary case with Instance/Mod/Coproduct.v's
     [RMod_Biproduct].
 
-    MEASURED.  9 `.glob` heads (7 `def`, 2 `prf`) and 20 [Program]
-    obligations, all 29 "Closed under the global context", zero `Axioms:`
+    MEASURED.  11 `.glob` heads (9 `def`, 2 `prf`) and 20 [Program]
+    obligations, all 31 "Closed under the global context", zero `Axioms:`
     lines; the 20 obligations are the respectfulness and law proofs of the
     six [Program Definition]s, every one closed by hand under
-    [Obligation Tactic := idtac] (`Next Obligation`, twenty of them) with
-    `Qed` — there is no `Defined` in the file, since no obligation carries
-    data.  Universes ([About] under `Set Printing Universes`): no [Set]
-    anywhere; the data ([modprod_setoid], [modprod_cmon], [modprod_ab],
-    [ProdMod]) carry no equation, [prod_proj]/[prod_tuple]/
+    [Obligation Tactic := idtac] with `Qed` — twenty-two `Qed` in all, and
+    ONE `Defined`, [ProdMod_IsIndexedProduct], LOAD-BEARING (flipped to
+    `Qed` in a copy of the whole file, [prod_iprod_mediator] stops).
+    Universes ([About] under `Set Printing Universes`): no [Set] anywhere;
+    the data ([modprod_setoid], [modprod_cmon], [modprod_ab], [ProdMod])
+    carry no equation and — apart from [modprod_setoid], which carries no
+    strict constraint at all — one strict constraint, the module carrier
+    level below the product's (`u6 < u11` for the monoid and the group,
+    `u6 < u13` for the module); [prod_proj], [prod_tuple] and
     [prod_proj_component] carry [RModHom]'s identification of the three
-    module-internal levels (`u5 = u6 = u7`), and the two universal-property
-    lemmas, being equations in [RMod R], inherit that category's
-    identification of the module levels with the ring's (`u = u3 = u5 = u6
-    = u7`, `u1 = u4`); the one strict constraint (`u6 < u8`, renamed per
-    head) is the product's carrier level sitting above the factors' as a
-    dependent function space.  Closure 36 files excluding self
-    (Instance/Mod.v 4 at the margin, the other nine `Require`s 0); zero
-    name collisions across the tree for the nine names (`grep -rlw
-    --include='*.v'`; the first draft's [prod_setoid] became
-    [modprod_setoid] because Lib/Datatypes.v:139 owns [prod_setoid]).  The
-    `make print-assumptions` gate carries the nine heads. *)
+    module-internal levels (`u5 = u6 = u7`) and `u6 < u8`; the four heads
+    stated inside [RMod R] — [prod_tuple_proj], [prod_tuple_unique],
+    [ProdMod_IsIndexedProduct], [prod_iprod_mediator] — inherit that
+    category's identification of the module levels with the ring's (`u =
+    u3 = u5 = u6 = u7`, `u1 = u4`), two strict constraints (`u < u8`,
+    `u < u9`) and the stdlib caps `Basics.compose` and `ID` (the readback
+    adds `Setoid.u`).  Closure 43 files excluding self (Structure/Limit/
+    Product.v 7 at the margin, Instance/Mod.v 6, the other six `Require`s
+    0; none of the eight is droppable); zero name collisions across the
+    tree for the eleven names (`grep -rlw --include='*.v'`; the first
+    draft's [prod_setoid] became [modprod_setoid] because
+    Lib/Datatypes.v:139 owns [prod_setoid]).  The `make print-assumptions`
+    gate carries the eleven heads. *)
 
 #[local] Obligation Tactic := idtac.
 
@@ -158,5 +164,21 @@ Proof. intros z i; exact (H i z). Qed.
 (* The projections compute. *)
 Example prod_proj_component (i : I) (f : carrier (cmon_setoid ProdMod)) :
   cmon_map (rm_hom (prod_proj i)) f = f i := eq_refl.
+
+(* The two clauses assembled into the tree's own record: [ProdMod] with its
+   projections is an indexed product in [RMod R]. *)
+Definition ProdMod_IsIndexedProduct :
+  @IsIndexedProduct (RMod R) I V ProdMod prod_proj.
+Proof.
+  constructor; intros Z pi.
+  exists (prod_tuple pi).
+  - exact (prod_tuple_proj pi).
+  - intros u Hu; symmetry; exact (prod_tuple_unique pi u Hu).
+Defined.
+
+(* The record's mediator IS [prod_tuple]. *)
+Example prod_iprod_mediator {Z : RModObject R} (pi : ∀ i, RModHom Z (V i)) :
+  unique_obj (iprod_desc ProdMod_IsIndexedProduct pi) = prod_tuple pi
+  := eq_refl.
 
 End ProdMod.

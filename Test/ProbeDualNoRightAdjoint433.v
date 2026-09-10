@@ -3,59 +3,58 @@
 
     Pins the measured boundaries of the conditional refutation with
     negatives of three kinds, kept lexically apart: CONVERSION (N1: the
-    tree now has TWO dual functors on [Vct_F F] — Instance/FdVect/
-    DoubleDual.v's [Dual F], precomposition on the nose, and #359's
-    [dual] read at the line through Instance/Mod/Closed.v's
-    [RMod_SymMonClosed]; they are built by different [Program] records
-    and are NOT convertible); TYPING (N2: the refutation is CONDITIONAL —
-    the unconditional statement [∀ Rt, Dual F ⊣ Rt → False] does not
-    ascribe, [CoordSpanProper F] being the premise; N3: the
-    self-adjunction runs [(Dual F)^op ⊣ Dual F], and the exercise's
+    tree has TWO dual functors on [Vct_F F] — Instance/FdVect/DoubleDual.v's
+    [Dual F], precomposition on the nose, and Structure/Monoidal/
+    StarAutonomous.v's [dual] read at the line through Instance/Mod/
+    Closed.v's [RMod_SymMonClosed], the target's [VctDual359]; they are
+    naturally isomorphic ([dual_iso359]) but built by different [Program]
+    records and NOT convertible; N5: not even objectwise — the packed
+    modules [VctDual359 F x] and [Dual F x] are refused at [eq_refl] while
+    their carriers are accepted, the control beside it); TYPING (N2: the
+    refutation is CONDITIONAL — the unconditional statement [∀ Rt, Dual F ⊣
+    Rt → False] does not ascribe, [CoordSpanProper F] being the premise;
+    N3: the self-adjunction runs [(Dual F)^op ⊣ Dual F], and the exercise's
     direction [Dual F ⊣ (Dual F)^op] is exactly the ascription that is
     refused); UNIVERSE (N4: Instance/Discrete.v's unannotated
     [DiscreteCat_Functor] pins the shape's hom level to [Set], so no cocone
     over it lives in [Vct^op] — the reason the diagram uses
     Structure/Limit/Comparison.v's [DiscreteCat_Functor']).  The [eq_refl]
-    readbacks are positive controls (the coordinate projections and the
-    transpose compute), and the #359 readback shows the abstract dual
-    instantiates over vector spaces.  Each refutation was stripped one at
-    a time in a copy of the whole file; the import list mirrors the
-    target's, plus the eight modules the #359 readback needs. *)
+    readbacks are positive controls (the coordinate projections, the
+    transpose, the colimit mediator and the isomorphism's components
+    compute), and the #359 control shows Structure/Monoidal/Dual.v's
+    self-adjunction instantiates at [VctDual359].  Each refutation was
+    stripped one at a time in a copy of the whole file; the import list
+    mirrors the target's, plus Structure/Monoidal/Dual.v for that control
+    and Structure/Limit/Product.v for the indexed-product readback. *)
 
 Require Import Coq.Lists.List.
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
 Require Import Category.Construction.Opposite.
 Require Import Category.Adjunction.Right.
 Require Import Category.Structure.Cone.
-Require Import Category.Structure.Limit.
 Require Import Category.Structure.Limit.Preservation.
 Require Import Category.Structure.Limit.Comparison.
 Require Import Category.Adjunction.Continuity.
+Require Import Category.Structure.Monoidal.StarAutonomous.
 Require Import Category.Instance.Discrete.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.CMon.
 Require Import Category.Instance.Ab.
-Require Import Category.Instance.Rng.
 Require Import Category.Instance.Mod.
 Require Import Category.Instance.Mod.Quotient.
 Require Import Category.Instance.Mod.Product.
+Require Import Category.Instance.Mod.Tensor.
+Require Import Category.Instance.Mod.Closed.
 Require Import Category.Instance.FdVect.
 Require Import Category.Instance.FdVect.DoubleDual.
 Require Import Category.Theory.Algebra.Rig.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Closed.
-Require Import Category.Structure.Monoidal.StarAutonomous.
 Require Import Category.Structure.Monoidal.Dual.
-Require Import Category.Instance.Mod.Monoidal.
-Require Import Category.Instance.Mod.Closed.
+Require Import Category.Structure.Limit.Product.
 Require Import Category.Instance.FdVect.NoRightAdjoint.
 
 Generalizable All Variables.
@@ -69,23 +68,33 @@ Context (F : FieldObject).
 
 Notation Vct := (Vct_F F).
 
-(** ** A: CONVERSION — two dual functors, isomorphic in principle, not
+(** ** A: CONVERSION — two dual functors, naturally isomorphic, not
        convertible *)
 
-(* #359's dual-object functor, read at the line over the symmetric monoidal
-   closed structure of Instance/Mod/Closed.v *)
-Definition VctSMC : @SymMonClosed Vct :=
-  RMod_SymMonClosed (field_ring F) (field_comm F).
+(* control: #359's headline, Structure/Monoidal/Dual.v's self-adjunction
+   on the right, instantiates at the target's reading of [dual] *)
+Definition p433_dual359_self_right :
+  @AdjointOnTheRight Vct Vct (VctDual359 F) (VctDual359 F) :=
+  @dual_self_adjoint_on_the_right Vct (VctSMC F) (VctLine F).
 
-Definition VctDual359 : Vct^op ⟶ Vct := @dual Vct VctSMC (VctLine F).
-
-(* control: #359's headline instantiates over vector spaces *)
-Definition VctDual359_self_right :
-  @AdjointOnTheRight Vct Vct VctDual359 VctDual359 :=
-  @dual_self_adjoint_on_the_right Vct VctSMC (VctLine F).
+(* control: the isomorphism is delivered, and the exercise holds for the
+   functor the issue names *)
+Check (dual_iso359 F : Dual F ≈ VctDual359 F).
+Check (dual359_no_right_adjoint F
+         : CoordSpanProper F → ∀ Rt : Vct ⟶ Vct^op, VctDual359 F ⊣ Rt → False).
 
 (* N1 CONVERSION: the two functors are different [Program] records *)
-Fail Example p433_two_duals_not_convertible : VctDual359 = Dual F := eq_refl.
+Fail Example p433_two_duals_not_convertible : VctDual359 F = Dual F := eq_refl.
+
+(* control: objectwise, the carriers coincide on the nose *)
+Example p433_carriers_convertible (x : Vct) :
+  carrier (cmon_setoid (VctDual359 F x)) = carrier (cmon_setoid (Dual F x))
+  := eq_refl.
+
+(* N5 CONVERSION: the packed modules do not — the proof fields of
+   [HomMod] and [DualMod] are different opaque constants *)
+Fail Example p433_objects_not_convertible (x : Vct) :
+  (VctDual359 F x : Vct) = (Dual F x : Vct) := eq_refl.
 
 (** ** B: TYPING — the refutation is conditional, and the self-adjunction
        has a direction *)
@@ -135,17 +144,45 @@ Example p433_mediator_component (M : Cocone (LineDiagram F))
     = cmon_map (rm_hom (@vertex_map _ _ _ _ (@coneFrom _ _ _ M) n)) z
   := eq_refl.
 
+(* the isomorphism's components are the identity on functionals *)
+Example p433_iso359_component (x : Vct) (g : carrier (cmon_setoid (Dual F x))) :
+  cmon_map (rm_hom (to (projT1 (dual_iso359 F) x))) g = g := eq_refl.
+
+(* the indexed-product record's mediator is the tuple *)
+Example p433_iprod_mediator {R : RingObject} {I : Type}
+  (V : I → RModObject R) {Z : RModObject R} (pi : ∀ i, RModHom Z (V i)) :
+  unique_obj (iprod_desc (ProdMod_IsIndexedProduct V) pi) = prod_tuple V pi
+  := eq_refl.
+
 Check (dual_vct_Continuous F : ContinuousFunctor (Dual F)).
 Check (PowCocone_IsColimitCocone F).
 Check (dual_not_left_adjoint_of_op F).
+Check (dual359_not_left_adjoint_of_op F).
 Check (@prod_tuple_proj).
 Check (@prod_tuple_unique).
+Check (@ProdMod_IsIndexedProduct).
 
 End Probe.
 
 (** ** Guard block *)
 
 Check @Dual.
+Check @VctDual359.
+Check @VctSMC.
+Check @dual_iso359.
+Check @iso359.
+Check @to359.
+Check @from359.
+Check @dual359_fmap_pre.
+Check @dual359_no_right_adjoint.
+Check @dual359_not_left_adjoint_of_op.
+Check @adjunction_along_left_iso.
+Check @ProdMod_IsIndexedProduct.
+Check @IsIndexedProduct.
+Check @iprod_desc.
+Check @unique_obj.
+Check @HomMod.
+Check @DualMod.
 Check @VctLine.
 Check @PowLine.
 Check @vct_coord.
