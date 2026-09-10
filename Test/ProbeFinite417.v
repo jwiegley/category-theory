@@ -112,7 +112,10 @@ Open Scope category_scope.
                    inherited refusal fires at an already-refused argument
                    and does not measure the record on its own.
      N10 CONVERSION  The terminal object recovered at [FinSet] from the
-                   empty finite limit is not the numeral [1] by conversion:
+                   empty finite limit BY THE PULLBACK ROUTE (the witness
+                   [FinSet_FinitelyComplete_pb]; the native route of
+                   Instance/FinSet/Limit.v computes it) is not the numeral
+                   [1] by conversion:
                    [lazy] leaves a [fin_countP] over a predicate testing
                    [unique_obj (FinSet_Pullbacks_obligation_2 …)], the
                    pullback UMP that [Program] closed opaquely, so the
@@ -268,7 +271,7 @@ End HomProof.
 
 (** ** D: witnesses *)
 
-Definition FinSet_FinitelyComplete : @FinitelyComplete FinSet :=
+Definition FinSet_FinitelyComplete_pb : @FinitelyComplete FinSet :=
   finitely_complete_of_pullbacks_terminal FinSet_Pullbacks FinSet_Terminal.
 
 Definition FinSet_FinitelyCocomplete : @FinitelyCocomplete FinSet :=
@@ -284,18 +287,22 @@ Definition topos_FinitelyComplete {C : Category} (T : ElementaryTopos C) :
   finitely_complete_of_pullbacks_terminal topos_pullbacks topos_terminal.
 
 (* N10 CONVERSION: the terminal object recovered from the empty finite limit
-   at [FinSet] does NOT compute to the numeral [1] — the chain runs through
-   the chosen equalizer of [HasEqualizers_of_HasPullbacks_Terminal], whose
-   object is opaque (see the diagnosis in the header). *)
+   at [FinSet] BY THE PULLBACK ROUTE does NOT compute to the numeral [1] —
+   the chain runs through the chosen equalizer of
+   [HasEqualizers_of_HasPullbacks_Terminal], whose object is opaque (see the
+   diagnosis in the header).  The witness is named [_pb] since #415:
+   Instance/FinSet/Limit.v's [FinSet_FinitelyComplete], over the native
+   equalizer, DOES compute it — its
+   [FinSet_FinitelyComplete_terminal_computes]. *)
 Fail Example p417_finset_terminal_computes :
-  @terminal_obj FinSet (FinitelyComplete_Terminal FinSet_FinitelyComplete)
+  @terminal_obj FinSet (FinitelyComplete_Terminal FinSet_FinitelyComplete_pb)
   = 1%nat := eq_refl.
 
 (* Control: it IS the terminal object up to isomorphism, by uniqueness. *)
 Definition p417_finset_terminal_iso :
-  @terminal_obj FinSet (FinitelyComplete_Terminal FinSet_FinitelyComplete)
+  @terminal_obj FinSet (FinitelyComplete_Terminal FinSet_FinitelyComplete_pb)
   ≅ @terminal_obj FinSet FinSet_Terminal :=
-  terminal_unique (FinitelyComplete_Terminal FinSet_FinitelyComplete)
+  terminal_unique (FinitelyComplete_Terminal FinSet_FinitelyComplete_pb)
                   FinSet_Terminal.
 
 (* The shape [Omega] (Instance/Omega.v) is NOT finite: its identity arrows

@@ -278,8 +278,8 @@ Defined.
    below, and [equalizer_of_pullback] for the converse (Awodey 2nd ed. Prop.
    5.7).  Read the last sentence of the quotation with care: this file does
    NOT establish the general "all finite limits" claim -- only the binary and
-   parallel-pair generators are related, and no finite-shape induction is
-   performed anywhere in the library. *)
+   parallel-pair generators are related here; that claim is Structure/Limit/
+   Finite.v's [FinitelyComplete], built from products and equalizers. *)
 (* Wikipedia: "... another way of characterizing the pullback: as the
    equalizer of the morphisms f ∘ p1, g ∘ p2 : X × Y → Z where X × Y is the
    binary product of X and Y and p1 and p2 are the natural projections. This

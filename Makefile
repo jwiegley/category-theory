@@ -7148,6 +7148,28 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.StrictCat_HasEqualizers.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Limit.StrictCat_HasIndexedProducts.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.FinSet.Limit.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_pred.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_obj.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_incl.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_pred_true.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_med.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_IsEqualizer.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_HasEqualizers.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_FinitelyComplete.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_example_f.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_example_g.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_obj_computes.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_incl_computes_0.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_incl_computes_1.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_readback.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_example_h.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_equalizer_med_computes.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_FinitelyComplete_terminal_computes.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_example_diagram.'; \
+	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_FinitelyComplete_parallel_computes.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

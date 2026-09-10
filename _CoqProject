@@ -290,6 +290,7 @@ Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
 Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
+Instance/FinSet/Limit.v
 Instance/FinSet/Powerset.v
 Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
@@ -916,6 +917,7 @@ Test/ProbeArrowLimit412.v
 Test/ProbeFromProducts416.v
 Test/ProbeCatLimit414.v
 Test/ProbeFinite417.v
+Test/ProbeFinSetLimit415.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

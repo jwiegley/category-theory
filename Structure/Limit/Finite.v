@@ -230,13 +230,13 @@ Open Scope category_scope.
    finite shapes (Structure/Limit/Creation.v's scope note is repointed, not
    discharged; no [PreservesFiniteLimits], no left-exact functors); no
    comparison of [finite_limit] with a [Complete] category's chosen limit
-   at any strength; no computing witness — at [FinSet] the terminal object
-   recovered from the empty finite limit is NOT [1] by conversion, the
-   derived equalizer's carrier being a count over a predicate that tests
-   the mediator [FinSet_Pullbacks_obligation_2], the pullback UMP [Program]
-   closed opaquely, so it is delivered [≅ 1] by [terminal_unique] and the
-   [eq_refl] form is pinned (probe N9); no bridge to Shapes.v's
-   [FiniteShape]; no filtered categories (Riehl 3.8.7); no
+   at any strength; a computing witness only since #415: by the pullback
+   route at [FinSet] the terminal object from the empty finite limit is
+   NOT [1] by conversion (its equalizer's carrier counts a predicate that
+   tests the opaque [FinSet_Pullbacks_obligation_2]; probe N10 — an
+   earlier revision said N9 and "no computing witness"), while
+   Instance/FinSet/Limit.v's native route converts it to [1]; no bridge
+   to Shapes.v's [FiniteShape]; no filtered categories (Riehl 3.8.7); no
    equivalence-invariance of [FinitelyComplete]; and the [Set] pin on
    [Two_FiniteCategory] is [_2]'s, not repaired here and not claimed
    unavoidable. *)
