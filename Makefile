@@ -7853,6 +7853,8 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.GAFT.universal_arrow_of_adjunction.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.comma_initial_of_adjunction.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction_via_comma.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_via_comma_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_via_comma_obj.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_via_comma_arr.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff_fwd.'; \
@@ -7941,6 +7943,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_StrictlyCreatesEqualizers.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesAllLimits.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesProducts.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_Complete_via_creation.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_proj_creates_limits.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_equalizers.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_products.'; \

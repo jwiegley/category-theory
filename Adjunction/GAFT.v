@@ -343,8 +343,23 @@ Definition GAFT_via_comma_initial {C D : Category} (U : C ⟶ D)
    factors through it as [U (ε c ∘ fmap[F] h) ∘ η d] by the triangle
    identities.  No completeness, no limit preservation, no smallness
    hypothesis and no discrete-shape limit enter, so unlike [GAFT] itself
-   this direction carries no [Set] pin: it is stated over
-   [Category@{uo uh up}] with the three universes free.
+   this direction carries no [Set] pin.  Read the universe claim precisely:
+   it is stated over [Category@{uo uh uh}] — the hom and proof universes
+   identified, and the SAME [uh] for both categories — which is the
+   identification [Adjunction] and [SolutionSet] already carry and not one
+   introduced here, so an earlier revision of this sentence saying "the
+   three universes free" was wrong.  What is free is [Set]: the necessity
+   direction is accepted at a category with [Set] strictly below its homs,
+   where the biconditional is refused (probe n6 and its control).
+
+   Mac Lane's completeness step is available through #438's creation
+   result — [comma_Complete_via_creation] (Construction/Comma/Creation.v)
+   derives [Comma_Complete]'s conclusion from [comma_CreatesAllLimits] and
+   [creates_limits_Complete], which is his argument rather than
+   Construction/Comma/Limit.v's direct construction.  [GAFT] itself is not
+   rewritten to use it: that would move lines eleven external citations
+   point at, and would put Construction/Comma/Creation.vo into this file's
+   closure for no theorem gained.
 
    Everything below is appended, so no line at or above 328 moves. *)
 
@@ -417,6 +432,16 @@ Definition solution_set_of_adjunction_via_comma {C D : Category} {F : D ⟶ C}
    weakly_initial_of_initial → sols_of_wif] reduces all the way to the
    unit. *)
 
+Definition solution_set_via_comma_index {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) :
+  sol_index (solution_set_of_adjunction_via_comma A d)
+    = sol_index (solution_set_of_adjunction A d) := eq_refl.
+
+Definition solution_set_via_comma_obj {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D)
+  (i : sol_index (solution_set_of_adjunction_via_comma A d)) :
+  sol_obj (solution_set_of_adjunction_via_comma A d) i = F d := eq_refl.
+
 Definition solution_set_via_comma_arr {C D : Category} {F : D ⟶ C}
   {U : C ⟶ D} (A : F ⊣ U) (d : D)
   (i : sol_index (solution_set_of_adjunction_via_comma A d)) :
@@ -428,8 +453,10 @@ Definition solution_set_via_comma_arr {C D : Category} {F : D ⟶ C}
 (* Mac Lane §V.6 Theorem 2 / Awodey §9.8 Theorem 28.  [Defined], so that the
    readbacks below hold; and the reverse half is [GAFT] ITSELF rather than
    [GAFT_via_comma_initial], because [GAFT] is [Qed] and the two are not
-   convertible — building it from the latter would stop
-   [Sets_Id_has_left = GAFT_at_Sets_Id]. *)
+   convertible — building it from the latter stops [GAFT_iff_rev_is_GAFT]
+   below, this file's own readback, before Adjunction/GAFT/Sets.v's
+   [Sets_Id_has_left_is_GAFT_at_Sets_Id] is ever reached.  Both readbacks
+   stop; the nearer one is the one that fires. *)
 
 Theorem GAFT_iff {C D : Category} (U : C ⟶ D) (comp : @Complete C) :
   { F : D ⟶ C & F ⊣ U }

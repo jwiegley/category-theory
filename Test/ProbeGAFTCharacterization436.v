@@ -2,9 +2,11 @@
 
     Pins the measured boundaries of Adjunction/GAFT.v's necessity direction
     and of the biconditional, with negatives of four kinds kept lexically
-    apart.  FORMABILITY: n7, a [SolutionSet] has four fields and no fifth —
-    there is no uniqueness clause, so "solution set" here is weak
-    factorization and nothing more.  CONVERSION: n1, the direct singleton
+    apart.  NAME-ABSENCE: n7, there is no field called [sol_unique] — the
+    same KIND of refusal as the instrument, and it carries only half the
+    argument, the other half being the four accepted [Check]s beside it that
+    enumerate the record's fields; together they say that "solution set"
+    here is weak factorization with no uniqueness clause.  CONVERSION: n1, the direct singleton
     family and Mac Lane's route through the comma-initial object agree on
     every data field but are not the same term; n8, the member is [F d] and
     not [F (U (F d))]; n3, a general solution set is not a singleton, which
@@ -34,12 +36,14 @@ Require Import Category.Theory.Universal.Arrow.
 Require Import Category.Theory.WeaklyInitial.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Limit.
+Require Import Category.Structure.Limit.Preservation.
 Require Import Category.Structure.Limit.Product.
 Require Import Category.Structure.Complete.
 Require Import Category.Structure.Equalizer.
 Require Import Category.Structure.Equalizer.Fork.
 Require Import Category.Construction.Comma.
 Require Import Category.Construction.Comma.Limit.
+Require Import Category.Construction.Comma.Creation.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.One.
 Require Import Category.Instance.Parallel.
@@ -62,7 +66,9 @@ Check @sol_obj.
 Check @sol_arr.
 Check @sol_covers.
 
-(* n7 FORMABILITY: and there is no fifth field *)
+(* n7 NAME-ABSENCE: and there is no field called [sol_unique] — a
+   reference-not-found, the instrument's own kind, which is why the four
+   [Check]s above carry the rest of the claim *)
 Fail Check @sol_unique.
 
 (** ** B: CONVERSION — how far the unit family reads back *)
@@ -80,7 +86,15 @@ Example p436_obj (u : poly_unit) :
 Example p436_arr (u : poly_unit) :
   sol_arr (solution_set_of_adjunction A d) u = @unit _ _ _ _ A d := eq_refl.
 
-(* control: Mac Lane's route collapses to the same arrow *)
+(* controls: Mac Lane's route agrees with the direct one on all three
+   data fields, not only the arrow *)
+Example p436_via_index :
+  sol_index (solution_set_of_adjunction_via_comma A d)
+    = sol_index (solution_set_of_adjunction A d) := eq_refl.
+
+Example p436_via_obj (u : poly_unit) :
+  sol_obj (solution_set_of_adjunction_via_comma A d) u = F d := eq_refl.
+
 Example p436_via_arr (u : poly_unit) :
   sol_arr (solution_set_of_adjunction_via_comma A d) u = @unit _ _ _ _ A d
   := eq_refl.
@@ -120,6 +134,10 @@ Fail Check (fun (C D : Category) (U : C ⟶ D) (comp : @Complete C)
 
 Monomorphic Universes p436o p436h p436p.
 Monomorphic Constraint Set < p436h.
+
+(* Coq identifies [p436h] with [p436p] here, so what this pair measures is
+   freedom from [Set] and not freedom of three separate universes: the
+   necessity direction is stated at [Category@{uo uh uh}]. *)
 
 (* control: necessity is free of the pin *)
 Check (fun (Cu : Category@{p436o p436h p436p}) (Du : Category@{p436o p436h p436p})
@@ -166,7 +184,10 @@ Check @solution_set_of_adjunction_arr.
 Check @universal_arrow_of_adjunction.
 Check @comma_initial_of_adjunction.
 Check @solution_set_of_adjunction_via_comma.
+Check @solution_set_via_comma_index.
+Check @solution_set_via_comma_obj.
 Check @solution_set_via_comma_arr.
+Check @comma_Complete_via_creation.
 Check @GAFT_iff.
 Check @GAFT_iff_fwd.
 Check @GAFT_iff_rev.

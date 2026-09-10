@@ -724,6 +724,21 @@ Definition comma_CreatesProducts {C D : Category} {U : C ⟶ D} {d : D}
   @CreatesProducts (=(d) ↓ U) C comma_proj2 :=
   CreatesAllLimits_CreatesProducts (comma_CreatesAllLimits HU).
 
+(* Mac Lane's own completeness step.  Construction/Comma/Limit.v's
+   [Comma_Complete] builds each limit of the comma category directly; the
+   book instead observes that the projection CREATES limits and reads
+   completeness off that.  Both routes are now available, and this one is
+   his — it is [creates_limits_Complete] at [comma_CreatesAllLimits], and it
+   costs no [Require] here.  [Comma_Complete]'s exported type is untouched,
+   and [Adjunction/GAFT.v] still consumes that one, so nothing downstream
+   moves; issue #436's request to route the argument through the creation
+   result is answered here rather than by rewriting [GAFT]. *)
+
+Definition comma_Complete_via_creation {C D : Category} {U : C ⟶ D} {d : D}
+  (HU : @PreservesImageLimit C D U) (comp : @Complete C) :
+  @Complete (=(d) ↓ U) :=
+  creates_limits_Complete comma_proj2 comp (comma_CreatesAllLimits HU).
+
 (** ** The three names issue #438's Verification block audits *)
 
 (* That block runs [Print Assumptions] on [comma_creates_products],
