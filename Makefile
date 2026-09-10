@@ -7335,6 +7335,54 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DHom.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DObj.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Equalizer.Coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.Complete_from_coreflexive_equalizers.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.corefl_op_round.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.CoreflexivePair_of_op.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_factors_of_ReflexivePair.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_in_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_in_image_of_reflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_section.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_through_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.HasCoreflexiveEqualizers_of_op.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.id_index_arr.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.id_index_cod.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.id_index_dom.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_equalizer.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_incl.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_IsEqualizer.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_limit.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_limit_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_limit_leg.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.mc_limiting.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.op_corefl_round.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.op_HasReflexiveCoequalizers_of_Coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.op_ReflexivePair_of_Coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.pe_coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.pe_retract.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.reflexive_of_diagonal_in_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.ReflexivePair_iff_diagonal_factors.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.ReflexivePair_of_diagonal_factors.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.Sets_Complete_via_Manes.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.Sets_HasCoreflexiveEqualizers.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.HasEqualizers_HasCoreflexiveEqualizers.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.common_retraction_coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.fork_diagonal_of_reflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.functor_preserves_coreflexive.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.pe_retract_proj.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.pe_retract_s.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.pe_retract_t.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.reflexive_of_fork_diagonal.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.corefl_retract.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.corefl_retract_f.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.corefl_retract_g.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.coreflexive_eq.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.CoreflexivePair.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.HasCoreflexiveEqualizers.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
