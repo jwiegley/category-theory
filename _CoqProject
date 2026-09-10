@@ -300,6 +300,8 @@ Instance/FinSet/Regular.v
 Instance/FinSet/Decategorify.v
 Instance/FinSet/Subsets.v
 Instance/Fun.v
+Instance/Fun/Eval.v
+Instance/Fun/Eval/Cat.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
 Instance/Fun/Closed.v
@@ -929,6 +931,7 @@ Test/ProbeComparison419.v
 Test/ProbeDiagrams420.v
 Test/ProbeCoreflexive421.v
 Test/ProbeFreyd423.v
+Test/ProbeFunEval424.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

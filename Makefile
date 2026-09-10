@@ -7427,6 +7427,27 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ai_index.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ArrowIndex.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Fun.Eval.'; \
+	  echo 'Require Import Category.Instance.Fun.Eval.Cat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Eval.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Eval_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.eval_partial_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.eval_partial_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.eval_partial_r_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.EvalBi.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.EvalFunctor.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.EvalFunctor_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.EvalFunctor_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.eval_partial_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.eval_partial_r_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.CatEval.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.CatEval_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.CatEval_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.eval_is_CatEval_partial_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.eval_transpose.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.eval_is_CatEval_partial_map.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
