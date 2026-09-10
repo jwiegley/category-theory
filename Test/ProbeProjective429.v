@@ -29,6 +29,7 @@ Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
+Require Import Category.Structure.Limit.Product.
 Require Import Category.Structure.Limit.Coproduct.
 Require Import Category.Functor.Hom.
 Require Import Category.Instance.Sets.

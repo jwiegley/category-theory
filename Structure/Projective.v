@@ -9,6 +9,7 @@ Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
+Require Import Category.Structure.Limit.Product.
 Require Import Category.Structure.Limit.Coproduct.
 Require Import Category.Functor.Hom.
 Require Import Category.Instance.Sets.
@@ -35,12 +36,20 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED.
      - "No projectivity or injectivity notion exists": TRUE (0 declarations
        matching Projective/Injective; the issue's own occurrence counts are
-       off — 'projective' occurs in 9 lines of 6 [.v] files, all prose
-       about projective limits or modules, and 'injective' in 437 lines of
-       100 files, all the SETOID-MAP notion: Lib/Setoid.v:117 [injective],
+       off — 'projective' occurs in 9 lines of 6 [.v] files, all prose:
+       projective limits (Structure/Limit.v:43/:51, Instance/Sets/
+       InverseLimit.v:51), a free module (Instance/Mod/Free.v:175),
+       projective geometry (Construction/Opposite.v:27/:40/:43), the
+       projective tensor product of Banach spaces (Structure/Closed.v:67) and
+       "enough projectives" (Structure/Abelian.v:97, the one line about this
+       file's notion); and 'injective' in 437 lines of 100 files, all but
+       one the SETOID-MAP notion — Lib/Setoid.v:117 [injective],
        Instance/Sets.v:379 [injectivity_is_monic], Theory/Concrete/
        Morphisms.v:70 [concrete_injective_monic], Adjunction/LeftInverse.v:
-       352 [InjectiveOnObjects], … — none the categorical injective object).
+       352 [InjectiveOnObjects], … — the exception being Structure/
+       Abelian.v:98's "injective resolutions", prose about the categorical
+       notion).  (An earlier revision glossed the nine as "limits or modules"
+       and the 437 as all setoid-map; corrected to the measured lists.)
      - "No lifting property beyond Theory/Orthogonality.v:43": PARTIAL.
        [Orthogonal e m] (unique filler, two arrows, over [≈]) is also what
        Structure/Factorization/StrongEpi.v:36-39's [strong_lift] and
@@ -73,7 +82,7 @@ Generalizable All Variables.
          [proj_lift_comm].
      (2) [Injective C] as a NOTATION for [@Projective (C^op)] (with the
          [@Injective C] form), the idiom of Structure/Initial.v:97-100 and
-         Structure/Cocartesian.v:115-117; covariant accessors
+         Structure/Cocartesian.v:115-118; covariant accessors
          [injective_extend m Hm f : ∃ h : b ~> q, h ∘ m ≈ f] (through
          Theory/Morphisms/Duality.v:44-58's [op_Epic_of_Monic] — [Monic] in
          C and [Epic] in [C^op] are DISTINCT records, probe N4-N5, though
@@ -187,37 +196,46 @@ Generalizable All Variables.
      - Closure 34 files excluding self: Structure/Limit/Coproduct.v costs 8
        at the margin (the indexed case), Functor/Hom.v 3, Theory/Morphisms/
        Duality.v 2, Instance/Sets/Regular.v 1, Instance/Two.v 1,
-       Structure/Cocartesian.v 1, Theory/Orthogonality.v 1, the other nine
+       Structure/Cocartesian.v 1, Theory/Orthogonality.v 1, the other ten
        [Require]s 0.  [[Hom p ,─]] is used directly rather than
-       Functor/Hom/Limit.v's [HomFrom], which would add 12 files for the
-       same functor.  [two_X_initial : @Initial _2] DUPLICATES
+       Functor/Hom/Limit.v's [HomFrom], which would add 23 files for the
+       same functor (an earlier revision said 12; measured 34 → 57).
+       [two_X_initial : @Initial _2] DUPLICATES
        Theory/Equivalence/Strict.v:725's [Two_Initial], whose [Require]
        would add 17 files; the consolidation of both into Instance/Two.v is
        surfaced for the maintainer, not done.  Name collisions: [Projective]
        occurs as a word in Structure/Limit.v's prose ("projective limit"),
        not as a declaration; every other name has 0 occurrences elsewhere.
      - NAME HAZARD, RECORDED.  The [@Injective C] notation claims the lexer
-       token [@Injective], as Structure/Initial.v's [@Initial C] claims
-       [@Initial]: no constant whose name begins with [Injective] (or
-       [Initial], [Terminal], [Cocartesian], [Coproduct]) can be written with
-       an [@] prefix while the notation is in scope (probe N7-N8; the tree's
-       [InjectiveOnObjects] is currently never written with [@]).  The
-       names below avoid every such prefix.
+       token [@Injective], as Structure/Initial.v's [@Initial C] and
+       Structure/Cocartesian.v's [@Cocartesian C] claim theirs: no constant
+       whose name begins with [Injective], [Initial] or [Cocartesian] can be
+       written with an [@] prefix while those notations are in scope (probe
+       N7-N8; the tree's [InjectiveOnObjects] is currently never written with
+       [@]; [@Terminal…] and [@Coproduct…] ARE accepted — no such notation
+       exists — an earlier revision listed them as blocked).  The names below
+       avoid every blocked prefix.
      - Test/ProbeProjective429.v mirrors the [Require] list and carries 9
        refutation commands (1 instrument + N1-N3 UNIVERSE + N4 CONVERSION +
        N5-N6 TYPING + N7-N8 PARSING), each stripped one at a time in a copy
-       of the whole file and each beside its accepted controls; eleven
-       [eq_refl] readbacks; guard coverage 31 identifier tokens inside the
-       refutations / 25 also named outside, comments stripped, with six
+       of the whole file and each beside its accepted controls; ten
+       [eq_refl] readbacks (an earlier revision said eleven, counting the N4
+       negative's own [eq_refl]); guard coverage 28 identifier tokens inside
+       the refutations / 22 also named outside, comments stripped, with six
        exhaustive exceptions (the keyword, a binder, the three refuted
        declarations' names, the absent name); rename-simulated 5/5 over the
        library names the negatives use ([Projective], [Epic], [Monic],
        [op_Epic_of_Monic], [Category]; module paths excluded), every first
        break on a positive line — the two parsing negatives concern a lexer
        token, so renaming their probe-local placeholders is uninformative
-       and is not counted.  [make todo] grows by those 9 lines only (2226 →
-       2235 over master 969ac56e), so the issue's "adds no new hits" box is
-       not met as written; disclosed.
+       and is not counted.  [make todo] grows by those 9 lines only (2237 →
+       2246 over f86ebdbe, master 1de68608 with #428), so the issue's "adds
+       no new hits" box is not met as written; disclosed.  (An earlier
+       revision of the probe
+       wrote the Prelude's [ex] as [Corelib.Init.Logic.ex], which Coq
+       8.19/8.20 do not know — their prelude is [Coq.] — and the Nix source
+       builds stopped there; the unqualified name is used now, and the guard
+       figure moved from 31/25 to the 28/22 above with it.)
 
    NOT DELIVERED.
      - Enough projectives, projective or injective resolutions, injective
@@ -431,9 +449,11 @@ Definition Section_Injective {C : Category} {p q : C} (s : q ~> p)
   (S : Section s) (P : @Injective C p) : @Injective C q :=
   @Retraction_Projective (C^op) p q s (op_Retraction_of_Section s S) P.
 
+(* The hypothesis is stated in C's own vocabulary: [IsIndexedCoproduct] over
+   [C^op] IS [IsIndexedProduct] over C (Structure/Limit/Coproduct.v:82-84). *)
 Definition IndexedProd_Injective {C : Category} {A : Type} (fam : A → C)
   (s : C) (proj : ∀ a : A, s ~> fam a)
-  (H : @IsIndexedCoproduct (C^op) A fam s proj)
+  (H : @IsIndexedProduct C A fam s proj)
   (P : ∀ a : A, @Injective C (fam a)) : @Injective C s :=
   @IndexedCoprod_Projective (C^op) A fam s proj H P.
 
