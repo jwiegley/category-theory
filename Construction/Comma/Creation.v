@@ -53,10 +53,14 @@ Generalizable All Variables.
    Adjunction/SAFT.v are untouched.
 
    On the house rule that morphisms are compared with [≈]: [comma_strict_legs]
-   is the one statement here that writes [=] between morphisms, and it does
-   so because both sides are the SAME term — the witness is [eq_refl].  It
-   records Mac Lane's [F σ = τ] at full strength, which is strictly stronger
-   than the [≈] the class asks for; every proof below uses [≈]. *)
+   writes [=] between morphisms, and it does so because both sides are the
+   SAME term — the witness is [eq_refl].  It records Mac Lane's [F σ = τ] at
+   full strength, which is strictly stronger than the [≈] the class asks
+   for; every proof below uses [≈].  (An earlier revision said
+   [comma_strict_legs] was "the one statement here" of that shape; measured
+   at this revision there are FOUR, the later three being
+   [comma_limit_at_legs], [comma_prod_leg_strict] and
+   [comma_equalizer_leg_strict], each likewise [eq_refl] on one term.) *)
 
 (* What follows the strictness readbacks was added for Mac Lane §V.6's
    Lemma 1 and Exercise 1 (book pp. 121-125) and, through
@@ -74,11 +78,21 @@ Generalizable All Variables.
    shapes.  [comma_limit_at] re-derives that whole construction from
    [PreservesLimitCone (Gdiag K) U], the hypothesis at the ONE base diagram
    of the ONE [K] at hand, and it does so ADDITIVELY: Construction/Comma/Limit.v
-   is not touched, because ten [.v] files and nine planning or documentation
+   is not touched, because NINE [.v] files and nine planning or documentation
    files cite it at fifteen distinct line numbers (measured with
    [grep -rloE 'Comma/Limit\.v:[0-9]+'] over [--include='*.v'] and
-   [--include='*.md']).  The price is about a hundred lines of re-derivation
-   with the original tactic scripts.
+   [--include='*.md']; the count is ten [.v] files at this revision, but
+   one of the ten is Construction/Slice/Creation.v, added by the same
+   commit, so nine is the honest figure for the decision).  The price is
+   about a hundred lines of re-derivation with the original tactic scripts.
+
+   The two-sided analogue landed first and is not superseded:
+   Construction/Arrow/Limit.v:378's [comma_proj_StrictlyCreatesLimit]
+   already gives strict creation for [comma_proj : (S ↓ T) ⟶ A ∏ B] from a
+   per-diagram hypothesis of the same shape.  The functors differ — [Snd ◯
+   comma_proj] and [comma_proj2] are different records — and there is no
+   [StrictlyCreatesLimit_compose], so the re-derivation here is not
+   avoidable, but the idea is that file's.
 
    Second, the creation was not strict.  [comma_CreatesLimit]'s
    [creates_lift] DISCARDS the cone it is handed and returns the lift of the
@@ -98,27 +112,35 @@ Generalizable All Variables.
    construction read at [Parallel], which costs nothing because [Parallel]
    leaves its hom universe free.  The products clause is stated
    ELEMENTARILY over [Structure/Limit/Product.v]'s [IsIndexedProduct]
-   rather than over a discrete shape, and that is forced: [Gdiag]
-   identifies the shape's hom and proof universes with [C]'s, while
-   [DiscreteCat A]'s hom is an equality in [Prop] that minimizes to [Set],
-   so [Gdiag (DiscreteCat_Functor F)] pins BOTH categories to
+   rather than over a discrete shape, because that is the form that can be
+   INSTANTIATED at a family: [DiscreteCat_Functor] (Instance/Discrete.v:59)
+   has printed type [DiscreteCat@{u Set Set} A ⟶ C], so
+   [Gdiag (DiscreteCat_Functor F)] pins BOTH categories to
    [Category@{_ Set Set}] and is refused over a generic [C] with
    "universe inconsistency: Cannot enforce Set = ..." (probe negative n2).
-   Reaching the products clause through Structure/Limit/Creation.v's
-   [CreatesProducts], which quantifies over [DiscreteCat A], would import
-   that pin.  This is the trap the Construction/Comma/Special.v bullet of
-   docs/INDEX.md already records for [DiscreteCat_Functor], sighted here at
-   [Gdiag].
+   The pin belongs to that constant and not to [DiscreteCat] itself, whose
+   hom and proof universes are free ([DiscreteCat@{o h p} : Type@{o} →
+   Category@{o h p}]), which is why the discrete-shape statement
+   [comma_CreatesProducts] below IS formable and axiom-free over a generic
+   [C] and [D].  Both are shipped; the elementary one is the usable one.
+   This is the trap the Construction/Comma/Special.v bullet of docs/INDEX.md
+   already records for [DiscreteCat_Functor], sighted here at the family
+   step rather than at [Gdiag].
 
    Three of issue #438's substantive claims about the tree are FALSE as of
    this file's parent, and are recorded here because the issue text will
-   outlive the commit.  "Creation proper is not stated" — [comma_CreatesLimit]
-   above states it.  "The uniqueness/reflection clause is absent" —
-   [comma_creates_reflect] is the reflection clause, and uniqueness is
-   Structure/Limit/Creation.v's [creates_lift_unique] applied to it.  "No
-   lemma asserts that the projection of the constructed limit is the given
-   one" — [comma_strict_apex] and [comma_strict_legs] assert exactly that,
-   by [eq_refl], for an arbitrary downstairs limit.  A fourth is half true:
+   outlive the commit.  Read them TREE-WIDE: two of the three are written
+   in the issue as statements about Construction/Comma/Limit.v, and of THAT
+   file they are still true — what falsifies them is this file, which
+   landed after the issue was written.  "Creation proper is not stated" —
+   [comma_CreatesLimit] above states it.  "The uniqueness/reflection clause
+   is absent" — [comma_creates_reflect] is the reflection clause, and
+   uniqueness is Structure/Limit/Creation.v's [creates_lift_unique] applied
+   to it, though only up to cone isomorphism (see the NOT DELIVERED list).
+   "No lemma asserts that the projection of the constructed limit is the
+   given one" — [comma_strict_apex] and [comma_strict_legs] assert exactly
+   that, by [eq_refl], for an arbitrary downstairs limit.  A fourth is half
+   true:
    comma limits sit under an all-shapes [Complete C] oracle only for
    [Comma_Complete] (Construction/Comma/Limit.v:247); [comma_limit] (:240)
    has taken its downstairs limit as a parameter since commit 28ee6e54.
@@ -133,44 +155,61 @@ Generalizable All Variables.
    claim creation where only existence is proved — was already resolved by
    this file's first commit, as the paragraph above records.
 
-   Measured.  This file's [.glob] declares 40 heads (36 [def], 4 [prf]) and
+   Measured.  This file's [.glob] declares 41 heads (37 [def], 4 [prf]) and
    no [Program] obligation, nine of them from the first commit; with
-   Construction/Slice/Creation.v's 12 that is 52 constants, all carried by
+   Construction/Slice/Creation.v's 30 that is 71 constants, all carried by
    [make print-assumptions] and all reporting "Closed under the global
    context".  Closure goes from 35 modules excluding self to 38, and the
    three added are EXACTLY the three new [Require]s
-   (Structure/Limit/Product, Structure/Equalizer, Instance/Parallel) —
-   neither brings anything else with it — while
-   Adjunction/Representability/Sets.v — the only library file that requires
-   this one, Test/ProbeRepresentability437.v being the other requirer —
-   stays at 99, all three having been in its closure already.  Construction/Slice/Creation.v closes over 47.  Zero collisions
-   over the 52 names (whole-word [grep -rlw] over [*.v], instrument-checked).
-   [make todo] grows by six, the probe's six refutation lines, and neither
-   library file contributes a hit.
+   (Structure/Limit/Product, Structure/Equalizer, Instance/Parallel) — none
+   brings anything else with it, and [comma_CreatesProducts] needed no
+   [Require] at all — while Adjunction/Representability/Sets.v stays at 99,
+   all three having been in its closure already.  Four files require this
+   one: that one and Construction/Slice/Creation.v in the library, and the
+   two probes.  Construction/Slice/Creation.v closes over 52 and the probe
+   over 58.  Zero collisions over the 71 heads and the probe's 18 declared
+   names (whole-word [grep -rlw] over [*.v], instrument-checked at [Full],
+   [comma_limit] and [Coslice_Proj]); the only other-file hits are two USES
+   of [Continuous_PreservesImageLimit] in Adjunction/Representability/Sets.v
+   and one prose mention of [comma_CreatesLimit] at Construction/Arrow/Limit.v:97,
+   with no second declaration anywhere.  [make todo] grows by seven, the
+   probe's seven refutation lines, and neither library file contributes a
+   hit.
 
-   Of the new definitions seven close with [Defined] and three with [Qed].
-   Flipping each [Defined] alone to [Qed] in a copy of the whole file:
-   three stop the FILE itself ([comma_at_apex_leg], [comma_at_med],
-   [comma_prod_proj], which later definitions need to reduce), one stops the
-   probe ([comma_StrictlyCreatesLimit], whose strict-lift readback is
-   [eq_refl]), and three compile through with every readback intact
-   ([comma_at_ump], [comma_reflect_at], [comma_IsIndexedProduct]).  Those
-   three stay transparent because they are data — a universal property, a
-   limiting-cone witness and a record inhabitant — matching the [Defined] of
-   [umed], [comma_ump] and [comma_creates_reflect] beside them; that their
-   flip is not load-bearing is disclosed, not claimed away.
+   Across the two files thirteen definitions close with [Defined] — two of
+   them from this file's first commit — and seven with [Qed].  Flipping each
+   [Defined] alone to [Qed] in a copy of the whole file: FOUR stop the file
+   itself ([comma_at_apex_leg], [comma_at_med], [comma_prod_proj], and the
+   satellite's [coslice_lift_leg], each needed to reduce by a later
+   definition), TWO stop the probe ([comma_StrictlyCreatesLimit] and
+   [Coslice_Proj_StrictlyCreatesLimit], whose strict-lift readbacks are
+   [eq_refl]), and SEVEN compile through with every readback intact
+   ([comma_at_ump], [comma_reflect_at], [comma_IsIndexedProduct],
+   [coslice_reflect_at], [coslice_lift_ump], and the two pre-existing
+   [comma_creates_reflect] and [comma_CreatesLimit]).  Those stay
+   transparent because they are data — universal properties, limiting-cone
+   witnesses, a record inhabitant — matching the [Defined] of [umed] and
+   [comma_ump] beside them; that their flip is not load-bearing is
+   disclosed, not claimed away.
 
    NOT DELIVERED here.  No weakening of [Comma_Complete]'s exported type,
    so Adjunction/GAFT.v and Adjunction/SAFT.v are untouched; no per-shape
    completeness class, the products and equalizers clauses being single
    statements rather than instances of a shape-indexed family; no
-   [CreatesProducts] in Structure/Limit/Creation.v's [DiscreteCat] sense,
-   for the universe reason above; no finiteness anywhere, the index of the
-   products clause being an arbitrary [Type]; no creation by [comma_proj1],
-   which nothing in the tree addresses; no colimit dual, which issue #438
-   scopes out along with Riehl's connected-colimit half; and no strict
-   creation for a plain coslice projection, whose obstruction is measured
-   in Construction/Slice/Creation.v. *)
+   INSTANTIATION of [comma_CreatesProducts] at a family, for the
+   [DiscreteCat_Functor] reason above — the statement is shipped, an
+   inhabitant at a given family over a generic [C] is not; no ON-THE-NOSE
+   uniqueness of the lift, Mac Lane's "exactly one pair" — what is
+   available is [creates_lift_unique]'s [ConeIso], and
+   Structure/Limit/Creation.v says in terms why uniqueness cannot be a
+   field of the class in a setoid setting; no finiteness anywhere, the
+   index of the products clause being an arbitrary [Type]; no creation by
+   [comma_proj1], which nothing in the tree addresses; and no colimit dual,
+   which issue #438 scopes out along with Riehl's connected-colimit half.
+   Strict creation for a PLAIN coslice projection IS delivered, in
+   Construction/Slice/Creation.v — an earlier revision of this list said it
+   was blocked, on the false premise that no unconditioned coslice
+   projection existed. *)
 
 (** ** [PreservesImageLimit] is cone-level preservation at every shape *)
 
@@ -634,6 +673,30 @@ Definition comma_StrictlyCreatesEqualizers :
   StrictlyCreatesLimit K comma_proj2 := comma_StrictlyCreatesLimit K HK.
 
 End CommaEqualizers.
+
+(** ** The discrete-shape products clause, and what is wrong with it *)
+
+(* [Structure/Limit/Creation.v]'s [CreatesProducts F] quantifies over every
+   [DiscreteCat A] shape, and it IS provable here over a generic [C] and
+   [D], axiom-free, with no [Set] anywhere in its constraint block — an
+   earlier revision of this header said reaching the products clause that
+   way "would import that pin", and that was wrong: [Gdiag K] is formable
+   for an abstract [K : DiscreteCat A ⟶ (=(d) ↓ U)], because [Compose]
+   unifies the shape's hom universe with [C]'s before minimization.  The
+   [Set] pin lives one step further on, in the CONSTANT [DiscreteCat_Functor]
+   (Instance/Discrete.v:59), whose printed type is
+   [DiscreteCat@{u Set Set} A ⟶ C]: so what is refused is building the
+   discrete diagram OUT OF A FAMILY, which is what probe negative n2
+   records.  The elementary [IsIndexedProduct] clause above is therefore
+   kept because it is the usable form — it takes the family directly — and
+   not because this one is unformable.  Both are shipped. *)
+
+Definition comma_CreatesProducts {C D : Category} {U : C ⟶ D} {d : D}
+  (HU : @PreservesImageLimit C D U) :
+  @CreatesProducts (=(d) ↓ U) C comma_proj2 :=
+  fun A K => StrictlyCreatesLimit_CreatesLimit
+               (comma_StrictlyCreatesLimit K
+                  (fun N HN => HU _ (Gdiag K) (@Build_Limit _ _ (Gdiag K) N HN))).
 
 (** ** The three names issue #438's Verification block audits *)
 

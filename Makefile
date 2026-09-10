@@ -7927,6 +7927,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_apex_strict.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_leg_strict.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_StrictlyCreatesEqualizers.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesProducts.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_proj_creates_limits.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_equalizers.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_products.'; \
@@ -7945,6 +7946,24 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj_CreatesLimit.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_structure_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_structure_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_reflect_at.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_med.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_med_commutes.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_ump.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_limit_at.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_strict_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_lift_legs.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Proj_StrictlyCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Proj_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Proj_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Complete_direct.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

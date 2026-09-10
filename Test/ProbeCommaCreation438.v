@@ -43,6 +43,7 @@ Require Import Category.Construction.Comma.
 Require Import Category.Construction.Comma.Limit.
 Require Import Category.Construction.Comma.Creation.
 Require Import Category.Construction.Slice.
+Require Import Category.Construction.Slice.Adjunction.
 Require Import Category.Construction.Slice.Creation.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.One.
@@ -123,7 +124,56 @@ Fail Example p438_coslice_fobj (x : c ̸co C) :
 (* N4 CONVERSION: and the coslice is not the comma category on the nose *)
 Fail Example p438_coslice_cat : (c ̸co C) = (=(c) ↓ Id[C]) := eq_refl.
 
+(* controls: the PLAIN projection's two data fields DO reduce, which is why
+   strict creation is available for it where it is not for the transported
+   one — the n3 refusal above is about [coslice_comma_proj], not about
+   coslice projections in general *)
+Example p438_plain_fobj (x : c ̸co C) :
+  fobj[Coslice_Proj c] x = `1 x := eq_refl.
+
+Example p438_plain_fmap {x y : c ̸co C} (f : x ~{c ̸co C}~> y) :
+  fmap[Coslice_Proj c] f = `1 f := eq_refl.
+
+(* N6 CONVERSION: the plain and the transported projections are DIFFERENT
+   functors, so what is proved of one does not transfer to the other by
+   conversion *)
+Fail Example p438_projs_agree :
+  Coslice_Proj c = coslice_comma_proj c := eq_refl.
+
 End Coslice.
+
+(** ** C': the plain coslice projection's strict lift *)
+
+Section PlainCoslice.
+
+Context {C : Category}.
+Context (c : C).
+Context {J : Category}.
+Context (K : J ⟶ (c ̸co C)).
+
+(* the lift lies over the GIVEN cone, apex and legs, with no hypothesis *)
+
+Example p438_coslice_apex (N : Cone (Coslice_Proj c ◯ K)) (HN : IsLimitCone N) :
+  fobj[Coslice_Proj c]
+    (vertex_obj[slift_cone
+       (screates (StrictlyCreatesLimit := Coslice_Proj_StrictlyCreatesLimit c K)
+          N HN)])
+    = vertex_obj[N] := eq_refl.
+
+Example p438_coslice_legs (N : Cone (Coslice_Proj c ◯ K)) (HN : IsLimitCone N)
+  (j : J) :
+  fmap[Coslice_Proj c]
+    (cone_leg (slift_cone
+       (screates (StrictlyCreatesLimit := Coslice_Proj_StrictlyCreatesLimit c K)
+          N HN)) j)
+    = cone_leg N j := eq_refl.
+
+(* the lifted object's structure map is the mediator, on the nose *)
+Example p438_coslice_structure (N : Cone (Coslice_Proj c ◯ K))
+  (HN : IsLimitCone N) :
+  `2 (coslice_lift_obj c K N HN) = coslice_med c K N HN := eq_refl.
+
+End PlainCoslice.
 
 (** ** D: CONVERSION — the shipped lift against the strict one *)
 
@@ -260,9 +310,29 @@ Check @comma_equalizer_at.
 Check @comma_equalizer_apex_strict.
 Check @comma_equalizer_leg_strict.
 Check @comma_StrictlyCreatesEqualizers.
+Check @comma_CreatesProducts.
 Check @comma_proj_creates_limits.
 Check @comma_creates_equalizers.
 Check @comma_creates_products.
+Check @coslice_structure_coherence.
+Check @coslice_structure_cone.
+Check @coslice_reflect_at.
+Check @coslice_med.
+Check @coslice_med_commutes.
+Check @coslice_lift_obj.
+Check @coslice_lift_leg.
+Check @coslice_lift_coherence.
+Check @coslice_lift_cone.
+Check @coslice_lift_ump.
+Check @coslice_limit_at.
+Check @coslice_strict_lift.
+Check @coslice_lift_apex.
+Check @coslice_lift_legs.
+Check @Coslice_Proj_StrictlyCreatesLimit.
+Check @Coslice_Proj_CreatesLimit.
+Check @Coslice_Proj_CreatesAllLimits.
+Check @Coslice_Complete_direct.
+Check @Coslice_Proj.
 Check @Id_PreservesImageLimit.
 Check @coslice_comma_StrictlyCreatesLimit.
 Check @coslice_comma_CreatesAllLimits.
