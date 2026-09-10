@@ -26,20 +26,32 @@
                      removes.  Controls: the object actions convert, and
                      [eval_partial_map] closes the arrow case at [≈], packaged
                      as [eval_partial_iso].
+     N3 CONVERSION   the [Partial_r] twin: [fmap[Partial_r EvalBi H] f =
+                     fmap[H] f] is refused at [eq_refl] for the same reason
+                     ([bimap id f]); controls [eval_partial_r_obj] at
+                     [eq_refl] and [eval_partial_r_map] at [≈].  Added after
+                     the audit, which found the boundary measured but
+                     unguarded.
 
     Positive controls, deliberately NOT written as refutations: the
-    identifications with [YoEvalAt] (both fields), [One_Eval] (objects),
+    identifications with [YoEvalAt] and [One_Eval] (both fields each),
     [Cat_Closed]'s evaluation ([CatEval_map]) and the transpose
-    ([eval_transpose]); and [p424_ev1_via_Eval], Theory/Lawvere/Sets.v's
-    [ev1] as [Eval (law_of_nat 1) ◯ Incl], agreeing with [ev1] in both data
-    fields at [eq_refl].  The universe COLLAPSE of routing through [Cat]'s
-    exponential typechecks and so cannot be refuted; it is measured by
-    [About] in the headers, not faked as a probe.
+    ([eval_transpose]); [p424_prior_nat], the one-object instance of
+    [Eval_nat] already in the tree (Functor/Representable/Functorial.v's
+    [wit_ev_tau]), component for component at [eq_refl]; and
+    [p424_ev1_via_Eval], Theory/Lawvere/Sets.v's [ev1] as [Eval (law_of_nat
+    1) ◯ Incl], agreeing with [ev1] in both data fields at [eq_refl] (a
+    twin: [ev1] itself is not re-expressed).  The universe COLLAPSE of
+    routing through [Cat]'s exponential typechecks and so cannot be
+    refuted; it is measured by [About] in the headers, not faked as a
+    probe.  Note the parenthesised [(Eval p)] wherever the constant heads a
+    term: bare [Eval p] at a definition-body head is read as the [Eval … in]
+    vernacular.
 
     Guard coverage: every constant a refutation names is also named
     outside a refutation command (the guard block at the end) — the
     exceptions, under the plain identifier tokenization with comments
-    stripped, being the keyword itself, the two names the refuted
+    stripped, being the keyword itself, the three names the refuted
     declarations would introduce, the binder [s] and the instrument's
     absent name — so a renamed or removed constant breaks the build on a
     positive line rather than letting a refutation pass for the wrong
@@ -68,6 +80,8 @@ Require Import Category.Structure.Terminal.
 Require Import Category.Instance.One.
 Require Import Category.Theory.Shapes.
 Require Import Category.Functor.Hom.Yoneda.Natural.
+Require Import Category.Construction.Deloop.
+Require Import Category.Functor.Representable.Functorial.
 Require Import Category.Adjunction.Diagonal.Connected.
 Require Import Category.Construction.Subcategory.
 Require Import Category.Theory.Lawvere.
@@ -118,6 +132,15 @@ Fail Example p424_partial_map (s : H ~{[P, X]}~> K) :
 Check (eval_partial_map p H K).
 Check (eval_partial_iso p).
 
+(* N3 CONVERSION: the same on the other partial — [Partial_r]'s action is
+   [bimap id f], again carrying an [fmap id] *)
+Fail Example p424_partial_r_map (q : P) (f : p ~> q) :
+  @fmap _ _ (Partial_r EvalBi H) p q f = @fmap _ _ H p q f := eq_refl.
+
+(* controls: on objects on the nose, on arrows at ≈ *)
+Example p424_partial_r_obj : fobj[Partial_r EvalBi H] p = fobj[H] p := eq_refl.
+Check (fun (q : P) (f : p ~> q) => eval_partial_r_map H p q f).
+
 End PartialAgreement.
 
 (** ** C: the same data as the tree's other evaluation functors *)
@@ -129,9 +152,22 @@ Example p424_YoEvalAt_obj {C : Category} (c : C) :
 Example p424_YoEvalAt_map {C : Category} (c : C) (F G : [C, Sets]) :
   @fmap _ _ (@Eval C Sets c) F G = @fmap _ _ (@YoEvalAt C c) F G := eq_refl.
 
-(* at [P := _1]: Theory/Shapes.v's [One_Eval] *)
+(* at [P := _1]: Theory/Shapes.v's [One_Eval], both fields *)
 Example p424_One_Eval_obj {X : Category} :
   fobj[@Eval _1 X ttt] = fobj[@One_Eval X] := eq_refl.
+
+Example p424_One_Eval_map {X : Category} (F G : [_1, X]) :
+  @fmap _ _ (@Eval _1 X ttt) F G = @fmap _ _ (@One_Eval X) F G := eq_refl.
+
+(* the one-object instance of [Eval_nat] already in the tree:
+   Functor/Representable/Functorial.v's [wit_ev_tau] over the delooping of
+   (ℕ, +) and [Sets], the same component (its [BNat] notation is
+   section-local there) *)
+Local Notation BNat := (Deloop Nat_Plus).
+
+Example p424_prior_nat (n : nat) (F : [BNat, Sets]) :
+  transform[wit_ev_tau n] F = transform[@Eval_nat BNat Sets ttt ttt n] F
+  := eq_refl.
 
 (* [Cat_Closed]'s own evaluation, named in Instance/Fun/Eval/Cat.v *)
 Check (@CatEval_map).

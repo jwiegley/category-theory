@@ -38,7 +38,7 @@ Generalizable All Variables.
        opaque law fields).  Also present: Functor/Hom/Yoneda/Natural.v:388
        [YoEvalAt : [C, Sets] ⟶ Sets] and :226 [YoEval : [C, Sets] ∏ C ⟶ Sets]
        (the two-variable one, at Sets, in the OTHER arrow order, bridged by
-       [yo_eval_map_alt] :243), and Theory/Shapes.v:254 [One_Eval : [_1, C]
+       [yo_eval_map_alt] :241), and Theory/Shapes.v:254 [One_Eval : [_1, C]
        ⟶ C].  Both [YoEvalAt] and [One_Eval] agree with [Eval] at [eq_refl]
        (probe).
      - The hit list: Theory/Kan/Extension.v:127 is a comment ([Induced] is
@@ -56,8 +56,9 @@ Generalizable All Variables.
        Instance/Cat/Cartesian/Closed.v:47 [Cat_Closed], Theory/Lawvere/
        Model.v's [Models] as a FULL subcategory of [[law_cat T, C]].
 
-   WHAT IS DELIVERED (11 constants here, 6 in Instance/Fun/Eval/Cat.v,
-   every one closed under the global context).
+   WHAT IS DELIVERED (11 named constants here plus 17 [Program]
+   obligations, 6 in Instance/Fun/Eval/Cat.v, every one closed under the
+   global context).
      (1) [Eval (p : P) : [P, X] ⟶ X], annotated [@{jo jh co ch}] through the
          section's [Universe] declaration exactly as [EvalAt] is, in the
          light home the issue asks for (closure 19 files).
@@ -78,21 +79,36 @@ Generalizable All Variables.
          with identity components, every obligation auto-discharged; the
          other partial is the functor itself ([eval_partial_r_obj] at
          [eq_refl], [eval_partial_r_map] at [≈]).
-     (4) NATURALITY IN THE OBJECT — genuinely absent before.  [Eval_nat (f :
-         p ~> q) : Eval p ⟹ Eval q] with component [fmap[H] f] (both
-         naturality fields are the naturality of the evaluated
-         transformation), assembled into [EvalFunctor : P ⟶ [[P, X], X]]
-         with [EvalFunctor_obj]/[EvalFunctor_map] at [eq_refl].
+     (4) NATURALITY IN THE OBJECT.  [Eval_nat (f : p ~> q) : Eval p ⟹ Eval q]
+         with component [fmap[H] f] (both naturality fields are the
+         naturality of the evaluated transformation), assembled into
+         [EvalFunctor : P ⟶ [[P, X], X]] with [EvalFunctor_obj]/
+         [EvalFunctor_map] at [eq_refl].  The GENERAL form is new; the
+         construction itself appears at one object of one category as
+         Functor/Representable/Functorial.v:403's [wit_ev_tau n : YoEvalAt
+         ttt ⟹ YoEvalAt ttt] over [BNat] and [Sets], whose component
+         converts with [Eval_nat]'s at [eq_refl] (probe).  [EvalFunctor]
+         has no precedent: a tree-wide sweep for a functor into a double
+         functor category [[_, _], _] returns only this file.  (An earlier
+         revision said "genuinely absent before"; the audit found the
+         one-object instance.)
      (5) IN THE PROBE (Test/ProbeFunEval424.v): the identifications with
-         [EvalAt] (both fields), [YoEvalAt] (both fields) and [One_Eval]
-         (objects) at [eq_refl], and Awodey's increment
-         [p424_ev1_via_Eval : Models T Sets ⟶ Sets := Eval (law_of_nat 1) ◯
-         Incl] agreeing with Theory/Lawvere/Sets.v:83's [ev1] in both data
-         fields at [eq_refl].  They live in Test/ because the identified
-         constants sit in heavier layers (Adjunction/, Functor/Hom/Yoneda/,
-         Theory/Lawvere/) that no Instance/Fun/ file requires; the
-         Awodey checkbox is met by that twin, and replacing [ev1]'s body
-         (a landed file's hand-written obligations) is surfaced, not done.
+         [EvalAt], [YoEvalAt] and [One_Eval], each in BOTH data fields at
+         [eq_refl] (an earlier revision recorded [One_Eval] on objects
+         only, implying a boundary that is not there), and Awodey's
+         increment [p424_ev1_via_Eval : Models T Sets ⟶ Sets := Eval
+         (law_of_nat 1) ◯ Incl] agreeing with Theory/Lawvere/Sets.v:83's
+         [ev1] in both data fields at [eq_refl].  They live in Test/
+         because the identified constants sit in heavier layers
+         (Adjunction/, Functor/Hom/Yoneda/, Theory/Lawvere/) that no
+         Instance/Fun/ file requires.  The Awodey checkbox asks that [ev1]
+         be re-expressed "rather than left as a parallel hand-written
+         definition": it is NOT met — [ev1] is untouched — the twin shows
+         the re-expression is exact, and the edit to the landed file is
+         surfaced for John (an earlier revision called the box met).
+         The issue's pinned verification name [Eval_partial_application]
+         is not declared; the partial-application agreement is delivered
+         as [eval_partial_obj]/[eval_partial_map]/[eval_partial_iso].
      (6) THE [EvalAt] DECISION, SURFACED.  Two constants now carry the same
          functor.  Aliasing [EvalAt := Eval] would edit
          Adjunction/Diagonal/Connected.v (with its exact annotation, and a
@@ -108,36 +124,53 @@ Generalizable All Variables.
        target, so every functor into or out of [[P, X]] inherits it.
        [Eval@{jo jh co ch u u0}] carries [jh < u], [jo <= jh], [jh <= u0],
        [co <= u0], [jh = ch] — [EvalAt]'s constraint set exactly.  No
-       word-bounded [Set], no [JMeq]/[EqdepFacts]/[eq_rect_r] bound; the
-       four constants through [[[P, X], X]] ([eval_partial_iso],
-       [EvalFunctor], [EvalFunctor_obj], [EvalFunctor_map]) are bounded by
-       [prod_rect.*].
+       word-bounded [Set], no [JMeq]/[EqdepFacts]/[eq_rect_r] bound.  Exactly
+       four constants carry [prod_rect.*] bounds — [eval_partial_iso],
+       [EvalFunctor], [EvalFunctor_obj], [EvalFunctor_map] — and the carrier
+       is NOT the passage through [[[P, X], X]]: that category and its
+       identity functor carry no such bound (measured); the donor is not
+       isolated here.  (An earlier revision attributed the bound to the
+       passage.)  The 17 [Program] obligations carry [jh = ch] and no
+       stdlib bound.
      - The satellite's [Cat]-routed constants collapse to one universe
        (item (2)) and carry [Basics.compose], [eq_rect] and [prod_rect]
        bounds; see its header.
 
    COUNTS AND CONVENTIONS.
-     - 11 constants (9 [def], 2 [prf] declaration entries in the [.glob]),
-       all "Closed under the global context", zero [Axioms:] lines, all
-       gated fully qualified together with the satellite's 6.  No
-       [Defined]; eight [Qed] tokens (two lemmas, six [Program] obligations,
-       all opaque by Lib.v's flag).
+     - 34 constants closed under the global context: 17 [.glob] declaration
+       heads (here 9 [def] + 2 [prf]; the satellite 5 [def] + 1 [prf]) plus
+       this file's 17 [Program] obligations, which the [.glob] cannot see
+       ([Eval] 3, [EvalBi] 3, [eval_partial_iso] 6, [Eval_nat] 2,
+       [EvalFunctor] 3; the satellite has none); zero [Axioms:] lines; the
+       gate carries the 17 heads, fully qualified.  (An earlier revision
+       said "17/17 constants", counting heads only.)  No [Defined]; eight
+       [Qed] tokens here (two lemmas, six obligation proofs written out; all
+       obligations opaque by Lib.v's flag) and one in the satellite.
      - Closure 19 files excluding self: Instance/Fun.v costs 5 at the
        margin, Functor/Bifunctor/Partial.v 1, the other seven [Require]s 0.
        No collision: each new name has 0 declaration hits elsewhere in the
-       tree, and [Eval] does not shadow the vernacular ([Eval compute]
-       still works after it, measured).
-     - Test/ProbeFunEval424.v carries 3 refutation commands (1 instrument +
-       N1 CONVERSION + N2 CONVERSION), each stripped one at a time in a copy
-       of the whole file; guard coverage 19 identifier tokens inside the
-       refutations / 14 also named outside, comments stripped, with five
-       exhaustive exceptions (the keyword, the two refuted declarations'
-       names, the binder [s], the absent name); rename-simulated 6/6
-       ([Eval], [EvalBi], [EvalAt], [Partial_l], [YoEvalAt], [CatEval], each
-       renamed throughout a copy, module paths excluded) with every first
-       break on a positive line.  [make todo] grows by those 3 lines only
-       (2215 → 2218), so the issue's "adds no new hits" box is not met as
-       written; disclosed.
+       tree.  THE NAME [Eval] AND THE VERNACULAR: [Eval compute in …] and
+       [ltac:(eval …)] still work after this file, and [Check Eval] resolves
+       to the constant — but at the HEAD of a definition body, [Definition
+       f p := Eval p.] is a PARSE error ("'in' expected after [red_expr]"),
+       because Coq reads [Eval <red_expr> in <term>]; [(Eval p)],
+       [@Eval P X p] and tactic-mode [exact (Eval p)] all work.  Consumers
+       (#425, #426) must parenthesise.  Renaming the constant is surfaced
+       for John, not done.  (An earlier revision measured only the harmless
+       direction.)
+     - Test/ProbeFunEval424.v carries 4 refutation commands (1 instrument +
+       N1, N2, N3, all CONVERSION — N3 is the [Partial_r] twin of N2, added
+       after the audit so the right-hand [≈]-only boundary is guarded too),
+       each stripped one at a time in a copy of the whole file; guard
+       coverage 23 identifier tokens inside the refutations / 17 also named
+       outside, comments stripped, with six exhaustive exceptions (the
+       keyword, the three refuted declarations' names, the binder [s], the
+       absent name); rename-simulated 7/7 ([Eval], [EvalBi], [EvalAt],
+       [Partial_l], [Partial_r], [YoEvalAt], [CatEval], each renamed
+       throughout a copy with module paths excluded) with every first break
+       on a positive line.  [make todo] grows by those 4 lines only
+       (2218 → 2222 against the rebased base 39e583d2), so the issue's
+       "adds no new hits" box is not met as written; disclosed.
 
    NOT DELIVERED.
      - Any preservation or creation of limits by evaluation (#425, #426).
@@ -173,7 +206,7 @@ Program Definition Eval (p : P) : [P, X] ⟶ X := {|
 
 (* The bifunctor [P, X] ∏ P ⟶ X whose partial application at p is [Eval p].
    The arrow action is in [Cat_Closed]'s order, [fmap[K] f ∘ transform[s] p]
-   (Instance/Fun/Eval/Compare.v shows the two agree at [eq_refl]); the other
+   (Instance/Fun/Eval/Cat.v shows the two agree at [eq_refl]); the other
    order, [transform[s] q ∘ fmap[H] f], is the same arrow by naturality and
    is the one Functor/Hom/Yoneda/Natural.v's [YoEval] uses. *)
 Program Definition EvalBi : ([P, X] ∏ P) ⟶ X := {|

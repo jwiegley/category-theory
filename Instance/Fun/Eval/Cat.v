@@ -42,11 +42,14 @@ Generalizable All Variables.
 
    UNIVERSES (measured by [About] under [Set Printing Universes]).  The
    price of the [Cat] route, and the reason Instance/Fun/Eval.v builds
-   [EvalBi] directly: with [P X : Cat], the five [CatEval*] constants carry
-   [u0 = u1], [u0 = u5], [u0 = u6] — P's and X's object and hom levels
-   collapse into one universe ([Functor@{u0 u0 u0 u5 u6 u6}] with [u0 = u5
-   = u6]) — while [EvalBi] at arbitrary [P X : Category] carries only
-   Instance/Fun.v's [jh = ch].  [eval_transpose@{u u0}] lives at [Cat]'s
+   [EvalBi] directly: the five [CatEval*] constants carry [u0 = u1],
+   [u0 = u5], [u0 = u6] — P's and X's object and hom levels collapse into
+   one universe ([Functor@{u0 u0 u0 u5 u6 u6}] with [u0 = u5 = u6]).  The
+   binder [P X : Cat] is innocent: [EvalBi] restated at the same binder
+   carries NO equation (measured), so the collapse comes from
+   [Cat_Closed]'s exponential structure itself, not from being at [Cat].
+   At arbitrary [P X : Category], [EvalBi] carries only Instance/Fun.v's
+   [jh = ch].  [eval_transpose@{u u0}] lives at [Cat]'s
    single level ([Fun@{u u u u u u u0}]) with no equation.  All six carry
    [Basics.compose], [eq_rect] and [prod_rect] bounds; no word-bounded
    [Set], no [JMeq]/[EqdepFacts]/[eq_rect_r].  This is measured by [About],
