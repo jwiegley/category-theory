@@ -7846,6 +7846,18 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_obj.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.comma_initial_of_sols.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_via_comma_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction_arr.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.universal_arrow_of_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.comma_initial_of_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_of_adjunction_via_comma.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.solution_set_via_comma_arr.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff_fwd.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff_rev.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff_rev_is_GAFT.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Adjunction.Representability.Sets.'; \
@@ -7965,6 +7977,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Proj_CreatesLimit.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Proj_CreatesAllLimits.'; \
 	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Complete_direct.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.GAFT.Sets.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.GAFT_iff_at_Sets_Id.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_has_left.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_has_left_is_GAFT_at_Sets_Id.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_SolutionSet_of_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_sols_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_sols_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Sets.Sets_Id_sols_arr.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

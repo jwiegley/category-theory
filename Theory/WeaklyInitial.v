@@ -280,7 +280,8 @@ Qed.
     the END of that file so that none of its cited line numbers move
     (eleven external citations point at its line 241); the index of the
     general form and the index and member of the special case read back at
-    [eq_refl].  GAFT itself does not become a biconditional.
+    [eq_refl].  (GAFT became a biconditional in #436, [GAFT_iff]; when
+    this was written it had not.)
 
     THE WITNESS.  Theory/WeaklyInitial/Sets.v (a leaf satellite; its
     closure is 53, 25 more than this file's, which is why it is not here)

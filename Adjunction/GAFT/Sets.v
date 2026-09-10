@@ -47,19 +47,19 @@ Generalizable All Variables.
                                           tree's first [Complete] instance;
 
      [@PreservesImageLimit Sets Sets Id]  [right_adjoint_PreservesImageLimit]
-                                          (Construction/Comma/Limit.v:264) at
-                                          [adj_id] (Instance/Adjoints.v:42);
+                                          (Construction/Comma/Limit.v:266) at
+                                          [adj_id] (Instance/Adjoints.v:70);
 
      [∀ d, SolutionSet Id d]              [Sets_Id_SolutionSet] below: the
                                           one-member family at [d] itself,
                                           with [sol_arr := id].
 
-   Of the three, only [Complete] wanted an inhabitant.  The second has had a
-   general in-tree supply all along -- [right_adjoint_PreservesImageLimit]
-   discharges it for EVERY right adjoint, and [Instance/Adjoints.v]'s [adj_id]
-   and [Adjunction/Diagonal/Product.v]'s [Δ ⊣ ×] are concrete right adjoints
-   to feed it -- and the third is routine at any [d] once [U] is [Id].
-   docs/INHABITATION.md records the resulting row.
+   Of the three, only [Complete] wanted an inhabitant.  The second has a
+   general in-tree supply -- [right_adjoint_PreservesImageLimit] discharges
+   it for EVERY right adjoint, fed by [adj_id] and [Δ ⊣ ×] -- and since #436
+   the third has the same: [solution_set_of_adjunction] builds it for every
+   right adjoint, agreeing with [Sets_Id_SolutionSet] below at [eq_refl] on
+   index, member and arrow.  docs/INHABITATION.md records the row.
 
    WHY [Id], AND WHAT A REAL APPLICATION WOULD NEED
 
@@ -191,3 +191,43 @@ Definition Sets_HasEqualizers : HasEqualizers Sets :=
    the number moves with it: FIVE `.v` files cited that line number before
    this change, seven occurrences counting CLAUDE.md's two, and
    Instance/Sets/Cone.v is the sixth `.v` citation. *)
+
+(** ** The characterization at [Sets], and that its reverse half is the
+       application already here *)
+
+(* #436's [GAFT_iff] read at [Id : Sets ⟶ Sets].  These are cross-checks,
+   not new results: they demonstrate that the biconditional's reverse half
+   IS [GAFT_at_Sets_Id] above, on the nose, and that the solution set the
+   forward half manufactures out of an adjunction agrees with the
+   hand-built [Sets_Id_SolutionSet] in index, member and arrow — while
+   NOT being the same record, since the two [sol_covers] witnesses differ
+   (Test/ProbeGAFTCharacterization436.v pins that). *)
+
+Definition GAFT_iff_at_Sets_Id :
+  { F : Sets ⟶ Sets & F ⊣ Id }
+    ↔ (@PreservesImageLimit Sets Sets Id * (∀ d : Sets, SolutionSet (@Id Sets) d))
+  := GAFT_iff (@Id Sets) Sets_Complete.
+
+Definition Sets_Id_has_left : { F : Sets ⟶ Sets & F ⊣ Id } :=
+  snd GAFT_iff_at_Sets_Id (Sets_Id_PreservesImageLimit, Sets_Id_SolutionSet).
+
+Definition Sets_Id_has_left_is_GAFT_at_Sets_Id :
+  Sets_Id_has_left = GAFT_at_Sets_Id := eq_refl.
+
+(* The manufactured family at [Id], and its agreement with the hand-built
+   one at each of the three data fields. *)
+
+Definition Sets_Id_SolutionSet_of_adjunction (d : Sets) : SolutionSet (@Id Sets) d :=
+  solution_set_of_adjunction (@adj_id Sets) d.
+
+Definition Sets_Id_sols_index (d : Sets) :
+  sol_index (Sets_Id_SolutionSet_of_adjunction d)
+    = sol_index (Sets_Id_SolutionSet d) := eq_refl.
+
+Definition Sets_Id_sols_obj (d : Sets) (i : poly_unit) :
+  sol_obj (Sets_Id_SolutionSet_of_adjunction d) i
+    = sol_obj (Sets_Id_SolutionSet d) i := eq_refl.
+
+Definition Sets_Id_sols_arr (d : Sets) (i : poly_unit) :
+  sol_arr (Sets_Id_SolutionSet_of_adjunction d) i
+    = sol_arr (Sets_Id_SolutionSet d) i := eq_refl.
