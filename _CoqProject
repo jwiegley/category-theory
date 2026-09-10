@@ -109,6 +109,7 @@ Construction/Subcategory/Dense.v
 Construction/Subcategory/Finite.v
 Construction/Subcategory/FullConverse.v
 Construction/Subcategory/Terminal.v
+Construction/Subcategory/Creation.v
 Construction/Free/Quiver.v
 Construction/Free/Groupoid.v
 Construction/Free/Quiver/Constructions.v
@@ -469,6 +470,7 @@ Instance/Top/ContinuousRing.v
 Instance/Top/LoopSpace.v
 Instance/Top/Kolmogorov.v
 Instance/Top/Image.v
+Instance/Top/CompHaus.v
 Instance/Two.v
 Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
@@ -918,6 +920,7 @@ Test/ProbeFromProducts416.v
 Test/ProbeCatLimit414.v
 Test/ProbeFinite417.v
 Test/ProbeFinSetLimit415.v
+Test/ProbeCompHaus413.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

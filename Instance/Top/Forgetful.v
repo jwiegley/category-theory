@@ -325,13 +325,13 @@ Definition discrete_forget_indiscrete_triple :=
     predicate applied to both that cannot be formed.)  The competitor side is therefore stated RAW —
     vertex, legs and coherence as bare data, which is [IsLimitCone] with
     the competing cone's record unfolded — while the [Top] side keeps the
-    record vocabulary.  For the same reason the packaged image-cone
-    machinery ([FCocone], [PreservesColimitCocone], and the
-    Continuous/CocontinuousFunctor classes of
-    Structure/Limit/Preservation.v) cannot be instantiated across the
-    o < h gap at all: preservation for [Top_Forget] is carried by the raw
-    statements below, and the breakdown of preservation for
-    [Top_Indiscrete] by the concrete colimit refutation of Exercise 2. *)
+    record vocabulary.  (An earlier revision of this note said the packaged
+    image-cone machinery — [FCocone], [PreservesColimitCocone], the
+    Continuous/CocontinuousFunctor classes — "cannot be instantiated across
+    the o < h gap at all"; that generalized too far: at [Top_Forget], which
+    lands in [Sets@{h so}] at [Top]'s own hom level, they DO elaborate, as
+    Instance/Top/CompHaus.v measures.  Preservation here stays raw, and the
+    breakdown for [Top_Indiscrete] is the concrete refutation of Exercise 2. *)
 
 (* The raw competitors of the two theorems below are cones over this
    functor up to conversion — [legs j : A ~{Sets}~> top_carrier (K j)]
