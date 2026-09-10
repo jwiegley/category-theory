@@ -7888,6 +7888,64 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr_of_adjoint.'; \
 	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr_of_adjoint_obj.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Comma.Creation.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.PreservesImageLimit_Continuous.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.Continuous_PreservesImageLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.rbase_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.rbase_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_reflect.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_image_limitcone.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_strict_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_strict_legs.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_image.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_phi.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_phi_commutes.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_apex_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_apex_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_apex_coherence.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_apex_cone.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_med.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_at_ump.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_limit_at.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_limit_at_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_limit_at_legs.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_reflect_at.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_strict_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_StrictlyCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesLimit_at.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_fam.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_phi.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_phi_commutes.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_proj.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_apex_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_prod_leg_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_at.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_apex_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_leg_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_StrictlyCreatesEqualizers.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_proj_creates_limits.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_equalizers.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_products.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Slice.Creation.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Id_PreservesImageLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_StrictlyCreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_Complete_via_adjoint.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_to_Comma.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Comma_Equivalence.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_to_Comma_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.Coslice_Complete.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Slice.Creation.coslice_comma_proj_CreatesAllLimits.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
