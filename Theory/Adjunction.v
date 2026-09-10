@@ -471,7 +471,7 @@ Qed.
    its first consumer, and moved here verbatim by #431, whose
    functor-category remark is its second; [adjunction_along_left_iso]
    stays [Defined] and load-bearing (Bimodule.v's
-   [btba_to_is_transposed] and [aali_to_is_transpose] below reduce
+   [btba_to_is_transposed], and [aali_to_is_transpose] below, reduce
    through it). *)
 
 Section AdjunctionAlongIso.

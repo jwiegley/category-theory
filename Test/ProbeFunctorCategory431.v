@@ -5,7 +5,10 @@
     lexically apart: CONVERSION (N1: the square of left adjoints
     [postcompose F ◯ Δ] and [Δ ◯ F] is NOT an identity of functor records
     — the two [fmap] fields differ by a [fmap_id] — and holds only as the
-    natural isomorphism [square_iso]); TYPING (N2-N3: the two induced
+    natural isomorphism [square_iso]; N5: the delivered adjunction's own
+    [unit] accessor is the whiskered original at [≈] only, its [fmap_id]
+    residue refusing the [eq_refl] form that the CONSTRUCTED
+    [postcompose_unit] satisfies); TYPING (N2-N3: the two induced
     adjunctions have a direction — postcomposition keeps [F ⊣ G]'s,
     precomposition reverses it — and the opposite ascriptions are
     refused); UNIVERSE (N4: the functor category [[J, X]] identifies J's
@@ -64,6 +67,25 @@ Fail Example p431_square_not_strict :
   postcompose (J:=J) F ◯ @Diagonal X J = @Diagonal A J ◯ F := eq_refl.
 
 End SquareStrict.
+
+Section AccessorResidue.
+
+Context {J X A : Category}.
+Context {F : X ⟶ A} {G : A ⟶ X}.
+Context (Adj : F ⊣ G).
+
+(* controls: the constructed unit on the nose, the adjunction's own at [≈] *)
+Check (postcompose_unit_component (J:=J) Adj).
+Check (postcompose_adjunction_unit (J:=J) Adj).
+
+(* N5 CONVERSION: the adjunction's own [unit] accessor carries a [fmap_id]
+   residue over the whiskered original *)
+Fail Example p431_adjunction_unit_not_definitional (S : J ⟶ X) (j : J) :
+  transform[@Category.Theory.Adjunction.unit _ _ _ _
+              (postcompose_adjunction (J:=J) Adj) S] j
+    = @Category.Theory.Adjunction.unit _ _ F G Adj (S j) := eq_refl.
+
+End AccessorResidue.
 
 (** ** B: TYPING — each induced adjunction has one direction *)
 

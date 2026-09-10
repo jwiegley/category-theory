@@ -7517,7 +7517,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.strict_self.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_map_is_fmap.'; \
 	} >> .pa-tmp/pa.v
-	{ \
+	@{ \
 	  echo 'Require Import Category.Adjunction.FunctorCategory.'; \
 	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.carried_leg_is_counit.'; \
 	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.left_route.'; \
@@ -7554,6 +7554,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_at.'; \
 	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_equiv.'; \
 	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_adjunction_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_adjunction_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_adjunction_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_adjunction_counit.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Functor.Hom.Continuous.'; \

@@ -275,11 +275,11 @@
      [tensor_assoc_iso]'s coherence square ← NOTHING beyond
                             [ta_double_ext]; every generator case
                             closes by [reflexivity]
-     [aali_natural]       ← the given natural isomorphism's coherence
-                            square and [iso_to_from]
-     [adjunction_along_left_iso]'s two naturality clauses ← [A]'s own,
-                            after one [aali_natural] and one
-                            [comp_assoc]
+     [aali_natural], [adjunction_along_left_iso] ← moved with their
+                            section to Theory/Adjunction.v (#431), proofs
+                            unchanged there: the coherence square and
+                            [iso_to_from]; [A]'s own clauses after one
+                            [aali_natural] and one [comp_assoc]
      [lhs_act]'s [rm_map_smul] ← **[bm_compat]**, the FOURTH and last
                             use in the file
      [lhs_act_assoc]      ← [bm_rsmul_assoc]      (associativity ONLY)
@@ -2464,9 +2464,9 @@ Arguments tensor_assoc_iso {R S T} E E1.
 (* [adjunction_along_left_iso] — a functor naturally isomorphic to a left
    adjoint is a left adjoint with the SAME right adjoint — was built here
    for part (c) as its first consumer and moved, verbatim and still
-   [Defined], to the end of Theory/Adjunction.v by #431, whose
-   functor-category remark is its second consumer; [aali_cell],
-   [aali_iso] and the readback [aali_to_is_transpose] moved with it. *)
+   [Defined] (plus a section-local [Obligation Tactic := idtac], this
+   file's setting), to the end of Theory/Adjunction.v by #431, its second
+   consumer; [aali_cell], [aali_iso], [aali_to_is_transpose] moved too. *)
 
 (** *** Mac Lane's "describe the composite" *)
 

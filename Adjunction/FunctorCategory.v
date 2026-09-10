@@ -72,7 +72,7 @@ Generalizable All Variables.
        natural isomorphism with identity components, [square_iso], which
        is all the argument needs.
 
-   WHAT IS DELIVERED (35 named constants plus 32 [Program] obligations,
+   WHAT IS DELIVERED (39 named constants plus 32 [Program] obligations,
    every one closed under the global context).
      (1) [postcompose F : [J, X] ⟶ [J, A]] — #318's [Postcompose] at the
          shape [J], with [postcompose_obj] and [postcompose_component] at
@@ -91,9 +91,16 @@ Generalizable All Variables.
          [postcompose_adjunction : postcompose F ⊣ postcompose G] through
          [Adjunction_from_Transform] (Universal.v:42).  The readbacks
          [postcompose_unit_component] and [postcompose_counit_component]
-         say, at [eq_refl], that the induced unit and counit ARE the
-         whiskered originals — the reviewer's fidelity condition on the
-         nose, not up to [≈].
+         say, at [eq_refl], that the CONSTRUCTED unit and counit ARE the
+         whiskered originals.  The delivered adjunction's own accessors
+         [unit] and [counit] (Theory/Adjunction.v:217-218, the transposes
+         of identities) carry a [fmap_id] residue — [⌊id⌋] is [fmap
+         [postcompose G] id ∘ postcompose_unit] — so THEY are the whiskered
+         originals at [≈] only ([postcompose_adjunction_unit],
+         [postcompose_adjunction_counit]; the [eq_refl] form is refused,
+         probe N5).  An earlier revision glossed the [eq_refl] readbacks
+         as the reviewer's condition on the nose; the condition holds on
+         the nose for the construction and at [≈] for the adjunction.
      (3) RIEHL 4.3.6 (b), the precomposition half: [precompose_unit] with
          components [fmap[S] (η c)], [precompose_counit] with components
          [fmap[T] (ε d)], the triangle identities through [fmap_comp] and
@@ -118,7 +125,8 @@ Generalizable All Variables.
          the limiting cone of [T], whose legs are the components of the
          [Δ ⊣ Lim] counit ([carried_leg_is_counit], at [≈] through
          Adjunction/Diagonal/Limit.v:554), to a limiting cone.  Its proof
-         is Adjunction/Continuity.v:209's [right_adjoint_PreservesLimitCone],
+         is Adjunction/Continuity.v:205's [right_adjoint_PreservesLimitCone]
+         (an earlier revision cited :209, [right_adjoint_Continuous]),
          the tree's DIRECT proof of RAPL, and NOT a consequence drawn from
          (5): [right_adjoint_iso] is [Qed], so the components of the
          remark's isomorphism cannot be identified with the canonical
@@ -132,11 +140,13 @@ Generalizable All Variables.
    → F ⊣ G] existed only in Instance/Mod/Bimodule.v (#401), whose header
    declared it there "because part (c) is its first consumer" and said it
    "belongs beside Theory/Adjunction.v"; requiring Bimodule.v from this
-   file would have added 48 files to the closure.  The section
+   file would have added 44 files to the closure (an earlier revision said
+   48; measured 74 → 118 by coqdep and by [Print Libraries]).  The section
    [AdjunctionAlongIso] is moved verbatim to the end of Theory/Adjunction.v
-   (line 542; it needs a section-local [Obligation Tactic := idtac],
-   Bimodule.v's file-wide setting, or Lib's global [cat_simpl] runs on its
-   obligations first); Bimodule.v keeps a pointer comment at :2462 and its
+   (Section at :477, [adjunction_along_left_iso] at :542; it needs a
+   section-local [Obligation Tactic := idtac], Bimodule.v's file-wide
+   setting, or Lib's global [cat_simpl] runs on its obligations first);
+   Bimodule.v keeps a pointer comment at :2462-2469 and its
    header figures are corrected in place (427 constants, 213 [Qed], five
    [Defined], 82 [eq_refl] — 440, 220, six and 83 before); the gate
    entries for the thirteen moved constants are requalified; the one
@@ -144,10 +154,11 @@ Generalizable All Variables.
    Instance/InnerProduct/Galois.v bullet) is repointed.  No statement or
    proof of the moved section changes, and it stays [Defined].
 
-   UNIVERSES (measured by [About] under [Set Printing Universes] on all 35
+   UNIVERSES (measured by [About] under [Set Printing Universes] on all 39
    constants).  Every block identifies the hom levels of the shape and the
    two categories ([u0 = u2], [u0 = u4]; the two naturality lemmas, in
-   which [J] does not occur, carry [u2 = u4] alone) — the identification
+   which [J] does not occur, carry [u2 = u4] alone; the four [≈] accessor
+   lemmas carry the same blocks as their adjunctions and no cap) — the identification
    is Instance/Fun.v:127's [Fun] ([u0 = u2]) and [Postcompose]'s /
    [Induced]'s own, exactly as Postcompose.v:237-258 records, and bare and
    annotated binders give the same blocks; nothing minimizes and no block
@@ -161,15 +172,15 @@ Generalizable All Variables.
    remark constants — [right_adjoint_iso] itself carries no cap.
 
    COUNTS AND CONVENTIONS.
-     - 35 [.glob] declaration heads (32 [def], 3 [prf]) plus 32 [Program]
+     - 39 [.glob] declaration heads (32 [def], 7 [prf]) plus 32 [Program]
        obligations, all "Closed under the global context", zero [Axioms:]
-       lines; the gate carries the 35 heads, fully qualified, the issue's
+       lines; the gate carries the 39 heads, fully qualified, the issue's
        [postcompose_adjunction] and [Lim_commutes_right_adjoint] among them.
      - No [Defined]: every construction is a [:=] term or a [Program]
-       record, and every proof is [Qed] — 36 [Qed] tokens (32 obligations,
-       the two naturality lemmas, [Lim_commutes_right_adjoint] and
-       [carried_leg_is_counit]).  Nothing that computes is hidden behind a
-       [Qed]: the eight [eq_refl] readbacks of (1)-(2) reduce through
+       record, and every proof is [Qed] — 40 [Qed] tokens (32 obligations,
+       the two naturality lemmas, the four [≈] accessor lemmas,
+       [Lim_commutes_right_adjoint] and [carried_leg_is_counit]).  Nothing that computes is hidden behind a
+       [Qed]: the eight [eq_refl] readbacks of (1)-(3) reduce through
        [:=] definitions and [Program] records alone.  [Lim_commutes_right_
        adjoint] is opaque by its donor already ([right_adjoint_iso], [Qed]).
      - Closure 74 files excluding self: Adjunction/Diagonal/Limit.v costs
@@ -179,22 +190,26 @@ Generalizable All Variables.
        [Require]s 0.  Name collisions: [postcompose] and [precompose] occur
        as WORDS in the prose of 3 and 8 files (Theory/Natural/
        Transformation.v:341/:323, Theory/Equivalence/Colimit.v:451, …),
-       never as declarations; the other 33 names have 0 occurrences.
+       never as declarations; the other 37 names have 0 occurrences.
      - Test/ProbeFunctorCategory431.v mirrors the [Require] list and carries
-       5 refutation commands (1 instrument + N1 CONVERSION + N2-N3 TYPING +
-       N4 UNIVERSE), each stripped one at a time in a copy of the whole
-       file beside its accepted controls; N4's message is a mismatch of
-       two rigid universe instances ([Category@{xo xh xh}] against
-       [Category@{_ jh jh}]), the unifier's wording for two [Monomorphic]
-       levels it may not identify, and the pin is [Fun]'s, not this
-       file's; six [eq_refl] readbacks; guard coverage 20 identifier tokens
-       inside the refutations / 17 also named outside, comments stripped,
-       with three exhaustive exceptions (the keyword, the refuted
-       declaration's name, the absent name); rename-simulated 11/11 over
-       the library names the negatives use, every first break on a
-       positive line.  [make todo] grows by those 5 lines only (2233 → 2238
-       over master 1de68608; the relocation adds none), so the issue's
-       "adds no new hits" box is not met as written; disclosed.
+       6 refutation commands (1 instrument + N1 and N5 CONVERSION + N2-N3
+       TYPING + N4 UNIVERSE), each stripped one at a time in a copy of the
+       whole file beside its accepted controls; N4's message reads "The
+       term Xw has type Category@{xo xh xh} while it is expected to have
+       type Category@{_ jh jh} (universe inconsistency: Cannot enforce xh =
+       jh because jh < xh)", and the pin is [Fun]'s, not this file's; six
+       [eq_refl] readbacks; guard coverage 29 identifier tokens
+       inside the refutations / 25 also named outside, comments
+       stripped, with four exhaustive exceptions (the keyword, the two
+       refuted declarations' names, the absent name); rename-simulated over
+       the seven library names the refutations use — [postcompose],
+       [precompose], [postcompose_adjunction], [precompose_adjunction],
+       [Diagonal], [eq_refl], [transform]; module-path components and the
+       section binders excluded — every first break on a positive line (an earlier revision said "11/11"
+       over a set it did not name).  [make todo] grows by those 6 lines
+       only (2255 → 2261 over master 1be50678; the relocation adds none),
+       so the issue's "adds no new hits" box is not met as written;
+       disclosed.
 
    NOT DELIVERED.
      - The passage from the remark's isomorphism to limit preservation
@@ -206,6 +221,13 @@ Generalizable All Variables.
      - Riehl's Exercise 4.3.iii route (the adjunction from the hom-set
        bijection, [left_adjoint_impl]): the unit-counit route produces the
        same artifact, so no separate constant is built.
+     - A concrete instance: every result here is conditional on an
+       abstract [F ⊣ G] (and [HasLimitsOfShape]); nothing in the tree
+       instantiates [postcompose_adjunction], [precompose_adjunction] or
+       [Lim_commutes_right_adjoint] at a named adjunction, and
+       docs/INHABITATION.md is not touched (the donor
+       Adjunction/Diagonal/Limit.v carries [Sets_Diagonal_Limit_Adjunction];
+       composing with it would need a named [F ⊣ G] into or out of Sets).
      - No edit to Functor/Construction/Postcompose.v, Theory/Kan/
        Extension.v, Adjunction/Diagonal/Limit.v or Adjunction/Compose.v. *)
 
@@ -324,6 +346,20 @@ Example postcompose_counit_component (T : J ⟶ A) (j : J) :
   transform[transform[postcompose_counit] T] j
     = @Category.Theory.Adjunction.counit _ _ F G Adj (T j) := eq_refl.
 
+(* The delivered adjunction's own accessors are the transposes of
+   identities, [⌊id⌋] and [⌈id⌉], which carry a [fmap_id] residue over the
+   constructed transformations; they agree with the whiskered originals
+   at [≈] (the [eq_refl] form is refused, probe N5). *)
+Lemma postcompose_adjunction_unit (S : J ⟶ X) (j : J) :
+  transform[@Category.Theory.Adjunction.unit _ _ _ _ postcompose_adjunction S] j
+    ≈ @Category.Theory.Adjunction.unit _ _ F G Adj (S j).
+Proof. simpl; rewrite !fmap_id; apply id_left. Qed.
+
+Lemma postcompose_adjunction_counit (T : J ⟶ A) (j : J) :
+  transform[@Category.Theory.Adjunction.counit _ _ _ _ postcompose_adjunction T] j
+    ≈ @Category.Theory.Adjunction.counit _ _ F G Adj (T j).
+Proof. simpl; rewrite !fmap_id; apply id_right. Qed.
+
 End PostcomposeAdjunction.
 
 (** ** Riehl 4.3.6 (b): precomposition, [F ⊣ G] gives [precompose G ⊣ precompose F] *)
@@ -428,6 +464,17 @@ Example precompose_unit_component (S : C ⟶ E) (c : C) :
 Example precompose_counit_component (T : D ⟶ E) (d : D) :
   transform[transform[precompose_counit] T] d
     = fmap[T] (@Category.Theory.Adjunction.counit _ _ F G Adj d) := eq_refl.
+
+(* Likewise for the delivered adjunction's own accessors. *)
+Lemma precompose_adjunction_unit (S : C ⟶ E) (c : C) :
+  transform[@Category.Theory.Adjunction.unit _ _ _ _ precompose_adjunction S] c
+    ≈ fmap[S] (@Category.Theory.Adjunction.unit _ _ F G Adj c).
+Proof. simpl; rewrite !fmap_id; apply id_left. Qed.
+
+Lemma precompose_adjunction_counit (T : D ⟶ E) (d : D) :
+  transform[@Category.Theory.Adjunction.counit _ _ _ _ precompose_adjunction T] d
+    ≈ fmap[T] (@Category.Theory.Adjunction.counit _ _ F G Adj d).
+Proof. simpl; rewrite !fmap_id; apply id_right. Qed.
 
 End PrecomposeAdjunction.
 
