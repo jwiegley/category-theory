@@ -38,8 +38,12 @@
        Structure/Complete.v:102-112); unprovability is not a refusal, so no
        refutation command is written for it.
      - [p423_small_and_products]: Theory/Size.v's [Small] and products over
-       the category's own total arrow collection coexist — there is no
-       universe wall, only the [Set] pin of N1.
+       the category's own total arrow collection coexist in one binder.
+       This is a coexistence check, not a refutation of a wall: [Small]'s
+       extra levels are fresh and bounded only below by C's, so the binder
+       adds no refutable constraint; what it witnesses is that
+       [indexed_product] applies at [TotalMor C] beside [Small].  The one
+       universe obstruction measured is the [Set] pin of N1.
 
     Guard coverage: every constant a refutation names is also named
     outside a refutation command (the guard block at the end) — the
@@ -53,9 +57,9 @@
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
 Require Import Category.Theory.Size.
 Require Import Category.Construction.Opposite.
+Require Import Category.Construction.Quotient.
 Require Import Category.Structure.Thin.
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Limit.
@@ -150,7 +154,7 @@ Check @ai_enc.
 Check @ai_dec.
 Check @ai_dec_enc.
 Check @ArrowIndex_op.
-Check @DecObj.
+Check @ObjDecEq.
 Check @canonical_ArrowIndex.
 Check @DecHom.
 Check @DecHom_op.

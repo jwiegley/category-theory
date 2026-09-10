@@ -70,10 +70,10 @@ Generalizable All Variables.
    follows that complete small categories are preorders — up to
    equivalence, complete lattices (Adámek–Herrlich–Strecker, Abstract and
    Concrete Categories, Theorem 12.7; Shulman, arXiv:0810.1279, Thm 2.1).
-   This is now a theorem here: Structure/Complete/Freyd.v's
-   [small_complete_is_thin] (arrows indexed by a type, [Complete], and a
-   DECIDABLE hom-setoid ⇒ [Thin]), with [complete_has_glbs] for the
-   greatest lower bounds; the SAFT.v header records the universe ledger.
+   Here it is Structure/Complete/Freyd.v's [small_complete_is_thin]
+   (arrows indexed by a type, [Complete], a DECIDABLE hom-setoid ⇒ [Thin])
+   with [complete_has_glbs]; and instantiating [Complete] forces the
+   diagram category's hom universe to coincide with C's (SAFT.v's header).
 
    Completeness is one of the engine hypotheses of the adjoint functor
    theorems, which originate in the same exercise section of Freyd's book

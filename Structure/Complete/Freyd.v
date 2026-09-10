@@ -1,8 +1,8 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
 Require Import Category.Theory.Size.
 Require Import Category.Construction.Opposite.
+Require Import Category.Construction.Quotient.
 Require Import Category.Structure.Thin.
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Limit.
@@ -21,9 +21,12 @@ Generalizable All Variables.
 (** * Freyd's collapse: a small complete category is a preorder *)
 
 (* Mac Lane §V.2 Proposition 3 (book p. 114; maclane:V.2:prop3); Awodey §9.8
-   Proposition 9.34 (awodey:9.8:prop34); Riehl §3.7 Definition 3.7.2 and
-   Proposition 3.7.3 (riehl:3.7:def2, riehl:3.7:prop3) and Epilogue §E.1
-   (riehl:E.1:thm-large-products-poset).
+   Proposition 9.34 (awodey:9.8:prop34); Riehl §3.7 Proposition 3.7.3
+   (riehl:3.7:prop3) and Epilogue §E.1 (riehl:E.1:thm-large-products-poset);
+   Riehl's Definition 3.7.2 (riehl:3.7:def2) is the size measure Prop 3.7.3
+   is stated against and is consumed here as an ORDER ([ArrowIndex]), NOT
+   delivered as a cardinal — its checkbox is not met as written (see NOT
+   DELIVERED).
    nLab: https://ncatlab.org/nlab/show/complete+small+category
 
    BACKGROUND.  Freyd's argument: were a category with products indexed by
@@ -33,9 +36,12 @@ Generalizable All Variables.
    So a small complete category is a preorder, and the completeness that
    matters is that of LARGE categories; Adjunction/GAFT.v:104-105 and
    Instance/Poset.v:92-95 record the consequence for the adjoint functor
-   theorems, and Structure/Complete.v:64-77 the statement.  Near-namesake:
+   theorems, and Structure/Complete.v:64-77 the statement.  Near-namesakes:
    Structure/Premonoidal/Freyd.v is about Freyd CATEGORIES (premonoidal),
-   unrelated.
+   unrelated; Structure/Limit/FromProducts.v:279 opens a [Section
+   ArrowIndex] around its [ArrowIx] index type (section names do not
+   survive [End], so there is no clash), and Theory/Size.v:280's [TotalMor]
+   is the same idea as a Σ-type — the witness of item (2) uses it.
 
    STALE PREMISES, RE-MEASURED.  The issue's "Verified ABSENT" paragraph is
    wrong on three of its four clauses; both files postdate the issue text.
@@ -58,6 +64,10 @@ Generalizable All Variables.
        named twin; relocating the original to Lib/ is surfaced, not done.
      - #422 has landed: Instance/Proset/Limit.v:485
        [proset_Complete_iff_all_meets], consumed by item (7).
+     - Decidable object equality is in the tree: Construction/Quotient.v:163
+       [ObjDecEq] (a definitional class; [obj_uip] at :167 is [UIP_dec] on
+       it), consumed by item (2).  An earlier revision declared a duplicate
+       [DecObj] with the same statement; the audit found the twin.
      - Prose locations: the Freyd paragraph of Structure/Complete.v is
        :64-77 (issue: :63-72), the Hyland caveat :102-112 (issue: :99-106),
        Instance/Poset.v's sentence :92-95 (issue: :83-86); GAFT.v:104-105
@@ -65,7 +75,7 @@ Generalizable All Variables.
        hits), a morphism cardinal, and any [Complete C → HasIndexedProducts]
        bridge (every consumer builds its product by hand, e.g. SAFT.v:184).
 
-   WHAT IS DELIVERED (39 constants, every one closed under the global
+   WHAT IS DELIVERED (38 constants, every one closed under the global
    context).
      (1) THE SMALLNESS WITNESS.  [ArrowIndex C]: a type [ai_index] with an
          encoding of every arrow and a decoding RELATIVE TO A DEFAULT whose
@@ -82,13 +92,16 @@ Generalizable All Variables.
          Theory/Size.v's [Small] is not consumed: it resizes per hom-set
          through [ObjEq] transports, and the proof needs one index type for
          all arrows.
-     (2) THE WITNESS IS NOT VACUOUS.  [DecObj C] (decidable object
-         equality), [td]/[td_enc] (decode a bundled arrow at requested
-         endpoints, round trip by Coq.Logic.Eqdep_dec's [UIP_dec] — a
-         theorem, not an axiom), [canonical_ArrowIndex : DecObj C →
-         ArrowIndex C] at index [TotalMor C].  Every category with decidable
-         object equality has an [ArrowIndex], thin or not; the strength of
-         the theorem sits in the products at that index.
+     (2) THE WITNESS IS NOT VACUOUS.  Over Construction/Quotient.v:163's
+         [ObjDecEq C] (decidable object equality), [td]/[td_enc] (decode a
+         bundled arrow at requested endpoints, round trip by
+         Coq.Logic.Eqdep_dec's [UIP_dec] — a theorem, not an axiom),
+         [canonical_ArrowIndex : ObjDecEq C → ArrowIndex C] at index
+         [TotalMor C].  Every category with decidable object equality has an
+         [ArrowIndex], thin or not; the strength of the theorem sits in the
+         products at that index.  (The terminal category satisfies all
+         three hypotheses of item (6), so they are jointly satisfiable; no
+         non-trivial in-tree instance is exhibited.)
      (3) THE CONSTRUCTIVE KERNEL.  Section [FreydCore] consumes ONE
          elementary [IsIndexedProduct (fun _ : K => b) P pr] and a boolean
          separator [sep] of the pair ([sep_resp], [sep f = true], [sep g =
@@ -102,16 +115,19 @@ Generalizable All Variables.
          Lib/Setoid.v), the separator [fr_sep h := if D h f then true else
          false] with [fr_sep_resp]/[fr_sep_f]/[fr_sep_g], and
          [freyd_thin : ArrowIndex C → HasIndexedProducts C → DecHom C →
-         Thin C]; [freyd_thin_canonical] at [DecObj]; [DecHom_op] and
+         Thin C]; [freyd_thin_canonical] at [ObjDecEq]; [DecHom_op] and
          [freyd_thin_dual] (products in [C^op], Riehl §E.1's "or
          coproducts", via [Opposite_Thin]).
      (5) THE WALL, LOCATED.  From [f ≉ g] ALONE — no separator, no
          decidability — [fr_mk_injective] (injective up to [≈]) and
          [fr_inj_injective]: an injection [(K → bool) → K] on the nose.
          Refuting it needs a left inverse, i.e. testing at each index
-         whether the leg is f or g, i.e. [DecHom]; Lawvere's constructive
-         "no injection (A → Prop) → A" is not available because the family
-         needs a BOOLEAN choice.  This is exactly Hyland's effective-topos
+         whether the leg is f or g, i.e. [DecHom]; the Russell/Cantor
+         no-injection argument for Prop-valued families (stated by no
+         in-tree constant — Instance/Fun/Discrete.v:524's
+         [cantor_predicates] is the surjection form) is not available
+         because the family needs a BOOLEAN choice.  This is exactly
+         Hyland's effective-topos
          counterexample (Structure/Complete.v:102-112): the theorem is NOT
          constructively provable without [DecHom], which is why the
          decider is an explicit hypothesis and [Print Assumptions] stays
@@ -121,9 +137,14 @@ Generalizable All Variables.
          [complete_iprod_obj]/[complete_iprod_proj]/[complete_iprod :
          IsIndexedProduct d …] for any [d : A → C], through
          Structure/Limit/Comparison.v's annotated [DiscreteCat_Functor'] and
-         [discrete_IsIndexedProduct_of_IsLimitCone]; the unannotated
-         [DiscreteCat_Functor] route pins C's hom level to [Set] (probe N1,
-         "Cannot enforce Set = uh").  This is the [Complete →
+         [discrete_IsIndexedProduct_of_IsLimitCone]; the unannotated route
+         pins C's hom level to [Set] (probe N1, "Cannot enforce Set = uh"),
+         and the carrier of that pin is Structure/Limit/Product.v:119's
+         [limit_is_indexed_product], whose binder is [C : Category@{_ Set
+         Set}] — [DiscreteCat_Functor]'s own binder leaves C free; it
+         emits a shape with [Set] homs, and the limit vocabulary identifies
+         the shape's hom level with the ambient's (the equations of the
+         UNIVERSES section below).  This is the [Complete →
          IsIndexedProduct] bridge the tree lacked.  Then the issue's pinned
          [small_complete_is_thin : ArrowIndex C → Complete C → DecHom C →
          Thin C] and [small_cocomplete_is_thin] (Riehl §E.1's cocomplete
@@ -147,22 +168,33 @@ Generalizable All Variables.
          lands on Freyd's statement.  GAFT.v:104-105 and Poset.v:92-95 are
          untouched (pointers surfaced, not added).
 
-   UNIVERSES (measured by [About] under [Set Printing Universes] on all 39
+   UNIVERSES (measured by [About] under [Set Printing Universes] on all 38
    constants).
-     - NO universe equation in any block.  [ArrowIndex@{u u0 u1} :
-       Category@{u0 u1 u1} → Type@{max(u+1,u0,u1)}] and
-       [ArrowIndex_op@{u u0 u1}] carry EMPTY blocks — the index level [u]
-       is unrelated to C's levels; [DecObj], [DecHom], [DecHom_op] and
-       [fr_sep] carry only the bounds [u0 <= u], [u1 <= u] placing C's
-       levels below the result sort.
+     - 35 of the 38 blocks carry no universe equation.  The three of
+       section [CompleteBridge] — [complete_iprod], [complete_iprod_obj],
+       [complete_iprod_proj] — each carry [o = u0], [h = p], [h = uh],
+       [h = up] and [uh = up]: the limit vocabulary identifies the shape's
+       hom and proof levels with C's and the shape's object level with
+       [Complete]'s index, the fact Adjunction/SAFT.v:138-139 records in
+       prose and the FromProducts.v bullet as [u2 = u4].  No equation
+       reaches the kernel, [freyd_thin], [small_complete_is_thin],
+       [complete_has_glbs] or [complete_Proset_Complete].  (An earlier
+       revision said "NO universe equation in any block"; the audit
+       measured these five.)  [ArrowIndex@{u u0 u1} : Category@{u0 u1 u1}
+       → Type@{max(u+1,u0,u1)}] and [ArrowIndex_op@{u u0 u1}] carry EMPTY
+       blocks — the index level [u] is unrelated to C's levels; [DecHom],
+       [DecHom_op] and [fr_sep] carry only the bounds [u0 <= u], [u1 <= u]
+       placing C's levels below the result sort.
      - The kernel carries no stdlib bound at all: [freyd_no_separated_pair
        @{u u0 u1 u2} : ∀ {C : Category@{u u0 u0}} (AI : ArrowIndex@{u1 u u0}
        C) …, IsIndexedProduct@{u1 u2 u u0} …] with [u0 <= u2], [u1 <= u2]
        only.  [freyd_thin@{u u0 u1 u2 u3}] adds only [False_rect.u0].
-     - The canonical witness ([td], [td_enc], [canonical_ArrowIndex],
-       [freyd_thin_canonical]) is bounded by [Eqdep_dec.UIP_dec.u0],
-       [eq_rect.u0/u1] and [eq_rect_r.u1] — the price of [UIP_dec] — and
-       [fr_inj_injective] by [eq_rect.*]/[eq_rect_r.u1] (rewriting on [=]).
+     - The canonical witness: [td] is bounded by [eq_rect.u0/u1] and
+       [Projections.u0/u1] only; [td_enc], [canonical_ArrowIndex] and
+       [freyd_thin_canonical] add [Eqdep_dec.UIP_dec.u0] and [eq_rect_r.u1]
+       — the price of [UIP_dec] (an earlier revision put [UIP_dec] on [td]
+       too and omitted [Projections]).  [fr_inj_injective] carries
+       [eq_rect.*]/[eq_rect_r.u1] (rewriting on [=]).
      - The [Complete]-fed constants ([complete_iprod_obj/proj],
        [complete_iprod], [small_complete_is_thin], [small_cocomplete_is_thin],
        [complete_has_glbs], [complete_Proset_Complete]) inherit [JMeq.u0 <=
@@ -179,18 +211,22 @@ Generalizable All Variables.
        Props, inherited from Instance/Proset/Limit.v:485's statement.
 
    COUNTS AND CONVENTIONS.
-     - 39 constants (20 [def], 14 [prf], 4 [proj], 1 [rec] in the [.glob];
-       the constructor [Build_ArrowIndex] is not a [.glob] entry), all
+     - 38 constants (19 [def], 14 [prf], 4 [proj], 1 [rec] DECLARATION
+       entries in the [.glob]; the constructor [Build_ArrowIndex] appears
+       there only as an [R … constr] reference, so it is not among the 38;
+       an earlier revision counted 39 with the duplicate [DecObj]), all
        "Closed under the global context", zero [Axioms:] lines, all gated
        fully qualified.  Thirteen [Qed]; one [Defined] ([complete_has_glbs],
        data: [HasAllMeets] is [sigT]-valued), which flips to [Qed] freely
        and is kept [Defined] by the data convention.
-     - Closure 71 files excluding self: Instance/Proset/Limit.v costs 23 at
+     - Closure 72 files excluding self: Instance/Proset/Limit.v costs 23 at
        the margin (item (7)'s vocabulary and #422's theorem),
        Structure/Limit/Comparison.v 7, Construction/Product/Limit.v 4,
-       Structure/Thin.v and Theory/Size.v 1 each, the other eleven
-       [Require]s 0.  No collision: each new name has 0 declaration hits
-       elsewhere in the tree.
+       Construction/Quotient.v, Structure/Thin.v and Theory/Size.v 1 each,
+       the other ten [Require]s 0 (an earlier revision also required
+       Category.Theory.Functor, the one droppable [Require]; dropped).  No
+       collision: each new name has 0 declaration hits elsewhere in the
+       tree.
      - Test/ProbeFreyd423.v mirrors the [Require] list and carries 3
        refutation commands (1 instrument + N1 UNIVERSE + N2 TYPING), each
        stripped one at a time in a copy of the whole file; the involution
@@ -215,7 +251,12 @@ Generalizable All Variables.
      - The issue's pinned [small_complete_has_glbs] under that name: the
        statement needs no smallness (item (7)), so it is [complete_has_glbs].
      - A cardinal number for a category's morphisms (Riehl 3.7.2 as
-       arithmetic): only the order hypothesis [ArrowIndex] is introduced.
+       arithmetic): only the order hypothesis [ArrowIndex] is introduced,
+       so the issue's riehl:3.7:def2 checkbox is NOT met as written
+       (disclosed beside the [make todo] box).
+     - A non-trivial in-tree category satisfying [ArrowIndex] + [Complete]
+       + [DecHom] (the terminal category does, trivially); the theorem is
+       conditional, and docs/INHABITATION.md is not edited here.
      - A [HasIndexedProducts C] CLASS instance from [Complete C]: only the
        elementary [IsIndexedProduct] per family is built (item (6)), which
        is what the kernel consumes; the class's single index universe was
@@ -275,14 +316,16 @@ Definition ArrowIndex_op {C : Category} (AI : ArrowIndex C) :
 
 (** ** The canonical witness: decidable object equality suffices *)
 
-Definition DecObj (C : Category) : Type :=
-  ∀ x y : obj[C], {x = y} + {x ≠ y}.
+(* Decidable object equality is Construction/Quotient.v:163's [ObjDecEq]
+   (a definitional class: an instance IS the decider), consumed as is —
+   an earlier revision declared a duplicate [DecObj]; the audit found the
+   twin. *)
 
 (* Decode a bundled arrow at a requested pair of endpoints, falling back on
    the default when the endpoints do not match.  No universe binders are
    written here on purpose: stdlib [eq] is pinned to a global universe on
    Coq 8.19/8.20 (Theory/Size.v:74-90). *)
-Definition td {C : Category} (DO : DecObj C) {x y : obj[C]}
+Definition td {C : Category} (DO : ObjDecEq C) {x y : obj[C]}
   (m : TotalMor C) (d : x ~> y) : x ~> y :=
   match DO (projT1 m) x with
   | left ex =>
@@ -297,7 +340,7 @@ Definition td {C : Category} (DO : DecObj C) {x y : obj[C]}
   | right _ => d
   end.
 
-Lemma td_enc {C : Category} (DO : DecObj C) {x y : obj[C]} (h d : x ~> y) :
+Lemma td_enc {C : Category} (DO : ObjDecEq C) {x y : obj[C]} (h d : x ~> y) :
   td DO (existT _ x (existT _ y h)) d ≈ h.
 Proof.
   unfold td; simpl.
@@ -312,7 +355,7 @@ Qed.
    its own total arrow collection (Theory/Size.v's [TotalMor]).  So the
    hypothesis is not disguised thinness or finiteness: the strength of the
    theorem sits in the products at that index. *)
-Definition canonical_ArrowIndex {C : Category} (DO : DecObj C) :
+Definition canonical_ArrowIndex {C : Category} (DO : ObjDecEq C) :
   ArrowIndex C :=
   {| ai_index   := TotalMor C
    ; ai_enc     := fun x y h => existT _ x (existT _ y h)
@@ -454,7 +497,7 @@ Qed.
 
 (* Assembled at C's own arrow collection. *)
 Definition freyd_thin_canonical {C : Category}
-  (DO : DecObj C) (HP : HasIndexedProducts C) (D : DecHom C) : Thin C :=
+  (DO : ObjDecEq C) (HP : HasIndexedProducts C) (D : DecHom C) : Thin C :=
   freyd_thin (canonical_ArrowIndex DO) HP D.
 
 (* Riehl §E.1's "or coproducts": products in [C^op], thinness self-dual. *)

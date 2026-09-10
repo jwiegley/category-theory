@@ -7397,7 +7397,6 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_Proset_Complete.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecHom.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecHom_op.'; \
-	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecObj.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_decode.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_Fam.'; \
 	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_inj.'; \
