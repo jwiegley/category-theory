@@ -296,3 +296,33 @@ Example sols_of_comma_initial_obj {C D : Category} (U : C ⟶ D) (d : D)
   (I : @Initial (=(d) ↓ U)) (u : poly_unit) :
   sol_obj (sols_of_comma_initial U d I) u
     = snd (`1 (@initial_obj (=(d) ↓ U) I)) := eq_refl.
+
+(** ** GAFT's inner step, exported
+
+    [GAFT] above reaches its comma-initial objects inside its own [Qed]:
+    comma completeness, [wif_of_sols], the two products and
+    [Complete_HasEqualizers].  #437 needs that object on its own, so the
+    five lines are repeated here as a [Definition] — the theorem's proof is
+    NOT rewritten to use it, since every line of this file above stays put
+    (eleven external citations point at line 241). *)
+
+Definition comma_initial_of_sols {C D : Category} (U : C ⟶ D) (d : D)
+  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
+  (S : SolutionSet U d) : @Initial (=(d) ↓ U).
+Proof.
+  pose (HCat := @Comma_Complete C D U d cont comp).
+  pose (W := wif_of_sols U d S).
+  pose (P := HCat _ (DiscreteCat_Functor (wif_obj W))).
+  refine (@initial_from_weakly_initial (=(d) ↓ U) W P
+            (HCat _ (DiscreteCat_Functor
+                       (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P)
+                        => iprod (wif_obj W) P)))
+            (Complete_HasEqualizers HCat)).
+Defined.
+
+(* GAFT itself, re-derived from the exported step, agrees with the theorem
+   above on its statement — the two are interchangeable at the type. *)
+Definition GAFT_via_comma_initial {C D : Category} (U : C ⟶ D)
+  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
+  (sols : ∀ d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U } :=
+  GAFT_from_initials U (fun d => comma_initial_of_sols U d comp cont (sols d)).
