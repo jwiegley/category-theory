@@ -97,13 +97,13 @@ Generalizable All Variables.
      (Instance/Fun/Cartesian.v:111).  It is not re-proved and not
      subsumed; it is COMPARED, see below.
 
-     The general pointwise-limits fact is stated in PROSE in at least
-     three places, and this file does not present it as new:
+     The general pointwise-limits fact was stated in PROSE in at least
+     three places (since repointed at Instance/Fun/Limit.v, which proves it):
      Structure/Cartesian/Product.v:32-35 ("the general fact that limits
      in a functor category [J, D] are computed pointwise whenever D has
      them"), Instance/Fun.v:27-28 and :101-104, and
      Instance/Fun/Cartesian.v:17-19, which quotes the nLab for it.  What
-     was absent was any Coq statement of it beyond the binary product:
+     was absent at that time was any Coq statement beyond the binary product:
      re-verified on this commit, no [Terminal] instance existed for ANY
      functor category (sweep of every declaration whose name or type
      mentions [Terminal]), and no pointwise indexed products existed
@@ -295,8 +295,8 @@ Generalizable All Variables.
      broader conclusion anyway.
      [DiscreteCat] itself is properly annotated [@{o h p}].
 
-     No general "limits in [C, D] are pointwise" theorem -- only the
-     nullary and the arbitrary-index-product shapes.  No colimits, no
+     The general "limits in [C, D] are pointwise" theorem is now
+     Instance/Fun/Limit.v's; this file has products only.  No colimits, no
      equalizers, no exponentials (pullbacks are now
      Instance/Fun/Pullback.v).  No [Cartesian] or
      [Complete] instance is derived for [C, D] from these.  No
@@ -304,9 +304,9 @@ Generalizable All Variables.
      index.  No proof that [HasIndexedProducts D] alone yields
      [Terminal D] (that needs a chosen empty index type, which would pin
      an index universe; [terminal_empty_IsIndexedProduct] takes the
-     emptiness as a hypothesis instead).  No preservation statement --
-     nothing says the evaluation functors [C, D] -> D preserve these
-     products, though they visibly do by construction.  And the general
+     emptiness as a hypothesis instead).  Preservation is stated for
+     POINTWISE limits only — Instance/Fun/Limit.v's [Eval_PreservesLimitCone],
+     not connected to these products here.  And the general
      left fold of [Structure/Limit/Product/Finite.v] is consumed
      ([iprod_unique_iso]) but not extended. *)
 

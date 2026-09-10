@@ -98,9 +98,9 @@ Context {D : Category}.
    as a free theorem, so functors and polymorphic functions form a
    functor category whose vertical composition is componentwise program
    composition (Milewski, "Natural Transformations", 2015).  Throughout,
-   the governing principle is pointwise inheritance: when D has limits or
-   colimits of a given shape, so does `[C, D]`, computed pointwise (with
-   the caveat that an incomplete D can possess accidental limits that are
+   the governing principle is pointwise inheritance: when D has limits (or
+   colimits, nLab) of a shape, so does `[C, D]`, pointwise (for limits,
+   Instance/Fun/Limit.v's theorem; an incomplete D can have limits
    not pointwise), and when C is small and D is cartesian closed and
    complete, `[C, D]` is cartesian closed (nLab, "functor category").
    That last clause alone is not inherited, and its hypothesis on D is

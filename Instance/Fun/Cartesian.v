@@ -17,7 +17,7 @@ Require Import Category.Lib.Tactics2.
    the structure computed pointwise (objectwise) in D. The nLab records the
    general fact that "if D has limits or colimits of a certain shape, then so
    does [C, D] and they are computed pointwise"; finite products are the
-   special case used here.
+   special case used here; Instance/Fun/Limit.v proves the general limit half.
 
    Concretely, the product of two functors F, G : C ⟶ D is the functor
 
@@ -33,8 +33,8 @@ Require Import Category.Lib.Tactics2.
    whose components are the corresponding morphisms of D taken at each object,
    and the universal mapping property of [Cartesian] holds componentwise,
    inherited from the UMP in D. (The terminal/nullary product — the constant
-   functor at the terminal object of D — is supplied separately, as for any
-   cartesian category; an empty product is a terminal object.)
+   functor at the terminal object of D — is Instance/Fun/Terminal.v's
+   [Functor_Category_Terminal]; an empty product is a terminal object.)
 
    The propositions below repackage the product UMP [ump_products] of D into
    the projection-equation and factorization forms consumed as `cat` hints by
