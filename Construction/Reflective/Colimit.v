@@ -37,8 +37,9 @@ Generalizable All Variables.
     (canonical, matching Limit.v's [reflective_Complete]; the issue's own
     name [reflective_subcategory_cocomplete] is an alias by [:=]).
 
-    THE ROUTE, six tactic lines in all.  The reflector is a left adjoint,
-    so it carries the ambient colimit to a colimit of
+    THE ROUTE, six tactic-mode proofs — 17 tactic lines, nine of them the
+    diagram isomorphism's; the headline is a term.  The reflector is a left
+    adjoint, so it carries the ambient colimit to a colimit of
     [reflector ◯ (Incl ◯ K)] (Adjunction/Continuity.v:264
     [lapc_is_acolimit]); the counit isomorphism [reflector (Incl x) ≅ x],
     whiskered along [K], is a diagram isomorphism
@@ -60,13 +61,14 @@ Generalizable All Variables.
     [terminal_Colimit]), so [reflective_terminal_shape_colimit] needs no
     cocompleteness hypothesis; Test/ProbeReflectiveColimit434.v
     instantiates it at the torsion-free reflection of abelian groups
-    (Instance/Ab/TorsionFree.v:525 [TorsionFree_Reflective]) over
-    [Ordinal 2] — two objects and a non-identity arrow, so the leg
-    condition is exercised — with the apex at [eq_refl].  The
+    (Instance/Ab/TorsionFree.v:524 [TorsionFree_Reflective]) over
+    [Ordinal 2] — two objects and a non-identity arrow, so the generic
+    term's leg obligations are discharged at a shape that has one; the
+    probe reads back the apex at [eq_refl] and pins no leg there.  The
     instantiation lives in the probe because importing
-    Instance/Ab/TorsionFree.v here costs 22 modules of closure and makes
-    Construction/ depend on Instance/Ab.  No ambient of an in-tree
-    reflection ([Ab], [Top], [Ord]) is shown cocomplete, so
+    Instance/Ab/TorsionFree.v here costs 33 modules of closure (Instance/Ab
+    alone 11) and makes Construction/ depend on Instance/Ab.  No ambient of
+    an in-tree reflection ([Ab], [Top], [Ord]) is shown cocomplete, so
     [reflective_Cocomplete] at a concrete reflection stays a conditional —
     the status docs/INHABITATION.md records, the same as
     [reflective_Complete]'s.
@@ -76,8 +78,10 @@ Generalizable All Variables.
     only a hypothesis use in Theory/Adamek/Corollaries.v": it has three
     inhabitants — [Sets_Cocomplete] (Instance/Sets/Cocomplete.v:485),
     [Subsets_Cocomplete] (Instance/Powerset.v:641),
-    [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v:605) — and a
-    dozen hypothesis users, none in Adjunction/GAFT.v or its satellites
+    [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v:605) — and
+    ten files binding a [Cocomplete] hypothesis (grep for [Cocomplete] in
+    binder position: `(… : Cocomplete`, `Cocomplete →`, `Context …
+    Cocomplete`), none in Adjunction/GAFT.v or its satellites
     ("consumed only as a hypothesis in GAFT" has zero hits).  Both "0 hits"
     greps (`colimits.*subcategory`, `reflective.*colimit`) return one hit
     each, Limit.v's own scope-out paragraph.  [equivalence_creates_colimits]
@@ -86,10 +90,11 @@ Generalizable All Variables.
     Structure/Limit/Creation.v:406-440 ([CreatesColimit],
     [StrictlyCreatesColimit], [CreatesAllColimits], [creates_colimit_lift],
     [creation_preserves_colimit], [creates_colimits_Cocomplete]); it is not
-    used here, since a reflective inclusion does NOT create colimits (Riehl
-    §4.6 ex xi), and probe N4 pins that [reflective_colimit] is not an
-    instance of it.  Adjunction/Continuity.v:223 is a section comment, the
-    constants being :233-:264, and Construction/Reflective.v:62 is
+    used here, since a reflective inclusion need not create colimits
+    (Riehl §4.6 ex xi — cited, not formalized); probe N4 pins only that
+    [reflective_colimit] does not ascribe to [CreatesColimit K (Incl C S)].
+    Adjunction/Continuity.v:223 is a section comment, the constants being
+    :233-:264, and Construction/Reflective.v:62 is
     [reflector], the record opening at :60.  The donor the issue never
     names is Theory/Equivalence/Colimit.v, whose transports do the work.
 
@@ -117,11 +122,15 @@ Generalizable All Variables.
     Theory/Equivalence/Colimit.v 2, Construction/Reflective.v 1,
     Structure/Complete.v 1, the other twelve `Require`s 0; none of the 16
     is droppable; Limit.v's closure is 36, and Adjunction/Diagonal/Limit.v's
-    [HasColimitsOfShape] form was left out because it costs 35 more).
+    [HasColimitsOfShape] form was left out because it costs 31 more against
+    the file as shipped — 35 against it without Structure/Limit/Initial.v).
     Zero name collisions for the 20 names (`grep -rlw --include='*.v'`;
     Limit.v's header mentions [reflective_colimit] and
     [reflective_Cocomplete] by design; [reflective_lift] and
-    [reflective_incl_adj] are Limit.v's and were avoided).
+    [reflective_incl_adj] are Limit.v's and were avoided — [radj] is a
+    section-local alias of [reflective_adj R], term-for-term Limit.v:338's
+    [reflective_incl_adj], and Limit.v is not in this file's closure, so
+    importing it for the name would cost more than the alias).
     Test/ProbeReflectiveColimit434.v mirrors the `Require` list plus
     Structure/Limit/Creation.v and the witness's three modules and carries
     5 refutation commands = 1 instrument + N1 TYPING (the reflected apex is
