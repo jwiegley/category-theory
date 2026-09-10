@@ -7780,6 +7780,29 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.iso359_to_component.'; \
 	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.pow_cocone_mediator_component.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Reflective.Colimit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.radj.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_unit_hom.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_iso_to_from.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_iso_from_to.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_counit_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_to.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.rc_from.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_diagram_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_colimit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_colimit_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_colimit_inj.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_lift_cocone.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_lift_cocone_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_lift_cocone_inj.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_colimit_cocone.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_Cocomplete.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_subcategory_cocomplete.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_reflector_Cocontinuous.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_terminal_shape_colimit.'; \
+	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_terminal_shape_apex.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
