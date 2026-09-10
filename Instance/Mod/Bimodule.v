@@ -117,7 +117,7 @@
      trips and the coherence square close by [reflexivity] at the
      double generators, through the two extensionality lemmas
      [ta_double_ext] and [ta_double_ext_r].  Transporting the
-     composite along it needs a lemma the tree does not have —
+     composite along it needs a lemma the tree did not have —
      **[adjunction_along_left_iso]**, a functor naturally isomorphic
      to a left adjoint is a left adjoint with the SAME right adjoint —
      and that gives [bimodule_tensor_bimod_adjunction] and hence, by
@@ -414,15 +414,15 @@
    [btb_right], [ta_iso], [bimodule_third_leg], [rmod_lmul] and all
    three [*_preserves_colimits].  Carrying equations are [HomSObj]
    (four), [HomS] and [bimodule_tensor_hom_adjunction] (five),
-   [LHomSObj] (five),
-   [LHomS] and [bimodule_left_tensor_hom_adjunction] (six),
-   [HomAbBimod] (five), [tensor_assoc_iso] (two),
-   [adjunction_along_left_iso] (one), and the part-(c) composite,
+   [LHomSObj] (five), [LHomS] and
+   [bimodule_left_tensor_hom_adjunction] (six), [HomAbBimod] (five),
+   [tensor_assoc_iso] (two), and the part-(c) composite,
    [bimodule_tensor_bimod_adjunction] and [bimodule_hom_composite_iso]
-   (ten).  There is no word-bounded [Set] in the block or binder of
-   any of the 440 constants; the only [Set] tokens in the whole [About]
-   dump are the motive sorts of the two eliminators [bsum_rec] and
-   [bs_eq_rec].
+   (ten); [adjunction_along_left_iso]'s one moved with it to
+   Theory/Adjunction.v (#431).  There is no word-bounded [Set] in the
+   block or binder of any of the 427 constants (440 before that move);
+   the only [Set] tokens in the whole [About] dump are the motive
+   sorts of the two eliminators [bsum_rec] and [bs_eq_rec].
 
    Stage 1 conjectured that the four on [HomSObj] enter at the
    APPLICATION [hom_ab (RMod_AbEnriched (Ring_op S)) …], and that is
@@ -447,36 +447,36 @@
    the [hom_ab] negative there fires at its [AbEnriched] ARGUMENT, so
    [hom_ab]'s own contribution is UNKNOWN, not measured.
 
-   AXIOMS.  440/440 constants report "Closed under the global context",
-   with zero [Axioms:] lines.  The criterion: entries of [Print Module]
-   sit at exactly five-space indent, giving 198 [Definition] + 220
-   [Parameter] — the printer's rendering of an opaque constant, a
-   display convention and not an axiom — + 2 [Inductive] + 2 [Record] =
-   422, and the [Inductive] and [Record] heads WRAP onto their own
-   line, so a regex anchored to the keyword AND the name on one line
-   harvests neither of the four; to those add the sixteen inductive
-   constructors and the two [Build_*], which [Print Module] lists only
-   inside an [Inductive] body or after a [Record]'s [:=].  The
-   422 include the file's [Program] obligations and the eight
-   eliminators no source sweep sees.  Every one of the 440 was queried
-   by fully qualified name.  The 220 [Parameter] entries are exactly
-   the file's 220 [Qed] tokens, which is a cross-check on the reading
+   AXIOMS.  427/427 constants report "Closed under the global context", with
+   zero [Axioms:] lines.  The criterion: entries of [Print Module] sit at
+   exactly five-space indent, giving 192 [Definition] + 213 [Parameter] — the
+   printer's rendering of an opaque constant, a display convention and not an
+   axiom — + 2 [Inductive] + 2 [Record] = 409, and the [Inductive] and
+   [Record] heads WRAP onto their own line, so a regex anchored to the
+   keyword AND the name on one line harvests neither of the four; to those
+   add the sixteen inductive constructors and the two [Build_*], which [Print
+   Module] lists only inside an [Inductive] body or after a [Record]'s [:=].
+   The 409 include the file's [Program] obligations and the eight eliminators
+   no source sweep sees.  Every one of the 427 was queried by fully qualified
+   name (440, 422, 198 and 220 before #431 moved the thirteen
+   AdjunctionAlongIso constants out).  The 213 [Parameter] entries are
+   exactly the file's 213 [Qed] tokens, which is a cross-check on the reading
    of that display convention rather than a second measurement.
 
-   DEFINED.  Six [Defined] tokens against 220 [Qed], and each was
-   flipped ALONE to [Qed] to see which are load-bearing: THREE are —
-   [bimodule_tensor_hom_adjunction], [adjunction_along_left_iso] and
-   [bimodule_left_tensor_hom_adjunction], whose transparency is what
-   the [eq_refl] readbacks of the unit, the counit and the transported
-   transpose reduce through — and three are not
-   ([bt_partial_adj], [tensor_assoc_iso], [hab_partial_adj]), kept
-   [Defined] by the data convention alone.
+   DEFINED.  Five [Defined] tokens against 213 [Qed] (six and 220 before
+   #431 moved [adjunction_along_left_iso] out), and each was flipped ALONE
+   to [Qed] to see which are load-bearing: TWO are —
+   [bimodule_tensor_hom_adjunction] and
+   [bimodule_left_tensor_hom_adjunction], whose transparency is what the
+   [eq_refl] readbacks of the unit, the counit and the transported transpose
+   reduce through — and three are not ([bt_partial_adj], [tensor_assoc_iso],
+   [hab_partial_adj]), kept [Defined] by the data convention alone.
 
-   NAMES.  All 440 were swept whole-word against every `.v` in the tree
-   before use; the sweep is clean.  Three collisions were avoided by
-   construction: [rmod_hom_neg], taken as above; [HomFrom], which
-   Functor/Hom/Limit.v owns and which the brief had suggested for the
-   hom functor — hence [HomS] and [HomSObj]; and [unit], which
+   NAMES.  All 440 (427 now) were swept whole-word against every `.v`
+   in the tree before use; the sweep is clean.  Three collisions were
+   avoided by construction: [rmod_hom_neg], taken as above; [HomFrom],
+   which Functor/Hom/Limit.v owns and which the brief had suggested
+   for the hom functor — hence [HomS] and [HomSObj]; and [unit], which
    Theory/Adjunction.v:217 owns, so §G's witnesses name no [unit] and
    the probe's control uses [nat] where a placeholder is wanted.
 
@@ -2461,100 +2461,12 @@ Arguments tensor_assoc_iso {R S T} E E1.
 
 (** *** Transporting an adjunction along an isomorphism of left adjoints *)
 
-(* A functor naturally isomorphic to a left adjoint is a left adjoint,
-   with the SAME right adjoint.  Nothing of this shape exists in the tree
-   — Theory/Adjunction.v:367 and :407 run the other way (from two
-   adjunctions to an isomorphism), Theory/Equivalence/Adjunction.v:105
-   transports along an EQUIVALENCE OF CATEGORIES rather than along a
-   2-cell, and Theory/Functor.v:535's [transport_adjunction] is a
-   Type-level transport of a relation along an equality of indices, not
-   an adjunction at all.  It belongs beside Theory/Adjunction.v and is
-   declared here because part (c) is its first consumer. *)
-
-Section AdjunctionAlongIso.
-
-Context {C D : Category}.
-Context {F F' : D ⟶ C}.
-Context {G : C ⟶ D}.
-Context (Hiso : F ≈ F').
-Context (A : F' ⊣ G).
-
-Definition aali_cell (x : D) : F x ≅ F' x := projT1 Hiso x.
-
-Lemma aali_natural {x y : D} (g : x ~> y) :
-  fmap[F] g ∘ from (aali_cell x) ≈ from (aali_cell y) ∘ fmap[F'] g.
-Proof.
-  rewrite (projT2 Hiso x y g).
-  rewrite <- comp_assoc.
-  rewrite (iso_to_from (aali_cell x)).
-  now rewrite id_right.
-Qed.
-
-Definition aali_to (x : D) (y : C) (f : F x ~> y) : x ~> G y :=
-  to (@adj C D F' G A x y) (f ∘ from (aali_cell x)).
-
-Definition aali_from (x : D) (y : C) (g : x ~> G y) : F x ~> y :=
-  from (@adj C D F' G A x y) g ∘ to (aali_cell x).
-
-Lemma aali_to_from (x : D) (y : C) (g : x ~> G y) :
-  aali_to x y (aali_from x y g) ≈ g.
-Proof.
-  unfold aali_to, aali_from.
-  rewrite <- comp_assoc.
-  rewrite (iso_to_from (aali_cell x)).
-  rewrite id_right.
-  exact (@from_adj_comp_law C D F' G A x y g).
-Qed.
-
-Lemma aali_from_to (x : D) (y : C) (f : F x ~> y) :
-  aali_from x y (aali_to x y f) ≈ f.
-Proof.
-  unfold aali_to, aali_from.
-  rewrite (@to_adj_comp_law C D F' G A x y (f ∘ from (aali_cell x))).
-  rewrite <- comp_assoc.
-  rewrite (iso_from_to (aali_cell x)).
-  now rewrite id_right.
-Qed.
-
-Program Definition aali_iso (x : D) (y : C) :
-  @Isomorphism Sets
-    {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
-    {| carrier := @hom D x (G y); is_setoid := @homset D x (G y) |} := {|
-  to   := {| morphism := aali_to x y |};
-  from := {| morphism := aali_from x y |}
-|}.
-Next Obligation.
-  intros x y f f' Hf; unfold aali_to.
-  now rewrite Hf.
-Qed.
-Next Obligation.
-  intros x y g g' Hg; unfold aali_from.
-  now rewrite Hg.
-Qed.
-Next Obligation. intros x y g; exact (aali_to_from x y g). Qed.
-Next Obligation. intros x y f; exact (aali_from_to x y f). Qed.
-
-Definition adjunction_along_left_iso : F ⊣ G.
-Proof using A C D F F' G Hiso.
-  unshelve eapply (@Build_Adjunction' C D F G aali_iso).
-  - intros x y z f g; simpl; unfold aali_to.
-    rewrite <- comp_assoc.
-    rewrite (aali_natural g).
-    rewrite comp_assoc.
-    exact (@to_adj_nat_l C D F' G A x y z (f ∘ from (aali_cell y)) g).
-  - intros x y z f g; simpl; unfold aali_to.
-    rewrite <- comp_assoc.
-    exact (@to_adj_nat_r C D F' G A x y z f (g ∘ from (aali_cell x))).
-Defined.
-
-Example aali_to_is_transpose (x : D) (y : C) (f : F x ~> y) :
-  to (@adj C D F G adjunction_along_left_iso x y) f
-    = to (@adj C D F' G A x y) (f ∘ from (aali_cell x)) := eq_refl.
-
-End AdjunctionAlongIso.
-
-Arguments aali_cell {C D F F'} Hiso x.
-Arguments adjunction_along_left_iso {C D F F' G} Hiso A.
+(* [adjunction_along_left_iso] — a functor naturally isomorphic to a left
+   adjoint is a left adjoint with the SAME right adjoint — was built here
+   for part (c) as its first consumer and moved, verbatim and still
+   [Defined], to the end of Theory/Adjunction.v by #431, whose
+   functor-category remark is its second consumer; [aali_cell],
+   [aali_iso] and the readback [aali_to_is_transpose] moved with it. *)
 
 (** *** Mac Lane's "describe the composite" *)
 

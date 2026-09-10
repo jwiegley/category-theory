@@ -6,6 +6,7 @@ Adjunction/Diagonal/Coproduct.v
 Adjunction/Diagonal/Connected.v
 Adjunction/Hom.v
 Adjunction/Compose.v
+Adjunction/FunctorCategory.v
 Adjunction/Determination.v
 Adjunction/Representability.v
 Adjunction/Additive.v
@@ -941,6 +942,7 @@ Test/ProbeProjective429.v
 Test/ProbeFreeAbNotContinuous430.v
 Test/ProbeFunEval424.v
 Test/ProbeFunLimit425.v
+Test/ProbeFunctorCategory431.v
 Test/ProbeFunCreation426.v
 Test/Size.v
 Tools/Abstraction.v

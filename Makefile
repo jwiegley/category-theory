@@ -5244,19 +5244,19 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.ta_double_ext.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.ta_double_ext_r.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.tensor_assoc_iso.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_cell.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_natural.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_to.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_from.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_to_from.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_from_to.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_iso_obligation_1.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_iso_obligation_2.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_iso_obligation_3.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_iso_obligation_4.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_iso.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.adjunction_along_left_iso.'; \
-	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.aali_to_is_transpose.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_cell.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_natural.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_to.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_from.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_to_from.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_from_to.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_iso_obligation_1.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_iso_obligation_2.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_iso_obligation_3.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_iso_obligation_4.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.adjunction_along_left_iso.'; \
+	  echo 'Print Assumptions Category.Theory.Adjunction.aali_to_is_transpose.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bimodule_tensor_bimod_adjunction.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.bimodule_hom_composite_iso.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Bimodule.btba_to_is_transposed.'; \
@@ -7516,6 +7516,44 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_ump_nat.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.strict_self.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_map_is_fmap.'; \
+	} >> .pa-tmp/pa.v
+	{ \
+	  echo 'Require Import Category.Adjunction.FunctorCategory.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.carried_leg_is_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.left_route.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.left_route'"'"'.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.Lim_commutes_nat_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.Lim_commutes_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.lim_of_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_adjunction_transform.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_counit_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_counit_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_counit_natural.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_unit_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_unit_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.postcompose_unit_natural.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_adjunction.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_adjunction_transform.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_counit_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_counit_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_unit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_unit_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.precompose_unit_component.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.right_adjoint_carries_lim_counit.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.right_route.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_at.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_equiv.'; \
+	  echo 'Print Assumptions Category.Adjunction.FunctorCategory.square_iso.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Functor.Hom.Continuous.'; \

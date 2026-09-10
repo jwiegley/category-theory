@@ -457,3 +457,106 @@ Qed.
    [left_adjoint_preserves_colimits] (LAPC, by duality via
    Adjunction/Opposite.v), phrased with the preservation vocabulary of
    Structure/Limit/Preservation.v. *)
+
+(** ** Transporting an adjunction along an isomorphism of left adjoints *)
+
+(* A functor naturally isomorphic to a left adjoint is a left adjoint,
+   with the SAME right adjoint.  [right_adjoint_iso] and [left_adjoint_iso]
+   above run the other way (from two adjunctions to an isomorphism),
+   Theory/Equivalence/Adjunction.v:105 transports along an EQUIVALENCE OF
+   CATEGORIES rather than along a 2-cell, and Theory/Functor.v:535's
+   [transport_adjunction] is a Type-level transport of a relation along
+   an equality of indices, not an adjunction at all.  Built for
+   Instance/Mod/Bimodule.v's part (c) (#401), which declared it there as
+   its first consumer, and moved here verbatim by #431, whose
+   functor-category remark is its second; [adjunction_along_left_iso]
+   stays [Defined] and load-bearing (Bimodule.v's
+   [btba_to_is_transposed] and [aali_to_is_transpose] below reduce
+   through it). *)
+
+Section AdjunctionAlongIso.
+
+#[local] Obligation Tactic := idtac.
+
+Context {C D : Category}.
+Context {F F' : D ⟶ C}.
+Context {G : C ⟶ D}.
+Context (Hiso : F ≈ F').
+Context (A : F' ⊣ G).
+
+Definition aali_cell (x : D) : F x ≅ F' x := projT1 Hiso x.
+
+Lemma aali_natural {x y : D} (g : x ~> y) :
+  fmap[F] g ∘ from (aali_cell x) ≈ from (aali_cell y) ∘ fmap[F'] g.
+Proof.
+  rewrite (projT2 Hiso x y g).
+  rewrite <- comp_assoc.
+  rewrite (iso_to_from (aali_cell x)).
+  now rewrite id_right.
+Qed.
+
+Definition aali_to (x : D) (y : C) (f : F x ~> y) : x ~> G y :=
+  to (@adj C D F' G A x y) (f ∘ from (aali_cell x)).
+
+Definition aali_from (x : D) (y : C) (g : x ~> G y) : F x ~> y :=
+  from (@adj C D F' G A x y) g ∘ to (aali_cell x).
+
+Lemma aali_to_from (x : D) (y : C) (g : x ~> G y) :
+  aali_to x y (aali_from x y g) ≈ g.
+Proof.
+  unfold aali_to, aali_from.
+  rewrite <- comp_assoc.
+  rewrite (iso_to_from (aali_cell x)).
+  rewrite id_right.
+  exact (@from_adj_comp_law C D F' G A x y g).
+Qed.
+
+Lemma aali_from_to (x : D) (y : C) (f : F x ~> y) :
+  aali_from x y (aali_to x y f) ≈ f.
+Proof.
+  unfold aali_to, aali_from.
+  rewrite (@to_adj_comp_law C D F' G A x y (f ∘ from (aali_cell x))).
+  rewrite <- comp_assoc.
+  rewrite (iso_from_to (aali_cell x)).
+  now rewrite id_right.
+Qed.
+
+Program Definition aali_iso (x : D) (y : C) :
+  @Isomorphism Sets
+    {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
+    {| carrier := @hom D x (G y); is_setoid := @homset D x (G y) |} := {|
+  to   := {| morphism := aali_to x y |};
+  from := {| morphism := aali_from x y |}
+|}.
+Next Obligation.
+  intros x y f f' Hf; unfold aali_to.
+  now rewrite Hf.
+Qed.
+Next Obligation.
+  intros x y g g' Hg; unfold aali_from.
+  now rewrite Hg.
+Qed.
+Next Obligation. intros x y g; exact (aali_to_from x y g). Qed.
+Next Obligation. intros x y f; exact (aali_from_to x y f). Qed.
+
+Definition adjunction_along_left_iso : F ⊣ G.
+Proof using A C D F F' G Hiso.
+  unshelve eapply (@Build_Adjunction' C D F G aali_iso).
+  - intros x y z f g; simpl; unfold aali_to.
+    rewrite <- comp_assoc.
+    rewrite (aali_natural g).
+    rewrite comp_assoc.
+    exact (@to_adj_nat_l C D F' G A x y z (f ∘ from (aali_cell y)) g).
+  - intros x y z f g; simpl; unfold aali_to.
+    rewrite <- comp_assoc.
+    exact (@to_adj_nat_r C D F' G A x y z f (g ∘ from (aali_cell x))).
+Defined.
+
+Example aali_to_is_transpose (x : D) (y : C) (f : F x ~> y) :
+  to (@adj C D F G adjunction_along_left_iso x y) f
+    = to (@adj C D F' G A x y) (f ∘ from (aali_cell x)) := eq_refl.
+
+End AdjunctionAlongIso.
+
+Arguments aali_cell {C D F F'} Hiso x.
+Arguments adjunction_along_left_iso {C D F F' G} Hiso A.
