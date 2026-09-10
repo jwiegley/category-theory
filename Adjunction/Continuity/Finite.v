@@ -42,7 +42,8 @@ Generalizable All Variables.
    live in Continuity.v without a cycle; Comparison.v owns the bridges but
    not the adjunction vocabulary.  A satellite of Continuity.v keeps both
    donors unedited.  Closure 39 files excluding self, Comparison.v 12 at
-   the margin, the other seventeen [Require]s 0.
+   the margin, Structure/Cocartesian.v 1, the other seventeen [Require]s 0
+   (an earlier revision dropped the 1).
 
    UNIVERSES.  Each of the four carries [u0 = u2], the hom levels of the
    two categories identified — [Adjunction]'s own equation ([h1 = h2] in
@@ -57,8 +58,10 @@ Generalizable All Variables.
    NOTATIONS (Functor/Structure/Terminal.v:59, Functor/Structure/
    Cartesian.v:130) and do not parse in a definition's return type; the
    two left-adjoint forms spell them out as [@TerminalFunctor (D^op) (C^op)
-   (F^op) _ _] and [@CartesianFunctor (D^op) (C^op) (F^op) _ _], which
-   [About] prints back under the notations. *)
+   (F^op) _ _] and [@CartesianFunctor (D^op) (C^op) (F^op) _ _]; [About]
+   prints the first back as [InitialFunctor F] and the second as the
+   qualified [Cartesian.CartesianFunctor] (an earlier revision said both
+   print under the notations). *)
 
 Section AdjointPreservation.
 

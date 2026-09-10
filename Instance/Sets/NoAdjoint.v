@@ -39,31 +39,46 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED.
      - "The library records only positive adjunction constructions … no
        impossibility result … no idiom for stating that a given functor
-       lacks an adjoint": FALSE.  Seven no-adjoint theorems in three
-       spellings predate this file: Instance/Top/Image.v:232
-       [nat_inf_no_left_adjoint], Instance/Monoid/Translation.v:694
-       [nat_translation_no_right_adjoint] and Adjunction/Choice.v:818
-       [two_const_Y_no_right_adjoint] (quantified over the candidate);
+       lacks an adjoint": FALSE.  Twelve no-adjoint theorems in four
+       shapes predate this file (the twelve declarations whose names match
+       [(no|not)_…adjoint], plus Adjunction/Choice.v:826's
+       [two_left_adjoint_proper : HasRightAdjoint … → False]; an earlier
+       revision counted seven): quantified over the candidate —
+       Instance/Top/Image.v:232 [nat_inf_no_left_adjoint],
+       Instance/Monoid/Translation.v:694 [nat_translation_no_right_adjoint]
+       and :704 [nat_no_right_adjoints], Adjunction/Choice.v:818
+       [two_const_Y_no_right_adjoint], Instance/Proset/Galois.v:351
+       [succ_not_self_adjoint]; [(∃ L, L ⊣ G) → False] —
        Instance/Powerset/Quantifier.v:1422 [exists_not_right_adjoint] and
-       :1471 [forall_not_left_adjoint] ([(∃ L, L ⊣ G) → False]);
-       Adjunction/Diagonal/Connected.v:764 [eval_not_left_adjoint] (at a
-       named pair); Instance/Top/Forgetful.v:541 [indiscrete_no_right_
-       adjoint] (hypothesis-shaped).  The issue's own grep is off too:
-       'no left adjoint|no right adjoint' has 15 hits, not one, and [⊣]
-       786 hits in 177 files, not 261.
+       :1471 [forall_not_left_adjoint], and, AT SETS,
+       Construction/Slice/Adjunction.v:788 [sets_slice_proj_no_left_adjoint]
+       and :796 [sets_coslice_proj_no_right_adjoint]; at a named pair —
+       Adjunction/Diagonal/Connected.v:764 [eval_not_left_adjoint];
+       hypothesis-shaped — Instance/Top/Forgetful.v:541
+       [indiscrete_no_right_adjoint].  Construction/Slice/Adjunction.v:668's
+       [slice_proj_left_adjoint_iff_terminal : (∃ L, L ⊣ Slice_Proj a) ↔
+       IsTerminalObj a] is moreover an "a left adjoint exists iff the
+       object is terminal" biconditional of exactly this file's shape, so
+       neither "the first no-adjoint result at Sets" nor "the first stated
+       as an iff" is claimed (an earlier revision claimed both).  The
+       issue's own grep is off too: 'no left adjoint|no right adjoint' has
+       12 hits in the [.v] files, not one (15 over every tracked file
+       outside doc/plan), and [⊣] 786 hits in 177 [.v] files, not 261.
      - "'not cartesian closed' finds only prose": FALSE.  Instance/Fun/
        Closed.v:573 [fun_not_cartesian_closed (CC : @Cartesian ([Omega,
        FinSet])) : @Closed _ CC → False] is a theorem, in the strong form
-       quantified over every cartesian structure; Exercise 4 below is the
-       SECOND non-cartesian-closedness result and the first for [Sets^op],
-       at that strength.  (Instance/Coq/Par.v:219 and ParE.v:177 are prose,
+       quantified over every cartesian structure (with its pointwise
+       corollary :584); Exercise 4 below is a second non-cartesian-
+       closedness result and the first for [Sets^op], at that strength.
+       (Instance/Coq/Par.v:219 and ParE.v:177 are prose,
        as the issue says.)
      - "The general tool (Adjunction/Continuity.v:202, :223) is never used
        in the negative direction": TRUE, and the constants sit at :205
        ([right_adjoint_PreservesLimitCone]) and :233 ([left_adjoint_
        preserves_colimit]) — :202 and :223 are comment lines.  RAPL/LAPC
-       have eleven consumers in the tree, every one positive; this file
-       is the FIRST negative use of them.  (The Awodey clause's "no
+       have twelve term-level consumers in seven files, every one positive
+       (an earlier revision said eleven); this file is the FIRST negative
+       use of them — the one novelty claimed.  (The Awodey clause's "no
        category of posets" is stale too: Instance/Pos.v.)
      - Structure/BiCCC.v's [prod_zero_r] is declared at :221 (statement
        :222) and needs [Cartesian], [Closed] and [Initial] only — not the
@@ -88,8 +103,9 @@ Generalizable All Variables.
          functor 1 = Id] at [eq_refl]).  Packaged as the exact
          characterisation [fixed_product_left_adjoint_iff_terminal] and,
          at Sets, the issue's [times_X_has_left_adjoint_iff_terminal] — both
-         directions, [∃] being [sigT] so the converse hands over the
-         adjoint.  The functor is Functor/Product/Fixed.v:200's
+         directions, [∃] being [sigT]; the iff is [Qed], so its projection
+         does not compute and the adjoint is exported separately as
+         [Id_adj_fixed_product].  The functor is Functor/Product/Fixed.v:200's
          [fixed_product_functor X] ([X × −], [second] on arrows);
          Structure/Cartesian/Closed/Adjunction.v:177's [Prod_Functor] is
          the same functor on the other side ([− × S], with its right
@@ -99,19 +115,22 @@ Generalizable All Variables.
          (CC : @Cartesian (Sets^op)) (CL : @Closed (Sets^op) CC) : False] —
          quantified over EVERY cartesian structure on [Sets^op], the
          strength of Instance/Fun/Closed.v:573.  The scaffolding is
-         conversion ([Sets_op_Initial := Sets_Terminal];
-         [Sets_op_Cartesian_is_coproducts : @Cartesian (Sets^op) =
-         @Cocartesian Sets] at [eq_refl], Structure/Cocartesian.v:115-118's
-         notation); the argument: [prod_zero_r] at the point gives [1 ×[CC]
+         [Sets_op_Initial := Sets_Terminal] and Structure/Cocartesian.v:
+         115-118's notation ([Sets_op_Cartesian_is_coproducts : @Cartesian
+         (Sets^op) = @Cocartesian Sets] at [eq_refl] holds by notation
+         expansion alone — both sides parse to the same term — and checks
+         nothing beyond that); the argument: [prod_zero_r] at the point gives
+         [1 ×[CC]
          0 ≅ 0] in [Sets^op], so the apex is subterminal in Sets and the
          two projections [exl], [exr] agree as morphisms; copairing the
          two injections [pt_inl], [pt_inr] of [OnePlusOne := 1 + 1] through
          it forces [pt_inl ≈ pt_inr], and across summands the coproduct's
          [≈] IS [False] ([pt_inl_inr_apart], [eq_refl];
          Instance/Sets/Cocartesian.v).  The two-point set is [1 + 1] and
-         not the [bool]-carried [bool_setoid_object]: the latter pins the
-         object level to [Set] and would state the theorem for small
-         setoids only (measured on a discarded draft).
+         not the [bool]-carried [bool_setoid_object]: a morphism into the
+         latter pins the CARRIER level of [Sets@{o so}] to [Set] ([∀ CC :
+         @Cocartesian Sets@{Set u}, ¬ Closed@{u Set u}] on a discarded
+         draft) and would state the theorem for small carriers only.
      (3) THE REUSABLE OBSTRUCTION LEMMAS (Awodey's checkbox), in
          Adjunction/Continuity/Finite.v: [right_adjoint_preserves_terminal],
          [right_adjoint_preserves_binary_products],
@@ -144,10 +163,14 @@ Generalizable All Variables.
    inherited by [Id_adj_fixed_product]; [Sets_Terminal] carries
    [Logic_lemmas.equality], [eq_ind], [eq_ind_r], inherited by [OnePt],
    [OnePlusOne], [pt_inl], [pt_inr], [Sets_op_Initial] and
-   [pt_inl_inr_apart]; [prod_zero_r] carries [prod_rect], inherited by
-   [Sets_op_not_cartesian_closed].  [fixed_product_functor], [prod_one_r],
-   [fobj_one_iso], [nullary_fam], [Sets_Cartesian] and [Sets_Cocartesian]
-   carry none.
+   [pt_inl_inr_apart] and [Sets_op_not_cartesian_closed]; [prod_zero_r]
+   carries [prod_rect] and [Sets_Cocartesian] carries [False_rect] and
+   [sum_rect], all three inherited by [Sets_op_not_cartesian_closed];
+   [Sets_Cartesian] carries [prod_rect].  [fixed_product_functor],
+   [prod_one_r], [fobj_one_iso] and [nullary_fam] carry none (an earlier
+   revision listed the two Sets structures among them).  The lists name
+   the stdlib caps; every block also carries the tree's own [Basics.
+   compose], [projections] and [ID] levels, not repeated here.
 
    COUNTS AND CONVENTIONS.
      - 15 [.glob] declaration heads here (11 [def], 4 [prf]) plus the 4
@@ -175,17 +198,21 @@ Generalizable All Variables.
        refutation commands (1 instrument + N1 CONVERSION + N2-N3 TYPING +
        N4 UNIVERSE), each stripped one at a time in a copy of the whole
        file beside its accepted controls (N4's message: "Cannot enforce ch
-       = _ because ch < dh <= _"); four [eq_refl] readbacks; guard
-       coverage 20 identifier tokens inside the refutations / 17 also
-       named outside, comments stripped, with three exhaustive exceptions
-       (the keyword, the refuted declaration's name, the absent name);
-       rename-simulated over the ten library names the refutations use
-       ([fixed_product_functor], [Id_adj_fixed_product],
-       [Sets_op_not_cartesian_closed], [Closed], [Cartesian], [Sets],
-       [Category], [iso_id], [Id], [eq_refl]; section binders excluded),
-       every first break on a positive line.  [make todo] grows by those 5
-       lines only (2246 → 2251 over master b72e7182), so the issue's "adds
-       no new hits" box is not met as written; disclosed.
+       = _ because ch < dh <= _"; the two TYPING negatives are told apart
+       from N1 by WHAT is refused — a type ascription against an [eq_refl]
+       — not by the error text, N3's also saying "cannot unify"); four
+       [eq_refl] readbacks; guard coverage 20 identifier tokens inside the
+       refutations / 17 also named outside, comments stripped, with three
+       exhaustive exceptions (the keyword, the refuted declaration's name,
+       the absent name); rename-simulated over the nine library names the
+       refutations use ([fixed_product_functor], [Id_adj_fixed_product],
+       [Sets_op_not_cartesian_closed], [Closed], [Cartesian], [Sets], [Id],
+       [eq_refl], [False]; section binders and the controls' [Category] and
+       [iso_id] excluded — an earlier revision listed those two), every
+       first break on a positive line.  [make todo] grows by those 5
+       lines only (2261 → 2266 over 39aa0ea5, master 1be50678 with #431),
+       so the issue's "adds no new hits" box is not met as written;
+       disclosed.
 
    NOT DELIVERED.
      - Awodey's concrete instances (the forgetful functor from posets, the
