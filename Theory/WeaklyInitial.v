@@ -62,7 +62,7 @@ Generalizable All Variables.
    [wif_obj W] genuinely varies and stays an indexed product.  Only
    Structure/Limit/Power.v is Required, not its Structure/Limit/Power/Hom.v
    satellite; [Instance/Sets] is in this file's closure anyway (measured:
-   three hops, Equalizer/Fork → Instance/Parallel → Instance/Sets). *)
+   two hops since #435, Instance/Parallel → Instance/Sets; three before). *)
 
 (* A weakly initial family: an index [Type], a family of objects, and for
    every object [c] a *choice* of covering member together with an arrow
@@ -200,7 +200,7 @@ Qed.
 
     Everything above this line is the original file (#158/#328's Freyd
     construction), byte-identical up to a corrected sentence at lines
-    63-65 (see below); the two external citations into it, Instance/Sets/
+    64-65 (see below); the two external citations into it, Instance/Sets/
     Products.v:71 → :43-50 and Structure/Limit/Power.v:163 → :104-106,
     still point at what they cite.  What follows is #435 (Mac Lane §V.6
     Theorem 1, book p. 120, `maclane:V.6:thm1`, with the Awodey §9.8 and
@@ -242,9 +242,11 @@ Qed.
     [Complete_HasEqualizers] lives downstream, in Adjunction/GAFT.v:193,
     which [Require]s this file, and re-deriving it here would duplicate a
     downstream definition.  Read the universes of the [_complete] form:
-    [Complete@{u0 u0 Set u1}] identifies the shape's object universe with
-    the family's index universe, so the caller's choice of [Complete] IS
-    the choice of admissible index size — the honest reading of
+    [Complete]'s first two levels are the family's index level (the
+    biconditional prints [Complete@{u0 u0 Set u2}], the wrapper
+    [Complete@{u u Set u1}]), so the shape's object universe is identified
+    with the family's index universe and the caller's choice of [Complete]
+    IS the choice of admissible index size — the honest reading of
     "small-complete", with no size class.
 
     THE RIEHL CLAUSE.  [WeaklyInitial c : Type := ∀ x, c ~> x] (Definition
@@ -270,11 +272,15 @@ Qed.
     object, not the category).
 
     THE SOLUTION-SET VOCABULARY.  The issue's "hence the solution set
-    condition" is [sols_of_comma_initial : Initial (=(d) ↓ U) → SolutionSet
-    U d], the converse of [wif_of_sols], appended at the END of
-    Adjunction/GAFT.v so that none of that file's cited line numbers move
-    (eleven external citations point at its line 241); its member and index
-    read back at [eq_refl].  GAFT itself does not become a biconditional.
+    condition" is Adjunction/GAFT.v's [sols_of_wif : WeaklyInitialFamily
+    (=(d) ↓ U) → SolutionSet U d], the exact converse of [wif_of_sols] —
+    same index, same members — with the special case
+    [sols_of_comma_initial : Initial (=(d) ↓ U) → SolutionSet U d] defined
+    as [sols_of_wif] of [weakly_initial_of_initial].  Both are appended at
+    the END of that file so that none of its cited line numbers move
+    (eleven external citations point at its line 241); the index of the
+    general form and the index and member of the special case read back at
+    [eq_refl].  GAFT itself does not become a biconditional.
 
     THE WITNESS.  Theory/WeaklyInitial/Sets.v (a leaf satellite; its
     closure is 53, 25 more than this file's, which is why it is not here)
@@ -283,27 +289,33 @@ Qed.
     Sets_HasEqualizers], [Sets_wif := fst … Sets_Initial],
     [Sets_initial_recovered := snd … Sets_wif], and [Sets_roundtrip_iso :
     initial_obj Sets_initial_recovered ≅ initial_obj Sets_Initial] by
-    [initial_unique]; the recovered family's index and member read back at
-    [eq_refl].  It lands at [Sets@{Set u}], as Adjunction/GAFT/Sets.v's
+    [initial_unique]; the DERIVED singleton family's index and member read
+    back at [eq_refl] (nothing about the recovered initial object does).
+    It lands at [Sets@{Set u}], as Adjunction/GAFT/Sets.v's
     header already discloses for GAFT.  This turns the biconditional from a
     conditional into an inhabited result; docs/INHABITATION.md has the row.
 
     STALE PREMISES.  Every line number in the issue's "Current state" is
-    stale by +13 (they match commit 00fc744b; 820201bc, "Powers and
-    copowers", shifted the file): [initial_from_weakly_initial] is :102 not
-    :89, [Record WeaklyInitialFamily] :71 not :58, [endo_absorb] :138 not
-    :119, the uniqueness chase :159 not :154; :44 and Adjunction/GAFT.v:210
-    happen to be right.  Every substantive absence claim is TRUE:
+    stale (they match commit 00fc744b, and 820201bc, "Powers and
+    copowers", shifted the file in TWO hunks — +13 above the proof body,
+    +19 inside it): [initial_from_weakly_initial] is :102 not :89, [Record
+    WeaklyInitialFamily] :71 not :58, [endo_absorb] :138 not :119, and the
+    uniqueness chase's [assert (Hk : …)] :173 not :154; :44 and
+    Adjunction/GAFT.v:210 happen to be right.  Every substantive absence
+    claim is TRUE:
     [Build_WeaklyInitialFamily] has exactly one use tree-wide
     (Adjunction/GAFT.v:214), nothing built a family from an [Initial], no
-    constant named [WeaklyInitial] existed (all 31 word hits were the module
-    path).  Two sentences of the existing headers were FALSE and are
-    corrected in place, line-count-preserving: lines 63-65 of this file said
+    constant named [WeaklyInitial] existed (all 29 word hits over `*.v`,
+    31 counting `_CoqProject`, were the module path).  Two sentences of
+    the existing headers were FALSE and are
+    corrected in place, line-count-preserving: lines 64-65 of this file said
     the [Power.v] choice "keeps [Instance/Sets] off this file's dependency
-    closure" — [Instance/Sets] is in it, three hops through
-    Structure/Equalizer/Fork.v and Instance/Parallel.v (docs/INDEX.md's
-    Power.v bullet already said so, with a longer route); and Wide.v:66-68
-    attributed the [Set] pin to [Terminal] and the equalizer supply — both
+    closure" — [Instance/Sets] is in it, TWO hops now that this file
+    [Require]s Instance/Parallel.v directly, three before through
+    Structure/Equalizer/Fork.v (docs/INDEX.md's Power.v bullet records the
+    one-hop route from Power.v itself, which is correct and is left alone);
+    and Wide.v:67-68 attributed the [Set] pin to [Terminal] and the
+    equalizer supply — both
     have empty constraint blocks, and the pin is [iprod]'s:
     [DiscreteCat_Functor] puts the discrete shape at [DiscreteCat@{u Set
     Set}] and [Limit] identifies the shape's hom universe with the
@@ -311,31 +323,40 @@ Qed.
 
     UNIVERSES ([About] under `Set Printing Universes`).  No [Set] on the
     Riehl-side constants: [WeaklyInitial@{u u0 u1}] carries only the
-    Π-type's `u0 <= u`, `u1 <= u`; [weakly_initial_of_initial@{u u0 u1}],
-    [wif_of_weakly_initial] and [weakly_initial_obj_of_initial] carry EMPTY
-    blocks; the Parallel constants are at that small category's levels.
+    Π-type's `u0 <= u`, `u1 <= u`, and so do [wif_of_weakly_initial] and
+    [weakly_initial_obj_of_initial], whose types mention it;
+    [weakly_initial_of_initial@{u u0 u1}] alone carries an EMPTY block,
+    where the composite through [wif_of_weakly_initial] would carry four
+    binders and two constraints; the Parallel constants are at that small
+    category's levels.
     Everything that consumes [iprod] or a [Limit (DiscreteCat_Functor …)]
     — [weakly_initial_iprod], [FreydProducts], both biconditionals, the
     [_complete] wrapper and their readbacks — is over [C : Category@{_ Set
     Set}], the donor's pin, with the strict `Set < u` and the caps `JMeq`,
-    `eq`, `Logic_lemmas.equality`, `Projections` the original theorem
-    carries.  A universe refutation at [Cat] was tried and does NOT refuse
+    `eq` and `Logic_lemmas.equality` the original theorem carries — and
+    `Projections` on all of them but [FreydProducts].  A universe
+    refutation at [Cat] was tried and does NOT refuse
     ([Cat]'s hom universe instantiates at [Set]); it is recorded here so it
     is not re-invented.
 
     MEASURED.  17 new `.glob` heads in this file (15 `def`, 2 `prf`; 22
-    with the original five), 6 in Theory/WeaklyInitial/Sets.v, 3 in
-    Adjunction/GAFT.v, no [Program] obligations, all 31 "Closed under the
+    with the original five), 6 in Theory/WeaklyInitial/Sets.v, 5 in
+    Adjunction/GAFT.v, no [Program] obligations, all 33 "Closed under the
     global context", zero `Axioms:` lines; the `make print-assumptions`
-    gate carries them.  Three `Defined` — the two biconditionals here and
-    [sols_of_comma_initial] — each LOAD-BEARING (flipped to `Qed` one at a
-    time in a copy of the whole file, the matching [eq_refl] readback
-    stops); two new `Qed` (the two Parallel negations).  Closure of this
+    gate carries all 33, the original five of this file included (it
+    carried none of those five before).  Four `Defined` — the two
+    biconditionals here, [sols_of_wif] and [sols_of_comma_initial] — each
+    LOAD-BEARING (flipped to `Qed` one at a time in a copy of the whole
+    file, the matching [eq_refl] readback stops); two new `Qed` (the two
+    Parallel negations).  Closure of this
     file 29 excluding self, one more than before (Structure/Complete.v, the
     only new module on the GAFT critical path; Instance/Parallel.v was
     already inside, 0 at the margin); Sets.v 53 (Adjunction/GAFT/Sets.v 15
-    at the margin, its other six `Require`s 0); neither file has a
-    droppable `Require`.  Zero name collisions for the 26 new names
+    at the margin, its other six `Require`s 0); Sets.v has no droppable
+    `Require` and both of this file's new ones are needed, though its
+    PRE-EXISTING Theory/Functor.v and Theory/Morphisms.v lines are
+    droppable and are kept so that the cited lines above do not move.
+    Zero name collisions for the 28 new names
     (`grep -rlw --include='*.v'`).  Test/ProbeWeaklyInitial435.v mirrors
     this file's `Require` list plus the satellite, Adjunction/GAFT.v and
     their supplies, binds its category per command (a [Section] variable

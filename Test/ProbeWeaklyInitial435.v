@@ -13,7 +13,7 @@
     the [C^op] pivot made visible).  The [eq_refl] readbacks are positive
     controls: the family built from an initial object is that object, both
     biconditionals' forward halves ARE [weakly_initial_of_initial], and at
-    Sets the recovered family's index and member compute.  Every command
+    Sets the DERIVED singleton family's index and member compute.  Every command
     binds its own category, because the pinned [Limit] hypotheses need the
     category's hom level at [Set] and a [Section] variable would fix it
     elsewhere.  Each refutation was stripped one at a time in a copy of the
@@ -138,7 +138,12 @@ Check (Sets_roundtrip_iso
 (* the separator and the solution-set converse are present *)
 Check (Parallel_ParX_not_initial : @IsInitialObj Parallel ParX → False).
 Check (Parallel_ParY_not_weakly_initial : @WeaklyInitial Parallel ParY → False).
+Check (@sols_of_wif).
 Check (@sols_of_comma_initial).
+
+(* the converse's own index readback lives in Adjunction/GAFT.v, whose
+   comma notation this file does not import *)
+Check (@sols_of_wif_index).
 
 (** ** Guard block *)
 
@@ -170,8 +175,11 @@ Check @Sets_initial_characterization.
 Check @Sets_initial_recovered.
 Check @Sets_roundtrip_iso.
 Check @Parallel_ParX_WeaklyInitial.
+Check @sols_of_wif.
+Check @sols_of_wif_index.
 Check @sols_of_comma_initial.
 Check @SolutionSet.
+Check @sol_index.
 Check @poly_unit.
 Check bool.
 Check @projT2.

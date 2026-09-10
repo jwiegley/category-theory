@@ -7805,6 +7805,11 @@ print-assumptions: category-theory
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Theory.WeaklyInitial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.WeaklyInitialFamily.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_index.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_obj.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_cover.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_from_weakly_initial.'; \
 	  echo 'Print Assumptions Category.Theory.WeaklyInitial.WeaklyInitial.'; \
 	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_obj_of_initial.'; \
 	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_of_weakly_initial.'; \
@@ -7834,6 +7839,8 @@ print-assumptions: category-theory
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_wif.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_wif_index.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_index.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_obj.'; \

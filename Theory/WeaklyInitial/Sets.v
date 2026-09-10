@@ -19,9 +19,10 @@ Generalizable All Variables.
     [Sets_wif], Freyd's product-and-equalizer construction turns that back
     into an initial object [Sets_initial_recovered], and
     Structure/Initial.v:138's [initial_unique] gives the canonical
-    isomorphism [Sets_roundtrip_iso] with the original.  The recovered
-    family's index and member read back at [eq_refl], through the
-    transparent biconditional.
+    isomorphism [Sets_roundtrip_iso] with the original.  The DERIVED
+    singleton family's index and member read back at [eq_refl], through
+    the transparent biconditional; nothing about the recovered initial
+    object does.
 
     A separate leaf because of closure: this file's closure is 53 modules
     (Adjunction/GAFT/Sets.v 15 at the margin, the other six `Require`s 0)

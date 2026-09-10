@@ -256,24 +256,36 @@ Qed.
 
 (** ** The converse of [wif_of_sols]
 
-    An initial object of the comma category is a one-member solution set:
-    Mac Lane §V.6 Theorem 1's necessity direction, in this file's
-    vocabulary (#435).  Appended here so that no line above moves. *)
+    A weakly initial family of the comma category is a solution set —
+    the exact converse of [wif_of_sols], with the same index — and an
+    initial object of the comma category is therefore a one-member
+    solution set: Mac Lane §V.6 Theorem 1's necessity direction, in this
+    file's vocabulary (#435).  Appended here so that no line above moves. *)
 
-Definition sols_of_comma_initial {C D : Category} (U : C ⟶ D) (d : D)
-  (I : @Initial (=(d) ↓ U)) : SolutionSet U d.
+Definition sols_of_wif {C D : Category} (U : C ⟶ D) (d : D)
+  (W : WeaklyInitialFamily (=(d) ↓ U)) : SolutionSet U d.
 Proof.
   unshelve refine
-    {| sol_index := poly_unit
-     ; sol_obj := fun _ => snd (`1 (@initial_obj (=(d) ↓ U) I))
-     ; sol_arr := fun _ => `2 (@initial_obj (=(d) ↓ U) I) |}.
+    {| sol_index := wif_index W
+     ; sol_obj := fun i => snd (`1 (wif_obj W i))
+     ; sol_arr := fun i => `2 (wif_obj W i) |}.
   intros c h.
-  exists ttt.
-  destruct (@zero (=(d) ↓ U) I (((ttt, c); h) : (=(d) ↓ U))) as [[u t] sq].
+  destruct (wif_cover W (((ttt, c); h) : (=(d) ↓ U))) as [i m].
+  exists i.
+  destruct m as [[u t] sq].
   exists t.
   simpl in sq |- *.
   now rewrite <- sq, id_right.
 Defined.
+
+(* The solution set's index is the family's, on the nose. *)
+Example sols_of_wif_index {C D : Category} (U : C ⟶ D) (d : D)
+  (W : WeaklyInitialFamily (=(d) ↓ U)) :
+  sol_index (sols_of_wif U d W) = wif_index W := eq_refl.
+
+Definition sols_of_comma_initial {C D : Category} (U : C ⟶ D) (d : D)
+  (I : @Initial (=(d) ↓ U)) : SolutionSet U d :=
+  sols_of_wif U d (weakly_initial_of_initial I).
 
 (* The one member is the initial comma object, on the nose. *)
 Example sols_of_comma_initial_index {C D : Category} (U : C ⟶ D) (d : D)
