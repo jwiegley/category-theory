@@ -214,12 +214,12 @@ Generalizable All Variables.
    ** The colimit half
 
    Clause (ii) of Proposition 4.6.14 -- colimits in the subcategory,
-   obtained by applying the reflector -- is NOT proved here.  It belongs
-   to issue #434 ("MacLane V.5: A full reflective subcategory of a
-   cocomplete category is cocomplete"), whose module is
-   Construction/Reflective/Colimit.v; that issue is open.  The ingredient
-   it will want, [left_adjoint_PreservesColimitCocone]
-   (Adjunction/Continuity.v:246), already exists.
+   obtained by applying the reflector -- is NOT proved here.  It is #434's
+   ("MacLane V.5: A full reflective subcategory of a cocomplete category is
+   cocomplete"), Construction/Reflective/Colimit.v: [reflective_colimit] and
+   [reflective_Cocomplete], from [lapc_is_acolimit] (Adjunction/Continuity.v
+   :264) and Theory/Equivalence/Colimit.v's transport along the counit
+   isomorphism whiskered into a diagram isomorphism; no creation is claimed.
 
    ** Strengths, strict first
 
