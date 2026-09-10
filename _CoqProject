@@ -827,6 +827,7 @@ Theory/Universal/Element/Elements.v
 Theory/Universal/Element/Examples.v
 Theory/WeaklyInitial.v
 Theory/WeaklyInitial/Wide.v
+Theory/WeaklyInitial/Sets.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/ProbeDensity346.v
@@ -959,3 +960,4 @@ Construction/FreeMonoidal/Normal.v
 Construction/FreeMonoidal/Universal.v
 Test/ProbeZp409.v
 Test/ProbeReflectiveColimit434.v
+Test/ProbeWeaklyInitial435.v

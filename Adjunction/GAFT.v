@@ -253,3 +253,34 @@ Proof.
                         => iprod (wif_obj W) P)))
             (Complete_HasEqualizers HCat)).
 Qed.
+
+(** ** The converse of [wif_of_sols]
+
+    An initial object of the comma category is a one-member solution set:
+    Mac Lane §V.6 Theorem 1's necessity direction, in this file's
+    vocabulary (#435).  Appended here so that no line above moves. *)
+
+Definition sols_of_comma_initial {C D : Category} (U : C ⟶ D) (d : D)
+  (I : @Initial (=(d) ↓ U)) : SolutionSet U d.
+Proof.
+  unshelve refine
+    {| sol_index := poly_unit
+     ; sol_obj := fun _ => snd (`1 (@initial_obj (=(d) ↓ U) I))
+     ; sol_arr := fun _ => `2 (@initial_obj (=(d) ↓ U) I) |}.
+  intros c h.
+  exists ttt.
+  destruct (@zero (=(d) ↓ U) I (((ttt, c); h) : (=(d) ↓ U))) as [[u t] sq].
+  exists t.
+  simpl in sq |- *.
+  now rewrite <- sq, id_right.
+Defined.
+
+(* The one member is the initial comma object, on the nose. *)
+Example sols_of_comma_initial_index {C D : Category} (U : C ⟶ D) (d : D)
+  (I : @Initial (=(d) ↓ U)) :
+  sol_index (sols_of_comma_initial U d I) = poly_unit := eq_refl.
+
+Example sols_of_comma_initial_obj {C D : Category} (U : C ⟶ D) (d : D)
+  (I : @Initial (=(d) ↓ U)) (u : poly_unit) :
+  sol_obj (sols_of_comma_initial U d I) u
+    = snd (`1 (@initial_obj (=(d) ↓ U) I)) := eq_refl.
