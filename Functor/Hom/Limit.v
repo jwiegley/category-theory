@@ -237,12 +237,12 @@ Generalizable All Variables.
    not addressed in either direction.  Nothing is proved about
    REFLECTION or CREATION of limits ([ReflectsLimitCone], [CreatesLimit]
    are untouched).  The canonical comparison map is not instantiated:
-   [comparison_iso_of_PreservesLimitCone] would give its invertibility
-   from the headline, and that composition is not performed.  The result
+   [comparison_iso_of_PreservesLimitCone] gives its invertibility from the
+   headline, performed since #428 in Functor/Hom/Continuous.v.  The result
    is per-object: [Curried_Hom C : C^op ⟶ [C, Sets]] is NOT shown
    continuous, no limit is computed in a functor category, and the
-   family [c ↦ the preserved cone] is not exhibited as natural in c --
-   there is no statement in [[C^op, Sets]] anywhere below.  No relation
+   family [c ↦ the preserved cone] is not exhibited as natural in c here
+   (#428's [remark2_natural] is the equation; none in [[C^op, Sets]]).  No relation
    is drawn to RAPL (Adjunction/Continuity.v) or to the Yoneda
    development; the two are neither derived from nor used by this file.
    The nullary case (terminal objects) is not stated separately.  On the

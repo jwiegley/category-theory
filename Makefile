@@ -7517,6 +7517,60 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.strict_self.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_map_is_fmap.'; \
 	} >> .pa-tmp/pa.v
+||||||| parent of 7737109d (Hom-functor continuity in isomorphism form: Remark 2 natural in c, its dual, the Riehl (3.5.1) round trip, the end/limit bridge, and transport of preservation (Mac Lane V.4 Thm 1, Remarks 1-3; Awodey 5.5, 7.2; Riehl 3.5))
+	@{ \
+	  echo 'Require Import Category.Functor.Hom.Continuous.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_carries_colimits_to_limits.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_icoprod_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_nat_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_of_nat_mor.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_to_limtuple.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.ContinuousFunctor_transport.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_coneiso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_Limit.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_limtuple_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.end_to_limtuple.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.fun_equiv_whisker.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.hom_continuous_at.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.hom_iprod_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.hom_preserves_limits.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.homend_functor.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.HomFrom_at.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.homimg_islimit.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.homlim_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.homlim_islimit.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.homlim_reindex.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.limtuple_cone_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.limtuple_to_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.limtuple_to_end.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.nat_of_cone_mor.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.PreservesLimitCone_transport.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_comparison.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_comparison_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_coneiso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_reindexed_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark3_iso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_coneiso.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_isalimit.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_islimitcone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_icoprod_iso_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_icoprod_iso_to.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_nat_cone.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_of_nat_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.hom_iprod_iso_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.hom_iprod_iso_to.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.nat_cone_nat.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.nat_of_cone_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_iso_from.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_iso_legs.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark2_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark3_natural.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_coneiso_legs.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
