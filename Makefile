@@ -7170,6 +7170,69 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.FinSet.Limit.finset_eq_example_diagram.'; \
 	  echo 'Print Assumptions Category.Instance.FinSet.Limit.FinSet_FinitelyComplete_parallel_computes.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Subcategory.Creation.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.ClosedUnderLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_lift_apex.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_lift_leg.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_cone_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_ReflectsLimitCone.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Construction.Subcategory.Creation.sub_Complete.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Top.CompHaus.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_is_CompactHausdorffSpaces.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Incl.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Incl_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Incl_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.finite_inter.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.finite_inter_open.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.finite_inter_all.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.finite_inter_In_False.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.compl_pts.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_nonequal.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepA.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepB.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepA_open.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepB_open.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepA_at.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sepB_at.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_disjoint.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_cover_idx.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_cover.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_cover_covers.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_subcover.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_subcover_covers.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sep_fam.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.nbhd.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.nbhd_open.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.nbhd_at.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.nbhd_inside.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.inverse_open_of_decidable.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.inverse_continuous_of_decidable.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.compact_hausdorff_bijection_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_boxdata.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_open.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_squash_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_squash_pair.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.Top_sq_product.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_fst_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_snd_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_fst_continuous.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_snd_continuous.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.Top_sq_fst.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.Top_sq_snd.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.sq_fork_map.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Forget_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Incl_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Top.CompHaus.CompHaus_Complete_of.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
