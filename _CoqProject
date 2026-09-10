@@ -303,6 +303,7 @@ Instance/Fun.v
 Instance/Fun/Eval.v
 Instance/Fun/Eval/Cat.v
 Instance/Fun/Limit.v
+Instance/Fun/Creation.v
 Instance/Fun/Cartesian.v
 Instance/Fun/Terminal.v
 Instance/Fun/Closed.v
@@ -934,6 +935,7 @@ Test/ProbeCoreflexive421.v
 Test/ProbeFreyd423.v
 Test/ProbeFunEval424.v
 Test/ProbeFunLimit425.v
+Test/ProbeFunCreation426.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

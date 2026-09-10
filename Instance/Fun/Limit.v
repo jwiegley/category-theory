@@ -35,7 +35,7 @@ Generalizable All Variables.
    evaluation at any object preserves all limits.  Colimits are the dual
    statement over the opposite categories; they are #715's and are not
    written here.  Creation of limits along the discrete inclusion
-   (Theorem 2) is #426's.
+   (Theorem 2) is Instance/Fun/Creation.v's (#426).
 
    STALE PREMISES, RE-MEASURED.
      - "There is no [Terminal] structure on [C, D]": Instance/Fun/Terminal.v:362
@@ -199,7 +199,7 @@ Generalizable All Variables.
        preserving colimits): #715's, superseding the issue's Work item 2
        clause; not one colimit line is written.
      - Creation of limits by evaluation or along the discrete inclusion
-       (Theorem 2): #426's.
+       (Theorem 2): Instance/Fun/Creation.v's (#426).
      - A [HasLimitsOfShape]-typed statement inside this file (the unfolded
        form is delivered; the class is imported only by the probe).
      - Any comparison of [Functor_Category_pointwise_limit] with
