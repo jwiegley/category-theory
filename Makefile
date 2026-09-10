@@ -7259,7 +7259,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_cone_leg.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_IsIndexedProduct_of_IsLimitCone.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.discrete_IsLimitCone_of_IsIndexedProduct.'; \
-	  echo 'Print Assumptions Category.Structure.Limit.Comparison.DiscreteCat_Functor'.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Comparison.DiscreteCat_Functor'"'"'.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.IsIndexedProduct_binary.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.IsIndexedProduct_nullary.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.nullary_cone.'; \
