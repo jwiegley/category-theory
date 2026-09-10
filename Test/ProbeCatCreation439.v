@@ -19,11 +19,19 @@
     the same object from an equality.
 
     The [eq_refl] readbacks are positive controls: the strict lift's apex
-    and legs lie over the given cone downstairs, the fibre-product square
-    commutes definitionally at every index, and the two Verification-block
-    aliases are the constants they name.  Each refutation was stripped one
-    at a time in a copy of the whole file; the import list mirrors the
-    target's. *)
+    and legs lie over the given cone downstairs, and the two
+    Verification-block aliases are the constants they name.  Each
+    refutation was stripped one at a time in a copy of the whole file, and
+    the import list contains the target's in full (plus the target itself
+    and Construction/Comma/Creation, which the negatives name) — an earlier
+    revision said "mirrors the target's" while omitting
+    Category.Adjunction.Continuity and Category.Instance.Adjoints, the
+    short-import shape that makes probes pass vacuously.
+
+    One caveat on [p439_square], stated so it is not read for more than it
+    is: [fp_square_obj]'s definiens IS [`2 (K j)], so that readback pins the
+    definition's TRANSPARENCY, not the commutation of the square.  The other
+    seven accepted controls compare genuinely distinct expressions. *)
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -41,6 +49,8 @@ Require Import Category.Construction.Quotient.
 Require Import Category.Construction.Comma.
 Require Import Category.Construction.Slice.
 Require Import Category.Construction.Slice.Adjunction.
+Require Import Category.Adjunction.Continuity.
+Require Import Category.Instance.Adjoints.
 Require Import Category.Construction.Slice.Creation.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.One.
@@ -147,6 +157,26 @@ Example p439_alias_ex4 {C D : Category} (U : C ⟶ D) (d : D)
   comma_creates_limits_second_proof U d HU K
     = comma_proj2_creates_second U d HU K := eq_refl.
 
+(** ** C2: the two negatives the prose states, pinned as type ascriptions
+
+    A bare [Check] pins existence, not the argument list.  These two pin
+    what the header actually claims: Exercise 3 takes NO [ObjUIP] (its
+    binders are exactly these), and [CreatesLimit_transport] carries
+    CREATION, not strictness. *)
+
+Example p439_ex3_takes_no_uip :
+  ∀ {A B C : Category} (F : A ⟶ C) (G : B ⟶ C) {J : Category}
+    (K : J ⟶ FibreProduct F G),
+    StrictlyCreatesLimit (FP_fst F G ◯ K) F →
+    PreservesLimitCone (FP_snd F G ◯ K) G →
+    StrictlyCreatesLimit K (FP_snd F G)
+  := @fp_snd_StrictlyCreatesLimit.
+
+Example p439_transport_is_creation :
+  ∀ {J C D : Category} {K : J ⟶ C} {F F' : C ⟶ D},
+    F ≈ F' → CreatesLimit K F → CreatesLimit K F'
+  := @CreatesLimit_transport.
+
 (** ** D: guard block *)
 
 Check @cast_solve.
@@ -183,7 +213,9 @@ Check @fp_lift_limiting.
 Check @fp_reflect.
 Check @fp_snd_StrictlyCreatesLimit.
 Check @fp_snd_CreatesLimit.
+Check @fp_snd_StrictlyCreatesLimits.
 Check @fp_snd_CreatesAllLimits.
+Check @FP_commutes_cat.
 Check @creation_pullback_stable.
 Check @Comma_to_FP.
 Check @FP_to_Comma.

@@ -12,7 +12,6 @@ Require Import Category.Structure.Limit.Creation.
 Require Import Category.Structure.Complete.
 Require Import Category.Construction.Quotient.
 Require Import Category.Construction.Comma.
-Require Import Category.Construction.Slice.
 Require Import Category.Construction.Slice.Adjunction.
 Require Import Category.Construction.Slice.Creation.
 Require Import Category.Functor.Diagonal.
@@ -41,12 +40,21 @@ Generalizable All Variables.
    READ THE FIRST WORD OF THAT PRECISELY, because the tree already refutes
    the naive reading.  Instance/Cat/Pullback.v proves
    [FibreProduct_not_Cat_pullback]: the fibre product of categories is NOT a
-   pullback in [Cat].  What it is is a pullback in [StrictCat], and even
-   there only under [ObjUIP C] ([FibreProduct_IsPullback]); whether [Cat]
-   has pullbacks at all is neither proved nor refuted anywhere.  So the
-   honest Exercise 3 is a theorem about [FibreProduct] — the object that IS
-   the pullback where the tree can say so — and that is what is proved here.
-   Nothing below asserts a pullback square in [Cat].
+   pullback in [Cat].  Read THAT narrowly in turn, as its own file insists
+   (Instance/Cat/Pullback.v:64-67, :553-555): it is a refutation AT ONE
+   COSPAN, [1 --true--> Indiscrete bool <--false-- 1], where the apex is
+   object-empty; the same cospan does have a [Cat] pullback, and nothing in
+   the tree refutes [FibreProduct (Coslice_Proj d) U] as a [Cat] pullback of
+   ITS cospan.  (An earlier revision of this header, of the commit message
+   and of the docs/INDEX.md bullet said the coslice apex was "refuted for
+   this object"; measured, the refutation is at the [Indiscrete bool]
+   cospan and says nothing about the coslice one.)  What the fibre product
+   is is a pullback in [StrictCat], and even there only under [ObjUIP C]
+   ([FibreProduct_IsPullback]); whether [Cat] has pullbacks at all is
+   neither proved nor refuted anywhere.  So the honest Exercise 3 is a
+   theorem about [FibreProduct] — the object that IS the pullback where the
+   tree can say so — and that is what is proved here.  Nothing below asserts
+   a pullback square in [Cat].
 
    Two things are worth naming before the statements.
 
@@ -67,14 +75,30 @@ Generalizable All Variables.
    both [StrictLift] fields come out [eq_refl] and [reflexivity], at every
    limiting cone downstairs.
 
-   The generic kit — [CreatesLimit_transport] and the two [IsLimitCone]
-   transports it rests on — is not about [Cat] at all, and its natural home
+   The generic kit — [CreatesLimit_transport] and the [IsLimitCone]
+   transport it rests on — is not about [Cat] at all, and its natural home
    is Structure/Limit/Creation.v, where appending is line-neutral for all
-   fifteen of that file's citations (the highest is :439 in a 518-line
-   file).  It lives here instead, for this change, because that costs no
-   rebuild of that file's large reverse-dependency set and because it is
-   where #428 put the analogous [PreservesLimitCone_transport]
-   (Functor/Hom/Continuous.v:367).  A later move costs nothing. *)
+   fifteen of that file's citations (the highest is :440, the upper
+   endpoint of the range cited at doc/plan/books/qa; an earlier revision of
+   this sentence said :439, the highest single-line citation, and both are
+   inside the 518-line file).  It lives here instead, for this change,
+   because that costs no rebuild of that file's large reverse-dependency
+   set and because it is where #428 put the analogous
+   [PreservesLimitCone_transport] (Functor/Hom/Continuous.v:367).  A later
+   move costs nothing.
+
+   Of the two [IsLimitCone] transports below only [islimitcone_dtransport_inv]
+   is consumed; [islimitcone_dtransport] is its mirror image, shipped for
+   symmetry with NO consumer in this file or anywhere in the tree.  An
+   earlier revision of this sentence said the kit rests on both.
+
+   Two further disclosures of prior art, neither of them reuse.
+   [fp_square_iso] re-derives a fact Instance/Cat/Pullback.v:388 already
+   carries as [FP_commutes_cat : F ∘[Cat] FP_fst ≈[Cat] G ∘[Cat] FP_snd]:
+   whiskering that with this file's own [fun_equiv_whisker_r] typechecks at
+   exactly [fp_square_iso]'s type, though the two terms are not convertible.
+   And [fun_equiv_whisker_r] itself is written as a tactic proof for a
+   version reason recorded at its definition. *)
 
 (** ** Cast algebra, with all endpoints variables *)
 
@@ -201,7 +225,9 @@ End DiagTransport.
    expected type, their elaborator compares [fmap[F ◯ K] f] with
    [fmap[F] (fmap[K] f)] by unification rather than by conversion and
    reports "cannot unify".  [exact] uses full conversion and is accepted by
-   all three. *)
+   all three.  The [Defined] is load-bearing: [CreatesLimit_transport]'s
+   proof does a [change] through this definition's first component, and
+   [Qed] here stops the file at that step with "Not convertible". *)
 
 Definition fun_equiv_whisker_r {J C D : Category} {F F' : C ⟶ D}
   (e : F ≈ F') (K : J ⟶ C) : (F ◯ K) ≈ (F' ◯ K).
@@ -472,6 +498,18 @@ End Create.
 
 End Ex3.
 
+(* The all-shapes packaging comes in both strengths, and the strict one is
+   the same term: [fp_snd_StrictlyCreatesLimit] is already strict at every
+   diagram, so quantifying over shapes costs nothing.  An earlier revision
+   shipped only [fp_snd_CreatesAllLimits], silently dropping the strictness
+   the per-diagram theorem has. *)
+
+Definition fp_snd_StrictlyCreatesLimits
+  {A B C : Category} (F : A ⟶ C) (G : B ⟶ C)
+  (SF : StrictlyCreatesLimits F) (HG : ContinuousFunctor G) :
+  StrictlyCreatesLimits (FP_snd F G) :=
+  fun J K => fp_snd_StrictlyCreatesLimit F G K (SF J _) (HG J _).
+
 Definition fp_snd_CreatesAllLimits
   {A B C : Category} (F : A ⟶ C) (G : B ⟶ C)
   (SF : StrictlyCreatesLimits F) (HG : ContinuousFunctor G) :
@@ -624,10 +662,13 @@ Next Obligation.
     symmetry; apply id_right.
 Qed.
 
-(* An ISOMORPHISM in [Cat] — not a pullback in [Cat], which the tree
-   refutes for this object, and not a pullback in [StrictCat] either, since
-   the round trip carries [id ∘ φ] rather than [φ] and so does not transport
-   [FibreProduct_IsPullback] across. *)
+(* An ISOMORPHISM in [Cat].  Not a pullback in [Cat]: the tree refutes the
+   fibre product as a [Cat] pullback at one cospan (the [Indiscrete bool]
+   one), and nothing here establishes or refutes it at this cospan.  And
+   THIS ROUTE does not yield a pullback in [StrictCat] either, since the
+   round trip carries [id ∘ φ] rather than [φ] and so does not transport
+   [FibreProduct_IsPullback] across — that is this comparison coming up
+   short, not a proof that no comparison works. *)
 
 Program Definition Comma_FP_iso : (=(d) ↓ U) ≅[Cat] FP := {|
   to := Comma_to_FP; from := FP_to_Comma
@@ -644,11 +685,26 @@ End CommaAsFibreProduct.
 (** ** Exercise 4: the comma projection creates limits, by that route *)
 
 (* This reaches the conclusion #438's [comma_CreatesAllLimits] already
-   reaches, by a different argument, and it is WEAKER in both directions:
-   it takes the all-shapes [ContinuousFunctor U] where that one takes the
-   per-diagram [PreservesLimitCone (Gdiag K) U], and it concludes
-   [CreatesLimit] where that one concludes [StrictlyCreatesLimit].  It is a
-   cross-check of the pullback route, not a strengthening. *)
+   reaches, by a different argument.  It is a CROSS-CHECK, not a
+   strengthening — but state the comparison against the right constant.
+
+   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:679) the
+   two are of EQUAL strength.  That one takes [PreservesImageLimit], which
+   quantifies over every shape just as [ContinuousFunctor U] does — indeed
+   the two premises are interderivable by identity functions in that very
+   file, [PreservesImageLimit_Continuous] at :227 and
+   [Continuous_PreservesImageLimit] at :232 — and it concludes
+   [CreatesAllLimits], which is pointwise [CreatesLimit], not
+   [StrictlyCreatesLimit].
+
+   The "weaker in both directions" comparison is true, and is true only, of
+   #438's [comma_StrictlyCreatesLimit] (:556), which takes the per-diagram
+   [PreservesLimitCone (Gdiag K) U] and concludes [StrictlyCreatesLimit].
+   An earlier revision of this comment, of the commit message and of the
+   docs/INDEX.md bullet made that comparison against
+   [comma_CreatesAllLimits], which has neither that premise nor that
+   conclusion; measured with [Check], the claim was false in both halves,
+   and it under-sold this route while over-stating that constant. *)
 
 Section Ex4.
 

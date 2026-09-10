@@ -8027,6 +8027,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_reflect.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_snd_StrictlyCreatesLimit.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_snd_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_snd_StrictlyCreatesLimits.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_snd_CreatesAllLimits.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.creation_pullback_stable.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.Comma_to_FP.'; \
