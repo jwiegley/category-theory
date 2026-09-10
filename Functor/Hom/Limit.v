@@ -236,7 +236,7 @@ Generalizable All Variables.
    apex-only readings is proved for them.  Cocontinuity of [Hom c,─] is
    not addressed in either direction.  Nothing is proved about
    REFLECTION or CREATION of limits ([ReflectsLimitCone], [CreatesLimit]
-   are untouched).  The canonical comparison map is not instantiated:
+   are untouched).  The canonical comparison map is not instantiated here:
    [comparison_iso_of_PreservesLimitCone] gives its invertibility from the
    headline, performed since #428 in Functor/Hom/Continuous.v.  The result
    is per-object: [Curried_Hom C : C^op ⟶ [C, Sets]] is NOT shown

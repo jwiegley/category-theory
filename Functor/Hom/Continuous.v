@@ -76,8 +76,10 @@ Generalizable All Variables.
        [HomDiagram c F] (Structure/Limit/Weighted.v:49): the two agree on
        objects and on the ACTION of [fmap], both at [eq_refl], and differ at
        the whole [fmap] field, whose respectfulness proof is an opaque
-       [Program] obligation discharged differently in Functor/Hom.v:72-76
-       and Weighted.v:54-56 (probe N1, beside its two accepted controls).  A
+       [Program] obligation: [Curried_Hom]'s ([Curried_Hom_obligation_1],
+       discharged by Functor/Hom.v's default obligation tactic, no line of
+       its own) against [HomDiagram]'s (Weighted.v:54-56, written out) —
+       probe N1, beside its two accepted controls.  A
        naming gap, not a mathematical one; this file states Remark 2 over
        the composite (#331's vocabulary) and the Riehl items over
        [HomDiagram] (Weighted.v's), and builds no bridge.
@@ -87,11 +89,12 @@ Generalizable All Variables.
        related [Sets_End] to [Limit]; [wlim_natural] is naturality of the
        composite through C(X, lim F), not of (3.5.1) itself.
      - Work item 4's "discharge the Instance/Ens.v header caveat": that
-       header carries no universe caveat (a search of the file for
-       "universe" and "caveat" finds none); it explains that [Ens] is not
-       the classical category of sets.  Nothing to discharge; not edited.
+       header carries no universe caveat (a search of the file finds
+       "caveat" nowhere and "universe" only at :41, describing [EnsV] as Mac
+       Lane's set-sized sub-universe); it explains that [Ens] is not the
+       classical category of sets.  Nothing to discharge; not edited.
 
-   WHAT IS DELIVERED (50 named constants plus 19 [Program] obligations,
+   WHAT IS DELIVERED (51 named constants plus 19 [Program] obligations,
    every one closed under the global context).
      (A) TRANSPORT (Awodey §7.2).  For [e : F ≈ G] (a natural isomorphism of
          functors C ⟶ D): [fun_equiv_whisker] (whiskering [e] by a diagram;
@@ -137,9 +140,11 @@ Generalizable All Variables.
          [comparison_iso_of_PreservesLimitCone] that Functor/Hom/Limit.v's
          header recorded as not performed.
      (E) REMARK 3.  [remark3_iso c : Sets_limit_obj (HomTo c ◯ F^op) ≅
-         C(colim F, c)] and [remark3_natural], both [:=] instantiations of
-         (D) at [(J^op, C^op, F^op)]: [Colimit F] IS [Limit F^op] and
-         [HomTo c] IS [HomFrom c] on [C^op], so no tactic is needed.
+         C(colim F, c)] and [remark3_natural], instantiations of (D) at
+         [(J^op, C^op, F^op)] — the first a bare [:=], the second a one-line
+         [exact] under [Qed]: [Colimit F] IS [Limit F^op]
+         (Structure/Limit.v:158) and [HomTo c] IS [HomFrom c] on [C^op], so
+         no proof step beyond the instantiation is needed.
      (F) THE PRODUCT AND COPRODUCT INSTANCES AS ISOMORPHISMS.  [hom_iprod_iso
          : C(c, ∏ aᵢ) ≅[Sets] ∏ᵢ C(c, aᵢ)] and [cohom_icoprod_iso : C(∐ aⱼ,
          c) ≅[Sets] ∏ⱼ C(aⱼ, c)] by Structure/Limit/Product/Finite.v's
@@ -150,36 +155,59 @@ Generalizable All Variables.
          precomposition with the injections) and naturality in c
          ([hom_iprod_iso_natural], [cohom_icoprod_iso_natural]); Awodey's
          coproduct remark is the second.
-     (G) REMARK 1.  [HomFrom_at@{o h s +} : C ⟶ Sets@{h s}] and
-         [hom_continuous_at : ContinuousFunctor HomFrom_at] for every
-         relation level [s > h]: see UNIVERSES for exactly what "any
-         universe of sets" means here.
+     (G) THE ISSUE'S NAMES, AND REMARK 1.  [hom_preserves_limits] and
+         [cohom_carries_colimits_to_limits], aliases of #331's
+         [hom_ContinuousFunctor] and [cohom_colimit_to_limit]; Awodey §7.2's
+         remark as stated, [representable_iso_ContinuousFunctor : HomFrom c ≈
+         G → ContinuousFunctor G], one application of (A) to #331; and
+         [HomFrom_at@{o h s +} : C ⟶ Sets@{h s}] with [hom_continuous_at :
+         ContinuousFunctor HomFrom_at] for every level [s > h] of the
+         universe HOLDING Sets' objects — see UNIVERSES for exactly how
+         little of "any universe of sets" that is.
 
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 50
    constants).
-     - REMARK 1, HALF TRUE.  [Sets@{h s}] is a category at [Category@{s h h}]
-       and [HomFrom c] lands in [Sets@{h s}] for [C : Category@{o h h}] with
-       [h < s]: the RELATION level [s] of the target is free above the
-       carrier level, and the theorem is ONE universe-polymorphic constant
-       instantiating at every level of Sets — that is the sense in which the
-       statement "holds into any universe of sets".  The CARRIER level is
-       PINNED to C's hom level: the hom-functor of a FIXED C cannot be read
-       into a strictly larger universe of sets (probe N2: [HomFrom cw : Cw ⟶
-       Sets@{hbig sbig}] under [Constraint h1 < hbig] is refused, "Cannot
-       enforce h1 = hbig because h1 < hbig", beside the accepted [Sets@{h1
-       sbig}] control).  Lifting would need a Sets-to-Sets lift functor,
-       which the tree does not have; not claimed.
-     - SHAPES.  All 40 constants with a shape J in their context identify
-       J's hom level with the hom level of the category carrying the limit
-       ([u0 = u2] in their blocks; [PreservesLimitCone], [Limit] and [Cone]
-       identify shape hom with ambient hom); in section (A) the equation
-       [u0 = u2] instead reads C's hom = D's hom and five of its eight
-       constants add [u0 = u7] for J.  The eight Remark 2/3 constants stated
-       against [L : Limit F] add [u0 = u3], the limit's own level.  Every
-       object level stays free of equations.
-     - SMALLNESS, THE FOOTNOTE RIEHL SIDESTEPS.  23 constants carry
-       [u <= u2]: J's OBJECT level at or below C's hom level, which is Sets'
-       carrier level — every constant that forms [Sets_Limit] /
+     - REMARK 1, DELIVERED ONLY AS POLYMORPHISM OVER C.  [Sets@{o so} :
+       Category@{so o o}] (Instance/Sets.v:198) instantiates
+       [SetoidObject@{o o}], so a set's CARRIER and RELATION levels are one
+       level [o], and the second parameter [so] is only the level of the
+       universe HOLDING the collection of setoids — Sets' object level.
+       [HomFrom c] lands in [Sets@{h s}] for [C : Category@{o h h}] with
+       [h < s]: every set in its image has carrier AND relation at C's hom
+       level [h], and what [HomFrom_at] / [hom_continuous_at] vary is [s]
+       alone, which says nothing about the size of the sets.  The
+       hom-functor of a FIXED C cannot be read into a strictly larger
+       universe of sets (probe N2: [HomFrom cw : Cw ⟶ Sets@{hbig sbig}]
+       under [Constraint h1 < hbig] is refused, "Cannot enforce h1 = hbig
+       because h1 < hbig", beside the accepted [Sets@{h1 sbig}] control).
+       What survives of Mac Lane's Remark 1 is that the theorem is ONE
+       universe-polymorphic constant, instantiable at any C and hence at any
+       hom level; a lift would need a Sets-to-Sets lift functor, which the
+       tree does not have.  (An earlier revision of this paragraph called
+       [s] "the relation level" and the remark "half true"; measured, [s] is
+       the object level and the remark holds only as polymorphism over C.)
+     - SHAPES.  40 of the first 50 blocks carry [u0 = u2]: the 39
+       shape-indexed constants other than [cohom_carries_colimits_to_limits]
+       (whose J and C already share their hom variable in the binder, so the
+       identification needs no equation), where it reads J's hom = the hom
+       of the category carrying the limit ([PreservesLimitCone], [Limit] and
+       [Cone] identify shape hom with ambient hom), plus
+       [ContinuousFunctor_transport], where — as for all of section (A) — it
+       reads C's hom = D's hom; five of section (A)'s eight constants add
+       [u0 = u7] for J.  Of the ten constants taking [L : Limit F], eight
+       add [u0 = u3], the limit's own level ([homimg_islimit] and
+       [remark2_comparison] carry [u0 = u2] alone).  Every object level
+       stays free of equations; the 51st block, [representable_iso_ContinuousFunctor]'s,
+       carries no equation.  (An earlier revision said "all 40 constants
+       with a shape J" and "the eight … stated against L"; both descriptors
+       are corrected above to the sets the criteria pick out.)
+     - SMALLNESS, THE FOOTNOTE RIEHL SIDESTEPS.  23 constants carry the
+       bound J's OBJECT level ≤ C's hom level, which is Sets' carrier level
+       ([u <= u2] with [u] J's object level; the same string occurs in three
+       further, shape-free blocks — [cohom_icoprod_iso],
+       [cohom_icoprod_iso_to], [hom_iprod_iso_natural] — where [u] is C's
+       object level or the shared index binder, 26 textual matches in all)
+       — every constant that forms [Sets_Limit] /
        [Sets_limit_cone] of the hom-diagram or the functor category
        [[J, Sets]] (whose hom quantifies over J's objects); sections (B),
        (C), (D), (E) except the pure carrier maps ([end_to_limtuple],
@@ -206,20 +234,20 @@ Generalizable All Variables.
        Category@{u8 u9 u9}], [Category@{u4 u5 u5}]) and carry no equation,
        like their donors — measured against [hom_ContinuousFunctor] and
        [cohom_colimit_to_limit] before deciding not to annotate them
-       (Instance/Fun/Limit.v's and Instance/Fun/Creation.v's aliases did
-       minimize; this pair does not).
+       (Instance/Fun/Limit.v's corollaries did minimize when written bare;
+       this pair does not).
      - No word-bounded [Set], no [JMeq] / [EqdepFacts] / [eq_rect_r] in any
-       block; [end_Limit] carries stdlib [prod_rect] bounds from the product
-       shape [J^op ∏ J].
+       block; the eight constants of section (C) and their seven obligations
+       carry stdlib [prod_rect] bounds from the product shape [J^op ∏ J].
 
    COUNTS AND CONVENTIONS.
-     - 50 [.glob] declaration heads (37 [def], 13 [prf]) plus 19 [Program]
+     - 51 [.glob] declaration heads (38 [def], 13 [prf]) plus 19 [Program]
        obligations the [.glob] cannot see ([cone_nat_iso] 2,
        [cone_of_nat_mor] 1, [cone_to_limtuple] 1, [end_cone] 1,
        [end_limtuple_iso] 2, [end_to_limtuple] 2, [homlim_reindex] 2,
        [limtuple_cone_iso] 2, [limtuple_to_cone] 2, [limtuple_to_end] 2,
        [nat_of_cone_mor] 1, [remark2_reindexed_cone] 1), all "Closed under
-       the global context", zero [Axioms:] lines; the gate carries the 50
+       the global context", zero [Axioms:] lines; the gate carries the 51
        heads, fully qualified, the issue's two names among them.
        [Obligation Tactic := idtac] locally, so every obligation is written
        out (189 files in the tree do the same).
@@ -236,13 +264,17 @@ Generalizable All Variables.
        lines duplicating a landed mediator, so it stays; Functor/Hom/Limit.v
        2, Instance/Sets/Complete.v 2, Instance/Sets/End.v 1,
        Structure/Limit/Product/Finite.v 1, Structure/Limit/Weighted.v 1, the
-       other 21 [Require]s 0.  Zero name collisions: each of the 50 names
-       has 0 word occurrences elsewhere in the tree.
+       other 21 [Require]s 0.  Name collisions: each of the 51 names has 0
+       word occurrences in any other [.v] file, except the mention of
+       [remark2_natural] this commit adds to Functor/Hom/Limit.v's header
+       prose.  Full [make] on Rocq 9.1 and the Coq 8.19/8.20 Nix source
+       builds are run before push and recorded on the pull request and by
+       CI, not claimed here.
      - Test/ProbeHomContinuous428.v mirrors the [Require] list and carries 4
        refutation commands (1 instrument + N1 CONVERSION + N2 UNIVERSE + N3
        UNIVERSE), each stripped one at a time in a copy of the whole file
        and each beside its accepted controls (the objectwise and elementwise
-       [eq_refl]s for N1; the free relation level for N2; the hom-diagram
+       [eq_refl]s for N1; the free object level of Sets for N2; the hom-diagram
        and #331's preservation at the large shape for N3); five [eq_refl]
        readbacks; guard coverage 24 identifier tokens inside the
        refutations / 21 also named outside, comments stripped, with three
@@ -251,8 +283,8 @@ Generalizable All Variables.
        [Sets_Limit], [fmap], [carrier], [remark2_iso], [end_Limit],
        [hom_PreservesLimitCone], [hom_continuous_at], [HomFrom_at], [Sets],
        [ContinuousFunctor]; module paths excluded), every first break on a
-       positive line.  [make todo] grows by those 4 lines only (2226 → 2230
-       over master 969ac56e), so the issue's "adds no new hits" box is not
+       positive line.  [make todo] grows by those 4 lines only (2233 → 2237
+       over master 1de68608), so the issue's "adds no new hits" box is not
        met as written; disclosed.
      - Two sentences of Functor/Hom/Limit.v's NOT DELIVERED block (the
        comparison instantiation, naturality in c) now point here;
@@ -675,8 +707,10 @@ Qed.
 
 (** * G. The issue's names, and Mac Lane's Remark 1 on universes *)
 
-(* The issue's two pinned names, as aliases of #331's theorems.  ANNOTATED
-   (measured; see the header): written bare they minimize. *)
+(* The issue's two pinned names, as aliases of #331's theorems.  NOT
+   annotated: measured against their donors, written bare they do not
+   minimize (see the header's UNIVERSES; an earlier revision of this comment
+   said the opposite). *)
 Definition hom_preserves_limits {C : Category} (c : C) :
   ContinuousFunctor (@HomFrom C c) := hom_ContinuousFunctor c.
 
@@ -684,10 +718,18 @@ Definition cohom_carries_colimits_to_limits {C : Category} (c : C)
   {J : Category} {K : J ⟶ C} (N : Cocone K) (HN : IsColimitCocone N) :
   IsLimitCone (FCone (HomTo c) N) := cohom_colimit_to_limit c N HN.
 
-(* Remark 1, as far as the tree supports it: the RELATION level of the
-   target [Sets] is free above the carrier level, so the hom-functor of a
-   category at hom level [h] is continuous into [Sets@{h s}] for every
-   [s > h].  The CARRIER level is pinned to [h] (probe N2). *)
+(* Awodey §7.2's remark as stated: a functor naturally isomorphic to a
+   representable preserves limits — one application of section A to #331. *)
+Definition representable_iso_ContinuousFunctor {C : Category} (c : C)
+  {G : C ⟶ Sets} (e : @HomFrom C c ≈ G) : ContinuousFunctor G :=
+  ContinuousFunctor_transport e (hom_ContinuousFunctor c).
+
+(* Remark 1, as far as the tree supports it: [Sets@{o so} : Category@{so o o}]
+   keeps every set's carrier and relation at one level [o], and [so] is only
+   the level of the universe holding the collection of setoids.  So the
+   hom-functor of a category at hom level [h] is continuous into
+   [Sets@{h s}] for every [s > h] — its sets stay at level [h] throughout
+   (probe N2 pins the refusal at a larger carrier level). *)
 Definition HomFrom_at@{o h s +} {C : Category@{o h h}} (c : C) :
   C ⟶ Sets@{h s} := @HomFrom C c.
 

@@ -4,11 +4,12 @@
     continuity: one CONVERSION refusal (N1: the two presentations of the
     hom-diagram, [HomFrom c ◯ F] and [HomDiagram c F], agree on objects and
     on the action of [fmap] but not at the [fmap] field, an opaque
-    [Program] obligation) and two UNIVERSE refusals (N2: the carrier level
-    of the target [Sets] is pinned to the hom level of the source, so the
-    hom-functor of a fixed category cannot be read into a strictly larger
-    universe of sets, while the relation level is free — Mac Lane's Remark
-    1 as far as it holds; N3: the [Sets] limit of the hom-diagram needs the
+    [Program] obligation) and two UNIVERSE refusals (N2: the carrier and
+    relation levels of every set in the target are pinned to the hom level
+    of the source, so the hom-functor of a fixed category cannot be read
+    into a strictly larger universe of sets — only the level of the universe
+    holding Sets' objects is free; Mac Lane's Remark 1 as far as it holds;
+    N3: the [Sets] limit of the hom-diagram needs the
     shape's object level at or below that carrier level, while #331's
     preservation theorem does not — Riehl's large-diagram footnote).  Each
     refutation was stripped one at a time in a copy of the whole file; the
@@ -63,8 +64,9 @@ Example p428_fmap_value {j j' : J} (g : j ~{J}~> j') (h : c ~{C}~> F j) :
   fmap[@HomFrom C c ◯ F] g h = fmap[HomDiagram c F] g h := eq_refl.
 
 (* N1 CONVERSION: the whole [fmap] field does not — the setoid morphism's
-   respectfulness proof is an opaque [Program] obligation, discharged
-   differently in Functor/Hom.v and Structure/Limit/Weighted.v *)
+   respectfulness proof is an opaque [Program] obligation:
+   [Curried_Hom_obligation_1], auto-discharged in Functor/Hom.v, against
+   [HomDiagram]'s written-out one in Structure/Limit/Weighted.v *)
 Fail Example p428_fmap_field {j j' : J} (g : j ~{J}~> j') :
   fmap[@HomFrom C c ◯ F] g = fmap[HomDiagram c F] g := eq_refl.
 
@@ -92,14 +94,16 @@ Constraint hbig < sbig.
 
 Context (Cw : Category@{o1 h1 h1}) (cw : Cw).
 
-(* control: the RELATION level of [Sets] is free above the carrier level *)
+(* control: the level of the universe HOLDING Sets' objects is free above
+   the carrier level ([Sets@{o so} : Category@{so o o}], Instance/Sets.v) *)
 Check (@HomFrom Cw cw : Cw ⟶ Sets@{h1 sbig}).
 Check (@hom_continuous_at Cw cw
        : ContinuousFunctor (@HomFrom_at Cw cw : Cw ⟶ Sets@{h1 sbig})).
 
-(* N2 UNIVERSE: the CARRIER level is pinned to the hom level of the source —
-   the hom-functor of a FIXED category cannot be read into a strictly
-   larger universe of sets *)
+(* N2 UNIVERSE: the CARRIER level — and with it, [SetoidObject@{o o}], the
+   relation level — is pinned to the hom level of the source: the
+   hom-functor of a FIXED category cannot be read into a strictly larger
+   universe of sets *)
 Fail Check (@HomFrom Cw cw : Cw ⟶ Sets@{hbig sbig}).
 
 End Universes.

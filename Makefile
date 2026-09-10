@@ -7517,10 +7517,10 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.strict_self.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_map_is_fmap.'; \
 	} >> .pa-tmp/pa.v
-||||||| parent of 7737109d (Hom-functor continuity in isomorphism form: Remark 2 natural in c, its dual, the Riehl (3.5.1) round trip, the end/limit bridge, and transport of preservation (Mac Lane V.4 Thm 1, Remarks 1-3; Awodey 5.5, 7.2; Riehl 3.5))
 	@{ \
 	  echo 'Require Import Category.Functor.Hom.Continuous.'; \
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_carries_colimits_to_limits.'; \
+	  echo 'Print Assumptions Category.Functor.Hom.Continuous.representable_iso_ContinuousFunctor.'; \
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cohom_icoprod_iso.'; \
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_nat_iso.'; \
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.cone_of_nat_mor.'; \
