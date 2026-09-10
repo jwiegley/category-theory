@@ -6,7 +6,6 @@ Require Import Category.Theory.Equivalence.
 Require Import Category.Theory.Equivalence.Limit.
 Require Import Category.Theory.Equivalence.Creation.
 Require Import Category.Structure.Cone.
-Require Import Category.Structure.Limit.
 Require Import Category.Structure.Limit.Preservation.
 Require Import Category.Structure.Limit.Creation.
 Require Import Category.Structure.Complete.
@@ -688,7 +687,7 @@ End CommaAsFibreProduct.
    reaches, by a different argument.  It is a CROSS-CHECK, not a
    strengthening — but state the comparison against the right constant.
 
-   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:679) the
+   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:715) the
    two are of EQUAL strength.  That one takes [PreservesImageLimit], which
    quantifies over every shape just as [ContinuousFunctor U] does — indeed
    the two premises are interderivable by identity functions in that very
