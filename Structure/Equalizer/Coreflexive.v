@@ -61,8 +61,9 @@ Generalizable All Variables.
        [coreflexive_equalizer_pullback] for a pair with a common retraction
        (a step of Paré's theorem; Test/ProbeToposColimits405.v:138 guards
        it).  The NOTION is in the tree and load-bearing; what was absent is
-       the packaging — no record, no class.  [common left inverse] is indeed
-       unused, but Theory/Morphisms.v:56's [Section] is the split-mono
+       the packaging — no record, no class.  [common left inverse] had 0
+       hits before this file (it is the phrase this header's BACKGROUND now
+       uses), but Theory/Morphisms.v:56's [Section] is the split-mono
        record with exactly that field, and a coreflexive pair is two such
        splittings sharing one retraction.
      - "reflexive pairs appear ten times across Structure/Coequalizer/
@@ -70,11 +71,14 @@ Generalizable All Variables.
        in four files (Reflexive.v, Monad/Lifting.v, Monad/Monadicity/
        BeckObjects.v, Monad/Monadicity/Crude.v), and with
        [HasReflexiveCoequalizers] fourteen lines sit outside those two
-       places (Theory/Lawvere/Monad.v, Instance/Sets/Coequalizer.v,
-       Structure/Topos/Monadic.v, Structure/Topos/Colimits.v, the 405 probe).
+       places, in six files (Monad/Lifting.v 5, Structure/Topos/Monadic.v 4,
+       Test/ProbeToposColimits405.v 2, Theory/Lawvere/Monad.v,
+       Instance/Sets/Coequalizer.v and Structure/Topos/Colimits.v 1 each;
+       an earlier revision listed five files summing to nine).
 
-   WHAT IS DELIVERED (45 constants, every one closed under the global
-   context).
+   WHAT IS DELIVERED (48 constants, every one closed under the global
+   context; 45 at the audited revision, plus the three image-level
+   constants of item (6) landed after the audit).
      (1) THE NOTION.  [CoreflexivePair f g] (a common retraction with its
          two laws), [HasCoreflexiveEqualizers C] (an elementary equalizer
          for every coreflexive pair), [common_retraction_coreflexive], the
@@ -105,8 +109,9 @@ Generalizable All Variables.
          generating-family variant is NOT stated: [Gen]'s [gen_id] closes
          the generated arrows under identities but puts no identity into the
          index TYPE, so the projection at an abstract family is refused
-         (probe N4; a transported variant is formable and was measured, at
-         the price of a transport).
+         (probe N4).  A variant transporting along [idx_arr (idx_id x) ≈
+         id] is not stated and was not built; an earlier revision said it
+         "was measured", with no artifact.
      (4) MANES' CRITERION.  [mc_equalizer], [mc_apex], [mc_incl],
          [mc_IsEqualizer], [mc_cone], [mc_limiting], [mc_limit], and
          [Complete_from_coreflexive_equalizers : HasIndexedProducts C →
@@ -125,12 +130,19 @@ Generalizable All Variables.
          hypothesis on the chosen witnesses, because [∃] is [sigT] — the
          choice function is present — but a Sets morphism also needs
          [proper_morphism] (probe N5; [diagonal_section]).  The morphism-
-         level reading through Instance/Sets/Image.v ([diagonal_through_image]:
-         the diagonal factors through [Sets_Image_mono (f △ g)]) is
-         delivered in the unconditional direction only: [Sets_Image]'s
-         setoid (:69) compares codomain components, so the stored preimage
-         is not a Sets morphism and the reverse would split the epi leg — a
-         choice principle, neither derived nor refuted here.
+         level reading through Instance/Sets/Image.v is a BICONDITIONAL
+         with no hypothesis: [diagonal_in_image_iff_through_image :
+         diagonal_in_image ↔ ∃ d, Sets_Image_mono (f △ g) ∘ d ≈ id △ id]
+         ([through_image_of_diagonal_in_image],
+         [diagonal_in_image_of_through_image]; [diagonal_through_image] is
+         the forward half from a [ReflexivePair] directly).  Both halves
+         are free for the same reason the [ReflexivePair] converse is not:
+         [Sets_Image]'s setoid (:69) compares codomain components only, so
+         the map b ↦ ((b, b); (chosen preimage; _)) is proper in b whatever
+         the choice function does.  An earlier revision of this header said
+         the reverse "would split the epi leg — a choice principle"; the
+         audit compiled it closed.  The choice principle sits only in the
+         step to [ReflexivePair].
      (7) NON-VACUITY, AND ITS LIMIT.  [Sets_HasCoreflexiveEqualizers] and
          [Sets_Complete_via_Manes : Complete Sets] compile closed — but the
          only route to the hypothesis in the tree is the STRONGER
@@ -140,7 +152,7 @@ Generalizable All Variables.
          where Theorem 1's hypothesis already holds; nothing here separates
          it from [Complete_from_products_equalizers].
 
-   UNIVERSES (measured by [About] under [Set Printing Universes] on all 45
+   UNIVERSES (measured by [About] under [Set Printing Universes] on all 48
    constants).
      - No word-bounded [Set] in any block; no [JMeq], [EqdepFacts] or
        [eq_rect_r] cap.
@@ -151,25 +163,43 @@ Generalizable All Variables.
        ∀ {C : Category@{u u0 u0}}, HasIndexedProducts C →
        HasCoreflexiveEqualizers C → Complete@{u0 u0 u0 u}] carries bounds
        only, the same shape as [Complete_from_products_equalizers@{u u0 u1}].
-     - Two inherited identifications: [mc_cone] carries [u = u3] and
-       [u2 = u4] (FromProducts.v's [Core] section, where the products'
-       levels meet the limit's), and the six Sets constants carry
-       [u = u0 = u1 = u2] with [u < u3] — the carrier and proof universes of
-       the two setoids identified, the standard Sets discipline.
+     - Two inherited identifications: [mc_cone] and the four constants built
+       on it ([mc_limiting], [mc_limit], [mc_limit_apex], [mc_limit_leg])
+       carry [u = u3] and [u2 = u4] (FromProducts.v's [Core] section, where
+       the products' levels meet the limit's; an earlier revision named
+       [mc_cone] alone), and the eight constants of section [SetsHalf]
+       carry [u = u0 = u1 = u2] with [u < u3] — the carrier and proof
+       universes of the two setoids identified, the standard Sets
+       discipline — four of them ([diagonal_in_image], [diagonal_section],
+       [diagonal_in_image_of_through_image],
+       [diagonal_in_image_iff_through_image]) also [u < u4].
+       [Sets_HasCoreflexiveEqualizers@{u u0}] carries NO equation and
+       [u0 < u]; an earlier revision counted "six Sets constants" under
+       the equations, which was five then and mis-included this one.
        [Sets_Complete_via_Manes@{u u0} : Complete@{u u u u0}] with [u < u0]
        is the universe shape of Instance/Sets/Complete.v:73's
        [Sets_Complete].
+     - "No stdlib cap" means exactly the three names of the first item.
+       Bounds against stdlib universes DO appear: the Sets-side blocks are
+       bounded by [prod_rect.u0..u2], [Projections.u0/u1],
+       [Basics.compose.u0..u2], and [Sets_HasCoreflexiveEqualizers] and
+       [Sets_Complete_via_Manes] additionally by [eq_ind.u0], [eq_ind_r.u0]
+       and [Logic_lemmas.equality.u0] (the donor [Sets_Complete] carries none
+       of the last three).
 
    COUNTS AND CONVENTIONS.
-     - 45 constants (31 [def], 7 [prf], 1 [inst], 4 [proj], 2 [rec] in the
-       [.glob]), all "Closed under the global context", zero [Axioms:]
-       lines, all gated fully qualified.  Seven [Defined]: one is
+     - 48 constants (34 [def], 7 [prf], 1 [inst], 4 [proj], 2 [rec] in the
+       [.glob]; the constructors [Build_CoreflexivePair] and
+       [Build_HasCoreflexiveEqualizers] are not [.glob] entries and are not
+       counted), all "Closed under the global context", zero [Axioms:]
+       lines, all gated fully qualified.  Nine [Defined]: one is
        load-bearing by flipping alone to [Qed] ([diagonal_section], whose
-       body [reflexive_of_diagonal_in_image] reduces); the other six
+       body [reflexive_of_diagonal_in_image] reduces); the other eight
        ([common_retraction_coreflexive], [functor_preserves_coreflexive], the
        two class bridges, [reflexive_of_diagonal_in_image],
-       [diagonal_through_image]) flip freely and are kept [Defined] by the
-       data convention.  Five [Qed].
+       [diagonal_through_image], [diagonal_in_image_of_through_image],
+       [through_image_of_diagonal_in_image]) flip freely and are kept
+       [Defined] by the data convention.  Five [Qed].
      - Closure 50 files excluding self: Instance/Sets/Image.v and
        Instance/Sets/Products.v cost 4 each at the margin,
        Instance/Sets/Pullback.v, Structure/Limit/FromProducts.v and
@@ -188,17 +218,24 @@ Generalizable All Variables.
        [HasCoreflexiveEqualizers], [HasReflexiveCoequalizers], [pe_gen_proj],
        [diagonal_in_image], each renamed throughout a copy) with every first
        break on a positive line.  [make todo] grows by those 6 lines only
-       (2202 → 2208), so the issue's "adds no new hits" box is not met as
-       written; disclosed.
+       (2209 → 2215 against the rebased base 625a31ff), so the issue's
+       "adds no new hits" box is not met as written; disclosed.
 
    NOT DELIVERED.
      - A category with coreflexive equalizers but not all equalizers: none
        is built, so the criterion's strict gain over Theorem 1 has no
        witness in the tree (docs/INHABITATION.md should record it).
      - The generating-family form of [pe_coreflexive] (transport needed,
-       measured formable, not stated).
-     - The unconditional Sets converse of part (b), and the reverse of
-       [diagonal_through_image]: a choice principle, not refuted.
+       not stated, not built).
+     - The unconditional Sets converse of part (b) from [diagonal_in_image]
+       to [ReflexivePair f g] — and with it the issue's pinned NAME
+       [Sets_common_section_iff_diagonal], read as [ReflexivePair f g ↔
+       diagonal_in_image f g]: its reverse needs the properness hypothesis
+       of [reflexive_of_diagonal_in_image] (a choice principle, not
+       refuted), so no constant of that name is declared.  The image-level
+       biconditional [diagonal_in_image_iff_through_image] IS delivered
+       unconditionally (an earlier revision called its reverse a choice
+       principle; the audit refuted that).
      - Any relocation of Structure/Topos/Monadic.v:595's
        [coreflexive_equalizer_pullback] onto the new record: it stays where
        it is (surfaced in the PR, not settled).
@@ -502,6 +539,54 @@ Proof.
   - intro b; simpl.
     split; [exact (refl_section_f R b) | exact (refl_section_g R b)].
 Defined.
+
+(* The image-level statement is a biconditional with NO choice principle,
+   in either direction: [Sets_Image]'s setoid compares codomain components
+   only, so the map b ↦ ((b, b); (chosen preimage; _)) is proper in b
+   however the choice function behaves, and the stored preimage of a
+   factorization reads back as a pointwise witness.  (An earlier revision
+   of this file said the reverse "would split the epi leg — a choice
+   principle"; the audit compiled it closed.  The choice principle sits
+   ONLY in the step from [diagonal_in_image] to a Sets morphism, i.e. to
+   [ReflexivePair]: [diagonal_section]'s properness hypothesis.) *)
+Definition diagonal_in_image_of_through_image
+  (d : Y ~{Sets}~> Sets_Image (f △ g))
+  (Hd : Sets_Image_mono (f △ g) ∘ d ≈ id △ id) : diagonal_in_image.
+Proof.
+  intro b.
+  exists (`1 (`2 (d b))).
+  destruct (`2 (d b)) as [a Ha]; simpl in *.
+  destruct (Hd b) as [H1 H2]; simpl in *.
+  destruct Ha as [Ha1 Ha2]; simpl in *.
+  split; [now rewrite Ha1 | now rewrite Ha2].
+Defined.
+
+Definition through_image_of_diagonal_in_image (D : diagonal_in_image) :
+  ∃ d : Y ~{Sets}~> Sets_Image (f △ g),
+    Sets_Image_mono (f △ g) ∘ d ≈ id △ id.
+Proof.
+  unshelve eexists.
+  - unshelve refine {| morphism := fun b => ((b, b); (`1 (D b); _)) |}.
+    + split; simpl; [exact (fst (`2 (D b))) | exact (snd (`2 (D b)))].
+    + repeat intro; simpl; split; assumption.
+  - intro b; simpl; split; reflexivity.
+Defined.
+
+(* Exercise 1(b) in Sets, stated with the image machinery as the issue
+   asks: the image of ⟨f, g⟩ contains the diagonal (pointwise) exactly when
+   the diagonal factors through [Sets_Image_mono (f △ g)].  This is the
+   image-level reading; the issue's pinned NAME
+   [Sets_common_section_iff_diagonal] would put [ReflexivePair f g] on the
+   left, and that reading is delivered only with the properness hypothesis
+   ([reflexive_of_diagonal_in_image]) — see the header. *)
+Definition diagonal_in_image_iff_through_image :
+  diagonal_in_image
+    ↔ (∃ d : Y ~{Sets}~> Sets_Image (f △ g),
+         Sets_Image_mono (f △ g) ∘ d ≈ id △ id) :=
+  (through_image_of_diagonal_in_image,
+   fun dd : ∃ d : Y ~{Sets}~> Sets_Image (f △ g),
+              Sets_Image_mono (f △ g) ∘ d ≈ id △ id =>
+     diagonal_in_image_of_through_image (`1 dd) (`2 dd)).
 
 End SetsHalf.
 

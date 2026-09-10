@@ -38,7 +38,11 @@
                      is not a Sets morphism by itself: the record literal
                      is refused with "Cannot infer field proper_morphism";
                      [diagonal_section] with the properness hypothesis is
-                     the control.
+                     the control, and the IMAGE-level biconditional
+                     [diagonal_in_image_iff_through_image] — proper in
+                     both directions with no hypothesis, because the image
+                     setoid compares codomain components only — is the
+                     second control.
 
     Readbacks: [mc_limit_apex] and [mc_limit_leg] (Theorem 2's explicit
     limit read back through Manes' equalizer), the three identity-index
@@ -178,6 +182,15 @@ Check (fun (D : diagonal_in_image f g)
            (Hp : ∀ b b' : Y, b ≈ b' → `1 (D b) ≈ `1 (D b')) =>
          diagonal_section f g D Hp).
 
+(* control: the IMAGE-level reading needs no such hypothesis in either
+   direction — the image setoid compares codomain components only, so the
+   bare choice function is proper there *)
+Check (fun D : diagonal_in_image f g =>
+         fst (diagonal_in_image_iff_through_image f g) D).
+Check (fun (d : Y ~{Sets}~> Sets_Image (f △ g))
+           (Hd : Sets_Image_mono (f △ g) ∘ d ≈ id △ id) =>
+         snd (diagonal_in_image_iff_through_image f g) (d; Hd)).
+
 End SetsConverse.
 
 (** ** D: readbacks and non-vacuity *)
@@ -230,6 +243,9 @@ Check @diagonal_in_image_of_reflexive.
 Check @diagonal_section.
 Check @reflexive_of_diagonal_in_image.
 Check @diagonal_through_image.
+Check @diagonal_in_image_of_through_image.
+Check @through_image_of_diagonal_in_image.
+Check @diagonal_in_image_iff_through_image.
 Check @Sets_HasCoreflexiveEqualizers.
 Check @ReflexivePair.
 Check @HasReflexiveCoequalizers.

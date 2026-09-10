@@ -7345,6 +7345,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_in_image_of_reflexive.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_section.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_through_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_in_image_of_through_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.through_image_of_diagonal_in_image.'; \
+	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.diagonal_in_image_iff_through_image.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.HasCoreflexiveEqualizers_of_op.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.id_index_arr.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.id_index_cod.'; \
