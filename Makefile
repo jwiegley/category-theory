@@ -7386,6 +7386,48 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.CoreflexivePair.'; \
 	  echo 'Print Assumptions Category.Structure.Equalizer.Coreflexive.HasCoreflexiveEqualizers.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Complete.Freyd.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ArrowIndex_op.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.canonical_ArrowIndex.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_has_glbs.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_iprod.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_iprod_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_iprod_proj.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.complete_Proset_Complete.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecHom.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecHom_op.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.DecObj.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_decode.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_Fam.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_inj.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_mk.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_rd.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_sep.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.freyd_thin_canonical.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.freyd_thin_dual.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.small_cocomplete_is_thin.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.td.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_decode_mk.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_Fam_surjective.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_inj_injective.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_mk_commutes.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_mk_injective.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_rd_enc.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_sep_f.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_sep_g.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.fr_sep_resp.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.freyd_cantor_bool.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.freyd_no_separated_pair.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.freyd_thin.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.small_complete_is_thin.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.td_enc.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ai_dec.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ai_dec_enc.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ai_enc.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ai_index.'; \
+	  echo 'Print Assumptions Category.Structure.Complete.Freyd.ArrowIndex.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

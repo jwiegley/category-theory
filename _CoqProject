@@ -565,6 +565,7 @@ Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
 Structure/Coequalizer/Wide.v
 Structure/Complete.v
+Structure/Complete/Freyd.v
 Structure/Cone.v
 Structure/Cone/Const.v
 Structure/Cone/Natural/Transformation.v
@@ -927,6 +928,7 @@ Test/ProbeCompHaus413.v
 Test/ProbeComparison419.v
 Test/ProbeDiagrams420.v
 Test/ProbeCoreflexive421.v
+Test/ProbeFreyd423.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v

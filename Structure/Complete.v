@@ -69,11 +69,11 @@ Generalizable All Variables.
    cardinality at least 2^|Mor|, exceeding |Mor| by Cantor's theorem.  It
    follows that complete small categories are preorders — up to
    equivalence, complete lattices (Adámek–Herrlich–Strecker, Abstract and
-   Concrete Categories, Theorem 12.7; Shulman, "Set theory for category
-   theory", arXiv:0810.1279, Theorem 2.1).  In this library the same
-   ledger is kept by universes: the header of Adjunction/SAFT.v records a
-   concrete instance, noting that instantiating [Complete] forces the
-   diagram category's hom universe to coincide with that of C.
+   Concrete Categories, Theorem 12.7; Shulman, arXiv:0810.1279, Thm 2.1).
+   This is now a theorem here: Structure/Complete/Freyd.v's
+   [small_complete_is_thin] (arrows indexed by a type, [Complete], and a
+   DECIDABLE hom-setoid ⇒ [Thin]), with [complete_has_glbs] for the
+   greatest lower bounds; the SAFT.v header records the universe ledger.
 
    Completeness is one of the engine hypotheses of the adjoint functor
    theorems, which originate in the same exercise section of Freyd's book
@@ -103,13 +103,13 @@ Generalizable All Variables.
    classical.  Hyland exhibited, inside the effective topos, a complete
    small category that is not a preorder, built from partial equivalence
    relations (Hyland, "A small complete category", 1988), so the thinness
-   theorem cannot be proved constructively.  The stake is the semantics
-   of impredicative polymorphism: interpreting ∀X.T as a product over all
-   objects of a small complete subcategory of Set is classically
-   impossible (Reynolds, "Polymorphism is not set-theoretic", 1984), yet
-   realizably consistent — the foundation of the PER models of System F.
-   A complete small category is, in this reading, a type of all types
-   closed under products over itself. *)
+   theorem cannot be proved constructively — which is why Freyd.v takes
+   the decider [DecHom] as an explicit hypothesis and stays axiom-free;
+   its [freyd_no_separated_pair] is the constructive kernel.  The stake is
+   the semantics of impredicative polymorphism: interpreting ∀X.T as a
+   product over all objects of a small complete subcategory of Set is
+   classically impossible (Reynolds 1984), yet realizably consistent —
+   the PER models of System F: a type of all types closed under products. *)
 
 (* C is complete: every diagram F : D ⟶ C has a limit (terminal cone) in C. *)
 Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.
