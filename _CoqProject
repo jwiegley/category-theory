@@ -13,6 +13,7 @@ Adjunction/Additive.v
 Adjunction/Pare.v
 Adjunction/Conjugate.v
 Adjunction/Continuity.v
+Adjunction/Continuity/Finite.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
@@ -426,6 +427,7 @@ Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cartesian/Closed/Adjunction.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/NoAdjoint.v
 Instance/Sets/Products.v
 Instance/Sets/Complete.v
 Instance/Sets/Cone.v
@@ -944,6 +946,7 @@ Test/ProbeFunEval424.v
 Test/ProbeFunLimit425.v
 Test/ProbeFunctorCategory431.v
 Test/ProbeFunCreation426.v
+Test/ProbeNoAdjoint432.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
