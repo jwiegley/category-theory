@@ -51,7 +51,6 @@
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Opposite.
@@ -65,7 +64,6 @@ Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Complete.
 Require Import Category.Instance.Fun.Limit.
 Require Import Category.Adjunction.Diagonal.Limit.
-Require Import Category.Instance.Fun.Terminal.
 
 Generalizable All Variables.
 
@@ -134,7 +132,7 @@ Context {P : Category@{jo jh jh}} {X : Category@{co ch ch}}.
    level sits strictly below its hom level *)
 Check (@Functor_Category_Complete P X).
 
-(* N2 UNIVERSE: the bare one is refused there ("Cannot enforce jo = jh") *)
+(* N2 UNIVERSE: the bare one is refused there ("Cannot enforce jh = jo") *)
 Fail Check (@p425_bare_complete P X).
 
 End Annotation.

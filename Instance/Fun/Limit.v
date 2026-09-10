@@ -1,6 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Opposite.
@@ -46,28 +45,41 @@ Generalizable All Variables.
        [Fun_HasPullbacks] too.  What was absent is the GENERAL shape and any
        preservation statement for an evaluation functor (Instance/Fun/
        Terminal.v:307-309 named that gap; corrected in place here).
-     - "no [Complete] inhabitant anywhere": Instance/Sets/Complete.v:196
-       [Sets_Complete], :464 [ConeSet_Complete], Instance/Grp/Limit.v:691,
-       Construction/Arrow/Limit.v:426, Construction/Comma/Limit.v:247,
-       Construction/Product/Limit.v's [PiCat_Complete] and more; #254 is
-       closed, so Work item 3's blocker is discharged and [Presheaf_Complete]
-       is built below.
+     - "no [Complete] inhabitant anywhere": a declaration sweep of the
+       non-Test/ tree for constants concluding [@Complete] finds at least
+       thirteen, unconditional witnesses and premise-carrying transformers
+       together — Instance/Sets/Complete.v:196 [Sets_Complete], :464
+       [ConeSet_Complete], Instance/Grp/Limit.v:691 [Grp_Complete],
+       Construction/Arrow/Limit.v:426 [Arrow_Complete],
+       Construction/Comma/Limit.v:247 [Comma_Complete],
+       Construction/Product/Limit.v:620 [PiCat_Complete], [EM_Complete],
+       [reflective_Complete] and more; #254 is closed, so Work item 3's
+       blocker is discharged and [Presheaf_Complete] is built below.
      - "the evaluation functors do not exist": Adjunction/Diagonal/
        Connected.v:700 [EvalAt], and #424's Instance/Fun/Eval.v [Eval], which
        this file consumes — the dependency on #424 is real: routing through
-       [EvalAt] would add 115 files to the closure against 2 for Eval.v.
+       [EvalAt] would add 103 files to this file's closure against 2 for
+       Eval.v (marginals over the shipped [Require] list; an earlier revision
+       said 115, measured against a list without Instance/Sets/Complete.v).
      - Prose sites (Work item 4), all edited LINE-NEUTRALLY: Instance/Fun.v:
        101-104 (the issue says :101-105; :105-106 is a different clause, on
        cartesian closure, which Instance/Fun/Closed.v refutes and which is
        untouched), Instance/Fun/Cartesian.v:17-20 (the issue says :17-21)
        and :36 (now citing [Functor_Category_Terminal]), Structure/
-       Complete.v:56-58 (the issue says :55-58; :58-60's monadic clause is
-       already discharged by [EM_Complete]), the fourth site the issue
-       misses, Structure/Cartesian/Product.v:34, and Instance/Fun/
-       Terminal.v:307-309.
-     - Construction/Product/Limit.v's [PiCat_Complete] is the discrete case
-       of this theorem, term for term with [Eval p] in place of the
-       projection; its header records the same universe traps.
+       Complete.v:56-58 (the issue says :55-58; the monadic clause's own
+       words at :58-60 are untouched — it is [EM_Complete]'s — though :58
+       gained "from Sets"), the fourth site the issue misses,
+       Structure/Cartesian/Product.v:34, and Instance/Fun/Terminal.v:298-299
+       and :307-309 (that file's NOT DELIVERED list denied both the general
+       theorem and any preservation statement; both corrected in place) and
+       :100-106 (its "stated in PROSE in three places" framing, now that
+       those places point here).  Instance/Fun.v's sentence keeps its
+       colimit half, attributed to the nLab and #715.
+     - Construction/Product/Limit.v:620's [PiCat_Complete] has term for term
+       the same shape as [Functor_Category_Complete], with the projection in
+       place of [Eval p]; it is an analogy, not an instance — [PiCat] is a
+       dependent product of categories, not [[DiscreteCat I, X]], so neither
+       derives from the other.  Its header records the same universe traps.
 
    WHAT IS DELIVERED (29 named constants plus 11 [Program] obligations,
    every one closed under the global context).
@@ -135,10 +147,13 @@ Generalizable All Variables.
        Category@{jo jh jh}} {X : Category@{co ch ch}}, Complete@{u u2 ch co}
        X → Complete@{u u2 jh u3} [P, X]] with [jo <= jh], [jo <= u3], [jh <
        u4], [co <= u3].
-     - The three presheaf constants sit at [C : Category@{u0 u0 u0}] and
-       conclude [Complete@{u0 u0 u0 u}] — one level for C's objects, homs
-       and proofs, inherited from [Sets_Complete@{u u0} : Complete@{u u u
-       u0}] (its INDEX bullet records the same); no equation.
+     - The three presheaf constants sit at a category with ONE level for
+       objects, homs and proofs ([Presheaf_Complete] and [Fun_Sets_Complete]
+       at [C : Category@{u0 u0 u0}] concluding [Complete@{u0 u0 u0 u}];
+       [Presheaf_Eval_PreservesAllLimits] at [C : Category@{u2 u2 u2}]
+       concluding [PreservesAllLimits]), inherited from [Sets_Complete@{u u0}
+       : Complete@{u u u u0}] (its INDEX bullet records the same); no
+       equation.
      - No word-bounded [Set], no [JMeq]/[EqdepFacts]/[eq_rect_r] bound in any
        block.
 
@@ -154,10 +169,14 @@ Generalizable All Variables.
        refused.  Sixteen [Qed] tokens (five lemmas, eleven obligations).
      - Closure 37 files excluding self: Instance/Sets/Complete.v costs 12
        at the margin (the presheaf corollaries), Instance/Fun/Eval.v 2, the
-       other twelve [Require]s 0.  No collision: each new name has 0
-       declaration hits elsewhere in the tree.  Adjunction/Diagonal/Limit.v
-       (+37 files) is deliberately NOT required; Instance/Fun/Terminal.v
-       (+39) is not compared against here.
+       other eleven [Require]s 0 (an earlier revision also required
+       Category.Theory.Isomorphism, unused; dropped).  No collision: each new
+       name has 0 declaration hits elsewhere in the tree.
+       Adjunction/Diagonal/Limit.v would add 25 files and is deliberately
+       NOT required; Instance/Fun/Terminal.v would add 28 and is not
+       compared against here (marginals over the shipped [Require] list; an
+       earlier revision said 37 and 39, measured without
+       Instance/Sets/Complete.v).
      - Test/ProbeFunLimit425.v carries 4 refutation commands (1 instrument +
        N1 CONVERSION + N2 UNIVERSE + N3 UNIVERSE), each stripped one at a
        time in a copy of the whole file; seven readbacks at [eq_refl]; the
