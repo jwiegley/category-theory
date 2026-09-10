@@ -7571,6 +7571,54 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.remark3_natural.'; \
 	  echo 'Print Assumptions Category.Functor.Hom.Continuous.transport_coneiso_legs.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.all_projective_iff_every_epi_splits.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.cohom_epic_injective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.cohom_is_op_hom.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Coprod_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.every_epi_splits_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.hom_fmap_is_postcomp.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.IndexedCoprod_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.IndexedProd_Injective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.initial_obj_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.inj_extend.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.inj_extend_comm.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.inj_is_op_proj.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.inj_stmt_readback.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.injective_cohom_epic.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.injective_extend.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.injective_iff_cohom_preserves_mono.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.LeibnizSetoid.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.op_Coprod_is_product.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.op_op_Cartesian.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.ortho_lift_exists.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.ortho_zero_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Prod_Injective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.proj_is_hom_surjectivity.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.proj_lift.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.proj_lift_comm.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Projective_codomain_splits.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.projective_hom_surjective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.projective_iff_hom_preserves_epi.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Projective_ortho_weak.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Retraction_lifts.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Retraction_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Section_Injective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Section_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.sets_all_projective_entails_LEM.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.sets_all_projective_entails_splitting.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Sets_Leibniz_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.terminal_obj_Injective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.two_X_initial.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.two_projective_not_all.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.TwoX_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.hom_epic_projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.projective_hom_epic.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.TwoY_not_Projective.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.projective_lift.'; \
+	  echo 'Print Assumptions Category.Structure.Projective.Projective.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
