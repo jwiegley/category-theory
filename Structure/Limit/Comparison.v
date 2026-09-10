@@ -170,18 +170,33 @@ Generalizable All Variables.
        categories at one hom level.  [const_image_iso] carries the equation
        [u0 = u3] (J's hom level is C's, through [Functor_Setoid]); the
        discrete bridge carries [h = p], [h = uh], [h = up], the same
-       identification with the shape's levels named.  The bridge constants
-       inherit stdlib caps ([JMeq], [EqdepFacts], [eq_rect_r]) from
-       Structure/Cartesian.v's [Program] obligations, and bounds of the
-       form [u0 < u5] put [bool] and [False] (at [Set]) below the shape's
-       object level.
+       identification with the shape's levels named.  Nineteen blocks —
+       [DiscreteCat_Functor'] and the eighteen constants built over it —
+       carry the stdlib caps [JMeq], [EqdepFacts] and [eq_rect_r] of this
+       file's ONE [Program Definition], [DiscreteCat_Functor'] itself (an
+       earlier revision of this paragraph attributed them to
+       Structure/Cartesian.v, whose [Cartesian], [fork] and [exl] carry
+       none, as do [binary_proj] and [IsIndexedProduct_binary] here).
+       Fifty of the 57 blocks carry one strict bound, in every case a hom
+       or proof level below the auxiliary universe of a [Program]-generated
+       constant: [Compose@{u u0 u1 u2 u3}]'s own [u3 < u2] (Theory/Functor.v:
+       259) wherever a composite functor appears, and [DiscreteCat_Functor']'s
+       own [up < u] in the discrete sections; the seven elementary constants
+       ([binary_fam], [binary_proj], [IsIndexedProduct_binary], their
+       nullary twins and [discrete_IsLimitCone_of_IsIndexedProduct]) carry
+       none.  An earlier revision read the bound [u0 < u5] as placing [bool]
+       and [False] below the shape's object level; it does not — they sit at
+       [Set] with no printed constraint.
      - WHY A LOCAL ANNOTATED FUNCTOR.  The unannotated [DiscreteCat_Functor]
        instantiates [DiscreteCat@{u Set Set}] (Functor/Hom/Limit.v:104-155;
        Test/ProbeHomLimit331.v pins [IsLimitCone] over its cones), so
        [cone_comparison] at it is refused above [Set] (probe N2, and N3
        through Product.v's [family_cone]).  [DiscreteCat_Functor'@{o h p uo
        uh up +}] has the same actions with the shape's levels free.
-       Instance/Discrete.v is NOT edited, so ProbeHomLimit331 stands.
+       Instance/Discrete.v is NOT edited here: annotating the donor upstream
+       is the lift Functor/Hom/Limit.v:139-145 already names, but it flips
+       Test/ProbeHomLimit331.v's pin and reworks that essay, and whether to
+       do it is put to John in the PR rather than settled by this file.
 
    COUNTS AND CONVENTIONS.
      - 57 constants — 45 [def] and 12 [prf] in the [.glob] — all "Closed
@@ -204,14 +219,20 @@ Generalizable All Variables.
        defines the same family as [bool_fam] (hence [binary_fam] here),
        Structure/Limit/Finite.v:692 an [empty_cone] over [EmptyDiagram]
        (hence [nullary_cone] here), Instance/Proset/Order.v:664 a
-       [pair_cone].
+       [pair_cone], and Structure/Limit/Product.v:80's [family_cone], the
+       same construction as [discrete_cone] specialised to
+       [DiscreteCat_Functor f] — the closest existing constant, left as it is.
      - Test/ProbeComparison419.v mirrors the [Require] list and carries 6
        refutation commands (1 instrument + 5 negatives of three kinds: one
-       conversion, two universe, two typing), each stripped one at a time in
-       a copy of the whole file; readbacks at [eq_refl]; guard coverage 35
-       tokens inside / 31 outside with four exhaustive exceptions;
-       rename-simulated 5/5 with every first break on a positive line.
-       [make todo] grows by those 6 lines only (2196 → 2202).
+       conversion, two universe, two typing — N2/N3 and N5 are told from the
+       rest by their universe and unification clauses, while N1 and N4 share
+       the bare has-type shape and differ in the types named), each stripped
+       one at a time in a copy of the whole file; readbacks at [eq_refl];
+       guard coverage 35 tokens inside / 31 outside with four exhaustive
+       exceptions; rename-simulated 5/5 with every first break on a positive
+       line.  [make todo] grows by those 6 lines only (2196 → 2202), so the
+       issue's "adds no new hits" box is not met as written; it is disclosed
+       rather than met by moving the negatives out of the build.
 
    NOT DELIVERED.
      - Reindexing functoriality as an equation of CONES, or of the
@@ -233,6 +254,13 @@ Generalizable All Variables.
        tracked file that is NOT in [_CoqProject] and is never compiled by
        [make] — is neither registered nor restated here (surfaced in the
        PR for John, not settled).
+     - The operative half of Riehl's whiskering checkbox — building the
+       IMAGE CONE by whiskering rather than by hand — is not delivered:
+       [const_image_iso] is stated and read back but consumed by nothing
+       here, and Preservation.v's [FCone] stays hand-built; the
+       cone-as-transformation presentation of
+       Structure/Cone/Natural/Transformation.v is where such a rebuild would
+       live.
      - No edit to Instance/Discrete.v, Functor/Hom/Limit.v or
        Test/ProbeHomLimit331.v; the [bool_fam] of Instance/Fun/Terminal.v
        is left in place. *)
