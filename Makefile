@@ -7619,6 +7619,42 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Projective.projective_lift.'; \
 	  echo 'Print Assumptions Category.Structure.Projective.Projective.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Ab.FreeNotContinuous.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.Ab_Forget_Continuous.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.ab_zero_endo.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.bin_diagram_objects.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.BinDiagram.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.BinOnes.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.empty_cone_at.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.free_ab_one_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_binary_cmp.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_Cocontinuous.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.freeab_is_left_adjoint.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_continuous.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_continuous_via_empty.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesAllLimits.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.nat_legs.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatCompeting.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatOneCone.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatOneCone_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatOneDiagram.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatOneProduct.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.NatOnes.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.SetsPoint_empty_Limit.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.SetsEmptyDiagram.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.SetsPoint.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.ab_zero_endo_value.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.fmap_one_point.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.free_ab_one_id_not_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_binary_comparison_not_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_CartesianFunctor.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesLimit_empty.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesLimitCone_binary_product.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesLimitCone_countable_product.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesLimitCone_empty.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.SetsPoint_empty_IsLimitCone.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
