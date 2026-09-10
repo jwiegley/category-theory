@@ -7293,6 +7293,48 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_functor_iff_comparison_iso.'; \
 	  echo 'Print Assumptions Category.Structure.Limit.Comparison.terminal_functor_iff_preserves_terminal.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Structure.Limit.Diagrams.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.cocomplete_of_complete_op.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.cocomplete_roundtrip.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.ColimDiagrams.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.ColimDiagrams_fobj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.comma_diagrams_arrow.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.comma_diagrams_arrow_W.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.comma_diagrams_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.CommaDiagrams.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.CommaDiagrams_equiv.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.complete_op_roundtrip.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dcolim.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dcolim_is_colimit_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Dcomp.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DHom_equiv.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Diagrams.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Diagrams_hom.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Diagrams_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Did.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_cone.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_cone_apex.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_is.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_map.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.fixed_hom.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.lim_obj_is_dlim.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.LimDiagrams.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.LimDiagrams_fmap.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.LimDiagrams_fobj.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DHom_Setoid.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.Dcomp_respects.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_map_commutes.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_map_fixed.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dlim_map_unique.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.ddiag.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.didx.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dtau.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.dW.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DHom.'; \
+	  echo 'Print Assumptions Category.Structure.Limit.Diagrams.DObj.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
