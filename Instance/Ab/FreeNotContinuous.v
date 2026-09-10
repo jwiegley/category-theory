@@ -37,10 +37,10 @@ Generalizable All Variables.
    (Instance/Ab/Free.v's [free_ab_adjunction : FreeAb ⊣ Ab_Forget], #400),
    so it preserves colimits; Mac Lane's exercise asks for a limit it does
    not preserve, and hints at a countable product.  This file exhibits the
-   discontinuity at three shapes — the empty shape, Mac Lane's countable
-   product, and the binary product through the canonical comparison map —
-   and packages it as the tree's first refutation of [ContinuousFunctor]
-   and of [PreservesAllLimits] at a named functor.
+   discontinuity at three shapes — the empty shape, a countable product in
+   Mac Lane's shape, and the binary product through the canonical
+   comparison map — and packages it as the tree's first refutation of
+   [ContinuousFunctor] and of [PreservesAllLimits] at a named functor.
 
    ONE FACT, STATED ONCE.  The free abelian group on a point has two
    distinct endomorphisms, the identity and the zero map, because its
@@ -74,13 +74,25 @@ Generalizable All Variables.
        discontinuity witness" is NOT claimed.  What is first, measured by a
        tree-wide search for the class names beside [False]: the first
        [ContinuousFunctor _ → False], the first [PreservesAllLimits _ →
-       False], and the first non-preservation result at a named
-       mathematical functor.
+       False], and the first refutation of [PreservesLimitCone] /
+       [PreservesLimit] at a named mathematical functor.  Non-preservation
+       at a named functor as such is NOT first (an earlier revision claimed
+       it): Instance/Top/Forgetful.v:519's [indiscrete_image_not_colimiting]
+       refutes a colimit cocone for [Top_Indiscrete] (:238), and
+       Instance/Powerset.v:884's [direct_image_not_meet_preserving] refutes
+       preservation of the binary product ([Subsets_Cartesian], :609) by the
+       left adjoint [DirectImage] (:397) — neither phrased with a class name.
      - [Ab] has binary products, coproducts and biproducts
        (Instance/Ab/Coproduct.v:225/:229/:220), a zero and a terminal object
-       (Instance/Ab.v:276/:244), and NO indexed products or completeness
+       (Instance/Ab.v:276/:244), NO indexed coproducts
        (Instance/Ab/Coproduct.v:106 and Instance/Rng/Free.v:79 record the
-       absence).  The countable witness below needs none: the competing cone
+       absence of [HasIndexedCoproducts Ab]), and NO indexed products or
+       completeness either — measured: the tree's [HasIndexedProducts]
+       instances are Sets' (Instance/Sets/Products.v:302), Cat's and
+       StrictCat's (Instance/Cat/Limit.v:293/:523), none at [Ab], and no
+       [Complete Ab] exists (an earlier revision cited the two coproduct
+       lines for the product half).  The countable witness below needs
+       none: the competing cone
        is supplied directly, which is why that statement is cone-level.
 
    WHAT IS DELIVERED (33 named constants plus 1 [Program] obligation, every
@@ -97,11 +109,14 @@ Generalizable All Variables.
          := From_0 Sets], [SetsPoint_empty_IsLimitCone] and
          [SetsPoint_empty_Limit] (the point is the empty limit in Sets),
          [FreeAb_not_PreservesLimitCone_empty], and — the APEX-ONLY form,
-         which the product witnesses cannot reach —
+         which the product witnesses do not reach here (probe N5 pins the
+         binary case; the countable apex case is unpinned, see NOT
+         DELIVERED) —
          [FreeAb_not_PreservesLimit_empty : PreservesLimit SetsEmptyDiagram
          FreeAb → False] with [FreeAb_not_PreservesAllLimits].
-     (3) WITNESS 2, MAC LANE'S COUNTABLE PRODUCT.  [NatOnes] (the constant
-         family at the point), [NatOneDiagram : DiscreteCat nat ⟶ Sets]
+     (3) WITNESS 2, A COUNTABLE PRODUCT IN MAC LANE'S SHAPE.  [NatOnes]
+         (the constant family at the point), [NatOneDiagram : DiscreteCat
+         nat ⟶ Sets]
          (Structure/Limit/Comparison.v's annotated [DiscreteCat_Functor']),
          [NatOneProduct] (the point is its own countable power in Sets),
          [NatOneCone] / [NatOneCone_IsLimitCone] (through
@@ -115,7 +130,9 @@ Generalizable All Variables.
          or coefficient uniqueness for [FATerm] that the tree does not have
          (the Instance/Ab/Free.v INDEX bullet says so in terms); here the
          factors are the point, the product collapses to the point, and the
-         legs coincide.  The SHAPE is his; the proof is not.
+         legs coincide.  The SHAPE is his; the proof is not, and the
+         countability is inert: the same argument runs at any discrete
+         shape with two or more objects.
      (4) WITNESS 3, THE BINARY PRODUCT THROUGH THE COMPARISON MAP (the
          issue's second work bullet).  [BinOnes], [BinDiagram],
          [FreeAb_binary_cmp := binary_comparison FreeAb BinOnes] (the
@@ -181,17 +198,27 @@ Generalizable All Variables.
        sits in Instance/Ab/Free.v's own gate entries).
      - Two [Defined] ([ab_zero_endo], [NatOneProduct]), each flipped to
        [Qed] alone in a copy of the file: [ab_zero_endo] is LOAD-BEARING
-       ([ab_zero_endo_value]'s [simpl; reflexivity] and the probe's
-       [eq_refl] readback need the map to reduce), [NatOneProduct] is not
-       (library and probe compile unchanged) and stays transparent as data.
-       Eleven [Qed] tokens (ten lemmas and theorems — every refutation
-       proves a negation, so nothing downstream computes with it — and the
-       obligation).
+       for the whole file ([ab_zero_endo_value]'s [simpl; reflexivity]
+       stops first; with that lemma removed as well, the core separation
+       [free_ab_one_id_not_zero] stops, its [simpl in Hg] no longer
+       reducing the zero map; the probe's [eq_refl] readback stops too —
+       an earlier revision named only the two readbacks), [NatOneProduct]
+       is not (library and probe compile unchanged) and stays transparent
+       as data.  Eleven [Qed] tokens: the obligation, the seven refutations
+       (negations; nothing downstream computes with them) and three
+       equational lemmas — [ab_zero_endo_value], [fmap_one_point] and
+       [SetsPoint_empty_IsLimitCone], the last consumed as data by
+       [SetsPoint_empty_Limit], itself used only inside a refutation (an
+       earlier revision offered the negation reason for all ten).
      - Closure 60 files excluding self: Structure/Limit/Comparison.v costs 4
        at the margin, Instance/Ab/Free.v 3, Instance/Ab/Coproduct.v 2,
        Instance/Sets/Cartesian.v 1, Instance/Zero.v 1, the other nineteen
-       [Require]s 0; the binary/comparison witness accounts for 8 of the 60
-       and is kept because it is the issue's "comparison map" bullet.
+       [Require]s 0; the binary witness accounts for 3 of the 60 (its four
+       [Require]s dropped, 60 → 57; an earlier revision said 8, charging
+       Structure/Limit/Comparison.v to it, but that file is witness 2's
+       dependency too — [DiscreteCat_Functor'], [discrete_cone],
+       [discrete_IsLimitCone_of_IsIndexedProduct]) and is kept because it
+       is the issue's "comparison map" bullet.
        [Coq.ZArith.ZArith] is required explicitly (for [1%Z]; the tree's 68
        other files spell it the same way).  Name collisions: none — each of
        the 33 names has 0 word occurrences elsewhere in the tree.
@@ -208,7 +235,8 @@ Generalizable All Variables.
        [FreeAb_not_PreservesLimitCone_binary_product],
        [PreservesAllLimits], [PreservesLimit], [cone_leg], [FCone]; module
        paths excluded), every first break on a positive line.  [make todo]
-       grows by those 9 lines only (2233 → 2242 over master 1de68608), so
+       grows by those 9 lines only (2246 →
+       2255 over 3a387cdb, master b0d0fa63 with #429), so
        the issue's "adds no new hits" box is not met as written; disclosed.
      - "The free abelian group on a point" is never written as ℤ: no
        isomorphism [FreeAb 1 ≅ ℤ] exists in the tree (the inverse would need
@@ -221,7 +249,9 @@ Generalizable All Variables.
        mechanism, disclosed in (3).
      - Apex-level refutations at the product shapes ([PreservesLimit
        BinDiagram FreeAb → False] would need ℤ ≇ ℤ × ℤ in Ab, the same
-       normal form); probe N5 pins the boundary.
+       normal form; the countable case would need ℤ ≇ ℤ^ℕ, whose right
+       side cannot even be named in Ab — no [HasIndexedProducts Ab]); probe
+       N5 pins the binary boundary, the countable one is unpinned.
      - [FreeAb 1 ≅ ℤ]; countable products in Ab; a repair of [Ab_trivial]'s
        or [_0]'s [Set] pins.
      - "The library's first recorded discontinuity witness" (false; see
@@ -317,7 +347,7 @@ Qed.
 Definition FreeAb_not_PreservesAllLimits : PreservesAllLimits FreeAb → False :=
   fun H => FreeAb_not_PreservesLimit_empty (H _ SetsEmptyDiagram).
 
-(** ** Witness 2: Mac Lane's countable product *)
+(** ** Witness 2: a countable product in Mac Lane's shape *)
 
 Definition NatOnes : nat → Sets := fun _ => SetsPoint.
 Definition NatOneDiagram : DiscreteCat nat ⟶ Sets := DiscreteCat_Functor' NatOnes.
@@ -429,7 +459,7 @@ Qed.
 
 (** ** The conclusion of the exercise *)
 
-(* The headline goes through Mac Lane's countable product, whose shape
+(* The headline goes through the countable product (witness 2), whose shape
    [DiscreteCat nat] carries free universes; the empty shape [_0] is
    declared at [Category@{u Set Set}] (Instance/Zero.v:28) and pins the
    functor's hom level to [Set] (see the header's UNIVERSES). *)
