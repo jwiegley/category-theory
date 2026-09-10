@@ -7844,6 +7844,49 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_index.'; \
 	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.comma_initial_of_sols.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_via_comma_initial.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.Representability.Sets.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.ElementSolutionSet.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esol_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esol_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esol_elem.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esol_covers.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.sols_of_esols.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esols_of_sols.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.sols_of_esols_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.sols_of_esols_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esols_of_sols_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esols_of_sols_elem.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representable_of_comma_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representability_theorem.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Representable_transport.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Representable_transport_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.homafter_one_is_composite.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.homafter_one_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representable_of_left_adjoint.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representable_of_left_adjoint_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.continuous_of_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.preserves_image_of_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representability_iff.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.representability_iff_fst.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.saft_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.HasSetsCopowers.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.homafter_whisker.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.left_adjoint_of_representable_Sets.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points_esol.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points_esol_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points_cont.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points_repr.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_points_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_esol.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr_of_adjoint.'; \
+	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.Sets_Id_repr_of_adjoint_obj.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
