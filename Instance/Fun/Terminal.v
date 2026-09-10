@@ -304,9 +304,9 @@ Generalizable All Variables.
      index.  No proof that [HasIndexedProducts D] alone yields
      [Terminal D] (that needs a chosen empty index type, which would pin
      an index universe; [terminal_empty_IsIndexedProduct] takes the
-     emptiness as a hypothesis instead).  No preservation statement --
-     nothing says the evaluation functors [C, D] -> D preserve these
-     products, though they visibly do by construction.  And the general
+     emptiness as a hypothesis instead).  Preservation is now stated:
+     Instance/Fun/Limit.v's [Eval_PreservesLimitCone] shows evaluation
+     preserves every limit, these products included.  And the general
      left fold of [Structure/Limit/Product/Finite.v] is consumed
      ([iprod_unique_iso]) but not extended. *)
 

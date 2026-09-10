@@ -54,8 +54,8 @@ Generalizable All Variables.
    V.2.1; Riehl, Category Theory in Context, 2016, Theorem 3.4.12).  This
    is how Set, Top, Grp, Ab, and module categories are shown complete,
    and the property propagates: presheaf categories inherit all small
-   limits and colimits objectwise from the category of sets (nLab,
-   "category of presheaves"), and monadic functors create limits, so
+   limits (Instance/Fun/Limit.v's [Presheaf_Complete]) and colimits (nLab,
+   "category of presheaves") from Sets, and monadic functors create limits, so
    algebras for a monad on a complete category are again complete (nLab,
    "complete category").  The reduction is Structure/Limit/FromProducts.v's
    [Complete_from_products_equalizers] over [HasIndexedProducts] and

@@ -7448,6 +7448,38 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.eval_transpose.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Eval.Cat.eval_is_CatEval_partial_map.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Fun.Limit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Eval_ContinuousFunctor.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Eval_pointwise_IsLimitCone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Eval_PreservesAllLimits.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Eval_PreservesLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Eval_PreservesLimitCone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Fun_HasLimitsOfShape.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Fun_Sets_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Functor_Category_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Functor_Category_pointwise_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_alimit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_comp_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_cone_at.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_leg.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_probe_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_ump_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_ump_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.PointwiseIsLimitCone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.PointwiseLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.PointwiseLimitCone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Presheaf_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.Presheaf_Eval_PreservesAllLimits.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_jointly_monic.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_leg_coherence.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_map_commutes.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_map_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_ump_commutes.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

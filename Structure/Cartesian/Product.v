@@ -31,7 +31,7 @@ Context `{@Cartesian D}.
 
    This is the special case, for the discrete two-object diagram shape, of the
    general fact that limits in a functor category [J, D] are computed
-   pointwise whenever D has them: a product category C ∏ D inherits any limit
+   pointwise whenever D has them (Instance/Fun/Limit.v): C ∏ D inherits any limit
    that both factors possess. The universal mapping property [ump_products]
    therefore holds because it holds separately in each coordinate. *)
 
