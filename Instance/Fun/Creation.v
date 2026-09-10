@@ -21,9 +21,12 @@ Generalizable All Variables.
 
 (* Mac Lane §V.3 Theorem 2 (book p. 116; maclane:V.3:thm2): precomposition
    with the inclusion of the discrete category |P| on the objects of P,
-   [P, X] ⟶ [|P|, X], creates limits.  Riehl §3.4 Proposition 3.4.9 and
-   Exercise 3.4.v (riehl:3.4:prop9): the evaluation functors jointly create
-   limits — for the "strictly" of her statement see NOT DELIVERED.
+   [P, X] ⟶ [|P|, X], creates limits.  Riehl §3.4 Proposition 3.4.9
+   (riehl:3.4:prop9): the evaluation functors jointly create limits — the
+   analogue for [P, X] of her Exercise 3.4.v, which is about the projections
+   of a PRODUCT of categories and is Construction/Product/Limit.v's
+   [PiCat_JointlyCreateLimit]; for the "strictly" of her statement see NOT
+   DELIVERED.
    nLab: https://ncatlab.org/nlab/show/created+limit
          https://ncatlab.org/nlab/show/discrete+category
 
@@ -50,11 +53,14 @@ Generalizable All Variables.
        [creates_limits_Complete] :246, [creates_limits_continuous] :252,
        Riehl's [StrictLift] :288 / [StrictlyCreatesLimit] :325 with
        [self_lift] :314, and [JointlyCreateLimit] :458 (her Exercise 3.4.v).
-       Structure/Limit.v's INDEX bullet records them.
+       Structure/Limit.v's INDEX bullet records seven of them, not
+       [creates_limit_lift], [CreatesAllLimits], [self_lift] or
+       [JointlyCreateLimit] — the last is recorded in Construction/Product/
+       Limit.v's bullet instead.
      - "No discrete subcategory on the objects of a category and no
        inclusion functor": TRUE as stated ('discrete subcategory' has 0 hits
-       in the tree; 'discrete inclusion' 2, both forward references in
-       Instance/Fun/Limit.v), but the ingredient is richer than the issue
+       in the tree's [.v] files; 'discrete inclusion' 2, both forward
+       references in Instance/Fun/Limit.v), but the ingredient is richer than the issue
        says: Structure/Limit/Comparison.v:535 has the ANNOTATED
        discrete-diagram functor [DiscreteCat_Functor'@{o h p uo uh up +}],
        and Instance/Fun/Discrete.v:234 has [Fun_Discrete_PiCat : [DiscreteCat
@@ -97,7 +103,8 @@ Generalizable All Variables.
          components are identities), [ptw_cone_iso : ConeIso M
          (PointwiseLimitCone D _)], and [Fun_pointwise_reflect : IsLimitCone
          M] := [limitcone_transport] of [PointwiseIsLimitCone] along it.
-     (3) JOINT CREATION BY THE EVALUATIONS (Riehl Exercise 3.4.v).
+     (3) JOINT CREATION BY THE EVALUATIONS (the analogue of Riehl Exercise
+         3.4.v).
          [ev_family p := Eval p], [ev_lift] (#425's pointwise cone assembled
          from the given family of limiting cones), [ev_lift_apex] and
          [ev_lift_leg] at [eq_refl], [ev_lift_over] (a [ConeIso] with
@@ -140,9 +147,13 @@ Generalizable All Variables.
          [creates_limits_Complete] (creation plus completeness of [|P|, X],
          the latter #425's [Functor_Category_Complete] at the discrete
          shape) — and [Res_continuous : PreservesLimitCone D Res] through
-         [creates_limits_continuous] (Mac Lane §V.4 Theorem 2's first half).
+         [creates_limits_continuous] (Mac Lane §V.4 Theorem 2's SECOND half,
+         Structure/Limit/Creation.v:241's own heading; an earlier revision
+         said "first").
      (6) STRICTNESS.  [strict_self : StrictLift D Res (FCone Res M) :=
-         self_lift M]: every cone upstairs strictly lifts its own image.
+         self_lift M]: every cone upstairs TAUTOLOGICALLY strictly lifts its
+         own image (the donor's own word; it holds for every functor and
+         says nothing specific to [Res]).
          Riehl's "strictly creates" (Definition 3.4.7; [StrictlyCreatesLimit],
          whose [slift_eq] is an [eq] of apexes) would need the canonical
          lift's image EQUAL to an arbitrary given cone's apex, an [eq]
@@ -158,8 +169,8 @@ Generalizable All Variables.
        section Wide) [ObjCat Pw], [Res Pw Xw] and the type [[Pw, Xw] ⟶ [Pw,
        Xw]] are all accepted.  Seven constants share this freedom: [ObjCat],
        [DiscInc], [Res], [res_obj], [res_obj_at], [res_map], [strict_self].
-     - The other 27 constants — every one whose statement mentions [Eval] —
-       inherit [jo <= jh] (P's objects ≤ P's homs; [u1 <= u2] or [u <= u0]
+     - The other 27 constants — every one that reaches [Eval] through its
+       definition; 21 of them name it in their statements — inherit [jo <= jh] (P's objects ≤ P's homs; [u1 <= u2] or [u <= u0]
        in their blocks).  The FIRST CARRIER is the type [[P, X] ⟶ X] itself,
        not anything in this file or in #424's: [Fun]'s hom universe (a
        natural transformation quantifies over P's objects) sits above jo,
@@ -177,9 +188,10 @@ Generalizable All Variables.
        ([eval_res_obj], [eval_res_map], [res_obj], [res_obj_at], [res_map],
        [Res_CreatesAllLimits], [Res_Complete], [Res_continuous],
        [strict_self]) carry [u0 = u2] only; [ev_family] [u2 = u4] only;
-       [ObjCat] and [DiscInc] none.  The three corollaries and [strict_self],
-       bare top-level definitions over [{P X : Category}], keep P's object
-       level distinct from its hom level ([u <= u0], never [u = u0]).
+       [ObjCat] and [DiscInc] none.  The three corollaries, section constants
+       over [{P X : Category}] with no annotation, keep P's object level
+       distinct from its hom level ([u <= u0], never [u = u0]); [strict_self]
+       relates the two not at all.
      - [discrete_inclusion_creates_limits] is ANNOTATED AT THE DEFINITION
        ([@{io jo co h +}], one hom level for J, P and X, which the four
        equations identify anyway): written bare over [{J P X : Category}],
@@ -188,14 +200,24 @@ Generalizable All Variables.
        measured) — Instance/Fun/Limit.v's trap, now on a [:=] alias.
        Annotated it carries [jo <= h] and no equation.
      - STDLIB BOUNDS, absent from Instance/Fun/Limit.v, enter here through
-       [DiscreteCat]: the 21 constants whose statements mention [ObjCat] or
-       [Res] carry [jo <= eq.u0], [jo <= Logic_lemmas.equality.u0], [jh <=
-       eq_ind.u0] and [jh <= eq_ind_r.u0] (first carrier [ObjCat], from
-       [DiscreteCat]'s equality homs) and, all but [ObjCat], also [jh <=
-       eq_rect_r.u1], [jh <= EqdepFacts.eq_sigT_sig_eq.u2] and [JMeq.u0 <=
-       JMeq.u1] (first carrier [DiscInc], from [DiscreteCat_Functor']'s
-       [match] on an equality).  The 13 constants of PointwiseReflect and
-       JointCreation carry none.  No word-bounded [Set] in any block.
+       [DiscreteCat]: the 21 constants outside PointwiseReflect and
+       JointCreation — a different set of 21 from the [Eval]-naming one
+       above; these reach [ObjCat] or [Res] through their definitions —
+       carry [jo <= eq.u0], [jo <= Logic_lemmas.equality.u0], [jh <=
+       eq_ind.u0], [jh <= Logic_lemmas.equality.u0] and [jh <= eq_ind_r.u0]
+       (first carrier [ObjCat], from [DiscreteCat]'s equality homs) and, all
+       but [ObjCat], also [jh <= eq_rect_r.u1], [jh <=
+       EqdepFacts.eq_sigT_sig_eq.u2] and [JMeq.u0 <= JMeq.u1] (first carrier
+       [DiscInc], from [DiscreteCat_Functor']'s [match] on an equality).  The
+       13 constants of PointwiseReflect and JointCreation carry none.  Ten
+       constants ([creation_apex], [creation_leg],
+       [discrete_inclusion_creates_limits], [Fun_Eval_JointlyCreateLimit],
+       [Fun_pointwise_reflect], [res_coneiso_at], [Res_Complete],
+       [Res_continuous], [Res_CreatesAllLimits], [Res_CreatesLimit]) also
+       carry bounds into a non-local [Projections] module, inherited from
+       Structure/Limit/Creation.v's [creates_limit_lift] and
+       [creates_limits_Complete], not introduced here.  No word-bounded [Set]
+       in any block.
 
    COUNTS AND CONVENTIONS.
      - 34 [.glob] declaration heads (33 [def], 1 [prf]) plus 9 [Program]
@@ -236,12 +258,15 @@ Generalizable All Variables.
      - [(Eval p)] is parenthesised or applied inside a larger term
        throughout (Instance/Fun/Eval.v's header: bare at a definition-body
        head it parses as the [Eval … in] vernacular).
-     - Two forward references in Instance/Fun/Limit.v (:38, :182) now name
-       this file; line-neutral.
+     - Two forward references in Instance/Fun/Limit.v (:38, :202) now name
+       this file; line-neutral (an earlier revision said :182; measured
+       :202).
 
    NOT DELIVERED.
      - The COLIMIT half (Riehl: [ev] creates colimits too — the Riehl box of
-       the issue): #715's; not one colimit line is written.
+       the issue): not one colimit line is written, and no issue carries it
+       (#715 is pointwise colimits and cocompleteness of presheaves, not
+       creation).
      - Riehl's STRICT creation ([StrictlyCreatesLimit]): see (6) and probes
        N2/N3.
      - A hypothesis-free [CreatesLimit D Res] (decidable object equality on
