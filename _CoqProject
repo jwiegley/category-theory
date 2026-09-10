@@ -233,6 +233,7 @@ Instance/Ab/Graded.v
 Instance/Ab/Subtract.v
 Instance/Ab/DirectedColimit.v
 Instance/Ab/TorsionFree.v
+Instance/Ab/FreeNotContinuous.v
 Instance/Adj.v
 Instance/Adj/Forgetful.v
 Instance/Adj/Bicategory.v
@@ -937,6 +938,7 @@ Test/ProbeDiagrams420.v
 Test/ProbeCoreflexive421.v
 Test/ProbeFreyd423.v
 Test/ProbeProjective429.v
+Test/ProbeFreeAbNotContinuous430.v
 Test/ProbeFunEval424.v
 Test/ProbeFunLimit425.v
 Test/ProbeFunCreation426.v
