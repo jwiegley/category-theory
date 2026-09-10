@@ -99,9 +99,9 @@ Generalizable All Variables.
        [PiCat_Limit], [PiCat_Complete] — Riehl's clause (ii) at arbitrary
        index, and the completeness half of (iii).  [PiCat] is consumed as
        the tree's [I]-indexed product of categories; the QA note on the
-       issue points at a [Cat_HasIndexedProducts] that does not yet exist,
-       and nothing here depends on how that construction will relate to
-       [PiCat].
+       issue points at a [Cat_HasIndexedProducts], since built in
+       Instance/Cat/Limit.v with [PiCat] ITSELF as its object field, and
+       nothing here depends on it.
 
    NOT DELIVERED, AND WHY.
 
