@@ -965,3 +965,4 @@ Test/ProbeReflectiveColimit434.v
 Test/ProbeWeaklyInitial435.v
 Test/ProbeRepresentability437.v
 Test/ProbeCommaCreation438.v
+Test/ProbeGAFTCharacterization436.v

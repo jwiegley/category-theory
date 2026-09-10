@@ -326,3 +326,164 @@ Definition GAFT_via_comma_initial {C D : Category} (U : C ⟶ D)
   (comp : @Complete C) (cont : @PreservesImageLimit C D U)
   (sols : ∀ d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U } :=
   GAFT_from_initials U (fun d => comma_initial_of_sols U d comp cont (sols d)).
+
+(** ** The converse: an adjunction supplies its own solution sets *)
+
+(* Mac Lane §V.6 Theorem 2 (book p. 123) and Awodey §9.8 Theorem 28 read the
+   theorem above as a CHARACTERIZATION: for [U] with complete domain, having
+   a left adjoint is EQUIVALENT to preserving limits and satisfying the
+   solution set condition.  The sufficient direction is [GAFT]; the
+   necessary one is two statements, of which the tree already had the first
+   ([right_adjoint_PreservesImageLimit], Construction/Comma/Limit.v:266) and
+   none of the second — nothing anywhere built a [SolutionSet U d] out of an
+   adjunction.
+
+   It costs nothing to build.  The solution set is a SINGLETON: the unit
+   [η d : d ~> U (F d)] is the one arrow needed, since every [h : d ~> U c]
+   factors through it as [U (ε c ∘ fmap[F] h) ∘ η d] by the triangle
+   identities.  No completeness, no limit preservation, no smallness
+   hypothesis and no discrete-shape limit enter, so unlike [GAFT] itself
+   this direction carries no [Set] pin.  Read the universe claim precisely:
+   it is stated over [Category@{uo uh uh}] — the hom and proof universes
+   identified, and the SAME [uh] for both categories — which is the
+   identification [Adjunction] and [SolutionSet] already carry and not one
+   introduced here, so an earlier revision of this sentence saying "the
+   three universes free" was wrong.  What is free is [Set]: the necessity
+   direction is accepted at a category with [Set] strictly below its homs,
+   where the biconditional is refused (probe n6 and its control).
+
+   Mac Lane's completeness step is available through #438's creation
+   result — [comma_Complete_via_creation] (Construction/Comma/Creation.v)
+   derives [Comma_Complete]'s conclusion from [comma_CreatesAllLimits] and
+   [creates_limits_Complete], which is his argument rather than
+   Construction/Comma/Limit.v's direct construction.  [GAFT] itself is not
+   rewritten to use it: that would move lines eleven external citations
+   point at, and would put Construction/Comma/Creation.vo into this file's
+   closure for no theorem gained.
+
+   Everything below is appended, so no line at or above 328 moves. *)
+
+Definition solution_set_of_adjunction {C D : Category} {F : D ⟶ C} {U : C ⟶ D}
+  (A : F ⊣ U) (d : D) : SolutionSet U d.
+Proof.
+  unshelve refine
+    {| sol_index := poly_unit
+     ; sol_obj := fun _ => F d
+     ; sol_arr := fun _ => @unit _ _ _ _ A d |}.
+  intros c h.
+  exists ttt.
+  exists (@counit _ _ _ _ A c ∘ fmap[F] h).
+  rewrite fmap_comp, <- comp_assoc.
+  rewrite unit_comp, comp_assoc.
+  rewrite fmap_counit_unit.
+  apply id_left.
+Defined.
+
+(* The three data fields read back on the nose. *)
+
+Definition solution_set_of_adjunction_index {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) :
+  sol_index (solution_set_of_adjunction A d) = poly_unit := eq_refl.
+
+Definition solution_set_of_adjunction_obj {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) (i : poly_unit) :
+  sol_obj (solution_set_of_adjunction A d) i = F d := eq_refl.
+
+Definition solution_set_of_adjunction_arr {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) (i : poly_unit) :
+  sol_arr (solution_set_of_adjunction A d) i = @unit _ _ _ _ A d := eq_refl.
+
+(** ** Mac Lane's own route, through the comma-initial object *)
+
+(* The book does not exhibit a solution set directly: it observes that the
+   unit is a UNIVERSAL ARROW, hence an initial object of the comma category,
+   hence a weakly initial family of one, hence a solution set.  That chain is
+   in the tree already — [universal_arrow_from_UMP], [arrow_initial],
+   [sols_of_comma_initial] — so the route can be walked as a second reading
+   and compared with the direct one.  It collapses: the arrow of the derived
+   solution set is again the unit, by [eq_refl]. *)
+
+Definition universal_arrow_of_adjunction {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) : UniversalArrow d U.
+Proof.
+  unshelve refine (universal_arrow_from_UMP d U (F d) (@unit _ _ _ _ A d) _).
+  intros c h.
+  exists (@counit _ _ _ _ A c ∘ fmap[F] h).
+  - rewrite fmap_comp, <- comp_assoc.
+    rewrite unit_comp, comp_assoc.
+    rewrite fmap_counit_unit.
+    symmetry; apply id_left.
+  - intros g Hg.
+    rewrite Hg, fmap_comp, comp_assoc.
+    rewrite counit_comp, <- comp_assoc.
+    rewrite counit_fmap_unit.
+    apply id_right.
+Defined.
+
+Definition comma_initial_of_adjunction {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) : @Initial (=(d) ↓ U) :=
+  @arrow_initial _ _ d U (universal_arrow_of_adjunction A d).
+
+Definition solution_set_of_adjunction_via_comma {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) : SolutionSet U d :=
+  sols_of_comma_initial U d (comma_initial_of_adjunction A d).
+
+(* The composite [universal_arrow_from_UMP → arrow_initial →
+   weakly_initial_of_initial → sols_of_wif] reduces all the way to the
+   unit. *)
+
+Definition solution_set_via_comma_index {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D) :
+  sol_index (solution_set_of_adjunction_via_comma A d)
+    = sol_index (solution_set_of_adjunction A d) := eq_refl.
+
+Definition solution_set_via_comma_obj {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D)
+  (i : sol_index (solution_set_of_adjunction_via_comma A d)) :
+  sol_obj (solution_set_of_adjunction_via_comma A d) i = F d := eq_refl.
+
+Definition solution_set_via_comma_arr {C D : Category} {F : D ⟶ C}
+  {U : C ⟶ D} (A : F ⊣ U) (d : D)
+  (i : sol_index (solution_set_of_adjunction_via_comma A d)) :
+  sol_arr (solution_set_of_adjunction_via_comma A d) i
+    = @unit _ _ _ _ A d := eq_refl.
+
+(** ** The characterization *)
+
+(* Mac Lane §V.6 Theorem 2 / Awodey §9.8 Theorem 28.  [Defined], so that the
+   readbacks below hold; and the reverse half is [GAFT] ITSELF rather than
+   [GAFT_via_comma_initial], because [GAFT] is [Qed] and the two are not
+   convertible — building it from the latter stops [GAFT_iff_rev_is_GAFT]
+   below, this file's own readback, before Adjunction/GAFT/Sets.v's
+   [Sets_Id_has_left_is_GAFT_at_Sets_Id] is ever reached.  Both readbacks
+   stop; the nearer one is the one that fires. *)
+
+Theorem GAFT_iff {C D : Category} (U : C ⟶ D) (comp : @Complete C) :
+  { F : D ⟶ C & F ⊣ U }
+    ↔ (@PreservesImageLimit C D U * (∀ d : D, SolutionSet U d)).
+Proof.
+  split.
+  - intros [F A].
+    split.
+    + exact (right_adjoint_PreservesImageLimit A).
+    + exact (solution_set_of_adjunction A).
+  - intros [cont sols].
+    exact (GAFT U comp cont sols).
+Defined.
+
+Definition GAFT_iff_fwd {C D : Category} (U : C ⟶ D) (comp : @Complete C)
+  (H : { F : D ⟶ C & F ⊣ U }) :
+  @PreservesImageLimit C D U * (∀ d : D, SolutionSet U d) :=
+  fst (GAFT_iff U comp) H.
+
+Definition GAFT_iff_rev {C D : Category} (U : C ⟶ D) (comp : @Complete C)
+  (H : @PreservesImageLimit C D U * (∀ d : D, SolutionSet U d)) :
+  { F : D ⟶ C & F ⊣ U } :=
+  snd (GAFT_iff U comp) H.
+
+(* The reverse half IS GAFT, on the nose. *)
+
+Definition GAFT_iff_rev_is_GAFT {C D : Category} (U : C ⟶ D)
+  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
+  (sols : ∀ d : D, SolutionSet U d) :
+  GAFT_iff_rev U comp (cont, sols) = GAFT U comp cont sols := eq_refl.
