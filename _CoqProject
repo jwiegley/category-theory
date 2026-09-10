@@ -576,6 +576,7 @@ Structure/End.v
 Structure/Equalizer.v
 Structure/Equalizer/Fork.v
 Structure/Equalizer/Wide.v
+Structure/Equalizer/Coreflexive.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
@@ -925,6 +926,7 @@ Test/ProbeFinSetLimit415.v
 Test/ProbeCompHaus413.v
 Test/ProbeComparison419.v
 Test/ProbeDiagrams420.v
+Test/ProbeCoreflexive421.v
 Test/Size.v
 Tools/Abstraction.v
 Tools/Represented.v
