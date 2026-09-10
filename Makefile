@@ -7697,6 +7697,31 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.FreeAb_not_PreservesLimitCone_empty.'; \
 	  echo 'Print Assumptions Category.Instance.Ab.FreeNotContinuous.SetsPoint_empty_IsLimitCone.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.Continuity.Finite.'; \
+	  echo 'Print Assumptions Category.Adjunction.Continuity.Finite.left_adjoint_preserves_binary_coproducts.'; \
+	  echo 'Print Assumptions Category.Adjunction.Continuity.Finite.left_adjoint_preserves_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.Continuity.Finite.right_adjoint_preserves_binary_products.'; \
+	  echo 'Print Assumptions Category.Adjunction.Continuity.Finite.right_adjoint_preserves_terminal.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Sets.NoAdjoint.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.fixed_product_left_adjoint_iff_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.fixed_product_left_adjoint_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.fp_adj_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.Id_adj_fixed_product.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.OnePlusOne.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.OnePt.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.pt_inl.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.pt_inl_inr_apart.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.pt_inr.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.Sets_op_Cartesian_is_coproducts.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.Sets_op_Initial.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.Sets_op_not_cartesian_closed.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.times_X_has_left_adjoint_iff_terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.to_X.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.to_X_unique.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
