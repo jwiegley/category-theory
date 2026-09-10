@@ -7803,6 +7803,48 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_terminal_shape_colimit.'; \
 	  echo 'Print Assumptions Category.Construction.Reflective.Colimit.reflective_terminal_shape_apex.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Theory.WeaklyInitial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.WeaklyInitialFamily.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_index.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_obj.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_cover.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_from_weakly_initial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.WeaklyInitial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_obj_of_initial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.wif_of_weakly_initial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_iprod.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_of_initial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_of_initial_index.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_of_initial_obj.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.weakly_initial_of_initial_cover.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.FreydProducts.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_iff_weakly_initial_family.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_iff_weakly_initial_family_fst.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_from_weakly_initial_complete.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_iff_weakly_initial_family_complete.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.initial_iff_weakly_initial_family_complete_fst.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Parallel_ParX_WeaklyInitial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Parallel_ParX_not_initial.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Parallel_ParY_not_weakly_initial.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Theory.WeaklyInitial.Sets.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_initial_characterization.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_wif.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_initial_recovered.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_roundtrip_iso.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_wif_index.'; \
+	  echo 'Print Assumptions Category.Theory.WeaklyInitial.Sets.Sets_wif_obj.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_wif.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_wif_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sols_of_comma_initial_obj.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

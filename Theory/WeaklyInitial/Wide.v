@@ -64,8 +64,8 @@ Generalizable All Variables.
    UNIVERSES, measured (reproduce with [Set Printing Universes. About
    initial_from_weakly_initial. About initial_from_weakly_initial_wide.]).
    Both theorems are over [C : Category@{u2 Set Set}] — the pin at [Set]
-   is the DONOR's, inherited from [Terminal] and the equalizer supply, and
-   is not introduced here.  The binder COUNT is the same — both are
+   is the DONOR's, from [iprod] and not from [Terminal] or the equalizers
+   (both unpinned; measured in #435).  The binder COUNT is the same — both are
    [@{u u0 u1 u2}], so there is no extra binder: the wide form replaces the
    power's binder with the class's index binder, which is itself
    unconstrained, appearing free in [HasWideEqualizers@{u1 u2 Set} C].  The
