@@ -103,10 +103,10 @@
     concrete analogues, so this file is the INHABITANT PATTERN that
     class has otherwise been asserted to have.  It is NOT an instance of
     the class and does not claim to be: [StarAutonomous] is stated over
-    [SymMonClosed], and the library has no monoidal structure on
-    [Vct_F F] at all — that needs the tensor product of modules, which
-    Instance/Mod.v's SCOPE paragraph explicitly defers.  The gap is
-    named here rather than papered over.
+    [SymMonClosed], which [Vct_F F] lacked when this was written; since
+    Instance/Mod/Closed.v:747's [RMod_SymMonClosed] (2026-08-31) it has
+    one, and Instance/FdVect/NoRightAdjoint.v (#433) reads StarAutonomous.v's
+    [dual] off it: isomorphic to [Dual] ([dual_iso359]), not convertible.
 
     One packaging note in the same spirit: the headline is delivered
     as a PAIR — [double_dual_natural] (a transformation at [Vct_F],

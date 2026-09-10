@@ -7722,6 +7722,64 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.to_X.'; \
 	  echo 'Print Assumptions Category.Instance.Sets.NoAdjoint.to_X_unique.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Mod.Product.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.modprod_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.modprod_cmon.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.modprod_ab.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.ProdMod.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_tuple.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_tuple_proj.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_tuple_unique.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_proj_component.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.ProdMod_IsIndexedProduct.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.Product.prod_iprod_mediator.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.FdVect.NoRightAdjoint.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.VctLine.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.PowLine.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_coord.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_zero_hom.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.span_sum.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.span_sum_app.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.span_sum_scale.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.SpanCoords.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_coord_in_span.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.LineDiagram.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.op_discrete_cone.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.PowCocone.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.PowCocone_IsColimitCocone.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.CoordSpanProper.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.SpanQuot.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.span_quot.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.ZeroCocone.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_not_PreservesColimitCocone.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_functor_no_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_not_left_adjoint_of_op.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_transpose.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_transpose_invol.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_transpose_morphism.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_aor.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_vct_AdjointOnTheRight.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_vct_Adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_vct_Continuous.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.VctSMC.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.VctDual359.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.to359.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.from359.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.iso359.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual359_fmap_pre.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual_iso359.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual359_no_right_adjoint.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.dual359_not_left_adjoint_of_op.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_coord_component.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.pow_line_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.vct_transpose_component.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.iso359_to_component.'; \
+	  echo 'Print Assumptions Category.Instance.FdVect.NoRightAdjoint.pow_cocone_mediator_component.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
