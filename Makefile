@@ -7927,6 +7927,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_apex_strict.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_equalizer_leg_strict.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_StrictlyCreatesEqualizers.'; \
+	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesAllLimits.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_CreatesProducts.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_proj_creates_limits.'; \
 	  echo 'Print Assumptions Category.Construction.Comma.Creation.comma_creates_equalizers.'; \

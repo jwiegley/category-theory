@@ -58,9 +58,10 @@ Generalizable All Variables.
    full strength, which is strictly stronger than the [≈] the class asks
    for; every proof below uses [≈].  (An earlier revision said
    [comma_strict_legs] was "the one statement here" of that shape; measured
-   at this revision there are FOUR, the later three being
+   at this revision there are FOUR in this file — the later three being
    [comma_limit_at_legs], [comma_prod_leg_strict] and
-   [comma_equalizer_leg_strict], each likewise [eq_refl] on one term.) *)
+   [comma_equalizer_leg_strict] — and a fifth, [coslice_lift_legs], in
+   Construction/Slice/Creation.v, each likewise [eq_refl] on one term.) *)
 
 (* What follows the strictness readbacks was added for Mac Lane §V.6's
    Lemma 1 and Exercise 1 (book pp. 121-125) and, through
@@ -79,11 +80,12 @@ Generalizable All Variables.
    [PreservesLimitCone (Gdiag K) U], the hypothesis at the ONE base diagram
    of the ONE [K] at hand, and it does so ADDITIVELY: Construction/Comma/Limit.v
    is not touched, because NINE [.v] files and nine planning or documentation
-   files cite it at fifteen distinct line numbers (measured with
+   files cite it at fifteen distinct line numbers at master (measured with
    [grep -rloE 'Comma/Limit\.v:[0-9]+'] over [--include='*.v'] and
-   [--include='*.md']; the count is ten [.v] files at this revision, but
-   one of the ten is Construction/Slice/Creation.v, added by the same
-   commit, so nine is the honest figure for the decision).  The price is
+   [--include='*.md']); the count is ten [.v] files from the previous commit
+   on, the tenth being Construction/Slice/Creation.v, which that commit
+   added, and one of the nine is this file itself, so EIGHT other files
+   carry the constraint.  The price is
    about a hundred lines of re-derivation with the original tactic scripts.
 
    The two-sided analogue landed first and is not superseded:
@@ -113,19 +115,22 @@ Generalizable All Variables.
    leaves its hom universe free.  The products clause is stated
    ELEMENTARILY over [Structure/Limit/Product.v]'s [IsIndexedProduct]
    rather than over a discrete shape, because that is the form that can be
-   INSTANTIATED at a family: [DiscreteCat_Functor] (Instance/Discrete.v:59)
-   has printed type [DiscreteCat@{u Set Set} A ⟶ C], so
-   [Gdiag (DiscreteCat_Functor F)] pins BOTH categories to
-   [Category@{_ Set Set}] and is refused over a generic [C] with
-   "universe inconsistency: Cannot enforce Set = ..." (probe negative n2).
-   The pin belongs to that constant and not to [DiscreteCat] itself, whose
-   hom and proof universes are free ([DiscreteCat@{o h p} : Type@{o} →
-   Category@{o h p}]), which is why the discrete-shape statement
-   [comma_CreatesProducts] below IS formable and axiom-free over a generic
-   [C] and [D].  Both are shipped; the elementary one is the usable one.
-   This is the trap the Construction/Comma/Special.v bullet of docs/INDEX.md
-   already records for [DiscreteCat_Functor], sighted here at the family
-   step rather than at [Gdiag].
+   instantiated at an arbitrary FAMILY: a functor out of [DiscreteCat A]
+   that eliminates the shape's [x = y] into a hom pins both categories to
+   [Category@{_ Set Set}], and is refused over a generic [C] with
+   "universe inconsistency: Cannot enforce Set = ..." (probe negative n2) —
+   the tree's own [DiscreteCat_Functor] (Instance/Discrete.v:59) prints as
+   [DiscreteCat@{u Set Set} A ⟶ C] for that reason, and a hand-rolled
+   eliminator is refused identically, so the pin belongs to the ELIMINATION
+   and not to any one constant.  It does not belong to [DiscreteCat]
+   either, whose hom and proof universes are free
+   ([DiscreteCat@{o h p} : Type@{o} → Category@{o h p}]) — which is why
+   [comma_CreatesAllLimits] and its instance [comma_CreatesProducts] below
+   are formable and axiom-free over a generic [C] and [D], and why they are
+   not vacuous: a CONSTANT discrete diagram eliminates nothing and is
+   formable, so the class applies to it.  This is the trap the
+   Construction/Comma/Special.v bullet of docs/INDEX.md already records for
+   [DiscreteCat_Functor], sighted here one step earlier.
 
    Three of issue #438's substantive claims about the tree are FALSE as of
    this file's parent, and are recorded here because the issue text will
@@ -155,26 +160,31 @@ Generalizable All Variables.
    claim creation where only existence is proved — was already resolved by
    this file's first commit, as the paragraph above records.
 
-   Measured.  This file's [.glob] declares 41 heads (37 [def], 4 [prf]) and
+   Measured.  This file's [.glob] declares 42 heads (38 [def], 4 [prf]) and
    no [Program] obligation, nine of them from the first commit; with
-   Construction/Slice/Creation.v's 30 that is 71 constants, all carried by
+   Construction/Slice/Creation.v's 30 that is 72 constants, all carried by
    [make print-assumptions] and all reporting "Closed under the global
    context".  Closure goes from 35 modules excluding self to 38, and the
    three added are EXACTLY the three new [Require]s
    (Structure/Limit/Product, Structure/Equalizer, Instance/Parallel) — none
-   brings anything else with it, and [comma_CreatesProducts] needed no
+   brings anything else with it, and neither creation class needed a
    [Require] at all — while Adjunction/Representability/Sets.v stays at 99,
    all three having been in its closure already.  Four files require this
    one: that one and Construction/Slice/Creation.v in the library, and the
    two probes.  Construction/Slice/Creation.v closes over 52 and the probe
-   over 58.  Zero collisions over the 71 heads and the probe's 18 declared
+   over 58.  Zero collisions over the 72 heads and the probe's declared
    names (whole-word [grep -rlw] over [*.v], instrument-checked at [Full],
    [comma_limit] and [Coslice_Proj]); the only other-file hits are two USES
    of [Continuous_PreservesImageLimit] in Adjunction/Representability/Sets.v
    and one prose mention of [comma_CreatesLimit] at Construction/Arrow/Limit.v:97,
-   with no second declaration anywhere.  [make todo] grows by seven, the
-   probe's seven refutation lines, and neither library file contributes a
-   hit.
+   with no second declaration anywhere.  Renaming each of the 72 names in
+   turn, in the file that DECLARES it and nowhere else, then recompiling
+   this file, the satellite and the probe in order: 71 stop the probe, every
+   one of those on a positive line and none inside a refutation, and the
+   72nd ([comma_StrictlyCreatesLimit]) stops the satellite first, at the
+   line that consumes it — nothing survives a rename, so no guard here is
+   vacuous.  [make todo] grows by seven, the probe's seven refutation lines,
+   and neither library file contributes a hit.
 
    Across the two files thirteen definitions close with [Defined] — two of
    them from this file's first commit — and seven with [Qed].  Flipping each
@@ -196,9 +206,10 @@ Generalizable All Variables.
    so Adjunction/GAFT.v and Adjunction/SAFT.v are untouched; no per-shape
    completeness class, the products and equalizers clauses being single
    statements rather than instances of a shape-indexed family; no
-   INSTANTIATION of [comma_CreatesProducts] at a family, for the
-   [DiscreteCat_Functor] reason above — the statement is shipped, an
-   inhabitant at a given family over a generic [C] is not; no ON-THE-NOSE
+   INSTANTIATION of [comma_CreatesProducts] at an arbitrary FAMILY over a
+   generic [C], for the elimination reason above — the class is shipped and
+   the probe applies it to a constant discrete diagram, but a diagram built
+   from a family is refused; no ON-THE-NOSE
    uniqueness of the lift, Mac Lane's "exactly one pair" — what is
    available is [creates_lift_unique]'s [ConeIso], and
    Structure/Limit/Creation.v says in terms why uniqueness cannot be a
@@ -674,29 +685,44 @@ Definition comma_StrictlyCreatesEqualizers :
 
 End CommaEqualizers.
 
-(** ** The discrete-shape products clause, and what is wrong with it *)
+(** ** The shape-indexed creation classes *)
 
-(* [Structure/Limit/Creation.v]'s [CreatesProducts F] quantifies over every
-   [DiscreteCat A] shape, and it IS provable here over a generic [C] and
-   [D], axiom-free, with no [Set] anywhere in its constraint block — an
-   earlier revision of this header said reaching the products clause that
-   way "would import that pin", and that was wrong: [Gdiag K] is formable
-   for an abstract [K : DiscreteCat A ⟶ (=(d) ↓ U)], because [Compose]
-   unifies the shape's hom universe with [C]'s before minimization.  The
-   [Set] pin lives one step further on, in the CONSTANT [DiscreteCat_Functor]
-   (Instance/Discrete.v:59), whose printed type is
-   [DiscreteCat@{u Set Set} A ⟶ C]: so what is refused is building the
-   discrete diagram OUT OF A FAMILY, which is what probe negative n2
-   records.  The elementary [IsIndexedProduct] clause above is therefore
-   kept because it is the usable form — it takes the family directly — and
-   not because this one is unformable.  Both are shipped. *)
+(* Under the ALL-SHAPES [PreservesImageLimit] the per-diagram theorem above
+   is available at every diagram at once, so [Structure/Limit/Creation.v]'s
+   two classes both follow, by the same term.  [comma_CreatesAllLimits] is
+   the strongest of the three statements here and the other two are its
+   instances: [CreatesAllLimits_CreatesProducts] reads it at
+   [J := DiscreteCat A], and [comma_CreatesProducts] is exactly that.
+
+   An earlier revision of this header said reaching the products clause
+   through [CreatesProducts] "would import that pin", and that was wrong.
+   [Gdiag K] is formable for an abstract [K : DiscreteCat A ⟶ (=(d) ↓ U)],
+   because [Compose] unifies the shape's hom universe with [C]'s before
+   minimization, and neither class carries [Set] in its block.  What IS
+   refused is a functor OUT OF [DiscreteCat A] that eliminates the shape's
+   [x = y] into a hom: [DiscreteCat_Functor] (Instance/Discrete.v:59) prints
+   as [DiscreteCat@{u Set Set} A ⟶ C], and a hand-rolled eliminator is
+   refused with the same "Cannot enforce Set = ..." (probe negative n2),
+   even at a concrete base such as [C = D = Sets] with [U = Id].  So the pin
+   belongs to the elimination, not to [DiscreteCat], whose hom and proof
+   universes are free.  The classes are NOT vacuous: a CONSTANT discrete
+   diagram needs no elimination and is formable over a generic [C], with
+   [comma_CreatesProducts] applying to it — Test/ProbeCommaCreation438.v
+   ships that witness.  The elementary [IsIndexedProduct] clause above is
+   kept because it takes the family directly, which is the form Mac Lane's
+   Theorem 2 consumes. *)
+
+Definition comma_CreatesAllLimits {C D : Category} {U : C ⟶ D} {d : D}
+  (HU : @PreservesImageLimit C D U) :
+  @CreatesAllLimits (=(d) ↓ U) C comma_proj2 :=
+  fun J K => StrictlyCreatesLimit_CreatesLimit
+               (comma_StrictlyCreatesLimit K
+                  (fun N HN => HU _ (Gdiag K) (@Build_Limit _ _ (Gdiag K) N HN))).
 
 Definition comma_CreatesProducts {C D : Category} {U : C ⟶ D} {d : D}
   (HU : @PreservesImageLimit C D U) :
   @CreatesProducts (=(d) ↓ U) C comma_proj2 :=
-  fun A K => StrictlyCreatesLimit_CreatesLimit
-               (comma_StrictlyCreatesLimit K
-                  (fun N HN => HU _ (Gdiag K) (@Build_Limit _ _ (Gdiag K) N HN))).
+  CreatesAllLimits_CreatesProducts (comma_CreatesAllLimits HU).
 
 (** ** The three names issue #438's Verification block audits *)
 
@@ -715,7 +741,8 @@ Definition comma_CreatesProducts {C D : Category} {U : C ⟶ D} {d : D}
    against [comma_equalizer_at]'s 32, [comma_creates_products] 11 against
    [comma_IsIndexedProduct]'s 16 — because the equations the originals carry
    in their constraint blocks, [u0 = u2] identifying [C]'s hom-and-proof
-   universe with [D]'s in all three and one or two more besides, are solved
+   universe with [D]'s in all three, with two, four and one more besides, are
+   solved
    into the aliases' binders instead: every alias binder reads
    [C : Category@{_ h h}] and [D : Category@{_ h h}] with ONE [h], and no
    alias block carries an equation at all.  No block on either side mentions

@@ -14,10 +14,15 @@
     [creates_lift] discards the cone it is handed and returns the lift of
     the fixed [L], so its apex is refused against that cone's apex, while
     the paired control shows the new strict lift is accepted.  UNIVERSE:
-    N2, a discrete-shape base diagram is not formable over a generic [C],
-    because [Gdiag] identifies the shape's hom and proof universes with
-    [C]'s and [DiscreteCat]'s hom minimizes to [Set] — which is why the
-    products clause is stated elementarily over [IsIndexedProduct].
+    N2, a discrete-shape base diagram built by ELIMINATING the shape's
+    [x = y] into a hom is not formable over a generic [C] — the elimination
+    pins both categories to [Category@{_ Set Set}], while [DiscreteCat]
+    itself leaves those universes free — which is why the products clause
+    is stated elementarily over [IsIndexedProduct]; the constant discrete
+    diagram below shows the class it does not block is still inhabited.
+    N6, CONVERSION again: the plain coslice projection and the transported
+    one are different functors, so neither file's result transfers to the
+    other by conversion.
 
     The [eq_refl] readbacks are positive controls: the per-diagram limit
     projects onto the downstairs limit in apex and legs, so do the indexed
@@ -97,12 +102,28 @@ Context (F : A → (=(d) ↓ U)).
 (* control: the discrete functor itself is formable *)
 Check (DiscreteCat_Functor F).
 
-(* N2 UNIVERSE: but its base diagram is not — [Gdiag] pins the shape's hom
-   and proof universes to [C]'s, and [DiscreteCat]'s hom minimizes to [Set] *)
+(* N2 UNIVERSE: but its base diagram is not — building a functor out of
+   [DiscreteCat A] by eliminating [x = y] into a hom pins both categories to
+   [Category@{_ Set Set}] *)
 Fail Definition p438_discrete := Gdiag (DiscreteCat_Functor F).
 
 (* control: the elementary products clause needs no shape at all *)
 Check (@comma_IsIndexedProduct C D U d A F).
+
+(* control: the discrete-shape class is NOT vacuous.  A CONSTANT diagram out
+   of [DiscreteCat A] eliminates nothing, so it is formable over a generic
+   [C], and [comma_CreatesProducts] applies to it. *)
+
+Definition p438_const_discrete (a : (=(d) ↓ U)) : DiscreteCat A ⟶ (=(d) ↓ U) :=
+  @Build_Functor (DiscreteCat A) (=(d) ↓ U)
+    (fun _ => a) (fun _ _ _ => id)
+    (fun x y => ltac:(intros f g Hfg; reflexivity))
+    (fun x => reflexivity _)
+    (fun x y z f g => symmetry (id_left _)).
+
+Definition p438_const_creates (HU : @PreservesImageLimit C D U)
+  (a : (=(d) ↓ U)) : CreatesLimit (p438_const_discrete a) comma_proj2 :=
+  comma_CreatesProducts HU A (p438_const_discrete a).
 
 End DiscreteShape.
 
@@ -273,9 +294,11 @@ Example p438_equalizer_apex {C D : Category} {U : C ⟶ D} {d : D}
 
 (* [Complete C] is the only hypothesis the coslice results consume that is
    not discharged in tree with no premise at all, and [Sets_Complete]
-   discharges it.  The witness lives here rather than in
-   Construction/Slice/Creation.v so that a Construction/ file does not
-   import Instance/Sets. *)
+   discharges it.  The witness lives here because instantiating a theorem
+   at a concrete category is a [Test/] concern; it is NOT because a
+   Construction/ file may not reach [Instance/Sets], which
+   Construction/Slice/Creation.v already does transitively through
+   Adjunction/Compose.v. *)
 
 Example p438_sets_coslice_complete (X : Sets) : @Complete (X ̸co Sets) :=
   Coslice_Complete X Sets_Complete.
@@ -310,6 +333,7 @@ Check @comma_equalizer_at.
 Check @comma_equalizer_apex_strict.
 Check @comma_equalizer_leg_strict.
 Check @comma_StrictlyCreatesEqualizers.
+Check @comma_CreatesAllLimits.
 Check @comma_CreatesProducts.
 Check @comma_proj_creates_limits.
 Check @comma_creates_equalizers.

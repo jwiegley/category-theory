@@ -51,14 +51,21 @@ Generalizable All Variables.
    attribute heading that same declaration)
    is an isomorphism [c ̸co C ≅ =(c) ↓ Id] in [Cat], hence an equivalence,
    hence a creator of all limits (Theory/Equivalence/Creation.v), so
-   completeness and CreatesLimit both cross over.  STRICT creation does NOT
-   cross over: the transported projection [comma_proj2 ◯ Coslice_to_Comma]
-   has an object action that does not reduce to the first projection —
+   completeness and CreatesLimit both cross over.  STRICT creation is not
+   carried across by that argument, and no strict statement about the
+   transported projection is claimed here either way: the transported
+   projection [comma_proj2 ◯ Coslice_to_Comma] has an object action that
+   does not reduce to the first projection —
    [Comma_Coslice] is a [Program Instance] whose [fobj] is an obligation —
    and there is no [StrictlyCreatesLimit_compose] to compose strictness
    through.  Test/ProbeCommaCreation438.v's negatives n3 and n4 pin both
    halves: the object action is refused against [`1 x], and the coslice is
-   not the comma category on the nose.
+   not the comma category on the nose.  Both close the [eq_refl] route to
+   [slift_eq], which is what "there is no [StrictlyCreatesLimit_compose]"
+   leaves without an alternative; neither REFUTES the existence of a
+   [StrictlyCreatesLimit K (comma_proj2 ◯ Coslice_to_Comma)], whose
+   [slift_eq] is a Leibniz [=] that need not be [eq_refl], and no such lift
+   was attempted.
 
    That is a fact about the TRANSPORT, not about coslice projections.  An
    earlier revision of this header drew the wrong conclusion from it — that
@@ -159,10 +166,13 @@ End CosliceComma.
    [c ̸co C ⟶ C] — the [Cocartesian] variable of the section it sits in is
    not discharged into it, because its body does not use it — and both its
    data fields reduce, [fobj] to [`1 x] and [fmap] to [`1 f] by [eq_refl].
-   So the [StrictLift] apex clause is definitional for it, and Riehl's §4.7
-   exercise — the direct argument, "along the lines of the argument for the
-   analogous statement about slice/coslice projections" — can be carried out
-   here rather than deferred.
+   So the [StrictLift] apex clause is definitional for it.  Riehl's §4.7
+   exercise asks for the direct argument for the COMMA projection "along the
+   lines of the argument for the analogous statement about slice/coslice
+   projections": the exercise proper is
+   Construction/Comma/Creation.v's [comma_StrictlyCreatesLimit], and what is
+   built below is the slice/coslice statement the exercise names as its
+   model, which the tree did not have either.
 
    It is carried out below, and it needs NO hypothesis whatever: the step
    that consumes preservation in the comma case is the passage from the
