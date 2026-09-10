@@ -7480,6 +7480,43 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_map_unique.'; \
 	  echo 'Print Assumptions Category.Instance.Fun.Limit.plim_ump_commutes.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Fun.Creation.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.creation_apex.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.creation_leg.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.DiscInc.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ev_family.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ev_lift.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ev_lift_apex.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ev_lift_leg.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ev_lift_over.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.eval_res_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.eval_res_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Fun_Eval_JointlyCreateLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Fun_pointwise_reflect.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ObjCat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_apex_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_apex_readback.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_cone_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_leg_readback.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_of_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_comp_cone.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_coneiso_at.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res_continuous.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res_CreatesAllLimits.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res_CreatesLimit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.discrete_inclusion_creates_limits.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_map.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_obj.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_obj_at.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.Res_preserves.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.res_ump_nat.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.strict_self.'; \
+	  echo 'Print Assumptions Category.Instance.Fun.Creation.ptw_map_is_fmap.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
