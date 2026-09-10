@@ -107,6 +107,7 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Slice/Terminal.v
 Construction/Slice/Adjunction.v
+Construction/Slice/Creation.v
 Construction/Sq.v
 Construction/Subcategory.v
 Construction/Subcategory/Dense.v
@@ -963,3 +964,4 @@ Test/ProbeZp409.v
 Test/ProbeReflectiveColimit434.v
 Test/ProbeWeaklyInitial435.v
 Test/ProbeRepresentability437.v
+Test/ProbeCommaCreation438.v
