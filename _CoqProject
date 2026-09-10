@@ -585,6 +585,7 @@ Structure/Equalizer/Wide.v
 Structure/Equalizer/Coreflexive.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
+Structure/Projective.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Group/Representable.v
@@ -935,6 +936,7 @@ Test/ProbeComparison419.v
 Test/ProbeDiagrams420.v
 Test/ProbeCoreflexive421.v
 Test/ProbeFreyd423.v
+Test/ProbeProjective429.v
 Test/ProbeFunEval424.v
 Test/ProbeFunLimit425.v
 Test/ProbeFunCreation426.v
