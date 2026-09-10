@@ -259,6 +259,7 @@ Instance/Cat/Bicategory/Conjugate.v
 Instance/Cat/Bicategory/Square.v
 Instance/Cat/TwoCategory.v
 Instance/Cat/Pullback.v
+Instance/Cat/Creation.v
 Instance/Cat/Coproduct.v
 Instance/Cat/Limit.v
 Instance/StrictCat.v
@@ -966,3 +967,4 @@ Test/ProbeWeaklyInitial435.v
 Test/ProbeRepresentability437.v
 Test/ProbeCommaCreation438.v
 Test/ProbeGAFTCharacterization436.v
+Test/ProbeCatCreation439.v
