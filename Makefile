@@ -8081,6 +8081,45 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_F_image_coneiso_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Cat.Creation.fp_square_iso_obligation_1.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Variety.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.satisfies.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_sub.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Incl.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Incl_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_pack.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_unpack.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_unpack_pack.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_pack_unpack.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.magma_op.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.MagmaOp.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.comm_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.comm_swap.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.CommEq.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.CommMagmaVariety.'; \
+	  echo 'Require Import Category.Instance.Variety.Clone.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.DerivedOperators.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_var.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_op.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_subst.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_rename.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.SetoidAction.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.sact_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.sact_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.sact_op.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.sact_op_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.sact_alg.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_act.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_act_var.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_act_op.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.action_extends_to_clone.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_act_subst.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_act_rename.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

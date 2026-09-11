@@ -274,6 +274,32 @@ the global context".  Known live uses:
   `Instance/Comp.v` also applies `functional_extensionality` /
   `functional_extensionality_dep` directly, and
   `Theory/Coq/Functor/Proofs.v` uses the `extensionality` tactic.
+  **That dependence propagates into the variety development
+  (`Instance/Variety.v` and its two satellites), and is the reason five
+  named constants there plus one whole file are deliberately absent from
+  `make print-assumptions`** — gating them would make the axiom audit
+  report a stdlib axiom.  The five are `GroupVariety` and
+  `GroupVariety_Bool` (`Instance/Variety.v`), which mention
+  `Instance/Comp.v:358`'s `GroupEq`, itself `Defined` with the axiom at
+  `:370`/`:375`; and `leibniz_action`, `action_extends_to_clone_leibniz`,
+  `clone_act_subst_leibniz` (`Instance/Variety/Clone.v`), which are the
+  Leibniz shadows of statements that ARE closed in their setoid form.
+  The whole file is `Instance/Variety/GroupComparison.v`, all eleven of
+  whose constants carry it.  Verify:
+  `Print Assumptions Category.Instance.Variety.GroupVariety.` and
+  `Print Assumptions Category.Instance.Variety.GroupComparison.GroupVariety_to_Grp.`
+  The dependence is structural, not a proof-script accident:
+  `EqSignature`'s `lhs_natural`/`rhs_natural` (`Instance/Comp.v:254`,
+  `:257`) demand a Leibniz equation between two `arity o → B` argument
+  bundles that are only pointwise equal, and extensionality out of a
+  finite enumeration is not derivable in CIC.  It is also a fact about
+  equation DEPTH rather than about varieties: a depth-1 law's naturality
+  field IS `op_commute` with the bundle unchanged, and accordingly
+  `Instance/Variety.v`'s `CommEq` and `CommMagmaVariety` ARE closed under
+  the global context and ARE gated.  Everything else in the development —
+  `Variety` itself, its five satellites, the whole clone in setoid form
+  including `action_extends_to_clone` — is closed and gated (35
+  constants).
 - **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
   and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).
