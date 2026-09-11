@@ -599,6 +599,17 @@ Example roster_GroupOp : UA.OpSignature := UA.GroupOp.
    signature alone, with the equations imposed objectwise — so the
    variety is recorded here as the type it is, and the roster's
    "category of groups" entry is Instance/Grp.v's [Grp] above.  The
-   witness is that file's ℤ/2 under exclusive or. *)
+   witness is that file's ℤ/2 under exclusive or.
+
+   SUPERSEDED IN PART by #440: Instance/Variety.v now forms the variety
+   as a genuine category, [GroupVariety], with [GroupVariety_Bool] the
+   same ℤ/2 witness as an OBJECT of it, and
+   Instance/Variety/GroupComparison.v gives a full and faithful
+   comparison with [Grp] (not an isomorphism — the carriers are Leibniz
+   types where [Grp]'s are setoids).  The entry below is left at the TYPE
+   it always named, and no [Require] is added here, so that this file's
+   closure is unchanged; what is no longer true is the sentence "there is
+   no category of [Group]s there", read as a claim about the tree rather
+   than about Instance/Comp.v. *)
 Example roster_Group_variety : Type := UA.Group.
 Example roster_Group_variety_witness : UA.Group := UA.Bool.

@@ -636,6 +636,9 @@ Structure/Limit/Constant.v
 Instance/Cat/Objects.v
 Instance/Indiscrete.v
 Instance/Cat/Components.v
+Instance/Variety.v
+Instance/Variety/Clone.v
+Instance/Variety/GroupComparison.v
 Structure/Monoid.v
 Structure/Ring.v
 Structure/Lattice.v
@@ -968,3 +971,4 @@ Test/ProbeRepresentability437.v
 Test/ProbeCommaCreation438.v
 Test/ProbeGAFTCharacterization436.v
 Test/ProbeCatCreation439.v
+Test/ProbeVariety440.v
