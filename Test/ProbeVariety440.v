@@ -5,12 +5,19 @@
     apart, each stripped one at a time in a copy of the WHOLE file with
     the error read.
 
-    CONVERSION (each error read as "cannot unify"): n1, the root of every
-    [functional_extensionality] in this development — an argument bundle
-    over the EMPTY arity is not convertible to the empty match, so the
-    pointwise-to-Leibniz step that [EqSignature]'s naturality fields
-    demand cannot be taken by computation; n2, [clone_act_subst] is a
-    genuine induction and not a definitional identity; n4,
+    CONVERSION (each error read as "cannot unify"): n1, ONE instance of
+    the conversion step that [EqSignature]'s naturality fields demand and
+    cannot take by computation — an argument bundle over the empty arity
+    against the empty match.  An earlier revision of this header called
+    that "the root of every [functional_extensionality] in this
+    development", which is FALSE twice over and an audit refuted both
+    halves by construction: the same law at the same empty arity is
+    CLOSED when the bundle is spelled as a reindexing of [args], and
+    associativity alone over [GroupOp] needs the axiom with no nullary
+    operation in sight.  See Instance/Variety.v's header for the criterion
+    that actually holds — reindexing or constant bundles convert, mixed
+    ones do not.  n2, [clone_act_subst] is a genuine induction and not a
+    definitional identity; n4,
     [GroupVariety] and [Grp] are not the same category, which is what
     Instance/Variety/GroupComparison.v's header says and all it says —
     that file ships a fully faithful comparison, not an isomorphism.
@@ -30,6 +37,7 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Construction.Subcategory.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Comp.
@@ -52,10 +60,10 @@ Section BundleRoot.
 Context {A B : UA.OpAlgebra UA.GroupOp}.
 Context (f : UA.AlgHom A B).
 
-(* n1 CONVERSION: the empty-arity bundle is not convertible to the empty
-   match.  This single refusal is why [EqSignature]'s [lhs_natural] and
-   [rhs_natural] need extensionality, hence why [GroupEq] is not
-   axiom-free, hence why [GroupVariety] is not. *)
+(* n1 CONVERSION: this particular empty-arity bundle is not convertible
+   to the empty match.  It is ONE witness of the conversion step
+   [EqSignature]'s naturality fields demand — not the root cause of the
+   development's extensionality, which the header corrects. *)
 Fail Example p440_nullary_conv :
   (fun i : UA.nullary => UA.map f (match i return UA.carrier A with end))
     = (fun i : UA.nullary => match i return UA.carrier B with end) := eq_refl.
@@ -136,9 +144,11 @@ Example p440_bool_in_variety : GroupVariety := GroupVariety_Bool.
 
 (** ** C: CONVERSION — the variety is not the category of groups *)
 
-(* n4 CONVERSION: [GroupVariety] and [Grp] are different categories.  What the
-   development ships is the fully faithful comparison below, and the
-   header says why the isomorphism is not available. *)
+(* n4 CONVERSION: [GroupVariety] and [Grp] are different categories.
+   This is a WEAK negative and is labelled so: two unrelated
+   [Definition]s that are not convertible says little, and the content
+   of the claim lives in Instance/Variety/GroupComparison.v's header and
+   in the full-and-faithful controls below, not here. *)
 Fail Example p440_variety_is_grp : GroupVariety = Grp := eq_refl.
 
 (* controls: the comparison exists and is full and faithful *)
@@ -169,6 +179,7 @@ Check @Variety.
 Check @Variety_Full.
 Check @Variety_Incl.
 Check @Variety_Incl_Faithful.
+Check @Variety_Incl_Full.
 Check @Variety_pack.
 Check @Variety_unpack.
 Check @Variety_unpack_pack.
@@ -185,6 +196,10 @@ Check comm_law.
 Check @comm_swap.
 Check @CommEq.
 Check @CommMagmaVariety.
+Check @invinv_eq.
+Check invinv.
+Check @InvInvEq.
+Check @InvInvVariety.
 Check @DerivedOperators.
 Check @clone_var.
 Check @clone_op.
@@ -216,6 +231,7 @@ Check @GroupVariety_to_Grp.
 Check @GroupVariety_to_Grp_Faithful.
 Check @GroupVariety_hom_from_Grp.
 Check @GroupVariety_to_Grp_Full.
+Check @GroupVariety_to_Grp_reflects_iso.
 Check @UA.Algs.
 Check @UA.Algebra.
 Check @UA.GroupEq.

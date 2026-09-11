@@ -284,22 +284,31 @@ the global context".  Known live uses:
   `:370`/`:375`; and `leibniz_action`, `action_extends_to_clone_leibniz`,
   `clone_act_subst_leibniz` (`Instance/Variety/Clone.v`), which are the
   Leibniz shadows of statements that ARE closed in their setoid form.
-  The whole file is `Instance/Variety/GroupComparison.v`, all eleven of
-  whose constants carry it.  Verify:
+  The whole file is `Instance/Variety/GroupComparison.v`, all
+  TWENTY-TWO of whose constants carry it — twelve `.glob` heads plus ten
+  `Program` obligations, which a head census does not see.  Verify:
   `Print Assumptions Category.Instance.Variety.GroupVariety.` and
   `Print Assumptions Category.Instance.Variety.GroupComparison.GroupVariety_to_Grp.`
-  The dependence is structural, not a proof-script accident:
-  `EqSignature`'s `lhs_natural`/`rhs_natural` (`Instance/Comp.v:254`,
-  `:257`) demand a Leibniz equation between two `arity o → B` argument
-  bundles that are only pointwise equal, and extensionality out of a
-  finite enumeration is not derivable in CIC.  It is also a fact about
-  equation DEPTH rather than about varieties: a depth-1 law's naturality
-  field IS `op_commute` with the bundle unchanged, and accordingly
-  `Instance/Variety.v`'s `CommEq` and `CommMagmaVariety` ARE closed under
-  the global context and ARE gated.  Everything else in the development —
-  `Variety` itself, its five satellites, the whole clone in setoid form
-  including `action_extends_to_clone` — is closed and gated (35
-  constants).
+  The mechanism is `EqSignature`'s `lhs_natural`/`rhs_natural`
+  (`Instance/Comp.v:254`, `:257`), which demand a Leibniz equation
+  between two `arity o → B` argument bundles that are only pointwise
+  equal.  An earlier revision of this paragraph added that this is "a
+  fact about equation DEPTH"; that is FALSE and is refuted by
+  construction — `Instance/Variety.v`'s `InvInvEq`, the law
+  `inv (inv x) = x` at depth 2 over the same `GroupOp`, is closed under
+  the global context.  The criterion is the SHAPE of each argument
+  bundle: reindexings `args ∘ φ` and constant bundles convert, bundles
+  mixing a compound subterm with an `args` leaf do not, and every group
+  axiom's `mul` node is of the mixed kind.  So the honest claim is that
+  no `EqSignature GroupOp` CAPTURING THE GROUP LAWS is axiom-free by this
+  route — a statement about that criterion and the routes tried, not a
+  proof of impossibility.  Both sides are exhibited: `CommEq` /
+  `CommMagmaVariety` (reindexing bundles) and `InvInvEq` /
+  `InvInvVariety` (constant bundles, depth 2) are all closed and gated.
+  Everything else in the development — `Variety` itself, its twelve
+  satellites including the four `Variety_Forget` obligations, and the
+  whole clone in setoid form including `action_extends_to_clone` — is
+  closed and gated (46 constants).
 - **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
   and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).

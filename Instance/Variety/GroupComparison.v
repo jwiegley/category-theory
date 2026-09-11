@@ -1,6 +1,7 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Comp.
 Require Import Category.Instance.Grp.
@@ -32,14 +33,19 @@ Generalizable All Variables.
 
    The honest discharge of the QA correction is therefore the strongest
    comparison that does hold, stated as such: [GroupVariety_to_Grp], full
-   and faithful.  Full-and-faithful is exactly "an isomorphism onto a full
-   subcategory", so the variety sits inside [Grp] as the full subcategory
-   of groups whose equality is Leibniz.
+   and faithful, with [GroupVariety_to_Grp_reflects_iso] as its immediate
+   consequence.  An earlier revision of this paragraph called that
+   "exactly an isomorphism onto a full subcategory", which is too strong
+   and an audit was right to catch it: full and faithful gives an
+   EQUIVALENCE onto the full image, not an isomorphism, because
+   injectivity on objects is neither proved here nor cheap to get.
 
    ** THIS WHOLE FILE CARRIES [functional_extensionality_dep]
 
-   Not one constant here is closed under the global context, and the
-   reason is inherited twice over.  [GroupVariety] mentions
+   Not one of its TWENTY-TWO constants is closed under the global context
+   — twelve [.glob] heads plus ten [Program] obligations, the latter
+   invisible to a head census and missed by a first count that said
+   "eleven".  The reason is inherited twice over.  [GroupVariety] mentions
    Instance/Comp.v:358's [GroupEq], which is [Defined] with the axiom; and
    the translation of an [AlgHom] into a [GrpHom] must turn
    [op_commute]'s argument-bundle equation into the pointwise statements
@@ -190,3 +196,12 @@ Qed.
 Program Definition GroupVariety_to_Grp_Full : Functor.Full GroupVariety_to_Grp := {|
   prefmap := fun _ _ g => GroupVariety_hom_from_Grp g
 |}.
+
+(* A free consequence an audit pointed out: a fully faithful functor
+   reflects isomorphisms, and Theory/Functor.v ships that implication, so
+   two isomorphic groups in the image come from isomorphic algebras. *)
+Definition GroupVariety_to_Grp_reflects_iso :
+  ∀ x y : GroupVariety,
+    GroupVariety_to_Grp x ≅ GroupVariety_to_Grp y → x ≅ y :=
+  @FullyFaithful _ _ GroupVariety_to_Grp
+    GroupVariety_to_Grp_Full GroupVariety_to_Grp_Faithful.

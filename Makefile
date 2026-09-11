@@ -8101,6 +8101,17 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Variety.comm_swap.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.CommEq.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.CommMagmaVariety.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.magma_mul.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.comm_law.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.invinv_eq.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.invinv.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.InvInvEq.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.InvInvVariety.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Incl_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Variety.Variety_Forget_obligation_4.'; \
 	  echo 'Require Import Category.Instance.Variety.Clone.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Clone.DerivedOperators.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Clone.clone_var.'; \

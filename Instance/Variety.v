@@ -33,7 +33,7 @@ Generalizable All Variables.
    [Algs] (:151) is the category of algebras of an OPERATION signature —
    the equations are dropped — and [Group := Algebra GroupOp GroupEq]
    (:382) is a type, not a category.  So ⟨Ω,E⟩-Alg was nowhere formed, and
-   Instance/Roster.v:604 records exactly that gap in prose: "there is no
+   Instance/Roster.v:595-602 records exactly that gap in prose: "there is no
    category of Groups there … the variety is recorded here as the type it
    is".  This file forms it.
 
@@ -67,32 +67,60 @@ Generalizable All Variables.
    docs/INDEX.md's Instance/Ab.v bullet already flags, not a choice made
    here.
 
-   ** The axiom boundary, stated up front
+   ** The axiom boundary, and what it is actually a boundary of
 
-   [Variety] and its five satellites are closed under the global context.
-   [GroupVariety] IS NOT, and cannot be: it reports
+   [Variety] and its twelve satellites are closed under the global
+   context.  [GroupVariety] IS NOT: it reports
    [functional_extensionality_dep], inherited from Instance/Comp.v:358's
    [GroupEq], which is [Defined] with [functional_extensionality] at :370
-   and :375.  That is structural rather than a proof-script accident.
-   [EqSignature]'s [lhs_natural] and [rhs_natural] (:254, :257) ask for a
-   LEIBNIZ equation between two [arity o → B] argument bundles that are
-   only pointwise equal, and extensionality for functions out of a finite
-   enumeration is not derivable in CIC — Test/ProbeVariety440.v's negative
-   n1 records the refusal at the EMPTY arity, which is the root of every
-   [functional_extensionality] in Instance/Comp.v.
+   and :375.  The mechanism is [EqSignature]'s [lhs_natural] and
+   [rhs_natural] (:254, :257), which ask for a LEIBNIZ equation between
+   two [arity o → B] argument bundles that are only pointwise equal.
 
-   The boundary was measured on both sides.  A DEPTH-1 equation is
-   axiom-free, because its naturality field IS [op_commute] with the
-   argument bundle unchanged: [CommMagmaVariety] below is a commutative
-   magma variety with [Print Assumptions] closed, and it is in this file
-   precisely so that the obstruction is exhibited as a property of
-   equation DEPTH and not of varieties.  An equation of depth ≥ 2, such as
-   associativity, rebuilds the bundle and needs the axiom.
+   AN EARLIER REVISION OF THIS HEADER, OF THE COMMIT MESSAGE AND OF THE
+   docs/INDEX.md BULLET DIAGNOSED THIS AS A FACT ABOUT EQUATION DEPTH —
+   depth 1 free, depth ≥ 2 not.  THAT IS FALSE, and it is refuted by
+   construction rather than by argument: [InvInvEq] below is the law
+   inv (inv x) = x, DEPTH 2, over the very same [GroupOp], and it is
+   Closed under the global context.
 
-   Consequently [GroupVariety] is deliberately NOT in the
-   [make print-assumptions] gate — gating it would make the axiom audit
-   report a stdlib axiom — and docs/AXIOMS.md carries it instead, with
-   this reason.  Every other constant here is gated.
+   The real criterion is the SHAPE OF EACH ARGUMENT BUNDLE, not the depth
+   of the term.  A naturality field is conversion-provable exactly when
+   every bundle the equation builds is either a REINDEXING [args ∘ φ] or
+   a CONSTANT bundle: in the first case the field IS [op_commute] at that
+   bundle, in the second [f_equal] against the constant-bundle former
+   discharges it.  What defeats conversion is a bundle that MIXES a
+   compound subterm with an [args] leaf, as every group axiom's [mul]
+   node does — [mul' one' (args Only)] builds
+   [fun i => match i with Fst => one' | Snd => args Only end], which is
+   neither shape.  Two further measurements pin this down: associativity
+   ALONE over [GroupOp], mentioning no nullary operation, still needs the
+   axiom; and the SAME law at the EMPTY arity needs it when the bundle is
+   spelled as a literal empty match and is CLOSED when the identical
+   bundle is spelled as a reindexing of [args].  So the empty arity is
+   not the root of anything — it is dodgeable — and
+   Test/ProbeVariety440.v's n1 pins one conversion refusal, no more.
+
+   What survives, and is the honest claim: no [EqSignature GroupOp]
+   CAPTURING THE GROUP LAWS can be axiom-free by this route, because
+   every group axiom has a [mul] node of the mixed shape.  That is a
+   statement about the routes tried and the criterion above, NOT a proof
+   of impossibility; and it needs the qualifier, since
+   [eq := Empty_set] gives an axiom-free [EqSignature GroupOp] that
+   captures nothing.
+
+   Both sides are exhibited below rather than asserted: [CommMagmaVariety]
+   (a depth-1 law, reindexing bundles) and [InvInvVariety] (a DEPTH-2 law,
+   constant bundles) are both closed, and the second is the sharper
+   exhibit because it is over [GroupOp] itself.
+
+   Consequently [GroupVariety] and [GroupVariety_Bool] are deliberately
+   NOT in the [make print-assumptions] gate — gating them would make the
+   axiom audit report a stdlib axiom — and docs/AXIOMS.md carries them
+   instead, with this reason.  Everything else in this file is gated,
+   including the four [Variety_Forget] [Program] obligations and the two
+   constructors, which are invisible to a [.glob] head census and were
+   missed by a first count that claimed this file had no obligations.
 
    ** Not delivered
 
@@ -154,6 +182,12 @@ Definition Variety_Incl : Variety ⟶ @UA.Algs S := Incl (@UA.Algs S) Variety_su
 
 Definition Variety_Incl_Faithful : Functor.Faithful Variety_Incl :=
   Incl_Faithful (@UA.Algs S) Variety_sub.
+
+(* The inclusion is FULL as a functor, not merely full as a subcategory:
+   Construction/Subcategory.v already turns the one into the other, and
+   an audit pointed out that this costs one line. *)
+Definition Variety_Incl_Full : Functor.Full Variety_Incl :=
+  Full_Implies_Full_Functor (@UA.Algs S) Variety_sub Variety_Full.
 
 (** ** The record presentation, and its round trips *)
 
@@ -225,15 +259,14 @@ Definition GroupVariety : Category := Variety UA.GroupEq.
    as an OBJECT of the category rather than an inhabitant of a type. *)
 Definition GroupVariety_Bool : GroupVariety := Variety_pack UA.Bool.
 
-(** ** Where the axiom is not needed: a depth-1 variety
+(** ** Where the axiom is not needed, exhibited twice
 
-    Exhibited so that the obstruction above reads as a fact about equation
-    DEPTH rather than about varieties.  One binary operation, one law
+    First shape: REINDEXING bundles.  One binary operation, one law
     (commutativity), whose two naturality fields are [op_commute] itself
-    with the argument bundle passed through unchanged — so no bundle has to
-    be rebuilt and no extensionality is needed.  [Print Assumptions] on
-    every constant in this block says "Closed under the global context",
-    and all of them are gated. *)
+    at [args] and at [args ∘ comm_swap] — so no bundle is rebuilt and no
+    extensionality is needed.  [Print Assumptions] on every constant in
+    this block says "Closed under the global context", and all are
+    gated. *)
 
 Inductive magma_op : Set := magma_mul.
 
@@ -260,6 +293,42 @@ Proof.
 Defined.
 
 Definition CommMagmaVariety : Category := Variety CommEq.
+
+(** ** Second shape: CONSTANT bundles, at DEPTH 2, over [GroupOp] itself
+
+    This is the sharper exhibit, and it is what refutes the depth
+    diagnosis.  [inv (inv x) = x] is a depth-2 equation over the SAME
+    signature whose group laws force the axiom, and it is axiom-free:
+    both of its bundles are CONSTANT ([fun _ => args Only] and
+    [fun _ => inv' (args Only)]), so the outer naturality step is
+    [f_equal] against the constant-bundle former and the inner one is
+    [op_commute].  Nothing about the depth of the term enters.
+
+    Note what this does and does not say.  It does NOT give an axiom-free
+    group variety: [InvInvVariety] imposes only this one law, and the
+    group axioms proper each build a [mul] bundle of the mixed shape the
+    header describes. *)
+
+Inductive invinv_eq : Set := invinv.
+
+Definition InvInvEq : UA.EqSignature UA.GroupOp.
+Proof.
+  refine {| UA.eq       := invinv_eq
+          ; UA.eq_arity := fun _ => UA.unary
+          ; UA.lhs      := fun (A : UA.OpAlgebra UA.GroupOp) _ args =>
+                             UA.inv' (UA.inv' (args UA.Only))
+          ; UA.rhs      := fun (A : UA.OpAlgebra UA.GroupOp) _ args =>
+                             args UA.Only
+         |}.
+  - intros A B f [] args.
+    unfold UA.inv'.
+    rewrite UA.op_commute.
+    apply (f_equal (fun z => UA.op B UA.inv (fun _ : UA.unary => z))).
+    exact (UA.op_commute A B f UA.inv (fun _ => args UA.Only)).
+  - intros A B f [] args; reflexivity.
+Defined.
+
+Definition InvInvVariety : Category := Variety InvInvEq.
 
 (** ** The connection to Lawvere theories, stated and not proved
 
