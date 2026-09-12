@@ -147,7 +147,17 @@ theorems, each stated parametrically over abstract structure and
 each reported "Closed under the global context":
 
 - `lambek` (`Theory/Lambek.v`) — Lambek's lemma
-- `GAFT` (`Adjunction/GAFT.v`) — the general adjoint functor theorem
+- `GAFT` (`Adjunction/GAFT.v`) — the general adjoint functor theorem;
+  since #442 it is also APPLIED at a concrete instance and the
+  application is itself closed — `free_group_via_GAFT`
+  (`Instance/Grp/FreeAFT.v`), Freyd's theorem at `Grp_Forget` on
+  `Grp_Complete` and `Grp_Forget_continuous`.  All 29 constants of
+  that file (20 `.glob` heads plus 9 `Program` obligations) are
+  closed and gated.  Axiom-freedom is NOT existence here: the
+  solution set fed to the theorem is derived from the free-group
+  adjunction the theorem is meant to produce, and the file's header
+  says so in capitals — docs/INHABITATION.md's `GAFT` row carries
+  the same disclosure
 - `beck_monadicity` and `monadic_creates`
   (`Monad/Monadicity/Beck.v`) — Beck's precise monadicity theorem
 - `RoundTrip_Equivalence` (`Construction/Grothendieck/RoundTrip.v`) —

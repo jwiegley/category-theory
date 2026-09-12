@@ -335,6 +335,7 @@ Instance/Grp/Free.v
 Instance/Grp/Galois.v
 Instance/Grp/Completion.v
 Instance/Grp/Limit.v
+Instance/Grp/FreeAFT.v
 Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
@@ -974,3 +975,4 @@ Test/ProbeGAFTCharacterization436.v
 Test/ProbeCatCreation439.v
 Test/ProbeVariety440.v
 Test/ProbeVarietyFree441.v
+Test/ProbeGrpFreeAFT442.v
