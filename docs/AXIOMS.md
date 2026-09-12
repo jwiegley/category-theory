@@ -309,6 +309,27 @@ the global context".  Known live uses:
   satellites including the four `Variety_Forget` obligations, and the
   whole clone in setoid form including `action_extends_to_clone` — is
   closed and gated (46 constants).
+
+  **`Instance/Variety/Free.v` (the free-algebra adjunction, #441) shows
+  where the boundary actually falls, and it is not where one might
+  guess.** The GENERAL theory there is axiom-free: `SVariety`,
+  `tree_equiv`, `Free_Variety`, the universal property and the packaged
+  `Free_Variety_adjunction` are all closed under the global context, 89
+  constants gated in all (67 `.glob` heads plus 22 `Program`
+  obligations). The reason is that the equations enter that file ONLY
+  through `EqSignature`'s `lhs_natural`/`rhs_natural`, and every
+  construction there CONSUMES those fields rather than proving one — the
+  `functional_extensionality_dep` above is the cost of BUILDING an
+  `EqSignature`, not of using one. Exactly four constants there carry
+  the axiom, all by instantiating at `GroupEq` or by construction:
+  `SGroupVariety`, `FreeGroupOn`, `FreeGroup_adjunction` and
+  `leibniz_soa` (whose whole point is the passage from a Leibniz algebra
+  to a setoid one, where `soa_op_respects` at `eq_Setoid` IS what
+  extensionality supplies). Those four are not gated. Verify:
+  `Print Assumptions Category.Instance.Variety.Free.Free_Variety_adjunction.`
+  (closed) against
+  `Print Assumptions Category.Instance.Variety.Free.FreeGroup_adjunction.`
+  (the axiom).
 - **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
   and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).

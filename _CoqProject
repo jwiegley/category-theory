@@ -638,6 +638,7 @@ Instance/Indiscrete.v
 Instance/Cat/Components.v
 Instance/Variety.v
 Instance/Variety/Clone.v
+Instance/Variety/Free.v
 Instance/Variety/GroupComparison.v
 Structure/Monoid.v
 Structure/Ring.v
@@ -972,3 +973,4 @@ Test/ProbeCommaCreation438.v
 Test/ProbeGAFTCharacterization436.v
 Test/ProbeCatCreation439.v
 Test/ProbeVariety440.v
+Test/ProbeVarietyFree441.v
