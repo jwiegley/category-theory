@@ -8223,6 +8223,38 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Variety.Free.soa_prod_exr_obligation_1.'; \
 	  echo 'Print Assumptions Category.Instance.Variety.Free.F2_obligation_1.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Grp.FreeAFT.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_solution_set_from_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_via_GAFT.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_via_GAFT_agrees.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad_ret.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad_join.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad_carrier.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_repr_const.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_repr_to.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_repr_from.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_repr_to_natural.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_repr_from_natural.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_transpose_at_unit.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_unit_injective_of_embedding.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.SetoidDecidable.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_chi.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_unit_injective_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.TwoLetters_dec.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_two_letters_distinct.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_5.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_6.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_7.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_8.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_chi_obligation_1.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
