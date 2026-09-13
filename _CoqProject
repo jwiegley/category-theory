@@ -18,6 +18,7 @@ Adjunction/Continuity/Finite.v
 Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
+Adjunction/GAFT/Necessity.v
 Adjunction/LeftInverse.v
 Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
@@ -386,6 +387,7 @@ Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
 Instance/Ordinal.v
+Instance/Ordinal/Large.v
 Instance/Ord.v
 Instance/Ord/Poset.v
 Instance/Parallel.v
@@ -980,3 +982,4 @@ Test/ProbeVariety440.v
 Test/ProbeVarietyFree441.v
 Test/ProbeGrpFreeAFT442.v
 Test/ProbeAlgLimit443.v
+Test/ProbeAFTNecessity444.v
