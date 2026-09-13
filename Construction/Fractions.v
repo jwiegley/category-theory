@@ -161,11 +161,18 @@ Generalizable All Variables.
     strict ambient today.  Route (b) is cheap for this half and expensive
     for the other: [Incl_Core_Adjunction] is built over [Cat] and its
     hom-setoid isomorphism is a natural-isomorphism statement, so moving it
-    to [StrictCat] would strengthen what it must prove.  Riehl's triple
-    [Fractions ⊣ Incl ⊣ Core] therefore is NOT assembled over one ambient
-    here; the two adjunctions live at different strengths, and choosing
-    which to move is a decision about the tree rather than about this
-    file.  It is filed as a follow-on.  Nothing else about
+    to [StrictCat] would strengthen what it must prove.
+
+    THAT GAP IS NOW CLOSED, BY ROUTE (a), AND THIS PARAGRAPH IS KEPT AS THE
+    RECORD OF WHAT IT COST.  Construction/Fractions/Weak.v reproves the
+    uniqueness clause against natural isomorphism — existence transferred
+    for free, uniqueness did not and was redone from the beginning — and
+    Construction/Fractions/Adjunction.v then assembles
+    [Fractions_Incl_Adjunction] and, with Construction/Groupoid/Core.v's
+    right half, the triple [riehl_4_1_15], all over [Cat].  The strict
+    statements in THIS file are not superseded and are not weakened: they
+    remain the sharper reading, and Test/ProbeFractionsAdjunction972.v pins
+    that the weak one does not imply them.  Nothing else about
     the right adjoint — the core functor [Cat ⟶ Grpd] and [Incl ⊣ Core] —
     is in this file.  Nor is there a refutation-probe file under [Test/], so
     none of the strengths above is guarded against later drift; there is no
