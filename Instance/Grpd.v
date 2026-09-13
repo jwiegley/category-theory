@@ -74,8 +74,11 @@ Generalizable All Variables.
    ones (the core) -- so [Grpd] is simultaneously reflective and
    coreflective in [Cat] (Riehl §4.1, Example 4.1.15; nLab: core).  This
    file and Construction/Groupoid/Core.v deliver the right-hand half of that
-   adjoint triple as a theorem; the left-hand half remains prose, and
-   Construction/Groupoid.v's header says so in terms.
+   adjoint triple as a theorem.  An earlier revision of this sentence added
+   that the left-hand half "remains prose"; that is a correction to make,
+   because Construction/Fractions/Adjunction.v now proves it, and
+   [riehl_4_1_15] there assembles the whole triple over THIS [Grpd] and
+   THIS inclusion.
 
    The type-theoretic reading is not an analogy.  In intensional Martin-Löf
    type theory the identity proofs of a type compose, invert and associate,

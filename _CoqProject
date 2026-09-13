@@ -85,6 +85,8 @@ Construction/Grothendieck/Strict.v
 Construction/Groupoid.v
 Construction/Groupoid/Core.v
 Construction/Fractions.v
+Construction/Fractions/Weak.v
+Construction/Fractions/Adjunction.v
 Construction/Indexed.v
 Construction/Karoubi.v
 Construction/Localization.v
@@ -986,3 +988,4 @@ Test/ProbeVarietyFree441.v
 Test/ProbeGrpFreeAFT442.v
 Test/ProbeAlgLimit443.v
 Test/ProbeAFTNecessity444.v
+Test/ProbeFractionsAdjunction972.v

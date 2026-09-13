@@ -8701,6 +8701,30 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj_Faithful_core.'; \
 	  echo 'Print Assumptions Category.Construction.Fractions.zump_qhom_obligation_1.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Fractions.Weak.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.iso_conj_inverse.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.Fractions_weak_edge.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.Fractions_weak_word.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.Fractions_proj_epic_weak.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.FractionsLift_factors_weak.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.FractionsLift_unique_weak.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Weak.Fractions_UMP_weak.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Fractions.Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.frac_grpd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.Fractions_universal_arrow.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsF.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsF_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.Fractions_Incl_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.Fractions_unit_is_proj.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsMap.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsF_fmap.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsMap_id.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.FractionsMap_comp.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Adjunction.riehl_4_1_15.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
