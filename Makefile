@@ -8505,6 +8505,82 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_ring_via_GAFT_unit.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_ring_via_GAFT_unit_mon.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.GAFT.Necessity.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_hom_unique.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_pt.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_continuous.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_PreservesImageLimit.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.initial_of_ConstOne_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_representable_of_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_representable_iff_initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_not_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_repr_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.lim_id_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.lim_id_leg.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.lim_id_coh.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.lim_id_leg_self.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.lim_id_hom_unique.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Initial_of_limit_id.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Complete_Initial.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Complete_ConstOne_representable.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Complete_no_initial_absurd.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Complete_Initial_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.SmallShapeComplete.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.Complete_SmallShapeComplete.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.SmallShapeComplete_Initial_of_Small.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.RepresentabilityWithoutSolutionSet.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.representability_without_solution_set_refuted.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.GAFTWithoutSolutionSet.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.gaft_without_solution_set_refuted.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.no_initial_not_Small.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.solovay_no_left_adjoint.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.solovay_gaft_refuted.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Necessity.ConstOne_pt_obligation_1.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Ordinal.Large.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.oidx.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.oelt.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.oidx_osup.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.oelt_osup.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_unfold.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_elem.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_preorder.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.olt.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.olt_ole.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.olt_irrefl.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_Proset.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_Proset.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.smallord_equiv_is_True.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_Thin.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_Thin.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ojoin.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ojoin_ub.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ojoin_least.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ojoin_IsLUB.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ozero.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ozero_least.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.osucc.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.ole_osucc.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.olt_osucc.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.osucc_not_ole.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_HasAllJoins.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_Complete.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_indexed_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_Terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.smallord_lub_not_zero.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_no_greatest.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_no_small_cofinal_family.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_no_Terminal.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_no_Initial.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_no_self_limit.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_not_large_complete.'; \
+	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_self_limit.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
