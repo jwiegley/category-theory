@@ -148,11 +148,16 @@ each reported "Closed under the global context":
 
 - `lambek` (`Theory/Lambek.v`) — Lambek's lemma
 - `GAFT` (`Adjunction/GAFT.v`) — the general adjoint functor theorem;
-  since #442 it is also APPLIED at a concrete instance and the
+  since #442 it is also APPLIED at concrete instances and every
   application is itself closed — `free_group_via_GAFT`
   (`Instance/Grp/FreeAFT.v`), Freyd's theorem at `Grp_Forget` on
-  `Grp_Complete` and `Grp_Forget_continuous`.  All 29 constants of
-  that file (20 `.glob` heads plus 9 `Program` obligations) are
+  `Grp_Complete` and `Grp_Forget_continuous`, and since #443
+  `free_rng_ab_via_GAFT` and `free_ring_via_GAFT`
+  (`Instance/Rng/AFT.v`) on the new `Rng_Complete`.  All 29 constants
+  of the #442 file (20 `.glob` heads plus 9 `Program` obligations)
+  and all 241 of #443's three files (75 + 10 for
+  `Instance/Ab/Limit.v`, 104 + 18 for `Instance/Rng/Limit.v`, 34 + 0
+  for `Instance/Rng/AFT.v`, which uses no `Program` at all) are
   closed and gated.  Axiom-freedom is NOT existence here: the
   solution set fed to the theorem is derived from the free-group
   adjunction the theorem is meant to produce, and the file's header

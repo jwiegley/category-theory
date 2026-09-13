@@ -239,6 +239,7 @@ Instance/Ab/Subtract.v
 Instance/Ab/DirectedColimit.v
 Instance/Ab/TorsionFree.v
 Instance/Ab/FreeNotContinuous.v
+Instance/Ab/Limit.v
 Instance/Adj.v
 Instance/Adj/Forgetful.v
 Instance/Adj/Bicategory.v
@@ -414,6 +415,8 @@ Instance/Rng/Pointed.v
 Instance/Rng/Polynomial.v
 Instance/Rng/MonoidRing.v
 Instance/Rng/Free.v
+Instance/Rng/Limit.v
+Instance/Rng/AFT.v
 Instance/Rng/GroupRing.v
 Instance/Rng/Quotient.v
 Instance/Rng/Quotient/OneSided.v
@@ -976,3 +979,4 @@ Test/ProbeCatCreation439.v
 Test/ProbeVariety440.v
 Test/ProbeVarietyFree441.v
 Test/ProbeGrpFreeAFT442.v
+Test/ProbeAlgLimit443.v
