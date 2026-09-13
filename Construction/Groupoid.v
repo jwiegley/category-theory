@@ -90,15 +90,27 @@ Generalizable All Variables.
    of a functor category into Sets.  Theory/Isomorphism.v supplies each
    morphism-level field of the construction, and its [iso_sym] provides
    the inverses that make the result a groupoid rather than merely a
-   category.  The file constructs the core of a given C; no standalone
-   category of groupoids exists in-tree, so the adjunction remark in
-   the header above remains prose rather than a theorem.  The other
-   adjoint to the same inclusion — localization, which universally
-   inverts every morphism rather than discarding the non-invertible
-   ones (nLab: core) — has its in-tree relative in
-   Construction/Localization.v, and Theory/Category/Semi.v records the
-   complementary weakening of the category axioms, dropping identities
-   where the groupoid demands inverses. *)
+   category.  The file constructs the core of a given C.  An earlier
+   revision of this paragraph continued that no standalone category of
+   groupoids existed in-tree, so the adjunction remark in the header
+   above remained prose rather than a theorem.  That is now a
+   correction to make, because both halves have since been built.
+   Instance/Grpd.v defines [Grpd] as the full subcategory of [Cat] cut
+   out by [IsGroupoid], with [Grpd_Incl] its full and faithful
+   inclusion, and Construction/Groupoid/Core.v makes THIS file's
+   [Groupoid] the object part of a functor [Core : Cat ⟶ Grpd] and
+   proves [Incl_Core_Adjunction : Adjunction Grpd_Incl Core].  The
+   other adjoint to the same inclusion — localization, which
+   universally inverts every morphism rather than discarding the
+   non-invertible ones (nLab: core) — is built in
+   Construction/Fractions.v, by generators and relations, with its
+   universal property at STRICT strength; that file's header records
+   what still stands between it and a packaged [Adjunction], and it is
+   NOT Construction/Localization.v, which builds the reflective
+   orthogonal-subcategory localization and is a different construction.
+   Theory/Category/Semi.v records the complementary weakening of the
+   category axioms, dropping identities where the groupoid demands
+   inverses. *)
 
 Program Definition Groupoid (C : Category) : Category := {|
   obj     := @obj C;
