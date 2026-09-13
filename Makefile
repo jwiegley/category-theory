@@ -8581,6 +8581,126 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_op_not_large_complete.'; \
 	  echo 'Print Assumptions Category.Instance.Ordinal.Large.SmallOrd_self_limit.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Grpd.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_sub.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.grpd_cat.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.grpd_is_groupoid.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Incl.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Incl_Faithful.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Incl_Full.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_ShomRespects.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.IsGroupoid_transport.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Replete.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_proper_subcategory.'; \
+	  echo 'Print Assumptions Category.Instance.Grpd.Grpd_Deloop_Bool.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Groupoid.Core.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.functor_ginv.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_ginv_eq.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_iso.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Core.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.ForgetCore.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.ForgetCore_Faithful.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_functor_from.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_forget.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.forget_core_lift.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_factorization.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_counit_is_ForgetCore.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_unit_is_core_lift_Id.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_obligation_4.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.core_lift_obligation_5.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Core_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Core_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Core_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_obligation_4.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.CoreMap_obligation_5.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.ForgetCore_obligation_1.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.ForgetCore_obligation_2.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.ForgetCore_obligation_3.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof0.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof1.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof2.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof3.'; \
+	  echo 'Print Assumptions Category.Construction.Groupoid.Core.Incl_Core_Adjunction_subproof4.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Construction.Fractions.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.hom_cast_inverse.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.hom_cast_sym.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZEdge.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZEdge_equiv.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZQuiver.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FreeZigZag.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zfwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zbwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zsingleton_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zfwd_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zbwd_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FracZigZag.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagProj.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagProj_inverts.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zbwd_IsIso.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zbwd_zfwd_functor.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zfwd_zbwd_functor.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.winv.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.winv_right.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.winv_left.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_edge.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_edge_respects.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_qhom.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_free.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_free_fwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_free_bwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_merges.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_fwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_bwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_factors.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_unique_edge.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_unique.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.ZigZagLift_unique_strict.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.WAll.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Fractions.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj_inverts.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.frac_IsIso_compose.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.frac_IsIso_id.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Fractions_IsGroupoid.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsLift.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsLift_fwd.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsLift_factors.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsLift_unique.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Fractions_UMP.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Fractions_UMP_groupoid.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.Fractions_proj_epic.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FreeGroupoidToFractions.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FreeGroupoidToFractions_pos.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FreeGroupoidToFractions_obj.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.fractions_universal.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.frac_restrict.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.frac_restrict_recovers.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.frac_extend_restrict.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj_separates.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj_Faithful.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.FractionsProj_Faithful_core.'; \
+	  echo 'Print Assumptions Category.Construction.Fractions.zump_qhom_obligation_1.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \

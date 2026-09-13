@@ -83,6 +83,8 @@ Construction/Grothendieck/Fibration.v
 Construction/Grothendieck/RoundTrip.v
 Construction/Grothendieck/Strict.v
 Construction/Groupoid.v
+Construction/Groupoid/Core.v
+Construction/Fractions.v
 Construction/Indexed.v
 Construction/Karoubi.v
 Construction/Localization.v
@@ -327,6 +329,7 @@ Instance/Fun/Pullback.v
 Instance/Fun/Classifier.v
 Instance/Fun/Topos.v
 Instance/Grp.v
+Instance/Grpd.v
 Instance/Grp/Abelianization.v
 Instance/Grp/Abelianize.v
 Instance/Grp/Center.v
