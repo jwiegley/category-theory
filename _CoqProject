@@ -315,6 +315,7 @@ Instance/FinSet/Regular.v
 Instance/FinSet/Decategorify.v
 Instance/FinSet/Subsets.v
 Instance/FinSet/Subobject.v
+Instance/FinSet/QuotObj.v
 Instance/Fun.v
 Instance/Fun/Eval.v
 Instance/Fun/Eval/Cat.v
@@ -348,6 +349,7 @@ Instance/Grp/Pushout.v
 Instance/Grp/Quotient.v
 Instance/Grp/Quotient/Colimit.v
 Instance/Grp/Quotient/Isomorphism.v
+Instance/Grp/QuotObj.v
 Instance/Grp/TwoFunctors.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
@@ -474,6 +476,7 @@ Instance/Sets/Pointed/Finite.v
 Instance/Sets/Pointed/Part.v
 Instance/Sets/Pushout.v
 Instance/Sets/Quotient.v
+Instance/Sets/QuotObj.v
 Instance/Sets/Quotient/Partition.v
 Instance/Sets/Coequalizer.v
 Instance/Sets/Coequalizer/Interconnect.v
@@ -825,6 +828,7 @@ Theory/Morphisms/CokernelPair.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
 Theory/Subobject/Lattice.v
+Theory/Subobject/Quotient.v
 Theory/Natural/Transformation.v
 Theory/Natural/Transformation/Arrows.v
 Theory/Naturality.v
@@ -992,4 +996,6 @@ Test/ProbeGrpFreeAFT442.v
 Test/ProbeAlgLimit443.v
 Test/ProbeAFTNecessity444.v
 Test/ProbeSubobjectLattice445.v
+Test/ProbeQuotObj446.v
+Test/ProbeQuotObjWitnesses446.v
 Test/ProbeFractionsAdjunction972.v
