@@ -522,6 +522,7 @@ Adjunction/FullFaithful.v
 Adjunction/Map.v
 Adjunction/Parameter.v
 Adjunction/Choice.v
+Adjunction/SpanningArrow.v
 Adjunction/Square.v
 Instance/Zero.v
 Lib.v
@@ -661,6 +662,7 @@ Instance/Cat/Components.v
 Instance/Variety.v
 Instance/Variety/Clone.v
 Instance/Variety/Free.v
+Instance/Variety/Spanning.v
 Instance/Variety/GroupComparison.v
 Structure/Monoid.v
 Structure/Ring.v
@@ -1006,4 +1008,6 @@ Test/ProbeQuotObj446.v
 Test/ProbeQuotObjWitnesses446.v
 Test/ProbeGenerator447.v
 Test/ProbeGeneratorWitnesses447.v
+Test/ProbeSpanningArrow448.v
+Test/ProbeVarietySpanning448.v
 Test/ProbeFractionsAdjunction972.v
