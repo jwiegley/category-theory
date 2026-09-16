@@ -95,7 +95,7 @@ Generalizable All Variables.
    objects [cog_obj j : C], such that parallel arrows [f, g : x ~> y] are equal
    as soon as they agree after every arrow [k : y ~> cog_obj j] into a member of
    the family.  Equivalently the representables [C(-, cog_obj j)] are jointly
-   faithful.  This is the minimal data form of "cogenerating family". *)
+   faithful, proved both ways in Structure/Generator/Dual.v (issue #447). *)
 Record Cogenerator {C : Category} := {
   cog_index : Type;
   cog_obj : cog_index -> C;

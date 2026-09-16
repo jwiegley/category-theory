@@ -232,6 +232,7 @@ Functor/Twist.v
 Instance/AST.v
 Instance/Ab.v
 Instance/Ab/Coproduct.v
+Instance/Ab/Generator.v
 Instance/Ab/Free.v
 Instance/Ab/Tensor.v
 Instance/Ab/Character.v
@@ -340,6 +341,7 @@ Instance/Grp/Center.v
 Instance/Grp/Congruence.v
 Instance/Grp/EckmannHilton.v
 Instance/Grp/Epi.v
+Instance/Grp/Generator.v
 Instance/Grp/Free.v
 Instance/Grp/Galois.v
 Instance/Grp/Completion.v
@@ -464,6 +466,7 @@ Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
+Instance/Sets/Generator.v
 Instance/Sets/SubobjectLattice.v
 Instance/Powerset.v
 Instance/Powerset/Subobject.v
@@ -612,6 +615,9 @@ Structure/Equalizer/Coreflexive.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Projective.v
+Structure/Generator.v
+Structure/Generator/Concrete.v
+Structure/Generator/Dual.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Group/Representable.v
@@ -998,4 +1004,6 @@ Test/ProbeAFTNecessity444.v
 Test/ProbeSubobjectLattice445.v
 Test/ProbeQuotObj446.v
 Test/ProbeQuotObjWitnesses446.v
+Test/ProbeGenerator447.v
+Test/ProbeGeneratorWitnesses447.v
 Test/ProbeFractionsAdjunction972.v
