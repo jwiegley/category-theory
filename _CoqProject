@@ -393,6 +393,9 @@ Instance/Mod/Coextension.v
 Instance/Mod/Bimodule.v
 Instance/Mod/Quotient.v
 Instance/Mod/Quotient/Isomorphism.v
+Instance/Mod/Limit.v
+Instance/Mod/Spanning.v
+Instance/Mod/TensorAFT.v
 Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
@@ -1010,4 +1013,7 @@ Test/ProbeGenerator447.v
 Test/ProbeGeneratorWitnesses447.v
 Test/ProbeSpanningArrow448.v
 Test/ProbeVarietySpanning448.v
+Test/ProbeModLimit449.v
+Test/ProbeModTensorAFT449.v
+Test/ProbeModSpanning449.v
 Test/ProbeFractionsAdjunction972.v

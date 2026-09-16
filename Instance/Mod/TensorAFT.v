@@ -1,0 +1,1375 @@
+Require Import Category.Lib.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Subobject.
+Require Import Category.Theory.Universal.Element.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Functor.Representable.
+Require Import Category.Structure.Cone.
+Require Import Category.Structure.Limit.Preservation.
+Require Import Category.Structure.Pullback.Wide.
+Require Import Category.Construction.Elements.
+Require Import Category.Construction.Comma.Limit.
+Require Import Category.Construction.Comma.Creation.
+Require Import Category.Adjunction.SpanningArrow.
+Require Import Category.Adjunction.Representability.Sets.
+Require Import Category.Instance.Sets.
+Require Import Category.Instance.CMon.
+Require Import Category.Instance.Ab.
+Require Import Category.Instance.Ab.Limit.
+Require Import Category.Instance.Ab.DirectedColimit.
+Require Import Category.Instance.Mod.
+Require Import Category.Instance.Mod.Quotient.
+Require Import Category.Instance.Mod.Tensor.
+Require Import Category.Instance.Mod.Bimodule.
+Require Import Category.Instance.Mod.Limit.
+Require Import Category.Instance.Mod.Spanning.
+Require Import Category.Theory.Algebra.Rig.
+
+Generalizable All Variables.
+
+#[local] Obligation Tactic := idtac.
+
+(** * The tensor product of modules from the adjoint functor theorem
+
+    nLab:      https://ncatlab.org/nlab/show/adjoint+functor+theorem
+    nLab:      https://ncatlab.org/nlab/show/tensor+product+of+modules
+    nLab:      https://ncatlab.org/nlab/show/representable+functor
+    nLab:      https://ncatlab.org/nlab/show/solution+set+condition
+    Wikipedia: https://en.wikipedia.org/wiki/Tensor_product_of_modules
+    Riehl:     Category Theory in Context, §4.6 and §5.6
+
+    Mac Lane, "Categories for the Working Mathematician", 2nd ed. (GTM 5),
+    §V.7, book p. 128 (PDF p. 137), is the source: the unnumbered
+    construction of the tensor product from the adjoint functor theorem
+    (catalog id `maclane:V.7:construction1`) and Exercise 3 (catalog id
+    `maclane:V.7:ex3`).  CITED BY LOCATION AND BY THE IN-TREE CATALOG
+    (doc/plan/books/maclane/inventory/V.json); the printed text was not
+    consulted and no sentence of it is reproduced here.  Instance/Mod/
+    Spanning.v quotes the two catalog summaries in full and is not repeated.
+
+    Mac Lane's argument has three premises and a conclusion.  The premises
+    are that K-Mod is small-complete, that Bilin(A,B;-) : K-Mod -> Set is
+    continuous, and that the bilinear maps which SPAN their target form a
+    solution set.  The conclusion is that Bilin(A,B;-) is representable, so
+    that a universal bilinear map A x B -> A (x) B exists without any
+    construction by generators and relations.
+
+    THIS FILE DELIVERS THE THREE PREMISES AND THE CONCLUSION AS A
+    CONDITIONAL, and says exactly where the conditional stays open.  Two of
+    the premises are discharged outright: [RMod_Complete]
+    (Instance/Mod/Limit.v, imported) and [Bilin_PreservesImageLimit] below.
+    The third is BUILT here, unconditionally, as [tensor_esols_direct] --
+    Mac Lane's COVERING FAMILY, WITH NO SMALLNESS, indexed by the spanning
+    bilinear maps out of V x V'.  It is a solution set in the sense of the
+    record, whose index is a bare [Type]; it is not a solution set in the
+    sense of Mac Lane's cardinality bound, which nothing here supplies --
+    see NOT DELIVERED (3).  What does NOT go through is FEEDING it to the
+    theorem: the
+    index of an [ElementSolutionSet] that [representability_theorem] will
+    accept must live at the ring's CARRIER universe, which that theorem also
+    pins to [Set], while Mac Lane's index is a sigma over the OBJECTS of
+    [RMod R], one universe up.  The refusal is quoted below and pinned as
+    NEGATIVE 1 of Test/ProbeModTensorAFT449.v.  So [tensor_via_AFT] takes
+    its solution set as a hypothesis, and the same for Exercise 3.
+
+    ** 1. WHAT IS DELIVERED, IN NINE STEPS, AND AT WHAT STRENGTH
+
+    (1) ELEMENTS OF A LIMITING CONE IN [Sets].  [slim_family_cone],
+    [slim_elem], [slim_elem_leg] and [slim_ext]: a compatible family of
+    elements is a cone out of the singleton, its mediator evaluated at [ttt]
+    is the element it names, and the legs of a limiting cone are jointly
+    monic on elements.  The last is not reproved -- it is
+    Instance/Ab/Limit.v:292's [absets_limit_ext], which this file consumes
+    rather than copying, exactly as Instance/Mod/Limit.v does.  These four
+    are the whole element calculus, and BOTH continuity proofs below are
+    stated against them.
+
+    (2) MAC LANE'S COVERING FAMILY, WITH NO SMALLNESS, UNCONDITIONALLY.
+    [tensor_esols_direct : ElementSolutionSet (Bilin V V')] is his p. 128
+    argument: given an arbitrary bilinear beta : V x V' -> C, corestrict it
+    to the submodule generated by its image
+    (Instance/Mod/Spanning.v's [rbl_gen_corestrict]), observe that the
+    corestriction SPANS ([rbl_corestrict_spanning], by induction on the
+    generation witness -- the one new lemma the step needs), and cover beta
+    by the submodule inclusion.  The index is
+    [SpanningArrowsOutOf (Bilin V V') SetsOne] at [eq_refl], the SAME index
+    as the conditional [tensor_esols] of Instance/Mod/Spanning.v's section 7
+    -- [tensor_esols_same_index] pins that, with the wide-pullback
+    hypothesis passed EXPLICITLY, since the exported instance
+    [RMod_HasWidePullbacks] would be found by resolution and then refused at
+    the application.  Mac Lane's Lemma 2 route (wide intersections of
+    subobjects, Instance/Mod/Spanning.v) and his p. 128 route (corestrict to
+    the generated submodule, here) therefore agree on the nose about WHAT
+    the solution set is indexed by, and differ only in what they assume.
+    NOTHING BELOW CONSUMES [tensor_esols_direct]: the theorem will not
+    accept it, for the universe reason of section 2, so the only solution
+    set ever fed to [tensor_via_AFT] in tree is the CIRCULAR
+    [tensor_esols_from_tensor] of step (5).  [tensor_esols_direct]'s only
+    consumers are its own three [eq_refl] readbacks and
+    [tensor_esols_same_index].
+
+    NO SMALLNESS.  [esol_index] is a bare [Type], so Mac Lane's cardinality
+    bound ("such a C consists of all finite sums") is not part of what the
+    record asks for and nothing here supplies it.
+
+    (3) CONTINUITY OF [Bilin V V'], UNCONDITIONALLY AND NOT VIA THE TENSOR.
+    [Bilin_continuous : ContinuousFunctor (Bilin V V')] is proved
+    ELEMENTWISE against an arbitrary limiting cone: the underlying cone of
+    sets is limiting by Instance/Mod/Limit.v's
+    [RMod_Forget_creates_continuous] (creation from [Sets_Complete], no
+    adjunction presupposed), a bilinear map into the apex is exactly a
+    compatible family of bilinear maps into the [K j], and the five laws
+    come from joint monicity plus the law in each [K j].  No transport is
+    needed and none is used: the argument never mentions the CHOSEN limit,
+    so Structure/Limit/Preservation.v's [limitcone_transport] and
+    [FCone_iso] -- which would have carried the statement from the created
+    limit to an arbitrary one -- are available but not consumed.
+
+    THE CIRCULAR ROUTE IS NAMED AND NOT USED.
+    [preserves_image_of_representable (tensor_repr_of_UE V V')]
+    (Adjunction/Representability/Sets.v:365) inhabits the same type in one
+    line, and is CIRCULAR: it derives the theorem's hypothesis from the very
+    tensor the theorem is meant to construct.  That is the circularity
+    Instance/Ab/Limit.v:57-67 warns against and Instance/Grp/FreeAFT.v:
+    182-185 discloses for its own solution set.  It is checked as a positive
+    control in the probe, and NEGATIVE 6 there pins that the delivered term
+    is a different one.
+
+    (4) [Bilin_PreservesImageLimit] is [Continuous_PreservesImageLimit
+    Bilin_continuous] (Construction/Comma/Creation.v:232).  That bridge is
+    LOAD-BEARING and cannot be skipped: a [ContinuousFunctor] does not
+    ascribe where the theorem asks for [PreservesImageLimit], the refusal
+    being "cannot unify \"Limit.Limit K\" and \"Cone.Cone K\"", quoted at
+    Instance/Ab/Limit.v:70-80.
+
+    (5) THE CONSTRUCTION.  [tensor_via_AFT V V' E : Representable
+    (Bilin V V')] is [representability_theorem] at [RMod_Complete R],
+    [Bilin_PreservesImageLimit V V'] and a solution set [E].  It is stated
+    at TOP LEVEL, outside any [Section], for the reason
+    Adjunction/Representability/Sets.v:301-305 gives.
+    [tensor_esols_from_tensor] -- index [unit], object [TensorMod V V'],
+    element [tensor_gen] -- inhabits the hypothesis and is CIRCULAR, named
+    so that the circularity is visible at every use site, exactly as
+    Instance/Grp/FreeAFT.v:183's [Grp_Forget_solution_set_from_adjunction]
+    is.  Its only role is to show the conditional is not vacuous;
+    [tensor_via_AFT_from_tensor] is that instantiation.
+
+    (6) THE COMPARISON, AT `≅` AND NOT AT [eq_refl].  [tensor_AFT_iso] is
+    [repr_unique_iso] (Functor/Representable.v:395) against
+    [tensor_repr_of_UE], the representation read off Instance/Mod/Tensor.v's
+    [tensor_UniversalElement] through the DIRECT route
+    [Representable_of_UniversalElement] (Theory/Universal/Element.v:695;
+    the header at :638-648 says why the Yoneda-composed route at :621 is the
+    wrong one at a category whose objects sit above its homs).  The
+    uniqueness clause is [tensor_AFT_iso_universal]
+    ([repr_unique_iso_universal], Functor/Representable.v:402 -- the bare
+    line number would otherwise read as Element.v's, which it is not), and
+    the two [eq_refl] legs are
+    [repr_of_ue_obj] (Theory/Universal/Element.v:705) and
+    [tensor_UniversalElement_obj]
+    (Instance/Mod/Tensor.v:830), read back here as
+    [tensor_repr_of_UE_obj].  THE OBJECT COMPARISON IS `≅`, NOT [eq_refl]:
+    the adjoint functor theorem builds its object as a limit inside the
+    comma category and [TensorMod] is a quotient of formal terms.
+    NEGATIVE 5 of the probe pins that.
+
+    (7) AND THE COMPARISON CARRIES THE UNIVERSAL ELEMENT.
+    [tensor_AFT_iso_carries_elem] says the AFT's universal bilinear map,
+    transported along [tensor_AFT_iso] itself, IS [tensor_gen] at `≈`; the
+    proof is naturality of the representation followed by
+    [repr_induced_compatible] at the identity, and nothing about the
+    solution set enters.  [tensor_AFT_elem_iso] is the element-level
+    comparison ([universal_element_iso], Theory/Universal/Element.v:766),
+    [tensor_AFT_elem_unique] its uniqueness clause
+    ([universal_element_unique], :784), and [tensor_AFT_isos_agree] proves
+    the two comparisons are the same isomorphism at `≈`.
+
+    (8) EXERCISE 3: THE BALANCED TENSOR.  The balanced tensor of a right and
+    a left module over a possibly non-commutative ring already exists
+    (Instance/Mod/Bimodule.v:676's [BalTensor], landing in [Ab]); what did
+    not exist is the FUNCTOR it represents.  [BalBiadd N M : Ab ⟶ Sets] is
+    it -- object part [BalBiadditive N M A] with the pointwise setoid,
+    arrow part postcomposition, on the pattern of Instance/Mod/
+    Tensor.v:736-790 -- together with [bal_universal_element :
+    AUniversalElement (BalBiadd N M) (BalTensor N M)] built from [bal_med]
+    and [bal_med_unique], whose object and element read back at [eq_refl].
+    [BalBiadd_continuous] is the continuity, elementwise over [Ab]'s created
+    limits ([Ab_Forget_creates_continuous], Instance/Ab/Limit.v:764) through
+    the SAME four lemmas of step (1); [bal_tensor_via_AFT N M E] is the
+    construction over [Ab_Complete]; [bal_AFT_iso] and
+    [bal_AFT_iso_carries_elem] are the comparison with [BalTensor] and its
+    element clause, and [bal_AFT_isos_agree] identifies the two.
+
+    (9) EXERCISE 3'S SOLUTION SET, UNCONDITIONALLY.  [bal_esols_direct] is
+    Mac Lane's argument over [Ab], and it needed four pieces of [Ab]
+    vocabulary that were not in tree: [ABGenSub] (Instance/Mod/Spanning.v's
+    [ABGen] has exactly the five fields of Instance/Ab/DirectedColimit.v:
+    273's [AbSubgroup], so this is repackaging with no obligation),
+    [AbImageSub] (the image of a homomorphism as a subgroup, the [Ab]
+    counterpart of Instance/Mod/Quotient.v:761's [ImageSubmod]), [ab_split]
+    (a bijective homomorphism splits) and [abg_subobj] (a subgroup as a
+    [SubObj Ab], through [ab_injective_monic]).
+    [bal_spanning_to_spanning] is then the [Ab] form of Instance/Mod/
+    Spanning.v's [rbilinear_spanning_to_spanning], and
+    [bal_gen_corestrict]/[bal_corestrict_spanning] the [Ab] form of the
+    corestriction of step (2).
+
+    ** 2. THE UNIVERSE WALL, MEASURED
+
+    [representability_theorem] reports
+
+      representability_theorem@{u u0 … u9} :
+        ∀ {C : Category@{u8 Set Set}} (K : C ⟶ Sets@{Set u9}),
+          Complete@{u7 u7 Set u8} →
+          PreservesImageLimit@{u8 Set u9 Set u6 u7 u9 u7} →
+          ElementSolutionSet@{u8 Set u9 u7} K → Representable@{u u8 u9 u8 Set} K
+
+    -- the solution set's INDEX universe is [u7], which is also the
+    SHAPE universe of the [Complete] it is handed.  [RMod_Complete]'s type
+    is [Complete@{u u u u0}] with [u] the ring's carrier universe, so [u7]
+    is forced to the ring's carrier, which the theorem in turn pins to
+    [Set].  Mac Lane's index is
+    [SpanningArrowsOutOf (Bilin V V') SetsOne], a sigma over [obj[RMod R]],
+    and [RModObject] is a record over a [SetoidObject], so its objects sit
+    STRICTLY ABOVE its carriers.  The two cannot meet, and
+
+      Definition n1 {R : RingObject} (V V' : RModObject R) :
+        Representable (Bilin V V') :=
+        representability_theorem (Bilin V V') (RMod_Complete R)
+          (Bilin_PreservesImageLimit V V') (tensor_esols_direct V V').
+
+    is refused with (here and everywhere below in this section, the
+    generated universe names of the real message are replaced by readable
+    ones, positionally; everything else is verbatim)
+
+      The term "tensor_esols_direct V V'" has type
+       "ElementSolutionSet@{u_obj Set u_Sets u_obj} (Bilin … V V')"
+      while it is expected to have type
+       "ElementSolutionSet@{u_obj' Set u_Sets' Set} (Bilin … V V')"
+      (universe inconsistency: Cannot enforce Set = u_obj' because
+       Set < u_obj')
+
+    The spanning-arrow route is refused for the same reason seen from the
+    other side:
+
+      @GAFT_from_spanning (RMod R) Sets (Bilin V V') HWP
+        (Bilin_PreservesWidePullbacks V V') (RMod_Complete R)
+        (Bilin_PreservesImageLimit V V')
+
+    is refused with "The term \"RMod_Complete R\" has type
+    \"Complete@{Set Set Set u}\" while it is expected to have type
+    \"Complete@{u_obj u_obj Set u_obj}\" (universe inconsistency: Cannot
+    enforce Set = u_obj because Set < u_obj)", so NO ADJUNCTION is delivered
+    here, only a representation -- see NOT DELIVERED.  Exercise 3 meets the
+    identical refusal at [Ab] ([bal_esols_direct] into
+    [bal_tensor_via_AFT]).  All three are NEGATIVES 1, 2 and 3 of
+    Test/ProbeModTensorAFT449.v, each stripped and re-run in a copy of the
+    whole probe so the refusal kind could be read rather than guessed.
+
+    A WALL OF THE SAME FAMILY AS #1309, MEASURED NOT TO BE LIFTED BY IT.
+    Instance/Grp/FreeAFT.v:91-110 measures a wall of this family at [Grp]
+    -- Mac Lane's literal index [Subgroup Gfix] refused there too -- and
+    attributes the [Set] to a universe-MINIMIZATION artifact of
+    Instance/Discrete.v's [DiscreteCat_Functor], which carries no universe
+    binders; it reports the repair as three annotated lines, measured
+    against eleven recorded boundaries, filed as #1309, and records at
+    :128-140 that WITH that repair the [Grp] solution set IS accepted.
+    THE REPAIR WAS APPLIED AND MEASURED; IT DOES NOT LIFT THIS WALL.
+    With only the #1309 edit
+    ([Program Definition DiscreteCat_Functor@{o h p co ch cp +} ...])
+    applied in a full copy of the worktree and the tree rebuilt, the
+    literal [Set] vanishes from the refusal but the refusal remains, now
+    as the identification of the index universe with the ring's carrier
+    universe: the [n1] quoted above then reports "The term
+    \"tensor_esols_direct V V'\" has type \"ElementSolutionSet@{u_a u_b
+    u_c u_a} ...\" while it is expected to have type
+    \"ElementSolutionSet@{u_d u_b u_e u_b} ...\" (universe inconsistency:
+    Cannot enforce u_d = u_b because u_b < u_d)", with NO [Set] anywhere
+    in the message, and the [Ab] refusal of Exercise 3 likewise ("Cannot
+    enforce u_f = u_g because u_g < u_f").  The structural reason survives
+    the repair: [Sets_Complete@{u u0} : Complete@{u u u u0}] fixes the
+    shape universe at the carrier universe, while the index is a sigma
+    over objects and [Submodule W : Type@{u}] with [carrier < u] puts any
+    subobject-shaped index strictly above the carrier.  Three further
+    repair attempts -- an explicitly annotated [ElementSolutionSet] with
+    [Constraint Set < iu], a fully named [@representability_theorem], and
+    the same with [RMod_Complete] replaced by an abstract
+    [comp : @Complete (RMod R)] -- are each refused too, the last showing
+    the identification is not [RMod_Complete]'s.  Nothing here claims the
+    wall is unavoidable.  What is claimed is that until it moves -- and
+    landing #1309 alone is measured NOT to move it -- an AFT construction
+    of the tensor product at [RMod R] is either conditional on a solution
+    set at the ring's carrier universe, or circular.  This file delivers
+    both readings and labels each.
+
+    ** 3. MEASURED
+
+    111 constants: 78 [.glob] declaration heads (58 [def], 20 [prf]) plus 33
+    [Program] obligations, which appear in NEITHER the [.glob] heads NOR
+    [Search inside].  The obligations were enumerated with
+    [strings Instance/Mod/TensorAFT.vo | grep -o
+    '[A-Za-z0-9_]*_obligation_[0-9]*' | sed 's/^[0-9]*//' | sort -u] -- the
+    junk digit prefix STRIPPED, not dropped, 20 of the 33 appearing in the
+    census only prefixed ([5BalBiadd_obligation_1], [6Bilin_med_obligation_1]
+    and the rest) -- and cross-checked against
+    [Print Module Category.Instance.Mod.TensorAFT], which lists the same 33
+    and no others, [diff] empty both ways.  ALL 111 report "Closed under the
+    global context", with zero [Axioms:] lines, run through a scratch file of
+    [Print Assumptions Category.Instance.Mod.TensorAFT.<name>] -- the
+    obligations answer only to the qualified name.
+
+    Counted BY TOKEN over the whole file with the criterion
+    [grep -o 'Qed\.'] and [grep -o 'Defined\.'] -- the trailing period is
+    what keeps the words used in this comment out of the count -- the
+    numbers are 50 proof terminators of the first kind and EIGHT of the
+    second.  EXACTLY TWO of the eight are LOAD-BEARING, each shown so by
+    making it opaque in a copy of the WHOLE file and naming what stops:
+    [tensor_esols_direct] (then [tensor_esols_direct_index] and its two
+    siblings stop, their [eq_refl] having the wrong type) and
+    [bal_esols_direct] (then [bal_esols_direct_index] and its two siblings
+    stop).  The other six -- [rbl_corestrict_spanning],
+    [tensor_esols_from_tensor], [bal_esols_from_tensor],
+    [bal_restrict_image], [bal_spanning_to_spanning] and
+    [bal_corestrict_spanning] -- were flipped individually AND all six
+    together, and the file still compiles; their transparency is a choice,
+    kept so the covering data stays computable, and is said plainly here so
+    no later reader takes it for a measured requirement.
+
+    UNIVERSES ([About] under [Set Printing Universes], all 111).  EXACTLY 21
+    of the 111 carry a word-bounded [Set], and they are precisely the two
+    AFT applications and everything downstream of them: [tensor_via_AFT],
+    [tensor_via_AFT_from_tensor], [tensor_AFT_iso],
+    [tensor_AFT_iso_universal], [tensor_AFT_ue], [tensor_AFT_elem_iso],
+    [tensor_AFT_elem_commutes], [tensor_AFT_elem_unique],
+    [tensor_AFT_iso_carries_elem], [tensor_AFT_isos_agree], the alias
+    [module_tensor_universal], and their ten [bal_] counterparts.  The
+    other 90 -- the whole element calculus, both continuity results, both
+    direct solution sets, the [Ab] vocabulary of step (9), and ALL 33
+    obligations -- carry none.  Headlines:
+
+      tensor_via_AFT@{…} : ∀ {R : RingObject@{Set u8 u8}} (V V' : …),
+        ElementSolutionSet@{u0 Set u1 Set} (Bilin V V') →
+        Representable@{u u0 u1 u0 Set} (Bilin V V')
+      (* … Set < u0, Set < u1, … *)
+
+      tensor_AFT_iso@{…} : ∀ {R : RingObject@{Set Set Set}} …
+
+      bal_tensor_via_AFT@{…} : ∀ {X : RingObject@{Set u5 u5}} …
+
+      Bilin_continuous@{…} : ∀ {R : RingObject@{u u0 u1}} …
+        ContinuousFunctor@{…} (Bilin V V')      (* no Set anywhere *)
+
+      bal_esols_direct@{…} : … ElementSolutionSet@{u2 u16 u2 u2} …
+                                              (* index free, no Set *)
+
+    [tensor_AFT_iso] carries the sharpest pin in the file,
+    [RingObject@{Set Set Set}] -- all THREE of the ring's universes at
+    [Set] -- where [tensor_via_AFT] reads [RingObject@{Set u8 u8}] and pins
+    only the carrier.  ATTRIBUTED BY ISOLATION, not guessed.
+    [tensor_via_AFT] already identifies the ring's SECOND and THIRD
+    universes, inherited from the theorem's own pin.  [tensor_repr_of_UE]
+    identifies its FIRST and THIRD, reading [RingObject@{u0 u1 u0}] in the
+    BINDER with no equation in the block -- the binder/block trap
+    Instance/Mod/Closed.v:221-223 records -- and so does
+    [tensor_esols_from_tensor] ([RingObject@{u6 u1 u6}]), while
+    [tensor_esols_direct] reads [RingObject@{u u0 u1}] with no
+    identification at all.  That 1 = 3 is the EXPLICIT tensor's, and the
+    tree already names the carrier: Instance/Mod/Closed.v:1117-1127 records
+    [tensor_med] as identifying the ring's first and third universes, with
+    [TensorMod] and [tensor_gen] not doing so.  Composing 2 = 3, 1 = 3 and
+    carrier = [Set] collapses all three.  At [Ab] nothing plays that role --
+    [bal_repr_of_UE], [bal_esols_from_tensor] and [bal_universal_element]
+    each report [RingObject@{u u0 u1}] -- and [bal_AFT_iso] keeps
+    [RingObject@{Set u6 u6}].
+
+    [Require] discipline: 28 imports, closure 169 files excluding this one
+    by iterated [coqdep], counting only paths that exist in the worktree
+    and deduplicating by REAL PATH; an earlier count of 170 counted Lib.v
+    twice, because a PER-FILE [coqdep -R . Category <file>] walk prints it
+    as [./Lib.vo] for some callers and [Lib.vo] for others (a single
+    [coqdep -f _CoqProject] run prints one spelling and does not show it).
+    Every import was tested by deletion from a copy followed by
+    recompilation; four that the first draft carried --
+    Category.Theory.Morphisms, Category.Structure.Limit,
+    Category.Structure.Complete and Category.Adjunction.GAFT -- were
+    droppable and are gone, and a second pass over the remaining 28 found
+    none droppable.
+
+    Zero DECLARATION-HEAD COLLISIONS: none of the 111 names is declared
+    anywhere else, measured by scanning every one of the 1017 other
+    [.glob] files in the landed tree for a [def]/[prf]/[ind]/[constr]/
+    [scheme]/[inst] head equal to one of them, the file list produced by
+    [find] and fed through [xargs] so that no [.gitignore] traversal rule
+    can apply.  Instrument controls in the same shell: [tensor_gen] is
+    declared in Instance/Mod/Tensor.glob and Instance/Ab/Tensor.glob (two
+    files), [Ab_Complete] in Instance/Ab/Limit.glob (one), and a
+    nonexistent name in none.  MENTIONS are a different count and are not
+    zero: over the 1021 other [.v] files, exactly two mention any of the
+    111 names -- Test/ProbeModTensorAFT449.v 17 of them, as uses, and
+    Instance/Mod/Spanning.v 4, all header prose ([tensor_esols_direct],
+    [tensor_esols_same_index], [Bilin_PreservesImageLimit],
+    [tensor_via_AFT]).
+
+    [make todo] gains EIGHT hits, all of them the eight guarded commands of
+    Test/ProbeModTensorAFT449.v; this file contributes none.
+
+    ** 4. NOT DELIVERED
+
+    (1) NO UNCONDITIONAL REPRESENTATION.  [tensor_via_AFT] and
+    [bal_tensor_via_AFT] take a solution set as a hypothesis, for the
+    measured universe reason of section 2.  The only in-tree inhabitants of
+    that hypothesis are the two CIRCULAR ones,
+    [tensor_esols_from_tensor] and [bal_esols_from_tensor], read off the
+    tensor products the theorem is meant to construct.  So what is
+    demonstrated is that the machinery applies and that its output agrees
+    with the explicit construction -- NOT that the tensor product exists
+    independently of the explicit construction.  Instance/Grp/FreeAFT.v is
+    in exactly this position and says so.
+
+    (2) NO ADJUNCTION.  [GAFT] and [GAFT_from_spanning] produce a left
+    adjoint; both are refused at [RMod R] (section 2), so nothing here is a
+    functor [Sets ⟶ RMod R] and no [⊣] appears below.  The tensor's
+    parametrized adjunctions already in tree (Instance/Mod/Closed.v's
+    [RMod_SymMonClosed], Instance/Mod/Bimodule.v:1494) are untouched and
+    unrelated.
+
+    (3) NO SMALLNESS, hence no cardinality bound: [esol_index] is a bare
+    [Type], as Adjunction/SpanningArrow.v:198-202 says of itself.
+
+    (4) NO [eq_refl] OBJECT COMPARISON, only `≅` with a uniqueness clause
+    (probe NEGATIVE 5).
+
+    (5) NO CONCRETE WITNESS.  Nothing below instantiates [R] at a named
+    ring, so nothing exhibits the AFT object at [Int_Ring] or anywhere else;
+    and the tree still has no non-commutative ring at all
+    (Instance/Mod/Tensor.v:119-175 records that gap), so Exercise 3's
+    non-commutative reading stays uninstantiated here as elsewhere.
+
+    (6) NOTHING ABOUT THE BASE-CHANGE CLAUSE of Exercise 3.  Instance/Mod/
+    Spanning.v's [bal_change] and [bal_change_surjective] are that clause
+    and are not extended here; the kernel of the comparison is still not
+    described.
+
+    (7) NO REPAIR OF THE UNIVERSE ARTIFACT.  Instance/Discrete.v is not
+    touched, and #1309 stays open -- and, as section 2 measures, landing
+    it would not lift this file's wall in any case.
+
+    (8) NOTHING IS REGISTERED AS AN [Instance] -- a representation and a
+    solution set must not become globally resolvable.  All 111 constants
+    ARE registered in the Makefile's [make print-assumptions] gate block,
+    one [Print Assumptions Category.Instance.Mod.TensorAFT.<name>] line
+    each, so the axiom-free report of section 3 is re-run by that target
+    rather than only by the scratch file it was first measured with. *)
+
+(** ** 1. Elements of a limiting cone in [Sets] *)
+
+Section SetsLimitElements.
+
+Context {J : Category}.
+Context {G : J ⟶ Sets}.
+Context {N : Cone G}.
+Context (HN : IsLimitCone N).
+
+(* A compatible family of elements is a cone out of the singleton. *)
+Definition slim_family_cone (b : ∀ x : J, carrier (G x))
+  (Hb : ∀ (x y : J) (f : x ~{J}~> y), fmap[G] f (b x) ≈ b y) : Cone G :=
+  @Build_Cone J Sets G SetsOne
+    (@Build_ACone J Sets SetsOne G (fun x => global_element (b x))
+       (fun x y f _ => Hb x y f)).
+
+Definition slim_elem (b : ∀ x : J, carrier (G x))
+  (Hb : ∀ (x y : J) (f : x ~{J}~> y), fmap[G] f (b x) ≈ b y) :
+  carrier (vertex_obj[N]) :=
+  unique_obj (HN (slim_family_cone b Hb)) ttt.
+
+Lemma slim_elem_leg (b : ∀ x : J, carrier (G x))
+  (Hb : ∀ (x y : J) (f : x ~{J}~> y), fmap[G] f (b x) ≈ b y) (x : J) :
+  cone_leg N x (slim_elem b Hb) ≈ b x.
+Proof using All.
+  exact (unique_property (HN (slim_family_cone b Hb)) x ttt).
+Qed.
+
+Lemma slim_ext (u v : carrier (vertex_obj[N]))
+  (H : ∀ x : J, cone_leg N x u ≈ cone_leg N x v) : u ≈ v.
+Proof using All. exact (absets_limit_ext (limitcone_isalimit HN) u v H). Qed.
+
+End SetsLimitElements.
+
+(** ** 2. Mac Lane's direct solution set for [Bilin V V'] *)
+
+Section DirectSolutionSet.
+
+Context {R : RingObject}.
+Context (V V' : RModObject R).
+
+(* The corestriction of a bilinear map to the submodule generated by its
+   image spans that submodule, by induction on the generation witness. *)
+Lemma rbl_corestrict_spanning {W : RModObject R} (β : RBilinear V V' W) :
+  RBilinearSpanning (rbl_gen_corestrict β).
+Proof using.
+  intros [a D].
+  induction D as [a Ha|a b Hab D IH| |a b D1 IH1 D2 IH2|r a D IH].
+  - refine (mgen_base (rbl_image (rbl_gen_corestrict β)) _ _).
+    destruct Ha as [v [w Hvw]].
+    exists v, w; exact Hvw.
+  - refine (mgen_resp (rbl_image (rbl_gen_corestrict β)) _ _ _ IH).
+    exact Hab.
+  - refine (mgen_resp (rbl_image (rbl_gen_corestrict β)) _ _ _
+              (mgen_zero (rbl_image (rbl_gen_corestrict β)))).
+    reflexivity.
+  - refine (mgen_resp (rbl_image (rbl_gen_corestrict β)) _ _ _
+              (mgen_plus (rbl_image (rbl_gen_corestrict β)) _ _ IH1 IH2)).
+    reflexivity.
+  - refine (mgen_resp (rbl_image (rbl_gen_corestrict β)) _ _ _
+              (mgen_smul (rbl_image (rbl_gen_corestrict β)) r _ IH)).
+    reflexivity.
+Defined.
+
+Definition tensor_esols_direct : ElementSolutionSet (Bilin V V').
+Proof using.
+  unshelve refine
+    {| esol_index := SpanningArrowsOutOf (Bilin V V') SetsOne
+     ; esol_obj := fun i => `1 i
+     ; esol_elem := fun i => `1 (`2 i) ttt |}.
+  intros c β.
+  unshelve eexists.
+  - refine (existT _ (SubmoduleMod (SubGenMod (rbl_image β))) _).
+    refine (existT _ (global_element
+                        (X := Bilin V V' (SubmoduleMod
+                                (SubGenMod (rbl_image β))))
+                        (rbl_gen_corestrict β)) _).
+    exact (rbilinear_spanning_to_spanning (rbl_gen_corestrict β)
+             (rbl_corestrict_spanning β)).
+  - exists (smod_incl (SubGenMod (rbl_image β))).
+    intros v w; reflexivity.
+Defined.
+
+Example tensor_esols_direct_index :
+  esol_index tensor_esols_direct = SpanningArrowsOutOf (Bilin V V') SetsOne
+  := eq_refl.
+
+Example tensor_esols_direct_obj (i : SpanningArrowsOutOf (Bilin V V') SetsOne) :
+  esol_obj tensor_esols_direct i = `1 i := eq_refl.
+
+Example tensor_esols_direct_elem
+  (i : SpanningArrowsOutOf (Bilin V V') SetsOne) :
+  esol_elem tensor_esols_direct i = `1 (`2 i) ttt := eq_refl.
+
+(* The conditional solution set of Instance/Mod/Spanning.v and the
+   unconditional one above are indexed by the SAME type, on the nose. *)
+Example tensor_esols_same_index
+  (HWP : @HasWidePullbacks (RMod R)) :
+  esol_index (@tensor_esols R V V' HWP) = esol_index tensor_esols_direct
+  := eq_refl.
+
+End DirectSolutionSet.
+
+(** ** 3. [Bilin V V'] is continuous *)
+
+Section BilinContinuity.
+
+Context {R : RingObject}.
+Context (V V' : RModObject R).
+
+Section AtALimitingCone.
+
+Context {J : Category}.
+Context {K : J ⟶ RMod R}.
+Context {N : Cone K}.
+Context (HN : IsLimitCone N).
+
+(* The underlying cone of SETS is limiting, by Instance/Mod/Limit.v's
+   creation result -- the only input from the module side. *)
+Definition bilin_sets_limit : IsLimitCone (FCone (RMod_Forget R) N) :=
+  RMod_Forget_creates_continuous R J K N HN.
+
+(* Joint monicity of the legs on ELEMENTS, in the spelling the module laws
+   below present their goals in.  [slim_ext] states the same thing with
+   [cone_leg (FCone (RMod_Forget R) N) x]; the two are convertible, and
+   only this spelling is rewritable against [cmon_map_plus]. *)
+Lemma bilin_lim_ext (u v : carrier (cmon_setoid vertex_obj[N]))
+  (H : ∀ x : J, cmon_map (rm_hom (cone_leg N x)) u
+                  ≈ cmon_map (rm_hom (cone_leg N x)) v) : u ≈ v.
+Proof using All. exact (slim_ext bilin_sets_limit u v H). Qed.
+
+Section AtACone.
+
+Context (Q : Cone (Bilin V V' ◯ K)).
+
+Lemma bilin_family_compat (q : carrier (vertex_obj[Q]))
+  (v : carrier (cmon_setoid V)) (w : carrier (cmon_setoid V'))
+  (x y : J) (f : x ~{J}~> y) :
+  fmap[RMod_Forget R ◯ K] f (rbl_map (cone_leg Q x q) v w)
+    ≈ rbl_map (cone_leg Q y q) v w.
+Proof using All.
+  exact (@cone_coherence _ _ _ _ (@coneFrom _ _ _ Q) x y f q v w).
+Qed.
+
+Definition bilin_med_elem (q : carrier (vertex_obj[Q]))
+  (v : carrier (cmon_setoid V)) (w : carrier (cmon_setoid V')) :
+  carrier (cmon_setoid vertex_obj[N]) :=
+  slim_elem bilin_sets_limit (fun x => rbl_map (cone_leg Q x q) v w)
+    (fun x y f => bilin_family_compat q v w x y f).
+
+Lemma bilin_med_elem_leg (q : carrier (vertex_obj[Q]))
+  (v : carrier (cmon_setoid V)) (w : carrier (cmon_setoid V')) (x : J) :
+  cmon_map (rm_hom (cone_leg N x)) (bilin_med_elem q v w)
+    ≈ rbl_map (cone_leg Q x q) v w.
+Proof using All.
+  exact (slim_elem_leg bilin_sets_limit
+           (fun x => rbl_map (cone_leg Q x q) v w)
+           (fun x y f => bilin_family_compat q v w x y f) x).
+Qed.
+
+Program Definition Bilin_med (q : carrier (vertex_obj[Q])) :
+  RBilinear V V' vertex_obj[N] := {|
+  rbl_map := bilin_med_elem q
+|}.
+Next Obligation.
+  intros q v v' Hv w w' Hw.
+  apply bilin_lim_ext; intro x.
+  rewrite !bilin_med_elem_leg.
+  now rewrite Hv, Hw.
+Qed.
+Next Obligation.
+  intros q v v' w.
+  apply bilin_lim_ext; intro x.
+  rewrite bilin_med_elem_leg.
+  rewrite (cmon_map_plus (rm_hom (cone_leg N x))).
+  rewrite !bilin_med_elem_leg.
+  apply rbl_add_l.
+Qed.
+Next Obligation.
+  intros q v w w'.
+  apply bilin_lim_ext; intro x.
+  rewrite bilin_med_elem_leg.
+  rewrite (cmon_map_plus (rm_hom (cone_leg N x))).
+  rewrite !bilin_med_elem_leg.
+  apply rbl_add_r.
+Qed.
+Next Obligation.
+  intros q r v w.
+  apply bilin_lim_ext; intro x.
+  rewrite bilin_med_elem_leg.
+  rewrite (rm_map_smul (cone_leg N x)).
+  rewrite !bilin_med_elem_leg.
+  apply rbl_smul_l.
+Qed.
+Next Obligation.
+  intros q r v w.
+  apply bilin_lim_ext; intro x.
+  rewrite bilin_med_elem_leg.
+  rewrite (rm_map_smul (cone_leg N x)).
+  rewrite !bilin_med_elem_leg.
+  apply rbl_smul_r.
+Qed.
+
+Program Definition Bilin_cone_med :
+  vertex_obj[Q] ~{Sets}~> vertex_obj[FCone (Bilin V V') N] :=
+  {| morphism := Bilin_med |}.
+Next Obligation.
+  intros q q' Hq v w.
+  change (bilin_med_elem q v w ≈ bilin_med_elem q' v w).
+  apply bilin_lim_ext; intro x.
+  rewrite !bilin_med_elem_leg.
+  exact (proper_morphism (cone_leg Q x) q q' Hq v w).
+Qed.
+
+End AtACone.
+
+Theorem Bilin_preserves_cone : IsLimitCone (FCone (Bilin V V') N).
+Proof using All.
+  intro Q.
+  unshelve refine {| unique_obj := Bilin_cone_med Q |}.
+  - intros x q v w.
+    exact (bilin_med_elem_leg Q q v w x).
+  - intros u Hu q v w.
+    apply bilin_lim_ext; intro x.
+    rewrite (bilin_med_elem_leg Q q v w x).
+    symmetry; exact (Hu x q v w).
+Qed.
+
+End AtALimitingCone.
+
+Definition Bilin_continuous : ContinuousFunctor (Bilin V V') :=
+  fun J K N HN => Bilin_preserves_cone HN.
+
+Definition Bilin_PreservesImageLimit :
+  @PreservesImageLimit (RMod R) Sets (Bilin V V') :=
+  Continuous_PreservesImageLimit Bilin_continuous.
+
+End BilinContinuity.
+
+(** ** 4. Mac Lane's Construction 1: the tensor product from the AFT *)
+
+(* Stated at TOP LEVEL, outside any [Section], for the reason
+   Adjunction/Representability/Sets.v:301-305 gives: the comma-initial step
+   pins the hom AND proof universes of both categories to [Set], and inside
+   a section that has already elaborated a category with those levels apart
+   the ascription is refused.  The pin is measured in the header.
+
+   TWO of Mac Lane's three premises are discharged here outright --
+   [RMod_Complete] ("K-Mod is small-complete") and
+   [Bilin_PreservesImageLimit] ("Bilin(A,B;-) is continuous").  The THIRD,
+   the solution set, stays a hypothesis: [tensor_esols_direct] above IS Mac
+   Lane's solution set, but its index is a sigma over the OBJECTS of
+   [RMod R] and the theorem demands an index at the RING CARRIER universe,
+   one level down.  The refusal is quoted in the header. *)
+
+Definition tensor_via_AFT {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) : Representable (Bilin V V') :=
+  representability_theorem (Bilin V V') (RMod_Complete R)
+    (Bilin_PreservesImageLimit V V') E.
+
+(* A solution set AT THE UNIVERSE THE THEOREM DEMANDS, obtained from the
+   tensor product the theorem is meant to construct.  CIRCULAR, and named
+   so that the circularity is visible at every use site -- exactly
+   Instance/Grp/FreeAFT.v:183's [Grp_Forget_solution_set_from_adjunction],
+   which exists for the same reason and is disclosed the same way.  Its
+   only role is to show the conditional above is not vacuous. *)
+Definition tensor_esols_from_tensor {R : RingObject} (V V' : RModObject R) :
+  ElementSolutionSet (Bilin V V').
+Proof.
+  unshelve refine (@Build_ElementSolutionSet (RMod R) (Bilin V V')
+                     unit (fun _ => TensorMod V V')
+                     (fun _ => @tensor_gen R V V') _).
+  intros c β.
+  refine (existT _ tt _).
+  refine (existT _ (tensor_factor β) _).
+  intros v w; exact (tensor_factor_commutes β v w).
+Defined.
+
+Definition tensor_via_AFT_from_tensor {R : RingObject} (V V' : RModObject R) :
+  Representable (Bilin V V') :=
+  tensor_via_AFT V V' (tensor_esols_from_tensor V V').
+
+(** ** 5. The comparison with [TensorMod] *)
+
+Definition tensor_repr_of_UE {R : RingObject} (V V' : RModObject R) :
+  Representable (Bilin V V') :=
+  Representable_of_UniversalElement (tensor_UniversalElement V V').
+
+Example tensor_repr_of_UE_obj {R : RingObject} (V V' : RModObject R) :
+  @repr_obj (RMod R) (Bilin V V') (tensor_repr_of_UE V V') = TensorMod V V'
+  := eq_refl.
+
+(* The object comparison is `≅`, NOT [eq_refl]: the AFT builds its object
+   as a limit inside the comma category, [TensorMod] is a quotient of
+   formal terms.  The statement holds for EVERY solution set, so nothing
+   here depends on which one is supplied. *)
+Definition tensor_AFT_iso {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :
+  @repr_obj (RMod R) (Bilin V V') (tensor_via_AFT V V' E)
+    ≅ TensorMod V V' :=
+  repr_unique_iso (tensor_repr_of_UE V V') (tensor_via_AFT V V' E).
+
+Definition tensor_AFT_iso_universal {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :=
+  repr_unique_iso_universal (tensor_repr_of_UE V V') (tensor_via_AFT V V' E).
+
+Definition tensor_AFT_ue {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) : UniversalElement (Bilin V V') :=
+  UniversalElement_of_Representable (tensor_via_AFT V V' E).
+
+(* The issue's verification name.  [module_tensor_universal V V' E] is the
+   universal element the adjoint functor theorem produces for a given
+   solution set -- an alias of [tensor_AFT_ue], so that the name the issue
+   asks to audit resolves to the delivered constant; it inherits the
+   conditional shape and the [Set] pin of [tensor_via_AFT]. *)
+Definition module_tensor_universal {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) : UniversalElement (Bilin V V') :=
+  tensor_AFT_ue V V' E.
+
+Definition tensor_AFT_elem_iso {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :
+  @ue_obj (RMod R) (Bilin V V') (tensor_AFT_ue V V' E) ≅ TensorMod V V' :=
+  universal_element_iso
+    (AUniversalElement_of_UniversalElement (tensor_AFT_ue V V' E))
+    (tensor_universal_element V V').
+
+Theorem tensor_AFT_elem_commutes {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :
+  fmap[Bilin V V'] (to (tensor_AFT_elem_iso V V' E))
+    (@ue_elem (RMod R) (Bilin V V') (tensor_AFT_ue V V' E))
+    ≈ @tensor_gen R V V'.
+Proof.
+  exact (ue_med_commutes
+           (AUniversalElement_of_UniversalElement (tensor_AFT_ue V V' E))
+           (tensor_universal_element V V')).
+Qed.
+
+Definition tensor_AFT_elem_unique {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :=
+  universal_element_unique
+    (AUniversalElement_of_UniversalElement (tensor_AFT_ue V V' E))
+    (tensor_universal_element V V').
+
+(* The two comparisons agree, and the AFT's universal bilinear map carried
+   along the REPRESENTATION-level isomorphism is [tensor_gen] itself.  The
+   argument is naturality of the representation followed by
+   [repr_induced_compatible] at the identity; nothing about the solution set
+   enters. *)
+Theorem tensor_AFT_iso_carries_elem {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :
+  fmap[Bilin V V'] (to (tensor_AFT_iso V V' E))
+    (@ue_elem (RMod R) (Bilin V V') (tensor_AFT_ue V V' E))
+    ≈ @tensor_gen R V V'.
+Proof.
+  pose proof (repr_compatible_at
+    (repr_induced_compatible (tensor_repr_of_UE V V')
+       (tensor_via_AFT V V' E) nat_id) (TensorMod V V') id) as HC.
+  pose proof (@naturality _ _ _ _
+      (to (@represented _ _ (tensor_via_AFT V V' E)))
+      (@repr_obj _ _ (tensor_via_AFT V V' E)) (TensorMod V V')
+      (to (tensor_AFT_iso V V' E)) (@id (RMod R) _)) as HN.
+  transitivity (transform[to (@represented _ _ (tensor_via_AFT V V' E))]
+                  (TensorMod V V')
+                  (@compose (RMod R) _ _ _ (to (tensor_AFT_iso V V' E))
+                     (@id (RMod R) _))).
+  - exact HN.
+  - transitivity (transform[to (@represented _ _ (tensor_via_AFT V V' E))]
+                    (TensorMod V V')
+                    (@compose (RMod R) _ _ _ (@id (RMod R) _)
+                       (to (tensor_AFT_iso V V' E)))).
+    + apply proper_morphism.
+      rewrite id_left, id_right; reflexivity.
+    + rewrite HC.
+      exact (@fmap_id _ _ (Bilin V V') (TensorMod V V') (@tensor_gen R V V')).
+Qed.
+
+Theorem tensor_AFT_isos_agree {R : RingObject} (V V' : RModObject R)
+  (E : ElementSolutionSet (Bilin V V')) :
+  tensor_AFT_elem_iso V V' E ≈ tensor_AFT_iso V V' E.
+Proof.
+  exact (universal_element_iso_unique
+           (AUniversalElement_of_UniversalElement (tensor_AFT_ue V V' E))
+           (tensor_universal_element V V')
+           (tensor_AFT_iso V V' E)
+           (tensor_AFT_iso_carries_elem V V' E)).
+Qed.
+
+(** ** 6. Exercise 3: the balanced-biadditive functor [Ab ⟶ Sets] *)
+
+Section BalBiaddFunctor.
+
+Context {X : RingObject}.
+Context (N : RModObject (Ring_op X)).
+Context (M : RModObject X).
+
+Program Definition BalBiadditive_Setoid (A : AbObject) :
+  Setoid (BalBiadditive N M A) := {|
+  equiv := fun β γ => ∀ n m, bal_map β n m ≈ bal_map γ n m
+|}.
+Next Obligation.
+  intros A.
+  constructor.
+  - intros β n m; reflexivity.
+  - intros β γ Hβγ n m; symmetry; apply Hβγ.
+  - intros β γ δ H1 H2 n m.
+    transitivity (bal_map γ n m); [ apply H1 | apply H2 ].
+Qed.
+
+Definition BalBiadd_obj (A : AbObject) : SetoidObject := {|
+  carrier   := BalBiadditive N M A;
+  is_setoid := BalBiadditive_Setoid A
+|}.
+
+Program Definition BalBiadd_post {A B : AbObject} (f : A ~{Ab}~> B)
+  (β : BalBiadditive N M A) : BalBiadditive N M B := {|
+  bal_map := fun n m => cmon_map f (bal_map β n m)
+|}.
+Next Obligation.
+  intros A B f β n n' Hn m m' Hm; simpl.
+  exact (proper_morphism (cmon_map f) _ _ (bal_respects β _ _ Hn _ _ Hm)).
+Qed.
+Next Obligation.
+  intros A B f β n n' m; simpl.
+  rewrite (bal_add_l β n n' m).
+  apply (cmon_map_plus f).
+Qed.
+Next Obligation.
+  intros A B f β n m m'; simpl.
+  rewrite (bal_add_r β n m m').
+  apply (cmon_map_plus f).
+Qed.
+Next Obligation.
+  intros A B f β x n m; simpl.
+  now rewrite (bal_balance β x n m).
+Qed.
+
+Program Definition BalBiadd : Ab ⟶ Sets := {|
+  fobj := BalBiadd_obj;
+  fmap := fun A B f => {| morphism := BalBiadd_post f |}
+|}.
+Next Obligation.
+  intros A B f β γ Hβγ n m; simpl.
+  exact (proper_morphism (cmon_map f) _ _ (Hβγ n m)).
+Qed.
+Next Obligation.
+  intros A B f g Hfg β n m; simpl.
+  exact (Hfg (bal_map β n m)).
+Qed.
+Next Obligation. intros A β n m; simpl; reflexivity. Qed.
+Next Obligation. intros A B C f g β n m; simpl; reflexivity. Qed.
+
+(* The universal element the explicit construction already supplies, in the
+   form the comparison below consumes. *)
+Program Definition bal_universal_element :
+  AUniversalElement BalBiadd (BalTensor N M) := {|
+  aue_elem      := @bal_gen X N M;
+  aue_universal := fun A β => {| unique_obj := bal_med β |}
+|}.
+Next Obligation. intros A β n m; simpl; reflexivity. Qed.
+Next Obligation.
+  intros A β k Hk.
+  symmetry.
+  exact (bal_med_unique β k Hk).
+Qed.
+
+Definition bal_UniversalElement : UniversalElement BalBiadd :=
+  UniversalElement_of_AUniversalElement bal_universal_element.
+
+Example bal_UniversalElement_obj :
+  @ue_obj Ab BalBiadd bal_UniversalElement = BalTensor N M := eq_refl.
+
+Example bal_UniversalElement_elem :
+  @ue_elem Ab BalBiadd bal_UniversalElement = @bal_gen X N M := eq_refl.
+
+End BalBiaddFunctor.
+
+Arguments BalBiadditive_Setoid {X} N M A.
+Arguments BalBiadd_obj {X} N M A.
+Arguments BalBiadd_post {X} N M {A B} f β.
+Arguments BalBiadd {X} N M.
+Arguments bal_universal_element {X} N M.
+Arguments bal_UniversalElement {X} N M.
+
+(** ** 7. Exercise 3: [BalBiadd N M] is continuous *)
+
+Section BalContinuity.
+
+Context {X : RingObject}.
+Context (N : RModObject (Ring_op X)).
+Context (M : RModObject X).
+
+Section AtALimitingCone.
+
+Context {J : Category}.
+Context {K : J ⟶ Ab}.
+Context {L : Cone K}.
+Context (HL : IsLimitCone L).
+
+Definition bal_sets_limit : IsLimitCone (FCone Ab_Forget L) :=
+  Ab_Forget_creates_continuous J K L HL.
+
+Lemma bal_lim_ext (u v : carrier (cmon_setoid vertex_obj[L]))
+  (H : ∀ x : J, cmon_map (cone_leg L x) u ≈ cmon_map (cone_leg L x) v) :
+  u ≈ v.
+Proof using All. exact (slim_ext bal_sets_limit u v H). Qed.
+
+Section AtACone.
+
+Context (Q : Cone (BalBiadd N M ◯ K)).
+
+Lemma bal_family_compat (q : carrier (vertex_obj[Q]))
+  (n : carrier (cmon_setoid (rm_ab N))) (m : carrier (cmon_setoid (rm_ab M)))
+  (x y : J) (f : x ~{J}~> y) :
+  fmap[Ab_Forget ◯ K] f (bal_map (cone_leg Q x q) n m)
+    ≈ bal_map (cone_leg Q y q) n m.
+Proof using All.
+  exact (@cone_coherence _ _ _ _ (@coneFrom _ _ _ Q) x y f q n m).
+Qed.
+
+Definition bal_med_elem (q : carrier (vertex_obj[Q]))
+  (n : carrier (cmon_setoid (rm_ab N)))
+  (m : carrier (cmon_setoid (rm_ab M))) :
+  carrier (cmon_setoid vertex_obj[L]) :=
+  slim_elem bal_sets_limit (fun x => bal_map (cone_leg Q x q) n m)
+    (fun x y f => bal_family_compat q n m x y f).
+
+Lemma bal_med_elem_leg (q : carrier (vertex_obj[Q]))
+  (n : carrier (cmon_setoid (rm_ab N)))
+  (m : carrier (cmon_setoid (rm_ab M))) (x : J) :
+  cmon_map (cone_leg L x) (bal_med_elem q n m)
+    ≈ bal_map (cone_leg Q x q) n m.
+Proof using All.
+  exact (slim_elem_leg bal_sets_limit
+           (fun x => bal_map (cone_leg Q x q) n m)
+           (fun x y f => bal_family_compat q n m x y f) x).
+Qed.
+
+Program Definition BalBiadd_med (q : carrier (vertex_obj[Q])) :
+  BalBiadditive N M vertex_obj[L] := {|
+  bal_map := bal_med_elem q
+|}.
+Next Obligation.
+  intros q n n' Hn m m' Hm.
+  apply bal_lim_ext; intro x.
+  rewrite !bal_med_elem_leg.
+  exact (bal_respects (cone_leg Q x q) _ _ Hn _ _ Hm).
+Qed.
+Next Obligation.
+  intros q n n' m.
+  apply bal_lim_ext; intro x.
+  rewrite bal_med_elem_leg.
+  rewrite (cmon_map_plus (cone_leg L x)).
+  rewrite !bal_med_elem_leg.
+  apply bal_add_l.
+Qed.
+Next Obligation.
+  intros q n m m'.
+  apply bal_lim_ext; intro x.
+  rewrite bal_med_elem_leg.
+  rewrite (cmon_map_plus (cone_leg L x)).
+  rewrite !bal_med_elem_leg.
+  apply bal_add_r.
+Qed.
+Next Obligation.
+  intros q r n m.
+  apply bal_lim_ext; intro x.
+  rewrite !bal_med_elem_leg.
+  apply bal_balance.
+Qed.
+
+Program Definition BalBiadd_cone_med :
+  vertex_obj[Q] ~{Sets}~> vertex_obj[FCone (BalBiadd N M) L] :=
+  {| morphism := BalBiadd_med |}.
+Next Obligation.
+  intros q q' Hq n m.
+  change (bal_med_elem q n m ≈ bal_med_elem q' n m).
+  apply bal_lim_ext; intro x.
+  rewrite !bal_med_elem_leg.
+  exact (proper_morphism (cone_leg Q x) q q' Hq n m).
+Qed.
+
+End AtACone.
+
+Theorem BalBiadd_preserves_cone : IsLimitCone (FCone (BalBiadd N M) L).
+Proof using All.
+  intro Q.
+  unshelve refine {| unique_obj := BalBiadd_cone_med Q |}.
+  - intros x q n m.
+    exact (bal_med_elem_leg Q q n m x).
+  - intros u Hu q n m.
+    apply bal_lim_ext; intro x.
+    rewrite (bal_med_elem_leg Q q n m x).
+    symmetry; exact (Hu x q n m).
+Qed.
+
+End AtALimitingCone.
+
+Definition BalBiadd_continuous : ContinuousFunctor (BalBiadd N M) :=
+  fun J K L HL => BalBiadd_preserves_cone HL.
+
+Definition BalBiadd_PreservesImageLimit :
+  @PreservesImageLimit Ab Sets (BalBiadd N M) :=
+  Continuous_PreservesImageLimit BalBiadd_continuous.
+
+End BalContinuity.
+
+(** ** 8. Exercise 3: the balanced tensor from the AFT, and the comparison *)
+
+(* Top level again, for the same [Set] pin. *)
+
+Definition bal_tensor_via_AFT {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  Representable (BalBiadd N M) :=
+  representability_theorem (BalBiadd N M) Ab_Complete
+    (BalBiadd_PreservesImageLimit N M) E.
+
+(* CIRCULAR, as at [RMod R]: a solution set at the universe the theorem
+   demands, read off the balanced tensor the theorem is meant to build.
+   Its only role is to show the conditional above is not vacuous. *)
+Definition bal_esols_from_tensor {X : RingObject}
+  (N : RModObject (Ring_op X)) (M : RModObject X) :
+  ElementSolutionSet (BalBiadd N M).
+Proof.
+  unshelve refine (@Build_ElementSolutionSet Ab (BalBiadd N M)
+                     unit (fun _ => BalTensor N M)
+                     (fun _ => @bal_gen X N M) _).
+  intros A β.
+  refine (existT _ tt _).
+  refine (existT _ (bal_med β) _).
+  intros n m; reflexivity.
+Defined.
+
+Definition bal_tensor_via_AFT_from_tensor {X : RingObject}
+  (N : RModObject (Ring_op X)) (M : RModObject X) :
+  Representable (BalBiadd N M) :=
+  bal_tensor_via_AFT N M (bal_esols_from_tensor N M).
+
+Definition bal_repr_of_UE {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) : Representable (BalBiadd N M) :=
+  Representable_of_UniversalElement (bal_UniversalElement N M).
+
+Example bal_repr_of_UE_obj {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) :
+  @repr_obj Ab (BalBiadd N M) (bal_repr_of_UE N M) = BalTensor N M := eq_refl.
+
+Definition bal_AFT_iso {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  @repr_obj Ab (BalBiadd N M) (bal_tensor_via_AFT N M E) ≅ BalTensor N M :=
+  repr_unique_iso (bal_repr_of_UE N M) (bal_tensor_via_AFT N M E).
+
+Definition bal_AFT_iso_universal {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :=
+  repr_unique_iso_universal (bal_repr_of_UE N M) (bal_tensor_via_AFT N M E).
+
+Definition bal_AFT_ue {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  UniversalElement (BalBiadd N M) :=
+  UniversalElement_of_Representable (bal_tensor_via_AFT N M E).
+
+Definition bal_AFT_elem_iso {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  @ue_obj Ab (BalBiadd N M) (bal_AFT_ue N M E) ≅ BalTensor N M :=
+  universal_element_iso
+    (AUniversalElement_of_UniversalElement (bal_AFT_ue N M E))
+    (bal_universal_element N M).
+
+Theorem bal_AFT_elem_commutes {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  fmap[BalBiadd N M] (to (bal_AFT_elem_iso N M E))
+    (@ue_elem Ab (BalBiadd N M) (bal_AFT_ue N M E))
+    ≈ @bal_gen X N M.
+Proof.
+  exact (ue_med_commutes
+           (AUniversalElement_of_UniversalElement (bal_AFT_ue N M E))
+           (bal_universal_element N M)).
+Qed.
+
+Theorem bal_AFT_iso_carries_elem {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  fmap[BalBiadd N M] (to (bal_AFT_iso N M E))
+    (@ue_elem Ab (BalBiadd N M) (bal_AFT_ue N M E))
+    ≈ @bal_gen X N M.
+Proof.
+  pose proof (repr_compatible_at
+    (repr_induced_compatible (bal_repr_of_UE N M)
+       (bal_tensor_via_AFT N M E) nat_id) (BalTensor N M) id) as HC.
+  pose proof (@naturality _ _ _ _
+      (to (@represented _ _ (bal_tensor_via_AFT N M E)))
+      (@repr_obj _ _ (bal_tensor_via_AFT N M E)) (BalTensor N M)
+      (to (bal_AFT_iso N M E)) (@id Ab _)) as HN.
+  transitivity (transform[to (@represented _ _ (bal_tensor_via_AFT N M E))]
+                  (BalTensor N M)
+                  (@compose Ab _ _ _ (to (bal_AFT_iso N M E)) (@id Ab _))).
+  - exact HN.
+  - transitivity (transform[to (@represented _ _ (bal_tensor_via_AFT N M E))]
+                    (BalTensor N M)
+                    (@compose Ab _ _ _ (@id Ab _) (to (bal_AFT_iso N M E)))).
+    + apply proper_morphism.
+      rewrite id_left, id_right; reflexivity.
+    + rewrite HC.
+      exact (@fmap_id _ _ (BalBiadd N M) (BalTensor N M) (@bal_gen X N M)).
+Qed.
+
+Theorem bal_AFT_isos_agree {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :
+  bal_AFT_elem_iso N M E ≈ bal_AFT_iso N M E.
+Proof.
+  exact (universal_element_iso_unique
+           (AUniversalElement_of_UniversalElement (bal_AFT_ue N M E))
+           (bal_universal_element N M)
+           (bal_AFT_iso N M E)
+           (bal_AFT_iso_carries_elem N M E)).
+Qed.
+
+Definition bal_AFT_elem_unique {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (E : ElementSolutionSet (BalBiadd N M)) :=
+  universal_element_unique
+    (AUniversalElement_of_UniversalElement (bal_AFT_ue N M E))
+    (bal_universal_element N M).
+
+(** ** 9. Exercise 3: Mac Lane's direct solution set over [Ab] *)
+
+Section AbGeneratedSub.
+
+Context {A : AbObject}.
+Context (P : carrier (cmon_setoid A) → Type).
+
+(* Instance/Mod/Spanning.v's [ABGen] has exactly the five fields of
+   Instance/Ab/DirectedColimit.v:273's [AbSubgroup]; this is the
+   repackaging, with no proof obligation. *)
+Definition ABGenSub : AbSubgroup A :=
+  @Build_AbSubgroup A (ABGen P) (abgen_resp P) (abgen_zero P)
+    (abgen_plus P) (abgen_neg P).
+
+End AbGeneratedSub.
+
+(* The image of a homomorphism of abelian groups, as a subgroup -- the [Ab]
+   counterpart of Instance/Mod/Quotient.v:761's [ImageSubmod]. *)
+Program Definition AbImageSub {A B : AbObject} (f : A ~{Ab}~> B) :
+  AbSubgroup B := {|
+  absub_mem := fun b => { a : carrier (cmon_setoid A) & cmon_map f a ≈ b }
+|}.
+Next Obligation.
+  intros A B f a b Hab [x Hx].
+  exists x; rewrite Hx; exact Hab.
+Qed.
+Next Obligation.
+  intros A B f.
+  exists (cmon_zero A); apply cmon_map_zero.
+Qed.
+Next Obligation.
+  intros A B f a b [x Hx] [y Hy].
+  exists (cmon_plus A x y).
+  rewrite (cmon_map_plus f); now rewrite Hx, Hy.
+Qed.
+Next Obligation.
+  intros A B f a [x Hx].
+  exists (ab_neg A x).
+  rewrite (ab_map_neg f); now rewrite Hx.
+Qed.
+
+(* A bijective homomorphism of abelian groups splits.  The section is not
+   canonical -- it picks the preimage the surjectivity datum carries -- and
+   each law is injectivity applied to the witness equation. *)
+Program Definition ab_split {A B : AbObject} (f : A ~{Ab}~> B)
+  (Hi : AbInjective f) (Hs : AbSurjective f) : B ~{Ab}~> A := {|
+  cmon_map := {| morphism := fun b => `1 (Hs b) |}
+|}.
+Next Obligation.
+  intros A B f Hi Hs a b Hab.
+  apply Hi; rewrite (`2 (Hs a)), (`2 (Hs b)); exact Hab.
+Qed.
+Next Obligation.
+  intros A B f Hi Hs; simpl.
+  apply Hi; rewrite (`2 (Hs (cmon_zero B))).
+  symmetry; exact (cmon_map_zero f).
+Qed.
+Next Obligation.
+  intros A B f Hi Hs a b; simpl.
+  apply Hi.
+  rewrite (cmon_map_plus f).
+  rewrite (`2 (Hs (cmon_plus B a b))), (`2 (Hs a)), (`2 (Hs b)).
+  reflexivity.
+Qed.
+
+Lemma ab_split_commutes {A B : AbObject} (f : A ~{Ab}~> B)
+  (Hi : AbInjective f) (Hs : AbSurjective f) :
+  @compose Ab _ _ _ f (ab_split f Hi Hs) ≈ @id Ab B.
+Proof. intro b; exact (`2 (Hs b)). Qed.
+
+(* A subgroup as a subobject of [Ab]: the inclusion is injective on the
+   nose, hence monic. *)
+Definition abg_subobj {A : AbObject} (S : AbSubgroup A) : @SubObj Ab A :=
+  @Build_SubObj Ab A (AbSubgroupAb S) (absub_incl S)
+    (ab_injective_monic (absub_incl S) (fun _ _ H => H)).
+
+Section BalSpanningBridge.
+
+Context {X : RingObject}.
+Context (N : RModObject (Ring_op X)).
+Context (M : RModObject X).
+Context {A : AbObject}.
+Context (β : BalBiadditive N M A).
+
+Definition bal_restrict_image (m : @SubObj Ab A)
+  (β' : BalBiadditive N M (sub_dom m))
+  (Hβ : ∀ n mm, cmon_map (sub_mono m) (bal_map β' n mm) ≈ bal_map β n mm)
+  (a : carrier (cmon_setoid A)) (Ha : bal_image N M β a) :
+  absub_mem (AbImageSub (sub_mono m)) a.
+Proof using All.
+  destruct Ha as [n [mm Hnm]].
+  exists (bal_map β' n mm).
+  rewrite (Hβ n mm); exact Hnm.
+Defined.
+
+(* Elementwise spanning implies Mac Lane's categorical form, over [Ab].
+   Same argument as Instance/Mod/Spanning.v's
+   [rbilinear_spanning_to_spanning], with [ABGen] for [MGen] and
+   [AbImageSub] for [ImageSubmod]. *)
+Theorem bal_spanning_to_spanning (H : BalSpanning N M β) :
+  Spanning (BalBiadd N M) (global_element (X := BalBiadd N M A) β).
+Proof using All.
+  intros m [k Hk].
+  pose (β' := k ttt).
+  assert (Hβ : ∀ n mm, cmon_map (sub_mono m) (bal_map β' n mm)
+                         ≈ bal_map β n mm) by exact (Hk ttt).
+  assert (Hs : AbSurjective (sub_mono m)).
+  { intro x.
+    exact (abgen_least (bal_image N M β)
+             (absub_mem (AbImageSub (sub_mono m)))
+             (absub_resp (AbImageSub (sub_mono m)))
+             (absub_zero (AbImageSub (sub_mono m)))
+             (absub_plus (AbImageSub (sub_mono m)))
+             (absub_neg (AbImageSub (sub_mono m)))
+             (bal_restrict_image m β' Hβ) x (H x)). }
+  assert (Hi : AbInjective (sub_mono m)) by
+    exact (ab_monic_injective (sub_mono m) (sub_is_monic m)).
+  exists (ab_split (sub_mono m) Hi Hs).
+  exact (ab_split_commutes (sub_mono m) Hi Hs).
+Defined.
+
+(* The corestriction of β to the subgroup generated by its image. *)
+Program Definition bal_gen_corestrict :
+  BalBiadditive N M (AbSubgroupAb (ABGenSub (bal_image N M β))) := {|
+  bal_map := fun n mm =>
+    existT _ (bal_map β n mm)
+      (abgen_base (bal_image N M β) (bal_map β n mm)
+         (existT _ n (existT _ mm (reflexivity _))))
+|}.
+Next Obligation.
+  intros n n' Hn m m' Hm; simpl.
+  exact (bal_respects β _ _ Hn _ _ Hm).
+Qed.
+Next Obligation. intros n n' m; simpl; apply bal_add_l. Qed.
+Next Obligation. intros n m m'; simpl; apply bal_add_r. Qed.
+Next Obligation. intros x n m; simpl; apply bal_balance. Qed.
+
+Lemma bal_corestrict_spanning : BalSpanning N M bal_gen_corestrict.
+Proof using All.
+  intros [a D].
+  induction D as [a Ha|a b Hab D IH| |a b D1 IH1 D2 IH2|a D IH].
+  - refine (abgen_base (bal_image N M bal_gen_corestrict) _ _).
+    destruct Ha as [n [mm Hnm]].
+    exists n, mm; exact Hnm.
+  - refine (abgen_resp (bal_image N M bal_gen_corestrict) _ _ _ IH).
+    exact Hab.
+  - refine (abgen_resp (bal_image N M bal_gen_corestrict) _ _ _
+              (abgen_zero (bal_image N M bal_gen_corestrict))).
+    reflexivity.
+  - refine (abgen_resp (bal_image N M bal_gen_corestrict) _ _ _
+              (abgen_plus (bal_image N M bal_gen_corestrict) _ _ IH1 IH2)).
+    reflexivity.
+  - refine (abgen_resp (bal_image N M bal_gen_corestrict) _ _ _
+              (abgen_neg (bal_image N M bal_gen_corestrict) _ IH)).
+    reflexivity.
+Defined.
+
+End BalSpanningBridge.
+
+Definition bal_esols_direct {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) : ElementSolutionSet (BalBiadd N M).
+Proof.
+  unshelve refine (@Build_ElementSolutionSet Ab (BalBiadd N M)
+                     (SpanningArrowsOutOf (BalBiadd N M) SetsOne)
+                     (fun i => `1 i) (fun i => `1 (`2 i) ttt) _).
+  intros A β.
+  unshelve eexists.
+  - refine (existT _ (AbSubgroupAb (ABGenSub (bal_image N M β))) _).
+    refine (existT _ (global_element
+                        (X := BalBiadd N M
+                                (AbSubgroupAb (ABGenSub (bal_image N M β))))
+                        (bal_gen_corestrict N M β)) _).
+    exact (bal_spanning_to_spanning N M (bal_gen_corestrict N M β)
+             (bal_corestrict_spanning N M β)).
+  - exists (absub_incl (ABGenSub (bal_image N M β))).
+    intros n m; reflexivity.
+Defined.
+
+Example bal_esols_direct_index {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) :
+  esol_index (bal_esols_direct N M)
+    = SpanningArrowsOutOf (BalBiadd N M) SetsOne := eq_refl.
+
+Example bal_esols_direct_obj {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (i : SpanningArrowsOutOf (BalBiadd N M) SetsOne) :
+  esol_obj (bal_esols_direct N M) i = `1 i := eq_refl.
+
+Example bal_esols_direct_elem {X : RingObject} (N : RModObject (Ring_op X))
+  (M : RModObject X) (i : SpanningArrowsOutOf (BalBiadd N M) SetsOne) :
+  esol_elem (bal_esols_direct N M) i = `1 (`2 i) ttt := eq_refl.
