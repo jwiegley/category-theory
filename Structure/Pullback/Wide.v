@@ -163,13 +163,13 @@ Generalizable All Variables.
    shape category or relates [IsWidePullback] to [Limit] of a diagram over
    it, so there is no analogue here of Structure/Pullback/Limit.v's
    reconciliation and none of the sibling's limit round trips.  No
-   [HasWidePullbacks] instance for any concrete category — the class is
-   declared and left uninhabited, and [Sets_wide_pullback_over_one] is a
-   single family, not an instance.  No wide-pullback stability, pasting, or
-   preservation statements.  No wide PUSHOUT dual.  No claim that the
-   binary specialization below agrees with whatever the other delegate's
-   Structure/Pullback/Reduction.v proves: the two files are independent and
-   nothing here cites that one. *)
+   [HasWidePullbacks] instance is built HERE (an earlier revision said the
+   class was uninhabited tree-wide; Instance/Sets/SubobjectLattice.v's
+   [Sets_HasWidePullbacks] now inhabits it).  No wide-pullback stability,
+   pasting, or preservation statements.  No wide PUSHOUT dual.  No claim
+   that the binary specialization below agrees with whatever the other
+   delegate's Structure/Pullback/Reduction.v proves: the two files are
+   independent and nothing here cites that one. *)
 
 (** ** The elementary universal property *)
 

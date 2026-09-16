@@ -292,9 +292,9 @@ Generalizable All Variables.
        [sets_ker] is one; (B) gives the six leg equations and stops.  No
        quotient by a kernel pair is formed and nothing here is related to
        Instance/Sets/Quotient.v.
-     - Nothing about wide pullbacks, pullback pasting, or stability; those
-       are Theory/Morphisms/Stability.v's, generically, and are not
-       instantiated here.
+     - Nothing about wide pullbacks, pullback pasting, or stability here;
+       pasting and stability are Theory/Morphisms/Stability.v's, and wide
+       pullbacks at Sets are Instance/Sets/SubobjectLattice.v's.
      - [SubsetOf] is a local convenience, not a subobject theory: it is
        not related to Theory/Subobject.v, not shown to be the same as
        Instance/Sets/Powerset.v's subsets, and [sub_incl] is proved

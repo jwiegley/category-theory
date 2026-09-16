@@ -314,6 +314,7 @@ Instance/FinSet/Skeleton.v
 Instance/FinSet/Regular.v
 Instance/FinSet/Decategorify.v
 Instance/FinSet/Subsets.v
+Instance/FinSet/Subobject.v
 Instance/Fun.v
 Instance/Fun/Eval.v
 Instance/Fun/Eval/Cat.v
@@ -461,6 +462,7 @@ Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Powerset.v
 Instance/Sets/Powerset/Universal.v
+Instance/Sets/SubobjectLattice.v
 Instance/Powerset.v
 Instance/Powerset/Subobject.v
 Instance/Powerset/Quantifier.v
@@ -822,6 +824,7 @@ Theory/Morphisms/Stability.v
 Theory/Morphisms/CokernelPair.v
 Theory/Subobject.v
 Theory/Subobject/Functor.v
+Theory/Subobject/Lattice.v
 Theory/Natural/Transformation.v
 Theory/Natural/Transformation/Arrows.v
 Theory/Naturality.v
@@ -988,4 +991,5 @@ Test/ProbeVarietyFree441.v
 Test/ProbeGrpFreeAFT442.v
 Test/ProbeAlgLimit443.v
 Test/ProbeAFTNecessity444.v
+Test/ProbeSubobjectLattice445.v
 Test/ProbeFractionsAdjunction972.v
