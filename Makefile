@@ -9055,6 +9055,70 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.FinSet.QuotObj.finset_coimage_merge01_three.'; \
 	  echo 'Print Assumptions Category.Instance.FinSet.QuotObj.finset_coimage_const_one.'; \
 	} >> .pa-tmp/pa.v
+	@{ \
+	  echo '(* Issue #447: generating (separating) families, separators, the Cogenerator duality, Sets/Grp/Ab witnesses *)'; \
+	  echo 'Require Import Category.Structure.Generator.'; \
+	  echo 'Require Import Category.Structure.Generator.Dual.'; \
+	  echo 'Require Import Category.Structure.Generator.Concrete.'; \
+	  echo 'Require Import Category.Instance.Sets.Generator.'; \
+	  echo 'Require Import Category.Instance.Grp.Generator.'; \
+	  echo 'Require Import Category.Instance.Ab.Generator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Build_Generator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Generator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_index.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_obj.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_separates.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.IsSeparator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Generator_of_separator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.JointlyFaithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.separator_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.faithful_separator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.generator_jointly_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.jointly_faithful_generator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.separator_of_generator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.separator_generator_roundtrip.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Separates.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.generator_iff_jointly_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.jointly_faithful_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.faithful_jointly_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.hom_test_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.separator_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_family_mono.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_iso.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_extend.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.gen_separates_contra.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.separator_contra.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.gen_of_cog.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.cog_of_gen.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.gen_of_cog_of_gen.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.cog_of_gen_of_cog.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.cogenerator_jointly_faithful.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.jointly_faithful_cogenerator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.gen_op_of_cog.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Dual.cog_of_gen_op.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Concrete.Separator_of_IsSeparator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Concrete.IsSeparator_of_Separator.'; \
+	  echo 'Print Assumptions Category.Structure.Generator.Concrete.separator_faithful_via_concrete.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_unit_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_Generator.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_term.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_Generator.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_unit_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_separates_by_transport.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_terminal_separates_from_Concrete.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.Sets_empty_not_separates_pick.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Sets.Generator.sets_elem_term_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Generator.grp_point.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_free_one_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Generator.Grp_Generator.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.Generator.ab_point.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.Generator.Ab_free_one_separates.'; \
+	  echo 'Print Assumptions Category.Instance.Ab.Generator.Ab_Generator.'; \
+	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
 	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
