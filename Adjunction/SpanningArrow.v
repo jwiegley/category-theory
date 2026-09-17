@@ -112,16 +112,32 @@ Generalizable All Variables.
    cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v:140
    [Sets_Id_SolutionSet] (hand-built at the identity functor of Sets) and
    :220 its adjunction-built twin, Adjunction/Representability/Sets.v:248
-   [sols_of_esols], Instance/Grp/FreeAFT.v:184 and Instance/Rng/AFT.v:507
-   and :511 (all three [solution_set_of_adjunction] applied to an
-   adjunction the file already has -- Instance/Grp/FreeAFT.v:50 and
-   Instance/Rng/AFT.v:166 both say so in their own headers), and
-   Test/ProbeGrpFreeAFT442.v:206.  So of the structural routes to a
-   solution set -- routes that do not presuppose the adjoint -- the tree
-   had exactly one, SAFT's, and this file adds the second.  SAFT reaches
-   it through a cogenerator and a well-powering; Mac Lane's §V.7 route
-   reaches it through intersections of subobjects, and the two share no
-   hypothesis.
+   [sols_of_esols], Instance/Grp/FreeAFT.v:167 and Instance/Rng/AFT.v:787
+   and :791, and Test/ProbeGrpFreeAFT442.v:206.
+
+   CORRECTION, PR "algebraic carriers are sets" (2026-09-17), to the
+   sentence that followed and to the parenthetical inside that list.  The
+   parenthetical read "(all three [solution_set_of_adjunction] applied to
+   an adjunction the file already has -- Instance/Grp/FreeAFT.v:50 and
+   Instance/Rng/AFT.v:166 both say so in their own headers)", and the
+   sentence read "So of the structural routes to a solution set -- routes
+   that do not presuppose the adjoint -- the tree had exactly one, SAFT's,
+   and this file adds the second."
+
+   The three named constants ARE still [solution_set_of_adjunction] applied
+   to an adjunction the file already has, and their headers still say so.
+   What is false is the count.  The same PR added, in the same three files,
+   solution sets built from the QUOTIENTS OF A TERM MODEL by [Prop]-valued
+   congruences: Instance/Rng/AFT.v:729 and :759, the [Prop]-congruence
+   family of Instance/Mod/TensorAFT.v's section 3A, and (once the [Grp]
+   layer lands) Instance/Grp/FreeAFT.v's.  Those presuppose no adjoint, so
+   the structural routes are now THREE families -- SAFT's cogenerator
+   route, this file's subobject-intersection route, and the congruence
+   route -- and the two GAFT applications at [Rng] are no longer circular.
+   SAFT reaches it through a cogenerator and a well-powering; Mac Lane's
+   §V.7 route reaches it through intersections of subobjects; the
+   congruence route reaches it through the sort of [Prop].  No two of the
+   three share a hypothesis.
 
    The donors are the ones the two preceding §V.7 issues landed.
    [sub_le] is Theory/Subobject.v:60, [sub_top] Theory/Subobject/
@@ -556,14 +572,58 @@ End SpanningLemma.
    statement of a shipped theorem and belongs to its own commit.  What the
    [Set] annotation now is, therefore, is a RESTRICTION THIS FILE IMPOSES
    and no longer one it inherits -- and it was never a claim that spanning
-   arrows need small hom-sets. *)
+   arrows need small hom-sets.
+
+   CORRECTION, PR "algebraic carriers are sets" (2026-09-17): the own
+   commit anticipated in the paragraph above is this one, and the widening
+   has been made.  The [Universes oA oX.] line and the two [@{oA Set Set}]
+   / [@{oX Set Set}] annotations are GONE; [A] and [X] are now declared
+   bare, and the elaborator arrives at free object and hom levels for both.
+   Nothing else in the section changed -- the statement, the [Proof using]
+   list and the one-line [exact] are untouched -- so no theorem was lost
+   and none was weakened.  Measured, [About] under [Set Printing
+   Universes]:
+
+     BEFORE (8 universes)
+       GAFT_from_spanning@{oA oX u u0 u1 u2 u3 u4} :
+         ∀ {A : Category@{oA Set Set}} {X : Category@{oX Set Set}}
+           (G : A ⟶ X),
+         HasWidePullbacks@{u u oA Set} A →
+         PreservesWidePullbacks@{oA Set oX Set u0 u1 u1 u1} G →
+         Complete@{Set Set Set oA} →
+         PreservesImageLimit@{oA Set oX Set u3 Set u4 Set} → ∃ F : X ⟶ A, F ⊣ G
+       (* … Set = oA / u = u1 *)
+
+     AFTER (13 universes)
+       GAFT_from_spanning@{u u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11} :
+         ∀ {A : Category@{u u0 u0}} {X : Category@{u1 u2 u2}} (G : A ⟶ X),
+         HasWidePullbacks@{u3 u4 u u0} A →
+         PreservesWidePullbacks@{u u0 u1 u2 u5 u6 u7 u8} G →
+         Complete@{u0 u0 u0 u} →
+         PreservesImageLimit@{u u0 u1 u0 u10 u0 u11 u0} → ∃ F : X ⟶ A, F ⊣ G
+       (* … u <= u0 / u0 <= u2 / u2 < u10 / u2 < u11 / u3 < u5 / u6 < u5 … *)
+
+   No [Set] anywhere, and in particular the BEFORE block's [Set = oA] --
+   which demanded a category whose OBJECTS as well as homs live in [Set] --
+   is gone.  [spanning_solution_set] never carried the pin and its
+   [About] is unchanged.
+
+   WHAT THE WIDENING DOES NOT BUY.  It does not make the theorem reach
+   [RMod R].  The AFTER block reads [u <= u0], objects at or below homs,
+   and [RMod R] has homs strictly below objects; feeding it is still
+   refused, now with "Cannot enforce u_hom = b because u_hom < u_obj <= b"
+   rather than with the old [Set] message.  That refusal, and the
+   independent fact that [HasWidePullbacks (RMod R)] is itself universe-
+   refused, are recorded at Instance/Mod/Spanning.v:149-180 and pinned as
+   NEGATIVE 2 of Test/ProbeModTensorAFT449.v.  The route that DOES reach
+   [RMod R] is the congruence-indexed solution set of
+   Instance/Mod/TensorAFT.v, which goes through [representability_theorem]
+   and not through this section. *)
 
 Section GAFTFromSpanning.
 
-Universes oA oX.
-
-Context {A : Category@{oA Set Set}}.
-Context {X : Category@{oX Set Set}}.
+Context {A : Category}.
+Context {X : Category}.
 Context (G : A ⟶ X).
 Context `{HWP : @HasWidePullbacks A}.
 Context (GP : PreservesWidePullbacks G).

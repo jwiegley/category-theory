@@ -88,67 +88,51 @@ Generalizable All Variables.
    Instance/Grp/Quotient.v:202's [SubgroupGrp] is what it would feed.
    That is ordinary work, and it is the real remaining obstacle.
 
-   Second, a universe artifact.  In the tree as it stands, Mac Lane's
-   literal index IS refused: feeding [GAFT Grp_Forget Grp_Complete
-   (Continuous_PreservesImageLimit Grp_Forget_continuous)] a [SolutionSet]
-   whose [sol_index] is [Subgroup Gfix] is rejected with the expected type
-   printed literally as [SolutionSet@{Set …}], and [Subgroup G]
-   (Instance/Grp/Quotient.v:156) is never at [Set].
-   Test/ProbeGrpFreeAFT442.v's N5 pins exactly that, with a paired control
-   at a [Set]-level index that IS accepted.
+   Second, a universe artifact — WHICH HAS SINCE BEEN REPAIRED, so this
+   half of the paragraph is now history.
 
-   An earlier revision of this header said the pin was GAFT's and that
-   relaxing it meant editing a [Qed]-opaque theorem with [eq_refl]
-   readbacks hanging off its term, so that it "belongs to that file's own
-   issue".  Measured on 2026-09-12, that names the wrong file and the wrong
-   cost.  The [Set] is a universe-MINIMIZATION artifact of
-   Instance/Discrete.v:59's [DiscreteCat_Functor], which carries no
-   universe binders and so elaborates with the source shape's hom AND proof
-   at the literal [Set]:
+   RECORDED CORRECTION, PR "algebraic carriers are sets" (2026-09-17).
+   What stood here was a prediction, and it held.  The prediction was that
+   Mac Lane's literal index was refused only because of a universe-
+   MINIMIZATION artifact of Instance/Discrete.v's then-unannotated
+   [DiscreteCat_Functor], which carries no universe binders and so
+   elaborated with the source shape's hom AND proof at the literal [Set]:
 
      DiscreteCat_Functor@{u u0 u1 u2} :
        ∀ {A : Type@{u}} {C : Category@{u0 u2 u2}},
          (A → obj[C]) → DiscreteCat@{u Set Set} A ⟶ C
 
-   even though [DiscreteCat@{o h p}] itself is fully polymorphic.  GAFT's
-   proof takes a limit over [DiscreteCat_Functor (wif_obj W)] (GAFT.v:249)
-   and [Complete] identifies the shape's hom with the ambient's, so the
-   [Set] lands in GAFT's own statement and any real [Complete] then squeezes
-   the index onto it.  [Grp_Complete] and [Grp_Forget_continuous] transmit
-   the pin; neither creates it.  The tree already recorded this about the
-   same donor: Instance/Cat/Objects.v:112-128 quotes that signature and says
-   "the pin is NOT claimed unavoidable -- it is a minimization artifact",
-   and :373's [disc_ext@{o h p q}] is the same construction with the binders
-   written out, [Set]-free.
+   even though [DiscreteCat@{o h p}] itself is fully polymorphic; that
+   GAFT's proof takes a limit over [DiscreteCat_Functor (wif_obj W)] and
+   [Complete] identifies the shape's hom with the ambient's, so the [Set]
+   landed in GAFT's own statement; that [Grp_Complete] and
+   [Grp_Forget_continuous] only transmitted it; and that the repair was
+   three annotated lines touching no [Qed]-opaque term.
 
-   So the repair is three lines in Instance/Discrete.v and touches no
-   [Qed]-opaque term:
+   THE ANNOTATION LANDED, as [DiscreteCat_Functor@{o h p uo uh up +}],
+   Instance/Discrete.v:81, and Mac Lane's [Subgroup G] index IS NOW
+   ACCEPTED.  Test/ProbeGrpFreeAFT442.v's former NEGATIVE 5 has been
+   rewritten as a POSITIVE CONTROL at that very index, so dropping the
+   annotation refuses it again and breaks the probe.
 
-     Program Definition DiscreteCat_Functor@{o h p co ch cp +}
-       {A : Type@{o}} {C : Category@{co ch cp}} (f : A → C) :
-       DiscreteCat@{o h p} A ⟶ C := …
+   TWO FIGURES IN THE OLD PARAGRAPH WERE STALE AND ARE NOT REPEATED HERE.
+   It said the build set was 977 files (it was 1018 when the annotation
+   landed) and that exactly ELEVEN boundaries would turn over in eleven
+   files.  The flip set, measured by building the annotated tree, is
+   TWENTY-TWO commands in FIFTEEN files, and TWO of the twenty-two would
+   have gone on passing vacuously because they wrote a one-universe
+   [Indiscrete@{uo}] instance.  Test/ProbeGrpFreeAFT442.v:217-262 carries
+   the enumerated list and the vacuity finding; it is the single place
+   those figures are maintained and this header does not restate them.
 
-   (the [+] is what makes this possible, and it also corrects
-   Instance/Cat/Objects.v:371's remark that "a [Program Definition] cannot
-   be annotated here at all, since its obligations mint fresh universes" —
-   that is why [disc_ext] was written with [refine]).  Measured in a full
-   copy of this worktree, Rocq 9.1.1, with that edit and NOTHING else —
-   Adjunction/GAFT.v, Instance/Grp/Limit.v and Instance/Grp/Quotient.v
-   byte-identical: the [Subgroup Gfix] solution set is ACCEPTED, and a
-   whole-tree [make -k -j8] over the 977-file build set produces exactly
-   eleven errors, every one of them the same one: a negative probe whose
-   guarded command is now accepted, so its refutation no longer triggers.
-   They are at Instance/Cat/Objects.v:747, Structure/Limit/Components.v:1166
-   and nine Test/Probe* lines, this file's own N5 among them.  ZERO proofs
-   break — there is not one type error or universe inconsistency in the
-   eleven.
-
-   That is why the change is not made here.  It is not an obstruction, it
-   is bookkeeping against eleven recorded boundaries in eleven files, and
-   re-measuring those is a donor-wide decision belonging to
-   Instance/Discrete.v, not to this issue.  It is filed as #1309, together
-   with the generated-subgroup API and the non-circular solution set they
-   would jointly make possible.
+   WHAT THE REPAIR DID NOT BUY.  The generated-subgroup API still does not
+   exist, so Mac Lane's family still cannot be BUILT here even though the
+   theorem would now accept it; that is the first obstacle above and it
+   stands.  And the artifact's removal did not by itself make any
+   concrete AFT application non-circular — Instance/Mod/TensorAFT.v
+   measured that explicitly at [RMod R].  What made the applications
+   non-circular was a different index entirely; see the section below.
+   #1309 stays open for the generated-subgroup API.
 
    ** What is therefore delivered
 

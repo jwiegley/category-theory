@@ -8580,6 +8580,34 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_rng_ab_via_GAFT_unit.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_ring_via_GAFT_unit.'; \
 	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_ring_via_GAFT_unit_mon.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.IsRngCongruence.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.QRng.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.QRngInsertOf.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.QRngOf.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.QRng_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.QRng_insert.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.RngCongIdx.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.Rng_Forget_Ab_solution_set_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.Rng_Forget_solution_set_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_ring_via_GAFT_from_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.free_rng_ab_via_GAFT_from_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_mul.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_plus.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_sym.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rc_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_factors.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_idx.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_is_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Rng.AFT.rng_ker_med_obligation_5.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Adjunction.GAFT.Necessity.'; \
@@ -9299,6 +9327,32 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Variety.Spanning.variety_spanning_forces_top.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
+	  echo '(* PR "algebraic carriers are sets": resizing a solution set (Mac Lane V.7 Lemma 2 as a premise shape) *)'; \
+	  echo 'Require Import Category.Theory.Size.'; \
+	  echo 'Require Import Category.Adjunction.GAFT.Resize.'; \
+	  echo 'Print Assumptions Category.Theory.Size.SmallType.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.SmallCovering.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.SmallUpToIso.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.resize_solution_set.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.resize_element_solution_set.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.resize_by_covering.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.resize_up_to_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.covering_of_iso.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.covering_of_smalltype.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.representable_of_small.'; \
+	  echo 'Print Assumptions Category.Theory.Size.st_carrier.'; \
+	  echo 'Print Assumptions Category.Theory.Size.st_to.'; \
+	  echo 'Print Assumptions Category.Theory.Size.st_from.'; \
+	  echo 'Print Assumptions Category.Theory.Size.st_to_from.'; \
+	  echo 'Print Assumptions Category.Theory.Size.st_from_to.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.sc_carrier.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.sc_to.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.sc_covers.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.si_carrier.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.si_to.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Resize.si_rep.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
 	  echo '(* Issue #449 (1/3): limits of modules created from Ab; RMod R is complete *)'; \
 	  echo 'Require Import Category.Instance.Mod.Limit.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.Limit.LimitMod.'; \
@@ -9594,6 +9648,71 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_repr_of_UE_obj.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_via_AFT.'; \
 	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_via_AFT_from_tensor.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.BalCongIdx.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.CongIdx.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.IsBalCongruence.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.IsCongruence.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QBal.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QBalGenOf.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QBalOf.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QBal_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QBal_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QMod.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QModGenOf.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QModOf.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QMod_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QMod_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QMod_gen_spanning.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.QMod_smul_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_AFT_iso_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_AFT_iso_universal_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_AFT_ue_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_esols_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_factors.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_idx.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_is_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_med.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_med_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_med_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_ker_med_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bal_tensor_via_AFT_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_plus.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_sym.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.bc_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_neg.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_plus.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_smul.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_sym.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cg_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.cong_spanning_arrow.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_cong_is_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_factors.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_idx.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_iso.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_injective.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_obligation_1.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_obligation_2.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_obligation_3.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_obligation_4.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.ker_med_surjective.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.mgen_preimage.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.module_tensor_universal_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_AFT_iso_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_AFT_iso_universal_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_AFT_ue_of_esols.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_esols_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_esols_resized.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_spanning_SmallUpToIso.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_via_AFT_maclane.'; \
+	  echo 'Print Assumptions Category.Instance.Mod.TensorAFT.tensor_via_AFT_of_esols.'; \
 	} >> .pa-tmp/pa.v
 	@d=.pa-tmp; \
 	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \

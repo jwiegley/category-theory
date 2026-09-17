@@ -182,9 +182,32 @@ Context (GP : PreservesWidePullbacks G).
    section whose universes are rigid.  It is kept here as a positive
    control: dropping the annotation refuses it again and breaks this file.
    [GAFT_from_spanning] keeps its own section, which is now a
-   presentational choice rather than a universe obligation. *)
+   presentational choice rather than a universe obligation.
+
+   SECOND CORRECTION, same PR, later commit.  The sentence above ended
+   "[GAFT_from_spanning] keeps its own section", and that section is no
+   longer annotated either: [Universes oA oX.] and the two
+   [Category@{o Set Set}] annotations were DELETED and its [A] and [X] are
+   now declared bare, exactly as this probe's are.  So this definition and
+   [GAFT_from_spanning] are now THE SAME STATEMENT over the same binders,
+   and [p448_b7_via_theorem] below records that by inhabiting this
+   section's goal FROM the theorem -- which is the strongest identification
+   available, since [GAFT_from_spanning] is [Qed] and no [eq_refl] reaches
+   inside it.
+   The widening is measured in Adjunction/SpanningArrow.v's header, where
+   the BEFORE and AFTER [About]s are quoted side by side; the headline is
+   that the BEFORE block carried [Set = oA], demanding a category whose
+   OBJECTS as well as homs live in [Set], and the AFTER block carries no
+   [Set] at all. *)
 Definition p448_b7 (comp : @Complete A)
   (cont : @PreservesImageLimit A X G) :
   { F : X ⟶ A & F ⊣ G } := GAFT G comp cont (spanning_solution_set G GP).
+
+(* The two are now interchangeable, up to the implicit/explicit shape of
+   the wide-pullback argument.  If the annotations are ever put back, this
+   line stops compiling. *)
+Definition p448_b7_via_theorem (comp : @Complete A)
+  (cont : @PreservesImageLimit A X G) :
+  { F : X ⟶ A & F ⊣ G } := @GAFT_from_spanning A X G HWP GP comp cont.
 
 End UnannotatedGAFT.

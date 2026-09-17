@@ -19,6 +19,7 @@ Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
 Adjunction/GAFT/Necessity.v
+Adjunction/GAFT/Resize.v
 Adjunction/LeftInverse.v
 Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
@@ -1024,3 +1025,4 @@ Test/ProbeTermModelProp.v
 Test/ProbeAbPropSurjective.v
 Test/ProbeTermModelPropRng.v
 Test/ProbeGrpProp.v
+Test/ProbeRngAFTProp.v

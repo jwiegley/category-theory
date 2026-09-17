@@ -151,12 +151,16 @@ Generalizable All Variables.
 
       About RMod_HasWidePullbacks.
 
-    reports
+    reports, RE-MEASURED 2026-09-17 in the PR "algebraic carriers are
+    sets" (an earlier revision of this comment printed the ring's three
+    universe slots in the wrong order, as [RingObject@{u u2 u3}], and did
+    not carry the [Set < u0] line; nothing else in the readback changed,
+    and neither correction touches the argument below),
 
       RMod_HasWidePullbacks@{u u0 u1 u2 u3} :
-        ∀ R : RingObject@{u u2 u3},
+        ∀ R : RingObject@{u3 u u2},
         HasWidePullbacks@{u u u0 u} (RMod@{u0 u1 u3 u2 u} R)
-      (* ... u < u0, u < u1, ... *)
+      (* ... Set < u0, u < u0, u < u1, u3 <= u0, ... *)
 
     -- the class's INDEX universe is instantiated at [u], the universe of
     the module CARRIERS, which the block pins strictly BELOW [u0], the
@@ -375,8 +379,15 @@ Generalizable All Variables.
     [MGen_rec] and [ABGen_rec] motives, which target [Set] by
     construction -- `grep -cw Set` over the 106 [About] blocks returns 2
     and both are those.  Nothing here is pinned, and
-    [GAFT_from_spanning]'s [Set] pin is never reached because no constant
-    below feeds [GAFT]. [smod_subobj], [subobj_smod], [mgen_sub_le_least]
+    [GAFT_from_spanning]'s [Set] pin was never reached because no constant
+    below feeds [GAFT].  (CORRECTION, PR "algebraic carriers are sets",
+    2026-09-17: that pin no longer exists -- [Section GAFTFromSpanning] was
+    widened off [Set] and the theorem now reads
+    [Category@{u u0 u0}] / [Category@{u1 u2 u2}] with [u <= u0].  The
+    sentence is kept in the past tense because the reason it gave for this
+    file's independence is unchanged: no constant below feeds [GAFT], and
+    the widening does not make [GAFT_from_spanning] reach [RMod R] either
+    -- see that file's header for the surviving refusal.) [smod_subobj], [subobj_smod], [mgen_sub_le_least]
     and [RMod_HasWidePullbacks] carry no equation and the same two strict
     constraints of [RMod R] itself -- the module carrier universe strictly
     below two others -- [smod_subobj] printing them as `u1 < u`, `u1 < u0`
