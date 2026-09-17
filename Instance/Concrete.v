@@ -44,7 +44,7 @@ Generalizable All Variables.
      identity on hom-setoids and faithfulness is the identity implication.
 
    [CMon_Concrete] — Instance/CMon.v's category of commutative monoids, via
-     `CMon_Forget` (Instance/CMon.v:169).  That file's header comment at lines
+     `CMon_Forget` (Instance/CMon.v:246).  That file's header comment at lines
      166-168 asserts faithfulness without proving it; [CMon_Forget_Faithful]
      below supplies the proof.
 

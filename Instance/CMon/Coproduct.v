@@ -23,7 +23,7 @@ Generalizable All Variables.
    Instance/CMon/Biproduct.v proved
    that the direct product of two commutative monoids is at once their
    product and their coproduct — [CMon_bi_is_product] and
-   [CMon_bi_is_coproduct] at Instance/CMon/Biproduct.v:352 and :404, both
+   [CMon_bi_is_coproduct] at Instance/CMon/Biproduct.v:355 and :404, both
    in the ∃!-form, packaged as [CMon_Biproducts].  What it never did was
    say so in the vocabulary the rest of the library uses: there was no
    [Cartesian CMon] and no [Cocartesian CMon] anywhere.

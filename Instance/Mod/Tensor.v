@@ -17,7 +17,7 @@ Generalizable All Variables.
 (* The global obligation tactic is [cat_simpl], which runs wide proof
    searches on module obligations and has already introduced the
    parameters by the time an obligation is opened.  Switched off here,
-   the Instance/Mod.v:104 idiom, so every obligation starts with an
+   the Instance/Mod.v:111 idiom, so every obligation starts with an
    explicit [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -80,7 +80,10 @@ Generalizable All Variables.
       functor laws — identity and composition — hold pointwise by
       [reflexivity].  The other two obligations, [fmap_respects] and
       respectfulness of the arrow map itself, do not: each consumes its
-      hypothesis.
+      hypothesis.  (Four in all, RE-COUNTED from the [_obligation_] names
+      [Print Module] lists after the PR "algebraic carriers are sets"
+      (2026-09-17); unchanged, [cmon_prop] being supplied inline in the
+      record literals rather than left to [Program].)
 
     * [TensorMod V V' : RModObject R] with the canonical bilinear map
       [tensor_gen : RBilinear V V' (TensorMod V V')] — the generator
@@ -181,9 +184,9 @@ Generalizable All Variables.
     bilinear-map type, and no tensor-product-by-universal-property
     construction".  Measured against this file's parent, that is wrong on
     every count but the last two words: [Record Bilinear (K : AbObject)]
-    is at Instance/Ab/Tensor.v:165, with [tensor_ump], [tensor_hom_ext],
+    is at Instance/Ab/Tensor.v:172, with [tensor_ump], [tensor_hom_ext],
     [AbTensor] and [AbTensor_Functor] beside it, and [tensor_ump] is
-    CONSUMED at Construction/Enriched/Ab.v:190 — so a bilinear-map type
+    CONSUMED at Construction/Enriched/Ab.v:241 — so a bilinear-map type
     and a tensor-by-universal-property already existed for abelian
     groups.  Instance/Mod.v, Instance/Ab.v and Instance/Rng.v all exist,
     and [Vct_F] is at Instance/FdVect.v:223.  Nothing of that is rebuilt
@@ -689,8 +692,9 @@ Qed.
     of the action all hold by [reflexivity], the fixpoint's clauses BEING
     those equations; only respectfulness has content.  One uniform body
     is used for the four obligations so that the proof does not depend on
-    the order [Program] emits them in (the Instance/Mod/Free.v:359
-    idiom). *)
+    the order [Program] emits them in (the Instance/Mod/Free.v:377
+    idiom).  Still four after the PR "algebraic carriers are sets"
+    (2026-09-17), re-counted from [Print Module]. *)
 Program Definition tensor_med : TensorMod V V' ~{RMod R}~> W := {|
   rm_hom := {| cmon_map := {| morphism := tensor_med_fun |} |}
 |}.

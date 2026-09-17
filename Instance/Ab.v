@@ -26,8 +26,11 @@
     inverses, so the objects EXTEND Instance/CMon.v's [CMonObject] by a
     negation rather than restating the carrier and the four monoid laws.  The
     coercion [ab_cmon :> CMonObject] makes [carrier], [cmon_zero],
-    [cmon_plus], associativity, commutativity and the unit laws available
-    unchanged.  The homomorphisms are literally [CMonHom]s: preservation of
+    [cmon_plus], [cmon_prop], associativity, commutativity and the unit laws
+    available unchanged.  ([cmon_prop] joined that list in the PR "algebraic
+    carriers are sets" (2026-09-17), which gave [CMonObject] the field; an
+    earlier revision of this sentence enumerated the other six and stopped.)
+    The homomorphisms are literally [CMonHom]s: preservation of
     negation is a THEOREM ([ab_map_neg] below), not a field, which is the
     standard fact that a monoid map between groups is automatically a group
     map.

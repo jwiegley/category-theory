@@ -339,7 +339,7 @@ Generalizable All Variables.
          are [Qed] -- and predicts the strict form would hold were they
          [Defined].  Here every step is a [:=] term, so it does.  In a
          thin category an [≈] between parallel arrows is [True]
-         (Instance/Powerset.v:317), so the Leibniz statement is the only
+         (Instance/Powerset.v:326), so the Leibniz statement is the only
          informative one available.
 
     (B)  MAC LANE'S OWN SITE.  [ProdSetoid U V] is [product_obj] over
@@ -516,7 +516,7 @@ Generalizable All Variables.
     ** A DONOR RESTATED RATHER THAN REQUIRED, ON A MEASUREMENT
 
     [subset_le_antisym] -- mutual inclusion gives [≈] -- already exists,
-    at Instance/Grp/Galois.v:508, with this file's exact statement and
+    at Instance/Grp/Galois.v:512, with this file's exact statement and
     proof term.  It is NOT required: that module's transitive closure is
     129 modules against this file's 89, so importing it for a one-line
     definition would nearly double the cost.  The single place this file
@@ -779,7 +779,7 @@ Definition forall_counit_incl (S : carrier (Powerset_Prop_obj@{o} X)) :
   fun x Hx => Hx x (quant_refl (f x)).
 
 (* And the adjunction's OWN unit and counit ARE those two, at Leibniz
-   [=].  This is the strict form Instance/Powerset.v:462-467 predicts for
+   [=].  This is the strict form Instance/Powerset.v:471-476 predicts for
    its own adjunction and declines to ship; here every step is a term, so
    it holds. *)
 Example adj_unit_is_forall_incl (T : carrier (Powerset_Prop_obj@{o} Y)) :
@@ -857,7 +857,7 @@ Definition dual_image_meet_routes_agree {Idx : Type}
   (dual_image_preserves_meets S m H,
    dual_image_preserves_meets_via_galois S m H).
 
-(* Instance/Powerset.v:700 proved this DIRECTLY, and its comment
+(* Instance/Powerset.v:718 proved this DIRECTLY, and its comment
    (:694-:697) says why: the adjoint route needs f^*'s right adjoint,
    which is this file's.  Here it is, as that corollary. *)
 Definition inverse_image_preserves_joins_via_galois {Idx : Type}
@@ -1459,7 +1459,7 @@ Proof.
                (subset_meet_l _ _)).
     - exact (image_monotone powerset_const0@{o so} _ _
                (subset_meet_r _ _)). }
-  (* Mutual inclusion IS [≈] -- Instance/Grp/Galois.v:508's
+  (* Mutual inclusion IS [≈] -- Instance/Grp/Galois.v:512's
      [subset_le_antisym], written inline for the measured reason in the
      header. *)
   exact (direct_image_not_meet_preserving

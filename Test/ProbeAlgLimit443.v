@@ -405,7 +405,7 @@ End Oracle.
 
     THE PARENTHETICAL OF THIS REFUSAL IS IMPORT-SENSITIVE, AND AN EARLIER
     REVISION OF THIS COMMENT GOT THAT WRONG.  That revision recorded, as a
-    measured CORRECTION to Instance/Ab/Limit.v:72-76, that the header's
+    measured CORRECTION to Instance/Ab/Limit.v:73-77, that the header's
     closing clause [cannot unify «Limit.Limit K» and «Cone.Cone K»] "does
     not reproduce" and should read
     [cannot unify «Cone (Ab_Forget ◯ K)» and «IsLimitCone N»].  That was
@@ -457,7 +457,7 @@ Fail Check (GAFT Rng_Forget Rng_Complete Rng_Forget_PreservesAllLimits).
 
     The reason the [Ab] file exists.  Instance/Ab/FreeNotContinuous.v:475
     already declares [Ab_Forget_Continuous] and proves it at :476 by RAPL
-    applied to Instance/Ab/Free.v:564's [free_ab_adjunction]; the new
+    applied to Instance/Ab/Free.v:596's [free_ab_adjunction]; the new
     [Ab_Forget_creates_continuous] comes from limit creation and
     presupposes only [Sets_Complete].  Both are read back to the constant
     they are built from, so the provenance claim is machine-checked and not
@@ -569,7 +569,7 @@ Fail Definition p443_n20 : StrictlyCreatesLimits Rng_Forget :=
     unchanged once [ab_neg] and its two laws are dropped.  Measured on the
     worktree this probe was written against, a whole-tree word-bounded grep
     of every [.v] file for that token returns exactly one hit,
-    Instance/Ab/Limit.v:226, and that hit is the sentence itself; the
+    Instance/Ab/Limit.v:227, and that hit is the sentence itself; the
     refutation below is the same absence taken from the environment rather
     than from the text. *)
 

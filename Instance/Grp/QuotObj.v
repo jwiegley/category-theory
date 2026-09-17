@@ -45,7 +45,7 @@ Generalizable All Variables.
 
    The CONVERSE is where the constructive cost sits, and the type says
    so.  [grp_quot_is_quot_by_kernel] takes a quotient object whose epi is
-   SURJECTIVE ([GrpSurjective], Instance/Grp/Epi.v:333) and produces
+   SURJECTIVE ([GrpSurjective], Instance/Grp/Epi.v:356) and produces
    q ≈ grp_quot_of_normal (KernelNS (quot_epi q)): the first isomorphism
    theorem gives G/ker e ≅ im e, [surjective_image_iso]
    (Instance/Grp/Quotient/Isomorphism.v:173) gives im e ≅ Q, and the
@@ -53,7 +53,7 @@ Generalizable All Variables.
    through :305 and :156), which is what makes it an equivalence OF
    QUOTIENT OBJECTS rather than a bare isomorphism of codomains.
    Surjectivity is NOT available from [Epic] alone in this tree: in [Grp]
-   "surjective implies epic" is unconditional (Instance/Grp/Epi.v:1080)
+   "surjective implies epic" is unconditional (Instance/Grp/Epi.v:1134)
    but the converse is the double-negation elimination that file's own
    header sets out -- the unconditional theorem is :1072's
    [grp_epic_image_dense], "no element can be SHOWN to miss the image" --
@@ -69,7 +69,7 @@ Generalizable All Variables.
    being decidable.
 
    Non-vacuity is checked rather than assumed: A3 inside S3
-   (Instance/Grp/Quotient.v:745) is a proper nontrivial normal subgroup
+   (Instance/Grp/Quotient.v:868) is a proper nontrivial normal subgroup
    of a nonabelian group, so [grp_quot_S3_A3] is a quotient object that
    is neither the top nor the bottom of the order, and
    [grp_quot_S3_trivial_le_A3] inhabits the order lemma at it.
@@ -143,7 +143,7 @@ Generalizable All Variables.
    so the [C]-isomorphism handed in goes from the codomain of r to the
    codomain of q. *)
 
-(* Instance/Grp/Quotient.v:360's [QuotientGrp N] with its projection
+(* Instance/Grp/Quotient.v:435's [QuotientGrp N] with its projection
    (:395), which is epic (:421) because it is the identity function on
    the carrier.  This is the whole of Mac Lane's example in one line. *)
 Definition grp_quot_of_normal {G : GrpObject} (N : NormalSubgroup G) :
@@ -180,7 +180,7 @@ Section Converse.
 Context {G : GrpObject}.
 
 (* In [Grp] a surjection is epic unconditionally
-   (Instance/Grp/Epi.v:1080) but the converse is not available
+   (Instance/Grp/Epi.v:1134) but the converse is not available
    constructively: [grp_epic_image_dense] (:1072) gives only that no
    element can be SHOWN to miss the image, and Instance/Grp/Epi.v's
    header sets out why -- recovering a preimage from an epimorphism is
@@ -247,7 +247,7 @@ End Converse.
 (** ** Non-vacuity *)
 
 (* The correspondence is inhabited at a nondegenerate pair: A3 inside S3
-   (Instance/Grp/Quotient.v:745) is a proper nontrivial normal subgroup
+   (Instance/Grp/Quotient.v:868) is a proper nontrivial normal subgroup
    of a nonabelian group, so [grp_quot_of_normal A3] is a quotient object
    of S3 that is neither the top nor the bottom of the order.  The two
    separations are Instance/Grp/Quotient.v's [S3_mod_A3_not_collapsed]

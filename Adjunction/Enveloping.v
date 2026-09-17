@@ -92,7 +92,7 @@ Generalizable All Variables.
     [Ideal] literal must supply, returns SIX inhabitants
     ([KernelIdeal], [TrivialIdeal], [TotalIdeal], [EvenIdeal],
     [SixIdeal] in Instance/Rng/Quotient.v, and [StrictUpper] in
-    Instance/Rng/Quotient/OneSided.v:171 -- an ideal of UT2, this
+    Instance/Rng/Quotient/OneSided.v:177 -- an ideal of UT2, this
     development's own witness ring).  A NAME-based sweep returns five
     and misses [StrictUpper], whose name omits the word "Ideal"; the
     field-based one is exhaustive by construction.  All six are

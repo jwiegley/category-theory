@@ -67,7 +67,7 @@ Generalizable All Variables.
    as a whole, inherited from the target, returns five, and every one
    of them is POSITIVE and POINTWISE: that one, plus
    [Functor_Category_Terminal] and [Fun_HasIndexedProducts]
-   (Instance/Fun/Terminal.v:361 and :519, both landed with #339),
+   (Instance/Fun/Terminal.v:371 and :519, both landed with #339),
    [Thin_Fun] (Instance/Proset/Closure.v:154) and [Fun_IsGroupoid]
    (Construction/Deloop/Transform.v:781).  Read the criterion, since
    the same sweep also returns constants of a DIFFERENT shape that are

@@ -310,6 +310,36 @@ hypothesis but the universe instantiation that `F : D ⟶ C` forces on `D`. This
 document records the shape of the situation; it does not assert that anything is
 wrong, and no claim here depends on it.
 
+That instantiation is no longer only a shape. The library's one authoritative
+account of it is the **size note in the header of `Structure/Complete.v`**, and
+this document defers to it on every point where the two could disagree. The note
+states, with the refusals measured: that a `Prop`-valued relation on a carrier in
+`Type@{u}` is itself in `Type@{u}` while a `Type`-valued one lands in
+`Type@{u+1}`; that `Adjunction/GAFT.v` applies its completeness hypothesis to the
+discrete category on the solution-set index, so the index universe *is* the
+shape-object universe of `Complete`, which the equalizer of all endomorphisms in
+the same proof pushes up to the ambient hom universe, and which `Sets_Complete`
+caps at the carrier universe; and that a solution set indexed by a Σ over the
+objects of a concrete algebraic category therefore sits one universe too high,
+as does one indexed by `Type`-valued congruences. Six escape routes were compiled
+and refused and are enumerated there.
+
+The library's answer is not a smallness predicate but a property of particular
+setoids: `PropEquiv` (`Lib/Setoid/Propositional.v`), that a carrier's `≈` is
+logically a proposition — what classical mathematics means by calling the carrier
+a *set*. Since 2026-09-17 the object records of `CMon`, `Ab`, `RMod R`, `Grp`,
+`Rig`, `Ring`, `Rng` and `Rg` carry it, so the congruences on their term models
+are carrier-sized and index a solution set at exactly the universe the adjoint
+functor theorems demand. `Theory/Size.v`'s `SmallType` and
+`Adjunction/GAFT/Resize.v`'s `SmallUpToIso`/`SmallCovering` are the vocabulary in
+which Mac Lane's §V.7 cardinality clause can then be *stated*, and
+`Instance/Mod/TensorAFT.v` is the one place it is proved. Read the scope
+precisely: `PropEquiv` is a property of a setoid and never a change to `Class
+Setoid`; `≈` stays `Type`-valued library-wide, because in `Cat` an `F ≈ G` is a
+family of isomorphisms; and `Small` and `LocallySmall` above are unaffected —
+nothing here gives the tree the small-set predicate that Mac Lane def2 asks for
+and this document still records as absent.
+
 ---
 
 ## Summary table
@@ -331,3 +361,4 @@ wrong, and no claim here depends on it.
 | Riehl 1.1.6 (small + packaging) | `Small` + `ArrowQuiver`/`ArrowQuiverOfCat` (both supplied; their *equivalence* is not established) |
 | Riehl 1.1.7 (locally small) | `locally_small_ambient`; the "not small" half not statable |
 | Riehl 1.3 (`Cat`/`CAT`) | single polymorphic construction — witnessed by `Check (Cat : obj[Cat])` |
+| the solution-set size condition | **not a predicate**: the size note in `Structure/Complete.v` states it, `PropEquiv` (`Lib/Setoid/Propositional.v`) discharges it for the concrete algebraic categories, and `SmallType`/`SmallUpToIso` (`Theory/Size.v`, `Adjunction/GAFT/Resize.v`) are the vocabulary for Mac Lane §V.7's cardinality clause |

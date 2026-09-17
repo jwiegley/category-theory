@@ -59,7 +59,7 @@ Generalizable All Variables.
    NAMING.  [InternalLattice] and [InternalSemilattice] follow
    Structure/Ring.v's [InternalRing] / [InternalSemiring]; that file
    explains why the [*Object] convention of [MonoidObject] and
-   [GroupObject] could not be used (Theory/Algebra/Rig.v:469 already takes
+   [GroupObject] could not be used (Theory/Algebra/Rig.v:570 already takes
    [RingObject] for the set-level notion).  All four names are free
    tree-wide, as are [SetoidLattice], [Sets_Monoid_on] and the witness
    names below.
@@ -68,7 +68,7 @@ Generalizable All Variables.
    object AS [Monoid]-TYPED FIELDS -- and that qualifier is the whole
    claim, an earlier revision having billed this as a search "by shape
    rather than by name" when it is a sweep by the field type's NAME.  By
-   SHAPE the pattern DOES occur: Theory/Algebra/Rig.v:103's [RigObject]
+   SHAPE the pattern DOES occur: Theory/Algebra/Rig.v:140's [RigObject]
    carries [(rig_zero, rig_add)] and [(rig_one, rig_mul)] on one setoid
    carrier, elementwise rather than as internal monoid objects.
    [GroupObject] (Structure/Group.v)
@@ -88,7 +88,7 @@ Generalizable All Variables.
    Instance/Proset/Order.v's [tmeet]/[tjoin] for total orders, and
    Instance/Two/Monoidal.v:34's [two_meet] on the walking arrow's objects.
    (Instance/FinSet.v:173's [fin_join] and
-   Instance/Ab/DirectedColimit.v:488's [fg_join] are a coproduct decoder
+   Instance/Ab/DirectedColimit.v:494's [fg_join] are a coproduct decoder
    and a subgroup join; neither is lattice vocabulary.)
 
    WHAT IS DELIVERED, and at what strength.

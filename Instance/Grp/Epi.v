@@ -228,7 +228,7 @@ Generalizable All Variables.
    contrast is recorded because it is what makes the present theorem a fact
    about groups rather than a general fact about algebraic categories.
 
-   CONTRAST, NEARER TO HOME.  Instance/Grp.v:807 proves the monomorphism
+   CONTRAST, NEARER TO HOME.  Instance/Grp.v:895 proves the monomorphism
    counterpart, [Grp_injectivity_is_monic], as a biconditional with no side
    hypothesis at all.  The asymmetry is not an accident of presentation.  The
    monic direction is probed by the KERNEL, a sub-setoid of a carrier already

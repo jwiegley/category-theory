@@ -32,11 +32,11 @@ Generalizable All Variables.
     Mac Lane §V.5 Exercise 2 (book p. 120, `maclane:V.5:ex2`, #433): the
     dualization functor D : Vct^op ⟶ Vct, adjoint to itself on the right,
     has no right adjoint, so it is not the left adjoint of its opposite.
-    The tree has TWO readings of D over Instance/FdVect.v:223's [Vct_F F :=
+    The tree has TWO readings of D over Instance/FdVect.v:224's [Vct_F F :=
     RMod (field_ring F)]: Instance/FdVect/DoubleDual.v:305's [Dual F], on
     ALL F-modules with precomposition on the nose ([dual_precompose] :288),
     and Structure/Monoidal/StarAutonomous.v:229's dual-object functor
-    [dual] read at the line through Instance/Mod/Closed.v:747's
+    [dual] read at the line through Instance/Mod/Closed.v:760's
     [RMod_SymMonClosed] — here [VctDual359], the functor the issue names,
     since Structure/Monoidal/Dual.v (#359) proves it adjoint to itself on
     the right ([dual_self_adjoint_on_the_right] :441).  The exercise is
@@ -145,8 +145,8 @@ Generalizable All Variables.
     and [dual359_not_left_adjoint_of_op] follow from the refutation above.
 
     UNIVERSES ([About] under `Set Printing Universes`, all 41 heads).  No
-    [Set] anywhere: the shape is Structure/Limit/Comparison.v:535's
-    annotated [DiscreteCat_Functor'], because Instance/Discrete.v:59's
+    [Set] anywhere: the shape is Structure/Limit/Comparison.v:559's
+    annotated [DiscreteCat_Functor'], because Instance/Discrete.v:81's
     unannotated [DiscreteCat_Functor] pins the shape's hom level to [Set]
     and no cocone in Vct^op can share it (probe N4, "Cannot enforce Set =
     …").  Every head but [vct_zero_hom] carries the two equations `u0 = u`,
@@ -481,7 +481,7 @@ Definition dual_vct_Continuous : ContinuousFunctor (Dual F) :=
 
 (** ** The functor the issue names: StarAutonomous.v's [dual] at the line *)
 
-(* Instance/Mod/Closed.v:747's [RMod_SymMonClosed] makes Vct symmetric
+(* Instance/Mod/Closed.v:768's [RMod_SymMonClosed] makes Vct symmetric
    monoidal closed, and Structure/Monoidal/StarAutonomous.v:229's [dual],
    read at the line, is the dual-object functor #359 proves self-adjoint on
    the right.  Its objects are the internal homs [HomMod x VctLine], whose

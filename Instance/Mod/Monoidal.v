@@ -13,7 +13,7 @@
 
    Instance/Mod/Tensor.v built the object V ⊗ V' by generators and relations
    together with its universal property, and then said in terms what it did
-   NOT build (Instance/Mod/Tensor.v:218-223):
+   NOT build (Instance/Mod/Tensor.v:219-224):
 
      "NO BIFUNCTORIALITY.  Instance/Ab/Tensor.v's [AbTensor_Functor] has no
       counterpart here: nothing below makes ⊗ a functor
@@ -38,9 +38,9 @@
      Context (Rcomm : ∀ a b : carrier (rig_setoid (ring_rig R)),
                  rig_mul (ring_rig R) a b ≈ rig_mul (ring_rig R) b a).
 
-   which is, after elaboration, the predicate of Instance/Rng.v:398's
+   which is, after elaboration, the predicate of Instance/Rng.v:412's
    [CRng_Sub], so an object of [CRng] supplies it by projection and
-   Instance/Rng.v:412's [Int_Ring_commutative] discharges it at ℤ.  Indexing
+   Instance/Rng.v:426's [Int_Ring_commutative] discharges it at ℤ.  Indexing
    by [CRng] instead would have been the wrong move twice over: the module
    category the tree actually has is [RMod R] for a [RingObject] R, so a
    [CRng]-indexed statement would have to project its first component back
@@ -127,7 +127,7 @@
    against the Ab side's 165.  Read that comparison narrowly.  56 of the 129
    are the uniform four-way obligation body repeated across the eight
    [Program] obligations of [gen_r] and [gen_l], following
-   Instance/Mod/Tensor.v:664's own idiom, so the substantive remainder is 73;
+   Instance/Mod/Tensor.v:694's own idiom, so the substantive remainder is 73;
    and the two developments quotient by different relations, so no claim is
    made that the Ab-side machinery could have been written this way.  It was
    not re-attempted.
@@ -299,7 +299,7 @@
        need a refutation nobody has written.  What is claimed instead is
        narrower and is evidence of two weaker kinds: a sweep for the
        SPELLINGS `@Monoidal … RMod` and `Monoidal (RMod` returns nothing, and
-       Instance/Mod/Tensor.v:220 disclaims the structure in its own prose.
+       Instance/Mod/Tensor.v:221 disclaims the structure in its own prose.
        Neither rules out some generic construction inhabiting
        [@Monoidal (RMod R)] under another name.
      - NO [Instance] REGISTRATION, for reason (e) above; [ModMonoidal],
@@ -362,7 +362,7 @@ Definition mval {V W : RModObject R} (f : V ~{RMod R}~> W)
 
 (* a ↦ a ⊗ b, as a module homomorphism A ~> A ⊗ B.  One uniform body serves
    all four obligations so the proof does not depend on the order [Program]
-   emits them in — the Instance/Mod/Tensor.v:664 idiom. *)
+   emits them in — the Instance/Mod/Tensor.v:694 idiom. *)
 Program Definition gen_r {A B : RModObject R}
   (b : carrier (cmon_setoid B)) : A ~{RMod R}~> TensorMod A B := {|
   rm_hom := {| cmon_map := {| morphism := fun a => mt_gen a b |} |}
@@ -1056,7 +1056,7 @@ End ModBraiding.
 
 (** ** Acceptance tests over ℤ
 
-    ℤ is a commutative ring (Instance/Rng.v:412's [Int_Ring_commutative]), so
+    ℤ is a commutative ring (Instance/Rng.v:426's [Int_Ring_commutative]), so
     the whole structure is inhabited at a concrete base.  Every example below
     closes by [eq_refl]: these are computations, not equational arguments. *)
 

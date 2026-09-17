@@ -74,7 +74,7 @@ Generalizable All Variables.
 
 (* [zero_mor] in [Grp] is the constant map at the unit -- Awodey's "the
    constant map" -- and this is a computation rather than a claim, since
-   [Grp_Zero] (Instance/Grp.v:600) has the one-element group on both
+   [Grp_Zero] (Instance/Grp.v:679) has the one-element group on both
    sides.  Recorded with `≈` because the composite passes through
    [zero_coincide]; the underlying element equation is the point. *)
 Lemma grp_zero_mor_is_unit {G K : GrpObject} (a : carrier G) :
@@ -84,14 +84,26 @@ Proof. simpl; reflexivity. Qed.
 (** ** G/N as the coequalizer of N ↪ G against the trivial map *)
 
 (* NO SECTION CONTEXT below, and the reason is a measured universe pin
-   rather than a style choice.  [Grp_Zero] (Instance/Grp.v:600) elaborates
+   rather than a style choice.  [Grp_Zero] (Instance/Grp.v:679) elaborates
    at [ZeroObject@{u Set} Grp@{u Set}], because [Grp_trivial]
-   (Instance/Grp.v:522) elaborates at [GrpObject@{u Set u}] -- its
+   (Instance/Grp.v:600) elaborates at [GrpObject@{u u Set}] -- its
    hom/proof universe is pinned to [Set], even though the donor
    [unit_setoid@{t u}] (Lib/Setoid.v:59) is polymorphic in exactly that
    argument.  Consequently every statement mentioning [zero_mor] at [Grp],
    hence every [IsCokernel] and every coequalizer-against-zero statement,
    is confined to [GrpObject@{Set Set Set}].
+
+   CORRECTION, the PR "algebraic carriers are sets" (2026-09-17).  An
+   earlier revision of the sentence above wrote the readback as
+   [GrpObject@{u Set u}] and cited [Grp_Zero] at Instance/Grp.v:600 and
+   [Grp_trivial] at :522.  That PR permuted [GrpObject]'s universe roles
+   from (carrier, proof, aux) to (aux, carrier, proof) and moved both
+   constants down the file.  Re-measured by [About] under
+   [Set Printing Universes] after it: [Grp_trivial@{u} : GrpObject@{u u
+   Set}], [Grp_Zero@{u} : ZeroObject@{u Set} Grp@{u Set}].  The SAME
+   reading one position over -- the pin is on the last slot now rather
+   than the middle one -- and the pin itself, and everything this
+   paragraph concludes from it, is unchanged.
 
    A section [Context {G : GrpObject}] makes G's universe RIGID for the
    section, so [zero_mor] then reports a genuine universe inconsistency

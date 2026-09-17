@@ -67,7 +67,7 @@
     - Construction/Subcategory.v: [Subcategory] (:36), [Sub] (:55),
       [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99),
       [Full_Implies_Full_Functor] (:104).  The trivially-true [shom] is
-      Instance/Rng.v:403's [CRng_Sub] pattern, and [Full] is written
+      Instance/Rng.v:417's [CRng_Sub] pattern, and [Full] is written
       qualified for the same reason that file writes it so:
       Construction/Subcategory.v exports its OWN [Full], whose first
       argument is a Category, shadowing Theory/Functor.v's.
@@ -101,11 +101,11 @@
 
     The issue says the ambient category is missing ("there is no Ab, Grp
     or AbGrp instance") and that "a whole-tree search for 'torsion'
-    returns nothing".  Both are false: [Ab] is Instance/Ab.v:201 and
+    returns nothing".  Both are false: [Ab] is Instance/Ab.v:215 and
     Instance/Grp.v exists.  A case-insensitive search for 'torsion' over
     the .v files, excluding this file and its probe, returns SEVEN
-    lines, in Instance/Ab/Character.v:48 and
-    Instance/Ab/Character/NonNatural.v:45,:358,:399,:415,:416,:444; five
+    lines, in Instance/Ab/Character.v:49 and
+    Instance/Ab/Character/NonNatural.v:46,:403,:446,:462,:463,:491; five
     are prose, the sixth is [ZZ_no_2_torsion] (:416), a lemma that
     ℤ has no nonzero 2-torsion -- a statement about one group at one
     exponent, not a torsion predicate -- and the seventh (:444) is that
@@ -153,8 +153,8 @@
     [ring_ab Int_Ring] is named five times: [ZAb]
     (Instance/Ab/Monoidal.v:416), [ab_Z] (Instance/Ab/Coproduct.v:264),
     [Zgroup] (Instance/Ab/Graded.v:281), [Ab_Z]
-    (Structure/Kernel/Universal/Examples.v:260) and [ab_int]
-    (Instance/Ab/Free.v:865).  This file uses [ZAb] throughout and only
+    (Structure/Kernel/Universal/Examples.v:263) and [ab_int]
+    (Instance/Ab/Free.v:883).  This file uses [ZAb] throughout and only
     [ZAb], because [nat_smul_int_one] is stated at it.
 
     ** Strengths, measured strict-first
@@ -181,7 +181,7 @@
       ∘ arrow], so the class unit is a COMPOSITE record, [fmap[Incl] id
       ∘ ab_quot_proj …]; applied to an element that composite reduces,
       as a record it does not.  Note the precedent this development was
-      pointed at, Instance/Mod/Free.v:542's [free_module_unit_is_insert],
+      pointed at, Instance/Mod/Free.v:560's [free_module_unit_is_insert],
       is likewise stated POINTWISE and not as a morphism equality.
     - [nat_smul] at a VARIABLE scalar is only Leibniz-equal by induction
       ([nat_smul_quot]).  Cause: the [Fixpoint] is stuck on [k], so
@@ -246,16 +246,28 @@
     [MonoidObject]), so whether [Reflective] identifies anything OF ITS
     OWN is not measured here.
 
-    ELEVEN of the 58 constants carry a [Set] token: [MixedAb],
+    FORTY-THREE of the 58 constants carry a [Set] token, and every one of
+    the 43 carries it as a BOUND ([Set < u]) and never as an equation.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17), by
+    an [About] under [Set Printing Universes] on each of the 58 names
+    [Print Module] lists, reading the constraint blocks.  An earlier
+    revision of this paragraph counted ELEVEN, naming them: [MixedAb],
     [ZMod2_all_torsion], [ZMod2_not_TorsionFree], [ZMod2_quot_collapses],
     [mixed_gen], [mixed_gen_not_quot_zero], [mixed_gen_not_torsion],
     [mixed_quot_merges], [mixed_tors], [mixed_tors_not_zero],
-    [mixed_tors_torsion] -- exactly the ℤ/2 and mixed witness block,
-    from [ZMod2]'s [bool] carrier, and always as a BOUND ([Set < u]),
-    never an equation.  The general theory, the reflector, the
-    adjunction, [TorsionFree_Reflective] and the whole ℤ block are
-    [Set]-free; in particular the ℤ results route through [ZAb_one]
-    rather than a bare literal at a [carrier ZAb] position, which is
+    [mixed_tors_torsion] -- "exactly the ℤ/2 and mixed witness block, from
+    [ZMod2]'s [bool] carrier" -- and said the general theory, the
+    reflector, the adjunction, [TorsionFree_Reflective] and the whole ℤ
+    block were [Set]-free.  THAT SECOND HALF NO LONGER HOLDS.  [Set < u]
+    is what [PropEquiv] costs: [Prop]'s sort enters every object record
+    through [cmon_prop], so the bound reaches the general theory too.
+    What DID survive is the distinction the paragraph was making -- a
+    bound is not a pin.  The other three sentences above still reproduce:
+    58 constants, NO universe equation in any block (checked by searching
+    the blocks for [u = u'] after stripping the [|=] separator; zero
+    hits), and the two identifications still sitting in binders.  The
+    [ZAb_one] routing is unchanged, and is
     Instance/Ab/Monoidal.v:418-421's own design note.
 
     ** NOT delivered

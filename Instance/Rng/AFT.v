@@ -45,8 +45,8 @@ Generalizable All Variables.
       MORE, AND THE CIRCULAR READINGS ARE KEPT BESIDE THE NEW ONES
 
    [Rng_Forget_Ab_continuous] IS NOT CIRCULAR.  It is derived from
-   [Rng_Forget_continuous] (Instance/Rng/Limit.v:932) and
-   [Ab_Forget_reflects_limits] (Instance/Ab/Limit.v:705) through the
+   [Rng_Forget_continuous] (Instance/Rng/Limit.v:958) and
+   [Ab_Forget_reflects_limits] (Instance/Ab/Limit.v:757) through the
    factorization below, and neither of those mentions an adjunction: the
    first comes from strict creation over [Sets_Complete], the second from
    strict creation of limits of abelian groups.  Nothing in its term
@@ -59,8 +59,8 @@ Generalizable All Variables.
       Freyd's third hypothesis is a solution set, and the two fed to it
       below -- [Rng_Forget_Ab_solution_set_from_adjunction] and
       [Rng_Forget_solution_set_from_adjunction] -- are
-      [solution_set_of_adjunction] (Adjunction/GAFT.v:366) applied to
-      [free_rng_ab_adjunction] (Instance/Rng/Free.v:676) and to the
+      [solution_set_of_adjunction] (Adjunction/GAFT.v:504) applied to
+      [free_rng_ab_adjunction] (Instance/Rng/Free.v:719) and to the
       retyping of [free_ring_via_ab_adjunction] (:874): the singleton
       family at the unit of THE VERY ADJUNCTION EACH APPLICATION IS MEANT
       TO PRODUCE.  So [free_rng_ab_via_GAFT] and [free_ring_via_GAFT] are
@@ -79,7 +79,7 @@ Generalizable All Variables.
    WHAT THE TWO HEADLINE CONSTANTS NOW CONSUME is
    [Rng_Forget_Ab_solution_set_prop] and [Rng_Forget_solution_set_prop]:
    the quotients of the FREE-RING TERM MODEL ([FRTerm],
-   Instance/Rng/Free.v:301) by [Prop]-valued congruences, covered by the
+   Instance/Rng/Free.v:319) by [Prop]-valued congruences, covered by the
    kernel congruence of an evaluation.  Strip Instance/Rng/Free.v's
    ADJUNCTIONS and both still stand.  Strip its TERM MODEL and they do not
    -- which is a dependence on a CONSTRUCTION, not on the conclusion, and
@@ -107,7 +107,7 @@ Generalizable All Variables.
    need a cone whose apex is a direct sum with leg [(a, b) ↦ leg a · leg b],
    and that map is BILINEAR, not additive, so it is not a morphism of [Ab]
    and there is no cone to take a mediator of; the multiplicative unit is
-   worse, since [Ab]'s initial object is a ZERO object (Instance/Ab.v:262,
+   worse, since [Ab]'s initial object is a ZERO object (Instance/Ab.v:276,
    :276) and the only canonical maps out of it send everything to zero, so
    none of them selects [1].  NOTHING BELOW REPAIRS THAT.  No creation
    result for [Rng_Forget_Ab] is proved here either, and the bilinearity
@@ -138,7 +138,7 @@ Generalizable All Variables.
    [free_rng_ab_adjunction], since [FreeRngAb ⊣ Rng_Forget_Ab].  That term
    would be CIRCULAR in exactly the sense above: fed to GAFT it would
    presuppose the adjunction GAFT is being asked to produce, and the
-   application would establish nothing.  Instance/Ab/Limit.v:45-67 states
+   application would establish nothing.  Instance/Ab/Limit.v:46-68 states
    the same contrast for its own two continuity constants -- the RAPL-built
    [Ab_Forget_Continuous] (Instance/Ab/FreeNotContinuous.v:475) against the
    creation-built [Ab_Forget_creates_continuous] -- and this file is the
@@ -150,7 +150,7 @@ Generalizable All Variables.
    [fobj[Rng_Forget] R] and [fmap[Rng_Forget] f] are convertible with
    [fobj[Ab_Forget ◯ Rng_Forget_Ab] R] and [fmap[Ab_Forget ◯
    Rng_Forget_Ab] f].  Both sides reduce to [rig_setoid R] and [rig_map f]
-   (Instance/Rng.v:117-135 is where those two functors are written, and
+   (Instance/Rng.v:118-136 is where those two functors are written, and
    :613 and :615 already record the two object readbacks).
 
    THE FUNCTOR RECORDS ARE NOT CONVERTIBLE, and pretending otherwise would
@@ -188,10 +188,10 @@ Generalizable All Variables.
    measurements of this same refusal then appeared to contradict each other
    when neither was wrong.  Only the head is quoted now.
 
-   The refusal itself is the same one Instance/Ab/Limit.v:70-79 records at
+   The refusal itself is the same one Instance/Ab/Limit.v:71-80 records at
    [Ab_Forget] and Test/ProbeGrpFreeAFT442.v's N6 records at [Grp_Forget],
    here at [Rng].  The bridge [Continuous_PreservesImageLimit]
-   (Construction/Comma/Creation.v:232) is load-bearing and stands in both
+   (Construction/Comma/Creation.v:245) is load-bearing and stands in both
    GAFT terms below.
 
    ** THE ISSUE'S "CURRENT STATE" IS STALE IN SIX PLACES
@@ -207,7 +207,7 @@ Generalizable All Variables.
    3. "neither the ring-side forgetful functors ... exist" --
       [Rng_Forget_Ab], Instance/Rng.v:117; [Rng_Forget], :129.
    4. "nor their free objects exist" -- [FreeRngAb],
-      Instance/Rng/Free.v:672; [free_ring_via_ab], :872;
+      Instance/Rng/Free.v:715; [free_ring_via_ab], :872;
       [free_ring_via_mon], :880; with the adjunctions
       [free_rng_ab_adjunction] (:676), [free_ring_via_ab_adjunction]
       (:874) and [free_ring_via_mon_adjunction] (:883).
@@ -218,7 +218,7 @@ Generalizable All Variables.
    6. The Awodey section's "the adjoint functor theorem's only in-tree
       application is a diagonal/product toy example" -- [free_group_via_GAFT],
       Instance/Grp/FreeAFT.v:423, and [GAFT_at_Sets_Id],
-      Adjunction/GAFT/Sets.v:158, which feeds GAFT [Sets_Id_SolutionSet]
+      Adjunction/GAFT/Sets.v:174, which feeds GAFT [Sets_Id_SolutionSet]
       (:140).  Sweeping [grep -rnw GAFT] over all [.v] files outside
       [Adjunction/GAFT*], those two are the only applications of the theorem
       in tree; everything else is prose or a probe.
@@ -238,7 +238,7 @@ Generalizable All Variables.
    [Rng_Forget].
 
    THAT ABSENCE IS NOMINAL, NOT STRUCTURAL, and the measurement above is
-   what made it look otherwise.  Instance/Rng/Free.v:874's
+   what made it look otherwise.  Instance/Rng/Free.v:917's
    [free_ring_via_ab_adjunction] has right adjoint [RngUnderlyingAb], which
    is DEFINED as [Ab_Forget ◯ Rng_Forget_Ab] (:861) -- the very composite
    the factorization identifies with [Rng_Forget] on data.  Every field of
@@ -246,7 +246,7 @@ Generalizable All Variables.
    only through [U y] and [fmap[U] f], so the five field TYPES are
    convertible and the record can be copied across field by field.  That
    is [free_ring_via_ab_adjunction_set] below, and the trick is not
-   invented here: Instance/Rng/Free.v:892's
+   invented here: Instance/Rng/Free.v:935's
    [free_ring_via_mon_adjunction_ab] is the same copy, between the same two
    presentations of the same underlying-set functor, with the reason
    spelled out at :887-891.
@@ -279,18 +279,18 @@ Generalizable All Variables.
    (B) Fong & Spivak §3.4.2 Example 3.74 clause 1 asks to "Deliver the
    conclusion as [Adjunction] witnesses rather than only as universal
    arrows, so the 'free is left adjoint to forgetful' slogan is a statement
-   in the library".  Its supporting sentence, "Today Instance/CMon.v:169
+   in the library".  Its supporting sentence, "Today Instance/CMon.v:246
    supplies a forgetful functor with no free functor and no adjunction
    beside it, and no other algebraic category exists in tree", is EXACT in
    its first half and stale in its second.  [CMon_Forget] is still at
-   Instance/CMon.v:169 with no [FreeCMon] and, measured,
+   Instance/CMon.v:246 with no [FreeCMon] and, measured,
    [grep -rnP '⊣\s*CMon_Forget(?![A-Za-z0-9_])'] over all [.v] files returns
    nothing.  But five other algebraic categories carry the slogan already:
-   [free_group_adjunction] (Instance/Grp/Free.v:438),
-   [free_ab_adjunction] (Instance/Ab/Free.v:564),
+   [free_group_adjunction] (Instance/Grp/Free.v:528),
+   [free_ab_adjunction] (Instance/Ab/Free.v:596),
    [free_mon_sets_adjunction] (Instance/Mon/Free.v:518),
-   [free_module_adjunction] (Instance/Mod/Free.v:517) and
-   [free_rng_ab_adjunction] (Instance/Rng/Free.v:676).  What this file adds
+   [free_module_adjunction] (Instance/Mod/Free.v:535) and
+   [free_rng_ab_adjunction] (Instance/Rng/Free.v:719).  What this file adds
    that was genuinely missing is the slogan AT THE LITERAL UNDERLYING-SET
    FUNCTOR OF RINGS:
    [free_ring_via_ab_adjunction_set : free_ring_via_ab ⊣ Rng_Forget]
@@ -302,7 +302,7 @@ Generalizable All Variables.
 
    The issue asks that each "compare with the usual construction" clause be
    "a proved isomorphism of the AFT-produced adjoint with the explicit free
-   object".  [GAFT] (Adjunction/GAFT.v:241) ends in [Qed], so its output
+   object".  [GAFT] (Adjunction/GAFT.v:338) ends in [Qed], so its output
    does not reduce and no component of it can be named.  Measured:
 
      Example nr1 : `1 free_ring_via_GAFT = free_ring_via_ab := eq_refl.
@@ -312,7 +312,7 @@ Generalizable All Variables.
    (free_ring_via_GAFT) = free_ring_via_ab" (cannot unify "`1
    (free_ring_via_GAFT)" and "free_ring_via_ab")".  So NO [eq_refl] is
    claimed anywhere about a GAFT output, and the three comparisons below
-   are at [≈], by [left_adjoints_agree] (Instance/Rng/Free.v:844) -- left
+   are at [≈], by [left_adjoints_agree] (Instance/Rng/Free.v:887) -- left
    adjoints to a fixed functor are isomorphic.  That donor is [Defined],
    so the comparison morphism has a name ([adj_left_compare], :769) and the
    unit clause ([adj_left_compare_unit], :779) is available; Mac Lane's
@@ -327,8 +327,8 @@ Generalizable All Variables.
       apex-only consequence [Rng_Forget_Ab_PreservesAllLimits] -- the
       genuinely new, non-circular result, derived without an ADJUNCTION and
       without RAPL — though emphatically not without creation, since both of
-      its inputs are creation results (Instance/Rng/Limit.v:933's
-      [creates_limits_continuous ...] and Instance/Ab/Limit.v:707's
+      its inputs are creation results (Instance/Rng/Limit.v:959's
+      [creates_limits_continuous ...] and Instance/Ab/Limit.v:734's
       [creates_reflects_limits ...]); what it avoids is a creation argument
       FOR [Rng_Forget_Ab] ITSELF, which is the one that stops.  Without
       an adjunction and without RAPL.
@@ -358,10 +358,10 @@ Generalizable All Variables.
    ** NOT DELIVERED
 
    (1) NO CREATION RESULT FOR [Rng_Forget_Ab], and no repair of the
-   bilinearity obstruction Instance/Rng/Limit.v:210-223 records.
+   bilinearity obstruction Instance/Rng/Limit.v:211-224 records.
    Continuity is strictly less than creation and nothing here compares the
    two as propositions.  (2) NO [Complete Ab]-based route: [Ab_Complete]
-   (Instance/Ab/Limit.v:749) exists and is not used, because GAFT is run at
+   (Instance/Ab/Limit.v:776) exists and is not used, because GAFT is run at
    [Rng_Forget_Ab] and so wants [Complete Rng], not [Complete Ab].
    (3) NO SOLUTION SET OF MAC LANE'S OWN SHAPE.  CORRECTION, PR "algebraic
    carriers are sets" (2026-09-17): this clause read "NO NON-CIRCULAR
@@ -371,7 +371,7 @@ Generalizable All Variables.
    down by a cardinality bound, need a generated-subring API that does not
    exist over [RingObject].  The analogous gap at [Grp] is filed as #1309
    together with the universe-minimization artifact of
-   Instance/Discrete.v:59's [DiscreteCat_Functor] -- the second of which
+   Instance/Discrete.v:81's [DiscreteCat_Functor] -- the second of which
    has since been repaired -- and the [Rng] case would still meet the
    first.  Nothing here attempts it.  What is delivered instead is a
    congruence-quotient family, which is a different argument for the same
@@ -439,7 +439,7 @@ Example rng_forget_factors_obj (R : Rng) :
 Example rng_forget_factors_map (R S : Rng) (f : R ~{Rng}~> S) :
   fmap[Rng_Forget] f = fmap[Ab_Forget ◯ Rng_Forget_Ab] f := eq_refl.
 
-(* [RngUnderlyingAb] (Instance/Rng/Free.v:861) IS that composite, so the
+(* [RngUnderlyingAb] (Instance/Rng/Free.v:904) IS that composite, so the
    same two readbacks hold against it.  These are what make the retyping of
    [free_ring_via_ab_adjunction] typecheck. *)
 
@@ -494,7 +494,7 @@ Definition rng_ab_limit_cone (N : Cone K) (HN : IsLimitCone N) :
     (rng_ab_image_limit N HN).
 
 (* The same composite read backwards: [Ab_Forget] is continuous by
-   creation ([Ab_Forget_creates_continuous], Instance/Ab/Limit.v:764, which
+   creation ([Ab_Forget_creates_continuous], Instance/Ab/Limit.v:816, which
    presupposes no adjunction either), and [Rng_Forget] reflects. *)
 Definition rng_ab_reflect (N : Cone K)
   (HN : IsLimitCone (FCone Rng_Forget_Ab N)) : IsLimitCone N :=
@@ -519,11 +519,11 @@ Definition Rng_Forget_Ab_reflects_limits {J : Category} (K : J ⟶ Rng) :
 
 (** * The underlying-set adjunction, retyped onto [Rng_Forget] *)
 
-(* Instance/Rng/Free.v:874 states the composite adjunction against
+(* Instance/Rng/Free.v:917 states the composite adjunction against
    [RngUnderlyingAb].  Every field of [Adjunction] mentions the right
    adjoint only through [U y] and [fmap[U] f], and the two readbacks above
    say those agree definitionally, so the five field types are convertible
-   and the record copies across.  This is Instance/Rng/Free.v:892's own
+   and the record copies across.  This is Instance/Rng/Free.v:935's own
    manoeuvre at the other pair of presentations.
 
    This is the first inhabitant in tree of [_ ⊣ Rng_Forget]: see the header
@@ -561,7 +561,7 @@ Example free_ring_via_ab_adjunction_set_transpose (X : Sets) (R : Rng)
    the universe the theorem demands, through which every homomorphism out
    of [A] factors.  The family used here is the QUOTIENTS OF THE FREE-RING
    TERM MODEL by [Prop]-valued congruences: [FRTerm A]
-   (Instance/Rng/Free.v:301) with its relation [fr_eq], which is already a
+   (Instance/Rng/Free.v:319) with its relation [fr_eq], which is already a
    [Prop] inductive since the PR "algebraic carriers are sets"
    (2026-09-17).
 
@@ -830,7 +830,7 @@ Definition free_ring_via_GAFT_from_adjunction :
 (* [GAFT] is [Qed], so its output does not reduce and no [eq_refl] is
    available; the header quotes the refusal.  What IS available is the
    uniqueness of left adjoints, and [left_adjoints_agree]
-   (Instance/Rng/Free.v:844) is [Defined], so the comparison morphism has a
+   (Instance/Rng/Free.v:887) is [Defined], so the comparison morphism has a
    name and the unit clause can be stated. *)
 
 Definition free_rng_ab_via_GAFT_agrees : `1 free_rng_ab_via_GAFT ≈ FreeRngAb :=

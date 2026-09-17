@@ -310,7 +310,7 @@ Generalizable All Variables.
       declared in the source and 42 + 31 = 73).  ZERO of the 73
       names collides anywhere in the tree -- a sweep that FOUND TEN, all
       of which were renamed away before this file landed, and two of
-      which were live rather than cosmetic: Instance/Cat/Objects.v:524
+      which were live rather than cosmetic: Instance/Cat/Objects.v:555
       and :526 declare [Disc_Faithful] and [Disc_Full] as
       [#[export] Program Instance]s, so a [Print Assumptions Disc_Full]
       with both modules in one scope would have audited whichever was

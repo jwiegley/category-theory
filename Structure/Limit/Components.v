@@ -78,7 +78,7 @@ Generalizable All Variables.
       of shapes.  An earlier revision of this paragraph said "none of the
       three mentions a limit or a cone", and the LIMIT half of that is
       FALSE: all three mention [Limit], 2, 11 and 2 times, in [Require]
-      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v:37-59 is
+      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v:37-66 is
       a numbered section headed "THE [Colimit] READING IS NOT
       DELIVERED").  The CONE half stands -- zero hits in all three -- and
       the conclusion is unaffected, but the evidence as first stated was

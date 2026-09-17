@@ -68,7 +68,7 @@ Generalizable All Variables.
    unconditional concrete roster before this file was [Sets_Complete]
    (Instance/Sets/Complete.v:196), [ConeSet_Complete] (:464),
    [Sets_Cocomplete] (Instance/Sets/Cocomplete.v:484) and
-   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:637, :641) --
+   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:655, :659) --
    nothing for [Grp], [Ab], [CMon], [Rng], [RMod], [Mon], [Top] or [Cat].
    And [Grp_Forget_creates_limits] is the FIRST creation inhabitant at a
    NAMED CONCRETE category: outside the declaring file there are exactly
@@ -95,7 +95,7 @@ Generalizable All Variables.
    creation vocabulary"; (iii) "no limit theory for any algebra category";
    (iv) "the ONE forgetful functor into [Sets], [CMon_Forget], has no
    consumers and is nowhere shown to preserve, reflect, lift or create
-   anything".  Measured at 1fd2f96c: (i) FALSE -- Instance/Grp.v:466 declares
+   anything".  Measured at 1fd2f96c: (i) FALSE -- Instance/Grp.v:532 declares
    [Grp] and :493 [Grp_Forget], both consumed here and neither rebuilt, and
    word-bounded [Grp] matches 1022 LINES across 88 [.v] files (1112
    occurrences) rather than three;
@@ -109,12 +109,12 @@ Generalizable All Variables.
    Monad/Eilenberg/Moore/Limit.v, which the issue does not look at, and
    which is this file's architectural template; (iv) FALSE in three of its
    four clauses -- the line number is right and [CMon_Forget] is still at
-   Instance/CMon.v:169, but it is not the only forgetful functor into [Sets]
+   Instance/CMon.v:246, but it is not the only forgetful functor into [Sets]
    ([Grp_Forget], [Rng_Forget], [Ab_Forget], [Pos_Forget], [Top_Forget],
    [RMod_Forget], [FdVect_Forget] are others) and it does have consumers
-   (Instance/Concrete.v:169, :175, Theory/Algebra/Rig.v:677,
+   (Instance/Concrete.v:170, :176, Theory/Algebra/Rig.v:793,
    Instance/Roster.v:333), its faithfulness having been proved at
-   Instance/Concrete.v:169; what remains TRUE is the last clause, that no
+   Instance/Concrete.v:170; what remains TRUE is the last clause, that no
    preservation, reflection, lifting or creation result about it exists.
 
    THIS IS NOT AN INSTANCE OF [EM_Complete], AND THAT IS MEASURED RATHER

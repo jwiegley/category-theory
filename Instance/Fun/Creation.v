@@ -61,13 +61,13 @@ Generalizable All Variables.
        inclusion functor": TRUE as stated ('discrete subcategory' has 0 hits
        in the tree's [.v] files; 'discrete inclusion' 2, both forward
        references in Instance/Fun/Limit.v), but the ingredient is richer than the issue
-       says: Structure/Limit/Comparison.v:535 has the ANNOTATED
+       says: Structure/Limit/Comparison.v:559 has the ANNOTATED
        discrete-diagram functor [DiscreteCat_Functor'@{o h p uo uh up +}],
        and Instance/Fun/Discrete.v:234 has [Fun_Discrete_PiCat : [DiscreteCat
        A, B] ≅[Cat] PiCat (fun _ => B)], the "C^{ob A} ≅ ∏_{ob A} C" of the
        Riehl note.  RECORDED CORRECTION: an earlier revision continued
        "That bridge is Set-PINNED in the target (its :202 uses
-       Instance/Discrete.v:59's unannotated [DiscreteCat_Functor]; at a
+       Instance/Discrete.v:81's unannotated [DiscreteCat_Functor]; at a
        general X the application is refused with "Cannot enforce
        Set = …"), so Riehl's route through Construction/Product/
        Limit.v:603's [PiCat_JointlyCreateLimit] is NOT usable here".

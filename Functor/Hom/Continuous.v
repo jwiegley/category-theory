@@ -64,7 +64,7 @@ Generalizable All Variables.
        issue's pinned names are supplied here as aliases,
        [hom_preserves_limits] and [cohom_carries_colimits_to_limits].
      - "[Curried_CoHom] has no consumer beyond Yoneda": FALSE
-       (Functor/Hom/Limit.v:492 consumes it as [HomTo]).  "There is no
+       (Functor/Hom/Limit.v:503 consumes it as [HomTo]).  "There is no
        [Cocartesian] companion file" to Adjunction/Diagonal/Product.v: FALSE
        (Adjunction/Diagonal/Coproduct.v:117 [Diagonal_Coproduct_Adjunction]).
        Awodey's ingredients "missing" — equalizers in Sets and the general

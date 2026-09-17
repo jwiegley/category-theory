@@ -245,7 +245,7 @@ Definition two_bimorphic_not_iso :
    the equations dropped -- so instantiating it at the group signature does
    not produce Grp.  Categories of algebras the tree does have, several of
    them: [Models T C] for a Lawvere theory (Theory/Lawvere/Model.v:77),
-   [OperadAlgebras] for an operad (Theory/Multicategory/Algebra.v:417),
+   [OperadAlgebras] for an operad (Theory/Multicategory/Algebra.v:449),
    [FAlg F] for an endofunctor (Construction/FAlg.v:114), [Algs] again, and
    the commutative monoids of Instance/CMon.v, which is the one carried far
    enough to serve as the tree's semiadditive witness.  None of them is Grp,

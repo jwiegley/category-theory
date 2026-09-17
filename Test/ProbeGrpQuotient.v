@@ -35,7 +35,7 @@
 
     (1) THE KERNEL SUBGROUP IS NOT THE PRE-EXISTING KERNEL GROUP.
     Instance/Grp/Quotient.v's [KernelNS_carrier_is_Grp_kernel] records
-    that [SubgroupGrp (KernelNS h)] and Instance/Grp.v:729's [Grp_kernel h]
+    that [SubgroupGrp (KernelNS h)] and Instance/Grp.v:809's [Grp_kernel h]
     have the same CARRIER by [eq_refl].  The whole records are NOT
     convertible, the group-law fields being different proof terms
     ([SubgroupGrp] is [Program]-built, [Grp_kernel] is built by
@@ -203,5 +203,37 @@ Example positive_universal_elem {G : GrpObject} (N : NormalSubgroup G) :
   `1 (@aue_elem _ (KillsFunctor N) (QuotientGrp N) (quot_universal_element N))
     = quot_proj N.
 Proof. reflexivity. Qed.
+
+(* THE STRENGTH THAT WAS SAVED, AND THE RELATION THAT CARRIES IT.
+
+   The PR "algebraic carriers are sets" (2026-09-17) truncated three
+   relations in the Grp layer -- Test/ProbeGrpProp.v pins those from both
+   sides -- and deliberately left Instance/Grp/Epi.v's [grp_coset_rel]
+   alone, because truncating it would have cost
+   [transposition_decides_image] its conclusion: the full
+   [GrpImageDecidable f], and not a double negation of it.  Nothing in
+   the tree guarded that decision until these two controls; an earlier
+   revision of Test/ProbeGrpProp.v deferred it to "Test/ProbeGrpEpi*.v",
+   a file that has never existed.
+
+   The first control pins the relation's SORT -- a [Type]-valued
+   [crelation], measured as [grp_coset_rel ... : crelation@{u u} H] by
+   [About] under [Set Printing Universes] -- and the second pins the
+   theorem's WHOLE statement, hypothesis and conclusion together, so that
+   a later truncation of [grp_coset_rel], or a weakening of the
+   conclusion to a [¬¬] form, breaks this file rather than passing
+   silently. *)
+Example positive_grp_coset_rel_is_type_valued
+  {G H : GrpObject} (f : G ~{Grp}~> H) : crelation H :=
+  grp_coset_rel f.
+
+Example positive_transposition_decides_image_full
+  {G H : GrpObject} (f : G ~{Grp}~> H)
+  (t : SetoidPermutation (CosetPlusPtSetoid f))
+  (Hbase : ∀ c, GrpImage f c →
+             @equiv _ (is_setoid (CosetPlusPtSetoid f))
+               (sperm_to t (inl c)) (inr ttt)) :
+  GrpImageDecidable f :=
+  transposition_decides_image f t Hbase.
 
 End Positive.

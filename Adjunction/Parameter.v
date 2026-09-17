@@ -202,9 +202,9 @@ Module PAT := Category.Adjunction.Natural.Transformation.
    Mod_K(A ⊗_K B, C) ≅ Mod_K(A, Hom_K(B, C)) with parameter B), IS A FUTURE
    INSTANCE AND NOT A MISSING CATEGORY.  Measured, at this commit:
      - [ModTensor : RMod R ∏ RMod R ⟶ RMod R] EXISTS
-       (Instance/Mod/Monoidal.v:546) and takes NO commutativity hypothesis,
+       (Instance/Mod/Monoidal.v:550) and takes NO commutativity hypothesis,
        so [Partial_l ModTensor W] is already the endofunctor (− ⊗ W).
-     - [HomMod] (Instance/Mod/Closed.v:448) is OBJECT-LEVEL — its type is
+     - [HomMod] (Instance/Mod/Closed.v:469) is OBJECT-LEVEL — its type is
        ∀ R, (R commutative) → RModObject R → RModObject R → RModObject R —
        and its two arrow actions [ihom_post] (:817) and [ihom_pre] (:841)
        exist SEPARATELY.  That they are not assembled into a bifunctor is
@@ -1434,7 +1434,7 @@ Arguments uncurry_natural_param {C _ _ x p p' a} h g.
    bifunctor at x, and three facts make that the wrong packaging.  (i) The
    source is constant, which is exactly the case [Structure/Wedge.v]'s own
    header says a wedge is for.  (ii) The named constant-functor constant is
-   [Constant_Functor] (Instance/Fun/Terminal.v:342), and requiring that
+   [Constant_Functor] (Instance/Fun/Terminal.v:352), and requiring that
    module costs 28 modules on this file's transitive in-project closure (68
    without it, 96 with it, measured by adding it to the seed set and
    recomputing over .Makefile.coq.d) — though read that as a remark about a

@@ -206,7 +206,7 @@ Generalizable All Variables.
    - No converse, in any form.  It is not shown that a shape all of whose
      diagrams have limits computed by evaluation must have an initial
      object, and no `Limit F ↔ Initial J` is claimed.
-   - No shape-indexed completeness statement.  Structure/Complete.v:115's
+   - No shape-indexed completeness statement.  Structure/Complete.v:273's
      [Complete] quantifies over ALL shapes, so it is not inhabited by a
      result about one shape, and no "has all limits of shape J" class
      exists in tree to inhabit; none is introduced.
@@ -230,7 +230,7 @@ Generalizable All Variables.
      required here (it drags Equations, StrictCat, Two, Comma and Arrow),
      so this is a cross-reference and not reuse.  The five in-tree
      [bool_setoid_object] definitions (Instance/Sets.v:563,
-     Theory/Concrete.v:244, Theory/Algebra/Rig.v:442, Instance/Top.v:784,
+     Theory/Concrete.v:244, Theory/Algebra/Rig.v:540, Instance/Top.v:784,
      Instance/Met/Extended.v:389) are a different matter — see the note at
      [bool_set] below, which corrects an earlier claim about them.  The
      same holds of [iso_of_op]/[iso_to_op]: Theory/Morphisms/CokernelPair.v

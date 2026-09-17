@@ -32,12 +32,12 @@
    of continuous functions is not a field, the pointwise inverse of
    x ↦ x² being discontinuous at 0 -- is not built here is NOT that the
    reals, topology and fields are missing.  All three are in tree, and
-   the C(X) functor itself exists: Instance/Top/ContinuousRing.v:409
+   the C(X) functor itself exists: Instance/Top/ContinuousRing.v:418
    supplies [CRingOb X : RingObject] and :495 supplies
    [ContinuousRingFunctor : Top^op ⟶ Rng].  The actual obstruction is
    narrower: there is no ℝ [FieldObject].  The inhabitants of
    Instance/FdVect.v's [FieldObject] class are [Q_Field]
-   (Instance/FdVect.v:231), [F2_Field] (Instance/Field.v:521) and the
+   (Instance/FdVect.v:231), [F2_Field] (Instance/Field.v:528) and the
    PARAMETRIC [FracField] (Instance/Field/Frac.v:734, the field of
    quotients of an integral domain); a search for a reals-based
    [FieldObject] returns nothing.  And [CRingOb X] is a [RingObject],

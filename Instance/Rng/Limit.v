@@ -30,7 +30,7 @@ Generalizable All Variables.
    ([rlim_structure_unique], Mac Lane's Theorem 2), the resulting cone lies
    over the given one ON THE NOSE ([rlim_over_obj] and [rlim_over_legs] are
    both [eq_refl], because [Rng_Forget]'s object map is the [rig_setoid]
-   projection -- Instance/Rng.v:615 already records that as an [eq_refl]),
+   projection -- Instance/Rng.v:638 already records that as an [eq_refl]),
    it is limiting ([rlim_created]), and a cone of rings whose image is
    limiting is itself limiting ([rng_reflects]).  Packaged as
    Structure/Limit/Creation.v's own classes --
@@ -44,7 +44,7 @@ Generalizable All Variables.
    [Rng_Forget_reflects_limits] alongside.
 
    WHAT HAS TO BE LIFTED, AND HOW MUCH MORE IT IS THAN THE GROUP CASE.  An
-   object of [Rng] is Theory/Algebra/Rig.v:469's [RingObject]: a
+   object of [Rng] is Theory/Algebra/Rig.v:570's [RingObject]: a
    [RigObject] (:103) extended by [ring_neg] with [ring_neg_respects] and
    [ring_neg_l].  So FIVE operations are lifted -- [rig_zero], [rig_one],
    [rig_add], [rig_mul], [ring_neg] -- against the group case's three, and
@@ -57,7 +57,7 @@ Generalizable All Variables.
    METHOD IS UNCHANGED; only the bookkeeping grows.
 
    ONE PLACE WHERE THE RING SIGNATURE IS GENUINELY DIFFERENT, NOT MERELY
-   BIGGER.  [RigHom] (Theory/Algebra/Rig.v:162) has FOUR clauses --
+   BIGGER.  [RigHom] (Theory/Algebra/Rig.v:210) has FOUR clauses --
    [rig_map_zero], [rig_map_add], [rig_map_one], [rig_map_mul] -- and NO
    clause for negation, because Rig.v:482's [RigHom_neg] proves preservation
    of negation from uniqueness of additive inverses.  Two consequences, both
@@ -104,8 +104,8 @@ Generalizable All Variables.
    @?Complete|Cocomplete" over all [.v] files, the roster before this file
    was [Sets_Complete] and [ConeSet_Complete] (Instance/Sets/Complete.v:196,
    :464), [Sets_Complete_via_Manes] (Structure/Equalizer/Coreflexive.v:602),
-   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:637, :641),
-   [Grp_Complete] (Instance/Grp/Limit.v:691), one biconditional at [Proset]
+   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:655, :659),
+   [Grp_Complete] (Instance/Grp/Limit.v:706), one biconditional at [Proset]
    (Instance/Proset/Limit.v:549) and two probe files -- nothing for [Rng],
    [Ab], [CMon], [RMod], [Mon] or [Top].
 
@@ -136,17 +136,17 @@ Generalizable All Variables.
    Functor/Hom/Continuous.v:319's [Section Transport] and :371's
    [ContinuousFunctor_transport] are exactly that construction.  So the
    honest statement is that continuity of [Rng_Forget] WAS reachable before
-   this file, by [zpoly_representation] (Instance/Rng/Polynomial.v:791) and
+   this file, by [zpoly_representation] (Instance/Rng/Polynomial.v:823) and
    [zpoly_representable] (:795) — note the names; a previous revision cited
    a [zpoly_hom_iso] that does not exist anywhere in the tree — composed
-   with Functor/Hom/Limit.v:338's [hom_ContinuousFunctor] and then
+   with Functor/Hom/Limit.v:349's [hom_ContinuousFunctor] and then
    transported.
 
    RAPL is not the route, and here too the earlier revision's PREMISE was
    wrong while its conclusion held.  It said "the only ring adjunction in
    tree is [free_rng_ab_adjunction]"; there are at least four
-   ([free_rng_ab_adjunction], Instance/Rng/Free.v:676;
-   [zmring_adjunction], Instance/Rng/MonoidRing.v:726;
+   ([free_rng_ab_adjunction], Instance/Rng/Free.v:719;
+   [zmring_adjunction], Instance/Rng/MonoidRing.v:759;
    [grp_ring_adjunction], Instance/Rng/GroupRing.v:306;
    [poly_pointed_adjunction], Instance/Rng/Pointed.v:231).  What is true is
    the thing that matters: NONE of them has [Rng_Forget : Rng ⟶ Sets] as
@@ -209,15 +209,15 @@ Generalizable All Variables.
    consuming only the category, the forgetful functor and the rig algebra.
 
    NOT delivered.  (1) No creation result for [Rng_Forget_Ab]
-   (Instance/Rng.v:117), and the reason is structural rather than a matter
+   (Instance/Rng.v:118), and the reason is structural rather than a matter
    of effort: the cone-mediator method used below does not transpose to
    [Ab].  Multiplication would need a cone whose apex is a direct sum with
    leg [(a, b) ↦ leg a · leg b], and that map is BILINEAR, not additive, so
    it is not a morphism of [Ab] and there is no cone to take a mediator of;
    the multiplicative unit is worse, since the only canonical maps out of
-   [Ab]'s zero object (Instance/Ab.v:262, :276) send everything to zero and
+   [Ab]'s zero object (Instance/Ab.v:276, :276) send everything to zero and
    so cannot select [1].  The available repair is the free abelian group on
-   one generator (Instance/Ab/Free.v:561's [FreeAb]) as the probe object,
+   one generator (Instance/Ab/Free.v:593's [FreeAb]) as the probe object,
    with the multiplication rebuilt one argument at a time as an
    element-indexed family of mediators [L ⟶ L] and respectfulness in the
    outer argument recovered from joint monicity.  That is a different

@@ -213,7 +213,8 @@ Generalizable All Variables.
       congruences on a term model are then [Prop]-valued and carrier-sized,
       so they index a solution set at exactly the shape-object universe
       2(b)+(c) demands.  The consumers are Instance/Mod/TensorAFT.v (the
-      tensor product of modules and the balanced maps) and
+      tensor product of modules and the balanced maps),
+      Instance/Rng/AFT.v (the free ring over Sets and over Ab) and
       Instance/Grp/FreeAFT.v (the free group), which obtain their objects
       from [representability_theorem] / [GAFT] with no hypothesis beyond
       the ring or the setoid.  Mac Lane's Lemma V.7.2 -- "the spanning
@@ -221,15 +222,46 @@ Generalizable All Variables.
       [SmallUpToIso] of the spanning family (Adjunction/GAFT/Resize.v, with
       [SmallType] in Theory/Size.v), proved through the congruence index.
 
-      WHAT IS ALREADY IN TREE AS THIS BLOCK IS WRITTEN: the [PropEquiv]
-      class, its transports, Test/ProbePropEquiv.v, and all of the universe
-      hygiene item 2 rests on -- the binders on [Complete] below and on
-      [SolutionSet], [GAFT], [SAFT] and [representability_theorem], and the
-      annotation of [DiscreteCat_Functor].  The object records of the
-      algebraic categories, the unconditional tensor and free group, and
-      [SmallUpToIso] land in later commits of the same PR.  A reader who
-      finds one of those missing should read this item as the plan it is,
-      and items 1-3 as measured.
+      WHAT IS IN TREE: all of it.  An earlier revision of this paragraph
+      was headed "WHAT IS ALREADY IN TREE AS THIS BLOCK IS WRITTEN" and
+      listed the [PropEquiv] class, its transports, Test/ProbePropEquiv.v
+      and the universe hygiene of item 2, saying that "the object records
+      of the algebraic categories, the unconditional tensor and free group,
+      and [SmallUpToIso] land in later commits of the same PR" and that a
+      reader who found one of those missing should read this item as the
+      plan it was.  Those commits landed, and the item is now measured
+      throughout rather than planned.  Concretely: the class and its
+      elimination lemma are Lib/Setoid/Propositional.v:127 and :188, the
+      transports through Sets and [LocallyPropositional] are
+      Instance/Sets/Propositional.v:91/:132/:169/:203/:240; the object
+      records carry the field at Instance/CMon.v:70 ([cmon_prop], reaching
+      Ab, RMod, Rg and their satellites by coercion),
+      Theory/Algebra/Rig.v:180 ([rig_prop], reaching Ring, Rng, CRng and
+      Field) and Instance/Grp.v:228 ([grp_prop]); hom-setoids inherit it
+      pointwise and limit vertices from their legs, with no hypothesis on
+      the limit ([alim_prop], [glim_prop], [rlim_prop]); the resizing
+      vocabulary is Adjunction/GAFT/Resize.v with [SmallType] at
+      Theory/Size.v:214; and the applications named above are
+      unconditional, with Mac Lane's own spanning family proved small up
+      to isomorphism at Instance/Mod/TensorAFT.v:2138 and fed to the
+      theorem at :2163.  Every constant of that work is reported "Closed
+      under the global context" and gated.
+
+      WHAT IS STILL NOT IN TREE, so that this item is not read as more
+      than it is: a solution set indexed by a Sigma over the OBJECTS of a
+      concrete algebraic category remains refused, which is item 3 and is
+      unchanged.  [tensor_esols_direct] is still refused as a direct
+      premise (its index carries carrier < index where the congruence
+      index carries carrier <= index); Mac Lane's own [Subgroup G]-indexed
+      family for the free group is not built, the congruence index
+      replacing it rather than resizing it; and [GAFT_from_spanning],
+      although its hand-written [Set] annotation was deleted in the same
+      PR, is still refused at [RMod R], the widened statement wanting
+      objects at or below homs where [RMod R] has homs strictly below
+      objects.  The one new side condition the resolution costs is
+      [Set] < the carrier universe -- the sort of [Prop] reaching the
+      index universe -- measured slot by slot against the conditional
+      forms, costing nothing in practice and nothing at all at [Ab].
 
       SCOPE, because the property is deliberately narrow: [PropEquiv] is a
       property of a SETOID, not a change to [Class Setoid], and internal
@@ -253,7 +285,7 @@ Generalizable All Variables.
    and say only that the datum lives above the levels it quantifies over.
    NOTHING here relates [so] to [h] or to [o]: a complete category may be
    indexed by shapes at any level.  What ties them is the APPLICATION --
-   Adjunction/GAFT.v:249 applies a [Complete] at a discrete shape whose
+   Adjunction/GAFT.v:348 applies a [Complete] at a discrete shape whose
    objects are a solution-set index, and Adjunction/GAFT.v's own binders
    record the identification that forces there.
 

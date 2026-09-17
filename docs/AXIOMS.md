@@ -130,6 +130,28 @@ Run
 make print-assumptions
 ```
 
+The gate grows with the library, and the figure is a measurement with a
+criterion: `grep -c 'Print Assumptions' Makefile` returns **8982** on
+2026-09-17, against **8773** immediately before the PR "algebraic
+carriers are sets". Its phases moved it 8773 → 8808 (universe hygiene
+on the adjoint-functor path) → 8815 (the CMon, Ab, RMod and rig fields)
+→ 8929 (the unconditional tensor, balanced tensor and free rings) →
+8965 (the non-circular free group) and on to the figure above with the
+documentation-and-guards pass. Everything the PR added is gated
+and every gated constant reports "Closed under the global context" —
+the `PropEquiv` class and its transports, the three new object-record
+fields (`cmon_prop`, `rig_prop`, `grp_prop`) and the hom, limit,
+kernel and product transports built on them, `Adjunction/GAFT/Resize.v`
+and `Theory/Size.v`'s `SmallType`, and every constant of the
+unconditional tensor, free-ring and free-group applications. Two gate
+lines were REMOVED and the removal is not a shrinkage of coverage:
+`bs_eq_rect` and `bs_eq_rec` (`Instance/Mod/Bimodule.v`) no longer
+exist, `bs_eq` having become a `Prop` inductive, which generates
+`_ind` and `_sind` only — both of those were already gated two lines
+away, and the recipe carries an in-recipe note saying why, keyed to the phrase "bs_eq_rect and bs_eq_rec were gated here". The
+target stopped compiling until those two lines went, which is worth
+knowing because neither CI nor lefthook runs it.
+
 This (re-)builds the library and prints the assumption set of the
 following specific definitions:
 
@@ -158,11 +180,24 @@ each reported "Closed under the global context":
   and all 241 of #443's three files (75 + 10 for
   `Instance/Ab/Limit.v`, 104 + 18 for `Instance/Rng/Limit.v`, 34 + 0
   for `Instance/Rng/AFT.v`, which uses no `Program` at all) are
-  closed and gated.  Axiom-freedom is NOT existence here: the
-  solution set fed to the theorem is derived from the free-group
-  adjunction the theorem is meant to produce, and the file's header
-  says so in capitals — docs/INHABITATION.md's `GAFT` row carries
-  the same disclosure
+  closed and gated.  An earlier revision of this entry added
+  "Axiom-freedom is NOT existence here: the solution set fed to the
+  theorem is derived from the free-group adjunction the theorem is
+  meant to produce, and the file's header says so in capitals —
+  docs/INHABITATION.md's `GAFT` row carries the same disclosure".
+  That was true when written and is now superseded: in the PR
+  "algebraic carriers are sets" (2026-09-17) all three applications
+  were retargeted onto solution sets indexed by the `Prop`-valued
+  congruences on the relevant term model
+  (`Grp_Forget_solution_set_prop`, `Rng_Forget_Ab_solution_set_prop`,
+  `Rng_Forget_solution_set_prop`), which presuppose no adjunction; the
+  circular ones are kept beside them as removal candidates.  Each new
+  constant of that work reports "Closed under the global context", and
+  so does every application built on it, so axiom-freedom and
+  existence now coincide at these three instances.  The same PR adds
+  the unconditional tensor product of modules and balanced tensor
+  (`Instance/Mod/TensorAFT.v`) through `representability_theorem`,
+  likewise closed and gated
 - `beck_monadicity` and `monadic_creates`
   (`Monad/Monadicity/Beck.v`) — Beck's precise monadicity theorem
 - `RoundTrip_Equivalence` (`Construction/Grothendieck/RoundTrip.v`) —

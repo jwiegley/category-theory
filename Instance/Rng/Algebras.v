@@ -43,7 +43,7 @@ Generalizable All Variables.
 
     WHAT IS ALREADY IN TREE.  The exercise's first half — the category
     [CRng] of commutative rings — is Instance/Rng.v's, not this file's:
-    [CRng_Sub] (Instance/Rng.v:381) selects the commutative [RingObject]s
+    [CRng_Sub] (Instance/Rng.v:395) selects the commutative [RingObject]s
     and retains every [Rng]-morphism between them, [CRng] (:388) is
     [Sub Rng CRng_Sub], [CRng_Full] (:390) records the fullness, and
     [Int_CRng] (:398) is the witness ℤ.  Consequently an object of [CRng]
@@ -135,8 +135,8 @@ Generalizable All Variables.
 
       * [KAlg K : Category@{o h h}] identifies the hom and proof
         universes.  That is [Rng]'s own shape — [Rng@{u u0} :
-        Category@{u u0 u0}] (Instance/Rng.v:80), which comes from
-        [RigHom_Setoid : Setoid@{h h}] (Theory/Algebra/Rig.v:184) — and
+        Category@{u u0 u0}] (Instance/Rng.v:103), which comes from
+        [RigHom_Setoid : Setoid@{h h}] (Theory/Algebra/Rig.v:232) — and
         [CRng] carries it through [Sub].  Nothing here narrows it.
 
       * Six constants print a literal [Set] as a universe instance
@@ -144,8 +144,8 @@ Generalizable All Variables.
         [Q_KAlg_in_Coslice], [Z_KAlg], [Z_KAlg_unit_unique].  In each case
         the donor is already pinned: [ZtoQ] is typed
         [hom Int_Ring@{Set Set Set} Q_Ring@{Set Set Set}]
-        (Instance/Rng.v:461), and [rng_from_Z] takes
-        [R : RingObject@{Set Set Set}] (Instance/Rng.v:332).  Three
+        (Instance/Rng.v:484), and [rng_from_Z] takes
+        [R : RingObject@{Set Set Set}] (Instance/Rng.v:346).  Three
         further constants ([Q_KAlg_unit_computes],
         [Q_KAlg_unit_not_surjective], [Q_KAlg_is_canonical]) mention
         [Q_KAlg] and inherit the same instance without printing it.  The [KAlg] spine and both isomorphisms carry no [Set]
@@ -416,7 +416,7 @@ Definition Int_to_Q_KAlg : Int_KAlg ~{KAlg Int_CRng}~> Q_KAlg :=
   (ZtoQ; Int_to_Q_triangle).
 
 (* More generally, EVERY commutative ring is a ℤ-algebra, canonically:
-   [Rng_Initial_Z] (Instance/Rng.v:369) makes ℤ initial in [Rng], so the
+   [Rng_Initial_Z] (Instance/Rng.v:383) makes ℤ initial in [Rng], so the
    structure map is not a choice.  This is the general reason the coslice
    under ℤ is the whole of [CRng] again — a statement not made here. *)
 Definition Z_KAlg (A : CRng) : KAlgObject Int_CRng :=

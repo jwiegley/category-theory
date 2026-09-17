@@ -117,7 +117,7 @@ Generalizable All Variables.
    Structure/Biproduct.v:51's [bi_exl_inl] is a FIELD of the [Biproduct]
    record -- assumed data about that record's own [bi_inl], not about
    [inl], and no [Cocartesian] structure is in sight.  (iii)
-   Instance/Grp/Pushout.v:644,653 prove the free-product injections of
+   Instance/Grp/Pushout.v:699,653 prove the free-product injections of
    [Grp] split and are monic, but concretely and from a FACTORIZATION
    hypothesis ([am_inj1_Section_of_factor]) rather than from a zero object.
    Adjacent but not subsuming: Structure/Pushout/Split.v:191's
@@ -303,8 +303,8 @@ Generalizable All Variables.
    CHOICE, NOT AN UNAVAILABILITY: an earlier draft of this paragraph
    explained the gap by the witness category alone, which misleads.  The
    tree carries SIX registered [ZeroObject] instances -- [Grp_Zero]
-   (Instance/Grp.v:600), [Ab_Zero] (Instance/Ab.v:276), [CMon_Zero]
-   (Instance/CMon/Biproduct.v:160), [RMod_Zero] (Instance/Mod.v:389),
+   (Instance/Grp.v:679), [Ab_Zero] (Instance/Ab.v:290), [CMon_Zero]
+   (Instance/CMon/Biproduct.v:160), [RMod_Zero] (Instance/Mod.v:439),
    [Rel_Zero] (Instance/Rel/Dagger.v:191), [PointedSets_Zero]
    (Instance/Sets/Pointed.v:302) -- and [Ab] supplies BOTH hypotheses as
    exported instances, [Ab_Cocartesian] being Instance/Ab/Coproduct.v:228.

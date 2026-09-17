@@ -162,7 +162,7 @@ Generalizable All Variables.
    singleton.
 
    [HasEqualizers Sets] ALREADY EXISTS THREE TIMES OVER in library files --
-   [Sets_HasEqualizers] (Adjunction/GAFT/Sets.v:175), [SetsEqualizers]
+   [Sets_HasEqualizers] (Adjunction/GAFT/Sets.v:191), [SetsEqualizers]
    (Adjunction/CokernelPair.v:1119) and [DiagSets_HasEqualizers]
    (Adjunction/Diagonal/Finite.v:1129) -- so no fourth is added here, and
    the issue's checkbox asking for the class "delivered by name" is already

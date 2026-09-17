@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -377,22 +378,36 @@ Fail Definition n2_gaft_from_spanning_refused {R : RingObject}
 
 (** ** NEGATIVE 3 (UNIVERSE): the same at [Ab], for Exercise 3
 
-    RE-MEASURED 2026-09-17.  Stripped and re-run, the message is now
+    RE-MEASURED 2026-09-17, by stripping this section's [Fail] in a copy of
+    this WHOLE file and reading the first error.  The message is now
 
       The term "bal_esols_direct N M" has type
-       "ElementSolutionSet@{u_idx u_carrier u_idx u_idx} (BalBiadd ... N M)"
+       "ElementSolutionSet@{u_idx u_carrier u_Sets u_idx}
+          (BalBiadd ... N M)"
       while it is expected to have type
-       "ElementSolutionSet@{u_a u_b u_a u_b} (BalBiadd ... N M)"
+       "ElementSolutionSet@{u_a u_b u_Sets' u_b} (BalBiadd ... N M)"
       (universe inconsistency: Cannot enforce u_a = u_b because
        u_b < u_a)
 
-    RECORDED CORRECTION: an earlier revision quoted the expected type as
+    Six generated universes appear, and the substitution above is
+    positional and injective: [u_idx]/[u_carrier]/[u_Sets] are the three
+    distinct levels of the ACTUAL type (the first and fourth slots share
+    [u_idx]), and [u_a]/[u_b]/[u_Sets'] the three of the EXPECTED type (the
+    second and fourth share [u_b]).  The third slot is its own universe on
+    both sides and takes no part in the clause.
+
+    RECORDED CORRECTIONS, both to earlier revisions of this paragraph.
+    First, the expected type was once quoted as
     "ElementSolutionSet@{u_obj' Set u_obj' Set}" and the clause as
     "Cannot enforce Set = u_obj' because Set < u_obj'".  The literal [Set]
     is gone -- it was Instance/Discrete.v's minimization, repaired in the
-    PR "algebraic carriers are sets" -- and the refusal is unchanged in
-    substance: the first and third slots want the same level as the second
-    and fourth, and the supplied index sits strictly above them.
+    PR "algebraic carriers are sets" (2026-09-17).  Second, a revision of
+    that repair mapped two distinct universes onto one readable name in
+    each type and glossed the refusal as "the first and third slots want
+    the same level as the second and fourth".  As measured that gloss is
+    false: the inconsistency is between the FIRST slot and the level
+    filling the second and fourth, the supplied index sitting strictly
+    above it.  The refusal is unchanged in substance either way.
 
     So Exercise 3's AFT clause is conditional for exactly the reason the
     commutative one is. *)
@@ -422,7 +437,11 @@ Fail Definition n3_bal_direct_esols_refused {X : RingObject}
     carriers are sets" (2026-09-17), Instance/Discrete.v:81, it is gone,
     and [tensor_via_AFT] elaborates over a ring whose carrier universe is
     declared strictly above [Set].  The line is kept as a positive control
-    at exactly the levels that used to refuse it.
+    at exactly the levels that used to refuse it, and the declaration is
+    made on the CARRIER slot -- [RingObject]'s second, as the note on the
+    section below measures -- so that it is the positive half of the side
+    condition NEGATIVE 8 refuses, and not a weaker statement about the
+    record's own level.
 
     THE WALL OF NEGATIVES 1-3 IS NOT LIFTED BY THIS.  Those three are
     carrier-versus-index refusals, and they survive with the literal [Set]
@@ -433,7 +452,19 @@ Fail Definition n3_bal_direct_esols_refused {X : RingObject}
 Section SetPin.
 
 Universes pra prb prc.
-Constraint Set < pra.
+
+(* The CARRIER is [RingObject]'s SECOND slot, not its first: measured with
+   [Context (Rr : RingObject@{pa pb pc})] and
+   [Definition t : Type := carrier (rig_setoid Rr)], whose block is
+   [pb <= pa / pb <= u / pc <= pa] -- so the carrier's level is [pb] and
+   the first slot is the record's own.  An earlier revision of this section
+   declared [Constraint Set < pra] and the prose below called that the
+   carrier; [Set < pra] is a strictly WEAKER declaration, and is implied by
+   the one made here ([tensor_via_AFT] carries carrier <= record).  Fixed in
+   the PR "algebraic carriers are sets" (2026-09-17), so that this positive
+   control and NEGATIVE 8's [Constraint pb = Set] speak about the same
+   slot. *)
+Constraint Set < prb.
 
 Context (Ru : RingObject@{pra prb prc}).
 Context (Vu Vu' : RModObject Ru).
@@ -460,10 +491,10 @@ Fail Example n5_aft_object_not_definitional {R : RingObject}
        delivered
 
     [preserves_image_of_representable (tensor_repr_of_UE V V')]
-    (Adjunction/Representability/Sets.v:365) inhabits the same type as
+    (Adjunction/Representability/Sets.v:450) inhabits the same type as
     [Bilin_PreservesImageLimit], and is checked as a control above -- but it
     derives the theorem's hypothesis from the very tensor the theorem is
-    meant to construct, which is the circularity Instance/Ab/Limit.v:57-67
+    meant to construct, which is the circularity Instance/Ab/Limit.v:58-68
     and Instance/Grp/FreeAFT.v:406-416 name.  The delivered term is a
     DIFFERENT one, built elementwise over the created limits of
     Instance/Mod/Limit.v, and this pins that the two are not the same

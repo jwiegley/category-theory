@@ -260,7 +260,7 @@ Proof.
 Qed.
 
 (* "... equals {p | p = Rq for some q}".  Forward through [closed_r_eq],
-   backward through Instance/Grp/Galois.v:467's [gal_closed_r_image]; the
+   backward through Instance/Grp/Galois.v:471's [gal_closed_r_image]; the
    mutual-relatedness form of the same fact is that file's
    [gal_closed_r_iff] (:485), which antisymmetry would turn into Mac
    Lane's equation and which is not applied here. *)

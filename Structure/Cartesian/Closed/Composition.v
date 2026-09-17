@@ -122,7 +122,7 @@ Generalizable All Variables.
    the unit and associativity theorems above, so the enrichment adds no
    equational content of its own.  [Sets_Enriched] instantiates it.
    Self-enrichment as such is NOT new in tree --
-   Construction/Enriched/Ab.v:370's [Enriched_Ab_itself] is an
+   Construction/Enriched/Ab.v:437's [Enriched_Ab_itself] is an
    [@Enriched Ab Ab_Monoidal] -- so the gap this closes is the narrower
    one: no CARTESIAN CLOSED category was enriched over itself.  Nor is
    [CC_Monoidal] a first, and the reason it looks like one is an ALIAS:

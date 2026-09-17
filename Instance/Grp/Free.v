@@ -29,7 +29,7 @@ Generalizable All Variables.
 (* The global obligation tactic is [cat_simpl], which would run wide proof
    searches on the group obligations below and has already introduced the
    parameters by the time an obligation is opened.  Switched off here, the
-   [Instance/Grp.v:396] idiom, so every obligation starts with an explicit
+   [Instance/Grp.v:429] idiom, so every obligation starts with an explicit
    [intros]. *)
 #[local] Obligation Tactic := idtac.
 

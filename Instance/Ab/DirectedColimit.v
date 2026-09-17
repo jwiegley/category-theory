@@ -34,15 +34,15 @@
     between the two is proved in this file.
 
     [AbSubgroup] IS NEW, AND THE SURVEY BEHIND THAT HAS BEEN CORRECTED.
-    Instance/Grp/Quotient.v:156's [Subgroup] is over [GrpObject], a flat
+    Instance/Grp/Quotient.v:177's [Subgroup] is over [GrpObject], a flat
     record with [grp_unit]/[grp_mul]/[grp_inv] -- a different type from
     [AbObject], which layers [ab_neg] over Instance/CMon.v's [CMonObject]
-    and so speaks [cmon_zero]/[cmon_plus].  Instance/Mod/Quotient.v:211's
+    and so speaks [cmon_zero]/[cmon_plus].  Instance/Mod/Quotient.v:229's
     [Submodule] is over [RModObject] and carries a fifth field, [smod_smul],
     closure under a scalar action, which an abelian group has nothing to
     supply.  Those two have DIFFERENT shapes from each other -- membership
     plus four laws in both cases, but [Submodule]'s fourth is scalar-closure
-    and it has NO negation field at all (Instance/Mod/Quotient.v:239 captions
+    and it has NO negation field at all (Instance/Mod/Quotient.v:257 captions
     its negation lemma "THE FIFTH FIELD THAT IS NOT A FIELD").
 
     A THIRD RECORD EXISTS AND AN EARLIER DRAFT OF THIS HEADER MISSED IT.
@@ -61,7 +61,7 @@
     draft made a different, false one.  The miss was avoidable -- the donor
     header quoted in the next paragraph names that very record TWICE, four
     lines above the line this file cites.  Read the relation to the existing
-    tree precisely.  Instance/Mod/Quotient.v:136 already records that "the
+    tree precisely.  Instance/Mod/Quotient.v:144 already records that "the
     honest unifier is an [AbSubgroup] interface in Instance/Ab.v itself, of
     which [Submodule] would then be the module-level extension"; THIS FILE
     DOES NEITHER of those things.  The record is declared here rather than
@@ -266,7 +266,7 @@ Generalizable All Variables.
 
 (** * Subgroups of an abelian group *)
 
-(* Membership plus four laws, in the shape Instance/Grp/Quotient.v:156's
+(* Membership plus four laws, in the shape Instance/Grp/Quotient.v:177's
    [Subgroup] and Instance/Mod/Quotient.v:211's [Submodule] share.  It is
    [Type]-valued because the library's `≈` is, and because the diagram's
    [fmap] below must APPLY an inclusion to a membership witness -- see the
@@ -292,7 +292,7 @@ Arguments absub_neg {A} _ _ _.
 (** ** A subgroup as an object of Ab *)
 
 (* The sigma carrier over membership, compared on elements only -- the shape
-   Instance/Ab.v:299's [ab_ker_carrier] and Instance/Grp/Quotient.v:199's
+   Instance/Ab.v:335's [ab_ker_carrier] and Instance/Grp/Quotient.v:220's
    [sub_carrier] use, so a membership witness carries no equational weight
    and two witnesses of one element are already identified. *)
 Section Subgroup.
@@ -524,7 +524,9 @@ Defined.
    the underlying element alone ([fg_diagram_fmap_elem] below records that
    by [eq_refl]); since the subgroup carriers compare first projections,
    all six obligations -- the three of the [CMonHom] and the three functor
-   laws -- are discharged by the ambient obligation tactic. *)
+   laws -- are discharged by the ambient obligation tactic.  Still six
+   after the PR "algebraic carriers are sets" (2026-09-17), re-counted
+   from [Print Module]. *)
 Program Definition FGDiagram (A : AbObject) : FGSub A ⟶ Ab := {|
   fobj := fun X => AbSubgroupAb (fg_sub X);
   fmap := fun X Y f =>

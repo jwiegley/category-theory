@@ -213,7 +213,7 @@
     landing: [punit_eq] is Instance/Cat/Pullback.v:578's (same statement,
     a module deliberately not required), and [CB] matched the section
     variables of two files and a section-local [Notation CB]
-    (Structure/Limit/Power/Adjunction.v:1717) — not global collisions,
+    (Structure/Limit/Power/Adjunction.v:1726) — not global collisions,
     but a two-letter global name in a gate that loads many modules into
     one scope is a hazard, hence [ChaoticBool]; [CBtrue]/[CBfalse]
     matched nothing and were renamed with it ([ChaoticBool_true]/

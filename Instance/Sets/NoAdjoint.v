@@ -45,7 +45,7 @@ Generalizable All Variables.
        [two_left_adjoint_proper : HasRightAdjoint … → False]; an earlier
        revision counted seven): quantified over the candidate —
        Instance/Top/Image.v:232 [nat_inf_no_left_adjoint],
-       Instance/Monoid/Translation.v:694 [nat_translation_no_right_adjoint]
+       Instance/Monoid/Translation.v:699 [nat_translation_no_right_adjoint]
        and :704 [nat_no_right_adjoints], Adjunction/Choice.v:818
        [two_const_Y_no_right_adjoint], Instance/Proset/Galois.v:351
        [succ_not_self_adjoint]; [(∃ L, L ⊣ G) → False] —

@@ -64,7 +64,7 @@ Generalizable All Variables.
        ([grp_mul_inv_r], [grp_mul_unit_r]) by the classical argument that
        runs left inverse + associativity into right inverse and then into
        the right unit law.  This is the group-theoretic strengthening of
-       what Instance/CMon.v:49 does with commutativity, where only
+       what Instance/CMon.v:77 does with commutativity, where only
        [cmon_plus_zero_r] is derivable.
 
      - [grp_inv] carries NO respectfulness field.  Congruence of inversion
@@ -80,7 +80,7 @@ Generalizable All Variables.
        Lib/Setoid/Propositional.v rather than proved by hand.)
 
    [GrpHom] does keep unit preservation as a field alongside
-   multiplication preservation, matching [CMonHom] (Instance/CMon.v:58)
+   multiplication preservation, matching [CMonHom] (Instance/CMon.v:86)
    and the issue's stated shape.  That field is REDUNDANT, and the file
    says so constructively rather than in prose: [grp_map_unit_from_mul]
    derives it from multiplication preservation alone by cancelling
@@ -137,7 +137,7 @@ Generalizable All Variables.
    different objects; in [Grp] the one-element group is BOTH, because
    there is no empty group (a group must contain a unit) and because a
    homomorphism out of the trivial group is pinned by [grp_map_unit].
-   [Grp_Zero] records the coincidence.  Instance/CMon/Biproduct.v:160
+   [Grp_Zero] records the coincidence.  Instance/CMon/Biproduct.v:162
    makes the same observation for commutative monoids, where it is the
    first step of a semiadditive structure; groups go further -- [Grp] is
    not semiadditive, since the direct product is not a biproduct unless
@@ -402,7 +402,7 @@ Qed.
 (* The unit-preservation FIELD of [GrpHom] is redundant: it follows from
    multiplication preservation by cancelling f e from
    f e * f e ≈ f (e * e) ≈ f e ≈ f e * e.  The field is retained anyway,
-   to mirror [cmon_map_zero] at Instance/CMon.v:61 and to keep the
+   to mirror [cmon_map_zero] at Instance/CMon.v:89 and to keep the
    projection available without a detour; [Build_GrpHom'] is the
    constructor that exploits the redundancy. *)
 Lemma grp_map_unit_from_mul {G H : GrpObject}

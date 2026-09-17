@@ -224,7 +224,7 @@ Require Import Category.Instance.Two.
 
     [InjectiveOnObjects] is new: the tree's only prior statements of that
     shape are [GrpAt_Incl_injective_on_objects]
-    (Instance/Grp/TwoFunctors.v:363) and [slice_arrow_reflect]/
+    (Instance/Grp/TwoFunctors.v:366) and [slice_arrow_reflect]/
     [coslice_arrow_reflect] (Instance/Cat/Pullback.v:716, :885, each
     under that section's [ObjUIP C]; its comment at :708 names the
     property), each for one concrete functor, with no general predicate

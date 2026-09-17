@@ -103,7 +103,7 @@
       [Enriched_Ab_itself] uses, and [RMod_LocallyPropositional]
       (Instance/Mod.v:337), [CMon_LocallyPropositional]
       (Instance/CMon.v:236) and [DeloopRig_LocallyPropositional]
-      (Theory/Algebra/Rig.v:357) serve the others. *)
+      (Theory/Algebra/Rig.v:392) serve the others. *)
 
 Require Import Coq.ZArith.BinInt.
 

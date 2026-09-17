@@ -127,7 +127,7 @@ Generalizable All Variables.
 
        Injectivity of ⌊-⌋ is [reflective_to_adj_inj], four tactic lines
        from [to_adj_comp_law] and [from_adj_respects].  The tree does carry
-       this fact already, as [adj_to_inj] (Adjunction/Additive.v:266), but
+       this fact already, as [adj_to_inj] (Adjunction/Additive.v:306), but
        that file is not in this one's dependency closure and requiring it
        would drag the whole Ab-enrichment layer behind every consumer of
        reflective limits; restating it locally costs four tactic lines.
@@ -350,7 +350,7 @@ Definition reflective_Incl_Full : Functor.Full I :=
   Full_Implies_Full_Functor C S (reflective_full R).
 
 (* Injectivity of the forward transpose.  [adj_to_inj]
-   (Adjunction/Additive.v:266) is the same fact, in a module outside this
+   (Adjunction/Additive.v:306) is the same fact, in a module outside this
    file's closure. *)
 
 Lemma reflective_to_adj_inj {x : C} {y : Sub C S}

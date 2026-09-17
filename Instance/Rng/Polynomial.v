@@ -83,9 +83,9 @@ Generalizable All Variables.
         (Instance/Coq/Monoid/Free.v:297) with [free_monoid_adjunction]
         (:326);
       - free group — [free_group_universal_arrow]
-        (Instance/Grp/Free.v:405) with [free_group_adjunction] (:437);
+        (Instance/Grp/Free.v:495) with [free_group_adjunction] (:437);
       - free R-module — [free_module_universal_arrow]
-        (Instance/Mod/Free.v:487) with [free_module_adjunction] (:517),
+        (Instance/Mod/Free.v:537) with [free_module_adjunction] (:517),
         and the vector-space case in Instance/Vect/Free.v;
       - polynomial algebra — this file.
 
@@ -204,7 +204,7 @@ Generalizable All Variables.
         examples;
       - [rng_monic_injective] and [rng_monic_iff_injective]:
         monomorphisms of rings are injective, which is the result
-        Instance/Rng.v:70 deferred pending the polynomial ring ℤ[x]
+        Instance/Rng.v:71 deferred pending the polynomial ring ℤ[x]
         (paraphrased -- that file's wording is "the polynomial ring
         ℤ[x], which does not exist in-tree");
       - the non-degeneracy results above, and computing witnesses.
@@ -851,7 +851,7 @@ Defined.
 
 (** * Monomorphisms of rings are injective *)
 
-(** The probe Instance/Rng.v:70 records as missing.  Two elements of R
+(** The probe Instance/Rng.v:71 records as missing.  Two elements of R
     are separated by the two homomorphisms out of ℤ[x] that send x to
     them; a monomorphism identifies those homomorphisms only if it
     identifies the elements. *)

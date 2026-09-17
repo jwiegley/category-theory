@@ -287,7 +287,7 @@ Qed.
    a [Set+1], the elaborator stops identifying the record's own sort variable
    with the category's object universe, and [Rig] would acquire a third,
    redundant universe -- refusing the `Rig@{uo uh}` annotations of
-   Instance/Rng/Free.v:1197 and :1200 for arity.  Measured after the change,
+   Instance/Rng/Free.v:1240 and :1200 for arity.  Measured after the change,
    [Rig@{u p} : Category@{u p p}] with the one new constraint [Set < u]. *)
 Program Definition Rig@{u p} : Category@{u p p} := {|
   obj     := RigObject@{p p p};

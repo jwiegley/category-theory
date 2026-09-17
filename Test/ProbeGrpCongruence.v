@@ -155,7 +155,13 @@ Fail Definition negative_round_strict {G : GrpObject} (N : NormalSubgroup G)
 
 (** ** Negative 3: the quotient category is not the delooping, on the nose *)
 
-(* POSITIVE CONTROLS: hom type and identity agree by [eq_refl]. *)
+(* POSITIVE CONTROLS: objects, hom type, identity and composition agree by
+   [eq_refl] -- the four items Instance/Grp/Congruence.v:324 claims.  The
+   object leg was measured but unguarded until the PR "algebraic carriers
+   are sets" (2026-09-17); it is [control_quotient_obj] below. *)
+Example control_quotient_obj {G : GrpObject} (N : NormalSubgroup G) :
+  obj[deloop_quotient N] = obj[grp_deloop (QuotientGrp N)] := eq_refl.
+
 Example control_quotient_hom {G : GrpObject} (N : NormalSubgroup G) :
   (ttt ~{deloop_quotient N}~> ttt)
     = (ttt ~{grp_deloop (QuotientGrp N)}~> ttt) := eq_refl.

@@ -166,7 +166,7 @@ Generalizable All Variables.
    [HasEqualizers_of_HasPullbacks_Terminal] fed
    Instance/Sets/Pullback.v's [Sets_HasPullbacks] and
    Instance/Sets.v:253's [Sets_Terminal]; 25 for
-   Adjunction/GAFT/Sets.v:175's [Sets_HasEqualizers]; 40 for
+   Adjunction/GAFT/Sets.v:191's [Sets_HasEqualizers]; 40 for
    Adjunction/Diagonal/Finite.v:1129's [DiagSets_HasEqualizers].  The
    reduction route is taken.  It is ALSO universe-clean, but so is the
    GAFT one, and the contrary suggestion is corrected here rather than

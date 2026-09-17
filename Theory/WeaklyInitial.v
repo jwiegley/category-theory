@@ -282,7 +282,7 @@ Qed.
     an explicit supply — [initial_from_weakly_initial_complete] and
     [initial_iff_weakly_initial_family_complete] (likewise [Defined], with
     its own [_fst] readback).  The [Complete]-only variant is NOT here:
-    [Complete_HasEqualizers] lives downstream, in Adjunction/GAFT.v:193,
+    [Complete_HasEqualizers] lives downstream, in Adjunction/GAFT.v:214,
     which [Require]s this file, and re-deriving it here would duplicate a
     downstream definition.  Read the universes of the [_complete] form:
     [Complete]'s first two levels are the family's index level (the
@@ -345,10 +345,10 @@ Qed.
     +19 inside it): [initial_from_weakly_initial] is :102 not :89, [Record
     WeaklyInitialFamily] :71 not :58, [endo_absorb] :138 not :119, and the
     uniqueness chase's [assert (Hk : …)] :173 not :154; :44 and
-    Adjunction/GAFT.v:210 happen to be right.  Every substantive absence
+    Adjunction/GAFT.v:244 happen to be right.  Every substantive absence
     claim is TRUE:
     [Build_WeaklyInitialFamily] has exactly one use tree-wide
-    (Adjunction/GAFT.v:214), nothing built a family from an [Initial], no
+    (Adjunction/GAFT.v:250), nothing built a family from an [Initial], no
     constant named [WeaklyInitial] existed (all 29 word hits over `*.v`,
     31 counting `_CoqProject`, were the module path).  Two sentences of
     the existing headers were FALSE and are

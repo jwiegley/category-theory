@@ -56,7 +56,7 @@ Generalizable All Variables.
 (* Why there is no route through completeness, and what was in tree
 
    The equalizer story in [Sets] runs through a general theorem:
-   [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
+   [Complete_HasEqualizers] (Adjunction/GAFT.v:214) turns any [Complete]
    category into one with equalizers, and Adjunction/GAFT/Sets.v:175
    applies it to [Sets_Complete] to get [Sets_HasEqualizers].  The dual
    route was not available when this file was written: [Cocomplete Sets]

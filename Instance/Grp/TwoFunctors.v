@@ -27,7 +27,7 @@ Generalizable All Variables.
    WHAT IS BUILT.
 
      - [Grp_conj]: conjugation a ↦ t * a * t⁻¹ by an element t of a group,
-       as a morphism of [Grp] (Instance/Grp.v:466), and [Grp_conj_iso]
+       as a morphism of [Grp] (Instance/Grp.v:532), and [Grp_conj_iso]
        exhibiting it as an isomorphism with inverse the conjugation by
        t⁻¹.  These are the inner automorphisms.
 
@@ -65,11 +65,11 @@ Generalizable All Variables.
    than by assertion.  First, conjugation in an ABELIAN group is the
    identity automorphism ([Grp_conj_abelian]), so a conjugation twist over
    an abelian group proves nothing; the in-tree abelian witness Z/2
-   (Instance/Grp.v:1087) is shown to collapse in exactly that way
+   (Instance/Grp.v:1188) is shown to collapse in exactly that way
    ([Z2_conj_trivial]).  Second, and more generally, a twist by a NATURAL
    family collapses ([Twist_natural_strict_id]); the canonical
    group-theoretic family, inversion viewed as the isomorphism from a
-   group to its opposite (Instance/Grp.v:886, :944), is natural, and its
+   group to its opposite (Instance/Grp.v:975, :944), is natural, and its
    twist is therefore an endofunctor of the whole of [Grp] with the
    identity object function that is strictly EQUAL to [Id]
    ([Grp_op_twist_is_Id]).  The conjugation family on [GrpAt S3] escapes
@@ -485,7 +485,7 @@ Proof. exact S3_two_functors_distinct. Qed.
 (** ** The uniform candidate over all of Grp, and its collapse *)
 
 (* Inversion as an isomorphism from a group to its opposite
-   (Instance/Grp.v:886, :898); both round trips are [grp_inv_inv]. *)
+   (Instance/Grp.v:975, :987); both round trips are [grp_inv_inv]. *)
 Definition Grp_inv_iso (G : GrpObject) : @Isomorphism Grp G (Grp_Op G).
 Proof.
   unshelve notypeclasses refine
@@ -514,7 +514,7 @@ Proof. reflexivity. Qed.
    natural family produces nothing new ([Twist_natural_strict_id]).  So
    this candidate -- a family of isomorphisms available uniformly at every
    group, and the one the tree already builds as [Grp_op_Isomorphism]
-   (Instance/Grp.v:944) -- does not answer the exercise, and the file does
+   (Instance/Grp.v:1033) -- does not answer the exercise, and the file does
    not pretend otherwise. *)
 Theorem Grp_op_twist_is_Id :
   @equiv _ Functor_StrictEq_Setoid Grp_op_twist (@Id Grp).

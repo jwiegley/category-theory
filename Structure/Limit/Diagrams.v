@@ -153,7 +153,7 @@ Generalizable All Variables.
      - [LimDiagrams@{u u0 u1 u2 u3 u4}] over [C : Category@{u u0 u0}]
        carries [u2 <= u0]: the index categories' OBJECT level at or below
        the target's HOM level — the smallness side condition, arriving on
-       its own from [Complete]'s quantification (Structure/Complete.v:115).
+       its own from [Complete]'s quantification (Structure/Complete.v:305).
      - [dlim_map_fixed] and [lim_obj_is_dlim] carry [u0 = u3] and
        [u1 = u4]: [Complete]'s index levels identified with the fixed
        shape's, the identification [HasLimitsOfShape] makes; [fixed_hom],

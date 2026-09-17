@@ -51,14 +51,14 @@ Generalizable All Variables.
     THE ISSUE'S "CURRENT STATE" IS BADLY STALE, AND THIS FILE SAYS SO
     RATHER THAN REPEATING IT.  #400 says "none of the three categories
     exists" and "not one of the six functors the exercise needs is
-    defined".  That is false: [Grp] (Instance/Grp.v:466), [Ab]
-    (Instance/Ab.v:201) and [Rng] (Instance/Rng.v:97, a [Definition]
-    aliasing [Ring]) all exist, with [Ab_Forget] (Instance/Ab.v:217),
-    [Rng_Forget_Ab] (Instance/Rng.v:112), [Mon_Forget]
+    defined".  That is false: [Grp] (Instance/Grp.v:532), [Ab]
+    (Instance/Ab.v:215) and [Rng] (Instance/Rng.v:97, a [Definition]
+    aliasing [Ring]) all exist, with [Ab_Forget] (Instance/Ab.v:231),
+    [Rng_Forget_Ab] (Instance/Rng.v:113), [Mon_Forget]
     (Theory/Algebra/Monoid/Hom.v:93) and [Rng_Forget_Mon]
-    (Instance/Rng/MonoidRing.v:226) among them, and the monoid ring
+    (Instance/Rng/MonoidRing.v:227) among them, and the monoid ring
     exists WITH its adjunction ([MonoidRingFunctor],
-    [zmring_adjunction], Instance/Rng/MonoidRing.v:723,:726).  The
+    [zmring_adjunction], Instance/Rng/MonoidRing.v:756,:759).  The
     issue's own QA correction supersedes its work items 1-2 ("consume the
     free monoid, do not rebuild"), and that instruction was blocked by a
     CATEGORY MISMATCH: the in-tree free monoid of Instance/Coq/Monoid/Free.v
@@ -206,7 +206,7 @@ Generalizable All Variables.
     [RngUnderlyingMon] and [free_ring_via_mon] are
     [Functor@{u Set Set u Set Set}] -- hom and proof universes pinned at
     [Set].  The pin is located exactly and is NOT this file's:
-    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:292) has source [Rig@{u Set}],
+    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:347) has source [Rig@{u Set}],
     and [Rng_Forget_Mon] is [Rig_Forget_Mon ◯ Ring_Forget_Rig].  Both are
     rejected under a declared [Constraint Set < uh] while [Rng_Forget_Ab]
     and [Rig_Forget_CMon] elaborate there.  Read that guard precisely:
@@ -235,7 +235,7 @@ Generalizable All Variables.
     non-commuting matrix units of [UT2]
     (Instance/Rng/Algebras/Associative.v, the FIRST closed
     non-commutative [RingObject] in tree; [Lam2],
-    Instance/Vect/TensorAlgebra.v:1240, is a second, so "only" would be
+    Instance/Vect/TensorAlgebra.v:1297, is a second, so "only" would be
     false); both products COMPUTE, so the
     separation is [discriminate] on closed data.  That witness is not
     beside the exercise: [rng_two_gens_is_via_ab] records by [eq_refl]
@@ -455,7 +455,7 @@ Example free_rng_ab_carrier_is_FRTerm :
 (* The corresponding reading through the MONOID route is deliberately NOT
    stated here.  [Rng_Forget_Mon] is instantiable only at
    [RingObject@{Set Set _}] (the pin is [Rig_Forget_Mon]'s,
-   Theory/Algebra/Rig.v:292), and a section variable's universes are fixed
+   Theory/Algebra/Rig.v:347), and a section variable's universes are fixed
    by everything stated in the section, so writing that Example here would
    confine the WHOLE free-ring construction to [Set]-sized abelian groups.
    It is stated instead in the §IV.8 section below, where the monoid route
@@ -1214,7 +1214,7 @@ Fail Example rng_fmap_generator_computes {A B : Ab} (u : A ~{Ab}~> B)
 
 (** ** FORMABILITY negatives: the monoid route is pinned at [Set]
 
-    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:292) has source [Rig@{u Set}]:
+    [Rig_Forget_Mon] (Theory/Algebra/Rig.v:347) has source [Rig@{u Set}]:
     the rig's hom-and-proof universe is literally [Set].  [Rng_Forget_Mon]
     is [Rig_Forget_Mon ◯ Ring_Forget_Rig] and inherits it, so the whole
     monoid route -- and hence the comparison, which needs both routes at

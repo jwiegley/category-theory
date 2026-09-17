@@ -104,7 +104,7 @@
     class has otherwise been asserted to have.  It is NOT an instance of
     the class and does not claim to be: [StarAutonomous] is stated over
     [SymMonClosed], which [Vct_F F] lacked when this was written; since
-    Instance/Mod/Closed.v:747's [RMod_SymMonClosed] (2026-08-31) it has
+    Instance/Mod/Closed.v:768's [RMod_SymMonClosed] (2026-08-31) it has
     one, and Instance/FdVect/NoRightAdjoint.v (#433) reads StarAutonomous.v's
     [dual] off it: isomorphic to [Dual] ([dual_iso359]), not convertible.
 

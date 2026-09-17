@@ -42,7 +42,7 @@ Generalizable All Variables.
           [(Sets, ∏)] this is THE category of setoid monoids: [@Mon] is
           applied at three bases (an earlier draft said two, missing
     Construction/Opposite/Monoidal.v) tree-wide — at [Sets] in
-          Theory/Algebra/Rig.v:292, Instance/Roster.v:390 and
+          Theory/Algebra/Rig.v:347, Instance/Roster.v:390 and
           Instance/Rng/MonoidRing.v:170, and at [Coq] in
           Instance/Coq/Monoid/Free.v:126.
           Instance/Roster.v:390 names the [Sets] one [Mon_Sets]
@@ -75,7 +75,7 @@ Generalizable All Variables.
           a different category and is not conflated with (1); the free
           monoid and its adjunction in that file live there, not here.
 
-    Instance/CMon.v:140's [CMon] is a fourth category of monoid-like
+    Instance/CMon.v:204's [CMon] is a fourth category of monoid-like
     objects and is ruled out for a different reason again: its
     [CMonObject] carries a [cmon_plus_comm] field, so its objects are
     COMMUTATIVE monoids and the free product of two of them is not an

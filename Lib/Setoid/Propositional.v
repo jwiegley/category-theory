@@ -405,11 +405,11 @@ Defined.
 (* The two shapes below are the ones the concrete algebraic categories reach
    for, and neither is one of the ten constructors above: a carrier that is a
    DEPENDENT FUNCTION SPACE compared pointwise (the product of a family of
-   modules, Instance/Mod/Product.v:92; the standard vector space over a field,
-   Instance/FdVect.v:411) and a carrier that is a SIGMA compared on its first
-   projection (a kernel, Instance/Ab.v:302; a subgroup or submodule,
-   Instance/Ab/DirectedColimit.v:305 and Instance/Mod/Quotient.v:289; the centre
-   of a group, Instance/Grp/Center.v:132).
+   modules, Instance/Mod/Product.v:93; the standard vector space over a field,
+   Instance/FdVect.v:412) and a carrier that is a SIGMA compared on its first
+   projection (a kernel, Instance/Ab.v:338; a subgroup or submodule,
+   Instance/Ab/DirectedColimit.v:306 and Instance/Mod/Quotient.v:307; the centre
+   of a group, Instance/Grp/Center.v:133).
 
    WHY BOTH TAKE THEIR TWO IMPLICATIONS AS ARGUMENTS.  Each of those sites
    writes the relation out inline inside a [Program Definition], so the setoid

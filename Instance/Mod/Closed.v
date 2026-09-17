@@ -14,7 +14,7 @@
    Instance/Mod/Monoidal.v supplied the ⊗ half — the bifunctor [ModTensor],
    the unitors, the associator, both coherence laws, the braiding and the
    symmetry.  Its own header says in terms that the closed structure is a
-   companion file's business (Instance/Mod/Monoidal.v:280-282):
+   companion file's business (Instance/Mod/Monoidal.v:284-286):
 
      "NO CLOSED STRUCTURE.  The internal hom, the tensor-hom adjunction
       and any [SymMonClosed] instance are a companion file's business,
@@ -37,9 +37,9 @@
 
    COMMUTATIVITY, AND WHERE IT IS SPENT.  Everything is stated over an
    arbitrary [RingObject] together with an explicit commutativity
-   hypothesis, the same proposition after elaboration as Instance/Rng.v:398's
+   hypothesis, the same proposition after elaboration as Instance/Rng.v:412's
    [CRng_Sub] predicate so that an object of [CRng] supplies it by
-   projection and Instance/Rng.v:412's [Int_Ring_commutative] discharges it
+   projection and Instance/Rng.v:426's [Int_Ring_commutative] discharges it
    at ℤ:
 
      Context (Rcomm : ∀ a b : carrier (rig_setoid (ring_rig R)),
@@ -79,7 +79,7 @@
    hom.  That is an identification, not an analogy: its carrier
    (DoubleDual.v:179, the carrier field of the record opened at :178) is
    `RModHom V (Ring_RMod (field_ring F))`, which is
-   [hm_setoid]'s carrier at W := Ring_RMod; and since Instance/Mod.v:849's
+   [hm_setoid]'s carrier at W := Ring_RMod; and since Instance/Mod.v:953's
    [Ring_RMod] has `rm_smul := rig_mul (ring_rig R)` and
    `rm_smul_assoc := rig_mul_assoc`, its scalar action r · φ is this file's
    pointwise action on the nose, its [dual_smul_linear] (DoubleDual.v:236)
@@ -204,6 +204,14 @@
    and the 112 source-declared names of the two together collide with
    nothing in tree.
 
+   RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+   the same way: [Print Module] gives 93 entries here and 123 for
+   Instance/Mod/Monoidal.v, of which 32 and 72 respectively are
+   [_obligation_] names, leaving 61 + 51 = 112 source-declared; and one
+   [Print Assumptions] per name gives 93 "Closed under the global
+   context" with zero [Axioms:] blocks.  EVERY FIGURE IN THIS PARAGRAPH
+   REPRODUCES UNCHANGED.  The collision sweep was not re-run.
+
    WHAT IS NOT THEREBY CLAIMED.  This file does NOT prove that ⊗ is not a
    categorical product in [RMod R], so "the first non-cartesian closed
    monoidal witness" is NOT established here.  The obstacle is concrete
@@ -229,7 +237,7 @@
      REJECTED there — [ModSymmetric], [RMod_SymMonClosed].
 
    AN EARLIER REVISION of those two lines put [tensor_med] (the donor,
-   Instance/Mod/Tensor.v:664), [mt_fmap] and [hm_curry] on the REJECTED
+   Instance/Mod/Tensor.v:694), [mt_fmap] and [hm_curry] on the REJECTED
    side, and concluded "So [tensor_med] is A donor, rejected ALONE with
    [TensorMod] and [tensor_gen] accepted at the very same levels".  All
    three were re-measured after the PR "algebraic carriers are sets"
@@ -639,7 +647,7 @@ Arguments hm_uncurry {V W X} g.
 
 (* The uncurried map's value at a generator is φ applied to the argument,
    at LEIBNIZ equality.  This is [tensor_med]'s own `eq_refl` generator
-   equation (Instance/Mod/Tensor.v:687) instantiated, and it is what makes
+   equation (Instance/Mod/Tensor.v:717) instantiated, and it is what makes
    everything below cheap. *)
 Example hm_uncurry_gen {V W X : RModObject R}
   (g : V ~{RMod R}~> IH W X) v w :
@@ -931,9 +939,9 @@ End Naturality.
 
 (** ** Acceptance tests over ℤ
 
-    ℤ is commutative (Instance/Rng.v:412's [Int_Ring_commutative]), so the
+    ℤ is commutative (Instance/Rng.v:426's [Int_Ring_commutative]), so the
     whole structure is inhabited at a concrete base.  The bilinear map is
-    Instance/Mod/Tensor.v:905's own [Int_mul_bilinear] — nothing is
+    Instance/Mod/Tensor.v:935's own [Int_mul_bilinear] — nothing is
     rebuilt — and every Example below closes by `eq_refl`: these are
     computations, not equational arguments. *)
 
@@ -1128,7 +1136,7 @@ Check (HomMod Ru Rcu V W).
 Check (@ihom_post Ru Rcu V W W).
 
 (* CONTROLS 6, 7 and 8, WHICH USED TO BE NEGATIVES.  An earlier revision read:
-   "NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v:664) already
+   "NEGATIVE 6.  The DONOR.  [tensor_med] (Instance/Mod/Tensor.v:694) already
    identifies the ring's first and third universes, while [TensorMod] and
    [tensor_gen] above do not"; "NEGATIVE 7.  Instance/Mod/Monoidal.v's arrow
    action inherits it"; "NEGATIVE 8.  Hence this file's currying."  All three

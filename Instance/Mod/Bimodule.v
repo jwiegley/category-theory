@@ -46,7 +46,7 @@
    S-action; hom_S(E, M) is the set of right-S-module maps E → M, made a
    right R-module through E's LEFT R-action by (f ⊲ r)(e) = f (r · e).
    In this tree a right R-module is an object of
-   [ModR R := RMod (Ring_op R)] (Instance/Mod.v:712), so it IS an
+   [ModR R := RMod (Ring_op R)] (Instance/Mod.v:816), so it IS an
    [RModObject (Ring_op R)] and its homs ARE [RModHom]s.  Do not write
    [ModR (Ring_op R) = RMod R]: [Ring_op] is not strictly involutive.
 
@@ -159,7 +159,7 @@
      three legs of Riehl's Definition 4.4.7 for [BimodTensor].
 
      §G, a concrete witness.  Everything instantiates at
-     Instance/Mod.v:878's [Int_Bimodule] with no new algebra, and
+     Instance/Mod.v:982's [Int_Bimodule] with no new algebra, and
      COMPUTES on closed integers: the right action, the unit, the
      counit, both actions of the tensor of two bimodules and both legs
      of the associativity comparison are [eq_refl] readbacks, and
@@ -193,7 +193,7 @@
    rings, bimodules and modules and nothing else — §D and §F add a
    third ring and two module variables, §E none, and no hypothesis
    relating any two rings is ever taken.  Contrast
-   Instance/Mod/Closed.v:448, whose [HomMod] takes a commutativity proof
+   Instance/Mod/Closed.v:469, whose [HomMod] takes a commutativity proof
    as an EXPLICIT ARGUMENT at the signature and so cannot host
    hom_S(E, −) over a non-commutative S; and Instance/Mod/Extension.v,
    whose [CentralImage] hypothesis is spent at eight proof sites (its
@@ -320,14 +320,14 @@
 
    AN Ab-ENRICHMENT THAT WAS ONE NEGATION AWAY.
    Instance/Mod/Coextension.v:309 records that the tree has no
-   [AbEnriched (RMod R)] and only Instance/Mod.v:809's [Preadditive];
+   [AbEnriched (RMod R)] and only Instance/Mod.v:913's [Preadditive];
    a whole-tree search for the string "AbEnriched (RMod" returns that
    one line of prose and nothing else.  [RMod_AbEnriched] supplies it
    here in thirteen lines, over [rmod_hom_negate] (the obvious name
    [rmod_hom_neg] is taken by Instance/FdVect/DoubleDual.v:158, a
-   collision Instance/Mod/Closed.v:342 also records and works around).
+   collision Instance/Mod/Closed.v:355 also records and works around).
    The payoff is that hom_S(E, M)'s underlying group is
-   Adjunction/Additive.v:485's [hom_ab] read at it, so its carrier,
+   Adjunction/Additive.v:546's [hom_ab] read at it, so its carrier,
    addition and zero are [RMod_Preadditive]'s own — pinned by
    [hs_group_carrier], [hs_group_plus] and [hs_group_zero] at
    [eq_refl].  It is a plain [Definition], not an [Instance]: this is a
@@ -341,7 +341,7 @@
    the scalar argument's type against S and infers the record's ring
    parameter to be S rather than [Ring_op S] — the two being
    convertible — and then asks the associativity field for the WRONG
-   multiplication order.  Instance/Mod.v:762-765 records the same trap
+   multiplication order.  Instance/Mod.v:866-869 records the same trap
    for [bimodule_right_RMod].  Both [RTensor] and [HomSObj] therefore
    name [@Build_RModObject] with its ring argument written out, and so
    do §D's, §E's and §F's — five [@Build_RModObject] literals in all,
@@ -386,7 +386,7 @@
 
    THE ISSUE'S "Current state" IS STALE ON EVERY COUNT IT MAKES, and
    the corrections are greps: module categories exist
-   (Instance/Mod.v:281 [RMod], :712 [ModR]), the [Bimodule] record
+   (Instance/Mod.v:315 [RMod], :712 [ModR]), the [Bimodule] record
    exists (:718) with [bimodule_right_RMod] at :760 and two witnesses at
    :866 and :878, tensor products exist (Instance/Ab/Tensor.v and
    Instance/Mod/Tensor.v), and Adjunction/Parameter.v carries Theorem 3
@@ -428,12 +428,32 @@
    below, was taken before the PR "algebraic carriers are sets"
    (2026-09-17).  Since that PR [bs_eq] is a [Prop] inductive, so [bs_eq_rec]
    CEASES TO EXIST (a [Prop] inductive gets [_ind] and [_sind], not [_rec] or
-   [_rect]) and the count of generated eliminators drops.  The [Set]-token
-   claim, the "eight eliminators" and the 427/409/213 figures were all
-   measured under the old sort and have NOT been re-measured; they are left
-   as recorded with this correction attached rather than silently adjusted.
+   [_rect]) and the count of generated eliminators drops.
    Test/ProbeTermModelProp.v carries the refusal that replaces
    [bs_eq_rec].
+
+   RE-MEASURED at the end of that PR, and the arithmetic below is adjusted
+   to what was measured rather than left standing:
+
+     - generated eliminators: SIX, not eight
+       ([grep -c '^scheme ' Instance/Mod/Bimodule.glob]).  The two that
+       went are [bs_eq_rec] and [bs_eq_rect].
+     - [Print Module] entries at five-space indent: 403, being 190
+       [Definition] + 213 [Parameter] (was 192 + 213 -- the two lost
+       eliminators were [Definition]s).
+     - total constants: 425, not 427 -- 403 + the 2 [Inductive] and 2
+       [Record] heads that wrap onto their own line + 16 constructors +
+       2 [Build_*].
+     - axioms: one [Print Assumptions] per name over all 403, giving 403
+       "Closed under the global context" and zero [Axioms:] blocks.
+     - [Qed] and [Defined] tokens OUTSIDE comments: 213 and 5, both
+       unchanged (a bare [grep] reads 216 and 8, the difference being
+       this header's own mentions of the two words).
+
+   The one figure still standing on the old measurement is the [Set]-token
+   claim in the preceding sentence: the whole [About] dump was NOT re-run,
+   and only the half of it that names [bs_eq_rec] is known to have changed,
+   that eliminator no longer existing.
 
    Stage 1 conjectured that the four on [HomSObj] enter at the
    APPLICATION [hom_ab (RMod_AbEnriched (Ring_op S)) …], and that is
@@ -469,7 +489,9 @@
    Module] lists only inside an [Inductive] body or after a [Record]'s [:=].
    The 409 include the file's [Program] obligations and the eight eliminators
    no source sweep sees.  Every one of the 427 was queried by fully qualified
-   name (440, 422, 198 and 220 before #431 moved the thirteen
+   name.  (Those four figures are 425/407/190/SIX as re-measured above; the
+   sentence is left in its measured-then form with the correction attached.)
+   (440, 422, 198 and 220 before #431 moved the thirteen
    AdjunctionAlongIso constants out).  The 213 [Parameter] entries are
    exactly the file's 213 [Qed] tokens, which is a cross-check on the reading
    of that display convention rather than a second measurement.
@@ -544,8 +566,8 @@
        Adjunction/Parameter.v:200-231 discloses as its own follow-on.
        It compiles out of tree — twenty-two lines of substance, four
        declarations, re-verified at this commit — over [ModTensor]
-       (Instance/Mod/Monoidal.v:546) and [HomMod]
-       (Instance/Mod/Closed.v:448) with that file's [exp_iso_Mod],
+       (Instance/Mod/Monoidal.v:550) and [HomMod]
+       (Instance/Mod/Closed.v:469) with that file's [exp_iso_Mod],
        [cur_natural_V] and [cur_natural_X]; it is NOT shipped here,
        because it is Mac Lane's SECOND example rather than Exercise 3
        and because requiring those two modules would cost this file
@@ -593,7 +615,7 @@ Require Import Category.Instance.Rng.
 Require Import Category.Instance.Mod.
 Require Import Category.Structure.AbCategory.
 Require Import Category.Theory.Algebra.Rig.
-(* The integer witness of §G needs the [Z] scope; Theory/Algebra/Rig.v:15
+(* The integer witness of §G needs the [Z] scope; Theory/Algebra/Rig.v:17
    takes the same import, this is the spelling the tree uses, and on Rocq
    9.1 it emits the tree-wide "From Coq" deprecation warning, as that
    file does. *)
@@ -902,7 +924,7 @@ Arguments bal_gen_zero_r {X} N M n.
 
 (* Instance/Mod.v supplies [rmod_hom_add] and [rmod_hom_zero] but no
    negation, and the name [rmod_hom_neg] is taken by
-   Instance/FdVect/DoubleDual.v:158 (Instance/Mod/Closed.v:342 records
+   Instance/FdVect/DoubleDual.v:158 (Instance/Mod/Closed.v:355 records
    the same collision and works around it with a file-local name). *)
 Program Definition rmod_hom_negate {R : RingObject} {M N : RModObject R}
         (f : RModHom M N) : RModHom M N := {|
@@ -915,7 +937,7 @@ Next Obligation.
 Qed.
 
 (* Instance/Mod/Coextension.v:308-310 records that the tree has no
-   [AbEnriched (RMod R)], only Instance/Mod.v:809's [Preadditive].  It
+   [AbEnriched (RMod R)], only Instance/Mod.v:913's [Preadditive].  It
    is one negation away, and the hom-group below is Adjunction/
    Additive.v's [hom_ab] read at it, so nothing is rebuilt.  A plain
    [Definition], not an [Instance]: this is a reading of a hom-setoid,
@@ -1050,7 +1072,7 @@ Qed.
    the scalar argument's type against [S] and infers the parameter to be
    [S] rather than [Ring_op S], which silently asks the associativity
    field for the WRONG multiplication order.  This is the trap
-   Instance/Mod.v:762-765 records for [bimodule_right_RMod]. *)
+   Instance/Mod.v:866-869 records for [bimodule_right_RMod]. *)
 Definition RTensor (N : RModObject (Ring_op R)) :
   RModObject (Ring_op S) :=
   @Build_RModObject (Ring_op S)
@@ -1593,7 +1615,7 @@ Arguments bh_hom {E E'} _.
 Arguments bh_right {E E'} _ _ _.
 
 (* The hom-setoid: two bimodule maps agree when their underlying maps
-   agree pointwise, which is Instance/Mod.v:225's [RModHom_Setoid] one
+   agree pointwise, which is Instance/Mod.v:232's [RModHom_Setoid] one
    field further in.  Neither action plays a part. *)
 #[export]
 Program Instance BimodHom_Setoid {E E' : Bimodule R S} :
@@ -3474,7 +3496,7 @@ Definition bimodule_third_leg {R S : RingObject}
 
 (** ** G. A concrete witness at a named pair of rings *)
 
-(* Instance/Mod.v:866's [Ring_Bimodule] makes every ring an
+(* Instance/Mod.v:970's [Ring_Bimodule] makes every ring an
    (R,R)-bimodule over itself and :878's [Int_Bimodule] is that at ℤ, so
    the whole development instantiates with no new algebra.  Everything
    below COMPUTES: the actions, the unit, the counit and both legs of the

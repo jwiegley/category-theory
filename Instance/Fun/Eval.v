@@ -42,7 +42,7 @@ Generalizable All Variables.
        ⟶ C].  Both [YoEvalAt] and [One_Eval] agree with [Eval] at [eq_refl]
        (probe).
      - The hit list: Theory/Kan/Extension.v:127 is a comment ([Induced] is
-       :131); Instance/CMon.v:170 is [CMon_Forget : CMon ⟶ Sets], not out of
+       :131); Instance/CMon.v:247 is [CMon_Forget : CMon ⟶ Sets], not out of
        a functor category; Construction/Day.v:921 is the Day tensor; only
        Theory/Lawvere/Sets.v:83 [ev1] is as described.
      - "record [J ∏ P, X] ≅ [J, [P, X]] from [Cat_Closed]": it exists as an

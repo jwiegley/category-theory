@@ -69,8 +69,8 @@ Generalizable All Variables.
        [sets_part_of] gives back [SquashStable R]
        ([partition_stability_is_the_conclusion] -- the name is prefixed
        because the tree already carries TWO constants called
-       [stability_is_the_conclusion], at Instance/Grp/Epi.v:1143 and
-       Instance/Field.v:318).  So no cheaper hypothesis exists,
+       [stability_is_the_conclusion], at Instance/Grp/Epi.v:1197 and
+       Instance/Field.v:319).  So no cheaper hypothesis exists,
        which is the discipline Instance/Grp/Epi.v and Instance/Field.v
        use for their constructive stratifications.  A [Prop]-valued R is
        squash-stable ([prop_rel_squash_stable]), by instantiating the

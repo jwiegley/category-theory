@@ -50,7 +50,7 @@
     Also reused: Construction/Subcategory.v's [Subcategory] (:36), [Sub]
     (:55), [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99) and
     [Full_Implies_Full_Functor] (:104), with the trivially-true [shom] of
-    Instance/Ab/TorsionFree.v:386's [TorsionFree_Sub] and
+    Instance/Ab/TorsionFree.v:405's [TorsionFree_Sub] and
     Instance/Rng.v's [CRng_Sub]; [Full] is written qualified as
     [Category.Construction.Subcategory.Full] for the reason that file
     gives -- it exports its OWN [Full], whose first argument is a

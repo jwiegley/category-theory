@@ -141,7 +141,7 @@
     'specializ' matches are the tactic [specialize] and prose about
     specializing a theorem), and a search for the token 'T0' returns
     three lines --
-    Adjunction/Additive.v:47 and Structure/AbCategory.v:50,:182 --
+    Adjunction/Additive.v:49 and Structure/AbCategory.v:50,:182 --
     every one of them Mac Lane's phrase "whence T0 = 0" about an
     additive functor, which is unrelated.  There was no T0 predicate,
     no indistinguishability relation, no Kolmogorov quotient and no
@@ -159,7 +159,7 @@
     - Construction/Subcategory.v: [Subcategory] (:36), [Sub] (:55),
       [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99),
       [Full_Implies_Full_Functor] (:104).  The trivially-true [shom] is
-      the [Hausdorff_Subcategory] and Instance/Rng.v:403 [CRng_Sub]
+      the [Hausdorff_Subcategory] and Instance/Rng.v:417 [CRng_Sub]
       pattern, and [Full] is written qualified because
       Construction/Subcategory.v exports its OWN [Full], whose first
       argument is a Category.
@@ -207,7 +207,7 @@
       [fmap[Incl] id ∘ kolmogorov_proj X]; applied to a point that
       composite reduces, as a [ContinuousMorphism] record it does not.
       The same shape is recorded for #371's [torsion_unit_is_proj_hom]
-      and for Instance/Mod/Free.v:542's [free_module_unit_is_insert].
+      and for Instance/Mod/Free.v:560's [free_module_unit_is_insert].
     - [KolmogorovQuotient Bool_Discrete] is isomorphic to
       [Bool_Discrete] but not equal to it: [bool_reflect_iso] is a pure
       instantiation of [reflective_counit_iso] with no tactic, while

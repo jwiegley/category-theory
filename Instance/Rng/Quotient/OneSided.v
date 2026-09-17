@@ -40,7 +40,7 @@ Generalizable All Variables.
     "and therefore the quotient would not be well defined" to the
     reader.  That was wrong, and an audit caught it: the group side
     ALREADY carries a congruence-level refutation, namely
-    Instance/Grp/Congruence.v:1009's [S3_refl_sub_no_congruence] -- at
+    Instance/Grp/Congruence.v:1075's [S3_refl_sub_no_congruence] -- at
     the same subgroup, landed by #301 -- so no inference is left
     implicit there either.  What is actually different is narrower and
     is all that is claimed: the refutation here is DIRECT, where the
@@ -48,11 +48,11 @@ Generalizable All Variables.
     on the MULTIPLICATION congruence specifically, which is the clause
     one-sidedness is unable to supply.
 
-    THE WITNESS.  [UT2] (Instance/Rng/Algebras/Associative.v:527) is the
+    THE WITNESS.  [UT2] (Instance/Rng/Algebras/Associative.v:534) is the
     ring of upper-triangular 2×2 integer matrices, carried as triples
     (a, b, c) for [[a, b], [0, c]], and that file proves it
     non-commutative ([UT2_not_commutative]).  It is NOT the tree's only
-    non-commutative [RingObject] -- Instance/Rng/MonoidRing.v:778's
+    non-commutative [RingObject] -- Instance/Rng/MonoidRing.v:811's
     [zmring_not_commutative] exhibits a monoid ring that is not
     commutative, although it proves that by mapping INTO [UT2] -- but it
     is the smallest, and the one whose elements compute, being integer

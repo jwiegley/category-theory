@@ -91,10 +91,10 @@
         monoidal category) and [Construction/Deloop.v:123]'s [MonObject]
         (a bare record with no category).  An internal monoid in
         [(Sets, ∏)] IS an ordinary setoid monoid, so [MonSets] of
-        Instance/Rng/MonoidRing.v:170 is a usable category of them --
+        Instance/Rng/MonoidRing.v:171 is a usable category of them --
         Instance/Mon/Free.v develops the free monoid over exactly it --
         and the forgetful functor is [Grp_MonSets : Grp ⟶ MonSets] at
-        Instance/Rng/GroupRing.v:155.  The second form is statable.
+        Instance/Rng/GroupRing.v:156.  The second form is statable.
 
     (2) The pairs construction is the WRONG construction there, and this
         is not a matter of proof technique.  [GrothendieckObject] produces
@@ -182,11 +182,18 @@
     here: [Functor]'s universe arity differs between Rocq 9.1 and
     Coq 8.19/8.20, so such an annotation is not portable.
 
-      - [groth_rel@{u u0 u1 u2}] and [GrothendieckObject@{u u0 u1 u2}]
+      - [groth_rel@{u u0 u1}] and [GrothendieckObject@{u u0 u1 u2 u3}]
         carry NO equation in their constraint blocks — only [≤] bounds
-        ([u ≤ u1], [u ≤ u2], [u0 ≤ u1], [u0 ≤ u2] and stdlib projection
+        ([u0 ≤ u], [u1 ≤ u], [u0 ≤ u2], [u3 ≤ u2] and stdlib projection
         bounds).  A bound is not an identification, and these two do not
         identify anything.
+        (RE-MEASURED by [About] under [Set Printing Universes] after the
+        PR "algebraic carriers are sets" (2026-09-17).  An earlier
+        revision gave both arities as four, [@{u u0 u1 u2}], and listed
+        the bounds as [u ≤ u1], [u ≤ u2], [u0 ≤ u1], [u0 ≤ u2].  The
+        arities are three and five now and the bounds run the other way;
+        the CLAIM — no equation in either block — is what was being made
+        and it still holds.)
       - [groth_insert], [groth_extend], [groth_universal] and everything
         downstream DO carry [u = u0] and [u = u1], collapsing the input
         [CMonObject@{u u0 u1}] to one level.  **That is [CMon]'s doing,
@@ -198,12 +205,17 @@
         a [CMon] hom is what identifies them — the shape
         Instance/Grp/Pushout.v records for [Grp] — and it appears exactly
         at the first constant of this file whose type mentions a hom.
-      - [Ab_to_CMon@{u u0}], [GrothendieckFunctor@{u u0}], [GrothLeft] and
-        [grothendieck_adjunction] carry no equation either; their blocks
-        hold [u0 < u] (which is [Sets]' own strictness) and [≤] bounds.
-        The [Functor] instances read [@{u u0 u0 u u0 u0}], hom identified
+      - [Ab_to_CMon@{u u0}], [GrothendieckFunctor@{u u0 u1}], [GrothLeft]
+        and [grothendieck_adjunction] carry no equation either; their
+        blocks hold [Set < u] and [≤] bounds.  The [Functor] instances
+        read [@{u u0 u0 u u0 u0}] and [@{u u1 u1 u u1 u1}], hom identified
         with proof — inherited from [CMon] and [Ab], which are categories
         over [Sets], and introduced nowhere here.
+        (RE-MEASURED after the same PR.  An earlier revision gave
+        [GrothendieckFunctor]'s arity as two and the strictness as
+        [u0 < u], "which is [Sets]' own"; it reads [Set < u] now, the
+        bound [PropEquiv] brings in with [Prop]'s sort.  No equation
+        appears in any of the four blocks, which is the claim.)
       - [Set] appears in exactly the two concrete witnesses one would
         expect: [groth_nat_Z_iso@{u}] is over [Set] carriers with the sole
         constraint [Set < u], and [groth_bool_trivial@{u}] carries [Set]
@@ -213,9 +225,16 @@
 
     ** Axioms
 
-    91/91 constants closed under the global context — 71 source
-    declarations plus 20 [Program] obligations, the count taken from
-    [Print Module] rather than from the [.glob], which lists only the 71.
+    91/91 constants closed under the global context — 74 source
+    declarations plus 17 [Program] obligations, the count taken from
+    [Print Module] rather than from the [.glob], which lists only the 74.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+    by generating one [Print Assumptions] per name from [Print Module]:
+    91 commands, 91 "Closed under the global context", zero [Axioms:]
+    blocks.  The TOTAL is unchanged; only the split moved, an earlier
+    revision giving it as 71 source declarations plus 20 obligations.
+    The [.glob] now carries 44 [def] and 30 [prf] lines.
 
     ** Non-vacuity
 

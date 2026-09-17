@@ -34,7 +34,7 @@ Generalizable All Variables.
     own, and are the only additions: the adjoint-functor-theorem
     boundary below names [PreservesImageLimit]
     (Construction/Comma/Limit.v:110) and its repair
-    [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v:232),
+    [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v:245),
     neither of which the target imports.
 
     Every statement asserted to be refuted below has been STRIPPED of its

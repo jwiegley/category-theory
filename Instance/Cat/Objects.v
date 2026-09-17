@@ -82,7 +82,7 @@ Generalizable All Variables.
 
       FIRST, the catalog issue states that the indiscrete half "has no
       construction at all -- searching for it finds only comments".  That
-      is FALSE.  Instance/Discrete/Reconstruct.v:416 has declared
+      is FALSE.  Instance/Discrete/Reconstruct.v:432 has declared
       [Indiscrete (A : Type) : Category], with [hom := fun _ _ => unit],
       [homset := Morphism_equality] and every category law discharged by
       the ambient obligation tactic, since it was written; it is CONSUMED

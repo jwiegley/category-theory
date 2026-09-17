@@ -91,12 +91,12 @@ Generalizable All Variables.
                         product bifunctor, compared to this file's
                         functor by [fixed_product_bimap] and to its
                         transformation by [fixed_product_transform_bimap].
-     - [Grp_Cartesian] (Instance/Grp.v:677) — binary direct products in
+     - [Grp_Cartesian] (Instance/Grp.v:757) — binary direct products in
                         Grp.  These were already delivered by the Grp
                         work, so this file does NOT construct them; it
-                        was checked before writing that Instance/Grp.v:677
+                        was checked before writing that Instance/Grp.v:757
                         is the only definition of that name in the tree
-                        (the one other occurrence, Instance/Grp.v:76, is a
+                        (the one other occurrence, Instance/Grp.v:97, is a
                         prose mention in that file's header) and that it
                         is an `#[export] Program Instance`, hence found
                         here by inference.
@@ -462,7 +462,7 @@ End BinoidalComparison.
 
 (** ** The exercise's own setting: C = Grp *)
 
-(* [Grp_Cartesian] (Instance/Grp.v:677) already supplies the binary
+(* [Grp_Cartesian] (Instance/Grp.v:757) already supplies the binary
    direct products, so the instantiation is a specialization and nothing
    more. *)
 

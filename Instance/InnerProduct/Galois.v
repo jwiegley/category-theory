@@ -17,7 +17,7 @@ Require Import Category.Adjunction.Right.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 
-(* The same two as Instance/Powerset.v:26-27 and Instance/Grp/Galois.v:26-27,
+(* The same two as Instance/Powerset.v:26-27 and Instance/Grp/Galois.v:27-28,
    in the same position and for the same reason: [relation] and [PreOrder]
    below must be the stdlib Prop-valued ones rather than Category.Lib's
    [crelation] ones, so they are required LAST. *)
@@ -85,7 +85,7 @@ Generalizable All Variables.
     [GaloisConnection] with its six fields, [gal_unit] (:284) and
     [gal_counit] (:287), the two functors
     [GaloisFunctor_l]/[GaloisFunctor_r] and [GaloisAdjunction].  From #382
-    (Instance/Powerset.v:285, :288, :295): [subset_le],
+    (Instance/Powerset.v:294, :297, :295): [subset_le],
     [subset_le_preorder] and the thin category [Subsets X], over
     Instance/Sets/Powerset.v:981's [Powerset_Prop_obj X], the
     [≈]-respecting [Prop]-valued predicates.  From
@@ -371,7 +371,7 @@ Example perp_unit_is_counit (S : carrier (Powerset_Prop_obj@{o} X)) :
 
 (* The triple complement collapses.  In a preorder that is not a partial
    order the conclusion is mutual inclusion, which for these carriers IS
-   the setoid's own [≈]: Instance/Grp/Galois.v:508 converts.  Both halves
+   the setoid's own [≈]: Instance/Grp/Galois.v:512 converts.  Both halves
    are #381's section (A) applied. *)
 Lemma perp_triple (S : carrier (Powerset_Prop_obj@{o} X)) :
   perp_set (perp_set (perp_set S)) ≈ perp_set S.
@@ -455,7 +455,7 @@ Example PerpFunctor_r_obj (S : carrier (Powerset_Prop_obj@{o} X)) :
    same term), [Chain3_AdjointOnTheRight] (:651, whose two functors
    differ) and [Powerset_AdjointOnTheRight] (:717, at a coinciding pair);
    Structure/Monoidal/Dual.v:441's [dual_self_adjoint_on_the_right] is a
-   fourth, also at a coinciding pair; and Instance/Grp/Galois.v:883's
+   fourth, also at a coinciding pair; and Instance/Grp/Galois.v:894's
    [group_action_AdjointOnTheRight] -- in a file this one REQUIRES -- is a
    fifth, whose slots [StabOp] and [FixedOp] differ.  So two of the five
    precede this one at a coinciding pair.  What is new here is a

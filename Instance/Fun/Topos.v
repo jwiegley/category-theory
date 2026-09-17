@@ -399,7 +399,7 @@ Open Scope category_scope.
 
      STALE, in six places.  "For presheaves ... no terminal object, no
      exponentials, no pullbacks, no classifier" -- all four now exist,
-     at Instance/Fun/Terminal.v:362, Instance/Fun/Exponential.v:639,
+     at Instance/Fun/Terminal.v:372, Instance/Fun/Exponential.v:639,
      Instance/Fun/Pullback.v:316 and Instance/Fun/Classifier.v:794, and
      all four are consumed here.  "Instance/Fun/Cartesian.v:111 is the
      only structural instance on any functor category" -- it is not.

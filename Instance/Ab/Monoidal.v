@@ -62,7 +62,7 @@
       reasoning ([ZAb_eq], [zsmul_int_one]) while everything else stays
       in `≈`.
 
-   4. ONE MONOIDAL PATH ON [Ab].  Instance/Grp.v:962 records the tree's
+   4. ONE MONOIDAL PATH ON [Ab].  Instance/Grp.v:1051 records the tree's
       policy: a [Monoidal] structure is registered as an instance only when
       it is the sole such path on its category, since a second registered
       path silently changes resolution elsewhere.  [@Monoidal Ab] has no
@@ -87,11 +87,17 @@
           universe cannot be minimized away.  The load-bearing [+] is the
           one in CONSTRAINT position: the bodies incur constraints beyond
           [s < o] (the auxiliary universes of [AbTensor], nine of them,
-          and [AbTensor_Functor], seven, relate to [s] and [o]), and
+          and [AbTensor_Functor], EIGHT, relate to [s] and [o]), and
           without it elaboration stops with "Universe constraints are not
           implied by the ones declared".  The [+] after the universe list
           is inert here — dropping it still compiles — and is kept only
           for uniformity with the constraint one.
+          (RE-MEASURED by [About] under [Set Printing Universes] after the
+          PR "algebraic carriers are sets" (2026-09-17): [AbTensor] still
+          binds nine universes, [AbTensor_Functor] now binds eight where
+          an earlier revision of this sentence wrote seven.  Nothing else
+          in the paragraph moved; the declarations it describes are
+          unchanged and still load-bearing.)
 
         - [ZAb_one] exists so that no bare [1%Z] is elaborated at an
           UNRESOLVED [carrier ?G] position in this file.  (Where the

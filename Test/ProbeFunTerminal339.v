@@ -3,7 +3,7 @@
     Mac Lane CWM 2nd ed. §III.5 Exercise 5, book p. 74.
 
     The target ships its own two CONVERSION refutations with controls
-    (`Instance/Fun/Terminal.v:601` and `:634`).  This file pins the SEVEN
+    (`Instance/Fun/Terminal.v:612` and `:634`).  This file pins the SEVEN
     boundaries it cannot: six FORMABILITY negatives, which need a section
     declaring universe levels strictly apart and so cannot live in a
     library file, and one three-way SEPARATION that is a positive

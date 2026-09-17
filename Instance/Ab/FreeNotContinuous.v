@@ -56,9 +56,9 @@ Generalizable All Variables.
    [exl ∘ (id △ 0) ≈ id] against [exr ∘ (id △ 0) ≈ 0].
 
    STALE PREMISES, RE-MEASURED.
-     - "Neither the functor nor its target exists": FALSE.  Instance/Ab.v:201
-       [Ab] and :217 [Ab_Forget]; Instance/Ab/Free.v:561 [FreeAb : Sets ⟶
-       Ab], :564 [free_ab_adjunction], :494 [free_ab_universal] — the term
+     - "Neither the functor nor its target exists": FALSE.  Instance/Ab.v:218
+       [Ab] and :234 [Ab_Forget]; Instance/Ab/Free.v:593 [FreeAb : Sets ⟶
+       Ab], :596 [free_ab_adjunction], :526 [free_ab_universal] — the term
        algebra [FATerm] under the congruence [fa_eq], not finitely supported
        ℤ-valued functions.  Work bullet 1 (construct the functor with its
        universal property) was done by #400; nothing about the free abelian
@@ -79,7 +79,7 @@ Generalizable All Variables.
        at a named functor as such is NOT first (an earlier revision claimed
        it): Instance/Top/Forgetful.v:519's [indiscrete_image_not_colimiting]
        refutes a colimit cocone for [Top_Indiscrete] (:238), and
-       Instance/Powerset.v:884's [direct_image_not_meet_preserving] refutes
+       Instance/Powerset.v:905's [direct_image_not_meet_preserving] refutes
        preservation of the binary product ([Subsets_Cartesian], :609) by the
        left adjoint [DirectImage] (:397) — neither phrased with a class name.
      - [Ab] has binary products, coproducts and biproducts
@@ -173,7 +173,7 @@ Generalizable All Variables.
        all.  The apex-level refutation exists only at the empty shape, so
        [FreeAb_not_PreservesAllLimits] is stated at [Ab@{u Set}] and cannot
        be otherwise here.
-     - [Ab_trivial@{} : AbObject@{Set Set Set}] (Instance/Ab.v:227,
+     - [Ab_trivial@{} : AbObject@{Set Set Set}] (Instance/Ab.v:241,
        MONOMORPHIC) pins everything assembled from the trivial group —
        [Ab_one], [Ab_zero_hom], [Ab_Terminal], [Ab_Zero], [Ab_Cartesian]
        ([Set < u], [Ab@{u Set}]) — and through [Ab_Cartesian] the four

@@ -17,7 +17,7 @@ Generalizable All Variables.
 (* nLab:      https://ncatlab.org/nlab/show/adjoint+functor+theorem
    Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functor_theorem
 
-   [GAFT] (Adjunction/GAFT.v:241) has the shape, its named hypotheses
+   [GAFT] (Adjunction/GAFT.v:338) has the shape, its named hypotheses
    rewritten here as arrows,
 
      GAFT (U : C ⟶ D) : @Complete C
@@ -26,7 +26,7 @@ Generalizable All Variables.
                         → { F : D ⟶ C & F ⊣ U }
 
    and before this file no closed constant of the library applied it.
-   [Adjunction/SAFT.v:278] does call it, and [SAFT] is applied since #437;
+   [Adjunction/SAFT.v:326] does call it, and [SAFT] is applied since #437;
    [Adjunction/GAFT/Examples.v] exercises the universal-arrow half
    [GAFT_from_initials], which consumes comma-category initial objects
    directly and so meets none of the three premises above.  This file applies
@@ -111,7 +111,7 @@ Generalizable All Variables.
 
    A BY-PRODUCT: EQUALIZERS IN [Sets]
 
-   [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
+   [Complete_HasEqualizers] (Adjunction/GAFT.v:214) turns any [Complete]
    category into a [HasEqualizers] one.  At [Sets_Complete] it yields
    [Sets_HasEqualizers], one of THREE library-file inhabitants -- see the
    note below the definition.  It is left a [Definition], not an [Instance]:

@@ -127,7 +127,7 @@ Generalizable All Variables.
          of a right adjoint is invertible, from Adjunction/Continuity.v:205's
          [right_adjoint_PreservesLimitCone] (the restatement Riehl 4.6.iii
          asks for).
-     (8) DISCRETE SHAPES.  [DiscreteCat_Functor'] is Instance/Discrete.v:59's
+     (8) DISCRETE SHAPES.  [DiscreteCat_Functor'] is Instance/Discrete.v:81's
          functor with its universes annotated (see UNIVERSES).  For ANY
          [G : DiscreteCat A ⟶ C] — so also for image diagrams [F ◯ G] —
          [discrete_cone c pi] packages a family of legs as a cone
@@ -225,7 +225,7 @@ Generalizable All Variables.
        Adjunction/Continuity.v 2, Functor/Structure/Terminal.v,
        Functor/Structure/Cartesian.v, Structure/Limit/Product.v and
        Structure/Span.v 1 each, the other fourteen [Require]s 0.
-     - Near-namesakes elsewhere, untouched: Instance/Fun/Terminal.v:529
+     - Near-namesakes elsewhere, untouched: Instance/Fun/Terminal.v:539
        defines the same family as [bool_fam] (hence [binary_fam] here),
        Structure/Limit/Finite.v:692 an [empty_cone] over [EmptyDiagram]
        (hence [nullary_cone] here), Instance/Proset/Order.v:664 a

@@ -39,7 +39,7 @@ Generalizable All Variables.
    a bare abbreviation, so Ab's arrows ARE CMon's and
    Instance/Ab/Coproduct.v inherits ten of the biproduct record's eleven
    fields by [:=].  Instance/Mod.v instead makes [RModHom] a RECORD
-   wrapping an [AbHom] together with [rm_map_smul] (Instance/Mod.v:203).
+   wrapping an [AbHom] together with [rm_map_smul] (Instance/Mod.v:210).
    The three grades are then:
 
    (1) DATA — the four structural morphisms and the two mediators — must
@@ -47,7 +47,7 @@ Generalizable All Variables.
    carries exactly one new obligation, that it commutes with the action.
    TWO of the six are [reflexivity] — the two projections.  The other
    four are more: both injections need [rm_smul_zero_r]
-   (Instance/Mod.v:163), r·0 ≈ 0, because [inl a] is [(a, 0)] and must
+   (Instance/Mod.v:170), r·0 ≈ 0, because [inl a] is [(a, 0)] and must
    satisfy [(r·a, 0) ≈ (r·a, r·0)]; the two mediators each spend
    [rm_map_smul]; and the copairing additionally spends
    [rm_smul_distr_l].  (An earlier draft of this header said "only one of
@@ -57,8 +57,8 @@ Generalizable All Variables.
 
    (2) LAWS — all four interaction laws — TRANSFER UNCHANGED, by [:=]
    with no tactic, exactly as at Ab.  [RModHom_Setoid]
-   (Instance/Mod.v:224) compares the underlying maps and
-   [rmod_hom_compose] (Instance/Mod.v:256) is [cmon_hom_compose] on those
+   (Instance/Mod.v:231) compares the underlying maps and
+   [rmod_hom_compose] (Instance/Mod.v:290) is [cmon_hom_compose] on those
    maps, so each law, once unfolded, IS the CMon equation about the same
    two functions — including the two comparing against [zero_mor], since
    [rmod_zero_mor_is_cmon_zero_mor] shows the UNDERLYING arrow of R-Mod's
@@ -86,7 +86,7 @@ Generalizable All Variables.
    [HasBiproducts (RMod R)] and, through
    [Structure/Biproduct/Cartesian.v], yields [RMod_Cartesian] and
    [RMod_Cocartesian] — the first product and coproduct structures on a
-   module category in this tree (Instance/Vect/TensorAlgebra.v:113
+   module category in this tree (Instance/Vect/TensorAlgebra.v:114
    records the absence of [Cocartesian (RMod R)] as an obstruction it had
    to route around).  The coproduct object IS the product object at
    LEIBNIZ EQUALITY ([RMod_coprod_is_prod], [eq_refl]), and so is the
@@ -100,14 +100,14 @@ Generalizable All Variables.
    WHAT IS NOT DELIVERED.  No indexed or infinite direct sums, hence
    nothing about the free module on a set (Instance/Mod/Free.v owns that,
    and its carrier is an inductive quotient, not a product).  No
-   [Additive (RMod R)]; [RMod_Preadditive] (Instance/Mod.v:809) exists and
+   [Additive (RMod R)]; [RMod_Preadditive] (Instance/Mod.v:913) exists and
    is not extended here.  Nothing about right modules beyond what
    [ModR R := RMod (Ring_op R)] gives for free by conversion, which is the
    whole statement again at the opposite ring — no separate development.
    And nothing about the tensor product, which is Instance/Mod/Tensor.v's
    subject and is a different universal property. *)
 
-(* Instance/Mod.v:104's convention: the obligations below are
+(* Instance/Mod.v:111's convention: the obligations below are
    introduced by hand, so that the record binders [M] and [N] arrive with
    their own names rather than whatever the global obligation tactic has
    already put in scope. *)
@@ -216,7 +216,7 @@ Qed.
 (** ** The zero morphism of R-Mod is CMon's *)
 
 (* What makes the two [zero_mor] laws transfer: [RMod_Zero]'s [one] and
-   [zero] wrap [Ab_one] and [Ab_zero_hom] (Instance/Mod.v:339, :360),
+   [zero] wrap [Ab_one] and [Ab_zero_hom] (Instance/Mod.v:389, :410),
    which are [CMon_one] and [CMon_zero_hom], and the hom-setoid compares
    underlying maps. *)
 Example rmod_zero_mor_is_cmon_zero_mor {R : RingObject}

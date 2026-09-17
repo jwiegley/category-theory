@@ -375,7 +375,7 @@
        [DiagSets_HasEqualizers], [DiagSets_HasCoequalizers],
        [Sets_HasPullbacks_of_shape] and [Sets_HasPushouts_of_shape]
        duplicates a pre-existing inhabitant of its class --
-       [Adjunction/GAFT/Sets.v:175]'s [Sets_HasEqualizers],
+       [Adjunction/GAFT/Sets.v:191]'s [Sets_HasEqualizers],
        [Instance/Sets/Coequalizer.v:293]'s [Sets_HasCoequalizers],
        [Instance/Sets/Pullback.v:393]'s [Sets_HasPullbacks] and
        [Instance/Sets/Pushout.v:185]'s [Sets_HasPushouts].  The four

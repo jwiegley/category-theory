@@ -51,29 +51,29 @@ Open Scope category_scope.
    THE ISSUE'S SURVEY IS STALE, AND BADLY.  Issue #409's "Current state"
    says "There is no category of rings in the tree at all
    ([rg -w 'Rng|CRing|RingObject'] -> 0 hits)".  Measured at eaee393c that
-   is false several times over: [Instance/Rng.v:102] declares
+   is false several times over: [Instance/Rng.v:103] declares
    [Rng : Category], [:410] the commutative full subcategory [CRng], and
    [Instance/Rng/Quotient.v] carries the whole quotient apparatus -- the
    five-field [Record Ideal], [QuotientRing], [rquot_proj], and
    [rquot_med] with [rquot_med_commutes] and [rquot_med_unique], i.e. the
    universal property.  [Instance/Rng/Polynomial.v] has [PolyRing] and
-   [ZPoly], and [Theory/Algebra/Rig.v:588] has [Int_Ring].
+   [ZPoly], and [Theory/Algebra/Rig.v:704] has [Int_Ring].
 
    WHAT IS GENUINELY ABSENT -- AND A FIRST DRAFT OF THIS PARAGRAPH GOT IT
    WRONG ON BOTH CLAUSES, WHICH IS WHY THE CRITERION IS NOW STATED.  It
    claimed there is no [Z/n] as a [RingObject] and no PRINCIPAL ideal, on
    a sweep returning [TotalIdeal], [TrivialIdeal] and [KernelIdeal] "and
    nothing else".  Both are false.  [QuotientRing]
-   ([Instance/Rng/Quotient.v:423]) concludes [RingObject], so
+   ([Instance/Rng/Quotient.v:481]) concludes [RingObject], so
    [QuotientRing EvenIdeal] IS Z/2 and [QuotientRing SixIdeal] IS Z/6 --
    unnamed, but with computing examples at [:849-883] (1+1 = 0, 1*1 = 1,
    3 |-> 1) and a residue transition map [Z6_to_Z2] at [:939] built
    through [rquot_med], which is the closest prior art to [res_proj]
    below.  And a sweep for the REQUIRED field [idl_mem :=] -- exhaustive
-   by construction, the criterion [Adjunction/Enveloping.v:88-98] ALREADY
+   by construction, the criterion [Adjunction/Enveloping.v:88-99] ALREADY
    STATES -- returns SIX [Ideal] inhabitants, not three: those three plus
    [EvenIdeal] (2Z) and [SixIdeal] (6Z) in the same file, and
-   [StrictUpper] in [Instance/Rng/Quotient/OneSided.v:171]; and 2Z and 6Z
+   [StrictUpper] in [Instance/Rng/Quotient/OneSided.v:177]; and 2Z and 6Z
    ARE principal ideals of Z.  The draft read by NAME while claiming to
    read by shape, and contradicted a sibling header the gate loads into
    the same scope.
@@ -88,7 +88,7 @@ Open Scope category_scope.
    one pair, built by hand.
 
    COMMUTATIVITY IS TAKEN AS A BARE HYPOTHESIS, not as a [CRng] object.
-   [Instance/Rng.v:403]'s [CRng_Sub] cuts [Rng] by exactly the predicate
+   [Instance/Rng.v:417]'s [CRng_Sub] cuts [Rng] by exactly the predicate
    [∀ a b, rig_mul R a b ≈ rig_mul R b a], so a [CRng] object supplies it
    by projection; taking the predicate directly is the
    [Instance/Mod/Monoidal.v] idiom and avoids unpacking a sigma at every
@@ -569,7 +569,7 @@ End Limit.
    is the exercise's point, and here it is a fact about the terms rather
    than a remark. *)
 
-(* CONSUMED, not proved: [Instance/Rng.v:417]'s [Int_Ring_commutative]
+(* CONSUMED, not proved: [Instance/Rng.v:431]'s [Int_Ring_commutative]
    already has exactly this statement -- its two binders elaborate at
    [carrier (rig_setoid Int_Ring)], so it IS [RingComm Int_Ring] -- and
    that module is required above.  The short name below is local upkeep

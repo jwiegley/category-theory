@@ -97,7 +97,7 @@ Generalizable All Variables.
     group, the action, the subgroup notion and the powerset preorder to be
     built.  All four exist.
 
-    (1) Instance/Grp.v:184's [GrpObject] is the setoid-level group (carrier,
+    (1) Instance/Grp.v:212's [GrpObject] is the setoid-level group (carrier,
         unit, multiplication, inversion, with the right-handed laws and
         respectfulness of inversion DERIVED), with [GrpHom] at :345 and the
         category [Grp] at :466.
@@ -110,12 +110,12 @@ Generalizable All Variables.
         Instance/Fun/Action.v:115 and the category [MSet M] there.  It is
         CONSUMED below; no second action record is declared.
 
-    (3) Instance/Grp/Quotient.v:156's [Record Subgroup (G : GrpObject)] --
+    (3) Instance/Grp/Quotient.v:177's [Record Subgroup (G : GrpObject)] --
         fields [sub_mem : carrier G -> Type], [sub_resp], [sub_unit],
         [sub_mul], [sub_inv] -- is the subgroup notion.  It is what
         [stab_Subgroup] below inhabits.
 
-    (4) The powerset preorder is Instance/Powerset.v:285-295's
+    (4) The powerset preorder is Instance/Powerset.v:294-304's
         [subset_le] / [subset_le_preorder] / [Subsets X := Proset
         (subset_le_preorder X)], over Instance/Sets/Powerset.v:981's
         [Powerset_Prop_obj X] -- the [equiv]-respecting Prop-valued
@@ -126,7 +126,7 @@ Generalizable All Variables.
     suggested module [Instance/Group/Galois.v] names a directory that does
     not exist; the tree's group directory is [Instance/Grp/], so the file
     is placed there.  And the bridge from a group to the monoid an
-    [MSetoidAction] acts by is Instance/Rep.v:176's [grp_mon], consumed
+    [MSetoidAction] acts by is Instance/Rep.v:184's [grp_mon], consumed
     here.  ([Construction/Deloop.v:267] declares a SECOND record also named
     [GrpObject], layered on [MonObject]; it is not the one
     Instance/Grp/Quotient.v's [Subgroup] is over, so the file imports
@@ -140,10 +140,10 @@ Generalizable All Variables.
     constructions over arbitrary [RA]/[RB], so a grep finds five):
     Instance/Proset/Galois.v:249's [nat_shift_galois]
     (truncated subtraction left adjoint to addition on the naturals),
-    Instance/Powerset.v:387's [image_preimage_galois] (direct image left
+    Instance/Powerset.v:396's [image_preimage_galois] (direct image left
     adjoint to inverse image) and Instance/FinSet/Subsets.v:599's
     [finpow_image_preimage_galois] (the same over decidable finite
-    subsets).  A fourth occurrence, Test/ProbePowerset382.v:371, is a probe
+    subsets).  A fourth occurrence, Test/ProbePowerset382.v:381, is a probe
     control.  ALL THREE library ones are COVARIANT: each has both maps
     monotone for the given inclusions.  [group_action_galois] below is
     therefore the tree's first ANTITONE one -- the first whose second
@@ -165,7 +165,7 @@ Generalizable All Variables.
     library is [crelation]-valued, hence [Type]-valued -- while a member of
     [Powerset_Prop_obj X] must be [Prop]-valued, since [subset_le] has to
     be a stdlib [relation] for [Proset] and [GaloisConnection] to apply at
-    all (Instance/Powerset.v:283 records that constraint).  The fixing
+    all (Instance/Powerset.v:292 records that constraint).  The fixing
     condition is therefore TRUNCATED, by Instance/Sets/Powerset.v:951's
     impredicative [Powerset_squash A := forall Q : Prop, (A -> Q) -> Q],
     exactly as [Powerset_Prop_image] truncates its existential.  Nothing is
@@ -197,7 +197,7 @@ Generalizable All Variables.
         [Powerset_Prop_obj X].  A [:=] term (the setoid's [equiv] on
         that object is pointwise [Powerset_Prop_truth_equiv], so the
         witness is [fun x => conj (H1 x) (H2 x)]).  It belongs beside
-        Instance/Powerset.v:322's [subsets_iso_of_equiv], which is the
+        Instance/Powerset.v:331's [subsets_iso_of_equiv], which is the
         converse direction read into the category; it is declared here
         because that file is not edited.
 
@@ -346,7 +346,7 @@ Generalizable All Variables.
     already inside one of those four.  Without the section (I) bridge the
     figure is 126.
 
-    Instance/Grp/Free.v:273's [grp_deloop_monoid] is the SAME monoid
+    Instance/Grp/Free.v:341's [grp_deloop_monoid] is the SAME monoid
     bridge by a cheaper route -- swapping it in for [grp_mon] measures 126
     rather than 129, and unlike [grp_mon] it is a plain [Definition]
     rather than a [Program] one -- but the two produce DIFFERENT
@@ -366,7 +366,7 @@ Generalizable All Variables.
     each sufficient alone: [Powerset_Prop_obj] is declared over a
     [SetoidObject@{o o}] (Instance/Sets/Powerset.v:981) and is the one
     this file meets first, in section (C); [subset_le],
-    [subset_le_preorder] and [Subsets] (Instance/Powerset.v:285-295) each
+    [subset_le_preorder] and [Subsets] (Instance/Powerset.v:294-295) each
     demand the same, measured out of tree at levels declared apart.  So
     both [grp_setoid G] and [act_setoid A] must have their two universes
     equal before any subset can be named, and [Set < o] is
@@ -646,7 +646,7 @@ Definition stab_PreOrder_G :
 (** ** (D) The stabiliser is a subgroup *)
 
 (* Mac Lane's "L X is the subgroup of G which fixes all points x in X",
-   as an inhabitant of Instance/Grp/Quotient.v:156's record.  [sub_mem]
+   as an inhabitant of Instance/Grp/Quotient.v:177's record.  [sub_mem]
    wants a [Type]-valued membership and [stab X s] is a [Prop], which is a
    [Type] by cumulativity; nothing is wrapped.  The four laws are the four
    the action supplies: saturation is [stab]'s own respectfulness, the unit

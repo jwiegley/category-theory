@@ -24,7 +24,7 @@ Generalizable All Variables.
     Instance/Ab/Coproduct.v's coproduct are binary, and the tree's
     [HasIndexedProducts] inhabitants — Sets' (Instance/Sets/Products.v:302),
     Cat's and StrictCat's (Instance/Cat/Limit.v:293, :521), functor
-    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v:520, :713) and
+    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v:530, :723) and
     [_1]'s (Structure/Limit/Power/Adjunction.v:1611) — include no algebraic
     category; measured by `grep -rn 'Instance .*HasIndexedProducts\|
     Definition .*HasIndexedProducts' --include='*.v'`.

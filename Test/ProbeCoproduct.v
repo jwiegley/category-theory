@@ -172,8 +172,8 @@ Fail Definition neg_wedge_is_sum (X Y : PointedTop) :
 
 (** ** Formability negatives: the [Set] pin inherited from Instance/Ab.v *)
 
-(* Instance/Ab.v:227's [Ab_trivial] is declared with NO universe binders,
-   at [AbObject@{Set Set Set}] — unlike Instance/CMon/Biproduct.v:72's
+(* Instance/Ab.v:241's [Ab_trivial] is declared with NO universe binders,
+   at [AbObject@{Set Set Set}] — unlike Instance/CMon/Biproduct.v:73's
    [CMon_trivial@{o}], which is polymorphic.  That pin propagates through
    [Ab_Zero] to everything mentioning a zero morphism, hence to the
    biproduct records and to both derived structures, in Ab and (through

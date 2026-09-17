@@ -262,7 +262,7 @@ Generalizable All Variables.
        directly and only its two naturality fields become obligations.
        The line was removed after measuring that.
 
-   3.  [Constant_Functor] already exists (Instance/Fun/Terminal.v:342)
+   3.  [Constant_Functor] already exists (Instance/Fun/Terminal.v:352)
        and is not reused: requiring that module would take this file's
        transitive closure from 39 modules to 74 (measured by following
        every Require line to a fixed point), which is a heavy price on
@@ -282,7 +282,7 @@ Generalizable All Variables.
 
    6.  A name collision was found by sweeping every name this file
        introduces and was renamed away before landing: [two_pick] is
-       taken by Instance/Fun/Terminal.v:692, and since the
+       taken by Instance/Fun/Terminal.v:703, and since the
        print-assumptions target loads many modules into one scope a
        shared name would have audited the wrong constant.  The witness
        here is [two_pick_nat].  Over all 95 names introduced by this

@@ -38,9 +38,9 @@ Generalizable All Variables.
    Instance/Poset.v:92-95 record the consequence for the adjoint functor
    theorems, and Structure/Complete.v:64-77 the statement.  Near-namesakes:
    Structure/Premonoidal/Freyd.v is about Freyd CATEGORIES (premonoidal),
-   unrelated; Structure/Limit/FromProducts.v:279 opens a [Section
+   unrelated; Structure/Limit/FromProducts.v:292 opens a [Section
    ArrowIndex] around its [ArrowIx] index type (section names do not
-   survive [End], so there is no clash), and Theory/Size.v:280's [TotalMor]
+   survive [End], so there is no clash), and Theory/Size.v:328's [TotalMor]
    is the same idea as a Σ-type — the witness of item (2) uses it.
 
    STALE PREMISES, RE-MEASURED.  The issue's "Verified ABSENT" paragraph is

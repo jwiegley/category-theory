@@ -307,7 +307,7 @@
      - No enriched reading: both hom-sets in play are abelian groups and
        Adjunction/Additive.v's [adj_hom_ab_iso] is one Require away, but
        it needs [AbEnriched (RMod R)], which the tree does not have
-       (Instance/Mod.v:809 supplies only [RMod_Preadditive]).  So the
+       (Instance/Mod.v:913 supplies only [RMod_Preadditive]).  So the
        bijection is NOT exhibited as an isomorphism in [Ab], and no
        additivity of either adjoint is claimed.
      - No isomorphism Hom_ℤ(ℤ, A) ≅ A, hence nothing says

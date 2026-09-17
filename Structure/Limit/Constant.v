@@ -1052,7 +1052,7 @@ Qed.
 
 (** ** Non-vacuity: the walking arrow *)
 
-(* [Two_Connected] is Structure/Limit/Components.v:897, consumed rather
+(* [Two_Connected] is Structure/Limit/Components.v:916, consumed rather
    than rebuilt. *)
 
 Definition two_ConnectedNonempty : ConnectedNonempty _2 :=

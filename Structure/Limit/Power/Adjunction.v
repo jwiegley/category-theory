@@ -502,7 +502,7 @@ Generalizable All Variables.
    [C]'s own [≈].  [HomAllStrict C] is exactly where they coincide.
 
    ★ IT IS NOT A NEW HYPOTHESIS AND IS NOT REDECLARED.
-   Construction/Comma/Special.v:395 already carries [HomStrict], at a FIXED
+   Construction/Comma/Special.v:402 already carries [HomStrict], at a FIXED
    pair of objects, for its own [Full] criterion; that name is CONSUMED here
    and quantified over all objects ([HomAllStrict C := ∀ x y, HomStrict x y])
    at a marginal cost of 4 modules.  The collision was found by sweeping this
@@ -649,7 +649,7 @@ Generalizable All Variables.
    it).  TWO REAL
    COLLISIONS were found before landing and BOTH were resolved by consuming
    the donor rather than by renaming: [HomStrict] and [One_HomStrict] are
-   Construction/Comma/Special.v:395/:617.
+   Construction/Comma/Special.v:402/:617.
 
    Test/ProbeCopower366.v mirrors this file's full [Require] list and carries
    FIFTEEN refutation commands = 1 instrument check + 14 negatives of THREE
@@ -1439,7 +1439,7 @@ Arguments Copower_Bifunctor_Iso {C HC} J.
     argument rather than hidden.  It is inhabited in tree -- degenerately,
     by the terminal category, whose hom-setoid IS [Morphism_equality]. *)
 
-(* [Construction/Comma/Special.v:395] already declares this hypothesis at a
+(* [Construction/Comma/Special.v:402] already declares this hypothesis at a
    FIXED pair of objects, for exactly this reason (its [Full] criterion for
    the discrete-hom comparison), so it is CONSUMED here and quantified over
    all objects rather than redeclared.  Its [Blur_HomStrict_absurd] is a
@@ -1589,7 +1589,7 @@ Arguments Ex1_Bifunctor {C HC}.
 
    [_1]'s hom-setoid IS [Morphism_equality] (Instance/One.v:32), so
    [HomAllStrict _1] is the identity implication -- which is also the donor's
-   own [One_HomStrict] (Construction/Comma/Special.v:617), there at the
+   own [One_HomStrict] (Construction/Comma/Special.v:624), there at the
    single object pair.  The witness exercises the
    HYPOTHESES and the assembly, not the conclusion: everything in [1]
    collapses to [ttt]. *)

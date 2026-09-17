@@ -179,8 +179,8 @@
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
    Instance/Ab/Free.v:87–91 says the tree "has only the forgetful
-   direction ([RMod_Forget_Ab], Instance/Mod.v:300)";
-   Instance/Mod/Quotient.v:139–145 says "an [AbObject] is not exhibited
+   direction ([RMod_Forget_Ab], Instance/Mod.v:350)";
+   Instance/Mod/Quotient.v:147–145 says "an [AbObject] is not exhibited
    as a ℤ-module anywhere in the tree" and names
    Instance/Rng/Mod.v:675's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
    the near miss that is NOT it; Instance/Mod/Tensor.v:234 records the

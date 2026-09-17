@@ -246,7 +246,7 @@ Local Set Default Proof Using "All".
     [Ab_LocallyPropositional] (Instance/Ab.v:713),
     [RMod_LocallyPropositional] (Instance/Mod.v:337),
     [CMon_LocallyPropositional] (Instance/CMon.v:236) and
-    [DeloopRig_LocallyPropositional] (Theory/Algebra/Rig.v:357).
+    [DeloopRig_LocallyPropositional] (Theory/Algebra/Rig.v:392).
     Those are the ambients the nine module and bimodule objects
     built on [hom_ab] actually use, so none of them gained a
     hypothesis.
@@ -288,7 +288,7 @@ Local Set Default Proof Using "All".
     A transpose is one leg of an isomorphism of setoids, so it is
     injective; the two round-trip corollaries of Theory/Adjunction.v
     are all that is needed.  Stated here rather than upstream because
-    the copy a name search finds, [Instance/Rng/Free.v:739]'s
+    the copy a name search finds, [Instance/Rng/Free.v:782]'s
     [to_adj_injective], sits in a file this one does not require —
     that search was by NAME, so it is not evidence that no other
     spelling of the same fact exists.  The names are kept apart

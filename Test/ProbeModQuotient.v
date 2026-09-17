@@ -62,7 +62,12 @@ Generalizable All Variables.
       "(cannot unify "ab_coset_eq f x y" and
         "mquot_rel (ImageSubmod f) x y")"
     -- a genuine conversion refusal.  (The printed form drops [rm_hom],
-    which is a coercion.)
+    which is a coercion.)  RE-MEASURED at the end of the PR "algebraic
+    carriers are sets" (2026-09-17) by stripping this [Fail] alone in a
+    copy of this WHOLE file: rc=1, and the parenthetical above reproduces
+    byte for byte.  An earlier note said the file was blocked from
+    building and the text could not be re-measured; it builds, and it
+    was.
 
     AN EARLIER REVISION wrote both relations as [sigT]s and called the
     refusal "a conversion failure between the two [sigT] types".  Since the

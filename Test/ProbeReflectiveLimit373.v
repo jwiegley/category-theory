@@ -218,9 +218,9 @@ End ShapeUniverseProbe.
 
 (** ** Non-vacuity: the torsion-free abelian groups *)
 
-(* [TorsionFree_Reflective] (Instance/Ab/TorsionFree.v:524) is a full
+(* [TorsionFree_Reflective] (Instance/Ab/TorsionFree.v:563) is a full
    reflective subcategory of [Ab], and [Ab] has a terminal object
-   ([Ab_Terminal], Instance/Ab.v:244).  The empty diagram therefore has a
+   ([Ab_Terminal], Instance/Ab.v:258).  The empty diagram therefore has a
    limit downstairs, and Mac Lane's exercise produces one upstairs.
 
    The limit downstairs is built here rather than taken from

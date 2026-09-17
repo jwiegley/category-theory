@@ -51,7 +51,7 @@ Generalizable All Variables.
     unital K-algebras over a commutative base, with a CENTRAL structure
     map in place of commutativity of the ring) are
     Instance/Rng/Algebras.v's centre-valued sibling
-    Instance/Rng/Algebras/Associative.v:142,:187.  So the first half of
+    Instance/Rng/Algebras/Associative.v:143,:188.  So the first half of
     the issue's work item 1 was already discharged, and this file
     CONSUMES [AAlgObject], [AAlg], [AAlg_RMod], [AAlg_RModHom],
     [AAlg_Forget_Mod] and the non-commutative witness [UT2] rather than
@@ -257,12 +257,12 @@ Generalizable All Variables.
     [RingObject], and claiming so would have repeated a census
     Instance/Rng/Algebras/Associative.v's header took before its
     neighbours landed.  AT LEAST TWO MORE are proved non-commutative
-    elsewhere: [TensorRing] (Instance/Vect/TensorAlgebra.v:479, by that
+    elsewhere: [TensorRing] (Instance/Vect/TensorAlgebra.v:495, by that
     file's [tensor_not_commutative]:1113) and [MonoidRing]
-    (Instance/Rng/MonoidRing.v:389, by [zmring_not_commutative]:778).
+    (Instance/Rng/MonoidRing.v:404, by [zmring_not_commutative]:778).
     No total is given, and deliberately: a NAME-ANCHORED declaration-head
     sweep -- one matching `Definition <name> : RingObject` -- undercounts,
-    [Int_Ring] itself (Theory/Algebra/Rig.v:588) being invisible to it
+    [Int_Ring] itself (Theory/Algebra/Rig.v:704) being invisible to it
     because a universe annotation sits between the name and the colon.
     Say name-anchored rather than "a sweep for [: RingObject]": the bare
     literal DOES match that line, so only the anchored form misses it.

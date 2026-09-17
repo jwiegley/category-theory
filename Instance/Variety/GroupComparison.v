@@ -18,7 +18,7 @@ Generalizable All Variables.
 
    ** THE ISOMORPHISM IS NOT AVAILABLE, AND THE REASON IS STRUCTURAL
 
-   [Grp]'s objects (Instance/Grp.v:184) carry an ARBITRARY [SetoidObject]:
+   [Grp]'s objects (Instance/Grp.v:212) carry an ARBITRARY [SetoidObject]:
    a type together with a chosen equivalence, with every law stated up to
    that `≈`.  [GroupVariety]'s objects carry a BARE TYPE, with every law a
    Leibniz [=], because that is what Instance/Comp.v's [OpAlgebra] and

@@ -18,7 +18,7 @@ Generalizable All Variables.
 (* The global obligation tactic is [cat_simpl], which would run wide proof
    searches on the module obligations below and has already introduced the
    parameters by the time an obligation is opened.  Switched off here, the
-   Instance/Mod.v:104 idiom, so every obligation starts with an explicit
+   Instance/Mod.v:111 idiom, so every obligation starts with an explicit
    [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -63,7 +63,7 @@ Generalizable All Variables.
     with the vector-space reading — which is the literal content of all
     three catalogued items — split off into Instance/Vect/Free.v, where
     [Vct_F F] is [RMod (field_ring F)] by DEFINITION
-    (Instance/FdVect.v:223) and the specializations are therefore
+    (Instance/FdVect.v:224) and the specializations are therefore
     conversions rather than transports.
 
     HOW THE FREE MODULE IS PRESENTED, AND HOW THAT DIFFERS FROM THE
@@ -373,7 +373,9 @@ Qed.
    respectfulness of the fold and preservation of zero, of addition and
    of the action; the last three hold by [reflexivity], the fixpoint's
    clauses BEING those three equations.  One uniform body is used so that
-   the proof does not depend on the order [Program] emits them in. *)
+   the proof does not depend on the order [Program] emits them in.  Still
+   four after the PR "algebraic carriers are sets" (2026-09-17),
+   re-counted from the [_obligation_] names [Print Module] lists. *)
 Program Definition fv_extend : FreeModObject ~{RMod R}~> W := {|
   rm_hom := {| cmon_map := {| morphism := fv_eval |} |}
 |}.

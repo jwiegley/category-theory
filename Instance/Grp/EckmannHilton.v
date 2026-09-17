@@ -83,7 +83,7 @@ Local Set Default Proof Using "All".
 
 (* A PRIOR-ART CORRECTION.  The issue's "Current state" section says that
    "no category Grp and no category of group objects exists".  BOTH halves
-   are stale.  [Grp] is Instance/Grp.v:466 and [GrpCat], the category of
+   are stale.  [Grp] is Instance/Grp.v:532 and [GrpCat], the category of
    group objects in a cartesian monoidal category, is
    Theory/Algebra/Group/Hom.v.  An object of [GrpCat GrpS] is precisely a
    [GrpS]-object together with a [@GroupObject GrpS GrpCM] structure on it,
@@ -226,11 +226,19 @@ Local Set Default Proof Using "All".
 
 (* THE Set PIN, DISCLOSED
 
-   [Grp_Terminal] (Instance/Grp.v:562) rides [Grp_trivial]
-   (Instance/Grp.v:522), which is declared with a single universe binder
-   where the record wants more, so [Grp_trivial@{u} : GrpObject@{u Set u}]
+   [Grp_Terminal] (Instance/Grp.v:641) rides [Grp_trivial]
+   (Instance/Grp.v:600), which is declared with a single universe binder
+   where the record wants more, so [Grp_trivial@{u} : GrpObject@{u u Set}]
    and [Grp_Terminal@{u} : Terminal@{u Set}]: the HOM universe is pinned
-   at [Set].  Since a [CartesianMonoidal] structure on Grp needs a terminal
+   at [Set].  (CORRECTION, the PR "algebraic carriers are sets"
+   (2026-09-17): an earlier revision wrote [Grp_trivial]'s readback as
+   [GrpObject@{u Set u}] and cited [Grp_Terminal] at Instance/Grp.v:562
+   and [Grp_trivial] at :522.  That PR permuted [GrpObject]'s universe
+   roles from (carrier, proof, aux) to (aux, carrier, proof) and moved
+   both constants down the file; the two readbacks above are re-measured
+   by [About] under [Set Printing Universes] after it.  [Grp_Terminal]'s
+   is unchanged, and so is the pin.)  Since a [CartesianMonoidal]
+   structure on Grp needs a terminal
    object, everything in this file is confined to groups whose hom-setoids
    live in [Set], which is what the local abbreviation
 
@@ -332,7 +340,7 @@ Local Set Default Proof Using "All".
    condition itself is written INLINE at four sites in three files -- as a
    hypothesis [comm] at Instance/Grp/TwoFunctors.v:196 and at
    Instance/Grp/Abelianization.v:165, and as a conclusion at
-   Instance/Grp/Center.v:160 and :201 -- so this is a naming, not a
+   Instance/Grp/Center.v:166 and :201 -- so this is a naming, not a
    discovery, and all four sites are left alone.  [AbelianGrp] here is a
    PREDICATE on Instance/Grp.v's [GrpObject]; it is NOT
    Structure/Abelian.v's [Class Abelian] (a property of a CATEGORY) and it
@@ -360,7 +368,7 @@ Local Set Default Proof Using "All".
    [Abelian] is not worth the aesthetics.  [grp_ab_inverse] and
    [eh_probe_instrument] carry suffixes for a WEAKER reason, and an audit
    corrected an earlier draft that said "for the same reason": they collided
-   with Instance/Ab/Character/Finite.v:1751 and Test/ProbePolynomial.v:85,
+   with Instance/Ab/Character/Finite.v:1752 and Test/ProbePolynomial.v:85,
    but NEITHER of those files is required into the print-assumptions scope
    ([Locate ab_inverse] there returns nothing), so those two renames are
    tree-wide name hygiene and not a gate hazard.  All three collisions were
@@ -624,7 +632,7 @@ Defined.
 (* Inversion as a morphism of Grp.  Instance/Grp.v's [grp_inv_mul] gives
    the ANTIhomomorphism law [(a·b)⁻¹ ≈ b⁻¹·a⁻¹]; commutativity is spent
    exactly once, turning it into a homomorphism law.
-   (Instance/Grp.v:886's [Grp_inv_to]
+   (Instance/Grp.v:975's [Grp_inv_to]
    already packages inversion as a morphism into the OPPOSITE group, which
    needs no hypothesis; that is a different arrow and is not reused.) *)
 Definition grp_ab_inverse : G ~{GrpS}~> G.
@@ -764,7 +772,7 @@ Proof.
   reflexivity.
 Qed.
 
-(* Z/2, Instance/Grp.v:1087's own witness, reused rather than rebuilt. *)
+(* Z/2, Instance/Grp.v:1188's own witness, reused rather than rebuilt. *)
 
 Lemma Z2_abelian : AbelianGrp Z2.
 Proof.

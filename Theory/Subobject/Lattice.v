@@ -166,7 +166,7 @@ Generalizable All Variables.
    anywhere in this tree, as Instance/Sets/Pullback.v:62 records in terms
    ("a class with no instance anywhere"), and this file adds none.
 
-   The powerset analogue.  Instance/Powerset.v:504 and :522 are
+   The powerset analogue.  Instance/Powerset.v:513 and :522 are
    [subset_inter] and [subset_union], the predicate-level meet and join of
    a family of subsets of a setoid, with their universal properties at
    :535 ([subset_inter_IsGLB]) and :544 ([subset_union_IsLUB]).  This

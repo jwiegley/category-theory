@@ -687,7 +687,7 @@ End CommaAsFibreProduct.
    reaches, by a different argument.  It is a CROSS-CHECK, not a
    strengthening — but state the comparison against the right constant.
 
-   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:715) the
+   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:737) the
    two are of EQUAL strength.  That one takes [PreservesImageLimit], which
    quantifies over every shape just as [ContinuousFunctor U] does — indeed
    the two premises are interderivable by identity functions in that very

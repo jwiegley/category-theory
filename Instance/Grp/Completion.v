@@ -56,9 +56,9 @@ Generalizable All Variables.
 
     (1) FALSE.  It says stating the second form needs "a forgetful
         [Grp ⟶ Mon] that does not exist".  It exists:
-        [Grp_MonSets : Grp ⟶ MonSets] at Instance/Rng/GroupRing.v:155,
+        [Grp_MonSets : Grp ⟶ MonSets] at Instance/Rng/GroupRing.v:156,
         over [MonSets := @Mon Sets Sets_Product_Monoidal]
-        (Instance/Rng/MonoidRing.v:170).  An internal monoid in the
+        (Instance/Rng/MonoidRing.v:171).  An internal monoid in the
         cartesian monoidal category of setoids IS an ordinary setoid
         monoid, and Instance/Rng/MonoidRing.v supplies the element-level
         dictionary ([mcar], [mop], [mone], [mmap], [mhom]) that a

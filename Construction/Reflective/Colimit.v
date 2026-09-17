@@ -61,7 +61,7 @@ Generalizable All Variables.
     [terminal_Colimit]), so [reflective_terminal_shape_colimit] needs no
     cocompleteness hypothesis; Test/ProbeReflectiveColimit434.v
     instantiates it at the torsion-free reflection of abelian groups
-    (Instance/Ab/TorsionFree.v:524 [TorsionFree_Reflective]) over
+    (Instance/Ab/TorsionFree.v:563 [TorsionFree_Reflective]) over
     [Ordinal 2] — two objects and a non-identity arrow, so the generic
     term's leg obligations are discharged at a shape that has one; the
     probe reads back the apex at [eq_refl] and pins no leg there.  The
@@ -77,7 +77,7 @@ Generalizable All Variables.
     (Structure/Complete.v:119) is said to have "no concrete instance and
     only a hypothesis use in Theory/Adamek/Corollaries.v": it has three
     inhabitants — [Sets_Cocomplete] (Instance/Sets/Cocomplete.v:485),
-    [Subsets_Cocomplete] (Instance/Powerset.v:641),
+    [Subsets_Cocomplete] (Instance/Powerset.v:659),
     [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v:605) — and
     ten files binding a [Cocomplete] hypothesis (grep for [Cocomplete] in
     binder position: `(… : Cocomplete`, `Cocomplete →`, `Context …

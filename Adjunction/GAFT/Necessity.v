@@ -155,7 +155,7 @@ Generalizable All Variables.
         Subsets_Complete    -- ACCEPTED
 
       The one witness that satisfies it is the THIN one -- the powerset
-      lattice of Instance/Powerset.v:637.  That is not an accident and it
+      lattice of Instance/Powerset.v:655.  That is not an accident and it
       is not a defect: it is Freyd's collapse (Structure/Complete/Freyd.v)
       appearing as a universe constraint.  A category with limits over
       shapes as large as itself has an initial object, and by Freyd it is
@@ -203,7 +203,7 @@ Generalizable All Variables.
        ([ConstOne_pt]) and is unique, and both clauses of [IsLimitCone]
        are that one lemma.  [ConstOne_PreservesImageLimit] is the same
        fact in the hypothesis shape [GAFT] and [representability_theorem]
-       consume, through Construction/Comma/Creation.v:232.
+       consume, through Construction/Comma/Creation.v:245.
 
    (B) THE BICONDITIONAL, which is the sharp form and the model is
        Instance/Sets/NoAdjoint.v:313.  [ConstOne_representable_iff_initial
@@ -314,7 +314,7 @@ Generalizable All Variables.
    EQUATIONS, both in the [Solovay] section: [solovay_no_left_adjoint]
    carries [u0 = u3] and [u1 = u2], [solovay_gaft_refuted] those plus
    [u6 = u21].  Attributed by [About] on the donor, not guessed:
-   [universal_arrow_of_adjunction] (Adjunction/GAFT.v:406) binds
+   [universal_arrow_of_adjunction] (Adjunction/GAFT.v:544) binds
    [{C : Category@{u7 u8 u8}} {D : Category@{u6 u8 u8}}], identifying the
    hom-and-proof levels of the two categories, and that is [Adjunction]'s
    own block.  The control rules out the obvious alternative: the bare

@@ -167,7 +167,7 @@ Context (GP : PreservesWidePullbacks G).
    an UNANNOTATED section, applying [GAFT] to the spanning solution set is
    refused, 'universe inconsistency: Cannot enforce Set = <the section's
    hom universe>' -- a section Context binds rigid universes and GAFT is
-   pinned at [Category@{_ Set Set}] through Theory/WeaklyInitial.v:102's
+   pinned at [Category@{_ Set Set}] through Theory/WeaklyInitial.v:143's
    [initial_from_weakly_initial].  This is why [GAFT_from_spanning] sits
    in its own section over [Category@{oA Set Set}]; the annotated form is
    the positive control, [GAFT_from_spanning] itself, checked above."

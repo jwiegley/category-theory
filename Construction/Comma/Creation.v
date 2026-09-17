@@ -123,7 +123,7 @@ Generalizable All Variables.
    that eliminates the shape's [x = y] into a hom pins both categories to
    [Category@{_ Set Set}], and is refused over a generic [C] with
    "universe inconsistency: Cannot enforce Set = ..." (probe negative n2) —
-   the tree's own [DiscreteCat_Functor] (Instance/Discrete.v:59) prints as
+   the tree's own [DiscreteCat_Functor] (Instance/Discrete.v:81) prints as
    [DiscreteCat@{u Set Set} A ⟶ C] for that reason, and a hand-rolled
    eliminator is refused identically, so the pin belongs to the ELIMINATION
    and not to any one constant."  The diagnosis named the wrong culprit.
@@ -716,7 +716,7 @@ End CommaEqualizers.
    A SECOND CORRECTION, to the sentence that followed.  An earlier revision
    continued: "What IS refused is a functor OUT OF [DiscreteCat A] that
    eliminates the shape's [x = y] into a hom: [DiscreteCat_Functor]
-   (Instance/Discrete.v:59) prints as [DiscreteCat@{u Set Set} A ⟶ C], and a
+   (Instance/Discrete.v:81) prints as [DiscreteCat@{u Set Set} A ⟶ C], and a
    hand-rolled eliminator is refused with the same "Cannot enforce
    Set = ..." (probe negative n2), even at a concrete base such as
    [C = D = Sets] with [U = Id].  So the pin belongs to the elimination, not

@@ -95,7 +95,7 @@ Generalizable All Variables.
     THE OTHER TWO CONSTRUCTIONS the paragraph named are NOT unified,
     and re-reading their record types shows why the count of "three
     unshared quotient constructions" was itself imprecise.
-    Instance/Grp/Epi.v:433's [Grp_Coset] is a [SetoidObject] and not a
+    Instance/Grp/Epi.v:456's [Grp_Coset] is a [SetoidObject] and not a
     [GrpObject] at all: it is the coset space of the image of an
     arbitrary homomorphism, and that file's argument exists precisely
     for the case where the image is NOT normal (its :171, :1488 and

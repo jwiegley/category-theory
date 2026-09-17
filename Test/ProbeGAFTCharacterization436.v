@@ -143,7 +143,7 @@ Fail Check (fun (C D : Category) (U : C ⟶ D) (comp : @Complete C)
     formable over a category whose hom level is declared strictly above
     [Set], while [solution_set_of_adjunction] was.  [GAFT]'s [Set] came
     from Instance/Discrete.v's unannotated [DiscreteCat_Functor] through
-    Adjunction/GAFT.v:249 and [initial_from_weakly_initial]; annotating
+    Adjunction/GAFT.v:348 and [initial_from_weakly_initial]; annotating
     that donor in the PR "algebraic carriers are sets" (2026-09-17)
     removes it, and [GAFT_iff] is now ACCEPTED at those levels.  Both
     lines are kept as positive controls, so dropping the annotation

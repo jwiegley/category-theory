@@ -1114,6 +1114,9 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_Id_unit_inverse.'; \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.AdjointEquivalence_swap_readback.'; \
+	  : 'Gate lines added by the PR algebraic carriers are sets (2026-09-17),'; \
+	  : 'for constants the Grp layer gained and the recipe did not yet name.'; \
+	  echo 'Print Assumptions Category.Instance.Rep.rmod_hom_monoid_prop.'; \
 	} > .pa-tmp/pa.v
 	@{ \
 	  echo 'Print Assumptions Category.Theory.Equivalence.Adjoint.Compose.IsIso_along.'; \
@@ -1825,6 +1828,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions HomGrpObject.'; \
 	  echo 'Print Assumptions HomGrpHom.'; \
 	  echo 'Print Assumptions HomGrpFunctor.'; \
+	  echo 'Print Assumptions Category.Structure.Group.Representable.hom_grp_setoid.'; \
 	  echo 'Print Assumptions exp_MonoidObject.'; \
 	  echo 'Print Assumptions exp_GroupObject.'; \
 	  echo 'Print Assumptions sets_hom_iprod_iso.'; \
@@ -2830,9 +2834,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_setoid.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Epi.StableSetoid_PropEquiv.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Epi.SetoidPermutation_PropEquiv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.grp_coset_power_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.grp_two_prel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.grp_two_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.grp_two_setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.sym3_prel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Epi.sym3_letters_prop.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_equiv.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_equiv_equivalence.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_mul_respects.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Free.free_grp_extend_map.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Pushout.am_eq.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_proj.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.KillsFunctor.'; \
@@ -2849,6 +2860,7 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.third_isomorphism_theorem.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.second_isomorphism_theorem.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.second_isomorphism_theorem_literal.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Isomorphism.psi_kernel_of_meet.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.quot_IsCokernel.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_IsCokernel.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.Colimit.normal_closure_least.'; \
@@ -2879,6 +2891,14 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.A3_proj_not_faithful.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.S3_refl_sub_no_congruence.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Congruence.coset_orientations_differ.'; \
+	  : 'Gate lines added by the PR algebraic carriers are sets (2026-09-17),'; \
+	  : 'for constants the Grp layer gained and the recipe did not yet name.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_prel.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_prel_congruence.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.ns_prel_is_truncation.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Congruence.deloop_pkills.'; \
+	  echo 'Require Import Category.Instance.Grp.Abelianization.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.Abelianization.commutator_setoid.'; \
 	  echo 'Print Assumptions ab_sub.'; \
 	  echo 'Print Assumptions ab_sub_plus.'; \
 	  echo 'Print Assumptions ab_sub_eq_zero_iff.'; \

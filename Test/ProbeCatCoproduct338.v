@@ -5,8 +5,8 @@
     The two target files pin FOUR refutations of their own, and not all
     of one kind: three CONVERSION
     (`Construction/Coproduct/Indexed.v:530`,
-    `Instance/Cat/Coproduct.v:396` and `:399`) and one FORMABILITY
-    (`Instance/Cat/Coproduct.v:418`, the smallness measurement).  This
+    `Instance/Cat/Coproduct.v:403` and `:399`) and one FORMABILITY
+    (`Instance/Cat/Coproduct.v:425`, the smallness measurement).  This
     file pins the THREE boundaries they cannot state -- two because
     stating them needs a section declaring universe levels strictly
     apart, which a target cannot carry without constraining itself.

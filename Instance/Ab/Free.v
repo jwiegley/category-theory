@@ -86,7 +86,7 @@ Generalizable All Variables.
     preference: the free abelian group on X is the free ℤ-module on X,
     but transporting the universal property across needs a passage
     Ab → RMod ℤ giving every abelian group its ℤ-action, and no such
-    passage exists ([RMod_Forget_Ab], Instance/Mod.v:300, is the
+    passage exists ([RMod_Forget_Ab], Instance/Mod.v:350, is the
     forgetful direction; Instance/Mod/BaseChange.v's [ZExt Int_Ring]
     does run Ab → RMod ℤ but sends A to ℤ ⊗ A, not to A carrying its
     own ℤ-action, so it is not the passage wanted here)
@@ -203,9 +203,12 @@ Generalizable All Variables.
         same block.  Nothing here adds to it, and it is not claimed
         unavoidable.
       - EXACTLY FOUR of the 76 names the file's [.glob] records (that
-        count excludes the 8 generated eliminators and the 4 [Program]
-        obligations, and excludes the 4 phantom names the [Fail]
-        commands put there) carry [Set] in a constraint block, and all
+        count excludes the generated eliminators -- SIX of them since the
+        PR "algebraic carriers are sets" (2026-09-17), not the eight an
+        earlier revision wrote; see the axiom paragraph below -- and the
+        4 [Program] obligations, and excludes the 4 phantom names the
+        [Fail] commands put there) carry [Set] in a constraint block,
+        and all
         four are the concrete two-generator witness ([ab_int_probe] and its
         three computing [Example]s), where [bool : Set] forces it.
         That took work: writing the general separations with ℤ-valued
@@ -217,13 +220,24 @@ Generalizable All Variables.
         the two together pin.  Abstracting the target lifts it, which is
         why the general theorems are stated over an arbitrary A.
 
-    ZERO AXIOMS.  All 88 constants of this file -- 38 transparent
-    definitions, 8 generated eliminators, 23 opaque proofs, 4 [Program]
-    obligations (invisible to a [.glob] sweep, and reachable only by
-    fully qualified name), 2 inductive types and their 13 constructors --
-    report "Closed under the global context".  [∃] in this library is
-    [sigT], so witnesses are DATA and no choice principle is consumed
-    anywhere.
+    ZERO AXIOMS.  All 85 constants of this file -- the 72 that
+    [Print Module] lists (60 definitions and proofs, SIX generated
+    eliminators, 4 [Program] obligations invisible to a [.glob] sweep and
+    reachable only by fully qualified name, and 2 inductive types)
+    together with those types' 13 constructors -- report "Closed under
+    the global context".  [∃] in this library is [sigT], so witnesses are
+    DATA and no choice principle is consumed anywhere.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+    by generating one [Print Assumptions] per name from [Print Module]:
+    72 commands, 72 "Closed under the global context", zero [Axioms:]
+    blocks; [grep -c '^constr ' Instance/Ab/Free.glob] gives 13 and
+    [grep -c '^scheme '] gives 6.  An earlier revision of this paragraph
+    counted 88 constants with EIGHT eliminators and 38 transparent
+    definitions.  The two that went are [fa_eq_rect] and [fa_eq_rec]:
+    that PR made [fa_eq] a [Prop], so Rocq generates only [fa_eq_ind] and
+    [fa_eq_sind] for it.  Nothing was removed from the source, and the
+    13 constructors are unchanged in both trees.
 
     WHAT IS NOT DELIVERED.
 
@@ -430,7 +444,7 @@ Proof.
 Qed.
 
 (* The extension, as a morphism of [Ab].  [AbHom] IS [CMonHom]
-   (Instance/Ab.v:184, a bare [Definition]), so the obligations are
+   (Instance/Ab.v:191, a bare [Definition]), so the obligations are
    respectfulness of the fold and preservation of zero and of addition --
    preservation of NEGATION is not among them, being the derived
    [ab_map_neg] rather than a field.  The last two hold by
@@ -871,8 +885,8 @@ Arguments free_ab_sum_not_summand {X} A a Ha Xdec x y Hxy _.
 
 (** ** A computing witness on two generators
 
-    The integers, as [ring_ab Int_Ring]: Instance/Rng.v:103's [ring_ab]
-    applied to Theory/Algebra/Rig.v:588's [Int_Ring].  This is the same
+    The integers, as [ring_ab Int_Ring]: Instance/Rng.v:109's [ring_ab]
+    applied to Theory/Algebra/Rig.v:704's [Int_Ring].  This is the same
     term Instance/Ab/Coproduct.v:264 names [ab_Z]; that file is NOT
     required here (it would drag the biproduct closure in for one
     definition), so no in-file identification with that name is stated.

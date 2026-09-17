@@ -126,7 +126,7 @@ Generalizable All Variables.
 
 (** ** The image of a homomorphism, as a subgroup of the codomain *)
 
-(* [GrpImage] and its four closure lemmas are Instance/Grp/Epi.v:322-372;
+(* [GrpImage] and its four closure lemmas are Instance/Grp/Epi.v:345-372;
    they are exactly the four [Subgroup] laws, so this record is assembled
    rather than proved. *)
 Definition ImageSub {G K : GrpObject} (h : G ~{Grp}~> K) : Subgroup K :=

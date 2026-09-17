@@ -263,9 +263,18 @@ Definition free_universal_is_total (X : Sets) :
    field constrains only the objects it is a field of, and
    [GrpCosetPower]'s witness comes from its CODOMAIN through
    [hom_PropEquiv].  Truncating it would have cost
-   [transposition_decides_image] its strength.  That development is probed by
-   Test/ProbeGrpEpi*.v and is not restated here; what this file records is
-   that the three relations above are the only ones the Grp layer moved. *)
+   [transposition_decides_image] its strength.  That decision is guarded by
+   two controls in Test/ProbeGrpQuotient.v's [Positive] section --
+   [positive_grp_coset_rel_is_type_valued] and
+   [positive_transposition_decides_image_full] -- and is not restated here;
+   what this file records is that the three relations above are the only
+   ones the Grp layer moved.
+
+   CORRECTION, the same PR.  An earlier revision of the sentence above said
+   "That development is probed by Test/ProbeGrpEpi*.v".  No such file has
+   ever existed ([ls Test/ | grep -iE 'epi|coset|transpos|image'] matches
+   nothing), so the strength claim was unguarded; the two controls named
+   above were landed to close that gap. *)
 
 (* [Grp] is locally propositional, which is what lets the functor-of-points
    constructions of Structure/Group/Representable.v be applied at [Grp]

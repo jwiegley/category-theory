@@ -37,9 +37,9 @@ Generalizable All Variables.
    rather than over a bare [Monoidal] -- the same reason Structure/Group.v
    asks for [CartesianMonoidal] where Structure/Monoid.v asks for nothing.
 
-   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v:469
+   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v:570
    declares a record of that name for the SET-LEVEL notion (a ring on a
-   setoid carrier), and Theory/Algebra/Rig.v:103 likewise takes
+   setoid carrier), and Theory/Algebra/Rig.v:140 likewise takes
    [RigObject].  Both are in scope here, since the [Sets] section below
    compares against them, so the names could not be reused.  The tree
    already carries four distinct "monoid" notions under four names --
@@ -60,7 +60,7 @@ Generalizable All Variables.
    rather than by name" when it is a sweep by the field type's NAME.  By
    SHAPE the pattern DOES occur, and in the very file named below: sweeping
    for record bodies with two [_assoc] axioms returns
-   Theory/Algebra/Rig.v:103's [RigObject], which carries [(rig_zero,
+   Theory/Algebra/Rig.v:140's [RigObject], which carries [(rig_zero,
    rig_add)] and [(rig_one, rig_mul)] on one setoid carrier -- elementwise
    rather than as internal monoid objects, and it is precisely the
    set-level theory this file internalizes.  [GroupObject]

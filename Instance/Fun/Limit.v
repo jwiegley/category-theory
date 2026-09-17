@@ -49,7 +49,7 @@ Generalizable All Variables.
        non-Test/ tree for constants concluding [@Complete] finds at least
        thirteen, unconditional witnesses and premise-carrying transformers
        together — Instance/Sets/Complete.v:196 [Sets_Complete], :464
-       [ConeSet_Complete], Instance/Grp/Limit.v:691 [Grp_Complete],
+       [ConeSet_Complete], Instance/Grp/Limit.v:706 [Grp_Complete],
        Construction/Arrow/Limit.v:426 [Arrow_Complete],
        Construction/Comma/Limit.v:247 [Comma_Complete],
        Construction/Product/Limit.v:620 [PiCat_Complete], [EM_Complete],
@@ -69,7 +69,7 @@ Generalizable All Variables.
        Complete.v:56-58 (the issue says :55-58; the monadic clause's own
        words at :58-60 are untouched — it is [EM_Complete]'s — though :58
        gained "from Sets"), the fourth site the issue misses,
-       Structure/Cartesian/Product.v:34, and Instance/Fun/Terminal.v:298-299
+       Structure/Cartesian/Product.v:34, and Instance/Fun/Terminal.v:308-309
        and :307-309 (that file's NOT DELIVERED list denied both the general
        theorem and any preservation statement; both corrected in place) and
        :100-106 (its "stated in PROSE in three places" framing, now that

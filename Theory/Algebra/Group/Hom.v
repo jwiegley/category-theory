@@ -139,7 +139,7 @@ Generalizable All Variables.
    bracketing and carry no content.
 
    THE NAME.  The category is [GrpCat], not [Grp], and the reason is
-   measured rather than aesthetic: Instance/Grp.v:466 already declares
+   measured rather than aesthetic: Instance/Grp.v:532 already declares
    [Grp : Category] — the concrete category of groups over [Sets] — together
    with [Grp_Cartesian] (:677), [Grp_Terminal] (:562), [Grp_Forget] (:493)
    and [Grp_Forget_Faithful] (:512), FIVE collisions found with [rg] over the
@@ -335,7 +335,7 @@ Generalizable All Variables.
    - No abelian/commutative group objects, and nothing about exponentials.
      Read the second half narrowly: an audit corrected an earlier draft that
      called the [Hom_Monoid] analogue a library gap.  It is not built HERE,
-     but it EXISTS — Structure/Group/Representable.v:996's [exp_GroupObject]
+     but it EXISTS — Structure/Group/Representable.v:1039's [exp_GroupObject]
      is a group structure on the hom-object, in a file this one does not
      require.
    - No infinite or indexed products: this matches [Cartesian], which is
@@ -485,7 +485,7 @@ Proof. exact MonoidHom_equiv. Qed.
    the same sigma packaging as [Mon] (Theory/Algebra/Monoid/Hom.v:83) and as
    [Sub] (Construction/Subcategory.v).
 
-   Named [GrpCat] and not [Grp]: Instance/Grp.v:466 already declares
+   Named [GrpCat] and not [Grp]: Instance/Grp.v:532 already declares
    [Grp : Category], the concrete category of groups over [Sets], along with
    [Grp_Cartesian], [Grp_Terminal], [Grp_Forget] and
    [Grp_Forget_Faithful] (:512) — five collisions,

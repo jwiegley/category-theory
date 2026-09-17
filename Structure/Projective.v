@@ -38,7 +38,7 @@ Generalizable All Variables.
        matching Projective/Injective; the issue's own occurrence counts are
        off — 'projective' occurs in 9 lines of 6 [.v] files, all prose:
        projective limits (Structure/Limit.v:43/:51, Instance/Sets/
-       InverseLimit.v:51), a free module (Instance/Mod/Free.v:175),
+       InverseLimit.v:51), a free module (Instance/Mod/Free.v:176),
        projective geometry (Construction/Opposite.v:27/:40/:43), the
        projective tensor product of Banach spaces (Structure/Closed.v:67) and
        "enough projectives" (Structure/Abelian.v:97, the one line about this
@@ -241,7 +241,7 @@ Generalizable All Variables.
      - Enough projectives, projective or injective resolutions, injective
        hulls, Baer's criterion (Structure/Abelian.v:96-106 frames these as
        background prose; nothing built).
-     - Free modules are projective (Instance/Mod/Free.v:175 records the
+     - Free modules are projective (Instance/Mod/Free.v:176 records the
        absence; it needs that module's machinery).
      - Any relation between projectivity and [StrongEpi] (different
        classes; none holds without further hypotheses).

@@ -56,7 +56,7 @@ Generalizable All Variables.
    packages the four, and [spanning_solution_set] is his consequence:
    a [SolutionSet] (Adjunction/GAFT.v:159) whose index is exactly
    [SpanningArrowsOutOf G x].  [GAFT_from_spanning] feeds it to
-   Adjunction/GAFT.v:243.  Nothing below is stated up to an isomorphism
+   Adjunction/GAFT.v:341.  Nothing below is stated up to an isomorphism
    that is not exhibited: every equation is ≈ between named arrows.
    Two elementary facts, [sub_le_top_iso] (a subobject above the top one
    has an invertible mono) and [spanning_forces_top] (a spanning arrow
@@ -97,21 +97,21 @@ Generalizable All Variables.
 
    THE IN-TREE SITUATION, MEASURED.  Issue #448 recorded as its verified
    current state that [SolutionSet] "is manufactured only in
-   Adjunction/SAFT.v:252, never from spanning arrows".  The second half
+   Adjunction/SAFT.v:269, never from spanning arrows".  The second half
    holds; the first is STALE, and the correction is recorded here rather
    than silently.  With
    grep -rn 'SolutionSet' --include='*.v' . over this worktree (107 lines
    in 16 files with this file and its probes excluded; an earlier
    revision said 109 in 17, measured with the stub still on disk), the
    constants whose result
-   type is [SolutionSet] are: Adjunction/GAFT.v:266 [sols_of_wif] and
+   type is [SolutionSet] are: Adjunction/GAFT.v:377 [sols_of_wif] and
    :287 [sols_of_comma_initial] (repackagings of a weakly initial family
    and of a comma initial object), :367 [solution_set_of_adjunction] and
    :428 [solution_set_of_adjunction_via_comma] (from an adjunction that
-   already exists), Adjunction/SAFT.v:255 [SAFT_solution_set] (the
-   cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v:140
+   already exists), Adjunction/SAFT.v:273 [SAFT_solution_set] (the
+   cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v:155
    [Sets_Id_SolutionSet] (hand-built at the identity functor of Sets) and
-   :220 its adjunction-built twin, Adjunction/Representability/Sets.v:248
+   :220 its adjunction-built twin, Adjunction/Representability/Sets.v:301
    [sols_of_esols], Instance/Grp/FreeAFT.v:417 and Instance/Rng/AFT.v:787
    and :791, and Test/ProbeGrpFreeAFT442.v:239.
 
@@ -531,12 +531,12 @@ End SpanningLemma.
       Set Printing Universes, [About GAFT] reports
         GAFT@{u u0 u1 u2 u3 u4} :
           ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}} ...
-      -- Adjunction/GAFT.v:243 is pinned at hom = proof = Set in BOTH
+      -- Adjunction/GAFT.v:341 is pinned at hom = proof = Set in BOTH
       arguments.  The pin is ATTRIBUTED BY About, not guessed: of the
       five constants GAFT's proof consumes, [Comma_Complete],
       [wif_of_sols], [Complete_HasEqualizers] and [GAFT_from_initials]
       all report a free hom universe, and [initial_from_weakly_initial]
-      (Theory/WeaklyInitial.v:102) reports
+      (Theory/WeaklyInitial.v:143) reports
         initial_from_weakly_initial@{u u0 u1 u2} :
           ∀ {C : Category@{u2 Set Set}} ...
       so that is the carrier.  (Instance/One.v's [_1],

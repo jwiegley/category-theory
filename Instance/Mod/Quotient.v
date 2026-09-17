@@ -110,7 +110,7 @@ Generalizable All Variables.
 
     RECONCILIATION WITH THE PRE-EXISTING QUOTIENT, which the issue does
     not mention and which a reader will otherwise trip over.
-    Instance/Mod.v:538 already has an [RModQuotient], built as the probe
+    Instance/Mod.v:589 already has an [RModQuotient], built as the probe
     object for the epic half of Mac Lane's §I.7 proposition.  It is NOT a
     quotient by an arbitrary submodule and it carries NO universal
     property: it quotients N by the IMAGE of a given homomorphism
@@ -135,7 +135,7 @@ Generalizable All Variables.
 
     ...AND WITH [AbQuotient], which is NOT unified, for a dependency
     reason of the same shape as #313's and with the arrow pointing the
-    other way.  Instance/Ab.v:472's [AbQuotient] is the abelian-group
+    other way.  Instance/Ab.v:531's [AbQuotient] is the abelian-group
     quotient by an image, and Instance/Mod.v's [RModQuotient] is built
     ON it.  Routing it through a submodule quotient would make
     Instance/Ab.v depend on Instance/Mod.v, i.e. on a category defined
@@ -146,7 +146,7 @@ Generalizable All Variables.
     defensible change and it is deliberately not made here.  Note also
     that no bridge exists to make one a literal instance of the other:
     an [AbObject] is not exhibited as a ℤ-module anywhere in the tree
-    (Instance/Mod/Tensor.v:234 records the same absence).  The near miss
+    (Instance/Mod/Tensor.v:235 records the same absence).  The near miss
     is Instance/Rng/Mod.v:675's
     [ZRestrict R : RMod R ⟶ RMod Int_Ring], and it is NOT it:
     restriction of scalars along ℤ → R needs an R-module to start with,

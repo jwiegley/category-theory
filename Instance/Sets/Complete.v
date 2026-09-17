@@ -48,7 +48,7 @@ Generalizable All Variables.
 
    It is NOT routed through the standard reduction "a category with all small
    products and equalizers has all small limits".  That theorem does not exist
-   in this development: [Complete_HasEqualizers] (Adjunction/GAFT.v:193) runs
+   in this development: [Complete_HasEqualizers] (Adjunction/GAFT.v:214) runs
    the other way, deriving equalizers FROM completeness -- it is applied to
    this very constant, as [Sets_HasEqualizers] in Adjunction/GAFT/Sets.v --
    and no constant here builds a limit out of two products and an equalizer.

@@ -31,14 +31,14 @@ Generalizable All Variables.
    generating setoid separates [Ab].  The isomorphism itself is NOT in
    this tree and is not proved here, so the sentence "ℤ separates Ab" is
    not a theorem of this file.  The in-tree integers are
-   [ab_int : AbObject] at Instance/Ab/Free.v:865 (one of five names for
+   [ab_int : AbObject] at Instance/Ab/Free.v:883 (one of five names for
    [ring_ab Int_Ring]; Instance/Grp/Generator.v's header lists them with
    the measuring command), and that file's own measured negative at :995
    records the related conversion fact — [FreeAbObject (Ab_Forget ab_int)]
    is not [ab_int] — while explicitly making no claim about isomorphism
    in either direction.  Supplying [FreeAbObject unit_setoid_object ≅
    ab_int] is left undone, and the reason is NOT a missing ℤ-action: the
-   tree has [zsmul] (Instance/Ab/Monoidal.v:245), the ℤ-action on an
+   tree has [zsmul] (Instance/Ab/Monoidal.v:251), the ℤ-action on an
    arbitrary abelian group, with its additivity in the scalar
    [zsmul_add] (:380) and its compatibility with homomorphisms
    [zsmul_hom] (:311).  What is open is the isomorphism itself -- the
@@ -54,11 +54,11 @@ Generalizable All Variables.
    THE PROOF IS ONE [exact], AND THE REASON IS A CONVERSION.  Compare
    Instance/Grp/Generator.v, which needs two [rewrite]s.  The difference
    is the strength at which the two donors state agreement on generators.
-   Instance/Ab/Free.v:440's [free_ab_extend_generators] is an [Example]
+   Instance/Ab/Free.v:472's [free_ab_extend_generators] is an [Example]
    at Leibniz [=] — [cmon_map (free_ab_extend h) (fa_gen x) = h x
    := eq_refl] — because [free_ab_extend] is the fold [fa_eval]
    (:380) over the inductive [FATerm] and the generator clause IS the
-   equation.  Instance/Grp/Free.v:328's [free_grp_extend_generators] is
+   equation.  Instance/Grp/Free.v:414's [free_grp_extend_generators] is
    only at ≈, its extension being [fmap] of a functor whose value on a
    one-letter word comes from a [Qed]-opaque lemma.  Here, therefore, the
    hypothesis instantiated at [free_ab_extend (ab_point x)] and the

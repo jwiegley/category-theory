@@ -242,7 +242,7 @@ Generalizable All Variables.
    (Construction/Deloop/Functors.v:465) is a functor
    [Proset Z.le_preorder ⟶ Deloop Int_Plus] out of Awodey's cocycle
    construction, not a translation endofunctor; and [grp_translate]
-   (Instance/Grp/Epi.v:467) is left translation as a setoid MAP on a coset
+   (Instance/Grp/Epi.v:490) is left translation as a setoid MAP on a coset
    space, not a functor at all.
 
    [make todo] grows by the five [Fail] lines below and by nothing else: no
@@ -460,7 +460,7 @@ End Adjoints.
    c := r (r a) we have a·b ≈ 1 and b·c ≈ 1, so [mon_inverse_unique]
    (Construction/Deloop.v:159) gives a ≈ c, whence b·a ≈ b·c ≈ 1.
 
-   Instance/Grp.v:208's [grp_mul_inv_r] is the MIRROR IMAGE of this — right
+   Instance/Grp.v:241's [grp_mul_inv_r] is the MIRROR IMAGE of this — right
    inverses from left ones — but over that file's own [GrpObject] record, in
    which the inverse operation is a FIELD; it is a different statement over a
    different record, and no attempt is made here to derive either from the
@@ -539,7 +539,7 @@ Defined.
 
 (** ** Block F: the same over [DiscreteCat], where homs are Rocq's `=` *)
 
-(* The two hypotheses, in the shape of Construction/Comma/Special.v:395-398's
+(* The two hypotheses, in the shape of Construction/Comma/Special.v:395-405's
    [HomStrict] and [HomUIP].  Sufficient for the forward direction below; NOT
    shown necessary. *)
 Definition MonStrict (M : MonObject) : Type :=

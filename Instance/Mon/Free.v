@@ -51,7 +51,7 @@ Generalizable All Variables.
    [FreeMonoid : Coq ⟶ MonCoq] and
    [free_monoid_adjunction : FreeMonoid ⊣ UMon] over that base.  The
    monoid-ring leg that #400 wants to compose with runs from the OTHER
-   category: Instance/Rng/MonoidRing.v:170 sets
+   category: Instance/Rng/MonoidRing.v:171 sets
    [MonSets := @Mon Sets Sets_Product_Monoidal] and its :723/:726 give
    [MonoidRingFunctor : MonSets ⟶ Rng] with
    [zmring_adjunction : MonoidRingFunctor ⊣ Rng_Forget_Mon].
@@ -62,9 +62,9 @@ Generalizable All Variables.
    coordinating measurement stands, with two refinements worth stating.
    (1) Searching the whole tree for a functor whose CODOMAIN is
    [Mon Sets] returns exactly three, and all three are forgetful:
-   [Rig_Forget_Mon] (Theory/Algebra/Rig.v:292),
+   [Rig_Forget_Mon] (Theory/Algebra/Rig.v:347),
    [Rng_Forget_Mon] (Instance/Rng/MonoidRing.v:226) and [Grp_MonSets]
-   (Instance/Rng/GroupRing.v:155); Instance/Roster.v:397 restates the
+   (Instance/Rng/GroupRing.v:156); Instance/Roster.v:397 restates the
    first of them at Roster's own name for the category and adds no
    fourth.  There was no free monoid at [Mon Sets] before this file.
    (2) There is no equivalence between [Coq] and [Sets] in tree — but
@@ -93,7 +93,7 @@ Generalizable All Variables.
 
    THE ELEMENT-LEVEL ACCESSORS ARE REUSED, NOT REWRITTEN, AND THE CHOICE
    IS MEASURED.  Two copies of the element-level reading of [Mon Sets]
-   already exist — Instance/Rng/MonoidRing.v:170-220
+   already exist — Instance/Rng/MonoidRing.v:171-221
    ([mcar]/[mop]/[mone]/[mmap]/[mhom]) and Instance/Mon/Coproduct.v:253-346
    ([mon_ob]/[mon_mul]/[mon_one]/[mon_fun]/[mk_mon_obj]/[mk_mon_hom]) —
    and writing a third would have been the wrong move.  The Coproduct.v

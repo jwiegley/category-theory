@@ -41,7 +41,7 @@ Generalizable All Variables.
     of which quotient by something.  What IS absent, and was measured
     against the parent commit rather than taken on the issue's word, is a
     [NormalSubgroup] interface: AT THE PARENT COMMIT the token occurred in
-    the tree exactly once, at Instance/Grp/Abelianization.v:77, and there
+    the tree exactly once, at Instance/Grp/Abelianization.v:78, and there
     it occurred inside a prose disclosure that no such class existed.
     (That paragraph is rewritten by this same change, so the line number
     is a statement about the parent commit and not about the tree as it
@@ -70,7 +70,7 @@ Generalizable All Variables.
     this one)".  Reading the two other constructions' actual record types
     corrects the count:
 
-      - Instance/Grp/Epi.v:433's [Grp_Coset] is a [SetoidObject], NOT a
+      - Instance/Grp/Epi.v:456's [Grp_Coset] is a [SetoidObject], NOT a
         [GrpObject], and it is the coset space of the image of an
         ARBITRARY homomorphism.  Epi.v's whole argument turns on that
         image being possibly NON-normal (its own header, :171 and :1488,
@@ -172,7 +172,7 @@ Generalizable All Variables.
    below.
 
    There is deliberately NO decidability field, unlike
-   Instance/Ab/Character/Finite.v:624, and nothing below decides
+   Instance/Ab/Character/Finite.v:625, and nothing below decides
    membership. *)
 Record Subgroup (G : GrpObject) := {
   sub_mem : carrier G → Type;
@@ -215,7 +215,7 @@ Definition sub_at {G : GrpObject} (S : Subgroup G) {a b : carrier G}
 (** ** The subgroup as an object of Grp *)
 
 (* The sigma carrier over membership, compared on elements -- the shape
-   Instance/Grp.v:709's [Grp_kernel] and Instance/Grp/Center.v use, so the
+   Instance/Grp.v:789's [Grp_kernel] and Instance/Grp/Center.v use, so the
    membership witness carries no equational weight. *)
 Definition sub_carrier {G : GrpObject} (S : Subgroup G) : Type :=
   { a : carrier G & sub_mem S a }.
@@ -283,7 +283,7 @@ Qed.
 (** ** The quotient relation *)
 
 (* a ~ b when a * b⁻¹ lies in N.  The orientation matches
-   Instance/Grp/Abelianization.v:170's [abel_eq], which this generalizes. *)
+   Instance/Grp/Abelianization.v:234's [abel_eq], which this generalizes. *)
 Definition quot_rel {G : GrpObject} (N : Subgroup G) (a b : carrier G) : Type :=
   sub_mem N (grp_mul G a (grp_inv G b)).
 
@@ -753,7 +753,7 @@ Example KernelNS_mem {G K : GrpObject} (h : G ~{Grp}~> K) (a : carrier G) :
 Proof. reflexivity. Qed.
 
 (* The subgroup object of the kernel normal subgroup has the same carrier
-   as Instance/Grp.v:729's [Grp_kernel], by convertibility. *)
+   as Instance/Grp.v:809's [Grp_kernel], by convertibility. *)
 Example KernelNS_carrier_is_Grp_kernel {G K : GrpObject} (h : G ~{Grp}~> K) :
   carrier (SubgroupGrp (KernelNS h)) = carrier (Grp_kernel h).
 Proof. reflexivity. Qed.
@@ -854,7 +854,7 @@ Qed.
 (** ** Non-degeneracy over a nonabelian witness
 
     Everything above holds for all groups, so nothing yet shows the
-    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v:248, the
+    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v:249, the
     semidirect presentation over the decidable carrier rot * bool) with
     its rotation subgroup A3 is the smallest witness with a PROPER
     nontrivial normal subgroup, and it is nonabelian, so the degeneracies

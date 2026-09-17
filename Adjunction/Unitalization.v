@@ -156,7 +156,7 @@ Generalizable All Variables.
     (2) TWO DONOR UNIVERSE DEFECTS WERE MET AND ROUTED AROUND, both
     guarded by [Fail] probes at the foot of this file.
 
-      - Instance/Rng.v:354's [rng_from_Z] reports, under
+      - Instance/Rng.v:368's [rng_from_Z] reports, under
         [Set Printing Universes],
           rng_from_Z@{u u0 u1} : ∀ R : RingObject@{Set Set Set}, …
         — pinned at the literal [Set] in all three universes of its
@@ -231,7 +231,7 @@ Generalizable All Variables.
 
     ── PRIOR ART, DISCLOSED RATHER THAN IMPLIED AWAY ────────────────────
 
-    Construction/Enriched/Ab.v:156-166 already carries [zsmul_precomp]
+    Construction/Enriched/Ab.v:207-217 already carries [zsmul_precomp]
     and [zsmul_postcomp], which say that the ℤ-action commutes with
     COMPOSITION on either side in an Ab-enriched category — under
     delooping that is the same algebraic fact as
@@ -246,7 +246,7 @@ Generalizable All Variables.
     additionally yields the [nat]-level statements and the two negation
     lemmas, which the short route does not.  That module is NOT in this
     file's Require closure (measured: it is not among the 52).
-    Instance/Ab/Monoidal.v:443's [zsmul_int_one] is a close relative of
+    Instance/Ab/Monoidal.v:449's [zsmul_int_one] is a close relative of
     [zring_is_zsmul_one] — the ℤ-side evaluation [zsmul ZAb n 1 = n],
     which is this file's bridge at [Int_Ring] composed with
     [zring Int_Ring n = n] — but it is a DIFFERENT statement, and the
@@ -345,7 +345,7 @@ Generalizable All Variables.
     contrast Mac Lane draws with his neighbouring §IV.2 Exercise 1 — where
     the forgetful functor out of graded anticommutative K-algebras is NOT
     faithful, whereas [Rng_Forget_Rg] here IS — is stated as a remark and
-    not formalized: Instance/Vect/TensorAlgebra.v:197-213, which owns that
+    not formalized: Instance/Vect/TensorAlgebra.v:198-214, which owns that
     exercise, states in its own header that no non-faithfulness lemma is
     delivered there either (paraphrased, not quoted: the phrase wraps
     across :204-205), so the two halves of the contrast are a proved
@@ -726,7 +726,7 @@ Qed.
 
 (* Any unital ring homomorphism commutes with the canonical map out of
    ℤ.  Proved here by [Z_peano_rect] rather than by composing with
-   Instance/Rng.v:354's [rng_from_Z] and citing its uniqueness, and
+   Instance/Rng.v:368's [rng_from_Z] and citing its uniqueness, and
    again for a MEASURED universe reason: [About] reports
    [rng_from_Z@{u u0 u1} : ∀ R : RingObject@{Set Set Set}, …] — that
    donor is pinned at the literal [Set] in all three of its argument's
@@ -1121,7 +1121,7 @@ Example dorroh_TwoZ_extend_one :
     itself stays free at [RgObject@{u u0 u1}].  Stripped, the error is
     "universe inconsistency: Cannot enforce ah = ao because ao < ah".
 
-    (2) Instance/Rng.v:354's [rng_from_Z] is pinned at [RingObject@{Set
+    (2) Instance/Rng.v:368's [rng_from_Z] is pinned at [RingObject@{Set
     Set Set}], so it cannot be applied to [Dorroh R] for an [R] whose hom
     universe is declared above [Set]; the sibling [zring] (:189) is free
     and IS accepted at the same levels, which is what makes the negative

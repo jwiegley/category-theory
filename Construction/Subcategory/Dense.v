@@ -287,9 +287,9 @@ Generalizable All Variables.
    [dense_full_subcategory_reflective] have zero hits outside this file and
    its probe, and [Build_Reflective] has exactly four application sites
    (Construction/Reflective/Idempotent.v:346, Instance/Ord/Poset.v:286,
-   Instance/Ab/TorsionFree.v:525, Instance/Top/Kolmogorov.v:633), none of
+   Instance/Ab/TorsionFree.v:552, Instance/Top/Kolmogorov.v:633), none of
    them obtained from an equivalence; a fifth textual hit,
-   Instance/Ab/TorsionFree.v:111, is a comment quoting the search string.
+   Instance/Ab/TorsionFree.v:117, is a comment quoting the search string.
 
    ** Registration
 

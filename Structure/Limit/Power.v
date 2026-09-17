@@ -167,7 +167,7 @@ Generalizable All Variables.
    THE GAFT SPINE: ONE OF THE TWO ANONYMOUS PRODUCTS IS A POWER AND THE
    OTHER IS NOT.
 
-   Theory/WeaklyInitial.v:104-106 forms
+   Theory/WeaklyInitial.v:145-149 forms
    [Limit (DiscreteCat_Functor (fun _ : (P0 ~> P0) => P0))].  The family is
    CONSTANT, so that is a power -- the endomorphism-indexed power of [P0] --
    and Theory/WeaklyInitial.v now says so, through [power_of_limit] and
