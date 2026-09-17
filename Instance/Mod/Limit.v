@@ -227,15 +227,15 @@ Generalizable All Variables.
    The 68 are the 62 declaration heads (46 [def], 16 [prf] in the [.glob])
    plus the six [Program] obligations, read back with
    [Set Printing Universes] and [About].  ZERO word-bounded [Set]
-   occurrences anywhere.  That is worth saying because the consumer this
-   file exists for does meet one: Instance/Grp/FreeAFT.v:91-110 measures
-   that applying Freyd's theorem at [Grp] elaborates its solution set at
-   [SolutionSet@{Set …}], and attributes that to a universe-MINIMIZATION
-   artifact of Instance/Discrete.v:59's [DiscreteCat_Functor] rather than
-   to the theorem or to the algebra.  Nothing here narrows anything to
-   [Set]; whoever applies the adjoint functor theorem over
-   [RMod_Complete] meets that pin at the application, and owes the
-   disclosure there.
+   occurrences anywhere.  CORRECTION, PR "algebraic carriers are sets"
+   (2026-09-17).  This read "That is worth saying because the consumer
+   this file exists for does meet one", and cited a solution set
+   elaborated at [SolutionSet@{Set …}] out of Instance/Discrete.v:59's
+   unannotated [DiscreteCat_Functor].  That artifact was repaired at
+   Instance/Discrete.v:81 and the literal [Set] is gone.  The cost the
+   consumer meets now is a different and smaller one, [Set < carrier],
+   measured at Instance/Grp/FreeAFT.v:127-146; nothing here narrows
+   anything to [Set], and the disclosure is owed at the application.
 
    [RMod_Complete@{u u0 u1 u2 u3 u4} :
     ∀ R : RingObject@{u u3 u4}, Complete@{u u u u0}], with [u < u0] and

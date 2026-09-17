@@ -45,7 +45,7 @@
     [cannot unify] clause, so by 411's convention they are CONVERSION, and
     they are labelled so below.  That revision said "the commands differ
     from 442's only in the category".  They do not: 442's N6
-    (Test/ProbeGrpFreeAFT442.v:180) passes FOUR arguments, including its
+    (Test/ProbeGrpFreeAFT442.v:213) passes FOUR arguments, including its
     solution set, while N11 and N12 below pass THREE and stop at the third.
     And the [cannot unify] clause is import-sensitive in any case (see
     section E), so its presence or absence is not a fact about the

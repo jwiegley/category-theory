@@ -213,11 +213,11 @@ Generalizable All Variables.
       (:874) and [free_ring_via_mon_adjunction] (:883).
    5. "no [SolutionSet] instance is ever built for a forgetful functor of
       this kind" -- [Grp_Forget_solution_set_from_adjunction],
-      Instance/Grp/FreeAFT.v:183, at [Grp_Forget : Grp ⟶ Sets], which is
+      Instance/Grp/FreeAFT.v:417, at [Grp_Forget : Grp ⟶ Sets], which is
       a forgetful functor of exactly this kind.
    6. The Awodey section's "the adjoint functor theorem's only in-tree
       application is a diagonal/product toy example" -- [free_group_via_GAFT],
-      Instance/Grp/FreeAFT.v:187, and [GAFT_at_Sets_Id],
+      Instance/Grp/FreeAFT.v:423, and [GAFT_at_Sets_Id],
       Adjunction/GAFT/Sets.v:158, which feeds GAFT [Sets_Id_SolutionSet]
       (:140).  Sweeping [grep -rnw GAFT] over all [.v] files outside
       [Adjunction/GAFT*], those two are the only applications of the theorem

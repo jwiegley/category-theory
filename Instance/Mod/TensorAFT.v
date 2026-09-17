@@ -193,7 +193,7 @@ Generalizable All Variables.
     [tensor_esols_from_tensor] -- index [unit], object [TensorMod V V'],
     element [tensor_gen] -- inhabits the hypothesis and is CIRCULAR, named
     so that the circularity is visible at every use site, exactly as
-    Instance/Grp/FreeAFT.v:183's [Grp_Forget_solution_set_from_adjunction]
+    Instance/Grp/FreeAFT.v:417's [Grp_Forget_solution_set_from_adjunction]
     is.  Its only role is to show the conditional is not vacuous;
     [tensor_via_AFT_from_tensor] is that instantiation.
 
@@ -333,13 +333,13 @@ Generalizable All Variables.
     whole probe so the refusal kind could be read rather than guessed.
 
     A WALL OF THE SAME FAMILY AS #1309, MEASURED NOT TO BE LIFTED BY IT.
-    Instance/Grp/FreeAFT.v:91-110 measures a wall of this family at [Grp]
+    Instance/Grp/FreeAFT.v:127-146 measures a wall of this family at [Grp]
     -- Mac Lane's literal index [Subgroup Gfix] refused there too -- and
     attributes the [Set] to a universe-MINIMIZATION artifact of
     Instance/Discrete.v's [DiscreteCat_Functor], which carries no universe
-    binders; it reports the repair as three annotated lines, measured
-    against eleven recorded boundaries, filed as #1309, and records at
-    :128-140 that WITH that repair the [Grp] solution set IS accepted.
+    binders; it reports the repair as three annotated lines filed as #1309
+    (CORRECTION: it said "eleven recorded boundaries"; :154-162 measures
+    TWENTY-TWO in FIFTEEN), and at :148-152 that the index IS accepted.
     THE REPAIR WAS APPLIED AND MEASURED; IT DOES NOT LIFT THIS WALL.
     With only the #1309 edit
     ([Program Definition DiscreteCat_Functor@{o h p co ch cp +} ...])

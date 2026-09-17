@@ -8300,8 +8300,29 @@ print-assumptions: category-theory
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Instance.Grp.FreeAFT.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.IsGrpCongruence.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_refl.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_sym.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_trans.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_gen.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_mul.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.gc_inv.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.FGCongIdx.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.QGrp_Setoid.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.QGrp.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.QGrp_insert.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.fg_ev.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.fg_ker.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.fg_ker_is_cong.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.fg_ker_idx.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.fg_ker_med.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.QGrpOf.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.QGrpInsertOf.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_solution_set_prop.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_solution_set_from_adjunction.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_via_GAFT.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_via_GAFT_from_adjunction.'; \
+	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad_via_GAFT.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_via_GAFT_agrees.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.free_group_monad_ret.'; \
@@ -8329,6 +8350,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_7.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.Grp_Forget_Representable_obligation_8.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.FreeAFT.grp_chi_obligation_1.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Matr.GL.'; \
+	  echo 'Print Assumptions Category.Instance.Matr.GL.Matr_LocallyPropositional.'; \
+	  echo 'Print Assumptions Category.Instance.Matr.GL.mat_mon_prop.'; \
+	  echo 'Print Assumptions Category.Instance.Matr.GL.ring_mul_mon_prop.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
 	  echo 'Require Import Category.Instance.Ab.Limit.'; \

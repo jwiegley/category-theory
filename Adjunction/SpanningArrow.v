@@ -112,8 +112,8 @@ Generalizable All Variables.
    cogenerator-plus-well-poweredness route), Adjunction/GAFT/Sets.v:140
    [Sets_Id_SolutionSet] (hand-built at the identity functor of Sets) and
    :220 its adjunction-built twin, Adjunction/Representability/Sets.v:248
-   [sols_of_esols], Instance/Grp/FreeAFT.v:167 and Instance/Rng/AFT.v:787
-   and :791, and Test/ProbeGrpFreeAFT442.v:206.
+   [sols_of_esols], Instance/Grp/FreeAFT.v:417 and Instance/Rng/AFT.v:787
+   and :791, and Test/ProbeGrpFreeAFT442.v:239.
 
    CORRECTION, PR "algebraic carriers are sets" (2026-09-17), to the
    sentence that followed and to the parenthetical inside that list.  The
@@ -129,8 +129,8 @@ Generalizable All Variables.
    What is false is the count.  The same PR added, in the same three files,
    solution sets built from the QUOTIENTS OF A TERM MODEL by [Prop]-valued
    congruences: Instance/Rng/AFT.v:729 and :759, the [Prop]-congruence
-   family of Instance/Mod/TensorAFT.v's section 3A, and (once the [Grp]
-   layer lands) Instance/Grp/FreeAFT.v's.  Those presuppose no adjoint, so
+   family of Instance/Mod/TensorAFT.v's section 3A, and (the [Grp] layer
+   has landed) Instance/Grp/FreeAFT.v:396.  Those presuppose no adjoint, so
    the structural routes are now THREE families -- SAFT's cogenerator
    route, this file's subobject-intersection route, and the congruence
    route -- and the two GAFT applications at [Rng] are no longer circular.

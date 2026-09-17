@@ -464,7 +464,7 @@ Fail Example n5_aft_object_not_definitional {R : RingObject}
     [Bilin_PreservesImageLimit], and is checked as a control above -- but it
     derives the theorem's hypothesis from the very tensor the theorem is
     meant to construct, which is the circularity Instance/Ab/Limit.v:57-67
-    and Instance/Grp/FreeAFT.v:182-185 name.  The delivered term is a
+    and Instance/Grp/FreeAFT.v:406-416 name.  The delivered term is a
     DIFFERENT one, built elementwise over the created limits of
     Instance/Mod/Limit.v, and this pins that the two are not the same
     term. *)
