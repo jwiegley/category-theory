@@ -114,7 +114,11 @@ Generalizable All Variables.
    construction read at [Parallel], which costs nothing because [Parallel]
    leaves its hom universe free.  The products clause is stated
    ELEMENTARILY over [Structure/Limit/Product.v]'s [IsIndexedProduct]
-   rather than over a discrete shape, because that is the form that can be
+   rather than over a discrete shape, because that is the form that takes an
+   arbitrary FAMILY directly.
+
+   RECORDED CORRECTION TO THE REASON GIVEN HERE.  An earlier revision said
+   the elementary form was needed "because that is the form that can be
    instantiated at an arbitrary FAMILY: a functor out of [DiscreteCat A]
    that eliminates the shape's [x = y] into a hom pins both categories to
    [Category@{_ Set Set}], and is refused over a generic [C] with
@@ -122,7 +126,16 @@ Generalizable All Variables.
    the tree's own [DiscreteCat_Functor] (Instance/Discrete.v:59) prints as
    [DiscreteCat@{u Set Set} A ⟶ C] for that reason, and a hand-rolled
    eliminator is refused identically, so the pin belongs to the ELIMINATION
-   and not to any one constant.  It does not belong to [DiscreteCat]
+   and not to any one constant."  The diagnosis named the wrong culprit.
+   The pin was a universe-MINIMIZATION artifact of the unannotated
+   declaration, not of the elimination: the annotated
+   [DiscreteCat_Functor@{o h p uo uh up +}] (Instance/Discrete.v:81, PR
+   "algebraic carriers are sets", 2026-09-17) eliminates [x = y] into a hom
+   exactly as before and IS formable over a generic [C].  Probe negative n2
+   accordingly turned over and is kept as a positive control.  The
+   elementary clause is still what the file ships, because it takes the
+   family directly and needs no shape at all -- a simpler reason than the
+   one it used to be given.  The pin never belonged to [DiscreteCat]
    either, whose hom and proof universes are free
    ([DiscreteCat@{o h p} : Type@{o} → Category@{o h p}]) — which is why
    [comma_CreatesAllLimits] and its instance [comma_CreatesProducts] below
@@ -698,17 +711,26 @@ End CommaEqualizers.
    through [CreatesProducts] "would import that pin", and that was wrong.
    [Gdiag K] is formable for an abstract [K : DiscreteCat A ⟶ (=(d) ↓ U)],
    because [Compose] unifies the shape's hom universe with [C]'s before
-   minimization, and neither class carries [Set] in its block.  What IS
-   refused is a functor OUT OF [DiscreteCat A] that eliminates the shape's
-   [x = y] into a hom: [DiscreteCat_Functor] (Instance/Discrete.v:59) prints
-   as [DiscreteCat@{u Set Set} A ⟶ C], and a hand-rolled eliminator is
-   refused with the same "Cannot enforce Set = ..." (probe negative n2),
-   even at a concrete base such as [C = D = Sets] with [U = Id].  So the pin
-   belongs to the elimination, not to [DiscreteCat], whose hom and proof
-   universes are free.  The classes are NOT vacuous: a CONSTANT discrete
-   diagram needs no elimination and is formable over a generic [C], with
-   [comma_CreatesProducts] applying to it — Test/ProbeCommaCreation438.v
-   ships that witness.  The elementary [IsIndexedProduct] clause above is
+   minimization, and neither class carries [Set] in its block.
+
+   A SECOND CORRECTION, to the sentence that followed.  An earlier revision
+   continued: "What IS refused is a functor OUT OF [DiscreteCat A] that
+   eliminates the shape's [x = y] into a hom: [DiscreteCat_Functor]
+   (Instance/Discrete.v:59) prints as [DiscreteCat@{u Set Set} A ⟶ C], and a
+   hand-rolled eliminator is refused with the same "Cannot enforce
+   Set = ..." (probe negative n2), even at a concrete base such as
+   [C = D = Sets] with [U = Id].  So the pin belongs to the elimination, not
+   to [DiscreteCat]."  NOTHING is refused there any more, and the pin
+   belonged to neither: it was a universe-minimization artifact of the
+   unannotated declaration, removed by annotating it at
+   Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   (2026-09-17).  Probe negative n2 turned over and is now a positive
+   control in Test/ProbeCommaCreation438.v, which records the same
+   correction beside it.  [DiscreteCat]'s hom and proof universes were
+   always free.  The classes are NOT vacuous, and the witness is unchanged:
+   a CONSTANT discrete diagram needs no elimination and is formable over a
+   generic [C], with [comma_CreatesProducts] applying to it —
+   Test/ProbeCommaCreation438.v ships it.  The elementary [IsIndexedProduct] clause above is
    kept because it takes the family directly, which is the form Mac Lane's
    Theorem 2 consumes. *)
 

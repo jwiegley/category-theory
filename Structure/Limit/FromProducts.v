@@ -136,15 +136,28 @@ Open Scope category_scope.
    [HasIndexedProducts] with [indexed_product]/[indexed_product_proj]/
    [indexed_product_ump], and the elementary [IsIndexedProduct] with
    [iprod_desc]; nothing rival is declared.  What is NOT consumed is that
-   file's [iprod]/[iprod_proj]/[iprod_ump], because [iprod@{u u0 u1}]
-   binds [C : Category@{u1 Set Set}] — the ambient hom AND proof
-   universes pinned to the literal [Set], through [DiscreteCat_Functor]
-   and [Limit] (the #331/#339 measurement) — so a theorem routed through
-   it would hold only for Set-homed categories, and would have excluded
-   the classes [Complete] is quantified over.  Pinned as the probe's N8:
-   at a hom level declared strictly above [Set], the class, its product
-   and [Complete_from_products_equalizers] are accepted while [iprod] is
-   refused with [Cannot enforce Set = ch].
+   file's [iprod]/[iprod_proj]/[iprod_ump].
+
+   RECORDED CORRECTION TO THE REASON.  An earlier revision gave it as:
+   "because [iprod@{u u0 u1}] binds [C : Category@{u1 Set Set}] — the
+   ambient hom AND proof universes pinned to the literal [Set], through
+   [DiscreteCat_Functor] and [Limit] (the #331/#339 measurement) — so a
+   theorem routed through it would hold only for Set-homed categories,
+   and would have excluded the classes [Complete] is quantified over.
+   Pinned as the probe's N8: at a hom level declared strictly above
+   [Set], the class, its product and
+   [Complete_from_products_equalizers] are accepted while [iprod] is
+   refused with [Cannot enforce Set = ch]."  That [Set] floor is GONE:
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81
+   in the PR "algebraic carriers are sets" (2026-09-17), and measured
+   after it [iprod@{u u0 u1 u2 u3}] binds [C : Category@{u1 u2 u2}] with
+   no literal [Set].  Probe N8 accordingly turned over and is now a
+   positive CONTROL in Test/ProbeFromProducts416.v.  What remains true,
+   and is the surviving reason for the choice, is that [iprod] is stated
+   through [Limit], which identifies the discrete shape's hom and proof
+   universes with the ambient's, where the elementary [IsIndexedProduct]
+   imposes no such identification; routing this theorem through the
+   elementary form keeps it free of it.
 
    UNIVERSES, off BOTH binder and block (all 91 constants).
    [limit_of_products_equalizer@{u u0 u1 u2 u3 u4 u5}] is over

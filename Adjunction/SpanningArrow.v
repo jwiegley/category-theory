@@ -165,13 +165,17 @@ Generalizable All Variables.
    What this file's constants add on top is visible at
    [spanning_solution_set@{...}], which carries [u0 = u2] -- A's hom
    universe identified with X's.  That comes from the donor record:
-   [SolutionSet@{u u0 u1 u2} : ∀ {C : Category@{u1 u2 u2}}
-   {D : Category@{u0 u2 u2}}] at Adjunction/GAFT.v:159 shares one hom
-   universe between source and target.  [spanning_sub],
-   [spanning_factor], [spanning_factor_spanning] and
-   [factors_through_spanning] do not carry it.  No constant in this file
-   is pinned at [Set] except [GAFT_from_spanning], for the measured
-   reason given at its own section below.
+   [SolutionSet@{i dobj cobj h} : ∀ {C : Category@{cobj h h}}
+   {D : Category@{dobj h h}}] at Adjunction/GAFT.v:179 shares one hom
+   universe between source and target.  (An earlier revision quoted the
+   same record with the inferred binder names [@{u u0 u1 u2}]; the binders
+   were written out in the PR "algebraic carriers are sets", 2026-09-17,
+   and the shape is unchanged.)  [spanning_sub], [spanning_factor],
+   [spanning_factor_spanning] and [factors_through_spanning] do not carry
+   it.  No constant in this file is pinned at [Set] except
+   [GAFT_from_spanning] -- and that pin is now this file's OWN section
+   annotation rather than a restriction inherited from [GAFT]; the
+   correction is recorded at that section below.
 
    TRANSPARENCY, AND WHY IT IS NOT UNIFORM.  31 constants: 16 are [:=]
    terms, 10 end in [Defined] (the two lifted facts among them) and 5 in
@@ -502,39 +506,57 @@ End SpanningLemma.
 
 (** ** Mac Lane's use of the lemma: GAFT without a separate solution set *)
 
-(* MEASURED UNIVERSE PIN, and the reason this section exists.  With
-   Set Printing Universes,
+(* WHY THIS SECTION EXISTS -- AND A RECORDED CORRECTION: ITS REASON NO
+   LONGER HOLDS, THOUGH THE SECTION IS STILL WHAT THE FILE SHIPS.
 
-     About GAFT.
+   An earlier revision of this comment read, in full:
 
-   reports
+     "MEASURED UNIVERSE PIN, and the reason this section exists.  With
+      Set Printing Universes, [About GAFT] reports
+        GAFT@{u u0 u1 u2 u3 u4} :
+          ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}} ...
+      -- Adjunction/GAFT.v:243 is pinned at hom = proof = Set in BOTH
+      arguments.  The pin is ATTRIBUTED BY About, not guessed: of the
+      five constants GAFT's proof consumes, [Comma_Complete],
+      [wif_of_sols], [Complete_HasEqualizers] and [GAFT_from_initials]
+      all report a free hom universe, and [initial_from_weakly_initial]
+      (Theory/WeaklyInitial.v:102) reports
+        initial_from_weakly_initial@{u u0 u1 u2} :
+          ∀ {C : Category@{u2 Set Set}} ...
+      so that is the carrier.  (Instance/One.v's [_1],
+      Instance/Parallel.v's [Parallel] and Instance/Discrete.v's
+      [DiscreteCat] are each free in h, measured the same way; an earlier
+      draft of this comment named them and was wrong.)  Nothing above
+      carries the pin: [spanning_solution_set] is polymorphic in the hom
+      universe, as the header's About records.  Feeding it to [GAFT]
+      inside Section SpanningLemma is therefore REFUSED, with
+        universe inconsistency: Cannot enforce Set = <the hom universe of A>
+      so the corollary is stated here instead, over categories annotated
+      at Set."
 
-     GAFT@{u u0 u1 u2 u3 u4} :
-       ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}} ...
+   Every step of that attribution was correct, and it located the pin one
+   link further back than [initial_from_weakly_initial]: at
+   Instance/Discrete.v's then-unannotated [DiscreteCat_Functor], which
+   [initial_from_weakly_initial] takes two limits over.  That donor was
+   annotated in place at Instance/Discrete.v:81 in the PR "algebraic
+   carriers are sets" (2026-09-17).  Measured after it:
 
-   -- Adjunction/GAFT.v:243 is pinned at hom = proof = Set in BOTH
-   arguments.  The pin is ATTRIBUTED BY About, not guessed: of the five
-   constants GAFT's proof consumes, [Comma_Complete], [wif_of_sols],
-   [Complete_HasEqualizers] and [GAFT_from_initials] all report a
-   free hom universe, and [initial_from_weakly_initial]
-   (Theory/WeaklyInitial.v:102) reports
+     GAFT@{cobj dobj h u u0 u1} :
+       ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} ...
 
-     initial_from_weakly_initial@{u u0 u1 u2} :
-       ∀ {C : Category@{u2 Set Set}} ...
+   -- no [Set], both hom universes free -- and the refusal quoted above
+   NO LONGER OCCURS.  Re-measured directly: the very [exact] below,
+   restated in a section whose A and X are declared at free hom
+   universes, is ACCEPTED, reporting
+   [GAFT_from_spanning_free@{oA hA oX hX …}] with [Complete@{hA hA hA oA}]
+   and no [Set] anywhere.
 
-   so that is the carrier.  (Instance/One.v's [_1],
-   Instance/Parallel.v's [Parallel] and Instance/Discrete.v's
-   [DiscreteCat] are each free in h, measured the same way; an earlier
-   draft of this comment named them and was wrong.)  Nothing above
-   carries the pin: [spanning_solution_set] is polymorphic in the hom
-   universe, as the header's About records.  Feeding it to [GAFT] inside
-   Section SpanningLemma is therefore REFUSED, with
-
-     universe inconsistency: Cannot enforce Set = <the hom universe of A>
-
-   so the corollary is stated here instead, over categories annotated at
-   Set.  This is a restriction inherited from the donor and not from the
-   lemma; it is not a claim that spanning arrows need small hom-sets. *)
+   The section below is nonetheless left AS IT STANDS, annotated at [Set],
+   because that PR changed prose only; widening it is a change to the
+   statement of a shipped theorem and belongs to its own commit.  What the
+   [Set] annotation now is, therefore, is a RESTRICTION THIS FILE IMPOSES
+   and no longer one it inherits -- and it was never a claim that spanning
+   arrows need small hom-sets. *)
 
 Section GAFTFromSpanning.
 

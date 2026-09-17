@@ -204,7 +204,8 @@ Generalizable All Variables.
    [C]'s hom universe lifts, and this is the same smallness side condition
    Instance/Sets/Products.v's header analyses at [Sets].
 
-   The two LIMIT-shaped bridges carry [{A : Set}], and that binder is a
+   The two LIMIT-shaped bridges carry [{A : Set}].  RECORDED CORRECTION to
+   the analysis of that binder: an earlier revision said it "is a
    COMBINATION of two facts rather than one, which the probe file
    separates.  [Structure/Limit/Product.v]'s [iprod] is over
    [C : Category@{u Set Set}] -- [DiscreteCat]'s hom-setoid is strict
@@ -212,7 +213,16 @@ Generalizable All Variables.
    [Limit (DiscreteCat_Functor f)] and [iprod f L] are both formable over
    such a [C] at an index strictly above [Set].  Adding this file's bound at
    [C]'s hom universe, which is [Set] there, is what cuts the index to
-   [Set].  The class-shaped bridges [indexed_product_hom_iso] and
+   [Set]."  The donor half of that combination is GONE: [iprod] inherited
+   its [Set] from Instance/Discrete.v's unannotated [DiscreteCat_Functor],
+   annotated in place at its :81 in the PR "algebraic carriers are sets"
+   (2026-09-17), and [iprod@{u u0 u1 u2 u3}] is now over
+   [C : Category@{u1 u2 u2}].  Test/ProbeIndexedHom.v re-measured the two
+   negatives in a copy of the whole file with its section's [C] declared at
+   a hom universe strictly above [Set]: both still refuse, so the [{A : Set}]
+   binder is THIS FILE'S bound alone and not a combination.  The section's
+   [C] is left at the [Set] instance because that is the instance the
+   binder is about; see that probe's header.  The class-shaped bridges [indexed_product_hom_iso] and
    [indexed_coproduct_hom_iso] carry no such pin, mentioning no discrete
    diagram.
 

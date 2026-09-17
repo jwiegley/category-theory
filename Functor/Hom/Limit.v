@@ -110,14 +110,14 @@ Generalizable All Variables.
    arbitrary apex-pinned product.  They are NOT derived from the
    headline, and that is deliberate.  Indexed products ARE presented as
    limits of discrete diagrams in tree ([limit_is_indexed_product]), so
-   the derivation is available -- but it costs the general statement:
+   the derivation is available -- but it costs the general statement ONE
+   IDENTIFICATION, and (since 2026-09-17) no longer a [Set] pin:
 
-     [DiscreteCat_Functor@{u u0 u1 u2}] has type
-       [∀ {A : Type@{u}} {C : Category@{u0 u2 u2}},
-          (A → obj[C]) → DiscreteCat@{u Set Set} A ⟶ C],
+     [DiscreteCat_Functor@{o h p uo uh up u}] has type
+       [∀ {A : Type@{o}} {C : Category@{uo uh up}},
+          (A → obj[C]) → DiscreteCat@{o h p} A ⟶ C],
 
-   so the discrete shape's hom and proof universes are [Set] (likewise
-   [family_cone], which returns [Cone@{u Set Set u1 u2 u2}]), while
+   so the discrete shape's hom and proof universes are FREE, while
 
      [IsLimitCone@{u u0 u1 u2 u3}] has type
        [∀ {J : Category@{u1 u2 u2}} {C : Category@{u3 u2 u2}} …]
@@ -125,32 +125,43 @@ Generalizable All Variables.
    -- the shape's hom-and-proof universe is IDENTIFIED with the ambient
    category's (and [PreservesLimitCone] identifies all three of J, C, D
    at one such universe).  Routing the product corollaries through the
-   discrete presentation therefore pins C's hom and proof universes to
-   [Set].  The direct statements carry no [Set] at all (see UNIVERSES).
-   No bridge is invented and no such derivation is attempted.  READ THE
-   CAUSE PRECISELY: it is [DiscreteCat_Functor]'s UNANNOTATED declaration
-   (Instance/Discrete.v:52, [{A : Type} {C : Category}]) whose minimized
-   type instantiates [DiscreteCat@{u Set Set}] -- NOT [DiscreteCat]
-   itself, which is declared [DiscreteCat@{o h p} (A : Type@{o}) :
-   Category@{o h p}] (Instance/Discrete.v:37) with hom and proof FREE and
-   which elaborates as [DiscreteCat@{Set uh uh} bool] under
-   [Constraint Set < uh].  An earlier revision of this paragraph left the
-   question "NOT investigated"; an audit then investigated it, and a
-   re-annotated discrete-diagram functor -- same object and arrow actions,
-   differing only in the [DiscreteCat] instance it names -- LIFTS the
-   blocking step, making both [IsLimitCone] over its cones and
-   [hom_PreservesLimitCone] at it elaborate above [Set].  So the pin is a
-   donor ANNOTATION defect of the [Build_Quiver_Standard_Eq] family
-   (Construction/Free/Quiver/Examples.v, issue #300's erratum), not a
-   structural obstruction.  What is still NOT established is that the
-   WHOLE derivation closes: the tree has [limit_is_indexed_product] but
-   not its converse, and [family_cone] is itself unannotated.  So the
-   corollaries stay proved directly, and the reason is now a KNOWN
-   liftable defect rather than an unexamined one.  What IS
-   exhibited, at that price, is the cone-level witness
-   [coq_hom_limit_cone], whose ambient category is measurably
-   [Coq@{u1 Set Set}] for exactly this reason -- [Two_Discrete] has
-   [TwoDHom : TwoDObj → TwoDObj → Set].
+   discrete presentation therefore ties the discrete shape's hom and
+   proof universes to C's, which is what costs the general statement.
+   The direct statements carry no such identification (see UNIVERSES).
+   No bridge is invented and no such derivation is attempted.
+
+   RECORDED CORRECTION, AND READ THE CAUSE PRECISELY.  An earlier
+   revision of this paragraph quoted
+   [DiscreteCat_Functor@{u u0 u1 u2} : … → DiscreteCat@{u Set Set} A ⟶ C]
+   and [family_cone : … → Cone@{u Set Set u1 u2 u2}], and concluded that
+   the discrete route "pins C's hom and proof universes to [Set]".  The
+   diagnosis was right and is now HISTORY: the cause was
+   [DiscreteCat_Functor]'s UNANNOTATED declaration (Instance/Discrete.v,
+   [{A : Type} {C : Category}]), whose minimized type instantiated
+   [DiscreteCat@{u Set Set}] -- never [DiscreteCat] itself, which is
+   declared [DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p}]
+   (Instance/Discrete.v:44) with hom and proof FREE.  That donor was
+   annotated in place at Instance/Discrete.v:81 in the PR "algebraic
+   carriers are sets" (2026-09-17).  Measured after it, with
+   [Set Printing Universes]: [family_cone@{u u0 u1 u2}] returns
+   [Cone@{u u2 u2 u1 u2 u2}], [iprod@{u u0 u1 u2 u3}] and
+   [limit_is_indexed_product@{u u0 u1 u2 u3}] are stated over
+   [C : Category@{u1 u2 u2}], and no literal [Set] appears in any of the
+   three.  An earlier revision also attributed the pin to "a donor
+   ANNOTATION defect of the [Build_Quiver_Standard_Eq] family
+   (Construction/Free/Quiver/Examples.v, issue #300's erratum)"; that
+   attribution named the wrong donor and is withdrawn -- [About] puts it
+   on [DiscreteCat_Functor] alone.  What is still NOT established is that
+   the WHOLE derivation closes: the tree has [limit_is_indexed_product]
+   but not its converse.  So the corollaries stay proved directly, for
+   the identification above rather than for a [Set] floor that no longer
+   exists.  What IS exhibited is the cone-level witness
+   [coq_hom_limit_cone], which is measurably still at
+   [Functor@{u0 Set Set u1 Set Set}] -- and NOT for the reason this
+   paragraph used to give.  That [Set] survives the repair, and its cause
+   is the one the next clause always named: [Two_Discrete] has
+   [TwoDHom : TwoDObj → TwoDObj → Set], and [Coq]'s own homs are
+   [Set]-valued.
 
    THE CONTRAVARIANT TWIN.  [HomTo c := [Hom ─,c]] is
    [@HomFrom (C^op) c] by [eq_refl] ([hom_to_is_op_hom_from]), so the

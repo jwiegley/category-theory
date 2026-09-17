@@ -233,14 +233,23 @@ Generalizable All Variables.
     [o] and hom level [u] with NO relation between them (the hom is
     Prop-valued, so it fits at any [u]); the only entries in its block are
     [Set < o] and two bounds against stdlib's [relation]/[PreOrder] global
-    levels.  The RAPL route additionally pins the hom level to [Set],
-    inherited from Instance/Discrete.v's unannotated
-    [DiscreteCat_Functor], which fixes the shape at [DiscreteCat@{u Set
-    Set}] while [IsALimit] identifies the shape's hom-and-proof universe
-    with the ambient's; that is why (F)'s DIRECT statements are given
-    first and the RAPL derivations second.  Not claimed unavoidable.
-    Measured per constant in the report; no [Set] is introduced by any
-    definition in this file.
+    levels.  RECORDED CORRECTION: an earlier revision continued "The RAPL
+    route additionally pins the hom level to [Set], inherited from
+    Instance/Discrete.v's unannotated [DiscreteCat_Functor], which fixes
+    the shape at [DiscreteCat@{u Set Set}] while [IsALimit] identifies the
+    shape's hom-and-proof universe with the ambient's".  The diagnosis was
+    right and the donor has since been repaired: it was annotated in place
+    at Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+    (2026-09-17), so the pin no longer arrives from there.  The RAPL
+    constants of section (F) are still WRITTEN at hom level [Set] --
+    [Subsets@{o Set} X] appears literally in their statements -- and
+    whether they can now be restated at a free hom level has NOT been
+    re-measured; no code changed in that PR's prose pass.  What survives
+    unchanged is the ORDER and its reason: [IsALimit] still identifies the
+    shape's hom-and-proof universe with the ambient's, so (F)'s DIRECT
+    statements are given first and the RAPL derivations second.  Measured
+    per constant in the report; no [Set] is introduced by any definition
+    in this file.
 
     ** CLOSURE, AND WHY
 
@@ -626,14 +635,23 @@ Definition Subsets_HasAllMeets : HasAllMeets (@subset_le@{o} X) :=
 Definition Subsets_HasAllJoins : HasAllJoins (@subset_le@{o} X) :=
   fun Idx S => existT _ (subset_union S) (subset_union_IsLUB S).
 
-(* THE [Set] PIN, MADE VISIBLE IN THE SOURCE.  Both biconditionals route
-   through [Proset_Limit]/[DiscreteCat_Functor], and Instance/Discrete.v's
+(* THE [Set] INSTANCE, MADE VISIBLE IN THE SOURCE.  These two -- alone
+   among the constants of this section -- are about [Subsets] at hom level
+   [Set], and the instance is written out rather than inferred.
+
+   RECORDED CORRECTION TO THE REASON.  An earlier revision said the
+   [Set] was a PIN: "Both biconditionals route through
+   [Proset_Limit]/[DiscreteCat_Functor], and Instance/Discrete.v's
    unannotated declaration of the latter fixes the shape at
    [DiscreteCat@{u Set Set}] while [IsALimit] identifies the shape's
-   hom-and-proof universe with the ambient's.  So these two -- alone among
-   the constants of this section -- are about [Subsets] at hom level [Set],
-   and the instance is written out rather than inferred.  Inherited from
-   the donor, not introduced here, and not claimed unavoidable. *)
+   hom-and-proof universe with the ambient's."  The donor was annotated in
+   place at Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   (2026-09-17), so no [Set] is forced from there any more.  The literal
+   [Set] below is therefore now a CHOICE rather than a pin, and has been
+   left as it stands: restating these two at a free hom level was not
+   attempted or measured in that PR, which changed prose only.  [IsALimit]
+   still identifies the shape's hom-and-proof universe with the ambient's,
+   which is the constraint that remains. *)
 Definition Subsets_Complete : @Complete (Subsets@{o Set} X) :=
   snd (proset_Complete_iff_all_meets (subset_le_preorder@{o} X))
     Subsets_HasAllMeets.
@@ -719,12 +737,15 @@ End Preservation.
 (* ------------------------------------------------------------------------ *)
 (** ** (F) again: the same two statements read off RAPL and LAPC *)
 
-(* These carry the [Set] pin discussed in the header: [Proset_Limit] and
-   [Subsets_Cocomplete] both go through Instance/Discrete.v's unannotated
-   [DiscreteCat_Functor], which fixes the shape at
-   [DiscreteCat@{u Set Set}], and [IsALimit] identifies the shape's
-   hom-and-proof universe with the ambient's.  The DIRECT statements above
-   carry no such pin, which is why they come first. *)
+(* These are stated at the [Set] hom level discussed in the header.  An
+   earlier revision called that a PIN and attributed it to
+   Instance/Discrete.v's unannotated [DiscreteCat_Functor] fixing the shape
+   at [DiscreteCat@{u Set Set}]; that donor was annotated in place at its
+   :81 in the PR "algebraic carriers are sets" (2026-09-17), so the [Set]
+   here is now a choice carried over rather than a pin, and restating it
+   was not attempted.  [IsALimit] still identifies the shape's
+   hom-and-proof universe with the ambient's; the DIRECT statements above
+   carry no such identification, which is why they come first. *)
 
 Section RAPLRoute.
 

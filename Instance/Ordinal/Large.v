@@ -196,20 +196,33 @@ Generalizable All Variables.
        next line say "small", and it is forced by [ojoin], which accepts
        only a [Type@{u1}]-indexed family.
      - THE SLOT DECODER, so that the two [Complete] readings below can be
-       compared without guessing.  [SmallOrd_op_indexed_limit@{u u0 u1 u2 u3}]
-       reads [forall (A : Type@{u}) (d : A -> SmallOrd@{u}),
-       Limit@{u u Set u0} (DiscreteCat_Functor@{u u0 u1 Set} d)] with
-       [u < u0].  Its diagram shape is [DiscreteCat A] with [A : Type@{u}]
-       and its ambient category is [SmallOrd_op_Proset] at object level
-       [u0]; so in [Limit@{a b c d}] the SECOND slot is the shape's object
-       universe, the THIRD the shared hom universe, and the FOURTH the
-       ambient category's object universe.  [Complete@{a b c d} :
-       Category@{d c c} -> Type] follows the same layout.
-     - [SmallOrd_op_Complete@{u u0 u1 u2 u3 u4 u5} : Complete@{u u Set u0}]
-       with [u < u0] among its constraints.  Read through the decoder: the
-       diagram shape's objects sit at [u] and the ambient category's at
-       [u0], with [u < u0] between them.  That is small-completeness, in the
-       only vocabulary the library has for it.
+       compared without guessing.  [SmallOrd_op_indexed_limit@{u u0 u1 u2
+       u3 u4 u5}] reads [forall (A : Type@{u}) (d : A -> SmallOrd@{u}),
+       Limit@{u0 u u1 u2} (DiscreteCat_Functor@{u u1 u1 u2 u1 u1 u3} d)]
+       with [u < u2].  Its diagram shape is [DiscreteCat A] with
+       [A : Type@{u}] and its ambient category is [SmallOrd_op_Proset] at
+       object level [u2]; so in [Limit@{a b c d}] the SECOND slot is the
+       shape's object universe, the THIRD the shared hom universe, and the
+       FOURTH the ambient category's object universe.  [Complete@{a b c d} :
+       Category@{d c c} -> Type] follows the same layout, and
+       Structure/Complete.v now writes those four out as [@{r so h o}].
+     - [SmallOrd_op_Complete@{u u0 u1 u2 u3 u4 u5 u6 u7} :
+       Complete@{u u0 u1 u2}] with [u0 < u2] among its constraints.  Read
+       through the decoder: the diagram shape's objects sit at [u0] and the
+       ambient category's at [u2], with [u0 < u2] between them.  That is
+       small-completeness, in the only vocabulary the library has for it.
+
+       RECORDED CORRECTION.  An earlier revision of these two bullets
+       quoted [Limit@{u u Set u0}], [DiscreteCat_Functor@{u u0 u1 Set}] and
+       [Complete@{u u Set u0}], each with a literal [Set] in the hom slot,
+       and read the strict bound as [u < u0].  Those [Set]s were a
+       universe-minimization artifact of Instance/Discrete.v's then
+       unannotated [DiscreteCat_Functor]; it was annotated in place at its
+       :81 in the PR "algebraic carriers are sets" (2026-09-17), the [Set]s
+       are gone, and the binder lists lengthened, which is why the names of
+       the strict bound moved.  The READING is unchanged: shape objects
+       strictly below ambient objects, which is the whole point of the
+       pair below.
      - [SmallOrd_op_not_large_complete@{u u0 u1 u2} : Complete@{u u1 u2 u1}
        -> False] with [u0 < u1], [u1 <= u], [u2 <= u].  The second and
        fourth slots are now the SAME universe [u1]: the diagram shape
@@ -224,20 +237,29 @@ Generalizable All Variables.
        every category-level constant here.  [SmallOrd_op_Complete]
        additionally carries, from [Proset_op_Complete_of_all_joins],
        [JMeq.JMeq.u0 <= JMeq.JMeq.u1], [u <= eq.u0],
-       [u <= Logic_lemmas.equality.u0], several [projections]/[Projections]
-       bounds and four [Set < ...] bounds.  Those are level constraints
-       only: [Print Assumptions] on all 43 names reports "Closed under the
-       global context", with no [Axioms:] line anywhere.
+       [u <= Logic_lemmas.equality.u0] and several
+       [projections]/[Projections] bounds.  An earlier revision added "and
+       four [Set < ...] bounds"; measured after the PR "algebraic carriers
+       are sets" (2026-09-17) there are NONE -- zero word-bounded [Set]
+       anywhere in that constant's block, the strict bounds now being
+       [u0 < u2], [u1 < u4], [u1 < u5] and three against stdlib levels.
+       Those are level constraints only: [Print Assumptions] on all 43
+       names reports "Closed under the global context", with no [Axioms:]
+       line anywhere.
      - Instance/Discrete.v's [DiscreteCat_Functor] does NOT pin the SOURCE
-       SHAPE's objects to [Set] here, which is worth recording because
-       issue #1309 tracks exactly that artifact for a neighbouring use.
-       Measured: [DiscreteCat_Functor@{u u0 u1 Set} d] in
+       SHAPE's objects to [Set] here, and since the repair it pins nothing
+       at all.  Measured: [DiscreteCat_Functor@{u u1 u1 u2 u1 u1 u3} d] in
        [SmallOrd_op_indexed_limit] has the shape's object universe at [u],
-       the family's own, with [Set] only in the fourth slot and a
-       [Set < u1] side constraint; likewise the [Set] in [Limit@{u u Set u0}]
-       is the HOM level, which is harmless because every hom-set of a
-       [Proset] and of a [DiscreteCat] is a proposition.  No object type of
-       this development is at [Set].
+       the family's own, and carries no literal [Set] in any slot.  An
+       earlier revision of this bullet read [DiscreteCat_Functor@{u u0 u1
+       Set} d], noted that the [Set] was "only in the fourth slot" with a
+       [Set < u1] side constraint, and said the same of the [Set] in
+       [Limit@{u u Set u0}] -- the HOM level, "harmless because every
+       hom-set of a [Proset] and of a [DiscreteCat] is a proposition".
+       That was the right reading of the artifact issue #1309 tracked, and
+       the artifact was removed by applying #1309's repair in the PR
+       "algebraic carriers are sets" (2026-09-17).  No object type of this
+       development is at [Set], then or now.
 
    ONE TRAP WORTH RECORDING.  [I] is the Prelude's constructor of [True], so
    a [match] branch written [osup I f => I] is read with [I] as a PATTERN

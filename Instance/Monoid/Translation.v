@@ -205,10 +205,15 @@ Generalizable All Variables.
      section at the end declares all three of a monoid's universes strictly
      above `Set` and both headlines still elaborate there.
 
-     [DiscreteCat_Functor] (Instance/Discrete.v:59) is NOT used anywhere
-     below: it is unannotated and pins its source at
-     [DiscreteCat@{u Set Set}].  The functors out of the strict category are
-     hand-written records instead.
+     [DiscreteCat_Functor] is NOT used anywhere below; the functors out of
+     the strict category are hand-written records instead.  RECORDED
+     CORRECTION: an earlier revision gave the reason as "(Instance/
+     Discrete.v:59) it is unannotated and pins its source at
+     [DiscreteCat@{u Set Set}]".  That held when written and does not now —
+     the donor was annotated in place at Instance/Discrete.v:81 in the PR
+     "algebraic carriers are sets" (2026-09-17) and pins nothing.  The
+     hand-written records are kept, and no re-measurement was made of
+     whether the donor would now serve, since nothing here consumes it.
 
    ** AUDIT
 

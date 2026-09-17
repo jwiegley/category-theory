@@ -140,17 +140,37 @@ Generalizable All Variables.
     is [global_elements_iso].
 
     UNIVERSES ([About] under `Set Printing Universes`).  Definition 3 is
-    UNPINNED: [ElementSolutionSet@{u u0 u1 u2}] is over
+    UNPINNED: [ElementSolutionSet@{u u0 u1 i}] is over
     [C : Category@{u u0 u0}] with one strict constraint ([u0 < u1], the
-    functor's) and no [Set].  Everything downstream of the comma-initial
-    step inherits GAFT's pin instead — [representability_theorem] and
-    [representability_iff] are over [C : Category@{_ Set Set}], hom AND
-    proof at [Set], with [Set < u] — which is why the theorem is stated at
-    TOP LEVEL: inside a section that has already elaborated a category with
-    those levels apart the ascription is refused, and probe N4 pins exactly
-    that ("universe inconsistency: Cannot enforce sp = sh because sh < sp").
-    The witnesses land at [Sets@{Set u}], the same place
-    Adjunction/GAFT/Sets.v's header records for [GAFT_at_Sets_Id].  Stdlib
+    functor's) and no [Set].
+
+    RECORDED CORRECTION.  An earlier revision continued: "Everything
+    downstream of the comma-initial step inherits GAFT's pin instead —
+    [representability_theorem] and [representability_iff] are over
+    [C : Category@{_ Set Set}], hom AND proof at [Set], with [Set < u] —
+    which is why the theorem is stated at TOP LEVEL … The witnesses land
+    at [Sets@{Set u}], the same place Adjunction/GAFT/Sets.v's header
+    records for [GAFT_at_Sets_Id]."  GAFT has no such pin any more:
+    Instance/Discrete.v's [DiscreteCat_Functor] was annotated in place at
+    its :81 in the PR "algebraic carriers are sets" (2026-09-17), and
+    measured after it
+
+      representability_theorem@{cobj h su +} :
+        ∀ {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su}),
+        Complete@{h h h cobj} → PreservesImageLimit
+        → ElementSolutionSet@{cobj h su h} K → Representable K
+
+      representability_iff@{… u11 … u15 u16} :
+        ∀ {C : Category@{u15 u11 u11}} …, Complete@{u11 u11 u11 u15} → …
+
+    -- no literal [Set] in either, and [GAFT_at_Sets_Id] likewise stands
+    at the polymorphic [Sets].  What SURVIVES is the reason for stating
+    the theorem at TOP LEVEL, because that was never the [Set]: both
+    constants identify [C]'s hom and proof universes, so inside a section
+    that has already elaborated a category with those levels APART the
+    ascription is refused, and probe N4 pins exactly that ("universe
+    inconsistency: Cannot enforce sp = sh because sh < sp") -- an
+    identification, with no [Set] in the message.  Stdlib
     caps ([JMeq], [eq], [Logic_lemmas.equality], [Projections],
     [projections], [Basics.compose], [ID]) all arrive with the GAFT and
     [Sets] donors; none is introduced here.

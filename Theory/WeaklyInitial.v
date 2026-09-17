@@ -360,10 +360,14 @@ Qed.
     one-hop route from Power.v itself, which is correct and is left alone);
     and Wide.v:67-68 attributed the [Set] pin to [Terminal] and the
     equalizer supply — both
-    have empty constraint blocks, and the pin is [iprod]'s:
-    [DiscreteCat_Functor] puts the discrete shape at [DiscreteCat@{u Set
+    have empty constraint blocks, and the pin was [iprod]'s:
+    [DiscreteCat_Functor] put the discrete shape at [DiscreteCat@{u Set
     Set}] and [Limit] identifies the shape's hom universe with the
-    ambient's.
+    ambient's.  (FURTHER CORRECTION: that pin is now GONE as well.  The
+    donor was annotated in place at Instance/Discrete.v:81 in the PR
+    "algebraic carriers are sets" (2026-09-17), so [iprod] carries no
+    literal [Set]; what [Limit] does to the shape's hom universe is
+    unchanged.)
 
     UNIVERSES ([About] under `Set Printing Universes`).  No [Set] on the
     Riehl-side constants: [WeaklyInitial@{u u0 u1}] carries only the
@@ -373,15 +377,27 @@ Qed.
     where the composite through [wif_of_weakly_initial] would carry four
     binders and two constraints; the Parallel constants are at that small
     category's levels.
-    Everything that consumes [iprod] or a [Limit (DiscreteCat_Functor …)]
-    — [weakly_initial_iprod], [FreydProducts], both biconditionals, the
+    RECORDED CORRECTION.  An earlier revision continued: "Everything that
+    consumes [iprod] or a [Limit (DiscreteCat_Functor …)] —
+    [weakly_initial_iprod], [FreydProducts], both biconditionals, the
     [_complete] wrapper and their readbacks — is over [C : Category@{_ Set
     Set}], the donor's pin, with the strict `Set < u` and the caps `JMeq`,
     `eq` and `Logic_lemmas.equality` the original theorem carries — and
-    `Projections` on all of them but [FreydProducts].  A universe
-    refutation at [Cat] was tried and does NOT refuse
-    ([Cat]'s hom universe instantiates at [Set]); it is recorded here so it
-    is not re-invented.
+    `Projections` on all of them but [FreydProducts]."  The donor's pin is
+    gone: [DiscreteCat_Functor] was annotated in place at
+    Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+    (2026-09-17), and measured after it [iprod@{u u0 u1 u2 u3}] is stated
+    over [C : Category@{u1 u2 u2}] with no literal [Set].  The same
+    constants' ambient categories are therefore free in their hom
+    universe.  Where the old list read a strict `Set < u`, this file's own
+    [initial_from_weakly_initial@{lim idx obj h +}] now reads `h < u`,
+    with the ambient hom universe in the place the literal held; the
+    stdlib caps are unaffected, being the [eq]-valued hom-setoid's own.
+    The five other constants were NOT individually re-measured after the
+    repair — re-run [About] on them rather than trusting either list.  A
+    universe refutation at [Cat] was tried and does NOT refuse ([Cat]'s
+    hom universe instantiates at [Set]); it is recorded here so it is not
+    re-invented.
 
     MEASURED.  17 new `.glob` heads in this file (15 `def`, 2 `prf`; 22
     with the original five), 6 in Theory/WeaklyInitial/Sets.v, 5 in

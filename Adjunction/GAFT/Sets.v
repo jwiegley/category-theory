@@ -74,28 +74,40 @@ Generalizable All Variables.
    THE UNIVERSE INSTANCE, DISCLOSED
 
    [GAFT] is a [Qed]-opaque [Theorem], so its universe context is frozen at
-   whatever its own proof needed, and that context pins the hom and proof
-   universes of both categories to [Set] ([About GAFT], re-wrapped, the
-   hypotheses elided):
+   whatever its own proof needed.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) that context leaves both categories' hom and proof universes
+   FREE, and the application inherits the freedom ([About], re-wrapped):
 
-     GAFT@{u u0 u1 u2 u3 u4} :
-       ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}}
+     GAFT@{cobj dobj h u u0 u1} :
+       ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}}
          (U : C ⟶ D), ...
 
-   Applying it therefore instantiates [Sets@{o so}] at [o := Set]:
+     GAFT_at_Sets_Id@{u u0 u1 u2} :
+       ∃ F : Sets@{u0 u} ⟶ Sets@{u0 u}, F ⊣ Id[Sets@{u0 u}]     with u0 < u
 
-     GAFT_at_Sets_Id@{u u0 u1} :
-       ∃ F : Sets@{Set u} ⟶ Sets@{Set u}, F ⊣ Id[Sets@{Set u}]
+   -- so the application IS at the polymorphic [Sets], the one
+   [Sets_Complete] and [Sets_HasIndexedProducts] are stated over.
 
-   [Sets@{Set u}] is the category of setoids whose carriers, and whose
-   equivalences, live in [Set].  It is a genuine and inhabited instance --
-   [Sets_bool] of Instance/Sets/Products.v is one of its objects -- but it is
-   ONE instance of the polymorphic [Sets@{u0 u}], the smallest, where
-   [Sets_Complete] and [Sets_HasIndexedProducts] are stated polymorphically
-   and hold at every instantiation.  So the application demonstrates [GAFT] at
-   a concrete category, not at [Sets] in the generality in which the rest of
-   this development speaks of it.  The restriction comes from [GAFT], predates
-   this file, and is not lifted by it.
+   RECORDED CORRECTION, AND IT REVERSES A CONCLUSION rather than a number.
+   An earlier revision of this section read: "that context pins the hom and
+   proof universes of both categories to [Set]", quoted
+   [GAFT@{u u0 u1 u2 u3 u4} : ∀ {C : Category@{u1 Set Set}}
+   {D : Category@{u2 Set Set}} …] and [GAFT_at_Sets_Id@{u u0 u1} :
+   ∃ F : Sets@{Set u} ⟶ Sets@{Set u}, F ⊣ Id[Sets@{Set u}]], and concluded:
+   "[Sets@{Set u}] … is ONE instance of the polymorphic [Sets@{u0 u}], the
+   smallest … So the application demonstrates [GAFT] at a concrete category,
+   not at [Sets] in the generality in which the rest of this development
+   speaks of it.  The restriction comes from [GAFT], predates this file, and
+   is not lifted by it."  Every clause of that was true when written.  The
+   restriction was a universe-minimization artifact of Instance/Discrete.v's
+   unannotated [DiscreteCat_Functor], reaching [GAFT]'s statement through
+   the discrete shape its proof takes a limit over; annotating the donor at
+   Instance/Discrete.v:81 lifted it.  So the standing reading is the
+   opposite of the old one: this file's application is at [Sets] in the
+   generality the rest of the development speaks of, and no [Set] instance
+   is involved.  What is NOT affected is the honesty of the application
+   itself -- it is still [Id], and the solution set is still the degenerate
+   one; see the previous section.
 
    A BY-PRODUCT: EQUALIZERS IN [Sets]
 
@@ -106,8 +118,11 @@ Generalizable All Variables.
    no in-tree consumer resolves [HasEqualizers] by typeclass search
    (Theory/WeaklyInitial.v takes it as an explicit argument and [GAFT]
    passes [Complete_HasEqualizers] by hand), so registering it would add
-   resolution surface with no consumer.  Unlike [GAFT_at_Sets_Id] it carries
-   no [Set] pinning; it stands at the same [Sets@{u0 u}] as [Sets_Complete].
+   resolution surface with no consumer.  It stands at the same [Sets@{u0 u}]
+   as [Sets_Complete] -- and so, since the 2026-09-17 repair recorded above,
+   does [GAFT_at_Sets_Id].  An earlier revision of this sentence contrasted
+   the two, saying this one carries "no [Set] pinning" UNLIKE that one; there
+   is no longer a contrast to draw.
 
    STATUS: axiom-free.  [Print Assumptions] reports "Closed under the global
    context" for every constant below; the Makefile's [print-assumptions]
@@ -153,8 +168,9 @@ Defined.
 (** ** The application *)
 
 (* [GAFT] at [Id : Sets ⟶ Sets], all three premises discharged by in-tree
-   constructions.  See the header for the [Set] pinning this inherits from
-   [GAFT]'s frozen universe context. *)
+   constructions.  An earlier revision of this comment pointed at "the [Set]
+   pinning this inherits from [GAFT]'s frozen universe context"; that pinning
+   was removed on 2026-09-17 and the header records the measurement. *)
 Definition GAFT_at_Sets_Id : { F : Sets ⟶ Sets & F ⊣ Id } :=
   GAFT (@Id Sets) Sets_Complete
     Sets_Id_PreservesImageLimit Sets_Id_SolutionSet.

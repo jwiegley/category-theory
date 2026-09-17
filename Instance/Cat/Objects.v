@@ -109,23 +109,34 @@ Generalizable All Variables.
       there.  Only the ADJUNCTION is missing.  Item II below records the
       consequence: [Pi0] cannot join the string built here.
 
-      THIRD -- and this one is a correction to a donor rather than to the
-      issue, which flagged the risk correctly -- Instance/Discrete.v:57's
-      [DiscreteCat_Functor] is universe-unannotated and PINS ITS SOURCE
-      AT [Set]:
+      THIRD -- and this one WAS a correction to a donor rather than to
+      the issue, which flagged the risk correctly -- Instance/Discrete.v's
+      [DiscreteCat_Functor] was universe-unannotated and PINNED ITS
+      SOURCE AT [Set]:
 
         DiscreteCat_Functor@{u u0 u1 u2} :
           ∀ {A : Type@{u}} {C : Category@{u0 u2 u2}},
             (A → obj[C]) → DiscreteCat@{u Set Set} A ⟶ C
 
       Building [StrictCat_Disc] over it would have propagated a [Set]
-      pin on the hom AND proof universes of every discrete category.
-      [disc_ext] is the same construction with the binders written out,
-      and it is [Set]-free; §8 pins the difference as a formability
-      negative against passing controls.  The donor is NOT modified here
-      and the pin is NOT claimed unavoidable -- it is a minimization
-      artifact of the [Build_Quiver_Standard_Eq] family that
-      Construction/Free/Quiver/Examples.v already records.
+      pin on the hom AND proof universes of every discrete category, and
+      [disc_ext] is the same construction with the binders written out.
+
+      RECORDED CORRECTION.  That signature is HISTORY.  In the PR
+      "algebraic carriers are sets" (2026-09-17) the donor was annotated
+      in place at Instance/Discrete.v:81 as
+      [DiscreteCat_Functor@{o h p uo uh up +}], and it now reaches every
+      level [disc_ext] reaches; §8's [Section SetPin] records the repair
+      and keeps the two former negatives as positive CONTROLS, so what
+      that section guards is an AGREEMENT between three interchangeable
+      discrete extensions rather than a pin.  An earlier revision of this
+      paragraph also said the pin was "a minimization artifact of the
+      [Build_Quiver_Standard_Eq] family that
+      Construction/Free/Quiver/Examples.v already records"; that
+      attribution named the wrong donor and is withdrawn -- [About] put
+      it on [DiscreteCat_Functor]'s own elaboration.  [disc_ext] is
+      retained for the reason §1 and §8 give, that it is written with
+      [refine] and so mints no auxiliary universe.
 
    II. THE DOMAIN DECISION: [StrictCat] AND [Coq], BOTH FORCED.
 
@@ -305,12 +316,16 @@ Generalizable All Variables.
       the source and 43 + 25 = 68).  ZERO of the 68 names collides
       anywhere in the tree -- a sweep that FOUND one, and it was live:
       [Objects] is Solver/Expr.v:38's reification class, which is why the
-      functors carry the [StrictCat_] prefix (item II).  Five [Fail]
+      functors carry the [StrictCat_] prefix (item II).  THREE [Fail]
       probes, of TWO KINDS kept lexically apart -- two CONVERSION
-      in §5, three FORMABILITY in §8 -- each stripped once and its kind
+      in §5, one FORMABILITY in §8 -- each stripped once and its kind
       read off the whole error message, beside an instrument check and
-      ten positive controls -- seven [Check]s in §8 and three passing
-      [Example]s beside the §5 negatives.  Each of the three section-local
+      twelve positive controls -- nine [Check]s in §8 and three passing
+      [Example]s beside the §5 negatives.  An earlier revision of this
+      item counted FIVE probes (three formability) and ten controls
+      (seven [Check]s); the PR "algebraic carriers are sets"
+      (2026-09-17) turned §8's two [Set] negatives into controls, which
+      is where both differences come from.  Each of the three section-local
       [Constraint] declarations was additionally tested by deletion, and
       they behave differently -- one INERT, one LOAD-BEARING, one
       meaning-giving; §8 records which is which, since a reader who
@@ -322,7 +337,10 @@ Generalizable All Variables.
       FOUND a vacuous guard: [DiscreteCat_Functor] was named only inside
       its own [Fail], so a rename of the donor would have turned that
       probe silently green; the control that closes it exists for that
-      reason.
+      reason.  That hazard is now moot in this file -- since the donor's
+      annotation the probe in question IS a [Check] -- but the control
+      is kept, because a rename would then break the file outright,
+      which is the stronger guard.
 
    VII. WHAT IS NOT DELIVERED.
 
@@ -359,17 +377,30 @@ Generalizable All Variables.
    a discrete hom-set -- an equality proof -- goes to the identity,
    transported along that proof.
 
-   This is Instance/Discrete.v:57's [DiscreteCat_Functor] with the
+   This is Instance/Discrete.v:81's [DiscreteCat_Functor] with the
    universe binders written out and the setoid [rewrite] avoided.  BOTH
-   changes are load-bearing and were measured separately.  Written
+   changes were load-bearing and were measured separately.  Written
    without the binders, minimization pins the source at
-   [DiscreteCat@{o Set Set}], which is the donor's actual signature and
-   the pin §8 exhibits.  And discharging the [fmap_comp] branch with
-   [now rewrite id_left] instead of [symmetry; apply id_left] drags
-   [Morphisms] universes in that no annotation can bind (the elaborator
-   reports an unbound universe, and adding further binders only renames
-   it).  A [Program Definition] cannot be annotated here at all, since
-   its obligations mint fresh universes; hence the [refine]. *)
+   [DiscreteCat@{o Set Set}] -- which WAS the donor's actual signature,
+   and the pin §8 used to exhibit.  And discharging the [fmap_comp]
+   branch with [now rewrite id_left] instead of [symmetry; apply
+   id_left] drags [Morphisms] universes in that no annotation can bind
+   (the elaborator reports an unbound universe, and adding further
+   binders only renames it).
+
+   TWO RECORDED CORRECTIONS.  First, the donor is no longer written
+   without binders: it was annotated in place in the PR "algebraic
+   carriers are sets" (2026-09-17), so [disc_ext] is now a SECOND
+   [Set]-free extension rather than the only one, and §8 checks the two
+   against each other instead of separating them.  Second, an earlier
+   revision of this paragraph ended "A [Program Definition] cannot be
+   annotated here at all, since its obligations mint fresh universes;
+   hence the [refine]."  That is FALSE as stated and the annotated donor
+   is the counterexample: a [Program Definition] takes binders like any
+   other, and a trailing [+] in the binder list allows exactly the fresh
+   universes its obligations mint.  What [refine] buys is narrower and is
+   still true -- it mints NO auxiliary universe, so [disc_ext@{o h p q}]
+   needs no [+] where [DiscreteCat_Functor@{o h p uo uh up +}] does. *)
 Definition disc_ext@{o h p q} {A : Type@{o}} {C : Category@{q h p}}
   (f : A → obj[C]) : DiscreteCat@{o h p} A ⟶ C.
 Proof.

@@ -278,12 +278,22 @@ Generalizable All Variables.
      [J : Category@{u0 u1 u2}] and [C : Category@{u3 u4 u5}], all six
      apart.  [IsALimit] and [Limit] are not: both are over
      [J : Category@{u0 u1 u1}] and [C : Category@{u2 u1 u1}], identifying
-     the shape's hom and proof with the ambient's.  [DiscreteCat_Functor]
+     the shape's hom and proof with the ambient's.  RECORDED CORRECTION:
+     an earlier revision continued "[DiscreteCat_Functor]
      (Instance/Discrete.v:52) is unannotated and instantiates
      [DiscreteCat@{u Set Set}] while leaving C's hom free.  It takes BOTH
      to bite: [Limit (DiscreteCat_Functor f)] elaborates only at
      [C : Category@{u1 Set Set}], measured on this commit.  So the [Set]
-     pin is not the functor's alone.  Read the [Cone] half NARROWLY: the
+     pin is not the functor's alone."  The functor was annotated in place
+     at Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+     (2026-09-17), and measured after it [iprod@{u u0 u1 u2 u3}] is
+     stated over [C : Category@{u1 u2 u2}] -- no [Set] remains, and
+     [Limit (DiscreteCat_Functor f)] elaborates with C's hom universe
+     free.  What SURVIVES is the other half of the same diagnosis: the
+     [IsALimit]/[Limit] identification above still ties the discrete
+     shape's hom and proof universes to the ambient's, and that
+     identification, not a [Set] floor, is now the whole content of this
+     paragraph.  Read the [Cone] half NARROWLY: the
      RECORD is innocent, but that licenses no claim that [IsALimit] and
      [Limit] are the only other donors, and they are not --
      [cone_leg] (Structure/Limit/Preservation.v:108) and [IsLimitCone]

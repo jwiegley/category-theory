@@ -65,12 +65,18 @@ Generalizable All Variables.
        discrete-diagram functor [DiscreteCat_Functor'@{o h p uo uh up +}],
        and Instance/Fun/Discrete.v:234 has [Fun_Discrete_PiCat : [DiscreteCat
        A, B] ≅[Cat] PiCat (fun _ => B)], the "C^{ob A} ≅ ∏_{ob A} C" of the
-       Riehl note.  That bridge is Set-PINNED in the target (its :202 uses
+       Riehl note.  RECORDED CORRECTION: an earlier revision continued
+       "That bridge is Set-PINNED in the target (its :202 uses
        Instance/Discrete.v:59's unannotated [DiscreteCat_Functor]; at a
-       general X the application is refused with "Cannot enforce Set = …"),
-       so Riehl's route through Construction/Product/Limit.v:603's
-       [PiCat_JointlyCreateLimit] is NOT usable here and the reflection is
-       proved directly.
+       general X the application is refused with "Cannot enforce
+       Set = …"), so Riehl's route through Construction/Product/
+       Limit.v:603's [PiCat_JointlyCreateLimit] is NOT usable here".
+       The donor was annotated in place at Instance/Discrete.v:81 in the
+       PR "algebraic carriers are sets" (2026-09-17), so that [Set] pin
+       no longer exists and the quoted refusal no longer occurs.
+       Whether Riehl's route thereby becomes usable has NOT been
+       re-measured; the reflection is proved directly here either way,
+       and that direct proof is unaffected.
      - "Theory/Kan/Extension.v:127 ([Induced])": the definition is :131 (:127
        is a comment line); that no limit property of it existed is true
        (Functor/Construction/Postcompose.v:313 says so in terms).
@@ -83,11 +89,16 @@ Generalizable All Variables.
    one closed under the global context).
      (1) THE INCLUSION AND THE RESTRICTION.  [ObjCat : Category@{jo jh jh} :=
          DiscreteCat (obj[P])] at P's own object and hom levels; [DiscInc :
-         ObjCat ⟶ P] through the annotated [DiscreteCat_Functor']
-         (Instance/Discrete.v's unannotated [DiscreteCat_Functor]
+         ObjCat ⟶ P] through [DiscreteCat_Functor']
+         (RECORDED CORRECTION: an earlier revision explained that choice
+         by "Instance/Discrete.v's unannotated [DiscreteCat_Functor]
          instantiates [DiscreteCat@{u Set Set}] and would pin P's hom and
          proof levels to [Set] — Structure/Limit/Comparison.v's note above
-         its :535 — and is left as it is); [Res : [P, X] ⟶ [ObjCat, X] :=
+         its :535 — and is left as it is"; since the PR "algebraic
+         carriers are sets" (2026-09-17) [DiscreteCat_Functor] is itself
+         annotated and [DiscreteCat_Functor'] is a transparent ALIAS of
+         it, so the two are interchangeable here and the primed name is
+         retained only to avoid a rename); [Res : [P, X] ⟶ [ObjCat, X] :=
          Induced DiscInc], the theorem's X^i.  Readbacks at [eq_refl]:
          [res_obj], [res_obj_at], [res_map], and [eval_res_obj]/
          [eval_res_map] — evaluating after restricting IS evaluating, in
@@ -272,7 +283,8 @@ Generalizable All Variables.
      - A hypothesis-free [CreatesLimit D Res] (decidable object equality on
        P would give it; see (4)).
      - Riehl's route through [Fun_Discrete_PiCat] and
-       [PiCat_JointlyCreateLimit] (Set-pinned bridge; see STALE PREMISES).
+       [PiCat_JointlyCreateLimit] (not attempted; the [Set]-pin reason
+       given for that is withdrawn — see STALE PREMISES).
      - No edit to Instance/Discrete.v, Structure/Limit/Comparison.v,
        Structure/Limit/Creation.v, Theory/Kan/Extension.v or Instance/Fun/
        Discrete.v. *)
@@ -288,9 +300,12 @@ Context {P : Category@{jo jh jh}} {X : Category@{co ch ch}}.
 (* |P|: the discrete category on the objects of P. *)
 Definition ObjCat : Category@{jo jh jh} := DiscreteCat@{jo jh jh} (obj[P]).
 
-(* The inclusion |P| ⟶ P, through Structure/Limit/Comparison.v's annotated
-   discrete-diagram functor (Instance/Discrete.v's unannotated one pins the
-   target's hom and proof levels to [Set]). *)
+(* The inclusion |P| ⟶ P, through Structure/Limit/Comparison.v's
+   discrete-diagram functor.  An earlier revision of this comment explained
+   the choice by "Instance/Discrete.v's unannotated one pins the target's hom
+   and proof levels to [Set]"; since the PR "algebraic carriers are sets"
+   (2026-09-17) that donor is annotated and [DiscreteCat_Functor'] is a
+   transparent alias of it, so either name works here. *)
 Definition DiscInc : ObjCat ⟶ P := DiscreteCat_Functor' (fun p : P => p).
 
 (* Restriction along the inclusion: precomposition, Theory/Kan/Extension.v's

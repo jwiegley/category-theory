@@ -187,16 +187,26 @@ Generalizable All Variables.
        none.  An earlier revision read the bound [u0 < u5] as placing [bool]
        and [False] below the shape's object level; it does not — they sit at
        [Set] with no printed constraint.
-     - WHY A LOCAL ANNOTATED FUNCTOR.  The unannotated [DiscreteCat_Functor]
-       instantiates [DiscreteCat@{u Set Set}] (Functor/Hom/Limit.v:104-155;
-       Test/ProbeHomLimit331.v pins [IsLimitCone] over its cones), so
-       [cone_comparison] at it is refused above [Set] (probe N2, and N3
-       through Product.v's [family_cone]).  [DiscreteCat_Functor'@{o h p uo
-       uh up +}] has the same actions with the shape's levels free.
-       Instance/Discrete.v is NOT edited here: annotating the donor upstream
-       is the lift Functor/Hom/Limit.v:139-145 already names, but it flips
+     - WHY A LOCAL ANNOTATED FUNCTOR -- AND WHY IT IS NOW ONLY AN ALIAS.
+       An earlier revision of this item read: "The unannotated
+       [DiscreteCat_Functor] instantiates [DiscreteCat@{u Set Set}]
+       (Functor/Hom/Limit.v:104-155; Test/ProbeHomLimit331.v pins
+       [IsLimitCone] over its cones), so [cone_comparison] at it is refused
+       above [Set] (probe N2, and N3 through Product.v's [family_cone]).
+       [DiscreteCat_Functor'@{o h p uo uh up +}] has the same actions with
+       the shape's levels free.  Instance/Discrete.v is NOT edited here:
+       annotating the donor upstream is the lift
+       Functor/Hom/Limit.v:139-145 already names, but it flips
        Test/ProbeHomLimit331.v's pin and reworks that essay, and whether to
-       do it is put to John in the PR rather than settled by this file.
+       do it is put to John in the PR rather than settled by this file."
+       The question was settled: the donor WAS annotated upstream, in the
+       PR "algebraic carriers are sets" (2026-09-17), at
+       Instance/Discrete.v:81 and with the same binder list.  Probes N2 and
+       N3 turned over and are positive controls; Test/ProbeHomLimit331.v's
+       pin flipped as predicted and that file's essay was reworked.  The
+       local [DiscreteCat_Functor'] is therefore a transparent ALIAS now,
+       kept for the reason given above its declaration rather than for a
+       difference in signature.
 
    COUNTS AND CONVENTIONS.
      - 57 constants — 45 [def] and 12 [prf] in the [.glob] — all "Closed

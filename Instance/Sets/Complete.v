@@ -337,20 +337,33 @@ Definition Sets_Complete : @Complete Sets := fun D F => Sets_Limit F.
    carrying NO word-bounded [Set] at all -- a different KIND of refusal
    under this development's own taxonomy, measured by restating the six
    accepted constants at [Type] and adding each refused one alone.  An
-   earlier revision of this sentence said all four were alike.  The
-   MECHANISM is the one described before: [iprod@{u u0 u1}] is declared
-   over [C : Category@{u1 Set Set}], pinning the ambient hom and proof
-   universes to the literal [Set], and at [C := Sets@{o so} :
+   earlier revision of this sentence said all four were alike.
+
+   THE MECHANISM, AND A RECORDED CORRECTION: IT IS GONE.  An earlier
+   revision explained the four refusals like this: "[iprod@{u u0 u1}] is
+   declared over [C : Category@{u1 Set Set}], pinning the ambient hom and
+   proof universes to the literal [Set], and at [C := Sets@{o so} :
    Category@{so o o}] that collapses [Sets]' CARRIER universe [o] to
    [Set], after which [Sets_iprod_obj]'s [u <= u0] bound carries the index
    down too.  [iprod]'s own pin is visible in its printed type
    ([Limit@{u u Set u1} (DiscreteCat_Functor@{u u1 u0 Set} f)]) and takes
    BOTH donors -- [Cone] alone is accepted at levels declared apart, so it
-   is the discriminating control -- with both pinned in the probe.  The
-   section is written uniformly at [{A : Set}] so that the four readbacks
-   apply to the same [f] as the isomorphism they read back; the pin is the
-   donor's, is not repaired here, and is not claimed unavoidable.  The core
-   section above carries no [Set] at all.
+   is the discriminating control -- with both pinned in the probe."  The
+   attribution was right and the donor has been repaired:
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81
+   in the PR "algebraic carriers are sets" (2026-09-17).  Measured after
+   it, [iprod] is declared over [C : Category@{u1 u2 u2}] with no literal
+   [Set], and applying it AT [Sets@{o so}] TO A [Type@{o}]-INDEXED FAMILY
+   is ACCEPTED, reading
+   [Limit@{o o o so} (DiscreteCat_Functor@{o o o so o o so} f) →
+   obj[Sets@{o so}]] with [o < so].
+
+   The section below is nevertheless still written uniformly at [{A : Set}],
+   so that the four readbacks apply to the same [f] as the isomorphism they
+   read back.  That binder is now a CHOICE, not a pin: whether the four
+   [iprod]-naming constants can be restated at [{A : Type}] has NOT been
+   re-measured, because the PR that removed the pin changed prose only.
+   The core section above carries no [Set] at all, then or now.
 
    These definitions are stated at top level rather than in a [Section]
    because a section [Context] fixes its universes once, before the pin can

@@ -145,13 +145,20 @@ Generalizable All Variables.
      the two smallness negatives print DIFFERENT messages for the two
      operators, and that is why, not an accident of phrasing.
 
-     [power_of_limit@{u u0 u1}] and [copower_of_colimit@{u u0 u1}] take
+     RECORDED CORRECTION.  An earlier revision read: "[power_of_limit@{u
+     u0 u1}] and [copower_of_colimit@{u u0 u1}] take
      [C : Category@{u1 Set Set}] -- [C]'s hom AND proof universes pinned to
      [Set] -- with the INDEX [Type@{u}] left FREE.  That pin is
-     Structure/Limit/Product.v's, not this file's: the hom-setoid of
-     [DiscreteCat J] is strict equality.  The index staying free is what
-     matters for the consumer, since Theory/WeaklyInitial.v's index is a
-     hom-type.
+     Structure/Limit/Product.v's, not this file's".  The attribution was
+     one step short and the pin is now gone: it came from
+     Instance/Discrete.v's then-unannotated [DiscreteCat_Functor], which
+     was annotated in place at its :81 in the PR "algebraic carriers are
+     sets" (2026-09-17).  Measured after it, [iprod] and its limit-shaped
+     siblings are stated over [C : Category@{u1 u2 u2}] with no literal
+     [Set], so these two constants no longer pin [C]'s hom and proof
+     universes either.  What was said about the INDEX is unchanged and is
+     still what matters for the consumer: it stays FREE, since
+     Theory/WeaklyInitial.v's index is a hom-type.
 
    Nothing in this file mentions [Sets]; the universe situation of the two
    characterizing isomorphisms is Structure/Limit/Power/Hom.v's, and is

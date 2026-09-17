@@ -187,25 +187,37 @@ Generalizable All Variables.
       is free of the category's, which is what lets the index be as
       large as the object type.
 
-      [coprod_IsALimit_iprod] is where the [Set] pin arrives, and it is
-      WIDER than the donor's binder alone suggests: [iprod] is declared
-      over [C : Category@{_ Set Set}], and because [IsALimit] identifies
-      the shapes' hom-and-proof universe with the ambient's, the pin
-      propagates to the SHAPES too -- the corollary reads
-      [J : I → Category@{u0 Set Set}] and [C : Category@{u3 Set Set}].
-      That is exactly why the elementary [IsIndexedProduct] form is
-      stated first and the [iprod] reading is a corollary; it is
-      inherited, is not repaired, and is NOT claimed unavoidable.
-      Section [UniversePin] GUARDS the measurement rather than leaving
-      it in prose.
+      [coprod_IsALimit_iprod] IS THE PLACE TO READ THE FORMER [Set] PIN,
+      AND THE PIN IS GONE.  An earlier revision of this paragraph said
+      the pin "arrives" here and is "WIDER than the donor's binder alone
+      suggests", quoting [iprod] as declared over
+      [C : Category@{_ Set Set}] and the corollary as reading
+      [J : I → Category@{u0 Set Set}] and [C : Category@{u3 Set Set}];
+      it added that the pin "is inherited, is not repaired, and is NOT
+      claimed unavoidable".  The first half was a correct reading of the
+      tree of the time and the last clause was right: the pin was a
+      universe-minimization artifact of Instance/Discrete.v's
+      [DiscreteCat_Functor], reaching [iprod] through [Limit]'s
+      identification of the shape's hom-and-proof universe with the
+      ambient's.  That donor was annotated in place in the PR "algebraic
+      carriers are sets" (2026-09-17), so no literal [Set] reaches this
+      corollary any more.  The elementary [IsIndexedProduct] form is
+      still stated first and the [iprod] reading is still a corollary --
+      that ordering was never only about [Set] -- and Section
+      [UniversePin] below now GUARDS the repair: the same two lines that
+      used to refuse over homs strictly above [Set] are kept there as
+      positive controls.
 
-   7. NEGATIVES: FOUR, OF TWO KINDS, KEPT LEXICALLY APART.  Two are
-      FORMABILITY -- [iprod] and [coprod_IsALimit_iprod] are each
+   7. NEGATIVES: TWO, BOTH CONVERSION.  An earlier revision of this item
+      read "FOUR, OF TWO KINDS, KEPT LEXICALLY APART" and described two
+      FORMABILITY negatives -- [iprod] and [coprod_IsALimit_iprod]
       rejected over a category whose homs are declared strictly above
-      [Set], each ending "universe inconsistency: Cannot enforce
-      Set = uh", against three controls accepted at those very levels
-      ([IsIndexedProduct], [IsALimit] over a [SigmaCat] shape, and
-      [coprod_IsALimit] itself).  Two are CONVERSION -- [sigma_obj_eta],
+      [Set], "each ending "universe inconsistency: Cannot enforce
+      Set = uh"" -- against three controls.  Those two are now ACCEPTED
+      at those very levels and stand in Section [UniversePin] as
+      controls beside the original three (item 6); the correction is
+      recorded here rather than made silently.  What remains are the two
+      CONVERSION negatives.  [sigma_obj_eta],
       which records that an object of a coproduct of categories is NOT
       convertible with the pair of its projections (this is why
       [coprod_leg] is a [match] with a return annotation; its control
@@ -470,11 +482,18 @@ Definition coprod_IsALimit_HasIndexedProducts {I : Type} {J : I → Category}
 
 (* The [iprod] reading the issue's reviewer check asks for: the right-hand
    side is [Structure/Limit/Product.v]'s own product operator, not a
-   bespoke one.  IT INHERITS THAT DONOR'S UNIVERSE PIN -- [iprod] is
-   defined over [Limit (DiscreteCat_Functor f)] and so is declared at
+   bespoke one.  RECORDED CORRECTION: an earlier revision continued "IT
+   INHERITS THAT DONOR'S UNIVERSE PIN -- [iprod] is defined over
+   [Limit (DiscreteCat_Functor f)] and so is declared at
    [C : Category@{_ Set Set}], where [coprod_IsALimit] above leaves both
-   levels free.  That is the reason the elementary form is stated first
-   and this one is a corollary rather than the headline. *)
+   levels free."  The pin is gone: the donor was annotated in place at
+   Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   (2026-09-17), and [iprod@{u u0 u1 u2 u3}] is now declared over
+   [C : Category@{u1 u2 u2}].  What it still inherits is [Limit]'s
+   IDENTIFICATION of the discrete shape's hom-and-proof universe with the
+   ambient's, where [coprod_IsALimit] above leaves the two apart; that,
+   rather than a [Set] floor, is why the elementary form is stated first
+   and this one is a corollary. *)
 
 Definition coprod_IsALimit_iprod {I : Type} {J : I → Category}
   {C : Category} (F : SigmaCat J ⟶ C)

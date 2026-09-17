@@ -277,12 +277,21 @@ Generalizable All Variables.
    NO word-bounded [Set] occurs in the binder or the block of ANY of the
    seven constants measured ([power_fmap], [Power_Functor], [Copower_Functor],
    [power_functor_ev], [copower_functor_inj], [cp_adj_iso],
-   [Copower_Power_Adjunction]).  That is strictly better than the limit-shaped
-   route: [power_of_limit@{u u0 u1}] reads
-   [∀ {C : Category@{u1 Set Set}} …], pinning [C]'s hom AND proof to the
-   literal [Set] in its binder.  Going through the CLASS
-   ([power]/[power_ev]/[power_ump]) rather than through
-   [Limit (DiscreteCat_Functor …)] avoids that pin entirely.
+   [Copower_Power_Adjunction]).  RECORDED CORRECTION: an earlier revision
+   continued "That is strictly better than the limit-shaped route:
+   [power_of_limit@{u u0 u1}] reads [∀ {C : Category@{u1 Set Set}} …],
+   pinning [C]'s hom AND proof to the literal [Set] in its binder.  Going
+   through the CLASS ([power]/[power_ev]/[power_ump]) rather than through
+   [Limit (DiscreteCat_Functor …)] avoids that pin entirely."  The
+   comparison no longer holds, because the pin is gone:
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81
+   in the PR "algebraic carriers are sets" (2026-09-17), and the
+   limit-shaped route now carries no literal [Set] either
+   (Structure/Limit/Power.v's own universe note records the measurement).
+   The class route is still preferred, but for the identification the
+   limit-shaped route carries rather than for a [Set] floor: [Limit] ties
+   the discrete shape's hom and proof universes to the ambient's, and the
+   class imposes no such tie.
 
    AN ENGINEERING FINDING, RECORDED BECAUSE IT COST A COMPILE
 

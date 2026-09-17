@@ -364,14 +364,21 @@ Context {b a : C}.
    the same functor.  [Full], [Faithful] and [EssentiallySurjective] each carry
    only THREE universe parameters (measured: `About Full` reports
    `Full@{u u0 u1}`), so each identifies the hom AND proof universes of its
-   source and target categories.  [DiscreteCat_Functor] carries the `Set` pin
-   in its OWN signature — its type mentions `DiscreteCat@{u Set Set}`, fixed
-   when that constant was defined — so using it here would make the class
-   demand `Set` for C's hom universe too, which at this abstract use site is a
-   universe inconsistency, not merely a pin.  Building the functor by hand leaves those universes free
-   to unify with C's, which is what Block C's statements need; the same
-   consideration is why Instance/Discrete/Reconstruct.v's [Discrete_Compare]
-   carries explicit `@{o h p}` binders rather than going through [Program]. *)
+   source and target categories.  RECORDED CORRECTION: an earlier revision of
+   this paragraph continued "[DiscreteCat_Functor] carries the `Set` pin in its
+   OWN signature — its type mentions `DiscreteCat@{u Set Set}`, fixed when that
+   constant was defined — so using it here would make the class demand `Set`
+   for C's hom universe too, which at this abstract use site is a universe
+   inconsistency, not merely a pin."  That pin is GONE: the donor was annotated
+   in place at Instance/Discrete.v:81 in the PR "algebraic carriers are sets"
+   (2026-09-17), and its type now reads `DiscreteCat@{o h p} A ⟶ C` over
+   `C : Category@{uo uh up}`, with no literal `Set`.  Whether the hand-built
+   functor could therefore be replaced by [DiscreteCat_Functor comma_const_obj]
+   here has NOT been re-measured, and the hand-built one is kept: building the
+   functor by hand leaves those universes free to unify with C's, which is what
+   Block C's statements need; the same consideration is why
+   Instance/Discrete/Reconstruct.v's [Discrete_Compare] carries explicit
+   `@{o h p}` binders rather than going through [Program]. *)
 (* `=` implies `≈`: transport the reflexivity witness along the equality. *)
 Definition discrete_eq_equiv (x y : b ~{C}~> a) (e : x = y) : x ≈ y :=
   match e in _ = z return x ≈ z with eq_refl => reflexivity x end.
