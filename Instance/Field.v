@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
@@ -499,7 +500,13 @@ Program Definition F2_Rig : RigObject := {|
   rig_zero := false;
   rig_add := xorb;
   rig_one := true;
-  rig_mul := andb
+  rig_mul := andb;
+
+  (* [bool_setoid_object]'s `≈` IS [eq]: the two implications are the
+     identity.  See Lib/Setoid/Propositional.v for why the relation must be
+     named rather than ascribed. *)
+  rig_prop := @PropEquiv_of_relation _ (is_setoid bool_setoid_object) (@eq bool)
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 Next Obligation. intros [|] [|] [|]; reflexivity. Qed.
 Next Obligation. intros [|] [|]; reflexivity. Qed.

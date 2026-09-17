@@ -30,11 +30,11 @@ Generalizable All Variables.
    general cone machinery.  Built for #432 (Instance/Sets/NoAdjoint.v, the
    first consumer, Mac Lane §V.5 Exercise 1).
 
-   Each constant is a two-line composition: Adjunction/Continuity.v:205's
+   Each constant is a two-line composition: Adjunction/Continuity.v's
    [right_adjoint_PreservesLimitCone] at the empty or the two-object
    discrete diagram, read through Structure/Limit/Comparison.v's bridges
-   [terminal_functor_iff_preserves_terminal] (:807) and
-   [cartesian_functor_iff_preserves_binary_products] (:715); the two
+   [terminal_functor_iff_preserves_terminal] and
+   [cartesian_functor_iff_preserves_binary_products]; the two
    left-adjoint forms are the same two lines for [Opposite_Adjunction F U
    A], in which [F^op] is the right adjoint.  Nothing is re-proved.
 
@@ -50,13 +50,13 @@ Generalizable All Variables.
    [Build_Adjunction']'s block; [right_adjoint_PreservesLimitCone] carries
    it already), not this file's; no [Set]; the stdlib caps [EqdepFacts],
    [JMeq], [eq_ind], [eq_ind_r], [eq_rect_r] and [Logic_lemmas.equality]
-   are [DiscreteCat_Functor']'s (Comparison.v:535).  Four [.glob] heads,
+   are [DiscreteCat_Functor']'s (Comparison.v).  Four [.glob] heads,
    all "Closed under the global context"; no [Qed], no [Defined] — [:=]
    terms.
 
    NOTATION TRAP.  [InitialFunctor F] and [CocartesianFunctor F] are
-   NOTATIONS (Functor/Structure/Terminal.v:59, Functor/Structure/
-   Cartesian.v:130) and do not parse in a definition's return type; the
+   NOTATIONS (Functor/Structure/Terminal.v, Functor/Structure/
+   Cartesian.v) and do not parse in a definition's return type; the
    two left-adjoint forms spell them out as [@TerminalFunctor (D^op) (C^op)
    (F^op) _ _] and [@CartesianFunctor (D^op) (C^op) (F^op) _ _]; [About]
    prints the first back as [InitialFunctor F] and the second as the
@@ -89,7 +89,7 @@ Definition right_adjoint_preserves_binary_products
 (* A left adjoint preserves the initial object: the same two lines for
    the opposite adjunction, in which [F^op] is the right adjoint.  The
    return type is [InitialFunctor F] spelled out, because that name is a
-   notation (Functor/Structure/Terminal.v:59) and does not parse here. *)
+   notation (Functor/Structure/Terminal.v) and does not parse here. *)
 Definition left_adjoint_preserves_initial `{@Initial C} `{@Initial D} :
   @TerminalFunctor (D^op) (C^op) (F^op) _ _ :=
   snd (terminal_functor_iff_preserves_terminal (F^op))
@@ -97,7 +97,7 @@ Definition left_adjoint_preserves_initial `{@Initial C} `{@Initial D} :
          (DiscreteCat_Functor' nullary_fam)).
 
 (* A left adjoint preserves binary coproducts: [CocartesianFunctor F],
-   likewise spelled out (Functor/Structure/Cartesian.v:130). *)
+   likewise spelled out (Functor/Structure/Cartesian.v). *)
 Definition left_adjoint_preserves_binary_coproducts
   `{@Cocartesian C} `{@Cocartesian D} :
   @CartesianFunctor (D^op) (C^op) (F^op) _ _ :=

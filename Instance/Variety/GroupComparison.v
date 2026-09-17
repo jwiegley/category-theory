@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -17,7 +18,7 @@ Generalizable All Variables.
 
    ** THE ISOMORPHISM IS NOT AVAILABLE, AND THE REASON IS STRUCTURAL
 
-   [Grp]'s objects (Instance/Grp.v:184) carry an ARBITRARY [SetoidObject]:
+   [Grp]'s objects (Instance/Grp.v) carry an ARBITRARY [SetoidObject]:
    a type together with a chosen equivalence, with every law stated up to
    that `≈`.  [GroupVariety]'s objects carry a BARE TYPE, with every law a
    Leibniz [=], because that is what Instance/Comp.v's [OpAlgebra] and
@@ -46,7 +47,7 @@ Generalizable All Variables.
    — twelve [.glob] heads plus ten [Program] obligations, the latter
    invisible to a head census and missed by a first count that said
    "eleven".  The reason is inherited twice over.  [GroupVariety] mentions
-   Instance/Comp.v:358's [GroupEq], which is [Defined] with the axiom; and
+   Instance/Comp.v's [GroupEq], which is [Defined] with the axiom; and
    the translation of an [AlgHom] into a [GrpHom] must turn
    [op_commute]'s argument-bundle equation into the pointwise statements
    [grp_map_unit] and [grp_map_mul], which is the same bundle rebuild that
@@ -119,7 +120,9 @@ Program Definition GroupVariety_obj_to_Grp (x : GroupVariety) : GrpObject := {|
                  ; is_setoid := eq_Setoid (UA.carrier (`1 x)) |};
   grp_unit := UA.one' (G:=`1 x);
   grp_mul  := fun a b => UA.mul' a b;
-  grp_inv  := fun a => UA.inv' a
+  grp_inv  := fun a => UA.inv' a;
+  (* The carrier setoid is [eq_Setoid], so `≈` is already a [Prop]. *)
+  grp_prop := eq_PropEquiv (UA.carrier (`1 x))
 |}.
 (* [grp_mul_respects] is discharged by Lib.v's default [Obligation Tactic]
    — under [eq_Setoid] it is [Proper (eq ==> eq ==> eq)] — so the three

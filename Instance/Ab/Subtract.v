@@ -25,12 +25,12 @@ Generalizable All Variables.
     THIS FILE IS AN UPSTREAMING STAGING POST, and says so rather than
     pretending to be the first word.  [ab_neg_invol] is the THIRD copy of
     ELEMENT-LEVEL negation-involutivity in the tree (the qualifier is
-    load-bearing: Structure/AbCategory.v:147's [abneg_invol] is a fourth
+    load-bearing: Structure/AbCategory.v's [abneg_invol] is a fourth
     involutivity, but of the negation on the HOM-GROUPS of an
     Ab-enriched category, not on the elements of an [AbObject]):
-    Instance/Rep.v:629 has it as [ab_neg_neg]
+    Instance/Rep.v has it as [ab_neg_neg]
     with this exact statement (that file's own header calls it an
-    upstreaming candidate for Instance/Ab.v), and Instance/Rng.v:199 has
+    upstreaming candidate for Instance/Ab.v), and Instance/Rng.v has
     [ring_neg_involutive] for the additive group of a ring.  The name
     differs from Rep.v's deliberately, so that a file importing both does
     not shadow.  The right fix is to move the whole block into

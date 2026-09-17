@@ -152,7 +152,7 @@ Fail Check (perp_galois Pp
 (* ---------------------------------------------------------------------- *)
 (** ** Negative 3 (TYPING): right-adjointness is not left-adjointness *)
 
-(* Adjunction/Right.v:665's [right_does_not_imply_left] shows the two
+(* Adjunction/Right.v's [right_does_not_imply_left] shows the two
    classes come apart in general.  Here the point is narrower and is a
    fact about TYPES only: the record built for one slot is not a term of
    the other slot's type.  Nothing below claims that [PerpOp] is not

@@ -6,12 +6,12 @@
     printed pp. 24-25 (PDF pp. 34-35), following issue #256's locations).  It
     is the base of homological algebra.  Be careful about the relationship to
     Structure/Abelian.v, in two steps that are easy to run together.  Hom-sets
-    carrying abelian-group structure is [Additive] (Structure/Additive.v:38-40,
+    carrying abelian-group structure is [Additive] (Structure/Additive.v,
     "each hom-setoid UPGRADES from a commutative monoid to an abelian group"),
-    NOT [Preadditive] -- Structure/Preadditive.v:20-21 is explicit that
+    NOT [Preadditive] -- Structure/Preadditive.v is explicit that
     "additive inverses are deliberately not demanded, so the class is precisely
     enrichment in commutative monoids".  And [Class Abelian]
-    (Structure/Abelian.v:137-152) is not that either: hom-group structure is
+    (Structure/Abelian.v) is not that either: hom-group structure is
     one of its five fields, reached transitively through [abelian_additive],
     alongside kernels, cokernels and normality of monos and epis.  This file
     instantiates NONE of [Preadditive], [Additive] or [Abelian] (see SCOPE),
@@ -26,27 +26,34 @@
     inverses, so the objects EXTEND Instance/CMon.v's [CMonObject] by a
     negation rather than restating the carrier and the four monoid laws.  The
     coercion [ab_cmon :> CMonObject] makes [carrier], [cmon_zero],
-    [cmon_plus], associativity, commutativity and the unit laws available
-    unchanged.  The homomorphisms are literally [CMonHom]s: preservation of
+    [cmon_plus], [cmon_prop], associativity, commutativity and the unit laws
+    available unchanged.  ([cmon_prop] joined that list in the PR "algebraic
+    carriers are sets" (2026-09-17), which gave [CMonObject] the field; an
+    earlier revision of this sentence enumerated the other six and stopped.)
+    The homomorphisms are literally [CMonHom]s: preservation of
     negation is a THEOREM ([ab_map_neg] below), not a field, which is the
     standard fact that a monoid map between groups is automatically a group
     map.
 
     WHY NOT [Instance/Comp.v].  That file does have group inverses concretely
-    -- [inv] at :288, [inv_left]/[inv_right] at :322-323, the variety [Group]
-    at :382, a [Bool] witness at :405 -- so it is NOT true that additive
+    -- [inv], [inv_left]/[inv_right], the variety [Group], a [Bool] witness -- so it is NOT true that additive
     inverses are absent from the concrete layer, and this file does not claim
     that.  What is true, and what matters here, is narrower: [Instance/Comp.v]
     is a LEIBNIZ-EQUALITY development.  Its [AlgHom]'s [op_commute] uses [=]
-    (:67-68), its hom-setoid is [∀ x, f x = g x] (:76), and it invokes
-    [functional_extensionality] (:370, :375) and
-    [functional_extensionality_dep] (:440).  [Ab] lives in the
+, its hom-setoid is [∀ x, f x = g x], and it invokes
+    [functional_extensionality] and
+    [functional_extensionality_dep].  [Ab] lives in the
     setoid-carrier layer with [≈] throughout and no axioms, so [CMon] is the
     donor and [Comp] cannot be.
 
     THE PROPOSITION.  Mac Lane's §I.7 proposition is that a homomorphism of
     abelian groups is monic exactly when it is injective and epic exactly when
-    it is surjective.  Both halves are proved below, constructively.
+    it is surjective.  Both halves are proved below, constructively.  An
+    earlier revision stopped there; since the PR "algebraic carriers are sets"
+    (2026-09-17) the epic half concludes PROPOSITIONAL surjectivity
+    ([AbPropSurjective]), the split notion [AbSurjective] surviving as the
+    hypothesis the direct constructions supply.  [ab_epic_surjective] records
+    why.
 
     WHAT MAKES THE EPIC HALF GO THROUGH: COMMUTATIVITY, and nothing else.  For
     [ab_coset_eq] to be a CONGRUENCE -- for [B/fA] to be an [AbObject] rather
@@ -62,7 +69,7 @@
     enter the environment: its proof was abandoned, because the argument then
     used needed a truth-value object whose carrier is [Type], which does not
     fit as an [obj[Sets]] at the same universe.  That is no longer so.
-    Instance/Sets.v:509 now proves it outright, via a cokernel-pair setoid
+    Instance/Sets.v now proves it outright, via a cokernel-pair setoid
     ([CKSetoid], [ck_left], [ck_right], [ck_agree]) -- which is to say, by
     exactly the kind of quotient probe used here.
 
@@ -93,10 +100,12 @@
     Ab ⟶ Sets] is provided here.  *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Instance.Sets.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Instance.CMon.
 Require Import Category.Instance.CMon.Biproduct.
 Require Import Category.Structure.Terminal.
@@ -198,19 +207,26 @@ Qed.
     same homs, same identities, same composition, same hom-setoid.  Stating it
     this way is what makes [ab_map_neg] a theorem rather than a coherence
     obligation. *)
-Program Definition Ab : Category := {|
-  obj     := AbObject;
-  hom     := AbHom;
-  homset  := fun A B => @CMonHom_Setoid A B;
-  id      := fun A => @cmon_hom_id A;
-  compose := fun A B C f g => @cmon_hom_compose A B C f g;
+(** The universes are pinned by hand, for the reason recorded at
+    Instance/CMon.v's [CMon]: once [cmon_prop] is a field the record's sort
+    carries a [Set+1] and the elaborator stops identifying the record's own
+    sort variable with the category's object universe, which would give [Ab] a
+    third, redundant universe and refuse every `Ab@{u o}` annotation in the
+    tree for arity.  Measured after the change,
+    [Ab@{u p} : Category@{u p p}] with the single new constraint [Set < u]. *)
+Program Definition Ab@{u p} : Category@{u p p} := {|
+  obj     := AbObject@{p p p};
+  hom     := AbHom@{p};
+  homset  := fun A B => @CMonHom_Setoid@{p} A B;
+  id      := fun A => @cmon_hom_id@{p} A;
+  compose := fun A B C f g => @cmon_hom_compose@{u p} A B C f g;
 
   (* [compose_respects] is inherited from [CMon] literally.  The remaining four
      laws are NOT: they are [Program] obligations, discharged afresh by the
-     file-global [Obligation Tactic] (Lib/Tactics.v:225's [cat_simpl]).  What is
+     file-global [Obligation Tactic] (Lib/Tactics.v's [cat_simpl]).  What is
      true is that no new mathematical content is needed -- [Ab]'s homs,
      identities and composition ARE [CMon]'s -- not that nothing is reproved. *)
-  compose_respects := fun A B C => @cmon_hom_compose_respects A B C
+  compose_respects := fun A B C => @cmon_hom_compose_respects@{u p} A B C
 |}.
 
 (** The forgetful functor to [Sets], through the underlying setoid. *)
@@ -272,7 +288,7 @@ Next Obligation.
 Qed.
 
 (** The same object is both, so the coincidence iso is the identity -- exactly
-    as at Instance/CMon/Biproduct.v:160. *)
+    as at Instance/CMon/Biproduct.v. *)
 #[export] Instance Ab_Zero : ZeroObject Ab :=
   @Build_ZeroObject Ab Ab_Terminal Ab_Initial iso_id.
 
@@ -283,6 +299,28 @@ Definition AbInjective {A B : AbObject} (f : A ~{Ab}~> B) : Type :=
 
 Definition AbSurjective {A B : AbObject} (f : A ~{Ab}~> B) : Type :=
   ∀ b : carrier (cmon_setoid B), { a & cmon_map f a ≈ b }.
+
+(** The PROPOSITIONAL surjectivity of the same map: a preimage exists, but is
+    not handed back as data.  [AbSurjective] above is the SPLIT notion, whose
+    witness IS a section of [f] up to `≈`; this one is the image-theoretic
+    notion of ordinary mathematics.  The split notion implies this one
+    ([ab_surjective_prop] below) and the converse needs choice, so the two are
+    kept apart on purpose: constructions that build a preimage directly keep
+    proving [AbSurjective], while [ab_epic_surjective] -- which reads its
+    witness out of a quotient, and so out of a [Prop] -- concludes this one. *)
+Definition AbPropSurjective {A B : AbObject} (f : A ~{Ab}~> B) : Type :=
+  ∀ b : carrier (cmon_setoid B),
+    (exists a : carrier (cmon_setoid A),
+       @pequiv _ _ (cmon_prop B) (cmon_map f a) b)%type.
+
+Lemma ab_surjective_prop {A B : AbObject} (f : A ~{Ab}~> B) :
+  AbSurjective f → AbPropSurjective f.
+Proof.
+  intros Hs b.
+  destruct (Hs b) as [a Ha].
+  exists a.
+  now apply pequiv_from.
+Qed.
 
 (** *** The kernel, used as the probe object for the monic half *)
 
@@ -327,7 +365,10 @@ Proof using A B f.
       {| cmon_setoid := {| carrier := ab_ker_carrier ; is_setoid := ab_ker_setoid |}
        ; cmon_zero := existT _ (cmon_zero A) ab_ker_zero_pf
        ; cmon_plus := fun p q =>
-           existT _ (cmon_plus A (projT1 p) (projT1 q)) (ab_ker_plus_pf p q) |};
+           existT _ (cmon_plus A (projT1 p) (projT1 q)) (ab_ker_plus_pf p q)
+       ; cmon_prop :=
+           sigma_first_PropEquiv ab_ker_setoid
+             (fun _ _ h => h) (fun _ _ h => h) (cmon_prop A) |};
     ab_neg := fun p => existT _ (ab_neg A (projT1 p)) (ab_ker_neg_pf p)
   |}.
   - (* cmon_plus_respects *)
@@ -415,21 +456,36 @@ Qed.
 (** *** The quotient B/fA, used as the probe object for the epic half *)
 
 (** Mac Lane's construction.  The carrier is [B] itself; only the equality
-    coarsens, to "differ by something in the image of [f]".  Note the relation
-    is TYPE-valued -- [{ a & ... }], not [∃] -- which is what lets the witness
-    be read back out at the end without any choice principle. *)
+    coarsens, to "differ by something in the image of [f]".
+
+    THE RELATION IS [Prop]-VALUED.  An earlier revision of this paragraph said
+    the opposite -- "Note the relation is TYPE-valued -- [{ a & ... }], not
+    [∃] -- which is what lets the witness be read back out at the end without
+    any choice principle" -- and that is no longer so.  Since the PR "algebraic
+    carriers are sets" (2026-09-17) every [AbObject] carries [cmon_prop], the
+    property that its `≈` is logically equivalent to a [Prop]-valued relation,
+    and a quotient's equality has to be a [Prop] too or the field could not be
+    supplied.  So [ab_coset_eq] is Coq's [ex], spelled [(exists a, …)%type]
+    because this library's bare [∃] and [exists] are [sigT]
+    (Lib/Foundation.v).  The consequence is stated where it bites:
+    [ab_epic_surjective] below concludes PROPOSITIONAL surjectivity, and the
+    split form [AbSurjective] is no longer derivable from an epi.  Its body
+    compares through [pequiv] rather than `≈` for the same reason -- the body
+    of an [ex] must itself be a [Prop]. *)
 
 Section Quotient.
 
 Context {A B : AbObject}.
 Context (f : A ~{Ab}~> B).
 
-Definition ab_coset_eq (x y : carrier (cmon_setoid B)) : Type :=
-  { a : carrier (cmon_setoid A) & x ≈ cmon_plus B y (cmon_map f a) }.
+Definition ab_coset_eq (x y : carrier (cmon_setoid B)) : Prop :=
+  (exists a : carrier (cmon_setoid A),
+     @pequiv _ _ (cmon_prop B) x (cmon_plus B y (cmon_map f a)))%type.
 
 Lemma ab_coset_refl (x : carrier (cmon_setoid B)) : ab_coset_eq x x.
 Proof.
   exists (cmon_zero A).
+  apply pequiv_from.
   rewrite cmon_map_zero.
   symmetry; apply cmon_plus_zero_r.
 Qed.
@@ -442,7 +498,9 @@ Lemma ab_coset_sym (x y : carrier (cmon_setoid B)) :
   ab_coset_eq x y → ab_coset_eq y x.
 Proof.
   intros [a Ha].
+  apply pequiv_to in Ha.
   exists (ab_neg A a).
+  apply pequiv_from.
   rewrite ab_map_neg, Ha.
   rewrite cmon_plus_assoc.
   rewrite ab_neg_right.
@@ -453,7 +511,10 @@ Lemma ab_coset_trans (x y z : carrier (cmon_setoid B)) :
   ab_coset_eq x y → ab_coset_eq y z → ab_coset_eq x z.
 Proof.
   intros [a Ha] [b Hb].
+  apply pequiv_to in Ha.
+  apply pequiv_to in Hb.
   exists (cmon_plus A b a).
+  apply pequiv_from.
   rewrite cmon_map_plus.
   rewrite Ha, Hb.
   now rewrite cmon_plus_assoc.
@@ -476,12 +537,24 @@ Proof using A B f.
       {| cmon_setoid := {| carrier := carrier (cmon_setoid B)
                          ; is_setoid := ab_coset_setoid |}
        ; cmon_zero := cmon_zero B
-       ; cmon_plus := cmon_plus B |};
+       ; cmon_plus := cmon_plus B
+       ; cmon_prop :=
+           @PropEquiv_of_relation _ ab_coset_setoid ab_coset_eq
+             (fun _ _ h => h) (fun _ _ h => h) |};
     ab_neg := ab_neg B
   |}.
-  - (* cmon_plus_respects *)
-    intros x x' [a Ha] y y' [b Hb].
+  - (* cmon_plus_respects.  [simpl] first: the goal is an application of the
+       [equiv] projection, whose ASCRIBED sort is [Type] ([equiv] lives in
+       [crelation]), and a [Prop] hypothesis may not be destructed into a
+       [Type] goal.  Reducing the projection exposes [ab_coset_eq], which is a
+       [Prop], and the elimination is then allowed.  Every obligation below
+       needs the same step. *)
+    intros x x' Hx y y' Hy; simpl in Hx, Hy |- *.
+    destruct Hx as [a Ha], Hy as [b Hb].
+    apply pequiv_to in Ha.
+    apply pequiv_to in Hb.
     exists (cmon_plus A a b).
+    apply pequiv_from.
     rewrite cmon_map_plus, Ha, Hb.
     (* (x' + f a) + (y' + f b) ≈ (x' + y') + (f a + f b) *)
     rewrite !cmon_plus_assoc.
@@ -490,26 +563,33 @@ Proof using A B f.
     apply cmon_plus_respects; [ | reflexivity ].
     apply cmon_plus_comm.
   - (* cmon_plus_assoc *)
-    intros x y z; exists (cmon_zero A).
+    intros x y z; simpl; exists (cmon_zero A).
+    apply pequiv_from.
     rewrite cmon_map_zero, cmon_plus_zero_r.
     apply cmon_plus_assoc.
   - (* cmon_plus_comm *)
-    intros x y; exists (cmon_zero A).
+    intros x y; simpl; exists (cmon_zero A).
+    apply pequiv_from.
     rewrite cmon_map_zero, cmon_plus_zero_r.
     apply cmon_plus_comm.
   - (* cmon_plus_zero_l *)
-    intros x; exists (cmon_zero A).
+    intros x; simpl; exists (cmon_zero A).
+    apply pequiv_from.
     rewrite cmon_map_zero, cmon_plus_zero_r.
     apply cmon_plus_zero_l.
   - (* ab_neg_respects *)
-    intros x y [a Ha].
+    intros x y Hxy; simpl in Hxy |- *.
+    destruct Hxy as [a Ha].
+    apply pequiv_to in Ha.
     exists (ab_neg A a).
+    apply pequiv_from.
     rewrite ab_map_neg.
     change (ab_neg B x ≈ cmon_plus B (ab_neg B y) (ab_neg B (cmon_map f a))).
     rewrite <- ab_neg_plus.
     now rewrite Ha.
   - (* ab_neg_left *)
-    intros x; exists (cmon_zero A).
+    intros x; simpl; exists (cmon_zero A).
+    apply pequiv_from.
     rewrite cmon_map_zero, cmon_plus_zero_r.
     apply ab_neg_left.
 Defined.
@@ -519,7 +599,7 @@ Defined.
     congruent to zero modulo the image. *)
 Program Definition ab_quot_proj : B ~{Ab}~> AbQuotient :=
   {| cmon_map := {| morphism := fun b : carrier (cmon_setoid B) => b |} |}.
-Next Obligation. intros x y Hxy; exists (cmon_zero A);
+Next Obligation. intros x y Hxy; simpl; exists (cmon_zero A); apply pequiv_from;
   rewrite cmon_map_zero, cmon_plus_zero_r; exact Hxy. Qed.
 Next Obligation. apply ab_coset_refl. Qed.
 Next Obligation. apply ab_coset_refl. Qed.
@@ -530,7 +610,9 @@ Program Definition ab_quot_zero : B ~{Ab}~> AbQuotient :=
 Next Obligation. intros x y Hxy; apply ab_coset_refl. Qed.
 Next Obligation. apply ab_coset_refl. Qed.
 Next Obligation.
+  simpl.
   exists (cmon_zero A).
+  apply pequiv_from.
   rewrite cmon_map_zero, cmon_plus_zero_r.
   symmetry; apply cmon_plus_zero_l.
 Qed.
@@ -543,15 +625,27 @@ Arguments ab_quot_zero {A B} f.
 
 (** *** Epic *)
 
-(** Epic implies surjective, CONSTRUCTIVELY and with no double-negation.
+(** Epic implies PROPOSITIONAL surjectivity, constructively and with no
+    double-negation.
 
     [f] equalizes the projection and the zero map into [B/fA], so an epi
     collapses them -- and [ab_quot_proj ≈ ab_quot_zero] says precisely that
-    every [b] is congruent to zero modulo the image, whose witness IS the
-    preimage -- read straight back out, with nothing chosen and nothing doubly
-    negated. *)
+    every [b] is congruent to zero modulo the image, which is to say that a
+    preimage EXISTS.
+
+    AN EARLIER REVISION concluded the split [AbSurjective] and said the witness
+    "IS the preimage -- read straight back out, with nothing chosen and nothing
+    doubly negated".  Since the PR "algebraic carriers are sets" (2026-09-17)
+    the coset relation is a [Prop] (see [ab_coset_eq] above), so the witness may
+    not be read back out into a [Type]-valued goal and the conclusion is
+    [AbPropSurjective].  Nothing is doubly negated and nothing is chosen -- the
+    existential is Coq's [ex], not a double negation -- but the preimage is no
+    longer data.  Test/ProbeAbPropSurjective.v pins the refusal, with the
+    surviving direction ([ab_surjective_prop]) as its positive control.  The
+    old reading was an artefact of proof-relevant quotients: in Set, epi implies
+    surjective, while surjective implies SPLIT only by choice. *)
 Lemma ab_epic_surjective {A B : AbObject} (f : A ~{Ab}~> B) :
-  Epic f → AbSurjective f.
+  Epic f → AbPropSurjective f.
 Proof.
   intros He b.
   assert (Hpq : ab_quot_proj f ≈ ab_quot_zero f).
@@ -559,11 +653,14 @@ Proof.
              (ab_quot_proj f) (ab_quot_zero f)).
     intro a; simpl.
     exists a.
+    apply pequiv_from.
     rewrite cmon_plus_zero_l.
     reflexivity. }
   specialize (Hpq b); simpl in Hpq.
   destruct Hpq as [a Ha].
+  apply pequiv_to in Ha.
   exists a.
+  apply pequiv_from.
   rewrite cmon_plus_zero_l in Ha.
   now symmetry.
 Qed.
@@ -578,9 +675,46 @@ Proof.
   exact (Hgh a).
 Qed.
 
-(** Mac Lane §I.7's proposition, second half. *)
-Theorem ab_epic_iff_surjective {A B : AbObject} (f : A ~{Ab}~> B) :
-  Epic f ↔ AbSurjective f.
+(** The same implication from the propositional notion.  The target's equation
+    is [Type]-valued, so the [Prop] existential may not be destructed into it
+    directly; [pequiv_to] puts a [Prop] goal in front of the elimination and
+    converts back afterwards.  This is the pattern every consumer of a
+    truncated relation follows. *)
+Lemma ab_prop_surjective_epic {A B : AbObject} (f : A ~{Ab}~> B) :
+  AbPropSurjective f → Epic f.
 Proof.
-  split; [ apply ab_epic_surjective | apply ab_surjective_epic ].
+  intros Hs.
+  constructor; intros Z g h Hgh b.
+  apply (@pequiv_to _ _ (cmon_prop Z)).
+  destruct (Hs b) as [a Ha].
+  apply pequiv_from.
+  apply pequiv_to in Ha.
+  rewrite <- Ha.
+  exact (Hgh a).
 Qed.
+
+(** Mac Lane §I.7's proposition, second half.  An earlier revision stated it
+    with [AbSurjective] on the right; see [ab_epic_surjective] for why the
+    right-hand side is now the propositional notion.  The split notion still
+    implies [Epic] ([ab_surjective_epic] above), so no direction is lost -- only
+    the shape of the witness the forward direction produces. *)
+Theorem ab_epic_iff_surjective {A B : AbObject} (f : A ~{Ab}~> B) :
+  Epic f ↔ AbPropSurjective f.
+Proof.
+  split; [ apply ab_epic_surjective | apply ab_prop_surjective_epic ].
+Qed.
+
+(** ** The hom-setoids are propositional *)
+
+(** L8: [Ab]'s hom-setoid IS [CMonHom_Setoid] (see [Ab] above), so
+    Instance/CMon.v's [CMonHom_PropEquiv] supplies the whole family at once.
+    This is what lets a construction that turns an object of an ambient
+    category into an abelian group -- [hom_ab] of Adjunction/Additive.v,
+    [ehom_ab] of Construction/Enriched/Ab.v -- be instantiated at [Ab] itself
+    without a hand-written hypothesis. *)
+#[export] Instance Ab_LocallyPropositional : LocallyPropositional Ab.
+Proof.
+  constructor.
+  intros A B.
+  exact (@CMonHom_PropEquiv A B).
+Defined.

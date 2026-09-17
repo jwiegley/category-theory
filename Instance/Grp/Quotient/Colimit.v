@@ -46,9 +46,9 @@ Generalizable All Variables.
         containing the image ([normal_closure_least]), which is what earns
         the word "closure".
 
-    REUSE, not restatement.  [IsCokernel] is Structure/Kernel.v:58
-    ([IsCokernel f e := IsCoequalizer f zero_mor q e]) with its API at
-    :106 [cokernel_epic], :132 [cokernel_desc], :151 [normal_epi] and :160
+    REUSE, not restatement.  [IsCokernel] is Structure/Kernel.v
+    ([IsCokernel f e := IsCoequalizer f zero_mor q e]) with its API
+    [cokernel_epic], [cokernel_desc], [normal_epi] and
     [cokernel_regular_epi]; nothing of that is redefined, and the
     consequences below are those lemmas applied.
 
@@ -74,7 +74,7 @@ Generalizable All Variables.
 
 (* [zero_mor] in [Grp] is the constant map at the unit -- Awodey's "the
    constant map" -- and this is a computation rather than a claim, since
-   [Grp_Zero] (Instance/Grp.v:600) has the one-element group on both
+   [Grp_Zero] (Instance/Grp.v) has the one-element group on both
    sides.  Recorded with `≈` because the composite passes through
    [zero_coincide]; the underlying element equation is the point. *)
 Lemma grp_zero_mor_is_unit {G K : GrpObject} (a : carrier G) :
@@ -84,14 +84,27 @@ Proof. simpl; reflexivity. Qed.
 (** ** G/N as the coequalizer of N ↪ G against the trivial map *)
 
 (* NO SECTION CONTEXT below, and the reason is a measured universe pin
-   rather than a style choice.  [Grp_Zero] (Instance/Grp.v:600) elaborates
+   rather than a style choice.  [Grp_Zero] (Instance/Grp.v) elaborates
    at [ZeroObject@{u Set} Grp@{u Set}], because [Grp_trivial]
-   (Instance/Grp.v:522) elaborates at [GrpObject@{u Set u}] -- its
+   (Instance/Grp.v) elaborates at [GrpObject@{u u Set}] -- its
    hom/proof universe is pinned to [Set], even though the donor
-   [unit_setoid@{t u}] (Lib/Setoid.v:59) is polymorphic in exactly that
+   [unit_setoid@{t u}] (Lib/Setoid.v) is polymorphic in exactly that
    argument.  Consequently every statement mentioning [zero_mor] at [Grp],
    hence every [IsCokernel] and every coequalizer-against-zero statement,
    is confined to [GrpObject@{Set Set Set}].
+
+   CORRECTION, the PR "algebraic carriers are sets" (2026-09-17).  An
+   earlier revision of the sentence above wrote the readback as
+   [GrpObject@{u Set u}] and cited [Grp_Zero] and [Grp_trivial] at lines
+   of Instance/Grp.v they have since left.  That PR permuted
+   [GrpObject]'s universe roles
+   from (carrier, proof, aux) to (aux, carrier, proof) and moved both
+   constants down the file.  Re-measured by [About] under
+   [Set Printing Universes] after it: [Grp_trivial@{u} : GrpObject@{u u
+   Set}], [Grp_Zero@{u} : ZeroObject@{u Set} Grp@{u Set}].  The SAME
+   reading one position over -- the pin is on the last slot now rather
+   than the middle one -- and the pin itself, and everything this
+   paragraph concludes from it, is unchanged.
 
    A section [Context {G : GrpObject}] makes G's universe RIGID for the
    section, so [zero_mor] then reports a genuine universe inconsistency
@@ -115,6 +128,9 @@ Lemma quot_cofork {G : GrpObject} (N : NormalSubgroup G) :
 Proof.
   intro p; simpl.
   unfold Basics.compose.
+  (* The quotient's `≈` is the truncation of [quot_rel] since the PR
+     "algebraic carriers are sets" (2026-09-17), so the witness is wrapped. *)
+  constructor.
   apply (snd (quot_rel_unit_iff N (`1 p))).
   exact (`2 p).
 Qed.
@@ -240,6 +256,8 @@ Lemma normal_closure_cofork {G H : GrpObject} (f : G ~{Grp}~> H) :
 Proof.
   intro a; simpl.
   unfold Basics.compose.
+  (* One [constructor] for the truncation, as in [quot_cofork] above. *)
+  constructor.
   apply (snd (quot_rel_unit_iff (NormalClosure f) (grp_map f a))).
   exact (nc_gen a).
 Qed.
@@ -311,9 +329,11 @@ Definition S3_A3_IsCokernel :
   @IsCokernel Grp Grp_Zero _ _ _ (sub_incl A3) (quot_proj A3) :=
   quot_IsCokernel A3.
 
+(* The hypothesis is the truncation since the PR "algebraic carriers are
+   sets" (2026-09-17); the goal is [False], so it is unwrapped at no cost. *)
 Theorem S3_A3_cokernel_nondegenerate :
   grp_map (quot_proj A3) S3_s ≈ grp_map (quot_proj A3) (grp_unit S3) → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* THE CLOSURE STEP IS NOT IDLE, and this is the witness that shows it.
    Instance/Grp/Quotient.v's [S3_refl_sub] is a subgroup of S3 that is

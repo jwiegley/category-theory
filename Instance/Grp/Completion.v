@@ -56,9 +56,9 @@ Generalizable All Variables.
 
     (1) FALSE.  It says stating the second form needs "a forgetful
         [Grp ⟶ Mon] that does not exist".  It exists:
-        [Grp_MonSets : Grp ⟶ MonSets] at Instance/Rng/GroupRing.v:155,
+        [Grp_MonSets : Grp ⟶ MonSets] at Instance/Rng/GroupRing.v,
         over [MonSets := @Mon Sets Sets_Product_Monoidal]
-        (Instance/Rng/MonoidRing.v:170).  An internal monoid in the
+        (Instance/Rng/MonoidRing.v).  An internal monoid in the
         cartesian monoidal category of setoids IS an ordinary setoid
         monoid, and Instance/Rng/MonoidRing.v supplies the element-level
         dictionary ([mcar], [mop], [mone], [mmap], [mhom]) that a
@@ -175,7 +175,7 @@ Generalizable All Variables.
 
       - The COUNIT does not compute: it is
         [unique_obj (ump_universal_arrows …)] and
-        [ump_universal_arrows] (Theory/Universal/Arrow.v:139) is [Qed], so
+        [ump_universal_arrows] (Theory/Universal/Arrow.v) is [Qed], so
         nothing reduces through it.  What holds is [≈]
         ([completion_counit_evaluates]).  The probe DISCRIMINATES: the
         UNIT at the SAME adjunction closes by [eq_refl].
@@ -388,18 +388,20 @@ Definition CompletionObject : GrpObject := QuotientGrp CompletionNS.
 Definition comp_class (a : carrier (mcar M)) : carrier CompletionObject :=
   comp_gen a.
 
-(* Two conversion helpers.  Both bodies are the corresponding [quot_rel]
-   fact verbatim: `≈` at [CompletionObject] IS [quot_rel CompletionNS], so
-   no proof step intervenes -- these exist only to spare every consumer an
-   unfolding of the quotient's setoid. *)
+(* Two conversion helpers.  An earlier revision said "both bodies are the
+   corresponding [quot_rel] fact verbatim: `≈` at [CompletionObject] IS
+   [quot_rel CompletionNS], so no proof step intervenes".  Since the PR
+   "algebraic carriers are sets" (2026-09-17) the quotient's `≈` is the
+   PROPOSITIONAL TRUNCATION of [quot_rel CompletionNS], so each body is that
+   same fact under one [inhabits] -- still no mathematical step. *)
 Lemma comp_quot_of_equiv (x y : carrier comp_free) :
   x ≈ y → (x : carrier CompletionObject) ≈ y.
-Proof. exact (quot_rel_of_equiv CompletionNS x y). Qed.
+Proof. exact (fun H => inhabits (quot_rel_of_equiv CompletionNS x y H)). Qed.
 
 Lemma comp_quot_of_mem (x y : carrier comp_free) :
   sub_mem CompletionNS (grp_mul comp_free x (grp_inv comp_free y)) →
   (x : carrier CompletionObject) ≈ y.
-Proof. exact (fun H => H). Qed.
+Proof. exact (fun H => inhabits H). Qed.
 
 (* Every relator lies in the normal closure. *)
 Lemma comp_relator_mem (p : carrier CompRelIdx) :
@@ -847,7 +849,7 @@ Fail Definition completion_probe_instrument : true = false := eq_refl.
 
 (* (1) The COUNIT does not compute.  It is
    [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows]
-   (Theory/Universal/Arrow.v:139) is [Qed], so nothing reduces through it.
+   (Theory/Universal/Arrow.v) is [Qed], so nothing reduces through it.
    The probe DISCRIMINATES: [completion_unit_is_insert] above closes by
    [eq_refl] at the SAME adjunction, so the obstruction is that one
    constant's opacity and not the adjunction packaging. *)

@@ -38,10 +38,18 @@
     K(bool, ∨) is the one-element group, and [groth_bool_insert_collapses]
     that the insertion identifies [true] with [false] there.
 
-    The witness [k] is DATA — the library's [∃] is [sigT] and the relation
-    is written as a [sigT] directly — so no choice principle is consumed
-    anywhere below, and the mediator never inspects a witness it did not
-    receive.
+    AN EARLIER REVISION of this paragraph read: "The witness [k] is DATA —
+    the library's [∃] is [sigT] and the relation is written as a [sigT]
+    directly — so no choice principle is consumed anywhere below, and the
+    mediator never inspects a witness it did not receive."  The first clause
+    is no longer true.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) the completion is a [CMonObject] and so owes [cmon_prop],
+    which forces its equality to be a [Prop]; [groth_rel] is therefore Coq's
+    [ex] and the slack term is not data.  The rest of the sentence still
+    holds: an [ex] is not a double negation, no choice principle is consumed,
+    and the mediator still inspects no witness it did not receive -- it
+    reaches its [Type]-valued conclusion by [pequiv_to] first
+    ([groth_med_respects]).
 
     ** What is delivered
 
@@ -79,14 +87,14 @@
         second form would need "a forgetful [Grp ⟶ Mon] that does not
         exist".  That was FALSE.  The bad evidence was a search for a
         category of ordinary set-level monoids that stopped at
-        [Theory/Algebra/Monoid/Hom.v:83]'s [Mon] (INTERNAL monoids in a
-        monoidal category) and [Construction/Deloop.v:123]'s [MonObject]
+        [Theory/Algebra/Monoid/Hom.v]'s [Mon] (INTERNAL monoids in a
+        monoidal category) and [Construction/Deloop.v]'s [MonObject]
         (a bare record with no category).  An internal monoid in
         [(Sets, ∏)] IS an ordinary setoid monoid, so [MonSets] of
-        Instance/Rng/MonoidRing.v:170 is a usable category of them --
+        Instance/Rng/MonoidRing.v is a usable category of them --
         Instance/Mon/Free.v develops the free monoid over exactly it --
         and the forgetful functor is [Grp_MonSets : Grp ⟶ MonSets] at
-        Instance/Rng/GroupRing.v:155.  The second form is statable.
+        Instance/Rng/GroupRing.v.  The second form is statable.
 
     (2) The pairs construction is the WRONG construction there, and this
         is not a matter of proof technique.  [GrothendieckObject] produces
@@ -139,7 +147,7 @@
 
       - The COUNIT does not compute.  It is
         [unique_obj (ump_universal_arrows …)] and [ump_universal_arrows]
-        (Theory/Universal/Arrow.v:139) is [Qed], so nothing reduces
+        (Theory/Universal/Arrow.v) is [Qed], so nothing reduces
         through it.  What holds is [≈]: [groth_counit_evaluates].  The
         probe DISCRIMINATES: the UNIT at the same adjunction does close by
         [eq_refl], so the obstruction is that one constant's opacity and
@@ -161,7 +169,7 @@
     [nat_to_Z] and [groth_Z_to_nat] raise TWO obligations, not three:
     instance resolution closes [proper_morphism] during elaboration
     because both of their setoids are Leibniz.  That is the hazard
-    Instance/Sets/Products.v:409-424 records and Structure/Limit/Power.v
+    Instance/Sets/Products.v records and Structure/Limit/Power.v
     reports a second sighting of.  It is harmless at these two witnesses
     — their carriers are [nat] and [Z], already concrete — and the
     general definitions are unaffected: [groth_insert] raises all three,
@@ -174,11 +182,18 @@
     here: [Functor]'s universe arity differs between Rocq 9.1 and
     Coq 8.19/8.20, so such an annotation is not portable.
 
-      - [groth_rel@{u u0 u1 u2}] and [GrothendieckObject@{u u0 u1 u2}]
+      - [groth_rel@{u u0 u1}] and [GrothendieckObject@{u u0 u1 u2 u3}]
         carry NO equation in their constraint blocks — only [≤] bounds
-        ([u ≤ u1], [u ≤ u2], [u0 ≤ u1], [u0 ≤ u2] and stdlib projection
+        ([u0 ≤ u], [u1 ≤ u], [u0 ≤ u2], [u3 ≤ u2] and stdlib projection
         bounds).  A bound is not an identification, and these two do not
         identify anything.
+        (RE-MEASURED by [About] under [Set Printing Universes] after the
+        PR "algebraic carriers are sets" (2026-09-17).  An earlier
+        revision gave both arities as four, [@{u u0 u1 u2}], and listed
+        the bounds as [u ≤ u1], [u ≤ u2], [u0 ≤ u1], [u0 ≤ u2].  The
+        arities are three and five now and the bounds run the other way;
+        the CLAIM — no equation in either block — is what was being made
+        and it still holds.)
       - [groth_insert], [groth_extend], [groth_universal] and everything
         downstream DO carry [u = u0] and [u = u1], collapsing the input
         [CMonObject@{u u0 u1}] to one level.  **That is [CMon]'s doing,
@@ -190,12 +205,17 @@
         a [CMon] hom is what identifies them — the shape
         Instance/Grp/Pushout.v records for [Grp] — and it appears exactly
         at the first constant of this file whose type mentions a hom.
-      - [Ab_to_CMon@{u u0}], [GrothendieckFunctor@{u u0}], [GrothLeft] and
-        [grothendieck_adjunction] carry no equation either; their blocks
-        hold [u0 < u] (which is [Sets]' own strictness) and [≤] bounds.
-        The [Functor] instances read [@{u u0 u0 u u0 u0}], hom identified
+      - [Ab_to_CMon@{u u0}], [GrothendieckFunctor@{u u0 u1}], [GrothLeft]
+        and [grothendieck_adjunction] carry no equation either; their
+        blocks hold [Set < u] and [≤] bounds.  The [Functor] instances
+        read [@{u u0 u0 u u0 u0}] and [@{u u1 u1 u u1 u1}], hom identified
         with proof — inherited from [CMon] and [Ab], which are categories
         over [Sets], and introduced nowhere here.
+        (RE-MEASURED after the same PR.  An earlier revision gave
+        [GrothendieckFunctor]'s arity as two and the strictness as
+        [u0 < u], "which is [Sets]' own"; it reads [Set < u] now, the
+        bound [PropEquiv] brings in with [Prop]'s sort.  No equation
+        appears in any of the four blocks, which is the claim.)
       - [Set] appears in exactly the two concrete witnesses one would
         expect: [groth_nat_Z_iso@{u}] is over [Set] carriers with the sole
         constraint [Set < u], and [groth_bool_trivial@{u}] carries [Set]
@@ -205,9 +225,16 @@
 
     ** Axioms
 
-    91/91 constants closed under the global context — 71 source
-    declarations plus 20 [Program] obligations, the count taken from
-    [Print Module] rather than from the [.glob], which lists only the 71.
+    91/91 constants closed under the global context — 74 source
+    declarations plus 17 [Program] obligations, the count taken from
+    [Print Module] rather than from the [.glob], which lists only the 74.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+    by generating one [Print Assumptions] per name from [Print Module]:
+    91 commands, 91 "Closed under the global context", zero [Axioms:]
+    blocks.  The TOTAL is unchanged; only the split moved, an earlier
+    revision giving it as 71 source declarations plus 20 obligations.
+    The [.glob] now carries 44 [def] and 30 [prf] lines.
 
     ** Non-vacuity
 
@@ -216,7 +243,7 @@
 
       - [groth_nat_Z_iso : GrothendieckObject groth_nat ≅[Ab] ab_Z] — the
         motivating example K(ℕ, +) ≅ ℤ, a genuine [Isomorphism] in [Ab]
-        with both round trips.  [ab_Z] is Instance/Ab/Coproduct.v:264's,
+        with both round trips.  [ab_Z] is Instance/Ab/Coproduct.v's,
         REUSED rather than redeclared.
       - [groth_nat_insert_injective] — the insertion is injective on ℕ
         (which is cancellative), so the completion does not collapse
@@ -246,6 +273,7 @@
     file. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -327,21 +355,38 @@ Local Notation "'MC'" := (carrier (cmon_setoid M)).
 (* Elements of the completion are formal differences, encoded as pairs. *)
 Definition GrothPair : Type := (MC * MC)%type.
 
-(* The relation, with the slack term [k] the header explains.  The
-   library's [∃] is [sigT], so [k] is DATA and no choice principle is
-   consumed. *)
-Definition groth_rel (p q : GrothPair) : Type :=
-  { k : MC & fst p ⊞ snd q ⊞ k ≈ fst q ⊞ snd p ⊞ k }.
+(* The relation, with the slack term [k] the header explains.
+
+   AN EARLIER REVISION said "The library's [∃] is [sigT], so [k] is DATA and
+   no choice principle is consumed."  The first clause is still true of the
+   library's [∃] (Lib/Foundation.v); the relation below no longer uses
+   it.  Since the PR "algebraic carriers are sets" (2026-09-17) the completion
+   is a [CMonObject] and so owes [cmon_prop], which forces its equality to be
+   a [Prop]; [k] is therefore existentially quantified with Coq's [ex] and is
+   no longer data.  Still no choice principle is consumed -- an [ex] is not a
+   double negation -- but the slack term cannot be read back out into a
+   [Type]-valued goal, and every consumer below that used to destruct it now
+   either lands in a [Prop] goal already or goes through [pequiv_to] first.
+   The body compares through [pequiv] rather than `≈` because the body of an
+   [ex] must itself be a [Prop]; [ex] is written out rather than spelled
+   [(exists k, …)%type] so that the [⊞] notation stays in scope. *)
+Definition groth_rel (p q : GrothPair) : Prop :=
+  ex (fun k : MC =>
+        @pequiv _ _ (cmon_prop M)
+          (fst p ⊞ snd q ⊞ k) (fst q ⊞ snd p ⊞ k)).
 
 (* The slack-free relation, for the necessity argument below. *)
 Definition groth_naive (p q : GrothPair) : Type :=
   fst p ⊞ snd q ≈ fst q ⊞ snd p.
 
 Lemma groth_rel_refl (p : GrothPair) : groth_rel p p.
-Proof. exists (cmon_zero M); reflexivity. Qed.
+Proof. exists (cmon_zero M); apply pequiv_from; reflexivity. Qed.
 
 Lemma groth_rel_sym (p q : GrothPair) : groth_rel p q → groth_rel q p.
-Proof. intros [k Hk]; exists k; now symmetry. Qed.
+Proof.
+  intros [k Hk]; apply pequiv_to in Hk.
+  exists k; apply pequiv_from; now symmetry.
+Qed.
 
 (* Three commutative-monoid rearrangements, named so that the transitivity
    argument below reads as the three rewrites it is.  Each is a
@@ -379,8 +424,9 @@ Lemma groth_rel_trans (p q r : GrothPair) :
   groth_rel p q → groth_rel q r → groth_rel p r.
 Proof.
   destruct p as [a b], q as [c d], r as [e f].
-  intros [k Hk] [l Hl]; simpl in *.
-  exists (d ⊞ k ⊞ l); simpl.
+  intros [k Hk] [l Hl].
+  apply pequiv_to in Hk; apply pequiv_to in Hl; simpl in Hk, Hl.
+  exists (d ⊞ k ⊞ l); apply pequiv_from; simpl.
   rewrite (groth_ac1 a d k f l).
   rewrite Hk.
   rewrite (groth_ac2 c b k f l).
@@ -414,8 +460,13 @@ Definition groth_neg (p : GrothPair) : GrothPair := (snd p, fst p).
 Lemma groth_plus_respects :
   Proper (groth_rel ==> groth_rel ==> groth_rel) groth_plus.
 Proof.
-  intros [a b] [a' b'] [k Hk] [c d] [c' d'] [l Hl]; simpl in *.
-  exists (k ⊞ l); simpl.
+  (* [simpl] before the elimination: the goal is an application of the
+     [equiv] projection, whose ascribed sort is [Type], and [groth_rel] is now
+     a [Prop].  Instance/Ab.v's [AbQuotient] records the same step. *)
+  intros [a b] [a' b'] Hab [c d] [c' d'] Hcd; simpl in Hab, Hcd |- *.
+  destruct Hab as [k Hk], Hcd as [l Hl].
+  apply pequiv_to in Hk; apply pequiv_to in Hl; simpl in Hk, Hl.
+  exists (k ⊞ l); apply pequiv_from; simpl.
   rewrite (cmon_plus_interchange M a c b' d').
   rewrite (cmon_plus_interchange M (a ⊞ b') (c ⊞ d') k l).
   rewrite Hk, Hl.
@@ -425,8 +476,9 @@ Qed.
 
 Lemma groth_neg_respects : Proper (groth_rel ==> groth_rel) groth_neg.
 Proof.
-  intros [a b] [a' b'] [k Hk]; simpl in *.
-  exists k; simpl.
+  intros [a b] [a' b'] Hab; simpl in Hab |- *.
+  destruct Hab as [k Hk]; apply pequiv_to in Hk; simpl in Hk.
+  exists k; apply pequiv_from; simpl.
   rewrite (cmon_plus_comm M b a').
   rewrite (cmon_plus_comm M b' a).
   now symmetry.
@@ -436,7 +488,7 @@ Lemma groth_plus_assoc (p q r : GrothPair) :
   groth_rel (groth_plus (groth_plus p q) r) (groth_plus p (groth_plus q r)).
 Proof.
   destruct p as [a b], q as [c d], r as [e f].
-  exists (cmon_zero M); simpl.
+  exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite !cmon_plus_assoc.
 Qed.
 
@@ -444,7 +496,7 @@ Lemma groth_plus_comm (p q : GrothPair) :
   groth_rel (groth_plus p q) (groth_plus q p).
 Proof.
   destruct p as [a b], q as [c d].
-  exists (cmon_zero M); simpl.
+  exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite (cmon_plus_comm M a c), (cmon_plus_comm M b d).
 Qed.
 
@@ -452,7 +504,7 @@ Lemma groth_plus_zero_l (p : GrothPair) :
   groth_rel (groth_plus groth_zero p) p.
 Proof.
   destruct p as [a b].
-  exists (cmon_zero M); simpl.
+  exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite !cmon_plus_zero_l.
 Qed.
 
@@ -460,7 +512,7 @@ Lemma groth_neg_left (p : GrothPair) :
   groth_rel (groth_plus (groth_neg p) p) groth_zero.
 Proof.
   destruct p as [a b].
-  exists (cmon_zero M); simpl.
+  exists (cmon_zero M); apply pequiv_from; simpl.
   rewrite !cmon_plus_zero_r.
   rewrite cmon_plus_zero_l.
   apply cmon_plus_comm.
@@ -473,7 +525,11 @@ Definition GrothCMon : CMonObject := {|
   cmon_plus_respects := groth_plus_respects;
   cmon_plus_assoc    := groth_plus_assoc;
   cmon_plus_comm     := groth_plus_comm;
-  cmon_plus_zero_l   := groth_plus_zero_l
+  cmon_plus_zero_l   := groth_plus_zero_l;
+  (* [groth_rel] IS a [Prop] relation, so it is its own [Prop] mirror. *)
+  cmon_prop          :=
+    @PropEquiv_of_relation _ (is_setoid groth_setoid) groth_rel
+      (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 (* The completion.  [ab_neg] is the swap, so the object is abelian by
@@ -493,12 +549,12 @@ Program Definition groth_insert :
   cmon_map := {| morphism := fun a : MC => (a, cmon_zero M) |}
 |}.
 Next Obligation.
-  intros a b Hab; exists (cmon_zero M); simpl.
+  intros a b Hab; simpl; exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite Hab.
 Qed.
 Next Obligation. simpl; apply groth_rel_refl. Qed.
 Next Obligation.
-  intros a b; exists (cmon_zero M); simpl.
+  intros a b; simpl; exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite !cmon_plus_zero_l, !cmon_plus_zero_r.
 Qed.
 
@@ -515,7 +571,16 @@ Definition groth_med (p : GrothPair) : carrier (cmon_setoid A) :=
 
 Lemma groth_med_respects : Proper (groth_rel ==> equiv) groth_med.
 Proof.
-  intros [a b] [c d] [k Hk]; unfold groth_med; simpl in *.
+  (* The conclusion is `≈` at [A], which is [Type]-valued, so the [Prop]
+     relation may not be destructed into it directly; [pequiv_to] puts a
+     [Prop] goal in front of the elimination and the branch returns to `≈`
+     with [pequiv_from] once the witness is in hand. *)
+  intros [a b] [c d] Hpq.
+  apply (@pequiv_to _ _ (cmon_prop A)).
+  destruct Hpq as [k Hk].
+  apply pequiv_from.
+  apply pequiv_to in Hk.
+  unfold groth_med; simpl in *.
   (* Apply h to the relation, then cancel the image of the slack term.
      [ab_cancel_l] is applied with all three arguments explicit: with the
      last two left to unification it matches the wrong pair. *)
@@ -575,7 +640,7 @@ Lemma groth_pair_is_difference (a b : MC) :
        (cmon_map groth_insert a) (cmon_map groth_insert b)).
 Proof.
   unfold ab_sub; simpl.
-  exists (cmon_zero M); simpl.
+  exists (cmon_zero M); apply pequiv_from; simpl.
   now rewrite !cmon_plus_zero_l, !cmon_plus_zero_r.
 Qed.
 
@@ -751,19 +816,20 @@ Program Definition groth_map {M N : CMonObject} (f : M ~{CMon}~> N)
                    (cmon_map f (fst p), cmon_map f (snd p)) |}
 |}.
 Next Obligation.
-  intros M N f [a b] [c d] [k Hk]; simpl in *.
-  exists (cmon_map f k); simpl.
+  intros M N f [a b] [c d] Hpq; simpl in Hpq |- *.
+  destruct Hpq as [k Hk]; apply pequiv_to in Hk; simpl in Hk.
+  exists (cmon_map f k); apply pequiv_from; simpl.
   rewrite <- !(cmon_map_plus f).
   now rewrite Hk.
 Qed.
 Next Obligation.
   intros M N f; simpl.
-  exists (cmon_zero N); simpl.
+  exists (cmon_zero N); apply pequiv_from; simpl.
   now rewrite !(cmon_map_zero f).
 Qed.
 Next Obligation.
   intros M N f [a b] [c d]; simpl.
-  exists (cmon_zero N); simpl.
+  exists (cmon_zero N); apply pequiv_from; simpl.
   now rewrite !(cmon_map_plus f).
 Qed.
 
@@ -773,16 +839,16 @@ Program Definition GrothendieckFunctor : CMon ⟶ Ab := {|
 |}.
 Next Obligation.
   intros M N f g Hfg [a b]; simpl.
-  exists (cmon_zero N); simpl.
+  exists (cmon_zero N); apply pequiv_from; simpl.
   now rewrite (Hfg a), (Hfg b).
 Qed.
 Next Obligation.
   intros M [a b]; simpl.
-  exists (cmon_zero M); simpl; reflexivity.
+  exists (cmon_zero M); apply pequiv_from; simpl; reflexivity.
 Qed.
 Next Obligation.
   intros M N P f g [a b]; simpl.
-  exists (cmon_zero P); simpl; reflexivity.
+  exists (cmon_zero P); apply pequiv_from; simpl; reflexivity.
 Qed.
 
 Example groth_functor_obj_agrees (M : CMon) :
@@ -804,7 +870,7 @@ Proof.
   apply (uniqueness (ump_universal_arrows (groth_universal_arrow M)
            (@arrow _ _ N Ab_to_CMon (groth_universal_arrow N) ∘ f))).
   intro a; simpl.
-  exists (cmon_zero N); simpl.
+  exists (cmon_zero N); apply pequiv_from; simpl.
   now rewrite (cmon_map_zero f).
 Qed.
 
@@ -881,7 +947,7 @@ Theorem groth_bool_trivial (p q : GrothPair groth_bool) :
   @groth_rel groth_bool p q.
 Proof.
   destruct p as [a b], q as [c d].
-  exists true; simpl.
+  exists true; apply pequiv_from; simpl.
   now rewrite !Bool.orb_true_r.
 Qed.
 
@@ -914,7 +980,7 @@ Program Definition nat_to_Z : groth_nat ~{CMon}~> Ab_to_CMon ab_Z := {|
 |}.
 (* Only TWO obligations: instance resolution closes [proper_morphism]
    during elaboration, both setoids here being Leibniz.  That is the
-   hazard Instance/Sets/Products.v:409-424 records and
+   hazard Instance/Sets/Products.v records and
    Structure/Limit/Power.v reports a second sighting of; this is a third.
    It is harmless at THESE two witnesses -- their carriers are [nat] and
    [Z], so nothing is pinned that was not already concrete -- and the
@@ -966,8 +1032,9 @@ Proof.
   - intro n; simpl; unfold groth_med, ab_sub; simpl.
     pose proof (groth_Z_split n) as Hn.
     unfold Z_eqT; lia.
-  - intros [a b].
-    unshelve refine (existT _ 0%nat _).
+  - intros [a b]; simpl.
+    exists 0%nat.
+    apply pequiv_from.
     exact (groth_Z_to_nat_section a b).
 Qed.
 
@@ -979,7 +1046,7 @@ Theorem groth_nat_insert_injective (a b : nat) :
   cmon_map (groth_insert groth_nat) a
     ≈ cmon_map (groth_insert groth_nat) b → a = b.
 Proof.
-  intros [k Hk]; simpl in Hk.
+  intros [k Hk]; apply pequiv_to in Hk; simpl in Hk.
   lia.
 Qed.
 

@@ -26,14 +26,14 @@ Generalizable All Variables.
    ** What was missing, measured
 
    Instance/Comp.v has the whole syntactic apparatus and stops one step
-   short of the category.  [OpSignature] (:45), [OpAlgebra] (:54) and
-   [AlgHom] (:64) give operations, interpretations and homomorphisms;
-   [EqSignature] (:240) gives laws with their naturality conditions; and
-   [Algebra S E] (:268) is the TYPE of algebras satisfying them.  But
-   [Algs] (:151) is the category of algebras of an OPERATION signature —
+   short of the category.  [OpSignature], [OpAlgebra] and
+   [AlgHom] give operations, interpretations and homomorphisms;
+   [EqSignature] gives laws with their naturality conditions; and
+   [Algebra S E] is the TYPE of algebras satisfying them.  But
+   [Algs] is the category of algebras of an OPERATION signature —
    the equations are dropped — and [Group := Algebra GroupOp GroupEq]
-   (:382) is a type, not a category.  So ⟨Ω,E⟩-Alg was nowhere formed, and
-   Instance/Roster.v:595-602 records exactly that gap in prose: "there is no
+   is a type, not a category.  So ⟨Ω,E⟩-Alg was nowhere formed, and
+   Instance/Roster.v records exactly that gap in prose: "there is no
    category of Groups there … the variety is recorded here as the type it
    is".  This file forms it.
 
@@ -41,7 +41,7 @@ Generalizable All Variables.
 
    [Variety] is the FULL SUBCATEGORY of [Algs] cut out by satisfaction of
    the laws, built with Construction/Subcategory.v's [Sub] in exactly the
-   shape Theory/Lawvere/Model.v:68 uses for [Models_sub]: an [sobj] that
+   shape Theory/Lawvere/Model.v uses for [Models_sub]: an [sobj] that
    selects, an [shom] that retains every morphism ([True]), and closure
    proofs that are therefore [I].
 
@@ -54,14 +54,14 @@ Generalizable All Variables.
    that suggestion and this construction are the same one.
 
    The record presentation is not lost: [Variety_pack] and [Variety_unpack]
-   are mutually inverse ON THE NOSE against Instance/Comp.v:268's
+   are mutually inverse ON THE NOSE against Instance/Comp.v's
    [Algebra S E], each round trip an eta-expansion discharged by case
    analysis — the [Model_pack]/[Model_unpack] idiom of
-   Theory/Lawvere/Model.v:85.
+   Theory/Lawvere/Model.v.
 
    Setoid discipline is inherited, not rebuilt: [Sub]'s hom-setoid is
    definitionally `≈` of first projections
-   (Construction/Subcategory.v:58), so morphisms of [Variety] are compared
+   (Construction/Subcategory.v), so morphisms of [Variety] are compared
    with `≈`, and that `≈` is [Algs]' [AlgHom_Setoid], i.e. pointwise
    Leibniz [=] on carriers.  That is a property of the DONOR, which
    docs/INDEX.md's Instance/Ab.v bullet already flags, not a choice made
@@ -71,10 +71,10 @@ Generalizable All Variables.
 
    [Variety] and its twelve satellites are closed under the global
    context.  [GroupVariety] IS NOT: it reports
-   [functional_extensionality_dep], inherited from Instance/Comp.v:358's
-   [GroupEq], which is [Defined] with [functional_extensionality] at :370
-   and :375.  The mechanism is [EqSignature]'s [lhs_natural] and
-   [rhs_natural] (:254, :257), which ask for a LEIBNIZ equation between
+   [functional_extensionality_dep], inherited from Instance/Comp.v's
+   [GroupEq], which is [Defined] with [functional_extensionality].
+   The mechanism is [EqSignature]'s [lhs_natural] and
+   [rhs_natural], which ask for a LEIBNIZ equation between
    two [arity o → B] argument bundles that are only pointwise equal.
 
    AN EARLIER REVISION OF THIS HEADER, OF THE COMMIT MESSAGE AND OF THE
@@ -130,13 +130,13 @@ Generalizable All Variables.
    [GroupVariety ≅[Cat] Grp]: Instance/Variety/GroupComparison.v ships a fully
    faithful comparison functor instead and states why the isomorphism is
    not available.  No quotient of [Tree] by an equational congruence.  No
-   removal of Instance/Comp.v's two commented-out instances at :189 and
-   :223, which is an edit to that file and is surfaced rather than made. *)
+   removal of Instance/Comp.v's two commented-out instances, which is
+   an edit to that file and is surfaced rather than made. *)
 
 (* Instance/Comp.v's record fields [carrier], [eq] and [map] would shadow
    the library's if this module were imported, so it is aliased and
    qualified throughout — the same decision, for the same reason, as
-   Instance/Roster.v:588. *)
+   Instance/Roster.v. *)
 Module UA := Category.Instance.Comp.UniversalAlgebra.
 
 Section Variety.
@@ -149,13 +149,13 @@ Context (E : UA.EqSignature S).
 (* [Subcategory]'s [sobj] lands in [Type], so satisfaction is stated as a
    [Type]-valued ∀ whose body is a Leibniz equation between two elements of
    the carrier.  It is DEFINITIONALLY the [equations] field of
-   Instance/Comp.v:270, which is what makes the two presentations
+   Instance/Comp.v, which is what makes the two presentations
    reflexivity-inverse below.
 
    Every coercion is written out.  Instance/Comp.v declares [eq :> Type]
    and [carrier :> Type] inside [Module UniversalAlgebra], and a module
    ALIAS does not activate coercions — only an [Import] would, which is
-   the thing Instance/Roster.v:585 warns against because [eq], [carrier]
+   the thing Instance/Roster.v warns against because [eq], [carrier]
    and [map] would shadow the library's.  So [UA.eq S E] and
    [UA.carrier A] appear in full below wherever the coercion would
    otherwise fire. *)
@@ -212,7 +212,7 @@ Proof. destruct x; reflexivity. Qed.
 
     Awodey's §9.8 asks for the category AND its forgetful functor.  The
     carrier is a bare type, so it lands on the DISCRETE setoid
-    (Lib/Setoid.v:65's [eq_Setoid]); the functor is faithful, which is the
+    (Lib/Setoid.v's [eq_Setoid]); the functor is faithful, which is the
     concreteness the free-algebra theorem consumes. *)
 
 Program Definition Variety_Forget : Variety ⟶ Sets := {|
@@ -255,7 +255,7 @@ Arguments Variety_Forget_Faithful {_} _.
 
 Definition GroupVariety : Category := Variety UA.GroupEq.
 
-(* ℤ/2 under exclusive or, the witness Instance/Comp.v:405 already builds,
+(* ℤ/2 under exclusive or, the witness Instance/Comp.v already builds,
    as an OBJECT of the category rather than an inhabitant of a type. *)
 Definition GroupVariety_Bool : GroupVariety := Variety_pack UA.Bool.
 
@@ -339,12 +339,12 @@ Definition InvInvVariety : Category := Variety InvInvEq.
     For a presentation ⟨S,E⟩ the associated Lawvere theory has [nat] for
     objects, the [E]-congruence classes of n-tuples of derived operators
     for morphisms m ~> n, and finite products given by addition; its
-    [Models] in [Sets] (Theory/Lawvere/Model.v:77) ought to be equivalent
+    [Models] in [Sets] (Theory/Lawvere/Model.v) ought to be equivalent
     to [Variety E].  Two things block the equivalence here and neither is
     incidental.  Building the theory needs the clone as a CATEGORY, with
     the congruence as its hom-setoid and the two propositional object
     equalities [law_zero_terminal] and [law_plus_product]
-    (Theory/Lawvere.v:116).  And the comparison then meets the same wall as
+    (Theory/Lawvere.v).  And the comparison then meets the same wall as
     Instance/Variety/GroupComparison.v: [Models T Sets] has SETOID carriers where
     [Variety]'s are Leibniz types, so essential surjectivity needs
     quotients.  Instance/Variety/Clone.v supplies the derived operators and

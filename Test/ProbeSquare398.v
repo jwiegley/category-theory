@@ -193,20 +193,20 @@ Generalizable All Variables.
    compiled.  ALL FOURTEEN broke it, every one at a [Check] line of the
    guard block and NONE inside a [Fail]:
 
-     palm_via_mate    line 295   Check @palm_via_mate.
-     palm_to          line 294   Check @palm_to.
-     palm_two_factor  line 296   Check @palm_two_factor.
-     AB               line 297   Check @AB.
-     sq_dom           line 291   Check @sq_dom.
-     sq_cod           line 292   Check @sq_cod.
-     square_bijection line 293   Check @square_bijection.
-     SqMate           line 289   Check @SqMate.
-     sq_mate          line 287   Check @sq_mate.
-     sq_mate_inv      line 288   Check @sq_mate_inv.
-     SqSigma          line 283   Check @SqSigma.
-     AdjointSquareT   line 282   Check @AdjointSquareT.
-     SqBA             line 298   Check @SqBA.
-     SqBA'            line 299   Check @SqBA'.
+     palm_via_mate    Check @palm_via_mate.
+     palm_to          Check @palm_to.
+     palm_two_factor  Check @palm_two_factor.
+     AB               Check @AB.
+     sq_dom           Check @sq_dom.
+     sq_cod           Check @sq_cod.
+     square_bijection Check @square_bijection.
+     SqMate           Check @SqMate.
+     sq_mate          Check @sq_mate.
+     sq_mate_inv      Check @sq_mate_inv.
+     SqSigma          Check @SqSigma.
+     AdjointSquareT   Check @AdjointSquareT.
+     SqBA             Check @SqBA.
+     SqBA'            Check @SqBA'.
 
    So 14/14, with zero vacuous guards.  (Renaming [palm_to], [SqMate] or
    [square_bijection] must also rename their [Program] obligations, whose

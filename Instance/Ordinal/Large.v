@@ -62,8 +62,8 @@ Generalizable All Variables.
    the same constant [Complete] is inhabited at one instance and refuted at
    another.
 
-   The size boundary is the one Adjunction/GAFT.v:101-114 describes and
-   Structure/Complete.v:64-76 cites Freyd for: a SMALL complete category is
+   The size boundary is the one Adjunction/GAFT.v describes and
+   Structure/Complete.v cites Freyd for: a SMALL complete category is
    a preorder (Structure/Complete/Freyd.v's [small_complete_is_thin]).  The
    category below is a preorder, so it is consistent with Freyd's collapse
    and does not contradict it; what it adds is that being large is what lets
@@ -106,7 +106,7 @@ Generalizable All Variables.
          not the category LAWS: it is the [Qed]-opaque [Program] obligation
          inside Instance/Proset.v's hom-setoid, which is one constant
          applied to [P] on one side and to [op_PreOrder P] on the other.
-         (Instance/Proset/Limit.v:547 records a DIFFERENT non-equality, of
+         (Instance/Proset/Limit.v records a DIFFERENT non-equality, of
          [Cocomplete (Proset P)] with [Complete (Proset (op_PreOrder P))];
          it is not this one.)  All the order machinery of
          Instance/Proset/Limit.v is stated over an arbitrary [PreOrder], so
@@ -134,7 +134,7 @@ Generalizable All Variables.
          [DiscreteCat_Functor]), and [SmallOrd_op_Terminal] is the nullary
          case, the terminal object of [SmallOrd^op] being the least ordinal.
          [smallord_lub_not_zero] is the non-vacuity control in the style of
-         Instance/Proset/Limit.v:745's [nat_glb_not_4]: [IsLUB] is a
+         Instance/Proset/Limit.v's [nat_glb_not_4]: [IsLUB] is a
          refutable predicate here, so the positive statements are not
          statements about a uniformly inhabited type.
      (5) NO GREATEST ELEMENT, AND THE UNIVERSE ARGUMENT MADE EXPLICIT.
@@ -196,20 +196,33 @@ Generalizable All Variables.
        next line say "small", and it is forced by [ojoin], which accepts
        only a [Type@{u1}]-indexed family.
      - THE SLOT DECODER, so that the two [Complete] readings below can be
-       compared without guessing.  [SmallOrd_op_indexed_limit@{u u0 u1 u2 u3}]
-       reads [forall (A : Type@{u}) (d : A -> SmallOrd@{u}),
-       Limit@{u u Set u0} (DiscreteCat_Functor@{u u0 u1 Set} d)] with
-       [u < u0].  Its diagram shape is [DiscreteCat A] with [A : Type@{u}]
-       and its ambient category is [SmallOrd_op_Proset] at object level
-       [u0]; so in [Limit@{a b c d}] the SECOND slot is the shape's object
-       universe, the THIRD the shared hom universe, and the FOURTH the
-       ambient category's object universe.  [Complete@{a b c d} :
-       Category@{d c c} -> Type] follows the same layout.
-     - [SmallOrd_op_Complete@{u u0 u1 u2 u3 u4 u5} : Complete@{u u Set u0}]
-       with [u < u0] among its constraints.  Read through the decoder: the
-       diagram shape's objects sit at [u] and the ambient category's at
-       [u0], with [u < u0] between them.  That is small-completeness, in the
-       only vocabulary the library has for it.
+       compared without guessing.  [SmallOrd_op_indexed_limit@{u u0 u1 u2
+       u3 u4 u5}] reads [forall (A : Type@{u}) (d : A -> SmallOrd@{u}),
+       Limit@{u0 u u1 u2} (DiscreteCat_Functor@{u u1 u1 u2 u1 u1 u3} d)]
+       with [u < u2].  Its diagram shape is [DiscreteCat A] with
+       [A : Type@{u}] and its ambient category is [SmallOrd_op_Proset] at
+       object level [u2]; so in [Limit@{a b c d}] the SECOND slot is the
+       shape's object universe, the THIRD the shared hom universe, and the
+       FOURTH the ambient category's object universe.  [Complete@{a b c d} :
+       Category@{d c c} -> Type] follows the same layout, and
+       Structure/Complete.v now writes those four out as [@{r so h o}].
+     - [SmallOrd_op_Complete@{u u0 u1 u2 u3 u4 u5 u6 u7} :
+       Complete@{u u0 u1 u2}] with [u0 < u2] among its constraints.  Read
+       through the decoder: the diagram shape's objects sit at [u0] and the
+       ambient category's at [u2], with [u0 < u2] between them.  That is
+       small-completeness, in the only vocabulary the library has for it.
+
+       RECORDED CORRECTION.  An earlier revision of these two bullets
+       quoted [Limit@{u u Set u0}], [DiscreteCat_Functor@{u u0 u1 Set}] and
+       [Complete@{u u Set u0}], each with a literal [Set] in the hom slot,
+       and read the strict bound as [u < u0].  Those [Set]s were a
+       universe-minimization artifact of Instance/Discrete.v's then
+       unannotated [DiscreteCat_Functor]; it was annotated in place at its
+       declaration in the PR "algebraic carriers are sets" (2026-09-17), the [Set]s
+       are gone, and the binder lists lengthened, which is why the names of
+       the strict bound moved.  The READING is unchanged: shape objects
+       strictly below ambient objects, which is the whole point of the
+       pair below.
      - [SmallOrd_op_not_large_complete@{u u0 u1 u2} : Complete@{u u1 u2 u1}
        -> False] with [u0 < u1], [u1 <= u], [u2 <= u].  The second and
        fourth slots are now the SAME universe [u1]: the diagram shape
@@ -224,20 +237,29 @@ Generalizable All Variables.
        every category-level constant here.  [SmallOrd_op_Complete]
        additionally carries, from [Proset_op_Complete_of_all_joins],
        [JMeq.JMeq.u0 <= JMeq.JMeq.u1], [u <= eq.u0],
-       [u <= Logic_lemmas.equality.u0], several [projections]/[Projections]
-       bounds and four [Set < ...] bounds.  Those are level constraints
-       only: [Print Assumptions] on all 43 names reports "Closed under the
-       global context", with no [Axioms:] line anywhere.
+       [u <= Logic_lemmas.equality.u0] and several
+       [projections]/[Projections] bounds.  An earlier revision added "and
+       four [Set < ...] bounds"; measured after the PR "algebraic carriers
+       are sets" (2026-09-17) there are NONE -- zero word-bounded [Set]
+       anywhere in that constant's block, the strict bounds now being
+       [u0 < u2], [u1 < u4], [u1 < u5] and three against stdlib levels.
+       Those are level constraints only: [Print Assumptions] on all 43
+       names reports "Closed under the global context", with no [Axioms:]
+       line anywhere.
      - Instance/Discrete.v's [DiscreteCat_Functor] does NOT pin the SOURCE
-       SHAPE's objects to [Set] here, which is worth recording because
-       issue #1309 tracks exactly that artifact for a neighbouring use.
-       Measured: [DiscreteCat_Functor@{u u0 u1 Set} d] in
+       SHAPE's objects to [Set] here, and since the repair it pins nothing
+       at all.  Measured: [DiscreteCat_Functor@{u u1 u1 u2 u1 u1 u3} d] in
        [SmallOrd_op_indexed_limit] has the shape's object universe at [u],
-       the family's own, with [Set] only in the fourth slot and a
-       [Set < u1] side constraint; likewise the [Set] in [Limit@{u u Set u0}]
-       is the HOM level, which is harmless because every hom-set of a
-       [Proset] and of a [DiscreteCat] is a proposition.  No object type of
-       this development is at [Set].
+       the family's own, and carries no literal [Set] in any slot.  An
+       earlier revision of this bullet read [DiscreteCat_Functor@{u u0 u1
+       Set} d], noted that the [Set] was "only in the fourth slot" with a
+       [Set < u1] side constraint, and said the same of the [Set] in
+       [Limit@{u u Set u0}] -- the HOM level, "harmless because every
+       hom-set of a [Proset] and of a [DiscreteCat] is a proposition".
+       That was the right reading of the artifact issue #1309 tracked, and
+       the artifact was removed by applying #1309's repair in the PR
+       "algebraic carriers are sets" (2026-09-17).  No object type of this
+       development is at [Set], then or now.
 
    ONE TRAP WORTH RECORDING.  [I] is the Prelude's constructor of [True], so
    a [match] branch written [osup I f => I] is read with [I] as a PATTERN
@@ -255,7 +277,7 @@ Generalizable All Variables.
    files of the tree excluding [doc/], with [find . -name '*.v' | xargs
    grep], since [grep] here honours [.gitignore] on recursive traversal).
      - "The library has no ordinals as a category ([rg -w 'Ord|OrdCat'] -> a
-       lone prose cross-reference in Instance/Proset.v:19)": the CONCLUSION
+       lone prose cross-reference in Instance/Proset.v)": the CONCLUSION
        is true, the evidence is not.  That figure is not re-measurable and an earlier revision of this
        sentence gave it as "96 hits in 8 files"; re-measured here with the
        command stated, [find . -name '*.v' -not -path './Instance/Ordinal/Large.v'
@@ -273,9 +295,9 @@ Generalizable All Variables.
        existing name is displaced and none is reused; this file's names are
        all prefixed [SmallOrd] or [o] and none of the 43 occurs elsewhere in
        the tree (checked word-wise, with a positive control).
-     - "no smallness/largeness machinery": FALSE.  Theory/Size.v:106 has
-       [Class LocallySmall], :161 [Class Small], :144
-       [locally_small_ambient], :175 [small_locally_small] and :220
+     - "no smallness/largeness machinery": FALSE.  Theory/Size.v has
+       [Class LocallySmall], [Class Small],
+       [locally_small_ambient], [small_locally_small] and the witness
        [One_Small].  This file does not consume them -- see NOT DELIVERED --
        but the premise that they are missing is wrong.  The same claim in
        the issue's Awodey §9.8 checkbox ("the library has no smallness or
@@ -285,22 +307,22 @@ Generalizable All Variables.
        the grep is off (60 hits in more than 20 files), the conclusion
        stands for the sharp reading.  [not representable|continuous yet
        not|continuous but not] has exactly ONE hit in the tree,
-       Adjunction/GAFT.v:122, and it is PROSE -- the Joyal/Mac Lane product
+       Adjunction/GAFT.v, and it is PROSE -- the Joyal/Mac Lane product
        of representables over the simple groups, cited, not built.
        Instance/Sets/NoAdjoint.v's twelve no-adjoint theorems are
        obstructions by limit preservation, a different shape.
      - "Complete Boolean algebras and Solovay's theorem are entirely absent
        ([rg -i 'solovay|complete boolean|CABA'] -> 0 hits)": ONE hit, not
-       zero -- Instance/FdVect/NoRightAdjoint.v:104 names Solovay, for the
+       zero -- Instance/FdVect/NoRightAdjoint.v names Solovay, for the
        Solovay/Shelah measurability result, not for complete Boolean
        algebras.  The conclusion (no complete Boolean algebras, no free-CBA
        theorem) stands.
-     - The cited background prose: Adjunction/GAFT.v:101 ff. is the size
-       obstruction, as claimed; Structure/Complete.v:64-76 is Freyd's
-       collapse, as claimed; Instance/Poset.v:80-87 is NOT the adjoint
-       functor discussion -- at those lines the file is on Lawvere's
-       enrichment over the truth values.  The intended paragraph is
-       Instance/Poset.v:88-95, "Thinness also marks a size boundary in the
+     - The cited background prose: the Adjunction/GAFT.v passage is the
+       size obstruction, as claimed; the Structure/Complete.v passage is
+       Freyd's collapse, as claimed; the Instance/Poset.v passage is NOT
+       the adjoint functor discussion -- at the lines cited the file is on
+       Lawvere's enrichment over the truth values.  The intended paragraph
+       is the one after it, "Thinness also marks a size boundary in the
        adjoint functor theorems".
      - The dependency on #422 is live: Instance/Proset/Limit.v supplies
        [IsLUB], [HasAllJoins], [Proset_op_Complete_of_all_joins] and
@@ -505,7 +527,7 @@ Lemma ozero_least@{u} (x : SmallOrd@{u}) : ole ozero x.
 Proof. apply ole_unfold; intros []. Qed.
 
 (* The successor: a one-element family.  [poly_unit] is the library's
-   universe-polymorphic unit (Lib/Setoid.v:56); [unit] would pin the index
+   universe-polymorphic unit (Lib/Setoid.v); [unit] would pin the index
    type to [Set]. *)
 Definition osucc@{u} (x : SmallOrd@{u}) : SmallOrd@{u} :=
   osup poly_unit@{u} (fun _ => x).
@@ -549,7 +571,7 @@ Definition SmallOrd_op_indexed_limit@{u +}
 Definition SmallOrd_op_Terminal : @Terminal SmallOrd_op_Proset :=
   Proset_Terminal (op_PreOrder ole_preorder) ozero ozero_least.
 
-(* Non-vacuity, in the sense of Instance/Proset/Limit.v:745's
+(* Non-vacuity, in the sense of Instance/Proset/Limit.v's
    [nat_glb_not_4]: [IsLUB] is refutable here, so the positive statements
    above are not statements about a uniformly inhabited type.  Zero is not
    a join of {zero, zero+1}. *)

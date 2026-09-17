@@ -37,18 +37,18 @@ Generalizable All Variables.
 
    The comma side of that is Construction/Comma/Creation.v, which needs no
    hypothesis here beyond one this library already supplies: [Id] is a right
-   adjoint ([adj_id], Instance/Adjoints.v:70, re-exported as
-   [Adjunction_Id], Adjunction/Compose.v:65), and
-   [right_adjoint_PreservesImageLimit] (Construction/Comma/Limit.v:266)
+   adjoint ([adj_id], Instance/Adjoints.v, re-exported as
+   [Adjunction_Id], Adjunction/Compose.v), and
+   [right_adjoint_PreservesImageLimit] (Construction/Comma/Limit.v)
    turns any adjunction into the preservation witness.  So
    [@PreservesImageLimit C C Id] is inhabited for EVERY category, with no
    premise at all, and every statement in this file is unconditional in that
    sense — the only hypothesis anywhere below is a [Complete C] where
    completeness is the conclusion's subject.
 
-   What transports and what does not.  [Comma_Coslice] (Construction/Slice.v:182 —
-   issue #438 and five in-tree sites cite :181, which is the [#[export]]
-   attribute heading that same declaration)
+   What transports and what does not.  [Comma_Coslice] (Construction/Slice.v —
+   issue #438 and five in-tree sites cite the [#[export]]
+   attribute heading that same declaration, one line above it)
    is an isomorphism [c ̸co C ≅ =(c) ↓ Id] in [Cat], hence an equivalence,
    hence a creator of all limits (Theory/Equivalence/Creation.v), so
    completeness and CreatesLimit both cross over.  STRICT creation is not
@@ -72,12 +72,12 @@ Generalizable All Variables.
    a plain unconditioned projection [c ̸co C ⟶ C] would have to be built
    from scratch, all three in-tree coslice projections carrying an extra
    hypothesis on [C].  Measured, that is false for two of the three:
-   [Coslice_Proj] (Construction/Slice/Adjunction.v:392) prints as
+   [Coslice_Proj] (Construction/Slice/Adjunction.v) prints as
    [∀ {C : Category} (a : obj[C]), (a ̸co C) ⟶ C] and [Coslice_proj]
-   (Instance/Cat/Pullback.v:847) as the same, because the [Cocartesian] and
+   (Instance/Cat/Pullback.v) as the same, because the [Cocartesian] and
    [ObjUIP] variables of the sections they sit in are never discharged into
    them — their bodies do not use them.  Only [Coslice_Forget]
-   (Construction/Slice/Terminal.v:206) genuinely carries one, an [Initial].
+   (Construction/Slice/Terminal.v) genuinely carries one, an [Initial].
    So the second half of this file does the direct argument for
    [Coslice_Proj] itself, and n6 records that the plain and the transported
    projection are nevertheless different functors, so neither result
@@ -162,7 +162,7 @@ End CosliceComma.
 
 (* Everything above goes through [Comma_Coslice], and strictness does not
    survive that transport.  It does not have to: [Coslice_Proj]
-   (Construction/Slice/Adjunction.v:392) is an unconditioned functor
+   (Construction/Slice/Adjunction.v) is an unconditioned functor
    [c ̸co C ⟶ C] — the [Cocartesian] variable of the section it sits in is
    not discharged into it, because its body does not use it — and both its
    data fields reduce, [fobj] to [`1 x] and [fmap] to [`1 f] by [eq_refl].
@@ -183,7 +183,7 @@ End CosliceComma.
    cone is the lifted object's own structure map; the lifted legs are the
    given legs, so the projection returns them on the nose.
 
-   [Instance/Cat/Pullback.v:847]'s [Coslice_proj] is a second unconditioned
+   [Instance/Cat/Pullback.v]'s [Coslice_proj] is a second unconditioned
    projection with the same two data fields, and it reduces the same way;
    it is not used here, since importing that file would cost twelve modules
    of closure against this file's five for Construction/Slice/Adjunction.v,

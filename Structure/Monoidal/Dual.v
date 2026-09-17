@@ -32,7 +32,7 @@ Require Import Category.Adjunction.Right.
    ambient category is not so constrained. *)
 Remove Hints Sets_Product_Monoidal : typeclass_instances.
 
-(* NOTATION GUARD, inherited from Adjunction/Right.v:35 and obeyed
+(* NOTATION GUARD, inherited from Adjunction/Right.v and obeyed
    here, but DEFENSIVE in this file — and that is measured on both
    halves, not assumed.  Three scopes declare [_ ^op] (category, functor
    and adjunction), and Category.Functor.Opposite and
@@ -72,7 +72,7 @@ Generalizable All Variables.
    maps out of the tensor — one of `a ⨂ x`, the other of `x ⨂ a` — and
    the symmetry of `⨂` exchanges the two.  Everything sits on the RIGHT
    of the two hom-sets, which is the sense of Mac Lane's Definition 2 and
-   of the class [AdjointOnTheRight] (Adjunction/Right.v:334).  The
+   of the class [AdjointOnTheRight] (Adjunction/Right.v).  The
    canonical unit of the resulting self-adjunction is the map into the
    double dual,
 
@@ -80,10 +80,10 @@ Generalizable All Variables.
 
    the transpose of `eval'` through the symmetric braid.  It is what this
    file CONSTRUCTS, and it is exactly the map that
-   Structure/Monoidal/StarAutonomous.v:269's field [star_double_dual]
+   Structure/Monoidal/StarAutonomous.v's field [star_double_dual]
    declines to pin: that class POSITS some isomorphism `x ≅ (x⇒d)⇒d`
    without requiring it to be the canonical one, and that file's own
-   header (:69-80) records the gap in those terms.  The relationship is
+   header records the gap in those terms.  The relationship is
    made explicit below rather than left implicit.
 
    THE TYPE-LEVEL FIT.  [AdjointOnTheRight {A X} (S : A^op ⟶ X)
@@ -101,24 +101,24 @@ Generalizable All Variables.
    file [AdjointOnTheRight] occurred in exactly two files tree-wide —
    Adjunction/Right.v, which declares it, and Test/ProbeRight358.v, its
    probe — and Right.v already carries THREE inhabitants:
-   [Id_AdjointOnTheRight] (:583, labelled DEGENERATE there, both functors
-   being identities), [Chain3_AdjointOnTheRight] (:651, a Galois pair on
+   [Id_AdjointOnTheRight] (labelled DEGENERATE there, both functors
+   being identities), [Chain3_AdjointOnTheRight] (a Galois pair on
    a three-element chain, whose partner functors differ) and
-   [Powerset_AdjointOnTheRight] (:717).  The last of these is ALREADY at
+   [Powerset_AdjointOnTheRight].  The last of these is ALREADY at
    a coinciding pair — [Powerset_Prop_op] occupies both slots — so
    nothing here is the first witness with S = T, and no such claim is
    made.  What is new is the first witness arising from a MONOIDAL
    CLOSED structure rather than from a fixed concrete category, and the
    first identification of the resulting unit and counit with a
    canonical map: Right.v handles unit and counit generically
-   ([aor_counit_transform], :827, and siblings) but the words
+   ([aor_counit_transform] and siblings) but the words
    `double dual` occur nowhere in it, and it identifies no witness's
    unit with anything.  The identifiers [dd_unit], [double_dual_unit],
    [dual_self_adjoint_on_the_right], [dual_transpose] and [dual_uncur]
    each occurred ZERO times, and a sweep of all fifty names this file
    declares returns zero collisions tree-wide.  Two near-collisions were
    found by that sweep and are recorded rather than risked: [dual_ev] is
-   TAKEN by Instance/FdVect/DoubleDual.v:329 (a different construction,
+   TAKEN by Instance/FdVect/DoubleDual.v (a different construction,
    the evaluation map of a finite-dimensional double dual), so the
    helper here is [dual_uncur]; and [double_dual_natural] is taken, 9
    occurrences across Instance/FdVect/DoubleDual.v and
@@ -128,15 +128,15 @@ Generalizable All Variables.
    a shared name would silently audit the wrong constant.
 
    THE DONOR DEVIATION IS LOAD-BEARING, AND IT DICTATES THE WHOLE FILE.
-   StarAutonomous.v's header (:82-89) records that [ump_exponents'] is
+   StarAutonomous.v's header records that [ump_exponents'] is
    stated in ∃!-form and is NOT wired to `curry' := to exp_iso`, so the
    beta law for the PACKAGED `curry'` is not derivable from the class
    fields.  Every transposition below therefore goes through the UMP
-   WITNESS [dcur] (StarAutonomous.v:158), whose beta law [dcur_beta]
-   (:161) and uniqueness [dcur_uniq] (:165) come straight from the field.
+   WITNESS [dcur] (StarAutonomous.v), whose beta law [dcur_beta]
+   and uniqueness [dcur_uniq] come straight from the field.
    `curry'` and `uncurry'` are not used anywhere in this file.  A second
    donor fact costs a re-declaration: [dcur_respects]
-   (StarAutonomous.v:169) is `#[local]`, so it does not survive that
+   (StarAutonomous.v) is `#[local]`, so it does not survive that
    file; [dcur_Proper] below restates it (three lines, from [dcur_uniq]
    and [dcur_beta]) because `rewrite` under [dcur] is otherwise
    unavailable.
@@ -172,7 +172,7 @@ Generalizable All Variables.
        [double_dual_unit : Id[C] ⟹ double_dual d].
      - [dual_adjunction] : the ordinary adjunction `(dual d)^op ⊣ dual d`
        between `C^op` and `C`, read off the class by
-       [Adjunction_of_AdjointOnTheRight] (Adjunction/Right.v:383) rather
+       [Adjunction_of_AdjointOnTheRight] (Adjunction/Right.v) rather
        than rebuilt.
      - The identification of that adjunction's UNIT and COUNIT with
        [dd_unit], and of both transposes at the identity with it.
@@ -241,7 +241,7 @@ Generalizable All Variables.
        exhibited, and none is claimed to exist.
      - No [EquivalenceOfCategories] record and no
        [AdjointEquivalence_to_Equivalence] composite; the upgrade stops
-       at [AdjointEquivalence] (Theory/Equivalence/Adjoint.v:69), which
+       at [AdjointEquivalence] (Theory/Equivalence/Adjoint.v), which
        is the class whose two extra fields are exactly invertibility of
        the derived unit and counit.
      - No self-adjointness on the LEFT, and nothing about
@@ -385,7 +385,7 @@ Lemma dual_uncur_transpose {a x : C} (f : a ~> x ⇒ d) :
 Proof. unfold dual_transpose; apply dual_uncur_dcur. Qed.
 
 (* The round trip.  This is the single place where SYMMETRY of the
-   braiding — [braid_invol], Structure/Monoidal/Symmetric.v:108 — is
+   braiding — [braid_invol], Structure/Monoidal/Symmetric.v — is
    spent; the two naturality laws below need only [bimap_braid], which
    holds over a bare [BraidedMonoidal] structure. *)
 Theorem dual_transpose_invol {a x : C} (f : a ~> x ⇒ d) :
@@ -524,7 +524,7 @@ Example double_dual_unit_component (x : C) :
 
 (** ** The ordinary adjunction, and Mac Lane's unit and counit
 
-    Read off the class by Adjunction/Right.v:383 rather than rebuilt.
+    Read off the class by Adjunction/Right.v rather than rebuilt.
     `Check` displays the result as `(dual d)^op ⊣ dual d`. *)
 
 Definition dual_adjunction :
@@ -545,7 +545,7 @@ Example counit_is_dd_unit (x : C) :
 
 (** ** Relationship to the star-autonomous class
 
-    StarAutonomous.v:269's [star_double_dual] POSITS an isomorphism
+    StarAutonomous.v's [star_double_dual] POSITS an isomorphism
     `x ≅ double_dual d x` without requiring it to be the canonical map.
     The two results below say precisely what invertibility of the
     canonical map buys: the class is inhabited with [star_double_dual]
@@ -571,7 +571,7 @@ Example star_double_dual_is_dd_unit
   to (@star_double_dual C _ (StarAutonomous_of_dd_unit Hiso) x)
     = dd_unit x := eq_refl.
 
-(* The upgrade.  [AdjointEquivalence] (Theory/Equivalence/Adjoint.v:69)
+(* The upgrade.  [AdjointEquivalence] (Theory/Equivalence/Adjoint.v)
    carries an adjunction together with invertibility of its derived unit
    and counit; both are [dd_unit] here, so ONE hypothesis discharges both
    fields.  The counit field is stated in `C^op`, where the two inverse

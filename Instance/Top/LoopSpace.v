@@ -54,7 +54,7 @@ Set Default Proof Using "All".
 
      - CONCATENATION, [path_concat] -- run α on the first half of the
        interval and β on the second.  This is the operation of the
-       fundamental groupoid (Instance/Top/FundamentalGroupoid.v:1045), and
+       fundamental groupoid (Instance/Top/FundamentalGroupoid.v), and
        its unit up to homotopy is the constant loop.
 
      - POINTWISE MULTIPLICATION, [loop_mult] below -- multiply the two
@@ -72,7 +72,7 @@ Set Default Proof Using "All".
    β(2t−1) · δ(2t−1), because the pointwise product commutes with the split
    at 1/2 that concatenation performs.  The two maps are therefore EQUAL AT
    EVERY POINT, and [pointwise_homotopic]
-   (Instance/Top/FundamentalGroupoid.v:1127) upgrades that to a homotopy rel
+   (Instance/Top/FundamentalGroupoid.v) upgrades that to a homotopy rel
    endpoints with no surgery of squares anywhere.  This is [loop_interchange]
    below.
 
@@ -141,7 +141,7 @@ Set Default Proof Using "All".
    continuity is therefore carried in the two-open form directly -- for every
    open V containing m(x, y), opens U ∋ x and W ∋ y with m(U × W) ⊆ V --
    which is the same accommodation Instance/Top/Homotopy.v makes for the
-   cylinder (its [htpy_cont] field, :208, states the rectangle condition
+   cylinder (its [htpy_cont] field states the rectangle condition
    pointwise for exactly this reason).  The inverse is not affected: with
    one variable the ordinary preimage form is available, and [tg_inv_cont]
    below is the unfolded form of [Continuous G G] for the inversion map
@@ -436,7 +436,7 @@ Qed.
    concatenation, in the orientation the header derives.  The two [Proper]
    arguments are supplied as lambdas rather than as instances, because
    [Path_Setoid] is deliberately not registered for resolution
-   (Instance/Top/FundamentalGroupoid.v:1028) and the expected type unfolds to
+   (Instance/Top/FundamentalGroupoid.v) and the expected type unfolds to
    exactly the shape [loop_mult_respects] and [path_concat_respects]
    already have.
 
@@ -516,9 +516,9 @@ Arguments loop_concat_comm {G} p q.
 (** ** The headline: π₁ of a topological group is abelian *)
 
 (* The group-level statement.  [fundamental_group G e] is the vertex group of
-   π(G) at e (Instance/Top/FundamentalGroupoid.v:1100), whose multiplication
+   π(G) at e (Instance/Top/FundamentalGroupoid.v), whose multiplication
    is [hom_monoid]'s -- that is, composition in π(G), which
-   Instance/Top/FundamentalGroupoid.v:1045 defines as
+   Instance/Top/FundamentalGroupoid.v defines as
    [compose q p := path_concat p q].  So [mon_op p q] IS
    [path_concat q p], and commutativity of the group operation is
    [loop_concat_comm] with its two arguments in the other order.
@@ -540,7 +540,7 @@ Qed.
    puts it, the SECOND argument running first -- and its unit is the
    constant loop.  Neither is an artefact of this file: both are read off
    Construction/Deloop.v's [hom_monoid] at
-   Instance/Top/FundamentalGroupoid.v:1045. *)
+   Instance/Top/FundamentalGroupoid.v. *)
 Example pi1_mon_op_is_concat (G : HTopMonoid)
         (p q : fundamental_group G (htm_unit G)) :
   mon_op p q = path_concat q p := eq_refl.
@@ -560,7 +560,7 @@ Qed.
 
 (** ** Witness: the additive reals *)
 
-(* Instance/Top/Presheaf.v:202's [R_Top] -- the real line with the metric
+(* Instance/Top/Presheaf.v's [R_Top] -- the real line with the metric
    topology, over Instance/Top/Interval.v's ball spaces -- carries the
    additive group structure, and both continuity conditions are the ordinary
    ε/2 and ε arguments with the radius carried as data.
@@ -573,7 +573,7 @@ Qed.
    fundamental group. *)
 
 (* Instance/Top/Presheaf.v registers [R_equiv_Equivalence] but deliberately
-   not [R_Setoid] (its note at :175), so `≈` does not resolve at a bare [R].
+   not [R_Setoid] (its note), so `≈` does not resolve at a bare [R].
    Registering it FILE-LOCALLY is what lets the two [Proper] obligations
    below be stated in the ordinary shape; it is the same setoid the record
    fields ask for, [is_setoid (top_carrier R_Top)] reducing to it. *)

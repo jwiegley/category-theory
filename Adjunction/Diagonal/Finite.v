@@ -144,7 +144,7 @@
        [po_inj_ump] and [po_inj_IsPushoutSquare].  THE TREE HAS THE
        PULLBACK BRIDGE AND NOT THE PUSHOUT ONE, measured:
        Structure/Pullback/Limit.v gives [Pullback_to_Universal], but its
-       [Pushout_Limit] (:60) is a bare alias for [Colimit] with no
+       [Pushout_Limit] is a bare alias for [Colimit] with no
        conversion to any pushout universal property, and outside this file
        [IsPushoutSquare] occurs only in Theory/Morphisms/CokernelPair.v,
        its probe, and Instance/Sets/CokernelPair.v, none of which builds
@@ -171,7 +171,7 @@
    (a diagram [Parallel ⟶ C]) rather than in the constant's own type.  A
    first run of that sweep reported SIX: it keyed on
    [Definition|Theorem|Lemma|Instance] and so missed
-   [Structure/Coequalizer/Split.v:132]'s [split_coequalizer_preserved],
+   [Structure/Coequalizer/Split.v]'s [split_coequalizer_preserved],
    which is declared with [Corollary].  Widening the keyword list is what
    yields seven, and the characterization is unchanged by it -- that
    constant's own type is an [IsCoequalizer], its [F : C ⟶ D] being an
@@ -375,10 +375,10 @@
        [DiagSets_HasEqualizers], [DiagSets_HasCoequalizers],
        [Sets_HasPullbacks_of_shape] and [Sets_HasPushouts_of_shape]
        duplicates a pre-existing inhabitant of its class --
-       [Adjunction/GAFT/Sets.v:175]'s [Sets_HasEqualizers],
-       [Instance/Sets/Coequalizer.v:293]'s [Sets_HasCoequalizers],
-       [Instance/Sets/Pullback.v:393]'s [Sets_HasPullbacks] and
-       [Instance/Sets/Pushout.v:185]'s [Sets_HasPushouts].  The four
+       [Adjunction/GAFT/Sets.v]'s [Sets_HasEqualizers],
+       [Instance/Sets/Coequalizer.v]'s [Sets_HasCoequalizers],
+       [Instance/Sets/Pullback.v]'s [Sets_HasPullbacks] and
+       [Instance/Sets/Pushout.v]'s [Sets_HasPushouts].  The four
        built here come from the general theorem applied to
        [Sets_HasLimitsOfShape]; the four pre-existing ones are direct
        constructions.  NOTHING relates the two -- no isomorphism, no

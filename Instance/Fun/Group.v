@@ -1,4 +1,6 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -47,7 +49,7 @@ Generalizable All Variables.
    [Monoid_Monad : @MonoidObject (Endofunctors C) Compose_Monoidal M
    <-> Monad M] since 2017-05-29, where [Endofunctors C := [C, C]] --
    a monoid object at a functor category, in the build set
-   (_CoqProject:445), and named in Structure/Monoid.v:77, which THIS
+   (_CoqProject), and named in Structure/Monoid.v, which THIS
    FILE Requires.  An earlier revision of this header dated the whole
    claim to f3b797fd and was wrong to; the tensor there is
    [Compose_Monoidal] rather than the pointwise cartesian one used
@@ -145,7 +147,7 @@ Generalizable All Variables.
    natural transformation of [[B, Sets]] has component [fmap[F] id], not
    [id], so each law arrives with a [fmap[T] id] wrapped round one
    argument.  [T_fmap_id] discharges it.  This is the same [nat_id] fact
-   already recorded at Theory/Natural/Transformation.v:220 and consumed
+   already recorded at Theory/Natural/Transformation.v and consumed
    in Construction/Elements/Kan.v and Functor/Representable/Functorial.v.
 
    UNIVERSES, measured in the constraint block AND read off the binder,
@@ -168,6 +170,24 @@ Generalizable All Variables.
    universes stay free throughout.  The [Witness] section's constants
    ([Und], [Z2_triv], [Und_GroupObject]) bind no [B] at all and are
    outside that description.
+
+   RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17).
+   [PointwiseMonoid]'s and [PointwiseGroup]'s own readbacks and their
+   eight-entry blocks are UNCHANGED -- neither record carries a
+   [PropEquiv] and neither gained an equation.  What changed is the
+   [Grp]-valued layer, which now takes the presheaf's pointwise witness
+   [PT] as an argument:
+
+     pointwise_GrpObject@{u u0 u1} :
+       ∀ {B : Category@{u u0 u0}} (T : Functor@{u u0 u0 u1 u0 u0}),
+       (∀ b, PropEquiv@{u0 u0} (is_setoid (fobj b))) →
+       PointwiseGroup@{u u0 u0 u0 u1} T → obj → GrpObject@{u0 u0 u0}
+     (* u0 < u1, plus the four donor bounds *)
+
+   and [PointwiseGrpFunctor@{u u0 u1 u2}] likewise, its block gaining
+   [Set < u2] -- a strict LOWER bound and not an identification, which
+   enters with [Prop]'s own sort through [PropEquiv] and pins nothing.
+   The claim that no record's block carries an equation stands.
 
    The cause is [Fun], and it is guarded rather than asserted: sections
    [UniverseBoundary] and [UniverseBoundary2] declare the levels apart
@@ -622,12 +642,25 @@ Next Obligation. now apply pw_unit_r. Qed.
 Example pointwise_MonObject_carrier (P : PointwiseMonoid T) (b : B) :
   mon_setoid (pointwise_MonObject P b) = T b := eq_refl.
 
+(* RECORDED STRENGTH CHANGE.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) an [Instance/Grp.v] group carries [grp_prop], so turning a
+   PRESHEAF of pointwise groups into a functor into [Grp] asks that the
+   presheaf take its values among the propositional setoids.  [PT] is that
+   hypothesis, and it is threaded through [pointwise_GrpHom],
+   [PointwiseGrpFunctor] and the two [_forgets_] Examples below.  The round
+   trip discharges it for free: [grp_functor_PointwiseGroup] starts from a
+   functor into [Grp], whose values carry [grp_prop] as a field, so
+   [PT := fun b => grp_prop (F b)] -- which is the cleanest evidence that
+   this is the right hypothesis and not an artefact. *)
+Context (PT : forall b : B, PropEquiv (is_setoid (T b))).
+
 Program Definition pointwise_GrpObject (P : PointwiseGroup T) (b : B) :
   GrpObject := {|
   grp_setoid := T b;
   grp_unit   := pw_unit P b;
   grp_mul    := pw_mul P b;
-  grp_inv    := pg_inv P b
+  grp_inv    := pg_inv P b;
+  grp_prop   := PT b
 |}.
 Next Obligation. now apply pw_assoc. Qed.
 Next Obligation. now apply pw_unit_l. Qed.

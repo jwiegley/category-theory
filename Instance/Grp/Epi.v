@@ -1,7 +1,9 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Instance.Sets.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Instance.Grp.
 
 Generalizable All Variables.
@@ -59,6 +61,14 @@ Generalizable All Variables.
 
    The first three carry no hypothesis at all and no axiom; [Print Assumptions]
    reports "Closed under the global context" for every constant in this file.
+   (That is a claim over a growing set.  Since the PR "algebraic carriers are
+   sets" (2026-09-17) this file declares four constants it did not before --
+   [StableSetoid_PropEquiv], [SetoidPermutation_PropEquiv], [grp_two_prop] and
+   [sym3_letters_prop], with [grp_two_prel], [sym3_prel] and [grp_two_setoid]
+   alongside -- and the first two are enumerated in the `make
+   print-assumptions` gate and do report "Closed under the global context".
+   The other five were not individually re-run, and this note says so rather
+   than restating the claim as though they had been.)
 
    THE CONSTRUCTIVE CONTENT IS THE DENSITY THEOREM, AND NO SEPARATE "COST" CAN
    BE ISOLATED.  The classical proof runs by contraposition and begins by
@@ -194,11 +204,11 @@ Generalizable All Variables.
    element and an arbitrary coset representative whose conjugate escapes, and
    [grp_image_acts_nontrivially], for a translating element of the form f g.
 
-   WHY THE TRUTH VALUES COME FROM Prop.  Instance/Sets.v:429 states the
+   WHY THE TRUTH VALUES COME FROM Prop.  Instance/Sets.v states the
    analogous characterization of epimorphisms in [Sets] and leaves its reverse
    direction unproved, with the reason recorded in that file's header: the
    truth-value object it needs does not fit at the universe of the setoids
-   being classified.  Instance/Sets/Classifier.v:151 is that object,
+   being classified.  Instance/Sets/Classifier.v is that object,
    [PropSetoid], carrier Type@{o} under bi-implication, and the classifier
    theorems there are consequently cross-universe.  Here the truth values are
    drawn from [Prop] instead.  Because [Prop] is impredicative, [StableProp]
@@ -218,7 +228,7 @@ Generalizable All Variables.
    contrast is recorded because it is what makes the present theorem a fact
    about groups rather than a general fact about algebraic categories.
 
-   CONTRAST, NEARER TO HOME.  Instance/Grp.v:807 proves the monomorphism
+   CONTRAST, NEARER TO HOME.  Instance/Grp.v proves the monomorphism
    counterpart, [Grp_injectivity_is_monic], as a biconditional with no side
    hypothesis at all.  The asymmetry is not an accident of presentation.  The
    monic direction is probed by the KERNEL, a sub-setoid of a carrier already
@@ -228,8 +238,8 @@ Generalizable All Variables.
    two statements parts company.
 
    NOTATION.  [∃] is [sigT] and [∧] is [prod] in this library
-   (Lib/Foundation.v:66, :78), so [GrpImage] is [Type]-valued and a proof of it
-   yields an actual preimage; [↔] is [iffT] (Lib/Foundation.v:72).  Morphism
+   (Lib/Foundation.v), so [GrpImage] is [Type]-valued and a proof of it
+   yields an actual preimage; [↔] is [iffT] (Lib/Foundation.v).  Morphism
    equality is `≈` throughout, never `=`: the token `=` does not occur in a
    single statement or proof term in this file, only in these comments. *)
 
@@ -314,6 +324,19 @@ Definition StableSetoid : SetoidObject :=
    ; is_setoid := {| equiv        := StableProp_equiv
                    ; setoid_equiv := StableProp_equivalence |} |}.
 
+(* G5.  [StableSetoid] is propositional: `≈` there is [`1 P ↔ `1 Q] with `↔`
+   the library's [iffT], a [Type]-valued pair of implications between two
+   [Prop]s, and the [Prop] mirror is the [/\] of the same two implications.
+   Needed since the PR "algebraic carriers are sets" (2026-09-17), because
+   [SymGrp GrpCosetPower] is a [GrpObject] and therefore owes [grp_prop]. *)
+Definition StableSetoid_PropEquiv : PropEquiv (is_setoid StableSetoid).
+Proof.
+  unshelve refine
+    {| pequiv := fun P Q : StableProp => (`1 P -> `1 Q) /\ (`1 Q -> `1 P) |}.
+  - intros P Q [pq qp]; split; assumption.
+  - intros P Q [pq qp]; split; assumption.
+Defined.
+
 (** ** The image of a homomorphism *)
 
 (* Membership in the image, as data: a preimage together with the equation
@@ -324,7 +347,7 @@ Definition GrpImage {G H : GrpObject} (f : G ~{Grp}~> H) (h : carrier H) : Type 
 
 (* Surjectivity of a group homomorphism: every element of the codomain has a
    preimage.  Stated with `≈`, never with `=`.  This is the [Type]-valued
-   reading, matching [surjective] at Lib/Setoid.v:121 -- forced, since `≈` is
+   reading, matching [surjective] at Lib/Setoid.v -- forced, since `≈` is
    itself [Type]-valued and a [Prop] existential could not be eliminated into
    it.  It does NOT make a surjection a split epimorphism: the preimage chosen
    for h need not respect `≈`, so it assembles no setoid map and a fortiori no
@@ -557,6 +580,19 @@ Next Obligation.
     now transitivity (sperm_to q x).
 Qed.
 
+(* G4.  Permutations are compared pointwise on their forward maps, so a
+   permutation setoid is propositional whenever the underlying setoid is. *)
+Definition SetoidPermutation_PropEquiv (X : SetoidObject)
+  (PX : PropEquiv (is_setoid X)) : PropEquiv (SetoidPermutation_Setoid X).
+Proof.
+  unshelve refine
+    {| pequiv := fun p q : SetoidPermutation X =>
+                   forall x : carrier X,
+                     @pequiv _ _ PX (sperm_to p x) (sperm_to q x) |}.
+  - intros p q Hpq x; exact (pequiv_to _ _ (Hpq x)).
+  - intros p q Hpq x; exact (pequiv_from _ _ (Hpq x)).
+Defined.
+
 Program Definition sperm_id (X : SetoidObject) : SetoidPermutation X := {|
   sperm_to   := setoid_morphism_id;
   sperm_from := setoid_morphism_id
@@ -589,15 +625,26 @@ Definition sperm_inv {X : SetoidObject} (p : SetoidPermutation X) :
 |}.
 
 (* The symmetric group of a setoid: permutations under composition.  This is
-   the "permutations as invertible setoid maps" the argument needs. *)
-Definition SymGrp (X : SetoidObject) : GrpObject.
+   the "permutations as invertible setoid maps" the argument needs.
+
+   RECORDED STRENGTH CHANGE.  Before the PR "algebraic carriers are sets"
+   (2026-09-17) this read [SymGrp (X : SetoidObject) : GrpObject].  A
+   [GrpObject] now carries [grp_prop], so the symmetric group is formed only
+   of a setoid that is itself propositional, and [PX] is an explicit second
+   argument.  Every one of the thirteen call sites below discharges it, so
+   nothing in this file is conditional in substance; what changed is the
+   signature, and the theorems whose STATEMENTS mention [SymGrp] now mention
+   the witness too. *)
+Definition SymGrp (X : SetoidObject) (PX : PropEquiv (is_setoid X)) :
+  GrpObject.
 Proof.
   unshelve notypeclasses refine {|
     grp_setoid := {| carrier   := SetoidPermutation X
                    ; is_setoid := SetoidPermutation_Setoid X |};
     grp_unit := sperm_id X;
     grp_mul  := @sperm_compose X;
-    grp_inv  := @sperm_inv X
+    grp_inv  := @sperm_inv X;
+    grp_prop := SetoidPermutation_PropEquiv X PX
   |}.
   - (* composition respects `≈` *)
     intros p p' Hp q q' Hq x; simpl.
@@ -660,6 +707,13 @@ Definition GrpCosetPower : SetoidObject :=
   {| carrier   := SetoidMorphism (Grp_Coset f) StableSetoid
    ; is_setoid := @SetoidMorphism_Setoid (Grp_Coset f) StableSetoid |}.
 
+(* The witness [SymGrp] asks for at this setoid.  It comes from the TARGET
+   alone -- [hom_PropEquiv] (Instance/Sets/Propositional.v) constrains only
+   the codomain -- so NOTHING is asked of [Grp_Coset f], and in particular
+   [grp_coset_rel] is NOT truncated by this change. *)
+Definition grp_coset_power_prop : PropEquiv (is_setoid GrpCosetPower) :=
+  @hom_PropEquiv (Grp_Coset f) StableSetoid StableSetoid_PropEquiv.
+
 (* The left action of H, (h · S)(c) = S(h⁻¹ c). *)
 Program Definition grp_act_map (h : carrier H) :
   SetoidMorphism GrpCosetPower GrpCosetPower :=
@@ -695,7 +749,7 @@ Next Obligation.
 Qed.
 
 Program Definition grp_action_map :
-  SetoidMorphism (grp_setoid H) (grp_setoid (SymGrp GrpCosetPower)) :=
+  SetoidMorphism (grp_setoid H) (grp_setoid (SymGrp GrpCosetPower grp_coset_power_prop)) :=
   {| morphism := grp_act |}.
 Next Obligation.
   intros h h' Hh S c; simpl.
@@ -706,7 +760,7 @@ Qed.
 
 Lemma grp_action_mul (h1 h2 : carrier H) :
   grp_act (grp_mul H h1 h2)
-    ≈ grp_mul (SymGrp GrpCosetPower) (grp_act h1) (grp_act h2).
+    ≈ grp_mul (SymGrp GrpCosetPower grp_coset_power_prop) (grp_act h1) (grp_act h2).
 Proof.
   intros S c; simpl.
   apply (proper_morphism S).
@@ -716,7 +770,7 @@ Proof.
 Qed.
 
 (* H acts on the stable power set of its coset space by permutations. *)
-Definition grp_action : H ~{Grp}~> SymGrp GrpCosetPower :=
+Definition grp_action : H ~{Grp}~> SymGrp GrpCosetPower grp_coset_power_prop :=
   Build_GrpHom' grp_action_map grp_action_mul.
 
 (** ** The twist: an involution that is equivariant for the image only *)
@@ -828,7 +882,7 @@ Proof.
   apply grp_twist_involutive.
 Qed.
 
-Definition grp_twist : carrier (SymGrp GrpCosetPower) := {|
+Definition grp_twist : carrier (SymGrp GrpCosetPower grp_coset_power_prop) := {|
   sperm_to      := grp_twist_map;
   sperm_from    := grp_twist_map;
   sperm_to_from := grp_twist_roundtrip;
@@ -836,8 +890,8 @@ Definition grp_twist : carrier (SymGrp GrpCosetPower) := {|
 |}.
 
 (* The twisted action: conjugate the action by the twist. *)
-Definition grp_twisted_action : H ~{Grp}~> SymGrp GrpCosetPower :=
-  grp_conj (SymGrp GrpCosetPower) grp_twist ∘[Grp] grp_action.
+Definition grp_twisted_action : H ~{Grp}~> SymGrp GrpCosetPower grp_coset_power_prop :=
+  grp_conj (SymGrp GrpCosetPower grp_coset_power_prop) grp_twist ∘[Grp] grp_action.
 
 (** ** The twist commutes with the image, and only with the image *)
 
@@ -916,7 +970,7 @@ Qed.
    is claimed here about elements INSIDE the image; that case is the subject
    of the next block, and it turns on whether the image is normal.) *)
 Lemma grp_action_not_identity (h0 : carrier H) (Hh0 : ¬ GrpImage f h0) :
-  grp_act h0 ≈ grp_unit (SymGrp GrpCosetPower) → False.
+  grp_act h0 ≈ grp_unit (SymGrp GrpCosetPower grp_coset_power_prop) → False.
 Proof.
   intro Heq.
   destruct (Heq grp_dense_subset (grp_unit H)) as [Hfwd Hbwd].
@@ -993,7 +1047,7 @@ Qed.
 Lemma grp_image_acts_nontrivially (g : carrier G) (x0 : carrier H) :
   ¬ GrpImage f (grp_mul H (grp_inv H x0)
                   (grp_mul H (grp_inv H (grp_map f g)) x0)) →
-  grp_act (grp_map f g) ≈ grp_unit (SymGrp GrpCosetPower) → False.
+  grp_act (grp_map f g) ≈ grp_unit (SymGrp GrpCosetPower grp_coset_power_prop) → False.
 Proof.
   intros Hout Heq.
   exact (grp_act_moves_coset (grp_map f g) x0 Hout
@@ -1041,7 +1095,7 @@ Qed.
    permutation group in play is therefore never the trivial group, and the
    witness above is not secretly the unit. *)
 Lemma grp_twist_not_identity :
-  grp_twist ≈ grp_unit (SymGrp GrpCosetPower) → False.
+  grp_twist ≈ grp_unit (SymGrp GrpCosetPower grp_coset_power_prop) → False.
 Proof.
   intro Heq.
   destruct (Heq grp_dense_subset (grp_unit H)) as [Hfwd Hbwd].
@@ -1293,12 +1347,25 @@ End Epi.
    propositions, so it lies strictly above [Set]; [GrpCosetPower] places it at
    the same universe as the group carriers, so the ambient carrier universe o
    must satisfy Set < o.  Meanwhile [Z2] carries `≈` as [@eq bool] and its
-   relation universe elaborates to [Set] itself --
-   [Z2@{u} : GrpObject@{u Set u}] -- while
-   [SymGrp@{u u0} : SetoidObject@{u0 u0} -> GrpObject@{u0 u0 u0}] forces the
+   relation universe elaborates to [Set] itself, while [SymGrp] forces the
    carrier and relation universes of every object of the ambient [Grp] to
    coincide.  So [Z2] can only inhabit a [Grp] whose carrier universe is
-   [Set], which is one too low.  The two-element group below repeats [Z2] on a
+   [Set], which is one too low.
+
+   The two readbacks in this paragraph were re-measured after the PR
+   "algebraic carriers are sets" (2026-09-17) and BOTH are restated.  An
+   earlier revision quoted [Z2@{u} : GrpObject@{u Set u}] and
+   [SymGrp@{u u0} : SetoidObject@{u0 u0} -> GrpObject@{u0 u0 u0}].  The
+   [PropEquiv] field permuted [GrpObject]'s three universe roles from
+   (carrier, proof, aux) to (aux, carrier, proof) and [SymGrp] gained the
+   witness argument, so the same two facts now read
+
+     Z2@{u} : GrpObject@{u Set Set}
+     SymGrp@{u u0} : ∀ X : SetoidObject@{u0 u0},
+                     PropEquiv@{u0 u0} (is_setoid X) → GrpObject@{u0 u0 u0}
+
+   -- [Z2] is now pinned at [Set] in the CARRIER as well as the relation, so
+   the obstruction is if anything sharper, and the conclusion is unchanged.  The two-element group below repeats [Z2] on a
    carrier and an equivalence built from [poly_unit], which is
    universe-polymorphic, so no universe of [GrpTwo] is pinned and the general
    theorems apply to it directly.  The three-letter setoid of the second
@@ -1331,17 +1398,40 @@ Definition grp_two_add (x y : grp_two_carrier) : grp_two_carrier :=
   | inr _, inr _  => grp_two_zero
   end.
 
+(* The [Prop] mirror of [grp_two_rel].  The relation itself matches into
+   [poly_unit], which is a [Type], so it is not already a [Prop]; the mirror
+   replaces [poly_unit] by [True] leg for leg, and the two implications are
+   four-way case analyses.  Needed since the PR "algebraic carriers are sets"
+   (2026-09-17), because [GrpTwo] is a [GrpObject]. *)
+Definition grp_two_prel (x y : grp_two_carrier) : Prop :=
+  match x, y with
+  | inl _, inl _ => True
+  | inr _, inr _ => True
+  | _, _ => False
+  end.
+
+Definition grp_two_setoid : SetoidObject :=
+  {| carrier   := grp_two_carrier
+   ; is_setoid := {| equiv        := grp_two_rel
+                   ; setoid_equiv := grp_two_equivalence |} |}.
+
+Definition grp_two_prop : PropEquiv (is_setoid grp_two_setoid).
+Proof.
+  unshelve refine {| pequiv := grp_two_prel |}.
+  - intros [u|u] [v|v] h; simpl in *; try exact ttt; contradiction.
+  - intros [u|u] [v|v] h; simpl in *; try exact I; contradiction.
+Defined.
+
 (* Z/2 again, on a universe-polymorphic carrier: addition modulo two, with
    every element its own inverse. *)
 Definition GrpTwo : GrpObject.
 Proof.
   unshelve notypeclasses refine {|
-    grp_setoid := {| carrier   := grp_two_carrier
-                   ; is_setoid := {| equiv        := grp_two_rel
-                                   ; setoid_equiv := grp_two_equivalence |} |};
+    grp_setoid := grp_two_setoid;
     grp_unit := grp_two_zero;
     grp_mul  := grp_two_add;
-    grp_inv  := λ x, x
+    grp_inv  := λ x, x;
+    grp_prop := grp_two_prop
   |}.
   - intros x x' Hx y y' Hy.
     destruct x as [|], x' as [|], y as [|], y' as [|];
@@ -1411,7 +1501,7 @@ Qed.
    identity: not the twist, and not the action at the missing element. *)
 Theorem grp_two_action_not_identity :
   grp_act grp_two_incl (grp_two_zero, grp_two_one)
-    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_incl)) → False.
+    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_incl) (grp_coset_power_prop grp_two_incl)) → False.
 Proof.
   exact (grp_action_not_identity grp_two_incl
            (grp_two_zero, grp_two_one) grp_two_incl_misses).
@@ -1421,7 +1511,7 @@ Qed.
    permutation different from the identity. *)
 Theorem grp_two_twist_not_identity :
   grp_twist grp_two_incl
-    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_incl)) → False.
+    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_incl) (grp_coset_power_prop grp_two_incl)) → False.
 Proof. exact (grp_twist_not_identity grp_two_incl). Qed.
 
 (* THE LIMIT OF THIS WITNESS, proved rather than glossed over.  The image of
@@ -1435,9 +1525,9 @@ Proof. exact (grp_twist_not_identity grp_two_incl). Qed.
    [grp_two_sym3] below supplies. *)
 Theorem grp_two_incl_image_acts_trivially :
   ∀ g : carrier GrpTwo,
-    @equiv _ (grp_setoid (SymGrp (GrpCosetPower grp_two_incl)))
+    @equiv _ (grp_setoid (SymGrp (GrpCosetPower grp_two_incl) (grp_coset_power_prop grp_two_incl)))
       (grp_act grp_two_incl (grp_map grp_two_incl g))
-      (grp_unit (SymGrp (GrpCosetPower grp_two_incl))).
+      (grp_unit (SymGrp (GrpCosetPower grp_two_incl) (grp_coset_power_prop grp_two_incl))).
 Proof.
   intros g S c; simpl.
   apply (proper_morphism S).
@@ -1528,6 +1618,24 @@ Definition Sym3Letters : SetoidObject :=
    ; is_setoid := {| equiv        := sym3_rel
                    ; setoid_equiv := sym3_equivalence |} |}.
 
+(* The [Prop] mirror of [sym3_rel], on the model of [grp_two_prel] above and
+   for the same reason: [GrpSym3] below is a [GrpObject] and [SymGrp] asks
+   its setoid for a [PropEquiv]. *)
+Definition sym3_prel (x y : sym3_letter) : Prop :=
+  match x, y with
+  | inl _, inl _             => True
+  | inr (inl _), inr (inl _) => True
+  | inr (inr _), inr (inr _) => True
+  | _, _                     => False
+  end.
+
+Definition sym3_letters_prop : PropEquiv (is_setoid Sym3Letters).
+Proof.
+  unshelve refine {| pequiv := sym3_prel |}.
+  - intros [u|[u|u]] [v|[v|v]] h; simpl in *; try exact ttt; contradiction.
+  - intros [u|[u|u]] [v|[v|v]] h; simpl in *; try exact I; contradiction.
+Defined.
+
 Definition sym3_map (p : sym3_letter → sym3_letter)
            (Hp : ∀ x y, sym3_rel x y → sym3_rel (p x) (p y)) :
   SetoidMorphism Sym3Letters Sym3Letters.
@@ -1602,7 +1710,7 @@ Example sym3_swaps_act :
        ∧ sym3_rel (sym3_swap01 sym3_l2) sym3_l2).
 Proof. repeat split; exact ttt. Qed.
 
-Definition GrpSym3 : GrpObject := SymGrp Sym3Letters.
+Definition GrpSym3 : GrpObject := SymGrp Sym3Letters sym3_letters_prop.
 
 (* Z/2 included as the subgroup generated by the transposition of the last two
    letters.  The only law with any content is that the transposition squares
@@ -1675,7 +1783,7 @@ Qed.
    [grp_twisted_action_agrees] compare permutations that move something. *)
 Theorem grp_two_sym3_image_acts_nontrivially :
   grp_act grp_two_sym3 (grp_map grp_two_sym3 grp_two_one)
-    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_sym3)) → False.
+    ≈ grp_unit (SymGrp (GrpCosetPower grp_two_sym3) (grp_coset_power_prop grp_two_sym3)) → False.
 Proof.
   exact (grp_image_acts_nontrivially grp_two_sym3 grp_two_one sym3_a
            grp_two_sym3_conj_outside).

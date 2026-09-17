@@ -157,7 +157,7 @@ Generalizable All Variables.
 
    ** Engineering findings
 
-   [Lib.v:12] sets [Uniform Inductive Parameters] for the whole
+   [Lib.v] sets [Uniform Inductive Parameters] for the whole
    development, so inside the body of [Inductive Sent (V : Type)] the
    name [Sent] already stands for [Sent V]; writing the parameter
    explicitly there is rejected with "Illegal application
@@ -173,7 +173,7 @@ Generalizable All Variables.
    qualified name, since that module is already loaded transitively.
 
    [lind_thin] is proved here in one term rather than by requiring
-   [Instance/Proset/Order.v:153]'s [proset_thin], which is the donor and
+   [Instance/Proset/Order.v]'s [proset_thin], which is the donor and
    applies to [Lind T] by conversion.  That is a measurement, not a
    preference: the transitive in-project closure of this file is 27
    modules, and adding [Instance/Proset/Order] takes it to 35. *)

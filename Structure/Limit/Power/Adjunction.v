@@ -277,12 +277,21 @@ Generalizable All Variables.
    NO word-bounded [Set] occurs in the binder or the block of ANY of the
    seven constants measured ([power_fmap], [Power_Functor], [Copower_Functor],
    [power_functor_ev], [copower_functor_inj], [cp_adj_iso],
-   [Copower_Power_Adjunction]).  That is strictly better than the limit-shaped
-   route: [power_of_limit@{u u0 u1}] reads
-   [∀ {C : Category@{u1 Set Set}} …], pinning [C]'s hom AND proof to the
-   literal [Set] in its binder.  Going through the CLASS
-   ([power]/[power_ev]/[power_ump]) rather than through
-   [Limit (DiscreteCat_Functor …)] avoids that pin entirely.
+   [Copower_Power_Adjunction]).  RECORDED CORRECTION: an earlier revision
+   continued "That is strictly better than the limit-shaped route:
+   [power_of_limit@{u u0 u1}] reads [∀ {C : Category@{u1 Set Set}} …],
+   pinning [C]'s hom AND proof to the literal [Set] in its binder.  Going
+   through the CLASS ([power]/[power_ev]/[power_ump]) rather than through
+   [Limit (DiscreteCat_Functor …)] avoids that pin entirely."  The
+   comparison no longer holds, because the pin is gone:
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v
+   in the PR "algebraic carriers are sets" (2026-09-17), and the
+   limit-shaped route now carries no literal [Set] either
+   (Structure/Limit/Power.v's own universe note records the measurement).
+   The class route is still preferred, but for the identification the
+   limit-shaped route carries rather than for a [Set] floor: [Limit] ties
+   the discrete shape's hom and proof universes to the ambient's, and the
+   class imposes no such tie.
 
    AN ENGINEERING FINDING, RECORDED BECAUSE IT COST A COMPILE
 
@@ -364,7 +373,7 @@ Generalizable All Variables.
    Structure/Limit/Weighted.v presents a limit by a WEIGHT.  The power is the
    weighted limit over the TERMINAL SHAPE [_1] whose WEIGHT picks out the
    index SET and whose DIAGRAM is constant at [b].  [conical_weighted]
-   (Weighted.v:354) is NOT this theorem and is not cited as though it were:
+   (Weighted.v) is NOT this theorem and is not cited as though it were:
    it is the CONSTANT weight over an ARBITRARY shape, i.e. weighted ⇒
    ordinary limit, which is the conical case and says nothing about powers.
 
@@ -441,10 +450,10 @@ Generalizable All Variables.
    scope: THAT action over [Sets] is refuted outright rather than merely
    recorded as a proof that does not go through; no other arrow action with
    the same object action is investigated, and none is claimed refuted.
-   #321's own Power/Hom.v:104-107 anticipates the same
-   fact for its bijections -- ":105  the index of [HasIndexedCoproducts] is a
-   bare [Type]", ":106  No claim is made about a coarser setoid on the
-   index" -- and this is that fact, refuted.
+   #321's own Power/Hom.v anticipates the same
+   fact for its bijections -- its header records that the index of
+   [HasIndexedCoproducts] is a bare [Type], and that no claim is made about
+   a coarser setoid on the index -- and this is that fact, refuted.
 
    ────────────────────────────────────────────────────────────────────────
 
@@ -493,7 +502,7 @@ Generalizable All Variables.
    [C]'s own [≈].  [HomAllStrict C] is exactly where they coincide.
 
    ★ IT IS NOT A NEW HYPOTHESIS AND IS NOT REDECLARED.
-   Construction/Comma/Special.v:395 already carries [HomStrict], at a FIXED
+   Construction/Comma/Special.v already carries [HomStrict], at a FIXED
    pair of objects, for its own [Full] criterion; that name is CONSUMED here
    and quantified over all objects ([HomAllStrict C := ∀ x y, HomStrict x y])
    at a marginal cost of 4 modules.  The collision was found by sweeping this
@@ -504,7 +513,7 @@ Generalizable All Variables.
    per-hom-set form is refutable, which is the boundary of the hypothesis.
 
    ★ AND THE HYPOTHESIS IS INHABITED IN TREE, WHICH IS BETTER THAN THE
-   OBVIOUS GUESS.  [_1]'s hom-setoid IS [Morphism_equality] (Instance/One.v:32),
+   OBVIOUS GUESS.  [_1]'s hom-setoid IS [Morphism_equality] (Instance/One.v),
    so [One_HomAllStrict] is the identity implication, and [_1] has all
    indexed products and coproducts trivially ([One_HasIndexedProducts] and
    [One_HasIndexedCoproducts] are three-line record literals over an
@@ -640,7 +649,7 @@ Generalizable All Variables.
    it).  TWO REAL
    COLLISIONS were found before landing and BOTH were resolved by consuming
    the donor rather than by renaming: [HomStrict] and [One_HomStrict] are
-   Construction/Comma/Special.v:395/:617.
+   Construction/Comma/Special.v.
 
    Test/ProbeCopower366.v mirrors this file's full [Require] list and carries
    FIFTEEN refutation commands = 1 instrument check + 14 negatives of THREE
@@ -1430,7 +1439,7 @@ Arguments Copower_Bifunctor_Iso {C HC} J.
     argument rather than hidden.  It is inhabited in tree -- degenerately,
     by the terminal category, whose hom-setoid IS [Morphism_equality]. *)
 
-(* [Construction/Comma/Special.v:395] already declares this hypothesis at a
+(* [Construction/Comma/Special.v] already declares this hypothesis at a
    FIXED pair of objects, for exactly this reason (its [Full] criterion for
    the discrete-hom comparison), so it is CONSUMED here and quantified over
    all objects rather than redeclared.  Its [Blur_HomStrict_absurd] is a
@@ -1578,9 +1587,9 @@ Arguments Ex1_Bifunctor {C HC}.
 
 (* ** [HomAllStrict] is inhabited in tree, degenerately
 
-   [_1]'s hom-setoid IS [Morphism_equality] (Instance/One.v:32), so
+   [_1]'s hom-setoid IS [Morphism_equality] (Instance/One.v), so
    [HomAllStrict _1] is the identity implication -- which is also the donor's
-   own [One_HomStrict] (Construction/Comma/Special.v:617), there at the
+   own [One_HomStrict] (Construction/Comma/Special.v), there at the
    single object pair.  The witness exercises the
    HYPOTHESES and the assembly, not the conclusion: everything in [1]
    collapses to [ttt]. *)

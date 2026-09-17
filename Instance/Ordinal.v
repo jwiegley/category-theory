@@ -148,7 +148,7 @@ Generalizable All Variables.
    [FreeOnQuiver (LinQuiver m) ≅[StrictCat] Ordinal m] for every m, the
    empty ordinal included.  That statement is pinned to
    [Category@{Set Set Set}] -- the free side's universes are forced there
-   by [Build_Quiver_Standard_Eq] (Construction/Free/Quiver.v:194), whose
+   by [Build_Quiver_Standard_Eq] (Construction/Free/Quiver.v), whose
    result type is [Quiver@{u u0 Set}] -- whereas [Ordinal@{o h p}] here
    stays polymorphic, so the identification does not narrow this family.
    Over a fixed

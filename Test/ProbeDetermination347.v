@@ -30,7 +30,7 @@ Generalizable All Variables.
     couniversal arrow DO reduce to [eq_refl], because they are transparent
     projections of the transparent [couniversal_arrow_from_UMP], while the
     MEDIATOR does not, because it is read out of [ump_couniversal_arrows]
-    whose primal donor [ump_universal_arrows] (Theory/Universal/Arrow.v:139)
+    whose primal donor [ump_universal_arrows] (Theory/Universal/Arrow.v)
     is closed with [Qed].  Controls and negative therefore sit on the SAME
     object, which is what makes the attribution meaningful rather than a
     guess about opacity in general. *)

@@ -55,7 +55,7 @@ Generalizable All Variables.
      (c) [components_IsALimit]: a limit over any shape carrying a
          decomposition is a product of limits over connected shapes.
 
-     ( ) [xfer_IsALimit]: a FULL, ESSENTIALLY SURJECTIVE functor of
+      [xfer_IsALimit]: a FULL, ESSENTIALLY SURJECTIVE functor of
          shapes transfers limits.  Faithfulness is not consumed.
 
    1. A PRIOR-ART CORRECTION.  The catalog issue states that "no
@@ -67,7 +67,7 @@ Generalizable All Variables.
       [Definition Connected (C : Category)] for an ARBITRARY category,
       together with [zigzag_trans], [zigzag_sym] and [hom_zigzag].
       Theory/Connected/Components.v REUSES them -- it Requires that
-      module at its line 14 and declares neither -- and so does this
+      module and declares neither -- and so does this
       file.  Nothing here redeclares a zig-zag.
 
    2. THE CENTRAL ABSENCE IS REAL, AND MEASURED BY CONSUMER RATHER THAN
@@ -78,12 +78,12 @@ Generalizable All Variables.
       of shapes.  An earlier revision of this paragraph said "none of the
       three mentions a limit or a cone", and the LIMIT half of that is
       FALSE: all three mention [Limit], 2, 11 and 2 times, in [Require]
-      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v:37-59 is
+      lines and in NOT-delivered prose (Instance/Cat/Coproduct.v is
       a numbered section headed "THE [Colimit] READING IS NOT
       DELIVERED").  The CONE half stands -- zero hits in all three -- and
       the conclusion is unaffected, but the evidence as first stated was
       wrong.  The near-hit a
-      name search does return, Structure/Limit/Coproduct.v:113's
+      name search does return, Structure/Limit/Coproduct.v's
       [colimit_is_indexed_coproduct], is a different statement: it
       reads a COLIMIT OVER A DISCRETE DIAGRAM as an indexed coproduct
       OF OBJECTS, and no coproduct of index CATEGORIES occurs in it.
@@ -109,7 +109,7 @@ Generalizable All Variables.
       along a quasi-inverse -- not done here.
 
       The decomposition is therefore packaged as DATA, on the model of
-      Theory/Skeleton.v:355's [Skeleton] record, which carries a chosen
+      Theory/Skeleton.v's [Skeleton] record, which carries a chosen
       representative [skel_rep] together with a uniqueness field
       [skel_uniq].  [ComponentDecomposition] carries [cd_rep] (a chosen
       representative per index), [cd_part] (the index of an object),
@@ -187,25 +187,37 @@ Generalizable All Variables.
       is free of the category's, which is what lets the index be as
       large as the object type.
 
-      [coprod_IsALimit_iprod] is where the [Set] pin arrives, and it is
-      WIDER than the donor's binder alone suggests: [iprod] is declared
-      over [C : Category@{_ Set Set}], and because [IsALimit] identifies
-      the shapes' hom-and-proof universe with the ambient's, the pin
-      propagates to the SHAPES too -- the corollary reads
-      [J : I → Category@{u0 Set Set}] and [C : Category@{u3 Set Set}].
-      That is exactly why the elementary [IsIndexedProduct] form is
-      stated first and the [iprod] reading is a corollary; it is
-      inherited, is not repaired, and is NOT claimed unavoidable.
-      Section [UniversePin] GUARDS the measurement rather than leaving
-      it in prose.
+      [coprod_IsALimit_iprod] IS THE PLACE TO READ THE FORMER [Set] PIN,
+      AND THE PIN IS GONE.  An earlier revision of this paragraph said
+      the pin "arrives" here and is "WIDER than the donor's binder alone
+      suggests", quoting [iprod] as declared over
+      [C : Category@{_ Set Set}] and the corollary as reading
+      [J : I → Category@{u0 Set Set}] and [C : Category@{u3 Set Set}];
+      it added that the pin "is inherited, is not repaired, and is NOT
+      claimed unavoidable".  The first half was a correct reading of the
+      tree of the time and the last clause was right: the pin was a
+      universe-minimization artifact of Instance/Discrete.v's
+      [DiscreteCat_Functor], reaching [iprod] through [Limit]'s
+      identification of the shape's hom-and-proof universe with the
+      ambient's.  That donor was annotated in place in the PR "algebraic
+      carriers are sets" (2026-09-17), so no literal [Set] reaches this
+      corollary any more.  The elementary [IsIndexedProduct] form is
+      still stated first and the [iprod] reading is still a corollary --
+      that ordering was never only about [Set] -- and Section
+      [UniversePin] below now GUARDS the repair: the same two lines that
+      used to refuse over homs strictly above [Set] are kept there as
+      positive controls.
 
-   7. NEGATIVES: FOUR, OF TWO KINDS, KEPT LEXICALLY APART.  Two are
-      FORMABILITY -- [iprod] and [coprod_IsALimit_iprod] are each
+   7. NEGATIVES: TWO, BOTH CONVERSION.  An earlier revision of this item
+      read "FOUR, OF TWO KINDS, KEPT LEXICALLY APART" and described two
+      FORMABILITY negatives -- [iprod] and [coprod_IsALimit_iprod]
       rejected over a category whose homs are declared strictly above
-      [Set], each ending "universe inconsistency: Cannot enforce
-      Set = uh", against three controls accepted at those very levels
-      ([IsIndexedProduct], [IsALimit] over a [SigmaCat] shape, and
-      [coprod_IsALimit] itself).  Two are CONVERSION -- [sigma_obj_eta],
+      [Set], "each ending "universe inconsistency: Cannot enforce
+      Set = uh"" -- against three controls.  Those two are now ACCEPTED
+      at those very levels and stand in Section [UniversePin] as
+      controls beside the original three (item 6); the correction is
+      recorded here rather than made silently.  What remains are the two
+      CONVERSION negatives.  [sigma_obj_eta],
       which records that an object of a coproduct of categories is NOT
       convertible with the pair of its projections (this is why
       [coprod_leg] is a [match] with a return annotation; its control
@@ -470,11 +482,18 @@ Definition coprod_IsALimit_HasIndexedProducts {I : Type} {J : I → Category}
 
 (* The [iprod] reading the issue's reviewer check asks for: the right-hand
    side is [Structure/Limit/Product.v]'s own product operator, not a
-   bespoke one.  IT INHERITS THAT DONOR'S UNIVERSE PIN -- [iprod] is
-   defined over [Limit (DiscreteCat_Functor f)] and so is declared at
+   bespoke one.  RECORDED CORRECTION: an earlier revision continued "IT
+   INHERITS THAT DONOR'S UNIVERSE PIN -- [iprod] is defined over
+   [Limit (DiscreteCat_Functor f)] and so is declared at
    [C : Category@{_ Set Set}], where [coprod_IsALimit] above leaves both
-   levels free.  That is the reason the elementary form is stated first
-   and this one is a corollary rather than the headline. *)
+   levels free."  The pin is gone: the donor was annotated in place at
+   Instance/Discrete.v in the PR "algebraic carriers are sets"
+   (2026-09-17), and [iprod@{u u0 u1 u2 u3}] is now declared over
+   [C : Category@{u1 u2 u2}].  What it still inherits is [Limit]'s
+   IDENTIFICATION of the discrete shape's hom-and-proof universe with the
+   ambient's, where [coprod_IsALimit] above leaves the two apart; that,
+   rather than a [Set] floor, is why the elementary form is stated first
+   and this one is a corollary. *)
 
 Definition coprod_IsALimit_iprod {I : Type} {J : I → Category}
   {C : Category} (F : SigmaCat J ⟶ C)
@@ -502,7 +521,7 @@ Example coprod_IsALimit_iprod_leg {I : Type} {J : I → Category}
 (** ** Part (b): the decomposition of a category into its components *)
 
 (* A DECOMPOSITION OF [C] INTO CONNECTED COMPONENTS, PACKAGED AS DATA.
-   The design follows Theory/Skeleton.v:355's [Skeleton] record exactly:
+   The design follows Theory/Skeleton.v's [Skeleton] record exactly:
    an index type, a CHOSEN representative for each index, the assignment
    of an index to each object, a chain joining every object to its
    representative, and a uniqueness clause.  It is data and not a
@@ -1033,7 +1052,7 @@ Definition no_ESO_into_naive_pi0_sum (F : _2 ⟶ naive_pi0_sum) :
 (** ** Non-vacuity, part 3: part (a) computing in [Coq] *)
 
 (* The constant functor out of the point.  Named [coq_point] rather than
-   [One_Const], which Theory/Shapes.v:262 already takes for the DIFFERENT
+   [One_Const], which Theory/Shapes.v already takes for the DIFFERENT
    functor [C ⟶ [_1, C]]; that module is deliberately not required here,
    its identifications being pinned at [Category@{_ Set Set}]. *)
 
@@ -1135,11 +1154,26 @@ Proof. discriminate. Qed.
 
 (** ** Measured boundaries, pinned *)
 
-(* The universe pin of the [iprod] reading, GUARDED rather than merely
-   measured.  Over a category whose homs are declared strictly above
-   [Set] the elementary statements elaborate and the [iprod] ones do
-   not, so the pin is attributable to the donor [iprod] and not to
-   anything this file adds. *)
+(* The universe placement of the [iprod] reading, GUARDED rather than
+   merely measured.
+
+   RECORDED CORRECTION.  An earlier revision stated this section as two
+   NEGATIVES: over a category whose homs are declared strictly above
+   [Set] the elementary statements elaborated and the two [iprod] ones
+   were refused, and the section concluded that the pin was attributable
+   to the donor [iprod].  The attribution was one step short.  [iprod]
+   itself was never [Set]-pinned; it inherited the pin from
+   [DiscreteCat_Functor], which was declared with bare binders and
+   minimized to [DiscreteCat@{u Set Set}], and which [Limit] (unlike
+   [Cone]) identifies with the AMBIENT hom-and-proof universe.
+
+   In the PR "algebraic carriers are sets" (2026-09-17)
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v,
+   and both lines below are now ACCEPTED.  They are kept as positive
+   controls at exactly the levels that used to refuse them, so this
+   section now guards the repair rather than the pin: were the annotation
+   ever dropped, these two would refuse again and this file would stop
+   compiling. *)
 
 Section UniversePin.
 
@@ -1161,17 +1195,17 @@ Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
            (p : Cu) (pr : ∀ k : bool, p ~{Cu}~> L k)
            (HP : IsIndexedProduct L p pr) => coprod_IsALimit F HL HP).
 
-(* Negative: the donor's product operator is not formable here. *)
+(* The donor's product operator IS formable here. *)
 
-Fail Check (fun (A : Type) (f : A → Cu)
-                (P : Limit (DiscreteCat_Functor f)) => iprod f P).
+Check (fun (A : Type) (f : A → Cu)
+           (P : Limit (DiscreteCat_Functor f)) => iprod f P).
 
-(* ... and neither, therefore, is the corollary stated over it. *)
+(* ... and so, therefore, is the corollary stated over it. *)
 
-Fail Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
-                (HL : ∀ k : bool, IsALimit (summand F k) (L k))
-                (P : Limit (DiscreteCat_Functor L)) =>
-              coprod_IsALimit_iprod F HL P).
+Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
+           (HL : ∀ k : bool, IsALimit (summand F k) (L k))
+           (P : Limit (DiscreteCat_Functor L)) =>
+         coprod_IsALimit_iprod F HL P).
 
 End UniversePin.
 

@@ -80,7 +80,7 @@ Generalizable All Variables.
      [iprod_jointly_monic] is NOT new, and an earlier revision of this
      header claimed it was on the strength of a search for the NAME
      [jointly_monic] -- the exact trap this tree's own conventions warn
-     against.  Structure/Bicartesian/Matrix.v:356 already has
+     against.  Structure/Bicartesian/Matrix.v already has
      [iprod_ext], the same statement for indexed products with
      essentially the same proof, plus the dual [icoprod_ext].  What is
      true, and is the honest reason for restating it, is that
@@ -94,21 +94,21 @@ Generalizable All Variables.
    PRIOR ART -- CITED, NOT DUPLICATED
 
      The BINARY case is [Functor_Category_Cartesian]
-     (Instance/Fun/Cartesian.v:111).  It is not re-proved and not
+     (Instance/Fun/Cartesian.v).  It is not re-proved and not
      subsumed; it is COMPARED, see below.
 
      The general pointwise-limits fact was stated in PROSE in at least
      three places (since repointed at Instance/Fun/Limit.v, which proves it):
-     Structure/Cartesian/Product.v:32-35 ("the general fact that limits
+     Structure/Cartesian/Product.v ("the general fact that limits
      in a functor category [J, D] are computed pointwise whenever D has
-     them"), Instance/Fun.v:27-28 and :101-104, and
-     Instance/Fun/Cartesian.v:17-19, which quotes the nLab for it.  What
+     them"), Instance/Fun.v, and
+     Instance/Fun/Cartesian.v, which quotes the nLab for it.  What
      was absent at that time was any Coq statement beyond the binary product:
      re-verified on this commit, no [Terminal] instance existed for ANY
      functor category (sweep of every declaration whose name or type
      mentions [Terminal]), and no pointwise indexed products existed
      anywhere -- [HasIndexedProducts] had exactly one instance,
-     [Sets_HasIndexedProducts] (Instance/Sets/Products.v:302), plus the
+     [Sets_HasIndexedProducts] (Instance/Sets/Products.v), plus the
      [C^op] repackaging in Structure/Limit/Coproduct.v.
 
      [Functor/Diagonal.v]'s [Diagonal] already carries a constant functor
@@ -141,7 +141,7 @@ Generalizable All Variables.
      [exl]/[exr] as the two projections.  Instantiated at
      [Functor_Category_Cartesian] it gives a second [IsIndexedProduct] of
      the same family, and [iprod_unique_iso]
-     (Structure/Limit/Product/Finite.v:545) does the rest.  Its own
+     (Structure/Limit/Product/Finite.v) does the rest.  Its own
      constraint block is character-for-character [IsIndexedProduct]'s, so
      it adds no universe content.
 
@@ -278,16 +278,26 @@ Generalizable All Variables.
      [J : Category@{u0 u1 u2}] and [C : Category@{u3 u4 u5}], all six
      apart.  [IsALimit] and [Limit] are not: both are over
      [J : Category@{u0 u1 u1}] and [C : Category@{u2 u1 u1}], identifying
-     the shape's hom and proof with the ambient's.  [DiscreteCat_Functor]
-     (Instance/Discrete.v:52) is unannotated and instantiates
+     the shape's hom and proof with the ambient's.  RECORDED CORRECTION:
+     an earlier revision continued "[DiscreteCat_Functor]
+     (Instance/Discrete.v) is unannotated and instantiates
      [DiscreteCat@{u Set Set}] while leaving C's hom free.  It takes BOTH
      to bite: [Limit (DiscreteCat_Functor f)] elaborates only at
      [C : Category@{u1 Set Set}], measured on this commit.  So the [Set]
-     pin is not the functor's alone.  Read the [Cone] half NARROWLY: the
+     pin is not the functor's alone."  The functor was annotated in place
+     at Instance/Discrete.v in the PR "algebraic carriers are sets"
+     (2026-09-17), and measured after it [iprod@{u u0 u1 u2 u3}] is
+     stated over [C : Category@{u1 u2 u2}] -- no [Set] remains, and
+     [Limit (DiscreteCat_Functor f)] elaborates with C's hom universe
+     free.  What SURVIVES is the other half of the same diagnosis: the
+     [IsALimit]/[Limit] identification above still ties the discrete
+     shape's hom and proof universes to the ambient's, and that
+     identification, not a [Set] floor, is now the whole content of this
+     paragraph.  Read the [Cone] half NARROWLY: the
      RECORD is innocent, but that licenses no claim that [IsALimit] and
      [Limit] are the only other donors, and they are not --
-     [cone_leg] (Structure/Limit/Preservation.v:108) and [IsLimitCone]
-     (:166) identify the shape's hom and proof with the ambient's in
+     [cone_leg] (Structure/Limit/Preservation.v) and [IsLimitCone]
+     identify the shape's hom and proof with the ambient's in
      exactly the same way, so CONE VOCABULARY is among the donors even
      though the record is not.  Structure/Limit/Initial.v's own header
      already warns that an [ACone] control rules out only [ACone]/[Cone];

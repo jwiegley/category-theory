@@ -33,14 +33,14 @@ Generalizable All Variables.
    arrow.
 
    Both endpoints are already in the tree and neither is rebuilt here.
-   An object of the arrow category [Arrow C] (Construction/Arrow.v:131,
+   An object of the arrow category [Arrow C] (Construction/Arrow.v,
    the comma [Id[C] ↓ Id[C]]) is a triple (a, b; f) with f : a ~> b, and
    a morphism (a,b;f) ~> (a',b';f') is a pair (h1, h2) with the square
    f' ∘ h1 ≈ h2 ∘ f, two such being identified when their COMPONENTS
    agree, the square proof being irrelevant to ≈.  A parallel pair in C
    is an object of the functor category [[Parallel, C]] over
-   Instance/Parallel.v:80's walking parallel pair -- the site
-   Adjunction/Diagonal/Finite.v:709's [EqualizerFunctor] already uses --
+   Instance/Parallel.v's walking parallel pair -- the site
+   Adjunction/Diagonal/Finite.v's [EqualizerFunctor] already uses --
    and a morphism of parallel pairs is a [Transform], its naturality at
    the two non-identity arrows being exactly the two squares.
 
@@ -55,14 +55,14 @@ Generalizable All Variables.
        (a component equation, or [fmap_id]) and one appeal to a
        universal property's uniqueness clause: the three on the
        cokernel-pair side spend [ckp_fmap_Y_unique], which is
-       Theory/Morphisms/CokernelPair.v:455's [ckp_med_unique]
+       Theory/Morphisms/CokernelPair.v's [ckp_med_unique]
        specialized to this file's mediator, and the three on the
        equalizer side spend [eqa_fmap1_unique], which is the
-       [uniqueness] of Structure/Equalizer/Fork.v:58's [eq_desc].
+       [uniqueness] of Structure/Equalizer/Fork.v's [eq_desc].
      - [CokernelPair_Equalizer_Adjunction : CokernelPairFunctor ⊣
-       EqualizerArrowFunctor], built with Theory/Adjunction.v:159's
+       EqualizerArrowFunctor], built with Theory/Adjunction.v's
        [Build_Adjunction'] (the hom-setoid isomorphism plus TWO
-       naturality clauses; the full [Class Adjunction] at :133 wants
+       naturality clauses; the full [Class Adjunction] wants
        four, and [Build_Adjunction'] derives the other two).
      - The unit and counit by name -- [cokernel_pair_unit] and
        [cokernel_pair_counit] -- since the exercise is really about
@@ -84,26 +84,26 @@ Generalizable All Variables.
 
    THE ISSUE'S "Current state" IS STALE.  It reports that there is no
    cokernel-pair construction at all; there has been one since #323.
-   Theory/Morphisms/CokernelPair.v:409 declares
+   Theory/Morphisms/CokernelPair.v declares
 
        cokernel_pair `{HasPushouts C} (f : x ~> y) : IsPushout f f
          := pushout f f
 
-   with the accessor family [ckp_obj] (:428), [ckp_left]/[ckp_right]
-   (:432/:433), [ckp_commutes] (:436), [ckp_ump] (:440), [ckp_med]
-   (:444), [ckp_med_left]/[ckp_med_right] (:447/:451),
-   [ckp_med_unique] (:455) and [ckp_med_eq] (:460).  Every one of
+   with the accessor family [ckp_obj], [ckp_left]/[ckp_right]
+, [ckp_commutes], [ckp_ump], [ckp_med]
+, [ckp_med_left]/[ckp_med_right],
+   [ckp_med_unique] and [ckp_med_eq].  Every one of
    [cokernel_pair], [ckp_obj], [ckp_left], [ckp_right], [ckp_commutes],
    [ckp_med], [ckp_med_left], [ckp_med_right] and [ckp_med_unique] is
    used below and none is re-declared; the raw
    [pushout_apex]/[pushout_in1]/[pushout_ump] family of
-   Structure/Pushout.v:47-125 that those accessors wrap is NOT used
+   Structure/Pushout.v that those accessors wrap is NOT used
    directly anywhere in this file, so the ckp_* spelling is the one
    taken.  From Structure/Equalizer/Fork.v the class [HasEqualizers]
-   (:68), the record [IsEqualizer] (:52) with [fork_eq] (:55) and
-   [eq_desc] (:58), and [equalizer_monic] (:83) are likewise consumed.
+, the record [IsEqualizer] with [fork_eq] and
+   [eq_desc], and [equalizer_monic] are likewise consumed.
    A consumer holding the limit-shaped hypothesis instead converts with
-   Adjunction/Diagonal/Finite.v:734's
+   Adjunction/Diagonal/Finite.v's
    [HasLimitsOfShape_HasEqualizers]; it is cited, not rebuilt, and this
    file does not require that module.
 
@@ -114,23 +114,23 @@ Generalizable All Variables.
    [[Parallel, _] ⟶ Arrow _].  Criterion and measurement, stated
    exactly because the counts moved twice under audit: the single-line
    grep '@?Arrow <ident> ⟶' returns FOUR heads out of the arrow category
-   (Construction/Comma/Diagram.v:230/:231 [Arrow_dom]/[Arrow_cod] into
-   C; Construction/Displayed/Codomain.v:309 into a total category;
-   Theory/Shapes.v:429 [Fun_of_Arrow] into [[_2, C]]), and the grep
+   (Construction/Comma/Diagram.v [Arrow_dom]/[Arrow_cod] into
+   C; Construction/Displayed/Codomain.v into a total category;
+   Theory/Shapes.v [Fun_of_Arrow] into [[_2, C]]), and the grep
    '⟶ @?Arrow' returns TWENTY-TWO lines into it: thirteen in
    Construction/Arrow/Functor.v and nine elsewhere, six of the nine being
-   declaration heads -- Theory/Shapes.v:414 [Arrow_of_Fun], Construction/
-   Comma/Diagram.v:266 [Comma_to_Arrow], Construction/Cylinder/Arrow.v:81,
-   Instance/Cat/Pullback.v:677/:856 [Slice_Arrow]/[Coslice_Arrow], and
-   Construction/Displayed/Codomain.v:289 -- and none of the twenty-six
+   declaration heads -- Theory/Shapes.v [Arrow_of_Fun], Construction/
+   Comma/Diagram.v [Comma_to_Arrow], Construction/Cylinder/Arrow.v,
+   Instance/Cat/Pullback.v [Slice_Arrow]/[Coslice_Arrow], and
+   Construction/Displayed/Codomain.v -- and none of the twenty-six
    mentions [Parallel].  The two [FreeWalkingArrow ⟶ FreeParallelPair]
    lines a looser grep also returns are not among them: they match on the
    substrings rather than on the categories.  Read that as a statement
    about DECLARED TYPES, not about meaning: it does not rule out an
    equivalent functor phrased another way.  Adjunction/Diagonal/
-   Finite.v:709's [EqualizerFunctor : [Parallel, C] ⟶ C] is the
+   Finite.v's [EqualizerFunctor : [Parallel, C] ⟶ C] is the
    object-only half of the right adjoint here, and
-   Structure/Regular.v:46's [kernel_pair] is the dual construction at
+   Structure/Regular.v's [kernel_pair] is the dual construction at
    object level with no functoriality.
 
    ------------------------------------------------------------------
@@ -162,19 +162,19 @@ Generalizable All Variables.
    MEASUREMENT, AND THE BRIEF'S UNIVERSE REASON DOES NOT HOLD UP.
    Three routes exist.  Measured on the tree's [coqdep] graph against
    this file's other 41 modules of requirements as a base, they add:
-   8 modules for Structure/Pullback/Reduction.v:654's
+   8 modules for Structure/Pullback/Reduction.v's
    [HasEqualizers_of_HasPullbacks_Terminal] fed
    Instance/Sets/Pullback.v's [Sets_HasPullbacks] and
-   Instance/Sets.v:253's [Sets_Terminal]; 25 for
-   Adjunction/GAFT/Sets.v:175's [Sets_HasEqualizers]; 40 for
-   Adjunction/Diagonal/Finite.v:1129's [DiagSets_HasEqualizers].  The
+   Instance/Sets.v's [Sets_Terminal]; 25 for
+   Adjunction/GAFT/Sets.v's [Sets_HasEqualizers]; 40 for
+   Adjunction/Diagonal/Finite.v's [DiagSets_HasEqualizers].  The
    reduction route is taken.  It is ALSO universe-clean, but so is the
    GAFT one, and the contrary suggestion is corrected here rather than
    repeated: measured with [About], [Sets_HasEqualizers@{u u0}]'s
    constraint block is [u0 < u] plus seven [<=] bounds and contains NO
    [Set] -- the [Set] pin that file's header discloses concerns [GAFT]
    and [GAFT_at_Sets_Id], not this constant.  So the deciding reason is
-   closure size alone.  Instance/Sets/Pullback.v:74-84 records the
+   closure size alone.  Instance/Sets/Pullback.v records the
    companion measurement, that reading a PULLBACK off the reduction
    gives the wrong description; nothing analogous applies here, since
    this file never inspects the chosen equalizer.
@@ -213,7 +213,7 @@ Generalizable All Variables.
    counit.  Both fall back to [≈] and both residues are exhibited rather
    than described.  The class-produced unit is [⌊id⌋], and the identity
    of [[Parallel, C]] is [nat_id], whose component is [fmap[F] id]
-   (Theory/Natural/Transformation.v:220) -- which at [ckp_pair A] and
+   (Theory/Natural/Transformation.v) -- which at [ckp_pair A] and
    [ParX] DOES reduce to [id], which is why the second component is
    strict; but the first component is then the equalizer descent of
    [id ∘ ar_mor A] against the named unit's descent of [ar_mor A],
@@ -248,11 +248,11 @@ Generalizable All Variables.
 
    Every name declared below was swept tree-wide, word-anchored, before
    landing, and THREE COLLISIONS WERE FOUND AND RENAMED AWAY: [par_one]
-   and [par_two] are taken by Instance/Proset/Transform.v:537-538 and
-   again by Theory/Natural/Transformation/Arrows.v:434-435 (in both
+   and [par_two] are taken by Instance/Proset/Transform.v and
+   again by Theory/Natural/Transformation/Arrows.v (in both
    cases a NAMED ARROW of [Parallel], not this file's [fmap[G]] of one),
    and became [parallel_leg1]/[parallel_leg2]; [SetsEq] is taken by
-   Adjunction/Diagonal/Finite.v:1099 for a [HasLimitsOfShape Parallel
+   Adjunction/Diagonal/Finite.v for a [HasLimitsOfShape Parallel
    Sets], and became [SetsEqualizers].  Neither of those two modules is
    in this file's Require closure, but [make print-assumptions] loads
    many modules into ONE scope, which is where a shared name silently
@@ -262,7 +262,7 @@ Generalizable All Variables.
    ** NOT DELIVERED
 
      - No [RegularMono] class.  The tree has [RegularEpi]
-       (Structure/Regular.v:54) and no dual, and this file declares no
+       (Structure/Regular.v) and no dual, and this file declares no
        new record, class or inductive at all; the regularity conclusion
        is the bare [IsEqualizer]-valued abbreviation
        [RegularCokernelPair], a [Definition].
@@ -606,7 +606,7 @@ Next Obligation.
   - reflexivity.
 Qed.
 
-(* The type-shape tie to Adjunction/Diagonal/Finite.v:709's
+(* The type-shape tie to Adjunction/Diagonal/Finite.v's
    [EqualizerFunctor : [Parallel, C] ⟶ C].  This has the same type; the
    two are NOT compared, for the reason measured in the header. *)
 
@@ -936,7 +936,7 @@ End CokernelPairAdjunction.
 (* The content of the exercise: the unit at A is invertible exactly
    when the arrow of A is already an equalizer of its own cokernel
    pair -- a regular monomorphism.  The tree has [RegularEpi]
-   (Structure/Regular.v:54) and no dual, and none is declared here: the
+   (Structure/Regular.v) and no dual, and none is declared here: the
    conclusion is the bare [IsEqualizer]-valued abbreviation below. *)
 
 Section Regularity.
@@ -1122,7 +1122,7 @@ Definition SetsEqualizers : @HasEqualizers Sets :=
 
 #[local] Existing Instance SetsEqualizers.
 
-(* Instance/Sets.v:563 and :367's two-element and one-element setoids,
+(* Instance/Sets.v's two-element and one-element setoids,
    with
    the collapse onto the point and the inclusion of the point.  Neither
    object nor arrow is rebuilt here. *)
@@ -1136,7 +1136,7 @@ Definition ArrPick : @Arrow Sets :=
 Example sets_arr_collapse_mor : ar_mor ArrCollapse = collapse := eq_refl.
 Example sets_arr_pick_mor : ar_mor ArrPick = pick_true := eq_refl.
 
-(* NEGATIVE.  The collapse is not monic (Instance/Sets.v:591 probes it
+(* NEGATIVE.  The collapse is not monic (Instance/Sets.v probes it
    with the two maps out of the one-element setoid), and the unit can
    only be invertible at a monomorphism.  Nothing about the chosen
    pushout or the chosen equalizer of Sets is computed: the argument
@@ -1152,7 +1152,7 @@ Proof.
 Qed.
 
 (* POSITIVE.  The inclusion of the point is split by the collapse
-   (Instance/Sets.v:577's [collapse_pick]), hence regular, hence its
+   (Instance/Sets.v's [collapse_pick]), hence regular, hence its
    unit is invertible. *)
 
 Theorem sets_pick_regular : RegularCokernelPair ArrPick.
@@ -1164,7 +1164,7 @@ Proof. exact (snd (unit_iso_iff_regular ArrPick) sets_pick_regular). Qed.
 
 (* And the positive case is not degenerate: the arrow itself is not an
    isomorphism, since it misses [false] and so is not epic
-   (Instance/Sets.v:603). *)
+   (Instance/Sets.v). *)
 
 Theorem sets_pick_not_iso : IsIsomorphism pick_true -> False.
 Proof.

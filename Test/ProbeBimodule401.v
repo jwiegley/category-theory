@@ -93,9 +93,9 @@ Generalizable All Variables.
    (the copy still compiling, zero errors) and a copy of this file
    requiring the scratch module instead was compiled.  ALL FIVE broke
    it, every one at a [Check] line of the guard block and NONE inside a
-   [Fail]: [TensorWith] at line 216, [HomS] at 218,
-   [BimodTensorBimod] at 236, [RTensor] at 215, [btb_left] at 237.  So
-   5/5, with zero vacuous guards.
+   [Fail]: [TensorWith], [HomS], [BimodTensorBimod], [RTensor] and
+   [btb_left], each at its own [Check] guard.  So 5/5, with zero vacuous
+   guards.
 
    ** THE HAZARD OF STAGE 1's FINDING 8, AND WHY IT IS BOTH
 
@@ -405,7 +405,7 @@ Fail Example p401_n11 :
 
 (* -- N16 (CONVERSION) -- Mac Lane's whiskered description of the
    composite's unit holds at ≈ ([bac_unit_whiskered]) and NOT on the nose:
-   Adjunction/Compose.v:216 is a [Qed] corollary proved by rewriting. *)
+   Adjunction/Compose.v is a [Qed] corollary proved by rewriting. *)
 Fail Example p401_n16 :
   bac_unit E E1 N
     = fmap[HomS E]
@@ -415,7 +415,7 @@ Fail Example p401_n16 :
           (bimodule_tensor_hom_adjunction E) N := eq_refl.
 
 (* -- N17 (CONVERSION) -- the counit's twin ([bac_counit_whiskered],
-   Adjunction/Compose.v:224). *)
+   Adjunction/Compose.v). *)
 Fail Example p401_n17 (M : RModObject (Ring_op T)) :
   bac_counit E E1 M
     = @counit (ModR T) (ModR S) (TensorWith E1) (HomS E1)

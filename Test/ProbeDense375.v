@@ -106,7 +106,7 @@ Check (fun a : Sub C S => reflective_counit_iso
 (* The object components DO agree at [eq_refl] in both directions
    ([iso_dense_round_obj] and [ESO_iso_dense_obj] in the target), and the
    [EssentiallySurjective] whole record returns as well
-   ([ESO_round_whole]), because that is a two-field class and Lib.v:10
+   ([ESO_round_whole]), because that is a two-field class and Lib.v
    sets [Set Primitive Projections].  Stdlib [sigT] is not covered by
    that setting, so the [IsoDense] record does not. *)
 
@@ -125,7 +125,7 @@ Example probe_ESO_round_whole (E : EssentiallySurjective (Incl C S)) :
 
 (* The counit ought to be the fullness-lift of [`2 (D (Incl C S a))], and
    that statement is true; but the route to it stops at [symmetry] on
-   [Functor_Setoid] (Theory/Functor.v:149), whose [Equivalence] obligation
+   [Functor_Setoid] (Theory/Functor.v), whose [Equivalence] obligation
    is closed with [Qed], so the isomorphism family does not reduce.  The
    strict form is refuted here.  The control beside it names both sides of
    the refuted equation in a command that succeeds. *)
@@ -188,13 +188,20 @@ End UniverseProbe.
 
 (** ** Witness (i): the skeleton of the indiscrete category on bool *)
 
-(* [Indiscrete_bool_Skeleton] (Theory/Skeleton/Separation.v:140) selects
+(* [Indiscrete_bool_Skeleton] (Theory/Skeleton/Separation.v) selects
    [true] alone out of the two points of [Indiscrete bool], so the
-   reflection is genuinely non-inert at [false].  Note the universe pin
+   reflection is genuinely non-inert at [false].
+
+   RECORDED CORRECTION: an earlier revision added "Note the universe pin
    inherited from the witness: [Indiscrete@{u} : Type@{u} -> Category@{u
    Set Set}], so both readbacks below are about a category whose hom and
    proof universes are the literal [Set].  The general theorem carries no
-   such pin. *)
+   such pin."  There is no longer a pin to inherit: [Indiscrete] was
+   annotated as [Indiscrete@{o h p} : Type@{o} -> Category@{o h p}] in the
+   PR "algebraic carriers are sets" (2026-09-17),
+   Instance/Discrete/Reconstruct.v.  The readbacks below are unchanged
+   and still hold; what has gone is the caveat about the levels they hold
+   at. *)
 
 Definition probe_skel_refl :
   Reflective (skel_sub Indiscrete_bool_Skeleton) :=

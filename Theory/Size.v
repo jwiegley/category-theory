@@ -11,17 +11,17 @@
     This library takes a different foundational route, and docs/SIZE.md sets
     the two side by side in full.  The short version: there is no universe
     object, no membership, and no size axiom.  [Class Category@{o h p}]
-    (Theory/Category.v:111) is universe-POLYMORPHIC, so every category already
+    (Theory/Category.v) is universe-POLYMORPHIC, so every category already
     carries its own three levels, and the work Mac Lane's [U] does is done by
     the elaborator's constraint solver.  That is why self-membership is a
     universe inconsistency rather than a paradox to be excluded by axiom
-    (Instance/Cat.v:108-114).
+    (Instance/Cat.v).
 
     WHAT THIS FILE ADDS, AND WHY IT IS NOT REDUNDANT.  The discipline above is
     enforced but was UNSTATABLE: before this file `Small`, `IsSmall` and
     `LocallySmall` had no declaration anywhere in the tree, so smallness could
     be neither a hypothesis nor a conclusion -- it could only be chosen at a
-    definition site by instantiating universes.  Theory/Lawvere/Sets.v:44
+    definition site by instantiating universes.  Theory/Lawvere/Sets.v
     records the consequence in passing ("the library has no smallness
     machinery").  The predicates below are that missing vocabulary.
 
@@ -45,7 +45,7 @@
 
     A TWO-SIDED SITUATION, RECORDED AS SUCH.  What the library PROVIDES is
     stronger than the books' convention: [Class Category]'s [homset] field
-    (Theory/Category.v:116) gives every category hom-setoids at a fixed level
+    (Theory/Category.v) gives every category hom-setoids at a fixed level
     [h], so local smallness holds by construction and a non-locally-small
     category is not expressible.  [locally_small_ambient] below records that as
     a lemma rather than as prose, which is what makes the observation checkable.
@@ -87,7 +87,7 @@ Generalizable All Variables.
     used there for uniformity with the [ArrowQuiver] fields they are about, not
     from necessity.
 
-    [ObjEq] follows the [poly_unit@{u}] idiom at Lib/Setoid.v:56. *)
+    [ObjEq] follows the [poly_unit@{u}] idiom at Lib/Setoid.v. *)
 Inductive ObjEq@{u} {A : Type@{u}} : A → A → Type@{u} :=
   obj_refl : ∀ a : A, ObjEq a a.
 
@@ -177,10 +177,58 @@ Definition small_locally_small@{o h p uo uh up
   (C : Category@{o h p}) (S : Small@{o h p uo uh up} C)
   : LocallySmall@{o h p uh up} C := small_locally.
 
+(** A TYPE is small at level [w] when it is in bijection, up to [ObjEq], with
+    a type at that level.  This is the object half of [Small] with the
+    category dropped: the same four fields [small_ob], [small_ob_to],
+    [small_ob_from], and the two round trips, stated of a bare [Type@{u}].
+
+    WHY IT IS SEPARATE FROM [Small].  [Small] is a property of a CATEGORY and
+    bundles the hom condition with the object condition; what the adjoint
+    functor theorems need of a solution set is neither -- the index of a
+    [SolutionSet] is a bare [Type], with no category structure on it at all
+    (Adjunction/SpanningArrow.v says so of its own index).  So the
+    object half is factored out here and consumed, with no hom condition
+    anywhere, by Adjunction/GAFT/Resize.v.
+
+    THE TWO BINDERS ARE THE POINT.  [w] is the level of the small carrier and
+    [u] the level of the type being resized; they are UNRELATED, which is
+    what makes a use of this record a resizing rather than an identity.
+    Measured, [About] under [Set Printing Universes]:
+
+      SmallType@{w u} : Type@{u} → Type@{max(w+1,u)}
+      (* w u |= *)                               <-- empty constraint block
+
+    [ObjEq] (above) rather than [eq] for the round trips, for the reason the
+    [ObjEq] header gives and [Small] already relies on: object equality in
+    this library is a [Type]-valued identity that survives the universe
+    polymorphism, and [eq] at [Type@{u}] would pin the level.
+
+    PRIOR ART.  This is the shape the HoTT literature writes [IsSmall] or
+    "essentially small" (Coq-HoTT's [IsSmall@{i j} X := { Y : Type@{i} & Y
+    <~> X }], Basics/Equivalences and Universes/Smallness), with the
+    equivalence replaced by an [ObjEq] round trip because this library is
+    axiom-free and has no univalence.  The consequence is that [SmallType] is
+    DATA, not a property: two resizings of the same type need not agree, and
+    nothing here truncates.  Structure/Complete.v's SIZE NOTE, item 4, is the
+    statement of why the library wants it. *)
+Record SmallType@{w u} (A : Type@{u}) : Type@{max(w+1,u)} := {
+  st_carrier : Type@{w};
+  st_to      : st_carrier → A;
+  st_from    : A → st_carrier;
+  st_to_from : ∀ a : A, ObjEq@{u} (st_to (st_from a)) a;
+  st_from_to : ∀ s : st_carrier, ObjEq@{w} (st_from (st_to s)) s
+}.
+
+Arguments st_carrier {A} _.
+Arguments st_to {A} _ _.
+Arguments st_from {A} _ _.
+Arguments st_to_from {A} _ _.
+Arguments st_from_to {A} _ _.
+
 (** A setoid whose equivalence is constantly [True]: any two elements agree.
     Used below for the one-element small hom, mirroring the device at
-    Construction/Sq.v:41 and Instance/Proset.v:39.  Kept [#[local]] for the
-    reason Construction/Sq.v:38-40 gives for its own copy: applied to a
+    Construction/Sq.v and Instance/Proset.v.  Kept [#[local]] for the
+    reason Construction/Sq.v gives for its own copy: applied to a
     data-carrying type it would silently identify everything, so it must not
     leak into the library interface. *)
 #[local] Definition True_setoid@{u p} (A : Type@{u}) : Setoid@{u p} A :=
@@ -240,7 +288,7 @@ Definition One_Small : Small _1 :=
     a set of objects, a set of morphisms, and functions [dom], [cod], [id],
     with [dom] and [cod] retracting [id].
 
-    The tree's [Quiver] (Construction/Free/Quiver.v:54) is the INDEXED
+    The tree's [Quiver] (Construction/Free/Quiver.v) is the INDEXED
     presentation -- [edges : nodes → nodes → Type] -- in which [dom] and [cod]
     are carried by the indexing rather than by functions, and it has no
     identity selection at all, so it supplies neither half of Riehl's

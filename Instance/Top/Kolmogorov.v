@@ -16,7 +16,7 @@
     ** What is delivered
 
     [T0_Reflective_in_Top : Reflective T0_Subcategory] -- the record of
-    Construction/Reflective.v:60, whose three fields are exactly the
+    Construction/Reflective.v, whose three fields are exactly the
     three things Mac Lane's phrase names: FULLNESS of the subcategory
     ([T0_Full]), a REFLECTOR ([T0_reflector]), and the ADJUNCTION
     ([T0_adj]) making it left adjoint to the inclusion.  The adjunction
@@ -40,10 +40,10 @@
     Universal arrows, exactly the path Instance/Ab/TorsionFree.v takes
     for §IV.3 Exercise 2 and Instance/Grp/Abelianize.v for §III.1
     Exercise 3: state the ∃! ([kolmogorov_universal]), package it with
-    Theory/Universal/Arrow.v:158's [universal_arrow_from_UMP]
+    Theory/Universal/Arrow.v's [universal_arrow_from_UMP]
     ([kolmogorov_universal_arrow]), then read the functor and the
-    adjunction off :295's [LeftAdjointFunctorFromUniversalArrows] and
-    :324's [AdjunctionFromUniversalArrows] with no further proof.
+    adjunction off that file's [LeftAdjointFunctorFromUniversalArrows]
+    and its [AdjunctionFromUniversalArrows] with no further proof.
     Nothing in that chain is re-derived here.
 
     ** THE UNIVERSE OBSTRUCTION, AND THE DESIGN IT FORCES
@@ -55,7 +55,7 @@
     exactly the same opens", quantified over EVERY open of X.  In this
     library that relation does not fit, and the rejection is a genuine
     universe inconsistency rather than a bookkeeping annoyance.
-    [TopSpace@{o}] (Instance/Top.v:129) has [top_carrier :>
+    [TopSpace@{o}] (Instance/Top.v) has [top_carrier :>
     SetoidObject@{o o}], so a space's own `≈` is a
     [crelation@{o o}] -- valued in [Type@{o}] -- while [IsOpen]
     quantifies over predicates [X → Type@{o}], so a relation
@@ -127,21 +127,21 @@
 
     Issue #372 says "both ambient categories are missing" and that
     "there is no Instance/Top.v".  Both are false at d658518e:
-    [Top : Category] is Instance/Top.v:273, with [TopSpace] (:129),
-    [Continuous] (:198), [ContinuousMorphism] (:205), the discrete and
-    indiscrete constructors (:319, :380), and the Hausdorff and
-    compact-Hausdorff full subcategories (:938, :956) already in place.
+    [Top : Category] is Instance/Top.v, with [TopSpace],
+    [Continuous], [ContinuousMorphism], the discrete and
+    indiscrete constructors, and the Hausdorff and
+    compact-Hausdorff full subcategories already in place.
 
     What IS absent, and is what this file supplies: a case-insensitive
     search over the [.v] files for 'kolmogorov', 'specializ' and
     'indistinguish' returns no topological hit at all (the two
     'kolmogorov' hits are Chapman-Kolmogorov in
-    Structure/Monoidal/Markov.v:60,:96, the one 'indistinguish' hit is
-    Theory/Algebra/Monoid/Product.v:90 about type display, and the
+    Structure/Monoidal/Markov.v, the one 'indistinguish' hit is
+    Theory/Algebra/Monoid/Product.v about type display, and the
     'specializ' matches are the tactic [specialize] and prose about
     specializing a theorem), and a search for the token 'T0' returns
     three lines --
-    Adjunction/Additive.v:47 and Structure/AbCategory.v:50,:182 --
+    Adjunction/Additive.v and Structure/AbCategory.v --
     every one of them Mac Lane's phrase "whence T0 = 0" about an
     additive functor, which is unrelated.  There was no T0 predicate,
     no indistinguishability relation, no Kolmogorov quotient and no
@@ -151,26 +151,26 @@
 
     - Instance/Top.v: [TopSpace] and its six fields, [Continuous],
       [ContinuousMorphism], [Build_ContinuousMorphism], [Top],
-      [IsHausdorff] (:895) for [Hausdorff_T0_nn], and the two witness
-      spaces [Bool_Discrete] (:987) and [TwoPoint_Indiscrete] (:792)
-      with [bool_setoid_object] (:784).  The [Sub Top] pattern is
-      [Hausdorff_Subcategory] (:938) / [HausdorffSpaces] (:945) /
-      [Hausdorff_Full] (:947) copied field for field.
-    - Construction/Subcategory.v: [Subcategory] (:36), [Sub] (:55),
-      [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99),
-      [Full_Implies_Full_Functor] (:104).  The trivially-true [shom] is
-      the [Hausdorff_Subcategory] and Instance/Rng.v:403 [CRng_Sub]
+      [IsHausdorff] for [Hausdorff_T0_nn], and the two witness
+      spaces [Bool_Discrete] and [TwoPoint_Indiscrete]
+      with [bool_setoid_object].  The [Sub Top] pattern is
+      [Hausdorff_Subcategory] / [HausdorffSpaces] /
+      [Hausdorff_Full] copied field for field.
+    - Construction/Subcategory.v: [Subcategory], [Sub],
+      [Incl], [Incl_Faithful], [Full],
+      [Full_Implies_Full_Functor].  The trivially-true [shom] is
+      the [Hausdorff_Subcategory] and Instance/Rng.v's [CRng_Sub]
       pattern, and [Full] is written qualified because
       Construction/Subcategory.v exports its OWN [Full], whose first
       argument is a Category.
-    - Construction/Reflective.v: [Reflective] (:60) and
-      [reflective_counit_iso] (:92).
+    - Construction/Reflective.v: [Reflective] and
+      [reflective_counit_iso].
     - Theory/Universal/Arrow.v: the three constants named under "The
       route" above.
 
-    The quotient-topology precedents in tree -- Instance/Top.v:635's
-    [CP_open], Instance/Top/Wedge.v:145's [wedge_open],
-    Instance/Top/Pushout.v:203's [tp_open] -- all glue POINTS by an
+    The quotient-topology precedents in tree -- Instance/Top.v's
+    [CP_open], Instance/Top/Wedge.v's [wedge_open],
+    Instance/Top/Pushout.v's [tp_open] -- all glue POINTS by an
     inductive or closed-form relation and re-derive openness from
     scratch.  None of them is required here and none is needed: this
     quotient changes no points.
@@ -207,7 +207,7 @@
       [fmap[Incl] id ∘ kolmogorov_proj X]; applied to a point that
       composite reduces, as a [ContinuousMorphism] record it does not.
       The same shape is recorded for #371's [torsion_unit_is_proj_hom]
-      and for Instance/Mod/Free.v:542's [free_module_unit_is_insert].
+      and for Instance/Mod/Free.v's [free_module_unit_is_insert].
     - [KolmogorovQuotient Bool_Discrete] is isomorphic to
       [Bool_Discrete] but not equal to it: [bool_reflect_iso] is a pure
       instantiation of [reflective_counit_iso] with no tactic, while
@@ -218,7 +218,7 @@
       -- and so, separately, do the setoid field and every law field.
     - The COUNIT is not read back at all.  It is the other transpose,
       [unique_obj (ump_universal_arrows …)], and
-      [ump_universal_arrows] (Theory/Universal/Arrow.v:139) is closed
+      [ump_universal_arrows] (Theory/Universal/Arrow.v) is closed
       with [Qed], so nothing on that side reduces and no [eq_refl] is
       claimed for it in either direction.
     - [Hausdorff_T0_nn] yields only [¬ ¬ (x ≈ y)], and it is stated
@@ -244,7 +244,7 @@
     The file's own content is the strict inequality [s < o] in
     [SameOpens@{s o}] -- the level of the opens tested strictly below
     the level of the space -- declared with the trailing [+] of
-    Instance/Top.v:226's idiom, and that [+] is load-bearing across
+    Instance/Top.v's idiom, and that [+] is load-bearing across
     versions: without it Coq 8.19 and 8.20 reject the declaration with
     "Universe constraints are not implied by the ones declared" (six
     inferred bounds against [prod] and [sigT]) while Rocq 9.1 accepts
@@ -432,7 +432,7 @@ Proof. intros H U HU; exact (H U HU). Defined.
 (** * T0 spaces
 
     Kolmogorov's axiom in its setoid reading: indistinguishable points
-    are equal -- the same move Instance/Pos.v:90 makes for
+    are equal -- the same move Instance/Pos.v makes for
     antisymmetry ([pos_antisym : pos_le x y → pos_le y x → x ≈ y]),
     where the conclusion is the carrier's `≈` rather than Leibniz
     equality. *)

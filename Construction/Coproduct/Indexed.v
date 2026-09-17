@@ -194,7 +194,7 @@ Generalizable All Variables.
       [SigmaCat_ump] all display [C : Category@{a b b}] and
       [D : Category@{c b b}] — hom and proof identified in BOTH, and
       the two categories' hom universes identified with each other.
-      That is [Functor_Setoid]'s (Theory/Functor.v:149, itself an
+      That is [Functor_Setoid]'s (Theory/Functor.v, itself an
       unannotated [Program Instance]) and not this file's: under
       [Constraint uh < up], [@Functor_Setoid C D] is REJECTED for a
       source at those levels and again for a target at those levels,

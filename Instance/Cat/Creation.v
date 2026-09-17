@@ -40,7 +40,7 @@ Generalizable All Variables.
    the naive reading.  Instance/Cat/Pullback.v proves
    [FibreProduct_not_Cat_pullback]: the fibre product of categories is NOT a
    pullback in [Cat].  Read THAT narrowly in turn, as its own file insists
-   (Instance/Cat/Pullback.v:64-67, :553-555): it is a refutation AT ONE
+   (Instance/Cat/Pullback.v): it is a refutation AT ONE
    COSPAN, [1 --true--> Indiscrete bool <--false-- 1], where the apex is
    object-empty; the same cospan does have a [Cat] pullback, and nothing in
    the tree refutes [FibreProduct (Coslice_Proj d) U] as a [Cat] pullback of
@@ -77,13 +77,13 @@ Generalizable All Variables.
    The generic kit — [CreatesLimit_transport] and the [IsLimitCone]
    transport it rests on — is not about [Cat] at all, and its natural home
    is Structure/Limit/Creation.v, where appending is line-neutral for all
-   fifteen of that file's citations (the highest is :440, the upper
+   fifteen of that file's citations (the highest of them is the upper
    endpoint of the range cited at doc/plan/books/qa; an earlier revision of
-   this sentence said :439, the highest single-line citation, and both are
-   inside the 518-line file).  It lives here instead, for this change,
+   this sentence named the highest single-line citation instead, and both
+   are inside the 518-line file).  It lives here instead, for this change,
    because that costs no rebuild of that file's large reverse-dependency
    set and because it is where #428 put the analogous
-   [PreservesLimitCone_transport] (Functor/Hom/Continuous.v:367).  A later
+   [PreservesLimitCone_transport] (Functor/Hom/Continuous.v).  A later
    move costs nothing.
 
    Of the two [IsLimitCone] transports below only [islimitcone_dtransport_inv]
@@ -92,7 +92,7 @@ Generalizable All Variables.
    earlier revision of this sentence said the kit rests on both.
 
    Two further disclosures of prior art, neither of them reuse.
-   [fp_square_iso] re-derives a fact Instance/Cat/Pullback.v:388 already
+   [fp_square_iso] re-derives a fact Instance/Cat/Pullback.v already
    carries as [FP_commutes_cat : F ∘[Cat] FP_fst ≈[Cat] G ∘[Cat] FP_snd]:
    whiskering that with this file's own [fun_equiv_whisker_r] typechecks at
    exactly [fp_square_iso]'s type, though the two terms are not convertible.
@@ -212,7 +212,7 @@ End DiagTransport.
 
 (** ** Creation transports along an isomorphism of the functor *)
 
-(* The creation analogue of Functor/Hom/Continuous.v:367's
+(* The creation analogue of Functor/Hom/Continuous.v's
    [PreservesLimitCone_transport].  It carries CREATION, not strictness:
    there is still no [StrictlyCreatesLimit_transport] and none is claimed. *)
 
@@ -687,17 +687,17 @@ End CommaAsFibreProduct.
    reaches, by a different argument.  It is a CROSS-CHECK, not a
    strengthening — but state the comparison against the right constant.
 
-   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v:715) the
+   Against [comma_CreatesAllLimits] (Construction/Comma/Creation.v) the
    two are of EQUAL strength.  That one takes [PreservesImageLimit], which
    quantifies over every shape just as [ContinuousFunctor U] does — indeed
    the two premises are interderivable by identity functions in that very
-   file, [PreservesImageLimit_Continuous] at :227 and
-   [Continuous_PreservesImageLimit] at :232 — and it concludes
+   file, [PreservesImageLimit_Continuous] and
+   [Continuous_PreservesImageLimit] — and it concludes
    [CreatesAllLimits], which is pointwise [CreatesLimit], not
    [StrictlyCreatesLimit].
 
    The "weaker in both directions" comparison is true, and is true only, of
-   #438's [comma_StrictlyCreatesLimit] (:556), which takes the per-diagram
+   #438's [comma_StrictlyCreatesLimit], which takes the per-diagram
    [PreservesLimitCone (Gdiag K) U] and concludes [StrictlyCreatesLimit].
    An earlier revision of this comment, of the commit message and of the
    docs/INDEX.md bullet made that comparison against

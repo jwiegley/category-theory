@@ -43,15 +43,15 @@ Generalizable All Variables.
 
     WHAT IS ALREADY IN TREE.  The exercise's first half — the category
     [CRng] of commutative rings — is Instance/Rng.v's, not this file's:
-    [CRng_Sub] (Instance/Rng.v:381) selects the commutative [RingObject]s
-    and retains every [Rng]-morphism between them, [CRng] (:388) is
-    [Sub Rng CRng_Sub], [CRng_Full] (:390) records the fullness, and
-    [Int_CRng] (:398) is the witness ℤ.  Consequently an object of [CRng]
+    [CRng_Sub] (Instance/Rng.v) selects the commutative [RingObject]s
+    and retains every [Rng]-morphism between them, [CRng] is
+    [Sub Rng CRng_Sub], [CRng_Full] records the fullness, and
+    [Int_CRng] is the witness ℤ.  Consequently an object of [CRng]
     is a dependent pair (R; proof that R is commutative) and a morphism of
     [CRng] is a pair (a [RigHom]; a trivially-true membership witness) —
-    [Sub]'s shape, Construction/Subcategory.v:57.  [Coslice]
-    (Construction/Slice.v:169) and its comma reading [Comma_Coslice]
-    (Construction/Slice.v:181) are likewise pre-existing.
+    [Sub]'s shape, Construction/Subcategory.v.  [Coslice]
+    (Construction/Slice.v) and its comma reading [Comma_Coslice]
+    (Construction/Slice.v) are likewise pre-existing.
 
     WHAT THIS FILE ADDS.  The category of commutative K-algebras defined
     DIRECTLY — [KAlgObject]/[KAlgHom]/[KAlg] below — and the proof that it
@@ -76,14 +76,14 @@ Generalizable All Variables.
       [KAlg_Coslice_iso]         KAlg K ≅[Cat]       Coslice CRng K
 
     In this library [≅[Cat]] is EQUIVALENCE of categories, since [Cat]'s
-    hom-setoid is [Functor_Setoid] (Instance/Cat.v:145), which identifies
+    hom-setoid is [Functor_Setoid] (Instance/Cat.v), which identifies
     functors up to natural isomorphism.  The stronger [≅[StrictCat]] is
     the on-the-nose isomorphism: [StrictCat]'s hom-setoid is
-    [Functor_StrictEq_Setoid] (Theory/Functor.v:606), which asks for
+    [Functor_StrictEq_Setoid] (Theory/Functor.v), which asks for
     F x = G x at Leibniz equality on objects together with the
     transported agreement of the morphism actions.  The strict reading
     DOES close here, so [KAlg_Coslice_iso] is DERIVED from it
-    ([strict_equiv_implies_fun_equiv], Instance/StrictCat/ToCat.v:57) and
+    ([strict_equiv_implies_fun_equiv], Instance/StrictCat/ToCat.v) and
     is the weaker of the two; it carries the name the issue pins, which is
     also the form most of the library's consumers take.
 
@@ -135,8 +135,8 @@ Generalizable All Variables.
 
       * [KAlg K : Category@{o h h}] identifies the hom and proof
         universes.  That is [Rng]'s own shape — [Rng@{u u0} :
-        Category@{u u0 u0}] (Instance/Rng.v:80), which comes from
-        [RigHom_Setoid : Setoid@{h h}] (Theory/Algebra/Rig.v:184) — and
+        Category@{u u0 u0}] (Instance/Rng.v), which comes from
+        [RigHom_Setoid : Setoid@{h h}] (Theory/Algebra/Rig.v) — and
         [CRng] carries it through [Sub].  Nothing here narrows it.
 
       * Six constants print a literal [Set] as a universe instance
@@ -144,8 +144,8 @@ Generalizable All Variables.
         [Q_KAlg_in_Coslice], [Z_KAlg], [Z_KAlg_unit_unique].  In each case
         the donor is already pinned: [ZtoQ] is typed
         [hom Int_Ring@{Set Set Set} Q_Ring@{Set Set Set}]
-        (Instance/Rng.v:461), and [rng_from_Z] takes
-        [R : RingObject@{Set Set Set}] (Instance/Rng.v:332).  Three
+        (Instance/Rng.v), and [rng_from_Z] takes
+        [R : RingObject@{Set Set Set}] (Instance/Rng.v).  Three
         further constants ([Q_KAlg_unit_computes],
         [Q_KAlg_unit_not_surjective], [Q_KAlg_is_canonical]) mention
         [Q_KAlg] and inherit the same instance without printing it.  The [KAlg] spine and both isomorphisms carry no [Set]
@@ -218,14 +218,14 @@ Arguments kalg_unit {K} _.
 
 (* A morphism of K-algebras is a ring homomorphism commuting with the two
    structure maps.  The orientation of the triangle is [Coslice]'s
-   (Construction/Slice.v:171, `2 y ≈ f ∘ `2 x), so that the comparison
+   (Construction/Slice.v, `2 y ≈ f ∘ `2 x), so that the comparison
    below needs no transposition. *)
 Definition KAlgHom {K : CRng} (A B : KAlgObject K) : Type :=
   ∃ f : kalg_ring A ~{Rng}~> kalg_ring B, kalg_unit B ≈ f ∘ kalg_unit A.
 
 (* Two K-algebra morphisms are equal when their underlying ring
    homomorphisms are; the triangle proof is irrelevant.  This matches
-   [Coslice]'s convention (Construction/Slice.v:172). *)
+   [Coslice]'s convention (Construction/Slice.v). *)
 Program Definition KAlgHom_Setoid {K : CRng} (A B : KAlgObject K) :
   Setoid (KAlgHom A B) := {|
   equiv := fun f g => `1 f ≈ `1 g
@@ -375,7 +375,7 @@ Definition KAlg_Coslice_iso (K : CRng) : KAlg K ≅[Cat] Coslice CRng K :=
     (strict_equiv_implies_fun_equiv _ _ (KAlg_Coslice_from_to K)).
 
 (* The comma reading, Mac Lane's own shape (K ↓ CRng): compose with
-   [Comma_Coslice] (Construction/Slice.v:181).  At [Cat] strength, because
+   [Comma_Coslice] (Construction/Slice.v).  At [Cat] strength, because
    that is where [Comma_Coslice] is stated. *)
 Definition KAlg_Comma_iso (K : CRng) : KAlg K ≅[Cat] (=(K) ↓ Id) :=
   iso_compose (Comma_Coslice CRng K) (KAlg_Coslice_iso K).
@@ -416,7 +416,7 @@ Definition Int_to_Q_KAlg : Int_KAlg ~{KAlg Int_CRng}~> Q_KAlg :=
   (ZtoQ; Int_to_Q_triangle).
 
 (* More generally, EVERY commutative ring is a ℤ-algebra, canonically:
-   [Rng_Initial_Z] (Instance/Rng.v:369) makes ℤ initial in [Rng], so the
+   [Rng_Initial_Z] (Instance/Rng.v) makes ℤ initial in [Rng], so the
    structure map is not a choice.  This is the general reason the coslice
    under ℤ is the whole of [CRng] again — a statement not made here. *)
 Definition Z_KAlg (A : CRng) : KAlgObject Int_CRng :=

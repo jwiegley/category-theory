@@ -46,33 +46,33 @@ Generalizable All Variables.
    WHY THIS FILE EXISTS: THE Mon(Coq)/Mon(Sets) MEASUREMENT.  Issue #296
    already delivered a free monoid with its universal property and its
    adjunction — but at a DIFFERENT category.
-   Instance/Coq/Monoid/Free.v:126 abbreviates
-   [MonCoq := @Mon Coq Coq_Monoidal], and its :323/:326 deliver
+   Instance/Coq/Monoid/Free.v abbreviates
+   [MonCoq := @Mon Coq Coq_Monoidal], and it delivers
    [FreeMonoid : Coq ⟶ MonCoq] and
    [free_monoid_adjunction : FreeMonoid ⊣ UMon] over that base.  The
    monoid-ring leg that #400 wants to compose with runs from the OTHER
-   category: Instance/Rng/MonoidRing.v:170 sets
-   [MonSets := @Mon Sets Sets_Product_Monoidal] and its :723/:726 give
+   category: Instance/Rng/MonoidRing.v sets
+   [MonSets := @Mon Sets Sets_Product_Monoidal] and gives
    [MonoidRingFunctor : MonSets ⟶ Rng] with
    [zmring_adjunction : MonoidRingFunctor ⊣ Rng_Forget_Mon].
-   Instance/Roster.v:390 names the same category [Mon_Sets].  So the two
+   Instance/Roster.v names the same category [Mon_Sets].  So the two
    legs of "Sets → Monoids → Rings" did not compose.
 
    That gap was re-verified here rather than taken on trust, and the
    coordinating measurement stands, with two refinements worth stating.
    (1) Searching the whole tree for a functor whose CODOMAIN is
    [Mon Sets] returns exactly three, and all three are forgetful:
-   [Rig_Forget_Mon] (Theory/Algebra/Rig.v:292),
-   [Rng_Forget_Mon] (Instance/Rng/MonoidRing.v:226) and [Grp_MonSets]
-   (Instance/Rng/GroupRing.v:155); Instance/Roster.v:397 restates the
+   [Rig_Forget_Mon] (Theory/Algebra/Rig.v),
+   [Rng_Forget_Mon] (Instance/Rng/MonoidRing.v) and [Grp_MonSets]
+   (Instance/Rng/GroupRing.v); Instance/Roster.v restates the
    first of them at Roster's own name for the category and adds no
    fourth.  There was no free monoid at [Mon Sets] before this file.
    (2) There is no equivalence between [Coq] and [Sets] in tree — but
    the sharper claim "there is no functor at all between them" would be
-   FALSE: Instance/Shapes.v:279 declares
+   FALSE: Instance/Shapes.v declares
    [Trie_Functor (s : Shape) : Coq ⟶ Sets], which is unrelated to any
    comparison of the two categories, and [Sets_discrete]
-   (Instance/Sets/Products.v:394) is an OBJECT-level discrete-setoid
+   (Instance/Sets/Products.v) is an OBJECT-level discrete-setoid
    construction that is nowhere packaged as a functor.  Neither
    transports #296's adjunction, and more to the point transport along
    an arbitrary functor pair would not preserve left-adjointness
@@ -82,7 +82,7 @@ Generalizable All Variables.
    is the fact it rests on ([free_mon_blur_identifies] against
    [free_mon_two_generators_distinct]).
 
-   Instance/Mon/Coproduct.v:237-242 names this same wall as the reason
+   Instance/Mon/Coproduct.v names this same wall as the reason
    Awodey §3.2 Exercise 5 (M(A) + M(B) ≅ M(A + B) by preservation of
    colimits) went undelivered there: "the only free-monoid adjunction in
    tree is Instance/Coq/Monoid/Free.v's, which is over [Coq], so no such
@@ -93,8 +93,8 @@ Generalizable All Variables.
 
    THE ELEMENT-LEVEL ACCESSORS ARE REUSED, NOT REWRITTEN, AND THE CHOICE
    IS MEASURED.  Two copies of the element-level reading of [Mon Sets]
-   already exist — Instance/Rng/MonoidRing.v:170-220
-   ([mcar]/[mop]/[mone]/[mmap]/[mhom]) and Instance/Mon/Coproduct.v:253-346
+   already exist — Instance/Rng/MonoidRing.v
+   ([mcar]/[mop]/[mone]/[mmap]/[mhom]) and Instance/Mon/Coproduct.v
    ([mon_ob]/[mon_mul]/[mon_one]/[mon_fun]/[mk_mon_obj]/[mk_mon_hom]) —
    and writing a third would have been the wrong move.  The Coproduct.v
    copy is the one imported, for a dependency reason and not a stylistic
@@ -125,7 +125,7 @@ Generalizable All Variables.
 
      - the counit does not compute.  Its underlying map is
        [unique_obj (ump_universal_arrows ...)], and
-       [ump_universal_arrows] (Theory/Universal/Arrow.v:139) is closed
+       [ump_universal_arrows] (Theory/Universal/Arrow.v) is closed
        with [Qed], so nothing reduces through it.  The diagnosis
        DISCRIMINATES: the UNIT of the same adjunction, which routes
        through the transparent [universal_arrow_from_UMP] instead, IS
@@ -165,7 +165,7 @@ Generalizable All Variables.
    [free_mon_sets_adjunction@{u u0 u1 u2 u3 u4}] contain NO [Set]
    anywhere — no [Set] universe instance and no constraint mentioning
    it — and the only strict inequality among the two levels that matter
-   is [Sets]'s own [o < so] ([Instance/Sets.v:193] declares
+   is [Sets]'s own [o < so] ([Instance/Sets.v] declares
    [Sets@{o so} : Category@{so o o}]).  That is guarded rather than
    merely measured: the section [FreeAboveSet] at the end of this file
    declares [Constraint Set < uo] and elaborates all three constants at
@@ -240,7 +240,7 @@ Local Notation UMonS := (@Mon_Forget Sets Sets_Product_Monoidal).
 
     The carrier is [list (carrier X)].  Concatenation is spelled out
     rather than taken from [Coq.Lists.List], following the precedent and
-    the stated reason of Instance/Mon/Coproduct.v:622-625: importing that
+    the stated reason of Instance/Mon/Coproduct.v: importing that
     module brings [list_scope]'s notations into a file whose ambient
     scope is the library's, and the whole of what is needed is five
     lines. *)

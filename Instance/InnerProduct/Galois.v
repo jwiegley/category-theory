@@ -17,7 +17,7 @@ Require Import Category.Adjunction.Right.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 
-(* The same two as Instance/Powerset.v:26-27 and Instance/Grp/Galois.v:26-27,
+(* The same two as Instance/Powerset.v and Instance/Grp/Galois.v,
    in the same position and for the same reason: [relation] and [PreOrder]
    below must be the stdlib Prop-valued ones rather than Category.Lib's
    [crelation] ones, so they are required LAST. *)
@@ -62,7 +62,7 @@ Generalizable All Variables.
 
     ** THE NAME COLLISION, DISCLOSED
 
-    Theory/Orthogonality.v:43 declares [Class Orthogonal] with the
+    Theory/Orthogonality.v declares [Class Orthogonal] with the
     notation [e ⫫ m], for the unique-lifting relation between a morphism
     and a morphism in a factorization system.  That is a DIFFERENT
     notion -- a property of a commuting square in a category, with no
@@ -73,29 +73,29 @@ Generalizable All Variables.
     [ClosedPerp], [perp_galois], [PerpOp] and [InnerProduct] each occur in
     ZERO [.v] files, and the tokens "inner product", "orthogonal
     complement" and "sesquilinear" occur in none; the only "Hilbert" hits
-    are four lines of prose (Theory/Algebra/Frobenius.v:95,
-    Structure/Dagger.v:25, Theory/Adjunction.v:38,
-    Structure/Monoidal/Symmetric.v:92).  So the issue's "Current state" is
+    are four lines of prose (Theory/Algebra/Frobenius.v,
+    Structure/Dagger.v, Theory/Adjunction.v,
+    Structure/Monoidal/Symmetric.v).  So the issue's "Current state" is
     accurate on the ambient structure, and its two named dependencies have
     since landed and are CONSUMED here rather than rebuilt.
 
     ** WHAT IS CONSUMED
 
-    From #380 (Instance/Proset/Galois.v:118): the record
-    [GaloisConnection] with its six fields, [gal_unit] (:284) and
-    [gal_counit] (:287), the two functors
+    From #380 (Instance/Proset/Galois.v): the record
+    [GaloisConnection] with its six fields, [gal_unit] and
+    [gal_counit], the two functors
     [GaloisFunctor_l]/[GaloisFunctor_r] and [GaloisAdjunction].  From #382
-    (Instance/Powerset.v:285, :288, :295): [subset_le],
+    (Instance/Powerset.v): [subset_le],
     [subset_le_preorder] and the thin category [Subsets X], over
-    Instance/Sets/Powerset.v:981's [Powerset_Prop_obj X], the
+    Instance/Sets/Powerset.v's [Powerset_Prop_obj X], the
     [≈]-respecting [Prop]-valued predicates.  From
-    Instance/Proset/Limit.v:135: [op_rel], the reversed preorder, which is
+    Instance/Proset/Limit.v: [op_rel], the reversed preorder, which is
     how Mac Lane's [Q^op] is written here.  From Instance/Grp/Galois.v:
-    six constants of its section (A) (:430-498) -- [gal_lrl_below] (:441),
-    [gal_lrl_above] (:445), [GalClosed_l] (:461), [GalClosed_r] (:462),
-    [gal_closed_r_image] (:467) and [gal_closed_r_iff] (:485) -- which is
+    six constants of its section (A) -- [gal_lrl_below],
+    [gal_lrl_above], [GalClosed_l], [GalClosed_r],
+    [gal_closed_r_image] and [gal_closed_r_iff] -- which is
     general over an arbitrary Galois connection and mentions no group,
-    together with [subset_le_antisym] (:508).  Those are APPLIED at the new
+    together with [subset_le_antisym].  Those are APPLIED at the new
     connection; not one of them is restated.  Section (A) carries four
     constants besides those six ([gal_rlr_below], [gal_rlr_above],
     [gal_closed_l_image], [gal_closed_l_iff]); this connection needs none
@@ -110,7 +110,7 @@ Generalizable All Variables.
     costs 39 modules, and every other [Require] in the list costs zero
     (each was dropped alone and measured).  Section (A) is group-free, so
     its natural home is Instance/Proset/Galois.v beside the record it is
-    about; but [subset_le_antisym] (:508) sits OUTSIDE that section and
+    about; but [subset_le_antisym] sits OUTSIDE that section and
     is used in the proofs below, so moving section (A) alone would return
     NONE of the 39 -- the [Require] would stay for that one lemma (an
     audit caught an earlier draft saying it would return them all).
@@ -371,7 +371,7 @@ Example perp_unit_is_counit (S : carrier (Powerset_Prop_obj@{o} X)) :
 
 (* The triple complement collapses.  In a preorder that is not a partial
    order the conclusion is mutual inclusion, which for these carriers IS
-   the setoid's own [≈]: Instance/Grp/Galois.v:508 converts.  Both halves
+   the setoid's own [≈]: Instance/Grp/Galois.v converts.  Both halves
    are #381's section (A) applied. *)
 Lemma perp_triple (S : carrier (Powerset_Prop_obj@{o} X)) :
   perp_set (perp_set (perp_set S)) ≈ perp_set S.
@@ -442,7 +442,7 @@ Example PerpFunctor_r_obj (S : carrier (Powerset_Prop_obj@{o} X)) :
   fobj[PerpFunctor_r] S = perp_set S := eq_refl.
 
 (* Mac Lane's own typing.  Theorem 1 types the two maps as [L : P → Q^op]
-   and [R : Q^op → P], and Adjunction/Right.v:342's [AdjointOnTheRight S T]
+   and [R : Q^op → P], and Adjunction/Right.v's [AdjointOnTheRight S T]
    -- for [S : A^op ⟶ X] and [T : X^op ⟶ A], with the hom-set isomorphism
    [A(a, T x) ≅ X(x, S a)] -- is exactly that shape.  With [P = Q] and
    [L = R] both slots are filled by ONE functor, so the pair is adjoint to
@@ -450,12 +450,12 @@ Example PerpFunctor_r_obj (S : carrier (Powerset_Prop_obj@{o} X)) :
 
    Prior art, measured, and the tree-wide list is complete: this is NOT the
    class's first inhabitant with the two slots equal.  Adjunction/Right.v
-   carries three -- [Id_AdjointOnTheRight] (:583, labelled DEGENERATE
+   carries three -- [Id_AdjointOnTheRight] (labelled DEGENERATE
    there, and its two slots are [Id[C^op]] and [Id[C]], which are not the
-   same term), [Chain3_AdjointOnTheRight] (:651, whose two functors
-   differ) and [Powerset_AdjointOnTheRight] (:717, at a coinciding pair);
-   Structure/Monoidal/Dual.v:441's [dual_self_adjoint_on_the_right] is a
-   fourth, also at a coinciding pair; and Instance/Grp/Galois.v:883's
+   same term), [Chain3_AdjointOnTheRight] (whose two functors
+   differ) and [Powerset_AdjointOnTheRight] (at a coinciding pair);
+   Structure/Monoidal/Dual.v's [dual_self_adjoint_on_the_right] is a
+   fourth, also at a coinciding pair; and Instance/Grp/Galois.v's
    [group_action_AdjointOnTheRight] -- in a file this one REQUIRES -- is a
    fifth, whose slots [StabOp] and [FixedOp] differ.  So two of the five
    precede this one at a coinciding pair.  What is new here is a
@@ -504,7 +504,7 @@ Arguments ClosedPerp {X} P S.
 (** ** (G) A witness: ℤ² with the dot product *)
 
 (* The setoid of integer pairs, at ONE universe.  [eq_Setoid]
-   (Lib/Setoid.v:65) is polymorphic in exactly the level [Subsets] needs,
+   (Lib/Setoid.v) is polymorphic in exactly the level [Subsets] needs,
    so [≈] here is Leibniz equality and every respectfulness obligation
    below is a substitution. *)
 Definition zz_setoid@{wo} : SetoidObject@{wo wo} :=

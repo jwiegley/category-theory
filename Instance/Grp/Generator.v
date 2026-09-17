@@ -28,10 +28,10 @@ Generalizable All Variables.
    parallel homomorphisms f, g : G ~> K agreeing after every homomorphism
    out of the free group on one generator, and an element x of G, the
    constant map [grp_point x] sends the one generator to x; its extension
-   [free_grp_extend] (Instance/Grp/Free.v:321) is a homomorphism out of
+   [free_grp_extend] (Instance/Grp/Free.v) is a homomorphism out of
    the free group, so the hypothesis applies to it, and
-   [free_grp_extend_generators] (:328) says the extension carries the
-   inserted generator [fg_insert] (:253) to x.  Properness of f and g as
+   [free_grp_extend_generators] says the extension carries the
+   inserted generator [fg_insert] to x.  Properness of f and g as
    setoid maps transports the agreement from the generator's image to x
    itself.  So the only structural input is the universal property, and
    the statement would read the same for any left adjoint to a forgetful
@@ -52,8 +52,8 @@ Generalizable All Variables.
    Instance/Ab/Generator.v.  For [Grp] the corresponding object is the
    free group on one generator, which classically IS ℤ; this file does
    NOT prove that identification.  The tree DOES carry ℤ as a group
-   object: Construction/Deloop/Functors.v:448's [Int_Plus_Grp : GrpObject]
-   (the additive monoid [Int_Plus] of :438 with [grp_inv := Z.opp]), a
+   object: Construction/Deloop/Functors.v's [Int_Plus_Grp : GrpObject]
+   (the additive monoid [Int_Plus] of that file, with [grp_inv := Z.opp]), a
    built constant of the _CoqProject set.  What is left undone is the
    isomorphism [FreeGrpObject unit_setoid_object ≅ Int_Plus_Grp] in
    [Grp] -- the homomorphism out of the free group is
@@ -63,11 +63,11 @@ Generalizable All Variables.
    and nothing below depends on it.  On the abelian side the integers
    have five names, measured with grep -rnE
    '^Definition [A-Za-z_0-9]+ : AbObject := ring_ab Int_Ring\.$'
-   --include='*.v' . (which reports 5): [ZAb] (Instance/Ab/Monoidal.v:416),
-   [ab_Z] (Instance/Ab/Coproduct.v:264), [Zgroup]
-   (Instance/Ab/Graded.v:281), [Ab_Z]
-   (Structure/Kernel/Universal/Examples.v:260) and [ab_int]
-   (Instance/Ab/Free.v:865); Instance/Ab/TorsionFree.v:147 records the
+   --include='*.v' . (which reports 5): [ZAb] (Instance/Ab/Monoidal.v),
+   [ab_Z] (Instance/Ab/Coproduct.v), [Zgroup]
+   (Instance/Ab/Graded.v), [Ab_Z]
+   (Structure/Kernel/Universal/Examples.v) and [ab_int]
+   (Instance/Ab/Free.v); Instance/Ab/TorsionFree.v records the
    same count, and this is a re-measurement of it, not a citation.  An
    earlier revision of this paragraph said that NO ℤ group object existed
    in [Grp], from a sweep that saw only the tactic-mode
@@ -82,7 +82,7 @@ Generalizable All Variables.
    joint-faithfulness reading (Structure/Generator.v's [JointlyFaithful]),
    which is the theory half of #447; and no isomorphism with
    [Int_Plus_Grp], as above.  The two-generator non-degeneracy results of
-   Instance/Grp/Free.v:562 and :586 are not used and say nothing about
+   Instance/Grp/Free.v are not used and say nothing about
    separation. *)
 
 (** ** The element of a group as a map out of the singleton *)

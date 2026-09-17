@@ -82,8 +82,8 @@ Generalizable All Variables.
         FIFTEEN and EIGHT, twenty-three in all, in two files
         (Instance/Ab/Monoidal.v and Construction/Enriched/Ab.v).  Three
         further heads CONTAIN the token and are excluded on purpose --
-        [ts_gen_nat_smul_l] (:553), [ts_gen_nat_smul_r] (:563) and
-        [ts_gen_zsmul_balance] (:575) -- being tensor-generator balance
+        [ts_gen_nat_smul_l], [ts_gen_nat_smul_r] and
+        [ts_gen_zsmul_balance] -- being tensor-generator balance
         lemmas rather than part of the action API; under a
         contains-the-token criterion the figure is twenty-six.  NONE of
         the twenty-six states it, so the absence does not turn on which
@@ -101,13 +101,13 @@ Generalizable All Variables.
       - [dorroh_extend], [dorroh_extend_commutes], [dorroh_extend_unique].
       - [dorroh_universal] and [dorroh_auniversal] — the universal arrow
         in BOTH of Theory/Universal/Arrow.v's encodings (the comma-packaged
-        [UniversalArrow], :127, through the smart constructor
-        [universal_arrow_from_UMP], :158; and the object-as-argument
-        [AUniversalArrow], :350).
+        [UniversalArrow], built through the smart constructor
+        [universal_arrow_from_UMP]; and the object-as-argument
+        [AUniversalArrow]).
       - ★ [DorrohFunctor : Rg ⟶ Rng] and
         ★ [unitalization_adjunction : DorrohFunctor ⊣ Rng_Forget_Rg] ★,
-        routed through :295's [LeftAdjointFunctorFromUniversalArrows] and
-        :324's [AdjunctionFromUniversalArrows] rather than by hand.
+        routed through that file's [LeftAdjointFunctorFromUniversalArrows]
+        and [AdjunctionFromUniversalArrows] rather than by hand.
       - The exercise's two corollaries: [dorroh_insert_Monic] (with the
         sharper [dorroh_insert_injective]) and, for faithfulness of the
         forgetful functor, a one-line re-export of Instance/Rg.v's
@@ -143,7 +143,7 @@ Generalizable All Variables.
         Structure/Biproduct/Cartesian.v.  That is the price of
         [Ab_product], and it buys the entire additive half.
       - adding Instance/Rng/Polynomial.v would add FIFTEEN.  That module
-        carries [zring_central] (:648), which is this file's
+        carries [zring_central], which is this file's
         [zring_is_central] in the same words; the two are independent and
         neither is derived from the other.  CROSS-REFERENCED so a reader
         knows the other statement exists, and DELIBERATELY not required:
@@ -156,7 +156,7 @@ Generalizable All Variables.
     (2) TWO DONOR UNIVERSE DEFECTS WERE MET AND ROUTED AROUND, both
     guarded by [Fail] probes at the foot of this file.
 
-      - Instance/Rng.v:354's [rng_from_Z] reports, under
+      - Instance/Rng.v's [rng_from_Z] reports, under
         [Set Printing Universes],
           rng_from_Z@{u u0 u1} : ∀ R : RingObject@{Set Set Set}, …
         — pinned at the literal [Set] in all three universes of its
@@ -231,7 +231,7 @@ Generalizable All Variables.
 
     ── PRIOR ART, DISCLOSED RATHER THAN IMPLIED AWAY ────────────────────
 
-    Construction/Enriched/Ab.v:156-166 already carries [zsmul_precomp]
+    Construction/Enriched/Ab.v already carries [zsmul_precomp]
     and [zsmul_postcomp], which say that the ℤ-action commutes with
     COMPOSITION on either side in an Ab-enriched category — under
     delooping that is the same algebraic fact as
@@ -246,7 +246,7 @@ Generalizable All Variables.
     additionally yields the [nat]-level statements and the two negation
     lemmas, which the short route does not.  That module is NOT in this
     file's Require closure (measured: it is not among the 52).
-    Instance/Ab/Monoidal.v:443's [zsmul_int_one] is a close relative of
+    Instance/Ab/Monoidal.v's [zsmul_int_one] is a close relative of
     [zring_is_zsmul_one] — the ℤ-side evaluation [zsmul ZAb n 1 = n],
     which is this file's bridge at [Int_Ring] composed with
     [zring Int_Ring n = n] — but it is a DIFFERENT statement, and the
@@ -288,7 +288,7 @@ Generalizable All Variables.
         closes by [reflexivity], so the two sides are convertible
         POINTWISE and what fails is equality of hom RECORDS.
       - the mediator read out of the COMMA-packaged class does not reduce
-        at all, because Theory/Universal/Arrow.v:139's
+        at all, because Theory/Universal/Arrow.v's
         [ump_universal_arrows] is closed with [Qed].  That is a known,
         documented in-tree fact rather than a defect of this file, and it
         is stated rather than fought: the passing control beside it,
@@ -345,10 +345,10 @@ Generalizable All Variables.
     contrast Mac Lane draws with his neighbouring §IV.2 Exercise 1 — where
     the forgetful functor out of graded anticommutative K-algebras is NOT
     faithful, whereas [Rng_Forget_Rg] here IS — is stated as a remark and
-    not formalized: Instance/Vect/TensorAlgebra.v:197-213, which owns that
+    not formalized: Instance/Vect/TensorAlgebra.v, which owns that
     exercise, states in its own header that no non-faithfulness lemma is
     delivered there either (paraphrased, not quoted: the phrase wraps
-    across :204-205), so the two halves of the contrast are a proved
+    across two lines there), so the two halves of the contrast are a proved
     faithfulness on this side and an open deferral on that one.
 
     HOUSEKEEPING, measured rather than estimated.  The [make todo] target
@@ -726,7 +726,7 @@ Qed.
 
 (* Any unital ring homomorphism commutes with the canonical map out of
    ℤ.  Proved here by [Z_peano_rect] rather than by composing with
-   Instance/Rng.v:354's [rng_from_Z] and citing its uniqueness, and
+   Instance/Rng.v's [rng_from_Z] and citing its uniqueness, and
    again for a MEASURED universe reason: [About] reports
    [rng_from_Z@{u u0 u1} : ∀ R : RingObject@{Set Set Set}, …] — that
    donor is pinned at the literal [Set] in all three of its argument's
@@ -1012,7 +1012,7 @@ Example dorroh_auniversal_med_strict (R : RgObject) (S : RingObject)
     fails is the equality of hom RECORDS.
 
     (2) The mediator read out of the COMMA-packaged class does not
-    reduce at all, because [Theory/Universal/Arrow.v:139]'s
+    reduce at all, because [Theory/Universal/Arrow.v]'s
     [ump_universal_arrows] is closed with [Qed].  This is a known in-tree
     fact rather than a defect of this file, and the passing control
     beside it is [dorroh_auniversal_med_strict] above, which reads the
@@ -1121,9 +1121,9 @@ Example dorroh_TwoZ_extend_one :
     itself stays free at [RgObject@{u u0 u1}].  Stripped, the error is
     "universe inconsistency: Cannot enforce ah = ao because ao < ah".
 
-    (2) Instance/Rng.v:354's [rng_from_Z] is pinned at [RingObject@{Set
+    (2) Instance/Rng.v's [rng_from_Z] is pinned at [RingObject@{Set
     Set Set}], so it cannot be applied to [Dorroh R] for an [R] whose hom
-    universe is declared above [Set]; the sibling [zring] (:189) is free
+    universe is declared above [Set]; the sibling [zring] is free
     and IS accepted at the same levels, which is what makes the negative
     discriminate between the two donors rather than merely reporting that
     something about [Dorroh R] is large.  Stripped, the error is
@@ -1136,13 +1136,19 @@ Example dorroh_TwoZ_extend_one :
     declared constraint is ACCEPTED — that variant was written, compiled
     and found not to fail, so no [Fail] guards it. *)
 
+(* The instances are written [@{ap ao ah}], not [@{ao ah ap}]: since the PR
+   "algebraic carriers are sets" (2026-09-17) the record's AUXILIARY universe
+   -- the one bounding the [cmon_prop] field's own sort, which carries the
+   [Set+1] -- is the FIRST argument rather than the third.  The named
+   universes keep their roles: [ao] is the carrier level, [ah] the proof
+   level, [ap] the level the record's sort is read at. *)
 Section ProbeRgObjects.
 Universes ao ah ap.
 Constraint ao < ah.
 
-Check (RgObject@{ao ah ap} : Type).
-Check (fun (R : RgObject@{ao ah ap}) (a b : carrier R) => rg_mul R a b).
-Fail Check (fun R : RgObject@{ao ah ap} => (R : obj[Rg])).
+Check (RgObject@{ap ao ah} : Type).
+Check (fun (R : RgObject@{ap ao ah}) (a b : carrier R) => rg_mul R a b).
+Fail Check (fun R : RgObject@{ap ao ah} => (R : obj[Rg])).
 
 End ProbeRgObjects.
 
@@ -1150,9 +1156,9 @@ Section ProbeDonorPin.
 Universes bo bh bp.
 Constraint Set < bh.
 
-Check (fun R : RgObject@{bo bh bp} => Dorroh R).
-Check (fun R : RgObject@{bo bh bp} => zring (Dorroh R)).
-Fail Check (fun R : RgObject@{bo bh bp} => rng_from_Z (Dorroh R)).
+Check (fun R : RgObject@{bp bo bh} => Dorroh R).
+Check (fun R : RgObject@{bp bo bh} => zring (Dorroh R)).
+Fail Check (fun R : RgObject@{bp bo bh} => rng_from_Z (Dorroh R)).
 
 End ProbeDonorPin.
 

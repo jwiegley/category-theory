@@ -136,15 +136,28 @@ Open Scope category_scope.
    [HasIndexedProducts] with [indexed_product]/[indexed_product_proj]/
    [indexed_product_ump], and the elementary [IsIndexedProduct] with
    [iprod_desc]; nothing rival is declared.  What is NOT consumed is that
-   file's [iprod]/[iprod_proj]/[iprod_ump], because [iprod@{u u0 u1}]
-   binds [C : Category@{u1 Set Set}] — the ambient hom AND proof
-   universes pinned to the literal [Set], through [DiscreteCat_Functor]
-   and [Limit] (the #331/#339 measurement) — so a theorem routed through
-   it would hold only for Set-homed categories, and would have excluded
-   the classes [Complete] is quantified over.  Pinned as the probe's N8:
-   at a hom level declared strictly above [Set], the class, its product
-   and [Complete_from_products_equalizers] are accepted while [iprod] is
-   refused with [Cannot enforce Set = ch].
+   file's [iprod]/[iprod_proj]/[iprod_ump].
+
+   RECORDED CORRECTION TO THE REASON.  An earlier revision gave it as:
+   "because [iprod@{u u0 u1}] binds [C : Category@{u1 Set Set}] — the
+   ambient hom AND proof universes pinned to the literal [Set], through
+   [DiscreteCat_Functor] and [Limit] (the #331/#339 measurement) — so a
+   theorem routed through it would hold only for Set-homed categories,
+   and would have excluded the classes [Complete] is quantified over.
+   Pinned as the probe's N8: at a hom level declared strictly above
+   [Set], the class, its product and
+   [Complete_from_products_equalizers] are accepted while [iprod] is
+   refused with [Cannot enforce Set = ch]."  That [Set] floor is GONE:
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v
+   in the PR "algebraic carriers are sets" (2026-09-17), and measured
+   after it [iprod@{u u0 u1 u2 u3}] binds [C : Category@{u1 u2 u2}] with
+   no literal [Set].  Probe N8 accordingly turned over and is now a
+   positive CONTROL in Test/ProbeFromProducts416.v.  What remains true,
+   and is the surviving reason for the choice, is that [iprod] is stated
+   through [Limit], which identifies the discrete shape's hom and proof
+   universes with the ambient's, where the elementary [IsIndexedProduct]
+   imposes no such identification; routing this theorem through the
+   elementary form keeps it free of it.
 
    UNIVERSES, off BOTH binder and block (all 91 constants).
    [limit_of_products_equalizer@{u u0 u1 u2 u3 u4 u5}] is over
@@ -224,17 +237,18 @@ Open Scope category_scope.
    generating family: [_2] has three arrows and the one-index family at
    its non-identity arrow generates.
 
-   PROSE REPOINTED in the same commit: Structure/Complete.v:49-62 (line
-   neutral, its :58-60 and :64-72 being cited elsewhere), whose closing
-   sentence had called [iprod] "the products half of the reduction";
-   Structure/Equalizer.v:89, whose "Both arguments run in this library"
-   was FALSE for the reduction until this file; Structure/Limit.v:69-72
-   (the E.1 LIBRARY-DEFECT: "uniqueness up to unique isomorphism" is
-   Structure/Limit/Unique.v's, landed since the issue was filed, and the
-   construction is this file's) and :94-96, both line neutral.
-   Structure/Topos.v:23-24, which the issue also names, cites the
+   PROSE REPOINTED in the same commit: Structure/Complete.v (the edit
+   is line neutral, parts of that passage being cited elsewhere), whose
+   closing sentence had called [iprod] "the products half of the
+   reduction"; Structure/Equalizer.v, whose "Both arguments run in this
+   library" was FALSE for the reduction until this file; and two
+   passages of Structure/Limit.v (the E.1 LIBRARY-DEFECT: "uniqueness up
+   to unique isomorphism" is Structure/Limit/Unique.v's, landed since
+   the issue was filed, and the construction is this file's), both line
+   neutral.  Structure/Topos.v, which the issue also names, cites the
    PULLBACK reduction (Structure/Pullback/Reduction.v) and not this one,
-   so it is untouched; the issue's line drift is recorded here.
+   so it is untouched; the drift in the issue's citations is recorded
+   here.
 
    NOT DELIVERED.  No covariant coequalizer-of-coproducts construction
    (the dual is the primal at C^op); no finite-shape variant (Awodey's
@@ -257,7 +271,7 @@ Open Scope category_scope.
 
 (* Two maps into an indexed product that agree under every projection are
    equal — the uniqueness clause of [iprod_desc] read as an extensionality
-   principle.  Structure/Bicartesian/Matrix.v:356's [iprod_ext] states the
+   principle.  Structure/Bicartesian/Matrix.v's [iprod_ext] states the
    same fact but drags a coproduct hypothesis in from its section, and
    Instance/Fun/Terminal.v's [iprod_jointly_monic] sits far outside this
    closure; the four-line restatement is disclosed. *)

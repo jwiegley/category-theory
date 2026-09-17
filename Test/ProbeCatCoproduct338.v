@@ -4,9 +4,9 @@
 
     The two target files pin FOUR refutations of their own, and not all
     of one kind: three CONVERSION
-    (`Construction/Coproduct/Indexed.v:530`,
-    `Instance/Cat/Coproduct.v:396` and `:399`) and one FORMABILITY
-    (`Instance/Cat/Coproduct.v:418`, the smallness measurement).  This
+    (`Construction/Coproduct/Indexed.v`,
+    `Instance/Cat/Coproduct.v` and) and one FORMABILITY
+    (`Instance/Cat/Coproduct.v`, the smallness measurement).  This
     file pins the THREE boundaries they cannot state -- two because
     stating them needs a section declaring universe levels strictly
     apart, which a target cannot carry without constraining itself.
@@ -25,7 +25,7 @@
         do carry (`C : Category@{a b b}`) to its donor: `Functor_Setoid`
         is rejected at separated levels while the functor TYPE `C ⟶ D`
         and the underlying `Unique` over a hom-setoid both elaborate.
-        `Functor_Setoid` (`Theory/Functor.v:149`) is an unannotated
+        `Functor_Setoid` (`Theory/Functor.v`) is an unannotated
         `Program Instance`, and since `≈` on functors IS that setoid, no
         statement of the UMP in this library's vocabulary avoids it.  It
         is not introduced by #338 and is NOT claimed unavoidable.
@@ -254,9 +254,9 @@ Check @sigma_poly_unit_dec.
     [SigmaCat_inj] and Negative 2 with [homset], all three of which
     occur only in that section's positive CONTROLS:
 
-      Negative 1 (:108) names [Type], [Category], [sigma_obj_unann]
-      Negative 2 (:142) names [Category], [Functor_Setoid]
-      Negative 3 (:189) names [Category], [obj], [SigmaCat], [BoolFam],
+      Negative 1 names [Type], [Category], [sigma_obj_unann]
+      Negative 2 names [Category], [Functor_Setoid]
+      Negative 3 names [Category], [obj], [SigmaCat], [BoolFam],
                         [eq_refl]
 
     Excluding core vocabulary ([Type], [Category], [obj], [eq_refl]) on

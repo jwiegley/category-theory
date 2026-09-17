@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -82,26 +83,35 @@ Generalizable All Variables.
     [Subgroup] and [NormalSubgroup] there are exactly those five laws;
     [CommutatorNS] below packages [InCommutator] as one, using the
     five facts this file already proved and adding nothing; and
-    [abel_eq] is [quot_rel] at that normal subgroup, by convertibility
-    ([abel_eq_is_quot_rel]).  The six lemmas that follow keep their
-    statements unchanged and are now one-line citations of the generic
-    ones, so this file no longer carries a quotient construction of
-    its own.
+    [abel_eq] is [quot_rel] at that normal subgroup ([abel_eq_is_quot_rel]).
+    An earlier revision added "by convertibility": since the PR "algebraic
+    carriers are sets" (2026-09-17) the two are separated by one [inhabited],
+    so the identification is up to the propositional truncation and is stated
+    so at [eq_refl] there.  The six lemmas that follow keep their statements
+    unchanged and are one-line citations of the generic ones, each gaining a
+    [constructor] or a [destruct], so this file still carries no quotient
+    construction of its own.
 
     THE OTHER TWO CONSTRUCTIONS the paragraph named are NOT unified,
     and re-reading their record types shows why the count of "three
     unshared quotient constructions" was itself imprecise.
-    Instance/Grp/Epi.v:433's [Grp_Coset] is a [SetoidObject] and not a
+    Instance/Grp/Epi.v's [Grp_Coset] is a [SetoidObject] and not a
     [GrpObject] at all: it is the coset space of the image of an
     arbitrary homomorphism, and that file's argument exists precisely
-    for the case where the image is NOT normal (its :171, :1488 and
-    :1644).  It is therefore not an instance of a normal-subgroup
-    quotient and cannot be made one.  Instance/Ab.v:427's
+    for the case where the image is NOT normal (its header and two
+    later passages say so).  It is therefore not an instance of a
+    normal-subgroup
+    quotient and cannot be made one.  Instance/Ab.v's
     [ab_coset_eq] IS a quotient group, but of an [AbObject], and Ab.v
     sits upstream of Instance/Grp.v with the only bridge
     ([Ab_to_GrpOb]) living in this file; routing it through
     Instance/Grp/Quotient.v would move that bridge upstream and give
-    Ab.v a dependency on Grp.  That is left undone deliberately.
+    Ab.v a dependency on Grp.  That is left undone deliberately.  (An
+    earlier revision of that sentence cited Instance/Ab.v, where the
+    definition stood before the PR "algebraic carriers are sets"
+    (2026-09-17); the same PR also made [ab_coset_eq] a [Prop] -- it is
+    Coq's [ex] now, not a [Type]-valued sigma -- which is the shape
+    [abel_eq] here has too.)
 
     NON-DEGENERACY, witnessed: [commutator_GrpTwo_proper] (in an
     abelian group the subgroup omits the nonidentity),
@@ -204,53 +214,79 @@ Definition CommutatorNS (G : GrpObject) : NormalSubgroup G :=
 
 (** ** The quotient relation *)
 
-Definition abel_eq (G : GrpObject) (a b : carrier G) : Type :=
-  InCommutator G (grp_mul G a (grp_inv G b)).
+(* Since the PR "algebraic carriers are sets" (2026-09-17) the abelianization
+   is an [AbObject] and so owes [cmon_prop], which forces its equality to be a
+   [Prop].  [InCommutator] STAYS [Type]-valued -- it is the membership
+   predicate of the commutator subgroup, [sub_mem] of [CommutatorNS] above,
+   and the leastness arguments read witnesses out of it -- and [abel_eq] is
+   its PROPOSITIONAL TRUNCATION, exactly as Instance/Mod/Quotient.v's
+   [mquot_rel] is the truncation of [smod_mem].
 
-(* [abel_eq] IS the generic quotient relation at [CommutatorNS], by
-   convertibility -- the [eq_refl] exception to the `≈` discipline, and
-   what licenses the six one-line proofs below. *)
+   AN EARLIER PLAN for this phase predicted that the abelianization would have
+   to take a [PropEquiv] as a hypothesis until [GrpObject] carries [grp_prop],
+   on the ground that a [Prop] mirror of [abel_eq] would need to eliminate a
+   [Prop] back into the [Type]-valued [InCommutator].  Truncating [abel_eq]
+   ITSELF avoids that: there is nothing to go back to, and the two places that
+   consume the relation land either in a [Prop] goal (the functor's
+   respectfulness obligation) or in an `≈` at an [AbObject], which carries its
+   own [cmon_prop] ([abel_kills] in Instance/Grp/Abelianize.v).  Taking the
+   hypothesis instead was also measured to be fatal: as a section variable it
+   pins [Grp]'s object universe, and [S3] is then refused. *)
+Definition abel_eq (G : GrpObject) (a b : carrier G) : Prop :=
+  inhabited (InCommutator G (grp_mul G a (grp_inv G b))).
+
+(* [abel_eq] is the TRUNCATION of the generic quotient relation at
+   [CommutatorNS].  An earlier revision read
+   [abel_eq G a b = quot_rel (CommutatorNS G) a b] at [eq_refl]; the two are
+   now separated by [inhabited], and the identification is stated up to it.
+   The six one-line proofs below each gain a [constructor] or a [destruct]. *)
 Example abel_eq_is_quot_rel (G : GrpObject) (a b : carrier G) :
-  abel_eq G a b = quot_rel (CommutatorNS G) a b.
+  abel_eq G a b = inhabited (quot_rel (CommutatorNS G) a b).
 Proof. reflexivity. Qed.
 
 (* The finer relation implies the coarser one. *)
 Lemma abel_eq_of_eq (G : GrpObject) (a b : carrier G) :
   a ≈ b → abel_eq G a b.
-Proof. exact (quot_rel_of_equiv (CommutatorNS G) a b). Qed.
+Proof. intro H; constructor; exact (quot_rel_of_equiv (CommutatorNS G) a b H). Qed.
 
 Lemma abel_eq_refl (G : GrpObject) (a : carrier G) : abel_eq G a a.
-Proof. exact (quot_rel_refl (CommutatorNS G) a). Qed.
+Proof. constructor; exact (quot_rel_refl (CommutatorNS G) a). Qed.
 
 Lemma abel_eq_sym (G : GrpObject) (a b : carrier G) :
   abel_eq G a b → abel_eq G b a.
-Proof. exact (quot_rel_sym (CommutatorNS G) a b). Qed.
+Proof. intros [H]; constructor; exact (quot_rel_sym (CommutatorNS G) a b H). Qed.
 
 Lemma abel_eq_trans (G : GrpObject) (a b c : carrier G) :
   abel_eq G a b → abel_eq G b c → abel_eq G a c.
-Proof. exact (quot_rel_trans (CommutatorNS G) a b c). Qed.
+Proof.
+  intros [H1] [H2]; constructor.
+  exact (quot_rel_trans (CommutatorNS G) a b c H1 H2).
+Qed.
 
 (* The operations respect the quotient relation; multiplication and
    inversion are where normality earns its keep. *)
 Lemma abel_eq_mul (G : GrpObject) (a a' b b' : carrier G) :
   abel_eq G a a' → abel_eq G b b' →
   abel_eq G (grp_mul G a b) (grp_mul G a' b').
-Proof. exact (quot_rel_mul (CommutatorNS G) a a' b b'). Qed.
+Proof.
+  intros [H1] [H2]; constructor.
+  exact (quot_rel_mul (CommutatorNS G) a a' b b' H1 H2).
+Qed.
 
 Lemma abel_eq_inv (G : GrpObject) (a a' : carrier G) :
   abel_eq G a a' → abel_eq G (grp_inv G a) (grp_inv G a').
-Proof. exact (quot_rel_inv (CommutatorNS G) a a'). Qed.
+Proof.
+  intros [H]; constructor.
+  exact (quot_rel_inv (CommutatorNS G) a a' H).
+Qed.
 
 (** ** The abelianization of a group *)
 
-Program Definition AbelianizationOb (G : GrpObject) : AbObject := {|
-  ab_cmon := {|
-    cmon_setoid := {| carrier := carrier G
-                    ; is_setoid := {| equiv := abel_eq G |} |};
-    cmon_zero := grp_unit G;
-    cmon_plus := grp_mul G
-  |};
-  ab_neg := grp_inv G
+(* The quotient setoid, NAMED so that the [PropEquiv] hypothesis below can
+   mention it: a field of a [Program] record literal cannot refer to a setoid
+   that is still an evar while the literal is being elaborated. *)
+Program Definition abel_setoid (G : GrpObject) : Setoid (carrier G) := {|
+  equiv := abel_eq G
 |}.
 Next Obligation.
   intro G; equivalence.
@@ -258,6 +294,24 @@ Next Obligation.
   - now apply abel_eq_sym.
   - now apply (abel_eq_trans G x y).
 Qed.
+
+(* [abel_eq] IS a [Prop] relation, so the quotient supplies its own
+   [cmon_prop] and no hypothesis is taken anywhere. *)
+Definition abel_PropEquiv (G : GrpObject) : PropEquiv (abel_setoid G) :=
+  @PropEquiv_of_relation _ (abel_setoid G) (abel_eq G)
+    (fun _ _ h => h) (fun _ _ h => h).
+
+Program Definition AbelianizationOb (G : GrpObject) :
+  AbObject := {|
+  ab_cmon := {|
+    cmon_setoid := {| carrier := carrier G
+                    ; is_setoid := abel_setoid G |};
+    cmon_zero := grp_unit G;
+    cmon_plus := grp_mul G;
+    cmon_prop := abel_PropEquiv G
+  |};
+  ab_neg := grp_inv G
+|}.
 Next Obligation.
   intros G a a' Ha b b' Hb; now apply abel_eq_mul.
 Qed.
@@ -266,7 +320,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   (* Commutativity IS the generating constructor. *)
-  intros G a b; unfold abel_eq.
+  intros G a b; unfold abel_eq; constructor.
   apply (inc_resp (a := gcomm G a b)); [| apply inc_comm ].
   unfold gcomm.
   rewrite (grp_inv_mul G b a).
@@ -292,15 +346,27 @@ Definition mk_comm (G : GrpObject) (x : carrier G)
   (Hx : InCommutator G x) : commutator_carrier G :=
   existT (fun x : carrier G => InCommutator G x) x Hx.
 
+(* The carrier setoid is named rather than written inline in the record
+   below: since the PR "algebraic carriers are sets" (2026-09-17) the record
+   also carries [grp_prop], and a [Program] record literal cannot carry a
+   [PropEquiv] field naming a setoid written inline in the same literal. *)
+Program Definition commutator_setoid (G : GrpObject) : SetoidObject := {|
+  carrier := commutator_carrier G;
+  is_setoid := {| equiv := fun a b => `1 a ≈ `1 b |}
+|}.
+Next Obligation. intro G; equivalence; now transitivity (`1 y). Qed.
+
 Program Definition CommutatorGrp (G : GrpObject) : GrpObject := {|
-  grp_setoid := {| carrier := commutator_carrier G
-                 ; is_setoid := {| equiv := fun a b => `1 a ≈ `1 b |} |};
+  grp_setoid := commutator_setoid G;
   grp_unit := mk_comm G (grp_unit G) inc_unit;
   grp_mul := fun a b =>
     mk_comm G (grp_mul G (`1 a) (`1 b)) (inc_mul (`2 a) (`2 b));
-  grp_inv := fun a => mk_comm G (grp_inv G (`1 a)) (inc_inv (`2 a))
+  grp_inv := fun a => mk_comm G (grp_inv G (`1 a)) (inc_inv (`2 a));
+  (* The commutator subgroup's `≈` compares first projections in [G]. *)
+  grp_prop :=
+    sigma_first_PropEquiv (is_setoid (commutator_setoid G))
+      (fun _ _ h => h) (fun _ _ h => h) (grp_prop G)
 |}.
-Next Obligation. intro G; equivalence; now transitivity (`1 y). Qed.
 Next Obligation.
   intros G a a' Ha b b' Hb; simpl in *; now rewrite Ha, Hb.
 Qed.
@@ -334,7 +400,9 @@ Program Definition Ab_to_GrpOb (A : AbObject) : GrpObject := {|
   grp_setoid := cmon_setoid A;
   grp_unit := cmon_zero A;
   grp_mul := cmon_plus A;
-  grp_inv := ab_neg A
+  grp_inv := ab_neg A;
+  (* Inherited: the same carrier setoid, so the same witness. *)
+  grp_prop := cmon_prop A
 |}.
 Next Obligation. intros A a b c; apply cmon_plus_assoc. Qed.
 Next Obligation. intros A a; apply cmon_plus_zero_l. Qed.
@@ -363,6 +431,7 @@ Next Obligation.
   (* respect for the coarser relations: push the witness forward *)
   intros G H f a b Hab; simpl in *.
   unfold abel_eq in *.
+  destruct Hab as [Hab]; constructor.
   apply (inc_resp (a := grp_map f (grp_mul G a (grp_inv G b)))).
   - rewrite (grp_map_mul f a (grp_inv G b)).
     rewrite (grp_map_inv f b).
@@ -439,7 +508,7 @@ Qed.
 Lemma abelianization_S3_nontrivial :
   abel_eq S3 S3_s s3_unit → False.
 Proof.
-  intro K.
+  intros [K].
   pose proof (hom_to_abelian_kills GrpTwo_abelian s3_sign _ K) as E.
   vm_compute in E.
   exact E.

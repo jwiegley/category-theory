@@ -48,22 +48,22 @@ Generalizable All Variables.
 
    STALE PREMISES, RE-MEASURED.
      - "the base theorem the exercise refines is itself absent": it landed
-       as Structure/Limit/FromProducts.v (#416; docs/INDEX.md:150) — the
-       arrow index [ArrowIx] (:286) with [mk_arrow] (:292), the generating
-       closure [Gen] (:316) with [gen_id] (:318) and [Generates] (:326),
-       [ArrowIx_Generates] (:339), the elementary core [pe_cone] (:400) and
-       [pe_limiting], the pair [pe_s]/[pe_t] (:494/:498) with their component
-       equations (:502/:509), [limit_of_products_equalizer] (:537) and
-       [Complete_from_products_equalizers] (:555).  The core consumes an
-       ELEMENTARY [IsEqualizer] (:376), never the class — the decisive fact
+       as Structure/Limit/FromProducts.v (#416; docs/INDEX.md) — the
+       arrow index [ArrowIx] with [mk_arrow], the generating
+       closure [Gen] with [gen_id] and [Generates],
+       [ArrowIx_Generates], the elementary core [pe_cone] and
+       [pe_limiting], the pair [pe_s]/[pe_t] with their component
+       equations, [limit_of_products_equalizer] and
+       [Complete_from_products_equalizers].  The core consumes an
+       ELEMENTARY [IsEqualizer], never the class — the decisive fact
        here: Manes' criterion needs no [HasEqualizers] anywhere.
-     - "coreflexive returns 0 hits": Structure/Topos/Monadic.v:595 proves
+     - "coreflexive returns 0 hits": Structure/Topos/Monadic.v proves
        [coreflexive_equalizer_pullback] for a pair with a common retraction
-       (a step of Paré's theorem; Test/ProbeToposColimits405.v:138 guards
+       (a step of Paré's theorem; Test/ProbeToposColimits405.v guards
        it).  The NOTION is in the tree and load-bearing; what was absent is
        the packaging — no record, no class.  [common left inverse] had 0
        hits before this file (it is the phrase this header's BACKGROUND now
-       uses), but Theory/Morphisms.v:56's [Section] is the split-mono
+       uses), but Theory/Morphisms.v's [Section] is the split-mono
        record with exactly that field, and a coreflexive pair is two such
        splittings sharing one retraction.
      - "reflexive pairs appear ten times across Structure/Coequalizer/
@@ -83,8 +83,8 @@ Generalizable All Variables.
          two laws), [HasCoreflexiveEqualizers C] (an elementary equalizer
          for every coreflexive pair), [common_retraction_coreflexive], the
          [#[export] Instance] [HasEqualizers_HasCoreflexiveEqualizers], and
-         [functor_preserves_coreflexive] — mirroring Reflexive.v:40, :54,
-         :64, :75 and :86 line for line.
+         [functor_preserves_coreflexive] — mirroring Reflexive.v line
+         for line.
      (2) THE DUAL, MEASURED.  A common left inverse in C is a common section
          in C^op field for field, so the pair repackages by [:=] both ways
          ([CoreflexivePair_of_op], [op_ReflexivePair_of_Coreflexive]) with
@@ -92,9 +92,10 @@ Generalizable All Variables.
          type, nor are the classes (probe N1, N2), whose bridges
          ([HasCoreflexiveEqualizers_of_op],
          [op_HasReflexiveCoequalizers_of_Coreflexive]) perform the
-         destruct-and-repackage of Structure/Pullback/Reduction.v:675/:681/
-         :697 because the existential bodies are Structure/Equalizer/Fork.v:52's
-         [IsEqualizer] and Structure/Coequalizer.v:52's [IsCoequalizer].
+         destruct-and-repackage of Structure/Pullback/Reduction.v
+         because the existential bodies are
+         Structure/Equalizer/Fork.v's [IsEqualizer] and
+         Structure/Coequalizer.v's [IsCoequalizer].
          The notion is therefore declared on its own — an alias of
          [ReflexivePair] at [C^op] would force the [y x] argument order and
          [∘[C^op]] on every user and be invisible to the grep that already
@@ -104,7 +105,7 @@ Generalizable All Variables.
          [id_index_dom], [id_index_arr] at [eq_refl]); [pe_retract] is the
          map into the object product with components the arrow product's
          projections at the identities; [pe_retract_s] and [pe_retract_t]
-         are three lines each by FromProducts.v:265's [pe_iprod_ext];
+         are three lines each by FromProducts.v's [pe_iprod_ext];
          [pe_coreflexive : CoreflexivePair (pe_s HP F) (pe_t HP F)].  The
          generating-family variant is NOT stated: [Gen]'s [gen_id] closes
          the generated arrows under identities but puts no identity into the
@@ -118,7 +119,7 @@ Generalizable All Variables.
          HasCoreflexiveEqualizers C → Complete C] — FromProducts.v's core fed
          the coreflexive equalizer in place of an arbitrary one; Theorem 2's
          explicit description reads back at [eq_refl] ([mc_limit_apex],
-         [mc_limit_leg]) exactly as in FromProducts.v:542-549.
+         [mc_limit_leg]) exactly as in FromProducts.v.
      (5) PART (b), THE CATEGORICAL HALF.  In any cartesian category a common
          section IS a factorization of the diagonal [id △ id] through
          [f △ g]: [fork_diagonal_of_reflexive], [reflexive_of_fork_diagonal],
@@ -137,7 +138,7 @@ Generalizable All Variables.
          [diagonal_in_image_of_through_image]; [diagonal_through_image] is
          the forward half from a [ReflexivePair] directly).  Both halves
          are free for the same reason the [ReflexivePair] converse is not:
-         [Sets_Image]'s setoid (:69) compares codomain components only, so
+         [Sets_Image]'s setoid compares codomain components only, so
          the map b ↦ ((b, b); (chosen preimage; _)) is proper in b whatever
          the choice function does.  An earlier revision of this header said
          the reverse "would split the epi leg — a choice principle"; the
@@ -146,7 +147,7 @@ Generalizable All Variables.
      (7) NON-VACUITY, AND ITS LIMIT.  [Sets_HasCoreflexiveEqualizers] and
          [Sets_Complete_via_Manes : Complete Sets] compile closed — but the
          only route to the hypothesis in the tree is the STRONGER
-         [HasEqualizers Sets] (Reduction.v:654 from [Sets_HasPullbacks]).
+         [HasEqualizers Sets] (Reduction.v from [Sets_HasPullbacks]).
          No category in the tree is known to have coreflexive equalizers
          without all equalizers, so the criterion is instantiated only
          where Theorem 1's hypothesis already holds; nothing here separates
@@ -177,7 +178,7 @@ Generalizable All Variables.
        [u0 < u]; an earlier revision counted "six Sets constants" under
        the equations, which was five then and mis-included this one.
        [Sets_Complete_via_Manes@{u u0} : Complete@{u u u u0}] with [u < u0]
-       is the universe shape of Instance/Sets/Complete.v:73's
+       is the universe shape of Instance/Sets/Complete.v's
        [Sets_Complete].
      - "No stdlib cap" means exactly the three names of the first item.
        Bounds against stdlib universes DO appear: the Sets-side blocks are
@@ -236,7 +237,7 @@ Generalizable All Variables.
        biconditional [diagonal_in_image_iff_through_image] IS delivered
        unconditionally (an earlier revision called its reverse a choice
        principle; the audit refuted that).
-     - Any relocation of Structure/Topos/Monadic.v:595's
+     - Any relocation of Structure/Topos/Monadic.v's
        [coreflexive_equalizer_pullback] onto the new record: it stays where
        it is (surfaced in the PR, not settled).
      - No edit to Structure/Coequalizer/Reflexive.v, Structure/Limit/

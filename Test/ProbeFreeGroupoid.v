@@ -23,6 +23,13 @@
     unification or typing failure rather than a syntax, scope or universe
     error; the diagnoses are recorded beside each probe.
 
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+    which made the free GROUP's `≈` the propositional truncation of the free
+    GROUPOID's hom-equality (Instance/Grp/Free.v's [fg_equiv]).  The free
+    groupoid itself is untouched, and every negative and every control below
+    still holds with its text unchanged; the truncation's own boundary is
+    pinned separately, in Test/ProbeGrpProp.v.
+
     The five negatives and their causes:
 
       - [FreeGroupoid] is not [FreeSigned].  The two share their objects and

@@ -43,11 +43,11 @@ Definition Continuous_PreservesProductCones {C D : Category} {F : C ⟶ D}
 (** ** Finite shapes *)
 
 (* Structure/Limit/Finite.v's [FiniteCategory] is now the tree's finiteness
-   predicate on shapes (Structure/Limit/Creation.v:134-138 points at it;
+   predicate on shapes (Structure/Limit/Creation.v points at it;
    Structure/Topos.v and Structure/Regular.v once spelled "finite limits" as
    terminal, products, pullbacks).  A second, in the enumeration form of
-   Construction/Subcategory/Finite.v:92 and Construction/Free/Quiver/
-   Presented.v:155: finitely many objects, and finitely many arrows in each
+   Construction/Subcategory/Finite.v and Construction/Free/Quiver/
+   Presented.v: finitely many objects, and finitely many arrows in each
    hom UP TO [≈], which is the only reading the setoid setting supports.
    The lists are data, so the record is a [Type] and its inhabitants
    compute. *)

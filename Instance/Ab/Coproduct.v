@@ -39,9 +39,9 @@ Generalizable All Variables.
 
    HOW MUCH IS INHERITED, MEASURED RATHER THAN ASSERTED.  Instance/Ab.v
    makes [AbObject] extend [CMonObject] by a coercion
-   ([ab_cmon :> CMonObject], Instance/Ab.v:116) and — the load-bearing
+   ([ab_cmon :> CMonObject], Instance/Ab.v) and — the load-bearing
    choice — defines [AbHom A B := CMonHom A B] as a bare [Definition]
-   (Instance/Ab.v:184), with [Ab]'s hom-setoid, identity and composition
+   (Instance/Ab.v), with [Ab]'s hom-setoid, identity and composition
    taken from [CMon] literally.  So an arrow of Ab IS an arrow of CMon,
    not merely one up to some comparison.
 
@@ -62,7 +62,7 @@ Generalizable All Variables.
    SAME TERM by [eq_refl].  They are, because [Ab_Zero] is assembled from
    [Ab_Terminal] and [Ab_Initial], whose [one] and [zero] fields are
    Instance/Ab.v's [Ab_one] and [Ab_zero_hom] — and those are literally
-   [CMon_one] and [CMon_zero_hom] (Instance/Ab.v:238, :252).  So
+   [CMon_one] and [CMon_zero_hom] (Instance/Ab.v).  So
    [Ab_exl_inr] and [Ab_exr_inl] are [CMon_exl_inr] and [CMon_exr_inl],
    supplied by [:=] like the rest.  The general lesson is the one the
    correction cost: at this depth of inheritance, "different record at a
@@ -89,12 +89,12 @@ Generalizable All Variables.
    [Ab_product@{…}] is universe-polymorphic with thirteen free binders,
    but [Ab_Biproduct@{u} : ∀ M N : AbObject@{Set Set Set}, …] and
    [Ab_Cocartesian@{u} : Cartesian@{u Set}] are PINNED at [Set].  The
-   cause is located rather than guessed: Instance/Ab.v:227's [Ab_trivial]
+   cause is located rather than guessed: Instance/Ab.v's [Ab_trivial]
    is declared with NO universe binders, at [AbObject@{Set Set Set}], and
    everything mentioning a zero morphism goes through it via [Ab_Zero].
    The contrast that identifies it is Instance/CMon/Coproduct.v, whose
    [CMon_Cocartesian@{u u0} : Cartesian@{u u0}] is FREE of any [Set] —
-   because Instance/CMon/Biproduct.v:72's [CMon_trivial@{o}] IS
+   because Instance/CMon/Biproduct.v's [CMon_trivial@{o}] IS
    polymorphic.  So the pin is one donor constant's, it enters exactly
    where the zero object does, and it is NOT claimed unavoidable; the
    repair belongs to Instance/Ab.v and is not made here.  Both halves are
@@ -104,9 +104,9 @@ Generalizable All Variables.
    WHAT IS NOT DELIVERED.  No indexed or infinite direct sums — the
    coproduct here is binary, matching [Cocartesian]; the indexed statement
    would need [HasIndexedCoproducts Ab], which is not built.  No
-   [Additive Ab] or [Abelian Ab] instance is claimed: Instance/Ab.v:17
+   [Additive Ab] or [Abelian Ab] instance is claimed: Instance/Ab.v
    records that it instantiates none of [Preadditive], [Additive] or
-   [Abelian], and while [Structure/AbCategory.v:333] has since supplied
+   [Abelian], and while [Structure/AbCategory.v] has since supplied
    [Ab_Preadditive], the remaining two need more than biproducts.  And
    nothing is said about coproducts in Grp, where the answer is the free
    product and no part of this file applies — that is exactly Awodey's
@@ -156,7 +156,7 @@ Definition Ab_copair {M N P : AbObject}
 
 (* The fact that makes the two [zero_mor] laws transfer: Ab's zero
    morphism and CMon's are the same term, [Ab_Zero]'s [one] and [zero]
-   being [CMon_one] and [CMon_zero_hom] (Instance/Ab.v:238, :252) and
+   being [CMon_one] and [CMon_zero_hom] (Instance/Ab.v) and
    Ab's composition being CMon's. *)
 Example ab_zero_mor_is_cmon_zero_mor (M N : AbObject) :
   @zero_mor Ab Ab_Zero M N = @zero_mor CMon CMon_Zero M N := eq_refl.

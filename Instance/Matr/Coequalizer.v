@@ -182,7 +182,7 @@ Generalizable All Variables.
     fields of one record differ in this respect.
 
     THE DECIDERS.  Elimination.v measured that Instance/Field.v's
-    [F2_Field_dec] (:534) and [Q_Field_dec] (:410) are [Qed] LEMMAS, so
+    [F2_Field_dec] and [Q_Field_dec] are [Qed] LEMMAS, so
     no application of either reduces and the elimination engine computes
     with neither.  Every [eq_refl] witness below therefore runs on that
     file's transparent copies [f2_dec] and [q_dec], which decide the same

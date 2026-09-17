@@ -319,11 +319,12 @@ Qed.
    splitting law for each step, which is why neither law alone would do.
    Before this lemma nothing in the tree derived the idempotence of a
    [SplitIdempotent]'s [split_idem] field.
-   The class was CONCLUDED in exactly two places -- [id_idem] (:129 of this
-   file) and [Extend_idem] (Construction/Karoubi/Universal.v:163, the image of
+   The class was CONCLUDED in exactly two places -- [id_idem] in this
+   file and [Extend_idem] (Construction/Karoubi/Universal.v, the image of
    a Karoubi object's idempotent under a functor) -- and every remaining
-   occurrence of it was a HYPOTHESIS (Construction/Karoubi.v:227,
-   Construction/Karoubi/Universal.v:54, Instance/Sets/Karoubi.v:54,61,81). *)
+   occurrence of it was a HYPOTHESIS (Construction/Karoubi.v,
+   Construction/Karoubi/Universal.v and three sites in
+   Instance/Sets/Karoubi.v). *)
 Lemma split_idem_Idempotent {x y : C} (S : @SplitIdempotent x y) :
   Idempotent (@split_idem x y S).
 Proof.
@@ -382,7 +383,7 @@ Qed.
    ([sets_coarsen_not_regular_absurd]).
 
    The definition is stated with the library's `∃`, which is Type-valued
-   (`sigT`, Lib/Foundation.v:61,66), so a regularity witness is DATA: the
+   (`sigT`, Lib/Foundation.v), so a regularity witness is DATA: the
    pseudoinverse can be projected out and computed with.  That is what makes
    the FinSet result of Instance/FinSet/Regular.v an executable finite search
    rather than a bare existence claim, and it is why the four constructions

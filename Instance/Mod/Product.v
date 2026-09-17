@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.CMon.
@@ -21,10 +22,10 @@ Generalizable All Variables.
     BEFORE THIS FILE the tree had no indexed product or coproduct in any
     algebraic category: Instance/Mod/Coproduct.v's [RMod_Biproduct] and
     Instance/Ab/Coproduct.v's coproduct are binary, and the tree's
-    [HasIndexedProducts] inhabitants — Sets' (Instance/Sets/Products.v:302),
-    Cat's and StrictCat's (Instance/Cat/Limit.v:293, :521), functor
-    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v:520, :713) and
-    [_1]'s (Structure/Limit/Power/Adjunction.v:1611) — include no algebraic
+    [HasIndexedProducts] inhabitants — Sets' (Instance/Sets/Products.v),
+    Cat's and StrictCat's (Instance/Cat/Limit.v), functor
+    categories' and [[_2, Sets]]'s (Instance/Fun/Terminal.v) and
+    [_1]'s (Structure/Limit/Power/Adjunction.v) — include no algebraic
     category; measured by `grep -rn 'Instance .*HasIndexedProducts\|
     Definition .*HasIndexedProducts' --include='*.v'`.
 
@@ -77,7 +78,7 @@ Generalizable All Variables.
     0; none of the eight is droppable); zero name collisions across the
     tree for the eleven names (`grep -rlw --include='*.v'`; the first
     draft's [prod_setoid] became [modprod_setoid] because
-    Lib/Datatypes.v:139 owns [prod_setoid]).  The `make print-assumptions`
+    Lib/Datatypes.v owns [prod_setoid]).  The `make print-assumptions`
     gate carries the eleven heads. *)
 
 #[local] Obligation Tactic := idtac.
@@ -100,10 +101,17 @@ Next Obligation.
   - intros f g h H1 H2 i; now transitivity (g i).
 Qed.
 
+(* The carrier is a pointwise product of propositional carriers, so it is
+   propositional pointwise: Lib/Setoid/Propositional.v's
+   [dep_fun_PropEquiv], with the two implications the identity because the
+   relation [modprod_setoid] writes inline IS the pointwise one. *)
 Program Definition modprod_cmon : CMonObject := {|
   cmon_setoid := modprod_setoid;
   cmon_zero   := fun i => cmon_zero (V i);
-  cmon_plus   := fun f g i => cmon_plus (V i) (f i) (g i)
+  cmon_plus   := fun f g i => cmon_plus (V i) (f i) (g i);
+  cmon_prop   := dep_fun_PropEquiv (is_setoid modprod_setoid)
+                   (fun _ _ h => h) (fun _ _ h => h)
+                   (fun i => cmon_prop (V i))
 |}.
 Next Obligation. intros f f' Hf g g' Hg i; now rewrite (Hf i), (Hg i). Qed.
 Next Obligation. intros f g h i; apply cmon_plus_assoc. Qed.

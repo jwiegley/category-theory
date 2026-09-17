@@ -117,7 +117,7 @@ Generalizable All Variables.
 
        - its [homset] field is [{| equiv := …; setoid_equiv := … |}] whose
          second component is a [Qed]-opaque Program obligation (the tree runs
-         [Unset Transparent Obligations], Lib/Tactics.v:36).  [Setoid] has
+         [Unset Transparent Obligations], Lib/Tactics.v).  [Setoid] has
          primitive projections with eta, so conversion compares that field,
          and an opaque constant defeats it.  This is the same obstruction
          Constructions.v records in its edgeset/prod_setoid non-reuse
@@ -291,8 +291,8 @@ Generalizable All Variables.
    deleted.  The hazard it guards against is real in general — three scopes
    declare [_ ^op], and [QuiverCategory^op] occurs below in an argument
    position — but the competing notation is declared in Functor/Opposite.v
-   (:41), which also opens functor_scope (:44) and which this file does not
-   import.  Theory/Functor.v opens functor_scope too (:118) but declares no
+, which also opens functor_scope and which this file does not
+   import.  Theory/Functor.v opens functor_scope too but declares no
    [^op] in it, so nothing here shadows Construction/Opposite.v's. *)
 Local Open Scope category_scope.
 
@@ -304,7 +304,7 @@ Local Existing Instance edgeset.
 (* The cross-summand edge sets are empty, and an empty type carries exactly
    one setoid.  All three [Equivalence] fields are written as explicit terms
    rather than discharged by a tactic or by [Program]: the tree runs
-   [Unset Transparent Obligations] (Lib/Tactics.v:36) and [Setoid] has
+   [Unset Transparent Obligations] (Lib/Tactics.v) and [Setoid] has
    primitive projections with eta, so an obligation-built proof would be an
    opaque constant sitting inside [QuiverCoprod] and would defeat the
    [eq_refl] measurements below.  The spelling follows [edgeset_prod] of

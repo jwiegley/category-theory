@@ -227,7 +227,7 @@ Definition p377_route_control :
    not close, and the error names where it stops: the goal is
    [equiv_adj_to EquivalenceOfCategories_sym id], i.e. the [symmetry]
    taken on [Functor_Setoid], whose [Equivalence] obligation is closed
-   opaquely at Theory/Functor.v:193.  This is the measurement that decides
+   opaquely at Theory/Functor.v.  This is the measurement that decides
    which route is shipped. *)
 Fail Definition p377_n7 :
   @unit A C (@ff_eso_inverse A C S _ _ (ff_surj_eso surj)) S

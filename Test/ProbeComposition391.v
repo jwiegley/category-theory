@@ -152,7 +152,7 @@ Fail Example p391_neg3 (a c b1 b2 : C) :
 
 (** ** Negative 4 (CONVERSION): the [Program]-elaborated [fobj] is opaque *)
 
-(* Structure/Cartesian/Closed/Natural.v:315-321 records that writing the
+(* Structure/Cartesian/Closed/Natural.v records that writing the
    object action INSIDE a [Program Definition] lets [Program] defer an
    unresolved instance argument of [product_obj] into an obligation, which
    Lib/Foundation.v's [Unset Transparent Obligations] makes opaque; the

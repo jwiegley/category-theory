@@ -38,7 +38,7 @@ Generalizable All Variables.
     HOW EACH THEOREM IS ACTUALLY OBTAINED.
 
     The comparisons for the FIRST and THIRD are produced by ONE
-    mechanism: [universal_element_iso] (Theory/Universal/Element.v:766),
+    mechanism: [universal_element_iso] (Theory/Universal/Element.v),
     which turns two universal elements of the SAME functor into an
     isomorphism of their carriers, together with its uniqueness clause
     [universal_element_iso_unique]; neither is built by exhibiting
@@ -225,7 +225,11 @@ Lemma mod_image_med_wd (a b : carrier (cmon_setoid M)) :
 Proof.
   intro Hab.
   apply (mkills_descends (KernelSub f) x).
+  (* [mquot_rel] is the [inhabited] truncation of membership since the PR
+     "algebraic carriers are sets" (2026-09-17), so one [constructor] is owed
+     before the membership proof itself. *)
   unfold mquot_rel; simpl.
+  constructor.
   rewrite (ab_map_sub (rm_hom f) a b), Hab.
   apply ab_sub_self.
 Qed.
@@ -323,7 +327,7 @@ Qed.
 (* BOTH LEGS ARE THE TWO MEDIATORS, by convertibility -- the [eq_refl]
    exception to the `≈` discipline.  [ue_med] is
    [unique_obj (aue_universal U1 (aue_elem U2))]
-   (Theory/Universal/Element.v:728), and since both universal elements
+   (Theory/Universal/Element.v), and since both universal elements
    above were built with their mediators as [unique_obj], the generic
    machinery rebuilds neither map.  The strict form was tried FIRST and
    holds; the boundary that does NOT hold strictly is the mediator's
@@ -418,15 +422,24 @@ Context {M : RModObject R}.
 Context (S T : Submodule M).
 Context (Hsub : ∀ a : carrier (cmon_setoid M), smod_mem S a → smod_mem T a).
 
-(* T read as a submodule of M/S.  The membership predicate is UNCHANGED;
-   only the saturation law is new, since M/S's `≈` is coarser than M's.
-   The other three laws are the very terms T carries, because M/S's zero,
-   addition and action ARE M's. *)
+(* T read as a submodule of M/S.  AN EARLIER REVISION said "the membership
+   predicate is UNCHANGED; only the saturation law is new, since M/S's `≈` is
+   coarser than M's."  Since the PR "algebraic carriers are sets"
+   (2026-09-17) the membership predicate is the TRUNCATION of T's, and that is
+   forced by the same coarseness: M/S's `≈` is [mquot_rel S], which is itself
+   the truncation of membership in S, so the saturation law asks to move a
+   [Type]-valued membership along a [Prop]-valued congruence and cannot.
+   Truncating this one predicate is exactly enough -- the witness is opened in
+   a [Prop] goal and re-wrapped -- and everything downstream follows with one
+   [constructor] or one [destruct].  The other three laws are still the very
+   terms T carries, because M/S's zero, addition and action ARE M's. *)
 Program Definition TmodS : Submodule (QuotientMod S) := {|
-  smod_mem := fun a : carrier (cmon_setoid (QuotientMod S)) => smod_mem T a
+  smod_mem := fun a : carrier (cmon_setoid (QuotientMod S)) =>
+                inhabited (smod_mem T a)
 |}.
 Next Obligation.
   intros a b Hab Ha; simpl in *.
+  destruct Hab as [Hab], Ha as [Ha]; constructor.
   (* b ≈ a - (a - b), and both a and a - b lie in T *)
   apply (smod_at T (a := ab_sub M a (ab_sub M a b))).
   - unfold ab_sub.
@@ -437,12 +450,16 @@ Next Obligation.
     apply cmon_plus_zero_l.
   - exact (smod_sub T _ _ Ha (Hsub _ Hab)).
 Qed.
-Next Obligation. simpl; exact (smod_zero T). Qed.
+Next Obligation. simpl; exact (inhabits (smod_zero T)). Qed.
 Next Obligation.
-  intros a b Ha Hb; simpl in *; exact (smod_plus T _ _ Ha Hb).
+  intros a b Ha Hb; simpl in *.
+  destruct Ha as [Ha], Hb as [Hb]; constructor.
+  exact (smod_plus T _ _ Ha Hb).
 Qed.
 Next Obligation.
-  intros r a Ha; simpl in *; exact (smod_smul T _ _ Ha).
+  intros r a Ha; simpl in *.
+  destruct Ha as [Ha]; constructor.
+  exact (smod_smul T _ _ Ha).
 Qed.
 
 (* The comparison M/S ↠ M/T: the identity function again, well defined
@@ -451,7 +468,10 @@ Program Definition mquot_step : QuotientMod S ~{RMod R}~> QuotientMod T := {|
   rm_hom := {| cmon_map :=
     {| morphism := fun a : carrier (cmon_setoid (QuotientMod S)) => a |} |}
 |}.
-Next Obligation. intros a b Hab; exact (Hsub _ Hab). Qed.
+Next Obligation.
+  intros a b Hab; simpl in Hab |- *.
+  destruct Hab as [Hab]; constructor; exact (Hsub _ Hab).
+Qed.
 Next Obligation. simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros a b; simpl; apply mquot_rel_refl. Qed.
 Next Obligation. intros r a; simpl; apply mquot_rel_refl. Qed.
@@ -464,7 +484,8 @@ Lemma mquot_step_kills (a : carrier (cmon_setoid (QuotientMod S))) :
   cmon_map (rm_hom mquot_step) a ≈ cmon_zero (QuotientMod T).
 Proof.
   intro Ha; simpl in *.
-  exact (snd (mquot_rel_zero_iff T a) Ha).
+  destruct Ha as [Ha].
+  exact (mquot_rel_of_mem T a Ha).
 Qed.
 
 Definition mquot_step_elem : MKills TmodS (QuotientMod T) :=
@@ -485,7 +506,7 @@ Lemma mod_third_precompose_kills (a : carrier (cmon_setoid M)) :
   cmon_map (rm_hom (`1 x ∘ mquot_proj S)) a ≈ cmon_zero K.
 Proof.
   intro Ha; simpl; unfold Basics.compose.
-  exact (`2 x a Ha).
+  exact (`2 x a (inhabits Ha)).
 Qed.
 
 Definition mod_third_precompose : MKills T K :=
@@ -661,14 +682,23 @@ Definition mod_psi : SubmoduleMod S ~{RMod R}~> QuotientMod TinSum :=
 (* ELEMENTWISE INPUT ONE: the kernel of ψ is S ∩ T -- as a biconditional
    on membership, not merely an inclusion. *)
 Lemma mod_psi_kernel_is_meet (p : carrier (cmon_setoid (SubmoduleMod S))) :
-  smod_mem (KernelSub mod_psi) p ↔ smod_mem T (`1 p).
+  smod_mem (KernelSub mod_psi) p ↔ inhabited (smod_mem T (`1 p)).
 Proof.
+(* AN EARLIER REVISION stated the right-hand side as the bare
+   [smod_mem T (`1 p)].  Since the PR "algebraic carriers are sets"
+   (2026-09-17) the left-hand side is congruence to zero in a quotient, which
+   is the [inhabited] truncation of membership, so the biconditional holds up
+   to that truncation and is stated so.  Both directions are [Prop]-to-[Prop]
+   eliminations; [simpl] is what exposes the named relation, whose ascribed
+   sort would otherwise be [Type]. *)
   split.
   - intro Hp; simpl in Hp.
+    destruct Hp as [Hp]; constructor.
     apply (smod_at T (a := ab_sub M (`1 p) (cmon_zero M))).
     + apply ab_sub_zero_r.
     + exact Hp.
   - intro Hp; simpl.
+    destruct Hp as [Hp]; constructor.
     apply (smod_at T (a := `1 p)).
     + symmetry; apply ab_sub_zero_r.
     + exact Hp.
@@ -685,6 +715,7 @@ Proof.
   exists (existT _ s Hs).
   simpl.
   unfold mquot_rel; simpl.
+  constructor.
   apply (smod_at T (a := ab_neg M t)).
   - rewrite Hq.
     unfold ab_sub.
@@ -704,22 +735,41 @@ Definition mod_second_isomorphism_theorem :
               (mod_first_isomorphism_theorem mod_psi).
 
 (* S ∩ T, as a submodule of S: membership in T, read on elements of S.
-   This is the literal left-hand side of the theorem. *)
+   This is the literal left-hand side of the theorem.
+
+   AN EARLIER REVISION wrote the predicate as the bare [smod_mem T (`1 p)].
+   Since the PR "algebraic carriers are sets" (2026-09-17) it is the
+   [inhabited] truncation of that, and the reason is the identification
+   [mod_second_isomorphism_theorem_literal] makes: this submodule has to be
+   coextensive with [KernelSub mod_psi], whose membership is congruence to
+   zero in a quotient and hence already truncated.  Nothing is lost at the
+   witnesses that matter -- the [Z] readbacks at the end of the file supply
+   and consume the truncation with one [constructor] and one [destruct]. *)
 Program Definition MeetSub : Submodule (SubmoduleMod S) := {|
   smod_mem := fun p : carrier (cmon_setoid (SubmoduleMod S)) =>
-                smod_mem T (`1 p)
+                inhabited (smod_mem T (`1 p))
 |}.
 Next Obligation.
-  intros a b Hab Ha; simpl in *; exact (smod_resp T _ _ Hab Ha).
+  intros a b Hab Ha; simpl in *.
+  destruct Ha as [Ha]; constructor; exact (smod_resp T _ _ Hab Ha).
 Qed.
-Next Obligation. simpl; exact (smod_zero T). Qed.
+Next Obligation. simpl; exact (inhabits (smod_zero T)). Qed.
 Next Obligation.
-  intros a b Ha Hb; simpl in *; exact (smod_plus T _ _ Ha Hb).
+  intros a b Ha Hb; simpl in *.
+  destruct Ha as [Ha], Hb as [Hb]; constructor; exact (smod_plus T _ _ Ha Hb).
 Qed.
 Next Obligation.
-  intros r a Ha; simpl in *; exact (smod_smul T _ _ Ha).
+  intros r a Ha; simpl in *.
+  destruct Ha as [Ha]; constructor; exact (smod_smul T _ _ Ha).
 Qed.
 
+(* The two membership transfers go through the truncation now: the kernel's
+   membership is congruence to zero in a quotient, hence [inhabited].  In one
+   direction that means wrapping with [inhabits]; in the other, opening the
+   [inhabited] -- which is legitimate because [mquot_congr]'s own hypotheses
+   land in [Prop]-valued memberships of the two quotients.  Neither direction
+   loses a witness: [MeetSub]'s membership IS [inhabited (smod_mem T (`1 p))]
+   on the nose, so the two transfers are the identity. *)
 Definition mod_second_isomorphism_theorem_literal :
   QuotientMod MeetSub ≅[RMod R] QuotientMod TinSum :=
   iso_compose mod_second_isomorphism_theorem
@@ -822,8 +872,10 @@ Definition Z_first_iso :
 
 (* The kernel of the projection is exactly 2ℤ, in both directions, so
    the left-hand side really is ℤ/2ℤ. *)
+(* Restated up to the truncation, in lockstep with
+   Instance/Mod/Quotient.v's [mquot_proj_kernel]. *)
 Lemma Z_proj_kernel_is_EvenSub (a : Z) :
-  smod_mem (KernelSub (mquot_proj EvenSub)) a ↔ smod_mem EvenSub a.
+  smod_mem (KernelSub (mquot_proj EvenSub)) a ↔ inhabited (smod_mem EvenSub a).
 Proof. exact (mquot_proj_kernel EvenSub a). Qed.
 
 (* Nondegenerate: the image of the projection has two elements apart in
@@ -852,8 +904,13 @@ Proof.
      [eq_refl] exception again -- and [exact] is what performs the
      conversion.  [rewrite] cannot: the subtraction here is taken in
      [QuotientMod FourSub] rather than in [Int_RMod], and although the
-     two agree on every projection they are not the same term. *)
-  intros [k Hk].
+     two agree on every projection they are not the same term.
+
+     THREE layers of intro pattern, not one: since the PR "algebraic carriers
+     are sets" (2026-09-17) [mquot_rel] is [inhabited] of a membership, and
+     [TmodS]'s own membership is [inhabited] of [EvenSub]'s, which is itself
+     the sigma [ZEvenMod]. *)
+  intros [[[k Hk]]].
   assert (Hz : (1 = 2 * k)%Z) by exact Hk.
   lia.
 Qed.
@@ -864,14 +921,14 @@ Qed.
 Theorem Z_third_middle_proper :
   smod_mem (TmodS FourSub EvenSub four_in_even) 1%Z → False.
 Proof.
-  intros [k Hk].
+  intros [[k Hk]].
   assert (Hz : (1 = 2 * k)%Z) by exact Hk.
   lia.
 Qed.
 
 Theorem Z_third_middle_nontrivial :
   smod_mem (TmodS FourSub EvenSub four_in_even) 2%Z.
-Proof. exists 1%Z; reflexivity. Qed.
+Proof. constructor; exists 1%Z; reflexivity. Qed.
 
 (* *** The second theorem at ℤ: 2ℤ/(2ℤ ∩ 3ℤ) ≅ (2ℤ + 3ℤ)/3ℤ *)
 
@@ -915,7 +972,9 @@ Theorem Z_second_iso_nondegenerate :
     (cmon_zero (SubmoduleMod EvenSub))
   → False.
 Proof.
-  intros [k Hk].
+  (* Three layers: [mquot_rel] is [inhabited], [MeetSub]'s membership is
+     [inhabited] of [ThreeSub]'s, and that is the sigma. *)
+  intros [[[k Hk]]].
   assert (Hz : (2 = 3 * k)%Z) by exact Hk.
   lia.
 Qed.
@@ -931,7 +990,9 @@ Theorem Z_second_iso_codomain_nondegenerate :
     (cmon_zero (SubmoduleMod (SubmoduleSum EvenSub ThreeSub)))
   → False.
 Proof.
-  intros [k Hk].
+  (* Two layers: [mquot_rel] is [inhabited], and [TinSum]'s membership is the
+     sigma. *)
+  intros [[k Hk]].
   assert (Hz : (1 = 3 * k)%Z) by exact Hk.
   lia.
 Qed.

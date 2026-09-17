@@ -31,9 +31,9 @@ Generalizable All Variables.
    A subobject of x is a monomorphism into x taken up to the equivalence
    that identifies two monos when each factors through the other.
    Theory/Subobject.v carries that data as [SubObj x] and that order as
-   [sub_le] (Theory/Subobject.v:60), a preorder whose mediating arrow is
-   itself monic (:86) and unique (:97), and whose induced equivalence is
-   exactly the setoid on [SubObj x] (:112, [sub_equiv_iff_mutual]).  What
+   [sub_le] (Theory/Subobject.v), a preorder whose mediating arrow is
+   itself monic and unique, and whose induced equivalence is
+   exactly the setoid on [SubObj x] ([sub_equiv_iff_mutual]).  What
    that file leaves open, and what this one supplies, is the ORDER
    STRUCTURE of that preorder: binary and indexed greatest lower bounds,
    binary and indexed least upper bounds, and the two end points.
@@ -84,10 +84,10 @@ Generalizable All Variables.
    distance between [sub_join_via u v I], the image of the copairing, and
    the coproduct [sub_dom u + sub_dom v] it is the image OF.
 
-   In-tree connections, each checked at the cited line in this worktree.
+   In-tree connections, each checked in this worktree.
 
-   The order.  Theory/Subobject.v:60 is [sub_le], :86 [sub_le_monic], :97
-   [sub_le_unique] and :112 [sub_equiv_iff_mutual]; every antisymmetry
+   The order.  Theory/Subobject.v carries [sub_le], [sub_le_monic],
+   [sub_le_unique] and [sub_equiv_iff_mutual]; every antisymmetry
    step below goes through that last one, because [sub_le] is Type-valued
    and the equivalence it induces is the [SubObj] setoid, not Leibniz
    equality.  Note the consequence for how the lattice laws are phrased:
@@ -96,10 +96,10 @@ Generalizable All Variables.
    absorption laws below hold at ≈ and are a lattice ON THAT SETOID, not a
    poset with antisymmetry for Leibniz equality.
 
-   The meet.  Structure/Pullback.v:216 is [HasPullbacks], the chosen-
+   The meet.  Structure/Pullback.v is [HasPullbacks], the chosen-
    pullback class this file's meet is relative to, and
-   Theory/Morphisms/Stability.v:226 is [monic_pullback_stable], which is
-   what makes the opposite leg monic.  Theory/Subobject/Functor.v:35 is
+   Theory/Morphisms/Stability.v is [monic_pullback_stable], which is
+   what makes the opposite leg monic.  Theory/Subobject/Functor.v is
    [sub_reindex], which packages that same pulled-back leg as a subobject
    of [sub_dom u]; the identification is on the nose, [sub_meet u v] being
    literally [sub_compose u (sub_reindex (sub_mono u) v)] -- the same
@@ -127,15 +127,15 @@ Generalizable All Variables.
    ([p445_meet_is_compose_reindex]) by that choice.  The literal Require
    list of this file is instance-free; its closure is not.
 
-   The wide intersection.  Structure/Pullback/Wide.v:182 is
-   [IsWidePullback], :202 the chosen form [WidePullback], :257
-   [HasWidePullbacks], and :271 [wide_pullback_jointly_monic], the joint
+   The wide intersection.  Structure/Pullback/Wide.v carries
+   [IsWidePullback], the chosen form [WidePullback],
+   [HasWidePullbacks], and [wide_pullback_jointly_monic], the joint
    monicity of the projections that [wide_pullback_proj_monic] below turns
    into monicity of each single projection.  One feature of that file
    governs the shape of the interface here: the record carries NO leg to
    the common codomain, so over an empty index it constrains nothing and
-   the wide pullback is the TERMINAL object (:338,
-   [wide_pullback_empty_terminal], with the converse at :357).  A terminal
+   the wide pullback is the TERMINAL object
+   ([wide_pullback_empty_terminal], with the converse beside it).  A terminal
    object is not the top subobject, so [sub_wide_intersection] takes an
    index [j0 : J] and reads the mono into x off the j0-th member.  At
    every nonempty index Riehl's limit-over-the-cospan-shape reading and
@@ -143,44 +143,44 @@ Generalizable All Variables.
    its limit leg to the codomain is the composite this file writes by hand
    -- and they differ only at the empty index, where the intersection of
    the empty family of subobjects is [sub_top] ([IsIntersection_empty]
-   below) rather than a terminal object.  Structure/Pullback/Wide.v:453 is
+   below) rather than a terminal object.  Structure/Pullback/Wide.v is
    [binary_wide_pullback]; the binary-from-wide comparison below does not
    route through it, for the reason recorded at that lemma.
 
-   The join.  Structure/Cocartesian.v:175 and :182 are [inl_merge] and
+   The join.  Structure/Cocartesian.v carries [inl_merge] and
    [inr_merge], the two triangles that put each of u and v below the
-   image; Structure/Limit/Coproduct.v:82 and :86 are [IsIndexedCoproduct]
+   image; Structure/Limit/Coproduct.v carries [IsIndexedCoproduct]
    and [icoprod_desc], the indexed replacements for them.
-   Structure/Factorization.v:125 is [Factorization] and :144 [OFS]; an
+   Structure/Factorization.v carries [Factorization] and [OFS]; an
    (E, Mono) factorization system is precisely a supply of images in the
    sense of the [ImageOf] record below, and [ImageOf_of_OFS] is that
    translation, its minimality clause being the diagonal filler of
-   Theory/Orthogonality.v:43 ([Orthogonal], whose [ortho_lift] field
-   returns the filler as data).  Theory/Morphisms/Classes.v:31 is
+   Theory/Orthogonality.v ([Orthogonal], whose [ortho_lift] field
+   returns the filler as data).  Theory/Morphisms/Classes.v is
    [MonoClass], which is [fun _ _ f => Monic f] and so matches the
    [sub_is_monic] field with no transport.  Structure/Regular/
-   Factorization.v:282 is [Regular_OFS], the (regular epi, mono) system of
-   a regular category, with :175 [image_comparison_monic] as its mono leg;
+   Factorization.v carries [Regular_OFS], the (regular epi, mono) system
+   of a regular category, with [image_comparison_monic] as its mono leg;
    [Regular_HasImages] below is [HasImages_of_OFS] applied to it.  That
    corollary is CONDITIONAL and stays so: no [Regular] instance exists
-   anywhere in this tree, as Instance/Sets/Pullback.v:62 records in terms
+   anywhere in this tree, as Instance/Sets/Pullback.v records in terms
    ("a class with no instance anywhere"), and this file adds none.
 
-   The powerset analogue.  Instance/Powerset.v:504 and :522 are
+   The powerset analogue.  Instance/Powerset.v carries
    [subset_inter] and [subset_union], the predicate-level meet and join of
-   a family of subsets of a setoid, with their universal properties at
-   :535 ([subset_inter_IsGLB]) and :544 ([subset_union_IsLUB]).  This
+   a family of subsets of a setoid, with their universal properties
+   [subset_inter_IsGLB] and [subset_union_IsLUB].  This
    file is the SubObj-level analogue of that
    pair in an arbitrary category: the same two universal properties, with
    the powerset's pointwise ∀ and ∃ replaced by a wide pullback and an
    image.  (An earlier revision of this header's source instructions gave
-   those two line numbers as :503 and :520; measured in this worktree with
-   grep -n '^Definition subset_inter\|^Definition subset_union', they are
-   :504 and :522.)
+   the wrong locations for those two definitions; they were re-measured
+   in this worktree with
+   grep -n '^Definition subset_inter\|^Definition subset_union'.)
 
-   Where this does NOT go.  Adjunction/SAFT.v:119 packages the
+   Where this does NOT go.  Adjunction/SAFT.v packages the
    well-poweredness the special adjoint functor theorem consumes as
-   [SubobjectIndex], and :240 builds [SubobjectCover] over it.  Feeding
+   [SubobjectIndex], and builds [SubobjectCover] over it.  Feeding
    the intersections constructed here into that hypothesis list is issue
    #448 and is not attempted in this file; nothing below mentions SAFT,
    and no constant here is named by that development.
@@ -189,11 +189,11 @@ Generalizable All Variables.
    read off the source, which carries no annotation.  Every constant below
    binds its category as [Category@{u u0 u0}] -- the hom universe IDENTIFIED
    with the proof universe.  That collapse is INHERITED, not introduced
-   here: Theory/Subobject.v:15's [SubObj] record itself prints as
+   here: Theory/Subobject.v's [SubObj] record itself prints as
    [SubObj@{u u0} : ∀ {C : Category@{u u0 u0}}, obj[C] → Type@{max(u,u0)}],
    because one record holds both the mono (at the hom level) and its
    [Monic] proof (at the proof level) under two universe variables, and
-   [sub_le@{o h p u}] at :60 carries the block [h <= p, h <= u, h = p].
+   [sub_le@{o h p u}] carries the block [h <= p, h <= u, h = p].
    So the collapse belongs to the FIRST carrier in dependency order,
    Theory/Subobject.v, and every file consuming [SubObj] -- this one,
    Theory/Subobject/Functor.v ([sub_reindex@{u u0}]), and the witnesses in
@@ -215,7 +215,7 @@ Generalizable All Variables.
    settled.  No limit presentation: [IsIntersection] is a greatest lower
    bound in the factorization preorder, not a limit cone over a shape
    category, and Structure/Pullback/Wide.v carries no limit presentation
-   either (its own header says so at :162-165), so Riehl's Definition
+   either (its own header says so), so Riehl's Definition
    4.7.9 is matched in content and not by a literal [Limit] of a diagram.
    No indexed join over an arbitrary family without an indexed coproduct:
    [sub_wide_join_via] takes the coproduct and the image as arguments and
@@ -236,7 +236,7 @@ Generalizable All Variables.
    strictness of the initial object as a HYPOTHESIS and derives no
    instance of it; the one case where the hypothesis is discharged is the
    bicartesian closed one, [biccc_zero_monic] through
-   Structure/BiCCC.v:262 ([initial_strict]), and even there no initial
+   Structure/BiCCC.v ([initial_strict]), and even there no initial
    object of any concrete bicartesian closed category is exhibited. *)
 
 (** ** The order-theoretic vocabulary *)
@@ -377,7 +377,7 @@ Defined.
    the greatest lower bound is the greatest subobject.  This is the case
    at which the wide-pullback presentation of the intersection and the
    order-theoretic one part company: the empty wide pullback is a terminal
-   object (Structure/Pullback/Wide.v:338), which is not [sub_top]. *)
+   object (Structure/Pullback/Wide.v), which is not [sub_top]. *)
 Lemma IsIntersection_empty {J : Type} (S : J → SubObj x) (Hempty : J → False) :
   IsIntersection S sub_top.
 Proof.
@@ -680,7 +680,7 @@ Context {x : C}.
 (* Whenever the pair of monos carries a wide pullback, the wide
    intersection presented at [true] agrees with the chosen binary meet.
    The comparison is made through the two universal properties rather than
-   through Structure/Pullback/Wide.v:453 ([binary_wide_pullback]): that
+   through Structure/Pullback/Wide.v ([binary_wide_pullback]): that
    lemma's family is [two_maps f g] over [two_fam (sub_dom u) (sub_dom v)],
    whereas the family here is [fun b => sub_mono (sub_pair u v b)] over
    [fun b => sub_dom (sub_pair u v b)], and the two index families are
@@ -770,7 +770,7 @@ Definition sub_join `{@HasImages C} (u v : SubObj x) : SubObj x :=
 
 (* Above the first factor: the mediating arrow is the image factorization
    precomposed with [inl], and the triangle is [inl_merge]
-   (Structure/Cocartesian.v:175). *)
+   (Structure/Cocartesian.v). *)
 Lemma sub_join_via_le_l (u v : SubObj x)
   (I : ImageOf (merge (sub_mono u) (sub_mono v))) :
   sub_le u (sub_join_via u v I).
@@ -782,7 +782,7 @@ Proof.
   exact (inl_merge (sub_mono u) (sub_mono v)).
 Defined.
 
-(* ... and above the second, by [inr_merge] (Structure/Cocartesian.v:182). *)
+(* ... and above the second, by [inr_merge] (Structure/Cocartesian.v). *)
 Lemma sub_join_via_le_r (u v : SubObj x)
   (I : ImageOf (merge (sub_mono u) (sub_mono v))) :
   sub_le v (sub_join_via u v I).
@@ -1049,7 +1049,7 @@ Context `{I : @Initial C}.
 Context {x : C}.
 
 (* A cartesian closed category with an initial object has a STRICT
-   initial object (Structure/BiCCC.v:262, [initial_strict]), so the arrow
+   initial object (Structure/BiCCC.v, [initial_strict]), so the arrow
    out of it is monic and [sub_bot] applies with no further hypothesis.
    This is the one place in this file where the bottom subobject is
    obtained rather than assumed.  Two measurements govern it.  The
@@ -1138,7 +1138,7 @@ Context {C : Category}.
 Context {E : MorphismClass C}.
 
 (* The mono leg of an (E, Mono) factorization, read as a subobject.  No
-   transport is needed: Theory/Morphisms/Classes.v:31 defines [MonoClass]
+   transport is needed: Theory/Morphisms/Classes.v defines [MonoClass]
    as [fun _ _ f => Monic f], so [fact_m_in] IS the [sub_is_monic]
    field. *)
 Definition ofs_image_sub (O : OFS E (@MonoClass C)) {y x : C} (f : y ~> x) :
@@ -1150,7 +1150,7 @@ Definition ofs_image_sub (O : OFS E (@MonoClass C)) {y x : C} (f : y ~> x) :
 
 (* Minimality is orthogonality.  A factorization of f through a subobject
    w bounds a commuting square between the E-leg of the factorization and
-   the mono of w; the diagonal filler of Theory/Orthogonality.v:43 is the
+   the mono of w; the diagonal filler of Theory/Orthogonality.v is the
    arrow exhibiting the image below w, and its second triangle is the
    factorization required by [sub_le]. *)
 Lemma ofs_image_least (O : OFS E (@MonoClass C)) {y x : C} (f : y ~> x)
@@ -1184,8 +1184,8 @@ Definition HasImages_of_OFS (O : OFS E (@MonoClass C)) : HasImages C :=
 End OFSImages.
 
 (* A regular category has images, through its (regular epi, mono) system
-   Regular_OFS (Structure/Regular/Factorization.v:282).  CONDITIONAL: no
-   [Regular] instance exists in this tree (Instance/Sets/Pullback.v:62),
+   Regular_OFS (Structure/Regular/Factorization.v).  CONDITIONAL: no
+   [Regular] instance exists in this tree (Instance/Sets/Pullback.v),
    so this corollary is an implication awaiting a model, and it is the
    only route in this file from an established structure to [HasImages]. *)
 Definition Regular_HasImages {C : Category} (R : Regular C) : HasImages C :=

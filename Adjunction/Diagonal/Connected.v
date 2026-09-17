@@ -221,27 +221,27 @@ Generalizable All Variables.
 
     The issue's "Current state" is stale on every donor it names.  All
     of the following exist and are consumed, not rebuilt:
-    [Colimit_Diagonal_Adjunction] (Adjunction/Diagonal/Limit.v:771),
-    [HasColimitsOfShape] (:365), [ColimitFunctor] (:696), [colim_unit]
-    (:789), [Diagonal_Limit_Adjunction] (:527), [lim_counit] (:547);
-    [const_IsAColimit] (Structure/Limit/Constant.v:533),
-    [const_IsALimit] (:448), [const_cocone] (:512), [leg_zigzag]
-    (:403), [Diagonal_Faithful] (:810), [Diagonal_Full] (:828),
-    [Diagonal_Two_Discrete_not_Full] (:1043);
-    [ConnectedNonempty] (Theory/Connected/Components.v:771),
-    [terminal_ConnectedNonempty] (:836);
-    [LeftAdjointLeftInverse] (Adjunction/LeftInverse.v:371),
-    [LeftAdjointFFInjective] (:592), [lali_implies_ffi] (:606),
-    [ffi_implies_ri] (:765), [InjectiveOnObjects] (:352);
-    [LeftAdjointRightInverse] (Theory/Equivalence/Strict.v:318);
-    [terminal_Colimit] (Structure/Limit/Initial.v:470),
-    [initial_Limit] (:318), [Ordinal_Succ_Terminal] (:630),
-    [One_Initial] (:526), [Omega_Initial] (:679);
-    [Two_Terminal] (Instance/Two/Monoidal.v:95);
-    [Walk] (Theory/Shapes.v:336);
+    [Colimit_Diagonal_Adjunction] (Adjunction/Diagonal/Limit.v),
+    [HasColimitsOfShape], [ColimitFunctor], [colim_unit]
+, [Diagonal_Limit_Adjunction], [lim_counit];
+    [const_IsAColimit] (Structure/Limit/Constant.v),
+    [const_IsALimit], [const_cocone], [leg_zigzag]
+, [Diagonal_Faithful], [Diagonal_Full],
+    [Diagonal_Two_Discrete_not_Full];
+    [ConnectedNonempty] (Theory/Connected/Components.v),
+    [terminal_ConnectedNonempty];
+    [LeftAdjointLeftInverse] (Adjunction/LeftInverse.v),
+    [LeftAdjointFFInjective], [lali_implies_ffi],
+    [ffi_implies_ri], [InjectiveOnObjects];
+    [LeftAdjointRightInverse] (Theory/Equivalence/Strict.v);
+    [terminal_Colimit] (Structure/Limit/Initial.v),
+    [initial_Limit], [Ordinal_Succ_Terminal],
+    [One_Initial], [Omega_Initial];
+    [Two_Terminal] (Instance/Two/Monoidal.v);
+    [Walk] (Theory/Shapes.v);
     [right_adjoint_fully_faithful_iff_counit_iso]
-    (Adjunction/FullFaithful.v:475);
-    [strict_equiv_of_id_cast_nat] (Theory/Skeleton.v:229).
+    (Adjunction/FullFaithful.v);
+    [strict_equiv_of_id_cast_nat] (Theory/Skeleton.v).
 
     NEW here: [EvalAt], the evaluation functor [[J, C] ⟶ C] at an
     object of the shape.  Measured by TYPE rather than by name: the

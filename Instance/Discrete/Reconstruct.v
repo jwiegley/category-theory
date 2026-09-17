@@ -413,10 +413,30 @@ Proof.
   intros A. apply Blurry_Rigid_is_UIP. apply K, Blurry_Discrete.
 Qed.
 
-Program Definition Indiscrete (A : Type) : Category := {|
+(* The binders are load-bearing, for the same reason as
+   [DiscreteCat_Functor] (Instance/Discrete.v): declared bare, this
+   minimized to [Indiscrete@{u} : Type@{u} → Category@{u Set Set}], pinning
+   the hom and proof levels of the indiscrete category to [Set] and so
+   pinning every limit taken over it.  The pin is INDEPENDENT of
+   [DiscreteCat_Functor]'s — annotating that one does not touch this one,
+   which is why Instance/Cat/Objects.v behaved differently
+   while only one of the two donors was annotated.  (Both are annotated
+   now, so both of those lines are plain [Check]s and both are accepted;
+   an earlier revision of this sentence cited them,
+   where they stood as [Fail Check]s before the PR "algebraic carriers
+   are sets" (2026-09-17).)  The measured signature is
+
+     Indiscrete@{o h p} : Type@{o} → Category@{o h p}
+     (* o h p |= h <= eq_ind.u0 / h <= Logic_lemmas.equality.u0
+                 / h <= eq_ind_r.u0 / h <= p *)
+
+   — no literal [Set] anywhere, and [o] is now unconstrained.  [unit : Set]
+   still inhabits the hom type, but cumulativity absorbs that silently: the
+   constraint block records no lower bound on [h] at all. *)
+Program Definition Indiscrete@{o h p} (A : Type@{o}) : Category@{o h p} := {|
   obj     := A;
   hom     := fun _ _ => unit;
-  homset  := fun x y => Morphism_equality x y;
+  homset  := fun x y => Morphism_equality@{o h p} x y;
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 |}.

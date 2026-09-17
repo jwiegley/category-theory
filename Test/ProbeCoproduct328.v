@@ -55,7 +55,7 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
 (** ** The Mon_Sets name identification
 
     Instance/Mon/Coproduct.v is stated over [@Mon Sets
-    Sets_Product_Monoidal]; Instance/Roster.v:390 names that same term
+    Sets_Product_Monoidal]; Instance/Roster.v names that same term
     [Mon_Sets].  These controls are the machine-checked bridge. *)
 
 Definition probe_pos_mon_sets_is_the_same_term :

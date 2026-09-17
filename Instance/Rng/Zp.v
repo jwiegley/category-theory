@@ -1,4 +1,6 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -49,29 +51,29 @@ Open Scope category_scope.
    THE ISSUE'S SURVEY IS STALE, AND BADLY.  Issue #409's "Current state"
    says "There is no category of rings in the tree at all
    ([rg -w 'Rng|CRing|RingObject'] -> 0 hits)".  Measured at eaee393c that
-   is false several times over: [Instance/Rng.v:102] declares
-   [Rng : Category], [:410] the commutative full subcategory [CRng], and
+   is false several times over: [Instance/Rng.v] declares
+   [Rng : Category] and the commutative full subcategory [CRng], and
    [Instance/Rng/Quotient.v] carries the whole quotient apparatus -- the
    five-field [Record Ideal], [QuotientRing], [rquot_proj], and
    [rquot_med] with [rquot_med_commutes] and [rquot_med_unique], i.e. the
    universal property.  [Instance/Rng/Polynomial.v] has [PolyRing] and
-   [ZPoly], and [Theory/Algebra/Rig.v:588] has [Int_Ring].
+   [ZPoly], and [Theory/Algebra/Rig.v] has [Int_Ring].
 
    WHAT IS GENUINELY ABSENT -- AND A FIRST DRAFT OF THIS PARAGRAPH GOT IT
    WRONG ON BOTH CLAUSES, WHICH IS WHY THE CRITERION IS NOW STATED.  It
    claimed there is no [Z/n] as a [RingObject] and no PRINCIPAL ideal, on
    a sweep returning [TotalIdeal], [TrivialIdeal] and [KernelIdeal] "and
    nothing else".  Both are false.  [QuotientRing]
-   ([Instance/Rng/Quotient.v:423]) concludes [RingObject], so
+   ([Instance/Rng/Quotient.v]) concludes [RingObject], so
    [QuotientRing EvenIdeal] IS Z/2 and [QuotientRing SixIdeal] IS Z/6 --
-   unnamed, but with computing examples at [:849-883] (1+1 = 0, 1*1 = 1,
-   3 |-> 1) and a residue transition map [Z6_to_Z2] at [:939] built
+   unnamed, but with computing examples in that file (1+1 = 0, 1*1 = 1,
+   3 |-> 1) and a residue transition map [Z6_to_Z2] built
    through [rquot_med], which is the closest prior art to [res_proj]
    below.  And a sweep for the REQUIRED field [idl_mem :=] -- exhaustive
-   by construction, the criterion [Adjunction/Enveloping.v:88-98] ALREADY
+   by construction, the criterion [Adjunction/Enveloping.v] ALREADY
    STATES -- returns SIX [Ideal] inhabitants, not three: those three plus
    [EvenIdeal] (2Z) and [SixIdeal] (6Z) in the same file, and
-   [StrictUpper] in [Instance/Rng/Quotient/OneSided.v:171]; and 2Z and 6Z
+   [StrictUpper] in [Instance/Rng/Quotient/OneSided.v]; and 2Z and 6Z
    ARE principal ideals of Z.  The draft read by NAME while claiming to
    read by shape, and contradicted a sibling header the gate loads into
    the same scope.
@@ -86,7 +88,7 @@ Open Scope category_scope.
    one pair, built by hand.
 
    COMMUTATIVITY IS TAKEN AS A BARE HYPOTHESIS, not as a [CRng] object.
-   [Instance/Rng.v:403]'s [CRng_Sub] cuts [Rng] by exactly the predicate
+   [Instance/Rng.v]'s [CRng_Sub] cuts [Rng] by exactly the predicate
    [∀ a b, rig_mul R a b ≈ rig_mul R b a], so a [CRng] object supplies it
    by projection; taking the predicate directly is the
    [Instance/Mod/Monoidal.v] idiom and avoids unpacking a sigma at every
@@ -381,6 +383,21 @@ Example uset_tower_stage (n : nat) :
 
 Definition ZpCarrier : obj[Sets] := tower_obj USetTower.
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject] owes
+   a [Prop]-valued mirror of its equality.  Nothing new is proved here: the
+   inverse limit's `≈` compares only the first projection -- the matching
+   witness is carried along and never inspected -- and that projection is
+   compared POINTWISE in the indexed product, so the mirror is
+   [sigma_first_PropEquiv] over [iprod_PropEquiv] over each stage's own
+   [rig_prop].  The two implications of the sigma step are the identity,
+   [tower_obj]'s setoid being that comparison on the nose
+   (Instance/Sets/InverseLimit.v).  Nothing is truncated. *)
+Definition zp_PropEquiv : PropEquiv (is_setoid ZpCarrier) :=
+  sigma_first_PropEquiv (is_setoid ZpCarrier)
+    (fun _ _ h => h) (fun _ _ h => h)
+    (iprod_PropEquiv (fun n : nat => fobj[USetTower] n)
+       (fun n => rig_prop (ResRing Rcomm d n))).
+
 (* Each operation is coordinatewise, and its compatibility is the
    corresponding homomorphism law of the transition map. *)
 Definition zp_zero : carrier ZpCarrier.
@@ -429,7 +446,8 @@ Program Definition ZpRig : RigObject := {|
   rig_zero   := zp_zero;
   rig_add    := zp_add;
   rig_one    := zp_one;
-  rig_mul    := zp_mul
+  rig_mul    := zp_mul;
+  rig_prop   := zp_PropEquiv
 |}.
 Next Obligation.
   intros p q Hpq r t Hrt n; apply rig_add_respects;
@@ -551,12 +569,12 @@ End Limit.
    is the exercise's point, and here it is a fact about the terms rather
    than a remark. *)
 
-(* CONSUMED, not proved: [Instance/Rng.v:417]'s [Int_Ring_commutative]
+(* CONSUMED, not proved: [Instance/Rng.v]'s [Int_Ring_commutative]
    already has exactly this statement -- its two binders elaborate at
    [carrier (rig_setoid Int_Ring)], so it IS [RingComm Int_Ring] -- and
    that module is required above.  The short name below is local upkeep
    only; the obvious [Int_comm] is avoided because
-   [Instance/Matr/Determinant.v:1696] declares the same fact a second time
+   [Instance/Matr/Determinant.v] declares the same fact a second time
    under it, and [make print-assumptions] loads many modules into one
    scope. *)
 Definition ZComm : RingComm Int_Ring := Int_Ring_commutative.
@@ -574,7 +592,7 @@ Example zp_int_stage (p : Z) (n : nat) :
 
 (* The polynomial ring is commutative BY CONSTRUCTION: [pe_mul_comm] is a
    constructor of Instance/Rng/Polynomial.v's congruence, and that file
-   already packages it as [poly_comm] (:415), whose statement IS [RingComm]
+   already packages it as [poly_comm], whose statement IS [RingComm]
    after unfolding.  Consumed, not reproved. *)
 Definition ZPolyComm : RingComm ZPoly := poly_comm Int_Ring.
 
@@ -606,9 +624,17 @@ Example padic_and_series_share_the_construction (p : Z) :
     The three facts sections (A)-(D) leave to be measured rather than
     assumed are pinned by [eq_refl] at the head of the section: the
     transition map of the tower is the IDENTITY on integers, [x ≈ y] in the
-    n-th residue ring IS divisibility of [x - y] by [d^n], and [divides] is
-    a Type-valued sigma over ℤ.  Everything after them is ordinary integer
-    arithmetic. *)
+    n-th residue ring IS the propositional truncation of divisibility of
+    [x - y] by [d^n], and [divides] is a Type-valued sigma over ℤ.
+    Everything after them is ordinary integer arithmetic.
+
+    AN EARLIER REVISION of the second fact said [x ≈ y] IS the divisibility
+    itself, which it was before the PR "algebraic carriers are sets"
+    (2026-09-17) truncated the quotient ring's equality.  [divides] is
+    still the Type-valued sigma, and the witness is still available: not by
+    projection out of the relation, which a [Prop] does not permit, but by
+    the decision procedure [res_dvd_dec] below, so [res_to_dvd] returns the
+    same [sigT] it always did. *)
 
 Section Digits.
 
@@ -625,9 +651,16 @@ Local Notation Zpc := (ZpCarrier ZComm p).
 Example digit_transition_is_id (n : nat) (x : Z) :
   fmap[USetTower ZComm p] (tower_step n) x = x := eq_refl.
 
+(* AN EARLIER REVISION read the right-hand side as the bare [divides].  Since
+   the PR "algebraic carriers are sets" (2026-09-17) the quotient ring's
+   equality is the PROPOSITIONAL TRUNCATION of ideal membership
+   (Instance/Rng/Quotient.v's [rquot_rel]), so what the stage's `≈` IS, on the
+   nose, is [inhabited] of that divisibility.  The witness is not lost: it is
+   recomputed by [res_dvd_dec] below, divisibility by [P n] being decidable on
+   ℤ, so [res_to_dvd] keeps its [sigT]-valued conclusion. *)
 Example digit_equiv_is_divides (n : nat) (x y : Z) :
   (@equiv _ (rig_setoid (ResRing ZComm p n)) x y)
-    = @divides Int_Ring (P n) (Z.add x (Z.opp y)) := eq_refl.
+    = inhabited (@divides Int_Ring (P n) (Z.add x (Z.opp y))) := eq_refl.
 
 Example digit_divides_is_sigma (a b : Z) :
   @divides Int_Ring a b = { k : Z & b = Z.mul a k } := eq_refl.
@@ -649,17 +682,46 @@ Proof using Hp p. pose proof (dpow_pos n); lia. Qed.
 
 Lemma res_of_dvd (n : nat) (x y k : Z) (H : (x + - y)%Z = (P n * k)%Z) :
   @equiv _ (rig_setoid (ResRing ZComm p n)) x y.
-Proof. exact (existT _ k H). Qed.
+Proof. exact (inhabits (existT _ k H)). Qed.
+
+(* Divisibility by [P n] is DECIDABLE on ℤ: the quotient is the witness when
+   the remainder vanishes, and otherwise no witness exists.  This is the
+   [z5_eq_dec] pattern of Instance/Ab/Character/NonNatural.v, and it is what
+   lets [res_to_dvd] keep the conclusion it had before the PR "algebraic
+   carriers are sets" (2026-09-17) truncated the quotient's equality: the
+   witness is RECOMPUTED rather than read out of the [Prop].  No choice
+   principle is used. *)
+Lemma res_dvd_dec (n : nat) (x y : Z) :
+  { k : Z & (x + - y)%Z = (P n * k)%Z }
+  + ({ k : Z & (x + - y)%Z = (P n * k)%Z } → False).
+Proof using Hp p.
+  destruct (Z.eq_dec ((x + - y) mod P n) 0) as [He|He].
+  - left.
+    exists ((x + - y) / P n)%Z.
+    pose proof (Z.div_mod (x + - y) (P n) (dpow_nz n)) as Hq.
+    lia.
+  - right.
+    intros [k Hk].
+    apply He.
+    rewrite Hk, Z.mul_comm.
+    apply Z_mod_mult.
+Qed.
 
 Lemma res_to_dvd (n : nat) (x y : Z)
   (H : @equiv _ (rig_setoid (ResRing ZComm p n)) x y) :
   { k : Z & (x + - y)%Z = (P n * k)%Z }.
-Proof. exact H. Qed.
+Proof using Hp p.
+  destruct (res_dvd_dec n x y) as [Hd|Hd].
+  - exact Hd.
+  - exfalso.
+    destruct H as [[k Hk]].
+    exact (Hd (existT _ k Hk)).
+Qed.
 
 Lemma mod_eq_of_res (n : nat) (x y : Z)
   (H : @equiv _ (rig_setoid (ResRing ZComm p n)) x y) :
   (x mod P n)%Z = (y mod P n)%Z.
-Proof.
+Proof using Hp p.
   destruct (res_to_dvd n x y H) as [k Hk].
   rewrite (Z.mul_comm (P n) k) in Hk.
   replace x with (y + k * P n)%Z by lia.
@@ -727,8 +789,24 @@ Lemma dsum_compat (a : nat -> Z) (n : nat) :
   (dsum a (S n) + - dsum a n)%Z = (P n * a n)%Z.
 Proof. cbn [dsum]; ring. Qed.
 
-Definition digits_to_zp (a : nat -> Z) : Zpc :=
-  existT _ (dsum a) (fun n => existT _ (a n) (dsum_compat a n)).
+(* The compatibility witness passes through [res_of_dvd] since the PR
+   "algebraic carriers are sets" (2026-09-17): a stage's `≈` is the
+   truncation of divisibility, so the bare [existT] has to be wrapped.
+   Built in tactic mode, the ninth entry in the 8.19 portability list of
+   this file's header: both the term-mode [existT _ (dsum a) (fun n => …)]
+   and an [exact] of that term are refused by Coq 8.19 and 8.20 ("has type
+   ∃ _ : nat → Z, ∀ x0, dsum a (S x0) ≈ dsum a x0 while it is expected to
+   have type carrier Zpc") -- the predicate is inferred as a CONSTANT from
+   the component's type instead of being read off the goal -- while Rocq
+   9.1 elaborates either.  [exists] then [intro n; exact] lets the goal
+   direct the predicate, exactly as [zp_zero] and [dadd_seq] do.
+   [Defined] keeps it transparent, so the readback below is still
+   [eq_refl]. *)
+Definition digits_to_zp (a : nat -> Z) : Zpc.
+Proof.
+  exists (dsum a).
+  intro n; exact (res_of_dvd n (dsum a (S n)) (dsum a n) (a n) (dsum_compat a n)).
+Defined.
 
 Example digits_to_zp_stage (a : nat -> Z) (n : nat) :
   `1 (digits_to_zp a) n = dsum a n := eq_refl.
@@ -1028,8 +1106,15 @@ Example dmul_digit (a b : DigitCarrier) (i : nat) :
 Lemma zp_const_compat (x : Z) (n : nat) : (x + - x)%Z = (P n * 0)%Z.
 Proof using p. ring. Qed.
 
-Definition zp_const (x : Z) : Zpc :=
-  existT _ (fun _ : nat => x) (fun n => existT _ 0%Z (zp_const_compat x n)).
+(* Tactic mode for the same 8.19/8.20 reason as [digits_to_zp] above: with
+   the compatibility witness wrapped in [res_of_dvd], the term-mode
+   [existT _ …] infers a constant predicate and is refused against
+   [carrier Zpc] by Coq 8.19 and 8.20. *)
+Definition zp_const (x : Z) : Zpc.
+Proof.
+  exists (fun _ : nat => x).
+  intro n; exact (res_of_dvd n x x 0%Z (zp_const_compat x n)).
+Defined.
 
 Lemma neg_one_mod (m : Z) (Hm : (0 < m)%Z) : ((-1) mod m)%Z = (m - 1)%Z.
 Proof using Type.

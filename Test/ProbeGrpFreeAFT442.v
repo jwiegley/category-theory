@@ -6,8 +6,14 @@
     instance IN THE TREE AS IT STANDS — beside the issue's QA claim.  All
     three are pinned below, but not all by refutations: the circularity is
     pinned by a POSITIVE [eq_refl], since what it asserts is an identity
-    and not an absence.  The second is pinned by N5, and N5 is expected to
-    turn over — see the comment there.
+    and not an absence.  CORRECTION, PR "algebraic carriers are sets"
+    (2026-09-17): BOTH of those negative claims have since moved.  The
+    circularity claim is now about a constant that is kept but no longer
+    consumed (section A); the index claim turned over when
+    Instance/Discrete.v was annotated, so what stood as N5 is now a
+    positive control (section D).  An earlier revision of this paragraph
+    ended "The second is pinned by N5, and N5 is expected to turn over —
+    see the comment there", and the prediction held.
 
     THE HEADLINE BOUNDARY IS N1: [free_group_via_GAFT_agrees] is `≈` and
     NOTHING STRONGER.  [GAFT] is [Qed]-opaque, so the functor Freyd's
@@ -28,7 +34,7 @@
 
     N5 is the universe claim, measured: at this application the solution
     set's index is squeezed onto [Set], and Mac Lane's own index
-    [Subgroup G] (Instance/Grp/Quotient.v:156) is never there.  The control
+    [Subgroup G] (Instance/Grp/Quotient.v) is never there.  The control
     beside it is the same builder at a [Set]-level index ([bool]), which IS
     accepted — so the refusal is about the universe and not about the shape
     of the hypothetical.  N5 pins the REFUSAL, which is real; it does not
@@ -58,17 +64,34 @@
 
     SECTION H, added after the rest, covers the target's injectivity clause:
     that the general result's statement IS the tree's own two-letter one
-    (Instance/Grp/Free.v:586) on the nose, while the two proofs are separate
+    (Instance/Grp/Free.v) on the nose, while the two proofs are separate
     terms (N9) and the decision procedure is a real argument (N10).
 
+    SECTION I, added by the PR "algebraic carriers are sets" (2026-09-17),
+    covers what [free_group_via_GAFT] consumes SINCE that PR: the
+    non-circular [Grp_Forget_solution_set_prop], indexed by the [Prop]
+    congruences on [FGWord X].  The first paragraph of this header is
+    therefore no longer the whole story, and section A carries the recorded
+    correction: the circularity claims are now about
+    [free_group_via_GAFT_from_adjunction], which is kept.  N13 there pins
+    the one thing the unconditional reading costs, [Set < carrier], at a
+    named in-tree object.
+
     KINDS, kept lexically apart: NAME-ABSENCE (the instrument), TYPE (I1,
-    N3, N6, N7, N10), CONVERSION (N1, N2, N4, N8, N9), UNIVERSE (N5) —
-    twelve refutations in all.  Each was stripped one at a time in a copy
-    of the WHOLE file and its exact refusal text recorded.  The import list
-    is the target's in full, plus Instance/Grp/Quotient.v for [Subgroup],
-    which N5 names. *)
+    N3, N6, N7, N10), CONVERSION (N1, N2, N4, N8, N9, N11, N12), UNIVERSE
+    (N13, twice).  CORRECTION: an earlier revision of this line read
+    "UNIVERSE (N5) — twelve refutations in all", and both halves were
+    stale.  N5 became a positive control when Instance/Discrete.v's
+    annotation landed (see section D), and the count was never
+    re-measured: the file carried ELEVEN [Fail] commands at that point and
+    carries FIFTEEN now, by [grep -c '^Fail'].  Each was stripped one at a
+    time in a copy of the WHOLE file and its exact refusal text recorded.
+    The import list is the target's in full — including
+    Lib/Setoid/Propositional.v, which section I names — plus
+    Instance/Grp/Quotient.v for [Subgroup], which section D names. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
@@ -101,11 +124,21 @@ Fail Check probe442_absent_name.
 Fail Example p442_instrument :
   @repr_obj Grp Grp_Forget Grp_Forget_Representable = SetOne := eq_refl.
 
-(** ** A: the application, and the circularity read back *)
+(** ** A: the CIRCULAR application, and the circularity read back
+
+    RECORDED CORRECTION, PR "algebraic carriers are sets" (2026-09-17).
+    Every statement in this section used to be about [free_group_via_GAFT],
+    which consumed [Grp_Forget_solution_set_from_adjunction].  That constant
+    is kept and is still circular, but the application built from it is now
+    named [free_group_via_GAFT_from_adjunction], and this section is
+    retargeted onto that name.  ONE LINE of the section changed, the
+    four-argument readback below; the other five are statements about the
+    solution set itself and compile verbatim.  Section I covers what
+    [free_group_via_GAFT] consumes now. *)
 
 (* The theorem is applied to exactly these four arguments. *)
 Example p442_via_GAFT_is_GAFT :
-  free_group_via_GAFT
+  free_group_via_GAFT_from_adjunction
     = GAFT Grp_Forget Grp_Complete
            (Continuous_PreservesImageLimit Grp_Forget_continuous)
            Grp_Forget_solution_set_from_adjunction := eq_refl.
@@ -214,24 +247,58 @@ Definition p442_sols_indexed_by (I : Type)
 Check (fun o a cov =>
          p442_GAFT_at_Grp (p442_sols_indexed_by bool o a cov)).
 
-(* N5 UNIVERSE: at Mac Lane's index it is refused.
+(* Former N5, now a positive control: Mac Lane's index is accepted.
 
-   WHAT THIS DOES AND DOES NOT PIN.  It pins the refusal, in the tree as it
-   stands.  It does NOT pin a cause, and an earlier revision of the target's
-   header attributed the cause to [GAFT] and [Grp_Complete], which is wrong:
-   the [Set] is a universe-minimization artifact of Instance/Discrete.v:59's
-   unannotated [DiscreteCat_Functor], reaching GAFT's statement through
-   GAFT.v:249, and [Grp_Complete] only transmits it.  Annotating that one
-   donor — three lines, no [Qed]-opaque term touched — makes this very
-   [Check] succeed, so THIS REFUTATION IS EXPECTED TO TURN OVER when
+   RECORDED CORRECTION.  An earlier revision read: "N5 UNIVERSE: at Mac
+   Lane's index it is refused.  WHAT THIS DOES AND DOES NOT PIN.  It pins
+   the refusal, in the tree as it stands.  It does NOT pin a cause, and an
+   earlier revision of the target's header attributed the cause to [GAFT]
+   and [Grp_Complete], which is wrong: the [Set] is a universe-
+   minimization artifact of Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor], reaching GAFT's statement through GAFT.v,
+   and [Grp_Complete] only transmits it.  Annotating that one donor —
+   three lines, no [Qed]-opaque term touched — makes this very [Check]
+   succeed, so THIS REFUTATION IS EXPECTED TO TURN OVER when
    Instance/Discrete.v's follow-on lands.  It is one of eleven such
-   boundaries in the tree (Instance/Cat/Objects.v:747,
-   Structure/Limit/Components.v:1166 and nine Test/Probe* lines); measured
+   boundaries in the tree (Instance/Cat/Objects.v,
+   Structure/Limit/Components.v and nine Test/Probe* lines); measured
    2026-09-12 in a full copy of this worktree, that annotation breaks no
    proof anywhere in the 977-file build set and turns over exactly those
-   eleven and nothing else. *)
-Fail Check (fun (G : Grp) o a cov =>
-              p442_GAFT_at_Grp (p442_sols_indexed_by (Subgroup G) o a cov)).
+   eleven and nothing else."
+
+   The cause was diagnosed correctly and the prediction held.  The
+   annotation landed in the PR "algebraic carriers are sets"
+   (2026-09-17): [DiscreteCat_Functor@{o h p uo uh up +}], now
+   Instance/Discrete.v, and this line is ACCEPTED.  It is kept at Mac
+   Lane's own index [Subgroup G] as a positive control, so dropping the
+   annotation refuses it again and breaks this file.
+
+   TWO FIGURES IN THAT PARAGRAPH WERE STALE AND ARE CORRECTED HERE.  The
+   build set was 977 files when the prediction was measured; it was 1018
+   when the annotation landed.  And the boundary count "eleven" was never
+   enumerated: the flip set measured by building the annotated tree is
+   TWENTY-TWO commands in FIFTEEN files.  Seven of them are outside
+   [Test/] — two in Instance/Cat/Objects.v, two in
+   Structure/Limit/Components.v and three in Instance/Indiscrete.v — and
+   fifteen are in twelve [Test/Probe*] files: ProbeCommaCreation438,
+   ProbeComparison419 (2), ProbeComponents355 (2), ProbeConeSets407 (2),
+   ProbeDualNoRightAdjoint433, ProbeFreyd423, ProbeFromProducts416,
+   ProbeGAFTCharacterization436, ProbeHomLimit331, ProbeModTensorAFT449,
+   ProbeSpanningArrow448, and this file.
+
+   TWO OF THE TWENTY-TWO WOULD HAVE GONE ON PASSING VACUOUSLY, and that is
+   worth recording separately.  Instance/Cat/Objects.v and
+   Instance/Indiscrete.v each wrote their [Indiscrete] negative as
+   [Indiscrete@{uo}], a ONE-universe instance.  Annotating [Indiscrete] as
+   [Indiscrete@{o h p}] makes that an arity error — "Universe instance
+   length for Indiscrete is 1 but should be 3", measured — so the [Fail]
+   would have stayed green while the boundary it guarded was gone.  Both
+   were rewritten with all three levels before being turned over.
+
+   The remaining claim held exactly: no proof anywhere in the tree broke,
+   and the full build is rc=0. *)
+Check (fun (G : Grp) o a cov =>
+         p442_GAFT_at_Grp (p442_sols_indexed_by (Subgroup G) o a cov)).
 
 (** ** E: the induced monad *)
 
@@ -250,8 +317,8 @@ Example p442_monad_functor_obj (X : Sets) :
 
 (* N8 CONVERSION: the multiplication inherits the counit's opacity.
    Instance/Grp/Free.v records that the counit is [unique_obj] of
-   [ump_universal_arrows], which is [Qed]-sealed (Theory/Universal/Arrow.v:139,
-   closed at :153), so nothing on this side reduces; the agreement with word
+   [ump_universal_arrows], which is [Qed]-sealed (Theory/Universal/Arrow.v,
+   closed), so nothing on this side reduces; the agreement with word
    evaluation is [free_group_counit_evaluates], up to `≈` and no more. *)
 Fail Example p442_join_is_word_evaluation (X : Sets) :
   @join Sets _ free_group_monad X
@@ -382,7 +449,7 @@ Check @p442_repr_obj_not_trivial.
 
 (* The corollary's statement is the tree's own, converted: [free_group_unit]
    IS [fg_insert] at a generator, so the general result is not a weaker
-   restatement of Instance/Grp/Free.v:586. *)
+   restatement of Instance/Grp/Free.v. *)
 Example p442_two_letters_same_statement :
   (free_group_unit TwoLetters true ≈ free_group_unit TwoLetters false → False)
   = (fg_insert TwoLetters true ≈ fg_insert TwoLetters false → False)
@@ -410,3 +477,223 @@ Check @free_group_two_generators_distinct.
 Check @SetoidDecidable.
 Check @grp_chi.
 Check @TwoLetters.
+
+(** ** I: the NON-CIRCULAR solution set, and the one thing it costs
+
+    Added by the PR "algebraic carriers are sets" (2026-09-17), on the
+    pattern of Test/ProbeRngAFTProp.v.  [free_group_via_GAFT] now consumes
+    [Grp_Forget_solution_set_prop], the [Prop]-valued congruences on
+    [FGWord X].  That change is INVISIBLE TO THE TYPE — the two readings
+    inhabit the same statement, and nothing else in the build would notice
+    it being reverted — so the [eq_refl] readbacks below name the congruence
+    index, and N11 pins that the new index is not the old singleton.
+
+    THE NEW REFUTATIONS ARE N11 (CONVERSION), N12 (CONVERSION) and N13
+    (UNIVERSE), taking this file to fifteen.  Each was stripped in a copy of
+    the WHOLE file and its exact refusal recorded beside it. *)
+
+Check @IsGrpCongruence.
+Check @FGCongIdx.
+Check @QGrp_Setoid.
+Check @QGrp.
+Check @QGrp_insert.
+Check @fg_ev.
+Check @fg_ker.
+Check @fg_ker_is_cong.
+Check @fg_ker_idx.
+Check @fg_ker_med.
+Check @QGrpOf.
+Check @QGrpInsertOf.
+Check @Grp_Forget_solution_set_prop.
+Check @free_group_via_GAFT_from_adjunction.
+Check @free_group_monad_via_GAFT.
+
+(* The four arguments of the UNCONDITIONAL application, the twin of
+   [p442_via_GAFT_is_GAFT] above.  This is the line that would have to
+   change if the circular family came back. *)
+Example p442_via_GAFT_prop_is_GAFT :
+  free_group_via_GAFT
+    = GAFT Grp_Forget Grp_Complete
+           (Continuous_PreservesImageLimit Grp_Forget_continuous)
+           Grp_Forget_solution_set_prop := eq_refl.
+
+Section PropSolutionReadbacks.
+
+Context (X : Sets).
+
+(* The index IS the congruence type, the members ARE the quotients, and the
+   arrows ARE the insertion of generators into them. *)
+Example p442_sol_prop_index :
+  sol_index (Grp_Forget_solution_set_prop X) = FGCongIdx X := eq_refl.
+
+Example p442_sol_prop_obj (i : FGCongIdx X) :
+  sol_obj (Grp_Forget_solution_set_prop X) i = QGrp (`1 i) (`2 i) := eq_refl.
+
+Example p442_sol_prop_arr (i : FGCongIdx X) :
+  sol_arr (Grp_Forget_solution_set_prop X) i = QGrp_insert (`1 i) (`2 i)
+  := eq_refl.
+
+(* THE SIZE CLAIM, read back rather than argued: every member's carrier is
+   the free group's own word type, so the family is a family of QUOTIENTS
+   and not a family of arbitrary groups.  That is what keeps the index at
+   the carrier universe. *)
+Example p442_sol_prop_carrier (i : FGCongIdx X) :
+  carrier (grp_setoid (sol_obj (Grp_Forget_solution_set_prop X) i)) = FGWord X
+  := eq_refl.
+
+(* The covering is the KERNEL of [free_grp_extend], on the nose. *)
+Example p442_ker_idx_is_kernel (G : Grp) (h : X ~{Sets}~> Grp_Forget G) :
+  `1 (fg_ker_idx h) = fg_ker h := eq_refl.
+
+Example p442_ker_is_extension_kernel (G : Grp)
+  (h : X ~{Sets}~> Grp_Forget G) (u v : FGWord X) :
+  fg_ker h u v
+    = @pequiv _ _ (grp_prop G) (fg_ev h u) (fg_ev h v) := eq_refl.
+
+End PropSolutionReadbacks.
+
+(** ** N11 (CONVERSION): the new index is not the old singleton
+
+    If a later edit points [Grp_Forget_solution_set_prop] back at
+    [solution_set_of_adjunction], this line stops refusing.  The control is
+    [p442_sol_index] in section A, which IS [eq_refl] for the old one.
+    Stripped in a copy of this WHOLE file and re-run, the refusal is
+
+      In environment
+      X : obj[Sets]
+      The term "eq_refl" has type
+       "sol_index (Grp_Forget_solution_set_prop X) =
+        sol_index (Grp_Forget_solution_set_prop X)"
+      while it is expected to have type
+       "sol_index (Grp_Forget_solution_set_prop X) = poly_unit"
+      (cannot unify "sol_index (Grp_Forget_solution_set_prop X)" and
+      "poly_unit").
+
+    Note that the message does NOT name [FGCongIdx]: the index is printed
+    unreduced, so the readback [p442_sol_prop_index] above is what carries
+    the positive half of the claim and this pins only the disagreement.
+    Coq renders such a message with the short names in scope, so it is
+    quoted together with the import list at the head of this file. *)
+
+Fail Example p442_sol_prop_is_not_singleton (X : Sets) :
+  sol_index (Grp_Forget_solution_set_prop X) = poly_unit := eq_refl.
+
+(** ** N12 (CONVERSION): the two applications are different terms
+
+    [free_group_via_GAFT] and [free_group_via_GAFT_from_adjunction] inhabit
+    the same type and are NOT the same term.  [GAFT] is [Qed], so neither
+    reduces; what this pins is that the two are not syntactically
+    identified, which is what would happen if one were defined as the
+    other.  Stripped in a copy of this WHOLE file, the refusal is
+
+      The term "eq_refl" has type "free_group_via_GAFT = free_group_via_GAFT"
+      while it is expected to have type
+       "free_group_via_GAFT = free_group_via_GAFT_from_adjunction"
+      (cannot unify "free_group_via_GAFT" and
+      "free_group_via_GAFT_from_adjunction"). *)
+
+Fail Example p442_two_applications_differ :
+  free_group_via_GAFT = free_group_via_GAFT_from_adjunction := eq_refl.
+
+(** ** The payoff: the theorem applied at named sets
+
+    Before this PR these lines exhibited a free group obtained from an
+    adjunction that had been assumed in order to obtain it. *)
+
+Check (Grp_Forget_solution_set_prop SetOne).
+Check (Grp_Forget_solution_set_prop TwoLetters).
+Check (FGCongIdx SetOne).
+Check (FGCongIdx TwoLetters).
+Check (`1 free_group_via_GAFT SetOne).
+Check (fg_ker_idx (fg_insert TwoLetters)).
+Check (fg_ker_med (fg_insert TwoLetters)).
+
+(** ** N13 (UNIVERSE): the one price, [Set < carrier], and WHERE it lands
+
+    The index is a sigma over a [Prop]-valued relation; the sort of [Prop]
+    is [Set+1]; identifying the index universe with the carrier universe
+    therefore puts the carrier strictly above [Set].  Measured, [About]
+    under [Set Printing Universes]:
+
+      free_group_via_GAFT@{u u0 u1 u2 u3} :
+        ∃ F : Sets@{u0 u} ⟶ Grp@{u u0}, F ⊣ Grp_Forget@{u u u0}
+      (* … Set < u0 / u0 < u … *)
+
+      free_group_via_GAFT_from_adjunction@{u … u8} :
+        ∃ F : Sets@{u1 u0} ⟶ Grp@{u u1}, F ⊣ Grp_Forget@{u u0 u1}
+      (* … Set < u / u1 < u / u1 < u0 … *)
+
+    [About Sets] gives [Sets@{o so} : Category@{so o o}], so the first slot
+    is the setoid CARRIER universe; [About Grp] gives
+    [Grp@{u p} : Category@{u p p}] with [Set < u] and [p < u] built in.  So
+    the circular form's [Set < u] is [Grp]'s own bound on its OBJECT
+    universe and is free; the unconditional form's [Set < u0] is on the
+    carrier and is not.
+
+    WHERE IT LANDS, and this is the part worth pinning rather than stating:
+    NOT on the solution set and NOT on the congruence index, both of which
+    are fine with the carrier at [Set] (the two controls in
+    [Section SetCarrierPin] below).  It lands on the APPLICATION, because
+    that is where [GAFT] identifies the index universe with the carrier.
+
+    Stripped in a copy of this WHOLE file and re-run, the refusal is
+
+      In environment
+      Xs : obj[Sets]
+      The term "Xs" has type "obj[Sets@{pcar pobj}]"
+      while it is expected to have type
+       "obj[Sets@{<anon> <anon>}]"
+      (universe inconsistency: Cannot enforce pcar = <anon> because pcar
+      < <anon>).
+
+    where each [<anon>] is a fresh file-local universe whose printed name
+    carries the stripped copy's module name and a serial number, so the
+    names themselves are not reproducible and are not quoted.  The
+    load-bearing half is the last line: [pcar] is [Set] by the constraint
+    above, and the application wants it strictly below the index. *)
+
+Section SetCarrierPin.
+
+Universes pcar pobj.
+Constraint pcar = Set.
+
+Context (Xs : obj[Sets@{pcar pobj}]).
+
+(* CONTROL 1: the non-circular solution set itself elaborates with the
+   carrier at [Set]. *)
+Definition p442_prop_sols_at_set_carrier : SolutionSet Grp_Forget Xs :=
+  Grp_Forget_solution_set_prop Xs.
+
+(* CONTROL 2: and so does the circular application. *)
+Definition p442_circular_app_at_set_carrier : obj[Grp] :=
+  `1 free_group_via_GAFT_from_adjunction Xs.
+
+(* THE NEGATIVE: the unconditional application does not. *)
+Fail Definition p442_uncond_app_at_set_carrier : obj[Grp] :=
+  `1 free_group_via_GAFT Xs.
+
+End SetCarrierPin.
+
+(* AND IT BITES AT A NAMED IN-TREE OBJECT, which is why it is a cost and
+   not a formality.  [TwoLetters] (Instance/Grp/Free.v) is the bool
+   setoid, and [bool : Set] pins its carrier universe there.  The circular
+   application applies to it; the unconditional one is refused, measured by
+   stripping this [Fail] in a copy of the WHOLE file:
+
+     The term "TwoLetters" has type "SetoidObject"
+     while it is expected to have type "obj[Sets]"
+     (universe inconsistency: Cannot enforce Set = <anon> because Set <
+     <anon>).
+
+   [SetOne] is NOT affected — [poly_unit] is universe-polymorphic — which
+   is why the [SetOne] line above is a control and not an accident.  THIS
+   IS THE HONEST STATEMENT OF WHAT THE UNCONDITIONAL APPLICATION COSTS: it
+   is total over [Sets] as a polymorphic category, and it does not apply to
+   a setoid whose carrier is pinned at [Set].  [Grp_Forget_solution_set_prop
+   TwoLetters] above is checked and DOES elaborate, so the restriction is
+   the theorem's use of the index, not the solution set's. *)
+
+Check (`1 free_group_via_GAFT_from_adjunction TwoLetters).
+
+Fail Definition p442_uncond_at_two_letters : obj[Grp] :=
+  `1 free_group_via_GAFT TwoLetters.

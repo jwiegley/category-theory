@@ -1,6 +1,7 @@
 Require Import Coq.ZArith.ZArith.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
@@ -83,15 +84,15 @@ Generalizable All Variables.
     HOM-CONGRUENCE quotient, so an object-level quotient may have to be
     built.  That is true of THAT module, but it does not follow that
     nothing object-level exists: Instance/Rng/Quotient.v supplies
-    [Ideal] (:125), [QuotientRing] (:423), [rquot_proj] (:468),
-    [rquot_proj_epic] (:498) and the descent [rquot_med] (:572) --
+    [Ideal], [QuotientRing], [rquot_proj],
+    [rquot_proj_epic] and the descent [rquot_med] --
     quotients of RINGS by ideals, exactly the layer route (a) needs.
     What route (a) would still have to build is measured rather than
     guessed: a sweep for the REQUIRED field [idl_mem :=], which every
     [Ideal] literal must supply, returns SIX inhabitants
     ([KernelIdeal], [TrivialIdeal], [TotalIdeal], [EvenIdeal],
     [SixIdeal] in Instance/Rng/Quotient.v, and [StrictUpper] in
-    Instance/Rng/Quotient/OneSided.v:171 -- an ideal of UT2, this
+    Instance/Rng/Quotient/OneSided.v -- an ideal of UT2, this
     development's own witness ring).  A NAME-based sweep returns five
     and misses [StrictUpper], whose name omits the word "Ideal"; the
     field-based one is exhaustive by construction.  All six are
@@ -153,7 +154,9 @@ Generalizable All Variables.
       - THE LIE MAP'S BRACKET LAW IS SPENT EXACTLY ONCE.  [lie_map_br]
         occurs at exactly one place in the file, the [uq_bracket] case
         of [uenv_eval_respects], where it is the whole proof
-        ([exact (lie_map_br f x y)]).  That single line is the
+        ([exact (lie_map_br f x y)]; since the PR "algebraic carriers are
+        sets" (2026-09-17) the branch is preceded by [apply pequiv_from],
+        which changes no mathematics).  That single line is the
         mathematical content of the forward direction: the evaluation
         obligation attached to the enveloping relation IS the
         hypothesis that f preserves the bracket, on the nose, with no
@@ -286,19 +289,32 @@ Generalizable All Variables.
 
     ** AUDIT
 
-    110/110 CONSTANTS CLOSED UNDER THE GLOBAL CONTEXT, all queried by
+    108/108 CONSTANTS CLOSED UNDER THE GLOBAL CONTEXT, all queried by
     fully qualified name, and the count reconciles exactly rather than
-    being asserted: [Print Module] lists 110 names, decomposing as 63
+    being asserted: [Print Module] lists 108 names, decomposing as 63
     source-declared heads + 5 constructors of [UEnvTerm] + 22
-    constructors of [uenv_eq] + 8 generated eliminators
-    ([UEnvTerm_ind]/[_rec]/[_rect]/[_sind] and the four for [uenv_eq]) +
+    constructors of [uenv_eq] + 6 generated eliminators
+    ([UEnvTerm_ind]/[_rec]/[_rect]/[_sind] and the two for [uenv_eq]) +
     12 [Program] obligations, of which no source sweep sees the last
     three groups.  An independent count of declaration heads in the
     source returns 63, matching.
 
-    ZERO NAME COLLISIONS.  All 110 names were swept against the
+    AN EARLIER REVISION of this paragraph read 110/110 with EIGHT
+    generated eliminators, "the four for [uenv_eq]".  Since the PR
+    "algebraic carriers are sets" (2026-09-17) [uenv_eq] is a [Prop]
+    inductive and Coq generates only [uenv_eq_ind] and [uenv_eq_sind] for
+    it, not [_rec] and [_rect]: measured by grepping the output of
+    [Print Module Enveloping] for [uenv_eq_*], which returns exactly those
+    two.  The two vanished names are the whole of the difference, so the
+    decomposition still reconciles: 63 + 5 + 22 + 6 + 12 = 108.  The
+    "closed under the global context" reading was NOT re-run for all 108
+    at this revision; what was re-measured is the eliminator count.
+
+    ZERO NAME COLLISIONS.  All 108 names were swept against the
     declaration heads of the other 820 [.v] files in the tree, with
-    attribute prefixes allowed, and nothing matched.  This matters
+    attribute prefixes allowed, and nothing matched.  The sweep itself was
+    run over the earlier 110-name set, which included the two eliminators
+    that have since vanished, so it covers these 108.  This matters
     because [make print-assumptions] loads many modules into ONE scope,
     where a shared name silently audits the wrong constant.  The
     prefixes were chosen after a sweep found [ue_*] already taken by
@@ -359,7 +375,16 @@ Inductive UEnvTerm : Type :=
 
 (** ** The congruence *)
 
-Inductive uenv_eq : UEnvTerm → UEnvTerm → Type :=
+(* AN EARLIER REVISION of this inductive landed in [Type].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) it lands in [Prop], because
+   [RigObject] carries a [rig_prop : PropEquiv (is_setoid rig_setoid)] field
+   and the `≈` of [UEnvRing] IS [uenv_eq]: the relation must BE a [Prop] for
+   that field to be the identity pair of implications.  The cost is one
+   elimination — [uenv_eval_respects] below goes through [pequiv_to] at the
+   target algebra — and the non-degeneracy results are untouched, their
+   conclusions being [False].  Test/ProbeTermModelPropRng.v pins the refusal
+   of the old script. *)
+Inductive uenv_eq : UEnvTerm → UEnvTerm → Prop :=
   | uq_scal {a b} : a ≈ b → uenv_eq (uen_scal a) (uen_scal b)
   | uq_gen {v w} : v ≈ w → uenv_eq (uen_gen v) (uen_gen w)
   | uq_add {s s' t t'} :
@@ -511,7 +536,11 @@ Definition UEnvRig : RigObject := {|
   rig_distr_l := uq_distr_l;
   rig_distr_r := uq_distr_r;
   rig_mul_zero_l := uq_mul_zero_l;
-  rig_mul_zero_r := uq_mul_zero_r
+  rig_mul_zero_r := uq_mul_zero_r;
+  (* [uenv_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror
+     and both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ uenv_Setoid uenv_eq
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 Definition UEnvRing : RingObject := {|
@@ -593,10 +622,19 @@ Fixpoint uenv_eval (t : UEnvTerm) : carrier (rig_setoid (aalg_ring A)) :=
   | uen_mul s t => rig_mul (aalg_ring A) (uenv_eval s) (uenv_eval t)
   end.
 
+(* AN EARLIER REVISION of this proof inducted on [uenv_eq] straight into the
+   [Type]-valued goal `≈`.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) [uenv_eq] is a [Prop] inductive, so the script opens with
+   [apply pequiv_to] at the TARGET algebra's own [rig_prop] and each branch
+   returns to `≈` with [pequiv_from].  The twenty-two cases and the argument
+   in each are unchanged; the induction hypotheses are now [pequiv]-valued,
+   so the branches that consume one spend [pequiv_to] on it.  No hypothesis
+   is added. *)
 Lemma uenv_eval_respects (s t : UEnvTerm) :
   uenv_eq s t → uenv_eval s ≈ uenv_eval t.
 Proof.
   intro He.
+  apply pequiv_to.
   induction He as
     [ a b Hab
     | v w Hvw
@@ -611,26 +649,39 @@ Proof.
     | x y
     | s t _ IHst
     | s t w _ IHst _ IHtw ]; simpl.
-  - exact (proper_morphism (rig_map (aalg_unit A)) _ _ Hab).
-  - exact (proper_morphism (cmon_map (rm_hom (lie_hom f))) _ _ Hvw).
-  - exact (rig_add_respects (aalg_ring A) _ _ IHs _ _ IHt).
-  - exact (ring_neg_respects (aalg_ring A) _ _ IHs).
-  - exact (rig_mul_respects (aalg_ring A) _ _ IHs _ _ IHt).
-  - exact (rig_add_assoc (aalg_ring A) _ _ _).
-  - exact (rig_add_comm (aalg_ring A) _ _).
-  - rewrite (rig_map_zero (aalg_unit A)); apply rig_add_zero_l.
-  - rewrite (rig_map_zero (aalg_unit A)); apply (ring_neg_l (aalg_ring A)).
-  - exact (rig_mul_assoc (aalg_ring A) _ _ _).
-  - rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_l.
-  - rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_r.
-  - exact (rig_distr_l (aalg_ring A) _ _ _).
-  - exact (rig_distr_r (aalg_ring A) _ _ _).
-  - exact (rig_map_add (aalg_unit A) a b).
-  - exact (rig_map_mul (aalg_unit A) a b).
-  - exact (cmon_map_plus (rm_hom (lie_hom f)) v w).
-  - exact (rm_map_smul (lie_hom f) r v).
-  - rewrite (rm_map_smul (lie_hom f) r v); apply aalg_central.
-  - exact (lie_map_br f x y).
+  - apply pequiv_from;
+      exact (proper_morphism (rig_map (aalg_unit A)) _ _ Hab).
+  - apply pequiv_from;
+      exact (proper_morphism (cmon_map (rm_hom (lie_hom f))) _ _ Hvw).
+  - apply pequiv_from.
+    exact (rig_add_respects (aalg_ring A) _ _ (pequiv_to _ _ IHs)
+                                          _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ring_neg_respects (aalg_ring A) _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rig_mul_respects (aalg_ring A) _ _ (pequiv_to _ _ IHs)
+                                          _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from; exact (rig_add_assoc (aalg_ring A) _ _ _).
+  - apply pequiv_from; exact (rig_add_comm (aalg_ring A) _ _).
+  - apply pequiv_from;
+      rewrite (rig_map_zero (aalg_unit A)); apply rig_add_zero_l.
+  - apply pequiv_from;
+      rewrite (rig_map_zero (aalg_unit A));
+      apply (ring_neg_l (aalg_ring A)).
+  - apply pequiv_from; exact (rig_mul_assoc (aalg_ring A) _ _ _).
+  - apply pequiv_from;
+      rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_l.
+  - apply pequiv_from;
+      rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_r.
+  - apply pequiv_from; exact (rig_distr_l (aalg_ring A) _ _ _).
+  - apply pequiv_from; exact (rig_distr_r (aalg_ring A) _ _ _).
+  - apply pequiv_from; exact (rig_map_add (aalg_unit A) a b).
+  - apply pequiv_from; exact (rig_map_mul (aalg_unit A) a b).
+  - apply pequiv_from; exact (cmon_map_plus (rm_hom (lie_hom f)) v w).
+  - apply pequiv_from; exact (rm_map_smul (lie_hom f) r v).
+  - apply pequiv_from;
+      rewrite (rm_map_smul (lie_hom f) r v); apply aalg_central.
+  - apply pequiv_from; exact (lie_map_br f x y).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtw).
 Qed.

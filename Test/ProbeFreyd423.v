@@ -35,7 +35,7 @@
      - [fr_inj_injective]: from [f ≉ g] alone an injection [(K → bool) → K]
        on the nose.  That this injection cannot be refuted without deciding
        the hom-setoid is METATHEORETIC (Hyland's effective-topos model,
-       Structure/Complete.v:102-112); unprovability is not a refusal, so no
+       Structure/Complete.v); unprovability is not a refusal, so no
        refutation command is written for it.
      - [p423_small_and_products]: Theory/Size.v's [Small] and products over
        the category's own total arrow collection coexist in one binder.
@@ -88,11 +88,22 @@ Constraint Set < uh.
 
 Context {C : Category@{uo uh uh}} (comp : @Complete C) (fam : TotalMor C → C).
 
-(* N1 UNIVERSE: through Structure/Limit/Product.v's unannotated
-   [DiscreteCat_Functor], a [Complete] instance yields an indexed product
-   only at a category whose hom level IS [Set] *)
-Fail Check (@limit_is_indexed_product C (TotalMor C) fam
-              (comp _ (@DiscreteCat_Functor (TotalMor C) C fam))).
+(* Former N1, now a positive control.
+
+   RECORDED CORRECTION.  An earlier revision read: "N1 UNIVERSE: through
+   Structure/Limit/Product.v's unannotated [DiscreteCat_Functor], a
+   [Complete] instance yields an indexed product only at a category whose
+   hom level IS [Set]."  The attribution to [DiscreteCat_Functor] was
+   right; in the PR "algebraic carriers are sets" (2026-09-17) that donor
+   was annotated in place (Instance/Discrete.v) and the command is
+   ACCEPTED.  It is kept at the same levels as a positive control, so
+   dropping the annotation refuses it again and breaks this file.  What
+   the section now records is that the direct [limit_is_indexed_product]
+   route and Freyd.v's [complete_iprod] route -- which reached the same
+   place through [DiscreteCat_Functor'] and was written precisely to
+   avoid the pin -- agree in what they can express. *)
+Check (@limit_is_indexed_product C (TotalMor C) fam
+         (comp _ (@DiscreteCat_Functor (TotalMor C) C fam))).
 
 (* control: the annotated route of Freyd.v at the same category *)
 Check (complete_iprod comp fam).

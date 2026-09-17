@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -16,7 +17,7 @@ Generalizable All Variables.
 (* The global obligation tactic is [cat_simpl], which runs wide proof
    searches on module obligations and has already introduced the
    parameters by the time an obligation is opened.  Switched off here,
-   the Instance/Mod.v:104 idiom, so every obligation starts with an
+   the Instance/Mod.v idiom, so every obligation starts with an
    explicit [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -79,7 +80,10 @@ Generalizable All Variables.
       functor laws — identity and composition — hold pointwise by
       [reflexivity].  The other two obligations, [fmap_respects] and
       respectfulness of the arrow map itself, do not: each consumes its
-      hypothesis.
+      hypothesis.  (Four in all, RE-COUNTED from the [_obligation_] names
+      [Print Module] lists after the PR "algebraic carriers are sets"
+      (2026-09-17); unchanged, [cmon_prop] being supplied inline in the
+      record literals rather than left to [Program].)
 
     * [TensorMod V V' : RModObject R] with the canonical bilinear map
       [tensor_gen : RBilinear V V' (TensorMod V V')] — the generator
@@ -180,12 +184,12 @@ Generalizable All Variables.
     bilinear-map type, and no tensor-product-by-universal-property
     construction".  Measured against this file's parent, that is wrong on
     every count but the last two words: [Record Bilinear (K : AbObject)]
-    is at Instance/Ab/Tensor.v:165, with [tensor_ump], [tensor_hom_ext],
+    is at Instance/Ab/Tensor.v, with [tensor_ump], [tensor_hom_ext],
     [AbTensor] and [AbTensor_Functor] beside it, and [tensor_ump] is
-    CONSUMED at Construction/Enriched/Ab.v:190 — so a bilinear-map type
+    CONSUMED at Construction/Enriched/Ab.v — so a bilinear-map type
     and a tensor-by-universal-property already existed for abelian
     groups.  Instance/Mod.v, Instance/Ab.v and Instance/Rng.v all exist,
-    and [Vct_F] is at Instance/FdVect.v:223.  Nothing of that is rebuilt
+    and [Vct_F] is at Instance/FdVect.v.  Nothing of that is rebuilt
     here.  What was genuinely absent, and is what this file supplies, is
     the module-level bilinear map over an arbitrary ring, the bilinear
     functor into [Sets], the tensor object, and the universal element.
@@ -418,7 +422,7 @@ Inductive MTerm : Type :=
    action agree with the actions of V and of V' on a generator.
    Reflexivity is derived ([mt_refl]), keeping the induction principle
    one case shorter everywhere it is consumed. *)
-Inductive mt_eq : MTerm → MTerm → Type :=
+Inductive mt_eq : MTerm → MTerm → Prop :=
   (* congruence *)
   | mte_gen {v v' : carrier (cmon_setoid V)} {w w' : carrier (cmon_setoid V')} :
       v ≈ v' → w ≈ w' → mt_eq (mt_gen v w) (mt_gen v' w')
@@ -490,7 +494,11 @@ Definition mt_Setoid : Setoid MTerm := {|
 |}.
 
 (** The tensor product as an object of [RMod R].  Every law is a
-    constructor; nothing is proved. *)
+    constructor; nothing is proved.  An earlier revision stopped there; the record now
+    carries one more field, [cmon_prop], and it too is a one-liner: the
+    relation IS a [Prop] since the PR "algebraic carriers are sets"
+    (2026-09-17), so it is its own [Prop] mirror and both implications are
+    the identity. *)
 Definition TensorMod : RModObject R := {|
   rm_ab := {|
     ab_cmon := {|
@@ -500,7 +508,10 @@ Definition TensorMod : RModObject R := {|
       cmon_plus_respects := fun _ _ Hs _ _ Ht => mte_plus Hs Ht;
       cmon_plus_assoc := mte_assoc;
       cmon_plus_comm := mte_comm;
-      cmon_plus_zero_l := mte_zero_l
+      cmon_plus_zero_l := mte_zero_l;
+      (* [mt_eq] IS a [Prop] relation, so it is its own [Prop] mirror. *)
+      cmon_prop := @PropEquiv_of_relation _ mt_Setoid mt_eq
+                     (fun _ _ h => h) (fun _ _ h => h)
     |};
     ab_neg := mt_neg;
     ab_neg_respects := fun _ _ Hs => mte_neg Hs;
@@ -634,33 +645,56 @@ Fixpoint tensor_med_fun (t : MTerm V V') : carrier (cmon_setoid W) :=
 Lemma tensor_med_respects (s t : MTerm V V') :
   mt_eq s t → tensor_med_fun s ≈ tensor_med_fun t.
 Proof.
-  intro He; induction He; simpl.
-  - exact (rbl_respects β _ _ e _ _ e0).
-  - exact (cmon_plus_respects W _ _ IHHe1 _ _ IHHe2).
-  - exact (ab_neg_respects W _ _ IHHe).
-  - exact (rm_smul_respects W _ _ e _ _ IHHe).
-  - exact (cmon_plus_assoc W _ _ _).
-  - exact (cmon_plus_comm W _ _).
-  - exact (cmon_plus_zero_l W _).
-  - exact (ab_neg_left W _).
-  - exact (rm_smul_distr_l W _ _ _).
-  - exact (rm_smul_distr_r W _ _ _).
-  - exact (rm_smul_assoc W _ _ _).
-  - exact (rm_smul_one W _).
-  - exact (rbl_add_l β _ _ _).
-  - exact (rbl_add_r β _ _ _).
-  - exact (symmetry (rbl_smul_l β _ _ _)).
-  - exact (symmetry (rbl_smul_r β _ _ _)).
-  - exact (symmetry IHHe).
-  - exact (transitivity IHHe1 IHHe2).
+  intro He.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [mt_eq] is a
+     [Prop] inductive and eliminates only into [Prop] goals, while `≈` is
+     [Type]-valued.  [pequiv_to] puts a [Prop] goal in front of the
+     elimination; each branch returns to `≈` with [pequiv_from].  The eighteen
+     cases and what discharges each are exactly as before.  The intro pattern
+     is NAMED because the extra [apply] changes the automatic names. *)
+  apply pequiv_to.
+  induction He as
+    [ v v' w w' Hv Hw
+    | s s' t t' _ IH1 _ IH2
+    | s s' _ IH
+    | r r' s s' Hr _ IH
+    | s t u | s t | s | s
+    | r s t | r r' s | r r' s | s
+    | v v' w | v w w'
+    | r v w | r v w
+    | s t _ IH
+    | s t u _ IH1 _ IH2 ]; simpl.
+  - apply pequiv_from; exact (rbl_respects β _ _ Hv _ _ Hw).
+  - apply pequiv_from.
+    exact (cmon_plus_respects W _ _ (pequiv_to _ _ IH1)
+                                _ _ (pequiv_to _ _ IH2)).
+  - apply pequiv_from.
+    exact (ab_neg_respects W _ _ (pequiv_to _ _ IH)).
+  - apply pequiv_from.
+    exact (rm_smul_respects W _ _ Hr _ _ (pequiv_to _ _ IH)).
+  - apply pequiv_from; exact (cmon_plus_assoc W _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm W _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l W _).
+  - apply pequiv_from; exact (ab_neg_left W _).
+  - apply pequiv_from; exact (rm_smul_distr_l W _ _ _).
+  - apply pequiv_from; exact (rm_smul_distr_r W _ _ _).
+  - apply pequiv_from; exact (rm_smul_assoc W _ _ _).
+  - apply pequiv_from; exact (rm_smul_one W _).
+  - apply pequiv_from; exact (rbl_add_l β _ _ _).
+  - apply pequiv_from; exact (rbl_add_r β _ _ _).
+  - apply pequiv_from; exact (symmetry (rbl_smul_l β _ _ _)).
+  - apply pequiv_from; exact (symmetry (rbl_smul_r β _ _ _)).
+  - exact (symmetry IH).
+  - exact (transitivity IH1 IH2).
 Qed.
 
 (** The factorizing homomorphism.  Preservation of zero, of addition and
     of the action all hold by [reflexivity], the fixpoint's clauses BEING
     those equations; only respectfulness has content.  One uniform body
     is used for the four obligations so that the proof does not depend on
-    the order [Program] emits them in (the Instance/Mod/Free.v:359
-    idiom). *)
+    the order [Program] emits them in (the Instance/Mod/Free.v
+    idiom).  Still four after the PR "algebraic carriers are sets"
+    (2026-09-17), re-counted from [Print Module]. *)
 Program Definition tensor_med : TensorMod V V' ~{RMod R}~> W := {|
   rm_hom := {| cmon_map := {| morphism := tensor_med_fun |} |}
 |}.

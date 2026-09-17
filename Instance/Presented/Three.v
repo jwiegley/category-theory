@@ -15,26 +15,25 @@
    commit this file was written against, and both are measured here rather
    than restated:
 
-     - [Construction/Free/Quiver/Presented.v] lines 421-537 already carry
-       one presentation of 3 in full -- [Ord3Node] (:421), [Ord3Edge]
-       (:423, generators a : 0 -> 1, b : 1 -> 2, c : 0 -> 2),
-       [Ord3Quiver] (:428), [ord3_path_c] (:431), [ord3_path_ab] (:434),
-       [ord3_free_distinct] (:441), [Ord3_count] (:448), [Ord3_lhs]
-       (:451), [Ord3_rhs] (:458), [Ord3Eqns] (:465), [Ord3Finite] (:520),
-       [Ord3Presentation] (:524), [Ord3] (:531) and [ord3_relation_holds]
-       (:535).  That is the commutative-triangle presentation, and it is
-       CONSUMED here as presentation (i); not one of those constants is
-       rebuilt.
+     - [Construction/Free/Quiver/Presented.v] already carries
+       one presentation of 3 in full -- [Ord3Node], [Ord3Edge]
+       (generators a : 0 -> 1, b : 1 -> 2, c : 0 -> 2),
+       [Ord3Quiver], [ord3_path_c], [ord3_path_ab],
+       [ord3_free_distinct], [Ord3_count], [Ord3_lhs], [Ord3_rhs],
+       [Ord3Eqns], [Ord3Finite], [Ord3Presentation], [Ord3] and
+       [ord3_relation_holds].  That is the commutative-triangle
+       presentation, and it is CONSUMED here as presentation (i); not one
+       of those constants is rebuilt.
 
-     - [Construction/Free/Quiver/Examples.v]:495 already carries
+     - [Construction/Free/Quiver/Examples.v] already carries
        [ordinal_free m : FreeOnQuiver (LinQuiver m) ≅[StrictCat] Ordinal m]
-       (with [ordinal_free_S] :456, [ordinal_free_0] :479 beneath it, the
-       weaker [ordinal_free_Cat] :504 beside it, and the m = 3 instance
-       [chain_free] :546).  So "is 3 free?  yes, on the linear two-edge
+       (with [ordinal_free_S] and [ordinal_free_0] beneath it, the
+       weaker [ordinal_free_Cat] beside it, and the m = 3 instance
+       [chain_free]).  So "is 3 free?  yes, on the linear two-edge
        graph" is [ordinal_free 3], ALREADY PROVED.  It is CONSUMED here as
        [three_is_free]; no freeness statement is reproved.
 
-     - [Theory/Shapes.v:536-538] already names all three non-identity
+     - [Theory/Shapes.v] already names all three non-identity
        arrows of [_3] -- [three_01], [three_12] and
        [three_02 := three_12 ∘ three_01].  This file's [three_a],
        [three_b] and [three_c] ARE those terms
@@ -47,7 +46,7 @@
    WHAT IS DELIVERED.  Four presentations of the category 3, each shown
    isomorphic to [Instance/Ordinal.v]'s [_3] in [StrictCat], whose
    hom-setoid demands Leibniz equality on objects where [Cat]'s identifies
-   naturally isomorphic functors ([Instance/StrictCat.v]:40-47 records
+   naturally isomorphic functors ([Instance/StrictCat.v]'s header records
    that contrast).  No implication between the two readings is proved
    here; [StrictCat] is simply what the comparisons below inhabit:
 
@@ -95,7 +94,7 @@
    [Instance/Square.v]'s [wsq_spec]/[wsq_classify] idiom: put the endpoint
    analysis in the SPECIFICATION, then induct on the path.  The
    classifications are stated at LEIBNIZ equality, not [≈] -- a deliberate
-   strengthening, following [Instance/Square.v]:219-220, and the reason
+   strengthening, following [Instance/Square.v], and the reason
    the free arrow counts below mean what they say.  From them [ord3_thin]
    and [tri4_thin] follow, and thinness is what makes the two comparison
    functors mutually inverse.
@@ -121,8 +120,8 @@
    hold at Leibniz rather than at [≈], and the non-vacuity paragraph
    below is what supplies the content.  Equality of morphisms is DECIDED by
    [three_mor_eq_dec], on the bundled morphism type [OrdMor 3] of
-   [Instance/Ordinal.v]:636, through that file's
-   [ord_coords_inj] (:644): a morphism of 3 is determined by its pair of
+   [Instance/Ordinal.v], through that file's
+   [ord_coords_inj]: a morphism of 3 is determined by its pair of
    endpoint indices.  At the level of parallel arrows the decision is
    total and always answers yes, which is exactly what thinness says
    ([three_equiv_dec], [ord3_equiv_dec], [ord3_rev_equiv_dec],
@@ -157,8 +156,8 @@
    (i)'s and (iii)'s comparison functors agree.  No universal property is
    restated: Presented.v's [PresentedFunctor] is applied, and neither it
    nor [presented_universal] is re-derived.  Nothing is said about
-   [Theory/Metacategory.v]'s unrelated [Three] (:432), whose header
-   records at :31-32 that it has no objects at all -- and note that this
+   [Theory/Metacategory.v]'s unrelated [Three], whose header
+   records that it has no objects at all -- and note that this
    module's own short name is [Three] too, so a file importing both has a
    module and a constant of that name in scope at once; nothing declared
    below is called [Three].  No decision procedure for equality of
@@ -199,9 +198,9 @@ Generalizable All Variables.
 (* Leastness of the generated congruence, in the shape a comparison of two
    presentations wants: it is enough that every generating equation of [R]
    is DERIVABLE in [S], not that it is one of [S]'s own generators. *)
-(* [Construction/Quotient.v:610]'s [cc_least] is exactly this, applied at
+(* [Construction/Quotient.v]'s [cc_least] is exactly this, applied at
    the congruence [CongClosure S].  That file's own comment on the sibling
-   [cc_kernel] (:623-625) says such a passage is "a one-line corollary of
+   [cc_kernel] says such a passage is "a one-line corollary of
    leastness ... not a second induction", so this is a term and not an
    induction. *)
 Definition pq_cc_mono {C : Category} (R S : HomRelT C)
@@ -339,7 +338,7 @@ Definition three_b : ord3_1 ~{_3}~> ord3_2 := le_t_S le_t_n.
 Definition three_c : ord3_0 ~{_3}~> ord3_2 := le_t_S (le_t_S le_t_n).
 
 (* PRIOR ART, and the three are not merely analogous but the SAME TERMS:
-   [Theory/Shapes.v:536-538] already names all three non-identity arrows
+   [Theory/Shapes.v] already names all three non-identity arrows
    of [_3].  They are spelled out again here rather than consumed for one
    reason, and it is a reason about STRENGTH: that file DEFINES its 0 -> 2
    arrow as the composite ([three_02 := three_12 ∘ three_01]), so with it
@@ -472,7 +471,7 @@ Definition three_nonidentity_total : nat :=
 Theorem three_nonidentity_total_3 : three_nonidentity_total = 3%nat.
 Proof. reflexivity. Qed.
 
-(* [Instance/Ordinal.v]:855's independent count of endpoint pairs, read at
+(* [Instance/Ordinal.v]'s independent count of endpoint pairs, read at
    n = 3.  Its left side is TWICE the morphism count, and its proof there
    is one rewrite by [ord_pairs_length] and the closed form
    [ord_tri_closed], so the six above is confirmed by an argument that
@@ -542,7 +541,7 @@ Definition o3_b : Ord3_1 ~{FreeOrd3}~> Ord3_2 :=
 (* The specification: for each ordered pair of nodes, exactly which paths
    join them.  [False] marks the three pairs joined by no path.  The
    equalities are LEIBNIZ, not [≈] -- the strengthening
-   [Instance/Square.v]:218-220 documents, and what makes the free count
+   [Instance/Square.v] documents, and what makes the free count
    below a count of arrows rather than of [≈]-classes. *)
 Definition o3_spec (y : Ord3Node) :
   ∀ x : Ord3Node, (x ~{FreeOrd3}~> y) → Type :=
@@ -705,7 +704,7 @@ Next Obligation.
 Qed.
 
 (* How much the relation does.  [o3_classify] bounds each free hom-set
-   from above, and [ord3_free_distinct] (Presented.v:441, consumed) shows
+   from above, and [ord3_free_distinct] (Presented.v, consumed) shows
    the 0 -> 2 one really does have two elements, so the free category on
    the triangle quiver has SEVEN arrows against 3's six: the presentation
    makes exactly one identification. *)
@@ -741,11 +740,11 @@ Example ord3_merge_arithmetic :
 (* ---------- (E) presentation (ii): two generators, no relations -------- *)
 
 (* THE FREENESS VERDICT.  Awodey's question "is 3 free?" is answered YES,
-   by CONSUMING [Construction/Free/Quiver/Examples.v]:495's [ordinal_free]
+   by CONSUMING [Construction/Free/Quiver/Examples.v]'s [ordinal_free]
    at m = 3.  The category 3 is the free category on the linear two-edge
    graph 0 -> 1 -> 2: the arrow 0 -> 2 is the two-edge PATH, forced by
    composition, and not a generator subject to a relation. *)
-(* [Examples.v:546]'s [chain_free] IS this constant -- same type, same
+(* [Examples.v]'s [chain_free] IS this constant -- same type, same
    body -- so it is aliased rather than restated; the local name is kept
    so this section reads without a cross-file alias. *)
 Definition three_is_free : FreeOnQuiver (LinQuiver 3) ≅[StrictCat] _3 :=
@@ -787,7 +786,7 @@ Defined.
 
 (* An edge of the linear quiver is a proof of a [nat] equation, so two
    edges with the same endpoints agree by UIP on [nat] -- Hedberg, no
-   axiom.  That is Examples.v:394's [linear_edge_unique], consumed. *)
+   axiom.  That is Examples.v's [linear_edge_unique], consumed. *)
 Lemma lin3_edge_rt (x y : LinQuiver 3) (e : @edges (LinQuiver 3) x y) :
   lin3_edge x y (lin3_eindex x y e) ≈ e.
 Proof. apply linear_edge_unique. Qed.
@@ -1259,7 +1258,7 @@ Example ord3_rev_lhs_is_ab :
   @fe_lhs _ Ord3RevEqns Ord3_0 Ord3_2 Fin.F1 = ord3_path_ab := eq_refl.
 
 (* ...and those two are not the same arrow of the free category.  This is
-   Presented.v:441's [ord3_free_distinct], consumed; it is the reason the
+   Presented.v's [ord3_free_distinct], consumed; it is the reason the
    two presentation records are distinguishable even though the categories
    they present are isomorphic. *)
 Theorem ord3_presentations_differ : ord3_path_c ≈ ord3_path_ab → False.

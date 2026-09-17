@@ -70,7 +70,7 @@ Generalizable All Variables.
    object of A", with the object CHOSEN: a Type-valued sigma handing back,
    for each c, an object a of the subcategory together with an isomorphism
    Incl a =~= c in C.  This is exactly the reading [EssentiallySurjective]
-   (Theory/Equivalence.v:154) already takes -- its [eso_obj] field is a
+   (Theory/Equivalence.v) already takes -- its [eso_obj] field is a
    function, not an existential -- and [iso_dense_ESO] is the repackaging,
    a plain [Definition] raising no obligation.  No choice principle is
    consumed anywhere in this file: the choice IS the hypothesis, supplied
@@ -78,7 +78,7 @@ Generalizable All Variables.
    converse repackaging [ESO_iso_dense] and both round trips are recorded;
    the object components agree at [eq_refl] in both directions, and the
    [EssentiallySurjective] whole record returns at [eq_refl] as well (a
-   two-field class under Lib.v:10's [Set Primitive Projections] has eta),
+   two-field class under Lib.v's [Set Primitive Projections] has eta),
    while the [IsoDense] whole record does NOT, since stdlib [sigT] is not
    covered by that setting.  That last one is refuted and pinned in
    Test/ProbeDense375.v.
@@ -89,19 +89,19 @@ Generalizable All Variables.
    every delivered constant comes from an existing donor:
 
      fullness of the inclusion functor   Full_Implies_Full_Functor
-                                         (Construction/Subcategory.v:104)
+                                         (Construction/Subcategory.v)
      faithfulness of the inclusion       Incl_Faithful
-                                         (Construction/Subcategory.v:89)
+                                         (Construction/Subcategory.v)
      essential surjectivity              iso_dense_ESO, from the hypothesis
      equivalence from those three        FF_ESO_Equivalence
                                          (Theory/Equivalence/-
-                                          FullFaithful.v:160)
+                                          FullFaithful.v)
      adjoint equivalence from that       Equivalence_to_AdjointEquivalence
-                                         (Theory/Equivalence/Adjoint.v:333)
+                                         (Theory/Equivalence/Adjoint.v)
      the OTHER handedness                AdjointEquivalence_swap_adjunction
-                                         (Theory/Equivalence/Adjoint.v:414)
+                                         (Theory/Equivalence/Adjoint.v)
      the reflective packaging            Build_Reflective
-                                         (Construction/Reflective.v:60)
+                                         (Construction/Reflective.v)
 
    [Incl_Faithful] is literally in the proof term of
    [dense_incl_equivalence], which is a [:=] with no tactic:
@@ -122,7 +122,7 @@ Generalizable All Variables.
    the left adjoint, so at F := Incl it yields Incl -| T, which is the
    opposite handedness and is NOT the reflection adjunction.
    [AdjointEquivalence_swap_adjunction] is what supplies T -| K, and that
-   is the shape Theory/Equivalence/Creation.v:63-66 already uses to read an
+   is the shape Theory/Equivalence/Creation.v already uses to read an
    equivalence as a right adjoint.  Both handednesses are shipped:
    [dense_incl_adjoint_equivalence] is Mac Lane's triple read with K on the
    left, [dense_adj] is the reflection adjunction.
@@ -158,7 +158,7 @@ Generalizable All Variables.
    [dense_counit_Isomorphism a : dense_reflector (Incl a) =~= a] in
    [Sub C S], whose forward leg IS the counit at [eq_refl].  The
    [Reflective]-level statement of the same fact is
-   [reflective_counit_iso] (Construction/Reflective.v:92); it is cited
+   [reflective_counit_iso] (Construction/Reflective.v); it is cited
    rather than restated, and the direct form above is preferred because
    that lemma produces data and is closed with [Qed], so neither of its
    legs reduces.
@@ -168,12 +168,12 @@ Generalizable All Variables.
    isomorphism, so that [fmap[Incl C S] (counit (dense_adj D) a)] would be
    [approx] [to (`2 (D (Incl C S a)))].  The statement is true -- the
    symmetry branch of [Functor_Setoid]'s [Equivalence] obligation
-   (Theory/Functor.v:164-168) builds [iso_sym] componentwise, [from] then
+   (Theory/Functor.v) builds [iso_sym] componentwise, [from] then
    [to] -- but that is a fact about the tactic's OUTPUT and not about the
    type, and it is not available by conversion: the route through
-   [equiv_adjunction_counit_at] (Theory/Equivalence/Adjoint.v:233) is
+   [equiv_adjunction_counit_at] (Theory/Equivalence/Adjoint.v) is
    blocked at [symmetry], which is [Equivalence_Symmetric] of
-   [Functor_Setoid] (Theory/Functor.v:149), whose [Equivalence] obligation
+   [Functor_Setoid] (Theory/Functor.v), whose [Equivalence] obligation
    is discharged by the [equivalence] tactic and closed with [Qed], so the
    isomorphism family it produces does not reduce and its type -- a bare
    natural isomorphism -- does not pin its components.  The identification
@@ -202,14 +202,14 @@ Generalizable All Variables.
 
    Mac Lane's "This includes in particular the case already noted, when A
    is a skeleton of C" is [skeleton_IsoDense] and [skeleton_reflective]: a
-   [Skeleton] (Theory/Skeleton.v:355) carries [skel_rep] and [skel_iso],
+   [Skeleton] (Theory/Skeleton.v) carries [skel_rep] and [skel_iso],
    which ARE iso-density data with the isomorphism in the reverse
    orientation, so [skeleton_IsoDense] pairs [skel_rep] with [iso_sym] of
    that field and nothing more.  The rider is unusual in this tree in that
-   the SPECIAL CASE preceded the general statement: Theory/Skeleton.v:398
+   the SPECIAL CASE preceded the general statement: Theory/Skeleton.v
    already proved [skeleton_inclusion_is_equivalence] by exactly this
-   route, and
-   :409 already defined [skel_reflect] as its quasi-inverse.  What was
+   route, and had already defined [skel_reflect] as its
+   quasi-inverse.  What was
    absent was the hypothesis as a first-class notion, the adjoint
    equivalence in the reflector-on-the-left handedness, and the conclusion
    [Reflective].  Because the two ESO records agree fieldwise and
@@ -242,10 +242,10 @@ Generalizable All Variables.
    ** Witnesses (in the probe, so this file's closure stays lean)
 
    Test/ProbeDense375.v instantiates the theorem twice over
-   [Indiscrete bool] (Instance/Discrete/Reconstruct.v:416, whose hom and
+   [Indiscrete bool] (Instance/Discrete/Reconstruct.v, whose hom and
    proof universes are the literal [Set] -- a pin the witnesses inherit and
    this file does not carry): once through [skeleton_reflective] at
-   Theory/Skeleton/Separation.v:140's [Indiscrete_bool_Skeleton], where the
+   Theory/Skeleton/Separation.v's [Indiscrete_bool_Skeleton], where the
    reflection is proved NOT inert at the non-representative point, and
    once at a full subcategory on BOTH points whose chosen representative of
    each point is the OTHER point, the witness behind the counit paragraph
@@ -257,39 +257,39 @@ Generalizable All Variables.
 
      (a) The issue says there is no generic [Faithful (Incl C S)] instance
          and that faithfulness of an inclusion is asserted in comments and
-         proved per instance.  FALSE: Construction/Subcategory.v:89 is
+         proved per instance.  FALSE: Construction/Subcategory.v is
          [Lemma Incl_Faithful : Functor.Faithful Incl], consumed by
-         Theory/Skeleton.v:402, by Adjunction/FullFaithful.v and by
+         Theory/Skeleton.v, by Adjunction/FullFaithful.v and by
          Construction/Reflective/Limit.v among others.  Nothing here
          rebuilds it.
 
      (b) Several donor line numbers in the issue have drifted.  At this
-         base: [Incl] is :64 (issue says :59), [Full] is :99 (:69),
-         [Full_Implies_Full_Functor] is :104 (:74), and
-         [EssentiallySurjective] is Theory/Equivalence.v:154 (:141).
-         [FF_ESO_Equivalence] :160 and
-         [Equivalence_to_AdjointEquivalence] :333 are right.
+         base the issue misses [Incl], [Full] and
+         [Full_Implies_Full_Functor] in Construction/Subcategory.v, and
+         [EssentiallySurjective] in Theory/Equivalence.v.  Its
+         citations of [FF_ESO_Equivalence] and
+         [Equivalence_to_AdjointEquivalence] are right.
 
      (c) The issue says the existing applications of [FF_ESO_Equivalence]
          are not subcategory inclusions.  STALE:
-         Theory/Skeleton.v:401 applies it to [skel_incl S], which IS the
+         Theory/Skeleton.v applies it to [skel_incl S], which IS the
          [Incl] of a [Sub].  (Instance/FinSet/Skeleton.v also applies it to
          a functor called [FinSet_Incl], but that one is a hand-built
-         [Program Definition] at :417 and not an [Incl C S] at all.)  So
+         [Program Definition] and not an [Incl C S] at all.)  So
          the specialization to a subcategory inclusion existed for the
          skeleton; what did not exist is measured in the paragraph above.
 
      (d) The issue defers the skeleton corollary until the skeleton
          development lands.  It has landed: Theory/Skeleton.v exists and
-         [Record Skeleton] is at :355, so the corollary is delivered here.
+         declares [Record Skeleton], so the corollary is delivered here.
 
    Searches run on the same base: [IsoDense], [iso_dense] and
    [dense_full_subcategory_reflective] have zero hits outside this file and
    its probe, and [Build_Reflective] has exactly four application sites
-   (Construction/Reflective/Idempotent.v:346, Instance/Ord/Poset.v:286,
-   Instance/Ab/TorsionFree.v:525, Instance/Top/Kolmogorov.v:633), none of
+   (Construction/Reflective/Idempotent.v, Instance/Ord/Poset.v,
+   Instance/Ab/TorsionFree.v, Instance/Top/Kolmogorov.v), none of
    them obtained from an equivalence; a fifth textual hit,
-   Instance/Ab/TorsionFree.v:111, is a comment quoting the search string.
+   Instance/Ab/TorsionFree.v, is a comment quoting the search string.
 
    ** Registration
 
@@ -344,7 +344,7 @@ Example ESO_iso_dense_obj (E : EssentiallySurjective (Incl C S)) (c : C) :
   `1 (ESO_iso_dense E c) = @eso_obj _ _ _ E c := eq_refl.
 
 (* One round trip closes on the WHOLE record, because
-   [EssentiallySurjective] is a two-field class and Lib.v:10 sets
+   [EssentiallySurjective] is a two-field class and Lib.v sets
    [Set Primitive Projections]. *)
 
 Example ESO_round_whole (E : EssentiallySurjective (Incl C S)) :
@@ -435,7 +435,7 @@ Definition dense_counit_iso (D : IsoDense) (a : Sub C S) :
 
 (* The bundled reading, in [Sub C S].  Its forward leg is the counit on the
    nose, recorded below; contrast [reflective_counit_iso]
-   (Construction/Reflective.v:92), which states the same fact at the level
+   (Construction/Reflective.v), which states the same fact at the level
    of the [Reflective] record but is closed with [Qed] while producing
    data, so neither of its legs reduces. *)
 
@@ -469,7 +469,7 @@ Definition skeleton_reflective {C : Category} (Sk : Skeleton C) :
 Example skeleton_reflector_obj {C : Category} (Sk : Skeleton C) (c : C) :
   fobj[reflector (skeleton_reflective Sk)] c = skel_rep Sk c := eq_refl.
 
-(* The reflector produced by the general theorem IS Theory/Skeleton.v:409's
+(* The reflector produced by the general theorem IS Theory/Skeleton.v's
    [skel_reflect], on the nose: the two [EssentiallySurjective] records
    agree field for field, and that class has eta. *)
 

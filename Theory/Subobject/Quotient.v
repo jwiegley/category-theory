@@ -38,8 +38,8 @@ Generalizable All Variables.
    THE IDIOM.  A quotient object of x in C is a subobject of x in C^op,
    so the definition is one line and every consequence is an
    instantiation.  That is the library's standard device for dual
-   notions: Theory/Monad.v:144 is [Comonad `{M : C ⟶ C} := @Monad (C^op)
-   (M^op)], and Comonad/Duality.v:115 and :117 ([op_Monad_of_Comonad],
+   notions: Theory/Monad.v is [Comonad `{M : C ⟶ C} := @Monad (C^op)
+   (M^op)], and Comonad/Duality.v ([op_Monad_of_Comonad],
    [Comonad_of_op_Monad]) are the two bridges between the readings, each
    proved by [:= H] -- no data moves, only the name of the direction.
    The same holds here: [QuotObj x := @SubObj (C^op) x], and every lemma
@@ -52,10 +52,10 @@ Generalizable All Variables.
    necessity is measured below), and the four-field permutations
    [Iso_of_op_Iso]/[op_Iso_of_Iso] -- five in all.
 
-   WHY THE COVARIANT READINGS ARE FREE.  Construction/Opposite.v:106-111
+   WHY THE COVARIANT READINGS ARE FREE.  Construction/Opposite.v
    builds [Opposite] by permuting fields rather than by composing them
-   with symmetry proofs: [hom := fun x y => @hom C y x] at :108 and
-   [compose := fun _ _ _ f g => g ∘ f] at :111, so a C^op-arrow into x IS
+   with symmetry proofs: [hom := fun x y => @hom C y x] and
+   [compose := fun _ _ _ f g => g ∘ f], so a C^op-arrow into x IS
    a C-arrow out of x and a C^op-composite IS the reversed C-composite,
    both on the nose.  Two consequences are pinned here as [eq_refl]
    readbacks, because they are about the DATA and not about a morphism.
@@ -69,24 +69,25 @@ Generalizable All Variables.
    this file (#446) recorded, as one of its gaps, that there is "no lemma
    identifying Monic in C^op with the Epic class of Theory/Morphisms.v".
    That was STALE when written and is cited here as such:
-   Theory/Morphisms/Duality.v:44-56 carries all four bridges --
-   [Monic_of_op_Epic] (:44), [op_Epic_of_Monic] (:48),
-   [Epic_of_op_Monic] (:52) and [op_Monic_of_Epic] (:56) -- each a single
+   Theory/Morphisms/Duality.v carries all four bridges --
+   [Monic_of_op_Epic], [op_Epic_of_Monic],
+   [Epic_of_op_Monic] and [op_Monic_of_Epic] -- each a single
    constructor application, because [Monic] and [Epic] are two distinct
    one-field records whose fields have the SAME type once the opposite
    hom and composition are unfolded (that file's header says exactly
-   this at :32-40).  [monic_op_iff_epic] below is the pair of the two
+   this).  [monic_op_iff_epic] below is the pair of the two
    directions this file consumes, and [epic_of_monic_op] /
    [monic_op_of_epic] name its projections.  The other two bridges are
    the reason [QuotObj_op_is_SubObj] closes the circle rather than
    merely pointing one way: an [Epic] in C^op is a [Monic] in C by
    [Monic_of_op_Epic], so the quotient objects of C^op and the
    subobjects of C carry the same monicity witness as well as the same
-   arrow.  (The issue also cited [Epic] at Theory/Morphisms.v:104;
-   measured in this worktree with grep -n '^Class Epic', it is at :107.)
+   arrow.  (The issue cited [Epic] at the wrong place in
+   Theory/Morphisms.v; its declaration was re-measured in this worktree
+   with grep -n '^Class Epic'.)
 
    WHAT THE SETOID COSTS, MEASURED.  The one place where the transport
-   is NOT free is the equivalence.  Theory/Subobject.v:33's
+   is NOT free is the equivalence.  Theory/Subobject.v's
    [SubObj_Setoid] witnesses [u ≈ v] by an isomorphism of the DOMAINS
    commuting with the monos; read at C^op that witness is an
    isomorphism IN C^op of the codomains, whose [to] component is a
@@ -115,11 +116,11 @@ Generalizable All Variables.
    between C^op and C with no proof content -- [iso_to_from] at one side
    IS [iso_from_to] at the other, the two composites having swapped
    endpoints.  An in-tree bridge of this kind already exists, [iso_unop]
-   at Functor/Hom/Yoneda/Iso.v:212, and is NOT required here: it lives in
+   at Functor/Hom/Yoneda/Iso.v, and is NOT required here: it lives in
    the Yoneda development, far above this file, and its orientation is
    the other one ([to := from i], giving [x ≅ y] from [@Isomorphism C^op
    x y], where the orientation needed below is [to := to i], giving
-   [y ≅ x]).  Construction/Opposite.v:146's [Isomorphism_Opposite] goes
+   [y ≅ x]).  Construction/Opposite.v's [Isomorphism_Opposite] goes
    only from C to C^op.
 
    WHICH ORDER, AND WHICH BOUND IS WHICH.  [quot_le q r] holds when the
@@ -147,22 +148,22 @@ Generalizable All Variables.
    epic.
 
    WHAT IS TRANSPORTED, AND FROM WHERE.  Theory/Subobject.v supplies the
-   record (:15), the setoid (:33), the preorder [sub_le] (:60) with its
-   monic (:86) and unique (:97) mediating arrow, and
-   [sub_equiv_iff_mutual] (:112); all five arrive here as [quot_cod] /
+   record, the setoid, the preorder [sub_le] with its
+   monic and unique mediating arrow, and
+   [sub_equiv_iff_mutual]; all five arrive here as [quot_cod] /
    [quot_epi] / [QuotObj_Setoid] / [quot_le] / [quot_le_epic] /
    [quot_le_unique] / [quot_equiv_iff_mutual].  Theory/Subobject/
-   Lattice.v supplies the order structure: [sub_top] (:250) and
-   [sub_bot] (:1001) with [zero_monic_of_strict] (:1017), the binary
-   meet by pullback (:450) with its two projections, its
+   Lattice.v supplies the order structure: [sub_top] and
+   [sub_bot] with [zero_monic_of_strict], the binary
+   meet by pullback with its two projections, its
    greatest-lower-bound property and the four laws, the order vocabulary
-   [IsIntersection] (:262) / [IsMeet] (:276), the wide intersection
-   (:621), the [ImageOf] record (:736) and [HasImages] class (:744), the
-   join by image of the copairing (:765, :768), and the absorption pair.
-   Three dualizations make the transport work.  Structure/Pushout.v:158's
+   [IsIntersection] / [IsMeet], the wide intersection, the [ImageOf]
+   record and [HasImages] class, the join by image of the copairing, and
+   the absorption pair.
+   Three dualizations make the transport work.  Structure/Pushout.v's
    [HasPullbacks_op_of_HasPushouts] turns the [HasPushouts C] hypothesis
    into the [HasPullbacks (C^op)] that [sub_meet] consumes.
-   Structure/Cocartesian.v:117 defines [@Cocartesian C] as NOTATION for
+   Structure/Cocartesian.v defines [@Cocartesian C] as NOTATION for
    [@Cartesian (C^op)], so the [Cocartesian (C^op)] that [sub_join]
    consumes is [@Cartesian (C^op^op)] and a plain [Cartesian C] is
    accepted for it by conversion -- MEASURED, with
@@ -171,7 +172,7 @@ Generalizable All Variables.
    conditional on PRODUCTS of C: [quot_pairing q r] is
    [⟨quot_epi q, quot_epi r⟩ : x ~> quot_cod q × quot_cod r], the C^op
    copairing read forwards, and the join is its coimage.  Likewise
-   Structure/Initial.v:97 defines [Initial C] as [@Terminal (C^op)], so
+   Structure/Initial.v defines [Initial C] as [@Terminal (C^op)], so
    [sub_bot] at C^op takes a [Terminal C] and a [Monic] of the opposite
    arrow, that is an [Epic (one : x ~> 1)] in C.
 
@@ -197,7 +198,7 @@ Generalizable All Variables.
    [QuotObj] itself prints as
    [QuotObj@{u u0 u1} : ∀ {C : Category@{u0 u1 u1}}, obj[C] →
    Type@{u}], the same collapse with the result level named.  It is
-   INHERITED and belongs to Theory/Subobject.v:15, the first carrier in
+   INHERITED and belongs to Theory/Subobject.v, the first carrier in
    dependency order, whose [SubObj] record holds a mono and its [Monic]
    proof under two universe variables and prints as
    [SubObj@{u u0} : ∀ {C : Category@{u u0 u0}}, obj[C] →
@@ -209,9 +210,9 @@ Generalizable All Variables.
    come with the sigma and pair types of [sub_le] and the pullback
    universal property.  [quot_equiv_iff_iso] carries the STRICT bound
    [u0 < u1]; measured on the donors, [SubObj_Setoid] at
-   Theory/Subobject.v:33 already carries [p < u0] and so do
-   [sub_equiv_iff_mutual] (:112) and [sub_le_antisym]
-   (Theory/Subobject/Lattice.v:284), the [Setoid] record sitting
+   Theory/Subobject.v already carries [p < u0] and so do
+   [sub_equiv_iff_mutual] and [sub_le_antisym]
+   (Theory/Subobject/Lattice.v), the [Setoid] record sitting
    strictly above the proof universe.  No constant here is pinned to
    [Set].
 
@@ -223,7 +224,7 @@ Generalizable All Variables.
    witnesses exist is settled.  Mac Lane's two illustrations are
    therefore NOT here: the clause that quotient objects are the usual
    quotients where epis are surjections is not stated over [Sets] (the
-   ingredient exists, [epic_implies_surjective] at Instance/Sets.v:538,
+   ingredient exists, [epic_implies_surjective] at Instance/Sets.v,
    and is not consumed), and the G/N reading of the quotient objects of
    a group appears only as prose in this header, the tree carrying no
    group theory wired to [QuotObj].  No wide pushouts: Structure/
@@ -348,7 +349,7 @@ Definition quot_le_trans (q r s : QuotObj x) :
   @sub_le_trans (C^op) x q r s.
 
 (* The mediating arrow of a factorization between quotient objects is
-   itself an EPI of C: [sub_le_monic] (Theory/Subobject.v:86) read at
+   itself an EPI of C: [sub_le_monic] (Theory/Subobject.v) read at
    C^op, then carried back by [Epic_of_op_Monic].  Both the target type
    and the bridge's category have to be given explicitly, since the
    arrow's type is spelled at C^op and Rocq would otherwise read [Epic]
@@ -445,8 +446,8 @@ Context {x y : C}.
 
 (* The two projections, named.  The other two bridges of
    Theory/Morphisms/Duality.v go the other way round the square --
-   [Monic_of_op_Epic] (:44) turns an [Epic] of C^op into a [Monic] of C
-   and [op_Epic_of_Monic] (:48) turns a [Monic] of C into an [Epic] of
+   [Monic_of_op_Epic] turns an [Epic] of C^op into a [Monic] of C
+   and [op_Epic_of_Monic] turns a [Monic] of C into an [Epic] of
    C^op -- which is what makes [QuotObj_op_is_SubObj] a genuine
    identification rather than a one-way reading: the monicity witness a
    subobject of C carries is exactly the epicness witness a quotient
@@ -563,7 +564,7 @@ Context {C : Category}.
 Context `{T : @Terminal C}.
 Context {x : C}.
 
-(* [sub_bot] at C^op.  Structure/Initial.v:97 makes [Initial (C^op)] the
+(* [sub_bot] at C^op.  Structure/Initial.v makes [Initial (C^op)] the
    same thing as [Terminal C], and [sub_bot]'s hypothesis [Monic zero]
    becomes [Epic (one : x ~> 1)] through [op_Monic_of_Epic].  The
    hypothesis is REAL but OBJECT-DEPENDENT rather than rare, and it is
@@ -589,7 +590,7 @@ Definition quot_bot_least (He : Epic (@one C T x)) (q : QuotObj x) :
   @sub_bot_least (C^op) T x (op_Monic_of_Epic (@one C T x) He) q.
 
 (* The formal dual of [zero_monic_of_strict] (Theory/Subobject/
-   Lattice.v:1017) at C^op, recorded for SYMMETRY ONLY: its strict-
+   Lattice.v) at C^op, recorded for SYMMETRY ONLY: its strict-
    initial hypothesis reads here as a COSTRICT terminal object -- every
    object receiving a map from 1 is isomorphic to 1 -- which is a
    near-vacuous condition: it does not hold in [Sets] (1 → bool exists
@@ -664,8 +665,8 @@ Definition CoimageOf {x y : C} (f : x ~> y) : Type := @ImageOf (C^op) y x f.
 
 End Coimages.
 
-(* Following the [Cocartesian] (Structure/Cocartesian.v:117) and
-   [Initial] (Structure/Initial.v:97) precedent, this is NOTATION rather
+(* Following the [Cocartesian] (Structure/Cocartesian.v) and
+   [Initial] (Structure/Initial.v) precedent, this is NOTATION rather
    than a definition, so that instance resolution for the underlying
    [HasImages] class still fires at C^op. *)
 Notation "'HasCoimages' C" := (@HasImages (C^op))

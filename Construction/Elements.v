@@ -37,9 +37,9 @@ Generalizable All Variables.
    SETOID PRESENTATION. Two different `≈` occur below and neither is
    Leibniz equality. In the hom condition [fmap[K] f x ≈ y] the `≈` is
    the equivalence of the target setoid K d': every object of Sets is a
-   carrier packaged with a Setoid (Instance/Sets.v:118-121), and every
+   carrier packaged with a Setoid (Instance/Sets.v), and every
    morphism of Sets is a carrier function together with a proof that it
-   respects `≈` (Instance/Sets.v:126-130). In the hom-setoid of
+   respects `≈` (Instance/Sets.v). In the hom-setoid of
    [Elements] the `≈` is D's own hom equivalence. The books state the
    hom condition with an equality of elements; this file states it with
    `≈`, which is the setoid reading issue #345 asks for.
@@ -47,13 +47,13 @@ Generalizable All Variables.
    HOM-SETOID, AND WHAT IT BUYS. [Elements] compares two morphisms by
    their underlying D-morphisms alone; the carried condition takes no
    part in the comparison. That is the encoding already in use at
-   Construction/Slice.v:124-126 (sigma object, sigma hom, hom-setoid on
-   the first component) and, componentwise, at Construction/Comma.v:135-
-   136. One consequence is recorded here because consumers rely on it:
+   Construction/Slice.v (sigma object, sigma hom, hom-setoid on
+   the first component) and, componentwise, at Construction/Comma.v.
+   One consequence is recorded here because consumers rely on it:
    faithfulness of [Elements_proj] is DEFINITIONAL rather than a theorem
    with content. The identity function typechecks as the injectivity
    proof, which [Elements_proj_faithful_definitional] exhibits, and the
-   [Faithful] instance (Theory/Functor.v:342) is then discharged with
+   [Faithful] instance (Theory/Functor.v) is then discharged with
    nothing left to prove. Fullness does not hold in general and is not
    claimed: a D-morphism must carry the element to be a morphism here.
 
@@ -63,8 +63,8 @@ Generalizable All Variables.
    are present in the tree and are deliberately not used.
 
    (1) The comma route. With the constant functor =(c) : 1 ⟶ Sets of
-   Functor/Diagonal.v:55, taken at the singleton of Instance/Sets.v:253
-   ([Sets_Terminal]), the comma category of Construction/Comma.v:127 has
+   Functor/Diagonal.v, taken at the singleton of Instance/Sets.v
+   ([Sets_Terminal]), the comma category of Construction/Comma.v has
    the same content. Its objects are triples ((ttt, d); h) in which h is
    a setoid map out of the singleton, so an element is presented as a map
    rather than as an inhabitant, and every morphism carries a contentless
@@ -73,16 +73,16 @@ Generalizable All Variables.
    as the definition would in addition turn the comparison this file is
    asked for into a definitional identity. It is therefore introduced
    below as [ElementsComma] and compared, following the precedent of
-   Construction/Slice.v:140 ([Comma_Slice]) and
-   Instance/Cones/Comma.v:73 ([Cones_Comma]).
+   Construction/Slice.v ([Comma_Slice]) and
+   Instance/Cones/Comma.v ([Cones_Comma]).
 
    (2) The Grothendieck route. The background essay at
-   Construction/Grothendieck.v:107-110 says that restricting the fibres
+   Construction/Grothendieck.v says that restricting the fibres
    of an indexed category to sets viewed as discrete categories recovers
    the category of elements el(F). That sentence is background prose,
    not a construction, and this file does not obtain [Elements] from it.
    The obstruction sits at the coherence level. [DiscreteCat]
-   (Instance/Discrete.v:37-43) has [hom := fun x y => x = y] with
+   (Instance/Discrete.v) has [hom := fun x y => x = y] with
    [Morphism_equality] as its hom-setoid, so a fibre [DiscreteCat (K d)]
    carries strict equality of elements. The fibre functors themselves can
    be formed from the underlying carrier maps, but the coherence cells an
@@ -113,18 +113,18 @@ Generalizable All Variables.
    presheaf P : C^op ⟶ Sets the books use the other arrow orientation, in
    which a morphism (c, x) ~> (c', x') is f : c ~> c' with
    [fmap[P] f x' ≈ x]. That is [PElements P] below, the opposite
-   (Construction/Opposite.v:106) of the covariant construction on C^op,
+   (Construction/Opposite.v) of the covariant construction on C^op,
    and [PElements_hom] is a definitional check -- it holds by
    [reflexivity] -- that the hom type is exactly the one just displayed.
    The orientation is chosen so that the projection stays covariant:
    [PElements_proj] lands in C, with [fmap] the first projection and no
    transport, which typechecks because the opposite of the opposite of C
-   is C (Construction/Opposite.v:126, [op_invol]).
+   is C (Construction/Opposite.v, [op_invol]).
 
    WORKING WITH Sets HOM EQUATIONS. [fmap_id], [fmap_comp] and
    [fmap_respects] for a functor into Sets are equations in a Sets
    hom-setoid, hence pointwise families indexed by elements
-   (Instance/Sets.v:139-141). Setoid rewriting with them underneath an
+   (Instance/Sets.v). Setoid rewriting with them underneath an
    application does not apply, and [apply fmap_id] does not unify with an
    element-level goal. The three element-level readings are packaged once
    as [elements_id_cond], [elements_comp_cond] and

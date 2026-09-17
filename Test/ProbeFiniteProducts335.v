@@ -205,7 +205,7 @@ Check @fin_zero_IsTerminalObj.
 Check @fin_two_IsCartesianProduct.
 Check @fin_coprod.
 Check @HasFiniteCoproducts.
-(* NOTE: written WITHOUT the [@].  Structure/Cocartesian.v:117 declares
+(* NOTE: written WITHOUT the [@].  Structure/Cocartesian.v declares
    [Notation "@Cocartesian C"], which captures [@Cocartesian_Initial_...]
    and fails with "The reference _Initial_HasFiniteCoproducts was not
    found".  The bare name parses; measured both ways. *)

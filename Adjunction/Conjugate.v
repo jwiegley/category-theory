@@ -43,14 +43,14 @@ Generalizable All Variables.
    [ConjugateMateInv_pasting] give them in that three-fold spelling — while
    the counit equation had no statement in tree before this file, and the
    unit equation only in the degenerate case F = F', as the hypothesis of
-   Theory/Bicategory/Adjunction.v:347 [mate_charac] and the conclusion of
-   :636 [mate_unit_compat].
+   Theory/Bicategory/Adjunction.v [mate_charac] and the conclusion of
+   [mate_unit_compat].
    Each σ has one and only one conjugate, and each τ one and only one
    ([conjugate_unique_right], [conjugate_unique_left]), both obtained by
    evaluating the square at a universal arrow: at k := ε for τ, at k := id
    for σ.  The two operators [conj_mate] and [conj_mate_inv] package that as
    [conjugate_bijection], an isomorphism in Sets of the two transformation
-   setoids, shaped after Mates.v:525 [mate_iso].
+   setoids, shaped after Mates.v [mate_iso].
 
    WHY THIS LIVES HERE, IN ORDINARY VOCABULARY.  Mates.v already delivers the
    bijection over an arbitrary bicategory with arbitrary bounding 1-cells,
@@ -78,12 +78,12 @@ Generalizable All Variables.
    SCOPE, three disclosures.
 
    (1) [conj_unit_nat] and [conj_counit_nat] are the naturality squares of
-   the unit and counit at an ARBITRARY morphism.  Theory/Adjunction.v:228
-   [counit_comp] and :238 [unit_comp] look like these but pin one endpoint to
+   the unit and counit at an ARBITRARY morphism.  Theory/Adjunction.v
+   [counit_comp] and [unit_comp] look like these but pin one endpoint to
    an F- or U-image, and are not usable for the two [Transform] obligations
    here.  The general unit form already exists at
-   Theory/Equivalence/Adjoint.v:85 and the general counit form twice, at :95
-   and at Construction/Reflective.v:46;
+   Theory/Equivalence/Adjoint.v and the general counit form twice, once in
+   that same file and once in Construction/Reflective.v;
    importing either pulls the equivalence-of-categories or the reflective
    subcategory development into a file that otherwise needs the seven modules
    above, so this file re-derives them in two lines each.  Consolidating those three

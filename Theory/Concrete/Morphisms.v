@@ -101,7 +101,7 @@ End ConcreteMorphisms.
 (** ** The corollary at work: [Coq], via [Coq_Concrete] *)
 
 (* Non-vacuity of both lemmas at a real concrete category.  `Coq`
-   (Instance/Coq.v) is concrete via [Coq_Concrete] (Instance/Concrete.v:146),
+   (Instance/Coq.v) is concrete via [Coq_Concrete] (Instance/Concrete.v),
    whose underlying-set functor reads a type as a setoid under Leibniz
    equality.  So `injective` and `surjective` below are the ordinary
    element-level notions for the two functions chosen here, and the
@@ -165,7 +165,7 @@ Definition Coq_bool_to_nat_Monic_reflected :
        (fun a b (Hab : bool_to_nat a = bool_to_nat b) => bool_to_nat_inj a b Hab)).
 
 (* For epis the `Sets`-side ingredient comes from this file's own
-   [concrete_surjective_epic] at [Sets_Concrete] (Theory/Concrete.v:234),
+   [concrete_surjective_epic] at [Sets_Concrete] (Theory/Concrete.v),
    whose underlying-set functor is the identity: there `concrete_fun h` IS `h`,
    so the lemma reads "a surjective setoid map is epic in `Sets`".
    Instance/Sets.v states the corresponding biconditional as

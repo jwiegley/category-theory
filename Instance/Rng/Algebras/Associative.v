@@ -1,6 +1,7 @@
 Require Import Coq.ZArith.ZArith.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -153,7 +154,7 @@ Arguments aalg_central {K} _ _ _.
 
 (* A morphism of K-algebras is a ring homomorphism commuting with the two
    structure maps.  The orientation of the triangle is [KAlgHom]'s, hence
-   [Coslice]'s (Construction/Slice.v:171). *)
+   [Coslice]'s (Construction/Slice.v). *)
 Definition AAlgHom {K : CRng} (A B : AAlgObject K) : Type :=
   ∃ f : aalg_ring A ~{Rng}~> aalg_ring B, aalg_unit B ≈ f ∘ aalg_unit A.
 
@@ -508,7 +509,13 @@ Program Definition UT2_Rig : RigObject := {|
   rig_one := ut2_one;
   rig_mul := ut2_mul;
   rig_add_respects := ut2_add_respects;
-  rig_mul_respects := ut2_mul_respects
+  rig_mul_respects := ut2_mul_respects;
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject]
+     carries a [PropEquiv] for its carrier.  [ut2_eqT] is Coq's [eq] under a
+     [Type] ascription, hence already a [Prop]-valued relation, so it is its
+     own mirror and both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ (is_setoid ut2_setoid_object)
+                (@eq ut2) (fun _ _ h => h) (fun _ _ h => h)
 |}.
 Next Obligation. ut2_3. Qed.
 Next Obligation. ut2_2. Qed.

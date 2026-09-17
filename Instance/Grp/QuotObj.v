@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Morphisms.
@@ -28,10 +29,10 @@ Generalizable All Variables.
    G/N by a normal subgroup.  Issue #446 recorded that illustration as
    absent "the library having no group theory of that kind".  That was
    STALE when written: Instance/Grp/Quotient.v already carried
-   [Subgroup] (:156), [NormalSubgroup] (:178), [QuotientGrp] (:360), the
-   projection (:395) with its epicness (:421) and [KernelNS] (:620), and
+   [Subgroup], [NormalSubgroup], [QuotientGrp], the
+   projection with its epicness and [KernelNS], and
    Instance/Grp/Quotient/Isomorphism.v already carried the first
-   isomorphism theorem (:297) with its triangle (:305).  This file spends
+   isomorphism theorem with its triangle.  This file spends
    those donors; it adds no group theory.
 
    WHAT IS DELIVERED.  One direction is a line: [grp_quot_of_normal N] is
@@ -44,37 +45,38 @@ Generalizable All Variables.
 
    The CONVERSE is where the constructive cost sits, and the type says
    so.  [grp_quot_is_quot_by_kernel] takes a quotient object whose epi is
-   SURJECTIVE ([GrpSurjective], Instance/Grp/Epi.v:333) and produces
+   SURJECTIVE ([GrpSurjective], Instance/Grp/Epi.v) and produces
    q ≈ grp_quot_of_normal (KernelNS (quot_epi q)): the first isomorphism
    theorem gives G/ker e ≅ im e, [surjective_image_iso]
-   (Instance/Grp/Quotient/Isomorphism.v:173) gives im e ≅ Q, and the
+   (Instance/Grp/Quotient/Isomorphism.v) gives im e ≅ Q, and the
    composite carries the projection to e ([grp_quot_kernel_triangle],
-   through :305 and :156), which is what makes it an equivalence OF
+   through [first_isomorphism_triangle] and [image_factors]), which is
+   what makes it an equivalence OF
    QUOTIENT OBJECTS rather than a bare isomorphism of codomains.
    Surjectivity is NOT available from [Epic] alone in this tree: in [Grp]
-   "surjective implies epic" is unconditional (Instance/Grp/Epi.v:1080)
+   "surjective implies epic" is unconditional (Instance/Grp/Epi.v)
    but the converse is the double-negation elimination that file's own
-   header sets out -- the unconditional theorem is :1072's
+   header sets out -- the unconditional theorem is that file's
    [grp_epic_image_dense], "no element can be SHOWN to miss the image" --
-   and recovering a preimage needs :1094's [GrpImageStable].  So the
+   and recovering a preimage needs its [GrpImageStable].  So the
    [Epic]-only reading is stated separately and conditionally, as
    [grp_quot_is_quot_by_kernel_stable] through
-   [grp_quot_surjective_of_stable] (:1108's [grp_epic_is_surjective]).
-   Instance/Grp/Epi.v:1127 onwards also shows that for an epimorphism
-   that hypothesis IS the conclusion restated (:1137,
+   [grp_quot_surjective_of_stable] (its [grp_epic_is_surjective]).
+   Instance/Grp/Epi.v onwards also shows that for an epimorphism
+   that hypothesis IS the conclusion restated (its
    [surjective_gives_stable]), so the conditional form is
    honest about buying nothing for free.  This is precisely the clause
    that Instance/FinSet/QuotObj.v does NOT need, the finite search there
    being decidable.
 
    Non-vacuity is checked rather than assumed: A3 inside S3
-   (Instance/Grp/Quotient.v:745) is a proper nontrivial normal subgroup
+   (Instance/Grp/Quotient.v) is a proper nontrivial normal subgroup
    of a nonabelian group, so [grp_quot_S3_A3] is a quotient object that
    is neither the top nor the bottom of the order, and
    [grp_quot_S3_trivial_le_A3] inhabits the order lemma at it.
 
    STRENGTH.  Everything is at ≈ on [QuotObj G].  [QuotObj] inherits
-   [SubObj]'s setoid (Theory/Subobject.v:33) and has no Leibniz
+   [SubObj]'s setoid (Theory/Subobject.v) and has no Leibniz
    antisymmetry, so no statement here is or could be an [eq_refl]
    readback.
 
@@ -100,11 +102,18 @@ Generalizable All Variables.
    .Makefile.coq.d).  No name introduced here occurs anywhere else in the
    tree (swept over all .glob files with
    '^[a-z]+ [0-9:]+ [^ ]* NAME$', instrument-checked on [sub_le]).
-   Universes, by [About]: [grp_quot_of_normal@{u u0}] binds
-   [GrpObject@{u0 u0 u0}] and [Grp] as [Category@{u u0 u0}] -- hom level
+   Universes, by [About], RE-MEASURED after the PR "algebraic carriers are
+   sets" (2026-09-17): [grp_quot_of_normal@{u u0 u1}] binds
+   [GrpObject@{u0 u0 u0}] and [Grp] as [Category@{u u0}] -- hom level
    identified with proof level, which is what [SubObj] demands and which
    [Grp] satisfies on the nose; the identification is INHERITED from
-   Theory/Subobject.v:15 and is not introduced here.  No [Set] pin.
+   Theory/Subobject.v and is not introduced here.  An earlier revision
+   wrote [@{u u0}] for the constant and [Category@{u u0 u0}] for [Grp], and
+   said "No [Set] pin".  The constant now carries three universes (the
+   [NormalSubgroup] argument's own level became visible) and its block
+   gained [Set < u] -- a strict LOWER bound, entering with [Prop]'s sort
+   through [PropEquiv], and NOT an identification: nothing is pinned AT
+   [Set], which is what that sentence was about.
 
    NOT DELIVERED.  No correspondence theorem: that [quot_le] between two
    G/N is EQUIVALENT to inclusion of the normal subgroups is not stated,
@@ -114,7 +123,7 @@ Generalizable All Variables.
    the two projections, [Grp] has pushouts (Instance/Grp/Pushout.v), and
    nothing here identifies that pushout with the quotient by the join of
    the two normal subgroups.  No coimages in [Grp^op]: the image
-   factorization is in tree (Instance/Grp/Quotient/Isomorphism.v:349's
+   factorization is in tree (Instance/Grp/Quotient/Isomorphism.v's
    [factorization]) but is not packaged as an [ImageOf] at [Grp^op], as
    it is for [Sets] and [FinSet].  No enumeration of the quotient objects
    of any finite group.  No [Print Assumptions] claim about the donors:
@@ -135,8 +144,8 @@ Generalizable All Variables.
    so the [C]-isomorphism handed in goes from the codomain of r to the
    codomain of q. *)
 
-(* Instance/Grp/Quotient.v:360's [QuotientGrp N] with its projection
-   (:395), which is epic (:421) because it is the identity function on
+(* Instance/Grp/Quotient.v's [QuotientGrp N] with its projection, which
+   is epic because it is the identity function on
    the carrier.  This is the whole of Mac Lane's example in one line. *)
 Definition grp_quot_of_normal {G : GrpObject} (N : NormalSubgroup G) :
   @QuotObj Grp G :=
@@ -153,10 +162,16 @@ Proof.
   unshelve eexists.
   - unshelve refine {| grp_map := {| morphism :=
       fun a : carrier (QuotientGrp N) => a : carrier (QuotientGrp N') |} |}.
-    + intros a b Hab; exact (H _ Hab).
-    + simpl; apply quot_rel_refl.
-    + intros a b; simpl; apply quot_rel_refl.
-  - intro a; simpl; apply quot_rel_refl.
+    (* The quotient's `≈` is the truncation of [quot_rel] since the PR
+       "algebraic carriers are sets" (2026-09-17): the inclusion is applied
+       under it, [Prop] to [Prop]. *)
+    + intros a b Hab.
+      change (inhabited (quot_rel N a b)) in Hab.
+      change (inhabited (quot_rel N' a b)).
+      destruct Hab as [Hab]; exact (inhabits (H _ Hab)).
+    + simpl; constructor; apply quot_rel_refl.
+    + intros a b; simpl; constructor; apply quot_rel_refl.
+  - intro a; simpl; constructor; apply quot_rel_refl.
 Defined.
 
 (** ** The converse, and the hypothesis it costs *)
@@ -166,11 +181,11 @@ Section Converse.
 Context {G : GrpObject}.
 
 (* In [Grp] a surjection is epic unconditionally
-   (Instance/Grp/Epi.v:1080) but the converse is not available
-   constructively: [grp_epic_image_dense] (:1072) gives only that no
+   (Instance/Grp/Epi.v) but the converse is not available
+   constructively: [grp_epic_image_dense] gives only that no
    element can be SHOWN to miss the image, and Instance/Grp/Epi.v's
    header sets out why -- recovering a preimage from an epimorphism is
-   the double-negation elimination its [GrpImageStable] (:1094) names.
+   the double-negation elimination its [GrpImageStable] names.
    So the theorem below is stated for a quotient object whose epi is
    surjective, and the [Epic]-only form is recorded separately as the
    conditional [grp_quot_is_quot_by_kernel_stable]. *)
@@ -180,8 +195,8 @@ Definition grp_quot_surjective_of_stable (q : @QuotObj Grp G)
   grp_epic_is_surjective (quot_epi q) Hst (quot_is_epic q).
 
 (* The comparison: G/ker e ≅ im e ≅ Q, the first isomorphism theorem
-   (Instance/Grp/Quotient/Isomorphism.v:297) followed by the
-   identification of the image with the codomain of a surjection (:173). *)
+   (Instance/Grp/Quotient/Isomorphism.v) followed by the
+   identification of the image with the codomain of a surjection. *)
 Definition grp_quot_kernel_iso (q : @QuotObj Grp G)
   (Hs : GrpSurjective (quot_epi q)) :
   QuotientGrp (KernelNS (quot_epi q)) ≅[Grp] quot_cod q :=
@@ -190,8 +205,8 @@ Definition grp_quot_kernel_iso (q : @QuotObj Grp G)
 
 (* ... and it carries the projection to the quotient epi, which is what
    makes it an equivalence OF QUOTIENT OBJECTS and not merely an
-   isomorphism of codomains.  The two triangles are :305's
-   [first_isomorphism_triangle] and :156's [image_factors]. *)
+   isomorphism of codomains.  The two triangles are
+   [first_isomorphism_triangle] and [image_factors]. *)
 Lemma grp_quot_kernel_triangle (q : @QuotObj Grp G)
   (Hs : GrpSurjective (quot_epi q)) :
   to (grp_quot_kernel_iso q Hs) ∘ quot_proj (KernelNS (quot_epi q))
@@ -233,7 +248,7 @@ End Converse.
 (** ** Non-vacuity *)
 
 (* The correspondence is inhabited at a nondegenerate pair: A3 inside S3
-   (Instance/Grp/Quotient.v:745) is a proper nontrivial normal subgroup
+   (Instance/Grp/Quotient.v) is a proper nontrivial normal subgroup
    of a nonabelian group, so [grp_quot_of_normal A3] is a quotient object
    of S3 that is neither the top nor the bottom of the order.  The two
    separations are Instance/Grp/Quotient.v's [S3_mod_A3_not_collapsed]

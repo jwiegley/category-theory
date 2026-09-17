@@ -49,17 +49,17 @@ Generalizable All Variables.
    The composite [T^op ∏⟶ T] is new here, and the claim is a narrow one: every
    OTHER pullback of a hom-bifunctor ALONG A PRODUCT OF TWO FUNCTORS in the
    tree carries the IDENTITY in one of its two slots.  (The qualifier does
-   work: [CoHom_Alt C := Hom C ◯ Swap], Functor/Hom.v:132, pulls a hom
+   work: [CoHom_Alt C := Hom C ◯ Swap], Functor/Hom.v, pulls a hom
    bifunctor back along the factor-exchange functor, which is not of the
-   form F ∏⟶ G at all.)  Theory/Profunctor.v:155-159 is the shape precedent,
+   form F ∏⟶ G at all.)  Theory/Profunctor.v is the shape precedent,
 
      Repr_left F  := Hom D ◯ (F^op ∏⟶ Id),
      Repr_right U := Hom C ◯ (Id^op ∏⟶ U),
 
-   and Adjunction/Hom.v:73 pairs exactly those two, its [hom_adj] making an
+   and Adjunction/Hom.v pairs exactly those two, its [hom_adj] making an
    adjunction a natural isomorphism between them. A functor repeated in both
    slots is not by itself new — [(⨂) ◯ F ∏⟶ F] is the tensor comparison of a
-   monoidal functor (Functor/Structure/Monoidal.v:81) — but that composite has
+   monoidal functor (Functor/Structure/Monoidal.v) — but that composite has
    no opposite slot and no hom-bifunctor. What the doubled T buys here is that
    the index category stays fixed at A^op ∏ A, so the hom-maps of a SINGLE
    functor become comparable to Hom A by an ordinary natural transformation,
@@ -67,13 +67,13 @@ Generalizable All Variables.
 
    Componentwise readings of fullness and faithfulness follow (Mac Lane's
    "optional but natural" second half). Theory/Functor.v defines [Faithful]
-   (:343) with the single field [fmap_inj], injectivity of fmap[T] with respect
-   to ≈, and [Full] (:332) with a chosen preimage [prefmap] together with
+ with the single field [fmap_inj], injectivity of fmap[T] with respect
+   to ≈, and [Full] with a chosen preimage [prefmap] together with
    [fmap_sur] making it a section of fmap[T] — note that no functoriality of
    [prefmap] is demanded. Read through [hom_action], these say precisely that
    every component of the transformation is injective, respectively surjective
    as data. Both correspondences are stated as biconditionals with ↔, which in
-   this library is Lib/Foundation.v:72's Type-valued [iffT]: the classes are
+   this library is Lib/Foundation.v's Type-valued [iffT]: the classes are
    Type-valued, and the [Full] direction genuinely transports data, [prefmap]
    being the first projection of the surjectivity witness. The four directions
    are also available as separately named lemmas. *)

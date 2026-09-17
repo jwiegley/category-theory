@@ -32,8 +32,8 @@
         ALONE on the strength of an [ACone] control.  That inference was
         invalid.  With J's levels declared apart, [ACone c F] and [Cone F]
         are formable, but [cone_leg N x]
-        (Structure/Limit/Preservation.v:108), [IsLimitCone N] (:166) AND
-        [IsALimit F c] (Structure/Limit.v:129) are all rejected with the
+        (Structure/Limit/Preservation.v), [IsLimitCone N] AND
+        [IsALimit F c] (Structure/Limit.v) are all rejected with the
         same message.  Two of the three donors ARE cone vocabulary, so the
         control rules out [ACone]/[Cone] and nothing further; all three
         rejections are pinned below.  None of the three carries universe

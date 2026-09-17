@@ -6,8 +6,8 @@
     performs that erasure while staying inside [Cat] is built here: the same
     objects, with all parallel morphisms identified.  The result is THIN -- at
     most one morphism between any two objects -- and thin categories are
-    exactly preorders, as recorded at Theory/Category.v:279-280 and
-    Instance/Proset.v:25-31.  See https://ncatlab.org/nlab/show/thin+category.
+    exactly preorders, as recorded at Theory/Category.v and
+    Instance/Proset.v.  See https://ncatlab.org/nlab/show/thin+category.
 
     NOT THE POSETAL REFLECTION.  These must not be conflated, and the
     difference is exactly which data is discarded.  The nLab's posetal
@@ -42,18 +42,18 @@
     writing this file, matching the disclosure in Theory/Diagram.v.
 
     HOW IT IS BUILT.  Nothing new is required.  Construction/Quotient.v already
-    quotients a category by a hom-congruence -- [HomCongruence] (:226),
-    [Quotient] (:254), [QuotientProj] (:294), and the universal property
-    [QuotientLift] (:313) with [QuotientLift_proj] (:322) and
-    [QuotientLift_unique] (:334).  The preorder reflection is that quotient at
+    quotients a category by a hom-congruence -- [HomCongruence],
+    [Quotient], [QuotientProj], and the universal property
+    [QuotientLift] with [QuotientLift_proj] and
+    [QuotientLift_unique].  The preorder reflection is that quotient at
     the TOTAL congruence, the relation relating every pair of parallel
     morphisms.  All FOUR congruence fields -- [cong_incl], [cong_sym],
     [cong_trans], [cong_comp] -- are immediate, since the relation is
     constantly [True].  (Reflexivity is not a field: it is the derived
-    [cong_refl] at Construction/Quotient.v:236.)  Before this file the only in-tree [HomCongruence]
+    [cong_refl] at Construction/Quotient.v.)  Before this file the only in-tree [HomCongruence]
     instances were the PROP and coloured-PROP term congruences.
 
-    NOT [hom_preorder].  Theory/Category.v:282 declares
+    NOT [hom_preorder].  Theory/Category.v declares
     [hom_preorder : PreOrder (@hom C)], but that is a different thing and is
     not the reflection: being a [CRelationClasses.PreOrder] on [hom] it is
     [Type]-valued, so it REMEMBERS which morphism witnesses the relation --
@@ -105,7 +105,7 @@ Definition PreorderReflect (C : Category) : Category :=
   Quotient C (TotalRel C).
 
 (** The defining property: the result is thin.  Thin is exactly "is a
-    preorder" (Theory/Category.v:279-280), so this is the sense in which
+    preorder" (Theory/Category.v), so this is the sense in which
     [PreorderReflect C] is a preorder rather than merely a category. *)
 Lemma preorder_reflect_thin (C : Category) (x y : PreorderReflect C)
       (f g : x ~> y) : f ≈ g.
@@ -124,7 +124,7 @@ Definition Reflect (C : Category) : C ⟶ PreorderReflect C :=
 (** ** The universal property: the universal thin quotient *)
 
 (** A category is THIN when any two parallel morphisms agree.  By
-    Theory/Category.v:279-280 that is exactly "is a preorder". *)
+    Theory/Category.v that is exactly "is a preorder". *)
 Definition Thin (D : Category) : Type :=
   ∀ (x y : D) (f g : x ~> y), f ≈ g.
 

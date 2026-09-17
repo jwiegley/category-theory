@@ -313,17 +313,17 @@ Open Scope category_scope.
      conditional.
 
      WHAT THE HYPOTHESIS IS, verbatim from
-     Instance/Sets/Classifier/OneLevel.v:297 and
-     Instance/Sets/Powerset.v:951:
+     Instance/Sets/Classifier/OneLevel.v and
+     Instance/Sets/Powerset.v:
 
        Definition Untruncate@{o} :=
          ∀ P : Type@{o}, Powerset_squash@{o} P -> P.
        Definition Powerset_squash@{o} (A : Type@{o}) : Prop :=
          ∀ Q : Prop, (A → Q) → Q.
 
-     WHERE IT IS SPENT: Instance/Fun/Classifier.v:173 records that
+     WHERE IT IS SPENT: Instance/Fun/Classifier.v records that
      [Untruncate] is spent EXACTLY ONCE in that file, in [med_img], and
-     :178 that whether it is NECESSARY is not settled there.  It is not
+     that whether it is NECESSARY is not settled there.  It is not
      settled here either.
 
      WHY IT IS NEEDED AT ALL: [≈] in this library is [Type@{o}]-valued,
@@ -332,7 +332,7 @@ Open Scope category_scope.
      exactly what [Untruncate] is.  The naive elimination
      [fun P h => h P (fun p => p)] is refused with "Cannot enforce
      o <= Prop"; that refusal is already
-     Test/ProbeClassifier402.v:176 and is CITED, not duplicated here.
+     Test/ProbeClassifier402.v and is CITED, not duplicated here.
 
      NO IMPOSSIBILITY IS PROVED, and there is NO IN-TREE INHABITANT of
      the premise: a sweep of the declarations whose CONCLUSION is
@@ -340,7 +340,7 @@ Open Scope category_scope.
      PASSAGES between the hypotheses ([untruncate_of_IEM],
      [DecImage_of_IEM], [IEM_of_DecImage] and [DecImage_iff_IEM]) and
      one is a refutation command that never enters the environment
-     (Test/ProbeFunClassifier403.v:425).
+     (Test/ProbeFunClassifier403.v).
      Instance/Sets/Classifier/OneLevel.v's three-part
      disclosure applies verbatim, including its part (iii), that an
      out-of-tree scratch development builds the classifier on exactly
@@ -352,7 +352,7 @@ Open Scope category_scope.
      AND THERE IS NO [DecImage] VARIANT FOR PRESHEAVES.  At [Sets] there
      is one ([Sets_Classifier_dec]), which is why the sibling
      Instance/Sets/Topos.v ships three bundles and this file two;
-     Instance/Fun/Classifier.v:184 and :397 record that no such
+     Instance/Fun/Classifier.v records, in two places, that no such
      presheaf variant is built.
 
    NON-VACUITY, and its limit.  A non-vacuity section is deliberately
@@ -363,7 +363,7 @@ Open Scope category_scope.
    [Ordinal 2], at [Parallel] and at [Roof], with three [eq_refl]
    Examples over them.  NOTHING COMPUTES TO A NUMERAL, and that is
    structural rather than an omission: a sieve's membership is
-   [Prop]-valued and truncated (Theory/Sieve.v:51-57 records that the
+   [Prop]-valued and truncated (Theory/Sieve.v records that the
    [Prop] choice is forced, a [Type@{o}]-valued sieve type sitting one
    universe too high), so Ω carries no decidable code and there is no
    analogue of Instance/FinSet/Topos.v's [Pow 2 = 4].  What holds are
@@ -380,7 +380,7 @@ Open Scope category_scope.
    CRITERION AT THE BASE COMMIT.
 
      TRUE STILL AT THE BASE COMMIT: "the only [ElementaryTopos]
-     inhabitant anywhere is Instance/FinSet/Topos.v:38".  CRITERION, and
+     inhabitant anywhere is Instance/FinSet/Topos.v".  CRITERION, and
      it must be stated so that it produces the numbers beside it:
      declaration heads whose type MENTIONS [ElementaryTopos] after a
      colon -- so it also catches the two that take one as a HYPOTHESIS
@@ -389,19 +389,19 @@ Open Scope category_scope.
      [rg -n ':\s*ElementaryTopos' -g '*.v'] is exactly such a pattern and
      misses all three bundles of Instance/Sets/Topos.v, whose [:] and
      class name sit on different lines.  Under the sound criterion the
-     base commit returns three heads, two of them Structure/Topos.v:167's
-     [Pow] and :184's [relations_iso] taking one as a hypothesis, leaving
+     base commit returns three heads, two of them Structure/Topos.v's
+     [Pow] and its [relations_iso] taking one as a hypothesis, leaving
      [FinSet_Topos] as the sole INHABITANT; the shipped tree returns ten,
      the seven new bundles included.  ALSO TRUE: "[ElementaryTopos]
      carries pullbacks explicitly ... the assembly must supply pullbacks
-     directly" -- Structure/Topos.v:153 does, and this file supplies
+     directly" -- Structure/Topos.v does, and this file supplies
      them.
 
      STALE, in six places.  "For presheaves ... no terminal object, no
      exponentials, no pullbacks, no classifier" -- all four now exist,
-     at Instance/Fun/Terminal.v:362, Instance/Fun/Exponential.v:639,
-     Instance/Fun/Pullback.v:316 and Instance/Fun/Classifier.v:794, and
-     all four are consumed here.  "Instance/Fun/Cartesian.v:111 is the
+     at Instance/Fun/Terminal.v, Instance/Fun/Exponential.v,
+     Instance/Fun/Pullback.v and Instance/Fun/Classifier.v, and
+     all four are consumed here.  "Instance/Fun/Cartesian.v is the
      only structural instance on any functor category" -- it is not.
      "[ls Instance/Fun/] contains Cartesian.v and nothing else" --
      [ls Instance/Fun/*.v | wc -l] returns 10 before this file.  "sieve
@@ -409,8 +409,8 @@ Open Scope category_scope.
      -g '*.v'] returns 6 files, one of which, Theory/Sieve.v, is a
      258-line module DECLARING the notion.  "no [HasPullbacks] for a
      functor category (the only instance in the tree is
-     Instance/FinSet/Classifier.v:264)" -- [Fun_HasPullbacks] is
-     Instance/Fun/Pullback.v:316.  And the Awodey section's "the
+     Instance/FinSet/Classifier.v)" -- [Fun_HasPullbacks] is
+     Instance/Fun/Pullback.v.  And the Awodey section's "the
      classifier by #403, and the cartesian-closure component by the
      Awodey §8.7 issue" -- both have landed, and are what this file
      assembles.

@@ -67,7 +67,7 @@ Context (x : C).
    where [fmap[P] id] IS [id] and [fmap_id] IS [reflexivity] by [eq_refl],
    and the identity law still does not hold on the nose.  What blocks it
    is the REBUILD — [ker_fun] returns a fresh sigma over a fresh pair
-   ([sets_pb_carrier], Instance/Sets/Pullback.v:321-322), and neither
+   ([sets_pb_carrier], Instance/Sets/Pullback.v), and neither
    [sigT] nor [prod] has definitional eta here.  The `≈` form is the
    control. *)
 Fail Example ker_fmap_id_strict :
@@ -91,7 +91,7 @@ Proof. exact (@fmap_id _ _ (CokerPair ψ) x). Qed.
    whole functions.  What differs is confined to opaque LAW fields, at
    TWO levels: the legs themselves are not the same records (CONVERSION
    3 and 4 below — the donor builds them with `abstract`ed naturality
-   proofs, Instance/Fun.v:272-293), and the isomorphism records then
+   proofs, Instance/Fun.v), and the isomorphism records then
    carry their own inverse law fields on top. *)
 Fail Example iso_records_strict
   (H : ∀ z : C, IsIsomorphism (transform[θ] z)) :

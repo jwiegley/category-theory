@@ -33,8 +33,8 @@ Generalizable All Variables.
     even where a require is redundant.  The last two are the probe's
     own, and are the only additions: the adjoint-functor-theorem
     boundary below names [PreservesImageLimit]
-    (Construction/Comma/Limit.v:110) and its repair
-    [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v:232),
+    (Construction/Comma/Limit.v) and its repair
+    [Continuous_PreservesImageLimit] (Construction/Comma/Creation.v),
     neither of which the target imports.
 
     Every statement asserted to be refuted below has been STRIPPED of its

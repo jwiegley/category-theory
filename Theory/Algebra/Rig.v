@@ -1,4 +1,6 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -51,8 +53,11 @@ Generalizable All Variables.
     one-object category delooping a rig's multiplicative monoid
     (Construction/Deloop.v's construction, with composition as
     multiplication) with a [Preadditive] instance, and [EndRig] reads a
-    rig off the endomorphism hom of ANY object of ANY preadditive
-    category.  The rig-side round trip is definitional on every DATA
+    rig off the endomorphism hom of ANY object of any LOCALLY
+    PROPOSITIONAL preadditive category — an earlier revision of this
+    sentence said "ANY preadditive category", and the strength-change
+    paragraph below records why it no longer can.  The rig-side round
+    trip is definitional on every DATA
     field (zero, add, one, mul — the four [eq_refl] acceptance tests) and
     is packaged as the identity-carrier isomorphism [EndRig_DeloopRig] in
     [Rig]; unlike Deloop.v's proof-free [hom_monoid_Deloop] the full
@@ -64,6 +69,38 @@ Generalizable All Variables.
     statement (the full subcategory on {c}, preadditively) is deferred
     exactly as Deloop.v defers its §I.3 dictionary.  The three artifacts
     are packaged as [rig_iff_one_object_preadditive].
+
+    A RECORDED STRENGTH CHANGE, ON THE CONVERSE HALF OF THAT BRIDGE.
+    An earlier revision of this file stated the one-object reading
+    unconditionally: "rigs are one-object preadditive categories",
+    with [EndRig] applicable to any [Preadditive C].  Since the PR
+    "algebraic carriers are sets" (2026-09-17) a [RigObject] carries
+    [rig_prop], a [PropEquiv] for its carrier setoid, and [EndRig]'s
+    carrier IS the ambient's hom-setoid [c ~> c]; an arbitrary category
+    supplies no [Prop] mirror of its `≈` — in [Cat] an [F ≈ G] IS a
+    family of isomorphisms, so there is none (Lib/Setoid/
+    Propositional.v, Instance/Sets/Propositional.v's header).
+    So [EndRig] and, through it, [rig_iff_one_object_preadditive]'s
+    second and third components now take
+    [{LP : LocallyPropositional C}] (declared at
+    Instance/Sets/Propositional.v).  Those two constants are the
+    only ones in this file whose statement changed; [DeloopRig],
+    [DeloopRig_Preadditive] and the rig side of the bridge are as they
+    were, and so is every instance and the initiality argument.
+
+    The hypothesis sits exactly at the PASSAGE from an internal
+    structure to a concrete algebraic record, not in the internal
+    algebra: [Preadditive] is untouched and keeps the ambient `≈`,
+    which is the SCOPE paragraph of Structure/Complete.v's size note
+    (item 4) read at this file.  Being a class, it is discharged by
+    resolution wherever an instance is in scope, and every use in this
+    file and downstream of it has one: at a delooping by
+    [DeloopRig_LocallyPropositional] below — which is why the four
+    [eq_refl] round-trip [Example]s and [EndRig_DeloopRig] are
+    unchanged — and at [Ab], [RMod R] and [CMon] by
+    [Ab_LocallyPropositional] (Instance/Ab.v),
+    [RMod_LocallyPropositional] (Instance/Mod.v) and
+    [CMon_LocallyPropositional] (Instance/CMon.v).
 
     INSTANCES.  [Nat_Rig] assembles the stdlib arithmetic lemmas into the
     rig of Example 5.37; [Bool_Rig] is Example 5.38's (false, ∨, true, ∧),
@@ -131,11 +168,21 @@ Record RigObject := {
 
   (* (d) 0 annihilates on both sides *)
   rig_mul_zero_l : ∀ a, rig_mul rig_zero a ≈ rig_zero;
-  rig_mul_zero_r : ∀ a, rig_mul a rig_zero ≈ rig_zero
+  rig_mul_zero_r : ∀ a, rig_mul a rig_zero ≈ rig_zero;
+
+  (* The carrier is a SET: its `≈` is logically equivalent to a [Prop]-valued
+     relation (Lib/Setoid/Propositional.v).  This field is not part of
+     Definition 5.36; it is the same standing commitment [CMonObject] makes,
+     and it is forced HERE rather than left to the rig's additive half because
+     [rig_cmon] below builds a [CMonObject] whose carrier setoid IS
+     [rig_setoid].  Last field, for the [Program] obligation-ordering reason
+     given at Instance/CMon.v's [CMonObject]. *)
+  rig_prop : PropEquiv (is_setoid rig_setoid)
 }.
 
 #[export] Existing Instance rig_add_respects.
 #[export] Existing Instance rig_mul_respects.
+#[export] Existing Instance rig_prop.
 
 (* The right additive unit law follows by commutativity, as in CMon. *)
 Corollary rig_add_zero_r (R : RigObject) (a : carrier (rig_setoid R)) :
@@ -153,7 +200,8 @@ Definition rig_cmon (R : RigObject) : CMonObject := {|
   cmon_plus_respects := rig_add_respects R;
   cmon_plus_assoc := rig_add_assoc R;
   cmon_plus_comm := rig_add_comm R;
-  cmon_plus_zero_l := rig_add_zero_l R
+  cmon_plus_zero_l := rig_add_zero_l R;
+  cmon_prop := rig_prop R
 |}.
 
 (** ** Rig homomorphisms and the category Rig *)
@@ -234,14 +282,21 @@ Proof.
 Qed.
 
 (* The category of rigs and rig homomorphisms. *)
-Program Definition Rig : Category := {|
-  obj     := RigObject;
-  hom     := RigHom;
-  homset  := @RigHom_Setoid;
-  id      := @rig_hom_id;
-  compose := @rig_hom_compose;
+(* The universes are pinned by hand, for the reason recorded at
+   Instance/CMon.v's [CMon]: with [rig_prop] a field the record's sort carries
+   a [Set+1], the elaborator stops identifying the record's own sort variable
+   with the category's object universe, and [Rig] would acquire a third,
+   redundant universe -- refusing the `Rig@{uo uh}` annotations of
+   Instance/Rng/Free.v for arity.  Measured after the change,
+   [Rig@{u p} : Category@{u p p}] with the one new constraint [Set < u]. *)
+Program Definition Rig@{u p} : Category@{u p p} := {|
+  obj     := RigObject@{p p p};
+  hom     := RigHom@{p};
+  homset  := @RigHom_Setoid@{p};
+  id      := @rig_hom_id@{p};
+  compose := @rig_hom_compose@{u p};
 
-  compose_respects := @rig_hom_compose_respects
+  compose_respects := @rig_hom_compose_respects@{u p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -329,6 +384,19 @@ Next Obligation.
   intros R x y z w f g h; simpl; apply rig_mul_assoc.
 Qed.
 
+(* [DeloopRig R]'s hom-setoid IS the rig's own carrier setoid, so the
+   delooping is locally propositional as soon as the rig is -- which, since
+   the PR "algebraic carriers are sets" (2026-09-17), every rig is.  This is
+   what lets [EndRig] below be applied back to a delooping in the round-trip
+   examples. *)
+#[export] Instance DeloopRig_LocallyPropositional (R : RigObject) :
+  LocallyPropositional (DeloopRig R).
+Proof.
+  constructor.
+  intros x y.
+  exact (rig_prop R).
+Defined.
+
 (* The additive structure of the rig is a Preadditive enrichment of its
    delooping: the four clauses of Definition 5.36 are exactly the
    Preadditive fields on one object. *)
@@ -348,8 +416,17 @@ Next Obligation. intros R x y z f; apply rig_mul_zero_r. Qed.
 (* Conversely, the endomorphism hom of ANY object of ANY preadditive
    category is a rig: addition is the enrichment, multiplication is
    composition.  This is the honest converse — it does not need the
-   category to have one object. *)
-Program Definition EndRig {C : Category} (P : Preadditive C) (c : C) :
+   category to have one object.
+
+   It DOES need one thing it did not need before the PR "algebraic carriers
+   are sets" (2026-09-17): the ambient category must be LOCALLY PROPOSITIONAL
+   (Instance/Sets/Propositional.v), since the rig's carrier setoid IS
+   [C]'s hom-setoid and [rig_prop] has to be supplied from it.  The hypothesis
+   is a class, so it is discharged by instance resolution wherever an instance
+   is in scope -- at a delooping by [DeloopRig_LocallyPropositional] above, at
+   [Ab] and [RMod R] by the instances in Instance/Ab.v and Instance/Mod.v. *)
+Program Definition EndRig {C : Category} {LP : LocallyPropositional C}
+  (P : Preadditive C) (c : C) :
   RigObject := {|
   rig_setoid := {| carrier := c ~> c; is_setoid := @homset C c c |};
   rig_zero := pzero;
@@ -368,11 +445,13 @@ Program Definition EndRig {C : Category} (P : Preadditive C) (c : C) :
   rig_distr_r := fun a b c0 => @compose_padd_right C P c c c a b c0;
 
   rig_mul_zero_l := fun f => @compose_pzero_left C P c c c f;
-  rig_mul_zero_r := fun f => @compose_pzero_right C P c c c f
+  rig_mul_zero_r := fun f => @compose_pzero_right C P c c c f;
+
+  rig_prop := locally_prop c c
 |}.
-Next Obligation. intros C P c f g h; simpl; symmetry; apply comp_assoc. Qed.
-Next Obligation. intros C P c f; simpl; apply id_left. Qed.
-Next Obligation. intros C P c f; simpl; apply id_right. Qed.
+Next Obligation. intros C LP P c f g h; simpl; symmetry; apply comp_assoc. Qed.
+Next Obligation. intros C LP P c f; simpl; apply id_left. Qed.
+Next Obligation. intros C LP P c f; simpl; apply id_right. Qed.
 
 (* The rig-side round trip, on the data: all four operations agree on
    the nose. *)
@@ -405,10 +484,23 @@ Next Obligation. intros R a; simpl; reflexivity. Qed.
 Next Obligation. intros R a; simpl; reflexivity. Qed.
 
 (* The bridge, packaged: a rig deloops to a one-object preadditive
-   category, any object of a preadditive category has an endomorphism
-   rig, and the round trip on the rig side is the identity-carrier
-   isomorphism, definitional on the data.  (The category-side composite
-   has no equational form — see the header.) *)
+   category, any object of a LOCALLY PROPOSITIONAL preadditive category
+   has an endomorphism rig, and the round trip on the rig side is the
+   identity-carrier isomorphism, definitional on the data.  (The
+   category-side composite has no equational form — see the header.)
+
+   AN EARLIER REVISION read the middle clause as "any object of a
+   preadditive category".  Since the PR "algebraic carriers are sets"
+   (2026-09-17) this triple's measured type carries the hypothesis on
+   its second and third components,
+
+     … * (∀ C, LocallyPropositional C → Preadditive C → obj → RigObject)
+         * …
+
+   because a [RigObject] carries [rig_prop]; see [EndRig] above and the
+   strength-change paragraph of the header for why, and for what
+   discharges it.  The first component [DeloopRig_Preadditive] is
+   unchanged. *)
 Definition rig_iff_one_object_preadditive :=
   (@DeloopRig_Preadditive, @EndRig, @EndRig_DeloopRig).
 
@@ -424,7 +516,13 @@ Program Definition Nat_Rig : RigObject := {|
   rig_zero := 0%nat;
   rig_add := Nat.add;
   rig_one := 1%nat;
-  rig_mul := Nat.mul
+  rig_mul := Nat.mul;
+
+  (* [nat_setoid_object]'s `≈` IS [eq], which is already a [Prop]; the two
+     implications are the identity.  The relation has to be NAMED -- an
+     ascription [(x ≈ y : Prop)] is refused, see Lib/Setoid/Propositional.v. *)
+  rig_prop := @PropEquiv_of_relation _ (is_setoid nat_setoid_object) (@eq nat)
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 Next Obligation. intros a b c; simpl; now rewrite Nat.add_assoc. Qed.
 Next Obligation. intros a b; simpl; apply Nat.add_comm. Qed.
@@ -449,7 +547,10 @@ Program Definition Bool_Rig : RigObject := {|
   rig_zero := false;
   rig_add := orb;
   rig_one := true;
-  rig_mul := andb
+  rig_mul := andb;
+
+  rig_prop := @PropEquiv_of_relation _ (is_setoid bool_setoid_object) (@eq bool)
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 Next Obligation. intros [|] [|] [|]; reflexivity. Qed.
 Next Obligation. intros [|] [|]; reflexivity. Qed.
@@ -497,14 +598,15 @@ Qed.
 
 (* The category of rings, and the forgetful functor to rigs: full on the
    nose, since the homomorphisms coincide. *)
-Program Definition Ring : Category := {|
-  obj     := RingObject;
-  hom     := fun R S => RigHom R S;
-  homset  := fun R S => @RigHom_Setoid R S;
-  id      := fun R => @rig_hom_id R;
-  compose := fun _ _ _ f g => rig_hom_compose f g;
+(* Pinned for the same reason as [Rig] above. *)
+Program Definition Ring@{u p} : Category@{u p p} := {|
+  obj     := RingObject@{p p p};
+  hom     := fun R S => RigHom@{p} R S;
+  homset  := fun R S => @RigHom_Setoid@{p} R S;
+  id      := fun R => @rig_hom_id@{p} R;
+  compose := fun _ _ _ f g => rig_hom_compose@{u p} f g;
 
-  compose_respects := fun _ _ _ => @rig_hom_compose_respects _ _ _
+  compose_respects := fun _ _ _ => @rig_hom_compose_respects@{u p} _ _ _
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -565,7 +667,14 @@ Qed.
    minimization collapse them to Set — which would drag every abelian
    group sharing a hom with ℤ down with it (the tensor-unit situation of
    Instance/Ab/Monoidal.v). *)
-Definition Int_Rig@{o p q | o <= q, p <= q +} : RigObject@{o p q} := {|
+(* The universe instance is written [RigObject@{q o p}], not [@{o p q}]:
+   since the PR "algebraic carriers are sets" (2026-09-17) the record's
+   AUXILIARY level -- the one bounding the [PropEquiv] field's own sort, which
+   carries the [Set+1] -- is the FIRST argument rather than the third, so the
+   named universes keep their roles by being permuted rather than renamed.
+   [o] is still the carrier, [p] the proof level and [q] the level the
+   record's sort is read at. *)
+Definition Int_Rig@{o p q | o <= q, p <= q +} : RigObject@{q o p} := {|
   rig_setoid := Z_setoid_object@{o p};
   rig_zero := 0%Z;
   rig_add := Z.add;
@@ -582,10 +691,17 @@ Definition Int_Rig@{o p q | o <= q, p <= q +} : RigObject@{o p q} := {|
   rig_distr_l := Z.mul_add_distr_l;
   rig_distr_r := Z.mul_add_distr_r;
   rig_mul_zero_l := Z.mul_0_l;
-  rig_mul_zero_r := Z.mul_0_r
+  rig_mul_zero_r := Z.mul_0_r;
+
+  (* [Z_eqT] is [eq] under a [Type] ascription, so the [Prop] mirror is [eq]
+     itself and the two implications are the identity by conversion.  The
+     ascription is what keeps the setoid's proof level a parameter (see the
+     comment above [Z_eqT]); it does not make the relation proof-relevant. *)
+  rig_prop := @PropEquiv_of_relation _ (is_setoid Z_setoid_object@{o p}) (@eq Z)
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
-Definition Int_Ring@{o p q | o <= q, p <= q +} : RingObject@{o p q} := {|
+Definition Int_Ring@{o p q | o <= q, p <= q +} : RingObject@{q o p} := {|
   ring_rig := Int_Rig@{o p q};
   ring_neg := Z.opp;
   ring_neg_respects := Z_opp_respectful;

@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
@@ -40,17 +41,17 @@ Generalizable All Variables.
     of which quotient by something.  What IS absent, and was measured
     against the parent commit rather than taken on the issue's word, is a
     [NormalSubgroup] interface: AT THE PARENT COMMIT the token occurred in
-    the tree exactly once, at Instance/Grp/Abelianization.v:77, and there
+    the tree exactly once, at Instance/Grp/Abelianization.v, and there
     it occurred inside a prose disclosure that no such class existed.
     (That paragraph is rewritten by this same change, so the line number
     is a statement about the parent commit and not about the tree as it
     now stands.)  The only [Subgroup] record in the tree is
-    Instance/Ab/Character/Finite.v:624, which is over [AbObject] and
+    Instance/Ab/Character/Finite.v, which is over [AbObject] and
     carries a DECIDABILITY field [sg_dec]; it is therefore not a donor
     here, since nothing below decides membership.
 
     THE FIVE FACTS.  Instance/Grp/Abelianization.v's "SCOPE OF THE
-    QUOTIENT" paragraph (at the parent commit, :71-81) disclosed that its
+    QUOTIENT" paragraph (at the parent commit) disclosed that its
     quotient by the commutator subgroup consumes only five properties of
     that subgroup -- "≈-saturation, unit, closure under product and
     inverse, normality" -- and that a generic quotient "is extractable by
@@ -69,23 +70,28 @@ Generalizable All Variables.
     this one)".  Reading the two other constructions' actual record types
     corrects the count:
 
-      - Instance/Grp/Epi.v:433's [Grp_Coset] is a [SetoidObject], NOT a
+      - Instance/Grp/Epi.v's [Grp_Coset] is a [SetoidObject], NOT a
         [GrpObject], and it is the coset space of the image of an
         ARBITRARY homomorphism.  Epi.v's whole argument turns on that
-        image being possibly NON-normal (its own header, :171 and :1488,
-        and the witness [grp_two_sym3] at :1644, are explicit that the
+        image being possibly NON-normal (its own header, two later
+        passages, and the witness [grp_two_sym3] are explicit that the
         non-normal case is the one the file exists for).  So it is not a
         quotient GROUP, is not an instance of anything below, and could
         not be: a normal-subgroup quotient is exactly what it declines to
         assume.  It is left untouched.
 
-      - Instance/Ab.v:427's [ab_coset_eq] IS a quotient group, of an
-        abelian group by the image of a homomorphism.  It is not routed
+      - Instance/Ab.v's [ab_coset_eq] IS a quotient group, of an
+        abelian group by the image of a homomorphism.  (An earlier revision
+        of this sentence cited where that definition stood
+        before the PR "algebraic carriers are sets" (2026-09-17); the same
+        PR also turned the relation into a [Prop] -- it is now Coq's [ex],
+        spelled [(exists a, …)%type] -- so it is no longer a [Type]-valued
+        sigma either.)  It is not routed
         through this file either, and the reason is a dependency
         direction rather than a mathematical obstruction: [AbObject]
         extends [CMonObject], Instance/Ab.v requires neither
         Instance/Grp.v nor anything below it, and the only bridge in tree,
-        [Ab_to_GrpOb], lives DOWNSTREAM in Abelianization.v:333.  Routing
+        [Ab_to_GrpOb], lives DOWNSTREAM in Abelianization.v.  Routing
         Ab.v's quotient through a [GrpObject]-level construction would
         move that bridge upstream and give Ab.v a dependency on Grp.
         That is a defensible change and it is deliberately not made here.
@@ -97,7 +103,10 @@ Generalizable All Variables.
 
     THE SETOID QUOTIENT.  As in Abelianization.v, G/N needs no new
     carrier: it is G's carrier under the coarser relation
-    [quot_rel N a b := N (a * b⁻¹)].  The equivalence laws are the group
+    [quot_rel N a b := N (a * b⁻¹)] -- or rather, since the PR "algebraic
+    carriers are sets" (2026-09-17), under its PROPOSITIONAL TRUNCATION
+    [inhabited (quot_rel N a b)], the relation itself staying [Type]-valued
+    because [sub_mem] does.  The equivalence laws are the group
     laws; multiplication and inversion respect the relation by NORMALITY,
     which is where [ns_conj] earns its keep.  Elements of G/N are
     therefore elements of G, and no coset object is ever formed -- which
@@ -147,11 +156,23 @@ Generalizable All Variables.
 (* A subgroup is a `≈`-saturated predicate containing the unit and closed
    under product and inverse.  Membership is [Type]-valued, following
    Instance/Grp/Epi.v's [GrpImage] and Instance/Ab/Character/Finite.v's
-   [sg_mem]: the library's `≈` is itself [Type]-valued, so a [Prop]-valued
-   membership could not be eliminated into a hom-setoid equation.
+   [sg_mem].
+
+   CORRECTION.  An earlier revision gave the REASON as "the library's `≈` is
+   itself [Type]-valued, so a [Prop]-valued membership could not be
+   eliminated into a hom-setoid equation".  That reason is gone: since the PR
+   "algebraic carriers are sets" (2026-09-17) a [GrpObject] carries
+   [grp_prop], and a [Prop] hypothesis reaches an `≈` goal through
+   [pequiv_to] (Lib/Setoid/Propositional.v).  The CONCLUSION stands, for a
+   different reason: consumers READ THE WITNESS.  Instance/Grp/Quotient/
+   Isomorphism.v's [image_med] projects a preimage out of a membership proof
+   into a [Type] goal, and the first isomorphism theorem rests on it.  What
+   the PR did move is the QUOTIENT's own equality, which is now the
+   propositional truncation [inhabited (quot_rel N a b)]; see [quot_equiv]
+   below.
 
    There is deliberately NO decidability field, unlike
-   Instance/Ab/Character/Finite.v:624, and nothing below decides
+   Instance/Ab/Character/Finite.v, and nothing below decides
    membership. *)
 Record Subgroup (G : GrpObject) := {
   sub_mem : carrier G → Type;
@@ -174,7 +195,7 @@ Arguments sub_mul {G} _ _ _ _ _.
 Arguments sub_inv {G} _ _ _.
 
 (* A normal subgroup adds the fifth fact: closure under conjugation.  The
-   five laws are exactly the five that Abelianization.v:71-81 names. *)
+   five laws are exactly the five that Abelianization.v names. *)
 Record NormalSubgroup (G : GrpObject) := {
   ns_sub :> Subgroup G;
 
@@ -194,11 +215,24 @@ Definition sub_at {G : GrpObject} (S : Subgroup G) {a b : carrier G}
 (** ** The subgroup as an object of Grp *)
 
 (* The sigma carrier over membership, compared on elements -- the shape
-   Instance/Grp.v:709's [Grp_kernel] and Instance/Grp/Center.v use, so the
+   Instance/Grp.v's [Grp_kernel] and Instance/Grp/Center.v use, so the
    membership witness carries no equational weight. *)
 Definition sub_carrier {G : GrpObject} (S : Subgroup G) : Type :=
   { a : carrier G & sub_mem S a }.
 
+(* The carrier setoid is written INLINE, as it was before the PR "algebraic
+   carriers are sets" (2026-09-17), and [grp_prop] is supplied as a trailing
+   obligation instead of as a field.  An intermediate revision named the setoid
+   -- a [Program] record literal cannot carry a [PropEquiv] FIELD naming a
+   setoid written inline in the same literal -- but naming it puts one more
+   unfolding step between the expected type of each [existT] below and the
+   sigma it builds, and Coq 8.19/8.20 then infer a CONSTANT predicate and
+   refuse the term ("has type ∃ _ : …, … while it is expected to have type
+   carrier …"; Instance/Rng/Zp.v's header records the trap, and
+   Instance/Grp/Center.v records the same one for [mk_central]).  Rocq 9.1
+   accepts either.  The obligation route keeps every term below exactly as the
+   released toolchains already compiled it, which is why it is taken here and
+   at [Grp_kernel] (Instance/Grp.v). *)
 Program Definition SubgroupGrp {G : GrpObject} (S : Subgroup G) : GrpObject := {|
   grp_setoid := {| carrier := sub_carrier S
                  ; is_setoid := {| equiv := fun p q => `1 p ≈ `1 q |} |};
@@ -214,6 +248,15 @@ Qed.
 Next Obligation. intros G S a b c; simpl; apply grp_mul_assoc. Qed.
 Next Obligation. intros G S a; simpl; apply grp_mul_unit_l. Qed.
 Next Obligation. intros G S a; simpl; apply grp_mul_inv_l. Qed.
+Next Obligation.
+  (* The subgroup's `≈` compares first projections in [G], so it is
+     propositional exactly when [G]'s own `≈` is.  [sigma_first_PropEquiv] is
+     applied in the TACTIC form, the one the term form is refused in. *)
+  intros G S.
+  unshelve refine (sigma_first_PropEquiv _ _ _ (grp_prop G)).
+  - intros p q Hpq; exact Hpq.
+  - intros p q Hpq; exact Hpq.
+Defined.
 
 (* The inclusion of a subgroup: the first projection. *)
 Program Definition sub_incl {G : GrpObject} (S : Subgroup G) :
@@ -240,7 +283,7 @@ Qed.
 (** ** The quotient relation *)
 
 (* a ~ b when a * b⁻¹ lies in N.  The orientation matches
-   Instance/Grp/Abelianization.v:170's [abel_eq], which this generalizes. *)
+   Instance/Grp/Abelianization.v's [abel_eq], which this generalizes. *)
 Definition quot_rel {G : GrpObject} (N : Subgroup G) (a b : carrier G) : Type :=
   sub_mem N (grp_mul G a (grp_inv G b)).
 
@@ -357,37 +400,73 @@ End QuotientRelation.
 
 (** ** The quotient group and its projection *)
 
-Program Definition QuotientGrp {G : GrpObject} (N : NormalSubgroup G) :
-  GrpObject := {|
-  grp_setoid := {| carrier := carrier G
-                 ; is_setoid := {| equiv := quot_rel N |} |};
-  grp_unit := grp_unit G;
-  grp_mul := grp_mul G;
-  grp_inv := grp_inv G
+(* The quotient's `≈` is the PROPOSITIONAL TRUNCATION of [quot_rel].
+
+   An earlier revision wrote [equiv := quot_rel N] directly.  Since the PR
+   "algebraic carriers are sets" (2026-09-17) a [GrpObject] carries
+   [grp_prop], and [quot_rel N a b] is [sub_mem N (a * b⁻¹)], a [Type]: the
+   membership witness stays [Type]-valued (its consumers read it -- see the
+   correction at the [Subgroup] record above), so the quotient's own equality
+   is its truncation, exactly as Instance/Mod/Quotient.v's [mquot_rel] and
+   Instance/Rng/Quotient.v's [rquot_rel] are truncated.  Nothing about
+   [quot_rel] itself moves: all eleven [quot_rel_*] lemmas keep their
+   statements verbatim, and every place PROVING a quotient equation gains one
+   [constructor] while every place CONSUMING one gains a [destruct], legal
+   because the goal there is a [Prop] or is reached through [pequiv_to]. *)
+Definition quot_equiv {G : GrpObject} (N : NormalSubgroup G)
+  (a b : carrier G) : Prop := inhabited (quot_rel N a b).
+
+(* The setoid is named rather than written inline in the record below: a
+   [Program] record literal cannot carry a [PropEquiv] field naming a setoid
+   written inline in the same literal. *)
+Program Definition quot_setoid {G : GrpObject} (N : NormalSubgroup G) :
+  SetoidObject := {|
+  carrier := carrier G;
+  is_setoid := {| equiv := quot_equiv N |}
 |}.
 Next Obligation.
-  intros G N; equivalence.
-  - apply quot_rel_refl.
-  - now apply quot_rel_sym.
-  - now apply (quot_rel_trans N x y).
+  intros G N.
+  constructor.
+  - intro a; constructor; apply quot_rel_refl.
+  - intros a b [Hab]; constructor; now apply quot_rel_sym.
+  - intros a b c [Hab] [Hbc]; constructor; now apply (quot_rel_trans N a b).
+Qed.
+
+Program Definition QuotientGrp {G : GrpObject} (N : NormalSubgroup G) :
+  GrpObject := {|
+  grp_setoid := quot_setoid N;
+  grp_unit := grp_unit G;
+  grp_mul := grp_mul G;
+  grp_inv := grp_inv G;
+  (* The relation IS a [Prop], so the two implications are the identity. *)
+  grp_prop :=
+    @PropEquiv_of_relation _ (is_setoid (quot_setoid N)) (@quot_equiv G N)
+      (fun _ _ h => h) (fun _ _ h => h)
+|}.
+Next Obligation.
+  (* [@equiv _ S x y] is ascribed sort [Type] even when the underlying
+     relation is a [Prop], so the hypotheses and the goal are converted to
+     the [inhabited] form before the elimination. *)
+  intros G N a a' Ha b b' Hb.
+  change (inhabited (quot_rel N a a')) in Ha.
+  change (inhabited (quot_rel N b b')) in Hb.
+  change (inhabited (quot_rel N (grp_mul G a b) (grp_mul G a' b'))).
+  destruct Ha as [Ha], Hb as [Hb]; constructor; now apply quot_rel_mul.
 Qed.
 Next Obligation.
-  intros G N a a' Ha b b' Hb; now apply quot_rel_mul.
+  intros G N a b c; constructor; apply quot_rel_of_equiv, grp_mul_assoc.
 Qed.
 Next Obligation.
-  intros G N a b c; apply quot_rel_of_equiv, grp_mul_assoc.
+  intros G N a; constructor; apply quot_rel_of_equiv, grp_mul_unit_l.
 Qed.
 Next Obligation.
-  intros G N a; apply quot_rel_of_equiv, grp_mul_unit_l.
-Qed.
-Next Obligation.
-  intros G N a; apply quot_rel_of_equiv, grp_mul_inv_l.
+  intros G N a; constructor; apply quot_rel_of_equiv, grp_mul_inv_l.
 Qed.
 
 (* NO NOTATION for the quotient.  An unscoped infix [/] at level 40 would
    sit in the core scope and compete with the stdlib's scope-bound
    division notations in every file that imports this one; the tree's only
-   other [/] notation, Instance/Field/Frac.v:429, is [Local] and prefix
+   other [/] notation, Instance/Field/Frac.v, is [Local] and prefix
    for exactly that kind of reason.  [QuotientGrp N] is written out. *)
 
 (* The projection: the identity function, read from the fine setoid into
@@ -396,9 +475,11 @@ Program Definition quot_proj {G : GrpObject} (N : NormalSubgroup G) :
   G ~{Grp}~> QuotientGrp N := {|
   grp_map := {| morphism := fun a : carrier G => a |}
 |}.
-Next Obligation. intros G N a b Hab; apply quot_rel_of_equiv, Hab. Qed.
-Next Obligation. intros G N; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N a b; simpl; apply quot_rel_refl. Qed.
+Next Obligation.
+  intros G N a b Hab; constructor; apply quot_rel_of_equiv, Hab.
+Qed.
+Next Obligation. intros G N; simpl; constructor; apply quot_rel_refl. Qed.
+Next Obligation. intros G N a b; simpl; constructor; apply quot_rel_refl. Qed.
 
 (* The projection kills N, which is the statement that gives the universal
    element below its element. *)
@@ -406,14 +487,26 @@ Lemma quot_proj_kills {G : GrpObject} (N : NormalSubgroup G) (a : carrier G) :
   sub_mem N a → grp_map (quot_proj N) a ≈ grp_unit (QuotientGrp N).
 Proof.
   intro Ha; simpl.
+  constructor.
   exact (snd (quot_rel_unit_iff N a) Ha).
 Qed.
 
 (* Conversely, anything the projection kills lies in N: the projection's
    kernel is exactly N, as a biconditional rather than an inclusion. *)
+(* An earlier revision read
+     [grp_map (quot_proj N) a ≈ grp_unit (QuotientGrp N) ↔ sub_mem N a].
+   Since the quotient's `≈` is now the truncation of [quot_rel], the
+   biconditional is up to [inhabited]; the untruncated direction is kept whole
+   as [quot_proj_kills] above, which is what every consumer in tree uses. *)
 Lemma quot_proj_kernel {G : GrpObject} (N : NormalSubgroup G) (a : carrier G) :
-  grp_map (quot_proj N) a ≈ grp_unit (QuotientGrp N) ↔ sub_mem N a.
-Proof. exact (quot_rel_unit_iff N a). Qed.
+  grp_map (quot_proj N) a ≈ grp_unit (QuotientGrp N) ↔ inhabited (sub_mem N a).
+Proof.
+  split; intro K.
+  - change (inhabited (quot_rel N a (grp_unit G))) in K.
+    destruct K as [K]; constructor; exact (fst (quot_rel_unit_iff N a) K).
+  - change (inhabited (quot_rel N a (grp_unit G))).
+    destruct K as [K]; constructor; exact (snd (quot_rel_unit_iff N a) K).
+Qed.
 
 (* The projection is surjective on elements -- indeed the identity -- and
    hence epic.  Recorded because the isomorphism-theorem chases in the
@@ -506,7 +599,17 @@ Program Definition quot_med : QuotientGrp N ~{Grp}~> K := {|
   grp_map := {| morphism := fun a : carrier (QuotientGrp N) =>
                               grp_map (`1 p) a |}
 |}.
-Next Obligation. intros a b Hab; exact (kills_descends a b Hab). Qed.
+(* THE one repair the truncation costs.  [Hab] is now the [inhabited] form
+   and the goal is a [Type], so the elimination is put behind [pequiv]: move
+   the goal into [K]'s own [Prop] equality, destruct there, and come back. *)
+Next Obligation.
+  intros a b Hab.
+  apply (@pequiv_to _ _ (grp_prop K)).
+  change (inhabited (quot_rel N a b)) in Hab.
+  destruct Hab as [Hab].
+  apply (@pequiv_from _ _ (grp_prop K)).
+  exact (kills_descends a b Hab).
+Qed.
 Next Obligation. simpl; apply (grp_map_unit (`1 p)). Qed.
 Next Obligation. intros a b; simpl; apply (grp_map_mul (`1 p)). Qed.
 
@@ -650,7 +753,7 @@ Example KernelNS_mem {G K : GrpObject} (h : G ~{Grp}~> K) (a : carrier G) :
 Proof. reflexivity. Qed.
 
 (* The subgroup object of the kernel normal subgroup has the same carrier
-   as Instance/Grp.v:729's [Grp_kernel], by convertibility. *)
+   as Instance/Grp.v's [Grp_kernel], by convertibility. *)
 Example KernelNS_carrier_is_Grp_kernel {G K : GrpObject} (h : G ~{Grp}~> K) :
   carrier (SubgroupGrp (KernelNS h)) = carrier (Grp_kernel h).
 Proof. reflexivity. Qed.
@@ -719,23 +822,43 @@ Program Definition quot_congr {G : GrpObject} (N N' : NormalSubgroup G)
   to := {| grp_map := {| morphism := fun a : carrier (QuotientGrp N) => a |} |};
   from := {| grp_map := {| morphism := fun a : carrier (QuotientGrp N') => a |} |}
 |}.
-Next Obligation. intros G N N' H1 H2 a b Hab; exact (H1 _ Hab). Qed.
-Next Obligation. intros G N N' H1 H2; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N N' H1 H2 a b; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N N' H1 H2 a b Hab; exact (H2 _ Hab). Qed.
-Next Obligation. intros G N N' H1 H2; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N N' H1 H2 a b; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N N' H1 H2 a; simpl; apply quot_rel_refl. Qed.
-Next Obligation. intros G N N' H1 H2 a; simpl; apply quot_rel_refl. Qed.
+(* The two respectfulness obligations are the only places the truncation is
+   visible: unwrap the hypothesis, apply the inclusion, wrap again. *)
+Next Obligation.
+  intros G N N' H1 H2 a b Hab.
+  change (inhabited (quot_rel N a b)) in Hab.
+  change (inhabited (quot_rel N' a b)).
+  destruct Hab as [Hab]; constructor; exact (H1 _ Hab).
+Qed.
+Next Obligation. intros G N N' H1 H2; simpl; constructor; apply quot_rel_refl. Qed.
+Next Obligation.
+  intros G N N' H1 H2 a b; simpl; constructor; apply quot_rel_refl.
+Qed.
+Next Obligation.
+  intros G N N' H1 H2 a b Hab.
+  change (inhabited (quot_rel N' a b)) in Hab.
+  change (inhabited (quot_rel N a b)).
+  destruct Hab as [Hab]; constructor; exact (H2 _ Hab).
+Qed.
+Next Obligation. intros G N N' H1 H2; simpl; constructor; apply quot_rel_refl. Qed.
+Next Obligation.
+  intros G N N' H1 H2 a b; simpl; constructor; apply quot_rel_refl.
+Qed.
+Next Obligation.
+  intros G N N' H1 H2 a; simpl; constructor; apply quot_rel_refl.
+Qed.
+Next Obligation.
+  intros G N N' H1 H2 a; simpl; constructor; apply quot_rel_refl.
+Qed.
 
 (** ** Non-degeneracy over a nonabelian witness
 
     Everything above holds for all groups, so nothing yet shows the
-    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v:248, the
+    quotient does not collapse.  S3 (Instance/Grp/TwoFunctors.v, the
     semidirect presentation over the decidable carrier rot * bool) with
     its rotation subgroup A3 is the smallest witness with a PROPER
     nontrivial normal subgroup, and it is nonabelian, so the degeneracies
-    that make conjugation inert (Instance/Grp/TwoFunctors.v:195's
+    that make conjugation inert (Instance/Grp/TwoFunctors.v's
     [Grp_conj_abelian]) are excluded by proof rather than by assumption. *)
 
 (* A3, the rotations: the elements whose reflection component is false.
@@ -777,15 +900,19 @@ Proof. simpl; discriminate. Qed.
 
 (* Nor does the quotient projection identify the two generators, so
    S3/A3 has at least two elements. *)
+(* The quotient's `≈` is the truncation of [quot_rel] since the PR
+   "algebraic carriers are sets" (2026-09-17), so the hypothesis is unwrapped
+   before the computation; the goal [False] is a [Prop], which is what makes
+   the elimination legal. *)
 Theorem S3_mod_A3_two_elements :
   grp_map (quot_proj A3) S3_s ≈ grp_map (quot_proj A3) s3_unit → False.
-Proof. simpl; discriminate. Qed.
+Proof. intros [H]; simpl in H; discriminate. Qed.
 
 (* But it does collapse the rotations, so the projection is not injective
    -- the quotient is a genuine quotient and not a relabelling of S3. *)
 Theorem S3_mod_A3_collapses_rotations :
   grp_map (quot_proj A3) S3_r ≈ grp_map (quot_proj A3) s3_unit.
-Proof. reflexivity. Qed.
+Proof. constructor; reflexivity. Qed.
 
 Theorem quot_proj_A3_not_injective :
   (∀ a b : carrier S3,

@@ -17,13 +17,13 @@ Generalizable All Variables.
    A DIAGRAM in a category [C] over a quiver (directed multigraph) [G] is a
    labelling of the vertices of [G] by objects of [C] and of its edges by
    morphisms of [C], respecting sources and targets.  That is exactly a quiver
-   homomorphism [G ⇨ QuiverOfCat C] (Construction/Free/Quiver.v:205 for the
-   class [QuiverHomomorphism], :54 for [Quiver]), which is how [Diagram] is
+   homomorphism [G ⇨ QuiverOfCat C] (Construction/Free/Quiver.v, which
+   declares both [QuiverHomomorphism] and [Quiver]), which is how [Diagram] is
    defined below.
 
    A PATH in [G] is a finite composable chain of edges, i.e. an inhabitant of
    [tlist edges x y] (Lib/TList.v); it is also, definitionally, a morphism
-   [x ~> y] of the free category [FreeOnQuiver G] (Construction/Free/Quiver.v:431).
+   [x ~> y] of the free category [FreeOnQuiver G] (Construction/Free/Quiver.v).
    [dpath] denotes such a path by composing its edge labels in [C], and
    [Commutative D] asserts that ANY two paths sharing a source and a target
    denote [≈]-equal morphisms.  The quantification is over all pairs of
@@ -51,7 +51,7 @@ Generalizable All Variables.
    bijection of the setoid quotients, since without respectfulness the maps do
    not descend to them.
    The universal property that would package them is already in the tree --
-   Construction/Free/Quiver.v:518's [UniversalArrowQuiverCat] and :550's
+   Construction/Free/Quiver.v's [UniversalArrowQuiverCat] and its
    [FreeForgetfulAdjunction].  The two round trips below are NOT derived from
    it: each is proved directly by induction.  They carry the same content its
    existence and uniqueness halves would give, but that agreement is not
@@ -90,10 +90,10 @@ Generalizable All Variables.
 
    Why this file exists.  Commutativity is the working language of category
    theory, and the reusable in-tree statements of it each fix a single FIGURE
-   with a fixed number of sides: [Construction/Sq.v:50] fixes a square
-   ([dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h]), [Structure/Cone.v:30]'s
+   with a fixed number of sides: [Construction/Sq.v] fixes a square
+   ([dsq := fun a b c d h u v k => k ∘ u ≈ v ∘ h]), [Structure/Cone.v]'s
    [cone_coherence] fixes the apex triangle of a cone leg, and
-   [Theory/Morphisms/Stability.v:55]'s [is_pullback_commutes] fixes the
+   [Theory/Morphisms/Stability.v]'s [is_pullback_commutes] fixes the
    pullback square.  Each of the three ranges over arbitrary MORPHISMS -- so
    its sides may themselves be long composites -- but each pins the figure,
    and none quantifies over PAIRS OF PARALLEL PATHS in a shape.  That last
@@ -103,13 +103,13 @@ Generalizable All Variables.
    equation between two named composites; that survey is the issue's, and is
    not re-verified here.
 
-   Relation to the solver.  [Solver/Expr.v:65] reifies composite morphisms as
+   Relation to the solver.  [Solver/Expr.v] reifies composite morphisms as
    an untyped term grammar [Term ::= Ident | Morph nat | Comp Term Term],
-   and its own header comment (Solver/Expr.v:58-64) records that this grammar
+   and its own header comment (Solver/Expr.v) records that this grammar
    "is exactly a term of the free category on the quiver whose edges are the
    variables [arrs]".  The typed in-tree counterpart of that grammar is
-   [Mor ::= Ident | Morph edge | Comp] of Construction/Free/Quiver.v:559,
-   normalised to a path by [morDA] (:564).  [dterm] below interprets [Mor] in
+   [Mor ::= Ident | Morph edge | Comp] of Construction/Free/Quiver.v,
+   normalised to a path by [morDA].  [dterm] below interprets [Mor] in
    [C] with the same reading of [Comp] that Solver/Denote.v uses (there,
    "[Comp f g] denotes [f ∘ g]"), and [dterm_dpath] proves that interpreting a
    term agrees with denoting its normal-form path.  [commutative_dterm] is the
@@ -198,7 +198,7 @@ Qed.
 
    CARE IS NEEDED STATING WHAT THIS SEPARATES.  It is NOT that the
    figure-fixing statements cannot express a loop condition: Construction/
-   Sq.v:50's [dsq a b c d h u v k := k ∘ u ≈ v ∘ h] quantifies over arbitrary
+   Sq.v's [dsq a b c d h u v k := k ∘ u ≈ v ∘ h] quantifies over arbitrary
    OBJECTS, so all four corners may be instantiated to one object [X], making
    [h : X ~> X] an endo-path; [dsq X X X X e id id id] then reduces to
    [id ∘ id ≈ id ∘ e], which is exactly [e ≈ id].  The real distinction is
@@ -264,10 +264,10 @@ Proof.
   induction p as [ | i m e p IH ]; simpl.
   - change (@tnil _ _ y) with (@id (FreeOnQuiver G) y).
     now rewrite fmap_id.
-  - (* [≈], not [=]: [tlist_app_cons] (Lib/TList.v:199) is proved by
+  - (* [≈], not [=]: [tlist_app_cons] (Lib/TList.v) is proved by
        [destruct], so the two sides are not the same term and the
-       Functor/Bifunctor.v:42-45 exception does not apply.  This mirrors the
-       [RW] step of Construction/Free/Quiver.v:532. *)
+       Functor/Bifunctor.v exception does not apply.  This mirrors the
+       [RW] step of Construction/Free/Quiver.v. *)
     assert (Hsplit : @equiv _ (@homset (FreeOnQuiver G) i y) (e ::: p)
                        (@compose (FreeOnQuiver G) _ _ _ p (tlist_singleton e)))
       by (unfold tlist_singleton; simpl; now rewrite <- tlist_app_cons).
@@ -277,8 +277,8 @@ Qed.
 
 (* Round trip one: extending the restriction of a functor gives that functor
    back.  The equivalence used is [Functor_StrictEq_Setoid]
-   (Theory/Functor.v:508), which is exactly the hom-setoid of the strict
-   category of categories (Instance/StrictCat.v:59): objects agree on the nose
+   (Theory/Functor.v), which is exactly the hom-setoid of the strict
+   category of categories (Instance/StrictCat.v): objects agree on the nose
    -- here by [eq_refl], since the two functors have the same object map by
    definition -- and the transported morphism maps agree up to [≈]. *)
 Lemma functor_of_diagram_of_functor (F : FreeOnQuiver G ⟶ C) :
@@ -343,9 +343,9 @@ Context {G : Quiver}.
 Context {C : Category}.
 Context (D : Diagram G C).
 
-(* Interpret a formal composite (Construction/Free/Quiver.v:559) in [C].  The
+(* Interpret a formal composite (Construction/Free/Quiver.v) in [C].  The
    reading of [Comp f g] as [f ∘ g] is the one Solver/Denote.v documents for
-   the untyped [Term] of Solver/Expr.v:65. *)
+   the untyped [Term] of Solver/Expr.v. *)
 Fixpoint dterm {x y : G} (t : Mor x y) : D x ~{C}~> D y :=
   match t in @Mor _ x0 y0 return D x0 ~{C}~> D y0 with
   | Ident      => id
@@ -411,7 +411,7 @@ Qed.
 
 (* Riehl, Lemma 1.6.20: a FAITHFUL functor reflects commutativity.  If the
    image diagram commutes then the diagram already commutes.  The proof is by
-   [fmap_inj] (Theory/Functor.v:343) applied to the two path denotations, and
+   [fmap_inj] (Theory/Functor.v) applied to the two path denotations, and
    holds for parallel paths of arbitrary length because [dpath_postcompose]
    does. *)
 Theorem faithful_reflects_commutative (U : C ⟶ E) `{@Faithful C E U}
@@ -542,7 +542,7 @@ Program Definition SquareDiagram : Diagram SquareQuiver C :=
 
 (* The edge labels are the four given morphisms.  The equality is Leibniz (=)
    rather than [≈] because the two sides are the very same term; this is the
-   convention documented at Functor/Bifunctor.v:42-45. *)
+   convention documented at Functor/Bifunctor.v. *)
 Example sq_label_u : dedge SquareDiagram (tt : @edges SquareQuiver SqA SqB) = u
   := eq_refl.
 Example sq_label_k : dedge SquareDiagram (tt : @edges SquareQuiver SqC SqD) = k
@@ -579,7 +579,7 @@ Proof.
   induction p as [ | i m e p IH ].
   - destruct j; simpl; reflexivity.
   - (* Closed explicitly rather than with [cat]: every component of [cat]
-       (Lib/Tactics.v:134) always succeeds, so [cat] can never report a
+       (Lib/Tactics.v) always succeeds, so [cat] can never report a
        missing step; and exactly one of these goals -- [k ∘ h ≈ v ∘ u] -- is
        the one place [Hsq] is used, so it is discharged by name.  The [ [> ... ] ]
        selector pins that to EXACTLY one remaining goal: without it, an edit
@@ -787,7 +787,7 @@ Definition loop_edgemap (i j : LoopNode)
 
 (* As with [SquareDiagram] and [TriangleDiagram], the [fedgemap_respects]
    obligation here is discharged by the file-global [Obligation Tactic]
-   (Lib/Tactics.v:225's [cat_simpl]).  That is wide automation of exactly the
+   (Lib/Tactics.v's [cat_simpl]).  That is wide automation of exactly the
    kind this file argues against for LOAD-BEARING steps, so it is worth being
    explicit that these three are not load-bearing: each edge map is a constant
    or a match on a finite enumeration, and the obligation resolves to
@@ -920,9 +920,9 @@ Proof.
 Qed.
 
 (* The Leibniz [=] here is the library's same-term exception, not a lapse from
-   [≈]: Construction/Quotient.v:322's [QuotientLift_proj] is proved by
+   [≈]: Construction/Quotient.v's [QuotientLift_proj] is proved by
    [reflexivity], the two sides being the same term, exactly as at
-   Functor/Bifunctor.v:42-45. *)
+   Functor/Bifunctor.v. *)
 
 (* (<=) Anything of the form [K ◯ Reflect J] commutes, whatever [K] is. *)
 Theorem factors_commutative_shape {J C : Category}
@@ -967,7 +967,7 @@ Qed.
 (* The two directions above are usually quoted as a single biconditional, so
    state it.  "Factors through the reflection" is packaged as the data of a
    functor out of [PreorderReflect J] agreeing with [F], in exactly the form
-   Construction/Quotient.v:334 uses for its own uniqueness statement: object
+   Construction/Quotient.v uses for its own uniqueness statement: object
    maps equal on the nose, morphism maps agreeing up to [≈] after conjugating
    by [hom_cast] along those equalities. *)
 Definition FactorsThroughReflection {J C : Category} (F : J ⟶ C) : Type :=

@@ -291,7 +291,7 @@ Context {x y : C}.
 Context (f : x ~> y).
 
 (* The elements of the presheaf at d: the maps into x that f kills.  The
-   witness is DATA (`∃` is [sigT] in this library, Lib/Foundation.v:61), so
+   witness is DATA (`∃` is [sigT] in this library, Lib/Foundation.v), so
    [Kills d] is a type of PAIRS and the setoid below is what forgets the
    second component. *)
 Definition Kills (d : C) : Type := { h : d ~> x & f ∘ h ≈ zmor }.
@@ -495,7 +495,7 @@ Definition AUEKernelSetoid (k : C) : SetoidObject :=
    -- the object universe of C must sit AT OR BELOW its hom universe, and
    the hom and proof universes must coincide.  That is a restriction on
    this packaging, and its cause is structural rather than incidental:
-   [obj[Sets@{o so}]] is [SetoidObject@{o o}] (Instance/Sets.v:194), which
+   [obj[Sets@{o so}]] is [SetoidObject@{o o}] (Instance/Sets.v), which
    IDENTIFIES a setoid's carrier universe with its relation universe, while
    [KernelData k]'s carrier sits at C's OBJECT universe (through [eq_desc]'s
    quantifier over the probing object) and its relation at C's PROOF
@@ -551,7 +551,7 @@ Proof. reflexivity. Qed.
 
 (* The natural isomorphism itself: Hom(─, k) ≅ Kill_f in [C^op, Sets].
    [@Curried_Hom (C^op) k] IS [Hom ─,k], the presheaf Hom(─, k)
-   (Functor/Hom.v:146 defines [Curried_CoHom C] as [Curried_Hom C^op]). *)
+   (Functor/Hom.v defines [Curried_CoHom C] as [Curried_Hom C^op]). *)
 Definition kernel_representation {k : C} {i : k ~> x} (K : IsKernelOf i)
   : @Curried_Hom (C^op) k ≅[[C^op, Sets]] KillPresheaf :=
   ue_representation KillPresheaf k (kernel_aue K).

@@ -288,7 +288,7 @@ Proof. reflexivity. Qed.
 (** *** [pointed_balanced] at a concrete bimorphism *)
 
 (* The basepoint-fixing exchange of the two free points of [PointedThree].
-   The name carries the [pointed_] prefix because Structure/Cartesian.v:209
+   The name carries the [pointed_] prefix because Structure/Cartesian.v
    already exports a generic [swap] combinator for cartesian products; the
    two are unrelated and must not shadow one another. *)
 Definition pointed_swap_fun (o : option bool) : option bool :=

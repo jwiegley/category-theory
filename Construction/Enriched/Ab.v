@@ -13,7 +13,8 @@
    theorem of this library:
 
      [Enriched_Ab_iff_AbEnriched :
-        @Enriched Ab Ab_Monoidal ↔ { C : Category & AbEnriched C }]
+        @Enriched Ab Ab_Monoidal ↔
+        { C : Category & (LocallyPropositional C * AbEnriched C)%type }]
 
    in the same Type-valued-↔ form as Construction/Enriched.v's
    [Category_is_Enriched_over_Set] and Construction/Enriched/Two.v's
@@ -65,11 +66,50 @@
    4. NOTHING IS ASSUMED BEYOND THE CLASSES.  Both directions are
       constructions, closed under the global context; the reverse
       direction never inspects [eobj] and the forward one never
-      inspects the ambient category beyond its [AbEnriched] fields. *)
+      inspects the ambient category beyond its [AbEnriched] fields
+      and its [LocallyPropositional] instance (note 5).
+
+   5. A RECORDED STRENGTH CHANGE: THE FORWARD DIRECTION TAKES ONE
+      HYPOTHESIS IT DID NOT TAKE BEFORE, AND THE BICONDITIONAL IS
+      RESTATED.  An earlier revision of this header quoted
+      [Enriched_Ab_iff_AbEnriched] with right-hand side
+      [{ C : Category & AbEnriched C }] and described the forward
+      direction as running on an arbitrary [AbEnriched] category.
+      Since the PR "algebraic carriers are sets" (2026-09-17) an
+      [AbObject] carries [cmon_prop], a [PropEquiv] for its carrier
+      setoid, and [ehom_ab] takes its carrier setoid straight from
+      [C]'s hom-setoid; an arbitrary category supplies no [Prop]
+      mirror of its `≈` — in [Cat] an [F ≈ G] IS a family of
+      isomorphisms (Lib/Setoid/Propositional.v,
+      Instance/Sets/Propositional.v's header).  So the whole of
+      Section FromAbEnriched now assumes
+      [{LP : LocallyPropositional C}], which is where the hypothesis
+      belongs: at the PASSAGE from the internal enrichment to a
+      concrete object of [Ab], not in [AbEnriched] itself, which is
+      untouched and keeps the ambient `≈` (the SCOPE paragraph of
+      Structure/Complete.v's size note, item 4).
+
+      The eight constants of that section carry it: [ehom_ab],
+      [precomp_hom], [postcomp_hom], [zsmul_precomp], [zsmul_postcomp],
+      [ab_eid], [ab_ecompose] and [Enriched_of_AbEnriched].  The
+      biconditional is restated to match, its right-hand side now
+      [{ C : Category & (LocallyPropositional C * AbEnriched C)%type }].
+      That extra factor is not a hypothesis smuggled in: the REVERSE
+      direction produces it ([LocallyPropositional_of_Enriched_Ab]),
+      so the equivalence is the same one with its content made
+      explicit.  Nothing in Section ToAbEnriched gained a hypothesis.
+      The class is discharged by resolution at every concrete ambient:
+      [Ab_LocallyPropositional] (Instance/Ab.v) is what
+      [Enriched_Ab_itself] uses, and [RMod_LocallyPropositional]
+      (Instance/Mod.v), [CMon_LocallyPropositional]
+      (Instance/CMon.v) and [DeloopRig_LocallyPropositional]
+      (Theory/Algebra/Rig.v) serve the others. *)
 
 Require Import Coq.ZArith.BinInt.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -95,6 +135,16 @@ Section FromAbEnriched.
 
 Context {C : Category} {A : AbEnriched C}.
 
+(* [LP] is new since the PR "algebraic carriers are sets" (2026-09-17): an
+   [AbObject] carries [cmon_prop], and [ehom_ab] below takes its carrier
+   setoid straight from [C]'s hom-setoid, which an arbitrary category does not
+   supply a [Prop] mirror for (Instance/Sets/Propositional.v's header records
+   the measurement for [Cat]).  It is a class, so at [Ab] and at [RMod R] it
+   is discharged by resolution from the instances in Instance/Ab.v and
+   Instance/Mod.v.  Adjunction/Additive.v's [hom_ab] takes the same
+   hypothesis, for the same reason. *)
+Context {LP : LocallyPropositional C}.
+
 (* The hom-group of a hom-set: Structure/AbCategory.v's fields, packaged
    as an object of Ab. *)
 Definition ehom_ab (x y : C) : AbObject := {|
@@ -105,7 +155,8 @@ Definition ehom_ab (x y : C) : AbObject := {|
     cmon_plus_respects := @padd_respects C _ x y;
     cmon_plus_assoc := @padd_assoc C _ x y;
     cmon_plus_comm := @padd_comm C _ x y;
-    cmon_plus_zero_l := @padd_zero_left C _ x y
+    cmon_plus_zero_l := @padd_zero_left C _ x y;
+    cmon_prop := locally_prop x y
   |};
   ab_neg := @abneg C A x y;
   ab_neg_respects := @abneg_respects C A x y;
@@ -199,9 +250,14 @@ Next Obligation.
 Qed.
 
 (* The enrichment.  Each equation is [tensor_hom_ext] to generators, a
-   mediator computation, and a category/action law (design note 1). *)
+   mediator computation, and a category/action law (design note 1).
+
+   AN EARLIER REVISION took only [C] and [A]: since the PR "algebraic
+   carriers are sets" (2026-09-17) this is the section's [LP] as well, and
+   [Proof using] records all three.  Design note 5 of the header names the
+   eight constants of this section that gained it and what discharges it. *)
 Definition Enriched_of_AbEnriched : @Enriched Ab Ab_Monoidal.
-Proof using A C.
+Proof using A C LP.
   unshelve refine
     (@Build_Enriched Ab Ab_Monoidal obj[C] ehom_ab ab_eid ab_ecompose
        _ _ _).
@@ -296,6 +352,17 @@ Qed.
 (* The AbEnriched structure: hom-group operations from the hom-objects;
    bilinearity of composition is the generator relations of the tensor
    pushed through [ecompose]'s homomorphism property. *)
+(* The category built from tensor data is LOCALLY PROPOSITIONAL for free: its
+   hom-setoid IS the carrier setoid of an object of [Ab], which since the PR
+   "algebraic carriers are sets" (2026-09-17) carries [cmon_prop]. *)
+Definition LocallyPropositional_of_Enriched_Ab :
+  LocallyPropositional Category_of_Enriched_Ab.
+Proof.
+  constructor.
+  intros x y.
+  exact (cmon_prop (ab_cmon (@ehom Ab Ab_Monoidal E x y))).
+Defined.
+
 Program Definition AbEnriched_of_Enriched_Ab :
   AbEnriched Category_of_Enriched_Ab := {|
   abenriched_preadditive := {|
@@ -368,14 +435,26 @@ End ToAbEnriched.
 (* The forward direction, exercised at the concrete witness: Ab is an
    Ab-category, so it is enriched over itself. *)
 Definition Enriched_Ab_itself : @Enriched Ab Ab_Monoidal :=
-  @Enriched_of_AbEnriched Ab Ab_AbEnriched.
+  @Enriched_of_AbEnriched Ab Ab_AbEnriched Ab_LocallyPropositional.
 
+(* AN EARLIER REVISION stated the right-hand side as [{ C : Category &
+   AbEnriched C }].  Since the PR "algebraic carriers are sets" (2026-09-17)
+   the objects of [Ab] are abelian groups on SETS -- their `≈` is
+   propositional -- so a category enriched over [Ab] necessarily has
+   propositional hom-setoids, and conversely an [AbEnriched] category is
+   enriched over [Ab] only if it does.  The extra factor states that, and it
+   is not a hypothesis smuggled in: the forward direction PRODUCES it
+   ([LocallyPropositional_of_Enriched_Ab] below), so the biconditional is the
+   same equivalence with its content made explicit. *)
 Theorem Enriched_Ab_iff_AbEnriched :
-  @Enriched Ab Ab_Monoidal ↔ { C : Category & AbEnriched C }.
+  @Enriched Ab Ab_Monoidal ↔
+  { C : Category & (LocallyPropositional C * AbEnriched C)%type }.
 Proof.
   split.
   - intro E.
-    exact (Category_of_Enriched_Ab E; AbEnriched_of_Enriched_Ab E).
-  - intros [C A].
-    exact (@Enriched_of_AbEnriched C A).
+    exact (Category_of_Enriched_Ab E;
+           (LocallyPropositional_of_Enriched_Ab E,
+            AbEnriched_of_Enriched_Ab E)).
+  - intros [C [LP A]].
+    exact (@Enriched_of_AbEnriched C A LP).
 Defined.

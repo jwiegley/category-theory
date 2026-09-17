@@ -185,7 +185,7 @@ Module PAT := Category.Adjunction.Natural.Transformation.
    [from_adj_counit].
 
    §H IS RIEHL §4.4 PROPOSITION 4.4.6(iii), as an inhabitant of
-   Adjunction/Right.v:342's own [AdjointOnTheRight] class and not a
+   Adjunction/Right.v's own [AdjointOnTheRight] class and not a
    lookalike: [mutually_right_adjoint] is a RECORD LITERAL whose five fields
    are [mr_iso] and the four naturality lemmas above it, applied, with no
    tactic anywhere in it.  Riehl's Exercise 4.4.ii IS that
@@ -202,13 +202,13 @@ Module PAT := Category.Adjunction.Natural.Transformation.
    Mod_K(A ⊗_K B, C) ≅ Mod_K(A, Hom_K(B, C)) with parameter B), IS A FUTURE
    INSTANCE AND NOT A MISSING CATEGORY.  Measured, at this commit:
      - [ModTensor : RMod R ∏ RMod R ⟶ RMod R] EXISTS
-       (Instance/Mod/Monoidal.v:546) and takes NO commutativity hypothesis,
+       (Instance/Mod/Monoidal.v) and takes NO commutativity hypothesis,
        so [Partial_l ModTensor W] is already the endofunctor (− ⊗ W).
-     - [HomMod] (Instance/Mod/Closed.v:448) is OBJECT-LEVEL — its type is
+     - [HomMod] (Instance/Mod/Closed.v) is OBJECT-LEVEL — its type is
        ∀ R, (R commutative) → RModObject R → RModObject R → RModObject R —
-       and its two arrow actions [ihom_post] (:817) and [ihom_pre] (:841)
+       and its two arrow actions [ihom_post] and [ihom_pre]
        exist SEPARATELY.  That they are not assembled into a bifunctor is
-       the donor's own disclosure at :273-276; that NO FUNCTOR LAW is proved
+       the donor's own disclosure; that NO FUNCTOR LAW is proved
        for either is a separate measurement of mine — the two names occur in
        exactly five non-comment places in that file, the four naturality
        lemmas [cur_natural_W]/[cur_natural_X]/[unc_natural_W]/[unc_natural_X]
@@ -218,11 +218,11 @@ Module PAT := Category.Adjunction.Natural.Transformation.
        [ihom_post] as its [fmap] — and the adjunction record on top of it.
      - That endofunctor is FIVE LINES AND RAISES ZERO OBLIGATIONS, and the
        adjunction is then a [:=] with no tactic:
-       [Build_Adjunction' exp_iso_Mod (:683) cur_natural_V (:863)
-       cur_natural_X (:877)].  Both were compiled out of tree, together with
+       [Build_Adjunction' exp_iso_Mod cur_natural_V
+       cur_natural_X].  Both were compiled out of tree, together with
        the resulting [ParametrizedAdjunction ModTensor] and Theorem 3's
        bifunctor at it, so this paragraph is a measurement and not a claim.
-       Note also that [cur_natural_W] (:870) IS Mac Lane's naturality square
+       Note also that [cur_natural_W] IS Mac Lane's naturality square
        in the parameter, with [ihom_pre j] already in the mate position.
      - THE ONLY REASON TO DEFER IS CLOSURE COST: requiring
        Instance/Mod/Closed.v and Instance/Mod/Monoidal.v takes this file's
@@ -235,9 +235,9 @@ Module PAT := Category.Adjunction.Natural.Transformation.
    true of DECLARED CONSTANTS and false of the bare words, and the criterion
    is what settles it.  A case-insensitive sweep for
    parametri[sz]ed|parameteri[sz]ed|two.variable over *.v returns 39 files,
-   every hit prose (e.g. Theory/DoubleCategory.v:96 "parametrized spectra",
-   Theory/Coq/Traversable.v:43 "a parameterised comonad",
-   Instance/EnsV.v:29 "this file is parameterized by"); the same sweep
+   every hit prose (e.g. Theory/DoubleCategory.v "parametrized spectra",
+   Theory/Coq/Traversable.v "a parameterised comonad",
+   Instance/EnsV.v "this file is parameterized by"); the same sweep
    restricted to declaration heads returns zero.  So no CONSTANT of this
    shape existed, which is the claim this file makes new.
 
@@ -316,7 +316,7 @@ Module PAT := Category.Adjunction.Natural.Transformation.
        library constants a negative names breaks the probe at a control
        line, which was simulated twelve times over.
      - NO [Cowedge] INSTANCE for the counit.  [pa_counit_extranatural] is
-       delivered elementarily only.  Structure/Wedge.v:61 defines
+       delivered elementarily only.  Structure/Wedge.v defines
        [Cowedge F := @Wedge (C^op) (D^op) (F^op)], so packaging it needs the
        opposite of the integrand and of A, and the wedge-side universe
        collapse would be paid again; neither was attempted.
@@ -1314,7 +1314,7 @@ Example curry_internal_hom_fmap_unfold {p p' : C} (h : p' ~> p) (a : C) :
    derivation is machine-checked rather than described.
 
    PRIOR ART, disclosed and CONSUMED rather than reproved:
-   Structure/Cartesian/Closed/Natural.v:273's [ihom_curry] is this fact in
+   Structure/Cartesian/Closed/Natural.v's [ihom_curry] is this fact in
    [ihom] vocabulary, and it is NOT a literal instance of the statement below
    (it reads ihom f h ∘ curry m ≈ curry (h ∘ m ∘ second f), which at h := id
    differs from the form here by two [id_left]s and by the [ihom] spelling),
@@ -1434,12 +1434,12 @@ Arguments uncurry_natural_param {C _ _ x p p' a} h g.
    bifunctor at x, and three facts make that the wrong packaging.  (i) The
    source is constant, which is exactly the case [Structure/Wedge.v]'s own
    header says a wedge is for.  (ii) The named constant-functor constant is
-   [Constant_Functor] (Instance/Fun/Terminal.v:342), and requiring that
+   [Constant_Functor] (Instance/Fun/Terminal.v), and requiring that
    module costs 28 modules on this file's transitive in-project closure (68
    without it, 96 with it, measured by adding it to the seed set and
    recomputing over .Makefile.coq.d) — though read that as a remark about a
    route not taken rather than an obstacle, since [Diagonal]
-   (Functor/Diagonal.v:33) has the constant functor as its OBJECT ACTION and
+   (Functor/Diagonal.v) has the constant functor as its OBJECT ACTION and
    its module is ALREADY in the closure at marginal cost 0; it is not a
    drop-in, being a [Program Instance] whose [fobj] need not reduce.  (iii)
    Even given a
@@ -1729,7 +1729,7 @@ End PATransformPassages.
    [mutually_right_adjoint : AdjointOnTheRight mr_left mr_right] with
    [mr_left  := Partial_l (parametrized_right_adjoint_bifunctor PA)  c]
    [mr_right := Partial_l (parametrized_right_adjoint_bifunctor MPA) c]
-   over Adjunction/Right.v:342's class, and it is a RECORD LITERAL with no
+   over Adjunction/Right.v's class, and it is a RECORD LITERAL with no
    tactic — its five fields are [mr_iso] and the four naturality lemmas
    above it, applied.  The type
    assignment was verified to typecheck before any proof was written:

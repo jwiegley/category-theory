@@ -249,10 +249,29 @@ Definition SubobjectCover {C D : Category} (U : C ⟶ D)
 (* The solution set at [d]: its members are the pairs [(i, s)] of a well-powered
    subobject [i] of the cogenerator product together with a [d]-arrow
    [s : d ~> U (sub_dom i)].  The covering property is delivered by [cover]. *)
-Definition SAFT_solution_set {C D : Category} (U : C ⟶ D)
+(* THE INDEX UNIVERSE [i] IS FREE HERE.  The index built below is a sigma
+   over [sub_index (WP (cogen_prod comp G))] and a [d]-arrow, and nothing
+   in this definition relates its level to the ambient hom universe [h].
+   The [Complete] taken here is likewise unrestricted -- its shape-object
+   universe stays free.  [SAFT] below is where both are pinned, by handing
+   them to [GAFT].  Measured:
+
+     SAFT_solution_set@{i cobj dobj h u u0 u1 u2 u3} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+       (comp : Complete@{u3 u1 h cobj}) (G : Cogenerator@{u1 cobj h} C)
+       (WP : ∀ x : obj[C], SubobjectIndex@{u0 cobj h} x),
+       SubobjectCover@{u u0 u1 u2 u3 dobj cobj h} U comp G WP
+       → ∀ d : obj[D], SolutionSet@{i dobj cobj h} U d
+     (* i cobj dobj h u u0 u1 u2 u3 |= h < u2 / u1 <= u3 *)
+
+   -- [i] unrelated to anything, and [Complete]'s shape-object slot [u1]
+   likewise. *)
+Definition SAFT_solution_set@{i cobj dobj h +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
   (comp : @Complete C) (G : Cogenerator C)
   (WP : forall x : C, SubobjectIndex x)
-  (cover : SubobjectCover U comp G WP) (d : D) : SolutionSet U d.
+  (cover : SubobjectCover U comp G WP) (d : D)
+  : SolutionSet@{i dobj cobj h} U d.
 Proof.
   unshelve refine
     {| sol_index := { i : sub_index (WP (cogen_prod comp G))
@@ -271,8 +290,37 @@ Defined.
 (* SAFT.  The packaged well-powered / cogenerator data assemble a solution set at
    every [d]; completeness and cone-level preservation are handed to [GAFT],
    which returns the left adjoint [F ⊣ U]. *)
-Definition SAFT {C D : Category} (U : C ⟶ D)
-  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
+(* THE TWO IDENTIFICATIONS ARRIVE HERE, from [GAFT], and the binders say
+   so: [@Complete@{h h h cobj} C] puts [Complete]'s shape-object universe
+   at the ambient hom universe [h], and passing [SAFT_solution_set] to
+   [GAFT] forces its free index universe [i] to [h] as well.  Read
+   concretely, that is a size condition on the WELL-POWEREDNESS datum: the
+   sigma of [sub_index (WP (cogen_prod comp G))] with a [d]-arrow must sit
+   at the hom universe, not above it.  The measured readback says it in
+   one constraint -- [SubobjectIndex]'s own index universe is bounded by
+   [h]:
+
+     SAFT@{cobj dobj h u u0 u1 u2 u3} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+       (comp : Complete@{h h h cobj}),
+       PreservesImageLimit@{cobj h dobj h u1 h u h}
+       → ∀ (G : Cogenerator@{h cobj h} C)
+           (WP : ∀ x : obj[C], SubobjectIndex@{u3 cobj h} x),
+         SubobjectCover@{u2 u3 h u h dobj cobj h} U comp G WP
+         → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u h u0} F U
+     (* cobj dobj h u u0 u1 u2 u3 |= h < u / u3 <= h *)
+
+   Compare [SAFT_solution_set] above, which takes [Complete@{u3 u1 h cobj}]
+   with its shape-object universe [u1] FREE and leaves [i] free too: the
+   whole identification is [GAFT]'s, arriving at this one line.
+
+   Nothing here is a [Set] pin -- an earlier revision of [GAFT] printed
+   one, inherited from Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor], and it is gone (PR "algebraic carriers are
+   sets", 2026-09-17). *)
+Definition SAFT@{cobj dobj h +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
   (G : Cogenerator C) (WP : forall x : C, SubobjectIndex x)
   (cover : SubobjectCover U comp G WP) : { F : D ⟶ C & F ⊣ U } :=
   GAFT U comp cont (SAFT_solution_set U comp G WP cover).

@@ -66,7 +66,7 @@ Generalizable All Variables.
      - [Product_Limit], [Product_Complete], [Product_Cocomplete] —
        Mac Lane's statement and its dual.  The dual costs NOTHING: the
        opposite of a product is the product of the opposites BY
-       CONVERSION ([Product_Opposite], Construction/Product.v:185, closes
+       CONVERSION ([Product_Opposite], Construction/Product.v, closes
        by [reflexivity]), so [Product_Cocomplete] is [Product_Complete] at
        [C^op] and [D^op] applied to [K^op], with [Complete_op_of_Cocomplete]
        the one-line passage that [Cocomplete C] IS [Complete (C^op)] up to

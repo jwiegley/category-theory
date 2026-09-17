@@ -64,7 +64,7 @@ Generalizable All Variables.
    whose F runs X -> A, is an [AdjObj A X]: the TREE's [Adj C D] is the
    BOOK's Adj(D, C), its two arguments reversed.  A 1-cell x -> y of the
    bicategory below is therefore an adjunction whose RIGHT adjoint runs
-   x -> y -- the orientation Instance/Adjoints.v:110-114 already
+   x -> y -- the orientation Instance/Adjoints.v already
    documents for its own 1-category -- and Mac Lane's X -> A is a 1-cell
    A -> X here, running along his G.
 
@@ -82,7 +82,7 @@ Generalizable All Variables.
 
    pinned by the [Example] [Adj_Hcompose_shape] below, with [fst] the
    OUTER 1-cell exactly as in [Cat_Hcompose]
-   (Instance/Cat/Bicategory.v:64-65, [([D,E] (X) [C,D]) --> [C,E]]).
+   (Instance/Cat/Bicategory.v, [([D,E] (X) [C,D]) --> [C,E]]).
    Read the correspondence with the
    book's own listing precisely.  Under the dictionary above his
    Adj(A, D) is the tree's [Adj D A] and his Adj(X, A) is [Adj A X], so
@@ -109,8 +109,8 @@ Generalizable All Variables.
    hypotheses fire, [to_adj_nat_r] pulls the right leg out of the A transpose,
    and one more [comp_assoc] closes.  BOTH reviewer checks are met by
    CONSTRUCTION rather than by comparison: the two components ARE
-   Theory/Natural/Transformation.v:283's [nat_hcompose] and the two composite
-   adjunctions ARE Adjunction/Compose.v:173's [Adjunction_Compose], and
+   Theory/Natural/Transformation.v's [nat_hcompose] and the two composite
+   adjunctions ARE Adjunction/Compose.v's [Adjunction_Compose], and
    [hcomp_left_is_nat_hcompose], [hcomp_right_is_nat_hcompose] and
    [hcomp_obj_adj] pin all three at [eq_refl] once the bifunctor is in hand.
    Note what the proof does NOT need: [nat_hcompose]'s tau factorisation [t (V'
@@ -133,7 +133,7 @@ Generalizable All Variables.
    [Conjugate A A' s t], and [routeb_sigma] records at [eq_refl] that the sigma
    leg of Square.v's vertical paste at identity bounding functors IS
    [nat_hcompose] componentwise.  The tau leg is NOT: [routeb_tau] is `~=`
-   only, one application of [naturality], because Adjunction/Square.v:1217's
+   only, one application of [naturality], because Adjunction/Square.v's
    [paste_v_tau] uses the OTHER factorisation of the Godement square ([fmap[U']
    (ta2 e) (o) ta1 (V e)] against [nat_hcompose]'s [t (V' e) (o) fmap[U] (tb
    e)]).  With those, [conjugate_hcompose_via_square] proves the SAME statement
@@ -142,16 +142,15 @@ Generalizable All Variables.
    two paddings per side and one naturality of tau on the right leg; the two
    proofs are independent and their terms are not compared at any strength.
    [conj_padL] and [conj_padR] duplicate in shape
-   Instance/Cat/Bicategory/Conjugate.v:112's [Cat_conj_padL] and :122's
-   [Cat_conj_padR] (both are stated over arbitrary functors -- [conj_padL] over
+   Instance/Cat/Bicategory/Conjugate.v's [Cat_conj_padL] and [Cat_conj_padR] (both are stated over arbitrary functors -- [conj_padL] over
    [P P' : X ⟶ Y], [Cat_conj_padL] with no adjunction in its discharged type --
    and the two are the same construction, their obligation scripts differing
-   only by the leading [intros] that Conjugate.v:110's local [idtac] obligation
+   only by the leading [intros] that Conjugate.v's local [idtac] obligation
    tactic forces).  Requiring that file instead was MEASURED and declined: it
    takes this file's transitive in-project closure from 29 modules to 38, and
    the nine it adds include Adjunction/Natural/Transformation, whose class
-   fields [unit] (:36) and [counit] (:37) SHADOW Theory/Adjunction.v's -- the
-   same reason Adjunction/Square.v:268-272 gives for keeping its own Cat
+   fields [unit] and [counit] SHADOW Theory/Adjunction.v's -- the
+   same reason Adjunction/Square.v gives for keeping its own Cat
    comparison in a sibling file.
 
    (C) THE BIFUNCTOR.  [AdjIdObj X] is the identity 1-cell (the identity
@@ -165,7 +164,7 @@ Generalizable All Variables.
    OWN interchange CONSUMED rather than restated: it is a plain
    [Definition] whose body is
    [@fmap_comp _ _ (@Cat_Hcompose C D E) _ _ _ (a2, b2) (a1, b1)], with
-   no tactic at all, so Instance/Cat/Bicategory.v:76-83's proof is what
+   no tactic at all, so Instance/Cat/Bicategory.v's proof is what
    discharges both legs.  Requiring Instance/Cat/Bicategory for it costs
    exactly one module (28 -> 29 with Adjunction/Square present).  Five
    [eq_refl] readbacks: [hcomp_obj_adj], [hcomp_obj_left],
@@ -188,7 +187,7 @@ Generalizable All Variables.
    [Adj_hunit_left], [Adj_hunit_right], [Adj_hassoc], each with both legs and
    both inverse laws, all four obligations closed by [cat] after a [simpl].
    THE UNITOR DICTIONARY IS CROSSED ONCE MORE THAN CAT'S.
-   Instance/Fun.v:178,:187 names [nat_lambda F : F (o) Id ~= F] and [nat_rho F
+   Instance/Fun.v names [nat_lambda F : F (o) Id ~= F] and [nat_rho F
    : Id (o) F ~= F], against the usual convention, and [Cat_Bicategory] sets
    [hunit_left := nat_rho]; here the LEFT unitor uses [nat_lambda] on the left
    adjoints and [nat_rho] on the right adjoints, because [adjobj_hcompose
@@ -202,7 +201,7 @@ Generalizable All Variables.
    direction.  Everything from [Adj_Hcompose_shape] to the end of the file runs
    under [#[local] Obligation Tactic := program_simpl], set after (C)'s
    [idtac]; that is NOT a restoration of the tree default, which
-   Lib/Tactics.v:225 declares as [cat_simpl], and it is load-bearing: a
+   Lib/Tactics.v declares as [cat_simpl], and it is load-bearing: a
    byte-identical copy with [cat_simpl] on that line stops inside
    [Adj_hunit_left]'s obligations with "No obligations remaining", [cat_simpl]
    having already discharged what the explicit [Next Obligation] scripts of (E)
@@ -216,11 +215,11 @@ Generalizable All Variables.
    [Adj_hassoc_natural], [Adj_triangle], [Adj_pentagon].  Four of the
    five close by [split; simpl; intros; cat]; only [Adj_hassoc_natural]
    needs the extra [rewrite !fmap_id, fmap_comp], which is the same extra
-   step Instance/Cat/Bicategory.v:102-107's [Cat_hassoc_natural] takes.
+   step Instance/Cat/Bicategory.v's [Cat_hassoc_natural] takes.
 
    (G) THE BICATEGORY.  [Adj_Bicategory] is built with the RAW
    [Build_Bicategory], never [Build_Bicategory'], for the reason
-   Instance/Cat/Bicategory.v:43-55 states for Cat and which was measured
+   Instance/Cat/Bicategory.v states for Cat and which was measured
    again here: the [symmetry]-derived [comp_assoc_sym] of the smart
    constructor breaks record eta, [bicat x y] is then no longer [Adj x y],
    and [hcompose] no longer typechecks against [Adj_Hcompose].  Feeding
@@ -242,9 +241,9 @@ Generalizable All Variables.
    does NOT (stdlib [sigT] is not covered by this repo's [Set Primitive
    Projections]), and neither does the composition comparison: [adjunction (mA
    (o) mB) = Adjunction_Compose Aa Bb] is a CONVERSION refusal at one and the
-   same type, since [Adjoints] composes by Instance/Adjoints.v:83's [adj_comp].
+   same type, since [Adjoints] composes by Instance/Adjoints.v's [adj_comp].
    Both were measured and are to be pinned in the probe rather than carried
-   here.  The positive half is already in tree: Adjunction/Compose.v:201-212's
+   here.  The positive half is already in tree: Adjunction/Compose.v's
    [Adjunction_Compose_adj_comp_to] and [_from] show the two constructions have
    definitionally equal transposes in both directions.
 
@@ -332,7 +331,7 @@ Generalizable All Variables.
    the block [u0 = u2], [u0 = u4] with [C] and [E] nowhere in its statement,
    while one functor per pair gives only the bounds [u2 <= u0], [u0 <= u4] --
    which is why [routeb_hyp], binding only [C] and [D], still carries [u0 =
-   u4].  Adjunction/Compose.v:173's [Adjunction_Compose], whose own block
+   u4].  Adjunction/Compose.v's [Adjunction_Compose], whose own block
    carries [u0 = u2], [u0 = u4], [u5 = u7], accounts only for the extra [u5 =
    u8] of the two Theorem-2 constants -- it is not the source of the other two,
    [routeb_sigma] and [routeb_tau] carrying both with no adjunction in their
@@ -364,7 +363,7 @@ Generalizable All Variables.
 
    ** A stale sentence of the issue
 
-   Its current-state section says "Instance/Adj.v:43 -- a hom-category of
+   Its current-state section says "Instance/Adj.v -- a hom-category of
    adjunctions exists, but with no conjugacy condition on its arrows".
    That has been stale since #395: [ConjPair] carries [conj_pair_law] as
    its third field, so an arrow of [Adj C D] is a conjugate pair and not

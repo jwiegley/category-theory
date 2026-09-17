@@ -150,7 +150,7 @@ Constraint o < so.
        (CONVERSION) *)
 
 (* Guards the strength of [Sets_quot_meet_parity_mod3].  [QuotObj]
-   inherits [SubObj]'s setoid (Theory/Subobject.v:33) and has no
+   inherits [SubObj]'s setoid (Theory/Subobject.v) and has no
    antisymmetry, so the theorem holds at ≈ and the same statement at `=`
    is refused. *)
 Fail Example p446_n4 :

@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -12,7 +13,7 @@ Require Import Category.Instance.StrictCat.
 Require Import Category.Instance.StrictCat.ToCat.
 
 (* [Category.Instance.Grp] and its satellites are required LAST, deliberately,
-   for the reason [Instance/Grp/Free.v]:15-23 gives: [Construction/Deloop.v]
+   for the reason [Instance/Grp/Free.v] gives: [Construction/Deloop.v]
    also declares a record called [GrpObject], and the two names would
    otherwise collide.  With this order the unqualified [GrpObject],
    [grp_unit], [grp_mul] and [grp_inv] below are always [Instance/Grp.v]'s --
@@ -54,10 +55,10 @@ Generalizable All Variables.
 
     WHY THE INTERESTING PART IS A NAMING PROBLEM.  The tree carries TWO
     records called [GrpObject], and the exercise straddles them.
-    [Construction/Deloop.v]:267 layers one on [MonObject], carrying both
+    [Construction/Deloop.v] layers one on [MonObject], carrying both
     unit laws and both inverse laws as fields; that is the record
     [Deloop]'s group-case results ([Deloop_group_invertible],
-    [Deloop_IsGroupoid]) are stated over.  [Instance/Grp.v]:184 declares a
+    [Deloop_IsGroupoid]) are stated over.  [Instance/Grp.v] declares a
     flat one with only the left-handed laws, the right-handed ones and
     respectfulness of inversion being derived; that is the record [Grp] is
     the category of, and hence the record #313's [NormalSubgroup],
@@ -66,19 +67,19 @@ Generalizable All Variables.
 
     HOW THE GAP IS CLOSED, and the measured surprise: NO RECORD
     CONVERSION IS NEEDED, because the delooping of an [Instance/Grp.v]
-    group is already in tree.  [Instance/Grp/Free.v]:272-295 builds
+    group is already in tree.  [Instance/Grp/Free.v] builds
     [grp_deloop_monoid], [grp_deloop] and [grp_deloop_IsGroupoid] --
     incidentally, on its way to the free group -- and that is exactly "the
     one-object groupoid of an [Instance/Grp.v] group".  Everything below
     is stated over [grp_deloop], so the correspondence is with congruences
     on THE delooping in tree rather than on a fresh copy of it.  (The one
-    bridge the tree names, [Instance/Rep.v]:176's [grp_mon], is a
+    bridge the tree names, [Instance/Rep.v] [grp_mon], is a
     different thing: it lands in [MonObject] and drops the inverse.
-    [Instance/Grp/Free.v]:91-92 says in terms that [grp_mon] is "the only
+    [Instance/Grp/Free.v] says in terms that [grp_mon] is "the only
     bridge between them in tree", so no record-to-record converter existed
     at the parent commit -- and this file supplies one below, which is
     exactly what makes that sentence stale rather than a limitation.
-    [Instance/Rng/MonoidRing.v]:66 is cited by Free.v's neighbours for a
+    [Instance/Rng/MonoidRing.v] is cited by Free.v's neighbours for a
     RELATED but different observation: that Rep.v "had to bridge two
     identically named [GrpObject] records with [grp_mon]", which records
     the bridge's existence, not an absence.)  What this file observes is
@@ -105,7 +106,7 @@ Generalizable All Variables.
     place.
 
     WHAT THE FOUR CONGRUENCE FIELDS COST: NOTHING.  [HomCongruence]
-    ([Construction/Quotient.v]:296) asks for containment of `≈`, symmetry,
+    ([Construction/Quotient.v]) asks for containment of `≈`, symmetry,
     transitivity and compatibility with composition.  At [grp_deloop G]
     with the relation "f * g⁻¹ lies in N" these are, in order, #313's
     [quot_rel_of_equiv], [quot_rel_sym], [quot_rel_trans] and
@@ -184,7 +185,7 @@ Generalizable All Variables.
     which presupposes something to specialize, so the tree was searched
     before the word was used.  A case-insensitive search for the phrase
     "homomorphism theorem" over every .v file returns, outside this file's
-    own prose, exactly one hit -- [Instance/Grp/Quotient.v]:572 -- and
+    own prose, exactly one hit -- [Instance/Grp/Quotient.v] -- and
     that is the GROUP statement.  So nothing in the tree is NAMED the
     categorical homomorphism theorem.  The STATEMENT is nevertheless
     present, as the universal property of the quotient category:
@@ -298,7 +299,7 @@ Example ns_rel_is_quot_rel {G : GrpObject} (N : NormalSubgroup G)
 
 (** Mac Lane §II.8 Exercise 2, one direction.  Kept a plain [Definition]
     rather than an [Instance], following [FunctorKernel_Congruence]'s own
-    convention in [Construction/Quotient.v]:555-558: nothing new enters
+    convention in [Construction/Quotient.v]: nothing new enters
     typeclass search, and the witness stays transparent. *)
 Definition ns_congruence {G : GrpObject} (N : NormalSubgroup G)
   : @HomCongruence (grp_deloop G) (ns_rel N) :=
@@ -308,14 +309,60 @@ Definition ns_congruence {G : GrpObject} (N : NormalSubgroup G)
     (fun x y f g h H1 H2 => quot_rel_trans N f g h H1 H2)
     (fun x y z f f' g g' H1 H2 => quot_rel_mul N f f' g g' H1 H2).
 
+(** The PROPOSITIONAL congruence: [ns_rel] under [inhabited].
+
+    An earlier revision built [deloop_quotient] from [ns_rel] itself.  Since
+    the PR "algebraic carriers are sets" (2026-09-17) [QuotientGrp]'s own
+    equality is the propositional truncation of [quot_rel] -- [sub_mem] stays
+    [Type]-valued, so the quotient OBJECT must truncate -- and the quotient
+    CATEGORY has to truncate in lockstep, or [deloop_quotient_iso] below is
+    not merely unproved but FALSE IN ONE DIRECTION: a functor
+    [grp_deloop (QuotientGrp N) ⟶ deloop_quotient N] would have to eliminate
+    a [Prop] into the [Type]-valued [quot_rel].  Truncating both sides keeps
+    the headline -- the quotient category of the delooping IS the delooping
+    of the quotient -- at its full [≅[StrictCat]] strength, and at
+    [eq_refl] on objects, arrows, identity and composition
+    (Test/ProbeGrpCongruence.v).
+
+    [ns_rel], [ns_congruence] and the whole normal-subgroup/congruence
+    dictionary below are UNCHANGED: only the category built from them
+    truncates, and [ns_prel_is_truncation] records the relationship at
+    [eq_refl]. *)
+Definition ns_prel {G : GrpObject} (N : NormalSubgroup G)
+  : HomRelT (grp_deloop G) := fun _ _ f g => quot_equiv N f g.
+
+Example ns_prel_is_truncation {G : GrpObject} (N : NormalSubgroup G)
+  (f g : carrier G) :
+  ns_prel N ttt ttt f g = inhabited (ns_rel N ttt ttt f g) := eq_refl.
+
+(* Built tactically rather than as a term: a bare [match] on [inhabited] is
+   elaborated with a [Type] motive and is refused, even where the branch's
+   result is a [Prop]. *)
+Definition ns_prel_congruence {G : GrpObject} (N : NormalSubgroup G)
+  : @HomCongruence (grp_deloop G) (ns_prel N).
+Proof.
+  unshelve refine (@Build_HomCongruence (grp_deloop G) (ns_prel N) _ _ _ _).
+  (* [HomRelT] ascribes sort [Type] to each relation, so the goal is
+     converted to its [inhabited] form before any elimination. *)
+  - intros x y f g H; exact (inhabits (quot_rel_of_equiv N f g H)).
+  - intros x y f g H; unfold ns_prel, quot_equiv in *;
+      destruct H as [h]; exact (inhabits (quot_rel_sym N f g h)).
+  - intros x y f g h H1 H2; unfold ns_prel, quot_equiv in *;
+      destruct H1 as [h1], H2 as [h2];
+      exact (inhabits (quot_rel_trans N f g h h1 h2)).
+  - intros x y z f f' g g' H1 H2; unfold ns_prel, quot_equiv in *;
+      destruct H1 as [h1], H2 as [h2];
+      exact (inhabits (quot_rel_mul N f f' g g' h1 h2)).
+Defined.
+
 (** The quotient category of the delooping.  The congruence witness is
-    passed explicitly, since [ns_congruence] is not an instance. *)
+    passed explicitly, since [ns_prel_congruence] is not an instance. *)
 Definition deloop_quotient {G : GrpObject} (N : NormalSubgroup G) : Category :=
-  @Quotient (grp_deloop G) (ns_rel N) (ns_congruence N).
+  @Quotient (grp_deloop G) (ns_prel N) (ns_prel_congruence N).
 
 Definition deloop_quotient_proj {G : GrpObject} (N : NormalSubgroup G)
   : grp_deloop G ⟶ deloop_quotient N :=
-  @QuotientProj (grp_deloop G) (ns_rel N) (ns_congruence N).
+  @QuotientProj (grp_deloop G) (ns_prel N) (ns_prel_congruence N).
 
 (** ** The orientation of the relation
 
@@ -594,9 +641,9 @@ Definition congruence_normal_subgroup (G : GrpObject)
 (** ** Normality is necessary, not merely sufficient
 
     #313 has seven [quot_rel] lemmas, and TWO of them apply [ns_conj]:
-    [quot_rel_mul] (:316) and [quot_rel_inv] (:338), as that file's own
-    comments say (":290-291" calls the first "the first of the two places
-    where NORMALITY is spent").  Only the first is consumed by
+    [quot_rel_mul] and [quot_rel_inv], as that file's own
+    comments say (the comment on [quot_rel_mul] calls it "the first of the
+    two places where NORMALITY is spent").  Only the first is consumed by
     [ns_congruence] -- [HomCongruence] has no field about inverses -- and
     the other three fields draw on [quot_rel_of_equiv], [quot_rel_sym] and
     [quot_rel_trans], whose proofs apply [sub_at], [sub_unit],
@@ -700,16 +747,16 @@ Definition quot_to_deloop : deloop_quotient N ⟶ grp_deloop (QuotientGrp N) :=
     (fun x => x)
     (fun x y f => f)
     (fun x y f g H => H)
-    (fun x => quot_rel_refl N _)
-    (fun x y z f g => quot_rel_refl N _).
+    (fun x => inhabits (quot_rel_refl N _))
+    (fun x y z f g => inhabits (quot_rel_refl N _)).
 
 Definition deloop_to_quot : grp_deloop (QuotientGrp N) ⟶ deloop_quotient N :=
   Build_Functor (grp_deloop (QuotientGrp N)) (deloop_quotient N)
     (fun x => x)
     (fun x y f => f)
     (fun x y f g H => H)
-    (fun x => quot_rel_refl N _)
-    (fun x y z f g => quot_rel_refl N _).
+    (fun x => inhabits (quot_rel_refl N _))
+    (fun x y z f g => inhabits (quot_rel_refl N _)).
 
 (** Both functors are the identity on objects and on arrows, so both round
     trips have [eq_refl] object components. *)
@@ -717,7 +764,8 @@ Lemma deloop_quotient_round_to :
   @equiv _ (@Functor_StrictEq_Setoid (deloop_quotient N) (deloop_quotient N))
     (deloop_to_quot ◯ quot_to_deloop) (Id[deloop_quotient N]).
 Proof.
-  exists (fun _ => eq_refl); intros x y f; simpl; apply quot_rel_refl.
+  exists (fun _ => eq_refl); intros x y f; simpl;
+    constructor; apply quot_rel_refl.
 Qed.
 
 Lemma deloop_quotient_round_from :
@@ -725,7 +773,8 @@ Lemma deloop_quotient_round_from :
               (grp_deloop (QuotientGrp N)))
     (quot_to_deloop ◯ deloop_to_quot) (Id[grp_deloop (QuotientGrp N)]).
 Proof.
-  exists (fun _ => eq_refl); intros x y f; simpl; apply quot_rel_refl.
+  exists (fun _ => eq_refl); intros x y f; simpl;
+    constructor; apply quot_rel_refl.
 Qed.
 
 Definition deloop_quotient_iso
@@ -779,7 +828,7 @@ End Homomorphisms.
     here, which this is.  What is added is the REASON, which is
     categorical and costs no group-level obligation at all: the kernel
     congruence of a FUNCTOR is a congruence ([FunctorKernel_Congruence],
-    Construction/Quotient.v:559), and [cong_ns] turns any congruence on
+    Construction/Quotient.v), and [cong_ns] turns any congruence on
     the delooping into a normal subgroup.  Composing the two gives the
     kernel of h as a normal subgroup with no FURTHER argument about
     conjugation: [cong_ns]'s fifth obligation is that argument, made once
@@ -855,15 +904,31 @@ Context (N : NormalSubgroup G).
 Context (p : Kills N K).
 
 (** The hypothesis of the categorical theorem, discharged by #313's
-    descent lemma with no reshaping. *)
+    descent lemma with no reshaping.  It is stated over the UNTRUNCATED
+    [ns_rel], which is what #313's descent lemma proves. *)
 Definition deloop_kills
   : ∀ x y (f g : x ~{grp_deloop G}~> y), ns_rel N x y f g →
       fmap[deloop_hom (`1 p)] f ≈ fmap[deloop_hom (`1 p)] g :=
   fun x y f g H => kills_descends N p f g H.
 
+(** ...and the same over the truncated relation [deloop_quotient] is built
+    from since the PR "algebraic carriers are sets" (2026-09-17).  The
+    conclusion is an `≈` at [grp_deloop K], i.e. at [K]'s own carrier, so
+    the elimination goes through [K]'s [grp_prop] and nothing is assumed. *)
+Definition deloop_pkills
+  : ∀ x y (f g : x ~{grp_deloop G}~> y), ns_prel N x y f g →
+      fmap[deloop_hom (`1 p)] f ≈ fmap[deloop_hom (`1 p)] g.
+Proof.
+  intros x y f g H.
+  apply (@pequiv_to _ _ (grp_prop K)).
+  unfold ns_prel, quot_equiv in H; destruct H as [h].
+  apply (@pequiv_from _ _ (grp_prop K)).
+  exact (deloop_kills x y f g h).
+Defined.
+
 Definition cat_lift : deloop_quotient N ⟶ grp_deloop K :=
-  @QuotientLift (grp_deloop G) (ns_rel N) (ns_congruence N)
-    (grp_deloop K) (deloop_hom (`1 p)) deloop_kills.
+  @QuotientLift (grp_deloop G) (ns_prel N) (ns_prel_congruence N)
+    (grp_deloop K) (deloop_hom (`1 p)) deloop_pkills.
 
 (** The lift, read back as a homomorphism out of the factor group.  The
     functor is transported along [deloop_to_quot] -- the [StrictCat]
@@ -898,8 +963,9 @@ Proof.
   - intro a; simpl; reflexivity.
   - intros v Hv a.
     exact (symmetry
-             (@QuotientLift_unique (grp_deloop G) (ns_rel N) (ns_congruence N)
-                (grp_deloop K) (deloop_hom (`1 p)) deloop_kills
+             (@QuotientLift_unique (grp_deloop G) (ns_prel N)
+                (ns_prel_congruence N)
+                (grp_deloop K) (deloop_hom (`1 p)) deloop_pkills
                 (deloop_hom v ◯ quot_to_deloop N)
                 (fun _ => eq_refl)
                 (fun x y f => Hv f)
@@ -927,7 +993,7 @@ Definition hom_theorem_from_category {G K : GrpObject} (N : NormalSubgroup G)
     [QuotientProj] and #313's [quot_proj] are the same map: both are the
     identity on the underlying set, only the equivalence coarsening.  The
     arrow actions agree by convertibility; the object actions do NOT, and
-    the reason is the one [Construction/Deloop/Transform.v]:282-289
+    the reason is the one [Construction/Deloop/Transform.v]
     already records -- [poly_unit] has no definitional eta, so the
     constant function at [ttt] and the identity on a one-element type are
     different terms (Test/ProbeGrpCongruence.v, negative 6). *)
@@ -947,18 +1013,18 @@ Proof. destruct x; reflexivity. Qed.
     Everything above holds for every group and every normal subgroup, so
     nothing yet shows the congruence separates anything or merges
     anything.  #313's witnesses are reused rather than rebuilt: S3
-    ([Instance/Grp/TwoFunctors.v]:248, the semidirect presentation over
+    ([Instance/Grp/TwoFunctors.v], the semidirect presentation over
     the decidable carrier rot * bool, proved nonabelian there), its
     rotation subgroup A3, and the reflection subgroup [S3_refl_sub], which
     #313 proves is a subgroup and is NOT normal.
 
-    NOT [Structure/Groupoid.v]:741's [S3_Grp], although that file is
+    NOT [Structure/Groupoid.v] [S3_Grp], although that file is
     imported here and although its S3 is already a
     [Category.Construction.Deloop.GrpObject] and already delooped
     ([deloop_S3_groupoid]).  The tree has exactly THREE presentations of
-    the symmetric group: that one, [TwoFunctors.v]:248's semidirect S3 on
-    rot * bool, and [Instance/Grp/Epi.v]:1605's [GrpSym3].
-    [Instance/Grp/Center.v]:35-39 counts the latter two, both being
+    the symmetric group: that one, [TwoFunctors.v] semidirect S3 on
+    rot * bool, and [Instance/Grp/Epi.v] [GrpSym3].
+    [Instance/Grp/Center.v] counts the latter two, both being
     [Instance/Grp.v] groups; [S3_Grp] is over the OTHER record and so
     falls outside that count.  #313's [A3] and [S3_refl_sub] are over
     [TwoFunctors.v]'s S3, so using [S3_Grp] would mean rebuilding both

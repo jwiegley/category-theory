@@ -127,7 +127,7 @@ Generalizable All Variables.
    not by the slot alone.
 
    One disclosure about that comparison.  [Comma_Iso] ITSELF is proved by
-   [Qed] (Construction/Comma/Isomorphism.v:214), so its [to] and [from] legs
+   [Qed] (Construction/Comma/Isomorphism.v), so its [to] and [from] legs
    are opaque and cannot be compared term-by-term with anything.  The
    comparison is therefore stated at the four transparent one-sided
    constructions it is assembled from, and the statement it proves is

@@ -14,7 +14,7 @@
     ** What is delivered
 
     [TorsionFree_Reflective : Reflective TorsionFree_Sub] -- the record
-    of Construction/Reflective.v:60, whose three fields are exactly the
+    of Construction/Reflective.v, whose three fields are exactly the
     three things Mac Lane's phrase names: FULLNESS of the subcategory
     ([TorsionFree_Full]), a REFLECTOR ([TorsionFree_reflector]), and the
     ADJUNCTION ([TorsionFree_adj]) making it left adjoint to the
@@ -36,42 +36,42 @@
 
     Universal arrows, exactly the path Instance/Grp/Abelianize.v takes
     for §III.1 Exercise 3: state the ∃! ([torsion_universal],
-    Abelianize.v:305's shape), package it with
-    Theory/Universal/Arrow.v:158's [universal_arrow_from_UMP]
-    ([torsion_universal_arrow], Abelianize.v:328), then read the functor
-    and the adjunction off :295's
-    [LeftAdjointFunctorFromUniversalArrows] and :324's
+    Abelianize.v's shape), package it with
+    Theory/Universal/Arrow.v's [universal_arrow_from_UMP]
+    ([torsion_universal_arrow], Abelianize.v), then read the functor
+    and the adjunction off that same file's
+    [LeftAdjointFunctorFromUniversalArrows] and
     [AdjunctionFromUniversalArrows] with no further proof.  Nothing in
     that chain is re-derived here.
 
     ** Reused, and what that saves
 
-    - Instance/Ab.v: [AbObject] (:115), [AbHom] (:184), [Ab] (:201),
-      [ab_map_neg] (:186), and -- the load-bearing one -- the image
-      quotient [AbQuotient] (:472) with [ab_coset_eq] (:427) and
-      [ab_quot_proj] (:520).  A/T(A) is that PRE-EXISTING quotient
+    - Instance/Ab.v: [AbObject], [AbHom], [Ab],
+      [ab_map_neg], and -- the load-bearing one -- the image
+      quotient [AbQuotient] with [ab_coset_eq] and
+      [ab_quot_proj].  A/T(A) is that PRE-EXISTING quotient
       applied to the subgroup inclusion; NO new quotient machinery is
       built here, and no coset object is formed anywhere in this file.
-    - Instance/Ab/DirectedColimit.v: [AbSubgroup] (:273),
-      [AbSubgroupAb] (:309), [absub_incl] (:333).  The torsion subgroup
+    - Instance/Ab/DirectedColimit.v: [AbSubgroup],
+      [AbSubgroupAb], [absub_incl].  The torsion subgroup
       is that record, not a third subgroup record; the other two in tree
-      are this one and Instance/Ab/Character/Finite.v:624's [Subgroup],
+      are this one and Instance/Ab/Character/Finite.v's [Subgroup],
       which additionally demands DECIDABLE membership and so cannot host
       a torsion predicate whose exponent is found rather than decided.
-    - Instance/Ab/Monoidal.v: the ℕ-action [nat_smul] (:179) with
-      [nat_smul_respects] (:185), [_add] (:194), [_plus] (:204),
-      [_zero] (:218), [_neg] (:226), [_hom] (:235); [ZAb] (:416),
-      [ZAb_one] (:422), [nat_smul_int_one] (:428).
-    - Adjunction/Unitalization.v:448's [nat_smul_mul] -- see the closure
+    - Instance/Ab/Monoidal.v: the ℕ-action [nat_smul] with
+      [nat_smul_respects], [_add], [_plus],
+      [_zero], [_neg], [_hom]; [ZAb],
+      [ZAb_one], [nat_smul_int_one].
+    - Adjunction/Unitalization.v's [nat_smul_mul] -- see the closure
       note below for why it is required rather than restated.
-    - Construction/Subcategory.v: [Subcategory] (:36), [Sub] (:55),
-      [Incl] (:64), [Incl_Faithful] (:89), [Full] (:99),
-      [Full_Implies_Full_Functor] (:104).  The trivially-true [shom] is
-      Instance/Rng.v:403's [CRng_Sub] pattern, and [Full] is written
+    - Construction/Subcategory.v: [Subcategory], [Sub],
+      [Incl], [Incl_Faithful], [Full],
+      [Full_Implies_Full_Functor].  The trivially-true [shom] is
+      Instance/Rng.v's [CRng_Sub] pattern, and [Full] is written
       qualified for the same reason that file writes it so:
       Construction/Subcategory.v exports its OWN [Full], whose first
       argument is a Category, shadowing Theory/Functor.v's.
-    - Construction/Reflective.v: [Reflective] (:60) and
+    - Construction/Reflective.v: [Reflective] and
       [reflective_counit_iso].
 
     NEW here: the torsion predicate and its five closure lemmas,
@@ -83,34 +83,40 @@
     [torsion_mem A a] is [{ k : nat & (0 < k) * (nat_smul A k a ≈ 0) }]
     -- a sigma, so the exponent is DATA and can be READ BACK, which is
     what [AbModTorsion_TorsionFree] does when it multiplies the two
-    exponents.  Nothing anywhere in this file extracts a witness from a
-    [Prop]-valued existential, so no choice principle appears; the same
-    design note Instance/Ab.v:417-420 makes about [ab_coset_eq] being
-    [Type]-valued applies verbatim, and it is what lets the coset
-    witness be taken apart.  All 58 constants are closed under the
-    global context.
+    exponents.  No choice principle appears anywhere in this file.
+
+    AN EARLIER REVISION continued: "Nothing anywhere in this file extracts a
+    witness from a [Prop]-valued existential; the same design note
+    Instance/Ab.v makes about [ab_coset_eq] being [Type]-valued
+    applies verbatim, and it is what lets the coset witness be taken apart."
+    Since the PR "algebraic carriers are sets" (2026-09-17) that note is
+    itself corrected: [ab_coset_eq] is a [Prop].  The torsion EXPONENT is
+    still data -- [torsion_mem] is untouched -- but the COSET witness is not,
+    so [quot_eq_elim] below is stated in continuation form, eliminating into
+    an arbitrary [Prop], and its two consumers reach their own goals through
+    [pequiv_to].  All 58 constants are closed under the global context.
 
     ** Prior art, measured at 9a1fe0f2 (the issue's "Current state" is
        stale and is corrected rather than repeated)
 
     The issue says the ambient category is missing ("there is no Ab, Grp
     or AbGrp instance") and that "a whole-tree search for 'torsion'
-    returns nothing".  Both are false: [Ab] is Instance/Ab.v:201 and
+    returns nothing".  Both are false: [Ab] is Instance/Ab.v and
     Instance/Grp.v exists.  A case-insensitive search for 'torsion' over
     the .v files, excluding this file and its probe, returns SEVEN
-    lines, in Instance/Ab/Character.v:48 and
-    Instance/Ab/Character/NonNatural.v:45,:358,:399,:415,:416,:444; five
-    are prose, the sixth is [ZZ_no_2_torsion] (:416), a lemma that
+    lines, in Instance/Ab/Character.v and
+    Instance/Ab/Character/NonNatural.v; five
+    are prose, the sixth is [ZZ_no_2_torsion], a lemma that
     ℤ has no nonzero 2-torsion -- a statement about one group at one
-    exponent, not a torsion predicate -- and the seventh (:444) is that
+    exponent, not a torsion predicate -- and the seventh is that
     lemma's one use.  What IS absent, and is supplied
     here, is a torsion predicate, a torsion subgroup and a torsion-free
     predicate.
 
     Sharper, and this is the claim worth carrying: [rg -n
     'Build_Reflective'] over the .v files, excluding these two, returns
-    exactly ONE hit, Construction/Reflective/Idempotent.v:346 --
-    inside [Idempotent_Reflective] (declared at :345), which is over an
+    exactly ONE hit, Construction/Reflective/Idempotent.v --
+    inside [Idempotent_Reflective] (declared), which is over an
     ABSTRACT category with an idempotent monad; every other
     [Reflective]-typed term in tree is a HYPOTHESIS ([Context (R :
     Reflective S)] and the like, in Adjunction/FullFaithful.v,
@@ -125,7 +131,7 @@
     j (nat_smul k a)], is needed twice: for closure of torsion under
     addition (exponents k and l give k*l) and for torsion-freeness of
     the quotient.  It exists in tree exactly once, at
-    Adjunction/Unitalization.v:448.  Criterion for the numbers below:
+    Adjunction/Unitalization.v.  Criterion for the numbers below:
     transitive in-project .vo dependencies via [coqdep -R . Category],
     excluding the file itself.  This file's closure is 61 modules.
     Dropping [Category.Adjunction.Unitalization] gives 59 -- a delta of
@@ -136,7 +142,7 @@
     duplicate of it is declared here.  Dropping
     [Category.Instance.Ab.Character.Finite] likewise gives 59 (delta
     two: [Instance/Ab/Character.vo] and Finite.v itself), which is why
-    [ZMod2] (Finite.v:1813) is reused as the torsion witness rather
+    [ZMod2] (Finite.v) is reused as the torsion witness rather
     than a local bool group being built; dropping both gives 57, so the
     two deltas are independent.  (A first count read 62/60/60/58: it
     counted the queried module itself, which the stated criterion
@@ -145,10 +151,10 @@
     ** ℤ has five names in tree
 
     [ring_ab Int_Ring] is named five times: [ZAb]
-    (Instance/Ab/Monoidal.v:416), [ab_Z] (Instance/Ab/Coproduct.v:264),
-    [Zgroup] (Instance/Ab/Graded.v:281), [Ab_Z]
-    (Structure/Kernel/Universal/Examples.v:260) and [ab_int]
-    (Instance/Ab/Free.v:865).  This file uses [ZAb] throughout and only
+    (Instance/Ab/Monoidal.v), [ab_Z] (Instance/Ab/Coproduct.v),
+    [Zgroup] (Instance/Ab/Graded.v), [Ab_Z]
+    (Structure/Kernel/Universal/Examples.v) and [ab_int]
+    (Instance/Ab/Free.v).  This file uses [ZAb] throughout and only
     [ZAb], because [nat_smul_int_one] is stated at it.
 
     ** Strengths, measured strict-first
@@ -158,7 +164,7 @@
     the reflector's object part is the quotient
     ([torsion_reflector_obj]); the universal arrow IS [ab_quot_proj] and
     its object IS [TorsionFreeMod] ([torsion_arrow_is_proj],
-    [torsion_arrow_obj] -- the Abelianize.v:351 precedent, since
+    [torsion_arrow_obj] -- the Abelianize.v precedent, since
     [universal_arrow_from_UMP] stores the supplied morphism as the
     second projection of the comma object it builds); the quotient's
     zero and addition ARE the base group's ([quot_zero_strict],
@@ -175,7 +181,7 @@
       ∘ arrow], so the class unit is a COMPOSITE record, [fmap[Incl] id
       ∘ ab_quot_proj …]; applied to an element that composite reduces,
       as a record it does not.  Note the precedent this development was
-      pointed at, Instance/Mod/Free.v:542's [free_module_unit_is_insert],
+      pointed at, Instance/Mod/Free.v's [free_module_unit_is_insert],
       is likewise stated POINTWISE and not as a morphism equality.
     - [nat_smul] at a VARIABLE scalar is only Leibniz-equal by induction
       ([nat_smul_quot]).  Cause: the [Fixpoint] is stuck on [k], so
@@ -195,7 +201,7 @@
       while [AbModTorsion ZAb = ZAb] is refused.
     - The COUNIT is not read back at all.  It is the other transpose,
       i.e. [unique_obj (ump_universal_arrows …)], and
-      [ump_universal_arrows] (Theory/Universal/Arrow.v:139) is closed
+      [ump_universal_arrows] (Theory/Universal/Arrow.v) is closed
       with [Qed], so nothing on that side reduces and no [eq_refl] is
       claimed for it.
 
@@ -240,23 +246,35 @@
     [MonoidObject]), so whether [Reflective] identifies anything OF ITS
     OWN is not measured here.
 
-    ELEVEN of the 58 constants carry a [Set] token: [MixedAb],
+    FORTY-THREE of the 58 constants carry a [Set] token, and every one of
+    the 43 carries it as a BOUND ([Set < u]) and never as an equation.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17), by
+    an [About] under [Set Printing Universes] on each of the 58 names
+    [Print Module] lists, reading the constraint blocks.  An earlier
+    revision of this paragraph counted ELEVEN, naming them: [MixedAb],
     [ZMod2_all_torsion], [ZMod2_not_TorsionFree], [ZMod2_quot_collapses],
     [mixed_gen], [mixed_gen_not_quot_zero], [mixed_gen_not_torsion],
     [mixed_quot_merges], [mixed_tors], [mixed_tors_not_zero],
-    [mixed_tors_torsion] -- exactly the ℤ/2 and mixed witness block,
-    from [ZMod2]'s [bool] carrier, and always as a BOUND ([Set < u]),
-    never an equation.  The general theory, the reflector, the
-    adjunction, [TorsionFree_Reflective] and the whole ℤ block are
-    [Set]-free; in particular the ℤ results route through [ZAb_one]
-    rather than a bare literal at a [carrier ZAb] position, which is
-    Instance/Ab/Monoidal.v:418-421's own design note.
+    [mixed_tors_torsion] -- "exactly the ℤ/2 and mixed witness block, from
+    [ZMod2]'s [bool] carrier" -- and said the general theory, the
+    reflector, the adjunction, [TorsionFree_Reflective] and the whole ℤ
+    block were [Set]-free.  THAT SECOND HALF NO LONGER HOLDS.  [Set < u]
+    is what [PropEquiv] costs: [Prop]'s sort enters every object record
+    through [cmon_prop], so the bound reaches the general theory too.
+    What DID survive is the distinction the paragraph was making -- a
+    bound is not a pin.  The other three sentences above still reproduce:
+    58 constants, NO universe equation in any block (checked by searching
+    the blocks for [u = u'] after stripping the [|=] separator; zero
+    hits), and the two identifications still sitting in binders.  The
+    [ZAb_one] routing is unchanged, and is
+    Instance/Ab/Monoidal.v's own design note.
 
     ** NOT delivered
 
     - The COREFLECTION of the page's preceding paragraph -- torsion
       groups as a coreflective subcategory, with TA as coreflector.
-      [Coreflective] is Construction/Reflective.v:85 and the torsion
+      [Coreflective] is Construction/Reflective.v and the torsion
       subgroup built here is its object part, but that is a different
       catalog item and nothing here states or proves it.
     - Functoriality of [TorsionSub] or of [TorsionAb] in A; no
@@ -290,6 +308,7 @@
     correct. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -440,19 +459,37 @@ Qed.
 Definition quot_eq_intro (A : AbObject) (x y t : carrier A)
     (Ht : torsion_mem A t) (H : x ≈ cmon_plus A y t) :
   @equiv (carrier (AbModTorsion A)) _ x y.
-Proof. exists (existT _ t Ht); exact H. Defined.
+Proof. exists (existT _ t Ht); apply pequiv_from; exact H. Defined.
 
-Definition quot_eq_elim (A : AbObject) (x y : carrier A) :
-  @equiv (carrier (AbModTorsion A)) _ x y →
-  { t : carrier A & (torsion_mem A t * (x ≈ cmon_plus A y t))%type }.
-Proof. intros [[t Ht] H]; exists t; split; assumption. Defined.
+(* AN EARLIER REVISION of the eliminator returned data:
+
+     quot_eq_elim (A) (x y) : x ≈ y in A/tors →
+       { t & (torsion_mem A t * (x ≈ cmon_plus A y t))%type }
+
+   Since the PR "algebraic carriers are sets" (2026-09-17) the coset relation
+   of Instance/Ab.v is a [Prop], so the torsion witness may not be read back
+   out into a [Type].  The eliminator is therefore stated in CONTINUATION
+   form, eliminating into an arbitrary [Prop]: every consumer in the tree
+   wanted the witness only to finish a proof, and reaches its own goal by
+   [pequiv_to] first.  [torsion_mem] itself stays [Type]-valued -- nothing
+   about the predicate changes. *)
+Definition quot_eq_elim (A : AbObject) (x y : carrier A) (P : Prop)
+  (H : @equiv (carrier (AbModTorsion A)) _ x y)
+  (k : ∀ t : carrier A,
+         torsion_mem A t → x ≈ cmon_plus A y t → P) : P.
+Proof.
+  destruct H as [[t Ht] Hxt].
+  exact (k t Ht (pequiv_to _ _ Hxt)).
+Defined.
 
 Definition AbModTorsion_TorsionFree (A : AbObject) :
   TorsionFree (AbModTorsion A).
 Proof.
   intros x k Hk Hx.
   rewrite nat_smul_quot in Hx.
-  destruct (quot_eq_elim A _ _ Hx) as [t [[l [Hl Hlt]] Hxt]].
+  apply (@pequiv_to _ _ (cmon_prop (AbModTorsion A))).
+  apply (quot_eq_elim A _ _ _ Hx); intros t [l [Hl Hlt]] Hxt.
+  apply pequiv_from.
   apply (quot_eq_intro A x (cmon_zero A) x).
   - exists (l * k)%nat; split; [ lia | ].
     rewrite nat_smul_mul.
@@ -485,7 +522,9 @@ Program Definition torsion_med {A B : AbObject} (HB : TorsionFree B)
   {| cmon_map := {| morphism := fun x : carrier A => cmon_map f x |} |}.
 Next Obligation.
   intros x y Hxy.
-  destruct (quot_eq_elim A x y Hxy) as [t [Ht Hxt]].
+  apply (@pequiv_to _ _ (cmon_prop B)).
+  apply (quot_eq_elim A x y _ Hxy); intros t Ht Hxt.
+  apply pequiv_from.
   rewrite Hxt, cmon_map_plus, (torsion_kills HB f t Ht).
   apply cmon_plus_zero_r.
 Qed.
@@ -677,7 +716,9 @@ Lemma mixed_gen_not_quot_zero :
     (cmon_zero MixedAb) → False.
 Proof.
   intro H.
-  destruct (quot_eq_elim MixedAb _ _ H) as [t [Ht Hgt]].
+  (* The goal is [False], a [Prop], so the continuation-form eliminator
+     applies directly. *)
+  apply (quot_eq_elim MixedAb _ _ _ H); intros t Ht Hgt.
   apply mixed_gen_not_torsion.
   apply (torsion_resp MixedAb t mixed_gen).
   - rewrite Hgt; symmetry; apply cmon_plus_zero_l.

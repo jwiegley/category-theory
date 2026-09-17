@@ -64,15 +64,16 @@ Open Scope category_scope.
    end/wedge shape", and (c) that no functor out of [Omega^op] into [Sets]
    is anywhere shown to have a limit.  Re-measured at 067ee4eb: (a) and
    (b) are FALSE and (c) is accurate but answered by one application.
-   [Instance/Sets/Products.v:302] declares
+   [Instance/Sets/Products.v] declares
    [Sets_HasIndexedProducts : @HasIndexedProducts Sets] -- one of THREE
    UNCONDITIONAL inhabitants at a named category, with
    [Two_Sets_HasIndexedProducts] and [One_HasIndexedProducts]; the
    criterion matters, since a fourth constant,
    [Instance/Fun/Terminal.v]'s [Fun_HasIndexedProducts], concludes
-   [HasIndexedProducts] CONDITIONALLY on one.  [Instance/Sets/Complete.v:128]
-   and [:144] are the compatible-family predicate and setoid AT ARBITRARY
-   SHAPE, not only at the end/wedge.  And (c) is right about what the tree
+   [HasIndexedProducts] CONDITIONALLY on one.  [Instance/Sets/Complete.v]'s
+   [Sets_limit_compatible] and [Sets_limit_obj] are the compatible-family
+   predicate and setoid AT ARBITRARY SHAPE, not only at the end/wedge.
+   And (c) is right about what the tree
    STATES -- no constant of type [Limit F] for [F : Omega^op ⟶ Sets]
    existed -- but it costs NO WORK, [Sets_Complete (Omega^op) F]
    elaborating as it stands.
@@ -82,7 +83,7 @@ Open Scope category_scope.
    at the SUCCESSOR STEPS ONLY -- and the theorem that it agrees with the
    general one, which quantifies over EVERY arrow of [Omega^op], i.e. over
    every proof of an inequality.  That bridge is [tower_compat_all], one
-   induction on [Instance/Omega.v:28]'s [le_t], and it is the exact
+   induction on [Instance/Omega.v]'s [le_t], and it is the exact
    analogue of Instance/Sets/Cone.v's [tuple_compat_paths] (generators to
    paths) one shape along.
 
@@ -104,7 +105,7 @@ Open Scope category_scope.
    applies with no rewriting of the index, and the successor case is one
    [fmap_comp], one step hypothesis and the induction hypothesis.
 
-   [Cochain] STOPS BEING DEAD CODE.  Construction/Chain.v:78 declares
+   [Cochain] STOPS BEING DEAD CODE.  Construction/Chain.v declares
    [Cochain F := (Chain (F^op))^op : Omega^op ⟶ C], the tower
    [1 <- F 1 <- F² 1 <- ...] of an endofunctor with a terminal object, and
    before this file it was used NOWHERE -- [rg -l Cochain] returned that
@@ -128,7 +129,7 @@ Open Scope category_scope.
    proved invertible: the inverse is a corecursive assembly of a stream
    from a matching string plus two round trips up to bisimilarity, a
    larger development, so nothing here says the inverse limit IS
-   Instance/Sets/Streams.v:231's final coalgebra [Stream_final].  The
+   Instance/Sets/Streams.v's final coalgebra [Stream_final].  The
    closure cost of reaching the streams at all is THREE modules (89 to
    92, measured), so the deferral is about proof content and not about
    dependencies.
@@ -147,7 +148,7 @@ Open Scope category_scope.
 
    * Riehl adds that the same holds for any limit ordinal in place of ω.
      [Instance/Omega.v] is nat-indexed only and the tree has no
-     TRANSFINITE machinery -- [Instance/Ordinal.v:282]'s [Ordinal n] is the
+     TRANSFINITE machinery -- [Instance/Ordinal.v]'s [Ordinal n] is the
      FINITE ordinals and [Omega] is omega, so the issue's own "no ordinal
      machinery", which an earlier revision of this note copied, is too
      broad -- and the generalisation is not statable here, nor attempted.
@@ -164,14 +165,14 @@ Section Tower.
 Context (F : Omega^op ⟶ Sets).
 
 (* The generating arrow of the tower, read in [Omega^op]: it runs DOWN,
-   from stage [S n] to stage [n].  It IS [Instance/Omega.v:85]'s
+   from stage [S n] to stage [n].  It IS [Instance/Omega.v]'s
    [omega_step], the same proof term read in the opposite category. *)
 Definition tower_step (n : nat) : @hom (Omega^op) (S n) n := omega_step n.
 
 (* Read this at its true strength: [tower_step] is DEFINED as
    [omega_step], so the readback holds by DELTA and pins that the
    definition is unchanged, not that anything computes.  It is kept as
-   that guard, on the Theory/Universal/Element.v:1002 precedent
+   that guard, on the Theory/Universal/Element.v precedent
    ([setsone_is_terminal], disclosed there the same way). *)
 Example tower_step_is_omega_step (n : nat) :
   tower_step n = omega_step n := eq_refl.
@@ -185,7 +186,7 @@ Example step_is_le_t_S (m k : nat) (f : @hom (Omega^op) k m) :
 
 (* Mac Lane's matching-string condition: successive entries are carried to
    one another.  Compare [Sets_limit_compatible] (Instance/Sets/
-   Complete.v:128), which quantifies over EVERY arrow of the shape. *)
+   Complete.v), which quantifies over EVERY arrow of the shape. *)
 Definition tower_compat (x : Sets_iprod_obj (fun n : nat => F n)) : Type :=
   ∀ n : nat, fmap[F] (tower_step n) (x (S n)) ≈ x n.
 
@@ -343,7 +344,7 @@ Delimit Scope inverse_limit_scope with invlim.
 Notation "'lim←' F" := (inverse_limit F)
   (at level 9, format "'lim←'  F") : inverse_limit_scope.
 
-(* [Construction/Chain.v:78]'s [Cochain G] is the tower
+(* [Construction/Chain.v]'s [Cochain G] is the tower
    [1 <- G 1 <- G² 1 <- ...] of an endofunctor with a terminal object, and
    before this file NOTHING in the tree consumed it ([rg -l Cochain]
    returned that file alone).  It is a tower, so it has an inverse limit.
@@ -421,7 +422,7 @@ Example tower_bwd_underlying (F : Omega^op ⟶ Sets)
    no witness here has is an EMPTY inverse limit: that phenomenon is not
    exhibited and is not claimed. *)
 
-(* The constant tower is [Functor/Diagonal.v:33]'s diagonal at the shape,
+(* The constant tower is [Functor/Diagonal.v]'s diagonal at the shape,
    consumed rather than rebuilt: its arrow action is [id] at every arrow,
    which is exactly the identity system. *)
 Definition ConstTower (X : obj[Sets]) : Omega^op ⟶ Sets :=
@@ -498,7 +499,7 @@ Qed.
    invertible.  The inverse would be a corecursive assembly of a stream
    from a matching string together with two round trips up to
    bisimilarity, which is a different and larger development; nothing here
-   claims the inverse limit IS [Instance/Sets/Streams.v:231]'s final
+   claims the inverse limit IS [Instance/Sets/Streams.v]'s final
    coalgebra, only that the canonical map exists. *)
 Program Definition stream_to_tower :
   Stream_SO A ~{Sets}~> inverse_limit StreamTower := {|

@@ -72,7 +72,7 @@ Generalizable All Variables.
    [fin_preimage] performs that search by structural recursion on m and
    [finset_regular] assembles the pseudoinverse from it, so the witness is a
    program rather than an appeal.  Because the library's `∃` is Type-valued
-   (`sigT`, Lib/Foundation.v:61,66) the witness survives as data, and the
+   (`sigT`, Lib/Foundation.v) the witness survives as data, and the
    [Example]s at the end of this file evaluate it by [eq_refl].  The
    inhabited-domain hypothesis is then disposed of in the only case it
    excludes: an epimorphism out of the empty object forces an empty codomain
@@ -93,7 +93,7 @@ Generalizable All Variables.
    second half stops at the finite case for a reason, and not for want of an
    argument.  Instance/Sets.v is short of the ingredients in any case: its
    [surjectivity_is_epic] is abandoned in the epi → surjective direction for
-   an unrelated size reason documented at Instance/Sets.v:412-427, so the
+   an unrelated size reason documented at Instance/Sets.v, so the
    tree has no route from [Epic] to a fibre witness in [Sets] to begin
    with. *)
 
@@ -105,7 +105,7 @@ Generalizable All Variables.
    in m: at [S m'] it tests the head index [Fin.F1] and otherwise recurses on
    the tail map [fun q => f (Fin.FS q)], re-tagging the answer along
    [Fin.FS].  This mirrors the recursion pattern already used for [fin_split]
-   in Instance/FinSet.v:157, and like it, reduces on closed input. *)
+   in Instance/FinSet.v, and like it, reduces on closed input. *)
 
 Fixpoint fin_preimage (m n : nat) (f : Fin.t m → Fin.t n) (b : Fin.t n)
          {struct m} : option (Fin.t m) :=
@@ -133,11 +133,11 @@ Arguments fin_preimage {m n} f b.
    Note the use of `=` rather than `≈` here and in [fin3_cases] below: these
    are equations between ELEMENTS of [Fin.t n], not between morphisms, so the
    library's `≈`-only rule for morphism equality does not apply (this is not
-   the same-term exception documented at Functor/Bifunctor.v:42-45).  Every
+   the same-term exception documented at Functor/Bifunctor.v).  Every
    MORPHISM equation in this file -- [finset_split_pair], [finset_point_bang],
    [finset_collapse_not_id] and the [RegularMorphism] statements -- is stated
    with `≈`, which over FinSet unfolds to pointwise `=` on [Fin.t] via
-   [Fin_Setoid] (Lib/Setoid.v:89) and [fun_setoid] (Lib/Datatypes.v:360). *)
+   [Fin_Setoid] (Lib/Setoid.v) and [fun_setoid] (Lib/Datatypes.v). *)
 
 Lemma fin_preimage_correct {m n : nat} (f : Fin.t m → Fin.t n) (a : Fin.t m) :
   match fin_preimage f (f a) with
@@ -211,7 +211,7 @@ Lemma finset_empty_domain_not_regular {n : nat} (f : 0%nat ~{FinSet}~> S n) :
 Proof. intros [g _]; exact (Fin.case0 (fun _ => False) (g Fin.F1)). Qed.
 
 (* The smallest instance is the unique arrow from the empty set to the
-   singleton -- the [zero] of [FinSet_Initial] (Instance/FinSet.v:223),
+   singleton -- the [zero] of [FinSet_Initial] (Instance/FinSet.v),
    written out -- and it is FinSet's own non-regular arrow.  Regularity is
    therefore a real condition on an arrow of THIS category, without appeal to
    the interval category of Instance/Two.v. *)
@@ -285,7 +285,7 @@ Definition finset_every_epi_splits {m n : nat} (f : m ~{FinSet}~> n) :
 
    Both refutations are DIRECT.  The tree does have the bridge that would let
    them go the long way round -- [finset_monic_iff_injective]
-   (Instance/FinSet/Classifier.v:335) proves monic in FinSet is exactly
+   (Instance/FinSet/Classifier.v) proves monic in FinSet is exactly
    injective, and [sections_are_monic] would finish the first half -- but
    taking it would place this file downstream of the subobject-classifier
    development for no gain, and there is no companion epi/surjective
@@ -319,7 +319,7 @@ Proof.
                          ∨ (Fin.FS b = Fin.FS (Fin.FS Fin.F1)))).
     + right; now left.
     + (* the remaining index lives in [Fin.t 1], a singleton by
-         [fin1_unique] (Instance/FinSet.v:229) *)
+         [fin1_unique] (Instance/FinSet.v) *)
       intro c.
       right; right.
       now rewrite (fin1_unique c).

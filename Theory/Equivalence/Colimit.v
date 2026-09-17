@@ -31,7 +31,7 @@ Generalizable All Variables.
    (1) TRANSPORT.  Naturally isomorphic diagrams have the same colimits,
        with the same apex: [isacolimit_transport] and [colimit_transport],
        the exact duals of Theory/Equivalence/Limit.v's
-       [isalimit_transport] (:245) and [limit_transport] (:253).  The
+       [isalimit_transport] and [limit_transport].  The
        hypothesis is an isomorphism, and the conclusion pins the apex.
 
    (2) THE INDUCED MAP.  A natural transformation α : G ⟹ G' that is NOT
@@ -52,15 +52,15 @@ Generalizable All Variables.
 
    THE LOAD-BEARING PIECE IS (A) BELOW, and it is the part with reuse
    value beyond this file.  [Colimit F] is DEFINED as [Limit (F^op)]
-   (Structure/Limit.v:158) and [IsAColimit F c] as [IsALimit (F^op) c]
-   (Structure/Limit/Preservation.v:545), so dualizing ANY limit-transport
+   (Structure/Limit.v) and [IsAColimit F c] as [IsALimit (F^op) c]
+   (Structure/Limit/Preservation.v), so dualizing ANY limit-transport
    result requires carrying a functor equivalence across oppositization:
    G ≈ G' ⟹ G^op ≈ G'^op.  That is [Opposite_Functor_respects], with the
    companion [Opposite_Functor_Proper] registering it for rewriting.
 
    PRIOR ART, AND A CORRECTION TO THE PREMISE THIS FILE WAS WRITTEN ON.
    The claim that no such lemma exists anywhere in the tree is FALSE as
-   stated.  Instance/Cat/Opposite.v:82 builds [Op : Cat ⟶ Cat] with
+   stated.  Instance/Cat/Opposite.v builds [Op : Cat ⟶ Cat] with
    [fobj := Opposite] and [fmap := Opposite_Functor]; since Cat's
    hom-setoid IS [Functor_Setoid] (Instance/Cat.v), that functor's
    [fmap_respects] obligation — the constant [Op_obligation_1] — has
@@ -106,7 +106,7 @@ Generalizable All Variables.
        is rejected.  ([Cat]'s own declaration also contributes strict
        inequalities the standalone lemma does not carry.)
 
-   WHAT (A) DOES NOT BUY, MEASURED.  Theory/Equivalence/Limit.v:466,:477
+   WHAT (A) DOES NOT BUY, MEASURED.  Theory/Equivalence/Limit.v
    hand-rolls [equivalence_counit_op] and [equivalence_unit_op].  Those
    are NOT retired by this lemma, and the reason is a conversion fact
    rather than an oversight: (A) applied to [equivalence_counit] yields
@@ -120,11 +120,11 @@ Generalizable All Variables.
        DO agree at [eq_refl], and each of the three law fields
        ([fmap_respects], [fmap_id], [fmap_comp]) is rejected on its own.
        So the difference is confined to the law fields, as Limit.v's own
-       header (:75-79) says.
+       header says.
      - [Opposite_Functor Id[D] = Id[D^op]] is likewise REJECTED at
        [eq_refl], with its [fobj] and [fmap] again agreeing.
      - [Opposite_Functor (Opposite_Functor F) = F] IS accepted, confirming
-       the tree's own [Opposite_Functor_invol] (Functor/Opposite.v:49).
+       the tree's own [Opposite_Functor_invol] (Functor/Opposite.v).
        WHERE THAT INVOLUTION IS AND IS NOT LOAD-BEARING, since the
        natural guess is wrong in both directions: section (B) does NOT
        use it and would not be cheaper for it — [IsAColimit G c] IS
@@ -196,8 +196,8 @@ Generalizable All Variables.
    are responsible — while [@IsALimit J C G c], [@cone_leg J C G] and
    [@limit_med J C G c] are each REJECTED on their own.  So the
    identification has three independent donors, all of them unannotated
-   limit vocabulary (Structure/Limit.v:129,
-   Structure/Limit/Preservation.v:108,:124), and none of them introduced
+   limit vocabulary (Structure/Limit.v,
+   Structure/Limit/Preservation.v), and none of them introduced
    here.
 
    A THIRD SIGHTING OF THE SAME TRAP, in the witnesses, and it is a real
@@ -221,9 +221,9 @@ Generalizable All Variables.
    None is claimed unavoidable; no re-annotation was attempted.
 
    A NOTATION HAZARD, MET FIRST-HAND.  THREE scopes declare [_ ^op], not
-   two — [category_scope] (Construction/Opposite.v:123), [functor_scope]
-   (Functor/Opposite.v:41, and that file OPENS it) and [transform_scope]
-   (Natural/Transformation/Opposite.v:35, likewise opened).  A
+   two — [category_scope] (Construction/Opposite.v), [functor_scope]
+   (Functor/Opposite.v, and that file OPENS it) and [transform_scope]
+   (Natural/Transformation/Opposite.v, likewise opened).  A
    bare [C^op] on a CATEGORY parses here as the opposite FUNCTOR and
    fails with a message naming neither culprit ("The term C has type
    Category while it is expected to have type ?C ⟶ ?D").  Every
@@ -266,7 +266,7 @@ Generalizable All Variables.
        measured reason recorded there.
      - [two_endo] is a diagram builder for the CONSTANT-object case only;
        no general [_2 ⟶ C] builder is provided (that is
-       Theory/Shapes.v:336's [Walk], deliberately not required — the
+       Theory/Shapes.v's [Walk], deliberately not required — the
        module delta is measured at the witness).
 
    Following Theory/Equivalence.v and Theory/Equivalence/Limit.v, nothing
@@ -302,7 +302,7 @@ Instance Opposite_Functor_Proper {J C : Category} :
   fun _ _ e => Opposite_Functor_respects e.
 
 (* The inverse passage costs nothing, and the reason is the tree's own
-   [Opposite_Functor_invol] (Functor/Opposite.v:49): oppositization is a
+   [Opposite_Functor_invol] (Functor/Opposite.v): oppositization is a
    DEFINITIONAL involution on functors, so [Opposite_Functor_respects]
    applied to an equivalence of opposites lands at
    [(G^op)^op ≈ (G'^op)^op], which IS [G ≈ G'].  A [:=] with no tactic,
@@ -512,7 +512,7 @@ Arguments limit_induced_unique {J C G G'} a {c c'} HL HL' v _.
 (* The comparison at the identity transformation is the identity, and it
    composes.  These are the object-level shadows of functoriality of
    [lim]; no limit FUNCTOR is built here.  [nat_id]'s component is
-   [fmap[G] id] rather than [id] (Theory/Natural/Transformation.v:220),
+   [fmap[G] id] rather than [id] (Theory/Natural/Transformation.v),
    which is why [fmap_id] appears. *)
 
 Lemma limit_induced_id {J C : Category} {G : J ⟶ C} {c : C}
@@ -600,10 +600,10 @@ Qed.
 (* The forward components of a [Functor_Setoid] equivalence form a
    natural transformation: the coherence field of [Functor_Setoid] is a
    naturality square in disguise, and [fun_equiv_to_fmap]
-   (Theory/Functor.v:195) is exactly the square, in the other
+   (Theory/Functor.v) is exactly the square, in the other
    orientation.  The tree appears to have no such passage — a sweep of
    every [.v] for a declaration whose type mentions both [≈] and [⟹]
-   returns only one hit, a prose comment (Instance/Cat/TwoCategory.v:259)
+   returns only one hit, a prose comment (Instance/Cat/TwoCategory.v)
    — so this is a search over the SHAPE of the statement and does not
    rule out an equivalent phrased another way.  Without it (C) could not
    be applied to the data (B) consumes. *)
@@ -851,7 +851,7 @@ Qed.
    that are naturally isomorphic and genuinely different, and constant
    diagrams cannot be different (their arrow action is forced to [id]),
    so the diagram must act non-trivially on [TwoXY].  The obvious route
-   is Theory/Shapes.v:336's [Walk], but requiring that module was
+   is Theory/Shapes.v's [Walk], but requiring that module was
    measured to add NINE modules to this file's 32 — Construction/Arrow,
    Construction/Comma, Instance/One, Instance/Zero, Instance/Omega,
    Instance/Ordinal, Instance/StrictCat and its ToCat satellite — plus

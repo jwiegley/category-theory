@@ -158,7 +158,7 @@ Lemma Cat_thcomp_id {A B C : Category} (F : A ⟶ B) (G : B ⟶ C) :
 Proof. simpl; intros; cat. Qed.
 
 (* The middle-four interchange IS the `fmap_comp` obligation of
-   [Cat_Hcompose] (Instance/Cat/Bicategory.v:76-83), whose own comment
+   [Cat_Hcompose] (Instance/Cat/Bicategory.v), whose own comment
    names it as such; it is applied, not repeated. *)
 Lemma Cat_tinterchange {A B C : Category} {F F' F'' : A ⟶ B}
   {G G' G'' : B ⟶ C}

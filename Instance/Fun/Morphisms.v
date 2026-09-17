@@ -57,9 +57,9 @@ Generalizable All Variables.
        the section binds only two categories, two functors and a
        transformation, and the two proofs consume exactly two in-tree
        facts about `[C, D]` — that its composition is componentwise
-       ([nat_compose], Theory/Natural/Transformation.v:231, whose
+       ([nat_compose], Theory/Natural/Transformation.v, whose
        component at x is `f x ∘ g x`) and that its hom-setoid compares
-       components pointwise ([Transform_Setoid], :139).  Both are
+       components pointwise ([Transform_Setoid]).  Both are
        definitional, so `Heq x` is already the equation in D that the
        component's cancellation property consumes, and neither proof
        rewrites anything.
@@ -115,8 +115,8 @@ Generalizable All Variables.
    two biconditionals, are the reusable part:
 
      [KerPair θ] : C ⟶ Sets, object action x ↦ [sets_ker (θ x)] —
-     Instance/Sets/Pullback.v:406's agreement sub-setoid
-     {(a,b) | θ x a ≈ θ x b}, which is [sets_pb_obj (θ x) (θ x)] (:340)
+     Instance/Sets/Pullback.v's agreement sub-setoid
+     {(a,b) | θ x a ≈ θ x b}, which is [sets_pb_obj (θ x) (θ x)]
      — with arrow action `(a, b) ↦ (fmap[F] f a, fmap[F] f b)`, and its
      two projection transformations [KerFst], [KerSnd].  Naturality of θ
      is exactly what makes the arrow action land back in the kernel
@@ -125,34 +125,34 @@ Generalizable All Variables.
      proof is the second projection of the sigma; left cancellation then
      equates the two projections, which at the pair ((a,b); H) IS
      injectivity of θ x, and [injectivity_is_monic]
-     (Instance/Sets.v:374) closes.
+     (Instance/Sets.v) closes.
 
      [CokerPair θ] : C ⟶ Sets, object action x ↦ [CKSetoid (θ x)]
-     (Instance/Sets.v:485), two copies of G x glued along the image of
+     (Instance/Sets.v), two copies of G x glued along the image of
      θ x, with arrow action the image of `fmap[G] f` in each copy, and
      its two injections [CkLeft], [CkRight].  Here naturality is what
      carries an image witness forward ([ck_Im_map]).  [ck_agree_nat] is
-     [ck_agree] (:500) at each component; right cancellation equates the
+     [ck_agree] at each component; right cancellation equates the
      two injections, and reading the resulting relation at b gives the
-     preimage, exactly as [epic_implies_surjective] (:532) does one
-     level down; [surjectivity_is_epic] (:509) closes.
+     preimage, exactly as [epic_implies_surjective] does one
+     level down; [surjectivity_is_epic] closes.
 
    Note what is NOT consumed: [sets_ck_IsCokernelPair]
-   (Instance/Sets/CokernelPair.v:197) is the universal property of that
+   (Instance/Sets/CokernelPair.v) is the universal property of that
    cokernel pair, and the argument here needs only the commuting square
    [ck_agree], so that module is not required and the file's transitive
    closure stays at 39 modules.  The construction remains a cokernel
    pair pointwise; it is simply not the part being spent.
 
    A Yoneda/representable route (probe θ with [Curried_Hom C c],
-   Functor/Hom.v:60) was NOT taken.  The reviewer check on this issue
+   Functor/Hom.v) was NOT taken.  The reviewer check on this issue
    demands the pointwise-(co)limit computation, and that is what is
    delivered; the alternative was not measured either, so this file
    makes no claim about its cost.
 
    PRIOR ART, AND HOW (C) DIFFERS FROM IT
 
-   [Functor_Setoid_Nat_Iso] (Instance/Fun.v:255) states
+   [Functor_Setoid_Nat_Iso] (Instance/Fun.v) states
    `F ≅[Fun] G ↔ F ≈ G`.  That is the EXISTENTIAL form: it says the two
    functors are isomorphic, and the isomorphism it produces in the
    backward direction is the one it builds out of the given family.  It
@@ -169,7 +169,7 @@ Generalizable All Variables.
    as a function.  Neither whole LEG is the same record as ours, and
    neither is the whole isomorphism, and Test/ProbeMorphisms369.v pins
    all three: the donor builds both legs with `abstract`ed naturality
-   proofs (Instance/Fun.v:272-293), so each leg carries its own opaque
+   proofs (Instance/Fun.v), so each leg carries its own opaque
    law fields, and the two isomorphism records then carry their own
    inverse law fields on top.  The difference is therefore confined to
    opaque LAW fields — the legs' naturality fields and the record's
@@ -183,9 +183,9 @@ Generalizable All Variables.
    `rg -c 'Monic|Epic'` over Instance/Fun.v, Instance/Fun/ and
    Theory/Natural/ returned no hits at all (it now matches this file and
    nothing else in those locations) — but two of its donor
-   line numbers are stale: [injectivity_is_monic] is at
-   Instance/Sets.v:374, not :369, and [surjectivity_is_epic] is at :509,
-   not :429.  Both were re-checked here.
+   line numbers are stale: [injectivity_is_monic] and
+   [surjectivity_is_epic] are both in Instance/Sets.v, neither of them
+   where the issue places it.  Both were re-checked here.
 
    To the OCR.  A plain `pdftotext -f 100 -l 100` of the scan mangles
    the sentence badly — it renders τ as "I", the superscript C of B^C as
@@ -262,7 +262,7 @@ Generalizable All Variables.
        directly and only its two naturality fields become obligations.
        The line was removed after measuring that.
 
-   3.  [Constant_Functor] already exists (Instance/Fun/Terminal.v:342)
+   3.  [Constant_Functor] already exists (Instance/Fun/Terminal.v)
        and is not reused: requiring that module would take this file's
        transitive closure from 39 modules to 74 (measured by following
        every Require line to a fixed point), which is a heavy price on
@@ -276,13 +276,13 @@ Generalizable All Variables.
        be applied as a term (`exact (@fmap_id _ _ F _ _)`).
 
    5.  The identity of `[C, D]` has component `fmap[G] id`, not `id`
-       (Theory/Natural/Transformation.v:220), so the two inverse laws of
+       (Theory/Natural/Transformation.v), so the two inverse laws of
        [componentwise_iso] and [nat_iso_pointwise] each cost one
        `fmap_id` step; that residue is the only friction in section (C).
 
    6.  A name collision was found by sweeping every name this file
        introduces and was renamed away before landing: [two_pick] is
-       taken by Instance/Fun/Terminal.v:692, and since the
+       taken by Instance/Fun/Terminal.v, and since the
        print-assumptions target loads many modules into one scope a
        shared name would have audited the wrong constant.  The witness
        here is [two_pick_nat].  Over all 95 names introduced by this

@@ -66,7 +66,7 @@ Example row_d_basepoint : Sets ⟶ PointedSets := FreePointed.
 (** ** FORMABILITY negative: the discrete adjunction cannot be packaged
 
     This is #312's one genuinely obstructed row, and the obstruction is
-    PRE-EXISTING, not introduced here: Instance/Top/Forgetful.v:70-83
+    PRE-EXISTING, not introduced here: Instance/Top/Forgetful.v
     records that a functor out of [Top] lands in a lifted [Sets] while a
     functor into [Top] must come from the unlifted one, so an
     [Adjunction] record "would need both functors to share ONE Sets, at

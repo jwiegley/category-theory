@@ -31,7 +31,12 @@
 
     THE PROPOSITION.  Mac Lane's §I.7 proposition for [Ab] — monic
     exactly when injective, epic exactly when surjective — holds verbatim
-    in R-Mod, and both halves are proved below constructively.  The
+    in R-Mod, and both halves are proved below constructively.  An earlier
+    revision stopped there; since the PR "algebraic carriers are sets"
+    (2026-09-17) the epic half concludes PROPOSITIONAL surjectivity
+    ([RModPropSurjective]), the split notion [RModSurjective] surviving as the
+    hypothesis the direct constructions supply.  [rmod_epic_surjective]
+    records why.  The
     TECHNIQUE IS INHERITED FROM Instance/Ab.v, quite literally: the probe
     objects here are Instance/Ab.v's [AbKernel] and [AbQuotient] with a
     scalar action bolted on, so every group-level obligation
@@ -82,6 +87,8 @@
     Ab-enrichment and the monoidal structure are not attempted. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
@@ -240,6 +247,33 @@ Next Obligation.
     + apply Hgh.
 Qed.
 
+(** L2: the hom-setoid is propositional, pointwise into the CODOMAIN's
+    [cmon_prop] (reached through [rm_ab] and [ab_cmon]).  Same shape as
+    Instance/CMon.v's [CMonHom_PropEquiv]; restated because [RModHom_Setoid]
+    is a setoid on [RModHom M N], a different record.
+
+    Measured (About under Set Printing Universes):
+
+      RModHom_PropEquiv@{u u0 u1 u2 u3 u4} :
+        ∀ {R : RingObject@{u1 u2 u3}}
+          {M N : RModObject@{u u0 u4 u4 u4 u1 u2 u3} R},
+        PropEquiv@{u u4} RModHom_Setoid@{u u0 u1 u2 u3 u4}
+      (* u2 <= u, u2 <= u0, and the bounds [RModObject] already carries *)
+
+    -- the transport adds no constraint of its own; the six universes are
+    [RModObject]'s and the ring's. *)
+#[export] Instance RModHom_PropEquiv {R : RingObject} {M N : RModObject R} :
+  PropEquiv (@RModHom_Setoid R M N).
+Proof.
+  unshelve refine
+    {| pequiv := fun f g : RModHom M N =>
+                   forall a : carrier (cmon_setoid M),
+                     @pequiv _ _ (cmon_prop N)
+                       (cmon_map (rm_hom f) a) (cmon_map (rm_hom g) a) |}.
+  - intros f g H a; exact (pequiv_to _ _ (H a)).
+  - intros f g H a; exact (pequiv_from _ _ (H a)).
+Defined.
+
 (** The identity: the identity group homomorphism, which commutes with the
     action on the nose. *)
 Program Definition rmod_hom_id {R : RingObject} {M : RModObject R} :
@@ -291,6 +325,22 @@ Next Obligation. intros R x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros R x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros R x y z w f g h a; simpl; reflexivity. Qed.
 Next Obligation. intros R x y z w f g h a; simpl; reflexivity. Qed.
+
+(** L8: [RMod R]'s hom-setoid IS [RModHom_Setoid], so [RModHom_PropEquiv]
+    supplies the whole family.  With Instance/Ab.v's [Ab_LocallyPropositional]
+    this is what lets Adjunction/Additive.v's [hom_ab] and
+    Construction/Enriched/Ab.v's [ehom_ab] -- which since the PR "algebraic
+    carriers are sets" (2026-09-17) ask their ambient category for a [Prop]
+    equality on homs -- be used at the two ambients the module and bimodule
+    objects of Instance/Mod/Bimodule.v and Instance/Mod/Coextension.v actually
+    take. *)
+#[export] Instance RMod_LocallyPropositional (R : RingObject) :
+  LocallyPropositional (RMod R).
+Proof.
+  constructor.
+  intros M N.
+  exact (@RModHom_PropEquiv R M N).
+Defined.
 
 (** The forgetful functor to [Ab], dropping the action, and the one to
     [Sets], taken directly through the underlying setoid rather than as a
@@ -378,7 +428,7 @@ Program Definition RMod_Initial (R : RingObject) : @Initial (RMod R) := {|
   one          := @RMod_zero_hom R
 |}.
 Next Obligation.
-  (* As at Instance/Ab.v:266, routed through transitivity at the
+  (* As at Instance/Ab.v, routed through transitivity at the
      hom-setoid level rather than by [rewrite]. *)
   intros R M f g.
   etransitivity;
@@ -531,6 +581,7 @@ Lemma rmod_coset_of_equiv (x y : carrier (cmon_setoid N)) :
 Proof.
   intro H.
   exists (cmon_zero M).
+  apply pequiv_from.
   rewrite cmon_map_zero, (cmon_plus_zero_r N y).
   exact H.
 Qed.
@@ -542,9 +593,18 @@ Proof using R M N f.
     rm_smul := rm_smul N
   |}.
   - (* rm_smul_respects: THE module content of this construction.  The
-       witness r·a is what says the image is a submodule. *)
-    intros r s Hrs x y [a Ha].
+       witness r·a is what says the image is a submodule.
+
+       [simpl] before the elimination: the goal is an application of the
+       [equiv] projection, whose ascribed sort is [Type], and since the PR
+       "algebraic carriers are sets" (2026-09-17) [ab_coset_eq] is a [Prop]
+       and may not be destructed into it.  Instance/Ab.v's [AbQuotient]
+       records the same step. *)
+    intros r s Hrs x y Hxy; simpl in Hxy |- *.
+    destruct Hxy as [a Ha].
+    apply pequiv_to in Ha.
     exists (rm_smul M r a).
+    apply pequiv_from.
     rewrite (rm_map_smul f r a).
     rewrite <- Hrs.
     rewrite <- (rm_smul_distr_l N r y (cmon_map (rm_hom f) a)).
@@ -587,14 +647,38 @@ Arguments rmod_quot_zero {R M N} f.
 
 (** *** Epic *)
 
-(** Epic implies surjective, constructively: [f] equalizes the projection
+(** Epic implies PROPOSITIONAL surjectivity: [f] equalizes the projection
     and the zero map into N/fM, so an epi collapses them, and
     [rmod_quot_proj ≈ rmod_quot_zero] says precisely that every [b] is
-    congruent to zero modulo the image — whose witness IS the preimage,
-    read straight back out.  Instance/Ab.v's [ab_epic_surjective], with
-    the quotient group replaced by the quotient MODULE. *)
+    congruent to zero modulo the image — which is to say that a preimage
+    EXISTS.  Instance/Ab.v's [ab_epic_surjective], with the quotient group
+    replaced by the quotient MODULE.
+
+    AN EARLIER REVISION concluded the split [RModSurjective] and said the
+    witness "IS the preimage, read straight back out".  Since the PR
+    "algebraic carriers are sets" (2026-09-17) the coset relation is a [Prop]
+    (Instance/Ab.v's [ab_coset_eq]), so the witness may not be read back out
+    into a [Type]-valued goal.  Nothing is chosen and nothing is doubly
+    negated; the preimage is simply no longer data.  The split notion survives
+    as the hypothesis of [rmod_surjective_epic] and of every construction that
+    builds a preimage directly. *)
+Definition RModPropSurjective {R : RingObject} {M N : RModObject R}
+  (f : M ~{RMod R}~> N) : Type :=
+  ∀ b : carrier (cmon_setoid N),
+    (exists a : carrier (cmon_setoid M),
+       @pequiv _ _ (cmon_prop N) (cmon_map (rm_hom f) a) b)%type.
+
+Lemma rmod_surjective_prop {R : RingObject} {M N : RModObject R}
+  (f : M ~{RMod R}~> N) : RModSurjective f → RModPropSurjective f.
+Proof.
+  intros Hs b.
+  destruct (Hs b) as [a Ha].
+  exists a.
+  now apply pequiv_from.
+Qed.
+
 Lemma rmod_epic_surjective {R : RingObject} {M N : RModObject R}
-  (f : M ~{RMod R}~> N) : Epic f → RModSurjective f.
+  (f : M ~{RMod R}~> N) : Epic f → RModPropSurjective f.
 Proof.
   intros He b.
   assert (Hpq : rmod_quot_proj f ≈ rmod_quot_zero f).
@@ -602,11 +686,14 @@ Proof.
              (rmod_quot_proj f) (rmod_quot_zero f)).
     intro a; simpl.
     exists a.
+    apply pequiv_from.
     rewrite cmon_plus_zero_l.
     reflexivity. }
   specialize (Hpq b); simpl in Hpq.
   destruct Hpq as [a Ha].
+  apply pequiv_to in Ha.
   exists a.
+  apply pequiv_from.
   rewrite cmon_plus_zero_l in Ha.
   now symmetry.
 Qed.
@@ -621,11 +708,27 @@ Proof.
   exact (Hgh a).
 Qed.
 
-(** Mac Lane §I.7's proposition, second half. *)
-Theorem rmod_epic_iff_surjective {R : RingObject} {M N : RModObject R}
-  (f : M ~{RMod R}~> N) : Epic f ↔ RModSurjective f.
+(** The same implication from the propositional notion: drop into [pequiv]
+    with [pequiv_to], destruct there, and come back with [pequiv_from]. *)
+Lemma rmod_prop_surjective_epic {R : RingObject} {M N : RModObject R}
+  (f : M ~{RMod R}~> N) : RModPropSurjective f → Epic f.
 Proof.
-  split; [ apply rmod_epic_surjective | apply rmod_surjective_epic ].
+  intros Hs.
+  constructor; intros Z g h Hgh b.
+  apply (@pequiv_to _ _ (cmon_prop Z)).
+  destruct (Hs b) as [a Ha].
+  apply pequiv_from.
+  apply pequiv_to in Ha.
+  rewrite <- Ha.
+  exact (Hgh a).
+Qed.
+
+(** Mac Lane §I.7's proposition, second half.  An earlier revision put
+    [RModSurjective] on the right; see [rmod_epic_surjective]. *)
+Theorem rmod_epic_iff_surjective {R : RingObject} {M N : RModObject R}
+  (f : M ~{RMod R}~> N) : Epic f ↔ RModPropSurjective f.
+Proof.
+  split; [ apply rmod_epic_surjective | apply rmod_prop_surjective_epic ].
 Qed.
 
 (** The spellings the issue's verification snippet uses. *)
@@ -634,7 +737,7 @@ Definition rmod_monic_iff {R : RingObject} {M N : RModObject R}
   rmod_monic_iff_injective f.
 
 Definition rmod_epic_iff {R : RingObject} {M N : RModObject R}
-  (f : M ~{RMod R}~> N) : Epic f ↔ RModSurjective f :=
+  (f : M ~{RMod R}~> N) : Epic f ↔ RModPropSurjective f :=
   rmod_epic_iff_surjective f.
 
 (** ** The opposite ring, right modules, and bimodules *)
@@ -662,6 +765,7 @@ Qed.
 
 Definition Rig_op (R : RigObject) : RigObject := {|
   rig_setoid       := rig_setoid R;
+  rig_prop         := rig_prop R;
   rig_zero         := rig_zero R;
   rig_add          := rig_add R;
   rig_one          := rig_one R;

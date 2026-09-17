@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -76,15 +77,15 @@ Generalizable All Variables.
     are now all in tree, and this file is the last of the five:
 
       - free category on a graph — [UniversalArrowQuiverCat]
-        (Construction/Free/Quiver.v:529) with [FreeForgetfulAdjunction]
-        (:561);
+        (Construction/Free/Quiver.v) with [FreeForgetfulAdjunction]
+;
       - free monoid — [free_monoid_universal_arrow]
-        (Instance/Coq/Monoid/Free.v:297) with [free_monoid_adjunction]
-        (:326);
+        (Instance/Coq/Monoid/Free.v) with [free_monoid_adjunction]
+;
       - free group — [free_group_universal_arrow]
-        (Instance/Grp/Free.v:405) with [free_group_adjunction] (:437);
+        (Instance/Grp/Free.v) with [free_group_adjunction];
       - free R-module — [free_module_universal_arrow]
-        (Instance/Mod/Free.v:487) with [free_module_adjunction] (:517),
+        (Instance/Mod/Free.v) with [free_module_adjunction],
         and the vector-space case in Instance/Vect/Free.v;
       - polynomial algebra — this file.
 
@@ -203,7 +204,7 @@ Generalizable All Variables.
         examples;
       - [rng_monic_injective] and [rng_monic_iff_injective]:
         monomorphisms of rings are injective, which is the result
-        Instance/Rng.v:70 deferred pending the polynomial ring ℤ[x]
+        Instance/Rng.v deferred pending the polynomial ring ℤ[x]
         (paraphrased -- that file's wording is "the polynomial ring
         ℤ[x], which does not exist in-tree");
       - the non-degeneracy results above, and computing witnesses.
@@ -256,7 +257,16 @@ Inductive PTerm : Type :=
   | pt_neg   : PTerm → PTerm
   | pt_mul   : PTerm → PTerm → PTerm.
 
-Inductive pt_eq : PTerm → PTerm → Type :=
+(* AN EARLIER REVISION of this inductive landed in [Type].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) it lands in [Prop], because
+   [RigObject] now carries a [rig_prop : PropEquiv (is_setoid rig_setoid)]
+   field and the [≈] of [PolyRing K] IS [pt_eq]: the relation must therefore
+   BE a [Prop] for the field to be the identity pair of implications.  The
+   cost is one elimination — [peval_respects] below can no longer induct
+   straight into a [Type]-valued goal and goes through [pequiv_to] at the
+   target ring — and nothing else in the file changes.
+   Test/ProbeTermModelPropRng.v pins the refusal of the old script. *)
+Inductive pt_eq : PTerm → PTerm → Prop :=
   (* congruence for each former, saturating under K's own [≈] *)
   | pe_const {a b} : a ≈ b → pt_eq (pt_const a) (pt_const b)
   | pe_add {s s' t t'} :
@@ -404,7 +414,11 @@ Definition PolyRig : RigObject := {|
   rig_distr_l := pe_distr_l;
   rig_distr_r := pe_distr_r;
   rig_mul_zero_l := pe_mul_zero_l;
-  rig_mul_zero_r := pe_mul_zero_r
+  rig_mul_zero_r := pe_mul_zero_r;
+  (* [pt_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror and
+     both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ pt_Setoid pt_eq
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 Definition PolyRing : RingObject := {|
@@ -460,7 +474,7 @@ Context (phi : K ~{Rng}~> S).
 Context (s : carrier (rig_setoid S)).
 
 (* [Kcomm] and [Hcs] are explicit hypotheses of the lemmas that consume
-   them rather than section variables: the file inherits Lib.v:13's
+   them rather than section variables: the file inherits Lib.v's
    [Default Proof Using "Type"], under which a section variable absent
    from a lemma's STATEMENT is not available to its proof, and both of
    these are used only inside proofs. *)
@@ -533,11 +547,24 @@ Qed.
     constants rather than formers of their own; two are [phi]'s
     preservation of sums and of products; one — commutativity of
     multiplication — is [peval_comm]; and the last two are the target
-    setoid's symmetry and transitivity. *)
+    setoid's symmetry and transitivity.
+
+    AN EARLIER REVISION of this proof inducted on [pt_eq] straight into the
+    [Type]-valued goal `≈`.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) [pt_eq] is a [Prop] inductive and eliminates only into
+    [Prop], so the script opens with [apply pequiv_to] at the TARGET ring's
+    own [rig_prop]: that puts the [Prop] goal [pequiv …] in front of the
+    elimination, and each branch returns to `≈` with [pequiv_from].  The
+    argument is unchanged case for case, no hypothesis is added (every
+    [RigObject] carries the field), and the statement is the same.  The
+    intro pattern is unchanged; the induction hypotheses are now
+    [pequiv]-valued, so the three branches that consume one spend
+    [pequiv_to] on it. *)
 Lemma peval_respects (Kcomm : Kcomm_hyp) (Hcs : Hcs_hyp) (t u : @PTerm K) :
   pt_eq t u → peval t ≈ peval u.
 Proof.
   intro He.
+  apply pequiv_to.
   induction He as
     [ a b Hab
     | t t' u u' _ IHt _ IHu
@@ -549,20 +576,25 @@ Proof.
     | a b | a b
     | t u _ IHtu
     | t u v _ IHtu _ IHuv ]; simpl.
-  - exact (proper_morphism (rig_map phi) _ _ Hab).
-  - exact (rig_add_respects S _ _ IHt _ _ IHu).
-  - exact (ring_neg_respects S _ _ IHt).
-  - exact (rig_mul_respects S _ _ IHt _ _ IHu).
-  - exact (rig_add_assoc S _ _ _).
-  - exact (rig_add_comm S _ _).
-  - rewrite (rig_map_zero phi); apply rig_add_zero_l.
-  - rewrite (rig_map_zero phi); apply (ring_neg_l S).
-  - exact (rig_mul_assoc S _ _ _).
-  - exact (peval_comm Kcomm Hcs t u).
-  - rewrite (rig_map_one phi); apply rig_mul_one_l.
-  - exact (rig_distr_l S _ _ _).
-  - exact (rig_map_add phi a b).
-  - exact (rig_map_mul phi a b).
+  - apply pequiv_from; exact (proper_morphism (rig_map phi) _ _ Hab).
+  - apply pequiv_from.
+    exact (rig_add_respects S _ _ (pequiv_to _ _ IHt)
+                              _ _ (pequiv_to _ _ IHu)).
+  - apply pequiv_from.
+    exact (ring_neg_respects S _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (rig_mul_respects S _ _ (pequiv_to _ _ IHt)
+                              _ _ (pequiv_to _ _ IHu)).
+  - apply pequiv_from; exact (rig_add_assoc S _ _ _).
+  - apply pequiv_from; exact (rig_add_comm S _ _).
+  - apply pequiv_from; rewrite (rig_map_zero phi); apply rig_add_zero_l.
+  - apply pequiv_from; rewrite (rig_map_zero phi); apply (ring_neg_l S).
+  - apply pequiv_from; exact (rig_mul_assoc S _ _ _).
+  - apply pequiv_from; exact (peval_comm Kcomm Hcs t u).
+  - apply pequiv_from; rewrite (rig_map_one phi); apply rig_mul_one_l.
+  - apply pequiv_from; exact (rig_distr_l S _ _ _).
+  - apply pequiv_from; exact (rig_map_add phi a b).
+  - apply pequiv_from; exact (rig_map_mul phi a b).
   - exact (symmetry IHtu).
   - exact (transitivity IHtu IHuv).
 Qed.
@@ -819,7 +851,7 @@ Defined.
 
 (** * Monomorphisms of rings are injective *)
 
-(** The probe Instance/Rng.v:70 records as missing.  Two elements of R
+(** The probe Instance/Rng.v records as missing.  Two elements of R
     are separated by the two homomorphisms out of ℤ[x] that send x to
     them; a monomorphism identifies those homomorphisms only if it
     identifies the elements. *)

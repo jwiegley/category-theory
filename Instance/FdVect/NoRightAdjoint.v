@@ -32,14 +32,14 @@ Generalizable All Variables.
     Mac Lane §V.5 Exercise 2 (book p. 120, `maclane:V.5:ex2`, #433): the
     dualization functor D : Vct^op ⟶ Vct, adjoint to itself on the right,
     has no right adjoint, so it is not the left adjoint of its opposite.
-    The tree has TWO readings of D over Instance/FdVect.v:223's [Vct_F F :=
-    RMod (field_ring F)]: Instance/FdVect/DoubleDual.v:305's [Dual F], on
-    ALL F-modules with precomposition on the nose ([dual_precompose] :288),
-    and Structure/Monoidal/StarAutonomous.v:229's dual-object functor
-    [dual] read at the line through Instance/Mod/Closed.v:747's
+    The tree has TWO readings of D over Instance/FdVect.v's [Vct_F F :=
+    RMod (field_ring F)]: Instance/FdVect/DoubleDual.v's [Dual F], on
+    ALL F-modules with precomposition on the nose ([dual_precompose]),
+    and Structure/Monoidal/StarAutonomous.v's dual-object functor
+    [dual] read at the line through Instance/Mod/Closed.v's
     [RMod_SymMonClosed] — here [VctDual359], the functor the issue names,
     since Structure/Monoidal/Dual.v (#359) proves it adjoint to itself on
-    the right ([dual_self_adjoint_on_the_right] :441).  The exercise is
+    the right ([dual_self_adjoint_on_the_right]).  The exercise is
     proved for BOTH: for [Dual F] directly ([dual_functor_no_right_adjoint]
     and its corollary [dual_not_left_adjoint_of_op]) and for [VctDual359]
     by transport along the natural isomorphism [dual_iso359 : Dual F ≈
@@ -48,17 +48,17 @@ Generalizable All Variables.
 
     STALE PREMISES.  The issue's "Current state" says the tree has no
     category of vector spaces and no dual functor: FALSE twice — [Vct_F] and
-    [Dual] above, with [DualMod] :267, [eta] :341 and [double_dual_natural]
-    :364.  It calls the dual-object functor "#359's": [dual] is
+    [Dual] above, with [DualMod], [eta] and [double_dual_natural]
+    beside them.  It calls the dual-object functor "#359's": [dual] is
     StarAutonomous.v's (2026-07-10), and #359 added the self-adjunction.
     The two readings are different [Program] records, naturally isomorphic
     but NOT convertible (probe N1), not even objectwise (N5: the carriers of
     [VctDual359 x] and [Dual F x] coincide at [eq_refl], the packed modules
     do not — [HomMod]'s and [DualMod]'s proof fields are different opaque
-    constants).  DoubleDual.v:104-109 said [Vct_F F] "lacked" a monoidal
+    constants).  DoubleDual.v said [Vct_F F] "lacked" a monoidal
     structure — stale since Instance/Mod/Monoidal.v and Instance/Mod/
     Closed.v (2026-08-31); repaired in place, line-neutrally.  And the
-    exercise is FALSE over [FdVect F]: DoubleDual.v:609's [DualFd] is
+    exercise is FALSE over [FdVect F]: DoubleDual.v's [DualFd] is
     pointwise invertible by [double_dual_iso], mathematically an
     equivalence with adjoints on both sides (not formalized as such) — the
     statement needs infinite dimension, which is why everything here runs
@@ -66,7 +66,7 @@ Generalizable All Variables.
 
     THE MATHEMATICS AND ITS BOUNDARY.  A right adjoint of D would make D a
     left adjoint, hence carry colimit cocones to colimit cocones
-    (Adjunction/Continuity.v:246 [left_adjoint_PreservesColimitCocone]).
+    (Adjunction/Continuity.v [left_adjoint_PreservesColimitCocone]).
     D's source is Vct^op, so a colimit there is a PRODUCT in Vct: Mac
     Lane's is the countable power F^ℕ, whose dual (F^ℕ)* would have to be
     the direct sum ⊕_ℕ F of the coordinate functionals if D preserved it.
@@ -122,7 +122,7 @@ Generalizable All Variables.
     [dual_vct_Adjunction : (Dual F)^op ⊣ Dual F] through
     [Adjunction_of_AdjointOnTheRight], and Mac Lane's contrast
     [dual_vct_Continuous : ContinuousFunctor (Dual F)] by RAPL
-    (Adjunction/Continuity.v:209 [right_adjoint_Continuous]).  The
+    (Adjunction/Continuity.v [right_adjoint_Continuous]).  The
     direction matters and the probe pins it (N3): the self-adjunction runs
     [(Dual F)^op ⊣ Dual F]; the exercise's [Dual F ⊣ (Dual F)^op] is
     exactly the ascription that is refused.
@@ -145,8 +145,8 @@ Generalizable All Variables.
     and [dual359_not_left_adjoint_of_op] follow from the refutation above.
 
     UNIVERSES ([About] under `Set Printing Universes`, all 41 heads).  No
-    [Set] anywhere: the shape is Structure/Limit/Comparison.v:535's
-    annotated [DiscreteCat_Functor'], because Instance/Discrete.v:59's
+    [Set] anywhere: the shape is Structure/Limit/Comparison.v's
+    annotated [DiscreteCat_Functor'], because Instance/Discrete.v's
     unannotated [DiscreteCat_Functor] pins the shape's hom level to [Set]
     and no cocone in Vct^op can share it (probe N4, "Cannot enforce Set =
     …").  Every head but [vct_zero_hom] carries the two equations `u0 = u`,
@@ -189,7 +189,7 @@ Generalizable All Variables.
     Zero name collisions for the 41 names (`grep -rlw --include='*.v'`;
     DoubleDual.v's header mentions [dual_iso359] by design; [SpanQuot],
     [span_quot] and Product.v's [modprod_*] were chosen because
-    Construction/PROP/Presentation.v:185 owns [quot] and Lib/Datatypes.v:139
+    Construction/PROP/Presentation.v owns [quot] and Lib/Datatypes.v
     owns [prod_setoid]).  Test/ProbeDualNoRightAdjoint433.v mirrors the
     `Require` list plus Structure/Monoidal/Dual.v (the #359 control) and
     Structure/Limit/Product.v (the indexed-product readback) and carries 6
@@ -409,8 +409,14 @@ Proof.
   { apply Huniq; intros n psi.
     symmetry.
     exact (mquot_proj_kills SpanCoords _ (dual_coord_in_span n psi)). }
-  apply Hphi.
-  apply (fst (mquot_proj_kernel SpanCoords phi)).
+  (* [mquot_proj_kernel]'s right-hand side is the [inhabited] truncation of
+     membership since the PR "algebraic carriers are sets" (2026-09-17), so
+     the witness is opened here rather than applied directly.  The goal is
+     [False], a [Prop], so the elimination is allowed and nothing is lost. *)
+  unshelve refine
+    (match fst (mquot_proj_kernel SpanCoords phi) _ with
+     | inhabits Hm => Hphi Hm
+     end).
   transitivity (cmon_map (rm_hom w) phi).
   - symmetry; exact (Hq phi).
   - exact (Hz phi).
@@ -475,8 +481,8 @@ Definition dual_vct_Continuous : ContinuousFunctor (Dual F) :=
 
 (** ** The functor the issue names: StarAutonomous.v's [dual] at the line *)
 
-(* Instance/Mod/Closed.v:747's [RMod_SymMonClosed] makes Vct symmetric
-   monoidal closed, and Structure/Monoidal/StarAutonomous.v:229's [dual],
+(* Instance/Mod/Closed.v's [RMod_SymMonClosed] makes Vct symmetric
+   monoidal closed, and Structure/Monoidal/StarAutonomous.v's [dual],
    read at the line, is the dual-object functor #359 proves self-adjoint on
    the right.  Its objects are the internal homs [HomMod x VctLine], whose
    carriers and operations coincide with [DualMod]'s on the nose; only the

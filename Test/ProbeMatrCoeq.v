@@ -62,7 +62,7 @@ Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
     THE SHARPEST MEASUREMENT IN THIS FILE, and it was found by a refuted
     probe rather than anticipated.  [Instance/Field.v]'s [F2_Field_dec]
-    (:534) and [Q_Field_dec] (:410) are [Qed] lemmas.  They inhabit the
+ and [Q_Field_dec] are [Qed] lemmas.  They inhabit the
     decidability hypothesis perfectly well -- the engine is TOTAL and
     CORRECT when fed them -- but nothing REDUCES through an opaque
     constant, so the coequalizer object does not compute.  Elimination.v

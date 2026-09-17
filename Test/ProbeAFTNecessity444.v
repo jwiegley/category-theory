@@ -126,7 +126,7 @@ Check @ConstOne_continuous.
 Check @ConstOne_representable_iff_initial.
 Check @ConstOne_not_representable.
 Check @Complete_Initial.
-(* NOTE: [Initial] is a NOTATION (Structure/Initial.v:97), so writing
+(* NOTE: [Initial] is a NOTATION (Structure/Initial.v), so writing
    [Check @Initial_of_limit_id.] makes the parser read the notation applied
    to [_of_limit_id] and report that reference as absent.  The qualified
    name sidesteps it. *)

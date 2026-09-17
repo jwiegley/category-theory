@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -26,7 +27,7 @@ Generalizable All Variables.
    WHAT IS BUILT.
 
      - [Grp_conj]: conjugation a ↦ t * a * t⁻¹ by an element t of a group,
-       as a morphism of [Grp] (Instance/Grp.v:466), and [Grp_conj_iso]
+       as a morphism of [Grp] (Instance/Grp.v), and [Grp_conj_iso]
        exhibiting it as an isomorphism with inverse the conjugation by
        t⁻¹.  These are the inner automorphisms.
 
@@ -64,11 +65,11 @@ Generalizable All Variables.
    than by assertion.  First, conjugation in an ABELIAN group is the
    identity automorphism ([Grp_conj_abelian]), so a conjugation twist over
    an abelian group proves nothing; the in-tree abelian witness Z/2
-   (Instance/Grp.v:1087) is shown to collapse in exactly that way
+   (Instance/Grp.v) is shown to collapse in exactly that way
    ([Z2_conj_trivial]).  Second, and more generally, a twist by a NATURAL
    family collapses ([Twist_natural_strict_id]); the canonical
    group-theoretic family, inversion viewed as the isomorphism from a
-   group to its opposite (Instance/Grp.v:886, :944), is natural, and its
+   group to its opposite (Instance/Grp.v), is natural, and its
    twist is therefore an endofunctor of the whole of [Grp] with the
    identity object function that is strictly EQUAL to [Id]
    ([Grp_op_twist_is_Id]).  The conjugation family on [GrpAt S3] escapes
@@ -122,10 +123,10 @@ Generalizable All Variables.
    sidestep it because their object types have decidable equality.
 
    STRICT VERSUS WEAK.  The distinctness is stated in
-   [Functor_StrictEq_Setoid] (Theory/Functor.v:508), the hom-setoid of
-   [StrictCat] (Instance/StrictCat.v:59).  It could not be stated in
-   [Functor_Setoid] (Theory/Functor.v:148), the hom-setoid of [Cat]
-   (Instance/Cat.v:145), because that setoid identifies naturally
+   [Functor_StrictEq_Setoid] (Theory/Functor.v), the hom-setoid of
+   [StrictCat] (Instance/StrictCat.v).  It could not be stated in
+   [Functor_Setoid] (Theory/Functor.v), the hom-setoid of [Cat]
+   (Instance/Cat.v), because that setoid identifies naturally
    isomorphic functors and [S3_Twist] IS naturally isomorphic to [Id] --
    [S3_two_functors_weakly_equal] proves it, the natural isomorphism being
    the conjugation itself.  So the two functors are EQUAL as morphisms of
@@ -251,7 +252,9 @@ Proof.
     grp_setoid := {| carrier := S3carrier ; is_setoid := s3_setoid |};
     grp_unit := s3_unit;
     grp_mul  := s3_mul;
-    grp_inv  := s3_inv
+    grp_inv  := s3_inv;
+    (* [s3_setoid]'s `≈` is [@eq S3carrier], already a [Prop]. *)
+    grp_prop := eq_PropEquiv S3carrier
   |}.
   - intros x y Hxy u v Huv; simpl in *; subst; reflexivity.
   - intros [i b] [j c] [k d]; destruct i, j, k, b, c, d; reflexivity.
@@ -469,7 +472,7 @@ Proof. exact (Twist_Id_weak_equiv S3_twist_family). Qed.
 (* The same two statements read off the two categories of categories: the
    pair is one and the same morphism of [Cat], and two different morphisms
    of [StrictCat].  The hom-setoids are the two functor setoids on the
-   nose, as Test/Issue138.v:109 records. *)
+   nose, as Test/Issue138.v records. *)
 Example S3_pair_equal_in_Cat :
   @equiv _ (@homset Cat (GrpAt S3) (GrpAt S3)) S3_Twist (@Id (GrpAt S3)).
 Proof. exact S3_two_functors_weakly_equal. Qed.
@@ -482,7 +485,7 @@ Proof. exact S3_two_functors_distinct. Qed.
 (** ** The uniform candidate over all of Grp, and its collapse *)
 
 (* Inversion as an isomorphism from a group to its opposite
-   (Instance/Grp.v:886, :898); both round trips are [grp_inv_inv]. *)
+   (Instance/Grp.v); both round trips are [grp_inv_inv]. *)
 Definition Grp_inv_iso (G : GrpObject) : @Isomorphism Grp G (Grp_Op G).
 Proof.
   unshelve notypeclasses refine
@@ -511,7 +514,7 @@ Proof. reflexivity. Qed.
    natural family produces nothing new ([Twist_natural_strict_id]).  So
    this candidate -- a family of isomorphisms available uniformly at every
    group, and the one the tree already builds as [Grp_op_Isomorphism]
-   (Instance/Grp.v:944) -- does not answer the exercise, and the file does
+   (Instance/Grp.v) -- does not answer the exercise, and the file does
    not pretend otherwise. *)
 Theorem Grp_op_twist_is_Id :
   @equiv _ Functor_StrictEq_Setoid Grp_op_twist (@Id Grp).

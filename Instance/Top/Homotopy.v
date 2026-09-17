@@ -21,8 +21,8 @@ Open Scope R_scope.
 (* The sections below quantify over the two homotopies being pasted, which
    their proofs genuinely use but which do not occur in every statement.
    Lib.v's [Default Proof Using "Type"] would discard them; this is the same
-   setting, for the same reason, as Instance/Top/Interval.v:23 and
-   Instance/Top/FundamentalGroupoid.v:32. *)
+   setting, for the same reason, as Instance/Top/Interval.v and
+   Instance/Top/FundamentalGroupoid.v. *)
 Set Default Proof Using "All".
 
 (** * Homotopy, the homotopy category, and their pointed forms *)
@@ -536,7 +536,7 @@ Arguments ptop_preserves {X Y} _.
 (* The hom-setoid is Top's own, read on the underlying maps.  Stating it
    again pointwise would place the relation at the universe of the POINTS'
    equality, one step below where [Category] needs a hom-setoid to live
-   (Instance/Top.v:219-225 annotates [ContinuousMorphism_equiv] for exactly
+   (Instance/Top.v annotates [ContinuousMorphism_equiv] for exactly
    this reason); inheriting the donor's setoid inherits its placement.  It
    also makes `p ≈ q` in [Top_pointed] definitionally `ptop_map p ≈ ptop_map
    q` in [Top], which is what lets the based constructions below hand their

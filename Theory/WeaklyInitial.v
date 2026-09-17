@@ -99,11 +99,54 @@ Arguments wif_cover {C} _ _.
        [e ∘ (k ∘ s)] is an endomorphism of [P0], absorbed by [e]; monicity
        of [e] then makes [(k ∘ s) ∘ e ≈ id], i.e. [k] is split epi, and
        [f ∘ k ≈ g ∘ k] forces [f ≈ g]. *)
-Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C)
-  (P : Limit (DiscreteCat_Functor (wif_obj W)))
-  (Pe : Limit (DiscreteCat_Functor
-                 (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P)
-                  => iprod (wif_obj W) P)))
+(* THE BINDERS ARE WHERE FREYD'S SIZE CONDITION LIVES, so they are written
+   out rather than inferred, and the two [Limit] instances are the whole
+   point.
+
+     [idx]  the weakly initial family's index universe,
+     [obj]  the ambient category's object universe,
+     [h]    its hom-and-proof universe,
+     [lim]  the level of the first limit datum.
+
+   The FIRST limit, [P], is over a discrete shape whose objects are the
+   family index: [Limit@{lim idx h obj}], shape-object universe [idx],
+   free.  The SECOND, [Pe], is over a discrete shape whose objects are the
+   ENDOMORPHISM HOM-SET of [iprod (wif_obj W) P], so its shape-object
+   universe is the ambient HOM universe: [Limit@{h h h obj}], written with
+   [h] in the shape-object slot.  Nothing here forces [idx] up to [h] --
+   the two limits are separate hypotheses and may be supplied separately.
+
+   IT IS [Complete] THAT FUSES THEM, one caller out.  A [@Complete C]
+   offers ONE shape-object universe for every shape at once, so a caller
+   who discharges both hypotheses from a single [Complete] -- which is
+   what Adjunction/GAFT.v does -- identifies [idx] with [h] and
+   thereby puts the solution-set index at the ambient hom universe.  That
+   is why [GAFT] carries [Complete@{h h h cobj}] and
+   [SolutionSet@{h dobj cobj h}] in its own binders, and why an index
+   strictly above [h] is refused there.
+
+   Measured readback (the trailing [+] allows the level
+   [DiscreteCat_Functor]'s [Program] obligations mint, printed last):
+
+     initial_from_weakly_initial@{lim idx obj h u} :
+     ∀ {C : Category@{obj h h}} (W : WeaklyInitialFamily@{idx obj h} C)
+       (P : Limit@{lim idx h obj} (DiscreteCat_Functor (wif_obj W))),
+       Limit@{h h h obj} (DiscreteCat_Functor (fun _ : … => iprod … ))
+       → HasEqualizers C → Terminal C
+     (* |= h < u / idx <= lim / h <= lim / … *)
+
+   -- and, since Instance/Discrete.v's [DiscreteCat_Functor] was
+   annotated in the PR "algebraic carriers are sets" (2026-09-17), with no
+   literal [Set].  An earlier revision printed both [DiscreteCat_Functor]
+   occurrences as [DiscreteCat@{_ Set Set}] and handed that [Set] on to
+   [GAFT]. *)
+Theorem initial_from_weakly_initial@{lim idx obj h +}
+  {C : Category@{obj h h}} (W : WeaklyInitialFamily@{idx obj h} C)
+  (P : Limit@{lim idx h obj} (DiscreteCat_Functor (wif_obj W)))
+  (Pe : Limit@{h h h obj}
+          (DiscreteCat_Functor
+             (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P)
+              => iprod (wif_obj W) P)))
   (E : HasEqualizers C) : @Initial C.
 Proof.
   (* Abbreviate the product object and fold it into [Pe]'s index. *)
@@ -199,10 +242,10 @@ Qed.
 (** * The characterization: both directions (Mac Lane §V.6 Theorem 1)
 
     Everything above this line is the original file (#158/#328's Freyd
-    construction), byte-identical up to a corrected sentence at lines
-    64-65 (see below); the two external citations into it, Instance/Sets/
-    Products.v:71 → :43-50 and Structure/Limit/Power.v:163 → :104-106,
-    still point at what they cite.  What follows is #435 (Mac Lane §V.6
+    construction), byte-identical up to one corrected sentence (see
+    below); the two external citations into it, from
+    Instance/Sets/Products.v and from Structure/Limit/Power.v, still
+    point at what they cite.  What follows is #435 (Mac Lane §V.6
     Theorem 1, book p. 120, `maclane:V.6:thm1`, with the Awodey §9.8 and
     Riehl §4.7 clauses appended to the issue): the theorem as a
     CHARACTERIZATION.  Mac Lane's statement is "a category with small
@@ -214,7 +257,7 @@ Qed.
 
     NECESSITY, the direction that was missing.  [weakly_initial_of_initial
     (I : Initial C) : WeaklyInitialFamily C] is the singleton family at the
-    initial object, indexed by Lib/Setoid.v:56's universe-polymorphic
+    initial object, indexed by Lib/Setoid.v's universe-polymorphic
     [poly_unit] — written DIRECTLY, not through [wif_of_weakly_initial]:
     the direct form has an EMPTY universe constraint block and one binder
     fewer than the composite (measured; [unit] or [bool] as the index would
@@ -229,7 +272,7 @@ Qed.
     [W], the product of [wif_obj W] and the product of the endomorphisms of
     that product), and [initial_iff_weakly_initial_family (Ps :
     FreydProducts C) (E : HasEqualizers C) : Initial C ↔ WeaklyInitialFamily
-    C] — Lib/Foundation.v:72's Type-valued [iffT], so both directions are
+    C] — Lib/Foundation.v's Type-valued [iffT], so both directions are
     extractable with [fst]/[snd] — keeps smallness caller-chosen exactly as
     the original theorem does.  It is [Defined], not [Qed]: it carries data
     in both directions, and the readback [initial_iff_weakly_initial_family_fst]
@@ -239,7 +282,7 @@ Qed.
     an explicit supply — [initial_from_weakly_initial_complete] and
     [initial_iff_weakly_initial_family_complete] (likewise [Defined], with
     its own [_fst] readback).  The [Complete]-only variant is NOT here:
-    [Complete_HasEqualizers] lives downstream, in Adjunction/GAFT.v:193,
+    [Complete_HasEqualizers] lives downstream, in Adjunction/GAFT.v,
     which [Require]s this file, and re-deriving it here would duplicate a
     downstream definition.  Read the universes of the [_complete] form:
     [Complete]'s first two levels are the family's index level (the
@@ -256,8 +299,8 @@ Qed.
     [weakly_initial_obj_of_initial], [wif_of_weakly_initial] (the singleton
     family of a weakly initial object), and the relation lemma
     [weakly_initial_iprod : WeaklyInitial (iprod (wif_obj W) P)] — the
-    [wmap] the proof above builds inline at lines 115-117 (and Wide.v at
-    109-111), now named; the original theorem is [Qed]-opaque and is NOT
+    [wmap] the proof above builds inline (and Wide.v likewise builds one
+    inline), now named; the original theorem is [Qed]-opaque and is NOT
     re-proved through it, keeping docs/INDEX.md's "byte-identical" promise
     for the theorem.  Its converse — a family gives a weakly initial object
     at a chosen index — is FALSE without a singleton hypothesis, because
@@ -277,8 +320,8 @@ Qed.
     same index, same members — with the special case
     [sols_of_comma_initial : Initial (=(d) ↓ U) → SolutionSet U d] defined
     as [sols_of_wif] of [weakly_initial_of_initial].  Both are appended at
-    the END of that file so that none of its cited line numbers move
-    (eleven external citations point at its line 241); the index of the
+    the END of that file so that nothing above them moves (eleven
+    external citations point into it); the index of the
     general form and the index and member of the special case read back at
     [eq_refl].  (GAFT became a biconditional in #436, [GAFT_iff]; when
     this was written it had not.)
@@ -296,31 +339,35 @@ Qed.
     header already discloses for GAFT.  This turns the biconditional from a
     conditional into an inhabited result; docs/INHABITATION.md has the row.
 
-    STALE PREMISES.  Every line number in the issue's "Current state" is
+    STALE PREMISES.  Every location in the issue's "Current state" is
     stale (they match commit 00fc744b, and 820201bc, "Powers and
-    copowers", shifted the file in TWO hunks — +13 above the proof body,
-    +19 inside it): [initial_from_weakly_initial] is :102 not :89, [Record
-    WeaklyInitialFamily] :71 not :58, [endo_absorb] :138 not :119, and the
-    uniqueness chase's [assert (Hk : …)] :173 not :154; :44 and
-    Adjunction/GAFT.v:210 happen to be right.  Every substantive absence
+    copowers", shifted the file in TWO hunks): its pointers to
+    [initial_from_weakly_initial], [Record WeaklyInitialFamily],
+    [endo_absorb] and the uniqueness chase's [assert (Hk : …)] all miss,
+    while two of them, one into this file and one into
+    Adjunction/GAFT.v, happen to be right.  Every substantive absence
     claim is TRUE:
     [Build_WeaklyInitialFamily] has exactly one use tree-wide
-    (Adjunction/GAFT.v:214), nothing built a family from an [Initial], no
+    (Adjunction/GAFT.v), nothing built a family from an [Initial], no
     constant named [WeaklyInitial] existed (all 29 word hits over `*.v`,
     31 counting `_CoqProject`, were the module path).  Two sentences of
     the existing headers were FALSE and are
-    corrected in place, line-count-preserving: lines 64-65 of this file said
+    corrected in place, line-count-preserving: this file's header said
     the [Power.v] choice "keeps [Instance/Sets] off this file's dependency
     closure" — [Instance/Sets] is in it, TWO hops now that this file
     [Require]s Instance/Parallel.v directly, three before through
     Structure/Equalizer/Fork.v (docs/INDEX.md's Power.v bullet records the
     one-hop route from Power.v itself, which is correct and is left alone);
-    and Wide.v:67-68 attributed the [Set] pin to [Terminal] and the
+    and Wide.v attributed the [Set] pin to [Terminal] and the
     equalizer supply — both
-    have empty constraint blocks, and the pin is [iprod]'s:
-    [DiscreteCat_Functor] puts the discrete shape at [DiscreteCat@{u Set
+    have empty constraint blocks, and the pin was [iprod]'s:
+    [DiscreteCat_Functor] put the discrete shape at [DiscreteCat@{u Set
     Set}] and [Limit] identifies the shape's hom universe with the
-    ambient's.
+    ambient's.  (FURTHER CORRECTION: that pin is now GONE as well.  The
+    donor was annotated in place at Instance/Discrete.v in the PR
+    "algebraic carriers are sets" (2026-09-17), so [iprod] carries no
+    literal [Set]; what [Limit] does to the shape's hom universe is
+    unchanged.)
 
     UNIVERSES ([About] under `Set Printing Universes`).  No [Set] on the
     Riehl-side constants: [WeaklyInitial@{u u0 u1}] carries only the
@@ -330,15 +377,27 @@ Qed.
     where the composite through [wif_of_weakly_initial] would carry four
     binders and two constraints; the Parallel constants are at that small
     category's levels.
-    Everything that consumes [iprod] or a [Limit (DiscreteCat_Functor …)]
-    — [weakly_initial_iprod], [FreydProducts], both biconditionals, the
+    RECORDED CORRECTION.  An earlier revision continued: "Everything that
+    consumes [iprod] or a [Limit (DiscreteCat_Functor …)] —
+    [weakly_initial_iprod], [FreydProducts], both biconditionals, the
     [_complete] wrapper and their readbacks — is over [C : Category@{_ Set
     Set}], the donor's pin, with the strict `Set < u` and the caps `JMeq`,
     `eq` and `Logic_lemmas.equality` the original theorem carries — and
-    `Projections` on all of them but [FreydProducts].  A universe
-    refutation at [Cat] was tried and does NOT refuse
-    ([Cat]'s hom universe instantiates at [Set]); it is recorded here so it
-    is not re-invented.
+    `Projections` on all of them but [FreydProducts]."  The donor's pin is
+    gone: [DiscreteCat_Functor] was annotated in place at
+    Instance/Discrete.v in the PR "algebraic carriers are sets"
+    (2026-09-17), and measured after it [iprod@{u u0 u1 u2 u3}] is stated
+    over [C : Category@{u1 u2 u2}] with no literal [Set].  The same
+    constants' ambient categories are therefore free in their hom
+    universe.  Where the old list read a strict `Set < u`, this file's own
+    [initial_from_weakly_initial@{lim idx obj h +}] now reads `h < u`,
+    with the ambient hom universe in the place the literal held; the
+    stdlib caps are unaffected, being the [eq]-valued hom-setoid's own.
+    The five other constants were NOT individually re-measured after the
+    repair — re-run [About] on them rather than trusting either list.  A
+    universe refutation at [Cat] was tried and does NOT refuse ([Cat]'s
+    hom universe instantiates at [Set]); it is recorded here so it is not
+    re-invented.
 
     MEASURED.  17 new `.glob` heads in this file (15 `def`, 2 `prf`; 22
     with the original five), 6 in Theory/WeaklyInitial/Sets.v, 5 in

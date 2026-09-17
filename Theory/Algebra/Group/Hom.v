@@ -127,7 +127,7 @@ Generalizable All Variables.
    Structure/Group/Proofs.v's [left_inverse_unique], which is where the
    diagonal's naturality and the terminality of I are spent — that list is
    NOT exhaustive, and the omission matters: an audit found that donor's
-   proof also does [rewrite <- right_inverse] (Structure/Group/Proofs.v:111)
+   proof also does [rewrite <- right_inverse] (Structure/Group/Proofs.v)
    and spends [mappend_assoc_sym] and both [mempty_*_diagonal] helpers.  So
    correct a claim an earlier draft of this header made: [right_inverse] does
    not occur in [GroupHom_inverse]'s OWN tactic script, but the theorem DOES
@@ -139,10 +139,10 @@ Generalizable All Variables.
    bracketing and carry no content.
 
    THE NAME.  The category is [GrpCat], not [Grp], and the reason is
-   measured rather than aesthetic: Instance/Grp.v:466 already declares
+   measured rather than aesthetic: Instance/Grp.v already declares
    [Grp : Category] — the concrete category of groups over [Sets] — together
-   with [Grp_Cartesian] (:677), [Grp_Terminal] (:562), [Grp_Forget] (:493)
-   and [Grp_Forget_Faithful] (:512), FIVE collisions found with [rg] over the
+   with [Grp_Cartesian], [Grp_Terminal], [Grp_Forget]
+   and [Grp_Forget_Faithful], FIVE collisions found with [rg] over the
    whole tree.  An earlier draft said four; an audit found the fifth.  The
    cause is worth recording because the obvious explanation is WRONG: it is
    not the [#[export] Program Instance] shape, since [Grp_Cartesian] has
@@ -155,8 +155,8 @@ Generalizable All Variables.
 
    TWO ENGINEERING FINDINGS, both about NAMES rather than mathematics.
 
-   - [inverse] IS A KEYWORD downstream of Structure/Group.v.  Its notation
-     (:131) quotes the token, [Notation "'inverse' [ G ]"], which makes
+   - [inverse] IS A KEYWORD downstream of Structure/Group.v.  Its
+     notation quotes the token, [Notation "'inverse' [ G ]"], which makes
      [inverse] a terminal symbol: [@inverse _ _ _ G] is then a PARSE error
      ("Syntax error: [global] or [pattern_ident] expected after '@'"), and
      the record-literal field name is rejected too — in the realistic
@@ -183,9 +183,9 @@ Generalizable All Variables.
      [fork_respects] instance, and [Heunen_Vicary.v] re-exports Relevance, so
      merely naming [CartesianMonoidal] brings both into scope.  Consequently
      [GrpCat_Cartesian] must write [Cartesian.fork] for its field — the same
-     workaround Heunen_Vicary/Cartesian.v:51 uses — and its respectfulness
+     workaround Heunen_Vicary/Cartesian.v uses — and its respectfulness
      obligation must name [Cartesian.fork_respects].  The [△] NOTATION is
-     unaffected: Structure/Cartesian.v:504 declares it against the resolved
+     unaffected: Structure/Cartesian.v declares it against the resolved
      constant, so it keeps meaning the product's pairing.
 
    STRENGTHS, MEASURED STRICT FIRST.  Twenty Examples close by [eq_refl].
@@ -208,8 +208,8 @@ Generalizable All Variables.
    form by saying that stating it "needs a hom-setoid on functors" which
    "would pull a functor category into the closure of a [Theory/Algebra]
    file".  THAT WAS FALSE and an audit refuted it: [Functor_Setoid] and
-   [Functor_StrictEq_Setoid] are Theory/Functor.v:149 and :606, which this
-   file already requires at line 4, and no functor category is involved.  The
+   [Functor_StrictEq_Setoid] are Theory/Functor.v, which this
+   file already requires, and no functor category is involved.  The
    equation is therefore DELIVERED, and at the STRICTER of the two available
    strengths: [forget_compose_strict] proves it in
    [Functor_StrictEq_Setoid] with every object component literally [eq_refl].
@@ -241,8 +241,8 @@ Generalizable All Variables.
      enforce up = uh because uh < up", while [x ~> y] and [id[x]] are
      ACCEPTED at those very levels.  Four donors, each sufficient on its
      own — but NOT four INDEPENDENT ones, and an audit corrected that word:
-     [CartesianMonoidal] contains [RelevanceMonoidal] (Heunen_Vicary.v:47),
-     which contains [SymmetricMonoidal] (Relevance.v:47) and so ultimately
+     [CartesianMonoidal] contains [RelevanceMonoidal] (Heunen_Vicary.v),
+     which contains [SymmetricMonoidal] (Relevance.v) and so ultimately
      [Monoidal], so its rejection is INHERITED and at most THREE are
      independent.  Nothing in this file adds to it, and it is not claimed
      unavoidable — all four are declared over unannotated
@@ -335,7 +335,7 @@ Generalizable All Variables.
    - No abelian/commutative group objects, and nothing about exponentials.
      Read the second half narrowly: an audit corrected an earlier draft that
      called the [Hom_Monoid] analogue a library gap.  It is not built HERE,
-     but it EXISTS — Structure/Group/Representable.v:996's [exp_GroupObject]
+     but it EXISTS — Structure/Group/Representable.v's [exp_GroupObject]
      is a group structure on the hom-object, in a file this one does not
      require.
    - No infinite or indexed products: this matches [Cartesian], which is
@@ -358,8 +358,8 @@ Generalizable All Variables.
    - No [Isomorphism] or uniqueness statement for the product group object
      beyond what [Cartesian] itself supplies through [ump_products].
    - [prod_ext] is a general [Cartesian] fact and is NOT new: the identical
-     statement at the identical generality is Theory/Lawvere/Sets.v:61's
-     [prod_separates] (its dual is Construction/Cospan/Bridging.v:106).  It
+     statement at the identical generality is Theory/Lawvere/Sets.v's
+     [prod_separates] (its dual is Construction/Cospan/Bridging.v).  It
      is redeclared here only because Theory/Lawvere/Sets.v is not in this
      file's closure; an earlier draft implied no analogue existed, which an
      audit refuted.  It is likewise not moved into Structure/Cartesian.v. *)
@@ -380,7 +380,7 @@ Definition group_monoid {x : C} (G : GroupObject x) : Monoid x :=
   Monoid_of_MonoidObject (@groupobject_is_monoid _ _ _ G).
 
 (* The inversion morphism of a NAMED group object.  Declared because
-   Structure/Group.v:131's [inverse[G]] notation quotes the token [inverse],
+   Structure/Group.v's [inverse[G]] notation quotes the token [inverse],
    which makes it a keyword: [@inverse _ _ _ G] is then a parse error, and
    [inverse[x]] leaves the instance to resolution.  This accessor names the
    instance explicitly; the two agree by [eq_refl] ([group_inverse_is]). *)
@@ -482,13 +482,13 @@ Proof. exact MonoidHom_equiv. Qed.
    Awodey Section 4.1's Group(C).  Objects are objects of C equipped with a
    group-object structure, morphisms are C-morphisms equipped with a proof of
    homomorphy, and equivalence is equivalence of the underlying morphisms —
-   the same sigma packaging as [Mon] (Theory/Algebra/Monoid/Hom.v:83) and as
+   the same sigma packaging as [Mon] (Theory/Algebra/Monoid/Hom.v) and as
    [Sub] (Construction/Subcategory.v).
 
-   Named [GrpCat] and not [Grp]: Instance/Grp.v:466 already declares
+   Named [GrpCat] and not [Grp]: Instance/Grp.v already declares
    [Grp : Category], the concrete category of groups over [Sets], along with
    [Grp_Cartesian], [Grp_Terminal], [Grp_Forget] and
-   [Grp_Forget_Faithful] (:512) — five collisions,
+   [Grp_Forget_Faithful] — five collisions,
    measured with [rg] rather than guessed.  This file requires none of those
    modules, so nothing is ambiguous here; the rename exists so that a
    consumer may import both. *)
@@ -547,7 +547,7 @@ Example grpcat_mon_forget_map (X Y : GrpCat) (f : X ~> Y) :
    the file refutes is the strictly stronger claim that the composite is the
    SAME RECORD as [GrpCat_Forget]; [Compose] rebuilds the three law fields,
    so that fails while this succeeds.  No functor category is needed —
-   [Functor_StrictEq_Setoid] is Theory/Functor.v:606, already required. *)
+   [Functor_StrictEq_Setoid] is Theory/Functor.v, already required. *)
 Example forget_compose_strict :
   @equiv _ (@Functor_StrictEq_Setoid GrpCat C)
     (Mon_Forget ◯ GrpCat_Mon) GrpCat_Forget.

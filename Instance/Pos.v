@@ -14,7 +14,7 @@
     spirit as Instance/CMon.v's [CMon].  Neither subsumes the other, and #641
     is explicit that it wants this one.
 
-    WHY Instance/Poset.v CANNOT BE REUSED.  Its [Poset] (:118-119, shifted by
+    WHY Instance/Poset.v CANNOT BE REUSED.  Its [Poset] (shifted by
     this commit's own two-line edit to that file's header) reads
     [Definition Poset ... := Proset P], DISCARDING the antisymmetry argument,
     which never appears in the body.  So a [Poset] VALUE is literally a
@@ -47,11 +47,11 @@
 
     Be precise about what is and is not an obstacle here, because it is easy to
     overstate.  The subcategory ITSELF is constructible in a few lines:
-    Construction/Subcategory.v:32's [sobj : C -> Type] takes an arbitrary
+    Construction/Subcategory.v's [sobj : C -> Type] takes an arbitrary
     [Type]-valued predicate, so "thin and skeletal" can be selected directly
     with no equality on [Category] values anywhere.  Nor does "skeletal thin"
     misdescribe its family: skeletality is exactly what antisymmetry buys (as
-    Instance/Poset.v:19-20 says), and it strictly excludes preorders -- the
+    Instance/Poset.v says), and it strictly excludes preorders -- the
     two-element indiscrete preorder is thin and NOT skeletal.
 
     What is genuinely deferred is the AGREEMENT: showing the subcategory
@@ -107,7 +107,7 @@ Arguments mono_le {P Q} _ _ _ _.
 #[local] Obligation Tactic := idtac.
 
 (** Monotone maps are compared pointwise up to the codomain's [≈], as in
-    Instance/CMon.v:74 and Instance/Sets.v -- never by Leibniz equality. *)
+    Instance/CMon.v and Instance/Sets.v -- never by Leibniz equality. *)
 #[export]
 Program Instance MonoHom_Setoid {P Q : PosetObject} : Setoid (MonoHom P Q) := {|
   equiv := fun f g => ∀ a, mono_fn f a ≈ mono_fn g a

@@ -1,6 +1,7 @@
 Require Import Coq.ZArith.ZArith.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -323,7 +324,18 @@ Inductive TTerm : Type :=
     right-hand form [te_gen_smul_r] is what makes the scalars central,
     and it is not derivable from the left-hand form alone. *)
 
-Inductive tt_eq : TTerm → TTerm → Type :=
+(* AN EARLIER REVISION of this inductive landed in [Type].  Since the PR
+   "algebraic carriers are sets" (2026-09-17) it lands in [Prop], because
+   [RigObject] carries a [rig_prop : PropEquiv (is_setoid rig_setoid)] field
+   and the `≈` of [TensorRing] IS [tt_eq].  [et_eq] below moves IN LOCKSTEP:
+   its first constructor [ee_base] embeds a whole [tt_eq], so a [Type]-valued
+   [et_eq] over a [Prop]-valued [tt_eq] would be a constructor argument in the
+   wrong direction for the exterior algebra to stay a quotient of the tensor
+   algebra.  The cost is one elimination in each of [teval_respects] and
+   [exteval_respects], both of which now go through [pequiv_to] at the target
+   algebra.  Test/ProbeTermModelPropRng.v pins the refusal of the old
+   scripts. *)
+Inductive tt_eq : TTerm → TTerm → Prop :=
   (* congruence for each former, saturating under the two source setoids *)
   | te_scal {a b} : a ≈ b → tt_eq (tt_scal a) (tt_scal b)
   | te_gen {v w} : v ≈ w → tt_eq (tt_gen v) (tt_gen w)
@@ -473,7 +485,11 @@ Definition TensorRig : RigObject := {|
   rig_distr_l := te_distr_l;
   rig_distr_r := te_distr_r;
   rig_mul_zero_l := te_mul_zero_l;
-  rig_mul_zero_r := te_mul_zero_r
+  rig_mul_zero_r := te_mul_zero_r;
+  (* [tt_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror and
+     both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ tt_Setoid tt_eq
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 Definition TensorRing : RingObject := {|
@@ -559,10 +575,19 @@ Fixpoint teval (t : TTerm) : carrier (rig_setoid AR) :=
     preservation of sums and of products; three are the linear map's own
     laws, of which the right-hand linearity clause is the one that spends
     CENTRALITY of the structure map's image; and the last two are the
-    target setoid's symmetry and transitivity. *)
+    target setoid's symmetry and transitivity.
+
+    AN EARLIER REVISION of this proof inducted on [tt_eq] straight into the
+    [Type]-valued goal `≈`.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) [tt_eq] is a [Prop] inductive, so the script opens with
+    [apply pequiv_to] at the TARGET algebra's own [rig_prop] and each branch
+    returns to `≈` with [pequiv_from].  The twenty cases are unchanged; the
+    induction hypotheses are now [pequiv]-valued, so the branches that
+    consume one spend [pequiv_to] on it.  No hypothesis is added. *)
 Lemma teval_respects (s t : TTerm) : tt_eq s t → teval s ≈ teval t.
 Proof.
   intro He.
+  apply pequiv_to.
   induction He as
     [ a b Hab
     | v w Hvw
@@ -576,25 +601,35 @@ Proof.
     | v w | r v | r v
     | s t _ IHst
     | s t w _ IHst _ IHtw ]; simpl.
-  - exact (proper_morphism (rig_map (aalg_unit A)) _ _ Hab).
-  - exact (proper_morphism (alin_map f) _ _ Hvw).
-  - exact (rig_add_respects AR _ _ IHs _ _ IHt).
-  - exact (ring_neg_respects AR _ _ IHs).
-  - exact (rig_mul_respects AR _ _ IHs _ _ IHt).
-  - exact (rig_add_assoc AR _ _ _).
-  - exact (rig_add_comm AR _ _).
-  - rewrite (rig_map_zero (aalg_unit A)); apply rig_add_zero_l.
-  - rewrite (rig_map_zero (aalg_unit A)); apply (ring_neg_l AR).
-  - exact (rig_mul_assoc AR _ _ _).
-  - rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_l.
-  - rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_r.
-  - exact (rig_distr_l AR _ _ _).
-  - exact (rig_distr_r AR _ _ _).
-  - exact (rig_map_add (aalg_unit A) a b).
-  - exact (rig_map_mul (aalg_unit A) a b).
-  - exact (alin_add f v w).
-  - exact (alin_smul f r v).
-  - rewrite (alin_smul f r v); apply aalg_central.
+  - apply pequiv_from;
+      exact (proper_morphism (rig_map (aalg_unit A)) _ _ Hab).
+  - apply pequiv_from; exact (proper_morphism (alin_map f) _ _ Hvw).
+  - apply pequiv_from.
+    exact (rig_add_respects AR _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ring_neg_respects AR _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rig_mul_respects AR _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from; exact (rig_add_assoc AR _ _ _).
+  - apply pequiv_from; exact (rig_add_comm AR _ _).
+  - apply pequiv_from;
+      rewrite (rig_map_zero (aalg_unit A)); apply rig_add_zero_l.
+  - apply pequiv_from;
+      rewrite (rig_map_zero (aalg_unit A)); apply (ring_neg_l AR).
+  - apply pequiv_from; exact (rig_mul_assoc AR _ _ _).
+  - apply pequiv_from;
+      rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_l.
+  - apply pequiv_from;
+      rewrite (rig_map_one (aalg_unit A)); apply rig_mul_one_r.
+  - apply pequiv_from; exact (rig_distr_l AR _ _ _).
+  - apply pequiv_from; exact (rig_distr_r AR _ _ _).
+  - apply pequiv_from; exact (rig_map_add (aalg_unit A) a b).
+  - apply pequiv_from; exact (rig_map_mul (aalg_unit A) a b).
+  - apply pequiv_from; exact (alin_add f v w).
+  - apply pequiv_from; exact (alin_smul f r v).
+  - apply pequiv_from; rewrite (alin_smul f r v); apply aalg_central.
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtw).
 Qed.
@@ -674,7 +709,9 @@ Proof. symmetry; exact (`2 g a). Qed.
     and the remaining six are the new equation, congruence for the three
     formers it can appear under, and the two closure rules. *)
 
-Inductive et_eq : TTerm → TTerm → Type :=
+(* In [Prop] since the PR "algebraic carriers are sets" (2026-09-17), in
+   lockstep with [tt_eq], which [ee_base] embeds. *)
+Inductive et_eq : TTerm → TTerm → Prop :=
   | ee_base {s t} : tt_eq s t → et_eq s t
 
   (* the alternating relation, at GENERATORS only *)
@@ -727,7 +764,11 @@ Definition ExtRig : RigObject := {|
   rig_distr_l := fun s t u => ee_base (te_distr_l s t u);
   rig_distr_r := fun s t u => ee_base (te_distr_r s t u);
   rig_mul_zero_l := fun s => ee_base (te_mul_zero_l s);
-  rig_mul_zero_r := fun s => ee_base (te_mul_zero_r s)
+  rig_mul_zero_r := fun s => ee_base (te_mul_zero_r s);
+  (* [et_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror and
+     both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ et_Setoid et_eq
+                (fun _ _ h => h) (fun _ _ h => h)
 |}.
 
 Definition ExtRing : RingObject := {|
@@ -826,6 +867,10 @@ Lemma exteval_respects (s t : TTerm) :
   et_eq s t → teval A (alt_lin f) s ≈ teval A (alt_lin f) t.
 Proof.
   intro He.
+  (* Same change as in [teval_respects], and for the same reason: [et_eq] is
+     a [Prop] inductive since the PR "algebraic carriers are sets"
+     (2026-09-17).  The seven cases and the argument in each are unchanged. *)
+  apply pequiv_to.
   induction He as
     [ s t Hst
     | v
@@ -834,11 +879,17 @@ Proof.
     | s s' t t' _ IHs _ IHt
     | s t _ IHst
     | s t w _ IHst _ IHtw ]; simpl.
-  - exact (teval_respects A (alt_lin f) s t Hst).
-  - rewrite (alt_sq f v); symmetry; apply (rig_map_zero (aalg_unit A)).
-  - exact (rig_add_respects AR _ _ IHs _ _ IHt).
-  - exact (ring_neg_respects AR _ _ IHs).
-  - exact (rig_mul_respects AR _ _ IHs _ _ IHt).
+  - apply pequiv_from; exact (teval_respects A (alt_lin f) s t Hst).
+  - apply pequiv_from;
+      rewrite (alt_sq f v); symmetry; apply (rig_map_zero (aalg_unit A)).
+  - apply pequiv_from.
+    exact (rig_add_respects AR _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ring_neg_respects AR _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from.
+    exact (rig_mul_respects AR _ _ (pequiv_to _ _ IHs)
+                              _ _ (pequiv_to _ _ IHt)).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtw).
 Qed.
@@ -1224,7 +1275,13 @@ Program Definition Lam2_Rig : RigObject := {|
   rig_one := lam2_one;
   rig_mul := lam2_mul;
   rig_add_respects := lam2_add_respects;
-  rig_mul_respects := lam2_mul_respects
+  rig_mul_respects := lam2_mul_respects;
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject]
+     carries a [PropEquiv] for its carrier.  [lam2_eqT] is Coq's [eq] under a
+     [Type] ascription, hence already a [Prop]-valued relation, so it is its
+     own mirror and both implications are the identity. *)
+  rig_prop := @PropEquiv_of_relation _ (is_setoid lam2_setoid_object)
+                (@eq lam2) (fun _ _ h => h) (fun _ _ h => h)
 |}.
 Next Obligation. lam2_3. Qed.
 Next Obligation. lam2_2. Qed.

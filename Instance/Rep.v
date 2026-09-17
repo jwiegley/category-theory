@@ -4,6 +4,8 @@ Require Import Coq.Relations.Relation_Definitions.
 Require Import Coq.ZArith.ZArith.
 Require Import Coq.micromega.Lia.
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -99,9 +101,15 @@ Open Scope category_scope.
       therefore always [Deloop (grp_mon G)].
 
    2. THE AUTOMORPHISM FORM IS PRIMITIVE, AND THE PASSAGE COSTS
-      NOTHING.  [RepObject] carries
-      [rep_hom : GrpHom G (UnitsOf (hom_monoid (RMod K) rep_mod))] —
+      NOTHING.  [RepObject] carries [rep_hom : GrpHom G (UnitsOf
+      (hom_monoid (RMod K) rep_mod) (rmod_hom_monoid_prop K rep_mod))] —
       literally "a homomorphism from G into the automorphisms of V".
+      (An earlier revision of this line omitted the second argument of
+      [UnitsOf].  Since the PR "algebraic carriers are sets" (2026-09-17)
+      [UnitsOf] asks the monoid's carrier setoid for a [Prop] equality, and
+      [rmod_hom_monoid_prop] supplies it from [RMod_LocallyPropositional]
+      with nothing to prove; no statement in this file gained a
+      hypothesis.)
       The working form the [Deloop] spine consumes is
       [MonHom (grp_mon G) (hom_monoid (RMod K) V)], an action by bare
       endomorphisms, and the two are interchangeable:
@@ -206,9 +214,20 @@ Example grp_mon_op (G : GrpObject) :
    differ.  Stating that once, as a conversion, keeps every obligation
    below at the level of morphisms of [RMod K]; without it a bare
    [reflexivity] would try to unify the witnesses too. *)
+(* Since the PR "algebraic carriers are sets" (2026-09-17) [UnitsOf] also
+   takes the monoid carrier's [PropEquiv]; the statement is otherwise
+   unchanged, and every use below supplies [rmod_hom_monoid_prop]. *)
 Lemma units_equiv {M : MonObject}
-  (x y : carrier (grp_setoid (UnitsOf M))) : `1 x ≈ `1 y → x ≈ y.
+  {PM : PropEquiv (is_setoid (mon_setoid M))}
+  (x y : carrier (grp_setoid (UnitsOf M PM))) : `1 x ≈ `1 y → x ≈ y.
 Proof. intro H; exact H. Qed.
+
+(* The witness [UnitsOf] asks for at an endomorphism monoid of [RMod K]:
+   [RMod K] is locally propositional (Instance/Mod.v), so the hom-setoid
+   carries the [PropEquiv] with nothing further to prove. *)
+Definition rmod_hom_monoid_prop (K : RingObject) (V : RModObject K) :
+  PropEquiv (is_setoid (mon_setoid (hom_monoid (RMod K) V))) :=
+  @locally_prop (RMod K) (RMod_LocallyPropositional K) V V.
 
 (** ** Representations *)
 
@@ -220,7 +239,7 @@ Proof. intro H; exact H. Qed.
 Record RepObject (K : RingObject) (G : GrpObject) := {
   rep_mod :> RModObject K;
 
-  rep_hom : GrpHom G (UnitsOf (hom_monoid (RMod K) rep_mod))
+  rep_hom : GrpHom G (UnitsOf (hom_monoid (RMod K) rep_mod) (rmod_hom_monoid_prop K rep_mod))
 }.
 
 Arguments rep_mod {K G} _.
@@ -297,7 +316,7 @@ Next Obligation. intros K G V a b; exact (rep_act_mul V a b). Qed.
    homomorphism. *)
 Program Definition rep_of_monhom {K : RingObject} {G : GrpObject}
   (V : RModObject K) (h : MonHom (grp_mon G) (hom_monoid (RMod K) V)) :
-  GrpHom G (UnitsOf (hom_monoid (RMod K) V)) := {|
+  GrpHom G (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V)) := {|
   grp_map := {| morphism := fun g : carrier G =>
     (mon_map h g; (mon_map h (grp_inv G g); (_, _))) |}
 |}.
@@ -634,7 +653,7 @@ Proof. symmetry; apply ab_neg_unique; apply ab_neg_right. Qed.
    acts as the identity.  Available at every K and G, so [RepObject] is
    never empty. *)
 Program Definition rep_id_unit {K : RingObject} (V : RModObject K) :
-  carrier (grp_setoid (UnitsOf (hom_monoid (RMod K) V))) :=
+  carrier (grp_setoid (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V))) :=
   (id; (id; (_, _))).
 Next Obligation. intros K V; exact (id_left (@id (RMod K) V)). Qed.
 Next Obligation. intros K V; exact (id_left (@id (RMod K) V)). Qed.
@@ -645,12 +664,12 @@ Lemma rep_id_unit_respects {K : RingObject} {G : GrpObject}
 Proof. intros g g' Hgg'; apply units_equiv; reflexivity. Qed.
 
 Lemma rep_id_unit_is_unit {K : RingObject} (V : RModObject K) :
-  rep_id_unit V ≈ grp_unit (UnitsOf (hom_monoid (RMod K) V)).
+  rep_id_unit V ≈ grp_unit (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V)).
 Proof. apply units_equiv; reflexivity. Qed.
 
 Lemma rep_id_unit_mul {K : RingObject} (V : RModObject K) :
   rep_id_unit V
-    ≈ grp_mul (UnitsOf (hom_monoid (RMod K) V))
+    ≈ grp_mul (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V))
         (rep_id_unit V) (rep_id_unit V).
 Proof.
   apply units_equiv; symmetry; exact (id_left (@id (RMod K) V)).
@@ -710,7 +729,7 @@ Qed.
    the composite of the two actions. *)
 Definition sign_unit {K : RingObject} (V : RModObject K)
   (b : carrier Z2) :
-  carrier (grp_setoid (UnitsOf (hom_monoid (RMod K) V))) :=
+  carrier (grp_setoid (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V))) :=
   (sign_act V b;
    (sign_act V b;
     (sign_act_involutive V b, sign_act_involutive V b))).
@@ -723,13 +742,13 @@ Qed.
 
 Lemma sign_unit_is_unit {K : RingObject} (V : RModObject K) :
   sign_unit V (grp_unit Z2)
-    ≈ grp_unit (UnitsOf (hom_monoid (RMod K) V)).
+    ≈ grp_unit (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V)).
 Proof. apply units_equiv; reflexivity. Qed.
 
 Lemma sign_unit_mul {K : RingObject} (V : RModObject K)
   (a b : carrier Z2) :
   sign_unit V (grp_mul Z2 a b)
-    ≈ grp_mul (UnitsOf (hom_monoid (RMod K) V))
+    ≈ grp_mul (UnitsOf (hom_monoid (RMod K) V) (rmod_hom_monoid_prop K V))
         (sign_unit V a) (sign_unit V b).
 Proof.
   apply units_equiv; symmetry.

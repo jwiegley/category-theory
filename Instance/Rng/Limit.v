@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
@@ -23,19 +24,19 @@ Generalizable All Variables.
              §V.1 Theorems 2 and 3, book pp. 111-112 (PDF pp. 120-121)
    Riehl:    Category Theory in Context, §5.6 Example 5.6.8
 
-   [Rng_Forget] (Instance/Rng.v:129) STRICTLY CREATES every limit.  Given a
+   [Rng_Forget] (Instance/Rng.v) STRICTLY CREATES every limit.  Given a
    limiting cone over the underlying diagram of sets, there is exactly one
    ring structure on its apex making every projection a homomorphism
    ([rlim_structure_unique], Mac Lane's Theorem 2), the resulting cone lies
    over the given one ON THE NOSE ([rlim_over_obj] and [rlim_over_legs] are
    both [eq_refl], because [Rng_Forget]'s object map is the [rig_setoid]
-   projection -- Instance/Rng.v:615 already records that as an [eq_refl]),
+   projection -- Instance/Rng.v already records that as an [eq_refl]),
    it is limiting ([rlim_created]), and a cone of rings whose image is
    limiting is itself limiting ([rng_reflects]).  Packaged as
    Structure/Limit/Creation.v's own classes --
    [Rng_Forget_StrictlyCreatesLimit]
-   ([StrictlyCreatesLimit], :325), [Rng_Forget_CreatesLimit] and
-   [Rng_Forget_creates_limits] ([CreatesAllLimits], :228) -- from which the
+   ([StrictlyCreatesLimit]), [Rng_Forget_CreatesLimit] and
+   [Rng_Forget_creates_limits] ([CreatesAllLimits]) -- from which the
    standard corollaries follow by application: [Rng_Complete] (Mac Lane's
    Theorem 3) and [Rng_Forget_continuous : ContinuousFunctor Rng_Forget],
    the cone-level reading, with the apex-only
@@ -43,8 +44,8 @@ Generalizable All Variables.
    [Rng_Forget_reflects_limits] alongside.
 
    WHAT HAS TO BE LIFTED, AND HOW MUCH MORE IT IS THAN THE GROUP CASE.  An
-   object of [Rng] is Theory/Algebra/Rig.v:469's [RingObject]: a
-   [RigObject] (:103) extended by [ring_neg] with [ring_neg_respects] and
+   object of [Rng] is Theory/Algebra/Rig.v's [RingObject]: a
+   [RigObject] extended by [ring_neg] with [ring_neg_respects] and
    [ring_neg_l].  So FIVE operations are lifted -- [rig_zero], [rig_one],
    [rig_add], [rig_mul], [ring_neg] -- against the group case's three, and
    ELEVEN laws are proved: the four counted off Definition 5.36's clauses
@@ -56,9 +57,9 @@ Generalizable All Variables.
    METHOD IS UNCHANGED; only the bookkeeping grows.
 
    ONE PLACE WHERE THE RING SIGNATURE IS GENUINELY DIFFERENT, NOT MERELY
-   BIGGER.  [RigHom] (Theory/Algebra/Rig.v:162) has FOUR clauses --
+   BIGGER.  [RigHom] (Theory/Algebra/Rig.v) has FOUR clauses --
    [rig_map_zero], [rig_map_add], [rig_map_one], [rig_map_mul] -- and NO
-   clause for negation, because Rig.v:482's [RigHom_neg] proves preservation
+   clause for negation, because Rig.v's [RigHom_neg] proves preservation
    of negation from uniqueness of additive inverses.  Two consequences, both
    visible below.  The coherence of the negation cone ([rlim_neg_coherence])
    is therefore discharged by that THEOREM where its four siblings use a
@@ -71,8 +72,8 @@ Generalizable All Variables.
 
    THE HEADLINE SENTENCE IS MACHINE-CHECKED AT [eq_refl], NOT ARGUED.  At
    the limits [Sets_Complete] chooses -- the compatible families of
-   Instance/Sets/Complete.v ([Sets_limit_obj] at :144, [Sets_limit_leg] at
-   :157, [Sets_Complete] at :196) -- the created ring is the COORDINATEWISE
+   Instance/Sets/Complete.v ([Sets_limit_obj], [Sets_limit_leg] and
+   [Sets_Complete]) -- the created ring is the COORDINATEWISE
    one on the nose: [rng_complete_carrier], [rng_complete_zero],
    [rng_complete_one], [rng_complete_add], [rng_complete_mul],
    [rng_complete_neg] and [rng_complete_leg] are SEVEN [eq_refl] Examples,
@@ -86,7 +87,7 @@ Generalizable All Variables.
    [rng_fcone_leg] and [rng_complete_leg] -- and each does so because both
    sides are the SAME TERM, the witness being [eq_refl].  They record
    Mac Lane's [F sigma = tau] at full strength, which is strictly stronger
-   than the [≈] the [StrictLift] clause (Structure/Limit/Creation.v:288)
+   than the [≈] the [StrictLift] clause (Structure/Limit/Creation.v)
    asks for; every law, every proof and the [slift_legs] clause consumed by
    [rng_strict_lift] use [≈].  The same applies to the object-level [=] of
    [rlim_over_obj], [rng_lift_apex], [rng_fcone_apex],
@@ -97,25 +98,25 @@ Generalizable All Variables.
    WHAT IS NEW HERE AND WHAT IS NOT, MEASURED RATHER THAN ASSERTED.  This
    is the SECOND algebraic category to get a creation result and the second
    to get [@Complete], not the first: Instance/Grp/Limit.v is the precedent
-   ([Grp_Forget_creates_limits] at :645, [Grp_Complete] at :691) and this
+   ([Grp_Forget_creates_limits], [Grp_Complete]) and this
    file is its clause-for-clause transposition.  Sweeping declaration heads
    of the form "Definition/Program Definition/Theorem/Lemma/Example <name> :
    @?Complete|Cocomplete" over all [.v] files, the roster before this file
-   was [Sets_Complete] and [ConeSet_Complete] (Instance/Sets/Complete.v:196,
-   :464), [Sets_Complete_via_Manes] (Structure/Equalizer/Coreflexive.v:602),
-   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v:637, :641),
-   [Grp_Complete] (Instance/Grp/Limit.v:691), one biconditional at [Proset]
-   (Instance/Proset/Limit.v:549) and two probe files -- nothing for [Rng],
+   was [Sets_Complete] and [ConeSet_Complete] (Instance/Sets/Complete.v),
+   [Sets_Complete_via_Manes] (Structure/Equalizer/Coreflexive.v),
+   [Subsets_Complete]/[Subsets_Cocomplete] (Instance/Powerset.v),
+   [Grp_Complete] (Instance/Grp/Limit.v), one biconditional at [Proset]
+   (Instance/Proset/Limit.v) and two probe files -- nothing for [Rng],
    [Ab], [CMon], [RMod], [Mon] or [Top].
 
    AND THE CLAIM "NO LIMIT OF RINGS EXISTED IN TREE" WOULD BE FALSE, SO IT
    IS NOT MADE.  Instance/Rng/Zp.v already builds THREE: [Zp_limit :
-   IsALimit (ResTower Rcomm d) Zp] (:505), [Zp_int_limit] (:567) and
-   [PowerSeries_limit] (:587), each at an [Omega^op]-shaped tower with a
+   IsALimit (ResTower Rcomm d) Zp], [Zp_int_limit] and
+   [PowerSeries_limit], each at an [Omega^op]-shaped tower with a
    hand-built carrier.  It also already has the ELEMENTWISE uniqueness at
-   that one diagram -- [zp_zero_forced] (:519), [zp_one_forced] (:523),
-   [zp_add_forced] (:527), [zp_mul_forced] (:533), [zp_neg_forced] (:539) --
-   and its header (:126-129) states in terms what it does not prove: "Riehl
+   that one diagram -- [zp_zero_forced], [zp_one_forced],
+   [zp_add_forced], [zp_mul_forced], [zp_neg_forced] --
+   and its header states in terms what it does not prove: "Riehl
    §5.6 Example 5.6.8 observes that the underlying-set functor of [Rng] is
    MONADIC and therefore CREATES the limit cone ... Monadicity is NOT proved
    here and is not used".  THIS FILE SUPPLIES THE CREATION, at an arbitrary
@@ -132,25 +133,25 @@ Generalizable All Variables.
    along a natural isomorphism of functors is nowhere in tree".  That is
    false, and the audit of this file refuted it by building the alternative
    in twelve lines out of constants that already existed:
-   Functor/Hom/Continuous.v:319's [Section Transport] and :371's
+   Functor/Hom/Continuous.v's [Section Transport] and its
    [ContinuousFunctor_transport] are exactly that construction.  So the
    honest statement is that continuity of [Rng_Forget] WAS reachable before
-   this file, by [zpoly_representation] (Instance/Rng/Polynomial.v:791) and
-   [zpoly_representable] (:795) — note the names; a previous revision cited
+   this file, by [zpoly_representation] (Instance/Rng/Polynomial.v) and
+   [zpoly_representable] — note the names; a previous revision cited
    a [zpoly_hom_iso] that does not exist anywhere in the tree — composed
-   with Functor/Hom/Limit.v:338's [hom_ContinuousFunctor] and then
+   with Functor/Hom/Limit.v's [hom_ContinuousFunctor] and then
    transported.
 
    RAPL is not the route, and here too the earlier revision's PREMISE was
    wrong while its conclusion held.  It said "the only ring adjunction in
    tree is [free_rng_ab_adjunction]"; there are at least four
-   ([free_rng_ab_adjunction], Instance/Rng/Free.v:676;
-   [zmring_adjunction], Instance/Rng/MonoidRing.v:726;
-   [grp_ring_adjunction], Instance/Rng/GroupRing.v:306;
-   [poly_pointed_adjunction], Instance/Rng/Pointed.v:231).  What is true is
+   ([free_rng_ab_adjunction], Instance/Rng/Free.v;
+   [zmring_adjunction], Instance/Rng/MonoidRing.v;
+   [grp_ring_adjunction], Instance/Rng/GroupRing.v;
+   [poly_pointed_adjunction], Instance/Rng/Pointed.v).  What is true is
    the thing that matters: NONE of them has [Rng_Forget : Rng ⟶ Sets] as
    its right adjoint (measured, [grep -P '⊣\s*Rng_Forget(?![A-Za-z0-9_])']
-   returns nothing), so Adjunction/Continuity.v:209's
+   returns nothing), so Adjunction/Continuity.v's
    [right_adjoint_Continuous] does not reach it.
 
    WHAT IS NEW WITHOUT QUALIFICATION is therefore the CREATION result, and
@@ -208,15 +209,15 @@ Generalizable All Variables.
    consuming only the category, the forgetful functor and the rig algebra.
 
    NOT delivered.  (1) No creation result for [Rng_Forget_Ab]
-   (Instance/Rng.v:117), and the reason is structural rather than a matter
+   (Instance/Rng.v), and the reason is structural rather than a matter
    of effort: the cone-mediator method used below does not transpose to
    [Ab].  Multiplication would need a cone whose apex is a direct sum with
    leg [(a, b) ↦ leg a · leg b], and that map is BILINEAR, not additive, so
    it is not a morphism of [Ab] and there is no cone to take a mediator of;
    the multiplicative unit is worse, since the only canonical maps out of
-   [Ab]'s zero object (Instance/Ab.v:262, :276) send everything to zero and
+   [Ab]'s zero object (Instance/Ab.v) send everything to zero and
    so cannot select [1].  The available repair is the free abelian group on
-   one generator (Instance/Ab/Free.v:561's [FreeAb]) as the probe object,
+   one generator (Instance/Ab/Free.v's [FreeAb]) as the probe object,
    with the multiplication rebuilt one argument at a time as an
    element-indexed family of mediators [L ⟶ L] and respectfulness in the
    outer argument recovered from joint monicity.  That is a different
@@ -568,6 +569,30 @@ Proof.
   apply ring_neg_l.
 Qed.
 
+(** ** The vertex's equality is propositional *)
+
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject]
+   carries [rig_prop], so the lifted ring owes a [Prop]-valued relation on
+   [vertex_obj[L]] -- and [L] is an ARBITRARY limit of the underlying sets,
+   not the one [Sets_Complete] chooses, so Instance/Sets/Propositional.v's
+   [limit_PropEquiv] does not apply on the nose.  A HYPOTHESIS on [L] would
+   have been fatal for the same reason it was at [LimitAb]
+   (Instance/Ab/Limit.v): [CreatesLimits] quantifies over every [L] and
+   leaves no place to put it.
+
+   The relation is instead the one this section already has a theorem about:
+   two points of the vertex are related when every LEG relates them.
+   [rlim_ext] is exactly the implication into `≈`, and it holds at an
+   arbitrary limit because a limit's vertex is detected by its projections;
+   the converse is each leg being a setoid map.  So a limit of propositional
+   carriers is propositional, with no extra hypothesis anywhere. *)
+Definition rlim_prop : PropEquiv (is_setoid vertex_obj[L]) :=
+  @PropEquiv_of_relation _ (is_setoid vertex_obj[L])
+    (fun x y => forall j : J,
+       @pequiv _ _ (rig_prop (K j)) (rlim_leg j x) (rlim_leg j y))
+    (fun x y H => rlim_ext x y (fun j => pequiv_to _ _ (H j)))
+    (fun x y H j => pequiv_from _ _ (proper_morphism (rlim_leg j) x y H)).
+
 (** ** The lifted rig and the lifted ring *)
 
 Definition LimitRig : RigObject :=
@@ -587,7 +612,8 @@ Definition LimitRig : RigObject :=
    ; rig_distr_l      := rlim_distr_l
    ; rig_distr_r      := rlim_distr_r
    ; rig_mul_zero_l   := rlim_mul_zero_l
-   ; rig_mul_zero_r   := rlim_mul_zero_r |}.
+   ; rig_mul_zero_r   := rlim_mul_zero_r
+   ; rig_prop         := rlim_prop |}.
 
 Definition LimitRing : RingObject :=
   {| ring_rig          := LimitRig
@@ -927,7 +953,7 @@ Definition Rng_Complete : @Complete Rng :=
 (* [ContinuousFunctor] is [PreservesLimitCone] quantified over every shape
    and diagram, which is what the word means in Mac Lane §V.4 -- the
    apex-only [PreservesAllLimits] below is its CONSEQUENCE, not the
-   definition (Structure/Limit/Preservation.v:46-56). *)
+   definition (Structure/Limit/Preservation.v). *)
 
 Definition Rng_Forget_continuous : ContinuousFunctor Rng_Forget :=
   creates_limits_continuous Rng_Forget Sets_Complete Rng_Forget_creates_limits.

@@ -1,7 +1,7 @@
 (** * Probe for the Freyd characterization (issue #436)
 
     Pins the measured boundaries of Adjunction/GAFT.v's necessity direction
-    and of the biconditional, with negatives of four kinds kept lexically
+    and of the biconditional, with negatives of three kinds kept lexically
     apart.  NAME-ABSENCE: n7, there is no field called [sol_unique] — the
     same KIND of refusal as the instrument, and it carries only half the
     argument, the other half being the four accepted [Check]s beside it that
@@ -15,10 +15,16 @@
     [Sets_Id_SolutionSet] in index, member and arrow but is not the same
     record, the two covering witnesses differing.  TYPING: n4, the
     sufficient direction keeps all three premises — dropping continuity does
-    not ascribe.  UNIVERSE: n6, the biconditional inherits [GAFT]'s pin of
-    both hom universes to [Set] — which the necessity direction does NOT,
-    the accepted control beside it being that same statement at a category
-    with [Set] strictly below its homs.
+    not ascribe.
+
+    RECORDED CORRECTION: an earlier revision counted a fourth kind,
+    UNIVERSE, for n6, "the biconditional inherits [GAFT]'s pin of both hom
+    universes to [Set] — which the necessity direction does NOT".  [GAFT]'s
+    [Set] came from Instance/Discrete.v's unannotated
+    [DiscreteCat_Functor] through GAFT.v; the donor was annotated in
+    the PR "algebraic carriers are sets" (2026-09-17) and n6 is now an
+    accepted positive control beside its former control.  No UNIVERSE
+    refusal remains in this file.
 
     The [eq_refl] readbacks are positive controls: the three data fields of
     the manufactured family, the collapse of the comma route's arrow to the
@@ -129,8 +135,19 @@ Check (fun (C D : Category) (U : C ⟶ D) (comp : @Complete C)
 Fail Check (fun (C D : Category) (U : C ⟶ D) (comp : @Complete C)
                 (sols : ∀ d : D, SolutionSet U d) => GAFT U comp sols).
 
-(** ** D: UNIVERSE — the biconditional inherits GAFT's pin, the converse
-        direction does not *)
+(** ** D: the biconditional no longer inherits a [Set] pin
+
+    RECORDED CORRECTION.  An earlier revision headed this section
+    "UNIVERSE — the biconditional inherits GAFT's pin, the converse
+    direction does not", and n6 below was a refusal: [GAFT_iff] was not
+    formable over a category whose hom level is declared strictly above
+    [Set], while [solution_set_of_adjunction] was.  [GAFT]'s [Set] came
+    from Instance/Discrete.v's unannotated [DiscreteCat_Functor] through
+    Adjunction/GAFT.v and [initial_from_weakly_initial]; annotating
+    that donor in the PR "algebraic carriers are sets" (2026-09-17)
+    removes it, and [GAFT_iff] is now ACCEPTED at those levels.  Both
+    lines are kept as positive controls, so dropping the annotation
+    refuses the second again and breaks this file. *)
 
 Monomorphic Universes p436o p436h p436p.
 Monomorphic Constraint Set < p436h.
@@ -143,8 +160,8 @@ Monomorphic Constraint Set < p436h.
 Check (fun (Cu : Category@{p436o p436h p436p}) (Du : Category@{p436o p436h p436p})
            (F : Du ⟶ Cu) (U : Cu ⟶ Du) => @solution_set_of_adjunction Cu Du F U).
 
-(* n6 UNIVERSE: the biconditional is refused there *)
-Fail Check (fun (Cu : Category@{p436o p436h p436p})
+(* former n6: the biconditional is accepted there too *)
+Check (fun (Cu : Category@{p436o p436h p436p})
                 (Du : Category@{p436o p436h p436p})
                 (U : Cu ⟶ Du) => @GAFT_iff Cu Du U).
 

@@ -186,7 +186,7 @@ Definition probe_prop_le@{o} (X : SetoidObject@{o o}) :
   relation (carrier (Powerset_Prop_obj@{o} X)) :=
   fun S T => ∀ x, S x → T x.
 
-(* NEGATIVE 2.  Instance/Sets/Powerset.v:238's PROOF-RELEVANT carrier has
+(* NEGATIVE 2.  Instance/Sets/Powerset.v's PROOF-RELEVANT carrier has
    [Type@{o}]-valued members, so inclusion between two of its subsets is
    [Type]-valued and is not a [relation] at all.  This is why the order
    is put on the truncated carrier and not on this one. *)
@@ -223,12 +223,22 @@ Definition probe_small_union@{o} (X : TopSpace@{o}) (I : Type@{o})
   (U : I → (X → Type@{o})) (HU : ∀ i, IsOpen X (U i)) :
   IsOpen X (fun x => { i : I & U i x }) := open_union X I U HU.
 
-(* NEGATIVE 5.  The [Set] pin of the RAPL route, made visible.
-   [Subsets_Complete] goes through [Proset_Limit] and hence through
-   Instance/Discrete.v's unannotated [DiscreteCat_Functor], which fixes
-   the shape at [DiscreteCat@{u Set Set}] while [IsALimit] identifies the
-   shape's hom-and-proof universe with the ambient's.  So completeness is
-   available at hom level [Set] and nowhere else. *)
+(* NEGATIVE 5.  The [Set] level of the RAPL route, made visible: this
+   file's [Subsets_Complete] is available at hom level [Set] and nowhere
+   else, so the ascription below is refused.
+
+   RECORDED CORRECTION TO THE ATTRIBUTION.  An earlier revision said the
+   [Set] came from the DONOR: "[Subsets_Complete] goes through
+   [Proset_Limit] and hence through Instance/Discrete.v's unannotated
+   [DiscreteCat_Functor], which fixes the shape at
+   [DiscreteCat@{u Set Set}]".  That donor was annotated in place at
+   Instance/Discrete.v in the PR "algebraic carriers are sets"
+   (2026-09-17) and fixes nothing now.  The refusal below SURVIVES that
+   repair unchanged, because the [Set] it fires on is written into
+   Instance/Powerset.v's own statement -- [Subsets_Complete] is declared
+   at [@Complete (Subsets@{o Set} X)] -- which is a choice that file makes
+   and has not re-measured.  [IsALimit] still identifies the shape's
+   hom-and-proof universe with the ambient's; that part is unchanged. *)
 Fail Definition probe_complete_free@{o u + | Set < u +}
   (X : SetoidObject@{o o}) : @Complete (Subsets@{o u} X) :=
   Subsets_Complete.

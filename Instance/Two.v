@@ -194,7 +194,7 @@ Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
    (Instance/Sets.v) assembles [Monic f -> Epic f -> IsIsomorphism f] from
    [injectivity_is_monic] and [epic_implies_surjective] via [bijective_is_iso].
    An earlier revision of this comment said the second half was unavailable --
-   "the direction abandoned at Instance/Sets.v:476" -- and that was true when
+   "the direction abandoned at Instance/Sets.v" -- and that was true when
    written; it was proved subsequently.  So the contrast is genuine and
    sharper than first stated: [2] is not balanced while [Sets] is. *)
 
@@ -239,19 +239,19 @@ Definition two_bimorphic_not_iso :
    Mac Lane's own counterexample is out of reach in this tree, which has no
    category of groups.  Structure/Group.v defines group OBJECTS in a
    cartesian monoidal category, not Grp.  Instance/Comp.v comes closest and
-   still misses: it has a TYPE of groups ([Group], :382, algebras for the
-   group signature and its equations, :268) and a CATEGORY [Algs] (:151), but
+   still misses: it has a TYPE of groups ([Group], algebras for the
+   group signature and its equations) and a CATEGORY [Algs], but
    the objects of [Algs] are [OpAlgebra S] -- structures for a signature with
    the equations dropped -- so instantiating it at the group signature does
    not produce Grp.  Categories of algebras the tree does have, several of
-   them: [Models T C] for a Lawvere theory (Theory/Lawvere/Model.v:77),
-   [OperadAlgebras] for an operad (Theory/Multicategory/Algebra.v:417),
-   [FAlg F] for an endofunctor (Construction/FAlg.v:114), [Algs] again, and
+   them: [Models T C] for a Lawvere theory (Theory/Lawvere/Model.v),
+   [OperadAlgebras] for an operad (Theory/Multicategory/Algebra.v),
+   [FAlg F] for an endofunctor (Construction/FAlg.v), [Algs] again, and
    the commutative monoids of Instance/CMon.v, which is the one carried far
    enough to serve as the tree's semiadditive witness.  None of them is Grp,
    and none is instantiated at the group signature anywhere in the tree:
-   [GroupOp] (Instance/Comp.v:298) is used to build the TYPE [Group] (:382)
-   and the single algebra [BoolOp] (:395), never the category [Algs] and
+   [GroupOp] (Instance/Comp.v) is used to build the TYPE [Group]
+   and the single algebra [BoolOp], never the category [Algs] and
    never a Lawvere theory.
 
    The interval category gives a blunter counterexample, for the same reason

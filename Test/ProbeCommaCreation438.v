@@ -2,8 +2,9 @@
 
     Pins the measured boundaries of Construction/Comma/Creation.v's
     per-diagram and strict-creation additions and of
-    Construction/Slice/Creation.v, with negatives of two kinds kept
-    lexically apart.  CONVERSION: N1, the all-shapes [PreservesImageLimit]
+    Construction/Slice/Creation.v.  Every negative is now of ONE kind, and
+    the recorded correction below says what the second kind was.
+    CONVERSION: N1, the all-shapes [PreservesImageLimit]
     and the shape-indexed family of [PreservesLimitCone]s agree at every
     diagram — the accepted controls show both passages — but the two
     [Type]s are not convertible, one binding a [Limit] where the other
@@ -13,13 +14,23 @@
     the comma category on the nose; N5, the shipped [comma_CreatesLimit]'s
     [creates_lift] discards the cone it is handed and returns the lift of
     the fixed [L], so its apex is refused against that cone's apex, while
-    the paired control shows the new strict lift is accepted.  UNIVERSE:
-    N2, a discrete-shape base diagram built by ELIMINATING the shape's
-    [x = y] into a hom is not formable over a generic [C] — the elimination
-    pins both categories to [Category@{_ Set Set}], while [DiscreteCat]
-    itself leaves those universes free — which is why the products clause
-    is stated elementarily over [IsIndexedProduct]; the constant discrete
-    diagram below shows the class it does not block is still inhabited.
+    the paired control shows the new strict lift is accepted.
+
+    RECORDED CORRECTION: an earlier revision listed a second kind,
+    UNIVERSE, for N2 — "a discrete-shape base diagram built by ELIMINATING
+    the shape's [x = y] into a hom is not formable over a generic [C] —
+    the elimination pins both categories to [Category@{_ Set Set}], while
+    [DiscreteCat] itself leaves those universes free — which is why the
+    products clause is stated elementarily over [IsIndexedProduct]".  The
+    elimination was not the cause: the pin was a universe-minimization
+    artifact of Instance/Discrete.v's unannotated [DiscreteCat_Functor],
+    annotated in the PR "algebraic carriers are sets" (2026-09-17), and
+    the base diagram IS formable.  N2 is kept as a positive control there;
+    every remaining negative in this file is CONVERSION.  The products
+    clause is still stated elementarily over [IsIndexedProduct], which is
+    now a presentational choice, and the constant discrete diagram below
+    still shows that class inhabited.
+
     N6, CONVERSION again: the plain coslice projection and the transported
     one are different functors, so neither file's result transfers to the
     other by conversion.
@@ -102,10 +113,20 @@ Context (F : A → (=(d) ↓ U)).
 (* control: the discrete functor itself is formable *)
 Check (DiscreteCat_Functor F).
 
-(* N2 UNIVERSE: but its base diagram is not — building a functor out of
-   [DiscreteCat A] by eliminating [x = y] into a hom pins both categories to
-   [Category@{_ Set Set}] *)
-Fail Definition p438_discrete := Gdiag (DiscreteCat_Functor F).
+(* Former N2, now a positive control.
+
+   RECORDED CORRECTION.  An earlier revision read: "N2 UNIVERSE: but its
+   base diagram is not — building a functor out of [DiscreteCat A] by
+   eliminating [x = y] into a hom pins both categories to
+   [Category@{_ Set Set}]."  The diagnosis named the elimination but the
+   pin was in fact a universe-MINIMIZATION artifact of the unannotated
+   declaration of [DiscreteCat_Functor], not of the elimination: the
+   annotated [DiscreteCat_Functor@{o h p uo uh up +}] (PR "algebraic
+   carriers are sets", 2026-09-17, Instance/Discrete.v) eliminates
+   [x = y] into a hom exactly as before and the base diagram IS formable.
+   Kept as a positive control so that dropping the annotation breaks this
+   file. *)
+Definition p438_discrete := Gdiag (DiscreteCat_Functor F).
 
 (* control: the elementary products clause needs no shape at all *)
 Check (@comma_IsIndexedProduct C D U d A F).

@@ -28,20 +28,21 @@ Generalizable All Variables.
    Dover 2016, §3.1 Example 3.1.26 is the same computation.
 
    [Cocomplete C] is [∀ (D : Category) (F : D ⟶ C), Colimit F]
-   (Structure/Complete.v:119) and [Colimit F] is [Limit (F^op)]
-   (Structure/Limit.v:158): an oracle assigning a chosen colimit to every
+   (Structure/Complete.v) and [Colimit F] is [Limit (F^op)]
+   (Structure/Limit.v): an oracle assigning a chosen colimit to every
    diagram.  This file inhabits it at [Sets], as the mirror of
    Instance/Sets/Complete.v.  Five in-tree notes across four files record
-   the absence this answers -- Instance/Sets/Complete.v:109,
-   Instance/Sets/Coequalizer.v:62 and :144, Instance/Sets/Quotient.v:157,
-   and Instance/Sets/Products.v:236, whose "cocompleteness is not
+   the absence this answers -- Instance/Sets/Complete.v,
+   Instance/Sets/Coequalizer.v twice, Instance/Sets/Quotient.v,
+   and Instance/Sets/Products.v, whose "cocompleteness is not
    addressed at all, here or anywhere else in the tree" is the flattest
    of the five -- and it sits in the very file that supplies
    [Sets_icoprod_obj], this construction's own donor.  None was edited
    when this file landed, and all five were STALE.  THREE have since been
-   corrected in place and now point HERE (Complete.v:109, and with it
-   Coequalizer.v:62 and Quotient.v:157); Coequalizer.v:144 and
-   Products.v:236 still read as absences.  An earlier draft counted THREE
+   corrected in place and now point HERE (the note in Complete.v, and
+   with it the first of the two in Coequalizer.v and the one in
+   Quotient.v); the second Coequalizer.v note and the one in
+   Products.v still read as absences.  An earlier draft counted THREE
    notes and said they "still stand as written" -- wrong twice over.
 
    THE CONSTRUCTION
@@ -91,7 +92,7 @@ Generalizable All Variables.
 
    NO DUALITY SHORTCUT FROM [Sets_Complete] -- MEASURED, NOT ASSUMED
 
-   [Sets_Complete] (Instance/Sets/Complete.v:196) supplies a [Limit F] for
+   [Sets_Complete] (Instance/Sets/Complete.v) supplies a [Limit F] for
    every [F : D ⟶ Sets].  A colimit of [F] is a limit of [F^op], and
    [F^op] is a diagram into [Sets^op]; no instantiation of [Sets_Complete]
    has that type.  Elaborating
@@ -116,14 +117,14 @@ Generalizable All Variables.
 
    It is NOT routed through "a category with all small coproducts and
    coequalizers is cocomplete".  That theorem is in this development in
-   neither variance: on the limit side Instance/Sets/Complete.v:47-62
+   neither variance: on the limit side Instance/Sets/Complete.v
    already records its absence, and dually no constant here or elsewhere
    derives [Cocomplete] from [HasIndexedCoproducts] and [HasCoequalizers].
-   In particular [Sets_HasCoequalizers] (Instance/Sets/Coequalizer.v:293)
+   In particular [Sets_HasCoequalizers] (Instance/Sets/Coequalizer.v)
    is NOT consumed.  What is consumed is the layer beneath it: the two
    objects [Sets_icoprod_obj] and [SetsQuotient].  Both halves of the
    informal recipe are therefore genuine donors, but the coequalizer is
-   not one of them, and Instance/Sets/Coequalizer.v:66's forecast that its
+   not one of them, and Instance/Sets/Coequalizer.v's forecast that its
    hand-built object "is what a later [Cocomplete Sets] would itself need"
    is not what happened.
 
@@ -143,7 +144,7 @@ Generalizable All Variables.
      Sets_Cocomplete@{uc ud uo uso} : Cocomplete@{uc ud uo uso}
      (* uc ud uo uso |= uc < uso   ud <= uc   ud <= uo   uc = uo   ... *)
 
-   Writing [Sets@{o so}] as Instance/Sets.v:193 does, [uo] is [o] -- the
+   Writing [Sets@{o so}] as Instance/Sets.v does, [uo] is [o] -- the
    universe of the CARRIERS of [Sets]' objects, and of its homs -- and
    [uso] is [so], where [obj[Sets]] itself lives.  [Cocomplete@{a b c d}]
    applies to [C : Category@{d c c}] and quantifies over
@@ -156,7 +157,7 @@ Generalizable All Variables.
    inductive [colim_rel] both quantify over the objects and the arrows of
    [D], so they fit as a [Sets] carrier when both sit at or below [o].
    This is the universe-polymorphic stand-in for "D small relative to C"
-   that Structure/Complete.v:27-34 describes.
+   that Structure/Complete.v describes.
 
    TWO MEASURED FINDINGS ABOUT THAT BLOCK.
 
@@ -175,7 +176,7 @@ Generalizable All Variables.
    Instance/Sets/Complete.v is not edited.
 
    (2) The identification would return if the leg were the donor
-   composite.  [Sets_icoprod_inj@{u u0}] (Instance/Sets/Products.v:352)
+   composite.  [Sets_icoprod_inj@{u u0}] (Instance/Sets/Products.v)
    carries only two universe binders and types its family as
    [A → SetoidObject@{u u}] with [A : Type@{u}], identifying the index
    type's universe with the setoid carrier universe, whereas
@@ -222,21 +223,21 @@ Generalizable All Variables.
    WHAT THIS UNLOCKS
 
    [Cocomplete] is a hypothesis of [adamek_cocomplete]
-   (Theory/Adamek/Corollaries.v:61), of [creates_colimits_Cocomplete]
-   (Structure/Limit/Creation.v:439) and of
-   [Cocomplete_equivalence_invariant] (Instance/Proset/Limit.v:643).  Keep
+   (Theory/Adamek/Corollaries.v), of [creates_colimits_Cocomplete]
+   (Structure/Limit/Creation.v) and of
+   [Cocomplete_equivalence_invariant] (Instance/Proset/Limit.v).  Keep
    those two roles apart: [adamek_cocomplete] TAKES a [Cocomplete] but its
    own type is [@Initial (FAlg F)], so it is not in the list that follows.
    The constants whose TYPE is [@Cocomplete _] are exactly THREE --
    [creates_colimits_Cocomplete], [Cocomplete_equivalence_invariant] and
-   [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v:603) -- and
+   [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v) -- and
    every one takes a hypothesis, a [Cocomplete] or a family of joins.  So
    this is the first hypothesis-free inhabitant.  (An earlier draft of
    this paragraph listed [adamek_cocomplete] among the four "constants
    whose type is [@Cocomplete _]"; that was a conflation of taking the
    class with having it as a type.)  It does NOT make [adamek_cocomplete]
    unconditional: that corollary still wants an [AdamekData], and
-   Theory/Adamek/Corollaries.v:83-84 records that no [AdamekData] witness
+   Theory/Adamek/Corollaries.v records that no [AdamekData] witness
    is constructed anywhere in the tree.
 
    NON-VACUITY, AT ONE SHAPE -- READ THE SCOPE

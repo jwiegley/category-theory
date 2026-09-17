@@ -6,40 +6,50 @@
     that a later edit which quietly makes either FALSE breaks the build
     rather than silently invalidating the prose.
 
-    The two negatives are of DIFFERENT KINDS and are kept lexically apart:
+    One negative remains, and the section that used to hold a second is
+    now a positive control.  They are of DIFFERENT KINDS and are kept
+    lexically apart:
 
-      * FORMABILITY (universe) -- the target proves its product corollaries
-        DIRECTLY rather than deriving them from the cone-level headline,
-        and the header's stated reason is that routing them through the
-        discrete-diagram presentation would pin the ambient category's
-        hom and proof universes to [Set].  Negative 2 pins exactly that,
-        and it localizes the cause: [DiscreteCat_Functor] ALONE is formable
-        over a category whose hom universe is strictly above [Set] (the
-        control immediately above it), and what fails is the COMBINATION --
-        [IsLimitCone] identifies the shape's hom-and-proof universe with
-        the ambient category's, while [DiscreteCat_Functor]'s UNANNOTATED
-        declaration instantiates [DiscreteCat@{u Set Set}].  Stripped, the
-        error reads
+      * FORMABILITY (universe) -- REPAIRED, and recorded as a correction.
+        An earlier revision stated this as Negative 2.  The target proves
+        its product corollaries DIRECTLY rather than deriving them from
+        the cone-level headline, and the header's stated reason was that
+        routing them through the discrete-diagram presentation would pin
+        the ambient category's hom and proof universes to [Set].  The
+        negative pinned exactly that, and localized the cause:
+        [DiscreteCat_Functor] ALONE was formable over a category whose hom
+        universe is strictly above [Set], and what was refused was the
+        COMBINATION -- [IsLimitCone] identifies the shape's hom-and-proof
+        universe with the ambient category's, while
+        [DiscreteCat_Functor]'s UNANNOTATED declaration instantiated
+        [DiscreteCat@{u Set Set}].  Stripped, the error read
           "universe inconsistency: Cannot enforce Set = uh",
         displaying [Cone@{_ Set Set uo uh uh}] against a [Cone] whose
         shape and ambient levels are one and the same.
 
-        ATTRIBUTE IT TO THE FUNCTOR, NOT THE SHAPE.  [DiscreteCat] itself
-        is [DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p}] with hom
-        and proof FREE, and [DiscreteCat@{Set uh uh} bool] elaborates under
-        [Constraint Set < uh].  An audit further showed that a re-annotated
-        discrete-diagram functor LIFTS this blocking step entirely, so what
-        this negative pins is a donor ANNOTATION defect, not a structural
-        obstruction -- see the target's header.
+        THE ATTRIBUTION WAS RIGHT AND THE DEFECT IS NOW FIXED.
+        [DiscreteCat] itself is
+        [DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p}] with hom
+        and proof FREE, and [DiscreteCat@{Set uh uh} bool] elaborates
+        under [Constraint Set < uh]; the header said so, and added that a
+        re-annotated discrete-diagram functor would LIFT the blocking step
+        entirely, so that what the negative pinned was a donor ANNOTATION
+        defect and not a structural obstruction.  In the PR "algebraic
+        carriers are sets" (2026-09-17) that annotation was applied in
+        place -- [DiscreteCat_Functor@{o h p uo uh up +}] at
+        Instance/Discrete.v -- and the prediction held: the command is
+        now ACCEPTED, and it is kept below as a positive control at
+        exactly the levels that used to refuse it.  Dropping the
+        annotation would refuse it again and break this file.
 
         An earlier draft of this probe aimed the negative at
-        [DiscreteCat_Functor] by itself and it did NOT fail -- the guard
+        [DiscreteCat_Functor] by itself and it did NOT refuse -- the guard
         was pointed at the wrong constant.  Recorded because a negative
         aimed at the wrong constant is a false guard, not a small slip;
         and an earlier draft ALSO mis-attributed the [Set] to the shape.
 
       * TYPING -- written [FCone (HomFrom unit) (…)] elaboration reports
-          "HomFrom () has type Coq ⟶ Sets while it is expected to have
+          "HomFrom  has type Coq ⟶ Sets while it is expected to have
            type Coq ⟶ Coq".
         THE CAUSE IS [HomFrom]'s IMPLICIT [{C : Category}], undeterminable
         from a bare [unit : Type] -- NOT [FCone]'s category arguments.
@@ -102,9 +112,14 @@ Check (Pick_Two bool nat).
    category, and then FCone's own arguments may stay implicit. *)
 Check (FCone (HomFrom (unit : obj[Coq])) (coq_two_limit (Pick_Two bool nat))).
 
-(** ** Negative 2 (FORMABILITY, universe): the discrete route pins Set
+(** ** Former Negative 2 (FORMABILITY, universe): the discrete route no
+    longer pins Set
 
-    Different KIND from Negative 1. *)
+    RECORDED CORRECTION: this section used to hold the file's second
+    negative, refused because [DiscreteCat_Functor] was unannotated and
+    instantiated [DiscreteCat@{u Set Set}].  Annotated in the PR
+    "algebraic carriers are sets" (2026-09-17) it is accepted, and the
+    line is retained as a positive control at the same levels. *)
 
 Section AboveSet.
 
@@ -119,12 +134,12 @@ Context (C : Category@{uo uh uh}) (c : obj[C]) (fam : bool -> obj[C]).
 Check (@hom_IsIndexedProduct C c).
 Check (@hom_IsCartesianProduct C c).
 
-(* Control (b): the discrete-diagram functor ALONE is formable here, which
-   is what makes the negative a statement about the COMBINATION. *)
+(* Control (b): the discrete-diagram functor ALONE is formable here.  It
+   always was; what used to be refused was the COMBINATION below. *)
 Check (@DiscreteCat_Functor bool C fam).
 
-(* The negative. *)
-Fail Check (fun N : Cone (@DiscreteCat_Functor bool C fam) => IsLimitCone N).
+(* The repaired combination, kept as a positive control. *)
+Check (fun N : Cone (@DiscreteCat_Functor bool C fam) => IsLimitCone N).
 
 (* Control (c): [IsLimitCone] itself is fine at this ambient category when
    the SHAPE is not the Set-pinned discrete one. *)
@@ -159,11 +174,16 @@ Check coq_hom_limit_cone.
 
 (** ** MEASURED RENAME-SIMULATION SCORE
 
-    The two negatives name these constants:
-
-      Negative 1: [FCone], [HomFrom], [coq_two_limit], [Pick_Two]
-      Negative 2: [DiscreteCat_Functor], [Cone], [IsLimitCone]
+    The one remaining negative names [FCone], [HomFrom], [coq_two_limit]
+    and [Pick_Two]; the repaired section names [DiscreteCat_Functor],
+    [Cone] and [IsLimitCone].
 
     All SEVEN are named by a positive control above, so renaming any one
-    of them breaks this file rather than turning its negative vacuously
-    green.  Score: 7/7, counted rather than recalled. *)
+    of them breaks this file rather than turning a negative vacuously
+    green or a positive control vacuously absent.  Score: 7/7, counted
+    rather than recalled.
+
+    RECORDED CORRECTION: an earlier revision counted "two negatives" here
+    and assigned the second group to Negative 2.  That negative was
+    repaired by annotating [DiscreteCat_Functor]; the constants and the
+    score are unchanged, only the KIND of the line they guard. *)

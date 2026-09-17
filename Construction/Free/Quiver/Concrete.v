@@ -31,8 +31,8 @@ Generalizable All Variables.
      - their DISJOINT UNION is faithful, so quivers are concrete after all.
 
    All three functors are built here over the in-tree quiver category
-   `QuiverCategory` (Construction/Free/Quiver.v:358), whose objects are the
-   `Quiver` records of that file (line 54): a node type together with an edge
+   `QuiverCategory` (Construction/Free/Quiver.v), whose objects are the
+   `Quiver` records of that file: a node type together with an edge
    setoid `edges x y` for each ordered pair of nodes.  Since edges are indexed
    by their endpoints rather than carrying source/target maps, the "set of
    arrows" has to be assembled: [QArrow] below is the type of triples
@@ -46,10 +46,10 @@ Generalizable All Variables.
    These are the first `Sets`-valued functors on quivers in the library.
    `QuiverCategory` is the only quiver category in the tree, and the only
    quiver-facing functors that existed before this file are
-   Construction/Free/Quiver.v:412's `Forgetful : StrictCat ⟶ QuiverCategory`
-   and :546's `FreeCatFunctor : QuiverCategory ⟶ StrictCat`, neither of which
+   Construction/Free/Quiver.v's `Forgetful : StrictCat ⟶ QuiverCategory`
+   and `FreeCatFunctor : QuiverCategory ⟶ StrictCat`, neither of which
    lands in `Sets`.  The quiver-building idiom used for the witnesses below,
-   `Build_Quiver_Standard_Eq`, is the one Test/Issue138.v:87 already uses.
+   `Build_Quiver_Standard_Eq`, is the one Test/Issue138.v already uses.
 
    Both negative results are genuine refutations, each witnessed by two
    PARALLEL homomorphisms exhibited explicitly and shown distinct in the

@@ -58,7 +58,7 @@ Generalizable All Variables.
        full-subcategory idiom (Instance/Rng.v's [CRng_Sub],
        Instance/Ab/TorsionFree.v's [TorsionFree_Sub], and the two prior
        subcategories OF A FUNCTOR CATEGORY, Functor/Representable/
-       Functorial.v:305's [ReprSubcat] and Instance/Ab/ModFunctor.v:206's
+       Functorial.v's [ReprSubcat] and Instance/Ab/ModFunctor.v's
        [AbFunAdd_sub], the latter written in the same five-line
        [@Build_Subcategory] form as [LeftAdjSub]; measured, none is cut
        by a right-adjoint predicate, and [HasRightAdjoint] occurs in no
@@ -119,9 +119,9 @@ Generalizable All Variables.
      file.
 
    • "The closest in-tree analogue of the arrow part is the mate operator
-     (Theory/Bicategory/Mates.v:486 ...)" -- both cited lines are
+     (Theory/Bicategory/Mates.v ...)" -- both cited lines are
      accurate but the conclusion is not.  The closest analogue is not
-     bicategorical at all: Adjunction/Conjugate.v:333's
+     bicategorical at all: Adjunction/Conjugate.v's
      [conj_mate (A : F ⊣ U) (A' : F' ⊣ U') (σ : F' ⟹ F) : U ⟹ U'] IS the
      arrow part, over arbitrary C and D and with no bicategorical
      machinery.  Every [fmap] below is that constant.
@@ -129,22 +129,21 @@ Generalizable All Variables.
    • "What is entirely missing is ... the choice of a right adjoint on
      objects, and the two functor laws." -- the first clause (the
      subcategory) is right; these two are not.
-     Instance/Adj/Forgetful.v:106's [AdjForgetRight C D] already has
+     Instance/Adj/Forgetful.v's [AdjForgetRight C D] already has
      [fobj := adjobj_right] -- the chosen right adjoint, objects of
      [Adj C D] carrying the choice as data -- with both functor laws
      beside it, and the two laws in the form this file consumes are
-     Adjunction/Conjugate.v:491's [conj_mate_id] and :494's
-     [conj_mate_compose].
+     Adjunction/Conjugate.v's [conj_mate_id] and [conj_mate_compose].
 
    • Not in the issue at all, and the strongest prior art:
      Adjunction/Parameter.v (#396) already builds a functor of exactly
-     this shape.  Its [pa_param_mate] (:452) IS [conj_mate],
-     [pa_param_mate_id] (:541) ends in [conj_mate_id],
-     [pa_param_mate_comp] (:549) in [conj_mate_compose], and
-     [parametrized_right_adjoint_bifunctor] (:577) is the packaging.
+     this shape.  Its [pa_param_mate] IS [conj_mate],
+     [pa_param_mate_id] ends in [conj_mate_id],
+     [pa_param_mate_comp] in [conj_mate_compose], and
+     [parametrized_right_adjoint_bifunctor] is the packaging.
      The only difference from this file is the source category.
 
-   • "Theory/Bicategory/Mates.v:52-56 explicitly descopes mate
+   • "Theory/Bicategory/Mates.v explicitly descopes mate
      functoriality (descope ledger entry 10), which is exactly the
      identity and composition laws this exercise needs." -- the citation
      is accurate, the conclusion is not, and the DoD box that hangs on it
@@ -152,12 +151,12 @@ Generalizable All Variables.
 
    THE MATES DESCOPE IS NOT DISCHARGED HERE, AND Theory/Bicategory/Mates.v
    WAS NOT EDITED BY THIS FILE.  Descope ledger entry 10
-   (doc/plan/00-CONVENTIONS.md:579-581, "Mates beyond the bijection")
+   (doc/plan/00-CONVENTIONS.md, "Mates beyond the bijection")
    descopes the double category of
    adjunctions and PASTING functoriality of mates in an ARBITRARY
    BICATEGORY.  What this exercise needs is VERTICAL composition at
    IDENTITY bounding cells in ordinary category theory, which #394
-   already supplied; Adjunction/Conjugate.v:92-97 states in terms that
+   already supplied; Adjunction/Conjugate.v states in terms that
    [conjugate_id]/[conjugate_compose] "are the identity-bounding-cell
    shadow of the pasting functoriality that Mates.v deliberately leaves
    out of scope" and that "they do not discharge that entry".  So there
@@ -181,7 +180,7 @@ Generalizable All Variables.
      rather than out of any law of [D, C].  That this is non-vacuous was
      MEASURED on this very definition rather than assumed: recompiled in
      a scratch copy with the library's default obligation tactic
-     (Lib/Tactics.v:225) in force and no obligation written,
+     (Lib/Tactics.v) in force and no obligation written,
      [Obligations.] reports "3 obligation(s) remaining", listing the
      [Proper] of [fmap], the identity law and the composition law, and
      the section close then breaks with "Unsolved obligations".  So
@@ -256,7 +255,7 @@ Generalizable All Variables.
    EQUIVALENCE, and the distinction is the tree's own: `≅[Cat]` in this
    library IS equivalence (Instance/Cat.v's hom-setoid is
    [Functor_Setoid]), whereas `≅[StrictCat]` compares functors by
-   [Functor_StrictEq_Setoid] (Theory/Functor.v:606), which asks for
+   [Functor_StrictEq_Setoid] (Theory/Functor.v), which asks for
    Leibniz equality on OBJECTS and `≈` on MORPHISMS.  Refutations 3 and 4
    above therefore do not obstruct it: both object families are
    [fun x => eq_refl], the [Adj]-side morphism clause is
@@ -306,7 +305,7 @@ Generalizable All Variables.
    independent.  None is claimed unavoidable.  Word-bounded [Set] occurs
    in the constraint block of 13 of the 79 records and in the printed
    type of 7, and ALL of them are in section (E); sections (A)-(D) carry
-   none anywhere.  It is inherited, not introduced: Instance/Two.v:111
+   none anywhere.  It is inherited, not introduced: Instance/Two.v
    declares [TwoHom : TwoObj → TwoObj → Set], so [_2] is a
    [Category@{_ Set Set}] and [TwoConst] reads
    [Functor@{u1 Set Set u2 Set Set}] -- read that attribution at its
@@ -362,7 +361,7 @@ Generalizable All Variables.
    is not restated.  No naturality of the choice isomorphism in C or D,
    and no functoriality of [ch ↦ RightAdjointFunctor_ch].  No comparison
    of [choice_independence]'s isomorphism with
-   Theory/Adjunction.v:367's [right_adjoint_iso] (which is [Qed], so its
+   Theory/Adjunction.v's [right_adjoint_iso] (which is [Qed], so its
    components do not reduce); [choice_right_adjoints_iso] merely records
    that donor at a membership pair.  No comparison, at any strength, of
    [RightAdjointFunctor_ch C D (ch_canonical C D)] with
@@ -521,7 +520,7 @@ Qed.
    objects, and typeclass resolution fills [eso_iso] with [iso_id]
    (Theory/Isomorphism.v), leaving no obligation.  It is [#[local]], as
    the tree's two other concrete [EssentiallySurjective] witnesses are
-   (Instance/FdVect.v:884, Construction/Reflective/Idempotent.v:457):
+   (Instance/FdVect.v, Construction/Reflective/Idempotent.v):
    the class carries a CHOSEN preimage and must not become globally
    resolvable; [SubToAdj_Equivalence] below still finds it. *)
 #[local]
@@ -744,7 +743,7 @@ Example ch_canonical_adj (C D : Category) (x : LeftAdjCat C D) :
 
 (* [_2] is thin, so any two parallel arrows coincide; the three-line
    proof is from Instance/Two.v's own [TwoHom_inv] and
-   [TwoHom_Y_X_absurd].  (Instance/Two/Monoidal.v:30 has the same lemma
+   [TwoHom_Y_X_absurd].  (Instance/Two/Monoidal.v has the same lemma
    under the name [two_thin]; requiring that module would cost 17
    modules against the base of 28, that is, in place of Instance/Two --
    measured.) *)

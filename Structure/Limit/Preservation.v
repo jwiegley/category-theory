@@ -293,7 +293,7 @@ Context (F : C ⟶ D).
 Context {K : J ⟶ C}.
 
 (* The coherence of a cone, read through [cone_leg].  This duplicates
-   [cone_leg_coherence] (Theory/Equivalence/Limit.v:92), which sits above
+   [cone_leg_coherence] (Theory/Equivalence/Limit.v), which sits above
    this layer: importing it here would compile, but it would invert the
    layering. *)
 
@@ -346,7 +346,7 @@ Definition ReflectsLimitCone {J C D : Category} (K : J ⟶ C) (F : C ⟶ D)
 
 (* The cone-level notion is stronger than the apex-only class of
    Structure/Limit/Preservation.v; this is the bridge, and only this
-   direction holds (the argument at Construction/Comma/Limit.v:47-66 is
+   direction holds (the argument at Construction/Comma/Limit.v is
    precisely that the converse does not go through). *)
 
 Definition PreservesLimitCone_PreservesLimit {J C D : Category}

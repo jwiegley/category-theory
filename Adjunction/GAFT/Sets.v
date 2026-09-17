@@ -17,7 +17,7 @@ Generalizable All Variables.
 (* nLab:      https://ncatlab.org/nlab/show/adjoint+functor+theorem
    Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functor_theorem
 
-   [GAFT] (Adjunction/GAFT.v:241) has the shape, its named hypotheses
+   [GAFT] (Adjunction/GAFT.v) has the shape, its named hypotheses
    rewritten here as arrows,
 
      GAFT (U : C ⟶ D) : @Complete C
@@ -26,7 +26,7 @@ Generalizable All Variables.
                         → { F : D ⟶ C & F ⊣ U }
 
    and before this file no closed constant of the library applied it.
-   [Adjunction/SAFT.v:278] does call it, and [SAFT] is applied since #437;
+   [Adjunction/SAFT.v] does call it, and [SAFT] is applied since #437;
    [Adjunction/GAFT/Examples.v] exercises the universal-arrow half
    [GAFT_from_initials], which consumes comma-category initial objects
    directly and so meets none of the three premises above.  This file applies
@@ -47,8 +47,8 @@ Generalizable All Variables.
                                           tree's first [Complete] instance;
 
      [@PreservesImageLimit Sets Sets Id]  [right_adjoint_PreservesImageLimit]
-                                          (Construction/Comma/Limit.v:266) at
-                                          [adj_id] (Instance/Adjoints.v:70);
+                                          (Construction/Comma/Limit.v) at
+                                          [adj_id] (Instance/Adjoints.v);
 
      [∀ d, SolutionSet Id d]              [Sets_Id_SolutionSet] below: the
                                           one-member family at [d] itself,
@@ -74,40 +74,55 @@ Generalizable All Variables.
    THE UNIVERSE INSTANCE, DISCLOSED
 
    [GAFT] is a [Qed]-opaque [Theorem], so its universe context is frozen at
-   whatever its own proof needed, and that context pins the hom and proof
-   universes of both categories to [Set] ([About GAFT], re-wrapped, the
-   hypotheses elided):
+   whatever its own proof needed.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) that context leaves both categories' hom and proof universes
+   FREE, and the application inherits the freedom ([About], re-wrapped):
 
-     GAFT@{u u0 u1 u2 u3 u4} :
-       ∀ {C : Category@{u1 Set Set}} {D : Category@{u2 Set Set}}
+     GAFT@{cobj dobj h u u0 u1} :
+       ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}}
          (U : C ⟶ D), ...
 
-   Applying it therefore instantiates [Sets@{o so}] at [o := Set]:
+     GAFT_at_Sets_Id@{u u0 u1 u2} :
+       ∃ F : Sets@{u0 u} ⟶ Sets@{u0 u}, F ⊣ Id[Sets@{u0 u}]     with u0 < u
 
-     GAFT_at_Sets_Id@{u u0 u1} :
-       ∃ F : Sets@{Set u} ⟶ Sets@{Set u}, F ⊣ Id[Sets@{Set u}]
+   -- so the application IS at the polymorphic [Sets], the one
+   [Sets_Complete] and [Sets_HasIndexedProducts] are stated over.
 
-   [Sets@{Set u}] is the category of setoids whose carriers, and whose
-   equivalences, live in [Set].  It is a genuine and inhabited instance --
-   [Sets_bool] of Instance/Sets/Products.v is one of its objects -- but it is
-   ONE instance of the polymorphic [Sets@{u0 u}], the smallest, where
-   [Sets_Complete] and [Sets_HasIndexedProducts] are stated polymorphically
-   and hold at every instantiation.  So the application demonstrates [GAFT] at
-   a concrete category, not at [Sets] in the generality in which the rest of
-   this development speaks of it.  The restriction comes from [GAFT], predates
-   this file, and is not lifted by it.
+   RECORDED CORRECTION, AND IT REVERSES A CONCLUSION rather than a number.
+   An earlier revision of this section read: "that context pins the hom and
+   proof universes of both categories to [Set]", quoted
+   [GAFT@{u u0 u1 u2 u3 u4} : ∀ {C : Category@{u1 Set Set}}
+   {D : Category@{u2 Set Set}} …] and [GAFT_at_Sets_Id@{u u0 u1} :
+   ∃ F : Sets@{Set u} ⟶ Sets@{Set u}, F ⊣ Id[Sets@{Set u}]], and concluded:
+   "[Sets@{Set u}] … is ONE instance of the polymorphic [Sets@{u0 u}], the
+   smallest … So the application demonstrates [GAFT] at a concrete category,
+   not at [Sets] in the generality in which the rest of this development
+   speaks of it.  The restriction comes from [GAFT], predates this file, and
+   is not lifted by it."  Every clause of that was true when written.  The
+   restriction was a universe-minimization artifact of Instance/Discrete.v's
+   unannotated [DiscreteCat_Functor], reaching [GAFT]'s statement through
+   the discrete shape its proof takes a limit over; annotating the donor at
+   Instance/Discrete.v lifted it.  So the standing reading is the
+   opposite of the old one: this file's application is at [Sets] in the
+   generality the rest of the development speaks of, and no [Set] instance
+   is involved.  What is NOT affected is the honesty of the application
+   itself -- it is still [Id], and the solution set is still the degenerate
+   one; see the previous section.
 
    A BY-PRODUCT: EQUALIZERS IN [Sets]
 
-   [Complete_HasEqualizers] (Adjunction/GAFT.v:193) turns any [Complete]
+   [Complete_HasEqualizers] (Adjunction/GAFT.v) turns any [Complete]
    category into a [HasEqualizers] one.  At [Sets_Complete] it yields
    [Sets_HasEqualizers], one of THREE library-file inhabitants -- see the
    note below the definition.  It is left a [Definition], not an [Instance]:
    no in-tree consumer resolves [HasEqualizers] by typeclass search
    (Theory/WeaklyInitial.v takes it as an explicit argument and [GAFT]
    passes [Complete_HasEqualizers] by hand), so registering it would add
-   resolution surface with no consumer.  Unlike [GAFT_at_Sets_Id] it carries
-   no [Set] pinning; it stands at the same [Sets@{u0 u}] as [Sets_Complete].
+   resolution surface with no consumer.  It stands at the same [Sets@{u0 u}]
+   as [Sets_Complete] -- and so, since the 2026-09-17 repair recorded above,
+   does [GAFT_at_Sets_Id].  An earlier revision of this sentence contrasted
+   the two, saying this one carries "no [Set] pinning" UNLIKE that one; there
+   is no longer a contrast to draw.
 
    STATUS: axiom-free.  [Print Assumptions] reports "Closed under the global
    context" for every constant below; the Makefile's [print-assumptions]
@@ -153,15 +168,16 @@ Defined.
 (** ** The application *)
 
 (* [GAFT] at [Id : Sets ⟶ Sets], all three premises discharged by in-tree
-   constructions.  See the header for the [Set] pinning this inherits from
-   [GAFT]'s frozen universe context. *)
+   constructions.  An earlier revision of this comment pointed at "the [Set]
+   pinning this inherits from [GAFT]'s frozen universe context"; that pinning
+   was removed on 2026-09-17 and the header records the measurement. *)
 Definition GAFT_at_Sets_Id : { F : Sets ⟶ Sets & F ⊣ Id } :=
   GAFT (@Id Sets) Sets_Complete
     Sets_Id_PreservesImageLimit Sets_Id_SolutionSet.
 
 (* The produced left adjoint is naturally isomorphic to [Id], as it must be:
    left adjoints to a fixed functor are unique up to natural isomorphism
-   ([left_adjoint_iso], Theory/Adjunction.v:404), and [adj_id] exhibits [Id]
+   ([left_adjoint_iso], Theory/Adjunction.v), and [adj_id] exhibits [Id]
    as a second left adjoint to [Id].  This is what makes the "toy" label
    above a proved statement rather than an editorial one. *)
 Definition GAFT_at_Sets_Id_is_Id : projT1 GAFT_at_Sets_Id ≈ @Id Sets :=
@@ -177,9 +193,9 @@ Definition Sets_HasEqualizers : HasEqualizers Sets :=
 
 (* IT IS NOT THE ONLY ONE, IN EITHER SENSE.  THREE library files inhabit
    [HasEqualizers Sets]: this one, [SetsEqualizers]
-   (Adjunction/CokernelPair.v:1119, whose own comment at :1114 calls its
+   (Adjunction/CokernelPair.v, whose own comment calls its
    route "the cheapest of the three in-tree routes"), and
-   [DiagSets_HasEqualizers] (Adjunction/Diagonal/Finite.v:1129); all three
+   [DiagSets_HasEqualizers] (Adjunction/Diagonal/Finite.v); all three
    are registered in _CoqProject.  Test/ProbeToposInstances404.v adds a
    fourth, CONDITIONAL one resting on [Untruncate].  None of the four is
    compared with any other: their types line up and no agreement proof is

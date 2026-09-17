@@ -29,15 +29,15 @@ Generalizable All Variables.
 
     (A) [Opens_preimage g : Opens X ⟶ Opens Y] for a continuous
         [g : Y ~> X], the inverse image on opens AS A FUNCTOR.  Its object
-        action IS Instance/Top/Closed.v:229's [open_preimage] at [eq_refl]
+        action IS Instance/Top/Closed.v's [open_preimage] at [eq_refl]
         ([Opens_preimage_obj]); that constant was an object assignment
         only, with no arrow action, and NO functor in the tree had it as
-        its object action -- Instance/Top/Closed.v:281's [OpensF] uses it
-        in its ARROW action (:283) only, its object action being the
+        its object action -- Instance/Top/Closed.v's [OpensF] uses it
+        in its ARROW action only, its object action being the
         setoid of opens of a SPACE, and it lands in [Sets] rather than in
         the category [Opens].  Read the claim at that
         scope: functors out of [Opens] do exist, namely
-        Instance/Top/Closed.v:182's [OpenCompl] and its inverse, which
+        Instance/Top/Closed.v's [OpenCompl] and its inverse, which
         are complementation and not preimage.  All three functor laws
         are free: [Opens] has the trivial hom-setoid, so every one of
         them is an equation between parallel arrows of a thin category.
@@ -69,7 +69,7 @@ Generalizable All Variables.
         adjoint is the interior of the dual image, a union over ALL opens
         contained in a predicate, and that union IS NOT FORMABLE in this
         [Top]: [OpenSet X : Type@{u}] sits one level ABOVE the points
-        (Instance/Top/Closed.v:99 with [u0 < u]) while [open_union]
+        (Instance/Top/Closed.v with [u0 < u]) while [open_union]
         indexes only by [I : Type@{o}] at the points' level.  The
         rejection is pinned as the probe's formability negative, against
         [open_union] at a small index as the control; the same wall

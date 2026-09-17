@@ -191,7 +191,7 @@ Generalizable All Variables.
 
    A note on (B), since it departs from the textbook: Awodey derives the
    uniqueness half of Proposition 5.7's converse from the fact that an
-   equalizer is monic.  Structure/Equalizer/Fork.v:83 has that lemma
+   equalizer is monic.  Structure/Equalizer/Fork.v has that lemma
    ([equalizer_monic]) and it was read, but it is NOT used here.  Any
    competing factorization through the pairing ⟨p1, p2⟩ projects to a
    competing factorization through p1 and p2 separately, so the PULLBACK's
@@ -355,7 +355,7 @@ Lemma kernel_pair_of_IsPullback {x y : C} {f : x ~> y}
   IsEqualizer (f ∘ exl) (f ∘ exr) P (p1 △ p2).
 Proof. exact (equalizer_of_pullback HP). Qed.
 
-(* The tie to the tree's existing notion.  Structure/Regular.v:46 already
+(* The tie to the tree's existing notion.  Structure/Regular.v already
    defines [kernel_pair f := pullback f f] under [HasPullbacks], and the
    statements below are about THAT constant -- no parallel notion of a
    kernel pair is introduced here.  The identification is definitional

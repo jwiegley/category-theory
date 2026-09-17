@@ -8,6 +8,7 @@ Require Import Coq.micromega.Lra.
 Require Import Coq.micromega.Psatz.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Opposite.
@@ -406,13 +407,25 @@ End Pointwise.
 
 (** ** C(X), as a ring *)
 
+(* Since the PR "algebraic carriers are sets" (2026-09-17) a [RigObject] owes
+   a [Prop]-valued mirror of its equality.  Two continuous maps into ℝ are
+   identified POINTWISE (Instance/Top.v's [ContinuousMorphism_equiv]), and
+   the real line's own `≈` is Instance/Top/Presheaf.v's [R_equiv], which is
+   Coq's [eq] under a [Type] ascription and hence already a [Prop].  So the
+   mirror is the same pointwise comparison read in [Prop] and both
+   implications are the identity; no reals axiom is spent and nothing is
+   truncated. *)
 Program Definition CRingOb (X : TopSpace) : RingObject := {|
   ring_rig := {|
     rig_setoid := Maps_to_R X;
     rig_zero := cr_const 0%R;
     rig_add := cr_plus;
     rig_one := cr_const 1%R;
-    rig_mul := cr_mult
+    rig_mul := cr_mult;
+    rig_prop := @PropEquiv_of_relation _ (is_setoid (Maps_to_R X))
+                  (fun f g => forall x : X,
+                     @eq R (continuous_map f x) (continuous_map g x))
+                  (fun _ _ h => h) (fun _ _ h => h)
   |};
   ring_neg := cr_neg
 |}.

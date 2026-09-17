@@ -42,15 +42,22 @@ Generalizable All Variables.
       used, and the second is not derived, for two reasons that are
       worth keeping apart.
 
-      (i) [DiscreteCat_Functor] (Instance/Discrete.v:52) is declared
-      with NO universe binders, so minimization instantiates
-      [DiscreteCat@{u Set Set}] and routing through it pins the ambient
-      category's hom and proof universes to [Set].  At [C := Cat],
-      whose objects are categories, that would confine the result to
-      categories-of-categories with [Set]-sized homs — a measured
-      defect of the FUNCTOR, not of [DiscreteCat], which is properly
-      annotated [@{o h p}].  The same measurement is recorded in
-      CLAUDE.md for issues #331 and #335.
+      (i) RECORDED CORRECTION, AND THIS REASON NO LONGER HOLDS.  An
+      earlier revision of this paragraph read: "[DiscreteCat_Functor]
+      (Instance/Discrete.v) is declared with NO universe binders, so
+      minimization instantiates [DiscreteCat@{u Set Set}] and routing
+      through it pins the ambient category's hom and proof universes to
+      [Set].  At [C := Cat], whose objects are categories, that would
+      confine the result to categories-of-categories with [Set]-sized
+      homs — a measured defect of the FUNCTOR, not of [DiscreteCat],
+      which is properly annotated [@{o h p}]."  The diagnosis was right,
+      and the defect was repaired: the functor was annotated in place at
+      Instance/Discrete.v in the PR "algebraic carriers are sets"
+      (2026-09-17), so it now leaves the ambient hom and proof universes
+      free and confines nothing at [C := Cat].  Reason (ii) below is
+      untouched by that repair and is on its own sufficient, which is why
+      the passage is still not derived.  The same measurement is recorded
+      in docs/INDEX.md for issues #331 and #335.
 
       (ii) Independently of universes, the passage does not exist: the
       tree carries [colimit_is_indexed_coproduct], which reads a
@@ -88,7 +95,7 @@ Generalizable All Variables.
       What the instance inherits and cannot shed is the identification
       of hom with proof universes in the summands and in the target,
       which Construction/Coproduct/Indexed.v measures and attributes to
-      [Functor_Setoid] (Theory/Functor.v:149).  The CONSTRUCTION is
+      [Functor_Setoid] (Theory/Functor.v).  The CONSTRUCTION is
       free of it — [SigmaCat] keeps those universes apart — but the
       universal property is stated with [≈] on functors, which IS that
       setoid, so the instance carries it.  Not introduced here, and not

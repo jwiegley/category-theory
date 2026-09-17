@@ -200,7 +200,7 @@ Context (R : Reflective S).
 Context (x : Sub C S).
 
 (* CONTROL.  Section (G) of the target derives the conclusion of
-   Construction/Reflective.v:92 from Theorem 1(iii), and the existing
+   Construction/Reflective.v from Theorem 1(iii), and the existing
    lemma is nameable here. *)
 
 Check (@reflective_counit_IsIsomorphism_general C S R x).
@@ -211,7 +211,7 @@ Check @Incl.
 Check @reflective_adj.
 
 (* NEGATIVE 5 (CONVERSION).  [reflective_counit_iso] produces DATA and is
-   closed with [Qed] (Construction/Reflective.v:115), so its [to] does not
+   closed with [Qed] (Construction/Reflective.v), so its [to] does not
    reduce to the counit although the proof script supplies exactly that.
    Stripped and compiled alone this reports "cannot unify".  The [≈] form
    is unavailable for the same reason and is therefore not shipped
@@ -293,7 +293,7 @@ End AdjunctionHomDonor.
 (* ------------------------------------------------------------------ *)
 (** ** (5) The prior art, checked against the target at one type *)
 
-(* Instance/Coq/Monoid/Free.v:476's [adjunction_counit_epic] already
+(* Instance/Coq/Monoid/Free.v's [adjunction_counit_epic] already
    proves the forward half of Theorem 1(i) for an ARBITRARY adjunction.
    The target restates it (by a different proof, through the transfer
    lemma) rather than consuming it, because that constant lives in the
@@ -317,7 +317,7 @@ Definition ctrl_prior_art_target (HU : Functor.Faithful U) (a : C) :
   @counit_epic_of_faithful C D F U A HU a.
 
 (* And the two [Retraction] readings of `U ε` agree in type as well:
-   Free.v:465 and Fullness.v's whiskered development. *)
+   Free.v and Fullness.v's whiskered development. *)
 
 Check (@adjunction_counit_underlying_retraction C D F U A).
 
@@ -328,8 +328,8 @@ End PriorArt.
 
 (* #368's witness, read through Theorem 1.  [Erase PointedSets] is the
    right adjoint of [zero_erase_adjunction], it is FULL because
-   [PointedSets] has a zero object (Fullness.v:785), and it is provably
-   NOT faithful (Fullness.v:812).  So by (ii) every counit component
+   [PointedSets] has a zero object (Fullness.v), and it is provably
+   NOT faithful (Fullness.v).  So by (ii) every counit component
    splits, and by (i) — contrapositive — the counit family is NOT
    componentwise epi.  The second is new content: Fullness.v refutes only
    invertibility of the component at [PointedTwo].

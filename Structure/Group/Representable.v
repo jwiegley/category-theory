@@ -26,26 +26,26 @@
    Construction/Deloop/Functors.v and a dozen other files.  The genuine
    gap is narrower and is what this file fills: a group structure on the
    hom-OBJECT, the group analogue of [Hom_Monoid]
-   (Structure/Monoid.v:290).
+   (Structure/Monoid.v).
 
    (2) The reason Awodey's counterexample -- a field K whose ring C(K)
    of continuous functions is not a field, the pointwise inverse of
    x ↦ x² being discontinuous at 0 -- is not built here is NOT that the
    reals, topology and fields are missing.  All three are in tree, and
-   the C(X) functor itself exists: Instance/Top/ContinuousRing.v:409
-   supplies [CRingOb X : RingObject] and :495 supplies
+   the C(X) functor itself exists: Instance/Top/ContinuousRing.v
+   supplies [CRingOb X : RingObject] and
    [ContinuousRingFunctor : Top^op ⟶ Rng].  The actual obstruction is
    narrower: there is no ℝ [FieldObject].  The inhabitants of
    Instance/FdVect.v's [FieldObject] class are [Q_Field]
-   (Instance/FdVect.v:231), [F2_Field] (Instance/Field.v:521) and the
-   PARAMETRIC [FracField] (Instance/Field/Frac.v:734, the field of
+   (Instance/FdVect.v), [F2_Field] (Instance/Field.v) and the
+   PARAMETRIC [FracField] (Instance/Field/Frac.v, the field of
    quotients of an integral domain); a search for a reals-based
    [FieldObject] returns nothing.  And [CRingOb X] is a [RingObject],
    not a field.  So the statement "K is a field but C(K) is not" cannot
    even be TYPED here, and no impossibility is claimed -- only that the
    witness object does not exist.
 
-   (3) Structure/Group.v:28 already ASSERTS this file's theorem in
+   (3) Structure/Group.v already ASSERTS this file's theorem in
    prose -- "equivalently, [grp] is a group object iff each hom
    Hom(X, grp) is a group naturally in X" -- with no formal statement
    anywhere.  This file is what discharges that sentence.
@@ -121,7 +121,14 @@
          and no products either: [HomGrpObject] equips each hom-set with
          an [Instance/Grp.v] [GrpObject], [HomGrpHom] proves
          precomposition a homomorphism, and [HomGrpFunctor] packages
-         them as [C^op ⟶ Grp].
+         them as [C^op ⟶ Grp].  RECORDED STRENGTH CHANGE: since the PR
+         "algebraic carriers are sets" (2026-09-17) the three take one
+         further hypothesis, a [Prop]-valued equality on each hom-setoid
+         INTO [e], because an [Instance/Grp.v] group now carries
+         [grp_prop].  The clause about cartesian closure and products is
+         unaffected -- neither is used -- and the section's own comment
+         records why the codomain-only hypothesis is taken rather than
+         [LocallyPropositional C].
      (c) In [Sets], the operations are pointwise ([sets_mul_pointwise],
          [sets_unit_pointwise], [sets_inv_pointwise], all [eq_refl]),
          and for a DISCRETE setoid on a type [A],
@@ -167,7 +174,13 @@
    [C : Category@{u u0 u0}] -- so the hom-and-proof identification is in
    the BINDER, where reading the block alone would miss it, and it comes
    from the unannotated [Context {C : Category}] by minimization (the
-   [Build_Quiver_Standard_Eq] family), not from any donor.  It is
+   [Build_Quiver_Standard_Eq] family), not from any donor.  RE-MEASURED
+   after the PR "algebraic carriers are sets" (2026-09-17): the record's
+   readback and its EMPTY block are unchanged; what moved is
+   [HomGrpObject], which gained the hypothesis argument and now reads
+   [HomGrpObject@{u u0 u1} : ∀ {C : Category@{u u0 u0}} (e : obj),
+   (∀ x, PropEquiv@{u0 u0} (homset x e)) → HomGroupData@{u u0} e → obj →
+   GrpObject@{u0 u0 u0}] with the one clause [u0 < u1].  It is
    repairable in principle and is NOT claimed unavoidable.
    [group_object_iff_representable@{u u0 u1 u2 u3 u4 u5}] likewise has
    NO equation in its block -- only bounds and the two strict
@@ -202,6 +215,8 @@
    name. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
+Require Import Category.Instance.Sets.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Construction.Opposite.
@@ -796,13 +811,41 @@ Section HomGrpFunctor.
 
 Context {C : Category}.
 Context (e : C).
+(* RECORDED STRENGTH CHANGE.  An earlier revision took only
+   [{C : Category} (e : C) (D : HomGroupData e)].  Since the PR "algebraic
+   carriers are sets" (2026-09-17) an [Instance/Grp.v] group carries
+   [grp_prop], and the hom-set this section turns into a group is a hom-set
+   of the ARBITRARY ambient [C], so the section assumes a [Prop]-valued
+   equality on each of the hom-setoids it actually uses.  The theorem below
+   therefore reads "for every [C] whose hom-sets INTO [e] are propositional
+   ...", which is strictly weaker than what was in tree.  What is NOT
+   weakened is clause (b) of the headline, since no cartesian closure and no
+   products are used here either, and the two headline biconditionals earlier
+   in this file build no [GrpObject] and are untouched.
+
+   Why this hypothesis and not [LocallyPropositional C].  The class would be
+   the tidier assumption and any locally propositional [C] discharges [HP] by
+   [fun x => locally_prop x e] -- [Grp] itself
+   ([Grp_LocallyPropositional], Instance/Grp.v), and [Ab], [CMon], [RMod R].
+   But the one in-tree instantiation is at [C := Sets], which is NOT locally
+   propositional and cannot be (Instance/Sets/Propositional.v's header says
+   why); what IS available there is [hom_PropEquiv], which constrains only
+   the CODOMAIN.  The codomain-only hypothesis is therefore both the weaker
+   assumption and the usable one. *)
+Context (HP : forall x : C, PropEquiv (@homset C x e)).
 Context (D : HomGroupData e).
 
+(* Named rather than inline: a [Program] record literal cannot carry a
+   [PropEquiv] field naming a setoid written inline in the same literal. *)
+Definition hom_grp_setoid (x : C) : SetoidObject :=
+  {| carrier := x ~> e ; is_setoid := @homset C x e |}.
+
 Program Definition HomGrpObject (x : C) : GrpObject := {|
-  grp_setoid := {| carrier := x ~> e ; is_setoid := @homset C x e |};
+  grp_setoid := hom_grp_setoid x;
   grp_unit := hmd_unit D;
   grp_mul  := @hmd_mul C e D x;
-  grp_inv  := @hgd_inv C e D x
+  grp_inv  := @hgd_inv C e D x;
+  grp_prop := HP x
 |}.
 Next Obligation. now rewrite hmd_assoc. Qed.
 Next Obligation. now rewrite hmd_unit_l. Qed.
@@ -909,7 +952,7 @@ End RoundTripsObject.
 
 (** ** Clause (a): the exponential of a group object
 
-    The group analogue of [Hom_Monoid] (Structure/Monoid.v:290),
+    The group analogue of [Hom_Monoid] (Structure/Monoid.v),
     obtained by transporting the hom-set data along curry/uncurry rather
     than by an internal diagram chase. *)
 
@@ -1007,6 +1050,10 @@ Require Import Category.Instance.Sets.Products.
 Section SetsComputation.
 
 Context (gobj : Sets).
+(* [Sets] is NOT declared locally propositional (Instance/Sets/Propositional.v
+   says why), so the witness for THIS object is a section hypothesis.  Since
+   the PR "algebraic carriers are sets" (2026-09-17). *)
+Context (Pg : PropEquiv (is_setoid gobj)).
 Context (G : @GroupObject Sets CC_CartesianMonoidal gobj).
 
 Definition sets_group_monoid : @MonoidObject Sets CC_Monoidal gobj :=
@@ -1034,7 +1081,8 @@ Program Definition elem_GrpObject : GrpObject := {|
   grp_unit := @mempty Sets CC_Monoidal gobj sets_group_monoid ttt;
   grp_mul  := fun a b =>
                 @mappend Sets CC_Monoidal gobj sets_group_monoid (a, b);
-  grp_inv  := fun a => @rg_inv Sets _ _ gobj G a
+  grp_inv  := fun a => @rg_inv Sets _ _ gobj G a;
+  grp_prop := Pg
 |}.
 Next Obligation.
   intros u u' Hu v v' Hv; apply proper_morphism; now split.
@@ -1055,7 +1103,9 @@ Program Definition iprod_GrpObject (A : Type) : GrpObject := {|
   grp_setoid := Sets_iprod_obj (fun _ : A => gobj);
   grp_unit := fun _ => grp_unit elem_GrpObject;
   grp_mul  := fun s t a => grp_mul elem_GrpObject (s a) (t a);
-  grp_inv  := fun s a => grp_inv elem_GrpObject (s a)
+  grp_inv  := fun s a => grp_inv elem_GrpObject (s a);
+  (* An indexed product of one propositional setoid, pointwise. *)
+  grp_prop := iprod_PropEquiv (fun _ : A => gobj) (fun _ => Pg)
 |}.
 Next Obligation.
   intros s s' Hs t t' Ht i; now rewrite (Hs i), (Ht i).
@@ -1068,8 +1118,12 @@ Next Obligation. intro w; exact (grp_mul_inv_l elem_GrpObject (a w)). Qed.
 
 Context (A : Type).
 
+(* [HomGrpObject] is applied at [C := Sets], which is not locally
+   propositional; its hypothesis is discharged from the section's [Pg]
+   through [hom_PropEquiv], which constrains only the CODOMAIN. *)
 Definition HomGrpA : GrpObject :=
-  @HomGrpObject Sets gobj (@group_object_hom_data Sets _ _ gobj G)
+  @HomGrpObject Sets gobj (fun x : Sets => @hom_PropEquiv x gobj Pg)
+                (@group_object_hom_data Sets _ _ gobj G)
                 (DiscSet A).
 
 Program Definition sets_hom_to_iprod :

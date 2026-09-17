@@ -37,7 +37,7 @@ Generalizable All Variables.
    [Sets_Chain_Colimit] specialises it to [Chain F], the initial-algebra
    chain [0 ~> F 0 ~> F² 0 ~> ...] of an endofunctor of [Sets]
    (Construction/Chain.v).  That second constant is exactly the argument
-   [adamek_cocomplete] (Theory/Adamek/Corollaries.v:59-66) forms as
+   [adamek_cocomplete] (Theory/Adamek/Corollaries.v) forms as
    [CC _ (Chain F)], so it is the ω-colimit Adámek's theorem consumes.
 
    The apex and the legs are read off by conversion: the carrier is the
@@ -70,10 +70,10 @@ Generalizable All Variables.
    The converse needs a directedness merge -- given agreement at [k₁] and
    at [k₂], push both to a common bound -- and that step compares
    [fmap[G] p] with [fmap[G] p'] for two order proofs [p p' : le_t n k].
-   [Omega]'s hom-setoid is [Morphism_equality] (Instance/Omega.v:75),
+   [Omega]'s hom-setoid is [Morphism_equality] (Instance/Omega.v),
    strict Leibniz equality of [le_t] derivations, so [fmap_respects] gives
    nothing unless [p = p'].  The lemma supplying [p = p'] ALREADY EXISTS:
-   [le_t_irr {m n} (f g : le_t m n) : f = g] at Instance/Ordinal.v:223,
+   [le_t_irr {m n} (f g : le_t m n) : f = g] at Instance/Ordinal.v,
    axiom-free by UIP on [nat], in a file that itself requires
    Instance/Omega.v and reuses that very [le_t].  So the deferral is a
    SCOPE choice about how much of the ω-reading to build here, NOT a
@@ -103,7 +103,7 @@ Generalizable All Variables.
 
    is PINNED: it is a statement about [Sets@{Set u}], setoids whose
    carriers live in [Set].  The cause is measured and is not this file's.
-   [Chain@{u u0 u1}] (Construction/Chain.v:64) has result type
+   [Chain@{u u0 u1}] (Construction/Chain.v) has result type
    [Functor@{u1 Set Set u u0 u0}] -- it fixes [Omega]'s hom and proof
    universes at [Set] -- and [Cocomplete]'s own shape forces the diagram
    category's hom universe to coincide with [Sets]' carrier universe, so
@@ -142,7 +142,7 @@ Generalizable All Variables.
      union and no injectivity of the legs.
 
    * No [AdamekData] (Theory/Adamek.v) and so no initial [F]-algebra:
-     Theory/Adamek/Corollaries.v:83-84 records that no [AdamekData]
+     Theory/Adamek/Corollaries.v records that no [AdamekData]
      witness is constructed anywhere in the tree, and this file does not
      change that.  What it supplies is the [Colimit] argument, not the
      leg-agreement bridge.

@@ -29,9 +29,9 @@ Generalizable All Variables.
          (b) State and prove the corresponding fact for adjoint
              equivalences."
 
-   Clause (a) is already in the tree: Theory/Equivalence/Bundled.v:94
+   Clause (a) is already in the tree: Theory/Equivalence/Bundled.v
    carries [EquivalenceOfCategories_Compose], with the two comparison
-   cells at :72 and :83 and the bundled [Equivalence_trans] at :115.  It
+   cells and the bundled [Equivalence_trans].  It
    is consumed here, never rebuilt.  This module supplies clause (b):
    the composite of two adjoint equivalences, the identity adjoint
    equivalence, the comparison of the composite's unit and counit with
@@ -52,14 +52,14 @@ Generalizable All Variables.
    CRITERION IS STATED.  Searching for the BARE WORD
    [AdjointEquivalence] (word boundaries on both sides) returns FIVE
    files at the base commit, its declaring one included:
-   Adjunction/FullFaithful.v:285 (prose only),
-   Structure/Monoidal/Dual.v:581, Construction/Subcategory/Dense.v:388
-   and Theory/Equivalence/Strict.v:571,:839 (inhabitants), and
+   Adjunction/FullFaithful.v (prose only),
+   Structure/Monoidal/Dual.v, Construction/Subcategory/Dense.v
+   and Theory/Equivalence/Strict.v (inhabitants), and
    Theory/Equivalence/Adjoint.v itself.  Searching for the same string
    as a SUBSTRING returns EIGHT (again counting the declaring file), the
    three extras being
-   Theory/Equivalence/Adjunction.v:36 (prose) and
-   Theory/Equivalence/Creation.v:66 and Theory/Equivalence/Limit.v:387,
+   Theory/Equivalence/Adjunction.v (prose) and
+   Theory/Equivalence/Creation.v and Theory/Equivalence/Limit.v,
    which consume [AdjointEquivalence_swap_adjunction] without ever
    naming the class.  Under EITHER criterion the conclusion is the same:
    NONE of them composes two adjoint equivalences and none exhibits an
@@ -67,8 +67,8 @@ Generalizable All Variables.
    [AdjointEquivalence_Id] and [AdjointEquivalence Id] each occur
    nowhere outside this module and its probe.  The INVERSE, by
    contrast, already exists: [AdjointEquivalence_swap]
-   (Theory/Equivalence/Adjoint.v:407), with its underlying swapped
-   adjunction [AdjointEquivalence_swap_adjunction] (:414).  It is cited
+   (Theory/Equivalence/Adjoint.v), with its underlying swapped
+   adjunction [AdjointEquivalence_swap_adjunction].  It is cited
    below and NOT rebuilt.
 
    THE ROUTE, AND WHY IT IS NOT THE ONE THE CATALOG ENTRY PROPOSES.
@@ -90,7 +90,7 @@ Generalizable All Variables.
    no coercion.  It is nevertheless not taken as the definition, because
    the composite it produces does not reduce, where the direct route's
    does.  A REASON, measured and not merely asserted: the two cells of
-   [EquivalenceOfCategories_Compose] (Bundled.v:72,:83) are closed with
+   [EquivalenceOfCategories_Compose] (Bundled.v) are closed with
    [Qed], so the refined adjunction's transposes are behind an opaque
    constant.  Read that at its strength -- it is a reason and not an
    isolation.  An out-of-tree experiment rebuilding those two cells
@@ -114,7 +114,7 @@ Generalizable All Variables.
        [IsIso_id], [IsIso_along] (transport along [~]), [IsIso_comp]
        (composites) and [IsIso_fmap] (functor images).  [IsIso_fmap]
        DUPLICATES [fmap_IsIsomorphism], which already exists at
-       Construction/Reflective/Idempotent.v:69 with the same statement
+       Construction/Reflective/Idempotent.v with the same statement
        up to the explicitness of [f] and the universe annotation (the
        donor takes [f] explicit and carries no universe binders) and
        essentially the same proof.  It is restated rather than
@@ -164,7 +164,7 @@ Generalizable All Variables.
 
    (D) [AdjointEquivalence_Id C : AdjointEquivalence Id[C] Id[C]], over
        [Adjunction_Id] (which is Instance/Adjoints.v's [adj_id] reused,
-       per Adjunction/Compose.v:65).  Its adjunction reads back at
+       per Adjunction/Compose.v).  Its adjunction reads back at
        [eq_refl]; its unit and counit are [~] the identity, inherited
        from [Adjunction_Id_unit] / [_counit].
 
@@ -199,7 +199,7 @@ Generalizable All Variables.
        one, pinned as a TYPING negative.  The unit at [false] therefore
        runs between two DIFFERENT objects.  DISCLOSED: [Indiscrete]'s
        hom family ignores its endpoints --
-       Instance/Discrete/Reconstruct.v:418 declares
+       Instance/Discrete/Reconstruct.v declares
        [hom := fun _ _ => unit], the stdlib [unit : Set], which is also
        where the witness block's [Set] comes from -- so every hom-set
        there is a singleton, and the morphism-level statement "the unit
@@ -318,7 +318,7 @@ Definition IsIso_along {x y : X} {f g : x ~> y}
 
 (* A composite of invertible morphisms is invertible, with the inverses
    composed in the opposite order.  This is [iso_compose]
-   (Theory/Isomorphism.v:172) read for the predicate rather than the
+   (Theory/Isomorphism.v) read for the predicate rather than the
    bundled form. *)
 Program Definition IsIso_comp {x y z : X} {f : y ~> z} {g : x ~> y}
   (Hf : IsIsomorphism f) (Hg : IsIsomorphism g) : IsIsomorphism (f ∘ g) := {|
@@ -341,7 +341,7 @@ Defined.
 End IsoCalculus.
 
 (* A functor carries invertible morphisms to invertible morphisms.  This
-   restates [fmap_IsIsomorphism] (Construction/Reflective/Idempotent.v:69);
+   restates [fmap_IsIsomorphism] (Construction/Reflective/Idempotent.v);
    see the header for why it is restated rather than required. *)
 Program Definition IsIso_fmap@{xo xh xp yo yh yp +}
   {X : Category@{xo xh xp}} {Y : Category@{yo yh yp}} (G : X ⟶ Y) {x y : X}
@@ -370,7 +370,7 @@ Context (A : AdjointEquivalence F U).
 Context (B : AdjointEquivalence F' U').
 
 (* The underlying adjunction of the composite: [Adjunction_Compose]
-   (Adjunction/Compose.v:173) of the two underlying adjunctions. *)
+   (Adjunction/Compose.v) of the two underlying adjunctions. *)
 Definition adjoint_equivalence_compose_adj : (F' ◯ F) ⊣ (U ◯ U') :=
   Adjunction_Compose (@adj_equivalence _ _ _ _ A) (@adj_equivalence _ _ _ _ B).
 
@@ -499,7 +499,7 @@ Section Identity.
 Context {C : Category}.
 
 (* Id[C] is adjoint-equivalent to itself, over [Adjunction_Id]
-   (Adjunction/Compose.v:65, itself Instance/Adjoints.v's [adj_id]
+   (Adjunction/Compose.v, itself Instance/Adjoints.v's [adj_id]
    reused).  Both invertibility clauses transport along the identity. *)
 Definition AdjointEquivalence_Id : AdjointEquivalence Id[C] Id[C] :=
   @Build_AdjointEquivalence C C Id[C] Id[C] (@Adjunction_Id C)
@@ -536,9 +536,9 @@ Context {C D : Category}.
 Context {F : C ⟶ D} {U : D ⟶ C}.
 Context (A : AdjointEquivalence F U).
 
-(* Theory/Equivalence/Adjoint.v:407 already supplies the third member of
+(* Theory/Equivalence/Adjoint.v already supplies the third member of
    the trio, [AdjointEquivalence_swap A : AdjointEquivalence U F], and
-   :414 its underlying swapped adjunction.  The two agree on the nose,
+   its underlying swapped adjunction.  The two agree on the nose,
    the latter being defined as the former's adjunction field.  Nothing
    is rebuilt here; the readback records that the trio
    composition/identity/inverse is available together.
@@ -619,7 +619,7 @@ End Laws.
 
 (** ** Non-vacuity *)
 
-(* Theory/Equivalence/Strict.v:839 supplies a genuine adjoint
+(* Theory/Equivalence/Strict.v supplies a genuine adjoint
    equivalence between the terminal category and [Indiscrete bool], via
    Mac Lane SIV.4 Exercise 3.  Swapping it and composing gives an
    adjoint equivalence of [Indiscrete bool] with itself whose two

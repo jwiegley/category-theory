@@ -40,8 +40,8 @@ Generalizable All Variables.
    Exercise 5).  Mac Lane V.2 Exercise 4 adds a change of index category:
    for W : J' ⟶ J the image cone, restricted along W, factors through a
    limit of (H ◯ F) ◯ W.  The shape-specific classes [CartesianFunctor]
-   (Functor/Structure/Cartesian.v:49) and [TerminalFunctor]
-   (Functor/Structure/Terminal.v:43) postulate the invertible comparison as
+   (Functor/Structure/Cartesian.v) and [TerminalFunctor]
+   (Functor/Structure/Terminal.v) postulate the invertible comparison as
    a FIELD ([fobj_prod_iso], [fobj_one_iso]); the last two sections prove
    each class equivalent to invertibility of the general comparison at the
    two-element discrete and the empty shape, so the functor-structure
@@ -50,26 +50,26 @@ Generalizable All Variables.
    STALE PREMISES, RE-MEASURED (the issue's "Current state" predates #427,
    986c7b35):
      - "the comparison is never named; there is no biconditional": since
-       #427, Structure/Limit/Preservation.v:368 [cone_comparison], :373/:378
-       its leg equations and uniqueness, :386-413 the biconditional in both
+       #427, Structure/Limit/Preservation.v carries [cone_comparison],
+       its leg equations and uniqueness, the biconditional in both
        directions ([LimitCone_comparison_iso], [comparison_iso_LimitCone],
        [PreservesLimitCone_of_comparison],
-       [comparison_iso_of_PreservesLimitCone]), :427 [limit_comparison] —
-       the issue's pinned name lives THERE, not here — and :756
+       [comparison_iso_of_PreservesLimitCone]), [limit_comparison] —
+       the issue's pinned name lives THERE, not here — and
        [cocone_comparison], the colimit MORPHISM without its biconditional.
-     - "[fmap_cone] at Theory/Equivalence/Limit.v:283": no longer exists; it
-       merged into [FCone] (Structure/Limit/Creation.v:79 records the
-       merge).  Construction/Comma/Limit.v:90/:103 ([image_leg],
+     - "[fmap_cone] at Theory/Equivalence/Limit.v": no longer exists; it
+       merged into [FCone] (Structure/Limit/Creation.v records the
+       merge).  Construction/Comma/Limit.v ([image_leg],
        [image_acone]) still exist as measured.
      - "F ∘ Δc = Δ (F c) is not stated": stated componentwise in
-       Structure/Limit/Constant.v:588-598 — [const_image_fobj] at [eq_refl],
-       the strict arrow form refused at :591 and [const_image_fmap_equiv]
+       Structure/Limit/Constant.v — [const_image_fobj] at [eq_refl],
+       the strict arrow form refused there, and [const_image_fmap_equiv]
        at ≈.
      - "no colimit comparison morphism": [cocone_comparison] exists; the
        colimit BICONDITIONAL did not, and is delivered here.
      - True gaps, all delivered here: reindexing along W; the W-general
        comparison; the converse of Structure/Limit/Product.v's
-       [limit_is_indexed_product] (Functor/Hom/Limit.v:146-147 records its
+       [limit_is_indexed_product] (Functor/Hom/Limit.v records its
        absence); the bridge from [CartesianFunctor] and [TerminalFunctor] to
        [PreservesLimitCone].
 
@@ -81,8 +81,8 @@ Generalizable All Variables.
          at [eq_refl], apex- and leg-wise ([cone_reindex_id_*],
          [cone_reindex_comp_*]); NOT as an equation of cones, because
          [Cone ((F ◯ W) ◯ V)] and [Cone (F ◯ (W ◯ V))] are distinct record
-         types (probe N1; Preservation.v:447 [cone_assoc] repackages).  The
-         diagram half of reindexing is Theory/Kan/Extension.v:131's
+         types (probe N1; Preservation.v [cone_assoc] repackages).  The
+         diagram half of reindexing is Theory/Kan/Extension.v's
          [Induced := (− ◯ W)]; nothing new is needed for it.  No
          interaction with [IsLimitCone] is claimed: a limit cone restricted
          along W need not be limiting.
@@ -109,25 +109,25 @@ Generalizable All Variables.
          [PreservesColimitCocone_of_comparison],
          [comparison_iso_of_PreservesColimitCocone],
          [preserves_colimit_iff_comparison_iso] — built in the cocone
-         vocabulary line for line after Preservation.v:368-413, NOT by
+         vocabulary line for line after Preservation.v, NOT by
          instantiating the limit block at [F^op]: [FCocone F N] is a cone
          over [(F ◯ K)^op] and [FCone F^op N] one over [F^op ◯ K^op], two
          distinct record types (probe N5 reads the clause "cannot unify");
-         the op route exists after Preservation.v:485's [cone_op_comp]
+         the op route exists after Preservation.v's [cone_op_comp]
          repackaging (probe control) but would speak of a repackaged cone,
          not of [FCocone].
      (5) RIEHL'S WHISKERING IDENTITY at functor level:
          [const_image_iso : F ◯ Δ[J](c) ≈ Δ[J](F c)] in [Functor_Setoid],
          every component [iso_id] ([const_image_iso_component] at
-         [eq_refl]); precedent Adjunction/Diagonal/Connected.v:500.
+         [eq_refl]); precedent Adjunction/Diagonal/Connected.v.
      (6) RIEHL'S WARM-UP: [pullback_comparison H F N HM] at [Cospan C]
          (Structure/Span.v; [Roof] is universe-free), [eq_refl] to
          [cone_comparison] ([pullback_comparison_is]).
      (7) RAPL RESTATED: [rapl_comparison_iso A G HM N HN] — the comparison
-         of a right adjoint is invertible, from Adjunction/Continuity.v:205's
+         of a right adjoint is invertible, from Adjunction/Continuity.v's
          [right_adjoint_PreservesLimitCone] (the restatement Riehl 4.6.iii
          asks for).
-     (8) DISCRETE SHAPES.  [DiscreteCat_Functor'] is Instance/Discrete.v:59's
+     (8) DISCRETE SHAPES.  [DiscreteCat_Functor'] is Instance/Discrete.v's
          functor with its universes annotated (see UNIVERSES).  For ANY
          [G : DiscreteCat A ⟶ C] — so also for image diagrams [F ◯ G] —
          [discrete_cone c pi] packages a family of legs as a cone
@@ -187,16 +187,26 @@ Generalizable All Variables.
        none.  An earlier revision read the bound [u0 < u5] as placing [bool]
        and [False] below the shape's object level; it does not — they sit at
        [Set] with no printed constraint.
-     - WHY A LOCAL ANNOTATED FUNCTOR.  The unannotated [DiscreteCat_Functor]
-       instantiates [DiscreteCat@{u Set Set}] (Functor/Hom/Limit.v:104-155;
-       Test/ProbeHomLimit331.v pins [IsLimitCone] over its cones), so
-       [cone_comparison] at it is refused above [Set] (probe N2, and N3
-       through Product.v's [family_cone]).  [DiscreteCat_Functor'@{o h p uo
-       uh up +}] has the same actions with the shape's levels free.
-       Instance/Discrete.v is NOT edited here: annotating the donor upstream
-       is the lift Functor/Hom/Limit.v:139-145 already names, but it flips
+     - WHY A LOCAL ANNOTATED FUNCTOR -- AND WHY IT IS NOW ONLY AN ALIAS.
+       An earlier revision of this item read: "The unannotated
+       [DiscreteCat_Functor] instantiates [DiscreteCat@{u Set Set}]
+       (Functor/Hom/Limit.v; Test/ProbeHomLimit331.v pins
+       [IsLimitCone] over its cones), so [cone_comparison] at it is refused
+       above [Set] (probe N2, and N3 through Product.v's [family_cone]).
+       [DiscreteCat_Functor'@{o h p uo uh up +}] has the same actions with
+       the shape's levels free.  Instance/Discrete.v is NOT edited here:
+       annotating the donor upstream is the lift
+       Functor/Hom/Limit.v already names, but it flips
        Test/ProbeHomLimit331.v's pin and reworks that essay, and whether to
-       do it is put to John in the PR rather than settled by this file.
+       do it is put to John in the PR rather than settled by this file."
+       The question was settled: the donor WAS annotated upstream, in the
+       PR "algebraic carriers are sets" (2026-09-17), at
+       Instance/Discrete.v and with the same binder list.  Probes N2 and
+       N3 turned over and are positive controls; Test/ProbeHomLimit331.v's
+       pin flipped as predicted and that file's essay was reworked.  The
+       local [DiscreteCat_Functor'] is therefore a transparent ALIAS now,
+       kept for the reason given above its declaration rather than for a
+       difference in signature.
 
    COUNTS AND CONVENTIONS.
      - 57 constants — 45 [def] and 12 [prf] in the [.glob] — all "Closed
@@ -215,11 +225,11 @@ Generalizable All Variables.
        Adjunction/Continuity.v 2, Functor/Structure/Terminal.v,
        Functor/Structure/Cartesian.v, Structure/Limit/Product.v and
        Structure/Span.v 1 each, the other fourteen [Require]s 0.
-     - Near-namesakes elsewhere, untouched: Instance/Fun/Terminal.v:529
+     - Near-namesakes elsewhere, untouched: Instance/Fun/Terminal.v
        defines the same family as [bool_fam] (hence [binary_fam] here),
-       Structure/Limit/Finite.v:692 an [empty_cone] over [EmptyDiagram]
-       (hence [nullary_cone] here), Instance/Proset/Order.v:664 a
-       [pair_cone], and Structure/Limit/Product.v:80's [family_cone], the
+       Structure/Limit/Finite.v an [empty_cone] over [EmptyDiagram]
+       (hence [nullary_cone] here), Instance/Proset/Order.v a
+       [pair_cone], and Structure/Limit/Product.v's [family_cone], the
        same construction as [discrete_cone] specialised to
        [DiscreteCat_Functor f] — the closest existing constant, left as it is.
      - Test/ProbeComparison419.v mirrors the [Require] list and carries 6
@@ -243,10 +253,10 @@ Generalizable All Variables.
        variable, and the Kan-extension reading of [lim (F ◯ W)] as a right
        Kan extension — none attempted.
      - The strict ([=]) arrow form of the whiskering identity: refused and
-       pinned in Structure/Limit/Constant.v:591, not repeated here.
+       pinned in Structure/Limit/Constant.v, not repeated here.
      - The bridges at the tree's [Two_Discrete] and [0] shapes
-       (Structure/Limit/Cartesian.v:39 [Cartesian_Limit] and
-       Structure/Limit/Terminal.v:33 [Terminal_Limit], both [Qed] and at
+       (Structure/Limit/Cartesian.v [Cartesian_Limit] and
+       Structure/Limit/Terminal.v [Terminal_Limit], both [Qed] and at
        [Limit] level): the bridges here are at the annotated [DiscreteCat
        bool] and [DiscreteCat False], and no passage between the shapes is
        built.
@@ -398,9 +408,9 @@ Context {J C D : Category} {K : J ⟶ C} (F : C ⟶ D).
 (* Built directly in the cocone vocabulary ([cocone_inj], [FCocone],
    [cocone_comparison]) and not by instantiating the limit block at [F^op]:
    [FCocone F N] is a cone over [(F ◯ K)^op] while [FCone F^op N] is one
-   over [F^op ◯ K^op], two distinct record types (Preservation.v:483-497
+   over [F^op ◯ K^op], two distinct record types (Preservation.v
    repackages between them with [cone_op_comp]).  Every proof below is the
-   mirror image of Preservation.v:371-413, one line for one line. *)
+   mirror image of Preservation.v, one line for one line. *)
 
 Definition colimitcocone_iso {N M : Cocone K}
   (HN : IsColimitCocone N) (HM : IsColimitCocone M) : ConeIso N M :=
@@ -476,7 +486,7 @@ Section Whisker.
 Context {J C D : Category} (F : C ⟶ D) (c : C).
 
 (* The two functors agree on objects by [eq_refl] and on arrows up to
-   [fmap_id] (Structure/Limit/Constant.v:588-598 records both facts
+   [fmap_id] (Structure/Limit/Constant.v records both facts
    componentwise, the strict arrow form being refused there); as objects
    of the functor category they are isomorphic with identity components. *)
 Definition const_image_iso :
@@ -525,19 +535,30 @@ End RAPLRestated.
 
 (** ** Discrete shapes: a cone is limiting iff its legs are an indexed product *)
 
-(* An annotated discrete-diagram functor: the same actions as
-   Instance/Discrete.v's [DiscreteCat_Functor], whose unannotated
-   declaration instantiates [DiscreteCat@{u Set Set}] and so pins any
-   [IsLimitCone] over its cones to hom level [Set] (Functor/Hom/Limit.v:
-   104-155; the probe pins the comparison's refusal).  Here the shape's hom
-   and proof levels are free and are identified with the ambient's by
-   [IsLimitCone] where that is used. *)
-Program Definition DiscreteCat_Functor'@{o h p uo uh up +}
+(* An annotated discrete-diagram functor.
+   RECORDED CORRECTION.  An earlier revision declared this as a second
+   [Program Definition] with the same actions as Instance/Discrete.v's
+   [DiscreteCat_Functor], because that one was declared with bare binders and
+   so minimized to [DiscreteCat@{u Set Set}], pinning any [IsLimitCone] over
+   its cones to hom level [Set] (Functor/Hom/Limit.v; the probe pins
+   the comparison's refusal).  In the PR "algebraic carriers are sets"
+   (2026-09-17) the SAME binders were put on [DiscreteCat_Functor] itself, so
+   the two now have identical measured signatures:
+
+     DiscreteCat_Functor@{o h p uo uh up u} :
+     ∀ {A : Type@{o}} {C : Category@{uo uh up}},
+     (A → obj) → Functor@{o h p uo uh up}
+
+   This is therefore no longer a separate construction but a transparent
+   alias, kept because eleven files and three probes name it and because the
+   name marks, at each use site, the places where the shape's hom and proof
+   levels must stay free and be identified with the ambient's by
+   [IsLimitCone].  The binders are repeated on the alias deliberately: an
+   unannotated [:=] alias of an annotated constant over a bare
+   [(C : Category)] minimizes back to [Category@{u u u}]. *)
+Definition DiscreteCat_Functor'@{o h p uo uh up +}
   {A : Type@{o}} {C : Category@{uo uh up}} (f : A → C) :
-  DiscreteCat@{o h p} A ⟶ C := {|
-  fobj := f;
-  fmap := fun x y (e : x = y) => match e with eq_refl => id end
-|}.
+  DiscreteCat@{o h p} A ⟶ C := @DiscreteCat_Functor A C f.
 
 Section DiscreteBridge.
 
@@ -574,7 +595,7 @@ Proof.
 Defined.
 
 (* The converse Structure/Limit/Product.v's [limit_is_indexed_product] never
-   had (Functor/Hom/Limit.v:146 records the absence). *)
+   had (Functor/Hom/Limit.v records the absence). *)
 Definition discrete_IsIndexedProduct_of_IsLimitCone (N : Cone G)
   (HN : IsLimitCone N) :
   IsIndexedProduct (fobj[G]) (vertex_obj[N]) (cone_leg N) :=

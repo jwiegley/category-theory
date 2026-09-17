@@ -29,8 +29,8 @@ Generalizable All Variables.
 
    [FinSet] is where this library's finite combinatorics computes:
    Instance/FinSet/Pushout.v labels connected components with
-   [components], counts them at [po_apex] (:406), maps into them at
-   [po_cls] (:420) and selects representatives at [po_cls_rep] (:445).
+   [components], counts them at [po_apex], maps into them at
+   [po_cls] and selects representatives at [po_cls_rep].
    A witness built there would compute the terminal COUNT by [eq_refl] on
    a numeral.  It would also compute it in a category for which no
    [HasCoequalizers] instance exists -- building one is a separate piece
@@ -114,8 +114,8 @@ Generalizable All Variables.
    every audited module into ONE scope, where the later [Require] wins a
    duplicated short name and the audit then silently reports on the wrong
    constant.  Unprefixed, [wire] would have collided with
-   Construction/ColouredPROP.v:175 and Construction/PROP/Term.v:86, and
-   [P1] with Structure/Monoidal/Drinfeld.v:307.
+   Construction/ColouredPROP.v and Construction/PROP/Term.v, and
+   [P1] with Structure/Monoidal/Drinfeld.v.
 
    STATUS: axiom-free.  61 named constants (the three inductives and
    their twelve constructors included), no [Program] obligations, all reporting

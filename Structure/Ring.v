@@ -37,16 +37,16 @@ Generalizable All Variables.
    rather than over a bare [Monoidal] -- the same reason Structure/Group.v
    asks for [CartesianMonoidal] where Structure/Monoid.v asks for nothing.
 
-   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v:469
+   NAMING.  [RingObject] is ALREADY TAKEN: Theory/Algebra/Rig.v
    declares a record of that name for the SET-LEVEL notion (a ring on a
-   setoid carrier), and Theory/Algebra/Rig.v:103 likewise takes
+   setoid carrier), and Theory/Algebra/Rig.v likewise takes
    [RigObject].  Both are in scope here, since the [Sets] section below
    compares against them, so the names could not be reused.  The tree
    already carries four distinct "monoid" notions under four names --
-   [MonoidObject] (Structure/Monoid.v:124, internal), [MonObject]
-   (Construction/Deloop.v:123, a bare setoid monoid), [Monoid]
-   (Theory/Algebra/Monoid.v:44, internal in a monoidal category) and
-   [Monoid] (Theory/Coq/Monoid.v:37, over [Coq]) -- and the disambiguation
+   [MonoidObject] (Structure/Monoid.v, internal), [MonObject]
+   (Construction/Deloop.v, a bare setoid monoid), [Monoid]
+   (Theory/Algebra/Monoid.v, internal in a monoidal category) and
+   [Monoid] (Theory/Coq/Monoid.v, over [Coq]) -- and the disambiguation
    there runs "full spelling = internal, abbreviation = set-level"
    ([GroupObject] vs [GrpObject]).  Rig.v inverts that convention, so it
    cannot be followed; the classes here are therefore [InternalSemiring]
@@ -60,15 +60,15 @@ Generalizable All Variables.
    rather than by name" when it is a sweep by the field type's NAME.  By
    SHAPE the pattern DOES occur, and in the very file named below: sweeping
    for record bodies with two [_assoc] axioms returns
-   Theory/Algebra/Rig.v:103's [RigObject], which carries [(rig_zero,
+   Theory/Algebra/Rig.v's [RigObject], which carries [(rig_zero,
    rig_add)] and [(rig_one, rig_mul)] on one setoid carrier -- elementwise
    rather than as internal monoid objects, and it is precisely the
    set-level theory this file internalizes.  [GroupObject]
-   (Structure/Group.v:112)
+   (Structure/Group.v)
    is the only record anywhere with a [MonoidObject] field, and the only
    records with a field of the sibling class [Monoid] of
-   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v:49 and
-   Theory/Algebra/Frobenius.v:128 -- each carrying exactly one.  (Note
+   Theory/Algebra/Monoid.v are Theory/Algebra/CommutativeMonoid.v and
+   Theory/Algebra/Frobenius.v -- each carrying exactly one.  (Note
    that this file's [Monoid] is Structure/Monoid.v's
    [@MonoidObject C CC_Monoidal], not Theory/Algebra/Monoid.v's
    identically named class; only the former is required here.)  The
@@ -200,7 +200,7 @@ Generalizable All Variables.
    to [SetoidObject@{Set Set}] and [Sets_InternalSemiring] to
    [RigObject@{Set Set _}], which would have confined every [Sets] result
    to Set-sized carriers.  This is the minimization hazard
-   Instance/Sets/Products.v:409-424 and the #300 erratum record, met
+   Instance/Sets/Products.v and the #300 erratum record, met
    again.
 
    NON-VACUITY, proved rather than gestured at.  [Nat_ISemiring] and
@@ -501,6 +501,7 @@ End RingDerived.
 
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Algebra.Rig.
 Require Import Coq.ZArith.ZArith.
 
@@ -547,13 +548,22 @@ Next Obligation. now rewrite ring_neg_l. Qed.
 Next Obligation. now rewrite rig_distr_l. Qed.
 Next Obligation. now rewrite rig_distr_r. Qed.
 
+(* [PA] is new since the PR "algebraic carriers are sets" (2026-09-17): a
+   [RigObject] carries [rig_prop], and an arbitrary [SetoidObject] of [Sets]
+   supplies no [Prop] mirror for its `≈` (Instance/Sets/Propositional.v's
+   header says why there is no such instance in general).  It is a class
+   argument, so at every in-tree call site where [A] is a rig's own carrier it
+   is discharged by [rig_prop] without being written. *)
 Program Definition Rig_of_InternalSemiring@{o so} {A : SetoidObject@{o o}}
+  {PA : PropEquiv@{o o} (is_setoid A)}
   (S : @InternalSemiring Sets@{o so} _ _ A) : RigObject@{o o o} := {|
   rig_setoid := A;
   rig_zero := (mempty[isr_add] : _ ~{Sets}~> _) ttt;
   rig_add  := fun a b => (mappend[isr_add] : _ ~{Sets}~> _) (a, b);
   rig_one  := (mempty[isr_mul] : _ ~{Sets}~> _) ttt;
-  rig_mul  := fun a b => (mappend[isr_mul] : _ ~{Sets}~> _) (a, b)
+  rig_mul  := fun a b => (mappend[isr_mul] : _ ~{Sets}~> _) (a, b);
+
+  rig_prop := PA
 |}.
 Next Obligation. proper; apply proper_morphism; simpl; split; assumption. Qed.
 Next Obligation. proper; apply proper_morphism; simpl; split; assumption. Qed.
@@ -580,6 +590,7 @@ Next Obligation. exact (@isr_annihilate_r _ _ _ _ S a). Qed.
 
 
 Program Definition Ring_of_InternalRing@{o so} {A : SetoidObject@{o o}}
+  {PA : PropEquiv@{o o} (is_setoid A)}
   (R : @InternalRing Sets@{o so} _ _ A) : RingObject@{o o o} := {|
   ring_rig := Rig_of_InternalSemiring
                 (@InternalRing_InternalSemiring Sets _ _ A R);
@@ -614,6 +625,10 @@ Fail Example rig_round_record :
   (Rig_of_InternalSemiring (Sets_InternalSemiring R)) = R := eq_refl.
 
 Context {A : SetoidObject}.
+(* The round trip below runs at an ARBITRARY carrier, which supplies no
+   [Prop] mirror of its own; [Rig_of_InternalSemiring] therefore asks for one
+   and the section hands it over.  See that definition for why. *)
+Context (PA : PropEquiv (is_setoid A)).
 Context (S : @InternalSemiring Sets _ _ A).
 
 Example semiring_round_add (a b : carrier A) :

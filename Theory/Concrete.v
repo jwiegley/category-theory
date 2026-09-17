@@ -70,7 +70,7 @@ Generalizable All Variables.
    [WellPointedCategory], and it yields [Concrete_of_WellPointed].
 
    Naming caution: [WellPointedCategory] here is unrelated to the
-   [WellPointed] class of Instance/Fun.v:240, which is a condition on a
+   [WellPointed] class of Instance/Fun.v, which is a condition on a
    POINTED ENDOFUNCTOR (`F ⊳ point` and `point ⊲ F` agreeing), not on a
    category.  The two notions share only the English adjective; hence the
    distinct name.
@@ -168,7 +168,7 @@ Context {C : Category}.
    A separator (generator) is a test object `t` whose generalized elements
    `e : t ~> x` jointly detect equality of arrows out of `x`.  Awodey §1.5,
    Remark 1.7 introduces exactly this condition, as the repair of the naive
-   notion of concreteness.  Compare Adjunction/SAFT.v:99's `Cogenerator`,
+   notion of concreteness.  Compare Adjunction/SAFT.v's `Cogenerator`,
    which is the dual notion (arrows INTO a test object) packaged there for
    the special adjoint functor theorem. *)
 Class Separator (t : C) := {
@@ -212,7 +212,7 @@ Arguments separates {C} t {Separator x y} f g _.
    terminal object separates is well-pointed.
 
    This is a property of a CATEGORY equipped with a terminal object.  It has
-   nothing to do with the [WellPointed] class of Instance/Fun.v:240, which is
+   nothing to do with the [WellPointed] class of Instance/Fun.v, which is
    a coherence condition on a pointed endofunctor; the names are kept apart
    deliberately. *)
 Definition WellPointedCategory (C : Category) `{T : @Terminal C} : Type :=

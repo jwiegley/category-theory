@@ -28,14 +28,14 @@ Generalizable All Variables.
 
    WHAT WAS ALREADY IN TREE, AND WHAT IS ADDED HERE.  A DIAGRAM OF GRAPH
    SHAPE -- a graph morphism D : G -> U C into the underlying graph of C --
-   is Theory/Diagram.v:151's [Diagram G C := QuiverHomomorphism G
+   is Theory/Diagram.v's [Diagram G C := QuiverHomomorphism G
    (QuiverOfCat C)], and this file adds no second definition of it; nor does
    it reprove the FACTORIZATION half of remark 6, which is
-   Construction/Free/Quiver.v:529's [UniversalArrowQuiverCat] (every D
+   Construction/Free/Quiver.v's [UniversalArrowQuiverCat] (every D
    factors through the unit as a functor on the free category, uniquely up
-   to [StrictCat]'s hom-equivalence) together with Theory/Diagram.v:240's
-   [FunctorOfDiagram], :246's [DiagramOfFunctor] and the two round trips at
-   :284 and :299 -- all cited, none restated.  What was missing is the rest
+   to [StrictCat]'s hom-equivalence) together with Theory/Diagram.v's
+   [FunctorOfDiagram], its [DiagramOfFunctor] and the two round trips
+   between them -- all cited, none restated.  What was missing is the rest
    of def 8: the CONE over a graph diagram and its LIMIT, and then remark
    6's clause that limits and limiting cones for the two presentations
    "correspond exactly".
@@ -45,7 +45,7 @@ Generalizable All Variables.
    Construction/Free/Quiver.v and on each of the five siblings that were
    then under Construction/Free/Quiver/ (Concrete.v, Constructions.v,
    Coproduct.v, Examples.v, Presented.v), and Theory/Diagram.v's three hits
-   are all inside comments (:94, :95, :209).  A shape search
+   are all inside comments.  A shape search
    [rg -g '*.v' 'GraphCone|graph_cone|gvertex'] over the whole tree returned
    nothing.  The claim is scoped to those two searches: no cone over a
    quiver homomorphism was found anywhere by them.
@@ -58,7 +58,7 @@ Generalizable All Variables.
    domain".  A graph has no composition and no identities, so there is
    nothing further for the cone to respect.  In [AGraphCone] below that is
    the single field [gcone_coherence], quantified over [edges x y] -- ONE
-   TRIANGLE PER EDGE.  Contrast [ACone] (Structure/Cone.v:24), whose
+   TRIANGLE PER EDGE.  Contrast [ACone] (Structure/Cone.v), whose
    [cone_coherence] is quantified over [x ~{J}~> y]; over a free category
    those morphisms are PATHS of every length, so a functor cone carries ONE
    TRIANGLE PER ARROW.  The two witnesses below make that gap concrete.
@@ -66,7 +66,7 @@ Generalizable All Variables.
    THE CORRESPONDENCE, AND WHICH HALF COSTS ANYTHING.  Passing a functor cone
    DOWN to a graph cone ([AGraphCone_of_ACone]) is RESTRICTION to one-edge
    paths: instantiate the functor cone's coherence at [tlist_singleton e]
-   (Lib/TList.v:87) and remove the one identity a singleton path contributes.
+   (Lib/TList.v) and remove the one identity a singleton path contributes.
    Passing a graph cone UP ([ACone_of_AGraphCone]) is EXTENSION ALONG PATHS,
    and it is the file's only induction over a path: [gcone_dpath] proves
    [dpath D p ∘ mu_x ≈ mu_y] for a path of ARBITRARY length by induction on
@@ -98,7 +98,7 @@ Generalizable All Variables.
        Test/ProbeQuiverLimit332.v, which accompanies this issue, does not
        pin them either and says so.  What IS
        delivered is the [≈]-level [Cone_of_GraphCone_round], through
-       Structure/Cone.v:37's [AConeEquiv], which compares legs only.
+       Structure/Cone.v's [AConeEquiv], which compares legs only.
 
    (3) AT THE LIMIT LEVEL THE CORRESPONDENCE COSTS NOTHING.  [graph_limitcone]
        and [limitcone_graph_limit] are supplied by [:=] with NO TACTIC and no
@@ -108,10 +108,10 @@ Generalizable All Variables.
        none of it in the limit-level ones.
 
    (4) [dpath D p] IS NOT [fmap[FunctorOfDiagram D] p] AT A VARIABLE PATH.
-       Measured, and the cause is that [dpath] (Theory/Diagram.v:163) is a
+       Measured, and the cause is that [dpath] (Theory/Diagram.v) is a
        [Fixpoint] while [InducedFunctor]'s arrow action
-       (Construction/Free/Quiver.v:475) is elaborated as a [tlist'_rect], so
-       the two are different terms; Theory/Diagram.v:251's [dpath_fmap]
+       (Construction/Free/Quiver.v) is elaborated as a [tlist'_rect], so
+       the two are different terms; Theory/Diagram.v's [dpath_fmap]
        relates them at [≈], and that is what [ACone_of_AGraphCone] and
        [AGraphCone_of_ACone] both consume.  At a ONE-EDGE path they DO agree
        definitionally, pinned here as [dpath_singleton_is_fmap].
@@ -119,7 +119,7 @@ Generalizable All Variables.
    NON-VACUITY: TWO WITNESSES MAKING TWO DIFFERENT POINTS, both over quivers
    that ALREADY EXIST in Theory/Diagram.v -- no new shape is drawn.
 
-   (a) A REAL LIMIT.  Over [TriangleQuiver] (Theory/Diagram.v:650) -- three
+   (a) A REAL LIMIT.  Over [TriangleQuiver] (Theory/Diagram.v) -- three
        nodes with edges X->Y, Y->Z and X->Z -- take the diagram whose direct
        edge is LITERALLY the composite, [TriangleDiagram u v (v ∘ u)].  Then
        the apex [p] with legs [id], [u], [v ∘ u] is a graph cone
@@ -133,7 +133,7 @@ Generalizable All Variables.
    (b) THE NO-FUNCTORIALITY POINT, EXHIBITED.  The triangle shape has TWO
        DISTINCT parallel arrows X->Z in its free category -- [tri_via_Y] of
        length two and [tri_direct] of length one, proved distinct by
-       Theory/Diagram.v:662's [tri_via_Y_neq_direct], cited and not
+       Theory/Diagram.v's [tri_via_Y_neq_direct], cited and not
        reproved.  READ THE TWO DIFFERENTLY, and an earlier draft of this
        paragraph did not: [tri_via_Y] is the GENUINE no-functoriality
        instance -- it is a composite, no cone field mentions it, and its
@@ -148,7 +148,7 @@ Generalizable All Variables.
        [tri_gcone_at_via_Y] and [tri_gcone_at_direct] are nonetheless
        routed uniformly through [gcone_leg_dpath], hence [gcone_dpath];
        for [tri_direct] that route is not the cheapest one.  The walking
-       loop (Theory/Diagram.v:772) sharpens this to the extreme case:
+       loop (Theory/Diagram.v) sharpens this to the extreme case:
        [loop_gcone] builds a graph cone from the SINGLE
        equation [e ∘ psi ≈ psi], and [loop_gcone_every_path] then discharges
        the triangle at [loop_path n] for EVERY [n], those paths being
@@ -167,7 +167,7 @@ Generalizable All Variables.
        nothing here is stated at [C^op].
      * No category of graph cones, hence no rendering of the limit as a
        terminal object, and no setoid on [AGraphCone] mirroring
-       Structure/Cone.v:37's [AConeEquiv].  Consequently there is no
+       Structure/Cone.v's [AConeEquiv].  Consequently there is no
        essential-uniqueness statement for graph limits: no "any two limiting
        graph cones are canonically isomorphic", with or without legs.
      * No preservation, reflection or creation of graph limits, and no
@@ -176,7 +176,7 @@ Generalizable All Variables.
        cone-level statement.  It is the weaker of the two -- its legs are
        unconstrained -- and NO separation between them is proved here, so
        "strictly weaker" is not claimed.
-     * Nothing connects to Theory/Diagram.v:212's [Commutative], which is
+     * Nothing connects to Theory/Diagram.v's [Commutative], which is
        never invoked below, and no commutativity theorem of that file is
        consumed.  The triangle witness does draw a commuting triangle -- its
        direct edge is the composite BY DEFINITION, and that choice is what
@@ -201,7 +201,7 @@ Generalizable All Variables.
        one measurement, that [Diagram] identifies C's hom and proof
        universes (which is why [AGraphCone] displays them identified where
        the [ACone] it mirrors displays them apart).  That pin is the
-       DONOR's -- Theory/Diagram.v:143-151 opens its section with an
+       DONOR's -- Theory/Diagram.v opens its section with an
        unannotated [Context {C : Category}], so it is a minimization
        artifact of the kind Construction/Free/Quiver/Examples.v's header
        records, repairable upstream with explicit binders, and NOT
@@ -221,7 +221,7 @@ Class AGraphCone {G : Quiver} {C : Category} (D : Diagram G C)
     dedge D e ∘ gvertex_map x ≈ gvertex_map y
 }.
 
-(* The bundled form, mirroring Structure/Cone.v:51's [Cone]. *)
+(* The bundled form, mirroring Structure/Cone.v's [Cone]. *)
 Class GraphCone {G : Quiver} {C : Category} (D : Diagram G C) := {
   gvertex_obj : obj[C];                    (* the apex *)
   gconeFrom : AGraphCone D gvertex_obj     (* its legs, with coherence *)
@@ -234,7 +234,7 @@ Notation "gvertex_obj[ N ]" := (@gvertex_obj _ _ _ N)
   (at level 9, format "gvertex_obj[ N ]") : category_scope.
 
 (* The leg of a bundled graph cone at a node, as a first-class function --
-   the covariant accessor, mirroring Structure/Limit/Preservation.v:108's
+   the covariant accessor, mirroring Structure/Limit/Preservation.v's
    [cone_leg]. *)
 Definition gcone_leg {G : Quiver} {C : Category} {D : Diagram G C}
   (N : GraphCone D) (x : G) : gvertex_obj[N] ~{C}~> D x :=
@@ -270,7 +270,7 @@ Proof. exact (gcone_dpath (@gconeFrom G C D N) p). Qed.
 
 (* Up: a graph cone IS a cone over [FunctorOfDiagram D].  The legs are
    carried across unchanged; the work is [gcone_dpath], routed through
-   Theory/Diagram.v:251's [dpath_fmap]. *)
+   Theory/Diagram.v's [dpath_fmap]. *)
 Definition ACone_of_AGraphCone {c : obj[C]} (N : AGraphCone D c) :
   ACone c (FunctorOfDiagram D).
 Proof.
@@ -344,7 +344,7 @@ Example dpath_singleton_is_fmap {x y : G} (e : edges x y) :
 (* Def 8's "a limit for the diagram D is a universal such cone", at CONE
    level: the factorization is required to commute with the legs OF N, which
    is what the apex-only reading cannot say.  This is the graph-shaped mirror
-   of Structure/Limit/Preservation.v:166's [IsLimitCone]. *)
+   of Structure/Limit/Preservation.v's [IsLimitCone]. *)
 Definition IsLimitGraphCone (N : GraphCone D) : Type :=
   ∀ M : GraphCone D, ∃! u : gvertex_obj[M] ~{C}~> gvertex_obj[N],
     ∀ x : G, gcone_leg N x ∘ u ≈ gcone_leg M x.
@@ -376,7 +376,7 @@ Definition graph_limit_IsALimit (N : GraphCone D) (H : IsLimitGraphCone N) :
   IsALimit (FunctorOfDiagram D) gvertex_obj[N] :=
   limitcone_isalimit (graph_limitcone N H).
 
-(* The bundled limit of a graph diagram, mirroring Structure/Limit.v:113. *)
+(* The bundled limit of a graph diagram, mirroring Structure/Limit.v. *)
 Class GraphLimit := {
   graph_limit_cone : GraphCone D;
   graph_ump_limits : IsLimitGraphCone graph_limit_cone
@@ -427,7 +427,7 @@ Arguments GraphLimit {G C} D.
 
 (** ** Witness one: a limiting graph cone over the walking triangle *)
 
-(* The shape is Theory/Diagram.v:650's [TriangleQuiver]; the diagram is that
+(* The shape is Theory/Diagram.v's [TriangleQuiver]; the diagram is that
    file's [TriangleDiagram] with its direct edge taken to be LITERALLY the
    composite, so no commutation hypothesis is needed and none is used. *)
 Section TriangleLimit.
@@ -495,7 +495,7 @@ Example tri_med_is_arrow {c : obj[C]} (f : c ~{C}~> p) :
 (** *** No functoriality: the triangles at the two parallel X->Z arrows *)
 
 (* [tri_via_Y] and [tri_direct] are DISTINCT morphisms of the free category
-   (Theory/Diagram.v:662's [tri_via_Y_neq_direct]), and a graph cone states a
+   (Theory/Diagram.v's [tri_via_Y_neq_direct]), and a graph cone states a
    triangle for neither.  Both are consequences of the edge conditions,
    through [gcone_dpath]. *)
 Lemma tri_gcone_at_via_Y (M : GraphCone TriD) :

@@ -28,7 +28,7 @@ Generalizable All Variables.
 (* Several proofs below draw on the two [PreOrder] witnesses of the section
    without naming them in the statement, so capture every section variable
    rather than the [Default Proof Using "Type"] subset inherited from Lib.v
-   (the Construction/Reflective/Idempotent.v:24 precedent). *)
+   (the Construction/Reflective/Idempotent.v precedent). *)
 Set Default Proof Using "All".
 
 (** * Mac Lane's Exercise 2 at a Galois connection between posets *)
@@ -64,12 +64,12 @@ Set Default Proof Using "All".
    antisymmetry.
 
    ANTISYMMETRY IS AN EXPLICIT HYPOTHESIS, and it has to be.  #380
-   recorded that Instance/Poset.v:125 defines [Poset] as [Proset] with the
+   recorded that Instance/Poset.v defines [Poset] as [Proset] with the
    antisymmetry argument DISCARDED, so the two are the same category and
    nothing about equality of objects can be read off it.  Every statement
    below that mentions Leibniz [=] on the underlying order therefore takes
    an [Antisymmetric] witness in the shape
-   Instance/Proset/Galois.v:216's [mutual_le_to_eq] consumes, and that
+   Instance/Proset/Galois.v's [mutual_le_to_eq] consumes, and that
    lemma is reused rather than restated.  The statements that do NOT
    mention [=] -- the two dictionary biconditionals, the equivalence, and
    the two passages between the closed subsets -- take no such witness.
@@ -79,9 +79,9 @@ Set Default Proof Using "All".
      - "{p | p = RLp}": [closed_r_eq], the elementwise reading of
        [GalClosed_r] under antisymmetry.
      - "equals {p | p = Rq for some q}": [closed_r_iff_image_eq], from
-       [closed_r_eq] and Instance/Grp/Galois.v:467's
+       [closed_r_eq] and Instance/Grp/Galois.v's
        [gal_closed_r_image].  The mutual-relatedness form of "is an
-       image", that file's [gal_closed_r_iff] (:485), is the same fact
+       image", that file's [gal_closed_r_iff], is the same fact
        stated without antisymmetry; it is cited, not applied.
      - "a bijection from this set to {q | q = LRq}": [closed_r_to_l] and
        [closed_l_to_r], with [closed_round_r] and [closed_round_l] closing
@@ -122,13 +122,13 @@ Set Default Proof Using "All".
    Leibniz equality of two elements of [Powerset_Prop_obj] would need
    both propositional and functional extensionality.  The two
    non-equalities are ALREADY IN TREE: Instance/Powerset.v's
-   [unit_not_iso] (:850) and [counit_not_iso] (:867) refute exactly those
+   [unit_not_iso] and [counit_not_iso] refute exactly those
    two inclusions at the constant map on a two-element carrier, so they
    are cited here and not restated -- a correction to this issue's own
    plan, which asked for them to be built.
 
    A COMPUTING WITNESS.  Section (G) reads the whole dictionary off
-   Instance/Proset/Galois.v:249's [nat_shift_galois k], truncated
+   Instance/Proset/Galois.v's [nat_shift_galois k], truncated
    subtraction left adjoint to addition on the naturals: the closed
    elements on the left are exactly the [a] with [k <= a]
    ([nat_shift_closed_r_iff]), the closed elements on the right are ALL
@@ -260,9 +260,9 @@ Proof.
 Qed.
 
 (* "... equals {p | p = Rq for some q}".  Forward through [closed_r_eq],
-   backward through Instance/Grp/Galois.v:467's [gal_closed_r_image]; the
+   backward through Instance/Grp/Galois.v's [gal_closed_r_image]; the
    mutual-relatedness form of the same fact is that file's
-   [gal_closed_r_iff] (:485), which antisymmetry would turn into Mac
+   [gal_closed_r_iff], which antisymmetry would turn into Mac
    Lane's equation and which is not applied here. *)
 Lemma closed_r_iff_image_eq (antiA : @Antisymmetric A eq eq_equiv RA)
   (a : A) : GalClosed_r G a ↔ ∃ b : B, a = gal_r G b.

@@ -21,7 +21,7 @@ Require Import Category.Instance.Proset.Galois.
 Require Import Category.Instance.Proset.Monotone.
 Require Import Category.Instance.Proset.Limit.
 
-(* Same two as Instance/Proset.v:4-5 and Instance/Proset/Galois.v: [relation]
+(* Same two as Instance/Proset.v and Instance/Proset/Galois.v: [relation]
    and [PreOrder] below are the stdlib Prop-valued ones, not [crelation]. *)
 Require Import Coq.Classes.Equivalence.
 Require Import Coq.Relations.Relation_Definitions.
@@ -65,15 +65,15 @@ Generalizable All Variables.
 
     The catalog entry says the carrier is missing and that searches for
     "direct image" and "inverse image" return nothing.  Neither holds.
-    Instance/Sets/Powerset.v:981 declares [Powerset_Prop_obj], the power
+    Instance/Sets/Powerset.v declares [Powerset_Prop_obj], the power
     set of a setoid AT ONE UNIVERSE -- the [equiv]-respecting Prop-valued
     predicates, that is [SetoidMorphism X Powerset_Prop_truth] -- and BOTH
     operations already act on it: the direct image is
-    [Powerset_Prop_image] (:987) with its functor [Powerset_Prop] (:1063),
+    [Powerset_Prop_image] with its functor [Powerset_Prop],
     the inverse image is [Powerset_Prop_preimage]
-    (Instance/Sets/Powerset/Universal.v:175) with [Powerset_Prop_op]
-    (:234).  Those two files even prove the two operations DIFFER
-    ([powerset_inverse_ne_direct], :670).  The two search terms occur in
+    (Instance/Sets/Powerset/Universal.v) with its functor
+    [Powerset_Prop_op].  Those two files even prove the two operations DIFFER
+    ([powerset_inverse_ne_direct]).  The two search terms occur in
     three and four files respectively, as prose.
 
     What was genuinely absent, and is what this file supplies, is the
@@ -83,8 +83,8 @@ Generalizable All Variables.
 
     ** PRIOR ART: THE OTHER INCLUSION-ORDERED POWER SET
 
-    Instance/Rel/Dagger.v:207 already carries [psub], inclusion of
-    BOOL-VALUED subsets of a bare [Type], and :217 makes it a category --
+    Instance/Rel/Dagger.v already carries [psub], inclusion of
+    BOOL-VALUED subsets of a bare [Type], and makes it a category --
     also named [Powerset] -- for Awodey §1.9 Exercise 2(c)'s self-duality
     of the power set.  That is a different object: no setoid, so no
     respectfulness condition, and decidable membership, which is what lets
@@ -97,7 +97,7 @@ Generalizable All Variables.
     modules to 98, which is not worth an optional bridge.
 
     THE NAME [Subsets] IS FORCED.  [Powerset] is taken twice --
-    Instance/Rel/Dagger.v:217 and Instance/Sets/Powerset.v:362 -- and
+    Instance/Rel/Dagger.v and Instance/Sets/Powerset.v -- and
     `make print-assumptions` loads many modules into ONE scope, where a
     third homonym would silently audit the wrong constant.  So the issue's
     suggested `Print Assumptions Powerset.` cannot be satisfied under that
@@ -125,7 +125,7 @@ Generalizable All Variables.
         [inverse_image_is_Powerset_Prop_op]).
         [image_galois_round_trip] returns the connection at Leibniz [=] on
         the WHOLE record.  (It is NOT named [galois_round_trip]: that is
-        Instance/Proset/Galois.v:233's own lemma, and
+        Instance/Proset/Galois.v's own lemma, and
         `make print-assumptions` loads many modules into one scope.)
 
     (D) The unit and the counit, at TYPE level.  [unit_incl] and
@@ -194,7 +194,7 @@ Generalizable All Variables.
     and [subset_le] IS a [Prop], so [image_transpose_from] can open the
     squash where a Type-valued inclusion could not.  That is the whole
     reason the ORDER is put on the Prop-valued carrier rather than on
-    Instance/Sets/Powerset.v:238's proof-relevant [Powerset_obj], whose
+    Instance/Sets/Powerset.v's proof-relevant [Powerset_obj], whose
     inclusion `∀ x, S x → T x` is [Type@{o}]-valued and hence not a
     [relation] at all -- so neither [Proset] nor [GaloisConnection] can
     host it.  That rejection is pinned as the probe's formability
@@ -233,14 +233,23 @@ Generalizable All Variables.
     [o] and hom level [u] with NO relation between them (the hom is
     Prop-valued, so it fits at any [u]); the only entries in its block are
     [Set < o] and two bounds against stdlib's [relation]/[PreOrder] global
-    levels.  The RAPL route additionally pins the hom level to [Set],
-    inherited from Instance/Discrete.v's unannotated
-    [DiscreteCat_Functor], which fixes the shape at [DiscreteCat@{u Set
-    Set}] while [IsALimit] identifies the shape's hom-and-proof universe
-    with the ambient's; that is why (F)'s DIRECT statements are given
-    first and the RAPL derivations second.  Not claimed unavoidable.
-    Measured per constant in the report; no [Set] is introduced by any
-    definition in this file.
+    levels.  RECORDED CORRECTION: an earlier revision continued "The RAPL
+    route additionally pins the hom level to [Set], inherited from
+    Instance/Discrete.v's unannotated [DiscreteCat_Functor], which fixes
+    the shape at [DiscreteCat@{u Set Set}] while [IsALimit] identifies the
+    shape's hom-and-proof universe with the ambient's".  The diagnosis was
+    right and the donor has since been repaired: it was annotated in place
+    at Instance/Discrete.v in the PR "algebraic carriers are sets"
+    (2026-09-17), so the pin no longer arrives from there.  The RAPL
+    constants of section (F) are still WRITTEN at hom level [Set] --
+    [Subsets@{o Set} X] appears literally in their statements -- and
+    whether they can now be restated at a free hom level has NOT been
+    re-measured; no code changed in that PR's prose pass.  What survives
+    unchanged is the ORDER and its reason: [IsALimit] still identifies the
+    shape's hom-and-proof universe with the ambient's, so (F)'s DIRECT
+    statements are given first and the RAPL derivations second.  Measured
+    per constant in the report; no [Set] is introduced by any definition
+    in this file.
 
     ** CLOSURE, AND WHY
 
@@ -416,7 +425,7 @@ Example inverse_image_obj (T : carrier (Powerset_Prop_obj@{o} Y)) :
 
 (* The two functors act as the pre-existing [Sets]-level ones do.  Both
    hold at Leibniz [=] because the two sides are the SAME term -- the
-   Functor/Bifunctor.v:42-45 precedent the donor files cite for their own
+   Functor/Bifunctor.v precedent the donor files cite for their own
    same-term lemmas. *)
 Example direct_image_is_Powerset_Prop
   (S : carrier (Powerset_Prop_obj@{o} X)) :
@@ -626,14 +635,23 @@ Definition Subsets_HasAllMeets : HasAllMeets (@subset_le@{o} X) :=
 Definition Subsets_HasAllJoins : HasAllJoins (@subset_le@{o} X) :=
   fun Idx S => existT _ (subset_union S) (subset_union_IsLUB S).
 
-(* THE [Set] PIN, MADE VISIBLE IN THE SOURCE.  Both biconditionals route
-   through [Proset_Limit]/[DiscreteCat_Functor], and Instance/Discrete.v's
+(* THE [Set] INSTANCE, MADE VISIBLE IN THE SOURCE.  These two -- alone
+   among the constants of this section -- are about [Subsets] at hom level
+   [Set], and the instance is written out rather than inferred.
+
+   RECORDED CORRECTION TO THE REASON.  An earlier revision said the
+   [Set] was a PIN: "Both biconditionals route through
+   [Proset_Limit]/[DiscreteCat_Functor], and Instance/Discrete.v's
    unannotated declaration of the latter fixes the shape at
    [DiscreteCat@{u Set Set}] while [IsALimit] identifies the shape's
-   hom-and-proof universe with the ambient's.  So these two -- alone among
-   the constants of this section -- are about [Subsets] at hom level [Set],
-   and the instance is written out rather than inferred.  Inherited from
-   the donor, not introduced here, and not claimed unavoidable. *)
+   hom-and-proof universe with the ambient's."  The donor was annotated in
+   place at Instance/Discrete.v in the PR "algebraic carriers are sets"
+   (2026-09-17), so no [Set] is forced from there any more.  The literal
+   [Set] below is therefore now a CHOICE rather than a pin, and has been
+   left as it stands: restating these two at a free hom level was not
+   attempted or measured in that PR, which changed prose only.  [IsALimit]
+   still identifies the shape's hom-and-proof universe with the ambient's,
+   which is the constraint that remains. *)
 Definition Subsets_Complete : @Complete (Subsets@{o Set} X) :=
   snd (proset_Complete_iff_all_meets (subset_le_preorder@{o} X))
     Subsets_HasAllMeets.
@@ -719,12 +737,15 @@ End Preservation.
 (* ------------------------------------------------------------------------ *)
 (** ** (F) again: the same two statements read off RAPL and LAPC *)
 
-(* These carry the [Set] pin discussed in the header: [Proset_Limit] and
-   [Subsets_Cocomplete] both go through Instance/Discrete.v's unannotated
-   [DiscreteCat_Functor], which fixes the shape at
-   [DiscreteCat@{u Set Set}], and [IsALimit] identifies the shape's
-   hom-and-proof universe with the ambient's.  The DIRECT statements above
-   carry no such pin, which is why they come first. *)
+(* These are stated at the [Set] hom level discussed in the header.  An
+   earlier revision called that a PIN and attributed it to
+   Instance/Discrete.v's unannotated [DiscreteCat_Functor] fixing the shape
+   at [DiscreteCat@{u Set Set}]; that donor was annotated in place at its
+    in the PR "algebraic carriers are sets" (2026-09-17), so the [Set]
+   here is now a choice carried over rather than a pin, and restating it
+   was not attempted.  [IsALimit] still identifies the shape's
+   hom-and-proof universe with the ambient's; the DIRECT statements above
+   carry no such identification, which is why they come first. *)
 
 Section RAPLRoute.
 

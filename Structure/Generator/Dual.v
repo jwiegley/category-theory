@@ -20,7 +20,7 @@ Generalizable All Variables.
    separating set in the opposite category, and Mac Lane's §V.7 (book
    p. 127) pairs the two the same way.  This file is that sentence,
    discharged in both directions, plus the joint-faithfulness reading
-   that Adjunction/SAFT.v:96-98 states as prose and proves nowhere.
+   that Adjunction/SAFT.v states as prose and proves nowhere.
 
    WHY A SEPARATE FILE.  Adjunction/SAFT.v sits high in the tree: it
    requires Structure/Complete.v, Structure/Limit/Product.v,
@@ -30,7 +30,7 @@ Generalizable All Variables.
    wants only the covariant notion pays for SAFT's closure.
 
    THE DATA IS THE SAME, THE QUANTIFIERS ARE SWAPPED.  Construction/
-   Opposite.v:108 gives [hom x y := hom y x] and :111 gives
+   Opposite.v gives [hom x y := hom y x] and
    [compose f g := g ∘ f], both DEFINITIONALLY, so a [Cogenerator
    (C^op)] holds exactly a [Generator C]'s three fields: an index Type,
    the same objects, and a separation clause whose hypothesis
@@ -83,14 +83,14 @@ Generalizable All Variables.
    THE DUAL CHARACTERIZATION.  [cogenerator_jointly_faithful] and
    [jointly_faithful_cogenerator] discharge the SAFT header's prose,
    "equivalently the representables C(-, cog_obj j) are jointly
-   faithful", in both directions.  The functors are Functor/Hom.v:146's
+   faithful", in both directions.  The functors are Functor/Hom.v's
    [Curried_CoHom C], written [Hom ─, A]; each is a functor C^op ⟶ Sets,
    so [JointlyFaithful] is instantiated at C^op and its two arrow
    variables are C^op arrows -- which is exactly why the proof term
    applies [cog_separates] with the objects exchanged, the same
    bookkeeping as the [Generator] bridge above.  Like the covariant
    characterization in Structure/Generator.v, both directions are terms:
-   the Sets hom-setoid is pointwise (Instance/Sets.v:144) and the
+   the Sets hom-setoid is pointwise (Instance/Sets.v) and the
    [fmap] of a contravariant representable is precomposition, so the
    two hypotheses are the same statement.
 
@@ -98,7 +98,7 @@ Generalizable All Variables.
    four bridges are free of constraints: [gen_of_cog], [cog_of_gen],
    [gen_op_of_cog] and [cog_of_gen_op] each print an EMPTY block, which
    is the universe-level statement that no data moves.  The two
-   characterizations carry the block that Instance/Sets.v:198's
+   characterizations carry the block that Instance/Sets.v's
    [Sets@{o so} : Category@{so o o}] carries -- the strict [u0 < u2]
    ([u0 < u3] for [jointly_faithful_cogenerator], where the level is
    numbered differently) together with [u0 <= compose.u0/u1/u2] and

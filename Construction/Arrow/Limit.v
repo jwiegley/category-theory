@@ -54,7 +54,7 @@ Unset Transparent Obligations.
        the downstairs uniqueness read through the comma hom-setoid, which
        compares underlying pairs only.
      - [comma_proj_StrictlyCreatesLimit : StrictlyCreatesLimit K comma_proj]
-       — Riehl's on-the-nose reading (Structure/Limit/Creation.v:325) — and
+       — Riehl's on-the-nose reading (Structure/Limit/Creation.v) — and
        [comma_proj_CreatesLimit : CreatesLimit K comma_proj] through the
        bridge [StrictlyCreatesLimit_CreatesLimit]; [comma_proj_Limit] is the
        existence half bundled, its apex the downstairs apex and its arrow
@@ -73,9 +73,9 @@ Unset Transparent Obligations.
    chosen limits of [Fst ◯ (comma_proj ◯ K)] and [Snd ◯ (comma_proj ◯ K)].
    The [Id] instantiation needs [Id_PreservesLimitCone], which the tree
    did not have (measured: no constant of the shape [PreservesLimitCone _
-   Id] anywhere; the nearest neighbour, Theory/Equivalence/Creation.v:102's
+   Id] anywhere; the nearest neighbour, Theory/Equivalence/Creation.v's
    [Id_CreatesAllLimits], does not serve, because turning creation into
-   cone-level preservation through Structure/Limit/Creation.v:205's
+   cone-level preservation through Structure/Limit/Creation.v's
    [creation_preserves_limit] costs an extra [L : Limit (F ◯ K)] that the
    new lemma does not need); it is declared at the head of this file and
    belongs beside [PreservesLimitCone] in Structure/Limit/Preservation.v,
@@ -96,7 +96,7 @@ Unset Transparent Obligations.
    donor the issue points at, Construction/Comma/Creation.v's
    [comma_CreatesLimit] for [comma_proj2 : (=(d) ↓ U) ⟶ C], is NOT
    consumed, and the [apex_obj]/[apex_leg] beneath it — declared in
-   Construction/Comma/Limit.v (:161, :165), the module Creation.v builds
+   Construction/Comma/Limit.v, the module Creation.v builds
    on, and not in Creation.v itself — are not reused: those are stated
    over the constant-domain comma, whose objects are [(ttt, b)]-pairs and
    whose lifting argument goes through the fixed [Gdiag]; the two-sided

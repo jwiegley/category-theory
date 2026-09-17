@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Concrete.
@@ -43,7 +44,7 @@ Generalizable All Variables.
      identity on hom-setoids and faithfulness is the identity implication.
 
    [CMon_Concrete] — Instance/CMon.v's category of commutative monoids, via
-     `CMon_Forget` (Instance/CMon.v:169).  That file's header comment at lines
+     `CMon_Forget` (Instance/CMon.v).  That file's header comment at lines
      166-168 asserts faithfulness without proving it; [CMon_Forget_Faithful]
      below supplies the proof.
 
@@ -75,7 +76,7 @@ Generalizable All Variables.
    EVIDENT candidate, the assignment sending a set to itself:
 
    [Rel_hom_is_not_a_function] — the elementary obstruction.  Instance/Rel.v's
-     `some_number` (line 161), the strict order `<` on nat, is a morphism of
+     `some_number`, the strict order `<` on nat, is a morphism of
      Rel that is not the graph of any function nat → nat.  So the evident
      underlying-set assignment `X ↦ X` cannot be extended to arrows at all,
      and there is nothing to check faithfulness of.
@@ -162,7 +163,7 @@ Qed.
 
 (** ** CMon: commutative monoids *)
 
-(* The proof Instance/CMon.v's lines 166-168 only assert.  Equivalence of
+(* The proof Instance/CMon.v itself only asserts.  Equivalence of
    homomorphisms in `CMon` (`CMonHom_Setoid`) is by definition pointwise
    equivalence of the underlying setoid maps, which is what `CMon_Forget`
    records, so injectivity of its hom-map is the identity implication. *)
@@ -192,6 +193,9 @@ Proof.
   - intros a b c; simpl; symmetry; apply PeanoNat.Nat.add_assoc.
   - intros a b; simpl; apply PeanoNat.Nat.add_comm.
   - intros a; simpl; reflexivity.
+  (* [cmon_prop] raises no fourth goal: the carrier's `≈` IS Coq's [eq], so
+     [refine]'s typeclass resolution closes the field with [eq_PropEquiv]
+     (Lib/Setoid/Propositional.v) before the bullets are reached. *)
 Defined.
 
 (* The constant-zero endomorphism of `nat_CMon`; it preserves the unit and the
@@ -227,7 +231,7 @@ Proof.
     now injection Hn.
 Qed.
 
-(* Instance/Rel.v's `some_number` (line 161) is the strict order `<` on nat,
+(* Instance/Rel.v's `some_number` is the strict order `<` on nat,
    read as a relation nat ⇸ nat.  It is not the graph of any function: if it
    were the graph of `f`, then `f 0` would have to be simultaneously the
    unique natural number above 0 and its own successor.

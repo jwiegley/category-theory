@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -40,7 +41,7 @@ Generalizable All Variables.
     adjunction appears below.
 
     A GAP THE TREE RECORDED AND THIS FILE CLOSES.
-    Instance/Ab/Tensor.v:44-45 states, of its own construction, that
+    Instance/Ab/Tensor.v states, of its own construction, that
     "the tree has no free abelian group to quotient (verified across
     Construction/ and Instance/)".  That is why the tensor product there
     is built by generators and relations bespoke to the pair (G, H).
@@ -85,7 +86,7 @@ Generalizable All Variables.
     preference: the free abelian group on X is the free ℤ-module on X,
     but transporting the universal property across needs a passage
     Ab → RMod ℤ giving every abelian group its ℤ-action, and no such
-    passage exists ([RMod_Forget_Ab], Instance/Mod.v:300, is the
+    passage exists ([RMod_Forget_Ab], Instance/Mod.v, is the
     forgetful direction; Instance/Mod/BaseChange.v's [ZExt Int_Ring]
     does run Ab → RMod ℤ but sends A to ℤ ⊗ A, not to A carrying its
     own ℤ-action, so it is not the passage wanted here)
@@ -195,16 +196,19 @@ Generalizable All Variables.
         non-degeneracy theorems additionally identify all three of an
         [AbObject]'s universes with it.  This is the DONORS' doing, and
         it is attributed rather than guessed: [Sets@{o so}] is declared
-        as [Category@{so o o}] (Instance/Sets.v:193), so [obj[Sets]] is
+        as [Category@{so o o}] (Instance/Sets.v), so [obj[Sets]] is
         [SetoidObject@{o o}] with carrier and relation already
         identified, and a probe into an ARBITRARY abelian group carrying
         no free-group content at all was measured to acquire exactly the
         same block.  Nothing here adds to it, and it is not claimed
         unavoidable.
       - EXACTLY FOUR of the 76 names the file's [.glob] records (that
-        count excludes the 8 generated eliminators and the 4 [Program]
-        obligations, and excludes the 4 phantom names the [Fail]
-        commands put there) carry [Set] in a constraint block, and all
+        count excludes the generated eliminators -- SIX of them since the
+        PR "algebraic carriers are sets" (2026-09-17), not the eight an
+        earlier revision wrote; see the axiom paragraph below -- and the
+        4 [Program] obligations, and excludes the 4 phantom names the
+        [Fail] commands put there) carry [Set] in a constraint block,
+        and all
         four are the concrete two-generator witness ([ab_int_probe] and its
         three computing [Example]s), where [bool : Set] forces it.
         That took work: writing the general separations with ℤ-valued
@@ -216,13 +220,24 @@ Generalizable All Variables.
         the two together pin.  Abstracting the target lifts it, which is
         why the general theorems are stated over an arbitrary A.
 
-    ZERO AXIOMS.  All 88 constants of this file -- 38 transparent
-    definitions, 8 generated eliminators, 23 opaque proofs, 4 [Program]
-    obligations (invisible to a [.glob] sweep, and reachable only by
-    fully qualified name), 2 inductive types and their 13 constructors --
-    report "Closed under the global context".  [∃] in this library is
-    [sigT], so witnesses are DATA and no choice principle is consumed
-    anywhere.
+    ZERO AXIOMS.  All 85 constants of this file -- the 72 that
+    [Print Module] lists (60 definitions and proofs, SIX generated
+    eliminators, 4 [Program] obligations invisible to a [.glob] sweep and
+    reachable only by fully qualified name, and 2 inductive types)
+    together with those types' 13 constructors -- report "Closed under
+    the global context".  [∃] in this library is [sigT], so witnesses are
+    DATA and no choice principle is consumed anywhere.
+
+    RE-MEASURED after the PR "algebraic carriers are sets" (2026-09-17),
+    by generating one [Print Assumptions] per name from [Print Module]:
+    72 commands, 72 "Closed under the global context", zero [Axioms:]
+    blocks; [grep -c '^constr ' Instance/Ab/Free.glob] gives 13 and
+    [grep -c '^scheme '] gives 6.  An earlier revision of this paragraph
+    counted 88 constants with EIGHT eliminators and 38 transparent
+    definitions.  The two that went are [fa_eq_rect] and [fa_eq_rec]:
+    that PR made [fa_eq] a [Prop], so Rocq generates only [fa_eq_ind] and
+    [fa_eq_sind] for it.  Nothing was removed from the source, and the
+    13 constructors are unchanged in both trees.
 
     WHAT IS NOT DELIVERED.
 
@@ -247,7 +262,7 @@ Generalizable All Variables.
 (* The file-global obligation tactic is [cat_simpl], which would run wide
    proof searches on the obligations below and has already introduced the
    parameters by the time an obligation is opened.  Switched off here --
-   the Instance/Mod/Free.v:22 idiom -- so every obligation starts with an
+   the Instance/Mod/Free.v idiom -- so every obligation starts with an
    explicit [intros]. *)
 #[local] Obligation Tactic := idtac.
 
@@ -273,7 +288,7 @@ Inductive FATerm : Type :=
    symmetry and transitivity.  Reflexivity is derived below, keeping the
    relation's induction principle one case shorter everywhere it is
    consumed. *)
-Inductive fa_eq : FATerm → FATerm → Type :=
+Inductive fa_eq : FATerm → FATerm → Prop :=
   | fae_gen {x y : carrier X} : x ≈ y → fa_eq (fa_gen x) (fa_gen y)
   | fae_plus {s s' t t'} :
       fa_eq s s' → fa_eq t t' → fa_eq (fa_plus s t) (fa_plus s' t')
@@ -322,7 +337,13 @@ Definition fa_Setoid : Setoid FATerm := {|
     Every law of the group is a constructor of the relation, so the
     record is a literal with ZERO proof obligations.  It is written out in
     one piece so that the underlying setoid, the unit, the addition and
-    the negation are all visible at a glance and all reduce. *)
+    the negation are all visible at a glance and all reduce.
+
+    An earlier revision stopped at "ZERO proof obligations".  That is still
+    true, and since the PR "algebraic carriers are sets" (2026-09-17) the
+    literal has one more field: [fa_eq] IS a [Prop]-valued relation, so it is
+    its own [Prop] mirror and both implications of [cmon_prop] are the
+    identity. *)
 Definition FreeAbObject : AbObject := {|
   ab_cmon := {|
     cmon_setoid := {| carrier := FATerm; is_setoid := fa_Setoid |};
@@ -331,7 +352,9 @@ Definition FreeAbObject : AbObject := {|
     cmon_plus_respects := fun _ _ Hs _ _ Ht => fae_plus Hs Ht;
     cmon_plus_assoc := fae_assoc;
     cmon_plus_comm := fae_comm;
-    cmon_plus_zero_l := fae_zero_l
+    cmon_plus_zero_l := fae_zero_l;
+    cmon_prop := @PropEquiv_of_relation _ fa_Setoid fa_eq
+                   (fun _ _ h => h) (fun _ _ h => h)
   |};
   ab_neg := fa_neg;
   ab_neg_respects := fun _ _ Hs => fae_neg Hs;
@@ -393,6 +416,12 @@ Fixpoint fa_eval (t : FATerm) : carrier (cmon_setoid A) :=
 Lemma fa_eval_respects (s t : FATerm) : fa_eq s t → fa_eval s ≈ fa_eval t.
 Proof.
   intro He.
+  (* Since the PR "algebraic carriers are sets" (2026-09-17) [fa_eq] is a
+     [Prop] inductive and eliminates only into [Prop] goals, while `≈` is
+     [Type]-valued.  [pequiv_to] puts a [Prop] goal in front of the
+     elimination and each branch returns to `≈` with [pequiv_from]; the nine
+     cases and what discharges each are exactly as before. *)
+  apply pequiv_to.
   induction He as
     [ x y Hxy
     | s s' t t' _ IHs _ IHt
@@ -400,19 +429,22 @@ Proof.
     | s t u | s t | s | s
     | s t _ IHst
     | s t u _ IHst _ IHtu ]; simpl.
-  - exact (proper_morphism h _ _ Hxy).
-  - exact (cmon_plus_respects A _ _ IHs _ _ IHt).
-  - exact (ab_neg_respects A _ _ IHs).
-  - exact (cmon_plus_assoc A _ _ _).
-  - exact (cmon_plus_comm A _ _).
-  - exact (cmon_plus_zero_l A _).
-  - exact (ab_neg_left A _).
+  - apply pequiv_from; exact (proper_morphism h _ _ Hxy).
+  - apply pequiv_from.
+    exact (cmon_plus_respects A _ _ (pequiv_to _ _ IHs)
+                                _ _ (pequiv_to _ _ IHt)).
+  - apply pequiv_from.
+    exact (ab_neg_respects A _ _ (pequiv_to _ _ IHs)).
+  - apply pequiv_from; exact (cmon_plus_assoc A _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm A _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l A _).
+  - apply pequiv_from; exact (ab_neg_left A _).
   - exact (symmetry IHst).
   - exact (transitivity IHst IHtu).
 Qed.
 
 (* The extension, as a morphism of [Ab].  [AbHom] IS [CMonHom]
-   (Instance/Ab.v:184, a bare [Definition]), so the obligations are
+   (Instance/Ab.v, a bare [Definition]), so the obligations are
    respectfulness of the fold and preservation of zero and of addition --
    preservation of NEGATION is not among them, being the derived
    [ab_map_neg] rather than a field.  The last two hold by
@@ -853,9 +885,9 @@ Arguments free_ab_sum_not_summand {X} A a Ha Xdec x y Hxy _.
 
 (** ** A computing witness on two generators
 
-    The integers, as [ring_ab Int_Ring]: Instance/Rng.v:103's [ring_ab]
-    applied to Theory/Algebra/Rig.v:588's [Int_Ring].  This is the same
-    term Instance/Ab/Coproduct.v:264 names [ab_Z]; that file is NOT
+    The integers, as [ring_ab Int_Ring]: Instance/Rng.v's [ring_ab]
+    applied to Theory/Algebra/Rig.v's [Int_Ring].  This is the same
+    term Instance/Ab/Coproduct.v names [ab_Z]; that file is NOT
     required here (it would drag the biproduct closure in for one
     definition), so no in-file identification with that name is stated.
 

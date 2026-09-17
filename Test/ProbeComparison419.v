@@ -1,9 +1,10 @@
 (** * Probe for Structure/Limit/Comparison.v (issue #419)
 
     Pins the measured boundaries of the comparison-arrow development: which
-    repackagings hold by conversion and which do not, where the unannotated
-    discrete-diagram functor pins the universe, how the terminal comparison
-    is oriented, and why the colimit block is built directly.  Every
+    repackagings hold by conversion and which do not, that the
+    discrete-diagram functor no longer pins the universe (§B, a repair
+    recorded under N2/N3 below), how the terminal comparison is oriented,
+    and why the colimit block is built directly.  Every
     refutation command below was stripped ONE AT A TIME in a copy of the
     whole file and compiled alone with its error read, so each refusal is
     of the kind its label says.
@@ -17,16 +18,31 @@
                      bracketings, no universe clause); [cone_assoc]
                      repackages it (control), and apex and legs agree at
                      [eq_refl] across the bracketings (readbacks).
-     N2 UNIVERSE     under [Constraint Set < uh], [cone_comparison] at the
-                     UNANNOTATED [DiscreteCat_Functor] is refused: the
-                     functor's type names [DiscreteCat@{_ Set Set}] where
-                     the ambient's [uh] is needed; the cone type alone is
-                     formable (control a), the comparison at the annotated
-                     [DiscreteCat_Functor'] is accepted (control b), and so
-                     is [binary_comparison] (control c).
-     N3 UNIVERSE     the same pin reached through Structure/Limit/Product.v's
-                     [family_cone], which is built over the unannotated
-                     functor.
+     N2, N3          REPAIRED, and recorded as a correction.  An earlier
+                     revision read:
+                       "N2 UNIVERSE  under [Constraint Set < uh],
+                        [cone_comparison] at the UNANNOTATED
+                        [DiscreteCat_Functor] is refused: the functor's
+                        type names [DiscreteCat@{_ Set Set}] where the
+                        ambient's [uh] is needed; the cone type alone is
+                        formable (control a), the comparison at the
+                        annotated [DiscreteCat_Functor'] is accepted
+                        (control b), and so is [binary_comparison]
+                        (control c).
+                        N3 UNIVERSE  the same pin reached through
+                        Structure/Limit/Product.v's [family_cone], which
+                        is built over the unannotated functor."
+                     [DiscreteCat_Functor] was annotated in place in the
+                     PR "algebraic carriers are sets" (2026-09-17),
+                     Instance/Discrete.v, with exactly the binders
+                     [DiscreteCat_Functor'] already carried; both
+                     commands are now ACCEPTED and are kept in §B as
+                     positive controls beside their former controls.
+                     [DiscreteCat_Functor'] is now a transparent alias of
+                     [DiscreteCat_Functor], so control (b) and the former
+                     N2 are the same statement twice, which is the point:
+                     the two names agree.  No UNIVERSE refusal remains in
+                     this file.
      N4 TYPING       [to fobj_one_iso] has type [1 ~> F 1], not
                      [F 1 ~> 1]: the comparison is the class's [from]
                      (control), and [terminal_comparison_one] reads it as
@@ -45,8 +61,8 @@
     Guard coverage: every constant a refutation names is also named
     outside a refutation command (the guard block at the end) — the
     exceptions, under the plain tokenization, being the keyword itself, the
-    two binder names [b] and [pi] that only N3 introduces, and the
-    instrument's absent name — so a renamed or removed constant breaks the
+    two binder names [b] and [pi] that only the former N3 introduces, and
+    the instrument's absent name — so a renamed or removed constant breaks the
     build on a positive line rather than letting a refutation pass for the
     wrong reason. *)
 
@@ -101,7 +117,7 @@ Check (@cone_reindex_comp_leg J'' J' J C W V F).
 
 End Bracketing.
 
-(** ** B: the [Set] pin of the unannotated discrete-diagram functor *)
+(** ** B: the former [Set] pin of the discrete-diagram functor, lifted *)
 
 Section SetPin.
 
@@ -123,14 +139,16 @@ Check (fun (N : Cone (@DiscreteCat_Functor' bool Cu fam))
 (* control (c): the elementary binary comparison *)
 Check (@binary_comparison Cu Du Fu HC HD fam).
 
-(* N2 UNIVERSE: the comparison at the unannotated functor *)
-Fail Check (fun (N : Cone (@DiscreteCat_Functor bool Cu fam))
+(* Former N2, now a positive control: the comparison at the annotated
+   functor.  RECORDED CORRECTION -- see the header. *)
+Check (fun (N : Cone (@DiscreteCat_Functor bool Cu fam))
                 (M : Cone (Fu ◯ @DiscreteCat_Functor bool Cu fam))
                 (HM : IsLimitCone M) =>
               cone_comparison Fu N HM).
 
-(* N3 UNIVERSE: nor can Structure/Limit/Product.v's [family_cone] feed it *)
-Fail Check (fun (c : Cu) (pi : ∀ b : bool, c ~{Cu}~> fam b)
+(* Former N3, now a positive control: Structure/Limit/Product.v's
+   [family_cone] feeds it too.  RECORDED CORRECTION -- see the header. *)
+Check (fun (c : Cu) (pi : ∀ b : bool, c ~{Cu}~> fam b)
                 (M : Cone (Fu ◯ @DiscreteCat_Functor bool Cu fam))
                 (HM : IsLimitCone M) =>
               cone_comparison Fu (family_cone fam c pi) HM).

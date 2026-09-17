@@ -56,9 +56,10 @@ Generalizable All Variables.
    [exl ∘ (id △ 0) ≈ id] against [exr ∘ (id △ 0) ≈ 0].
 
    STALE PREMISES, RE-MEASURED.
-     - "Neither the functor nor its target exists": FALSE.  Instance/Ab.v:201
-       [Ab] and :217 [Ab_Forget]; Instance/Ab/Free.v:561 [FreeAb : Sets ⟶
-       Ab], :564 [free_ab_adjunction], :494 [free_ab_universal] — the term
+     - "Neither the functor nor its target exists": FALSE.  Instance/Ab.v
+       declares [Ab] and [Ab_Forget]; Instance/Ab/Free.v declares
+       [FreeAb : Sets ⟶ Ab], [free_ab_adjunction] and
+       [free_ab_universal] — the term
        algebra [FATerm] under the congruence [fa_eq], not finitely supported
        ℤ-valued functions.  Work bullet 1 (construct the functor with its
        universal property) was done by #400; nothing about the free abelian
@@ -68,7 +69,7 @@ Generalizable All Variables.
        the donor is Instance/Ab/Free.v, already over #256's [Ab], and no
        bridge is needed.
      - "no in-tree counterexample to continuity of any functor is
-       recorded": PARTIAL.  Structure/Limit/Preservation/Separation.v:191's
+       recorded": PARTIAL.  Structure/Limit/Preservation/Separation.v's
        [sep_not_PreservesLimitCone] refutes cone-level preservation for a
        synthetic span functor, so "the library's first recorded
        discontinuity witness" is NOT claimed.  What is first, measured by a
@@ -77,19 +78,19 @@ Generalizable All Variables.
        False], and the first refutation of [PreservesLimitCone] /
        [PreservesLimit] at a named mathematical functor.  Non-preservation
        at a named functor as such is NOT first (an earlier revision claimed
-       it): Instance/Top/Forgetful.v:519's [indiscrete_image_not_colimiting]
-       refutes a colimit cocone for [Top_Indiscrete] (:238), and
-       Instance/Powerset.v:884's [direct_image_not_meet_preserving] refutes
-       preservation of the binary product ([Subsets_Cartesian], :609) by the
-       left adjoint [DirectImage] (:397) — neither phrased with a class name.
+       it): Instance/Top/Forgetful.v's [indiscrete_image_not_colimiting]
+       refutes a colimit cocone for [Top_Indiscrete], and
+       Instance/Powerset.v's [direct_image_not_meet_preserving] refutes
+       preservation of the binary product ([Subsets_Cartesian]) by the
+       left adjoint [DirectImage] — neither phrased with a class name.
      - [Ab] has binary products, coproducts and biproducts
-       (Instance/Ab/Coproduct.v:225/:229/:220), a zero and a terminal object
-       (Instance/Ab.v:276/:244), NO indexed coproducts
-       (Instance/Ab/Coproduct.v:106 and Instance/Rng/Free.v:79 record the
+       (Instance/Ab/Coproduct.v), a zero and a terminal object
+       (Instance/Ab.v), NO indexed coproducts
+       (Instance/Ab/Coproduct.v and Instance/Rng/Free.v record the
        absence of [HasIndexedCoproducts Ab]), and NO indexed products or
        completeness either — measured: the tree's [HasIndexedProducts]
-       instances are Sets' (Instance/Sets/Products.v:302), Cat's and
-       StrictCat's (Instance/Cat/Limit.v:293/:523), none at [Ab], and no
+       instances are Sets' (Instance/Sets/Products.v), Cat's and
+       StrictCat's (Instance/Cat/Limit.v), none at [Ab], and no
        [Complete Ab] exists (an earlier revision cited the two coproduct
        lines for the product half).  The countable witness below needs
        none: the competing cone
@@ -157,7 +158,7 @@ Generalizable All Variables.
    UNIVERSES (measured by [About] under [Set Printing Universes] on all 33
    constants).  No block carries an equation.  [Set] appears in exactly 12
    of the 33, from two donors, both attributed by [About] on the donor:
-     - [_0@{u …} : Category@{u Set Set}] (Instance/Zero.v:28, declared
+     - [_0@{u …} : Category@{u Set Set}] (Instance/Zero.v, declared
        bare, its hom at [Set]) pins the eight empty-shape constants:
        [empty_cone_at], [SetsEmptyDiagram], [SetsPoint_empty_IsLimitCone],
        [SetsPoint_empty_Limit], [FreeAb_not_PreservesLimitCone_empty],
@@ -173,7 +174,7 @@ Generalizable All Variables.
        all.  The apex-level refutation exists only at the empty shape, so
        [FreeAb_not_PreservesAllLimits] is stated at [Ab@{u Set}] and cannot
        be otherwise here.
-     - [Ab_trivial@{} : AbObject@{Set Set Set}] (Instance/Ab.v:227,
+     - [Ab_trivial@{} : AbObject@{Set Set Set}] (Instance/Ab.v,
        MONOMORPHIC) pins everything assembled from the trivial group —
        [Ab_one], [Ab_zero_hom], [Ab_Terminal], [Ab_Zero], [Ab_Cartesian]
        ([Set < u], [Ab@{u Set}]) — and through [Ab_Cartesian] the four
@@ -461,7 +462,7 @@ Qed.
 
 (* The headline goes through the countable product (witness 2), whose shape
    [DiscreteCat nat] carries free universes; the empty shape [_0] is
-   declared at [Category@{u Set Set}] (Instance/Zero.v:28) and pins the
+   declared at [Category@{u Set Set}] (Instance/Zero.v) and pins the
    functor's hom level to [Set] (see the header's UNIVERSES). *)
 Definition FreeAb_not_continuous : ContinuousFunctor FreeAb → False :=
   fun H => FreeAb_not_PreservesLimitCone_countable_product (H _ NatOneDiagram).

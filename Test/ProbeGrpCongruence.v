@@ -50,7 +50,15 @@
     than merely observed.
 
     (3) THE QUOTIENT CATEGORY IS NOT LEIBNIZ-EQUAL TO THE DELOOPING OF THE
-    QUOTIENT GROUP.  [deloop_quotient_iso] is stated at [≅[StrictCat]],
+    QUOTIENT GROUP.  Since the PR "algebraic carriers are sets"
+    (2026-09-17) [deloop_quotient] is built from [ns_prel], the
+    propositional truncation of [ns_rel], because [QuotientGrp]'s own
+    equality is now the truncation of [quot_rel]; the two had to move in
+    lockstep or one leg of the isomorphism would have been an elimination
+    of a [Prop] into a [Type].  Every control and every negative in this
+    section was re-measured after that change and all still hold, with
+    their text unchanged.  [deloop_quotient_iso] is stated at
+    [≅[StrictCat]],
     the genuine isomorphism of categories.  Exactly FOUR of the ten
     fields a [Category] record literal supplies are convertible -- [obj],
     [hom], [id] and [compose] (the class's [uhom], [dom] and [cod] are
@@ -82,7 +90,7 @@
 
     (6) THE PROJECTION FUNCTORS AGREE ON ARROWS, NOT ON OBJECTS.
     [deloop_proj_fmap] is [eq_refl]; [deloop_proj_fobj] needs a [destruct].
-    The reason is Construction/Deloop/Transform.v:282-289's, quoted in the
+    The reason is Construction/Deloop/Transform.v's, quoted in the
     target file: [poly_unit] is an ordinary inductive with no definitional
     eta, so the constant function at [ttt] and the identity on a
     one-element type are different terms.  This probe pins that the
@@ -147,7 +155,13 @@ Fail Definition negative_round_strict {G : GrpObject} (N : NormalSubgroup G)
 
 (** ** Negative 3: the quotient category is not the delooping, on the nose *)
 
-(* POSITIVE CONTROLS: hom type and identity agree by [eq_refl]. *)
+(* POSITIVE CONTROLS: objects, hom type, identity and composition agree by
+   [eq_refl] -- the four items Instance/Grp/Congruence.v claims.  The
+   object leg was measured but unguarded until the PR "algebraic carriers
+   are sets" (2026-09-17); it is [control_quotient_obj] below. *)
+Example control_quotient_obj {G : GrpObject} (N : NormalSubgroup G) :
+  obj[deloop_quotient N] = obj[grp_deloop (QuotientGrp N)] := eq_refl.
+
 Example control_quotient_hom {G : GrpObject} (N : NormalSubgroup G) :
   (ttt ~{deloop_quotient N}~> ttt)
     = (ttt ~{grp_deloop (QuotientGrp N)}~> ttt) := eq_refl.

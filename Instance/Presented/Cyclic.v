@@ -41,11 +41,11 @@
 
    WHAT IS CONSUMED RATHER THAN REBUILT, and a measurement that surprised
    me.  [Construction/Free/Quiver/Presented.v] already carried
-   [OneNodeQuiver] (:402), [FreeMonoidOn] (:407) and [PresentedMonoidOn]
-   (:411) -- the one-object machinery this file needs -- and before this
+   [OneNodeQuiver], [FreeMonoidOn] and [PresentedMonoidOn]
+ -- the one-object machinery this file needs -- and before this
    file NONE of the three had a consumer anywhere in the tree: a
    whole-word sweep returns the declaring file and two PROSE mentions in
-   [Instance/Grp/Free.v] (:79, :166), and nothing else.  All three are
+   [Instance/Grp/Free.v], and nothing else.  All three are
    consumed here ([RhoMon] and the two [eq_refl] readbacks at the end are
    what make the monoid pair live).  [FinitePresentation],
    [FinitelyPresented], [FiniteQuiver], [FiniteEquations], [fe_rel] and
@@ -60,11 +60,11 @@
    THE Z/2Z BRIDGE, WITH ITS AXIOM COST MEASURED RATHER THAN ASSUMED.
    Seven Sketches §3.2.2 asks that the presentation and the equational
    construction not be left as two unconnected objects.  The equational
-   one is [Instance/Comp.v]'s [UniversalAlgebra.Bool : Group] (:405), the
+   one is [Instance/Comp.v]'s [UniversalAlgebra.Bool : Group], the
    booleans under [xor] as an algebra for the group signature -- note the
-   constants live under the MODULE [UniversalAlgebra] (:32), so the path
+   constants live under the MODULE [UniversalAlgebra], so the path
    is [UniversalAlgebra.Bool] and not [Category.Instance.Comp.Bool].
-   Measured: [UniversalAlgebra.BoolOp] (:398) and [UniversalAlgebra.xor]
+   Measured: [UniversalAlgebra.BoolOp] and [UniversalAlgebra.xor]
    are BOTH "Closed under the global context", while [Bool] itself
    carries [functional_extensionality_dep] -- it is the proof of the group
    EQUATIONS that spends it.  So the bridge here is built to [BoolOp],
@@ -272,7 +272,7 @@ Lemma spath_compose (i j : nat) :
 Proof. exact (spath_app j i). Qed.
 
 (* [Construction/Free/Quiver.v]'s [tlist'_equiv_lengths] gives this in one
-   line, which is what [Instance/Square.v:766]'s [wsq_equiv_length] and
+   line, which is what [Instance/Square.v]'s [wsq_equiv_length] and
    [Instance/WalkingIso.v]'s [wi_equiv_length] both do; a first draft here
    re-proved it by induction through [fixpoint_implies_inductive]. *)
 Lemma free_equiv_length {i j : OneGen}
@@ -546,9 +546,9 @@ Qed.
 (*                                                                     *)
 (*  Seven Sketches §3.2.2 asks that the presentation and the equational *)
 (*  construction not be left as two unconnected objects.                *)
-(*  [Instance/Comp.v:405]'s [UniversalAlgebra.Bool : Group] is that     *)
+(*  [Instance/Comp.v]'s [UniversalAlgebra.Bool : Group] is that     *)
 (*  object: the booleans under [xor], as an algebra for the group       *)
-(*  signature.  Its underlying [OpAlgebra] is [BoolOp] (:398).          *)
+(*  signature.  Its underlying [OpAlgebra] is [BoolOp].          *)
 (*                                                                     *)
 (*  AXIOM DISCLOSURE, MEASURED rather than assumed: [BoolOp] and [xor]  *)
 (*  are BOTH "Closed under the global context", while [Bool] itself     *)

@@ -12,7 +12,7 @@
     UNIVERSE (N6-N8: [Ab_trivial], [Ab_Terminal] and [Ab_Cartesian] are
     refused at a hom level strictly above [Set] while [Ab] and [Ab_Forget]
     are accepted there — the [Set] pin is the trivial group's, Instance/
-    Ab.v:227, not the category's).  Three [eq_refl] readbacks (the carrier
+    Ab.v, not the category's).  Three [eq_refl] readbacks (the carrier
     of the free group on a point, the binary diagram's objects, the zero
     endomorphism's value) are positive controls, the last making
     [ab_zero_endo]'s [Defined] load-bearing.  Each refutation was stripped
@@ -101,7 +101,12 @@ Monomorphic Constraint uh < uo.
 (* controls: the category and its forgetful functor form at a hom level
    strictly above [Set] *)
 Check (Ab@{uo uh} : Category@{uo uh uh}).
-Check (Ab_Forget@{uo uh}).
+(* Three universes, not two: since the PR "algebraic carriers are sets"
+   (2026-09-17) [Ab]'s object universe is bounded below by [Set] (the sort of
+   [Prop], entering through [cmon_prop]), and [Sets]'s own object level is no
+   longer identified with [Ab]'s.  The middle argument is that level; the
+   roles of [uo] and [uh] are unchanged. *)
+Check (Ab_Forget@{uo uo uh}).
 
 (* N6-N8 UNIVERSE: everything assembled from the trivial group is pinned
    at [Set] *)

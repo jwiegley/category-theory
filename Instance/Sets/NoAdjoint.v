@@ -41,21 +41,21 @@ Generalizable All Variables.
        impossibility result … no idiom for stating that a given functor
        lacks an adjoint": FALSE.  Twelve no-adjoint theorems in four
        shapes predate this file (the twelve declarations whose names match
-       [(no|not)_…adjoint], plus Adjunction/Choice.v:826's
+       [(no|not)_…adjoint], plus Adjunction/Choice.v's
        [two_left_adjoint_proper : HasRightAdjoint … → False]; an earlier
        revision counted seven): quantified over the candidate —
-       Instance/Top/Image.v:232 [nat_inf_no_left_adjoint],
-       Instance/Monoid/Translation.v:694 [nat_translation_no_right_adjoint]
-       and :704 [nat_no_right_adjoints], Adjunction/Choice.v:818
-       [two_const_Y_no_right_adjoint], Instance/Proset/Galois.v:351
+       Instance/Top/Image.v [nat_inf_no_left_adjoint],
+       Instance/Monoid/Translation.v [nat_translation_no_right_adjoint]
+       and [nat_no_right_adjoints], Adjunction/Choice.v
+       [two_const_Y_no_right_adjoint], Instance/Proset/Galois.v
        [succ_not_self_adjoint]; [(∃ L, L ⊣ G) → False] —
-       Instance/Powerset/Quantifier.v:1422 [exists_not_right_adjoint] and
-       :1471 [forall_not_left_adjoint], and, AT SETS,
-       Construction/Slice/Adjunction.v:788 [sets_slice_proj_no_left_adjoint]
-       and :796 [sets_coslice_proj_no_right_adjoint]; at a named pair —
-       Adjunction/Diagonal/Connected.v:764 [eval_not_left_adjoint];
-       hypothesis-shaped — Instance/Top/Forgetful.v:541
-       [indiscrete_no_right_adjoint].  Construction/Slice/Adjunction.v:668's
+       Instance/Powerset/Quantifier.v [exists_not_right_adjoint] and
+       [forall_not_left_adjoint], and, AT SETS,
+       Construction/Slice/Adjunction.v [sets_slice_proj_no_left_adjoint]
+       and [sets_coslice_proj_no_right_adjoint]; at a named pair —
+       Adjunction/Diagonal/Connected.v [eval_not_left_adjoint];
+       hypothesis-shaped — Instance/Top/Forgetful.v
+       [indiscrete_no_right_adjoint].  Construction/Slice/Adjunction.v's
        [slice_proj_left_adjoint_iff_terminal : (∃ L, L ⊣ Slice_Proj a) ↔
        IsTerminalObj a] is moreover an "a left adjoint exists iff the
        object is terminal" biconditional of exactly this file's shape, so
@@ -65,23 +65,24 @@ Generalizable All Variables.
        12 hits in the [.v] files, not one (15 over every tracked file
        outside doc/plan), and [⊣] 786 hits in 177 [.v] files, not 261.
      - "'not cartesian closed' finds only prose": FALSE.  Instance/Fun/
-       Closed.v:573 [fun_not_cartesian_closed (CC : @Cartesian ([Omega,
+       Closed.v [fun_not_cartesian_closed (CC : @Cartesian ([Omega,
        FinSet])) : @Closed _ CC → False] is a theorem, in the strong form
-       quantified over every cartesian structure (with its pointwise
-       corollary :584); Exercise 4 below is a second non-cartesian-
+       quantified over every cartesian structure (with a pointwise
+       corollary beside it); Exercise 4 below is a second non-cartesian-
        closedness result and the first for [Sets^op], at that strength.
-       (Instance/Coq/Par.v:219 and ParE.v:177 are prose,
+       (Instance/Coq/Par.v and ParE.v are prose,
        as the issue says.)
-     - "The general tool (Adjunction/Continuity.v:202, :223) is never used
-       in the negative direction": TRUE, and the constants sit at :205
-       ([right_adjoint_PreservesLimitCone]) and :233 ([left_adjoint_
-       preserves_colimit]) — :202 and :223 are comment lines.  RAPL/LAPC
+     - "The general tool (Adjunction/Continuity.v) is never used
+       in the negative direction": TRUE of the two constants it means,
+       [right_adjoint_PreservesLimitCone] and
+       [left_adjoint_preserves_colimit] -- the places the issue points
+       at are comment lines, not those declarations.  RAPL/LAPC
        have twelve term-level consumers in seven files, every one positive
        (an earlier revision said eleven); this file is the FIRST negative
        use of them — the one novelty claimed.  (The Awodey clause's "no
        category of posets" is stale too: Instance/Pos.v.)
-     - Structure/BiCCC.v's [prod_zero_r] is declared at :221 (statement
-       :222) and needs [Cartesian], [Closed] and [Initial] only — not the
+     - Structure/BiCCC.v's [prod_zero_r] needs [Cartesian], [Closed]
+       and [Initial] only — not the
        [Cocartesian] its section also opens — so no dual cocartesian
        structure of [Sets^op] is needed.
 
@@ -92,7 +93,7 @@ Generalizable All Variables.
          Forward: [fixed_product_left_adjoint_terminal (X) (L) (A : L ⊣
          fixed_product_functor X) : X ≅ 1] — Adjunction/Continuity/Finite.v's
          [right_adjoint_preserves_terminal] gives [fobj_one_iso : 1 ≅ X ×
-         1], and Structure/Cartesian.v:465's [prod_one_r] closes; a
+         1], and Structure/Cartesian.v's [prod_one_r] closes; a
          GENUINE consequence of limit preservation, as the reviewer asks.
          Converse: [Id_adj_fixed_product (X) (HX : X ≅ 1) : Id ⊣ fixed_
          product_functor X], built directly from the hom-set bijection
@@ -105,18 +106,18 @@ Generalizable All Variables.
          at Sets, the issue's [times_X_has_left_adjoint_iff_terminal] — both
          directions, [∃] being [sigT]; the iff is [Qed], so its projection
          does not compute and the adjoint is exported separately as
-         [Id_adj_fixed_product].  The functor is Functor/Product/Fixed.v:200's
+         [Id_adj_fixed_product].  The functor is Functor/Product/Fixed.v's
          [fixed_product_functor X] ([X × −], [second] on arrows);
-         Structure/Cartesian/Closed/Adjunction.v:177's [Prod_Functor] is
+         Structure/Cartesian/Closed/Adjunction.v's [Prod_Functor] is
          the same functor on the other side ([− × S], with its right
-         adjoint [Curry_Adjunction] :225), and its consolidation with
+         adjoint [Curry_Adjunction]), and its consolidation with
          Fixed.v's [fixed_product_functor_right] is surfaced, not done.
      (2) EXERCISE 4, IN THE STRONG FORM.  [Sets_op_not_cartesian_closed
          (CC : @Cartesian (Sets^op)) (CL : @Closed (Sets^op) CC) : False] —
          quantified over EVERY cartesian structure on [Sets^op], the
-         strength of Instance/Fun/Closed.v:573.  The scaffolding is
-         [Sets_op_Initial := Sets_Terminal] and Structure/Cocartesian.v:
-         115-118's notation ([Sets_op_Cartesian_is_coproducts : @Cartesian
+         strength of Instance/Fun/Closed.v.  The scaffolding is
+         [Sets_op_Initial := Sets_Terminal] and Structure/Cocartesian.v's
+         notation ([Sets_op_Cartesian_is_coproducts : @Cartesian
          (Sets^op) = @Cocartesian Sets] at [eq_refl] holds by notation
          expansion alone — both sides parse to the same term — and checks
          nothing beyond that); the argument: [prod_zero_r] at the point gives
@@ -137,7 +138,7 @@ Generalizable All Variables.
          [left_adjoint_preserves_initial],
          [left_adjoint_preserves_binary_coproducts] — two-line compositions
          of Adjunction/Continuity.v's RAPL with Structure/Limit/
-         Comparison.v's bridges (:807, :715), the last two through
+         Comparison.v's bridges, the last two through
          [Opposite_Adjunction].  They live in a satellite of Continuity.v
          because Comparison.v already requires Continuity.v (placing them
          in Continuity.v would cycle) and because their statements are
@@ -155,7 +156,7 @@ Generalizable All Variables.
    carries the same equation), not this development's; probe N4 pins the
    underlying constraint (a functor may not go down the hom levels,
    Theory/Functor.v's [h1 <= h2]).  Stdlib caps, each attributed by
-   [About] on the donor: [DiscreteCat_Functor'] (Comparison.v:535) carries
+   [About] on the donor: [DiscreteCat_Functor'] (Comparison.v) carries
    [EqdepFacts], [JMeq], [eq_ind], [eq_ind_r], [eq_rect_r] and
    [Logic_lemmas.equality], and hands them to the four corollaries and so
    to [fixed_product_left_adjoint_terminal] and both iffs;
@@ -318,7 +319,7 @@ Definition times_X_has_left_adjoint_iff_terminal (X : Sets) :
 (** ** Mac Lane V.5 Exercise 4: [Sets^op] is not cartesian closed *)
 
 (* The duality scaffolding is conversion: [@Cocartesian Sets] IS
-   [@Cartesian (Sets^op)] (Structure/Cocartesian.v:115-118), and the
+   [@Cartesian (Sets^op)] (Structure/Cocartesian.v), and the
    terminal object of Sets is the initial object of [Sets^op]. *)
 Definition Sets_op_Initial : @Initial (Sets^op) := Sets_Terminal.
 

@@ -3,7 +3,7 @@
     Mac Lane CWM 2nd ed. §III.5 Exercise 5, book p. 74.
 
     The target ships its own two CONVERSION refutations with controls
-    (`Instance/Fun/Terminal.v:601` and `:634`).  This file pins the SEVEN
+    (`Instance/Fun/Terminal.v` and).  This file pins the SEVEN
     boundaries it cannot: six FORMABILITY negatives, which need a section
     declaring universe levels strictly apart and so cannot live in a
     library file, and one three-way SEPARATION that is a positive
@@ -31,28 +31,43 @@
 
     THE SEPARATION (no `Fail` -- three `About`-able definitions):
     `probe_functor_only`, `probe_cone_of_discrete` and
-    `probe_limit_of_discrete` measure WHERE the `Set` pin on the
-    `Limit`-of-a-discrete-diagram route actually comes from.  Measured
-    here rather than assumed, and the result CORRECTS what ONE of this
-    tree's own CLAUDE.md bullets says -- the
+    `probe_limit_of_discrete` measured WHERE the `Set` pin on the
+    `Limit`-of-a-discrete-diagram route came from, back when there was
+    one.  Measured here rather than assumed, and the result CORRECTED
+    what ONE of this tree's own docs/INDEX.md bullets said -- the
     `Construction/Coproduct/Indexed.v`/`Instance/Cat/Coproduct.v` one.
     (An earlier revision of this header named three bullets; the other
     two are sound, `Functor/Hom/Limit.v`'s naming both donors and
     `Structure/Limit/Product/Finite.v`'s citing the composite.)
 
-      probe_functor_only      C : Category@{u0 u2 u2}    FREE
-      probe_cone_of_discrete  C : Category@{u1 u2 u2}    FREE
-      probe_limit_of_discrete C : Category@{u1 Set Set}  PINNED
+      probe_functor_only      C : Category@{u1 u0 u0}    FREE
+      probe_cone_of_discrete  C : Category@{u2 u1 u1}    FREE
+      probe_limit_of_discrete C : Category@{u3 u2 u2}    FREE
 
-    So `DiscreteCat_Functor` ALONE does NOT pin the ambient category -- it
+    RECORDED CORRECTION.  An earlier revision of this table read the third
+    row as `C : Category@{u1 Set Set}  PINNED`, and concluded: "So
+    `DiscreteCat_Functor` ALONE does NOT pin the ambient category -- it
     fixes only the SHAPE, at `DiscreteCat@{u Set Set}`.  The ambient pin
     needs a SECOND donor that identifies the shape's hom and proof with
-    the ambient's; it takes BOTH.  Read the second half narrowly: the
+    the ambient's; it takes BOTH."  Both halves were correct measurements
+    of the tree of the time, and the FIRST donor has since been repaired:
+    `DiscreteCat_Functor` was annotated in place at
+    `Instance/Discrete.v` in the PR "algebraic carriers are sets"
+    (2026-09-17), so it fixes no shape universe at all and the third row
+    is now FREE like the other two.  The separation therefore no longer
+    has a `Set` to locate, and the three definitions are kept as positive
+    CONTROLS: were the annotation dropped, the third row would print
+    `Set` again.  They are `About`-able below; re-run them rather than
+    trusting this table.  What is NOT repealed is the structural half of
+    the old conclusion -- `Limit` and `IsALimit` identify the shape's
+    hom-and-proof universe with the ambient's where `Cone` does not, so a
+    second donor is still what would carry any ambient restriction.  Read
+    the second half narrowly: the
     `Cone` RECORD is innocent, but that licenses no claim that
     `IsALimit`/`Limit` are the ONLY other donors, and they are not --
-    `cone_leg` (`Structure/Limit/Preservation.v:108`, over
+    `cone_leg` (`Structure/Limit/Preservation.v`, over
     `J : Category@{u u0 u0}` and `C : Category@{u1 u0 u0}`) and
-    `IsLimitCone` (`:166`) identify them in exactly the same way, so
+    `IsLimitCone` identify them in exactly the same way, so
     CONE VOCABULARY is among the donors even though the record is not.
     `Structure/Limit/Initial.v`'s own bullet already warns that an
     `ACone` control rules out only `ACone`/`Cone`; an earlier revision of
@@ -186,7 +201,7 @@ Fail Check (fun (C : Category@{co ch cp}) (D : Category@{dro dh dh})
 
 End DiagonalPin.
 
-(** ** The separation: where the [Set] pin on the [Limit] route comes from
+(** ** The separation: where the [Set] pin on the [Limit] route USED to come from
 
     Not a refutation -- three definitions whose universe signatures are
     the measurement.  Run `About` on each to see it. *)

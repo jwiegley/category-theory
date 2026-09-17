@@ -28,7 +28,7 @@
         Theory/Diagram.v's [Diagram], NOT to anything this issue added.
         SHARPER, AND IT CHANGES WHAT THE PIN MEANS: [Diagram] opens its
         section with an unannotated [Context {C : Category}]
-        (Theory/Diagram.v:143-151), so the identification is a universe
+        (Theory/Diagram.v), so the identification is a universe
         MINIMIZATION artifact -- the family
         Construction/Free/Quiver/Examples.v's header records -- and is
         repairable upstream with explicit binders.  It is not inherent

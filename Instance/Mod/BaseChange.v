@@ -83,8 +83,8 @@
        **[RMod_Forget_Ab]** (the right adjoint, taken as given),
        [rm_smul_zero_r], [Ring_RMod], [Int_RMod].
      - Instance/Ab.v: [AbHom], [ab_cancel_l].
-     - Instance/CMon.v: [cmon_hom_id] (:94) and [cmon_hom_compose]
-       (:108) — declared there, not in Instance/Ab.v, which only uses
+     - Instance/CMon.v: [cmon_hom_id] and [cmon_hom_compose] — declared
+       there, not in Instance/Ab.v, which only uses
        them.
      - Structure/AbCategory.v: [ab_hom_add], the pointwise sum of two
        homomorphisms into an abelian group — which is what lets the
@@ -178,12 +178,12 @@
    re-annotation was attempted.
 
    PRIOR ART, AND THREE FILES RECORD THIS EXACT ABSENCE.
-   Instance/Ab/Free.v:87–91 says the tree "has only the forgetful
-   direction ([RMod_Forget_Ab], Instance/Mod.v:300)";
-   Instance/Mod/Quotient.v:139–145 says "an [AbObject] is not exhibited
+   Instance/Ab/Free.v says the tree "has only the forgetful
+   direction ([RMod_Forget_Ab], Instance/Mod.v)";
+   Instance/Mod/Quotient.v says "an [AbObject] is not exhibited
    as a ℤ-module anywhere in the tree" and names
-   Instance/Rng/Mod.v:675's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
-   the near miss that is NOT it; Instance/Mod/Tensor.v:234 records the
+   Instance/Rng/Mod.v's [ZRestrict R : RMod R ⟶ RMod Int_Ring] as
+   the near miss that is NOT it; Instance/Mod/Tensor.v records the
    same.  A type-level sweep confirms it: before this file NO constant in
    the tree had type [Ab ⟶ RMod _] (zero hits), and no [AbTensor] is
    applied to a [ring_ab] anywhere else.
@@ -751,7 +751,7 @@ Section ZExtProbeUniverses.
 Universes ra rb rc.
 Constraint ra < rc.
 
-Context (Ru : RingObject@{ra rb rc}) (Au Bu : AbObject).
+Context (Ru : RingObject@{rc ra rb}) (Au Bu : AbObject).
 Context (fu : Au ~{Ab}~> Bu).
 
 (* CONTROLS.  With the ring's FIRST and THIRD universes declared strictly
@@ -769,20 +769,30 @@ Check (RMod_Forget_Ab Ru).
 Check (Ab ⟶ RMod Ru).
 Check (Ring_RMod Ru).
 
-(* NEGATIVE 5 (FORMABILITY).  The identification enters exactly when the
-   extension is READ AS AN OBJECT of [RMod R] — not when it is built. *)
-Fail Check (ZExtObj Ru Au : obj[RMod Ru]).
+(* CONTROLS 5, 7 and 8, WHICH USED TO BE NEGATIVES.  An earlier revision read:
+   "NEGATIVE 5 (FORMABILITY).  The identification enters exactly when the
+   extension is READ AS AN OBJECT of [RMod R] — not when it is built";
+   "NEGATIVE 7 (FORMABILITY).  Hence the functor"; "NEGATIVE 8 (FORMABILITY).
+   And hence the headline."  All three were re-measured after the PR
+   "algebraic carriers are sets" (2026-09-17) and all three are now FORMABLE
+   at the declared separation.  The cause is upstream: [ZExtObj] is built on
+   Instance/Ab/Tensor.v's [AbTensor], whose relation [ts_eq] moved to [Prop],
+   so [tensor_med_respects] no longer inducts on a [Type]-valued relation into
+   a [Type]-valued goal and the identification that induction forced is gone.
+   Negative 6 below still fires, which is the instrument check that the
+   section still constrains anything at all.  The ring's auxiliary universe is
+   also now the FIRST argument of [RingObject] rather than the third, which is
+   why the binder reads `RingObject@{rc ra rb}`. *)
+Check (ZExtObj Ru Au : obj[RMod Ru]).
 
-(* NEGATIVE 6 (FORMABILITY).  THE DONOR, and it is not this file's.
-   Instance/Mod.v's OWN [Ring_RMod] is rejected at the very same levels,
-   with the very same message, so the pin is INHERITED. *)
+(* NEGATIVE 6 (FORMABILITY).  The surviving donor, and it is not this file's.
+   Instance/Mod.v's OWN [Ring_RMod] is rejected at these levels while the
+   bare [Check (Ring_RMod Ru)] control above is accepted, so what the
+   ascription to [obj[RMod Ru]] forces is inherited. *)
 Fail Check (Ring_RMod Ru : obj[RMod Ru]).
 
-(* NEGATIVE 7 (FORMABILITY).  Hence the functor. *)
-Fail Check (ZExt Ru).
-
-(* NEGATIVE 8 (FORMABILITY).  And hence the headline. *)
-Fail Check (zext_adjunction Ru).
+Check (ZExt Ru).
+Check (zext_adjunction Ru).
 
 End ZExtProbeUniverses.
 

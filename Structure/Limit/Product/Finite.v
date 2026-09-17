@@ -32,21 +32,21 @@ Generalizable All Variables.
 
    WHAT IS NEW, STATED PRECISELY.  The tree already has three iterated
    binary-product folds, and it would be false to say otherwise:
-   [law_pow] (Theory/Lawvere.v:150), folding [law_of_nat 1];
-   [pow] (Theory/Multicategory/Endomorphism.v:69), folding [X]; and
-   [Pow] (Instance/Fun/Discrete.v:254), folding [B] one level up, in [Cat].
+   [law_pow] (Theory/Lawvere.v), folding [law_of_nat 1];
+   [pow] (Theory/Multicategory/Endomorphism.v), folding [X]; and
+   [Pow] (Instance/Fun/Discrete.v), folding [B] one level up, in [Cat].
    ALL THREE FOLD A CONSTANT FAMILY -- they compute [X × X × … × X], a
    power.  What is absent, and what this file supplies, is a fold of a
    VARYING family [f : Fin.t n → C] together with its universal property.
    SCOPE THAT CENSUS: it ranges over folds of the BINARY PRODUCT [×].
    Folds of a monoidal [⨂] exist too and are not counted -- [nf]
-   (Construction/FreeMonoidal/Normal.v:66) and [tpower] (Spider.v:217) are
+   (Construction/FreeMonoidal/Normal.v) and [tpower] (Spider.v) are
    constant-family, while [tensor_list]/[tfold]
-   (Theory/Multicategory/Representable.v:55,67) DO fold a varying family.
+   (Theory/Multicategory/Representable.v,67) DO fold a varying family.
    So "a fold of a varying family" is not by itself distinguishing; what
    distinguishes this one is the binary product together with its
    universal property.
-   The gap is conceded in the donor's own prose: Structure/Cartesian.v:19-21
+   The gap is conceded in the donor's own prose: Structure/Cartesian.v
    reads "A cartesian category is a category equipped with finite products.
    This class axiomatizes the binary product; the nullary product (the
    terminal object 1) is supplied separately by [Terminal]" -- so the class
@@ -55,14 +55,14 @@ Generalizable All Variables.
 
    WHAT IS PROVED.  Over [Cartesian C] together with [Terminal C] -- two
    genuinely separate hypotheses, since [Class Cartesian]
-   (Structure/Cartesian.v:121) carries no terminal object -- the right fold
+   (Structure/Cartesian.v) carries no terminal object -- the right fold
 
      fin_prod 0 f       = 1
      fin_prod (S m) f   = f F1 × fin_prod m (fun i => f (FS i))
 
    with projections [fin_proj] by [Fin] recursion and tupling [fin_tuple],
    is an indexed product in the sense of the elementary record
-   [IsIndexedProduct] (Structure/Limit/Product.v:51):
+   [IsIndexedProduct] (Structure/Limit/Product.v):
 
      fin_IsIndexedProduct n f
        : IsIndexedProduct f (fin_prod n f) (fin_proj n f)
@@ -76,7 +76,7 @@ Generalizable All Variables.
    produces it.
 
    THE FOLD IS THE [Pow] FOLD, AND SO IS THE WART.  [Pow]
-   (Instance/Fun/Discrete.v:254) is the same right fold one level up -- the
+   (Instance/Fun/Discrete.v) is the same right fold one level up -- the
    n-fold power of a CATEGORY, with the terminal category as its empty case
    -- and it carries the same trailing unit factor, exhibiting the literal
    [B ∏ B] at n = 2 only through [prod_one_r].  So [fin_prod 1 f] is
@@ -177,15 +177,15 @@ Generalizable All Variables.
        only BOUNDED ([u <= u2], [u <= u3]), never identified.
 
    HOW THIS SITS BETWEEN ITS TWO NEIGHBOURS.  [Terminal_Limit]
-   (Structure/Limit/Terminal.v:33) is [Limit F ↔ @Terminal C] for the empty
+   (Structure/Limit/Terminal.v) is [Limit F ↔ @Terminal C] for the empty
    diagram [F : 0 ⟶ C], the n = 0 case; [Cartesian_Limit]
-   (Structure/Limit/Cartesian.v:39) is
+   (Structure/Limit/Cartesian.v) is
    [(∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C], the n = 2 case.
    Three differences, stated rather than gestured at.
      (i) Both neighbours are at LIMIT level over a named shape.  Nothing
          here forms a [Limit] or a [Cone] at all; the whole file is at the
          elementary [IsIndexedProduct] level, DELIBERATELY, because
-         [DiscreteCat_Functor] (Instance/Discrete.v:52) is
+         [DiscreteCat_Functor] (Instance/Discrete.v) is
          universe-unannotated and routing through it pins C's hom and proof
          universes to [Set].  No [Limit]-shaped corollary is delivered.
     (ii) Both neighbours fix ONE arity; this theorem quantifies over all
@@ -234,9 +234,9 @@ Generalizable All Variables.
        Natural home: Structure/Limit/Product.v.
      - [Cartesian_of_IsCartesianProduct]: every pair having an
        [IsCartesianProduct] makes C cartesian.  Structure/Cartesian.v
-       declares both classes (:121, :145) with no passage between them;
-       Functor/Hom/Limit.v:539 supplies the OTHER direction
-       ([cartesian_IsCartesianProduct]) and records the absence at :218.
+       declares both classes with no passage between them;
+       Functor/Hom/Limit.v supplies the OTHER direction
+       ([cartesian_IsCartesianProduct]) and records the absence.
        Natural home: Structure/Cartesian.v.
    Neither is registered as an [Instance].
 

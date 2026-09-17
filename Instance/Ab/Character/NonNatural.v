@@ -5,6 +5,7 @@ Require Import Coq.QArith.QArith.
 Require Import Coq.micromega.Lia.
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -115,6 +116,29 @@ Qed.
 
 Definition z5_eq (x y : Z) : Type := { k : Z & (x - y = 5 * k)%Z }.
 
+(* [z5_eq] KEEPS its [sigT] -- the witness [k] is computed, and the results
+   below read it back out.  The [Prop] mirror it needs since the PR
+   "algebraic carriers are sets" (2026-09-17) recovers the witness through a
+   DECISION PROCEDURE rather than through the [Prop] proof: divisibility by 5
+   is decidable on ℤ, so the left branch supplies the witness outright and the
+   right branch contradicts the hypothesis.  No choice principle. *)
+Definition z5_peq (x y : Z) : Prop :=
+  (exists k : Z, Z.eq (Z.sub x y) (Z.mul 5 k))%type.
+
+Lemma z5_eq_dec (x y : Z) : z5_eq x y + (z5_eq x y → False).
+Proof.
+  destruct (Z.eq_dec (Z.rem (x - y) 5) 0) as [He|He].
+  - left.
+    exists (Z.quot (x - y) 5).
+    pose proof (Z.quot_rem' (x - y) 5) as Hq.
+    lia.
+  - right.
+    intros [k Hk].
+    apply He.
+    rewrite Hk, Z.mul_comm.
+    apply Z.rem_mul; lia.
+Qed.
+
 Lemma z5_eq_refl (x : Z) : z5_eq x x.
 Proof. exists 0%Z; lia. Qed.
 
@@ -124,21 +148,42 @@ Proof. intros [k Hk]; exists (- k)%Z; lia. Qed.
 Lemma z5_eq_trans (x y w : Z) : z5_eq x y → z5_eq y w → z5_eq x w.
 Proof. intros [k1 H1] [k2 H2]; exists (k1 + k2)%Z; lia. Qed.
 
-Program Definition Z5 : AbObject := {|
-  ab_cmon := {|
-    cmon_setoid := {| carrier := Z;
-                      is_setoid := {| equiv := z5_eq |} |};
-    cmon_zero := 0%Z;
-    cmon_plus := Z.add
-  |};
-  ab_neg := Z.opp
-|}.
+(* The setoid is NAMED so that [z5_PropEquiv] below can mention it; a field
+   of a [Program] record literal cannot refer to a setoid that is still an
+   evar while the literal is being elaborated. *)
+Program Definition z5_setoid : Setoid Z := {| equiv := z5_eq |}.
 Next Obligation.
   constructor.
   - exact z5_eq_refl.
   - exact z5_eq_sym.
   - exact z5_eq_trans.
 Qed.
+
+Definition z5_PropEquiv : PropEquiv z5_setoid.
+Proof.
+  unshelve refine (@PropEquiv_of_relation _ z5_setoid z5_peq _ _).
+  - intros x y H.
+    destruct (z5_eq_dec x y) as [Hd|Hd].
+    + exact Hd.
+    + exfalso.
+      destruct H as [k Hk].
+      exact (Hd (existT _ k Hk)).
+  - intros x y H.
+    destruct H as [k Hk].
+    exists k.
+    exact Hk.
+Defined.
+
+Program Definition Z5 : AbObject := {|
+  ab_cmon := {|
+    cmon_setoid := {| carrier := Z;
+                      is_setoid := z5_setoid |};
+    cmon_zero := 0%Z;
+    cmon_plus := Z.add;
+    cmon_prop := z5_PropEquiv
+  |};
+  ab_neg := Z.opp
+|}.
 Next Obligation.
   intros x x' [k1 H1] y y' [k2 H2].
   exists (k1 + k2)%Z; lia.
@@ -365,7 +410,9 @@ Proof.
     ab_cmon := {| cmon_setoid := {| carrier := Z;
                                     is_setoid := eq_Setoid Z |};
                   cmon_zero := 0%Z;
-                  cmon_plus := Z.add |};
+                  cmon_plus := Z.add;
+                  (* ℤ's `≈` here IS Coq's [eq], already a [Prop]. *)
+                  cmon_prop := eq_PropEquiv Z |};
     ab_neg := Z.opp |}.
   - intros x x' Hx y y' Hy.
     assert (Hx' : x = x') by exact Hx.

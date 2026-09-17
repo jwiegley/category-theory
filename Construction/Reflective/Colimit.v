@@ -24,7 +24,7 @@ Generalizable All Variables.
     Construction/Reflective/Limit.v (#373): colimits in a full reflective
     subcategory are computed by reflecting the ambient colimit, so a full
     reflective subcategory of a cocomplete category is cocomplete.  Over
-    Construction/Reflective.v:60's [Reflective S] (a [Subcategory] record on
+    Construction/Reflective.v's [Reflective S] (a [Subcategory] record on
     the ambient [C], with [reflective_full], [reflector : C ⟶ Sub C S] and
     [reflective_adj : reflector ⊣ Incl C S]), for a diagram
     [K : J ⟶ Sub C S] and an ambient colimit [L : Colimit (Incl C S ◯ K)]:
@@ -40,28 +40,28 @@ Generalizable All Variables.
     THE ROUTE, six tactic-mode proofs — 17 tactic lines, nine of them the
     diagram isomorphism's; the headline is a term.  The reflector is a left
     adjoint, so it carries the ambient colimit to a colimit of
-    [reflector ◯ (Incl ◯ K)] (Adjunction/Continuity.v:264
+    [reflector ◯ (Incl ◯ K)] (Adjunction/Continuity.v
     [lapc_is_acolimit]); the counit isomorphism [reflector (Incl x) ≅ x],
     whiskered along [K], is a diagram isomorphism
     [reflective_diagram_iso : reflector ◯ (Incl ◯ K) ≈ K] (Theory/Functor.v's
-    [Functor_Setoid]), and Theory/Equivalence/Colimit.v:363's
+    [Functor_Setoid]), and Theory/Equivalence/Colimit.v's
     [isacolimit_transport] moves the colimit across it with the apex
-    untouched; Theory/Equivalence/Limit.v:101's [isalimit_to_limit] repacks.
-    Construction/Reflective.v:92's [reflective_counit_iso] is [Qed] and is
+    untouched; Theory/Equivalence/Limit.v's [isalimit_to_limit] repacks.
+    Construction/Reflective.v's [reflective_counit_iso] is [Qed] and is
     consumed here as DATA, so it is restated transparently as
     [rc_counit_iso], with [rc_unit_hom] its inverse leg.  FULLNESS of the
     inclusion is spent exactly once, in [rc_unit_hom], lifting the unit at
     [Incl x] into the subcategory; FAITHFULNESS is not used at all — unlike
     the limit half, which reflects a limit down along [Incl] through
     [ff_reflect_ump].  The reflector is cocontinuous with no hypothesis
-    ([reflective_reflector_Cocontinuous], Continuity.v:255).
+    ([reflective_reflector_Cocontinuous], Continuity.v).
 
     WITNESS.  Over any shape with a terminal object the ambient colimit
-    exists in ANY category (Structure/Limit/Initial.v:470
+    exists in ANY category (Structure/Limit/Initial.v
     [terminal_Colimit]), so [reflective_terminal_shape_colimit] needs no
     cocompleteness hypothesis; Test/ProbeReflectiveColimit434.v
     instantiates it at the torsion-free reflection of abelian groups
-    (Instance/Ab/TorsionFree.v:524 [TorsionFree_Reflective]) over
+    (Instance/Ab/TorsionFree.v [TorsionFree_Reflective]) over
     [Ordinal 2] — two objects and a non-identity arrow, so the generic
     term's leg obligations are discharged at a shape that has one; the
     probe reads back the apex at [eq_refl] and pins no leg there.  The
@@ -74,34 +74,36 @@ Generalizable All Variables.
     [reflective_Complete]'s.
 
     STALE PREMISES (the issue's "Current state", six).  [Cocomplete]
-    (Structure/Complete.v:119) is said to have "no concrete instance and
+    (Structure/Complete.v) is said to have "no concrete instance and
     only a hypothesis use in Theory/Adamek/Corollaries.v": it has three
-    inhabitants — [Sets_Cocomplete] (Instance/Sets/Cocomplete.v:485),
-    [Subsets_Cocomplete] (Instance/Powerset.v:641),
-    [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v:605) — and
+    inhabitants — [Sets_Cocomplete] (Instance/Sets/Cocomplete.v),
+    [Subsets_Cocomplete] (Instance/Powerset.v),
+    [Proset_Cocomplete_of_all_joins] (Instance/Proset/Limit.v) — and
     ten files binding a [Cocomplete] hypothesis (grep for [Cocomplete] in
     binder position: `(… : Cocomplete`, `Cocomplete →`, `Context …
     Cocomplete`), none in Adjunction/GAFT.v or its satellites
     ("consumed only as a hypothesis in GAFT" has zero hits).  Both "0 hits"
     greps (`colimits.*subcategory`, `reflective.*colimit`) return one hit
     each, Limit.v's own scope-out paragraph.  [equivalence_creates_colimits]
-    is Theory/Equivalence/Limit.v:524, not :582.  The colimit-creation
+    is in Theory/Equivalence/Limit.v, but not where the issue cites it.
+    The colimit-creation
     vocabulary the issue says is absent exists at
-    Structure/Limit/Creation.v:406-440 ([CreatesColimit],
+    Structure/Limit/Creation.v ([CreatesColimit],
     [StrictlyCreatesColimit], [CreatesAllColimits], [creates_colimit_lift],
     [creation_preserves_colimit], [creates_colimits_Cocomplete]); it is not
     used here, since a reflective inclusion need not create colimits
     (Riehl §4.6 ex xi — cited, not formalized); probe N4 pins only that
     [reflective_colimit] does not ascribe to [CreatesColimit K (Incl C S)].
-    Adjunction/Continuity.v:223 is a section comment, the constants being
-    :233-:264, and Construction/Reflective.v:62 is
-    [reflector], the record opening at :60.  The donor the issue never
+    The Adjunction/Continuity.v site the issue cites is a section
+    comment rather than any of the constants that follow it, and the
+    Construction/Reflective.v site it cites is the field [reflector]
+    rather than the record that declares it.  The donor the issue never
     names is Theory/Equivalence/Colimit.v, whose transports do the work.
 
     UNIVERSES ([About] under `Set Printing Universes`, all 20 heads).  No
     [Set] anywhere.  Every head carries `u0 = u2` (the ambient's hom level
     identified with [Subcategory]'s, in the binder [C : Category@{u u0 u0}]
-    as Limit.v:249-261 records) and the strict `u0 < u4`; the eight heads
+    as Limit.v records) and the strict `u0 < u4`; the eight heads
     of the shape section carry Limit.v's five block equations (`u0 = u8`,
     `u0 = u10`, `u4 = u11`, `u5 = u9` beside `u0 = u2`), inherited from the
     same donors.  [reflective_Cocomplete] has type
@@ -128,7 +130,7 @@ Generalizable All Variables.
     Limit.v's header mentions [reflective_colimit] and
     [reflective_Cocomplete] by design; [reflective_lift] and
     [reflective_incl_adj] are Limit.v's and were avoided — [radj] is a
-    section-local alias of [reflective_adj R], term-for-term Limit.v:338's
+    section-local alias of [reflective_adj R], term-for-term Limit.v's
     [reflective_incl_adj], and Limit.v is not in this file's closure, so
     importing it for the name would cost more than the alias).
     Test/ProbeReflectiveColimit434.v mirrors the `Require` list plus
@@ -153,7 +155,7 @@ Generalizable All Variables.
     10fdfda4), so the issue's "adds no new hits" box is not met as written
     (disclosed, as in #430 and #433); Coq 8.19 and 8.20 are checked by nix
     source builds of the committed revision, which the PR records.
-    Limit.v's header paragraph on the colimit half (:216-222) and its
+    Limit.v's header paragraph on the colimit half and its
     docs/INDEX.md bullet's "OPEN" clause are corrected in place, the former
     line-neutrally.
 

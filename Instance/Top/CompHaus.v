@@ -19,8 +19,7 @@
     no Hausdorff property and no creation notion.  All four exist:
     [Top] is Instance/Top.v (#259); [IsCompact], [IsHausdorff],
     [CompactHausdorff_Subcategory], [CompactHausdorffSpaces] and
-    [CompactHausdorff_Full] are Instance/Top.v:895-968, whose own header
-    at :951-955 scopes out exactly the theory asked for here as "out of
+    [CompactHausdorff_Full] are Instance/Top.v, whose own header scopes out exactly the theory asked for here as "out of
     scope for this file"; and [CreatesLimit] is Structure/Limit/Creation.v
     (#406).  So the issue's pinned name [CompHaus] is an ALIAS of an
     existing category, not a construction, and the substance of the
@@ -55,12 +54,12 @@
         [IsHausdorff] enters through [sep_nonequal], where [f c ≈ y0] for
         [c] outside [U] would put [c ≈ g y0] inside it — no double-negation
         elimination is needed, contrary to a worry recorded at
-        Instance/Top/Kolmogorov.v:224-238 for the Hausdorff ⟹ T0 direction.
+        Instance/Top/Kolmogorov.v for the Hausdorff ⟹ T0 direction.
         CAVEAT, disclosed and not claimed necessary: [dec] for ALL opens
         holds for no INHABITED space in the tree — [Discrete_Top]'s opens
         are all the [≈]-respecting predicates ([discrete_open],
-        Instance/Top.v:292), so [dec] there is decidability of every such
-        predicate — while the empty space [Empty_Top] (Instance/Top.v:471)
+        Instance/Top.v), so [dec] there is decidability of every such
+        predicate — while the empty space [Empty_Top] (Instance/Top.v)
         satisfies it vacuously and does instantiate both theorems (measured
         by an audit); so the per-open lemma is the form with non-vacuous
         content, and the probe applies it at the one-point space with the
@@ -69,8 +68,8 @@
         Tychonoff half.  [Top] has no products: the natural product
         openness predicate — an existential over opens of the two factors —
         lives one universe above the points and is REFUSED at the space's
-        level (Test/ProbeCoproduct.v N9, Instance/Top/Homotopy.v:86-97).
-        Instance/Top/Coproduct.v:90-99 names one escape hatch it did not
+        level (Test/ProbeCoproduct.v N9, Instance/Top/Homotopy.v).
+        Instance/Top/Coproduct.v names one escape hatch it did not
         try, the impredicative truncation [Powerset_squash] of
         Instance/Sets/Powerset.v.  It is tried here: [sq_open W] is "[W]
         respects [≈], and every point of [W] has a SQUASHED box datum
@@ -89,7 +88,7 @@
         indexes at [o].  So [Top_sq_product] has projections but no
         universal property is ESTABLISHED here: the two routes tried are
         refused, and it is not shown that every encoding is refused
-        (Instance/Top/Coproduct.v:85-97 records the same over-read in an
+        (Instance/Top/Coproduct.v records the same over-read in an
         earlier draft of its own header) — and its compactness (Tychonoff)
         is NOT attempted: its finite subcovers would be [Type]-level data
         extracted from squashed boxes, so it is expected behind the same
@@ -100,7 +99,7 @@
         - The issue's pinned statement [CreatesLimit K CompHaus_Forget] IS
           FORMABLE, for a diagram [K] out of any shape [J] (the probe checks
           it, with [J : Category] left to inference). A survey read
-          Instance/Top/Forgetful.v:315-336 as saying it is not, and that note's
+          Instance/Top/Forgetful.v as saying it is not, and that note's
           own last sentence did generalize its stratification claim to
           [Top_Forget] by name — false there, since [Top_Forget] lands in
           [Sets@{h so}], whose hom level is [Top]'s own, so the limit-cone
@@ -133,9 +132,9 @@
     an inhabited witness of [dec] for all opens; and nothing registered as
     an [Instance]
     ([CompHaus_Forget_Faithful] and [CompHaus_Incl_Faithful] are lemmas,
-    following Structure/Limit/Creation.v:125-128's discipline for creation
+    following Structure/Limit/Creation.v's discipline for creation
     witnesses).  The Stone–Čech adjoint and the ultrafilter monad, the
-    reasons the roster lists this category (Instance/Roster.v:158-169),
+    reasons the roster lists this category (Instance/Roster.v),
     remain as that note leaves them.
 
     UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK OVER ALL 48 CONSTANTS

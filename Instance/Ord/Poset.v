@@ -12,7 +12,7 @@
     ** What is delivered
 
     [Poset_Reflective_in_Ord : Reflective Pos_Sub] -- the record of
-    Construction/Reflective.v:60, whose three fields are exactly the three
+    Construction/Reflective.v, whose three fields are exactly the three
     things Mac Lane's phrase names: FULLNESS of the subcategory
     ([Pos_Sub_Full], Instance/Ord.v), a REFLECTOR ([Poset_reflector]), and
     the ADJUNCTION ([Poset_adj]) making it left adjoint to the inclusion.
@@ -34,10 +34,8 @@
     Universal arrows, exactly the path Instance/Ab/TorsionFree.v takes for
     §IV.3 Exercise 2 and Instance/Grp/Abelianize.v for §III.1 Exercise 3:
     state the ∃! ([poset_reflection_universal]), package it with
-    Theory/Universal/Arrow.v:158's [universal_arrow_from_UMP], then read
-    the functor and the adjunction off :295's
-    [LeftAdjointFunctorFromUniversalArrows] and :324's
-    [AdjunctionFromUniversalArrows] with no further proof.  Nothing in
+    Theory/Universal/Arrow.v's [universal_arrow_from_UMP], then read
+    the functor and the adjunction off [LeftAdjointFunctorFromUniversalArrows] and [AdjunctionFromUniversalArrows] with no further proof.  Nothing in
     that chain is re-derived here, and this file states no triangle
     identity and no naturality square of its own.
 
@@ -74,7 +72,7 @@
     the reflector's object part is the reflection
     ([poset_reflector_obj]); the universal arrow IS [reflection_proj] and
     its object IS [PosetReflectionObj] ([poset_arrow_is_proj],
-    [poset_arrow_obj] -- the TorsionFree.v:533/:538 precedent, since
+    [poset_arrow_obj] -- the TorsionFree.v precedent, since
     [universal_arrow_from_UMP] stores the supplied morphism as the second
     projection of the comma object it builds); the carrier and the order
     are the base preorder's ([poset_reflection_carrier],
@@ -90,7 +88,7 @@
       [fun g => fmap[U] g ∘ arrow], so the class unit is a COMPOSITE
       record, [fmap[Incl] id ∘ reflection_proj P]; applied to a point that
       composite reduces, as a record it does not.  This is the same
-      fallback, with the same cause, that TorsionFree.v:551 records.
+      fallback, with the same cause, that TorsionFree.v records.
     - The reflection of a partial order is isomorphic to it but not equal
       to it: [natle_reflect_iso] is a pure instantiation of
       [reflective_counit_iso] with no tactic, while
@@ -99,7 +97,7 @@
       the setoid field, which is the entire content of the reflection.
     - The COUNIT is not read back at all.  It is the other transpose,
       [unique_obj (ump_universal_arrows ...)], and [ump_universal_arrows]
-      (Theory/Universal/Arrow.v:139) is closed with [Qed], so nothing on
+      (Theory/Universal/Arrow.v) is closed with [Qed], so nothing on
       that side reduces and no [eq_refl] is claimed for it.
 
     The first two fallbacks are pinned as conversion rejections in
@@ -116,7 +114,7 @@
 
     - [Chaos2]: [bool] under the TOTAL relation.  Not antisymmetric
       ([Chaos2_not_antisymmetric]) and its reflection identifies the two
-      points ([chaos2_merges]).  Its carrier setoid is Instance/Sets.v:563's
+      points ([chaos2_merges]).  Its carrier setoid is Instance/Sets.v's
       discrete [bool_setoid_object], so the refutation of antisymmetry is
       settled by [Bool.diff_true_false] on a Leibniz equality -- by
       DISCRIMINATION at the discrete carrier, not by mapping out.
@@ -155,7 +153,7 @@
 
     - No functoriality of [PosetReflection] beyond what [Poset_reflector]
       gives, and no naturality of [reflection_proj] stated separately.
-    - No comparison with Instance/Proset/Skeletal.v:95's [Proset_Skeleton]
+    - No comparison with Instance/Proset/Skeletal.v's [Proset_Skeleton]
       -- the thin-category shadow of this reflection -- and no [Cat]-level
       statement of any kind.
     - No uniqueness statement for the reflector beyond what

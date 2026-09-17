@@ -26,15 +26,15 @@ Generalizable All Variables.
     #347's "Current state" says a whole-tree search for couniversal
     arrows "returns nothing" and that Theory/Universal/Arrow.v "has no
     dual".  Both are false: Theory/Universal/Arrow/Dual.v supplies
-    [CouniversalArrow] (:199), [coarrow] (:222),
-    [ump_couniversal_arrows] (:237),
-    [RightAdjointFunctorFromCouniversalArrows] (:421) and
-    [AdjunctionFromCouniversalArrows] (:439).  Every one of those is
+    [CouniversalArrow], [coarrow],
+    [ump_couniversal_arrows],
+    [RightAdjointFunctorFromCouniversalArrows] and
+    [AdjunctionFromCouniversalArrows].  Every one of those is
     CONSUMED here and none re-derived, which is what that issue's own QA
     correction directs.
 
     THE DISTINCTION THAT DEFINES THIS FILE IS A DIRECTION, AND IT IS EASY
-    TO MISS.  Dual.v:452 already carries a lemma named
+    TO MISS.  Dual.v already carries a lemma named
     [counit_couniversal].  It takes a couniversal family as DATA and
     describes the adjunction that file BUILDS -- every adjunction named
     there is [AdjunctionFromCouniversalArrows] of that family -- so it
@@ -53,7 +53,7 @@ Generalizable All Variables.
     makes the counit definitionally its arrow, whereas recovering the
     counit from a given family leaves an [fmap[F] id] residue.  **The
     OBJECT readback is NOT evidence of that**: it is [eq_refl] on both
-    sides (Dual.v:429's [right_adjoint_obj] is [reflexivity]) and also on
+    sides (Dual.v's [right_adjoint_obj] is [reflexivity]) and also on
     this file's own other direction ([couniversal_of_counit_obj]), so it
     is parity, not superiority.  Only the arrow half separates them.
 
@@ -67,7 +67,7 @@ Generalizable All Variables.
     below establishes is that the failure is not a property of the
     couniversal arrow in general: [coarrow] and [coarrow_obj] of the SAME
     arrow do reduce.  That does NOT by itself isolate the [Qed] on
-    [ump_universal_arrows] (Theory/Universal/Arrow.v:139), since those
+    [ump_universal_arrows] (Theory/Universal/Arrow.v), since those
     two never route through [ump_*] at all and so would reduce under any
     competing hypothesis.  An isolating experiment -- the same statement
     against a transparent clone of that donor -- was run during review
@@ -133,7 +133,7 @@ Example adj_counit_couniversal_arrow (c : C) :
    [coarrow_obj] above reduce because they are transparent projections of the
    transparent [couniversal_arrow_from_UMP], whereas the mediator is read out
    of [ump_couniversal_arrows], whose primal donor [ump_universal_arrows]
-   (Theory/Universal/Arrow.v:139) is closed with [Qed]. *)
+   (Theory/Universal/Arrow.v) is closed with [Qed]. *)
 Lemma adj_counit_couniversal_med (c : C) (d : D) (f : F d ~{C}~> c) :
   unique_obj (ump_couniversal_arrows (adj_counit_couniversal c) f)
     ≈ to adj[A] f.

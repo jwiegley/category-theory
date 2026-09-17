@@ -11,7 +11,7 @@
     https://ncatlab.org/nlab/show/created+limit, and Mac Lane §V.4
     Theorem 2 for the passage from creation to completeness).  Until
     this file the tree's only route from a subcategory to [CreatesLimit]
-    went through reflectivity (Construction/Reflective/Limit.v:494,
+    went through reflectivity (Construction/Reflective/Limit.v,
     [reflective_CreatesLimit]); closure under limits is the weaker and
     more common hypothesis, and it is the one Instance/Top/CompHaus.v
     needs to STATE the compact-Hausdorff creation question without a
@@ -33,7 +33,7 @@
       Theory/Equivalence/Limit.v's [ff_reflect_ump]: the inclusion is full
       ([Full_Implies_Full_Functor]) and faithful ([Incl_Faithful]), and
       fully faithful functors reflect limits — the same route
-      Construction/Reflective/Limit.v takes at :484-487.
+      Construction/Reflective/Limit.v takes.
     - [sub_CreatesLimit K : CreatesLimit K (Incl C S)], the three fields
       above; [sub_CreatesAllLimits : CreatesAllLimits (Incl C S)]; and
       [sub_Complete : Complete C → Complete (Sub C S)] through
@@ -42,7 +42,7 @@
 
     HYPOTHESES SPENT.  [full] enters the lift's legs and the reflection;
     [closed] enters the lift's apex only.  Nothing is registered as an
-    [Instance], following Structure/Limit/Creation.v:125-128's discipline
+    [Instance], following Structure/Limit/Creation.v's discipline
     that creation witnesses are passed explicitly.
 
     UNIVERSES, MEASURED OFF BOTH BINDER AND BLOCK OVER ALL 9 CONSTANTS. ZERO

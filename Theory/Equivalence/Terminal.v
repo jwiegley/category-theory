@@ -64,7 +64,7 @@ Definition Terminal_transport {C D : Category} {F : C ⟶ D}
 (* The initial dual, argued directly rather than by opposing E.
 
    The duality route DOES exist: [EquivalenceOfCategories_op] at
-   Theory/Equivalence/Limit.v:524 opposes an equivalence, and
+   Theory/Equivalence/Limit.v opposes an equivalence, and
    [Terminal_transport (EquivalenceOfCategories_op E) I0] discharges this
    in one line.  It is not taken here because of where that constructor
    lives -- Theory/Equivalence/Limit.v carries the limit-preservation and

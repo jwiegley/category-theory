@@ -49,7 +49,7 @@ Generalizable All Variables.
     singleton: [sols_of_esols] and [esols_of_sols] pass between them,
     keeping index, objects and elements on the nose (four [eq_refl]
     readbacks).  The passage rests on elements being global points, which
-    is Theory/Universal/Element.v:292's [global_elements_iso] — the issue
+    is Theory/Universal/Element.v's [global_elements_iso] — the issue
     asks for that bridge to be proved as a "reusable lemma"; it has existed
     since #318 and nothing here re-proves it.  The two records are NOT
     convertible, only inter-derivable (probe N1).
@@ -61,12 +61,12 @@ Generalizable All Variables.
     inside [GAFT]'s [Qed], so this issue exports it as
     Adjunction/GAFT.v's [comma_initial_of_sols] (appended at that file's
     end — every line above it stays put, eleven external citations pointing
-    at its line 241 — with [GAFT_via_comma_initial] re-deriving GAFT from
+    into it — with [GAFT_via_comma_initial] re-deriving GAFT from
     it as a cross-check that it IS the same step; the theorem itself is not
     rewritten to use it).  [representability_theorem] is then four existing
     constants composed with no tactic, and [representability_iff] adds the
     converse: a representable functor preserves limits
-    ([continuous_of_representable], through Functor/Hom/Continuous.v:723's
+    ([continuous_of_representable], through Functor/Hom/Continuous.v's
     [representable_iso_ContinuousFunctor] — the #428 leg the issue does not
     name) and supplies its own element-wise solution set, the single object
     being the representing one and the single element the identity read
@@ -109,8 +109,8 @@ Generalizable All Variables.
     STALE PREMISES — the issue's "Current state" is wrong in five
     substantive claims and six line numbers.  FALSE: "no
     [(1 ~{Sets}~> X) ≅ carrier X] lemma" (it is [global_elements_iso],
-    Theory/Universal/Element.v:292, with the natural form at :1015);
-    "the library never performs that instantiation" (Element.v:810 and :829
+    Theory/Universal/Element.v, with the natural form);
+    "the library never performs that instantiation" (Element.v does
     relate [AUniversalArrow SetsOne H r] and [AUniversalElement H r] with
     [eq_refl] and [≈] round trips); "nothing produces a [Representable]
     from anything, and in particular not from an adjunction; no file even
@@ -118,39 +118,61 @@ Generalizable All Variables.
     [Representable] — counted by taking each [Definition]/[Theorem]/[Lemma]/
     [Corollary]/[Instance] head with comments stripped and testing whether
     the conclusion begins with [Representable] — and 33 files [Require] it;
-    one of the 26 is Adjunction/Representability.v:268's [adj_representable],
+    one of the 26 is Adjunction/Representability.v's [adj_representable],
     an adjunction-sourced instance); "no category
     of elements for a [Sets]-valued functor" (Construction/Elements.v has
     [Elements], [ElementsComma] and the proved comparison
     [Elements_Comma]); and "#366 is the filed obligation" for copowers
-    (#366 landed).  STALE LINE NUMBERS: [Representable] is
-    Functor/Representable.v:51, not :46 (the issue cites :46 five times, at
-    its lines 18, 83, 120, 147 and 162);
-    [representability_by_yoneda] is Structure/UniversalProperty.v:73, not
-    :67-72; Instance/Sets.v:248 is :258 and the object wanted is
-    Construction/Elements.v:230's [SetsOne]; Adjunction/Continuity.v:202 is
-    :205-:218 ([right_adjoint_PreservesLimitCone] :205,
-    [right_adjoint_Continuous] :209, [right_adjoint_preserves_limit] :214,
-    [right_adjoint_preserves_limits] :218; the cited :202 is header prose);
-    Construction/Comma/Limit.v:245 is :247;
-    Theory/WeaklyInitial.v:89 is :102.  Correct as cited: GAFT.v:159 and
-    :241, SAFT.v:274, Theory/Profunctor/Adjunction.v:70.  The
+    (#366 landed).  STALE LINE NUMBERS: the issue's citation for
+    [Representable] misses its declaration in Functor/Representable.v,
+    and that same miss is repeated five times;
+    [representability_by_yoneda] is in Structure/UniversalProperty.v,
+    over a narrower range than cited; the Instance/Sets.v citation is
+    off, and the object wanted there is
+    Construction/Elements.v's [SetsOne]; the Adjunction/Continuity.v
+    citation lands on header prose rather than on any of the four
+    constants there, which are [right_adjoint_PreservesLimitCone],
+    [right_adjoint_Continuous], [right_adjoint_preserves_limit] and
+    [right_adjoint_preserves_limits]; and the citations for
+    Construction/Comma/Limit.v and
+    Theory/WeaklyInitial.v are each off by a few lines.
+    Correct as cited: GAFT.v, SAFT.v, Theory/Profunctor/Adjunction.v.  The
     [Sets_global_points] named in the issue's Verification block exists
     nowhere in tree, and is not created here — the bridge it seems to want
     is [global_elements_iso].
 
     UNIVERSES ([About] under `Set Printing Universes`).  Definition 3 is
-    UNPINNED: [ElementSolutionSet@{u u0 u1 u2}] is over
+    UNPINNED: [ElementSolutionSet@{u u0 u1 i}] is over
     [C : Category@{u u0 u0}] with one strict constraint ([u0 < u1], the
-    functor's) and no [Set].  Everything downstream of the comma-initial
-    step inherits GAFT's pin instead — [representability_theorem] and
-    [representability_iff] are over [C : Category@{_ Set Set}], hom AND
-    proof at [Set], with [Set < u] — which is why the theorem is stated at
-    TOP LEVEL: inside a section that has already elaborated a category with
-    those levels apart the ascription is refused, and probe N4 pins exactly
-    that ("universe inconsistency: Cannot enforce sp = sh because sh < sp").
-    The witnesses land at [Sets@{Set u}], the same place
-    Adjunction/GAFT/Sets.v's header records for [GAFT_at_Sets_Id].  Stdlib
+    functor's) and no [Set].
+
+    RECORDED CORRECTION.  An earlier revision continued: "Everything
+    downstream of the comma-initial step inherits GAFT's pin instead —
+    [representability_theorem] and [representability_iff] are over
+    [C : Category@{_ Set Set}], hom AND proof at [Set], with [Set < u] —
+    which is why the theorem is stated at TOP LEVEL … The witnesses land
+    at [Sets@{Set u}], the same place Adjunction/GAFT/Sets.v's header
+    records for [GAFT_at_Sets_Id]."  GAFT has no such pin any more:
+    Instance/Discrete.v's [DiscreteCat_Functor] was annotated in place at
+    its declaration in the PR "algebraic carriers are sets" (2026-09-17), and
+    measured after it
+
+      representability_theorem@{cobj h su +} :
+        ∀ {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su}),
+        Complete@{h h h cobj} → PreservesImageLimit
+        → ElementSolutionSet@{cobj h su h} K → Representable K
+
+      representability_iff@{… u11 … u15 u16} :
+        ∀ {C : Category@{u15 u11 u11}} …, Complete@{u11 u11 u11 u15} → …
+
+    -- no literal [Set] in either, and [GAFT_at_Sets_Id] likewise stands
+    at the polymorphic [Sets].  What SURVIVES is the reason for stating
+    the theorem at TOP LEVEL, because that was never the [Set]: both
+    constants identify [C]'s hom and proof universes, so inside a section
+    that has already elaborated a category with those levels APART the
+    ascription is refused, and probe N4 pins exactly that ("universe
+    inconsistency: Cannot enforce sp = sh because sh < sp") -- an
+    identification, with no [Set] in the message.  Stdlib
     caps ([JMeq], [eq], [Logic_lemmas.equality], [Projections],
     [projections], [Basics.compose], [ID]) all arrive with the GAFT and
     [Sets] donors; none is introduced here.
@@ -230,8 +252,20 @@ Context (K : C ⟶ Sets).
     is Definition 3 as the book states it; [SolutionSet] of Adjunction/GAFT.v
     is the hom-shaped form, and the two agree at the singleton set. *)
 
-Record ElementSolutionSet := {
-  esol_index : Type;
+(* The INDEX universe is named [i], and it is free of it: the constraint
+   block relates it to nothing, exactly as in [SolutionSet].  It is the
+   LAST binder, because the three the enclosing section discharges (the
+   ambient's object and hom-and-proof levels, and [Sets]' object level)
+   come first and print with generic names.  Measured readback:
+
+     ElementSolutionSet@{u u0 u1 i} :
+     ∀ {C : Category@{u u0 u0}}, (C ⟶ Sets@{u0 u1}) → Type@{max(u,u0,i+1)}
+     (* u u0 u1 i |= u0 < u1 / u0 <= ID.u0 *)
+
+   [representability_theorem] below is where [i] is pinned, to the ambient
+   hom universe, exactly as in [GAFT]: see its own binders. *)
+Record ElementSolutionSet@{i} := {
+  esol_index : Type@{i};
   esol_obj : esol_index → C;
   esol_elem : ∀ i, K (esol_obj i);
   esol_covers {c : C} (x : K c) :
@@ -245,7 +279,29 @@ Record ElementSolutionSet := {
     Element.v's [global_element] and [global_elements_iso], which already
     exist; nothing here re-proves that bridge. *)
 
-Definition sols_of_esols (E : ElementSolutionSet) : SolutionSet K SetsOne.
+(* Both passages carry the index TYPE across on the nose — the four
+   [eq_refl] readbacks below say so.  At the level of the index UNIVERSE
+   the two directions differ, and the difference is measured rather than
+   assumed:
+
+     sols_of_esols@{u u0 u1 i u2 u3 u4} :
+       … ElementSolutionSet@{u u0 u1 i} K
+         → SolutionSet@{i u1 u u0} K SetsOne
+     (* u u0 u1 i u2 u3 u4 |= u0 < u1 / u3 <= ID.u0 *)
+
+   -- [i] on the nose in this direction, the index universe reappearing
+   verbatim in [SolutionSet]'s first slot; and
+
+     esols_of_sols@{u u0 u1 i u2 u3 u4 u5} :
+       … SolutionSet@{u5 u1 u u0} K SetsOne
+         → ElementSolutionSet@{u u0 u1 i} K
+     (* u u0 u1 i u2 u3 u4 u5 |= u0 < u1 / u5 <= i *)
+
+   -- a BOUND, [u5 <= i], in the other, since the record is built rather
+   than projected.  Stated because "the same index" is true of the types
+   and only up to [<=] of the levels. *)
+Definition sols_of_esols@{i +} (E : ElementSolutionSet@{i})
+  : SolutionSet K SetsOne.
 Proof.
   unshelve refine
     {| sol_index := esol_index E
@@ -257,7 +313,8 @@ Proof.
   intro u; destruct u; exact e.
 Defined.
 
-Definition esols_of_sols (S : SolutionSet K SetsOne) : ElementSolutionSet.
+Definition esols_of_sols@{i +} (S : SolutionSet K SetsOne)
+  : ElementSolutionSet@{i}.
 Proof.
   unshelve refine
     {| esol_index := sol_index S
@@ -300,13 +357,43 @@ Arguments esol_elem {C K} _ _.
 
 (** ** Mac Lane §V.6 Theorem 3
 
-    Stated at top level: [comma_initial_of_sols] pins the hom AND proof
-    universes of both categories to [Set] (GAFT's own pin), and inside a
-    section that has already elaborated [Sets] the ascription is refused. *)
+    Stated at top level, and the binders carry the SAME size condition as
+    [GAFT], which is where it comes from ([comma_initial_of_sols]):
 
-Definition representability_theorem {C : Category} (K : C ⟶ Sets)
-  (comp : @Complete C) (cont : @PreservesImageLimit C Sets K)
-  (E : ElementSolutionSet K) : Representable K :=
+      (i)  [ElementSolutionSet@{cobj h su h} K] -- the element-solution-set
+           INDEX universe (the last slot) is the ambient hom universe [h].
+           The record leaves it free; this theorem pins it.
+      (ii) [@Complete@{h h h cobj} C] -- [Complete]'s shape-object universe
+           is [h] too, for the reason Adjunction/GAFT.v spells out: the
+           equalizer of all endomorphisms of the product is a limit over a
+           shape whose objects are a hom-set.
+
+    RECORDED CORRECTION.  An earlier revision of this comment read
+    "[comma_initial_of_sols] pins the hom AND proof universes of both
+    categories to [Set] (GAFT's own pin), and inside a section that has
+    already elaborated [Sets] the ascription is refused."  That [Set] was
+    a universe-minimization artifact of Instance/Discrete.v's unannotated
+    [DiscreteCat_Functor] and is gone (PR "algebraic carriers are sets",
+    2026-09-17); the theorem is still stated at top level, and (i)+(ii)
+    are why.  The refusals that Instance/Mod/TensorAFT.v records against
+    this theorem survive the repair, re-measured there: they are (i)
+    meeting an index one universe above the ring's carrier, with no [Set]
+    in the message.
+
+    Measured readback:
+
+      representability_theorem@{cobj h su u u0 u1 u2 u3 u4 u5 u6 u7 u8} :
+      ∀ {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su}),
+        Complete@{h h h cobj}
+        → PreservesImageLimit@{cobj h su h u h su h}
+          → ElementSolutionSet@{cobj h su h} K
+            → Representable@{u u0 su cobj h} K
+      (* cobj h su … |= h < su / u6 <= u4 *) *)
+
+Definition representability_theorem@{cobj h su +}
+  {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C Sets K)
+  (E : ElementSolutionSet@{cobj h su h} K) : Representable K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont (sols_of_esols K E)).
 

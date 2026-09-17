@@ -81,7 +81,7 @@ Generalizable All Variables.
     (D) [FinSet_Pow_one : Pow 1 = 2] by [eq_refl] -- the missing member of
         Instance/FinSet/Topos.v's [FinSet_Pow_zero]/[FinSet_Pow_two]
         family, which lives here rather than there.  The GENERAL form
-        [finpow_is_topos_Pow] is NOT new: Instance/FinSet/Powerset.v:509
+        [finpow_is_topos_Pow] is NOT new: Instance/FinSet/Powerset.v
         already proves [Pow n = finpow n] for open [n], and it is cited,
         not duplicated.
 
@@ -98,13 +98,13 @@ Generalizable All Variables.
         internal conjunction on Ω: no constant anywhere has type
         [Ω × Ω ~> Ω], and the characteristic map of ⟨truth, truth⟩
         appears nowhere.  Read that measurement at its scope -- the word
-        "meet" DOES occur in Structure/Topos.v:101, but as prose
+        "meet" DOES occur in Structure/Topos.v, but as prose
         describing what a Lawvere-Tierney topology is, not as a
         constant.
 
     (F) Example 118, evaluated.  [apples : 3 ~> 2] puts two apples in
         bucket 0 and one in bucket 1.  [finpow_preimage] is
-        Instance/FinSet/Powerset.v:159's [finpow_map] under a name that
+        Instance/FinSet/Powerset.v's [finpow_map] under a name that
         says what it is ([finpow_preimage_is_finpow_map], [eq_refl] --
         the inverse image on codes was ALREADY the arrow action of
         [FinPowerset], and nothing is rebuilt); [finpow_image] and
@@ -365,7 +365,7 @@ Defined.
 
 (* The missing member of Instance/FinSet/Topos.v's family: [Pow 0 = 1] and
    [Pow 2 = 4] are there, [Pow 1 = 2] is here.  The GENERAL statement
-   [finpow_is_topos_Pow] is Instance/FinSet/Powerset.v:509 and is cited,
+   [finpow_is_topos_Pow] is Instance/FinSet/Powerset.v and is cited,
    not duplicated. *)
 Example FinSet_Pow_one : @Pow FinSet FinSet_Topos 1%nat = 2%nat := eq_refl.
 

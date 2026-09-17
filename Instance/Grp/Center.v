@@ -1,4 +1,5 @@
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -144,7 +145,12 @@ Program Definition CenterGrp (G : GrpObject) : GrpObject := {|
     mk_central G (grp_mul G (`1 a) (`1 b))
       (central_mul G (`1 a) (`1 b) (`2 a) (`2 b));
   grp_inv := fun a =>
-    mk_central G (grp_inv G (`1 a)) (central_inv G (`1 a) (`2 a))
+    mk_central G (grp_inv G (`1 a)) (central_inv G (`1 a) (`2 a));
+  (* The centre's `≈` compares first projections in [G], so it is
+     propositional exactly when [G]'s own `≈` is. *)
+  grp_prop :=
+    sigma_first_PropEquiv (is_setoid (center_setoid G))
+      (fun _ _ h => h) (fun _ _ h => h) (grp_prop G)
 |}.
 Next Obligation.
   intros G a a' Ha b b' Hb; simpl in *.
@@ -161,14 +167,25 @@ Lemma CenterGrp_abelian (G : GrpObject) (a b : carrier (CenterGrp G)) :
 Proof. exact (`2 a (`1 b)). Qed.
 
 (* ...and therefore an object of Ab: G ↦ Z(G) really is an object
-   function Grp → Ab. *)
+   function Grp → Ab.
+
+   Since the PR "algebraic carriers are sets" (2026-09-17) an [AbObject]
+   carries [cmon_prop], and the centre's carrier setoid compares first
+   projections in [G] -- so it is propositional exactly when [G]'s own `≈`
+   is.  An intermediate revision of this file (phase P2 of that PR) took the
+   witness [PG] as an explicit argument, because [GrpObject] did not yet carry
+   [grp_prop]; phase P3 added the field [grp_prop] and the argument is gone.
+   The signature is the one it had before the PR. *)
 Program Definition CenterAb (G : GrpObject) : AbObject := {|
   ab_cmon := {|
     cmon_setoid := center_setoid G;
     cmon_zero := mk_central G (grp_unit G) (central_unit G);
     cmon_plus := fun a b =>
       mk_central G (grp_mul G (`1 a) (`1 b))
-        (central_mul G (`1 a) (`1 b) (`2 a) (`2 b))
+        (central_mul G (`1 a) (`1 b) (`2 a) (`2 b));
+    cmon_prop :=
+      sigma_first_PropEquiv (is_setoid (center_setoid G))
+        (fun _ _ h => h) (fun _ _ h => h) (grp_prop G)
   |};
   ab_neg := fun a =>
     mk_central G (grp_inv G (`1 a)) (central_inv G (`1 a) (`2 a))
@@ -281,6 +298,13 @@ Qed.
 
 (** ** The no-functor theorem *)
 
+(* An intermediate revision of this theorem (phase P2 of the PR "algebraic
+   carriers are sets", 2026-09-17) carried an extra hypothesis
+   [PG : ∀ G : GrpObject, PropEquiv (is_setoid (grp_setoid G))], because
+   [CenterAb] then needed the witness and [GrpObject] did not yet supply it.
+   Phase P3 added the field [grp_prop], so the hypothesis is gone and the
+   statement is the one it had before the PR: it quantifies over ALL functors
+   [T : Grp ⟶ Ab] with the centre as object function. *)
 Theorem no_center_functor (T : Grp ⟶ Ab)
   (HT : ∀ G : GrpObject, fobj[T] G = CenterAb G) : False.
 Proof.

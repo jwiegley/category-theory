@@ -19,6 +19,7 @@ Adjunction/GAFT.v
 Adjunction/GAFT/Examples.v
 Adjunction/GAFT/Sets.v
 Adjunction/GAFT/Necessity.v
+Adjunction/GAFT/Resize.v
 Adjunction/LeftInverse.v
 Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
@@ -455,6 +456,7 @@ Instance/Sets/Cocartesian.v
 Instance/Sets/NoAdjoint.v
 Instance/Sets/Products.v
 Instance/Sets/Complete.v
+Instance/Sets/Propositional.v
 Instance/Sets/Cone.v
 Instance/Sets/InverseLimit.v
 Instance/Sets/Cocomplete.v
@@ -536,6 +538,7 @@ Lib/IList.v
 Lib/MapDecide.v
 Lib/NETList.v
 Lib/Setoid.v
+Lib/Setoid/Propositional.v
 Lib/TList.v
 Lib/Tactics.v
 Lib/Tactics2.v
@@ -1017,3 +1020,9 @@ Test/ProbeModLimit449.v
 Test/ProbeModTensorAFT449.v
 Test/ProbeModSpanning449.v
 Test/ProbeFractionsAdjunction972.v
+Test/ProbePropEquiv.v
+Test/ProbeTermModelProp.v
+Test/ProbeAbPropSurjective.v
+Test/ProbeTermModelPropRng.v
+Test/ProbeGrpProp.v
+Test/ProbeRngAFTProp.v

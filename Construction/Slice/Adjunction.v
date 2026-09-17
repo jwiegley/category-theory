@@ -80,7 +80,7 @@ Generalizable All Variables.
        redundant [∘ id] removed.
      - **[Coslice_Projection_Adjunction a : Coslice_Coprod a ⊣
        Coslice_Proj a]**, the issue's pinned name, built through
-       [Build_Adjunction'] (Theory/Adjunction.v:159) out of the hom-setoid
+       [Build_Adjunction'] (Theory/Adjunction.v) out of the hom-setoid
        isomorphism [coslice_adj] plus the two forward naturality clauses.
        The transposition is
        [Hom_{a/C}((a + c; inl), (x; g)) ≊ Hom_C(c, x)]: forward
@@ -126,7 +126,7 @@ Generalizable All Variables.
      on underlying arrows, so all four naturality clauses close by
      [reflexivity].
 
-     Construction/Slice/Terminal.v:140's [Slice_Terminal :
+     Construction/Slice/Terminal.v's [Slice_Terminal :
      Slice C 1 ≅[Cat] C] is the SPECIAL CASE at a bundled [Terminal].  It
      is cited, not consumed: the object-level [IsTerminalObj] statement is
      what the exercise asks to settle, and routing through the bundled
@@ -185,7 +185,7 @@ Generalizable All Variables.
    over C^op has homs [∃ f, f ∘ `2 x ≈ `2 y] where Construction/Slice.v's
    [Coslice] has [∃ f, `2 y ≈ f ∘ `2 x]: the same equation in the other
    ORIENTATION, hence a different type.  Construction/Slice/Terminal.v
-   already records exactly this at :177-198, as its reason for proving
+   already records exactly this, as its reason for proving
    [Coslice_Initial] directly rather than transporting [Slice_Terminal].
    Here it is pinned as CONVERSION negative 9, against a control showing
    that the OBJECT types DO agree definitionally, so the obstruction is
@@ -201,9 +201,9 @@ Generalizable All Variables.
 
    (1) The issue's Awodey section says of the slice domain functor that
    "the functor itself does not exist".  It does, twice over.
-   Instance/Cat/Pullback.v:668 [Slice_proj] and :847 [Coslice_proj] are
+   Instance/Cat/Pullback.v's [Slice_proj] and [Coslice_proj] are
    this very three-line record, with the same signature [{C} (c)];
-   Construction/Slice/Terminal.v:99 [Slice_Forget] and :206
+   Construction/Slice/Terminal.v's [Slice_Forget] and
    [Coslice_Forget] are its specialisations to a terminal and an initial
    base.  The agreement is MEASURED, in the probe rather than here: both
    DATA fields of [Coslice_Proj]/[Coslice_proj] agree at [eq_refl] in
@@ -225,8 +225,8 @@ Generalizable All Variables.
    deleted and the theorem proved, as Construction/Slice/Pullback.v's
    [Base_Functor_Adjunction].  Even then,
    Construction/Comma/Adjunction.v carries live [⊣] results throughout,
-   among them [Comma_Functor_F_Id_Id_G] at :835 and Lawvere's
-   biconditional [Adjunction_Comma] at :904 -- as the issue's own
+   among them [Comma_Functor_F_Id_Id_G] and Lawvere's
+   biconditional [Adjunction_Comma] -- as the issue's own
    preceding paragraph says.
 
    (4) What the issue gets exactly right, and what this file therefore
@@ -235,8 +235,8 @@ Generalizable All Variables.
    coproduct-injection unit existed anywhere.
 
    The issue's own suggested route -- transport [comma_proj2]
-   (Construction/Comma.v:204) across [Comma_Coslice]
-   (Construction/Slice.v:181) -- is a THIRD way, and it is measured
+   (Construction/Comma.v) across [Comma_Coslice]
+   (Construction/Slice.v) -- is a THIRD way, and it is measured
    instead of dismissed.  The composite typechecks and is built in the
    probe as [p365_via_comma].  But [Comma_Coslice] is a [Program Instance]
    whose [to] is written [{| fobj := _; fmap := _ |}], so BOTH data fields

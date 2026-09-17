@@ -28,7 +28,7 @@ Open Scope R_scope.
    endpoint constraints of [Straight], the two given homotopies of
    [HomotopyConcat], the equality decider of [IntervalConnected].  Lib.v's
    [Default Proof Using "Type"] would discard them; this is the same setting,
-   for the same reason, as Instance/Top/Interval.v:23. *)
+   for the same reason, as Instance/Top/Interval.v. *)
 Set Default Proof Using "All".
 
 (** * The fundamental groupoid of a topological space *)
@@ -165,7 +165,7 @@ Set Default Proof Using "All".
    ival y` and the arithmetic of the reparametrizations -- which is Leibniz
    equality on `R` and not a statement about morphisms.  The second is in the
    non-vacuity section, where the carrier setoid of [bool_setoid_object]
-   (Instance/Top.v:784) takes `eq` for its `≈`, so on those two spaces the two
+   (Instance/Top.v) takes `eq` for its `≈`, so on those two spaces the two
    relations are the same relation; this is the same remark Structure/Groupoid.v
    makes for [Deloop Nat_Plus], and it is scoped to that carrier and to no
    other.  The one further `=` is [bool_carriers_agree], an equality of
@@ -183,7 +183,7 @@ Set Default Proof Using "All".
    space the fundamental groups at any two base points are isomorphic.  It is
    derived HERE THROUGH THE STRUCTURE THEOREM for connected groupoids, not by
    an independent conjugation argument: path-connectedness makes π(X)
-   connected, Structure/Groupoid/Connected.v:274's [connected_deloop_equiv]
+   connected, Structure/Groupoid/Connected.v's [connected_deloop_equiv]
    makes the delooping of each vertex group EQUIVALENT to π(X), and
    Structure/Groupoid/Basepoint.v's [deloop_ff_moniso] converts a fully
    faithful functor between one-object categories into a group ISOMORPHISM.
@@ -209,8 +209,7 @@ Set Default Proof Using "All".
 
    NON-VACUITY, AND ITS LIMIT.  Degenerate spaces make the whole construction
    trivially true, so a witness is supplied that separates two topologies on
-   ONE set.  [Bool_Discrete] and [TwoPoint_Indiscrete] (Instance/Top.v:987 and
-   :792) have the same setoid of points — [bool_setoid_object] — and π tells
+   ONE set.  [Bool_Discrete] and [TwoPoint_Indiscrete] (Instance/Top.v) have the same setoid of points — [bool_setoid_object] — and π tells
    them apart: it is provably NOT connected on the discrete one
    ([Bool_Discrete_pi_not_connected]) and IS connected on the indiscrete one
    ([TwoPoint_Indiscrete_pi_connected]).  The discrete half rests on
@@ -1151,7 +1150,7 @@ Defined.
 
    WHY A DECIDER, AND WHY IT COSTS NOTHING.  The supremum is taken over a
    predicate on R, so the set being bounded must live in [Prop]; but this
-   library's `≈` is a [crelation] (Lib/Setoid.v:33), hence [Type]-valued, and
+   library's `≈` is a [crelation] (Lib/Setoid.v), hence [Type]-valued, and
    `gval t ≈ gval 0` cannot be a conjunct of a [Prop] directly.  The decider
    supplies the [Prop] shadow -- [gsame] below, with [gsame_intro] and
    [gsame_elim] crossing between the two -- and it is a HYPOTHESIS, so no
@@ -1209,7 +1208,7 @@ Context (f : I_Top ~{Top}~> Discrete_Top A).
 Definition gval (r : R) : A := f (clampI r).
 
 (* Every predicate that respects `≈` is open in the discrete topology
-   (Instance/Top.v:292's [discrete_open]), so the fibre through [clampI r] is
+   (Instance/Top.v's [discrete_open]), so the fibre through [clampI r] is
    open and continuity hands back a radius on which [gval] does not move. *)
 Lemma gval_locally_constant (r : R) :
   { d : R & ((0 < d) ∧ (∀ r' : R, Rabs (r - r') < d → gval r' ≈ gval r))%type }.
@@ -1361,7 +1360,7 @@ Proof.
 Qed.
 
 (* The two-point case, which is the one the witnesses below use.  [Bool_Discrete]
-   IS [Discrete_Top bool_setoid_object] (Instance/Top.v:987) and that setoid
+   IS [Discrete_Top bool_setoid_object] (Instance/Top.v) and that setoid
    takes [eq] for its `≈`, so the conclusion is stated with `=` here and the
    general theorem discharges it by conversion.  [Bool.bool_dec] returns a
    [sumbool], which is transported to the [sum] the general statement asks for;

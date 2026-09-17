@@ -2,7 +2,8 @@
       (issue #433)
 
     Pins the measured boundaries of the conditional refutation with
-    negatives of three kinds, kept lexically apart: CONVERSION (N1: the
+    negatives of two kinds, kept lexically apart (an earlier revision said
+    three; the correction is below): CONVERSION (N1: the
     tree has TWO dual functors on [Vct_F F] — Instance/FdVect/DoubleDual.v's
     [Dual F], precomposition on the nose, and Structure/Monoidal/
     StarAutonomous.v's [dual] read at the line through Instance/Mod/
@@ -15,10 +16,15 @@
     Rt → False] does not ascribe, [CoordSpanProper F] being the premise;
     N3: the self-adjunction runs [(Dual F)^op ⊣ Dual F], and the exercise's
     direction [Dual F ⊣ (Dual F)^op] is exactly the ascription that is
-    refused); UNIVERSE (N4: Instance/Discrete.v's unannotated
+    refused).  RECORDED CORRECTION: an earlier revision listed a fourth
+    kind, UNIVERSE, for N4 — "Instance/Discrete.v's unannotated
     [DiscreteCat_Functor] pins the shape's hom level to [Set], so no cocone
     over it lives in [Vct^op] — the reason the diagram uses
-    Structure/Limit/Comparison.v's [DiscreteCat_Functor']).  The [eq_refl]
+    Structure/Limit/Comparison.v's [DiscreteCat_Functor']".  The donor was
+    annotated in place in the PR "algebraic carriers are sets"
+    (2026-09-17), Instance/Discrete.v, and the cocone type IS now
+    formable; §C keeps the line as a positive control and no UNIVERSE
+    refusal remains here.  The [eq_refl]
     readbacks are positive controls (the coordinate projections, the
     transpose, the colimit mediator and the isomorphism's components
     compute), and the #359 control shows Structure/Monoidal/Dual.v's
@@ -113,15 +119,25 @@ Check (dual_vct_Adjunction F : Opposite_Functor (Dual F) ⊣ Dual F).
 (* N3 TYPING: the exercise's direction is refused as an ascription *)
 Fail Check (dual_vct_Adjunction F : Dual F ⊣ Opposite_Functor (Dual F)).
 
-(** ** C: UNIVERSE — the unannotated discrete diagram pins [Set] *)
+(** ** C: the discrete diagram no longer pins [Set]
 
-(* control: the annotated diagram has cocones in [Vct^op] *)
+    RECORDED CORRECTION.  An earlier revision headed this section
+    "UNIVERSE — the unannotated discrete diagram pins [Set]" and stated N4
+    as a refusal: [DiscreteCat_Functor] made the shape's hom universe
+    [Set], which no cocone in [Vct^op] could share, so the file's own
+    [LineDiagram] had to be used instead.  The attribution was right and
+    the donor was annotated in place in the PR "algebraic carriers are
+    sets" (2026-09-17), Instance/Discrete.v; both lines are now
+    accepted and are kept as positive controls at the same place.
+    [LineDiagram] is retained because it names the diagram this file
+    reasons about, not because [DiscreteCat_Functor] is unusable here. *)
+
+(* control: the file's own diagram has cocones in [Vct^op] *)
 Check (Cocone (LineDiagram F)).
 
-(* N4 UNIVERSE: [DiscreteCat_Functor] makes the shape's hom [Set], which
-   no cocone in [Vct^op] can share *)
-Fail Check (Cocone (DiscreteCat_Functor
-                      (fun _ : nat => VctLine F : obj[Vct^op]))).
+(* former N4: so does the generic discrete diagram *)
+Check (Cocone (DiscreteCat_Functor
+                 (fun _ : nat => VctLine F : obj[Vct^op]))).
 
 (** ** D: readbacks *)
 

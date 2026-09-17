@@ -35,9 +35,9 @@ Generalizable All Variables.
 
    A word on the spelling of that component.  Mac Lane writes it
    "f × id".  This tree has no morphism-level × notation; the product of
-   two morphisms is [split] (Structure/Cartesian.v:178), which is
+   two morphisms is [split] (Structure/Cartesian.v), which is
    definitionally the action of the product bifunctor,
-   [bimap[×(C)] f g] (Functor/Product/Internal.v:37).  So the literal
+   [bimap[×(C)] f g] (Functor/Product/Internal.v).  So the literal
    in-tree reading of "f × id" is [split f id], and [first f] is that
    only up to ≈ — the identity survives inside the fork until [id_left]
    removes it, which is what [fixed_product_transform_bimap] below
@@ -65,44 +65,44 @@ Generalizable All Variables.
    file supplies the packaging.  The ledger:
 
    REUSED (nothing below re-derives these):
-     - [second_id]     (Structure/Cartesian.v:340)  — the functor's
+     - [second_id]     (Structure/Cartesian.v)  — the functor's
                         identity law, verbatim.
-     - [second_comp]   (Structure/Cartesian.v:346)  — the functor's
+     - [second_comp]   (Structure/Cartesian.v)  — the functor's
                         composition law, verbatim.
-     - [first_second]  (Structure/Cartesian.v:386)  — the naturality
+     - [first_second]  (Structure/Cartesian.v)  — the naturality
                         square, verbatim.  [Transform] carries both
                         orientations as fields
-                        (Theory/Natural/Transformation.v:117 and :121),
+                        (Theory/Natural/Transformation.v),
                         so the two obligations come out as
                         naturality := symmetry (first_second f g) and
                         naturality_sym := first_second f g, in that
                         order.
-     - [first_id]      (Structure/Cartesian.v:326)  and
-       [first_comp]    (Structure/Cartesian.v:332)  — the functor laws of
+     - [first_id]      (Structure/Cartesian.v)  and
+       [first_comp]    (Structure/Cartesian.v)  — the functor laws of
                         the mirror [fixed_product_functor_right], and
                         (together with [second_id]) the identity and
                         composition laws of the assignment f ↦ (f × −)
                         into [C, C].
-     - [exl_first]     (Structure/Cartesian.v:354)  and [exl_fork]
-                        (Structure/Cartesian.v:211) — the two cartesian
+     - [exl_first]     (Structure/Cartesian.v)  and [exl_fork]
+                        (Structure/Cartesian.v) — the two cartesian
                         equations behind [fixed_product_transform_faithful],
                         used there alongside [comp_assoc] and [id_right].
-     - [InternalProductFunctor] (Functor/Product/Internal.v:34) — the
+     - [InternalProductFunctor] (Functor/Product/Internal.v) — the
                         product bifunctor, compared to this file's
                         functor by [fixed_product_bimap] and to its
                         transformation by [fixed_product_transform_bimap].
-     - [Grp_Cartesian] (Instance/Grp.v:677) — binary direct products in
+     - [Grp_Cartesian] (Instance/Grp.v) — binary direct products in
                         Grp.  These were already delivered by the Grp
                         work, so this file does NOT construct them; it
-                        was checked before writing that Instance/Grp.v:677
+                        was checked before writing that Instance/Grp.v
                         is the only definition of that name in the tree
-                        (the one other occurrence, Instance/Grp.v:76, is a
+                        (the one other occurrence, Instance/Grp.v, is a
                         prose mention in that file's header) and that it
                         is an `#[export] Program Instance`, hence found
                         here by inference.
      - [Z2], [Z2_nontrivial], [Grp_injectivity_is_monic], [Grp_Zero]
                         (Instance/Grp.v) and [sections_are_monic]
-                        (Theory/Morphisms.v:179) — the ingredients of the
+                        (Theory/Morphisms.v) — the ingredients of the
                         non-vacuity witnesses.
 
    NEW here: the two packagings the exercise asks for
@@ -121,7 +121,7 @@ Generalizable All Variables.
    [Grp_fixed_product_component_moves],
    [Grp_fixed_product_component_not_monic]). *)
 
-(* On [inj_left] / [inj_right] (Structure/Binoidal.v:49/53)
+(* On [inj_left] / [inj_right] (Structure/Binoidal.v)
 
    These are the one-variable tensoring functors in the binoidal
    vocabulary, and they are the right abstraction for this exercise.
@@ -129,11 +129,11 @@ Generalizable All Variables.
    [Binoidal] structure in hand — and the tree already reaches one for
    cartesian categories by a two-step composite:
 
-     [Cartesian_Monoidal] (Structure/Monoidal/Cartesian.v:49) makes a
+     [Cartesian_Monoidal] (Structure/Monoidal/Cartesian.v) makes a
      cartesian category THAT ALSO HAS A TERMINAL OBJECT monoidal, with
      tensor := [InternalProductFunctor] (via [CC_Monoidal],
-     Structure/Monoidal/Internal/Product.v:54); and [Monoidal_Binoidal]
-     (Structure/Premonoidal/Monoidal.v:124) makes any monoidal category
+     Structure/Monoidal/Internal/Product.v); and [Monoidal_Binoidal]
+     (Structure/Premonoidal/Monoidal.v) makes any monoidal category
      binoidal.
 
    So this file does NOT claim [inj_right] was unavailable, and it does
@@ -181,8 +181,8 @@ Generalizable All Variables.
    for the instantiation alongside the general result, so the import is
    deliberate — but it is a genuinely new dependency, and the precedent
    for it is thinner than a bare appeal to "Functor/ files already
-   import instances" would suggest.  Those precedents (Functor/Hom.v:8-9
-   imports Instance/Fun.v and Instance/Sets.v; Functor/Diagonal.v:7,52,76
+   import instances" would suggest.  Those precedents (Functor/Hom.v
+   imports Instance/Fun.v and Instance/Sets.v; Functor/Diagonal.v
    imports Instance/Fun.v, Instance/One.v and Instance/Two/Discrete.v)
    are all foundational category instances that much of the tree already
    pulls in.  Instance/Grp.v is 1166 lines, and this is the only file in
@@ -222,7 +222,7 @@ Next Obligation. apply first_comp. Qed.
    [alt_is_inj_left]/[alt_is_inj_right]): the whole point of those
    statements is that the two sides are the very same term, which [≈]
    would not say.  The convention is the tree's, recorded at
-   [bimap_fmap] (Functor/Bifunctor.v:45, comment at :42-44).  Every
+   [bimap_fmap] (Functor/Bifunctor.v, in the comment above it).  Every
    statement in this file that carries mathematical content — the
    naturality squares, the [bimap] comparisons, the faithfulness
    results, the Grp witnesses — uses [≈]. *)
@@ -238,9 +238,9 @@ Proof. reflexivity. Qed.
 
 (* Components [first f]; naturality is [first_second], whose symmetry
    discharges [naturality] and whose direct form discharges
-   [naturality_sym] (that field order is Theory/Natural/Transformation.v
-   :117/:121 — the obligations come out in that order, so obligation 1 is
-   the symmetric one). *)
+   [naturality_sym] (that field order is the one
+   Theory/Natural/Transformation.v declares — the obligations come out in
+   that order, so obligation 1 is the symmetric one). *)
 Program Definition fixed_product_transform {H K : C} (f : H ~> K) :
   fixed_product_functor H ⟹ fixed_product_functor K := {|
   transform := fun _ => first f
@@ -303,7 +303,7 @@ Qed.
 
 (* Assembled from the two functors above.  Kept a [Definition] rather
    than an [Instance], following [Cartesian_Monoidal]
-   (Structure/Monoidal/Cartesian.v:49, whose header gives the reason), so
+   (Structure/Monoidal/Cartesian.v, whose header gives the reason), so
    that it cannot silently capture [Binoidal] resolution elsewhere. *)
 Definition Cartesian_Binoidal : @Binoidal C :=
   @Build_Binoidal C
@@ -313,10 +313,10 @@ Definition Cartesian_Binoidal : @Binoidal C :=
 
 (* Reading the two functors back out of the structure just built.  Note
    what this is and is not.  [inj_right x'] is DEFINED as
-   [FromAFunctor (right_functor x')] (Structure/Binoidal.v:53), and
+   [FromAFunctor (right_functor x')] (Structure/Binoidal.v), and
    [Cartesian_Binoidal] supplied [right_functor] as
    [ToAFunctor (fixed_product_functor H)]; so these two corollaries are
-   instances of [FromAFunctor_ToAFunctor] (Theory/Functor.v:419), which
+   instances of [FromAFunctor_ToAFunctor] (Theory/Functor.v), which
    holds of every functor whatsoever.  They confirm that the packaging
    round-trips — nothing about products, and nothing specific to this
    exercise, is being established here. *)
@@ -462,7 +462,7 @@ End BinoidalComparison.
 
 (** ** The exercise's own setting: C = Grp *)
 
-(* [Grp_Cartesian] (Instance/Grp.v:677) already supplies the binary
+(* [Grp_Cartesian] (Instance/Grp.v) already supplies the binary
    direct products, so the instantiation is a specialization and nothing
    more. *)
 
@@ -547,7 +547,7 @@ Qed.
 
 (* And hence not an isomorphism: a two-sided inverse is in particular a
    left inverse.  Stated at the [IsIsomorphism] level (the predicate form
-   on a single morphism, Theory/Isomorphism.v:133) so that the prose
+   on a single morphism, Theory/Isomorphism.v) so that the prose
    above has a theorem behind it rather than an inference left to the
    reader. *)
 Theorem Grp_Z2_zero_not_iso : IsIsomorphism Grp_Z2_zero → False.

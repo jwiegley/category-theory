@@ -164,13 +164,13 @@ Qed.
    commutativity each fix one figure, and that [Commutative] generalizes them.
    These four results discharge that claim for two of the three, by exhibiting
    each as a [Commutative] diagram of the corresponding walking shape.  (The
-   third, Construction/Sq.v:50's [dsq], is the same square as
+   third, Construction/Sq.v's [dsq], is the same square as
    [square_commutative_iff] after permuting its four arguments to [dsq]'s
    [(h, u, v, k)] AND applying [symmetry]: the permutation alone yields
    [v ∘ h ≈ k ∘ u], while [dsq] is stated as [k ∘ u ≈ v ∘ h].  It is not
    restated here, to avoid importing the double-category development.) *)
 
-(* A cone leg triangle: [Structure/Cone.v:30]'s [cone_coherence] is exactly
+(* A cone leg triangle: [Structure/Cone.v]'s [cone_coherence] is exactly
    the commutativity of the walking triangle on the two legs and the image
    morphism between them.
 
@@ -193,7 +193,7 @@ Corollary cone_leg_commutes {J C : Category} {F : J ⟶ C} {c : C}
   Commutative (TriangleDiagram (vertex_map x) (fmap[F] f) (vertex_map y)).
 Proof. apply triangle_commutes, cone_coherence. Qed.
 
-(* A pullback square: [Theory/Morphisms/Stability.v:55]'s
+(* A pullback square: [Theory/Morphisms/Stability.v]'s
    [is_pullback_commutes] is exactly the commutativity of the walking square
    on the two projections and the two given morphisms. *)
 Corollary pullback_square_commutative_iff {C : Category} {x y z : C}

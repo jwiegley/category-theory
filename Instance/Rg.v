@@ -30,9 +30,9 @@ Generalizable All Variables.
     issue that commissioned it — the same discipline, and for the same
     reason, that Instance/Ab.v's header states for its own §I.7
     citations.  Nothing below is presented as a quotation from either
-    book.  The in-tree quotation from Structure/Ring.v:220 is
+    book.  The in-tree quotation from Structure/Ring.v is
     verbatim and was checked against the file.  The Instance/Roster.v
-    sentence quoted at :156 is verbatim against the text as it stood
+    sentence quoted is verbatim against the text as it stood
     BEFORE this commit, which repairs it; it is quoted here precisely
     because it is the claim being discharged.
 
@@ -56,12 +56,12 @@ Generalizable All Variables.
     before this file existed, so the third was forced, and a reader of
     either neighbour needs to know which is which.
 
-      - [Rng] is Instance/Rng.v:102's category of UNITAL rings, keeping
+      - [Rng] is Instance/Rng.v's category of UNITAL rings, keeping
         Mac Lane's own abbreviation from his §I.7 roll-call; its
         morphisms preserve 1, since [RigHom] carries [rig_map_one] as a
         FIELD.  So in this tree "Rng" means WITH unit.
-      - [Ring] is Theory/Algebra/Rig.v:469's [RingObject] and :500's
-        category, definitionally the same category as [Rng].
+      - [Ring] is Theory/Algebra/Rig.v's [RingObject] with the
+        category over it, definitionally the same category as [Rng].
       - [Rg] — this file — is rings WITHOUT an assumed identity, with
         objects [RgObject] and homomorphisms [RgHom].
 
@@ -76,14 +76,14 @@ Generalizable All Variables.
 
       - [RgObject], [RgHom] and [Rg] occur in no declaration head
         anywhere else; the category is genuinely new.
-      - [RigObject] (Theory/Algebra/Rig.v:103) carries SEVENTEEN fields,
+      - [RigObject] (Theory/Algebra/Rig.v) carries SEVENTEEN fields,
         counted mechanically off the record body rather than by eye.  A
         brief that guided this file said fifteen; that is wrong, and the
         correct figure is stated here instead.  [AbObject]
-        (Instance/Ab.v:115) carries FOUR, and [RgObject] below carries
+        (Instance/Ab.v) carries FOUR, and [RgObject] below carries
         SIX, one of which is the [AbObject] coercion.
       - THE FIELD NAME [rg_mul] COLLIDES, and the collision is LIVE
-        rather than theoretical.  Structure/Group/Representable.v:310
+        rather than theoretical.  Structure/Group/Representable.v
         declares [Definition rg_mul : c × c ~> c] inside its
         [HomMonoidEngine] section — a different notion entirely, [rg_]
         there abbreviating the file's representable-group engine — with
@@ -100,7 +100,7 @@ Generalizable All Variables.
         FULLY QUALIFIED name, or rename the [Structure/Group/
         Representable.v] helper, which is what the tree did the last
         time this bit it (Adjunction/Additive.v renamed its [coprod_ext]
-        away from Construction/Cospan/Bridging.v:106 before commit).
+        away from Construction/Cospan/Bridging.v before commit).
         This is a disclosure with options, not a claim that the
         collision is harmless.
 
@@ -117,18 +117,18 @@ Generalizable All Variables.
 
     ANNIHILATION IS A THEOREM HERE, AND THAT IS THE STRUCTURAL POINT.
     [RigObject] carries [rig_mul_zero_l] and [rig_mul_zero_r] as FIELDS
-    (Theory/Algebra/Rig.v:133-134) because a rig has no additive
+    (Theory/Algebra/Rig.v) because a rig has no additive
     inverses and the pair genuinely does not follow: Structure/Ring.v
-    :219 records that disjunction on the booleans, used as both halves
+    records that disjunction on the booleans, used as both halves
     of a semiring, satisfies commutativity and BOTH distributivity laws
-    while REFUTING annihilation ([bool_or_not_annihilating], :713), "so
+    while REFUTING annihilation ([bool_or_not_annihilating]), "so
     the annihilation PAIR is not implied by the rest".  A rng does have
     inverses, so [rg_mul_zero_l] and [rg_mul_zero_r] are proved below
     from distributivity plus cancellation — 0·a is idempotent under
     addition, hence zero.  The engine is [rg_cancel_idem], the elementary
-    counterpart of Structure/Ring.v:403's internal-ring lemma of the
-    same shape, whose [ring_annihilate_l]/[ring_annihilate_r] (:428,
-    :446) are the diagrammatic form of the same argument.
+    counterpart of Structure/Ring.v's internal-ring lemma of the
+    same shape, whose [ring_annihilate_l]/[ring_annihilate_r] are the
+    diagrammatic form of the same argument.
 
     HALF the derived pair is LOAD-BEARING rather than decorative, and
     the file says exactly which half and exactly where — counted, not
@@ -143,8 +143,8 @@ Generalizable All Variables.
     that anything here needs it.
 
     PRESERVATION OF NEGATION IS NOT RE-PROVED.  [RgHom] extends
-    Instance/Ab.v:184's [AbHom], which is literally [CMonHom]; that
-    file's [ab_map_neg] (:186) already proves a monoid map between
+    Instance/Ab.v's [AbHom], which is literally [CMonHom]; that
+    file's [ab_map_neg] already proves a monoid map between
     abelian groups preserves inverses, and [rg_map_neg] below is a
     one-line citation of it.  Theory/Algebra/Rig.v's [RigHom_neg] is the
     same theorem on the unital side, reached the same way.
@@ -152,9 +152,9 @@ Generalizable All Variables.
     ★ THE HEADLINE: [Rg_Zero : ZeroObject Rg].  In [Rg] the one-element
     rng is BOTH terminal and initial, because a [RgHom] out of it need
     not carry 1 anywhere — there is no 1 to carry.  In [Rng] the two
-    differ: ℤ is initial (Instance/Rng.v:391) and the zero ring terminal
-    (:182), and they cannot coincide, since a unital homomorphism out of
-    the zero ring would force 0 ≈ 1 in ℤ.  Instance/Roster.v:465-472
+    differ: ℤ is initial (Instance/Rng.v) and the zero ring terminal,
+    and they cannot coincide, since a unital homomorphism out of
+    the zero ring would force 0 ≈ 1 in ℤ.  Instance/Roster.v
     HAD RECORDED that this contrast "is NOT checkable here: the tree has
     no category of non-unital rings, which is future #362's [Rg]".  This
     file supplies the missing half, and the commit that lands it repairs
@@ -166,8 +166,8 @@ Generalizable All Variables.
     PRIOR ART FOR THE OTHER HALF, DISCLOSED RATHER THAN REDISCOVERED.
     A brief that guided this file asked for [Rng_no_zero_object] to be
     proved "if you can do it cleanly".  It is already proved:
-    Structure/Kernel/Universal/Examples.v:359 has exactly that theorem,
-    via :352's [Rng_no_zero_morphisms] and :340's
+    Structure/Kernel/Universal/Examples.v has exactly that theorem,
+    via its [Rng_no_zero_morphisms] and its
     [Rng_no_hom_zero_to_Z].  Nothing here duplicates those names.  What
     IS restated, under the fresh name [Rng_terminal_not_initial] and in
     three lines, is the underlying fact that no [Rng]-morphism runs from
@@ -188,7 +188,7 @@ Generalizable All Variables.
     defect Instance/Grp/Quotient/Colimit.v records for [Grp_trivial].
     Building the trivial rng on [Ab_trivial] would silently have
     confined [Rg_Zero] to [Set]-sized rngs.  It is built instead on
-    Instance/CMon/Biproduct.v:72's [CMon_trivial@{o} : CMonObject@{o o
+    Instance/CMon/Biproduct.v's [CMon_trivial@{o} : CMonObject@{o o
     o}], which IS polymorphic, through a locally declared polymorphic
     [rg_trivial_ab].  The resulting instance is reported at the foot of
     this file by an [About] the reader can rerun; it carries no [Set].
@@ -278,7 +278,7 @@ Record RgObject := {
 (** ** Annihilation, derived *)
 
 (* In an abelian group an element that is its own double is zero.  This
-   is the elementary counterpart of Structure/Ring.v:403's
+   is the elementary counterpart of Structure/Ring.v's
    [ring_cancel_idem], and it is the whole content of the two
    annihilation laws below. *)
 Lemma rg_cancel_idem (A : AbObject) (k : carrier (cmon_setoid A)) :
@@ -295,7 +295,7 @@ Qed.
 
 (* 0·a = (0 + 0)·a = 0·a + 0·a, so 0·a is idempotent, so it is 0.  The
    corresponding clauses of [RigObject] are FIELDS; here they are
-   theorems, and Structure/Ring.v:713's [bool_or_not_annihilating] is
+   theorems, and Structure/Ring.v's [bool_or_not_annihilating] is
    why a rig cannot do the same. *)
 Lemma rg_mul_zero_l (R : RgObject) (a : carrier (cmon_setoid (rg_ab R))) :
   rg_mul R (cmon_zero (rg_ab R)) a ≈ cmon_zero (rg_ab R).
@@ -330,7 +330,7 @@ Arguments rg_hom_ab {R S} _.
 Arguments rg_map_mul {R S} _ _ _.
 
 (* Preservation of negation is NOT a field and is NOT proved here: it is
-   Instance/Ab.v:186's [ab_map_neg], applied.  The unital-side twin is
+   Instance/Ab.v's [ab_map_neg], applied.  The unital-side twin is
    Theory/Algebra/Rig.v's [RigHom_neg]. *)
 Corollary rg_map_neg {R S : RgObject} (f : RgHom R S)
   (a : carrier (cmon_setoid (rg_ab R))) :
@@ -341,7 +341,7 @@ Proof. exact (ab_map_neg (rg_hom_ab f) a). Qed.
 #[local] Obligation Tactic := idtac.
 
 (* Homomorphisms are compared by their underlying maps, pointwise —
-   Theory/Algebra/Rig.v:183's [RigHom_Setoid] pattern. *)
+   Theory/Algebra/Rig.v's [RigHom_Setoid] pattern. *)
 #[export]
 Program Instance RgHom_Setoid {R S : RgObject} : Setoid (RgHom R S) := {|
   equiv := fun f g => ∀ a, cmon_map (rg_hom_ab f) a
@@ -382,14 +382,19 @@ Qed.
 
 (** ** The category *)
 
-Program Definition Rg : Category := {|
-  obj     := RgObject;
-  hom     := RgHom;
-  homset  := @RgHom_Setoid;
-  id      := @rg_hom_id;
-  compose := @rg_hom_compose;
+(* The universes are pinned by hand, for the reason recorded at
+   Instance/CMon.v's [CMon]: with [cmon_prop] a field of the underlying
+   [CMonObject] the record sort carries a [Set+1], and left to itself the
+   elaborator gives [Rg] a third, redundant universe -- refusing the
+   `Rg@{u o}` annotations in this file for arity. *)
+Program Definition Rg@{u p} : Category@{u p p} := {|
+  obj     := RgObject@{p p p};
+  hom     := RgHom@{p};
+  homset  := @RgHom_Setoid@{p};
+  id      := @rg_hom_id@{p};
+  compose := @rg_hom_compose@{u p};
 
-  compose_respects := @rg_hom_compose_respects
+  compose_respects := @rg_hom_compose_respects@{u p}
 |}.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
 Next Obligation. intros x y f a; simpl; reflexivity. Qed.
@@ -419,7 +424,7 @@ Next Obligation. intros R S f g Hfg a; exact (Hfg a). Qed.
 
 (** ** The forgetful functor from unital rings *)
 
-(* Pure reuse.  Instance/Rng.v:108's [ring_ab] already extracts the
+(* Pure reuse.  Instance/Rng.v's [ring_ab] already extracts the
    additive abelian group of a unital ring, and every remaining field is
    the corresponding [RigObject] field passed through unchanged — the
    two records' field types are convertible, so not one of the five
@@ -433,7 +438,7 @@ Definition ring_rg (R : RingObject) : RgObject := {|
   rg_distr_r := rig_distr_r R
 |}.
 
-(* The arrow action is Instance/Rng.v:117's [Rng_Forget_Ab] repackaged
+(* The arrow action is Instance/Rng.v's [Rng_Forget_Ab] repackaged
    with one extra field, [rig_map_mul], again passed through unchanged. *)
 Program Definition Rng_Forget_Rg : Rng ⟶ Rg := {|
   fobj := ring_rg;
@@ -493,8 +498,8 @@ Qed.
 
 (** ** The trivial rng is a zero object *)
 
-(* Built on Instance/CMon/Biproduct.v:72's polymorphic [CMon_trivial],
-   NOT on Instance/Ab.v:227's [Ab_trivial], which is measured to be
+(* Built on Instance/CMon/Biproduct.v's polymorphic [CMon_trivial],
+   NOT on Instance/Ab.v's [Ab_trivial], which is measured to be
    [AbObject@{Set Set Set}] with no universe binders at all. *)
 Definition rg_trivial_ab@{o} : AbObject@{o o o}.
 Proof.
@@ -582,7 +587,7 @@ Next Obligation.
 Qed.
 
 (* One record plays both roles, so the coincidence isomorphism is the
-   identity — Instance/CMon/Biproduct.v:160 and Instance/Ab.v:276 do the
+   identity — Instance/CMon/Biproduct.v and Instance/Ab.v do the
    same. *)
 #[export] Instance Rg_Zero : ZeroObject Rg :=
   @Build_ZeroObject Rg Rg_Terminal Rg_Initial iso_id.
@@ -593,7 +598,7 @@ Qed.
    initial one: such a morphism would carry the zero ring's 1 — which is
    also its 0 — to both 1 and 0 in ℤ.
 
-   This is the same fact as Structure/Kernel/Universal/Examples.v:338's
+   This is the same fact as Structure/Kernel/Universal/Examples.v's
    [Rng_no_hom_zero_to_Z], restated here under a fresh name rather than
    cited, because requiring that module would pull its 23-module closure
    onto every consumer of [Rg].  No novelty is claimed for it. *)
@@ -607,12 +612,12 @@ Proof.
   discriminate.
 Qed.
 
-(* The discriminating pair Instance/Roster.v:465-472 defers.  Dropping
+(* The discriminating pair Instance/Roster.v defers.  Dropping
    unit-preservation from the morphisms changes the answer.  Read the
    TYPE precisely: the second component is "no unital homomorphism from
    the zero ring to Z", which is what forces terminal and initial apart
    in [Rng]; the packaged statement "[Rng] has no zero object" is
-   Structure/Kernel/Universal/Examples.v:359's [Rng_no_zero_object],
+   Structure/Kernel/Universal/Examples.v's [Rng_no_zero_object],
    proved there and not repackaged here. *)
 Definition Rng_Rg_zero_object_contrast :
   ZeroObject Rg * ((Zero_Ring ~{Rng}~> Int_Ring) → False) :=
@@ -642,7 +647,7 @@ Example rg_trivial_carrier_strict :
 (** ** Two refuted strict attempts, pinned *)
 
 (* The image of the zero ring is a one-element rng, and so is
-   [Rg_trivial], but they are not the same record: Instance/Rng.v:141
+   [Rg_trivial], but they are not the same record: Instance/Rng.v
    gives [Zero_Rig] the always-true setoid while [CMon_trivial] carries
    Leibniz [eq] on [poly_unit].  The carriers DO agree, which is the
    control, so the failure is located in the [is_setoid] field. *)
@@ -675,7 +680,7 @@ Example control_forget_underlying_map (R S : RingObject)
    [ring], and then passed to the record by [exact]: the obligation
    types are CONVERTIBLE with them, [Z_eqT] being Leibniz equality, so
    no setoid reasoning is needed and none is done — the same move
-   Theory/Algebra/Rig.v:576-585 makes for [Int_Rig]. *)
+   Theory/Algebra/Rig.v makes for [Int_Rig]. *)
 Definition TwoZ_mul (a b : Z) : Z := 2 * a * b.
 
 Lemma TwoZ_assoc_Z (a b c : Z) :
@@ -691,7 +696,7 @@ Lemma TwoZ_distr_r_Z (a b c : Z) :
 Proof. unfold TwoZ_mul; ring. Qed.
 
 (* Note, and it is the hazard CLAUDE.md records for
-   Instance/Sets/Products.v:409-424: this [Program Definition] raises
+   Instance/Sets/Products.v: this [Program Definition] raises
    THREE obligations, not four.  The [rg_mul_respects] field is closed
    by instance resolution during elaboration, because [Z_eqT] is
    Leibniz equality and every function is [Proper] for it.  The three

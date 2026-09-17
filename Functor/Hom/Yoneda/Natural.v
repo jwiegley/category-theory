@@ -128,7 +128,7 @@ Generalizable All Variables.
       the opposite category up to conversion alone.  Nor would the REVERSE
       derivation need it, contrary to an earlier draft of this paragraph
       that an audit corrected: [(C^op)^op = C] holds by [eq_refl] in this
-      library — Construction/Opposite.v:16-20 says so in terms — so reading
+      library — Construction/Opposite.v says so in terms — so reading
       the covariant statement at C off the contravariant one is conversion
       as well.  [op_invol] is simply not on either path.
       [Yoneda_Lemma_derived] is the same move one level down: the pointwise
@@ -143,7 +143,7 @@ Generalizable All Variables.
 
     ** What is NOT delivered
 
-    - The tree's [Yoneda_Lemma] (Functor/Hom/Yoneda.v:157) is NOT replaced,
+    - The tree's [Yoneda_Lemma] (Functor/Hom/Yoneda.v) is NOT replaced,
       removed, or shown redundant.  [Yoneda_Lemma_derived] exhibits the
       derivation and [yoneda_lemma_derived_agrees] records that the two
       agree, but they remain two constants and the file leaves the existing
@@ -438,7 +438,7 @@ Arguments YoEvalAt {C} c.
     naturality, and makes the point that the DERIVATION is what matters.
     Everything below is the covariant development read at C^op; nothing is
     reproved.  [Curried_CoHom C] is [Curried_Hom C^op] by definition
-    (Functor/Hom.v:146) and [@Presheaves C Sets] is [@Copresheaves C^op Sets]
+    (Functor/Hom.v) and [@Presheaves C Sets] is [@Copresheaves C^op Sets]
     by definition (Theory/Sheaf.v), so the presheaf-side types are the
     copresheaf-side types at the opposite category up to conversion, and
     [op_invol] is not consumed. *)

@@ -18,8 +18,8 @@ Open Scope R_scope.
    proof inside them genuinely depends on its section variables.  Lib.v sets
    [Default Proof Using "Type"], which would discard them; the wider setting is
    the one already used for the same reason by
-   Construction/Reflective/Idempotent.v:24 and
-   Construction/Localization/Universal.v:22. *)
+   Construction/Reflective/Idempotent.v and
+   Construction/Localization/Universal.v. *)
 Set Default Proof Using "All".
 
 (** * The unit interval as an object of Top *)
@@ -42,10 +42,10 @@ Set Default Proof Using "All".
    ON THE CITATIONS.  No book was opened for this file, and nothing below
    quotes one; each claim about what a printed source says is a paraphrase.
    The printed/PDF page pairs are taken from the in-tree page map
-   doc/plan/books/riehl/pagemap.md (its Epilogue row, line 199, fixes
+   doc/plan/books/riehl/pagemap.md (its Epilogue row fixes
    §E.3 at printed p. 255 = PDF p. 275, the offset being a uniform +20)
    and, for the section title and its contents,
-   doc/plan/books/riehl/issues/drafts-E.md:90.  Riehl's §E.3 is FREYD'S
+   doc/plan/books/riehl/issues/drafts-E.md.  Riehl's §E.3 is FREYD'S
    CHARACTERIZATION: the interval carries a universal property — it is the
    terminal coalgebra of the wedge endofunctor on bipointed spaces, the
    halving map being the structure map — so that it need not be built out of

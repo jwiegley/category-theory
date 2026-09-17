@@ -182,7 +182,7 @@ Check @Opposite.
    Unfolding, the opposite of the slice over C^op has homs
    [∃ f, f ∘ `2 x ≈ `2 y] where [Coslice] has [∃ f, `2 y ≈ f ∘ `2 x] --
    the same equation in the other ORIENTATION, hence a different type.
-   Construction/Slice/Terminal.v:177-198 already records exactly this,
+   Construction/Slice/Terminal.v already records exactly this,
    as its reason for proving [Coslice_Initial] directly rather than
    transporting [Slice_Terminal]; the target's Block B is built directly
    for the same reason, which is also what keeps [^op] out of every
@@ -199,8 +199,8 @@ Context (a : C).
 
 (* PRIOR ART.  The issue's Awodey section says of the slice domain
    functor that "the functor itself does not exist".  That is FALSE:
-   Instance/Cat/Pullback.v:668 [Slice_proj] and :847 [Coslice_proj] are
-   exactly this record, and Construction/Slice/Terminal.v:99 and :206
+   Instance/Cat/Pullback.v [Slice_proj] and [Coslice_proj] are
+   exactly this record, and Construction/Slice/Terminal.v's
    [Slice_Forget]/[Coslice_Forget] are its specialisations to a terminal
    and an initial object.  The target rebuilds it rather than requiring
    Instance/Cat/Pullback.v, whose module closure is far heavier; the
@@ -233,7 +233,7 @@ Fail Example neg_coslice_proj_record :
    the projection "through [Comma_Coslice] *is* the projection of the
    exercise" -- true as a statement about categories, and the transported
    functor does exist and typecheck ([p365_via_comma] below).  But
-   [Comma_Coslice] (Construction/Slice.v:181) is a [Program Instance]
+   [Comma_Coslice] (Construction/Slice.v) is a [Program Instance]
    whose [to] is written [{| fobj := _; fmap := _ |}], so BOTH data fields
    of the comparison functor are [Program] obligations; nothing about the
    transported functor reduces.  Not even its OBJECT action returns the
@@ -282,7 +282,7 @@ End Typing.
 (** ** Controls naming every remaining delivered constant *)
 
 Check @Cartesian.
-(* [Cocartesian] is a NOTATION (Structure/Cocartesian.v:117), not a
+(* [Cocartesian] is a NOTATION (Structure/Cocartesian.v), not a
    constant, so [Check @Cocartesian.] does not parse -- it reports a
    missing [term] after '@Cocartesian'.  It is named instead by the
    [Context {CC : @Cocartesian C}] lines above, which are succeeding

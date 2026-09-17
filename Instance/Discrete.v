@@ -55,10 +55,32 @@ Program Definition DiscreteCat@{o h p} (A : Type@{o}) : Category@{o h p} := {|
 
 (* Every function [f : A → C] induces a functor out of the discrete category:
    an object [x] maps to [f x], and the unique morphism [e : x = y] maps to [id]
-   transported along [e] (which is [id] whenever [e] is [eq_refl]). *)
-Program Definition DiscreteCat_Functor
-  {A : Type} {C : Category} (f : A → C) :
-  DiscreteCat A ⟶ C := {|
+   transported along [e] (which is [id] whenever [e] is [eq_refl]).
+
+   THE BINDERS ARE LOAD-BEARING.  An earlier revision declared this with bare
+   [{A : Type} {C : Category}]; universe minimization then instantiated the
+   shape's hom and proof levels at [Set], so the printed type carried
+   [DiscreteCat@{u Set Set} A ⟶ C].  Because [Limit] and [IsLimitCone]
+   identify the shape's hom-and-proof universe with the AMBIENT's (unlike
+   [Cone], which keeps them apart), that [Set] propagated into the statement
+   of every limit over a discrete diagram — [iprod], [Complete] applied to a
+   discrete shape, and thence [GAFT] and [representability_theorem], which
+   printed [Category@{u1 Set Set}] and refused instantiation at any category
+   whose homs live above [Set].  Annotating here, on the model of
+   [DiscreteCat_Functor'] (Structure/Limit/Comparison.v), leaves the
+   shape's levels free; the trailing [+] allows the auxiliary universes that
+   [Program]'s obligations introduce.  The measured signature is
+
+     DiscreteCat_Functor@{o h p uo uh up u} :
+     ∀ {A : Type@{o}} {C : Category@{uo uh up}},
+     (A → obj) → Functor@{o h p uo uh up}
+     (* o h p uo uh up u |= up < u / h <= p / h <= uh / h <= up
+                            / p <= up / uh <= up / … *)
+
+   — no literal [Set] anywhere. *)
+Program Definition DiscreteCat_Functor@{o h p uo uh up +}
+  {A : Type@{o}} {C : Category@{uo uh up}} (f : A → C) :
+  DiscreteCat@{o h p} A ⟶ C := {|
   fobj := f;
   fmap := fun x y (e : x = y) => match e with eq_refl => id end
 |}.

@@ -81,22 +81,22 @@ Generalizable All Variables.
       FIRST, it states that no connectedness predicate exists in the
       tree and asks for the zig-zag relation to be built from scratch.
       Structure/Groupoid/Connected.v has declared [Inductive ZigZag
-      {C : Category}] (:122) and [Definition Connected (C : Category)]
-      (:133) for an ARBITRARY category since it was written, together
+      {C : Category}] and [Definition Connected (C : Category)]
+      for an ARBITRARY category since it was written, together
       with [zigzag_trans], [zigzag_sym], [hom_zigzag] and
-      [Two_Discrete_not_connected] (:516); Theory/Connected/Components.v
-      adds [ConnectedNonempty] (:771), [Zero_Connected] (:788),
-      [Zero_not_ConnectedNonempty] (:792) and [connected_readings_differ]
-      (:798).  All of them are CONSUMED here.  Nothing in this file
+      [Two_Discrete_not_connected]; Theory/Connected/Components.v
+      adds [ConnectedNonempty], [Zero_Connected],
+      [Zero_not_ConnectedNonempty] and [connected_readings_differ].
+      All of them are CONSUMED here.  Nothing in this file
       redeclares a zig-zag, a connectedness predicate, or any of their
       closure properties, and [leg_zigzag] below is an induction OVER the
       donor's inductive type, not a second copy of it.
 
       SECOND, it states that there is no Δ ⊣ lim adjunction to take the
       unit of.  Adjunction/Diagonal/Limit.v supplies
-      [Diagonal_Limit_Adjunction : Δ[J] ⊣ LimitFunctor] (:527) and
-      [Colimit_Diagonal_Adjunction : ColimitFunctor ⊣ Δ[J]] (:771),
-      together with [HasLimitsOfShape] (:363), [LimitFunctor] (:434),
+      [Diagonal_Limit_Adjunction : Δ[J] ⊣ LimitFunctor] and
+      [Colimit_Diagonal_Adjunction : ColimitFunctor ⊣ Δ[J]],
+      together with [HasLimitsOfShape], [LimitFunctor],
       [lim_obj], [lim_leg], [lim_med], [lim_transpose_to] and the whole
       covariant colimit mirror.  Part (b) below is stated against those
       constants and builds no adjunction of its own.
@@ -115,11 +115,11 @@ Generalizable All Variables.
       each had ZERO occurrences tree-wide.  (d) is genuinely new
       VOCABULARY -- [AbsoluteLimit] and [AbsoluteColimit] are introduced
       here.  (c) is not: [Full] and [Faithful] are pre-existing
-      (Theory/Functor.v:332,:343), so what the zero-occurrence
+      (Theory/Functor.v), so what the zero-occurrence
       measurement shows there is a new INSTANTIATION at [Diagonal], not
       a new notion.  Prior art on absoluteness is prose in TWO files,
       not one: Structure/Coequalizer/Split.v and
-      Construction/Karoubi.v:67,:70 ("Splitting an idempotent is an
+      Construction/Karoubi.v ("Splitting an idempotent is an
       absolute colimit").
 
       READ (d)'s NOVELTY NARROWLY, THOUGH: the CONCEPT is prior art.
@@ -380,7 +380,7 @@ Generalizable All Variables.
 (** ** The constant diagram, and the zig-zag closure that drives the file *)
 
 (* The arrow action of a constant diagram is [id] ON THE NOSE, not merely
-   ≈ it (Functor/Diagonal.v:37).  Everything below rests on this: each
+   ≈ it (Functor/Diagonal.v).  Everything below rests on this: each
    coherence triangle of a cone over Δ[J](c) reads [id ∘ ψx ≈ ψy], so one
    [id_left] collapses it to [ψx ≈ ψy], so no diagram chase occurs in
    any cone-coherence triangle.  Read that scope: the two retraction
@@ -967,7 +967,7 @@ Proof using H.
 Defined.
 
 (* [False] mentions no section variable, so the [Proof using] is explicit;
-   the Theory/Category/Monoid.v:919 precedent. *)
+   the Theory/Category/Monoid.v precedent. *)
 
 Theorem td_const_not_limit : False.
 Proof using H.
@@ -1052,7 +1052,7 @@ Qed.
 
 (** ** Non-vacuity: the walking arrow *)
 
-(* [Two_Connected] is Structure/Limit/Components.v:897, consumed rather
+(* [Two_Connected] is Structure/Limit/Components.v, consumed rather
    than rebuilt. *)
 
 Definition two_ConnectedNonempty : ConnectedNonempty _2 :=

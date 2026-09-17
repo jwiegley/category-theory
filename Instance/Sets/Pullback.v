@@ -34,51 +34,51 @@ Generalizable All Variables.
 
    WHAT WAS MISSING
 
-   [HasPullbacks] (Structure/Pullback.v:215) had exactly ONE inhabitant
+   [HasPullbacks] (Structure/Pullback.v) had exactly ONE inhabitant
    for a concrete category, [FinSet_Pullbacks] (Instance/FinSet/
-   Classifier.v:264) -- measured by [rg -n "HasPullbacks" -g '*.v' .]
+   Classifier.v) -- measured by [rg -n "HasPullbacks" -g '*.v' .]
    over the whole tree, whose other hits are the class itself, prose, the
    generic conditionals [HasPullbacks_of_Cartesian_HasEqualizers]
-   (Structure/Pullback/Reduction.v:269), [HasPullbacks_op_of_HasPushouts]
-   (Structure/Pushout.v:158) and [codomain_cleaving_pullbacks]
-   (Construction/Displayed/Codomain.v:232) -- THREE, an earlier revision
+   (Structure/Pullback/Reduction.v), [HasPullbacks_op_of_HasPushouts]
+   (Structure/Pushout.v) and [codomain_cleaving_pullbacks]
+   (Construction/Displayed/Codomain.v) -- THREE, an earlier revision
    named two -- the two [*_of_HasPullbacks_Terminal] constants named for
-   it, the class FIELDS [regular_pullbacks] (Structure/Regular.v:68)
-   and [topos_pullbacks] (Structure/Topos.v:130), and hypothesis
+   it, the class FIELDS [regular_pullbacks] (Structure/Regular.v)
+   and [topos_pullbacks] (Structure/Topos.v), and hypothesis
    binders.
    None of those is a concrete inhabitant, so the headline is unaffected;
    the enumeration is corrected because it was offered as exhaustive.
    [Sets] had no pullbacks at all.  What it did have is [sets_char_pullback]
-   (Instance/Sets/Classifier.v:226), and that is a different statement: it
+   (Instance/Sets/Classifier.v), and that is a different statement: it
    proves ONE particular square -- the classifying square of a given mono
    -- to be a pullback, it says nothing about arbitrary cospans, and it is
    stated over [Sets@{so sso}], one universe above the [Sets@{o so}] whose
    objects it is about.
 
    Nor did any concrete category carry the kernel pair.  [kernel_pair]
-   (Structure/Regular.v:46) is [pullback f f]; the only in-tree constant
+   (Structure/Regular.v) is [pullback f f]; the only in-tree constant
    built from it at a fixed category is [image_kernel_pair]
-   (Structure/Regular/Factorization.v:128), and that sits under
-   [Context (R : Regular C)] (:125), a class with no instance anywhere:
+   (Structure/Regular/Factorization.v), and that sits under
+   [Context (R : Regular C)], a class with no instance anywhere:
    searching [Regular] tree-wide, then discarding [RegularEpi], the
    [regular_*] field names and the von-Neumann-regularity vocabulary,
    leaves only [Require]s of Structure/Regular.v and that one binder.
    The [Instance/*/Regular.v] files are about the von Neumann regularity
-   of ARROWS (Theory/Morphisms.v:336), a different notion sharing the
+   of ARROWS (Theory/Morphisms.v), a different notion sharing the
    word.
 
    THE DERIVATION ROUTE: MEASURED, AND NOT TAKEN
 
    Since jwiegley/category-theory#326 landed, [Sets] has had all the
    ingredients for a pullback to be read off a reduction:
-   [Sets_Cartesian] (Instance/Sets/Cartesian.v:32), [Sets_HasEqualizers]
-   (Adjunction/GAFT/Sets.v:175), and
+   [Sets_Cartesian] (Instance/Sets/Cartesian.v), [Sets_HasEqualizers]
+   (Adjunction/GAFT/Sets.v), and
    [HasPullbacks_of_Cartesian_HasEqualizers].  That route was tried before
    this file was written, and it produces an apex in the WRONG
    DESCRIPTION -- not an opaque one, a transparent one that unfolds to
    something else.  [Sets_HasEqualizers] is [Complete_HasEqualizers
    Sets_Complete], so its equalizer is the limit of the walking parallel
-   pair as Instance/Sets/Complete.v:196 builds it, and with
+   pair as Instance/Sets/Complete.v builds it, and with
 
      Definition Derived : @HasPullbacks Sets :=
        @HasPullbacks_of_Cartesian_HasEqualizers Sets _ Sets_HasEqualizers.
@@ -119,16 +119,16 @@ Generalizable All Variables.
 
    The issue text behind this file says Riehl's "the pullback is the
    equalizer" is stated nowhere in the tree and is recorded as a known gap
-   at Structure/Topos.v:23.  That is not what that file says now, and the
-   correction runs in both directions.  Structure/Topos.v:23 says only
+   at Structure/Topos.v.  That is not what that file says now, and the
+   correction runs in both directions.  Structure/Topos.v says only
    that the topos class "deliberately do[es] not add equalizers", and
-   :25-33 says in terms that the reduction and its converse "ARE
+   its header says in terms that the reduction and its converse "ARE
    formalized", naming [equalizer_of_pullback]
-   (Structure/Pullback/Reduction.v:287).  So the GENERIC theorem exists
+   (Structure/Pullback/Reduction.v).  So the GENERIC theorem exists
    and this file does not supply it.  What did not exist is any
    INSTANTIATION at a concrete category: searching [IsEqualizer] tree-wide
    turns up, outside Structure/ and Test/, only [matr_IsEqualizer_op]
-   (Instance/Matr/Coequalizer.v:328), which is the opposite-category
+   (Instance/Matr/Coequalizer.v), which is the opposite-category
    reading of a matrix COequalizer and not a pullback square at all.  (C)
    below is the first place a pullback in a named category is exhibited as
    an equalizer.
@@ -262,7 +262,7 @@ Generalizable All Variables.
    bound is [u1 <= u0] in that constant's own block.  The concrete
    witnesses of (E) are polymorphic too -- [PbNatSet@{u u0}] has [u0 < u],
    five stdlib donor bounds and no identification -- because they are over
-   [eq_Setoid] (Lib/Setoid.v:65), which is universe-polymorphic, rather
+   [eq_Setoid] (Lib/Setoid.v), which is universe-polymorphic, rather
    than by resolving [eq_equivalence] at an unannotated binder.
 
    ZERO AXIOMS.  All 103 constants of this file report "Closed under the
@@ -280,7 +280,7 @@ Generalizable All Variables.
        carrier construction would be this one, and what is missing is the
        topology side.
      - No [Complete]-style packaging: nothing here relates
-       [Sets_HasPullbacks] to [Sets_Complete] (Instance/Sets/Complete.v:196)
+       [Sets_HasPullbacks] to [Sets_Complete] (Instance/Sets/Complete.v)
        or to [Sets_HasEqualizers], and in particular the pullback built
        here is NOT proved isomorphic to the derived one.  The two are
        isomorphic by [pullback_unique], but that composition is not
@@ -583,10 +583,10 @@ Definition sub_obj : Sets :=
 (* CORRECTED, and the correction matters because the original named the
    wrong mechanism.  An earlier revision said "[Program] raises no
    obligation here -- instance resolution closes [proper_morphism] during
-   elaboration -- which is the shape Instance/Sets/Products.v:409-424
+   elaboration -- which is the shape Instance/Sets/Products.v
    records as a universe-pinning hazard".  That is FALSE: the [Program]
    form DOES raise one, [sub_incl_obligation_1] (measured by elaborating
-   it and reading [Print]).  Products.v:409-424 defines its hazard as the
+   it and reading [Print]).  Products.v defines its hazard as the
    definition raising NO obligation AT ALL, so this site is not an
    instance of that shape and the transplanted sentence was wrong twice.
    What survives is the CONCLUSION, which is independently measured: both

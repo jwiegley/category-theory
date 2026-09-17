@@ -69,6 +69,7 @@
       carriers. *)
 
 Require Import Category.Lib.
+Require Import Category.Lib.Setoid.Propositional.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
@@ -97,7 +98,7 @@ Inductive tsum : Type :=
 (* The quotienting relation: commutative-group laws, bilinearity in each
    variable, congruence, saturation under the point setoids, symmetry and
    transitivity.  Reflexivity is derived (design note 1). *)
-Inductive ts_eq : tsum → tsum → Type :=
+Inductive ts_eq : tsum → tsum → Prop :=
   | te_gen {g g' : carrier G} {h h' : carrier H} :
       g ≈ g' → h ≈ h' → ts_eq (ts_gen g h) (ts_gen g' h')
   | te_plus {s s' t t'} :
@@ -140,7 +141,9 @@ Definition ts_Setoid : Setoid tsum := {|
 |}.
 
 (* The tensor product, as an abelian group: the laws are constructors of
-   the relation. *)
+   the relation -- and so, since the PR "algebraic carriers are sets"
+   (2026-09-17), is its [cmon_prop]: [ts_eq] IS a [Prop], hence its own
+   [Prop] mirror, and both implications are the identity. *)
 Definition AbTensor : AbObject := {|
   ab_cmon := {|
     cmon_setoid := {| carrier := tsum; is_setoid := ts_Setoid |};
@@ -149,7 +152,11 @@ Definition AbTensor : AbObject := {|
     cmon_plus_respects := fun _ _ Hs _ _ Ht => te_plus Hs Ht;
     cmon_plus_assoc := te_assoc;
     cmon_plus_comm := te_comm;
-    cmon_plus_zero_l := te_zero_l
+    cmon_plus_zero_l := te_zero_l;
+    (* [ts_eq] IS a [Prop]-valued relation, so it is its own [Prop] mirror and
+       both implications are the identity. *)
+    cmon_prop := @PropEquiv_of_relation _ ts_Setoid ts_eq
+                   (fun _ _ h => h) (fun _ _ h => h)
   |};
   ab_neg := ts_neg;
   ab_neg_respects := fun _ _ Hs => te_neg Hs;
@@ -200,22 +207,42 @@ Fixpoint tensor_med_fun {K : AbObject} (β : Bilinear K) (s : tsum) :
   end.
 
 (* Respectfulness is one induction over the relation, each rule met by
-   the corresponding law of K (design note 2). *)
+   the corresponding law of K (design note 2) -- but the induction now runs
+   in [Prop].
+
+   Since the PR "algebraic carriers are sets" (2026-09-17) [ts_eq] is a [Prop]
+   inductive, so it eliminates only into [Prop] goals, while the conclusion
+   `≈` is [Type]-valued.  [apply pequiv_to] first, using the target's own
+   [cmon_prop]: that puts the [Prop] goal [pequiv …] in front of the
+   elimination, and each branch returns to `≈` with [pequiv_from].  Nothing
+   about the argument changes -- each rule is still met by the corresponding
+   law of [K] -- and no hypothesis is added, because every [AbObject] now
+   carries the field.  Test/ProbeTermModelProp.v pins the refusal of the old
+   script.  The intro pattern is NAMED because [apply pequiv_to] in front of
+   the elimination changes the automatic names. *)
 Lemma tensor_med_respects {K : AbObject} (β : Bilinear K) (s t : tsum) :
   ts_eq s t → tensor_med_fun β s ≈ tensor_med_fun β t.
 Proof.
-  intro He; induction He; simpl.
-  - exact (bilin_respects β _ _ e _ _ e0).
-  - exact (cmon_plus_respects K _ _ IHHe1 _ _ IHHe2).
-  - exact (ab_neg_respects K _ _ IHHe).
-  - exact (cmon_plus_assoc K _ _ _).
-  - exact (cmon_plus_comm K _ _).
-  - exact (cmon_plus_zero_l K _).
-  - exact (ab_neg_left K _).
-  - exact (bilin_add_l β _ _ _).
-  - exact (bilin_add_r β _ _ _).
-  - exact (symmetry IHHe).
-  - exact (transitivity IHHe1 IHHe2).
+  intro He.
+  apply pequiv_to.
+  induction He as
+    [ g g' h h' Hg Hh | s s' t t' _ IH1 _ IH2 | s s' _ IH
+    | s t u | s t | s | s | g g' h | g h h'
+    | s t _ IH | s t u _ IH1 _ IH2 ]; simpl.
+  - apply pequiv_from; exact (bilin_respects β _ _ Hg _ _ Hh).
+  - apply pequiv_from.
+    exact (cmon_plus_respects K _ _ (pequiv_to _ _ IH1)
+                                _ _ (pequiv_to _ _ IH2)).
+  - apply pequiv_from.
+    exact (ab_neg_respects K _ _ (pequiv_to _ _ IH)).
+  - apply pequiv_from; exact (cmon_plus_assoc K _ _ _).
+  - apply pequiv_from; exact (cmon_plus_comm K _ _).
+  - apply pequiv_from; exact (cmon_plus_zero_l K _).
+  - apply pequiv_from; exact (ab_neg_left K _).
+  - apply pequiv_from; exact (bilin_add_l β _ _ _).
+  - apply pequiv_from; exact (bilin_add_r β _ _ _).
+  - exact (symmetry IH).
+  - exact (transitivity IH1 IH2).
 Qed.
 
 (* The factorization: a bilinear map becomes a homomorphism out of the
@@ -303,6 +330,23 @@ Arguments te_bilin_l {G H} g g' h.
 Arguments te_bilin_r {G H} g h h'.
 Arguments te_sym {G H s t} _.
 Arguments te_trans {G H s t u} _ _.
+
+(* [ts_eq] is a [Prop] since the PR "algebraic carriers are sets"
+   (2026-09-17), and Coq's [reflexivity], [symmetry] and [transitivity]
+   dispatch a [Prop]-valued relation to the [Prop] class hierarchy of
+   Corelib.Classes.RelationClasses rather than to the [Type]-valued
+   CRelationClasses that [ts_eq_Equivalence] inhabits.  The same three laws,
+   registered there, keep every existing tactic call working; without it the
+   [reflexivity] of [tensor_map_gen] below is refused with "the relation
+   ts_eq is not a declared reflexive relation". *)
+#[export] Instance ts_eq_Equivalence_Prop {G H : AbObject} :
+  RelationClasses.Equivalence (@ts_eq G H).
+Proof.
+  constructor.
+  - exact ts_refl.
+  - exact (fun s t => te_sym).
+  - exact (fun s t u => te_trans).
+Qed.
 
 #[export] Existing Instance ts_eq_Equivalence.
 Arguments AbTensor G H : clear implicits.

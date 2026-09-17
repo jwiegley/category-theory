@@ -119,7 +119,7 @@ Generalizable All Variables.
    bicategory tower; the tower is nevertheless required by this file, since
    the comparison is stated rather than merely asserted.
 
-   The mirror, which the issue does not mention: Theory/Kan/Extension.v:131's
+   The mirror, which the issue does not mention: Theory/Kan/Extension.v's
    [Induced : [B,C] ⟶ [A,C]] is the PREcomposition functor (− ◯ F), the
    restriction along which Kan extensions are the adjoints.  [Postcompose] is
    its companion in the other variable, and the two together are the two
@@ -137,8 +137,8 @@ Generalizable All Variables.
    [ReprObj_Full]/[ReprObj_Faithful] (Functor/Representable/Functorial.v), and
    — closer to this file's subject, since its TARGET is a functor category
    too — [Sheaves_Full]/[Sheaves_Faithful] for
-   [Sheaves_Incl : Sheaves ⟶ @Presheaves C Sets] (Theory/Sheaf/Category.v:94
-   and :103, over [Sheaves := Sub (@Presheaves C Sets) Sheaves_sub] at :81).
+   [Sheaves_Incl : Sheaves ⟶ @Presheaves C Sets] (Theory/Sheaf/Category.v,
+   over [Sheaves := Sub (@Presheaves C Sets) Sheaves_sub]).
    What the tree does not carry is any such result about a functor whose
    source AND target are both functor categories — note that [Sub X P] is a
    subcategory of a functor category, not one itself, which is what keeps
@@ -149,28 +149,28 @@ Generalizable All Variables.
    of them.  Functors of that shape reached otherwise are deliberately
    outside that enumeration and are NOT claimed absent — the legs of
    [Cat_exp_prod_l : @Isomorphism Cat ([C ∏ D, E]) ([C, [D, E]])]
-   (Instance/Cat/Exponential.v:57) are two such, as is
+   (Instance/Cat/Exponential.v) are two such, as is
    [Partial_r Cat_Hcompose J] above; none carries a [Full]/[Faithful] result
    either, but the enumeration is not what establishes that.
 
    Nor does any in-tree isomorphism of transformation setoids have this
    shape.  The closest relatives are [left_adjoint_impl]
-   (Theory/Kan/Extension.v:333, a Nat-setoid ≊ Nat-setoid isomorphism that
+   (Theory/Kan/Extension.v, a Nat-setoid ≊ Nat-setoid isomorphism that
    does involve postcomposition) and [Cat_conj_padL_iso]
-   (Instance/Cat/Bicategory/Conjugate.v:183); then [Discrete_hom_iso] and
+   (Instance/Cat/Bicategory/Conjugate.v); then [Discrete_hom_iso] and
    [One_hom_iso] (Instance/Fun/Discrete.v), [conjugate_bijection]
    (Adjunction/Conjugate.v), [mate_iso] (Theory/Bicategory/Mates.v) and the
    arrows-only correspondence of Theory/Natural/Transformation/Arrows.v.
    None of them compares a Nat-setoid with a Nat-setoid over a POSTCOMPOSED
    PAIR — which is the operative clause, several of them being Nat-setoid to
-   Nat-setoid otherwise.  [Cat_unitl_cast] (Instance/Cat/TwoCategory.v:118)
+   Nat-setoid otherwise.  [Cat_unitl_cast] (Instance/Cat/TwoCategory.v)
    is literally the backward leg at J = Id, but it is a map rather than an
    isomorphism and so falls outside.
 
    The crux, and why faithfulness is spent twice
    ----------------------------------------------
 
-   In this library [Full] (Theory/Functor.v:332) carries a chosen section
+   In this library [Full] (Theory/Functor.v) carries a chosen section
    [prefmap] of [fmap] and NOTHING ELSE: its own header says "no
    functoriality is demanded of [prefmap] itself — it need not respect ≈ nor
    preserve identities/composition".  So building the backward leg of the
@@ -214,10 +214,10 @@ Generalizable All Variables.
        whole-functor and componentwise variants — the [fmap[J] id] unit
        described above;
      - [transform[from finpost_hom_iso finpost_phi] x = FinSets_negb] — the
-       [prefmap] in play comes from Construction/Subcategory.v:104's
+       [prefmap] in play comes from Construction/Subcategory.v's
        [Full_Implies_Full_Functor], which is a `Qed` lemma, so NO component
        of it reduces.  This is the donor's opacity, not a fact about [Full],
-       and it is not observed here first: Theory/Sheaf/Category.v:86-93
+       and it is not observed here first: Theory/Sheaf/Category.v
        already records it, in the same words and about the same donor;
      - the round trip [from (to θ) = θ] — same cause, one step further out.
 
@@ -271,7 +271,7 @@ Generalizable All Variables.
 
    The relationship is sharper than a disclaimer, and it runs the
    uncomfortable way, so it is stated as a measurement rather than glossed.
-   Instance/Sets/Powerset.v:262 DOES construct a functor between two levels
+   Instance/Sets/Powerset.v DOES construct a functor between two levels
    of [Sets]:
 
        Sets_Lift@{o so sso} : Sets@{o so} ⟶ Sets@{so sso}
@@ -325,7 +325,7 @@ Generalizable All Variables.
    re-declaration; [nat_setoid_is_Transform_Setoid] below records by
    [eq_refl] that this coincides with [Transform_Setoid], which is the
    setoid instance resolution picks for the `≊` notation of
-   Instance/Sets.v:210. *)
+   Instance/Sets.v. *)
 
 Definition NatSetoid {A B : Category} (K L : A ⟶ B) : SetoidObject :=
   {| carrier   := K ~{[A, B]}~> L
@@ -480,7 +480,7 @@ Example postcompose_hom_iso_from (K L : D ⟶ E) (φ : J ◯ K ⟹ J ◯ L) :
 Example postcompose_hom_iso_to_is_fmap (K L : D ⟶ E) (θ : K ⟹ L) :
   to (postcompose_hom_iso K L) θ = fmap[Postcompose J] θ := eq_refl.
 
-(* The `≊` reading of Instance/Sets.v:210, where the setoid on each carrier
+(* The `≊` reading of Instance/Sets.v, where the setoid on each carrier
    is left to instance resolution.  It agrees with the [NatSetoid]
    packaging because resolution finds [Transform_Setoid], which
    [nat_setoid_is_Transform_Setoid] records is [homset ([D, E])]. *)
@@ -647,7 +647,7 @@ Example finpost_phi_component (x : _1) :
 (* Fullness at work: the preimage of [finpost_phi] has [FinSets_negb] as its
    component.  MEASURED STRICT-FIRST AND REFUTED at [eq_refl], with the cause
    diagnosed and pinned in Test/ProbePostcompose.v: the [prefmap] in play is
-   the one produced by Construction/Subcategory.v:104's
+   the one produced by Construction/Subcategory.v's
    [Full_Implies_Full_Functor], which is a `Qed` lemma, so no component of it
    reduces — the obstruction is the donor's opacity and not anything about
    this construction.  What does hold, and is what the statement is about, is

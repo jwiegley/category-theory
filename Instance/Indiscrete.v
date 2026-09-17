@@ -59,8 +59,9 @@ Generalizable All Variables.
          [StrictCat_Objects ⊣ StrictCat_Indisc].  As on the left wing,
          no analogue arises of the universe wall that
          Instance/Top/Forgetful.v meets for the corresponding [Top]
-         triple; what DOES arise here, and does not there, is a [Set]
-         pin inherited from the donor (item V).
+         triple.  (An earlier revision added "what DOES arise here, and
+         does not there, is a [Set] pin inherited from the donor"; that
+         pin was removed on 2026-09-17 -- item V.)
 
      (d) [adjoint_string]: the two adjunctions packaged as one term, so
          that the string is a single artifact rather than two files that
@@ -86,7 +87,7 @@ Generalizable All Variables.
       The catalog issue states that the indiscrete half "has no
       construction at all -- searching for it finds only comments".  That
       is FALSE, and Instance/Cat/Objects.v's item I already records it:
-      Instance/Discrete/Reconstruct.v:416 has declared
+      Instance/Discrete/Reconstruct.v has declared
       [Indiscrete (A : Type) : Category], with [hom := fun _ _ => unit],
       [homset := Morphism_equality] and every category law discharged by
       the ambient obligation tactic, since it was written.  It is
@@ -97,7 +98,7 @@ Generalizable All Variables.
       What this file supplies is the part that genuinely was missing, and
       Objects.v states it precisely: [Indiscrete] was an OBJECT MAP ONLY.
       Its three prior consumers -- Theory/Skeleton/Separation.v,
-      Instance/Cat/Pullback.v:539 (whose [IB := Indiscrete bool] drives
+      Instance/Cat/Pullback.v (whose [IB := Indiscrete bool] drives
       [FibreProduct_not_Cat_pullback]) and Instance/Cat/Objects.v:§6
       (whose [SwapI] drives [objects_not_functorial_over_Cat]) -- all
       three use it on OBJECTS alone, and each of the latter two uses it
@@ -113,7 +114,7 @@ Generalizable All Variables.
 
       A SECOND, SMALLER PIECE OF PRIOR ART IS DISCLOSED IN PLACE RATHER
       THAN DUPLICATED SILENTLY: §10's [ind_bool_iso] is
-      Theory/Skeleton/Separation.v:76's [Indiscrete_iso] -- already
+      Theory/Skeleton/Separation.v's [Indiscrete_iso] -- already
       general in both the type and the two points -- specialized at
       [bool].  That module is not required, for a measured reason: it
       would add TEN modules to this file's 49-module closure, among them
@@ -141,7 +142,7 @@ Generalizable All Variables.
 
       CONSEQUENCE FOR THE FOURTH ADJOINT, REPEATED BECAUSE IT IS WHAT
       "as far as it goes" IN §6 MEANS.  [Pi0] (Theory/Connected/
-      Components.v:579) runs [Cat ⟶ Sets] and shares NEITHER end with
+      Components.v) runs [Cat ⟶ Sets] and shares NEITHER end with
       [StrictCat_Objects : StrictCat ⟶ Coq]; by the source refutation it
       cannot be restricted and re-aimed, since there is no objects
       functor over [Cat] to be adjoint to.  So [adjoint_string] has two
@@ -165,9 +166,9 @@ Generalizable All Variables.
       precedent (prefix = the structured category, whichever way the
       functor runs).  The obvious short names were unavailable there and
       remain so: [Indiscrete] is the category constructor of item I,
-      [Discrete] is Structure/Discrete.v:33's predicate (required here,
+      [Discrete] is Structure/Discrete.v's predicate (required here,
       and used once, in [disc_indisc_not_eq]), and [Objects] is
-      Solver/Expr.v:38's reification class.
+      Solver/Expr.v's reification class.
 
    III. WHAT IS CONSUMED, AND WHAT IS BUILT.
 
@@ -238,7 +239,7 @@ Generalizable All Variables.
       [adj_to_from_equiv], straight from [iso_to_from].
 
       The adjunction is packaged through [Build_Adjunction']
-      (Theory/Adjunction.v:159) for the same measured reason as on the
+      (Theory/Adjunction.v) for the same measured reason as on the
       left wing, though the arithmetic differs: the smart constructor
       asks only for the two [to]-side naturality clauses, which here land
       in [StrictCat] rather than in [Coq] -- but both close with an
@@ -255,60 +256,62 @@ Generalizable All Variables.
       already shows the middle functor genuinely forgets, so neither
       adjunction is an equivalence in disguise.
 
-   V. UNIVERSES, MEASURED OFF BOTH THE BLOCK AND THE BINDER -- AND HERE
-      THE BINDER CARRIES A LITERAL, NOT AN IDENTIFICATION.
+   V. UNIVERSES, MEASURED OFF BOTH THE BLOCK AND THE BINDER -- AND THE
+      LITERAL THAT USED TO BE IN THE BINDER IS GONE.
 
       NO CONSTRAINT BLOCK IN THIS FILE CONTAINS A UNIVERSE EQUATION.
       Every entry of every block is a [<] or a [<=]; checked constant by
-      constant, not sampled.  A reader who stops there concludes that
-      the adjunction is universe-free, AND IS WRONG, because the
-      restriction is spelled in the BINDER as the literal [Set]:
+      constant, not sampled.  Measured now:
 
-        Objects_Indisc_Adjunction@{u u0 u1 u2 u3} :
-          StrictCat_Objects@{u2 u0 u3 u u3 Set}
-            ⊣ StrictCat_Indisc@{u2 u0 u u3}
+        Objects_Indisc_Adjunction@{u u0 u1} :
+          StrictCat_Objects@{u u u1 u u1 u1}
+            ⊣ StrictCat_Indisc@{u u1 u u1 u u1}        (* u1 < u *)
 
-      The sixth argument of [StrictCat_Objects] is the ambient
+        indisc_lift@{u u0 u1} : ∀ {C : Category@{u0 u1 u1}} {A : Type@{u}},
+          (obj[C] → A) → Functor@{u0 u1 u1 u u1 u1}
+
+        Indiscrete@{o h p} : Type@{o} → Category@{o h p}
+
+      -- no literal [Set] anywhere, so the adjunction is a statement about
+      categories at ANY hom-and-proof level.
+
+      RECORDED CORRECTION, AND IT IS A CONCLUSION, NOT A NUMBER.  An
+      earlier revision of this item said the opposite, in terms: "A reader
+      who stops there concludes that the adjunction is universe-free, AND
+      IS WRONG, because the restriction is spelled in the BINDER as the
+      literal [Set]: [Objects_Indisc_Adjunction@{u u0 u1 u2 u3} :
+      StrictCat_Objects@{u2 u0 u3 u u3 Set} ⊣ StrictCat_Indisc@{u2 u0 u
+      u3}].  The sixth argument of [StrictCat_Objects] is the ambient
       [StrictCat]'s inner hom-and-proof level, and it is [Set] on the
       nose.  So THE ADJUNCTION IS A STATEMENT ABOUT CATEGORIES WHOSE HOM
-      AND PROOF UNIVERSES ARE THE LITERAL [Set].  This is the one place
-      the right wing is worse behaved than the left, whose two functors
-      spread six distinct levels and pin nothing.
+      AND PROOF UNIVERSES ARE THE LITERAL [Set]."  It attributed the pin
+      correctly -- "[Indiscrete@{u} : Type@{u} → Category@{u Set Set}]
+      takes ONE universe binder where [Class Category] has three, so its
+      hom and proof universes minimize to [Set]", reaching the source
+      through [indisc_lift@{u u0}] over [C : Category@{u0 Set Set}] --
+      and it recorded the repair as measured out of tree and deliberately
+      not made, because the edit belonged to
+      Instance/Discrete/Reconstruct.v.  That edit HAS since been made:
+      [Indiscrete] was annotated [@{o h p}] in the PR "algebraic carriers
+      are sets" (2026-09-17), and [indisc_adj_iso] here was annotated with
+      it, to keep a second minimization the literal had been masking from
+      narrowing the theorem.  §8's three formability negatives -- the
+      donor, [indisc_lift], [indisc_adj_iso], each formerly reporting
+      "Cannot enforce Set = uh" -- are now positive CONTROLS at the same
+      levels, and §8 carries a new section for objects declared strictly
+      above homs.
 
-      THE PIN IS THE DONOR'S, AND ITS PROPAGATION IS TRACKED RATHER THAN
-      ASSERTED.  [Indiscrete@{u} : Type@{u} → Category@{u Set Set}] takes
-      ONE universe binder where [Class Category] has three, so its hom
-      and proof universes minimize to [Set].  From there it reaches the
-      SOURCE as well, which is the part worth knowing:
-      [indisc_lift@{u u0}] is over [C : Category@{u0 Set Set}], because
-      [Functor] bounds the source's hom universe by the target's and the
-      target's is a literal.  §8 pins all three steps -- the donor, this
-      file's [indisc_lift], and [indisc_adj_iso] -- as formability
-      negatives, each reporting "Cannot enforce Set = uh", against five
-      controls of which the sharpest is [Check (C : obj[StrictCat])],
-      the SAME ascription the third negative rejects, accepted at the
-      very same levels.  So the rejection is attributable to
-      [Indiscrete] and not to [StrictCat], to [StrictCat_Objects], or to
-      the ability to name the constants at all.
+      One clause of the old item is withdrawn outright rather than
+      updated: it called the pin "a repairable donor defect of the
+      [Build_Quiver_Standard_Eq] minimization family that
+      Construction/Free/Quiver/Examples.v documents".  That named the
+      wrong family -- [About] put it on [Indiscrete]'s own single binder
+      -- and repairing it needed nothing from that file.
 
-      WHAT IS NOT PINNED IS THE OBJECT UNIVERSE, and that is guarded too
-      ([IndiscreteObjectsFree], §8): at [C : Category@{wo Set Set}] with
-      [Set < wo] both [indisc_lift] and [indisc_adj_iso] elaborate.  The
-      restriction is therefore exactly "hom and proof are [Set]", and
-      the class it describes is inhabited -- [DiscreteCat@{o Set Set} A]
-      and [Indiscrete A] are both in it, which is why §7 and §10 have
-      anything to talk about.
-
-      THE PIN IS NOT CLAIMED UNAVOIDABLE, AND THE REPAIR WAS MEASURED
-      BUT DELIBERATELY NOT MADE.  Writing the same body with three
-      binders yields [Type@{o} → Category@{o h p}], fully free (measured
-      out of tree, not shipped).  It is a change to
-      Instance/Discrete/Reconstruct.v, this file's brief is to consume
-      that donor rather than to rebuild or amend it, and the donor has
-      three other consumers; so the pin is recorded as a repairable
-      donor defect of the [Build_Quiver_Standard_Eq] minimization family
-      that Construction/Free/Quiver/Examples.v documents, and left where
-      it is.
+      WHAT WAS NEVER PINNED IS THE OBJECT UNIVERSE, and that is still
+      guarded ([IndiscreteObjectsFree], §8).  The class the file talks
+      about is inhabited at every level now, not only at [Set], which is
+      what §7 and §10 are about.
 
       Two inherited identifications are named rather than repaired, and
       neither is introduced here: [StrictCat] is declared at
@@ -327,7 +330,7 @@ Generalizable All Variables.
       attribute prefixes.  THAT SWEEP FOUND A LIVE COLLISION and it is
       recorded rather than quietly fixed: [counit_is_id] -- the mirror of
       Instance/Cat/Objects.v's [unit_is_id], and the obvious name --
-      clashes with Instance/Cat/Components.v:447, which landed while
+      clashes with Instance/Cat/Components.v, which landed while
       this file was being written; §4's is renamed
       [indisc_counit_is_id].  The hazard is not cosmetic, since the
       [make print-assumptions] gate reads its targets by bare name in a
@@ -335,20 +338,32 @@ Generalizable All Variables.
       BECAUSE NEITHER FILE IS THIS ONE: [Disc_Full], [Disc_Faithful] and
       [disc_adj_iso] are each declared BOTH in Instance/Cat/Objects.v
       and in Instance/Cat/Components.v, at different types over
-      different categories.  SEVEN [Fail] probes, of TWO KINDS kept
-      lexically apart -- four CONVERSION (three in §4, one in §10) and
-      three FORMABILITY (all in §8) -- each stripped once and its kind
-      read off the whole error message, beside an instrument check and
-      THIRTEEN positive controls: seven [Check]s in §8 (five in the
-      pinning section, two in the objects-free one) and six passing
-      [Example]s standing beside the §4 and §10 negatives ([rt_obj],
-      [rt_map_leibniz], [adj_to_from_equiv], [unit_eta_by_destruct],
-      [comp_obj] and [comp_map]).
-      Both section-local [Constraint] declarations were additionally
-      tested by DELETION, and they differ: the one in [IndiscreteSetPin]
-      is INERT (all three negatives still fail, byte-identically, since
-      they fire on the donor's literal [Set] meeting a rigid declared
-      level), while the one in [IndiscreteObjectsFree] is
+      different categories.  FOUR [Fail] probes, all of ONE kind --
+      CONVERSION, three in §4 and one in §10 -- each stripped once and
+      its kind read off the whole error message, beside an instrument
+      check and EIGHTEEN positive controls: twelve [Check]s in §8 (eight
+      in [IndiscreteSetPin], two in the objects-free section, two in the
+      objects-above-homs one) and six passing [Example]s standing beside
+      the §4 and §10 negatives ([rt_obj], [rt_map_leibniz],
+      [adj_to_from_equiv], [unit_eta_by_destruct], [comp_obj] and
+      [comp_map]).
+
+      RECORDED CORRECTION.  An earlier revision counted "SEVEN [Fail]
+      probes ... four CONVERSION (three in §4, one in §10) and three
+      FORMABILITY (all in §8)" and "THIRTEEN positive controls: seven
+      [Check]s in §8 (five in the pinning section, two in the
+      objects-free one)".  The three FORMABILITY negatives turned over
+      when [Indiscrete] was annotated in the PR "algebraic carriers are
+      sets" (2026-09-17) and are now controls, and a third §8 section was
+      added; that is the whole difference.  The same revision also said
+      of the two section-local [Constraint] declarations, tested by
+      DELETION, that "the one in [IndiscreteSetPin] is INERT" -- its
+      three negatives still refusing byte-identically with the line
+      removed, since what they fired on was the donor's literal [Set]
+      meeting a rigid declared level.  There are
+      no negatives in that section any more, so that measurement no
+      longer applies and was NOT re-run; §8 records why the [Constraint]
+      is kept.  The one in [IndiscreteObjectsFree] is unchanged and
       meaning-giving (its [Check]s pass either way, but without it the
       levels could collapse and would demonstrate nothing).  Neither is
       load-bearing in the sense of Instance/Cat/Objects.v's middle
@@ -396,7 +411,10 @@ Generalizable All Variables.
       Instance/Top/Forgetful.v's [Top_Indiscrete] beyond the remark in
       (c); no relation between this [Indiscrete] and Instance/Top.v's
       unrelated [Section Indiscrete] on the indiscrete TOPOLOGY; no
-      annotated ([Set]-free) restatement of anything, per item V; and no
+      annotated ([Set]-free) restatement of anything (SUPERSEDED: since
+      the PR "algebraic carriers are sets", 2026-09-17, [indisc_adj_iso]
+      IS annotated and every constant here is [Set]-free, because the
+      donor was; see item V); and no
       diagnosis of the whole-record negative beyond the one field
       isolated in item IV. *)
 
@@ -409,14 +427,26 @@ Generalizable All Variables.
    three functor laws are equations in [unit] and close by that file's
    own [indiscrete_hom_eq].
 
-   Unlike [disc_ext] it needs NO universe binders, and the reason is not
-   that it is better behaved but that there is nothing left to bind:
-   [Indiscrete] has already fixed the target's hom and proof universes
-   at [Set], and [Functor] then forces the SOURCE's to agree.  Item V
-   and §8 measure that; it is the one place this wing is worse off than
-   the left one.  A [Program Definition] cannot be annotated here in any
-   case, since its obligations mint fresh universes; hence the [refine],
-   again following the donor. *)
+   Unlike [disc_ext] it carries NO universe binders.  RECORDED CORRECTION
+   to the reason: an earlier revision said "the reason is not that it is
+   better behaved but that there is nothing left to bind: [Indiscrete] has
+   already fixed the target's hom and proof universes at [Set], and
+   [Functor] then forces the SOURCE's to agree.  Item V and §8 measure
+   that; it is the one place this wing is worse off than the left one."
+   [Indiscrete] fixes nothing since its annotation in the PR "algebraic
+   carriers are sets" (2026-09-17), and measured now
+   [indisc_lift@{u u0 u1}] is over [C : Category@{u0 u1 u1}] with the
+   target at [Functor@{u0 u1 u1 u u1 u1}] -- free, and no worse off than
+   the left wing.  The absence of binders here is therefore inherited
+   freedom rather than a pin, and adding them was not attempted.
+
+   A SECOND CORRECTION: the same revision added "A [Program Definition]
+   cannot be annotated here in any case, since its obligations mint fresh
+   universes."  That is FALSE, and Instance/Discrete.v's annotated
+   [Program Definition DiscreteCat_Functor@{o h p uo uh up +}] is the
+   counterexample: a trailing [+] allows exactly the universes the
+   obligations mint.  The [refine] is kept for the narrower reason that it
+   mints none, again following the donor. *)
 Definition indisc_lift {C : Category} {A : Type} (f : obj[C] -> A)
   : C ⟶ Indiscrete A.
 Proof.
@@ -459,7 +489,22 @@ Defined.
    the other round trip and [from]'s [Proper] certificate are discharged
    by the ambient tactic, which is already the strict/[≈] split §4
    measures. *)
-Program Definition indisc_adj_iso (C : obj[StrictCat]) (A : obj[Coq]) :
+(* THE [StrictCat] INSTANCE IS WRITTEN OUT, AND THE LAST TWO BINDERS ARE
+   THE POINT.  [StrictCat@{u u0 u1 co ch} : Category@{u u0 u0}] has the
+   INNER category's object level [co] and hom-and-proof level [ch] as its
+   fourth and fifth arguments, and nothing in this definition relates
+   them.  Left implicit, universe minimization identifies them, and the
+   adjunction then applies only to categories whose objects and homs sit
+   at one level.  That was invisible while [Indiscrete] was pinned at
+   [Category@{u Set Set}] -- [ch] was then the literal [Set] and [co] was
+   free by construction -- and it became visible the moment [Indiscrete]
+   was annotated (Instance/Discrete/Reconstruct.v, PR "algebraic
+   carriers are sets", 2026-09-17).  Naming the instance keeps both free,
+   so §8's two sections can exhibit homs strictly above [Set] AND objects
+   strictly above homs.  The trailing [+] allows the universes
+   [Program]'s obligations mint. *)
+Program Definition indisc_adj_iso@{u u0 u1 co ch +}
+  (C : obj[StrictCat@{u u0 u1 co ch}]) (A : obj[Coq]) :
   @Isomorphism Sets
     {| carrier := @hom Coq (StrictCat_Objects C) A
      ; is_setoid := @homset Coq (StrictCat_Objects C) A |}
@@ -477,7 +522,7 @@ Defined.
 
 (* Mac Lane's right-hand adjunction.  Both naturality clauses close with
    an [eq_refl] object family and one [indiscrete_hom_eq], for the reason
-   §2's comment gives.  [Build_Adjunction'] (Theory/Adjunction.v:159)
+   §2's comment gives.  [Build_Adjunction'] (Theory/Adjunction.v)
    asks only for the two [to]-side clauses; see item IV. *)
 Definition Objects_Indisc_Adjunction :
   StrictCat_Objects ⊣ StrictCat_Indisc.
@@ -617,61 +662,99 @@ Qed.
 (* Instrument check: [Fail] is live in this file. *)
 Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
-(* The [Set] pin of [Indiscrete], guarded rather than merely measured, and
-   then tracked as it propagates -- first into this file's own
-   [indisc_lift], then into the adjunction.
+(* The former [Set] pin of [Indiscrete], and its propagation -- first into
+   this file's own [indisc_lift], then into the adjunction.
 
-   READ THE [Constraint] CORRECTLY: IT IS INERT FOR ALL THREE NEGATIVES,
-   AND THAT WAS MEASURED BY DELETION RATHER THAN ASSUMED.  Removing the
-   line leaves all three [Fail]s failing with byte-identical messages,
-   because what they fire on is the donor's LITERAL [Set] meeting the
-   RIGID declared level [uh], not a relation declared between them.  It
-   is kept because it states the intended reading and because the last
-   control is only interesting above [Set].  (Instance/Cat/Objects.v's
-   §8 records the same behaviour for its own [SetPin] section, and
-   records beside it a [Constraint] that IS load-bearing, so the
-   distinction is not academic.) *)
+   RECORDED CORRECTION.  An earlier revision stated this section as THREE
+   NEGATIVES and read:
+
+     "The [Set] pin of [Indiscrete], guarded rather than merely measured,
+      and then tracked as it propagates -- first into this file's own
+      [indisc_lift], then into the adjunction.
+
+      READ THE [Constraint] CORRECTLY: IT IS INERT FOR ALL THREE
+      NEGATIVES, AND THAT WAS MEASURED BY DELETION RATHER THAN ASSUMED.
+      Removing the line leaves all three [Fail]s failing with
+      byte-identical messages, because what they fire on is the donor's
+      LITERAL [Set] meeting the RIGID declared level [uh], not a relation
+      declared between them."
+
+   The three negatives were: [Indiscrete] refused at
+   [Type@{uo} -> Category@{uo uh uh}]; [indisc_lift] refused over [C],
+   with the gloss "NO annotation of [indisc_lift] can free it, because the
+   pin reaches the SOURCE as well"; and [indisc_adj_iso] refused in
+   consequence.
+
+   ALL THREE ARE NOW ACCEPTED, and that gloss was the one thing measured
+   wrongly.  No annotation of [indisc_lift] could free it, true -- but an
+   annotation of [Indiscrete] could, and did: [Indiscrete@{o h p}]
+   (Instance/Discrete/Reconstruct.v, PR "algebraic carriers are sets",
+   2026-09-17) is [Set]-free, so the bound [Functor] puts on the source's
+   hom universe is now a bound by a free level rather than by the literal
+   [Set], and the whole propagation chain travels.  All three commands are
+   kept as positive controls at exactly the levels that used to refuse
+   them, so dropping the annotation refuses them again and breaks this
+   file.
+
+   The first line is also a GUARD ON THE ARITY: written [Indiscrete@{uo}]
+   before, it would now be a universe-instance-length error and a [Fail]
+   on it would have passed vacuously.  It is written with all three
+   levels.
+
+   [Constraint Set < uh] is kept: what it buys is the CONTENT of the
+   section, which is only interesting above [Set].  (Instance/Cat/
+   Objects.v's §8 carries the parallel correction for its own [SetPin]
+   section, and records beside it a [Constraint] that IS load-bearing on
+   a negative that remains, so the distinction is not academic.) *)
 Section IndiscreteSetPin.
   Universes uo uh.
   Constraint Set < uh.
   Context (C : Category@{uo uh uh}) (A : Type@{uo}).
 
-  (* Controls.  The first is the sharpest: the SAME ascription that
-     negative 3 rejects is accepted here, so that rejection is
-     attributable to [Indiscrete] and not to [StrictCat] or to the
-     ability to view [C] as one of its objects.  The next two show the
-     LEFT wing reaching these levels, so the pin is this wing's alone.
-     The last two are the shapes the negatives are about, formable when
-     [Indiscrete] is not in play. *)
+  (* Controls: the ambient, the left wing, and the two shapes. *)
   Check (C : obj[StrictCat]).
   Check (fmap[StrictCat_Objects] (Id[C])).
   Check (@disc_ext@{uo uh uh uo}).
   Check (DiscreteCat@{uo uh uh} A).
   Check (@indisc_lift (DiscreteCat@{uo Set Set} A) A).
 
-  (* 1: the donor is pinned.  "Cannot enforce Set = uh". *)
-  Fail Check (Indiscrete@{uo} : Type@{uo} -> Category@{uo uh uh}).
+  (* 1: the donor reaches these levels. *)
+  Check (Indiscrete@{uo uh uh} : Type@{uo} -> Category@{uo uh uh}).
 
-  (* 2: and NO annotation of [indisc_lift] can free it, because the pin
-     reaches the SOURCE as well: [Functor] bounds the source's hom
-     universe by the target's, and the target's is the literal [Set], so
-     [C] is reported as needing type [Category@{_ Set Set}]. *)
-  Fail Check (@indisc_lift C A).
+  (* 2: so does the lift built over it ... *)
+  Check (@indisc_lift C A).
 
-  (* 3: hence the adjunction is confined too. *)
-  Fail Check (@indisc_adj_iso C A).
+  (* 3: ... and so, therefore, does the adjunction. *)
+  Check (@indisc_adj_iso C A).
 End IndiscreteSetPin.
 
-(* What is NOT pinned: the OBJECT universe.  The restriction is exactly
-   "hom and proof universes are the literal [Set]", and objects may sit
-   anywhere above it -- so the adjunction is a statement about a real
-   class of categories rather than about [Set]-sized ones.
+(* The OBJECT universe is free of the hom universe, and stays so.
+
+   RECORDED CORRECTION to what this section was FOR.  An earlier revision
+   read: "What is NOT pinned: the OBJECT universe.  The restriction is
+   exactly 'hom and proof universes are the literal [Set]', and objects
+   may sit anywhere above it -- so the adjunction is a statement about a
+   real class of categories rather than about [Set]-sized ones."  There is
+   no longer any [Set] restriction to soften: §8 above now exhibits the
+   whole wing at homs strictly ABOVE [Set].  What this section measures
+   instead is the independence that survived the repair, and it is kept
+   because that independence was nearly LOST in it: with [Indiscrete]
+   annotated, [indisc_adj_iso]'s implicit [StrictCat] instance minimized
+   its inner object and hom levels TOGETHER, which no [Set] had been
+   allowed to do while [ch] was the literal [Set].  Writing that instance
+   out at §3 keeps them apart, and this section is the guard on that: the
+   [Check]s below are refused if the binders at [indisc_adj_iso] are ever
+   dropped.
 
    The [Constraint] here is neither inert nor load-bearing: the two
    [Check]s pass with or without it (measured by deletion), and what the
    declaration buys is the CONTENT of the controls -- without it [wo]
    could collapse to [Set] and the commands would demonstrate nothing.
-   Stated so that a later reader does not delete it as redundant. *)
+   Stated so that a later reader does not delete it as redundant.
+
+   The second section pushes the same point one step further and needs no
+   [Set] at all: homs strictly above [Set] AND objects strictly above the
+   homs, neither identified with the other. *)
 Section IndiscreteObjectsFree.
   Universes wo.
   Constraint Set < wo.
@@ -679,6 +762,15 @@ Section IndiscreteObjectsFree.
   Check (@indisc_lift C A).
   Check (@indisc_adj_iso C A).
 End IndiscreteObjectsFree.
+
+Section IndiscreteObjectsAboveHoms.
+  Universes vo vh.
+  Constraint Set < vh.
+  Constraint vh < vo.
+  Context (C : Category@{vo vh vh}) (A : Type@{vo}).
+  Check (@indisc_lift C A).
+  Check (@indisc_adj_iso C A).
+End IndiscreteObjectsAboveHoms.
 
 (** ** §9. Where the string stops on the right *)
 
@@ -729,7 +821,7 @@ Example ind_bool_objs_distinct : (true : Indiscrete bool) = false -> False.
 Proof. discriminate. Qed.
 
 (* PRIOR ART, disclosed rather than duplicated silently: this is
-   Theory/Skeleton/Separation.v:76's [Indiscrete_iso] -- which is already
+   Theory/Skeleton/Separation.v's [Indiscrete_iso] -- which is already
    general in the type and the two points -- specialized at [bool].  That
    module is NOT required, for a measured reason rather than taste:
    through [Theory/Skeleton.v] it would add TEN modules to this file's
@@ -747,18 +839,38 @@ Proof. discriminate. Qed.
    [arrow_connected] at the unique arrow, every hom of [Indiscrete]
    being [unit] -- so no zig-zag induction is performed here. *)
 
-(* THE SHARED-MIDDLE READING COSTS A [Set] PIN, AND THAT IS MEASURED.
-   At its DEFAULT universe instance [adjoint_string] does NOT print with
-   one [StrictCat_Objects]: the two occurrences elaborate at different
-   instances, the second carrying a literal [Set].  So "the two links
-   share their middle term" is true only at a shared instance, and the
+(* THE SHARED-MIDDLE READING COSTS NOTHING, AND THAT IS MEASURED.
+
+   RECORDED CORRECTION.  An earlier revision read: "THE SHARED-MIDDLE
+   READING COSTS A [Set] PIN, AND THAT IS MEASURED.  At its DEFAULT
+   universe instance [adjoint_string] does NOT print with one
+   [StrictCat_Objects]: the two occurrences elaborate at different
+   instances, the second carrying a literal [Set].  So 'the two links
+   share their middle term' is true only at a shared instance, and the
    shared instance pins an inner level to [Set] -- inherited from
-   [Indiscrete], as §4 records.  Pinned here rather than asserted. *)
+   [Indiscrete], as §4 records."  It then checked
+   [adjoint_string@{b a Set a a b a Set}], an EIGHT-universe instance with
+   two literal [Set]s.
+
+   Half of that still holds and half does not.  At its default instance
+   [adjoint_string] still elaborates its two [StrictCat_Objects]
+   occurrences at DIFFERENT instances -- it is now
+   [adjoint_string@{u u0 u1 u2 u3 u4}], six universes, the left link at
+   [{u0 u1}] and the right at [{u3 u4}] with [u1 < u0] and [u4 < u3] --
+   so the shared-middle reading is still a statement about a shared
+   INSTANCE and not about the default one.  What is gone is the price:
+   [Indiscrete] was annotated (Instance/Discrete/Reconstruct.v, PR
+   "algebraic carriers are sets", 2026-09-17), so no [Set] appears in the
+   shared instance at all.  The check below identifies the two middles on
+   the nose -- both print [StrictCat_Objects@{a a b a b b}] -- with the
+   hom level [b] declared strictly ABOVE [Set] and the object level [a]
+   strictly above [b].  Measured, not asserted. *)
 
 Section SharedMiddle.
-Universes a b.
-Constraint Set < a.
-Check adjoint_string@{b a Set a a b a Set}.
+Universes a b c d.
+Constraint Set < b.
+Constraint b < a.
+Check adjoint_string@{c a b d a b}.
 End SharedMiddle.
 
 Definition ind_bool_connected : Connected (Indiscrete bool) :=

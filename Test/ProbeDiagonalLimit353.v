@@ -114,7 +114,7 @@ End OppositeConversion.
    This is the PRIOR-ART correction the `Colimit.v` header records: the
    content of `Opposite_Functor_respects` already exists as
    `Op_obligation_1`, the `fmap_respects` obligation of `Op : Cat ⟶ Cat`
-   (`Instance/Cat/Opposite.v:82`). What survives as a reason to have the
+   (`Instance/Cat/Opposite.v`). What survives as a reason to have the
    transparent restatement is OPACITY and universes, both pinned here. *)
 
 Section OpOpacity.

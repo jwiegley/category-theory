@@ -42,7 +42,7 @@ Generalizable All Variables.
 (** * Probe for issue #407: Mac Lane SV.1, completeness of Sets *)
 
 (* The boundary of Instance/Sets/Complete.v's cone-set section and of
-   Instance/Sets/Cone.v.  Eleven refutation commands, plus one instrument
+   Instance/Sets/Cone.v.  Nine refutation commands, plus one instrument
    check on a name that does not exist.  Each was stripped ONE AT A TIME,
    compiled alone, and its WHOLE error read; the classification below is by
    the error TEXT, not by expectation:
@@ -52,7 +52,14 @@ Generalizable All Variables.
      TYPING       a plain has-type mismatch, neither of the above
      RESOLUTION   "Cannot infer the implicit parameter ..."
 
-   Count by kind: 7 CONVERSION, 1 TYPING, 2 FORMABILITY, 1 RESOLUTION.
+   Count by kind: 7 CONVERSION, 1 TYPING, 1 RESOLUTION.
+
+   RECORDED CORRECTION: an earlier revision counted eleven refutation
+   commands, of which 2 FORMABILITY.  Both FORMABILITY refusals were the
+   [Set] pin of the unannotated [DiscreteCat_Functor]; annotated in the PR
+   "algebraic carriers are sets" (2026-09-17) both are accepted, and §(5)
+   and (6) keeps them as positive controls.  No FORMABILITY refusal
+   remains in this file.
 
    Every constant any refutation command names is also named OUTSIDE every
    such command, in a [Check] below, so that renaming it in its own library
@@ -181,13 +188,31 @@ Definition ctrl_right_oracle {J : Category} (F : J ⟶ Sets)
      {| carrier := X ~{Sets}~> cone_apex F |}
   := @adj _ _ _ _ (ConeSet_Diagonal_Limit_Adjunction J) X F.
 
-(** ** (5) and (6) The [Set] pin of the discrete shape -- FORMABILITY *)
+(** ** (5) and (6) The former [Set] pin of the discrete shape
 
-(* Instance/Sets/Complete.v's discrete section is stated with [{A : Set}]
-   and not [{A : Type}].  That is forced, and it takes TWO donors.  Both
-   are pinned here, and [Cone] is the discriminating control: it is
-   ACCEPTED at hom levels declared strictly above [Set], so the pin is not
-   "the cone vocabulary". *)
+    RECORDED CORRECTION.  An earlier revision headed this section "The
+    [Set] pin of the discrete shape -- FORMABILITY" and stated two
+    negatives.  Its text was:
+
+      "Instance/Sets/Complete.v's discrete section is stated with
+       [{A : Set}] and not [{A : Type}].  That is forced, and it takes TWO
+       donors.  Both are pinned here, and [Cone] is the discriminating
+       control: it is ACCEPTED at hom levels declared strictly above
+       [Set], so the pin is not 'the cone vocabulary'."
+
+    There was only ever ONE donor.  Donor 2, [IsALimit] identifying the
+    shape's hom-and-proof universes with the ambient's, is a real
+    identification but carries no [Set] of its own: it merely transmitted
+    the one that donor 1, the unannotated [DiscreteCat_Functor], minimized
+    into existence.  With that constant annotated in the PR "algebraic
+    carriers are sets" (2026-09-17), Instance/Discrete.v, both lines
+    are ACCEPTED and are kept below as positive controls at the same
+    levels.  [Cone] remains the discriminating control it always was.
+
+    WHAT STILL HOLDS: the [IsALimit] identification itself is unchanged,
+    and Instance/Sets/Complete.v's discrete section keeps whatever reason
+    it has for [{A : Set}] -- that is a claim about THAT file and is not
+    measured here. *)
 
 Section SetPin.
 
@@ -203,15 +228,16 @@ Check (DiscreteCat_Functor f).
 Check (Cone (DiscreteCat_Functor f)).
 Check (@ACone (DiscreteCat A) C).
 
-(* Donor 1: [DiscreteCat_Functor] pins its own SOURCE at
-   [DiscreteCat@{_ Set Set}].  Whole error tail:
-     (universe inconsistency: Cannot enforce Set = ch). *)
-Fail Check (DiscreteCat_Functor f : DiscreteCat@{io ch cp} A ⟶ C).
+(* Former donor 1: [DiscreteCat_Functor] used to pin its own SOURCE at
+   [DiscreteCat@{_ Set Set}], with the error tail
+     (universe inconsistency: Cannot enforce Set = ch).
+   Annotated, it reaches these levels. *)
+Check (DiscreteCat_Functor f : DiscreteCat@{io ch cp} A ⟶ C).
 
-(* Donor 2: [IsALimit] identifies the shape's hom-and-proof universes with
-   the ambient category's, so once the shape is at [Set] the ambient must
-   be too.  Same error tail, fired at a different place. *)
-Fail Check (IsALimit (DiscreteCat_Functor f)).
+(* Former donor 2: [IsALimit] identifies the shape's hom-and-proof
+   universes with the ambient category's.  It still does; what it no
+   longer transmits is a [Set]. *)
+Check (IsALimit (DiscreteCat_Functor f)).
 
 End SetPin.
 
@@ -221,7 +247,7 @@ End SetPin.
    [ACone] round trip of [Cone_Natural_Transform] does return the leg
    family on the nose (measured, accepted) while rebuilding the whole
    record, whose [cone_coherence] proof is [abstract]ed at
-   Structure/Cone/Const.v:58 -- but these two sides differ ALREADY at a
+   Structure/Cone/Const.v -- but these two sides differ ALREADY at a
    point [x : X], and again at the produced cone's leg at [d], both
    measured, so the refusal is not confined to that law field.  The [≈]
    form is [coneset_adj_to_is_transpose], which holds. *)

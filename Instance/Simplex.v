@@ -21,7 +21,7 @@ Generalizable All Variables.
    linear order, and the morphisms [m ~> n] are the ORDER-PRESERVING
    functions [Fin.t m → Fin.t n].  A morphism is a function together with
    a monotonicity witness; the hom-setoid compares only the FUNCTION part,
-   pointwise, exactly as Instance/FinSet.v:119 compares its morphisms
+   pointwise, exactly as Instance/FinSet.v compares its morphisms
    through [fun_setoid].  The witness is proof data carried along, never
    compared — two morphisms with the same underlying function are equal in
    this category whatever their monotonicity proofs.
@@ -67,12 +67,12 @@ Generalizable All Variables.
    singular complex on the right, is the adjunction that makes them a
    combinatorial model for spaces.  That adjunction is the reason Kan
    wrote "Adjoint functors" (1958) in the first place: as
-   Theory/Kan/Extension.v:46-47 records, Kan introduced adjoints "to
+   Theory/Kan/Extension.v records, Kan introduced adjoints "to
    codify the formal properties of the passage between spaces and
-   simplicial sets", and Theory/Kan/Extension.v:90-92 adds that geometric
+   simplicial sets", and Theory/Kan/Extension.v adds that geometric
    realization is "the left Kan extension of a cosimplicial space along
    the Yoneda embedding, the nerve its restricted-Yoneda right adjoint".
-   Structure/Coend.v:113 records the same realization as a single coend.
+   Structure/Coend.v records the same realization as a single coend.
    Each of those three passages is prose about a category that, until now,
    the library did not have; this file supplies it.
 
@@ -86,12 +86,12 @@ Generalizable All Variables.
    topology.  Dually Δ^op is the walking comonoid, and the bar resolution
    of a monad — the simplicial object whose face maps are built from the
    multiplication and whose degeneracies are built from the unit — is
-   exactly a functor out of it; Comonad/Core.v:103-105 cites that
+   exactly a functor out of it; Comonad/Core.v cites that
    "simplicial bar resolution of a comonad" as founding cotriple
    cohomology (Barr–Beck, Springer LNM 80, 1969).
 
    Within this library Δ arrives as a subcategory of the skeletal finite
-   sets already in tree.  Instance/FinSet.v:88-89 anticipates precisely
+   sets already in tree.  Instance/FinSet.v anticipates precisely
    this, noting "the simplex category Δ embedding into FinSet" in its
    discussion of Grandis's symmetric simplicial sets ("Finite sets and
    symmetric simplicial sets", Theory and Applications of Categories 8,
@@ -103,9 +103,9 @@ Generalizable All Variables.
 
    NOTE on names: the name this category usually gets is Δ, and THAT is the
    collision that matters -- [Δ] in this tree is the diagonal functor
-   (Functor/Diagonal.v:57, with notations Δ[J](c) and Δ(c) at :50/:54).
+   (Functor/Diagonal.v, with notations Δ[J](c) and Δ(c)).
    Lowercase [delta] is also taken, by comonoid comultiplication
-   (Theory/Algebra/Comonoid.v:41), though capitalization would keep them
+   (Theory/Algebra/Comonoid.v), though capitalization would keep them
    apart.  The generators here are therefore [sface] and [sdegen] at the
    categorical level and [fin_skip], [fin_dup] at the level of underlying
    functions, and the category itself is [Simplex].  (No ASCII [Delta]
@@ -195,7 +195,7 @@ Qed.
 (** ** The inclusion into FinSet
 
     Forgetting monotonicity is a functor into the skeletal finite sets of
-    Instance/FinSet.v:116.  It is the identity on objects, so it is wide;
+    Instance/FinSet.v.  It is the identity on objects, so it is wide;
     it is injective on hom-sets, so it is faithful; and it is not full,
     for which see [Simplex_FinSet_not_Full] below. *)
 
@@ -225,7 +225,7 @@ Proof. intro H; exact H. Qed.
     Fin.t 2] and therefore a morphism [2 ~> 2] of FinSet, but reverses the
     order and so is not the image of any morphism of [Simplex].
 
-    [Full] (Theory/Functor.v:331) packages fullness as a chosen preimage
+    [Full] (Theory/Functor.v) packages fullness as a chosen preimage
     [prefmap] together with [fmap_sur], the proof that it is a section of
     [fmap].  Given such a preimage for the swap, its monotonicity applied
     to [0 ≤ 1] would give [1 ≤ 0] in the ordinal [2]. *)

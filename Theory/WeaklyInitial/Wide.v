@@ -63,12 +63,30 @@ Generalizable All Variables.
 
    UNIVERSES, measured (reproduce with [Set Printing Universes. About
    initial_from_weakly_initial. About initial_from_weakly_initial_wide.]).
-   Both theorems are over [C : Category@{u2 Set Set}] — the pin at [Set]
-   is the DONOR's, from [iprod] and not from [Terminal] or the equalizers
-   (both unpinned; measured in #435).  The binder COUNT is the same — both are
+   RECORDED CORRECTION.  An earlier revision read: "Both theorems are over
+   [C : Category@{u2 Set Set}] — the pin at [Set] is the DONOR's, from
+   [iprod] and not from [Terminal] or the equalizers (both unpinned;
+   measured in #435).  The binder COUNT is the same — both are
    [@{u u0 u1 u2}], so there is no extra binder: the wide form replaces the
    power's binder with the class's index binder, which is itself
-   unconstrained, appearing free in [HasWideEqualizers@{u1 u2 Set} C].  The
+   unconstrained, appearing free in [HasWideEqualizers@{u1 u2 Set} C]."
+   The attribution to the donor was right, and the donor has been
+   repaired: [iprod] inherited its [Set] from Instance/Discrete.v's
+   unannotated [DiscreteCat_Functor], annotated in place there in the
+   PR "algebraic carriers are sets" (2026-09-17).  Measured after it,
+
+     initial_from_weakly_initial_wide@{u u0 u1 u2 u3} :
+       ∀ {C : Category@{u2 u3 u3}} (W : WeaklyInitialFamily@{u1 u2 u3} C),
+       Limit@{u0 u1 u3 u2} (DiscreteCat_Functor@{u1 u3 u3 u2 u3 u3 u} …)
+       → HasWideEqualizers@{u3 u2 u3} C → Terminal@{u2 u3}   (* u3 < u *)
+
+   -- no literal [Set], the ambient hom universe [u3] free, and FIVE
+   binders where the old reading counted four (the annotated donor's
+   auxiliary level is the extra one).  [HasWideEqualizers] now reads
+   [@{u3 u2 u3}] where the old text quoted [@{u1 u2 Set}]; whether its
+   index slot is still free of the ambient's levels has NOT been
+   re-measured, and the old claim that it is should not be repeated
+   without re-running [About].  The
    constraint-block difference runs the other way: the DONOR carries two
    extra stdlib bounds ([u0 <= eq.u0], [u0 <= Logic_lemmas.equality.u0])
    from the power's discrete diagram, which the wide form drops.

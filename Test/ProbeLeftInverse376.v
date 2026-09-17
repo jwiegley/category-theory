@@ -212,7 +212,7 @@ End ImageRoundTripObj.
 (** ** 6. FORMABILITY: a strict functor equality identifies the two
        categories' hom-and-proof universes.
 
-    [Functor_StrictEq_Setoid] (Theory/Functor.v:606) is declared over
+    [Functor_StrictEq_Setoid] (Theory/Functor.v) is declared over
     [Category@{u1 u4 u4}] and [Category@{u2 u4 u4}] -- ONE hom level for
     source and target -- so every statement below that mentions a strict
     equality between a functor [A ⟶ X] and another inherits the
@@ -223,7 +223,7 @@ End ImageRoundTripObj.
     [Au ⟶ Xu] is accepted while [Xu ⟶ Au] is not, since [Functor] bounds
     the source hom universe by the target's and the two directions
     together identify them -- so the record's identification is forced
-    before its [Adjunction] field (Theory/Adjunction.v:133, whose own
+    before its [Adjunction] field (Theory/Adjunction.v, whose own
     block carries [h1 = p1], [h1 = h2], [h1 = p2]) is consulted.  Only
     [Functor_StrictEq_Setoid] is probed in isolation below. *)
 
