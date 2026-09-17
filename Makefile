@@ -2828,7 +2828,6 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Instance.Grp.Grp_LocallyPropositional.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_equiv.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Quotient.quot_setoid.'; \
-	  echo 'Print Assumptions Category.Instance.Grp.Quotient.sub_setoid.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Epi.StableSetoid_PropEquiv.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Epi.SetoidPermutation_PropEquiv.'; \
 	  echo 'Print Assumptions Category.Instance.Grp.Free.fg_equiv.'; \

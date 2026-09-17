@@ -88,26 +88,6 @@ Definition unit_carrier (M : MonObject) : Type :=
   & { v : carrier M
     & (mon_op u v ≈ mon_unit) * (mon_op v u ≈ mon_unit) } }.
 
-(* Named rather than written inline: a [Program] record literal cannot carry
-   a [PropEquiv] field naming a setoid written inline in the same literal. *)
-Program Definition units_setoid (M : MonObject) : SetoidObject := {|
-  carrier := unit_carrier M;
-  is_setoid := {| equiv := fun x y => `1 x ≈ `1 y |}
-|}.
-Next Obligation.
-  intro M; equivalence.
-Qed.
-
-(* G6.  The unit group's `≈` compares first projections in [M], so it is
-   propositional exactly when [M]'s carrier `≈` is.  The membership data --
-   the inverse and the two equations -- is a [Type] and is never inspected,
-   which is what [sigma_first_PropEquiv] formalises. *)
-Definition unit_group_PropEquiv (M : MonObject)
-  (PM : PropEquiv (is_setoid (mon_setoid M))) :
-  PropEquiv (is_setoid (units_setoid M)) :=
-  sigma_first_PropEquiv (is_setoid (units_setoid M))
-    (fun _ _ h => h) (fun _ _ h => h) PM.
-
 (* RECORDED STRENGTH CHANGE.  Before the PR "algebraic carriers are sets"
    (2026-09-17) this read [UnitsOf (M : MonObject) : GrpObject].  An
    [Instance/Grp.v] group now carries [grp_prop] and a [MonObject] does not
@@ -117,16 +97,32 @@ Definition unit_group_PropEquiv (M : MonObject)
    families in tree discharge it: [hom_monoid (RMod K) V] by
    [RMod_LocallyPropositional], [Ring_mul_mon R] by [rig_prop], and
    [mat_mon R n] by [Matr_LocallyPropositional] below.  Nothing in tree
-   became conditional in substance. *)
+   became conditional in substance.
+
+   The carrier setoid stays INLINE and [grp_prop] is supplied as a TRAILING
+   OBLIGATION rather than as a field.  An intermediate revision named the
+   setoid -- a [Program] record literal cannot carry a [PropEquiv] FIELD
+   naming a setoid written inline in the same literal -- but naming it puts
+   one more unfolding step between the expected type of each sigma below and
+   the sigma it builds, and Coq 8.19/8.20 then infer a CONSTANT predicate and
+   refuse the term ("has type ∃ _ : …, … while it is expected to have type
+   carrier …"; Instance/Rng/Zp.v's header records the trap, and
+   Instance/Grp/Center.v:125 records the same one for [mk_central]).  Rocq 9.1
+   accepts either.  The obligation route keeps every term below exactly as the
+   released toolchains already compiled it. *)
 Program Definition UnitsOf (M : MonObject)
   (PM : PropEquiv (is_setoid (mon_setoid M))) : GrpObject := {|
-  grp_setoid := units_setoid M;
+  grp_setoid :=
+    {| carrier := unit_carrier M;
+       is_setoid := {| equiv := fun x y => `1 x ≈ `1 y |} |};
   grp_unit := (mon_unit; (mon_unit; (_, _)));
   grp_mul := fun x y =>
     (mon_op (`1 x) (`1 y); (mon_op (`1 (`2 y)) (`1 (`2 x)); (_, _)));
-  grp_inv := fun x => (`1 (`2 x); (`1 x; (snd (`2 (`2 x)), fst (`2 (`2 x)))));
-  grp_prop := unit_group_PropEquiv M PM
+  grp_inv := fun x => (`1 (`2 x); (`1 x; (snd (`2 (`2 x)), fst (`2 (`2 x)))))
 |}.
+Next Obligation.
+  intros M PM; equivalence.
+Qed.
 Next Obligation.
   intros M PM; apply mon_op_unit_l.
 Qed.
@@ -167,6 +163,17 @@ Next Obligation.
   intros M PM [u [v [pl pr]]]; simpl.
   exact pr.
 Qed.
+Next Obligation.
+  (* G6.  The unit group's `≈` compares first projections in [M], so it is
+     propositional exactly when [M]'s carrier `≈` is; the membership data --
+     the inverse and the two equations -- is a [Type] and is never inspected,
+     which is what [sigma_first_PropEquiv] formalises.  Applied in the TACTIC
+     form, the one the term form is refused in. *)
+  intros M PM.
+  unshelve refine (sigma_first_PropEquiv _ _ _ PM).
+  - intros p q Hpq; exact Hpq.
+  - intros p q Hpq; exact Hpq.
+Defined.
 
 (* Monoid homomorphisms restrict to the unit groups: the image of a
    two-sided inverse is a two-sided inverse of the image. *)

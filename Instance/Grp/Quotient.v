@@ -220,31 +220,43 @@ Definition sub_at {G : GrpObject} (S : Subgroup G) {a b : carrier G}
 Definition sub_carrier {G : GrpObject} (S : Subgroup G) : Type :=
   { a : carrier G & sub_mem S a }.
 
-(* Named rather than inline for the reason recorded at [quot_setoid] below. *)
-Program Definition sub_setoid {G : GrpObject} (S : Subgroup G) :
-  SetoidObject := {|
-  carrier := sub_carrier S;
-  is_setoid := {| equiv := fun p q => `1 p ≈ `1 q |}
-|}.
-Next Obligation. intros G S; equivalence; now transitivity (`1 y). Qed.
-
+(* The carrier setoid is written INLINE, as it was before the PR "algebraic
+   carriers are sets" (2026-09-17), and [grp_prop] is supplied as a trailing
+   obligation instead of as a field.  An intermediate revision named the setoid
+   -- a [Program] record literal cannot carry a [PropEquiv] FIELD naming a
+   setoid written inline in the same literal -- but naming it puts one more
+   unfolding step between the expected type of each [existT] below and the
+   sigma it builds, and Coq 8.19/8.20 then infer a CONSTANT predicate and
+   refuse the term ("has type ∃ _ : …, … while it is expected to have type
+   carrier …"; Instance/Rng/Zp.v's header records the trap, and
+   Instance/Grp/Center.v:125 records the same one for [mk_central]).  Rocq 9.1
+   accepts either.  The obligation route keeps every term below exactly as the
+   released toolchains already compiled it, which is why it is taken here and
+   at [Grp_kernel] (Instance/Grp.v). *)
 Program Definition SubgroupGrp {G : GrpObject} (S : Subgroup G) : GrpObject := {|
-  grp_setoid := sub_setoid S;
+  grp_setoid := {| carrier := sub_carrier S
+                 ; is_setoid := {| equiv := fun p q => `1 p ≈ `1 q |} |};
   grp_unit := existT _ (grp_unit G) (sub_unit S);
   grp_mul := fun p q =>
     existT _ (grp_mul G (`1 p) (`1 q)) (sub_mul S _ _ (`2 p) (`2 q));
-  grp_inv := fun p => existT _ (grp_inv G (`1 p)) (sub_inv S _ (`2 p));
-  (* The subgroup's `≈` compares first projections in [G]. *)
-  grp_prop :=
-    sigma_first_PropEquiv (is_setoid (sub_setoid S))
-      (fun _ _ h => h) (fun _ _ h => h) (grp_prop G)
+  grp_inv := fun p => existT _ (grp_inv G (`1 p)) (sub_inv S _ (`2 p))
 |}.
+Next Obligation. intros G S; equivalence; now transitivity (`1 y). Qed.
 Next Obligation.
   intros G S a a' Ha b b' Hb; simpl in *; now rewrite Ha, Hb.
 Qed.
 Next Obligation. intros G S a b c; simpl; apply grp_mul_assoc. Qed.
 Next Obligation. intros G S a; simpl; apply grp_mul_unit_l. Qed.
 Next Obligation. intros G S a; simpl; apply grp_mul_inv_l. Qed.
+Next Obligation.
+  (* The subgroup's `≈` compares first projections in [G], so it is
+     propositional exactly when [G]'s own `≈` is.  [sigma_first_PropEquiv] is
+     applied in the TACTIC form, the one the term form is refused in. *)
+  intros G S.
+  unshelve refine (sigma_first_PropEquiv _ _ _ (grp_prop G)).
+  - intros p q Hpq; exact Hpq.
+  - intros p q Hpq; exact Hpq.
+Defined.
 
 (* The inclusion of a subgroup: the first projection. *)
 Program Definition sub_incl {G : GrpObject} (S : Subgroup G) :
