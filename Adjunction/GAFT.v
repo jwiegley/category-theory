@@ -156,8 +156,29 @@ Generalizable All Variables.
    such that every [h : d ~> U c] factors through some member,
    [fmap[U] t ∘ sol_arr i ≈ h].  No uniqueness of the factorization is asked —
    this is a *weakly* initial family in the comma category [=(d) ↓ U]. *)
-Record SolutionSet {C D : Category} (U : C ⟶ D) (d : D) := {
-  sol_index : Type;
+(* THE INDEX UNIVERSE IS NAMED [i], AND IT IS FREE HERE ON PURPOSE.
+   [SolutionSet@{i dobj cobj h}] carries an EMPTY constraint block: [i] is
+   related to nothing, so a solution set may be indexed at any level -- by
+   a [bool], by [Subgroup G], by a sigma over the objects of the ambient
+   category.  That freedom is the whole reason the record is worth having
+   separately from the weakly initial family it becomes.
+
+   THE IDENTIFICATION IS IMPOSED AT [GAFT], NOT HERE, and declaring it
+   here would WEAKEN this record.  See [GAFT] below: applying the
+   theorem forces [i] onto the ambient hom universe [h], through
+   [Complete]'s single shape-object universe.  The refusals recorded in
+   Instance/Mod/TensorAFT.v and Test/ProbeModTensorAFT449.v are that
+   forcing meeting an index that sits strictly above [h].
+
+   Measured readback:
+
+     SolutionSet@{i dobj cobj h} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}},
+     C ⟶ D → obj[D] → Type@{max(i+1,cobj,h)}
+     (* i dobj cobj h |=  *)                     <-- empty, as intended *)
+Record SolutionSet@{i dobj cobj h}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D) := {
+  sol_index : Type@{i};
   sol_obj : sol_index -> C;
   sol_arr : forall i, d ~> U (sol_obj i);
   sol_covers {c} (h : d ~> U c) :
@@ -207,8 +228,23 @@ Defined.
    [(sol_obj i, t)] of [h] supplied by [sol_covers], upgraded to a comma
    morphism (its commuting triangle is exactly the factorization equation, the
    left leg [fmap[=(d)] _] collapsing to [id[d]]). *)
-Definition wif_of_sols {C D : Category} (U : C ⟶ D) (d : D)
-  (S : SolutionSet U d) : WeaklyInitialFamily (=(d) ↓ U).
+(* THE INDEX UNIVERSE IS CARRIED ACROSS ON THE NOSE, and the binders say
+   so: the solution set's [i] is the weakly initial family's [i], with no
+   level change in either direction.  That is what makes this bridge and
+   its converse [sols_of_wif] below an identification of index types
+   rather than a resizing, and it is why the size condition [GAFT]
+   imposes can be read off [initial_from_weakly_initial] alone.  Measured:
+
+     wif_of_sols@{i cobj dobj h comma u u0 u1 u2 u3} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+       (d : obj[D]),
+       SolutionSet@{i dobj cobj h} U d
+       → WeaklyInitialFamily@{i comma h} (=(d) ↓ U)
+     (* i cobj dobj h comma u u0 u1 u2 u3 |= h < u1 / u0 <= comma *) *)
+Definition wif_of_sols@{i cobj dobj h comma +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
+  (S : SolutionSet@{i dobj cobj h} U d)
+  : WeaklyInitialFamily@{i comma h} (=(d) ↓ U).
 Proof.
   destruct S as [idx obj arr cov].
   unshelve refine (@Build_WeaklyInitialFamily (=(d) ↓ U) idx
@@ -238,9 +274,72 @@ Defined.
 
    See the header for why the preservation hypothesis is the cone-level
    [PreservesImageLimit] rather than the apex-only [PreservesAllLimits]. *)
-Theorem GAFT {C D : Category} (U : C ⟶ D)
-  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
-  (sols : forall d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U }.
+(* THE UNIVERSE BINDERS ARE THE STATEMENT OF THE SIZE CONDITION, and they
+   are written out because the two identifications below are what every
+   application of this theorem stands or falls on.
+
+     [cobj], [dobj]  the object universes of [C] and of [D],
+     [h]             the hom-and-proof universe of BOTH -- one level, not
+                     two, because [Adjunction] relates the two hom-setoids,
+
+   and then, in the two annotated hypotheses:
+
+     (i)  [SolutionSet@{h dobj cobj h}] -- the solution-set INDEX universe
+          is [h].  [SolutionSet] itself leaves it free (empty constraint
+          block, see above); it is this application that pins it.
+     (ii) [@Complete@{h h h cobj} C] -- [Complete]'s SHAPE-OBJECT universe
+          is [h] as well, identified with the ambient hom universe.
+
+   WHY (ii), which is the one that surprises.  The proof takes TWO limits
+   inside the comma category, through [initial_from_weakly_initial]:
+
+       initial_from_weakly_initial@{u u0 u1 u2 u3}
+         {C : Category@{u2 u3 u3}} (W : WeaklyInitialFamily@{u0 u2 u3} C)
+         (P : Limit@{u u0 u3 u2} (DiscreteCat_Functor (wif_obj W)))
+         (Limit@{u3 u3 u3 u2} (DiscreteCat_Functor
+            (fun _ : iprod (wif_obj W) P ~> iprod (wif_obj W) P => …)))
+         (HasEqualizers C) : Terminal C
+
+   The FIRST limit is over a discrete shape whose objects are the family
+   index [u0]; the SECOND is over a discrete shape whose objects are a
+   HOM-SET of the ambient category, so its shape-object universe is the
+   ambient hom universe [u3].  [Complete] offers ONE shape-object universe
+   for every shape at once, so the second limit drags it up to [h] and the
+   first -- the solution set -- is dragged with it.  That is (i) and (ii)
+   in one sentence: the equalizer of all endomorphisms of the product is
+   what puts the solution-set index at the hom universe.
+
+   WHAT IS NOT HERE ANY MORE.  An earlier revision of this theorem printed
+   [C : Category@{u1 Set Set}] and [Complete@{u4 u4 Set u1}], with [h] the
+   literal [Set].  That [Set] was a universe-minimization artifact of
+   Instance/Discrete.v's unannotated [DiscreteCat_Functor], reaching this
+   statement through line 249 below; the donor was annotated in the PR
+   "algebraic carriers are sets" (2026-09-17) and no literal [Set] remains.
+   The size condition (i)+(ii) survives it unchanged, which is the point:
+   it is structural and was never about [Set].
+
+   The measured readback, after the annotation:
+
+     GAFT@{cobj dobj h u u0 u1} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D),
+       Complete@{h h h cobj}
+       → PreservesImageLimit@{cobj h dobj h u0 h u1 h}
+         → (∀ d : obj[D], SolutionSet@{h dobj cobj h} U d)
+           → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u1 h u} F U
+     (* cobj dobj h u u0 u1 |= h < u0 / h < u1
+                               / cobj <= u0 / dobj <= u0 / … *)
+
+   -- the two strict bounds [h < u0] and [h < u1] being the [Type]s the
+   comma categories and the adjunction record live in.  The trailing [+]
+   on the binder list allows those auxiliary levels, which is why they
+   print as [u], [u0], [u1] AFTER the three named ones; the three named
+   are the ones the size condition is about, and no [Set] appears among
+   any of them. *)
+Theorem GAFT@{cobj dobj h +} {C : Category@{cobj h h}} {D : Category@{dobj h h}}
+  (U : C ⟶ D)
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
+  (sols : forall d : D, SolutionSet@{h dobj cobj h} U d)
+  : { F : D ⟶ C & F ⊣ U }.
 Proof.
   apply GAFT_from_initials.
   intro d.
@@ -262,8 +361,23 @@ Qed.
     solution set: Mac Lane §V.6 Theorem 1's necessity direction, in this
     file's vocabulary (#435).  Appended here so that no line above moves. *)
 
-Definition sols_of_wif {C D : Category} (U : C ⟶ D) (d : D)
-  (W : WeaklyInitialFamily (=(d) ↓ U)) : SolutionSet U d.
+(* The converse, with the index universe [i] carried across on the nose in
+   the other direction — see [wif_of_sols] above.  Measured: the two have
+   the SAME binder list and the same two constraints,
+
+     sols_of_wif@{i cobj dobj h comma u u0 u1 u2 u3} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+       (d : obj[D]),
+       WeaklyInitialFamily@{i comma h} (=(d) ↓ U)
+       → SolutionSet@{i dobj cobj h} U d
+     (* i cobj dobj h comma u u0 u1 u2 u3 |= h < u1 / u0 <= comma *)
+
+   which is the sharpest statement that the passage is an identification
+   and not a resizing. *)
+Definition sols_of_wif@{i cobj dobj h comma +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
+  (W : WeaklyInitialFamily@{i comma h} (=(d) ↓ U))
+  : SolutionSet@{i dobj cobj h} U d.
 Proof.
   unshelve refine
     {| sol_index := wif_index W
@@ -306,9 +420,21 @@ Example sols_of_comma_initial_obj {C D : Category} (U : C ⟶ D) (d : D)
     NOT rewritten to use it, since every line of this file above stays put
     (eleven external citations point at line 241). *)
 
-Definition comma_initial_of_sols {C D : Category} (U : C ⟶ D) (d : D)
-  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
-  (S : SolutionSet U d) : @Initial (=(d) ↓ U).
+(* The same two identifications as [GAFT] — [Complete]'s shape-object
+   universe and the solution-set index are both the ambient hom universe
+   [h] — since this is [GAFT]'s inner step lifted out verbatim.  Measured:
+
+     comma_initial_of_sols@{cobj dobj h u u0 u1 u2 u3 u4 u5} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+       (d : obj[D]),
+       Complete@{h h h cobj}
+       → PreservesImageLimit@{cobj h dobj h u4 h u5 h}
+         → SolutionSet@{h dobj cobj h} U d → Terminal@{u h}
+     (* cobj dobj h u u0 u1 u2 u3 u4 u5 |= h < u4 / u1 <= u *) *)
+Definition comma_initial_of_sols@{cobj dobj h +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D) (d : D)
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
+  (S : SolutionSet@{h dobj cobj h} U d) : @Initial (=(d) ↓ U).
 Proof.
   pose (HCat := @Comma_Complete C D U d cont comp).
   pose (W := wif_of_sols U d S).
@@ -322,9 +448,21 @@ Defined.
 
 (* GAFT itself, re-derived from the exported step, agrees with the theorem
    above on its statement — the two are interchangeable at the type. *)
-Definition GAFT_via_comma_initial {C D : Category} (U : C ⟶ D)
-  (comp : @Complete C) (cont : @PreservesImageLimit C D U)
-  (sols : ∀ d : D, SolutionSet U d) : { F : D ⟶ C & F ⊣ U } :=
+(* Same binders as [GAFT], which is what "agrees on its statement" means
+   here: the two are interchangeable at the type AND at the universe
+   graph's two identifications.  Measured:
+
+     GAFT_via_comma_initial@{cobj dobj h u u0 u1 u2 u3 u4 u5 u6} :
+     ∀ {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D),
+       Complete@{h h h cobj}
+       → PreservesImageLimit@{cobj h dobj h u6 h u h}
+         → (∀ d : obj[D], SolutionSet@{h dobj cobj h} U d)
+           → ∃ F : D ⟶ C, Adjunction@{cobj h h dobj h h h h u h u0} F U
+     (* … |= h < u / u3 <= u1 *) *)
+Definition GAFT_via_comma_initial@{cobj dobj h +}
+  {C : Category@{cobj h h}} {D : Category@{dobj h h}} (U : C ⟶ D)
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C D U)
+  (sols : ∀ d : D, SolutionSet@{h dobj cobj h} U d) : { F : D ⟶ C & F ⊣ U } :=
   GAFT_from_initials U (fun d => comma_initial_of_sols U d comp cont (sols d)).
 
 (** ** The converse: an adjunction supplies its own solution sets *)

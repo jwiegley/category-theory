@@ -230,8 +230,20 @@ Context (K : C ⟶ Sets).
     is Definition 3 as the book states it; [SolutionSet] of Adjunction/GAFT.v
     is the hom-shaped form, and the two agree at the singleton set. *)
 
-Record ElementSolutionSet := {
-  esol_index : Type;
+(* The INDEX universe is named [i], and it is free of it: the constraint
+   block relates it to nothing, exactly as in [SolutionSet].  It is the
+   LAST binder, because the three the enclosing section discharges (the
+   ambient's object and hom-and-proof levels, and [Sets]' object level)
+   come first and print with generic names.  Measured readback:
+
+     ElementSolutionSet@{u u0 u1 i} :
+     ∀ {C : Category@{u u0 u0}}, (C ⟶ Sets@{u0 u1}) → Type@{max(u,u0,i+1)}
+     (* u u0 u1 i |= u0 < u1 / u0 <= ID.u0 *)
+
+   [representability_theorem] below is where [i] is pinned, to the ambient
+   hom universe, exactly as in [GAFT]: see its own binders. *)
+Record ElementSolutionSet@{i} := {
+  esol_index : Type@{i};
   esol_obj : esol_index → C;
   esol_elem : ∀ i, K (esol_obj i);
   esol_covers {c : C} (x : K c) :
@@ -245,7 +257,29 @@ Record ElementSolutionSet := {
     Element.v's [global_element] and [global_elements_iso], which already
     exist; nothing here re-proves that bridge. *)
 
-Definition sols_of_esols (E : ElementSolutionSet) : SolutionSet K SetsOne.
+(* Both passages carry the index TYPE across on the nose — the four
+   [eq_refl] readbacks below say so.  At the level of the index UNIVERSE
+   the two directions differ, and the difference is measured rather than
+   assumed:
+
+     sols_of_esols@{u u0 u1 i u2 u3 u4} :
+       … ElementSolutionSet@{u u0 u1 i} K
+         → SolutionSet@{i u1 u u0} K SetsOne
+     (* u u0 u1 i u2 u3 u4 |= u0 < u1 / u3 <= ID.u0 *)
+
+   -- [i] on the nose in this direction, the index universe reappearing
+   verbatim in [SolutionSet]'s first slot; and
+
+     esols_of_sols@{u u0 u1 i u2 u3 u4 u5} :
+       … SolutionSet@{u5 u1 u u0} K SetsOne
+         → ElementSolutionSet@{u u0 u1 i} K
+     (* u u0 u1 i u2 u3 u4 u5 |= u0 < u1 / u5 <= i *)
+
+   -- a BOUND, [u5 <= i], in the other, since the record is built rather
+   than projected.  Stated because "the same index" is true of the types
+   and only up to [<=] of the levels. *)
+Definition sols_of_esols@{i +} (E : ElementSolutionSet@{i})
+  : SolutionSet K SetsOne.
 Proof.
   unshelve refine
     {| sol_index := esol_index E
@@ -257,7 +291,8 @@ Proof.
   intro u; destruct u; exact e.
 Defined.
 
-Definition esols_of_sols (S : SolutionSet K SetsOne) : ElementSolutionSet.
+Definition esols_of_sols@{i +} (S : SolutionSet K SetsOne)
+  : ElementSolutionSet@{i}.
 Proof.
   unshelve refine
     {| esol_index := sol_index S
@@ -300,13 +335,43 @@ Arguments esol_elem {C K} _ _.
 
 (** ** Mac Lane §V.6 Theorem 3
 
-    Stated at top level: [comma_initial_of_sols] pins the hom AND proof
-    universes of both categories to [Set] (GAFT's own pin), and inside a
-    section that has already elaborated [Sets] the ascription is refused. *)
+    Stated at top level, and the binders carry the SAME size condition as
+    [GAFT], which is where it comes from ([comma_initial_of_sols]):
 
-Definition representability_theorem {C : Category} (K : C ⟶ Sets)
-  (comp : @Complete C) (cont : @PreservesImageLimit C Sets K)
-  (E : ElementSolutionSet K) : Representable K :=
+      (i)  [ElementSolutionSet@{cobj h su h} K] -- the element-solution-set
+           INDEX universe (the last slot) is the ambient hom universe [h].
+           The record leaves it free; this theorem pins it.
+      (ii) [@Complete@{h h h cobj} C] -- [Complete]'s shape-object universe
+           is [h] too, for the reason Adjunction/GAFT.v spells out: the
+           equalizer of all endomorphisms of the product is a limit over a
+           shape whose objects are a hom-set.
+
+    RECORDED CORRECTION.  An earlier revision of this comment read
+    "[comma_initial_of_sols] pins the hom AND proof universes of both
+    categories to [Set] (GAFT's own pin), and inside a section that has
+    already elaborated [Sets] the ascription is refused."  That [Set] was
+    a universe-minimization artifact of Instance/Discrete.v's unannotated
+    [DiscreteCat_Functor] and is gone (PR "algebraic carriers are sets",
+    2026-09-17); the theorem is still stated at top level, and (i)+(ii)
+    are why.  The refusals that Instance/Mod/TensorAFT.v records against
+    this theorem survive the repair, re-measured there: they are (i)
+    meeting an index one universe above the ring's carrier, with no [Set]
+    in the message.
+
+    Measured readback:
+
+      representability_theorem@{cobj h su u u0 u1 u2 u3 u4 u5 u6 u7 u8} :
+      ∀ {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su}),
+        Complete@{h h h cobj}
+        → PreservesImageLimit@{cobj h su h u h su h}
+          → ElementSolutionSet@{cobj h su h} K
+            → Representable@{u u0 su cobj h} K
+      (* cobj h su … |= h < su / u6 <= u4 *) *)
+
+Definition representability_theorem@{cobj h su +}
+  {C : Category@{cobj h h}} (K : C ⟶ Sets@{h su})
+  (comp : @Complete@{h h h cobj} C) (cont : @PreservesImageLimit C Sets K)
+  (E : ElementSolutionSet@{cobj h su h} K) : Representable K :=
   representable_of_comma_initial K
     (comma_initial_of_sols K SetsOne comp cont (sols_of_esols K E)).
 

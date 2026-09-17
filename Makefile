@@ -7862,6 +7862,51 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_iff_rev_is_GAFT.'; \
 	} >> .pa-tmp/pa.v
 	@{ \
+	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.SolutionSet.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sol_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sol_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sol_arr.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.sol_covers.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.GAFT_from_initials.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.Complete_HasEqualizers.'; \
+	  echo 'Print Assumptions Category.Adjunction.GAFT.wif_of_sols.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Adjunction.SAFT.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.Cogenerator.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cog_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cog_obj.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cog_separates.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.SubobjectIndex.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.sub_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.sub_dom.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.sub_mono.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.sub_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_prod_limit.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_prod.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_power_index.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_power_fam.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_power_limit.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_power.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_canonical_legs.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_canonical.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogen_canonical_commutes.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.cogenerator_canonical_monic.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.SubobjectCover.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.SAFT_solution_set.'; \
+	  echo 'Print Assumptions Category.Adjunction.SAFT.SAFT.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
+	  echo 'Require Import Category.Instance.Discrete.'; \
+	  echo 'Require Import Category.Instance.Discrete.Reconstruct.'; \
+	  echo 'Print Assumptions Category.Instance.Discrete.DiscreteCat.'; \
+	  echo 'Print Assumptions Category.Instance.Discrete.DiscreteCat_Functor.'; \
+	  echo 'Print Assumptions Category.Instance.Discrete.DiscreteCat_Discrete.'; \
+	  echo 'Print Assumptions Category.Instance.Discrete.Reconstruct.Indiscrete.'; \
+	} >> .pa-tmp/pa.v
+	@{ \
 	  echo 'Require Import Category.Adjunction.Representability.Sets.'; \
 	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.ElementSolutionSet.'; \
 	  echo 'Print Assumptions Category.Adjunction.Representability.Sets.esol_index.'; \

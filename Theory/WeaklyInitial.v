@@ -99,11 +99,54 @@ Arguments wif_cover {C} _ _.
        [e ∘ (k ∘ s)] is an endomorphism of [P0], absorbed by [e]; monicity
        of [e] then makes [(k ∘ s) ∘ e ≈ id], i.e. [k] is split epi, and
        [f ∘ k ≈ g ∘ k] forces [f ≈ g]. *)
-Theorem initial_from_weakly_initial `(W : WeaklyInitialFamily C)
-  (P : Limit (DiscreteCat_Functor (wif_obj W)))
-  (Pe : Limit (DiscreteCat_Functor
-                 (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P)
-                  => iprod (wif_obj W) P)))
+(* THE BINDERS ARE WHERE FREYD'S SIZE CONDITION LIVES, so they are written
+   out rather than inferred, and the two [Limit] instances are the whole
+   point.
+
+     [idx]  the weakly initial family's index universe,
+     [obj]  the ambient category's object universe,
+     [h]    its hom-and-proof universe,
+     [lim]  the level of the first limit datum.
+
+   The FIRST limit, [P], is over a discrete shape whose objects are the
+   family index: [Limit@{lim idx h obj}], shape-object universe [idx],
+   free.  The SECOND, [Pe], is over a discrete shape whose objects are the
+   ENDOMORPHISM HOM-SET of [iprod (wif_obj W) P], so its shape-object
+   universe is the ambient HOM universe: [Limit@{h h h obj}], written with
+   [h] in the shape-object slot.  Nothing here forces [idx] up to [h] --
+   the two limits are separate hypotheses and may be supplied separately.
+
+   IT IS [Complete] THAT FUSES THEM, one caller out.  A [@Complete C]
+   offers ONE shape-object universe for every shape at once, so a caller
+   who discharges both hypotheses from a single [Complete] -- which is
+   what Adjunction/GAFT.v:249-254 does -- identifies [idx] with [h] and
+   thereby puts the solution-set index at the ambient hom universe.  That
+   is why [GAFT] carries [Complete@{h h h cobj}] and
+   [SolutionSet@{h dobj cobj h}] in its own binders, and why an index
+   strictly above [h] is refused there.
+
+   Measured readback (the trailing [+] allows the level
+   [DiscreteCat_Functor]'s [Program] obligations mint, printed last):
+
+     initial_from_weakly_initial@{lim idx obj h u} :
+     ∀ {C : Category@{obj h h}} (W : WeaklyInitialFamily@{idx obj h} C)
+       (P : Limit@{lim idx h obj} (DiscreteCat_Functor (wif_obj W))),
+       Limit@{h h h obj} (DiscreteCat_Functor (fun _ : … => iprod … ))
+       → HasEqualizers C → Terminal C
+     (* |= h < u / idx <= lim / h <= lim / … *)
+
+   -- and, since Instance/Discrete.v:81's [DiscreteCat_Functor] was
+   annotated in the PR "algebraic carriers are sets" (2026-09-17), with no
+   literal [Set].  An earlier revision printed both [DiscreteCat_Functor]
+   occurrences as [DiscreteCat@{_ Set Set}] and handed that [Set] on to
+   [GAFT]. *)
+Theorem initial_from_weakly_initial@{lim idx obj h +}
+  {C : Category@{obj h h}} (W : WeaklyInitialFamily@{idx obj h} C)
+  (P : Limit@{lim idx h obj} (DiscreteCat_Functor (wif_obj W)))
+  (Pe : Limit@{h h h obj}
+          (DiscreteCat_Functor
+             (fun _ : (iprod (wif_obj W) P ~> iprod (wif_obj W) P)
+              => iprod (wif_obj W) P)))
   (E : HasEqualizers C) : @Initial C.
 Proof.
   (* Abbreviate the product object and fold it into [Pe]'s index. *)

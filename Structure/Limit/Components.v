@@ -1135,11 +1135,26 @@ Proof. discriminate. Qed.
 
 (** ** Measured boundaries, pinned *)
 
-(* The universe pin of the [iprod] reading, GUARDED rather than merely
-   measured.  Over a category whose homs are declared strictly above
-   [Set] the elementary statements elaborate and the [iprod] ones do
-   not, so the pin is attributable to the donor [iprod] and not to
-   anything this file adds. *)
+(* The universe placement of the [iprod] reading, GUARDED rather than
+   merely measured.
+
+   RECORDED CORRECTION.  An earlier revision stated this section as two
+   NEGATIVES: over a category whose homs are declared strictly above
+   [Set] the elementary statements elaborated and the two [iprod] ones
+   were refused, and the section concluded that the pin was attributable
+   to the donor [iprod].  The attribution was one step short.  [iprod]
+   itself was never [Set]-pinned; it inherited the pin from
+   [DiscreteCat_Functor], which was declared with bare binders and
+   minimized to [DiscreteCat@{u Set Set}], and which [Limit] (unlike
+   [Cone]) identifies with the AMBIENT hom-and-proof universe.
+
+   In the PR "algebraic carriers are sets" (2026-09-17)
+   [DiscreteCat_Functor] was annotated in place at Instance/Discrete.v:81,
+   and both lines below are now ACCEPTED.  They are kept as positive
+   controls at exactly the levels that used to refuse them, so this
+   section now guards the repair rather than the pin: were the annotation
+   ever dropped, these two would refuse again and this file would stop
+   compiling. *)
 
 Section UniversePin.
 
@@ -1161,17 +1176,17 @@ Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
            (p : Cu) (pr : ∀ k : bool, p ~{Cu}~> L k)
            (HP : IsIndexedProduct L p pr) => coprod_IsALimit F HL HP).
 
-(* Negative: the donor's product operator is not formable here. *)
+(* The donor's product operator IS formable here. *)
 
-Fail Check (fun (A : Type) (f : A → Cu)
-                (P : Limit (DiscreteCat_Functor f)) => iprod f P).
+Check (fun (A : Type) (f : A → Cu)
+           (P : Limit (DiscreteCat_Functor f)) => iprod f P).
 
-(* ... and neither, therefore, is the corollary stated over it. *)
+(* ... and so, therefore, is the corollary stated over it. *)
 
-Fail Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
-                (HL : ∀ k : bool, IsALimit (summand F k) (L k))
-                (P : Limit (DiscreteCat_Functor L)) =>
-              coprod_IsALimit_iprod F HL P).
+Check (fun (F : SigmaCat Js ⟶ Cu) (L : bool → Cu)
+           (HL : ∀ k : bool, IsALimit (summand F k) (L k))
+           (P : Limit (DiscreteCat_Functor L)) =>
+         coprod_IsALimit_iprod F HL P).
 
 End UniversePin.
 

@@ -700,54 +700,71 @@ Qed.
 (* Instrument check: [Fail] is live in this file.  Every negative below
    and in §5 was additionally stripped once and its failure kind read off
    the whole error message -- two CONVERSION failures in §5 (reporting
-   "cannot unify", with no universe clause) and three FORMABILITY
-   failures here (reporting "universe inconsistency: Cannot enforce ...").
-   The two kinds are kept lexically apart. *)
+   "cannot unify", with no universe clause) and one FORMABILITY refusal
+   here (reporting "universe inconsistency: Cannot enforce ...").
+   The two kinds are kept lexically apart.
+
+   RECORDED CORRECTION.  An earlier revision counted THREE formability
+   refusals here: the [StrictCat] donor identification of the section
+   after next, plus two [Set] pins in [Section SetPin].  The two [Set]
+   pins are gone -- see that section -- so the count is now one. *)
 Fail Definition probe_instrument_live : Datatypes.unit := 0.
 
 (* Section-local [Universes]/[Constraint] declarations do not leak; the
    Instance/Fun/Group.v precedent applies, so these probes live in the
    library file beside the constants they guard rather than in [Test/].
 
-   FIRST: the [Set] pin of item I.3, guarded rather than merely
-   measured.  Four controls fix the levels, the two donors are rejected
-   there, and [disc_ext] is accepted at those very levels -- so the
-   rejection is attributable to the donors and not to the shape, the
-   target, or the ability to name the donor at all.  Stripping either
-   [Fail] yields a genuine universe inconsistency reading "Cannot enforce
-   Set = uh", naming the culprit on the nose; neither is a typing or a
-   conversion failure.
+   FIRST: item I.3's [Set] pin -- now REPAIRED, and this section is the
+   record of the repair.
 
-   READ THE [Constraint] BELOW CORRECTLY: IT IS INERT FOR THESE TWO
-   NEGATIVES, AND THAT WAS MEASURED RATHER THAN ASSUMED.  Deleting the
-   line leaves both [Fail]s still failing, with byte-identical messages,
-   because what they fire on is the donors' LITERAL [Set] meeting the
-   RIGID declared level [uh] -- not on any relation declared between
-   them.  The declaration is kept because it states the intended reading
-   and because the last control ([disc_ext] accepted) is only interesting
-   above [Set].  Contrast the section after next, where the analogous
-   [Constraint] IS load-bearing: deleting it makes that negative succeed
-   and the file stops compiling. *)
+   RECORDED CORRECTION.  An earlier revision stated this section as two
+   FORMABILITY NEGATIVES: over a category whose homs are declared
+   strictly above [Set], ascribing [DiscreteCat_Functor f] to
+   [DiscreteCat@{uo uh uh} A ⟶ C] and ascribing [Indiscrete] to
+   [Type@{uo} → Category@{uo uh uh}] were both refused, each reading
+   "universe inconsistency: Cannot enforce Set = uh", because both donors
+   were declared with bare binders and minimization pinned their hom and
+   proof levels to [Set].  The comment added that the [Constraint] below
+   was INERT for those two negatives, since what they fired on was the
+   donors' literal [Set] meeting the rigid declared level [uh].
+
+   In the PR "algebraic carriers are sets" (2026-09-17) both donors were
+   annotated in place -- [DiscreteCat_Functor@{o h p uo uh up +}] at
+   Instance/Discrete.v:81 and [Indiscrete@{o h p}] at
+   Instance/Discrete/Reconstruct.v:430 -- so both ascriptions are now
+   ACCEPTED and both lines below are positive controls.  The [Constraint]
+   remains inert, and is kept for the reason it was kept before: it
+   states the intended reading, and the whole section is only interesting
+   above [Set].
+
+   What this section still guards is therefore not a refusal but an
+   AGREEMENT: the two annotated donors and the hand-written [disc_ext]
+   reach the same declared levels, so the tree now has three
+   interchangeable discrete extensions rather than one usable one and two
+   pinned ones.  [disc_ext] is retained because it is written with
+   [refine] rather than [Program] and so mints no auxiliary universe;
+   §1's paragraph on that difference stands.
+
+   Contrast the section after next, where the analogous [Constraint] IS
+   load-bearing and the negative is real: deleting the [Constraint] makes
+   that negative succeed and the file stops compiling. *)
 Section SetPin.
   Universes uo uh.
   Constraint Set < uh.
   Context (A : Type@{uo}) (C : Category@{uo uh uh}) (f : A → obj[C]).
 
   (* controls: the shape and the functor type ARE formable here, and both
-     donors ARE nameable -- so the two rejections below are attributable
-     to the ASCRIPTION and to nothing else.  The first control is the
-     sharpest: it is the very same term as the first negative, minus the
-     ascription. *)
+     donors ARE nameable. *)
   Check (DiscreteCat@{uo uh uh} A).
   Check (DiscreteCat@{uo uh uh} A ⟶ C).
   Check (DiscreteCat_Functor f).
   Check (Indiscrete A).
 
-  (* the two donors are pinned at [Set] and cannot reach them *)
-  Fail Check (DiscreteCat_Functor f : DiscreteCat@{uo uh uh} A ⟶ C).
-  Fail Check (Indiscrete@{uo} : Type@{uo} → Category@{uo uh uh}).
+  (* and, since the annotation, both donors also REACH these levels *)
+  Check (DiscreteCat_Functor f : DiscreteCat@{uo uh uh} A ⟶ C).
+  Check (Indiscrete@{uo uh uh} : Type@{uo} → Category@{uo uh uh}).
 
-  (* the replacement does *)
+  (* as does the hand-written extension *)
   Check (disc_ext@{uo uh uh uo} f : DiscreteCat@{uo uh uh} A ⟶ C).
 End SetPin.
 

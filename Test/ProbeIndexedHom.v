@@ -29,14 +29,25 @@
 
     Group (1b), two negatives.  The two LIMIT-shaped bridges
     [limit_hom_iso] and [colimit_hom_iso] are stated with [{A : Set}], and
-    that binder is the COMBINATION of a donor restriction with the group
-    (1a) bound — neither alone forces it.  [Structure/Limit/Product.v]'s
-    [iprod] is over [C : Category@{u Set Set}] (the [DiscreteCat] hom-setoid
-    is strict equality), with its INDEX universe free; the two controls here
-    show [Limit (DiscreteCat_Functor f)] and [iprod f L] are both formable
-    at a large index over such a [C].  Adding the group (1a) bound at
-    [C]'s hom universe, which is [Set] here, is what cuts the index down to
-    [Set].
+    that binder is the group (1a) bound taken at [C]'s hom universe.
+
+    RECORDED CORRECTION.  An earlier revision said the binder was "the
+    COMBINATION of a donor restriction with the group (1a) bound — neither
+    alone forces it", and named the donor restriction as
+    "[Structure/Limit/Product.v]'s [iprod] is over
+    [C : Category@{u Set Set}] (the [DiscreteCat] hom-setoid is strict
+    equality), with its INDEX universe free".  There is no donor
+    restriction: [iprod]'s [Set] was a universe-minimization artifact of
+    Instance/Discrete.v's unannotated [DiscreteCat_Functor], repaired in
+    the PR "algebraic carriers are sets" (2026-09-17).  MEASURED after the
+    repair, in a copy of this whole file: re-declaring §(1b)'s [C] at
+    [Category@{uo uh uh}] with [Set < uh] leaves both controls passing and
+    both negatives refusing, unchanged.  So the two negatives are the
+    group (1a) bound alone, and §(1b)'s [C] is still written
+    [Category@{uo Set Set}] only because that is the instance the bridges'
+    [{A : Set}] binder is about.  The two controls still show
+    [Limit (DiscreteCat_Functor f)] and [iprod f L] formable at a large
+    index over such a [C].
 
     Scope these two negatives precisely: they fail because the bridges are
     DECLARED [{A : Set}], so they would fail for that reason whatever the
@@ -143,9 +154,11 @@ Section LimitShapeIndex.
 Universes uo ub.
 Constraint Set < ub.
 
-(* [DiscreteCat]'s hom-setoid is strict equality, so [Limit
-   (DiscreteCat_Functor f)] pins [C]'s hom and proof universes to [Set];
-   that much is the donor's, and it leaves the INDEX free. *)
+(* [C]'s homs are written at [Set] because that is the instance the
+   bridges' [{A : Set}] binder is about, NOT because anything forces it:
+   see the header's recorded correction.  [Limit (DiscreteCat_Functor f)]
+   leaves both [C]'s hom universe and the INDEX free since
+   [DiscreteCat_Functor] was annotated. *)
 Context (C : Category@{uo Set Set}) (A : Type@{ub}) (f : A -> C).
 
 (* Positive control 4: the limit shape IS formable at this large index. *)

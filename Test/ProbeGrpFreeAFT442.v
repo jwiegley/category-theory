@@ -214,24 +214,58 @@ Definition p442_sols_indexed_by (I : Type)
 Check (fun o a cov =>
          p442_GAFT_at_Grp (p442_sols_indexed_by bool o a cov)).
 
-(* N5 UNIVERSE: at Mac Lane's index it is refused.
+(* Former N5, now a positive control: Mac Lane's index is accepted.
 
-   WHAT THIS DOES AND DOES NOT PIN.  It pins the refusal, in the tree as it
-   stands.  It does NOT pin a cause, and an earlier revision of the target's
-   header attributed the cause to [GAFT] and [Grp_Complete], which is wrong:
-   the [Set] is a universe-minimization artifact of Instance/Discrete.v:59's
-   unannotated [DiscreteCat_Functor], reaching GAFT's statement through
-   GAFT.v:249, and [Grp_Complete] only transmits it.  Annotating that one
-   donor — three lines, no [Qed]-opaque term touched — makes this very
-   [Check] succeed, so THIS REFUTATION IS EXPECTED TO TURN OVER when
+   RECORDED CORRECTION.  An earlier revision read: "N5 UNIVERSE: at Mac
+   Lane's index it is refused.  WHAT THIS DOES AND DOES NOT PIN.  It pins
+   the refusal, in the tree as it stands.  It does NOT pin a cause, and an
+   earlier revision of the target's header attributed the cause to [GAFT]
+   and [Grp_Complete], which is wrong: the [Set] is a universe-
+   minimization artifact of Instance/Discrete.v:59's unannotated
+   [DiscreteCat_Functor], reaching GAFT's statement through GAFT.v:249,
+   and [Grp_Complete] only transmits it.  Annotating that one donor —
+   three lines, no [Qed]-opaque term touched — makes this very [Check]
+   succeed, so THIS REFUTATION IS EXPECTED TO TURN OVER when
    Instance/Discrete.v's follow-on lands.  It is one of eleven such
    boundaries in the tree (Instance/Cat/Objects.v:747,
    Structure/Limit/Components.v:1166 and nine Test/Probe* lines); measured
    2026-09-12 in a full copy of this worktree, that annotation breaks no
    proof anywhere in the 977-file build set and turns over exactly those
-   eleven and nothing else. *)
-Fail Check (fun (G : Grp) o a cov =>
-              p442_GAFT_at_Grp (p442_sols_indexed_by (Subgroup G) o a cov)).
+   eleven and nothing else."
+
+   The cause was diagnosed correctly and the prediction held.  The
+   annotation landed in the PR "algebraic carriers are sets"
+   (2026-09-17): [DiscreteCat_Functor@{o h p uo uh up +}], now
+   Instance/Discrete.v:81, and this line is ACCEPTED.  It is kept at Mac
+   Lane's own index [Subgroup G] as a positive control, so dropping the
+   annotation refuses it again and breaks this file.
+
+   TWO FIGURES IN THAT PARAGRAPH WERE STALE AND ARE CORRECTED HERE.  The
+   build set was 977 files when the prediction was measured; it was 1018
+   when the annotation landed.  And the boundary count "eleven" was never
+   enumerated: the flip set measured by building the annotated tree is
+   TWENTY-TWO commands in FIFTEEN files.  Seven of them are outside
+   [Test/] — two in Instance/Cat/Objects.v, two in
+   Structure/Limit/Components.v and three in Instance/Indiscrete.v — and
+   fifteen are in twelve [Test/Probe*] files: ProbeCommaCreation438,
+   ProbeComparison419 (2), ProbeComponents355 (2), ProbeConeSets407 (2),
+   ProbeDualNoRightAdjoint433, ProbeFreyd423, ProbeFromProducts416,
+   ProbeGAFTCharacterization436, ProbeHomLimit331, ProbeModTensorAFT449,
+   ProbeSpanningArrow448, and this file.
+
+   TWO OF THE TWENTY-TWO WOULD HAVE GONE ON PASSING VACUOUSLY, and that is
+   worth recording separately.  Instance/Cat/Objects.v and
+   Instance/Indiscrete.v each wrote their [Indiscrete] negative as
+   [Indiscrete@{uo}], a ONE-universe instance.  Annotating [Indiscrete] as
+   [Indiscrete@{o h p}] makes that an arity error — "Universe instance
+   length for Indiscrete is 1 but should be 3", measured — so the [Fail]
+   would have stayed green while the boundary it guarded was gone.  Both
+   were rewritten with all three levels before being turned over.
+
+   The remaining claim held exactly: no proof anywhere in the tree broke,
+   and the full build is rc=0. *)
+Check (fun (G : Grp) o a cov =>
+         p442_GAFT_at_Grp (p442_sols_indexed_by (Subgroup G) o a cov)).
 
 (** ** E: the induced monad *)
 

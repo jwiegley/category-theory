@@ -87,16 +87,31 @@ Open Scope category_scope.
                    attribution to [Limit]/[IsLimitCone].  (An earlier
                    draft said it fired at the diagram argument; an audit
                    stripped the command and read the message.)
-     N8  UNIVERSE  At a category whose hom level is declared strictly above
-                   [Set], the class [HasIndexedProducts], its
-                   [indexed_product] and [Complete_from_products_equalizers]
-                   are ACCEPTED while [iprod] — the discrete-diagram
-                   presentation the issue's work item 4 asks the
-                   construction to route through — is refused with
-                   [Cannot enforce Set = ch]: [iprod]'s binder is
-                   [C : Category@{_ Set Set}] through [DiscreteCat_Functor]
-                   and [Limit].  This is the measured reason the target
-                   is stated over the CLASS and never over [iprod].
+     N8  REPAIRED, and recorded as a correction.  An earlier revision read:
+                   "UNIVERSE  At a category whose hom level is declared
+                   strictly above [Set], the class [HasIndexedProducts],
+                   its [indexed_product] and
+                   [Complete_from_products_equalizers] are ACCEPTED while
+                   [iprod] — the discrete-diagram presentation the issue's
+                   work item 4 asks the construction to route through — is
+                   refused with [Cannot enforce Set = ch]: [iprod]'s binder
+                   is [C : Category@{_ Set Set}] through
+                   [DiscreteCat_Functor] and [Limit].  This is the measured
+                   reason the target is stated over the CLASS and never
+                   over [iprod]."
+
+                   The attribution was correct and the defect is fixed.
+                   [iprod] was never [Set]-pinned in itself; it inherited
+                   the pin from [DiscreteCat_Functor], declared with bare
+                   binders and minimized to [DiscreteCat@{u Set Set}].
+                   Annotated in place in the PR "algebraic carriers are
+                   sets" (2026-09-17) — Instance/Discrete.v:81 — [iprod] is
+                   ACCEPTED at those levels, and the line below is kept as
+                   a positive control there.  So the count of UNIVERSE
+                   negatives in this file is now two (N6 and N7), not
+                   three.  The target is still stated over the CLASS, but
+                   that is now a presentational choice rather than a
+                   universe obligation.
 
    Every constant a negative names also appears in a [Check] outside every
    [Fail], so a rename breaks this file loudly instead of turning a [Fail]
@@ -273,7 +288,14 @@ Fail Check (@pe_cone Ju Cu Fu).
 
 End ShapeHom.
 
-(** ** N8: the [iprod] route is pinned to [Set]; the class is not *)
+(** ** Former N8: the [iprod] route is no longer pinned to [Set]
+
+    RECORDED CORRECTION: this section held the file's third UNIVERSE
+    negative, refused because [DiscreteCat_Functor] was unannotated
+    ([DiscreteCat@{u Set Set}]).  Annotated in the PR "algebraic carriers
+    are sets" (2026-09-17) it is accepted; the line is kept as a positive
+    control at the same levels, so dropping the annotation breaks this
+    file. *)
 
 Section AboveSet.
 
@@ -288,8 +310,8 @@ Check HP.
 Check (@indexed_product Cu HP).
 Check (@Complete_from_products_equalizers Cu HP HE).
 
-(* N8: UNIVERSE. *)
-Fail Check (@iprod Cu).
+(* Former N8, now a positive control. *)
+Check (@iprod Cu).
 
 End AboveSet.
 

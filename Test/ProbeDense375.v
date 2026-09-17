@@ -190,11 +190,18 @@ End UniverseProbe.
 
 (* [Indiscrete_bool_Skeleton] (Theory/Skeleton/Separation.v:140) selects
    [true] alone out of the two points of [Indiscrete bool], so the
-   reflection is genuinely non-inert at [false].  Note the universe pin
+   reflection is genuinely non-inert at [false].
+
+   RECORDED CORRECTION: an earlier revision added "Note the universe pin
    inherited from the witness: [Indiscrete@{u} : Type@{u} -> Category@{u
    Set Set}], so both readbacks below are about a category whose hom and
    proof universes are the literal [Set].  The general theorem carries no
-   such pin. *)
+   such pin."  There is no longer a pin to inherit: [Indiscrete] was
+   annotated as [Indiscrete@{o h p} : Type@{o} -> Category@{o h p}] in the
+   PR "algebraic carriers are sets" (2026-09-17),
+   Instance/Discrete/Reconstruct.v:430.  The readbacks below are unchanged
+   and still hold; what has gone is the caveat about the levels they hold
+   at. *)
 
 Definition probe_skel_refl :
   Reflective (skel_sub Indiscrete_bool_Skeleton) :=

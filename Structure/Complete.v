@@ -111,9 +111,43 @@ Generalizable All Variables.
    classically impossible (Reynolds 1984), yet realizably consistent —
    the PER models of System F: a type of all types closed under products. *)
 
+(* THE FOUR UNIVERSES, NAMED, BECAUSE DOWNSTREAM STATEMENTS TURN ON WHICH
+   OF THEM IS WHICH.  Read in the declared order:
+
+     [r]   the level of the resulting [Type] (the limit datum's own),
+     [so]  the SHAPE's object universe -- the level at which diagram
+           categories [D] may be indexed,
+     [h]   the shape's AND the ambient's hom-and-proof universe: [Limit]
+           identifies the two, where [Cone] keeps them apart, and that
+           identification is inherited here rather than introduced,
+     [o]   the AMBIENT category's object universe.
+
+   The two declared constraints, [so <= r] and [h <= r], are [Limit]'s own
+   and say only that the datum lives above the levels it quantifies over.
+   NOTHING here relates [so] to [h] or to [o]: a complete category may be
+   indexed by shapes at any level.  What ties them is the APPLICATION --
+   Adjunction/GAFT.v:249 applies a [Complete] at a discrete shape whose
+   objects are a solution-set index, and Adjunction/GAFT.v's own binders
+   record the identification that forces there.
+
+   The measured readback is
+
+     Complete@{r so h o} : Category@{o h h} → Type@{max(r,so+1,h+1,o)}
+     (* r so h o |= so <= r / h <= r *)
+
+   -- and, since Instance/Discrete.v:81's [DiscreteCat_Functor] was
+   annotated in the PR "algebraic carriers are sets" (2026-09-17), with no
+   literal [Set] in it.  An earlier revision of this file's consumers
+   quoted [Complete@{Set Set Set u}] and [Complete@{u0 u0 Set u2}]; those
+   [Set]s were a universe-minimization artifact of that donor and are
+   gone. *)
+
 (* C is complete: every diagram F : D ⟶ C has a limit (terminal cone) in C. *)
-Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.
+Definition Complete@{r so h o | so <= r, h <= r} {C : Category@{o h h}} :=
+  ∀ (D : Category@{so h h}) (F : D ⟶ C), Limit@{r so h o} F.
 
 (* C is cocomplete: every diagram F : D ⟶ C has a colimit in C — the dual of
-   completeness, equivalently completeness of C^op. *)
-Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.
+   completeness, equivalently completeness of C^op.  Same four universes in
+   the same order. *)
+Definition Cocomplete@{r so h o | so <= r, h <= r} {C : Category@{o h h}} :=
+  ∀ (D : Category@{so h h}) (F : D ⟶ C), Colimit@{r so h o} F.

@@ -525,19 +525,30 @@ End RAPLRestated.
 
 (** ** Discrete shapes: a cone is limiting iff its legs are an indexed product *)
 
-(* An annotated discrete-diagram functor: the same actions as
-   Instance/Discrete.v's [DiscreteCat_Functor], whose unannotated
-   declaration instantiates [DiscreteCat@{u Set Set}] and so pins any
-   [IsLimitCone] over its cones to hom level [Set] (Functor/Hom/Limit.v:
-   104-155; the probe pins the comparison's refusal).  Here the shape's hom
-   and proof levels are free and are identified with the ambient's by
-   [IsLimitCone] where that is used. *)
-Program Definition DiscreteCat_Functor'@{o h p uo uh up +}
+(* An annotated discrete-diagram functor.
+   RECORDED CORRECTION.  An earlier revision declared this as a second
+   [Program Definition] with the same actions as Instance/Discrete.v's
+   [DiscreteCat_Functor], because that one was declared with bare binders and
+   so minimized to [DiscreteCat@{u Set Set}], pinning any [IsLimitCone] over
+   its cones to hom level [Set] (Functor/Hom/Limit.v:104-155; the probe pins
+   the comparison's refusal).  In the PR "algebraic carriers are sets"
+   (2026-09-17) the SAME binders were put on [DiscreteCat_Functor] itself, so
+   the two now have identical measured signatures:
+
+     DiscreteCat_Functor@{o h p uo uh up u} :
+     ∀ {A : Type@{o}} {C : Category@{uo uh up}},
+     (A → obj) → Functor@{o h p uo uh up}
+
+   This is therefore no longer a separate construction but a transparent
+   alias, kept because eleven files and three probes name it and because the
+   name marks, at each use site, the places where the shape's hom and proof
+   levels must stay free and be identified with the ambient's by
+   [IsLimitCone].  The binders are repeated on the alias deliberately: an
+   unannotated [:=] alias of an annotated constant over a bare
+   [(C : Category)] minimizes back to [Category@{u u u}]. *)
+Definition DiscreteCat_Functor'@{o h p uo uh up +}
   {A : Type@{o}} {C : Category@{uo uh up}} (f : A → C) :
-  DiscreteCat@{o h p} A ⟶ C := {|
-  fobj := f;
-  fmap := fun x y (e : x = y) => match e with eq_refl => id end
-|}.
+  DiscreteCat@{o h p} A ⟶ C := @DiscreteCat_Functor A C f.
 
 Section DiscreteBridge.
 

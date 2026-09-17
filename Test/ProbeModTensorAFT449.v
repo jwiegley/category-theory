@@ -164,18 +164,35 @@ Check (fun (X : RingObject) (N : RModObject (Ring_op X))
 
 (** ** NEGATIVE 1 (UNIVERSE): Mac Lane's covering family is refused
 
-    Stripped and re-run in a copy of the whole file, the message is
+    RE-MEASURED 2026-09-17, after [DiscreteCat_Functor] was annotated
+    (Instance/Discrete.v:81, PR "algebraic carriers are sets").  Stripped
+    and re-run in a copy of the whole file, the message is now
 
       The term "tensor_esols_direct V V'" has type
-       "ElementSolutionSet@{u_obj Set u_Sets u_obj} (Bilin ... V V')"
+       "ElementSolutionSet@{u_idx u_carrier u_Sets u_idx} (Bilin ... V V')"
       while it is expected to have type
-       "ElementSolutionSet@{u_obj' Set u_Sets' Set} (Bilin ... V V')"
+       "ElementSolutionSet@{u_idx' u_carrier u_Sets' u_carrier}
+          (Bilin ... V V')"
+      (universe inconsistency: Cannot enforce u_idx' = u_carrier because
+       u_carrier < u_idx')
+
+    (the generated universe names are rewritten to readable ones; the
+    shape, the slots and the final clause are verbatim).
+
+    RECORDED CORRECTION.  An earlier revision quoted this as
+
+      "ElementSolutionSet@{u_obj Set u_Sets u_obj}" against
+      "ElementSolutionSet@{u_obj' Set u_Sets' Set}"
       (universe inconsistency: Cannot enforce Set = u_obj' because
        Set < u_obj')
 
-    -- the INDEX slot (fourth) must be [Set], the ring's carrier universe,
-    while the index is a sigma over the objects of [RMod R], one level up.
-    This is why [tensor_via_AFT] takes its solution set as a hypothesis. *)
+    and glossed it "the INDEX slot (fourth) must be [Set], the ring's
+    carrier universe".  THE LITERAL [Set] IS GONE; the gloss was right
+    about everything else and is now stated without it: the index slot
+    must be the RING'S CARRIER universe, while the index actually supplied
+    is a sigma over the objects of [RMod R], one level up.  This is why
+    [tensor_via_AFT] takes its solution set as a hypothesis, and the
+    reason is a carrier-versus-index wall, not a [Set] floor. *)
 
 Fail Definition n1_direct_esols_refused {R : RingObject}
   (V V' : RModObject R) : Representable (Bilin V V') :=
@@ -184,7 +201,14 @@ Fail Definition n1_direct_esols_refused {R : RingObject}
 
 (** ** NEGATIVE 2 (UNIVERSE): the spanning-arrow route is refused too
 
-    Stripped and re-run, the message is
+    RE-MEASURED 2026-09-17.  Stripped and re-run, the message is now
+
+      The term "RMod R" has type "Category@{u_obj u_hom u_hom}"
+      while it is expected to have type "Category@{u_obj' Set Set}"
+      (universe inconsistency: Cannot enforce u_obj = u_obj' because
+       u_obj' < u_obj)
+
+    RECORDED CORRECTION, AND IT MOVED.  An earlier revision quoted
 
       The term "RMod_Complete R" has type
        "Complete.Complete@{Set Set Set u}"
@@ -193,12 +217,20 @@ Fail Definition n1_direct_esols_refused {R : RingObject}
       (universe inconsistency: Cannot enforce Set = u_obj because
        Set < u_obj)
 
-    -- the same wall seen from the other side: [spanning_solution_set]'s
-    index is at the object universe, so the discrete shape [GAFT] takes a
-    limit over is too, and [RMod_Complete]'s shape is at the ring carrier.
-    [GAFT_from_spanning] (Adjunction/SpanningArrow.v:549) is therefore NOT
-    applicable at [RMod R], and Instance/Mod/TensorAFT.v delivers no
-    adjunction. *)
+    The refusal now fires EARLIER, at the ambient category argument
+    rather than at the completeness one, and the remaining literal [Set]
+    is a different [Set] from the one that has gone.  It is
+    [GAFT_from_spanning]'s OWN section annotation
+    (Adjunction/SpanningArrow.v:549, written over [Category@{oA Set Set}]),
+    not a universe-minimization artifact: annotating
+    [DiscreteCat_Functor] removed the minimized one and left this one
+    exactly where its author put it.
+
+    The gloss stands: [spanning_solution_set]'s index is at the object
+    universe, so the discrete shape [GAFT] takes a limit over is too,
+    while [RMod R]'s homs are below its objects.  [GAFT_from_spanning] is
+    therefore still NOT applicable at [RMod R], and Instance/Mod/
+    TensorAFT.v still delivers no adjunction. *)
 
 Fail Definition n2_gaft_from_spanning_refused {R : RingObject}
   (V V' : RModObject R) (HWP : @HasWidePullbacks (RMod R)) :=
@@ -208,16 +240,24 @@ Fail Definition n2_gaft_from_spanning_refused {R : RingObject}
 
 (** ** NEGATIVE 3 (UNIVERSE): the same at [Ab], for Exercise 3
 
-    Stripped and re-run, the message is
+    RE-MEASURED 2026-09-17.  Stripped and re-run, the message is now
 
       The term "bal_esols_direct N M" has type
-       "ElementSolutionSet@{u_obj u_Sets u_obj u_obj} (BalBiadd ... N M)"
+       "ElementSolutionSet@{u_idx u_carrier u_idx u_idx} (BalBiadd ... N M)"
       while it is expected to have type
-       "ElementSolutionSet@{u_obj' Set u_obj' Set} (BalBiadd ... N M)"
-      (universe inconsistency: Cannot enforce Set = u_obj' because
-       Set < u_obj')
+       "ElementSolutionSet@{u_a u_b u_a u_b} (BalBiadd ... N M)"
+      (universe inconsistency: Cannot enforce u_a = u_b because
+       u_b < u_a)
 
-    so Exercise 3's AFT clause is conditional for exactly the reason the
+    RECORDED CORRECTION: an earlier revision quoted the expected type as
+    "ElementSolutionSet@{u_obj' Set u_obj' Set}" and the clause as
+    "Cannot enforce Set = u_obj' because Set < u_obj'".  The literal [Set]
+    is gone -- it was Instance/Discrete.v's minimization, repaired in the
+    PR "algebraic carriers are sets" -- and the refusal is unchanged in
+    substance: the first and third slots want the same level as the second
+    and fourth, and the supplied index sits strictly above them.
+
+    So Exercise 3's AFT clause is conditional for exactly the reason the
     commutative one is. *)
 
 Fail Definition n3_bal_direct_esols_refused {X : RingObject}
@@ -225,17 +265,33 @@ Fail Definition n3_bal_direct_esols_refused {X : RingObject}
   Representable (BalBiadd N M) :=
   bal_tensor_via_AFT N M (bal_esols_direct N M).
 
-(** ** NEGATIVE 4 (UNIVERSE): the [Set] pin on the ring's carrier
+(** ** Former NEGATIVE 4: the [Set] pin on the ring's carrier, now lifted
 
-    [tensor_via_AFT] elaborates only with the ring's carrier universe at
-    [Set].  A ring declared strictly above [Set] is refused; the control
-    immediately below, at an unconstrained ring, is accepted.  Stripped and
-    re-run, the message is
+    RECORDED CORRECTION.  An earlier revision read: "NEGATIVE 4
+    (UNIVERSE): the [Set] pin on the ring's carrier.  [tensor_via_AFT]
+    elaborates only with the ring's carrier universe at [Set].  A ring
+    declared strictly above [Set] is refused; the control immediately
+    below, at an unconstrained ring, is accepted.  Stripped and re-run,
+    the message is
 
       The term "Vu" has type "RModObject@{... pra prb prc} Ru"
       while it is expected to have type
        "RModObject@{... Set Set ... Set ...} ?R"
-      (universe inconsistency: Cannot enforce Set = pra) *)
+      (universe inconsistency: Cannot enforce Set = pra)"
+
+    That [Set] was a universe-minimization artifact of Instance/Discrete.v's
+    unannotated [DiscreteCat_Functor], reaching [representability_theorem]
+    through [Complete] and [Limit].  Annotated in the PR "algebraic
+    carriers are sets" (2026-09-17), Instance/Discrete.v:81, it is gone,
+    and [tensor_via_AFT] elaborates over a ring whose carrier universe is
+    declared strictly above [Set].  The line is kept as a positive control
+    at exactly the levels that used to refuse it.
+
+    THE WALL OF NEGATIVES 1-3 IS NOT LIFTED BY THIS.  Those three are
+    carrier-versus-index refusals, and they survive with the literal [Set]
+    removed from their messages; their quoted texts above were re-measured
+    after the annotation by stripping each [Fail] in a copy of this whole
+    file. *)
 
 Section SetPin.
 
@@ -245,7 +301,7 @@ Constraint Set < pra.
 Context (Ru : RingObject@{pra prb prc}).
 Context (Vu Vu' : RModObject Ru).
 
-Fail Check (tensor_via_AFT Vu Vu').
+Check (tensor_via_AFT Vu Vu').
 
 End SetPin.
 
