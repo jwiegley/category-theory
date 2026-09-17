@@ -17,7 +17,7 @@ Mac Lane fixes ZFC plus one Grothendieck universe `U` and calls a set, a
 function, or a category **small** when it lies in `U`. This library declares no
 universe, no membership relation, and no size axiom. The work `U` does is done
 instead by **universe polymorphism**: `Class Category@{o h p | h <= p}`
-(`Theory/Category.v:111`) gives every category its own three levels —
+(`Theory/Category.v`) gives every category its own three levels —
 
 | level | what lives there | field |
 |---|---|---|
@@ -31,7 +31,7 @@ audited consequence is that the core theory needs no size axiom at all
 
 Since this issue's work, the *vocabulary* also exists: `Theory/Size.v` declares
 `Small` and `LocallySmall`, which before had no declaration anywhere in the tree
-(`Theory/Lawvere/Sets.v:44` records the gap in passing — "the library has no
+(`Theory/Lawvere/Sets.v` records the gap in passing — "the library has no
 smallness machinery").
 
 ---
@@ -86,8 +86,8 @@ explicit universe-constraint clause yields `Universe constraints are not implied
 by the ones declared: o <= eq.u0`, which a binder has no syntax to discharge.
 Objects carry no setoid in this library, so with `=` unavailable they need
 *some* identity type, and a level-polymorphic predicate needs a
-level-polymorphic one — hence `ObjEq`, following the `poly_unit@{u}` idiom at
-`Lib/Setoid.v:56`.
+level-polymorphic one — hence `ObjEq`, following the `poly_unit@{u}` idiom of
+`Lib/Setoid.v`.
 
 ### def5 — classes
 
@@ -132,9 +132,9 @@ Fail Definition B253_cat_self@{a b c d e} : obj[Cat@{a b c d e}] := Cat@{a b c d
 That is rejected, and rejected on universes alone — the ascription is
 type-correct in shape, since `obj[Cat]` *is* `Category` and `Cat` *is* a
 `Category`, so only the constraint solver can refuse it. This is the genuine
-formal counterpart of Mac Lane's remark, and what `Instance/Cat.v:108-114` means
-by "a universe inconsistency caught by the elaborator rather than a paradox to be
-excluded by axiom".
+formal counterpart of Mac Lane's remark, and what the header essay of
+`Instance/Cat.v` means by "a universe inconsistency caught by the elaborator
+rather than a paradox to be excluded by axiom".
 
 **Second: for `Sets` it is not a universe question at all.** `obj[Sets]` is
 `SetoidObject` — a carrier paired with a setoid — while `Sets` is a `Category`. A
@@ -155,10 +155,10 @@ Both of Mac Lane's pointers are **actually formalized**, which makes this the on
 item that is more than mapped:
 
 - *Category axioms on undefined terms* — `Theory/Metacategory.v`, the arrows-only
-  axiomatization. Its header (`:116-118`) makes the same point this document
-  does: "the size distinctions it once marked are, in this library, carried
-  instead by universe polymorphism."
-- *Elementary topos axioms for `Set`* — `Structure/Topos.v:112`'s
+  axiomatization. Its header makes the same point this document does: "the size
+  distinctions it once marked are, in this library, carried instead by universe
+  polymorphism."
+- *Elementary topos axioms for `Set`* — `Structure/Topos.v`'s
   `ElementaryTopos`, inhabited by `FinSet_Topos`.
 
 ---
@@ -178,7 +178,7 @@ objects. `Theory/Size.v`'s `TotalMor` is that collection.
 and both sides are recorded:
 
 - What the library *provides* is **stronger** than the book's convention.
-  `Class Category`'s `homset` field (`Theory/Category.v:116`) gives every
+  `Class Category`'s `homset` field (`Theory/Category.v`) gives every
   category hom-setoids at a fixed level, so local smallness holds by
   construction and a non-locally-small category is not expressible. This is
   `locally_small_ambient`, stated as a **lemma** rather than as prose.
@@ -203,7 +203,7 @@ Awodey's three cases, against the tree:
 Case (ii) deserves the emphasis. The in-tree `Yoneda_Lemma` does not *conclude*
 that `Hom(y C, P)` is a set — it **presupposes** it, and unavoidably so: both
 sides of its `≅` must already be `Sets`-objects for the statement to typecheck,
-via the coercion at `Functor/Hom.v:78`. Relatedly `Functor/Hom.v:49` defines
+via the coercion declared in `Functor/Hom.v`. Relatedly, the same file defines
 `Hom (C : Category) : C^op ∏ C ⟶ Sets` for an *arbitrary* `C` with no side
 condition, so hom-collections always land in `Sets` at the ambient level.
 
@@ -215,8 +215,8 @@ is a checkbox of #253 left undone rather than delivered:
   level of `C`'s objects, which is beyond this issue's scope.
 - Case (ii) is **described, not formalized**. The description is accurate —
   `Functor/Hom/Yoneda.v` states `Yoneda_Lemma : ∀ A : C, Presheaves [Hom ─,A] F ≅ F A`,
-  and both sides are `Sets`-objects by construction via the coercion at
-  `Functor/Hom.v:78` — but recording that the in-tree lemma presupposes the
+  and both sides are `Sets`-objects by construction via the coercion declared in
+  `Functor/Hom.v` — but recording that the in-tree lemma presupposes the
   content is not the same as concluding it.
 
 ---
@@ -237,11 +237,11 @@ correct; the trade is that Riehl's convention keeps statements readable while
 this library's keeps them axiom-free.
 
 Checked: `rg -i 'Grothendieck universe|inaccessible|V_kappa|proper class|Russell'`
-returns only prose hits (`Instance/Cat.v:109,111`) — **no universe axiom is
-declared anywhere**; the only `Parameter`s in the tree are the three documented
-ZX `Phase` ones at `Instance/ZX.v:189-191`. `Instance/Cat.v:108-114` already
-explains that self-membership is blocked by polymorphism rather than by a size
-axiom.
+returns only prose hits, all of them in the header essay of `Instance/Cat.v` —
+**no universe axiom is declared anywhere**; the only `Parameter`s in the tree
+are the three documented ZX `Phase` ones in `Instance/ZX.v`. That same essay
+already explains that self-membership is blocked by polymorphism rather than by
+a size axiom.
 
 ### §1.1 Definition 1.1.6 — small, and the arrows-with-`dom`-and-`cod` packaging
 
@@ -252,7 +252,7 @@ morphisms, and `dom`, `cod`, `id` with `dom` and `cod` retracting `id` — is
 Both presentations are given, because the difference is exactly **where the
 retraction laws live**:
 
-- The tree's `Quiver` (`Construction/Free/Quiver.v:54`) is the **indexed**
+- The tree's `Quiver` (`Construction/Free/Quiver.v`) is the **indexed**
   presentation, `edges : nodes → nodes → Type`, in which `dom` and `cod` are
   carried by the indexing. It has no identity selection at all, so it supplies
   neither half of Riehl's retraction, and no reflexive quiver existed in the
@@ -280,16 +280,17 @@ is an object.
 
 **This library renders the distinction as a single polymorphic construction, and
 that is now backed by a machine-checked fact rather than by argument.** There is
-one `Instance/Cat.v:142` `Cat`, and `Check (Cat : obj[Cat])` **succeeds** — at
-two different universe instances, as shown under remark1 above. So "`Cat` is an
-object of `CAT`" is not a separate tier to be built; it is what the polymorphic
-`Cat` already says, with `CAT` being `Cat` at the next instance. There is no
-`Cat'` to define, and defining a second tier over `LocallySmall` would produce
+one `Cat`, declared in `Instance/Cat.v`, and `Check (Cat : obj[Cat])`
+**succeeds** — at two different universe instances, as shown under remark1
+above. So "`Cat` is an object of `CAT`" is not a separate tier to be built; it
+is what the polymorphic `Cat` already says, with `CAT` being `Cat` at the next
+instance. There is no `Cat'` to define, and defining a second tier over
+`LocallySmall` would produce
 nothing new, since **every** category satisfies `LocallySmall` at the ambient
 level (`locally_small_ambient`).
 
 Worth recording alongside: `Cat`'s hom-setoid **is** natural isomorphism
-(`Instance/Cat.v:145`), so `≅[Cat]` already means *equivalence*, not isomorphism
+(`Instance/Cat.v`), so `≅[Cat]` already means *equivalence*, not isomorphism
 of categories — a distinction Riehl leans on. A genuine isomorphism of categories
 must be stated in `StrictCat` (`Instance/StrictCat.v`).
 
@@ -298,7 +299,7 @@ must be stated in `StrictCat` (`Instance/StrictCat.v`).
 ## Where smallness is silently absent
 
 One place is worth flagging for readers, since it is the strongest candidate for
-a hidden smallness quantifier: `Structure/Complete.v:115` reads
+a hidden smallness quantifier: `Structure/Complete.v` reads
 
 ```coq
 Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.
@@ -353,10 +354,10 @@ and this document still records as absent.
 | def6 (large category) | **not statable** — negation is a metatheoretic claim |
 | remark1 (`Set` not self-membered) | **corrected**: naive check *succeeds*; pinned form rejected; `Sets` case is a type error |
 | remark2 (axioms in force) | `docs/AXIOMS.md` — zero in the core |
-| remark3 (set-free alternatives) | **both formalized**: `Theory/Metacategory.v`, `Structure/Topos.v:112` |
+| remark3 (set-free alternatives) | **both formalized**: `Theory/Metacategory.v`, `Structure/Topos.v` |
 | Awodey 1.11 (small) | `Small` |
 | Awodey 1.12 (locally small) | `LocallySmall` + `locally_small_ambient` |
-| Awodey 8.4 (Yoneda trichotomy) | (iii) cannot arise; (ii) presupposed at `Functor/Hom.v:78`; (i) open |
+| Awodey 8.4 (Yoneda trichotomy) | (iii) cannot arise; (ii) presupposed via the coercion in `Functor/Hom.v`; (i) open |
 | Riehl 1.1.5 (universe convention) | recorded as a deliberate divergence |
 | Riehl 1.1.6 (small + packaging) | `Small` + `ArrowQuiver`/`ArrowQuiverOfCat` (both supplied; their *equivalence* is not established) |
 | Riehl 1.1.7 (locally small) | `locally_small_ambient`; the "not small" half not statable |

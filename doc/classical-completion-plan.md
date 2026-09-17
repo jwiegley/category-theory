@@ -94,7 +94,7 @@ twelve pushes two phases past the ceiling.
 - In-place text edits on the reference dev box: use `perl -pi -e`, not `sed -i ''`
   (the `sed` on PATH is GNU sed from nix; the BSD `-i ''` form silently misbehaves).
 - Trailing whitespace is a hard gate: the flake's `checks` output includes a
-  `format-check` derivation (flake.nix:191), so the Section 2.2 `nix flake check`
+  `format-check` derivation (flake.nix), so the Section 2.2 `nix flake check`
   step fails on any trailing whitespace in `.v` files. `make format-check` works
   and is the quick local probe (fixed in commit a87bdc6 — any older note claiming
   it "always fails" or "has a broken pipeline ending in head" is stale).
@@ -190,7 +190,7 @@ entirely (e.g. the Type-valued `le_t` in Phase 7 avoids `le_unique`).
 6. Heavy instances follow the standalone-lemma-then-explicit-record pattern: prove
    each law as a named lemma, then assemble the record with `Build_*` referencing the
    lemmas. This keeps obligation alignment and review tractable.
-7. The GLOBAL Program obligation tactic is `cat_simpl` (Lib/Tactics.v:206). It
+7. The GLOBAL Program obligation tactic is `cat_simpl` (Lib/Tactics.v). It
    silently discharges easy obligations, so `Next Obligation` blocks shift. For files
    with dependent records (sigma objects, displayed structures), set
    `#[local] Obligation Tactic := program_simpl.` (the `Monad/Kleisli.v` precedent)
@@ -230,7 +230,7 @@ These facts about the current sources are relied on throughout; do not rediscove
 them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
 
 **Core.**
-- `Theory/Category.v:37` — `Class Category@{o h p | h <= p}` with setoid homsets
+- `Theory/Category.v` — `Class Category@{o h p | h <= p}` with setoid homsets
   (`homset : ∀ X Y, Setoid (X ~> Y)`), primitive `comp_assoc` AND `comp_assoc_sym`
   (so `C^op^op = C` by reflexivity). Coercion `obj : Category >-> Sortclass`.
   `Morphism_equality` (strict-equality homset marker) also lives here.
@@ -239,32 +239,32 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
   `uniqueness`. Mediators are *extracted*, never chosen. `injective`/`surjective`
   classes are up-to-`≈`; `surjective` is split (choice-carrying).
 - `Theory/Isomorphism.v` — bundled `Isomorphism x y` (notation `x ≅ y`, `≅[C]`,
-  `iso⁻¹`) AND the predicate `Class IsIsomorphism {x y} (f : x ~> y)` (line 55) with
-  converter `IsIsoToIso`. Instances `iso_from_monic`, `iso_to_epic` exist (lines
-  197, 208). In Sets: `x ≊ y` is iso of setoid objects.
+  `iso⁻¹`) AND the predicate `Class IsIsomorphism {x y} (f : x ~> y)` with
+  converter `IsIsoToIso`. Instances `iso_from_monic` and `iso_to_epic` both
+  exist. In Sets: `x ≊ y` is iso of setoid objects.
 
 **Functors and their equality.**
 - `Theory/Functor.v` — `Functor` with `fobj`/`fmap`/`fmap_respects`/`fmap_id`/
-  `fmap_comp`. TWO setoids on `C ⟶ D`: `Functor_Setoid` (the default `≈`, line 76)
+  `fmap_comp`. TWO setoids on `C ⟶ D`: `Functor_Setoid` (the default `≈`)
   is *bundled natural isomorphism* (sigma of pointwise isos + conjugation coherence;
   access `` `1 e``/`` ``e`` for the iso family, `` `2 e`` for coherence; helpers
-  `fun_equiv_to_fmap`, `fun_equiv_fmap_from`); and `Functor_StrictEq_Setoid` (line
-  436) — propositional object equality plus transported morphism coherence, with a
+  `fun_equiv_to_fmap`, `fun_equiv_fmap_from`); and `Functor_StrictEq_Setoid`
+  — propositional object equality plus transported morphism coherence, with a
   transport toolkit (`transport_trans`, `transport_functorial_dom/cod`, ...).
 - CRITICAL CONSEQUENCE: a `Functor` into `Cat` carries `fmap_id`/`fmap_comp` only as
   *chosen natural isos with no coherence between different applications*. It is
   pseudofunctor data WITHOUT the cocycle/unit coherence. Phase 10 addresses this
   honestly (see the `IndexedCat` record).
-- `Full` (line 259) is a *chosen section* `prefmap` with `fmap_sur` (no functoriality
+- `Full` is a *chosen section* `prefmap` with `fmap_sur` (no functoriality
   demanded of `prefmap` — issue #118); `Faithful` is `fmap_inj`. `FullyFaithful` is a
   Lemma (iso reflection), not a class. `FAlgebra F a := F a ~> a` and `FCoalgebra`
-  are defined here (line ~308).
+  are defined in the same file.
 - `Theory/Natural/Transformation.v` — `Transform` with primitive `naturality` AND
   `naturality_sym`; `Build_Transform'` derives the latter. `nat_id`'s component is
   `fmap[F] id`, NOT bare `id` — a standing rewriting trap. Whiskering `N ⊲ F`,
   `F ⊳ N`; `nat_compose` (`∙`), `nat_hcompose`.
 - `Instance/Fun.v` — `[C, D]` functor category; `[[[C, D]]](F, G)` hom-setoid
-  packaging; `Theorem Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G` (line 178) with
+  packaging; `Theorem Functor_Setoid_Nat_Iso : F ≅[Fun] G ↔ F ≈ G` with
   standalone `iso_equiv`/`equiv_iso`; unitor/associator isos `nat_λ`, `nat_ρ`
   (NOTE: their naming is reversed relative to the monoidal convention — flagged in a
   comment there), `nat_α`, plus coherence lemmas `nat_α_whisker_*`, `nat_α_nat_α`,
@@ -288,7 +288,7 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
   file — Phase 5 adds one.
 - `Theory/Monad.v` — `Monad` fields `ret`, `join`, `fmap_ret`, `join_fmap_join`,
   `join_fmap_ret`, `join_ret`, `join_fmap_fmap` (naturality is explicit fields, not
-  Transforms). `Comonad := @Monad (C^op) (M^op)` (line 80).
+  Transforms). `Comonad := @Monad (C^op) (M^op)`.
 - `Monad/Kleisli.v` — Kleisli category (`hom x y := x ~> M y`,
   `compose f g := join ∘ fmap[M] f ∘ g`), notations `<=<`, `>=>`. Uses
   `#[local] Obligation Tactic := program_simpl`.
@@ -309,7 +309,7 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
 - `Structure/Cone.v` — `ACone` (apex-fixed) and `Cone` (bundled, coercion
   `vertex_obj`), `AConeEquiv`.
 - `Structure/Limit.v` — `Limit` (bundled terminal cone + `ump_limits` via `∃!`),
-  `IsALimit F c` (apex-pinned), `LimitSetoid`, `Colimit F := Limit (F^op)` (line 84).
+  `IsALimit F c` (apex-pinned), `LimitSetoid`, `Colimit F := Limit (F^op)`.
 - `Structure/Complete.v` — `Complete C := ∀ D F, Limit F` and `Cocomplete`: bare
   Definitions; smallness carried implicitly by universe polymorphism.
 - `Structure/Equalizer.v` — `Equalizer F := Limit F` and `Coequalizer F := Colimit F`
@@ -326,7 +326,7 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
   `Notation "'Initial' C" := (@Terminal (C^op))`, with projections `initial_obj`,
   `zero`, `zero_unique`. Consequence: instances of `@Initial X` are written as
   `Program Instance ... : @Initial X := {| terminal_obj := ...; one := ... |}`.
-- `Structure/Cocartesian.v:30` — **Cocartesian is a Notation**:
+- `Structure/Cocartesian.v` — **Cocartesian is a Notation**:
   `Notation "'Cocartesian' C" := (@Cartesian (C^op))`. So `FinSet_Cocartesian`
   literally IS `@Cartesian (FinSet^op)` — Phase 16 exploits this.
 - `Structure/Discrete.v` — a PREDICATE `Discrete (C : Category)` ("only identity
@@ -340,9 +340,10 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
 - `Instance/Sets.v` — `SetoidObject` (`carrier`, `is_setoid`), `SetoidMorphism`
   (`morphism`, `proper_morphism`), pointwise hom equiv. Has Terminal (poly_unit),
   Initial (False), `Sets_Product_Monoidal`; `injectivity_is_monic` (iff, proved),
-  `bijective_is_iso`; `surjectivity_is_epic` is Aborted (universe obstruction, line
-  ~352-399); line 348 notes Set's subobject classifier lives a universe up. Satellite
-  `Instance/Sets/Pushout.v` computes pushouts via an inductive equivalence closure
+  `bijective_is_iso`; `surjectivity_is_epic` is Aborted (universe obstruction);
+  a note in the same file records that Set's subobject classifier lives a
+  universe up. Satellite `Instance/Sets/Pushout.v` computes pushouts via an
+  inductive equivalence closure
   `pushout_eq` (funext-free quotient) — the TEMPLATE for all Phase 12 coend
   quotients. `Instance/Sets/Cartesian.v`, `.../Cocartesian.v` exist. No general
   completeness.
@@ -371,17 +372,17 @@ them. Paths are repo-relative. All were verified 2026-07 on `johnw/ct-phase4`.
 - `Structure/Wedge.v` — `Wedge F` (`wedge_obj`, `wedge_map`, condition
   `ump_wedges`); `Cowedge F := @Wedge (C^op) (D^op) (F^op)`.
 - `Structure/End.v` — `End F` (wedge + `ump_ends`); `Coend F := @End (C^op) (D^op)
-  (F^op)` (line 58) with NO covariant accessors — Phase 12 adds them.
+  (F^op)` with NO covariant accessors — Phase 12 adds them.
 - `Theory/Dinatural.v` — `Dinatural` with the hexagon; no composition (deliberate).
 - `Theory/Kan/Extension.v` — `RightKan`/`LeftKan` (global, via `Induced := (− ◯ F)`
   adjunctions), `LocalRightKan`/`LocalLeftKan` (proved restriction instances);
   `left_adjoint_impl` proved; `left_adjoints_preserve` is **Aborted** (open).
 - `Functor/Hom.v` — hom bifunctor `Hom C : C^op ∏ C ⟶ Sets`, curried `[Hom c,─]`,
-  `[Hom ─,c]`, plus `Yoneda_Embedding'` (line 109; the primed hom-iso-reflects-iso
+  `[Hom ─,c]`, plus `Yoneda_Embedding'` (the primed hom-iso-reflects-iso
   corollary consumed by `Structure/UniversalProperty.v` — it is NOT in the Yoneda
   file). `Functor/Hom/Yoneda.v` has `Yoneda_Lemma`, `Covariant_Yoneda_Lemma`, and
   the unprimed `Yoneda_Embedding` / `Covariant_Yoneda_Embedding`.
-- `Functor/Structure/Cartesian.v:49` — `Class CartesianFunctor` (finite-product-
+- `Functor/Structure/Cartesian.v` — `Class CartesianFunctor` (finite-product-
   preserving functor) with an op-reused cocartesian dual. Phase 16 reuses it.
 - `Structure/UniversalProperty.v` — `IsUniversalProperty` via representability;
   `univ_property_unique_up_to_unique_iso` proved.
@@ -537,7 +538,7 @@ and monoidal structure along equivalences. Consumers: Phases 8, 9, 10, 14, 16.
    conjugation coherence (`` `2 equivalence_counit ``) plus the in-tree
    `iso_to_epic`/`iso_from_monic` instances. Watch rule 2.4.4 (`Proof using`).
 3. `Theory/Equivalence/Adjoint.v` — adjoint equivalences via the real
-   `IsIsomorphism` predicate (Theory/Isomorphism.v:55):
+   `IsIsomorphism` predicate (Theory/Isomorphism.v):
 
    ```coq
    Class AdjointEquivalence {C D : Category} (F : C ⟶ D) (U : D ⟶ C) := {
@@ -789,7 +790,7 @@ universal properties, lists on `Coq` and streams on `Sets`.
    (`Morphism_equality` makes all law obligations proof-irrelevant; prove the two
    `le_t_trans` unit/associativity equations as `=` lemmas by induction. The
    `@{u}`/`@{h}`/`@{o h p}` instantiations are load-bearing: under the library's
-   global `Set Universe Polymorphism` (Lib.v:11), a strictly bound
+   global `Set Universe Polymorphism` (Lib.v), a strictly bound
    `Omega@{o h p}` cannot mention a polymorphic constant without instantiating it
    (unbound-universe errors otherwise) — the `Instance/One.v` precedent, which
    writes `Morphism_equality@{o h p}` and `poly_unit@{o}` for exactly this reason.
@@ -1415,7 +1416,7 @@ for the abelian corollary; `IsCoequalizer` pattern for the equalizer sibling). E
 
 **Goal.** Zero objects and zero morphisms, biproducts, preadditive
 (commutative-monoid-enriched at the setoid level), the semiadditivity theorems
-(closing the discussion at `Structure/Bicartesian.v:18`), additive categories,
+(closing the discussion at `Structure/Bicartesian.v`), additive categories,
 kernels/cokernels, abelian categories with epi-mono factorization, and the CMon
 concrete semiadditive witness.
 
@@ -1459,7 +1460,7 @@ concrete semiadditive witness.
    category with biproducts, `padd f g ≈ codiag ∘ (f ⊕ g) ∘ diag` and products are
    biproducts; (ii) from `Cartesian + Cocartesian + ZeroObject` plus the canonical
    product-coproduct comparison being iso, DERIVE `Preadditive` (the convolution
-   addition) — this is the semiadditivity `Structure/Bicartesian.v:18` discusses;
+   addition) — this is the semiadditivity `Structure/Bicartesian.v` discusses;
    add a pointer comment there in the same commit.
 5. `Structure/Additive.v` — `Class Additive`: Preadditive + `pneg` (group
    enrichment) + `HasBiproducts` (+ ZeroObject); consequence pack
@@ -1501,7 +1502,7 @@ concrete semiadditive witness.
 | `ZeroObject`, `zero_mor`, side lemmas | Structure/ZeroObject.v |
 | `Biproduct`, `HasBiproducts` | Structure/Biproduct.v |
 | `Preadditive`, notation scope | Structure/Preadditive.v |
-| `biproduct_addition`, `bicartesian_preadditive`; Bicartesian.v:18 pointer | Structure/Semiadditive.v |
+| `biproduct_addition`, `bicartesian_preadditive`; Bicartesian.v pointer | Structure/Semiadditive.v |
 | `Additive` + consequences | Structure/Additive.v |
 | `IsEqualizer`, `HasEqualizers` | Structure/Equalizer/Fork.v |
 | `Kernel`, `Cokernel`, `normal_mono`, `normal_epi` | Structure/Kernel.v |
@@ -1540,7 +1541,7 @@ centre); star-autonomous categories at definition level.
 **Files.**
 
 1. `Structure/Coend.v` — covariant accessor layer over the in-tree
-   `Coend F := @End (C^op) (D^op) (F^op)` (`Structure/End.v:58`), Pushout.v-pattern:
+   `Coend F := @End (C^op) (D^op) (F^op)` (`Structure/End.v`), Pushout.v-pattern:
    `coend_obj`, `coend_inj {x} : F (x,x) ~> coend_obj`, the cowedge condition
    restated covariantly, `coend_ump`, and a `Build_Coend`-style smart constructor
    from cowedge data. No breaking change to End.v.
@@ -2113,13 +2114,13 @@ operads, the endomorphism operad, and operad algebras.
 
 2. `Instance/FinSet/Lawvere.v` — the base theory: `law_cat := FinSet^op`. KEY FACT:
    `Cocartesian C` is literally notation for `@Cartesian (C^op)`
-   (`Structure/Cocartesian.v:30`), so `FinSet_Cocartesian` IS the needed
+   (`Structure/Cocartesian.v`), so `FinSet_Cocartesian` IS the needed
    `@Cartesian (FinSet^op)`; terminal is FinSet's initial `0`. The `=` fields
    compute by `eq_refl` on closed nats (`fin_split`/`fin_join` design). This is the
    theory of equality (no operations) — the base every presented theory maps out
    of.
 3. `Theory/Lawvere/Model.v` — models via the REAL in-tree class
-   (`Functor/Structure/Cartesian.v:49`):
+   (`Functor/Structure/Cartesian.v`):
 
    ```coq
    Record Model (T : LawvereTheory) (C : Category)
@@ -2236,7 +2237,7 @@ toolkit, mono stability). Est. 10 files / ~3600 lines.
 **Goal.** Subobjects as a setoid (the setoid IS the quotient of monos), the `Sub`
 functor, subobject classifiers, elementary toposes with derived power objects, the
 FinSet witness (computable products, exponentials, classifier), the honest
-cross-universe statement for Sets (upgrading the note at `Instance/Sets.v:348` from
+cross-universe statement for Sets (upgrading the note at `Instance/Sets.v` from
 comment to theorem), and the category of sheaves over the existing `Site`.
 
 **Files.**
@@ -2314,7 +2315,7 @@ comment to theorem), and the category of sheaves over the existing `Site`.
    instance — none is possible at a single level): monos in `Sets@{o}` are
    classified in `Sets@{o+1}` with Ω the setoid of propositions-up-to-iff at level
    o; state the strongest true cross-level `char`/pullback statement as theorems,
-   cite and upgrade the `Instance/Sets.v:348` note (comment edit in the same
+   cite and upgrade the `Instance/Sets.v` note (comment edit in the same
    commit). Header spells out why `SubobjectClassifier Sets` at one level is not
    claimable.
 10. `Theory/Sheaf/Category.v` — the category of sheaves over the EXISTING `Site`
@@ -2337,7 +2338,7 @@ comment to theorem), and the category of sheaves over the existing `Site`.
 | `FinSet_Closed` | Instance/FinSet/Closed.v |
 | `FinSet_Classifier` (+ FinSet pullbacks) | Instance/FinSet/Classifier.v |
 | `FinSet_Topos` | Instance/FinSet/Topos.v |
-| cross-universe Sets classifier theorems; Sets.v:348 upgraded | Instance/Sets/Classifier.v |
+| cross-universe Sets classifier theorems; Sets.v upgraded | Instance/Sets/Classifier.v |
 | `Sheaves`, full/faithful inclusion, repleteness | Theory/Sheaf/Category.v |
 
 `Print Assumptions` closed for `classifier_classifies`, `FinSet_Topos` (or its
@@ -2442,7 +2443,7 @@ through `Admitted`.
     witness satisfies the item's parenthetical; abelian groups on setoids with
     quotient cokernels is a natural follow-on with no in-plan consumer.
 13. **Sets as a one-level elementary topos** (item 11). Impossible at a single
-    universe level in this library (`Instance/Sets.v:348`); replaced by the
+    universe level in this library (`Instance/Sets.v`); replaced by the
     cross-universe theorem file plus the FinSet witness. A correctness stance, not
     a trim.
 14. **Prof as a `Bicategory` instance** (items 5 x 12 junction). All ingredients
@@ -2467,7 +2468,7 @@ through `Admitted`.
     admits/axioms; what does not land is withheld and escalated, never stubbed.
 
 18. **Beck-to-general creation bridge** (issue #406 work item 4 edge). The issue
-    asks that `CreatesUSplitCoequalizers` (`Monad/Monadicity/Beck.v:164`) be
+    asks that `CreatesUSplitCoequalizers` (`Monad/Monadicity/Beck.v`) be
     recorded as an instance of the general creation class. An INSTANCE is
     provably unavailable: that class quantifies over pairs supplied with a
     `SplitCoequalizer` of their `U`-image, which is strictly more data than a
@@ -2530,7 +2531,7 @@ symmetry. No instance registration: quasi-inverses are never inferred.'
 ```
 
 Comment-edit commits that retire in-tree promissory notes (Moore.v header,
-Bicartesian.v:18, Adjunction.v RAPL note, Sets.v:348) ride WITH the commit that
+Bicartesian.v, Adjunction.v RAPL note, Sets.v) ride WITH the commit that
 delivers the artifact, in the same commit.
 
 Each phase closes with `docs(CLAUDE): index the <topic> development` adding the

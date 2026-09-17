@@ -32,7 +32,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
 
 ## Plan errata found during execution (frozen doc — do NOT edit it)
 - Phase 5 file 4: "adjunction composition verified absent in-tree" is wrong;
-  adj_comp exists (Instance/Adjoints.v:55). Handled: Compose.v documents
+  adj_comp exists (Instance/Adjoints.v). Handled: Compose.v documents
   definitional agreement; canonical-home consolidation deferred.
 - Phase 6 file 2 (line ~667): the co-Kleisli =>=/=<= notation orientation
   in the plan is TRANSPOSED vs the repo's own >=>/<=< fish convention
@@ -52,8 +52,8 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
 - fess self-audit run before push: full build green, 7 principal artifacts
   Print-Assumptions-closed, notation orientation behaviorally tested
   (cokl_test.v), funext-entailment lemma confirmed non-vacuous, zero holes.
-  Top honest finding: Adjunction_Compose (Adjunction/Compose.v:173)
-  duplicates adj_comp (Instance/Adjoints.v:55); proven-equal, consolidation
+  Top honest finding: Adjunction_Compose (Adjunction/Compose.v)
+  duplicates adj_comp (Instance/Adjoints.v); proven-equal, consolidation
   is a maintainer call, disclosed in PR #195.
 
 ## Repo state
@@ -223,7 +223,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   kernel←zero,fork; semiadd,additive←biprod,preadd;
   abelian←additive,kernel; cmonbi←cmon,semiadd). Verified in-tree premises:
   NO existing ZeroObject/Biproduct/Preadditive/Kernel/Abelian/CMon ('Mon'
-  is taken by Theory/Algebra/Monoid/Hom.v:83 — CMon names chosen). Specs
+  is taken by Theory/Algebra/Monoid/Hom.v — CMon names chosen). Specs
   embed: complete Freyd/Borceux image_mediator_epic chase for Abelian
   (kernel-of-cokernel factorization; j-split-epi conclusion), the
   can-comparison convolution roadmap for bicartesian_preadditive (naturality
@@ -294,10 +294,10 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   no in-tree consumer fires crude/beck/lifting on a concrete instance
   beyond identity_monadic (which bypasses the coequalizer machinery,
   disclosed in-file); follow-up idea: instantiate beck_monadicity on a
-  concrete adjunction. (2) nit — Lifting.v:79-84 square-form paragraph is
+  concrete adjunction. (2) nit — Lifting.v square-form paragraph is
   a derivation sketch, not a delivered theorem; say so in the PR. (3) nit
   — commit f90c207c's message reads as if ReflectsIsos feeds the counit
-  cell; the file header (Crude.v:78-90) is precise (unit cell only). PR
+  cell; the file header (Crude.v) is precise (unit cell only). PR
   human-gated (stacks on johnw/ct-phase11). NEXT: Phase 10
   (displayed/fibrations/Grothendieck; needs 5 + 8 — in-tree).
 - Phase 10 (displayed/fibrations/Grothendieck): **COMPLETE (10/10),
@@ -396,7 +396,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   force-clean-rebuild of all 12 EXIT 0.
   ### KEY DEVIATION — file 12 base RETARGET (main-session, machine-checked)
   The plan named `ClosedMonoidal` as the "symmetric monoidal closed" base,
-  but the in-tree ClosedMonoidal BUNDLES CartesianMonoidal (Closed.v:47);
+  but the in-tree ClosedMonoidal BUNDLES CartesianMonoidal (Closed.v);
   over a cartesian closed base a dualizing object forces a preorder
   (Joyal), so StarAutonomous would be VACUOUS in every nondegenerate model
   (excludes Rel/FdVect/coherence spaces). FIX: introduced a genuine general
@@ -484,22 +484,22 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     formula, so mates are usable by ordinary-category files.
   ### PHASE-13 DEPARTURES / LEDGER (for the PR body)
   - File 1 unitor/associator NATURALITY delivered to-direction only; the
-    from-direction is derivable AND is derived/used (Adjunction.v:233-236,
-    hunit_left_from_natural via iso_conj_from). The class is thus LEANER
+    from-direction is derivable AND is derived/used (Adjunction.v's
+    hunit_left_from_natural, via iso_conj_from). The class is thus LEANER
     than Structure/Monoidal.v, which states BOTH to_ and from_ naturality
     (fess LOW-2 sharpened my earlier "mirrors Monoidal.v" paraphrase) — a
     minimal-but-complete field list, NOT a weakening (the isos supply the
     other direction). CLAUDE.md says "to-direction naturality" precisely.
   - Files 3-4 (Lax/Oplax/Pseudonatural/Modification) are full-strength
     classes per Johnson-Yau Def 4.2.1, inhabited SO FAR ONLY on
-    Trivial_Bicategory (Lax.v:217/225/231, Modification.v:200-206); their
+    Trivial_Bicategory (three witnesses in Lax.v, one in Modification.v); their
     only general consumer is LaxTransformation_Category (object-trivial).
     They are NOT consumed by the Cat instance (fess LOW-1 corrected an
     earlier misstatement of mine) — a genuinely non-trivial witness (a
     lax/pseudonatural transformation between real pseudofunctors) is future
-    work. The trivial witness is candidly disclosed in-source (Lax.v:159-
-    169: it avoids needing the Kelly λ_I=ρ_I coincidence an arbitrary-
-    pseudofunctor identity would require). NOT a named-deliverable gap; the
+    work. The trivial witness is candidly disclosed in a comment in Lax.v:
+    it avoids needing the Kelly λ_I=ρ_I coincidence an arbitrary-
+    pseudofunctor identity would require. NOT a named-deliverable gap; the
     classes themselves are complete.
   - File 7 uses the raw Build_Bicategory (not Build_Bicategory') so that
     bicat C D ≡ [C,D] holds definitionally via record-eta (perf/defeq
@@ -565,7 +565,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   * Equalizer (Ph11): IsEqualizer/HasEqualizers (Structure/Equalizer/Fork.v).
   * Complete := ∀ D F, Limit F; PreservesAllLimits (Structure/Limit/
     Preservation.v). Diagonal Δ(c) (Functor/Diagonal.v). Contravariant hom
-    [Hom ─,A] := Curried_CoHom (Functor/Hom.v:149). EM = Monad/Eilenberg/
+    [Hom ─,A] := Curried_CoHom (Functor/Hom.v). EM = Monad/Eilenberg/
     Moore.v. Monad class join/ret = Theory/Monad.v.
   IMPL WORKFLOW: wf_d8ee870f-e96 (task wkz0hnpru), script scratchpad/
   phase14-impl.js (RESUMABLE via resumeFromRunId=wf_d8ee870f-e96). Design:
@@ -625,7 +625,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   headline artifacts "Closed under the global context"), no vacuity, no
   undisclosed weakening; all 5 departures genuine hypothesis-strengthenings,
   accurately disclosed. SAFT MEDIUM fix INDEPENDENTLY CONFIRMED
-  (cogenerator_canonical_monic calls cog_separates at SAFT.v:227 — deleting
+  (cogenerator_canonical_monic calls cog_separates at SAFT.v — deleting
   the field breaks compilation; sub_monic disclosed as non-driving
   annotation). PreservesImageLimit confirmed a real strengthening (in-tree
   PreservesLimit is apex-only; non-vacuous via right adjoints; Comma_Complete
@@ -832,10 +832,10 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   f3 Model.v → f4 Sets.v → f5 Monad.v, f6 PROP.v}; f7 Theory/Multicategory.v →
   {f8 Functor.v, f9 Representable.v, f10 Endomorphism.v, f11 Operad.v};
   {f8,f10,f11} → f12 Algebra.v. Donors grounded: FinSet_Cocartesian IS
-  @Cartesian(FinSet^op) (Cocartesian.v:30 notation); EM_Comparison:186 +
-  Adjunction_Induced_Monad:123 (plan's "Adjunction_Monad" name is stale) +
-  crude_monadicity:601; CartesianFunctor:49/TerminalFunctor:43;
-  Sorting.Permutation precedent ColouredPROP/Linear.v:14; CMon:140. KEY SPEC
+  @Cartesian(FinSet^op) (Cocartesian.v notation); EM_Comparison +
+  Adjunction_Induced_Monad (plan's "Adjunction_Monad" name is stale) +
+  crude_monadicity; CartesianFunctor/TerminalFunctor;
+  Sorting.Permutation precedent ColouredPROP/Linear.v; CMon. KEY SPEC
   DECISIONS (disclose in PR): (i) ev1_Faithful requires a reachability
   hypothesis (∀ x, {n & law_of_nat n = x}) — the bare statement is unprovable
   against the PROP-style relaxed class (junk-object countermodel), hypothesis-
@@ -887,14 +887,14 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   independently re-verify in the phase verify pass).
   ### f9 RESIDUE SWEPT + REMAINING RECONCILE (2026-07-15, main loop):
   - SWEPT: the stood-down instance's disclosed broken final block
-    (swap_fold_coherence, Representable.v old lines 514-551, malformed
-    goal-selector tail) removed by the orchestrator while NO writer was live;
-    file recompiles clean at the 513-line checkpoint (only the From-Coq
+    (swap_fold_coherence at the old tail of Representable.v, with a malformed
+    goal-selector) removed by the orchestrator while NO writer was live;
+    file recompiles clean at the truncated checkpoint (only the From-Coq
     deprecation warning, same as ColouredPROP/Linear.v precedent).
   - STILL TO RECONCILE (f9 remainder, single fresh agent when the workflow
-    settles): (1) Representable.v:462-510 re-declares a LOCAL `Inductive
+    settles): (1) Representable.v re-declares a LOCAL `Inductive
     tperm` section (interleaving artifact — duplicates Theory/
-    Multicategory.v:143's class-level tperm; the local one shadows, so the
+    Multicategory.v's class-level tperm; the local one shadows, so the
     file compiles, but the class's msym field takes the CLASS tperm — the
     instance assembly cannot typecheck against the local duplicate): DELETE
     the local section, port its extra combinators (tperm_right/left variants,
@@ -912,7 +912,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     f9 lineage (the true author of the local tperm + the 338→472 growth),
     still blocked on the never-received decision. It had gone idle, so the
     reply RESUMED it with the complete self-contained ground truth (class
-    tperm landed at Multicategory.v:143+, delete the local TPerm section,
+    tperm landed in Multicategory.v, delete the local TPerm section,
     swap_fold_coherence statement approved with a correct proof, luip/Cdec
     hypotheses, finish + StructuredOutput). Now exactly ONE f9 driver is
     live and it is visibly executing the directive (file reorganized: kit
@@ -927,7 +927,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     equivariance (fallback (b) NOT taken), luip/Cdec hypotheses as approved,
     single ob-parameterized construction instantiated at ob := wire with
     cprop_tfold recovering the strict boundary. Orchestrator spot-verified:
-    local tperm GONE (class one at Multicategory.v:143 sole), zero duplicate
+    local tperm GONE (Multicategory.v's class one now sole), zero duplicate
     definitions, no forbidden tokens. And the StructuredOutput DID flow back
     into the workflow journal (Representable.v result present) — the node
     resolved, no hang, NO resumeFromRunId reconcile needed. The dual-driver
@@ -955,7 +955,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     complete, zero errors, ZERO named fallbacks — full equivariance, full
     crude-monadicity corollary, operad round trip both ways, Comm↔CMon both
     directions). INDEPENDENT VERIFY GREEN: force-clean recompile 12/12, PA
-    38/38 closed (/tmp/pa16.out), scans clean after one fix (Multicategory.v:139
+    38/38 closed (/tmp/pa16.out), scans clean after one fix (Multicategory.v
     comment "admits no" → "has no"; chain of 6 recompiled OK; the two
     "Classical" scan hits are prose false-positives — "Classically ..." —
     PA closure is decisive). KEY DEVIATIONS for PR (beyond the tperm erratum
@@ -970,8 +970,8 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     rev16-multi) died AT SPAWN on the session limit, zero tokens, nothing
     cached. RELAUNCH VERBATIM from scratchpad/rev16-prompts.md after the
     reset, then: fix findings → integrate (fullmake16.sh check was launched;
-    anchors in scratchpad/fullmake16.sh: Lawvere after Theory/Kan/Extension.v
-    line 436, FinSet/Lawvere after Instance/FinSet.v line 193, chain-anchored
+    anchors in scratchpad/fullmake16.sh: Lawvere after Theory/Kan/Extension.v,
+    FinSet/Lawvere after Instance/FinSet.v, chain-anchored
     thereafter; expect 474 entries) → CLAUDE.md entry → git checkout
     _CoqProject → commit16.sh (to be written, 12+1 commits, Fable trailer) →
     nixgate16.sh (copy nixgate15.sh pattern) → fess audit → handoff DONE.
@@ -1028,13 +1028,14 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
   Instance/FinSet/Product.v → f6 FinSet/Closed.v (THE quarantined codec
   grind); {f1,f3,f5} → f7 FinSet/Classifier.v (+ FinSet_Pullbacks);
   {f4,f5,f6,f7} → f8 FinSet/Topos.v; {f1,f3} → f9 Instance/Sets/Classifier.v
-  (cross-universe THEOREMS, also edits the Instance/Sets.v:344-352 note in
+  (cross-universe THEOREMS, also edits the Instance/Sets.v note in
   the same commit); f10 Theory/Sheaf/Category.v standalone. Donors grounded:
-  Stability.v IsPullback:53/paste:106/monic_pullback_stable;
-  HasPullbacks Structure/Pullback.v:136; Monic Theory/Morphisms.v:116; REAL
-  Closed = Structure/Cartesian/Closed.v (y^x arg-order note :39; NOT the
-  stub Structure/Closed.v); Site Theory/Sheaf.v:78 (one family per object),
-  Sheaf :111, Presheaves :46; Full_Implies_Full_Functor Subcategory.v:74.
+  Stability.v IsPullback/paste/monic_pullback_stable;
+  HasPullbacks Structure/Pullback.v; Monic Theory/Morphisms.v; REAL
+  Closed = Structure/Cartesian/Closed.v (which carries the y^x arg-order
+  note; NOT the stub Structure/Closed.v); Site, Sheaf and Presheaves all in
+  Theory/Sheaf.v (Site takes one family per object);
+  Full_Implies_Full_Functor Subcategory.v.
   NAMED FALLBACKS ONLY: ledger-17 staged FinSet_Topos if the exponential
   codecs slip (Product+Classifier land regardless); sheafification = ledger
   1 (header note only). UNIVERSE NOTE: no single-level SubobjectClassifier
@@ -1052,7 +1053,7 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     note edit = the sanctioned minimal upgrade (verified by diff). Verify:
     12/12 force-clean (incl. the Sets.v chain), 26/26 PA closed, scans
     clean (the one hole-scan hit is PRE-EXISTING master content:
-    Instance/Sets.v:399 Abort closing a commented-out exploration —
+    an Instance/Sets.v Abort closing a commented-out exploration —
     outside the phase diff). Full make with 484 entries: exit 0.
   ### REVIEW rev17-theory (2026-07-15): 5/5 SOUND (all orientations
     re-derived: pasting, classifying square, exp_iso currying, universes
@@ -1082,10 +1083,10 @@ silent, _CoqProject registered, full make + nix build + nix flake check,
     _CoqProject + CLAUDE.md + the sanctioned Sets.v note hunk ONLY),
     from-scratch recompiles 10/10, PA 19/19, zero tokens/todo-words, all
     claim-by-claim checks pass incl. the donor-erratum derivation
-    (re-verified against Theory/Sheaf.v:111-130) and the softened
+    (re-verified against Theory/Sheaf.v) and the softened
     impossibility posture. ONE LOW: commit 2415791d's message cites
     pullback_unpaste/pullback_unique which are NOT exercised (paste +
-    transport are; transport subsumes unique per Stability.v:34-36) —
+    transport are; transport subsumes unique per Stability.v) —
     CORRECT THE TOOLKIT CITATION IN THE PR BODY (do not rewrite history).
     INFO: the injection-shaped untracked .swp debris (user to remove).
     GATES from HEAD 52059644 (/tmp/nixgate17.result): build_9_1 OK,
@@ -1191,7 +1192,7 @@ TO RESUME Phases 7-17, ONE of:
       this way — but slower, higher main-loop token burn, and no separate
       fess evaluator; audits would be in-loop self-audits).
 Phase 7 branch johnw/ct-phase7 exists (empty, at phase6 tip) ready for
-resume. Phase 7 = F-(co)algebras/Lambek/Adamek, plan §3 line 755; DAG and
+resume. Phase 7 = F-(co)algebras/Lambek/Adamek, plan §3; DAG and
 DOCS were drafted (the inline workflow had a JS template parse error at
 the RULES string, unrelated to the credit blocker — re-derive from the
 Phase-6 script template at
@@ -1218,7 +1219,7 @@ Until subagents work: critical audits done in-loop.
   sees TRACKED files — never run the nix gates before the commit series.
 - Plan erratum (frozen doc, not edited): Phase 5 file 4's premise
   "adjunction composition verified absent in-tree" is wrong — adj_comp
-  exists at Instance/Adjoints.v:55. Adjunction/Compose.v documents the
+  exists at Instance/Adjoints.v. Adjunction/Compose.v documents the
   definitional agreement; consolidation to one canonical home is a
   deferred maintainer decision (file header notes it).
 
@@ -1241,7 +1242,7 @@ workflow-based; PR creation authorized in the invocation.
 - Register: it-voice comonad precedent; exemplars in
   scratchpad/comonad-docs-wt/ (Comonad/Core.v, Instance/Coq/Comonad/Env.v).
 - Rails: comment-only; banned substrings fail/abort/admit/undefined/jww
-  (case-insensitive, the make-todo egrep — confirmed from Makefile:5);
+  (case-insensitive, the make-todo egrep — confirmed from Makefile);
   no contractions; comonad 8 files EXCLUDED (PR #209 owns them).
 - PAL consensus deliberately skipped for the campaign plan: the shape is
   fully dictated by the user directive + the #209 precedent; confer if a
@@ -1415,9 +1416,9 @@ CLEAN (a well-formed λ-calculus chain: #690→#691→#693/#694→#695).
   Ch6 records again carry no problems[] key — the drafter independently
   flagged this same schema gap).
 - 6 NEW library defects → awodey/library-defects.md A14-A19. Headline:
-  **A14, a THREE-FILE CONTRADICTION** — Instance/Lambda/Sem.v:41-42 and
-  Sound.v:38-39 both assert the STLC syntax IS the free CCC, while
-  Instance/Lambda.v:92-96 explicitly disclaims it. Also A15
+  **A14, a THREE-FILE CONTRADICTION** — Instance/Lambda/Sem.v and
+  Sound.v both assert the STLC syntax IS the free CCC, while
+  Instance/Lambda.v explicitly disclaims it. Also A15
   (Instance/AST.v titled "the free bicartesian closed category" but
   proves no initiality — PLACED in #693), A16 (exp_iso "natural in x,y,z"
   is not a field and is unproved — PLACED in #682), A17 (Structure/
@@ -1444,9 +1445,9 @@ equivalence. 40 dep edges GRAPH CLEAN. 73 awodey issues; ledger 1308.
   page has NO content, not "no item STARTS here". Corrected in-merge.
 - 8 defects → library-defects.md A20-A25. Headline **A20, a THREE-FILE
   CLUSTER**: Construction/Subcategory.v's header asserts a generic
-  faithful inclusion that does NOT exist; TWO files (Binoidal/Central.v:
-  242, CopyDiscard/Deterministic.v:586) cite it as if it did; and
-  Theory/Sheaf/Category.v:103 RE-PROVES the generic one-liner ad hoc for
+  faithful inclusion that does NOT exist; TWO files (Binoidal/Central.v,
+  CopyDiscard/Deterministic.v) cite it as if it did; and
+  Theory/Sheaf/Category.v RE-PROVES the generic one-liner ad hoc for
   one subcategory. Three consumers, one missing three-line lemma. Also
   A21 (Functor/Coproduct.v claims a UMP-mediated derivation the code
   never performs — and `inl`/`inr` are not in-tree symbols at all).
@@ -1464,8 +1465,8 @@ with checkboxes; 2 multi-part items land in two homes each). 15 PRESENT.
   rather than quoting its title, unlike Ch7's #712 which quoted another
   issue's title verbatim. No recurrence.
 - 6 defects → library-defects.md **A26-A31**. **A26 is the campaign's
-  clearest RULE VIOLATION**: Construction/Cayley.v:179-201 states
-  Leibniz `=` BETWEEN MORPHISMS (verified verbatim at :179-182),
+  clearest RULE VIOLATION**: Construction/Cayley.v states
+  Leibniz `=` BETWEEN MORPHISMS (verified verbatim),
   violating CLAUDE.md's "Never use `=` for morphisms. Always use `≈`" —
   AND guards both lemmas with `∀ a b (k : a ~> b), id[b] ∘ k = k`,
   strict Leibniz id_left, which a setoid-enriched category CANNOT
@@ -1477,8 +1478,8 @@ with checkboxes; 2 multi-part items land in two homes each). 15 PRESENT.
 - ⚠ NOTABLE: **two Phase-C records carried factually FALSE NEGATIVE
   claims**, caught by the verifier and corrected in place (provenance
   kept): "nothing in the tree has fobj := fun P => P C" (false —
-  Theory/Lawvere/Sets.v:83 `ev1` is exactly that) and "no file relates
-  Parallel to quivers" (false — Instance/Parallel.v:152-166 does, and
+  Theory/Lawvere/Sets.v `ev1` is exactly that) and "no file relates
+  Parallel to quivers" (false — Instance/Parallel.v does, and
   defines `Presheaf_Graph`). Both items stayed PARTIAL (the general
   obligations really are absent) but the REASONS were wrong. This is
   the negative-claim-without-exhaustive-search failure mode; the
@@ -1492,7 +1493,7 @@ ALL HIGH/MEDIUM FIXED:
 - **"0 overturns" VINDICATED as genuine, not rubber-stamping**: the
   auditor re-derived 9 items + all 33 PRESENT pointers, confirmed BOTH
   claimed Phase-C corrections are real and line-precise (ev1 at
-  Lawvere/Sets.v:83 IS `fobj := fun P => P C`; Parallel.v:152-166 DOES
+  Lawvere/Sets.v IS `fobj := fun P => P C`; Parallel.v DOES
   relate Parallel to quivers + defines Presheaf_Graph), and found a
   THIRD correction I didn't know about (Yoneda_Full/Faithful line
   drifts + the Curried_Hom vs Curried_CoHom distinction). Texture:
@@ -1528,8 +1529,8 @@ ALL HIGH/MEDIUM FIXED:
   auditor PROVED the remediation: for arbitrary C with no hypothesis,
   the `≈` restatements close by `simpl; rewrite id_left; reflexivity`.
 - **A30 UPGRADED**: not merely a missing theorem — a TWO-FILE
-  SELF-CONTRADICTION (Topos.v:95-97 says Slice.v "records" the
-  fundamental theorem; Slice.v:114-115 says it is "not yet formalized
+  SELF-CONTRADICTION (Topos.v says Slice.v "records" the
+  fundamental theorem; Slice.v says it is "not yet formalized
   here"). Same class as A14.
 - **SYSTEMIC FIX**: the inventory page-listing convention split has now
   recurred in Ch7 AND Ch8 (agents disagree on whether a spanning item
@@ -1581,12 +1582,12 @@ pointers, read 12 PDF pages. ALL FIXED:
   both ledger rows now describe their leg.
 - **MY OWN DEFECT-LEDGER ERRORS CORRECTED** (auditor caught them):
   A21 claimed "`inl`/`inr` are not in-tree symbols at all" — FALSE, they
-  are morphisms at `Structure/Cocartesian.v:142-143` used 27x; what is
+  are morphisms at `Structure/Cocartesian.v` used 27x; what is
   missing is the functor-level triangles. (The FILED artifact #697 was
   always correct — only my ledger prose was wrong.) A22 fingered the
-  wrong clause (:250-252 is accurate; the overstatement is :248-249's
-  "invertible iff each component is invertible", since the theorem
-  quantifies over EXISTENCE of an iso, not a GIVEN θ). A23 sharpened.
+  wrong clause (the clause it cited is accurate; the overstatement is the
+  neighbouring "invertible iff each component is invertible", since the
+  theorem quantifies over EXISTENCE of an iso, not a GIVEN θ). A23 sharpened.
 - CONFIRMED by the auditor: all 25 dedups genuine; the overturn correct;
   the same-claim/different-claim asymmetry applied consistently across
   all 24 PARTIALs; 40 native edges == body == trailer, acyclic; 71
@@ -1610,7 +1611,7 @@ re-derived ALL 12 PRESENT rows and verified all 36 pointers.
 **NO false-PRESENT.** All 3 load-bearing defects (A14/A15/A16) REAL and
 correctly placed — it even judged #693's and #682's DoD wordings
 SHARPER than my defect-ledger entries (#693 spotted that AST.v's
-hom-setoid at :33 is *defined* as agreement under every interpretation,
+hom-setoid is *defined* as agreement under every interpretation,
 making the freeness claim CIRCULAR). All 26 links 200; 23 native edges
 == 23 body edges; paraphrase clean on 12 probes.
 - **HIGH FIXED — a genuine cross-book dedup MISS**: #682 (Awodey 6.2)
@@ -1646,7 +1647,7 @@ making the freeness claim CIRCULAR). All 26 links 200; 23 native edges
 - LOW, no action: two "exhaustive" Closed-instance censuses miss
   Structure/Cartesian/Closed/Product.v; #686's `sequent` grep is
   unqualified (`\bsequent\b` is genuinely 0); trailer deps mix `#N` and
-  item-ids (self-consistent, deviates from schemas.md:90).
+  item-ids (self-consistent, deviates from schemas.md).
 - CORRECTION TO MY OWN SNAPSHOT: the λ-chain is NOT #690→#691→{#693,
   #694}→#695 — natively **#695 is blocked by {#690,#691}**, a SIBLING
   of #693/#694, which is mathematically right (C(L(C))≅C needs the
@@ -1686,11 +1687,11 @@ domain-theory strand (cumulative hierarchy, ω-CPOs, Kleene fixed
 point, ambient-dependence of colimits).
 ### ⚠ 10 LIBRARY DEFECTS (richest haul yet) → awodey/library-defects.md
 A5-A13, concentrated in the pullback/subobject/limit-preservation
-spine. Highlights: Pullback.v:178 docstring claims projection-respecting
+spine. Highlights: Pullback.v docstring claims projection-respecting
 uniqueness the Qed-opaque lemma does NOT provide (and the file
-CONTRADICTS ITSELF at :139-144); Pullback.v:129-130 points at a
+CONTRADICTS ITSELF); Pullback.v points at a
 COMMENTED-OUT base-change adjunction (recurrence of MacLane defect #3);
-Subobject.v:56 asserts an unproven monic-through factorization (= the
+Subobject.v asserts an unproven monic-through factorization (= the
 ABSENT item itself); Preservation.v calls apex-only preservation
 "continuous" with no disclosure, while Continuity.v PROVES the
 cone-level statement and then exports only the weak class. 4 PLACED in
@@ -1700,7 +1701,7 @@ defects + 9 LOW) — the most substantive audit of the campaign. All 24
 appends verified VERBATIM on GitHub; contract/graph/paraphrase clean; 6
 library defects confirmed REAL against source. FIXES APPLIED:
 - **F1 (MEDIUM, coverage loss) FIXED**: `awodey:5.6:def-colimit` was
-  PRESENT citing `Structure/Cone.v:72 Cocone` — but that is only the
+  PRESENT citing `Structure/Cone.v`'s `Cocone` — but that is only the
   COCONE NOTION, not colimit-as-INITIAL-cocone, and its exact dual
   `def18` was classified PARTIAL→#417. Internally inconsistent; the
   colimit half was tracked NOWHERE. → reclassified PARTIAL, appended to
@@ -1710,13 +1711,13 @@ library defects confirmed REAL against source. FIXES APPLIED:
   citing the very lemma this batch documented as overclaiming (A5:
   Qed-opaque, no projection triangles). PRESENT survives but via the
   HONEST artifact → evidence repointed to
-  `Theory/Morphisms/Stability.v:329 pullback_transport` in ledger +
+  `Theory/Morphisms/Stability.v`'s `pullback_transport` in ledger +
   coverage.
 - **F3 FIXED**: A12 was "Recorded" only → now PLACED as a checkbox on
   the **#427** append (Continuity.v proves cone-level, exports apex-only).
 - **F7 FIXED**: issue-map lost the #428 leg of the multi-part
   remark-hom-coproduct → recorded.
-- F5 (extend #672's cite to Pullback.v:80/:178-181): the target string
+- F5 (extend #672's cite to Pullback.v): the target string
   wasn't verbatim-matchable; recorded in library-defects.md instead.
 - F4/F6/F8/F9/F10 acknowledged, no action (weak-but-honest #427
   checkbox; A8 double-placement is harmless; ledger is 56 rows/55 ids
@@ -1729,14 +1730,14 @@ library defects confirmed REAL against source. FIXES APPLIED:
 **16/16 rows checked, ZERO further false-PRESENTs.** The 2 earlier
 defects were the only substantive ones. Outcome:
 - **6 REPOINTs applied** (classification unchanged, pointer was
-  misleading): lem10 →Stability.v:106 pullback_paste/+:160 unpaste (was
-  the bare IsPullback record); def17 →Instance/Cones.v:29 Cones (was
-  ACone = 1 of Def 5.17's 4 parts); example20 →Equalizer/Fork.v:225/:273
+  misleading): lem10 →Stability.v pullback_paste/unpaste (was
+  the bare IsPullback record); def17 →Instance/Cones.v Cones (was
+  ACone = 1 of Def 5.17's 4 parts); example20 →Equalizer/Fork.v
   (was the bare alias `Equalizer F := Limit F`); example22 →Pullback/
-  Limit.v:68/:113 (was a bare alias, AND the ledger line was :52, a
-  comment — actual :54); def28 →Functor/Opposite.v:56 contramap (was
-  :52, a COMMENT LINE); construction-pushout-sets →Sets/Pushout.v:185
-  Sets_HasPushouts (was :51 pushout_eq, the relation only).
+  Limit.v (was a bare alias, AND the ledger pointed at a comment
+  rather than at the definition just below it); def28 →Functor/Opposite.v
+  contramap (was a COMMENT LINE); construction-pushout-sets →Sets/Pushout.v
+  Sets_HasPushouts (was pushout_eq, the relation only).
 - **SYSTEMIC ROOT CAUSE FOUND + FIXED IN TOOLING**: the ledger's 5th
   column kept only evidence[0], which is systematically the
   DEFINITIONAL/NAMING artifact while the actual theorem sits at
@@ -1756,7 +1757,7 @@ defects were the only substantive ones. Outcome:
   encoding is faithful); the missing LAWS are now tracked. 40 awodey
   issues.
 - Residual caveat (read-only judgment, no toolchain in that agent):
-  `Construction/Slice/Pullback.v:45`'s unused `Cartesian C` Context —
+  `Construction/Slice/Pullback.v`'s unused `Cartesian C` Context —
   if section-discharge generalized it, Prop 5.12 would carry a spurious
   hypothesis. One `About Star_Functor` would settle it. Low risk.
 **Ch5 CLOSED.**
@@ -1932,8 +1933,8 @@ resuming in a fresh session.
     dedups anyway, but avoids wasted API calls).
   * resolve_chapter_deps.py bare-item-id token-replace (App #638 fix)
     confirmed working on Awodey #645.
-  2 LIBRARY-DEFECTS (dangling [Pos]/[Ord] refs in Instance/Poset.v:21,
-  Proset.v:19) → doc/plan/books/awodey/library-defects.md; [Pos] rides
+  2 LIBRARY-DEFECTS (dangling [Pos]/[Ord] refs in Instance/Poset.v,
+  Proset.v) → doc/plan/books/awodey/library-defects.md; [Pos] rides
   #641 (builds Pos). Drafter under-counted the scan again (MacLane-ChV
   pattern) — closeout grep caught them.
   Project 5. 10 chapters, uniform +9, born-digital, no appendix.
@@ -1968,7 +1969,7 @@ resuming in a fresh session.
       flight (agent fess-ch1). Results: wf_88ef8089-28b (24 agents, 0
       errors, 3.3M tokens): 116 items inventoried (per-page accounting
       clean), 10/10 coverage batches verified (2 overturns: I.6:def3→
-      PRESENT via Instance/Comp.v:382 Group; I.4:ex1 PRESENT→PARTIAL),
+      PRESENT via Instance/Comp.v's Group; I.4:ex1 PRESENT→PARTIAL),
       final split 83 PARTIAL/ABSENT → 50 issues FILED #216-#265, all in
       project 4, labels set, 61 links verified, deps resolved to #N (38
       edges, graph clean) + native blocked-by mirrored, ledger rows for
@@ -1978,7 +1979,7 @@ resuming in a fresh session.
       scratchpad/maclane-ch1/{file_issues.py,resolve_deps.py} + issue-map.json.
       BONUS findings for later triage: vacuous identity_law TODO in both
       Metacategory files (captured in #217); dangling [Ord]/[Pos] prose
-      refs (Proset.v:19, Poset.v:22) — doc hygiene, not filed as issues.
+      refs (Proset.v, Poset.v) — doc hygiene, not filed as issues.
       Drafter judgment calls accepted + disclosed in-issue (Lie-algebra
       descope #232, Freyd non-concreteness scope-out #263, choice-free
       constructive scoping #245/#246, doc-grade #253, umbrella #226).
@@ -2135,8 +2136,8 @@ Opus — a provenance difference to disclose, not paper over.
   judged correct and sparing.
   ### Findings FOLDED THIS TURN
   - LOW-1 (real library defect, independently re-verified by me):
-    Instance/Adjoints.v:32-36 + :82-83 claim the LEFT adjoint is the
-    forward direction, but adj_morphism:84-88 has free_functor : D ⟶ C
+    two places in Instance/Adjoints.v claim the LEFT adjoint is the
+    forward direction, but adj_morphism has free_functor : D ⟶ C
     and forgetful_functor : C ⟶ D, so arrows run along the RIGHT
     adjoint. APPENDED to issue #395 as a defect note + DoD item.
   - LOW-2: verified-IV-7.json's "all disclosed in-file" was the one
@@ -2157,10 +2158,10 @@ Opus — a provenance difference to disclose, not paper over.
     each one in a DoD or report it as UNPLACED.
   - INFO-1 — CORRECTION TO MY OWN EARLIER SUMMARY: I wrote "three
     documentation overclaims". Accurate count is **one** genuine false
-    claim (Structure/Pullback.v:129-130 says the base-change adjunction
+    claim (Structure/Pullback.v says the base-change adjunction
     is built in Construction/Slice/Pullback.v; that code is commented
     out AND mis-oriented) plus **two** accurate-but-unproved prose
-    statements (Construction/Slice.v:88-90, Instance/Fun.v:104-106).
+    statements (Construction/Slice.v, Instance/Fun.v).
     The filed issues #387/#392 word it correctly; only my summary was
     inflated.
   ### ✅ Ch V HALT RESOLVED — ROOT CAUSE WAS A STALE MODEL PIN
@@ -2196,11 +2197,11 @@ Opus — a provenance difference to disclose, not paper over.
     carries phase_c_classification; (B) LIBRARY-DEFECT channel produced
     23 flags collapsing to 2 distinct defects — the Comma "creates the
     limits" overclaim folded into #438's DoD (drafter: "No UNPLACED"),
-    but the drafter UNDER-COUNTED and MISSED the 3rd (Omega.v:13 garbled
+    but the drafter UNDER-COUNTED and MISSED the 3rd (Omega.v garbled
     xref, trivial cosmetic); (C) trailers carry cross-chapter #N deps.
   - LIBRARY-DEFECTS LEDGER started: doc/plan/books/maclane/
     library-defects.md — 3 defects recorded (Adjoints.v→#395,
-    Comma→#438, Omega.v:13→no home/cosmetic) + the Ch IV prose-claim
+    Comma→#438, Omega.v→no home/cosmetic) + the Ch IV prose-claim
     notes. These are side-findings, NOT coverage-gap issues; filing them
     is a maintainer call. LESSON: the drafter's LIBRARY-DEFECT scan can
     under-count when defects appear in only one batch's problems[];
@@ -2212,9 +2213,9 @@ Opus — a provenance difference to disclose, not paper over.
     SOUND — issues correctly separate GAFT sufficiency (PARTIAL) from
     missing necessity/characterization (the real gap); no GAFT misread.
     3 findings, all LOW/INFO, folded: F1 edge count 88→87 (corrected
-    above); F2 a 4th library defect (Equalizer.v:78-92 "both arguments
+    above); F2 a 4th library defect (Equalizer.v "both arguments
     run in this library" over-claim) added to library-defects.md +
-    #416's DoD citation widened :80→:78-92; F3 (#436 loose connective
+    #416's DoD citation widened to span the whole passage; F3 (#436 loose connective
     prose, classification correct) — ACKNOWLEDGED, left as-is (cosmetic
     prose in a filed issue, not worth a gh round-trip; noted here). The
     auditor independently re-derived the substantive-defect handling as
@@ -2257,8 +2258,8 @@ Opus — a provenance difference to disclose, not paper over.
   EM/Kleisli/Coequalizer files, no proven theorem mis-marked ABSENT, no
   false-PRESENT in 7 re-derived. #480 CONFIRMED matches PDF 159 verbatim
   (auditor read the page). Bare-YAML parse: 0/27 YAML leak, 0/27
-  residual maclane dep-lines. 3 findings: F1 LOW (inventory VI.json:74
-  still had the garbled equation + stale illegible flag — the recovery
+  residual maclane dep-lines. 3 findings: F1 LOW (one entry of inventory
+  VI.json still had the garbled equation + stale illegible flag — the recovery
   reached draft/#480 but not the intermediate artifact) → FIXED, both
   the persisted and scratch inventory-VI.json patched with the recovered
   equation, illegible flag cleared. F2/F3 INFORMATIONAL (Monadic=
@@ -2283,7 +2284,7 @@ Opus — a provenance difference to disclose, not paper over.
   ×-not-∧-is-closed contrast; inventory back-propagated (flag cleared,
   BOTH scratch + would-persist). Also fixed 2 broken cross_refs at
   merge (VII.5:thm1→VII.5:prop1). No hard library defects (the
-  Structure/Monoid.v:73-74 "provable at this generality" essay is
+  Structure/Monoid.v "provable at this generality" essay is
   conditional prose, verifier judged non-defect).
   ### fess-ch7 VERDICT: **HONEST**. Coherence honestly ABSENT (proven
   Kelly/pentagon lemmas are consequences, not the general theorem —
@@ -2303,7 +2304,7 @@ Opus — a provenance difference to disclose, not paper over.
   honestly stated (no additive-functor notion anywhere; no
   cocartesian⇒biproduct leg; no n-ary biproduct; VIII.4 diagram lemmas
   = the honesty crux). LIBRARY-DEFECT flagged (minor): Construction/
-  Enriched.v:107-108 calls Preadditive "Ab-enriched" but it is
+  Enriched.v calls Preadditive "Ab-enriched" but it is
   CMon-enriched (negatives omitted; only Additive is Ab-enriched) —
   capture in library-defects.md at closeout. VIII.4:remark-embedding
   (Lubkin-Freyd-Mitchell) surfaced from the Notes block, flagged
@@ -2318,7 +2319,7 @@ Opus — a provenance difference to disclose, not paper over.
   Freyd-Mitchell embedding, 5/snake/3x3 lemmas) is ABSENT; thm3 PARTIAL
   (2 of 6 member rules have faithful shadows monic_iff_kernel_pzero +
   Monic). Abelian class PRESENT-as-definition but never instantiated
-  (INHABITATION note). LIBRARY-DEFECT #5 (Enriched.v:107 "Ab-enriched"
+  (INHABITATION note). LIBRARY-DEFECT #5 (Enriched.v "Ab-enriched"
   misattribution) → library-defects.md.
   ### 3rd DRAFTER FORMAT DRIFT + ROBUST FIX: this drafter wrote deps as
   BACKTICK-wrapped item-ids, MULTIPLE per "Depends on:" line, MIXED with
@@ -2360,7 +2361,7 @@ Opus — a provenance difference to disclose, not paper over.
   dedupes; fess-corrected) + native mirror GRAPH CLEAN (transient
   #560<-#559 false alarm, confirmed present). Ledger 833; 646 mapped;
   369 filed. HONEST SPLIT
-  confirmed: ends/coends DEFINITIONS PRESENT (End.v:35, Coend :58,
+  confirmed: ends/coends DEFINITIONS PRESENT (End and Coend, both End.v,
   inhabited by Sets_End/SetsCoend, wedges IX.4:def1/def3), general-base
   results PARTIAL (Yoneda reduction only representable case; Day DFG
   pieces present, general theorem unassembled), filtered/final-functor
@@ -2397,7 +2398,7 @@ Opus — a provenance difference to disclose, not paper over.
   NUANCE honest: universal-property defs PRESENT (LocalRightKan/RightKan
   adjoint/LocalLeftKan/LeftKan, WeaklyInitial thm1), the coend-formula
   BRIDGE + pointwise/density/all-concepts PARTIAL/ABSENT (Kan↔coend
-  "a bridge not yet formalized", Theory/Kan/Extension.v:76-79 — verifier
+  "a bridge not yet formalized", Theory/Kan/Extension.v — verifier
   confirmed honest, not a defect; left_adjoints_preserve Abort'd not
   Admitted). No library defects. fess-ch10 launching ALONE.
   ### Ch XI args (after fess-ch10): roman XI "Symmetry and Braiding in
@@ -2429,7 +2430,7 @@ Opus — a provenance difference to disclose, not paper over.
   monoidal-functor DEFS PRESENT; braiding-as-ISO / strictification /
   braid-groups / braided-coherence-theorem PARTIAL/ABSENT (library has
   NO group-by-generators machinery — braid cluster #612-616 all rest on
-  that gap). LIBRARY-DEFECT #6 (Braided.v:131 comments braid as ≅ but
+  that gap). LIBRARY-DEFECT #6 (Braided.v comments braid as ≅ but
   field is bare ~>; LOAD-BEARING — it's why XI.1:def2 is PARTIAL) →
   channel worked END-TO-END: verifier flagged, drafter PLACED it in
   #606's DoD, reported placed. Recorded in library-defects.md.
@@ -2439,9 +2440,9 @@ Opus — a provenance difference to disclose, not paper over.
   CORRECT (not under-classification; folded to #497). defect #6 real +
   correctly placed in #606. Braid-group cluster genuinely ABSENT
   (FreeBraided PROP is secretly SYMMETRIC via braid_invol — correctly
-  excluded). 2 INFO nits FIXED in #606: Braided/Proofs.v Context
-  citation :506→:507; DoD item 4 broadened to also name the header
-  essay :21-24 (not just the :132 field comment). Ch XI CLOSED.
+  excluded). 2 INFO nits FIXED in #606: the Braided/Proofs.v Context
+  citation repointed to the right construct; DoD item 4 broadened to also
+  name the header essay (not just the field comment). Ch XI CLOSED.
   ### Ch XII ✅ COMPLETE THROUGH G (2026-07-23, wf_6c67c314-cdc, 10/10
   agents 0 errors, offset +7): 37 items, 1 OVERTURN (XII.7:construction1
   monoidal-as-one-object-bicat PRESENT→PARTIAL — only forward delooping,
@@ -2865,11 +2866,11 @@ FIXES (durable copy `doc/plan/books/tools/file_chapter.py`, synced):
   Restrict the index to `Suggested module` lines only — matching every
   backticked `.v` yields ~35 false positives.
 - 13 library defects recorded as **A32-A43**; A32/A33 verified from source
-  by me (not transcribed): `Adjunction/Natural/Transformation.v:23-24` and
-  `Adjunction/Hom.v:36-37` both call `Theory/Adjunction.v` "the universal-
-  morphism form", but that file self-describes at :46-47 as taking "Kan's
+  by me (not transcribed): `Adjunction/Natural/Transformation.v` and
+  `Adjunction/Hom.v` both call `Theory/Adjunction.v` "the universal-
+  morphism form", but that file self-describes as taking "Kan's
   hom-set form as primitive" and assigns the universal-arrow form to
-  `Theory/Universal/Arrow.v` at :53-54. A33 is worse: the mislabel is baked
+  `Theory/Universal/Arrow.v`. A33 is worse: the mislabel is baked
   into exported names `Adjunction_Hom_to_Universal`/`..._Universal_to_Hom`.
   A37/A38 deliberately SOFTENED from the verifier's framing — the file
   DOES disclose its own commented stub and even flags the stub's reversed
@@ -2897,7 +2898,7 @@ resolved all 111 file:line citations (0 mismatches), and pulled all 524
 book-labelled issues to check every dependency parenthetical.
 - **F1 (HIGH) — MY REPAIR FIXED THE MIRROR, NOT THE SOURCE OF TRUTH.**
   I repaired the native `blockedBy` edges and thought Ch9 closed. The
-  contract (`books-catalog-campaign.md:85`) says **the BODY lines are the
+  contract (`books-catalog-campaign.md`) says **the BODY lines are the
   source of truth**; all three bodies were still wrong. #730 still carried
   a raw unresolved `Depends on: awodey:9.7:remark21`; #732 and #739 each
   listed `#387` TWICE and omitted #730 — and worse, both described #387 as
@@ -2960,11 +2961,11 @@ book-labelled issues to check every dependency parenthetical.
   carry the later book's label; **91** issue-map targets lacked
   `book:awodey` (broader than the audit's Ch9-scoped estimate). FIXED:
   all 91 labelled; all 191 awodey targets now verified labelled.
-- **F8/F12 (LOW)** line drift fixed (A41 is `:16` not `:17`; A34 spans
-  `:79-82`); A36 widened — that ONE sentence at `Instance/Fun.v:59-63`
+- **F8/F12 (LOW)** citation drift fixed (A41 and A34 both repointed);
+  A36 widened — that ONE sentence in `Instance/Fun.v`
   carries THREE unbacked claims (objectwise colimits, cartesian closed,
-  free cocompletion), and the same file hedges correctly at :104-105, so
-  :61 contradicts its own file.
+  free cocompletion), and the same file hedges correctly further down, so
+  the sentence contradicts its own file.
 - **F10/F11 NOT fixed, deliberately.** F10 (append heading `### Also
   covered by` vs the contract's `## Also covered in`) is a ~500-append
   systemic deviation; churning every issue to match the doc is worse than
@@ -3054,22 +3055,23 @@ functor exists), and `(Record|Class|Definition|Instance).*Resolution` =
 could be stated). Asymmetry preserved in the ledger: terminality is
 PARTLY backed (EM_Comparison_Forget/Free give the mediator, missing only
 uniqueness); initiality has NO in-tree content.
-**A45** Instance/Poset.v:46-54 claims "[Poset] **installs the resulting
+**A45** Instance/Poset.v claims "[Poset] **installs the resulting
 dictionary**" (adjunction=Galois, monad=closure operator, product=meet,
 coproduct=join). The file defines only `eq_equiv`, `Poset`,
 `LessThanEqualTo_Category`. HIGH: it actively misleads classification —
 it was found *while confirming an item ABSENT*.
-**A46** Theory/Lambek.v:19-21 says the **structure map α is invertible**;
-:40-41 proves only `F μ ≅ μ`. Consequential: the weak form cannot derive a
-non-existence, which is exactly why #750 needs a strengthened Lambek.
+**A46** Theory/Lambek.v's header says the **structure map α is
+invertible**; the theorem below it proves only `F μ ≅ μ`. Consequential:
+the weak form cannot derive a non-existence, which is exactly why #750
+needs a strengthened Lambek.
 **A47** docs/INHABITATION.md under-discloses that `adamek` has no concrete
 in-tree `AdamekData` — and that doc is the one CLAUDE.md points readers to
 for precisely this question.
 - Coverage-log artifact corrected in the durable JSON (a 'closure oper'
-  log mis-cited Structure/Factorization.v:69). NOTE TO SELF: I nearly
-  replaced it with a WRONG count — case-sensitive grep gives 2 lines, but
-  the verifier used `-i` and its 4 line numbers (48,64,66,68) are right,
-  because :64 and :68 capitalize "Closure". Verify before "correcting".
+  log mis-cited Structure/Factorization.v). NOTE TO SELF: I nearly
+  replaced it with a WRONG count — case-sensitive grep gives 2 hits, but
+  the verifier used `-i` and its 4 hits are all right, because two of them
+  capitalize "Closure". Verify before "correcting".
 
 ## ============================================================
 ## NEW USER REQUIREMENT (2026-07-29): DEPENDENCY-GRAPH QUALITY GATE
@@ -3155,7 +3157,7 @@ markers, and BOTH qualifications I flagged survive verbatim, un-upgraded).
   targets were filed after that sweep, so they missed it. **Any future
   chapter must re-run the label sweep after filing.**)
 - **M1 (MED) — A44 UNDERCOUNTED ITS OWN CLUSTER: EIGHT files, not six.**
-  Missed `Theory/Adjunction.v:68-70` and `Monad/Comparison.v:25,28` (plus
+  Missed `Theory/Adjunction.v` and two sites in `Monad/Comparison.v` (plus
   two more instances inside the already-counted Comonad/Duality.v). Both
   verified from source. **METHOD LESSON, now recorded in the ledger:** my
   counter-search proved the ARTIFACT absent (`kleisli` = 0 in
@@ -3442,33 +3444,33 @@ namespace for order theory does not overlap what MacLane/Awodey proposed).
 - Three Phase-C corrections were kept in `verifier.notes` rather than
   overwriting the Phase-C fields, preserving provenance: ex7's boolean-join
   miscount, eq8 omitting that `CocartesianFunctor` IS in-tree
-  (Functor/Structure/Cartesian.v:127-133), example9 vs the unused
-  `nat_setoid` at Lib/Datatypes.v:353. Audit is checking the FILED issues
+  (Functor/Structure/Cartesian.v), example9 vs the unused
+  `nat_setoid` at Lib/Datatypes.v. Audit is checking the FILED issues
   reflect the corrections, not the uncorrected text.
 - ⚠ **A LINE-BREAK CAN FALSIFY A NEGATIVE SEARCH.** A verifier found
   "generative effect -> 0 hits" was true only because the phrase is
-  line-broken in the source; `Instance/Poset.v:96-100` in fact **cites this
+  line-broken in the source; `Instance/Poset.v` in fact **cites this
   Seven Sketches chapter by name** and states the generative-effect
   definition. Valuable provenance, and a new failure mode for negative logs:
   multi-word greps need a whitespace-tolerant pattern. Audit is sweeping for
   others.
 
 ### DEFECTS: new file `doc/plan/books/seven-sketches/library-defects.md` (S1-S4)
-- **S1** Instance/Two/Discrete.v:22-24 claims BOTH shape directions but the
+- **S1** Instance/Two/Discrete.v claims BOTH shape directions but the
   cited Structure/Limit/Cartesian.v has exactly ONE theorem (limit/product);
   `Cocartesian_Colimit|Colimit.*Cocartesian` = 0 hits tree-wide.
-- **S2** Instance/Sets.v:32-33 claims "characterizations of monos as
-  injections AND epis as surjections". Monos: real (`injectivity_is_monic`
-  :369). Epis: **not in the environment** — the file itself says at :414-417
+- **S2** Instance/Sets.v claims "characterizations of monos as
+  injections AND epis as surjections". Monos: real (`injectivity_is_monic`).
+  Epis: **not in the environment** — the file itself says later on
   that `surjectivity_is_epic` "ends in a non-completing tactic, so [it] does
   NOT enter the environment". The file contradicts its own header, and the
-  honest predicativity disclosure at :99-104 makes the header the only wrong
+  honest predicativity disclosure makes the header the only wrong
   part.
-- **S3** Instance/Rel.v:163-165 asserts `Relation_Functor` is "faithful";
+- **S3** Instance/Rel.v asserts `Relation_Functor` is "faithful";
   the symbol occurs exactly once (its own definition) and no `Faithful`
   instance exists. Unproven claim, probably true.
 - **S4 DISMISSED, recorded so it is not re-litigated**: a verifier flagged
-  Theory/Isomorphism.v:30-31 ("an isomorphism in Cat is the same as an
+  Theory/Isomorphism.v ("an isomorphism in Cat is the same as an
   equivalence") as stale, but the very next sentence explains that a strict
   isomorphism needs EQUALITY of the round trips and is deliberately not
   abstracted. Given `Isomorphism` states its round trips up to `≈`, the
@@ -3519,11 +3521,11 @@ message.content[] blocks of type "text", print the last few.**
   bug. Fix the tool the FIRST time.**
 - **H2 (HIGH) — 3 false "0 hits" logs, AND IT CORRECTED MY DIAGNOSIS.** I had
   recorded that the "generative effect → 0 hits" log was true "only because
-  the phrase is line-broken". **Wrong, and too kind.** `Instance/Poset.v:97`
+  the phrase is line-broken". **Wrong, and too kind.** `Instance/Poset.v`
   reads `"Generative Effects: Orders and Galois` on ONE line; I re-ran the
   plain logged grep myself and it MATCHES. It was a straightforward false
   negative. Corrected in library-defects.md. (A line-break blind spot IS real
-  — `prop91`/"final functor" at Structure/Factorization.v:96-97 — but it was
+  — `prop91`/"final functor" at Structure/Factorization.v — but it was
   not the cause here, and using it as the explanation papered over an error.)
 - **H3 (HIGH) — this pass created a duplicated obligation.** "A symmetric
   preorder is an equivalence relation" was both #767's declared gap and a new
@@ -3537,7 +3539,7 @@ message.content[] blocks of type "text", print the last few.**
   fail is not evidence. Most conclusions survive re-running each alternative,
   but **M2/L-4 is materially wrong** because of it (`example76` claims no
   closure vocabulary while `remark39` in the SAME BATCH cites
-  Instance/Lambda/Multi.v:74 as evidence). Recorded in the book's
+  Instance/Lambda/Multi.v as evidence). Recorded in the book's
   library-defects.md with the fix for later chapters: require `grep -E`/`rg`
   whenever a pattern contains `|`, and whitespace-tolerant patterns
   (`rg -U 'final\s+functor'`) since the tree hard-wraps prose at ~72 columns.
@@ -3557,10 +3559,10 @@ message.content[] blocks of type "text", print the last few.**
   (1.8) alone is right because it is the only one carrying a claim distinct
   from its enclosing item. All 201 evidence citations resolve. Native
   blockedBy matches bodies **17/17 exactly**. S1/S2/S3 re-confirmed (S2
-  sharply: `surjectivity_is_epic` ends in **`Abort.`** at Instance/Sets.v:476).
+  sharply: `surjectivity_is_epic` ends in **`Abort.`** at Instance/Sets.v).
   **S4's dismissal confirmed right, not convenient** — `Cat` uses
   `Functor_Setoid` and the equivalence↔iso bridge is proven with both round
-  trips at Theory/Equivalence.v:182/:187.
+  trips at Theory/Equivalence.v.
 - ⚠ **MY BRIEF DRIFTED AGAIN:** I described Exercise 1.7 as including an empty
   join; the page shows four questions and no empty join. Same class as the Ch6
   title drift — build audit briefs from the artifacts, never from memory.
@@ -3742,24 +3744,24 @@ Phase G: 84 edges, 83 added. Graph gate re-run: **807 edges, ACYCLIC, exit 0.**
   missing; 2 candidate slugs dropped for 404; 5 Wikipedia 429s re-checked).
 
 ### DEFECTS S5-S7 (all verified from source by me before recording)
-- **S5 (HIGH)** `Functor/Structure/Monoidal.v:110-124` — `LaxMonoidalFunctor`
+- **S5 (HIGH)** `Functor/Structure/Monoidal.v` — `LaxMonoidalFunctor`
   makes its comparisons lax (`lax_pure : I ~> F I`, `lax_ap : F x ⨂ F y ~> F (x
   ⨂ y)`) but then REQUIRES `pure_left`/`pure_right`/`ap_assoc` as **`≅`
   isomorphism fields with no defaults**. `ap_assoc`'s iso cannot be supplied
   from a merely-lax `lax_ap`, so the class **excludes lax-not-strong functors**
-  — and the header at :45-48 asserts the opposite, calling those fields
+  — and the header asserts the opposite, calling those fields
   "consequences of the comparisons, not extra structure" (a consequence would
   be a derived lemma, not a field). Bites §2.2.5, whose monoidal monotones are
   the canonical lax-not-strong examples. Folded into #782's DoD with #783 as
   its regression test.
-- **S6 (MED)** `Construction/Enriched/Two.v:12` says enriched-over-2 are
-  "**exactly**" preorders; `Enriched_Two_preorder` (:165) is `↔` = **`iffT`**
-  (`Lib/Foundation.v:72`), i.e. functions both ways with no proof they are
+- **S6 (MED)** `Construction/Enriched/Two.v` says enriched-over-2 are
+  "**exactly**" preorders; `Enriched_Two_preorder` is `↔` = **`iffT`**
+  (`Lib/Foundation.v`), i.e. functions both ways with no proof they are
   mutually inverse. Folded into #785, whose obligation is exactly that upgrade.
-- **S7 (LOW-MED)** `Structure/Monoidal/Strict.v:42-43` states "strict monoidal
+- **S7 (LOW-MED)** `Structure/Monoidal/Strict.v` states "strict monoidal
   categories are precisely monoid objects in `[Cat]`" using the in-tree bracket
   convention for a fact that is NOT in-tree — only the Funny-tensor cousin is
-  (`Instance/StrictCat/Premonoid.v:137`), and THAT file calls the Cat statement
+  (`Instance/StrictCat/Premonoid.v`), and THAT file calls the Cat statement
   "the **classical fact**", i.e. explicitly external.
 - A1/A2 recur, with a sharper observation from the Ch2 verifier worth keeping:
   chasing `[Pos]` lands the reader on the **stdlib** `Pos` module (binary
@@ -3779,12 +3781,12 @@ text blocks, full 19 KB report in the final block.
 
 - **MEDIUM-1 — a generality overstatement that reached a filed issue.**
   `prop87` clause (c) claimed `eval` holds "at the monoidal (non-cartesian)
-  generality the book uses", citing `Structure/Monoidal/Closed.v:83`. FALSE, and
+  generality the book uses", citing `Structure/Monoidal/Closed.v`. FALSE, and
   I verified it: `ClosedMonoidal`'s FIRST field is `closed_is_cartesian :
-  @CartesianMonoidal C` (`:46`, coercion `:71`), its header says so at `:41`, and
+  @CartesianMonoidal C` (declared as a coercion), its header says so too, and
   `eval` sits under that context — cartesian ONLY. `Cost` (tensor `+`, meet
   `max`) is the book's own non-cartesian witness. The real counterpart is
-  `eval'` at `StarAutonomous.v:120` under `SymMonClosed`, which has **no in-tree
+  `eval'` at `StarAutonomous.v` under `SymMonClosed`, which has **no in-tree
   instance** and an unwired beta law. **CLAUDE.md already documents this exact
   trap** ("the in-tree `ClosedMonoidal` bundles `CartesianMonoidal`") — so the
   guard existed and the pipeline walked past it. FIXED in the coverage record
@@ -3813,8 +3815,8 @@ text blocks, full 19 KB report in the final block.
   has **no lax-not-strong inhabitant in the whole tree**, and ~8 developments
   take it as a hypothesis and so silently require strongness (DecoratedCospan
   family x6, Cospan/BlackBox, Monad/Distributive, Monad/Compose,
-  Functor/Applicative). `Id.v:85`'s `apply tensor_assoc` is direct corroboration.
-  Line numbers corrected (:117/:119). S6 and S7 confirmed exactly; for S6 it
+  Functor/Applicative). `Id.v`'s `apply tensor_assoc` is direct corroboration.
+  Its citations were corrected. S6 and S7 confirmed exactly; for S6 it
   additionally searched for round-trip/inverse/bijection vocabulary in the file
   and found NONE, so "exactly" is genuinely overstated.
 
@@ -3911,7 +3913,7 @@ the procedure, not an exception).
 - **I CORRECTED THE AUDITOR (3rd time this campaign).** Its other HIGH said
   #705 "absorbed three obligations its Definition of Done cannot discharge".
   **Not so:** all five Ch3 appends carry closure-tracking CHECKBOXES and I
-  verified they landed in the FILED body (lines 141/147/153/159/165) — so
+  verified all five landed in the FILED body — so
   closing #705 REQUIRES producing them. The premise "closing #705 would never
   produce them" is wrong; the checkbox mechanism exists precisely for this.
   What survives is milder and real: #705 is now a 16-box mixed-kind unit
@@ -3925,7 +3927,7 @@ the procedure, not an exception).
   said "intree-weaker" while `gap` was None. `exp_iso` is the indexed family;
   the book presents currying as an INSTANCE of the adjunction definition, which
   needs the two one-variable functors — and `(- × y) ⊣ (- ^ y)` exists ONLY in
-  prose comments at `Structure/Cartesian/Closed.v:34,47`. Notable: this was the
+  prose comments in `Structure/Cartesian/Closed.v`. Notable: this was the
   rare PERMISSIVE verifier move (blind pass said PARTIAL, adversarial re-check
   UPGRADED to PRESENT) — with 99 CONFIRMED / 2 OVERTURNED, permissive upgrades
   are the unusual event and this one did not survive.
@@ -3985,16 +3987,16 @@ materialize** — the two records most exposed both cite the real code.
   LESSON: three different counting methods gave three different answers. A
   metric nobody can reproduce is not a metric — state the defect, not a number.
 - **MEDIUM S12 CONFIRMED and STRENGTHENED.** The pointer is **circular**:
-  `Structure/Closed.v:54-58` repeats the claim as nLab prose and points BACK at
+  `Structure/Closed.v` repeats the claim as nLab prose and points BACK at
   `Construction/Enriched.v`. Plus `Class Closed` is visibly unfinished — a field
-  literally named `hom_` with an unfilled `_` (`:182-184`) — and
-  `Structure/Monoidal/StarAutonomous.v:60` independently says "We do NOT use
-  Structure/Closed.v, an Eilenberg-Kelly [stub]". My line cite corrected
-  :54-56 -> :54-58.
+  literally named `hom_` with an unfilled `_` — and
+  `Structure/Monoidal/StarAutonomous.v` independently says "We do NOT use
+  Structure/Closed.v, an Eilenberg-Kelly [stub]". My cite was corrected to
+  span the whole passage.
 - **LOW, FIXED — #822 had no dependency on #776** though it is its
   categorification and the book says so on printed p.134. **My first fix
   attempt failed on my own guard**: I tested `'#776' in body`, which matched a
-  PROSE mention (:67) and a DoD checkbox (:84) while the Dependencies section
+  PROSE mention and a DoD checkbox while the Dependencies section
   said "None." and native was empty — exactly the mention-vs-declaration
   confusion I have been flagging in others. Fixed properly; gate re-verified 0.
 - LOW, accepted as-is: the PARTIAL/ABSENT boundary is applied at two
@@ -4031,7 +4033,7 @@ dependency edges correct and natively mirrored 34/34**, all 37 background URLs
   instance is WRITTEN", not "not derivable", naming the exact one-application
   term `@Monoidal_op (FinSet^op) (@CC_Monoidal ... FinSet_Cocartesian
   FinSet_Initial)` AND an in-tree precedent for that very pairing at
-  `Instance/FinSet/Lawvere.v:41-42` — and **#827 contained zero trace of it**.
+  `Instance/FinSet/Lawvere.v` — and **#827 contained zero trace of it**.
   An implementer reads the ISSUE, not the coverage JSON.
   FIXED both ways: folded into #827 verbatim, and **draftPrompt now carries a
   VERIFIER-SHARPENING PASS** requiring the drafter to read verifier.notes for
@@ -4058,7 +4060,7 @@ dependency edges correct and natively mirrored 34/34**, all 37 background URLs
   CORRECTION was also wrong.** The record said the in-tree notion "additionally
   requires unit preservation"; the verifier called that an overstatement because
   `strict_pure_obj : I = F I` is `0 = F 0` and automatic. True — but there is a
-  SECOND unit-side field, `strict_pure_iso_id` (`:60-63`), demanding the unit
+  SECOND unit-side field, `strict_pure_iso_id`, demanding the unit
   comparison MORPHISM be the transported identity, which is NOT automatic since
   `hom(0,0)` is generally non-trivial in a prop. So neither the original nor the
   correction was right. #832 now states it precisely.
@@ -4090,7 +4092,7 @@ I flagged largely did NOT materialize** — the flagship test `thm6.77` is
 correctly PARTIAL because `DecoratedCospan_Hypergraph` is projected from a
 `Context {DCHGC : DecCospan_Hypergraph_Coherent}` that is **never instantiated**
 (66 hits on the class, ZERO `Instance`/`Build_` witnesses; corroborated against
-docs/AXIOMS.md:93-105 and Makefile:211).
+docs/AXIOMS.md and Makefile).
 
 - **HIGH — #865 is a TRUE DUPLICATE of #320**, and the mechanism is a contract
   gap worth more than the fix. Both specify `IsIndexedCoproduct`, `icoprod`,
@@ -4115,7 +4117,7 @@ docs/AXIOMS.md:93-105 and Makefile:211).
   to widen the serialize-group to all four consumers, not to restore the edges.
   Gate back to 0. That is the constraint living in its only correct home.
 - **MEDIUM x4, ownership overlaps left OPEN and recorded** (#869 vs the already
-  proven `cospan_scfa` in `Construction/Cospan/SCFA.v:1271` — a Phase-E
+  proven `cospan_scfa` in `Construction/Cospan/SCFA.v` — a Phase-E
   regression, since the coverage record DID cite `Cospan_Hypergraph` and the
   draft dropped that half; #863 vs #417 on `FinitelyCocomplete`; #869 vs #879
   both creating `CospanCat FinSet`; #860 vs #357 codiscrete-vs-indiscrete;
@@ -4128,11 +4130,11 @@ docs/AXIOMS.md:93-105 and Makefile:211).
   writes an explicit "part: NEEDS NAMING -- also on [...]" flag instead of a
   note that merely looks filled in. Both existing offenders named by hand.
 - **LOW, both corrections to MY records**: S14 was UNDER-scoped — the same
-  overstatement appears a second time at `Structure/Pullback.v:79-80`, and that
+  overstatement appears a second time at `Structure/Pullback.v`, and that
   site is worse because the false "proven below as [pullback_unique]" claim sits
   INSIDE a Wikipedia quotation, reading as part of the cited source. And A3's
   third citation was the wrong file (`Structure/UniversalProperty/Universal/
-  Arrow.v:61`, not `Theory/Universal/Arrow.v:61` which is prose) — substance
+  Arrow.v`, not `Theory/Universal/Arrow.v` which is prose) — substance
   unaffected. Both records corrected.
 - Also confirmed: the blind-verify pass is NOT a rubber stamp despite 88/88
   CONFIRMED — it made real in-place corrections and produced corroborating
@@ -4188,7 +4190,7 @@ and 326 of 327 file references across all 22 bodies resolve.
   stayed green and I never saw them. Removed.
 - ⚠ **AN UNVERIFIABLE PROBE CLAIM** — the Ch7 verifier said it proved the sheaf
   vacuity in `scratchpad/7s-ch7/ProbeSiteVacuous.v`; **no such file exists**. The
-  auditor confirmed the MATH independently from `Theory/Sheaf.v:170-178` (the
+  auditor confirmed the MATH independently from `Theory/Sheaf.v` (the
   witness is existentially quantified over a `covering_family` that carries no
   covering requirement, so `(0; nil)` discharges it for ANY category), so the
   claim is true — but "it compiles" is unverified. Rule recorded in the defect
@@ -4215,7 +4217,8 @@ records flag their own traps (e.g. `riehl:1.3:def-iso-categories` warns that
 - **HIGH — a dedup append dropped half its obligation.** Riehl asserts
   naturality for FOUR exponential isomorphisms; #284 commits to two, and the
   append's checkbox covered only the cardinality half, leaving naturality of
-  `Structure/BiCCC.v:90` and `:134` with no home in the chapter. FIXED.
+  the other two, both declared in `Structure/BiCCC.v`, with no home in the
+  chapter. FIXED.
 - ⚠ **MEDIUM — MY `Instance/Comp.v` DIAGNOSIS WAS WRONG, refuted with counts.**
   Every FACT held, but my causal claim ("the classifier was searching an index
   that does not mention the file") is false: **228 of 486 registered files are
@@ -4237,7 +4240,7 @@ records flag their own traps (e.g. `riehl:1.3:def-iso-categories` warns that
   bodies** (#231, #288, #250). Corrected to she/her, and a sweep of all 300
   `book:riehl` issue bodies now returns none. Worth a standing note: the drafter
   writes about book authors in prose, so pronouns are a real correctness surface.
-- LOW recorded not fixed: a false exclusivity claim (`Instance/One.v:25` is also
+- LOW recorded not fixed: a false exclusivity claim (`Instance/One.v` is also
   a one-object category; the substantive no-delooping claim is correct),
   topological monoids homeless on #500, two forgetful-functor clauses without a
   checkbox, and a PDF-63 page note contradicting its own correct items list.

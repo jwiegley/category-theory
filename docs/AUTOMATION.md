@@ -11,7 +11,7 @@ Most tactics live in `Lib/Tactics.v` (loaded transitively by
 `Require Import Category.Lib.`, which is itself the first import of
 every library file).
 
-**Exception:** `Ltac normal` is defined in `Functor/Bifunctor.v:161` —
+**Exception:** `Ltac normal` is defined in `Functor/Bifunctor.v` —
 NOT in `Lib/Tactics.v`. To use `normal` in your own code, write
 `Require Import Category.Functor.Bifunctor.` explicitly.
 
@@ -29,7 +29,7 @@ NOT in `Lib/Tactics.v`. To use `normal` in your own code, write
 | `sapply F`    | term       | Cb-simplified `apply F`.                                       | Lemma application.          | Stable        |
 | `srewrite F`  | term       | Cb-simplified `rewrite F`.                                     | Lemma-driven rewrite.       | Stable        |
 | `srewrite_r F` | term      | Cb-simplified `rewrite <- F`.                                  | Reverse-direction rewrite.  | Stable        |
-| `isomorphism` | no-arg     | Solver for `_ ≅ _` goals (see `Theory/Isomorphism.v:256`).     | Iso construction.           | Stable        |
+| `isomorphism` | no-arg     | Solver for `_ ≅ _` goals (see `Theory/Isomorphism.v`).         | Iso construction.           | Stable        |
 
 `*` "Internal" means we keep the API working but downstream code
 should prefer the higher-level wrappers `cat` / `cat_simpl`.

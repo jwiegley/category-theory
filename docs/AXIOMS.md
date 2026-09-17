@@ -330,9 +330,10 @@ the global context".  Known live uses:
   `make print-assumptions`** — gating them would make the axiom audit
   report a stdlib axiom.  The five are `GroupVariety` and
   `GroupVariety_Bool` (`Instance/Variety.v`), which mention
-  `Instance/Comp.v:358`'s `GroupEq`, itself `Defined` with the axiom at
-  `:370`/`:375`; and `leibniz_action`, `action_extends_to_clone_leibniz`,
-  `clone_act_subst_leibniz` (`Instance/Variety/Clone.v`), which are the
+  `Instance/Comp.v`'s `GroupEq`, itself `Defined` using the axiom in
+  two of its naturality obligations; and `leibniz_action`,
+  `action_extends_to_clone_leibniz` and `clone_act_subst_leibniz`
+  (`Instance/Variety/Clone.v`), which are the
   Leibniz shadows of statements that ARE closed in their setoid form.
   The whole file is `Instance/Variety/GroupComparison.v`, all
   TWENTY-TWO of whose constants carry it — twelve `.glob` heads plus ten
@@ -340,7 +341,7 @@ the global context".  Known live uses:
   `Print Assumptions Category.Instance.Variety.GroupVariety.` and
   `Print Assumptions Category.Instance.Variety.GroupComparison.GroupVariety_to_Grp.`
   The mechanism is `EqSignature`'s `lhs_natural`/`rhs_natural`
-  (`Instance/Comp.v:254`, `:257`), which demand a Leibniz equation
+  (`Instance/Comp.v`), which demand a Leibniz equation
   between two `arity o → B` argument bundles that are only pointwise
   equal.  An earlier revision of this paragraph added that this is "a
   fact about equation DEPTH"; that is FALSE and is refuted by
