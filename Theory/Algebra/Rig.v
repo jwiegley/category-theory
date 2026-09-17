@@ -53,8 +53,11 @@ Generalizable All Variables.
     one-object category delooping a rig's multiplicative monoid
     (Construction/Deloop.v's construction, with composition as
     multiplication) with a [Preadditive] instance, and [EndRig] reads a
-    rig off the endomorphism hom of ANY object of ANY preadditive
-    category.  The rig-side round trip is definitional on every DATA
+    rig off the endomorphism hom of ANY object of any LOCALLY
+    PROPOSITIONAL preadditive category — an earlier revision of this
+    sentence said "ANY preadditive category", and the strength-change
+    paragraph below records why it no longer can.  The rig-side round
+    trip is definitional on every DATA
     field (zero, add, one, mul — the four [eq_refl] acceptance tests) and
     is packaged as the identity-carrier isomorphism [EndRig_DeloopRig] in
     [Rig]; unlike Deloop.v's proof-free [hom_monoid_Deloop] the full
@@ -66,6 +69,38 @@ Generalizable All Variables.
     statement (the full subcategory on {c}, preadditively) is deferred
     exactly as Deloop.v defers its §I.3 dictionary.  The three artifacts
     are packaged as [rig_iff_one_object_preadditive].
+
+    A RECORDED STRENGTH CHANGE, ON THE CONVERSE HALF OF THAT BRIDGE.
+    An earlier revision of this file stated the one-object reading
+    unconditionally: "rigs are one-object preadditive categories",
+    with [EndRig] applicable to any [Preadditive C].  Since the PR
+    "algebraic carriers are sets" (2026-09-17) a [RigObject] carries
+    [rig_prop], a [PropEquiv] for its carrier setoid, and [EndRig]'s
+    carrier IS the ambient's hom-setoid [c ~> c]; an arbitrary category
+    supplies no [Prop] mirror of its `≈` — in [Cat] an [F ≈ G] IS a
+    family of isomorphisms, so there is none (Lib/Setoid/
+    Propositional.v:42-54, Instance/Sets/Propositional.v's header).
+    So [EndRig] and, through it, [rig_iff_one_object_preadditive]'s
+    second and third components now take
+    [{LP : LocallyPropositional C}] (declared at
+    Instance/Sets/Propositional.v:240).  Those two constants are the
+    only ones in this file whose statement changed; [DeloopRig],
+    [DeloopRig_Preadditive] and the rig side of the bridge are as they
+    were, and so is every instance and the initiality argument.
+
+    The hypothesis sits exactly at the PASSAGE from an internal
+    structure to a concrete algebraic record, not in the internal
+    algebra: [Preadditive] is untouched and keeps the ambient `≈`,
+    which is the SCOPE paragraph of Structure/Complete.v's size note
+    (item 4) read at this file.  Being a class, it is discharged by
+    resolution wherever an instance is in scope, and every use in this
+    file and downstream of it has one: at a delooping by
+    [DeloopRig_LocallyPropositional] below — which is why the four
+    [eq_refl] round-trip [Example]s and [EndRig_DeloopRig] are
+    unchanged — and at [Ab], [RMod R] and [CMon] by
+    [Ab_LocallyPropositional] (Instance/Ab.v:713),
+    [RMod_LocallyPropositional] (Instance/Mod.v:337) and
+    [CMon_LocallyPropositional] (Instance/CMon.v:236).
 
     INSTANCES.  [Nat_Rig] assembles the stdlib arithmetic lemmas into the
     rig of Example 5.37; [Bool_Rig] is Example 5.38's (false, ∨, true, ∧),
@@ -449,10 +484,23 @@ Next Obligation. intros R a; simpl; reflexivity. Qed.
 Next Obligation. intros R a; simpl; reflexivity. Qed.
 
 (* The bridge, packaged: a rig deloops to a one-object preadditive
-   category, any object of a preadditive category has an endomorphism
-   rig, and the round trip on the rig side is the identity-carrier
-   isomorphism, definitional on the data.  (The category-side composite
-   has no equational form — see the header.) *)
+   category, any object of a LOCALLY PROPOSITIONAL preadditive category
+   has an endomorphism rig, and the round trip on the rig side is the
+   identity-carrier isomorphism, definitional on the data.  (The
+   category-side composite has no equational form — see the header.)
+
+   AN EARLIER REVISION read the middle clause as "any object of a
+   preadditive category".  Since the PR "algebraic carriers are sets"
+   (2026-09-17) this triple's measured type carries the hypothesis on
+   its second and third components,
+
+     … * (∀ C, LocallyPropositional C → Preadditive C → obj → RigObject)
+         * …
+
+   because a [RigObject] carries [rig_prop]; see [EndRig] above and the
+   strength-change paragraph of the header for why, and for what
+   discharges it.  The first component [DeloopRig_Preadditive] is
+   unchanged. *)
 Definition rig_iff_one_object_preadditive :=
   (@DeloopRig_Preadditive, @EndRig, @EndRig_DeloopRig).
 

@@ -54,7 +54,38 @@ Generalizable All Variables.
    [Comm_algebra_to_CMon] (binary action + nullary action, with
    associativity/commutativity/unit extracted from the multifunctor laws
    at concrete contexts) and [CMon_to_Comm_algebra] (n-fold sums via the
-   convenience constructor), bundled as [Comm_algebra_CMon]. *)
+   convenience constructor), bundled as [Comm_algebra_CMon].
+
+   A RECORDED STRENGTH CHANGE, ON THE FORWARD DIRECTION ONLY.  An
+   earlier revision of this paragraph stated that direction
+   unconditionally: every [Comm]-algebra on an [X : Sets] yields a
+   commutative monoid.  Since the PR "algebraic carriers are sets"
+   (2026-09-17) a [CMonObject] carries [cmon_prop], a [PropEquiv] for its
+   carrier setoid, and [Comm_algebra_to_CMon] takes its carrier setoid
+   straight from [X]; an arbitrary object of [Sets] supplies no [Prop]
+   mirror of its `≈`, and there is no [LocallyPropositional Sets] to
+   supply one either (Lib/Setoid/Propositional.v:42-54,
+   Instance/Sets/Propositional.v's header records both measurements).  So
+   [Comm_algebra_to_CMon] takes a [PropEquiv (is_setoid X)] as a section
+   hypothesis, and [Comm_algebra_CMon]'s left component asks for it too:
+
+     (∀ (X : Sets) (PX : PropEquiv (is_setoid X)),
+        OperadAlgebra Comm X → CMonObject) * …
+
+   Those two constants are the only ones in this file whose statement
+   changed.  The REVERSE direction is untouched — [CMon_to_Comm_algebra]
+   starts from a [CMonObject], whose carrier supplies its own
+   [cmon_prop] — and so are [Comm], [OperadAlgebra], the convenience
+   constructor and the category of algebras.  The hypothesis sits
+   exactly at the PASSAGE from an operadic action to a concrete
+   algebraic record, not in the operad theory, which keeps the ambient
+   `≈` throughout: the SCOPE paragraph of Structure/Complete.v's size
+   note (item 4), read at this file.  It is supplied rather than
+   resolved here because [X] is a bare object of [Sets]; every concrete
+   carrier in the tree has one, and the analogous hypothesis on a
+   CATEGORY is the class [LocallyPropositional] used by
+   Adjunction/Additive.v's [hom_ab] and Theory/Algebra/Rig.v's
+   [EndRig]. *)
 
 (** ** The transparent length kit *)
 
@@ -459,7 +490,12 @@ Definition Comm : Operad := {|
 
 (** ** Comm-algebras in Sets are commutative monoids
 
-    Forward direction.  The binary and nullary actions of a Comm-algebra
+    Forward direction, and since the PR "algebraic carriers are sets"
+    (2026-09-17) it asks the carrier for a [PropEquiv]; the strength-change
+    paragraph of the file header records why, and names the two constants
+    of this file that gained the hypothesis.
+
+    The binary and nullary actions of a Comm-algebra
     furnish the operation and unit; associativity comes from the two ways
     of splicing the binary operation into itself ([mf_comp] at concrete
     contexts), commutativity from the symmetric action at the swap
@@ -686,15 +722,19 @@ End CMonToComm.
 
 (** ** The two directions, bundled
 
-    The named Comm/CMon connection: a Comm-algebra in [Sets] yields a
-    commutative monoid on its carrier, and every commutative monoid
-    carries a Comm-algebra structure.  (The checklist row asks for the
-    two directions; a full categorical equivalence is not claimed
-    here.) *)
+    The named Comm/CMon connection: a Comm-algebra in [Sets] whose
+    carrier setoid has a [PropEquiv] yields a commutative monoid on that
+    carrier, and every commutative monoid carries a Comm-algebra
+    structure.  (The checklist row asks for the two directions; a full
+    categorical equivalence is not claimed here.) *)
 
-(* The left component now asks the carrier for a [PropEquiv]; see
-   [Comm_algebra_to_CMon].  The right component is unchanged: a
-   [CMonObject]'s carrier supplies its own. *)
+(* AN EARLIER REVISION stated the left component without the [PropEquiv],
+   as "a Comm-algebra in [Sets] yields a commutative monoid on its
+   carrier".  Since the PR "algebraic carriers are sets" (2026-09-17) a
+   [CMonObject] carries [cmon_prop] and a bare [X : Sets] does not supply
+   one, so that component now asks for it; see [Comm_algebra_to_CMon]
+   above and the strength-change paragraph of the file header.  The right
+   component is unchanged: a [CMonObject]'s carrier supplies its own. *)
 Definition Comm_algebra_CMon :
   (∀ (X : Sets) (PX : PropEquiv (is_setoid X))
      (A : OperadAlgebra Comm X), CMonObject)

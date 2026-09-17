@@ -82,7 +82,9 @@ Local Set Default Proof Using "All".
     (3) THE HOM-GROUP ISOMORPHISM.  Mac Lane's conclusion is a PAIR
         of claims and this file delivers both halves separately as
         well as packaged.  [hom_ab] reads each hom-setoid of an
-        Ab-category as an [Instance/Ab.v] [AbObject] — its
+        Ab-category that is LOCALLY PROPOSITIONAL — a hypothesis
+        this clause did not carry before; see the strength-change
+        paragraph below — as an [Instance/Ab.v] [AbObject] — its
         commutative-monoid part is [padd]/[pzero] and its negation is
         [abneg], every law being a field or corollary of
         [AbEnriched] — and [adj_hom_ab_iso] exhibits the adjunction
@@ -212,6 +214,42 @@ Local Set Default Proof Using "All".
     definitional.  No claim is made that any of them could be
     strengthened; [padd] is an abstract field of a class, so nothing
     about it reduces.
+
+    A RECORDED STRENGTH CHANGE: TEN STATEMENTS HERE CARRY A
+    HYPOTHESIS THEY DID NOT CARRY BEFORE.  An earlier revision of
+    this header stated clause (3) unconditionally — "an adjunction
+    between Ab-enriched categories induces an isomorphism of
+    hom-groups", with [hom_ab] read off any [AbEnriched C].  Since
+    the PR "algebraic carriers are sets" (2026-09-17) an [AbObject]
+    carries [cmon_prop], a [PropEquiv] for its carrier setoid, and
+    [hom_ab]'s carrier IS [C]'s hom-setoid; an arbitrary category
+    supplies no [Prop] mirror of its `≈`, [Cat] being the standing
+    counterexample, where an [F ≈ G] is itself a family of
+    isomorphisms (Lib/Setoid/Propositional.v:42-54,
+    Instance/Sets/Propositional.v's header).  So the hypothesis sits
+    exactly at the PASSAGE from the internal enrichment to the
+    concrete record, and nowhere else: [AbEnriched] and
+    [Preadditive] are untouched and keep the ambient `≈`, which is
+    the SCOPE paragraph of Structure/Complete.v's size note (item 4)
+    read at this file.
+
+    The ten: [hom_ab], [hom_ab_carrier], [hom_ab_plus],
+    [hom_ab_zero] and [hom_ab_neg] take
+    [{LP : LocallyPropositional C}]; [adj_to_ab], [adj_from_ab],
+    [adj_hom_ab_iso], [adj_hom_ab_iso_to] and [adj_hom_ab_iso_from]
+    take it on BOTH categories ([LPC] and [LPD]), the isomorphism's
+    two ends being hom-groups of C and of D.  Nothing else in this
+    file changed statement — the transpose-additivity lemmas,
+    [left_adjoint_additive], [right_adjoint_additive] and the
+    biproduct section read as they did.  [LocallyPropositional] is a
+    class, so every concrete ambient discharges it by resolution:
+    [Ab_LocallyPropositional] (Instance/Ab.v:713),
+    [RMod_LocallyPropositional] (Instance/Mod.v:337),
+    [CMon_LocallyPropositional] (Instance/CMon.v:236) and
+    [DeloopRig_LocallyPropositional] (Theory/Algebra/Rig.v:357).
+    Those are the ambients the nine module and bimodule objects
+    built on [hom_ab] actually use, so none of them gained a
+    hypothesis.
 
     WHAT IS NOT DELIVERED.  No characterization of additive functors
     as the biproduct-preserving ones (Mac Lane Proposition VIII.2.4,
@@ -469,6 +507,15 @@ End LeftAdjointAdditive.
     monoid structure and a negation, and an [AbEnriched] category
     supplies exactly that on each hom-setoid.
 
+    AN EARLIER REVISION stopped that sentence there.  Since the PR
+    "algebraic carriers are sets" (2026-09-17) an [AbObject] carries
+    one further field, [cmon_prop], and an [AbEnriched] category does
+    NOT supply it: it is a property of the ambient hom-setoids, not of
+    the enrichment.  Both categories of this section are therefore
+    assumed [LocallyPropositional] ([LPC], [LPD] below), and the ten
+    constants that gained the hypothesis are named in the
+    strength-change paragraph of the file header.
+
     UNIVERSES.  An [AbObject]'s carrier is a [SetoidObject], which
     identifies a setoid's carrier and relation universes; so this
     section is stated over C : Category@{u u0 u0}.  The identification
@@ -579,7 +626,15 @@ Defined.
 (* Mac Lane's second clause: the adjunction bijection is an
    isomorphism of abelian groups.  Both round trips are the existing
    [to_adj_comp_law]/[from_adj_comp_law], since [Ab]'s hom-setoid is
-   pointwise equality of the underlying maps. *)
+   pointwise equality of the underlying maps.
+
+   AN EARLIER REVISION stated this for any two Ab-enriched categories.
+   It now rests on [LPC] and [LPD] above, because both of its ends are
+   [hom_ab]s and an [AbObject] carries [cmon_prop] — see [hom_ab] and
+   the strength-change paragraph of the file header.  The two
+   [Example]s below it ([adj_hom_ab_iso_to], [adj_hom_ab_iso_from])
+   inherit the same two hypotheses, and their [eq_refl] strength is
+   unchanged. *)
 Definition adj_hom_ab_iso (x : D) (y : C) :
   @Isomorphism Ab (hom_ab AC (F x) y) (hom_ab AD x (U y)).
 Proof.
