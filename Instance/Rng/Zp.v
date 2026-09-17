@@ -1106,9 +1106,15 @@ Example dmul_digit (a b : DigitCarrier) (i : nat) :
 Lemma zp_const_compat (x : Z) (n : nat) : (x + - x)%Z = (P n * 0)%Z.
 Proof using p. ring. Qed.
 
-Definition zp_const (x : Z) : Zpc :=
-  existT _ (fun _ : nat => x)
-    (fun n => res_of_dvd n x x 0%Z (zp_const_compat x n)).
+(* Tactic mode for the same 8.19/8.20 reason as [digits_to_zp] above: with
+   the compatibility witness wrapped in [res_of_dvd], the term-mode
+   [existT _ …] infers a constant predicate and is refused against
+   [carrier Zpc] by Coq 8.19 and 8.20. *)
+Definition zp_const (x : Z) : Zpc.
+Proof.
+  exists (fun _ : nat => x).
+  intro n; exact (res_of_dvd n x x 0%Z (zp_const_compat x n)).
+Defined.
 
 Lemma neg_one_mod (m : Z) (Hm : (0 < m)%Z) : ((-1) mod m)%Z = (m - 1)%Z.
 Proof using Type.
